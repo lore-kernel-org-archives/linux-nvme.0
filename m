@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD276C2B9F7
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 08:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD771C47082
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 08:25:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6B015610A5
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 08:17:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6B015610A5
+	by mail.kernel.org (Postfix) with ESMTPS id 4E0FF613C7
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 08:25:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E0FF613C7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,59 +23,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=l1vPnKjdXCjMaaOCigSgtwHOR1LEeOdDMV9IphK9fTw=; b=Wyhy3OHJqeZn6J
-	lkneQ0rdx1LOvLawrhFpmgu69BfzN8stli4CmksJ+83v9tiFnuOGsoVGH52I6asSiyir2xCt2UQOm
-	d4cYB4ZiRQS1s5/0E73qIwgjS6hKREaYT7FYbT2ME/1Y2lt5sm+HyJgcYJSwwk873+XxhO8mNI6ON
-	UIRBiSHXK41LVA7BAm1idKUmBRr5XI0l1j86yI6t8VnSH5wBXXtc7tlokiAeZKM4GWb5d7BG1CeyR
-	u2XMo8DBcKvzongEuYBUg1suxUxiG74DbnG9td2cEvI56Y+ecaOgRXoLDYos7ZtIDXpR271yggVyp
-	oRHJWazCotcNYO+i940g==;
+	List-Owner; bh=gdzVKftse2iQ6T0+wPznJtCOsasS4Rq9I7Dzc58ir1E=; b=zcDadaslhld1pj
+	04x4wzIcW/KSeGtCXAYNSvSjQ4/bQCwl8TPfPwBLHZeKNc9mUR0f5DvRN93OrQprDQkrPzhju4X5S
+	R7E4KTqo6mPz9HeQFM7GPm6vLi1wJZa/Tt1O1n3bGpoznPjw36cE38eJ8UxSB0Ypc8CMIo/L495FA
+	fD3Mk7G74isqV9QX6t6Dpy78ddnhOtzWuU0sJS2LdPAW5L8vT1EN4TvRI551g6gdDl0xlRJv8TaVH
+	WS0bT4nSM0FEcue5XXxnzLP6V2TF5gJo6pSNoAsL+TUTuih9JRie7b+eJuXblUdDYsFUayM6dOlKR
+	P0dwX0omDeuS/6igz7kQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lloj5-00CNRC-Fb; Wed, 26 May 2021 08:17:15 +0000
+	id 1lloqo-00CQEN-Sq; Wed, 26 May 2021 08:25:14 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lloj2-00CNPa-Ut
- for linux-nvme@lists.infradead.org; Wed, 26 May 2021 08:17:14 +0000
+ id 1lloqm-00CQDI-50
+ for linux-nvme@lists.infradead.org; Wed, 26 May 2021 08:25:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622017030;
+ s=mimecast20190719; t=1622017511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GPzbOUdLDB1kxTXxDyLQuPw6KP2rbbpd7VzwwvU6XsA=;
- b=RxGfT8z6vXzzlF1JAAWmcd440Lp7CzVZBXTPBAip8ZxsEnN2ZUDtcexx0Iq+H+aYLpugVs
- kXBHYQ8VQWE7M2E1oNxQnt28MDITgWJr+LCs3J21hGw6rBB9xd2jA92yTGlGHziNw+NGQ4
- 9zASs4hSWOL44NaQMxDMUxJC5+owCEM=
+ bh=4RMhOAcQOW55vgjgxWWqrSlVhG/1Gigk5KVeEqYJeD0=;
+ b=EzkefCNLCsbBpuQLHbXPXHZ8KkHWyIhXM7ovptiLWy2nc/EkLSbH8sjR8st848BnDVyuQn
+ nfSA7sF96367sADwgHiUDA6U2HIIej3cC0MaeFwRu4Pm4+/jiv1opWX+xELBSR8EL/lE1m
+ Y30Ft382UEXnAsUgiQMzk8scNXKgo/o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-va0V2lwMN6OiCBFS1C2ZIg-1; Wed, 26 May 2021 04:17:06 -0400
-X-MC-Unique: va0V2lwMN6OiCBFS1C2ZIg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-228-m5ztJeveO0CkkF2uuxx8dw-1; Wed, 26 May 2021 04:25:09 -0400
+X-MC-Unique: m5ztJeveO0CkkF2uuxx8dw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 352A91009446;
- Wed, 26 May 2021 08:17:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 207F5804B89;
+ Wed, 26 May 2021 08:25:08 +0000 (UTC)
 Received: from T590 (ovpn-13-243.pek2.redhat.com [10.72.13.243])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 550641001281;
- Wed, 26 May 2021 08:16:56 +0000 (UTC)
-Date: Wed, 26 May 2021 16:16:52 +0800
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7BCD6A046;
+ Wed, 26 May 2021 08:25:02 +0000 (UTC)
+Date: Wed, 26 May 2021 16:24:58 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Keith Busch <kbusch@kernel.org>
 Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
  axboe@kernel.dk, linux-block@vger.kernel.org,
  Yuanyuan Zhong <yzhong@purestorage.com>,
  Casey Chen <cachen@purestorage.com>
-Subject: Re: [PATCHv3 1/4] block: support polling through blk_execute_rq
-Message-ID: <YK4D9HZjBtg5AK/2@T590>
+Subject: Re: [PATCHv3 2/4] nvme: use blk_execute_rq() for passthrough commands
+Message-ID: <YK4F2ll2qLWqzlKT@T590>
 References: <20210521202145.3674904-1-kbusch@kernel.org>
- <20210521202145.3674904-2-kbusch@kernel.org>
+ <20210521202145.3674904-3-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210521202145.3674904-2-kbusch@kernel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210521202145.3674904-3-kbusch@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210526_011713_090162_B7FC7E57 
-X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-CacheID: sfid-20210526_012512_296202_8F952CC1 
+X-CRM114-Status: UNSURE (   9.43  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -93,14 +93,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 21, 2021 at 01:21:42PM -0700, Keith Busch wrote:
-> Poll for completions if the request's hctx is a polling type.
+On Fri, May 21, 2021 at 01:21:43PM -0700, Keith Busch wrote:
+> The generic blk_execute_rq() knows how to handle polled completions. Use
+> that instead of implementing an nvme specific handler.
 > 
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 > ---
-> v1->v2:
-> 
->   Moved blk_execute_rq's poll handling into a small helper function
+> No changes since v2
+
+Looks fine, one thing need to pay attention is that this nvme polled
+request won't be marked as REQ_HIPRI.
 
 Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
