@@ -2,82 +2,68 @@ Return-Path: <SRS0=7k1C=KV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD3AC47088
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 20:47:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46582C47088
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 21:07:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D1A43611AE
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 20:47:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D1A43611AE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=knownhost.com
+	by mail.kernel.org (Postfix) with ESMTPS id 083B5613D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 May 2021 21:07:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 083B5613D7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:Subject:From:To:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ZOSsr/wemFycal1390hSC8kfzfs4AUsoAWMUXdEyMe0=; b=jR9ru0HWGzN2t7
-	Dz1OozJF145CQ4kCKhIfBwrTrzyAm5tE/InTYhreJcIZ2Cy9tNwLetMKPIuLjm9+u0Us4XNlVfjbY
-	EaeizQGx1IS0qdRYnob0OX9fBBpDf6/iHSH/fNltmjiAWEQaizOkGde7PAqjM0e48I9grw8+jc5j3
-	pHDWJtARI7zXUkevbZWk5GUc2arYP8NP0NJgmcNxj2dulfmLVdVwgRVNYONzdsXeGERW1Jk96oXrL
-	xkeTCB+l+3RgtQ1pp6g19dti73t0THV0zRkvKGKie6WOD8uCxfRPakzyX8DZgJhFoPgWLeRi89yOQ
-	M9r5RDmQkhCHSna2vaLQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=ibtfmf6W80bg67QngODMURv4mJBB9a6VWZ0v3HWJ8VY=; b=bGlF379nrg15G3
+	oWR9LzFUxG05/nOhLGngkn8Hu2QzQQoGXTrsJDXhvoTWmqf+uBZlxU3HSK9q0CMQ4r/NjmJfl5zIo
+	wK9nRjsBOv+T/2EHQJs5012+NzyBXdMJsfhN4H6ppqCI7NypmkvAfOuJxff3rg+c8dpa3SZ0iUzIa
+	1dX8RTYzwe4qJRd1C9Yrq2VDku3/RvV/YPlQkRqudMBDDuN9wNI6CTaeAJlY6WaiBal/BAxG9kcuN
+	E465LoCZ1ygdwIxxUXEh+j+yBUXGMZSn8WtgesN8M8DPzojpp9ockzYaUvFaJ8f8IytJzQrQO0NDY
+	uiLxAZL1doFpv5vzey+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lm0Qq-00HXOT-6d; Wed, 26 May 2021 20:47:12 +0000
-Received: from core.knownhost.net ([67.222.0.2])
+	id 1lm0kn-0003IW-Ee; Wed, 26 May 2021 21:07:49 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lm0Qn-00HXMl-B9
- for linux-nvme@lists.infradead.org; Wed, 26 May 2021 20:47:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=knownhost.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=LBOgi+ZXAhqtT3HD+fEG7ngZNPM0X6d4CzCct+V2328=; b=F+ljyUu9kIMRG+SkuufOEai1nq
- S5psqqtoxVefuFGK+pYz30hxG7+vnfkMbJ9SQ4Rp3oq+cWkiYpKOq6zptNA2dBO1ZwHNcdBJGIPZk
- pGsz1B3XL65M9mhrQPEbKKNXynLms+8nlSy8E2EMfd1gDrlmDm/yuNrDNxynVb/4mepGUL9C8axkv
- tbnLDBgRBw2+lPnD94iLY1D4euGS9KeHSbpWmGKBaeEiJeQwBqtKG3A52fPrwP7Mn913SgXEKhic/
- 5OqxgcVIzV4K5HbF8MDXypPhlKjGmNsfz40+OhUYGI74yys7VXTFaw/22QBIf8HEklzDE2gXuogfB
- cOIX/72g==;
-Received: from [192.251.128.16] (port=64141
- helo=jon-office.noc.al.privatesystems.net)
- by core.knownhost.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <jonathan@knownhost.com>) id 1lm0Qj-0003RT-LW
- for linux-nvme@lists.infradead.org; Wed, 26 May 2021 16:47:05 -0400
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: Jonathan Wright <jonathan@knownhost.com>
-Subject: nvmeof Issues with Zen 3/Ryzen 5000 Initiator
-Message-ID: <ffae89d5-05d8-e0a4-ca71-b3db18f70286@knownhost.com>
-Date: Wed, 26 May 2021 15:47:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ id 1lm0kk-0003Gn-Kq
+ for linux-nvme@lists.infradead.org; Wed, 26 May 2021 21:07:48 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D8EF7613D7;
+ Wed, 26 May 2021 21:07:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622063265;
+ bh=h6hDfGXPxmlIkGsnH0b8u2EKoXb9irFLw9MCylg2Paw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LNluHNmru4wGy0TaWP+m0QdGm2A43bD1dhtku/fDb+bN2pposzRo1g/t6UUJ2uhcZ
+ Vq7xNd+nwGbNSHYfTX10W4rnX2QztQJc8xy93QrBUFteQd0AnReRvkyIKLadrv1YYJ
+ BIqVe5p6QmpqrYH58hf6dMXlxwIkQ8ChqsDdLwgLinEwV17NMSxoiFENVGfxGr2tP/
+ DcmBL54G0I7LhyzQ/tEavVRuXbdpzMbOJapRM9Ei2xCC5WhcmcVV7XP5Xxcza2n2ql
+ R3XjwPtaq78v2pEAssp9oVDFhe7dqrRXSJ77e0vYOFPTMEOUp/uyxnen41O8BCo/SN
+ KfDjVgPMVAwTg==
+Date: Wed, 26 May 2021 14:07:42 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: lsf-pc@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [LSF/MM/BPF TOPIC] Memory folios
+Message-ID: <20210526210742.GA3706388@dhcp-10-100-145-180.wdc.com>
+References: <YJlzwcADaxO/JHRE@casper.infradead.org>
+ <YJ636tQhuc9X7ZzR@casper.infradead.org>
 MIME-Version: 1.0
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - core.knownhost.net
-X-AntiAbuse: Original Domain - lists.infradead.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - knownhost.com
-X-Get-Message-Sender-Via: core.knownhost.net: authenticated_id:
- jonathan@knownhost.com
-X-Authenticated-Sender: core.knownhost.net: jonathan@knownhost.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Disposition: inline
+In-Reply-To: <YJ636tQhuc9X7ZzR@casper.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210526_134709_479955_41A1C132 
-X-CRM114-Status: GOOD (  18.48  )
+X-CRM114-CacheID: sfid-20210526_140746_753208_92068BF3 
+X-CRM114-Status: GOOD (  36.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,91 +75,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SSd2ZSBiZWVuIHRlc3RpbmcgTlZNZSBvdmVyIEZhYnJpY3MgZm9yIHRoZSBwYXN0IGZldyB3ZWVr
-cyBhbmQgdGhlIApwZXJmb3JtYW5jZSBoYXMgYmVlbiBub3RoaW5nIHNob3J0IG9mIGluY3JlZGli
-bGUsIHRob3VnaCBJJ20gcnVubmluZyAKaW50byBzb21lIG1ham9yIGlzc3VlcyB0aGF0IHNlZW1z
-IHRvIGJlIHNwZWNpZmljYWxseSByZWxhdGVkIHRvIEFNRCBaZW4gCjMgUnl6ZW4gY2hpcHMgKGlu
-IG15IGNhc2UgSSdtIHRlc3Rpbmcgd2l0aCA1OTAweCkuCgpUYXJnZXQ6ClN1cGVybWljcm8gWDEw
-IGJvYXJkClhlb24gRTUtMjYyMHY0CkludGVsIEU4MTAgTklDCgpQcm9ibGVtYXRpYyBDbGllbnQv
-aW5pdGlhdG9yOgpBU1JvY2sgWDU3MCBib2FyZApSeXplbiA5IDU5MDB4CkludGVsIEU4MTAgTklD
-CgpTdGFibGUgQ2xpZW50L2luaXRpYXRvcjoKU3VwZXJtaWNybyBYMTAgYm9hcmQKWGVvbiBFNS0y
-NjIwdjQKSW50ZWwgRTgxMCBOSUMKCkknbSB1c2luZyB0aGUgc2FtZSAyIEU4MTAgTklDcyBhbmQg
-cGFpciBvZiAyNUcgREFDcyBpbiBib3RoIGNhc2VzLsKgIFRoZSAKTklDcyBhcmUgZGlyZWN0bHkg
-Y29ubmVjdGVkIHdpdGggdGhlIERBQ3MgYW5kIHRoZXJlIGlzIG5vIHN3aXRjaCBpbiB0aGUgCmVx
-dWF0aW9uLsKgIFRvIHRyaWdnZXIgdGhlIGlzc3VlIEknbSBzaW1wbHkgdXNpbmcgRklPIHNpbWls
-YXIgdG8gdGhpczoKCmZpbyAtLXJhbmRyZXBlYXQ9MSAtLWlvZW5naW5lPWxpYmFpbyAtLWRpcmVj
-dD0xIC0tZ3RvZF9yZWR1Y2U9MSAKLS1uYW1lPXRlc3QgLS1maWxlbmFtZT0vZGV2L252bWUwbjEg
-LS1icz00ayAtLWlvZGVwdGg9NjQgLS1zaXplPTEwRyAKLS1yZWFkd3JpdGU9cmFuZHJlYWQgLS10
-aW1lX2Jhc2VkIC0tcnVudGltZT0xMjAwCgpJJ20gcHJpbWFyaWx5IHVzaW5nIFJETUEvaVdBUlAg
-cmlnaHQgbm93IGJ1dCBJJ3ZlIGFsc28gdGVzdGVkIFJvQ0UyIAp3aGljaCBwcmVzZW50cyB0aGUg
-c2FtZSBpc3N1ZXMvc3ltcHRvbXMuwqAgUHJpbWFyeSB0ZXN0aW5nIGhhcyBiZWVuIGRvbmUgCndp
-dGggVWJ1bnR1IDIwLjA0LjIgd2l0aCBDZW50T1MgOCBpbiB0aGUgbWl4IGFzIHdlbGwganVzdCB0
-byB0cnkgYW5kIApydWxlIG91dCBhIHdlaXJkIGRpc3Ryby1zcGVjaWZpYyBpc3N1ZS7CoCBBbGwg
-dGVzdHMgdXNlZCB0aGUgbGF0ZXN0IAppY2UvaXJkbWEgZHJpdmVycyBmcm9tIEludGVsICgxLjUu
-OCBhbmQgMS41LjIgcmVzcGVjdGl2ZWx5KQoKSSd2ZSBub3QgeWV0IHRlc3RlZCBhIFJ5emVuIDU5
-MDB4IHRhcmdldCB3aXRoIGFuIEludGVsIGluaXRpYXRvciBidXQgaSAKcGxhbiB0byB0byBzZWUg
-aWYgaXQgZXhoaWJpdHMgdGhlIHNhbWUgaW5zdGFiaWxpdHkuCgpUaGUgaXNzdWUgcHJlc2VudHMg
-aXRzZWxmIGFzIGEgY29ubmVjdGl2aXR5IGxvc3MgYmV0d2VlbiB0aGUgdHdvIGhvc3RzIC0gCmJ1
-dCB0aGVyZSBpcyBubyBjb25uZWN0aXZpdHkgaXNzdWUuwqAgVGhlIGlzc3VlIGlzIGFsc28gc29t
-ZXdoYXQgCmluY29uc2lzdGVudC7CoCBTb21ldGltZXMgaXQgd2lsbCBzaG93IHVwIGFmdGVyIDEt
-MiBtaW51dGVzIG9mIHRlc3RpbmcsIApzb21ldGltZXMgaW5zdGFudGx5LCBhbmQgc29tZXRpbWVz
-IGNsb3NlIHRvIDEwIG1pbnV0ZXMgaW4uCgpUYXJnZXQgZG1lc2cgc2FtcGxlOgpbIDM4NjcuNTk4
-MDA3XSBudm1ldDogY3RybCAxIGtlZXAtYWxpdmUgdGltZXIgKDE1IHNlY29uZHMpIGV4cGlyZWQh
-ClsgMzg2Ny41OTgzODRdIG52bWV0OiBjdHJsIDEgZmF0YWwgZXJyb3Igb2NjdXJyZWQhCgpJbml0
-aWF0b3IgZG1lc2cgc2FtcGxlOgo8c25pcD4KW8KgIDM0OC4xMjIxNjBdIG52bWUgbnZtZTQ6IEkv
-TyA4NiBRSUQgMTcgdGltZW91dApbwqAgMzQ4LjEyMjIyNF0gbnZtZSBudm1lNDogSS9PIDg3IFFJ
-RCAxNyB0aW1lb3V0ClvCoCAzNDguMTIyMjkwXSBudm1lIG52bWU0OiBJL08gODggUUlEIDE3IHRp
-bWVvdXQKW8KgIDM0OC4xMjIzNTRdIG52bWUgbnZtZTQ6IEkvTyA4OSBRSUQgMTcgdGltZW91dApb
-wqAgMzQ4LjEyMjQxN10gbnZtZSBudm1lNDogSS9PIDkwIFFJRCAxNyB0aW1lb3V0ClvCoCAzNDgu
-MTIyNDgwXSBudm1lIG52bWU0OiBJL08gOTEgUUlEIDE3IHRpbWVvdXQKW8KgIDM0OC4xMjI1NDRd
-IG52bWUgbnZtZTQ6IEkvTyA5MiBRSUQgMTcgdGltZW91dApbwqAgMzQ4LjEyMjYwN10gbnZtZSBu
-dm1lNDogSS9PIDkzIFFJRCAxNyB0aW1lb3V0ClvCoCAzNDguMTIyNjcwXSBudm1lIG52bWU0OiBJ
-L08gOTQgUUlEIDE3IHRpbWVvdXQKW8KgIDM0OC4xMjI3MzNdIG52bWUgbnZtZTQ6IEkvTyA5NSBR
-SUQgMTcgdGltZW91dApbwqAgMzQ4LjEyMjc5Nl0gbnZtZSBudm1lNDogSS9PIDk2IFFJRCAxNyB0
-aW1lb3V0CjxzbmlwPgpbwqAgMzgwLjM4NzIxMl0gbnZtZSBudm1lNDogY3JlYXRpbmcgMjQgSS9P
-IHF1ZXVlcy4KW8KgIDM4MC41NzM5MjVdIG52bWUgbnZtZTQ6IFN1Y2Nlc3NmdWxseSByZWNvbm5l
-Y3RlZCAoMSBhdHRlbXB0cykKCkFsbCB0aGUgd2hpbGUgdGhlIHVuZGVybHlpbmcgY29ubmVjdGl2
-aXR5IGlzIHdvcmtpbmcganVzdCBmaW5lLiBUaGVyZSdzIAphIGxvbmcgZGVsYXkgYmV0d2VlbiB0
-aGUgdGltZW91dCBhbmQgdGhlIHN1Y2Nlc3NmdWwgcmVjb25uZWN0LsKgIEkgCmhhdmVuJ3QgdGlt
-ZWQgaXQgYnV0IGl0IHNlZW1zIGxpa2UgYWJvdXQgNSBtaW51dGVzLiBUaGlzIGhhcyBsdWNraWx5
-IApnaXZlbiBtZSBwbGVudHkgb2YgdGltZSB0byB0ZXN0IGNvbm5lY3Rpdml0eSB3aGljaCBoYXMg
-Y29uc2lzdGVudGx5IGJlZW4gCmp1c3QgZmluZSBvbiBhbGwgZnJvbnRzLgoKSSdtIHRlc3Rpbmcg
-d2l0aCBhIHNpbmdsZSBNaWNyb24gOTMwMCBQcm8gNy42OFRCIHJpZ2h0IG5vdyB3aGljaCBjYW4g
-CnB1c2ggYWJvdXQgODUwayByZWFkIElPUHMuwqAgT24gdGhlIEludGVsIHRhcmdldC9pbml0aWF0
-b3IgY29tYm8gSSBjYW4gCnJ1biBpdCAiYmFsbHMgdG8gdGhlIHdhbGxzIiBmb3IgaG91cnMgb24g
-ZW5kIHdpdGggMCBpc3N1ZXMuwqAgT24gdGhlIEFNRCAKaW5pdGlhdG9yIEkgY2FuIHRyaWdnZXIg
-dGhlIGRpc2Nvbm5lY3QvZHJvcCBnZW5lcmFsbHkgd2l0aGluIDUgbWludXRlcy7CoCAKSGVyZSdz
-IHdoZXJlIHRoaW5ncyBnZXQgd2VpcmQgLSBpZiBJIGxpbWl0IHRoZSB0ZXN0IHRvIDIwMEsgSU9Q
-cyBvciBsZXNzIAp0aGVuIGl0J3MgcmVsYXRpdmVseSBzdGFibGUgb24gdGhlIEFNRCBhbmQgSSd2
-ZSBub3Qgc2VlbiBhbnkgZHJvcHMgd2hlbiAKdGhpcyBsaW1pdGF0aW9uIGlzIGluIHBsYWNlLgoK
-SGVyZSBhcmUgc29tZSB0aGluZ3MgSSd2ZSB0cmllZCB3aGljaCBtYWtlIG5vIGRpZmZlcmVuY2Ug
-KG9yIG1ha2UgdGhpbmdzIAp3b3JzZSk6CgpVYnVudHUgMjAuMDQuMiBrZXJuZWwgNS40LgpVYnVu
-dHUgMjAuMDQuMiBrZXJuZWwgNS44ClVidW50dSAyMC4wNC4yIGtlcm5lbCA1LjEwCkNlbnRPUyA4
-IGtlcm5lbCA0LjE4CkNlbnRPUyA4IGtlcm5lbCA1LjEwIChmcm9tIGVscmVwbykKQ2VudE9TIDgg
-a2VybmVsIDUuMTIgKGZyb20gZWxyZXBvKSAtIHdob2xlIHN5c3RlbSBhY3R1YWxseSBmcmVlemVz
-IHVwb24gCiJudm1lIGNvbm5lY3QiIGNvbW1hbmQgb24gdGhpcyBvbmUKV2l0aCBhbmQgd2l0aG91
-dCBtdWx0aXBhdGggKG5hdGl2ZSkKV2l0aCBhbmQgd2l0aG91dCByb3VuZC1yb2JpbiBvbiBtdWx0
-aXBhdGggKG5hdGl2ZSkKRGlmZmVyZW50IE5WTWUgZHJpdmUgbW9kZWxzCldpdGggYW5kIHdpdGhv
-dXQgUEZDCjEwRyBEQUMKMjVHIERBQwoyNUcgREFDIG5lZ290aWF0ZWQgYXQgMTBHCldpdGggYW5k
-IHdpdGhvdXQgYSBzd2l0Y2gKaVdBUlAgYW5kIFJvQ0UyCgpJIGRpZCBkbyBzb21lIHRlc3Rpbmcg
-d2l0aCBUQ1AvSVAgYnV0IGNhbm5vdCByZWFjaCB0aGUgPjIwMGsgSU9QUyAKdGhyZXNob2xkIHdp
-dGggaXQgd2hpY2ggc2VlbXMgdG8gYmUgaW1wb3J0YW50IGZvciB0cmlnZ2VyaW5nIHRoZSBpc3N1
-ZS7CoCAKSSBkaWQgbm90IGV4cGVyaWVuY2UgdGhlIGRyb3BzIHdpdGggVENQL0lQLgoKSSBjYW4n
-dCBzZWVtIHRvIGRyYXcgYW55IGNvbmNsdXNpb24gb3RoZXIgdGhhbiB0aGlzIGJlaW5nIHNvbWV0
-aGluZyAKc3BlY2lmaWMgdG8gWmVuIDMsIGJ1dCBJJ20gbm90IHN1cmUgd2h5LsKgIElzIHRoZXJl
-IHNvbWV3aGVyZSBJIHNob3VsZCBiZSAKbG9va2luZyBhc2lkZSBmcm9tICJkbWVzZyIgdG8gZ2V0
-IHNvbWUgdXNlZnVsIGRlYnVnIGluZm8/wqAgQWNjb3JkaW5nIHRvIAp0aGUgaXJkbWEgZHJpdmVy
-IHRoZXJlIGFyZSBubyByZG1hIHBhY2tldHMgZ2V0dGluZyAKbG9zdC9kcm9wcGVkL2Vycm9yaW5n
-LCBldGMuwqAgQ29tbW9uIHRoaW5ncyBsaWtlIHJwaW5nIGFuZCAKaWJfcmVhZF9idy9pYl93cml0
-ZV9idyB0ZXN0cyBhbGwgcnVuIGluZGVmaW5pdGVseSB3aXRob3V0IGVycm9yLgoKSSB3b3VsZCBh
-cHByZWNpYXRlIGFueSBoZWxwIG9yIGFkdmljZSB3aXRoIHRoaXMgb3IgaG93IEkgY2FuIGhlbHAg
-CmNvbmZpcm0gaWYgdGhpcyBpcyBpbmRlZWQgc3BlY2lmaWMgdG8gWmVuIDMuCgotLSAKSm9uYXRo
-YW4gV3JpZ2h0Cktub3duSG9zdCwgTExDCmh0dHBzOi8vd3d3Lmtub3duaG9zdC5jb20KCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1h
-aWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmlu
-ZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+On Fri, May 14, 2021 at 06:48:26PM +0100, Matthew Wilcox wrote:
+> On Mon, May 10, 2021 at 06:56:17PM +0100, Matthew Wilcox wrote:
+> > I don't know exactly how much will be left to discuss about supporting
+> > larger memory allocation units in the page cache by December.  In my
+> > ideal world, all the patches I've submitted so far are accepted, I
+> > persuade every filesystem maintainer to convert their own filesystem
+> > and struct page is nothing but a bad memory by December.  In reality,
+> > I'm just not that persuasive.
+> > 
+> > So, probably some kind of discussion will be worthwhile about
+> > converting the remaining filesystems to use folios, when it's worth
+> > having filesystems opt-in to multi-page folios, what we can do about
+> > buffer-head based filesystems, and so on.
+> > 
+> > Hopefully we aren't still discussing whether folios are a good idea
+> > or not by then.
+> 
+> I got an email from Hannes today asking about memory folios as they
+> pertain to the block layer, and I thought this would be a good chance
+> to talk about them.  If you're not familiar with the term "folio",
+> https://lore.kernel.org/lkml/20210505150628.111735-10-willy@infradead.org/
+> is not a bad introduction.
+> 
+> Thanks to the work done by Ming Lei in 2017, the block layer already
+> supports multipage bvecs, so to a first order of approximation, I don't
+> need anything from the block layer on down through the various storage
+> layers.  Which is why I haven't been talking to anyone in storage!
+> 
+> It might change (slightly) the contents of bios.  For example,
+> bvec[n]->bv_offset might now be larger than PAGE_SIZE.  Drivers should
+> handle this OK, but probably haven't been audited to make sure they do.
+> Mostly, it's simply that drivers will now see fewer, larger, segments
+> in their bios.  Once a filesystem supports multipage folios, we will
+> allocate order-N pages as part of readahead (and sufficiently large
+> writes).  Dirtiness is tracked on a per-folio basis (not per page),
+> so folios take trips around the LRU as a single unit and finally make
+> it to being written back as a single unit.
+> 
+> Drivers still need to cope with sub-folio-sized reads and writes.
+> O_DIRECT still exists and (eg) doing a sub-page, block-aligned write
+> will not necessarily cause readaround to happen.  Filesystems may read
+> and write their own metadata at whatever granularity and alignment they
+> see fit.  But the vast majority of pagecache I/O will be folio-sized
+> and folio-aligned.
+> 
+> I do have two small patches which make it easier for the one
+> filesystem that I've converted so far (iomap/xfs) to add folios to bios
+> and get folios back out of bios:
+> 
+> https://lore.kernel.org/lkml/20210505150628.111735-72-willy@infradead.org/
+> https://lore.kernel.org/lkml/20210505150628.111735-73-willy@infradead.org/
+> 
+> as well as a third patch that estimates how large a bio to allocate,
+> given the current folio that it's working on:
+> https://git.infradead.org/users/willy/pagecache.git/commitdiff/89541b126a59dc7319ad618767e2d880fcadd6c2
+> 
+> It would be possible to make other changes in future.  For example, if
+> we decide it'd be better, we could change bvecs from being (page, offset,
+> length) to (folio, offset, length).  I don't know that it's worth doing;
+> it would need to be evaluated on its merits.  Personally, I'd rather
+> see us move to a (phys_addr, length) pair, but I'm a little busy at the
+> moment.
+> 
+> Hannes has some fun ideas about using the folio work to support larger
+> sector sizes, and I think they're doable.
+
+I'm also interested in this, and was looking into the exact same thing
+recently. Some of the very high capacity SSDs that can really benefit
+from better large sector support. If this is a topic for the conference,
+I would like to attend this session.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
