@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73DBAC4707F
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 00:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D79FC4707F
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 00:21:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0622C613B4
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 00:18:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0622C613B4
+	by mail.kernel.org (Postfix) with ESMTPS id 6612B613B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 00:21:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6612B613B4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,55 +23,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=enHKLNVc0OI++SY3VvEB5+NcamlGGpQrUybLsV/uyEI=; b=B3yZ+8ljTHjJs/
-	jUhWlZYP22BXPuQxSIKZOL6zi2H2cJK6viY0SNIWS4Bd39ERuUePIsNMb2612kp3s76G5Y1q9gZs6
-	zooL37eFJkZBiYmuUGqGS//qO6wHw7DpAbKTIU8em6bDKwfkiji/e5jYLdk95yO4Ck3imfe3PTkWm
-	GGXXWTz0wAVMG/G+N3CLfKNTch04JK4W4dMAWiejOvH0kLCbBICrkGHRcep/aWVHQxiXSJezVgS0S
-	mU5TuXkJI1zvr4jOuqkbaBxaJO13fmHl9PSLxuCKUvZL+xKgIcXuGxzzxCxd0OSW2Z8FOOlDEO6UB
-	/D9rOddQOZcwwDIuXKBA==;
+	List-Owner; bh=/netlRPR3ZJbWBHSC2rju5x7pL/tCisGl4mF+NixML4=; b=3X6pGlSf+7oNnS
+	GvS6JOxUpvCrHBdi/pMQs1f1JVk3grxFvHRqFngAU9C6MhnywGnEOz4E/7rkoS12HGex4fO2GaepO
+	eTO+L4r7OrFCI7jMf9j7hx0otZRp788rbvche7//gF4l6zMjt3PLNysfnZuMakOgKFosne9sEBbAQ
+	ehAU7DFOKsPWxbNHGVwCwH53lRRDGiW5ordfJkOdWeVV+g5XXcM3FVl66RPR+IBbmfTrnVsV2u3ZU
+	a9C+iRBPtyYMnCCOo+o9pU+oMVTieZYc48LwMDGtqOhRIYPLohypOilpktwHRoCT2TrauzKGGuScm
+	IPlDoUMgtMLnnJBkhYBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmQCu-00AX74-38; Fri, 28 May 2021 00:18:32 +0000
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
- helo=mx0b-0016f401.pphosted.com)
+	id 1lmQFL-00AXnz-JB; Fri, 28 May 2021 00:21:03 +0000
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmPwW-00AQGh-KG
- for linux-nvme@lists.infradead.org; Fri, 28 May 2021 00:01:38 +0000
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14S017qT024877; Thu, 27 May 2021 17:01:29 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0a-0016f401.pphosted.com with ESMTP id 38t9e7tug9-1
+ id 1lmPwd-00AQLO-Sr
+ for linux-nvme@lists.infradead.org; Fri, 28 May 2021 00:01:45 +0000
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14S015iU008071; Thu, 27 May 2021 17:01:34 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0b-0016f401.pphosted.com with ESMTP id 38sxpmd046-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Thu, 27 May 2021 17:01:29 -0700
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 27 May 2021 17:01:28 -0700
+ Thu, 27 May 2021 17:01:34 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 27 May 2021 17:01:32 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 27 May 2021 17:01:24 -0700
+ 15.0.1497.2 via Frontend Transport; Thu, 27 May 2021 17:01:29 -0700
 From: Shai Malin <smalin@marvell.com>
 To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
  <davem@davemloft.net>, <kuba@kernel.org>, <sagi@grimberg.me>,
  <hch@lst.de>, <axboe@fb.com>, <kbusch@kernel.org>
 CC: <aelior@marvell.com>, <mkalderon@marvell.com>, <okulkarni@marvell.com>,
- <pkushwaha@marvell.com>, <malin1024@gmail.com>, <smalin@marvell.com>, "Dean
- Balandin" <dbalandin@marvell.com>
-Subject: [RFC PATCH v6 17/27] qedn: Add qedn probe
-Date: Fri, 28 May 2021 02:58:52 +0300
-Message-ID: <20210527235902.2185-18-smalin@marvell.com>
+ <pkushwaha@marvell.com>, <malin1024@gmail.com>, <smalin@marvell.com>,
+ "Nikolay Assa" <nassa@marvell.com>
+Subject: [RFC PATCH v6 18/27] qedn: Add qedn_claim_dev API support
+Date: Fri, 28 May 2021 02:58:53 +0300
+Message-ID: <20210527235902.2185-19-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210527235902.2185-1-smalin@marvell.com>
 References: <20210527235902.2185-1-smalin@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: MVJs2a_OrLegswuEHm72BtyAAARyQRfh
-X-Proofpoint-ORIG-GUID: MVJs2a_OrLegswuEHm72BtyAAARyQRfh
+X-Proofpoint-ORIG-GUID: LEHBHUr4OYf3NMbcdDl_hUhqJECkegFR
+X-Proofpoint-GUID: LEHBHUr4OYf3NMbcdDl_hUhqJECkegFR
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-27_13:2021-05-27,
  2021-05-27 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210527_170136_795284_E4131350 
-X-CRM114-Status: GOOD (  19.53  )
+X-CRM114-CacheID: sfid-20210527_170144_105232_BB844251 
+X-CRM114-Status: GOOD (  15.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,20 +87,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch introduces the functionality of loading and unloading
-physical function.
-qedn_probe() loads the offload device PF(physical function), and
-initialize the HW and the FW with the PF parameters using the
-HW ops->qed_nvmetcp_ops, which are similar to other "qed_*_ops" which
-are used by the qede, qedr, qedf and qedi device drivers.
-qedn_remove() unloads the offload device PF, re-initialize the HW and
-the FW with the PF parameters.
+From: Nikolay Assa <nassa@marvell.com>
 
-The struct qedn_ctx is per PF container for PF-specific attributes and
-resources.
+This patch introduces the qedn_claim_dev() network service which the
+offload device (qedn) is using through the paired net-device (qede).
+qedn_claim_dev() returns true if the IP addr(IPv4 or IPv6) of the target
+server is reachable via the net-device which is paired with the
+offloaded device.
 
 Acked-by: Igor Russkikh <irusskikh@marvell.com>
-Signed-off-by: Dean Balandin <dbalandin@marvell.com>
+Signed-off-by: Nikolay Assa <nassa@marvell.com>
 Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
 Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
@@ -109,270 +104,95 @@ Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/hw/Kconfig          |   1 +
- drivers/nvme/hw/qedn/qedn.h      |  26 ++++++
- drivers/nvme/hw/qedn/qedn_main.c | 155 ++++++++++++++++++++++++++++++-
- 3 files changed, 177 insertions(+), 5 deletions(-)
+ drivers/nvme/hw/qedn/qedn.h      |  4 +++
+ drivers/nvme/hw/qedn/qedn_main.c | 50 +++++++++++++++++++++++++++++---
+ 2 files changed, 50 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/hw/Kconfig b/drivers/nvme/hw/Kconfig
-index 374f1f9dbd3d..91b1bd6f07d8 100644
---- a/drivers/nvme/hw/Kconfig
-+++ b/drivers/nvme/hw/Kconfig
-@@ -2,6 +2,7 @@
- config NVME_QEDN
- 	tristate "Marvell NVM Express over Fabrics TCP offload"
- 	depends on NVME_TCP_OFFLOAD
-+	select QED_NVMETCP
- 	help
- 	  This enables the Marvell NVMe TCP offload support (qedn).
- 
 diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
-index bcd0748a10fd..931efc3afbaa 100644
+index 931efc3afbaa..0ce1e19d1ba8 100644
 --- a/drivers/nvme/hw/qedn/qedn.h
 +++ b/drivers/nvme/hw/qedn/qedn.h
-@@ -6,14 +6,40 @@
- #ifndef _QEDN_H_
- #define _QEDN_H_
+@@ -8,6 +8,10 @@
  
-+#include <linux/qed/qed_if.h>
-+#include <linux/qed/qed_nvmetcp_if.h>
-+
+ #include <linux/qed/qed_if.h>
+ #include <linux/qed/qed_nvmetcp_if.h>
++#include <linux/qed/qed_nvmetcp_ip_services_if.h>
++#include <linux/qed/qed_chain.h>
++#include <linux/qed/storage_common.h>
++#include <linux/qed/nvmetcp_common.h>
+ 
  /* Driver includes */
  #include "../../host/tcp-offload.h"
- 
- #define QEDN_MODULE_NAME "qedn"
- 
-+#define QEDN_MAX_TASKS_PER_PF (16 * 1024)
-+#define QEDN_MAX_CONNS_PER_PF (4 * 1024)
-+#define QEDN_FW_CQ_SIZE (4 * 1024)
-+#define QEDN_PROTO_CQ_PROD_IDX	0
-+#define QEDN_NVMETCP_NUM_FW_CONN_QUEUE_PAGES 2
-+
-+enum qedn_state {
-+	QEDN_STATE_CORE_PROBED = 0,
-+	QEDN_STATE_CORE_OPEN,
-+	QEDN_STATE_MFW_STATE,
-+	QEDN_STATE_REGISTERED_OFFLOAD_DEV,
-+	QEDN_STATE_MODULE_REMOVE_ONGOING,
-+};
-+
- struct qedn_ctx {
- 	struct pci_dev *pdev;
-+	struct qed_dev *cdev;
-+	struct qed_dev_nvmetcp_info dev_info;
- 	struct nvme_tcp_ofld_dev qedn_ofld_dev;
-+	struct qed_pf_params pf_params;
-+
-+	/* Accessed with atomic bit ops, used with enum qedn_state */
-+	unsigned long state;
-+
-+	/* Fast path queues */
-+	u8 num_fw_cqs;
- };
- 
- #endif /* _QEDN_H_ */
 diff --git a/drivers/nvme/hw/qedn/qedn_main.c b/drivers/nvme/hw/qedn/qedn_main.c
-index fbf27ab93872..1888c72805cb 100644
+index 1888c72805cb..2f02867c5c36 100644
 --- a/drivers/nvme/hw/qedn/qedn_main.c
 +++ b/drivers/nvme/hw/qedn/qedn_main.c
-@@ -14,6 +14,9 @@
- 
- #define CHIP_NUM_AHP_NVMETCP 0x8194
- 
-+const struct qed_nvmetcp_ops *qed_ops;
-+
-+/* Global context instance */
- static struct pci_device_id qedn_pci_tbl[] = {
- 	{ PCI_VDEVICE(QLOGIC, CHIP_NUM_AHP_NVMETCP), 0 },
+@@ -22,13 +22,56 @@ static struct pci_device_id qedn_pci_tbl[] = {
  	{0, 0},
-@@ -98,12 +101,109 @@ static struct nvme_tcp_ofld_ops qedn_ofld_ops = {
- 	.send_req = qedn_send_req,
  };
  
-+static inline void qedn_init_pf_struct(struct qedn_ctx *qedn)
++static int
++qedn_find_dev(struct nvme_tcp_ofld_dev *dev,
++	      struct nvme_tcp_ofld_ctrl_con_params *conn_params,
++	      void *qctrl)
 +{
-+	/* Placeholder - Initialize qedn fields */
-+}
-+
-+static inline void
-+qedn_init_core_probe_params(struct qed_probe_params *probe_params)
-+{
-+	memset(probe_params, 0, sizeof(*probe_params));
-+	probe_params->protocol = QED_PROTOCOL_NVMETCP;
-+	probe_params->is_vf = false;
-+	probe_params->recov_in_prog = 0;
-+}
-+
-+static inline int qedn_core_probe(struct qedn_ctx *qedn)
-+{
-+	struct qed_probe_params probe_params;
++	struct pci_dev *qede_pdev = NULL;
++	struct sockaddr remote_mac_addr;
++	struct net_device *ndev = NULL;
++	u16 vlan_id = 0;
 +	int rc = 0;
 +
-+	qedn_init_core_probe_params(&probe_params);
-+	pr_info("Starting QED probe\n");
-+	qedn->cdev = qed_ops->common->probe(qedn->pdev, &probe_params);
-+	if (!qedn->cdev) {
-+		rc = -ENODEV;
-+		pr_err("QED probe failed\n");
++	/* qedn utilizes host network stack through paired qede device for
++	 * non-offload traffic. First we verify there is valid route to remote
++	 * peer.
++	 */
++	if (conn_params->remote_ip_addr.ss_family == AF_INET) {
++		rc = qed_route_ipv4(&conn_params->local_ip_addr,
++				    &conn_params->remote_ip_addr,
++				    &remote_mac_addr, &ndev);
++	} else if (conn_params->remote_ip_addr.ss_family == AF_INET6) {
++		rc = qed_route_ipv6(&conn_params->local_ip_addr,
++				    &conn_params->remote_ip_addr,
++				    &remote_mac_addr, &ndev);
++	} else {
++		pr_err("address family %d not supported\n",
++		       conn_params->remote_ip_addr.ss_family);
++
++		return false;
 +	}
 +
-+	return rc;
-+}
-+
-+static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
-+{
-+	u32 fw_conn_queue_pages = QEDN_NVMETCP_NUM_FW_CONN_QUEUE_PAGES;
-+	struct qed_nvmetcp_pf_params *pf_params;
-+
-+	pf_params = &qedn->pf_params.nvmetcp_pf_params;
-+	memset(pf_params, 0, sizeof(*pf_params));
-+	qedn->num_fw_cqs = min_t(u8, qedn->dev_info.num_cqs, num_online_cpus());
-+
-+	pf_params->num_cons = QEDN_MAX_CONNS_PER_PF;
-+	pf_params->num_tasks = QEDN_MAX_TASKS_PER_PF;
-+
-+	/* Placeholder - Initialize function level queues */
-+
-+	/* Placeholder - Initialize TCP params */
-+
-+	/* Queues */
-+	pf_params->num_sq_pages_in_ring = fw_conn_queue_pages;
-+	pf_params->num_r2tq_pages_in_ring = fw_conn_queue_pages;
-+	pf_params->num_uhq_pages_in_ring = fw_conn_queue_pages;
-+	pf_params->num_queues = qedn->num_fw_cqs;
-+	pf_params->cq_num_entries = QEDN_FW_CQ_SIZE;
-+
-+	/* the CQ SB pi */
-+	pf_params->gl_rq_pi = QEDN_PROTO_CQ_PROD_IDX;
-+
-+	return 0;
-+}
-+
-+static inline int qedn_slowpath_start(struct qedn_ctx *qedn)
-+{
-+	struct qed_slowpath_params sp_params = {};
-+	int rc = 0;
-+
-+	/* Start the Slowpath-process */
-+	sp_params.int_mode = QED_INT_MODE_MSIX;
-+	strscpy(sp_params.name, "qedn NVMeTCP", QED_DRV_VER_STR_SIZE);
-+	rc = qed_ops->common->slowpath_start(qedn->cdev, &sp_params);
 +	if (rc)
-+		pr_err("Cannot start slowpath\n");
++		return false;
 +
-+	return rc;
++	qed_vlan_get_ndev(&ndev, &vlan_id);
++
++	dev->ndev = ndev;
++
++	/* route found through ndev - validate this is qede*/
++	qede_pdev = qed_validate_ndev(ndev);
++	if (!qede_pdev)
++		return false;
++
++	return true;
 +}
 +
- static void __qedn_remove(struct pci_dev *pdev)
+ static int
+ qedn_claim_dev(struct nvme_tcp_ofld_dev *dev,
+ 	       struct nvme_tcp_ofld_ctrl_con_params *conn_params)
  {
- 	struct qedn_ctx *qedn = pci_get_drvdata(pdev);
-+	int rc;
-+
-+	pr_notice("Starting qedn_remove: abs PF id=%u\n",
-+		  qedn->dev_info.common.abs_pf_id);
-+
-+	if (test_and_set_bit(QEDN_STATE_MODULE_REMOVE_ONGOING, &qedn->state)) {
-+		pr_err("Remove already ongoing\n");
-+
-+		return;
-+	}
-+
-+	if (test_and_clear_bit(QEDN_STATE_REGISTERED_OFFLOAD_DEV, &qedn->state))
-+		nvme_tcp_ofld_unregister_dev(&qedn->qedn_ofld_dev);
-+
-+	if (test_and_clear_bit(QEDN_STATE_MFW_STATE, &qedn->state)) {
-+		rc = qed_ops->common->update_drv_state(qedn->cdev, false);
-+		if (rc)
-+			pr_err("Failed to send drv state to MFW\n");
-+	}
-+
-+	if (test_and_clear_bit(QEDN_STATE_CORE_OPEN, &qedn->state))
-+		qed_ops->common->slowpath_stop(qedn->cdev);
-+
-+	if (test_and_clear_bit(QEDN_STATE_CORE_PROBED, &qedn->state))
-+		qed_ops->common->remove(qedn->cdev);
- 
--	pr_notice("Starting qedn_remove\n");
--	nvme_tcp_ofld_unregister_dev(&qedn->qedn_ofld_dev);
- 	kfree(qedn);
- 	pr_notice("Ending qedn_remove successfully\n");
+-	/* Placeholder - qedn_claim_dev */
+-
+-	return 0;
++	return qedn_find_dev(dev, conn_params, NULL);
  }
-@@ -143,15 +243,52 @@ static int __qedn_probe(struct pci_dev *pdev)
- 	if (!qedn)
- 		return -ENODEV;
  
-+	qedn_init_pf_struct(qedn);
-+
-+	/* QED probe */
-+	rc = qedn_core_probe(qedn);
-+	if (rc)
-+		goto exit_probe_and_release_mem;
-+
-+	set_bit(QEDN_STATE_CORE_PROBED, &qedn->state);
-+
-+	rc = qed_ops->fill_dev_info(qedn->cdev, &qedn->dev_info);
-+	if (rc) {
-+		pr_err("fill_dev_info failed\n");
-+		goto exit_probe_and_release_mem;
-+	}
-+
-+	rc = qedn_set_nvmetcp_pf_param(qedn);
-+	if (rc)
-+		goto exit_probe_and_release_mem;
-+
-+	qed_ops->common->update_pf_params(qedn->cdev, &qedn->pf_params);
-+	rc = qedn_slowpath_start(qedn);
-+	if (rc)
-+		goto exit_probe_and_release_mem;
-+
-+	set_bit(QEDN_STATE_CORE_OPEN, &qedn->state);
-+
-+	rc = qed_ops->common->update_drv_state(qedn->cdev, true);
-+	if (rc) {
-+		pr_err("Failed to send drv state to MFW\n");
-+		goto exit_probe_and_release_mem;
-+	}
-+
-+	set_bit(QEDN_STATE_MFW_STATE, &qedn->state);
-+
- 	qedn->qedn_ofld_dev.ops = &qedn_ofld_ops;
- 	INIT_LIST_HEAD(&qedn->qedn_ofld_dev.entry);
- 	rc = nvme_tcp_ofld_register_dev(&qedn->qedn_ofld_dev);
- 	if (rc)
--		goto release_qedn;
-+		goto exit_probe_and_release_mem;
-+
-+	set_bit(QEDN_STATE_REGISTERED_OFFLOAD_DEV, &qedn->state);
- 
+ static int qedn_setup_ctrl(struct nvme_tcp_ofld_ctrl *ctrl)
+@@ -41,7 +84,6 @@ static int qedn_setup_ctrl(struct nvme_tcp_ofld_ctrl *ctrl)
+ static int qedn_release_ctrl(struct nvme_tcp_ofld_ctrl *ctrl)
+ {
+ 	/* Placeholder - qedn_release_ctrl */
+-
  	return 0;
--release_qedn:
--	kfree(qedn);
-+exit_probe_and_release_mem:
-+	__qedn_remove(pdev);
-+	pr_err("probe ended with error\n");
- 
- 	return rc;
- }
-@@ -173,6 +310,13 @@ static int __init qedn_init(void)
- {
- 	int rc;
- 
-+	qed_ops = qed_get_nvmetcp_ops();
-+	if (!qed_ops) {
-+		pr_err("Failed to get QED NVMeTCP ops\n");
-+
-+		return -EINVAL;
-+	}
-+
- 	rc = pci_register_driver(&qedn_pci_driver);
- 	if (rc) {
- 		pr_err("Failed to register pci driver\n");
-@@ -188,6 +332,7 @@ static int __init qedn_init(void)
- static void __exit qedn_cleanup(void)
- {
- 	pci_unregister_driver(&qedn_pci_driver);
-+	qed_put_nvmetcp_ops();
- 	pr_notice("Unloading qedn ended\n");
  }
  
 -- 
