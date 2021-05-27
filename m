@@ -2,178 +2,130 @@ Return-Path: <SRS0=/NUg=KW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29686C47089
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 18:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFCAC47089
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 19:03:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E1FA7611C9
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 18:58:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E1FA7611C9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5C2016135C
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 19:03:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C2016135C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BG5G6N/Lss/fD47L8qOYPB/H9buAvNVw6mvtYvNvJzY=; b=MZ4eM0ylt+2ZdR
-	J+mAGVwHXmDh6RMU97uY9/cwysi2ehFRfeSHMYzWQzQqHa/TTCtNWa2fuB1bHWjSP/uRI9svu/BVw
-	LoRQxrq1jBTOxGgPorUe8m3wxe5cUYU+jSZAWR0M9593hNxG1PkWD3wEap0Ymu0nQIo1m7Cd3wjnA
-	KqbKupGIOverjYTg+GGzO9xuh+D4N3720pTM/qSOyphZsnqTqNLOlzNTGvHaRkLZCdrBV8QLesfaD
-	CbriSeSUAEn+neRcXq0LTdQdpCE8mp+LbEdJm70fC80hZTV3ckjz+DJbLQXIhuygimFMu6Px5wloZ
-	BVBZA3RTY4DCfyLf0EMw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oDSAzNrj/1s2NIXlReu19MaPQh1zsBzvm5qUNdvs8kw=; b=Xf1d5gKxJ5zNrwwBqc5D9Ivfer
+	hudzpJlcg7SDUXk215cEDkGTppl7bsuSgPIH2U9lBsRBvGdZ8rQpwwBtqhwmsMqQZM/w7lNDB0uvy
+	HaTt+/1Ka/ViBt2XBQ3WH6W5At88yvHolR+oIjHYxRFJGGPzNudta/lubvjRMMI3t+zZMM6sRMsXP
+	Zuxdypm+KaJqlCMdiWIsHjFPnJn0lkDihcrsCOlwaeAtrPZ+S/KJpywWifs1Fpvp+tZ/x8bWdl0mE
+	ver+cIInM1K2i8udu+MRc1peIqdblh4wgpxUbQNx+rjDskIdW0CduIz1vyhWZHICQL7YFThFN2AGl
+	AzrkKyUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmLDD-008jkT-NH; Thu, 27 May 2021 18:58:31 +0000
-Received: from mga17.intel.com ([192.55.52.151])
+	id 1lmLHY-008lS3-Pw; Thu, 27 May 2021 19:03:01 +0000
+Received: from mail-dm6nam10on2073.outbound.protection.outlook.com
+ ([40.107.93.73] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmK36-008CJS-U2
- for linux-nvme@lists.infradead.org; Thu, 27 May 2021 17:44:02 +0000
-IronPort-SDR: bh6UzNuvP6bKqy92e+oPSEZrcySiPJGdb94eHxzoTY0CRIKE6bl5GHBu6+dXaTYbbgzrqGmhpO
- 8RoUIKm+r0Gg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="183132748"
-X-IronPort-AV: E=Sophos;i="5.83,228,1616482800"; d="scan'208";a="183132748"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2021 10:43:56 -0700
-IronPort-SDR: tZ4SPDOf0UeJXjCEMacapggP1dx6w7jKlxsbCpZyZlDqOgxyEjvjMQoNUyOMSnyAYvno+Fhw37
- 5Ifl6di03v7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,228,1616482800"; d="scan'208";a="548222794"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga001.fm.intel.com with ESMTP; 27 May 2021 10:43:54 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 27 May 2021 10:43:54 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 27 May 2021 10:43:53 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
- via Frontend Transport; Thu, 27 May 2021 10:43:53 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.49) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Thu, 27 May 2021 10:43:53 -0700
+ id 1lmK82-008ELj-QG
+ for linux-nvme@lists.infradead.org; Thu, 27 May 2021 17:49:08 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cTk7DMcDUjmhlUoKPCO5w6kz9hXaoNVD/oUhNbVlkJnJ9UG6g6XyAepBOeaYQSyTcpG9LC6b1urAk/xb4Bb94ap8QekwqNR44LxYORPmX+EKEnSMi8I5D2RswJUjEs10big0llHlmsoCJtIRlUHxV+Fd5VQ6PzKJKgpkAglJFb/yTy5BK0amnlM4jp1KHTxSydagQS4/GXqKw6cR3Tt/GrepYN0L6ZuMnMRJPQRY2H+Nhe/E5YwkQjcSOEx9ECOycHJNm7Z+6K435YQJ3vLQ2GGy2oM7joGEswmQK/lfFcBMpw9KLlLz7T2UKLYRU/8wjqPMwL7+YqjS3Ccyt3GynA==
+ b=ft8Z8rQ8dr/sC259O9nn3ddPLMQmG1R1CTrD1tRdXm+5XrgC6bxUmMTuWRlWZNUfcELfMD/9oYem22avfT1h6ZA7I+20Dfxaob7fmznI84mTLHXMv/sDjmrqdlDmzJXdS90oWXpa+kbj+o9I+JcmGd0qlYRQxQbtu0jEO/INdfStl2Qiyd/YmBBwiKL7NGfxZ2og/++3yVfinT2l7VcU+UnLQZjgttxdgvvYbTwoc9XLe3LGb9o2nikgcUqftUhSdd4EmMfmAz/bsgiCTQa4a4n+IYAO8jERnGnsxP7x/nEYcWXoRRCQ0Y+7+W0Q3QvfE3N46CrF5kD+PwjIu9mazg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wKOVDjV0jjlXHZV2kK++uS5IQfNnzIKGbx04VNCDntc=;
- b=dOBkhbw+rq2tFXOSIyxsCdoZ+Af5wcG/6dv+yx8QNDAcNh1A+fLqMCt6IdTST7+rn4+r3N0yFlgI5UMRoxiYttesM1AxlXuaOh9XhspNEDxNVk30/FUj0Vhez2WwJEtISwid1fIQLZEUV+1/NETnsaAy+drBzd76V3q3Wl2Xq845+CIb+g0UmY03ds1q5+2N8vNYxpUzpCafzYMlirwG3dE0bL1WVjQuWrI78d2o1XHqBaNWmiV29DMIY05GFrB1qoxbCKVNDcTGbvSTDozBqkZPPJifip6Q22KnYv0Rb0DVGM/YK1excrm6ELvXY6a+sDF356tDdQSDbHIEFhWYBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ bh=DUORhu6ZIlF+7WhjHQcL4HGsUUw/mjIW0xvtcaEFMVc=;
+ b=lPnR7sXU0lPaw80GTYlVQHokk0JjWUTFB8qV0UpDAyNjV2f8MbBTG+5PJmhqAJ9aUl/q6OvpqnLo1F7ETgsw4LqXFyFqznZz9psv7ai+N3tCI7Jl4h46T63HP4HFD0ruOHvoDg7DqvKUgIrDY/iqad+8QkKm5JdztkOlahZV/fNPnIz7c1kSd41DHvmuilxRGkQ5OjwgYkQNouBmh1fOc5+/m6BJ8KkyXIu58eix5uslLbzHZKs9nADRF1kVNXbwMLHZSWqxxHSZKnEPTs0PG4ljwkM+ax+072WTPgDfsF34rvS1X3dvYRlziwxPqO9CTquP6B16QXDR3I06dUammw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wKOVDjV0jjlXHZV2kK++uS5IQfNnzIKGbx04VNCDntc=;
- b=fuHIwA60zR7dwlPNDY8pFd3eQYgzkdiKHAQaHs6H17qDM2S36BAD2Iv09PidfK4FYHELDzvhZ7rgrij2THWyR3qNHtwc+fPqp067ICHW9+QYmzlIKhBBDktCGfOeBHpQFrui7klWLTl4OCzbQpQx1vhG5mcrLZ3kbiHe5hFKtV8=
-Received: from BYAPR11MB2824.namprd11.prod.outlook.com (2603:10b6:a02:c3::12)
- by BYAPR11MB3735.namprd11.prod.outlook.com (2603:10b6:a03:b4::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Thu, 27 May
- 2021 17:43:50 +0000
-Received: from BYAPR11MB2824.namprd11.prod.outlook.com
- ([fe80::9958:3f0a:9dff:ccc4]) by BYAPR11MB2824.namprd11.prod.outlook.com
- ([fe80::9958:3f0a:9dff:ccc4%6]) with mapi id 15.20.4150.027; Thu, 27 May 2021
- 17:43:49 +0000
-From: "Walker, Benjamin" <benjamin.walker@intel.com>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@infradead.org>
+ bh=DUORhu6ZIlF+7WhjHQcL4HGsUUw/mjIW0xvtcaEFMVc=;
+ b=k3lxLrIwaq/rVEf2ejr9zYPg5t9g1hzqwlw/pdhghMPbys+znvqULjLLCb84PLQSKrSsnSPm7oQyCfSEAtlZiO6pmw0JXc0I3omx3HNo5pVnr0lJC/j0zPwwByBfFkh+ePYXRUC9nZhngL9eIaPOXlxJj2qNmDjjSWs7SaSK/xfhuYa2t0dYdl4cj9ZVBwuNflWj8i7VGUwx9FeOWfPlRWcw1+iN8Op9J0j0kGnY+eVpqxyqrjbDNj8iIjCG1ilMNQ2ZIjeimT7dq3Kaz14HqOm0lIqTl57V/kpO7J47aeJXTt1pI7UH0cQ564bMjtAp6KqEbPC1mdUQ1lkBU6jptg==
+Received: from BN0PR03CA0037.namprd03.prod.outlook.com (2603:10b6:408:e7::12)
+ by DM6PR12MB3338.namprd12.prod.outlook.com (2603:10b6:5:11f::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Thu, 27 May
+ 2021 17:49:04 +0000
+Received: from BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e7:cafe::23) by BN0PR03CA0037.outlook.office365.com
+ (2603:10b6:408:e7::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Thu, 27 May 2021 17:49:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT046.mail.protection.outlook.com (10.13.177.127) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 17:49:04 +0000
+Received: from [172.27.15.200] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 May
+ 2021 17:49:02 +0000
+Subject: Re: [bug report] nvme sends invalid command capsule over rdma
+ transport for 5KiB write when target supports MSDBD > 1
+To: "Walker, Benjamin" <benjamin.walker@intel.com>, Christoph Hellwig
+ <hch@infradead.org>
 CC: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
  <linux-nvme@lists.infradead.org>, Israel Rukshin <israelr@nvidia.com>
-Subject: RE: [bug report] nvme sends invalid command capsule over rdma
- transport for 5KiB write when target supports MSDBD > 1
-Thread-Topic: [bug report] nvme sends invalid command capsule over rdma
- transport for 5KiB write when target supports MSDBD > 1
-Thread-Index: AddQv97rUefW+8weSYm6BKNNw82QzABT1UAAAApu4wAAAVsMgAACdbmAAAx69QAAKWQS8A==
-Date: Thu, 27 May 2021 17:43:49 +0000
-Message-ID: <BYAPR11MB282487506792423203DCD350EF239@BYAPR11MB2824.namprd11.prod.outlook.com>
 References: <BYAPR11MB2824E1B94D81B837E474A7A6EF269@BYAPR11MB2824.namprd11.prod.outlook.com>
  <dc96c3cf-e895-77c0-3d1a-1bc7e96cfd40@grimberg.me>
  <YK5W7F5DD4grBZLB@infradead.org>
  <3c944010-a9e7-cab2-07ad-78d50c8bd82f@nvidia.com>
  <YK5wh91yAcOlu+3J@infradead.org>
  <638819e9-8d4f-7b00-41f3-75062e4c076d@nvidia.com>
-In-Reply-To: <638819e9-8d4f-7b00-41f3-75062e4c076d@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [70.190.226.98]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f151a835-1eb8-4ac1-8e97-08d92136fc9e
-x-ms-traffictypediagnostic: BYAPR11MB3735:
-x-microsoft-antispam-prvs: <BYAPR11MB37351F824EA0C8171A6E2947EF239@BYAPR11MB3735.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oS8K2H53SrgDOxnIhXPcn/eoAgeB9Ui5xKlKyf0AamR8PEEHl8trDGx8///FcZMAZyldZG9vBRKM1xySu2tPmoHZgLtvflBdWqZz0zRNyGX/rNnaeoRkYVTrGfWG1WzqwPL7ZBX72FC2uIAslCKh361N0wfcOxpvRxJ3PjxcijqyyVH50UwdyyKmMWX1JT7Y0ki8a1PanRdYe1c0ECIkEf4FTeEz0kXPXjwwpqGlnB8qn6xo6sj8rb/bhKPS2C7ou/wALLpFyqbvLBnzh7JP9pIeISfAE+Wi/7yj0A3xem1wkiKy2cVVoro8RzKwL3iiMPc4n0vGoBsGHMYRv/T8P6S2Hedc2vUFcahammzvI9/eUqcVFUu4CXLJhq46oqDPmOTQqNi/w1/0rsbTExoOEQT1cm4ECSIDMtcWWtjUxkWiA42XisJXEhNrSmaY0uM8RjrWpItXIRE7B0aTDCyKTY6DproYoyGMB+QIYUyNLmA6DlsdJW1uhAe4AXsLeWAxB9UpS3sMIGfWjQ84QucJ0vH8q5cVwiDa0eH2OitKwBAdNwtuPcMbIgmjnsw0P4jLNWJuD12WOrRXUZKU8NofQlwDJd3advLJvIqpd0R1IZA=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2824.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(376002)(136003)(39860400002)(366004)(396003)(86362001)(122000001)(8936002)(478600001)(38100700002)(33656002)(26005)(2906002)(4326008)(9686003)(186003)(54906003)(316002)(6506007)(53546011)(66476007)(66556008)(64756008)(66446008)(66946007)(7696005)(5660300002)(76116006)(8676002)(55016002)(71200400001)(110136005)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?RDY3M1RST2krUjVmdnhLTFF1TVMyanRhWk1JUGUxWkFSdFUzeGhmK1B4MTJS?=
- =?utf-8?B?N1drb3dDa0RmSVBXOU1NZjJoR2JzZTVYMC9uOXV5MGhrSktxaUQ3T1NLU1Jj?=
- =?utf-8?B?V3VjKytUbEpKRWczTnBNcmp3TDZNZms4NEdHZWQ5TTYxWDVLVzZpMTZjMER5?=
- =?utf-8?B?SlpITUh1NWYxQ1JhQ0RQMEZRVlpnbWowd3JEd0ZvRC9BTVpnLzAzcFFyZGQ0?=
- =?utf-8?B?S002cXo3elh6aHlqWldTbnBveWlISjRHek56Z2d0NG9rYnBoWUhPaTBtRHNk?=
- =?utf-8?B?UlR2b1NkK2p1aFVNUnZWRUdpV2VzcXZDWW9pYlhxQUtFYlBJRkR6TnhMdUlh?=
- =?utf-8?B?OTYrN1J1cmE2T045Y3dwcUgvNURCRUJaWVBIYVF6ZzB6Z25oTTZqNk96SGFs?=
- =?utf-8?B?TS9ubE0yMkhqWnVvc1lRbzBQYXJCbjZwOTNPV3AveVk3djFsVHdjZ2Y1bHJq?=
- =?utf-8?B?ZzJ2ZFprSVFlbXZDNlZGVnZsSVdmSXBLU0g2ZkpyK2JBWnpKZm1jYmVaT2w3?=
- =?utf-8?B?Y1M2bzV2bFpmY2s2WkRsaFdtSXB4a3pyRXZDaVhnWnBWUEtaRWhIY05FcXN1?=
- =?utf-8?B?WkJDZThVOWZJdFY3U2lheXdXc0FhNG1wMDNVTlJ0WUhnY0ErdGhFRXJqc2xY?=
- =?utf-8?B?aTRQdXJsRzFaY1FWU1dYQW9rTXQ4Z2dRWjlDdWVNSXg4OVFwYWdPYXdZaEtR?=
- =?utf-8?B?aElpRjlzY0J6elhCaHFlRld5UGdwYkhxaVBVbktKYkxsNFIzZDFsYUpwOERM?=
- =?utf-8?B?cDArWTR0aXBoUDRCSE9CRWVYRlBISXlQL3BUUUIrSnlEUGhQUzZVNSt1RnZK?=
- =?utf-8?B?WHBIZU1uOXNQU2Y5eUsyaUNWZDEyVVRHTFF1YmpaUk53eXZCVXNNMUU2WWg4?=
- =?utf-8?B?bzUxV2JwVEE2SkNXb1E4VWFaQlA4UUo5cDBEM3NFajRWeC9aNDdjcUVrTzQw?=
- =?utf-8?B?SHJvTitHK3NBc3RrcUF6K2VVMEltWW1PKzlLU1RLakdpQXltR0p4ek82UzVm?=
- =?utf-8?B?SlZDYkdWZkRHcVR6ZmVhRTQvNEFEamwvem55Z0JVTjdSdi9IaWxFc1Y5T2s1?=
- =?utf-8?B?Z1NZTmVrdkZEc3ZTTWFYL0pDcVlHQUZ5ZFZ1KzM4YlRpd1h2SlowZjdESnA3?=
- =?utf-8?B?enlHVFBPRld2eWpTeHEyNjhSUFFRWS8yN25zbVBJcGdydU5IQUdjci9FeFJP?=
- =?utf-8?B?dHA1NGZtbHo2SFhBMGVXRUkySmxtRGVwOEFNeWZlZ2twYU5MUXpxcUw2VGcw?=
- =?utf-8?B?emFSdVMvNFZ3bXVkZVV5azByeWdMTVlVRTQyeHE0TVBaV0VtQkR2OVpWTkNa?=
- =?utf-8?B?RTY1aFprVjkvb0xBdlY0QThLdHhib05HZVNUdFBMdUg2eXU1Vy82Q1VIbnd0?=
- =?utf-8?B?YkwzbWhITXBuL1hRRmJYdjE0S0w1b3V5NXJMQ2hCTUhySlRlVzYzQ0ZYQnJS?=
- =?utf-8?B?dno5ZkdJaHpJemFuYkdvSzZGQzlqTXhLaXpoNkMzcVl3d1AxT0Jya2tUcm5K?=
- =?utf-8?B?NzNCOWZHUEY0MDU3UWsyd0ZlcWJTa1FPcDVXRXpTckJqNTRRWUhReGtCWjdQ?=
- =?utf-8?B?Qlk0dEN3LzE0NUJlM2lyaUZpNU42Rjdxamd2MjczSzdmamVuY2k5dXp6UStH?=
- =?utf-8?B?MjJSSEVyb2trOGRIdFYrK2V4NXNSeWZTNStBbFRpdHNVVkJySlJHT1dqUmpv?=
- =?utf-8?B?cmNRTHh6eXBFaTBvVHFvaDMvKzFVbXJBVlhRS0tKcVVoTUNXdEJXTGFFUitr?=
- =?utf-8?Q?LeJ5Yo+27QGFX1fTqZXp6xDLFpggtHCoC9O8TdB?=
-x-ms-exchange-transport-forked: True
+ <BYAPR11MB282487506792423203DCD350EF239@BYAPR11MB2824.namprd11.prod.outlook.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Message-ID: <719b3040-a3de-ab26-425b-d5ec3a1532db@nvidia.com>
+Date: Thu, 27 May 2021 20:48:58 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2824.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f151a835-1eb8-4ac1-8e97-08d92136fc9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2021 17:43:49.8856 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I/zAtMDk3F/e1Z1EKyXv1AYvDVhsDyewjlNogSq2Oh5lwqwAOsJoLucrYblNRF7RSbEn6hyPN9AoTVIngoaV1HLjn3uUlSpoxoG6f/mjd2M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3735
-X-OriginatorOrg: intel.com
+In-Reply-To: <BYAPR11MB282487506792423203DCD350EF239@BYAPR11MB2824.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9245c200-8868-4768-4d08-08d92137b848
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3338:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB33387E22DF9E32BEEE8FBD72DE239@DM6PR12MB3338.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0POgPGYnRZHLvpuVdY62v4KcGUKf+ziJ/zAAB6wqq9bUTLkLxtfhkajJc9Mk1xC4mUBLZ4/8l1EqZkHk1Rfc6+zY2apEtxCWXC5VZObtJB3FEq9jmS57U4uoI009pzvuABq/8ir2eYxVn5/gxjTidXYc74NUSEZLqS1BNLaBSzndVEgA61uDk9ub5l8F2lRy3svP8Ki2V1OclsRhVqVKA5Ydn0jEYo8ux6zcejgje+1glrYvxBHxMnU6NQ1dNX9dvQYpyWswUkYmpF7oPai40+aWYInSPVVBhpGYAVS13evSUHJg8Y/c14r2/aWCc4B75/afpSisLY6Rt4/uoZ51P8gDF5n2eX2xUD/KeyJ8wvvpjim++J9hM9WtdsADE/lGpspiJ8jGAW5BJPjRktrN3+DxWZ/FLChMcnR+rEKs/tuAYsE0Lwd1kG2RUL+7UjF4JZnjaWLAiAjdbp+/4Bh31LhPfVi+yQcCapF29UEU3KAv3tIV5fTuUEq8EykfFs6e8RMyXMEBcTi375of3pN0CziaAT0JJJzd7qVP2YQP54CqK2IxqeFtT0okRY5eYIyVRSE4ZGaOejb8sQ8aOvxOwPrL98sMqQjTXqcS7EG0e9CYfn0xUEXJ76UOR8NOMzBOJ1mfmvRp5D6NvHdgukNru/riFrgOTUaky4dsZ/0YAF/qSDXoxmdgjrnXfFo21oxG
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(36840700001)(46966006)(478600001)(336012)(426003)(36906005)(8936002)(356005)(31686004)(4326008)(6666004)(47076005)(36860700001)(16576012)(2616005)(107886003)(5660300002)(316002)(31696002)(16526019)(186003)(86362001)(82310400003)(70206006)(2906002)(8676002)(110136005)(54906003)(82740400003)(7636003)(70586007)(26005)(53546011)(36756003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 17:49:04.6011 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9245c200-8868-4768-4d08-08d92137b848
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3338
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210527_104401_076709_7A064CF7 
-X-CRM114-Status: GOOD (  25.07  )
+X-CRM114-CacheID: sfid-20210527_104906_957638_909F4AB4 
+X-CRM114-Status: GOOD (  20.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,59 +137,68 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> From: Max Gurtovoy <mgurtovoy@nvidia.com>
->  
-> On 5/26/2021 7:00 PM, Christoph Hellwig wrote:
-> > On Wed, May 26, 2021 at 05:49:41PM +0300, Max Gurtovoy wrote:
-> >>> We do need for_each_sg here indeed, but you also need to keep
-> >>> incrementing sge for each loop iteration.  I think we can also drop
-> >>> the scat local variable with just a single users and all the
-> >>> renaming while we're at it.
-> >> Is the above fixing the issue ?
-> >>
-> >> Seems like code refactoring to me, right ?
-> > It fixes support for chained SGLs when using inline segments.  Not
-> > sure if it fixes the original bug report, but the current code is broken.
-> 
-> ohh, I see the usage of sg_next is missing.
-> 
-> Well the original bug is for sure using inline chained SGLs but I thought it's using
-> 2 sg_nents and NVME_INLINE_SG_CNT == 2.
-> 
-> maybe there is a split and the IO is using sg_nents == 3 ? and then we chain.
-> 
-> Let's wait for Ben's test report (Ben please make sure to fix Sagi's suggestion
-> with Christoph's comment in your test).
 
-This patch fixes the bug:
+On 5/27/2021 8:43 PM, Walker, Benjamin wrote:
+>> From: Max Gurtovoy <mgurtovoy@nvidia.com>
+>>   
+>> On 5/26/2021 7:00 PM, Christoph Hellwig wrote:
+>>> On Wed, May 26, 2021 at 05:49:41PM +0300, Max Gurtovoy wrote:
+>>>>> We do need for_each_sg here indeed, but you also need to keep
+>>>>> incrementing sge for each loop iteration.  I think we can also drop
+>>>>> the scat local variable with just a single users and all the
+>>>>> renaming while we're at it.
+>>>> Is the above fixing the issue ?
+>>>>
+>>>> Seems like code refactoring to me, right ?
+>>> It fixes support for chained SGLs when using inline segments.  Not
+>>> sure if it fixes the original bug report, but the current code is broken.
+>> ohh, I see the usage of sg_next is missing.
+>>
+>> Well the original bug is for sure using inline chained SGLs but I thought it's using
+>> 2 sg_nents and NVME_INLINE_SG_CNT == 2.
+>>
+>> maybe there is a split and the IO is using sg_nents == 3 ? and then we chain.
+>>
+>> Let's wait for Ben's test report (Ben please make sure to fix Sagi's suggestion
+>> with Christoph's comment in your test).
+> This patch fixes the bug:
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 37943dc4c2c1..6a3f7f6bd1ab 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1320,16 +1320,17 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+>                  int count)
+>   {
+>          struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
+> -       struct scatterlist *sgl = req->data_sgl.sg_table.sgl;
+> +      struct scatterlist *sgl, *scat = req->data_sgl.sg_table.sgl;
+>          struct ib_sge *sge = &req->sge[1];
+>          u32 len = 0;
+>          int i;
+>
+> -       for (i = 0; i < count; i++, sgl++, sge++) {
+> +      for_each_sg(scat, sgl, count, i) {
+>                  sge->addr = sg_dma_address(sgl);
+>                  sge->length = sg_dma_len(sgl);
+>                  sge->lkey = queue->device->pd->local_dma_lkey;
+>                  len += sge->length;
+> +              sge++;
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 37943dc4c2c1..6a3f7f6bd1ab 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1320,16 +1320,17 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
-                int count)
- {
-        struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
--       struct scatterlist *sgl = req->data_sgl.sg_table.sgl;
-+      struct scatterlist *sgl, *scat = req->data_sgl.sg_table.sgl;
-        struct ib_sge *sge = &req->sge[1];
-        u32 len = 0;
-        int i;
+good news.
 
--       for (i = 0; i < count; i++, sgl++, sge++) {
-+      for_each_sg(scat, sgl, count, i) {
-                sge->addr = sg_dma_address(sgl);
-                sge->length = sg_dma_len(sgl);
-                sge->lkey = queue->device->pd->local_dma_lkey;
-                len += sge->length;
-+              sge++;
-        }
+So either we use the sge[i].length or sge++.
+
+Both will do the job.
+
+
+>          }
+
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
