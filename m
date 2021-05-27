@@ -2,65 +2,48 @@ Return-Path: <SRS0=/NUg=KW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49254C4707F
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 11:40:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D8C6C4707F
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 11:58:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 01F0E61355
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 11:40:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01F0E61355
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 18C81610FC
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 11:58:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18C81610FC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=EKpaOBVWG10888w9jDUzZDHw9E7asqD5o0Qdu8YuDgE=; b=nqeAsclPZTQjpE
-	gRawMqk9Q6OBkIZx6cbnrvILjs6BrMdBr/OyHA/2LM67pxT7VkvCCcEoFeNPPOVyf0A/xVOx8phdy
-	jKvEIZPgp1OMQQepvIxcsbAB4Uygo8d2zDL7Tgovm0vNikNOHxyQ51UUpDVsTiU0WhqHffW7zXi0s
-	0kbfHxiJmtr4ClXLaDgyPRRaDpvg/DNHQ6OZ7YamP7gPmIcX0SKtFISHktnLRrMLI9UtUadvKgCsO
-	0FsVXtJeeOgdXC7tqFKnI7KtkITj4KGunMVRPf9d7eb2BbBQFhiJKLIkvD+Qr816uoSm7I41cS/Fo
-	ZdMGx7BnvPIciVvM293Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Z3S512wegGsV8GUKwz4pvjPCodEWlbjCkb3R+ugx/1Y=; b=ku9RpumneGbA4o
+	PEiZH1q0HOPNI74J33ISzRPzX7zeKlsvUkPlGGBJPdS/MbHJBxhSnJOZxqqonZ4YFqqH82XyB+alU
+	su8WdWWYlXgYWhwXaMMcvMVCivIE5EW/Wu/sLBSERY8uwNI1mWIqR7lW5ujjNEqGV6C3vI9FlKhX3
+	Co4STq2sE97ldOxPLDSVuNr9UEYLvPb/k1gLTdyY9DdS7n4iy5TwwQ/DGJ0UTydO4YKHZ9PZVdw6i
+	4jPBKlNpUyltMg+vximf9EgrUKLGEUp4HS4Wyl9QpLdKP51JQdb3k05K6IvQ8q4dbUy8O5WIPGVaR
+	NTXU0s0INKqyqS685x1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmENQ-005N8N-15; Thu, 27 May 2021 11:40:36 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmENN-005N68-2C
- for linux-nvme@lists.infradead.org; Thu, 27 May 2021 11:40:34 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id D266468AFE; Thu, 27 May 2021 13:40:29 +0200 (CEST)
-Date: Thu, 27 May 2021 13:40:29 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Koba Ko <koba.ko@canonical.com>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme <linux-nvme@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Henrik Juul Hansen <hjhansen2020@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Linux PCI <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH] nvme-pci: Avoid to go into d3cold if device can't use
- npss.
-Message-ID: <20210527114029.GC17266@lst.de>
-References: <CAAd53p6TJev=LgdvGxC92A9HOy3B6jbPLymAqeB5bDe2=5Fdsw@mail.gmail.com>
- <20210526150633.GA1291513@bjorn-Precision-5520>
- <CAAd53p7Mnv6HUv8hfjnsCpGeaSPXVAiA4D8gMxxdn6Bz8Z1fBQ@mail.gmail.com>
+	id 1lmEeg-005XPQ-DT; Thu, 27 May 2021 11:58:26 +0000
+Received: from [2001:4bb8:190:7543:4a62:72ba:8559:b110] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1lmEed-005XMd-Sw; Thu, 27 May 2021 11:58:24 +0000
+Date: Thu, 27 May 2021 13:58:21 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 5.13
+Message-ID: <YK+JXQOdbaoUH4Zr@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAAd53p7Mnv6HUv8hfjnsCpGeaSPXVAiA4D8gMxxdn6Bz8Z1fBQ@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210527_044033_291947_F8481E1F 
-X-CRM114-Status: GOOD (  12.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,15 +60,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 27, 2021 at 12:24:06AM +0800, Kai-Heng Feng wrote:
-> Yes, that's exactly what they said. Because Windows Modern Standby
-> always keep the NVMe at D0, so D3hot is untested by the vendors.
+The following changes since commit bc6a385132601c29a6da1dbf8148c0d3c9ad36dc:
 
-So all the problems we've deal with latetly are that platforms cut the
-power off.  So it is not kept always at D0 which would be the right thing,
-but moved into D3cold.
+  block: fix a race between del_gendisk and BLKRRPART (2021-05-20 07:59:35 -0600)
 
-Which makes this patch to disable D3cold rather counterintuitive.
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-5.13-2021-05-27
+
+for you to fetch changes up to aaeadd7075dc9e184bc7876e9dd7b3bada771df2:
+
+  nvmet: fix false keep-alive timeout when a controller is torn down (2021-05-26 16:18:22 +0200)
+
+----------------------------------------------------------------
+nvme fixes for Linux 5.13
+
+ - fix a memory leak in nvme_cdev_add (Guoqing Jiang)
+ - fix inline data size comparison in nvmet_tcp_queue_response (Hou Pu)
+ - fix false keep-alive timeout when a controller is torn down
+   (Sagi Grimberg)
+ - fix a nvme-tcp Kconfig dependency (Sagi Grimberg)
+ - short-circuit reconnect retries for FC (Hannes Reinecke)
+ - decode host pathing error for connect (Hannes Reinecke)
+
+----------------------------------------------------------------
+Guoqing Jiang (1):
+      nvme: fix potential memory leaks in nvme_cdev_add
+
+Hannes Reinecke (2):
+      nvme-fc: short-circuit reconnect retries
+      nvme-fabrics: decode host pathing error for connect
+
+Hou Pu (1):
+      nvmet-tcp: fix inline data size comparison in nvmet_tcp_queue_response
+
+Sagi Grimberg (2):
+      nvme-tcp: remove incorrect Kconfig dep in BLK_DEV_NVME
+      nvmet: fix false keep-alive timeout when a controller is torn down
+
+ drivers/nvme/host/Kconfig   |  3 ++-
+ drivers/nvme/host/core.c    |  4 +++-
+ drivers/nvme/host/fabrics.c |  5 +++++
+ drivers/nvme/host/fc.c      | 25 +++++++++++++++++--------
+ drivers/nvme/target/core.c  | 15 +++++++++++----
+ drivers/nvme/target/nvmet.h |  2 +-
+ drivers/nvme/target/tcp.c   |  2 +-
+ 7 files changed, 40 insertions(+), 16 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
