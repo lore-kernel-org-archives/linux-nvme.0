@@ -2,97 +2,68 @@ Return-Path: <SRS0=/NUg=KW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5710C4707F
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 17:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B18C47089
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 18:13:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8DDB5613BE
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 17:33:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8DDB5613BE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3D483613C0
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 18:13:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D483613C0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=9PZoBpCb0/0GrLkheEPJmX8mB7Rg17TfZISydm9YCvE=; b=cHyEq8YDoq0G1y
-	oLiftPLrmEvnlByS+TFzPDBoXKh6MY6nsI2d07qXiuuNUE9xl3h/s6BmzLYVzHkEiM3qsNBzGJvLa
-	VWDjVuMZRBEcl+tLM8MF8u1VDPaf8wRmwkg9DqS9aOv1cIT7KZPYGDRaOfzWlOtSTUp5czLOVIyEk
-	Abg/gURTOZZQg2ahA/FQM4XfsjfIX3XYKDRq3YIRyxVhnq0Ycby8WbY4jvVIOXO+GHM8o2IlXN2Hm
-	5QOF+KJ5tv2+Ign6snLv99g1MgB69fB1VLC8VN8nsqr1C6jaxMuhzFi2wQwO7WutbajE6fDoTMJBd
-	E8NCPh1+cH7YLo3tU6Og==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=d05tw5dnXATbQBEvUSvJMKCzvBgWLTTNcWggv+XIGxA=; b=S3HZ49W+kFzx07
+	X4uerZnW4tm2PAKcutRdyxFkSR4dukftZeRZXNEovI0rGR3i140KBsp1INEewX+SYxyVNJaBuD4mM
+	yU496RMSqgExolMT4FYzF9lBqTsIriqHpotSNd8BLd7OypKASer1Yk+7ZKb6NXxvpuFR7oOxNui/6
+	lM2eML9cOsV29b2yluEwRndzH2hhoxfO4y2tcy07KDaF+cqz47VlgeR0ADELBUbiG6Z30nWhNPDB3
+	kZbotd7cbqhb7CwsLcyN90q+Y0na/HvHsE0AmV7YlIEXQPknE+MGpBZ8ihtcNcD0rH48qMdKDoplG
+	1YVauWsVKSnUOauYkUVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmJsD-0087Nc-DR; Thu, 27 May 2021 17:32:45 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1lmKVd-008OBd-54; Thu, 27 May 2021 18:13:29 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmIYw-007Tuj-N2
- for linux-nvme@lists.infradead.org; Thu, 27 May 2021 16:08:48 +0000
-Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
- by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14RG2tS0006368
- for <linux-nvme@lists.infradead.org>; Thu, 27 May 2021 12:08:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=2JUtlJhGSwAJXgwXpe/X1CrHMrl7TgpDS3IZ+72fXqE=;
- b=ssNF8gd8pyOSalYX8iHSx1TwOaxUggQy3xv8M5cT9o6rficfoNQcEsoZ7ftPN0lT1XbZ
- uimpE9jVMF71W90OrduHnzIjz6G3wPBGF7EMG5lVI3jR2imqYF/Pc3Riwh9WCsncyuPi
- /ExntVvZ8zjGfYblKZ5dxnjU+MQqnLEOYSjHBUOPC8Iol88ODwXCOTenGtkxPCjoiHsY
- ZMn/zDm27oZiDNaUy2Jzo2dVu8Z1gcNO0KtU4jK5zNE/J+0sLTr4MUTKtHKGHFMGMGH9
- av3y3nGW+Y5tR76YDvj/osfG9M2qLw296l6qUFvP9QnuXreOvAQkm2GfhqDGHI8EhcYu sw== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0a-00154904.pphosted.com with ESMTP id 38sp7fdtf2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Thu, 27 May 2021 12:08:42 -0400
-Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
- by mx0a-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14RG74LC134352
- for <linux-nvme@lists.infradead.org>; Thu, 27 May 2021 12:08:41 -0400
-Received: from esaploutdur04.us.dell.com ([128.221.233.10])
- by mx0a-00154901.pphosted.com with ESMTP id 38qfhmgc9f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Thu, 27 May 2021 12:08:41 -0400
-X-PREM-Routing: D-Outbound
-X-LoopCount0: from 10.55.224.98
-Received: from vd-idand.xiolab.lab.emc.com (HELO vd-grupie.xiolab.lab.emc.com)
- ([10.55.224.98])
- by esaploutdur04.us.dell.com with ESMTP; 27 May 2021 11:08:37 -0500
-From: elad.grupi@dell.com
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Cc: Elad Grupi <elad.grupi@dell.com>
-Subject: [PATCH] nvmet-tcp: fix memory leak when having inflight commands on
- disconnect
-Date: Thu, 27 May 2021 19:08:33 +0300
-Message-Id: <20210527160833.28925-1-elad.grupi@dell.com>
-X-Mailer: git-send-email 2.18.2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-27_07:2021-05-27,
- 2021-05-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=943 phishscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- impostorscore=0 adultscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105270103
-X-Proofpoint-GUID: 50wx1qbw9y-0kUPFgel7PrXw3MIR2vVQ
-X-Proofpoint-ORIG-GUID: 50wx1qbw9y-0kUPFgel7PrXw3MIR2vVQ
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 suspectscore=0 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105270103
+ id 1lmJDz-007nhO-DV
+ for linux-nvme@lists.infradead.org; Thu, 27 May 2021 16:51:12 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AC2A960D07;
+ Thu, 27 May 2021 16:51:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622134271;
+ bh=lXeDk+lfIvTvB287GGxNo4IJd0Q5uC0t+WZ1l2qLlQ4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RI1DKeJ+mw0hA2qeQdsOIJ9MFjiierDnxwfKbSHtHM2b/hqJeoQOF4wGdn4oxQePh
+ cqpEaXfiZed+AwpJ6xJqdXtlsl2dYON91v8JtDdqLNbsbAKUAbbBr2kNTWQPZz7xF1
+ H1gLteY8h6IVOkWhuSfbqxrbc7tBDyrFebbWzTM9aYxKprC5K2cqmABME74qiSbt5C
+ DGre7DUzRIfbxngFyEwK8l1KM+iaeYiEnkr0x4eNGIMcjNg0o0Wzciyp41ko2MsYTr
+ 68Vo/qiluMWdFcuIREQvbL27EyfTr22myiEH70XD8DQs2XPZj25rndmbD70wkd7zNj
+ gdQcDi7NNhc1g==
+Date: Thu, 27 May 2021 09:51:08 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Cc: Jonathan Wright <jonathan@knownhost.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: nvmeof Issues with Zen 3/Ryzen 5000 Initiator
+Message-ID: <20210527165108.GB3706388@dhcp-10-100-145-180.wdc.com>
+References: <ffae89d5-05d8-e0a4-ca71-b3db18f70286@knownhost.com>
+ <BYAPR04MB49650971173C72A97AC8B0D186249@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <98b9e916-1c62-d6fe-ade8-bf0a8788e622@knownhost.com>
+ <BYAPR04MB4965276BE6BD29AD9594F4DB86239@BYAPR04MB4965.namprd04.prod.outlook.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <BYAPR04MB4965276BE6BD29AD9594F4DB86239@BYAPR04MB4965.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210527_090846_844378_84E4EDEA 
-X-CRM114-Status: GOOD (  16.45  )
+X-CRM114-CacheID: sfid-20210527_095111_517091_2AB84CC6 
+X-CRM114-Status: GOOD (  10.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,71 +75,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Elad Grupi <elad.grupi@dell.com>
+On Thu, May 27, 2021 at 02:36:59AM +0000, Chaitanya Kulkarni wrote:
+> On 5/26/21 16:14, Jonathan Wright wrote:
+> > I grabbed/built the kernel from the nvme-5.14 branch 
+> > (http://git.infradead.org/nvme.git/shortlog/refs/heads/nvme-5.14) and 
+> > managed to get the NIC drivers compiled.
+> >
+> > Unfortunately the issue still persists.
+> 
+> It will allow everyone to help you to fix this if you can bisect
+> the problem.
 
-Some nvme commands might get completed during the execution of
-nvmet_tcp_release_queue_work. Those commands are being added to
-resp_list on the queue and never processed after cancel_work_sync
-is done, causing memory leak of the resources allocated for those commands.
-
-Signed-off-by: Elad Grupi <elad.grupi@dell.com>
----
- drivers/nvme/target/tcp.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index f9f34f6caf5e..04d53b532ae2 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1426,6 +1426,31 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
- 	}
- }
- 
-+static void nvmet_tcp_free_resp_list(struct nvmet_tcp_queue *queue)
-+{
-+	struct nvmet_tcp_cmd *cmd;
-+	int c = 0;
-+
-+	nvmet_tcp_process_resp_list(queue);
-+
-+	list_for_each_entry(cmd, &queue->resp_send_list, entry) {
-+		kfree(cmd->iov);
-+		sgl_free(cmd->req.sg);
-+		c++;
-+	}
-+
-+	WARN_ON(c != queue->send_list_len);
-+
-+	if (queue->snd_cmd) {
-+		kfree(queue->snd_cmd->iov);
-+		sgl_free(queue->snd_cmd->req.sg);
-+		c++;
-+	}
-+
-+	pr_debug("qid %u send_list_len %d, free %d unprocessed commands\n",
-+			queue->nvme_sq.qid, queue->send_list_len, c);
-+}
-+
- static void nvmet_tcp_release_queue_work(struct work_struct *w)
- {
- 	struct nvmet_tcp_queue *queue =
-@@ -1441,6 +1466,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	nvmet_tcp_uninit_data_in_cmds(queue);
- 	nvmet_sq_destroy(&queue->nvme_sq);
- 	cancel_work_sync(&queue->io_work);
-+	nvmet_tcp_free_resp_list(queue);
- 	sock_release(queue->sock);
- 	nvmet_tcp_free_cmds(queue);
- 	if (queue->hdr_digest || queue->data_digest)
--- 
-2.18.2
-
+You need a "good" commit point in order to bisect, and we don't have one
+here. The description sounds like no kernel release ever worked.
 
 _______________________________________________
 Linux-nvme mailing list
