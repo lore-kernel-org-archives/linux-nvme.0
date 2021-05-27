@@ -2,130 +2,88 @@ Return-Path: <SRS0=/NUg=KW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFCAC47089
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 19:03:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67455C4707F
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 20:04:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C2016135C
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 19:03:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C2016135C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 194AC613CC
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 May 2021 20:04:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 194AC613CC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oDSAzNrj/1s2NIXlReu19MaPQh1zsBzvm5qUNdvs8kw=; b=Xf1d5gKxJ5zNrwwBqc5D9Ivfer
-	hudzpJlcg7SDUXk215cEDkGTppl7bsuSgPIH2U9lBsRBvGdZ8rQpwwBtqhwmsMqQZM/w7lNDB0uvy
-	HaTt+/1Ka/ViBt2XBQ3WH6W5At88yvHolR+oIjHYxRFJGGPzNudta/lubvjRMMI3t+zZMM6sRMsXP
-	Zuxdypm+KaJqlCMdiWIsHjFPnJn0lkDihcrsCOlwaeAtrPZ+S/KJpywWifs1Fpvp+tZ/x8bWdl0mE
-	ver+cIInM1K2i8udu+MRc1peIqdblh4wgpxUbQNx+rjDskIdW0CduIz1vyhWZHICQL7YFThFN2AGl
-	AzrkKyUA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=e1h4utvZTyC+2IxGX+FHOCD9hJIbsVFxoEwz2swAASw=; b=qexW2VpqYVgpQc
+	ps1fi7mepZf3G856+kvUXpAzMMTEOF8lLtPULa6Esk0Cet59pFlZ2bjkeWPx+Tt9y3WMiOFrJ74fh
+	r8Gfju4uxErtBCxNSpt6LmzAJ2sIzOHasc/LW+eSgUt88hb1ORWDN5/mObdTXHMqVOoSxrVnQ4BmI
+	9DdbEXztumSkiP3Sy7tJq8qwE6xLPbfOUvrHuO6+td60yw2XJISP/4SelOrchu8b6JwrR3k4L1JBh
+	EBBMz9ldZyGo+KTdOG+DV0vt2ShtXA+c9we7ivViGb4u9ZLn4/O/hiV7tMol4QGNB1x9HIcQ7R2mE
+	HqgfGZAc+PI8oBKC78ow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmLHY-008lS3-Pw; Thu, 27 May 2021 19:03:01 +0000
-Received: from mail-dm6nam10on2073.outbound.protection.outlook.com
- ([40.107.93.73] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1lmMEk-009AvJ-80; Thu, 27 May 2021 20:04:10 +0000
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmK82-008ELj-QG
- for linux-nvme@lists.infradead.org; Thu, 27 May 2021 17:49:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ft8Z8rQ8dr/sC259O9nn3ddPLMQmG1R1CTrD1tRdXm+5XrgC6bxUmMTuWRlWZNUfcELfMD/9oYem22avfT1h6ZA7I+20Dfxaob7fmznI84mTLHXMv/sDjmrqdlDmzJXdS90oWXpa+kbj+o9I+JcmGd0qlYRQxQbtu0jEO/INdfStl2Qiyd/YmBBwiKL7NGfxZ2og/++3yVfinT2l7VcU+UnLQZjgttxdgvvYbTwoc9XLe3LGb9o2nikgcUqftUhSdd4EmMfmAz/bsgiCTQa4a4n+IYAO8jERnGnsxP7x/nEYcWXoRRCQ0Y+7+W0Q3QvfE3N46CrF5kD+PwjIu9mazg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DUORhu6ZIlF+7WhjHQcL4HGsUUw/mjIW0xvtcaEFMVc=;
- b=lPnR7sXU0lPaw80GTYlVQHokk0JjWUTFB8qV0UpDAyNjV2f8MbBTG+5PJmhqAJ9aUl/q6OvpqnLo1F7ETgsw4LqXFyFqznZz9psv7ai+N3tCI7Jl4h46T63HP4HFD0ruOHvoDg7DqvKUgIrDY/iqad+8QkKm5JdztkOlahZV/fNPnIz7c1kSd41DHvmuilxRGkQ5OjwgYkQNouBmh1fOc5+/m6BJ8KkyXIu58eix5uslLbzHZKs9nADRF1kVNXbwMLHZSWqxxHSZKnEPTs0PG4ljwkM+ax+072WTPgDfsF34rvS1X3dvYRlziwxPqO9CTquP6B16QXDR3I06dUammw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DUORhu6ZIlF+7WhjHQcL4HGsUUw/mjIW0xvtcaEFMVc=;
- b=k3lxLrIwaq/rVEf2ejr9zYPg5t9g1hzqwlw/pdhghMPbys+znvqULjLLCb84PLQSKrSsnSPm7oQyCfSEAtlZiO6pmw0JXc0I3omx3HNo5pVnr0lJC/j0zPwwByBfFkh+ePYXRUC9nZhngL9eIaPOXlxJj2qNmDjjSWs7SaSK/xfhuYa2t0dYdl4cj9ZVBwuNflWj8i7VGUwx9FeOWfPlRWcw1+iN8Op9J0j0kGnY+eVpqxyqrjbDNj8iIjCG1ilMNQ2ZIjeimT7dq3Kaz14HqOm0lIqTl57V/kpO7J47aeJXTt1pI7UH0cQ564bMjtAp6KqEbPC1mdUQ1lkBU6jptg==
-Received: from BN0PR03CA0037.namprd03.prod.outlook.com (2603:10b6:408:e7::12)
- by DM6PR12MB3338.namprd12.prod.outlook.com (2603:10b6:5:11f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Thu, 27 May
- 2021 17:49:04 +0000
-Received: from BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e7:cafe::23) by BN0PR03CA0037.outlook.office365.com
- (2603:10b6:408:e7::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
- Transport; Thu, 27 May 2021 17:49:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT046.mail.protection.outlook.com (10.13.177.127) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4129.25 via Frontend Transport; Thu, 27 May 2021 17:49:04 +0000
-Received: from [172.27.15.200] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 May
- 2021 17:49:02 +0000
-Subject: Re: [bug report] nvme sends invalid command capsule over rdma
- transport for 5KiB write when target supports MSDBD > 1
-To: "Walker, Benjamin" <benjamin.walker@intel.com>, Christoph Hellwig
- <hch@infradead.org>
-CC: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, Israel Rukshin <israelr@nvidia.com>
-References: <BYAPR11MB2824E1B94D81B837E474A7A6EF269@BYAPR11MB2824.namprd11.prod.outlook.com>
- <dc96c3cf-e895-77c0-3d1a-1bc7e96cfd40@grimberg.me>
- <YK5W7F5DD4grBZLB@infradead.org>
- <3c944010-a9e7-cab2-07ad-78d50c8bd82f@nvidia.com>
- <YK5wh91yAcOlu+3J@infradead.org>
- <638819e9-8d4f-7b00-41f3-75062e4c076d@nvidia.com>
- <BYAPR11MB282487506792423203DCD350EF239@BYAPR11MB2824.namprd11.prod.outlook.com>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-Message-ID: <719b3040-a3de-ab26-425b-d5ec3a1532db@nvidia.com>
-Date: Thu, 27 May 2021 20:48:58 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ id 1lmMEf-009AtI-N0
+ for linux-nvme@lists.infradead.org; Thu, 27 May 2021 20:04:08 +0000
+Received: by mail-ej1-x630.google.com with SMTP id s22so1909009ejv.12
+ for <linux-nvme@lists.infradead.org>; Thu, 27 May 2021 13:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lrIq6DPoaD/7UKYY5dQ/k7nQtBtM1hCxMTvEUjHx4O8=;
+ b=lOrVjByFXLqEGV4uxaq+8HInbGk9mSx2Qgb5nvTFFo621GtwPBcPwH/nSEsvSxuyhh
+ knaeS536+J5jdU/0StU+HYg3qbd4beOKwFbTqAnHZ34NYUwe2X12MqOYe73109KfFZ6q
+ OTTrLNfdgBok6BzD/vVWxcr3Ed1aXkhyeRnqB6r7dnZ2rpDhREffGAKMUZso+cJ16lZ9
+ S5MMSKV30Hw+PRVtbbdUUs7rn7BL0cLYn5o8xADwLOe7uHKiOUJoi604xrJMdld+uEoC
+ kwfMAkDfuXh4xhKdzSP3sS/VcDIZScqBVRUPo+4S89crFFa8Lw0q0N46lxB/PivMcjm5
+ cQ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lrIq6DPoaD/7UKYY5dQ/k7nQtBtM1hCxMTvEUjHx4O8=;
+ b=jrH3E/lAiQF9LIMAGqd7zJBjJ1TZY729Kf9OTy6MSiGoSsiNZg8znWl0VATZWPyvo0
+ mXR8VXgWgXOFsLgSp5hTBIC/k3/piaHfaNB7xfoJFSINZFbKw4Yfb2TF2388vmC8C2Qe
+ bgK+h7jesbI9WZqXyUnPKI/ZVWDLbaNE58iSFzX4sGgVXV45x3RwzlauAhqlnLxZQpXO
+ e61JCZYASHaFJqX8EY36O2wTJw71TMfxUYZ0URHTxaX2r9XAny+kdt0ti+7rItLQ9mHN
+ B4y90qgX9DZEK+UWWDexGvfgiDCDcOG13YPAjOSVcQ+dfq2py8Zy0zJFNhQuoizHz07i
+ NJ3w==
+X-Gm-Message-State: AOAM533THK1SAocYqBF1bfT8sPK5X9X07A6WSshGht0vlFrbqsp5SELB
+ TVZIs6LyoCvvRcASOgX/vRS4g+iX2/oG1xC/TwM=
+X-Google-Smtp-Source: ABdhPJxmVtIp6Pm1BrfBZt1ii/CMxUQ4zTTpFd6SBfsp+Qt94TXvLTmErZVHvyw2TQJwFNKRyVUA8TUyEa5M+d7Gpk8=
+X-Received: by 2002:a17:907:76e8:: with SMTP id
+ kg8mr5430010ejc.130.1622145842769; 
+ Thu, 27 May 2021 13:04:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR11MB282487506792423203DCD350EF239@BYAPR11MB2824.namprd11.prod.outlook.com>
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9245c200-8868-4768-4d08-08d92137b848
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3338:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB33387E22DF9E32BEEE8FBD72DE239@DM6PR12MB3338.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0POgPGYnRZHLvpuVdY62v4KcGUKf+ziJ/zAAB6wqq9bUTLkLxtfhkajJc9Mk1xC4mUBLZ4/8l1EqZkHk1Rfc6+zY2apEtxCWXC5VZObtJB3FEq9jmS57U4uoI009pzvuABq/8ir2eYxVn5/gxjTidXYc74NUSEZLqS1BNLaBSzndVEgA61uDk9ub5l8F2lRy3svP8Ki2V1OclsRhVqVKA5Ydn0jEYo8ux6zcejgje+1glrYvxBHxMnU6NQ1dNX9dvQYpyWswUkYmpF7oPai40+aWYInSPVVBhpGYAVS13evSUHJg8Y/c14r2/aWCc4B75/afpSisLY6Rt4/uoZ51P8gDF5n2eX2xUD/KeyJ8wvvpjim++J9hM9WtdsADE/lGpspiJ8jGAW5BJPjRktrN3+DxWZ/FLChMcnR+rEKs/tuAYsE0Lwd1kG2RUL+7UjF4JZnjaWLAiAjdbp+/4Bh31LhPfVi+yQcCapF29UEU3KAv3tIV5fTuUEq8EykfFs6e8RMyXMEBcTi375of3pN0CziaAT0JJJzd7qVP2YQP54CqK2IxqeFtT0okRY5eYIyVRSE4ZGaOejb8sQ8aOvxOwPrL98sMqQjTXqcS7EG0e9CYfn0xUEXJ76UOR8NOMzBOJ1mfmvRp5D6NvHdgukNru/riFrgOTUaky4dsZ/0YAF/qSDXoxmdgjrnXfFo21oxG
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(36840700001)(46966006)(478600001)(336012)(426003)(36906005)(8936002)(356005)(31686004)(4326008)(6666004)(47076005)(36860700001)(16576012)(2616005)(107886003)(5660300002)(316002)(31696002)(16526019)(186003)(86362001)(82310400003)(70206006)(2906002)(8676002)(110136005)(54906003)(82740400003)(7636003)(70586007)(26005)(53546011)(36756003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2021 17:49:04.6011 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9245c200-8868-4768-4d08-08d92137b848
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3338
+References: <20210519111340.20613-1-smalin@marvell.com>
+ <20210519111340.20613-5-smalin@marvell.com>
+ <4b24aac6-fcce-4d7c-6cf4-17a52f1bf6f0@grimberg.me>
+In-Reply-To: <4b24aac6-fcce-4d7c-6cf4-17a52f1bf6f0@grimberg.me>
+From: Shai Malin <malin1024@gmail.com>
+Date: Thu, 27 May 2021 23:03:50 +0300
+Message-ID: <CAKKgK4wdS-4udLT7MUeGKH+0Jp00J=8n0H_8rxm+uUH1V1YM+w@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 04/27] nvme-tcp-offload: Add controller level
+ implementation
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Shai Malin <smalin@marvell.com>, netdev@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, davem@davemloft.net, kuba@kernel.org, 
+ hch@lst.de, axboe@fb.com, kbusch@kernel.org, Ariel Elior <aelior@marvell.com>, 
+ Michal Kalderon <mkalderon@marvell.com>, okulkarni@marvell.com,
+ pkushwaha@marvell.com, Arie Gershberg <agershberg@marvell.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210527_104906_957638_909F4AB4 
-X-CRM114-Status: GOOD (  20.19  )
+X-CRM114-CacheID: sfid-20210527_130405_834297_0965F2BD 
+X-CRM114-Status: GOOD (  34.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,67 +95,624 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 5/27/2021 8:43 PM, Walker, Benjamin wrote:
->> From: Max Gurtovoy <mgurtovoy@nvidia.com>
->>   
->> On 5/26/2021 7:00 PM, Christoph Hellwig wrote:
->>> On Wed, May 26, 2021 at 05:49:41PM +0300, Max Gurtovoy wrote:
->>>>> We do need for_each_sg here indeed, but you also need to keep
->>>>> incrementing sge for each loop iteration.  I think we can also drop
->>>>> the scat local variable with just a single users and all the
->>>>> renaming while we're at it.
->>>> Is the above fixing the issue ?
->>>>
->>>> Seems like code refactoring to me, right ?
->>> It fixes support for chained SGLs when using inline segments.  Not
->>> sure if it fixes the original bug report, but the current code is broken.
->> ohh, I see the usage of sg_next is missing.
->>
->> Well the original bug is for sure using inline chained SGLs but I thought it's using
->> 2 sg_nents and NVME_INLINE_SG_CNT == 2.
->>
->> maybe there is a split and the IO is using sg_nents == 3 ? and then we chain.
->>
->> Let's wait for Ben's test report (Ben please make sure to fix Sagi's suggestion
->> with Christoph's comment in your test).
-> This patch fixes the bug:
+On 5/22/21 1:31 AM, Sagi Grimberg wrote:
+> On 5/19/21 4:13 AM, Shai Malin wrote:
+> > From: Arie Gershberg <agershberg@marvell.com>
+> >
+> > In this patch we implement controller level functionality including:
+> > - create_ctrl.
+> > - delete_ctrl.
+> > - free_ctrl.
+> >
+> > The implementation is similar to other nvme fabrics modules, the main
+> > difference being that the nvme-tcp-offload ULP calls the vendor specific
+> > claim_dev() op with the given TCP/IP parameters to determine which device
+> > will be used for this controller.
+> > Once found, the vendor specific device and controller will be paired and
+> > kept in a controller list managed by the ULP.
+> >
+> > Acked-by: Igor Russkikh <irusskikh@marvell.com>
+> > Signed-off-by: Arie Gershberg <agershberg@marvell.com>
+> > Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
+> > Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
+> > Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
+> > Signed-off-by: Ariel Elior <aelior@marvell.com>
+> > Signed-off-by: Shai Malin <smalin@marvell.com>
+> > ---
+> >   drivers/nvme/host/tcp-offload.c | 475 +++++++++++++++++++++++++++++++-
+> >   1 file changed, 467 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
+> > index aa7cc239abf2..f7e0dc79bedd 100644
+> > --- a/drivers/nvme/host/tcp-offload.c
+> > +++ b/drivers/nvme/host/tcp-offload.c
+> > @@ -12,6 +12,10 @@
+> >
+> >   static LIST_HEAD(nvme_tcp_ofld_devices);
+> >   static DECLARE_RWSEM(nvme_tcp_ofld_devices_rwsem);
+> > +static LIST_HEAD(nvme_tcp_ofld_ctrl_list);
+> > +static DECLARE_RWSEM(nvme_tcp_ofld_ctrl_rwsem);
+> > +static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops;
+> > +static struct blk_mq_ops nvme_tcp_ofld_mq_ops;
+> >
+> >   static inline struct nvme_tcp_ofld_ctrl *to_tcp_ofld_ctrl(struct nvme_ctrl *nctrl)
+> >   {
+> > @@ -128,28 +132,435 @@ nvme_tcp_ofld_lookup_dev(struct nvme_tcp_ofld_ctrl *ctrl)
+> >       return dev;
+> >   }
+> >
+> > +static struct blk_mq_tag_set *
+> > +nvme_tcp_ofld_alloc_tagset(struct nvme_ctrl *nctrl, bool admin)
+> > +{
+> > +     struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
+> > +     struct blk_mq_tag_set *set;
+> > +     int rc;
+> > +
+> > +     if (admin) {
+> > +             set = &ctrl->admin_tag_set;
+> > +             memset(set, 0, sizeof(*set));
+> > +             set->ops = &nvme_tcp_ofld_admin_mq_ops;
+> > +             set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+> > +             set->reserved_tags = NVMF_RESERVED_TAGS;
+> > +             set->numa_node = nctrl->numa_node;
+> > +             set->flags = BLK_MQ_F_BLOCKING;
+> > +             set->cmd_size = sizeof(struct nvme_tcp_ofld_req);
+> > +             set->driver_data = ctrl;
+> > +             set->nr_hw_queues = 1;
+> > +             set->timeout = NVME_ADMIN_TIMEOUT;
+> > +     } else {
+> > +             set = &ctrl->tag_set;
+> > +             memset(set, 0, sizeof(*set));
+> > +             set->ops = &nvme_tcp_ofld_mq_ops;
+> > +             set->queue_depth = nctrl->sqsize + 1;
+> > +             set->reserved_tags = NVMF_RESERVED_TAGS;
+> > +             set->numa_node = nctrl->numa_node;
+> > +             set->flags = BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_BLOCKING;
 >
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 37943dc4c2c1..6a3f7f6bd1ab 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1320,16 +1320,17 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
->                  int count)
->   {
->          struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
-> -       struct scatterlist *sgl = req->data_sgl.sg_table.sgl;
-> +      struct scatterlist *sgl, *scat = req->data_sgl.sg_table.sgl;
->          struct ib_sge *sge = &req->sge[1];
->          u32 len = 0;
->          int i;
+> Why do you set BLK_MQ_F_BLOCKING? do you schedule in the submission path?
+
+No. Will be fixed.
+
 >
-> -       for (i = 0; i < count; i++, sgl++, sge++) {
-> +      for_each_sg(scat, sgl, count, i) {
->                  sge->addr = sg_dma_address(sgl);
->                  sge->length = sg_dma_len(sgl);
->                  sge->lkey = queue->device->pd->local_dma_lkey;
->                  len += sge->length;
-> +              sge++;
+> > +             set->cmd_size = sizeof(struct nvme_tcp_ofld_req);
+> > +             set->driver_data = ctrl;
+> > +             set->nr_hw_queues = nctrl->queue_count - 1;
+> > +             set->timeout = NVME_IO_TIMEOUT;
+> > +             set->nr_maps = nctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2;
+> > +     }
+> > +
+> > +     rc = blk_mq_alloc_tag_set(set);
+> > +     if (rc)
+> > +             return ERR_PTR(rc);
+> > +
+> > +     return set;
+> > +}
+> > +
+> > +static int nvme_tcp_ofld_configure_admin_queue(struct nvme_ctrl *nctrl,
+> > +                                            bool new)
+> > +{
+> > +     int rc;
+> > +
+> > +     /* Placeholder - alloc_admin_queue */
+> > +     if (new) {
+> > +             nctrl->admin_tagset =
+> > +                             nvme_tcp_ofld_alloc_tagset(nctrl, true);
+> > +             if (IS_ERR(nctrl->admin_tagset)) {
+> > +                     rc = PTR_ERR(nctrl->admin_tagset);
+> > +                     nctrl->admin_tagset = NULL;
+> > +                     goto out_free_queue;
+> > +             }
+> > +
+> > +             nctrl->fabrics_q = blk_mq_init_queue(nctrl->admin_tagset);
+> > +             if (IS_ERR(nctrl->fabrics_q)) {
+> > +                     rc = PTR_ERR(nctrl->fabrics_q);
+> > +                     nctrl->fabrics_q = NULL;
+> > +                     goto out_free_tagset;
+> > +             }
+> > +
+> > +             nctrl->admin_q = blk_mq_init_queue(nctrl->admin_tagset);
+> > +             if (IS_ERR(nctrl->admin_q)) {
+> > +                     rc = PTR_ERR(nctrl->admin_q);
+> > +                     nctrl->admin_q = NULL;
+> > +                     goto out_cleanup_fabrics_q;
+> > +             }
+> > +     }
+> > +
+> > +     /* Placeholder - nvme_tcp_ofld_start_queue */
+> > +
+> > +     rc = nvme_enable_ctrl(nctrl);
+> > +     if (rc)
+> > +             goto out_stop_queue;
+> > +
+> > +     blk_mq_unquiesce_queue(nctrl->admin_q);
+> > +
+> > +     rc = nvme_init_ctrl_finish(nctrl);
+> > +     if (rc)
+> > +             goto out_quiesce_queue;
+> > +
+> > +     return 0;
+> > +
+> > +out_quiesce_queue:
+> > +     blk_mq_quiesce_queue(nctrl->admin_q);
+> > +     blk_sync_queue(nctrl->admin_q);
+> > +
+> > +out_stop_queue:
+> > +     /* Placeholder - stop offload queue */
+> > +     nvme_cancel_admin_tagset(nctrl);
+> > +
+> > +out_cleanup_fabrics_q:
+> > +     if (new)
+> > +             blk_cleanup_queue(nctrl->fabrics_q);
+> > +out_free_tagset:
+> > +     if (new)
+> > +             blk_mq_free_tag_set(nctrl->admin_tagset);
+> > +out_free_queue:
+> > +     /* Placeholder - free admin queue */
+> > +
+> > +     return rc;
+> > +}
+> > +
+> > +static int
+> > +nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
+> > +{
+> > +     int rc;
+> > +
+> > +     /* Placeholder - alloc_io_queues */
+> > +
+> > +     if (new) {
+> > +             nctrl->tagset = nvme_tcp_ofld_alloc_tagset(nctrl, false);
+> > +             if (IS_ERR(nctrl->tagset)) {
+> > +                     rc = PTR_ERR(nctrl->tagset);
+> > +                     nctrl->tagset = NULL;
+> > +                     goto out_free_io_queues;
+> > +             }
+> > +
+> > +             nctrl->connect_q = blk_mq_init_queue(nctrl->tagset);
+> > +             if (IS_ERR(nctrl->connect_q)) {
+> > +                     rc = PTR_ERR(nctrl->connect_q);
+> > +                     nctrl->connect_q = NULL;
+> > +                     goto out_free_tag_set;
+> > +             }
+> > +     }
+> > +
+> > +     /* Placeholder - start_io_queues */
+> > +
+> > +     if (!new) {
+> > +             nvme_start_queues(nctrl);
+> > +             if (!nvme_wait_freeze_timeout(nctrl, NVME_IO_TIMEOUT)) {
+> > +                     /*
+> > +                      * If we timed out waiting for freeze we are likely to
+> > +                      * be stuck.  Fail the controller initialization just
+> > +                      * to be safe.
+> > +                      */
+> > +                     rc = -ENODEV;
+> > +                     goto out_wait_freeze_timed_out;
+> > +             }
+> > +             blk_mq_update_nr_hw_queues(nctrl->tagset, nctrl->queue_count - 1);
+> > +             nvme_unfreeze(nctrl);
+> > +     }
+> > +
+> > +     return 0;
+> > +
+> > +out_wait_freeze_timed_out:
+> > +     nvme_stop_queues(nctrl);
+> > +     nvme_sync_io_queues(nctrl);
+> > +
+> > +     /* Placeholder - Stop IO queues */
+> > +
+> > +     if (new)
+> > +             blk_cleanup_queue(nctrl->connect_q);
+> > +out_free_tag_set:
+> > +     if (new)
+> > +             blk_mq_free_tag_set(nctrl->tagset);
+> > +out_free_io_queues:
+> > +     /* Placeholder - free_io_queues */
+> > +
+> > +     return rc;
+> > +}
+> > +
+> >   static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
+> >   {
+> > -     /* Placeholder - validates inputs and creates admin and IO queues */
+> > +     struct nvmf_ctrl_options *opts = nctrl->opts;
+> > +     int rc;
+> > +
+> > +     rc = nvme_tcp_ofld_configure_admin_queue(nctrl, new);
+> > +     if (rc)
+> > +             return rc;
+> > +
+> > +     if (nctrl->icdoff) {
+> > +             dev_err(nctrl->device, "icdoff is not supported!\n");
+> > +             rc = -EINVAL;
+> > +             goto destroy_admin;
+> > +     }
+> > +
+> > +     if (!(nctrl->sgls & ((1 << 0) | (1 << 1)))) {
+> > +             dev_err(nctrl->device, "Mandatory sgls are not supported!\n");
+> > +             goto destroy_admin;
+> > +     }
+> > +
+> > +     if (opts->queue_size > nctrl->sqsize + 1)
+> > +             dev_warn(nctrl->device,
+> > +                      "queue_size %zu > ctrl sqsize %u, clamping down\n",
+> > +                      opts->queue_size, nctrl->sqsize + 1);
+> > +
+> > +     if (nctrl->sqsize + 1 > nctrl->maxcmd) {
+> > +             dev_warn(nctrl->device,
+> > +                      "sqsize %u > ctrl maxcmd %u, clamping down\n",
+> > +                      nctrl->sqsize + 1, nctrl->maxcmd);
+> > +             nctrl->sqsize = nctrl->maxcmd - 1;
+> > +     }
+> > +
+> > +     if (nctrl->queue_count > 1) {
+> > +             rc = nvme_tcp_ofld_configure_io_queues(nctrl, new);
+> > +             if (rc)
+> > +                     goto destroy_admin;
+> > +     }
+> > +
+> > +     if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_LIVE)) {
+> > +             /*
+> > +              * state change failure is ok if we started ctrl delete,
+> > +              * unless we're during creation of a new controller to
+> > +              * avoid races with teardown flow.
+> > +              */
+> > +             WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
+> > +                          nctrl->state != NVME_CTRL_DELETING_NOIO);
+> > +             WARN_ON_ONCE(new);
+> > +             rc = -EINVAL;
+> > +             goto destroy_io;
+> > +     }
+> > +
+> > +     nvme_start_ctrl(nctrl);
+> > +
+> > +     return 0;
+> > +
+> > +destroy_io:
+> > +     /* Placeholder - stop and destroy io queues*/
+> > +destroy_admin:
+> > +     /* Placeholder - stop and destroy admin queue*/
+> > +
+> > +     return rc;
+> > +}
+> > +
+> > +static int
+> > +nvme_tcp_ofld_check_dev_opts(struct nvmf_ctrl_options *opts,
+> > +                          struct nvme_tcp_ofld_ops *ofld_ops)
+> > +{
+> > +     unsigned int nvme_tcp_ofld_opt_mask = NVMF_ALLOWED_OPTS |
+> > +                     ofld_ops->allowed_opts | ofld_ops->required_opts;
+> > +     if (opts->mask & ~nvme_tcp_ofld_opt_mask) {
+> > +             pr_warn("One or more of the nvmf options isn't supported by %s.\n",
+> > +                     ofld_ops->name);
+>
+> Which one(s)?
 
-good news.
+Will be fixed.
 
-So either we use the sge[i].length or sge++.
+>
+> > +
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void nvme_tcp_ofld_free_ctrl(struct nvme_ctrl *nctrl)
+> > +{
+> > +     struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
+> > +     struct nvme_tcp_ofld_dev *dev = ctrl->dev;
+> > +
+> > +     if (list_empty(&ctrl->list))
+> > +             goto free_ctrl;
+> > +
+> > +     down_write(&nvme_tcp_ofld_ctrl_rwsem);
+> > +     ctrl->dev->ops->release_ctrl(ctrl);
+>
+> Why is release called under the lock? specific reason?
 
-Both will do the job.
+It's not needed. Will be fixed.
 
+>
+> > +     list_del(&ctrl->list);
+> > +     up_write(&nvme_tcp_ofld_ctrl_rwsem);
+> > +
+> > +     nvmf_free_options(nctrl->opts);
+> > +free_ctrl:
+> > +     module_put(dev->ops->module);
+> > +     kfree(ctrl->queues);
+> > +     kfree(ctrl);
+> > +}
+> > +
+> > +static void nvme_tcp_ofld_submit_async_event(struct nvme_ctrl *arg)
+> > +{
+> > +     /* Placeholder - submit_async_event */
+> > +}
+> > +
+> > +static void
+> > +nvme_tcp_ofld_teardown_admin_queue(struct nvme_ctrl *ctrl, bool remove)
+> > +{
+> > +     /* Placeholder - teardown_admin_queue */
+> > +}
+> > +
+> > +static void
+> > +nvme_tcp_ofld_teardown_io_queues(struct nvme_ctrl *nctrl, bool remove)
+> > +{
+> > +     /* Placeholder - teardown_io_queues */
+> > +}
+> > +
+> > +static void
+> > +nvme_tcp_ofld_teardown_ctrl(struct nvme_ctrl *nctrl, bool shutdown)
+> > +{
+> > +     /* Placeholder - err_work and connect_work */
+> > +     nvme_tcp_ofld_teardown_io_queues(nctrl, shutdown);
+> > +     blk_mq_quiesce_queue(nctrl->admin_q);
+> > +     if (shutdown)
+> > +             nvme_shutdown_ctrl(nctrl);
+> > +     else
+> > +             nvme_disable_ctrl(nctrl);
+> > +     nvme_tcp_ofld_teardown_admin_queue(nctrl, shutdown);
+> > +}
+> > +
+> > +static void nvme_tcp_ofld_delete_ctrl(struct nvme_ctrl *nctrl)
+> > +{
+> > +     nvme_tcp_ofld_teardown_ctrl(nctrl, true);
+> > +}
+> > +
+> > +static int
+> > +nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
+> > +                        struct request *rq,
+> > +                        unsigned int hctx_idx,
+> > +                        unsigned int numa_node)
+> > +{
+> > +     struct nvme_tcp_ofld_req *req = blk_mq_rq_to_pdu(rq);
+> > +     struct nvme_tcp_ofld_ctrl *ctrl = set->driver_data;
+> > +
+> > +     /* Placeholder - init request */
+> > +
+> > +     req->done = nvme_tcp_ofld_req_done;
+> > +     ctrl->dev->ops->init_req(req);
+> >
+> >       return 0;
+> >   }
+> >
+> > +static blk_status_t
+> > +nvme_tcp_ofld_queue_rq(struct blk_mq_hw_ctx *hctx,
+> > +                    const struct blk_mq_queue_data *bd)
+> > +{
+> > +     /* Call nvme_setup_cmd(...) */
+> > +
+> > +     /* Call ops->send_req(...) */
+> > +
+> > +     return BLK_STS_OK;
+> > +}
+> > +
+> > +static struct blk_mq_ops nvme_tcp_ofld_mq_ops = {
+> > +     .queue_rq       = nvme_tcp_ofld_queue_rq,
+> > +     .init_request   = nvme_tcp_ofld_init_request,
+> > +     /*
+> > +      * All additional ops will be also implemented and registered similar to
+> > +      * tcp.c
+> > +      */
+> > +};
+> > +
+> > +static struct blk_mq_ops nvme_tcp_ofld_admin_mq_ops = {
+> > +     .queue_rq       = nvme_tcp_ofld_queue_rq,
+> > +     .init_request   = nvme_tcp_ofld_init_request,
+> > +     /*
+> > +      * All additional ops will be also implemented and registered similar to
+> > +      * tcp.c
+> > +      */
+> > +};
+> > +
+> > +static const struct nvme_ctrl_ops nvme_tcp_ofld_ctrl_ops = {
+> > +     .name                   = "tcp_offload",
+> > +     .module                 = THIS_MODULE,
+> > +     .flags                  = NVME_F_FABRICS,
+> > +     .reg_read32             = nvmf_reg_read32,
+> > +     .reg_read64             = nvmf_reg_read64,
+> > +     .reg_write32            = nvmf_reg_write32,
+> > +     .free_ctrl              = nvme_tcp_ofld_free_ctrl,
+> > +     .submit_async_event     = nvme_tcp_ofld_submit_async_event,
+>
+> Its pretty difficult to review when you have declarations of functions
+> that don't exist yet. It also hurts bisectability.
 
->          }
+Will be fixed.
+
+>
+> > +     .delete_ctrl            = nvme_tcp_ofld_delete_ctrl,
+> > +     .get_address            = nvmf_get_address,
+> > +};
+> > +
+> > +static bool
+> > +nvme_tcp_ofld_existing_controller(struct nvmf_ctrl_options *opts)
+> > +{
+> > +     struct nvme_tcp_ofld_ctrl *ctrl;
+> > +     bool found = false;
+> > +
+> > +     down_read(&nvme_tcp_ofld_ctrl_rwsem);
+> > +     list_for_each_entry(ctrl, &nvme_tcp_ofld_ctrl_list, list) {
+> > +             found = nvmf_ip_options_match(&ctrl->nctrl, opts);
+> > +             if (found)
+> > +                     break;
+> > +     }
+> > +     up_read(&nvme_tcp_ofld_ctrl_rwsem);
+> > +
+> > +     return found;
+> > +}
+> > +
+> >   static struct nvme_ctrl *
+> >   nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
+> >   {
+> > +     struct nvme_tcp_ofld_queue *queue;
+> >       struct nvme_tcp_ofld_ctrl *ctrl;
+> >       struct nvme_tcp_ofld_dev *dev;
+> >       struct nvme_ctrl *nctrl;
+> > -     int rc = 0;
+> > +     int i, rc = 0;
+> >
+> >       ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+> >       if (!ctrl)
+> >               return ERR_PTR(-ENOMEM);
+> >
+> > +     INIT_LIST_HEAD(&ctrl->list);
+> >       nctrl = &ctrl->nctrl;
+> > +     nctrl->opts = opts;
+> > +     nctrl->queue_count = opts->nr_io_queues + opts->nr_write_queues +
+> > +                          opts->nr_poll_queues + 1;
+> > +     nctrl->sqsize = opts->queue_size - 1;
+> > +     nctrl->kato = opts->kato;
+> > +     if (!(opts->mask & NVMF_OPT_TRSVCID)) {
+> > +             opts->trsvcid =
+> > +                     kstrdup(__stringify(NVME_TCP_DISC_PORT), GFP_KERNEL);
+> > +             if (!opts->trsvcid) {
+> > +                     rc = -ENOMEM;
+> > +                     goto out_free_ctrl;
+> > +             }
+> > +             opts->mask |= NVMF_OPT_TRSVCID;
+> > +     }
+> >
+> > -     /* Init nvme_tcp_ofld_ctrl and nvme_ctrl params based on received opts */
+> > +     rc = inet_pton_with_scope(&init_net, AF_UNSPEC, opts->traddr,
+> > +                               opts->trsvcid,
+> > +                               &ctrl->conn_params.remote_ip_addr);
+> > +     if (rc) {
+> > +             pr_err("malformed address passed: %s:%s\n",
+> > +                    opts->traddr, opts->trsvcid);
+> > +             goto out_free_ctrl;
+> > +     }
+> > +
+> > +     if (opts->mask & NVMF_OPT_HOST_TRADDR) {
+> > +             rc = inet_pton_with_scope(&init_net, AF_UNSPEC,
+> > +                                       opts->host_traddr, NULL,
+> > +                                       &ctrl->conn_params.local_ip_addr);
+> > +             if (rc) {
+> > +                     pr_err("malformed src address passed: %s\n",
+> > +                            opts->host_traddr);
+> > +                     goto out_free_ctrl;
+> > +             }
+> > +     }
+> > +
+> > +     if (!opts->duplicate_connect &&
+> > +         nvme_tcp_ofld_existing_controller(opts)) {
+> > +             rc = -EALREADY;
+> > +             goto out_free_ctrl;
+> > +     }
+> >
+> >       /* Find device that can reach the dest addr */
+> >       dev = nvme_tcp_ofld_lookup_dev(ctrl);
+> > @@ -160,6 +571,10 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
+> >               goto out_free_ctrl;
+> >       }
+> >
+> > +     rc = nvme_tcp_ofld_check_dev_opts(opts, dev->ops);
+> > +     if (rc)
+> > +             goto out_module_put;
+> > +
+> >       ctrl->dev = dev;
+> >
+> >       if (ctrl->dev->ops->max_hw_sectors)
+> > @@ -167,22 +582,58 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
+> >       if (ctrl->dev->ops->max_segments)
+> >               nctrl->max_segments = ctrl->dev->ops->max_segments;
+> >
+> > -     /* Init queues */
+> > +     ctrl->queues = kcalloc(nctrl->queue_count,
+> > +                            sizeof(struct nvme_tcp_ofld_queue),
+> > +                            GFP_KERNEL);
+> > +     if (!ctrl->queues) {
+> > +             rc = -ENOMEM;
+> > +             goto out_module_put;
+> > +     }
+> > +
+> > +     for (i = 0; i < nctrl->queue_count; ++i) {
+> > +             queue = &ctrl->queues[i];
+> > +             queue->ctrl = ctrl;
+> > +             queue->dev = dev;
+> > +             queue->report_err = nvme_tcp_ofld_report_queue_err;
+> > +             queue->hdr_digest = nctrl->opts->hdr_digest;
+> > +             queue->data_digest = nctrl->opts->data_digest;
+> > +             queue->tos = nctrl->opts->tos;
+>
+> Why is this here and not in the queue initialization?
+
+It's in order to not duplicate the initializations between the admin queue
+and IO queue. We will move the digest and tos initialization into the vendor
+driver create_queue().
+
+>
+> > +     }
+> > +
+> > +     rc = nvme_init_ctrl(nctrl, ndev, &nvme_tcp_ofld_ctrl_ops, 0);
+> > +     if (rc)
+> > +             goto out_free_queues;
+> >
+> > -     /* Call nvme_init_ctrl */
+> > +     if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
+> > +             WARN_ON_ONCE(1);
+> > +             rc = -EINTR;
+> > +             goto out_uninit_ctrl;
+> > +     }
+> >
+> >       rc = ctrl->dev->ops->setup_ctrl(ctrl, true);
+> >       if (rc)
+> > -             goto out_module_put;
+> > +             goto out_uninit_ctrl;
+> >
+> >       rc = nvme_tcp_ofld_setup_ctrl(nctrl, true);
+> >       if (rc)
+> > -             goto out_uninit_ctrl;
+> > +             goto out_release_ctrl;
+>
+> Its kinda confusing that a patch series adds code that is
+> replaced later in the series...
+
+Will be fixed.
+
+>
+> > +
+> > +     dev_info(nctrl->device, "new ctrl: NQN \"%s\", addr %pISp\n",
+> > +              opts->subsysnqn, &ctrl->conn_params.remote_ip_addr);
+> > +
+> > +     down_write(&nvme_tcp_ofld_ctrl_rwsem);
+> > +     list_add_tail(&ctrl->list, &nvme_tcp_ofld_ctrl_list);
+> > +     up_write(&nvme_tcp_ofld_ctrl_rwsem);
+> >
+> >       return nctrl;
+> >
+> > -out_uninit_ctrl:
+> > +out_release_ctrl:
+> >       ctrl->dev->ops->release_ctrl(ctrl);
+> > +out_uninit_ctrl:
+> > +     nvme_uninit_ctrl(nctrl);
+> > +     nvme_put_ctrl(nctrl);
+> > +out_free_queues:
+> > +     kfree(ctrl->queues);
+> >   out_module_put:
+> >       module_put(dev->ops->module);
+> >   out_free_ctrl:
+> > @@ -212,7 +663,15 @@ static int __init nvme_tcp_ofld_init_module(void)
+> >
+> >   static void __exit nvme_tcp_ofld_cleanup_module(void)
+> >   {
+> > +     struct nvme_tcp_ofld_ctrl *ctrl;
+> > +
+> >       nvmf_unregister_transport(&nvme_tcp_ofld_transport);
+> > +
+> > +     down_write(&nvme_tcp_ofld_ctrl_rwsem);
+> > +     list_for_each_entry(ctrl, &nvme_tcp_ofld_ctrl_list, list)
+> > +             nvme_delete_ctrl(&ctrl->nctrl);
+> > +     up_write(&nvme_tcp_ofld_ctrl_rwsem);
+> > +     flush_workqueue(nvme_delete_wq);
+> >   }
+> >
+> >   module_init(nvme_tcp_ofld_init_module);
+> >
 
 _______________________________________________
 Linux-nvme mailing list
