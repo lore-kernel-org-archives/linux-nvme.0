@@ -7,66 +7,77 @@ X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1F3C47089
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 01:21:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3098FC47089
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 01:24:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 58AD560E09
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 01:21:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 58AD560E09
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id D066F6135C
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 01:24:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D066F6135C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z2yPC8KQeumYdGkwp97ulVGdqDeMc7QO9UotWpw8VTU=; b=uGAqfV0q565IJXsz+2vzzSSkPO
-	AIxgFmKAbWRUlNefaV+ot094Cy9EBWvQC9oHPyG7TFbvj/vx6sbmYaE4Q7FzcrXDIZs3bxVJLVkH9
-	KGxpcx2yy8Vaz4dHN++Ux0IPZ6CrawEKM8n0TbtOg6ERftQvJWm5Gwxw7Xn22mX+W8JhPbWQHcIgf
-	zrchZZtuEk+xvEXp0GWpngp8Qzy6leoET0XB9RiMkdNRcBhR3Q8sYM/Q7IS2HCKVeaNfUGFf86EQd
-	Jxi/l+QXp/9gaOWBmuS9Eh1z0E21ktzoGoJYOXNzn2+C4QVe2Z0rd92lRpzd14IFD2r6nXrvoxpnH
-	ju8qyYaQ==;
+	bh=7ocuEr2y7lQYQOgLrw1NepBv2QHDClUbkV5ZFO2+Nms=; b=14C5vvCey9TSYRtHUStM3O+j4Z
+	9MjS3eaPC60e2Eh9vjVnkYx073YiLNZSEtBCIawXRU595srDMSXXMakrJFgyn88uzCCINzs9ldNfd
+	zGi0Esmz4s4h/ev+hBfLHgWWS/Kz74Cg9pRH8HvXPDKqxlMFsYd8an9A6uZDC8tLu/alkZXfUYeXo
+	DG2ruKRvSUXKOyvboNRqPQkXThO0x5FiRSSC9rScEygvLGezFsGRRo2vWafpbFAGJx6Nh/Xsc3knK
+	sXbYjv37V92U1UrnSVySX9iQu3H3BRq+kPNfol7ClYCR+MA2/VrS4SBwRh0GUAhP5ryf/y5ihFlZd
+	e5j3XJjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmRBy-00AuGZ-DI; Fri, 28 May 2021 01:21:38 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1lmREO-00AvJC-Q2; Fri, 28 May 2021 01:24:08 +0000
+Received: from mail-pl1-f181.google.com ([209.85.214.181])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmQz8-00Ap4w-04
- for linux-nvme@lists.infradead.org; Fri, 28 May 2021 01:08:23 +0000
-Received: from dggeml705-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FrmhG2r1NzYqQ7;
- Fri, 28 May 2021 09:05:34 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- dggeml705-chm.china.huawei.com (10.3.17.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 28 May 2021 09:08:14 +0800
-Received: from [10.169.42.93] (10.169.42.93) by dggema772-chm.china.huawei.com
- (10.1.198.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 28
- May 2021 09:08:14 +0800
+ id 1lmR6f-00As61-6E
+ for linux-nvme@lists.infradead.org; Fri, 28 May 2021 01:16:10 +0000
+Received: by mail-pl1-f181.google.com with SMTP id v12so837050plo.10
+ for <linux-nvme@lists.infradead.org>; Thu, 27 May 2021 18:16:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ztTEmQR+ho+6gYb0hQLJaRX7yVIIKWggbiQWXABcYgw=;
+ b=iTimKUSJUliXiwdD6gZNZFra74ZpuQPNa63clLVF9tkWFxpvIAwn51w0XGUAGjwap+
+ LkCDWTOO9ddqIaaEF7wZBKV1Ik5+0cRSgYMYtkoSHAKb9Y6h2I/j/Ervys+yut8LL1Xz
+ absy+CX0QKUbQs5j0B4entgHMZVgaXPVnncMmA4uKx+33IJ7ktjwWuKbkM3vJ5QwqtMQ
+ 1uzzJHn2XAs0TiDlSl4lfG2HxH6u9yYJuQqrBH2gWybTrfFDDkgcO0Srl2oxZJwB1ddu
+ 2DYnQx9yt9hKsl9Bym48gUkK/aT+1EcfBKMxL2FI7b5C61HS0oiwvfOnapCveHFExh+S
+ LQaQ==
+X-Gm-Message-State: AOAM532whO/ucEGaI+eneJHhHmF9EX5OVazcVfHgk3TbJYjracRXmXCa
+ t6XGZBY/GCBNn2gwmlKoTX8=
+X-Google-Smtp-Source: ABdhPJzW4nqwPrmqZErlicRoO8rXx6JDxiJ9g2Wp/7WaVUtUPsxopTNDeRLkM89nGp3hkRBDcVHRcA==
+X-Received: by 2002:a17:90b:d98:: with SMTP id
+ bg24mr1492772pjb.112.1622164568191; 
+ Thu, 27 May 2021 18:16:08 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:95ba:990f:ef3a:82bb?
+ ([2601:647:4802:9070:95ba:990f:ef3a:82bb])
+ by smtp.gmail.com with ESMTPSA id o9sm3158984pfh.217.2021.05.27.18.16.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 May 2021 18:16:06 -0700 (PDT)
 Subject: Re: [PATCH] nvme-rdma: fix in-casule data send for chained sgls
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
+To: Chao Leng <lengchao@huawei.com>, linux-nvme@lists.infradead.org,
  Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-CC: Max Gurtovoy <maxg@mellanox.com>
+Cc: Max Gurtovoy <maxg@mellanox.com>
 References: <20210527204016.379365-1-sagi@grimberg.me>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <48f23b84-8a1e-e298-be91-0627c1112fd8@huawei.com>
-Date: Fri, 28 May 2021 09:08:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ <48f23b84-8a1e-e298-be91-0627c1112fd8@huawei.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <e9a6b5cd-1198-693c-4e90-3d5978a70b8e@grimberg.me>
+Date: Thu, 27 May 2021 18:16:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210527204016.379365-1-sagi@grimberg.me>
+In-Reply-To: <48f23b84-8a1e-e298-be91-0627c1112fd8@huawei.com>
 Content-Language: en-US
-X-Originating-IP: [10.169.42.93]
-X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210527_180822_261290_0C79E535 
-X-CRM114-Status: GOOD (  17.32  )
+X-CRM114-CacheID: sfid-20210527_181609_272409_C5C6DAED 
+X-CRM114-Status: GOOD (  16.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,55 +89,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2021/5/28 4:40, Sagi Grimberg wrote:
-> We have only 2 inline sg entries and we allow 4 sg entries for the send
-> wr sge. Larger sgls entries will be chained. However when we build
-> in-capsule send wr sge, we iterate without taking into account that the
-> sgl may be chained and still fit in-capsule (which can happen if the sgl
-> is bigger than 2, but lower-equal to 4).
-> 
-> Fix in-capsule data mapping to correctly iterate chained sgls.
-> 
-> Reported-by: Walker, Benjamin <benjamin.walker@intel.com>
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->   drivers/nvme/host/rdma.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 8d107b201f16..ed1bf214c544 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1320,16 +1320,16 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
->   		int count)
->   {
->   	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
-> -	struct scatterlist *sgl = req->data_sgl.sg_table.sgl;
-sgl need to be defined.
->   	struct ib_sge *sge = &req->sge[1];
->   	u32 len = 0;
->   	int i;
->   
-> -	for (i = 0; i < count; i++, sgl++, sge++) {
-> +	for_each_sg(req->data_sgl.sg_table.sgl, sgl, count, i) {
->   		sge->addr = sg_dma_address(sgl);
->   		sge->length = sg_dma_len(sgl);
->   		sge->lkey = queue->device->pd->local_dma_lkey;
->   		len += sge->length;
-> +		sge++;
->   	}
->   
->   	sg->addr = cpu_to_le64(queue->ctrl->ctrl.icdoff);
-> 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cj4gT24gMjAyMS81LzI4IDQ6NDAsIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4+IFdlIGhhdmUgb25s
+eSAyIGlubGluZSBzZyBlbnRyaWVzIGFuZCB3ZSBhbGxvdyA0IHNnIGVudHJpZXMgZm9yIHRoZSBz
+ZW5kCj4+IHdyIHNnZS4gTGFyZ2VyIHNnbHMgZW50cmllcyB3aWxsIGJlIGNoYWluZWQuIEhvd2V2
+ZXIgd2hlbiB3ZSBidWlsZAo+PiBpbi1jYXBzdWxlIHNlbmQgd3Igc2dlLCB3ZSBpdGVyYXRlIHdp
+dGhvdXQgdGFraW5nIGludG8gYWNjb3VudCB0aGF0IHRoZQo+PiBzZ2wgbWF5IGJlIGNoYWluZWQg
+YW5kIHN0aWxsIGZpdCBpbi1jYXBzdWxlICh3aGljaCBjYW4gaGFwcGVuIGlmIHRoZSBzZ2wKPj4g
+aXMgYmlnZ2VyIHRoYW4gMiwgYnV0IGxvd2VyLWVxdWFsIHRvIDQpLgo+Pgo+PiBGaXggaW4tY2Fw
+c3VsZSBkYXRhIG1hcHBpbmcgdG8gY29ycmVjdGx5IGl0ZXJhdGUgY2hhaW5lZCBzZ2xzLgo+Pgo+
+PiBSZXBvcnRlZC1ieTogV2Fsa2VyLCBCZW5qYW1pbiA8YmVuamFtaW4ud2Fsa2VyQGludGVsLmNv
+bT4KPj4gU2lnbmVkLW9mZi1ieTogU2FnaSBHcmltYmVyZyA8c2FnaUBncmltYmVyZy5tZT4KPj4g
+LS0tCj4+IMKgIGRyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYyB8IDQgKystLQo+PiDCoCAxIGZpbGUg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jIGIvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jCj4+
+IGluZGV4IDhkMTA3YjIwMWYxNi4uZWQxYmYyMTRjNTQ0IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJz
+L252bWUvaG9zdC9yZG1hLmMKPj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jCj4+IEBA
+IC0xMzIwLDE2ICsxMzIwLDE2IEBAIHN0YXRpYyBpbnQgbnZtZV9yZG1hX21hcF9zZ19pbmxpbmUo
+c3RydWN0IAo+PiBudm1lX3JkbWFfcXVldWUgKnF1ZXVlLAo+PiDCoMKgwqDCoMKgwqDCoMKgwqAg
+aW50IGNvdW50KQo+PiDCoCB7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IG52bWVfc2dsX2Rlc2MgKnNn
+ID0gJmMtPmNvbW1vbi5kcHRyLnNnbDsKPj4gLcKgwqDCoCBzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNn
+bCA9IHJlcS0+ZGF0YV9zZ2wuc2dfdGFibGUuc2dsOwo+IHNnbCBuZWVkIHRvIGJlIGRlZmluZWQu
+CgpPYnZpb3VzbHksIHJ1c2hlZCBpdC4uLgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0
+cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
+Zm8vbGludXgtbnZtZQo=
