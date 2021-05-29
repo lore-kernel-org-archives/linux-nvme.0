@@ -1,82 +1,115 @@
-Return-Path: <SRS0=y/hj=KX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=5d8O=KY=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 314C7C2B9F7
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 17:00:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38BF9C47082
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 May 2021 12:02:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 922C66139A
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 May 2021 17:00:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 922C66139A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id C17296109E
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 May 2021 12:02:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C17296109E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:To:Subject:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3TmEZe52uNPXVXJcF3DtYQ3qNAe4Bv6oJdugFHpp9IU=; b=wZ1BACshn+Clxb3s2f35OjoIyB
-	vlUrHBknleU024Z6RrNROla3zmirwAIktluZiiAKC/HEBDQONXlt7rKyW8PKyVQLngLhlZk4ChKTk
-	5AckdCLY4BYMLMtla43T51irwrmLwQ2khUUjLTyrJatCgxDgfafvXtERWd2Z5nULNvxRwi6KFruOp
-	vjXDg6nHUekfnDoSy7yCi507uOfPEaM9x7YHw1ZCM7DMeWsGivHcCjnHttZbCLusAVwGkFe2WeQkT
-	PzZ9YgXoSPHMMAyPkLB3r+7R1aCLK+ehrwMJAnQsTGtWN4BLEq1nxOKZhL05dTLQMtzBvUWLr6Ba0
-	wx2pZ3Uw==;
+	bh=74cRy6W4F0+Sic9sLuK6ULRhX5N15B49DyuON4923bY=; b=xzFP551QfDFgrA7+I8P3B8yOYx
+	JLJmkvuXKvmDovcSOMitdWeI1HEQGRt66uJzv0qC1anL3A45fyEChjpQ+peJGuvt6WiiWR4nPlLXl
+	YS5Z2ZWWlOAugygfPgZJO26rMz+yK6mePfjaQ14vm2Y9dFX8UvByykc+dpoTYcXj9x4OwM8wJ83TO
+	EtN88rC2/OBUjESxHwZH7zIzjWokMRETrGq0F0r8pXojKBDTvWx2hNztsa+GuEG/RxYKfIdQTrATB
+	2icNpGXgbVY39i4bdztU9oYOcdCLlzkdEgweTZh3cjiT7C+ivZ/Dqh0mohcnehdsNtEKyrVDl88ap
+	3d4jBwpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lmfqV-00HEke-K9; Fri, 28 May 2021 17:00:27 +0000
-Received: from mail-oi1-f172.google.com ([209.85.167.172])
+	id 1lmxfF-005LXq-JR; Sat, 29 May 2021 12:02:01 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lmfqS-00HEix-E9
- for linux-nvme@lists.infradead.org; Fri, 28 May 2021 17:00:26 +0000
-Received: by mail-oi1-f172.google.com with SMTP id d21so4855633oic.11
- for <linux-nvme@lists.infradead.org>; Fri, 28 May 2021 10:00:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C0OnxQ9UMCG6gDOrEew7RKm+/6XOO+U9x2k6XtZeuYQ=;
- b=WCKcTYit06IRVleRBCwd4H+1DXTSdIVFi4xFTAK5W6kaszDZSbp8NWn6KPfGGkI1kz
- jJEkDGl8g0QUl38ZtlkwMIqdfWvrBScLA3TQ/jX64Wr6oeRtDRD3+UWWJoKIzDc1HC3w
- gkVuXU+2c7FOv0iAtxoyhh3dGqbaTH+cW8Xr/4cnBizNdW21FqKzpIFtykZgLCKSkkeF
- kN6UFoJwSUAHRELL/eEejPwDK7n0AOdDCUwXTDXob8YgCuXGEMdd+ResRJiUZHxv/qFz
- MtwsNtXhugxHGJbPjkTFFYgVolbrZyM76jJh44csJi9wTdnm1oNGodaoyf/IsIpwedyN
- Y8Bg==
-X-Gm-Message-State: AOAM533s9pmeN8RTEsl6QQG5HGg524wB5AjqyTBVjEsvlBa1dOlzOT7B
- 0+JfqyzuOIh2zQ7p28OUDHc=
-X-Google-Smtp-Source: ABdhPJxKXluHuSHvMO7mYy0Da2nQ2NyN85VOk24lwX21FP3IB5NtX6KBoQEWDjmWy+LhmRGXVKF2Wg==
-X-Received: by 2002:a54:4609:: with SMTP id p9mr6461094oip.107.1622221221914; 
- Fri, 28 May 2021 10:00:21 -0700 (PDT)
-Received: from ?IPv6:2600:1700:65a0:78e0:1b52:8df9:ece7:ac3d?
- ([2600:1700:65a0:78e0:1b52:8df9:ece7:ac3d])
- by smtp.gmail.com with ESMTPSA id s4sm1288038otr.80.2021.05.28.10.00.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 May 2021 10:00:21 -0700 (PDT)
+ id 1lmxcS-005LVl-Ah
+ for linux-nvme@lists.infradead.org; Sat, 29 May 2021 11:59:10 +0000
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A9B51218AA;
+ Sat, 29 May 2021 11:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622289540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gnJOYu1LKFEOcCBqrZcL6qjxTCNssiL8j0oIei6VJQA=;
+ b=id2buamJS0nTUEvYe1O5zla3etXveIc7qlU/OtmgadLvPDWWiSCgkwdIbS69e1r/Ual6bd
+ cmBhpulzd6PU7usbhA66B4NkF57WK6yolCwnPZ+R0jxdAWI/sAMzL/ZxOtC+7m612W+SvK
+ FnOPJ1GKkoOeP3K+FSk1g41ZXQllIBc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622289540;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gnJOYu1LKFEOcCBqrZcL6qjxTCNssiL8j0oIei6VJQA=;
+ b=c4CF2PBs8iqXVzCt7zuDQ7Q60hZt5F/7/qn3Tjpx7nlJ1/eEm7G399betYHu0tQiY0W4e9
+ 00DVbJxlmvJG1oCw==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 16697118DD;
+ Sat, 29 May 2021 11:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622289540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gnJOYu1LKFEOcCBqrZcL6qjxTCNssiL8j0oIei6VJQA=;
+ b=id2buamJS0nTUEvYe1O5zla3etXveIc7qlU/OtmgadLvPDWWiSCgkwdIbS69e1r/Ual6bd
+ cmBhpulzd6PU7usbhA66B4NkF57WK6yolCwnPZ+R0jxdAWI/sAMzL/ZxOtC+7m612W+SvK
+ FnOPJ1GKkoOeP3K+FSk1g41ZXQllIBc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622289540;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gnJOYu1LKFEOcCBqrZcL6qjxTCNssiL8j0oIei6VJQA=;
+ b=c4CF2PBs8iqXVzCt7zuDQ7Q60hZt5F/7/qn3Tjpx7nlJ1/eEm7G399betYHu0tQiY0W4e9
+ 00DVbJxlmvJG1oCw==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id gwSgA4QssmBSSgAALh3uQQ
+ (envelope-from <hare@suse.de>); Sat, 29 May 2021 11:59:00 +0000
 Subject: Re: [bug report][regression] device node still exists after blktests
  nvme/011 finished
-To: Yi Zhang <yi.zhang@redhat.com>, linux-block
- <linux-block@vger.kernel.org>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>,
+ linux-block <linux-block@vger.kernel.org>, linux-nvme@lists.infradead.org
 References: <CAHj4cs-NPs=xC6Q05M8Uf5K1v4GEUOY5e0=+PY4dQu+EstPJ3g@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <43d1b5d8-2be0-9219-e3dd-dcff0f57ea5d@grimberg.me>
-Date: Fri, 28 May 2021 10:00:20 -0700
+ <43d1b5d8-2be0-9219-e3dd-dcff0f57ea5d@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <1e3e80b1-1314-6cd1-c696-774b94f639e5@suse.de>
+Date: Sat, 29 May 2021 13:58:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAHj4cs-NPs=xC6Q05M8Uf5K1v4GEUOY5e0=+PY4dQu+EstPJ3g@mail.gmail.com>
+In-Reply-To: <43d1b5d8-2be0-9219-e3dd-dcff0f57ea5d@grimberg.me>
+Content-Type: multipart/mixed; boundary="------------9B67C2C05BB313F81A569FD4"
 Content-Language: en-US
+Authentication-Results: imap.suse.de;
+	none
+X-Spamd-Result: default: False [0.00 / 100.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[4]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+ HAS_ATTACHMENT(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+,1:+,2:+]; RCVD_COUNT_TWO(0.00)[2];
+ MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210528_100024_510712_285D2357 
-X-CRM114-Status: GOOD (  22.32  )
+X-CRM114-CacheID: sfid-20210529_045908_735495_942BBDC5 
+X-CRM114-Status: GOOD (  29.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,143 +121,297 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiBIaQo+IEkgd291bGQgbGlrZSB0byByZXBvcnQgb25lIHJlZ3Jlc3Npb24gaXNzdWUgd2UgZm91
-bmQgcmVjZW50bHksIGFmdGVyCj4gYmxrdGVzdHMgbnZtZS8wMTEgZmluaXNoZWQsIHRoZSBkZXZp
-Y2Ugbm9kZSBzdGlsbCBleGlzdHMgYW5kIHNlZW1zCj4gdGhlcmUgaXMgYSBsb2NrIGlzc3VlIGZy
-b20gdGhlIGxvZywgbGV0IG1lIGtub3cgaWYgeW91IG5lZWQgYW55Cj4gdGVzdGluZyBmb3IgaXQs
-IHRoYW5rcy4KCkhhbm5lcywgdGhpcyBpcyBhIHJlc3VsdCBvZiB5b3VyIHBhdGNoIG1vc3QgbGlr
-ZWx5LgoKPiAKPiAjIC4vY2hlY2sgbnZtZS8wMTEKPiBudm1lLzAxMSAocnVuIGRhdGEgdmVyaWZp
-Y2F0aW9uIGZpbyBqb2Igb24gTlZNZU9GIGZpbGUtYmFja2VkIG5zKSBbcGFzc2VkXQo+ICAgICAg
-cnVudGltZSAgNzEuMzUwcyAgLi4uICA3Ny4xMzFzCj4gIyBsc2Jsawo+IE5BTUUgICAgTUFKOk1J
-TiBSTSAgIFNJWkUgUk8gVFlQRSBNT1VOVFBPSU5UCj4gc2RhICAgICAgIDg6MCAgICAwIDQ2NS44
-RyAgMCBkaXNrCj4g4pSc4pSAc2RhMSAgICA4OjEgICAgMCAgICAgMUcgIDAgcGFydCAvYm9vdAo+
-IOKUnOKUgHNkYTIgICAgODoyICAgIDAgIDMxLjVHICAwIHBhcnQgW1NXQVBdCj4g4pSc4pSAc2Rh
-MyAgICA4OjMgICAgMCAgICAxNUcgIDAgcGFydAo+IOKUnOKUgHNkYTQgICAgODo0ICAgIDAgICAg
-IDFLICAwIHBhcnQKPiDilJzilIBzZGE1ICAgIDg6NSAgICAwICAgIDE1RyAgMCBwYXJ0Cj4g4pSc
-4pSAc2RhNiAgICA4OjYgICAgMCAgICAgNUcgIDAgcGFydAo+IOKUlOKUgHNkYTcgICAgODo3ICAg
-IDAgMzk4LjNHICAwIHBhcnQgLwo+IHpyYW0wICAgMjUzOjAgICAgMCAgICAgNEcgIDAgZGlzayBb
-U1dBUF0KPiBudm1lMG4xIDI1OToxICAgIDAgICAgIDFHICAwIGRpc2sKPiAKPiAjZG1lc2cKPiBb
-ICA3OTMuNzE5MTQ5XSBydW4gYmxrdGVzdHMgbnZtZS8wMTEgYXQgMjAyMS0wNS0yOCAwNTo0NTo0
-OQo+IFsgIDc5My44OTkwNjJdIG52bWV0OiBhZGRpbmcgbnNpZCAxIHRvIHN1YnN5c3RlbSBibGt0
-ZXN0cy1zdWJzeXN0ZW0tMQo+IFsgIDc5My45NTA3ODNdIG52bWV0OiBjcmVhdGluZyBjb250cm9s
-bGVyIDEgZm9yIHN1YnN5c3RlbQo+IGJsa3Rlc3RzLXN1YnN5c3RlbS0xIGZvciBOUU4KPiBucW4u
-MjAxNC0wOC5vcmcubnZtZXhwcmVzczp1dWlkOmQzOTI0MGY0OTdjNjRmYzhiZjdjYTc2N2QyNTZh
-Mzk0Lgo+IFsgIDc5My45NjQyNzFdIG52bWUgbnZtZTA6IGNyZWF0aW5nIDQ4IEkvTyBxdWV1ZXMu
-Cj4gWyAgNzkzLjk3MzE4N10gbnZtZSBudm1lMDogbmV3IGN0cmw6ICJibGt0ZXN0cy1zdWJzeXN0
-ZW0tMSIKPiBbICA4NjMuNDAxMTcyXSBudm1lIG52bWUwOiBSZW1vdmluZyBjdHJsOiBOUU4gImJs
-a3Rlc3RzLXN1YnN5c3RlbS0xIgo+IFsgIDg2My42NTY1MzRdIGJsb2NrIG52bWUwbjE6IG5vIGF2
-YWlsYWJsZSBwYXRoIC0gZmFpbGluZyBJL08KPiBbICA4NjMuNjYyMDM5XSBibG9jayBudm1lMG4x
-OiBubyBhdmFpbGFibGUgcGF0aCAtIGZhaWxpbmcgSS9PCj4gWyAgODYzLjY2NzU0Nl0gYmxvY2sg
-bnZtZTBuMTogbm8gYXZhaWxhYmxlIHBhdGggLSBmYWlsaW5nIEkvTwo+IFsgIDg2My42NzMwMjld
-IGJsb2NrIG52bWUwbjE6IG5vIGF2YWlsYWJsZSBwYXRoIC0gZmFpbGluZyBJL08KPiBbICA4NjMu
-Njc4NTMwXSBibG9jayBudm1lMG4xOiBubyBhdmFpbGFibGUgcGF0aCAtIGZhaWxpbmcgSS9PCj4g
-WyAgODYzLjY4NDAzMl0gYmxvY2sgbnZtZTBuMTogbm8gYXZhaWxhYmxlIHBhdGggLSBmYWlsaW5n
-IEkvTwo+IFsgIDg2My42ODk1MjNdIGJsb2NrIG52bWUwbjE6IG5vIGF2YWlsYWJsZSBwYXRoIC0g
-ZmFpbGluZyBJL08KPiBbICA4NjMuNjk1MDE0XSBibG9jayBudm1lMG4xOiBubyBhdmFpbGFibGUg
-cGF0aCAtIGZhaWxpbmcgSS9PCj4gWyAgODYzLjcwMDUwMl0gYmxvY2sgbnZtZTBuMTogbm8gYXZh
-aWxhYmxlIHBhdGggLSBmYWlsaW5nIEkvTwo+IFsgIDg2My43MDU5OTRdIEJ1ZmZlciBJL08gZXJy
-b3Igb24gZGV2IG52bWUwbjEsIGxvZ2ljYWwgYmxvY2sgMjYyMDE2LAo+IGFzeW5jIHBhZ2UgcmVh
-ZAo+IFsgMTEwOC40ODg2NDddIElORk86IHRhc2sgc3lzdGVtZC11ZGV2ZDoyNDAwIGJsb2NrZWQg
-Zm9yIG1vcmUgdGhhbiAxMjIgc2Vjb25kcy4KPiBbIDExMDguNDk1Njk5XSAgICAgICBOb3QgdGFp
-bnRlZCA1LjEzLjAtcmMzKyAjOAo+IFsgMTEwOC40OTk5NzJdICJlY2hvIDAgPiAvcHJvYy9zeXMv
-a2VybmVsL2h1bmdfdGFza190aW1lb3V0X3NlY3MiCj4gZGlzYWJsZXMgdGhpcyBtZXNzYWdlLgo+
-IFsgMTEwOC41MDc3OTddIHRhc2s6c3lzdGVtZC11ZGV2ZCAgIHN0YXRlOkQgc3RhY2s6ICAgIDAg
-cGlkOiAyNDAwCj4gcHBpZDogIDExMzQgZmxhZ3M6MHgwMDAwNDAwNAo+IFsgMTEwOC41MTYxNDBd
-IENhbGwgVHJhY2U6Cj4gWyAxMTA4LjUxODU4OV0gIF9fc2NoZWR1bGUrMHgyNDcvMHg2ZjAKPiBb
-IDExMDguNTIyMDg4XSAgc2NoZWR1bGUrMHg0Ni8weGIwCj4gWyAxMTA4LjUyNTIzM10gIHNjaGVk
-dWxlX3ByZWVtcHRfZGlzYWJsZWQrMHhhLzB4MTAKPiBbIDExMDguNTI5NzY3XSAgX19tdXRleF9s
-b2NrLmNvbnN0cHJvcC4wKzB4MmE0LzB4NDcwCj4gWyAxMTA4LjUzNDQ3Ml0gID8gX19rZXJuZnNf
-cmVtb3ZlLnBhcnQuMCsweDE3NC8weDFmMAo+IFsgMTEwOC41MzkxNzhdICA/IGtlcm5mc19yZW1v
-dmVfYnlfbmFtZV9ucysweDVjLzB4OTAKPiBbIDExMDguNTQzODg1XSAgZGVsX2dlbmRpc2srMHg5
-OS8weDIzMAo+IFsgMTEwOC41NDczNzhdICBudm1lX21wYXRoX3JlbW92ZV9kaXNrKzB4OTcvMHhi
-MCBbbnZtZV9jb3JlXQo+IFsgMTEwOC41NTI3ODddICBudm1lX3B1dF9uc19oZWFkKzB4MmEvMHhi
-MCBbbnZtZV9jb3JlXQo+IFsgMTEwOC41NTc2NjRdICBfX2Jsa2Rldl9wdXQrMHgxMTUvMHgxNjAK
-PiBbIDExMDguNTYxMzM5XSAgYmxrZGV2X3B1dCsweDRjLzB4MTMwCj4gWyAxMTA4LjU2NDc0NV0g
-IGJsa2Rldl9jbG9zZSsweDIyLzB4MzAKPiBbIDExMDguNTY4MjM4XSAgX19mcHV0KzB4OTQvMHgy
-NDAKPiBbIDExMDguNTcxMzA3XSAgdGFza193b3JrX3J1bisweDVmLzB4OTAKPiBbIDExMDguNTc0
-ODg1XSAgZXhpdF90b191c2VyX21vZGVfbG9vcCsweDExOS8weDEyMAo+IFsgMTEwOC41Nzk0Mjhd
-ICBleGl0X3RvX3VzZXJfbW9kZV9wcmVwYXJlKzB4OTcvMHhhMAo+IFsgMTEwOC41ODQwNDddICBz
-eXNjYWxsX2V4aXRfdG9fdXNlcl9tb2RlKzB4MTIvMHg0MAo+IFsgMTEwOC41ODg2NjRdICBkb19z
-eXNjYWxsXzY0KzB4NGQvMHg4MAo+IFsgMTEwOC41OTIyNTRdICBlbnRyeV9TWVNDQUxMXzY0X2Fm
-dGVyX2h3ZnJhbWUrMHg0NC8weGFlCj4gWyAxMTA4LjU5NzMxNF0gUklQOiAwMDMzOjB4N2YyMjJl
-Nzk5NjI3Cj4gWyAxMTA4LjYwMDkwM10gUlNQOiAwMDJiOjAwMDA3ZmZkMDdjMmI1MTggRUZMQUdT
-OiAwMDAwMDI0NiBPUklHX1JBWDoKPiAwMDAwMDAwMDAwMDAwMDAzCj4gWyAxMTA4LjYwODQ3N10g
-UkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAwMDdmMjIyZDgwMTI0MCBSQ1g6IDAwMDA3ZjIy
-MmU3OTk2MjcKPiBbIDExMDguNjE1NjIwXSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAw
-MDAwMDAwMDAwMDAwIFJESTogMDAwMDAwMDAwMDAwMDAwNgo+IFsgMTEwOC42MjI3NjJdIFJCUDog
-MDAwMDAwMDAwMDAwMDAwNiBSMDg6IDAwMDA1NWJhZGY3N2JhNzAgUjA5OiAwMDAwMDAwMDAwMDAw
-MDAwCj4gWyAxMTA4LjYyOTkwMV0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAw
-MDAwMDI0NiBSMTI6IDAwMDA3ZmZkMDdjMmI1YzAKPiBbIDExMDguNjM3MDI2XSBSMTM6IDAwMDAw
-MDAwMDAwMDAwMDAgUjE0OiAwMDAwNTViYWUwYmU1ODIwIFIxNTogMDAwMDU1YmFlMGI4YmVjMAo+
-IFsgMTIzMS4zNzA1MzFdIElORk86IHRhc2sgc3lzdGVtZC11ZGV2ZDoyNDAwIGJsb2NrZWQgZm9y
-IG1vcmUgdGhhbiAyNDUgc2Vjb25kcy4KPiBbIDEyMzEuMzc3NTc5XSAgICAgICBOb3QgdGFpbnRl
-ZCA1LjEzLjAtcmMzKyAjOAo+IFsgMTIzMS4zODE4NTNdICJlY2hvIDAgPiAvcHJvYy9zeXMva2Vy
-bmVsL2h1bmdfdGFza190aW1lb3V0X3NlY3MiCj4gZGlzYWJsZXMgdGhpcyBtZXNzYWdlLgo+IFsg
-MTIzMS4zODk2NzldIHRhc2s6c3lzdGVtZC11ZGV2ZCAgIHN0YXRlOkQgc3RhY2s6ICAgIDAgcGlk
-OiAyNDAwCj4gcHBpZDogIDExMzQgZmxhZ3M6MHgwMDAwNDAwNAo+IFsgMTIzMS4zOTgwMjRdIENh
-bGwgVHJhY2U6Cj4gWyAxMjMxLjQwMDQ3OF0gIF9fc2NoZWR1bGUrMHgyNDcvMHg2ZjAKPiBbIDEy
-MzEuNDAzOTcwXSAgc2NoZWR1bGUrMHg0Ni8weGIwCj4gWyAxMjMxLjQwNzExMl0gIHNjaGVkdWxl
-X3ByZWVtcHRfZGlzYWJsZWQrMHhhLzB4MTAKPiBbIDEyMzEuNDExNjM4XSAgX19tdXRleF9sb2Nr
-LmNvbnN0cHJvcC4wKzB4MmE0LzB4NDcwCj4gWyAxMjMxLjQxNjM0NV0gID8gX19rZXJuZnNfcmVt
-b3ZlLnBhcnQuMCsweDE3NC8weDFmMAo+IFsgMTIzMS40MjEwNTFdICA/IGtlcm5mc19yZW1vdmVf
-YnlfbmFtZV9ucysweDVjLzB4OTAKPiBbIDEyMzEuNDI1NzY1XSAgZGVsX2dlbmRpc2srMHg5OS8w
-eDIzMAo+IFsgMTIzMS40MjkyNjhdICBudm1lX21wYXRoX3JlbW92ZV9kaXNrKzB4OTcvMHhiMCBb
-bnZtZV9jb3JlXQo+IFsgMTIzMS40MzQ2OTJdICBudm1lX3B1dF9uc19oZWFkKzB4MmEvMHhiMCBb
-bnZtZV9jb3JlXQo+IFsgMTIzMS40Mzk1ODFdICBfX2Jsa2Rldl9wdXQrMHgxMTUvMHgxNjAKPiBb
-IDEyMzEuNDQzMjU1XSAgYmxrZGV2X3B1dCsweDRjLzB4MTMwCj4gWyAxMjMxLjQ0NjY2OF0gIGJs
-a2Rldl9jbG9zZSsweDIyLzB4MzAKPiBbIDEyMzEuNDUwMTcxXSAgX19mcHV0KzB4OTQvMHgyNDAK
-PiBbIDEyMzEuNDUzMjMyXSAgdGFza193b3JrX3J1bisweDVmLzB4OTAKPiBbIDEyMzEuNDU2ODA5
-XSAgZXhpdF90b191c2VyX21vZGVfbG9vcCsweDExOS8weDEyMAo+IFsgMTIzMS40NjEzNTFdICBl
-eGl0X3RvX3VzZXJfbW9kZV9wcmVwYXJlKzB4OTcvMHhhMAo+IFsgMTIzMS40NjU5ODBdICBzeXNj
-YWxsX2V4aXRfdG9fdXNlcl9tb2RlKzB4MTIvMHg0MAo+IFsgMTIzMS40NzA2MDhdICBkb19zeXNj
-YWxsXzY0KzB4NGQvMHg4MAo+IFsgMTIzMS40NzQxODddICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVy
-X2h3ZnJhbWUrMHg0NC8weGFlCj4gWyAxMjMxLjQ3OTI0N10gUklQOiAwMDMzOjB4N2YyMjJlNzk5
-NjI3Cj4gWyAxMjMxLjQ4MjgzNV0gUlNQOiAwMDJiOjAwMDA3ZmZkMDdjMmI1MTggRUZMQUdTOiAw
-MDAwMDI0NiBPUklHX1JBWDoKPiAwMDAwMDAwMDAwMDAwMDAzCj4gWyAxMjMxLjQ5MDM5Ml0gUkFY
-OiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAwMDdmMjIyZDgwMTI0MCBSQ1g6IDAwMDA3ZjIyMmU3
-OTk2MjcKPiBbIDEyMzEuNDk3NTM3XSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwMDAw
-MDAwMDAwMDAwIFJESTogMDAwMDAwMDAwMDAwMDAwNgo+IFsgMTIzMS41MDQ2NzBdIFJCUDogMDAw
-MDAwMDAwMDAwMDAwNiBSMDg6IDAwMDA1NWJhZGY3N2JhNzAgUjA5OiAwMDAwMDAwMDAwMDAwMDAw
-Cj4gWyAxMjMxLjUxMTgwMF0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAw
-MDI0NiBSMTI6IDAwMDA3ZmZkMDdjMmI1YzAKPiBbIDEyMzEuNTE4OTI1XSBSMTM6IDAwMDAwMDAw
-MDAwMDAwMDAgUjE0OiAwMDAwNTViYWUwYmU1ODIwIFIxNTogMDAwMDU1YmFlMGI4YmVjMAo+IFsg
-MTM1NC4yNTI1MzJdIElORk86IHRhc2sgc3lzdGVtZC11ZGV2ZDoyNDAwIGJsb2NrZWQgZm9yIG1v
-cmUgdGhhbiAzNjggc2Vjb25kcy4KPiBbIDEzNTQuMjU5NTgxXSAgICAgICBOb3QgdGFpbnRlZCA1
-LjEzLjAtcmMzKyAjOAo+IFsgMTM1NC4yNjM4NTNdICJlY2hvIDAgPiAvcHJvYy9zeXMva2VybmVs
-L2h1bmdfdGFza190aW1lb3V0X3NlY3MiCj4gZGlzYWJsZXMgdGhpcyBtZXNzYWdlLgo+IFsgMTM1
-NC4yNzE2NzhdIHRhc2s6c3lzdGVtZC11ZGV2ZCAgIHN0YXRlOkQgc3RhY2s6ICAgIDAgcGlkOiAy
-NDAwCj4gcHBpZDogIDExMzQgZmxhZ3M6MHgwMDAwNDAwNAo+IFsgMTM1NC4yODAwMjVdIENhbGwg
-VHJhY2U6Cj4gWyAxMzU0LjI4MjQ2OV0gIF9fc2NoZWR1bGUrMHgyNDcvMHg2ZjAKPiBbIDEzNTQu
-Mjg1OTYyXSAgc2NoZWR1bGUrMHg0Ni8weGIwCj4gWyAxMzU0LjI4OTEwNV0gIHNjaGVkdWxlX3By
-ZWVtcHRfZGlzYWJsZWQrMHhhLzB4MTAKPiBbIDEzNTQuMjkzNjMwXSAgX19tdXRleF9sb2NrLmNv
-bnN0cHJvcC4wKzB4MmE0LzB4NDcwCj4gWyAxMzU0LjI5ODMyN10gID8gX19rZXJuZnNfcmVtb3Zl
-LnBhcnQuMCsweDE3NC8weDFmMAo+IFsgMTM1NC4zMDMwMjddICA/IGtlcm5mc19yZW1vdmVfYnlf
-bmFtZV9ucysweDVjLzB4OTAKPiBbIDEzNTQuMzA3NzMyXSAgZGVsX2dlbmRpc2srMHg5OS8weDIz
-MAo+IFsgMTM1NC4zMTEyMjZdICBudm1lX21wYXRoX3JlbW92ZV9kaXNrKzB4OTcvMHhiMCBbbnZt
-ZV9jb3JlXQo+IFsgMTM1NC4zMTY2MjhdICBudm1lX3B1dF9uc19oZWFkKzB4MmEvMHhiMCBbbnZt
-ZV9jb3JlXQo+IFsgMTM1NC4zMjE1MDZdICBfX2Jsa2Rldl9wdXQrMHgxMTUvMHgxNjAKPiBbIDEz
-NTQuMzI1MTcxXSAgYmxrZGV2X3B1dCsweDRjLzB4MTMwCj4gWyAxMzU0LjMyODU3Nl0gIGJsa2Rl
-dl9jbG9zZSsweDIyLzB4MzAKPiBbIDEzNTQuMzMyMDcwXSAgX19mcHV0KzB4OTQvMHgyNDAKPiBb
-IDEzNTQuMzM1MTI3XSAgdGFza193b3JrX3J1bisweDVmLzB4OTAKPiBbIDEzNTQuMzM4NzE3XSAg
-ZXhpdF90b191c2VyX21vZGVfbG9vcCsweDExOS8weDEyMAo+IFsgMTM1NC4zNDMyNDldICBleGl0
-X3RvX3VzZXJfbW9kZV9wcmVwYXJlKzB4OTcvMHhhMAo+IFsgMTM1NC4zNDc4NjBdICBzeXNjYWxs
-X2V4aXRfdG9fdXNlcl9tb2RlKzB4MTIvMHg0MAo+IFsgMTM1NC4zNTI0ODBdICBkb19zeXNjYWxs
-XzY0KzB4NGQvMHg4MAo+IFsgMTM1NC4zNTYwNTldICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3
-ZnJhbWUrMHg0NC8weGFlCj4gWyAxMzU0LjM2MTExMV0gUklQOiAwMDMzOjB4N2YyMjJlNzk5NjI3
-Cj4gWyAxMzU0LjM2NDY4NF0gUlNQOiAwMDJiOjAwMDA3ZmZkMDdjMmI1MTggRUZMQUdTOiAwMDAw
-MDI0NiBPUklHX1JBWDoKPiAwMDAwMDAwMDAwMDAwMDAzCj4gWyAxMzU0LjM3MjI0N10gUkFYOiAw
-MDAwMDAwMDAwMDAwMDAwIFJCWDogMDAwMDdmMjIyZDgwMTI0MCBSQ1g6IDAwMDA3ZjIyMmU3OTk2
-MjcKPiBbIDEzNTQuMzc5MzcxXSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwMDAwMDAw
-MDAwMDAwIFJESTogMDAwMDAwMDAwMDAwMDAwNgo+IFsgMTM1NC4zODY1MDFdIFJCUDogMDAwMDAw
-MDAwMDAwMDAwNiBSMDg6IDAwMDA1NWJhZGY3N2JhNzAgUjA5OiAwMDAwMDAwMDAwMDAwMDAwCj4g
-WyAxMzU0LjM5MzYyOV0gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDI0
-NiBSMTI6IDAwMDA3ZmZkMDdjMmI1YzAKPiBbIDEzNTQuNDAwNzU0XSBSMTM6IDAwMDAwMDAwMDAw
-MDAwMDAgUjE0OiAwMDAwNTViYWUwYmU1ODIwIFIxNTogMDAwMDU1YmFlMGI4YmVjMAo+IAo+IAoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZt
-ZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0
-cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+This is a multi-part message in MIME format.
+--------------9B67C2C05BB313F81A569FD4
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 5/28/21 7:00 PM, Sagi Grimberg wrote:
+>> Hi
+>> I would like to report one regression issue we found recently, after
+>> blktests nvme/011 finished, the device node still exists and seems
+>> there is a lock issue from the log, let me know if you need any
+>> testing for it, thanks.
+> 
+> Hannes, this is a result of your patch most likely.
+> 
+>>
+>> # ./check nvme/011
+>> nvme/011 (run data verification fio job on NVMeOF file-backed ns) 
+>> [passed]
+>>      runtime  71.350s  ...  77.131s
+>> # lsblk
+>> NAME    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+>> sda       8:0    0 465.8G  0 disk
+>> ├─sda1    8:1    0     1G  0 part /boot
+>> ├─sda2    8:2    0  31.5G  0 part [SWAP]
+>> ├─sda3    8:3    0    15G  0 part
+>> ├─sda4    8:4    0     1K  0 part
+>> ├─sda5    8:5    0    15G  0 part
+>> ├─sda6    8:6    0     5G  0 part
+>> └─sda7    8:7    0 398.3G  0 part /
+>> zram0   253:0    0     4G  0 disk [SWAP]
+>> nvme0n1 259:1    0     1G  0 disk
+>>
+>> #dmesg
+>> [  793.719149] run blktests nvme/011 at 2021-05-28 05:45:49
+>> [  793.899062] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>> [  793.950783] nvmet: creating controller 1 for subsystem
+>> blktests-subsystem-1 for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:d39240f497c64fc8bf7ca767d256a394.
+>> [  793.964271] nvme nvme0: creating 48 I/O queues.
+>> [  793.973187] nvme nvme0: new ctrl: "blktests-subsystem-1"
+>> [  863.401172] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+>> [  863.656534] block nvme0n1: no available path - failing I/O
+>> [  863.662039] block nvme0n1: no available path - failing I/O
+>> [  863.667546] block nvme0n1: no available path - failing I/O
+>> [  863.673029] block nvme0n1: no available path - failing I/O
+>> [  863.678530] block nvme0n1: no available path - failing I/O
+>> [  863.684032] block nvme0n1: no available path - failing I/O
+>> [  863.689523] block nvme0n1: no available path - failing I/O
+>> [  863.695014] block nvme0n1: no available path - failing I/O
+>> [  863.700502] block nvme0n1: no available path - failing I/O
+>> [  863.705994] Buffer I/O error on dev nvme0n1, logical block 262016,
+>> async page read
+>> [ 1108.488647] INFO: task systemd-udevd:2400 blocked for more than 122 
+>> seconds.
+>> [ 1108.495699]       Not tainted 5.13.0-rc3+ #8
+>> [ 1108.499972] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+>> disables this message.
+>> [ 1108.507797] task:systemd-udevd   state:D stack:    0 pid: 2400
+>> ppid:  1134 flags:0x00004004
+>> [ 1108.516140] Call Trace:
+>> [ 1108.518589]  __schedule+0x247/0x6f0
+>> [ 1108.522088]  schedule+0x46/0xb0
+>> [ 1108.525233]  schedule_preempt_disabled+0xa/0x10
+>> [ 1108.529767]  __mutex_lock.constprop.0+0x2a4/0x470
+>> [ 1108.534472]  ? __kernfs_remove.part.0+0x174/0x1f0
+>> [ 1108.539178]  ? kernfs_remove_by_name_ns+0x5c/0x90
+>> [ 1108.543885]  del_gendisk+0x99/0x230
+>> [ 1108.547378]  nvme_mpath_remove_disk+0x97/0xb0 [nvme_core]
+>> [ 1108.552787]  nvme_put_ns_head+0x2a/0xb0 [nvme_core]
+>> [ 1108.557664]  __blkdev_put+0x115/0x160
+>> [ 1108.561339]  blkdev_put+0x4c/0x130
+>> [ 1108.564745]  blkdev_close+0x22/0x30
+>> [ 1108.568238]  __fput+0x94/0x240
+>> [ 1108.571307]  task_work_run+0x5f/0x90
+>> [ 1108.574885]  exit_to_user_mode_loop+0x119/0x120
+>> [ 1108.579428]  exit_to_user_mode_prepare+0x97/0xa0
+>> [ 1108.584047]  syscall_exit_to_user_mode+0x12/0x40
+>> [ 1108.588664]  do_syscall_64+0x4d/0x80
+>> [ 1108.592254]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+>> [ 1108.597314] RIP: 0033:0x7f222e799627
+>> [ 1108.600903] RSP: 002b:00007ffd07c2b518 EFLAGS: 00000246 ORIG_RAX:
+>> 0000000000000003
+>> [ 1108.608477] RAX: 0000000000000000 RBX: 00007f222d801240 RCX: 
+>> 00007f222e799627
+>> [ 1108.615620] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 
+>> 0000000000000006
+>> [ 1108.622762] RBP: 0000000000000006 R08: 000055badf77ba70 R09: 
+>> 0000000000000000
+>> [ 1108.629901] R10: 0000000000000000 R11: 0000000000000246 R12: 
+>> 00007ffd07c2b5c0
+>> [ 1108.637026] R13: 0000000000000000 R14: 000055bae0be5820 R15: 
+>> 000055bae0b8bec0
+>> [ 1231.370531] INFO: task systemd-udevd:2400 blocked for more than 245 
+>> seconds.
+>> [ 1231.377579]       Not tainted 5.13.0-rc3+ #8
+>> [ 1231.381853] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+>> disables this message.
+>> [ 1231.389679] task:systemd-udevd   state:D stack:    0 pid: 2400
+>> ppid:  1134 flags:0x00004004
+>> [ 1231.398024] Call Trace:
+>> [ 1231.400478]  __schedule+0x247/0x6f0
+>> [ 1231.403970]  schedule+0x46/0xb0
+>> [ 1231.407112]  schedule_preempt_disabled+0xa/0x10
+>> [ 1231.411638]  __mutex_lock.constprop.0+0x2a4/0x470
+>> [ 1231.416345]  ? __kernfs_remove.part.0+0x174/0x1f0
+>> [ 1231.421051]  ? kernfs_remove_by_name_ns+0x5c/0x90
+>> [ 1231.425765]  del_gendisk+0x99/0x230
+>> [ 1231.429268]  nvme_mpath_remove_disk+0x97/0xb0 [nvme_core]
+>> [ 1231.434692]  nvme_put_ns_head+0x2a/0xb0 [nvme_core]
+>> [ 1231.439581]  __blkdev_put+0x115/0x160
+>> [ 1231.443255]  blkdev_put+0x4c/0x130
+>> [ 1231.446668]  blkdev_close+0x22/0x30
+>> [ 1231.450171]  __fput+0x94/0x240
+>> [ 1231.453232]  task_work_run+0x5f/0x90
+>> [ 1231.456809]  exit_to_user_mode_loop+0x119/0x120
+>> [ 1231.461351]  exit_to_user_mode_prepare+0x97/0xa0
+>> [ 1231.465980]  syscall_exit_to_user_mode+0x12/0x40
+>> [ 1231.470608]  do_syscall_64+0x4d/0x80
+>> [ 1231.474187]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+>> [ 1231.479247] RIP: 0033:0x7f222e799627
+>> [ 1231.482835] RSP: 002b:00007ffd07c2b518 EFLAGS: 00000246 ORIG_RAX:
+>> 0000000000000003
+>> [ 1231.490392] RAX: 0000000000000000 RBX: 00007f222d801240 RCX: 
+>> 00007f222e799627
+>> [ 1231.497537] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 
+>> 0000000000000006
+>> [ 1231.504670] RBP: 0000000000000006 R08: 000055badf77ba70 R09: 
+>> 0000000000000000
+>> [ 1231.511800] R10: 0000000000000000 R11: 0000000000000246 R12: 
+>> 00007ffd07c2b5c0
+>> [ 1231.518925] R13: 0000000000000000 R14: 000055bae0be5820 R15: 
+>> 000055bae0b8bec0
+>> [ 1354.252532] INFO: task systemd-udevd:2400 blocked for more than 368 
+>> seconds.
+>> [ 1354.259581]       Not tainted 5.13.0-rc3+ #8
+>> [ 1354.263853] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+>> disables this message.
+>> [ 1354.271678] task:systemd-udevd   state:D stack:    0 pid: 2400
+>> ppid:  1134 flags:0x00004004
+>> [ 1354.280025] Call Trace:
+>> [ 1354.282469]  __schedule+0x247/0x6f0
+>> [ 1354.285962]  schedule+0x46/0xb0
+>> [ 1354.289105]  schedule_preempt_disabled+0xa/0x10
+>> [ 1354.293630]  __mutex_lock.constprop.0+0x2a4/0x470
+>> [ 1354.298327]  ? __kernfs_remove.part.0+0x174/0x1f0
+>> [ 1354.303027]  ? kernfs_remove_by_name_ns+0x5c/0x90
+>> [ 1354.307732]  del_gendisk+0x99/0x230
+>> [ 1354.311226]  nvme_mpath_remove_disk+0x97/0xb0 [nvme_core]
+>> [ 1354.316628]  nvme_put_ns_head+0x2a/0xb0 [nvme_core]
+>> [ 1354.321506]  __blkdev_put+0x115/0x160
+>> [ 1354.325171]  blkdev_put+0x4c/0x130
+>> [ 1354.328576]  blkdev_close+0x22/0x30
+>> [ 1354.332070]  __fput+0x94/0x240
+>> [ 1354.335127]  task_work_run+0x5f/0x90
+>> [ 1354.338717]  exit_to_user_mode_loop+0x119/0x120
+>> [ 1354.343249]  exit_to_user_mode_prepare+0x97/0xa0
+>> [ 1354.347860]  syscall_exit_to_user_mode+0x12/0x40
+>> [ 1354.352480]  do_syscall_64+0x4d/0x80
+>> [ 1354.356059]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+>> [ 1354.361111] RIP: 0033:0x7f222e799627
+>> [ 1354.364684] RSP: 002b:00007ffd07c2b518 EFLAGS: 00000246 ORIG_RAX:
+>> 0000000000000003
+>> [ 1354.372247] RAX: 0000000000000000 RBX: 00007f222d801240 RCX: 
+>> 00007f222e799627
+>> [ 1354.379371] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 
+>> 0000000000000006
+>> [ 1354.386501] RBP: 0000000000000006 R08: 000055badf77ba70 R09: 
+>> 0000000000000000
+>> [ 1354.393629] R10: 0000000000000000 R11: 0000000000000246 R12: 
+>> 00007ffd07c2b5c0
+>> [ 1354.400754] R13: 0000000000000000 R14: 000055bae0be5820 R15: 
+>> 000055bae0b8bec0
+>>
+>>
+Ah. Deadlock on bd_mutex.
+Can you check if the attached patch fixes this issue?
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+
+--------------9B67C2C05BB313F81A569FD4
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-nvme-multipath-call-del_gendisk-in-nvme_mpath_check_.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename*0="0001-nvme-multipath-call-del_gendisk-in-nvme_mpath_check_.pa";
+ filename*1="tch"
+
+From 433ef6dea38de57289ce6ae26147cabe03c9b114 Mon Sep 17 00:00:00 2001
+From: Hannes Reinecke <hare@suse.de>
+Date: Sat, 29 May 2021 13:54:22 +0200
+Subject: [PATCH] nvme-multipath: call del_gendisk() in
+ nvme_mpath_check_last_path()
+
+We cannot call del_gendisk() during the final nvme_put_ns_head(), as
+this might be called from blkdev_put(), as we then will deadlock on
+bd_mutex:
+
+[ 1108.529767]  __mutex_lock.constprop.0+0x2a4/0x470
+[ 1108.534472]  ? __kernfs_remove.part.0+0x174/0x1f0
+[ 1108.539178]  ? kernfs_remove_by_name_ns+0x5c/0x90
+[ 1108.543885]  del_gendisk+0x99/0x230
+[ 1108.547378]  nvme_mpath_remove_disk+0x97/0xb0 [nvme_core]
+[ 1108.552787]  nvme_put_ns_head+0x2a/0xb0 [nvme_core]
+[ 1108.557664]  __blkdev_put+0x115/0x160
+[ 1108.561339]  blkdev_put+0x4c/0x130
+[ 1108.564745]  blkdev_close+0x22/0x30
+[ 1108.568238]  __fput+0x94/0x240
+
+So call 'del_gendisk()' when checking if the last path has been removed
+to avoid this deadlock.
+
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/multipath.c | 13 +++++++++++--
+ drivers/nvme/host/nvme.h      |  9 +--------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 127a17b4c13d..22e2febf86bc 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -776,14 +776,23 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+ #endif
+ }
+ 
+-void nvme_mpath_remove_disk(struct nvme_ns_head *head)
++void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ {
++	struct nvme_ns_head *head = ns->head;
++
+ 	if (!head->disk)
+ 		return;
+-	if (head->disk->flags & GENHD_FL_UP) {
++
++	if (list_empty(&head->list) && head->disk->flags & GENHD_FL_UP) {
+ 		nvme_cdev_del(&head->cdev, &head->cdev_device);
+ 		del_gendisk(head->disk);
+ 	}
++}
++
++void nvme_mpath_remove_disk(struct nvme_ns_head *head)
++{
++	if (!head->disk)
++		return;
+ 	blk_set_queue_dying(head->disk->queue);
+ 	/* make sure all pending bios are cleaned up */
+ 	kblockd_schedule_work(&head->requeue_work);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1f397ecba16c..8a497a420ea2 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -716,14 +716,7 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
+ void nvme_mpath_stop(struct nvme_ctrl *ctrl);
+ bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
+ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
+-
+-static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+-{
+-	struct nvme_ns_head *head = ns->head;
+-
+-	if (head->disk && list_empty(&head->list))
+-		kblockd_schedule_work(&head->requeue_work);
+-}
++void nvme_mpath_check_last_path(struct nvme_ns *ns);
+ 
+ static inline void nvme_trace_bio_complete(struct request *req)
+ {
+-- 
+2.26.2
+
+
+--------------9B67C2C05BB313F81A569FD4
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--------------9B67C2C05BB313F81A569FD4--
+
