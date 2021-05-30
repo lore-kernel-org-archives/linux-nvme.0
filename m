@@ -2,145 +2,123 @@ Return-Path: <SRS0=MKex=KZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED13C47091
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 May 2021 07:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36EF3C47089
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 May 2021 10:49:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 613EF610A0
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 May 2021 07:33:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 613EF610A0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	by mail.kernel.org (Postfix) with ESMTPS id D6FE9610C7
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 May 2021 10:49:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6FE9610C7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=T0pCaElaa8tQSAQFjpOVDzF8oI3t9ordyUqaCsrdYgU=; b=BcCTqhvgoWwc1P
-	3VJFLnp58YwySX9zDJlyX/WYQAtZpCa6gFTUoZViEuXCln6bNut7tMqT6pr/fPnWof09swojHWwUZ
-	7PqA8Hr6UYvJ1JnWAtmGgAuyvrZQfstgU56R162RYq79K34krev6tTtlpJqY0Ot1MAnFpsd3xr2G6
-	mybwDpEcH9N2QFkWhU4l4cnwm5+ENwW6ZIXCp8vDWeL0fhpakvE3zyrZruz+KQSHrviX8Fu5LsiGY
-	vES7g7HAnK30Z1slpGd6Z1gRPOkM2wuPMxwqF5DJ/H+1lgItBdYgGkpKdrNSHFURKP42/rZUnIJNs
-	dZR0s0NgTsEFGRJ/rlOw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=O4HLMKcok1qgvIpXvp3+9flo06CjwXuzC3b+RiEEmoA=; b=ys9ZDqh8YqGMRRpA0PGXpiIwev
+	zJYMIsDWii7JZ4+b4sbtbDYC2HTQkpJ3UHfebwbpgB28W/nkg8DjXw3jyOpNi5Mp1JROtdbgIMude
+	9NAmIlQ6jj1hhCpPYmBJ59zve5Cl1Wzy35W5H/96gj2EONUjZ0f5hKUaSPBaqj/WnB4OF4D/BLsWj
+	vSk20RVDoeSBZa76LNCodorSh89CdAqGGn23X9uq3wH1O9+E2QkA3s2KnxfRQg+vJGrC9kFgtXSwt
+	+Wo0F/WeWc6Yrc09R0QNNRSK2D//BUzQCiAXZW4PFT3l/8Pt3Fff1Fg1VD7oLfj6wS75JA5lEirvw
+	cnpNWucg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lnFx5-009Cf7-Vh; Sun, 30 May 2021 07:33:40 +0000
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
+	id 1lnJ0D-009U1u-TR; Sun, 30 May 2021 10:49:05 +0000
+Received: from mail-dm3nam07on2084.outbound.protection.outlook.com
+ ([40.107.95.84] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lnFwz-009Cdd-AR
- for linux-nvme@lists.infradead.org; Sun, 30 May 2021 07:33:35 +0000
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14U7QUBD015910; Sun, 30 May 2021 00:33:21 -0700
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2104.outbound.protection.outlook.com [104.47.58.104])
- by mx0b-0016f401.pphosted.com with ESMTP id 38un4qhsg4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 30 May 2021 00:33:21 -0700
+ id 1lnJ09-009U15-8l
+ for linux-nvme@lists.infradead.org; Sun, 30 May 2021 10:49:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=anD9yUxQ8OxaAUu8C4BIcwO98wg76FWK6+NGwQgpn16gnvGUVE0XIQkgQWFWXXx/a3ls4pOB43WvAYpdXDwOvx7bOF7jpG0+vUTpkmdfe7uxtJSU2L/9EBjVOAvJ46k+S5PqSJ65fXG5T2EJoOZ5wxCH6Dx3I4EdqMiHMfWzUWwoS7nu133+rjaOrunA7QVfn/StYll5hbY9GuC/50EOJazRwNDZapsIDsQpQPA0k1Cd9KohJf0jcxHWivh7hZdqEmTfLhzMrP8Ik6EWXMEZam9IoPIMAEjG7tCmFNiBzNsbDJQXrgdoM3Ly5BHLLBZDoESlqkx4xl1tF5+PYXO5mg==
+ b=fmLk4Knz7jiuBCEFxPMj13BksynUadvrI+aGDhBQ1KvU+UVGPrNQuWptsm78FpcCebI8YPOslM3O/lmv7u9rUn4aHj3hLdObJ5FhyUDlpJ63h8DnUCAc5zQ5mpSzFJSM3m87ibWB0GurziciVaHVxKlUtSZZUJyVYF10YCbi39FGoO7Ncz88X6IHqO3/kEN8Cg6X9SdcNk1cN/h2XP7d0lxIuyNXaXE48EtpNJH8Z0jKbogawk865JwRJw5Xbk6M4fiUaaeX3kdUR9jVjCCE9UVtj4gm/mnZ8omlaBrvtQO9HnYcuUsaSXnXAdqbK4x/X8LiGNMSdHcXIM2NkPlS2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QVEoPI/WsCbXzR7xqfl93jxa3pAM23jj3aicAhqU7IA=;
- b=FDOwmbty1j+fXWwc3/RtoTE9mkgWM5aQc3puekzPATssDAXSPowPMsjY/WpRcFglU3pQBfthKP40Rs5SqQDzs4VPVGdi0TcnAfy2o/oEPAZKN3cIX/rPrGEgNuO3FyFUqnz+B2B4fDlKM+xy5WS5jK9jJqGasdS101xffPJCjde4hDsTZZa1548voLzmRJ1ZBtX3cAG5X6QMEarzfEwFfx6lhc1XrWWYDleyYzXBqWlS6PrpAKIHVsup5Deg9Emig0l11r3lb0i9EfWHj0l6L7iwoqClY2Msuh7Bir4K+6RDSfbbImcOvgwDKdh5rt2xdaZy9WngSVZ8QITY8ETcLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ bh=RTm3kx8ZpsrAfsa/Bw5BWsfH61CFY4QKdnbx/1zUIf8=;
+ b=PvOWl0p+ZEAre8aP5BcxxJ6pECXxaCmS4DnqJOcsB4q/nCEzUY/HX1iXPaHn2jX5Zze6nZSykx5zUj7SxiLvf2Az4T15poKk1ckr59koK0plwr3BPZy/HCvWIH4ikQEpYGY2jcWxKnFljrp/u0GPdHs/SmlHzx9jqaDkT0dRq1BqvumeeQALA2LIOK/PSU8Fa3HRqom+uSbgEgq9X57DpLJ964TRRq52PlWDnBilgKznK1YiKU3MVN6YPtMVRXG1WsdyP08S3Yeb3qI7DIjSxdkXuLm/CEFEswxi/6PiQ1kJQUuWfS6aZ7yGKjeiCqPmnfAxiLSrAwZbwoOKMyD0uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QVEoPI/WsCbXzR7xqfl93jxa3pAM23jj3aicAhqU7IA=;
- b=HcHELJgnV25/V0qFRGn/WKgUhqvrQSmSIOwF4/PcUDGsn/nRptayQ3NWy6aV4VYimvybi+9oYfHTa4wwzcLQKmsOW45EPtwNYnNarnM0dZVTKaBeHJZYYxZHkvLS5dXnTqZxtrLIUBnk1jyV65fMPTst7POM6TA3nDodRT76BzQ=
-Received: from CH0PR18MB4129.namprd18.prod.outlook.com (2603:10b6:610:e0::12)
- by CH2PR18MB3301.namprd18.prod.outlook.com (2603:10b6:610:2c::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Sun, 30 May
- 2021 07:33:18 +0000
-Received: from CH0PR18MB4129.namprd18.prod.outlook.com
- ([fe80::fc54:cd07:ec07:4e77]) by CH0PR18MB4129.namprd18.prod.outlook.com
- ([fe80::fc54:cd07:ec07:4e77%6]) with mapi id 15.20.4173.029; Sun, 30 May 2021
- 07:33:18 +0000
-From: Michal Kalderon <mkalderon@marvell.com>
-To: Christoph Hellwig <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Shai
- Malin <smalin@marvell.com>, Ariel Elior <aelior@marvell.com>
-Subject: BUG: scheduling while atomic when nvmet_rdma_queue_response fails in
- posting a request
-Thread-Topic: BUG: scheduling while atomic when nvmet_rdma_queue_response
- fails in posting a request
-Thread-Index: AddVJduDAzSsasp/Srq8m1sJiLA/Sw==
-Date: Sun, 30 May 2021 07:33:18 +0000
-Message-ID: <CH0PR18MB4129247C2B9AE092E3C59740A1209@CH0PR18MB4129.namprd18.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=marvell.com;
-x-originating-ip: [46.116.32.221]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 31ea0f3d-6153-4870-b22f-08d9233d31a9
-x-ms-traffictypediagnostic: CH2PR18MB3301:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR18MB3301EDAD24D185A782BCEF09A1209@CH2PR18MB3301.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: flOZm5lHWUn+CHRv3zJ501ymIOQLWY5yoCkg2h3HXWt9ByJheAifOXpTVDC28jKwIBfrt+nTWgV8yFdURvk/4b9hCKsy4xS08+0qd72pz+YzEARu3e7YzQLeRsKMDjOD2hjQfxJG/snZfAeKp1YtzvDfPQii8v2xRFsMKbkqUVpGqv2Z8aNdr9yOduOsrntsX9vJ7Rp2juHCkpbpqdHAim+DidncqjmjJ6uMe5DLQKJ8l0ix+rTOQjhE2SPcby7YOc+5ckAXggqvlIbW5Xwg/EYs5tkCt4rfjVoK60MSOcMXjG90vcTHYGOAsfc5RSSF7FUZMG5meDdx6UylADzdjj3vLSmIpO8aHExFpgoeDkUX9N8Mz2XdJ6eXqf46AeKRHCUDRUblxDwemJhK1yqd68lCitozt6TGTs6OK3LydqvJ7bci685xYUPjfp/6hQOrJWiYsgOyVZCwkqvEzYmS6FIh38rC5zIPsBm1UKVFbjSY/2K+7FaXWF7X6iGSOAHh1JKYVmGvtivoJ+ADMaBjU5JwjTCPhNRf5lMai1hozBn9VjwfVxyVTeWXEkZIe8NdjzScNE3aXuVUpyXjIrOdA282ES1GWP3HBNdnabP5w3U=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR18MB4129.namprd18.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(396003)(366004)(39850400004)(186003)(4326008)(6506007)(5660300002)(9686003)(55016002)(76116006)(66476007)(26005)(478600001)(66556008)(33656002)(64756008)(83380400001)(45080400002)(66446008)(2906002)(66946007)(107886003)(8936002)(8676002)(316002)(52536014)(38100700002)(86362001)(71200400001)(122000001)(7696005)(54906003)(110136005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?ek8dI4PRBbTj4/nyK7FOJkbfifJC41esxQh+7c55I9Lwwsueku5w1v+ioU?=
- =?iso-8859-1?Q?vAL6usOhYkbLsNN+Od8tDaQQnDlsM2PNrKODPHZ4bsBETVbfPL2qQphId3?=
- =?iso-8859-1?Q?lecQr2J979Un/9b2GbxHWjMSZxXHuVQw00LatidFFE+Yi/4usDaETV2nPm?=
- =?iso-8859-1?Q?WEiq1B8HwdrSBoJERz6hvFNXurNv+c1qiRxOWwTnHXwFaFAPjXE8KJ7S7b?=
- =?iso-8859-1?Q?OGG8tIbUK+5BeihvA3id+twaLuqX5OmKHJsrOIkz8yRzq/SHTLt4vVu3Y+?=
- =?iso-8859-1?Q?faXk/iTJg7QsTF8AbYeeUNyPsf5KR1dnYiB/0utVYxGLzq81x6JQbb+pdY?=
- =?iso-8859-1?Q?MiM9f0fH9H7GfRUNoRZYfdbqBl0zwdegI02bX1ZC0Dls/rH1jGSRz/jMLa?=
- =?iso-8859-1?Q?SLwoiTXpxj6m3KgwXTYUjSckAdtmUaIGC8ApY/stfqmRReyWUBzM7eCjXk?=
- =?iso-8859-1?Q?rr7vUL9VhJY6Ft9Vpac8bh8M1lh1fmk45qeU/c1idq/z4EolFI36Xyjqrr?=
- =?iso-8859-1?Q?ZjQtAQoNDlmfV8WcHOwpAIXPbR5qdIxEUX5hh4+apm8FUXYuWdNMQz18TF?=
- =?iso-8859-1?Q?HbCb2kcwMf0wU15fEeW+GRmggy+f1xuRFEapK3P8nmBT3mPj0JsU0fNuV9?=
- =?iso-8859-1?Q?dWX1rQdLJPmrmLhkxQe+pdOt4p3vx5qQxbNOY0/PqvxAr/lG2FlDYMgspC?=
- =?iso-8859-1?Q?KFlt1jeVzCVD2daqXsvi79RxYsGiix4s9mpSdluh+PMbg/3q8mpNtdTlFq?=
- =?iso-8859-1?Q?ZQFtOj6EzLzo3QXHghM697yHKOdM9Kt3BcZvhd4w4hbO/cgweMcAg1p1PF?=
- =?iso-8859-1?Q?wDj2CdqpsVk577OP4Q3GpYEbJtskACBY957pqb7YHe7XqD1d8s07y0xMj/?=
- =?iso-8859-1?Q?95c0YMEFCjVUCHEtoWH+y/Yi+gRabapTO8buiposvZmOMy3uXbI6VOW40r?=
- =?iso-8859-1?Q?Xr5swhv5AwpLacRL1jcxiwPREkL/ArWbSjujTCzGnRS+e6w8JMk9Zu0KvE?=
- =?iso-8859-1?Q?aNwBJZ0zH30L/jsfIYeBhVCcTx8J2W3sTRD3MP0Nk8GF/MPGK1dX+mx/ya?=
- =?iso-8859-1?Q?4AywZ7TteY0NTobERfTRAf5hGR82SQl3a2mYmo6/SZ/b4pgKfhoqJX1pQc?=
- =?iso-8859-1?Q?U1MpdjmcjOlsn4zTmZvUsDvGSuiN/P/LXkyFJ4O+hdA9D7+dp0hiFNMnVG?=
- =?iso-8859-1?Q?lvC9uVYTnsHEFxrO4D5twF6r4Ht7kI912yq9quKWthNvXzvGzCH/oOqkZT?=
- =?iso-8859-1?Q?V1k6apxG9rl+Fm3QkQ1J703myGmYjvbyN4tQlobAHZT8aTzz6hAkoilQOn?=
- =?iso-8859-1?Q?qkhNgY32TGb52oeOA14FTR7c1azjcQI8YHm4S6nj5xbuHXh2b1vTXyaT6f?=
- =?iso-8859-1?Q?BisUJEkHUz?=
+ bh=RTm3kx8ZpsrAfsa/Bw5BWsfH61CFY4QKdnbx/1zUIf8=;
+ b=hvd1MqbOeiaDw3iNxhqMYfgNgKO/uLLtSD859sxA3azFEYHOL7R3A+hWCkV6vdE0ijXwFMnSL8etY63qIljbcCzPvEx3jLnD6hNC8YYSxi14W/XL+1zp2rNdVbtpHVT07UQ5yGyLQ+v0Zo1Y5EDefk98RDC/DwZkBOoraIMfxG27sCSjK4jSSil/GkBpm7oywH475T9B0TDmVQPyAoYntplVPlKqlghUyJNAOoINUFFIEgDO/7h3ZUuXjoe53X0YC7pUTUv6e2VOM3tpH8i3sMtfSZ47bZG0EH13bRFW+wO04M5NJzZTLo4jZD/3qn3piSgAl389PYmYju9tGTEWJg==
+Received: from DM6PR03CA0032.namprd03.prod.outlook.com (2603:10b6:5:40::45) by
+ DM6PR12MB3818.namprd12.prod.outlook.com (2603:10b6:5:1cf::24) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.24; Sun, 30 May 2021 10:48:58 +0000
+Received: from DM6NAM11FT035.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:40:cafe::ca) by DM6PR03CA0032.outlook.office365.com
+ (2603:10b6:5:40::45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Sun, 30 May 2021 10:48:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=pass action=none
+ header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT035.mail.protection.outlook.com (10.13.172.100) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4150.30 via Frontend Transport; Sun, 30 May 2021 10:48:57 +0000
+Received: from [172.27.13.89] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 30 May
+ 2021 10:48:55 +0000
+Subject: Re: [PATCH v2] nvme-rdma: fix in-casule data send for chained sgls
+To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+CC: Max Gurtovoy <maxg@mellanox.com>
+References: <20210528011638.122507-1-sagi@grimberg.me>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Message-ID: <0f98fd55-2767-75f5-7479-816b2aabcc86@nvidia.com>
+Date: Sun, 30 May 2021 13:48:52 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR18MB4129.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31ea0f3d-6153-4870-b22f-08d9233d31a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2021 07:33:18.0836 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SNwU3vSw7eboF290yGPxQEG3fEXOwTSjJuCA0CMGbOojovsyqq9JysmsiD8flmBspB6OTercVV04xwc7Ep3TCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR18MB3301
-X-Proofpoint-ORIG-GUID: -ebTnPLYanaVWGEsgqsDguw4M5TjGoNq
-X-Proofpoint-GUID: -ebTnPLYanaVWGEsgqsDguw4M5TjGoNq
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-30_03:2021-05-27,
- 2021-05-30 signatures=0
+In-Reply-To: <20210528011638.122507-1-sagi@grimberg.me>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d810ac11-03b1-44ea-bf26-08d923588704
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3818:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3818A03C8CFD22C9A9F77B49DE209@DM6PR12MB3818.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iJo61eUhh4xccO4dkLNJ0H/p80LGk1IL4F5EdKiinlfEv6xb2JRnzj94fNkuKZKwGhuXvQFXa/0rvecqob2tC/HIRGH/ARsPb9CZ+UAbPtmfbwmwTTCbVlg6thNT+saWbpdH44e/xGlchPjteuGxt2zaqq5XZ7VBCRCJMFYelWE9f63zT8M/KNGiBQgr92+sxATz6lz8y3Nz+qvKCvYA9KYmmI2LazSgp1hKBzi3wsMy2B8uuMB5u21ODbl7egjrCkZ4TmVo5PeowQan01ofJfNZipJGk9gtsvjJmYGZYMQawTFGpQhe6MkynBjzmlWiD+LFt/q4s35tuSTXUI6iOZ+bRuQKFjWRIiH12th0pgPmh3z1arfs9g9hKJuuumtvBKDfAPH1PmPBM0GJ4M8uSdCZzkK0ty3K8bQFyUswm+eInYpSPPsHX3WZRcE7iuS1J2FfAAj893keNKI34LNb4tF7jdK13LRP9fQLdSdZ17dWZniA5CL0DUy/amCxm4O1rvoNp8JDVfwcWn5HSG48hVBBPgqW9aW5GSEYjFbvO/pjPFOQ1u53E+ULKXSzeIzEh8HjfUKPlO4ZHl42flpDJgCphGR4A1hI84E7xBWSkRGi3lQaMTtWgL4pL4PGbsaexXs9z7jMN0eGbbKOjWfpnIpf2Qt3lnU477KgoHq/KSdChIvKNxzjKVj7FrRzI/Nk
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(396003)(39860400002)(376002)(46966006)(36840700001)(316002)(110136005)(8936002)(16576012)(4326008)(83380400001)(53546011)(26005)(107886003)(86362001)(8676002)(31696002)(36906005)(186003)(336012)(31686004)(82310400003)(2906002)(47076005)(426003)(2616005)(36860700001)(478600001)(5660300002)(356005)(7636003)(70586007)(70206006)(82740400003)(16526019)(6666004)(36756003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2021 10:48:57.7865 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d810ac11-03b1-44ea-bf26-08d923588704
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT035.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3818
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210530_003333_570649_AF5DAE40 
-X-CRM114-Status: GOOD (  10.41  )
+X-CRM114-CacheID: sfid-20210530_034901_494334_D754CC24 
+X-CRM114-Status: GOOD (  19.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,104 +130,59 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph, Sagi, =
 
+On 5/28/2021 4:16 AM, Sagi Grimberg wrote:
+> We have only 2 inline sg entries and we allow 4 sg entries for the send
+> wr sge. Larger sgls entries will be chained. However when we build
+> in-capsule send wr sge, we iterate without taking into account that the
+> sgl may be chained and still fit in-capsule (which can happen if the sgl
+> is bigger than 2, but lower-equal to 4).
+>
+> Fix in-capsule data mapping to correctly iterate chained sgls.
+>
+> Reported-by: Walker, Benjamin <benjamin.walker@intel.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> Changes from v1:
+> - fix silly compilation error
+>
+>   drivers/nvme/host/rdma.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 8d107b201f16..f61bf39c39a0 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1320,16 +1320,17 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+>   		int count)
+>   {
+>   	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
+> -	struct scatterlist *sgl = req->data_sgl.sg_table.sgl;
+>   	struct ib_sge *sge = &req->sge[1];
+> +	struct scatterlist *sgl;
+>   	u32 len = 0;
+>   	int i;
+>   
+> -	for (i = 0; i < count; i++, sgl++, sge++) {
+> +	for_each_sg(req->data_sgl.sg_table.sgl, sgl, count, i) {
+>   		sge->addr = sg_dma_address(sgl);
+>   		sge->length = sg_dma_len(sgl);
+>   		sge->lkey = queue->device->pd->local_dma_lkey;
+>   		len += sge->length;
+> +		sge++;
+>   	}
+>   
+>   	sg->addr = cpu_to_le64(queue->ctrl->ctrl.icdoff);
 
-We're testing some device error recovery scenarios and hit the following BU=
-G, stack trace below. =
+Looks good,
 
-In the error scenario, nvmet_rdma_queue_response receives an error from the=
- device when trying to post a wr, =
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 
-
-this leads to nvmet_rdma_release_rsp being called from softirq eventually
-reaching the blk_mq_delay_run_hw_queue which tries to schedule in softirq. =
-(full stack below)
-
-could you please advise what the correct solution should be in this case ? =
-
-
-thanks,
-Michal
-
-[ 8790.082863] nvmet_rdma: post_recv cmd failed
-[ 8790.083484] nvmet_rdma: sending cmd response failed
-[ 8790.084131] ------------[ cut here ]------------
-[ 8790.084140] WARNING: CPU: 7 PID: 46 at block/blk-mq.c:1422 __blk_mq_run_=
-hw_queue+0xb7/0x100
-[ 8790.084619] Modules linked in: null_blk nvmet_rdma nvmet nvme_rdma nvme_=
-fabrics nvme_core netconsole qedr(OE) qede(OE) qed(OE) rpcsec_gss_krb5 auth=
-_rpcgss nfsv4 dns_resolver nfs lockd grace fscache xt_CHECKSUM nft_chain_na=
-t xt_MASQUERADE nf_nat xt_conntrack nf_conntrack nf_defrag_ipv6 nf_defrag_i=
-pv4 libcrc32c nft_counter nft_compat tun bridge stp llc nf_tables nfnetlink=
- ib_isert iscsi_target_mod ib_srpt target_core_mod ib_srp scsi_transport_sr=
-p ib_ipoib ib_umad rpcrdma rdma_ucm ib_iser rdma_cm iw_cm intel_rapl_msr in=
-tel_rapl_common ib_cm sb_edac libiscsi scsi_transport_iscsi kvm_intel kvm i=
-rqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel sunrpc rapl ib_u=
-verbs ib_core cirrus drm_kms_helper drm virtio_balloon i2c_piix4 pcspkr crc=
-32c_intel virtio_net serio_raw net_failover failover floppy crc8 ata_generi=
-c pata_acpi qemu_fw_cfg [last unloaded: qedr]
-[ 8790.084748] CPU: 7 PID: 46 Comm: ksoftirqd/7 Tainted: G=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0 OE=A0=A0=A0=A0 5.8.10 #1
-[ 8790.084749] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS =
-?-20180724_192412-buildhw-07.phx2.fedoraproject.org-1.fc29 04/01/2014
-[ 8790.084752] RIP: 0010:__blk_mq_run_hw_queue+0xb7/0x100
-[ 8790.084753] Code: 00 48 89 ef e8 ea 34 c8 ff 48 89 df 41 89 c4 e8 1f 7f =
-00 00 f6 83 a8 00 00 00 20 74 b1 41 f7 c4 fe ff ff ff 74 b7 0f 0b eb b3 <0f=
-> 0b eb 86 48 83 bf 98 00 00 00 00 48 c7 c0 df 81 3f 82 48 c7 c2
-[ 8790.084754] RSP: 0018:ffffc9000020ba60 EFLAGS: 00010206
-[ 8790.084755] RAX: 0000000000000100 RBX: ffff88809fe8c400 RCX: 00000000fff=
-fffff
-[ 8790.084756] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88809fe=
-8c400
-[ 8790.084756] RBP: ffff888137b81a50 R08: ffffffffffffffff R09: 00000000000=
-00020
-[ 8790.084757] R10: 0000000000000001 R11: ffff8881365d4968 R12: 00000000000=
-00000
-[ 8790.084758] R13: ffff888137b81a40 R14: ffff88811e2b9e80 R15: ffff8880b3d=
-964f0
-[ 8790.084759] FS:=A0 0000000000000000(0000) GS:ffff88813bbc0000(0000) knlG=
-S:0000000000000000
-[ 8790.084759] CS:=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 8790.084760] CR2: 000055ca53900da8 CR3: 000000012b83e006 CR4: 00000000003=
-60ee0
-[ 8790.084763] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 00000000000=
-00000
-[ 8790.084763] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 00000000000=
-00400
-[ 8790.084764] Call Trace:
-[ 8790.084767]=A0 __blk_mq_delay_run_hw_queue+0x140/0x160
-[ 8790.084768]=A0 blk_mq_get_tag+0x1d1/0x270
-[ 8790.084771]=A0 ? finish_wait+0x80/0x80
-[ 8790.084773]=A0 __blk_mq_alloc_request+0xb1/0x100
-[ 8790.084774]=A0 blk_mq_make_request+0x144/0x5d0
-[ 8790.084778]=A0 generic_make_request+0x2db/0x340
-[ 8790.084779]=A0 ? bvec_alloc+0x82/0xe0
-[ 8790.084781]=A0 submit_bio+0x43/0x160
-[ 8790.084781]=A0 ? bio_add_page+0x39/0x90
-[ 8790.084794]=A0 nvmet_bdev_execute_rw+0x28c/0x360 [nvmet]
-[ 8790.084800]=A0 nvmet_rdma_execute_command+0x72/0x110 [nvmet_rdma]
-[ 8790.084802]=A0 nvmet_rdma_release_rsp+0xc1/0x1e0 [nvmet_rdma]
-[ 8790.084804]=A0 nvmet_rdma_queue_response.cold.63+0x14/0x19 [nvmet_rdma]
-[ 8790.084806]=A0 nvmet_req_complete+0x11/0x40 [nvmet]
-[ 8790.084809]=A0 nvmet_bio_done+0x27/0x100 [nvmet]
-[ 8790.084811]=A0 blk_update_request+0x23e/0x3b0
-[ 8790.084812]=A0 blk_mq_end_request+0x1a/0x120
-[ 8790.084814]=A0 blk_done_softirq+0xa1/0xd0
-[ 8790.084818]=A0 __do_softirq+0xe4/0x2f8
-[ 8790.084821]=A0 ? sort_range+0x20/0x20
-[ 8790.084824]=A0 run_ksoftirqd+0x26/0x40
-[ 8790.084825]=A0 smpboot_thread_fn+0xc5/0x160
-[ 8790.084827]=A0 kthread+0x116/0x130
-[ 8790.084828]=A0 ? kthread_park+0x80/0x80
-[ 8790.084832]=A0 ret_from_fork+0x22/0x30
-[ 8790.084833] ---[ end trace 16ec813ee3f82b56 ]---
-[ 8790.085314] BUG: scheduling while atomic: ksoftirqd/7/46/0x00000100
 
 
 _______________________________________________
