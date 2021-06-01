@@ -1,90 +1,171 @@
-Return-Path: <SRS0=adoP=K2=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=ddWr=K3=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B68E6C47080
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 May 2021 23:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF63C47080
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jun 2021 05:23:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6ED3A6127C
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 May 2021 23:30:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6ED3A6127C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2CA4061396
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jun 2021 05:23:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CA4061396
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Y7uJ9wjHH2jfoBXnY0aSqDstkMdu0tJEUe0VmyD+E3U=; b=bTp4kfXZt0NDIv
-	ZjC768bwxU1j4NKzNeYKp0eThAl1D4t8vr4XamOS1j9VlPKtzhTnfD38Ur8U2aD1VDhHwUsaD5MRB
-	ycozwolEJEoioTyoWB/CTNK1lWzf4YQHo4kjBBl7oEO40qInPFch0APewN5gSV3JKfDsGJt1swvxk
-	SLMQlXeKSmNI0CtfmtWCWV55O+202Cm8oc0JGWY3umenBlCkbcdoZ4lVO1drnqoI1C0lMCFfMSwjU
-	xSdl7La/gUEzM3m6wMuoZMmOj3B17JADQlnEcGG6+7WaTAFA6LtH8MVrfCWW6P2Vl2nA+4SzJhIKp
-	An2kUefJdGB15kmez36w==;
+	List-Owner; bh=4fe2Ouw+f9r03Eax44bsKH4/2xc/zMq/xUbtTyfhK4I=; b=ix57EvRlJDTwDL
+	PEsJXxpExbAmGvQy9MhwypkXW0TL7lndVJ7tYV2nbGJII503wMOAVEVBipDNLbFokBtEHqa8dxBmG
+	RHMCjmSPdOsFK3YR5c18QRVNq8pl7gYwbpwvhPMCCvTHsNKL3dAeh/z7FzbFX+EBB4pwyo2J+jj+1
+	Y9DjqhnupwUWhwG4AFoWbj1DAXO8MRl6u290qpQ9KgScNeS1x4vEx0OBId7MTUK0fKMkwqxd2q96N
+	SookUiJaieAUp5ldjEQfNuWyL4H/q3HjebA7WSYPZ/pvwJJ6SXPhWW+SDqEUTpGO98MepLSSBV9KM
+	6Algd4Wf24KU7mwecJMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lnrMv-00Drqp-Fg; Mon, 31 May 2021 23:30:49 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1lnwrX-00EhJX-Rm; Tue, 01 Jun 2021 05:22:47 +0000
+Received: from mga07.intel.com ([134.134.136.100])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lnqp5-00DhyG-IL
- for linux-nvme@bombadil.infradead.org; Mon, 31 May 2021 22:55:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=XqHuYCasd6dIPIKPpVK4XSLNJ47viStK3s41nzmfylY=; b=d8iu3+jTPrfsGooMNAmuePK495
- QvVm5R7fzeNwEzlfVEbBs29T1X92mwhkEA35dSBPfHQJY+NTqhIdXuBcVGDBJY+2kTZN3fyp9YANA
- b3AGIzuvq8UsiTipEhjc52RV+qdnm2MHa5lwSNUJlEGyb4LSrAqJkidtz3bcX5UFFBji05RiGy8Ya
- jPeZypGVCPmSl6xOQHgojOa9ml0amnoEAdXOBEq5/epunts9gpWJ/kuhBU1HTUpigt8HQgD+fLYs2
- m36Q4Dy21uILbGdmr+d9mY+4V9uaxL8A2Ftz0ZoUV59De6QXEps3uFoBPLVBa5svjKhJ5ydNZubZ8
- ZT4CyCuA==;
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
- by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lnqou-002NWf-VX
- for linux-nvme@lists.infradead.org; Mon, 31 May 2021 22:55:50 +0000
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14VMpOsU002173; Mon, 31 May 2021 15:55:42 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 38vtnja4rd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Mon, 31 May 2021 15:55:42 -0700
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 31 May 2021 15:55:40 -0700
-Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
- DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 31 May 2021 15:55:36 -0700
-From: Shai Malin <smalin@marvell.com>
-To: <netdev@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
- <davem@davemloft.net>, <kuba@kernel.org>, <sagi@grimberg.me>,
- <hch@lst.de>, <axboe@fb.com>, <kbusch@kernel.org>
-CC: <aelior@marvell.com>, <mkalderon@marvell.com>, <okulkarni@marvell.com>,
- <pkushwaha@marvell.com>, <prabhakar.pkin@gmail.com>,
- <malin1024@gmail.com>, <smalin@marvell.com>
-Subject: [RFC PATCH v7 27/27] qedn: Add support of ASYNC
-Date: Tue, 1 Jun 2021 01:52:22 +0300
-Message-ID: <20210531225222.16992-28-smalin@marvell.com>
-X-Mailer: git-send-email 2.16.6
-In-Reply-To: <20210531225222.16992-1-smalin@marvell.com>
-References: <20210531225222.16992-1-smalin@marvell.com>
+ id 1lnwrS-00EhI3-Eo
+ for linux-nvme@lists.infradead.org; Tue, 01 Jun 2021 05:22:43 +0000
+IronPort-SDR: xr51dLobsTWHHamY+qWHPIqetfejEKV1VxSFTJW66D5e0bduHZAeQUtnQ8edMaTEyVoTCIad96
+ 9GXbBtv8uTeg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="267351633"
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="267351633"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2021 22:22:35 -0700
+IronPort-SDR: cWZ4VOWRxMdBToMvKk0w0MkFseDkwsC+jiDQhrC3F73iqJ9SXV+clfzdABaiDZZgoOVHSy7PW+
+ Yy2VXVe44Fgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,239,1616482800"; d="scan'208";a="445195426"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by orsmga008.jf.intel.com with ESMTP; 31 May 2021 22:22:35 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 31 May 2021 22:22:35 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
+ via Frontend Transport; Mon, 31 May 2021 22:22:35 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.4; Mon, 31 May 2021 22:22:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W5uqMPhqdLsV0B0HqBGS2yVIF6aeZf0iKS3qQI6fHPU5yM+HJHff4jsxXKSbNnena2SyKW2ukPhZii4Sc2AdIehERMhzdsFR+3QQWEMGCpB1PWyWXvj10yhLngHwYnpL54VfLzey/wTyZ1JXBjsTL/rBkFkQiLaWAFuW41qa8dgvFWKbyxk6EdgNWKPHn3VGDc4Id06PyOIvv7C5pZuRt5dr8gfksLMu0ixMHYVSSoFcLipLaSKaidDGBZxLS0EJw153yXkSmes+L8l7fPGig13EqOx96KLcSSWSp42kaPS+ExDqMDaWyCQ3G2ANqTL1Kmdzhjz8K4QpmH4ib9d7DQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WHM/MFQhDJYKs9Exnbq+0doMa+v68pDt+b0e1d11mrA=;
+ b=AKprL+dS3mK/Xh1xKYlo/W8qNZ/kBT4pdhzWJs5oRIIrDDMAc2JGGXsKFrRrhnKzbv0WEq3m0d1ThbV4wIj4nCTCZsHbrQjr3pxotu4NAfuaWVkwpeelvi+jfUou75kEOgp8/lsUNxhuDVlIvOcqtBLNDqTZTID72MTfr/bMUjH6ZudaMdytYPaWbn165UIkxf2NZLn284xhmRinqXpsoPa5CB4z1FFJiOTdFpTMNZcPEzjPJFDeawrF08OUQOvbxjjXpZHBq4uFOp/xdaDindaEeeq3/vfONL9WTVrOZLrKlj/AcpOF6+UEbb9Auzqlt32c0h0sDPwZ3BTeBT1uTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WHM/MFQhDJYKs9Exnbq+0doMa+v68pDt+b0e1d11mrA=;
+ b=nTxjnda82OGHN/fYSkv9ujEqpNudcUdukRBPGXm7cJZfMuq0m4pVmV7LF9IiUbi1DY1WrwkzpSNSk3ofZiwCo6f2QnVAze8/oR9MvkU+Wt1JPmTkpdvmLTCjcfZ6ls5AgQKaEL7aEoIMy3p3mh/oSxiuBzCaR66Yja7eAVuIEX8=
+Received: from PH0PR11MB4853.namprd11.prod.outlook.com (2603:10b6:510:40::20)
+ by PH0PR11MB5128.namprd11.prod.outlook.com (2603:10b6:510:39::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Tue, 1 Jun
+ 2021 05:22:34 +0000
+Received: from PH0PR11MB4853.namprd11.prod.outlook.com
+ ([fe80::4538:f545:1ceb:ad83]) by PH0PR11MB4853.namprd11.prod.outlook.com
+ ([fe80::4538:f545:1ceb:ad83%3]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
+ 05:22:34 +0000
+From: "N, Shyjumon" <shyjumon.n@intel.com>
+To: Christoph Hellwig <hch@lst.de>, Mario Limonciello
+ <mario.limonciello@amd.com>
+CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi Grimberg
+ <sagi@grimberg.me>, "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ "rrangel@chromium.org" <rrangel@chromium.org>, "david.e.box@linux.intel.com"
+ <david.e.box@linux.intel.com>, "Shyam-sundar.S-k@amd.com"
+ <Shyam-sundar.S-k@amd.com>, "Alexander.Deucher@amd.com"
+ <Alexander.Deucher@amd.com>, "prike.liang@amd.com" <prike.liang@amd.com>,
+ "Derrick, Jonathan" <jonathan.derrick@intel.com>
+Subject: RE: [PATCH v3 1/2] nvme: Look for StorageD3Enable on companion ACPI
+ device instead
+Thread-Topic: [PATCH v3 1/2] nvme: Look for StorageD3Enable on companion ACPI
+ device instead
+Thread-Index: AQHXVejOFGHHDWoP+EKimeZfh9bERKr+nn7Q
+Date: Tue, 1 Jun 2021 05:22:33 +0000
+Message-ID: <PH0PR11MB4853EBD21B8D89AC8138308F9E3E9@PH0PR11MB4853.namprd11.prod.outlook.com>
+References: <20210528160234.9402-1-mario.limonciello@amd.com>
+ <20210531064655.GA1417@lst.de>
+In-Reply-To: <20210531064655.GA1417@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+authentication-results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [220.158.156.180]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0d1a3821-6a66-4d0e-089c-08d924bd42fe
+x-ms-traffictypediagnostic: PH0PR11MB5128:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PH0PR11MB512870FA0BA6A79D7BB6CDAE9E3E9@PH0PR11MB5128.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bBbTbEzRaTAWrM/j7Q44ugXXghee+XmmN7Zl+m26J7YAbbVf7qNAVjfgs6zKsLddOCWRHxFbBxCu8Dz8WCAtiJn0CVYNLXSGPIo3kmoBC4kKHcsc7GckysH6oeDGRtwGUsW3Ukf2ZHeAJ418K77Tk8XPupLQj9RAB5XSNmrSmvw0K9AQNuAYEjQN79LyOF4fDCX2TifX+VGsKWhR7E4uCoFwRjp/ojPF/YLIJeUiSC8WgXFVv/vehdiPPm55Sg/hbxVTK2/aaxEQ0CYsWJ09hBAgSrS2a7+TWOe3jJBDZ02A0DYvzKJ9hyybdwxPMOoecESE996IaMflYLbVVV1tPU/uMOiETl8r/wCf3RHmGAh8wIVZ9FcccCAb0DKbUkGB6TaYxot3rvZrlbxNvtxm1bCvzx9/9vhiFKthIdeXXWmUioLS/GQY8gIAOts74IATAFIva+QtB6ndlVrfgN3EXgFA9EJnWZvRsgarVumXFIgMcI9VE1mmzysBbrSRLcvU/Qrt7RyJRPbTs7uXBI/T5LcyWzSK5PhQ+S4HsWFhw+gGDHPAPvR67B8EGczlqZSxzWVOKcDjsK1ROzKcAzUdFURnz91kJxTOtLNWAgjsXbQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB4853.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(366004)(39860400002)(396003)(376002)(346002)(9686003)(71200400001)(83380400001)(478600001)(86362001)(66476007)(7696005)(76116006)(66446008)(53546011)(66556008)(55016002)(6506007)(64756008)(52536014)(2906002)(4326008)(66946007)(110136005)(316002)(54906003)(7416002)(5660300002)(186003)(33656002)(8936002)(26005)(8676002)(122000001)(38100700002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?gWMaHeeBHgywjSUrGJdgbDxz9zcP3xJJ05qf2nYjw40cRR63veEOB76kUudj?=
+ =?us-ascii?Q?XcPgRtVIdGeffTDODIHn/DVcPYKo88KQ6n6zNltEfTpTCHNUYvlfGE5dRefY?=
+ =?us-ascii?Q?wGQoSpLf0XYUMh2Cyhi9R/PV7LTY2sP4YsIVJ9sTMX1UsY3gEyZTeR7XwPO8?=
+ =?us-ascii?Q?f3PlOiMBj6KznIdlH2tB3rmlGLrTKUBDzY+OfotSFY+EzfHfpbGczy0mtnMo?=
+ =?us-ascii?Q?PRjZKrvIuXHN0KGP15eYIjImXrSX3AwYUwLkIXZogUkmLBswM+DjTjrIYwvA?=
+ =?us-ascii?Q?mFWTIJrpWcZ43E8/+yh5b3cuHQjORu2we4TdRgSghhVQ80gdPlNNJ53DDNyT?=
+ =?us-ascii?Q?LNLs9K0RHCAsLKNPAEbdKuatrjSqE6JY89OT5/Yuosr1g0hdf+VWn3ElrdMM?=
+ =?us-ascii?Q?9OiYa3KbKgJUiFq2rtC9RuTe7GdzBJKaztel0wvd/3wHpjcwX0ZdjDLgR0zU?=
+ =?us-ascii?Q?IvNB63DhTrULW/4K065H0TLZsih8CDoqZxi0BPEDDGz0fH/CAx6iBihh+Bb+?=
+ =?us-ascii?Q?Xpe/j9D79VRlOpOBFSlEBzlUgbWt+5c3QaZoGRrmgl0+ewtrUGek2hDq8TED?=
+ =?us-ascii?Q?Nt/QXTfbPH/hznSSRNoI3swrEIsMHxoQ6ejbcEmlLVJFT7SVF4fqCIHoCZwv?=
+ =?us-ascii?Q?DAZdPWwU3KXL7CfaJPblShaMGudPz/qYFVxvh7TtafRRkw+1ibaNSTcnkdHe?=
+ =?us-ascii?Q?qYnxP1VKU7DpNTzSWJB6sCZaeMGTN7IJHHMak9iDqe39BJcaO2YmZNv82MtX?=
+ =?us-ascii?Q?j/sKjD8p6WHicv3JxFaPdVRKZgjefGfdnQKwiMv2JRdD6HbJ9s6w8nU9ZBZR?=
+ =?us-ascii?Q?1JlIaei1uBPtJpAlRXT0GQhOFqel8lkRSDrDqZRKxpCxr0Tyxf/qnAM7OS+J?=
+ =?us-ascii?Q?/Di3Uo3s+jIoLXTKsc5BxbqOk+Zdzn40yhRKsGIS9pWwAxyl9OdyvKkG3eYC?=
+ =?us-ascii?Q?WZXyPDhkT1cPbUOGn3CQ2Wv5Fepeo4C2+9QdUiINHhD27qjN6q57OdI4JjUG?=
+ =?us-ascii?Q?BGs7h5vYwx2XJZWpo/sT5V/AsEvj4WebcpFjc2hLg6DPsHga24XluDofUoxb?=
+ =?us-ascii?Q?r2+vSOVvOjVZ1OYf8c8xG6sgqyQnQ7frMLzlXU2H3xHvtNWnPUBFy7enonM6?=
+ =?us-ascii?Q?W+1TkKnFJUVPZ+JT36l43PfOKNVw8jSOe2+cX9vyTx8zO8RDjmcVKV//Z4dy?=
+ =?us-ascii?Q?GI/96EDRKYDtU4q1K4d63zmtk6CJDZGMx82UMIhmql5gegDWecx4MxrdyywN?=
+ =?us-ascii?Q?3dyiEyQiEMhylgdfQ4IXEOSfgOKJDTISuEzuQjbJPDgMr94Peg3oE7Fym1FJ?=
+ =?us-ascii?Q?9+2wZglrmcYVLDs3ey7WtfjG?=
 MIME-Version: 1.0
-X-Proofpoint-GUID: jAI4ztD0ojnPJhhUFB6tX25cC4A8-1Cd
-X-Proofpoint-ORIG-GUID: jAI4ztD0ojnPJhhUFB6tX25cC4A8-1Cd
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-31_15:2021-05-31,
- 2021-05-31 signatures=0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4853.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d1a3821-6a66-4d0e-089c-08d924bd42fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2021 05:22:33.9934 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /wTwAnTgLkrkp4dh2L9upQ4v6Rb/FkY5fXpbVUdAo6H3RZRk0FLg0AGTQZu4jzgoDcr/O32Iqic+a+m5ILMi2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5128
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210531_235548_238069_0B6EF831 
-X-CRM114-Status: GOOD (  21.18  )
+X-CRM114-CacheID: sfid-20210531_222242_566450_2E8E4A3F 
+X-CRM114-Status: GOOD (  17.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,298 +182,36 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Prabhakar Kushwaha <pkushwaha@marvell.com>
+Hi 
+Reply in-line. 
 
-This patch implement ASYNC request and response event notification
-handling at qedn driver level.
+Have a good day.
 
-NVME Ofld layer's ASYNC request is treated similar to read with
-fake CCCID. This CCCID used to route ASYNC notification back to
-the NVME ofld layer.
+Thank you and Regards,
+Shyjumon N.
+-----Original Message-----
+From: Christoph Hellwig <hch@lst.de> 
+Sent: Monday, May 31, 2021 12:17 PM
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Keith Busch <kbusch@kernel.org>; Jens Axboe <axboe@fb.com>; Christoph Hellwig <hch@lst.de>; Sagi Grimberg <sagi@grimberg.me>; Rafael J . Wysocki <rjw@rjwysocki.net>; open list:NVM EXPRESS DRIVER <linux-nvme@lists.infradead.org>; linux-acpi@vger.kernel.org; rrangel@chromium.org; david.e.box@linux.intel.com; Shyam-sundar.S-k@amd.com; Alexander.Deucher@amd.com; prike.liang@amd.com; N, Shyjumon <shyjumon.n@intel.com>; Derrick, Jonathan <jonathan.derrick@intel.com>
+Subject: Re: [PATCH v3 1/2] nvme: Look for StorageD3Enable on companion ACPI device instead
 
-Acked-by: Igor Russkikh <irusskikh@marvell.com>
-Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-Signed-off-by: Ariel Elior <aelior@marvell.com>
-Signed-off-by: Shai Malin <smalin@marvell.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/hw/qedn/qedn.h      |   8 ++
- drivers/nvme/hw/qedn/qedn_main.c |   1 +
- drivers/nvme/hw/qedn/qedn_task.c | 148 +++++++++++++++++++++++++++++--
- 3 files changed, 148 insertions(+), 9 deletions(-)
+On Fri, May 28, 2021 at 11:02:34AM -0500, Mario Limonciello wrote:
+> The documentation around the StorageD3Enable property hints that it 
+> should be made on the PCI device.  This is where newer AMD systems set 
+> the property and it's required for S0i3 support.
+> 
+> So rather than look for nodes of the root port only present on Intel 
+> systems, switch to the companion ACPI device for all systems.
+> David Box from Intel indicated this should work on Intel as well.
 
-diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
-index 286d2f984a41..f50c5aa0c936 100644
---- a/drivers/nvme/hw/qedn/qedn.h
-+++ b/drivers/nvme/hw/qedn/qedn.h
-@@ -96,6 +96,9 @@
- #define QEDN_TASK_CLEANUP_TMO 3000 /* 3 sec */
- #define QEDN_DRAIN_TMO 1000 /* 1 sec */
- 
-+#define QEDN_MAX_OUTSTAND_ASYNC 32
-+#define QEDN_INVALID_CCCID (-1)
-+
- enum qedn_state {
- 	QEDN_STATE_CORE_PROBED = 0,
- 	QEDN_STATE_CORE_OPEN,
-@@ -178,6 +181,7 @@ struct qedn_ctx {
- 
- enum qedn_task_flags {
- 	QEDN_TASK_IS_ICREQ,
-+	QEDN_TASK_ASYNC,
- 	QEDN_TASK_USED_BY_FW,
- 	QEDN_TASK_WAIT_FOR_CLEANUP,
- };
-@@ -346,6 +350,10 @@ struct qedn_conn_ctx {
- 	struct nvme_tcp_icresp_pdu icresp;
- 	struct qedn_icreq_padding *icreq_pad;
- 
-+	DECLARE_BITMAP(async_cccid_idx_map, QEDN_MAX_OUTSTAND_ASYNC);
-+	/* Spinlock for fetching pseudo CCCID for async request */
-+	spinlock_t async_cccid_bitmap_lock;
-+
- 	/* "dummy" socket */
- 	struct socket *sock;
- };
-diff --git a/drivers/nvme/hw/qedn/qedn_main.c b/drivers/nvme/hw/qedn/qedn_main.c
-index d2f8124a8267..5d761a68a516 100644
---- a/drivers/nvme/hw/qedn/qedn_main.c
-+++ b/drivers/nvme/hw/qedn/qedn_main.c
-@@ -332,6 +332,7 @@ static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid,
- 	atomic_set(&conn_ctx->destroy_conn_indicator, 0);
- 
- 	spin_lock_init(&conn_ctx->conn_state_lock);
-+	spin_lock_init(&conn_ctx->async_cccid_bitmap_lock);
- 
- 	conn_ctx->qid = qid;
- 
-diff --git a/drivers/nvme/hw/qedn/qedn_task.c b/drivers/nvme/hw/qedn/qedn_task.c
-index 2ac41b251292..6e3347a6218f 100644
---- a/drivers/nvme/hw/qedn/qedn_task.c
-+++ b/drivers/nvme/hw/qedn/qedn_task.c
-@@ -260,10 +260,45 @@ void qedn_common_clear_fw_sgl(struct storage_sgl_task_params *sgl_task_params)
- 	sgl_task_params->num_sges = 0;
- }
- 
--inline void qedn_host_reset_cccid_itid_entry(struct qedn_conn_ctx *conn_ctx,
--					     u16 cccid)
-+inline void qedn_host_reset_cccid_itid_entry(struct qedn_conn_ctx *conn_ctx, u16 cccid, bool async)
- {
- 	conn_ctx->host_cccid_itid[cccid].itid = cpu_to_le16(QEDN_INVALID_ITID);
-+	if (unlikely(async))
-+		clear_bit(cccid - NVME_AQ_DEPTH,
-+			  conn_ctx->async_cccid_idx_map);
-+}
-+
-+static int qedn_get_free_idx(struct qedn_conn_ctx *conn_ctx, unsigned int size)
-+{
-+	int idx;
-+
-+	spin_lock(&conn_ctx->async_cccid_bitmap_lock);
-+	idx = find_first_zero_bit(conn_ctx->async_cccid_idx_map, size);
-+	if (unlikely(idx >= size)) {
-+		idx = -1;
-+		spin_unlock(&conn_ctx->async_cccid_bitmap_lock);
-+		goto err_idx;
-+	}
-+	set_bit(idx, conn_ctx->async_cccid_idx_map);
-+	spin_unlock(&conn_ctx->async_cccid_bitmap_lock);
-+
-+err_idx:
-+
-+	return idx;
-+}
-+
-+int qedn_get_free_async_cccid(struct qedn_conn_ctx *conn_ctx)
-+{
-+	int async_cccid;
-+
-+	async_cccid =
-+		qedn_get_free_idx(conn_ctx, QEDN_MAX_OUTSTAND_ASYNC);
-+	if (unlikely(async_cccid == QEDN_INVALID_CCCID))
-+		pr_err("No available CCCID for Async.\n");
-+	else
-+		async_cccid += NVME_AQ_DEPTH;
-+
-+	return async_cccid;
- }
- 
- inline void qedn_host_set_cccid_itid_entry(struct qedn_conn_ctx *conn_ctx, u16 cccid, u16 itid)
-@@ -352,10 +387,12 @@ void qedn_return_task_to_pool(struct qedn_conn_ctx *conn_ctx,
- 	struct qedn_fp_queue *fp_q = conn_ctx->fp_q;
- 	struct qedn_io_resources *io_resrc;
- 	unsigned long lock_flags;
-+	bool async;
- 
- 	io_resrc = &fp_q->host_resrc;
- 
- 	spin_lock_irqsave(&qedn_task->lock, lock_flags);
-+	async = test_bit(QEDN_TASK_ASYNC, &(qedn_task)->flags);
- 	qedn_task->valid = 0;
- 	qedn_task->flags = 0;
- 	qedn_clear_sgl(conn_ctx->qedn, qedn_task);
-@@ -363,7 +400,7 @@ void qedn_return_task_to_pool(struct qedn_conn_ctx *conn_ctx,
- 
- 	spin_lock(&conn_ctx->task_list_lock);
- 	list_del(&qedn_task->entry);
--	qedn_host_reset_cccid_itid_entry(conn_ctx, qedn_task->cccid);
-+	qedn_host_reset_cccid_itid_entry(conn_ctx, qedn_task->cccid, async);
- 	spin_unlock(&conn_ctx->task_list_lock);
- 
- 	atomic_dec(&conn_ctx->num_active_tasks);
-@@ -410,6 +447,60 @@ qedn_get_free_task_from_pool(struct qedn_conn_ctx *conn_ctx, u16 cccid)
- 	return qedn_task;
- }
- 
-+void qedn_send_async_event_cmd(struct qedn_task_ctx *qedn_task,
-+			       struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct nvme_tcp_ofld_req *async_req = qedn_task->req;
-+	struct nvme_command *nvme_cmd = &async_req->nvme_cmd;
-+	struct storage_sgl_task_params *sgl_task_params;
-+	struct nvmetcp_task_params task_params;
-+	struct nvme_tcp_cmd_pdu cmd_hdr;
-+	struct nvmetcp_wqe *chain_sqe;
-+	struct nvmetcp_wqe local_sqe;
-+
-+	set_bit(QEDN_TASK_ASYNC, &qedn_task->flags);
-+	nvme_cmd->common.command_id = qedn_task->cccid;
-+	qedn_task->task_size = 0;
-+
-+	/* Initialize sgl params */
-+	sgl_task_params = &qedn_task->sgl_task_params;
-+	sgl_task_params->total_buffer_size = 0;
-+	sgl_task_params->num_sges = 0;
-+	sgl_task_params->small_mid_sge = false;
-+
-+	task_params.opq.lo = cpu_to_le32(((u64)(qedn_task)) & 0xffffffff);
-+	task_params.opq.hi = cpu_to_le32(((u64)(qedn_task)) >> 32);
-+
-+	/* Initialize task params */
-+	task_params.context = qedn_task->fw_task_ctx;
-+	task_params.sqe = &local_sqe;
-+	task_params.tx_io_size = 0;
-+	task_params.rx_io_size = 0;
-+	task_params.conn_icid = (u16)conn_ctx->conn_handle;
-+	task_params.itid = qedn_task->itid;
-+	task_params.cq_rss_number = conn_ctx->default_cq;
-+	task_params.send_write_incapsule = 0;
-+
-+	/* Internal impl. - async is treated like zero len read */
-+	cmd_hdr.hdr.type = nvme_tcp_cmd;
-+	cmd_hdr.hdr.flags = 0;
-+	cmd_hdr.hdr.hlen = sizeof(cmd_hdr);
-+	cmd_hdr.hdr.pdo = 0x0;
-+	cmd_hdr.hdr.plen = cpu_to_le32(cmd_hdr.hdr.hlen);
-+
-+	qed_ops->init_read_io(&task_params, &cmd_hdr, nvme_cmd,
-+			      &qedn_task->sgl_task_params);
-+
-+	set_bit(QEDN_TASK_USED_BY_FW, &qedn_task->flags);
-+	atomic_inc(&conn_ctx->num_active_fw_tasks);
-+
-+	spin_lock(&conn_ctx->ep.doorbell_lock);
-+	chain_sqe = qed_chain_produce(&conn_ctx->ep.fw_sq_chain);
-+	memcpy(chain_sqe, &local_sqe, sizeof(local_sqe));
-+	qedn_ring_doorbell(conn_ctx);
-+	spin_unlock(&conn_ctx->ep.doorbell_lock);
-+}
-+
- int qedn_send_read_cmd(struct qedn_task_ctx *qedn_task, struct qedn_conn_ctx *conn_ctx)
- {
- 	struct nvme_command *nvme_cmd = &qedn_task->req->nvme_cmd;
-@@ -521,6 +612,21 @@ int qedn_send_write_cmd(struct qedn_task_ctx *qedn_task, struct qedn_conn_ctx *c
- 	return 0;
- }
- 
-+static void qedn_return_error_req(struct nvme_tcp_ofld_req *req)
-+{
-+	__le16 status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+	union nvme_result res = {};
-+
-+	if (!req)
-+		return;
-+
-+	/* Call request done to compelete the request */
-+	if (req->done)
-+		req->done(req, &res, status);
-+	else
-+		pr_err("request done not set !!!\n");
-+}
-+
- int qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req *req)
- {
- 	struct qedn_task_ctx *qedn_task;
-@@ -530,9 +636,17 @@ int qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req
- 
- 	rq = blk_mq_rq_from_pdu(req);
- 
--	/* Placeholder - async */
-+	if (unlikely(req->async)) {
-+		cccid = qedn_get_free_async_cccid(qedn_conn);
-+		if (cccid == QEDN_INVALID_CCCID) {
-+			qedn_return_error_req(req);
-+
-+			return BLK_STS_NOTSUPP;
-+		}
-+	} else {
-+		cccid = rq->tag;
-+	}
- 
--	cccid = rq->tag;
- 	qedn_task = qedn_get_free_task_from_pool(qedn_conn, cccid);
- 	if (unlikely(!qedn_task)) {
- 		pr_err("Not able to allocate task context resource\n");
-@@ -543,7 +657,11 @@ int qedn_queue_request(struct qedn_conn_ctx *qedn_conn, struct nvme_tcp_ofld_req
- 	req->private_data = qedn_task;
- 	qedn_task->req = req;
- 
--	/* Placeholder - handle (req->async) */
-+	if (unlikely(req->async)) {
-+		qedn_send_async_event_cmd(qedn_task, qedn_conn);
-+
-+		return BLK_STS_TRANSPORT;
-+	}
- 
- 	/* Check if there are physical segments in request to determine the task size.
- 	 * The logic of nvme_tcp_set_sg_null() will be implemented as part of
-@@ -613,16 +731,28 @@ static inline int qedn_comp_valid_task(struct qedn_task_ctx *qedn_task,
- 
- int qedn_process_nvme_cqe(struct qedn_task_ctx *qedn_task, struct nvme_completion *cqe)
- {
-+	struct qedn_conn_ctx *conn_ctx = qedn_task->qedn_conn;
-+	struct nvme_tcp_ofld_req *req;
- 	int rc = 0;
-+	bool async;
-+
-+	async = test_bit(QEDN_TASK_ASYNC, &(qedn_task)->flags);
- 
- 	/* CQE arrives swapped
- 	 * Swapping requirement will be removed in future FW versions
- 	 */
- 	qedn_swap_bytes((u32 *)cqe, (sizeof(*cqe) / sizeof(u32)));
- 
--	/* Placeholder - async */
--
--	rc = qedn_comp_valid_task(qedn_task, &cqe->result, cqe->status);
-+	if (unlikely(async)) {
-+		qedn_return_task_to_pool(conn_ctx, qedn_task);
-+		req = qedn_task->req;
-+		if (req->done)
-+			req->done(req, &cqe->result, cqe->status);
-+		else
-+			pr_err("request done not set for async request !!!\n");
-+	} else {
-+		rc = qedn_comp_valid_task(qedn_task, &cqe->result, cqe->status);
-+	}
- 
- 	return rc;
- }
--- 
-2.22.0
+I think we need to wait for the confirmation from David.  This looks good, but I'd like to see testing.  I also wonder how many of the simple suspend quirks we can drop with this.
 
+Shyjumon and Jon, can you retests the platforms quirked in
+1fae37accfc5 ("nvme/pci: Add sleep quirk for Samsung and Toshiba drives") with this fix?
+
+Shyjumon>> Yes, I do agree we need to test this also. However the boards where which I had these issues are not in my remote access now (as the work frequency on this boards are less and also due to Covid situation),
+                        It might  take some time for me to test. I will update as soon as I can.
 
 _______________________________________________
 Linux-nvme mailing list
