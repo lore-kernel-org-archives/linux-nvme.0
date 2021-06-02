@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC43CC47093
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C76C4708F
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jun 2021 17:22:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 878BF61D08
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 878BF61D08
+	by mail.kernel.org (Postfix) with ESMTPS id 26A7961D38
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jun 2021 17:22:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26A7961D38
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,32 +23,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hHZoAXyUHB6KNyZUHP88/+SHxrhQynTJbjZX04tjr14=; b=isgPJOSHt7VCUh
-	gcTjvmO+4nnDUqFXbU6EGEIrDiwN5eqegUD/9BTFTZ1IADclIKRkA+pOCdGD5Ggx3WG4FPSsN3Mi0
-	E+R2ZcmSNv/szBuU+krlPs6XClvDrcF+NOm/Bxqb1bmFFgKBwE3JEZzVVgCT4SDtOZ9Njpye+A8Cy
-	c3ZYZhpNweGhsDhVMYI+VJHwsqi8AOwBwqj61Hn+UrqWjsfVkGyxATIjYbzS2imSEaz5fHUpcZIs3
-	uQPckf4engzZrvXIfkZ1iGZr7xTBVp5jTJDVJgm4CCDxTCk1W6dO5idT/zAcrYeihfHRbBCd7n90J
-	vDPkGi2TU+P7hhISlkBg==;
+	List-Owner; bh=K4gVMiaB2xbB5WR3rMrdJ6wbpVF+jjoXiwfTurx1EIg=; b=vC/6waAqYtwFcg
+	CalXo1cWpO4LRIIZc0nLvnHhEHAiCk7R610LU0qaejFlc4/LueUHpHqKNoqZ+5hH8OF6KF+kI7g1W
+	3+E71Q0/zYPSAvzkF41CA5Wsjc5zzkSsxUkk0sLMc8tEsI6+0HaQShnkioJHdHw0KJ1itV/+dXXP5
+	8zqQDUw7fR/UKEbFUGCNFd8uBiSmlP708Tsj4i/fMVL3+346awuAEbZ47NRP2oJcZC2eb+VDR9J2/
+	pTq5/jOSkcB3+0wKlcLZsAH4V9faErGzphDnJE4c5IFvw/+kpVYptbuLZU3PrxI5USpsZdxVz+iee
+	Dz/iSX1qWn7PO6e0h2YQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1loUYf-005Uet-BZ; Wed, 02 Jun 2021 17:21:33 +0000
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
+	id 1loUZK-005Uvd-Vg; Wed, 02 Jun 2021 17:22:15 +0000
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
+ helo=mx0b-0016f401.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1loUV0-005T3z-S8
- for linux-nvme@lists.infradead.org; Wed, 02 Jun 2021 17:17:48 +0000
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 152H6A9W025799; Wed, 2 Jun 2021 10:17:31 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 38wufguvf7-1
+ id 1loUV3-005T5h-Gy
+ for linux-nvme@lists.infradead.org; Wed, 02 Jun 2021 17:17:51 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 152HFhou018964; Wed, 2 Jun 2021 10:17:44 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0a-0016f401.pphosted.com with ESMTP id 38xe7xr0ae-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Wed, 02 Jun 2021 10:17:31 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 2 Jun 2021 10:17:29 -0700
+ Wed, 02 Jun 2021 10:17:44 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 2 Jun 2021 10:17:42 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 2 Jun 2021 10:17:25 -0700
+ 15.0.1497.2 via Frontend Transport; Wed, 2 Jun 2021 10:17:39 -0700
 From: Shai Malin <smalin@marvell.com>
 To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <kuba@kernel.org>
 CC: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
@@ -56,21 +57,21 @@ CC: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
  <mkalderon@marvell.com>, <okulkarni@marvell.com>,
  <pkushwaha@marvell.com>, <prabhakar.pkin@gmail.com>,
  <malin1024@gmail.com>, <smalin@marvell.com>
-Subject: [PATCH 1/7] qed: Add TCP_ULP FW resource layout
-Date: Wed, 2 Jun 2021 20:16:49 +0300
-Message-ID: <20210602171655.23581-2-smalin@marvell.com>
+Subject: [PATCH 4/7] qed: Add support of HW filter block
+Date: Wed, 2 Jun 2021 20:16:52 +0300
+Message-ID: <20210602171655.23581-5-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210602171655.23581-1-smalin@marvell.com>
 References: <20210602171655.23581-1-smalin@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: Merj-KtTDMPgOidH2zzaOFo_C-xI9Ect
-X-Proofpoint-GUID: Merj-KtTDMPgOidH2zzaOFo_C-xI9Ect
+X-Proofpoint-ORIG-GUID: eB-_NaFSBTzgJr8CSIaD2RNEOCI8BJVe
+X-Proofpoint-GUID: eB-_NaFSBTzgJr8CSIaD2RNEOCI8BJVe
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-06-02_09:2021-06-02,
  2021-06-02 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210602_101747_092695_B790E511 
-X-CRM114-Status: GOOD (  14.49  )
+X-CRM114-CacheID: sfid-20210602_101749_633243_96F50E19 
+X-CRM114-Status: GOOD (  15.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,307 +88,207 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Omkar Kulkarni <okulkarni@marvell.com>
+From: Prabhakar Kushwaha <pkushwaha@marvell.com>
 
-Add TCP_ULP as a storage common TCP offload FW resource layout.
-This will be used by the core driver (QED) for both the NVMeTCP and iSCSI.
+This patch introduces the functionality of HW filter block.
+It adds and removes filters based on source and target TCP port.
+
+It also add functionality to clear all filters at once.
 
 Acked-by: Igor Russkikh <irusskikh@marvell.com>
 Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
 Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
+Signed-off-by: Shai Malin <smalin@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
-Signed-off-by: Shai Malin <smalin@marvell.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/net/ethernet/qlogic/qed/qed_cxt.c     | 18 ++++++++---------
- drivers/net/ethernet/qlogic/qed/qed_cxt.h     |  2 +-
- drivers/net/ethernet/qlogic/qed/qed_dev.c     |  2 +-
- drivers/net/ethernet/qlogic/qed/qed_hsi.h     |  2 +-
- drivers/net/ethernet/qlogic/qed/qed_iscsi.c   | 20 +++++++++----------
- drivers/net/ethernet/qlogic/qed/qed_ll2.c     |  8 ++++----
- drivers/net/ethernet/qlogic/qed/qed_ooo.c     |  2 +-
- .../net/ethernet/qlogic/qed/qed_sp_commands.c |  2 +-
- include/linux/qed/common_hsi.h                |  2 +-
- include/linux/qed/qed_ll2_if.h                |  2 +-
- 10 files changed, 30 insertions(+), 30 deletions(-)
+ drivers/net/ethernet/qlogic/qed/qed.h         |  8 ++
+ drivers/net/ethernet/qlogic/qed/qed_dev.c     | 90 +++++++++++++++++++
+ drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c |  5 ++
+ include/linux/qed/qed_nvmetcp_if.h            | 24 +++++
+ 4 files changed, 127 insertions(+)
 
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_cxt.c b/drivers/net/ethernet/qlogic/qed/qed_cxt.c
-index 0a22f8ce9a2c..fcabbaa518df 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_cxt.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_cxt.c
-@@ -94,14 +94,14 @@ struct src_ent {
+diff --git a/drivers/net/ethernet/qlogic/qed/qed.h b/drivers/net/ethernet/qlogic/qed/qed.h
+index bc9bdb9d1bb9..b590c70539b5 100644
+--- a/drivers/net/ethernet/qlogic/qed/qed.h
++++ b/drivers/net/ethernet/qlogic/qed/qed.h
+@@ -49,6 +49,8 @@ extern const struct qed_common_ops qed_common_ops_pass;
+ #define QED_MIN_WIDS		(4)
+ #define QED_PF_DEMS_SIZE        (4)
  
- static bool src_proto(enum protocol_type type)
- {
--	return type == PROTOCOLID_ISCSI ||
-+	return type == PROTOCOLID_TCP_ULP ||
- 	       type == PROTOCOLID_FCOE ||
- 	       type == PROTOCOLID_IWARP;
- }
++#define QED_LLH_DONT_CARE 0
++
+ /* cau states */
+ enum qed_coalescing_mode {
+ 	QED_COAL_MODE_DISABLE,
+@@ -1005,4 +1007,10 @@ int qed_mfw_fill_tlv_data(struct qed_hwfn *hwfn,
+ void qed_hw_info_set_offload_tc(struct qed_hw_info *p_info, u8 tc);
  
- static bool tm_cid_proto(enum protocol_type type)
- {
--	return type == PROTOCOLID_ISCSI ||
-+	return type == PROTOCOLID_TCP_ULP ||
- 	       type == PROTOCOLID_FCOE ||
- 	       type == PROTOCOLID_ROCE ||
- 	       type == PROTOCOLID_IWARP;
-@@ -2090,13 +2090,13 @@ int qed_cxt_set_pf_params(struct qed_hwfn *p_hwfn, u32 rdma_tasks)
- 
- 		if (p_params->num_cons && p_params->num_tasks) {
- 			qed_cxt_set_proto_cid_count(p_hwfn,
--						    PROTOCOLID_ISCSI,
-+						    PROTOCOLID_TCP_ULP,
- 						    p_params->num_cons,
- 						    0);
- 
- 			qed_cxt_set_proto_tid_count(p_hwfn,
--						    PROTOCOLID_ISCSI,
--						    QED_CXT_ISCSI_TID_SEG,
-+						    PROTOCOLID_TCP_ULP,
-+						    QED_CXT_TCP_ULP_TID_SEG,
- 						    0,
- 						    p_params->num_tasks,
- 						    true);
-@@ -2129,8 +2129,8 @@ int qed_cxt_get_tid_mem_info(struct qed_hwfn *p_hwfn,
- 		seg = QED_CXT_FCOE_TID_SEG;
- 		break;
- 	case QED_PCI_ISCSI:
--		proto = PROTOCOLID_ISCSI;
--		seg = QED_CXT_ISCSI_TID_SEG;
-+		proto = PROTOCOLID_TCP_ULP;
-+		seg = QED_CXT_TCP_ULP_TID_SEG;
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -2455,8 +2455,8 @@ int qed_cxt_get_task_ctx(struct qed_hwfn *p_hwfn,
- 		seg = QED_CXT_FCOE_TID_SEG;
- 		break;
- 	case QED_PCI_ISCSI:
--		proto = PROTOCOLID_ISCSI;
--		seg = QED_CXT_ISCSI_TID_SEG;
-+		proto = PROTOCOLID_TCP_ULP;
-+		seg = QED_CXT_TCP_ULP_TID_SEG;
- 		break;
- 	default:
- 		return -EINVAL;
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_cxt.h b/drivers/net/ethernet/qlogic/qed/qed_cxt.h
-index 056e79620a0e..8adb7ed0c12d 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_cxt.h
-+++ b/drivers/net/ethernet/qlogic/qed/qed_cxt.h
-@@ -50,7 +50,7 @@ int qed_cxt_get_cid_info(struct qed_hwfn *p_hwfn,
- int qed_cxt_get_tid_mem_info(struct qed_hwfn *p_hwfn,
- 			     struct qed_tid_mem *p_info);
- 
--#define QED_CXT_ISCSI_TID_SEG	PROTOCOLID_ISCSI
-+#define QED_CXT_TCP_ULP_TID_SEG	PROTOCOLID_TCP_ULP
- #define QED_CXT_ROCE_TID_SEG	PROTOCOLID_ROCE
- #define QED_CXT_FCOE_TID_SEG	PROTOCOLID_FCOE
- enum qed_cxt_elem_type {
+ void qed_periodic_db_rec_start(struct qed_hwfn *p_hwfn);
++
++int qed_llh_add_src_tcp_port_filter(struct qed_dev *cdev, u16 src_port);
++int qed_llh_add_dst_tcp_port_filter(struct qed_dev *cdev, u16 dest_port);
++void qed_llh_remove_src_tcp_port_filter(struct qed_dev *cdev, u16 src_port);
++void qed_llh_remove_dst_tcp_port_filter(struct qed_dev *cdev, u16 src_port);
++void qed_llh_clear_all_filters(struct qed_dev *cdev);
+ #endif /* _QED_H */
 diff --git a/drivers/net/ethernet/qlogic/qed/qed_dev.c b/drivers/net/ethernet/qlogic/qed/qed_dev.c
-index d2f5855b2ea7..c231d0e56571 100644
+index 932b892f1ef1..0410c3604abd 100644
 --- a/drivers/net/ethernet/qlogic/qed/qed_dev.c
 +++ b/drivers/net/ethernet/qlogic/qed/qed_dev.c
-@@ -2266,7 +2266,7 @@ int qed_resc_alloc(struct qed_dev *cdev)
- 		} else if (p_hwfn->hw_info.personality == QED_PCI_ISCSI) {
- 			num_cons =
- 			    qed_cxt_get_proto_cid_count(p_hwfn,
--							PROTOCOLID_ISCSI,
-+							PROTOCOLID_TCP_ULP,
- 							NULL);
- 			n_eqes += 2 * num_cons;
- 		}
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_hsi.h b/drivers/net/ethernet/qlogic/qed/qed_hsi.h
-index 559df9f4d656..9dbeb2efdc51 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_hsi.h
-+++ b/drivers/net/ethernet/qlogic/qed/qed_hsi.h
-@@ -1118,7 +1118,7 @@ struct outer_tag_config_struct {
- /* personality per PF */
- enum personality_type {
- 	BAD_PERSONALITY_TYP,
--	PERSONALITY_ISCSI,
-+	PERSONALITY_TCP_ULP,
- 	PERSONALITY_FCOE,
- 	PERSONALITY_RDMA_AND_ETH,
- 	PERSONALITY_RDMA,
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_iscsi.c b/drivers/net/ethernet/qlogic/qed/qed_iscsi.c
-index 448567a1f520..db926d8b3033 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_iscsi.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_iscsi.c
-@@ -158,7 +158,7 @@ qed_sp_iscsi_func_start(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_INIT_FUNC,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
-@@ -250,7 +250,7 @@ qed_sp_iscsi_func_start(struct qed_hwfn *p_hwfn,
- 	p_hwfn->p_iscsi_info->event_context = event_context;
- 	p_hwfn->p_iscsi_info->event_cb = async_event_cb;
- 
--	qed_spq_register_async_cb(p_hwfn, PROTOCOLID_ISCSI,
-+	qed_spq_register_async_cb(p_hwfn, PROTOCOLID_TCP_ULP,
- 				  qed_iscsi_async_event);
- 
- 	return qed_spq_post(p_hwfn, p_ent, NULL);
-@@ -286,7 +286,7 @@ static int qed_sp_iscsi_conn_offload(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_OFFLOAD_CONN,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
-@@ -465,7 +465,7 @@ static int qed_sp_iscsi_conn_update(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_UPDATE_CONN,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
-@@ -506,7 +506,7 @@ qed_sp_iscsi_mac_update(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_MAC_UPDATE,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
-@@ -548,7 +548,7 @@ static int qed_sp_iscsi_conn_terminate(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_TERMINATION_CONN,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
-@@ -582,7 +582,7 @@ static int qed_sp_iscsi_conn_clear_sq(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_CLEAR_SQ,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
-@@ -606,13 +606,13 @@ static int qed_sp_iscsi_func_stop(struct qed_hwfn *p_hwfn,
- 
- 	rc = qed_sp_init_request(p_hwfn, &p_ent,
- 				 ISCSI_RAMROD_CMD_ID_DESTROY_FUNC,
--				 PROTOCOLID_ISCSI, &init_data);
-+				 PROTOCOLID_TCP_ULP, &init_data);
- 	if (rc)
- 		return rc;
- 
- 	rc = qed_spq_post(p_hwfn, p_ent, NULL);
- 
--	qed_spq_unregister_async_cb(p_hwfn, PROTOCOLID_ISCSI);
-+	qed_spq_unregister_async_cb(p_hwfn, PROTOCOLID_TCP_ULP);
- 	return rc;
+@@ -5362,3 +5362,93 @@ void qed_set_fw_mac_addr(__le16 *fw_msb,
+ 	((u8 *)fw_lsb)[0] = mac[5];
+ 	((u8 *)fw_lsb)[1] = mac[4];
  }
++
++static int qed_llh_shadow_remove_all_filters(struct qed_dev *cdev, u8 ppfid)
++{
++	struct qed_llh_info *p_llh_info = cdev->p_llh_info;
++	struct qed_llh_filter_info *p_filters;
++	int rc;
++
++	rc = qed_llh_shadow_sanity(cdev, ppfid, 0, "remove_all");
++	if (rc)
++		return rc;
++
++	p_filters = p_llh_info->pp_filters[ppfid];
++	memset(p_filters, 0, NIG_REG_LLH_FUNC_FILTER_EN_SIZE *
++	       sizeof(*p_filters));
++
++	return 0;
++}
++
++static void qed_llh_clear_ppfid_filters(struct qed_dev *cdev, u8 ppfid)
++{
++	struct qed_hwfn *p_hwfn = QED_LEADING_HWFN(cdev);
++	struct qed_ptt *p_ptt = qed_ptt_acquire(p_hwfn);
++	u8 filter_idx, abs_ppfid;
++	int rc = 0;
++
++	if (!p_ptt)
++		return;
++
++	if (!test_bit(QED_MF_LLH_PROTO_CLSS, &cdev->mf_bits) &&
++	    !test_bit(QED_MF_LLH_MAC_CLSS, &cdev->mf_bits))
++		goto out;
++
++	rc = qed_llh_abs_ppfid(cdev, ppfid, &abs_ppfid);
++	if (rc)
++		goto out;
++
++	rc = qed_llh_shadow_remove_all_filters(cdev, ppfid);
++	if (rc)
++		goto out;
++
++	for (filter_idx = 0; filter_idx < NIG_REG_LLH_FUNC_FILTER_EN_SIZE;
++	     filter_idx++) {
++		rc = qed_llh_remove_filter(p_hwfn, p_ptt,
++					   abs_ppfid, filter_idx);
++		if (rc)
++			goto out;
++	}
++out:
++	qed_ptt_release(p_hwfn, p_ptt);
++}
++
++int qed_llh_add_src_tcp_port_filter(struct qed_dev *cdev, u16 src_port)
++{
++	return qed_llh_add_protocol_filter(cdev, 0,
++					   QED_LLH_FILTER_TCP_SRC_PORT,
++					   src_port, QED_LLH_DONT_CARE);
++}
++
++void qed_llh_remove_src_tcp_port_filter(struct qed_dev *cdev, u16 src_port)
++{
++	qed_llh_remove_protocol_filter(cdev, 0,
++				       QED_LLH_FILTER_TCP_SRC_PORT,
++				       src_port, QED_LLH_DONT_CARE);
++}
++
++int qed_llh_add_dst_tcp_port_filter(struct qed_dev *cdev, u16 dest_port)
++{
++	return qed_llh_add_protocol_filter(cdev, 0,
++					   QED_LLH_FILTER_TCP_DEST_PORT,
++					   QED_LLH_DONT_CARE, dest_port);
++}
++
++void qed_llh_remove_dst_tcp_port_filter(struct qed_dev *cdev, u16 dest_port)
++{
++	qed_llh_remove_protocol_filter(cdev, 0,
++				       QED_LLH_FILTER_TCP_DEST_PORT,
++				       QED_LLH_DONT_CARE, dest_port);
++}
++
++void qed_llh_clear_all_filters(struct qed_dev *cdev)
++{
++	u8 ppfid;
++
++	if (!test_bit(QED_MF_LLH_PROTO_CLSS, &cdev->mf_bits) &&
++	    !test_bit(QED_MF_LLH_MAC_CLSS, &cdev->mf_bits))
++		return;
++
++	for (ppfid = 0; ppfid < cdev->p_llh_info->num_ppfid; ppfid++)
++		qed_llh_clear_ppfid_filters(cdev, ppfid);
++}
+diff --git a/drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c b/drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c
+index 7943804e88cd..d4d609a4d3a3 100644
+--- a/drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c
++++ b/drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c
+@@ -805,6 +805,11 @@ static const struct qed_nvmetcp_ops qed_nvmetcp_ops_pass = {
+ 	.update_conn = &qed_nvmetcp_update_conn,
+ 	.destroy_conn = &qed_nvmetcp_destroy_conn,
+ 	.clear_sq = &qed_nvmetcp_clear_conn_sq,
++	.add_src_tcp_port_filter = &qed_llh_add_src_tcp_port_filter,
++	.remove_src_tcp_port_filter = &qed_llh_remove_src_tcp_port_filter,
++	.add_dst_tcp_port_filter = &qed_llh_add_dst_tcp_port_filter,
++	.remove_dst_tcp_port_filter = &qed_llh_remove_dst_tcp_port_filter,
++	.clear_all_filters = &qed_llh_clear_all_filters
+ };
  
-@@ -786,7 +786,7 @@ static int qed_iscsi_acquire_connection(struct qed_hwfn *p_hwfn,
- 	u32 icid;
+ const struct qed_nvmetcp_ops *qed_get_nvmetcp_ops(void)
+diff --git a/include/linux/qed/qed_nvmetcp_if.h b/include/linux/qed/qed_nvmetcp_if.h
+index 5baf1c5ce798..5180edad24e5 100644
+--- a/include/linux/qed/qed_nvmetcp_if.h
++++ b/include/linux/qed/qed_nvmetcp_if.h
+@@ -123,6 +123,20 @@ struct qed_nvmetcp_cb_ops {
+  *			@param cdev
+  *			@param handle - the connection handle.
+  *			@return 0 on success, otherwise error value.
++ * @add_src_tcp_port_filter: Add source tcp port filter
++ *			@param cdev
++ *			@param src_port
++ * @remove_src_tcp_port_filter: Remove source tcp port filter
++ *			@param cdev
++ *			@param src_port
++ * @add_dst_tcp_port_filter: Add destination tcp port filter
++ *			@param cdev
++ *			@param dest_port
++ * @remove_dst_tcp_port_filter: Remove destination tcp port filter
++ *			@param cdev
++ *			@param dest_port
++ * @clear_all_filters: Clear all filters.
++ *			@param cdev
+  */
+ struct qed_nvmetcp_ops {
+ 	const struct qed_common_ops *common;
+@@ -158,6 +172,16 @@ struct qed_nvmetcp_ops {
+ 	int (*destroy_conn)(struct qed_dev *cdev, u32 handle, u8 abrt_conn);
  
- 	spin_lock_bh(&p_hwfn->p_iscsi_info->lock);
--	rc = qed_cxt_acquire_cid(p_hwfn, PROTOCOLID_ISCSI, &icid);
-+	rc = qed_cxt_acquire_cid(p_hwfn, PROTOCOLID_TCP_ULP, &icid);
- 	spin_unlock_bh(&p_hwfn->p_iscsi_info->lock);
- 	if (rc)
- 		return rc;
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_ll2.c b/drivers/net/ethernet/qlogic/qed/qed_ll2.c
-index 49783f365079..286e53927866 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_ll2.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_ll2.c
-@@ -1037,8 +1037,8 @@ static int qed_sp_ll2_tx_queue_start(struct qed_hwfn *p_hwfn,
- 	case QED_LL2_TYPE_FCOE:
- 		p_ramrod->conn_type = PROTOCOLID_FCOE;
- 		break;
--	case QED_LL2_TYPE_ISCSI:
--		p_ramrod->conn_type = PROTOCOLID_ISCSI;
-+	case QED_LL2_TYPE_TCP_ULP:
-+		p_ramrod->conn_type = PROTOCOLID_TCP_ULP;
- 		break;
- 	case QED_LL2_TYPE_ROCE:
- 		p_ramrod->conn_type = PROTOCOLID_ROCE;
-@@ -1048,7 +1048,7 @@ static int qed_sp_ll2_tx_queue_start(struct qed_hwfn *p_hwfn,
- 		break;
- 	case QED_LL2_TYPE_OOO:
- 		if (p_hwfn->hw_info.personality == QED_PCI_ISCSI)
--			p_ramrod->conn_type = PROTOCOLID_ISCSI;
-+			p_ramrod->conn_type = PROTOCOLID_TCP_ULP;
- 		else
- 			p_ramrod->conn_type = PROTOCOLID_IWARP;
- 		break;
-@@ -2442,7 +2442,7 @@ static int __qed_ll2_start(struct qed_hwfn *p_hwfn,
- 		conn_type = QED_LL2_TYPE_FCOE;
- 		break;
- 	case QED_PCI_ISCSI:
--		conn_type = QED_LL2_TYPE_ISCSI;
-+		conn_type = QED_LL2_TYPE_TCP_ULP;
- 		break;
- 	case QED_PCI_ETH_ROCE:
- 		conn_type = QED_LL2_TYPE_ROCE;
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_ooo.c b/drivers/net/ethernet/qlogic/qed/qed_ooo.c
-index 88353aa404dc..599da0d7366b 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_ooo.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_ooo.c
-@@ -83,7 +83,7 @@ int qed_ooo_alloc(struct qed_hwfn *p_hwfn)
+ 	int (*clear_sq)(struct qed_dev *cdev, u32 handle);
++
++	int (*add_src_tcp_port_filter)(struct qed_dev *cdev, u16 src_port);
++
++	void (*remove_src_tcp_port_filter)(struct qed_dev *cdev, u16 src_port);
++
++	int (*add_dst_tcp_port_filter)(struct qed_dev *cdev, u16 dest_port);
++
++	void (*remove_dst_tcp_port_filter)(struct qed_dev *cdev, u16 dest_port);
++
++	void (*clear_all_filters)(struct qed_dev *cdev);
+ };
  
- 	switch (p_hwfn->hw_info.personality) {
- 	case QED_PCI_ISCSI:
--		proto = PROTOCOLID_ISCSI;
-+		proto = PROTOCOLID_TCP_ULP;
- 		break;
- 	case QED_PCI_ETH_RDMA:
- 	case QED_PCI_ETH_IWARP:
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_sp_commands.c b/drivers/net/ethernet/qlogic/qed/qed_sp_commands.c
-index aa71adcf31ee..ee7dc0a7da6c 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_sp_commands.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_sp_commands.c
-@@ -385,7 +385,7 @@ int qed_sp_pf_start(struct qed_hwfn *p_hwfn,
- 		p_ramrod->personality = PERSONALITY_FCOE;
- 		break;
- 	case QED_PCI_ISCSI:
--		p_ramrod->personality = PERSONALITY_ISCSI;
-+		p_ramrod->personality = PERSONALITY_TCP_ULP;
- 		break;
- 	case QED_PCI_ETH_ROCE:
- 	case QED_PCI_ETH_IWARP:
-diff --git a/include/linux/qed/common_hsi.h b/include/linux/qed/common_hsi.h
-index 977807e1be53..0a3807e927c5 100644
---- a/include/linux/qed/common_hsi.h
-+++ b/include/linux/qed/common_hsi.h
-@@ -702,7 +702,7 @@ enum mf_mode {
- 
- /* Per-protocol connection types */
- enum protocol_type {
--	PROTOCOLID_ISCSI,
-+	PROTOCOLID_TCP_ULP,
- 	PROTOCOLID_FCOE,
- 	PROTOCOLID_ROCE,
- 	PROTOCOLID_CORE,
-diff --git a/include/linux/qed/qed_ll2_if.h b/include/linux/qed/qed_ll2_if.h
-index ea273ba1c991..ff808d248883 100644
---- a/include/linux/qed/qed_ll2_if.h
-+++ b/include/linux/qed/qed_ll2_if.h
-@@ -18,7 +18,7 @@
- 
- enum qed_ll2_conn_type {
- 	QED_LL2_TYPE_FCOE,
--	QED_LL2_TYPE_ISCSI,
-+	QED_LL2_TYPE_TCP_ULP,
- 	QED_LL2_TYPE_TEST,
- 	QED_LL2_TYPE_OOO,
- 	QED_LL2_TYPE_RESERVED2,
+ const struct qed_nvmetcp_ops *qed_get_nvmetcp_ops(void);
 -- 
 2.22.0
 
