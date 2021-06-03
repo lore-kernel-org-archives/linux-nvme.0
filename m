@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6272C47082
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jun 2021 17:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FFFC47082
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jun 2021 17:08:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 96A9A6140B
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jun 2021 17:08:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96A9A6140B
+	by mail.kernel.org (Postfix) with ESMTPS id 560B2613FF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jun 2021 17:08:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 560B2613FF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,43 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+/FdFB+sr9KPFaw0zuaDswR2qGj6C3jNVLib+djR2Zo=; b=NO/bckTdoKQC9M
-	YrIcLaUdaH9+Ta5+kdXaZbZq2iST6c43pJGrJnpuj8VACpO5IWBKe6OM/YQ8oZ0Cc682PoQVnD83Q
-	T87R5t7KbZStOQgC6KMQw1PuWPlZMNtY6gq1BL4duaRs8GoQL0C6SkbYIBI92aVE07Iw/hin5yj4l
-	hJqOmt79XpfEmKrR3zlj57Y5pXmL3WlOznMZPYqFBHkUS4ZW6uDvVHEVMvTO6cQFDwVw3vdrMhahO
-	MIZk5ucMm2bpdrMLvmouiT7dd2abwufPn/OW0/V2akzzKq3atoHkQ2W6d/FhOGoCWtyv/w4GOIgyD
-	cezmZnJ9viP+eL9npq9A==;
+	List-Owner; bh=lryRh2BZz4MQfUNojH15GtNNxj8iHjxHUQ7pVxKIghg=; b=zv5F3tnffRoO6T
+	VKlhKicBI8LRzyIJaeTSTuAE/RNDJuv7fw0j5o2pdiYU553mUMT2D78Rzz7S3TSnxP1/pEN4idilJ
+	htZjGqfcGAVKoxldifiIBqqeWzG27j8epveDZ9m1+Gf/1Ej4bdUp536Y8WmQpYo1cqtHIU58Xr91T
+	AEQnFhaOZEKEn8vg8yJoR+2xG8+/4cA3dXrQJwWwn1zZdHaGcSb+j3QXm7q0roOu5zsBVYMOwi0r2
+	1SQFjk5O+e8x2Ot9wEaINLBPYzay+5suv+ps43JQt/KezvUNr/ENl7CGZOO4woYKeHo654alGbht5
+	tV9s88FDoKzYaepEKVtw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1loqpR-009k1r-97; Thu, 03 Jun 2021 17:08:21 +0000
+	id 1loqpv-009kGj-66; Thu, 03 Jun 2021 17:08:51 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1loqpO-009jzy-FY
- for linux-nvme@lists.infradead.org; Thu, 03 Jun 2021 17:08:19 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 432B5613F6;
- Thu,  3 Jun 2021 17:08:17 +0000 (UTC)
+ id 1loqpU-009k3S-K0
+ for linux-nvme@lists.infradead.org; Thu, 03 Jun 2021 17:08:25 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AB14613F4;
+ Thu,  3 Jun 2021 17:08:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1622740098;
- bh=DNn8YgMWuL79KlSNWON5bYkl35B1Ce482gDniI7RIgQ=;
+ s=k20201202; t=1622740104;
+ bh=KQj6+Mec5t1lduI9hVJiOB+XDnYJwpycELEWfMg/2Js=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AlfvTuwRUuQwBGAfaAUEiKxwn7X5vcnVAkXlelsr7HccaK9gEBdlbTc1XUrvRYpYN
- L4JVFMGXrvJBZAQqoyK1p8MIFxWvxISl4xdubrcuTw2Qc95DZX65KwQ5uvSDGgCUMf
- zIFKI+T2MMy1BLM06QtjecJnJ0pVPJZE+AN0svG6uBJgR99X/NidupD1pr3hfBZmDc
- oK5Sv8MkxvbnPQHDXLEotcSnZ7b2BFWiBQufAoydeuEnpvD+Arc1yd7PGjcPobh8em
- +p6EBAUzZOT5y3PcfLDB6W+0mKAE7UagxDWOcmB25j0yHtoxeaW5ELIM6x0GnXTLm5
- PipfZmtwEPNLw==
+ b=RBOLkEUVwTLQFq6mO8Z+1WXBEQOVkdtaMHgeumSQpQqeS2N6j7kRsm5CQk22p4n9X
+ bF9PwzU60efKp3cEUTj+Jq7Y6htL7qxHY7l8aXBP45zLdeh8JpXAf0bcY09m9eLpf4
+ O1SI64RhfCv5VENmRhbFb/K4I0Yb3lqD74KJMoGcynjtcbdp/66j5cSFglqS+sQXD5
+ vGVeyl87oJJO0uyVQzCMt9Fvubq/UQEubceVt4cOWhQsCU8gG99tD0IzEAqod0bJrE
+ LueURKGpwaId3gpaMQk43feuHQ1zYru6+j8pj/ttvkVoQJ+lu28JkOhycDgsRZZ9Of
+ rH843LfgUblkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.12 35/43] nvme-fabrics: decode host pathing error
- for connect
-Date: Thu,  3 Jun 2021 13:07:25 -0400
-Message-Id: <20210603170734.3168284-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 40/43] nvme-tcp: remove incorrect Kconfig dep in
+ BLK_DEV_NVME
+Date: Thu,  3 Jun 2021 13:07:30 -0400
+Message-Id: <20210603170734.3168284-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210603170734.3168284-1-sashal@kernel.org>
 References: <20210603170734.3168284-1-sashal@kernel.org>
@@ -67,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210603_100818_569412_ED6C73B4 
-X-CRM114-Status: UNSURE (   8.85  )
+X-CRM114-CacheID: sfid-20210603_100824_708906_40609078 
+X-CRM114-Status: UNSURE (   9.92  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -86,38 +85,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit 4d9442bf263ac45d495bb7ecf75009e59c0622b2 ]
+[ Upstream commit 042a3eaad6daeabcfaf163aa44da8ea3cf8b5496 ]
 
-Add an additional decoding for 'host pathing error' during connect.
+We need to select NVME_CORE.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/fabrics.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/nvme/host/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 604ab0e5a2ad..fb02ca2e3096 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -336,6 +336,11 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
- 			cmd->connect.recfmt);
- 		break;
- 
-+	case NVME_SC_HOST_PATH_ERROR:
-+		dev_err(ctrl->device,
-+			"Connect command failed: host path error\n");
-+		break;
-+
- 	default:
- 		dev_err(ctrl->device,
- 			"Connect command failed, error wo/DNR bit: %d\n",
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index a44d49d63968..494675aeaaad 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -71,7 +71,8 @@ config NVME_FC
+ config NVME_TCP
+ 	tristate "NVM Express over Fabrics TCP host driver"
+ 	depends on INET
+-	depends on BLK_DEV_NVME
++	depends on BLOCK
++	select NVME_CORE
+ 	select NVME_FABRICS
+ 	select CRYPTO
+ 	select CRYPTO_CRC32C
 -- 
 2.30.2
 
