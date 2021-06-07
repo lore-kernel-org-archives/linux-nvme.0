@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D81DCC4743C
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 09:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B43DC47082
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 09:24:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CF6561002
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 09:17:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CF6561002
+	by mail.kernel.org (Postfix) with ESMTPS id C225061159
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 09:24:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C225061159
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,54 +23,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=tKeh8rvm8AwOYgVRVH/qgHgBVxOphFZaaL+0OlPREz4=; b=wxKoQQt4tploUN
-	IUXE/0NYaQIXnoxODZxW0FIEUJGvLcEHPqIiwmSukbGju2UiISFhWSHXg4hiFmpEj6wOTdcrmUUQS
-	+UpuZxJFzRU6ntCVU1yiTIVglVq9eYgCiAbLpPP4mC8q6hhbC0XGpsgVf9KHRzICoqBAMiHLC/tOX
-	KeYOUhq8KcEykICEcrksGpofIjBONo7GJs7pghdUPsePAoGse3tgWzRCNzhK/CAFn/CXJJx0TjoXX
-	E6SRx1ud6jk500Z6eSYID7UKDLRBYaFfS4mWf0nguSvYiOqxlzQh6xpJVqmVSvbZqIHpnDXQ6etNy
-	lQB86IUYwv8S6orweVxg==;
+	List-Owner; bh=tW2Sgtc79KXxexyadQAXFiPeqsgZLY+NBqmutIOREm0=; b=0D4061L2bKzSRu
+	pB99+1OgdirjMQ6vq0q1k995aYAlS/m80BTTr1J1DE3ENxZKM8qKHAamTukhxG0KAylpySR5FpcIM
+	ydlqfQfEg++uh8gyi0Cq2P+9snGz3NFbNWDXFK5YBw58GuubFVd0hRbpVZlNZeaT/3D9yB5WRjaOT
+	WGKtLQURfizUaMAnH4MlpVZSf9Qgt9X1u8490fE7SuM0KjPWj6Sm3GJgm0MDslUa/+BebDBgT9wjt
+	u9Hnw9o/g8Cpahovbsb25dWghhL5iRBfUeKbrhA9ZMsFXno3A4IVpH4Ka7b4aYvFSGemsZxAfYFYN
+	U9BIMS+cZPKaAVidebBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqBNV-002Wqs-Ks; Mon, 07 Jun 2021 09:17:01 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1lqBUp-002ZZA-NH; Mon, 07 Jun 2021 09:24:35 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqAuc-002Op8-AF
- for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 08:47:14 +0000
+ id 1lqB4M-002RGz-P7
+ for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 08:57:18 +0000
 Received: from relay2.suse.de (unknown [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id DD2D31FDCA;
- Mon,  7 Jun 2021 08:47:06 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTP id 297F121A5B;
+ Mon,  7 Jun 2021 08:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623055626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1623056232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bY05Mseh+Z7yupujGt16kI/m6VhGcN21TuE/soNSij0=;
- b=Xtd5QDsZ6Xo0ZNyuaWmUA6vNGTR9EHvEN3QvKa3D+8LJGOrHxn+iKm55b8vjJ5jPaAC25O
- FRhRQC2Ox+ijbB9uOLmTWMim4ZuLFohkhLQP+Bn6CROkNN6Zxb0bqhYuBiyPhU68GqCAY1
- NIePpYONax2W5/UEWg0chkaZxH96Cdk=
+ bh=70d+eeUNUJUrApqI9dcysM+A4Ouzv/oKGOxjeF7oXZo=;
+ b=jWgCRi59aEiHaDvW/KVX0XjMm20RZwopSJiDit2t46cZbiXznJ7t3XhxHg+bVH6jNAvcgx
+ 40W103nVzIqtB2LfpOTYG3unnCnkURo3c/+YO8DiacHJq+16wXhRvEOgIgcw8WtWYo7OKY
+ PO8PcLSbzcdg9m34g4vfGGUrUvhJIk0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623055626;
+ s=susede2_ed25519; t=1623056232;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bY05Mseh+Z7yupujGt16kI/m6VhGcN21TuE/soNSij0=;
- b=cD1VWJJ7An9KsTkSW3/LLpn2ABFQMMaYVUQlKUTyJMfuxKX/fk1iCh2HOt5cmoq0wsb8Fb
- snwaLOOwGcdku5AQ==
+ bh=70d+eeUNUJUrApqI9dcysM+A4Ouzv/oKGOxjeF7oXZo=;
+ b=3IYcJthl7lzsUQ9np6thDiH1QtqT+G3oQEEA3Bxv63MhPO96ocbjjSbhCRaBjTHFGnoGju
+ lIXfTDc0b8pm29BQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 1BD1FA3B8D;
- Mon,  7 Jun 2021 08:47:06 +0000 (UTC)
+ by relay2.suse.de (Postfix) with ESMTP id EC4C4A3B83;
+ Mon,  7 Jun 2021 08:57:11 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id 0C3A9516FDEB; Mon,  7 Jun 2021 10:47:06 +0200 (CEST)
+ id DF693516FDED; Mon,  7 Jun 2021 10:57:11 +0200 (CEST)
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
  Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v3] nvme: remove superfluous bio_set_dev in nvme_requeue_work
-Date: Mon,  7 Jun 2021 10:46:51 +0200
-Message-Id: <20210607084651.99122-1-dwagner@suse.de>
+ Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+ Hannes Reinecke <hare@suse.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: [PATCH v2] nvme: verify MNAN value if ANA is enabled
+Date: Mon,  7 Jun 2021 10:56:56 +0200
+Message-Id: <20210607085656.101772-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_014710_536409_58A54FF3 
-X-CRM114-Status: GOOD (  12.46  )
+X-CRM114-CacheID: sfid-20210607_015715_021761_F4F1FED2 
+X-CRM114-Status: GOOD (  10.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,44 +89,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit ce86dad222e9 ("nvme-multipath: reset bdev to ns head when
-failover") moved the reset code where the bio is added to the
-requeue_list for the failover path. But it left the original
-bio_set_dev in nvme_requeue_work.
+The controller is required to have a non-zero MNAN value if it supports
+ANA:
 
-There is a second path to nvme_requee_work. It is via
-nvme_ns_head_submit_bio. Though we don't have to set bio->bi_bdev for
-this path either, as it points to the correct bdev already.
+   If the controller supports Asymmetric Namespace Access Reporting, then
+   this field shall be set to a non-zero value that is less than or equal
+   to the NN value.
 
-Let's remove the bio_set_dev. It's updating the bio->bi_bdev with the
-same pointer and thus it's unnecessary.
-
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
 
-v3: - dropped bio_set_dev from nvme_ns_head_submit_bio
-    - renamed patch
-v2: https://lore.kernel.org/linux-nvme/20210603072537.GA4718@lst.de/
+v2: - moved the check to nvme_mpath_init_identify
+    - added reviewed tags
 
- drivers/nvme/host/multipath.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/nvme/host/multipath.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 127a17b4c13d..a501917d4c6e 100644
+index a501917d4c6e..23573fe3fc7d 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -435,11 +435,6 @@ static void nvme_requeue_work(struct work_struct *work)
- 		next = bio->bi_next;
- 		bio->bi_next = NULL;
+@@ -813,6 +813,13 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
+ 		return 0;
  
--		/*
--		 * Reset disk to the mpath node and resubmit to select a new
--		 * path.
--		 */
--		bio_set_dev(bio, head->disk->part0);
- 		submit_bio_noacct(bio);
- 	}
- }
++	if (!ctrl->max_namespaces ||
++	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
++		dev_err(ctrl->device,
++			"Invalid MNAN value %u\n", ctrl->max_namespaces);
++		return -EINVAL;
++	}
++
+ 	ctrl->anacap = id->anacap;
+ 	ctrl->anatt = id->anatt;
+ 	ctrl->nanagrpid = le32_to_cpu(id->nanagrpid);
 -- 
 2.29.2
 
