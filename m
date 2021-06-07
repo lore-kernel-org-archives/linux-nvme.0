@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFDFC47094
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:19:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E15DBC47082
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:21:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D40C66140D
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:19:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D40C66140D
+	by mail.kernel.org (Postfix) with ESMTPS id B4DB860FE5
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:21:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B4DB860FE5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,31 +23,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1VpXLHLRMmuUAyD6bfUv82O8l1AJrphm9jLDxLr4vpY=; b=vQqnaCilWCa7Zz
-	kYu1B32SxL/fesv37I12jvlr43bUy6gSxwEGrL4nV5AqW0laLmqwE4Of6diWKC7jW7RKQwlAPs9rR
-	8uSVMeBf+5r8wHh8+7OO8reSPVVV0zgRPVjX0GamxHRN3i+mfs8I4IijgNpg9fvrwDe1K42/cwlYM
-	yUMxAfU9SwBKNPPOUMC1rsMZZ3o3o4SyTVf/RbyZ4Ts4Ln3jotnEGXb/1FmCEqykO1y7RRVvNgXAp
-	PPjsI6XjPs1q3xr4n06deUZQNyBfL7WHBg/RnWSuRGGDpeVeoASfwsQRQzQ1rpr6ejob12NyWGh8h
-	MifV4J+XtkIadiqLijNQ==;
+	List-Owner; bh=mCDjlUNXNVaKWD2pRUlxtRgNn5kRZWvtpMBBLj++x38=; b=Js5JCrDQaOMQAF
+	rK5RdsubCUQ3g+RZcvqkeVu2erohpwjQ7Ii1qgHPWOeB499n01AQlyUjrpqfecWLCmNrYSvVi/vZa
+	K/QRvzGemwPGfdxbUa4PR/A8KzxF1NhUXZcmIa3Oto8Qj6AzdPPMqr9UH5Ve79aTJ4dAAXPX1FMMa
+	J9wOfECJPHBoRs5V/BG2p4BdeUIgSLw1/NwAx1YMXgpDxWrTdgQaDZxL3lukGD+oodLAnab0bQd1b
+	zYvO5AfzaHogq48xyzTeUU5LZduyiOcwu0u79boLKj1Zd9PVF8H0JMn2hWk1vZbzmg0vm6eGERD5S
+	RGHx8L5UbYAV7NqfkJwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqHyd-004SGk-5A; Mon, 07 Jun 2021 16:19:47 +0000
+	id 1lqI0R-004T6N-PW; Mon, 07 Jun 2021 16:21:39 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqHtc-004PWI-Cd
+ id 1lqHtd-004PXE-KH
  for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 16:14:38 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BA1C61629;
- Mon,  7 Jun 2021 16:14:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7CC606162A;
+ Mon,  7 Jun 2021 16:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623082476;
- bh=d7p5lr8WG2kOoPy/qtHLSOXt63pDSmjvEGscr38ZZHo=;
+ s=k20201202; t=1623082477;
+ bh=ypz9PQ9qe0SVB/8adFFM25pP4e02WlCyeIliOP7utIo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bnUnjep4cXtv9R/91BHiVSwTumCue9LcUKzxiCUr3LRO280g1RVVLCFqHnaRkp9Cf
- 9HMsauj8GzQL93gbjE4OeuoOoSBfREC0IPJplesu5CFdtDxDE7TsFbPx/S9PbDRfiB
- h++7ylEHjIm2AC97vcCm87mSEXJJ3ei6+ETpBoD7tD7Pe9JnEUOhg2lQUXMiQoMoq8
- K33IsoWMWCzbrUdh5qzPpRYGCZykqe7HMzNO8xcET6++6t50kE+EM8G+avR+FTfnqi
- 1WTCaG5QJp4ugsbd8itjYQNcancTS43touAwj+06atWT/j2tgF8BEWdtcmBgsdcxZi
- eL2yrgBLWWmgA==
+ b=ehDiBAsT6M7dx6e6QRxHvfWj3I6xsBWv3XeR4B0CazgulY5iwhhwAgDgqpLNE6KT6
+ G63WYkpNEG5+hSFFoyUod/m+fzkgLfzClUd/CunyJczm7InvMAJt/4RqRg7sIrKLye
+ usaDQwO1T5rY63Tr6UfGuwqe8mI8udsj85rsznbI4eO7/DlN6TZQbGO4l0vc4Ad4Gd
+ ZxHN6nsEJA8geHGf7F2DxxPys+h0dX7L3LOumYjdSX9TUPpmoG5I5j4thMrmUS3Cuk
+ LAr/wRCCt15H0PE2klo+Jm1/loWbz0OKP+tz2s19HV3VTzfqSQgiSOqq6nBzYugIGP
+ HAx6Ru3Gs1nLQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -55,10 +55,10 @@ Cc: Hannes Reinecke <hare@suse.de>,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 20/29] nvme-loop: reset queue count to 1 in
- nvme_loop_destroy_io_queues()
-Date: Mon,  7 Jun 2021 12:14:01 -0400
-Message-Id: <20210607161410.3584036-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 21/29] nvme-loop: clear NVME_LOOP_Q_LIVE when
+ nvme_loop_configure_admin_queue() fails
+Date: Mon,  7 Jun 2021 12:14:02 -0400
+Message-Id: <20210607161410.3584036-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607161410.3584036-1-sashal@kernel.org>
 References: <20210607161410.3584036-1-sashal@kernel.org>
@@ -66,8 +66,9 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_091436_499795_42B6E3CE 
-X-CRM114-Status: GOOD (  10.11  )
+X-CRM114-CacheID: sfid-20210607_091437_720349_3B6E2E70 
+X-CRM114-Status: UNSURE (   8.66  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,12 +87,10 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit a6c144f3d2e230f2b3ac5ed8c51e0f0391556197 ]
+[ Upstream commit 1c5f8e882a05de5c011e8c3fbeceb0d1c590eb53 ]
 
-The queue count is increased in nvme_loop_init_io_queues(), so we
-need to reset it to 1 at the end of nvme_loop_destroy_io_queues().
-Otherwise the function is not re-entrant safe, and crash will happen
-during concurrent reset and remove calls.
+When the call to nvme_enable_ctrl() in nvme_loop_configure_admin_queue()
+fails the NVME_LOOP_Q_LIVE flag is not cleared.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
@@ -102,17 +101,17 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 82b87a4c50f6..b4f5503ae570 100644
+index b4f5503ae570..f752e9432676 100644
 --- a/drivers/nvme/target/loop.c
 +++ b/drivers/nvme/target/loop.c
-@@ -288,6 +288,7 @@ static void nvme_loop_destroy_io_queues(struct nvme_loop_ctrl *ctrl)
- 		clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[i].flags);
- 		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
- 	}
-+	ctrl->ctrl.queue_count = 1;
- }
+@@ -395,6 +395,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 	return 0;
  
- static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
+ out_cleanup_queue:
++	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
+ 	blk_cleanup_queue(ctrl->ctrl.admin_q);
+ out_cleanup_fabrics_q:
+ 	blk_cleanup_queue(ctrl->ctrl.fabrics_q);
 -- 
 2.30.2
 
