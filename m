@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D4C3C4743E
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 00:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A3EC4743D
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 00:38:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3EF3B61245
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 00:38:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3EF3B61245
+	by mail.kernel.org (Postfix) with ESMTPS id 4E98D61245
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 00:38:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E98D61245
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,70 +23,70 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fif+G4BZKG2VORGA298UiSJMazGxn0vCCmxUaInEKXY=; b=o/4cZLLsQ2qPaJ
-	SS4r74+HT+R1Yxjk1egWp5DHY0WUyl/Tz69qNHZ7iiE5ZFwA0XPNPhoxw5TIOG/katSvg6N4b1DD8
-	0FIpHu3aZeYc1KlPQLnPlSVQXuYg/eWmzWrJBJU460T1cEp5xY+OYSoEfA8Y+tPX2NaFwpvoLBLor
-	L+SJ7ubWyN0Ayr70b0R6YRYYoi1OT/7nRYgaPWzXFOjdYYNtmmxAiNyS8UoLM+WFIUl2iTXPFZ6Ly
-	JQvsELtkzItlt4JH/9PD7m3v84fe/0qE2x7wzBCDirP5nsk709685AAkWYYhTjlBGrYeDSQJ51fC8
-	KgppEqaEveQXr6X8YXLg==;
+	List-Owner; bh=ixTaX4JM+Rem2NJ1D+MBuJpeqD1RR4feCCKqoX6jLmw=; b=uNN8ekOLL6vVHk
+	eEJSjAGBt9mZdRrLGzqsThKtkhWaENmbpXXalVG8fKoSZsFfHE7c26FSdiEauZiz8GsEeCRli6Jov
+	v45YKgSlSV65bL6+rmn7O6n+6d0pXik06r850ngSKXxSOaGZQQTRvIzKUORb7r750VsSzs9KPrhZQ
+	3i17pZhWBcwhnA0xCQLFcc7JusG7Duf9ukmwzqaj2j7HvWMHrvy37CoPGAaC0Lb5i15YhA9LQ6aSv
+	TJjJ9zCcZjlffiQSe0TVkW8+Wfy5YZRe26EswhdDT24fUgP+nsVOwjisrBEuPAKabWtRd4U4Us1/q
+	qbMKBxYm6+XgQteXed/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lq3Gw-0016Gm-2p; Mon, 07 Jun 2021 00:37:42 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1lq3HQ-0016JW-5P; Mon, 07 Jun 2021 00:38:12 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lq3GZ-0016Ec-Fe
- for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 00:37:20 +0000
+ id 1lq3Gt-0016GL-ST
+ for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 00:37:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623026238; x=1654562238;
+ t=1623026259; x=1654562259;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CmSXfAbvNgP0ckuuopVjDi+42DAbvELaM/3jpvtyU5c=;
- b=nQoBR24ptxollnvNMDrxDdgjcPIRKzwm7DJStMzUp37izPi2G5wNrSKC
- TC5kgKMDvvKVtfrZVZJLi1THRjbjVbo/zDx6rn+FPm99nPr0JUQF0dS/I
- Iif0+8Cz3HF2hon3/T2ELJynvRweoGyJGhYI9NOREf4M1kG7M1Uh49D/r
- 8Qhex9E+RT/CvFRdGIWOHxngYXhMK7A5mIkItTuuvjCHjBVPTweGmg93W
- qCxZ21VR+1kHuMsVTZLFIiW/9/l4eHOVtEZUSOOIkSB6gk2JChGapht7y
- gMeU/GdF8z8mInUCDrRAp8gZOeMmU9f3dTJuCWxRgTxtHzGaKARW9LDwJ g==;
-IronPort-SDR: QcrDImvhG9iyRrKe4Zttsd2Ys6MqT0AIxlNOv37ZkjwduyBK2nmm2xDecybx+Ar/Yg4y5eFhAk
- b26QABgdTm+7oASzP1kXq1RTaYfpYnTk6ncn7zPF+nUkht3Z2cyo84wAdaFRfQBPq3irlZTeTK
- rwhLGxyY+yOjelHvVItIpdG0mSaBxHWSNosAC4E6+BaHItG4I14WmNgE/VwYGrZ1eT5Xk4Kfe/
- zZEQNJJZ3oqtAKjaS+TxiriQq2Xg/fHToOvdoLw4P3V7BNsGDeD/rJn36YX4zFcxEBQZ4R/0gf
- Wu4=
-X-IronPort-AV: E=Sophos;i="5.83,254,1616428800"; d="scan'208";a="175720818"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Jun 2021 08:37:15 +0800
-IronPort-SDR: z3GJBPq9SXU9+kGVZS7J4KljzsAZOIikX58wph+j0WvPq4GVA2oPqZpEKBLRmfwxtEAIk+R010
- mWdrKvO39AtT3mgeTidCFwaoT6NGZSBV+2N/Opua9xbWgX9AKwxr1Zn02ZCcROOsShg2hbRDRV
- GxiHg/6E4iWSdZxgkg355tm9GWbkQuVeWoYZ0JCAt4tsPQSndLhkTmbmM9+Z9z8XbNQHlw/2c0
- hZtSAwBeGZvXBVK0ZHfPlxI3dKXlGGpOAe+8E8hE1LcVWvM0pIZPieL/TzH0HLT9D0anDunsz3
- Kt+S3YLgD//+lH2nljPKOt8i
+ bh=SpSDT3wq1uKMaQgUaDY7mxIGWPmGznd2KJN9pKjqxwc=;
+ b=Pmp8+5IGBqeaZ+6C/pNi/I2/e2UaKIAtXy5Of0AZdjNWuUZJGVdQTppT
+ U0Lb3eagh6yxwqhKLZwjQjpMjX6S4OTiCaQBJi/NStR8Fc5K4Ys5MXJju
+ nhhscMoQ2MDPryBLIz2jtP2J4RnWMM8Nf0HUHzlIbpj9kjuNxuBNwMACJ
+ tDp/KF1k0gk9mp1QzkY7wxmF28TPP8WZAAjTFvsTn3zFLZlEE/KViKPP3
+ WyyVQ8+JLhwBgbHIV80JSg8ii/Lb+DEmQzcd7OWOwF+iY4iHnBmjyXf6g
+ a/MXgs0+llB5dzBggg0vBcJTLDsJHluvee1bxpn4Sb1hDtXkY8AZOyxEz g==;
+IronPort-SDR: mp0pzE/XuNbE1nQiTNWd305LgifFp5kYuEAIV0WffDVbB51Y45ahBryqiMcsc961GGXt5HU9Y1
+ k41wSNiK0OHGjzpc20ew+FR8zr0KF6TLFISbT6FrX49We7sjeuKymf+pVqXiF0i/C+nSoaaZMB
+ 9aGbzHRZ68GwfSKfmxoxhShKIIy1t9zFU6tK5ehHNLzzXV2OG3l3QOMsK2S07LtFdJP8mga4Nm
+ ++ZW3BTPJ0vdG4S45eWy0EccB64N7MLRqRpkJyhONITEXa0tLnCLEwcEjbsSyJSgvt0jEPSBJr
+ Xr0=
+X-IronPort-AV: E=Sophos;i="5.83,254,1616428800"; d="scan'208";a="282385382"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Jun 2021 08:37:37 +0800
+IronPort-SDR: XrD55JWDhAY3u4J1Uid4sa5OXOI+d89Z/2mzUoBnwIhtc4BrDTsMBVXPqsOzoAdrPfkE/1MWYt
+ 50mQQcOHToFyuzJ13vpqEzlmfLSBGTcdfDJw/oSGBWn7WFIswOJvXzmvcndeTK4lAc2ntMwuBw
+ 1JwbSozo46PqFFgB7yVnC2eyg2rqJrNqdnfHbXb4dnbkDr8u+OD7sMA0j6ZVyMQt10bnI/14k7
+ ebkyWd2yjFHaKhO2je4ApPl3LBXhxnMl4ggbNd/zkD8vW0CqUWUUWZVMf9msJnCueX3Sibftkz
+ QuC0S/C07pyea91vr0EpfLJ0
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2021 17:14:59 -0700
-IronPort-SDR: o+rO/ASym+6lvqPxR8nqP//tPBO67Cek18SBRz8jly88yR5kOQ4VpyL7SszwDfbnrjZnwEfC40
- nmnS+zX7o4o658SNIuIxvXIQh8DxXWEfr+FXQow0EkaWP/nc0GAgeRTqTJiIPf48bgLtScg1LN
- 2Cu9PSsK9Jboet/9ThnPU3bJ67nYKYtUvRdJMU/rbBNHhRadpfOGXGzAxaPMCNT+YcY6Bz9U5B
- WJGQ/VJkUIw6IOgGMj0AY3QcEYk07XCEBLQ00jb6GFjxNaMxinOWw3aMPCu6NZ5+tDSqV86Ldt
- XWM=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2021 17:16:45 -0700
+IronPort-SDR: j2CBt31wsCn3WRyQ54ko+V0kXedBoKYdl0TKF1WyYP8BQp1k8+GLahWYIPiPuokktlWW91LPL8
+ B0nJtoEa8BXQZ7/KnH8uh0aC1uYRfreRd94VxLzg7lsEytHlHwqZT+UuTtwQEXYmXqycXoHAIh
+ xxmuAw+T3ufHsK0MbQh9yMDmNjnf6XTKa5kTh4vvPhnpCjeGEyQ1lbsXROtbOMqEs7GaHoLk9H
+ RtXWVvEpJ/zQejvdI0SG44m4dt486A62s0mKP9WU+g30kW28prEsj7eUWsV2hNfiqQ1XfmmZ+Y
+ LFU=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 06 Jun 2021 17:37:16 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 06 Jun 2021 17:37:36 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
 Cc: james.smart@broadcom.com, kbusch@kernel.org, hch@lst.de,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 1/5] nvme: use helper to remove duplicate code
-Date: Sun,  6 Jun 2021 17:37:01 -0700
-Message-Id: <20210607003705.21784-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 4/5] nvme-pci: use helper for ctrl sgl check
+Date: Sun,  6 Jun 2021 17:37:04 -0700
+Message-Id: <20210607003705.21784-5-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
 In-Reply-To: <20210607003705.21784-1-chaitanya.kulkarni@wdc.com>
 References: <20210607003705.21784-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210606_173719_550680_BB0EB7CD 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20210606_173739_950362_1728C647 
+X-CRM114-Status: GOOD (  12.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,68 +103,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper nvme_validate_passthru_nsid() to validate the nsid that
-removes the nsid validation and error message print code from
-nvme_user_cmd() and nvme_user_cmd64().
+Use helper to check the controller's SGL support instead of open coding.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/ioctl.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 2e7780ea0354..d93928d1e5bd 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -177,6 +177,20 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
- }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3aa7245a505f..a7e7afc609b4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -536,7 +536,7 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
  
-+static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
-+					struct nvme_ns *ns, __u32 nsid)
-+{
-+	if (ns && nsid != ns->head->ns_id) {
-+		dev_err(ctrl->device,
-+			"%s: nsid (%u) in cmd does not match nsid (%u)"
-+			"of namespace\n",
-+			current->comm, nsid, ns->head->ns_id);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			struct nvme_passthru_cmd __user *ucmd)
- {
-@@ -192,12 +206,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		return -EFAULT;
- 	if (cmd.flags)
- 		return -EINVAL;
--	if (ns && cmd.nsid != ns->head->ns_id) {
--		dev_err(ctrl->device,
--			"%s: nsid (%u) in cmd does not match nsid (%u) of namespace\n",
--			current->comm, cmd.nsid, ns->head->ns_id);
-+	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
- 		return -EINVAL;
--	}
+ 	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
  
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = cmd.opcode;
-@@ -242,12 +252,8 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		return -EFAULT;
- 	if (cmd.flags)
- 		return -EINVAL;
--	if (ns && cmd.nsid != ns->head->ns_id) {
--		dev_err(ctrl->device,
--			"%s: nsid (%u) in cmd does not match nsid (%u) of namespace\n",
--			current->comm, cmd.nsid, ns->head->ns_id);
-+	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
- 		return -EINVAL;
--	}
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = cmd.opcode;
+-	if (!(dev->ctrl.sgls & ((1 << 0) | (1 << 1))))
++	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
+ 		return false;
+ 	if (!iod->nvmeq->qid)
+ 		return false;
 -- 
 2.22.1
 
