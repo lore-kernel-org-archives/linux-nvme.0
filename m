@@ -2,76 +2,77 @@ Return-Path: <SRS0=yMBa=LB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF22DC4743F
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 10:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EEEC47082
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 13:04:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C370B61260
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 10:32:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C370B61260
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 7901F6023B
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 13:04:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7901F6023B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=+JbfP9whYawxtkriKljcwP9/4MtNt69r01d4R5Ql3Wk=; b=rMo5YytKlH0Dpz
-	zFtoEukzoFF3PhSu4yuv/VKLOLgpqy7RCp9VRoOrn7BMZYm0Lk5k4KxYXfpTOfyZoxyWEcQ3OW1aZ
-	rEG8MtbZg0t/LL5fkhEB8UQ9zrlQ3l9Q1RfVmpio/QwHa6WPgvo9uGPphbjBpYY9qoIcSgZpfxO/s
-	XaSOhs8kt9bmuhAd5301CM4rFEFzj0YJ0f676pjMk/04d2JjzLhxBAoA7KUwv09XcIKcxWVSLRrdv
-	L3JPvfymFqoarnoAQ5brPY9n/x1mr1YFGEIDz9kru39vB4OuLG9yDFEeTmu7sN5hqvrPkYPw7jsWu
-	q97kZMtt2BWlDPpoj02g==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=AfzW3AqCTaXMP0zqP7w9TPKeY2Oqw9XA+8xwLGQL8yg=; b=qbCJLaykzpJ7jw
+	GLZYLwuAi1Qt4kBPGtgItwmkgmGLp59kBxt1N+vpz1iBE6Bjuu0qxzw8TZws3ttNyj2ulLBoze9IJ
+	Gony/r+TSaXHz9QMr13gKNz5v1ajibUzseaXuYTC4bNfXfzMVhhgTCNFEt8xSJndRNit2yHtA4Tlk
+	dV10eBPu/JzFcCmDNlbb0R+vlL33KSKnzzpUpvITtKXNP2HQ/BylzBZnMI5Y2prUJqjii+Xb/rC+V
+	3BrWliEaZrIzg4RiRijuGvhnAULuaA+EQW+AD9JBaF5q7pAGfvT9rBFXQ+TYjd7xc4jn98rs08Kmo
+	QmJfWthI59IavwJ9Vr1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqCXw-002wCl-Px; Mon, 07 Jun 2021 10:31:52 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1lqEv4-003fgQ-QM; Mon, 07 Jun 2021 13:03:54 +0000
+Received: from mail-oi1-f178.google.com ([209.85.167.178])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqBwZ-002jD4-G1
- for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 09:53:19 +0000
-Received: from relay2.suse.de (unknown [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 0FFF71FDC5;
- Mon,  7 Jun 2021 09:53:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623059594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=NUI9KjImzrONDX5eqH7NPNpw7TGJjM9zhrkmG709/os=;
- b=Jb6DPJ96/UMhpG80PPPbs48sdqkvT2Swoo64z9OCFmOfP9LiqjeeP7n2EDqkYnjBOYTzJo
- RNgTJdccpRNzYNDDCLDkLWL5DTFrg3wBiC0iFtuBDUXRGG8iN+XjVY9FhC+4mKal5MkPqo
- TXax40VQNjxvJ6QLifHjlst7vI83ViA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623059594;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=NUI9KjImzrONDX5eqH7NPNpw7TGJjM9zhrkmG709/os=;
- b=I9FPiA2GMddc+UGbNnu5P54WOx/n285gRg/mWhefTXNJmrxMP/3JmGXrj+TRtFX9NJt6EJ
- w8x78w8nwx1G73Ag==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id D40BBA3B8A;
- Mon,  7 Jun 2021 09:53:13 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 07484516FDFE; Mon,  7 Jun 2021 11:53:13 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv2] nvme-multipath: call del_gendisk() in
- nvme_mpath_check_last_path()
-Date: Mon,  7 Jun 2021 11:53:10 +0200
-Message-Id: <20210607095310.131310-1-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
+ id 1lqEl8-003d1C-2n
+ for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 12:53:40 +0000
+Received: by mail-oi1-f178.google.com with SMTP id v142so17474233oie.9
+ for <linux-nvme@lists.infradead.org>; Mon, 07 Jun 2021 05:53:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UJbb0wgONzKu6GOCNY92/rs+FfpsCbB7IddM4Al1SgU=;
+ b=sz8VK6MUOXC5v7Gpaac7rV963KFBkB9fpSZ2FWgXCe6/CpopD4deZ2xektftf5tmDk
+ PNRB3PBX7c+VXPmAYUpaJvuBiZ96E9eJZ2K5kmvXaOL1bftwIF7aIAEHBjy2UwwBRacx
+ HtOfrM0AbtdT0EXtL94z8+QC9LBUsxGxV1v6Ez59THt/MGlhNrJCphnx3XJpYCtW1joX
+ +Kjc0EAVIiG87HA/k8p7cj83QTYvceJ4Ew/OIzz/K2wSrjUlL1UXOAmRHTdChKRJk0Yr
+ h+k/LAs3EgPnYU3FLlEVBnxoVXBXcBPtzEOFud63v2Egkn/NJzOz2lbBJNf9ZKIb0J3f
+ 8qqw==
+X-Gm-Message-State: AOAM530Xs7pSr3d2+FvanHciKYgA3XzzUVnwvDCk/OoyTF1wJB2W9o4b
+ eEsdOK6C8iab0lJx+ZjCjcaAApLfINNtXm8KEEE=
+X-Google-Smtp-Source: ABdhPJywaXK6YUCVA3bLWmnpzW2BajWBXA2vWUnK0Z5R0D7fqxT9XN/AkxnBQ4DBNS61nhJar33gtOu6WmCUTqZU71M=
+X-Received: by 2002:aca:650d:: with SMTP id m13mr3080478oim.157.1623070415240; 
+ Mon, 07 Jun 2021 05:53:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210603190753.5084-1-mario.limonciello@amd.com>
+In-Reply-To: <20210603190753.5084-1-mario.limonciello@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 7 Jun 2021 14:53:24 +0200
+Message-ID: <CAJZ5v0hH_XuMucyYef=Cq-WNWt2aiVWmV5v-tm77AZ+R7HZFxg@mail.gmail.com>
+Subject: Re: [PATCH v4] acpi: Move check for _DSD StorageD3Enable property to
+ acpi
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, "Rafael J . Wysocki" <rjw@rjwysocki.net>, 
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>, rrangel@chromium.org, 
+ David Box <david.e.box@linux.intel.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Alex Deucher <Alexander.Deucher@amd.com>, Prike Liang <prike.liang@amd.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_025315_723280_BC0603DD 
-X-CRM114-Status: GOOD (  11.65  )
+X-CRM114-CacheID: sfid-20210607_055338_170828_11C6E924 
+X-CRM114-Status: GOOD (  30.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,105 +89,150 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We cannot call del_gendisk() during the final nvme_put_ns_head(), as
-this might be called from blkdev_put(). Doing so will deadlock on
-bd_mutex:
+On Thu, Jun 3, 2021 at 9:08 PM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+> Although first implemented for NVME, this check may be usable by
+> other drivers as well. Microsoft's specification explicitly mentions
+> that is may be usable by SATA and AHCI devices.  Google also indicates
+> that they have used this with SDHCI in a downstream kernel tree that
+> a user can plug a storage device into.
 
-[ 1108.529767]  __mutex_lock.constprop.0+0x2a4/0x470
-[ 1108.534472]  ? __kernfs_remove.part.0+0x174/0x1f0
-[ 1108.539178]  ? kernfs_remove_by_name_ns+0x5c/0x90
-[ 1108.543885]  del_gendisk+0x99/0x230
-[ 1108.547378]  nvme_mpath_remove_disk+0x97/0xb0 [nvme_core]
-[ 1108.552787]  nvme_put_ns_head+0x2a/0xb0 [nvme_core]
-[ 1108.557664]  __blkdev_put+0x115/0x160
-[ 1108.561339]  blkdev_put+0x4c/0x130
-[ 1108.564745]  blkdev_close+0x22/0x30
-[ 1108.568238]  __fput+0x94/0x240
+Please spell ACPI in capitals in the subject.
 
-So call 'del_gendisk()' when checking if the last path has been removed
-to avoid this deadlock.
+Otherwise
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/core.c      |  2 +-
- drivers/nvme/host/multipath.c | 12 ++++++++++--
- drivers/nvme/host/nvme.h      | 11 ++---------
- 3 files changed, 13 insertions(+), 12 deletions(-)
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cb1a76a3d42a..41a8c1de7e15 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3856,7 +3856,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	list_del_init(&ns->list);
- 	up_write(&ns->ctrl->namespaces_rwsem);
- 
--	nvme_mpath_check_last_path(ns);
-+	nvme_mpath_check_last_path(ns->head);
- 	nvme_put_ns(ns);
- }
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 127a17b4c13d..de74650cdb2d 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -776,14 +776,22 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
- #endif
- }
- 
--void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-+void nvme_mpath_check_last_path(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	if (head->disk->flags & GENHD_FL_UP) {
-+
-+	if (list_empty(&head->list) && (head->disk->flags & GENHD_FL_UP)) {
-+		kblockd_schedule_work(&head->requeue_work);
- 		nvme_cdev_del(&head->cdev, &head->cdev_device);
- 		del_gendisk(head->disk);
- 	}
-+}
-+
-+void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-+{
-+	if (!head->disk)
-+		return;
- 	blk_set_queue_dying(head->disk->queue);
- 	/* make sure all pending bios are cleaned up */
- 	kblockd_schedule_work(&head->requeue_work);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1f397ecba16c..812fc1d273e3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -716,14 +716,7 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
- void nvme_mpath_stop(struct nvme_ctrl *ctrl);
- bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
--
--static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
--{
--	struct nvme_ns_head *head = ns->head;
--
--	if (head->disk && list_empty(&head->list))
--		kblockd_schedule_work(&head->requeue_work);
--}
-+void nvme_mpath_check_last_path(struct nvme_ns_head *head);
- 
- static inline void nvme_trace_bio_complete(struct request *req)
- {
-@@ -772,7 +765,7 @@ static inline bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
- static inline void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
- {
- }
--static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
-+static inline void nvme_mpath_check_last_path(struct nvme_ns_head *head)
- {
- }
- static inline void nvme_trace_bio_complete(struct request *req)
--- 
-2.29.2
+or please let me know if you want me to take this patch (in which case
+I'll need ACKs from the PCI and NVMe side).
 
+> Link: Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
+> Suggested-by: Keith Busch <kbusch@kernel.org>
+> CC: rrangel@chromium.org
+> CC: david.e.box@linux.intel.com
+> CC: Shyam-sundar S-k <Shyam-sundar.S-k@amd.com>
+> CC: Alexander Deucher <Alexander.Deucher@amd.com>
+> CC: Rafael J. Wysocki <rjw@rjwysocki.net>
+> CC: Prike Liang <prike.liang@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/acpi/device_pm.c | 25 +++++++++++++++++++++++++
+>  drivers/nvme/host/pci.c  | 28 +---------------------------
+>  include/linux/acpi.h     |  5 +++++
+>  3 files changed, 31 insertions(+), 27 deletions(-)
+>
+> Changes from v3->v4
+>  * Rebase on nvme-5.14 (w/ patch 1/2 from v3 of series accepted)
+>  * Adjust commit message per Christoph's suggestions
+>  * Adjust documentation per Christoph's suggestions
+>
+> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> index d260bc1f3e6e..1edb68d00b8e 100644
+> --- a/drivers/acpi/device_pm.c
+> +++ b/drivers/acpi/device_pm.c
+> @@ -1340,4 +1340,29 @@ int acpi_dev_pm_attach(struct device *dev, bool power_on)
+>         return 1;
+>  }
+>  EXPORT_SYMBOL_GPL(acpi_dev_pm_attach);
+> +
+> +/**
+> + * acpi_storage_d3 - Check if a storage device should use D3.
+> + * @dev: Device to check
+> + *
+> + * Returns %true if @dev should be put into D3 when the ->suspend method is
+> + * called, else %false.  The name of this function is somewhat misleading
+> + * as it has nothing to do with storage except for the name of the ACPI
+> + * property.  On some platforms resume will not work if this hint is ignored.
+> + *
+> + */
+> +bool acpi_storage_d3(struct device *dev)
+> +{
+> +       struct acpi_device *adev = ACPI_COMPANION(dev);
+> +       u8 val;
+> +
+> +       if (!adev)
+> +               return false;
+> +       if (fwnode_property_read_u8(acpi_fwnode_handle(adev), "StorageD3Enable",
+> +                       &val))
+> +               return false;
+> +       return val == 1;
+> +}
+> +EXPORT_SYMBOL_GPL(acpi_storage_d3);
+> +
+>  #endif /* CONFIG_PM */
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 3aa7245a505f..8fbc4c87a0d8 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2828,32 +2828,6 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+>         return 0;
+>  }
+>
+> -#ifdef CONFIG_ACPI
+> -static bool nvme_acpi_storage_d3(struct pci_dev *dev)
+> -{
+> -       struct acpi_device *adev = ACPI_COMPANION(&dev->dev);
+> -       u8 val;
+> -
+> -       /*
+> -        * Look for _DSD property specifying that the storage device on the port
+> -        * must use D3 to support deep platform power savings during
+> -        * suspend-to-idle.
+> -        */
+> -
+> -       if (!adev)
+> -               return false;
+> -       if (fwnode_property_read_u8(acpi_fwnode_handle(adev), "StorageD3Enable",
+> -                       &val))
+> -               return false;
+> -       return val == 1;
+> -}
+> -#else
+> -static inline bool nvme_acpi_storage_d3(struct pci_dev *dev)
+> -{
+> -       return false;
+> -}
+> -#endif /* CONFIG_ACPI */
+> -
+>  static void nvme_async_probe(void *data, async_cookie_t cookie)
+>  {
+>         struct nvme_dev *dev = data;
+> @@ -2903,7 +2877,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>
+>         quirks |= check_vendor_combination_bug(pdev);
+>
+> -       if (!noacpi && nvme_acpi_storage_d3(pdev)) {
+> +       if (!noacpi && acpi_storage_d3(&pdev->dev)) {
+>                 /*
+>                  * Some systems use a bios work around to ask for D3 on
+>                  * platforms that support kernel managed suspend.
+> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+> index c60745f657e9..dd0dafd21e33 100644
+> --- a/include/linux/acpi.h
+> +++ b/include/linux/acpi.h
+> @@ -1004,6 +1004,7 @@ int acpi_dev_resume(struct device *dev);
+>  int acpi_subsys_runtime_suspend(struct device *dev);
+>  int acpi_subsys_runtime_resume(struct device *dev);
+>  int acpi_dev_pm_attach(struct device *dev, bool power_on);
+> +bool acpi_storage_d3(struct device *dev);
+>  #else
+>  static inline int acpi_subsys_runtime_suspend(struct device *dev) { return 0; }
+>  static inline int acpi_subsys_runtime_resume(struct device *dev) { return 0; }
+> @@ -1011,6 +1012,10 @@ static inline int acpi_dev_pm_attach(struct device *dev, bool power_on)
+>  {
+>         return 0;
+>  }
+> +static inline bool acpi_storage_d3(struct device *dev)
+> +{
+> +       return false;
+> +}
+>  #endif
+>
+>  #if defined(CONFIG_ACPI) && defined(CONFIG_PM_SLEEP)
+> --
+> 2.25.1
+>
 
 _______________________________________________
 Linux-nvme mailing list
