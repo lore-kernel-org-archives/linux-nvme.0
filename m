@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC0AC47082
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:17:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2F3C47082
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:18:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DB7A9613C5
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:17:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB7A9613C5
+	by mail.kernel.org (Postfix) with ESMTPS id 62BC26108E
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 16:18:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62BC26108E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=WcAtRIEd1q8XdgSkeTZUOgb64s7Gx+mQrSEke5zPcsI=; b=BGPt4BBhSdAKrm
-	cvRJWR9mNE3gcC+QKnFIgwJibKBy5O3Gg3xpJ89g8oz2LEnN+GPV9+sWdEyzqmTyyeyrFxS/Ayk1+
-	IpJQDCpwS3WhtJCZGUncG8ojV5jajXcsdpeY3zxvIwNBJn3kgjAhFjuF6yRtALf7kNV2HEaDTY7C9
-	KCeyl7PN1aENNpTGBY+4leE/0+l91aKqWSge6A4YRklKN+Iw7f2YO5olpR04c0lVHKgPJ3fHRho6e
-	6er1JzrPfX/yplaQdmvecMS+XeSxCjX1Pxhk0FpxrmcDN3CmWE5piBQ9kBHuYqF17Q1lW4pD8BnJW
-	mgRRfWDEhP5dZDcizqEQ==;
+	List-Owner; bh=CFAz2JNOckqJiwM5IxTiC5Mm9h0xwtgfgyuTb7uSf5M=; b=zJcd02utKvkUzz
+	8ZTAObEW1Au2LwH7H+lttMiUgRnLJtM9i8ko66mHZuTG4+9iBSPT7vlOi1mK1z5LPaBrAMK5WQb0j
+	g3jjjU3hZNu4Oyobf/TEjc4MmklbalcCs1x1MzxmSKqrraTKAjbER+Du1jWxtD1O4RA3PLS1kZi3H
+	fS7MTXsYu/s8dyFxnImrDUKhEl//tU489RjQwVUb6j0BskA2mLWbeHravm0IZX69B5CxUUTC+C1gI
+	4Awf/BeZdo+UDPh2uZvAFihZHvVqtGjf7KCvBpa/ZkCtd8UwdCCc4ZPJYo+Gke7WdFAexMHagLujS
+	PbfzOf2x9IdHOahg92Xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqHwK-004R7i-Eh; Mon, 07 Jun 2021 16:17:24 +0000
+	id 1lqHwt-004RQI-Ig; Mon, 07 Jun 2021 16:17:59 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqHsw-004P1I-U1
- for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 16:13:57 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA89C61444;
- Mon,  7 Jun 2021 16:13:53 +0000 (UTC)
+ id 1lqHsy-004P2v-5S
+ for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 16:13:58 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1948761462;
+ Mon,  7 Jun 2021 16:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623082434;
- bh=I4m+XpZrW2wzPqovMymNFsz6ypXp0Om+sOgn8BKa0kU=;
+ s=k20201202; t=1623082435;
+ bh=JLiPSW/F3RteIc4jb/cRphFsajUUSG+Yu0jZClB4Iw8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XgufDorAZ/swjsH2cit4sZiFGHffD/gX9qUimVf9SS/XIw8rAfwBeGVYq4XbrKfzo
- AgbouscYVwv93c8X2Xdfn5wMbGHwjrPqJ9waq40E1E9pD1eqrnzsCKrhv9GwjdZvPW
- EB9hxeEMZ1wcrgOa+3ekziYjpD6z+ffcRJYDC4ReLdx6f01HO4qAc8qsPO4ohiu8ei
- FEWmnmGBFNmkKppvoigWYprhHDaeE9W2hp0jhfI1SGcjhoz2RKjU2txjnnz5KBa5RX
- RPC70epsIQ+8ws3Ndb9IZu+OH4HB/iz2ic/4xqLnwmqoOnZcu5YetP+Zs+EnkegHws
- 7ri0aiAgl1LNQ==
+ b=mP2eOg3+Wn0ZMTlCbHlHlbePuNplAQ4bdxhgFP4VSDs0kpC093sUe1PW93SAfTawt
+ EvOjTO5tevPH2L185ok3PvracnM40WpGrwPVi3V+4cNbHdqJ+fDTldMypiIz5cIaTb
+ pqJzfRtloFC8TarGrqvf5fSC93/KOY/MxLPKCI/UyeCR6iHILuOhqhM+Zn/bnmSm5h
+ duOoRDlwLiETkaTcau6rC7dYRFXAFM1FxEANd2pdaA+L9LwWO6IIZjjEL/dfxs2Xtu
+ BnmM34zvx+nTHSwJ+bWONiwZIiLvTMLDyPojRZZF8hTKpBgFfnxOel0v07nkKg6mGp
+ ekLgVfWMhjAkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hannes Reinecke <hare@suse.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 28/39] nvme-loop: check for NVME_LOOP_Q_LIVE in
- nvme_loop_destroy_admin_queue()
-Date: Mon,  7 Jun 2021 12:13:07 -0400
-Message-Id: <20210607161318.3583636-28-sashal@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 29/39] nvme-loop: do not warn for deleted
+ controllers during reset
+Date: Mon,  7 Jun 2021 12:13:08 -0400
+Message-Id: <20210607161318.3583636-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607161318.3583636-1-sashal@kernel.org>
 References: <20210607161318.3583636-1-sashal@kernel.org>
@@ -66,8 +64,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_091355_033837_C342B89C 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20210607_091356_254254_D3DB6556 
+X-CRM114-Status: GOOD (  11.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,34 +84,37 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit 4237de2f73a669e4f89ac0aa2b44fb1a1d9ec583 ]
+[ Upstream commit 6622f9acd29cd4f6272720e827e6406f5a970cb0 ]
 
-We need to check the NVME_LOOP_Q_LIVE flag in
-nvme_loop_destroy_admin_queue() to protect against duplicate
-invocations eg during concurrent reset and remove calls.
+During concurrent reset and delete calls the reset workqueue is
+flushed, causing nvme_loop_reset_ctrl_work() to be executed when
+the controller is in state DELETING or DELETING_NOIO.
+But this is expected, so we shouldn't issue a WARN_ON here.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/loop.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/target/loop.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index c07b4a14d477..df0e5288ae6e 100644
+index df0e5288ae6e..16d71cc5a50e 100644
 --- a/drivers/nvme/target/loop.c
 +++ b/drivers/nvme/target/loop.c
-@@ -251,7 +251,8 @@ static const struct blk_mq_ops nvme_loop_admin_mq_ops = {
+@@ -453,8 +453,10 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+ 	nvme_loop_shutdown_ctrl(ctrl);
  
- static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
- {
--	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
-+	if (!test_and_clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags))
-+		return;
- 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
- 	blk_cleanup_queue(ctrl->ctrl.admin_q);
- 	blk_cleanup_queue(ctrl->ctrl.fabrics_q);
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+-		/* state change failure should never happen */
+-		WARN_ON_ONCE(1);
++		if (ctrl->ctrl.state != NVME_CTRL_DELETING &&
++		    ctrl->ctrl.state != NVME_CTRL_DELETING_NOIO)
++			/* state change failure for non-deleted ctrl? */
++			WARN_ON_ONCE(1);
+ 		return;
+ 	}
+ 
 -- 
 2.30.2
 
