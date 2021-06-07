@@ -2,97 +2,91 @@ Return-Path: <SRS0=yMBa=LB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CCEAC47095
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 17:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F17C47082
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 19:55:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A54D6109F
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 17:39:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A54D6109F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
+	by mail.kernel.org (Postfix) with ESMTPS id 43D64611BD
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jun 2021 19:55:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43D64611BD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pdvpO0KhwVTY4H1STGYnv1OxE9QjuY4b5UTQ6JL1++I=; b=KxuUstqkhCZLlA
-	QvQpqc0QXJmcskfzEXqnBNDMHDwHtHAVfh+SW3FvakcZgop2g737eA7RJGoQMm/ypixF1UMy+WBrQ
-	fpOPTc7au0bOVW1K2yqvc9vHGrikS2f/Mnz0LIBJq20C84BMTpEKghUaVVNsnFaht8/ybc7nahDMO
-	zJtzReZUo6FIiYd432UL6Od29S+SkZwYgwoEgGXIgP2wWojwx7u6etSQVsVbC5wU4acz/lJdqDn/R
-	QNW9TSt/oexcpfUQ97iWIZBtKyEy9pJSF5en42olkGq0urriKkTqKxNhUHypnUp6KdMzVQfJBZqfk
-	AdGRDXU+DggmCe54WzxQ==;
+	List-Owner; bh=fif+G4BZKG2VORGA298UiSJMazGxn0vCCmxUaInEKXY=; b=p44yx9qp22/L1g
+	8zHUKnG4Sx/q1mLo4Zx+oqauWYCanXUB4qbVUtgBloQdt/tpNwOBYCgvKreiVqYmpVVVuZooOkRW9
+	M/2mdFR+XCfEcxKmj2iioMXLpsnZ8ud82odoAlwA6q+LpV6w+AJCuOA6eknRrV0eSRHCLD08apJc4
+	zmOyPMXOisLh5q1wD3Wdr/mm6Z0N47zUFnvKWVTqS2Le5ofZmuPabjhoXdl6xTdF+jwFlfi5adE9z
+	Vcac60rCGDYoJOnrvgMis9vCTgO7hRtCjT8wOxs414Bc6qmjZB6Rgs9n4C1/GdjvrgNmBfLHi6M3Q
+	csS69N4H4cvaZPoxCi8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqJDu-004rh2-5E; Mon, 07 Jun 2021 17:39:38 +0000
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+	id 1lqLLA-005DGk-CL; Mon, 07 Jun 2021 19:55:16 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqJDI-004rUd-B9
- for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 17:39:02 +0000
-Received: by mail-ed1-x535.google.com with SMTP id w21so21276777edv.3
- for <linux-nvme@lists.infradead.org>; Mon, 07 Jun 2021 10:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Jv6mdenEAUjxxqG8V1uZdiIteEsL88sRg9uJb9rd/1c=;
- b=MMyHMqib86ziBTzj86CHQvyb6ZCknnaHgqX8rvkmpfzD4d1nlV6Zhj2mRavi5vCzah
- ly/8jU65nHFXVshC9ypULejtjivTqZPc+KqXcY66Ct9m3OsgNkSLiSiyDozorH5A9JHJ
- fcTvowf6WrEf8xiyiEWnhQ0MnyE7Sp7/Ckd8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Jv6mdenEAUjxxqG8V1uZdiIteEsL88sRg9uJb9rd/1c=;
- b=E2/ku+wP2UtfII4pwXD3UIo5k3BBmiQtjR8KrLAUrZ0YJDTg9bcJ0kn8OJZdPldqMH
- RivnYRazW0tw65TsFCyIXDdBsXjeeQsfiE5/4gyOPV9uMiRW/3JLQ3Co4Eth0zAWmGtu
- 86sqrYHaRB5Szyu2KlP/UNjoFWWhKHU2JLa/zsYXmbqLz5mBN4RCJxHyw9UINDD+4jSk
- 098nqNUA/CW4d+tU+A+s26gmc2U4cIrM8whKsTYyAnjYCEKdpYllOLXh58+k0RFvcZFE
- zxcE3oPFafxkpuBfvJaQoZKNmhFJqOjD72URoy0movmNs60IKl/KjnwI6RYzKudRsoQI
- opqA==
-X-Gm-Message-State: AOAM530Y45/+S5AvRXOHIAzF0la7VljsMmd2N/2am4Tv8fq2Igy1eX+3
- Fra40H46wIa0v5FU5HIUmJcxnvYZUdOA4qCu
-X-Google-Smtp-Source: ABdhPJwhHs/ieFinJaf4bje4PqV7Drf8aTwn1rreOGVT0qsBtgeonZnpjXYmu++sgR8nVh2lScJdQw==
-X-Received: by 2002:aa7:c450:: with SMTP id n16mr21167163edr.386.1623087535905; 
- Mon, 07 Jun 2021 10:38:55 -0700 (PDT)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com.
- [209.85.208.48])
- by smtp.gmail.com with ESMTPSA id c7sm6771576ejs.26.2021.06.07.10.38.54
- for <linux-nvme@lists.infradead.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 10:38:54 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id w21so21276627edv.3
- for <linux-nvme@lists.infradead.org>; Mon, 07 Jun 2021 10:38:54 -0700 (PDT)
-X-Received: by 2002:a50:9346:: with SMTP id n6mr20997175eda.365.1623087534175; 
- Mon, 07 Jun 2021 10:38:54 -0700 (PDT)
+ id 1lqLL5-005DFH-CI
+ for linux-nvme@lists.infradead.org; Mon, 07 Jun 2021 19:55:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1623095711; x=1654631711;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=CmSXfAbvNgP0ckuuopVjDi+42DAbvELaM/3jpvtyU5c=;
+ b=lSUS8copVaYTUN3y8Q2REeNaf462LTM+AdI+abi2Os2ndfWMSdvT7k2c
+ LuD2wIbkg3W9Vpxmm69yqmuB8icZhxNDbx97tutE45B2IWQFJh55NfJnA
+ OQfJEtNDyKkVCE92wksZNAIWFlQ1tg81Qu5OQzvrKQS6RLW38Ju7XZwCK
+ gxpL1lvynZ5VbxEjjH6I1zP5TfkMB7sqwfzTsbGgEYvh7khpt4FnZ8geQ
+ 5o7cTufVFu6Kf0jVAfAV/b3sN0FhK57ts5h+XHc/cuox5G0fM1usTlOjm
+ +K+ITeyvcAiKP2GH9t4Jx77gX+j7rchaDJOCFMr8GisobtWD2JisIcfwL A==;
+IronPort-SDR: 9Q+kzSDDa1Ks5xBoJm8lEeY1RXQPQJp8t7KN1+sTogl44W9QFeY5gP4X6MCRkazEeV+af7Ig9R
+ ZEo2b+zKioQBA59TQuL0ZVAkUvwy6OI2jtXvO3bLoUDan9fU+grmklG/Ba+69x86PSD667YJO7
+ LONG38XBwKud29uiQB9flCT55ziAxCn7Kfg1OrdEsA/b19wgc6/uZXxcwC20zpTqsc7rwBZNjf
+ meY/XnM1xGRfM/eOx0dfgwuritHz0qvQv1RTK67MTm2uaGChFV+PrOQXufBNxFJQ0QYi+TyOQQ
+ 818=
+X-IronPort-AV: E=Sophos;i="5.83,255,1616428800"; d="scan'208";a="170343966"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 03:55:08 +0800
+IronPort-SDR: fuYHS0cta4QMjQklO2Bu9SQO/+8dwI31tkqtSLMyNSHB+FiF9b5NmCTQOQaMW171iXuCY26+5g
+ NLNm8xe64/iwEKoiz8gqvPd6z8f6KR9SlPACwBEVIAdHMgAK7xoFFJPWUxvZPkxwPllKVS6KNS
+ Q6sEmWbg/qAqcnrzHpu6D3n7dLaB83ZMI9NQjRLR8H383cJMgi7VFbcde9WTNFOHoL9/oIfEzC
+ egyTitecxMbvjOSzoewzpRzlPAfP87uYKx09JiZ1LNbd7KfOWZ7lni5ieQLXOJ9j8nWmc8UwiA
+ L06hvgu6aBUwtICWxB68FJrz
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 12:32:50 -0700
+IronPort-SDR: J9j67cZF8TYqXzpzcwFSSYoe6W/yUd6JyHhGKI8h0OD4YyyTaKafYfuUQcLmBEGU8A5HixH6/2
+ e+iPxlaWPnSdg0W8s8qZMqjTVrDhFbfokhG07S1a8zegRBnGw2YOcdhv1xvkPwCEl7F+72/crL
+ IcF5aambFyWlEdaXUMxo8g8aWBHLAJM7PndfKCnPme+hUi7kpthqe4JQ3lei9Lslh1Oq5EWZJC
+ OiRF8BQbORKNI+kW7clHS3Hdv5qYjEj/Y3WziRLF+KI1ty5nVWby/CfA/y3Z9Zm8nxDvyT15Kz
+ nGE=
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 12:55:09 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: james.smart@broadcom.com, kbusch@kernel.org, hch@lst.de,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V2 1/5] nvme: use helper to remove duplicate code
+Date: Mon,  7 Jun 2021 12:54:50 -0700
+Message-Id: <20210607195454.16829-2-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1.dirty
+In-Reply-To: <20210607195454.16829-1-chaitanya.kulkarni@wdc.com>
+References: <20210607195454.16829-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-References: <20210607173156.5548-1-mario.limonciello@amd.com>
- <20210607173156.5548-2-mario.limonciello@amd.com>
-In-Reply-To: <20210607173156.5548-2-mario.limonciello@amd.com>
-From: Raul Rangel <rrangel@chromium.org>
-Date: Mon, 7 Jun 2021 11:38:43 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30DXX+H=jPO74wKwsfN2nOgEjdyiUpkR8HWYN1L_EO-ucA@mail.gmail.com>
-Message-ID: <CAHQZ30DXX+H=jPO74wKwsfN2nOgEjdyiUpkR8HWYN1L_EO-ucA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] ACPI: Add quirks for AMD Renoir/Lucienne CPUs to
- force the D3 hint
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, "Rafael J . Wysocki" <rjw@rjwysocki.net>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- linux-acpi@vger.kernel.org, 
- david.e.box@linux.intel.com, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>,
- Alex Deucher <Alexander.Deucher@amd.com>, 
- Prike Liang <prike.liang@amd.com>, Julian Sikorski <belegdol@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210607_103900_448950_99649975 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20210607_125511_522895_1357509C 
+X-CRM114-Status: GOOD (  11.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,55 +103,71 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 7, 2021 at 11:32 AM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> AMD systems from Renoir and Lucienne require that the NVME controller
-> is put into D3 over a Modern Standby / suspend-to-idle
-> cycle.  This is "typically" accomplished using the `StorageD3Enable`
-> property in the _DSD, but this property was introduced after many
-> of these systems launched and most OEM systems don't have it in
-> their BIOS.
->
-> On AMD Renoir without these drives going into D3 over suspend-to-idle
-> the resume will fail with the NVME controller being reset and a trace
-> like this in the kernel logs:
-> ```
-> [   83.556118] nvme nvme0: I/O 161 QID 2 timeout, aborting
-> [   83.556178] nvme nvme0: I/O 162 QID 2 timeout, aborting
-> [   83.556187] nvme nvme0: I/O 163 QID 2 timeout, aborting
-> [   83.556196] nvme nvme0: I/O 164 QID 2 timeout, aborting
-> [   95.332114] nvme nvme0: I/O 25 QID 0 timeout, reset controller
-> [   95.332843] nvme nvme0: Abort status: 0x371
-> [   95.332852] nvme nvme0: Abort status: 0x371
-> [   95.332856] nvme nvme0: Abort status: 0x371
-> [   95.332859] nvme nvme0: Abort status: 0x371
-> [   95.332909] PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns -16
-> [   95.332936] nvme 0000:03:00.0: PM: failed to resume async: error -16
-> ```
->
-> The Microsoft documentation for StorageD3Enable mentioned that Windows has
-> a hardcoded allowlist for D3 support, which was used for these platforms.
-> Introduce quirks to hardcode them for Linux as well.
->
-> As this property is now "standardized", OEM systems using AMD Cezanne and
-> newer APU's have adopted this property, and quirks like this should not be
-> necessary.
->
-> CC: Julian Sikorski <belegdol@gmail.com>
-> CC: Shyam-sundar S-k <Shyam-sundar.S-k@amd.com>
-> CC: Alexander Deucher <Alexander.Deucher@amd.com>
-> CC: Rafael J. Wysocki <rjw@rjwysocki.net>
-> CC: Prike Liang <prike.liang@amd.com>
-> Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
+Add a helper nvme_validate_passthru_nsid() to validate the nsid that
+removes the nsid validation and error message print code from
+nvme_user_cmd() and nvme_user_cmd64().
 
-It's unfortunate these systems have already shipped. I'm guessing they
-can't have their firmware updated either. So I guess it's the best
-option for now.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/host/ioctl.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-Acked-by: Raul E Rangel <rrangel@chromium.org>
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 2e7780ea0354..d93928d1e5bd 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -177,6 +177,20 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
+ }
+ 
++static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
++					struct nvme_ns *ns, __u32 nsid)
++{
++	if (ns && nsid != ns->head->ns_id) {
++		dev_err(ctrl->device,
++			"%s: nsid (%u) in cmd does not match nsid (%u)"
++			"of namespace\n",
++			current->comm, nsid, ns->head->ns_id);
++		return false;
++	}
++
++	return true;
++}
++
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd)
+ {
+@@ -192,12 +206,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		return -EFAULT;
+ 	if (cmd.flags)
+ 		return -EINVAL;
+-	if (ns && cmd.nsid != ns->head->ns_id) {
+-		dev_err(ctrl->device,
+-			"%s: nsid (%u) in cmd does not match nsid (%u) of namespace\n",
+-			current->comm, cmd.nsid, ns->head->ns_id);
++	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+ 		return -EINVAL;
+-	}
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+@@ -242,12 +252,8 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		return -EFAULT;
+ 	if (cmd.flags)
+ 		return -EINVAL;
+-	if (ns && cmd.nsid != ns->head->ns_id) {
+-		dev_err(ctrl->device,
+-			"%s: nsid (%u) in cmd does not match nsid (%u) of namespace\n",
+-			current->comm, cmd.nsid, ns->head->ns_id);
++	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+ 		return -EINVAL;
+-	}
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+-- 
+2.22.1
+
 
 _______________________________________________
 Linux-nvme mailing list
