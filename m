@@ -2,107 +2,78 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29749C47082
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 13:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80BEFC47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 13:38:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CAFE16128A
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 13:09:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAFE16128A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 1F63161285
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 13:38:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1F63161285
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=VPrgMD1HVFIxU5ti8S18PMJTwxlp8KahcjJ9/06U338=; b=TZUUyz6VTWPLagAJipoPiU1wx+
-	1BZdA2giX56ipdVh9dkjlmAEADjqKGkkJyTz6VA1a7EDTtQub6g5kKvUf7L470c7ZW9CtECjnymth
-	UWqG9QgpI2nk0v8BegIyU6M+qTRQV6Z4l31EaEGfuJLgdJPmZYazR7GW7gA2pi1rYYkJADP50V5Qv
-	a8JnH5BxOm6T+1Lm7wBE0VW++cEigpZ8jMlS7Kj8HOponq51k4N6TODMwSLpU8dwzmC9vWtvmOJDu
-	nUOpFEelING9XIWRHsODk/xw+7bOrm9YU1mb+HzMyRxnoRHG/B+0NiHyLIty6WxAQ5WyT9Ju+L/Pn
-	yEYoz2ZA==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=zlaDUAO6wV35GQswhu12thqCMi2Nkam+xlDnfX/YqNY=; b=p8UiM1mFdPW7F2
+	d73TXcgbzMy9OR8ZVVuCgGMczsHlvaiHYlU3S8g/Gopog4CrhIxunAmolF0NH/r2s/yEkAXj+8lBd
+	TsaJ3USnRZFc3jV510/cOhHAEgrJ2ovxo6sFeTuUHtGyL6BhWVXP1h4zPWbbiLIuU7B/S6hlMF3lt
+	1T5AR2V195xqOq/lR5AwLR35vh3NA3FtRckwB9+yWwDoJnVanUDEOIJCHtPWPY6GJgRivXI35D66/
+	xtXVUfLl5XWiQxNEBX2IL5lXDcMXPvpeLg4DYkJ5Va7P08kqbkyAkBEuZaTyaDXKEdByrXiKIDJsA
+	iDrg59uRjHp26F/snz5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqbUA-008XK2-SN; Tue, 08 Jun 2021 13:09:38 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1lqbvf-008eyX-5t; Tue, 08 Jun 2021 13:38:03 +0000
+Received: from mail-vk1-f178.google.com ([209.85.221.178])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqbU8-008XIe-B6
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 13:09:37 +0000
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 40F751FD46;
- Tue,  8 Jun 2021 13:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623157773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
- b=0Pe6DtF4A66MvPs6Q7P5Ga69RNbVFaWy6jB6p7EwTYLzggg5ioSCYxWugAXLGFyBXMjjev
- CFk6sMNLuYoQke39LDJPZph6KorIBUApjD81/dMxKTvNzFo23GqWW+7e5fB+FV+qpB49Up
- oudMReAAN1Qzw7S5F543gGtzKFX2HNs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623157773;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
- b=i2umO7VwzW79VTHD2pGB9Rtd+SH7cMfV6vOxukBZr32Mecic790Vr68Qk90r0sdmzsJn/y
- 38hkw/iVFuWkvHDA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 353E8118DD;
- Tue,  8 Jun 2021 13:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623157773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
- b=0Pe6DtF4A66MvPs6Q7P5Ga69RNbVFaWy6jB6p7EwTYLzggg5ioSCYxWugAXLGFyBXMjjev
- CFk6sMNLuYoQke39LDJPZph6KorIBUApjD81/dMxKTvNzFo23GqWW+7e5fB+FV+qpB49Up
- oudMReAAN1Qzw7S5F543gGtzKFX2HNs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623157773;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
- b=i2umO7VwzW79VTHD2pGB9Rtd+SH7cMfV6vOxukBZr32Mecic790Vr68Qk90r0sdmzsJn/y
- 38hkw/iVFuWkvHDA==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id 8eDVDA1sv2DMXAAALh3uQQ
- (envelope-from <hare@suse.de>); Tue, 08 Jun 2021 13:09:33 +0000
-Subject: Re: [PATCH v11 08/13] lpfc: vmid: Functions to manage vmids
-To: Muneendra Kumar <muneendra.kumar@broadcom.com>,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
- linux-nvme@lists.infradead.org
-Cc: jsmart2021@gmail.com, emilne@redhat.com, mkumar@redhat.com,
- Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-References: <20210608043556.274139-1-muneendra.kumar@broadcom.com>
- <20210608043556.274139-9-muneendra.kumar@broadcom.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <6f3e5eb9-22de-ba43-9591-1f3610172738@suse.de>
-Date: Tue, 8 Jun 2021 15:09:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ id 1lqbvb-008exp-Ay
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 13:38:00 +0000
+Received: by mail-vk1-f178.google.com with SMTP id h19so163214vkh.9
+ for <linux-nvme@lists.infradead.org>; Tue, 08 Jun 2021 06:37:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sFBGRyF0SVyL5gp+laaTF2trM1KaVtWovTdNQuQCpaI=;
+ b=j3A79wn2/xwL3SAvBLczo15vuJCeN12nFmKyHFrUKydj2E8s7eUIzxv1cpX58kj1HS
+ +ZEEbYcnxNqKo6mjjSdHW9QDZVwUmSuXcmJGdISlRtBw8lP2Jz/3QFWY/TWofElSzK/g
+ CUwHqyUjx9SAjsiV643LTyh72eR8QREdh9WdPx97Ut5iBp9KvmBBossNdOOW2YGCRl23
+ R0EQ3ZuaeBOhaSgKieoMFEsiTbKg5rx2ZQ1vZrEFfrNMrOGmh1Kyz+oPfUngSm9YYPIX
+ 3yluebE+FIEoPphMdTq9fgurr4huFRn7izLDRO2C8dNIJ63Re5R9hDG5uJNtog15gFu1
+ do+A==
+X-Gm-Message-State: AOAM532Bqr5QL0rzln9OJeT/WkPOMT6e2atsAtBw2TLc2zqVtQOr6Ltn
+ zhDxSPbmdjjsxDm657LwWW3M2fKL6XNeJfPnC7w=
+X-Google-Smtp-Source: ABdhPJzZpyfnwLGoBlfNX9l9wAC4rUovi8VQg3eXsLNLgoL0OHDkqdxJ2vRdBZLHTWRUeXJBZZqNSzFEalIOgTNWy2E=
+X-Received: by 2002:a1f:ac45:: with SMTP id v66mr10780808vke.1.1623159478179; 
+ Tue, 08 Jun 2021 06:37:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210608043556.274139-9-muneendra.kumar@broadcom.com>
-Content-Language: en-US
+References: <39b1a3684880e1d85ef76e34403886e8f1d22508.1623149635.git.geert+renesas@glider.be>
+ <20210608121925.GA24201@lst.de>
+In-Reply-To: <20210608121925.GA24201@lst.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 8 Jun 2021 15:37:47 +0200
+Message-ID: <CAMuHMdWgLf8GJfOaRUyx=AvOTnuOs8FS-2=C+OCk02OLDCyrDg@mail.gmail.com>
+Subject: Re: [PATCH] nvme: NVME_TCP_OFFLOAD should not default to m
+To: Christoph Hellwig <hch@lst.de>
+Cc: "David S . Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, 
+ Sagi Grimberg <sagi@grimberg.me>, Omkar Kulkarni <okulkarni@marvell.com>,
+ Hannes Reinecke <hare@suse.de>, Dean Balandin <dbalandin@marvell.com>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>, 
+ Shai Malin <smalin@marvell.com>, Petr Mladek <pmladek@suse.com>,
+ linux-nvme@lists.infradead.org, netdev <netdev@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_060936_554702_572D1046 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20210608_063759_402525_984A4C7B 
+X-CRM114-Status: GOOD (  24.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,24 +85,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNi84LzIxIDY6MzUgQU0sIE11bmVlbmRyYSBLdW1hciB3cm90ZToKPiBGcm9tOiBHYXVyYXYg
-U3JpdmFzdGF2YSA8Z2F1cmF2LnNyaXZhc3RhdmFAYnJvYWRjb20uY29tPgo+IAo+IFRoaXMgcGF0
-Y2ggY29udGFpbnMgdGhlIHJvdXRpbmVzIHRvIHNhdmUsIHJldHJpZXZlIGFuZCByZW1vdmUgdGhl
-IHZtaWRzCj4gZnJvbSB0aGUgZGF0YSBzdHJ1Y3R1cmUuIEEgaGFzaCB0YWJsZSBpcyB1c2VkIHRv
-IHNhdmUgdGhlIHZtaWRzIGFuZAo+IHRoZSBjb3JyZXNwb25kaW5nIFVVSURzIGFzc29jaWF0ZWQg
-d2l0aCB0aGUgYXBwbGljYXRpb24vVk1zLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEdhdXJhdiBTcml2
-YXN0YXZhICA8Z2F1cmF2LnNyaXZhc3RhdmFAYnJvYWRjb20uY29tPgo+IFNpZ25lZC1vZmYtYnk6
-IEphbWVzIFNtYXJ0IDxqc21hcnQyMDIxQGdtYWlsLmNvbT4KPiAKUmV2aWV3ZWQtYnk6IEhhbm5l
-cyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVz
-IFJlaW5lY2tlCQkgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2Uu
-ZGUJCQkgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIg
-MzY4MDkgKEFHIE7DvHJuYmVyZyksIEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBs
-aXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFk
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Hi Christoph,
+
+On Tue, Jun 8, 2021 at 2:19 PM Christoph Hellwig <hch@lst.de> wrote:
+> On Tue, Jun 08, 2021 at 12:56:09PM +0200, Geert Uytterhoeven wrote:
+> > The help text for the symbol controlling support for the NVM Express
+> > over Fabrics TCP offload common layer suggests to not enable this
+> > support when unsure.
+> >
+> > Hence drop the "default m", which actually means "default y" if
+> > CONFIG_MODULES is not enabled.
+> >
+> > Fixes: f0e8cb6106da2703 ("nvme-tcp-offload: Add nvme-tcp-offload - NVMeTCP HW offload ULP")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Err, where did this appear from?  This code has not been accepted into
+> the NVMe tree and is indeed not acceptable in this form.
+
+It was applied to net-next.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
