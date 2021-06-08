@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CC5C47082
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 16:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3B0C47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 16:44:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 906DD610F8
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 16:43:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 906DD610F8
+	by mail.kernel.org (Postfix) with ESMTPS id B092A610F8
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 16:43:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B092A610F8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KuWi+es1P/b+pZo/z5ZFGxrcRX+6KRReLQazcuQ7ZC4=; b=VE7P515Bg4Yqfb
-	HkfHGnmtAE9h18gocDbi39wAf68la8PVqZDhZGWu/cp/Qoq8WfHTmsqEfUDeG+8iB2LBhmcNrtlA1
-	dY7aXwk+rnw+A2POlM6pgNUARjG2hPkyAFH/iDTzV6BEEWn+TaaX8xfzlm3pYYkbSVveRv8blj4Mj
-	IUguS0hVKOkD8a+kvVQU4z7/HL6vh+0vxNJPwhlmWW4lurEHwmX/rOfWAxzelRriGlKHIK+Fki0Ov
-	vtyC8lnyurEHvrzxZnGcuBS5sKVupunIhqdZHvqgr38xNSa9RYuOUHLuKekWiZaRaRh6mHjRC724s
-	UJ+ZxNDz8NALI6qa44PA==;
+	List-Owner; bh=KuWi+es1P/b+pZo/z5ZFGxrcRX+6KRReLQazcuQ7ZC4=; b=OtKxA0Caaf9FXE
+	HiRdWv1TEII5LdFJBadS3ETKrGvCuuOCIJupP/b44HsC4G89u7YIU/H5SuUZcqXQsbUitlmxgOyem
+	fqcvDB32e5oUp9ubIA4HqlaarT/1/He+EEypJ8UWKnSenYQTl7E5AiGpRK31WL4tzLx3C4vp8vYGW
+	AESrwlNuTIi+Tc0vzKk/UxjyXIEQDM6h8A1BbFHvYZkV51t60wwODbaMb0r4dOYbIrnLS/J/1t5Io
+	s79aK2c/b4HJ1WxNRMAxtFkwA9FhRsvlL1l+CqVT6D/cqrM6xl2suWUBRgy2w0wrREMOLbgp0VBwD
+	jfVXQQ+zIpD/dfLDazvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqepC-009ZFL-93; Tue, 08 Jun 2021 16:43:34 +0000
+	id 1lqepP-009ZJ2-7m; Tue, 08 Jun 2021 16:43:47 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqep9-009ZEA-6Y
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 16:43:32 +0000
+ id 1lqepM-009ZHz-GA
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 16:43:45 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 43F1D67373; Tue,  8 Jun 2021 18:43:29 +0200 (CEST)
-Date: Tue, 8 Jun 2021 18:43:28 +0200
+ id 51A3167373; Tue,  8 Jun 2021 18:43:42 +0200 (CEST)
+Date: Tue, 8 Jun 2021 18:43:42 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Max Gurtovoy <mgurtovoy@nvidia.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Roy Shterman <roys@lightbitslabs.com>,
- Solganik Alexander <sashas@lightbitslabs.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] nvme-tcp: fix error codes in nvme_tcp_setup_ctrl()
-Message-ID: <20210608164328.GB12661@lst.de>
-References: <YLtykIn+Or0l08oV@mwanda>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH v3] nvme: remove superfluous bio_set_dev in
+ nvme_requeue_work
+Message-ID: <20210608164342.GC12661@lst.de>
+References: <20210607084651.99122-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YLtykIn+Or0l08oV@mwanda>
+In-Reply-To: <20210607084651.99122-1-dwagner@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_094331_406420_A938BD98 
-X-CRM114-Status: UNSURE (   8.83  )
+X-CRM114-CacheID: sfid-20210608_094344_708397_2DBF04FF 
+X-CRM114-Status: UNSURE (   8.87  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
