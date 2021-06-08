@@ -2,75 +2,69 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2912C4743F
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 09:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C24C47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 11:18:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C1766124C
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 09:29:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8C1766124C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id 877EE61008
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 11:18:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 877EE61008
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Aa+etD1NJyrhPmYUWa/ELj5Zkvs9iHfKut7n9NvP9rw=; b=46WeFZcE5CIsKD
-	oy7Pqa/wH+wkBWMJ/nMsB6kr+EDCSqFqBtvUkta3XaqhNni4qJQsYMbrr766cbjHmpXwfbmUuCWF9
-	K7/mfgUxFj4oRaqMfDQ/acank2KB0nYSm22gjHtffyN34BDDQ82pFgYSRwuq1jV4IDUsEeesgI8Ej
-	xYUYdRKXLx+51F6ySXlTKTPhS6C1ABs3CCw4g7QLhdRIZejGsIVx/Iwfzw8Hgcv1SWdInXGTY1cV7
-	16y01FNWjuIu/N8t6NnWHQXUX/fektv5dpdOYJK7roX5JF7laLwwQ6zSByDXwvdSLgMfPkEy49ouC
-	Amb1IhLNzxG79cBsnlZA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=7JSjpNfaB/2Dzku1iQKtYtLkN0nY1Ze9Ed77XWRS9IU=; b=JjudyXKta9m/6b
+	8LYtk8yZuP2vTiwu9nFYO+rXYgu719RwNerGLPAih56u5KOH4ri9Zh0M3eh0eVc918vkdwY4C7wlW
+	8X8XTtpmejhsQs7WrIwKlLPIjssL+xmTK5/Yg7WERXpgGbuuJVBG5rq8K0MGIAKQX1eDMvIj+JbrL
+	Sq04hex2IHpZL1QEeJl+fRIlOJNPul9OLCM8tlK4KTVJUYEBIt4Kuhopr2vwzE6atx7IHHhq8Iblw
+	75qwOFphYBViMenIxIy0NPhb17Dc76ATHIDjSKdaGngLHJIAXCRTa6l7WdZ8Xh4GhGSVS67olshZW
+	jx2eP9EY5HnYce9JYvuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqY2h-007QP9-D6; Tue, 08 Jun 2021 09:29:03 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lqZks-007wzh-4l; Tue, 08 Jun 2021 11:18:46 +0000
+Received: from albert.telenet-ops.be ([2a02:1800:110:4::f00:1a])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqY2d-007QML-Js
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 09:29:01 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 65DB8219BD;
- Tue,  8 Jun 2021 09:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1623144534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ApQjojFmYK9xInKxu2RlyXp4GgfPzo0whl3Ae6gpdDg=;
- b=peTV3z7ImOA3W/CpxJ3LYbOGv1uJPlVMDN7dUO96UXqkW1xVpDt1X9t9hdQebiiB0+yUHO
- 0YbwgH3BBBgO5o0yi34wWDryx3KeElcX9VgndlBPD1nI3qrKT0kBx2p4TcWILUraNC+Ij/
- umnxOKFPDtyLELFx+BOMgBurGzcxfkU=
-Received: from suse.cz (unknown [10.100.216.66])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id 3187FA3B96;
- Tue,  8 Jun 2021 09:28:54 +0000 (UTC)
-Date: Tue, 8 Jun 2021 11:28:53 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Shai Malin <smalin@marvell.com>
-Cc: netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
- davem@davemloft.net, kuba@kernel.org, sagi@grimberg.me, hch@lst.de,
- axboe@fb.com, kbusch@kernel.org, aelior@marvell.com,
- mkalderon@marvell.com, okulkarni@marvell.com, pkushwaha@marvell.com,
- malin1024@gmail.com, Dean Balandin <dbalandin@marvell.com>
-Subject: Re: [RFC PATCH v5 01/27] nvme-tcp-offload: Add nvme-tcp-offload -
- NVMeTCP HW offload ULP
-Message-ID: <YL84VamVh78Ds2Eg@alley>
-References: <20210519111340.20613-1-smalin@marvell.com>
- <20210519111340.20613-2-smalin@marvell.com>
+ id 1lqZPC-007ot6-Aj
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 10:56:24 +0000
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:c184:ea65:c3d6:a616])
+ by albert.telenet-ops.be with bizsmtp
+ id EawC250031G4u2S06awCew; Tue, 08 Jun 2021 12:56:17 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lqZP1-00EOq1-D6; Tue, 08 Jun 2021 12:56:11 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1lqZP0-008IPP-RD; Tue, 08 Jun 2021 12:56:10 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: "David S . Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Omkar Kulkarni <okulkarni@marvell.com>,
+ Hannes Reinecke <hare@suse.de>, Dean Balandin <dbalandin@marvell.com>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>,
+ Shai Malin <smalin@marvell.com>
+Cc: Petr Mladek <pmladek@suse.com>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] nvme: NVME_TCP_OFFLOAD should not default to m
+Date: Tue,  8 Jun 2021 12:56:09 +0200
+Message-Id: <39b1a3684880e1d85ef76e34403886e8f1d22508.1623149635.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210519111340.20613-2-smalin@marvell.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_022859_860102_E4266FA5 
-X-CRM114-Status: GOOD (  21.44  )
+X-CRM114-CacheID: sfid-20210608_035622_548626_B61BC5BF 
+X-CRM114-Status: GOOD (  10.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,71 +81,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed 2021-05-19 14:13:14, Shai Malin wrote:
-> This patch will present the structure for the NVMeTCP offload common
-> layer driver. This module is added under "drivers/nvme/host/" and future
-> offload drivers which will register to it will be placed under
-> "drivers/nvme/hw".
-> This new driver will be enabled by the Kconfig "NVM Express over Fabrics
-> TCP offload commmon layer".
-> In order to support the new transport type, for host mode, no change is
-> needed.
-> 
-> Each new vendor-specific offload driver will register to this ULP during
-> its probe function, by filling out the nvme_tcp_ofld_dev->ops and
-> nvme_tcp_ofld_dev->private_data and calling nvme_tcp_ofld_register_dev
-> with the initialized struct.
-> 
-> The internal implementation:
-> - tcp-offload.h:
->   Includes all common structs and ops to be used and shared by offload
->   drivers.
-> 
-> - tcp-offload.c:
->   Includes the init function which registers as a NVMf transport just
->   like any other transport.
-> 
-> Acked-by: Igor Russkikh <irusskikh@marvell.com>
-> Signed-off-by: Dean Balandin <dbalandin@marvell.com>
-> Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-> Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-> Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-> Signed-off-by: Ariel Elior <aelior@marvell.com>
-> Signed-off-by: Shai Malin <smalin@marvell.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
+The help text for the symbol controlling support for the NVM Express
+over Fabrics TCP offload common layer suggests to not enable this
+support when unsure.
 
-> --- a/drivers/nvme/host/Kconfig
-> +++ b/drivers/nvme/host/Kconfig
-> @@ -84,3 +84,19 @@ config NVME_TCP
->  	  from https://github.com/linux-nvme/nvme-cli.
->  
->  	  If unsure, say N.
-> +
-> +config NVME_TCP_OFFLOAD
-> +	tristate "NVM Express over Fabrics TCP offload common layer"
-> +	default m
+Hence drop the "default m", which actually means "default y" if
+CONFIG_MODULES is not enabled.
 
-Is this intentional, please?
+Fixes: f0e8cb6106da2703 ("nvme-tcp-offload: Add nvme-tcp-offload - NVMeTCP HW offload ULP")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/nvme/host/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-> +	depends on INET
-> +	depends on BLK_DEV_NVME
-> +	select NVME_FABRICS
-> +	help
-> +	  This provides support for the NVMe over Fabrics protocol using
-> +	  the TCP offload transport. This allows you to use remote block devices
-> +	  exported using the NVMe protocol set.
-> +
-> +	  To configure a NVMe over Fabrics controller use the nvme-cli tool
-> +	  from https://github.com/linux-nvme/nvme-cli.
-> +
-> +	  If unsure, say N.
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 9c6f4d776daf14cf..f76cc4690bfc37bc 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -88,7 +88,6 @@ config NVME_TCP
+ 
+ config NVME_TCP_OFFLOAD
+ 	tristate "NVM Express over Fabrics TCP offload common layer"
+-	default m
+ 	depends on BLOCK
+ 	depends on INET
+ 	select NVME_CORE
+-- 
+2.25.1
 
-I would expect that the default would be "n" so that people that are
-not sure or do not care about NWMe just take the default. IMHO, it is
-the usual behavior.
-
-Best Regards,
-Petr
 
 _______________________________________________
 Linux-nvme mailing list
