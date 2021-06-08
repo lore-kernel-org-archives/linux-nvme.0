@@ -2,68 +2,63 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9572C4743D
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 14:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A5AAC47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 14:34:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8984360E08
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 14:32:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8984360E08
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id E4B6760E08
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 14:34:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4B6760E08
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=cGgZuRo4agr/p5ehKDnG95DYQhyjn69NydSQbdGF7Uw=; b=CUNaqAAm3vuecI
-	TVC5RFQ/GhmE02QZ4uVDRFA7+YS6ED8QZu5eKEUVQhwDcUGgj2J2Pms7bpNsJnioD3Cq8ZW3AzRLS
-	VIDZYuQUDBGinSXSTk2uJBny0a52bJwt77hJzUmAWcN73g1U5lL3TM0ndfuxTd8J9G10r3N23vq8n
-	k+Nvud9zPhGdEaK8YXtE9GaCyc8H3gOAYv9CbnNgIy8cUVQkXTeazJRNXkSSXUdDrhbw5TDruzIsZ
-	20azypryYZR7tyZsK3WAu1vQlOr9mSCZgpIpoX5CdN/pOVx7MRdyj8eqvGuy9zqnxxehvRDZaO/gq
-	qCs8WTSsobQPO3yvWU3g==;
+	List-Owner; bh=ZRVan4emNB4EItnbJGRTL0jDSbTh0b51CPX7biMYlBU=; b=ImG10lKI3sgoMN
+	7K7UFY5qwEX0SbT2SmU0T19a81mPKnqaIzi1RHKLSgBB4lbKKk0lRRKHOWcPSeCbpJxoZERd2crn9
+	2rwBVo1HrbshFk0dbVNNmszBVd4vMvQjFKoyN1BbO88CWVLwOO66auOk23YHWC9lsukgpfNBFYFEA
+	LtIMOTZAimUF50LJ/nCNudcI5HEc7qQ6N+DrgBFHekVOs5ki+fGmxtXgCrrDPjXKfrfw10BJgzdXr
+	YgoSagFdeARbekmeibUHjvTxyM4McNQOnCRRPg9yh6WEnlD0ttS49xuHzfExmwJPT3lQ98kkUj8Wz
+	wsmRm82zk2inx4qCrGhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqcmY-008w4M-No; Tue, 08 Jun 2021 14:32:42 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1lqcnm-008wYf-Fk; Tue, 08 Jun 2021 14:33:58 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqcic-008ubm-A1
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 14:28:40 +0000
-Received: from dggeml759-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fzssw0SQszWsXc;
- Tue,  8 Jun 2021 22:23:32 +0800 (CST)
-Received: from localhost.localdomain (10.175.102.38) by
- dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 8 Jun 2021 22:28:22 +0800
-From: Wei Yongjun <weiyongjun1@huawei.com>
-To: <weiyongjun1@huawei.com>, Arie Gershberg <agershberg@marvell.com>, Shai
- Malin <smalin@marvell.com>, Ariel Elior <aelior@marvell.com>, Keith Busch
- <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig
- <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-CC: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <kernel-janitors@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
-Subject: [PATCH -next] nvme-tcp-offload: Fix error return code in
- nvme_tcp_ofld_setup_ctrl()
-Date: Tue, 8 Jun 2021 14:38:54 +0000
-Message-ID: <20210608143854.4154005-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+ id 1lqclD-008vbw-Rb
+ for linux-nvme@bombadil.infradead.org; Tue, 08 Jun 2021 14:31:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=x6zHR7jzdqv2mhnANxspf2H3n8Y3lULBOw/ckccct4c=; b=uchEoEOEHxI1JGtm2yvkGjG9ED
+ 1zmLSjCtv4sggh6wqzoE/VjgT3wFEXvkvnjDAVIY4uj2DOQrWo13Q+2wRzUC1IQUtqGJWP9m5M4hu
+ jSx2rILEXxlz0P+n1ri8+Xgpo7AHCSqhJ/ef9FH8I1wAQ0pmnU3TpCvZsmAJ9DawAYUkZeOyrKdun
+ WU+YQ15ImSoGr53Vsn2vSnW52d+8N/agGgQOTFyWcfxVZzBaCNT3k55AIiSo7YnEeBPVIuLAB6b0W
+ 8PaDs+xVquQlzNHNsmj6j1v8ZJrZMfm6KqdfglVWeHS9kcS0OQ2xsa+dUpcENsDXIhTXYB0Rmd0Al
+ ESk1KlVg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lqcky-00H1Ve-5I; Tue, 08 Jun 2021 14:31:12 +0000
+Date: Tue, 8 Jun 2021 15:31:04 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] first round of nvme updates for Linux 5.14
+Message-ID: <YL9/KDQ2uGRVAh6F@infradead.org>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.102.38]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggeml759-chm.china.huawei.com (10.1.199.138)
-X-CFilter-Loop: Reflected
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_072838_721207_2E66E640 
-X-CRM114-Status: UNSURE (   9.18  )
-X-CRM114-Notice: Please train this message.
+Content-Disposition: inline
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,29 +75,73 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fix to return negative error code -EINVAL if mandatory sgls
-are not supported.
 
-Fixes: 5aadd5f9311e ("nvme-tcp-offload: Add controller level implementation")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/nvme/host/tcp-offload.c | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit 8184035805dc87dd826101b930d3dce97758f7b1:
 
-diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-index c76822e5ada7..3879d5ed7497 100644
---- a/drivers/nvme/host/tcp-offload.c
-+++ b/drivers/nvme/host/tcp-offload.c
-@@ -622,6 +622,7 @@ static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
- 
- 	if (!(nctrl->sgls & ((1 << 0) | (1 << 1)))) {
- 		dev_err(nctrl->device, "Mandatory sgls are not supported!\n");
-+		rc = -EINVAL;
- 		goto destroy_admin;
- 	}
- 
+  rsxx: Use struct_size() in vmalloc() (2021-05-24 06:47:30 -0600)
 
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-5.14-2021-06-08
+
+for you to fetch changes up to 346ac785badf66120d8b4c7b48f87b0a536f691e:
+
+  nvmet: remove a superfluous variable (2021-06-03 10:29:26 +0300)
+
+----------------------------------------------------------------
+nvme updates for Linux 5.14
+
+ - improve the APST configuration algorithm (Alexey Bogoslavsky)
+ - look for StorageD3Enable on companion ACPI device (Mario Limonciello)
+ - allow selecting the network interface for TCP connections
+   (Martin Belanger)
+ - misc cleanups (Amit Engel, Chaitanya Kulkarni, Colin Ian King, me)
+
+----------------------------------------------------------------
+Alexey Bogoslavsky (1):
+      nvme: extend and modify the APST configuration algorithm
+
+Amit Engel (1):
+      nvmet: move ka_work initialization to nvmet_alloc_ctrl
+
+Chaitanya Kulkarni (5):
+      nvme-fabrics: fix the kerneldco comment for nvmf_log_connect_error()
+      nvme-fabrics: remove extra new lines in the switch
+      nvme-fabrics: remove an extra comment
+      nvme-fabrics: remove extra braces
+      nvmet: remove a superfluous variable
+
+Christoph Hellwig (7):
+      nvme: open code nvme_put_ns_from_disk in nvme_ns_head_chr_ioctl
+      nvme: open code nvme_{get,put}_ns_from_disk in nvme_ns_head_ioctl
+      nvme: open code nvme_put_ns_from_disk in nvme_ns_head_ctrl_ioctl
+      nvme: add a sparse annotation to nvme_ns_head_ctrl_ioctl
+      nvme: move the CSI sanity check into nvme_ns_report_zones
+      nvme: split nvme_report_zones
+      nvme: remove nvme_{get,put}_ns_from_disk
+
+Colin Ian King (1):
+      nvme: remove redundant initialization of variable ret
+
+Mario Limonciello (1):
+      nvme-pci: look for StorageD3Enable on companion ACPI device instead
+
+Martin Belanger (1):
+      nvme-tcp: allow selecting the network interface for connections
+
+ drivers/nvme/host/core.c          | 173 ++++++++++++++++++++++++++------------
+ drivers/nvme/host/fabrics.c       |  49 ++++++-----
+ drivers/nvme/host/fabrics.h       |   6 +-
+ drivers/nvme/host/ioctl.c         |  35 ++++----
+ drivers/nvme/host/multipath.c     |  21 ++++-
+ drivers/nvme/host/nvme.h          |  12 +--
+ drivers/nvme/host/pci.c           |  24 +-----
+ drivers/nvme/host/rdma.c          |   2 +-
+ drivers/nvme/host/tcp.c           |  27 +++++-
+ drivers/nvme/host/zns.c           |  27 ++----
+ drivers/nvme/target/core.c        |   2 +-
+ drivers/nvme/target/io-cmd-bdev.c |   3 +-
+ 12 files changed, 230 insertions(+), 151 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
