@@ -2,75 +2,107 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF48C47082
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 12:44:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29749C47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 13:09:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4B0061078
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 12:44:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4B0061078
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id CAFE16128A
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 13:09:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAFE16128A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=70EhmDzL5sklcHksrOzBtxVqwoOlFBXRyVAELISoghM=; b=ZedyrruZP4Y/UgXGWhKy8x9KUw
-	kKDvWt8Wgz8Bo9iBRAkjH/9JRqbGmhbRHvzlkTxCxeByUknczCQHPZe4vauRWNtNFL7SzwPhpOoli
-	2gHbwkbOrIdq9a1HrsAm8GEyTcTd5Rx+VQO9R9sOmJbZ76FVxkE6PAST4UlFmyhjQmiaJBKFzo38K
-	SbMs3LklgtEW6RKXRt4ZPoaGZNFYslv5hVrnY5o4I1wcRBhlSU9hoqR26nZ1yFyXEb26TfPRhZn87
-	QxbgWsL0WtnT5tIaRCsbBggo2ws4Geo6D8KcWsQaqBE9Xcs7Lcv/3aozXBO77JPyWfpSoNZFs/CwZ
-	FkWCp4Jw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=VPrgMD1HVFIxU5ti8S18PMJTwxlp8KahcjJ9/06U338=; b=TZUUyz6VTWPLagAJipoPiU1wx+
+	1BZdA2giX56ipdVh9dkjlmAEADjqKGkkJyTz6VA1a7EDTtQub6g5kKvUf7L470c7ZW9CtECjnymth
+	UWqG9QgpI2nk0v8BegIyU6M+qTRQV6Z4l31EaEGfuJLgdJPmZYazR7GW7gA2pi1rYYkJADP50V5Qv
+	a8JnH5BxOm6T+1Lm7wBE0VW++cEigpZ8jMlS7Kj8HOponq51k4N6TODMwSLpU8dwzmC9vWtvmOJDu
+	nUOpFEelING9XIWRHsODk/xw+7bOrm9YU1mb+HzMyRxnoRHG/B+0NiHyLIty6WxAQ5WyT9Ju+L/Pn
+	yEYoz2ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqb5a-008RN0-0I; Tue, 08 Jun 2021 12:44:14 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1lqbUA-008XK2-SN; Tue, 08 Jun 2021 13:09:38 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqau5-008Mtx-J0
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 12:32:23 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FzqK63sn7z6tsc;
- Tue,  8 Jun 2021 20:28:26 +0800 (CST)
-Received: from dggpeml500019.china.huawei.com (7.185.36.137) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 8 Jun 2021 20:32:16 +0800
-Received: from [10.174.179.189] (10.174.179.189) by
- dggpeml500019.china.huawei.com (7.185.36.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 8 Jun 2021 20:32:16 +0800
-Subject: Re: [PATCH] nvme-multipath: combine grpid and ANA state checks in
- nvme_parse_ana_log()
-To: Christoph Hellwig <hch@lst.de>
-CC: <kbusch@kernel.org>, <axboe@fb.com>, <sagi@grimberg.me>,
- <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linfeilong@huawei.com>
-References: <1623125616-629270-1-git-send-email-wubo40@huawei.com>
- <20210608052320.GA13828@lst.de>
-From: Wu Bo <wubo40@huawei.com>
-Message-ID: <0f672080-671b-c1b8-18d5-3ddad90f53c4@huawei.com>
-Date: Tue, 8 Jun 2021 20:32:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ id 1lqbU8-008XIe-B6
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 13:09:37 +0000
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 40F751FD46;
+ Tue,  8 Jun 2021 13:09:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623157773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
+ b=0Pe6DtF4A66MvPs6Q7P5Ga69RNbVFaWy6jB6p7EwTYLzggg5ioSCYxWugAXLGFyBXMjjev
+ CFk6sMNLuYoQke39LDJPZph6KorIBUApjD81/dMxKTvNzFo23GqWW+7e5fB+FV+qpB49Up
+ oudMReAAN1Qzw7S5F543gGtzKFX2HNs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623157773;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
+ b=i2umO7VwzW79VTHD2pGB9Rtd+SH7cMfV6vOxukBZr32Mecic790Vr68Qk90r0sdmzsJn/y
+ 38hkw/iVFuWkvHDA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 353E8118DD;
+ Tue,  8 Jun 2021 13:09:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623157773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
+ b=0Pe6DtF4A66MvPs6Q7P5Ga69RNbVFaWy6jB6p7EwTYLzggg5ioSCYxWugAXLGFyBXMjjev
+ CFk6sMNLuYoQke39LDJPZph6KorIBUApjD81/dMxKTvNzFo23GqWW+7e5fB+FV+qpB49Up
+ oudMReAAN1Qzw7S5F543gGtzKFX2HNs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623157773;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSyVpRECJSyB0ONBdUo37nvnzwImgFpzmH7ifqfbPzs=;
+ b=i2umO7VwzW79VTHD2pGB9Rtd+SH7cMfV6vOxukBZr32Mecic790Vr68Qk90r0sdmzsJn/y
+ 38hkw/iVFuWkvHDA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id 8eDVDA1sv2DMXAAALh3uQQ
+ (envelope-from <hare@suse.de>); Tue, 08 Jun 2021 13:09:33 +0000
+Subject: Re: [PATCH v11 08/13] lpfc: vmid: Functions to manage vmids
+To: Muneendra Kumar <muneendra.kumar@broadcom.com>,
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
+ linux-nvme@lists.infradead.org
+Cc: jsmart2021@gmail.com, emilne@redhat.com, mkumar@redhat.com,
+ Gaurav Srivastava <gaurav.srivastava@broadcom.com>
+References: <20210608043556.274139-1-muneendra.kumar@broadcom.com>
+ <20210608043556.274139-9-muneendra.kumar@broadcom.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <6f3e5eb9-22de-ba43-9591-1f3610172738@suse.de>
+Date: Tue, 8 Jun 2021 15:09:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <20210608052320.GA13828@lst.de>
+In-Reply-To: <20210608043556.274139-9-muneendra.kumar@broadcom.com>
 Content-Language: en-US
-X-Originating-IP: [10.174.179.189]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500019.china.huawei.com (7.185.36.137)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_053221_870536_947E12E8 
-X-CRM114-Status: UNSURE (   9.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210608_060936_554702_572D1046 
+X-CRM114-Status: GOOD (  12.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,38 +114,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2021/6/8 13:23, Christoph Hellwig wrote:
-> On Tue, Jun 08, 2021 at 12:13:36PM +0800, Wu Bo wrote:
->> -		if (WARN_ON_ONCE(desc->grpid == 0))
->> +		if (WARN_ON_ONCE(desc->grpid == 0 ||
->> +			le32_to_cpu(desc->grpid) > ctrl->anagrpmax))
->>   			return -EINVAL;
->> -		if (WARN_ON_ONCE(le32_to_cpu(desc->grpid) > ctrl->anagrpmax))
->> -			return -EINVAL;
->> -		if (WARN_ON_ONCE(desc->state == 0))
->> -			return -EINVAL;
->> -		if (WARN_ON_ONCE(desc->state > NVME_ANA_CHANGE))
->> +		if (WARN_ON_ONCE(desc->state == 0 ||
->> +			desc->state > NVME_ANA_CHANGE))
-> 
-> So besides making the code impossibl to read due to the incorrect
-> indentation this also makes each WARN_ON_ONCE cover multiple conditions.
-> Not very useful for debugging.
-> .
-> 
-
-Indeed, not very useful for debugging, please ignore this patch.
-
-Thanks,
-Wu Bo
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNi84LzIxIDY6MzUgQU0sIE11bmVlbmRyYSBLdW1hciB3cm90ZToKPiBGcm9tOiBHYXVyYXYg
+U3JpdmFzdGF2YSA8Z2F1cmF2LnNyaXZhc3RhdmFAYnJvYWRjb20uY29tPgo+IAo+IFRoaXMgcGF0
+Y2ggY29udGFpbnMgdGhlIHJvdXRpbmVzIHRvIHNhdmUsIHJldHJpZXZlIGFuZCByZW1vdmUgdGhl
+IHZtaWRzCj4gZnJvbSB0aGUgZGF0YSBzdHJ1Y3R1cmUuIEEgaGFzaCB0YWJsZSBpcyB1c2VkIHRv
+IHNhdmUgdGhlIHZtaWRzIGFuZAo+IHRoZSBjb3JyZXNwb25kaW5nIFVVSURzIGFzc29jaWF0ZWQg
+d2l0aCB0aGUgYXBwbGljYXRpb24vVk1zLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEdhdXJhdiBTcml2
+YXN0YXZhICA8Z2F1cmF2LnNyaXZhc3RhdmFAYnJvYWRjb20uY29tPgo+IFNpZ25lZC1vZmYtYnk6
+IEphbWVzIFNtYXJ0IDxqc21hcnQyMDIxQGdtYWlsLmNvbT4KPiAKUmV2aWV3ZWQtYnk6IEhhbm5l
+cyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVz
+IFJlaW5lY2tlCQkgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2Uu
+ZGUJCQkgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIg
+MzY4MDkgKEFHIE7DvHJuYmVyZyksIEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBs
+aXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFk
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
