@@ -2,145 +2,98 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9CD1C4743E
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 15:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D7AC47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 16:21:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B77666136D
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 15:44:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B77666136D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3F7F361059
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 16:21:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F7F361059
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=u3yAeyk2D7f8dcErHZqwe2h1u+8kgkss89WG7GyBCX0=; b=FhNjZR9gHNWlzZ
-	4Rdg4G5D7+B9joOyMne8dqsJe0PX7vWiQ+gD/j26hwNJDlRK5EfnftQTyaqp9n2cgVBPhQFUqub1j
-	/5UAKv9ha6MbcUNs8i1K0hMvAz84TARhaERZFJTLyZdPBsj85eTxSYGGo3PmeimR6AwWRZiErgKCn
-	Q4cuIb/uGTcYDhuJqp90QQ6GdLTol5imDW+8zCROn/HeFbIcr+0BGlW6AvlVQeRNa2gnn8qU4JbYg
-	lZM4zW5o+1FBBChLiaNCxazvsRGk4pwhDGSX8xXsCGZZsUd0IgKg5jFY/hXXrs4UP2NCSl/QaDr2S
-	E52XKWTrA+DmEBdnKEqA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pmHBMZnes/7jkCl7xgW1frQJI4yCvlSGzLcBBDFoQq8=; b=YK600hOwf2EhgGudxEjvaY3myV
+	9fCSaHne5+lLDFwiG0QwsZQfGcAA2yeQ60kUGnE9YvM0VrJZnTsSeGP7RSDVAgeu6sy2Fg1kd6w6w
+	lRC56eZXrFEDE85xdES+/u+vi2JqtCCDx+oQvwW4FsYK/1GRMMLf7aZFzmLL5IbQp37yvYwwJH8SZ
+	Y+Y1IiuUBCsIWMBITr7zj5LJijcVHg3i6en2OXVBvQWHYy1kF+W9HQq+FAuPRPFzVmH9Sm2tQf5Pf
+	y6k/spMMKA9FY/gFK7/TjPbvGTxo64I4n88TL2hrCjRspOtpztSDZb29twU0przTR/M6rhErMUuDO
+	3KkJV9Sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqdtM-009Ild-Mu; Tue, 08 Jun 2021 15:43:48 +0000
-Received: from mail-bn7nam10on2059.outbound.protection.outlook.com
- ([40.107.92.59] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1lqeTp-009TfP-GD; Tue, 08 Jun 2021 16:21:29 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqdt5-009IeQ-Kj
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 15:43:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z6dRnp3xuXe/1/VkIWW1Okf2KS5ATYLqNOyZRcD2TXWanOaCLRg1w3xdUr8UvtzjBoPtul5sY/p1EWlbC80++Kbc4aifm+aCBB/42nTAunv84QJbZUtyiLF11K2KsBJCWJPxW/BUESmAGWlS/JXE9Uc1KAc8SQALtIkXZId4N12CnSW24PejPCtaSYAbRvRHgBAgrMtNKinbTrR0XzQo5jySlwABadZqMdA10RhNMIjxDHdFaED/ZBQ3de+pXYXJ8nPHJ5M5CHnrAqsD9wjcR2j4mIGDmxS5X+0yDX3+Zd0douGRnBRfkENW3q9mvd80XKU9WoNAAG9V4loYoibgow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E23a+Nyv2/aYiVzjkYrTu/4lnLkIQIU1vWmo91PfhSE=;
- b=iLZz1e3dYuohCidIUIKdlbU1w1sRSDWFdDnfe6+3cvFfpXdZwyYs+pFDnq6yjRHenNtyfyAKP9vT1TLz/eTZQh8NwSeZDPv3BdikXVnp3lHm7AC2TfhvSJKHKnjb+G+/HHy4F/ozIQpMcG7N3JWier45Pd1xvEUO6WUR3N9rn/OkiWK6aNIP6lZdM9mweZsdXp7hXxyLbxUBzf1hbbD4aR7QMvnMGJ+n0LSjBq05/jRTUKau/H3vbsWBX7YnFmcrgTQSDjR4DxP1pDKvGj4juiRh/LtLQLSgDUJWyE+jphgf2cJ9f/vkmc0GxEOICvrIErM5Kl/P9j0O1yxJb4nd5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E23a+Nyv2/aYiVzjkYrTu/4lnLkIQIU1vWmo91PfhSE=;
- b=eP9Z1mcdG/LOIBUhHsujwAHlVRAdCZFE5d7EHs0sy2SegjX/bNMw6A7ZVRaHAjIE8fZsmfU2i3P0Ahx06TM7CxYKXb2VfpOfT0eMCTsDSyc1qN5roh9FnktjeHNHqdol2kZNCQ6+rQJXb3Iik6YMtdNYYLMWIG+tYbsmOKXd9Gk=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4510.namprd12.prod.outlook.com (2603:10b6:806:94::8)
- by SN1PR12MB2447.namprd12.prod.outlook.com (2603:10b6:802:27::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Tue, 8 Jun
- 2021 15:43:24 +0000
-Received: from SA0PR12MB4510.namprd12.prod.outlook.com
- ([fe80::d51c:6137:77f2:5671]) by SA0PR12MB4510.namprd12.prod.outlook.com
- ([fe80::d51c:6137:77f2:5671%4]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
- 15:43:24 +0000
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ id 1lqeTm-009TeR-5P
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 16:21:27 +0000
+Received: by mail-wr1-f53.google.com with SMTP id e11so12032660wrg.3
+ for <linux-nvme@lists.infradead.org>; Tue, 08 Jun 2021 09:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T00FNpH7loMoqEtu1eWkUwRL9Kx0HIFZ6Q16qohE+J4=;
+ b=HRZtPkdQMgKsoj0cPRM68ogG0mMmoH7ag19wxbhzjdW5YKTZEzrIk4akAiv8oS9QDS
+ iHwHC9YruyRIKFthp5KNROuavoBGpuhJv7OkiaTg8t5ZcVK4dNC5Os5hgffWYEDId5Hx
+ EtUDio58Sr+cKs0CBMf79P0wIvBmREi5fhp6SkaV/zyw/3tAHcQwYCIWW9NRbZdMkO6r
+ cy2QNVX6lWOZXd82Zh+xQyfKInh4LQaY2zxWXnhB9jqfmB9v2Hfo7DbgMCqz8ohURgOx
+ 9oTKXkpOPLnPfp52Vbtl8Vr6Ffgmbm1aR9uO96IoFGzzGa1DKxehsE+75ZnfKCsH/Pp0
+ 9Ksg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T00FNpH7loMoqEtu1eWkUwRL9Kx0HIFZ6Q16qohE+J4=;
+ b=soaimZDVqKxvQRvyBSse4HzRBgLX+hXK21waLC66ZqVca3+kxk7Pc3287R8HBJW4Lb
+ Pr5UF7aOaj5Pw91HeomjZlq80PH7KfQrWyafpSd9VzAV9K9u5TixEYvyUfVYEn5wm6Gv
+ wZ0N3FwcmtvJkbl4Tk/4kSRN3Tl/HCTmKgHwR6YnXSYAirYUcp/vlT8kTjvil0Vsxw3u
+ dQ83mlzf5BxB+yKWoAIL6XFjPXvM1OoYtBstKIsJCInMp0PdbuZXPQXFCJjb2uHgXlM0
+ tTFfD8Tmju/26S8QZOoL2aQwNsk2BnntZeZqb8ixayW80chCNu56K2/fVM0daKj4qghZ
+ 6zhg==
+X-Gm-Message-State: AOAM530ZLWQOxNTBATEjhEkVqDcdfR1Dgm+DNv0Pc+HcDi+URFInZ413
+ EcU1FEoAumxyu9uyyncbWa4=
+X-Google-Smtp-Source: ABdhPJyIdlws1mfTZDVOyk7oQVbCvi9swbRfOVqsI9H4/EQPATyt1/mTBwmS6f3gPjcBQlUffcOIfw==
+X-Received: by 2002:adf:e404:: with SMTP id g4mr23226889wrm.414.1623169225059; 
+ Tue, 08 Jun 2021 09:20:25 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1984:a6c0::f8b0? ([2a02:908:1984:a6c0::f8b0])
+ by smtp.gmail.com with ESMTPSA id v7sm23989440wrf.82.2021.06.08.09.20.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 09:20:24 -0700 (PDT)
+Subject: Re: [PATCH v7 2/2] ACPI: Add quirks for AMD Renoir/Lucienne CPUs to
+ force the D3 hint
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>
-Cc: linux-nvme@lists.infradead.org (open list:NVM EXPRESS DRIVER),
+Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
  linux-acpi@vger.kernel.org, rrangel@chromium.org,
  david.e.box@linux.intel.com, Shyam-sundar.S-k@amd.com,
  Nehal-bakulchandra.Shah@amd.com, Alexander.Deucher@amd.com,
- prike.liang@amd.com, Mario Limonciello <mario.limonciello@amd.com>,
- Julian Sikorski <belegdol@gmail.com>
-Subject: [PATCH v7 2/2] ACPI: Add quirks for AMD Renoir/Lucienne CPUs to force
- the D3 hint
-Date: Tue,  8 Jun 2021 10:42:55 -0500
-Message-Id: <20210608154255.8693-2-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210608154255.8693-1-mario.limonciello@amd.com>
+ prike.liang@amd.com
 References: <20210608154255.8693-1-mario.limonciello@amd.com>
-X-Originating-IP: [76.251.167.31]
-X-ClientProxiedBy: SA0PR11CA0140.namprd11.prod.outlook.com
- (2603:10b6:806:131::25) To SA0PR12MB4510.namprd12.prod.outlook.com
- (2603:10b6:806:94::8)
+ <20210608154255.8693-2-mario.limonciello@amd.com>
+From: Julian Sikorski <belegdol@gmail.com>
+Message-ID: <0825a2d6-be28-3a4d-54b3-c45cc18fbab9@gmail.com>
+Date: Tue, 8 Jun 2021 18:20:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from AUS-LX-MLIMONCI.amd.com (76.251.167.31) by
- SA0PR11CA0140.namprd11.prod.outlook.com (2603:10b6:806:131::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend
- Transport; Tue, 8 Jun 2021 15:43:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 59c2d58c-efbb-4e19-176f-08d92a9426db
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2447:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB24478917B6286608B359C1E7E2379@SN1PR12MB2447.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DzCFoJUagUGgI3jjXs3b7TnA0DepC67ieWXq1KFeuNlFbFmqCsb6C4nGtSnNsU/h6Li8MatToRWiVLBlPRL5UDp3MCelo2TJrUFHWJuAEM5ltqmRLTegAHMXkpG6m9oCIP3nKCon18ua63V4Zzk/K6zlEr3SRZwxmDcRGv6h6sEVcXsQf9RZqPx7c7T9hE2VdBsboZJcdDwRGgoOIOL4qVFtfdxGZ5WynYmeE/FM3DGsLu49Zou6YiUNILWE4RpI+cf7U6mloYs6fh4sy0rzViPI6KC6y7pScZKDjzzLslHVzteDD3KKuogK3T+oxMsTXwD20mQvc/Mg3262lEHFG6exwkY42nC67Po/ou2v9igUlWLezBf2ZWVrgF6kqUxSTXStXCvF+shVDN+zwE5zQ30rTKVUc+UF5SaO9XjI2ohx+Cn/+r2/ik+ExPlYkWR0VUz845w4tfHJSsk3DcRZqfAwZGV7qmRfTtMvcgjFFj/FuChFFzdqSsxXNjEndnqAojGWu9GR8vmN3ETtgfK42GYtj12cdK0cTEJxG8i+NmiVhA2I+6jNwL09Eoz1HNloZ3NZwKsUlRPoS9xxGG/coFnbvGev8BPEHIgGyK2SPUP5KprdVy6TF46RT0xFHjzAhvfHLqyWMisMdklLh3jKwrRIgwdQ+oEJ8TXhDpo65wTJ+WrrgOpDeGkwsuRiNLIs605H9r1ia+s1/HucaYrsGPMZmH8igJSk7tQMfZa0TVsnuq9FZrt7JURgzjXFH2wvSNMASp9xE7/+I8I1NyTL/g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA0PR12MB4510.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(396003)(376002)(39860400002)(136003)(7416002)(66476007)(8936002)(6486002)(1076003)(66946007)(66556008)(8676002)(966005)(52116002)(7696005)(26005)(4326008)(16526019)(186003)(478600001)(316002)(5660300002)(54906003)(38100700002)(86362001)(110136005)(38350700002)(44832011)(83380400001)(2906002)(956004)(2616005)(36756003)(6666004)(45080400002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RbH9YqS8rbR/Ck7bhUs1NlR0cl8Ny8pviKxKg5C23wGu/kLpARu/FMW2YdMn?=
- =?us-ascii?Q?BAtI7vPtRjN7xeqFzJ0E2B21zt1P7V/iP6Il1ump7twnlJa+uROSW1mvkzS2?=
- =?us-ascii?Q?MjKKuqYl3B2+QMdDrvy9OZxy9DAJ9m4LLOWEeA73wgRqZBUvUMlJdg5RpSnW?=
- =?us-ascii?Q?u3d8efFz5kFdqsp47d367anVaiC2YItMjFWm1cKcUsZ41cp8/h6FqskiSEBX?=
- =?us-ascii?Q?yRUUxyTVwrtbN0B9e5DciL2QWM6BjPgeRQeRAXDNxiIMjITZz1DMlRF5nqx0?=
- =?us-ascii?Q?5nkPzO7iGSUrafarMpEfVeYYtP38owvyWJ9GYxvJucbBw1IP029mnxrl7DMz?=
- =?us-ascii?Q?vjOUHLmBi3KAgbLohG87T3YQqftiNw+MfMIXaqPhKyt3L94PKyvo1/2+agsU?=
- =?us-ascii?Q?ARvahTpciW+xr+bIxiBbeEfvV1KsvIguIC2TxvGRS30B2JTDtyUReDY/Ac0t?=
- =?us-ascii?Q?pSHwdXGnGX2uAESbSR4GParJXNdG1QJ514PMgX+lEhGOSRAAgZluso+Qvus6?=
- =?us-ascii?Q?riUy3/np1HAErEpEDNA5h1qbDTrpW6aWuBaDhl6xWq/HTTxK2UgSjTUo07cv?=
- =?us-ascii?Q?64lmIrJm1bMwVoWkRgGfR5CnkECJI/mGXM8u63pPb89LHmuJycVg7uWb/CM8?=
- =?us-ascii?Q?Xtg/5Zd3i5xOAfeL3/vdzp1/xplTaViEiea4YZ6ueM+yzol0GCGTjhlT53NK?=
- =?us-ascii?Q?+awe8uQA1VsLKIwN7lHnY9gOKAtVBQzWjcUzqmMdq3bYa5VNkFHfWTqQAQUC?=
- =?us-ascii?Q?al02QbsCA+Mf3ho3+tQIuWA1CLUJPAHGS8gj1AopXagk5gHbQqjEvspMSN9u?=
- =?us-ascii?Q?CreM8FCtGybFOKFFO1EN3Ubw/GWDyri16VWBBVexyjdl8L+ZjvwDk2ejCsm3?=
- =?us-ascii?Q?kU6jPLtZ9AFmEqgqI991GatCLYz0noid5OVBUtNtutMe2fZmPm9U4UoaXh8m?=
- =?us-ascii?Q?kTbitcEbAU5K4lcAHdu8W4BjF0XS8o5Xj/ZN5TG+Ov1NjTpzd8hKQBGOj6sl?=
- =?us-ascii?Q?45cSTHzIksBkzb2Y3EZ8MfAStExzvTQr7r9YRAnRmlPwk0ebDI+nprljYpWN?=
- =?us-ascii?Q?1xizijBBBRVkuV3pgDtAXFYvBExKgohLipVaBhMGtHYCHx8G5EHAxMm/j5bj?=
- =?us-ascii?Q?AcEjHQ+md+dp4SKbFZfwPhVYEXoreu1pFQxPbvbv1M2buQmMQjW8u2u3oOsi?=
- =?us-ascii?Q?G7lOjMykW8CcfLTzfq0Y0irSlhJoCmHu3PNPKUVgDrTKkHAKOYx3a3mKCIIe?=
- =?us-ascii?Q?X/ZXy5GsnDrDYpeJggfCPzFyHuTjTEvadA8Xs6SJuxIDmeYsB+Ltx8zkFIR+?=
- =?us-ascii?Q?RozpKnrCTc+AWaZg5AGO9Bzb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59c2d58c-efbb-4e19-176f-08d92a9426db
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4510.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 15:43:24.6996 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vkspBgjKTNLqOJXvS+0Sq+wBSYTnR8lOP4+uZYMQpl3ebMxSgXbAA1TiZz3TTebMqCXhXtAim//c5fBLmIuUGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2447
+In-Reply-To: <20210608154255.8693-2-mario.limonciello@amd.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_084331_724780_2E94405E 
-X-CRM114-Status: GOOD (  18.03  )
+X-CRM114-CacheID: sfid-20210608_092126_237943_37BC8B4A 
+X-CRM114-Status: GOOD (  36.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,141 +105,101 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-AMD systems from Renoir and Lucienne require that the NVME controller
-is put into D3 over a Modern Standby / suspend-to-idle
-cycle.  This is "typically" accomplished using the `StorageD3Enable`
-property in the _DSD, but this property was introduced after many
-of these systems launched and most OEM systems don't have it in
-their BIOS.
-
-On AMD Renoir without these drives going into D3 over suspend-to-idle
-the resume will fail with the NVME controller being reset and a trace
-like this in the kernel logs:
-```
-[   83.556118] nvme nvme0: I/O 161 QID 2 timeout, aborting
-[   83.556178] nvme nvme0: I/O 162 QID 2 timeout, aborting
-[   83.556187] nvme nvme0: I/O 163 QID 2 timeout, aborting
-[   83.556196] nvme nvme0: I/O 164 QID 2 timeout, aborting
-[   95.332114] nvme nvme0: I/O 25 QID 0 timeout, reset controller
-[   95.332843] nvme nvme0: Abort status: 0x371
-[   95.332852] nvme nvme0: Abort status: 0x371
-[   95.332856] nvme nvme0: Abort status: 0x371
-[   95.332859] nvme nvme0: Abort status: 0x371
-[   95.332909] PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns -16
-[   95.332936] nvme 0000:03:00.0: PM: failed to resume async: error -16
-```
-
-The Microsoft documentation for StorageD3Enable mentioned that Windows has
-a hardcoded allowlist for D3 support, which was used for these platforms.
-Introduce quirks to hardcode them for Linux as well.
-
-As this property is now "standardized", OEM systems using AMD Cezanne and
-newer APU's have adopted this property, and quirks like this should not be
-necessary.
-
-CC: Julian Sikorski <belegdol@gmail.com>
-CC: Shyam-sundar S-k <Shyam-sundar.S-k@amd.com>
-CC: Alexander Deucher <Alexander.Deucher@amd.com>
-CC: Rafael J. Wysocki <rjw@rjwysocki.net>
-CC: Prike Liang <prike.liang@amd.com>
-Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/acpi/device_pm.c |  3 +++
- drivers/acpi/internal.h  |  9 +++++++++
- drivers/acpi/x86/utils.c | 25 +++++++++++++++++++++++++
- 3 files changed, 37 insertions(+)
-
-Changes from v4->v5:
- * Add this patch back in as it's been made apparent that the
-   system needs to be hardcoded for these.
-   Changes:
-   - Drop Cezanne - it's now covered by StorageD3Enable
-   - Rebase ontop of acpi_storage_d3 outside of NVME
-Changes from v5->v6:
- * Move the quirk check into drivers/acpi/x86/ as suggested by
-   Rafael.
-Changes from v6->v7:
- * Move header location
- * Optimization of force function
-
-diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-index c45f2d76b67e..31e0025a913e 100644
---- a/drivers/acpi/device_pm.c
-+++ b/drivers/acpi/device_pm.c
-@@ -1356,6 +1356,9 @@ bool acpi_storage_d3(struct device *dev)
- 	struct acpi_device *adev = ACPI_COMPANION(dev);
- 	u8 val;
- 
-+	if (force_storage_d3())
-+		return true;
-+
- 	if (!adev)
- 		return false;
- 	if (fwnode_property_read_u8(acpi_fwnode_handle(adev), "StorageD3Enable",
-diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-index f973bbe90e5e..e29ec463bb07 100644
---- a/drivers/acpi/internal.h
-+++ b/drivers/acpi/internal.h
-@@ -236,6 +236,15 @@ static inline int suspend_nvs_save(void) { return 0; }
- static inline void suspend_nvs_restore(void) {}
- #endif
- 
-+#ifdef CONFIG_X86
-+bool force_storage_d3(void);
-+#else
-+static inline bool force_storage_d3(void)
-+{
-+	return false;
-+}
-+#endif
-+
- /*--------------------------------------------------------------------------
- 				Device properties
-   -------------------------------------------------------------------------- */
-diff --git a/drivers/acpi/x86/utils.c b/drivers/acpi/x86/utils.c
-index bdc1ba00aee9..5298bb4d81fe 100644
---- a/drivers/acpi/x86/utils.c
-+++ b/drivers/acpi/x86/utils.c
-@@ -135,3 +135,28 @@ bool acpi_device_always_present(struct acpi_device *adev)
- 
- 	return ret;
- }
-+
-+/*
-+ * AMD systems from Renoir and Lucienne *require* that the NVME controller
-+ * is put into D3 over a Modern Standby / suspend-to-idle cycle.
-+ *
-+ * This is "typically" accomplished using the `StorageD3Enable`
-+ * property in the _DSD that is checked via the `acpi_storage_d3` function
-+ * but this property was introduced after many of these systems launched
-+ * and most OEM systems don't have it in their BIOS.
-+ *
-+ * The Microsoft documentation for StorageD3Enable mentioned that Windows has
-+ * a hardcoded allowlist for D3 support, which was used for these platforms.
-+ *
-+ * This allows quirking on Linux in a similar fashion.
-+ */
-+const struct x86_cpu_id storage_d3_cpu_ids[] = {
-+	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 96, NULL),	/* Renoir */
-+	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 104, NULL),	/* Lucienne */
-+	{}
-+};
-+
-+bool force_storage_d3(void)
-+{
-+	return x86_match_cpu(storage_d3_cpu_ids);
-+}
--- 
-2.25.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+VyBkbml1IDA4LjA2LjIwMjEgb8KgMTc6NDIsIE1hcmlvIExpbW9uY2llbGxvIHBpc3plOgo+IEFN
+RCBzeXN0ZW1zIGZyb20gUmVub2lyIGFuZCBMdWNpZW5uZSByZXF1aXJlIHRoYXQgdGhlIE5WTUUg
+Y29udHJvbGxlcgo+IGlzIHB1dCBpbnRvIEQzIG92ZXIgYSBNb2Rlcm4gU3RhbmRieSAvIHN1c3Bl
+bmQtdG8taWRsZQo+IGN5Y2xlLiAgVGhpcyBpcyAidHlwaWNhbGx5IiBhY2NvbXBsaXNoZWQgdXNp
+bmcgdGhlIGBTdG9yYWdlRDNFbmFibGVgCj4gcHJvcGVydHkgaW4gdGhlIF9EU0QsIGJ1dCB0aGlz
+IHByb3BlcnR5IHdhcyBpbnRyb2R1Y2VkIGFmdGVyIG1hbnkKPiBvZiB0aGVzZSBzeXN0ZW1zIGxh
+dW5jaGVkIGFuZCBtb3N0IE9FTSBzeXN0ZW1zIGRvbid0IGhhdmUgaXQgaW4KPiB0aGVpciBCSU9T
+Lgo+IAo+IE9uIEFNRCBSZW5vaXIgd2l0aG91dCB0aGVzZSBkcml2ZXMgZ29pbmcgaW50byBEMyBv
+dmVyIHN1c3BlbmQtdG8taWRsZQo+IHRoZSByZXN1bWUgd2lsbCBmYWlsIHdpdGggdGhlIE5WTUUg
+Y29udHJvbGxlciBiZWluZyByZXNldCBhbmQgYSB0cmFjZQo+IGxpa2UgdGhpcyBpbiB0aGUga2Vy
+bmVsIGxvZ3M6Cj4gYGBgCj4gWyAgIDgzLjU1NjExOF0gbnZtZSBudm1lMDogSS9PIDE2MSBRSUQg
+MiB0aW1lb3V0LCBhYm9ydGluZwo+IFsgICA4My41NTYxNzhdIG52bWUgbnZtZTA6IEkvTyAxNjIg
+UUlEIDIgdGltZW91dCwgYWJvcnRpbmcKPiBbICAgODMuNTU2MTg3XSBudm1lIG52bWUwOiBJL08g
+MTYzIFFJRCAyIHRpbWVvdXQsIGFib3J0aW5nCj4gWyAgIDgzLjU1NjE5Nl0gbnZtZSBudm1lMDog
+SS9PIDE2NCBRSUQgMiB0aW1lb3V0LCBhYm9ydGluZwo+IFsgICA5NS4zMzIxMTRdIG52bWUgbnZt
+ZTA6IEkvTyAyNSBRSUQgMCB0aW1lb3V0LCByZXNldCBjb250cm9sbGVyCj4gWyAgIDk1LjMzMjg0
+M10gbnZtZSBudm1lMDogQWJvcnQgc3RhdHVzOiAweDM3MQo+IFsgICA5NS4zMzI4NTJdIG52bWUg
+bnZtZTA6IEFib3J0IHN0YXR1czogMHgzNzEKPiBbICAgOTUuMzMyODU2XSBudm1lIG52bWUwOiBB
+Ym9ydCBzdGF0dXM6IDB4MzcxCj4gWyAgIDk1LjMzMjg1OV0gbnZtZSBudm1lMDogQWJvcnQgc3Rh
+dHVzOiAweDM3MQo+IFsgICA5NS4zMzI5MDldIFBNOiBkcG1fcnVuX2NhbGxiYWNrKCk6IHBjaV9w
+bV9yZXN1bWUrMHgwLzB4ZTAgcmV0dXJucyAtMTYKPiBbICAgOTUuMzMyOTM2XSBudm1lIDAwMDA6
+MDM6MDAuMDogUE06IGZhaWxlZCB0byByZXN1bWUgYXN5bmM6IGVycm9yIC0xNgo+IGBgYAo+IAo+
+IFRoZSBNaWNyb3NvZnQgZG9jdW1lbnRhdGlvbiBmb3IgU3RvcmFnZUQzRW5hYmxlIG1lbnRpb25l
+ZCB0aGF0IFdpbmRvd3MgaGFzCj4gYSBoYXJkY29kZWQgYWxsb3dsaXN0IGZvciBEMyBzdXBwb3J0
+LCB3aGljaCB3YXMgdXNlZCBmb3IgdGhlc2UgcGxhdGZvcm1zLgo+IEludHJvZHVjZSBxdWlya3Mg
+dG8gaGFyZGNvZGUgdGhlbSBmb3IgTGludXggYXMgd2VsbC4KPiAKPiBBcyB0aGlzIHByb3BlcnR5
+IGlzIG5vdyAic3RhbmRhcmRpemVkIiwgT0VNIHN5c3RlbXMgdXNpbmcgQU1EIENlemFubmUgYW5k
+Cj4gbmV3ZXIgQVBVJ3MgaGF2ZSBhZG9wdGVkIHRoaXMgcHJvcGVydHksIGFuZCBxdWlya3MgbGlr
+ZSB0aGlzIHNob3VsZCBub3QgYmUKPiBuZWNlc3NhcnkuCj4gCj4gQ0M6IEp1bGlhbiBTaWtvcnNr
+aSA8YmVsZWdkb2xAZ21haWwuY29tPgo+IENDOiBTaHlhbS1zdW5kYXIgUy1rIDxTaHlhbS1zdW5k
+YXIuUy1rQGFtZC5jb20+Cj4gQ0M6IEFsZXhhbmRlciBEZXVjaGVyIDxBbGV4YW5kZXIuRGV1Y2hl
+ckBhbWQuY29tPgo+IENDOiBSYWZhZWwgSi4gV3lzb2NraSA8cmp3QHJqd3lzb2NraS5uZXQ+Cj4g
+Q0M6IFByaWtlIExpYW5nIDxwcmlrZS5saWFuZ0BhbWQuY29tPgo+IExpbms6IGh0dHBzOi8vZG9j
+cy5taWNyb3NvZnQuY29tL2VuLXVzL3dpbmRvd3MtaGFyZHdhcmUvZGVzaWduL2NvbXBvbmVudC1n
+dWlkZWxpbmVzL3Bvd2VyLW1hbmFnZW1lbnQtZm9yLXN0b3JhZ2UtaGFyZHdhcmUtZGV2aWNlcy1p
+bnRybwo+IFNpZ25lZC1vZmYtYnk6IE1hcmlvIExpbW9uY2llbGxvIDxtYXJpby5saW1vbmNpZWxs
+b0BhbWQuY29tPgo+IC0tLQo+ICAgZHJpdmVycy9hY3BpL2RldmljZV9wbS5jIHwgIDMgKysrCj4g
+ICBkcml2ZXJzL2FjcGkvaW50ZXJuYWwuaCAgfCAgOSArKysrKysrKysKPiAgIGRyaXZlcnMvYWNw
+aS94ODYvdXRpbHMuYyB8IDI1ICsrKysrKysrKysrKysrKysrKysrKysrKysKPiAgIDMgZmlsZXMg
+Y2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKQo+IAo+IENoYW5nZXMgZnJvbSB2NC0+djU6Cj4gICAq
+IEFkZCB0aGlzIHBhdGNoIGJhY2sgaW4gYXMgaXQncyBiZWVuIG1hZGUgYXBwYXJlbnQgdGhhdCB0
+aGUKPiAgICAgc3lzdGVtIG5lZWRzIHRvIGJlIGhhcmRjb2RlZCBmb3IgdGhlc2UuCj4gICAgIENo
+YW5nZXM6Cj4gICAgIC0gRHJvcCBDZXphbm5lIC0gaXQncyBub3cgY292ZXJlZCBieSBTdG9yYWdl
+RDNFbmFibGUKPiAgICAgLSBSZWJhc2Ugb250b3Agb2YgYWNwaV9zdG9yYWdlX2QzIG91dHNpZGUg
+b2YgTlZNRQo+IENoYW5nZXMgZnJvbSB2NS0+djY6Cj4gICAqIE1vdmUgdGhlIHF1aXJrIGNoZWNr
+IGludG8gZHJpdmVycy9hY3BpL3g4Ni8gYXMgc3VnZ2VzdGVkIGJ5Cj4gICAgIFJhZmFlbC4KPiBD
+aGFuZ2VzIGZyb20gdjYtPnY3Ogo+ICAgKiBNb3ZlIGhlYWRlciBsb2NhdGlvbgo+ICAgKiBPcHRp
+bWl6YXRpb24gb2YgZm9yY2UgZnVuY3Rpb24KPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3Bp
+L2RldmljZV9wbS5jIGIvZHJpdmVycy9hY3BpL2RldmljZV9wbS5jCj4gaW5kZXggYzQ1ZjJkNzZi
+NjdlLi4zMWUwMDI1YTkxM2UgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9hY3BpL2RldmljZV9wbS5j
+Cj4gKysrIGIvZHJpdmVycy9hY3BpL2RldmljZV9wbS5jCj4gQEAgLTEzNTYsNiArMTM1Niw5IEBA
+IGJvb2wgYWNwaV9zdG9yYWdlX2QzKHN0cnVjdCBkZXZpY2UgKmRldikKPiAgIAlzdHJ1Y3QgYWNw
+aV9kZXZpY2UgKmFkZXYgPSBBQ1BJX0NPTVBBTklPTihkZXYpOwo+ICAgCXU4IHZhbDsKPiAgIAo+
+ICsJaWYgKGZvcmNlX3N0b3JhZ2VfZDMoKSkKPiArCQlyZXR1cm4gdHJ1ZTsKPiArCj4gICAJaWYg
+KCFhZGV2KQo+ICAgCQlyZXR1cm4gZmFsc2U7Cj4gICAJaWYgKGZ3bm9kZV9wcm9wZXJ0eV9yZWFk
+X3U4KGFjcGlfZndub2RlX2hhbmRsZShhZGV2KSwgIlN0b3JhZ2VEM0VuYWJsZSIsCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvYWNwaS9pbnRlcm5hbC5oIGIvZHJpdmVycy9hY3BpL2ludGVybmFsLmgK
+PiBpbmRleCBmOTczYmJlOTBlNWUuLmUyOWVjNDYzYmIwNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2FjcGkvaW50ZXJuYWwuaAo+ICsrKyBiL2RyaXZlcnMvYWNwaS9pbnRlcm5hbC5oCj4gQEAgLTIz
+Niw2ICsyMzYsMTUgQEAgc3RhdGljIGlubGluZSBpbnQgc3VzcGVuZF9udnNfc2F2ZSh2b2lkKSB7
+IHJldHVybiAwOyB9Cj4gICBzdGF0aWMgaW5saW5lIHZvaWQgc3VzcGVuZF9udnNfcmVzdG9yZSh2
+b2lkKSB7fQo+ICAgI2VuZGlmCj4gICAKPiArI2lmZGVmIENPTkZJR19YODYKPiArYm9vbCBmb3Jj
+ZV9zdG9yYWdlX2QzKHZvaWQpOwo+ICsjZWxzZQo+ICtzdGF0aWMgaW5saW5lIGJvb2wgZm9yY2Vf
+c3RvcmFnZV9kMyh2b2lkKQo+ICt7Cj4gKwlyZXR1cm4gZmFsc2U7Cj4gK30KPiArI2VuZGlmCj4g
+Kwo+ICAgLyotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAgCQkJCURldmljZSBwcm9wZXJ0aWVzCj4gICAg
+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tICovCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYWNwaS94ODYvdXRp
+bHMuYyBiL2RyaXZlcnMvYWNwaS94ODYvdXRpbHMuYwo+IGluZGV4IGJkYzFiYTAwYWVlOS4uNTI5
+OGJiNGQ4MWZlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvYWNwaS94ODYvdXRpbHMuYwo+ICsrKyBi
+L2RyaXZlcnMvYWNwaS94ODYvdXRpbHMuYwo+IEBAIC0xMzUsMyArMTM1LDI4IEBAIGJvb2wgYWNw
+aV9kZXZpY2VfYWx3YXlzX3ByZXNlbnQoc3RydWN0IGFjcGlfZGV2aWNlICphZGV2KQo+ICAgCj4g
+ICAJcmV0dXJuIHJldDsKPiAgIH0KPiArCj4gKy8qCj4gKyAqIEFNRCBzeXN0ZW1zIGZyb20gUmVu
+b2lyIGFuZCBMdWNpZW5uZSAqcmVxdWlyZSogdGhhdCB0aGUgTlZNRSBjb250cm9sbGVyCj4gKyAq
+IGlzIHB1dCBpbnRvIEQzIG92ZXIgYSBNb2Rlcm4gU3RhbmRieSAvIHN1c3BlbmQtdG8taWRsZSBj
+eWNsZS4KPiArICoKPiArICogVGhpcyBpcyAidHlwaWNhbGx5IiBhY2NvbXBsaXNoZWQgdXNpbmcg
+dGhlIGBTdG9yYWdlRDNFbmFibGVgCj4gKyAqIHByb3BlcnR5IGluIHRoZSBfRFNEIHRoYXQgaXMg
+Y2hlY2tlZCB2aWEgdGhlIGBhY3BpX3N0b3JhZ2VfZDNgIGZ1bmN0aW9uCj4gKyAqIGJ1dCB0aGlz
+IHByb3BlcnR5IHdhcyBpbnRyb2R1Y2VkIGFmdGVyIG1hbnkgb2YgdGhlc2Ugc3lzdGVtcyBsYXVu
+Y2hlZAo+ICsgKiBhbmQgbW9zdCBPRU0gc3lzdGVtcyBkb24ndCBoYXZlIGl0IGluIHRoZWlyIEJJ
+T1MuCj4gKyAqCj4gKyAqIFRoZSBNaWNyb3NvZnQgZG9jdW1lbnRhdGlvbiBmb3IgU3RvcmFnZUQz
+RW5hYmxlIG1lbnRpb25lZCB0aGF0IFdpbmRvd3MgaGFzCj4gKyAqIGEgaGFyZGNvZGVkIGFsbG93
+bGlzdCBmb3IgRDMgc3VwcG9ydCwgd2hpY2ggd2FzIHVzZWQgZm9yIHRoZXNlIHBsYXRmb3Jtcy4K
+PiArICoKPiArICogVGhpcyBhbGxvd3MgcXVpcmtpbmcgb24gTGludXggaW4gYSBzaW1pbGFyIGZh
+c2hpb24uCj4gKyAqLwo+ICtjb25zdCBzdHJ1Y3QgeDg2X2NwdV9pZCBzdG9yYWdlX2QzX2NwdV9p
+ZHNbXSA9IHsKPiArCVg4Nl9NQVRDSF9WRU5ET1JfRkFNX01PREVMKEFNRCwgMjMsIDk2LCBOVUxM
+KSwJLyogUmVub2lyICovCj4gKwlYODZfTUFUQ0hfVkVORE9SX0ZBTV9NT0RFTChBTUQsIDIzLCAx
+MDQsIE5VTEwpLAkvKiBMdWNpZW5uZSAqLwo+ICsJe30KPiArfTsKPiArCj4gK2Jvb2wgZm9yY2Vf
+c3RvcmFnZV9kMyh2b2lkKQo+ICt7Cj4gKwlyZXR1cm4geDg2X21hdGNoX2NwdShzdG9yYWdlX2Qz
+X2NwdV9pZHMpOwo+ICt9Cj4gCgpUZXN0ZWQtYnk6IEp1bGlhbiBTaWtvcnNraSA8YmVsZWdkb2xA
+Z21haWwuY29tPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3Jn
+Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
