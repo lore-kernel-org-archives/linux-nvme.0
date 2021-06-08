@@ -2,68 +2,65 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99607C47082
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 18:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2AFBC47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 19:09:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 63E326161C
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 18:41:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 63E326161C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 553C5611AE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 19:09:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 553C5611AE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=davemloft.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
+	From:Subject:Cc:To:Message-Id:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hLKNOWr5zKuzhEvzwxVvDJMoi8LLXTDRgtu1cmG4poc=; b=jSBE8gCSp/zjIf
-	X4KTvNNcjHlO5xZ3GfS0+1nYSK7IQOx749VNrk6YjYLpC4RMBDN8aGHwEiMLQI0lEdTYGVgDbaml0
-	pMJLGBqiC4mDgGAQiJfIZn2nNgrUhSsgh4GUqCTdvob6Ewua4/JABn2r8BIRYlUcJL/1m5OlGUekk
-	CLNnZfVhxKNIPYCLWsnPP1yXopwriCmiboBNFbVIXBUNMpZDgWQjB9aTtg4I6R6QSfmZhX6pA/4PX
-	cWdVNj6My4kBqLtTvShX+DdcyLNMy9snSz2oA/cy8YjZPWsVUwhHroGkeK7CYqPmn5XjxRh4xgt3j
-	gXulrGzLA3dLKCxwVYFw==;
+	List-Owner; bh=PKvfjpR4wiEJl0aQBtD1Baod61uhGjdbpOLBCAs4Lac=; b=Iy1l0L7kPDmAwk
+	50RUZx1Ut+B2wK6NiN2037BM+OUFX0Z9RQQ4BQcOVyN3U3BZOEho0W84esQGwVdaSuYmG/QvZ688O
+	GvrAjKuH1QvzmC+cdUuHWE49ydAcbjXkfEvohniH199ZzHrtkHj+6CvlZzLs9MiwHK14daaNlLrmk
+	xGWz7pNg777NoaSWXbmwhymdl7gOJj2nobuoR24RADEVu/zWonotS6jcGkm38xYc+bxZ/anqB/SCm
+	J2KMDw9ZdAlzKbl9OGMMzoS+LQExqFfy7UTmgmjBiN0kXcR7W1AXizAbf3ABwzvvA7+v7tt85lReO
+	26n+PXIuFK6pfC/dX3oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqgfU-00A3QS-Nu; Tue, 08 Jun 2021 18:41:40 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lqh5o-00ABne-8T; Tue, 08 Jun 2021 19:08:52 +0000
+Received: from shards.monkeyblade.net ([23.128.96.9] helo=mail.monkeyblade.net)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqgfS-00A3PN-6A
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 18:41:39 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E6E36140B;
- Tue,  8 Jun 2021 18:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623177697;
- bh=vBZtNDAV6Pb1mGKiFeM02JZvOiGN62Dyrgtle+9RadY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mnJcNNz3CtTgB4+VJCviUBirK7XtojBKjAZ/FMDOh4h/y34q8fK2PcoAwAYyKBnHU
- zsLcwNplDQx0tC/FeKRCq72d/v2Cy4u2+CE4dU9GxvF163fLxhR+r+w9MapfIkwXzY
- 5fU+QiLTxjrVBdLD7AprFtfn7c8obE+ZYfgmtYHXoX2zKV+JBMFHkEY7gNeGL2PTCp
- uD14VHgjDHnN2cOebAn2UUM9afOmOjcUtP304PBSLEUqqAW9A928gQID9P41eKb/IG
- V6VQQTnU1fPZjENAdU0l+T7QpS/r/AGiQdxupiYxz1iWz2Otq0mEFwTFcyxpW7tHvT
- d8YYi0OotqM+Q==
-Date: Tue, 8 Jun 2021 11:41:34 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Michal Kalderon <mkalderon@marvell.com>, Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Shai Malin <smalin@marvell.com>, Ariel Elior <aelior@marvell.com>
-Subject: Re: BUG: scheduling while atomic when nvmet_rdma_queue_response
- fails in posting a request
-Message-ID: <20210608184134.GA339600@dhcp-10-100-145-180.wdc.com>
-References: <CH0PR18MB4129247C2B9AE092E3C59740A1209@CH0PR18MB4129.namprd18.prod.outlook.com>
- <e059fc90-81e7-dbe8-86f4-87b4bdbd5bb0@grimberg.me>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e059fc90-81e7-dbe8-86f4-87b4bdbd5bb0@grimberg.me>
+ id 1lqh5k-00ABmX-Sp
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 19:08:50 +0000
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+ by mail.monkeyblade.net (Postfix) with ESMTPSA id 8AE204D30E6A0;
+ Tue,  8 Jun 2021 12:08:43 -0700 (PDT)
+Date: Tue, 08 Jun 2021 12:08:39 -0700 (PDT)
+Message-Id: <20210608.120839.259439633590059559.davem@davemloft.net>
+To: hch@lst.de
+Cc: geert@linux-m68k.org, kbusch@kernel.org, axboe@fb.com,
+ sagi@grimberg.me, okulkarni@marvell.com, hare@suse.de,
+ dbalandin@marvell.com, himanshu.madhani@oracle.com, smalin@marvell.com,
+ pmladek@suse.com, linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: please drop the nvme code from net-next
+From: David Miller <davem@davemloft.net>
+In-Reply-To: <20210608134303.GA30977@lst.de>
+References: <20210608121925.GA24201@lst.de>
+ <CAMuHMdWgLf8GJfOaRUyx=AvOTnuOs8FS-2=C+OCk02OLDCyrDg@mail.gmail.com>
+ <20210608134303.GA30977@lst.de>
+X-Mailer: Mew version 6.8 on Emacs 27.1
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.2
+ (mail.monkeyblade.net [0.0.0.0]); Tue, 08 Jun 2021 12:08:44 -0700 (PDT)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_114138_270548_84F64ABE 
-X-CRM114-Status: GOOD (  15.79  )
+X-CRM114-CacheID: sfid-20210608_120848_963118_5A2A8528 
+X-CRM114-Status: UNSURE (   5.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,52 +77,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 08, 2021 at 10:43:45AM -0700, Sagi Grimberg wrote:
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 7d607f435e36..6d2eea322779 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -16,6 +16,7 @@
->  #include <linux/wait.h>
->  #include <linux/inet.h>
->  #include <asm/unaligned.h>
-> +#include <linux/async.h>
-> 
->  #include <rdma/ib_verbs.h>
->  #include <rdma/rdma_cm.h>
-> @@ -712,6 +713,12 @@ static void nvmet_rdma_send_done(struct ib_cq *cq,
-> struct ib_wc *wc)
->         }
->  }
-> 
-> +static void nvmet_rdma_async_release_rsp(void *data, async_cookie_t cookie)
-> +{
-> +       struct nvmet_rdma_rsp *rsp = data;
-> +       nvmet_rdma_release_rsp(rsp);
-> +}
-> +
->  static void nvmet_rdma_queue_response(struct nvmet_req *req)
->  {
->         struct nvmet_rdma_rsp *rsp =
-> @@ -745,7 +752,12 @@ static void nvmet_rdma_queue_response(struct nvmet_req
-> *req)
-> 
->         if (unlikely(ib_post_send(cm_id->qp, first_wr, NULL))) {
->                 pr_err("sending cmd response failed\n");
-> -               nvmet_rdma_release_rsp(rsp);
-> +               /*
-> +                * We might be in atomic context, hence release
-> +                * the rsp in async context in case we need to
-> +                * process the wr_wait_list.
-> +                */
-> +               async_schedule(nvmet_rdma_async_release_rsp, rsp);
->         }
->  }
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 8 Jun 2021 15:43:03 +0200
 
-Just FYI, async_schedule() has conditions where it may execute your
-callback synchronously. Your suggestion is probably fine for testing,
-but it sounds like you require something that can guarantee a non-atomic
-context for nvmet_rdma_release_rsp().
+> please drop the nvme-offload code from net-next.  Code for drivers/nvme/
+> needs ACKs from us nvme maintainers and for something this significant
+> also needs to go through the NVMe tree.  And this code is not ready yet.
+
+Please send me a revert, and I will apply it, thank you.
+
+It's tricky because at least one driver uses the new interfaces.
+
+Thank you.
 
 _______________________________________________
 Linux-nvme mailing list
