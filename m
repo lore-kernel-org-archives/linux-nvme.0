@@ -2,81 +2,67 @@ Return-Path: <SRS0=UQCu=LC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D6CC47082
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 11:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D20C47082
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 11:28:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 067E06128A
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 11:25:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 067E06128A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 56E306128A
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jun 2021 11:28:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 56E306128A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R7Qe5Qvt6tDQv3B4iKsJznZwsORThEMLZbjXBYCAYtg=; b=iHDVhYXMSjFDYg
-	VzJAx7d3AZZe3mPgRLEK/uQ65kX7GEfIItVwe4dy1NgPtpAYvYi5OD9VzuGJP2PLzyIndzIFPVzFr
-	GKe4hzqa9bCX1IGVY/eR+qHROSg6fVM6z6bFculGmZ09cASdF4iwS63roGncnrIIdU+IA97zLE0hT
-	8UtYR4IZJpJTl4nyeFL+NXzIGsCI9HM3ibo/Juk5MfT427VavW+zZHuX0XWQEyB7aYwafqQ2lyw0D
-	0J2qbMd+cMZ+9TVIkFB0q5ZD+UJe38ZSmoYcBteAAhQUu+dARPwI4+HpDMLTuuyY6iogiwWRrgNOY
-	i+1nupfApjuKmOOqnPFw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=d8W0hvDXkPm03gBStqlN4xaxy2ODkx+Ql/6pmae1tls=; b=C2Slca9mtunjT+
+	xmHwsnPvsoVHamyRbm3vESph3Q/6uzdnfAo+FfrS2Kdw+NUlmOygkJFMYHHgZhEw2RDizoMawewz4
+	OG+Pw2MwM88r9QbkaJYN6wTYf4uV3JKDnspvaVRzhB5gATyDF695foZ9YhGeG8ZC9Kdm6EGfopKlA
+	SXgKZt84/EFfgHjMGadlcg5NyYEn7sRzMry6woW7372vLkQem6/BPYRC1+3N8feOgSkHnE0/rzBKM
+	auIu62Ju0fF+iWk5DA8JkMtWeMibAZpKpGLHBAve5/2HUpKLvwBI6ahzrFMkHPa4OzTjRuJewpGfO
+	BbiUospbHAMaTnvyIdZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqZrN-0080oR-4d; Tue, 08 Jun 2021 11:25:29 +0000
-Received: from mail-oi1-f178.google.com ([209.85.167.178])
+	id 1lqZu2-008200-RX; Tue, 08 Jun 2021 11:28:14 +0000
+Received: from saphodev.broadcom.com ([192.19.11.229]
+ helo=relay.smtp-ext.broadcom.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqZmy-007yGy-1O
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 11:20:57 +0000
-Received: by mail-oi1-f178.google.com with SMTP id v142so20754326oie.9
- for <linux-nvme@lists.infradead.org>; Tue, 08 Jun 2021 04:20:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3kRxbCWG2OXZOSOQYjN+wij24NaIQIZS7qE5IBc04fg=;
- b=UK/WOtx+pMStOP0H8CXUwhee65YCFlB7tsyVOAiKaAffYsLuKPohJ7CXzEgAiJKv4x
- czVAR/GdDATG/4eKGq1x6Fh9Aa0ieAqDlJuAxydzxHTt+ipprrZ3CAZPAHffv8/Hh94K
- Cuc9N3IEsJJi7A9v4YKiObfDb0nWTqtbwMzyysDP8dR8ZV6EhYRx9/U37GD+QFmXbSM2
- b/3L9KJi5znes6yfR9NurcuVuZlTpxD/BY9Z+Ww8hku0zF+8f38zwXVWlb54zRx4UN+8
- 9pSqrEp79vKUonb1v4hSnRQzjqMaI9phXZptvVRs0iFiMTqzE4/9EVTc1T9xYRe29HWe
- ++BQ==
-X-Gm-Message-State: AOAM531lW9YEsWywNbUdp+B9E3MXSRzrDowf5daI7T18s6zJcDo2xS19
- SmI5sbNVrWqTjQDeLGj+E8OPjua2iWFRkrKVcKk=
-X-Google-Smtp-Source: ABdhPJzj+2qh6aoDiTJMWsDt+F99NabZ7WwOKqMPzK2YQB8EtAKcx+tMAiNZbi4uFRLXKo/sM5gmy+NMfihYiFhThGY=
-X-Received: by 2002:aca:1910:: with SMTP id l16mr2324517oii.69.1623151254329; 
- Tue, 08 Jun 2021 04:20:54 -0700 (PDT)
+ id 1lqZtt-0081vI-LM
+ for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 11:28:09 +0000
+Received: from localhost.localdomain (unknown [10.157.2.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay.smtp-ext.broadcom.com (Postfix) with ESMTPS id D17C0E9;
+ Tue,  8 Jun 2021 04:27:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com D17C0E9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+ s=dkimrelay; t=1623151682;
+ bh=ME7vECLt+bmTJvpV1j3UHITX2YBx0cjhpp2EX7qJYBg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=U+5uuwqSCho/UZ0kMgVf1G3IFTmlGnWHGmn6Cz4dseMXnSfdPAy3HPxcbC3N1Pvcr
+ jl042vIqrskU6qk8kbblEyybibsKIbXrbB0efD45lNegWNgRugpHBCbRv26nUqPbkk
+ kBO34A1xx/QmT0cKtF7Xsy2p/xqel9Giz/pZmviQ=
+From: Muneendra Kumar <muneendra.kumar@broadcom.com>
+To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, tj@kernel.org,
+ linux-nvme@lists.infradead.org, hare@suse.de
+Cc: jsmart2021@gmail.com, emilne@redhat.com, mkumar@redhat.com,
+ Muneendra <muneendra.kumar@broadcom.com>
+Subject: [PATCH v11 00/13] blkcg:Support to track FC storage blk io traffic
+Date: Tue,  8 Jun 2021 10:05:43 +0530
+Message-Id: <20210608043556.274139-1-muneendra.kumar@broadcom.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210607173156.5548-1-mario.limonciello@amd.com>
- <20210608053546.GA14116@lst.de>
-In-Reply-To: <20210608053546.GA14116@lst.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 8 Jun 2021 13:20:43 +0200
-Message-ID: <CAJZ5v0gMgwJ9kq_mo_dYoTUAqQzhXmrgp9wnY4TRPU1pJp=TyQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] ACPI: Move check for _DSD StorageD3Enable property
- to acpi
-To: Christoph Hellwig <hch@lst.de>,
- Mario Limonciello <mario.limonciello@amd.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>, 
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>, rrangel@chromium.org, 
- David Box <david.e.box@linux.intel.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Nehal-bakulchandra.Shah@amd.com, Alex Deucher <Alexander.Deucher@amd.com>, 
- Prike Liang <prike.liang@amd.com>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_042056_119376_108114FE 
-X-CRM114-Status: GOOD (  28.12  )
+X-CRM114-CacheID: sfid-20210608_042805_959878_FF67D1B4 
+X-CRM114-Status: GOOD (  16.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,65 +79,142 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 8, 2021 at 7:35 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Mon, Jun 07, 2021 at 12:31:55PM -0500, Mario Limonciello wrote:
-> > +/**
-> > + * acpi_storage_d3 - Check if a storage device should use D3.
+From: Muneendra <muneendra.kumar@broadcom.com>
 
-Let's be specific about what D3 means here in the first place and
-that's D3hot AFAICS.
+This Patch added a unique application identifier i.e
+app_id  knob to  blkcg which allows identification of traffic
+sources at an individual cgroup based Applications
+(ex:virtual machine (VM))level in both host and
+fabric infrastructure.
 
-And the comment should be something like "Check whether or not to use
-D3hot in the suspend path".
+Added a new sysfs attribute appid_store to set the application identfier
+in  the blkcg associted with cgroup id under
+/sys/class/fc/fc_udev_device/*
 
-> > + * @dev: Device to check
-> > + *
-> > + * Returns %true if @dev should be put into D3 when the ->suspend method is
-> > + * called, else %false.  The name of this function is somewhat misleading
-> > + * as it has nothing to do with storage except for the name of the ACPI
-> > + * property.  On some platforms resume will not work if this hint is ignored.
+With this new interface the user can set the application identfier
+in  the blkcg associted with cgroup id.
 
-I would write it this way:
+This capability can be utilized by multiple block transport infrastructure
+like fc,iscsi,roce.
 
-"Return %true if the platform firmware wants @dev to be programmed
-into D3hot in the suspend path, or %false when there is no specific
-preference. On some platforms, if this hint is ignored, @dev may
-remain unresponsive after suspending the platform as a whole."
+Existing FC fabric will use this feature and the description of
+the use case is below.
 
-And I'm not sure if it is necessary to mention "storage" in this comment at all.
+Various virtualization technologies used in Fibre Channel
+SAN deployments have created the opportunity to identify
+and associate traffic with specific virtualized applications.
+The concepts behind the T11 Application Services standard is
+to provide the general mechanisms needed to identify
+virtualized services.
+It enables the Fabric and the storage targets to
+identify, monitor, and handle FC traffic
+based on vm tags by inserting application specific identification
+into the FC frame.
 
-> > + *
-> > + */
->
-> I still do not like this comment.  There is nothing about only using this
-> for storage devices.  It is specific to a PCIe slot, and if I plug
-> something that is not a storage device into it the same restrictions
-> still apply.
+The patches were cut against  5.14/scsi-queue tree
 
-Originally, it was about storage devices IIUC (and that's why the
-property name is what it is).
+v11:
+add Tejun Heo Acks.
+Add comment on race condition
 
-IIRC PCIe link management was broken in some NVMe drives and putting
-them into D3hot would allow the link to go down later and it would
-never go up again.  So you-know-who decided to avoid using D3hot for
-all NVMe drives and they were generally characterized as "storage".
-Alas, that turned out to break other things depending on the devices
-being put into D3hot (like PS_ON) so the property was invented to
-allow OEMs to mark the configurations including the devices that
-actually worked (and Linux was/is on the receiving end). And
-originally the property applied to the endpoint device under the root
-port it was present for (my personal opinion about this doesn't really
-matter, so let me avoid wasting time on expressing it).
+v10:
+Fixed the spelling mistakes and function name corrections
+Removed the redundant code
 
-Now, it evidently has been re-purposed to mark PCIe root ports that
-require devices under them to be put into D3hot in the suspend path
-(and it now means any device under the root port with this property,
-at least in some cases).
+v9:
+Addressed the issues reported by kernel test robot
+Replaced lpfc_get_vmid_from_hashtable with the
+generic kernel based hashtable (include/linux/hashtable.h)
+and made the changes in the code accordingly.
+Addressed the locking issue and also merged few patches
 
-> Also no need for the empty-ish line at the end.
+v8:
+Modified the structure member,log messages and function declarations
+Added proper error codes and return values
 
-Right.
+v7:
+Modified the Kconfig comments
+
+v6:
+Addressed the issues reported by kernel test robot
+Modified the Kconfig files as per standard
+
+v5:
+Renamed the function cgroup_get_from_kernfs_id to
+cgroup_get_from_id.
+
+Moved the input validation at the beginning of the function in 
+Renamed the arguments appropriatley.
+
+Changed Return code to non-numeric/SymbolChanged Return code
+to non-numeric/Symbol
+
+Modified the comments.
+
+v4:
+Addressed the error reported by  kernel test robot
+
+v3:
+removed RFC.
+
+Renamed the functions and app_id to more specific
+Addressed the reference leaks in blkcg_set_app_identifier
+Added a new config BLK_CGROUP_FC_APPID and made changes to 
+select the same under SCSI_FC_ATTRS
+
+V2:
+renamed app_identifier to app_id.
+removed the  sysfs interface blkio.app_identifie under
+/sys/fs/cgroup/blkio
+Ported the patch on top of 5.10/scsi-queue.
+Removed redundant code due to changes since last submit.
+Added a fix for issuing QFPA command.
+
+
+
+Gaurav Srivastava (10):
+  lpfc: vmid: Add the datastructure for supporting VMID in lpfc
+  lpfc: vmid: VMID params initialization
+  lpfc: vmid: Add support for vmid in mailbox command, does vmid
+    resource allocation and vmid cleanup
+  lpfc: vmid: Implements ELS commands for appid patch
+  lpfc: vmid: Functions to manage vmids
+  lpfc: vmid: Implements CT commands for appid.
+  lpfc: vmid: Appends the vmid in the wqe before sending
+  lpfc: vmid: Timeout implementation for vmid
+  lpfc: vmid: Adding qfpa and vmid timeout check in worker thread
+  lpfc: vmid: Introducing vmid in io path.
+
+Muneendra (3):
+  cgroup: Added cgroup_get_from_id
+  blkcg: Added a app identifier support for blkcg
+  nvme: Added a newsysfs attribute appid_store
+
+ block/Kconfig                    |   9 +
+ drivers/nvme/host/fc.c           |  73 +++++-
+ drivers/scsi/Kconfig             |  13 ++
+ drivers/scsi/lpfc/lpfc.h         | 122 +++++++++++
+ drivers/scsi/lpfc/lpfc_attr.c    |  48 ++++
+ drivers/scsi/lpfc/lpfc_crtn.h    |  11 +
+ drivers/scsi/lpfc/lpfc_ct.c      | 255 +++++++++++++++++++++
+ drivers/scsi/lpfc/lpfc_disc.h    |   1 +
+ drivers/scsi/lpfc/lpfc_els.c     | 366 ++++++++++++++++++++++++++++++-
+ drivers/scsi/lpfc/lpfc_hbadisc.c | 148 +++++++++++++
+ drivers/scsi/lpfc/lpfc_hw.h      | 124 ++++++++++-
+ drivers/scsi/lpfc/lpfc_hw4.h     |  12 +
+ drivers/scsi/lpfc/lpfc_init.c    | 104 +++++++++
+ drivers/scsi/lpfc/lpfc_mbox.c    |   6 +
+ drivers/scsi/lpfc/lpfc_scsi.c    | 321 +++++++++++++++++++++++++++
+ drivers/scsi/lpfc/lpfc_sli.c     |  23 ++
+ drivers/scsi/lpfc/lpfc_sli.h     |   8 +
+ include/linux/blk-cgroup.h       |  64 ++++++
+ include/linux/cgroup.h           |   6 +
+ kernel/cgroup/cgroup.c           |  26 +++
+ 20 files changed, 1731 insertions(+), 9 deletions(-)
+
+-- 
+2.26.2
+
 
 _______________________________________________
 Linux-nvme mailing list
