@@ -2,74 +2,82 @@ Return-Path: <SRS0=Wy35=LD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB95C48BD1
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 16:19:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE46C48BCF
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 18:37:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3077D61375
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 16:19:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3077D61375
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 6D37F61249
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 18:37:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D37F61249
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=HansenPartnership.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=s+WZ+VHGT2DafwD7sHiHUtkIkvRxZehu4GiTvBU6/zk=; b=f793Ua/MkyT8cS
-	F/2obP6X1APhYmcv1lwYJ9ETxbQWc9k3i6BVfwOOMx984TwO24NYgVhPBGkSWHXW5fHeW6TmbxRhk
-	2uqw7Zosbfz1Rm/ayDekr6tctx9CHFNDxLdx4TIEIiPloEjrI7CH/ibqywhdJpFIcoDkMQkZ6dLPK
-	mQ/4ekJY2u6M45DtfLs/qRdkrGvWyTKaoTmWvpkmT+3vIzU0HLsJ6UA7jc7LskJ7zDsedNJHKQvbJ
-	WZJR0+RO52s2euynEuCKNVxhFHXrBQavOYu7i/AoUx5OAJKHBYFBfYCromKqQ8Rzhwvm0w2KusVZF
-	Zdq2kuSZ5ovgzOnCrveA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Date:To:From:Subject:Message-ID:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=gG5/9/dlNDnTWVB1f5/J1EGUhIboRMpeIGK38TjOlzo=; b=ZhM0lx6ZPeP97e
+	9iM1SG8Pvmqo2fGuCmlUfHrFxVZa0URBnd+drX2x5ESrAm+zsXU9Cz1vQvsyKhXrTwpqQt0SAVfsS
+	16hyqY5sAlLfvUFpDZQeTbdJIGtLX5VPx3/SufICkXjkVT9si4IJkDXCyaWw7XeNLr+tDnuWLI3kW
+	35Ab+ubFU8XbacpsNBeVarMAmWoKA21NGnHbhEnfy5uz7/xMeT4PPcex9AiuioaKqtRasqHRoRbaL
+	7TGuMDgNVyv2kYhFGaQ1lQnh0gEJ7Yg0RYE15mrEzNY0sJhEpaj0OGeHJw85NFic2akxvxEP+ZsZR
+	jTCdd+Ntd4QdMPL10r5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lr0vY-00ErxE-5J; Wed, 09 Jun 2021 16:19:36 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lr34L-00FYly-Qm; Wed, 09 Jun 2021 18:36:49 +0000
+Received: from bedivere.hansenpartnership.com ([2607:fcd0:100:8a00::2])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqzht-00ETDI-F9
- for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 15:01:27 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 016EE219B1;
- Wed,  9 Jun 2021 15:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623250882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=+uMG9FVWzLbrx2iBrVhmrm5C89hBkZ5askVuidmwVpE=;
- b=pMRnb2J9IAdg0UgoPnVgie95Wiqk5doJso1HWsk4oRuROmqYN3DRqLgEoA8XpxG0+jUzku
- aKZj75VFl1N/4Oqnu0vk1Z4esWeiZnlh90PfMkuKm9mNRzkvBXRKUBWTjvKawtU6S0t8D5
- XyHtiTpALXF1CLqqf2SJQE07Tv50a14=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623250882;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=+uMG9FVWzLbrx2iBrVhmrm5C89hBkZ5askVuidmwVpE=;
- b=in6PA+Aw63tVm00TbKTB8LXFyNR/4+QnlH3tnlItqtsruPkKZApclN9P8+EEVEjBfBsY/+
- Wn0ZQwKExIc+lgAA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id C613BA3B90;
- Wed,  9 Jun 2021 15:01:21 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 035A1516FF9A; Wed,  9 Jun 2021 17:01:20 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv6] nvme: allow to re-attach namespaces after all paths are down
-Date: Wed,  9 Jun 2021 17:01:18 +0200
-Message-Id: <20210609150118.130650-1-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
+ id 1lr34I-00FYlW-ST
+ for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 18:36:48 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 85AD91280BFB;
+ Wed,  9 Jun 2021 11:36:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1623263802;
+ bh=8E8YKM08zSHfgTf3XjWtoAyBeXxzwQfdx7IcdysE4Ak=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=Ij+9FJMYjcHbTV812FtaOf0Wz75pVsyP6BuDpTFhtbzHHhLVxkRIOhx81nENT6Hx7
+ 18Enbes52dfELuBVNm7FpkbD+e1BUlJQhxeMwPAcHS17XtxjCOVglUpXRmSrunGOV0
+ SgNwLQSZCnvqBc8YHwA9/E3nDyXs2q+VX89crh08=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id Jze5ftrexVPf; Wed,  9 Jun 2021 11:36:42 -0700 (PDT)
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:600:8280:66d1::c447])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 215791280BF7;
+ Wed,  9 Jun 2021 11:36:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1623263802;
+ bh=8E8YKM08zSHfgTf3XjWtoAyBeXxzwQfdx7IcdysE4Ak=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=Ij+9FJMYjcHbTV812FtaOf0Wz75pVsyP6BuDpTFhtbzHHhLVxkRIOhx81nENT6Hx7
+ 18Enbes52dfELuBVNm7FpkbD+e1BUlJQhxeMwPAcHS17XtxjCOVglUpXRmSrunGOV0
+ SgNwLQSZCnvqBc8YHwA9/E3nDyXs2q+VX89crh08=
+Message-ID: <485837f392401bf35fb7fc8231d7a051f47b53d7.camel@HansenPartnership.com>
+Subject: Re: [LSF/MM/BPF TOPIC] block namespaces
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Hannes Reinecke <hare@suse.de>, "lsf-pc@lists.linux-foundation.org"
+ <lsf-pc@lists.linux-foundation.org>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+ <linux-scsi@vger.kernel.org>, Linux NVMe Mailinglist
+ <linux-nvme@lists.infradead.org>
+Date: Wed, 09 Jun 2021 11:36:41 -0700
+In-Reply-To: <a189ec50-4c11-9ee9-0b9e-b492507adc1e@suse.de>
+References: <a189ec50-4c11-9ee9-0b9e-b492507adc1e@suse.de>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_080125_709205_73608080 
-X-CRM114-Status: GOOD (  17.08  )
+X-CRM114-CacheID: sfid-20210609_113646_966523_41C64C4F 
+X-CRM114-Status: GOOD (  28.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,170 +94,66 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We should only remove the ns head from the list of heads per
-subsystem if the reference count drops to zero. That cleans up
-reference counting, and allows us to call del_gendisk() once the last
-path is removed (as then the ns_head should be removed anyway).
-As this introduces a (theoretical) race condition where I/O might have
-been requeued before the last path went down we also should be checking
-if the gendisk is still present in nvme_ns_head_submit_bio(),
-and failing I/O if so.
+On Thu, 2021-05-27 at 10:01 +0200, Hannes Reinecke wrote:
+> Hi all,
+> 
+> I guess it's time to tick off yet another item on my long-term to-do
+> list:
+> 
+> Block namespaces
+> ----------------
+> 
+> Idea is similar to what network already does: allowing each user
+> namespace to have a different 'view' on the existing block devices.
+> EG if the admin creates a ramdisk in one namespace this device should
+> not be visible to other namespaces.
+> But for me the most important use-case would be qemu; currently the
+> devices need to be set up in the host, even though the host has no
+> business touching it as they really belong to the qemu instance. This
+> is causing quite some irritation eg when this device has LVM or MD
+> metadata and udev is trying to activate it on the host.
 
-Changes to v5:
-- Synchronize between nvme_init_ns_head() and nvme_mpath_check_last_path()
-- Check for removed gendisk in nvme_ns_head_submit_bio()
-Changes to v4:
-- Call del_gendisk() in nvme_mpath_check_last_path() to avoid deadlock
-Changes to v3:
-- Simplify if() clause to detect duplicate namespaces
-Changes to v2:
-- Drop memcpy() statement
-Changes to v1:
-- Always check NSIDs after reattach
+I suppose the first question is "why block only?"  There are several
+existing device namespace proposals which would be more generic.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/core.c      |  9 ++++-----
- drivers/nvme/host/multipath.c | 30 +++++++++++++++++++++++++-----
- drivers/nvme/host/nvme.h      | 11 ++---------
- 3 files changed, 31 insertions(+), 19 deletions(-)
+> Overall plan is to restrict views of '/dev', '/sys/dev/block' and
+> '/sys/block' to only present the devices 'visible' for this
+> namespace.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 177cae44b612..6d7c2958b3e2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -566,6 +566,9 @@ static void nvme_free_ns_head(struct kref *ref)
- 	struct nvme_ns_head *head =
- 		container_of(ref, struct nvme_ns_head, ref);
- 
-+	mutex_lock(&head->subsys->lock);
-+	list_del_init(&head->entry);
-+	mutex_unlock(&head->subsys->lock);
- 	nvme_mpath_remove_disk(head);
- 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
- 	cleanup_srcu_struct(&head->srcu);
-@@ -3806,8 +3809,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
-  out_unlink_ns:
- 	mutex_lock(&ctrl->subsys->lock);
- 	list_del_rcu(&ns->siblings);
--	if (list_empty(&ns->head->list))
--		list_del_init(&ns->head->entry);
- 	mutex_unlock(&ctrl->subsys->lock);
- 	nvme_put_ns_head(ns->head);
-  out_free_queue:
-@@ -3828,8 +3829,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	mutex_lock(&ns->ctrl->subsys->lock);
- 	list_del_rcu(&ns->siblings);
--	if (list_empty(&ns->head->list))
--		list_del_init(&ns->head->entry);
- 	mutex_unlock(&ns->ctrl->subsys->lock);
- 
- 	synchronize_rcu(); /* guarantee not available in head->list */
-@@ -3849,7 +3848,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	list_del_init(&ns->list);
- 	up_write(&ns->ctrl->namespaces_rwsem);
- 
--	nvme_mpath_check_last_path(ns);
-+	nvme_mpath_check_last_path(ns->head);
- 	nvme_put_ns(ns);
- }
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 23573fe3fc7d..31153f6ec582 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -266,6 +266,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- 	int node = numa_node_id();
- 	struct nvme_ns *ns;
- 
-+	if (!(head->disk->flags & GENHD_FL_UP))
-+		return NULL;
- 	ns = srcu_dereference(head->current_path[node], &head->srcu);
- 	if (unlikely(!ns))
- 		return __nvme_find_path(head, node);
-@@ -281,6 +283,8 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- {
- 	struct nvme_ns *ns;
- 
-+	if (!(head->disk->flags & GENHD_FL_UP))
-+		return false;
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
- 			continue;
-@@ -771,20 +775,36 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
- #endif
- }
- 
--void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-+void nvme_mpath_check_last_path(struct nvme_ns_head *head)
- {
-+	bool last_path = false;
- 	if (!head->disk)
- 		return;
--	if (head->disk->flags & GENHD_FL_UP) {
--		nvme_cdev_del(&head->cdev, &head->cdev_device);
--		del_gendisk(head->disk);
-+
-+	/* Synchronize with nvme_init_ns_head() */
-+	mutex_lock(&head->subsys->lock);
-+	if (list_empty(&head->list))
-+		last_path = true;
-+	mutex_unlock(&head->subsys->lock);
-+	if (last_path) {
-+		kblockd_schedule_work(&head->requeue_work);
-+		if (head->disk->flags & GENHD_FL_UP) {
-+			nvme_cdev_del(&head->cdev, &head->cdev_device);
-+			del_gendisk(head->disk);
-+		}
- 	}
-+}
-+
-+void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-+{
-+	if (!head->disk)
-+		return;
- 	blk_set_queue_dying(head->disk->queue);
- 	/* make sure all pending bios are cleaned up */
- 	kblockd_schedule_work(&head->requeue_work);
- 	flush_work(&head->requeue_work);
- 	blk_cleanup_queue(head->disk->queue);
--	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-+	if (!test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
- 		/*
- 		 * if device_add_disk wasn't called, prevent
- 		 * disk release to put a bogus reference on the
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1f397ecba16c..812fc1d273e3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -716,14 +716,7 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
- void nvme_mpath_stop(struct nvme_ctrl *ctrl);
- bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
--
--static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
--{
--	struct nvme_ns_head *head = ns->head;
--
--	if (head->disk && list_empty(&head->list))
--		kblockd_schedule_work(&head->requeue_work);
--}
-+void nvme_mpath_check_last_path(struct nvme_ns_head *head);
- 
- static inline void nvme_trace_bio_complete(struct request *req)
- {
-@@ -772,7 +765,7 @@ static inline bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
- static inline void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
- {
- }
--static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
-+static inline void nvme_mpath_check_last_path(struct nvme_ns_head *head)
- {
- }
- static inline void nvme_trace_bio_complete(struct request *req)
--- 
-2.26.2
+We actually already have a devices cgroup that does some of this:
+
+https://www.kernel.org/doc/Documentation/cgroup-v1/devices.txt
+
+However, visibility isn't the only problem, for direct passthrough
+there's also uevent handling and people have even asked about module
+loading.
+
+>  Initially the drivers would keep their global enumeration, but plan
+> is to make the drivers namespace-aware, too, such that each namespace
+> could have its own driver-specific device enumeration.
+
+I really wouldn't do this.  Namespace/Cgroup separation should be kept
+as high as possible.  If it leaks into the drivers it will become
+unmaintainable.  Why do you think you need the drivers to be aware?  If
+it's just enumeration, that should all be doable with the visibility
+driver unless you want to do things like compact numbering?
+
+> Goal of this topic is to get a consensus on whether block namespaces
+> are a feature which would find interest, and also to discuss some
+> design details here:
+> - Only in certain cases can a namespace be assigned (eg by calling
+> 'modprobe', starting iscsiadm, or calling nvme-cli); how do we handle
+> devices for which no namespace can be identified?
+> - Shall we allow for different device enumeration per namespace?
+> - Into which level should we go with hiding sysfs structures?
+>   Is blanking out the higher-level interfaces in /dev and /sys/block
+>   enough?
+
+First question is does the device cgroup do enough for you and if not
+what's missing?
+
+James
+
 
 
 _______________________________________________
