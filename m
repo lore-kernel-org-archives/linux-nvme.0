@@ -2,80 +2,74 @@ Return-Path: <SRS0=Wy35=LD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE6CC48BCD
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 13:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB95C48BD1
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 16:19:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2724F613B8
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 13:33:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2724F613B8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 3077D61375
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 16:19:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3077D61375
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=lc0htxyPRoOsEQp5kQ40D8ZCy/p/uxPtXtFSR21wRgk=; b=PhckZhBcSE8lCh
-	t6NdbaxZsBTtdv0b5rj923khpPy3Wgq32iVnh3Byx/JQlH2cKVN45yQRlf0Nj8u6COPcWHmQe1Zms
-	UmsLJyr52dkJjp01Ub6CXP/feN5IY46GeGzvuUSyf47JU9qiposrFADyXp35nHygp60N4VpLGLHZ/
-	lDSYBAsX2vDjipuhP4ye8sBqQ06Ht/ZiAFyR8ZZ4mmEhZKk/kc66NyZUDEWlRFLfi3ZsdOSxG6UcX
-	hJxlgBcYK6bp2nSDRa5JpeRiWWTtbMwdUkh0i9TraVHcsLY1YqrwQcC3+Tksy/4Nso7mHLJEiIp31
-	rwgoBikj2RwX4dtiK7gg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=s+WZ+VHGT2DafwD7sHiHUtkIkvRxZehu4GiTvBU6/zk=; b=f793Ua/MkyT8cS
+	F/2obP6X1APhYmcv1lwYJ9ETxbQWc9k3i6BVfwOOMx984TwO24NYgVhPBGkSWHXW5fHeW6TmbxRhk
+	2uqw7Zosbfz1Rm/ayDekr6tctx9CHFNDxLdx4TIEIiPloEjrI7CH/ibqywhdJpFIcoDkMQkZ6dLPK
+	mQ/4ekJY2u6M45DtfLs/qRdkrGvWyTKaoTmWvpkmT+3vIzU0HLsJ6UA7jc7LskJ7zDsedNJHKQvbJ
+	WZJR0+RO52s2euynEuCKNVxhFHXrBQavOYu7i/AoUx5OAJKHBYFBfYCromKqQ8Rzhwvm0w2KusVZF
+	Zdq2kuSZ5ovgzOnCrveA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqyKz-00E19D-KG; Wed, 09 Jun 2021 13:33:41 +0000
-Received: from mail-ot1-f41.google.com ([209.85.210.41])
+	id 1lr0vY-00ErxE-5J; Wed, 09 Jun 2021 16:19:36 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqxqV-00DsrB-LQ
- for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 13:02:13 +0000
-Received: by mail-ot1-f41.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so23834276oth.8
- for <linux-nvme@lists.infradead.org>; Wed, 09 Jun 2021 06:02:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uOMB9VcGIsLxTCSfGIXF8Bd/z/LUoxmBOfes4pXl5ik=;
- b=J8UPn3rl4Pbf5Si0+JG9eG66bofVpVLF07vB3qjqH7GgaCpyWKNn5P2s0mWmDpltWv
- c44gXx0yMu6b/cVkYs/0sEW4o3H14TA4r16xmW6x0J40jnlftW8UGScP9N+dzjAeCp+m
- fhzViV81ONfZvmTYXLyq9Ue306lC0UL2PhErhMfsATZTTsUEck08vSC/CljJGuie+gXh
- 84anpiS/4edlbh8Ph+7WrS35y2ZBfOyDda6DYt8K+wpvkDQ5NRhD1bcycofX9jqTZTtX
- U4/799WuTjAw0PIv61oLivXBEHBHXYO0LJMqnOh4gJrn83WvIKQnMRdFcuGP/VsDw7G9
- j0Eg==
-X-Gm-Message-State: AOAM532pu05WvqVQZpu3x1tIYFLoLn5jaZPsD3kq3I4BlzsKGkvYYbfs
- /Rc8CnqeQpgzTEKUHfEAy+Lnx94R9/7+Z+bdV6Y=
-X-Google-Smtp-Source: ABdhPJzYF4hwT3T/mkrdk5cXrMRLhDinMJMWwR8kLjRKgxS+dV2BrU48zWwMSl6ELMOu1+KCJU3Bb2xmfkzjqbRbv+A=
-X-Received: by 2002:a9d:3e53:: with SMTP id h19mr22358365otg.260.1623243730796; 
- Wed, 09 Jun 2021 06:02:10 -0700 (PDT)
+ id 1lqzht-00ETDI-F9
+ for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 15:01:27 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 016EE219B1;
+ Wed,  9 Jun 2021 15:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623250882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+uMG9FVWzLbrx2iBrVhmrm5C89hBkZ5askVuidmwVpE=;
+ b=pMRnb2J9IAdg0UgoPnVgie95Wiqk5doJso1HWsk4oRuROmqYN3DRqLgEoA8XpxG0+jUzku
+ aKZj75VFl1N/4Oqnu0vk1Z4esWeiZnlh90PfMkuKm9mNRzkvBXRKUBWTjvKawtU6S0t8D5
+ XyHtiTpALXF1CLqqf2SJQE07Tv50a14=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623250882;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=+uMG9FVWzLbrx2iBrVhmrm5C89hBkZ5askVuidmwVpE=;
+ b=in6PA+Aw63tVm00TbKTB8LXFyNR/4+QnlH3tnlItqtsruPkKZApclN9P8+EEVEjBfBsY/+
+ Wn0ZQwKExIc+lgAA==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id C613BA3B90;
+ Wed,  9 Jun 2021 15:01:21 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 035A1516FF9A; Wed,  9 Jun 2021 17:01:20 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv6] nvme: allow to re-attach namespaces after all paths are down
+Date: Wed,  9 Jun 2021 17:01:18 +0200
+Message-Id: <20210609150118.130650-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210608154255.8693-1-mario.limonciello@amd.com>
- <20210608154255.8693-2-mario.limonciello@amd.com>
-In-Reply-To: <20210608154255.8693-2-mario.limonciello@amd.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 9 Jun 2021 15:01:59 +0200
-Message-ID: <CAJZ5v0hOgQCyEaRWEM=wELSYKJyuvCi8r4EnaAFQv+5EQRcOJg@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] ACPI: Add quirks for AMD Renoir/Lucienne CPUs to
- force the D3 hint
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, "Rafael J . Wysocki" <rjw@rjwysocki.net>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>, rrangel@chromium.org, 
- David Box <david.e.box@linux.intel.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Nehal-bakulchandra.Shah@amd.com, Alex Deucher <Alexander.Deucher@amd.com>, 
- Prike Liang <prike.liang@amd.com>, Julian Sikorski <belegdol@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_060211_742591_DEE6F628 
-X-CRM114-Status: GOOD (  34.13  )
+X-CRM114-CacheID: sfid-20210609_080125_709205_73608080 
+X-CRM114-Status: GOOD (  17.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,140 +86,171 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 8, 2021 at 5:43 PM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> AMD systems from Renoir and Lucienne require that the NVME controller
-> is put into D3 over a Modern Standby / suspend-to-idle
-> cycle.  This is "typically" accomplished using the `StorageD3Enable`
-> property in the _DSD, but this property was introduced after many
-> of these systems launched and most OEM systems don't have it in
-> their BIOS.
->
-> On AMD Renoir without these drives going into D3 over suspend-to-idle
-> the resume will fail with the NVME controller being reset and a trace
-> like this in the kernel logs:
-> ```
-> [   83.556118] nvme nvme0: I/O 161 QID 2 timeout, aborting
-> [   83.556178] nvme nvme0: I/O 162 QID 2 timeout, aborting
-> [   83.556187] nvme nvme0: I/O 163 QID 2 timeout, aborting
-> [   83.556196] nvme nvme0: I/O 164 QID 2 timeout, aborting
-> [   95.332114] nvme nvme0: I/O 25 QID 0 timeout, reset controller
-> [   95.332843] nvme nvme0: Abort status: 0x371
-> [   95.332852] nvme nvme0: Abort status: 0x371
-> [   95.332856] nvme nvme0: Abort status: 0x371
-> [   95.332859] nvme nvme0: Abort status: 0x371
-> [   95.332909] PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns -16
-> [   95.332936] nvme 0000:03:00.0: PM: failed to resume async: error -16
-> ```
->
-> The Microsoft documentation for StorageD3Enable mentioned that Windows has
-> a hardcoded allowlist for D3 support, which was used for these platforms.
-> Introduce quirks to hardcode them for Linux as well.
->
-> As this property is now "standardized", OEM systems using AMD Cezanne and
-> newer APU's have adopted this property, and quirks like this should not be
-> necessary.
->
-> CC: Julian Sikorski <belegdol@gmail.com>
-> CC: Shyam-sundar S-k <Shyam-sundar.S-k@amd.com>
-> CC: Alexander Deucher <Alexander.Deucher@amd.com>
-> CC: Rafael J. Wysocki <rjw@rjwysocki.net>
-> CC: Prike Liang <prike.liang@amd.com>
-> Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+We should only remove the ns head from the list of heads per
+subsystem if the reference count drops to zero. That cleans up
+reference counting, and allows us to call del_gendisk() once the last
+path is removed (as then the ns_head should be removed anyway).
+As this introduces a (theoretical) race condition where I/O might have
+been requeued before the last path went down we also should be checking
+if the gendisk is still present in nvme_ns_head_submit_bio(),
+and failing I/O if so.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Changes to v5:
+- Synchronize between nvme_init_ns_head() and nvme_mpath_check_last_path()
+- Check for removed gendisk in nvme_ns_head_submit_bio()
+Changes to v4:
+- Call del_gendisk() in nvme_mpath_check_last_path() to avoid deadlock
+Changes to v3:
+- Simplify if() clause to detect duplicate namespaces
+Changes to v2:
+- Drop memcpy() statement
+Changes to v1:
+- Always check NSIDs after reattach
 
-> ---
->  drivers/acpi/device_pm.c |  3 +++
->  drivers/acpi/internal.h  |  9 +++++++++
->  drivers/acpi/x86/utils.c | 25 +++++++++++++++++++++++++
->  3 files changed, 37 insertions(+)
->
-> Changes from v4->v5:
->  * Add this patch back in as it's been made apparent that the
->    system needs to be hardcoded for these.
->    Changes:
->    - Drop Cezanne - it's now covered by StorageD3Enable
->    - Rebase ontop of acpi_storage_d3 outside of NVME
-> Changes from v5->v6:
->  * Move the quirk check into drivers/acpi/x86/ as suggested by
->    Rafael.
-> Changes from v6->v7:
->  * Move header location
->  * Optimization of force function
->
-> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-> index c45f2d76b67e..31e0025a913e 100644
-> --- a/drivers/acpi/device_pm.c
-> +++ b/drivers/acpi/device_pm.c
-> @@ -1356,6 +1356,9 @@ bool acpi_storage_d3(struct device *dev)
->         struct acpi_device *adev = ACPI_COMPANION(dev);
->         u8 val;
->
-> +       if (force_storage_d3())
-> +               return true;
-> +
->         if (!adev)
->                 return false;
->         if (fwnode_property_read_u8(acpi_fwnode_handle(adev), "StorageD3Enable",
-> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-> index f973bbe90e5e..e29ec463bb07 100644
-> --- a/drivers/acpi/internal.h
-> +++ b/drivers/acpi/internal.h
-> @@ -236,6 +236,15 @@ static inline int suspend_nvs_save(void) { return 0; }
->  static inline void suspend_nvs_restore(void) {}
->  #endif
->
-> +#ifdef CONFIG_X86
-> +bool force_storage_d3(void);
-> +#else
-> +static inline bool force_storage_d3(void)
-> +{
-> +       return false;
-> +}
-> +#endif
-> +
->  /*--------------------------------------------------------------------------
->                                 Device properties
->    -------------------------------------------------------------------------- */
-> diff --git a/drivers/acpi/x86/utils.c b/drivers/acpi/x86/utils.c
-> index bdc1ba00aee9..5298bb4d81fe 100644
-> --- a/drivers/acpi/x86/utils.c
-> +++ b/drivers/acpi/x86/utils.c
-> @@ -135,3 +135,28 @@ bool acpi_device_always_present(struct acpi_device *adev)
->
->         return ret;
->  }
-> +
-> +/*
-> + * AMD systems from Renoir and Lucienne *require* that the NVME controller
-> + * is put into D3 over a Modern Standby / suspend-to-idle cycle.
-> + *
-> + * This is "typically" accomplished using the `StorageD3Enable`
-> + * property in the _DSD that is checked via the `acpi_storage_d3` function
-> + * but this property was introduced after many of these systems launched
-> + * and most OEM systems don't have it in their BIOS.
-> + *
-> + * The Microsoft documentation for StorageD3Enable mentioned that Windows has
-> + * a hardcoded allowlist for D3 support, which was used for these platforms.
-> + *
-> + * This allows quirking on Linux in a similar fashion.
-> + */
-> +const struct x86_cpu_id storage_d3_cpu_ids[] = {
-> +       X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 96, NULL),  /* Renoir */
-> +       X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 104, NULL), /* Lucienne */
-> +       {}
-> +};
-> +
-> +bool force_storage_d3(void)
-> +{
-> +       return x86_match_cpu(storage_d3_cpu_ids);
-> +}
-> --
-> 2.25.1
->
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c      |  9 ++++-----
+ drivers/nvme/host/multipath.c | 30 +++++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h      | 11 ++---------
+ 3 files changed, 31 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 177cae44b612..6d7c2958b3e2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -566,6 +566,9 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	struct nvme_ns_head *head =
+ 		container_of(ref, struct nvme_ns_head, ref);
+ 
++	mutex_lock(&head->subsys->lock);
++	list_del_init(&head->entry);
++	mutex_unlock(&head->subsys->lock);
+ 	nvme_mpath_remove_disk(head);
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	cleanup_srcu_struct(&head->srcu);
+@@ -3806,8 +3809,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+-	if (list_empty(&ns->head->list))
+-		list_del_init(&ns->head->entry);
+ 	mutex_unlock(&ctrl->subsys->lock);
+ 	nvme_put_ns_head(ns->head);
+  out_free_queue:
+@@ -3828,8 +3829,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+-	if (list_empty(&ns->head->list))
+-		list_del_init(&ns->head->entry);
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
+ 	synchronize_rcu(); /* guarantee not available in head->list */
+@@ -3849,7 +3848,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	list_del_init(&ns->list);
+ 	up_write(&ns->ctrl->namespaces_rwsem);
+ 
+-	nvme_mpath_check_last_path(ns);
++	nvme_mpath_check_last_path(ns->head);
+ 	nvme_put_ns(ns);
+ }
+ 
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 23573fe3fc7d..31153f6ec582 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -266,6 +266,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ 	int node = numa_node_id();
+ 	struct nvme_ns *ns;
+ 
++	if (!(head->disk->flags & GENHD_FL_UP))
++		return NULL;
+ 	ns = srcu_dereference(head->current_path[node], &head->srcu);
+ 	if (unlikely(!ns))
+ 		return __nvme_find_path(head, node);
+@@ -281,6 +283,8 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ {
+ 	struct nvme_ns *ns;
+ 
++	if (!(head->disk->flags & GENHD_FL_UP))
++		return false;
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
+ 			continue;
+@@ -771,20 +775,36 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+ #endif
+ }
+ 
+-void nvme_mpath_remove_disk(struct nvme_ns_head *head)
++void nvme_mpath_check_last_path(struct nvme_ns_head *head)
+ {
++	bool last_path = false;
+ 	if (!head->disk)
+ 		return;
+-	if (head->disk->flags & GENHD_FL_UP) {
+-		nvme_cdev_del(&head->cdev, &head->cdev_device);
+-		del_gendisk(head->disk);
++
++	/* Synchronize with nvme_init_ns_head() */
++	mutex_lock(&head->subsys->lock);
++	if (list_empty(&head->list))
++		last_path = true;
++	mutex_unlock(&head->subsys->lock);
++	if (last_path) {
++		kblockd_schedule_work(&head->requeue_work);
++		if (head->disk->flags & GENHD_FL_UP) {
++			nvme_cdev_del(&head->cdev, &head->cdev_device);
++			del_gendisk(head->disk);
++		}
+ 	}
++}
++
++void nvme_mpath_remove_disk(struct nvme_ns_head *head)
++{
++	if (!head->disk)
++		return;
+ 	blk_set_queue_dying(head->disk->queue);
+ 	/* make sure all pending bios are cleaned up */
+ 	kblockd_schedule_work(&head->requeue_work);
+ 	flush_work(&head->requeue_work);
+ 	blk_cleanup_queue(head->disk->queue);
+-	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
++	if (!test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+ 		/*
+ 		 * if device_add_disk wasn't called, prevent
+ 		 * disk release to put a bogus reference on the
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1f397ecba16c..812fc1d273e3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -716,14 +716,7 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
+ void nvme_mpath_stop(struct nvme_ctrl *ctrl);
+ bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
+ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
+-
+-static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+-{
+-	struct nvme_ns_head *head = ns->head;
+-
+-	if (head->disk && list_empty(&head->list))
+-		kblockd_schedule_work(&head->requeue_work);
+-}
++void nvme_mpath_check_last_path(struct nvme_ns_head *head);
+ 
+ static inline void nvme_trace_bio_complete(struct request *req)
+ {
+@@ -772,7 +765,7 @@ static inline bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ static inline void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
+ {
+ }
+-static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
++static inline void nvme_mpath_check_last_path(struct nvme_ns_head *head)
+ {
+ }
+ static inline void nvme_trace_bio_complete(struct request *req)
+-- 
+2.26.2
+
 
 _______________________________________________
 Linux-nvme mailing list
