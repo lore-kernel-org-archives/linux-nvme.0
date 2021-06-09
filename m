@@ -2,161 +2,62 @@ Return-Path: <SRS0=Wy35=LD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B82DC48BCD
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 12:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A79C48BCD
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 13:25:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 083B1611C9
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 12:50:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 083B1611C9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 27B66613AE
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 13:25:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27B66613AE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Z7NjGkWQqVwjeWhSxryvfJkw2b0vIpJRvI80wA3lHkk=; b=dneKyXg7wG5sFf
-	5rbgBYR024YrcLxjIaJ8d5y5sj+IW99UpN82rrELtCkNbkRVTqLXzm2xlUnvIAcmGVy0YaVc2zc8Y
-	6XPvTDhYXI47C0hK94nhoUcLIJv1YI8b4XuzORU74oI2ecBslu4lgiRBy40RIkevfGqRPRsdPQTdn
-	hJJIl9i4g+M/QzVwhhZcMP4JmKtKcyJghwwS+sdCU4rxYxAE0hQ1h+vaBpDlzPqz3H/0ySrUgqqyJ
-	RORCrtphRPAKgHQ3PTFB8+sRi0TSR8fZ693A3csV4wGpKo/DKi1mdjmcExIrSA58B0GKskpBTzJAt
-	LYXsznh1Ddaufd0siI1g==;
+	List-Owner; bh=loU/Q8TAjJGC3xbOL9ng1c2sxW6mJz0yFe6KKhATHvA=; b=A5uT6LvUk+YwCN
+	8h5m+5OebRzOhJF0tZP1sGlgiUdT35HVVpL5ijWBKfP4B99RfXpQtSGwYN132Pf1lT4HJWW93/Ql8
+	mjYQxtNlfkrj4gbxJJ9iyaRK1++aL4mAHOEXEtt57sSI8KJjDMsLDLQrEQgurDrIy5gywp26YRwLg
+	MY++PbLyQ4+rVZGx0kiw79geZy2NZL/rQp3QV3rc5TI8FUNTZNET2p8mwtdWuSm7KXyNiensI4sZZ
+	4/Xp4gTj9aET5WHKQb217QGzVXHa3bMlzxq1A3JW6HDhJRcx1pevoJf/1IhwU/89niAKpBH8WgkLs
+	uXGNOgz9xaGhRNegB1vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqxeq-00DoKn-JN; Wed, 09 Jun 2021 12:50:08 +0000
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
- helo=mx0b-0016f401.pphosted.com)
+	id 1lqyCN-00DzGK-PO; Wed, 09 Jun 2021 13:24:47 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqx5l-00DbDd-E9
- for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 12:13:55 +0000
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 159CAkhs032325; Wed, 9 Jun 2021 05:13:45 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-0016f401.pphosted.com with ESMTP id 392uesgft7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Jun 2021 05:13:45 -0700
-Received: from m0045849.ppops.net (m0045849.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 159CDiQu005393;
- Wed, 9 Jun 2021 05:13:44 -0700
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
- by mx0a-0016f401.pphosted.com with ESMTP id 392uesgft4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Jun 2021 05:13:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NCxvcOlIgQ6CStGKIf7ozy/2RZF5pOm59tMvXn2Q9e0HP4LuqhLS9aHubQO/83fFTxk1vOPb13zAAC5O7oEWgGNw+WxgCmNTUu8ch0RXu3tzvLMldkZquO6J0FypzOn/+6rmnqPvUFh8FANmnUuX0IY661eAny3B1uW4PsOWnYm1xTz2TycpSOiw6gy6WdvXcbH0yrxM9HKo1jjNjoj04fhFB4Kur/+D00Xp6FBPVwP6eeszRIsEE7b16w8VyjE7W3RE+S/pGvtlpXCkeNkPjHd1j2DzOZJDY1EDNzJ9evvscRGCIl4/fpusGFDtKAK/S2IcdEZCc1KKTbpsXNC0sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zgb1Xy5eSseIkUqaPlIDjB8QkfS1YFeCpCRvL6NaI3k=;
- b=DYBuSaZRujh9lL9W/e6EtkWHwlLpF7cEm34LihRRP2bamqpm83yzh+X2BExPXTfgRSTkhFI63qIb49FoL9yo7nDKlBrWR/3yr9I4e+AjpwacQsiSAeO1WtsdYib4RUkfue2HnlHUfALnR+QWMxIQi3CO18W6aHVRpbxzVMvMR9YjPQBI6nr2vM4qGD4moASzkFHMf51+3LXE9ApC/X8COnjENb4y+GqFi3lZzMyJB65HB75ZZ4Tva7iakCYtO0KvItMZSI9RAQqCfLHX4zOGaFPK9KPhPTzX2NVjGLkS68dP0B/eC84Y6nu1boua8gxdhWPUYZWilVE/sn+gx/TRkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zgb1Xy5eSseIkUqaPlIDjB8QkfS1YFeCpCRvL6NaI3k=;
- b=oc5mqm0imzb77Rmthz4T2k7ZtE74cFqe2SCLo0aXiewSogc37L28hgTP52Cb2f2n7nIvDiWdGo28ST+ynfhyooJ09AZrvrSt1Hl2qaBO/bbArgMZUy0JW4xmcFG6oyioGqG2QXFu4vjADVa4EvljiCY7mDNX0CKSc9Omxy48m18=
-Received: from SJ0PR18MB3882.namprd18.prod.outlook.com (2603:10b6:a03:2c8::13)
- by BYAPR18MB2613.namprd18.prod.outlook.com (2603:10b6:a03:135::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Wed, 9 Jun
- 2021 12:13:41 +0000
-Received: from SJ0PR18MB3882.namprd18.prod.outlook.com
- ([fe80::419a:6920:f49:3ece]) by SJ0PR18MB3882.namprd18.prod.outlook.com
- ([fe80::419a:6920:f49:3ece%8]) with mapi id 15.20.4195.030; Wed, 9 Jun 2021
- 12:13:41 +0000
-From: Shai Malin <smalin@marvell.com>
-To: Keith Busch <kbusch@kernel.org>, David Miller <davem@davemloft.net>
-CC: "hch@lst.de" <hch@lst.de>, "geert@linux-m68k.org" <geert@linux-m68k.org>, 
- "axboe@fb.com" <axboe@fb.com>, "sagi@grimberg.me" <sagi@grimberg.me>, Omkar
- Kulkarni <okulkarni@marvell.com>, "hare@suse.de" <hare@suse.de>, Dean
- Balandin <dbalandin@marvell.com>, "himanshu.madhani@oracle.com"
- <himanshu.madhani@oracle.com>, "pmladek@suse.com" <pmladek@suse.com>,
+ id 1lqxnU-00Drp2-LY
+ for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 12:59:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 85D4C68AFE; Wed,  9 Jun 2021 14:58:56 +0200 (CEST)
+Date: Wed, 9 Jun 2021 14:58:56 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Cc: kernel test robot <lkp@intel.com>,
+ "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "malin1024@gmail.com" <malin1024@gmail.com>, Michal Kalderon
- <mkalderon@marvell.com>, Prabhakar Kushwaha <pkushwaha@marvell.com>
-Subject: RE: please drop the nvme code from net-next
-Thread-Topic: please drop the nvme code from net-next
-Thread-Index: AddcnzAdEpx+aAPyQ+iYPM8zs/0YYQAfkM3A
-Date: Wed, 9 Jun 2021 12:13:41 +0000
-Message-ID: <SJ0PR18MB3882585CE0FE3340D37A8399CC369@SJ0PR18MB3882.namprd18.prod.outlook.com>
-References: <SJ0PR18MB3882C20793EA35A3E8DAE300CC379@SJ0PR18MB3882.namprd18.prod.outlook.com>
-In-Reply-To: <SJ0PR18MB3882C20793EA35A3E8DAE300CC379@SJ0PR18MB3882.namprd18.prod.outlook.com>
-Accept-Language: he-IL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=marvell.com;
-x-originating-ip: [79.181.162.86]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a753df2b-00a6-431b-eb77-08d92b400540
-x-ms-traffictypediagnostic: BYAPR18MB2613:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR18MB2613BCF0719E1BC2C2F82D9FCC369@BYAPR18MB2613.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qKFvZ7H0LwZmvgOLGUrMbYQFUt9Q0EyNnQjZpUmHg8bN7EAoJNHXN86/3dOAYSGk1+RYpUIPSkABhDA+mTVQwcxFOy/nvdxNedGHN5imMCjxiudqZFzyIkQYoDutuWlY/96khkFtOFfc0qALyabyP20Oo/JuHhNhi2fj0fxprAMuMNRDz05MIQOM8Kq0BB+2cf2bG4A/yqQj/pc16mJvMGVRZaGAuoxH/4Fo4EaFRROD10yLkz5ToFE4vuLRuxoykPJp/OKwZyNThUrdghE5yFR5qPCzknrm7RdfSFxpSYaEV78llIiLyTFnuhtb+tuL2NwijGJ3jGYvgs8iJqGzWYje8YqJ9oLiqGaWC5NxlmLlIcWF5BHDv8Fps1zbe5n68+X2EOiGI+LgZCoF8s7iEA5n5TKvtmpP3G/9Y+7mjXd+FW0hudZzKPGZfgnjQuFWqTeQfHUdTQfD1IVjkJxii1aFCq68RI/NHzL6kPrt1NcuiNcz9imQ541n4cYp7i7tjSoPZco1qXm/MnkWub+QjigsshG9KAtQ1+GCiRCNWSdv3zGZy6OF3LuEcFFI0rgdti0DhJFC7cCWinPkCe5v5qzUhDvnk44udBvxQOrbYmjaTFYh5goslHyBznHEbg18GLo+Tgz5u07NyIpJg4kTKwLT7daYIrM2X6yAv7f+e0hSoeqS4sgzPchTCLP3TU6aqUERp+CGzTgPpOKvUSgKELVmMaEZb89V5MXFNSv9lwM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR18MB3882.namprd18.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(366004)(376002)(136003)(346002)(6506007)(54906003)(8676002)(4326008)(110136005)(8936002)(107886003)(478600001)(33656002)(186003)(316002)(26005)(55016002)(5660300002)(71200400001)(7416002)(9686003)(122000001)(38100700002)(66946007)(86362001)(52536014)(66556008)(76116006)(66476007)(66446008)(64756008)(2906002)(7696005)(4744005)(966005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?A/QKCij+zrz0k1Iehhz8nUT0eDRAsJGe2dYemW8ey48G2jotPcnQHA/zh7zF?=
- =?us-ascii?Q?ByioS6JCFUZR5rnlaz2jMwn7cAre0OJUKx2U2zOxU0ShD+BlFxdznNJemux0?=
- =?us-ascii?Q?jfJ3S+53qoEg5KGWeLXqz0KT0ID1UB0Xs+E3IBvcgBUZlxYsiRgkXP0KgYZq?=
- =?us-ascii?Q?uXBoWhYhW53wzQKpCGILKvKQZR+wMRkWnlIlhJX6wgu4uF80aZ8X7yj7vKZN?=
- =?us-ascii?Q?m/ig464FLbqqCOpe9Cpj+731nTZ0ZXs5OgEY/MzfbJGhfZAb5lyRIc8DP0LU?=
- =?us-ascii?Q?4YQn/hAYHv1CB1kvJB5Uu+DgRxbHCZSqbQwYddOfKj5LAAeS4EpcYTo/se+O?=
- =?us-ascii?Q?caCul2S1ZGfUHOKMro/TaS7e7GEHG3HaW4lBhWJoU7GAo9e+6tNYSgWZ2Zfr?=
- =?us-ascii?Q?+rbnrFj023qpJqIfP1VTG3xvx2fpA+n/QxTgvZ7XAWveQDD9kUsJDPFiBLcC?=
- =?us-ascii?Q?SsXvsTBl0IdWUSiecOqOIqPJ8zOV2O+a8K8bNTCOeRGvjctCI5S/gYKoNUZx?=
- =?us-ascii?Q?VMBZun5IHxoVRUHJXkH8GUNUHIR4S4wkouvifkfzrz9r+m/3kRUSyMYKT621?=
- =?us-ascii?Q?VDhv64IxInXs6TCy+Vq8X49ITqCTlcMrEPiOtXA5002CZ+j+tSiIe3XjTkta?=
- =?us-ascii?Q?MRMI1unTUY0s7eeCJeEEEpQXiooii0hSG0wtHpvodbr6zmW8C527fJllxoKx?=
- =?us-ascii?Q?z9yhhfDSjWrMTLObhYtreCIxYxH+fOYJtZJ9nzOPH1LdAzd5ga/e/FkUX2r2?=
- =?us-ascii?Q?dUTgRTsS8FYREn5O3Y/KvZCm/r5koNllY2GysLRFSnhNYb2upUzaszin4o7Q?=
- =?us-ascii?Q?ibDaIuuyZUEVa1+2pvRfVlKynyjn3N+auwXne0A67PcYX1eHLqbVbLyVRagr?=
- =?us-ascii?Q?IcZYplr0ocpc9Rs/jdtJOYgLNctB92mRPOvqkAB5xvcBPMPCqDSJdi3MXWtv?=
- =?us-ascii?Q?L8r45JFV8bat02C2jEVjq1BvY5xdCFSwgUZbHvSV63IwOJ0M50d3vqUm1KO2?=
- =?us-ascii?Q?/3lUqNJg1tq9pvukpgmuNz6rWCEYoV+EXypGFbtj15iqhgvdexSbPaKY1VQT?=
- =?us-ascii?Q?/P1GR6mT6L9hfGMBB0wxF0yIvkhYDibaV5eImqPfO9Ld64oDkMhwpB8i1QUQ?=
- =?us-ascii?Q?vylZRitbw/921ajpX7hovCBZa5R7QbFhXWV/meLLu+aFCCCv4VhhyXe6kYhe?=
- =?us-ascii?Q?VeLwjwad+09WlpHgG6kB6pbDh/Wqx+Os+LwJF/RqMZ/VHrxcdSs/R7MRv8tj?=
- =?us-ascii?Q?9eJjQxdYpIaK2YIJXQ6BL5dfR0xFnM6sSFsUKRAW/AEy0XL2W/wiYOclrzhW?=
- =?us-ascii?Q?7thmOjOE5zc5I60DpSv1C3XK?=
+ Christoph Hellwig <hch@lst.de>
+Subject: Re: [linux-nvme:nvme-5.14 27/28] drivers/nvme/host/pci.c:539:7:
+ error: implicit declaration of function 'nvme_ctrl_sgl_supported'
+Message-ID: <20210609125856.GA1837@lst.de>
+References: <202106090556.FQr8aEIa-lkp@intel.com>
+ <E9067936-7A06-4EFF-A4A9-9405612333B6@wdc.com>
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR18MB3882.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a753df2b-00a6-431b-eb77-08d92b400540
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2021 12:13:41.4343 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: U9MLhfbHVah5VPz7sU3hF65nMpQBhmS/DE9jf2t5eAzJBqmwwp2Y41sOdLWCSS9YBHGkLAAmsHSFIEWEiBAy0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR18MB2613
-X-Proofpoint-GUID: r80Dl2gd0UhMxAiGXCIttMI_N2zNSs6c
-X-Proofpoint-ORIG-GUID: CV0T4epK4WdKrNr1xkgx7ADZr3VMTpn0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-09_04:2021-06-04,
- 2021-06-09 signatures=0
+Content-Disposition: inline
+In-Reply-To: <E9067936-7A06-4EFF-A4A9-9405612333B6@wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_051353_569321_65E8E1B3 
-X-CRM114-Status: GOOD (  18.23  )
+X-CRM114-CacheID: sfid-20210609_055904_906492_4C764982 
+X-CRM114-Status: UNSURE (   7.81  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -173,27 +74,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 08, 2021 at 10:51:00PM +0200, Shai Malin wrote:
-> On Tue, Jun 08, 2021 at 10:41:00PM -0700, Keith Busch wrote:
-> > On Tue, Jun 08, 2021 at 12:08:39PM -0700, David Miller wrote:
-> > > From: Christoph Hellwig <hch@lst.de>
-> > > Date: Tue, 8 Jun 2021 15:43:03 +0200
-> > >
-> > > > please drop the nvme-offload code from net-next.  Code for drivers/nvme/
-> > > > needs ACKs from us nvme maintainers and for something this significant
-> > > > also needs to go through the NVMe tree.  And this code is not ready yet.
-> > >
-> > > Please send me a revert, and I will apply it, thank you.
-> > >
-> > > It's tricky because at least one driver uses the new interfaces.
-> >
-> > Shouldn't whoever merged un-ACK'ed patches from a different subsystem
-> > get to own the tricky revert?
-> 
-> Dave, we will provide a revert patch.
-
-The revert patch was sent to net-next.
-https://lore.kernel.org/netdev/20210609104918.10329-1-smalin@marvell.com/
+I'll drop the patch for now.
 
 _______________________________________________
 Linux-nvme mailing list
