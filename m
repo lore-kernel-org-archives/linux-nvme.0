@@ -2,84 +2,165 @@ Return-Path: <SRS0=Wy35=LD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36762C47082
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 00:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DF6C47082
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 00:14:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DAED36128E
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 00:04:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAED36128E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 5D929610F8
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 00:14:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D929610F8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YMdROR7tEFAxxy7CTWrd7DxznIkvjjW+JW03NtDc4aI=; b=yqt65+mJaNNMij3DTYctv0kLfJ
-	PWcZhqgygb2bSH+mv5Z+fXFzl8hP68O7AdWV0HDVJZk+yVIOb8frbZX0Md/P3Z51kTC5ZnHFUCUOQ
-	BFfNPucFmtoRP501CXd7uRpDXNmS034urSs+KzstVWjsQUfNW8WC3koZo/fmI03syqHM4XTR3GEFE
-	z76fGC6K7hbkCCnpjRQdVIF8fnF3G4MkJhAFEGeMRXhnOmwdzZCeOyzWHER0EiSXCPEk42C3+m4FA
-	cON0cO+LhbaFm/iEz4RCkJggQLsppDAC55hocIQhxQRHm1nwWHWktnAvG0+diwTtiO65HrTMYLBJX
-	+QcGUupA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=URZT5nORharPmphe+YY7MsfGn0cMhotYHbZlERNvlj0=; b=OrowqEHkNYqwEn
+	utG6Pxl8rmxQny8MsQVVDMLzHy+UU9Vbu71IeqRjCEeChNDRjerY8VOALd4I2RndujKwypBs/9Ri2
+	oY99nzrqzSYsMekBh91ckJ1GnHl0mX9Kyp9pTNJ6krkO8flYQO5IPyUOic1gX7wyfQhsKtLgeDlMg
+	xSPaTKpfqaWsLa37XXjKP8oPTcFpPNc54kXyjF7Vy3zrsKUEt7U5RT8Rp2MUBtMM3P6KoWmkwOjEJ
+	UC9iFHMQwYcOJEciyhFvCGNNTlQzNnxoxHtOl/xw2I7f9on5i60h/eyJiDYat/9FVFvvUqoaA20QX
+	dXFVQaewurIgvTsvqGdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqlhN-00ApmE-T7; Wed, 09 Jun 2021 00:03:57 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
+	id 1lqlrL-00AqYe-6H; Wed, 09 Jun 2021 00:14:15 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqlhL-00Aplu-6j
- for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 00:03:56 +0000
-Received: by mail-wm1-f48.google.com with SMTP id d184so2945924wmd.0
- for <linux-nvme@lists.infradead.org>; Tue, 08 Jun 2021 17:03:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ofQstiq4gjhGloMR3B3vmsbu/J8852UlH72k0BVssTE=;
- b=eMQVfWMCZQd0VvgNjIM1Tw50lVg4eknZYEIAjjG82jnzbMYsQxwkCZ6qM9Pu5iKPSL
- BxiC4GHehB3GVNB7Wj40eHu0XOgL3QGEmgE902Ite5Wy/9Ti7sQGgfycw7z63mJHrsX2
- bOJV3oaSGvM+GGFoy48CN9tzrVS/X/qyJC50cvnkDlHXVGosaL0sbVaWIIzlkpVTlByu
- spG0VS7cOgrrWbR3MkQiEdQNFy5uFSvXxW9Yf7ZklqYBmZTYEhMk57I4bbnLn+jwU7F/
- TE74k4WgFSPooM5qLGT7i9CTn4PyeB17++fafu5eU6AFYBkmUTqjrLxAAEj+4u9FRwd1
- FkAA==
-X-Gm-Message-State: AOAM533GwGnkJ2nW7vLOkS9Yg1yRLwKHeJP31FaGwUDfmcuTmRvPZ+Tp
- LTg3hhteItjfQjQLeZmYBZE=
-X-Google-Smtp-Source: ABdhPJy19LVLXSAvAxv10BmsRUrsywHAUircXun/bu7R9T6hL38/i+a9docRUVLr+5jHnb+tHKvVyA==
-X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr7020548wmj.77.1623197032327; 
- Tue, 08 Jun 2021 17:03:52 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:12a9:2416:ca98:264f?
- ([2601:647:4802:9070:12a9:2416:ca98:264f])
- by smtp.gmail.com with ESMTPSA id j34sm14029888wms.7.2021.06.08.17.03.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 17:03:52 -0700 (PDT)
-Subject: Re: BUG: scheduling while atomic when nvmet_rdma_queue_response fails
- in posting a request
-To: Keith Busch <kbusch@kernel.org>
-Cc: Michal Kalderon <mkalderon@marvell.com>, Christoph Hellwig <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Shai Malin <smalin@marvell.com>, Ariel Elior <aelior@marvell.com>
-References: <CH0PR18MB4129247C2B9AE092E3C59740A1209@CH0PR18MB4129.namprd18.prod.outlook.com>
- <e059fc90-81e7-dbe8-86f4-87b4bdbd5bb0@grimberg.me>
- <20210608184134.GA339600@dhcp-10-100-145-180.wdc.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <4a031bc0-fba3-12d6-428f-a378aba1897e@grimberg.me>
-Date: Tue, 8 Jun 2021 17:03:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210608184134.GA339600@dhcp-10-100-145-180.wdc.com>
+ id 1lqlrH-00AqY6-Jb
+ for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 00:14:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1623197666; x=1654733666;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Ep97XNHU1GmSQhtBUQ95gM7H3BTQ3v73zGzEmd5hELQ=;
+ b=CVd29FhhuKjS+GUx2Z7Ne1P73tvqZFfpDGWvgTw9ZqyPX42RT4Zckys2
+ wJpdICOzcTGDdLrq9VbnD4bA0IpMJy+2Og6EWHqtwyi0MqRUHe5q9OD77
+ y59dfbwY4BxgLsoPtvFzM1KLkbTyHuHr8UG7tE9ZU4JF2lboLldveyo32
+ FPZ6nUxPBERlUaUSO5LOxR2qXGeaDvV5GSj/FaYhX+QRW62XbNsZ1903h
+ 6nphTibDJdK96aZp62mDCKi4SYKAwvSWDi1ssklV0QFvh/G4i4uBpYq9G
+ NrjhwX/xfz56fzOUvfBZTPLs/7VsWuqhFUoeiLa5EhrM1j2/SQ1gXGAjJ Q==;
+IronPort-SDR: OqP5vQ2zxj3uCDSPHq6IzYeAEV+Cfb/jzw+y0MLdnHXmkpsO9f6Oum2y/FhGzgfbahc3Prp/VH
+ bdR4Bk1a4qtO7nnis2PDLwWcpzFFgUdz96es7XHVRCoAo3UiRRjLrLB5S42K18uqMQOVUvzNfE
+ /7dLefJ1Q+5bItF7SrABifUEcq1tYU2jqRQE62pwlVfLwXnnxoSb806eTG7FXMUDyUTdLOkCkn
+ DNdWZfdghg69UeCqhRg1UQj089USPSSZNmCPwdklRxFpBYTG37qW7sY9iKnO/d0trQff0G3LmH
+ usU=
+X-IronPort-AV: E=Sophos;i="5.83,259,1616428800"; d="scan'208";a="275045003"
+Received: from mail-bn8nam08lp2043.outbound.protection.outlook.com (HELO
+ NAM04-BN8-obe.outbound.protection.outlook.com) ([104.47.74.43])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Jun 2021 08:14:21 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XE+slMVloTFXditM5pCAP0i/UIKNTMV2POGdaBuBND0H0mG7XXrbnmlQPIk0sVlCjPMROgRyTdKk2uJqjb25qIgeyUgf8U6ihq6vjW7s6jHRcSOeRZ+n3w/RVluVFsjJQQb5w94i1EIgup/qTuuYftpIlMdms6SV7BQgKMFezgCdUQgy8EF22xqw29aKiim2D7yoL6OyrQhSL2OuzEySMq0dQ2A7h7sbvv6cJNDHjwwu56rdO+xpTQsMEh3JDEgw2jk91cUtMcjcCNRpmUvoubH4hA739MW4qGCskEVFxnwQLxEm/LaDP3OZn81dxMMHJS00L4tfyh7TO7vInStZ7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ep97XNHU1GmSQhtBUQ95gM7H3BTQ3v73zGzEmd5hELQ=;
+ b=J9NMHYhrkOM72ExcNsTwZtuqeqcoTMabT2jEcz5wmbtdku6cplog29oKt/4nzCDhx5t7GzLMRoc5tSWCIAAqlgMsY4P+kOhdaH7OvQuhJKJyclG9z4rZ6BrNrwPH4ZK8UVlt9/StRy3NcYUX+m9YrUq3NyfmvPgLJvM943RdOO5pqxa8Riy7e5M5Xm7RDTf0GozyfCDV6KfeKfqkyuaFy8mIvTWcxrmE7hhdM2LUt3VMtrFkJhhFRM9znN/dFJVVQzDupeNWKY0PNnAoRDcy7dd4n08A8gtx0HsuCi0S5CCXlkIrxg6F5zzvB/acKSKu4MghrIUoC61iccmaqP6cXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ep97XNHU1GmSQhtBUQ95gM7H3BTQ3v73zGzEmd5hELQ=;
+ b=gZ/YMkN0FD6ioyhvRhenZwJ8/g/Lv9zGCIw+CCQuUX2rH19E/D8o+IB4tWVLjsBtRFntxuWg/3mSnqQ+diXRUWdv0XXG288Wu7ai4xLAd7vPRrfHPnCiK1V9G5zsllGpnOUYvRkXz/2j6xuYP5RSWhskISlnJtGhoBlhfk29uoU=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB5430.namprd04.prod.outlook.com (2603:10b6:a03:c7::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Wed, 9 Jun
+ 2021 00:14:06 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::6873:3d64:8f9f:faf0]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::6873:3d64:8f9f:faf0%7]) with mapi id 15.20.4219.021; Wed, 9 Jun 2021
+ 00:14:06 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: kernel test robot <lkp@intel.com>
+CC: "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Christoph
+ Hellwig <hch@lst.de>
+Subject: Re: [linux-nvme:nvme-5.14 27/28] drivers/nvme/host/pci.c:539:7:
+ error: implicit declaration of function 'nvme_ctrl_sgl_supported'
+Thread-Topic: [linux-nvme:nvme-5.14 27/28] drivers/nvme/host/pci.c:539:7:
+ error: implicit declaration of function 'nvme_ctrl_sgl_supported'
+Thread-Index: AQHXXK2IrwBz92gihEO5U2lr9CPeVqsKz10t
+Date: Wed, 9 Jun 2021 00:14:06 +0000
+Message-ID: <E9067936-7A06-4EFF-A4A9-9405612333B6@wdc.com>
+References: <202106090556.FQr8aEIa-lkp@intel.com>
+In-Reply-To: <202106090556.FQr8aEIa-lkp@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.01.org; dkim=none (message not signed)
+ header.d=none;lists.01.org; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [70.175.137.120]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6b91796e-fd74-4e9d-0357-08d92adb7f03
+x-ms-traffictypediagnostic: BYAPR04MB5430:
+x-microsoft-antispam-prvs: <BYAPR04MB5430D7526D9B72DE15411F8B86369@BYAPR04MB5430.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:239;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Jx1Ie5IpGx6qe56dRV6NzWeAFT6OGY8qLCA47vq/kJRtytNmWkSybTr/4A8yFgVj5Se0caPfe3oXz7Klp6iq4IkspTun+sPARGyI6x0L40698O5nM3C+j694L12xkPB1Ve8tL/3R41J3hAliDV2bqeWyHfbjh3ueDa/0rCn9GTsGt71vOiveEH9a0YsfF7pwJYjnB3H3WJLrZZ6GZXlMEsZdHxjqoQe8HR8i/9FvsAGnfBT2qnABn0Kuvqhvc+n0aIDpaNZMs1ASkk1BpgHTdW7zyUJTyQgS/7Q7GVS8q8UbmII2PSzDP5+6rmyzfALH4VYYsTh5c8Deu1d3hFlFTYo8JiP2lM0B4l8nI45mVCUE1ibRWb2PTm5Ik7jDHp/LZV7yiJiqYAJ1QoTvzDhfRMe9yn4rbg6JOVB1eTnJJ+xfZ/CjDvAA2mCYK1LtguXL3y59332bRPha++V2WWWeGM9EQRDMltWvxq6S/BMzrGF6pq9Tc/GlHP5lBWdS6lHFLxm3BUrzJqp7R6hDhdbGDo8awzFHFVpKgP0QpAf6atv4szqtrol/ytjk1hEt22+WO3isWQnPhPzA+Xh51I4mVvjnNONfc3DJVSi5bG8Dn7O4Hcs/yfL8YYLD+r1jd2XoDpZv18gAWRLgtp7ssNWVpUo+EjSTTcbzF/lXroUhg/9h9KnFKmccVVKQFNfZVg7+IcX3exhCgBSWG+brLDQW3Z9sf2MeMAHnIt6vDL5AlpF6yDzsYyPt8YyEay1eBEcqEHPFgMRPZkIz1gW79FGIWtqYAHQddBiDkRtH/SE97ak=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(346002)(396003)(376002)(366004)(4326008)(5660300002)(2906002)(6916009)(54906003)(316002)(6506007)(6486002)(83380400001)(71200400001)(53546011)(122000001)(6512007)(26005)(33656002)(8676002)(36756003)(186003)(2616005)(66946007)(38100700002)(478600001)(8936002)(66476007)(66446008)(76116006)(64756008)(66556008)(86362001)(966005)(45980500001)(1758585002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UURIRW9rZDJCUS92am9BUVlWM2pKUDRjYnJtNitJMzl2aWR6aDFHSDdwYVFj?=
+ =?utf-8?B?aGZwVDBscEVFNngvYnN1OU45aFZpMmlzby96b2xXbXl6RUZmSjJRaExBZlkx?=
+ =?utf-8?B?cmprMjkzdEtnaThmQldJamJwSXZKdVIxbnA2T2tlSTRZdHh0WHcrUzJGK3pJ?=
+ =?utf-8?B?T1VwSFNQMWdWRDAyMHFyRlMvdzIySmNINHFDcnlNaEZYR05xTTNaM29INU1I?=
+ =?utf-8?B?MEIyTklOaDg0RTZZZlhkYTBIYkY1SDN0bFR6UjNjd3FIcEFjbnJxZXNoNGVn?=
+ =?utf-8?B?cVA0bGp5ZnkyLzRjOERYTjNTbG5uTTgxTnU1OWNyM2dPdysvaFMxdzdpNFY1?=
+ =?utf-8?B?dEJ6T2JoL1RKRTNPeGMyWDFaczlrTEZBeGZTY0RBR0hXNjBHNnk5elRFd2N6?=
+ =?utf-8?B?QXlURER2dDFFTjdPU3FwYWxucjludXZ3ekI4OU5UY2pSckVqOFBjKzN3T0dS?=
+ =?utf-8?B?aVJtTGxXRlc4dE9uejRJem85Y0x2cW1tOENTa211K2ZlYk93Qkd1RjdEbVpu?=
+ =?utf-8?B?WmtYbGc0czNORTlqaitXZnJTWGpsaW1GTCtBSGhITWkyR2poRXdaeW9XcVFF?=
+ =?utf-8?B?S0dsN1lCTXNNa1RiV1VDYTdhRzU0U3BKMENmOFFyM2JQcU8yZDcvWG03eFQ1?=
+ =?utf-8?B?QW5MTTMwVFRCM3ZvZFdjQ3NGNEV4WFFrQVhkMnhMdmlSV0NpUWJMMFh3Ty9U?=
+ =?utf-8?B?aXRYTU9jMzJuTHJWZEs1aTF6N0lNVW1oOTJheFZHT2FlUUcxcmd3Y0hDa0Z0?=
+ =?utf-8?B?UW9XWjBiZXYwSHgvdC9UZXZmNHpZVWUyd3JHaStzbmhUeW1kOFhsL3hZRUNT?=
+ =?utf-8?B?TWFjcnZBaDYya2ZTTkNoM0pENkFvV2Qyd2xVTlJMOWNYYktVdG1KRExkczdm?=
+ =?utf-8?B?M1B4eHlIYXhzbENKWFM2Rk10anJ6cnRvb0pPT3hnTFptNnpZSUIydThNOHUw?=
+ =?utf-8?B?cVdKa3RVazFwSVkrMEFNaC9yVkI0NkpJdSt5U1V4Z0NyRUkzMEx3SFdzclgw?=
+ =?utf-8?B?UHB6RmFrNzJvY0N1cS9zT2RabFJXL0pIcFVaOGh5M3VIcEJXNjJ6a0krVm9o?=
+ =?utf-8?B?d0FZL0k4Z1VCTy9lRlFsYU9ML1kyY1BSdFlZZ0pKODAvT2NKOGpacUk3TDB3?=
+ =?utf-8?B?NVVQRlNUUnpPTndXKzk2T0VQN005aG9tLzUwb1c2S2l3WUVwM29lMmxsNGpY?=
+ =?utf-8?B?cFB0ZmFrcEdxRG9JclF1UmR6RExNMTZaZzhqNENrUnMrNC9YY3ptcTFqYldp?=
+ =?utf-8?B?L0tWOVNFVFB5WGtOeWJmdlJUek1UUVdSdzJzTjZLejVHUDBBakVvUzNyRUsz?=
+ =?utf-8?B?VUZDVkJsRnAvZ1haOWEvcWptUUg0WDVaelNTeW10VFJEcW5FQ1hoZzVTU2Ro?=
+ =?utf-8?B?SnY1emR1aEk3SjE5cjQxL3ppUUtVZmRRVkhBSUNtd1d3UHIrSldjZm10SSsr?=
+ =?utf-8?B?emVDTi81c3RuWm5JcGZEUXBNWFdUSmVIWFlkUThSMWpONEdoRDl4a0lCQnBS?=
+ =?utf-8?B?RERYQzNuTDNESWtsV09MSVlpaHRWZVRZS0J1cWIrMkpFYW5STGJzTHVJQW1F?=
+ =?utf-8?B?ZHRDUWlBOVZ4d3RwWWl0dFllTWRtUFBuUFk1aytZa3ZpamY5NVRKWTRnOXhS?=
+ =?utf-8?B?R1BpcGJpKyt6Y3N0UWdTVEJ6b292ckRLclVRYWRjd1dQV0ViUlpEWVhFbFMx?=
+ =?utf-8?B?cU1XdlcyNSt4NDMzRWVlbzFELzFveTZkelJ5MWRDTi9pWTNYOFFjOCtJWTVj?=
+ =?utf-8?Q?ibhgCmXNmwXUn+zEpLDglBU684MrqPtfez6J6wK?=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b91796e-fd74-4e9d-0357-08d92adb7f03
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2021 00:14:06.4765 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Gi2VjVOzaT+WwwNshadEAC6WpmGcfVRjC2N84qnCdYmQkl05+OfZGdr+0FECadD6RDDxegGuqR8AZBD0tK+QaGNax0onSJ92ecLo38tsN6o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5430
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_170355_286500_789F8FF8 
-X-CRM114-Status: GOOD (  19.98  )
+X-CRM114-CacheID: sfid-20210608_171411_797790_27AF4F96 
+X-CRM114-Status: GOOD (  21.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,109 +172,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->> index 7d607f435e36..6d2eea322779 100644
->> --- a/drivers/nvme/target/rdma.c
->> +++ b/drivers/nvme/target/rdma.c
->> @@ -16,6 +16,7 @@
->>   #include <linux/wait.h>
->>   #include <linux/inet.h>
->>   #include <asm/unaligned.h>
->> +#include <linux/async.h>
->>
->>   #include <rdma/ib_verbs.h>
->>   #include <rdma/rdma_cm.h>
->> @@ -712,6 +713,12 @@ static void nvmet_rdma_send_done(struct ib_cq *cq,
->> struct ib_wc *wc)
->>          }
->>   }
->>
->> +static void nvmet_rdma_async_release_rsp(void *data, async_cookie_t cookie)
->> +{
->> +       struct nvmet_rdma_rsp *rsp = data;
->> +       nvmet_rdma_release_rsp(rsp);
->> +}
->> +
->>   static void nvmet_rdma_queue_response(struct nvmet_req *req)
->>   {
->>          struct nvmet_rdma_rsp *rsp =
->> @@ -745,7 +752,12 @@ static void nvmet_rdma_queue_response(struct nvmet_req
->> *req)
->>
->>          if (unlikely(ib_post_send(cm_id->qp, first_wr, NULL))) {
->>                  pr_err("sending cmd response failed\n");
->> -               nvmet_rdma_release_rsp(rsp);
->> +               /*
->> +                * We might be in atomic context, hence release
->> +                * the rsp in async context in case we need to
->> +                * process the wr_wait_list.
->> +                */
->> +               async_schedule(nvmet_rdma_async_release_rsp, rsp);
->>          }
->>   }
-> 
-> Just FYI, async_schedule() has conditions where it may execute your
-> callback synchronously. Your suggestion is probably fine for testing,
-> but it sounds like you require something that can guarantee a non-atomic
-> context for nvmet_rdma_release_rsp().
-
-OK, it seems that the issue is that we are submitting I/O in atomic
-context. This should be more appropriate...
-
---
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 7d607f435e36..16f2f5a84ae7 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -102,6 +102,7 @@ struct nvmet_rdma_queue {
-
-         struct work_struct      release_work;
-         struct list_head        rsp_wait_list;
-+       struct work_struct      wr_wait_work;
-         struct list_head        rsp_wr_wait_list;
-         spinlock_t              rsp_wr_wait_lock;
-
-@@ -517,8 +518,10 @@ static int nvmet_rdma_post_recv(struct 
-nvmet_rdma_device *ndev,
-         return ret;
-  }
-
--static void nvmet_rdma_process_wr_wait_list(struct nvmet_rdma_queue *queue)
-+static void nvmet_rdma_process_wr_wait_list(struct work_struct *w)
-  {
-+       struct nvmet_rdma_queue *queue =
-+               container_of(w, struct nvmet_rdma_queue, wr_wait_work);
-         spin_lock(&queue->rsp_wr_wait_lock);
-         while (!list_empty(&queue->rsp_wr_wait_list)) {
-                 struct nvmet_rdma_rsp *rsp;
-@@ -677,7 +680,7 @@ static void nvmet_rdma_release_rsp(struct 
-nvmet_rdma_rsp *rsp)
-                 nvmet_req_free_sgls(&rsp->req);
-
-         if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
--               nvmet_rdma_process_wr_wait_list(queue);
-+               schedule_work(&queue->wr_wait_work);
-
-         nvmet_rdma_put_rsp(rsp);
-  }
-@@ -1446,6 +1449,7 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
-          * inside a CM callback would trigger a deadlock. (great API 
-design..)
-          */
-         INIT_WORK(&queue->release_work, nvmet_rdma_release_queue_work);
-+       INIT_WORK(&queue->wr_wait_work, nvmet_rdma_process_wr_wait_list);
-         queue->dev = ndev;
-         queue->cm_id = cm_id;
-         queue->port = port->nport;
---
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+DQo+IE9uIEp1biA4LCAyMDIxLCBhdCAyOjMwIFBNLCBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGlu
+dGVsLmNvbT4gd3JvdGU6DQo+IA0KPiDvu790cmVlOiAgIGdpdDovL2dpdC5pbmZyYWRlYWQub3Jn
+L252bWUuZ2l0IG52bWUtNS4xNA0KPiBoZWFkOiAgIGIwMzg2ZWIxNjcxMzRkOTU4ZjE4NzZhMWE3
+ZTM5ZTExMzM4NWM1MTYNCj4gY29tbWl0OiBhODU0YzVlYjRlOTU5ZjBkZmM2ZTFjMjJiNTExMjhh
+YzY4YmMwNTFjIFsyNy8yOF0gbnZtZS1wY2k6IHVzZSBoZWxwZXIgZm9yIGN0cmwgc2dsIGNoZWNr
+DQo+IGNvbmZpZzogc3BhcmMtcmFuZGNvbmZpZy1yMDI0LTIwMjEwNjA4IChhdHRhY2hlZCBhcyAu
+Y29uZmlnKQ0KPiBjb21waWxlcjogc3BhcmMtbGludXgtZ2NjIChHQ0MpIDkuMy4wDQo+IHJlcHJv
+ZHVjZSAodGhpcyBpcyBhIFc9MSBidWlsZCk6DQo+ICAgICAgICB3Z2V0IGh0dHBzOi8vcmF3Lmdp
+dGh1YnVzZXJjb250ZW50LmNvbS9pbnRlbC9sa3AtdGVzdHMvbWFzdGVyL3NiaW4vbWFrZS5jcm9z
+cyAtTyB+L2Jpbi9tYWtlLmNyb3NzDQo+ICAgICAgICBjaG1vZCAreCB+L2Jpbi9tYWtlLmNyb3Nz
+DQo+ICAgICAgICBnaXQgcmVtb3RlIGFkZCBsaW51eC1udm1lIGdpdDovL2dpdC5pbmZyYWRlYWQu
+b3JnL252bWUuZ2l0DQo+ICAgICAgICBnaXQgZmV0Y2ggLS1uby10YWdzIGxpbnV4LW52bWUgbnZt
+ZS01LjE0DQo+ICAgICAgICBnaXQgY2hlY2tvdXQgYTg1NGM1ZWI0ZTk1OWYwZGZjNmUxYzIyYjUx
+MTI4YWM2OGJjMDUxYw0KPiAgICAgICAgIyBzYXZlIHRoZSBhdHRhY2hlZCAuY29uZmlnIHRvIGxp
+bnV4IGJ1aWxkIHRyZWUNCj4gICAgICAgIENPTVBJTEVSX0lOU1RBTExfUEFUSD0kSE9NRS8wZGF5
+IENPTVBJTEVSPWdjYy05LjMuMCBtYWtlLmNyb3NzIEFSQ0g9c3BhcmMgDQo+IA0KPiBJZiB5b3Ug
+Zml4IHRoZSBpc3N1ZSwga2luZGx5IGFkZCBmb2xsb3dpbmcgdGFnIGFzIGFwcHJvcHJpYXRlDQo+
+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gDQo+IEFs
+bCBlcnJvcnMgKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+KToNCj4gDQo+ICAgZHJpdmVycy9udm1l
+L2hvc3QvcGNpLmM6IEluIGZ1bmN0aW9uICdudm1lX3BjaV91c2Vfc2dscyc6DQo+Pj4gZHJpdmVy
+cy9udm1lL2hvc3QvcGNpLmM6NTM5Ojc6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBm
+dW5jdGlvbiAnbnZtZV9jdHJsX3NnbF9zdXBwb3J0ZWQnIFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0
+aW9uLWRlY2xhcmF0aW9uXQ0KPiAgICAgNTM5IHwgIGlmICghbnZtZV9jdHJsX3NnbF9zdXBwb3J0
+ZWQoJmRldi0+Y3RybCkpDQo+ICAgICAgICAgfCAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fg0KPiAgIGNjMTogc29tZSB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycw0KPiANCj4g
+DQo+IHZpbSArL252bWVfY3RybF9zZ2xfc3VwcG9ydGVkICs1MzkgZHJpdmVycy9udm1lL2hvc3Qv
+cGNpLmMNCj4gDQo+ICAgNTMwICAgIA0KPiAgIDUzMSAgICBzdGF0aWMgaW5saW5lIGJvb2wgbnZt
+ZV9wY2lfdXNlX3NnbHMoc3RydWN0IG52bWVfZGV2ICpkZXYsIHN0cnVjdCByZXF1ZXN0ICpyZXEp
+DQo+ICAgNTMyICAgIHsNCj4gICA1MzMgICAgICAgIHN0cnVjdCBudm1lX2lvZCAqaW9kID0gYmxr
+X21xX3JxX3RvX3BkdShyZXEpOw0KPiAgIDUzNCAgICAgICAgaW50IG5zZWcgPSBibGtfcnFfbnJf
+cGh5c19zZWdtZW50cyhyZXEpOw0KPiAgIDUzNSAgICAgICAgdW5zaWduZWQgaW50IGF2Z19zZWdf
+c2l6ZTsNCj4gICA1MzYgICAgDQo+ICAgNTM3ICAgICAgICBhdmdfc2VnX3NpemUgPSBESVZfUk9V
+TkRfVVAoYmxrX3JxX3BheWxvYWRfYnl0ZXMocmVxKSwgbnNlZyk7DQo+ICAgNTM4ICAgIA0KPj4g
+NTM5ICAgICAgICBpZiAoIW52bWVfY3RybF9zZ2xfc3VwcG9ydGVkKCZkZXYtPmN0cmwpKQ0KPiAg
+IDU0MCAgICAgICAgICAgIHJldHVybiBmYWxzZTsNCj4gICA1NDEgICAgICAgIGlmICghaW9kLT5u
+dm1lcS0+cWlkKQ0KPiAgIDU0MiAgICAgICAgICAgIHJldHVybiBmYWxzZTsNCj4gICA1NDMgICAg
+ICAgIGlmICghc2dsX3RocmVzaG9sZCB8fCBhdmdfc2VnX3NpemUgPCBzZ2xfdGhyZXNob2xkKQ0K
+PiAgIDU0NCAgICAgICAgICAgIHJldHVybiBmYWxzZTsNCj4gICA1NDUgICAgICAgIHJldHVybiB0
+cnVlOw0KPiAgIDU0NiAgICB9DQo+ICAgNTQ3ICAgIA0KPiANCj4gLS0tDQo+IDAtREFZIENJIEtl
+cm5lbCBUZXN0IFNlcnZpY2UsIEludGVsIENvcnBvcmF0aW9uDQo+IGh0dHBzOi8vbGlzdHMuMDEu
+b3JnL2h5cGVya2l0dHkvbGlzdC9rYnVpbGQtYWxsQGxpc3RzLjAxLm9yZw0KPiA8LmNvbmZpZy5n
+ej4NCg0KDQpUaGUgcGF0Y2hlcyB0byBmaXggdGhpcyBhcmUgYWxyZWFkeSBzZW50Lg0KDQoNCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUg
+bWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
+aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
