@@ -2,86 +2,103 @@ Return-Path: <SRS0=Wy35=LD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02181C47095
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:33:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07947C47095
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:37:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B68C261285
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:33:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B68C261285
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id C210D6124C
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:37:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C210D6124C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n7qdBvdEuicFIq0egnAvxU25yhZ+HTXTHnz/NNe86RI=; b=DH0E1IsdB8htF2m1q5Btajwb7X
-	7XL+88tkSqOk9Br1V+FCOhSS4tuT+2KiDiD895suhSQX3VgTu01cYeO73WEwyqhSBv6K/YGzXeqP+
-	t1G4S2/rNxyNRIRMVAZuqNpo6sYtrh5chkT3ViEREvzfdm5xXDBbF/hsDOEmA9gm7OdjVAvO8w/kq
-	GWS34O7ZTZZE6I5BTfqHPU7v4Uf3IIInPRn+Kc6V+qFY3KcHgFzjRCpuuocQGIlo47EoHCHXUFmyf
-	Z3YNAq5IzZUhDXfS3n62v9XFnWBs1Hz7aF83uQnY5iO4MeMokk3x8xa/WbBgEBJEm/6NlOSx42w4b
-	T0z1nQaQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=RtlyuuwLR/lRj+GJL9TL50BleNB7RnvGM0orQOjwSQM=; b=l24iAHvYZxY3vD
+	5AuEksjzeEJn+XZ0w8chOXuWr8Y4wE/bVcMq+1Vima5fqShU5QX0FETRzTELfaAVlLynX0JMrpBZI
+	tDTCyEVm8w89mkNHPIsT0YO4HZgYlic2f6H2fJOYzRvi9Dl0JNJI7mMaeRhmQxw5jsU7YjDENnKc2
+	xtLS9NKTRY+0wfGTFRH1+xGjhNVouuLOkbu3inSHOW04eIWfYiXwptybODhYo2BRXMTh66dHThm7L
+	y0/vhafSfljwr4hKza2XQxCGe26oxepDS+FiQ4UYXR6bjtCPQ3eXZamcRjAJ7NCPXcnMogQqdd8vU
+	LUD2wbtDhXostPjEV+ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lqua6-00Chhq-8C; Wed, 09 Jun 2021 09:33:02 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1lqueC-00CjFE-Kj; Wed, 09 Jun 2021 09:37:16 +0000
+Received: from aserp2130.oracle.com ([141.146.126.79])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lquF1-00CaLW-P9
- for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 09:11:17 +0000
-Received: by mail-wr1-f46.google.com with SMTP id a20so24682770wrc.0
- for <linux-nvme@lists.infradead.org>; Wed, 09 Jun 2021 02:11:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FRICya+TTnBXSg5CALh3oaAVx6+fheEDDkWf3ssqE1Y=;
- b=U0Tcz3Laxhy6dMYqb49+uK3yMEMt8o4h2WwUiTzbG3p6hi4/zj4EpXTQ7td+ZLpCKC
- KpMpaE3zHvajkqbXCCCRbip7nV9fDgxNXMurpZi+oY/KkjKySv8bOzlOPvI7plaC867n
- 8UaT4/fuDu4S/3GH+QvEQdXksK2I0xaD3EZ/o9xd3dIqNw0nypROyhVBFHcqC/lPFa0D
- H3ARrbw5BFD7GOldYB2U7xLXJHQ+tKKpkw56HDcKHSY29sMJTLUxgEwSgKvnkyojd6fN
- +4CDXIJP5eJa36fcXbLGCBP8ZyXVp+KhsQAYQyGwucujMyRUxpbmsgrrDCPfHSMgucxz
- 7n9g==
-X-Gm-Message-State: AOAM5326ZrsBR10aLCEcxk+Wv3QJxv9sy7KjT978FoPUN7slekx4O9yu
- Ynt6CL4ZOjCTv4Vh9maB+35t98sEIws=
-X-Google-Smtp-Source: ABdhPJxUnGSVRqhmXODJduHg6x2ATkFd4nSuuzNbUZ+4ABj0aXAg9faGQuEItexiOmp5uP0nC8ZyJw==
-X-Received: by 2002:adf:fe4a:: with SMTP id m10mr27168367wrs.332.1623229873847; 
- Wed, 09 Jun 2021 02:11:13 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:add4:fb94:3dc4:5c2e?
- ([2601:647:4802:9070:add4:fb94:3dc4:5c2e])
- by smtp.gmail.com with ESMTPSA id o6sm25612472wre.73.2021.06.09.02.11.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 02:11:13 -0700 (PDT)
-Subject: Re: nvme_tcp BUG: unable to handle kernel NULL pointer dereference at
- 0000000000000230
-To: "Engel, Amit" <Amit.Engel@Dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "Anner, Ran" <Ran.Anner@dell.com>, "Grupi, Elad" <Elad.Grupi@dell.com>
-References: <CO1PR19MB48850A829FEF374C7FC156EFEE3E9@CO1PR19MB4885.namprd19.prod.outlook.com>
- <CO1PR19MB4885314DCBFEB376C7305C98EE3D9@CO1PR19MB4885.namprd19.prod.outlook.com>
- <e40414a9-41ef-f82c-7d1c-2583d8251c26@grimberg.me>
- <CO1PR19MB48850B44ED23C179A4E4F541EE369@CO1PR19MB4885.namprd19.prod.outlook.com>
- <b9c7e6cc-fea5-b8ce-af07-7d004116e3e3@grimberg.me>
- <CO1PR19MB48859C3254E4F3EA3282EDC9EE369@CO1PR19MB4885.namprd19.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <a76ecf8e-15d0-1ebc-aaf2-c93fee591602@grimberg.me>
-Date: Wed, 9 Jun 2021 02:11:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ id 1lquY5-00CgrZ-IO
+ for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 09:30:58 +0000
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1599FZOe126813;
+ Wed, 9 Jun 2021 09:28:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=YnBQKz3dqrUNxi9NhuYJmaFtMbuoNqMgRmHcuk+qdpI=;
+ b=sRxE+MxijCFxqckZdPl516xZAoGyX4NeLSEsGHwHm/QVAm/0Bw+WjX4xTL2C/7NQVnZg
+ zBk19bqzgQP7rN6UDxSba1m0HSyHL9gJYPemVVCczqu9MTVftCXXi5C9e9bG9t7Wdrfl
+ 3VAeuZLBtXH4J0eDRmuesh1HKYwP7WW4Mq2MOAHSqcrbq8psLlsRhRqXjj6b8RgSYAuo
+ PaxaribDfQN3wQbDt6Z8EhJ3SSIVkUOCsZuKbnV9hA3LYobBlUQ1j7xR9WKJtIGFfVQ1
+ qOoYQ7FQtfIugBcr4VxqxBGw22rtYZKGyzUB4aUkjkIYED1mswvaVzd+PbOJKby/yNFF zg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 38yxscgnb8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 09 Jun 2021 09:28:42 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1599QZRP051047;
+ Wed, 9 Jun 2021 09:28:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3020.oracle.com with ESMTP id 3922wuedkh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 09 Jun 2021 09:28:42 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1599SfGF066343;
+ Wed, 9 Jun 2021 09:28:41 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 3922wuedjh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 09 Jun 2021 09:28:41 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1599SeDQ031727;
+ Wed, 9 Jun 2021 09:28:40 GMT
+Received: from mwanda (/41.212.42.34) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 09 Jun 2021 09:28:39 +0000
+Date: Wed, 9 Jun 2021 12:28:31 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Shai Malin <smalin@marvell.com>
+Cc: Ariel Elior <aelior@marvell.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Igor Russkikh <irusskikh@marvell.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] nvme-tcp-offload: Fix error code in
+ nvme_tcp_ofld_create_ctrl()
+Message-ID: <YMCJv0sYKm+Gcwr7@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <CO1PR19MB48859C3254E4F3EA3282EDC9EE369@CO1PR19MB4885.namprd19.prod.outlook.com>
-Content-Language: en-US
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-ORIG-GUID: dwTMuy1y2bpTs-2e3Ko8WmdLFuDxgBH-
+X-Proofpoint-GUID: dwTMuy1y2bpTs-2e3Ko8WmdLFuDxgBH-
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10009
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 malwarescore=0 mlxlogscore=999 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106090042
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_021115_886662_0DCED31C 
-X-CRM114-Status: GOOD (  10.53  )
+X-CRM114-CacheID: sfid-20210609_023057_739322_A831B30F 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,22 +110,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Return an error pointer if try_module_get() fails.  Currently it returns
+NULL.
 
-> Im not sure that using the queue_lock mutex ill help
-> The race in this case is between sock_release and nvme_tcp_restore_sock_calls
-> sock_release is being called as part of nvme_tcp_free_queue which is destroying the mutex
+Fixes: 4b8178ec5794 ("nvme-tcp-offload: Add device scan implementation")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/nvme/host/tcp-offload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Maybe I'm not understanding the issue here. What is the scenario again?
-stop_queue is called (ctx1), that triggers error_recovery (ctx2) which
-then calls free_queue before ctx1 gets to restore sock callbacks?
+diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
+index c76822e5ada7..c07f84a7e697 100644
+--- a/drivers/nvme/host/tcp-offload.c
++++ b/drivers/nvme/host/tcp-offload.c
+@@ -1215,7 +1215,7 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
+ 	/* Increase driver refcnt */
+ 	if (!try_module_get(dev->ops->module)) {
+ 		pr_err("try_module_get failed\n");
+-		dev = NULL;
++		rc = -ENODEV;
+ 		goto out_free_ctrl;
+ 	}
+ 
+-- 
+2.30.2
 
-err_work will first stop the queues before freeing them, so it will
-serialize behind ctx1. What am I missing?
 
 _______________________________________________
 Linux-nvme mailing list
