@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A13CAC47095
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A412CC48BCF
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:43:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 658196136D
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:42:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 658196136D
+	by mail.kernel.org (Postfix) with ESMTPS id 77C5161073
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jun 2021 09:43:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77C5161073
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,75 +23,75 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=qFQZ/E4DO6ppMe7IXlU0Z/F8hecsIi5BTY9uHwozVKA=; b=u7aPOM2zbTpXWD
-	GPNlf8ImLy+8ofl33l3d9wUEgd8dldspQyYXMmxjDikAteUtmU7edxcJXdSgi7sAG0uGVwDWJ4d2a
-	mxCAuY2bSkeh5qd9f02iZ/dwiUS32xQ6Sr8GfPM8GNTXnIJ/zUktTRBPnpJ671GH3zBF6v2Mr1IU6
-	vS+gtmKUM1AxGuV5pVz4oC8Dirx8vLE5YjDz+LNCQLM/kYGoMj+9KlL2EuckyOMU1TnctPtwhB685
-	GMRtshtNRe9TAve8i3J1Sre2+sXwIruG2kfPA70pXfVgACeofHZ+kRdtNeV9MMFAuUqbH/MwppFn5
-	OfGGF1G9qYa3zEA7ifzw==;
+	List-Owner; bh=JRpN+7QzjkHMIBtViCIUCmlAaJrS6aBEu1F94CbQqGM=; b=izQTDJ4CjcMizK
+	ADI6Modw9fjTruqhmysLsP8fHuV+TpoXkUwiGo7w9bCq+r5UIB2T8PM0g6mID2rKn7XLki7Q8QDoD
+	dDcLeN7mmRDPVKXyHEhNesyOJzUZao91TmcZWpw6W10taPcP49mfS+33uGJn59MxYQ+KKzuuDKbkC
+	n4PACUbqU5vO894nWKsXsoUUiGwBgzBG2nfS9FBRByxSL+xM0ZgSBdfWlfmqqbvSN4hechjhDw8az
+	aQDme8CZm5Brx87JidjuqZa0NiPesq1lFpp29rvLw236Hb8g+7c0iqAQFH6e3dKo+6mH88dSkHS8A
+	VbagrwcVcLOi3nW8aWPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lquii-00Cl5Y-6K; Wed, 09 Jun 2021 09:41:56 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1lquk7-00ClSf-JO; Wed, 09 Jun 2021 09:43:23 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lquZZ-00ChRL-Kk
- for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 09:32:31 +0000
+ id 1lquZx-00Cha7-5g
+ for linux-nvme@lists.infradead.org; Wed, 09 Jun 2021 09:32:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623231149; x=1654767149;
+ t=1623231173; x=1654767173;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=vTRakpr+n+9vuvdK5ofqM29kzH9Ce9USlwqPVaOiU+0=;
- b=r4JZXBzUtTGBg97ySpBQf9XkFBnfoCEehR2CgcgV6Y7kDUD2sccZeVM1
- cgYa1g7spykZ17jzmUq+WPx271X5oA3NnB8aBHQURDQSBosfOkVa1GECg
- ixI1b1DMCONpH8FnwMU5FWJjTESHmi8ffiwUdHp+WraOJne8tINzKr3g8
- z2u5XWhQlkGiglXkYaBzW9rEPibklXuG89AOBvhr9/N2QrgSADbRHcusb
- 1AGnpBD2cpfPMTNXeW7+PkNl0vTN6+blegrSqS8KGOWq4eSUE0xFWac6F
- v8w4ZX0lDZFSQ6ycokFSykt0piZ5LT1Z4nuxuCiUqTtbINUzfF9TaYAGs g==;
-IronPort-SDR: qdlsusp+vgqWhN8v+24bFkpLBtb6/qyKCc0S2QmRJVAvBaB8gEaj99TQZyt7gFE9ymDUFSx1jC
- 10NgDmI3ls9QKzIO9L1n6YVLdjAPaOcMPis/43RBCR33eeZJRHdHnbD4d5P1CGAb+HbEIGDCcD
- I3CcNtr10IvXbNPacGlpkFD0kuInrEU7Frkznw0a+loWFN1FZJZyx727kOrPxHd+fvJl+yTgq/
- n/7QeZaLvDUxA9WNxo9RjnPqHbbULMnEt/2Dn0SwekVqKg6Y+4CNHvaGxjApCZVZDDgz/Jqg19
- E+Y=
-X-IronPort-AV: E=Sophos;i="5.83,260,1616428800"; d="scan'208";a="171282211"
-Received: from mail-co1nam11lp2169.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.169])
- by ob1.hgst.iphmx.com with ESMTP; 09 Jun 2021 17:32:28 +0800
+ bh=kdZBCRM069vrVGgXQZ9Q902H1GHqQHqiQV13HUKU2gQ=;
+ b=gMo8wCxYmIXaZlXQ3tYsriUs/w4gs2LRYtBidu7Y9o8JEInXHx73zPVE
+ 7ld+EYvYVPPQ2N7glyRQwPc9n6OVj2y2XIniFPCli0JcE0rCRPTvl1ObL
+ sKUYhWeYBaNJP0nSWutBYnFAUDN/UhzenfD0azSLb/WCQ/0lzVoFyiEXl
+ nbtP6wt9sNNpJCQQT9dTCraD7tfTARhUB0oTeEpbNUF8OsJ4qfQ4ygpl+
+ uduC1Aw8Xn2fz9qU3Ux81AlCmJ+yEkkx/GXFqG8yj1sYsAmQdavYKxEPm
+ 8+IkbmMsa2hv09AqyKYFENo+Wx6nl9+kTxgrNB5CjsFqMR+aQKLp/juML A==;
+IronPort-SDR: BgS9KlYthAgYHqO4R/OuHiqnjTlckd3QZq0kmqIvW5Vjy/EiLZKumlKFMiDhYl61/kwlvqW6Xr
+ Fju2I9ruNr3KF4vzN8RaG2QN90XYyvHFG9zjcTGEZNzNT3JVJl6kQpa5S/NsijmQD6aqgoJC/R
+ QmEczsVFD4nd43bYIcC4Ser0bNdJp90AD8U8abQ0aZN84b4LBi7Bh0IxDy3ZV6PSoz1mT0Nbsr
+ asw2nRI4isa1ec7YWm/49ED475AKd+YaKMla7WcE1Mw5k/Vfh/UHl4iFK6LHLH8w04WDqbQG8M
+ Q20=
+X-IronPort-AV: E=Sophos;i="5.83,260,1616428800"; d="scan'208";a="170560281"
+Received: from mail-co1nam11lp2176.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.176])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Jun 2021 17:32:51 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L3KjXSQvfuJo3MPX3N7PX3+9xAEQnRhnb9xcKSUyeqocXuFX3K0pAwqhOkCl8wCuzssC09sU/3+PM2+TZUkDVKcEQi4tbdf5NkGaT6+tIVTs8jnojDlTpl3sGPxY8mgy7XUZLnibwnbNOnAs2gM01hHXsqJHM5K1Lx0qwTcGvQX4tTWoR/AvrEr0j1rVGG4LK+H5zyRhBGHxIEGtlklclPSAvsd3sMwjEnQpeBfvXSzCU5UZX2sYJZETQPkWDUv5u9Y/xAbbvyxjTX3NMhV7RNAxJw4qjGQHHVzHJrx2OqtIb13r0qD6Zsl+FFmbZYN3b8YcfG+qH58WylP9yGQ9Xw==
+ b=kvvQyR+lrtRSraBuJ0H0H1jWaXVWBzHDwo08sI4mXA8f8iQ3Ps6kwZWgEHvBywYBd5Mc2thhCAn/w0CwZZiZTcbxFsxKm7i+k+80SLjHkQOcSfPm4b+1BM4mHp1GtVcJmZPFVSTrtD/bLgI2RdLy8D2mKVD6isV05z2WqEu5jJobFVL9ev0i1goBm/5AWy7YtL7Pxywk/P+rnTsUPebFnz2g4PsvU+h0WKYRKOlyEwFN39MFoKrzOeINcvWW9tK+8PElG71Y9SB3O99indMztBN2VmPSKFK0uUB466ru8Lki92Ket3t+MPyPdFN6BNCyIrnvB7pOhh18jJgekozM9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CzbGKkMrKJxYThWDcPlDvM+zgwb3KFpUoFa8I2QZHcY=;
- b=GieR83RSAA6eBUmKiwegFgEint0vgX7o5Y5HVOpmSRflWO5ELT9zWK0SY47Xcnb8gOUnx+swqLwvJPJoRxfjf9z22YHzbAEbtfMfEasob5zE3s2OcsQoe3d6+cWOFOeJac1xfI9NQ7cTQywUnAoDUyu0IMG7mRl4D8aC4hfWAFuFr5qEcfucTX9it4lQExG2mFKcytmcFYZyQK2RQr+fF/KE9EBkzncQvm/pFt1mmupTnlqt0qX667WspvohMnA26dquUiSYA2Ul19RKYQXZypXHmG2q17efMpgNOVkJtFfrv8YQrw3hDk+b9XklTCVT47iWVbzr0GbZv2vjTFbplw==
+ bh=fWvhRuM/sMCsxrhZ31kCF7Km2X5bV11CMwIOggvSXWw=;
+ b=IlA2l6U3fDjlaIeQ0oCeaX9zZxlabAMCXDE49xKSmjue7QQqY+tboPxjrmF6mmvywtV/j/SJnSaajGE7/g7UaYO0OhPfKX7w5dJMtBdRqSmv5KA4LWwxxnuH8cTpLO1mk7k+4Mt+hwfZlupYEtzrOOJqhZSfZ7GdJFhGyvukHtqsIMmfEtANLD55xCkBADbo1Sy1unZKQjnJhT2DCud55jbZZXpezrb+1QpEPGHkQ6/rrN8IXoW2oB7E3UVLWQhOu4q/G7aDr8hhrTiMC9OISC9fpWkG+l673VPbFM7/PcyEMfHEu9xrnViFBmPV0hwzyrLrBiyD1zUb8O3X89yfNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CzbGKkMrKJxYThWDcPlDvM+zgwb3KFpUoFa8I2QZHcY=;
- b=qcWHl8Vw7fgrVcgDo90mvc4pvRTwZ/OWbagCXPJHidbW9d5IxfmZEQbGpgw89F16anxw5BIesixq7DNOwl+LWNdUuh5Ah9UYNJXvaMwyx4gSrin7i9wlPs04UsY9j0LB8ee1lYM3vqEGPViia2qcEXE55aTuaCBAcl4DrTPpRrM=
+ bh=fWvhRuM/sMCsxrhZ31kCF7Km2X5bV11CMwIOggvSXWw=;
+ b=FXm4jjvKGeDwl1A1K/Z9Ix1KeaQSq04NCCi4E+vTsEHKThThljSu4OaYEWKenLryfeUmwBqXSnv7YyHs0N8BTrDmCDhYIpYfynhqbYrjHjp1t4gNOFaVqVpC1yn2ELDR7vF8ZYuwww1XODxIo/JGPTomCBH22+ATGWwbuEUJzmM=
 Received: from DM6PR04MB7081.namprd04.prod.outlook.com (2603:10b6:5:244::21)
  by DM6PR04MB6606.namprd04.prod.outlook.com (2603:10b6:5:1b6::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Wed, 9 Jun
- 2021 09:32:28 +0000
+ 2021 09:32:50 +0000
 Received: from DM6PR04MB7081.namprd04.prod.outlook.com
  ([fe80::64f9:51d2:1e04:f806]) by DM6PR04MB7081.namprd04.prod.outlook.com
  ([fe80::64f9:51d2:1e04:f806%9]) with mapi id 15.20.4195.030; Wed, 9 Jun 2021
- 09:32:28 +0000
+ 09:32:50 +0000
 From: Damien Le Moal <Damien.LeMoal@wdc.com>
 To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 CC: "hch@lst.de" <hch@lst.de>
-Subject: Re: [PATCH 2/5] nvmet: add req cns error complete helper
-Thread-Topic: [PATCH 2/5] nvmet: add req cns error complete helper
-Thread-Index: AQHXXCmyCqaqIfmaQUuMXpSYDcg+XA==
-Date: Wed, 9 Jun 2021 09:32:28 +0000
-Message-ID: <DM6PR04MB7081145E11808E08288DFF3CE7369@DM6PR04MB7081.namprd04.prod.outlook.com>
+Subject: Re: [PATCH 3/5] nvmet: add nvmet_req_bio put helper for backends
+Thread-Topic: [PATCH 3/5] nvmet: add nvmet_req_bio put helper for backends
+Thread-Index: AQHXXCm/84io6W03a0aG2gXQXu3ODg==
+Date: Wed, 9 Jun 2021 09:32:50 +0000
+Message-ID: <DM6PR04MB7081F255F299A6359A3ECDDCE7369@DM6PR04MB7081.namprd04.prod.outlook.com>
 References: <20210608054635.5661-1-chaitanya.kulkarni@wdc.com>
- <20210608054635.5661-3-chaitanya.kulkarni@wdc.com>
+ <20210608054635.5661-4-chaitanya.kulkarni@wdc.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -100,58 +100,58 @@ authentication-results: wdc.com; dkim=none (message not signed)
  header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [2400:2411:43c0:6000:513e:a3fe:98aa:a7ae]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 75b093a1-d511-404c-050f-08d92b297f85
+x-ms-office365-filtering-correlation-id: 5fc257c9-be38-435e-dfbc-08d92b298cb2
 x-ms-traffictypediagnostic: DM6PR04MB6606:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR04MB6606CA1681EF98C3F9024515E7369@DM6PR04MB6606.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <DM6PR04MB6606C35FBF8C9C80D95CFDE0E7369@DM6PR04MB6606.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sIpqvJyxudqmi0eKTzfgvDUNBypvqnq4tlNs551NW4B4rezXB3s3xljt6PNAnvDTU+Pbdi9L3KHwQflBO0sHY4CF5QI/Hv5fVX6QQXzEusROLQ/yomFU06Ev/+FgDno9lCtO7eXm60nEGi0RZufHcHXI1l9bUGbYvm9A2MN3RR3R6fRh2y0piKBJTT6MUSprZGQbMykic9jpoY6M0Yo1tFOaqDnsfQ0k8ivAFM00EwxZavsQHfmUoyHvwskdobV6dhpQpUsnSBTBm1OoJ63YhIsZrM6upHkdAkW8mgWhEtqFDtSsK9wGpAlPERs+xJ5MNPPRyLZhj/R2hgmu9G+NUtGphBPDo5KegaKlMrub8YTBrU74eMHiN7osUPS5iQ16q6skcPE6wiG/PsKIzi5p4cdMrolcp+TGm0dx06pABW/Apc6eKSnZ5SfTzUrfe/AUNFmvWxZu3btlLCHibiml/+ni7cgk0u1YPp7BVQcluatNJHRAsa0K2SQOBCE1XhXAJu0iDZ6qX+Oq1Fn8m1YUlEWGH38SfJuPFJE+TJjS06nvBT6DIGeaoWEd4igWfDU2FjwoDvj2y3t0+5d4sEDCHwLoleE66qPzLiK+fMd5Fb0=
+x-microsoft-antispam-message-info: v8QayAcZf6e+7Poe3ExWd9Uyd0iLL/89Vv6ZOIIdW34sXAOgPZMKBB4F3BN+lc3ur1XZk88dfizt167nKUjrPfO897DNMgxrVmHxQdSPn0BhCKTuLn96sqUm6WPlptH34Qjz9/tbKkXNnr1XxZEhCVUihjnGrqddmmkAmIqtaQu3mFoKokmIJwnojrrKmHGqaSycyeCAA/nq9YkeNuApd2Sf8yNjfPyrW+i3ktfpbwUrcQQWfUYHl5OvdaYulgc+C34SK1hBjcHGDabdooeFBiwNgZFxmAaolIMYur4FV32RsaJ/qkXlwObYdzWqEaAhqg92pqx0hGbX7EAuZwSFNj7xvSA4WwX061Ok2aHZtO2l8HTokFu4IxIV5TOzmKrkFKSGV5OdTw+F32YOR7NBPGiLmtnFYpxlzZKub12pe7YFemT75fFFqLX3AoxakVZD1mTvz6bxDYGmP+5U08Bt1UctErOYQmnmjA7qBBBg4dg6J/IKfaAFpq8d9+kX7IbxtS6UkX3XyXdW50SXofIzLlUNuIJSZC+K7t8aePPj+FmU8DGNyEUpdnU+h0/YQPLgLFpjdP8p7jhiOT1Uk3M8YPTyqgnYaskPFZ742Hn/zWg=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR04MB7081.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(33656002)(8936002)(316002)(66946007)(71200400001)(66446008)(64756008)(55016002)(76116006)(186003)(66556008)(91956017)(478600001)(110136005)(86362001)(7696005)(5660300002)(4326008)(53546011)(2906002)(6506007)(52536014)(122000001)(9686003)(83380400001)(38100700002)(66476007)(8676002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?d9rAgttVapOCz2vdBpNJAK/liCzv86kEDwCunXRLLbyOHnmTEeyMT2haOtP1?=
- =?us-ascii?Q?a8guPthjv1iWrUnaU31BY82iaktw49MaCDPo7Sg7Qr06/YryIS35JbTF1qjC?=
- =?us-ascii?Q?ZOHMuB+3bW06srlDlHUsbq2AoKs+QIlFzhwQCIYN6Kiodd6BnAIRuxEWNE9i?=
- =?us-ascii?Q?UKou/0q01NqCLhjI5UqukNiWN+byFFeQaKX/rg7n90hoqeYHmNnZ6e3JUOmj?=
- =?us-ascii?Q?HVUdD9bsG0EMjp0MibIrppIZkxPny8Bkc4ZBCTrKCZWwMWgmunUvWTLzyRzw?=
- =?us-ascii?Q?klDlGtuWJX7t32z6KMoUGT702RfodXWJoQwk1crrpEuXss79eeTyYgopDcRH?=
- =?us-ascii?Q?KW7eJSp6NpUKuAicD9nTdNTKhxiiPElKg0njfBJVm6m0UzmuaJ8vr00d412M?=
- =?us-ascii?Q?d+JvlNlJ3GZfIdxWV2DEgg7nGEsfKTyHo9UOpf4G+j9PON0TEi7hxLtp90eP?=
- =?us-ascii?Q?lG9tmvIPzq6v3aVctYdoS1U2boshAUfoSA/BAVMOOvoU4tPaUS4Hnxf6eNKY?=
- =?us-ascii?Q?7XXvSFvzy/xaId4h0IB7ddtIf6fitNqDhfrtnyzAkgdUBhEqxq5KxtuEL4kG?=
- =?us-ascii?Q?awBTZFk6lix0j8JrIl0cJ1UoSMGYdcDfxXG0foukjy39E1S/DwXaBE2z5H3Y?=
- =?us-ascii?Q?Sl+afWqEpOlKItUoq3I6NQ22l13tciaL2msN4D+purdfx3qcZqyJRQmJ2qNK?=
- =?us-ascii?Q?6z0msmdbEA80gEfi93aYM6mXRp6zVEsUyxlSyXEep2Cj0idZlrSlt1ruOJ71?=
- =?us-ascii?Q?iHXdx3sM+R/9uxXDHMXdVGyJR/v3DnT+uohjf0JzrVKREIvaaFmth1Qvkvo5?=
- =?us-ascii?Q?VzTNi9mKs+belrvi8HJpddqFsRHH3QaUt9q0CGJL+9ynPXvvu8mgdyJk0lea?=
- =?us-ascii?Q?qHg1LSMDnSgdYA15qiEeQUoIRmtTuxiWerltRFgwxijg8P2d00CVkw4JP06Z?=
- =?us-ascii?Q?aTEC/rso9vlQZEZQDzaqIJH9JueNzDiFhM+nEOxTwMQDs4Yd+swi5c3XhJAi?=
- =?us-ascii?Q?tx8x6n2dkoaRKNT4OHGE3B1QUDHrck/aUJAxAg2aZf01FgLEjEPO2OE8vHIC?=
- =?us-ascii?Q?SPPes9XzcZqJHWz+5s0L48Efo4D8PB7ahWsDy2vedWdDFyzjl/gYgqQjHFE4?=
- =?us-ascii?Q?Ncmqtr/8U6rNXlNH5gIDXuan1yD/Lrq/DQriuxTg2eDrKiUdodDY0TkvKBHN?=
- =?us-ascii?Q?hgagfpzwt9FkKky2mExErWGh1sY5OxCBta/D9Qq7SRTIHzDW1AG7g0CBiiEs?=
- =?us-ascii?Q?aGPz9Rurxm6g2fPqjd5W4A2f8goC+QpWc72CnegsX6Ijd56G2LD2EfJL5VqU?=
- =?us-ascii?Q?TfjDLIzEa6fV2TG7RrpA3uNLF2eqNeavoMydUjqgw4eoZHgyEZIba4Hl9vUl?=
- =?us-ascii?Q?HteiK7/OjirPJmMgqAJ3GNF2vQjWthDXeSsc6Sfq57Cw+sheQQ=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3HFl5tpF37mwg1wtusv9HYyC+h2TG0f3L60XgFZFcX1SMKRsSkr+CfAkXj1t?=
+ =?us-ascii?Q?CEaSZxIZAlKQmpwGYRBiJXHdSe4ujbebmzFLUUg60f052ibPNL4gS1u+7jNb?=
+ =?us-ascii?Q?eNEpk5H9PX9MTEpMo7DNQz2VYs5wf+7FeWSKo61DgwDX8A9x5Bi88aHUdHSh?=
+ =?us-ascii?Q?CQmFVaBx+MbgUc5XxRMEzxBfhuv8JN9NUKyTpr1CsOYWHeVFFIPK+cp1VpzV?=
+ =?us-ascii?Q?DFhDyf0HfgluHSNGyQvQGCnBhxYSad3PD91dOeOOAMASylM4n0FYa6c80lrj?=
+ =?us-ascii?Q?PBx1/yD0dMrvaeuqlDN5oNrb/frY5raI/r77MrChWsegidPQOLnKuXrJ0bPq?=
+ =?us-ascii?Q?iTQ6tJ6bSSaEGo1e9dSpvR9LC2LDSmjHQYumfT0myIGuazYHkBiD7+TzPQoc?=
+ =?us-ascii?Q?Is/W6lPAHqRmksEucj0J21TG2mCbRf6pOahpX91dDEEaj/u6WSUQ8PIA/GKc?=
+ =?us-ascii?Q?8cjUrxIa+WFqRqvFIa5pEyteI4+Fkdx1+i26AtKdLvcZtqTNvnCxt/m4QIIw?=
+ =?us-ascii?Q?sHpimoqkVbwGoExOvHUyHSXGfc+qOr3SD4wtPa4oeh8JtpbpZPrWzc+pTRnG?=
+ =?us-ascii?Q?D6VyRSvxA3xS9FhnxsmiLxrj9Gkh/vVT31HgZTytWgbN7tCNflKfjDcluy4z?=
+ =?us-ascii?Q?E2IbGg5m//zcBP8jwtgIte8NxfUdquobzwDma7DkIVrPkFT9L8+yBwoxbF2v?=
+ =?us-ascii?Q?3fDjfc0v0ABtfiCFK9dNyUWI3feDG8SVthC9wWvfZVdBid1agQIU0Fwi4sjr?=
+ =?us-ascii?Q?Ian83fpG3A7TJpbEddUPE13anxg/32zEflIwf7JBnyt+rEXW9UOpCt9fT2uC?=
+ =?us-ascii?Q?QFnFg8BrttCu6QItuxOumr4tNimOeGqXwFzlJeBFpmzdPKwDusiYdDYr9YiQ?=
+ =?us-ascii?Q?EtaM4uumNH/UbDxE9tnz0mAm4HTilc+3DfMkkN/qHu7InrotSR/6CPDZ6fjx?=
+ =?us-ascii?Q?5ovHkeFWwC8L2ZXBi62MTHbNTf+PTFplvFPbmZ26MIjmrExnSNr4AJbGSTGf?=
+ =?us-ascii?Q?v1E302lz7TkpVVDv9ouWV8EiFDF0cIcNaT1qVPHHy1qq2y3HaiYqonzfHAAL?=
+ =?us-ascii?Q?miVxUk0K8zBy7nxNkxjhYpJPpIIL8/+VTYr/0W4Em1MYQ5OiSlO0mS2bc2eB?=
+ =?us-ascii?Q?l7LXtsojLV3Dav1dPxuX6TMnSNklvRLQYSSqjt/yMVWm+0zBewVA2guTMf8A?=
+ =?us-ascii?Q?ZCXtGEgoONis4xdXe5+Q9Rr3CsinXknP1XTHOKaVewBWsCufhobi3FVx9d86?=
+ =?us-ascii?Q?RH8HmhXjOsB9MwmmGBoHLj+IM7p+UUwygNl5UnBwztVe9/s5dZjNE4Cw6E2l?=
+ =?us-ascii?Q?IOs5gzpFK9q2tLoxr+LHEwRWwuDwF4XAVu3efbiW0PafJeo7W/JyYi8ucx6J?=
+ =?us-ascii?Q?4rAd77YdWKaFrvxJsQCK8lSL9Zc0vmLwti2aIvwZUc5EGgqZNg=3D=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB7081.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75b093a1-d511-404c-050f-08d92b297f85
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2021 09:32:28.1976 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc257c9-be38-435e-dfbc-08d92b298cb2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2021 09:32:50.2657 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IyeNw9o1/ZXkGMAIg6o5nsHDWs9b6atHGphJAdaxyn8Y3YKVkUCSAFjDNl9hGKYIWwOgxgfR6o/R2Ud203l+LA==
+X-MS-Exchange-CrossTenant-userprincipalname: oMpGKkxl1fg3JfIAb4tDE2fGu7mUmDyk1s7T0qZmwkXbss+NUYlqeZHfWZDKgoeQA6rfYvkHcV9W3MdR25v2Xw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6606
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210609_023229_765273_537BF2B3 
-X-CRM114-Status: GOOD (  16.11  )
+X-CRM114-CacheID: sfid-20210609_023253_389637_9C5BDAC1 
+X-CRM114-Status: GOOD (  20.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -168,53 +168,67 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2021/06/08 14:46, Chaitanya Kulkarni wrote:
-> We report error and complete the request when identify cns value is not
-> handled in nvmet_execute_identify(). This error reporting is also needed
-> for Zone Block Device backend for NVMeOF target.
+On 2021/06/08 14:47, Chaitanya Kulkarni wrote:
+> In current code there exists two backends which are using inline bio
+> optimization, that adds a duplicate code for freeing the bio.
 > 
-> Add a helper nvmet_req_cns_error_compplete() to report an error and
-> complete the request when idenitfy command cns not handled value.
+> For Zoned Block Device backend we also use the same optimzation and it
+> will lead to having duplicate code in the three backends: generic
+> bdev, passsthru, and generic zns.
+> 
+> Add a helper function to avoid duplicate code and update the respective
+> backends.
 > 
 > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 > ---
->  drivers/nvme/target/admin-cmd.c | 5 +----
->  drivers/nvme/target/nvmet.h     | 8 ++++++++
->  2 files changed, 9 insertions(+), 4 deletions(-)
+>  drivers/nvme/target/io-cmd-bdev.c | 3 +--
+>  drivers/nvme/target/nvmet.h       | 6 ++++++
+>  drivers/nvme/target/passthru.c    | 3 +--
+>  3 files changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index dcd49a72f2f3..94230803c75a 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -659,10 +659,7 @@ static void nvmet_execute_identify(struct nvmet_req *req)
->  		return nvmet_execute_identify_desclist(req);
->  	}
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index f673679d258a..40534d9a86d1 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -164,8 +164,7 @@ static void nvmet_bio_done(struct bio *bio)
+>  	struct nvmet_req *req = bio->bi_private;
 >  
-> -	pr_debug("unhandled identify cns %d on qid %d\n",
-> -	       req->cmd->identify.cns, req->sq->qid);
-> -	req->error_loc = offsetof(struct nvme_identify, cns);
-> -	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-> +	nvmet_req_cns_error_complete(req);
+>  	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+> -	if (bio != &req->b.inline_bio)
+> -		bio_put(bio);
+> +	nvmet_req_bio_put(req, bio);
 >  }
 >  
->  /*
+>  #ifdef CONFIG_BLK_DEV_INTEGRITY
 > diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index d69a409515d6..058b6d3d48fa 100644
+> index 058b6d3d48fa..a7d035be9f13 100644
 > --- a/drivers/nvme/target/nvmet.h
 > +++ b/drivers/nvme/target/nvmet.h
-> @@ -622,4 +622,12 @@ static inline bool nvmet_use_inline_bvec(struct nvmet_req *req)
->  	       req->sg_cnt <= NVMET_MAX_INLINE_BIOVEC;
+> @@ -630,4 +630,10 @@ static inline void nvmet_req_cns_error_complete(struct nvmet_req *req)
+>  	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
 >  }
 >  
-> +static inline void nvmet_req_cns_error_complete(struct nvmet_req *req)
+> +static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
 > +{
-> +	pr_debug("unhandled identify cns %d on qid %d\n",
-> +	       req->cmd->identify.cns, req->sq->qid);
-> +	req->error_loc = offsetof(struct nvme_identify, cns);
-> +	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
+> +	if (bio != &req->b.inline_bio)
+> +		bio_put(bio);
 > +}
 > +
 >  #endif /* _NVMET_H */
+> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+> index 39b1473f7204..fced52de33ce 100644
+> --- a/drivers/nvme/target/passthru.c
+> +++ b/drivers/nvme/target/passthru.c
+> @@ -206,8 +206,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+>  	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+>  		if (bio_add_pc_page(rq->q, bio, sg_page(sg), sg->length,
+>  				    sg->offset) < sg->length) {
+> -			if (bio != &req->p.inline_bio)
+> -				bio_put(bio);
+> +			nvmet_req_bio_put(req, bio);
+>  			return -EINVAL;
+>  		}
+>  	}
 > 
 
 Looks good.
