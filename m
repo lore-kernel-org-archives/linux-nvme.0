@@ -7,93 +7,80 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2092C47094
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Jun 2021 11:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 497CCC47094
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Jun 2021 14:29:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AA4F261278
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Jun 2021 11:51:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA4F261278
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 00500610A5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Jun 2021 14:29:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00500610A5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=HansenPartnership.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Date:To:From:Subject:Message-ID:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SrgburYBoIY5YRLUXiHcYbJAktrkK6uU6Q3HJAVgMiA=; b=C46lmJd4szAF2i
-	xZcT1ct61Ppqo5eiRNMLTE2m6kJ1UdpOe6GhPT5CC8nzvEYKVdbmm0dOQd+I3+ph/i8g5Ti2FfybU
-	63/t7xPvZjg2B07HdqxooB5nqTU0KdN/j5qcvaH1DGXoeEJV3PQP/m46hWvBZU7FKmbuJ4Hrvn36H
-	K/BivH/EIUzjjbR9lVM9B9xh10ALbkwImLXrxNtwYzl+36iRT0eKx1GVaabSwwAAyW+Iz+0B2lC24
-	bG63eIYsihsgb6/q5euLS2CjHLyyaMc1b0uuoOaVJy36v64tWgdKmaNoq4qARVwhs1EswZMlVSM8a
-	wGbb4xTpWfNRgoN5XQaA==;
+	List-Owner; bh=dkRUv34zMvHYzNobaadEJ3UY/z11CwOP90f+OJrEsBg=; b=G6A6sAIwLrCvJN
+	ANiW739I3lvYEO/uOvRbXXm3zGtAQy3f6DYv5wsFPHmG3jdtUHrXuIoo8y73bExIWcDzbBoxvek0F
+	Be1U6glEIRlXpKYZ8ee+0CcnOei1g+3Y6v+zhCqKYLSZtRtCYCNcpggyxIzUEFfoiXLQ0WAA2bbTZ
+	MqeHEMnohOeNq7jSnsNqhUZgQBFMHZFkLnwfWcF+Fsg3YAMXguZBNh/BccrTHvrhQhh5kRXd2XRCs
+	fJhUz++r14ZheuwbR+xzdkT54ho76HKXOOJWJY4vuQSeH6R5Ogv5N01j/sd5AONzNFf1E5o2o2Sop
+	4aS23Gp8YJjDEmMptqQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lrJDf-000ami-NZ; Thu, 10 Jun 2021 11:51:31 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lrLgU-0018Kt-Gn; Thu, 10 Jun 2021 14:29:26 +0000
+Received: from bedivere.hansenpartnership.com ([2607:fcd0:100:8a00::2])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lrJDc-000amF-IC
- for linux-nvme@lists.infradead.org; Thu, 10 Jun 2021 11:51:30 +0000
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ id 1lrLgQ-0018Jl-Lc
+ for linux-nvme@lists.infradead.org; Thu, 10 Jun 2021 14:29:24 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id D3857128050D;
+ Thu, 10 Jun 2021 07:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1623335359;
+ bh=2/0lPEeOpYIQJ4OTN2vggbH8CFxTFnKsCMcfeMBMLWI=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=aD4b7ZX5SDD5NgFpZbhgLldqaqj3hGsLrj9RgoxizGV67zrHE8K7g0XAxYOo8VbdU
+ 83dKyy9hUOEE+dDbiR2LL1Zt+j68RvynqUQh7GVt4aAhKkn50KEjiDG8M3wbTfhiMT
+ pyDF0jAJ0Nm5t4+7BN5g4ikhX3e6zQrO/puCn01s=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id fyVwcYQyOesn; Thu, 10 Jun 2021 07:29:19 -0700 (PDT)
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:600:8280:66d1::c447])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 93D8C21910;
- Thu, 10 Jun 2021 11:51:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623325886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rm8a1L2pKjBfb+raJ+EyG/GiYYXn/HPMZfDBYy43s4E=;
- b=iFWA4MBVT0ueVLpWeeJ5w/5ty0oPb9Rs8bCP9aMnJWUE7e9uAdDlIRm/vtQn86WjUl12RT
- hFD+LRs4kHnwRMDo2yr5D0amDIi++1md6ZWJ7sboOHvMOIHTTjV+Tp5MxyTUk1rqlTfv5s
- TCykLlPMLtDRGQsHgNUV1fvaBu0+UGU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623325886;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rm8a1L2pKjBfb+raJ+EyG/GiYYXn/HPMZfDBYy43s4E=;
- b=fdZj3OVn4ZDM0i+Wmaj6TXsMb58uTqAu+cI+3cisn0/blUbddXtLZ9wD0ZZaMxHL6dOf1e
- FUaxX60v3/M8mZBg==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 7AB7A118DD;
- Thu, 10 Jun 2021 11:51:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623325886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rm8a1L2pKjBfb+raJ+EyG/GiYYXn/HPMZfDBYy43s4E=;
- b=iFWA4MBVT0ueVLpWeeJ5w/5ty0oPb9Rs8bCP9aMnJWUE7e9uAdDlIRm/vtQn86WjUl12RT
- hFD+LRs4kHnwRMDo2yr5D0amDIi++1md6ZWJ7sboOHvMOIHTTjV+Tp5MxyTUk1rqlTfv5s
- TCykLlPMLtDRGQsHgNUV1fvaBu0+UGU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623325886;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rm8a1L2pKjBfb+raJ+EyG/GiYYXn/HPMZfDBYy43s4E=;
- b=fdZj3OVn4ZDM0i+Wmaj6TXsMb58uTqAu+cI+3cisn0/blUbddXtLZ9wD0ZZaMxHL6dOf1e
- FUaxX60v3/M8mZBg==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id LPYAHb78wWBdCgAALh3uQQ
- (envelope-from <dwagner@suse.de>); Thu, 10 Jun 2021 11:51:26 +0000
-Date: Thu, 10 Jun 2021 13:51:26 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] Revert "nvme: verify MNAN value if ANA is enabled"
-Message-ID: <20210610115126.r3fxxtgnuyq447su@beryllium.lan>
-References: <20210610024539.28875-1-chaitanya.kulkarni@wdc.com>
- <BYAPR04MB49655A9B821FEE29D7A89E3986359@BYAPR04MB4965.namprd04.prod.outlook.com>
- <20210610074546.jyqjalpldii6reg6@beryllium.lan>
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 75E681280501;
+ Thu, 10 Jun 2021 07:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1623335359;
+ bh=2/0lPEeOpYIQJ4OTN2vggbH8CFxTFnKsCMcfeMBMLWI=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=aD4b7ZX5SDD5NgFpZbhgLldqaqj3hGsLrj9RgoxizGV67zrHE8K7g0XAxYOo8VbdU
+ 83dKyy9hUOEE+dDbiR2LL1Zt+j68RvynqUQh7GVt4aAhKkn50KEjiDG8M3wbTfhiMT
+ pyDF0jAJ0Nm5t4+7BN5g4ikhX3e6zQrO/puCn01s=
+Message-ID: <f31fbb6d2f374a39d22e3fca122d757e905d2711.camel@HansenPartnership.com>
+Subject: Re: [LSF/MM/BPF TOPIC] block namespaces
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Hannes Reinecke <hare@suse.de>, "lsf-pc@lists.linux-foundation.org"
+ <lsf-pc@lists.linux-foundation.org>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+ <linux-scsi@vger.kernel.org>, Linux NVMe Mailinglist
+ <linux-nvme@lists.infradead.org>
+Date: Thu, 10 Jun 2021 07:29:18 -0700
+In-Reply-To: <539b35c6-34f7-62e0-4d93-6d27145bb78f@suse.de>
+References: <a189ec50-4c11-9ee9-0b9e-b492507adc1e@suse.de>
+ <485837f392401bf35fb7fc8231d7a051f47b53d7.camel@HansenPartnership.com>
+ <539b35c6-34f7-62e0-4d93-6d27145bb78f@suse.de>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210610074546.jyqjalpldii6reg6@beryllium.lan>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210610_045128_774754_016E8685 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20210610_072922_775871_F8E949BA 
+X-CRM114-Status: GOOD (  51.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,25 +97,122 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 10, 2021 at 09:45:46AM +0200, Daniel Wagner wrote:
-> >         id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
-> > -       id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
-> > +       id->mnan = cpu_to_le32(ctrl->subsys->max_nsid);
-> >         id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
-> >                         NVME_CTRL_ONCS_WRITE_ZEROES);
+On Thu, 2021-06-10 at 07:49 +0200, Hannes Reinecke wrote:
+> On 6/9/21 8:36 PM, James Bottomley wrote:
+> > On Thu, 2021-05-27 at 10:01 +0200, Hannes Reinecke wrote:
+> > > Hi all,
+> > > 
+> > > I guess it's time to tick off yet another item on my long-term
+> > > to-do list:
+> > > 
+> > > Block namespaces
+> > > ----------------
+> > > 
+> > > Idea is similar to what network already does: allowing each user
+> > > namespace to have a different 'view' on the existing block
+> > > devices.  EG if the admin creates a ramdisk in one namespace this
+> > > device should not be visible to other namespaces.  But for me the
+> > > most important use-case would be qemu; currently the devices need
+> > > to be set up in the host, even though the host has no business
+> > > touching it as they really belong to the qemu instance.  This
+> > > is causing quite some irritation eg when this device has LVM or
+> > > MD metadata and udev is trying to activate it on the host.
+> > 
+> > I suppose the first question is "why block only?"  There are
+> > several existing device namespace proposals which would be more
+> > generic.
+> > 
 > 
+> Well; I'm more of a storage person, and do know the needs and 
+> shortcomings in that area. Less well so in other areas...
 
-I am a bit confused how the target code indexes the namespaces. In 6.1
-Namespaces the valid range for NSID is defined from 0 to namespace
--1. In 6.1.2 it says 'Any NSID is valid, except if that NSID is 0h or
-greater than the Number of Namespaces'. And the figure 348 shows clearly
-NSID 0 is not valid.
+OK, but this should work for all devices, just like the device cgroup
+if it's going to be an adjunct to it.
 
-Looking through the code I think the nsid range used starts at 0 and not
-at 1. Which would explain why the above change is not enough. The valid
-range for max_nsid should start at 1 and not 0.
+> > > Overall plan is to restrict views of '/dev', '/sys/dev/block' and
+> > > '/sys/block' to only present the devices 'visible' for this
+> > > namespace.
+> > 
+> > We actually already have a devices cgroup that does some of this:
+> > 
+> > https://www.kernel.org/doc/Documentation/cgroup-v1/devices.txt
+> > 
+> I know. But this essentially is a filter on '/dev' only, and needs to
+> be configured. Which makes it very unwieldy to use.
+> And the contents of sysfs are not modified, so there's a mismatch 
+> between contents in /dev and /sys.
+> Which might cause issues with monitoring tools.
 
-Thoughts?
+Firstly, since it does part of what you want, we at least need to
+understand why you think it can't be enhanced to do everything.
+
+The /sys problem has been discussed many times.  GregKH really doesn't
+like the idea of filtering /sys (and most container people agree), so
+the options available seem to be don't mount /sys in a container or
+emulate it via fuse.  If you pick either does the device cgroup now
+work for you?
+
+> > However, visibility isn't the only problem, for direct passthrough
+> > there's also uevent handling and people have even asked about
+> > module loading.
+> > 
+> I am aware, and that's another reason why device cgroup doesn't cut
+> it.
+
+Christian Brauner is looking at this ... apparently Ubuntu has some
+thumb drive inside lxc container use case that needs it.
+
+> > >   Initially the drivers would keep their global enumeration, but
+> > > plan is to make the drivers namespace-aware, too, such that each
+> > > namespace could have its own driver-specific device enumeration.
+> > 
+> > I really wouldn't do this.  Namespace/Cgroup separation should be
+> > kept as high as possible.  If it leaks into the drivers it will
+> > become unmaintainable.  Why do you think you need the drivers to be
+> > aware?  If it's just enumeration, that should all be doable with
+> > the visibility driver unless you want to do things like compact
+> > numbering?
+> > 
+> Which is precisely why I mentioned device modifications.
+> On a generic level we can influence the visibility of devices in 
+> relation to namespaces, we cannot influence the devices themselves.
+> This will lead to namespaces seeing disjunct device numbers (ie 8:0
+> and 8:8 on ns 1, 8:4 on ns 2). Not that I think that will be an
+> issue, but  certainly a change in behaviour.
+
+Well, not necessarily, the pid namespace is an example of a remapping
+namespace.  The same thing could be done for device numbering, but
+there really needs to be a compelling case.  Given our use of hotplug,
+why would any tool assume compact numbering?  And if you don't need
+compact numbering there's no need to bother with remapping.
+
+> > > Goal of this topic is to get a consensus on whether block
+> > > namespaces are a feature which would find interest, and also to
+> > > discuss some design details here:
+> > > - Only in certain cases can a namespace be assigned (eg by
+> > > calling
+> > > 'modprobe', starting iscsiadm, or calling nvme-cli); how do we
+> > > handle
+> > > devices for which no namespace can be identified?
+> > > - Shall we allow for different device enumeration per namespace?
+> > > - Into which level should we go with hiding sysfs structures?
+> > >    Is blanking out the higher-level interfaces in /dev and
+> > > /sys/block    enough?
+> > 
+> > First question is does the device cgroup do enough for you and if
+> > not what's missing?
+> > 
+> See above. sysfs modifications and uevent filtering are missing.
+> This infrastructure for that is already in place thanks to network 
+> namespaces, we 'just' need to make use of it.
+> Additional drawback is the manual configuration of device-cgroup.
+
+OK, so still, why not fix or enhance the device cgroup?  The current
+proposal seems to want to duplicate it as a namespace.
+
+James
+
+
 
 _______________________________________________
 Linux-nvme mailing list
