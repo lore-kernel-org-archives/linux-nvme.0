@@ -2,98 +2,104 @@ Return-Path: <SRS0=5/PU=LF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47DD0C48BD1
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Jun 2021 09:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B420EC48BE0
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Jun 2021 15:36:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0D74460FEB
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Jun 2021 09:18:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D74460FEB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 51059613CD
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Jun 2021 15:36:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51059613CD
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=arrikto.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=camciMDssFvvnJtgIk8p9Of53z/5xDvCa/LcJqeoRMY=; b=f8+6kI8mECUHh1
-	kZXjTCIwx53YIILq+gn0PuJfyqTyDUAFKN8PGUkIr7vbLIgcFRP0ztKRu0/9wN20YkXii5KI3TdIA
-	HIIqYSqTUyJsoruCCJGsZlYnlAPIBH5EVkzJTBej0fW4ZII2MjCoDLqU3SDACLUXHEYd5KhkS+ODO
-	84rAKfF4RBsJQU++yV/HSUxoTDf2NWb1nAyxNgCo2uOXMM1b6DeTxODbw5fWQcp73n2E2UIRG6fyj
-	07yi5l2Wgmtl90+nXjtp/1Mgjspeu+1oE1M3NXGplEluHA84nWwz5uarfDSsfQO+rVVZJXK3ndcmx
-	/3KkSfwNnBLud0ZSq+sw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0TAbLCE2qlgWu92RVvq/QaBWhfhg6CdD5bwxRxIvjnU=; b=baVk59r4O2Wn+uuyrphUyhGa62
+	PbXNTQ1/XOQA+gwiO5xEYEc9nActZNaK/hAsTt4638DsgqU+gGWoi9rm6guKNxs0XHoHDj5amarQM
+	EJ7pv7WXcCUKeAvIaTNQDpmgCmVr2nVszCCxCS8MW6Gi6jK/6/YDLigMk+YGPJR+lRjvcrglULJYe
+	NuSmZwygCsx3vNIBRYZWTcUOuKT1fYvP0ZB1DD79uXJndufOrxBKgapltm493GsJqr+Eb+LuYre6i
+	2cyDi/1SxbBeXiinY6KZcD4PvGMomV8j0nZQnfWqsUgWODnWghBaLem7F9j1wq5nYfpMoyzLN4SA4
+	cLcizOEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lrdIU-004UOC-I8; Fri, 11 Jun 2021 09:17:50 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lrjD6-005pli-PI; Fri, 11 Jun 2021 15:36:40 +0000
+Received: from mail-wr1-f45.google.com ([209.85.221.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lrdIN-004UMw-Q4
- for linux-nvme@lists.infradead.org; Fri, 11 Jun 2021 09:17:45 +0000
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6C0EE21A1E;
- Fri, 11 Jun 2021 09:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623403062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GRW5UQm25fgJp/Ko4ri8QUhErh9LSHV4HD8lqs53Tb4=;
- b=sy7B6cDCRFW2c/94jdVSvjsDPLJTKXu5Ulhfj+mHByiVVE/hAM8VIBjKgnE7cUANw7oQ44
- PNpP3CsRxOBjIZgDdkeG3tdXWXm8qaRLKOyeJjnmVNRiuumeQsPmqWVic0WtbjPoh7xsUu
- MBlGQ/wiMETDTJRsh1287B4oSGsZ8iE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623403062;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GRW5UQm25fgJp/Ko4ri8QUhErh9LSHV4HD8lqs53Tb4=;
- b=5P2u/H1mWUtrdnHzOAMr4kFDVKuI2zZaxpI67lCX09hRb5LMfbNS68T6tf313vcXDEXY6e
- bFSGXOrpzqtex5Cg==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 539A2118DD;
- Fri, 11 Jun 2021 09:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623403062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GRW5UQm25fgJp/Ko4ri8QUhErh9LSHV4HD8lqs53Tb4=;
- b=sy7B6cDCRFW2c/94jdVSvjsDPLJTKXu5Ulhfj+mHByiVVE/hAM8VIBjKgnE7cUANw7oQ44
- PNpP3CsRxOBjIZgDdkeG3tdXWXm8qaRLKOyeJjnmVNRiuumeQsPmqWVic0WtbjPoh7xsUu
- MBlGQ/wiMETDTJRsh1287B4oSGsZ8iE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623403062;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GRW5UQm25fgJp/Ko4ri8QUhErh9LSHV4HD8lqs53Tb4=;
- b=5P2u/H1mWUtrdnHzOAMr4kFDVKuI2zZaxpI67lCX09hRb5LMfbNS68T6tf313vcXDEXY6e
- bFSGXOrpzqtex5Cg==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id A3xtEzYqw2ABUAAALh3uQQ
- (envelope-from <dwagner@suse.de>); Fri, 11 Jun 2021 09:17:42 +0000
-Date: Fri, 11 Jun 2021 11:17:42 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] Revert "nvme: verify MNAN value if ANA is enabled"
-Message-ID: <20210611091742.6iefvwlxjlm6oiae@beryllium.lan>
-References: <20210610024539.28875-1-chaitanya.kulkarni@wdc.com>
- <BYAPR04MB49655A9B821FEE29D7A89E3986359@BYAPR04MB4965.namprd04.prod.outlook.com>
- <20210610074546.jyqjalpldii6reg6@beryllium.lan>
- <BYAPR04MB4965AE59EF50A714B12DF42886359@BYAPR04MB4965.namprd04.prod.outlook.com>
+ id 1lrjD3-005pk9-GU
+ for linux-nvme@lists.infradead.org; Fri, 11 Jun 2021 15:36:39 +0000
+Received: by mail-wr1-f45.google.com with SMTP id q5so6546699wrm.1
+ for <linux-nvme@lists.infradead.org>; Fri, 11 Jun 2021 08:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arrikto-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1gJ6dCUk7MGx3nyeY4tceuRDx0IqD6WQep3tU+Nsnig=;
+ b=ayZ7Th+FUL1IdLuQUsQ649lG93yAnJCp6a/JVmOIYMk9IHNlGhAMerPxPbePxK5pa/
+ oGwuDiNOkT6QqS4imL2V3EeuYTu7d8FHZDLWKaVY6YrZpKtsfd24C+swlygsxWMSFqhb
+ vNqjrzoCcPdyFswAK5t2cvADMUhdUH4cU0jz1G+9yj2nQJTJ0VJrq3YRAU5f+R+3fgx8
+ MI6+MaHVpVwG+DLM7NU4fAmhN6q4Vzcy7uefib5mH/SwIwYGU0Ha3ImexgPjxxK41ivo
+ 13M71gi+J7gsNL7V/IQrid+r1r7XfA+QVPT+UfWK4Rt5LFLakGK04iUNq6pCUuzGkyvu
+ oNLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1gJ6dCUk7MGx3nyeY4tceuRDx0IqD6WQep3tU+Nsnig=;
+ b=X2Juulr8GA9otFl5oqFeYlEFj5ytaCZiXp9ZwfdTRsVqsghxcRettFSpjFX+11o7jr
+ CVEDQrrHCuGnRYeOaAZiO77OeT3iVb9sOQga+LSAmuCyu+dMMXOa6n/i/cPEHERSPABu
+ NDIle4t1U2tVR2+EOPLwN1uqCXD4yqVQqIPG5mCV12nI/DDYfhuRtpfIs90p0T+uzSMl
+ ophmW33t6CBn2NANYRuc1HvU05Q3AfFpYOC3LGVHopcRoBU/O9JgPDFPVcCKmydhh5ZL
+ ofS8WrQSADhIyRtCOaNooSYouKIeLpKYG4JfwaYoeUiKPgZ3QpR1MDec4s8uxst7UJtr
+ uyfg==
+X-Gm-Message-State: AOAM533XjsAUyTY9UCNxirExqDZqy1wd7J9IeasQlLBoxGC+LV66XCUP
+ C8vBO2llIMItzj9RiCeJ8OucBQ==
+X-Google-Smtp-Source: ABdhPJxhmnoXYJW4akSHMZifbHrI4LLz7dfOgw5vNpc3GS3e+8FnSwwd2BKVjKrCyC2YabFWAwla3w==
+X-Received: by 2002:a5d:5189:: with SMTP id k9mr4619420wrv.319.1623425733350; 
+ Fri, 11 Jun 2021 08:35:33 -0700 (PDT)
+Received: from [172.16.10.100] (130.43.52.65.dsl.dyn.forthnet.gr.
+ [130.43.52.65])
+ by smtp.gmail.com with ESMTPSA id m132sm6449128wmf.10.2021.06.11.08.35.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jun 2021 08:35:32 -0700 (PDT)
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ "msnitzer@redhat.com" <msnitzer@redhat.com>,
+ "bvanassche@acm.org" <bvanassche@acm.org>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "roland@purestorage.com" <roland@purestorage.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>
+References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+From: Nikos Tsironis <ntsironis@arrikto.com>
+Message-ID: <9b14e6c3-8880-4694-1b7e-c82cacd8c9c0@arrikto.com>
+Date: Fri, 11 Jun 2021 18:35:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB4965AE59EF50A714B12DF42886359@BYAPR04MB4965.namprd04.prod.outlook.com>
+In-Reply-To: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210611_021744_037690_1BD79351 
-X-CRM114-Status: GOOD (  13.25  )
+X-CRM114-CacheID: sfid-20210611_083637_594095_6D43F05B 
+X-CRM114-Status: GOOD (  32.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,34 +111,139 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 10, 2021 at 09:01:14PM +0000, Chaitanya Kulkarni wrote:
-> commit 1368a1a5e7566d726bf74234d05895c3f0d54690
-> Author: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> Date:   Wed Jun 9 20:07:00 2021 -0700
+On 5/11/21 3:15 AM, Chaitanya Kulkarni wrote:
+> Hi,
 > 
->     nvme: fix the comparison in the mnan check
->    
->     The existing check for the valid mnan value will result in the error
->     when ctrl->max_namespaces are set to the 1024 from NVMeOF target since
->     !1024 == 0 so it will lead to next comparison 1024 > is->nn which will
->     be always true untill target has 1024 namespaces.
+> * Background :-
+> -----------------------------------------------------------------------
+> 
+> Copy offload is a feature that allows file-systems or storage devices
+> to be instructed to copy files/logical blocks without requiring
+> involvement of the local CPU.
+> 
+> With reference to the RISC-V summit keynote [1] single threaded
+> performance is limiting due to Denard scaling and multi-threaded
+> performance is slowing down due Moore's law limitations. With the rise
+> of SNIA Computation Technical Storage Working Group (TWG) [2],
+> offloading computations to the device or over the fabrics is becoming
+> popular as there are several solutions available [2]. One of the common
+> operation which is popular in the kernel and is not merged yet is Copy
+> offload over the fabrics or on to the device.
+> 
+> * Problem :-
+> -----------------------------------------------------------------------
+> 
+> The original work which is done by Martin is present here [3]. The
+> latest work which is posted by Mikulas [4] is not merged yet. These two
+> approaches are totally different from each other. Several storage
+> vendors discourage mixing copy offload requests with regular READ/WRITE
+> I/O. Also, the fact that the operation fails if a copy request ever
+> needs to be split as it traverses the stack it has the unfortunate
+> side-effect of preventing copy offload from working in pretty much
+> every common deployment configuration out there.
+> 
+> * Current state of the work :-
+> -----------------------------------------------------------------------
+> 
+> With [3] being hard to handle arbitrary DM/MD stacking without
+> splitting the command in two, one for copying IN and one for copying
+> OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
+> candidate. Also, with [4] there is an unresolved problem with the
+> two-command approach about how to handle changes to the DM layout
+> between an IN and OUT operations.
+> 
+> * Why Linux Kernel Storage System needs Copy Offload support now ?
+> -----------------------------------------------------------------------
+> 
+> With the rise of the SNIA Computational Storage TWG and solutions [2],
+> existing SCSI XCopy support in the protocol, recent advancement in the
+> Linux Kernel File System for Zoned devices (Zonefs [5]), Peer to Peer
+> DMA support in the Linux Kernel mainly for NVMe devices [7] and
+> eventually NVMe Devices and subsystem (NVMe PCIe/NVMeOF) will benefit
+> from Copy offload operation.
+> 
+> With this background we have significant number of use-cases which are
+> strong candidates waiting for outstanding Linux Kernel Block Layer Copy
+> Offload support, so that Linux Kernel Storage subsystem can to address
+> previously mentioned problems [1] and allow efficient offloading of the
+> data related operations. (Such as move/copy etc.)
+> 
+> For reference following is the list of the use-cases/candidates waiting
+> for Copy Offload support :-
+> 
+> 1. SCSI-attached storage arrays.
+> 2. Stacking drivers supporting XCopy DM/MD.
+> 3. Computational Storage solutions.
+> 7. File systems :- Local, NFS and Zonefs.
+> 4. Block devices :- Distributed, local, and Zoned devices.
+> 5. Peer to Peer DMA support solutions.
+> 6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
+> 
+> * What we will discuss in the proposed session ?
+> -----------------------------------------------------------------------
+> 
+> I'd like to propose a session to go over this topic to understand :-
+> 
+> 1. What are the blockers for Copy Offload implementation ?
+> 2. Discussion about having a file system interface.
+> 3. Discussion about having right system call for user-space.
+> 4. What is the right way to move this work forward ?
+> 5. How can we help to contribute and move this work forward ?
+> 
+> * Required Participants :-
+> -----------------------------------------------------------------------
+> 
+> I'd like to invite file system, block layer, and device drivers
+> developers to:-
+> 
+> 1. Share their opinion on the topic.
+> 2. Share their experience and any other issues with [4].
+> 3. Uncover additional details that are missing from this proposal.
+> 
+> Required attendees :-
+> 
+> Martin K. Petersen
+> Jens Axboe
+> Christoph Hellwig
+> Bart Van Assche
+> Zach Brown
+> Roland Dreier
+> Ric Wheeler
+> Trond Myklebust
+> Mike Snitzer
+> Keith Busch
+> Sagi Grimberg
+> Hannes Reinecke
+> Frederick Knight
+> Mikulas Patocka
+> Keith Busch
+> 
+> Regards,
+> Chaitanya
+> 
+> [1]https://content.riscv.org/wp-content/uploads/2018/12/A-New-Golden-Age-for-Computer-Architecture-History-Challenges-and-Opportunities-David-Patterson-.pdf
+> [2] https://www.snia.org/computational
+> https://www.napatech.com/support/resources/solution-descriptions/napatech-smartnic-solution-for-hardware-offload/
+>        https://www.eideticom.com/products.html
+> https://www.xilinx.com/applications/data-center/computational-storage.html
+> [3] git://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git xcopy
+> [4] https://www.spinics.net/lists/linux-block/msg00599.html
+> [5] https://lwn.net/Articles/793585/
+> [6] https://nvmexpress.org/new-nvmetm-specification-defines-zoned-
+> namespaces-zns-as-go-to-industry-technology/
+> [7] https://github.com/sbates130272/linux-p2pmem
+> [8] https://kernel.dk/io_uring.pdf
+> 
 
-The commit message doesn't make sense to me. NSID is not limited to
-1024.
+I would like to participate in this discussion too.
 
-From the discussion in the other mail, I though the argument is, if
-there are no namespaces on the target the MNAN is allowed to be
-zero. The original check assumed there are always namespaces. The
-proposed fix drops the first half of the specs statement:
-
-  ... then this field shall be set to a non-zero value that is less than
-  or equal to the NN value.
-
+Thanks,
+Nikos
 
 _______________________________________________
 Linux-nvme mailing list
