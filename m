@@ -2,91 +2,90 @@ Return-Path: <SRS0=JVDK=LI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B31C48BDF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Jun 2021 01:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF50C48BDF
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Jun 2021 01:59:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0C4761246
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Jun 2021 01:38:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0C4761246
+	by mail.kernel.org (Postfix) with ESMTPS id 2F1B5613AB
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Jun 2021 01:59:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F1B5613AB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rwLpLmDn3Dvc35QzjFXrQsFzU4Wo9KVpDzqZBW7dK6I=; b=RxgqyaOdi11Cd5
-	gbf36uQlnzmE0feyhghQhuj+N9f3Ms3M1q3sYK4Z35r2yG7FwRP+XqB8MFyYm8lsNBq99aTJuac31
-	QyFD3zZZclrl3y8i/mgM4bnZHOtDuZLTPdT9eeEnfTZtRByLJ9WdP1kkudiHVgzyAOmpm5vmS25Qf
-	lwa1Pf4UUAWcM8IsvntFo+wDRrXMJMPPxedoAnuUg9Zzilb7iBsCdyQESkFfFwBjvyvEbD+M6opyt
-	io85Xa0CFuO83ziYXf9sjdq4LSz/NmdNYYb86g11l1xCTqzsejaj7si+fIOci7P3oxT/Zv/ZuNquM
-	KC5n8j2IUdFD3crphxIQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=NGhYmglG6wP+F/gnfZtgFSwZ6t274mmgkTXiwe1xQZE=; b=oi1p9F2NC+27Kp
+	8X69Du2NfT3dX5smkvhMO2NhA467osax3h4LZ7BCKUvdSLnCt2vBr24d2UG6bfmLi/bM8HLfcgwh+
+	R11pElwdj2SivzdFOijD3UdgLbOXDJOSARcjuqGuzKlZbCvjACLZ8OvlDYOryS+7MIxdSBI0pDqy7
+	ZDs4gZbJv/MMiFAQ2gP1fS3WevLa5F6kmoigg8UInBZnYoerirJcSNlKAPHXkalEbQJPMw6WrwR4N
+	QpPDv9ceQABabMA4A0yTowMdUa0PrfQpvL7zzrWUoRfRNU48DOsXYHyubLF9JG7CvCUiDia+b41FY
+	pmUq6fgjXv9c51NMdaJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lsbYN-00Bu53-5B; Mon, 14 Jun 2021 01:38:15 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1lsbsP-00Byle-A5; Mon, 14 Jun 2021 01:58:57 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lsbYC-00Bu2A-2L
- for linux-nvme@lists.infradead.org; Mon, 14 Jun 2021 01:38:08 +0000
+ id 1lsbsL-00Byku-D4
+ for linux-nvme@lists.infradead.org; Mon, 14 Jun 2021 01:58:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623634696; x=1655170696;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Z/9uu/2DtlOSHu3yEL6yDGyP22pKD/Czi+9e9CX62H0=;
- b=gQhdEnA80glCEGwm8OGLAW2mGk1cGiAevHg9TkzgUkFoUiWi1UaymiSx
- s2IEMWVUhmqsKZ96YKAQm78HkMWFnqMJLWUEuyIxC+DCM//cfO/jmf2rs
- /QtzA4MN6ZR/Ou/MrGi9bwHBBYgUXGegdhufZFXIg17/MzKsVxWVX/ttj
- wjmBYuous3gTiHGUfQMLpeQLYEwEPjUV/Q/Kb1xbjSRAbM43cKVD8ZgIb
- yIFpr5sbOqpiG/8lXEqCYyFb76UfOVVIGWjQ3OvGJsH+nuKCrK8FtKo4T
- t1afibZdjuQasLrTbm58O7ECCeX2mRXVx8yBKnnh9nIg5yRoucwnAFIsU g==;
-IronPort-SDR: RlVJaJrkVuuo8Pi2MhkrnAmNnaMpFrmxYfdDdrMogbGYq2nTMtK70IlNKoLYs+kpBLrdNl5CKo
- lRXHlp/E1JNBgO5dVYQPHFN2/LCUBOMMqCpwsx9NzoB4wiJzg3rbSdwU9UsFz4MG5/8LZtjXlr
- OXzQINVBPGXiylmYIKcPj/R8AJ57ZEmvI70eePLVPyl5qzEqd4QGOSFmAiYHEmynd967Rg3YCM
- SkkJGx4WTaKhnfXmRWuoDv0IsneYInJ2NHWAGn/kJcKNdEMUC/zW6HDL4ko7jdT6TH4aYzTD1K
- Q54=
-X-IronPort-AV: E=Sophos;i="5.83,272,1616428800"; d="scan'208";a="275559750"
+ t=1623635934; x=1655171934;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ZERBYf1Txp+asurr7hK/FBc8HLgWiFTxShPN28VSvLU=;
+ b=DE8dpIRA+CX1iQ8bb8U9oC7SPVP4rCxq5VAB8XbKAeWPeG0oCXjkuKHg
+ DqW9yxrA2B8LeNyNC5fBLiXnQGiDRafSPmYGdpQExxnKUDfEqVGq3+SfE
+ ErM6kqEVTLA06/aI58NPkEadZqwITyx75ZkPAXHVqRpBh83JVYKBIXAQJ
+ zq80IiELvN032UIguYbGNSvGMT/eVTlzM1kheo9k+dQxD/cqmxSP2aEF/
+ itpTmGPPi/g3wS4U64pCgL1YrKaddn8JTVp1n8gjlLfFbDXwUN/kYpqpU
+ t/mtEsDbDnNRwkqks1R1tyyRFXWhE/1cacXATMinlxT7zmFz2S6rR3DAv A==;
+IronPort-SDR: /JKfYl8DsioviRU/dCLlKZpyvXSjHm/W0GgCo+fyNmB3r6//nlho4mq2sen5Wx0MucGQnkeLIX
+ aWVwwvzjoHTp5/thLd2YGYsjRRMIGJwMIEPPsG5TD4eXnR/sKpLz8iYCYMIUE2IMHNvuZNhjls
+ 7d23lu5vTHRqnf0Jyq6PWY5Z5eq5nKJVNvH9mvPubr/lMeRUnhks2/xL76TqvGyX/0Rtfj0W66
+ MB0vMVJMWs3b/JZTLc9CxHkADwIF/PWRcYOnYmbA5qhuR6oumN7Nyn5SdZhOAET/vUBgDDMO2P
+ KWE=
+X-IronPort-AV: E=Sophos;i="5.83,272,1616428800"; d="scan'208";a="172340318"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Jun 2021 09:38:15 +0800
-IronPort-SDR: XIEvu3a3pjVQUiN0r68J65AlDfCzC4PltSCC34xOai9xGaZadLBOGunA/EKsZ6+Ueym9WIcdB/
- 9i0Ixlq06XaSr4KbMJySZIu/s0eaQsT2yGN5AXjFzfO+0rL2RQCgjPBXkfANOEJ24DvWssc7fL
- xY/ZwPTLKg0bMHEoV4PqF8xnTmhboGM6JRrXKJm+PjlODxcWQWFzs/zqGpi9EdUj43rl/bZrtk
- kS3subnfxgs5Kh/FjCbk6pjPPL5Mf65V+UitO27tT2gMCUFW7xShFFuflRipfxfNLdALkhvLZ/
- SffW0O6AF6ymszeq1DMYxj20
+ by ob1.hgst.iphmx.com with ESMTP; 14 Jun 2021 09:58:53 +0800
+IronPort-SDR: Dhv6pErXwyWXnpqAxsGnrcp6JtP0m4ZQr1lK4dZlXyI2BjsGnlULiPrcZUOeyjCJySgUr7o6R1
+ RRGkgfpBx7BSExA7N4M26hy/TpQHpZf2teCHbjgu2QeJNzdEb0HUt3z83zl9veVmQIr0okcJRt
+ H2Ae76jBSNsXko6TTwYeanNRhyoewD76v6PiCUluzltgYFhRx0gs5he2RMmquZp4MSthG9hRSf
+ ue1EvJegjh0PL5ynGPOPMKkA3zaDmyMagXHqxMPHT86/D3LjYW+3feRbeziy+fX02Xc8YTl7e9
+ m4E/pe84LFYXBULW6eiz7ViW
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2021 18:17:01 -0700
-IronPort-SDR: vAIqjBAJkY0pP6X6yOpN3YsaDKhc9+femtXybgaKkCe23AK54by89jkSyZtwnpAnCGUauQb6Q8
- DKM5P4C1H1237esce8YSl5xjxRb/5lcld7NFeziWl0dUpCiiUQMdgMhRigmlmQt+TmjV+zVMYn
- epimoyeJlPJWWwKbCeVBJ5ujyTVtoebaxQdxFQ4u7fvdv434/h0Yu15qIM4MvR/F+nVY3QfgQ9
- RibRFDMD4brGmCEfSHZgwXt2gaazvWmge7FeGArOalod+zBq4JjiXufFSyvNq8vZMlwV0Yjvab
- Xl8=
+ 13 Jun 2021 18:37:49 -0700
+IronPort-SDR: NFonAusB13mt2jlEEqOOz+rfrFfj5lKjpeyiWRaLr0nZVrl/xgAEL6+T2HaTYgDjq1B8Qpb5S9
+ 9lgxhpsMvUEZr2HxTKs7eqmK6lgA0mk0LERv33t77+UhoSVYNifPEHo2gTkGEwCYHLXglW5Zoe
+ sZd3BE89zjfEzT0s9oOnp5yp2cf0Ztj2JEz4EK340Z7djEOFIVB1nKCGIKe22KstXG0xPAFayv
+ ZGxK7afkQdXdRUbxO7Wp2gb5mPROIyfMaH0kgB+gnnF66v0HYpkkLcLWI0ZF4iJV7HbqR0E2Lq
+ Qd0=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 13 Jun 2021 18:38:03 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 13 Jun 2021 18:58:52 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, dwagner@suse.de, sagi@grimberg.me,
+Cc: hch@lst.de, sagi@grimberg.me,
  Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 1/1] nvmet: use subsys->max_nsid to report MNAN
-Date: Sun, 13 Jun 2021 18:37:54 -0700
-Message-Id: <20210614013754.37940-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 0/6] nvmet: small cleanup
+Date: Sun, 13 Jun 2021 18:58:45 -0700
+Message-Id: <20210614015851.53925-1-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1.dirty
-In-Reply-To: <20210614013754.37940-1-chaitanya.kulkarni@wdc.com>
-References: <20210614013754.37940-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210613_183804_196608_E8CBDAFB 
-X-CRM114-Status: GOOD (  13.19  )
+X-CRM114-CacheID: sfid-20210613_185853_540939_1944C1CF 
+X-CRM114-Status: UNSURE (   9.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,37 +102,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For Spec regarding MNAN value:-
+Hi,
 
-If the controller supports Asymmetric Namespace Access Reporting, then
-this field shall be set to a non-zero value that is less than or equal
-to the NN value.
+This has cleanup for removing local variables which are only used once
+or not used to do anything meaningful along with type mismatch for
+subsys->max_nsid.
 
-Instead of using NVMET_MAX_NAMESPACES use subsys->max_nsid to set the
-MNAN value.
+-ck
 
-Without this patch it results in the following error :- 
+Chaitanya Kulkarni (6):
+  nvmet: use req->cmd directly in bdev-ns fast path
+  nvmet: use req->cmd directly in file-ns fast path
+  nvmet: use u32 for nvmet_subsys max_nsid
+  nvmet: use u32 type for the local variable nsid
+  nvmet: use nvme status value directly
+  nvmet: remove local variable
 
-[337976.409142] nvme nvme1: Invalid MNAN value 1024
+ drivers/nvme/target/core.c        | 30 ++++++++++--------------------
+ drivers/nvme/target/io-cmd-bdev.c |  4 +---
+ drivers/nvme/target/io-cmd-file.c |  4 +---
+ drivers/nvme/target/nvmet.h       |  2 +-
+ 4 files changed, 13 insertions(+), 27 deletions(-)
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/target/admin-cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index cd60a8184d04..a8ec377bb68d 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -394,7 +394,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
- 
- 	id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
--	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
-+	id->mnan = cpu_to_le32(ctrl->subsys->max_nsid);
- 	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
- 			NVME_CTRL_ONCS_WRITE_ZEROES);
- 
 -- 
 2.22.1
 
