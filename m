@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6AAC48BDF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 20:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24659C48BE5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 20:30:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B02A2613B6
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 20:29:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B02A2613B6
+	by mail.kernel.org (Postfix) with ESMTPS id A4F0B613B6
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 20:30:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A4F0B613B6
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KuWi+es1P/b+pZo/z5ZFGxrcRX+6KRReLQazcuQ7ZC4=; b=ndGL0YTBvorHjM
-	jiv/n1GD3S+0r0CmoMh6UBiVpsafoKG3vwHhzAAnM2wkcFxmfwU8SJlXf5SANIM4zCs2vb1dSWzij
-	Vf6oo0l3YJ6HCAMSVfzpUKIWXpnvh9gBbR53zoWAQkzJIs6ZA4LcEqiRJohehScwCiRatr6rTJUi8
-	M5lssccGGM8TH9RF0/fVVsWiJ7Z0FFmzoEHAmgucFxK7Y9fFzuZANy41iD/eWbPTmlH32sH9gqd3e
-	Ha+hsmDXYCnE/GzXSSwPa76oOXK4I2a82eLKqazjImfhMrJjGHqQkjKVMw52WJhI3E4y+oVkR26SJ
-	sW6XKqMd4lqGuWPFJrYA==;
+	List-Owner; bh=KuWi+es1P/b+pZo/z5ZFGxrcRX+6KRReLQazcuQ7ZC4=; b=QKJsTaqFa/xd9G
+	bYTxZicPqGjo2V8OCZFe831FZhhMAlvNPayTg0APkfJA71rhndHn0vTKmnlLxKEiCtZwdJEE7DHPa
+	Z8bffOzuimdR7t6n14JUAjmgavh+CSnYM4Bj4tt2JX7ocLyREi1+RQX8IG5waCKhu5uxvlpdIMy4B
+	dcY8u8ATko3nNCM6OVmyFjxcP2TpLjmaW6h2xJBeFJnkRfpjU5nKECCLha3qVLrfwmRT4eyuFGcIV
+	RWTlpbZBG1rdJXJ0aANAFRn5PsTjGKpRegZxiaDOYVzhQGfRweUwX7cq8JqVi9DLBO1S8bVCECmFL
+	FKKA3fSQXGC9be3+uIbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltFgv-002nqS-DM; Tue, 15 Jun 2021 20:29:45 +0000
+	id 1ltFhZ-002o1Z-RQ; Tue, 15 Jun 2021 20:30:25 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ltBm9-001Ib7-5j
- for linux-nvme@lists.infradead.org; Tue, 15 Jun 2021 16:18:54 +0000
+ id 1ltBmJ-001Ieo-2t
+ for linux-nvme@lists.infradead.org; Tue, 15 Jun 2021 16:19:04 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2F54C67373; Tue, 15 Jun 2021 18:18:51 +0200 (CEST)
-Date: Tue, 15 Jun 2021 18:18:51 +0200
+ id 323C367373; Tue, 15 Jun 2021 18:19:01 +0200 (CEST)
+Date: Tue, 15 Jun 2021 18:19:01 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Jiri Kosina <trivial@kernel.org>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Hannes Reinecke <hare@suse.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH trivial] nvme: Grammar s/each namespaces/each namespace/
-Message-ID: <20210615161851.GD986@lst.de>
-References: <d195ebc405033c1de6ca01937a906afc97f285f7.1623680137.git.geert+renesas@glider.be>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH 0/4] nvme-fabrics: remove struct zeroout memset calls
+Message-ID: <20210615161901.GE986@lst.de>
+References: <20210615024554.42585-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d195ebc405033c1de6ca01937a906afc97f285f7.1623680137.git.geert+renesas@glider.be>
+In-Reply-To: <20210615024554.42585-1-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210615_091853_438906_921B15D7 
-X-CRM114-Status: UNSURE (   8.77  )
+X-CRM114-CacheID: sfid-20210615_091903_322064_03C92A8E 
+X-CRM114-Status: UNSURE (   7.83  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
