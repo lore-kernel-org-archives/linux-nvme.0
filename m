@@ -2,167 +2,63 @@ Return-Path: <SRS0=Oc5T=LJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1507FC48BDF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 19:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB4DC48BDF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 20:24:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBE1261105
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 19:37:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBE1261105
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+	by mail.kernel.org (Postfix) with ESMTPS id C5755613B3
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 20:24:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C5755613B3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=APto5yS8ZGuiWmQc/pJQ/RQHm0NFngOxUgTr/0GQXj8=; b=hCso4SyPZv6g9Pz42o4CWJmwwq
-	EOPzaTyjboL2AALz/4nZg1BjM+67qAFmKVdP7LaJ4j20vpcWVedN1VGkLiyCMadj2GrO3KQkIddLa
-	F40OLPuZQTgHsueqBxoWZYw3l3ioOJp3zPNVD1ACCKyG+AfDWBpeWjI9wbX9ildbe2rphlbjuHIXN
-	BKC2nShqnYujUX8rY2yQL2xgn8H27GKOs0YEqXonuWUjY19pnN2G7eolXq872fp/O2/22Gez7XDHU
-	h46B1rmEhO2SuuBVQGX32g6CU1f/I7+lelWlUP0D6PnJWe28w4Bew7Ytdc0KKOLB2NwoN7F9D8a+1
-	NJmZYldQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=+Hi2I45aWSInn4o8J8XNNx6L92PaGDyFcGKfzCeSLww=; b=FaH0orLzS/Uq6h
+	T2y9Coe1HOz3Z19mU/JW95eI7GcwDqIAAXdnIIcuDEJ21m1aPjcz40DNZyzpaFlOZnJCdX8637jMj
+	GYc4vRSsUwcFTdsM0VHt8H/DEchP1Coe3ciWXm5Ms7rg5xrk2W4j0Qen4K7/5SzQsF6VnMuMf5zLO
+	PcyMvEepTRM1un+Y/CVhemBkQOQwG+EryZMejeu4eGWGJjwFNXlLko0ujZQdeuJTqBw6nK2WLCvDB
+	rKSVc1hBwYPTIHqe/gX2yPVKS4UoLvysKtCRR9PrXAYnJNaSPgdveSUpuX/tj99rOIytOzEEseTDl
+	pnbN24m1yo6vJJoUJEfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltEsJ-002VTo-LP; Tue, 15 Jun 2021 19:37:27 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1ltFby-002luM-NS; Tue, 15 Jun 2021 20:24:38 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lt9Qt-000E8e-GW
- for linux-nvme@bombadil.infradead.org; Tue, 15 Jun 2021 13:48:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
- :Content-Type:In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=9vYwWKrHaoCMvwl/Ll1hhcr+itzrmxHeRuPJTW+zACQ=; b=fA5tdxzX5XMWOos3YzNmGEw0kD
- Yda9h+aE7aTzRCnss5IJGmgWQso1/uesCNIVXJZW2/g40WIb33CIcQQ3M5nr+N6+eXdbR56emr5mI
- cE4p7M3DApxPrj6JTS7sdv0AGMo7neoMu9v+bgJNFoYmXq9A+VI8PsxHPwEFfxViIm0qtP2fM/+wM
- pPTNo+j4aN/PJzB3yNKhvz6UdsB4/d//ZqCWbI9QZrFf8aOxdZOLnR1a2cmmtdZTcolArxVrPe4sP
- YYI1fOMbIPiHyy7ZkGmIpUNROETn8CYgfVgdrghgIwkCzib3bQ3BePAyrlUEufo1cbRE6vLu5QTSw
- 8Y9axXPg==;
-Received: from mail-dm6nam08on2066.outbound.protection.outlook.com
- ([40.107.102.66] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
- by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lsyPz-007Fch-Oc
- for linux-nvme@lists.infradead.org; Tue, 15 Jun 2021 02:03:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nkhb+7H5NM8Tzh5spzafCop4TMljWatHAOgEeOu3w8SF7f/uk9VwaNSghN6/K1bj3cai4P/KCf4Rn1vgYNRQhXGyPpaGLUm5lOo9sjgABaX5K7VQlg3HoPsIRJIn9PnuXguFPy6oA12Qp5uFWQ/+nZ/ryYk6xKhkG1IH598g4jPELFo0QtEBVIkihMsG4SkBp1CEwAzzet16M0UhRHCwsEIG7sSK7d3f7W9KVhvY4NClewuN8dWmrvuO/UdeMq04FFTulKwjxYaUFVtMtdvgwyCkepqVMYZGDgSjEOzMP1w9wl3Hl3aI7Qk678JwW4CQ88woV03rNjUU9hfEpSPG7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9vYwWKrHaoCMvwl/Ll1hhcr+itzrmxHeRuPJTW+zACQ=;
- b=WupCJvNpB8LHpl3Q9Ycbm0Ui0veZq5grC8UDQHhMXvKbraSlb+/O/NNpAqJ8+u4H5GxyKTqv1CAj9K7ztiGuh10v5Tc9jIQ/WV4NgbBpyt/ea0ztPTXk+23Kk9pF0aeDtW8pO9vKZ0i+c7g+D6m0CPZaE33QE3CY4pF//JMFE095bVuEoVQ7oAL0qNrU5pKGABCZfXLqtpW2Xm0wKk4by0OUNgToQPPOyxlurz3WA/tC5x55/Ik5P4+0bZWesjqSqZBDyUhZrc8kVK3jBCIKC5JC+W0MDYJyk6Xpc3pMTvP4b+/HkWOcHHMDhy9LmGvTvWh5MCdRMpMD8NrSaLDHeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9vYwWKrHaoCMvwl/Ll1hhcr+itzrmxHeRuPJTW+zACQ=;
- b=GjVx8TZEv2vf6C9zqzpJmtZ7oT77v7rIIhvA1Aad+2p2GdIwnJLm85/igLc8qd/G/tw5MI7Qc9t7SaIk3V1bMsEQIl/sKPTua22RZuAFLUsIsUjWjgMYiLbWFffQB9IEwr7fQeH5aOW6Zj1S0iPoBWNI694kV2f9ct/UNFcUT8U=
-Authentication-Results: rjwysocki.net; dkim=none (message not signed)
- header.d=none;rjwysocki.net; dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4510.namprd12.prod.outlook.com (2603:10b6:806:94::8)
- by SA0PR12MB4511.namprd12.prod.outlook.com (2603:10b6:806:95::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.23; Tue, 15 Jun
- 2021 02:02:39 +0000
-Received: from SA0PR12MB4510.namprd12.prod.outlook.com
- ([fe80::9c16:2794:cd04:2be0]) by SA0PR12MB4510.namprd12.prod.outlook.com
- ([fe80::9c16:2794:cd04:2be0%5]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
- 02:02:39 +0000
-Subject: Re: [PATCH v8 2/2] ACPI: Add quirks for AMD Renoir/Lucienne CPUs to
- force the D3 hint
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- linux-acpi@vger.kernel.org, rrangel@chromium.org,
- david.e.box@linux.intel.com, Shyam-sundar.S-k@amd.com,
- Nehal-bakulchandra.Shah@amd.com, Alexander.Deucher@amd.com,
- prike.liang@amd.com, "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Julian Sikorski <belegdol@gmail.com>, Sagi Grimberg <sagi@grimberg.me>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>
-References: <20210609184018.26017-1-mario.limonciello@amd.com>
- <20210609184018.26017-2-mario.limonciello@amd.com>
-From: "Limonciello, Mario" <mario.limonciello@amd.com>
-Message-ID: <831df669-b38e-9f4b-dd67-b613aaab6c28@amd.com>
-Date: Mon, 14 Jun 2021 21:02:36 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210609184018.26017-2-mario.limonciello@amd.com>
-Content-Language: en-US
-X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SN2PR01CA0005.prod.exchangelabs.com (2603:10b6:804:2::15)
- To SA0PR12MB4510.namprd12.prod.outlook.com (2603:10b6:806:94::8)
+ id 1ltBa3-001DRK-5M
+ for linux-nvme@lists.infradead.org; Tue, 15 Jun 2021 16:06:24 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id AB5D067373; Tue, 15 Jun 2021 18:06:19 +0200 (CEST)
+Date: Tue, 15 Jun 2021 18:06:19 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>, Sagi Grimberg <sagi@grimberg.me>,
+ "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "Vasudevan, Anil" <anil.vasudevan@intel.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: switch block layer polling to a bio based model v4
+Message-ID: <20210615160619.GA32435@lst.de>
+References: <20210615131034.752623-1-hch@lst.de>
+ <20210615143706.GB646237@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.254.51.208] (165.204.77.11) by
- SN2PR01CA0005.prod.exchangelabs.com (2603:10b6:804:2::15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.20 via Frontend Transport; Tue, 15 Jun 2021 02:02:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 281b6395-5272-4afe-c328-08d92fa1a6f3
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4511:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4511C0EF12122977A358EDFBE2309@SA0PR12MB4511.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: upZr9cYYPlRhqVqDoPn/9uWFn5hbyAxsF8drK7KyNfSoJj5HwK9j/hioKTxWiTnDN/cLmYgDaNeCSj6TNITSDI0E3bF7AEl382W0wrLYrWCeBIE3OsC6mNt7eVzGf6QXoVGxM68Z+Y+x12vpqTcg6cAGPkWIbjxZ3RFhTTd+cQ6VbuQVFMXyuRYh7rIpR7XiykMDOcg1H+FDiwu9CV6N/3rBVM6snRA7qfvWbSSZHrMsHHwzhAyw3ilyQ6I9cEPdl1MlrgiDEjSoStLx6GjiOR6i0spL4gescA4PtrCq7YmRmIkJLgk/Rlw8avVvkkkhKJxKWEUIWA3VSaIrYlG+Zwp/Gdbfet76aG1/IOOVuAOjG5NLHqUxAsZuPfmLPR9i56d89rQI1BC+DCItmqSfpRlM6Q3dkGrkFekRzSALpcq+MFpfQi1povcIlUXMXL80JzSho8qUwVpSCg1Ssqm6NnxVnOyT4jLHrBbyEkh13RR3bBVgmTFkl15KVxhrGX+JdCNWt6Fx7JvXShiiniBoLjJGsW7cB8Q6qggfPz4osAXrttyM/rzTSplGEWns0I3IOEQ3OXkbJMtYVOZX/yasLlCRgk39ieOuQPyhgqUICnCKP8AdgyLAkq0lRf3V8mR2QibvbKkUQ5QGUsoR3p2Mvr6L8JtIJU3nOtHamvpysrfj9m4j4dIMe+QCa6iu6aD9rXmmutttvDw6IoSCbbrCvaXX39oY3Ck44zzSdiFEjBIiUCwHnRIsGFq6AvbRzDmWIWfNvJje8xGrKHvLoNxmQw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA0PR12MB4510.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(396003)(376002)(346002)(39860400002)(7416002)(8936002)(31686004)(966005)(38100700002)(86362001)(8676002)(956004)(2616005)(26005)(16576012)(54906003)(2906002)(36756003)(6486002)(31696002)(478600001)(4326008)(186003)(16526019)(110136005)(66476007)(83380400001)(66556008)(53546011)(66946007)(5660300002)(316002)(45080400002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnpRNnlUKzJxMVV5NTBpZVdZNThiaGtPYXNIMk1mWjVIbWlza0Q4ZFRpbHRk?=
- =?utf-8?B?V0c0bU15cmRmSTRDdk1LTHc1UTBkLysrWWRFZzBSRmo1d2ZPTW0rc3dYVEVv?=
- =?utf-8?B?S1ZYc2lFWkJ6N2JnTXlQR1o5dHFHOWZ6SFFHTkNUSW9jWEtDOXYrbkFWZ244?=
- =?utf-8?B?Nm1acWY3ekVGY0tyT2hWMU8zNENnREg4WkNjOFoxQmRjM0NEaktIMUdaTzVZ?=
- =?utf-8?B?Y1l1Yks5S25NNmhIZVJUTzJ2TGpMUVA2cHZpb2pBVnM3RlhQd3VIT1kwRWhi?=
- =?utf-8?B?bStFcUZvZ3NRV1IvM1BKd1VOc0RVK2NnSmpPSjhTeHdTV3AzQVNxb0p3VllO?=
- =?utf-8?B?c1dCYndkMUhDUTc3UFJ0NDZFYXFuZ1dDcThJREdrWHNnRkQyeTNQdlpmMGgv?=
- =?utf-8?B?MFFvVEZBR3JadjNQSzZGV25tYmc5WmhtRzEyRi92VDhTRDZ1NWNPKzZSRWU1?=
- =?utf-8?B?eUdyTjlyOExQa0F6bDZWLzIrMkhmclVXU0dzU05yT05qc3BkdGZRSWZDUTd3?=
- =?utf-8?B?VG1WOVZFR0RKVGZ1UEJRVW5YUnN3ZUlQSkJxNG55SGJQNEZJSXluYzh5WTFR?=
- =?utf-8?B?cCtOcEJoQUR3SmZIZTh2RnYvTEtoYlhlVkcxcnQ2NzJ5djlBeU1TSS9GK1lE?=
- =?utf-8?B?U01ZeVpGaGZkMnYzNVlWS3hXSGpuYjFUTDFpdk5qcXNlTGxkd3ZzWlR2RVZs?=
- =?utf-8?B?WWNBTmlKSzhpY3c5OEE3ejlxTy9CdFV4QTB5R2FVZlBQWmpqMDRLTjQvVVpF?=
- =?utf-8?B?WVIyZHdnbXd0VEtZa2pZdE9FNi9rMVVFUzRySEJzTFFXL21Sd0xsbENrc0hG?=
- =?utf-8?B?VXBFZkdVQVptSjFpRWZHUmcrb21IKzltRnBDL0pVZE14Y2toYUpzcWN2Z3dE?=
- =?utf-8?B?OEhpR3VqOGhYZlNFU2lwUUdLclQ4MjVQQmJmVmYyc0dFanRDcmNzTU1rNnF6?=
- =?utf-8?B?NmlBMzFXTHZvNFVvVmIzUDZ6eVVjNlVTd0xGU3I1b3ZDYjdWL2pVTkd4VjlG?=
- =?utf-8?B?cEcxSThiN05xR0Fwc0lBTzlWSnhWQndJVy84ekxDOC9zblNsczJCWVljL1E3?=
- =?utf-8?B?V0V0Q3pPM3hCTXE4YWY5Ky90TS9CVkc5aEFSTmJpMnBnQ3M4VnAyRUlud0xB?=
- =?utf-8?B?RlNpUnowclZVYlI2VWlOUllUM3ptVlROS2dyTDM2OEw0cXlEcEp0bnZYV2Vy?=
- =?utf-8?B?dk5PTEIycXlybmVIVFd5WE5STnVTcWYydW5NWXIvR0JCMFpwVkFuVzBhdWFC?=
- =?utf-8?B?NmtVNFAreVIxQ25WbVZheHFnNWNkRmFGNEIvSFN0dzVNOHROL0ZSNDFZNzFq?=
- =?utf-8?B?RG95ZWtYYWtmQWx6czhQZ3d2dGdHUG9NR3FqSDRsY3ZRZHFsRFpVeTJMSmdi?=
- =?utf-8?B?WmFFRitvelRGU3c1bDd0d0lDUlUyOUhiM2lnektrSW5XUkgxek1SMVV2cU81?=
- =?utf-8?B?eGV2a3hRZWEvUHdmeldhdE95NVRNV0YwSnBEd0kwbmtjdFRjcGNyeG9jQkNm?=
- =?utf-8?B?eDd1V2ZVdzJUU0p5aEw0TG41ZVFFcFpRQWhRUGF1Zk10RlFRYmtLb0p5YVNo?=
- =?utf-8?B?UFI2RjB2TVovQTJ1LzRoN0ovdDdGVG1hSy84RjdRSzhObitrOVphMEpSZndD?=
- =?utf-8?B?enNZZGFFVlViZ1gxWXpMWGxBQU10WDBMRnNGT2U2MjZiL2pMT0tUTmVRMlBq?=
- =?utf-8?B?QTNUbERkNmNDV29WUzdBQ0JCVWZGTjgzYU5rV2s5bkNpYnY4Y3ozaFZQaUxV?=
- =?utf-8?Q?7wZoBLmIgr9g3b2QCx8vGcUzcKMlXOoIqwfbzzc?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 281b6395-5272-4afe-c328-08d92fa1a6f3
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4510.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 02:02:38.8999 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pn4ZaWSCRXex5kSwQZY0pjabYohe4NGbashyztEF+cgb1lnnNvAVC+W/CGOCxAukmZcqrQK56NdjGPGe+4dSzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4511
+Content-Disposition: inline
+In-Reply-To: <20210615143706.GB646237@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210615_030314_826167_5ECED09F 
-X-CRM114-Status: GOOD (  33.17  )
+X-CRM114-CacheID: sfid-20210615_090623_436026_654B06CB 
+X-CRM114-Status: GOOD (  18.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -174,145 +70,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/9/2021 13:40, Mario Limonciello wrote:
-> AMD systems from Renoir and Lucienne require that the NVME controller
-> is put into D3 over a Modern Standby / suspend-to-idle
-> cycle.  This is "typically" accomplished using the `StorageD3Enable`
-> property in the _DSD, but this property was introduced after many
-> of these systems launched and most OEM systems don't have it in
-> their BIOS.
+On Tue, Jun 15, 2021 at 07:37:06AM -0700, Keith Busch wrote:
+> On Tue, Jun 15, 2021 at 03:10:18PM +0200, Christoph Hellwig wrote:
+> > Chances since v3:
+> >  - rebased to the latests for-5.14/block tree
+> >  - fix the refcount logic in __blkdev_direct_IO
+> >  - split up a patch to make it easier to review
+> >  - grab a queue reference in bio_poll
+> >  - better document the RCU assumptions in bio_poll
 > 
-> On AMD Renoir without these drives going into D3 over suspend-to-idle
-> the resume will fail with the NVME controller being reset and a trace
-> like this in the kernel logs:
-> ```
-> [   83.556118] nvme nvme0: I/O 161 QID 2 timeout, aborting
-> [   83.556178] nvme nvme0: I/O 162 QID 2 timeout, aborting
-> [   83.556187] nvme nvme0: I/O 163 QID 2 timeout, aborting
-> [   83.556196] nvme nvme0: I/O 164 QID 2 timeout, aborting
-> [   95.332114] nvme nvme0: I/O 25 QID 0 timeout, reset controller
-> [   95.332843] nvme nvme0: Abort status: 0x371
-> [   95.332852] nvme nvme0: Abort status: 0x371
-> [   95.332856] nvme nvme0: Abort status: 0x371
-> [   95.332859] nvme nvme0: Abort status: 0x371
-> [   95.332909] PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns -16
-> [   95.332936] nvme 0000:03:00.0: PM: failed to resume async: error -16
-> ```
+> It still doesn't look like a failover will work when polling through
+> pvsync2. We previously discussed that here:
 > 
-> The Microsoft documentation for StorageD3Enable mentioned that Windows has
-> a hardcoded allowlist for D3 support, which was used for these platforms.
-> Introduce quirks to hardcode them for Linux as well.
-> 
-> As this property is now "standardized", OEM systems using AMD Cezanne and
-> newer APU's have adopted this property, and quirks like this should not be
-> necessary.
-> 
-> CC: Shyam-sundar S-k <Shyam-sundar.S-k@amd.com>
-> CC: Alexander Deucher <Alexander.Deucher@amd.com>
-> CC: Prike Liang <prike.liang@amd.com>
-> Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Tested-by: Julian Sikorski <belegdol@gmail.com>
-> ---
->   drivers/acpi/device_pm.c |  3 +++
->   drivers/acpi/internal.h  |  9 +++++++++
->   drivers/acpi/x86/utils.c | 25 +++++++++++++++++++++++++
->   3 files changed, 37 insertions(+)
->   
-> Changes from v4->v5:
->   * Add this patch back in as it's been made apparent that the
->     system needs to be hardcoded for these.
->     Changes:
->     - Drop Cezanne - it's now covered by StorageD3Enable
->     - Rebase ontop of acpi_storage_d3 outside of NVME
-> Changes from v5->v6:
->   * Move the quirk check into drivers/acpi/x86/ as suggested by
->     Rafael.
-> Changes from v6->v7:
->   * Move header location
->   * Optimization of force function
-> Changes from v7->v8:
->   * Add tags
-> 
-> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-> index c8600978b283..c40fc135ff0c 100644
-> --- a/drivers/acpi/device_pm.c
-> +++ b/drivers/acpi/device_pm.c
-> @@ -1360,6 +1360,9 @@ bool acpi_storage_d3(struct device *dev)
->   	struct acpi_device *adev = ACPI_COMPANION(dev);
->   	u8 val;
->   
-> +	if (force_storage_d3())
-> +		return true;
-> +
->   	if (!adev)
->   		return false;
->   	if (fwnode_property_read_u8(acpi_fwnode_handle(adev), "StorageD3Enable",
-> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-> index f973bbe90e5e..e29ec463bb07 100644
-> --- a/drivers/acpi/internal.h
-> +++ b/drivers/acpi/internal.h
-> @@ -236,6 +236,15 @@ static inline int suspend_nvs_save(void) { return 0; }
->   static inline void suspend_nvs_restore(void) {}
->   #endif
->   
-> +#ifdef CONFIG_X86
-> +bool force_storage_d3(void);
-> +#else
-> +static inline bool force_storage_d3(void)
-> +{
-> +	return false;
-> +}
-> +#endif
-> +
->   /*--------------------------------------------------------------------------
->   				Device properties
->     -------------------------------------------------------------------------- */
-> diff --git a/drivers/acpi/x86/utils.c b/drivers/acpi/x86/utils.c
-> index bdc1ba00aee9..5298bb4d81fe 100644
-> --- a/drivers/acpi/x86/utils.c
-> +++ b/drivers/acpi/x86/utils.c
-> @@ -135,3 +135,28 @@ bool acpi_device_always_present(struct acpi_device *adev)
->   
->   	return ret;
->   }
-> +
-> +/*
-> + * AMD systems from Renoir and Lucienne *require* that the NVME controller
-> + * is put into D3 over a Modern Standby / suspend-to-idle cycle.
-> + *
-> + * This is "typically" accomplished using the `StorageD3Enable`
-> + * property in the _DSD that is checked via the `acpi_storage_d3` function
-> + * but this property was introduced after many of these systems launched
-> + * and most OEM systems don't have it in their BIOS.
-> + *
-> + * The Microsoft documentation for StorageD3Enable mentioned that Windows has
-> + * a hardcoded allowlist for D3 support, which was used for these platforms.
-> + *
-> + * This allows quirking on Linux in a similar fashion.
-> + */
-> +const struct x86_cpu_id storage_d3_cpu_ids[] = {
-> +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 96, NULL),	/* Renoir */
-> +	X86_MATCH_VENDOR_FAM_MODEL(AMD, 23, 104, NULL),	/* Lucienne */
-> +	{}
-> +};
-> +
-> +bool force_storage_d3(void)
-> +{
-> +	return x86_match_cpu(storage_d3_cpu_ids);
-> +}
-> 
+>   https://marc.info/?l=linux-block&m=162100971816071&w=2
 
-Christoph, Keith ping on this series.  Any other thoughts?
-If it's good can you take this in for nvme-5.14 since Rafael mentioned
-the conflict from the other StorageD3Enable commit in nvme-5.14?
-
+Yes, sorry for losing this.  I'll resend with that added after a short
+delay to see if anything else needs attention.
 
 _______________________________________________
 Linux-nvme mailing list
