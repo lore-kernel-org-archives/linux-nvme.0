@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AEB9C48BE5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 14:38:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FB4C48BE5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 14:39:40 +0000 (UTC)
 Received: from bombadil.infradead.org (unknown [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 311E461490
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 14:38:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 311E461490
+	by mail.kernel.org (Postfix) with ESMTPS id D302F61493
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 14:39:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D302F61493
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,32 +23,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wx/RWPfFQPA+P6+rek9jUUAMrTbR5xMPvy/TcjQKy5k=; b=tNshWk6B0Lwdgc
-	87xildofPhbjTpUzq5Y0LjldZ1zip9n4hOfR0xCvPEK9EAQW8aIxreCwgjgCVwRM5Q6MNcTrlq4cX
-	v3wAD/cwXIu6vFhSPVNQeHNgvAxCQWkjKp8QNdrqUmNiipO5nfoYlVLNatYBAqiTjp/BkrB54DNdn
-	piUXWJvD8s54XbGaHaO+pdsagG1gF+xBv5dVvClERo28QaeE3yVEaEPIbb1Kwp1WJI+g5+78jXhSq
-	hwe5q0XJEAHM27t8AQ6xeAWeEmyAeq14upNXehfWS1DVAR1fYCQ7WHshMb/8dFYgOR7suXh8ZgwO9
-	v8hq2eZThPsDF4uh64+g==;
+	List-Owner; bh=0xuQw58F+qA1HDo+cHxUQYhsiQNeyNyvMI8NkM1jUac=; b=Y4WCllyslJq5VH
+	J8mEoIb7JT5M6drsquboCxVMFgYRp64H0j6OxVEtkIQyvaV64gl6U3bcyKKYqMwvmDQd8tdODZgLA
+	1iT/iaRElX6I9cy5CMe8t9stlpCmDuIOIZF0DjJH1rYAuwF7xjBuTDMbvx5+l4qNRxOzQUVKRLGne
+	+WsSzQBFBOK0WpPC2IssrFiRGIDvDFK8cXlkObHQl6EiBGOJSbKAu+Pm+s7iTMJylXFZPEb1sDnyw
+	mBmc3ZzVI8mDyn82X0BxQ6NiTXXhLMLsHIV/qPVKQOXv4PC0kjQ+dLZq2joiB+pJtyUiz1zwd/gMP
+	+6X08gocvw68+ds6IH1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltACN-000eBx-VQ; Tue, 15 Jun 2021 14:37:52 +0000
+	id 1ltADU-000eWZ-Hd; Tue, 15 Jun 2021 14:39:00 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lt9Nc-000FmL-DQ
- for linux-nvme@bombadil.infradead.org; Tue, 15 Jun 2021 13:45:24 +0000
+ id 1lt9O3-000FmL-D9
+ for linux-nvme@bombadil.infradead.org; Tue, 15 Jun 2021 13:45:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=b9J7Zh7mkJRtOXX/Ega3sU9zRRLyGipCQbOE94xKi2A=; b=oK3hjzGcp5Op2i80fsjtCbcwHV
- KyhsGRXou9+Ur2B7kvaUv30ulLotaBG4k3K44o+SGRLs1mumDS2KmQ7K3a2s4mknGsVYNS4qIpH80
- d3dC/Vq7dyxRyVUFx5g223F1waQDJt4fUS5F0N0IQJR/UXIM9N0HpiwE97tSTkZ4Z1KjAGdZM2iRP
- dGWZ/Qtz+8Kr/nEm5/GMR8pa0nKsbNyiBPoUdiTQXdI1sp30BlifoC9du/N5iQ8cgEMQZcfyBJD5M
- /0fkb1ordUr30F5GW21GJZ+KZxIOhcDMRoTr9omYglK12AQivYM7zAOEfwONSsOFzP2Kpr3rO2gMC
- 8hwmg8EA==;
+ bh=3sOwq+hqsIfCtHmI5VnrHqoqQW8aTy8WBTV/xW+v+Bk=; b=bnb8QT4UHLQhJGkaqMTFBoiFpx
+ a9rPxgo3Faux9TOqGsa0OTMsF1U6PvoDaASJjHvYrKyscSkAL0HBO6pitNdBdi2y09PNy9dPzM8vo
+ t1iV++71R/G20TOwCqBopxX5izHqs8dSWYc0FhHQ21tkKhzY6TWsUXqxnulGH10h3ns0XZoQzPIdR
+ FlrNs+ACEDu056gTlk+ZsDPlZcHb16jY3GkDrHFSRPVpuOWMGtgMkG8O7MBuzDNYqPnGIlXcw3CRa
+ sfnibKRGUgj2PjcOgojqMq2vamktny8X5djk1ZMGK2dp2+ClyR/ymMCpYHq0vM8lTWE30xcNgopk7
+ zP3FXntA==;
 Received: from [2001:4bb8:19b:fdce:9045:1e63:20f0:ca9] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lt8rx-006nI5-Tk; Tue, 15 Jun 2021 13:12:53 +0000
+ id 1lt8rV-006nFt-4u; Tue, 15 Jun 2021 13:12:30 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
@@ -56,11 +56,10 @@ Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
  Sagi Grimberg <sagi@grimberg.me>,
  "Wunderlich, Mark" <mark.wunderlich@intel.com>,
  "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 07/16] blk-mq: remove blk_qc_t_valid
-Date: Tue, 15 Jun 2021 15:10:25 +0200
-Message-Id: <20210615131034.752623-8-hch@lst.de>
+ linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [PATCH 06/16] blk-mq: remove blk_qc_t_to_tag and blk_qc_t_is_internal
+Date: Tue, 15 Jun 2021 15:10:24 +0200
+Message-Id: <20210615131034.752623-7-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210615131034.752623-1-hch@lst.de>
 References: <20210615131034.752623-1-hch@lst.de>
@@ -83,41 +82,52 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the trivial check into the only caller.
+Merge both functions into their only caller to keep the blk-mq tag to
+blk_qc_t mapping as private as possible in blk-mq.c.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Tested-by: Mark Wunderlich <mark.wunderlich@intel.com>
 ---
- block/blk-mq.c            | 2 +-
- include/linux/blk_types.h | 5 -----
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ block/blk-mq.c            |  8 +++++---
+ include/linux/blk_types.h | 10 ----------
+ 2 files changed, 5 insertions(+), 13 deletions(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index eb861839ff49..cb94cf9bcf99 100644
+index f4bb6e1db36a..eb861839ff49 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -3997,7 +3997,7 @@ static int blk_mq_poll_classic(struct request_queue *q, blk_qc_t cookie,
-  */
- int blk_poll(struct request_queue *q, blk_qc_t cookie, bool spin)
+@@ -72,9 +72,11 @@ static inline struct blk_mq_hw_ctx *blk_qc_to_hctx(struct request_queue *q,
+ static inline struct request *blk_qc_to_rq(struct blk_mq_hw_ctx *hctx,
+ 		blk_qc_t qc)
  {
--	if (!blk_qc_t_valid(cookie) ||
-+	if (cookie == BLK_QC_T_NONE ||
- 	    !test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
- 		return 0;
+-	if (blk_qc_t_is_internal(qc))
+-		return blk_mq_tag_to_rq(hctx->sched_tags, blk_qc_t_to_tag(qc));
+-	return blk_mq_tag_to_rq(hctx->tags, blk_qc_t_to_tag(qc));
++	unsigned int tag = qc & ((1U << BLK_QC_T_SHIFT) - 1);
++
++	if (qc & BLK_QC_T_INTERNAL)
++		return blk_mq_tag_to_rq(hctx->sched_tags, tag);
++	return blk_mq_tag_to_rq(hctx->tags, tag);
+ }
  
+ /*
 diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index abe00ac81b2e..295addd38390 100644
+index e2c4a7d5de05..abe00ac81b2e 100644
 --- a/include/linux/blk_types.h
 +++ b/include/linux/blk_types.h
-@@ -506,11 +506,6 @@ typedef unsigned int blk_qc_t;
- #define BLK_QC_T_SHIFT		16
- #define BLK_QC_T_INTERNAL	(1U << 31)
+@@ -511,16 +511,6 @@ static inline bool blk_qc_t_valid(blk_qc_t cookie)
+ 	return cookie != BLK_QC_T_NONE;
+ }
  
--static inline bool blk_qc_t_valid(blk_qc_t cookie)
+-static inline unsigned int blk_qc_t_to_tag(blk_qc_t cookie)
 -{
--	return cookie != BLK_QC_T_NONE;
+-	return cookie & ((1u << BLK_QC_T_SHIFT) - 1);
+-}
+-
+-static inline bool blk_qc_t_is_internal(blk_qc_t cookie)
+-{
+-	return (cookie & BLK_QC_T_INTERNAL) != 0;
 -}
 -
  struct blk_rq_stat {
