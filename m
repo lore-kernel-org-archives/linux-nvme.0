@@ -2,89 +2,103 @@ Return-Path: <SRS0=Oc5T=LJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F52FC48BDF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 16:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2E9C48BDF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 16:59:37 +0000 (UTC)
 Received: from bombadil.infradead.org (unknown [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C8680617C9
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 16:35:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8680617C9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
+	by mail.kernel.org (Postfix) with ESMTPS id A864761626
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jun 2021 16:59:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A864761626
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=8FVXLjWTEHDqLGsvfLw2mdmOVR7jphIt5IjrpBA7N48=; b=kU+EGpbox4C+ly
-	9xggAl+GbblnuSAlqmt8SMr7O7UQP8YoXfMJJTKVipI4BSLIUjRI+THc8HEBu4+ImACZMOUT/CvJj
-	+Cwl9M/BQwF/jaSrZwT2V1+7wxOEtXM4YmeH5jDOlspVD0fqn3owLjlVKAg/+anHThmXdcNzLHb6X
-	7jJHut/A9zZeSAc02YH6oUfkWf5famKIZOZCkLEkEOC6CMYqpijDadgBMymyq+Y7qUZxmf6yNAN6p
-	+3QvI0ZiU1pTQQ6OsWrOPsthFr1nAvDuu1q+8y/gd+gOeY7Y04yMzMKnsKRfH55qI2W11N3RdhoYI
-	6FVvWapfkOmKk5pQ7Iyw==;
+	List-Owner; bh=+wbxlUEPnnXEbMv/ba9RRtWPEgQtTjMj8KcTNVlCn/Q=; b=LYQilkCRXY/bGm
+	9QAA0it+l1Vb4k5UET9ZrSYuX2PSzyXyUOxR3+3jmrAglqwgSvSFjASWiyMFfkYRNDmdW67ML+DPY
+	VDs3wn/j07kS+TXSArp8xJKGlulK5WvIy3UOTEkXZmGzdXoJm3dICEqpi6cKdirIKwp8MvPHzKUgA
+	dNrY/iRO6sb9BstZxamQ9x59n0zR5aYh+B5Mdgvdd0yg4okd06gU/N1vzxMpavvWM7vkhQWFTcorI
+	d28ePTN4Y2+xm0v52q4XhVr44peLUGUnylTYQZdy4ESfwVVPsl/Pf2f6c9pJdDNgeDHgpCOJAAF+N
+	RD5d4P+4y3v3mzJ7Pdeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltC1T-001OWm-PO; Tue, 15 Jun 2021 16:34:43 +0000
+	id 1ltCOp-001Y4C-4S; Tue, 15 Jun 2021 16:58:51 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lt9Ll-000DEY-MD
- for linux-nvme@bombadil.infradead.org; Tue, 15 Jun 2021 13:43:31 +0000
+ id 1lt9PW-000E8e-Mr
+ for linux-nvme@bombadil.infradead.org; Tue, 15 Jun 2021 13:47:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:To:Subject:Message-ID:
- Date:From:MIME-Version:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+ :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:In-Reply-To:References;
- bh=scbHhcP2y21Y9aqjTisTiITMFfXXjv9ed97b+1nxDus=; b=UKT2slAXebaY7h/IcOJdYN+w2K
- cNCDDDKUHGe8+aRTpkIWeMmpuE+A0weBT7Ln04Ea1vnP+1rNtZ8B4wy01hPW+3dimOcWPFZNlwhO2
- mnEXaIG3AyScx/ge9Eony4aBkjQd5dVL1l0Mzn48OQyTT/CE8t7RMK8jg6FaFtLzHZOh/n/SOB16y
- dHA4ZKmR0vtes3c4fZ6dVtpbLOFkqpRqCIHiwXB+XeGi0rFGG+UcbQeyhXDQe9vNaABmsO0WxSfG7
- SvC2YfN7qs+DWRBEri1pxL85aSX15qDvS6EKdALSR4sAuLkGkLDsGPmloCsk3g/EaWRabUnAf+y3o
- j0PorI8A==;
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ bh=MLp9ZNydUHsD76zgb4T7tfIURaNk1A0k1DUI2a0h318=; b=Ck029nOU3YdgfUgcb5BqBXcikR
+ w41dAx1QQXjnWzu/APbmN4BhXgrp5VZf8BjRn+7E/+SXjKp0+RYw+hN/4IoVzUhaz8uWbvGdodSHX
+ /i+xJSRCqLYRWjnez1N1/vvyBYadgal97Z0e+Hqr86nc52pytrVWMbm4Q+KSGRNgx6eBql7aOIQ/A
+ kkO1LMQSb6l5tQVNhtORKT9183lTz9Khk7aylmXmaT9vz/3lz83B/x/JBt12+2vcj77iZRZOa7Sir
+ mRt6fK8WZCKhl8iP5Kwgkt2t8mIXC/ABbugRtZYsmZ3hpYVEBokQNn1fbqSuAFXVLh09QUMsE9Fon
+ ZWOmhFDQ==;
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lt2XN-007PEO-Al
- for linux-nvme@lists.infradead.org; Tue, 15 Jun 2021 06:27:14 +0000
-Received: by mail-pg1-x52b.google.com with SMTP id t17so10599281pga.5
- for <linux-nvme@lists.infradead.org>; Mon, 14 Jun 2021 23:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=purestorage.com; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=scbHhcP2y21Y9aqjTisTiITMFfXXjv9ed97b+1nxDus=;
- b=A5qZ65dpdtdfDJDp9PAzterVfy5UDPgl0gnx21TP1X0p0cJCziLTz7mqoYRhm7KUpp
- uqjlbcS7tJ6rEgVFnrOyIOfvU/XkLvaX1Hj/tL4aw0SJ8i8uMT5a5nah+1nPzkXrTtHY
- cI01QoFdLPrIUX7slXfljwkeIt40ejRn1g8WI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=scbHhcP2y21Y9aqjTisTiITMFfXXjv9ed97b+1nxDus=;
- b=Q9WCMDcKFp1WzqBI69mKQIeQKiO3DfqdIASfNDDlwfnJeB0C7VnjUkUKU0C7TEhTYQ
- NJ7AhvAxa9MrTKFxUSTrzwl7vbWSlUeQpSbc2TGRoPTsCSY9lF65nFT+YBQoPdtA6PZz
- LMV80GZ5Cv728yze29ZJY+Ekq1z7gDnfchFXebfit2sld2AhO5rhduK3KDQqLyJc980u
- gfJgfzm9PTcR5pxYv+A+kVlXJUw+Z0QoNBkrI4zGRyUptmAPDyY8Nd0XTWEuwWCpPCq6
- GsceyPfk5QWy5Nqc5LQAYG0r6cahxySRHehnpPl7F5KHlb8jTKc4dHLPKZYG/Vu7EI5Y
- HQVg==
-X-Gm-Message-State: AOAM530GFvLAzPM5kOfZQz6XqT2hpGlb0gnmjjNnO8xeWi0j9QbOlQrD
- AmmaJDVljger4bVNafQaJCcZgvo4WDii8qlKWVSSfi3KwQCXeA==
-X-Google-Smtp-Source: ABdhPJz5Xs61bALuBVX0qMW4OZqmkumoEr8FttPamVxUoSZBnYxyJeokgfc1XSDqsL+vmUl2FHJ4lqw/NcGUmWWvApU=
-X-Received: by 2002:a63:5f4e:: with SMTP id t75mr20627936pgb.75.1623738425998; 
- Mon, 14 Jun 2021 23:27:05 -0700 (PDT)
-MIME-Version: 1.0
-From: Casey Chen <cachen@purestorage.com>
-Date: Mon, 14 Jun 2021 23:26:55 -0700
-Message-ID: <CALCePG2ukbm=mjZiKij5_3T4sTc4H5wRuityrr2Ljv0HvfJqtQ@mail.gmail.com>
-Subject: nvme-pci: Fix multiple races in nvme_setup_io_queues()
+ id 1lsz5O-007H7M-DX
+ for linux-nvme@lists.infradead.org; Tue, 15 Jun 2021 02:46:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1623725161; x=1655261161;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=fmszEABEUjW0hT5ujTyJJ1dAhhtYhxvwsVzXIYmkCfg=;
+ b=ag8t4kvj0XQ/yrZmvQuYEUrGqqNfVzbph2sUTDQmzQr7W3xJIps9uc+q
+ j7gHmUP0Qcz9PiyIZ6jb+ulEsCHzBSh/CfHSDxvmEvvRYYrHYnXmwKHW5
+ 5kG8wxVVCNFzVOEo8vGGeHJoWjnfU9SbGs9u4Rw2pMwdglbgReU6jNqIe
+ xIYjQCxXxsj5VyN54me0w7ropi+LWix50/DYpi0TUFIcqWGgxrv3CC9qj
+ ECXDVaHr4v5QoWDFnwGXF8fqs6NrHk8r4d/FV4vSb94Fn287IsMJ8Htaj
+ X6lBYxAVe9mufCOWKj49J0NBqMLhDjuk2sWTYrP3ulhnU7dtVPed8zFLn A==;
+IronPort-SDR: 3rmSIx/CVdBXnbLWi38i/AuvaLMkr7dzS3UsCVh4O2cM/PAr5EkEXeS/D9vnGanAPJIwtqZMWK
+ uwZXp2C9+KrsJILf6hvMDYUAU4Zcssfyn5tKTDESpjyoslSGueJzkY7FOW9pjO7pGOcQALKSXD
+ cMZjbGO+nRc1hS6Tg2jzhA8QTteqATa4V49aBVNOQeEM+OnX2WS3TbITK4CV2VMJS3MXRGTLLy
+ V5yDJPW+7CbI6aji1eciCpUlEIa+0r6nDdrNVVrubEod3JPaOUSk5oI8ov+8Wg9sTn4Gqfn0Hw
+ BQs=
+X-IronPort-AV: E=Sophos;i="5.83,273,1616428800"; d="scan'208";a="171171839"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 15 Jun 2021 10:45:54 +0800
+IronPort-SDR: SlLmtflMbBOoJv2rd857MGWqvBX7S57R/PSTiMdUeX+DtKOy6rQMxPLlxoiBILi26IR4k8yKxS
+ 8U5opwreRk/lwvufw51iCRsgWahdpUHI6GY4aP4acJL4fTY/RhTtnZP3KiMovPFMgbmvDaC8OD
+ snMfEhVbw4i/yptMbaDxgan6C0pu34YqTGt7sZpOAu61yhNewYnDhKAjpRaL9eeZ94YfcAvT+9
+ P1u6XK4FHYzcFh1ib4z+rbZJr9t7EDmsqdiw/YpS2TXIBQVa0s4Yp0xBvrTkyIHdVLfUt4bf2R
+ 8TcwT+uQCP9QomcGqi57cChB
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2021 19:23:24 -0700
+IronPort-SDR: C4OG5pg2rkkZvfT/rhHLC/1ZzfEuZqOlppQszhUIkH+0bn46zct2Daf4BKUXyoufg4XxxeexRA
+ Zsi9rbyXAk5hFBE28rWl+8XV0ZVWqRMtplOQUXD1r8934i2JE1fOwOu6aqY/ge3nDp3DYn14+B
+ qjiW0WuT5/rTSlW4d1+i9frZrgAzMLvp5V/EoYtk6rx2bhvn//V0oIFr23KaSFXiGPL7p0xhL/
+ iVTSgcax2yI9OmDqqEbRJAQ/wUTh2E2LQQsNuxtfa5mxyZaM4PkZipcq9rDpuW/mDSdDvjhVjA
+ CSE=
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip02.wdc.com with ESMTP; 14 Jun 2021 19:45:55 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Cc: Yuanyuan Zhong <yzhong@purestorage.com>,
- Ashish Karkare <ashishk@purestorage.com>
+Cc: hch@lst.de, sagi@grimberg.me,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 0/4] nvme-fabrics: remove struct zeroout memset calls
+Date: Mon, 14 Jun 2021 19:45:50 -0700
+Message-Id: <20210615024554.42585-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1.dirty
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210615_072711_071069_170B2538 
-X-CRM114-Status: GOOD (  24.12  )
+X-CRM114-CacheID: sfid-20210615_034602_554796_5157E526 
+X-CRM114-Status: GOOD (  11.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,309 +115,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-(Please ignore the previous email, the call paths comparison shown in
-commit message should look better if you copy then paste in a code
-editor)
-
 Hi,
 
-We found multiple races in nvme_setup_io_queues() by power-cycling a
-PCIe NVMe drive for hours. nvme_setup_io_queues() could overlap with
-nvme_dev_disable() if we power off a drive quickly after powering it
-on. Multiple races exist because of shutdown_lock missing and improper
-use of NVMEQ_ENABLED bit. All problematic places and their fix are
-explained in the commit message. This is also reproducible on Intel
-Optane drive. Fix has been tested for a week.
+While reviewing the code I did removed the calls to zero out structures
+using memset() for the lio target, which are reviewed and accepted in
+the linux kernel tree. (see [1])
 
-All tests and fix are based on tag nvme-5.14-2021-06-08 of repo
-http://git.infradead.org/nvme.git
+This patch series is based on the same cleanup pattern for NVMe host.
+This will allow us to have uniform pattern in the future code review to
+avoid similar calls which seems unnecessary.
 
-1. Testing Method
-while :; power off drive X; sleep $((RANDOM%3)).$((RANDOM%10)); power
-on drive X; sleep $((RANDOM%3)).$((RANDOM%10)); done
+If this is accepted I'll gradually convert the rest of the host code
+mainly core and pci.
 
-2. Crash Call Trace
-[11668.533392] pcieport 0000:87:08.0: pciehp: pending interrupts
-0x0008 from Slot Status
-[11668.533431] pcieport 0000:87:08.0: pciehp: Slot(402): Card present
-...
-[11668.681298] nvme nvme12: pci function 0000:8c:00.0
-[11668.681354] nvme 0000:8c:00.0: enabling device (0100 -> 0102)
-[11669.046119] pcieport 0000:87:08.0: pciehp: pending interrupts
-0x0108 from Slot Status
-[11669.046142] pcieport 0000:87:08.0: pciehp: Slot(402): Link Down
-[11669.046146] pcieport 0000:87:08.0: pciehp: Slot(402): Card not present
-[11669.046149] pcieport 0000:87:08.0: pciehp:
-pciehp_unconfigure_device: domain:bus:dev = 0000:8c:00
-[11669.077428] ------------[ cut here ]------------
-[11669.077431] kernel BUG at drivers/pci/msi.c:348!
-[11669.077555] invalid opcode: 0000 [#1] SMP KASAN
-[11669.077658] CPU: 31 PID: 716 Comm: irq/127-pciehp Not tainted 5.13.0-rc3+
-[11669.077869] Hardware name: <MASKED OFF>
-[11669.078022] RIP: 0010:free_msi_irqs+0x28a/0x2d0
-[11669.078129] Code: f7 83 c5 01 e8 87 44 c7 ff 39 6b 14 0f 86 d6 fd
-ff ff 4c 89 ef e8 76 44 c7 ff 8b 43 10 8d 7c 05 00 e8 8a 0d a7 ff 84
-c0 74 d4 <0f> 0b 48 8d 7b 60 e8 5b 45 c7 ff 48 8b 7b 60 e8 52 46 9b ff
-48 89
-[11669.078453] RSP: 0018:ffff88813917fa38 EFLAGS: 00010202
-[11669.078564] RAX: 0000000000000001 RBX: ffff88e042875800 RCX: ffffffff81160812
-[11669.078703] RDX: dffffc0000000000 RSI: ffff88e54fc86740 RDI: ffff892fe1627ca0
-[11669.078843] RBP: 0000000000000000 R08: ffffed278641a4fd R09: ffffed278641a4fd
-[11669.078982] R10: ffff893c320d27e5 R11: ffffed278641a4fc R12: ffff893c320d22e8
-[11669.079121] R13: ffff88e042875810 R14: ffff88e042875814 R15: ffff893c320d2000
-[11669.079260] FS:  0000000000000000(0000) GS:ffff893ebe640000(0000)
-knlGS:0000000000000000
-[11669.079415] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[11669.079531] CR2: 00007f1fc13fa000 CR3: 00000063a2de2002 CR4: 00000000005706e0
-[11669.079670] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[11669.085209] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[11669.091054] PKRU: 55555554
-[11669.093982] Call Trace:
-[11669.096850]  pci_free_irq_vectors+0xe/0x20
-[11669.099695]  nvme_dev_disable+0x140/0x760 [nvme]
-[11669.102503]  ? _raw_spin_lock_irqsave+0x9c/0x100
-[11669.105271]  ? trace_hardirqs_on+0x2c/0xe0
-[11669.107994]  nvme_remove+0x191/0x1e0 [nvme]
-[11669.110689]  pci_device_remove+0x6b/0x110
-[11669.113316]  device_release_driver_internal+0x14f/0x280
-[11669.115939]  pci_stop_bus_device+0xcb/0x100
-[11669.118515]  pci_stop_and_remove_bus_device+0xe/0x20
-[11669.121079]  pciehp_unconfigure_device+0xfa/0x200
-[11669.123597]  ? pciehp_configure_device+0x1c0/0x1c0
-[11669.126049]  ? trace_hardirqs_on+0x2c/0xe0
-[11669.128444]  pciehp_disable_slot+0xc4/0x1a0
-[11669.130771]  ? pciehp_runtime_suspend+0x40/0x40
-[11669.133054]  ? __mutex_lock_slowpath+0x10/0x10
-[11669.135289]  ? trace_hardirqs_on+0x2c/0xe0
-[11669.137462]  pciehp_handle_presence_or_link_change+0x15c/0x4f0
-[11669.139632]  ? down_read+0x11f/0x1a0
-[11669.141731]  ? pciehp_handle_disable_request+0x80/0x80
-[11669.143817]  ? rwsem_down_read_slowpath+0x600/0x600
-[11669.145851]  ? __radix_tree_lookup+0xb2/0x130
-[11669.147842]  pciehp_ist+0x19d/0x1a0
-[11669.149790]  ? pciehp_set_indicators+0xe0/0xe0
-[11669.151704]  ? irq_finalize_oneshot.part.46+0x1d0/0x1d0
-[11669.153588]  irq_thread_fn+0x3f/0xa0
-[11669.155407]  irq_thread+0x195/0x290
-[11669.157147]  ? irq_thread_check_affinity.part.49+0xe0/0xe0
-[11669.158883]  ? _raw_read_lock_irq+0x50/0x50
-[11669.160611]  ? _raw_read_lock_irq+0x50/0x50
-[11669.162320]  ? irq_forced_thread_fn+0xf0/0xf0
-[11669.164032]  ? trace_hardirqs_on+0x2c/0xe0
-[11669.165731]  ? irq_thread_check_affinity.part.49+0xe0/0xe0
-[11669.167461]  kthread+0x1c8/0x1f0
-[11669.169173]  ? kthread_parkme+0x40/0x40
-[11669.170883]  ret_from_fork+0x22/0x30
-[11669.172592] Modules linked in: iptable_nat nf_nat ip6table_raw
-xt_CT iptable_raw ip6t_REJECT nf_reject_ipv6 ip6table_mangle
-ipt_REJECT nf_reject_ipv4 xt_owner xt_conntrack iptable_mangle xt_ipvs
-ip_vs nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xt_addrtype
-br_netfilter xt_mark xt_tcpudp ip6table_filter ip6_tables
-iptable_filter nvme ip6_gre ip6_tunnel tunnel6 gre macvlan bridge stp
-llc nvme_rdma nvme_fabrics nvme_core vfio_pci vfio_virqfd
-vfio_iommu_type1 vfio qede qed crc8 scsi_dh_alua intel_rapl_msr
-intel_rapl_common skx_edac x86_pkg_temp_thermal coretemp kvm_intel kvm
-irqbypass ntb_hw_intel ntb intel_pch_thermal hed sunrpc msr bonding
-ip_tables x_tables autofs4 rdma_ucm rdma_cm mlx4_ib mlx4_core iw_cm
-ib_umad ib_ipoib ib_cm mlx5_ib ib_uverbs ib_core ghash_clmulni_intel
-aesni_intel crypto_simd cryptd mlx5_core mlxfw pci_hyperv_intf mpt3sas
-raid_class scsi_transport_sas i2c_i801 i2c_smbus pure_gpio
-pinctrl_lewisburg pinctrl_intel hid_generic usbhid hid
-[11669.172735]  [last unloaded: qla2xxx]
-[11669.201990] Dumping ftrace buffer:
-[11669.204376]    (ftrace buffer empty)
-[11669.206766] ---[ end trace 07b68fb4b0c1a54c ]---
-[11669.652093] RIP: 0010:free_msi_irqs+0x28a/0x2d0
-[11669.654461] Code: f7 83 c5 01 e8 87 44 c7 ff 39 6b 14 0f 86 d6 fd
-ff ff 4c 89 ef e8 76 44 c7 ff 8b 43 10 8d 7c 05 00 e8 8a 0d a7 ff 84
-c0 74 d4 <0f> 0b 48 8d 7b 60 e8 5b 45 c7 ff 48 8b 7b 60 e8 52 46 9b ff
-48 89
-[11669.661764] RSP: 0018:ffff88813917fa38 EFLAGS: 00010202
-[11669.664271] RAX: 0000000000000001 RBX: ffff88e042875800 RCX: ffffffff81160812
-[11669.669382] RDX: dffffc0000000000 RSI: ffff88e54fc86740 RDI: ffff892fe1627ca0
-[11669.674692] RBP: 0000000000000000 R08: ffffed278641a4fd R09: ffffed278641a4fd
-[11669.680179] R10: ffff893c320d27e5 R11: ffffed278641a4fc R12: ffff893c320d22e8
-[11669.685880] R13: ffff88e042875810 R14: ffff88e042875814 R15: ffff893c320d2000
-[11669.691587] FS:  0000000000000000(0000) GS:ffff893ebe640000(0000)
-knlGS:0000000000000000
-[11669.697296] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[11669.700174] CR2: 00007f1fc13fa000 CR3: 00000063a2de2002 CR4: 00000000005706e0
+-ck
 
-3. Proposed Fix
-From b609626a69d584ce36bad4787ea6b4c6e6dba453 Mon Sep 17 00:00:00 2001
-From: Casey Chen <cachen@purestorage.com>
-Date: Mon, 31 Aug 2020 18:14:23 -0600
-Subject: [PATCH] nvme-pci: Fix multiple races in nvme_setup_io_queues()
+Chaitanya Kulkarni (4):
+  nvme-fabrics: remove memset in nvmf_reg_read64()
+  nvme-fabrics: remove memset in nvmf_reg_write32()
+  nvme-fabrics: remove memset in connect admin q
+  nvme-fabrics: remove memset in connect io q
 
-Below two paths could overlap each other if we power off a drive quickly
-after power it on. There are multiple races in nvme_setup_io_queues()
-because of shutdown_lock missing and improper use of NVMEQ_ENABLED bit.
+ drivers/nvme/host/fabrics.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-nvme_reset_work()                                nvme_remove()
-  nvme_setup_io_queues()                           nvme_dev_disable()
-  ...                                              ...
-A1  clear NVMEQ_ENABLED bit for admin queue          lock
-    retry:                                       B1  nvme_suspend_io_queues()
-A2    pci_free_irq() admin queue                 B2
-nvme_suspend_queue() admin queue
-A3    pci_free_irq_vectors()                         nvme_pci_disable()
-A4    nvme_setup_irqs();                         B3    pci_free_irq_vectors()
-      ...                                            unlock
-A5    queue_request_irq() for admin queue
-      set NVMEQ_ENABLED bit
-      ...
-      nvme_create_io_queues()
-A6      result = queue_request_irq();
-        set NVMEQ_ENABLED bit
-      ...
-      fail to allocate enough IO queues:
-A7      nvme_suspend_io_queues()
-        goto retry
+[1] https://lore.kernel.org/linux-scsi/20210228055645.22253-1-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-13-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-14-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-15-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-16-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-17-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-18-chaitanya.kulkarni@wdc.com/
+https://lore.kernel.org/linux-scsi/20210228055645.22253-19-chaitanya.kulkarni@wdc.com/
 
-1). If B3 runs in between A1 and A2, it will crash if irqaction haven't
-  been freed by A2. B2 is supposed to free admin queue IRQ but it simply
-  can't fulfill the job as A1 has cleared NVMEQ_ENABLED bit.
+-- 
+2.22.1
 
-Fix: combine A1 A2 so IRQ get freed as soon as NVMEQ_ENABLED bit get cleared.
-
-2). After solved #1, A2 could race with B3 if A2 is freeing IRQ while B3
-  is checking irqaction. A3 also could race with B2 if B2 is freeing
-  IRQ while A3 is checking irqaction.
-
-Fix: A2 and A3 take lock for mutual exclusion.
-
-3) A3 could race with B3 since they could run free_msi_irqs() in parallel.
-
-Fix: A3 takes lock for mutual exclusion.
-
-4). A4 could fail to allocate all needed IRQ vectors if A3 and A4 are
-  interrupted by B3.
-
-Fix: A4 takes lock for mutual exclusion.
-
-5). If A5/A6 happened after B2/B1, B3 will crash since irqaction is not NULL.
-  They are just allocated by A5/A6.
-
-Fix: Lock queue_request_irq() and setting of NVMEQ_ENABLED bit.
-
-6). A7 could get chance to pci_free_irq() for certain IO queue while B3
-  is checking irqaction.
-
-Fix: A7 takes lock.
-
-7). nvme_dev->online_queues need to be protected by shutdown_lock. Since it
-  is not atomic, both paths could modify it using its own copy.
-
-Co-developed-by: Yuanyuan Zhong <yzhong@purestorage.com>
-Signed-off-by: Casey Chen <cachen@purestorage.com>
----
- drivers/nvme/host/pci.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3aa7245a505f..81e53aaaa77c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1590,8 +1590,9 @@ static int nvme_create_queue(struct nvme_queue
-*nvmeq, int qid, bool polled)
-  goto release_cq;
-
-  nvmeq->cq_vector = vector;
-- nvme_init_queue(nvmeq, qid);
-
-+ mutex_lock(&dev->shutdown_lock);
-+ nvme_init_queue(nvmeq, qid);
-  if (!polled) {
-  result = queue_request_irq(nvmeq);
-  if (result < 0)
-@@ -1599,10 +1600,12 @@ static int nvme_create_queue(struct nvme_queue
-*nvmeq, int qid, bool polled)
-  }
-
-  set_bit(NVMEQ_ENABLED, &nvmeq->flags);
-+ mutex_unlock(&dev->shutdown_lock);
-  return result;
-
- release_sq:
-  dev->online_queues--;
-+ mutex_unlock(&dev->shutdown_lock);
-  adapter_delete_sq(dev, qid);
- release_cq:
-  adapter_delete_cq(dev, qid);
-@@ -2176,7 +2179,16 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-  if (nr_io_queues == 0)
-  return 0;
-
-- clear_bit(NVMEQ_ENABLED, &adminq->flags);
-+ /*
-+ * Free IRQ resources as soon as NVMEQ_ENABLED bit transitions
-+ * from set to unset. If there is a window to it is truely freed,
-+ * pci_free_irq_vectors() jumping into this window will crash.
-+ * And take lock to avoid racing with pci_free_irq_vectors() in
-+ * nvme_dev_disable() path.
-+ */
-+ mutex_lock(&dev->shutdown_lock);
-+ if (test_and_clear_bit(NVMEQ_ENABLED, &adminq->flags))
-+ pci_free_irq(pdev, 0, adminq);
-
-  if (dev->cmb_use_sqes) {
-  result = nvme_cmb_qdepth(dev, nr_io_queues,
-@@ -2192,14 +2204,17 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-  result = nvme_remap_bar(dev, size);
-  if (!result)
-  break;
-- if (!--nr_io_queues)
-+ if (!--nr_io_queues) {
-+ mutex_unlock(&dev->shutdown_lock);
-  return -ENOMEM;
-+ }
-  } while (1);
-  adminq->q_db = dev->dbs;
-
-  retry:
-  /* Deregister the admin queue's interrupt */
-- pci_free_irq(pdev, 0, adminq);
-+ if (test_and_clear_bit(NVMEQ_ENABLED, &adminq->flags))
-+ pci_free_irq(pdev, 0, adminq);
-
-  /*
-  * If we enable msix early due to not intx, disable it again before
-@@ -2208,8 +2223,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-  pci_free_irq_vectors(pdev);
-
-  result = nvme_setup_irqs(dev, nr_io_queues);
-- if (result <= 0)
-+ if (result <= 0) {
-+ mutex_unlock(&dev->shutdown_lock);
-  return -EIO;
-+ }
-
-  dev->num_vecs = result;
-  result = max(result - 1, 1);
-@@ -2222,9 +2239,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-  * number of interrupts.
-  */
-  result = queue_request_irq(adminq);
-- if (result)
-+ if (result) {
-+ mutex_unlock(&dev->shutdown_lock);
-  return result;
-+ }
-  set_bit(NVMEQ_ENABLED, &adminq->flags);
-+ mutex_unlock(&dev->shutdown_lock);
-
-  result = nvme_create_io_queues(dev);
-  if (result || dev->online_queues < 2)
-@@ -2233,6 +2253,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-  if (dev->online_queues - 1 < dev->max_qid) {
-  nr_io_queues = dev->online_queues - 1;
-  nvme_disable_io_queues(dev);
-+ mutex_lock(&dev->shutdown_lock);
-  nvme_suspend_io_queues(dev);
-  goto retry;
-  }
---
-2.17.1
 
 _______________________________________________
 Linux-nvme mailing list
