@@ -2,90 +2,86 @@ Return-Path: <SRS0=zgHd=LK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B2CC48BE5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jun 2021 00:19:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 741A7C48BE5
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jun 2021 00:44:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 775C3611CE
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jun 2021 00:19:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 775C3611CE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3E7E961107
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jun 2021 00:44:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E7E961107
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=f8wdtfBf81GPapXCUG90rUa/aAKzery5f+8ULziEi6o=; b=Y+ija+0qkTzjzh
-	2DMwnEZU0S1wZe5gPZ0L54Sn+0yPVnYY+3KtCjehm8F34uZ+dND5LXbfAAadix+M1QDdejCwLcZ7O
-	nX7OlvbdURD70wQAhu7bvodiM6zsV9wk9+llpQvd9toHWkHWn1Zp8f7UFtrQ7pJIKelD0G81Rm5WL
-	0IWW7HeaV7SY1C4kxbuNV0w6EV124ha2V80XqMovLvUOIkBdPBf7i/DuqUIKqI9P6dV92x8+0IeDu
-	RqbCwisWO6R0tPJpkWnwVLIGYcymdnilBJ6OvaBVIDujLyrjF2dS5QBz1zzdDdqyWe3P0+5M3trRA
-	yPvAAaDInPfCiM7hUFEQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=30pnjpZWLxld3v0pRZDv6njOSaEbHHMZ6EEMfedk9uQ=; b=ybcR3yhcN3W7Ph
+	ith3TM9NaG1yeNvvTk4rYj4//HLscnfUKmf1jZChj3b8owzqaHRNvkranT2P2SRqZvmhctO2cugx2
+	Dtzp1zadLVTpWF2VqoZtSWCGNVoLP/pT9aHdFQVRnx3iUTz6U3RzqLsMZTf0uJM4Sl40ps3/r3Ltp
+	ke6iTqHyw64a5noQofRz1BHp8zr/DOnpgGBRAp4XsHDgyXDHYCLIOs6o3QKNM5byGIYNjihpNc14/
+	GN+8xanFSlFQiq5b/qnjN5JE4mcnAeKB7Nwb/KXjz3EuvUn2N/4X2Ikh7ugP5PJ0ex2KMUEaFXgcA
+	RbMorHlTGhWaL7KBQVqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltJGc-0046iJ-NQ; Wed, 16 Jun 2021 00:18:50 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1ltJf6-004CKf-GN; Wed, 16 Jun 2021 00:44:08 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ltJGZ-0046h0-MW
- for linux-nvme@lists.infradead.org; Wed, 16 Jun 2021 00:18:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623802728; x=1655338728;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8RR0uN6/SWhxIhzQE2mb6vFAX4h3MsqiW37Bl4g1UKY=;
- b=RI+lvbgYPHEgZTqzg39oneVgLWFMRAqcroTcbK+zNRUsqSztp/ipuo5g
- /V7nlr+4y36a1AJCm5M8YUTZR+EgVakFNxcpNDMY+1o/S1pHugRx/+qE9
- 2pF279nAsi6oXCSl6nN2Q3P3biY6FrzYaSiHqkD1JArxzbp2VJpWoxbSR
- el0SoNhCrGtsM5aa90IW2tgVY34mfcz+uPGKpzWjRw1C2rMdBksoMOCQf
- NL7mHI+mOTO4d+0zhtRU2SYQny1jnZxykKKj0SN6Ur0y9M2agOrXTsuCu
- IaZEASaKtF0rESzK38jmYIhFqQo/Dyb2FfmybmVzwjRxCl+lAiZhtRi10 A==;
-IronPort-SDR: /TDoeHjSboi8hU3DSmZEFz8KW4uQKahwG/WDK6flwuJkZUmIGZo/vlhWb76TblqdUiq6aZIGAV
- eQKTozEYB5v1kziXhPb3gD1OPwxtT/Vf4CEA3AWCDQZ65rl1FVRrMeoOeS5fZ2cAeqKQeTur9X
- CKsnoNmhUaPg18sYF9dvxLUgXin9KW7WlR/P8q8fGBSF4SsulqZGrj4WjoRkpRda4sjkYCW75L
- a2roGOeI35UAEv9iYrNMYZG9EX2F6ausjLfb7O0vqAUIM3wm+a02N/5Ccs8f1BkblQTUXA6YnB
- z2w=
-X-IronPort-AV: E=Sophos;i="5.83,276,1616428800"; d="scan'208";a="172598451"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 16 Jun 2021 08:18:46 +0800
-IronPort-SDR: uz9X4etXmYLpOwi0UcscM9bQBaJMNvPjQa8lIzlqpERY5wTGwl+Jquh16q6lobLP7R/pBtmKk0
- IARw0WvR7eRcTHfxnyhzCXc2twDGbWhPWSRW8SN5wDpMUe//Dphc9nu/yNra8026WdI4SMJEo9
- RunNqAh76SvjuR77a5y2vouvixe52PeMGRWX3WFGuuw8zy/PCnrQGu2/k54ssmQWlG9gbcD0Fk
- llOPysVwDCwulm2j9pfJslqex10OWro10bP4fAl5FbgmiL8l2d21l3pFYUQdoH7PCCbKgrAt8F
- IGcgL1AjQhG/+FPM6+UL3Xu4
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 16:57:40 -0700
-IronPort-SDR: /wNn/4H02MKjN97A+vy0gakEtrGEqA/2uH3cYz6Wf9poxAjD3YUSZmHq4R+eJ1A99YUnR9Bsyo
- iokT50HKE3nBXnMPAa/DuS9seaTBnVa8M3Lijuj4FrB0JSsEEVlZMwPTEGzdN8D0Psp40V/Jtp
- uhMJZpJ79BLGNUwYTC9W+UnyG+a/1Inw4bRWQaAUkTve7vk17PEaXE8Jp0nLmABsXfyyDzY1/7
- oJPXkqMqrR4rF82mXJsOLfDd/TaIzDEJc9oIV9U56Y+xIZorXXhkQnFQHRDImenYAczbD1vR/D
- QRo=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 15 Jun 2021 17:18:46 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, sagi@grimberg.me,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- kernel test robot <lkp@intel.com>
-Subject: [PATCH] nvmet: mark zmgmt recv work function static
-Date: Tue, 15 Jun 2021 17:18:43 -0700
-Message-Id: <20210616001844.58969-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1.dirty
+ id 1ltJbh-004ARu-7U
+ for linux-nvme@lists.infradead.org; Wed, 16 Jun 2021 00:40:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623804034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=327NKSVoyLXkfvSgIC6wSAcEEzB6rOENlygol386mU8=;
+ b=H1AXN8Na7VFbz6T/oxHoThve5uNLxrQbvKg5o8fuKIbLQ4I+cOBVDMgIH5X7ZLgH3mlJQV
+ tIvOlTglEf6KyKwDob54SMuHcipS6myh7lsWOsgYL+rgcbP8KR666dh7pXkAqqsHv/HLit
+ eYDTqTm1HEFRvkgBhW2XTkERIQtqt80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-8DNMEgDgOeeiz8UMqMeYGQ-1; Tue, 15 Jun 2021 20:40:30 -0400
+X-MC-Unique: 8DNMEgDgOeeiz8UMqMeYGQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF3F71084F41;
+ Wed, 16 Jun 2021 00:40:28 +0000 (UTC)
+Received: from T590 (ovpn-12-78.pek2.redhat.com [10.72.12.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAA76620DE;
+ Wed, 16 Jun 2021 00:40:18 +0000 (UTC)
+Date: Wed, 16 Jun 2021 08:40:14 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+ LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
+ Marc Zyngier <marc.zyngier@arm.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Shivasharan Srikanteshwara <shivasharan.srikanteshwara@broadcom.com>
+Subject: Re: [patch v6 3/7] genirq/affinity: Add new callback for
+ (re)calculating interrupt sets
+Message-ID: <YMlIbt3EPyRJHNWf@T590>
+References: <20190216172228.512444498@linutronix.de>
+ <20210615195707.GA2909907@bjorn-Precision-5520>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210615195707.GA2909907@bjorn-Precision-5520>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210615_171847_846059_45069763 
-X-CRM114-Status: GOOD (  13.03  )
+X-CRM114-CacheID: sfid-20210615_174037_410306_76628CAF 
+X-CRM114-Status: GOOD (  55.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,36 +98,191 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function nvmet_bdev_zone_zmgmt_recv_work() is only used in
-target/zns.c. Mark this function static to avoid compiler warning :-
+On Tue, Jun 15, 2021 at 02:57:07PM -0500, Bjorn Helgaas wrote:
+> On Sat, Feb 16, 2019 at 06:13:09PM +0100, Thomas Gleixner wrote:
+> > From: Ming Lei <ming.lei@redhat.com>
+> > 
+> > The interrupt affinity spreading mechanism supports to spread out
+> > affinities for one or more interrupt sets. A interrupt set contains one or
+> > more interrupts. Each set is mapped to a specific functionality of a
+> > device, e.g. general I/O queues and read I/O queus of multiqueue block
+> > devices.
+> > 
+> > The number of interrupts per set is defined by the driver. It depends on
+> > the total number of available interrupts for the device, which is
+> > determined by the PCI capabilites and the availability of underlying CPU
+> > resources, and the number of queues which the device provides and the
+> > driver wants to instantiate.
+> > 
+> > The driver passes initial configuration for the interrupt allocation via a
+> > pointer to struct irq_affinity.
+> > 
+> > Right now the allocation mechanism is complex as it requires to have a loop
+> > in the driver to determine the maximum number of interrupts which are
+> > provided by the PCI capabilities and the underlying CPU resources.  This
+> > loop would have to be replicated in every driver which wants to utilize
+> > this mechanism. That's unwanted code duplication and error prone.
+> > 
+> > In order to move this into generic facilities it is required to have a
+> > mechanism, which allows the recalculation of the interrupt sets and their
+> > size, in the core code. As the core code does not have any knowledge about the
+> > underlying device, a driver specific callback is required in struct
+> > irq_affinity, which can be invoked by the core code. The callback gets the
+> > number of available interupts as an argument, so the driver can calculate the
+> > corresponding number and size of interrupt sets.
+> > 
+> > At the moment the struct irq_affinity pointer which is handed in from the
+> > driver and passed through to several core functions is marked 'const', but for
+> > the callback to be able to modify the data in the struct it's required to
+> > remove the 'const' qualifier.
+> > 
+> > Add the optional callback to struct irq_affinity, which allows drivers to
+> > recalculate the number and size of interrupt sets and remove the 'const'
+> > qualifier.
+> > 
+> > For simple invocations, which do not supply a callback, a default callback
+> > is installed, which just sets nr_sets to 1 and transfers the number of
+> > spreadable vectors to the set_size array at index 0.
+> > 
+> > This is for now guarded by a check for nr_sets != 0 to keep the NVME driver
+> > working until it is converted to the callback mechanism.
+> > 
+> > To make sure that the driver configuration is correct under all circumstances
+> > the callback is invoked even when there are no interrupts for queues left,
+> > i.e. the pre/post requirements already exhaust the numner of available
+> > interrupts.
+> > 
+> > At the PCI layer irq_create_affinity_masks() has to be invoked even for the
+> > case where the legacy interrupt is used. That ensures that the callback is
+> > invoked and the device driver can adjust to that situation.
+> > 
+> > [ tglx: Fixed the simple case (no sets required). Moved the sanity check
+> >   	for nr_sets after the invocation of the callback so it catches
+> >   	broken drivers. Fixed the kernel doc comments for struct
+> >   	irq_affinity and de-'This patch'-ed the changelog ]
+> > 
+> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> 
+> > @@ -1196,6 +1196,13 @@ int pci_alloc_irq_vectors_affinity(struc
+> >  	/* use legacy irq if allowed */
+> >  	if (flags & PCI_IRQ_LEGACY) {
+> >  		if (min_vecs == 1 && dev->irq) {
+> > +			/*
+> > +			 * Invoke the affinity spreading logic to ensure that
+> > +			 * the device driver can adjust queue configuration
+> > +			 * for the single interrupt case.
+> > +			 */
+> > +			if (affd)
+> > +				irq_create_affinity_masks(1, affd);
+> 
+> This looks like a leak because irq_create_affinity_masks() returns a
+> pointer to kcalloc()ed space, but we throw away the pointer.
+> 
+> Or is there something very subtle going on here, like this special
+> case doesn't allocate anything?  I do see the "Nothing to assign?"
+> case that returns NULL with no alloc, but it's not completely trivial
+> to verify that we take that case here.
 
->> drivers/nvme/target/zns.c:257:6: warning: no previous prototype for
-'nvmet_bdev_zone_zmgmt_recv_work' [-Wmissing-prototypes]
-     257 | void nvmet_bdev_zone_zmgmt_recv_work(struct work_struct *w)
-         |
+The purpose is to provide chance to call ->calc_sets() for single
+interrupt, maybe it can be improved by the following change:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Fixes: 9653e01d9c3c ("nvmet: add ZBD over ZNS backend support")
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/target/zns.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index b8ff75293e53..c4be4012c4d4 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -254,7 +254,7 @@ static unsigned long get_nr_zones_from_buf(struct nvmet_req *req, u32 bufsize)
- 		sizeof(struct nvme_zone_descriptor);
+diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+index 217dc9f0231f..025c647279f5 100644
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -1223,8 +1223,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ 			 * the device driver can adjust queue configuration
+ 			 * for the single interrupt case.
+ 			 */
+-			if (affd)
+-				irq_create_affinity_masks(1, affd);
++			irq_affinity_calc_sets_legacy(affd);
+ 			pci_intx(dev, 1);
+ 			return 1;
+ 		}
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index 4777850a6dc7..f21f93ce460b 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -368,6 +368,7 @@ irq_create_affinity_masks(unsigned int nvec, struct irq_affinity *affd);
+ 
+ unsigned int irq_calc_affinity_vectors(unsigned int minvec, unsigned int maxvec,
+ 				       const struct irq_affinity *affd);
++void irq_affinity_calc_sets_legacy(struct irq_affinity *affd);
+ 
+ #else /* CONFIG_SMP */
+ 
+@@ -419,6 +420,10 @@ irq_calc_affinity_vectors(unsigned int minvec, unsigned int maxvec,
+ 	return maxvec;
  }
  
--void nvmet_bdev_zone_zmgmt_recv_work(struct work_struct *w)
-+static void nvmet_bdev_zone_zmgmt_recv_work(struct work_struct *w)
- {
- 	struct nvmet_req *req = container_of(w, struct nvmet_req, z.zmgmt_work);
- 	sector_t start_sect = nvmet_lba_to_sect(req->ns, req->cmd->zmr.slba);
--- 
-2.22.1
++static inline void irq_affinity_calc_sets_legacy(struct irq_affinity *affd)
++{
++}
++
+ #endif /* CONFIG_SMP */
+ 
+ /*
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index 4d89ad4fae3b..d01f7dfa5712 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -405,6 +405,30 @@ static void default_calc_sets(struct irq_affinity *affd, unsigned int affvecs)
+ 	affd->set_size[0] = affvecs;
+ }
+ 
++static void irq_affinity_calc_sets(unsigned int affvecs,
++		struct irq_affinity *affd)
++{
++	/*
++	 * Simple invocations do not provide a calc_sets() callback. Install
++	 * the generic one.
++	 */
++	if (!affd->calc_sets)
++		affd->calc_sets = default_calc_sets;
++
++	/* Recalculate the sets */
++	affd->calc_sets(affd, affvecs);
++
++	WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS);
++}
++
++/* Provide a chance to call ->calc_sets for legacy */
++void irq_affinity_calc_sets_legacy(struct irq_affinity *affd)
++{
++	if (!affd)
++		return;
++	irq_affinity_calc_sets(0, affd);
++}
++
+ /**
+  * irq_create_affinity_masks - Create affinity masks for multiqueue spreading
+  * @nvecs:	The total number of vectors
+@@ -429,17 +453,8 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+ 	else
+ 		affvecs = 0;
+ 
+-	/*
+-	 * Simple invocations do not provide a calc_sets() callback. Install
+-	 * the generic one.
+-	 */
+-	if (!affd->calc_sets)
+-		affd->calc_sets = default_calc_sets;
+-
+-	/* Recalculate the sets */
+-	affd->calc_sets(affd, affvecs);
+-
+-	if (WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS))
++	irq_affinity_calc_sets(affvecs, affd);
++	if (affd->nr_sets > IRQ_AFFINITY_MAX_SETS)
+ 		return NULL;
+ 
+ 	/* Nothing to assign? */
+
+
+Thanks, 
+Ming
 
 
 _______________________________________________
