@@ -4,52 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C640FC433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Dec 2021 06:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A72A3C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Dec 2021 07:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=y1GifFop1lI4anosO8Rh54/FVEpscbbAal1X0GxOX/E=; b=z3frlVci7x8Qt0Gpow27pez8T6
-	JxkO4kTBCdb+N9oKVhnxrTM/4qMlQjoKtiUDRqU5V1yN0QDvFk4BKzjWwtx5E9KsnPvJ2hqyN32FV
-	IY/REfkH4AR0R9Ka7hYWG3R/bf3CYsLtoo9n2RC9x4Lt/hR35SCajgbT/jNh14twBk9yqUodk1zXO
-	DA8gwtBx5UJTQYVLTURFC+MjLUrGm0O6EGHxGmSOPOPohulL1mebcPr7FB6BGEh4ujNeYPONeyl9H
-	e6CeaMxWSvssvw9Jffp/mAwZyCKAMVjbA+uZiALJg61EeCt+uI9260k5d+yA7r0yvnBD455D+et+E
-	jDU9XMUw==;
+	bh=gO3oUB/va1dRPgvmeJ0Tdr4UtsAZWwze/f8ygaHXlM4=; b=SIpsCVoCeO/JcMGoUthZOIPuyI
+	x9qJbYaAkuw2jxJZyWDFs76Kf2efjh/Rl/x5+CgazwjTuvAerJl92AeXN5jqzPWmQ/NEYhGcU/02s
+	CJQxxejy+UBDeDVmnsX11dg2Y9gWCUHviI6djlYn/C3T+EQcUN4WbJAvt7KWcdFilMPdL8G/WHW7T
+	ah7N0iQDu7iXfxJUgTawdrwvijPeArQ/8c55SAXZJVPIsN4PDmrZV6nM08MwXe3zjY/2KdwmUs3O+
+	uo7dKFPAjFhjm5k4KnbJyn5rE72lvOCvGprz6VTTWSNZ+cCtZ9XGjGGoY12UVSljErlVzXoXZvbqF
+	a1tWQGnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mvZCJ-000rQs-Sm; Fri, 10 Dec 2021 06:15:59 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1mvZxn-000zZK-8P; Fri, 10 Dec 2021 07:05:03 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mvZCH-000rQe-Jh
- for linux-nvme@bombadil.infradead.org; Fri, 10 Dec 2021 06:15:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=y1GifFop1lI4anosO8Rh54/FVEpscbbAal1X0GxOX/E=; b=f83fmZYOyCH+kyHIV84Z1CXEkB
- PIr0SKo3YUtgfpikWRQpu+h5GDvHcdnVoucaHJntVyGySz0y7M8PYCI/uKUeSnyaMzsVGI2+UiJne
- Adg3c8W2VuQ7dfkBi+uMAPNKjgV3dSl+NcKywLIorMmFosR5OA26B4JxwG4ZZde+OohviDqAPgnfw
- dt8W/L3MyJJfxGSGeByUUqOuOdwlbo69Q/b1l3dneirHeuKtyvYHIj0R+FZHrlj44sgArIcKpAvk/
- BecJT/r5x1EYnO23Q8Jyd8CbiK1U1aFlQSpg958h+fDItiVuAbKQ+MkNcfl1ULcAgnZgW1RT9AL/Z
- nLP1n0og==;
-Received: from [2001:4bb8:180:a1c8:de14:d573:bcd:1136] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mvZCE-00A4qW-RU; Fri, 10 Dec 2021 06:15:55 +0000
-Date: Fri, 10 Dec 2021 07:15:53 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme fixes for Linux 5.16
-Message-ID: <YbLwmaLqilKEW0Q/@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+ id 1mvZwi-000z41-I7
+ for linux-nvme@lists.infradead.org; Fri, 10 Dec 2021 07:03:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639119836; x=1670655836;
+ h=from:to:cc:subject:date:message-id;
+ bh=hQX+mBwuNcTtH2DNwvr9mmlZJrlPuVNrzPX1kqv+iuY=;
+ b=T/fQM750xxVQTiYsL8+oAo5sT+nddFR8dfTsDK/pisdEHUtacorfJRB6
+ op4x7Kf/z7K3mUTW1S/zhQkSdQTx+6cYOhuBRP10RVlg49ZmSFcpgexqH
+ OUqEFGJQ6fqROD4oRunyRBqtzxqA0LSjOFwCjtZZf6YMN1HESV4PKDjGd
+ 5cok1YmVXZU54c9J+SWha1pV8qYTfjXDSAPbL+tkRDdkYojmabKMwkpdO
+ FaN+XUAB3mJ1SSS1mMApDaiY77zG7m3ZZk/KoCRs9LLh+JJL5Yc/lVi6J
+ NE/AqNXioYU5etc8xg67GceMPWFJxf8Y4A2fZcg5Y2w/NRT2juqfUi+sw Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="218979131"
+X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="218979131"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 23:03:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="516647903"
+Received: from unknown (HELO localhost.localdomain.bj.intel.com)
+ ([10.238.158.84])
+ by orsmga008.jf.intel.com with ESMTP; 09 Dec 2021 23:03:52 -0800
+From: Zheng Wu <wu.zheng@intel.com>
+To: linux-nvme@lists.infradead.org
+Cc: Wu Zheng <wu.zheng@intel.com>
+Subject: [PATCH] nvme: fix possible initialization failure for P4500/P4600 SSDs
+Date: Thu, 17 Jun 2021 12:05:52 -0400
+Message-Id: <1623945952-18861-1-git-send-email-wu.zheng@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20211209_230356_650784_6B18AE7F 
+X-CRM114-Status: GOOD (  12.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,51 +70,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit e3f9387aea67742b9d1f4de8e5bb2fd08a8a4584:
+From: Wu Zheng <wu.zheng@intel.com>
 
-  loop: Use pr_warn_once() for loop_control_remove() warning (2021-11-29 06:44:45 -0700)
+Subnqn isn't supported in P4500/P4600 SSDs.
+It's a fixed unavailable value in each P4500/P4600 SSD.
 
-are available in the Git repository at:
+Multiple SSDs need to return the different subnqn when SSDs are initialization.
+To P4500/P4600 SSDs, in nvme_init_subnqn, id->subnqn is not null and
+it's from P4500/P4600. However, multiple P4500/P4600 SSDs return the same subnqn.
+It causes the possible initialization failure.
 
-  git://git.infradead.org/nvme.git tags/nvme-5.16-2021-12-10
+To fix this, the flag of NVME_QUIRK_IGNORE_DEV_SUBNQN need to be added to
+driver_data of P4500/P4600 for nvme_id_table.
 
-for you to fetch changes up to 30e32f300be6d0160fd1b3fc6d0f62917acd9be2:
+Signed-off-by: Zheng Wu <wu.zheng@intel.com>
+---
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  nvmet-tcp: fix possible list corruption for unexpected command failure (2021-12-08 16:36:58 +0100)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ca2ee80..953ea3d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3326,7 +3326,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_DEALLOCATE_ZEROES, },
+ 	{ PCI_VDEVICE(INTEL, 0x0a54),	/* Intel P4500/P4600 */
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+-				NVME_QUIRK_DEALLOCATE_ZEROES, },
++				NVME_QUIRK_DEALLOCATE_ZEROES |
++				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_VDEVICE(INTEL, 0x0a55),	/* Dell Express Flash P4600 */
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DEALLOCATE_ZEROES, },
+-- 
+2.7.4
 
-----------------------------------------------------------------
-nvme fixes for Linux 5.16
-
- - set ana_log_size to 0 after freeing ana_log_buf (Hou Tao)
- - show subsys nqn for duplicate cntlids (Keith Busch)
- - disable namespace access for unsupported metadata (Keith Busch)
- - report write pointer for a full zone as zone start + zone len
-   (Niklas Cassel)
- - fix use after free when disconnecting a reconnecting ctrl
-   (Ruozhu Li)
- - fix a list corruption in nvmet-tcp (Sagi Grimberg)
-
-----------------------------------------------------------------
-Hou Tao (1):
-      nvme-multipath: set ana_log_size to 0 after free ana_log_buf
-
-Keith Busch (2):
-      nvme: show subsys nqn for duplicate cntlids
-      nvme: disable namespace access for unsupported metadata
-
-Niklas Cassel (1):
-      nvme: report write pointer for a full zone as zone start + zone len
-
-Ruozhu Li (1):
-      nvme: fix use after free when disconnecting a reconnecting ctrl
-
-Sagi Grimberg (1):
-      nvmet-tcp: fix possible list corruption for unexpected command failure
-
- drivers/nvme/host/core.c      | 23 ++++++++++++++++++-----
- drivers/nvme/host/multipath.c |  3 ++-
- drivers/nvme/host/nvme.h      |  2 +-
- drivers/nvme/host/zns.c       |  5 ++++-
- drivers/nvme/target/tcp.c     |  9 ++++++++-
- 5 files changed, 33 insertions(+), 9 deletions(-)
 
