@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 737E3C2B9F4
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 13:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B7AEC2B9F4
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 13:55:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C4B7611BE
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 13:55:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C4B7611BE
+	by mail.kernel.org (Postfix) with ESMTPS id 36837611BE
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 13:55:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36837611BE
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KuWi+es1P/b+pZo/z5ZFGxrcRX+6KRReLQazcuQ7ZC4=; b=08Sd7vlWs3nCsr
-	gwhNTqRssNgxt3QDbih39o2DujbYFNy4+vGbAwzgq9SAOjQMmQfv0lS6fe0WzJUsaHF1oA+JdMnfg
-	iu7eParQZT6I4gTI6s/FwnYCcHi1cNlOS+e2TRRK3/tTsJFoLTAN5gpU8SkHlXNLHAm4xuXWpbTt+
-	thUVqCjw4JnpRkTSaa9+xXOhGYUXyPlmahbLwJnJfjkCRe/eAHiDCGbUtBLuYL5UXm9hQ9CCyYfi9
-	4Sw/USZdcyFwQjUGYjIIN7+yTW6Lch21j5rtWiNvvKS0B0X68EhAwx+RXiH+JrMMejI3UQ2Z/3pB4
-	sZflDgDUGuHpSx0JJt6Q==;
+	List-Owner; bh=KuWi+es1P/b+pZo/z5ZFGxrcRX+6KRReLQazcuQ7ZC4=; b=nCaqkHqba250YV
+	ptls3FJm14iPxqVV3ip/9ZsXtdyJCpaa6mZs9ysbWSCB4P+0Jd4DQcVHneErOl34TmxN56wmaWNDE
+	Si1+p5nRjQ7ObDitojCifZBtDG/+NKqBbBrUBUGQNYo0kw9+kkVuq7nujDgNzcgva96I3x/ddF7Ol
+	AbLDX7AcNEDG2PGI8BCKklB8fJ5hmPRKt3h/9DBR4r/9PROblzjrkwE9zeU6h3FbyYwhS/29lkEeK
+	ZWabSNEQu9m10XPyhBf54+uP9N01NnZ8yYEzuWsVRVaRHJaKlAy0OqwSmIOWKLBg3w7NxV+ZX5S2z
+	OGFKq1TP9lm3TOfPDZ9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltsU8-00AaHE-5E; Thu, 17 Jun 2021 13:55:08 +0000
+	id 1ltsUK-00AaLb-FW; Thu, 17 Jun 2021 13:55:20 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ltsTx-00AaDV-Ll
- for linux-nvme@lists.infradead.org; Thu, 17 Jun 2021 13:54:58 +0000
+ id 1ltsUA-00AaHb-1e
+ for linux-nvme@lists.infradead.org; Thu, 17 Jun 2021 13:55:11 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C081D68C4E; Thu, 17 Jun 2021 15:54:55 +0200 (CEST)
-Date: Thu, 17 Jun 2021 15:54:55 +0200
+ id 2935468C4E; Thu, 17 Jun 2021 15:55:08 +0200 (CEST)
+Date: Thu, 17 Jun 2021 15:55:07 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
- kbusch@kernel.org
-Subject: Re: [PATCH 0/3] nvme: remove struct zeroout memset calls
-Message-ID: <20210617135455.GB28419@lst.de>
-References: <20210616221553.55914-1-chaitanya.kulkarni@wdc.com>
+To: JK Kim <jongkang.kim2@gmail.com>
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: fix var. type for increasing cq_head
+Message-ID: <20210617135507.GC28419@lst.de>
+References: <YMrlaTjfyy9slGg6@localhost>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210616221553.55914-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <YMrlaTjfyy9slGg6@localhost>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210617_065457_901801_9AD0A9DB 
-X-CRM114-Status: UNSURE (   7.07  )
+X-CRM114-CacheID: sfid-20210617_065510_273059_964C9FD9 
+X-CRM114-Status: UNSURE (   7.58  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
