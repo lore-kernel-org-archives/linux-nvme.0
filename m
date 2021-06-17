@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7378C2B9F4
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 08:04:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B8FC2B9F4
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 08:11:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A73AD611BE
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 08:04:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A73AD611BE
+	by mail.kernel.org (Postfix) with ESMTPS id A9C0261159
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jun 2021 08:11:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A9C0261159
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,78 +23,79 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=21vTuyrkbXWVKpZWZAt0WqRbgV83sFGdZIk++v9oXdM=; b=4SJ9/qJf7Tlj5+
-	7PM65ija+fFyC2Y1q3Htzsvk4ID54S5ma72yEeJOp9kRnxzNgOjcOyKv84iNKfY/B1fz96JRTNSeo
-	gNWBM4BoeiVXNosmrO36ZEQYaNnfYaBp+mX9OEMLKnfnnnzUOjJpFthJofaIK5CeQdXiCzw61vHJv
-	kxWH7spgYYa81h65QCSQszD+jKUcESe1ZNW3k+5/EPbRx6EvxwQ+XR6Aoj8GfyjPaK6LTDW0uup3U
-	K2cXn40Ez6Zkwcl7bOHtYSxsc4fha7pFmxo/qPfTWokSMhjFNCaFBGvrM1Z+j7wrkBq67TbZTR8JP
-	TXUWtuce1gpYQbEeL/uQ==;
+	List-Owner; bh=MOAd7N23OZQ3oKpLHmuLMSWUfJyNqadoXZHMMMQ+1Ac=; b=FQ/hCQmrTvdiId
+	xYcfKn/9xjT86pLvvhCKCCT96BY4W7QYxe4zxaPudDRPD7WVUH1rP3710DNg5a1nJIn/AxSnOM1WN
+	heeiHd3dehIoAuYvC+TB2IJZAEe7RXE1a0GY8PzkJzxN0yiG8Su9LvAvpHGKJEgj8bIBc0EdceGPL
+	Vc+PKcy9/Ja7ZZA23iWeXqCKwz6qxF1L+P5JXxA+U8xxONejQ89OQKrwjoxS8tbYzGcrEJwTV+pa9
+	NZLYT1rccg04K4pYvBGJKmvVBNgICUqZ2YM8c06qLWoWZ4Oub6lDyUL6Rqeze0UWupJl9mxkTHCM9
+	45H9hW+telCYC9MMV5yQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ltn0t-009PtF-LI; Thu, 17 Jun 2021 08:04:35 +0000
+	id 1ltn7c-009ROK-8E; Thu, 17 Jun 2021 08:11:32 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ltn0o-009Pqq-Rv
- for linux-nvme@lists.infradead.org; Thu, 17 Jun 2021 08:04:34 +0000
+ id 1ltn7X-009RNd-4o
+ for linux-nvme@lists.infradead.org; Thu, 17 Jun 2021 08:11:31 +0000
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0DE2D21A8D;
- Thu, 17 Jun 2021 08:04:29 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B536921AEF;
+ Thu, 17 Jun 2021 08:11:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623917069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1623917485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b01wnSdyM2+2vXX1COz937DkqIdJcq4z477RhlclvHw=;
- b=elqQdPvPhG0QhJIXRKPCE1qsArHY569lNIHLAH/9kRqJUsm7tOjXJfSQoeM4oJcWq0wF40
- prnFeLxfP2pml2joAHIHjrwiNzngIAHJXTk5HnvNTLc7mvW7MkrVAqfYbjy6kEl7h+b46Q
- 04ZQRQfGPxRu72HiZ/2ebPbsi9FdK50=
+ bh=/oJJ0CO5Q1FGyG3YtbMnt0bCNSE58UBDtdtEIINkqL4=;
+ b=epjzBqnjqDwWPpbyeetBF6YZlowatzr3WNPLuLYgdLB9QVAGuZddnQxUcUvuA6p/0vpksA
+ aeIfgUH27+KN5UgSZhdlFL9tgYdPH2ctwC+EJWhIDQLKZM07bFtD4Wy6wrIvfe7fFQaYSw
+ ckoxvlr0i22adkM07y4KGYr9Xg2JIog=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623917069;
+ s=susede2_ed25519; t=1623917485;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b01wnSdyM2+2vXX1COz937DkqIdJcq4z477RhlclvHw=;
- b=P3CA4R5Lin9xtE6MuJc/ydwytMOmVF6TU9YPTY8xBY21DGm5J3QF/7Rdj3Wgb0U88qvUJr
- oxa4VAUX7yBMUqCg==
+ bh=/oJJ0CO5Q1FGyG3YtbMnt0bCNSE58UBDtdtEIINkqL4=;
+ b=fxdXJbar6rfMfZFKHhP1k57/F/RqP8MSeoQimBnFgiBl1IuYnu0LoFyO+fzCC+VRv5FfU+
+ VQlI9F13avM59xAw==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id E796D118DD;
- Thu, 17 Jun 2021 08:04:28 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id 9AE66118DD;
+ Thu, 17 Jun 2021 08:11:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623917069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1623917485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b01wnSdyM2+2vXX1COz937DkqIdJcq4z477RhlclvHw=;
- b=elqQdPvPhG0QhJIXRKPCE1qsArHY569lNIHLAH/9kRqJUsm7tOjXJfSQoeM4oJcWq0wF40
- prnFeLxfP2pml2joAHIHjrwiNzngIAHJXTk5HnvNTLc7mvW7MkrVAqfYbjy6kEl7h+b46Q
- 04ZQRQfGPxRu72HiZ/2ebPbsi9FdK50=
+ bh=/oJJ0CO5Q1FGyG3YtbMnt0bCNSE58UBDtdtEIINkqL4=;
+ b=epjzBqnjqDwWPpbyeetBF6YZlowatzr3WNPLuLYgdLB9QVAGuZddnQxUcUvuA6p/0vpksA
+ aeIfgUH27+KN5UgSZhdlFL9tgYdPH2ctwC+EJWhIDQLKZM07bFtD4Wy6wrIvfe7fFQaYSw
+ ckoxvlr0i22adkM07y4KGYr9Xg2JIog=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623917069;
+ s=susede2_ed25519; t=1623917485;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b01wnSdyM2+2vXX1COz937DkqIdJcq4z477RhlclvHw=;
- b=P3CA4R5Lin9xtE6MuJc/ydwytMOmVF6TU9YPTY8xBY21DGm5J3QF/7Rdj3Wgb0U88qvUJr
- oxa4VAUX7yBMUqCg==
+ bh=/oJJ0CO5Q1FGyG3YtbMnt0bCNSE58UBDtdtEIINkqL4=;
+ b=fxdXJbar6rfMfZFKHhP1k57/F/RqP8MSeoQimBnFgiBl1IuYnu0LoFyO+fzCC+VRv5FfU+
+ VQlI9F13avM59xAw==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id XMiINwwCy2AXGgAALh3uQQ
- (envelope-from <dwagner@suse.de>); Thu, 17 Jun 2021 08:04:28 +0000
-Date: Thu, 17 Jun 2021 10:04:28 +0200
+ id 0UnOJK0Dy2DGHQAALh3uQQ
+ (envelope-from <dwagner@suse.de>); Thu, 17 Jun 2021 08:11:25 +0000
+Date: Thu, 17 Jun 2021 10:11:25 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH v3 2/4] nvme-pci: limit maximum queue depth to 4095
-Message-ID: <20210617080428.dv7qbo3yuvkhkkmw@beryllium.lan>
+Subject: Re: [PATCH v3 3/4] nvme-tcp: don't check blk_mq_tag_to_rq when
+ receiving pdu data
+Message-ID: <20210617081125.ufn6ldgzzhzy6grn@beryllium.lan>
 References: <20210616211936.451128-1-sagi@grimberg.me>
- <20210616211936.451128-3-sagi@grimberg.me>
+ <20210616211936.451128-4-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210616211936.451128-3-sagi@grimberg.me>
+In-Reply-To: <20210616211936.451128-4-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210617_010431_092655_F1D13EC2 
-X-CRM114-Status: GOOD (  11.67  )
+X-CRM114-CacheID: sfid-20210617_011127_375097_522224B4 
+X-CRM114-Status: GOOD (  10.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,15 +112,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 16, 2021 at 02:19:34PM -0700, Sagi Grimberg wrote:
-> We are going to use the upper 4-bits of the command_id for a generation
-> counter, so enforce the new queue depth upper limit. As we enforce
-> both min and max queue depth, use param_set_uint_minmax istead of
-> open coding it.
+On Wed, Jun 16, 2021 at 02:19:35PM -0700, Sagi Grimberg wrote:
+> We already validate it when receiving the c2hdata pdu header
+> and this is not changing so this is a redundant check.
 > 
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
 > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
 
 Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
