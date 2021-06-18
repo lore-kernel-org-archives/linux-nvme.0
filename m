@@ -2,83 +2,79 @@ Return-Path: <SRS0=tf27=LM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 495C4C48BDF
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jun 2021 19:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40743C48BDF
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jun 2021 19:19:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F1D77611CD
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jun 2021 19:14:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1D77611CD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 08F3161057
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jun 2021 19:19:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08F3161057
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linutronix.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+8zWwQvA+JFF6Myc0K08w2UYiXcDxe2yVhe6gUGlQPA=; b=joOvXGZNm5VRWGvMXdfx0utA9J
-	+/hRDK1ykU4u5wLYSkUruompJBmx8tdGivw2Y8P9Fm8mED1EWklA0qtUYtbfa6XMVrssmd0+WMss1
-	jTpk3mWoe8rhKSNCK8N21hynw8/VD0BItjQ5w4D/JP8fR7YSAIy16vWzfY582i3egXgObMrxIYXpj
-	b83FaXBDXzNTB9tdbVtuh+YGic+Te5wfqRTBPWNihtrzuTBJMGEju9sCRpqjS3yrlhu1FeL6Dxifa
-	SoFAIAMvO4Yd1K8esAszL+RLntT2sCvlKuVf7sN/Rfj52BLG1cfh5Ehn1bXCGjsgLkHXNHKN/b6e7
-	yrBQWbNw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:References
+	:In-Reply-To:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=S6IadJck9FQy9W53kN15E8ZSq26BSlw60brvLpz2u4c=; b=OOAVlstHhhkAAB
+	/+/mvZWa7691Tc6vjghG57rvZTvETnwf4wz5q69yH1TnB2qRhdgE2PUqLnOwzEKI1kwbVRUyxooMI
+	oa5Q9WQsTlIuj33FgVaOuo2OziZ9fRc9ekAWFGE2Ot7n8pRwQ/5SlSbJ3B4MBQ3G9I6YEikyexutR
+	ZpajlJM3y6f1w8sI2zy2iDXVU7IoeYah+gnP2IAlVqCS2irI52jul344eRGXh1WBoenAjDf3zEiv9
+	t+4Yx08FoQFydwROnPapAkgeXbXDgTrFoJ2fpppLT9X2en+dns0/1j3YEpOKtYYff3p3CPiplhuwf
+	Wqetm5tFsQzFImFD/uSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1luJwS-00FGVK-Dr; Fri, 18 Jun 2021 19:14:12 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1luK1P-00FGtj-Vx; Fri, 18 Jun 2021 19:19:20 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1luJwQ-00FGUb-BJ
- for linux-nvme@lists.infradead.org; Fri, 18 Jun 2021 19:14:11 +0000
-Received: by mail-wm1-f44.google.com with SMTP id k42so4378924wms.0
- for <linux-nvme@lists.infradead.org>; Fri, 18 Jun 2021 12:14:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2D0JIR/yCMWP9ddusUhsB4tHY7xNe3sUUBUBULDr2wU=;
- b=U5LsTHX1K2yOIN04QQDYZkPu5B7vrFcR8JbmeoLxOmBj54xG+xA1LTyrNRX8wY7ffb
- p9DAewmFBLO+jXrUv4hFClWodDeEwvGYybV4ikNx7HeHsXm4n+bsckpeiQCU9DC4XlPp
- mHyrl0yJ5aAmV2h4DyiJmcD9cxGBs4WuBB1l0X+XZT1IH2Bwkolk/cpgFLvJ1oTs9uwN
- 7d9XroustfOyhLA/DVTdZ4U9Zs1y1kBrjYEB1iXwKTE4O6S3puT8VA5qNXjSOhtDA+kb
- nnlcZENESCqFGeJH/N+1xTt/mg1iPzOq4jiA8cntyuo2KRa1l+PHYsMX7VfyvRoYxU3p
- AAYg==
-X-Gm-Message-State: AOAM532UGhTglF+UU8EyRUljpr0TWsOHe1kpWWe8n7qU4GuYukifaE4H
- IpHWRv1Sll3939j4ijABv6k=
-X-Google-Smtp-Source: ABdhPJxDNvJ7A0V30xd9UcbyCOBs2YuLgZOQq0tRhfmmRYx9ktRh6mF3/iyVHgicTi64PnSVUu4ZpA==
-X-Received: by 2002:a1c:2605:: with SMTP id m5mr6222972wmm.123.1624043648138; 
- Fri, 18 Jun 2021 12:14:08 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:a7f7:d0fd:6992:6b31?
- ([2601:647:4802:9070:a7f7:d0fd:6992:6b31])
- by smtp.gmail.com with ESMTPSA id w23sm12450717wmi.0.2021.06.18.12.14.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jun 2021 12:14:07 -0700 (PDT)
-Subject: Re: [PATCH] nvme-tcp: Use __dev_get_by_name instead dev_get_by_name
- for OPT_HOST_IFACE
-To: Christoph Hellwig <hch@lst.de>, Prabhakar Kushwaha <pkushwaha@marvell.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com,
- martin.belanger@dell.com, aelior@marvell.com, okulkarni@marvell.com,
- smalin@marvell.com, prabhakar.pkin@gmail.com, malin1024@gmail.com
-References: <20210618133956.10637-1-pkushwaha@marvell.com>
- <20210618134244.GA16005@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <78d5833d-2038-811c-f6a4-2f14a3996fc5@grimberg.me>
-Date: Fri, 18 Jun 2021 12:14:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ id 1luK1N-00FGt9-Hy
+ for linux-nvme@lists.infradead.org; Fri, 18 Jun 2021 19:19:18 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1624043953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sSLxGC3VTRMA2Whz78he85SSFCN5pOWp9Ja2rRincrE=;
+ b=Nh4soZq81bzyJPDPuk6OzK7HF4t54zEr2or1xJZHbE/JpRDaIB2XoDCYU9n1UiBMxI+SpZ
+ gYAStHegI/oNOuab4hNo8UKqfktYNa6DHie9NnNhpHnOi3ZTmOnHBRS9t6Mwni1Sw0CrRv
+ 2++Ypt6yi9HJswKEy/4ehOO1ygPmj9JcbMcNedlZGwJwRriy8Sdg1U6HWjRRrw9tto4BTC
+ /TfF50Bzzxe/CTixRdGbI9ln6URYNxw0lM/9SNRLk1Q9BPybWFiwTOEWlCLd3VT237g679
+ Kl5ANInl8B/rrHu6xEerRqfVGkFhf2eavm+zWxVhvBbP6DegejfN/f65ELFQeQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1624043953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sSLxGC3VTRMA2Whz78he85SSFCN5pOWp9Ja2rRincrE=;
+ b=RSZzBGebnC17LsPojYK3bBoRQRgGmd+zjyPW5m11as59RHQl5NDNcQRPMID7YkOywbpvre
+ Lg6856XaSEqMB/AA==
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+ Keith Busch <keith.busch@intel.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Shivasharan Srikanteshwara <shivasharan.srikanteshwara@broadcom.com>
+Subject: Re: [patch v6 3/7] genirq/affinity: Add new callback for
+ (re)calculating interrupt sets
+In-Reply-To: <20210615195707.GA2909907@bjorn-Precision-5520>
+References: <20210615195707.GA2909907@bjorn-Precision-5520>
+Date: Fri, 18 Jun 2021 21:19:12 +0200
+Message-ID: <878s37f0b3.ffs@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210618134244.GA16005@lst.de>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210618_121410_444893_FA580F60 
-X-CRM114-Status: GOOD (  14.00  )
+X-CRM114-CacheID: sfid-20210618_121917_780253_7085D88B 
+X-CRM114-Status: GOOD (  14.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,32 +86,38 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Jun 15 2021 at 14:57, Bjorn Helgaas wrote:
+>
+>> @@ -1196,6 +1196,13 @@ int pci_alloc_irq_vectors_affinity(struc
+>>  	/* use legacy irq if allowed */
+>>  	if (flags & PCI_IRQ_LEGACY) {
+>>  		if (min_vecs == 1 && dev->irq) {
+>> +			/*
+>> +			 * Invoke the affinity spreading logic to ensure that
+>> +			 * the device driver can adjust queue configuration
+>> +			 * for the single interrupt case.
+>> +			 */
+>> +			if (affd)
+>> +				irq_create_affinity_masks(1, affd);
+>
+> This looks like a leak because irq_create_affinity_masks() returns a
+> pointer to kcalloc()ed space, but we throw away the pointer.
+>
+> Or is there something very subtle going on here, like this special
+> case doesn't allocate anything?  I do see the "Nothing to assign?"
+> case that returns NULL with no alloc, but it's not completely trivial
+> to verify that we take that case here.
 
->> dev_get_by_name() finds network device by name but it also increases
->> reference count.
->> Increasing the ref count,
->> If nvme-tcp queue is present and the network device driver is removed
->> before nvme_tcp, we will face the following continuous log:
->>    "kernel:unregister_netdevice: waiting for <eth> to become
->>    free. Usage count = 2"
->> And rmmod further halts. Similar case arises during reboot/shutdown
->> with nvme-tcp queue present and both never completes.
->>
->> As a fix we will use __dev_get_by_name() which find network device by
->> name without increasing any reference counter.
-> 
-> And when you remove it without the refcount we'll now have a stale
-> kernel pointer?
+Yes, it's subtle and it's subtle crap. Sorry that I did not catch that.
 
-The netdev is not actually needed, its to make sure that it exist as
-reference in the host_iface afaict (the netdev is never referenced
-afterwards), and I'm pretty sure there was a matching put somewhere in
-the former versions of this patch.
+Thanks,
+
+        tglx
 
 _______________________________________________
 Linux-nvme mailing list
