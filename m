@@ -1,79 +1,68 @@
-Return-Path: <SRS0=NYfD=LN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=wCte=LO=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A2DC2B9F4
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Jun 2021 07:43:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4803C48BDF
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Jun 2021 17:28:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97165611AC
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Jun 2021 07:43:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97165611AC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=qq.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8B4D0608FC
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Jun 2021 17:28:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B4D0608FC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Subject:Cc:To:From:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=RvnKpkmfvQ8lEkRbBJXHLbhY3hHq4gyl5Rjed2pPVv0=; b=ZVR0hKAbhMoN35
-	6fEEn33NLSRP8k+diZsez5uN0wuorDQ+5pADXoaOC2NrhxozDoARyAjVttWkoGM401SC9EuEdLfQ+
-	ktLBhnvI/OiAKwuOS6Dw94HPLvS78tVy0O3baN7/ty1XUCmmYqPwKKl8FYV1/DJyjSW4FqrT9TkRU
-	OvGxVKeDpM6wzBxdzGE/cBlOoJfMoY06LJjVO5EWPuEr2ZuISO0ZlyQe+i6QrkvAtVR5WVHOCU2U/
-	D+PPtMv4nM4469Ix/xprSWlpigfNhCgK9vEYyR+YfjTAwmnZUg0E1Vuk8TcUYOGli0+Wv5TKEH+W4
-	nhn+2ispJB0hO8FzQ0IQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=YUvNZ3dRJCQUSOuGqyTcRsJ5jkn22cFbFqY6LYQtF3E=; b=Cb5XXyXaJrKCAw
+	mVYsmFpST2NqfdM+GbhDBJgJAETYNE3henV8tsdRt0CLSme+ERFYiY9RlM3MZSCKg060MweNTo/sn
+	ue1boqu+QmYXYtktdRNDw5GmBm+WBfZr+MMFUMZmIZMZR2cr2+Uq4ePS2Gu+mklAZ0GTylaGZ5BgG
+	kMCq0hEZX7zUn+S4XKXZqgkWt3tQ8/6n8+Cw+xJEnGQhmYELYJbdGNyFGeQqF+KlWu6wgTzIlPBVc
+	abXVGyziLPv3n1zdlksMW+OPjoLhHE7Tw2RiS+WDjB2Q5Kyc4uknFruKZLHj8iZaH8knk9ZV/9Nt8
+	U/QfcCzrZTDFSRduZrLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1luVcu-00GbKe-GH; Sat, 19 Jun 2021 07:42:48 +0000
-Received: from out162-62-57-87.mail.qq.com ([162.62.57.87])
+	id 1lv1Eu-001N0A-DG; Sun, 20 Jun 2021 17:28:08 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1luVcp-00GbIu-9L
- for linux-nvme@lists.infradead.org; Sat, 19 Jun 2021 07:42:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1624088548; bh=I1KDk3LdbzC49kOVBelzEAqUaV01/ki5LLXc4ElHiOo=;
- h=From:To:Cc:Subject:Date;
- b=x0OiFE8mg/mSPwvDc/BGbuTY6mWlS4gJMTWgzKZ3DE56agPcOPzqiqtnUv9KWy8rV
- +1kprgiFsiO30dmysqVqjiKd2MMd29qyXhtXmfHS0SMOCSGhqUlFLCVMItkXvC25TP
- SND2ZL1Gc5LZ6KuxIzCsm2w+Lu1DG3cGwVz0U8xM=
-Received: from localhost.localdomain ([101.86.6.66])
- by newxmesmtplogicsvrszc9.qq.com (NewEsmtp) with SMTP
- id A9588A48; Sat, 19 Jun 2021 15:42:21 +0800
-X-QQ-mid: xmsmtpt1624088541t2o039bm3
-Message-ID: <tencent_B28F4F86583B12ADE15402FA0EBA8CE87806@qq.com>
-X-QQ-XMAILINFO: OUyBsK7uGFiXYYUXT3LeUdq9lFsqNKOORiDTmMfS+btDycMfAZ/RK46V1qMLJv
- pkf4d2hTTQVSfLwCu5AlVZk1C6pwvRevU0BEMjfpJBLRhSf+V/WkyPFDmGRDqDy6fKkByS9lidPm
- vKnHl7OEOwyOx4ne1+eEgmObDx8ZMxLp9FxGCvscPIXnNVdyXuc8a/0MbNws0xLku8uXb5k1Q/6m
- RFZ4hZAHDG0/WL8CP1GhEqGLzDaAcaiPCq0baKaic7Kr1Ax15e1ESqCXnDAeUqUq1WwAbqOEme13
- Htl/q/qU6zTfYlfV0+VTDdU19wNARcDNv/fgbj2QGDvjExUEE/A6eJ9QestP67O/M8x/XR60FPXo
- Keb5tDzzmofPexeuqd6gFUa4J6n5LlXIFHT2N/2GXk6LYpYRmD+Jj4hBHOyifCAcGMs1OBNUUocz
- AiYz6ybef1lhAILV3av58qtydO1ZjgUn2WnHoCUtCxOBJUzcCMFNTV6AD2lxqlCyb5zGqV+vq8Ph
- tn5N+xyeFhBJ0EDiusOOEwTKP4gZC3b8rWndnz6xAB3/ho+gw9O5SL1X7uBo/dt1EtDfs2huMp07
- BzNxFg8CKIdsmmT/o95Y1xntUqsmlSfjZvhDmUFuaQdL3m4rWW5+dfthCrx6dXf/EI1jCUy0i9ox
- j2+Vb+iCpYk378Uwfwv1evcJUqJeDgxhd7FEp/x1DFUrPV+MnQ+8Wy2uLBExAH+eDDZLbob87Y90
- ADKUXammW49wICmTo3LbON4XXH3tltKIWRiANoCK75iX7+ongfyobio8jqymeaQnDwCU+yXvhiI2
- ESqTK7tfBKGrelKPZxO8C+N2+Spm6qEbcis2KMm6/i00WqGCiH32GXzty9vgDm+OYMu+z0LWNo4L
- 6uT1x3lIeh
-From: "Ming.Li" <mingli199x@qq.com>
-To: axboe@fb.com,
-	linux-nvme@lists.infradead.org
-Cc: mingli199x@qq.com
-Subject: [PATCH] remove all blanks in front of goto label
-Date: Sat, 19 Jun 2021 15:40:18 +0800
-X-OQ-MSGID: <20210619074018.22666-1-mingli199x@qq.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ id 1lv1Ej-001Mzn-QQ
+ for linux-nvme@lists.infradead.org; Sun, 20 Jun 2021 17:27:59 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 844D361078;
+ Sun, 20 Jun 2021 17:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1624210077;
+ bh=UbCQeaZa/L2lRzOnKsDDfsxAGl5phqY488Y8n18gIso=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PAGL7vZcF+ozh1JU4/6Kf7MGp2Jn+3pfZSTjIhB8xpU28mdtoQ2H3Ui5Qz5MfV4Sl
+ Md6TpZZt5ccWWhlPPJvdzV/IZGoI10EslufO6222s9QB5ycwOkcN7EoyHKvG8dI+PW
+ ONFnC+P8IYZAsGxm5FHxvdX8foVFqXamiKU1m5OHmD51VbJ4yCPO5rixHW42CJrJ0s
+ mVe8RD+5DN0wJgVLSVzNX0GMMB3A5Z1H/IJ6FQU3asTbN41r6UznmqQVQsGCJ5sTG9
+ w4ChlWVccq36Ib4qB25fBLMyDFguAvDFdgUiytU0JkEQHeXZJDg5d5twnuYGxBr53N
+ ONlyXWoENrlRQ==
+Date: Sun, 20 Jun 2021 10:27:54 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: =?utf-8?B?5ZGo5Lyg6auY?= <zhouchuangao@vivo.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@fb.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] drivers/nvme/host: Use kobj_to_dev() API
+Message-ID: <20210620172754.GB1137891@dhcp-10-100-145-180.wdc.com>
+References: <20210618141817.GA18781@lst.de>
+ <ABYAKQDNDmr9B7YYOVwFFKqU.3.1624078894067.Hmail.zhouchuangao@vivo.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <ABYAKQDNDmr9B7YYOVwFFKqU.3.1624078894067.Hmail.zhouchuangao@vivo.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210619_004244_163864_DFE2CDD0 
-X-CRM114-Status: UNSURE (   8.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210620_102757_919507_106F262A 
+X-CRM114-Status: GOOD (  11.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,36 +74,25 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is a format style mistake. Some blanks in front of goto label.
-
-Signed-off-by: Ming.Li <mingli199x@qq.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a29b170701fc..bf3deda1561e 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2780,7 +2780,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 		goto release;
- 
- 	return 0;
--  release:
-+release:
- 	pci_release_mem_regions(pdev);
- 	return -ENODEV;
- }
--- 
-2.24.3 (Apple Git-128)
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gU2F0LCBKdW4gMTksIDIwMjEgYXQgMDE6MDE6MzRQTSArMDgwMCwg5ZGo5Lyg6auYIHdyb3Rl
+Ogo+ID5PbiBGcmksIEp1biAxOCwgMjAyMSBhdCAwNzoxMDo1OEFNIC0wNzAwLCB6aG91Y2h1YW5n
+YW8gd3JvdGU6Cj4gPj4gVXNlIGtvYmpfdG9fZGV2KCkgQVBJIGluc3RlYWQgb2YgY29udGFpbmVy
+X29mKCkuCj4gPgo+ID5XaHk/ICBUaGF0IGp1c3QgbWFrZXMgdGhlIGNvZGUgaGFyZGVyIHRvIHJl
+YWQuCj4gCj4gSW4gbXkgb3BpbmlvbiwgdGhlIGtvYmpfdG9fZGV2KCkgaW50ZXJmYWNlIGlzIHBy
+b3ZpZGVkIGJ5IHRoZSBrZXJuZWwgc28gdGhhdAo+IHdlIGNhbiBnZXQgZGV2aWNlIGJhc2VkIG9u
+IGtvYmogd2l0aG91dCBoYXZpbmcgdG8gcGFzcyBtb3JlIHBhcmFtZXRlcnMuCj4gSSB0aGluayBp
+dCdzIGVhc2llciB0byB1c2UuCgpUaGlzIHNhbWUgcGF0Y2ggaGFzIGJlZW4gcHJvcG9zZWQgYW5k
+IHJlamVjdGVkIG51bWVyb3VzIHRpbWVzLiBEbyB3ZQpuZWVkIHRvIHBsYWNlIGEgY29tbWVudCBp
+biB0aGUgY29kZSB0byBwcmV2ZW50IGZ1dHVyZSByZXF1ZXN0cz8KCmh0dHA6Ly9saXN0cy5pbmZy
+YWRlYWQub3JnL3BpcGVybWFpbC9saW51eC1udm1lLzIwMjEtTWFyY2gvMDIzMzE2Lmh0bWwKaHR0
+cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvcGlwZXJtYWlsL2xpbnV4LW52bWUvMjAyMS1GZWJydWFy
+eS8wMjMwNjAuaHRtbApodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9waXBlcm1haWwvbGludXgt
+bnZtZS8yMDIwLVNlcHRlbWJlci8wMTk0NjIuaHRtbAoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZt
+ZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4v
+bGlzdGluZm8vbGludXgtbnZtZQo=
