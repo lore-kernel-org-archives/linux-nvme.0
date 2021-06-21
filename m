@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90ADDC48BE5
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 05:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 397F4C49361
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 05:14:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2EF4661003
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 05:14:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2EF4661003
+	by mail.kernel.org (Postfix) with ESMTPS id 037C061156
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 05:14:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 037C061156
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,54 +23,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=D6nl1PCn5cXtbRr+QnH0yoCTbnA3ImBMrv/JW3OxVcI=; b=Sutxp12qZYdcge
-	A+3sdkfVZE4UXYD90ALQQfUtgthmpJc3/+wGoT4WhiNaCBSbsCgGamt+YuRfnQJVpDWbAqnoodYUe
-	Mkjt/8v93/Wp5712I7uqDqpcauXvMg0KsqEI0BE7HJcsVzzPLzmVgPZ61PHrbQ1WKgX1AH4sKyisd
-	GLmR8N2Wp43J5RIfx1cpHflGr/uEzp6UQSmgL+Phr/RdXTn6rYJZvBRc5KYGDpKQA1UAHIYeThIz7
-	VUxbYJhU0yTfsLHYQnENWbPxydMQXS+9uNHz+bFaaBjP1lZ3HsjZvsQWXQqwGHb5DTiuRh1ZtY3wt
-	+XHZdB6n0N58vYkVMf+w==;
+	List-Owner; bh=PtiYqC+J+/MdS20NoiIlGMNFWhgGQVVuPULzhs3NPqU=; b=M8o/gDp0lVUnzr
+	taUPzErliFKd5z927j5M//qZ7ghGJE6N91Bcs+O+HgzDvn/NxpftTG1p0amG3ZZ/E0pwX0g39W9PK
+	JwoSAB3ETzegfqAf+KIwYLyzqFAoSKoJVqHiH1hYoiOlHkp3MC6vJOOHU/nOQ7NKJDbPA9gnFkHCd
+	fddCxeQSUSwbDrmRhjyNQhIWlXL2YYbdPc6rKfzMoZZy5UzplZmxhHT0Puxp1rBHZzW0Q0TRFYetX
+	fNBs8a7bQVKQHkBwK6SsbxVL7PkxBbA7+ObJ7vD1ttHJNMOBc+DSPDmcbH2w74wcgkbodsCAc/0d4
+	n++QY+PZZXK9XgNk0MpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lvCFF-0027Tg-SG; Mon, 21 Jun 2021 05:13:13 +0000
+	id 1lvCFZ-0027aN-I1; Mon, 21 Jun 2021 05:13:33 +0000
 Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lvCEn-0027J9-VT
- for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 05:12:47 +0000
+ id 1lvCEo-0027JA-3T
+ for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 05:12:48 +0000
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
  by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15L56RlB000330; Sun, 20 Jun 2021 22:12:21 -0700
+ 15L56RlA000330; Sun, 20 Jun 2021 22:12:20 -0700
 Received: from dc5-exch01.marvell.com ([199.233.59.181])
- by mx0b-0016f401.pphosted.com with ESMTP id 399g3qn6jr-2
+ by mx0b-0016f401.pphosted.com with ESMTP id 399g3qn6jr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Sun, 20 Jun 2021 22:12:21 -0700
+ Sun, 20 Jun 2021 22:12:20 -0700
 Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
  (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Sun, 20 Jun 2021 22:12:04 -0700
+ Sun, 20 Jun 2021 22:12:13 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.18 via Frontend Transport; Sun, 20 Jun 2021 22:12:01 -0700
+ 15.0.1497.18 via Frontend Transport; Sun, 20 Jun 2021 22:12:10 -0700
 From: Shai Malin <smalin@marvell.com>
 To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
  <axboe@fb.com>, <kbusch@kernel.org>
 CC: <davem@davemloft.net>, <aelior@marvell.com>, <mkalderon@marvell.com>,
  <okulkarni@marvell.com>, <pkushwaha@marvell.com>,
  <prabhakar.pkin@gmail.com>, <malin1024@gmail.com>,
- <smalin@marvell.com>, Dean Balandin <dbalandin@marvell.com>
-Subject: [PATCH v2 4/8] nvme-tcp-offload: Add device scan implementation
-Date: Mon, 21 Jun 2021 08:10:42 +0300
-Message-ID: <20210621051046.28783-5-smalin@marvell.com>
+ <smalin@marvell.com>, Arie Gershberg <agershberg@marvell.com>
+Subject: [PATCH v2 6/8] nvme-tcp-offload: Add controller level error recovery
+ implementation
+Date: Mon, 21 Jun 2021 08:10:44 +0300
+Message-ID: <20210621051046.28783-7-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210621051046.28783-1-smalin@marvell.com>
 References: <20210621051046.28783-1-smalin@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: phwpV7C83CiNIHmjDHGLcrKbTSKA33Vh
-X-Proofpoint-ORIG-GUID: phwpV7C83CiNIHmjDHGLcrKbTSKA33Vh
+X-Proofpoint-GUID: a1aRgOK6FrK5AEY8akimZH0GeSxMLo5s
+X-Proofpoint-ORIG-GUID: a1aRgOK6FrK5AEY8akimZH0GeSxMLo5s
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-21_01:2021-06-20,
  2021-06-21 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210620_221246_208554_E43137F7 
-X-CRM114-Status: GOOD (  16.95  )
+X-CRM114-CacheID: sfid-20210620_221246_354566_B21ED1FE 
+X-CRM114-Status: GOOD (  17.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,156 +88,212 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Dean Balandin <dbalandin@marvell.com>
+From: Arie Gershberg <agershberg@marvell.com>
 
-As part of create_ctrl(), it scans the registered devices and calls
-the claim_dev op on each of them, to find the first devices that matches
-the connection params. Once the correct devices is found (claim_dev
-returns true), we raise the refcnt of that device and return that device
-as the device to be used for ctrl currently being created.
+In this patch, we implement controller level error handling and recovery.
+Upon an error discovered by the ULP or reset controller initiated by the
+nvme-core (using reset_ctrl workqueue), the ULP will initiate a controller
+recovery which includes teardown and re-connect of all queues.
 
 Acked-by: Igor Russkikh <irusskikh@marvell.com>
-Signed-off-by: Dean Balandin <dbalandin@marvell.com>
+Signed-off-by: Arie Gershberg <agershberg@marvell.com>
 Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
 Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
 Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 ---
- drivers/nvme/host/tcp-offload.c | 91 +++++++++++++++++++++++++++++++++
- drivers/nvme/host/tcp-offload.h |  1 +
- 2 files changed, 92 insertions(+)
+ drivers/nvme/host/tcp-offload.c | 127 +++++++++++++++++++++++++++++++-
+ drivers/nvme/host/tcp-offload.h |   1 +
+ 2 files changed, 126 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
-index b9b6ffa10747..15f018e45c60 100644
+index ef7a0b89de9d..ccec011bf7eb 100644
 --- a/drivers/nvme/host/tcp-offload.c
 +++ b/drivers/nvme/host/tcp-offload.c
-@@ -13,6 +13,11 @@
- static LIST_HEAD(nvme_tcp_ofld_devices);
- static DEFINE_MUTEX(nvme_tcp_ofld_devices_mutex);
+@@ -72,6 +72,23 @@ void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev)
+ }
+ EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
  
-+static inline struct nvme_tcp_ofld_ctrl *to_tcp_ofld_ctrl(struct nvme_ctrl *nctrl)
++/**
++ * nvme_tcp_ofld_error_recovery() - NVMeTCP Offload library error recovery.
++ * function.
++ * @nctrl:	NVMe controller instance to change to resetting.
++ *
++ * API function that change the controller state to resseting.
++ * Part of the overall controller reset sequence.
++ */
++void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl)
 +{
-+	return container_of(nctrl, struct nvme_tcp_ofld_ctrl, nctrl);
++	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_RESETTING))
++		return;
++
++	queue_work(nvme_reset_wq, &to_tcp_ofld_ctrl(nctrl)->err_work);
 +}
++EXPORT_SYMBOL_GPL(nvme_tcp_ofld_error_recovery);
 +
  /**
-  * nvme_tcp_ofld_register_dev() - NVMeTCP Offload Library registration
-  * function.
-@@ -96,6 +101,91 @@ void nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
- 	/* Placeholder - complete request with/without error */
+  * nvme_tcp_ofld_report_queue_err() - NVMeTCP Offload report error event
+  * callback function. Pointed to by nvme_tcp_ofld_queue->report_err.
+@@ -82,7 +99,8 @@ EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
+  */
+ int nvme_tcp_ofld_report_queue_err(struct nvme_tcp_ofld_queue *queue)
+ {
+-	/* Placeholder - invoke error recovery flow */
++	pr_err("nvme-tcp-offload queue error\n");
++	nvme_tcp_ofld_error_recovery(&queue->ctrl->nctrl);
+ 
+ 	return 0;
+ }
+@@ -301,6 +319,28 @@ nvme_tcp_ofld_configure_io_queues(struct nvme_ctrl *nctrl, bool new)
+ 	return rc;
  }
  
-+static struct nvme_tcp_ofld_dev *
-+nvme_tcp_ofld_lookup_dev(struct nvme_tcp_ofld_ctrl *ctrl)
++static void nvme_tcp_ofld_reconnect_or_remove(struct nvme_ctrl *nctrl)
 +{
-+	struct nvme_ctrl *nctrl = &ctrl->nctrl;
-+	struct nvme_tcp_ofld_dev *dev;
-+	char *iface;
++	/* If we are resetting/deleting then do nothing */
++	if (nctrl->state != NVME_CTRL_CONNECTING) {
++		WARN_ON_ONCE(nctrl->state == NVME_CTRL_NEW ||
++			     nctrl->state == NVME_CTRL_LIVE);
 +
-+	if (nctrl->opts->mask & NVMF_OPT_HOST_IFACE) {
-+		iface = nctrl->opts->host_iface;
-+		ctrl->ndev = dev_get_by_name(&init_net, iface);
-+		if (!ctrl->ndev) {
-+			pr_err("invalid interface passed: %s\n", iface);
-+			return NULL;
-+		}
++		return;
 +	}
 +
-+	mutex_lock(&nvme_tcp_ofld_devices_mutex);
-+	list_for_each_entry(dev, &nvme_tcp_ofld_devices, entry) {
-+	/* ctrl includes the destination ip, source ip (if provided) and
-+	 * network interface (if provided).
-+	 */
-+		if (dev->ops->claim_dev(dev, ctrl))
-+			goto out;
++	if (nvmf_should_reconnect(nctrl)) {
++		dev_info(nctrl->device, "Reconnecting in %d seconds...\n",
++			 nctrl->opts->reconnect_delay);
++		queue_delayed_work(nvme_wq,
++				   &to_tcp_ofld_ctrl(nctrl)->connect_work,
++				   nctrl->opts->reconnect_delay * HZ);
++	} else {
++		dev_info(nctrl->device, "Removing controller...\n");
++		nvme_delete_ctrl(nctrl);
 +	}
-+
-+	dev = NULL;
-+out:
-+	mutex_unlock(&nvme_tcp_ofld_devices_mutex);
-+
-+	return dev;
 +}
 +
-+static struct nvme_ctrl *
-+nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
-+{
-+	struct nvme_tcp_ofld_ctrl *ctrl;
-+	struct nvme_tcp_ofld_dev *dev;
-+	struct nvme_ctrl *nctrl;
-+	int rc = 0;
-+
-+	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
-+	if (!ctrl)
-+		return ERR_PTR(-ENOMEM);
-+
-+	nctrl = &ctrl->nctrl;
-+
-+	/* Init nvme_tcp_ofld_ctrl and nvme_ctrl params based on received opts */
-+
-+	/* Find device that can reach the dest addr */
-+	dev = nvme_tcp_ofld_lookup_dev(ctrl);
-+	if (!dev) {
-+		pr_info("no device found for addr %s:%s.\n",
-+			opts->traddr, opts->trsvcid);
-+		rc = -EINVAL;
-+		goto out_free_ctrl;
-+	}
-+
-+	/* Increase driver refcnt */
-+	if (!try_module_get(dev->ops->module)) {
-+		pr_err("try_module_get failed\n");
-+		rc = -ENODEV;
-+		goto out_free_ctrl;
-+	}
-+
-+	ctrl->dev = dev;
-+
-+	if (ctrl->dev->ops->max_hw_sectors)
-+		nctrl->max_hw_sectors = ctrl->dev->ops->max_hw_sectors;
-+	if (ctrl->dev->ops->max_segments)
-+		nctrl->max_segments = ctrl->dev->ops->max_segments;
-+
-+	/* Init queues */
-+
-+	/* Call nvme_init_ctrl */
-+
-+	/* Setup ctrl */
-+
-+	return nctrl;
-+
-+out_free_ctrl:
-+	kfree(ctrl);
-+
-+	return ERR_PTR(rc);
-+}
-+
- static struct nvmf_transport_ops nvme_tcp_ofld_transport = {
- 	.name		= "tcp_offload",
- 	.module		= THIS_MODULE,
-@@ -105,6 +195,7 @@ static struct nvmf_transport_ops nvme_tcp_ofld_transport = {
- 			  NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_HDR_DIGEST |
- 			  NVMF_OPT_DATA_DIGEST | NVMF_OPT_NR_POLL_QUEUES |
- 			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE,
-+	.create_ctrl	= nvme_tcp_ofld_create_ctrl,
- };
+ static int nvme_tcp_ofld_setup_ctrl(struct nvme_ctrl *nctrl, bool new)
+ {
+ 	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
+@@ -425,10 +465,63 @@ nvme_tcp_ofld_teardown_io_queues(struct nvme_ctrl *nctrl, bool remove)
+ 	/* Placeholder - teardown_io_queues */
+ }
  
- static int __init nvme_tcp_ofld_init_module(void)
++static void nvme_tcp_ofld_reconnect_ctrl_work(struct work_struct *work)
++{
++	struct nvme_tcp_ofld_ctrl *ctrl =
++				container_of(to_delayed_work(work),
++					     struct nvme_tcp_ofld_ctrl,
++					     connect_work);
++	struct nvme_ctrl *nctrl = &ctrl->nctrl;
++
++	++nctrl->nr_reconnects;
++
++	if (nvme_tcp_ofld_setup_ctrl(nctrl, false))
++		goto requeue;
++
++	dev_info(nctrl->device, "Successfully reconnected (%d attempt)\n",
++		 nctrl->nr_reconnects);
++
++	nctrl->nr_reconnects = 0;
++
++	return;
++
++requeue:
++	dev_info(nctrl->device, "Failed reconnect attempt %d\n",
++		 nctrl->nr_reconnects);
++	nvme_tcp_ofld_reconnect_or_remove(nctrl);
++}
++
++static void nvme_tcp_ofld_error_recovery_work(struct work_struct *work)
++{
++	struct nvme_tcp_ofld_ctrl *ctrl =
++		container_of(work, struct nvme_tcp_ofld_ctrl, err_work);
++	struct nvme_ctrl *nctrl = &ctrl->nctrl;
++
++	nvme_stop_keep_alive(nctrl);
++	nvme_tcp_ofld_teardown_io_queues(nctrl, false);
++	/* unquiesce to fail fast pending requests */
++	nvme_start_queues(nctrl);
++	nvme_tcp_ofld_teardown_admin_queue(nctrl, false);
++	blk_mq_unquiesce_queue(nctrl->admin_q);
++
++	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
++		/* state change failure is ok if we started nctrl delete */
++		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
++			     nctrl->state != NVME_CTRL_DELETING_NOIO);
++
++		return;
++	}
++
++	nvme_tcp_ofld_reconnect_or_remove(nctrl);
++}
++
+ static void
+ nvme_tcp_ofld_teardown_ctrl(struct nvme_ctrl *nctrl, bool shutdown)
+ {
+-	/* Placeholder - err_work and connect_work */
++	struct nvme_tcp_ofld_ctrl *ctrl = to_tcp_ofld_ctrl(nctrl);
++
++	cancel_work_sync(&ctrl->err_work);
++	cancel_delayed_work_sync(&ctrl->connect_work);
+ 	nvme_tcp_ofld_teardown_io_queues(nctrl, shutdown);
+ 	blk_mq_quiesce_queue(nctrl->admin_q);
+ 	if (shutdown)
+@@ -443,6 +536,32 @@ static void nvme_tcp_ofld_delete_ctrl(struct nvme_ctrl *nctrl)
+ 	nvme_tcp_ofld_teardown_ctrl(nctrl, true);
+ }
+ 
++static void nvme_tcp_ofld_reset_ctrl_work(struct work_struct *work)
++{
++	struct nvme_ctrl *nctrl =
++		container_of(work, struct nvme_ctrl, reset_work);
++
++	nvme_stop_ctrl(nctrl);
++	nvme_tcp_ofld_teardown_ctrl(nctrl, false);
++
++	if (!nvme_change_ctrl_state(nctrl, NVME_CTRL_CONNECTING)) {
++		/* state change failure is ok if we started ctrl delete */
++		WARN_ON_ONCE(nctrl->state != NVME_CTRL_DELETING &&
++			     nctrl->state != NVME_CTRL_DELETING_NOIO);
++
++		return;
++	}
++
++	if (nvme_tcp_ofld_setup_ctrl(nctrl, false))
++		goto out_fail;
++
++	return;
++
++out_fail:
++	++nctrl->nr_reconnects;
++	nvme_tcp_ofld_reconnect_or_remove(nctrl);
++}
++
+ static int
+ nvme_tcp_ofld_init_request(struct blk_mq_tag_set *set,
+ 			   struct request *rq,
+@@ -536,6 +655,10 @@ nvme_tcp_ofld_create_ctrl(struct device *ndev, struct nvmf_ctrl_options *opts)
+ 			     opts->nr_poll_queues + 1;
+ 	nctrl->sqsize = opts->queue_size - 1;
+ 	nctrl->kato = opts->kato;
++	INIT_DELAYED_WORK(&ctrl->connect_work,
++			  nvme_tcp_ofld_reconnect_ctrl_work);
++	INIT_WORK(&ctrl->err_work, nvme_tcp_ofld_error_recovery_work);
++	INIT_WORK(&nctrl->reset_work, nvme_tcp_ofld_reset_ctrl_work);
+ 	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
+ 		opts->trsvcid =
+ 			kstrdup(__stringify(NVME_TCP_DISC_PORT), GFP_KERNEL);
 diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
-index 4964e18a5885..11e2a20c4c55 100644
+index 11e2a20c4c55..b583e1824ef7 100644
 --- a/drivers/nvme/host/tcp-offload.h
 +++ b/drivers/nvme/host/tcp-offload.h
-@@ -8,6 +8,7 @@
- #include <linux/scatterlist.h>
- #include <linux/types.h>
- #include <linux/nvme-tcp.h>
-+#include <linux/netdevice.h>
- 
- /* Driver includes */
- #include "nvme.h"
+@@ -198,3 +198,4 @@ struct nvme_tcp_ofld_ops {
+ /* Exported functions for lower vendor specific offload drivers */
+ int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev);
+ void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev);
++void nvme_tcp_ofld_error_recovery(struct nvme_ctrl *nctrl);
 -- 
 2.22.0
 
