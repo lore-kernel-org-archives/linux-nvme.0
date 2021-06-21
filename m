@@ -2,66 +2,81 @@ Return-Path: <SRS0=I4H8=LP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC708C48BC2
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 17:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C34C48BC2
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 18:19:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7CCB60FF2
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 17:27:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7CCB60FF2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 02E9C606A5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 18:19:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 02E9C606A5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=K0N0jmEFU3cRhYvakEqFePQ3zHa0Qa0jnHsvf3a/ays=; b=P6vSMcVjV+dr4H
-	zBE0q0o3dqT1GGu+nQ79Q/3+zln4BYWZaXr6huQRVbcarLYjNOyWeut6jYFwKC5JSILlSVTE7mJbI
-	wEwvPu61gFD2vw2vXr9ue422dBlFHa0B+FAuTDajMIumcetPLIAw2T1SNVRowA2DZlUqT3499WjMW
-	MaTaYcZC8V/c8nmS7L/Ko5hm+ZmAJKI2vkcO8TwQoUVX8LdtiGufiMgIKSSiMmOCgi/xrJxD06Ok4
-	cyF7t96/MLHiBBJOqkSIhQTCllvLAp2feZdZT8U0puvKhuJW+Iufl8YHnxJHICh4MbIHqbEKGwPcP
-	1Jd/9rGAGDS/cdcGWEug==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/UfynUZmOkCNyic1LodH3da15z7UA7XsVS1aSBxZJz4=; b=u4EekoMfRG+4WKUhKftOW3MC+l
+	2IZtkFL/khoKtXXGPIwlS1pko7WRf1k+aIXZf7sjEbvLXhuMZo+i6hX6ZSrbq9MBT89oPi09pJ56j
+	jF/9bhlpXwJKm4plX4KIEyJDc+aSKTYq0rqTKTn1dSBHpTuN+zAzmiP3OVaszp7uCLcUVTsznx5oE
+	Im0FhEg4uF5Xz6IjT0aCAfHd+0gVD/oFD2aygObk71gSxHCtdEVc7ani4ZxCYQZokqxwqNNxJtS/P
+	7jx6/OdjczQ7Vdwow7ya0xIAn4fvYF4GJodAlATZPHaM6tszaRyo2+B6g3fIasHJlNBAXyk0avK42
+	qsPCUHTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lvNhK-004FlK-7w; Mon, 21 Jun 2021 17:26:58 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1lvOW2-004XZY-17; Mon, 21 Jun 2021 18:19:22 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lvNhH-004Fka-Nd
- for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 17:26:56 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F125860FF2;
- Mon, 21 Jun 2021 17:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624296415;
- bh=/jz8zd1gSCUziIaV161ZneyufCzKh7BqHfL+c2WH3Bk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=epRsG0sZ6NHeZ1Ynq8gz+JZAYJSr3I6Sf0frxDuifE/YUWuMQ7ZUIPtpz/mn2v2rq
- hA746lBPR2QLcR8VKJl6hPvha0mH02Sq/XJ26lKjWIB2ke3yIyRXEIDM6RTaxaV9ze
- hmPt8fdt/lwd4UXFo2ZI9uVOgfAnGK0PlBzpPIW6rE+j/jQKRsxOYn56Y9Suq/Jh4L
- 9Pz7dPqolB4HeD4/+v/Qi73I8z8XzWfQ7zAfNiABUJx8ZV02cmF3LlMALC4jEK1Bqz
- fsr3P2Vhze/hG6x+JvPZG4SSDB+pOzTKGxAzduIGkO03LuKpKbTxuQ1XLhWe1+g/2m
- UKVio1yaQ9VlA==
-Date: Mon, 21 Jun 2021 10:26:53 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv6] nvme: allow to re-attach namespaces after all paths
- are down
-Message-ID: <20210621172653.GC1268033@dhcp-10-100-145-180.wdc.com>
+ id 1lvOQo-004VD6-Nh
+ for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 18:14:00 +0000
+Received: by mail-wr1-f43.google.com with SMTP id j2so10164826wrs.12
+ for <linux-nvme@lists.infradead.org>; Mon, 21 Jun 2021 11:13:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ph2HswF0YHZxTMEFtAUMSOHAJP/8CXKpwdbKAdYMiHU=;
+ b=Bfy15271JsGEcEj93DyhEc0qG/gjCYMpHmGqeDG51ufW+lX/AJuROtE0m7JIomxkEH
+ eymrf0sP9gwsZlnjKuZrL44t/G7msuvTTWtN6sqocRUDn8AERlLqV1LqMAWvdI5n6+9m
+ Tc2bCvIRiZRzJqHm1yJJsGJm1UUCq+bTbziIq7JBL3mHIeOkfvsCaEISdQFcpETMMJI7
+ i+j/J+IqkmbMqH7djl7DmUeAb9KEofjCnKBsoLSwUsceUXAVI5qzFABql8sHGfIgBuwp
+ quka3O9v83PHmUFtcvDw+FylMY44OnVpAuhoUKjlooRZubX+94SFlgd68sT6ER2kvzjO
+ 1X5w==
+X-Gm-Message-State: AOAM530uduyDsu0n9QlTQZSIWXK65rYCNFkWalxaQgJ01FE80/oMpurK
+ 4tFLDdxQaloT4Qvk6VhdGSfNmMMKV3o=
+X-Google-Smtp-Source: ABdhPJxd29d+PICynygL9TzG1Xf5/s11dmoLrDyDIf93qeGjr4DCSwELGzEX94NgZcvQ273Rf+7Zvw==
+X-Received: by 2002:a05:6000:1c5:: with SMTP id
+ t5mr10104906wrx.71.1624299235853; 
+ Mon, 21 Jun 2021 11:13:55 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:e3ea:3939:da4c:986e?
+ ([2601:647:4802:9070:e3ea:3939:da4c:986e])
+ by smtp.gmail.com with ESMTPSA id f5sm21345624wrf.22.2021.06.21.11.13.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 11:13:55 -0700 (PDT)
+Subject: Re: [PATCHv6] nvme: allow to re-attach namespaces after all paths are
+ down
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
 References: <20210609150118.130650-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4903ef70-ed16-4b81-3570-60e9fcc5ecb0@grimberg.me>
+Date: Mon, 21 Jun 2021 11:13:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
 In-Reply-To: <20210609150118.130650-1-hare@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210621_102655_876444_870C5942 
-X-CRM114-Status: GOOD (  14.21  )
+X-CRM114-CacheID: sfid-20210621_111358_860630_B598734C 
+X-CRM114-Status: GOOD (  30.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,41 +88,131 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 09, 2021 at 05:01:18PM +0200, Hannes Reinecke wrote:
-> -void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-> +void nvme_mpath_check_last_path(struct nvme_ns_head *head)
->  {
-> +	bool last_path = false;
->  	if (!head->disk)
->  		return;
-> -	if (head->disk->flags & GENHD_FL_UP) {
-> -		nvme_cdev_del(&head->cdev, &head->cdev_device);
-> -		del_gendisk(head->disk);
-> +
-> +	/* Synchronize with nvme_init_ns_head() */
-> +	mutex_lock(&head->subsys->lock);
-> +	if (list_empty(&head->list))
-> +		last_path = true;
-> +	mutex_unlock(&head->subsys->lock);
-> +	if (last_path) {
-> +		kblockd_schedule_work(&head->requeue_work);
-> +		if (head->disk->flags & GENHD_FL_UP) {
-> +			nvme_cdev_del(&head->cdev, &head->cdev_device);
-> +			del_gendisk(head->disk);
-> +		}
->  	}
-> +}
 
-This is being called when a path is removed. If it is the last path, the
-head's block device is being deleted. If a live head reference is held,
-and the a path reconnects, the code will find the previous head, but the
-disk is gone and it's not coming back, so the new connection can't be
-used.
+
+On 6/9/21 8:01 AM, Hannes Reinecke wrote:
+> We should only remove the ns head from the list of heads per
+> subsystem if the reference count drops to zero. That cleans up
+> reference counting, and allows us to call del_gendisk() once the last
+> path is removed (as then the ns_head should be removed anyway).
+> As this introduces a (theoretical) race condition where I/O might have
+> been requeued before the last path went down we also should be checking
+> if the gendisk is still present in nvme_ns_head_submit_bio(),
+> and failing I/O if so.
+> 
+> Changes to v5:
+> - Synchronize between nvme_init_ns_head() and nvme_mpath_check_last_path()
+> - Check for removed gendisk in nvme_ns_head_submit_bio()
+> Changes to v4:
+> - Call del_gendisk() in nvme_mpath_check_last_path() to avoid deadlock
+> Changes to v3:
+> - Simplify if() clause to detect duplicate namespaces
+> Changes to v2:
+> - Drop memcpy() statement
+> Changes to v1:
+> - Always check NSIDs after reattach
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/core.c      |  9 ++++-----
+>   drivers/nvme/host/multipath.c | 30 +++++++++++++++++++++++++-----
+>   drivers/nvme/host/nvme.h      | 11 ++---------
+>   3 files changed, 31 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 177cae44b612..6d7c2958b3e2 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -566,6 +566,9 @@ static void nvme_free_ns_head(struct kref *ref)
+>   	struct nvme_ns_head *head =
+>   		container_of(ref, struct nvme_ns_head, ref);
+>   
+> +	mutex_lock(&head->subsys->lock);
+> +	list_del_init(&head->entry);
+> +	mutex_unlock(&head->subsys->lock);
+>   	nvme_mpath_remove_disk(head);
+>   	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+>   	cleanup_srcu_struct(&head->srcu);
+> @@ -3806,8 +3809,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+>    out_unlink_ns:
+>   	mutex_lock(&ctrl->subsys->lock);
+>   	list_del_rcu(&ns->siblings);
+> -	if (list_empty(&ns->head->list))
+> -		list_del_init(&ns->head->entry);
+>   	mutex_unlock(&ctrl->subsys->lock);
+>   	nvme_put_ns_head(ns->head);
+>    out_free_queue:
+> @@ -3828,8 +3829,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>   
+>   	mutex_lock(&ns->ctrl->subsys->lock);
+>   	list_del_rcu(&ns->siblings);
+> -	if (list_empty(&ns->head->list))
+> -		list_del_init(&ns->head->entry);
+>   	mutex_unlock(&ns->ctrl->subsys->lock);
+>   
+>   	synchronize_rcu(); /* guarantee not available in head->list */
+> @@ -3849,7 +3848,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>   	list_del_init(&ns->list);
+>   	up_write(&ns->ctrl->namespaces_rwsem);
+>   
+> -	nvme_mpath_check_last_path(ns);
+> +	nvme_mpath_check_last_path(ns->head);
+>   	nvme_put_ns(ns);
+>   }
+>   
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 23573fe3fc7d..31153f6ec582 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -266,6 +266,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+>   	int node = numa_node_id();
+>   	struct nvme_ns *ns;
+>   
+> +	if (!(head->disk->flags & GENHD_FL_UP))
+> +		return NULL;
+>   	ns = srcu_dereference(head->current_path[node], &head->srcu);
+>   	if (unlikely(!ns))
+>   		return __nvme_find_path(head, node);
+> @@ -281,6 +283,8 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+>   {
+>   	struct nvme_ns *ns;
+>   
+> +	if (!(head->disk->flags & GENHD_FL_UP))
+> +		return false;
+
+nvme_available_path should have no business looking at the head gendisk,
+it should just understand if a PATH (a.k.a a controller) exists.
+
+IMO, the fact that it does should tell that we should take a step back
+and think about this. We are trying to keep an zombie nshead around
+just for the possibility the host will reconnect (not as part of
+error recovery, but as a brand new connect). Why shouldn't we just
+remove it and restore it as a brand new nshead when the host attaches
+again?
+
+And IMO for queue_if_no_path, we should add a special handling such that
+nvme_ns_head_submit_bio would do something explicit that is a special
+case like the following:
+--
+         ns = nvme_find_path(head);
+         if (likely(ns)) {
+		/* submit */
+         } else if (nvme_available_path(head)) {
+		/* requeue */
+	} else if (nvme_queue_if_no_path(head) &&
+		   nvme_zombie_head(head))
+		/* requeue */
+         } else {
+                 /* fail */
+         }
+--
+
+And it should hopefully make it easier to debug.
 
 _______________________________________________
 Linux-nvme mailing list
