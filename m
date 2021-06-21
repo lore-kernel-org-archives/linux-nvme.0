@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A613C48BE5
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 06:45:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0B7C48BE5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 06:50:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A21F4601FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 06:45:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A21F4601FE
+	by mail.kernel.org (Postfix) with ESMTPS id 3D351600D3
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 06:50:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D351600D3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,39 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tk8MUo2aadkKxit4XMKMxObqMy1VHlOP4fPU3EwHM+w=; b=e5a5T6691AZZfg
-	+L9MIqjXa/SZkyJG+nJ0nixvQttRPWxO2XQSEW+Mzo8BRhnxtQjecnt2hhPxWrf0E+iRuwHi/oGVr
-	+KY6ZQAv75hXqJqw+mGBscONKrKKLhpZoIBFi0fWsb46cm10kfo7uox3DH/sKkPZH2vUQJ1uaeWil
-	ve9PzuZ2ZwtoVs6303P19ljFP1SiLFcCkQGarrcIlNb1NAYabG1xrzoKH8ezyufD/dvBt5xqWauHu
-	OPY9UAMPn3CLnt3LXdCr22RV0eRFl/Z49tZXi8JZYZPaKUDhTFMc9PW4lKstx2uR0ROdi2LSUsamn
-	ZdaMz7nwivg3Uq4XFJAw==;
+	List-Owner; bh=mzRIRCVeLi8XFqPx5Q2iEDlj2PdENdoZwuLqT2C1NEQ=; b=Dj301bkUzeCvGE
+	psN5QG0QIa4k6bMTQ8vM0ez5AEibIcyEKPF+b22VG1YxSJGA5LheM16o1yFbd6JOlHjvXJZhGyfoX
+	8nY2nwNBD5o6BZyRv1RHz1vx5v94inr0UZUnlMCpD5/5iXo9YITrfhXX4YsMBsFpvwvqO5pSF5via
+	YtiGued977I32S3Z4rIhZ4/wDoBADJkv6uJqyvCQPS4WR+5vql7ZbClGDPWcFiJM+YrRu9x7qMJAd
+	Way9C/ZZTc2uXn2ilNBQ+xK/TfsaBWtUqk96Fqmu626aaAkTLd45eAD2rNhDH79wm8ujTJs2AqgkE
+	D6EZE5BLQ0M2jsM6zK+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lvDgd-002NuS-Ur; Mon, 21 Jun 2021 06:45:36 +0000
+	id 1lvDkw-002PER-43; Mon, 21 Jun 2021 06:50:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lvDgb-002Nsb-Nx
- for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 06:45:34 +0000
+ id 1lvDkt-002PDQ-Sy
+ for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 06:50:01 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5B87B68BEB; Mon, 21 Jun 2021 08:45:29 +0200 (CEST)
-Date: Mon, 21 Jun 2021 08:45:29 +0200
+ id 9F45468BEB; Mon, 21 Jun 2021 08:49:56 +0200 (CEST)
+Date: Mon, 21 Jun 2021 08:49:56 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Shai Malin <smalin@marvell.com>
 Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
  axboe@fb.com, kbusch@kernel.org, davem@davemloft.net,
  aelior@marvell.com, mkalderon@marvell.com, okulkarni@marvell.com,
  pkushwaha@marvell.com, prabhakar.pkin@gmail.com, malin1024@gmail.com
-Subject: Re: [PATCH v2 0/8] NVMeTCP Offload ULP
-Message-ID: <20210621064528.GA5906@lst.de>
+Subject: Re: [PATCH v2 3/8] nvme-fabrics: Expose nvmf_check_required_opts()
+ globally
+Message-ID: <20210621064956.GA6019@lst.de>
 References: <20210621051046.28783-1-smalin@marvell.com>
+ <20210621051046.28783-4-smalin@marvell.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210621051046.28783-1-smalin@marvell.com>
+In-Reply-To: <20210621051046.28783-4-smalin@marvell.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210620_234533_969155_7495D1AA 
-X-CRM114-Status: UNSURE (   8.65  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210620_235000_122467_CB9275B6 
+X-CRM114-Status: GOOD (  13.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,9 +73,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This seems to lack drivers actually using the infrastructure.  That is not
-only completly not acceptable for merging code into the kernel, but also
-make the code impossible to review.
+On Mon, Jun 21, 2021 at 08:10:41AM +0300, Shai Malin wrote:
+> From: Prabhakar Kushwaha <pkushwaha@marvell.com>
+> 
+> nvmf_check_required_opts() is used to check if user provided opts has
+> the required_opts or not. if not, it will log which options are not
+> provided.
+> 
+> It can be leveraged by nvme-tcp-offload to check if provided opts are
+> supported by this specific vendor driver or not.
+
+WTF is a "vendor" driver?  Vendors are not really a concept we use anywhere
+in Linux.
 
 _______________________________________________
 Linux-nvme mailing list
