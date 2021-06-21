@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07255C49EA2
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 06:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ACE8C48BE5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 07:20:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE9D561153
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 06:50:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE9D561153
+	by mail.kernel.org (Postfix) with ESMTPS id D8F8861026
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Jun 2021 07:20:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D8F8861026
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,41 +23,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mNONhistHLfmRV+Z8cMN/tls7ZYZMRmmoJ1lbfjdtiw=; b=PHgrJN8U4/s4ZC
-	X6qk9WlfDXTdsUaMsdS4LFQhalh2KYD55wrnI0s0lHPId0SyfchvnjNNyJm3lrttcmiLs6if5eWGi
-	TKJNhEULYhuE1ssdz4qzofSCnZap0oaeDMmeiCcPLpbUh61IkYGw77zqGF+HIbWrcravX7ln6qvr7
-	c0saWzShylyTAWJb5TJncQad56uDDKG4YKXb9JoeTOD/uMX8YVsOPyOANei42gqXOnh99onrzKTFw
-	G7UTl87DMOFsPlO4weVI5/STuRgke1gRSSyoXTQ3cqZ5+onrP69xxp2i5NATGOSwVlcJPezwwv6uL
-	KEmFgfuy8IIA1SdLmZIw==;
+	List-Owner; bh=0qclxLZc0H4jMO6avI5m70ymc0GmPL88RDsPD+jfTuk=; b=LigetNealgZW8C
+	wmv0tVcOk1Wc3hw3HElcGg7Q8I/eXA/NeO1f/nrRgXrptzUE4XogFIdLgH8z8MX2oOYiWyajhUVAx
+	ml5voRKUH/JuPaAvfZdCdwov3Xe3o6jFtqKTuGh2Xrtq6Lk1J9D1FBoN87D4iYBqNLml2l4Xe1JTF
+	9KKq0tnThVXibduYkypCc+J/GL6Bnt0Dym9ZtBM+yP56qzhoqTTSCN1BeMu5KAimbiDhrvGXh27rH
+	YtZgXhDW/eCegfgqeduwtOEWxOicTQi7sOyKoszrAklsVsSQlGAP3iz2Jzf+MyFdsarp72//Tn2Ha
+	1Gwldb6VyXAPm7GCJQPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lvDlN-002PKW-S0; Mon, 21 Jun 2021 06:50:29 +0000
+	id 1lvEEE-002SRx-25; Mon, 21 Jun 2021 07:20:18 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lvDlK-002PJO-OY
- for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 06:50:28 +0000
+ id 1lvEE7-002SPZ-4X
+ for linux-nvme@lists.infradead.org; Mon, 21 Jun 2021 07:20:15 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id D4CF168BFE; Mon, 21 Jun 2021 08:50:24 +0200 (CEST)
-Date: Mon, 21 Jun 2021 08:50:24 +0200
+ id 11AB568BFE; Mon, 21 Jun 2021 09:20:06 +0200 (CEST)
+Date: Mon, 21 Jun 2021 09:20:05 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Shai Malin <smalin@marvell.com>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- axboe@fb.com, kbusch@kernel.org, davem@davemloft.net,
- aelior@marvell.com, mkalderon@marvell.com, okulkarni@marvell.com,
- pkushwaha@marvell.com, prabhakar.pkin@gmail.com,
- malin1024@gmail.com, Dean Balandin <dbalandin@marvell.com>
-Subject: Re: [PATCH v2 4/8] nvme-tcp-offload: Add device scan implementation
-Message-ID: <20210621065024.GB6019@lst.de>
-References: <20210621051046.28783-1-smalin@marvell.com>
- <20210621051046.28783-5-smalin@marvell.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "Vasudevan, Anil" <anil.vasudevan@intel.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 13/16] block: switch polling to be bio based
+Message-ID: <20210621072005.GA6651@lst.de>
+References: <20210615131034.752623-1-hch@lst.de>
+ <20210615131034.752623-14-hch@lst.de> <YMliP6sFVuPhMbOB@T590>
+ <20210618140147.GA16258@lst.de> <YMytSIBm7k2pqFlc@T590>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210621051046.28783-5-smalin@marvell.com>
+In-Reply-To: <YMytSIBm7k2pqFlc@T590>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210620_235026_991573_EBD18FAD 
-X-CRM114-Status: UNSURE (   8.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210621_002011_370601_89AF58F8 
+X-CRM114-Status: GOOD (  19.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,10 +77,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 21, 2021 at 08:10:42AM +0300, Shai Malin wrote:
-> +static inline struct nvme_tcp_ofld_ctrl *to_tcp_ofld_ctrl(struct nvme_ctrl *nctrl)
+On Fri, Jun 18, 2021 at 10:27:20PM +0800, Ming Lei wrote:
+> > How?  On a block device the caller needs to hold the block device open
+> > to read/write from it.  On a file systems the file systems needs to
+> > be mounted, which also holds a bdev reference.
+> 
+> +       rcu_read_lock();
+> +       bio = READ_ONCE(kiocb->private);
+> +       if (bio && bio->bi_bdev)
+> 
+> The bio may be ended now from another polling job, then the disk is
+> closed & deleted, and released. Then request queue & hctxs are released.
+> 
+> +               ret = bio_poll(bio, flags);
+> 
+> But disk & request queue & hctx can still be referred in above bio_poll().
 
-Please fix all these overly long lines in the whole series.
+I don't see how this can happen.  A bio stashed into kiocb->private needs
+to belong to the correct device initially.  For it to point to the "wrong"
+device it needs to have been completed on the correct one, and then be
+reused for a different device.  At the point it is reused that device
+must obviously have been alive, and for it to be freed a RCU grace
+period must have been passed.  And that grace period can't have started
+earlier than when iocb_bio_iopoll was called.
 
 _______________________________________________
 Linux-nvme mailing list
