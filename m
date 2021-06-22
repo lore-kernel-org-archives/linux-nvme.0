@@ -2,104 +2,74 @@ Return-Path: <SRS0=pSM9=LQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C52B8C2B9F4
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 06:32:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE344C2B9F4
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 07:02:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 601CE611AF
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 06:32:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 601CE611AF
+	by mail.kernel.org (Postfix) with ESMTPS id 58F546044F
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 07:02:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 58F546044F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EiIlNY/dc/K/1Uin//mvdlw7eiBTpAM087ZSRHOKmYM=; b=vu5MyR2PoZjt+UWzIvWHExyUFH
-	PU/dv8d2hlGM7icRouGB2SFJiqaB3BU37c/BwIpGAS0RsRzUgC300PFlzomiz2UzIwy/qf7omvRc+
-	lHKd5x7ZYRr+orsw979Rta1xAfrmVLTIQ7nEwDQeU2CsFvI+1H1oMAlcE8pyR2rZ4ZHu3t/UgEibB
-	TemxB7a5zt8tNB2a9wFqRxFbM2IJQ4Ig+JNRyu/jHjXx4f3MqyFMweWolzW+3MKgtsw00ruSvPXWS
-	82hjYGDaK8sowMl0hEEY1sZPS3yRozWgfVCOZaTIbCWGj82fRwHRqv0BpmHmyfxMTQm2DHZpNPArj
-	S3FsdWLg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=HyoYTFNJdue+A/jtR5Hl8oahO0pDHPWXj5yl2b3qRgs=; b=01niDR1+iDfw56
+	x7CQ1b5/j/GRhUD/UlP31qSJTxhTFGJIxQ8tB2b/G5MTNj+lGvVFXx7DqXtkhohKG7gtH0ZPY6GU0
+	cYyGcNf45o6pNqZjUxiJfB+gBFHSQroO5RVaFommeK57mUcGfMKl9wVsZTCviBOHVXw8sZrnCz5rs
+	niozsZewk146GWslGBXs8P3SqGfXwQXGGpPafQWAvgIL+5ZpStjC7eL25EF1OEPDlywjyio6t8rVh
+	ENz5Xs5Voq9Uc/UbPxBGN17jkksRFipeXRLKFPq+d2t8GwvQBbEaJdOi/e0Ap17SkFh5WpanirH4x
+	Lbp1FSOBE14oqYAaniMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lvZx1-005pUB-23; Tue, 22 Jun 2021 06:31:59 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lvaPu-005ve5-KI; Tue, 22 Jun 2021 07:01:50 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lvZwy-005pTZ-FM
- for linux-nvme@lists.infradead.org; Tue, 22 Jun 2021 06:31:58 +0000
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EDE38219A0;
- Tue, 22 Jun 2021 06:31:54 +0000 (UTC)
+ id 1lvaPr-005vda-JB
+ for linux-nvme@lists.infradead.org; Tue, 22 Jun 2021 07:01:49 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 44A441FD45;
+ Tue, 22 Jun 2021 07:01:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624343514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hX+p5369uBCuRnxUduihdmoy52JqdWfbSoCG0Qoks48=;
- b=Lu2E17qb1scCE44CnuQj0+kPPlfZL88d1leO4CKujjQC89HotmBokcAqqnwbxIaeBJ/y8n
- YurgWIk7oDwCBJ5eMy3SDjvDD778jI8Ic6Z0rHPmOkA3vly+DbeH+F5V93oIWvAMATEqHj
- rwk0QBqqPn5b+wiwq58gMGwwp4mu5xM=
+ t=1624345306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=jUeS9MHCquKCFE1u4gUHKXBKGK2DtieQfYLKX6L/YEg=;
+ b=xz+im6Q4C1RdfF3vi+JIOFg9zCkVL88LaoZnE9g9fn+6pnwgqEp62FqPbTRMwUwGaxQo68
+ pjsBRMkl8MA8vf5NeHJRX4LoyXQNV8yciDSaiChnCpf4KBIGJPxVwyXtj0EFIum5hGr/Ki
+ YDuOwNnVMlqNAPfsH/PUvQCXdNwPwsM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624343514;
+ s=susede2_ed25519; t=1624345306;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hX+p5369uBCuRnxUduihdmoy52JqdWfbSoCG0Qoks48=;
- b=8GQ90OHtwUGX42GxpHWDg8Z9l3VJV2nXvaw7i6QH/ZNOT56EWpTbF1tC3vbD8Ze/ephOMu
- fB5CpzVYWKKhyYCA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id CBA3E118DD;
- Tue, 22 Jun 2021 06:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624343514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hX+p5369uBCuRnxUduihdmoy52JqdWfbSoCG0Qoks48=;
- b=Lu2E17qb1scCE44CnuQj0+kPPlfZL88d1leO4CKujjQC89HotmBokcAqqnwbxIaeBJ/y8n
- YurgWIk7oDwCBJ5eMy3SDjvDD778jI8Ic6Z0rHPmOkA3vly+DbeH+F5V93oIWvAMATEqHj
- rwk0QBqqPn5b+wiwq58gMGwwp4mu5xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624343514;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hX+p5369uBCuRnxUduihdmoy52JqdWfbSoCG0Qoks48=;
- b=8GQ90OHtwUGX42GxpHWDg8Z9l3VJV2nXvaw7i6QH/ZNOT56EWpTbF1tC3vbD8Ze/ephOMu
- fB5CpzVYWKKhyYCA==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id 3q3eMNqD0WC/UAAALh3uQQ
- (envelope-from <hare@suse.de>); Tue, 22 Jun 2021 06:31:54 +0000
-Subject: Re: [PATCHv6] nvme: allow to re-attach namespaces after all paths are
- down
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
-References: <20210609150118.130650-1-hare@suse.de>
- <4903ef70-ed16-4b81-3570-60e9fcc5ecb0@grimberg.me>
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=jUeS9MHCquKCFE1u4gUHKXBKGK2DtieQfYLKX6L/YEg=;
+ b=kIuyl69W2G8pX6mjF9ZQVN1oqNdOs1/anZgqEO8x8pJENZCi0uuHl/yCkn6lM9u4oaCrbu
+ 7aVF50kzes4wQgAg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 174B3A3B84;
+ Tue, 22 Jun 2021 07:01:45 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 3FB9A5170795; Tue, 22 Jun 2021 09:01:45 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <4a05b0de-8639-0747-e9f4-c20400854b02@suse.de>
-Date: Tue, 22 Jun 2021 08:31:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv7] nvme: fix refcounting imbalance when all paths are down
+Date: Tue, 22 Jun 2021 09:01:40 +0200
+Message-Id: <20210622070140.22488-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <4903ef70-ed16-4b81-3570-60e9fcc5ecb0@grimberg.me>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210621_233156_718751_103DC3D9 
-X-CRM114-Status: GOOD (  33.53  )
+X-CRM114-CacheID: sfid-20210622_000147_838935_738B44F0 
+X-CRM114-Status: GOOD (  17.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,111 +81,157 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNi8yMS8yMSA4OjEzIFBNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+IAo+IAo+IE9uIDYvOS8y
-MSA4OjAxIEFNLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+IFdlIHNob3VsZCBvbmx5IHJlbW92
-ZSB0aGUgbnMgaGVhZCBmcm9tIHRoZSBsaXN0IG9mIGhlYWRzIHBlcgo+PiBzdWJzeXN0ZW0gaWYg
-dGhlIHJlZmVyZW5jZSBjb3VudCBkcm9wcyB0byB6ZXJvLiBUaGF0IGNsZWFucyB1cAo+PiByZWZl
-cmVuY2UgY291bnRpbmcsIGFuZCBhbGxvd3MgdXMgdG8gY2FsbCBkZWxfZ2VuZGlzaygpIG9uY2Ug
-dGhlIGxhc3QKPj4gcGF0aCBpcyByZW1vdmVkIChhcyB0aGVuIHRoZSBuc19oZWFkIHNob3VsZCBi
-ZSByZW1vdmVkIGFueXdheSkuCj4+IEFzIHRoaXMgaW50cm9kdWNlcyBhICh0aGVvcmV0aWNhbCkg
-cmFjZSBjb25kaXRpb24gd2hlcmUgSS9PIG1pZ2h0IGhhdmUKPj4gYmVlbiByZXF1ZXVlZCBiZWZv
-cmUgdGhlIGxhc3QgcGF0aCB3ZW50IGRvd24gd2UgYWxzbyBzaG91bGQgYmUgY2hlY2tpbmcKPj4g
-aWYgdGhlIGdlbmRpc2sgaXMgc3RpbGwgcHJlc2VudCBpbiBudm1lX25zX2hlYWRfc3VibWl0X2Jp
-bygpLAo+PiBhbmQgZmFpbGluZyBJL08gaWYgc28uCj4+Cj4+IENoYW5nZXMgdG8gdjU6Cj4+IC0g
-U3luY2hyb25pemUgYmV0d2VlbiBudm1lX2luaXRfbnNfaGVhZCgpIGFuZCAKPj4gbnZtZV9tcGF0
-aF9jaGVja19sYXN0X3BhdGgoKQo+PiAtIENoZWNrIGZvciByZW1vdmVkIGdlbmRpc2sgaW4gbnZt
-ZV9uc19oZWFkX3N1Ym1pdF9iaW8oKQo+PiBDaGFuZ2VzIHRvIHY0Ogo+PiAtIENhbGwgZGVsX2dl
-bmRpc2soKSBpbiBudm1lX21wYXRoX2NoZWNrX2xhc3RfcGF0aCgpIHRvIGF2b2lkIGRlYWRsb2Nr
-Cj4+IENoYW5nZXMgdG8gdjM6Cj4+IC0gU2ltcGxpZnkgaWYoKSBjbGF1c2UgdG8gZGV0ZWN0IGR1
-cGxpY2F0ZSBuYW1lc3BhY2VzCj4+IENoYW5nZXMgdG8gdjI6Cj4+IC0gRHJvcCBtZW1jcHkoKSBz
-dGF0ZW1lbnQKPj4gQ2hhbmdlcyB0byB2MToKPj4gLSBBbHdheXMgY2hlY2sgTlNJRHMgYWZ0ZXIg
-cmVhdHRhY2gKPj4KPj4gU2lnbmVkLW9mZi1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2Uu
-ZGU+Cj4+IC0tLQo+PiDCoCBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmPCoMKgwqDCoMKgIHzCoCA5
-ICsrKystLS0tLQo+PiDCoCBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYyB8IDMwICsrKysr
-KysrKysrKysrKysrKysrKysrKystLS0tLQo+PiDCoCBkcml2ZXJzL252bWUvaG9zdC9udm1lLmjC
-oMKgwqDCoMKgIHwgMTEgKystLS0tLS0tLS0KPj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAzMSBpbnNl
-cnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZt
-ZS9ob3N0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwo+PiBpbmRleCAxNzdjYWU0
-NGI2MTIuLjZkN2MyOTU4YjNlMiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29y
-ZS5jCj4+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwo+PiBAQCAtNTY2LDYgKzU2Niw5
-IEBAIHN0YXRpYyB2b2lkIG52bWVfZnJlZV9uc19oZWFkKHN0cnVjdCBrcmVmICpyZWYpCj4+IMKg
-wqDCoMKgwqAgc3RydWN0IG52bWVfbnNfaGVhZCAqaGVhZCA9Cj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oCBjb250YWluZXJfb2YocmVmLCBzdHJ1Y3QgbnZtZV9uc19oZWFkLCByZWYpOwo+PiArwqDCoMKg
-IG11dGV4X2xvY2soJmhlYWQtPnN1YnN5cy0+bG9jayk7Cj4+ICvCoMKgwqAgbGlzdF9kZWxfaW5p
-dCgmaGVhZC0+ZW50cnkpOwo+PiArwqDCoMKgIG11dGV4X3VubG9jaygmaGVhZC0+c3Vic3lzLT5s
-b2NrKTsKPj4gwqDCoMKgwqDCoCBudm1lX21wYXRoX3JlbW92ZV9kaXNrKGhlYWQpOwo+PiDCoMKg
-wqDCoMKgIGlkYV9zaW1wbGVfcmVtb3ZlKCZoZWFkLT5zdWJzeXMtPm5zX2lkYSwgaGVhZC0+aW5z
-dGFuY2UpOwo+PiDCoMKgwqDCoMKgIGNsZWFudXBfc3JjdV9zdHJ1Y3QoJmhlYWQtPnNyY3UpOwo+
-PiBAQCAtMzgwNiw4ICszODA5LDYgQEAgc3RhdGljIHZvaWQgbnZtZV9hbGxvY19ucyhzdHJ1Y3Qg
-bnZtZV9jdHJsIAo+PiAqY3RybCwgdW5zaWduZWQgbnNpZCwKPj4gwqDCoCBvdXRfdW5saW5rX25z
-Ogo+PiDCoMKgwqDCoMKgIG11dGV4X2xvY2soJmN0cmwtPnN1YnN5cy0+bG9jayk7Cj4+IMKgwqDC
-oMKgwqAgbGlzdF9kZWxfcmN1KCZucy0+c2libGluZ3MpOwo+PiAtwqDCoMKgIGlmIChsaXN0X2Vt
-cHR5KCZucy0+aGVhZC0+bGlzdCkpCj4+IC3CoMKgwqDCoMKgwqDCoCBsaXN0X2RlbF9pbml0KCZu
-cy0+aGVhZC0+ZW50cnkpOwo+PiDCoMKgwqDCoMKgIG11dGV4X3VubG9jaygmY3RybC0+c3Vic3lz
-LT5sb2NrKTsKPj4gwqDCoMKgwqDCoCBudm1lX3B1dF9uc19oZWFkKG5zLT5oZWFkKTsKPj4gwqDC
-oCBvdXRfZnJlZV9xdWV1ZToKPj4gQEAgLTM4MjgsOCArMzgyOSw2IEBAIHN0YXRpYyB2b2lkIG52
-bWVfbnNfcmVtb3ZlKHN0cnVjdCBudm1lX25zICpucykKPj4gwqDCoMKgwqDCoCBtdXRleF9sb2Nr
-KCZucy0+Y3RybC0+c3Vic3lzLT5sb2NrKTsKPj4gwqDCoMKgwqDCoCBsaXN0X2RlbF9yY3UoJm5z
-LT5zaWJsaW5ncyk7Cj4+IC3CoMKgwqAgaWYgKGxpc3RfZW1wdHkoJm5zLT5oZWFkLT5saXN0KSkK
-Pj4gLcKgwqDCoMKgwqDCoMKgIGxpc3RfZGVsX2luaXQoJm5zLT5oZWFkLT5lbnRyeSk7Cj4+IMKg
-wqDCoMKgwqAgbXV0ZXhfdW5sb2NrKCZucy0+Y3RybC0+c3Vic3lzLT5sb2NrKTsKPj4gwqDCoMKg
-wqDCoCBzeW5jaHJvbml6ZV9yY3UoKTsgLyogZ3VhcmFudGVlIG5vdCBhdmFpbGFibGUgaW4gaGVh
-ZC0+bGlzdCAqLwo+PiBAQCAtMzg0OSw3ICszODQ4LDcgQEAgc3RhdGljIHZvaWQgbnZtZV9uc19y
-ZW1vdmUoc3RydWN0IG52bWVfbnMgKm5zKQo+PiDCoMKgwqDCoMKgIGxpc3RfZGVsX2luaXQoJm5z
-LT5saXN0KTsKPj4gwqDCoMKgwqDCoCB1cF93cml0ZSgmbnMtPmN0cmwtPm5hbWVzcGFjZXNfcndz
-ZW0pOwo+PiAtwqDCoMKgIG52bWVfbXBhdGhfY2hlY2tfbGFzdF9wYXRoKG5zKTsKPj4gK8KgwqDC
-oCBudm1lX21wYXRoX2NoZWNrX2xhc3RfcGF0aChucy0+aGVhZCk7Cj4+IMKgwqDCoMKgwqAgbnZt
-ZV9wdXRfbnMobnMpOwo+PiDCoCB9Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9t
-dWx0aXBhdGguYyAKPj4gYi9kcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYwo+PiBpbmRleCAy
-MzU3M2ZlM2ZjN2QuLjMxMTUzZjZlYzU4MiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9udm1lL2hv
-c3QvbXVsdGlwYXRoLmMKPj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbXVsdGlwYXRoLmMKPj4g
-QEAgLTI2Niw2ICsyNjYsOCBAQCBpbmxpbmUgc3RydWN0IG52bWVfbnMgKm52bWVfZmluZF9wYXRo
-KHN0cnVjdCAKPj4gbnZtZV9uc19oZWFkICpoZWFkKQo+PiDCoMKgwqDCoMKgIGludCBub2RlID0g
-bnVtYV9ub2RlX2lkKCk7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IG52bWVfbnMgKm5zOwo+PiArwqDC
-oMKgIGlmICghKGhlYWQtPmRpc2stPmZsYWdzICYgR0VOSERfRkxfVVApKQo+PiArwqDCoMKgwqDC
-oMKgwqAgcmV0dXJuIE5VTEw7Cj4+IMKgwqDCoMKgwqAgbnMgPSBzcmN1X2RlcmVmZXJlbmNlKGhl
-YWQtPmN1cnJlbnRfcGF0aFtub2RlXSwgJmhlYWQtPnNyY3UpOwo+PiDCoMKgwqDCoMKgIGlmICh1
-bmxpa2VseSghbnMpKQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIF9fbnZtZV9maW5kX3Bh
-dGgoaGVhZCwgbm9kZSk7Cj4+IEBAIC0yODEsNiArMjgzLDggQEAgc3RhdGljIGJvb2wgbnZtZV9h
-dmFpbGFibGVfcGF0aChzdHJ1Y3QgCj4+IG52bWVfbnNfaGVhZCAqaGVhZCkKPj4gwqAgewo+PiDC
-oMKgwqDCoMKgIHN0cnVjdCBudm1lX25zICpuczsKPj4gK8KgwqDCoCBpZiAoIShoZWFkLT5kaXNr
-LT5mbGFncyAmIEdFTkhEX0ZMX1VQKSkKPj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiBmYWxzZTsK
-PiAKPiBudm1lX2F2YWlsYWJsZV9wYXRoIHNob3VsZCBoYXZlIG5vIGJ1c2luZXNzIGxvb2tpbmcg
-YXQgdGhlIGhlYWQgZ2VuZGlzaywKPiBpdCBzaG91bGQganVzdCB1bmRlcnN0YW5kIGlmIGEgUEFU
-SCAoYS5rLmEgYSBjb250cm9sbGVyKSBleGlzdHMuCj4gCkFncmVlZC4gSSB3YXMgb25seSBvdmVy
-bHkgY2F1dGlvdXMgaGVyZTsgd2lsbCBiZSBkcm9wcGluZyB0aGlzIGNoZWNrLgoKPiBJTU8sIHRo
-ZSBmYWN0IHRoYXQgaXQgZG9lcyBzaG91bGQgdGVsbCB0aGF0IHdlIHNob3VsZCB0YWtlIGEgc3Rl
-cCBiYWNrCj4gYW5kIHRoaW5rIGFib3V0IHRoaXMuIFdlIGFyZSB0cnlpbmcgdG8ga2VlcCBhbiB6
-b21iaWUgbnNoZWFkIGFyb3VuZAo+IGp1c3QgZm9yIHRoZSBwb3NzaWJpbGl0eSB0aGUgaG9zdCB3
-aWxsIHJlY29ubmVjdCAobm90IGFzIHBhcnQgb2YKPiBlcnJvciByZWNvdmVyeSwgYnV0IGFzIGEg
-YnJhbmQgbmV3IGNvbm5lY3QpLiBXaHkgc2hvdWxkbid0IHdlIGp1c3QKPiByZW1vdmUgaXQgYW5k
-IHJlc3RvcmUgaXQgYXMgYSBicmFuZCBuZXcgbnNoZWFkIHdoZW4gdGhlIGhvc3QgYXR0YWNoZXMK
-PiBhZ2Fpbj8KPiAKVGhpcyBwYXRjaCBoYXMgbm93IGV2b2x2ZWQgcXVpdGUgYSBiaXQsIGFuZCBp
-biBmYWN0IGRpdmVyZ2VkIHNsaWdodGx5IApmcm9tIHRoZSBkZXNjcmlwdGlvbi4gVGhlIG9yaWdp
-bmFsIGludGVudCBpbmRlZWQgd2FzIHRvIGtlZXAgdGhlIG5zaGVhZCAKYXJvdW5kIHVudGlsIHRo
-ZSBsYXN0IHJlZmVyZW5jZSBkcm9wcywgc3VjaCB0aGF0IGlmIGEgY29udHJvbGxlciBnZXRzIApy
-ZWF0dGFjaGVkIGl0IHdpbGwgYmUgYWJsZSB0byBjb25uZWN0IHRoZSBuYW1lc3BhY2VzIHRvIHRo
-ZSBjb3JyZWN0IAooZXhpc3RpbmcpIG5zX2hlYWQuCkhvd2V2ZXIsIGFzIGl0IHR1cm5lZCBvdXQg
-dGhpcyB3YXMganVzdCBhIGJhbmQtYWlkLCBhbmQgdGhlIHJlYWwgZml4IGlzIAp0byBnZXQgdGhl
-IHJlZmVyZW5jZSBjb3VudHMgYmV0d2VlbiAnc3RydWN0IG5zJyBhbmQgJ3N0cnVjdCBuc19oZWFk
-JyAKY29ycmVjdDogaWYgdGhlIGxhc3QgcGF0aCB0byBhIG5zX2hlYWQgZHJvcHMsIHdlIHNob3Vs
-ZCBiZSByZW1vdmluZyB0aGUgCm5zX2hlYWQgYnkgY2FsbGluZyBkZWxfZ2VuZGlzaygpIGFuZCBy
-ZW1vdmluZyBpdCBmcm9tIHRoZSBsaXN0IG9mIG5zX2hlYWRzLgoKQXMgbm90ZWQgYnkgS2VpdGgg
-dGhlIGZpcnN0IHBhcnQgaXMgZG9uZSBjb3JyZWN0bHkgaW4gdGhpcyBwYXRjaCAobmFtZWx5IApk
-ZWxfZ2VuZGlzaygpIGlzIGNhbGxlZCB3aGVuIHRoZSBsYXN0IHBhdGggZHJvcHMpLCBidXQgdGhl
-IHNlY29uZCBiaXQgb2YgCmRldGFjaGluZyBpdCBmcm9tIHRoZSBsaXN0IG9mIG5zX2hlYWRzIGlz
-IF9ub3RfIGRvbmUgY29ycmVjdGx5LgpCb3RoIHNob3VsZCBiZSBoYXBwZW5pbmcgYXQgdGhlIHNh
-bWUgdGltZSB0byBhdm9pZCBhbnkgcmFjZSBjb25kaXRpb25zLgoKV2lsbCBiZSBzZW5kaW5nIGFu
-IHVwZGF0ZWQgcGF0Y2guCgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2Ug
-ICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZSAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkg
-KEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUg
-bWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
-aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+When the last path to a ns_head drops the current code
+removes the ns_head from the subsystem list, but will only
+delete the disk itself if the last reference to the ns_head
+drops. This is causing an refcounting imbalance eg when
+applications have a reference to the disk, as then they'll
+never get notified that the disk is in fact dead.
+With this patch we are calling 'del_gendisk' and remove it
+from the list of ns_heads at the same time, ensuring that
+the disk can be properly removed and applications get the
+appropriate notifications.
+
+Changes to v6:
+- Move the list_del() into nvme_mpath_check_last_path()
+- Drop the tests for GENHD_FL_UP
+Changes to v5:
+- Synchronize between nvme_init_ns_head() and nvme_mpath_check_last_path()
+- Check for removed gendisk in nvme_ns_head_submit_bio()
+Changes to v4:
+- Call del_gendisk() in nvme_mpath_check_last_path() to avoid deadlock
+Changes to v3:
+- Simplify if() clause to detect duplicate namespaces
+Changes to v2:
+- Drop memcpy() statement
+Changes to v1:
+- Always check NSIDs after reattach
+
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c      |  6 +-----
+ drivers/nvme/host/multipath.c | 28 +++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h      | 11 ++---------
+ 3 files changed, 26 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c7ef0b6684b5..106322dafe45 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3799,8 +3799,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+-	if (list_empty(&ns->head->list))
+-		list_del_init(&ns->head->entry);
+ 	mutex_unlock(&ctrl->subsys->lock);
+ 	nvme_put_ns_head(ns->head);
+  out_free_queue:
+@@ -3821,8 +3819,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+-	if (list_empty(&ns->head->list))
+-		list_del_init(&ns->head->entry);
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
+ 	synchronize_rcu(); /* guarantee not available in head->list */
+@@ -3842,7 +3838,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	list_del_init(&ns->list);
+ 	up_write(&ns->ctrl->namespaces_rwsem);
+ 
+-	nvme_mpath_check_last_path(ns);
++	nvme_mpath_check_last_path(ns->head);
+ 	nvme_put_ns(ns);
+ }
+ 
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 23573fe3fc7d..bf9dfaefa77d 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -771,20 +771,38 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+ #endif
+ }
+ 
+-void nvme_mpath_remove_disk(struct nvme_ns_head *head)
++void nvme_mpath_check_last_path(struct nvme_ns_head *head)
+ {
++	bool last_path = false;
+ 	if (!head->disk)
+ 		return;
+-	if (head->disk->flags & GENHD_FL_UP) {
+-		nvme_cdev_del(&head->cdev, &head->cdev_device);
+-		del_gendisk(head->disk);
++
++	/* Synchronize with nvme_init_ns_head() */
++	mutex_lock(&head->subsys->lock);
++	if (list_empty(&head->list)) {
++		list_del_init(&head->entry);
++		last_path = true;
+ 	}
++	mutex_unlock(&head->subsys->lock);
++	if (last_path) {
++		kblockd_schedule_work(&head->requeue_work);
++		if (head->disk->flags & GENHD_FL_UP) {
++			nvme_cdev_del(&head->cdev, &head->cdev_device);
++			del_gendisk(head->disk);
++		}
++	}
++}
++
++void nvme_mpath_remove_disk(struct nvme_ns_head *head)
++{
++	if (!head->disk)
++		return;
+ 	blk_set_queue_dying(head->disk->queue);
+ 	/* make sure all pending bios are cleaned up */
+ 	kblockd_schedule_work(&head->requeue_work);
+ 	flush_work(&head->requeue_work);
+ 	blk_cleanup_queue(head->disk->queue);
+-	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
++	if (!test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+ 		/*
+ 		 * if device_add_disk wasn't called, prevent
+ 		 * disk release to put a bogus reference on the
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 75420ceacc10..6b1caabe861b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -716,14 +716,7 @@ void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
+ void nvme_mpath_stop(struct nvme_ctrl *ctrl);
+ bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
+ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
+-
+-static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+-{
+-	struct nvme_ns_head *head = ns->head;
+-
+-	if (head->disk && list_empty(&head->list))
+-		kblockd_schedule_work(&head->requeue_work);
+-}
++void nvme_mpath_check_last_path(struct nvme_ns_head *head);
+ 
+ static inline void nvme_trace_bio_complete(struct request *req)
+ {
+@@ -772,7 +765,7 @@ static inline bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ static inline void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
+ {
+ }
+-static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
++static inline void nvme_mpath_check_last_path(struct nvme_ns_head *head)
+ {
+ }
+ static inline void nvme_trace_bio_complete(struct request *req)
+-- 
+2.26.2
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
