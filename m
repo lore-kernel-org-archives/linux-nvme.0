@@ -2,85 +2,105 @@ Return-Path: <SRS0=pSM9=LQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25B5C4743C
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 00:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F312C2B9F4
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 06:22:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 904AB611C1
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 00:28:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 904AB611C1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
+	by mail.kernel.org (Postfix) with ESMTPS id CC9CB6113E
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jun 2021 06:22:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC9CB6113E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1aPDvhy4HqnBsFiFKdmt2jg0d+vk/D1kmCTiLWlIBxc=; b=STBu1JJfWQ768d
-	DVs4Gw/Xoh4BkHBSt6UleBCY0FCAnt7oWobeeky3gS3KG/kphY9Tn5N6UP6Zqsly2ZXtgQrvUcCLS
-	EPQdl4fBahKT5qG+WqsfT8hbzBZzcuVyRF9sa8K892iJTT2LmUlcrW7GQvOEc7wfG6rIabKFKiyp4
-	sThilbgjVqANlppEZQsqVNE0Vn8KixXpj1PQzh5Y4da4X7h5x+0PSAJ0yaBAJ3kQzZVnYopypRxTe
-	/Fx6KtPEbamlzS2bz4OIJFvtpmaO+0dT4iYP8tpRuKM9alqRPIg3isUAAAIW2EuzOwOoPBxq8SEVL
-	raWo4bHPfK1sAGHWwcnw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Zs1CZOxF2al9FBQ/1aKkChrje0xQ2EB+EV/V/3dQu24=; b=aKvFj9E8nI01sQrsaEdMvXr4wF
+	0y9D6wKUjoHmhv6nZorEs2ckCEFR1VcXYpNMDKiXirXg6uxuA09GJ2JhTCf2sA0fRDwvVQMthELeg
+	mkSHHT7fyeROXO8dKkXYSqNwUDf1udp3IdI21HDWzPN3yZx6WIwUkXioQKZFSQJ4rV3mbwel+/oD4
+	sFxoPnclZJAozxqE86CnFqlFpWRt4nChcRgiB+8eBVwJAVygL2bjvP01nu6sR2RzXX3J8awdE8Y1n
+	4yiNQKgu4FYeZA4kv1PyCTysATFzLStziOUd504qqhi7CE9NoQp/PySnpEFFXv+YijgdAc4gYUhOo
+	6WrF0D1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lvUHD-005D78-Ds; Tue, 22 Jun 2021 00:28:27 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1lvZnK-005o5Y-28; Tue, 22 Jun 2021 06:21:58 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lvUH1-005D5q-IL
- for linux-nvme@lists.infradead.org; Tue, 22 Jun 2021 00:28:16 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id
- bb10-20020a17090b008ab029016eef083425so622530pjb.5
- for <linux-nvme@lists.infradead.org>; Mon, 21 Jun 2021 17:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=purestorage.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cz2d4Ujdtgkjv0Jx9kWjdzkrRxQi8sbq06d3GehCdIs=;
- b=Nvrw0U8rRll2mtltIvlhp6A/LJi/hYkRvPtpJFWioDlPRl4s3rNsK38qEyE8spin9e
- 7QTRjJnm6YT0rwE/jZu62BOkheMGQ0Y7US5s9yNV6qm85EuYsCmZC7U58gc+VY2/EZOx
- kV/0b3lCJTfnFBTrCu8bSIOd9GpC1MiyatKXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=cz2d4Ujdtgkjv0Jx9kWjdzkrRxQi8sbq06d3GehCdIs=;
- b=fyF7jCf09ePYDIXOVrzBOvHNbw9QsXGvkJkBPNF+dnvULuNan65r8NpYu/8zJBrByX
- e4Pa+MqD7UidKzZNfQYiaIfbTtecceLfL21uNEGiQWzrY+jJcu3sIvlRmsSjRjYzquN/
- ro4dLd17ABCdO9bN83T+Oqa2weHDSZqYEZapwCbvTXVlYcE95Zh4BKKfAWPN9A9n4FGa
- Imqm9l1y09x/mKYjmI3fT7Qjh1lS9NqhcJ1KRIP+XU4bTiEHLa0guEhrTaaiKMf6iTXn
- OErf3hcX7ityIGac+jkGueq5mjl3TQeRdpfzqkM170wPDKoRIY4Sw+0FTZfGrRZud4ut
- KJmg==
-X-Gm-Message-State: AOAM530oAfuU6df30yr6RIq6hOhMKdp4hv+JUYFt/a/TGbrLBWkbiqE4
- c0QOfPXzBgoPXFc3TmYab4Tx8ncVCxqc4ldFg0d9Y6G8IJT1folnb3RjEWQL6RQ/xbP1BOactF1
- +XwHv7lCYYfjgRhRUanj0AOiqzi3k7C7FOVUpvRi/jhgZTOEsy1lEHA3eqlrG08cUFDQNRtuBXU
- 5cmsUCKTI=
-X-Google-Smtp-Source: ABdhPJye9reLfi2H8tstk6kITRX9++gZi/DL2nKO6JUbqbdqoOe+3BS1qkx7WR12haemmPce8HJSPw==
-X-Received: by 2002:a17:90a:20c:: with SMTP id c12mr896761pjc.7.1624321694376; 
- Mon, 21 Jun 2021 17:28:14 -0700 (PDT)
-Received: from yoga.purestorage.com ([192.30.189.3])
- by smtp.googlemail.com with ESMTPSA id i6sm19714156pgg.50.2021.06.21.17.28.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 17:28:14 -0700 (PDT)
-From: Casey Chen <cachen@purestorage.com>
-To: linux-nvme@lists.infradead.org
-Cc: yzhong@purestorage.com, ashishk@purestorage.com,
- Casey Chen <cachen@purestorage.com>
-Subject: [PATCH 2/2] nvme-pci: Fix UAF introduced by nvme_dev_remove_admin()
-Date: Mon, 21 Jun 2021 17:27:10 -0700
-Message-Id: <20210622002710.26591-3-cachen@purestorage.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210622002710.26591-1-cachen@purestorage.com>
-References: <20210622002710.26591-1-cachen@purestorage.com>
+ id 1lvZnH-005o52-Jw
+ for linux-nvme@lists.infradead.org; Tue, 22 Jun 2021 06:21:57 +0000
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C91D41FD5C;
+ Tue, 22 Jun 2021 06:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624342913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ttRlrRSbeRfvh1H++ETaEK+j094fj2LSTOh25O2EBQ=;
+ b=OK8BxxiN/uWMs1La9AbocAg6jhpd+mOR93CrLbB/hyQIGOxTipCtIV1BR4VW9S0UeeIPGs
+ DBw0dd6Ueyuh7onRhwsyiJxQNmnqPh75lDLi2YbD6zztSlTZeq+qJW9QHlvR160iOq1sl7
+ 17lE9s60dOTSYO883BTGL7otHUDXNso=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624342913;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ttRlrRSbeRfvh1H++ETaEK+j094fj2LSTOh25O2EBQ=;
+ b=A1iLWZW8y+qIeCMxKwcF0pXgTIjph3su93H+Rm0KDA2i7hU73m/znPWRDiQUBuFI/+QASv
+ FMPRgaCibHQcQfBA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 966D9118DD;
+ Tue, 22 Jun 2021 06:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624342913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ttRlrRSbeRfvh1H++ETaEK+j094fj2LSTOh25O2EBQ=;
+ b=OK8BxxiN/uWMs1La9AbocAg6jhpd+mOR93CrLbB/hyQIGOxTipCtIV1BR4VW9S0UeeIPGs
+ DBw0dd6Ueyuh7onRhwsyiJxQNmnqPh75lDLi2YbD6zztSlTZeq+qJW9QHlvR160iOq1sl7
+ 17lE9s60dOTSYO883BTGL7otHUDXNso=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624342913;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ttRlrRSbeRfvh1H++ETaEK+j094fj2LSTOh25O2EBQ=;
+ b=A1iLWZW8y+qIeCMxKwcF0pXgTIjph3su93H+Rm0KDA2i7hU73m/znPWRDiQUBuFI/+QASv
+ FMPRgaCibHQcQfBA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id PezNI4GB0WDyTAAALh3uQQ
+ (envelope-from <hare@suse.de>); Tue, 22 Jun 2021 06:21:53 +0000
+Subject: Re: [PATCHv6] nvme: allow to re-attach namespaces after all paths are
+ down
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+References: <20210609150118.130650-1-hare@suse.de>
+ <20210621172653.GC1268033@dhcp-10-100-145-180.wdc.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <b4637359-9846-4086-2fc2-a1a990933c7b@suse.de>
+Date: Tue, 22 Jun 2021 08:21:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210621172653.GC1268033@dhcp-10-100-145-180.wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210621_172815_646180_8EE3FD75 
-X-CRM114-Status: GOOD (  11.32  )
+X-CRM114-CacheID: sfid-20210621_232155_873513_14DA20A1 
+X-CRM114-Status: GOOD (  21.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,47 +112,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_dev_remove_admin() could free admin_q and admin_tagset while
-they are being accessed by nvme_dev_disable(), which could come from
-nvme_remove_dead_ctrl() by nvme_reset_work() during cleanup.
-
-Commit cb4bfda62afa ("nvme-pci: fix hot removal during error handling") was
-to avoid requests being stuck on a removed controller by killing admin queue.
-But the later fix c8e9e9b7646e ("nvme-pci: unquiesce admin queue on shutdown"),
-together with nvme_dev_disable(dev, true) right before nvme_dev_remove_admin()
-could help dispatch requests and fail them early, so we don't need
-nvme_dev_remove_admin() any more.
-
-Fixes: cb4bfda62afa ("nvme-pci: fix hot removal during error handling")
-
-upstream_status: upstream
----
- drivers/nvme/host/pci.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5abc4c3be454..49ef2027bcb0 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3023,7 +3023,6 @@ static void nvme_remove(struct pci_dev *pdev)
- 	if (!pci_device_is_present(pdev)) {
- 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
- 		nvme_dev_disable(dev, true);
--		nvme_dev_remove_admin(dev);
- 	}
- 
- 	flush_work(&dev->ctrl.reset_work);
--- 
-2.17.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNi8yMS8yMSA3OjI2IFBNLCBLZWl0aCBCdXNjaCB3cm90ZToKPiBPbiBXZWQsIEp1biAwOSwg
+MjAyMSBhdCAwNTowMToxOFBNICswMjAwLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+IC12b2lk
+IG52bWVfbXBhdGhfcmVtb3ZlX2Rpc2soc3RydWN0IG52bWVfbnNfaGVhZCAqaGVhZCkKPj4gK3Zv
+aWQgbnZtZV9tcGF0aF9jaGVja19sYXN0X3BhdGgoc3RydWN0IG52bWVfbnNfaGVhZCAqaGVhZCkK
+Pj4gICB7Cj4+ICsJYm9vbCBsYXN0X3BhdGggPSBmYWxzZTsKPj4gICAJaWYgKCFoZWFkLT5kaXNr
+KQo+PiAgIAkJcmV0dXJuOwo+PiAtCWlmIChoZWFkLT5kaXNrLT5mbGFncyAmIEdFTkhEX0ZMX1VQ
+KSB7Cj4+IC0JCW52bWVfY2Rldl9kZWwoJmhlYWQtPmNkZXYsICZoZWFkLT5jZGV2X2RldmljZSk7
+Cj4+IC0JCWRlbF9nZW5kaXNrKGhlYWQtPmRpc2spOwo+PiArCj4+ICsJLyogU3luY2hyb25pemUg
+d2l0aCBudm1lX2luaXRfbnNfaGVhZCgpICovCj4+ICsJbXV0ZXhfbG9jaygmaGVhZC0+c3Vic3lz
+LT5sb2NrKTsKPj4gKwlpZiAobGlzdF9lbXB0eSgmaGVhZC0+bGlzdCkpCj4+ICsJCWxhc3RfcGF0
+aCA9IHRydWU7Cj4+ICsJbXV0ZXhfdW5sb2NrKCZoZWFkLT5zdWJzeXMtPmxvY2spOwo+PiArCWlm
+IChsYXN0X3BhdGgpIHsKPj4gKwkJa2Jsb2NrZF9zY2hlZHVsZV93b3JrKCZoZWFkLT5yZXF1ZXVl
+X3dvcmspOwo+PiArCQlpZiAoaGVhZC0+ZGlzay0+ZmxhZ3MgJiBHRU5IRF9GTF9VUCkgewo+PiAr
+CQkJbnZtZV9jZGV2X2RlbCgmaGVhZC0+Y2RldiwgJmhlYWQtPmNkZXZfZGV2aWNlKTsKPj4gKwkJ
+CWRlbF9nZW5kaXNrKGhlYWQtPmRpc2spOwo+PiArCQl9Cj4+ICAgCX0KPj4gK30KPiAKPiBUaGlz
+IGlzIGJlaW5nIGNhbGxlZCB3aGVuIGEgcGF0aCBpcyByZW1vdmVkLiBJZiBpdCBpcyB0aGUgbGFz
+dCBwYXRoLCB0aGUKPiBoZWFkJ3MgYmxvY2sgZGV2aWNlIGlzIGJlaW5nIGRlbGV0ZWQuIElmIGEg
+bGl2ZSBoZWFkIHJlZmVyZW5jZSBpcyBoZWxkLAo+IGFuZCB0aGUgYSBwYXRoIHJlY29ubmVjdHMs
+IHRoZSBjb2RlIHdpbGwgZmluZCB0aGUgcHJldmlvdXMgaGVhZCwgYnV0IHRoZQo+IGRpc2sgaXMg
+Z29uZSBhbmQgaXQncyBub3QgY29taW5nIGJhY2ssIHNvIHRoZSBuZXcgY29ubmVjdGlvbiBjYW4n
+dCBiZQo+IHVzZWQuCj4gCkdvb2QgcG9pbnQuIEJ1dCB0aGF0IGNhbiBiZSBmaXhlZCBieSByZW1v
+dmluZyB0aGUgbnNfaGVhZCBmcm9tIHRoZSAKc3Vic3lzdGVtIGxpc3QgYXQgdGhpcyBjaGVjayBy
+YXRoZXIgdGhhbiBpbiBudm1lX2ZyZWVfbnNfaGVhZCgpLgpXaWxsIGJlIHNlbmRpbmcgYW4gdXBk
+YXRlZCB2ZXJzaW9uLgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAg
+ICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChB
+RyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1h
+aWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmlu
+ZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
