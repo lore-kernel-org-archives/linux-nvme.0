@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AECAC4743C
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 18:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86F59C4743C
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 19:03:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23BB3611C1
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 18:58:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23BB3611C1
+	by mail.kernel.org (Postfix) with ESMTPS id 505CF6120D
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 19:03:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 505CF6120D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,65 +23,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=yxHPOdmHnGLMvnWjWSSVrS26jVK881TIf2S0+MjIPxk=; b=tFopEVBYlwjL5+
-	nGPHIbmlkUuYzGLVMm2cyItMmnPAUnh7m9tCL4N13fNYqFhBLeWTcCzoWy+zp4gA0bNbeXZd0v7t9
-	OMdamANiwP+ziVqcz0Cr1gA88asC7R4art2oVY+GyQrAFajfipnt31OAZ98GP/ajm5n3cEfoC35TM
-	PUcSCPK7UHXIaspAgKZEwwvnntLwFhNcCCZh6M3J/9gbeoHODAu1wYmdcLWyHBirhi849FzBPuWzM
-	qS5Y/p5mCmWxZmVYcEeutZGH+vD7fpvxmDoUlXDvG2hvGJzE/2xU9z91gxv8fPb6mIcuNEIyBEvh3
-	5TT2owJI5NKg9iKSTPNA==;
+	List-Owner; bh=Arn810UEeaV9e3oJR1pN0ZFopDOYP0slcpEO+YGO/xc=; b=1kZM0zguB37vwV
+	HfTzU1WmA0ceDJyXW37qhUEAE4ZNrR0ybWBb+X0/7q2DFb01NwMlvqu0zE49/KCrRqBXRgm9WrWMo
+	tdMSsK8Np+VA5JqXrdKiAgx91vOUJMpOLHob4jWpXunqjxNqDSZMxnioYTQ05yXjOhMir07DVP/Fd
+	3OXghBxOI1gr3ij78yY9asr5e98x9cJn2hxadzDnebSr+OGo3Do6UFytBALYyCSaDf69OBP3oClBs
+	uxdPWO8AsbWb5NR+fJIewmIA/kHOH6qr6sk4DxJHYK/U6VhfxnfXZzCSKs71oCOOSP9ZI3Y9LQWz6
+	UXTFGTfvOrkx4pTwL+Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lw85J-00BjR0-EY; Wed, 23 Jun 2021 18:58:49 +0000
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+	id 1lw89P-00BkQ3-S2; Wed, 23 Jun 2021 19:03:03 +0000
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lw85D-00BjPy-L9
- for linux-nvme@lists.infradead.org; Wed, 23 Jun 2021 18:58:48 +0000
-Received: by mail-ed1-x530.google.com with SMTP id h2so4944315edt.3
- for <linux-nvme@lists.infradead.org>; Wed, 23 Jun 2021 11:58:43 -0700 (PDT)
+ id 1lw89N-00BkPC-8U
+ for linux-nvme@lists.infradead.org; Wed, 23 Jun 2021 19:03:02 +0000
+Received: by mail-ed1-x529.google.com with SMTP id r7so4889255edv.12
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Jun 2021 12:03:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aVSgeDzA7TCC6oouErSACADUJuY4cjc3vAh9yJ+kD80=;
- b=ZPGIeroUPvm36CZfIKAt2NyN91O3hx3QZh785QojV2B4yd6pnQd74aRPq/hsjIENOO
- obzst6lC6QI1jifhlPKeTGXiuymY+eVSifHsEkLIsuTw2LdGltIDWSdmy21umFDJsVic
- CADxu+QOk4wMSanDLEUc+TpiqPlkNBwkkMjuTVWlf+oaEd7pmn3hUEKs2pH4Hatar4rV
- EzMdzbwIOvfacqW6aKiMkCQvgJBGXWG6CVU45ug94gDxw8Q/XPcsgvUmVNfT3xTaQ6nf
- ziFzpRBRzmaH9KpMVBW5krw9tCebuf+QNCcg+Wx244XS2tmSkbzPiP4SLwejVMvN2+IO
- mY5g==
+ :cc; bh=Jbpl6CTf6VyVoHnrXMMPDm/GF5brZ3xxDs70WGxyBS8=;
+ b=NqiEuXjvGHomBdhKBtN2CCvx0cE5M56lc2eCSX0ZYHWViIDbKBzNfDPA0Wfht+P0hR
+ Md1ETa9q43WRtGdJEQNGP+hxadP+GWxTi/4tZ9rdN7zFRs3H7CYF6pOJo5uYO2RdSe4S
+ yaB0uJCxqY7bF0uk/olg5Eht73AqyTB8p9ye/QnJ75BgdRX12cwOrp5SThzsASz1oaBt
+ J5QcgFHcdypB/mysHUvaoDXSqzQQKc3YOjhVG5TL5O1VJYuD2Kqnj+KQrF/AX9qYAu2S
+ 1a7ZT4QbPMYYlSJ66Hz6VerlbJUq/+DLgPOeR+4SWWe0zog38XjCgutdHg0mhyPZH8U0
+ TUpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aVSgeDzA7TCC6oouErSACADUJuY4cjc3vAh9yJ+kD80=;
- b=JYLqo72Uje8lZ1+xn9ZpcoxWfVPwGeVaL+2qG0LLOjWyPS0k0Y6r82ZupUOQjgtqH7
- ItkMo2MlPTSby1MNjLl0KudORlpQd6IEW2XMYLCGervXbe0mIdS6bxsJ0XhKaOYGQ51C
- rA9Y+TzYkXvifln6rRy6H4mgIErbds2D+LTR8gDMVXc6isJ2KNMr266vvu6BetspQQhd
- MbqI43jGCZyanMGJvvl8WvjgJxYkbKpZlCBN0nOSJLRr8V++k1/hDe9OoAnWDTWD1es6
- SHqh2/YLsw3mejJge54DAh5g8HZhndvQ17a6ww6i7V9bUiPVE9s3/YcBCCh48uaa1+gF
- vrgw==
-X-Gm-Message-State: AOAM530pPllV26TFeCrEqR6X+jfAwEH+LC+xCj14mqX8cvXmLCBlKnC9
- Jlu92mlO+cBx9Z3YQTAuCNeu8j8zGyuax588a3k=
-X-Google-Smtp-Source: ABdhPJwe8EHYWW1jYXkYDYUZeW0trYoloOVl/qmRBFYISpk0dh4/+aKUaLtPVNSnoKZ/bSwnlyRrME5Fnz6c7Ojre9I=
-X-Received: by 2002:aa7:dc42:: with SMTP id g2mr1679415edu.362.1624474722195; 
- Wed, 23 Jun 2021 11:58:42 -0700 (PDT)
+ bh=Jbpl6CTf6VyVoHnrXMMPDm/GF5brZ3xxDs70WGxyBS8=;
+ b=sJcIgj37oSWZKr0zMwHfbDYzx3N10wCuIMtkp6JGUxxfEBKStTTgfHJfcaxqKJKO7K
+ A9Rb5Cy8TOfS9E+5DQRazd5FLzlRx0kCYiaLQV/w/nhtBiXVfAxARo6HR00TlmmVVoeq
+ F0XtiAgWpV4rHZmXOaUX4/Mm5KAc6NoR2a/B+kjaKqpXX6xlQ/smiJzwfQ5pv5uyrTha
+ cGNS0RbYd1RuEdNokuB+aJcnGK8LH6twnCa9c1UANzch/OIj0rabVCBu/8yd6nXXHL9J
+ ebCKKLeoV16wgCv50dKcQf6oJ1i8vao3HpMQAUKz2+XG3ZarejPVgFi0hsRztnjN0lhY
+ 9INA==
+X-Gm-Message-State: AOAM533BRYuObELxqFHRqwv6E+jI4S7BC64KRXCRWPZUA6u7MiCCTxSa
+ pDjCobwmxRO451RqaJk9zym3QSuNhqGTIZT3BiY=
+X-Google-Smtp-Source: ABdhPJwh5wqG3nnYrKJKNEN9LK2fbrNR2BdpJRAWXyRszlH2M4iH5Ue4HCM/rPboDUawt0lkKW6retaQbmEFcuqgA28=
+X-Received: by 2002:aa7:dc42:: with SMTP id g2mr1704137edu.362.1624474979841; 
+ Wed, 23 Jun 2021 12:02:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210621051046.28783-1-smalin@marvell.com>
- <20210621051046.28783-4-smalin@marvell.com>
- <20210621064956.GA6019@lst.de>
-In-Reply-To: <20210621064956.GA6019@lst.de>
+ <20210621051046.28783-5-smalin@marvell.com>
+ <20210621065024.GB6019@lst.de>
+In-Reply-To: <20210621065024.GB6019@lst.de>
 From: Shai Malin <malin1024@gmail.com>
-Date: Wed, 23 Jun 2021 21:58:30 +0300
-Message-ID: <CAKKgK4y4m-SrV-C0pu_ro4XqR=h1s=XYh9AgLQRTGxHJPb_U3A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] nvme-fabrics: Expose nvmf_check_required_opts()
- globally
+Date: Wed, 23 Jun 2021 22:02:48 +0300
+Message-ID: <CAKKgK4w6wpMfdiGrvNDRrrMztdvijCYcRQwCgchMG9onOh=Pew@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] nvme-tcp-offload: Add device scan implementation
 To: Christoph Hellwig <hch@lst.de>
 Cc: Shai Malin <smalin@marvell.com>, linux-nvme@lists.infradead.org, 
  Sagi Grimberg <sagi@grimberg.me>, axboe@fb.com, kbusch@kernel.org,
  davem@davemloft.net, 
  Ariel Elior <aelior@marvell.com>, Michal Kalderon <mkalderon@marvell.com>,
- okulkarni@marvell.com, pkushwaha@marvell.com, prabhakar.pkin@gmail.com
+ okulkarni@marvell.com, pkushwaha@marvell.com, prabhakar.pkin@gmail.com, 
+ Dean Balandin <dbalandin@marvell.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210623_115843_735574_D9F1F2A6 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20210623_120301_342089_FD65CB1F 
+X-CRM114-Status: UNSURE (   8.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,22 +99,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 21 Jun 2021 at 09:49, Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, Jun 21, 2021 at 08:10:41AM +0300, Shai Malin wrote:
-> > From: Prabhakar Kushwaha <pkushwaha@marvell.com>
-> >
-> > nvmf_check_required_opts() is used to check if user provided opts has
-> > the required_opts or not. if not, it will log which options are not
-> > provided.
-> >
-> > It can be leveraged by nvme-tcp-offload to check if provided opts are
-> > supported by this specific vendor driver or not.
+On Mon, 21 Jun 2021 at 09:50, Christoph Hellwig <hch@lst.de> wrote:
+> On Mon, Jun 21, 2021 at 08:10:42AM +0300, Shai Malin wrote:
+> > +static inline struct nvme_tcp_ofld_ctrl *to_tcp_ofld_ctrl(struct nvme_ctrl *nctrl)
 >
-> WTF is a "vendor" driver?  Vendors are not really a concept we use anywhere
-> in Linux.
+> Please fix all these overly long lines in the whole series.
 
-We were trying to refer to the "offload device driver" as "vendor driver".
-Will be fixed in v3.
+Sure. Will be fixed in v3.
 
 _______________________________________________
 Linux-nvme mailing list
