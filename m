@@ -2,80 +2,71 @@ Return-Path: <SRS0=xKei=LR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6990BC4743C
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 14:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C0CAC4743C
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 14:50:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 369676101D
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 14:33:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 369676101D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id D46636100B
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jun 2021 14:50:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D46636100B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=grkdWfpoidk+V5zNm+fXi1L9cRy2eLrbn8jw+JCYIZI=; b=BFy5O4oUtgqYqN
-	zuJ0UpX2d+Et1CjQP3iYTzzg+qOx5V3Gpb2vKiEJsSE46qjXT7KmR/ADzvtNKrbpFEpm4EK0IAdRk
-	Q2rs/7ZZo42WnQlkuWYW4S1w/wl/MxLJnG4LBbcJNf2dkuOK2fl50wpYRDp/33T39+4zEOOrhx/iL
-	BUDWZh7t2xIybDsyN5Pca6vMZ1Bv1Fw8buLEBHrOm7SpWC70eiA5AkvaW446fUvR17UmPH3kUGhDI
-	4kOqYxqcCsGW6ITbFA7X6R1wZ6P60cegjISYllj3+kLQa9GZ9CBMT4un/v/vXacY7j+DuFSTr/4WM
-	2n+9AimSuWErSJWVpwig==;
+	List-Owner; bh=22Te0OV82G7LU4cr+G23w3MaSBGoOsfScjhKpQbObQ0=; b=FGeia20nJb5wLW
+	gaUYR8TGVGPQTmLHvi0s4x1sRvWDWCsd3jXv/dvhi1hlWhE4dK9oZ1FLiioxttMixbYRZ+OA8/AUK
+	9AAXNkd00NM6rgHVwxcXcx2xZ94zvKXz0Z4QKBuLHOI1O/jZmVfY4XyJ2Oh3arQcz4KRCRWwoDEwY
+	PpIu4CVV5crq5/7i32mocR4VXCMPfy5BFwKCaxx4cot8lEO0UbmWs/BziJpjYn2otwYMQ2JgrqZPs
+	lO8lujdhAXR37le69Da546RtL+bKIyA8Wxr34qGsZBVbzF3KLqMBAL4dp/Oq6uSj6n31wq154j2ap
+	ao+NfBMkBxnei0lLKgOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lw3wM-00B0WX-HL; Wed, 23 Jun 2021 14:33:18 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lw4Ci-00B3vN-4c; Wed, 23 Jun 2021 14:50:12 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lw3w0-00B0TL-PB
- for linux-nvme@lists.infradead.org; Wed, 23 Jun 2021 14:32:58 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 38DDB21970;
- Wed, 23 Jun 2021 14:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624458774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7zA6mrfkrf8yCpctLX5m620vORA1Eh2OqH/xaa7wv3M=;
- b=xb/RiQbZdgIiIGg7VT3HWOqOsFoNycxpOLp3EWPh8B31jRCwpX2fOxlg83AEvSGffOPFhr
- 477wv1lhD6ZscTObDn5Q+RDy2DIcfYJnUCvHxKXwM1wY9yFoyXyj27jXPx4UcfQ4cbPxlk
- 8oJkIj97q5sPi4yioMarEgeJr7VaeVo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624458774;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7zA6mrfkrf8yCpctLX5m620vORA1Eh2OqH/xaa7wv3M=;
- b=Y5H5lwAksWN9gS80FjCdAMogBfz+Uijqkr8l8PwfyLdb4K4mqQRwvuaGXE0gnQCbPDelWT
- f4ppe+JOhG/dKOCQ==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 0A3EFA3BC2;
- Wed, 23 Jun 2021 14:32:53 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 4306D5170879; Wed, 23 Jun 2021 16:32:53 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 2/2] nvme-rdma: short-circuit reconnect retries
-Date: Wed, 23 Jun 2021 16:32:50 +0200
-Message-Id: <20210623143250.82445-3-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210623143250.82445-1-hare@suse.de>
-References: <20210623143250.82445-1-hare@suse.de>
+ id 1lw4Cf-00B3v1-Q7
+ for linux-nvme@lists.infradead.org; Wed, 23 Jun 2021 14:50:10 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F06160041;
+ Wed, 23 Jun 2021 14:50:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1624459809;
+ bh=Lg33baFtgREM4QYqVZ242K+cuSV/SD5RdgD3/hk9z0g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SuUWAQ/9VwxXaZXE4DeFO75m0diHqdnD6TAy3muqtorOxGn6B/3DryIpLJ/9jf3hs
+ i+N5nomcrF9cHdTuS+Hs8QdLW5RZdqZO1tQ777hOyzooSOWgJp3SUPw87GPwkyRS3j
+ 35OyQmIfSh7MDWd2MRP1UvrqvRPJ0aKcRS3FZDZj8wlv/3DelyW1idT3buvvB5mmXt
+ ne2pL7O4g0AOww/pTNZY9uustQWEUl5JsDlR/xOerfL3hQhmpXGT3Fl9KMQG3KydEC
+ 2snrjsJuK7PkOd9GHvQnzPtjyBeP7opSwXbKiZfG86ATVdJKJPU3EiT5b8nq/8T+se
+ /toiTr/XDr6Ow==
+Date: Wed, 23 Jun 2021 07:50:07 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Casey Chen <cachen@purestorage.com>
+Cc: linux-nvme@lists.infradead.org, yzhong@purestorage.com,
+ ashishk@purestorage.com
+Subject: Re: [PATCH 1/2] nvme-pci: Fix multiple races in nvme_setup_io_queues()
+Message-ID: <20210623145007.GC2360166@dhcp-10-100-145-180.wdc.com>
+References: <20210622002710.26591-1-cachen@purestorage.com>
+ <20210622002710.26591-2-cachen@purestorage.com>
+ <20210622150636.GA2359631@dhcp-10-100-145-180.wdc.com>
+ <33919248-6c62-0974-ce88-3c0d0885e837@purestorage.com>
+ <20210623015331.GB2360166@dhcp-10-100-145-180.wdc.com>
+ <0faf018d-570b-4c26-a093-3d375bd70c26@purestorage.com>
+ <9681def7-a751-f4d8-8a92-c5bee027a97a@purestorage.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9681def7-a751-f4d8-8a92-c5bee027a97a@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210623_073257_035431_4E6176E3 
-X-CRM114-Status: GOOD (  13.91  )
+X-CRM114-CacheID: sfid-20210623_075009_906688_3CE4A8D9 
+X-CRM114-Status: GOOD (  10.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,117 +78,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Returning an nvme status from nvme_rdma_setup_ctrl() indicates
-that the association was established and we have received a status
-from the controller; consequently we should honour the DNR bit.
-If not any future reconnect attempts will just return the same error, so
-we can short-circuit the reconnect attempts and fail the connection
-directly.
+On Tue, Jun 22, 2021 at 09:14:21PM -0700, Casey Chen wrote:
+> +/*
+> + * Try getting shutdown_lock while setting up IO queues.
+> + * Caller remember to unlock if success.
+> + */
+> +static int nvme_setup_io_queues_trylock(struct nvme_dev *dev)
+> +{
+> +=A0=A0=A0=A0=A0=A0 /*
+> +=A0=A0=A0=A0=A0=A0 * Lock is being held by nvme_dev_disable(), fail earl=
+y.
+> +=A0=A0=A0=A0=A0=A0 */
+> +=A0=A0=A0=A0=A0=A0 if (!mutex_trylock(&dev->shutdown_lock))
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -ENODEV;
+> +
+> +=A0=A0=A0=A0=A0=A0 /*
+> +=A0=A0=A0=A0=A0=A0 * Controller is in wrong state, fail early.
+> +=A0=A0=A0=A0=A0=A0=A0 */
+> +=A0=A0=A0=A0=A0=A0 if (dev->ctrl.state !=3D NVME_CTRL_CONNECTING) {
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 mutex_unlock(&dev->shutdown_l=
+ock);
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -ENODEV;
+> +=A0=A0=A0=A0=A0=A0 }
+> +
+> +=A0=A0=A0=A0=A0=A0 return 0;
+> +}
+> +
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/rdma.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 4697a94c0945..92c0bdf2bc74 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1067,8 +1067,11 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
- 	kfree(ctrl);
- }
- 
--static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
-+static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl,
-+		int status)
- {
-+	bool recon = status > 0 && (status & NVME_SC_DNR) ? false : true;
-+
- 	/* If we are resetting/deleting then do nothing */
- 	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
- 		WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
-@@ -1076,12 +1079,14 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
- 		return;
- 	}
- 
--	if (nvmf_should_reconnect(&ctrl->ctrl)) {
-+	if (recon && nvmf_should_reconnect(&ctrl->ctrl)) {
- 		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
- 			ctrl->ctrl.opts->reconnect_delay);
- 		queue_delayed_work(nvme_wq, &ctrl->reconnect_work,
- 				ctrl->ctrl.opts->reconnect_delay * HZ);
- 	} else {
-+		dev_info(ctrl->ctrl.device, "Removing controller (%d)...\n",
-+			 status);
- 		nvme_delete_ctrl(&ctrl->ctrl);
- 	}
- }
-@@ -1166,10 +1171,12 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl = container_of(to_delayed_work(work),
- 			struct nvme_rdma_ctrl, reconnect_work);
-+	int ret;
- 
- 	++ctrl->ctrl.nr_reconnects;
- 
--	if (nvme_rdma_setup_ctrl(ctrl, false))
-+	ret = nvme_rdma_setup_ctrl(ctrl, false);
-+	if (ret)
- 		goto requeue;
- 
- 	dev_info(ctrl->ctrl.device, "Successfully reconnected (%d attempts)\n",
-@@ -1182,7 +1189,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- requeue:
- 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
- 			ctrl->ctrl.nr_reconnects);
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvme_rdma_reconnect_or_remove(ctrl, ret);
- }
- 
- static void nvme_rdma_error_recovery_work(struct work_struct *work)
-@@ -1203,7 +1210,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 		return;
- 	}
- 
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvme_rdma_reconnect_or_remove(ctrl, -ENOTCONN);
- }
- 
- static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
-@@ -2259,6 +2266,7 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl =
- 		container_of(work, struct nvme_rdma_ctrl, ctrl.reset_work);
-+	int ret;
- 
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_rdma_shutdown_ctrl(ctrl, false);
-@@ -2269,14 +2277,15 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 		return;
- 	}
- 
--	if (nvme_rdma_setup_ctrl(ctrl, false))
-+	ret = nvme_rdma_setup_ctrl(ctrl, false);
-+	if (ret)
- 		goto out_fail;
- 
- 	return;
- 
- out_fail:
- 	++ctrl->ctrl.nr_reconnects;
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvme_rdma_reconnect_or_remove(ctrl, ret);
- }
- 
- static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
--- 
-2.29.2
-
+Yes, thank you, this is aligned with what I suggested.
 
 _______________________________________________
 Linux-nvme mailing list
