@@ -2,60 +2,74 @@ Return-Path: <SRS0=KdjD=LS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FE9C48BDF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 06:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 085B8C49EA6
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 07:31:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 78F91613C7
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 06:36:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78F91613C7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 9901C613E7
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 07:31:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9901C613E7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sU6kJlThuz2BSEaNZp8qpvSxWVVkUW1bFNGvlCnFO4E=; b=NnK0pD4ambtkcp
-	Y9jsI8wOM/b0T5sqtW4aQ/oAHr0TE8Pbf+Q8A/0+5JgRPEAWeRVbPK6DPb39RNsuZaaSsEKUjDHLt
-	9UaRi3qV7/jLOjVFKtDn9WVRFmJN7Na/oSnRT+oh1ClufODCb/QQTx1iTqQLaJmGw5wuDMTgncHhq
-	GMNoXYGBJ5jof1V5euVfedPVGrLtbmujd5Dm8sUJcPlhe09iV3QRrCg868SpCoBi+4K11AkVOj3pp
-	HY06xN6WRT4OnsiGXKOUysW67yUq4lyiWJ+Vp1polCehY8hZmaxZWsBMI/zHhMQ/vf9atz6i7ICpA
-	5GUkg432KNPFl4Q8IYaQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8wn+6HFauQeHw6JUo83wxQ1yINC60NOngGGLbD30WUM=; b=LIWsRNBbzO/xXcJq+x5WPv3ldc
+	wXI1+gBYGS89zTTR86P1Znkx+7RzwMHrX+mGpUeuEWiFdBPFlAq57oCq2YcE9kwNgdDEttcQWkWjH
+	kwXmgxmHLhOkfOGsDx7QBmhzn9K9CFHstQV5Q6lUv+tDgFBXzcV5WdK+275WeXBqhwI6eWEwnqUcZ
+	fXtleTngorFKdxKgNZz4/PnAYbh9DHNSPR8pk9cX3hpYghwUdSKq8J5zOI7/VLcWo81MgiO4xWnA7
+	Dzf+vSSLA5oBpuGhAkHbjekE/946Ek7j/W957Y5ZfF6+/LUAKYimO4cWs9oBLT80vojmf6bS6VJEk
+	ngxT1Dqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lwIxx-00D05c-BY; Thu, 24 Jun 2021 06:35:57 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lwJpP-00DDaA-T3; Thu, 24 Jun 2021 07:31:11 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lwIxu-00D04z-2g
- for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 06:35:55 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 6D49D68AFE; Thu, 24 Jun 2021 08:35:51 +0200 (CEST)
-Date: Thu, 24 Jun 2021 08:35:51 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Prabhakar Kushwaha <pkushwaha@marvell.com>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- kbusch@kernel.org, axboe@fb.com, martin.belanger@dell.com,
- aelior@marvell.com, okulkarni@marvell.com, smalin@marvell.com,
- prabhakar.pkin@gmail.com, malin1024@gmail.com
-Subject: Re: [PATCH] nvme-tcp: Use __dev_get_by_name instead
- dev_get_by_name for OPT_HOST_IFACE
-Message-ID: <20210624063551.GB26612@lst.de>
-References: <20210618133956.10637-1-pkushwaha@marvell.com>
+ id 1lwJoB-00DCEJ-SJ
+ for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 07:29:57 +0000
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G9Wsd2NBVzZlwQ;
+ Thu, 24 Jun 2021 15:26:45 +0800 (CST)
+Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 24 Jun 2021 15:29:46 +0800
+Received: from [10.169.59.115] (10.169.59.115) by
+ dggema772-chm.china.huawei.com (10.1.198.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 24 Jun 2021 15:29:46 +0800
+Subject: Re: [PATCH 0/2] nvme-fabrics: short-circuit connect retries
+To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <keith.busch@wdc.com>, <linux-nvme@lists.infradead.org>
+References: <20210623143250.82445-1-hare@suse.de>
+ <8d7c79d9-0928-8c71-74fd-7185d67e7895@grimberg.me>
+ <204a6656-ef83-b688-4979-26fe17f57974@suse.de>
+From: Chao Leng <lengchao@huawei.com>
+Message-ID: <cdf40226-12ed-5f87-8549-10b4defceae5@huawei.com>
+Date: Thu, 24 Jun 2021 15:29:45 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210618133956.10637-1-pkushwaha@marvell.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <204a6656-ef83-b688-4979-26fe17f57974@suse.de>
+Content-Language: en-US
+X-Originating-IP: [10.169.59.115]
+X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
+ dggema772-chm.china.huawei.com (10.1.198.214)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210623_233554_321934_73265503 
-X-CRM114-Status: GOOD (  17.81  )
+X-CRM114-CacheID: sfid-20210624_002956_150878_01BB4691 
+X-CRM114-Status: UNSURE (   8.31  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,71 +81,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I've applied the slightly updated version below to make it a little
-more clear what is going on:
 
----
-From 9de7d173c10b6be09fe9d5b7010ef182465897a1 Mon Sep 17 00:00:00 2001
-From: Prabhakar Kushwaha <pkushwaha@marvell.com>
-Date: Fri, 18 Jun 2021 16:39:56 +0300
-Subject: nvme-tcp: use __dev_get_by_name instead dev_get_by_name for
- OPT_HOST_IFACE
 
-dev_get_by_name() finds network device by name but it also increases the
-reference count.
-
-If a nvme-tcp queue is present and the network device driver is removed
-before nvme_tcp, we will face the following continuous log:
-
-  "kernel:unregister_netdevice: waiting for <eth> to become free. Usage count = 2"
-
-And rmmod further halts. Similar case arises during reboot/shutdown
-with nvme-tcp queue present and both never completes.
-
-To fix this, use __dev_get_by_name() which finds network device by
-name without increasing any reference counter.
-
-Fixes: 3ede8f72a9a2 ("nvme-tcp: allow selecting the network interface for connections")
-Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-Signed-off-by: Shai Malin <smalin@marvell.com>
-Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-[hch: remove the ->ndev member entirely]
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/tcp.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index c7bd37103cf4..2b46c6e0226f 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -123,7 +123,6 @@ struct nvme_tcp_ctrl {
- 	struct blk_mq_tag_set	admin_tag_set;
- 	struct sockaddr_storage addr;
- 	struct sockaddr_storage src_addr;
--	struct net_device	*ndev;
- 	struct nvme_ctrl	ctrl;
- 
- 	struct work_struct	err_work;
-@@ -2533,8 +2532,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 	}
- 
- 	if (opts->mask & NVMF_OPT_HOST_IFACE) {
--		ctrl->ndev = dev_get_by_name(&init_net, opts->host_iface);
--		if (!ctrl->ndev) {
-+		if (!__dev_get_by_name(&init_net, opts->host_iface)) {
- 			pr_err("invalid interface passed: %s\n",
- 			       opts->host_iface);
- 			ret = -ENODEV;
--- 
-2.30.2
-
+On 2021/6/24 13:51, Hannes Reinecke wrote:
+> On 6/23/21 11:38 PM, Sagi Grimberg wrote:
+>>
+>>> Hi all,
+>>>
+>>> commit f25f8ef70ce2 ("nvme-fc: short-circuit reconnect retries")
+>>> allowed the fc transport to honour the DNR bit during reconnect
+>>> retries, allowing to speed up error recovery.
+>>
+>> How does this speed up error recovery?
+> 
+> Well, not exactly error recovery (as there is nothing to recover).
+> But we won't attempt pointless retries, thereby reducing the noise in the message log.
+This conflict with the tcp and rdma target.
+You may need to delete the improper NVME_SC_DNR at the target.
+However, this will cause compatibility issues between different versions.
+> 
+> Cheers,
+> 
+> Hannes
 
 _______________________________________________
 Linux-nvme mailing list
