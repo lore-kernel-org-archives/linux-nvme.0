@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA622C48BDF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 09:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B25C48BDF
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 09:17:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 66AE461380
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 09:10:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 66AE461380
+	by mail.kernel.org (Postfix) with ESMTPS id C8D70613E3
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 09:17:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8D70613E3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,66 +24,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=dF+EIKUnpETWHY+VRZRhwIAnodFULLGKh+loKtJVIyU=; b=LwkQaCXDpcZlO+HNljYlNgTKCN
-	POhFCfZiMC6Xfvowxsf7xNxdKtU1ovQI7HWTUnyI+M+bgaROyy3Y/xTei5OloOLvNoCOuOCUgUtuK
-	BHNbPJc9Kvg1YMc4WwuAW2hgLS0A3YmLRpO4slo5a90EMLYnEwso6HZi+BjjRcfcEbzW2rVGiEJY3
-	4yoRaPzyPHwDGmy0w5vFDWZkqEjeFHCAidm3E2lGhYDkrVmwyiD+HImaKnSW2cZ110J/2qXxi5Spl
-	FoMLgQO/xVXcG0UzaHCfKt9YJI1Xvf4gWXPKd+WhbB+hz7+tsZNkJO3WJaPXp1YsIQZAqNV3wPR2m
-	TksA2itg==;
+	bh=1iqrydBdlu2lSLi5VYHpVu8AtOB39KYNhsQOYRveo40=; b=IDTViq5x3legNLC/6F7iIozAwV
+	t28fRfge/33dB/ng6QJZX0IWDqvjKqWD2MA2Apv72Hbzy3s5BDwgtH/bN3G0utyJuAWyGalDiX6uf
+	pXZLBlf9pPQvKVoAHk7ON2+haClnDvDzybsWmdr8PTHU7qj0NbuCgq67xQiNJlCdqTTZFi9mqjvZ1
+	W5pYaAMwYlT0AUxJd2M1X04J6CeSr2kvKIkBL+fyeYDMtqs6tHP4L37Fevo0HGhBMu+F7gPvhQeb7
+	U1OracevOH0nd73b07ly3qxbzuBd4w5A8Tjs9EiGVYipy1XDnq6lc8cmYYqLhYURMal7E229YeN4k
+	ebWyqOTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lwLNO-00Df3o-SW; Thu, 24 Jun 2021 09:10:22 +0000
+	id 1lwLUU-00DgOZ-4W; Thu, 24 Jun 2021 09:17:42 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lwLNL-00Df2l-8k
- for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 09:10:20 +0000
+ id 1lwLUQ-00DgNa-4k
+ for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 09:17:40 +0000
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C51C021963;
- Thu, 24 Jun 2021 09:10:17 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 437B72197D;
+ Thu, 24 Jun 2021 09:17:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624525817; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624526254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s2Z73pWe35A+6qLtJS27RxDODez8pQhhLG2D6+rtCEU=;
- b=HlK6nfd98QkEWl2OBeGkqo7aQcbXIUuZaqtYJCtBCdMjdwQsvqhQ1whI1bvQmYhMZ8Gvau
- zNKSBeZc6RiaQcMAUeo+MHnWWPqApwPUrUfnvz7S3B3jiaizrnceBQwcz0dmcv4kJjvkv+
- ssjNSInxu8g39s2sv06RZNcvPOpODMs=
+ bh=aSgkqBs3usB+ZVVX0vRrF33ZAmT2mCMLpkmaVJnF6fA=;
+ b=LnXCOVG+sQk+YU3HhGXJW0nFh/3DqgD2QIEkpDqFBxS7D2+bix1/1viiivGOXMuZJgJof9
+ rqHWYT7CQiWwM7ldgMidO6xewxYZu5H2/Ou6nq6wKfyse3FlejuoxuKGoS+dl9ljx/ONjH
+ iLa7zByIGz++8KFyTrJ3FBpjZ1mvRpg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624525817;
+ s=susede2_ed25519; t=1624526254;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s2Z73pWe35A+6qLtJS27RxDODez8pQhhLG2D6+rtCEU=;
- b=zIicjeMGhDDLrpoMdmPf7pCkMjP/b8xSeTkqLkPpmvJMS1uCi/g3/sRUG1ApbeIjA/yhQy
- mOSZcqWTKTFXPPBQ==
+ bh=aSgkqBs3usB+ZVVX0vRrF33ZAmT2mCMLpkmaVJnF6fA=;
+ b=F2SB1yZjI0+zvRFZBX2UiC4r3EQ8WqfGqZV9ByOZNOZi1qTVz5hdqYwNOINb6NIo5sVz2V
+ uxKS/hcN7MZjzdCg==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id B577211A97;
- Thu, 24 Jun 2021 09:10:17 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id 33A6D11A97;
+ Thu, 24 Jun 2021 09:17:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624525817; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624526254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s2Z73pWe35A+6qLtJS27RxDODez8pQhhLG2D6+rtCEU=;
- b=HlK6nfd98QkEWl2OBeGkqo7aQcbXIUuZaqtYJCtBCdMjdwQsvqhQ1whI1bvQmYhMZ8Gvau
- zNKSBeZc6RiaQcMAUeo+MHnWWPqApwPUrUfnvz7S3B3jiaizrnceBQwcz0dmcv4kJjvkv+
- ssjNSInxu8g39s2sv06RZNcvPOpODMs=
+ bh=aSgkqBs3usB+ZVVX0vRrF33ZAmT2mCMLpkmaVJnF6fA=;
+ b=LnXCOVG+sQk+YU3HhGXJW0nFh/3DqgD2QIEkpDqFBxS7D2+bix1/1viiivGOXMuZJgJof9
+ rqHWYT7CQiWwM7ldgMidO6xewxYZu5H2/Ou6nq6wKfyse3FlejuoxuKGoS+dl9ljx/ONjH
+ iLa7zByIGz++8KFyTrJ3FBpjZ1mvRpg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624525817;
+ s=susede2_ed25519; t=1624526254;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s2Z73pWe35A+6qLtJS27RxDODez8pQhhLG2D6+rtCEU=;
- b=zIicjeMGhDDLrpoMdmPf7pCkMjP/b8xSeTkqLkPpmvJMS1uCi/g3/sRUG1ApbeIjA/yhQy
- mOSZcqWTKTFXPPBQ==
+ bh=aSgkqBs3usB+ZVVX0vRrF33ZAmT2mCMLpkmaVJnF6fA=;
+ b=F2SB1yZjI0+zvRFZBX2UiC4r3EQ8WqfGqZV9ByOZNOZi1qTVz5hdqYwNOINb6NIo5sVz2V
+ uxKS/hcN7MZjzdCg==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id jGkjLPlL1GC/OAAALh3uQQ
- (envelope-from <hare@suse.de>); Thu, 24 Jun 2021 09:10:17 +0000
+ id q4psDK5N1GCmPAAALh3uQQ
+ (envelope-from <hare@suse.de>); Thu, 24 Jun 2021 09:17:34 +0000
 Subject: Re: [PATCH 1/1] nvme-fabrics: Generate uevent on namespace AENs
 To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 Cc: "Rao, Vinay" <Vinay.Rao@dell.com>,
@@ -102,16 +102,16 @@ References: <BL0PR13MB429142FD8B9FCC57C2FE451D9C409@BL0PR13MB4291.namprd13.prod.
  <20210430162104.GA907317@dhcp-10-100-145-180.wdc.com>
  <20210503065235.GB32627@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <eafbb7f9-5481-6138-15d2-bdcde3a29929@suse.de>
-Date: Thu, 24 Jun 2021 11:10:07 +0200
+Message-ID: <45d90119-0193-0110-0b66-803ffc84bc69@suse.de>
+Date: Thu, 24 Jun 2021 11:17:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.1
 MIME-Version: 1.0
 In-Reply-To: <20210503065235.GB32627@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210624_021019_531262_6632215F 
-X-CRM114-Status: GOOD (  21.39  )
+X-CRM114-CacheID: sfid-20210624_021738_376515_7157F1FE 
+X-CRM114-Status: GOOD (  20.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,15 +147,12 @@ dGhpcyB3b3JrIGlzIGJ5Ogo+IAo+IGZvcmNpbmcgdGhlIFJBRSBiaXQgb24gZm9yIGFsbCBsb2cg
 cGFnZXMgdGhhdCB0aGUga2VybmVsIGNhcmVzIGFib3V0LAo+IGFuZCBvbmx5IGRlbGl2ZXJpbmcg
 dGhlIHVldmVudCBvbiBjb250cm9sbGVycyB0aGF0IGFjdHVhbGx5IGRvIHN1cHBvcnQKPiB0aGUg
 UkFFIGJpdCAoSUlSQyBpdCBnb3QgYWRkZWQgaW4gMS4zLCBidXQgSSdkIGhhdmUgdG8gY2hlY2sp
-Lgo+IApZZXAsIHRoYXQgc291bmRzIGxpa2UgYSBnb29kIGlkZWEuCkkgd291bGQgZXZlbiBnbyBz
-byBmYXIgYXMgdG8gaW5oaWJpdCBhbnkgdXNlci1zcGFjZSBjb21tYW5kcyB3aGljaCByZWFkCnRo
-b3NlIGxvZyBwYWdlcyBhbmQgd2hpY2ggaGF2ZSB0aGUgUkFFIGJpdCBfbm90XyBzZXQsIGFzIHRo
-aXMgaGFzIHRoZQpwb3RlbnRpYWwgb2YgbWVzc2luZyB1cCB0aGUga2VybmVsIG9wZXJhdGlvbnMu
-Li4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZQkJICAgICAgICAgICBL
-ZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlCQkJICAgICAgICAgICAgICAgICAg
-KzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJILCBN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBH
-RjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1udm1lCg==
+Lgo+IAoKLi4uIGFuZCB5b3UgYXJlIGNvcnJlY3QsIGl0IHdlbnQgaW50byB0aGUgYmFzZSBzcGVj
+IGludG8gMS4zLgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlCQkgICAg
+ICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJCQkgICAgICAgICAg
+ICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJu
+YmVyZyksIEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVA
+bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LW52bWUK
