@@ -2,92 +2,95 @@ Return-Path: <SRS0=KdjD=LS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FADC49EA6
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 15:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F580C49EA6
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 16:15:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BDD98613DC
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 15:39:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BDD98613DC
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id 48E6560238
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 16:15:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 48E6560238
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=UYRXIsslHgm5dzCZVg685b6P0HmXep6V2Inl8Ee04eY=; b=ITj2mU4O7S54RL+iAgyhjqsRUb
-	TNNLeh4x7Jz1VFKQdkrr7IKmby6P4mLS3UgT+cIiOT8L+o0D9ze9Rtzox5o3RuDXq0jnCAsrlILcK
-	Ku4+CDe8tbIiVos15IQGGHMkU2Nl3HFtzduHdSlnR2dqKnsS4pTp6TXf2zSOBzbORFaxIlnSKo+26
-	hyssiMNtSwEdyYrOecsfQQRLAv9nTkJDX/KzTiuvN5fZhAikxgj0PNOKoTPkcky0r9IedAeW5lcBs
-	5pvhKD+X8ENhVlxycdDmfvQj8XnzPQi8L2lvS21HuOtao3GqwkUdRG36+jYykLUHGFx0IquUS+xwE
-	BB9xyuzQ==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=MEiMXIxwGY21S4aNtysFPWvwcGP2om/ihPDiVAWJ2CA=; b=z+RoVZMgVHrZHW
+	Kh222j7krVtZDCFaJunBmj32cd0hG8z5e4d03Z2JDWEp2mlIoCwytbMb3TutsoUpBstLHFLEP0gK8
+	VICO5WLnTq79aWsi2aOl8LxZS03oC4dipJ4l8CRmsLIf6Cyk5cLMX/qSOgRNbds/OjceHXKueiJgz
+	N1o44cjfSxqWT7SN6ZqgIVUvCD3GVg8quuEz20Sa2Cp3PjuNRPOpGMVl8Q1GRODl91fzUuCXA7ln7
+	gzbWnEUXFbuw7GLzAWNvjMCRwoUrW2hJ9hiPhUFn7IzWfxBF1PhZwL3DD2a1tiJIUqwVcuPR45XfN
+	0FZHSg/y+EnMcwnn+XoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lwRS1-00FIPP-MX; Thu, 24 Jun 2021 15:39:33 +0000
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+	id 1lwS0M-00FREV-Ap; Thu, 24 Jun 2021 16:15:02 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lwRRy-00FINm-Fx
- for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 15:39:31 +0000
-Received: by mail-oi1-x236.google.com with SMTP id u11so7806960oiv.1
- for <linux-nvme@lists.infradead.org>; Thu, 24 Jun 2021 08:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dJCNiAlUPB1PoEdox/Uy/m2O+kkoSzI+wpISSQH9uNU=;
- b=HddnJQaCVd8jdtfn4xqh3tY66xVQ3nwwEEa3jPXpw52bLb1tpSQkvvjD+QTG7Xpq/a
- ReAzdQoe0JgL31DI6U7W2I/yTz/2YXQ++1Z1VwrDxj8dHthdszAyFS5XwZ7xerCwSExx
- omNajb500HI5Afp86lILVvDBApabxATVHwqQzgsLaiA+Y8VkgAlSqDmapjGSbXNPbwBZ
- gEbhNzGE1AOzgc0fQvfldHS5HxYVpNwt+gw97WS5A14JB2BiwE2D8HIZDIk4/f5GU5EB
- CrSIKmICvIj68Zdt7v6CGBytoif0VFcr7gsGtb87X6C5H0qbZk+2PQx5GttjcT5KdtcK
- QXwA==
+ id 1lwS0I-00FRD7-1z
+ for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 16:15:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624551295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LfvmV+T2Wa7crMF2XTjjbjPZJO3tZTgNFMxtYVD+sIQ=;
+ b=KTPHqNw23EMyVqKP+RHEA2wcHp/7FTVqCdSXW+fdlfBRfiqQkclPg1l7lA4XO2Wj5shHh1
+ 5OQFlSZrwMmmSSQ7rDP2gOQV8N3/Sn7nv5JZ1Ij92pZlIfl4QMdJOpcQISCUYdvyVRfGC+
+ z/dF2S9ZV1VKya9zIv3WKOo7HFHL+sE=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-hoNdhKGgO8KuczBUrZ5a8A-1; Thu, 24 Jun 2021 12:14:54 -0400
+X-MC-Unique: hoNdhKGgO8KuczBUrZ5a8A-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ 67-20020a2514460000b029053a9edba2a6so30199ybu.7
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Jun 2021 09:14:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dJCNiAlUPB1PoEdox/Uy/m2O+kkoSzI+wpISSQH9uNU=;
- b=buGHbaPYKYg24pRjrP6PMIj150uzOpHvvnQR5NvDiSCFWzoHq8N4XZ2aY4RF2boTuy
- oBu0mrDz27BPH/cj0YVKlZQyqZVpE74AYzWIlNyxTEt5HCwxuwoclcKH0T7flnr2pGjA
- XmSQ4Ptwj8Xv9Fn7YEJ1XE4aGeo5jYcnR+jJbd81qGyk9D0SJwjMAav48/2r2gmbBfcT
- 7AK7q77rYg+nu5jRB3kmdsxCqEMfdUNg9LaB0/XAiSAW+GQJnT2QR7yT36Nnbcl/oIZJ
- MDT06StXjxktQgaITWd63JzvN1oC9bt36rdLk4OuN4I0Qciu77rwcf1Mxdk+uD+tMI3a
- WeBQ==
-X-Gm-Message-State: AOAM531DbabtwVHQpGx8Gr5KyoND3S/ecjR3inBcfE7mdVi1TCY8lPiM
- XLvCBj6sNji87BQW4dAWoGpb/n6x9Ei1Ew==
-X-Google-Smtp-Source: ABdhPJzPceqZfj/iH7K8oJ+N4+xnHxBd+O4f5aojmHDn/lJq6HFDL9UKOrLUzED1053PpfNzVRNz9A==
-X-Received: by 2002:a05:6808:2019:: with SMTP id
- q25mr7770646oiw.84.1624549167832; 
- Thu, 24 Jun 2021 08:39:27 -0700 (PDT)
-Received: from [192.168.1.30] ([207.135.233.147])
- by smtp.gmail.com with ESMTPSA id w69sm732304oia.22.2021.06.24.08.39.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 08:39:27 -0700 (PDT)
-Subject: Re: [GIT PULL] second round of nvme updates for Linux 5.14
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YNGLn2MsJDwwbZbv@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <e6c5fddd-6829-a3ee-a270-c7e3a81a0c9a@kernel.dk>
-Date: Thu, 24 Jun 2021 09:39:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LfvmV+T2Wa7crMF2XTjjbjPZJO3tZTgNFMxtYVD+sIQ=;
+ b=oRqb4Tsttvn3yZaMM30oL2nR2B7zgTTFCmUZ6qaw9uzQ0+whx6TR/+3hh5m3j3RUaC
+ i8FGnDWfr8zJwaZ8oBZCFjWS27qRVlqCEM2t+tJmw2t1v9x6tBolNnBqjuX65m/CpaWm
+ 7PYsqUFYcA2UWW4ouiIJXg83f2yF5Xhms+oho9cOmPs6z5PNKpmJRcf1Pr7YBCQg4Y1+
+ YNBPAdakairZ1ZftF6xNKSTK9vXhq1+/GRj5zWxMhOZ2X+fut0UK+sY7hD9I8qp9KrCM
+ 0rRv1nkYMElWz265JyH6tZCi6N6ETp9Sk9+RCI5BDkRT66S5IaUSYHWejD2Wmap7rr0T
+ tUpw==
+X-Gm-Message-State: AOAM533rVsgjCl/jcRkzxHsfgc4UQrXYE/hh3Wkibz+Ao7dKdUTRVokv
+ BX88lSeY5o6XAD9NbEUWBzDYHG3DJvxHq4onCtys6yxMQvtEMHuPvnyVBGy4u0Fpk7ICpGDC439
+ yqaypyWI12zdp6FM0CVBWn8dxgPWIJ5ZJUtKKQwMmr6E=
+X-Received: by 2002:a25:d44f:: with SMTP id m76mr6043144ybf.198.1624551293303; 
+ Thu, 24 Jun 2021 09:14:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMNcdYCX1QZmZq62f1moLJxumIV0BcdcQYOU46uw4GOrUTffvwjZf9CwVJS7OhiIWaEKYG39RDgBUapSr2FoY=
+X-Received: by 2002:a25:d44f:: with SMTP id m76mr6043119ybf.198.1624551293115; 
+ Thu, 24 Jun 2021 09:14:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YNGLn2MsJDwwbZbv@infradead.org>
-Content-Language: en-US
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
+ <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
+ <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
+ <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
+In-Reply-To: <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Fri, 25 Jun 2021 00:14:42 +0800
+Message-ID: <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210624_083930_602359_1D49083A 
-X-CRM114-Status: GOOD (  10.89  )
+X-CRM114-CacheID: sfid-20210624_091458_235683_79342458 
+X-CRM114-Status: GOOD (  21.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,19 +107,96 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/22/21 1:05 AM, Christoph Hellwig wrote:
-> The following changes since commit e0d245e2230998e66dfda10fb8c413f29196eb1c:
-> 
->   Merge branch 'md-next' of https://git.kernel.org/pub/scm/linux/kernel/git/song/md into for-5.14/drivers (2021-06-15 15:42:56 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-5.14-2021-06-22
+On Thu, Jun 24, 2021 at 5:32 AM Sagi Grimberg <sagi@grimberg.me> wrote:
+>
+>
+> > Hello
+> >
+> > Gentle ping here, this issue still exists on latest 5.13-rc7
+> >
+> > # time nvme reset /dev/nvme0
+> >
+> > real 0m12.636s
+> > user 0m0.002s
+> > sys 0m0.005s
+> > # time nvme reset /dev/nvme0
+> >
+> > real 0m12.641s
+> > user 0m0.000s
+> > sys 0m0.007s
+>
+> Strange that even normal resets take so long...
+> What device are you using?
 
-Pulled, thanks.
+Hi Sagi
+
+Here is the device info:
+Mellanox Technologies MT27700 Family [ConnectX-4]
+
+>
+> > # time nvme reset /dev/nvme0
+> >
+> > real 1m16.133s
+> > user 0m0.000s
+> > sys 0m0.007s
+>
+> There seems to be a spurious command timeout here, but maybe this
+> is due to the fact that the queues take so long to connect and
+> the target expires the keep-alive timer.
+>
+> Does this patch help?
+
+The issue still exists, let me know if you need more testing for it. :)
+
+
+> --
+> diff --git a/drivers/nvme/target/fabrics-cmd.c
+> b/drivers/nvme/target/fabrics-cmd.c
+> index 7d0f3523fdab..f4a7db1ab3e5 100644
+> --- a/drivers/nvme/target/fabrics-cmd.c
+> +++ b/drivers/nvme/target/fabrics-cmd.c
+> @@ -142,6 +142,14 @@ static u16 nvmet_install_queue(struct nvmet_ctrl
+> *ctrl, struct nvmet_req *req)
+>                  }
+>          }
+>
+> +       /*
+> +        * Controller establishment flow may take some time, and the
+> host may not
+> +        * send us keep-alive during this period, hence reset the
+> +        * traffic based keep-alive timer so we don't trigger a
+> +        * controller teardown as a result of a keep-alive expiration.
+> +        */
+> +       ctrl->reset_tbkas = true;
+> +
+>          return 0;
+>
+>   err:
+> --
+>
+> >> target:
+> >> [  934.306016] nvmet: creating controller 1 for subsystem testnqn for
+> >> NQN nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4c10-8058-b7c04f383432.
+> >> [  944.875021] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
+> >> [  944.900051] nvmet: ctrl 1 fatal error occurred!
+> >> [ 1005.628340] nvmet: creating controller 1 for subsystem testnqn for
+> >> NQN nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4c10-8058-b7c04f383432.
+> >>
+> >> client:
+> >> [  857.264029] nvme nvme0: resetting controller
+> >> [  864.115369] nvme nvme0: creating 40 I/O queues.
+> >> [  867.996746] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+> >> [  868.001673] nvme nvme0: resetting controller
+> >> [  935.396789] nvme nvme0: I/O 9 QID 0 timeout
+> >> [  935.402036] nvme nvme0: Property Set error: 881, offset 0x14
+> >> [  935.438080] nvme nvme0: creating 40 I/O queues.
+> >> [  939.332125] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+>
+
 
 -- 
-Jens Axboe
+Best Regards,
+  Yi Zhang
 
 
 _______________________________________________
