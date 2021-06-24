@@ -3,74 +3,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA1EC49EA6
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04AC2C49EA6
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:51:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 00268601FC
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:48:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00268601FC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	by mail.kernel.org (Postfix) with ESMTPS id B4B5B613C7
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:51:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B4B5B613C7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BRVygnVEf68pX9JwhPNnB8L1QJpQziKTOoOWz1UL3Pk=; b=gQ4/Bkdi5DHnlt
-	X4N83NfBFGaQENHJUS5HY5JVheqBnNbbdHiMR2sAcz7sacsNYlToPesYe9YG/Ktm4YZaqhU8lzsY+
-	nGXZK16tzgK9efxm0xMaNEeU9RTtpuXdDeh5Shr6lYVSOEghe46b2nbjBOSVK3RllYKzqOFH7abG2
-	ULdZCG/JqgxqRwsw20cf9ypTzlA5NSfHe7BlCHLUUgS+m/jwYt3xgcSxEnMvZJzjnb9S8pP7HFA7l
-	PzD0nJ3wqKMYw8yvmeNR0BtkXeCOZjUPmQAIGcAYauVGZtP1dkaQXfaXXPN2nqzvU3c2g6YqnlSaW
-	CUJ2E5a5DdeFGMwnoI7Q==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=a+8m1DL+1hmeaAQYyuuB1mCg2JMO05O5qZdj1QSx+Mc=; b=lKP9ej7dROc0JS
+	FeeWIxUeUI/dZDRxpU/wba30jHPkVBClQO9qBHf+oFo0TKfDMGU14HNq5VP05nfc/zk+/voCk3XHM
+	zLyy4A15by74OFIYevKwv0izWJSBADweloghrJwkUWgIVdsev4Bq+6z8ISY2yU1SEjPN5yPn/xKb0
+	h5M9TpxI7CVOio9KjJO1+ICzhwOJydzjd1CpvYILsUioJ0X9BS1IdqodF5SGxf2dz8ZJkGElcWljo
+	crdLFD/a4uDbeAgQh3KDpMaezR7McRtwiaihKiM40wnG0DHPGUb6f0wPnChS5gRpxsg0BjEol/Uvn
+	VapBKjYQe4+Kh4su2UuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lwTSk-00FjJI-Oj; Thu, 24 Jun 2021 17:48:26 +0000
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
+	id 1lwTVC-00Fk1H-Aw; Thu, 24 Jun 2021 17:50:58 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lwT7d-00Fdai-0p
- for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 17:26:45 +0000
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15OHAdU4027058; Thu, 24 Jun 2021 10:26:22 -0700
-Received: from dc5-exch01.marvell.com ([199.233.59.181])
- by mx0b-0016f401.pphosted.com with ESMTP id 39cg2nbdj9-10
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Thu, 24 Jun 2021 10:26:22 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Thu, 24 Jun 2021 10:25:42 -0700
-Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
- DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server id
- 15.0.1497.18 via Frontend Transport; Thu, 24 Jun 2021 10:25:39 -0700
-From: Shai Malin <smalin@marvell.com>
-To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
- <axboe@fb.com>, <kbusch@kernel.org>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <aelior@marvell.com>,
- <mkalderon@marvell.com>, <okulkarni@marvell.com>,
- <pkushwaha@marvell.com>, <prabhakar.pkin@gmail.com>,
- <malin1024@gmail.com>, <smalin@marvell.com>
-Subject: [PATCH v3 17/20] qedn: Add support of NVME ICReq & ICResp
-Date: Thu, 24 Jun 2021 20:24:07 +0300
-Message-ID: <20210624172410.14225-18-smalin@marvell.com>
-X-Mailer: git-send-email 2.16.6
-In-Reply-To: <20210624172410.14225-1-smalin@marvell.com>
-References: <20210624172410.14225-1-smalin@marvell.com>
-MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: rZpBSWYwyfchBfOM-9NoBjfC2DPE6N03
-X-Proofpoint-GUID: rZpBSWYwyfchBfOM-9NoBjfC2DPE6N03
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-24_12:2021-06-24,
- 2021-06-24 signatures=0
+ id 1lwTCY-00Ff8o-9J
+ for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 17:31:45 +0000
+Received: by mail-pf1-x429.google.com with SMTP id g21so4085507pfc.11
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Jun 2021 10:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=purestorage.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=xmipmZR09i0Ij/OpqIqcKio8xW4YT4WRGG6O4OoW61A=;
+ b=TQLDMObX8SoMTca2HSrQ5Jwe9UKt0SBtSFDz06xGn3bTUibONiFfnwUxnvIgzY7q+e
+ qv8Bv8mBFg20qFdwBMbyrzLugff9v4W2x3XGzMGISIJ9iqID9mCgFGKutfYO9qQlptDU
+ 2FaN58mwDGe8bdHVLZdhQb64Wt3PX2fLqXCJc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=xmipmZR09i0Ij/OpqIqcKio8xW4YT4WRGG6O4OoW61A=;
+ b=d9Rcvso5K0BsX3yQKyL70N/Tq9zqxx09Ptmz/NZIBgly3U2ch5Jz10nnusZxmWav3s
+ QvMkChwm14Eb8VOsO+rSPJkyDkZR2WEtWAAD7DiUezbffcPSaQLI4PL3eZLeuhTsvGB5
+ RNZXsOo+BEvG8dYsh4PJFd573KkXDx50yi2m9mFVkzshCRuH5mg8xq0zj57zaCJ3TSbr
+ Xd1lznaldOOWW5yyfW0yeZoBqvIkVve9522TaLdiibMbfOGZHPVuwZp64mHc6UW7Ls9m
+ yw/+KcxkijVc8ymKFgT6VwZ/vN3XVWQSmN65uS9Lkk6dcVwMAFdjYOSR5YlECnMkEQwn
+ K6WQ==
+X-Gm-Message-State: AOAM532BQ+dJp/cfhVZR6BGsHa7EQz7l7K7RT6zUbSpSaVO/Bds/O2zF
+ uPHXgeL63nM3X6yxtyL/pBcE5iC9tAlMPCXuiyLWeP9arZcpbpL9NFSGFp8lXf/pZXVZtXJnocO
+ luL1uvYEOawgUpTFTEfi+E1awNFicohc2Cw3OqJ3T9ghTZkH2L7AVsHBQgNLOKNkNXiqgc7wJ0g
+ ja0XXWun0=
+X-Google-Smtp-Source: ABdhPJyep+vXMKmgmqGnXdi6yudryxdK22kXUuCeKj7CGutJqQipSepCnsPAgIWwr8OtUQeTTTIeQw==
+X-Received: by 2002:a63:66c7:: with SMTP id a190mr5740059pgc.123.1624555900292; 
+ Thu, 24 Jun 2021 10:31:40 -0700 (PDT)
+Received: from yoga.purestorage.com ([192.30.189.3])
+ by smtp.googlemail.com with ESMTPSA id gg5sm8488537pjb.0.2021.06.24.10.31.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 10:31:40 -0700 (PDT)
+From: Casey Chen <cachen@purestorage.com>
+To: linux-nvme@lists.infradead.org
+Cc: yzhong@purestorage.com, ashishk@purestorage.com,
+ Casey Chen <cachen@purestorage.com>
+Subject: [PATCH 0/2] rr: nvme-pci: fix races and UAF
+Date: Thu, 24 Jun 2021 10:31:23 -0700
+Message-Id: <20210624173125.20376-1-cachen@purestorage.com>
+X-Mailer: git-send-email 2.17.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210624_102637_636846_3996F611 
-X-CRM114-Status: GOOD (  22.14  )
+X-CRM114-CacheID: sfid-20210624_103142_479193_9025FA41 
+X-CRM114-Status: GOOD (  10.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,594 +88,216 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Prabhakar Kushwaha <pkushwaha@marvell.com>
+Found two bugs while power-cycling PCIe NVMe drive for hours:
+- Races in nvme_setup_io_queues()
+- UAF introduced by nvme_dev_remove_admin(), which is found
+after fixing the races. Without fixing the races, the system
+just crashes and cannot survive to reproduce the UAF.
 
-Once a TCP connection established, the host sends an Initialize
-Connection Request (ICReq) PDU to the controller.
-Further Initialize Connection Response (ICResp) PDU received from
-controller is processed by host to establish a connection and
-exchange connection configuration parameters.
+The proposed fixes have been tested for several days for correctness.
 
-This patch present support of generation of ICReq and processing of
-ICResp. It also update host configuration based on exchanged parameters.
+0. Code baseline
 
-Acked-by: Igor Russkikh <irusskikh@marvell.com>
-Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-Signed-off-by: Ariel Elior <aelior@marvell.com>
-Signed-off-by: Shai Malin <smalin@marvell.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/hw/qedn/qedn.h      |  38 ++++
- drivers/nvme/hw/qedn/qedn_conn.c | 334 ++++++++++++++++++++++++++++++-
- drivers/nvme/hw/qedn/qedn_main.c |  14 ++
- drivers/nvme/hw/qedn/qedn_task.c |   8 +-
- 4 files changed, 390 insertions(+), 4 deletions(-)
+Tag nvme-5.14-2021-06-08 of repo http://git.infradead.org/nvme.git
 
-diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
-index 78efa8c02810..829d474b3ab1 100644
---- a/drivers/nvme/hw/qedn/qedn.h
-+++ b/drivers/nvme/hw/qedn/qedn.h
-@@ -16,6 +16,7 @@
- 
- /* Driver includes */
- #include "../../host/tcp-offload.h"
-+#include <linux/nvme-tcp.h>
- 
- #define QEDN_MODULE_NAME "qedn"
- 
-@@ -42,6 +43,8 @@
- 
- /* Protocol defines */
- #define QEDN_MAX_IO_SIZE QED_NVMETCP_MAX_IO_SIZE
-+#define QEDN_MAX_PDU_SIZE 0x80000 /* 512KB */
-+#define QEDN_MAX_OUTSTANDING_R2T_PDUS 0 /* 0 Based == 1 max R2T */
- 
- #define QEDN_FW_SLOW_IO_MIN_SGE_LIMIT (9700 / 6)
- 
-@@ -50,6 +53,13 @@
- 
- #define QEDN_INVALID_ITID 0xFFFF
- 
-+#define QEDN_ICREQ_FW_PAYLOAD (sizeof(struct nvme_tcp_icreq_pdu) -\
-+			       QED_NVMETCP_NON_IO_HDR_SIZE)
-+#define QEDN_ICREQ_FW_PAYLOAD_START 8
-+
-+/* The FW will handle the ICReq as CCCID 0 (FW internal design) */
-+#define QEDN_ICREQ_CCCID 0
-+
- /*
-  * TCP offload stack default configurations and defines.
-  * Future enhancements will allow controlling the configurable
-@@ -120,6 +130,16 @@ struct qedn_fp_queue {
- 	char irqname[QEDN_IRQ_NAME_LEN];
- };
- 
-+struct qedn_negotiation_params {
-+	u32 maxh2cdata; /* Negotiation */
-+	u32 maxr2t; /* Validation */
-+	u16 pfv; /* Validation */
-+	bool hdr_digest; /* Negotiation */
-+	bool data_digest; /* Negotiation */
-+	u8 cpda; /* Negotiation */
-+	u8 hpda; /* Validation */
-+};
-+
- struct qedn_ctx {
- 	struct pci_dev *pdev;
- 	struct qed_dev *cdev;
-@@ -176,6 +196,9 @@ struct qedn_endpoint {
- 	struct nvmetcp_db_data db_data;
- 	void __iomem *p_doorbell;
- 
-+	/* Spinlock for accessing FW queue */
-+	spinlock_t doorbell_lock;
-+
- 	/* TCP Params */
- 	__be32 dst_addr[4]; /* In network order */
- 	__be32 src_addr[4]; /* In network order */
-@@ -252,6 +275,12 @@ struct qedn_ctrl {
- 	atomic_t host_num_active_conns;
- };
- 
-+struct qedn_icreq_padding {
-+	u32 *buffer;
-+	dma_addr_t pa;
-+	struct nvmetcp_sge sge;
-+};
-+
- /* Connection level struct */
- struct qedn_conn_ctx {
- 	/* IO path */
-@@ -300,6 +329,11 @@ struct qedn_conn_ctx {
- 
- 	size_t sq_depth;
- 
-+	struct qedn_negotiation_params required_params;
-+	struct qedn_negotiation_params pdu_params;
-+	struct nvme_tcp_icresp_pdu icresp;
-+	struct qedn_icreq_padding *icreq_pad;
-+
- 	/* "dummy" socket */
- 	struct socket *sock;
- };
-@@ -308,6 +342,7 @@ enum qedn_conn_resources_state {
- 	QEDN_CONN_RESRC_FW_SQ,
- 	QEDN_CONN_RESRC_ACQUIRE_CONN,
- 	QEDN_CONN_RESRC_TASKS,
-+	QEDN_CONN_RESRC_ICREQ_PAD,
- 	QEDN_CONN_RESRC_CCCID_ITID_MAP,
- 	QEDN_CONN_RESRC_TCP_PORT,
- 	QEDN_CONN_RESRC_DB_ADD,
-@@ -339,5 +374,8 @@ struct qedn_task_ctx *
- qedn_get_free_task_from_pool(struct qedn_conn_ctx *conn_ctx, u16 cccid);
- void qedn_destroy_free_tasks(struct qedn_fp_queue *fp_q,
- 			     struct qedn_io_resources *io_resrc);
-+void qedn_prep_icresp(struct qedn_conn_ctx *conn_ctx,
-+		      struct nvmetcp_fw_cqe *cqe);
-+void qedn_ring_doorbell(struct qedn_conn_ctx *conn_ctx);
- 
- #endif /* _QEDN_H_ */
-diff --git a/drivers/nvme/hw/qedn/qedn_conn.c b/drivers/nvme/hw/qedn/qedn_conn.c
-index 5c5b365df522..b4c0a1a3e890 100644
---- a/drivers/nvme/hw/qedn/qedn_conn.c
-+++ b/drivers/nvme/hw/qedn/qedn_conn.c
-@@ -34,6 +34,18 @@ inline int qedn_qid(struct nvme_tcp_ofld_queue *queue)
- 	return queue - queue->ctrl->queues;
- }
- 
-+void qedn_ring_doorbell(struct qedn_conn_ctx *conn_ctx)
-+{
-+	u16 prod_idx;
-+
-+	prod_idx = qed_chain_get_prod_idx(&conn_ctx->ep.fw_sq_chain);
-+	conn_ctx->ep.db_data.sq_prod = cpu_to_le16(prod_idx);
-+
-+	/* wmb - Make sure fw idx is coherent */
-+	wmb();
-+	writel(*(u32 *)&conn_ctx->ep.db_data, conn_ctx->ep.p_doorbell);
-+}
-+
- int qedn_set_con_state(struct qedn_conn_ctx *conn_ctx,
- 		       enum qedn_conn_state new_state)
- {
-@@ -143,6 +155,71 @@ int qedn_initialize_endpoint(struct qedn_endpoint *ep, u8 *local_mac_addr,
- 	return -1;
- }
- 
-+static int qedn_alloc_icreq_pad(struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct qedn_ctx *qedn = conn_ctx->qedn;
-+	struct qedn_icreq_padding *icreq_pad;
-+	u32 *buffer;
-+	int rc = 0;
-+
-+	icreq_pad = kzalloc(sizeof(*icreq_pad), GFP_KERNEL);
-+	if (!icreq_pad)
-+		return -ENOMEM;
-+
-+	conn_ctx->icreq_pad = icreq_pad;
-+	memset(&icreq_pad->sge, 0, sizeof(icreq_pad->sge));
-+	buffer = dma_alloc_coherent(&qedn->pdev->dev,
-+				    QEDN_ICREQ_FW_PAYLOAD,
-+				    &icreq_pad->pa,
-+				    GFP_KERNEL);
-+	if (!buffer) {
-+		pr_err("Could not allocate icreq_padding SGE buffer.\n");
-+		rc =  -ENOMEM;
-+		goto release_icreq_pad;
-+	}
-+
-+	DMA_REGPAIR_LE(icreq_pad->sge.sge_addr, icreq_pad->pa);
-+	icreq_pad->sge.sge_len = cpu_to_le32(QEDN_ICREQ_FW_PAYLOAD);
-+	icreq_pad->buffer = buffer;
-+	set_bit(QEDN_CONN_RESRC_ICREQ_PAD, &conn_ctx->resrc_state);
-+
-+	return 0;
-+
-+release_icreq_pad:
-+	kfree(icreq_pad);
-+	conn_ctx->icreq_pad = NULL;
-+
-+	return rc;
-+}
-+
-+static void qedn_free_icreq_pad(struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct qedn_ctx *qedn = conn_ctx->qedn;
-+	struct qedn_icreq_padding *icreq_pad;
-+	u32 *buffer;
-+
-+	icreq_pad = conn_ctx->icreq_pad;
-+	if (unlikely(!icreq_pad)) {
-+		pr_err("null ptr in icreq_pad in conn_ctx\n");
-+		goto finally;
-+	}
-+
-+	buffer = icreq_pad->buffer;
-+	if (buffer) {
-+		dma_free_coherent(&qedn->pdev->dev,
-+				  QEDN_ICREQ_FW_PAYLOAD,
-+				  (void *)buffer,
-+				  icreq_pad->pa);
-+		icreq_pad->buffer = NULL;
-+	}
-+
-+	kfree(icreq_pad);
-+	conn_ctx->icreq_pad = NULL;
-+
-+finally:
-+	clear_bit(QEDN_CONN_RESRC_ICREQ_PAD, &conn_ctx->resrc_state);
-+}
-+
- static void qedn_release_conn_ctx(struct qedn_conn_ctx *conn_ctx)
- {
- 	struct qedn_ctx *qedn = conn_ctx->qedn;
-@@ -175,6 +252,9 @@ static void qedn_release_conn_ctx(struct qedn_conn_ctx *conn_ctx)
- 		clear_bit(QEDN_CONN_RESRC_ACQUIRE_CONN, &conn_ctx->resrc_state);
- 	}
- 
-+	if (test_bit(QEDN_CONN_RESRC_ICREQ_PAD, &conn_ctx->resrc_state))
-+		qedn_free_icreq_pad(conn_ctx);
-+
- 	if (test_bit(QEDN_CONN_RESRC_TASKS, &conn_ctx->resrc_state)) {
- 		clear_bit(QEDN_CONN_RESRC_TASKS, &conn_ctx->resrc_state);
- 			qedn_return_active_tasks(conn_ctx);
-@@ -336,6 +416,215 @@ void qedn_terminate_connection(struct qedn_conn_ctx *conn_ctx)
- 	queue_work(qctrl->sp_wq, &conn_ctx->sp_wq_entry);
- }
- 
-+static int qedn_nvmetcp_update_conn(struct qedn_ctx *qedn,
-+				    struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct qedn_negotiation_params *pdu_params = &conn_ctx->pdu_params;
-+	struct qed_nvmetcp_params_update *conn_info;
-+	int rc;
-+
-+	conn_info = kzalloc(sizeof(*conn_info), GFP_KERNEL);
-+	if (!conn_info)
-+		return -ENOMEM;
-+
-+	conn_info->hdr_digest_en = pdu_params->hdr_digest;
-+	conn_info->data_digest_en = pdu_params->data_digest;
-+	conn_info->max_recv_pdu_length = QEDN_MAX_PDU_SIZE;
-+	conn_info->max_io_size = QEDN_MAX_IO_SIZE;
-+	conn_info->max_send_pdu_length = pdu_params->maxh2cdata;
-+
-+	rc = qed_ops->update_conn(qedn->cdev, conn_ctx->conn_handle, conn_info);
-+	if (rc) {
-+		pr_err("Could not update connection\n");
-+		rc = -ENXIO;
-+	}
-+
-+	kfree(conn_info);
-+
-+	return rc;
-+}
-+
-+static int qedn_update_ramrod(struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct qedn_ctx *qedn = conn_ctx->qedn;
-+	int rc = 0;
-+
-+	rc = qedn_set_con_state(conn_ctx, CONN_STATE_WAIT_FOR_UPDATE_EQE);
-+	if (rc)
-+		return rc;
-+
-+	rc = qedn_nvmetcp_update_conn(qedn, conn_ctx);
-+	if (rc)
-+		return rc;
-+
-+	if (conn_ctx->state != CONN_STATE_WAIT_FOR_UPDATE_EQE) {
-+		pr_err("cid 0x%x: Unexpected state 0x%x after update ramrod\n",
-+		       conn_ctx->fw_cid, conn_ctx->state);
-+
-+		return -EINVAL;
-+	}
-+
-+	return rc;
-+}
-+
-+static int qedn_send_icreq(struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct storage_sgl_task_params *sgl_task_params;
-+	struct nvmetcp_task_params task_params;
-+	struct qedn_task_ctx *qedn_task = NULL;
-+	struct nvme_tcp_icreq_pdu icreq;
-+	struct nvmetcp_wqe *chain_sqe;
-+	struct nvmetcp_wqe local_sqe;
-+
-+	qedn_task = qedn_get_free_task_from_pool(conn_ctx, QEDN_ICREQ_CCCID);
-+	if (!qedn_task)
-+		return -EINVAL;
-+
-+	memset(&icreq, 0, sizeof(icreq));
-+	memset(&local_sqe, 0, sizeof(local_sqe));
-+
-+	/* Initialize ICReq */
-+	icreq.hdr.type = nvme_tcp_icreq;
-+	icreq.hdr.hlen = sizeof(icreq);
-+	icreq.hdr.pdo = 0;
-+	icreq.hdr.plen = cpu_to_le32(icreq.hdr.hlen);
-+	icreq.pfv = cpu_to_le16(conn_ctx->required_params.pfv);
-+	icreq.maxr2t = cpu_to_le32(conn_ctx->required_params.maxr2t);
-+	icreq.hpda = conn_ctx->required_params.hpda;
-+	if (conn_ctx->required_params.hdr_digest)
-+		icreq.digest |= NVME_TCP_HDR_DIGEST_ENABLE;
-+	if (conn_ctx->required_params.data_digest)
-+		icreq.digest |= NVME_TCP_DATA_DIGEST_ENABLE;
-+
-+	/* Initialize task params */
-+	task_params.opq.lo = cpu_to_le32(((u64)(qedn_task)) & 0xffffffff);
-+	task_params.opq.hi = cpu_to_le32(((u64)(qedn_task)) >> 32);
-+	task_params.context = qedn_task->fw_task_ctx;
-+	task_params.sqe = &local_sqe;
-+	task_params.conn_icid = (u16)conn_ctx->conn_handle;
-+	task_params.itid = qedn_task->itid;
-+	task_params.cq_rss_number = conn_ctx->default_cq;
-+	task_params.tx_io_size = QEDN_ICREQ_FW_PAYLOAD;
-+	task_params.rx_io_size = 0; /* Rx doesn't use SGL for icresp */
-+
-+	/* Init SGE for ICReq padding */
-+	sgl_task_params = &qedn_task->sgl_task_params;
-+	sgl_task_params->total_buffer_size = task_params.tx_io_size;
-+	sgl_task_params->small_mid_sge = false;
-+	sgl_task_params->num_sges = 1;
-+	memcpy(sgl_task_params->sgl, &conn_ctx->icreq_pad->sge,
-+	       sizeof(conn_ctx->icreq_pad->sge));
-+
-+	/* ICReq is sent as two parts.
-+	 * First part: (16 bytes + First 8 bytes of icreq.rsvd2[]) are sent
-+	 *             via task context which is initialized above in icreq
-+	 * Second part: Rest bytes are sent via SGE, happening here
-+	 */
-+	memcpy(conn_ctx->icreq_pad->buffer,
-+	       &icreq.rsvd2[QEDN_ICREQ_FW_PAYLOAD_START],
-+	       QEDN_ICREQ_FW_PAYLOAD);
-+
-+	qed_ops->init_icreq_exchange(&task_params, &icreq,
-+				     sgl_task_params,  NULL);
-+
-+	qedn_set_con_state(conn_ctx, CONN_STATE_WAIT_FOR_IC_COMP);
-+	atomic_inc(&conn_ctx->num_active_fw_tasks);
-+
-+	/* spin_lock - doorbell is accessed  both Rx flow and response flow */
-+	spin_lock(&conn_ctx->ep.doorbell_lock);
-+	chain_sqe = qed_chain_produce(&conn_ctx->ep.fw_sq_chain);
-+	memcpy(chain_sqe, &local_sqe, sizeof(local_sqe));
-+	qedn_ring_doorbell(conn_ctx);
-+	spin_unlock(&conn_ctx->ep.doorbell_lock);
-+
-+	return 0;
-+}
-+
-+void qedn_prep_icresp(struct qedn_conn_ctx *conn_ctx,
-+		      struct nvmetcp_fw_cqe *cqe)
-+{
-+	struct nvmetcp_icresp_mdata *icresp_from_cqe =
-+		(struct nvmetcp_icresp_mdata *)&cqe->cqe_data.icresp_mdata;
-+	struct nvme_tcp_icresp_pdu *icresp = &conn_ctx->icresp;
-+	struct nvme_tcp_ofld_ctrl *ctrl = conn_ctx->ctrl;
-+	struct qedn_ctrl *qctrl = NULL;
-+
-+	qctrl = (struct qedn_ctrl *)ctrl->private_data;
-+	if (!qctrl)
-+		return;
-+
-+	icresp->pfv = cpu_to_le16(icresp_from_cqe->pfv);
-+	icresp->cpda = icresp_from_cqe->cpda;
-+	icresp->digest = icresp_from_cqe->digest;
-+	icresp->maxdata = cpu_to_le32(icresp_from_cqe->maxdata);
-+
-+	qedn_set_sp_wa(conn_ctx, HANDLE_ICRESP);
-+	queue_work(qctrl->sp_wq, &conn_ctx->sp_wq_entry);
-+}
-+
-+static int qedn_handle_icresp(struct qedn_conn_ctx *conn_ctx)
-+{
-+	struct nvme_tcp_icresp_pdu *icresp = &conn_ctx->icresp;
-+	struct qedn_negotiation_params *pdu_params;
-+	int rc = 0;
-+	u16 pfv;
-+
-+	/* Swapping requirement will be removed in future FW versions */
-+	pfv = __swab16(le16_to_cpu(icresp->pfv));
-+
-+	qedn_free_icreq_pad(conn_ctx);
-+
-+	/* Validate ICResp */
-+	if (pfv != conn_ctx->required_params.pfv) {
-+		pr_err("cid %u: unsupported pfv %u\n", conn_ctx->fw_cid, pfv);
-+
-+		return -EINVAL;
-+	}
-+
-+	if (icresp->cpda > conn_ctx->required_params.cpda) {
-+		pr_err("cid %u: unsupported cpda %u\n",
-+		       conn_ctx->fw_cid, icresp->cpda);
-+
-+		return -EINVAL;
-+	}
-+
-+	if ((NVME_TCP_HDR_DIGEST_ENABLE & icresp->digest) !=
-+	    conn_ctx->required_params.hdr_digest) {
-+		if ((NVME_TCP_HDR_DIGEST_ENABLE & icresp->digest) >
-+		    conn_ctx->required_params.hdr_digest) {
-+			pr_err("cid 0x%x: invalid header digest bit\n",
-+			       conn_ctx->fw_cid);
-+		}
-+	}
-+
-+	if ((NVME_TCP_DATA_DIGEST_ENABLE & icresp->digest) !=
-+	    conn_ctx->required_params.data_digest) {
-+		if ((NVME_TCP_DATA_DIGEST_ENABLE & icresp->digest) >
-+		    conn_ctx->required_params.data_digest) {
-+			pr_err("cid 0x%x: invalid data digest bit\n",
-+			       conn_ctx->fw_cid);
-+	}
-+	}
-+
-+	pdu_params = &conn_ctx->pdu_params;
-+	memset(pdu_params, 0, sizeof(conn_ctx->pdu_params));
-+	/* Swapping requirement will be removed in future FW versions */
-+	pdu_params->maxh2cdata = __swab32(le32_to_cpu(icresp->maxdata));
-+	pdu_params->maxh2cdata = QEDN_MAX_PDU_SIZE;
-+	if (pdu_params->maxh2cdata > QEDN_MAX_PDU_SIZE)
-+		pdu_params->maxh2cdata = QEDN_MAX_PDU_SIZE;
-+
-+	pdu_params->pfv = pfv;
-+	pdu_params->cpda = icresp->cpda;
-+	pdu_params->hpda = conn_ctx->required_params.hpda;
-+	pdu_params->hdr_digest = NVME_TCP_HDR_DIGEST_ENABLE & icresp->digest;
-+	pdu_params->data_digest = NVME_TCP_DATA_DIGEST_ENABLE & icresp->digest;
-+	pdu_params->maxr2t = conn_ctx->required_params.maxr2t;
-+	rc = qedn_update_ramrod(conn_ctx);
-+
-+	return rc;
-+}
-+
- /* Slowpath EQ Callback */
- int qedn_event_cb(void *context, u8 fw_event_code, void *event_ring_data)
- {
-@@ -393,7 +682,8 @@ int qedn_event_cb(void *context, u8 fw_event_code, void *event_ring_data)
- 			if (rc)
- 				return rc;
- 
--			/* Placeholder - for ICReq flow */
-+			qedn_set_sp_wa(conn_ctx, SEND_ICREQ);
-+			queue_work(qctrl->sp_wq, &conn_ctx->sp_wq_entry);
- 		}
- 
- 		break;
-@@ -445,6 +735,8 @@ static int qedn_prep_and_offload_queue(struct qedn_conn_ctx *conn_ctx)
- 
- 	set_bit(QEDN_CONN_RESRC_FW_SQ, &conn_ctx->resrc_state);
- 
-+	spin_lock_init(&conn_ctx->ep.doorbell_lock);
-+
- 	atomic_set(&conn_ctx->num_active_tasks, 0);
- 	atomic_set(&conn_ctx->num_active_fw_tasks, 0);
- 
-@@ -509,6 +801,11 @@ static int qedn_prep_and_offload_queue(struct qedn_conn_ctx *conn_ctx)
- 
- 	memset(conn_ctx->host_cccid_itid, 0xFF, dma_size);
- 	set_bit(QEDN_CONN_RESRC_CCCID_ITID_MAP, &conn_ctx->resrc_state);
-+
-+	rc = qedn_alloc_icreq_pad(conn_ctx);
-+		if (rc)
-+			goto rel_conn;
-+
- 	rc = qedn_set_con_state(conn_ctx, CONN_STATE_WAIT_FOR_CONNECT_DONE);
- 	if (rc)
- 		goto rel_conn;
-@@ -581,6 +878,9 @@ void qedn_sp_wq_handler(struct work_struct *work)
- 
- 	qedn = conn_ctx->qedn;
- 	if (test_bit(DESTROY_CONNECTION, &conn_ctx->agg_work_action)) {
-+		if (test_bit(HANDLE_ICRESP, &conn_ctx->agg_work_action))
-+			qedn_clr_sp_wa(conn_ctx, HANDLE_ICRESP);
-+
- 		qedn_destroy_connection(conn_ctx);
- 
- 		return;
-@@ -595,6 +895,38 @@ void qedn_sp_wq_handler(struct work_struct *work)
- 			return;
- 		}
- 	}
-+
-+	if (test_bit(SEND_ICREQ, &conn_ctx->agg_work_action)) {
-+		qedn_clr_sp_wa(conn_ctx, SEND_ICREQ);
-+		rc = qedn_send_icreq(conn_ctx);
-+		if (rc)
-+			return;
-+
-+		return;
-+	}
-+
-+	if (test_bit(HANDLE_ICRESP, &conn_ctx->agg_work_action)) {
-+		rc = qedn_handle_icresp(conn_ctx);
-+
-+		qedn_clr_sp_wa(conn_ctx, HANDLE_ICRESP);
-+		if (rc) {
-+			pr_err("IC handling returned with 0x%x\n", rc);
-+			if (test_and_set_bit(DESTROY_CONNECTION,
-+					     &conn_ctx->agg_work_action))
-+				return;
-+
-+			qedn_destroy_connection(conn_ctx);
-+
-+			return;
-+		}
-+
-+		atomic_inc(&conn_ctx->est_conn_indicator);
-+		qedn_set_con_state(conn_ctx,
-+				   CONN_STATE_NVMETCP_CONN_ESTABLISHED);
-+		wake_up_interruptible(&conn_ctx->conn_waitq);
-+
-+		return;
-+	}
- }
- 
- /* Clear connection aggregative slowpath work action */
-diff --git a/drivers/nvme/hw/qedn/qedn_main.c b/drivers/nvme/hw/qedn/qedn_main.c
-index 42c8ad6ac2d6..3cf913d527c0 100644
---- a/drivers/nvme/hw/qedn/qedn_main.c
-+++ b/drivers/nvme/hw/qedn/qedn_main.c
-@@ -286,6 +286,19 @@ static int qedn_release_ctrl(struct nvme_tcp_ofld_ctrl *ctrl)
- 	return 0;
- }
- 
-+static void qedn_set_pdu_params(struct qedn_conn_ctx *conn_ctx)
-+{
-+	/* Enable digest once supported */
-+	conn_ctx->required_params.hdr_digest = 0;
-+	conn_ctx->required_params.data_digest = 0;
-+
-+	conn_ctx->required_params.maxr2t = QEDN_MAX_OUTSTANDING_R2T_PDUS;
-+	conn_ctx->required_params.pfv = NVME_TCP_PFV_1_0;
-+	conn_ctx->required_params.cpda = 0;
-+	conn_ctx->required_params.hpda = 0;
-+	conn_ctx->required_params.maxh2cdata = QEDN_MAX_PDU_SIZE;
-+}
-+
- static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid,
- 			     size_t queue_size)
- {
-@@ -317,6 +330,7 @@ static int qedn_create_queue(struct nvme_tcp_ofld_queue *queue, int qid,
- 	conn_ctx->ctrl = ctrl;
- 	conn_ctx->sq_depth = queue_size;
- 	mutex_init(&conn_ctx->send_mutex);
-+	qedn_set_pdu_params(conn_ctx);
- 
- 	init_waitqueue_head(&conn_ctx->conn_waitq);
- 	atomic_set(&conn_ctx->est_conn_indicator, 0);
-diff --git a/drivers/nvme/hw/qedn/qedn_task.c b/drivers/nvme/hw/qedn/qedn_task.c
-index 7b228b5c5169..e52460f9650e 100644
---- a/drivers/nvme/hw/qedn/qedn_task.c
-+++ b/drivers/nvme/hw/qedn/qedn_task.c
-@@ -392,9 +392,11 @@ void qedn_io_work_cq(struct qedn_ctx *qedn, struct nvmetcp_fw_cqe *cqe)
- 			break;
- 
- 		case NVMETCP_TASK_TYPE_INIT_CONN_REQUEST:
--
--			/* Placeholder - ICReq flow */
--
-+			/* Clear ICReq-padding SGE from SGL */
-+			qedn_common_clear_fw_sgl(&qedn_task->sgl_task_params);
-+			/* Task is not required for icresp processing */
-+			qedn_return_task_to_pool(conn_ctx, qedn_task);
-+			qedn_prep_icresp(conn_ctx, cqe);
- 			break;
- 		default:
- 			pr_info("Could not identify task type\n");
+1. Testing method
+
+while :; power off one drive;
+    sleep $((RANDOM%3)).$((RANDOM%10));
+    power on the same drive;
+    sleep $((RANDOM%3)).$((RANDOM%10));
+done
+
+2. Sample crash trace due to races in nvme_setup_io_queues()
+(task ID shown after the timestamps)
+
+[11668.533431][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Card present
+...
+[11668.681298][T251231] nvme nvme12: pci function 0000:8c:00.0
+[11668.681354][T26714] nvme 0000:8c:00.0: enabling device (0100 -> 0102)
+[11669.046119][   C31] pcieport 0000:87:08.0: pciehp: pending interrupts 0x0108 from Slot Status
+[11669.046142][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Link Down
+[11669.046146][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Card not present
+[11669.046149][  T716] pcieport 0000:87:08.0: pciehp: pciehp_unconfigure_device: domain:bus:dev = 0000:8c:00
+[11669.077428][  T716] ------------[ cut here ]------------
+[11669.077431][  T716] kernel BUG at drivers/pci/msi.c:348!
+[11669.077555][  T716] invalid opcode: 0000 [#1] SMP KASAN
+[11669.077658][  T716] CPU: 31 PID: 716 Comm: irq/127-pciehp Not tainted 5.13.0-rc3+
+[11669.078022][  T716] RIP: 0010:free_msi_irqs+0x28a/0x2d0
+...
+[11669.093982][  T716] Call Trace:
+[11669.096850][  T716]  pci_free_irq_vectors+0xe/0x20
+[11669.099695][  T716]  nvme_dev_disable+0x140/0x760 [nvme]
+[11669.102503][  T716]  ? _raw_spin_lock_irqsave+0x9c/0x100
+[11669.105271][  T716]  ? trace_hardirqs_on+0x2c/0xe0
+[11669.107994][  T716]  nvme_remove+0x191/0x1e0 [nvme]
+[11669.110689][  T716]  pci_device_remove+0x6b/0x110
+[11669.113316][  T716]  device_release_driver_internal+0x14f/0x280
+[11669.115939][  T716]  pci_stop_bus_device+0xcb/0x100
+[11669.118515][  T716]  pci_stop_and_remove_bus_device+0xe/0x20
+[11669.121079][  T716]  pciehp_unconfigure_device+0xfa/0x200
+[11669.123597][  T716]  ? pciehp_configure_device+0x1c0/0x1c0
+[11669.126049][  T716]  ? trace_hardirqs_on+0x2c/0xe0
+[11669.128444][  T716]  pciehp_disable_slot+0xc4/0x1a0
+[11669.130771][  T716]  ? pciehp_runtime_suspend+0x40/0x40
+[11669.133054][  T716]  ? __mutex_lock_slowpath+0x10/0x10
+[11669.135289][  T716]  ? trace_hardirqs_on+0x2c/0xe0
+[11669.137462][  T716]  pciehp_handle_presence_or_link_change+0x15c/0x4f0
+[11669.139632][  T716]  ? down_read+0x11f/0x1a0
+[11669.141731][  T716]  ? pciehp_handle_disable_request+0x80/0x80
+[11669.143817][  T716]  ? rwsem_down_read_slowpath+0x600/0x600
+[11669.145851][  T716]  ? __radix_tree_lookup+0xb2/0x130
+[11669.147842][  T716]  pciehp_ist+0x19d/0x1a0
+[11669.149790][  T716]  ? pciehp_set_indicators+0xe0/0xe0
+[11669.151704][  T716]  ? irq_finalize_oneshot.part.46+0x1d0/0x1d0
+[11669.153588][  T716]  irq_thread_fn+0x3f/0xa0
+[11669.155407][  T716]  irq_thread+0x195/0x290
+[11669.157147][  T716]  ? irq_thread_check_affinity.part.49+0xe0/0xe0
+[11669.158883][  T716]  ? _raw_read_lock_irq+0x50/0x50
+[11669.160611][  T716]  ? _raw_read_lock_irq+0x50/0x50
+[11669.162320][  T716]  ? irq_forced_thread_fn+0xf0/0xf0
+[11669.164032][  T716]  ? trace_hardirqs_on+0x2c/0xe0
+[11669.165731][  T716]  ? irq_thread_check_affinity.part.49+0xe0/0xe0
+[11669.167461][  T716]  kthread+0x1c8/0x1f0
+[11669.169173][  T716]  ? kthread_parkme+0x40/0x40
+[11669.170883][  T716]  ret_from_fork+0x22/0x30
+
+3. KASAN report for the UAF introduced by nvme_dev_remove_admin()
+(task ID is shown after the timestamp)
+
+[18319.015748][T246989] nvme nvme13: pci function 0000:8c:00.0
+[18319.015795][T215541] nvme 0000:8c:00.0: enabling device (0100 -> 0102)
+[18319.369086][   C31] pcieport 0000:87:08.0: pciehp: pending interrupts 0x0108 from Slot Status
+[18319.369107][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Link Down
+[18319.369111][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Card not present
+[18319.369116][  T716] pcieport 0000:87:08.0: pciehp: pciehp_unconfigure_device: domain:bus:dev = 0000:8c:00
+[18320.452045][T215541] nvme nvme13: 88/0/0 default/read/poll queues
+[18320.469475][T215541] nvme nvme13: failed to mark controller live state
+[18320.469483][T215541] nvme nvme13: Removing after probe failure status: -19
+[18320.551295][T215541] ==================================================================
+[18320.551299][T215541] BUG: KASAN: use-after-free in __blk_mq_all_tag_iter+0x9c/0x3f0
+[18320.551311][T215541] Read of size 4 at addr ffff888897904d04 by task kworker/u178:2/215541
+[18320.551315][T215541] 
+[18320.551318][T215541] CPU: 86 PID: 215541 Comm: kworker/u178:2 Not tainted 5.13.0-rc3+
+[18320.551327][T215541] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+[18320.551339][T215541] Call Trace:
+[18320.551343][T215541]  dump_stack+0xa4/0xdb
+[18320.551354][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
+[18320.551359][T215541]  print_address_description.constprop.10+0x3a/0x60
+[18320.551366][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
+[18320.551372][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
+[18320.551377][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
+[18320.551382][T215541]  kasan_report.cold.15+0x7c/0xd8
+[18320.551390][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
+[18320.551395][T215541]  __blk_mq_all_tag_iter+0x9c/0x3f0
+[18320.551401][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
+[18320.551407][T215541]  ? bt_iter+0xf0/0xf0
+[18320.551412][T215541]  ? __blk_mq_all_tag_iter+0x2c9/0x3f0
+[18320.551417][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
+[18320.551422][T215541]  ? bt_iter+0xf0/0xf0
+[18320.551427][T215541]  ? dev_printk_emit+0x95/0xbb
+[18320.551436][T215541]  blk_mq_tagset_busy_iter+0x75/0xa0
+[18320.551441][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
+[18320.551446][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
+[18320.551451][T215541]  blk_mq_tagset_wait_completed_request+0x86/0xc0
+[18320.551457][T215541]  ? blk_mq_tagset_busy_iter+0xa0/0xa0
+[18320.551463][T215541]  ? blk_mq_tagset_busy_iter+0x80/0xa0
+[18320.551469][T215541]  ? trace_event_raw_event_nvme_setup_cmd+0x2d0/0x2d0 [nvme_core]
+[18320.551493][T215541]  nvme_dev_disable+0x4f6/0x760 [nvme]
+[18320.551502][T215541]  ? trace_hardirqs_on+0x2c/0xe0
+[18320.551510][T215541]  nvme_reset_work+0x226/0x2060 [nvme]
+[18320.551520][T215541]  ? nvme_remove+0x1e0/0x1e0 [nvme]
+[18320.551528][T215541]  ? __update_load_avg_cfs_rq+0x1d8/0x550
+[18320.551537][T215541]  ? down_read+0x11f/0x1a0
+[18320.551545][T215541]  ? newidle_balance+0x444/0x690
+[18320.551552][T215541]  ? update_load_avg+0x626/0xbe0
+[18320.551557][T215541]  ? update_cfs_group+0x1e/0x150
+[18320.551562][T215541]  ? load_balance+0x11d0/0x11d0
+[18320.551567][T215541]  ? dequeue_entity+0x150/0x730
+[18320.551573][T215541]  ? nvme_irq_check+0x60/0x60 [nvme]
+[18320.551581][T215541]  ? finish_task_switch+0x101/0x3d0
+[18320.551588][T215541]  ? read_word_at_a_time+0xe/0x20
+[18320.551594][T215541]  ? strscpy+0xc1/0x1d0
+[18320.551598][T215541]  process_one_work+0x4b9/0x7b0
+[18320.551604][T215541]  worker_thread+0x72/0x710
+[18320.551610][T215541]  ? process_one_work+0x7b0/0x7b0
+[18320.551614][T215541]  kthread+0x1c8/0x1f0
+[18320.551618][T215541]  ? kthread_parkme+0x40/0x40
+[18320.551622][T215541]  ret_from_fork+0x22/0x30
+[18320.551630][T215541] 
+[18320.551632][T215541] Allocated by task 215541:
+[18320.551635][T215541]  kasan_save_stack+0x19/0x40
+[18320.551639][T215541]  __kasan_kmalloc+0x7f/0xa0
+[18320.551642][T215541]  kmem_cache_alloc_node_trace+0x187/0x2b0
+[18320.551648][T215541]  blk_mq_init_tags+0x47/0x100
+[18320.551651][T215541]  blk_mq_alloc_rq_map+0x44/0xf0
+[18320.551656][T215541]  __blk_mq_alloc_map_and_request+0x7f/0x140
+[18320.551661][T215541]  blk_mq_alloc_tag_set+0x25e/0x510
+[18320.551666][T215541]  nvme_reset_work+0x14f9/0x2060 [nvme]
+[18320.551674][T215541]  process_one_work+0x4b9/0x7b0
+[18320.551678][T215541]  worker_thread+0x72/0x710
+[18320.551682][T215541]  kthread+0x1c8/0x1f0
+[18320.551685][T215541]  ret_from_fork+0x22/0x30
+[18320.551689][T215541] 
+[18320.551690][T215541] Freed by task 716:
+[18320.551693][T215541]  kasan_save_stack+0x19/0x40
+[18320.551696][T215541]  kasan_set_track+0x1c/0x30
+[18320.551699][T215541]  kasan_set_free_info+0x20/0x30
+[18320.551704][T215541]  __kasan_slab_free+0xec/0x130
+[18320.551707][T215541]  kfree+0xa8/0x460
+[18320.551712][T215541]  blk_mq_free_map_and_requests+0x8d/0xc0
+[18320.551717][T215541]  blk_mq_free_tag_set+0x30/0xf0
+[18320.551721][T215541]  nvme_remove+0x199/0x1e0 [nvme]
+[18320.551729][T215541]  pci_device_remove+0x6b/0x110
+[18320.551735][T215541]  device_release_driver_internal+0x14f/0x280
+[18320.551744][T215541]  pci_stop_bus_device+0xcb/0x100
+[18320.551750][T215541]  pci_stop_and_remove_bus_device+0xe/0x20
+[18320.551754][T215541]  pciehp_unconfigure_device+0xfa/0x200
+[18320.551761][T215541]  pciehp_disable_slot+0xc4/0x1a0
+[18320.551765][T215541]  pciehp_handle_presence_or_link_change+0x15c/0x4f0
+[18320.551770][T215541]  pciehp_ist+0x19d/0x1a0
+[18320.551774][T215541]  irq_thread_fn+0x3f/0xa0
+[18320.551780][T215541]  irq_thread+0x195/0x290
+[18320.551783][T215541]  kthread+0x1c8/0x1f0
+[18320.551786][T215541]  ret_from_fork+0x22/0x30
+[18320.551791][T215541] 
+[18320.551792][T215541] The buggy address belongs to the object at ffff888897904d00
+[18320.551792][T215541]  which belongs to the cache kmalloc-192 of size 192
+[18320.551795][T215541] The buggy address is located 4 bytes inside of
+[18320.551795][T215541]  192-byte region [ffff888897904d00, ffff888897904dc0)
+[18320.551800][T215541] The buggy address belongs to the page:
+[18320.551802][T215541] page:000000002f3df664 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x897904
+[18320.551807][T215541] head:000000002f3df664 order:1 compound_mapcount:0
+[18320.551810][T215541] flags: 0x200000000010200(slab|head|node=0|zone=2)
+[18320.551819][T215541] raw: 0200000000010200 dead000000000100 dead000000000122 ffff88810004ca00
+[18320.551824][T215541] raw: 0000000000000000 0000000000200020 00000001ffffffff 0000000000000000
+[18320.551826][T215541] page dumped because: kasan: bad access detected
+[18320.551828][T215541] 
+[18320.551829][T215541] Memory state around the buggy address:
+[18320.551832][T215541]  ffff888897904c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[18320.551835][T215541]  ffff888897904c80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+[18320.551838][T215541] >ffff888897904d00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[18320.551841][T215541]                    ^
+[18320.551843][T215541]  ffff888897904d80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+[18320.551846][T215541]  ffff888897904e00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[18320.551848][T215541] ==================================================================
+[18320.551850][T215541] Disabling lock debugging due to kernel taint
+
+Casey Chen (2):
+  nvme-pci: Fix multiple races in nvme_setup_io_queues()
+  nvme-pci: Fix UAF introduced by nvme_dev_remove_admin()
+
+ drivers/nvme/host/pci.c | 60 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 53 insertions(+), 7 deletions(-)
+
 -- 
-2.22.0
+2.17.1
 
 
 _______________________________________________
