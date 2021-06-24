@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAEAC49EA6
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:31:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D09F3C49EA6
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:32:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8B89561075
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:31:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B89561075
+	by mail.kernel.org (Postfix) with ESMTPS id 9208F61075
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jun 2021 17:32:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9208F61075
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,55 +23,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=owRyM8M37kEyuT6U71TCINhG+uUbk+JEfqe3MwlXOaE=; b=xk4niuHKp9KHYH
-	4nhORVe4RULqIA1SW0o/ivWoC4cRM+0cPKU+cos04P+3TWC/8l+MZwD2pk9Y3vzmGdT7C6d1/3wOf
-	2A1IGjBtUalqmvM6+DJ6aIc4B/UDrufa9iS4IcxRy0J9npwJH40fkEsbQsfdYeIzY8U7leq4iz7E9
-	3pJkCzRLWHFZp7q2ZqUiCXuWAvc7jux7XZ2ZJoLRh+sXMsnZMxwXyTrdHeZPJPjadRBn3weIqC2XP
-	gi8jNhJx8ENIv5XKMmmjJWRBdnbxSeVDFItsu2MjSqw0aLER4Wxiq/dhMZkeeAAKJwseAEf43cxGl
-	4LGQvU3qJALYb687zxXg==;
+	List-Owner; bh=gOMyOn7ryC9pVLH4t4tfR7MTMBfRJZZOirmKfvESg90=; b=BXm1W/2rMGRlr5
+	ex0msZT8nFOoVBdOCnxx9zqu9eIf+zv48Wdio9PbWGwq+xEysl+O+NtsLxY4jqwf+0pQEygOkNTmr
+	qaSR7ZDJf05lthj/a3BFeK6kNB/PMDl7u6MHMjSxgRwsJPl3rFwF4e/ivbWAEXdZInHzHm/jRZgod
+	y057j+yrsZHKb3wb+q02JIGOoulAX/G0WLTnR2J6SljFP4xs+1GZqmrnBB8GCTRU3cETasJa3EUGY
+	BvQAbAUFmHflZrUxVib3VfOyzp/WlhA8WV76jp4jdJmlcpJeDVDx9uQKOaHQ8J5IyIoYFNLYNpTik
+	mfo7oRQzX7JuWDWEklcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lwTCG-00Ff3X-UW; Thu, 24 Jun 2021 17:31:25 +0000
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
- helo=mx0b-0016f401.pphosted.com)
+	id 1lwTDH-00FfMG-An; Thu, 24 Jun 2021 17:32:27 +0000
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lwT6V-00FdE4-Dx
- for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 17:25:30 +0000
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15OH9rti017573; Thu, 24 Jun 2021 10:25:23 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0a-0016f401.pphosted.com with ESMTP id 39cgc8bma3-1
+ id 1lwT6X-00FdEQ-7G
+ for linux-nvme@lists.infradead.org; Thu, 24 Jun 2021 17:25:31 +0000
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15OHAZSm026995; Thu, 24 Jun 2021 10:25:16 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0b-0016f401.pphosted.com with ESMTP id 39cg2nbdfg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Thu, 24 Jun 2021 10:25:22 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Thu, 24 Jun 2021 10:25:21 -0700
+ Thu, 24 Jun 2021 10:25:15 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Thu, 24 Jun 2021 10:25:12 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH01.marvell.com (10.69.176.38) with Microsoft SMTP Server id
- 15.0.1497.18 via Frontend Transport; Thu, 24 Jun 2021 10:25:18 -0700
+ 15.0.1497.18 via Frontend Transport; Thu, 24 Jun 2021 10:25:09 -0700
 From: Shai Malin <smalin@marvell.com>
 To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
  <axboe@fb.com>, <kbusch@kernel.org>
 CC: <davem@davemloft.net>, <kuba@kernel.org>, <aelior@marvell.com>,
  <mkalderon@marvell.com>, <okulkarni@marvell.com>,
  <pkushwaha@marvell.com>, <prabhakar.pkin@gmail.com>,
- <malin1024@gmail.com>, <smalin@marvell.com>
-Subject: [PATCH v3 12/20] qedn: Add IRQ and fast-path resources initializations
-Date: Thu, 24 Jun 2021 20:24:02 +0300
-Message-ID: <20210624172410.14225-13-smalin@marvell.com>
+ <malin1024@gmail.com>, <smalin@marvell.com>,
+ "Dean Balandin" <dbalandin@marvell.com>
+Subject: [PATCH v3 10/20] qedn: Add qedn probe
+Date: Thu, 24 Jun 2021 20:24:00 +0300
+Message-ID: <20210624172410.14225-11-smalin@marvell.com>
 X-Mailer: git-send-email 2.16.6
 In-Reply-To: <20210624172410.14225-1-smalin@marvell.com>
 References: <20210624172410.14225-1-smalin@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: Yc9EjEbqxmHEEH3VwuudYAx0hat3tHBP
-X-Proofpoint-GUID: Yc9EjEbqxmHEEH3VwuudYAx0hat3tHBP
+X-Proofpoint-ORIG-GUID: qeW8Bw9dGVQFNWGXLWHDAHCMhnGzt-BE
+X-Proofpoint-GUID: qeW8Bw9dGVQFNWGXLWHDAHCMhnGzt-BE
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-24_12:2021-06-24,
  2021-06-24 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210624_102527_534279_D4709C41 
-X-CRM114-Status: GOOD (  27.15  )
+X-CRM114-CacheID: sfid-20210624_102529_665128_A91A76DC 
+X-CRM114-Status: GOOD (  19.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,22 +88,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch will present the adding of qedn_fp_queue - this is a per cpu
-core element which handles all of the connections on that cpu core.
-The qedn_fp_queue will handle a group of connections (NVMeoF QPs) which
-are handled on the same cpu core, and will only use the same FW-driver
-resources with no need to be related to the same NVMeoF controller.
+This patch introduces the functionality of loading and unloading
+physical function.
+qedn_probe() loads the offload device PF(physical function), and
+initialize the HW and the FW with the PF parameters using the
+HW ops->qed_nvmetcp_ops, which are similar to other "qed_*_ops" which
+are used by the qede, qedr, qedf and qedi device drivers.
+qedn_remove() unloads the offload device PF, re-initialize the HW and
+the FW with the PF parameters.
 
-The per qedn_fq_queue resources are the FW CQ and FW status block:
-- The FW CQ will be used for the FW to notify the driver that the
-  the exchange has ended and the FW will pass the incoming NVMeoF CQE
-  (if exist) to the driver.
-- FW status block - which is used for the FW to notify the driver with
-  the producer update of the FW CQE chain.
-
-The FW fast-path queues are based on qed_chain.h
+The struct qedn_ctx is per PF container for PF-specific attributes and
+resources.
 
 Acked-by: Igor Russkikh <irusskikh@marvell.com>
+Signed-off-by: Dean Balandin <dbalandin@marvell.com>
 Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
 Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
 Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
@@ -111,423 +109,272 @@ Signed-off-by: Ariel Elior <aelior@marvell.com>
 Signed-off-by: Shai Malin <smalin@marvell.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/hw/qedn/qedn.h      |  25 +++
- drivers/nvme/hw/qedn/qedn_main.c | 289 ++++++++++++++++++++++++++++++-
- 2 files changed, 311 insertions(+), 3 deletions(-)
+ drivers/nvme/hw/Kconfig          |   1 +
+ drivers/nvme/hw/qedn/qedn.h      |  26 ++++++
+ drivers/nvme/hw/qedn/qedn_main.c | 155 ++++++++++++++++++++++++++++++-
+ 3 files changed, 177 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/nvme/hw/Kconfig b/drivers/nvme/hw/Kconfig
+index 374f1f9dbd3d..91b1bd6f07d8 100644
+--- a/drivers/nvme/hw/Kconfig
++++ b/drivers/nvme/hw/Kconfig
+@@ -2,6 +2,7 @@
+ config NVME_QEDN
+ 	tristate "Marvell NVM Express over Fabrics TCP offload"
+ 	depends on NVME_TCP_OFFLOAD
++	select QED_NVMETCP
+ 	help
+ 	  This enables the Marvell NVMe TCP offload support (qedn).
+ 
 diff --git a/drivers/nvme/hw/qedn/qedn.h b/drivers/nvme/hw/qedn/qedn.h
-index 0ce1e19d1ba8..edb0836bca87 100644
+index bcd0748a10fd..931efc3afbaa 100644
 --- a/drivers/nvme/hw/qedn/qedn.h
 +++ b/drivers/nvme/hw/qedn/qedn.h
-@@ -24,17 +24,39 @@
- #define QEDN_PROTO_CQ_PROD_IDX	0
- #define QEDN_NVMETCP_NUM_FW_CONN_QUEUE_PAGES 2
+@@ -6,14 +6,40 @@
+ #ifndef _QEDN_H_
+ #define _QEDN_H_
  
-+#define QEDN_PAGE_SIZE	4096 /* FW page size - Configurable */
-+#define QEDN_IRQ_NAME_LEN 24
-+#define QEDN_IRQ_NO_FLAGS 0
++#include <linux/qed/qed_if.h>
++#include <linux/qed/qed_nvmetcp_if.h>
 +
-+#define QEDN_TCP_RTO_DEFAULT 280
-+
- enum qedn_state {
- 	QEDN_STATE_CORE_PROBED = 0,
- 	QEDN_STATE_CORE_OPEN,
- 	QEDN_STATE_MFW_STATE,
-+	QEDN_STATE_NVMETCP_OPEN,
-+	QEDN_STATE_IRQ_SET,
-+	QEDN_STATE_FP_WORK_THREAD_SET,
- 	QEDN_STATE_REGISTERED_OFFLOAD_DEV,
- 	QEDN_STATE_MODULE_REMOVE_ONGOING,
- };
+ /* Driver includes */
+ #include "../../host/tcp-offload.h"
  
-+/* Per CPU core params */
-+struct qedn_fp_queue {
-+	struct qed_chain cq_chain;
-+	u16 *cq_prod;
-+	struct mutex cq_mutex; /* cq handler mutex */
-+	struct qedn_ctx	*qedn;
-+	struct qed_sb_info *sb_info;
-+	unsigned int cpu;
-+	u16 sb_id;
-+	char irqname[QEDN_IRQ_NAME_LEN];
+ #define QEDN_MODULE_NAME "qedn"
+ 
++#define QEDN_MAX_TASKS_PER_PF (16 * 1024)
++#define QEDN_MAX_CONNS_PER_PF (4 * 1024)
++#define QEDN_FW_CQ_SIZE (4 * 1024)
++#define QEDN_PROTO_CQ_PROD_IDX	0
++#define QEDN_NVMETCP_NUM_FW_CONN_QUEUE_PAGES 2
++
++enum qedn_state {
++	QEDN_STATE_CORE_PROBED = 0,
++	QEDN_STATE_CORE_OPEN,
++	QEDN_STATE_MFW_STATE,
++	QEDN_STATE_REGISTERED_OFFLOAD_DEV,
++	QEDN_STATE_MODULE_REMOVE_ONGOING,
 +};
 +
  struct qedn_ctx {
  	struct pci_dev *pdev;
- 	struct qed_dev *cdev;
-+	struct qed_int_info int_info;
- 	struct qed_dev_nvmetcp_info dev_info;
++	struct qed_dev *cdev;
++	struct qed_dev_nvmetcp_info dev_info;
  	struct nvme_tcp_ofld_dev qedn_ofld_dev;
- 	struct qed_pf_params pf_params;
-@@ -44,6 +66,9 @@ struct qedn_ctx {
- 
- 	/* Fast path queues */
- 	u8 num_fw_cqs;
-+	struct qedn_fp_queue *fp_q_arr;
-+	struct nvmetcp_glbl_queue_entry *fw_cq_array_virt;
-+	dma_addr_t fw_cq_array_phy; /* Physical address of fw_cq_array_virt */
++	struct qed_pf_params pf_params;
++
++	/* Accessed with atomic bit ops, used with enum qedn_state */
++	unsigned long state;
++
++	/* Fast path queues */
++	u8 num_fw_cqs;
  };
  
  #endif /* _QEDN_H_ */
 diff --git a/drivers/nvme/hw/qedn/qedn_main.c b/drivers/nvme/hw/qedn/qedn_main.c
-index 78bc9fe17e7b..6c0f36f7d9d1 100644
+index d81b7c65acdf..97591797605e 100644
 --- a/drivers/nvme/hw/qedn/qedn_main.c
 +++ b/drivers/nvme/hw/qedn/qedn_main.c
-@@ -150,6 +150,104 @@ static struct nvme_tcp_ofld_ops qedn_ofld_ops = {
+@@ -14,6 +14,9 @@
+ 
+ #define CHIP_NUM_NVMETCP 0x8194
+ 
++const struct qed_nvmetcp_ops *qed_ops;
++
++/* Global context instance */
+ static struct pci_device_id qedn_pci_tbl[] = {
+ 	{ PCI_VDEVICE(QLOGIC, CHIP_NUM_NVMETCP), 0 },
+ 	{0, 0},
+@@ -98,12 +101,109 @@ static struct nvme_tcp_ofld_ops qedn_ofld_ops = {
  	.send_req = qedn_send_req,
  };
  
-+/* Fastpath IRQ handler */
-+static irqreturn_t qedn_irq_handler(int irq, void *dev_id)
++static inline void qedn_init_pf_struct(struct qedn_ctx *qedn)
 +{
-+	/* Placeholder */
-+
-+	return IRQ_HANDLED;
++	/* Placeholder - Initialize qedn fields */
 +}
 +
-+static void qedn_sync_free_irqs(struct qedn_ctx *qedn)
++static inline void
++qedn_init_core_probe_params(struct qed_probe_params *probe_params)
 +{
-+	u16 vector_idx;
-+	int i;
-+
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		vector_idx = i * qedn->dev_info.common.num_hwfns +
-+			     qed_ops->common->get_affin_hwfn_idx(qedn->cdev);
-+		synchronize_irq(qedn->int_info.msix[vector_idx].vector);
-+		irq_set_affinity_hint(qedn->int_info.msix[vector_idx].vector,
-+				      NULL);
-+		free_irq(qedn->int_info.msix[vector_idx].vector,
-+			 &qedn->fp_q_arr[i]);
-+	}
-+
-+	qedn->int_info.used_cnt = 0;
-+	qed_ops->common->set_fp_int(qedn->cdev, 0);
++	memset(probe_params, 0, sizeof(*probe_params));
++	probe_params->protocol = QED_PROTOCOL_NVMETCP;
++	probe_params->is_vf = false;
++	probe_params->recov_in_prog = 0;
 +}
 +
-+static int qedn_request_msix_irq(struct qedn_ctx *qedn)
++static inline int qedn_core_probe(struct qedn_ctx *qedn)
 +{
-+	struct pci_dev *pdev = qedn->pdev;
-+	struct qedn_fp_queue *fp_q = NULL;
-+	int i, rc, cpu;
-+	u16 vector_idx;
-+	u32 vector;
-+
-+	/* numa-awareness will be added in future enhancements */
-+	cpu = cpumask_first(cpu_online_mask);
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		fp_q = &qedn->fp_q_arr[i];
-+		vector_idx = i * qedn->dev_info.common.num_hwfns +
-+			     qed_ops->common->get_affin_hwfn_idx(qedn->cdev);
-+		vector = qedn->int_info.msix[vector_idx].vector;
-+		sprintf(fp_q->irqname, "qedn_queue_%x.%x.%x_%d",
-+			pdev->bus->number, PCI_SLOT(pdev->devfn),
-+			PCI_FUNC(pdev->devfn), i);
-+		rc = request_irq(vector, qedn_irq_handler, QEDN_IRQ_NO_FLAGS,
-+				 fp_q->irqname, fp_q);
-+		if (rc) {
-+			pr_err("request_irq failed.\n");
-+			qedn_sync_free_irqs(qedn);
-+
-+			return rc;
-+		}
-+
-+		fp_q->cpu = cpu;
-+		qedn->int_info.used_cnt++;
-+		rc = irq_set_affinity_hint(vector, get_cpu_mask(cpu));
-+		cpu = cpumask_next_wrap(cpu, cpu_online_mask, -1, false);
-+	}
-+
-+	return 0;
-+}
-+
-+static int qedn_setup_irq(struct qedn_ctx *qedn)
-+{
++	struct qed_probe_params probe_params;
 +	int rc = 0;
-+	u8 rval;
 +
-+	rval = qed_ops->common->set_fp_int(qedn->cdev, qedn->num_fw_cqs);
-+	if (rval < qedn->num_fw_cqs) {
-+		qedn->num_fw_cqs = rval;
-+		if (rval == 0) {
-+			pr_err("set_fp_int return 0 IRQs\n");
-+
-+			return -ENODEV;
-+		}
++	qedn_init_core_probe_params(&probe_params);
++	pr_info("Starting QED probe\n");
++	qedn->cdev = qed_ops->common->probe(qedn->pdev, &probe_params);
++	if (!qedn->cdev) {
++		rc = -ENODEV;
++		pr_err("QED probe failed\n");
 +	}
-+
-+	rc = qed_ops->common->get_fp_int(qedn->cdev, &qedn->int_info);
-+	if (rc) {
-+		pr_err("get_fp_int failed\n");
-+		goto exit_setup_int;
-+	}
-+
-+	if (qedn->int_info.msix_cnt) {
-+		rc = qedn_request_msix_irq(qedn);
-+		goto exit_setup_int;
-+	} else {
-+		pr_err("msix_cnt = 0\n");
-+		rc = -EINVAL;
-+		goto exit_setup_int;
-+	}
-+
-+exit_setup_int:
 +
 +	return rc;
 +}
 +
- static inline void qedn_init_pf_struct(struct qedn_ctx *qedn)
- {
- 	/* Placeholder - Initialize qedn fields */
-@@ -180,21 +278,174 @@ static inline int qedn_core_probe(struct qedn_ctx *qedn)
- 	return rc;
- }
- 
-+static void qedn_free_function_queues(struct qedn_ctx *qedn)
++static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
 +{
-+	struct qed_sb_info *sb_info = NULL;
-+	struct qedn_fp_queue *fp_q;
-+	int i;
++	u32 fw_conn_queue_pages = QEDN_NVMETCP_NUM_FW_CONN_QUEUE_PAGES;
++	struct qed_nvmetcp_pf_params *pf_params;
 +
-+	/* Free workqueues */
++	pf_params = &qedn->pf_params.nvmetcp_pf_params;
++	memset(pf_params, 0, sizeof(*pf_params));
++	qedn->num_fw_cqs = min_t(u8, qedn->dev_info.num_cqs, num_online_cpus());
 +
-+	/* Free the fast path queues*/
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		fp_q = &qedn->fp_q_arr[i];
++	pf_params->num_cons = QEDN_MAX_CONNS_PER_PF;
++	pf_params->num_tasks = QEDN_MAX_TASKS_PER_PF;
 +
-+		/* Free SB */
-+		sb_info = fp_q->sb_info;
-+		if (sb_info->sb_virt) {
-+			qed_ops->common->sb_release(qedn->cdev, sb_info,
-+						    fp_q->sb_id,
-+						    QED_SB_TYPE_STORAGE);
-+			dma_free_coherent(&qedn->pdev->dev,
-+					  sizeof(*sb_info->sb_virt),
-+					  (void *)sb_info->sb_virt,
-+					  sb_info->sb_phys);
-+			memset(sb_info, 0, sizeof(*sb_info));
-+			kfree(sb_info);
-+			fp_q->sb_info = NULL;
-+		}
++	/* Placeholder - Initialize function level queues */
 +
-+		qed_ops->common->chain_free(qedn->cdev, &fp_q->cq_chain);
-+	}
++	/* Placeholder - Initialize TCP params */
 +
-+	if (qedn->fw_cq_array_virt)
-+		dma_free_coherent(&qedn->pdev->dev,
-+				  qedn->num_fw_cqs * sizeof(u64),
-+				  qedn->fw_cq_array_virt,
-+				  qedn->fw_cq_array_phy);
-+	kfree(qedn->fp_q_arr);
-+	qedn->fp_q_arr = NULL;
++	/* Queues */
++	pf_params->num_sq_pages_in_ring = fw_conn_queue_pages;
++	pf_params->num_r2tq_pages_in_ring = fw_conn_queue_pages;
++	pf_params->num_uhq_pages_in_ring = fw_conn_queue_pages;
++	pf_params->num_queues = qedn->num_fw_cqs;
++	pf_params->cq_num_entries = QEDN_FW_CQ_SIZE;
++
++	/* the CQ SB pi */
++	pf_params->gl_rq_pi = QEDN_PROTO_CQ_PROD_IDX;
++
++	return 0;
 +}
 +
-+static int qedn_alloc_and_init_sb(struct qedn_ctx *qedn,
-+				  struct qed_sb_info *sb_info, u16 sb_id)
++static inline int qedn_slowpath_start(struct qedn_ctx *qedn)
 +{
++	struct qed_slowpath_params sp_params = {};
 +	int rc = 0;
 +
-+	sb_info->sb_virt = dma_alloc_coherent(&qedn->pdev->dev,
-+					      sizeof(struct status_block_e4),
-+					      &sb_info->sb_phys, GFP_KERNEL);
-+	if (!sb_info->sb_virt) {
-+		pr_err("Status block allocation failed\n");
-+
-+		return -ENOMEM;
-+	}
-+
-+	rc = qed_ops->common->sb_init(qedn->cdev, sb_info, sb_info->sb_virt,
-+				      sb_info->sb_phys, sb_id,
-+				      QED_SB_TYPE_STORAGE);
-+	if (rc) {
-+		pr_err("Status block initialization failed\n");
-+
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
-+static int qedn_alloc_function_queues(struct qedn_ctx *qedn)
-+{
-+	struct qed_chain_init_params chain_params = {};
-+	struct status_block_e4 *sb = NULL;
-+	struct qedn_fp_queue *fp_q = NULL;
-+	int rc = 0, arr_size;
-+	u64 cq_phy_addr;
-+	int i;
-+
-+	/* Place holder - IO-path workqueues */
-+
-+	qedn->fp_q_arr = kcalloc(qedn->num_fw_cqs,
-+				 sizeof(struct qedn_fp_queue), GFP_KERNEL);
-+	if (!qedn->fp_q_arr)
-+		return -ENOMEM;
-+
-+	arr_size = qedn->num_fw_cqs * sizeof(struct nvmetcp_glbl_queue_entry);
-+	qedn->fw_cq_array_virt = dma_alloc_coherent(&qedn->pdev->dev,
-+						    arr_size,
-+						    &qedn->fw_cq_array_phy,
-+						    GFP_KERNEL);
-+	if (!qedn->fw_cq_array_virt) {
-+		rc = -ENOMEM;
-+		goto mem_alloc_failure;
-+	}
-+
-+	/* placeholder - create task pools */
-+
-+	for (i = 0; i < qedn->num_fw_cqs; i++) {
-+		fp_q = &qedn->fp_q_arr[i];
-+		mutex_init(&fp_q->cq_mutex);
-+
-+		/* FW CQ */
-+		chain_params.intended_use = QED_CHAIN_USE_TO_CONSUME,
-+		chain_params.mode = QED_CHAIN_MODE_PBL,
-+		chain_params.cnt_type = QED_CHAIN_CNT_TYPE_U16,
-+		chain_params.num_elems = QEDN_FW_CQ_SIZE;
-+		/* Placeholder - sizeof(struct nvmetcp_fw_cqe)*/
-+		chain_params.elem_size = 64;
-+
-+		rc = qed_ops->common->chain_alloc(qedn->cdev,
-+						  &fp_q->cq_chain,
-+						  &chain_params);
-+		if (rc) {
-+			pr_err("CQ chain pci_alloc_consistent fail\n");
-+			goto mem_alloc_failure;
-+		}
-+
-+		cq_phy_addr = qed_chain_get_pbl_phys(&fp_q->cq_chain);
-+		qedn->fw_cq_array_virt[i].cq_pbl_addr.hi = PTR_HI(cq_phy_addr);
-+		qedn->fw_cq_array_virt[i].cq_pbl_addr.lo = PTR_LO(cq_phy_addr);
-+
-+		/* SB */
-+		fp_q->sb_info = kzalloc(sizeof(*fp_q->sb_info), GFP_KERNEL);
-+		if (!fp_q->sb_info)
-+			goto mem_alloc_failure;
-+
-+		fp_q->sb_id = i;
-+		rc = qedn_alloc_and_init_sb(qedn, fp_q->sb_info, fp_q->sb_id);
-+		if (rc) {
-+			pr_err("SB allocation and initialization failed.\n");
-+			goto mem_alloc_failure;
-+		}
-+
-+		sb = fp_q->sb_info->sb_virt;
-+		fp_q->cq_prod = (u16 *)&sb->pi_array[QEDN_PROTO_CQ_PROD_IDX];
-+		fp_q->qedn = qedn;
-+
-+		/* Placeholder - Init IO-path workqueue */
-+
-+		/* Placeholder - Init IO-path resources */
-+	}
-+
-+	return 0;
-+
-+mem_alloc_failure:
-+	pr_err("Function allocation failed\n");
-+	qedn_free_function_queues(qedn);
++	/* Start the Slowpath-process */
++	sp_params.int_mode = QED_INT_MODE_MSIX;
++	strscpy(sp_params.name, "qedn NVMeTCP", QED_DRV_VER_STR_SIZE);
++	rc = qed_ops->common->slowpath_start(qedn->cdev, &sp_params);
++	if (rc)
++		pr_err("Cannot start slowpath\n");
 +
 +	return rc;
 +}
 +
- static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
+ static void __qedn_remove(struct pci_dev *pdev)
  {
- 	u32 fw_conn_queue_pages = QEDN_NVMETCP_NUM_FW_CONN_QUEUE_PAGES;
- 	struct qed_nvmetcp_pf_params *pf_params;
+ 	struct qedn_ctx *qedn = pci_get_drvdata(pdev);
 +	int rc;
- 
- 	pf_params = &qedn->pf_params.nvmetcp_pf_params;
- 	memset(pf_params, 0, sizeof(*pf_params));
- 	qedn->num_fw_cqs = min_t(u8, qedn->dev_info.num_cqs, num_online_cpus());
-+	pr_info("Num qedn FW CQs %u\n", qedn->num_fw_cqs);
- 
- 	pf_params->num_cons = QEDN_MAX_CONNS_PER_PF;
- 	pf_params->num_tasks = QEDN_MAX_TASKS_PER_PF;
- 
--	/* Placeholder - Initialize function level queues */
-+	rc = qedn_alloc_function_queues(qedn);
-+	if (rc) {
-+		pr_err("Global queue allocation failed.\n");
-+		goto err_alloc_mem;
++
++	pr_notice("Starting qedn_remove: abs PF id=%u\n",
++		  qedn->dev_info.common.abs_pf_id);
++
++	if (test_and_set_bit(QEDN_STATE_MODULE_REMOVE_ONGOING, &qedn->state)) {
++		pr_err("Remove already ongoing\n");
++
++		return;
 +	}
- 
--	/* Placeholder - Initialize TCP params */
-+	set_bit(QEDN_STATE_FP_WORK_THREAD_SET, &qedn->state);
- 
- 	/* Queues */
- 	pf_params->num_sq_pages_in_ring = fw_conn_queue_pages;
-@@ -202,11 +453,14 @@ static int qedn_set_nvmetcp_pf_param(struct qedn_ctx *qedn)
- 	pf_params->num_uhq_pages_in_ring = fw_conn_queue_pages;
- 	pf_params->num_queues = qedn->num_fw_cqs;
- 	pf_params->cq_num_entries = QEDN_FW_CQ_SIZE;
-+	pf_params->glbl_q_params_addr = qedn->fw_cq_array_phy;
- 
- 	/* the CQ SB pi */
- 	pf_params->gl_rq_pi = QEDN_PROTO_CQ_PROD_IDX;
- 
--	return 0;
-+err_alloc_mem:
 +
-+	return rc;
++	if (test_and_clear_bit(QEDN_STATE_REGISTERED_OFFLOAD_DEV, &qedn->state))
++		nvme_tcp_ofld_unregister_dev(&qedn->qedn_ofld_dev);
++
++	if (test_and_clear_bit(QEDN_STATE_MFW_STATE, &qedn->state)) {
++		rc = qed_ops->common->update_drv_state(qedn->cdev, false);
++		if (rc)
++			pr_err("Failed to send drv state to MFW\n");
++	}
++
++	if (test_and_clear_bit(QEDN_STATE_CORE_OPEN, &qedn->state))
++		qed_ops->common->slowpath_stop(qedn->cdev);
++
++	if (test_and_clear_bit(QEDN_STATE_CORE_PROBED, &qedn->state))
++		qed_ops->common->remove(qedn->cdev);
+ 
+-	pr_notice("Starting qedn_remove\n");
+-	nvme_tcp_ofld_unregister_dev(&qedn->qedn_ofld_dev);
+ 	kfree(qedn);
+ 	pr_notice("Ending qedn_remove successfully\n");
  }
+@@ -143,15 +243,52 @@ static int __qedn_probe(struct pci_dev *pdev)
+ 	if (!qedn)
+ 		return -ENODEV;
  
- static inline int qedn_slowpath_start(struct qedn_ctx *qedn)
-@@ -241,6 +495,12 @@ static void __qedn_remove(struct pci_dev *pdev)
- 	if (test_and_clear_bit(QEDN_STATE_REGISTERED_OFFLOAD_DEV, &qedn->state))
- 		nvme_tcp_ofld_unregister_dev(&qedn->qedn_ofld_dev);
- 
-+	if (test_and_clear_bit(QEDN_STATE_IRQ_SET, &qedn->state))
-+		qedn_sync_free_irqs(qedn);
++	qedn_init_pf_struct(qedn);
 +
-+	if (test_and_clear_bit(QEDN_STATE_NVMETCP_OPEN, &qedn->state))
-+		qed_ops->stop(qedn->cdev);
-+
- 	if (test_and_clear_bit(QEDN_STATE_MFW_STATE, &qedn->state)) {
- 		rc = qed_ops->common->update_drv_state(qedn->cdev, false);
- 		if (rc)
-@@ -250,6 +510,9 @@ static void __qedn_remove(struct pci_dev *pdev)
- 	if (test_and_clear_bit(QEDN_STATE_CORE_OPEN, &qedn->state))
- 		qed_ops->common->slowpath_stop(qedn->cdev);
- 
-+	if (test_and_clear_bit(QEDN_STATE_FP_WORK_THREAD_SET, &qedn->state))
-+		qedn_free_function_queues(qedn);
-+
- 	if (test_and_clear_bit(QEDN_STATE_CORE_PROBED, &qedn->state))
- 		qed_ops->common->remove(qedn->cdev);
- 
-@@ -318,6 +581,25 @@ static int __qedn_probe(struct pci_dev *pdev)
- 
- 	set_bit(QEDN_STATE_CORE_OPEN, &qedn->state);
- 
-+	rc = qedn_setup_irq(qedn);
++	/* QED probe */
++	rc = qedn_core_probe(qedn);
 +	if (rc)
 +		goto exit_probe_and_release_mem;
 +
-+	set_bit(QEDN_STATE_IRQ_SET, &qedn->state);
++	set_bit(QEDN_STATE_CORE_PROBED, &qedn->state);
 +
-+	/* NVMeTCP start HW PF */
-+	rc = qed_ops->start(qedn->cdev,
-+			    NULL /* Placeholder for FW IO-path resources */,
-+			    qedn,
-+			    NULL /* Placeholder for FW Event callback */);
++	rc = qed_ops->fill_dev_info(qedn->cdev, &qedn->dev_info);
 +	if (rc) {
-+		rc = -ENODEV;
-+		pr_err("Cannot start NVMeTCP Function\n");
++		pr_err("fill_dev_info failed\n");
 +		goto exit_probe_and_release_mem;
 +	}
 +
-+	set_bit(QEDN_STATE_NVMETCP_OPEN, &qedn->state);
++	rc = qedn_set_nvmetcp_pf_param(qedn);
++	if (rc)
++		goto exit_probe_and_release_mem;
 +
- 	rc = qed_ops->common->update_drv_state(qedn->cdev, true);
- 	if (rc) {
- 		pr_err("Failed to send drv state to MFW\n");
-@@ -326,6 +608,7 @@ static int __qedn_probe(struct pci_dev *pdev)
- 
- 	set_bit(QEDN_STATE_MFW_STATE, &qedn->state);
- 
-+	qedn->qedn_ofld_dev.num_hw_vectors = qedn->num_fw_cqs;
++	qed_ops->common->update_pf_params(qedn->cdev, &qedn->pf_params);
++	rc = qedn_slowpath_start(qedn);
++	if (rc)
++		goto exit_probe_and_release_mem;
++
++	set_bit(QEDN_STATE_CORE_OPEN, &qedn->state);
++
++	rc = qed_ops->common->update_drv_state(qedn->cdev, true);
++	if (rc) {
++		pr_err("Failed to send drv state to MFW\n");
++		goto exit_probe_and_release_mem;
++	}
++
++	set_bit(QEDN_STATE_MFW_STATE, &qedn->state);
++
  	qedn->qedn_ofld_dev.ops = &qedn_ofld_ops;
  	INIT_LIST_HEAD(&qedn->qedn_ofld_dev.entry);
  	rc = nvme_tcp_ofld_register_dev(&qedn->qedn_ofld_dev);
+ 	if (rc)
+-		goto release_qedn;
++		goto exit_probe_and_release_mem;
++
++	set_bit(QEDN_STATE_REGISTERED_OFFLOAD_DEV, &qedn->state);
+ 
+ 	return 0;
+-release_qedn:
+-	kfree(qedn);
++exit_probe_and_release_mem:
++	__qedn_remove(pdev);
++	pr_err("probe ended with error\n");
+ 
+ 	return rc;
+ }
+@@ -173,6 +310,13 @@ static int __init qedn_init(void)
+ {
+ 	int rc;
+ 
++	qed_ops = qed_get_nvmetcp_ops();
++	if (!qed_ops) {
++		pr_err("Failed to get QED NVMeTCP ops\n");
++
++		return -EINVAL;
++	}
++
+ 	rc = pci_register_driver(&qedn_pci_driver);
+ 	if (rc) {
+ 		pr_err("Failed to register pci driver\n");
+@@ -188,6 +332,7 @@ static int __init qedn_init(void)
+ static void __exit qedn_cleanup(void)
+ {
+ 	pci_unregister_driver(&qedn_pci_driver);
++	qed_put_nvmetcp_ops();
+ 	pr_notice("Unloading qedn ended\n");
+ }
+ 
 -- 
 2.22.0
 
