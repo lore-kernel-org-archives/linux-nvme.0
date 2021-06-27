@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2282EC48BC2
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Jun 2021 13:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD2BAC48BC2
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Jun 2021 14:05:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B181B61A2D
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Jun 2021 13:47:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B181B61A2D
+	by mail.kernel.org (Postfix) with ESMTPS id 550B661C18
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Jun 2021 14:05:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 550B661C18
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,72 +24,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n3T7WtxMCgJom91iMVJQGfpafAt8dbH/E0F4X59Pjyg=; b=JHSM+9o9ivuyxwPMQARorrs4MV
-	cthTi+BpNSWsf6OP42qYvAstAzku9m9vIrhGhok4/eWeKVpvQELNA4g9xC5rlRo7zaO8G997YK2nF
-	sg7AYxV+UCYsLhy1dzqYXlYajF8o3pVc8mbeNgiT/mXt7I5cbu6VB69B0NIwe9JRDiy4MtwWgpqsG
-	VYs30j6u4V3W2H+zARh+JRja0SwIJHbBqv0gLhFFCqy5ekXgCJMEUzShi3ucuoWIYl67FH2ZbnDNB
-	FjAUfP89R66lBEoOVAwv8Yrp7OTagH5ooWTAFkG47ZUxPDV01mx2vjeDvlvZV2U6QejpEVLYTA8p7
-	A3BN/OxQ==;
+	bh=WIxndXhGFUYRmykYcYZVHcntaa5VbRVdTRP3I0mStxI=; b=sWWEPdjjWGKyJ8HfYAhBmOH7QO
+	I4Zkcy+i89wRvMOXyfcQpFm0OaJAQfY3ToyA+vksBOANCc4I1NM+2ED/7tQIYS9DZmMEZRc+YM5Hm
+	TJT7JcmhMzok1HtElPYvIJMT3906mP/KjigMfIpsKflAfPoCtYhuUInpVatUoRLWVEb4xybkGwDYS
+	/WUROInP6NRrHCIfWOwP8Wf2NypehTtGkRkCTZwD35JyPIN+vFDQiY7hfA6pPDcAG8XmefNrC19f4
+	GKpHVwcDSbMfQCQLohb5Sln55oQmkTbA+6dM3uoAaCmC6U6WGpoeLb/3QNFhKlsXpJWnJxdvDXxqB
+	LZJjpjPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lxV8G-005dJt-DM; Sun, 27 Jun 2021 13:47:32 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1lxVP8-005eVD-HN; Sun, 27 Jun 2021 14:04:58 +0000
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lxV8D-005dJF-VX
- for linux-nvme@lists.infradead.org; Sun, 27 Jun 2021 13:47:31 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id g4so8372532pjk.0
- for <linux-nvme@lists.infradead.org>; Sun, 27 Jun 2021 06:47:25 -0700 (PDT)
+ id 1lxVP6-005eUs-Ba
+ for linux-nvme@lists.infradead.org; Sun, 27 Jun 2021 14:04:57 +0000
+Received: by mail-pf1-x435.google.com with SMTP id s14so10520295pfg.0
+ for <linux-nvme@lists.infradead.org>; Sun, 27 Jun 2021 07:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fJSoA46EGJPMh4KCGh0AvMNTym/VRIZfvgO78Nh3WHY=;
- b=XFUj04S1IvtMBMrNxSHUrQdfjMsTK6ceV/VmG9GdcBQK5aWjQ5+rf3Bk8ABUqyq23x
- /cPSijpfIZl2ccuqgsz+Ik5g/4Q2qB2I6k60ILhUViJmUOZoJs3lCPwNxugWrCLe9ufg
- +G9rfB+d84i69spQRtCf+7paphH+5I4seXk9WyYmjaPyllIDKEFKBemcokIRTCMr+cbn
- 4tUaBMm65rRMBNxmAHiqs2p4YM++/Td1PM1Tb92KktIpC+6kIIfMBCYu3hSofxuL9++o
- DVxmsHWThe9fA6Y3rQTzepjOwb2HoMXdimzpgiLR9VZrcWLjllVbNL0RsnQlXcEiQAF/
- vLcg==
+ bh=7IC+DTzBx0Yh5RP/xh0gD6mgUcbBwa/Ap670J7IrdFk=;
+ b=C1LC1+yt5BmDvVjWbUSEFUONlSQsg/cmELJVooFUXgSZNcw+r1sblrcwedoxVUVqzP
+ E+QB08JPXFLFWgn33wVq8DnFj5UvAtVo7hTsw0XjeWIRfdRbW+r98MRTzfskEirTD+EN
+ JaBLJDsBIeHijO0chNfokM/FG880TifMBab+lyPsqaBDplV5oDPZbovQhu8p8u0RGpoi
+ FS8/cc7XE07Gnu+QF8fdjDmCtFGI9oAqH4mI1A7guViLWSw0xyFeJ/qQ9swDw2Dut1gB
+ 57Uu0SyFU4UiScXZk871WlTiPUM63zgVuj5YNg9NgQdpVSzz+l/RIggMwqVIiamo4oTn
+ i26w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fJSoA46EGJPMh4KCGh0AvMNTym/VRIZfvgO78Nh3WHY=;
- b=t/JSg2MCb7OLrlYRjFmwiWocjs6kRf1o7bVcY8/N/WekG5wCNTBLMQYaewzJQR2Fwh
- bYSUg6Di/syFXwBcC3caZmBe3D6JUflqToYugCYrMd7in/U3GC+K+QmYWjV75N6AYRDJ
- 2+OYbvPOSy+LsD3UbNFB1YpbM3/hw0FjmBTjREW3VCYd4iIfc2CKYC5E7o84B5cU9Lpa
- ty6Z1pnE0ohJ1I4VpOKDnyIMKoGFk3pnxLKX+MNT/Y6niFtVRl8sQpYuX3dZmsFmkcoK
- q9kyLiCJCW/uzH4+oA/m5D06COYM+G5ea7joxyS20dUud0OXR4rAntTf6msYHEAiZ5EK
- dx3w==
-X-Gm-Message-State: AOAM533nFaWGUr2WWkbPAJHvnNHlE8mNffqz/Cdxr+l2IrFzX+bo9zMc
- n7ZnxxpWyWXjPH9JWJJGoNo=
-X-Google-Smtp-Source: ABdhPJy7Va7MAOwfFxr4qQ1sx90Yqi7htESGJULb092qSsZzQo6foZOwzrp2UiAU39FKgAsVYAr2fQ==
-X-Received: by 2002:a17:90b:1d06:: with SMTP id
- on6mr21356378pjb.149.1624801644619; 
- Sun, 27 Jun 2021 06:47:24 -0700 (PDT)
+ bh=7IC+DTzBx0Yh5RP/xh0gD6mgUcbBwa/Ap670J7IrdFk=;
+ b=fyrlKIqLaGKu/i+q3L70gvWGEyBzrB++PcDZQSZn743VcL8GZ0HYnBrtIiNNPX6RC8
+ +J0dHSjqvylpbsaCnNYfkveYmNWm46mJAafBmdZwOEVgSfI6zykBtPvIXC8uPYVGS3yR
+ ubMd8BifEIQnD0tkrZiDsybNY4TQ9+roFS+ct0vc+CK9QvILXr8n53ule1evbl9UcpFS
+ q/fI7uJsxtNT5E09oarcrTfAlN01uQw0wOpTeI1KgCyPhLOSICnA0fEIK9kIF17jQyzx
+ A41ia2nVFn0Kdf2DmRJ6zql7O6cCq22OfU3dJVypUxvmC09DbsWbqVqjWxAOyVR/0nme
+ OInA==
+X-Gm-Message-State: AOAM532/LcjeLO+2WU/FZSSqYeizfygaq2SFOpY9tksRsoGNo4KeauCj
+ pmO6TO01AbbN9GoiwKER3mw=
+X-Google-Smtp-Source: ABdhPJxTiOswHpwnAg5OcepBNu6oBL+sjCDLZSiGCQk4K/HXf6HmwBLFbpP2kQEPUI07EWDHFby8zQ==
+X-Received: by 2002:aa7:86cd:0:b029:30c:2b9b:2a77 with SMTP id
+ h13-20020aa786cd0000b029030c2b9b2a77mr1420927pfo.47.1624802694527; 
+ Sun, 27 Jun 2021 07:04:54 -0700 (PDT)
 Received: from [192.168.1.30] (ip174-67-196-173.oc.oc.cox.net.
  [174.67.196.173])
- by smtp.gmail.com with ESMTPSA id s20sm7628116pji.19.2021.06.27.06.47.23
+ by smtp.gmail.com with ESMTPSA id j13sm11252849pfh.145.2021.06.27.07.04.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Jun 2021 06:47:24 -0700 (PDT)
-Subject: Re: [PATCH 1/2] nvme-fc: Update hardware queues before using them
+ Sun, 27 Jun 2021 07:04:54 -0700 (PDT)
+Subject: Re: [PATCH 2/2] nvme-fc: Wait with a timeout for queue to freeze
 To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
  Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
  Ming Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>
 References: <20210625101649.49296-1-dwagner@suse.de>
- <20210625101649.49296-2-dwagner@suse.de>
+ <20210625101649.49296-3-dwagner@suse.de>
 From: James Smart <jsmart2021@gmail.com>
-Message-ID: <f5c53785-077e-0e2a-ae3d-178b3e73b80b@gmail.com>
-Date: Sun, 27 Jun 2021 06:47:23 -0700
+Message-ID: <9362fb6c-8a98-3189-453a-69d4c0b622e3@gmail.com>
+Date: Sun, 27 Jun 2021 07:04:53 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210625101649.49296-2-dwagner@suse.de>
+In-Reply-To: <20210625101649.49296-3-dwagner@suse.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210627_064730_099260_3221159E 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20210627_070456_453589_C22F3957 
+X-CRM114-Status: GOOD (  20.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,27 +107,38 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/25/2021 3:16 AM, Daniel Wagner wrote:
-> In case the number of hardware queues changes, do the update the
-> tagset and ctx to hctx first before using the mapping to recreate and
-> connnect the IO queues.
+> Do not wait indifinitly for all queues to freeze. Instead use a
+> timeout and abort the operation if we get stuck.
 > 
 > Signed-off-by: Daniel Wagner <dwagner@suse.de>
 > ---
->   drivers/nvme/host/fc.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   drivers/nvme/host/fc.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 8a3c4814d21b..a9645cd89eca 100644
+> index a9645cd89eca..d8db85aa5417 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2955,7 +2955,14 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+>   		dev_info(ctrl->ctrl.device,
+>   			"reconnect: revising io queue count from %d to %d\n",
+>   			prior_ioq_cnt, nr_io_queues);
+> -		nvme_wait_freeze(&ctrl->ctrl);
+> +		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
+> +			/*
+> +			 * If we timed out waiting for freeze we are likely to
+> +			 * be stuck.  Fail the controller initialization just
+> +			 * to be safe.
+> +			 */
+> +			return -ENODEV;
+> +		}
+>   		blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
+>   		nvme_unfreeze(&ctrl->ctrl);
+>   	}
+> 
 
-Makes sense.  Thanks.   Although it does bring up that perhaps, if the 
-hw queue count changes, thus it no longer matches what was set on the 
-target, the new value should be set on the target to release resources 
-on the target.
-
-Note: the same behavior exists in the other transports as we all started 
-from the same lineage. So those should be updated as well.  Granted 
-you'll need to break out the queue count set and checking which was done 
-on fc but not on the other transports.
+Looks fine. This is one of those that changed in the other transports 
+but fc wasn't part of the patch set.
 
 Reviewed-by: James Smart <jsmart2021@gmail.com>
 
