@@ -2,78 +2,89 @@ Return-Path: <SRS0=8S6Q=LW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CDDC48BC2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 01:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB2AC2B9F4
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 05:09:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7DDA8619C6
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 01:11:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7DDA8619C6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id DDE1C61C17
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 05:09:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDE1C61C17
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b5219vxYcJ0R2pYAWItufoP0AsguHRtUiBU59A4e+EY=; b=QkJsaEYiYEsUugLf+iQlo+OIKu
-	GPfFaqYfLq41Pz9Vb5Q4ZsnH71zLJhtsHeI/77wUBnNCtspDwom1t5zJOMMoh1ajsgy0GB/XgiIU7
-	zfSKbSEiXVyqejjmBwT1j3rZ86aIZu06xpSpJoQs9m0Z9LcJ99blgZQj80fuJO3nBTSQIt91q4X1N
-	jaFK4Zkf7fSDtY3nEedqKOyeAV8Hv4j6VmzinxB6oKFSefywawIQQYT7vscn5jay0scUWhj1e3gBw
-	HScv+M6ggNwbgDI3lQ/f7a/EeQsDLR5tupF8XhaJ4xpjQe4RfRfUGKPNSCYfsnz6MPd0LIR3yjTz5
-	imZI+VbA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=qC7SiE7j6JmsD5Nd9qSF7c2TuDBzYiWPHsANlNgfAKU=; b=JEiciHdSlcyO8m
+	pDZlLRKr6/gaAyzenJlaEGImape/ZnCv+DYd3XKOsxA8VgGT3eAyI5Mg5fAPAXh1s5PJpKfxSeITw
+	8v/iyni8mxU/AMrT/rBGPGiDdoFCBO03PN+HIIMZ2dWq+ZR6ln1cXIt9QlRcV/Hqvfiqq14Qq0cTv
+	VWSrSsA7Fita8NJzGZw9L22b2FkWzGrN14wmkk8zsYxQuyKn+NlbakIbHieXwozgBgAPXRv/6fOAn
+	4nwWMeZOMvDYe+pb3By7FToWNWOerWkwfFTS+UCTcFjwCT+yd1/Sr7qr8we08QomgGCDlTbh7n6fy
+	GI2beO3zO9og7hDefQfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lxfnZ-006Ng9-VC; Mon, 28 Jun 2021 01:10:53 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1lxjVa-006lDq-FX; Mon, 28 Jun 2021 05:08:34 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lxfnV-006Nfi-0K
- for linux-nvme@lists.infradead.org; Mon, 28 Jun 2021 01:10:51 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GCqCh3cD0zXlv9;
- Mon, 28 Jun 2021 09:05:20 +0800 (CST)
-Received: from dggema772-chm.china.huawei.com (10.1.198.214) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 28 Jun 2021 09:10:36 +0800
-Received: from [10.169.59.115] (10.169.59.115) by
- dggema772-chm.china.huawei.com (10.1.198.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 28 Jun 2021 09:10:36 +0800
-Subject: Re: [PATCH 0/2] nvme-fabrics: short-circuit connect retries
-To: James Smart <jsmart2021@gmail.com>, Hannes Reinecke <hare@suse.de>, "Sagi
- Grimberg" <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-CC: Keith Busch <keith.busch@wdc.com>, <linux-nvme@lists.infradead.org>
-References: <20210623143250.82445-1-hare@suse.de>
- <8d7c79d9-0928-8c71-74fd-7185d67e7895@grimberg.me>
- <204a6656-ef83-b688-4979-26fe17f57974@suse.de>
- <cdf40226-12ed-5f87-8549-10b4defceae5@huawei.com>
- <91ff9961-6537-05d1-c552-18a02d13bf0c@suse.de>
- <984b2d1a-f319-1a09-7347-6c4edd1dbab6@huawei.com>
- <d20b23fc-dd08-cb51-eb29-aa033810b0a4@suse.de>
- <caa3759f-9a72-5e3b-9097-700132e4ab63@gmail.com>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <28ec79af-beb0-8ef9-ab6a-d608a632ee2c@huawei.com>
-Date: Mon, 28 Jun 2021 09:10:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ id 1lxjVW-006lCj-3h
+ for linux-nvme@lists.infradead.org; Mon, 28 Jun 2021 05:08:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1624856934; x=1656392934;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8CR10AvaByuT1W3rPk8PYh+vIq6XlNoHjVkoRmM7k4M=;
+ b=l5fNtyem+N55yHwaut/BjUfAV09MVCeYvFu826vzFC49o11Q+KVFG5u+
+ Xh61YbKUzyl9YWw7m4ZpTkhllamyKUaL6gyDRlVdVwcJCq9Ovmg6/TkDa
+ HtSoErIDUavgJqPWQstbJ/UoZfMDxs73p620VDgOTZ4C/+U9QHe9dz2uo
+ lJNlIrb901kQEMZKtASNIjgcN+mrpxmmcrrH7Q75HT4RTNrftCsjNNAJA
+ bmJYYuH/o5URt+9l7FBPlcTpva+D/iN3iNs0TEUrqp2LHXOE198Vy/cdF
+ qZ6MJbbFrm4WVtYprV0aeWKryFlgxKinYaZkrPSlNIkk+IpjGtox9+8Ad w==;
+IronPort-SDR: SWFg5fmH0WafJLwp2PQMIF4aiPAYFHPvzbqxpEZ+ZQVsjKG4FJAvQJHPWYjaDvbvHpMwKM5qYN
+ DUc60UccwDDBcB/peruZlhNJjSC9axJO31ti/nZZuraNSbb+062c9as7b3Bni3zQmA2Hk38FVE
+ LTaVZiZ+XIE/FVswjngdSUwiD4cgOBz1b8gxiGAA8JF8pyz+FgU2bshDt7YeiuXGTO0judOFjZ
+ nEVp7x5SR2SiDYd1znoMYQnHr0NgULITbbS5vM8f93rrcbESau13wP5r5uSKLRvOQYkZUv0P4Z
+ cuQ=
+X-IronPort-AV: E=Sophos;i="5.83,305,1616428800"; d="scan'208";a="276851351"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Jun 2021 13:08:42 +0800
+IronPort-SDR: ME8H+kXcHLo00qOo0DnK6qWJFyuCGBHrnJRyyIYQJ9nFBgILTxC9SZnFnPNrvIKDd62DNB3EGo
+ kHtkCVeS88pUMf2YgYkuOvQXcnYGO98P8KnYSqtHDnUTh2C2WKgnLS7uz+t5TvMgV0Px7tmRmc
+ Z4Qp079B9Kjiv9iUvQD43petC2qBsCMxMeP8c8nbX9hgKhQ9PXaXuJWyWVPCakt65smoZ/VrQ5
+ W7BoOYWZF4i2Y37r/E1szMJPoX49IDDogyJR3Hggf21Thj9POnLMA9ctFwPdW20eOV+VI9yMI5
+ YqUWFc7rcj/eNRwdO9gpvD05
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2021 21:45:32 -0700
+IronPort-SDR: dyK2oCck9DZn0XY+ZhKK+zbTu4YNChKPSSfLWHbXEyIIx1vcrhO6N8UKXxQGci1oyFM2/n+Sx0
+ 8Xx9/thhxw5wVTyJCPX31W/iAhGMqYE4H0rwUJ8ew/jWrZWsPUAfawUnR7UbAyZsvXwBnTYnoI
+ We0YEIfs8hV1KJFI5A5nkX5r1UsvcUtte1FaKZw4DRqaaLiPySVsfPx+Y6t2fsHPtVT/CU+AjM
+ 28K7Syd/wUk6RIclI5JrXMz71Fm0tdGIipUvylxcHfeX+/XDrx3ncggdVSzBJ2dLhZod6TNjWV
+ v8Q=
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+ by uls-op-cesaip02.wdc.com with ESMTP; 27 Jun 2021 22:08:22 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 00/14] nvmet: remove repeated calls to nvmet_req_complete()
+Date: Sun, 27 Jun 2021 22:08:03 -0700
+Message-Id: <20210628050817.19788-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1.dirty
 MIME-Version: 1.0
-In-Reply-To: <caa3759f-9a72-5e3b-9097-700132e4ab63@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.169.59.115]
-X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
- dggema772-chm.china.huawei.com (10.1.198.214)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210627_181049_445905_F3E67E95 
-X-CRM114-Status: GOOD (  18.96  )
+X-CRM114-CacheID: sfid-20210627_220830_300603_6234EE9F 
+X-CRM114-Status: GOOD (  11.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,63 +96,173 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CgpPbiAyMDIxLzYvMjcgMjE6MzksIEphbWVzIFNtYXJ0IHdyb3RlOgo+IE9uIDYvMjYvMjAyMSA1
-OjA5IEFNLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+IE9uIDYvMjYvMjEgMzowMyBBTSwgQ2hh
-byBMZW5nIHdyb3RlOgo+Pj4KPj4+Cj4+PiBPbiAyMDIxLzYvMjQgMTY6MTAsIEhhbm5lcyBSZWlu
-ZWNrZSB3cm90ZToKPj4+PiBPbiA2LzI0LzIxIDk6MjkgQU0sIENoYW8gTGVuZyB3cm90ZToKPj4+
-Pj4KPj4+Pj4KPj4+Pj4gT24gMjAyMS82LzI0IDEzOjUxLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6
-Cj4+Pj4+PiBPbiA2LzIzLzIxIDExOjM4IFBNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Pj4+Pj4+
-Cj4+Pj4+Pj4+IEhpIGFsbCwKPj4+Pj4+Pj4KPj4+Pj4+Pj4gY29tbWl0IGYyNWY4ZWY3MGNlMiAo
-Im52bWUtZmM6IHNob3J0LWNpcmN1aXQgcmVjb25uZWN0IHJldHJpZXMiKQo+Pj4+Pj4+PiBhbGxv
-d2VkIHRoZSBmYyB0cmFuc3BvcnQgdG8gaG9ub3VyIHRoZSBETlIgYml0IGR1cmluZyByZWNvbm5l
-Y3QKPj4+Pj4+Pj4gcmV0cmllcywgYWxsb3dpbmcgdG8gc3BlZWQgdXAgZXJyb3IgcmVjb3Zlcnku
-Cj4+Pj4+Pj4KPj4+Pj4+PiBIb3cgZG9lcyB0aGlzIHNwZWVkIHVwIGVycm9yIHJlY292ZXJ5Pwo+
-Pj4+Pj4KPj4+Pj4+IFdlbGwsIG5vdCBleGFjdGx5IGVycm9yIHJlY292ZXJ5IChhcyB0aGVyZSBp
-cyBub3RoaW5nIHRvIHJlY292ZXIpLgo+Pj4+Pj4gQnV0IHdlIHdvbid0IGF0dGVtcHQgcG9pbnRs
-ZXNzIHJldHJpZXMsIHRoZXJlYnkgcmVkdWNpbmcgdGhlIG5vaXNlIGluCj4+Pj4+PiB0aGUgbWVz
-c2FnZSBsb2cuCj4+Pj4+IFRoaXMgY29uZmxpY3Qgd2l0aCB0aGUgdGNwIGFuZCByZG1hIHRhcmdl
-dC4KPj4+Pj4gWW91IG1heSBuZWVkIHRvIGRlbGV0ZSB0aGUgaW1wcm9wZXIgTlZNRV9TQ19ETlIg
-YXQgdGhlIHRhcmdldC4KPj4+Pj4gSG93ZXZlciwgdGhpcyB3aWxsIGNhdXNlIGNvbXBhdGliaWxp
-dHkgaXNzdWVzIGJldHdlZW4gZGlmZmVyZW50IHZlcnNpb25zLgo+Pj4+Cj4+Pj4gV2hpY2ggb25l
-cz8KPj4+IEluIG1hbnkgc2NlbmFyaW9zLCB0aGUgZGVzdGluYXRpb24gc2V0cyBETlIgZm9yIGFi
-bm9ybWFsIHBhY2tldHMsCj4+PiBidXQgZWFjaCBuZXcgY29ubmVjdGlvbiBtYXkgbm90IGhhdmUg
-dGhlIHNhbWUgZXJyb3IuCj4+Cj4+IFRoaXMgcGF0Y2ggc2VyaWVzIGlzIG9ubHkgZm9yIHRoZSBE
-TlIgYml0IHNldCBpbiByZXNwb25zZSB0byB0aGUgJ2Nvbm5lY3QnIGNvbW1hbmQuCj4+IElmIHRo
-ZSB0YXJnZXQgaXMgbm90IGFibGUgdG8gcHJvY2VzcyB0aGUgJ2Nvbm5lY3QnIGNvbW1hbmQsIGJ1
-dCBtYXkgYmUgc28gaW4gdGhlIGZ1dHVyZSBpdCByZWFsbHkgc2hvdWxkIG5vdCBzZXQgdGhlIERO
-UiBiaXQuCj4+Cj4+Pj4gSSBjaGVja2VkIHRoZSBETlIgdXNhZ2UgaW4gdGhlIHRhcmdldCBjb2Rl
-LCBhbmQgdGhleSBzZWVtIHRvIHNldCBpdAo+Pj4+IGNvcnJlY3RseSAoaWUgdGhlIHJlc3VsdCB3
-b3VsZCBub3QgY2hhbmdlIHdoZW4gdGhlIGNvbW1hbmQgaXMgcmV0cmllZCkuCj4+Pj4gV2l0aCB0
-aGUgcG9zc2libGUgZXhjZXB0aW9uIG9mIEVOT1NQQyBoYW5kbGluZywgYXMgdGhpcyBpcyBhcmd1
-YWJseQo+Pj4+IGR5bmFtaWMgYW5kIG1pZ2h0IGNoYW5nZSB3aXRoIGEgcmV0cnkuCj4+PiBUaGUg
-RE5SIHN0YXR1cyBvZiB0aGUgb2xkIGNvbm5lY3Rpb24gbWF5IG5vdCBiZSByZWxldmFudCB0byB0
-aGUgcmUtZXN0YWJsaXNoZWQgY29ubmVjdGlvbi4KPj4KPj4gU2VlIGFib3ZlLgo+PiBXZSBhcmUg
-anVzdCBjaGVja2luZyB0aGUgRE5SIHNldHRpbmdzIGZvciB0aGUgJ2Nvbm5lY3QnIGNvbW1hbmQg
-KG9yIGFueSBvdGhlciBjb21tYW5kcyBiZWluZyBzZW50IGR1cmluZyBpbml0aWFsIGNvbnRyb2xs
-ZXIgY29uZmlndXJhdGlvbikuCj4+IElmIHRoYXQgZmFpbHMgdGhlIGNvbm5lY3QgbmV2ZXIgd2Fz
-IHByb3Blcmx5IGluaXRpYWxpemVkOyBpZiB0aGUgY29udHJvbGxlciB3b3VsZCByZXR1cm4gYSBk
-aWZmZXJlbnQgc3RhdHVzIGFmdGVyIHJlY29ubmVjdCBpdCBzaW1wbHkgc2hvdWxkIG5vdCBzZXQg
-dGhlIEROUiBiaXQgLi4uCj4+Cj4+IENoZWVycywKPj4KPj4gSGFubmVzCj4gCj4gQWdyZWVkLiBT
-aW5jZSAxLjMgc3BlYyBzYXlzOiAiSWYgc2V0IHRvIOKAmDHigJksIGluZGljYXRlcyB0aGF0IGlm
-IHRoZSBzYW1lIGNvbW1hbmQgaXMgcmUtc3VibWl0dGVkIHRvIGFueSBjb250cm9sbGVyIGluIHRo
-ZSBOVk0gc3Vic3lzdGVtLCB0aGVuIHRoYXQgcmUtc3VibWl0dGVkIGNvbW1hbmQgaXMgZXhwZWN0
-ZWQgdG8gZmFpbC4iCkFjY29yZGluZyB0byB0aGUgZGVmaW5pdGlvbiBvZiB0aGUgcHJvdG9jb2ws
-IHRoaXMgaXMgbm90IHN0cmljdGx5IGltcGxlbWVudGVkIG9uIHRoZSB0YXJnZXQgc2lkZS4KSW4g
-bnZtZS90YXJnZXQsIHRoZXJlIGFyZSBtYW55IGV4dGVybmFsIGVycm9ycywgdGhlIEROUiBpcyBz
-ZXQgdG8gMS4KRm9yIGV4YW1wbGUsIGFib3JtYWwgZmFicmljcyBjbWQuCj4gCj4gVGh1cyBpZiB0
-aGUgaW5pdGlhbCBjb25uZWN0IGZhaWxzIGluIHRoaXMgbWFubmVyLCBhbnkgbmV3IGFzc29jaWF0
-aW9uIHdpbGwgYmUgb24gYSBkaWZmZXJlbnQgY29udHJvbGxlciwgd2hlcmUgaXQgaXMgbm93IGV4
-cGVjdGVkIGNvbm5lY3Qgb24gdGhhdCBjb250cm9sbGVyIHdpbGwgZmFpbCB0b28uwqAgVGh1cyAt
-IHdoeSBjb250aW51ZSB0byBjb25uZWN0IHdoZW4gaXQncyBleHBlY3RlZCBlYWNoIHdpbGwgZmFp
-bC4KQWdyZWUuCldlIHNob3VsZCBub3QgYXR0ZW1wdCB0byByZS1lc3RhYmxpc2ggdGhlIGNvbm5l
-Y3Rpb24gaWYgdGFyZ2V0IGNhbiBub3Qgd29yayBkdWUgdG8gdGFyZ2V0IGlubmVyIGVycm9yIC4K
-SG93ZXZlciwgbm93ICB0YXJnZXQgZG9lcyBub3QgYmVoYXZlIGV4YWN0bHkgbGlrZSB0aGlzLCBz
-byB0aGVyZSBhcmUgY29uZmxpY3RzIGFuZCBjb21wYXRpYmlsaXR5IGlzc3Vlcy4KPiAKPiAtLSBq
-YW1lcwo+IC4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpo
-dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Hi,
+
+Since the addition of the NVMeOF target time, we've added various log
+page and identify command handlers where we complete the request in
+those handlers. This adds 10 repeated nvmet_req_complete() calls.
+
+This patch series removes 10 repeated calls to the nvmet_req_complete()
+in for various log page and identify command handlers by completing the
+request in the nvmet_execute_get_log_page() and nvmet_execute_identify().
+Also, with this change we prevent future repeatation of such calls.
+
+This also allows us to remove 8 goto labels.
+
+I've tested this code on nvme-5.14 [1], blktests and zonefs tests seems
+to pass.
+
+-ck
+
+Chaitanya Kulkarni (14):
+  nvmet: add common req complete for log page
+  nvmet: remove repeated call for error log page
+  nvmet: remove repeated call for smart log page
+  nvmet: remove repeated call for fw slot log page
+  nvmet: remove repeated call for changed-ns log page
+  nvmet: remove repeated call for effects log page
+  nvmet: remove repeated call for ana log page
+  nvmet: add default case for nvmet_execute_identify
+  nvmet: remove repeated call for id-ctrl
+  nvmet: remove repeated call for id-ns
+  nvmet: remove repeated call for nslist
+  nvmet: remove repeated call for desclist
+  nvmet: remove repeated call for id-cns-ns
+  nvmet: remove repeated call for id-cns-ctrl
+
+ drivers/nvme/target/admin-cmd.c | 180 +++++++++++++++++---------------
+ drivers/nvme/target/nvmet.h     |  12 +--
+ drivers/nvme/target/zns.c       |  27 ++---
+ 3 files changed, 108 insertions(+), 111 deletions(-)
+
+# ./check nvme 
+nvme/002 (create many subsystems and test discovery)         [passed]
+    runtime  38.825s  ...  40.506s
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.176s  ...  10.184s
+nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+    runtime  1.781s  ...  1.776s
+nvme/005 (reset local loopback target)                       [passed]
+    runtime  2.334s  ...  2.243s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.155s  ...  0.149s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.102s  ...  0.104s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.779s  ...  1.785s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.747s  ...  1.755s
+nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  34.091s  ...  26.953s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  288.054s  ...  320.502s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  8.515s  ...  9.634s
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  27.329s  ...  24.710s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  20.028s  ...  21.024s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  20.615s  ...  21.140s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
+    runtime  20.653s  ...  21.571s
+nvme/017 (create/delete many file-ns and test discovery)     [passed]
+    runtime  20.402s  ...  22.023s
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+    runtime  1.747s  ...  1.767s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.771s  ...  1.805s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.735s  ...  1.739s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.764s  ...  1.752s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  2.163s  ...  2.182s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.780s  ...  1.815s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.739s  ...  1.750s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.726s  ...  1.756s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.740s  ...  1.750s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.735s  ...  1.757s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.738s  ...  1.751s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+    runtime  2.213s  ...  2.253s
+nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
+    runtime  0.404s  ...  0.426s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
+    runtime  6.396s  ...  6.226s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+    runtime  0.061s  ...  0.058s
+
+# ./zonefs-tests.sh /dev/nvme1n1 
+Gathering information on /dev/nvme1n1...
+zonefs-tests on /dev/nvme1n1:
+  32 zones (0 conventional zones, 32 sequential zones)
+  131072 512B sectors zone size (64 MiB)
+  0 max open zones
+Running tests
+  Test 0010:  mkzonefs (options)                                   ... PASS
+  Test 0011:  mkzonefs (force format)                              ... PASS
+  Test 0012:  mkzonefs (invalid device)                            ... PASS
+  Test 0013:  mkzonefs (super block zone state)                    ... PASS
+  Test 0020:  mount (default)                                      ... PASS
+  Test 0021:  mount (invalid device)                               ... PASS
+  Test 0022:  mount (check mount directory sub-directories)        ... PASS
+  Test 0023:  mount (options)                                      ... PASS
+  Test 0030:  Number of files (default)                            ... PASS
+  Test 0031:  Number of files (aggr_cnv)                           ... skip
+  Test 0032:  Number of files using stat (default)                 ... PASS
+  Test 0033:  Number of files using stat (aggr_cnv)                ... PASS
+  Test 0034:  Number of blocks using stat (default)                ... PASS
+  Test 0035:  Number of blocks using stat (aggr_cnv)               ... PASS
+  Test 0040:  Files permissions (default)                          ... PASS
+  Test 0041:  Files permissions (aggr_cnv)                         ... skip
+  Test 0042:  Files permissions (set value)                        ... PASS
+  Test 0043:  Files permissions (set value + aggr_cnv)             ... skip
+  Test 0050:  Files owner (default)                                ... PASS
+  Test 0051:  Files owner (aggr_cnv)                               ... skip
+  Test 0052:  Files owner (set value)                              ... PASS
+  Test 0053:  Files owner (set value + aggr_cnv)                   ... skip
+  Test 0060:  Files size (default)                                 ... PASS
+  Test 0061:  Files size (aggr_cnv)                                ... skip
+  Test 0070:  Conventional file truncate                           ... skip
+  Test 0071:  Conventional file truncate (aggr_cnv)                ... skip
+  Test 0072:  Conventional file unlink                             ... skip
+  Test 0073:  Conventional file unlink (aggr_cnv)                  ... skip
+  Test 0074:  Conventional file random write                       ... skip
+  Test 0075:  Conventional file random write (direct)              ... skip
+  Test 0076:  Conventional file random write (aggr_cnv)            ... skip
+  Test 0077:  Conventional file random write (aggr_cnv, direct)    ... skip
+  Test 0078:  Conventional file mmap read/write                    ... skip
+  Test 0079:  Conventional file mmap read/write (aggr_cnv)         ... skip
+  Test 0080:  Sequential file truncate                             ... PASS
+  Test 0081:  Sequential file unlink                               ... PASS
+  Test 0082:  Sequential file buffered write IO                    ... PASS
+  Test 0083:  Sequential file overwrite                            ... PASS
+  Test 0084:  Sequential file unaligned write (sync IO)            ... PASS
+  Test 0085:  Sequential file unaligned write (async IO)           ... PASS
+  Test 0086:  Sequential file append (sync)                        ... PASS
+  Test 0087:  Sequential file append (async)                       ... PASS
+  Test 0088:  Sequential file random read                          ... PASS
+  Test 0089:  Sequential file mmap read/write                      ... PASS
+  Test 0090:  sequential file 4K synchronous write                 ... PASS
+  Test 0091:  Sequential file large synchronous write              ... PASS
+
+-- 
+2.22.1
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
