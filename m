@@ -2,91 +2,86 @@ Return-Path: <SRS0=8S6Q=LW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 049DFC2B9F4
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 05:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2160AC2B9F4
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 07:11:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B825A61954
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 05:17:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B825A61954
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	by mail.kernel.org (Postfix) with ESMTPS id DA2A6613EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jun 2021 07:11:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA2A6613EF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZT4gc7rMqIsjWm7jZOBFv3e1IDG8sBXPEntKRnIFs5c=; b=3clNQsKMpy3aSx
-	jTpaJdnJvQ+QB7VwB0HjuV1bDs2GpcTlUufNQdcf1QAc0T6DZHElQwYkMD3lzZ8GCao32ANBhhy5r
-	Y+yS18iUubutVGUyYaqE8LnYFsxk9UbyU0lYYfXZLW9g3v37rbn8ak/1Ye4Pl1cbnfWJjuGyeoipf
-	zy1AEqcPkJBIXS6b4smOu0RxoSseL7Hj+x0Xy3vWdiSB+pNbYG9zAfMj6w3jNrShjQJHMukedTsc3
-	gVA2KClR/vgSnbCWkHWy3DSRUZsK2cOjDB/P7Qcc8lPXUwbU7e5IDMGIdV5z48OrmyOQ6gkUu8AtA
-	j2eQi7UI9IoPsC0MV0pg==;
+	List-Owner; bh=3cPwgsKf62DBN52l0ELpaG1Lqc3dz9Q/8TwoplkgZg4=; b=PzUo37HCt+3+GS
+	H/uql7Dhtt+oGw/SLHDCBz5eUBTzenUx0YQhuxQ5qY5TdiJSTD59/amA3J+huB+aM6CNRwKTfUzwy
+	vXlNeTz9C3i70tBQ2Hyeiahw/2gi3OyYL+GU5sAx4SUJZTZFPs7qNwqAmWprEJ1nThDOq28IPIOej
+	kHzpGlomwNRqaRaUjbdXrsen3LFNiz/hfNcZkVLuzWJQR5t+DEQGRqapsp9D6gg0EaCMwQThcdQdd
+	dVYd2ID7hI21tsU2rZnAcS07y+VVqml8kRzOQ9ebD3HpHVrEK19FWCO6x7g7iiqTGKYg76knLqg5u
+	7mrw4DQRL9qFJLjH3C1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lxje3-006n6I-IE; Mon, 28 Jun 2021 05:17:19 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1lxlQ8-007BQN-4f; Mon, 28 Jun 2021 07:11:04 +0000
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lxjXg-006lkq-TE
- for linux-nvme@lists.infradead.org; Mon, 28 Jun 2021 05:10:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1624857044; x=1656393044;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=RFvlh3Opww22uItoLxmMR7Kc7fMIXDvzKSUWT6kxgjc=;
- b=ENKWrhawdNdwTzWcDsgsImwPwXCcXWPLLeIc9iP5EQGjoHGnO/6pAVpK
- QAOMfNWC4AJOVfL6wPCwYRdmq8Tq1xC0duh+GCKIgdPjcW3+ahJL/L387
- 7irSUnAWzwzALs0Zo8iGimfU56hQymkNs93/tdJERfFBduWYOpLMlTmv2
- dLXs0VTItXj24JS+835rBkzZ9PBnjg5oixO+uChJGcorKR20c5sicNjwg
- AsKYBMfI8nrIagnUjxS1a0c8qO2UgcBAL7l/LeZjRZyYktja6Q9Vqrecm
- kJ4gQH03SQ8odI2m/jfxDsNUy0jxSTslRMvTdot9bStEa/GJHc2mFbDnp g==;
-IronPort-SDR: uxHWfE/voTLO0gIbcV83c/BF/m4HsyQHixbLH8czTvx7lVfzFIF38f8QugyPisIgbPmbOYgYpN
- kMqUZl3HGy2nxiamqluO7jtvqeOGNXcsvDrW3imAPuAQwptnq8i3K99jmZXbcPuezbhWJm3UOP
- aU7wO7HONc/lR6vbBr5ZBeyBPpzZAzILGJBUddNbVGaXkoPPtE4ZUFfLoe1LicC2Qq1CPU2bOO
- mUbPL99C8NJY+ssYz8tzBfH+6ZTrZoT9WGWuZSz9LjuDrptvsGVjXAtGF8LUfGAWwZAi0z0K9s
- Fbk=
-X-IronPort-AV: E=Sophos;i="5.83,305,1616428800"; d="scan'208";a="284548788"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 28 Jun 2021 13:10:44 +0800
-IronPort-SDR: aRjZuy+1d/8oeqgJSMKw+p6zXOI/XdMvX4Bdl8hNRExjCYZ6rxnKpHtf11xClT28unafx2KT95
- +d+HXHBB74H7ex2yKCXKxf2qXbcRfrQTgauogKkcm7wvcLRb96Lb6k221FfZ9wZl1QNy5zbCv3
- HtTpW28nfUfD/yXNj5SjhIrll7xEcCXY/UIPVFFcNUcP4rJ1Zz6WGnwNP0gmCQGZF6DvrSP2C9
- fjP1Rcnx2MnU04XHgg0m8d74Q49aDPZt+2eqEH3IMj8m2wOKjwmVhmYPoMGl1JWflGGOh4LFJx
- dAxMAoicf3WaLqcziqFU6yDz
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2021 21:49:13 -0700
-IronPort-SDR: Iqrqf6MfopI1gF59F/uIsP40WE2wza4bKKeDcfULWT/xYCDUT42c+CrSgEzh0kGDAnaT8uZ2Ob
- xMU3BKvvch9eKNJMjrvrZS9qtvaT/Npa2jOQEbuyXiG65UHT4ZPN1GMXjVpX16cQHTbfR1bfuS
- bFreMNcS/WGg4qAfq2HV7LtvzA+ZcjIoxFzt3aIQJfRP+NTN9ViialmMOV8b73uK8Cib3Z2C0a
- k85eGxce4CnuC/bb62G6Uf+oOdoONznbMCoo4dDhS2V5fzydl4f5SY/i4Z7f+TgR8su5s2kVC/
- Oow=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
- by uls-op-cesaip02.wdc.com with ESMTP; 27 Jun 2021 22:10:45 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, sagi@grimberg.me,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH 14/14] nvmet: remove repeated call for id-cns-ctrl
-Date: Sun, 27 Jun 2021 22:08:17 -0700
-Message-Id: <20210628050817.19788-15-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1.dirty
-In-Reply-To: <20210628050817.19788-1-chaitanya.kulkarni@wdc.com>
-References: <20210628050817.19788-1-chaitanya.kulkarni@wdc.com>
+ id 1lxlPt-007BIN-Gu
+ for linux-nvme@lists.infradead.org; Mon, 28 Jun 2021 07:10:51 +0000
+Received: by mail-io1-xd32.google.com with SMTP id k11so21064297ioa.5
+ for <linux-nvme@lists.infradead.org>; Mon, 28 Jun 2021 00:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UVSMZPE6HVZeVjJspQpjfRUrVPhGhRcHcElfYQejdlc=;
+ b=uZyT4oKhz1V0FtVulTixeRkUsGkSp5FlzSItc0hAlYCvwzQoHxpx+SI9dmAYXhQjfu
+ SfSQek/YHDP3RUUCvPzh8LSwY9t+QFhd1bZEQT6ULcRqHgeSk1TdGmqz35ceRWFXB1yt
+ 9Rqgx5VbIioICJlu3t1zMmlSNeiD7FfMZUV+XIAO6TxaJwZscROl3nkgZUj+UA0H+K99
+ Nrp+bWtnFRKH1ykN1AlQLoxAdr5p25J+Wj8/2Ep6kdi+drYPMKugLSiuyAivnloT8wSw
+ RxX+im+I6+yA6U8tHWun4AuuQd7DV7I6DAb7IPkT7RZuhLw/cI/lA4FGS6W4Wv3OzlI5
+ cd0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UVSMZPE6HVZeVjJspQpjfRUrVPhGhRcHcElfYQejdlc=;
+ b=TMdJl//0sFKTKfN47iIlmM7KZ9i8Z4mGFJ0facXAXZ/9vaaEOIsNJbIJWKFUH3brJS
+ PpwectQCf0v+Vvds+zA5+r7QIUAmWlD75tuXR5oKIvBX/hhuzSnaQfwVWPXI4Ks2X1/m
+ iQjH26aypwwWq5FWplODUK7gYwdHVmQ0KlW/tovvnBwAZ8UM3Hmf2q8RoZcFgUiKNyCa
+ 99BaBD06oewMANqpj162AqylYlblmRFjL7SEhAbjSSM80eWfr0M/+2qnpu3Vi6x2Rqxd
+ 07LeS26MIzpobdl8J8+rCESePiBH4PlpoLVlzsknX0AMiZZg97Z+dc/nW3NSHHfVMs4d
+ Nh3g==
+X-Gm-Message-State: AOAM5337UHwZP3kVYu3k9jsZFCV3hWGRml6s+n0HD+6CAc0CZ6rprvET
+ /KubxffrgZpLKDNafK2DOrIM+mtKV3/IIQHn0tsL1M1T4wg=
+X-Google-Smtp-Source: ABdhPJyPIDtxaAX0g51d/feiimSqPsdIeS52dcSIAtmgYUbMxgG+Fp/etKDFZfwqo6mEgQrEtCbpYBK5QBGX2xES3uc=
+X-Received: by 2002:a5d:8916:: with SMTP id b22mr3874027ion.108.1624864248127; 
+ Mon, 28 Jun 2021 00:10:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210624172410.14225-1-smalin@marvell.com>
+ <20210624172410.14225-9-smalin@marvell.com>
+In-Reply-To: <20210624172410.14225-9-smalin@marvell.com>
+From: Or Gerlitz <gerlitz.or@gmail.com>
+Date: Mon, 28 Jun 2021 10:10:36 +0300
+Message-ID: <CAJ3xEMhtrEEMLbkWuna_fvH_oinaCZmj3xr4y7gzdRawA1gmNA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/20] nvme-tcp-offload: Add IO level implementation
+To: Shai Malin <smalin@marvell.com>
+Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+ Christoph Hellwig <hch@lst.de>, axboe@fb.com, Keith Busch <kbusch@kernel.org>, 
+ David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ aelior@marvell.com, 
+ mkalderon@marvell.com, okulkarni@marvell.com, pkushwaha@marvell.com, 
+ prabhakar.pkin@gmail.com, malin1024@gmail.com, 
+ Dean Balandin <dbalandin@marvell.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210627_221045_037548_97F33217 
-X-CRM114-Status: GOOD (  13.42  )
+X-CRM114-CacheID: sfid-20210628_001049_623633_498598C7 
+X-CRM114-Status: GOOD (  11.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,88 +98,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Return status from nvmet_execute_identify_cns_cs_ctrl() and complete
-the request in nvmet_execute_identify(). This reduces number of
-repeated nvmet_req_complete() calls for identify handlers.
+On Thu, Jun 24, 2021 at 8:41 PM Shai Malin <smalin@marvell.com> wrote:
+>
+> From: Dean Balandin <dbalandin@marvell.com>
+> In this patch, we present the IO level functionality.
+[..]
 
-Also, now we can get rid of the goto and out label needed for request
-completion and directly return.
+> +static void nvme_tcp_ofld_set_sg_null(struct nvme_command *c)
+> +{
+> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
+> +       sg->addr = 0;
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/target/admin-cmd.c |  4 +++-
- drivers/nvme/target/nvmet.h     |  2 +-
- drivers/nvme/target/zns.c       | 12 +++++-------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ok
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index ef6982beb6b0..1a8ca93b6bb9 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -709,7 +709,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
- 		if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
- 			switch (req->cmd->identify.csi) {
- 			case NVME_CSI_ZNS:
--				return nvmet_execute_identify_cns_cs_ctrl(req);
-+				status =
-+				nvmet_execute_identify_cns_cs_ctrl(req);
-+				break;
- 			default:
- 				break;
- 			}
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index f1c9cd445c74..b2eeb296cc37 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -545,7 +545,7 @@ void nvmet_ns_revalidate(struct nvmet_ns *ns);
- u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts);
- 
- bool nvmet_bdev_zns_enable(struct nvmet_ns *ns);
--void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req);
-+u16 nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req);
- u16 nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req);
- void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req);
- void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req);
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 2e1f01ec0dd1..28a1de2e0fbf 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -71,7 +71,7 @@ bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
- 	return true;
- }
- 
--void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
-+u16 nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
- {
- 	u8 zasl = req->sq->ctrl->subsys->zasl;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-@@ -79,10 +79,8 @@ void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
- 	u16 status;
- 
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
--	if (!id) {
--		status = NVME_SC_INTERNAL;
--		goto out;
--	}
-+	if (!id)
-+		return NVME_SC_INTERNAL;
- 
- 	if (ctrl->ops->get_mdts)
- 		id->zasl = min_t(u8, ctrl->ops->get_mdts(ctrl), zasl);
-@@ -92,8 +90,8 @@ void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
- 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
- 
- 	kfree(id);
--out:
--	nvmet_req_complete(req, status);
-+
-+	return status;
- }
- 
- u16 nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
--- 
-2.22.1
+> +       sg->length = 0;
+> +       sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
+> +                       NVME_SGL_FMT_TRANSPORT_A;
 
+> +inline void nvme_tcp_ofld_set_sg_inline(struct nvme_tcp_ofld_queue *queue,
+> +                                       struct nvme_command *c, u32 data_len)
+> +{
+> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
+> +       sg->addr = cpu_to_le64(queue->ctrl->nctrl.icdoff);
+
+ok, what about dma mapping of the address?
+
+> +       sg->length = cpu_to_le32(data_len);
+> +       sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+
+> +static void nvme_tcp_ofld_map_data(struct nvme_command *c, u32 data_len)
+> +{
+> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
+> +
+> +       sg->addr = 0;
+
+???
+
+> +       sg->length = cpu_to_le32(data_len);
+> +       sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
+> +                       NVME_SGL_FMT_TRANSPORT_A;
 
 _______________________________________________
 Linux-nvme mailing list
