@@ -2,72 +2,76 @@ Return-Path: <SRS0=UYep=LX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A615C11F66
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Jun 2021 12:48:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83FA4C11F66
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Jun 2021 12:48:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5819A61D9E
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Jun 2021 12:48:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5819A61D9E
+	by mail.kernel.org (Postfix) with ESMTPS id 46CAA61D9F
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Jun 2021 12:48:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46CAA61D9F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ekOVI/eJUILA5MJFsZnvOg7ihI/UazMuAmSTabtfzPQ=; b=qXhsqyTKs4gGsJ
-	8nJeQF5xnkwLACs1qRh2784rRlhhPaol6HM2Jixmg14V+UxsJFmefDvK0b79aOfBKAJsIeLzNXJl7
-	hDkyiDJtOnHT0DWI9X5/5RN7/Og22q+1B0BNCxTsrC2sER7JDU75rf/DadJFeIc0ZUKRbx350Q3hk
-	YS00CJ7UzYbcd3rBDSgFr/yicg+DIdOx5xfHjKh9YeDMF7fsQfc94zfqToCWiW9rDkmxNQ/wQC+NV
-	29WWE4gXuMUqukaW7x16G4/a7Y4UAGF5o0uFkn93ZAaZmOP0oed8tEX3i/FM9Y/z6VNpVfPAI7qrD
-	xpIP5TOrra1QRB8cGFqA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=TNLKW35VV/1dyBfL7YPaLqNOyojMXL9p+BOT7UlqW/U=; b=vUE1tb9QH71d/x
+	S8HZViau7GGGTNvfzsqTBe6EZwukjnFkxt+aYLHwA+J1NAv6WLeV1Wq7QeizUbIpMelKSbuA1ASvZ
+	311Xn1rMpzelqQCh2/st/hLXxPw/eWohKBzEoUnVb5N+h3lX0L5UpzBU4T7WhuPU5/3za6ELI5x0i
+	sPjTBdFnoQbfnGgHYOdEYyMNaELGu5iR4Pfdtlrouxdvd/xw/pdS6rJOHmrP2pRT3OagpYbUCm1mW
+	5Zqp665Qe+EeipKG7zA0AEAb7mcTTsV/ylxjxYREefP5q14SmKTqX58//kwYdv7TZfdIPZKAoyRvp
+	TjAEF7AXIXOz4iL7FEFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lyD9z-00AsDh-DQ; Tue, 29 Jun 2021 12:48:15 +0000
+	id 1lyDA9-00AsF4-BL; Tue, 29 Jun 2021 12:48:25 +0000
 Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lyD9u-00AsBv-Sa
+ id 1lyD9u-00AsC1-VR
  for linux-nvme@lists.infradead.org; Tue, 29 Jun 2021 12:48:13 +0000
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
  by mx0b-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15TCjMrW014062; Tue, 29 Jun 2021 05:47:53 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 39f964dujd-1
+ 15TCjM4j014045; Tue, 29 Jun 2021 05:47:59 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0b-0016f401.pphosted.com with ESMTP id 39f964dujg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Tue, 29 Jun 2021 05:47:53 -0700
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Tue, 29 Jun 2021 05:47:51 -0700
+ Tue, 29 Jun 2021 05:47:57 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Tue, 29 Jun 2021 05:47:55 -0700
 Received: from lbtlvb-pcie154.il.qlogic.org (10.69.176.80) by
  DC5-EXCH02.marvell.com (10.69.176.39) with Microsoft SMTP Server id
- 15.0.1497.18 via Frontend Transport; Tue, 29 Jun 2021 05:47:47 -0700
+ 15.0.1497.18 via Frontend Transport; Tue, 29 Jun 2021 05:47:52 -0700
 From: Prabhakar Kushwaha <pkushwaha@marvell.com>
 To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>,
  <axboe@fb.com>, <kbusch@kernel.org>
 CC: <davem@davemloft.net>, <kuba@kernel.org>, <smalin@marvell.com>,
  <aelior@marvell.com>, <mkalderon@marvell.com>, <okulkarni@marvell.com>,
- <pkushwaha@marvell.com>, <prabhakar.pkin@gmail.com>, <malin1024@gmail.com>
-Subject: [PATCH v4 00/20] NVMeTCP Offload ULP 
-Date: Tue, 29 Jun 2021 15:47:23 +0300
-Message-ID: <20210629124743.6898-1-pkushwaha@marvell.com>
+ <pkushwaha@marvell.com>, <prabhakar.pkin@gmail.com>,
+ <malin1024@gmail.com>, Dean Balandin <dbalandin@marvell.com>
+Subject: [PATCH v4 01/20] nvme-tcp-offload: Add nvme-tcp-offload - NVMeTCP HW
+ offload ULP
+Date: Tue, 29 Jun 2021 15:47:24 +0300
+Message-ID: <20210629124743.6898-2-pkushwaha@marvell.com>
 X-Mailer: git-send-email 2.16.6
+In-Reply-To: <20210629124743.6898-1-pkushwaha@marvell.com>
+References: <20210629124743.6898-1-pkushwaha@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: u5vaBg0X8NjEHzNGO0xCaZzArezGWgxU
-X-Proofpoint-GUID: u5vaBg0X8NjEHzNGO0xCaZzArezGWgxU
+X-Proofpoint-ORIG-GUID: 9OJ0Dh1W8kj8cUJ98XLmjJQL81kPAYCN
+X-Proofpoint-GUID: 9OJ0Dh1W8kj8cUJ98XLmjJQL81kPAYCN
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-29_06:2021-06-28,
  2021-06-29 signatures=0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210629_054811_097384_F75DEC24 
-X-CRM114-Status: GOOD (  26.22  )
+X-CRM114-CacheID: sfid-20210629_054811_220786_3AF21DB5 
+X-CRM114-Status: GOOD (  32.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,289 +88,445 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With the goal of enabling a generic infrastructure that allows NVMe/TCP
-offload devices like NICs to seamlessly plug into the NVMe-oF stack, this
-patch series introduces the nvme-tcp-offload ULP host layer, which will
-be a new transport type called "tcp-offload" and will serve as an 
-abstraction layer to work with device specific nvme-tcp offload drivers.
+From: Shai Malin <smalin@marvell.com>
 
-NVMeTCP offload is a full offload of the NVMeTCP protocol, this includes 
-both the TCP level and the NVMeTCP level.
+This patch will present the structure for the NVMeTCP offload common
+layer driver. This module is added under "drivers/nvme/host/" and future
+offload drivers which will register to it will be placed under
+"drivers/nvme/hw".
+This new driver will be enabled by the Kconfig "NVM Express over Fabrics
+TCP offload commmon layer".
+In order to support the new transport type, for host mode, no change is
+needed.
 
-The nvme-tcp-offload transport can co-exist with the existing tcp and 
-other transports. The tcp offload was designed so that stack changes are 
-kept to a bare minimum: only registering new transports.
-All other APIs, ops etc. are identical to the regular tcp transport.
-Representing the TCP offload as a new transport allows clear and manageable
-differentiation between the connections which should use the offload path 
-and those that are not offloaded (even on the same device).
+Each new offload device specific driver will register to this ULP during
+its probe function, by filling out the nvme_tcp_ofld_dev->ops and
+nvme_tcp_ofld_dev->private_data and calling nvme_tcp_ofld_register_dev
+with the initialized struct.
 
-The nvme-tcp-offload layers and API compared to nvme-tcp and nvme-rdma:
+The internal implementation:
+- tcp-offload.h:
+  Includes all common structs and ops to be used and shared by offload
+  drivers.
 
-* NVMe layer: *
+- tcp-offload.c:
+  Includes the init function which registers as a NVMf transport just
+  like any other transport.
 
-       [ nvme/nvme-fabrics/blk-mq ]
-             |
-        (nvme API and blk-mq API)
-             |
-             |			 
-* Transport layer: *
-
-      [ nvme-rdma ] [ nvme-tcp ] [ nvme-tcp-offload ]
-             |        |             |
-           (Verbs) 
-             |        |             |
-             |     (Socket)
-             |        |             |
-             |        |        (nvme-tcp-offload API)
-             |        |             |
-             |        |             |
-* Transport Driver: *
-
-             |        |             |
-      [ RDMA driver ]       
-                      |             |
-             [ Network driver ]
-                                    |
-                       [ NVMeTCP Offload driver ]
-
-Upstream plan:
-==============
-As discussed in RFCV7, "NVMeTCP Offload ULP and QEDN Device Driver" 
-contains 3 parts:
-https://lore.kernel.org/linux-nvme/20210531225222.16992-1-smalin@marvell.com/
-
-This series contains part1 and part3, intended for linux-nvme:
-- Part 1: The nvme-tcp-offload patches
-- Part 3: Marvell's Offload device driver(qedn) patches. 
-          It has "compilation dependency" on both Part 1 and Part 2. 
-
-Part 2 is already accepted in net-next.git:
-https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=eda1bc65b0dc1b03006e427430ba23746ec44714
-
-
-Usage:
-======
-The user will interact with the network-device in order to configure 
-the ip/vlan - Logically similar to the RDMA model.
-The NVMeTCP configuration is populated as part of the 
-nvme connect command.
-
-Example:
-Assign IP to the net-device (from any existing Linux tool):
-
-    ip addr add 100.100.0.101/24 dev p1p1
-
-This IP will be used by both net-device and offload-device.
-
-In order to connect from "sw" nvme-tcp through the net-device:
-
-    nvme connect -t tcp -s 4420 -a 100.100.0.100 -n testnqn
-
-In order to connect from "offload" nvme-tcp through the offload-device:
-
-    nvme connect -t tcp_offload -s 4420 -a 100.100.0.100 -n testnqn
-	
-An alternative approach, and as a future enhancement that will not impact this 
-series will be to modify nvme-cli with a new flag that will determine 
-if "-t tcp" should be the regular nvme-tcp (which will be the default) 
-or nvme-tcp-offload.
-Exmaple:
-    nvme connect -t tcp -s 4420 -a 100.100.0.100 -n testnqn -[new flag]
-
-
-Queue Initialization Design:
-============================
-The nvme-tcp-offload ULP module shall register with the existing 
-nvmf_transport_ops (.name = "tcp_offload"), nvme_ctrl_ops and blk_mq_ops.
-The nvme-tcp-offload driver shall register to nvme-tcp-offload ULP
-with the following ops:
-- claim_dev() - in order to resolve the route to the target according to
-                the paired net_dev.
-- create_queue() - in order to create offloaded nvme-tcp queue.
-
-The nvme-tcp-offload ULP module shall manage all the controller level
-functionalities, call claim_dev and based on the return values shall call
-the relevant module create_queue in order to create the admin queue and
-the IO queues.
-
-
-IO-path Design:
-===============
-The nvme-tcp-offload shall work at the IO-level - the nvme-tcp-offload 
-ULP module shall pass the request (the IO) to the nvme-tcp-offload 
-driver and later, the nvme-tcp-offload driver returns the request
-completion (the IO completion).
-No additional handling is needed in between; this design will reduce the
-CPU utilization as we will describe below.
-
-The nvme-tcp-offload driver shall register to nvme-tcp-offload ULP
-with the following IO-path ops:
-- send_req() - in order to pass the request to the handling of the
-               offload driver that shall pass it to the offload device 
-			   specific device.
-- poll_queue()
-
-Once the IO completes, the nvme-tcp-offload driver shall call 
-command.done() that will invoke the nvme-tcp-offload ULP layer to
-complete the request.
-
-
-Teardown and errors:
-====================
-In case of NVMeTCP queue error the nvme-tcp-offload driver shall
-call the nvme_tcp_ofld_report_queue_err.
-The nvme-tcp-offload driver shall register to nvme-tcp-offload ULP
-with the following teardown ops:
-- drain_queue()
-- destroy_queue()
-
-
-The Marvell qedn driver:
-========================
-The new driver will be added under "drivers/nvme/hw" and will be enabled
-by the Kconfig "Marvell NVM Express over Fabrics TCP offload".
-As part of the qedn init, the driver will register as a pci device driver 
-and will work with the Marvell fastlinQ NIC.
-As part of the probe, the driver will register to the nvme_tcp_offload
-(ULP) and to the qed module (qed_nvmetcp_ops) - similar to other
-"qed_*_ops" which are used by the qede, qedr, qedf and qedi device
-drivers.
-
-
-Changes since RFC v1:
-=====================
-- nvme-tcp-offload: Fix nvme_tcp_ofld_ops return values.
-- nvme-tcp-offload: Remove NVMF_TRTYPE_TCP_OFFLOAD.
-- nvme-tcp-offload: Add nvme_tcp_ofld_poll() implementation.
-- nvme-tcp-offload: Fix nvme_tcp_ofld_queue_rq() to check map_sg() and 
-  send_req() return values.
-
-Changes since RFC v2:
-=====================
-- nvme-tcp-offload: Fixes in controller and queue level (patches 3-6).
-- qedn: Add the Marvell's NVMeTCP HW offload device driver init and probe
-  (patches 8-11).
-  
-Changes since RFC v3:
-=====================
-- nvme-tcp-offload: Add the full implementation of the nvme-tcp-offload layer 
-  including the new ops: setup_ctrl(), release_ctrl(), commit_rqs() and new 
-  flows (ASYNC and timeout).
-- nvme-tcp-offload: Add device maximums: max_hw_sectors, max_segments.
-- nvme-tcp-offload: layer design and optimization changes.
-- qedn: Add full implementation for the conn level, IO path and error handling.
-
-Changes since RFC v4:
-=====================
-(Many thanks to Hannes Reinecke for his feedback)
-- nvme_tcp_offload: Add num_hw_vectors in order to limit the number of queues.
-- nvme_tcp_offload: Add per device private_data.
-- nvme_tcp_offload: Fix header digest, data digest and tos initialization.
-- qedn: Remove the qedn_global list.
-- qedn: Remove the workqueue flow from send_req.
-- qedn: Add db_recovery support.
-
-Changes since RFC v5:
-=====================
-(Many thanks to Sagi Grimberg for his feedback)
-- nvme-fabrics: Expose nvmf_check_required_opts() globally (as a new patch).
-- nvme_tcp_offload: Remove io-queues BLK_MQ_F_BLOCKING.
-- nvme_tcp_offload: Fix the nvme_tcp_ofld_stop_queue (drain_queue) flow.
-- nvme_tcp_offload: Fix the nvme_tcp_ofld_free_queue (destroy_queue) flow.
-- nvme_tcp_offload: Change rwsem to mutex.
-- nvme_tcp_offload: remove redundant fields.
-- nvme_tcp_offload: Remove the "new" from setup_ctrl().
-- nvme_tcp_offload: Remove the init_req() and commit_rqs() ops.
-- nvme_tcp_offload: Minor fixes in nvme_tcp_ofld_create_ctrl() ansd 
-  nvme_tcp_ofld_free_queue().
-- nvme_tcp_offload: Patch 8 (timeout and async) was squeashed into 
-  patch 7 (io level).
-- qedn: Fix the free_queue flow and the destroy_queue flow.
-- qedn: Remove version number.
-
-Changes since RFC v6:
-=====================
-- No changes in nvme_tcp_offload
-- qedn: Remove redundant logic in the io-queues core affinity initialization.
-- qedn: Remove qedn_validate_cccid_in_range().
-
-Changes since v1:
-=====================
-- nvme_tcp_offload: Add support for NVME_OPT_HOST_IFACE.
-- nvme_tcp_offload: Kconfig fix (thanks to Petr Mladek).
-- nvme_tcp_offload: return code fix (thanks to Dan Carpenter).
-
-Changes since v2:
-=====================
-- nvme_tcp_offload: Fix overly long lines.
-- nvme_tcp_offload: use correct terminology for vendor driver.
-- qedn: Added qedn driver as part of series.
-
-Changes since v3:
-=====================
-- nvme_tcp_offload: Rename nvme_tcp_ofld_map_data() to 
-  nvme_tcp_ofld_set_sg_host_data().
-
-
-Arie Gershberg (2):
-  nvme-tcp-offload: Add controller level implementation
-  nvme-tcp-offload: Add controller level error recovery implementation
-
-Dean Balandin (3):
-  nvme-tcp-offload: Add device scan implementation
-  nvme-tcp-offload: Add queue level implementation
-  nvme-tcp-offload: Add IO level implementation
-
-Nikolay Assa (1):
-  qedn: Add qedn_claim_dev API support
-
-Prabhakar Kushwaha (7):
-  nvme-fabrics: Move NVMF_ALLOWED_OPTS and NVMF_REQUIRED_OPTS
-    definitions
-  nvme-fabrics: Expose nvmf_check_required_opts() globally
-  qedn: Add connection-level slowpath functionality
-  qedn: Add support of configuring HW filter block
-  qedn: Add support of Task and SGL
-  qedn: Add support of NVME ICReq & ICResp
-  qedn: Add support of ASYNC
-
-Shai Malin (7):
-  nvme-tcp-offload: Add nvme-tcp-offload - NVMeTCP HW offload ULP
-  qedn: Add qedn - Marvell's NVMeTCP HW offload device driver
-  qedn: Add qedn probe
-  qedn: Add IRQ and fast-path resources initializations
-  qedn: Add IO level qedn_send_req and fw_cq workqueue
-  qedn: Add IO level fastpath functionality
-  qedn: Add Connection and IO level recovery flows
-
- MAINTAINERS                      |   18 +
- drivers/nvme/Kconfig             |    1 +
- drivers/nvme/Makefile            |    1 +
- drivers/nvme/host/Kconfig        |   15 +
- drivers/nvme/host/Makefile       |    3 +
- drivers/nvme/host/fabrics.c      |   12 +-
- drivers/nvme/host/fabrics.h      |    9 +
- drivers/nvme/host/tcp-offload.c  | 1346 ++++++++++++++++++++++++++++++
- drivers/nvme/host/tcp-offload.h  |  207 +++++
- drivers/nvme/hw/Kconfig          |    9 +
- drivers/nvme/hw/Makefile         |    3 +
- drivers/nvme/hw/qedn/Makefile    |    4 +
- drivers/nvme/hw/qedn/qedn.h      |  402 +++++++++
- drivers/nvme/hw/qedn/qedn_conn.c | 1076 ++++++++++++++++++++++++
- drivers/nvme/hw/qedn/qedn_main.c | 1109 ++++++++++++++++++++++++
- drivers/nvme/hw/qedn/qedn_task.c |  873 +++++++++++++++++++
- 16 files changed, 5079 insertions(+), 9 deletions(-)
+Acked-by: Igor Russkikh <irusskikh@marvell.com>
+Signed-off-by: Dean Balandin <dbalandin@marvell.com>
+Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
+Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
+Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
+Signed-off-by: Ariel Elior <aelior@marvell.com>
+Signed-off-by: Shai Malin <smalin@marvell.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+---
+ MAINTAINERS                     |   8 ++
+ drivers/nvme/host/Kconfig       |  15 +++
+ drivers/nvme/host/Makefile      |   3 +
+ drivers/nvme/host/tcp-offload.c | 124 ++++++++++++++++++++
+ drivers/nvme/host/tcp-offload.h | 199 ++++++++++++++++++++++++++++++++
+ 5 files changed, 349 insertions(+)
  create mode 100644 drivers/nvme/host/tcp-offload.c
  create mode 100644 drivers/nvme/host/tcp-offload.h
- create mode 100644 drivers/nvme/hw/Kconfig
- create mode 100644 drivers/nvme/hw/Makefile
- create mode 100644 drivers/nvme/hw/qedn/Makefile
- create mode 100644 drivers/nvme/hw/qedn/qedn.h
- create mode 100644 drivers/nvme/hw/qedn/qedn_conn.c
- create mode 100644 drivers/nvme/hw/qedn/qedn_main.c
- create mode 100644 drivers/nvme/hw/qedn/qedn_task.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 81e1edeceae4..01fbebdc7722 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13093,6 +13093,14 @@ F:	drivers/nvme/host/
+ F:	include/linux/nvme.h
+ F:	include/uapi/linux/nvme_ioctl.h
+ 
++NVM EXPRESS TCP OFFLOAD TRANSPORT DRIVERS
++M:	Shai Malin <smalin@marvell.com>
++M:	Ariel Elior <aelior@marvell.com>
++L:	linux-nvme@lists.infradead.org
++S:	Supported
++F:	drivers/nvme/host/tcp-offload.c
++F:	drivers/nvme/host/tcp-offload.h
++
+ NVM EXPRESS FC TRANSPORT DRIVERS
+ M:	James Smart <james.smart@broadcom.com>
+ L:	linux-nvme@lists.infradead.org
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 102292289cdf..1993734d0104 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -84,3 +84,18 @@ config NVME_TCP
+ 	  from https://github.com/linux-nvme/nvme-cli.
+ 
+ 	  If unsure, say N.
++
++config NVME_TCP_OFFLOAD
++	tristate "NVM Express over Fabrics TCP offload common layer"
++	depends on INET
++	depends on BLK_DEV_NVME
++	select NVME_FABRICS
++	help
++	  This provides support for the NVMe over Fabrics protocol using
++	  the TCP offload transport. This allows you to use remote block devices
++	  exported using the NVMe protocol set.
++
++	  To configure a NVMe over Fabrics controller use the nvme-cli tool
++	  from https://github.com/linux-nvme/nvme-cli.
++
++	  If unsure, say N.
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index cbc509784b2e..3c3fdf83ce38 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_NVME_FABRICS)		+= nvme-fabrics.o
+ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
+ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+ obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
++obj-$(CONFIG_NVME_TCP_OFFLOAD)	+= nvme-tcp-offload.o
+ 
+ nvme-core-y				:= core.o ioctl.o
+ nvme-core-$(CONFIG_TRACING)		+= trace.o
+@@ -26,3 +27,5 @@ nvme-rdma-y				+= rdma.o
+ nvme-fc-y				+= fc.o
+ 
+ nvme-tcp-y				+= tcp.o
++
++nvme-tcp-offload-y		+= tcp-offload.o
+diff --git a/drivers/nvme/host/tcp-offload.c b/drivers/nvme/host/tcp-offload.c
+new file mode 100644
+index 000000000000..10b87f5b875b
+--- /dev/null
++++ b/drivers/nvme/host/tcp-offload.c
+@@ -0,0 +1,124 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright 2021 Marvell. All rights reserved.
++ */
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++/* Kernel includes */
++#include <linux/kernel.h>
++#include <linux/module.h>
++
++/* Driver includes */
++#include "tcp-offload.h"
++
++static LIST_HEAD(nvme_tcp_ofld_devices);
++static DEFINE_MUTEX(nvme_tcp_ofld_devices_mutex);
++
++/**
++ * nvme_tcp_ofld_register_dev() - NVMeTCP Offload Library registration
++ * function.
++ * @dev:	NVMeTCP offload device instance to be registered to the
++ *		common tcp offload instance.
++ *
++ * API function that registers the type of offload device specific driver
++ * being implemented to the common NVMe over TCP offload library. Part of
++ * the overall init sequence of starting up an offload driver.
++ */
++int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev)
++{
++	struct nvme_tcp_ofld_ops *ops = dev->ops;
++
++	if (!ops->claim_dev ||
++	    !ops->setup_ctrl ||
++	    !ops->release_ctrl ||
++	    !ops->create_queue ||
++	    !ops->drain_queue ||
++	    !ops->destroy_queue ||
++	    !ops->poll_queue ||
++	    !ops->send_req)
++		return -EINVAL;
++
++	mutex_lock(&nvme_tcp_ofld_devices_mutex);
++	list_add_tail(&dev->entry, &nvme_tcp_ofld_devices);
++	mutex_unlock(&nvme_tcp_ofld_devices_mutex);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_tcp_ofld_register_dev);
++
++/**
++ * nvme_tcp_ofld_unregister_dev() - NVMeTCP Offload Library unregistration
++ * function.
++ * @dev:	NVMeTCP offload device instance to be unregistered from the
++ *		common tcp offload instance.
++ *
++ * API function that unregisters the type of offload device specific driver
++ * being implemented from the common NVMe over TCP offload library.
++ * Part of the overall exit sequence of unloading the implemented driver.
++ */
++void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev)
++{
++	mutex_lock(&nvme_tcp_ofld_devices_mutex);
++	list_del(&dev->entry);
++	mutex_unlock(&nvme_tcp_ofld_devices_mutex);
++}
++EXPORT_SYMBOL_GPL(nvme_tcp_ofld_unregister_dev);
++
++/**
++ * nvme_tcp_ofld_report_queue_err() - NVMeTCP Offload report error event
++ * callback function. Pointed to by nvme_tcp_ofld_queue->report_err.
++ * @queue:	NVMeTCP offload queue instance on which the error has occurred.
++ *
++ * API function that allows the offload device specific driver to reports
++ * errors to the common offload layer, to invoke error recovery.
++ */
++int nvme_tcp_ofld_report_queue_err(struct nvme_tcp_ofld_queue *queue)
++{
++	/* Placeholder - invoke error recovery flow */
++
++	return 0;
++}
++
++/**
++ * nvme_tcp_ofld_req_done() - NVMeTCP Offload request done callback
++ * function. Pointed to by nvme_tcp_ofld_req->done.
++ * Handles both NVME_TCP_F_DATA_SUCCESS flag and NVMe CQ.
++ * @req:	NVMeTCP offload request to complete.
++ * @result:     The nvme_result.
++ * @status:     The completion status.
++ *
++ * API function that allows the offload device specific driver to report
++ * request completions to the common offload layer.
++ */
++void nvme_tcp_ofld_req_done(struct nvme_tcp_ofld_req *req,
++			    union nvme_result *result,
++			    __le16 status)
++{
++	/* Placeholder - complete request with/without error */
++}
++
++static struct nvmf_transport_ops nvme_tcp_ofld_transport = {
++	.name		= "tcp_offload",
++	.module		= THIS_MODULE,
++	.required_opts	= NVMF_OPT_TRADDR,
++	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_NR_WRITE_QUEUES  |
++			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
++			  NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_HDR_DIGEST |
++			  NVMF_OPT_DATA_DIGEST | NVMF_OPT_NR_POLL_QUEUES |
++			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE,
++};
++
++static int __init nvme_tcp_ofld_init_module(void)
++{
++	nvmf_register_transport(&nvme_tcp_ofld_transport);
++
++	return 0;
++}
++
++static void __exit nvme_tcp_ofld_cleanup_module(void)
++{
++	nvmf_unregister_transport(&nvme_tcp_ofld_transport);
++}
++
++module_init(nvme_tcp_ofld_init_module);
++module_exit(nvme_tcp_ofld_cleanup_module);
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/nvme/host/tcp-offload.h b/drivers/nvme/host/tcp-offload.h
+new file mode 100644
+index 000000000000..bfa759177a07
+--- /dev/null
++++ b/drivers/nvme/host/tcp-offload.h
+@@ -0,0 +1,199 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright 2021 Marvell. All rights reserved.
++ */
++
++/* Linux includes */
++#include <linux/dma-mapping.h>
++#include <linux/scatterlist.h>
++#include <linux/types.h>
++#include <linux/nvme-tcp.h>
++
++/* Driver includes */
++#include "nvme.h"
++#include "fabrics.h"
++
++/* Forward declarations */
++struct nvme_tcp_ofld_ops;
++
++/* Representation of a offload device. This is the struct used to register
++ * to the offload layer by the offload device specific driver, during its probe
++ * function.
++ * Allocated by offload device specific driver.
++ */
++struct nvme_tcp_ofld_dev {
++	struct list_head entry;
++	struct nvme_tcp_ofld_ops *ops;
++
++	/* Offload device specific driver context */
++	int num_hw_vectors;
++};
++
++/* Per IO struct holding the nvme_request and command
++ * Allocated by blk-mq.
++ */
++struct nvme_tcp_ofld_req {
++	struct nvme_request req;
++	struct nvme_command nvme_cmd;
++	struct list_head queue_entry;
++	struct nvme_tcp_ofld_queue *queue;
++
++	/* Offload device specific driver context */
++	void *private_data;
++
++	/* async flag is used to distinguish between async and IO flow
++	 * in common send_req() of nvme_tcp_ofld_ops.
++	 */
++	bool async;
++
++	void (*done)(struct nvme_tcp_ofld_req *req,
++		     union nvme_result *result,
++		     __le16 status);
++};
++
++enum nvme_tcp_ofld_queue_flags {
++	NVME_TCP_OFLD_Q_ALLOCATED = 0,
++	NVME_TCP_OFLD_Q_LIVE = 1,
++};
++
++/* Allocated by nvme_tcp_ofld */
++struct nvme_tcp_ofld_queue {
++	/* Offload device associated to this queue */
++	struct nvme_tcp_ofld_dev *dev;
++	struct nvme_tcp_ofld_ctrl *ctrl;
++	unsigned long flags;
++	size_t cmnd_capsule_len;
++
++	u8 hdr_digest;
++	u8 data_digest;
++	u8 tos;
++
++	/* Offload device specific driver context */
++	void *private_data;
++
++	/* Error callback function */
++	int (*report_err)(struct nvme_tcp_ofld_queue *queue);
++};
++
++/* Connectivity (routing) params used for establishing a connection */
++struct nvme_tcp_ofld_ctrl_con_params {
++	struct sockaddr_storage remote_ip_addr;
++
++	/* If NVMF_OPT_HOST_TRADDR is provided it will be set in local_ip_addr
++	 * in nvme_tcp_ofld_create_ctrl().
++	 * If NVMF_OPT_HOST_TRADDR is not provided the local_ip_addr will be
++	 * initialized by claim_dev().
++	 */
++	struct sockaddr_storage local_ip_addr;
++};
++
++/* Allocated by nvme_tcp_ofld */
++struct nvme_tcp_ofld_ctrl {
++	struct nvme_ctrl nctrl;
++	struct list_head list;
++	struct net_device *ndev;
++	struct nvme_tcp_ofld_dev *dev;
++
++	/* admin and IO queues */
++	struct blk_mq_tag_set tag_set;
++	struct blk_mq_tag_set admin_tag_set;
++	struct nvme_tcp_ofld_queue *queues;
++
++	struct work_struct err_work;
++	struct delayed_work connect_work;
++
++	/*
++	 * Each entry in the array indicates the number of queues of
++	 * corresponding type.
++	 */
++	u32 io_queues[HCTX_MAX_TYPES];
++
++	/* Connectivity params */
++	struct nvme_tcp_ofld_ctrl_con_params conn_params;
++
++	/* Offload device driver context */
++	void *private_data;
++};
++
++struct nvme_tcp_ofld_ops {
++	const char *name;
++	struct module *module;
++
++	/* For offload device specific driver to report what opts it supports.
++	 * It could be different than the ULP supported opts due to hardware
++	 * limitations. Also it could be different among different offload
++	 * specific device drivers.
++	 */
++	int required_opts; /* bitmap using enum nvmf_parsing_opts */
++	int allowed_opts; /* bitmap using enum nvmf_parsing_opts */
++
++	/* For offload device specific max num of segments and IO sizes */
++	u32 max_hw_sectors;
++	u32 max_segments;
++
++	/**
++	 * claim_dev: Return True if addr is reachable via offload device.
++	 * @dev: The offload device to check.
++	 * @ctrl: The offload ctrl have the conn_params field. The
++	 * conn_params is to be filled with routing params by the
++	 * offload device specific driver.
++	 */
++	int (*claim_dev)(struct nvme_tcp_ofld_dev *dev,
++			 struct nvme_tcp_ofld_ctrl *ctrl);
++
++	/**
++	 * setup_ctrl: Setup device specific controller structures.
++	 * @ctrl: The offload ctrl.
++	 */
++	int (*setup_ctrl)(struct nvme_tcp_ofld_ctrl *ctrl);
++
++	/**
++	 * release_ctrl: Release/Free device specific controller structures.
++	 * @ctrl: The offload ctrl.
++	 */
++	int (*release_ctrl)(struct nvme_tcp_ofld_ctrl *ctrl);
++
++	/**
++	 * create_queue: Create offload queue and establish TCP + NVMeTCP
++	 * (icreq+icresp) connection. Return true on successful connection.
++	 * Based on nvme_tcp_alloc_queue.
++	 * @queue: The queue itself - used as input and output.
++	 * @qid: The queue ID associated with the requested queue.
++	 * @q_size: The queue depth.
++	 */
++	int (*create_queue)(struct nvme_tcp_ofld_queue *queue, int qid,
++			    size_t queue_size);
++
++	/**
++	 * drain_queue: Drain a given queue - blocking function call.
++	 * Return from this function ensures that no additional
++	 * completions will arrive on this queue and that the HW will
++	 * not access host memory.
++	 * @queue: The queue to drain.
++	 */
++	void (*drain_queue)(struct nvme_tcp_ofld_queue *queue);
++
++	/**
++	 * destroy_queue: Close the TCP + NVMeTCP connection of a given queue
++	 * and make sure its no longer active (no completions will arrive on the
++	 * queue).
++	 * @queue: The queue to destroy.
++	 */
++	void (*destroy_queue)(struct nvme_tcp_ofld_queue *queue);
++
++	/**
++	 * poll_queue: Poll a given queue for completions.
++	 * @queue: The queue to poll.
++	 */
++	int (*poll_queue)(struct nvme_tcp_ofld_queue *queue);
++
++	/**
++	 * send_req: Dispatch a request. Returns the execution status.
++	 * @req: Ptr to request to be sent.
++	 */
++	int (*send_req)(struct nvme_tcp_ofld_req *req);
++};
++
++/* Exported functions for offload device specific drivers */
++int nvme_tcp_ofld_register_dev(struct nvme_tcp_ofld_dev *dev);
++void nvme_tcp_ofld_unregister_dev(struct nvme_tcp_ofld_dev *dev);
 -- 
 2.24.1
 
