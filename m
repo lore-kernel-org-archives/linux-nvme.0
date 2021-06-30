@@ -2,77 +2,79 @@ Return-Path: <SRS0=p1db=LY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79FF5C11F65
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 10:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B92DAC11F65
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 10:14:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1AE6A61D0C
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 10:04:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1AE6A61D0C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 71E1660FDA
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 10:14:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71E1660FDA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=NcGMcCNoyEsNb4kI4xvGb+JXHOp3WlKjZJbujbB33o4=; b=zL+HihhuA3iIxo
-	XVOMxxeE5xEEBze4keFuZjvO+iJdGuGoamcaqXqIPr6A/4ETk+QwlNtJtZ4KjjhhtgeOtRyHGDLeR
-	R+Az3vG9J9Dd70tOJCTLxlL5AHp7/aIBdkFDRyvCRaPN6OzZI3+ZXxZ3hnw67lpavUbfYReXZrkcV
-	vak+R54/qbYVgBq1BoX1JwBx44yZCGPms2Uv146T8/QwL3jvpxiBCMwHYCTQ34xdgBAmv+DWjcnhy
-	UO0YH46As9WOSQm9jLX1Zr0vIw2mz0dhjqRY8r+VNNJURplc8PChEWY5rD5szNjmJh4b0QqxjMzdy
-	aanopMjHxMdaMWDpz/Jg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=BEF+wvBJdclSBpqonkqPndjz+v+mE8k6ebwfvKz8uns=; b=x6LriAVtkpzfqD
+	DQAT7ugtxuMBKFU9aNFc0r0Q8C16YdZGXku5EEtvub15hjxTn9ykVdxB9r/kToU9nOAG6/TZbcVk5
+	Q7bEBjmSrabeh/y2nbM4u9lDVUN93kipvU/pkMSzP0UjSIOaOMI/YJaxoOgRIEdcr0+VfUoZVMblL
+	o4sXcBB0u/DX96CuqFT+IR83OYtGnAW/jzeRBLEWQXfQ5LldUbge6QaMA9/FL2AgDjyUTUVGjG2K5
+	lVqBc2qaAOA6PBvolztRSCW13t6aa2coDxkjHk1Bc2+gsxf6aeeX8F3WlUHioLnosyrjHViiqVQ5L
+	RBPaCMgSf4iaqfYp9ybg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lyX4O-00DYwI-BN; Wed, 30 Jun 2021 10:03:48 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1lyXEN-00Da2G-Jc; Wed, 30 Jun 2021 10:14:07 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lyX4L-00DYvy-Ly
- for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 10:03:47 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 271F71FE60;
- Wed, 30 Jun 2021 10:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625047424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=zQqwP8nQ9d/PpMi6FRBTsc/6S3sreiYX/DtOcbYh7So=;
- b=1Qv+plawI6gHA/gkH2yy+x+RSWnJYGsaPBJFRacFNtEH9RYcWDPcSKuKNI/9OoGw7OeOYn
- GR73x9aZyQ8cFlXgnFkFNDyOpUv11hLwurma37KFyeQlI7GDPLZYydx9rMU5u0wqS++Kiy
- mN08WoekrqS19pF/K1CKxhFS8Pp3LG4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625047424;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=zQqwP8nQ9d/PpMi6FRBTsc/6S3sreiYX/DtOcbYh7So=;
- b=qINXigZFKCVBy5ViSPop96bcBkwjydKqZZuYYsQFWHXVkOP0Mx2z0uMCfkXIM5yFaX/wgP
- CZiVkCxrCdBIvJBg==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 1D322A3B9B;
- Wed, 30 Jun 2021 10:03:44 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 0E5B15170CC2; Wed, 30 Jun 2021 12:03:44 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Ming Lei <ming.lei@redhat.com>, Daniel Wagner <daniel.wagner@suse.com>,
+ id 1lyXEL-00Da1B-5u
+ for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 10:14:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625048043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sE33PaxiQVlndCHStL5H+OZPSUiiG6L+MMVETSDNJso=;
+ b=Iz33Xs709oObCmJZobWi9xZXc25/udmbL9pmOAxuWVA5qTvIy0SU/J7Adw5NQWzwvH55UL
+ nUlTpJYXiCwqxfyzHLflDJHskCuvhPMdytOVRM0MWkkqMy/iVAgK2U40uvvuwA6dxINDJf
+ uxsEwGizfwnHCt0dTrvrG1X6bBgyRqU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-1bQ7HDSyOgSQq9wKMoxHlg-1; Wed, 30 Jun 2021 06:14:02 -0400
+X-MC-Unique: 1bQ7HDSyOgSQq9wKMoxHlg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BFB7804144;
+ Wed, 30 Jun 2021 10:14:01 +0000 (UTC)
+Received: from T590 (ovpn-12-133.pek2.redhat.com [10.72.12.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D786460C17;
+ Wed, 30 Jun 2021 10:13:53 +0000 (UTC)
+Date: Wed, 30 Jun 2021 18:13:49 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Daniel Wagner <daniel.wagner@suse.com>,
  Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Wen Xiong <wenxiong@us.ibm.com>,
- Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] blk-mq: don't allocate requests when all cpus in a hctx are
- offline
-Date: Wed, 30 Jun 2021 12:03:42 +0200
-Message-Id: <20210630100342.1100-1-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
+ linux-nvme@lists.infradead.org, Wen Xiong <wenxiong@us.ibm.com>
+Subject: Re: [PATCH] blk-mq: don't allocate requests when all cpus in a hctx
+ are offline
+Message-ID: <YNxD3ekRJrZK8FKm@T590>
+References: <20210630100342.1100-1-hare@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210630100342.1100-1-hare@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210630_030345_913572_84C4D65D 
-X-CRM114-Status: GOOD (  12.44  )
+X-CRM114-CacheID: sfid-20210630_031405_346466_1BDE41D1 
+X-CRM114-Status: GOOD (  12.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,38 +91,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When all CPUs in a hctx are offline in blk_mq_alloc_request_hctx() we should
-not try to allocate the request, as we'll fail later on in blk_mq_get_tag() anyway.
+On Wed, Jun 30, 2021 at 12:03:42PM +0200, Hannes Reinecke wrote:
+> When all CPUs in a hctx are offline in blk_mq_alloc_request_hctx() we should
+> not try to allocate the request, as we'll fail later on in blk_mq_get_tag() anyway.
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- block/blk-mq.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Please see my yesterday's reply why this way isn't good:
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index f11d4018ce2e..1622d0cabe3a 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -468,13 +468,16 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
- 	data.hctx = q->queue_hw_ctx[hctx_idx];
- 	if (!blk_mq_hw_queue_mapped(data.hctx))
- 		goto out_queue_exit;
-+	ret = -EWOULDBLOCK;
-+	/* all cpus in the hctx are offline, don't try to allocate a tag */
- 	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-+	if (unlikely(cpu >= nr_cpu_ids))
-+		goto out_queue_exit;
- 	data.ctx = __blk_mq_get_ctx(q, cpu);
- 
- 	if (!q->elevator)
- 		blk_mq_tag_busy(data.hctx);
- 
--	ret = -EWOULDBLOCK;
- 	tag = blk_mq_get_tag(&data);
- 	if (tag == BLK_MQ_NO_TAG)
- 		goto out_queue_exit;
--- 
-2.29.2
+https://lore.kernel.org/lkml/YNrwnWfsxf8cJcoe@T590/
+https://lore.kernel.org/lkml/YNrhXFgv%2FgEWbhbl@T590/
+
+
+Thanks,
+Ming
 
 
 _______________________________________________
