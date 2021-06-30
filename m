@@ -2,82 +2,107 @@ Return-Path: <SRS0=p1db=LY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F9AEC11F68
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 00:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD6C9C11F65
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 08:16:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D93461D58
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 00:33:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3D93461D58
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 79BD161D05
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 08:16:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79BD161D05
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=izVzeEO7sFi1h1ydfHy7AKuEmJsBQmItcv0o9ChIBeI=; b=iIzrwDJqg9pWUU
-	rUd4sTSFFcg16dfD8i1rB8Lzx682qSAogHcfDTnOTidVRcP//pyKg6IeDcE024wFoUrR8EmoluZlG
-	/h8GbEZ+D/3lVAfuDf3rK6DJ1aBocH4bwgdY36Y1IjlQ3tJ/uvgr3aU5AiwnQs3HmN2bu/U4844jK
-	NC5LeJTgXNDgS8hoDmtVBYKWhX7QDr6EAeEhQbWnzzHeR+yziSNFH+sR+FqiN5exvZJtgi5DB2vOv
-	9dly4fqwZon0BUE5Lx2CvzYAfHh35bOToDORerg/edFuvIubyjkc6KqC93PP72FlKaI4ck6V26hPR
-	B6Zwk9Jwkv080WICFfmQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KWclxmQX1l/oxifkzZW997h87kK+ovIuwP6QdYykK/I=; b=yq53osUsIlSWbkkvvafklwtL+4
+	1hWurtWF+SdtAU2XAvSkiDw+kvQaePDO6RH077O1chCk8vfmVPRKQcFwuc3TnDof7YDUE4ciZjtqq
+	tfkGj8fjTruDYXOp4TqzDoXgbq9R2qZIZ6mO2QiNmBteR28cBAn2MJyBtf54tag3Gscla3+OmHvjm
+	ehg3I8s/bgFYno7vIUWZrO9sVHiQm+JHxCuTb3pD3cKq8i740AZC1TeLwKJivHAkIk8nQ2WbXKIh/
+	h4AegcG0nLPfLHfo3liwnIebJLP1u/4gTdOVHCd/VFG7gV34o3XmYQv4Vg8jnK+btYpJIZNOFq102
+	+nJshfYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lyOAB-00CKJ2-7A; Wed, 30 Jun 2021 00:33:11 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1lyVO6-00DEso-2s; Wed, 30 Jun 2021 08:16:02 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lyOA8-00CKDp-0E
- for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 00:33:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625013186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=goskKeW0yzEcAx5B3vtHPNaTJXA0fzeCUV8XRqEWcNk=;
- b=UkNFqU99Y+cIjRruEtV8TaCMIwH+HXm4jZHe55pMm10fNfsbySN0QUq+eJaU8vQQ0Yztt+
- npuIYcUihPS5chE+9BVkf1QsytyrbcE6d/v4LePHOKrReauXRI43Vl+PrjgBnnpDXc5XRZ
- zz/NxPu1iVQzGJiySfCjVAdea3yJn4w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-chgzleZaNZuPxADKaXVFnQ-1; Tue, 29 Jun 2021 20:33:02 -0400
-X-MC-Unique: chgzleZaNZuPxADKaXVFnQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1lyVNt-00DErx-9x
+ for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 08:15:50 +0000
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68F56804140;
- Wed, 30 Jun 2021 00:33:00 +0000 (UTC)
-Received: from T590 (ovpn-12-77.pek2.redhat.com [10.72.12.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5831F5D6A1;
- Wed, 30 Jun 2021 00:32:51 +0000 (UTC)
-Date: Wed, 30 Jun 2021 08:32:46 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.garry@huawei.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>
-Subject: Re: [PATCH 1/2] blk-mq: not deactivate hctx if the device doesn't
- use managed irq
-Message-ID: <YNu7rs7j5/KtQjAi@T590>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 30E321FE3B;
+ Wed, 30 Jun 2021 08:15:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625040947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LN6+hSCnnQVV1lBAadscEQCEm2I2cFMswDtuEyY5AQM=;
+ b=sqdBm/S1Jp4iQ5rKuwORax/+6LsKR6Mz82+GFHyXqPNErX8hTv0w9tx2Hsycc5Ta2QprYu
+ s1Jgqw372Ax5Ryoe82aq5/gIn6gysXiJSSj9wd8rGmTAFMYRppBxLAyQkgbtrb+xyyu/Ie
+ ujrnT9B+PcJgSv/LNQUNCzSxB9G8Xeg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625040947;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LN6+hSCnnQVV1lBAadscEQCEm2I2cFMswDtuEyY5AQM=;
+ b=sdq2BggLE1xlv6d2Q78YwVNhSUSDlsqWM6fC4V29RxO68iURFseYXxgMSavoVNDdOUCu5e
+ IvOOd63+1YbqkpDQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 105B111906;
+ Wed, 30 Jun 2021 08:15:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625040947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LN6+hSCnnQVV1lBAadscEQCEm2I2cFMswDtuEyY5AQM=;
+ b=sqdBm/S1Jp4iQ5rKuwORax/+6LsKR6Mz82+GFHyXqPNErX8hTv0w9tx2Hsycc5Ta2QprYu
+ s1Jgqw372Ax5Ryoe82aq5/gIn6gysXiJSSj9wd8rGmTAFMYRppBxLAyQkgbtrb+xyyu/Ie
+ ujrnT9B+PcJgSv/LNQUNCzSxB9G8Xeg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625040947;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LN6+hSCnnQVV1lBAadscEQCEm2I2cFMswDtuEyY5AQM=;
+ b=sdq2BggLE1xlv6d2Q78YwVNhSUSDlsqWM6fC4V29RxO68iURFseYXxgMSavoVNDdOUCu5e
+ IvOOd63+1YbqkpDQ==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id arNxAzMo3GAiOQAALh3uQQ
+ (envelope-from <hare@suse.de>); Wed, 30 Jun 2021 08:15:47 +0000
+Subject: Re: [PATCH 2/2] nvme: pass BLK_MQ_F_NOT_USE_MANAGED_IRQ for
+ fc/rdma/tcp/loop
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+ Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>
 References: <20210629074951.1981284-1-ming.lei@redhat.com>
- <20210629074951.1981284-2-ming.lei@redhat.com>
- <c31aa259-d3a8-8c70-efce-b7af02bfd609@huawei.com>
+ <20210629074951.1981284-3-ming.lei@redhat.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <46fdb02d-8d71-d465-072d-5e8d6ec3601f@suse.de>
+Date: Wed, 30 Jun 2021 10:15:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c31aa259-d3a8-8c70-efce-b7af02bfd609@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210629074951.1981284-3-ming.lei@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210629_173308_183462_F1587387 
-X-CRM114-Status: GOOD (  38.32  )
+X-CRM114-CacheID: sfid-20210630_011549_541285_096512B9 
+X-CRM114-Status: GOOD (  14.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,110 +114,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 29, 2021 at 04:49:56PM +0100, John Garry wrote:
-> On 29/06/2021 08:49, Ming Lei wrote:
-> > hctx is deactivated when all CPU in hctx->cpumask become offline by
-> > draining all requests originated from this hctx and moving new
-> > allocation to active hctx. This way is for avoiding inflight IO when
-> > the managed irq is shutdown.
-> > 
-> > Some drivers(nvme fc, rdma, tcp, loop) doesn't use managed irq, so
-> > they needn't to deactivate hctx. Also, they are the only user of
-> > blk_mq_alloc_request_hctx() which is used for connecting io queue.
-> > And their requirement is that the connect request can be submitted
-> > via one specified hctx on which all CPU in its hctx->cpumask may have
-> > become offline.
-> > 
-> > Address the requirement for nvme fc/rdma/loop, so the reported kernel
-> > panic on the following line in blk_mq_alloc_request_hctx() can be fixed.
-> > 
-> > 	data.ctx = __blk_mq_get_ctx(q, cpu)
-> > 
-> > Cc: Sagi Grimberg <sagi@grimberg.me>
-> > Cc: Daniel Wagner <dwagner@suse.de>
-> > Cc: Wen Xiong <wenxiong@us.ibm.com>
-> > Cc: John Garry <john.garry@huawei.com>
-> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > ---
-> >   block/blk-mq.c         | 6 +++++-
-> >   include/linux/blk-mq.h | 1 +
-> >   2 files changed, 6 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index df5dc3b756f5..74632f50d969 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -494,7 +494,7 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
-> >   	data.hctx = q->queue_hw_ctx[hctx_idx];
-> >   	if (!blk_mq_hw_queue_mapped(data.hctx))
-> >   		goto out_queue_exit;
-> > -	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-> > +	cpu = cpumask_first(data.hctx->cpumask);
-> >   	data.ctx = __blk_mq_get_ctx(q, cpu);
-> >   	if (!q->elevator)
-> > @@ -2570,6 +2570,10 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
-> >   	    !blk_mq_last_cpu_in_hctx(cpu, hctx))
-> >   		return 0;
-> > +	/* Controller doesn't use managed IRQ, no need to deactivate hctx */
-> > +	if (hctx->flags & BLK_MQ_F_NOT_USE_MANAGED_IRQ)
-> > +		return 0;
-> Is there anything to be gained in registering the CPU hotplug handler for
-> the hctx in this case at all?
-
-Indeed, we may replace BLK_MQ_F_STACKING with BLK_MQ_F_NOT_USE_MANAGED_IRQ
-(BLK_MQ_F_NO_MANAGED_IRQ) too, and the latter is one general solution.
-
-> 
-> > +
-> >   	/*
-> >   	 * Prevent new request from being allocated on the current hctx.
-> >   	 *
-> > diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> > index 21140132a30d..600c5dd1a069 100644
-> > --- a/include/linux/blk-mq.h
-> > +++ b/include/linux/blk-mq.h
-> > @@ -403,6 +403,7 @@ enum {
-> >   	 */
-> >   	BLK_MQ_F_STACKING	= 1 << 2,
-> >   	BLK_MQ_F_TAG_HCTX_SHARED = 1 << 3,
-> > +	BLK_MQ_F_NOT_USE_MANAGED_IRQ = 1 << 4,
-> 
-> Many block drivers don't use managed interrupts - to be proper, why not set
-> this everywhere (which doesn't use managed interrupts)? I know why, but it's
-> odd.
-
-It is just one small optimization in slow path for other drivers, not sure these
-drivers are interested in such change. It only serves as fix for callers of
-blk_mq_alloc_request_hctx().
-
-Anyway, we can document the situation.
-
-> 
-> As an alternative, if the default queue mapping was used (in
-> blk_mq_map_queues()), then that's the same thing as
-> BLK_MQ_F_NOT_USE_MANAGED_IRQ in reality, right? If so, could we
-> alternatively check for that somehow?
-
-This way can't work, for example of NVMe PCI, managed irq is used for
-the default/write queues, but poll queues uses blk_mq_map_queues().
-
-Also it can't cover all cases, such as MVMe RDMA.
-
-Using managed irq or not is thing of driver's choice, and not sure if it
-is good for block layer to provide such abstract. I'd suggest to fix the
-issue still by passing one flag, given we needn't it everywhere so far.
-
- 
-Thanks,
-Ming
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNi8yOS8yMSA5OjQ5IEFNLCBNaW5nIExlaSB3cm90ZToKPiBBbGwgdGhlIDQgaG9zdCBkcml2
+ZXJzIGRvbid0IHVzZSBtYW5hZ2VkIGlycSBmb3IgY29tcGxldGluZyByZXF1ZXN0LCBzbwo+IGl0
+IGlzIGNvcnJlY3QgdG8gcGFzcyB0aGUgZmxhZyB0byBibGstbXEuCj4gCj4gU2Vjb25kbHkgd2l0
+aCB0aGlzIGZsYWcsIGJsay1tcSB3aWxsIGhlbHAgdXMgZGlzcGF0Y2ggY29ubmVjdCByZXF1ZXN0
+Cj4gYWxsb2NhdGVkIHZpYSBibGtfbXFfYWxsb2NfcmVxdWVzdF9oY3R4KCkgdG8gZHJpdmVyIGV2
+ZW4gdGhvdWdoIGFsbAo+IENQVSBpbiB0aGUgc3BlY2lmaWVkIGhjdHgncyBjcHVtYXNrIGFyZSBv
+ZmZsaW5lLgo+IApIb3cgaXMgdGhpcyBzdXBwb3NlZCB0byB3b3JrPwpUbyBteSB1bmRlcnN0YW5k
+aW5nLCBvbmx5IGNwdXMgaW4gdGhlIGhjdHggY3B1bWFzayBhcmUgZWxpZ2libGUgdG8gc2VuZCAK
+SS9PLiBTbyBpZiBhbGwgb2YgdGhlc2UgQ1BVcyBhcmUgb2ZmbGluZSwgd2hvIGV4YWN0bHkgaXMg
+c3VibWl0dGluZyBJL08/Ck1vcmUgdG8gdGhlIHBvaW50LCB3aGljaCBDUFUgd2lsbCBiZSBzdWJt
+aXR0aW5nIHRoZSBjb25uZWN0IHJlcXVlc3Q/CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5u
+ZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVA
+c3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNV
+U0UgU29mdHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
+ZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVu
+ZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpo
+dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
