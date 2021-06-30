@@ -2,108 +2,163 @@ Return-Path: <SRS0=p1db=LY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C54C11F65
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 19:47:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 392EBC11F65
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 21:57:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 008A961474
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 19:47:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 008A961474
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id D7233613EE
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 21:57:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D7233613EE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AhllSXofRXURJoZVDF+bGJCQwt/XYqww7/9fzh1PXVw=; b=hJHo2Il9Lf64zKcIreNjNhuq9S
-	MdezjSFxosD1dfZrBSl7beeOxqQO5IgHMIWB/j7SACDx+gCdWJ54Y9l8bzQJxzo4kEcVJWsCFVtoF
-	RBFN003dYHorWhTQA4u20FxiYbjMcZPixgdotUisy7mLH8ZMcMm4tbaj6dHIOsvagYGP8s6KvTISz
-	WXFdaO5SYCjkZABigCWe+BPLAXPdF3zbPveSmDyRAMGyWobzEiUGVpBunAMU0MFt+GEsqs+LXHXvJ
-	QvvHV1PKpJgeeXzXV4wKI2ZnJ02ALbTfGmC8Wf2i8iIIyEXCd9VdDQkLHXdWqx9IUUZrPMxlGa5mk
-	I5nqq73w==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=V8sCvkYrfll4vKF65P83keltHRvh7pRWXwWKXo1R7h4=; b=RPwvjkgHODotT1
+	/yrjPI4I6quHIHO6VdTs4WtfjCQNqtnZAE9bRwKmmECdo3bbfgGLFe6jHskYkynO1V8IxPZPFzuNA
+	dqRJJaxP1N16HydWn/kqf8lNTgnkACm9U4V2IeL1EKXXRVGPSmpWSaXoXapEOvcJz5qhp9nwI14xk
+	M1TMFhE+SeDPOOLrzUljKiF9qJH1lMh8u4a/xsXD1VkICaYa8wrUNEQZ3D1b8h5aDXkXrrpGDSMGu
+	LL7tAA1eDRSCDcSxSikXRsu5n9g8li9s+QOd54Ac8akuC0h7q3SMaPiySiv/tsWXD9HawgSohVfBY
+	FvLXeAA0UDEWAVWPCfgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lygAW-00F9TL-CO; Wed, 30 Jun 2021 19:46:44 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1lyiCo-00FLBw-NV; Wed, 30 Jun 2021 21:57:14 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lygAT-00F9RF-Du
- for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 19:46:42 +0000
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D05231FEED;
- Wed, 30 Jun 2021 19:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625082397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/sOrVdN96EFG02Nt1Orskqd1mwnvmf43ZLsBmFEb7uA=;
- b=aS08WQOpPfT/HM02tdg+pYFp6j21Lx64JgCaLR91Vyhdzpfu0JT1DZVvY2BAITNdpkQDEU
- 6GCY9wGy2ZHXo74NwqDn36XCLKLQgVE9a+k9BwsZMQYstsLhWopDL3OEG3r0NbYf8GFPxG
- bSRE7KJJUmsidokNf/tvxhcgdBFuMic=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625082397;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/sOrVdN96EFG02Nt1Orskqd1mwnvmf43ZLsBmFEb7uA=;
- b=TGY8ltgnR+psVd40iGsbS7vZeHXvNWUnRrN3rgHgw+eagngCNhrIzmXP917bZNXYvKwYmB
- MYlvLieXu6ubcICA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id A977D118DD;
- Wed, 30 Jun 2021 19:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625082397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/sOrVdN96EFG02Nt1Orskqd1mwnvmf43ZLsBmFEb7uA=;
- b=aS08WQOpPfT/HM02tdg+pYFp6j21Lx64JgCaLR91Vyhdzpfu0JT1DZVvY2BAITNdpkQDEU
- 6GCY9wGy2ZHXo74NwqDn36XCLKLQgVE9a+k9BwsZMQYstsLhWopDL3OEG3r0NbYf8GFPxG
- bSRE7KJJUmsidokNf/tvxhcgdBFuMic=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625082397;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/sOrVdN96EFG02Nt1Orskqd1mwnvmf43ZLsBmFEb7uA=;
- b=TGY8ltgnR+psVd40iGsbS7vZeHXvNWUnRrN3rgHgw+eagngCNhrIzmXP917bZNXYvKwYmB
- MYlvLieXu6ubcICA==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id hFsnJhzK3GA1QwAALh3uQQ
- (envelope-from <hare@suse.de>); Wed, 30 Jun 2021 19:46:36 +0000
-Subject: Re: [PATCH 0/2] blk-mq: fix blk_mq_alloc_request_hctx
-To: Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Daniel Wagner <dwagner@suse.de>, Wen Xiong <wenxiong@us.ibm.com>,
- John Garry <john.garry@huawei.com>
+ id 1lyiCl-00FLB8-Lp
+ for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 21:57:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1625090229; x=1656626229;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=C872W2AuYXSR2//da74rW15u4jn5IldapRlt/c3Zl5I=;
+ b=dAs0YrKPXzOl22Dg/wdxxWhisIrmEeUeF78HMCEWxwGWQ+ZrpZDVYqmM
+ O36PonycT+BKzbeHm2o5UYAjKoHnW3sZDmazJDjTcuOacWue3VtA1nM2g
+ M7jNN9Yy3o1ubIZN6hQ6MT/34/StNqxcK7D8dATjuTAG3CX5VFXtKNSkq
+ N4+uXgqpmQPE3bZDTQWWEdfYZLEylZI0OIMuSAlGo27h5eM5kxgFy1MpV
+ 57NfWVsFnTlJJ1+ENtGA7xdJbfVe5DGeP6/W06fZrvJnzqKrvSZquX58P
+ 4Jks2lnLZhGYqu6YKnN6juKbOt5tnkH7GsJIfgK7l17xkuPfxU3K2u7fn w==;
+IronPort-SDR: wCqkYi604dENsDjsTmKzoWhmZMLyeDBFw79eY18kH/I/aOKe4YBT5Zvpdc7ZmCxSMRmFf8GC+2
+ mxCSPnHbJ3jha1ysEHEqNeB0RVqMrLW498G/9PZtioexImhOu5khEqut+VKiyC363aPnyIdbs0
+ +Vw6sB6bnpdsgYdllzktG3e7proa/JlwBJRSsIi08NiIgEU5kIKi1fr0i0QV57yb0qa2D3c+M0
+ U8PomSSuSb4lhK670omNszuiIiGCJf/KrR734oeCfbUWkLWHIdwHNs0UBjIntBowr4DfLyO3Vm
+ Dqo=
+X-IronPort-AV: E=Sophos;i="5.83,312,1616428800"; d="scan'208";a="178171326"
+Received: from mail-dm6nam10lp2104.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.104])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Jul 2021 05:57:04 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TBqWO+Eld9WP3EudfAHVyOWTYwbkwxScUYqN2L99gJZvH9RqOg3Cj3vkgd+ipEB9sKHJfwlXnXJbG3qsPbzrGAjOau8po+8MoDFFt2UVQ0MpeC62/l2tr7UiecCw3X3f8Mem5M0BW/vzbWtVB3lGXZ3iJ5NxdydNJrbFqS11BYcSv5X3e45ur7FlxEyuDRHv6obknEhhzEuCnJy1bPU4jpSwAuswp3/XhfxWP81i6APZ9x7uXCygdw6Dq2iYeQQtVHSkZfeUgdLMqhMlPHz2TMp6+Ajds8NImXGJoLEd/P7SdTbROGVOZmPoINidVAzmhqW+Gzy+QmLHaI3euHScrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t7OD9fcvTBiZJeUYMSMcVQcOYHt2cM+XrWGc/pS+qlQ=;
+ b=SGt/RZrJ5MLvtzr20pISmI0bXP3ocuND8RIi2vP02So7apwMjoGwRRRD9dLnsjwF7yKr9cmRO+0eZ+Y9C56J0GFF4sJdUf0jI/X6ct1pXCiFRGTPfujvtLL1s9Ngu70k+/4Ani1LMgWLPj+eW3Hq+ZvwXQCRqLyL7/sm8kSnGd075SGZVQSU7zV63o58/VAj61CPQiEMSa/GjEIy/IbginjSJZgRv+IE6lz41QumEPqIEUJ4zmXQVgrAT5bcKfVAZ6TAfNM/3p60I9PJyJP6GPvASnuH4WYUkdzJWDCtrlwBl0esbUsnn6nIhsi5VC1jUwzfU96+rR7/Tk9zXUlldw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t7OD9fcvTBiZJeUYMSMcVQcOYHt2cM+XrWGc/pS+qlQ=;
+ b=lkN6l+BettuB4ReIvxw+bCiC43TeXAdYTvDJIGYfLnzQ7K/bkpAWRoJLj8Mm/UWvxQ2lE2KmYTSIS2G/FX4BWrMteF8tHbLHSTiEga0pq0gBOakD9bKC1zjtUxmLifDqJrqBPh7uEoGLqk9gTzKMWKGDbbvVC7ZqeIwB+Xu3EMI=
+Received: from CH2PR04MB7078.namprd04.prod.outlook.com (2603:10b6:610:98::9)
+ by CH2PR04MB6776.namprd04.prod.outlook.com (2603:10b6:610:93::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.20; Wed, 30 Jun
+ 2021 21:57:05 +0000
+Received: from CH2PR04MB7078.namprd04.prod.outlook.com
+ ([fe80::752e:44a9:8d23:9f6]) by CH2PR04MB7078.namprd04.prod.outlook.com
+ ([fe80::752e:44a9:8d23:9f6%3]) with mapi id 15.20.4264.027; Wed, 30 Jun 2021
+ 21:57:05 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>, Jens
+ Axboe <axboe@kernel.dk>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>
+CC: Daniel Wagner <dwagner@suse.de>, Wen Xiong <wenxiong@us.ibm.com>, John
+ Garry <john.garry@huawei.com>
+Subject: Re: [PATCH 1/2] blk-mq: not deactivate hctx if the device doesn't use
+ managed irq
+Thread-Topic: [PATCH 1/2] blk-mq: not deactivate hctx if the device doesn't
+ use managed irq
+Thread-Index: AQHXbLtuHkNoWHYc2kOLK+PDH01yww==
+Date: Wed, 30 Jun 2021 21:57:05 +0000
+Message-ID: <CH2PR04MB70781FC64AC0621F7E55B408E7019@CH2PR04MB7078.namprd04.prod.outlook.com>
 References: <20210629074951.1981284-1-ming.lei@redhat.com>
- <5f304121-38ce-034b-2d17-93d136c77fe6@suse.de> <YNwug8n7qGL5uXfo@T590>
- <c1de513a-5477-9d1d-0ddc-24e9166cc717@suse.de> <YNw/DcxIIMeg/2VK@T590>
- <e106f9c4-35c3-b2da-cdd8-3c4dff8234d6@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <89081624-fedd-aa94-1ba2-9a137708a1f1@suse.de>
-Date: Wed, 30 Jun 2021 21:46:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <e106f9c4-35c3-b2da-cdd8-3c4dff8234d6@grimberg.me>
+ <20210629074951.1981284-2-ming.lei@redhat.com>
+ <DM6PR04MB70814885C27FF97CFC02A456E7029@DM6PR04MB7081.namprd04.prod.outlook.com>
+ <0f8be11b-c6de-1c2b-323b-1e059c2ac4f8@grimberg.me>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: grimberg.me; dkim=none (message not signed)
+ header.d=none;grimberg.me; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:f1c6:7d03:7c7b:49e2]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 853dfe03-57e0-44a8-d62e-08d93c11ffcb
+x-ms-traffictypediagnostic: CH2PR04MB6776:
+x-microsoft-antispam-prvs: <CH2PR04MB6776DE2051CCFA26D7BDC58BE7019@CH2PR04MB6776.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uiXtTu6PRDW0tBpMrzSVt3mGfHbYPz4eO/KLBjJkPZ6uoND4Kzf556BJr/LxfvYDfM/pxSxqDyWEAWx7PH+QyJAzPsfy4jPKVqxZ/7gycnPf9LvZj0nXsC2VtjiRuuTDAR6kaOp7BOsnuCDUJQC6mo5tPXgKgVWRttyILnqUm+/sHuc2QpKMhjD52cF63MJRvgD3nkgrY/rySjmI7d+5SEkA5P4LRb92b9qnqadGT0eJ5R1dXgDpcG+5ICHbYWhAsBP3cd15Xsmi7KPuEucIBJGrehRH6q9LYA1h6ReiES/ZUkBmh2zamI6TSTuYjgybi6n618QFIr/7ZNn1cy4321tCeuw0YEVyjl4o9N0xai5W4oPiwN7CgS2VkIASBGINtrGBHzN7OQAQdvZeb4rZ9Pc8nV8YjU6/hi5UrdHWagDJvLSA1NvZSxCXwpzb3VKTaRoxZqh+N2+O4cOhwvpxv+oPQjff5Pe6xEXhESTvRd3QOevhFmE/hi1zuW3WWYqK5OzgjTz14SW2+Y4XY3Q89fQIeGQ8M1eMYWBd9q4EgXbTG4pZFQPirem0KmpzrJpW7x4J9kRX+GTaGgxsE/UUJIls83DOLmTmToPrei64To05TwFDcXZiTG7ZDIZQHha48Nl9pvRiy5XUrco0Mr8Hbw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR04MB7078.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(376002)(396003)(346002)(366004)(64756008)(38100700002)(478600001)(316002)(7696005)(66476007)(54906003)(33656002)(66446008)(6506007)(66556008)(110136005)(122000001)(66946007)(8936002)(52536014)(5660300002)(53546011)(55016002)(4326008)(9686003)(2906002)(86362001)(76116006)(91956017)(186003)(8676002)(71200400001)(4744005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?J5jK6yVEGR6SEX0W+hp1ydAZZvStTiR91bpYi9/5wN+RMAaEovd/EVfiE+2i?=
+ =?us-ascii?Q?wyrPOqFjXdGeu/TtVSsWGzRhX2z6fpxZjeevHl74IRbBRU03z+a76+o2jKdK?=
+ =?us-ascii?Q?QAaB5BB7kbOLZ87y34QTRFY6ZuN2MMJqZp7EbX5U/6DRdlGB5FZgmf+p4VX5?=
+ =?us-ascii?Q?v+EChOo09cn74wEm0uv9s51/1JeKCClrfqSmX2F5maFXX6+8Kr+pBAVsAkmH?=
+ =?us-ascii?Q?mYKBaXJ3LiEfFmdyo7I8vZRMFetBtK2mXB6dY1Y6VZvWRRNDPGB/KvzLOXkW?=
+ =?us-ascii?Q?iYqy2hvoKHIgIMd45P9RpsG3khLEJdF1pPXiCtIbdREh+hXBUbmz1GYXDNN0?=
+ =?us-ascii?Q?QPqPb6KI72q3LNffjYbZkfes+ZXyaBGoWhO/MiMLBxaBYQRc6dyqHB0mlezP?=
+ =?us-ascii?Q?6pUPr3HQER8sJST9sHSRnrERUoOKobTtK5cjBMHefPe7WBTtW/rM8vvfiqrW?=
+ =?us-ascii?Q?2sq7JsWBVoFAbdvGfXl1joJj0WroNxT7Ep6vy8BenPRHpcdYDtksS4UZlcgo?=
+ =?us-ascii?Q?CXz9LxcItwyBSghsEpVfq1O8jQZ854MTBThn5bk8a3TFYpQsOwQcfTU2vHqt?=
+ =?us-ascii?Q?wjfym0AeaoiWacVALzqfQH/OJIg0p0Jc5R9ugdZVOzsa4qh0XVJcLqf5lsoA?=
+ =?us-ascii?Q?tc13u8U1YygQhALEFxo5Mr1pi8I/HFS7Nry6LGWSagfs/Q20Qxdrp2jlWk+n?=
+ =?us-ascii?Q?j7j3n/jdKVP6MbCNl5E7fp85k+PDVN5mJbPmepp4W8ZemX7+vd6xTKj7Ajra?=
+ =?us-ascii?Q?DLDuwRrzTJhrcjp3gJ3vxT3Z0cYIrSijfhF6sZcuDoXqCi81FJnNmb/jX+Xa?=
+ =?us-ascii?Q?hH4pck34gnmwOHPGZsyIb2ijMi803Ayklk+6prsOpk/dL0DGoG6LqJQq95iC?=
+ =?us-ascii?Q?NDyt0UGsHz19/mvFiPn4KWCFbCMlxEIEKMKpg5BHyEwAvN4XvQGpuhK57S3g?=
+ =?us-ascii?Q?MMluDU6DdVH9X/Bzcio/RAY3gA4FVbk+1XhVGrR6UEDnbYJ08QZ3QkuyXYVD?=
+ =?us-ascii?Q?I6hmf9IykMVBN5Iz+ePMEdb9hM3gAXyPBBn3wnSkDVQUeizJ2aZu+GIBz3bD?=
+ =?us-ascii?Q?34a+RCX4PfcvCXcv0vw01gw9JxYAOewmKdZWe63UvCt28+Xa6B9Ge4ULUvCR?=
+ =?us-ascii?Q?DtAtkb+YbesAOTsykgh/rFFfyrDAfxEUfaCf8ddkcnfQBOh0iWTDooHb25by?=
+ =?us-ascii?Q?CGCKswKJnNYUZntn27fLma8Ah4kB7xSxYlVZ5f/Oy03IlMre3ZtmbVflAowp?=
+ =?us-ascii?Q?uh/ITkkHnE018FyRdL7xWus5LF5HT9+HAcndLyFVzzhDPWRGHktgrj5iSd5e?=
+ =?us-ascii?Q?rQMnmVB0PYW2TYZ7a1aPmwpTIO5tGZQH2ntisx5yrl8gd+FGTRQ41cSWPWtw?=
+ =?us-ascii?Q?gIXhrZCW1inIU0pe60re3dSBPIAFA1JWfTo5lgBDmOf+6m+uEA=3D=3D?=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR04MB7078.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 853dfe03-57e0-44a8-d62e-08d93c11ffcb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2021 21:57:05.2110 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: e6sUzJhNZ+pMCn44B1eW+FFKUtukgp5H5/PrPk3zcU6oH2dP49KNgARJ59X+eSdBItXuqJk0lUmAlpJ9qntMKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6776
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210630_124641_650059_71835E4B 
-X-CRM114-Status: GOOD (  18.50  )
+X-CRM114-CacheID: sfid-20210630_145711_833572_475E5F17 
+X-CRM114-Status: GOOD (  10.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,39 +170,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNi8zMC8yMSA4OjU5IFBNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+IAo+Pj4+PiBTaG91bGRu
-J3Qgd2UgcmF0aGVyIG1vZGlmeSB0aGUgdGFnc2V0IHRvIG9ubHkgcmVmZXIgdG8gdGhlIGN1cnJl
-bnQgCj4+Pj4+IG9ubGluZQo+Pj4+PiBDUFVzIF9vbmx5XywgdGhlcmVieSBuZXZlciBzdWJtaXQg
-YSBjb25uZWN0IHJlcXVlc3QgZm9yIGhjdHggd2l0aCBvbmx5Cj4+Pj4+IG9mZmxpbmUgQ1BVcz8K
-Pj4+Pgo+Pj4+IFRoZW4geW91IG1heSBzZXR1cCB2ZXJ5IGxlc3MgaW8gcXVldWVzLCBhbmQgcGVy
-Zm9ybWFuY2UgbWF5IHN1ZmZlciBldmVuCj4+Pj4gdGhvdWdoIGxvdHMgb2YgQ1BVcyBiZWNvbWUg
-b25saW5lIGxhdGVyLgo+Pj4+IDsKPj4+IE9ubHkgaWYgd2Ugc3RheSB3aXRoIHRoZSByZWR1Y2Vk
-IG51bWJlciBvZiBJL08gcXVldWVzLiBXaGljaCBpcyBub3QgCj4+PiB3aGF0IEknbQo+Pj4gcHJv
-cG9zaW5nOyBJJ2QgcmF0aGVyIHByZWZlciB0byBjb25uZWN0IGFuZCBkaXNjb25uZWN0IHF1ZXVl
-cyBmcm9tIAo+Pj4gdGhlIGNwdQo+Pj4gaG90cGx1ZyBoYW5kbGVyLiBGb3Igc3RhcnRlcnMgd2Ug
-Y291bGQgZXZlbiB0cmlnZ2VyIGEgcmVzZXQgb25jZSB0aGUgCj4+PiBmaXJzdAo+Pj4gY3B1IHdp
-dGhpbiBhIGhjdHggaXMgb25saW5lZC4KPj4KPj4gWWVhaCwgdGhhdCBuZWVkIG9uZSBiaWcvY29t
-cGxpY2F0ZWQgcGF0Y2hzZXQsIGJ1dCBub3Qgc2VlIGFueSBhZHZhbnRhZ2VzCj4+IG92ZXIgdGhp
-cyBzaW1wbGUgYXBwcm9hY2guCj4gCj4gSSB0ZW5kIHRvIGFncmVlIHdpdGggTWluZyBoZXJlLgoK
-QWN0dWFsbHksIERhbmllbCBhbmQgbWUgY2FtZSB0byBhIHNsaWdodGx5IGRpZmZlcmVudCBpZGVh
-OiB1c2UgY3B1IApob3RwbHVnIG5vdGlmaWVyLgpUaGluZyBpcywgYmxrLW1xIGFscmVhZHkgaGFz
-IGNwdSBob3RwbHVnIG5vdGlmaWVyLCB3aGljaCBzaG91bGQgZW5zdXJlIAp0aGF0IG5vIEkvTyBp
-cyBwZW5kaW5nIGR1cmluZyBjcHUgaG90cGx1Zy4KSWYgd2Ugbm93IGFkZCBhIG52bWUgY3B1IGhv
-dHBsdWcgbm90aWZpZXIgd2hpY2ggZXNzZW50aWFsbHkga2lja3Mgb2ZmIGEgCnJlc2V0IG9uY2Ug
-YWxsIGNwdSBpbiBhIGhjdHggYXJlIG9mZmxpbmUgdGhlIHJlc2V0IGxvZ2ljIHdpbGwgcmVhcnJh
-bmdlIAp0aGUgcXVldWVzIHRvIG1hdGNoIHRoZSBjdXJyZW50IGNwdSBsYXlvdXQuCkFuZCB3aGVu
-IHRoZSBjcHVzIGFyZSBnZXR0aW5nIG9ubGluZWQgd2UnbGwgZG8gYW5vdGhlciByZXNldC4KCkRh
-bmllbCBpcyBjdXJyZW50bHkgcHJlcGFyaW5nIGEgcGF0Y2g7IGxldCdzIHNlZSBob3cgaXQgZ29l
-cy4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAg
-ICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21i
-SCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJn
-KSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QK
-TGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
-L21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On 2021/07/01 3:58, Sagi Grimberg wrote:
+> 
+>>> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+>>> index 21140132a30d..600c5dd1a069 100644
+>>> --- a/include/linux/blk-mq.h
+>>> +++ b/include/linux/blk-mq.h
+>>> @@ -403,6 +403,7 @@ enum {
+>>>   	 */
+>>>   	BLK_MQ_F_STACKING	= 1 << 2,
+>>>   	BLK_MQ_F_TAG_HCTX_SHARED = 1 << 3,
+>>> +	BLK_MQ_F_NOT_USE_MANAGED_IRQ = 1 << 4,
+>>
+>> My 2 cents: BLK_MQ_F_NO_MANAGED_IRQ may be a better/shorter name.
+> 
+> Maybe BLK_MQ_F_UNMANAGED_IRQ?
+
+Even better :)
+
+
+-- 
+Damien Le Moal
+Western Digital Research
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
