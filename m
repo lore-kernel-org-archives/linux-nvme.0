@@ -3,86 +3,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2C9C11F65
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 18:02:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A519AC11F66
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 18:50:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5186361468
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 18:02:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5186361468
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
+	by mail.kernel.org (Postfix) with ESMTPS id 65A4F61494
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jun 2021 18:50:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 65A4F61494
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sNdoxwixKwHFxLBcYgrxr350p7P9zKV0PSsFsprOdjY=; b=rbe5kc9ndYoClVTG+sB9Bp5xLo
-	1WCJYgrzGHWkFSDlyd0VTNSs1i6FbFzjPWgrYPrO6iZxfDAEl28MsI4arH2FiB7kYGh6beLunS94z
-	g1cyXXRhQYdLvPSyY+GIeZvGIwPHfD6IyOr98N6fP0feZbPUXSoywGWSaUziaHv5KAwBeqh2iXVoQ
-	s1mZw4zAleKeqtZ+vcHfOmVTv1GdyVJY+2MqSE38w0mQ3WTtnuAgMdgM7M1pRSApeW6E7iWpN0gFV
-	wmQUPx/dMeDdduRmHIv8RNda0AhO8bC8Nlji7VtR7OChRnmm7l+GXGRX5VBNPNEKjsdhJcIms3UO4
-	tPbBdRxA==;
+	bh=00KSb2Qpv06ceW3fsRw4cbh4hBTSJ/RIGOvF1hLqOSs=; b=IG253PCJvJk7fB82taLP2JXy+f
+	QS3NagjM/XQGOZjU6S2bHmQniW5svqRnGBHWiGnlvNM6Fy33oPDH46oS4SId0gSVYbS8E5ElLbo+u
+	wUQSy7ZjapA3KWkQ8LzPnZdbAAG/Z9zIcRZFk1w0pofS+55LCsxZ/sE9AtF8bSG5FOK/Cadv0Wdvd
+	DtymNAUlo9NhpWCzjfbyUSFfpdhObkwlFdBwJiYYPIG5eu9P/wX2BXjBl5IwMn07I5f6TJ2gYVcVT
+	5WnWBeYQhCAFUXMalY6snQWe3ezt+4ebJoPU/t3bDse3LNRWhZyr+k1TmVcu7cfawgZcPhn5d+Nal
+	ZiEj0JxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lyeX8-00EsnI-Ks; Wed, 30 Jun 2021 18:01:58 +0000
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+	id 1lyfHp-00F2lK-MG; Wed, 30 Jun 2021 18:50:13 +0000
+Received: from mail-pj1-f42.google.com ([209.85.216.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lyeX4-00Esmc-Kk
- for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 18:01:57 +0000
-Received: by mail-pl1-x62a.google.com with SMTP id b5so1944903plg.2
- for <linux-nvme@lists.infradead.org>; Wed, 30 Jun 2021 11:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=purestorage.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=g2ulmAIXTy5PbTKoSyI5YIe1QH1mvhekSNBlk2yHl/s=;
- b=EZo6+MKW4RLog/SSHiemfPfdoFGzDVXdwsd1gGDKuH3W5RxIBHv4nFfS/K8HGbm9ed
- PlIwr/EpyG+ZlarvPGv0KW86IGixQeDs1JuxkUqW53P6t8M7VfVOnB6Hq+3zsO2ivFti
- JRXASnzYui5YUH+5QwmDPCysf+SuG1Wls6ka4=
+ id 1lyfHn-00F2k0-1P
+ for linux-nvme@lists.infradead.org; Wed, 30 Jun 2021 18:50:12 +0000
+Received: by mail-pj1-f42.google.com with SMTP id
+ g24-20020a17090ace98b029017225d0c013so3700444pju.1
+ for <linux-nvme@lists.infradead.org>; Wed, 30 Jun 2021 11:50:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=g2ulmAIXTy5PbTKoSyI5YIe1QH1mvhekSNBlk2yHl/s=;
- b=Fm8OuMA9tb4JH3+SMjziSEXaYmLSqKlV9M8LQtI7SCX/NDJi1roB9a6et0Gvi1y4Rl
- OkoE/8CrO3yT5fbwW/s2D6oygJEOKRk+2tkfJD/Tzs8zDzbbvaYtbGrkK0s46KULa2dY
- pR5F5MNC+lIlDRF7lTYERTvPzcqKQIyE19hs5n6iXPkC3EnpzRwSyrufZso1UmghZNBw
- 4spFW0OrCA5drR6HZWGk97cf3W8S8xW3RFizfhVSTeahAKK0ygqZzOOJrWgEDKEJEOeE
- 0Hexx9/GvCdtipEf0m33duNfyRj5k/3IyM2DTqDLuYCqxBbwpEyEUYoclHitil+EBvrb
- Xe3g==
-X-Gm-Message-State: AOAM5304eN8k5N1uewr5MhwIJHyPwI4WLW9Xx3j+kRmV0/7jEJlqvi+d
- yAO3HBwCom6PsXV8r+NrnRDcnA==
-X-Google-Smtp-Source: ABdhPJwbqgS3AvchR/wDsywTqrVGkAfHi6YJZ98aiTV4NOBG5xT0BseSm58VDRsTTWjxr9h4iPT5cw==
-X-Received: by 2002:a17:902:bd82:b029:129:2e87:9946 with SMTP id
- q2-20020a170902bd82b02901292e879946mr109437pls.53.1625076104632; 
- Wed, 30 Jun 2021 11:01:44 -0700 (PDT)
-Received: from [10.231.216.65] ([192.30.189.3])
- by smtp.gmail.com with ESMTPSA id j3sm22696586pfe.98.2021.06.30.11.01.43
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eNw8dBI5PhxQLFB8+rMgyGNEk5rA3kFMUjTuuttIqu8=;
+ b=UQZs2AG8UW8Q6Z27Io8JiQn2ND9/HYYYOsQv2qJrE94yNFY8t+qHwCn0wcY6T2wJwG
+ y5NEsDOvH+MXAdpdNdPF2Nf44rYiDuonNvcDCi0VjKsmo3G3jxUe4uAhEI9miPV64TxS
+ D+Yr1Sm+NRcOhzUoTOCEJ7J/hODSa9JrnUHGmRP1bgOzROTKLRsitK7xO07g5l1rte8b
+ uHuTz7Mj6vt+2tm3lcw7M8kv38yOwixFsTdD0VBKidcn6Jx7jSTf87aC7SnWyBwR8Zos
+ gyJThrYwoTSPXDO6+q1zxod5hLuYNG/hAlRWCCsGOMN2UGxsE57Mii63sufUieI51epo
+ 00Jg==
+X-Gm-Message-State: AOAM530xeiulCp4TfgjA8jUDon8UwaUZ3ry7IpgWkvvY61d1im5H9dAg
+ fHWTNJ5JRmAbR3/R74bsadZmrKWg4NQ=
+X-Google-Smtp-Source: ABdhPJwx4P/U4JWYRhsLO+xaPgfqyNlAWmpYBzRe8Zwn5hS24Yw2wlgwssDSzEBIewZOA91EAMZcNg==
+X-Received: by 2002:a17:902:8504:b029:128:c36f:2b7d with SMTP id
+ bj4-20020a1709028504b0290128c36f2b7dmr20678224plb.32.1625079008713; 
+ Wed, 30 Jun 2021 11:50:08 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:8e5:b428:30c3:f97b?
+ ([2601:647:4802:9070:8e5:b428:30c3:f97b])
+ by smtp.gmail.com with ESMTPSA id v69sm24846682pfc.18.2021.06.30.11.50.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jun 2021 11:01:44 -0700 (PDT)
-Subject: Re: [PATCH 0/2] rr: nvme-pci: fix races and UAF
-To: linux-nvme@lists.infradead.org, Chaitanya.Kulkarni@wdc.com
-Cc: yzhong@purestorage.com, ashishk@purestorage.com
-References: <20210624173125.20376-1-cachen@purestorage.com>
-From: Casey Chen <cachen@purestorage.com>
-Message-ID: <e6a90107-b5b8-ad53-1e79-7691c37fd011@purestorage.com>
-Date: Wed, 30 Jun 2021 11:01:37 -0700
+ Wed, 30 Jun 2021 11:50:07 -0700 (PDT)
+Subject: Re: [PATCH] nvmet: allow setting ctrl to ready without iosqes/iocqes
+ set
+To: ran.anner@dell.com, hch@lst.de, linux-nvme@lists.infradead.org
+References: <20210502153106.18970-1-ran.anner@dell.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <a1767b33-561d-3c9f-cdd0-b338f2967f6e@grimberg.me>
+Date: Wed, 30 Jun 2021 11:50:06 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624173125.20376-1-cachen@purestorage.com>
+In-Reply-To: <20210502153106.18970-1-ran.anner@dell.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210630_110154_828718_890D7979 
-X-CRM114-Status: GOOD (  21.43  )
+X-CRM114-CacheID: sfid-20210630_115011_138941_56B925E5 
+X-CRM114-Status: GOOD (  22.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,214 +93,91 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This review request has been there nearly a week. Except one comment 
-from Chaitanya that adjust the alignment of each line in commit message 
-of the second patch, I don't see any other comments. Do you guys have 
-more comments ? Let me know!
+> From: Ran Anner <Ran.Anner@dell.com>
+> 
+> According to the spec we should fail creation of IO queues
+> if iosqes or iocqes properties are not set
 
-On 6/24/21 10:31 AM, Casey Chen wrote:
-> Found two bugs while power-cycling PCIe NVMe drive for hours:
-> - Races in nvme_setup_io_queues()
-> - UAF introduced by nvme_dev_remove_admin(), which is found
-> after fixing the races. Without fixing the races, the system
-> just crashes and cannot survive to reproduce the UAF.
->
-> The proposed fixes have been tested for several days for correctness.
->
-> 0. Code baseline
->
-> Tag nvme-5.14-2021-06-08 of repo http://git.infradead.org/nvme.git
->
-> 1. Testing method
->
-> while :; power off one drive;
->      sleep $((RANDOM%3)).$((RANDOM%10));
->      power on the same drive;
->      sleep $((RANDOM%3)).$((RANDOM%10));
-> done
->
-> 2. Sample crash trace due to races in nvme_setup_io_queues()
-> (task ID shown after the timestamps)
->
-> [11668.533431][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Card present
-> ...
-> [11668.681298][T251231] nvme nvme12: pci function 0000:8c:00.0
-> [11668.681354][T26714] nvme 0000:8c:00.0: enabling device (0100 -> 0102)
-> [11669.046119][   C31] pcieport 0000:87:08.0: pciehp: pending interrupts 0x0108 from Slot Status
-> [11669.046142][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Link Down
-> [11669.046146][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Card not present
-> [11669.046149][  T716] pcieport 0000:87:08.0: pciehp: pciehp_unconfigure_device: domain:bus:dev = 0000:8c:00
-> [11669.077428][  T716] ------------[ cut here ]------------
-> [11669.077431][  T716] kernel BUG at drivers/pci/msi.c:348!
-> [11669.077555][  T716] invalid opcode: 0000 [#1] SMP KASAN
-> [11669.077658][  T716] CPU: 31 PID: 716 Comm: irq/127-pciehp Not tainted 5.13.0-rc3+
-> [11669.078022][  T716] RIP: 0010:free_msi_irqs+0x28a/0x2d0
-> ...
-> [11669.093982][  T716] Call Trace:
-> [11669.096850][  T716]  pci_free_irq_vectors+0xe/0x20
-> [11669.099695][  T716]  nvme_dev_disable+0x140/0x760 [nvme]
-> [11669.102503][  T716]  ? _raw_spin_lock_irqsave+0x9c/0x100
-> [11669.105271][  T716]  ? trace_hardirqs_on+0x2c/0xe0
-> [11669.107994][  T716]  nvme_remove+0x191/0x1e0 [nvme]
-> [11669.110689][  T716]  pci_device_remove+0x6b/0x110
-> [11669.113316][  T716]  device_release_driver_internal+0x14f/0x280
-> [11669.115939][  T716]  pci_stop_bus_device+0xcb/0x100
-> [11669.118515][  T716]  pci_stop_and_remove_bus_device+0xe/0x20
-> [11669.121079][  T716]  pciehp_unconfigure_device+0xfa/0x200
-> [11669.123597][  T716]  ? pciehp_configure_device+0x1c0/0x1c0
-> [11669.126049][  T716]  ? trace_hardirqs_on+0x2c/0xe0
-> [11669.128444][  T716]  pciehp_disable_slot+0xc4/0x1a0
-> [11669.130771][  T716]  ? pciehp_runtime_suspend+0x40/0x40
-> [11669.133054][  T716]  ? __mutex_lock_slowpath+0x10/0x10
-> [11669.135289][  T716]  ? trace_hardirqs_on+0x2c/0xe0
-> [11669.137462][  T716]  pciehp_handle_presence_or_link_change+0x15c/0x4f0
-> [11669.139632][  T716]  ? down_read+0x11f/0x1a0
-> [11669.141731][  T716]  ? pciehp_handle_disable_request+0x80/0x80
-> [11669.143817][  T716]  ? rwsem_down_read_slowpath+0x600/0x600
-> [11669.145851][  T716]  ? __radix_tree_lookup+0xb2/0x130
-> [11669.147842][  T716]  pciehp_ist+0x19d/0x1a0
-> [11669.149790][  T716]  ? pciehp_set_indicators+0xe0/0xe0
-> [11669.151704][  T716]  ? irq_finalize_oneshot.part.46+0x1d0/0x1d0
-> [11669.153588][  T716]  irq_thread_fn+0x3f/0xa0
-> [11669.155407][  T716]  irq_thread+0x195/0x290
-> [11669.157147][  T716]  ? irq_thread_check_affinity.part.49+0xe0/0xe0
-> [11669.158883][  T716]  ? _raw_read_lock_irq+0x50/0x50
-> [11669.160611][  T716]  ? _raw_read_lock_irq+0x50/0x50
-> [11669.162320][  T716]  ? irq_forced_thread_fn+0xf0/0xf0
-> [11669.164032][  T716]  ? trace_hardirqs_on+0x2c/0xe0
-> [11669.165731][  T716]  ? irq_thread_check_affinity.part.49+0xe0/0xe0
-> [11669.167461][  T716]  kthread+0x1c8/0x1f0
-> [11669.169173][  T716]  ? kthread_parkme+0x40/0x40
-> [11669.170883][  T716]  ret_from_fork+0x22/0x30
->
-> 3. KASAN report for the UAF introduced by nvme_dev_remove_admin()
-> (task ID is shown after the timestamp)
->
-> [18319.015748][T246989] nvme nvme13: pci function 0000:8c:00.0
-> [18319.015795][T215541] nvme 0000:8c:00.0: enabling device (0100 -> 0102)
-> [18319.369086][   C31] pcieport 0000:87:08.0: pciehp: pending interrupts 0x0108 from Slot Status
-> [18319.369107][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Link Down
-> [18319.369111][  T716] pcieport 0000:87:08.0: pciehp: Slot(402): Card not present
-> [18319.369116][  T716] pcieport 0000:87:08.0: pciehp: pciehp_unconfigure_device: domain:bus:dev = 0000:8c:00
-> [18320.452045][T215541] nvme nvme13: 88/0/0 default/read/poll queues
-> [18320.469475][T215541] nvme nvme13: failed to mark controller live state
-> [18320.469483][T215541] nvme nvme13: Removing after probe failure status: -19
-> [18320.551295][T215541] ==================================================================
-> [18320.551299][T215541] BUG: KASAN: use-after-free in __blk_mq_all_tag_iter+0x9c/0x3f0
-> [18320.551311][T215541] Read of size 4 at addr ffff888897904d04 by task kworker/u178:2/215541
-> [18320.551315][T215541]
-> [18320.551318][T215541] CPU: 86 PID: 215541 Comm: kworker/u178:2 Not tainted 5.13.0-rc3+
-> [18320.551327][T215541] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
-> [18320.551339][T215541] Call Trace:
-> [18320.551343][T215541]  dump_stack+0xa4/0xdb
-> [18320.551354][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
-> [18320.551359][T215541]  print_address_description.constprop.10+0x3a/0x60
-> [18320.551366][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
-> [18320.551372][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
-> [18320.551377][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
-> [18320.551382][T215541]  kasan_report.cold.15+0x7c/0xd8
-> [18320.551390][T215541]  ? __blk_mq_all_tag_iter+0x9c/0x3f0
-> [18320.551395][T215541]  __blk_mq_all_tag_iter+0x9c/0x3f0
-> [18320.551401][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
-> [18320.551407][T215541]  ? bt_iter+0xf0/0xf0
-> [18320.551412][T215541]  ? __blk_mq_all_tag_iter+0x2c9/0x3f0
-> [18320.551417][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
-> [18320.551422][T215541]  ? bt_iter+0xf0/0xf0
-> [18320.551427][T215541]  ? dev_printk_emit+0x95/0xbb
-> [18320.551436][T215541]  blk_mq_tagset_busy_iter+0x75/0xa0
-> [18320.551441][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
-> [18320.551446][T215541]  ? blk_mq_update_nr_requests+0x2a0/0x2a0
-> [18320.551451][T215541]  blk_mq_tagset_wait_completed_request+0x86/0xc0
-> [18320.551457][T215541]  ? blk_mq_tagset_busy_iter+0xa0/0xa0
-> [18320.551463][T215541]  ? blk_mq_tagset_busy_iter+0x80/0xa0
-> [18320.551469][T215541]  ? trace_event_raw_event_nvme_setup_cmd+0x2d0/0x2d0 [nvme_core]
-> [18320.551493][T215541]  nvme_dev_disable+0x4f6/0x760 [nvme]
-> [18320.551502][T215541]  ? trace_hardirqs_on+0x2c/0xe0
-> [18320.551510][T215541]  nvme_reset_work+0x226/0x2060 [nvme]
-> [18320.551520][T215541]  ? nvme_remove+0x1e0/0x1e0 [nvme]
-> [18320.551528][T215541]  ? __update_load_avg_cfs_rq+0x1d8/0x550
-> [18320.551537][T215541]  ? down_read+0x11f/0x1a0
-> [18320.551545][T215541]  ? newidle_balance+0x444/0x690
-> [18320.551552][T215541]  ? update_load_avg+0x626/0xbe0
-> [18320.551557][T215541]  ? update_cfs_group+0x1e/0x150
-> [18320.551562][T215541]  ? load_balance+0x11d0/0x11d0
-> [18320.551567][T215541]  ? dequeue_entity+0x150/0x730
-> [18320.551573][T215541]  ? nvme_irq_check+0x60/0x60 [nvme]
-> [18320.551581][T215541]  ? finish_task_switch+0x101/0x3d0
-> [18320.551588][T215541]  ? read_word_at_a_time+0xe/0x20
-> [18320.551594][T215541]  ? strscpy+0xc1/0x1d0
-> [18320.551598][T215541]  process_one_work+0x4b9/0x7b0
-> [18320.551604][T215541]  worker_thread+0x72/0x710
-> [18320.551610][T215541]  ? process_one_work+0x7b0/0x7b0
-> [18320.551614][T215541]  kthread+0x1c8/0x1f0
-> [18320.551618][T215541]  ? kthread_parkme+0x40/0x40
-> [18320.551622][T215541]  ret_from_fork+0x22/0x30
-> [18320.551630][T215541]
-> [18320.551632][T215541] Allocated by task 215541:
-> [18320.551635][T215541]  kasan_save_stack+0x19/0x40
-> [18320.551639][T215541]  __kasan_kmalloc+0x7f/0xa0
-> [18320.551642][T215541]  kmem_cache_alloc_node_trace+0x187/0x2b0
-> [18320.551648][T215541]  blk_mq_init_tags+0x47/0x100
-> [18320.551651][T215541]  blk_mq_alloc_rq_map+0x44/0xf0
-> [18320.551656][T215541]  __blk_mq_alloc_map_and_request+0x7f/0x140
-> [18320.551661][T215541]  blk_mq_alloc_tag_set+0x25e/0x510
-> [18320.551666][T215541]  nvme_reset_work+0x14f9/0x2060 [nvme]
-> [18320.551674][T215541]  process_one_work+0x4b9/0x7b0
-> [18320.551678][T215541]  worker_thread+0x72/0x710
-> [18320.551682][T215541]  kthread+0x1c8/0x1f0
-> [18320.551685][T215541]  ret_from_fork+0x22/0x30
-> [18320.551689][T215541]
-> [18320.551690][T215541] Freed by task 716:
-> [18320.551693][T215541]  kasan_save_stack+0x19/0x40
-> [18320.551696][T215541]  kasan_set_track+0x1c/0x30
-> [18320.551699][T215541]  kasan_set_free_info+0x20/0x30
-> [18320.551704][T215541]  __kasan_slab_free+0xec/0x130
-> [18320.551707][T215541]  kfree+0xa8/0x460
-> [18320.551712][T215541]  blk_mq_free_map_and_requests+0x8d/0xc0
-> [18320.551717][T215541]  blk_mq_free_tag_set+0x30/0xf0
-> [18320.551721][T215541]  nvme_remove+0x199/0x1e0 [nvme]
-> [18320.551729][T215541]  pci_device_remove+0x6b/0x110
-> [18320.551735][T215541]  device_release_driver_internal+0x14f/0x280
-> [18320.551744][T215541]  pci_stop_bus_device+0xcb/0x100
-> [18320.551750][T215541]  pci_stop_and_remove_bus_device+0xe/0x20
-> [18320.551754][T215541]  pciehp_unconfigure_device+0xfa/0x200
-> [18320.551761][T215541]  pciehp_disable_slot+0xc4/0x1a0
-> [18320.551765][T215541]  pciehp_handle_presence_or_link_change+0x15c/0x4f0
-> [18320.551770][T215541]  pciehp_ist+0x19d/0x1a0
-> [18320.551774][T215541]  irq_thread_fn+0x3f/0xa0
-> [18320.551780][T215541]  irq_thread+0x195/0x290
-> [18320.551783][T215541]  kthread+0x1c8/0x1f0
-> [18320.551786][T215541]  ret_from_fork+0x22/0x30
-> [18320.551791][T215541]
-> [18320.551792][T215541] The buggy address belongs to the object at ffff888897904d00
-> [18320.551792][T215541]  which belongs to the cache kmalloc-192 of size 192
-> [18320.551795][T215541] The buggy address is located 4 bytes inside of
-> [18320.551795][T215541]  192-byte region [ffff888897904d00, ffff888897904dc0)
-> [18320.551800][T215541] The buggy address belongs to the page:
-> [18320.551802][T215541] page:000000002f3df664 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x897904
-> [18320.551807][T215541] head:000000002f3df664 order:1 compound_mapcount:0
-> [18320.551810][T215541] flags: 0x200000000010200(slab|head|node=0|zone=2)
-> [18320.551819][T215541] raw: 0200000000010200 dead000000000100 dead000000000122 ffff88810004ca00
-> [18320.551824][T215541] raw: 0000000000000000 0000000000200020 00000001ffffffff 0000000000000000
-> [18320.551826][T215541] page dumped because: kasan: bad access detected
-> [18320.551828][T215541]
-> [18320.551829][T215541] Memory state around the buggy address:
-> [18320.551832][T215541]  ffff888897904c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [18320.551835][T215541]  ffff888897904c80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> [18320.551838][T215541] >ffff888897904d00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [18320.551841][T215541]                    ^
-> [18320.551843][T215541]  ffff888897904d80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> [18320.551846][T215541]  ffff888897904e00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> [18320.551848][T215541] ==================================================================
-> [18320.551850][T215541] Disabling lock debugging due to kernel taint
->
-> Casey Chen (2):
->    nvme-pci: Fix multiple races in nvme_setup_io_queues()
->    nvme-pci: Fix UAF introduced by nvme_dev_remove_admin()
->
->   drivers/nvme/host/pci.c | 60 ++++++++++++++++++++++++++++++++++++-----
->   1 file changed, 53 insertions(+), 7 deletions(-)
->
+Would be good to add the specific section in the spec.
+
+  but does not mention
+> preventing from changing ctrl status to ready.
+> We have seen host implementation which sets the property to 0x1
+> and waits endlessly until ctrl status changes to ready.
+> 
+> Signed-off-by: Ran Anner <Ran.Anner@dell.com>
+> ---
+>   drivers/nvme/target/core.c        | 39 +------------------------------
+>   drivers/nvme/target/fabrics-cmd.c |  9 +++++++
+>   drivers/nvme/target/nvmet.h       | 34 +++++++++++++++++++++++++++
+>   3 files changed, 44 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index adbede9ab7f3..559dc7354adb 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -1078,48 +1078,11 @@ void nvmet_req_free_sgls(struct nvmet_req *req)
+>   }
+>   EXPORT_SYMBOL_GPL(nvmet_req_free_sgls);
+>   
+> -static inline bool nvmet_cc_en(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
+> -}
+> -
+> -static inline u8 nvmet_cc_css(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
+> -}
+> -
+> -static inline u8 nvmet_cc_mps(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
+> -}
+> -
+> -static inline u8 nvmet_cc_ams(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
+> -}
+> -
+> -static inline u8 nvmet_cc_shn(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
+> -}
+> -
+> -static inline u8 nvmet_cc_iosqes(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
+> -}
+> -
+> -static inline u8 nvmet_cc_iocqes(u32 cc)
+> -{
+> -	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
+> -}
+> -
+>   static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+>   {
+>   	lockdep_assert_held(&ctrl->lock);
+>   
+> -	if (nvmet_cc_iosqes(ctrl->cc) != NVME_NVM_IOSQES ||
+> -	    nvmet_cc_iocqes(ctrl->cc) != NVME_NVM_IOCQES ||
+> -	    nvmet_cc_mps(ctrl->cc) != 0 ||
+> +	if (nvmet_cc_mps(ctrl->cc) != 0 ||
+>   	    nvmet_cc_ams(ctrl->cc) != 0 ||
+>   	    nvmet_cc_css(ctrl->cc) != 0) {
+>   		ctrl->csts = NVME_CSTS_CFS;
+> diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+> index 1420a8e3e0b1..421ab564ed5c 100644
+> --- a/drivers/nvme/target/fabrics-cmd.c
+> +++ b/drivers/nvme/target/fabrics-cmd.c
+> @@ -259,6 +259,15 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+>   		goto out_ctrl_put;
+>   	}
+>   
+> +	if (nvmet_cc_iosqes(ctrl->cc) != NVME_NVM_IOSQES ||
+> +			nvmet_cc_iocqes(ctrl->cc) != NVME_NVM_IOCQES) {
+
+Can you indent to the start of the parenthesis?
 
 _______________________________________________
 Linux-nvme mailing list
