@@ -2,20 +2,19 @@ Return-Path: <SRS0=jgW7=LZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B0FC11F64
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jul 2021 09:52:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA7BBC11F64
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jul 2021 11:51:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B20261452
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jul 2021 09:52:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B20261452
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 9EC59613D9
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jul 2021 11:51:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EC59613D9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -23,41 +22,80 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/jsqaMK3FY5NKMKh94UwcK2jC/c6AzQWJmVesIr4XNg=; b=jkB6v6tsv9G+kS
-	xlWyTy+hD+tVwqHj7wDnh/tDWEQ4NRwXqCdeQySQZ+9aiVlzZLVfLWepCDZK3M+w1amEUxHj6TWFL
-	pk5NQitliJgV7CW0NGT4Lj723elJHJy/t/8afWijVGz+vbSg/Ul49QE2VgcjczTeYYSyMCb4mmMho
-	n7/tu0XwTnx5njD+odRrpYu3FkQgxEaV/bbbJueoQaEe52Qwd7+J/ahHNunIA6yjVFUuUNdIbzxhh
-	5f6dHUe8RitZGoCVofnff0epAa92k/uXZv0mjnLkCUmH1XOoe6w5lJUys/ub4aFwPq/7LlBLhaBXc
-	H2Qm+9XDZghz7XXpK7MA==;
+	List-Owner; bh=4EbO8k1B73OTnaMA4HAVkFm22t7kd5vmofBpbwTBY/g=; b=f9TeGuPbtXu1GT
+	JJVdJY1FylXZtB3Beqnl6M6SV6c6Nri2YZOHR5xdj3yfCdML4vAgBPRQkzBQDu9/MTxMk63ozxIA1
+	RIBiDx40lvhgh77LLyoKBJ5ELuQcqzDbypAGgoNt4DnmC2C/STRwKiGn/MC5igQeIeI1TmpLo79l8
+	KhOnGYU7YLdSuGOuUhgVHD2U22NIgRT1zAKkdkou9dXyzS2qeXn40g35cv9mZgU1ktm92Id4ZzyPP
+	9DcilUfPFbqOR7Bl7Ao4QigQMWoy3lKHoABXH5kRIz5T6PyjG8KiacbDPb/nmwXOTU9PWm+0qeMOp
+	LV1XfMMnc4HXfRjJx6Jw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lytN8-00GqYu-PV; Thu, 01 Jul 2021 09:52:38 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1lyvEC-00H77m-Ky; Thu, 01 Jul 2021 11:51:32 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lytN5-00GqX6-Hs
- for linux-nvme@lists.infradead.org; Thu, 01 Jul 2021 09:52:37 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 188EF6736F; Thu,  1 Jul 2021 11:52:27 +0200 (CEST)
-Date: Thu, 1 Jul 2021 11:52:26 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: John Garry <john.garry@huawei.com>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Daniel Wagner <dwagner@suse.de>, Wen Xiong <wenxiong@us.ibm.com>
-Subject: Re: [PATCH 1/2] blk-mq: not deactivate hctx if the device doesn't
- use managed irq
-Message-ID: <20210701095226.GB2066@lst.de>
-References: <20210629074951.1981284-1-ming.lei@redhat.com>
- <20210629074951.1981284-2-ming.lei@redhat.com>
- <c31aa259-d3a8-8c70-efce-b7af02bfd609@huawei.com> <YNu7rs7j5/KtQjAi@T590>
+ id 1lyvE7-00H76j-Jv
+ for linux-nvme@lists.infradead.org; Thu, 01 Jul 2021 11:51:31 +0000
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 09EF422883;
+ Thu,  1 Jul 2021 11:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625140284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=niQsBSMi+GtprJ4MfU6xolrZ1bDfAKQlLa4xMMbR1Wg=;
+ b=cHBSLohSygC1JaW3VY11Ovv79GbuNjma9X4m5JHoKqjipOPNovE3wWaVzr+yaoP6BXBc04
+ AF3IWYdB83IHJtZAAZXn1/WdB5n74ZwuiVnpQjRalXjQpEShVg7gTBujjOq0Sr5Y0KAM0e
+ QdTODmnrTa2nFdJUZ0J1VyxVcpOz3hY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625140284;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=niQsBSMi+GtprJ4MfU6xolrZ1bDfAKQlLa4xMMbR1Wg=;
+ b=9IkPC7+p2lbGrw7khQhEq5biS/Rx6qqYop6wdOLVDUD3KpBDFAA2/dkiuzcGHI5FxutFwe
+ pbx6fo3Nssqs4gCQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id E394211CC0;
+ Thu,  1 Jul 2021 11:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625140284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=niQsBSMi+GtprJ4MfU6xolrZ1bDfAKQlLa4xMMbR1Wg=;
+ b=cHBSLohSygC1JaW3VY11Ovv79GbuNjma9X4m5JHoKqjipOPNovE3wWaVzr+yaoP6BXBc04
+ AF3IWYdB83IHJtZAAZXn1/WdB5n74ZwuiVnpQjRalXjQpEShVg7gTBujjOq0Sr5Y0KAM0e
+ QdTODmnrTa2nFdJUZ0J1VyxVcpOz3hY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625140284;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=niQsBSMi+GtprJ4MfU6xolrZ1bDfAKQlLa4xMMbR1Wg=;
+ b=9IkPC7+p2lbGrw7khQhEq5biS/Rx6qqYop6wdOLVDUD3KpBDFAA2/dkiuzcGHI5FxutFwe
+ pbx6fo3Nssqs4gCQ==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id pfa+Nzus3WAXDQAALh3uQQ
+ (envelope-from <dwagner@suse.de>); Thu, 01 Jul 2021 11:51:23 +0000
+Date: Thu, 1 Jul 2021 13:51:23 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2 0/4] nvme: protect against possible request reference
+ after completion
+Message-ID: <20210701115123.ir7huzzpifhsk7cz@beryllium.lan>
+References: <20210519174340.1144806-1-sagi@grimberg.me>
+ <777a99bc-b7e3-ce39-cd98-ab1196aebb2e@grimberg.me>
+ <20210616170411.GA921268@dhcp-10-100-145-180.wdc.com>
+ <5c0766d9-9507-b0c7-4917-4b936fd7a197@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YNu7rs7j5/KtQjAi@T590>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <5c0766d9-9507-b0c7-4917-4b936fd7a197@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210701_025235_767877_00EFC950 
-X-CRM114-Status: GOOD (  13.08  )
+X-CRM114-CacheID: sfid-20210701_045127_848209_99A4FA78 
+X-CRM114-Status: GOOD (  10.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,12 +112,11 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 30, 2021 at 08:32:46AM +0800, Ming Lei wrote:
-> Indeed, we may replace BLK_MQ_F_STACKING with BLK_MQ_F_NOT_USE_MANAGED_IRQ
-> (BLK_MQ_F_NO_MANAGED_IRQ) too, and the latter is one general solution.
+On Wed, Jun 16, 2021 at 02:05:16PM -0700, Sagi Grimberg wrote:
+> Cool, Christoph, where do you stand on this? Can we move forward with
+> this?
 
-And now turn the polarity around and make it a BLK_MQ_F_MANAGED_IRQ set
-by the map_queue helpers that rely on managed irqs.
+Same here, I would like to get this merged. Thanks!
 
 _______________________________________________
 Linux-nvme mailing list
