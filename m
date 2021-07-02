@@ -7,100 +7,74 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1941EC11F68
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 09:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BCC8C11F68
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 15:07:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CEAD7613EA
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 09:48:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEAD7613EA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id CCADF61420
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 15:07:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CCADF61420
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=a9as8dFLe/7BCNAWNjlTv/g/kIFttTa3nlhbICKyMxQ=; b=JVL58YllPxfp5s
-	j9aCEX1m19/292yNyxDeXSUcFotawgNujiw2eBBnYBEND9+P1kRays/ZSbT1jd/mSIo0oIw509Rhu
-	QKB3EihI9JoSkVawCkXIByO8b4LQHglrzslC0c2anmAXhJbqKbZPgEYZeJ79LpdEnSMT5kp8ih1Dc
-	dKsRHvHqM5IVdbq6t4lZSvyhkUKAR5f1qmyFyMagjN3ESTAiWBboGBcwYm7TD1FcEQqlxcLG6VjYb
-	CyU1jxOFCl32UWSELa2gT0jsWwH8U1Qcf7nF7CJhVQ4NtcSYjej2K3HeoxyKol8mPy3ldBtwXVhm5
-	F8MurlX+E41Z/meK29Tg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=iuU2zbaRV9CEN156T5t+4HxIGfbQ26V9crHEuFcj9G0=; b=kFfHwbeCTV8ibV
+	80OvaWkdsIsa7hjxYsHfv3iJqKYzag0/Tg084hVUL6H4RnlWB3hwrXZDV2XJLwFrqCa5+z599jIYV
+	/7X2vYN9+wlMnSdUHdtWWFaPa+IBmgV4JZeWHJ6ZmEeIRDwav1rGwjIvr66UyQrpqEspTqsj83mYf
+	3nzZXhU8pjGd20ALSz0snl/n4aHVMKf5FVGZCpfEaEciVPBJ6bdyTHn+VQdEJevvSuincH4UHd2Um
+	LrW+wSp8gT3wM05vRFAiBAbf2CUBBhWSi/XvJsx1upRMpgD50VQDOAnO7tvS5dizSDeN3ByIo2lMR
+	Otwxslix26d1kht8HmEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lzFmM-002gm4-CD; Fri, 02 Jul 2021 09:48:10 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1lzKky-003MJI-GN; Fri, 02 Jul 2021 15:07:04 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lzFmB-002gl5-1U
- for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 09:48:01 +0000
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ id 1lzKkv-003MIH-QE
+ for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 15:07:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625238418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PdwfPK8O2p53Sdh/U+k8MCs9zMdJjwSRegEiKK8wxr4=;
+ b=CRz4IJyFjMQ5QxOaU2CNy163A91V+4A6czzk4TQA7ErhKoq8Gk4hMuEFVHMWn5cvdMYnKU
+ 0jjADKthP6KU45hU6wjrVPlac6Q0M2rSjG2HF7AY3xIh8fJTlaX/0GusCgxO94vAVjV9hL
+ u5plyPlHgFsJHZcRWBfOoedD2INi1qg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-ocqMkxnINPK5_UGFYX5n_A-1; Fri, 02 Jul 2021 11:06:55 -0400
+X-MC-Unique: ocqMkxnINPK5_UGFYX5n_A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2315721FB4;
- Fri,  2 Jul 2021 09:47:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625219277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
- b=Q8dtv8whqMkN2kfApjKcVHAEZB9mk7p84E+u/wdiRojSl/aW1e4kQ0wlNc5eNMjxNJa5J6
- 6ZDqJ5MudOyDzI9XuK89jNWzVPEU16XWcMhB2q7FmG40rAp0L3KqwnkfzlThVsn5MPtfPZ
- wHwC67h+9tknxhOE0OcyjCxhIgjlJuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625219277;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
- b=HYkexFxqTPAbvKAxsGKoRz5Je+sHqDXW4MlD/P/iKEst+JGBrleA19ao15BrsxWKSHRYAv
- xyNkJKdg6J4lSPCQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 116C911CD6;
- Fri,  2 Jul 2021 09:47:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625219277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
- b=Q8dtv8whqMkN2kfApjKcVHAEZB9mk7p84E+u/wdiRojSl/aW1e4kQ0wlNc5eNMjxNJa5J6
- 6ZDqJ5MudOyDzI9XuK89jNWzVPEU16XWcMhB2q7FmG40rAp0L3KqwnkfzlThVsn5MPtfPZ
- wHwC67h+9tknxhOE0OcyjCxhIgjlJuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625219277;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
- b=HYkexFxqTPAbvKAxsGKoRz5Je+sHqDXW4MlD/P/iKEst+JGBrleA19ao15BrsxWKSHRYAv
- xyNkJKdg6J4lSPCQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id rhRAA83g3mDaSgAALh3uQQ
- (envelope-from <dwagner@suse.de>); Fri, 02 Jul 2021 09:47:57 +0000
-Date: Fri, 2 Jul 2021 11:47:56 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH 0/2] blk-mq: fix blk_mq_alloc_request_hctx
-Message-ID: <20210702094756.34zkja2yc6am3gyc@beryllium.lan>
-References: <20210629074951.1981284-1-ming.lei@redhat.com>
- <5f304121-38ce-034b-2d17-93d136c77fe6@suse.de>
- <YNwug8n7qGL5uXfo@T590>
- <c1de513a-5477-9d1d-0ddc-24e9166cc717@suse.de>
- <YNw/DcxIIMeg/2VK@T590>
- <e106f9c4-35c3-b2da-cdd8-3c4dff8234d6@grimberg.me>
- <89081624-fedd-aa94-1ba2-9a137708a1f1@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5510100C610;
+ Fri,  2 Jul 2021 15:06:52 +0000 (UTC)
+Received: from localhost (ovpn-12-40.pek2.redhat.com [10.72.12.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 015095D6D3;
+ Fri,  2 Jul 2021 15:06:44 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+ Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>,
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Damien Le Moal <damien.lemoal@wdc.com>, Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH V2 0/6] blk-mq: fix blk_mq_alloc_request_hctx
+Date: Fri,  2 Jul 2021 23:05:49 +0800
+Message-Id: <20210702150555.2401722-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <89081624-fedd-aa94-1ba2-9a137708a1f1@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210702_024759_296492_B65DCE1C 
-X-CRM114-Status: GOOD (  27.90  )
+X-CRM114-CacheID: sfid-20210702_080701_964390_C6D19452 
+X-CRM114-Status: GOOD (  16.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,205 +91,68 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 30, 2021 at 09:46:35PM +0200, Hannes Reinecke wrote:
-> Actually, Daniel and me came to a slightly different idea: use cpu hotplug
-> notifier.
-> Thing is, blk-mq already has cpu hotplug notifier, which should ensure that
-> no I/O is pending during cpu hotplug.
-> If we now add a nvme cpu hotplug notifier which essentially kicks off a
-> reset once all cpu in a hctx are offline the reset logic will rearrange the
-> queues to match the current cpu layout.
-> And when the cpus are getting onlined we'll do another reset.
-> 
-> Daniel is currently preparing a patch; let's see how it goes.
+Hi,
 
-FTR, I can't say it was a huge success. I observed a real problem with
-this idea and 'maybe problem. First, we can't use nvme_ctrl_reset_sync()
-in the cpuhp path as this will block in various places due to
-percpu_rwsem_wait operations [1]. Not really a surprise I'd say.
+blk_mq_alloc_request_hctx() is used by NVMe fc/rdma/tcp/loop to connect
+io queue. Also the sw ctx is chosen as the 1st online cpu in hctx->cpumask.
+However, all cpus in hctx->cpumask may be offline.
 
-The maybe problem: I tried the test this time though with
-nvme_ctrl_reset() and this worked for a while (a couple of hours of FC
-port toggling with stress cpu hotplugging). Though eventually the system
-stopped to respond and died. Unfortunately, I don't have any core
-dump. So it's not totally clear what's happening.
+This usage model isn't well supported by blk-mq which supposes allocator is
+always done on one online CPU in hctx->cpumask. This assumption is
+related with managed irq, which also requires blk-mq to drain inflight
+request in this hctx when the last cpu in hctx->cpumask is going to
+offline.
 
-BTW, I used the same test setup with Ming's patches on top of the two of
-mine. The system was still working fine after 4 hours of the stress
-testing.
+However, NVMe fc/rdma/tcp/loop don't use managed irq, so we should allow
+them to ask for request allocation when the specified hctx is inactive
+(all cpus in hctx->cpumask are offline).
 
-[1] https://paste.opensuse.org/view/raw/62287389
+Fix blk_mq_alloc_request_hctx() by adding/passing flag of BLK_MQ_F_MANAGED_IRQ. 
 
-For the fun, here is the nvme_ctrl_reset() patch:
+Meantime optimize blk-mq cpu hotplug handling for non-managed irq.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 66973bb56305..444756ba8dbe 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -20,6 +20,7 @@
- #include <linux/ptrace.h>
- #include <linux/nvme_ioctl.h>
- #include <linux/pm_qos.h>
-+#include <linux/cpuhotplug.h>
- #include <asm/unaligned.h>
- 
- #include "nvme.h"
-@@ -4245,6 +4246,8 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
-+	cpuhp_state_remove_instance_nocalls(CPUHP_AP_NVME_QUEUE_ONLINE,
-+					    &ctrl->cpuhp_node);
- 	nvme_hwmon_exit(ctrl);
- 	nvme_fault_inject_fini(&ctrl->fault_inject);
- 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
-@@ -4357,6 +4360,13 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	if (ret)
- 		goto out_free_name;
- 
-+	ret = cpuhp_state_add_instance_nocalls(CPUHP_AP_NVME_QUEUE_ONLINE,
-+					       &ctrl->cpuhp_node);
-+	if (ret) {
-+		pr_debug("failed to cpuhp notifiers %d\n", ret);
-+		goto out_del_device;
-+	}
-+
- 	/*
- 	 * Initialize latency tolerance controls.  The sysfs files won't
- 	 * be visible to userspace unless the device actually supports APST.
-@@ -4369,6 +4379,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	nvme_mpath_init_ctrl(ctrl);
- 
- 	return 0;
-+out_del_device:
-+	cdev_device_del(&ctrl->cdev, ctrl->device);
- out_free_name:
- 	nvme_put_ctrl(ctrl);
- 	kfree_const(ctrl->device->kobj.name);
-@@ -4529,6 +4541,80 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_directive_cmd) != 64);
- }
- 
-+static int nvme_notify_online(unsigned int cpu, struct hlist_node *node)
-+{
-+	struct nvme_ctrl *ctrl = hlist_entry_safe(node,
-+			struct nvme_ctrl, cpuhp_node);
-+	struct nvme_ns *ns;
-+	struct blk_mq_hw_ctx *hctx;
-+	unsigned int i;
-+	bool present = false;
-+
-+	pr_warn("NQN %s CPU %u online\n", ctrl->opts->subsysnqn, cpu);
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+		queue_for_each_hw_ctx(ns->disk->queue, hctx, i) {
-+			if (cpumask_test_cpu(cpu, hctx->cpumask)) {
-+				present = true;
-+				break;
-+			}
-+		}
-+		if (present)
-+			break;
-+	}
-+	up_read(&ctrl->namespaces_rwsem);
-+	if (present) {
-+		pr_warn("trigger reset... \n");
-+		nvme_reset_ctrl_sync(ctrl);
-+		pr_warn("executed\n");
-+	}
-+
-+	return 0;
-+}
-+
-+static inline bool nvme_last_cpu_in_hctx(unsigned int cpu,
-+					struct blk_mq_hw_ctx *hctx)
-+{
-+	if (cpumask_next_and(-1, hctx->cpumask, cpu_online_mask) != cpu)
-+		return false;
-+	if (cpumask_next_and(cpu, hctx->cpumask, cpu_online_mask) < nr_cpu_ids)
-+		return false;
-+	return true;
-+}
-+
-+static int nvme_notify_offline(unsigned int cpu, struct hlist_node *node)
-+{
-+	struct nvme_ctrl *ctrl = hlist_entry_safe(node,
-+			struct nvme_ctrl, cpuhp_node);
-+	struct nvme_ns *ns;
-+	struct blk_mq_hw_ctx *hctx;
-+	unsigned int i;
-+	bool offline = false;
-+
-+	pr_warn("NQN %s CPU %u offline\n", ctrl->opts->subsysnqn, cpu);
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+		queue_for_each_hw_ctx(ns->disk->queue, hctx, i) {
-+			pr_warn("htcx %p cpumask %*pbl state x%lx\n",
-+				hctx, cpumask_pr_args(hctx->cpumask), hctx->state);
-+			if (nvme_last_cpu_in_hctx(cpu, hctx)) {
-+				offline = true;
-+				break;
-+			}
-+		}
-+		if (offline)
-+			break;
-+	}
-+	up_read(&ctrl->namespaces_rwsem);
-+	if (offline) {
-+		pr_warn("trigger reset... \n");
-+		nvme_reset_ctrl_sync(ctrl);
-+		pr_warn("executed\n");
-+	}
-+	return 0;
-+}
- 
- static int __init nvme_core_init(void)
- {
-@@ -4580,8 +4666,17 @@ static int __init nvme_core_init(void)
- 		goto unregister_generic_ns;
- 	}
- 
-+	result = cpuhp_setup_state_multi(CPUHP_AP_NVME_QUEUE_ONLINE,
-+					 "nvme:online",
-+					 nvme_notify_online,
-+					 nvme_notify_offline);
-+	if (result < 0)
-+		goto destroy_chr_class;
-+
- 	return 0;
- 
-+destroy_chr_class:
-+	class_destroy(nvme_ns_chr_class);
- unregister_generic_ns:
- 	unregister_chrdev_region(nvme_ns_chr_devt, NVME_MINORS);
- destroy_subsys_class:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 0015860ec12b..34676ff79d40 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -352,6 +352,8 @@ struct nvme_ctrl {
- 	unsigned long discard_page_busy;
- 
- 	struct nvme_fault_inject fault_inject;
-+
-+	struct hlist_node cpuhp_node;
- };
- 
- enum nvme_iopolicy {
-diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-index 4a62b3980642..5f6cf60bee1f 100644
---- a/include/linux/cpuhotplug.h
-+++ b/include/linux/cpuhotplug.h
-@@ -159,6 +159,7 @@ enum cpuhp_state {
- 	CPUHP_AP_X86_VDSO_VMA_ONLINE,
- 	CPUHP_AP_IRQ_AFFINITY_ONLINE,
- 	CPUHP_AP_BLK_MQ_ONLINE,
-+	CPUHP_AP_NVME_QUEUE_ONLINE,
- 	CPUHP_AP_ARM_MVEBU_SYNC_CLOCKS,
- 	CPUHP_AP_X86_INTEL_EPB_ONLINE,
- 	CPUHP_AP_PERF_ONLINE,
+V2:
+	- use flag of BLK_MQ_F_MANAGED_IRQ
+	- pass BLK_MQ_F_MANAGED_IRQ from driver explicitly
+	- kill BLK_MQ_F_STACKING
+
+Ming Lei (6):
+  blk-mq: prepare for not deactivating hctx if managed irq isn't used
+  nvme: pci: pass BLK_MQ_F_MANAGED_IRQ to blk-mq
+  scsi: add flag of .use_managed_irq to 'struct Scsi_Host'
+  scsi: set shost->use_managed_irq if driver uses managed irq
+  virtio: add one field into virtio_device for recording if device uses
+    managed irq
+  blk-mq: don't deactivate hctx if managed irq isn't used
+
+ block/blk-mq-debugfs.c                    |  2 +-
+ block/blk-mq.c                            | 27 +++++++++++++----------
+ drivers/block/loop.c                      |  2 +-
+ drivers/block/virtio_blk.c                |  2 ++
+ drivers/md/dm-rq.c                        |  2 +-
+ drivers/nvme/host/pci.c                   |  3 ++-
+ drivers/scsi/aacraid/linit.c              |  3 +++
+ drivers/scsi/be2iscsi/be_main.c           |  3 +++
+ drivers/scsi/csiostor/csio_init.c         |  3 +++
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  1 +
+ drivers/scsi/hpsa.c                       |  3 +++
+ drivers/scsi/lpfc/lpfc.h                  |  1 +
+ drivers/scsi/lpfc/lpfc_init.c             |  4 ++++
+ drivers/scsi/megaraid/megaraid_sas_base.c |  3 +++
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  3 +++
+ drivers/scsi/qla2xxx/qla_isr.c            |  5 ++++-
+ drivers/scsi/scsi_lib.c                   | 12 +++++-----
+ drivers/scsi/smartpqi/smartpqi_init.c     |  3 +++
+ drivers/scsi/virtio_scsi.c                |  1 +
+ drivers/virtio/virtio_pci_common.c        |  1 +
+ include/linux/blk-mq.h                    |  6 +----
+ include/linux/virtio.h                    |  1 +
+ include/scsi/scsi_host.h                  |  3 +++
+ 23 files changed, 67 insertions(+), 27 deletions(-)
+
+-- 
+2.31.1
+
 
 _______________________________________________
 Linux-nvme mailing list
