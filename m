@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DD4C11F6A
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 15:08:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9E4C11F68
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 15:08:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DB6EF61420
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 15:08:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB6EF61420
+	by mail.kernel.org (Postfix) with ESMTPS id 0463261420
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 15:08:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0463261420
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gn6sMSGjtrkhikFrSSMiM/oLO3WrlbsedriiUzm2jFw=; b=1IQ7ub7yLc/gFm
-	UP0/FOtAy3gP2kMFVV50WtMuDAfiu/n1XePfpnwvelPf6OFthmYM47VqEQwyxaiLnbBf5TIwOarId
-	e9MiGI0hXJMoWAa8mML7ohaGoF84ukhiPOMbT6RGnAV/wGFbHe0t2nSaiPCs65pJcpS4GfyfegA+e
-	zXvMUHKaCAC/9ONd8DH2E2XAw2qwi7GiXHUUfxODA2KspbE5GHBXFky1jPJLdcN/w9BaSf+iHBJpb
-	VhAWvhrm6u6nHtaLsMb/zM3KnGQilzE8AQRZc5P25pU//aj++7gGoEovsbbqtWNkCTVyqLMRDG6pV
-	2GkDMjfAAYdj77YbYLuA==;
+	List-Owner; bh=g1HgoCakngwcFCmVnbINJSbqgXbZ5R3NawX329uZe/M=; b=NcGTpxjPijAGX3
+	zwT/dr2T+TJpUwnUB+05KcIAjSpNrVZksHsqj00G1x9SaXS12I65KTBTe2rO6Uu9tKCVfaU1NLAHH
+	R13gbKUhGJgCwpA+xn6Vp0zGOzjx132H1uwLUBkPV1hbuKAbAhU8GABPcLn2k2cmfKQuYrRhpMLHZ
+	DfrD5M2Rm6YqigcwsEoMjQ1iXpEXTdtb/67Chhior2DutbeLTzYaAMB4Lrd6SlPlZpoLXmZjNix7/
+	r24WVxucLfZFHjUQlTNd9mfit7iaCDS0BHmUYExTvUc1RHXKO3CXvswLxg4Heajn22g5CwXR83R81
+	PVgDcHsaqrI6IaOeA6Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lzKm0-003MaN-0g; Fri, 02 Jul 2021 15:08:08 +0000
+	id 1lzKmC-003Mdp-3I; Fri, 02 Jul 2021 15:08:20 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lzKlw-003MYb-Uk
- for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 15:08:06 +0000
+ id 1lzKm1-003Mao-OI
+ for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 15:08:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625238484;
+ s=mimecast20190719; t=1625238488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ht/Xd2ak4U7qujGuNG5CB2WgJF3xQrYQ/kFs9BMWdJM=;
- b=HQZmn+UsUZ3B7ULcZo/XvW8j9+M1XgRVBmcqQ+ch9o9E3k9ditnERAY5rRSgoXBAofQvhc
- kJCOlZ9ycL5OQrus0R+QIimF6v2GqU84mfrpkgth/oE7aOcmCK8r6vENuSZDPEFk5a9uUp
- OoyQkxbKcgzBSRJTyLZZnKqTf+H+5XY=
+ bh=otEKCj1unPyVe9Lp2ZcDpKHjifbexAdrpVGRXhWizTI=;
+ b=eydJzha8Lwug6nMV0L9r6AfaUxhTSRA/aIEd2HNNzQAMYCc3+ciUP/UQNOoBItfAYSy+sR
+ XBgUE72J/csO+MCNWjnwZ6ienwMMW53iPjZTW/wuw51+R090wcSOSwIj9msorfIRMJZx9b
+ r69XDzjf+9A1SVHlCvMOtFEmTfKUPZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-0sK1XWEVPYyQXhMVfg5jwg-1; Fri, 02 Jul 2021 11:08:00 -0400
-X-MC-Unique: 0sK1XWEVPYyQXhMVfg5jwg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-500-tTsD9dx-O5aQXD7g3xdq4w-1; Fri, 02 Jul 2021 11:08:07 -0400
+X-MC-Unique: tTsD9dx-O5aQXD7g3xdq4w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F3F0100C612;
- Fri,  2 Jul 2021 15:07:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33F7FEC1A1;
+ Fri,  2 Jul 2021 15:08:05 +0000 (UTC)
 Received: from localhost (ovpn-12-40.pek2.redhat.com [10.72.12.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3623960853;
- Fri,  2 Jul 2021 15:07:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E954B5D9D5;
+ Fri,  2 Jul 2021 15:08:01 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
@@ -67,18 +67,25 @@ To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
 Cc: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
  Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>,
  Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- Damien Le Moal <damien.lemoal@wdc.com>, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 3/6] scsi: add flag of .use_managed_irq to 'struct
- Scsi_Host'
-Date: Fri,  2 Jul 2021 23:05:52 +0800
-Message-Id: <20210702150555.2401722-4-ming.lei@redhat.com>
+ Damien Le Moal <damien.lemoal@wdc.com>, Ming Lei <ming.lei@redhat.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ Subbu Seetharaman <subbu.seetharaman@broadcom.com>,
+ Don Brace <don.brace@microchip.com>,
+ James Smart <james.smart@broadcom.com>,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Sathya Prakash <sathya.prakash@broadcom.com>,
+ Nilesh Javali <njavali@marvell.com>
+Subject: [PATCH V2 4/6] scsi: set shost->use_managed_irq if driver uses
+ managed irq
+Date: Fri,  2 Jul 2021 23:05:53 +0800
+Message-Id: <20210702150555.2401722-5-ming.lei@redhat.com>
 In-Reply-To: <20210702150555.2401722-1-ming.lei@redhat.com>
 References: <20210702150555.2401722-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210702_080805_129524_F3840E6C 
-X-CRM114-Status: GOOD (  17.19  )
+X-CRM114-CacheID: sfid-20210702_080809_910552_E645456B 
+X-CRM114-Status: GOOD (  21.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,63 +102,199 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-blk-mq needs this information of using managed irq for improving
-deactivating hctx, so add such flag to 'struct Scsi_Host', then
-drivers can pass such flag to blk-mq via scsi_mq_setup_tags().
+Set shost->use_managed_irq if irq vectors are allocated via
+pci_alloc_irq_vectors_affinity(PCI_IRQ_AFFINITY) or
+pci_alloc_irq_vectors(PCI_IRQ_AFFINITY).
 
-The rule is that driver has to tell blk-mq if managed irq is used.
+The rule is that driver has to tell scsi core if managed irq is used.
 
+Cc: Adaptec OEM Raid Solutions <aacraid@microsemi.com>
+Cc: Subbu Seetharaman <subbu.seetharaman@broadcom.com>
+Cc: John Garry <john.garry@huawei.com>
+Cc: Don Brace <don.brace@microchip.com>
+Cc: James Smart <james.smart@broadcom.com>
+Cc: Kashyap Desai <kashyap.desai@broadcom.com>
+Cc: Sathya Prakash <sathya.prakash@broadcom.com>
+Cc: Nilesh Javali <njavali@marvell.com>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/scsi/scsi_lib.c  | 12 +++++++-----
- include/scsi/scsi_host.h |  3 +++
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ drivers/scsi/aacraid/linit.c              | 3 +++
+ drivers/scsi/be2iscsi/be_main.c           | 3 +++
+ drivers/scsi/csiostor/csio_init.c         | 3 +++
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
+ drivers/scsi/hpsa.c                       | 3 +++
+ drivers/scsi/lpfc/lpfc.h                  | 1 +
+ drivers/scsi/lpfc/lpfc_init.c             | 4 ++++
+ drivers/scsi/megaraid/megaraid_sas_base.c | 3 +++
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c      | 3 +++
+ drivers/scsi/qla2xxx/qla_isr.c            | 5 ++++-
+ drivers/scsi/smartpqi/smartpqi_init.c     | 3 +++
+ 11 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 532304d42f00..743df8e824b9 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1915,6 +1915,8 @@ int scsi_mq_setup_tags(struct Scsi_Host *shost)
- {
- 	unsigned int cmd_size, sgl_size;
- 	struct blk_mq_tag_set *tag_set = &shost->tag_set;
-+	unsigned long flags = BLK_MQ_F_SHOULD_MERGE |
-+		BLK_ALLOC_POLICY_TO_MQ_FLAG(shost->hostt->tag_alloc_policy);
+diff --git a/drivers/scsi/aacraid/linit.c b/drivers/scsi/aacraid/linit.c
+index 3168915adaa7..6d0abad77ef8 100644
+--- a/drivers/scsi/aacraid/linit.c
++++ b/drivers/scsi/aacraid/linit.c
+@@ -1761,6 +1761,9 @@ static int aac_probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	else
+ 		shost->this_id = shost->max_id;
  
- 	sgl_size = max_t(unsigned int, sizeof(struct scatterlist),
- 				scsi_mq_inline_sgl_size(shost));
-@@ -1933,12 +1935,12 @@ int scsi_mq_setup_tags(struct Scsi_Host *shost)
- 	tag_set->queue_depth = shost->can_queue;
- 	tag_set->cmd_size = cmd_size;
- 	tag_set->numa_node = NUMA_NO_NODE;
--	tag_set->flags = BLK_MQ_F_SHOULD_MERGE;
--	tag_set->flags |=
--		BLK_ALLOC_POLICY_TO_MQ_FLAG(shost->hostt->tag_alloc_policy);
--	tag_set->driver_data = shost;
- 	if (shost->host_tagset)
--		tag_set->flags |= BLK_MQ_F_TAG_HCTX_SHARED;
-+		flags |= BLK_MQ_F_TAG_HCTX_SHARED;
-+	if (shost->use_managed_irq)
-+		flags |= BLK_MQ_F_MANAGED_IRQ;
-+	tag_set->flags = flags;
-+	tag_set->driver_data = shost;
- 
- 	return blk_mq_alloc_tag_set(tag_set);
- }
-diff --git a/include/scsi/scsi_host.h b/include/scsi/scsi_host.h
-index d0bf88d77f02..3ac589ae9592 100644
---- a/include/scsi/scsi_host.h
-+++ b/include/scsi/scsi_host.h
-@@ -657,6 +657,9 @@ struct Scsi_Host {
- 	/* True if the host uses host-wide tagspace */
- 	unsigned host_tagset:1;
- 
-+	/* True if the host uses managed irq */
-+	unsigned use_managed_irq:1;
++	if (aac->msi_enabled)
++		shost->use_managed_irq = 1;
 +
- 	/* Host responded with short (<36 bytes) INQUIRY result */
- 	unsigned short_inquiry:1;
+ 	if (!aac->sa_firmware && aac_drivers[index].quirks & AAC_QUIRK_SRC)
+ 		aac_intr_normal(aac, 0, 2, 0, NULL);
  
+diff --git a/drivers/scsi/be2iscsi/be_main.c b/drivers/scsi/be2iscsi/be_main.c
+index 22cf7f4b8d8c..2de2a3f78170 100644
+--- a/drivers/scsi/be2iscsi/be_main.c
++++ b/drivers/scsi/be2iscsi/be_main.c
+@@ -5684,6 +5684,9 @@ static int beiscsi_dev_probe(struct pci_dev *pcidev,
+ 	}
+ 	hwi_enable_intr(phba);
+ 
++	if (phba->num_cpus > 1)
++		phba->shost->use_managed_irq = 1;
++
+ 	ret = iscsi_host_add(phba->shost, &phba->pcidev->dev);
+ 	if (ret)
+ 		goto free_irqs;
+diff --git a/drivers/scsi/csiostor/csio_init.c b/drivers/scsi/csiostor/csio_init.c
+index 390b07bf92b9..3bc713f3237d 100644
+--- a/drivers/scsi/csiostor/csio_init.c
++++ b/drivers/scsi/csiostor/csio_init.c
+@@ -633,6 +633,9 @@ csio_shost_init(struct csio_hw *hw, struct device *dev,
+ 	else
+ 		shost->transportt = csio_fcoe_transport_vport;
+ 
++	if (hw->num_pports <= IRQ_AFFINITY_MAX_SETS)
++		shost->use_managed_irq = 1;
++
+ 	/* root lnode */
+ 	if (!hw->rln)
+ 		hw->rln = ln;
+diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+index e95408314078..a8bf567b8cfe 100644
+--- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
++++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+@@ -4760,6 +4760,7 @@ hisi_sas_v3_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (rc)
+ 		goto err_out_debugfs;
+ 	dev_err(dev, "%d hw queues\n", shost->nr_hw_queues);
++	shost->use_managed_irq = 1;
+ 	rc = scsi_add_host(shost, dev);
+ 	if (rc)
+ 		goto err_out_free_irq_vectors;
+diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c
+index f135a10f582b..a84c80746001 100644
+--- a/drivers/scsi/hpsa.c
++++ b/drivers/scsi/hpsa.c
+@@ -5877,6 +5877,9 @@ static int hpsa_scsi_add_host(struct ctlr_info *h)
+ {
+ 	int rv;
+ 
++	if (h->msix_vectors > 0)
++		h->scsi_host->use_managed_irq = 1;
++
+ 	rv = scsi_add_host(h->scsi_host, &h->pdev->dev);
+ 	if (rv) {
+ 		dev_err(&h->pdev->dev, "scsi_add_host failed\n");
+diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+index f8de0d10620b..f0595c670fe8 100644
+--- a/drivers/scsi/lpfc/lpfc.h
++++ b/drivers/scsi/lpfc/lpfc.h
+@@ -783,6 +783,7 @@ struct lpfc_hba {
+ #define HBA_HBEAT_INP		0x4000000 /* mbox HBEAT is in progress */
+ #define HBA_HBEAT_TMO		0x8000000 /* HBEAT initiated after timeout */
+ #define HBA_FLOGI_OUTSTANDING	0x10000000 /* FLOGI is outstanding */
++#define HBA_USE_MANAGED_IRQ	0x20000000 /* Use managed irq */
+ 
+ 	uint32_t fcp_ring_in_use; /* When polling test if intr-hndlr active*/
+ 	struct lpfc_dmabuf slim2p;
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 5f018d02bf56..df5ec095d813 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -4460,6 +4460,9 @@ lpfc_create_port(struct lpfc_hba *phba, int instance, struct device *dev)
+ 		vport->port_type = LPFC_PHYSICAL_PORT;
+ 	}
+ 
++	if (phba->hba_flag & HBA_USE_MANAGED_IRQ)
++		shost->use_managed_irq = 1;
++
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT | LOG_FCP,
+ 			"9081 CreatePort TMPLATE type %x TBLsize %d "
+ 			"SEGcnt %d/%d\n",
+@@ -11563,6 +11566,7 @@ lpfc_sli4_enable_msix(struct lpfc_hba *phba)
+ 		goto vec_fail_out;
+ 	}
+ 	vectors = rc;
++	phba->hba_flag |= HBA_USE_MANAGED_IRQ;
+ 
+ 	/* Assign MSI-X vectors to interrupt handlers */
+ 	for (index = 0; index < vectors; index++) {
+diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+index 4d4e9dbe5193..20747f8e7bc8 100644
+--- a/drivers/scsi/megaraid/megaraid_sas_base.c
++++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+@@ -6909,6 +6909,9 @@ static int megasas_io_attach(struct megasas_instance *instance)
+ 		instance->iopoll_q_count = 0;
+ 	}
+ 
++	if (instance->smp_affinity_enable)
++		host->use_managed_irq = 1;
++
+ 	dev_info(&instance->pdev->dev,
+ 		"Max firmware commands: %d shared with default "
+ 		"hw_queues = %d poll_queues %d\n", instance->max_fw_cmds,
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+index d00aca3c77ce..de9de343e819 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+@@ -12089,6 +12089,9 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		    shost->can_queue, shost->nr_hw_queues);
+ 	}
+ 
++	if (ioc->smp_affinity_enable)
++		shost->use_managed_irq = 1;
++
+ 	rv = scsi_add_host(shost, &pdev->dev);
+ 	if (rv) {
+ 		ioc_err(ioc, "failure at %s:%d/%s()!\n",
+diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
+index 6e8f737a4af3..036b5f178a7f 100644
+--- a/drivers/scsi/qla2xxx/qla_isr.c
++++ b/drivers/scsi/qla2xxx/qla_isr.c
+@@ -4000,11 +4000,14 @@ qla24xx_enable_msix(struct qla_hw_data *ha, struct rsp_que *rsp)
+ 		ret = pci_alloc_irq_vectors(ha->pdev, min_vecs,
+ 		    min((u16)ha->msix_count, (u16)(num_online_cpus() + min_vecs)),
+ 		    PCI_IRQ_MSIX);
+-	} else
++	} else {
+ 		ret = pci_alloc_irq_vectors_affinity(ha->pdev, min_vecs,
+ 		    min((u16)ha->msix_count, (u16)(num_online_cpus() + min_vecs)),
+ 		    PCI_IRQ_MSIX | PCI_IRQ_AFFINITY,
+ 		    &desc);
++		if (ret > 0)
++			vha->host->use_managed_irq = 1;
++	}
+ 
+ 	if (ret < 0) {
+ 		ql_log(ql_log_fatal, vha, 0x00c7,
+diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
+index 5db16509b6e1..b2f28ed7e568 100644
+--- a/drivers/scsi/smartpqi/smartpqi_init.c
++++ b/drivers/scsi/smartpqi/smartpqi_init.c
+@@ -6972,6 +6972,9 @@ static int pqi_register_scsi(struct pqi_ctrl_info *ctrl_info)
+ 	shost->host_tagset = 1;
+ 	shost->hostdata[0] = (unsigned long)ctrl_info;
+ 
++	if (ctrl_info->num_msix_vectors_enabled)
++		shost->use_managed_irq = 1;
++
+ 	rc = scsi_add_host(shost, &ctrl_info->pci_dev->dev);
+ 	if (rc) {
+ 		dev_err(&ctrl_info->pci_dev->dev, "scsi_add_host failed\n");
 -- 
 2.31.1
 
