@@ -2,78 +2,105 @@ Return-Path: <SRS0=C+HF=L2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A86C5C11F69
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 08:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1941EC11F68
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 09:48:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EE11E6128E
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 08:13:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EE11E6128E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id CEAD7613EA
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 09:48:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CEAD7613EA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=cpcawK24gNmq9EX9lQqLR+WWB8p6UUyzPUc3sGGutEM=; b=nIBYNStNX4RU2U
-	1Mi/AHbPfaf7k8SsUHOiH7lZSqBdL/Q4ieiMDhFHSEgD/3WT2s91LYON39OqEGYVEJT9rjlFCmfqq
-	J1sY8J3MxdW6KESB+JXkOaVmwVdNyYgsaDl1/StAq3cObZgzMRrZhfRAa4ouaJJNtA6aQum2dcaQL
-	yR2l2ptHuD3izFMVrAOgaGj5aDC487voVixgcbHLhjYJxPvOopm20zp3C8SaIRZcqUgIsIioykWWD
-	slmyLpUF+5z39NRCZySI3QVlZ0s04yo78Mf7XBP4mGgB27ftsoKlfEIqSyjxrvQu+gxg3+VMh0dLJ
-	XW1xvYWjsqizreQm1MIQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=a9as8dFLe/7BCNAWNjlTv/g/kIFttTa3nlhbICKyMxQ=; b=JVL58YllPxfp5s
+	j9aCEX1m19/292yNyxDeXSUcFotawgNujiw2eBBnYBEND9+P1kRays/ZSbT1jd/mSIo0oIw509Rhu
+	QKB3EihI9JoSkVawCkXIByO8b4LQHglrzslC0c2anmAXhJbqKbZPgEYZeJ79LpdEnSMT5kp8ih1Dc
+	dKsRHvHqM5IVdbq6t4lZSvyhkUKAR5f1qmyFyMagjN3ESTAiWBboGBcwYm7TD1FcEQqlxcLG6VjYb
+	CyU1jxOFCl32UWSELa2gT0jsWwH8U1Qcf7nF7CJhVQ4NtcSYjej2K3HeoxyKol8mPy3ldBtwXVhm5
+	F8MurlX+E41Z/meK29Tg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lzEIP-002RkH-Db; Fri, 02 Jul 2021 08:13:09 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1lzFmM-002gm4-CD; Fri, 02 Jul 2021 09:48:10 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lzEIM-002Rjx-M0
- for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 08:13:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625213584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AWJZAPYk1ESEQfFmN/ab0uPe1KXYGBrUSoScWVU+tiY=;
- b=SMmQIgsVPvFf90GiepGBgrqceW/SMUuNlMiM6o5KO9Ow8NIxMZ5/XdF+vQ71sEFeJ3+haP
- BupbHCwIZruZzMHPJXWOAHZWHOqLW7qJ6YZptSEl3jldvj2Mj3+R7Jo85WOVgaaXg7cKdo
- UVVAXDQRKgDIR+LHdrwDvryWydmTAdM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-At5RizGeMsO1vmwRdjR-kQ-1; Fri, 02 Jul 2021 04:11:24 -0400
-X-MC-Unique: At5RizGeMsO1vmwRdjR-kQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1lzFmB-002gl5-1U
+ for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 09:48:01 +0000
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E0E80414E;
- Fri,  2 Jul 2021 08:11:23 +0000 (UTC)
-Received: from raketa.redhat.com (unknown [10.40.194.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75B4519D9B;
- Fri,  2 Jul 2021 08:11:22 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: hch@lst.de
-Cc: sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-tcp: can't set sk_user_data without write_lock
-Date: Fri,  2 Jul 2021 10:11:21 +0200
-Message-Id: <20210702081121.68391-1-mlombard@redhat.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2315721FB4;
+ Fri,  2 Jul 2021 09:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625219277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
+ b=Q8dtv8whqMkN2kfApjKcVHAEZB9mk7p84E+u/wdiRojSl/aW1e4kQ0wlNc5eNMjxNJa5J6
+ 6ZDqJ5MudOyDzI9XuK89jNWzVPEU16XWcMhB2q7FmG40rAp0L3KqwnkfzlThVsn5MPtfPZ
+ wHwC67h+9tknxhOE0OcyjCxhIgjlJuQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625219277;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
+ b=HYkexFxqTPAbvKAxsGKoRz5Je+sHqDXW4MlD/P/iKEst+JGBrleA19ao15BrsxWKSHRYAv
+ xyNkJKdg6J4lSPCQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 116C911CD6;
+ Fri,  2 Jul 2021 09:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625219277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
+ b=Q8dtv8whqMkN2kfApjKcVHAEZB9mk7p84E+u/wdiRojSl/aW1e4kQ0wlNc5eNMjxNJa5J6
+ 6ZDqJ5MudOyDzI9XuK89jNWzVPEU16XWcMhB2q7FmG40rAp0L3KqwnkfzlThVsn5MPtfPZ
+ wHwC67h+9tknxhOE0OcyjCxhIgjlJuQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625219277;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LQejxrBRgdHn6jyss78NHSQQbF5WESo4cgDMMvQ3Qv4=;
+ b=HYkexFxqTPAbvKAxsGKoRz5Je+sHqDXW4MlD/P/iKEst+JGBrleA19ao15BrsxWKSHRYAv
+ xyNkJKdg6J4lSPCQ==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id rhRAA83g3mDaSgAALh3uQQ
+ (envelope-from <dwagner@suse.de>); Fri, 02 Jul 2021 09:47:57 +0000
+Date: Fri, 2 Jul 2021 11:47:56 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Ming Lei <ming.lei@redhat.com>,
+ Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH 0/2] blk-mq: fix blk_mq_alloc_request_hctx
+Message-ID: <20210702094756.34zkja2yc6am3gyc@beryllium.lan>
+References: <20210629074951.1981284-1-ming.lei@redhat.com>
+ <5f304121-38ce-034b-2d17-93d136c77fe6@suse.de>
+ <YNwug8n7qGL5uXfo@T590>
+ <c1de513a-5477-9d1d-0ddc-24e9166cc717@suse.de>
+ <YNw/DcxIIMeg/2VK@T590>
+ <e106f9c4-35c3-b2da-cdd8-3c4dff8234d6@grimberg.me>
+ <89081624-fedd-aa94-1ba2-9a137708a1f1@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <89081624-fedd-aa94-1ba2-9a137708a1f1@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210702_011306_829694_B78209D3 
-X-CRM114-Status: GOOD (  12.62  )
+X-CRM114-CacheID: sfid-20210702_024759_296492_B65DCE1C 
+X-CRM114-Status: GOOD (  27.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,38 +117,205 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The sk_user_data pointer is supposed to be modified only while
-holding the write_lock "sk_callback_lock", otherwise
-we could race with other threads and crash the kernel.
+On Wed, Jun 30, 2021 at 09:46:35PM +0200, Hannes Reinecke wrote:
+> Actually, Daniel and me came to a slightly different idea: use cpu hotplug
+> notifier.
+> Thing is, blk-mq already has cpu hotplug notifier, which should ensure that
+> no I/O is pending during cpu hotplug.
+> If we now add a nvme cpu hotplug notifier which essentially kicks off a
+> reset once all cpu in a hctx are offline the reset logic will rearrange the
+> queues to match the current cpu layout.
+> And when the cpus are getting onlined we'll do another reset.
+> 
+> Daniel is currently preparing a patch; let's see how it goes.
 
-we can't take the write_lock in nvmet_tcp_state_change()
-because it would cause a deadlock, but the release_work queue
-will set the pointer to NULL later so we can simply remove
-the assignment.
+FTR, I can't say it was a huge success. I observed a real problem with
+this idea and 'maybe problem. First, we can't use nvme_ctrl_reset_sync()
+in the cpuhp path as this will block in various places due to
+percpu_rwsem_wait operations [1]. Not really a surprise I'd say.
 
-Fixes: b5332a9f3f3d ("nvmet-tcp: fix incorrect locking in state_change sk callback")
+The maybe problem: I tried the test this time though with
+nvme_ctrl_reset() and this worked for a while (a couple of hours of FC
+port toggling with stress cpu hotplugging). Though eventually the system
+stopped to respond and died. Unfortunately, I don't have any core
+dump. So it's not totally clear what's happening.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/target/tcp.c | 1 -
- 1 file changed, 1 deletion(-)
+BTW, I used the same test setup with Ming's patches on top of the two of
+mine. The system was still working fine after 4 hours of the stress
+testing.
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index d8aceef83284..07ee347ea3f3 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1497,7 +1497,6 @@ static void nvmet_tcp_state_change(struct sock *sk)
- 	case TCP_CLOSE_WAIT:
- 	case TCP_CLOSE:
- 		/* FALLTHRU */
--		sk->sk_user_data = NULL;
- 		nvmet_tcp_schedule_release_queue(queue);
- 		break;
- 	default:
--- 
-2.27.0
+[1] https://paste.opensuse.org/view/raw/62287389
 
+For the fun, here is the nvme_ctrl_reset() patch:
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 66973bb56305..444756ba8dbe 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -20,6 +20,7 @@
+ #include <linux/ptrace.h>
+ #include <linux/nvme_ioctl.h>
+ #include <linux/pm_qos.h>
++#include <linux/cpuhotplug.h>
+ #include <asm/unaligned.h>
+ 
+ #include "nvme.h"
+@@ -4245,6 +4246,8 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
+ 
+ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+ {
++	cpuhp_state_remove_instance_nocalls(CPUHP_AP_NVME_QUEUE_ONLINE,
++					    &ctrl->cpuhp_node);
+ 	nvme_hwmon_exit(ctrl);
+ 	nvme_fault_inject_fini(&ctrl->fault_inject);
+ 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+@@ -4357,6 +4360,13 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	if (ret)
+ 		goto out_free_name;
+ 
++	ret = cpuhp_state_add_instance_nocalls(CPUHP_AP_NVME_QUEUE_ONLINE,
++					       &ctrl->cpuhp_node);
++	if (ret) {
++		pr_debug("failed to cpuhp notifiers %d\n", ret);
++		goto out_del_device;
++	}
++
+ 	/*
+ 	 * Initialize latency tolerance controls.  The sysfs files won't
+ 	 * be visible to userspace unless the device actually supports APST.
+@@ -4369,6 +4379,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	nvme_mpath_init_ctrl(ctrl);
+ 
+ 	return 0;
++out_del_device:
++	cdev_device_del(&ctrl->cdev, ctrl->device);
+ out_free_name:
+ 	nvme_put_ctrl(ctrl);
+ 	kfree_const(ctrl->device->kobj.name);
+@@ -4529,6 +4541,80 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_directive_cmd) != 64);
+ }
+ 
++static int nvme_notify_online(unsigned int cpu, struct hlist_node *node)
++{
++	struct nvme_ctrl *ctrl = hlist_entry_safe(node,
++			struct nvme_ctrl, cpuhp_node);
++	struct nvme_ns *ns;
++	struct blk_mq_hw_ctx *hctx;
++	unsigned int i;
++	bool present = false;
++
++	pr_warn("NQN %s CPU %u online\n", ctrl->opts->subsysnqn, cpu);
++
++	down_read(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		queue_for_each_hw_ctx(ns->disk->queue, hctx, i) {
++			if (cpumask_test_cpu(cpu, hctx->cpumask)) {
++				present = true;
++				break;
++			}
++		}
++		if (present)
++			break;
++	}
++	up_read(&ctrl->namespaces_rwsem);
++	if (present) {
++		pr_warn("trigger reset... \n");
++		nvme_reset_ctrl_sync(ctrl);
++		pr_warn("executed\n");
++	}
++
++	return 0;
++}
++
++static inline bool nvme_last_cpu_in_hctx(unsigned int cpu,
++					struct blk_mq_hw_ctx *hctx)
++{
++	if (cpumask_next_and(-1, hctx->cpumask, cpu_online_mask) != cpu)
++		return false;
++	if (cpumask_next_and(cpu, hctx->cpumask, cpu_online_mask) < nr_cpu_ids)
++		return false;
++	return true;
++}
++
++static int nvme_notify_offline(unsigned int cpu, struct hlist_node *node)
++{
++	struct nvme_ctrl *ctrl = hlist_entry_safe(node,
++			struct nvme_ctrl, cpuhp_node);
++	struct nvme_ns *ns;
++	struct blk_mq_hw_ctx *hctx;
++	unsigned int i;
++	bool offline = false;
++
++	pr_warn("NQN %s CPU %u offline\n", ctrl->opts->subsysnqn, cpu);
++
++	down_read(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		queue_for_each_hw_ctx(ns->disk->queue, hctx, i) {
++			pr_warn("htcx %p cpumask %*pbl state x%lx\n",
++				hctx, cpumask_pr_args(hctx->cpumask), hctx->state);
++			if (nvme_last_cpu_in_hctx(cpu, hctx)) {
++				offline = true;
++				break;
++			}
++		}
++		if (offline)
++			break;
++	}
++	up_read(&ctrl->namespaces_rwsem);
++	if (offline) {
++		pr_warn("trigger reset... \n");
++		nvme_reset_ctrl_sync(ctrl);
++		pr_warn("executed\n");
++	}
++	return 0;
++}
+ 
+ static int __init nvme_core_init(void)
+ {
+@@ -4580,8 +4666,17 @@ static int __init nvme_core_init(void)
+ 		goto unregister_generic_ns;
+ 	}
+ 
++	result = cpuhp_setup_state_multi(CPUHP_AP_NVME_QUEUE_ONLINE,
++					 "nvme:online",
++					 nvme_notify_online,
++					 nvme_notify_offline);
++	if (result < 0)
++		goto destroy_chr_class;
++
+ 	return 0;
+ 
++destroy_chr_class:
++	class_destroy(nvme_ns_chr_class);
+ unregister_generic_ns:
+ 	unregister_chrdev_region(nvme_ns_chr_devt, NVME_MINORS);
+ destroy_subsys_class:
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0015860ec12b..34676ff79d40 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -352,6 +352,8 @@ struct nvme_ctrl {
+ 	unsigned long discard_page_busy;
+ 
+ 	struct nvme_fault_inject fault_inject;
++
++	struct hlist_node cpuhp_node;
+ };
+ 
+ enum nvme_iopolicy {
+diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+index 4a62b3980642..5f6cf60bee1f 100644
+--- a/include/linux/cpuhotplug.h
++++ b/include/linux/cpuhotplug.h
+@@ -159,6 +159,7 @@ enum cpuhp_state {
+ 	CPUHP_AP_X86_VDSO_VMA_ONLINE,
+ 	CPUHP_AP_IRQ_AFFINITY_ONLINE,
+ 	CPUHP_AP_BLK_MQ_ONLINE,
++	CPUHP_AP_NVME_QUEUE_ONLINE,
+ 	CPUHP_AP_ARM_MVEBU_SYNC_CLOCKS,
+ 	CPUHP_AP_X86_INTEL_EPB_ONLINE,
+ 	CPUHP_AP_PERF_ONLINE,
 
 _______________________________________________
 Linux-nvme mailing list
