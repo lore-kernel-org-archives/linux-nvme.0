@@ -1,91 +1,87 @@
-Return-Path: <SRS0=C+HF=L2=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=DaCh=L5=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D5EC07E95
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 23:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0F9C07E95
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 02:49:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0756C61410
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jul 2021 23:29:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0756C61410
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 178EB613D1
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 02:49:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 178EB613D1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3KL8yj3hFBbuQR9wMJ1WZtvTd7cWoEj2FC6VyoWopss=; b=N6X6bbB7Y6Qag6k45QqAd5f2IM
-	WUX70+dO9RBH1yOnFLCTIezWjbNCyDlLBLjELgmRztGEz93QIPI/pk0DJHvkX5bleOdm82AFc8csc
-	s64CdApyQvsgJRx1O4owB0FmNSaKurfR+kljPAb31+QFseaBZD7pVHSCG3azVhpKtseUo7gk3lSYs
-	8Ll45HxVnjkoWhHsv9JPSQjp9Z+PVMjTyaNN0Pd3wW73+6hrmRIgTCmGZfzdQCH0HaGvpNjXlnq3i
-	Sr+OWsE3w8D9RRoQs9RNBfAb/JRZwd9PxW2z4JRmRdBctqZ6unfJtR//sFXv3nHhh0B04QoImBqw9
-	dIIvKU1w==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=KnLvyks9tuFDLrlKhkWzWuJ7zXfv0njq9kahK0kURJA=; b=TNujoNzg9Wc7gV
+	mbw/fz3EUqC7k+KzeSrDHP8+lCOjJzBveP7ye9Ma+mnJelemWu2mTVETMoLP/3csplXLOPakkHSii
+	atyLouXUyCRCk8LoShnpwRlUvg8RW1ofhQ+Kv3EoVaAJ82bDjgO/CTF4BsboXvNJR43kCqb2+RJ3c
+	FJwZ1MZvI1qKvTI3m7eMAGM42k3jGjsnzc+sbZmwwCZaYBve4qmKB8rWJgHLRem2gIwgdd33NScmk
+	3IZdR/k77qnmxAhDSqLYH2i+5IHJIKHoQeBwDEmQydggZWVFLdZf+UBjwBbK01kF4Ia5cfuKCnafk
+	7tG3uokwvegwRghr1QjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lzSab-004GhH-AS; Fri, 02 Jul 2021 23:28:53 +0000
-Received: from mail-pl1-f171.google.com ([209.85.214.171])
+	id 1m0Efp-007XLk-K4; Mon, 05 Jul 2021 02:49:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lzSaY-004Ggs-DY
- for linux-nvme@lists.infradead.org; Fri, 02 Jul 2021 23:28:51 +0000
-Received: by mail-pl1-f171.google.com with SMTP id f11so6651145plg.0
- for <linux-nvme@lists.infradead.org>; Fri, 02 Jul 2021 16:28:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u7JHIwVFD8LrMaetmX2O4vNbB66eLC6plRkGbPqn6aA=;
- b=WU4b8b6UzFVH6/laUETyffxbVEQhZPRvepFLBbuizpkuDlNAVFx8guShgmJYUwtWih
- m0lfbpWGbEvicBxzNgJu/5wjIr2DJQLf+CQbD2eiNeiYkYI0ywabN1V1xA2Nr4SaLKE/
- xNtdFOn/Dx9937VmgDM9NpBaH8Z/dUC5qKMq8jhZLSWYpbMepjFJDo6bpHk//mJA3MxX
- FKbYbZzySQbW5jmBuEzhcgyneojSBCCWwdtl4vFJ+2OBB8Ne48AFByUTt3OQAcz+DN+i
- K9xum1ZXTY7Q8HpFf48ojnrDumwXk5V+s7pfU719FrPCCwZcoPj4cL8OBvb+bGbzwuSH
- 2Gvg==
-X-Gm-Message-State: AOAM5323L0l5xC6irlmV8Up1v6Bnj1YjWrsqwEJIi55f5XpEh/F01hk0
- D04jiZne2fWc8nuN/n9p37g=
-X-Google-Smtp-Source: ABdhPJyJC68ADXxo1b5wFNHkqVvetLFbxgnemvsk4dC3S3gFGctBxZ9MtwU3v98KoFSn5QPxS7N+7A==
-X-Received: by 2002:a17:902:7598:b029:ff:655e:f0c8 with SMTP id
- j24-20020a1709027598b02900ff655ef0c8mr1805494pll.50.1625268528854; 
- Fri, 02 Jul 2021 16:28:48 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:c2f5:d7c5:c28f:225c?
- ([2601:647:4802:9070:c2f5:d7c5:c28f:225c])
- by smtp.gmail.com with ESMTPSA id 136sm5056009pfa.158.2021.07.02.16.28.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 16:28:48 -0700 (PDT)
-Subject: Re: [PATCH v3 08/20] nvme-tcp-offload: Add IO level implementation
-To: Or Gerlitz <gerlitz.or@gmail.com>, Shai Malin <malin1024@gmail.com>
-Cc: Shai Malin <smalin@marvell.com>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, axboe@fb.com, Keith Busch
- <kbusch@kernel.org>, David Miller <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Ariel Elior <aelior@marvell.com>,
- Michal Kalderon <mkalderon@marvell.com>, okulkarni@marvell.com,
- pkushwaha@marvell.com, prabhakar.pkin@gmail.com,
- Dean Balandin <dbalandin@marvell.com>
-References: <20210624172410.14225-1-smalin@marvell.com>
- <20210624172410.14225-9-smalin@marvell.com>
- <CAJ3xEMhtrEEMLbkWuna_fvH_oinaCZmj3xr4y7gzdRawA1gmNA@mail.gmail.com>
- <CAKKgK4wJDrNcSbaPERPg2EyrSNvi8KY9UHyM3=T9bL_d3WBSDQ@mail.gmail.com>
- <CAJ3xEMiH9uaVojuvcetaWmFf8+OveX-xyvf3_CBbGsCfNP6X4g@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <80c4ef0f-cbef-46c9-97c4-959d7a80c106@grimberg.me>
-Date: Fri, 2 Jul 2021 16:28:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ id 1m0Efg-007XKv-1B
+ for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 02:49:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625453356;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BLeXj+8XKMxLFChu+De6U7Z5h/Ve0EnpqGdSTfh+Oog=;
+ b=NHJZgpONmyuxBVJzep3ZjC0iordRam/hK+we7ygjzSmoPLKDWlIogOjILg3OX4gkbdUo6D
+ Pyhxg2/44gTwtRCHjEMHFxqCiKwEb8lC1ASrVhYbjUyIwWReyjtXbymjPtbxfdE39wwh9R
+ dGN83Q6j+CwTZ5RdVCm0/sJPYAQEFmU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-xXC6zSW9MTmViJGyU_E-qA-1; Sun, 04 Jul 2021 22:49:15 -0400
+X-MC-Unique: xXC6zSW9MTmViJGyU_E-qA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD287100B3AC;
+ Mon,  5 Jul 2021 02:49:12 +0000 (UTC)
+Received: from T590 (ovpn-13-193.pek2.redhat.com [10.72.13.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 759025C1A1;
+ Mon,  5 Jul 2021 02:48:57 +0000 (UTC)
+Date: Mon, 5 Jul 2021 10:48:53 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>,
+ Daniel Wagner <dwagner@suse.de>, Wen Xiong <wenxiong@us.ibm.com>,
+ John Garry <john.garry@huawei.com>, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>, Damien Le Moal <damien.lemoal@wdc.com>,
+ Jason Wang <jasowang@redhat.com>, virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH V2 5/6] virtio: add one field into virtio_device for
+ recording if device uses managed irq
+Message-ID: <YOJzFe3xcLK279Wv@T590>
+References: <20210702150555.2401722-1-ming.lei@redhat.com>
+ <20210702150555.2401722-6-ming.lei@redhat.com>
+ <20210702115430-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAJ3xEMiH9uaVojuvcetaWmFf8+OveX-xyvf3_CBbGsCfNP6X4g@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210702115430-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210702_162850_509883_1B30B15C 
-X-CRM114-Status: GOOD (  15.62  )
+X-CRM114-CacheID: sfid-20210704_194920_174458_DFB516E8 
+X-CRM114-Status: GOOD (  19.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,44 +93,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>> From: Dean Balandin <dbalandin@marvell.com>
->>>> In this patch, we present the IO level functionality.
->>> [..]
->>>
->>>> +static void nvme_tcp_ofld_set_sg_null(struct nvme_command *c)
->>>> +{
->>>> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
->>>> +       sg->addr = 0;
->>>
->>> ok
->>>
->>>> +       sg->length = 0;
->>>> +       sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
->>>> +                       NVME_SGL_FMT_TRANSPORT_A;
->>>
->>>> +inline void nvme_tcp_ofld_set_sg_inline(struct nvme_tcp_ofld_queue *queue,
->>>> +                                       struct nvme_command *c, u32 data_len)
->>>> +{
->>>> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
->>>> +       sg->addr = cpu_to_le64(queue->ctrl->nctrl.icdoff);
->>>
->>> ok, what about dma mapping of the address?
->>
->> The dma mapping is done by the offload device driver.
->> patch 18 - "qedn: Add IO level fastpath functionality", in qedn_init_sgl().
+On Fri, Jul 02, 2021 at 11:55:40AM -0400, Michael S. Tsirkin wrote:
+> On Fri, Jul 02, 2021 at 11:05:54PM +0800, Ming Lei wrote:
+> > blk-mq needs to know if the device uses managed irq, so add one field
+> > to virtio_device for recording if device uses managed irq.
+> > 
+> > If the driver use managed irq, this flag has to be set so it can be
+> > passed to blk-mq.
+> > 
+> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > Cc: Jason Wang <jasowang@redhat.com>
+> > Cc: virtualization@lists.linux-foundation.org
+> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
 > 
-> The dma mapping can and should be done by the nvme/tcp driver. E.g in a similar
-> manner fow how it's done for nvme/rdma, you can take a look on the code there.
+> 
+> The API seems somewhat confusing. virtio does not request
+> a managed irq as such, does it? I think it's a decision taken
+> by the irq core.
 
-I agree here, the fact that the lld calls blk_rq_map_sg is very much
-backwards... If the lld is peeking into a block layer request or bio,
-its a sign that the layering is wrong...
+vp_request_msix_vectors():
+
+        if (desc) {
+                flags |= PCI_IRQ_AFFINITY;
+                desc->pre_vectors++; /* virtio config vector */
+                vdev->use_managed_irq = true;
+        }
+
+        err = pci_alloc_irq_vectors_affinity(vp_dev->pci_dev, nvectors,
+                                             nvectors, flags, desc);
+
+Managed irq is used once PCI_IRQ_AFFINITY is passed to
+pci_alloc_irq_vectors_affinity().
+
+> 
+> Any way to query the irq to find out if it's managed?
+
+So far the managed info isn't exported via /proc/irq, but if one irq is
+managed, its smp_affinity & smp_affinity_list attributes can't be
+changed successfully.
+
+If irq's debugfs is enabled, this info can be retrieved.
+
+
+Thanks,
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
