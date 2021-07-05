@@ -2,90 +2,70 @@ Return-Path: <SRS0=DaCh=L5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36ABEC07E99
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:14:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6F7C07E9B
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:29:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E6EC361966
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:14:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6EC361966
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 992406199C
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:29:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 992406199C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HvVhhmB7d8iEA4bU2gqnBdfYecLboCU/QgtDhHIw6Dw=; b=NXdZxATNDSvg5k
-	MXjRQZ7BcuWdGuuFbgc7i9yj1sC7RA2JE+NIQsqG9uwZ1c4/T9W/ks9R7t69q7HeSFxKGQ1YibMHW
-	2lBAVXuTB92eg9z0N/Zj5JXoRLo8lrL2WTGXpb533o5EfumvemFs7tFqIo1Fg1JVjmlmZvsg8ii4Z
-	UzhwkJNXV2TLI1p3WsBjxSuPhYyhMMkBfSjCLDTUIdswcy1PWhc4FitBg1s+cFcUgmdfALHO3C3XS
-	n5huEcnllUzVkcK1VWyHmyv1niq/L7wQ160XGafKYaDdW4qwpum/X29DP2TGQ7fgHsvqh+kx2ODMi
-	DfHjKRagyZ1WIWhSFffw==;
+	List-Owner; bh=HX04NLTa1cXfnlCX/hHbLfUqxB0+tPumhgt/qm4d2MU=; b=3quwyrOK/UvwV5
+	i7F/5cI5smJzLDPj67P/PPYEbbUhWZYVR2fJfy+3C1tAGrQeiG9PPz9W1Z8/9YFBiyPvZ02Se5+9z
+	I9Mi+Eo8IwxnIb8j3yCNdQ5wOr2tU2Vy9q3sEkjscncJ70rpbiHrRG3O9BcEWs1pSTN3ONvh8PZoi
+	ZRkruw/vDmiKDE3qiGYfReRCG4IFOUiVPvOva9K6oM7SWNu4cS2g/Erhn+U0IPS14cXEiD+Q/pVml
+	3bl0ijDxGvXs8NqXzvOGMCDQvUKMbjrbNhBevXch6tyW2hekmI15RbvdZAobq0BUy5PxB4Ze/IXRL
+	uOToMWOfn8ml8wKPStuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0QIH-009IyY-Pw; Mon, 05 Jul 2021 15:13:57 +0000
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+	id 1m0QWr-009L4F-QF; Mon, 05 Jul 2021 15:29:01 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0QIA-009IwJ-Oc
- for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 15:13:56 +0000
-Received: by mail-pj1-x102c.google.com with SMTP id
- cx9-20020a17090afd89b0290170a3e085edso163630pjb.0
- for <linux-nvme@lists.infradead.org>; Mon, 05 Jul 2021 08:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tbxDZ9fdqnufcCUG35g70ViZ0ewXUlgGUaE0TT68B00=;
- b=p0Sk3+G6KXxx5N2AaII50FrmvloUNjGPJwjDJs492cyjHRnMwrF5Ga+BUbQFRw2I0R
- //57lAvXxM14RVXRWIny88NrzKrgRNUbGsf8VJvbu8j8OyIleS3ii6Paywk32F9ggA0H
- yEriS8tWIuO42U/N/+WG2pq0Q3mGmyPVTFYCgCi30CzKCFYjuK9Ydp9oL2CD4R0y+yRg
- 9Yz0SEJv23SmFHyQyM5Wj/YHvX0+bWrTVMt0wLfyuJ/yk6+TwrKSrxSmAYP1BiQ+d4yr
- +YKdwFnPNEtG9FisXendXX6lr71k6wUVoel/cRlFPZlYoewhrr5zKbi4yS56ELx17rXi
- n/6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tbxDZ9fdqnufcCUG35g70ViZ0ewXUlgGUaE0TT68B00=;
- b=t9qMZ+qaEfpZ/uCq1Gn4DpFoEVGBHqBTQVluFyKNyMPvZDbDlEfMJYDsWslXmBnueY
- x2Gid174VxsJ/88jsPovcoVgVjWN2+wSv/6nSey4NCYjlx1ARWAdIiMmHrEFxi66DxFL
- LAb3gCSeCjHYC8AdGiLsxR02Fve5+5h4y7X6u5iM7gq+PvmvzQVd+VwquVvC5diPH6GW
- 7Lmt4DmhDLbGZplQkSc3bA3I7JbNfPPikJZojCdAUCCQ6DqKQzLcvOgprEUt5e/cURfm
- eJqj6pn1Tw/djzQWptxGuJw0l2jhEj2q0JZEyl8StoachCJJW1zs52pOy9cdb+CVJzMp
- hXZw==
-X-Gm-Message-State: AOAM5318Tfov8cEKPZY6FB00HzX//XBJ3ECJ5Q7paaQ9ayWa0DLecqk5
- 8+kKLCUua8LTWvAfHd5VrHPHk/Zqb8VAI+zXe24=
-X-Google-Smtp-Source: ABdhPJwZSO/6gWcDJSdht2/EOq0Y5ENc+L4SOtC0b+rR8ZpvE5TEOgR+cpU0sRmVaPYgdBa7a9rw7IihJqndvYBCay8=
-X-Received: by 2002:a17:90b:94c:: with SMTP id
- dw12mr15823167pjb.17.1625498030084; 
- Mon, 05 Jul 2021 08:13:50 -0700 (PDT)
+ id 1m0QWp-009L2k-9y
+ for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 15:29:00 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 358D661995;
+ Mon,  5 Jul 2021 15:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625498938;
+ bh=V7EyXYKUimWcMCi0dwLr/tKJynbs5rtBHmEcMuYnu5c=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GyN065jiqezXt2GGbHWeDRhy5I5zDqCakJkcg/a2NDZ2l0bk/MZOITNfYRwQFLGq5
+ YW2ssyZ37pH0BtVuxHSroiGHKKBGbUh5G87grv6ww7JtAGJkEDypBDrM+6GEUzBv6l
+ uxPoliUMvKOA+Zbzix3le1XUbg3ZV01V/IAHcTJqPAuhI6dSyXy9Lx1Z40jKdyECuv
+ GMFF5kdUdDU10oMq6gQra/RK+TRdSJqZPkKIRCsiD+KpsrgwxJ+fsbnqfeG1/UgzGd
+ f1uc0brAwS4uX/IJ0eelFKB3597nkl/6xghfM49oruFa3rpzvuM5JYPQlaeIilMmcZ
+ 8Mg0bSX+mjBlw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: JK Kim <jongkang.kim2@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.13 33/59] nvme-pci: fix var. type for increasing
+ cq_head
+Date: Mon,  5 Jul 2021 11:27:49 -0400
+Message-Id: <20210705152815.1520546-33-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210705152815.1520546-1-sashal@kernel.org>
+References: <20210705152815.1520546-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20210629124743.6898-1-pkushwaha@marvell.com>
- <20210629124743.6898-11-pkushwaha@marvell.com>
- <20210701134850.GA20739@lst.de>
-In-Reply-To: <20210701134850.GA20739@lst.de>
-From: Shai Malin <malin1024@gmail.com>
-Date: Mon, 5 Jul 2021 18:13:39 +0300
-Message-ID: <CAKKgK4wVWb1wuf3wOwyUqAK=1k9XNrswK7URy9RH4T=QB=Nh5A@mail.gmail.com>
-Subject: Re: [PATCH v4 10/20] qedn: Add qedn probe
-To: Christoph Hellwig <hch@lst.de>
-Cc: Prabhakar Kushwaha <pkushwaha@marvell.com>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>, axboe@fb.com, Keith Busch <kbusch@kernel.org>,
- David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Shai Malin <smalin@marvell.com>, 
- Ariel Elior <aelior@marvell.com>, Michal Kalderon <mkalderon@marvell.com>,
- okulkarni@marvell.com, 
- prabhakar.pkin@gmail.com, Dean Balandin <dbalandin@marvell.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210705_081350_883158_3B005CE9 
-X-CRM114-Status: GOOD (  24.45  )
+X-CRM114-CacheID: sfid-20210705_082859_408851_46906CAB 
+X-CRM114-Status: GOOD (  13.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,58 +82,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 1 Jul 2021 at 16:48, Christoph Hellwig <hch@lst.de> wrote:
-> On Tue, Jun 29, 2021 at 03:47:33PM +0300, Prabhakar Kushwaha wrote:
-> > From: Shai Malin <smalin@marvell.com>
-> >
-> > This patch introduces the functionality of loading and unloading
-> > physical function.
-> > qedn_probe() loads the offload device PF(physical function), and
-> > initialize the HW and the FW with the PF parameters using the
-> > HW ops->qed_nvmetcp_ops, which are similar to other "qed_*_ops" which
-> > are used by the qede, qedr, qedf and qedi device drivers.
-> > qedn_remove() unloads the offload device PF, re-initialize the HW and
-> > the FW with the PF parameters.
-> >
-> > The struct qedn_ctx is per PF container for PF-specific attributes and
-> > resources.
-> >
-> > Acked-by: Igor Russkikh <irusskikh@marvell.com>
-> > Signed-off-by: Dean Balandin <dbalandin@marvell.com>
-> > Signed-off-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
-> > Signed-off-by: Omkar Kulkarni <okulkarni@marvell.com>
-> > Signed-off-by: Michal Kalderon <mkalderon@marvell.com>
-> > Signed-off-by: Ariel Elior <aelior@marvell.com>
-> > Signed-off-by: Shai Malin <smalin@marvell.com>
-> > Reviewed-by: Hannes Reinecke <hare@suse.de>
-> > ---
-> >  drivers/nvme/hw/Kconfig          |   1 +
-> >  drivers/nvme/hw/qedn/qedn.h      |  26 ++++++
-> >  drivers/nvme/hw/qedn/qedn_main.c | 155 ++++++++++++++++++++++++++++++-
-> >  3 files changed, 177 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/nvme/hw/Kconfig b/drivers/nvme/hw/Kconfig
-> > index 374f1f9dbd3d..91b1bd6f07d8 100644
-> > --- a/drivers/nvme/hw/Kconfig
-> > +++ b/drivers/nvme/hw/Kconfig
-> > @@ -2,6 +2,7 @@
-> >  config NVME_QEDN
-> >       tristate "Marvell NVM Express over Fabrics TCP offload"
-> >       depends on NVME_TCP_OFFLOAD
-> > +     select QED_NVMETCP
->
-> This makes kconfig unhappy:
->
-> WARNING: unmet direct dependencies detected for QED_NVMETCP
->   Depends on [n]: NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_QLOGIC [=n]
->   Selected by [y]:
->   - NVME_QEDN [=y] && NVME_TCP_OFFLOAD [=y]
->
-> While we're at unhappy:  without pinpointing it to the pointlessly
-> split patches, this series generates tons of sparse warnings:
->
+From: JK Kim <jongkang.kim2@gmail.com>
 
-Sorry about that. Will be fixed.
+[ Upstream commit a0aac973a26d1ac814b9e131e209eb39472a67ce ]
+
+nvmeq->cq_head is compared with nvmeq->q_depth and changed the value
+and cq_phase for handling the next cq db.
+
+but, nvmeq->q_depth's type is u32 and max. value is 0x10000 when
+CQP.MSQE is 0xffff and io_queue_depth is 0x10000.
+
+current temp. variable for comparing with nvmeq->q_depth is overflowed
+when previous nvmeq->cq_head is 0xffff.
+
+in this case, nvmeq->cq_phase is not updated.
+so, fix data type for temp. variable to u32.
+
+Signed-off-by: JK Kim <jongkang.kim2@gmail.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a29b170701fc..2995e87ce776 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1032,7 +1032,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 
+ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+ {
+-	u16 tmp = nvmeq->cq_head + 1;
++	u32 tmp = nvmeq->cq_head + 1;
+ 
+ 	if (tmp == nvmeq->q_depth) {
+ 		nvmeq->cq_head = 0;
+-- 
+2.30.2
+
 
 _______________________________________________
 Linux-nvme mailing list
