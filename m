@@ -2,82 +2,84 @@ Return-Path: <SRS0=DaCh=L5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 436E0C07E9A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 07:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4024EC07E98
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 07:44:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 129C06115A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 07:43:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 129C06115A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id EDDE16115A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 07:44:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDDE16115A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oxxsL6gwoxk2eLaSQr0r5sYdf0SPjTzQ0JHt00PX5/g=; b=ALn5qdAB53ukfN+fAEJju3J1R7
-	KJiMe4dyQAjI42uVZ8AvfwPCSnCBJqODOeQFgUNjw8gwDQ6wCfGQBVivWGRwWGNgbR7jhC5V/VM9b
-	GDE8Y6LPkk8UZbi913EkHuC13irPoigQIkI6pLO+yMRc/FoGrMTosnNpTrWSRz+W/EetQ1HBmwBrO
-	dPA4eQ41t57d4k1Wv4GS/oc2B6jXhqgiM1N8o92OmI/z6vGsWWzlg7PZqOZiY4HMI8bvw5B4uCkeM
-	0Z+xKvmjrGi4MYeQpGGoTLCVuv55sdKWORQrjmpoPfunhLleK1H7Jl2+Xr+PjTK8NGNze2AuxlwmS
-	pPsfEB1Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=pYr+AeiwL1UFnrLf8uvcmD3o5BPw1yZlMIQFClUWOPk=; b=1aPrPlVQTss5/6
+	NDZsJQ1xV6FRX52UxUTHK+9zUftAZ+cLkIn6Vgkn9cMMLuGcSuftxtSvsNR6TaGjd2C98uF9mM2z5
+	6patqFdySOMfRUthLCh8on+QX4ogg1y1lZlv0kz/KhZeUakbMecTiANwR0PP+sAs9ZDAiAv7q0/ag
+	QxlkEyvNK9LLrZEqLUkV6moWs1TQjneCH6LjiPsTL8ANuRadr4e8S0w8MtYmiTY9hmNN9qt9HLlge
+	a//5zGrTLElYqGnkBWYdL2TuVvO+CFIUlRlRp9nyb7VCoIAfPoY5K6ds1B99kC+EmU7Htxj3vXRAD
+	F3GdxvAvf9uINRN3u1Lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0JG9-0086gX-5e; Mon, 05 Jul 2021 07:43:17 +0000
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+	id 1m0JGk-0086l0-LR; Mon, 05 Jul 2021 07:43:54 +0000
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0JG5-0086fH-L6
- for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 07:43:15 +0000
-Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GJHXB27Bwz6G7y4;
- Mon,  5 Jul 2021 15:35:06 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 5 Jul 2021 09:43:07 +0200
-Received: from [10.47.90.223] (10.47.90.223) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 5 Jul 2021
- 08:43:06 +0100
-Subject: Re: [PATCH V2 4/6] scsi: set shost->use_managed_irq if driver uses
- managed irq
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, "Christoph
- Hellwig" <hch@lst.de>, "Martin K . Petersen" <martin.petersen@oracle.com>,
- <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
- <linux-scsi@vger.kernel.org>
-CC: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>, "Wen
- Xiong" <wenxiong@us.ibm.com>, Hannes Reinecke <hare@suse.de>, Keith Busch
- <kbusch@kernel.org>, Damien Le Moal <damien.lemoal@wdc.com>, "Adaptec OEM
- Raid Solutions" <aacraid@microsemi.com>, Subbu Seetharaman
- <subbu.seetharaman@broadcom.com>, Don Brace <don.brace@microchip.com>, "James
- Smart" <james.smart@broadcom.com>, Kashyap Desai
- <kashyap.desai@broadcom.com>, Sathya Prakash <sathya.prakash@broadcom.com>,
- Nilesh Javali <njavali@marvell.com>
-References: <20210702150555.2401722-1-ming.lei@redhat.com>
- <20210702150555.2401722-5-ming.lei@redhat.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <0dda0d19-8f6d-b231-08f3-6cf594b83352@huawei.com>
-Date: Mon, 5 Jul 2021 08:35:59 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+ id 1m0JGi-0086if-EE
+ for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 07:43:53 +0000
+Received: by mail-il1-x12b.google.com with SMTP id f12so10190869ils.11
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Jul 2021 00:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e9iEkxWZXOgkQfN6wkWjUvTW+hd6y+OZGeUrfDYSv1M=;
+ b=MNgNKwi4IqsC9hsZePUiKUxwI+tuua/vMJa8ZfEi6VnaZsC2euBU68wze5rJps6Mxd
+ 7g4YJ7p53XxQZa5OI2sMRNiwBQAj/TRR4kC79fAGEb+jRZuV1nrtWY7XI91uc9mgmMlH
+ 3RIUeQ+6yOeabLdZ2Sqy6mU2bP5sbyUFffJpMxlHVmPNlfvu+t+oxpFQjGl3j5zGTHWE
+ +hxfRoubrUlfJT8QLuy2tj528kSMPUxEVPI2zSHCpBvC50uXaIcokYUsAj/YBrt1dXyG
+ Z9IWEAlVe7j/ADJ3OKJ5pzz9HoVGv1mnTsSsF0mWwsOgXcXHLiZdOyyKWBUDxhE3UH/y
+ jieA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e9iEkxWZXOgkQfN6wkWjUvTW+hd6y+OZGeUrfDYSv1M=;
+ b=Dmou6jB1osFNnmnZrZgwFVUyRuZ/t/fDZRKBAUBbsSy0Io/b9lrVPQn4CSpRTAH9k8
+ IAGe5IEj8je67JvHbERXeJLtZT3M/KeHm1/0Runu9lbfd1gsFilfETOn2WQ8ECSnIYQr
+ sjC3KPOog9jjiW4ooSJZ1RFo0FweItBhJ7muosNDXjHpp0IfOosINxbM2EzRQhLyTavf
+ SpDFNJD+6bFBeRUMcEj09ZKlgZB3KLpdYEKdMtmwxGBsfhpptGqd52IK54CQNLhXWrry
+ xgXtfCdqrDCEGKWH3TG715Ul7V5WoN4wS6cCeG4DaTtLiAQmd+MmTDW7ao2pbe0pm7bb
+ RFVA==
+X-Gm-Message-State: AOAM533jm2cukVEDAxaag/Tjy3yyE+oFYsSf3S4FvfyZgMrYw46Yqcso
+ zrtbUWJLJtipbhrk/ogXOnOMupnaT1TNtde6Sx4=
+X-Google-Smtp-Source: ABdhPJwSWO6HWUtzAcsBy+fVjAwey07hk80RYwIRKecpZDJqgaU8GGEzh6BceYkQVq7Qko4MlUSnfmp91lgRo3VbpKs=
+X-Received: by 2002:a92:3f08:: with SMTP id m8mr9654532ila.104.1625471016960; 
+ Mon, 05 Jul 2021 00:43:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210702150555.2401722-5-ming.lei@redhat.com>
-Content-Language: en-US
-X-Originating-IP: [10.47.90.223]
-X-ClientProxiedBy: lhreml735-chm.china.huawei.com (10.201.108.86) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+References: <20210705031529.36001-1-houpu.main@gmail.com>
+ <20210705031529.36001-2-houpu.main@gmail.com>
+ <42d62146-3837-ff05-9e56-1c4c87d1ade9@nvidia.com>
+In-Reply-To: <42d62146-3837-ff05-9e56-1c4c87d1ade9@nvidia.com>
+From: Hou Pu <houpu.main@gmail.com>
+Date: Mon, 5 Jul 2021 15:43:26 +0800
+Message-ID: <CAKHcvQicg2Voq0y8d7F8KAzBqjE-vT8sOvm_aCgvp5oPKJuYLg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nvme: add set feature tracing support
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de, 
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-nvme@lists.infradead.org,
+ maxg@mellanox.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210705_004313_874638_01500C2C 
-X-CRM114-Status: GOOD (  12.01  )
+X-CRM114-CacheID: sfid-20210705_004352_541306_478FB16F 
+X-CRM114-Status: GOOD (  22.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,48 +91,99 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 02/07/2021 16:05, Ming Lei wrote:
-> Set shost->use_managed_irq if irq vectors are allocated via
-> pci_alloc_irq_vectors_affinity(PCI_IRQ_AFFINITY) or
-> pci_alloc_irq_vectors(PCI_IRQ_AFFINITY).
-> 
-> The rule is that driver has to tell scsi core if managed irq is used.
-> 
-> Cc: Adaptec OEM Raid Solutions<aacraid@microsemi.com>
-> Cc: Subbu Seetharaman<subbu.seetharaman@broadcom.com>
-> Cc: John Garry<john.garry@huawei.com>
-> Cc: Don Brace<don.brace@microchip.com>
-> Cc: James Smart<james.smart@broadcom.com>
-> Cc: Kashyap Desai<kashyap.desai@broadcom.com>
-> Cc: Sathya Prakash<sathya.prakash@broadcom.com>
-> Cc: Nilesh Javali<njavali@marvell.com>
-> Signed-off-by: Ming Lei<ming.lei@redhat.com>
-> ---
->   drivers/scsi/aacraid/linit.c              | 3 +++
->   drivers/scsi/be2iscsi/be_main.c           | 3 +++
->   drivers/scsi/csiostor/csio_init.c         | 3 +++
->   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
->   drivers/scsi/hpsa.c                       | 3 +++
->   drivers/scsi/lpfc/lpfc.h                  | 1 +
->   drivers/scsi/lpfc/lpfc_init.c             | 4 ++++
->   drivers/scsi/megaraid/megaraid_sas_base.c | 3 +++
->   drivers/scsi/mpt3sas/mpt3sas_scsih.c      | 3 +++
->   drivers/scsi/qla2xxx/qla_isr.c            | 5 ++++-
->   drivers/scsi/smartpqi/smartpqi_init.c     | 3 +++
->   11 files changed, 31 insertions(+), 1 deletion(-)
+On Mon, Jul 5, 2021 at 3:16 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>
+>
+> On 7/5/2021 6:15 AM, Hou Pu wrote:
+> > A nvme connect command produces following trace.
+> >
+> > Before:
+> > /sys/kernel/debug/tracing# cat trace | grep feature
+> >      kworker/5:1H-98      [005] ....  3221.294844: nvme_setup_cmd: nvme0: qid=0, cmdid=25, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features cdw10=07 00 00 00 07 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
+> >      kworker/4:1H-124     [004] ....  3222.009186: nvme_setup_cmd: nvme0: qid=0, cmdid=17, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features cdw10=0b 00 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
+> >
+> > After:
+> > /sys/kernel/debug/tracing# cat trace | grep feature
+> >      kworker/0:1H-253     [000] ....   196.060509: nvme_setup_cmd: nvme0: qid=0, cmdid=29, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features fid=0x7, sv=0x0, cdw11=0x70007)
+> >      kworker/0:1H-253     [000] ....   196.763947: nvme_setup_cmd: nvme0: qid=0, cmdid=29, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features fid=0xb, sv=0x0, cdw11=0x900)
+> >
+> > Using ',' to separate different field like others in
+> > nvmet_trace_admin_get_features.
+> >
+> > Signed-off-by: Hou Pu <houpu.main@gmail.com>
+> > ---
+> >   drivers/nvme/host/trace.c | 18 +++++++++++++++++-
+> >   1 file changed, 17 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+> > index 6543015b6121..2a89c5aa0790 100644
+> > --- a/drivers/nvme/host/trace.c
+> > +++ b/drivers/nvme/host/trace.c
+> > @@ -72,6 +72,20 @@ static const char *nvme_trace_admin_identify(struct trace_seq *p, u8 *cdw10)
+> >       return ret;
+> >   }
+> >
+> > +static const char *nvme_trace_admin_set_features(struct trace_seq *p,
+> > +                                              u8 *cdw10)
+> > +{
+> > +     const char *ret = trace_seq_buffer_ptr(p);
+> > +     u8 fid = cdw10[0];
+> > +     u8 sv = cdw10[3] & 0x8;
+> > +     u32 cdw11 = get_unaligned_le32(cdw10 + 4);
+>
+> By the spec cdw10, 11, 12, 13, 14, 15 are used by set features command.
+>
+> At least lets print cdw11-cdw15 as raw data and not only cdw11.
+>
+> We don't want to loose information.
 
-Hi Ming,
+Yes, it's better to keep these although currently only cdw11 is used.
+Will change it in v2. Thanks.
 
-hisi sas v2 hw is missed - it supports managed interrupt as a platform 
-device. Setting that flag in hisi_sas_v2_interrupt_preinit() might be best.
+>
+> > +
+> > +     trace_seq_printf(p, "fid=0x%x, sv=0x%x, cdw11=0x%x", fid, sv, cdw11);
+> > +     trace_seq_putc(p, 0);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> >   static const char *nvme_trace_admin_get_features(struct trace_seq *p,
+> >                                                u8 *cdw10)
+> >   {
+> > @@ -80,7 +94,7 @@ static const char *nvme_trace_admin_get_features(struct trace_seq *p,
+> >       u8 sel = cdw10[1] & 0x7;
+> >       u32 cdw11 = get_unaligned_le32(cdw10 + 4);
+> >
+> > -     trace_seq_printf(p, "fid=0x%x sel=0x%x cdw11=0x%x", fid, sel, cdw11);
+> > +     trace_seq_printf(p, "fid=0x%x, sel=0x%x, cdw11=0x%x", fid, sel, cdw11);
+>
+> This can be done in separate commit.
+>
+> Also if you can fix the current status and print also cdw14 since it's
+> used by get features by the spec (in separate commit).
 
-Thanks,
-John
+OK. Thanks for the comment.
+
+>
+>
+> >       trace_seq_putc(p, 0);
+> >
+> >       return ret;
+> > @@ -201,6 +215,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+> >               return nvme_trace_create_cq(p, cdw10);
+> >       case nvme_admin_identify:
+> >               return nvme_trace_admin_identify(p, cdw10);
+> > +     case nvme_admin_set_features:
+> > +             return nvme_trace_admin_set_features(p, cdw10);
+> >       case nvme_admin_get_features:
+> >               return nvme_trace_admin_get_features(p, cdw10);
+> >       case nvme_admin_get_lba_status:
 
 _______________________________________________
 Linux-nvme mailing list
