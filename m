@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0813FC11F6A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1DAC11F6A
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:30:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C525C619A0
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:30:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C525C619A0
+	by mail.kernel.org (Postfix) with ESMTPS id 8FE9861990
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:30:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FE9861990
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,50 +23,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=FkxWXWynMUgjTXs75SDo0efD+yaVJPGzNyB8fO9B+/g=; b=AbXegaDOJ4rEcP
-	F3byHDmHpgqQMMrbo6PNjSAu3Jzv5ZGYVrmfR9xD90dyM/uMCpgdJlpCbG5Q0Ix3E5z4+QPN8n2uj
-	KBWsFs6yVCcucGKdwGLDEOJdArqEVRmpxkpcIm1z+MD1RIRw5OprYd8yqnZLYNrDNcjFSJj4vi0OH
-	RFrqNTvS9DP9QzGkA4MqUOntfoZCBsXtvL+/8bMQbo6SqAdLzJmRqYDiYZUhyfSM+gGlcrO0rDsRM
-	geXE0BBrOTvYt/l2rqrlNhCC1TkzW+jfnNJz8RTlD77qHb1L6bKwooaGL2rtiAfvAwyapWM8DT4ME
-	B5cBoYpfvlEL25gwsYRg==;
+	List-Owner; bh=L9KOL6TlixquZWTltqY/17DkZHqY5OL1gv5L8apxRRQ=; b=Nr69yyUkPDgjKV
+	1+NYtg30n9OVJq6TW1rjE97fKpD07618m8ouLWVPGAKbJEuyFXzeZ5nzYLEtm65HIGwGhjLqsQ4mm
+	8cr7e68r3gobd75msgyzSSGmNTa4/l8VhZocKFN6b2ldtoezLNt3S232SAb48bsicCtaNJ9pmz2y5
+	yKvQ+zCkTEiSRJkPPEPAsDIhb+NEcFQbggdpcUOUI51igONb7mFL+VpOh3XXi6NnbXop92PWGdm/R
+	/qWMOUazjh0yFe0S+OAgl7NUSKEcykaIl9/FplYxrWIrZqHw5KM/2d+aXVQDPsnP6S34O2wE9ZO75
+	Oimxo4uf0S/MmIKgWGYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0QXs-009LQb-DY; Mon, 05 Jul 2021 15:30:04 +0000
+	id 1m0QYP-009LdO-8z; Mon, 05 Jul 2021 15:30:37 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0QXg-009LMD-6s
- for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 15:29:53 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2599061990;
- Mon,  5 Jul 2021 15:29:51 +0000 (UTC)
+ id 1m0QYL-009LbY-It
+ for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 15:30:34 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7CA6A619C4;
+ Mon,  5 Jul 2021 15:30:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625498991;
- bh=CreSF3836YFQf5SepfjQHNe1Dhiejoa7yZUMT0fJ9dA=;
+ s=k20201202; t=1625499033;
+ bh=P1wCF5MjMasoUsUhzJZ3trQHMHTl86FvkoaoOo0K928=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mIzp93XTqPU4papXm8Vd6kXlPZ3Z42LRA8iG7POp7aY3p8FOYpbuHjsc8bxZqxEoP
- xOvlbcM4OVENp3IfgWgc3e4jYF7ZVEPFvSI6ug33sZGwSZoxGK61zr1WLbB/iVUjUQ
- fQRZlq25ZinCq5A65INMvc23w9tC6b11AxRbI/c2KmHsI/ihaBacPfov8Bzp/Ailtq
- AyzI0TblEC/4VtLOiTBqsA54neYKXoMBKcTMZAO2sTtxY4SYsH1DqepVkRP68EUqSO
- 8QwSkKPzky6aZ8hOKpiVC/d71kN/ikfvsa5OBEGkkUMg91hvGfIC62YyY+h9SLo0rV
- JI/bYdqO/EH3Q==
+ b=h2zUvpc78/6QtnZ90Nb/FfYFzYkaX5necCuomTAarU32xpOIyWZOCCM7pbjQ1sY2G
+ U5h7Or6BH35fSvNFZ6EqYxCHgcY0RZlZgBFQDqAdl3nIRkh868I6ZfdKA/OyC0vUCJ
+ 2/YszaoMX64e/KpCB/Gih0gSwW4ucOgRDedBUW2Uayva0OYGB1hxdekn9Butv9iKig
+ wocqDu8otDFE/K5+Wg0sOL/qzQKavV3EO6q6N4ApJ0E2nDC+tVqJmG7zUbHsL5jTtM
+ TbG+i/hGm6JexSvLCjJsYR5rWpO8wW5hW41tcm+yx4qq7SH97vQa8RxwepM/chZ8L5
+ 4zo3+IVwLAHaA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hannes Reinecke <hare@suse.de>, James Smart <jsmart2021@gmail.com>,
- Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.12 31/52] nvmet-fc: do not check for invalid target
- port in nvmet_fc_handle_fcp_rqst()
-Date: Mon,  5 Jul 2021 11:28:52 -0400
-Message-Id: <20210705152913.1521036-31-sashal@kernel.org>
+Cc: JK Kim <jongkang.kim2@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 25/41] nvme-pci: fix var. type for increasing
+ cq_head
+Date: Mon,  5 Jul 2021 11:29:45 -0400
+Message-Id: <20210705153001.1521447-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210705152913.1521036-1-sashal@kernel.org>
-References: <20210705152913.1521036-1-sashal@kernel.org>
+In-Reply-To: <20210705153001.1521447-1-sashal@kernel.org>
+References: <20210705153001.1521447-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210705_082952_318248_A8FCBA32 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20210705_083033_708389_AA3BEC44 
+X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,52 +82,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+From: JK Kim <jongkang.kim2@gmail.com>
 
-[ Upstream commit 2a4a910aa4f0acc428dc8d10227c42e14ed21d10 ]
+[ Upstream commit a0aac973a26d1ac814b9e131e209eb39472a67ce ]
 
-When parsing a request in nvmet_fc_handle_fcp_rqst() we should not
-check for invalid target ports; if we do the command is aborted
-from the fcp layer, causing the host to assume a transport error.
-Rather we should still forward this request to the nvmet layer, which
-will then correctly fail the command with an appropriate error status.
+nvmeq->cq_head is compared with nvmeq->q_depth and changed the value
+and cq_phase for handling the next cq db.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: James Smart <jsmart2021@gmail.com>
+but, nvmeq->q_depth's type is u32 and max. value is 0x10000 when
+CQP.MSQE is 0xffff and io_queue_depth is 0x10000.
+
+current temp. variable for comparing with nvmeq->q_depth is overflowed
+when previous nvmeq->cq_head is 0xffff.
+
+in this case, nvmeq->cq_phase is not updated.
+so, fix data type for temp. variable to u32.
+
+Signed-off-by: JK Kim <jongkang.kim2@gmail.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fc.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index d375745fc4ed..b81db5270018 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2494,13 +2494,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 	u32 xfrlen = be32_to_cpu(cmdiu->data_len);
- 	int ret;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c1f3446216c5..56263214ea06 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1027,7 +1027,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
  
--	/*
--	 * if there is no nvmet mapping to the targetport there
--	 * shouldn't be requests. just terminate them.
--	 */
--	if (!tgtport->pe)
--		goto transport_error;
--
- 	/*
- 	 * Fused commands are currently not supported in the linux
- 	 * implementation.
-@@ -2528,7 +2521,8 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+ {
+-	u16 tmp = nvmeq->cq_head + 1;
++	u32 tmp = nvmeq->cq_head + 1;
  
- 	fod->req.cmd = &fod->cmdiubuf.sqe;
- 	fod->req.cqe = &fod->rspiubuf.cqe;
--	fod->req.port = tgtport->pe->port;
-+	if (tgtport->pe)
-+		fod->req.port = tgtport->pe->port;
- 
- 	/* clear any response payload */
- 	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
+ 	if (tmp == nvmeq->q_depth) {
+ 		nvmeq->cq_head = 0;
 -- 
 2.30.2
 
