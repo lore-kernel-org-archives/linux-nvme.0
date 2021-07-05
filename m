@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB5DC07E99
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5585C07E99
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:13:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 352B161964
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:12:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 352B161964
+	by mail.kernel.org (Postfix) with ESMTPS id 7B03961966
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 15:13:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B03961966
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,71 +23,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=q4IlgzGviI/rHlheuJiIsSDMvNbZIktCaEV2SW5cSfY=; b=sCWHbvEQnwm8ua
-	4b+v1y1Si1mOxaEXh4FGav/G4x+ZUWvKY6yG7iH5Nhx9uYYdgnD+lGcOxGee/1A8aiQp7eMkHZdNW
-	EN5BsLDvZmSi5r0/CJ4J84KqbXu7Bh05LZZJ3PnwnW04SBtfvLOHXhxchTVAjB/DJi++scBcT3ecV
-	IhL9IqJyUfirNTS9QDIpnzfU3iBvD8ZJLzN0pl+CI+HFFqk2uTL4/JSNpX6SVrMb1tsiJaJlnDUIc
-	LhSirZmmAuR1bEUPum+JmYwJbDV7sVfQAOOA9sF2EIjCFMvNKVmfb864NwRovMxrFpMhf0jnQHQyj
-	IDKnjgMIDxEOHsDeGj7A==;
+	List-Owner; bh=VVQZlKt84PcWEH6dwbeP1GyupYAwxVDNmucYBX7YMq0=; b=Z7sGKGXOyNVp1r
+	k/E7GBsCDf9ZLLKuu1Udr9RHh7N9j/5eCp9yflS7VZKGHaPEgL/wEYzqmmj7P0J4q0Sn1CR+gZWQu
+	wf7vpONw+LfteW1KoFWW19rLGAmbJ9gV6vEcMHOwJqhpEw2h6JHonBdLmjd8r/cGoitGXQ03mMP2i
+	z2CKBBc1JTMSfKTu4ml8eg7yIyr9Q6JZrAyl/lclgKOMPo7EjiDJQaJrGgdlB/h0exAGJXD5cSBfJ
+	Vsj5y9rEkQ5LIhvTtgSvf6NN2tGYST1SS86aywmtp7xmTGnRLuALcrWmH3A15cBIKDBaYyYPMefHK
+	QyHi0ftKJDyHtSVA+o4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0QGo-009IaH-AI; Mon, 05 Jul 2021 15:12:26 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1m0QHl-009Ipd-Jo; Mon, 05 Jul 2021 15:13:25 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0QGl-009IZI-LQ
- for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 15:12:25 +0000
-Received: by mail-pg1-x531.google.com with SMTP id v7so18587172pgl.2
- for <linux-nvme@lists.infradead.org>; Mon, 05 Jul 2021 08:12:21 -0700 (PDT)
+ id 1m0QHi-009IoS-Gz
+ for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 15:13:23 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id g24so11888700pji.4
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Jul 2021 08:13:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tKDRlO9YCKAdJbnp2BpOMpXRX1J4I2mq8OVB87MyDT8=;
- b=YgB1xjTwsBLCKEBwkiAngeA2qUDKav74Q89X4TpnFpdY8rnA2K7tUoNpfjNecvoTgJ
- Rf9oJAPvD3MUDMSdlORCWOSVDalvMwzLEpNqQmd+CNmJp8LwTwqdxASGAZR6HthUm1yE
- KPpM9Gqxn5b/i4+pxHlBo5pbSuJaQNSBQG+haWKyGKHOk4tab7DHRMXyA4xZxQte0/Ft
- FOe04kaxkJJpnT64THPJT4wwmKcd9DOZZzRoCh+Ts6y53u71uTrXjgLlEWMPzUaMS50b
- K/s44pUhq76xxY1b8GXI3ozGst/6m6mbAgsQnZzaeJhAdOIgehYYEv9AQAEPISuDXhvV
- J7xw==
+ :cc; bh=04kgaJvqJScDYuLDpGx1FmDxXBGCIWOopDifA8aKHwE=;
+ b=kWlMsC61CqEAz21EoaMUW64Ryo3XcMxxRhf1W7GnDqqMbsjaW7TmKxknzh2K/WmVhk
+ MgdIFn8Z6M8ZHTW0WN+dvMoDh/ip2k6wQdendfigMavCwRQypjoS/1CrdnknWKdr7M5r
+ 7natHoIuzacX/Dm+Bagqmv9Oyln5azRuMWMp5MD+VlTqNolu/yZnOLEHlZizshFekQvF
+ BMBUt9NbMvAMGTA3S6HwKqPF1XudCoPFxpYraWLOlzH+CaKT1odSIQwiXVaTC/rWKCwq
+ MTQOqX1+ZC75M6WfFHxYBVhR30dXReIsinv7hCDxlOJYssKEfiFdsReNcwSbuisyVw5k
+ vVvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tKDRlO9YCKAdJbnp2BpOMpXRX1J4I2mq8OVB87MyDT8=;
- b=ECuUGRyW2C1q/kTSKszYteKzZgFCnyQoLT80RNCTaQyILGGnrYZ07kovFQFc6Q54wx
- lO4mmndNpJxKr2m1YzbcOkomIzpJleodAwH3+50OXewKwZrTFT3keNqaAijDNvATl5/+
- R2Onj8yPLP5Lg8P6DCQATqoN7AAT3EuHDBBnup/oFU96aBI2gJBf3lOlg7hsOLC5oJdF
- FgwnMQkQ57eUOUgpSabGcCbWfmbMw0xZfDJzda9nJhnckIu/AYJIPfXPtTDriky8gab2
- yVI1TKwqwjh1feAVcnJMDGrJ3708DYWvUQSYDiXEFJ65+L1ppJgfoXeUkZ/Hx9K5Ylyh
- H1oA==
-X-Gm-Message-State: AOAM531cdhLeZxPx/ey00iQ6WIj6cg59QX5uAgm+yiz6Dnnlcju1oJ0j
- pXx2Yn+bZn1iEsM939K1yM1Avpu/tZjmCIeCE+U=
-X-Google-Smtp-Source: ABdhPJzPiFghnpzpK9CCiOYXMFHJts7b5Mzj0wCtJvn+v0pzQAIXmQYvAXqx35xmG7BeQ5YMNnwf7IpxqfLGtoZ4x+U=
-X-Received: by 2002:a62:c712:0:b029:319:4e34:5cfb with SMTP id
- w18-20020a62c7120000b02903194e345cfbmr13990006pfg.2.1625497941334; Mon, 05
- Jul 2021 08:12:21 -0700 (PDT)
+ bh=04kgaJvqJScDYuLDpGx1FmDxXBGCIWOopDifA8aKHwE=;
+ b=ezKy6Yj59nlyXliN/ZZy6FDk0KlmeM1VVtWPgqfSA0ryECE1Tae53q35S8cPUKJiGg
+ wRojZaX7TLTmS4At3MSc3JjJbBx/atutjLJ1IZmoUZgFngfrm6OYoaZotH0UZSEMco3P
+ AdPFD0xGqb5pd1yPYEmslHqzBShnBawT8pLnaMjGwUHVzSG/im7EYWOlaRA4QRKCf0vJ
+ 1w6WueaCIdkg0c2/jQ/vZlbCSP2np8V2XgGWi4fLLGT9Sup6Nr4clgiHKnlAbaeS5T06
+ q6A9GE9WshjFXFG2fzWemnYemhkLoEPvOzSuy4XGX4qSSmx7flcCHs/+GxLKPNRsRZrw
+ U1zw==
+X-Gm-Message-State: AOAM533JX0jJLMaYojzTEyMIgyM9rMtBCw6gO5ZrAUidDCmfidSKZ4/R
+ C03duv1o/n19yq+wOMRnB9mshoRhi3wzJ37CNM8=
+X-Google-Smtp-Source: ABdhPJzcUKNFt78pSbi9QhgG58rXCw3p5419/aKym3toe63JLfml7Fo8pb+F5KpR0YgIYLx8eB1t/3NojcdG09oFDxM=
+X-Received: by 2002:a17:90a:4417:: with SMTP id
+ s23mr15758219pjg.228.1625498001818; 
+ Mon, 05 Jul 2021 08:13:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210624172410.14225-1-smalin@marvell.com>
- <20210624172410.14225-9-smalin@marvell.com>
- <CAJ3xEMhtrEEMLbkWuna_fvH_oinaCZmj3xr4y7gzdRawA1gmNA@mail.gmail.com>
- <CAKKgK4wJDrNcSbaPERPg2EyrSNvi8KY9UHyM3=T9bL_d3WBSDQ@mail.gmail.com>
- <CAJ3xEMiH9uaVojuvcetaWmFf8+OveX-xyvf3_CBbGsCfNP6X4g@mail.gmail.com>
- <80c4ef0f-cbef-46c9-97c4-959d7a80c106@grimberg.me>
- <CAJ3xEMjUnJYCk4azwn5rWGt+xgWmw9_T1JuMaj9rRt+2qWC1-w@mail.gmail.com>
-In-Reply-To: <CAJ3xEMjUnJYCk4azwn5rWGt+xgWmw9_T1JuMaj9rRt+2qWC1-w@mail.gmail.com>
+References: <20210629124743.6898-1-pkushwaha@marvell.com>
+ <20210629124743.6898-10-pkushwaha@marvell.com>
+ <20210701134118.GE18548@lst.de>
+In-Reply-To: <20210701134118.GE18548@lst.de>
 From: Shai Malin <malin1024@gmail.com>
-Date: Mon, 5 Jul 2021 18:12:10 +0300
-Message-ID: <CAKKgK4ydbE7rY4w+7QHfmMOjFJLwFrnuS_cMB-OMMwT81iMnCQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/20] nvme-tcp-offload: Add IO level implementation
-To: Or Gerlitz <gerlitz.or@gmail.com>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Shai Malin <smalin@marvell.com>, linux-nvme@lists.infradead.org, 
- Christoph Hellwig <hch@lst.de>, axboe@fb.com, Keith Busch <kbusch@kernel.org>, 
+Date: Mon, 5 Jul 2021 18:13:10 +0300
+Message-ID: <CAKKgK4x0O+VXY_T3zpqoC0ZEh5rBVj1gHu_kgfEi+f57+XMzrA@mail.gmail.com>
+Subject: Re: [PATCH v4 09/20] qedn: Add qedn - Marvell's NVMeTCP HW offload
+ device driver
+To: Christoph Hellwig <hch@lst.de>
+Cc: Prabhakar Kushwaha <pkushwaha@marvell.com>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>, axboe@fb.com, Keith Busch <kbusch@kernel.org>,
  David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Ariel Elior <aelior@marvell.com>, 
- Michal Kalderon <mkalderon@marvell.com>, okulkarni@marvell.com,
- pkushwaha@marvell.com, 
- prabhakar.pkin@gmail.com, Dean Balandin <dbalandin@marvell.com>
+ Shai Malin <smalin@marvell.com>, 
+ Ariel Elior <aelior@marvell.com>, Michal Kalderon <mkalderon@marvell.com>,
+ okulkarni@marvell.com, 
+ prabhakar.pkin@gmail.com, Arie Gershberg <agershberg@marvell.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210705_081223_768892_A75FD0BD 
-X-CRM114-Status: GOOD (  23.18  )
+X-CRM114-CacheID: sfid-20210705_081322_619200_49E04AE1 
+X-CRM114-Status: GOOD (  20.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,55 +101,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 5 Jul 2021 at 12:28, Or Gerlitz <gerlitz.or@gmail.com> wrote:
-> On Sat, Jul 3, 2021 at 2:28 AM Sagi Grimberg <sagi@grimberg.me> wrote:
-> > >>>> From: Dean Balandin <dbalandin@marvell.com>
-> > >>>> In this patch, we present the IO level functionality.
-> > >>> [..]
-> > >>>
-> > >>>> +static void nvme_tcp_ofld_set_sg_null(struct nvme_command *c)
-> > >>>> +{
-> > >>>> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
-> > >>>> +       sg->addr = 0;
-> > >>>
-> > >>> ok
-> > >>>
-> > >>>> +       sg->length = 0;
-> > >>>> +       sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
-> > >>>> +                       NVME_SGL_FMT_TRANSPORT_A;
-> > >>>
-> > >>>> +inline void nvme_tcp_ofld_set_sg_inline(struct nvme_tcp_ofld_queue *queue,
-> > >>>> +                                       struct nvme_command *c, u32 data_len)
-> > >>>> +{
-> > >>>> +       struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
-> > >>>> +       sg->addr = cpu_to_le64(queue->ctrl->nctrl.icdoff);
-> > >>>
-> > >>> ok, what about dma mapping of the address?
-> > >>
-> > >> The dma mapping is done by the offload device driver.
-> > >> patch 18 - "qedn: Add IO level fastpath functionality", in qedn_init_sgl().
-> > >
-> > > The dma mapping can and should be done by the nvme/tcp driver. E.g in a similar
-> > > manner fow how it's done for nvme/rdma, you can take a look on the code there.
+On Thu, 1 Jul 2021 at 16:41, Christoph Hellwig <hch@lst.de> wrote:
+> On Tue, Jun 29, 2021 at 03:47:32PM +0300, Prabhakar Kushwaha wrote:
+> > From: Shai Malin <smalin@marvell.com>
 > >
-> > I agree here, the fact that the lld calls blk_rq_map_sg is very much
-> > backwards... If the lld is peeking into a block layer request or bio,
-> > its a sign that the layering is wrong...
+> > This patch will present the skeleton of the qedn driver.
+> > The new driver will be added under "drivers/nvme/hw/qedn" and will be
+> > enabled by the Kconfig "Marvell NVM Express over Fabrics TCP offload".
 >
-> Making things more precise while looking in the patch set we were
-> running here over
-> the last year, blk_rq_map_sg indeed is called by the nvme driver, and then
-> dma_map_sg by the hw driver. This is slightly different from the rdma case.
->
-> overall, the sequence of calls is the following
->
-> sg_alloc_table_chained()
-> blk_rq_map_sg()
-> dma_map_sg()
+> I don't see why we need a separate hw/ directory.   nvme-pci.c already
+> is very much a hardware driver.
 
-We will follow the nvme_rdma_map_data() design.
-It will also depend on the discussion of patch 1 - "nvme-tcp-offload: Add
-nvme-tcp-offload - NVMeTCP HW offload ULP".
+We will restructure and keep only the bare minimum qedn.c under nvme/host.
+
+>
+> > +config NVME_QEDN
+> > +     tristate "Marvell NVM Express over Fabrics TCP offload"
+> > +     depends on NVME_TCP_OFFLOAD
+>
+> I think it also depends on PCI.
+
+Thanks!
+
+>
+> This whole patch is a bit pointless.  In general splitting a driver
+> submission into multiple patches is not very helpful unless the later
+> patches add pretty much optional and clearly separatable bits.  Otherwise
+> it just becomes really hard to review.
+
+Understood. We will improve it.
 
 _______________________________________________
 Linux-nvme mailing list
