@@ -8,14 +8,14 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73381C07E99
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 11:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CACC07E99
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 11:30:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3590261279
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 11:30:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3590261279
+	by mail.kernel.org (Postfix) with ESMTPS id 6239E613C2
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jul 2021 11:30:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6239E613C2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,66 +24,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kEvLU9/oNQiRrUj0puVBbP7m5/ZKgItCucj7Lqbe6uo=; b=wDUnex3Fx4ScCt
-	a7W+59U8uGRhl64Zj4Ao6zXBEsWNAX1wcMtvvA7elA3xF+4GH01aZPoNYa4AmJ05S4CKXTBFT+Wym
-	9F/0Yfgi5gW/P27owfNuEUZEvFJcXg236q1s5xXia097PkmAHtmDgdQtTDSkOIzJxrzvMD7naSfs6
-	BIWX5vPURiIoKWiO8PTYt3nCV32rBZczUBNqzKyi7NsKh1chrn11bSu1udZErq9EubtTe2IRpmDx1
-	ImskdBS67rnhjcQ7oouRWqrYo0TOhLrjnvYLmtNRH8m6cw/8eyAxgHPEYfJcBtEF2Abr4J02GkSj3
-	iROjtS07EMb5z3a+2fyw==;
+	List-Owner; bh=AgQCiSTddYFczF0cae0zfp0AJE/Gm5D4Jz7lI4KTwH4=; b=AkL0BWdkgU0ASs
+	2X3vlIKgOKJVydo4f6fj4y05Oa5KBW+phNNJ2a5oheDw0unF9QbUkxZk+ydVEcI0vLw6mpw7H+blt
+	qbP27Evw6j37EdFTDxJm9j2yEEh6NRcu0ZLNDe3jmidCSK8OpkRJ1BKRWz+0XE8+BS7GzbNOpEukA
+	q6bdXZnW70cDS44RVjaCraCVekJOZ6RoiqJ4j6IcO9MX8/WYZ+LmVoeWqEsNOf5DBIVwWK/l8ry9w
+	pJaougyhAUsOiqblR80Za1RrQlChl+M5RarVvlWTkupYuS0RTeOdhrP99UmnBmV9JItngQCLuatZL
+	CMtJdCq37NGtot4H+4rw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0MnX-008mnP-Uv; Mon, 05 Jul 2021 11:30:00 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1m0MoA-008mxs-Q4; Mon, 05 Jul 2021 11:30:38 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0Mmv-008mbP-3S
- for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 11:29:23 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id v13so10086514ple.9
- for <linux-nvme@lists.infradead.org>; Mon, 05 Jul 2021 04:29:20 -0700 (PDT)
+ id 1m0Mmy-008mcK-59
+ for linux-nvme@lists.infradead.org; Mon, 05 Jul 2021 11:29:25 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id 17so16216486pfz.4
+ for <linux-nvme@lists.infradead.org>; Mon, 05 Jul 2021 04:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DUCLTPnKjNPnRgQGtPYHBydSf61jPd7ZR+KhlBTMnvU=;
- b=NZyI3vfk56Xdagd7xRPyvRFzeHmKBopNm2Tdt2t6ilb57kntlhoXUx6AMGvBXOjpU6
- Rf9D+wstEoqLH8/3rbwqo2L02Ff0yPxW2VFH7+6svEE0U+6ICyKhPkoLMa0taubUyBjn
- s3oUIjG3Ldfv38Jf9cMB21fGlRYkOVGm+iyy8uXcfhV5v2XDwSatuMqyOk4zaNH41LIU
- hd/zVctaEk/LLgNmVVGTEKpCL6sNciu7ZEAHbsPNsizRyiM+JJZu4EqCdz2qWuLh42Wp
- buJm7J9GzQt/Uy+hqCFsNu9+hikNjZDFrGSff+0miypmUrY4kW+vVH2O5YKhWFvFaeZm
- SAQw==
+ bh=hiPD/5qt7vvZ8bj+GjSrOP3/nmDIZ3XekQvPWy9F6Os=;
+ b=E8vEpnJGb6I9sQ9teY6O27AZV9jbMuVBBwYQo5X55oP8NsaVRGOhnqW5pRAsyJ/rOr
+ qFq9eqz0B3I8M6L8MATC+EuPMV7LcfWaZa2FnLV07Uq4GTbp4kNjbZSW9nUTmWBNkmuO
+ AvDJEB1y7ZlnQ+Qc+sWzw9fz73frDFM87/67R760W9L6PbZr7eduPbc/MkIBYpZADfk5
+ yuEym+Q71OKSfWUjSBR+vyM2EsrkcAp7AeEGKb+cQIkgaJdfmNieNvL6XA0Hp7q9duMy
+ FcaE7iBEVHKE4RPOfevGaxwatpRWKLE6C213R5q6y6G+b2qNVDKZgPW1rBseP5e6j7Mr
+ fNxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DUCLTPnKjNPnRgQGtPYHBydSf61jPd7ZR+KhlBTMnvU=;
- b=TUucwCvr2GsRcpOjHMQJamuyfEkT3LUlb8FlfYqPOza8WmuCH01NqmibcmlJfa6VhG
- puKtv36lFgF9wOdyL+UcP7vgXBSZH8WCHpixwHUkGyUtjk5Rd0MTIOBn1k73xt3Z7Jll
- vB8jl0xVDwQjgBDe5LbVPZmk4gVa1Asqm1HNqd6hacfxy3YpdXW0j303IIoFT/Fm0dSY
- ysJE805rU208+QnPkWL7NbND7q2rG9wkPi46CgwLENKaSrT5OaQja/Qn1j7LIvYdK+aj
- +oww+3O89LOdTX8byV2CDf0As+fNm83+9QCb0tjJkb6wUf7ag2Mc8blM5tLZwEqQ1dsm
- a5Tg==
-X-Gm-Message-State: AOAM530BSlaXDL/LNDTFLYdDGZ4qQG4pK+0kUuS/lGN4AXFAF04yMW/X
- UcZ4JHIFSanYsl1osqNs/X0=
-X-Google-Smtp-Source: ABdhPJx4V0wMNQaU/9CvWeorhFETfqbGT3Y7L9z3igfkfOCnfqkBpKoVsa70bL3hJN2i+iBh+G4LdA==
-X-Received: by 2002:a17:90a:3d47:: with SMTP id
- o7mr15172583pjf.68.1625484560379; 
- Mon, 05 Jul 2021 04:29:20 -0700 (PDT)
+ bh=hiPD/5qt7vvZ8bj+GjSrOP3/nmDIZ3XekQvPWy9F6Os=;
+ b=dDitIc75I20oV8RiYwx6sz175SEfilLbkW5iuIYEI6ENXlvvGNuy4g8oqoXh8NzZn1
+ WUFhYKcnAEeFPRSvNqECFjyywaZInRSNDArmCd0/Mw4QGlpiwfS9qUW4zOEwq/Xs3UTT
+ 2wPS/+SP2UkvTtpSO2pkOqIJWHO7Wa+bQlxx0CBT3QmN49kfYxqCCjBoEuLveOyiPl1l
+ gcVru2qZSD/gyOoC2aRXcFQ56yG64vDH7oaORUkwKylc5DJyoZLRsCyCyiI3IOuIdqNe
+ FPzBlPg63Ta7Nxx9fE9YcTSCGKhBhJDJObmeRtSybDOiQ1kR2yC+lt6ZDMyojAE4B5uX
+ mRWQ==
+X-Gm-Message-State: AOAM532sSGj8BvruepvpVYkqfaM+pcEzrvP5AzKJ8sKymJ5DR2avvaQi
+ y6qFJZmOdN0M0FlYE7JY9H8=
+X-Google-Smtp-Source: ABdhPJx4ABYPol8/nsVkr7I9vWOpEEOsHUEKs5cdPwSjn2fo1JDw3VBUuR1eU6naE/7dT0N7y7H5pw==
+X-Received: by 2002:a62:37c2:0:b029:2ff:f7dd:1620 with SMTP id
+ e185-20020a6237c20000b02902fff7dd1620mr14787469pfa.33.1625484563460; 
+ Mon, 05 Jul 2021 04:29:23 -0700 (PDT)
 Received: from houpudeMacBook-Pro.local.net ([61.120.150.70])
- by smtp.gmail.com with ESMTPSA id u14sm12705654pfk.10.2021.07.05.04.29.17
+ by smtp.gmail.com with ESMTPSA id u14sm12705654pfk.10.2021.07.05.04.29.20
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 05 Jul 2021 04:29:20 -0700 (PDT)
+ Mon, 05 Jul 2021 04:29:23 -0700 (PDT)
 From: Hou Pu <houpu.main@gmail.com>
 To: sagi@grimberg.me, hch@lst.de, chaitanya.kulkarni@wdc.com, maxg@mellanox.com
 Cc: linux-nvme@lists.infradead.org,
 	houpu.main@gmail.com
-Subject: [PATCH v2 2/3] nvme: add set feature tracing support
-Date: Mon,  5 Jul 2021 19:28:17 +0800
-Message-Id: <20210705112818.49577-3-houpu.main@gmail.com>
+Subject: [PATCH v2 3/3] nvmet: add set feature tracing support
+Date: Mon,  5 Jul 2021 19:28:18 +0800
+Message-Id: <20210705112818.49577-4-houpu.main@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20210705112818.49577-1-houpu.main@gmail.com>
 References: <20210705112818.49577-1-houpu.main@gmail.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210705_042921_203112_B49EA6B6 
-X-CRM114-Status: GOOD (  10.49  )
+X-CRM114-CacheID: sfid-20210705_042924_269299_40E6CF09 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,30 +100,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A nvme connect command produces following trace.
+A nvme connect command produces following trace from the target side.
 
 Before:
-    kworker/5:1H-98      [005] ....  3221.294844: nvme_setup_cmd: nvme0: qid=0, cmdid=25, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features cdw10=07 00 00 00 07 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
-    kworker/4:1H-124     [004] ....  3222.009186: nvme_setup_cmd: nvme0: qid=0, cmdid=17, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features cdw10=0b 00 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
+    kworker/0:1H-56      [000] ....  9012.155139: nvmet_req_init: nvmet1: qid=0, cmdid=16, nsid=0, flags=0x40, meta=0x0, cmd=(nvme_admin_set_features, cdw10=07 00 00 00 07 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
+    kworker/0:1H-56      [000] ....  9012.872272: nvmet_req_init: nvmet1: qid=0, cmdid=13, nsid=0, flags=0x40, meta=0x0, cmd=(nvme_admin_set_features, cdw10=0b 00 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
 
 After:
-    kworker/2:1H-107     [002] ....    88.541485: nvme_setup_cmd: nvme0: qid=0, cmdid=6, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features fid=0x7, sv=0x0, cdw11=07 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
-    kworker/2:1H-107     [002] ....    89.259507: nvme_setup_cmd: nvme0: qid=0, cmdid=7, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_set_features fid=0xb, sv=0x0, cdw11=00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
+    kworker/0:1H-56      [000] ....    97.207441: nvmet_req_init: nvmet1: qid=0, cmdid=6, nsid=0, flags=0x40, meta=0x0, cmd=(nvme_admin_set_features, fid=0x7, sv=0x0, cdw11=07 00 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
+    kworker/0:1H-56      [000] ....    97.925443: nvmet_req_init: nvmet1: qid=0, cmdid=7, nsid=0, flags=0x40, meta=0x0, cmd=(nvme_admin_set_features, fid=0xb, sv=0x0, cdw11=00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00)
 
 Signed-off-by: Hou Pu <houpu.main@gmail.com>
 ---
- drivers/nvme/host/trace.c | 16 ++++++++++++++++
+ drivers/nvme/target/trace.c | 16 ++++++++++++++++
  1 file changed, 16 insertions(+)
 
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-index 0e441bdad453..681ad2c930c0 100644
---- a/drivers/nvme/host/trace.c
-+++ b/drivers/nvme/host/trace.c
-@@ -72,6 +72,20 @@ static const char *nvme_trace_admin_identify(struct trace_seq *p, u8 *cdw10)
+diff --git a/drivers/nvme/target/trace.c b/drivers/nvme/target/trace.c
+index 902500a57185..a1200837646a 100644
+--- a/drivers/nvme/target/trace.c
++++ b/drivers/nvme/target/trace.c
+@@ -19,6 +19,20 @@ static const char *nvmet_trace_admin_identify(struct trace_seq *p, u8 *cdw10)
  	return ret;
  }
  
-+static const char *nvme_trace_admin_set_features(struct trace_seq *p,
++static const char *nvmet_trace_admin_set_features(struct trace_seq *p,
 +						 u8 *cdw10)
 +{
 +	const char *ret = trace_seq_buffer_ptr(p);
@@ -137,17 +137,17 @@ index 0e441bdad453..681ad2c930c0 100644
 +	return ret;
 +}
 +
- static const char *nvme_trace_admin_get_features(struct trace_seq *p,
+ static const char *nvmet_trace_admin_get_features(struct trace_seq *p,
  						 u8 *cdw10)
  {
-@@ -203,6 +217,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
- 		return nvme_trace_create_cq(p, cdw10);
+@@ -96,6 +110,8 @@ const char *nvmet_trace_parse_admin_cmd(struct trace_seq *p,
+ 	switch (opcode) {
  	case nvme_admin_identify:
- 		return nvme_trace_admin_identify(p, cdw10);
+ 		return nvmet_trace_admin_identify(p, cdw10);
 +	case nvme_admin_set_features:
-+		return nvme_trace_admin_set_features(p, cdw10);
++		return nvmet_trace_admin_set_features(p, cdw10);
  	case nvme_admin_get_features:
- 		return nvme_trace_admin_get_features(p, cdw10);
+ 		return nvmet_trace_admin_get_features(p, cdw10);
  	case nvme_admin_get_lba_status:
 -- 
 2.28.0
