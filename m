@@ -4,67 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 253E5C07E95
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 14:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C72BDC07E95
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 14:59:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B739461C92
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 14:05:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B739461C92
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 8CF6461C99
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 14:59:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CF6461C99
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kuuZURinzUCUPsZ2Rqbn/TuB8vGqsRAEFUVyHDp1j60=; b=ApEUDM8F86tqGF
-	l6UcmSAbw708tpR3a+9E4bfkWQkVwGGMHysVZRqfRkMG7r1mSkso6HN7GjZFuxr3VJ67Tm5YRq7Z9
-	SSJDQJ1y2JGFbljvdNZBL4yggQSDg+wY5GphCAtlDmIEVj4QjQcAwC4M2fkbCWsxb83abCUtyp+I4
-	6pxrNCvtoiHb1ShbOAPO0cCHrRMd2Cund521YH1md94Sbk6qW0bfknp0uqgqPMvTNNQkHaQF2FtKt
-	m8fj8zRjQaE7H6mlHAaj/Q4tJvxomR6MyG/QZ6RxNKtlEogXL5k8VNZraVKhmIelwCH28s78SlrQQ
-	scjGqmC+3PuHMsfv6vRg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6VJ2tDJpdYQ//LkPMUukfyTzoY2/QJ78jEYOl5A1/FE=; b=m2eUzTKZJtOQzS9nNmqQnFhzvg
+	Up5wvJbNYJz4/PpTuEBVcgWwys6eg+b7trwjwY/eqyK9HqFtYMceMc2ztbJhnb6NO4PCT0ow9QHH8
+	W+lymBF0ZCni9ufoZ7yYDf3yG9NXy/HP7iXoFReCbTgbgcW8U2wfKUNMdKQxx1J2hOR9t1aGUM7Bh
+	PpCtPx/KU/57ly+SIP3SGoS5fhIM3DPmn0hzOadRqa1T2sNxujq32pumeeqSWs+cHlWYFn/dQX+kM
+	8mYHIVl89lBA8B8z8JlLjGwon10jBC0KyXXHlOAw4ZXRIX0rKxXQ1qpnWhAJO7pwV07mn3U3L8GrU
+	x5IJo00A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m18BL-00F1Aa-I6; Wed, 07 Jul 2021 14:05:43 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1m190l-00F8qP-DM; Wed, 07 Jul 2021 14:58:51 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m18BJ-00F195-20
- for linux-nvme@lists.infradead.org; Wed, 07 Jul 2021 14:05:42 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id B225068C7B; Wed,  7 Jul 2021 16:05:29 +0200 (CEST)
-Date: Wed, 7 Jul 2021 16:05:29 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>,
- Daniel Wagner <dwagner@suse.de>, Wen Xiong <wenxiong@us.ibm.com>,
- John Garry <john.garry@huawei.com>, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>, Damien Le Moal <damien.lemoal@wdc.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH V2 5/6] virtio: add one field into virtio_device for
- recording if device uses managed irq
-Message-ID: <20210707140529.GA24637@lst.de>
-References: <20210702150555.2401722-1-ming.lei@redhat.com>
- <20210702150555.2401722-6-ming.lei@redhat.com>
- <20210706054203.GC17027@lst.de> <87bl7eqyr2.ffs@nanos.tec.linutronix.de>
- <YOV3HgWG6F3geECm@T590>
+ id 1m190i-00F8q3-7u
+ for linux-nvme@lists.infradead.org; Wed, 07 Jul 2021 14:58:49 +0000
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id ECDE3200A1;
+ Wed,  7 Jul 2021 14:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625669924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n49FotfPrPKI8JC8vQ8cyLmwT0+1CDpD+nkEHErNG1I=;
+ b=d+qcdvR7XJfF+EvffMQkFaMiZHtFnCWnkNqUmMUgANH+QXPEt3puWxo8auxcWPs+RjadH1
+ tNDNDiwTVYkN1T6WkK3E8ciO4ptBwlFkN6T9OKk6hLqUxgDDP0zWduJfiJEG0XcoYq8rsn
+ +xpdn9OJjDJqeoQSmbP1Y4FIX0kPTA4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625669924;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n49FotfPrPKI8JC8vQ8cyLmwT0+1CDpD+nkEHErNG1I=;
+ b=ZMTTY7ft37ABWr9SMyBEMWTNIp3fB6a9SyIsL0JUAqpf3fd64nWJ9O7vg0e5QdwE3U0O5K
+ 3CVVMBTovmODI8BQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id A665513645;
+ Wed,  7 Jul 2021 14:58:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id 68yeJyTB5WB+MAAAGKfGzw
+ (envelope-from <hare@suse.de>); Wed, 07 Jul 2021 14:58:44 +0000
+Subject: Re: [PATCH v4 00/20] NVMeTCP Offload ULP
+To: Christoph Hellwig <hch@lst.de>, Prabhakar Kushwaha <pkushwaha@marvell.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, axboe@fb.com,
+ kbusch@kernel.org, davem@davemloft.net, kuba@kernel.org, smalin@marvell.com,
+ aelior@marvell.com, mkalderon@marvell.com, okulkarni@marvell.com,
+ prabhakar.pkin@gmail.com, malin1024@gmail.com
+References: <20210629124743.6898-1-pkushwaha@marvell.com>
+ <20210701132307.GA18548@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <c19a9d80-0d12-1ad0-8dce-169997ba5364@suse.de>
+Date: Wed, 7 Jul 2021 16:58:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YOV3HgWG6F3geECm@T590>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20210701132307.GA18548@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210707_070541_275291_C3C3B1ED 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20210707_075848_479433_7E226BF8 
+X-CRM114-Status: GOOD (  14.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,19 +99,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 07, 2021 at 05:42:54PM +0800, Ming Lei wrote:
-> The problem is that how blk-mq looks at that flag, since the device
-> representing the controller which allocates irq vectors isn't visible
-> to blk-mq.
-
-In blk_mq_pci_map_queues and similar helpers.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNy8xLzIxIDM6MjMgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IEkgbG9va2VkIG92
+ZXIgaXQgYSBiaXQgKGFuZCB3aWxsIHNlbmQgc29tZSBpbmRpdmlkdWFsIGNvbW1lbnRzKSwgYW5k
+IEkKPiBoYXZlIHRvIHNheSBJIHJlYWxseSBkaXNsaWtlIGhvdyB0aGlzIGxheWVyIGFuZCBob3cg
+dGhlIGhhcmR3YXJlIHdvcmtzLgo+IAo+IFRoZSB3aG9sZSBwb2ludCBvZiBOVk1lIGlzIHRoYXQg
+d2UgaGF2ZSBhIG5pY2VseSBzdGFuZGFyZGl6ZWQgUENJZQo+IHJlZ2lzdGVyIGxldmVsIGludGVy
+ZmFjZS4gIE9uZSB0aGF0IHlvdSBjYW4gdHJpdmlhbGx5IGhpZGUgYSBUQ1Agb2ZmbG9hZAo+IHVu
+ZGVyIHdpdGgganVzdCBhIGxpdHRsZSBjb250cm9sIHBsYW5lIGxvZ2ljLiAgQnV0IGluc3RlYWQg
+d2UgY29tZSB1cCB3aXRoCj4gdGhpcyBnaWdhbnQgbWVzcy4KPiAKSSBjYW4ndCByZWFsbHkgc2Vl
+IGhvdyB0aGlzIGNvbnRyb2wgcGxhbmUgbG9naWMgc2hvdWxkIHdvcms7IGhvdyB3b3VsZCAKdGhl
+IGVudGlyZSBOVk1lLW9GIGRpc2NvdmVyeSBiZSBhYnN0cmFjdGVkIGF3YXkgdG8gaGlkZSBiZWhp
+bmQgYW4gCk5WTWUtUENJIGRldmljZT8KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBS
+ZWluZWNrZSAgICAgICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNl
+LmRlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhS
+QiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7Zy
+ZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGlu
+dXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
