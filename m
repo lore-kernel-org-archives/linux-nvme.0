@@ -1,20 +1,20 @@
-Return-Path: <SRS0=sCQG=L6=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=InZj=L7=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BADCDC07E96
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jul 2021 18:37:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4EEDC07E96
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 02:46:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7DC7761A11
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jul 2021 18:37:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7DC7761A11
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id A139E61CB6
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 02:46:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A139E61CB6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -22,47 +22,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OuAThszgGnaLJP1/qg7WHRRGGiXWqq08uyuxK+EQfUA=; b=3oi3NegD4O7beL
-	Mh1DnJQv5JqpB2Lpf8aBmETTerzugd0eVEhChsuJFjv2keiQE2OOd14e4HnB8InAtB7En+TpaPSO7
-	eds6qDEdjnN9bDgYqK/FhbQ7QVr8tmxmTlApPzaIyxbMdK18OKL9L6FtKM/9uqt11kkp5X5rQqPeP
-	bVTuuDbBopBPyiRUQlG9g3gQaUH021h1jBlAutoinustSVKJXJAalLvtCv0/tSMeJ6gC7HVPmR2DH
-	jVcjq/hnn3aAV133r3Gy9ytRkX17Un3OimRpKxZVB1KGLLNnkHcGWJkFjVaLoEDXBHLiliupyH/FQ
-	HYB2+jIoetuvMR2EJZAQ==;
+	List-Owner; bh=84OumNx8dl7DxAxRbrk0VyHTaLhkc+e1gpOnbrL+RMY=; b=BtddCXYYdmtkI3
+	VBo7RoBcbt4sC0GDgheTN3xO5uOjD+RBYUcYIjuXpJH0bCpb4F+GdHYgO4DvQW0ZT1MHSbF3QXJz7
+	yFhqZDmKxk86ADPQ7MQ/M8vSUnjs4CzWyBoUA9VOU+x2+QR/YJiMdoXJ7UoNiCl7oF9pQalkggJ6C
+	qDLXexamJwueizT1R9fRxRZOgaBb9D7a5Loq7dPPfKJ4ngQa2U+Cuvd6BkxoKYOuIVnWCSmKxALVU
+	2wx7hkNu0fMGt/rbInooJgT4Lf2n7HP51VJPpAemea6Q9Bk+8GDOxcs4Bfvd81b+y/NMVA7eutC8r
+	dsj7EUVxOLHIgTcDnEKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0pwp-00CaQw-2h; Tue, 06 Jul 2021 18:37:31 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1m0xa7-00DESC-Cr; Wed, 07 Jul 2021 02:46:35 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0pwm-00CaQe-S1
- for linux-nvme@lists.infradead.org; Tue, 06 Jul 2021 18:37:30 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B43061A11;
- Tue,  6 Jul 2021 18:37:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625596648;
- bh=Z+iRC8d31BOaDeyFln5LpsnDHiUtIJIZ/jUI5UuNLJ0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OeF7k7UVes6QV2Khcz/f0vRnM6/q9OOQrxZnATsFOnCOM0ygu/sLLqSE8ml67Hhh3
- w3KtQI7ZM0XWh0jnBx7g9w8VkoomLPmDx9Y3wMFfSkDxfJi+5sJQsENA9NiQyS7ATu
- MsFuWc4/4aO3S6zh3/OYOjSU9BonUn5cGE4w6XRRyjEkepM+18Qyar3yodvBEpactC
- jhYIbypCRRh5Fi1IJ25vEV69czufRdmzHqrApVqy7pQhKBTIhH3NNwV26gNTPCMiwh
- bb9U4ZEb99ShVT72xIm+W2R+d7MIfTiwaZX0sP0t2ITszOuzaj7qpwfjlKUciVUP7g
- ODNsRduwiDyrA==
-Date: Tue, 6 Jul 2021 11:37:26 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Casey Chen <cachen@purestorage.com>
-Cc: linux-nvme@lists.infradead.org, yzhong@purestorage.com,
- ashishk@purestorage.com
-Subject: Re: [PATCH 1/2] nvme-pci: Fix multiple races in nvme_setup_io_queues()
-Message-ID: <20210706183726.GA286860@dhcp-10-100-145-180.wdc.com>
-References: <20210624173125.20376-1-cachen@purestorage.com>
- <20210624173125.20376-2-cachen@purestorage.com>
+ id 1m0xa4-00DERI-07
+ for linux-nvme@lists.infradead.org; Wed, 07 Jul 2021 02:46:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625625989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/hCAFrVBwva4FwAQ3R2O2B3lOY1+NpCIdMOPkZ0H35U=;
+ b=b0/ChPqJvZlioC2f9ydwjKeoIWh482qJMAuKN4uMWPc5SoE4PQo50rCkuGf7vPNR07YYqA
+ MnzmXU2/eklhnny+GHI+3F41ZqZ+PlVfFwCrZZ+lTP4jT+12Kr1F+JVcJARrQ7HxByhRKT
+ e9cReuPFXqef/jKtTSCMUH779k6RLS0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-P-HCtpRpNxexINy-Kay7Sg-1; Tue, 06 Jul 2021 22:46:28 -0400
+X-MC-Unique: P-HCtpRpNxexINy-Kay7Sg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B80605074B;
+ Wed,  7 Jul 2021 02:46:26 +0000 (UTC)
+Received: from T590 (ovpn-12-27.pek2.redhat.com [10.72.12.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B954719C44;
+ Wed,  7 Jul 2021 02:46:19 +0000 (UTC)
+Date: Wed, 7 Jul 2021 10:46:15 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ James Smart <james.smart@broadcom.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 2/2] nvme-fc: Wait with a timeout for queue to freeze
+Message-ID: <YOUVdx6VasZNANvW@T590>
+References: <20210625101649.49296-1-dwagner@suse.de>
+ <20210625101649.49296-3-dwagner@suse.de> <YNp50pmlzN6M0kNX@T590>
+ <20210705162519.qqlklisxcsiopflw@beryllium.lan>
+ <YOQGRwLfLaFGqlVA@T590>
+ <20210706081010.dqmg7bxik5gnym5k@beryllium.lan>
+ <YOQYKn+POVR2g/h1@T590>
+ <20210706085906.asz7cp7ydiid6yz5@beryllium.lan>
+ <20210706122121.qicyihexk2qawvef@beryllium.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210624173125.20376-2-cachen@purestorage.com>
+In-Reply-To: <20210706122121.qicyihexk2qawvef@beryllium.lan>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210706_113728_968052_32131C4D 
-X-CRM114-Status: UNSURE (   8.94  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210706_194632_281578_DF13307E 
+X-CRM114-Status: GOOD (  10.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,21 +97,17 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 24, 2021 at 10:31:24AM -0700, Casey Chen wrote:
->  static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
->  {
->  	struct nvme_dev *dev = nvmeq->dev;
-> @@ -1590,8 +1613,10 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
->  		goto release_cq;
->  
->  	nvmeq->cq_vector = vector;
-> -	nvme_init_queue(nvmeq, qid);
->  
-> +	if ((result = nvme_setup_io_queues_trylock(dev)))
+On Tue, Jul 06, 2021 at 02:21:21PM +0200, Daniel Wagner wrote:
+> A nvme_start_freeze() before nvme_wait_freeze() fixes the hangers. It is this
+> simple?
 
-Please separate the assignment to 'result' from the 'if' checking the
-result. That way will be easier to read an matches the rest of this
-driver's style.
+Yeah, it can be the issue, also nvme_start_freeze() has to be paired
+with nvme_unfreeze().
+
+
+Thanks, 
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
