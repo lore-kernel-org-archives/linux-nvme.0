@@ -2,85 +2,66 @@ Return-Path: <SRS0=InZj=L7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4EEDC07E96
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 02:46:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0E1C07E95
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 08:57:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A139E61CB6
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 02:46:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A139E61CB6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0270661C93
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jul 2021 08:57:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0270661C93
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=84OumNx8dl7DxAxRbrk0VyHTaLhkc+e1gpOnbrL+RMY=; b=BtddCXYYdmtkI3
-	VBo7RoBcbt4sC0GDgheTN3xO5uOjD+RBYUcYIjuXpJH0bCpb4F+GdHYgO4DvQW0ZT1MHSbF3QXJz7
-	yFhqZDmKxk86ADPQ7MQ/M8vSUnjs4CzWyBoUA9VOU+x2+QR/YJiMdoXJ7UoNiCl7oF9pQalkggJ6C
-	qDLXexamJwueizT1R9fRxRZOgaBb9D7a5Loq7dPPfKJ4ngQa2U+Cuvd6BkxoKYOuIVnWCSmKxALVU
-	2wx7hkNu0fMGt/rbInooJgT4Lf2n7HP51VJPpAemea6Q9Bk+8GDOxcs4Bfvd81b+y/NMVA7eutC8r
-	dsj7EUVxOLHIgTcDnEKQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Nc2kkY9bzAgS08aqifaQnbaA3lttpGIV/ndI3anE03I=; b=2XrFIPc3aiffuj
+	0nblfLA5dPBIXbE4OWwEDfcnA+0zDT7IOmwv70G6KkcoWHgR6X1ooYMyk3RuxKIwZflrGMZr3ck2F
+	VpikErz6U6/gr8z3Ndpwj66ET49E7uTL/2aNDt46GD2+X4kTtRcvWB+PzGMv+q8qpr4XJgQct6KSv
+	zVXwfazBfq5XZUrmgGK2z6D8NlzzobWPq46EdPHSZUyJ/TUSM/d+C9bqV+WbrSaOh3ykRKP9eiqEh
+	z8CG/IQ4eri784TQ/07Wc6OOQXcPXwEoZhxaf8WJqcs2GocZV/kjRl/rT2iLeEb7rzd5yWC1O3TLI
+	HNWJ7mEYZltCWkhR1vNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m0xa7-00DESC-Cr; Wed, 07 Jul 2021 02:46:35 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m13Mf-00E6kY-Sb; Wed, 07 Jul 2021 08:57:05 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m0xa4-00DERI-07
- for linux-nvme@lists.infradead.org; Wed, 07 Jul 2021 02:46:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625625989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/hCAFrVBwva4FwAQ3R2O2B3lOY1+NpCIdMOPkZ0H35U=;
- b=b0/ChPqJvZlioC2f9ydwjKeoIWh482qJMAuKN4uMWPc5SoE4PQo50rCkuGf7vPNR07YYqA
- MnzmXU2/eklhnny+GHI+3F41ZqZ+PlVfFwCrZZ+lTP4jT+12Kr1F+JVcJARrQ7HxByhRKT
- e9cReuPFXqef/jKtTSCMUH779k6RLS0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-P-HCtpRpNxexINy-Kay7Sg-1; Tue, 06 Jul 2021 22:46:28 -0400
-X-MC-Unique: P-HCtpRpNxexINy-Kay7Sg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B80605074B;
- Wed,  7 Jul 2021 02:46:26 +0000 (UTC)
-Received: from T590 (ovpn-12-27.pek2.redhat.com [10.72.12.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B954719C44;
- Wed,  7 Jul 2021 02:46:19 +0000 (UTC)
-Date: Wed, 7 Jul 2021 10:46:15 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/2] nvme-fc: Wait with a timeout for queue to freeze
-Message-ID: <YOUVdx6VasZNANvW@T590>
-References: <20210625101649.49296-1-dwagner@suse.de>
- <20210625101649.49296-3-dwagner@suse.de> <YNp50pmlzN6M0kNX@T590>
- <20210705162519.qqlklisxcsiopflw@beryllium.lan>
- <YOQGRwLfLaFGqlVA@T590>
- <20210706081010.dqmg7bxik5gnym5k@beryllium.lan>
- <YOQYKn+POVR2g/h1@T590>
- <20210706085906.asz7cp7ydiid6yz5@beryllium.lan>
- <20210706122121.qicyihexk2qawvef@beryllium.lan>
+ id 1m13MX-00E6kB-HY
+ for linux-nvme@bombadil.infradead.org; Wed, 07 Jul 2021 08:56:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=MWrityohNuEWkJE2rGPEDtPEPbcWb3iMvUvhJ/UoPDM=; b=Svm8P0TWiGRuGyDIL1qa99qXCj
+ gVcHUNRLON+iHulZ0p/rd1ca/w1dTJ+8quUR/8TLYeGG2jl3y0nBgeJQfBxbpUJ23rra8koK/yC1u
+ ne9D1qGbp2/OzC9cmh9nA+A00/Ru1+ttdSGAQd54RjeYMf/JmujWVTFQI7W2IN/yqNjAuhp8AAEji
+ CyVsDlAVEEoVtPgo6YNf+bL7ecPda1Ml/Noc+83fvC3Q49TQP5D0DsQxvBbC6xxw6HpC1VR/auYf2
+ E7KC9Fesz9VmplPIgF9IcbGPv9NKEq7KAhfxHteOIAPOnwiBDF0OOY/YOKNiLfn/s/CaCZNQf55FK
+ ivUyVpQQ==;
+Received: from p4fdb05cb.dip0.t-ipconnect.de ([79.219.5.203] helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1m13MO-00CEHi-Kb; Wed, 07 Jul 2021 08:56:51 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: tytso@mit.edu,
+	leah.rumancik@gmail.com
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [PATCH] ext4: fix EXT4_IOC_CHECKPOINT
+Date: Wed,  7 Jul 2021 10:56:44 +0200
+Message-Id: <20210707085644.3041867-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210706122121.qicyihexk2qawvef@beryllium.lan>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210706_194632_281578_DF13307E 
-X-CRM114-Status: GOOD (  10.56  )
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,16 +78,226 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 06, 2021 at 02:21:21PM +0200, Daniel Wagner wrote:
-> A nvme_start_freeze() before nvme_wait_freeze() fixes the hangers. It is this
-> simple?
+Issuing a discard for any kind of "contention deletion SLO" is highly
+dangerous as discard as defined by Linux (as well the underlying NVMe,
+SCSI, ATA, eMMC and virtio primitivies) are defined to not guarantee
+erasing of data but just allow optional and nondeterministic reclamation
+of space.  Instead issuing write zeroes is the only think to perform
+such an operation.  Remove the highly dangerous and misleading discard
+mode for EXT4_IOC_CHECKPOINT and only support the write zeroes based
+on, and clean up the resulting mess including the dry run mode.
 
-Yeah, it can be the issue, also nvme_start_freeze() has to be paired
-with nvme_unfreeze().
+This is an ABI change and must go into Linus' tree before 5.14 is
+released or the offending commits need to be reverted.
 
+Fixes: 351a0a3fbc35 ("ext4: add ioctl EXT4_IOC_CHECKPOINT")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ Documentation/filesystems/ext4/journal.rst | 17 +++-----
+ fs/ext4/ext4.h                             |  7 +---
+ fs/ext4/ioctl.c                            | 26 ++----------
+ fs/jbd2/journal.c                          | 47 +++++-----------------
+ include/linux/jbd2.h                       |  6 +--
+ 5 files changed, 22 insertions(+), 81 deletions(-)
 
-Thanks, 
-Ming
+diff --git a/Documentation/filesystems/ext4/journal.rst b/Documentation/filesystems/ext4/journal.rst
+index 5fad38860f17..d18b18f9e053 100644
+--- a/Documentation/filesystems/ext4/journal.rst
++++ b/Documentation/filesystems/ext4/journal.rst
+@@ -742,15 +742,8 @@ the filesystem including journal recovery, filesystem resizing, and freeing of
+ the journal_t structure.
+ 
+ A journal checkpoint can be triggered from userspace via the ioctl
+-EXT4_IOC_CHECKPOINT. This ioctl takes a single, u64 argument for flags.
+-Currently, three flags are supported. First, EXT4_IOC_CHECKPOINT_FLAG_DRY_RUN
+-can be used to verify input to the ioctl. It returns error if there is any
+-invalid input, otherwise it returns success without performing
+-any checkpointing. This can be used to check whether the ioctl exists on a
+-system and to verify there are no issues with arguments or flags. The
+-other two flags are EXT4_IOC_CHECKPOINT_FLAG_DISCARD and
+-EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT. These flags cause the journal blocks to be
+-discarded or zero-filled, respectively, after the journal checkpoint is
+-complete. EXT4_IOC_CHECKPOINT_FLAG_DISCARD and EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT
+-cannot both be set. The ioctl may be useful when snapshotting a system or for
+-complying with content deletion SLOs.
++EXT4_IOC_CHECKPOINT. This ioctl takes a u64 argument for flags.
++The only supported flags is EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT. This flag cause
++the journal blocks to be zero-filled after the journal checkpoint is complete.
++The ioctl may be useful when snapshotting a system or for complying with
++content deletion SLOs.
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 3c51e243450d..c2650b31bed2 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -743,12 +743,7 @@ enum {
+ #define EXT4_STATE_FLAG_DA_ALLOC_CLOSE	0x00000008
+ 
+ /* flags for ioctl EXT4_IOC_CHECKPOINT */
+-#define EXT4_IOC_CHECKPOINT_FLAG_DISCARD	0x1
+-#define EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT	0x2
+-#define EXT4_IOC_CHECKPOINT_FLAG_DRY_RUN	0x4
+-#define EXT4_IOC_CHECKPOINT_FLAG_VALID		(EXT4_IOC_CHECKPOINT_FLAG_DISCARD | \
+-						EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT | \
+-						EXT4_IOC_CHECKPOINT_FLAG_DRY_RUN)
++#define EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT	0x1
+ 
+ #if defined(__KERNEL__) && defined(CONFIG_COMPAT)
+ /*
+diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
+index e27f34bceb8d..981670303733 100644
+--- a/fs/ext4/ioctl.c
++++ b/fs/ext4/ioctl.c
+@@ -798,42 +798,24 @@ static int ext4_ioctl_checkpoint(struct file *filp, unsigned long arg)
+ 	__u32 flags = 0;
+ 	unsigned int flush_flags = 0;
+ 	struct super_block *sb = file_inode(filp)->i_sb;
+-	struct request_queue *q;
+ 
+-	if (copy_from_user(&flags, (__u32 __user *)arg,
+-				sizeof(__u32)))
++	if (copy_from_user(&flags, (__u32 __user *)arg, sizeof(__u32)))
+ 		return -EFAULT;
+ 
+ 	if (!capable(CAP_SYS_ADMIN))
+ 		return -EPERM;
+ 
+ 	/* check for invalid bits set */
+-	if ((flags & ~EXT4_IOC_CHECKPOINT_FLAG_VALID) ||
+-				((flags & JBD2_JOURNAL_FLUSH_DISCARD) &&
+-				(flags & JBD2_JOURNAL_FLUSH_ZEROOUT)))
++	if (flags & ~EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT)
+ 		return -EINVAL;
+ 
+ 	if (!EXT4_SB(sb)->s_journal)
+ 		return -ENODEV;
+ 
+-	if (flags & ~JBD2_JOURNAL_FLUSH_VALID)
+-		return -EINVAL;
+-
+-	q = bdev_get_queue(EXT4_SB(sb)->s_journal->j_dev);
+-	if (!q)
+-		return -ENXIO;
+-	if ((flags & JBD2_JOURNAL_FLUSH_DISCARD) && !blk_queue_discard(q))
+-		return -EOPNOTSUPP;
+-
+-	if (flags & EXT4_IOC_CHECKPOINT_FLAG_DRY_RUN)
+-		return 0;
+-
+-	if (flags & EXT4_IOC_CHECKPOINT_FLAG_DISCARD)
+-		flush_flags |= JBD2_JOURNAL_FLUSH_DISCARD;
+-
+ 	if (flags & EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT) {
+ 		flush_flags |= JBD2_JOURNAL_FLUSH_ZEROOUT;
+-		pr_info_ratelimited("warning: checkpointing journal with EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT can be slow");
++		if (!bdev_write_zeroes_sectors(EXT4_SB(sb)->s_journal->j_dev))
++			pr_info_ratelimited("warning: checkpointing journal with EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT can be slow");
+ 	}
+ 
+ 	jbd2_journal_lock_updates(EXT4_SB(sb)->s_journal);
+diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+index 152880c298ca..3256d8528c43 100644
+--- a/fs/jbd2/journal.c
++++ b/fs/jbd2/journal.c
+@@ -1685,34 +1685,16 @@ static void jbd2_mark_journal_empty(journal_t *journal, int write_op)
+ /**
+  * __jbd2_journal_erase() - Discard or zeroout journal blocks (excluding superblock)
+  * @journal: The journal to erase.
+- * @flags: A discard/zeroout request is sent for each physically contigous
+- *	region of the journal. Either JBD2_JOURNAL_FLUSH_DISCARD or
+- *	JBD2_JOURNAL_FLUSH_ZEROOUT must be set to determine which operation
+- *	to perform.
+- *
+- * Note: JBD2_JOURNAL_FLUSH_ZEROOUT attempts to use hardware offload. Zeroes
+- * will be explicitly written if no hardware offload is available, see
+- * blkdev_issue_zeroout for more details.
++ *
++ * Note: Attempts to use hardware offload. Zeroes will be explicitly written if
++ * no hardware offload is available, see blkdev_issue_zeroout for more details.
+  */
+-static int __jbd2_journal_erase(journal_t *journal, unsigned int flags)
++static int __jbd2_journal_erase(journal_t *journal)
+ {
+ 	int err = 0;
+ 	unsigned long block, log_offset; /* logical */
+ 	unsigned long long phys_block, block_start, block_stop; /* physical */
+ 	loff_t byte_start, byte_stop, byte_count;
+-	struct request_queue *q = bdev_get_queue(journal->j_dev);
+-
+-	/* flags must be set to either discard or zeroout */
+-	if ((flags & ~JBD2_JOURNAL_FLUSH_VALID) || !flags ||
+-			((flags & JBD2_JOURNAL_FLUSH_DISCARD) &&
+-			(flags & JBD2_JOURNAL_FLUSH_ZEROOUT)))
+-		return -EINVAL;
+-
+-	if (!q)
+-		return -ENXIO;
+-
+-	if ((flags & JBD2_JOURNAL_FLUSH_DISCARD) && !blk_queue_discard(q))
+-		return -EOPNOTSUPP;
+ 
+ 	/*
+ 	 * lookup block mapping and issue discard/zeroout for each
+@@ -1762,18 +1744,10 @@ static int __jbd2_journal_erase(journal_t *journal, unsigned int flags)
+ 		truncate_inode_pages_range(journal->j_dev->bd_inode->i_mapping,
+ 				byte_start, byte_stop);
+ 
+-		if (flags & JBD2_JOURNAL_FLUSH_DISCARD) {
+-			err = blkdev_issue_discard(journal->j_dev,
+-					byte_start >> SECTOR_SHIFT,
+-					byte_count >> SECTOR_SHIFT,
+-					GFP_NOFS, 0);
+-		} else if (flags & JBD2_JOURNAL_FLUSH_ZEROOUT) {
+-			err = blkdev_issue_zeroout(journal->j_dev,
+-					byte_start >> SECTOR_SHIFT,
+-					byte_count >> SECTOR_SHIFT,
+-					GFP_NOFS, 0);
+-		}
+-
++		err = blkdev_issue_zeroout(journal->j_dev,
++				byte_start >> SECTOR_SHIFT,
++				byte_count >> SECTOR_SHIFT,
++				GFP_NOFS, 0);
+ 		if (unlikely(err != 0)) {
+ 			pr_err("JBD2: (error %d) unable to wipe journal at physical blocks %llu - %llu",
+ 					err, block_start, block_stop);
+@@ -2453,7 +2427,6 @@ EXPORT_SYMBOL(jbd2_journal_clear_features);
+  * can be issued on the journal blocks after flushing.
+  *
+  * flags:
+- *	JBD2_JOURNAL_FLUSH_DISCARD: issues discards for the journal blocks
+  *	JBD2_JOURNAL_FLUSH_ZEROOUT: issues zeroouts for the journal blocks
+  */
+ int jbd2_journal_flush(journal_t *journal, unsigned int flags)
+@@ -2511,8 +2484,8 @@ int jbd2_journal_flush(journal_t *journal, unsigned int flags)
+ 	 * s_start value. */
+ 	jbd2_mark_journal_empty(journal, REQ_SYNC | REQ_FUA);
+ 
+-	if (flags)
+-		err = __jbd2_journal_erase(journal, flags);
++	if (flags & JBD2_JOURNAL_FLUSH_ZEROOUT)
++		err = __jbd2_journal_erase(journal);
+ 
+ 	mutex_unlock(&journal->j_checkpoint_mutex);
+ 	write_lock(&journal->j_state_lock);
+diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+index 6cc035321562..ad7f2defbc8f 100644
+--- a/include/linux/jbd2.h
++++ b/include/linux/jbd2.h
+@@ -1398,10 +1398,8 @@ JBD2_FEATURE_INCOMPAT_FUNCS(fast_commit,	FAST_COMMIT)
+ 						 * mode */
+ #define JBD2_FAST_COMMIT_ONGOING	0x100	/* Fast commit is ongoing */
+ #define JBD2_FULL_COMMIT_ONGOING	0x200	/* Full commit is ongoing */
+-#define JBD2_JOURNAL_FLUSH_DISCARD	0x0001
+-#define JBD2_JOURNAL_FLUSH_ZEROOUT	0x0002
+-#define JBD2_JOURNAL_FLUSH_VALID	(JBD2_JOURNAL_FLUSH_DISCARD | \
+-					JBD2_JOURNAL_FLUSH_ZEROOUT)
++
++#define JBD2_JOURNAL_FLUSH_ZEROOUT	0x0001	/* Zero log on flush */
+ 
+ /*
+  * Journal atomic flag definitions
+-- 
+2.30.2
 
 
 _______________________________________________
