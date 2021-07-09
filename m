@@ -2,83 +2,83 @@ Return-Path: <SRS0=jeJI=MB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F32EC07E99
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD82AC07E99
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:25:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3718E613C2
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:15:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3718E613C2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9DA99613CC
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:25:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9DA99613CC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mP5MDzVhgGWQoZm7v4us4GWIHJT7TjpgR4Esgi9g08E=; b=EX14dCFIFCppfV
-	Xh5BZ7mswOsg1UTx63F5yqOWXOd/moql0qkI7BFl6Ttq5R8U2YleMTltDfI9Z/yng86XhZkCM3pxf
-	4Hgmst2GSs6+iPVTcVPTNZWDRrltWPUAd7h3LIgPdi4GjPrw5M6qB3U6qhVvhJpxgOO0msvAAG3XL
-	+o6MBDophGEEIqMe+Aa7wVREtCYjaQi9NdgTaVg7xbVfebsheQDzD5K5qKqpG9D2eBNxhNRu5Wjik
-	ruSdpHVAR8Fty4gVlyO+U0RFEiFGBoQUjFGbKmVd2ERAFtKOURrgI8amPu3SznT3WR7vDK85Hx1Hu
-	rVu0Kuv+zWNj6WvjDYYw==;
+	List-Owner; bh=WjcPHrobzq3D3ZmE4C3aWwnbleFSh5d9d+6Sbp9aQCI=; b=PbfPcBtWwUmD6o
+	wKvhGrMaCr8FkB2vMcBUDYxOiIKPi1dxnQhphEuF00SIf8Qu8pODA8Fwc5gPxnzesK6AKRwIPgD/9
+	jZ0k6Gp9hlrMrAsFA6BzSFcSjIO9RFcDl1V1epllfZ4lYqn4JUMfPfiagQqDBnfco6vDFePQdVFxz
+	BD547pHC6572+4QCF7tVw9uRlyn1ZTggTEKVuVM76Alcr8Mgo8elLMz1uuPq12dAfL9FlQIcAxBVT
+	P/zqtxWnrPTB1HgdvzsZJVdLrhVr4rw75YydH5Rrep3RxLl5QbRsaszd9M4sNdGfMZhkwVX6+om6W
+	q9n/V1mCaQCRpveNndrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m1lfI-0015H4-QK; Fri, 09 Jul 2021 08:15:16 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m1lpJ-0017RK-Tp; Fri, 09 Jul 2021 08:25:37 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m1lbs-0014Ax-2g
- for linux-nvme@lists.infradead.org; Fri, 09 Jul 2021 08:11:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625818303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ id 1m1lpE-0017P0-Fn
+ for linux-nvme@lists.infradead.org; Fri, 09 Jul 2021 08:25:33 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 235E620274;
+ Fri,  9 Jul 2021 08:25:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625819131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iT5qAbZzpLMpsoq75G/ZOQir94LXNCD21dvckqRvoz8=;
- b=NwQUx4CwZzfp4lnpPsi0/JJFVJuNWsLnQtWubFx6uTIE1ifQlW+woV3+qFnIYqPgLTiija
- lCzzlqHNsHOEU0Rca/FNoQ5dSYuhS5Isi/Eu1qT6Dg3oe82ZtL2q1PrGKELY0tHzJOtqzF
- WDeKM3Gygtmi43oB0tIwpJrNxJMcWes=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-ucmI_8ZvNZWVexsyOIdx3g-1; Fri, 09 Jul 2021 04:11:39 -0400
-X-MC-Unique: ucmI_8ZvNZWVexsyOIdx3g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=8K4H3iqSDD9YoSW7p9vhetIaRQmX4th7sJmNpjTLR9c=;
+ b=fEmdLSOhPe7NKpluWjJFBjTodSTNn3A6oJQytry6iEejtgk12xRKLjiALvrKlVWqssg9Dn
+ VGEDhmn4CdKR74eaYPMR5azEB4aQdE/kBvDM9Qcoom371hunUt6AYrtRsUvmteU1VHNCrU
+ KtvVyAZTTXLnIcX80iT8Fa/5Cp0hvoU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625819131;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8K4H3iqSDD9YoSW7p9vhetIaRQmX4th7sJmNpjTLR9c=;
+ b=KZZl/U3IGR0oCdEhdH42sra8OgDricDFf2IEqoQhYNk1HE0nkMUM2ReWkOp20s+WZ+suUF
+ MY5e0UEGVC9PPHBg==
+Received: from localhost (unknown [10.163.25.122])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53F94804141;
- Fri,  9 Jul 2021 08:11:37 +0000 (UTC)
-Received: from localhost (ovpn-13-13.pek2.redhat.com [10.72.13.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EA9119D9F;
- Fri,  9 Jul 2021 08:11:32 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ by relay2.suse.de (Postfix) with ESMTPS id 4C39BA3B9D;
+ Fri,  9 Jul 2021 08:25:30 +0000 (UTC)
+Date: Fri, 9 Jul 2021 10:25:30 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org
-Cc: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+ linux-scsi@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>,
  Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>,
  Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- Damien Le Moal <damien.lemoal@wdc.com>, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V3 10/10] blk-mq: don't deactivate hctx if managed irq isn't
- used
-Date: Fri,  9 Jul 2021 16:10:05 +0800
-Message-Id: <20210709081005.421340-11-ming.lei@redhat.com>
-In-Reply-To: <20210709081005.421340-1-ming.lei@redhat.com>
+ Damien Le Moal <damien.lemoal@wdc.com>
+Subject: Re: [PATCH V3 02/10] blk-mq: Introduce blk_mq_dev_map_queues
+Message-ID: <20210709082530.eefzeucgqulr6spv@beryllium.lan>
 References: <20210709081005.421340-1-ming.lei@redhat.com>
+ <20210709081005.421340-3-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Disposition: inline
+In-Reply-To: <20210709081005.421340-3-ming.lei@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210709_011144_292623_6DB8CDD6 
-X-CRM114-Status: GOOD (  20.61  )
+X-CRM114-CacheID: sfid-20210709_012532_778360_F568A56D 
+X-CRM114-Status: GOOD (  15.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,108 +95,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-blk-mq deactivates one hctx when the last CPU in hctx->cpumask become
-offline by draining all requests originated from this hctx and moving new
-allocation on other active hctx. This way is for avoiding inflight IO in
-case of managed irq because managed irq is shutdown when the last CPU in
-the irq's affinity becomes offline.
+On Fri, Jul 09, 2021 at 04:09:57PM +0800, Ming Lei wrote:
+> +/**
+> + * blk_mq_dev_map_queues - provide generic queue mapping
+> + * @qmap:	CPU to hardware queue map.
+> + * @dev_off:	Offset to use for the device
+> + * @get_queue_affinity:	Callback to retrieve queue affinity
+> + * @dev_data:	Device data passed to get_queue_affinity()
+> + * @fallback:	If true, fallback to default blk-mq mapping in case of
+> + * any failure
 
-However, lots of drivers(nvme fc, rdma, tcp, loop, ...) don't use managed
-irq, so they needn't to deactivate hctx when the last CPU becomes offline.
-Also, some of them are the only user of blk_mq_alloc_request_hctx() which
-is used for connecting io queue. And their requirement is that the connect
-request needs to be submitted successfully via one specified hctx even though
-all CPUs in this hctx->cpumask have become offline.
+The docs have a different order compared to the function definition (dev_data).
 
-Addressing the requirement for nvme fc/rdma/loop by allowing to
-allocate request from one hctx when all CPUs in this hctx are offline,
-since these drivers don't use managed irq.
-
-Finally don't deactivate one hctx when it doesn't use managed irq.
-
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- block/blk-mq.c | 27 +++++++++++++++++----------
- block/blk-mq.h |  5 +++++
- 2 files changed, 22 insertions(+), 10 deletions(-)
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 2e9fd0ec63d7..d00546d3b757 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -427,6 +427,15 @@ struct request *blk_mq_alloc_request(struct request_queue *q, unsigned int op,
- }
- EXPORT_SYMBOL(blk_mq_alloc_request);
- 
-+static inline int blk_mq_first_mapped_cpu(struct blk_mq_hw_ctx *hctx)
-+{
-+	int cpu = cpumask_first_and(hctx->cpumask, cpu_online_mask);
-+
-+	if (cpu >= nr_cpu_ids)
-+		cpu = cpumask_first(hctx->cpumask);
-+	return cpu;
-+}
-+
- struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
- 	unsigned int op, blk_mq_req_flags_t flags, unsigned int hctx_idx)
- {
-@@ -468,7 +477,10 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
- 	data.hctx = q->queue_hw_ctx[hctx_idx];
- 	if (!blk_mq_hw_queue_mapped(data.hctx))
- 		goto out_queue_exit;
--	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-+
-+	WARN_ON_ONCE(blk_mq_hctx_use_managed_irq(data.hctx));
-+
-+	cpu = blk_mq_first_mapped_cpu(data.hctx);
- 	data.ctx = __blk_mq_get_ctx(q, cpu);
- 
- 	if (!q->elevator)
-@@ -1501,15 +1513,6 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
- 	hctx_unlock(hctx, srcu_idx);
- }
- 
--static inline int blk_mq_first_mapped_cpu(struct blk_mq_hw_ctx *hctx)
--{
--	int cpu = cpumask_first_and(hctx->cpumask, cpu_online_mask);
--
--	if (cpu >= nr_cpu_ids)
--		cpu = cpumask_first(hctx->cpumask);
--	return cpu;
--}
--
- /*
-  * It'd be great if the workqueue API had a way to pass
-  * in a mask and had some smarts for more clever placement.
-@@ -2556,6 +2559,10 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
- 	struct blk_mq_hw_ctx *hctx = hlist_entry_safe(node,
- 			struct blk_mq_hw_ctx, cpuhp_online);
- 
-+	/* hctx needn't to be deactivated in case managed irq isn't used */
-+	if (!blk_mq_hctx_use_managed_irq(hctx))
-+		return 0;
-+
- 	if (!cpumask_test_cpu(cpu, hctx->cpumask) ||
- 	    !blk_mq_last_cpu_in_hctx(cpu, hctx))
- 		return 0;
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index d08779f77a26..bee755ed0903 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -119,6 +119,11 @@ static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
- 	return ctx->hctxs[type];
- }
- 
-+static inline bool blk_mq_hctx_use_managed_irq(struct blk_mq_hw_ctx *hctx)
-+{
-+	return hctx->queue->tag_set->map[hctx->type].use_managed_irq;
-+}
-+
- /*
-  * sysfs helpers
-  */
--- 
-2.31.1
+> + *
+> + * Generic function to setup each queue mapping in @qmap. It will query
+> + * each queue's affinity via @get_queue_affinity and built queue mapping
+> + * that maps a queue to the CPUs in the queue affinity.
+> + *
+> + * Driver has to set correct @dev_data, so that the driver callback
+> + * of @get_queue_affinity can work correctly.
+> + */
+> +int blk_mq_dev_map_queues(struct blk_mq_queue_map *qmap, void *dev_data,
+> +		int dev_off, get_queue_affinty_fn *get_queue_affinity,
+> +		bool fallback)
 
 
 _______________________________________________
