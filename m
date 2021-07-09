@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B81F6C07E99
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F07C07E9B
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:12:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 78BAC613C7
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:11:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78BAC613C7
+	by mail.kernel.org (Postfix) with ESMTPS id 9415F613C7
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jul 2021 08:12:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9415F613C7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BBrSeBYL9l9vYN4G4xc2U/hkTQi4v7cDZFC3egjqfrg=; b=Uabbmlfv/70Xl8
-	hGoPYeU8djjb7ABFAwh3LZql1SgUxGJGw/8quuwr80BYSWznwh59DFOQNj0O++w34hv+MU1Th8rNm
-	ElAabQQrst/+vhOxaY9OCbiQQvzxWd8v3Pq0MgdVeS2w98lNsnGLH+3Odhn6jf10CxoUGkzhZHDvA
-	YkpkctWXzpTo4jgn8HS2OKkI/7Gr0gBNrbj9yK9Y3IiYcWQ2idFudJBLIhjOgi6DQ8BCaXm2H/sDM
-	oUCV7fUiMKiqB3SqZjQaQUFuSlGR8tW1px/crgXyXgk8mmEsFQj58cwPcsnc14YqumwAmVg0djhcE
-	2HkMTpIVuXywNYgwYQAQ==;
+	List-Owner; bh=81kzXhI/ckcg3TIX0jKBBaSXxrscxC9HaGSDLhwh9Ew=; b=17m3P5luNn9Wa6
+	Fo6PJyuhR1w9oVsr8dRTNbFJYo4+rKIcFB14mImv4DJrEL/et0WP9cvtx+q7bCQQtITi6PWU/PHzW
+	iZXttQkd54j04NkeSuC/5EA49+J4n7AVEUMSigjfobgIo+r2MqOVq+S64+nBFmkKHlnjh9ZwSF1G9
+	iOISkEjUs3XHHGV6yJ4e9xTynWkc2VAdUE0ZWx39AfJG+0E+VdiE1N+72BABvPf6PEu7gSn8tmP+z
+	jh4RHBi+EffUZDQgw0bt7WtB921ZFKzV29qyBeVIkSxcrJ+BAkDYf/dm11VyTE5sBhSTGaP3Emn7h
+	sPFuRXuRddfDYWsjBBOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m1lbf-00145B-9i; Fri, 09 Jul 2021 08:11:31 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m1lc3-0014Fg-Mj; Fri, 09 Jul 2021 08:11:55 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m1lbI-0013rv-5h
- for linux-nvme@lists.infradead.org; Fri, 09 Jul 2021 08:11:10 +0000
+ id 1m1lbN-0013uE-K3
+ for linux-nvme@lists.infradead.org; Fri, 09 Jul 2021 08:11:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625818267;
+ s=mimecast20190719; t=1625818272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hXmytCtIBRT+jdUWTLU3ov1fJoDR09oz6V0WpXtS98E=;
- b=aA/YuJIYqt04NufBlCDW1G65eXEMYryIGCPbs0b5FctqIM3n8g+V//sAGqfaYuQzcGdTu/
- Bt8voD86GhMqDHjlSB42V+DuIhqdW4ofTKbheJ9R8HaDO5n9eF8rxQKqNeGcKtDbirxE9v
- JPB14zgmklnC/sXI1mdVddVvJKYVzJo=
+ bh=Jm4OK+kJW+IbN57HQi1K1eGMDSFWIwNIJiAc3mqthkg=;
+ b=EKirPiWchIGibzGnnPBlBoJT8PiupdupBjisDmrcc+L2BmwRqtLwPO827Y1izIMRemmTbE
+ odw+9lXQpZdZqdKTpUItQxgiIPgYo1nPi1lc7VIDP5FVSTFJe+qA3A+B6ki5fQdYnKJw18
+ MOXb7wvbc+m/QfEStMl4J5vVKro7QQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155--4UUOZOFPY66i2jwlLzNhg-1; Fri, 09 Jul 2021 04:11:05 -0400
-X-MC-Unique: -4UUOZOFPY66i2jwlLzNhg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-302-wEX9Y4jMMsSWbad_rSB2pQ-1; Fri, 09 Jul 2021 04:11:08 -0400
+X-MC-Unique: wEX9Y4jMMsSWbad_rSB2pQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C0591084F40;
- Fri,  9 Jul 2021 08:11:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 054061007273;
+ Fri,  9 Jul 2021 08:11:07 +0000 (UTC)
 Received: from localhost (ovpn-13-13.pek2.redhat.com [10.72.13.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F9FF100EBAD;
- Fri,  9 Jul 2021 08:10:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30F031346F;
+ Fri,  9 Jul 2021 08:11:05 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
@@ -68,17 +68,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
  Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>,
  Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
  Damien Le Moal <damien.lemoal@wdc.com>, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V3 04/10] scsi: replace blk_mq_pci_map_queues with
+Subject: [PATCH V3 05/10] nvme: replace blk_mq_pci_map_queues with
  blk_mq_dev_map_queues
-Date: Fri,  9 Jul 2021 16:09:59 +0800
-Message-Id: <20210709081005.421340-5-ming.lei@redhat.com>
+Date: Fri,  9 Jul 2021 16:10:00 +0800
+Message-Id: <20210709081005.421340-6-ming.lei@redhat.com>
 In-Reply-To: <20210709081005.421340-1-ming.lei@redhat.com>
 References: <20210709081005.421340-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210709_011108_344731_667079EA 
-X-CRM114-Status: GOOD (  20.19  )
+X-CRM114-CacheID: sfid-20210709_011113_795795_1221479A 
+X-CRM114-Status: GOOD (  15.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,183 +106,18 @@ irq.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/scsi/hisi_sas/hisi_sas_v2_hw.c    | 21 ++++++++++-----------
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  5 +++--
- drivers/scsi/megaraid/megaraid_sas_base.c |  4 +++-
- drivers/scsi/mpi3mr/mpi3mr_os.c           |  9 +++++----
- drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  6 ++++--
- drivers/scsi/qla2xxx/qla_os.c             |  4 +++-
- drivers/scsi/scsi_priv.h                  |  9 +++++++++
- drivers/scsi/smartpqi/smartpqi_init.c     |  7 +++++--
- 8 files changed, 42 insertions(+), 23 deletions(-)
+ drivers/nvme/host/pci.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-index 49d2723ef34c..4d3a698e2e4c 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-@@ -3547,6 +3547,14 @@ static struct device_attribute *host_attrs_v2_hw[] = {
- 	NULL
- };
- 
-+static inline const struct cpumask *hisi_hba_get_queue_affinity(
-+		void *dev_data, int offset, int idx)
-+{
-+	struct hisi_hba *hba = dev_data;
-+
-+	return irq_get_affinity_mask(hba->irq_map[offset + idx]);
-+}
-+
- static int map_queues_v2_hw(struct Scsi_Host *shost)
- {
- 	struct hisi_hba *hisi_hba = shost_priv(shost);
-@@ -3554,17 +3562,8 @@ static int map_queues_v2_hw(struct Scsi_Host *shost)
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
- 
--	for (queue = 0; queue < qmap->nr_queues; queue++) {
--		mask = irq_get_affinity_mask(hisi_hba->irq_map[96 + queue]);
--		if (!mask)
--			continue;
--
--		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = qmap->queue_offset + queue;
--	}
--
--	return 0;
--
-+	return blk_mq_dev_map_queues(qmap, hisi_hba, 96,
-+			hisi_hba_get_queue_affinity, false, true);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d3c5086673bc..d16ba661560d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -433,6 +433,14 @@ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
+ 	return 0;
  }
  
- static struct scsi_host_template sht_v2_hw = {
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-index 5c3b1dfcb37c..f4370c43ba05 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-@@ -3132,8 +3132,9 @@ static int hisi_sas_map_queues(struct Scsi_Host *shost)
- 	struct hisi_hba *hisi_hba = shost_priv(shost);
- 	struct blk_mq_queue_map *qmap = &shost->tag_set.map[HCTX_TYPE_DEFAULT];
- 
--	return blk_mq_pci_map_queues(qmap, hisi_hba->pci_dev,
--				     BASE_VECTORS_V3_HW);
-+	return blk_mq_dev_map_queues(qmap, hisi_hba->pci_dev,
-+				     BASE_VECTORS_V3_HW,
-+				     scsi_pci_get_queue_affinity, false, true);
- }
- 
- static struct scsi_host_template sht_v3_hw = {
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index ec10b2497310..1bb3d522e305 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -47,6 +47,7 @@
- #include <scsi/scsi_dbg.h>
- #include "megaraid_sas_fusion.h"
- #include "megaraid_sas.h"
-+#include "../scsi_priv.h"
- 
- /*
-  * Number of sectors per IO command
-@@ -3185,7 +3186,8 @@ static int megasas_map_queues(struct Scsi_Host *shost)
- 	map = &shost->tag_set.map[HCTX_TYPE_DEFAULT];
- 	map->nr_queues = instance->msix_vectors - offset;
- 	map->queue_offset = 0;
--	blk_mq_pci_map_queues(map, instance->pdev, offset);
-+	blk_mq_dev_map_queues(map, instance->pdev, offset,
-+			scsi_pci_get_queue_affinity, false, true);
- 	qoff += map->nr_queues;
- 	offset += map->nr_queues;
- 
-diff --git a/drivers/scsi/mpi3mr/mpi3mr_os.c b/drivers/scsi/mpi3mr/mpi3mr_os.c
-index 40676155e62d..7eed125ec66b 100644
---- a/drivers/scsi/mpi3mr/mpi3mr_os.c
-+++ b/drivers/scsi/mpi3mr/mpi3mr_os.c
-@@ -2787,17 +2787,18 @@ static int mpi3mr_bios_param(struct scsi_device *sdev,
-  * mpi3mr_map_queues - Map queues callback handler
-  * @shost: SCSI host reference
-  *
-- * Call the blk_mq_pci_map_queues with from which operational
-+ * Call the blk_mq_dev_map_queues with from which operational
-  * queue the mapping has to be done
-  *
-- * Return: return of blk_mq_pci_map_queues
-+ * Return: return of blk_mq_dev_map_queues
-  */
- static int mpi3mr_map_queues(struct Scsi_Host *shost)
- {
- 	struct mpi3mr_ioc *mrioc = shost_priv(shost);
- 
--	return blk_mq_pci_map_queues(&shost->tag_set.map[HCTX_TYPE_DEFAULT],
--	    mrioc->pdev, mrioc->op_reply_q_offset);
-+	return blk_mq_dev_map_queues(&shost->tag_set.map[HCTX_TYPE_DEFAULT],
-+	    mrioc->pdev, mrioc->op_reply_q_offset,
-+	    scsi_pci_get_queue_affinity, false, true);
- }
- 
- /**
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 866d118f7931..dded3cfa1115 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -57,6 +57,7 @@
- #include <linux/blk-mq-pci.h>
- #include <asm/unaligned.h>
- 
-+#include "../scsi_priv.h"
- #include "mpt3sas_base.h"
- 
- #define RAID_CHANNEL 1
-@@ -11784,8 +11785,9 @@ static int scsih_map_queues(struct Scsi_Host *shost)
- 	if (ioc->shost->nr_hw_queues == 1)
- 		return 0;
- 
--	return blk_mq_pci_map_queues(&shost->tag_set.map[HCTX_TYPE_DEFAULT],
--	    ioc->pdev, ioc->high_iops_queues);
-+	return blk_mq_dev_map_queues(&shost->tag_set.map[HCTX_TYPE_DEFAULT],
-+	    ioc->pdev, ioc->high_iops_queues, scsi_pci_get_queue_affinity,
-+	    false, true);
- }
- 
- /* shost template for SAS 2.0 HBA devices */
-diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
-index 4eab564ea6a0..dc8c27052382 100644
---- a/drivers/scsi/qla2xxx/qla_os.c
-+++ b/drivers/scsi/qla2xxx/qla_os.c
-@@ -21,6 +21,7 @@
- #include <scsi/scsi_transport_fc.h>
- 
- #include "qla_target.h"
-+#include "../scsi_priv.h"
- 
- /*
-  * Driver version
-@@ -7696,7 +7697,8 @@ static int qla2xxx_map_queues(struct Scsi_Host *shost)
- 	if (USER_CTRL_IRQ(vha->hw) || !vha->hw->mqiobase)
- 		rc = blk_mq_map_queues(qmap);
- 	else
--		rc = blk_mq_pci_map_queues(qmap, vha->hw->pdev, vha->irq_offset);
-+		rc = blk_mq_dev_map_queues(qmap, vha->hw->pdev, vha->irq_offset,
-+				scsi_pci_get_queue_affinity, false, true);
- 	return rc;
- }
- 
-diff --git a/drivers/scsi/scsi_priv.h b/drivers/scsi/scsi_priv.h
-index 75d6f23e4fff..cc1bd9ce6e2c 100644
---- a/drivers/scsi/scsi_priv.h
-+++ b/drivers/scsi/scsi_priv.h
-@@ -6,6 +6,7 @@
- #include <linux/async.h>
- #include <scsi/scsi_device.h>
- #include <linux/sbitmap.h>
-+#include <linux/pci.h>
- 
- struct request_queue;
- struct request;
-@@ -190,4 +191,12 @@ extern int scsi_device_max_queue_depth(struct scsi_device *sdev);
- 
- #define SCSI_DEVICE_BLOCK_MAX_TIMEOUT	600	/* units in seconds */
- 
-+static inline const struct cpumask *scsi_pci_get_queue_affinity(
++static const struct cpumask *nvme_pci_get_queue_affinity(
 +		void *dev_data, int offset, int queue)
 +{
 +	struct pci_dev *pdev = dev_data;
@@ -290,32 +125,20 @@ index 75d6f23e4fff..cc1bd9ce6e2c 100644
 +	return pci_irq_get_affinity(pdev, offset + queue);
 +}
 +
- #endif /* _SCSI_PRIV_H */
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index dcc0b9618a64..fd66260061c1 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -26,6 +26,7 @@
- #include <scsi/scsi_eh.h>
- #include <scsi/scsi_transport_sas.h>
- #include <asm/unaligned.h>
-+#include "../scsi_priv.h"
- #include "smartpqi.h"
- #include "smartpqi_sis.h"
- 
-@@ -6104,8 +6105,10 @@ static int pqi_map_queues(struct Scsi_Host *shost)
+ static int queue_irq_offset(struct nvme_dev *dev)
  {
- 	struct pqi_ctrl_info *ctrl_info = shost_to_hba(shost);
- 
--	return blk_mq_pci_map_queues(&shost->tag_set.map[HCTX_TYPE_DEFAULT],
--					ctrl_info->pci_dev, 0);
-+	return blk_mq_dev_map_queues(&shost->tag_set.map[HCTX_TYPE_DEFAULT],
-+					ctrl_info->pci_dev, 0,
-+					scsi_pci_get_queue_affinity, false,
+ 	/* if we have more than 1 vec, admin queue offsets us by 1 */
+@@ -463,7 +471,9 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ 		 */
+ 		map->queue_offset = qoff;
+ 		if (i != HCTX_TYPE_POLL && offset)
+-			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
++			blk_mq_dev_map_queues(map, to_pci_dev(dev->dev), offset,
++					nvme_pci_get_queue_affinity, false,
 +					true);
- }
- 
- static int pqi_slave_configure(struct scsi_device *sdev)
+ 		else
+ 			blk_mq_map_queues(map);
+ 		qoff += map->nr_queues;
 -- 
 2.31.1
 
