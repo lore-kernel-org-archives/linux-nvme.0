@@ -1,66 +1,66 @@
-Return-Path: <SRS0=tkdf=MF=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=VC/k=MG=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C42C07E95
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jul 2021 22:32:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E2CC12002
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jul 2021 23:39:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B6F161279
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jul 2021 22:32:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B6F161279
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id B3488613C8
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jul 2021 23:39:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B3488613C8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=MB6qeYM31PcMQxZAcA1PjfrL0X1OPFH+NekCZrEGtH8=; b=d2kN0K2qXWsXJA
-	bnzcai6Z01DMwFvgT2Q4DKf4rWfeKoohszHw0AM+s79W7IM1iokvjlNm4abiy6a6JoVS7okNawvhl
-	HEsv72uud6Jbcb+BQUTvkuG9jNxbeyxXi9GWL3bWRer+K69xtaAUCYADdMjJmY7TysUarT1mnBA19
-	LGKNYrodgzDbHQ4qK9RpdlpDwxo4zHAbYu6J/jKr6UcF3v6brQ0M77HOEzSb20sC7orkYjxM56tCq
-	fpzbWE9FYPRAq15mpn2YltVYP0WBahDoXgVRJF0zec8ORSpQ6FGPuIrm3uDu2bTo0EcI+p4+LgXXr
-	12tcaIFuA5VyvaGMar6A==;
+	List-Owner; bh=PQGOmkSfDitZ452DunkYfQw9ug9jaHOvVsx5f5+PDp8=; b=dsZHpP6UXYsurE
+	wPTmPWiZmIfCH4ndRWNVfjxxJqxCRCqRm5LjxSQp3WObHN4saUQjisE3eMgh+rkBpzR3Val4zg2iJ
+	Bf69Oq1u5XpYgKI9yvP0NAYcumQ2YUVH8BNwmvuu9BevWyTPD+lWkGHT8cjK7Q6p93y0+QYzNJYIp
+	YaNlbraBc7cwQ4Bj3OvKmWESWHnZonUDSr3iojSzAtVhM9ndnBcMazj+CE1PdppMFWa7ZP5vur+1h
+	a3jrRMFvFO3pd5B7z/QttSmUCrCsf3gQWB4xz5j70ijz9sdbK1odDx745Slohkae0tE4LH6jnrsv9
+	PFrE1p9z5KY7VNJhRTkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m3Qx1-00BU4d-Dv; Tue, 13 Jul 2021 22:32:27 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1m3oSj-00GMGq-Pj; Wed, 14 Jul 2021 23:38:45 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m3Qww-00BU0h-Hc
- for linux-nvme@lists.infradead.org; Tue, 13 Jul 2021 22:32:24 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="274082647"
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="274082647"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 15:32:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="412601870"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 13 Jul 2021 15:32:20 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1m3Qwt-000ICv-EV; Tue, 13 Jul 2021 22:32:19 +0000
-Date: Wed, 14 Jul 2021 06:31:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.14] BUILD SUCCESS
- 251ef6f71be2adfd09546a26643426fe62585173
-Message-ID: <60ee144c./aTjhy12wGyKSM5b%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1m3m1h-00FF1X-NP
+ for linux-nvme@lists.infradead.org; Wed, 14 Jul 2021 21:02:43 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4316601FA;
+ Wed, 14 Jul 2021 21:02:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626296561;
+ bh=SlkwOpVh3LL0F/b+O/+BOLnrMNwMA13sJijLHQM5oYU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dmSCy8EwMzuARl+nIGatKYLRk8UoTNqjMqTbGuFQ8GFxZ1KBxmH6nGwR92E2hGvLo
+ o4wlGAkpCibfdoqSyEUF3EZPEQpTO7jrgHsRvB+JAToStMDuxKWiqhAdCOKXy1+Dgm
+ UeE8MeMk8FTGx3jH+blpKTByYN2jZteZBNWDk5A52OYWxzDw4VfyofsZuRe/rCMO6Q
+ FGH8lSgyNAWT7t7XEk3Fr/kHUPU09mnHwQgZhKhsvvI0WFQMwchmU6DVzGogiusDgi
+ +KGTTtHDvRswwLhj/rdOWqiK8DIa8qiD8/wM8Famrep58lkwk/cXWminajCbt8NeSE
+ KkvkT5aHN+H2Q==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de
+Cc: sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 1/2] nvme-pci: use attribute group for cmb sysfs
+Date: Wed, 14 Jul 2021 14:02:37 -0700
+Message-Id: <20210714210238.1837729-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210713_153222_671993_8905E03A 
-X-CRM114-Status: UNSURE (   6.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210714_140241_840789_4C3EE8CB 
+X-CRM114-Status: GOOD (  17.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,124 +77,146 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.14
-branch HEAD: 251ef6f71be2adfd09546a26643426fe62585173  nvme-pci: do not call nvme_dev_remove_admin from nvme_remove
+Appending sysfs files to the controller kobject is a bit clunky and
+becomes a maintenance problem as more attributes are added. The
+attribute group infrastructure handles this better, so use that.
 
-elapsed time: 720m
-
-configs tested: 100
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                       mainstone_defconfig
-arm                          moxart_defconfig
-powerpc                     pq2fads_defconfig
-powerpc                      walnut_defconfig
-openrisc                            defconfig
-arm                        trizeps4_defconfig
-arm                    vt8500_v6_v7_defconfig
-nds32                               defconfig
-arm                       netwinder_defconfig
-xtensa                           alldefconfig
-sh                            migor_defconfig
-powerpc                 mpc8313_rdb_defconfig
-sh                          r7785rp_defconfig
-microblaze                          defconfig
-arm                         nhk8815_defconfig
-arm                         cm_x300_defconfig
-powerpc                    socrates_defconfig
-sparc64                             defconfig
-mips                         bigsur_defconfig
-m68k                        m5407c3_defconfig
-powerpc                      cm5200_defconfig
-powerpc                       holly_defconfig
-mips                 decstation_r4k_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20210713
-i386                 randconfig-a004-20210713
-i386                 randconfig-a006-20210713
-i386                 randconfig-a001-20210713
-i386                 randconfig-a002-20210713
-i386                 randconfig-a003-20210713
-x86_64               randconfig-a013-20210713
-x86_64               randconfig-a014-20210713
-x86_64               randconfig-a012-20210713
-x86_64               randconfig-a015-20210713
-x86_64               randconfig-a016-20210713
-x86_64               randconfig-a011-20210713
-i386                 randconfig-a015-20210713
-i386                 randconfig-a014-20210713
-i386                 randconfig-a011-20210713
-i386                 randconfig-a013-20210713
-i386                 randconfig-a012-20210713
-i386                 randconfig-a016-20210713
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-b001-20210713
-x86_64               randconfig-a005-20210713
-x86_64               randconfig-a004-20210713
-x86_64               randconfig-a003-20210713
-x86_64               randconfig-a002-20210713
-x86_64               randconfig-a006-20210713
-x86_64               randconfig-a001-20210713
-
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/nvme/host/pci.c | 75 +++++++++++++++++++++++++++--------------
+ 1 file changed, 49 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d3c5086673bc..7e816aa8407a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -153,6 +153,8 @@ struct nvme_dev {
+ 	unsigned int nr_allocated_queues;
+ 	unsigned int nr_write_queues;
+ 	unsigned int nr_poll_queues;
++
++	bool attrs_added;
+ };
+ 
+ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+@@ -1781,17 +1783,6 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 	return ret >= 0 ? 0 : ret;
+ }
+ 
+-static ssize_t nvme_cmb_show(struct device *dev,
+-			     struct device_attribute *attr,
+-			     char *buf)
+-{
+-	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
+-
+-	return scnprintf(buf, PAGE_SIZE, "cmbloc : x%08x\ncmbsz  : x%08x\n",
+-		       ndev->cmbloc, ndev->cmbsz);
+-}
+-static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
+-
+ static u64 nvme_cmb_size_unit(struct nvme_dev *dev)
+ {
+ 	u8 szu = (dev->cmbsz >> NVME_CMBSZ_SZU_SHIFT) & NVME_CMBSZ_SZU_MASK;
+@@ -1860,20 +1851,6 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 	if ((dev->cmbsz & (NVME_CMBSZ_WDS | NVME_CMBSZ_RDS)) ==
+ 			(NVME_CMBSZ_WDS | NVME_CMBSZ_RDS))
+ 		pci_p2pmem_publish(pdev, true);
+-
+-	if (sysfs_add_file_to_group(&dev->ctrl.device->kobj,
+-				    &dev_attr_cmb.attr, NULL))
+-		dev_warn(dev->ctrl.device,
+-			 "failed to add sysfs attribute for CMB\n");
+-}
+-
+-static inline void nvme_release_cmb(struct nvme_dev *dev)
+-{
+-	if (dev->cmb_size) {
+-		sysfs_remove_file_from_group(&dev->ctrl.device->kobj,
+-					     &dev_attr_cmb.attr, NULL);
+-		dev->cmb_size = 0;
+-	}
+ }
+ 
+ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+@@ -2053,6 +2030,39 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+ 	return ret;
+ }
+ 
++static ssize_t cmb_show(struct device *dev,
++			     struct device_attribute *attr,
++			     char *buf)
++{
++	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
++
++	return sysfs_emit(buf, "cmbloc : x%08x\ncmbsz  : x%08x\n",
++		       ndev->cmbloc, ndev->cmbsz);
++}
++static DEVICE_ATTR_RO(cmb);
++
++static umode_t nvme_pci_attrs_are_visible(struct kobject *kobj,
++		struct attribute *a, int n)
++{
++	struct nvme_dev *dev;
++
++	dev = to_nvme_dev(dev_get_drvdata(container_of(kobj, struct device, kobj)));
++	if (a == &dev_attr_cmb.attr && !dev->cmbsz)
++		return 0;
++
++	return a->mode;
++}
++
++static struct attribute *nvme_pci_attrs[] = {
++	&dev_attr_cmb.attr,
++	NULL,
++};
++
++static const struct attribute_group nvme_pci_attr_group = {
++	.attrs		= nvme_pci_attrs,
++	.is_visible	= nvme_pci_attrs_are_visible,
++};
++
+ /*
+  * nirqs is the number of interrupts available for write and read
+  * queues. The core already reserved an interrupt for the admin queue.
+@@ -2699,6 +2709,12 @@ static void nvme_reset_work(struct work_struct *work)
+ 		goto out;
+ 	}
+ 
++	if (!dev->attrs_added) {
++		if (!sysfs_create_group(&dev->ctrl.device->kobj,
++					&nvme_pci_attr_group))
++			dev->attrs_added = true;
++	}
++
+ 	nvme_start_ctrl(&dev->ctrl);
+ 	return;
+ 
+@@ -2947,6 +2963,13 @@ static void nvme_shutdown(struct pci_dev *pdev)
+ 	nvme_disable_prepare_reset(dev, true);
+ }
+ 
++static void nvme_remove_attrs(struct nvme_dev *dev)
++{
++	if (dev->attrs_added)
++		sysfs_remove_group(&dev->ctrl.device->kobj,
++				   &nvme_pci_attr_group);
++}
++
+ /*
+  * The driver's remove may be called on a device in a partially initialized
+  * state. This function must not have any dependencies on the device state in
+@@ -2969,7 +2992,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_stop_ctrl(&dev->ctrl);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
+-	nvme_release_cmb(dev);
++	nvme_remove_attrs(dev);
+ 	nvme_free_host_mem(dev);
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_free_queues(dev, 0);
+-- 
+2.25.4
+
 
 _______________________________________________
 Linux-nvme mailing list
