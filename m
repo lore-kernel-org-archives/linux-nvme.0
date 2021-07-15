@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CF9C1B08C
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jul 2021 12:09:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDF5C07E96
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jul 2021 12:09:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A7916120A
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jul 2021 12:09:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A7916120A
+	by mail.kernel.org (Postfix) with ESMTPS id 24D196120A
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jul 2021 12:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24D196120A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,42 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=EbGd+ZsvMAP/Utrj95/27Ep1G/ybjHP33Wjj7sLjMLk=; b=3rFijOjXVWaXJV
-	rtmgOVYgU2uZEB4/wzHg7z2SLyDfTKCR2zseY52PNY4ITPfTGGDmypjKD2/WDlytMwvq4CZByanom
-	OcAybqXzHPuV247bWLUkIsZbcGbDRndTHCYDPYGV5VcFzoc2iHoaX7eHulJyrnRr6fgt2uEuL3N2y
-	J+nJpacHVa1AfNGSP2sjklp5HazztfMB8ngv1JCpA1wRBnxP82m8avNUhSr3GPqnVg3UC76+jxONy
-	L9evUUNquXk8L0LpUlXcSg5X73xYW33VZx1nb//VEoTXydQnUWW8pstalmAzkUXhyJFN9INPlAn9U
-	QwpxY9fnOf4NmD3vbIrg==;
+	List-Owner; bh=tP30ylUgEJdC3eav0zjUfOsC202JssZkytmzwEhx9Zw=; b=ogBFSdTnQpaKMr
+	WCbSlF0uBpC0PP5CSbFzNeFqv9ywQxCAUEomPoQtGXNpdQaTC4XjQsVaxNEXRaSFzeJPsJUUx8ZGy
+	6lRgw8b3iYFlWHbFZNBKKutMWzpDLh8h3v2iVykFA0r9oCB/n43263PQpfVN5TJDIzsXB4Llbz3xR
+	By32yBVOjWHY6HduCdl+dSJJhduqWOi5bak7l1/qG5B5s6+10hpJyb7vBxCDp5hQfj8fzSUWEz9Iv
+	GgZKFNgpD8K80ALU9NpDZNu9cNyTGB5tiOtQElJFCD9Q7gw6nRE+Gi+OigUpv1PjmfcFAgf1c6yTM
+	R1DYcKOpkSMUDU0ut+2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m40B4-000hg7-8Q; Thu, 15 Jul 2021 12:09:18 +0000
+	id 1m40BF-000hkf-My; Thu, 15 Jul 2021 12:09:29 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m40Aw-000hcP-G1
- for linux-nvme@lists.infradead.org; Thu, 15 Jul 2021 12:09:11 +0000
+ id 1m40B2-000hf9-Ox
+ for linux-nvme@lists.infradead.org; Thu, 15 Jul 2021 12:09:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626350949;
+ s=mimecast20190719; t=1626350955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pMdTzJHNKVWe9GNkdImtqswTDriEuMcivsx+NF2L4oM=;
- b=eHoE2dCJAumbT0ib4Kg9WWRKRZzrZl+hsm8lKIt/RWx4b9JEIGWxLtWNDfhLc9XRvjhing
- joJWwv/ovHyxILiO4kCjZ8EOyadhZo0210cnwgvZY5ozkSRFW9+jE8lsmnsiUYE/Qa640U
- Fhrd7nqvRJIhWLhAs7laq1l1CelweUM=
+ bh=1Nw+X27P2N0k1f/4Z+RbTJx7kTAVQrNvB7dNv3jx6hA=;
+ b=ShZps6HZv+24uClNeoAK3fo3Vx4v6q+aqMMCRd3kaMRdQ7LzZXTgE5xoGSxkDuB/tcWaet
+ GXNKg8aK/bm7pRM7dQPnpTInoSNdDeuo/SxaoVHYvgPRrWEmZSt6Gnf/IPGqy5318b5JaK
+ qRBZ01XJiYGy1Ae1ydh75bGJyvh0zIo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-OJhv6rFHMpmzMXH3APQCSQ-1; Thu, 15 Jul 2021 08:09:05 -0400
-X-MC-Unique: OJhv6rFHMpmzMXH3APQCSQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-400-5BQR0uGEN8iA2aClCvUJZA-1; Thu, 15 Jul 2021 08:09:12 -0400
+X-MC-Unique: 5BQR0uGEN8iA2aClCvUJZA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF41D1835AC4;
- Thu, 15 Jul 2021 12:09:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDDB1804301;
+ Thu, 15 Jul 2021 12:09:10 +0000 (UTC)
 Received: from localhost (ovpn-12-61.pek2.redhat.com [10.72.12.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71A2E1002D71;
- Thu, 15 Jul 2021 12:08:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74E3718A50;
+ Thu, 15 Jul 2021 12:09:06 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -68,17 +68,16 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Sagi Grimberg <sagi@grimberg.me>,
  Daniel Wagner <dwagner@suse.de>, Wen Xiong <wenxiong@us.ibm.com>,
  John Garry <john.garry@huawei.com>, Hannes Reinecke <hare@suse.de>,
  Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V4 1/3] driver core: mark device as irq affinity managed if
- any irq is managed
-Date: Thu, 15 Jul 2021 20:08:42 +0800
-Message-Id: <20210715120844.636968-2-ming.lei@redhat.com>
+Subject: [PATCH V4 2/3] blk-mq: mark if one queue map uses managed irq
+Date: Thu, 15 Jul 2021 20:08:43 +0800
+Message-Id: <20210715120844.636968-3-ming.lei@redhat.com>
 In-Reply-To: <20210715120844.636968-1-ming.lei@redhat.com>
 References: <20210715120844.636968-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210715_050910_624527_A7022F35 
-X-CRM114-Status: GOOD (  18.04  )
+X-CRM114-CacheID: sfid-20210715_050916_902502_C8494104 
+X-CRM114-Status: GOOD (  16.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,73 +94,66 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-irq vector allocation with managed affinity may be used by driver, and
-blk-mq needs this info because managed irq will be shutdown when all
-CPUs in the affinity mask are offline.
+Retrieve this info via the field 'irq_affinity_managed' of 'struct
+device' in queue map helpers.
 
-The info of using managed irq is often produced by drivers(pci subsystem,
-platform device, ...), and it is consumed by blk-mq, so different subsystems
-are involved in this info flow
-
-Address this issue by adding one field of .irq_affinity_managed into
-'struct device'.
-
-Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/base/platform.c | 7 +++++++
- drivers/pci/msi.c       | 3 +++
- include/linux/device.h  | 1 +
- 3 files changed, 11 insertions(+)
+ block/blk-mq-pci.c     | 1 +
+ block/blk-mq-rdma.c    | 3 +++
+ block/blk-mq-virtio.c  | 1 +
+ include/linux/blk-mq.h | 3 ++-
+ 4 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 8640578f45e9..d28cb91d5cf9 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -388,6 +388,13 @@ int devm_platform_get_irqs_affinity(struct platform_device *dev,
- 				ptr->irq[i], ret);
- 			goto err_free_desc;
- 		}
-+
-+		/*
-+		 * mark the device as irq affinity managed if any irq affinity
-+		 * descriptor is managed
-+		 */
-+		if (desc[i].is_managed)
-+			dev->dev.irq_affinity_managed = true;
+diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
+index b595a94c4d16..aa0bdb80d0ce 100644
+--- a/block/blk-mq-pci.c
++++ b/block/blk-mq-pci.c
+@@ -37,6 +37,7 @@ int blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
+ 		for_each_cpu(cpu, mask)
+ 			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+ 	}
++	qmap->use_managed_irq = pdev->dev.irq_affinity_managed;
+ 
+ 	return 0;
+ 
+diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
+index 14f968e58b8f..7b10d8bd2a37 100644
+--- a/block/blk-mq-rdma.c
++++ b/block/blk-mq-rdma.c
+@@ -36,6 +36,9 @@ int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
+ 			map->mq_map[cpu] = map->queue_offset + queue;
  	}
  
- 	devres_add(&dev->dev, ptr);
-diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 3d6db20d1b2b..7ddec90b711d 100644
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1197,6 +1197,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
- 	if (flags & PCI_IRQ_AFFINITY) {
- 		if (!affd)
- 			affd = &msi_default_affd;
-+		dev->dev.irq_affinity_managed = true;
- 	} else {
- 		if (WARN_ON(affd))
- 			affd = NULL;
-@@ -1215,6 +1216,8 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
- 			return nvecs;
- 	}
- 
-+	dev->dev.irq_affinity_managed = false;
++	/* So far RDMA doesn't use managed irq */
++	map->use_managed_irq = false;
 +
- 	/* use legacy IRQ if allowed */
- 	if (flags & PCI_IRQ_LEGACY) {
- 		if (min_vecs == 1 && dev->irq) {
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 59940f1744c1..9ec6e671279e 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -569,6 +569,7 @@ struct device {
- #ifdef CONFIG_DMA_OPS_BYPASS
- 	bool			dma_ops_bypass : 1;
- #endif
-+	bool			irq_affinity_managed : 1;
+ 	return 0;
+ 
+ fallback:
+diff --git a/block/blk-mq-virtio.c b/block/blk-mq-virtio.c
+index 7b8a42c35102..b57a0aa6d900 100644
+--- a/block/blk-mq-virtio.c
++++ b/block/blk-mq-virtio.c
+@@ -38,6 +38,7 @@ int blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
+ 		for_each_cpu(cpu, mask)
+ 			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+ 	}
++	qmap->use_managed_irq = vdev->dev.irq_affinity_managed;
+ 
+ 	return 0;
+ fallback:
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 1d18447ebebc..d54a795ec971 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -192,7 +192,8 @@ struct blk_mq_hw_ctx {
+ struct blk_mq_queue_map {
+ 	unsigned int *mq_map;
+ 	unsigned int nr_queues;
+-	unsigned int queue_offset;
++	unsigned int queue_offset:31;
++	unsigned int use_managed_irq:1;
  };
  
  /**
