@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FB7C12002
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C8D2C07E95
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:37:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93A64613DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:26:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93A64613DF
+	by mail.kernel.org (Postfix) with ESMTPS id 43CC8613E9
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:37:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43CC8613E9
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,35 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fWUqqmnjEChhrdv2J53+SahPAmcdr5A7WHX6198nRqo=; b=H6SZa6LvrQuCmy
-	KQiS9pyk8BjIhBzU0hCz/s4knkeUQD0BwlfVn4W8p/CYs7mxjdXHvHAW5XVYsT5Tt/GnKDT/mbMvD
-	lem56hnDBrcpFgVcm0+xDkBtIL+Xz8ft9tGO4zELKbf2a8prNjIuuyR3HpYYZnBROZ4pCxLrgxRQU
-	xwlf+P9MbXTE1tXu7/tLf2lVRL8MDz9AZGDnsyM7j+/xwiTH69WZHdhVcg4CtEpP6l9sNumkoey0D
-	IU37UdcBE5XFES+t0AWeR0Bbb2ShgIMfxLzzwAp2GvRH2NYooC7cTDnPYYSHMYO0cMBpFaAP2xD2H
-	bdNV0BOf8OwtirJjEUHQ==;
+	List-Owner; bh=3JjWyhGjfn2lL/mUy5uJWrPeOJHn6p1HdBgcQtK85X8=; b=lUhY4a9v1nrl/O
+	OiREadg8/Qqu/8Yud5jqZKa1tESGLIaSzY5uE3YNjrOOSQcwibZHqnmTgdQvvoivQ9PpxsUaByYqB
+	RsjL5DIQudbyXqBlErXu2CHP+MaU/0lZd0Ok/eVSKslKfRue2l/JJIfptQMCNoqHSiO7oK3U3Uc/c
+	b+9Rz139HOgkEQD+DWJwEWfFYN4Ui+FeZKzHdLG4LFuNHEd1ChZuEi5WjYxer6/WoKW/LFUjpjFlm
+	BIRhlZuVjPPsj6SdUl+SXLlLxKDVN8U2EBOmLxqc57zYfcb68MXewFfQqdnQKvDTagK16z+o1QAg0
+	ff0S2x0aBSUaAUy9VNGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4IEL-003W0s-Ma; Fri, 16 Jul 2021 07:25:53 +0000
+	id 1m4IP4-003Xyr-VN; Fri, 16 Jul 2021 07:36:58 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4IEI-003W0H-Sa
- for linux-nvme@lists.infradead.org; Fri, 16 Jul 2021 07:25:52 +0000
+ id 1m4IP0-003XyM-8l
+ for linux-nvme@lists.infradead.org; Fri, 16 Jul 2021 07:36:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 0DDED67373; Fri, 16 Jul 2021 09:25:49 +0200 (CEST)
-Date: Fri, 16 Jul 2021 09:25:48 +0200
+ id BD40167373; Fri, 16 Jul 2021 09:36:48 +0200 (CEST)
+Date: Fri, 16 Jul 2021 09:36:48 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH 1/2] nvme-pci: use attribute group for cmb sysfs
-Message-ID: <20210716072548.GB14605@lst.de>
-References: <20210714210238.1837729-1-kbusch@kernel.org>
+Subject: Re: [PATCH 00/14] nvmet: remove repeated calls to nvmet_req_complete()
+Message-ID: <20210716073648.GA14800@lst.de>
+References: <20210628050817.19788-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210714210238.1837729-1-kbusch@kernel.org>
+In-Reply-To: <20210628050817.19788-1-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210716_002551_109235_4C941B7E 
-X-CRM114-Status: UNSURE (   7.85  )
+X-CRM114-CacheID: sfid-20210716_003654_501563_E6B056CC 
+X-CRM114-Status: UNSURE (   8.47  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,7 +69,8 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied both with a few cosmetic fixups for nvme-5.15.
+So while this looks fine, I'm not sure what problem this actually
+solves.
 
 _______________________________________________
 Linux-nvme mailing list
