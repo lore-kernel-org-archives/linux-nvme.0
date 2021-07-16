@@ -2,92 +2,83 @@ Return-Path: <SRS0=k+Rq=MI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B85C636C8
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 01:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA25C636C8
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 02:18:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9351F613C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 01:21:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9351F613C9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=purestorage.com
+	by mail.kernel.org (Postfix) with ESMTPS id 33A36601FF
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 02:18:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33A36601FF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EyhFYp9W0bbSnfWwfOjLP5+5VAQeLq/6OETX/YKPT0A=; b=Ob0qvRr6OkJRlH//sFF6WNLRB+
-	KrTvO/5DVfcqMPpAOaMm8TQs1G0d3SQHlgzbHuGtsbzS9iEPgijqtwBXsgUGMr1jhRP2NBB/jXv6v
-	jyda9vyLuv+GGNY5Ubn/RfqF2WyXlwu3bSyNXGIssYilNYdzXsG/b1g+6ioi8JM0MWHcovSvD3ZAJ
-	2thnKtsNtKA65k1bLAfpKAEOwYjRX4pVrSzLCJUMYglhtMnuOPeINOjtKYAw+iV7fgDZI9ZYUjqb6
-	yOUqNY7rBCx4UopbQLavXfh2OHYxfo5RiGt4oTgbK2hviQ/O/xb6U/+qNxdSmpwTC7YzA6oIGgn6k
-	0PnoqyYg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=VjiY60CCp7ld1KbyfkbWkEYwLVTCvFiQoOurdM7wgAk=; b=WiGP6Lm5YqKXt7
+	IpAHtXNkEOw9bQFgkbvJkxKwvTUABRdU9wwRCktWxbSw0HXsqtZ9leoNRJjIzV5/FoacpWKITkGFj
+	jSZD33zAkBRK69OW/eNWREUOpjelWeRZTpQCLd6SI6YHgFEXcp+4woQCrQwa1wEDR9mYzkg2Iv1fB
+	QJyEXPNqbxxWKwQyBMvCOMG9oHfF93/UFDOUuhlGnq44lyjL2oj1H2zRehKRVlMN05ruZJiTxv86l
+	cWOwytquZRqODVMCx3+LLBWjVWcipq0jVqCrNNDrNlS0vH5GeGQ4oKK9zKUrmg4sB8VQ2LNK6fs+t
+	WWHjshGn3VSR4o75aG4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4CXl-002onM-Ow; Fri, 16 Jul 2021 01:21:33 +0000
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+	id 1m4DPA-002tBN-Jg; Fri, 16 Jul 2021 02:16:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4CXb-002omx-7K
- for linux-nvme@lists.infradead.org; Fri, 16 Jul 2021 01:21:24 +0000
-Received: by mail-pl1-x634.google.com with SMTP id h1so4468690plf.6
- for <linux-nvme@lists.infradead.org>; Thu, 15 Jul 2021 18:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=purestorage.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=RzVD0hBbwhi3h4pLy4y+uuFLqDLGItwpXqVZUwfHj5Y=;
- b=ktduSKV3WTOurbrGWzZWx41LoiIG/auahnzcjF2Qiiqz8ViIIJc81ULuKpZbGHCCnR
- 25a7lNAionkAHWsRCUhN1Lk9YUvse0r3uh9A0Dle19hb2QCGQ+/TGdcfZKvDhxuHaDL8
- 8KVOmwqwjk5uX6xDHIBqr0Fn/sdCvnjEJmCPc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=RzVD0hBbwhi3h4pLy4y+uuFLqDLGItwpXqVZUwfHj5Y=;
- b=GM41Kw0JDW8/vmOHukYJh7VA/JMGgFB33crciZYHjogw6kitAXsn3+sA48PffFQgPH
- IoqRiDYFdwz1LWiUIFj8N9VHEVb1tzdOfjDwjAagABvlCsePlIGZEm1qlWf1b25OvF3B
- yIp/OIMlvoKgkkoearyS10LuZIqmWIk7Oh9WO8skLwSERZYI8L0RfuNs0VUHF50OzFNn
- eyDpyiohspgB3CUHsWEYZOjzqZc6l8SJ9RHtb9cTgkfveZInDeeWE0ozuAD3SCpmQ24o
- vaxnx+dTAY6GLdkct+c5sCNhnV5xKOyG31/PPwTm2B+6dSaaAi5OLvPdXHIHNkUMedbn
- eUjA==
-X-Gm-Message-State: AOAM531Q/+5O4vXojjJrNtN+5aIf2iQeVhHfEfk/sjqiHDsYsjAluZe/
- cky5ZgghCo8EuBBVNfzTfnHIZA==
-X-Google-Smtp-Source: ABdhPJydZF9Syxf/YqsQY1D/88P5rP0ItNVpXANP9laAG7CQDzl+3l9L2Vm0yKIpDNwiNvhIPwJDlw==
-X-Received: by 2002:a17:90a:1941:: with SMTP id
- 1mr12981121pjh.217.1626398482364; 
- Thu, 15 Jul 2021 18:21:22 -0700 (PDT)
-Received: from [10.231.221.154] ([192.30.189.3])
- by smtp.gmail.com with ESMTPSA id ft7sm10147532pjb.32.2021.07.15.18.21.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jul 2021 18:21:21 -0700 (PDT)
-Subject: Re: [PATCHv2 0/2] rr: nvme-pci: fix races and UAF
-To: Keith Busch <keith.busch@gmail.com>
-Cc: Keith Busch <kbusch@kernel.org>,
- linux-nvme <linux-nvme@lists.infradead.org>, yzhong@purestorage.com,
- ashishk@purestorage.com
-References: <20210707211432.29536-1-cachen@purestorage.com>
- <20210708194452.GA289335@dhcp-10-100-145-180.wdc.com>
- <3357a87f-c807-be2b-cca9-8f5e35fdb3c1@purestorage.com>
- <CAOSXXT5TM_OXgMZMnprH2rzgw7vX4wNK=4O5S_2_pgKcbt0Gew@mail.gmail.com>
-From: Casey Chen <cachen@purestorage.com>
-Message-ID: <4b53b72b-4e29-2613-efd3-f222b17725fb@purestorage.com>
-Date: Thu, 15 Jul 2021 18:21:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ id 1m4DP7-002tA6-U7
+ for linux-nvme@lists.infradead.org; Fri, 16 Jul 2021 02:16:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626401797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7GTfH8fCEHAUZ3BetrG+wDQa3jsM8/zy40SCzAZxl8Y=;
+ b=Zd071qHT/Pqa+ihORdykySVv74P2VvHGShE9EReDsOdEnPLiV6EdfGeSMYFRvNxc0lO3Zj
+ divIAnL9fCD9gN1PRldnNrCa/86UxNjMm8fAy2Uqk5HpbGgYCwgreBxS/urqLSrneob08j
+ zaoNeilkkjUB3avmLd9Ecp1MEusedhs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-IjJ6mpBJOyyOqKMMbKbcqA-1; Thu, 15 Jul 2021 22:16:36 -0400
+X-MC-Unique: IjJ6mpBJOyyOqKMMbKbcqA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB191084F4B;
+ Fri, 16 Jul 2021 02:16:34 +0000 (UTC)
+Received: from T590 (ovpn-13-153.pek2.redhat.com [10.72.13.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C198A60BF1;
+ Fri, 16 Jul 2021 02:16:24 +0000 (UTC)
+Date: Fri, 16 Jul 2021 10:16:18 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Oleksandr Natalenko <oleksandr@natalenko.name>
+Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, David Jeffery <djeffery@redhat.com>,
+ Laurence Oberman <loberman@redhat.com>,
+ Paolo Valente <paolo.valente@linaro.org>, Jan Kara <jack@suse.cz>,
+ Sasha Levin <sashal@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Keith Busch <kbusch@kernel.org>
+Subject: Re: New warning in nvme_setup_discard
+Message-ID: <YPDr8ucoDCE4NBSe@T590>
+References: <4729812.CpyZKHjjVO@natalenko.name>
 MIME-Version: 1.0
-In-Reply-To: <CAOSXXT5TM_OXgMZMnprH2rzgw7vX4wNK=4O5S_2_pgKcbt0Gew@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <4729812.CpyZKHjjVO@natalenko.name>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210715_182123_398052_B6D916D9 
-X-CRM114-Status: GOOD (  15.00  )
+X-CRM114-CacheID: sfid-20210715_191642_083402_324D9BFA 
+X-CRM114-Status: GOOD (  13.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,29 +90,71 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Just found them on tag nvme-5.14-2021-07-15. The applied version looks 
-good to me. Thanks.
+On Thu, Jul 15, 2021 at 03:56:38PM +0200, Oleksandr Natalenko wrote:
+> Hello.
+> 
+> After a v5.13.2 massive update I encountered this:
+> 
+> ```
+> [19231.556665] ------------[ cut here ]------------
+> [19231.556674] WARNING: CPU: 20 PID: 502 at drivers/nvme/host/core.c:850 
+> nvme_setup_discard+0x188/0x1f0
+> ...
+> [19231.556776] CPU: 20 PID: 502 Comm: kworker/20:1H Not tainted 5.13.2 #1
+> [19231.556780] Hardware name: ASUS System Product Name/Pro WS X570-ACE, BIOS 
+> 3601 05/26/2021
+> [19231.556784] Workqueue: kblockd blk_mq_run_work_fn
+> [19231.556789] RIP: 0010:nvme_setup_discard+0x188/0x1f0
+> [19231.556794] Code: 49 8b 44 24 10 4c 8b 90 40 0b 00 00 4c 2b 15 8f 09 d8 00 
+> 49 c1 fa 06 49 c1 e2 0c 4c 03 15 90 09 d8 00 4d 89 d0 e9 b9 fe ff ff <0f> 0b b8 
+> 00 00 00 80 49 01 c2 72 52 48 c7 c0 00 00 00 80 48 2b 05
+> [19231.556798] RSP: 0018:ffffaed2416efc00 EFLAGS: 00010287
+> [19231.556802] RAX: ffff8e67fb580000 RBX: ffff8e640bbe5240 RCX: 0000000000000020
+> [19231.556805] RDX: ffff8e67fb580000 RSI: 000000000000001f RDI: 0000000000000000
+> [19231.556808] RBP: ffff8e640bbe5388 R08: ffff8e677b580000 R09: 0000000008abb800
+> [19231.556811] R10: ffff8e677b580000 R11: 0000000000000400 R12: ffff8e6405999c00
+> [19231.556814] R13: 000000000000001f R14: ffff8e6405693000 R15: ffff8e640bbaf800
+> [19231.556816] FS:  0000000000000000(0000) GS:ffff8e6b0ef00000(0000) knlGS:
+> 0000000000000000
+> [19231.556819] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [19231.556822] CR2: ffff888c76ece000 CR3: 000000047a184000 CR4: 0000000000350ee0
+> [19231.556825] Call Trace:
+> [19231.556830]  nvme_setup_cmd+0x2d0/0x670
+> [19231.556834]  nvme_queue_rq+0x79/0xc90
+> [19231.556837]  ? __sbitmap_get_word+0x30/0x80
+> [19231.556842]  ? sbitmap_get+0x85/0x180
+> [19231.556846]  blk_mq_dispatch_rq_list+0x15c/0x810
+> [19231.556851]  ? list_sort+0x21d/0x2f0
+> [19231.556856]  __blk_mq_do_dispatch_sched+0x196/0x320
+> [19231.556860]  __blk_mq_sched_dispatch_requests+0x14d/0x190
+> [19231.556864]  blk_mq_sched_dispatch_requests+0x2f/0x60
+> [19231.556867]  blk_mq_run_work_fn+0x43/0xc0
+> [19231.556871]  process_one_work+0x24e/0x430
+> [19231.556876]  worker_thread+0x54/0x4d0
+> [19231.556880]  ? process_one_work+0x430/0x430
+> [19231.556883]  kthread+0x1b3/0x1e0
+> [19231.556886]  ? __kthread_init_worker+0x50/0x50
+> [19231.556889]  ret_from_fork+0x22/0x30
+> [19231.556895] ---[ end trace d9abdf019a56b4c7 ]---
+> [19231.556906] blk_update_request: I/O error, dev nvme1n1, sector 632935424 op 
+> 0x3:(DISCARD) flags 0x0 phys_seg 31 prio class 0
+> ```
+> 
+> or, in code:
+> 
+> ```
+>  850     if (WARN_ON_ONCE(n != segments)) {
 
-On 7/15/21 5:12 PM, Keith Busch wrote:
-> Your series is already applied to both nvme and the block tree.
->
-> On Thu, Jul 15, 2021, 5:35 PM Casey Chen <cachen@purestorage.com 
-> <mailto:cachen@purestorage.com>> wrote:
->
->     Any other folks have comments on this patch series ? If not, could we
->     merge them ? Thanks!
->
->     On 7/8/21 12:44 PM, Keith Busch wrote:
->     > I have reviewed the series and it look good to me.
->     >
->     > Reviewed-by: Keith Busch <kbusch@kernel.org
->     <mailto:kbusch@kernel.org>>
->
+What is 'n' and 'segments'?
+
+thanks,
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
