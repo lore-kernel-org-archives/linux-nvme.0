@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4DFEC07E95
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:15:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD711C12002
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:25:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93417613AF
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:15:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93417613AF
+	by mail.kernel.org (Postfix) with ESMTPS id 89103613DA
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jul 2021 07:25:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89103613DA
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,38 +23,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=5vtiApNsh8BHtp5zlWWZJAB+Zemfj22j9IC4wptAdDo=; b=z6+RUN2CjVUJBZ
-	7WyP9i4Q95QCI0MuDAzJLhsQeTaXwLwF6ZhdNCA3TVW79SL2om7t+YkDvsMxNB7HrU4XbolObjiLA
-	yHWNf7NhY0Wu8z2+ClC4Vwfgnfo8DUK02ye+gVonFvikkdnXaWDHYtc51D0cr3EMRPuYtg0kWJiGu
-	yZyV2vdUI+FqIUvq3VC/fn70H3DFn2o7kC5lgWpXfvaNrtB0xUmWQ1kx/ddBctGtgnnODrYZ7xEdA
-	kfiDAfBGnQipBl147/c6s0bSe1rwYGfw2NpZTBYNoJxlqwy5xboFtIci/sSxfxz0y1EdBwhOo19PB
-	CDzurSlFfN7u7WF1Ot2Q==;
+	List-Owner; bh=iuktLIzarvHjEJlKtxuBEUVUXP0f2R+/dgHk/7kC0YA=; b=IzPheTwnR/ljlh
+	KCiViCjTi8iChqFXcNRAG20TfP8URdLXtwQb5CSNqbgJUX32NClzTPsIJJi/PCP/kFG0FWzgBUnWV
+	AkeNWoXwgY/Jyan1AvklbpMfRpxdeEsTcxafC6pRB/AgJaIiCh9KNg/qxy/s/8SFTYePbvnrBO2eR
+	3Y9vvVRyWJgUa6kRaIDmN+2yif9nYLplRB92YD+mj4v8zN7fEtIezuty+glaaC0Bya46QktCWnORa
+	E3SpJIjt9pGNeFOZyDwaDpwLsRHrqxNVrz4JD5vP+4mwfJhrQuELhJ7eIMN8ZltdRvGFk0/w5kcX1
+	gMQpdG1u1wwsdlLWIy1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4I4O-003UHP-Rs; Fri, 16 Jul 2021 07:15:36 +0000
+	id 1m4IE3-003VyK-R0; Fri, 16 Jul 2021 07:25:35 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4I4L-003UGJ-Rg
- for linux-nvme@lists.infradead.org; Fri, 16 Jul 2021 07:15:35 +0000
+ id 1m4IE1-003Vxi-A6
+ for linux-nvme@lists.infradead.org; Fri, 16 Jul 2021 07:25:34 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 1882568B05; Fri, 16 Jul 2021 09:15:27 +0200 (CEST)
-Date: Fri, 16 Jul 2021 09:15:26 +0200
+ id 97FA267373; Fri, 16 Jul 2021 09:25:30 +0200 (CEST)
+Date: Fri, 16 Jul 2021 09:25:30 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH v3 0/4] nvme: protect against possible request
- reference after completion
-Message-ID: <20210716071526.GA14412@lst.de>
-References: <20210616211936.451128-1-sagi@grimberg.me>
+To: Hou Pu <houpu.main@gmail.com>
+Cc: sagi@grimberg.me, hch@lst.de, chaitanya.kulkarni@wdc.com,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-fabrics: remove superfluous nvmf_host_put in
+ nvmf_parse_options
+Message-ID: <20210716072530.GA14605@lst.de>
+References: <20210709023247.69287-1-houpu.main@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210616211936.451128-1-sagi@grimberg.me>
+In-Reply-To: <20210709023247.69287-1-houpu.main@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210716_001534_077792_1A17A551 
-X-CRM114-Status: UNSURE (   9.23  )
+X-CRM114-CacheID: sfid-20210716_002533_533049_262CB695 
+X-CRM114-Status: UNSURE (   8.06  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -74,7 +73,7 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Thanks,
 
-applies to nvme-5.15.
+applied to nvme-5.15.
 
 _______________________________________________
 Linux-nvme mailing list
