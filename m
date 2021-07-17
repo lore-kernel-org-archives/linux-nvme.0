@@ -6,14 +6,14 @@ X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98711C636C9
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 14:13:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 976ABC636CA
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 14:21:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 535F8613AF
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 14:13:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 535F8613AF
+	by mail.kernel.org (Postfix) with ESMTPS id 5D61C611BE
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 14:21:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D61C611BE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,50 +22,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4aRTDJFxWdzHqZXvk2FIKx+RMxUhkLMRJ/vIP0dfLLA=; b=rRbmNdI4V2bjIL
-	hJ2KeIeUdNDss15l78YXUhVsPmWlK7xzdY99qMa/bScW8EJKgedMiRQOYsMoC29n8yRiM60vommkf
-	LSp67kh+COJkkc8ADmdYZsqPb9gCQpUw9emgglPWCRyzIa5MYlKIsEBk3aDbo8WiuZvxoq5TwqRx0
-	R7q7CeNot+rHDCA5cR+IxAHbgeE1DSIFYQFy8KHYSEbyTco4X8C2RoAMWo2TeRnxmI+fkcq9XpMg1
-	rkbAC5KPxSOI7SFkiuYHkIzf2lbjqiEpPwLnVvA7Mrr5o4DdVTEgXszHCCGBYZAuVGqeT4zduaEUF
-	gTyvzeEwj8SK+7PIPBDg==;
+	List-Owner; bh=XU0zgE8fo0MuxO95T+Gr6gVl234q9cdSG3pAMxk/mS0=; b=ObAzcr77mBNLiT
+	gV4zGNufYDl0USATQWdvq8mZyxvLXpPgMAlTEMw/yGaa9OM+NdHezVTFPCW5NPY35APy8YJN4RwU8
+	jeWcewMpPH7b8W68shyPHz30ucqRvs1T8AmNVrtPs9xJEZRB96EAPR8bo23FCzvlF1B935tPgSHMD
+	cEd8tM2HoO+ovRo2erOF1dCsyso1ZzDMKo9K/BHYOaJzrFCcgbAn1chOHXZs7mj5Xunn7mtXJzT8p
+	vaEd/DYBEf2xfQEv4e0M96XjQAAW7rtLaQhP01scuYyYZXv2SFHfeuxefGQy/Ab35zt9uq79zeQpG
+	NDxs19OsciTi45JtrdHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4l3x-006hvo-M9; Sat, 17 Jul 2021 14:13:05 +0000
+	id 1m4lBZ-006iUY-5O; Sat, 17 Jul 2021 14:20:57 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4l3v-006hvU-9n
- for linux-nvme@lists.infradead.org; Sat, 17 Jul 2021 14:13:04 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 46A2F613AF;
- Sat, 17 Jul 2021 14:12:56 +0000 (UTC)
+ id 1m4lBW-006iUF-1Z
+ for linux-nvme@lists.infradead.org; Sat, 17 Jul 2021 14:20:55 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 27913613C4;
+ Sat, 17 Jul 2021 14:20:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626531176;
- bh=CSqWbwnDQetPqNrqCiyqzlstecp4z8aojSFR6OWBeHE=;
+ s=k20201202; t=1626531653;
+ bh=wSCwVuuSnJ3NHowIjdatyUb2d30WxXzTltY3f8AipVM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YHLfkMcAhW3q0tcYt29I0fGtfM8rUS64uVWbUwB5VV+prO+xo4gSkNp9iKpSUor6i
- qnRdzGnj+0clXdYsYPm5HRi25jueLTd8oz8SBGzbUIFWjRwH4hGJHwTcoMpppgLyE7
- jWSXpogKnu84n0PF6KNtBKUkdg1eimerDyBLg35Kue4cKTjYGhzbYHWgsIOaOUct9Y
- CkrEMNpX0AfmcjezQI5rarlr3kXL0D5KeF45aLFdUMomXnn8eKj4CJ99scEmZWxRDg
- csikWLEha5YOSJmMmuH89qBzHdweUWLXw6PBo0yKu25SUJ2NL1/wa9aT7CxiqRXfEZ
- OqLm3kFhs1wTQ==
-Date: Sat, 17 Jul 2021 09:12:54 -0500
+ b=Rxuhin9VHzrkiynQVLE/oSC9N/P4q1XmBS+mIzFysTyr1Ytfcq2t1wqtjw7rtwWK1
+ 1LrEhEqRiWHgroZSStVvKHAc766HKyzUFjtvOSoje9CngpjYOx+olsKeVpS5DoOnYs
+ gDOdwt2qgGOFcROCRdRi2tOlvy4yTJyRq44RcgYLJ8Gaee3BBUXJDqB4FkxoX+0ggy
+ FyPL4oAeRMZvp7A3ReSNLLFRz5zW2i1rd2oxaHFsLpD7H2BELAQXUaF9yI6PHIjfgM
+ F0rr9zfs5T4uqV1g/zuQ5YKEAJ1jqZPHhMUQFfxDW/zuA04cPOJKFdC9tVs58nWjay
+ p9lIAmrMfJyYw==
+Date: Sat, 17 Jul 2021 09:20:51 -0500
 From: Eric Biggers <ebiggers@kernel.org>
 To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
  Herbert Xu <herbert@gondor.apana.org.au>,
  "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
 Subject: Re: [PATCH 04/11] lib/base64: RFC4648-compliant base64 encoding
-Message-ID: <YPLlZvVTMvjs8UGu@quark.localdomain>
+Message-ID: <YPLnQ1iyCQaEcnCq@quark.localdomain>
 References: <20210716110428.9727-1-hare@suse.de>
  <20210716110428.9727-5-hare@suse.de>
- <a6708951-76f6-21bb-f7fe-e4bb32cd0448@grimberg.me>
- <7f320b51-1077-9b3f-bf29-49d0753adf6c@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7f320b51-1077-9b3f-bf29-49d0753adf6c@suse.de>
+In-Reply-To: <20210716110428.9727-5-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210717_071303_399224_3D7E9330 
-X-CRM114-Status: GOOD (  10.42  )
+X-CRM114-CacheID: sfid-20210717_072054_145466_22203FBF 
+X-CRM114-Status: GOOD (  14.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,21 +80,56 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jul 17, 2021 at 04:00:20PM +0200, Hannes Reinecke wrote:
-> On 7/17/21 8:16 AM, Sagi Grimberg wrote:
-> > 
-> > > Add RFC4648-compliant base64 encoding and decoding routines.
-> > 
-> > Looks good to me (although didn't look in the logic itself).
-> > Can you maybe mention where was this taken from?
-> 
-> Umm ... yeah, I guess I can; I _think_ I've copied it from base64 routines
-> in fs/crypto/fname.c, but I'll check.
-> 
+On Fri, Jul 16, 2021 at 01:04:21PM +0200, Hannes Reinecke wrote:
+> +/**
+> + * base64_decode() - base64-decode some bytes
+> + * @src: the base64-encoded string to decode
+> + * @len: number of bytes to decode
+> + * @dst: (output) the decoded bytes.
+> + *
+> + * Decodes the base64-encoded bytes @src according to RFC 4648.
+> + *
+> + * Return: number of decoded bytes
+> + */
+> +int base64_decode(const char *src, int len, u8 *dst)
+> +{
+> +        int i, bits = 0, pad = 0;
+> +        u32 ac = 0;
+> +        size_t dst_len = 0;
+> +
+> +        for (i = 0; i < len; i++) {
+> +                int c, p = -1;
+> +
+> +                if (src[i] == '=') {
+> +                        pad++;
+> +                        if (i + 1 < len && src[i + 1] == '=')
+> +                                pad++;
+> +                        break;
+> +                }
+> +                for (c = 0; c < strlen(lookup_table); c++) {
+> +                        if (src[i] == lookup_table[c]) {
+> +                                p = c;
+> +                                break;
+> +                        }
+> +                }
+> +                if (p < 0)
+> +                        break;
+> +                ac = (ac << 6) | p;
+> +                bits += 6;
+> +                if (bits < 24)
+> +                        continue;
+> +                while (bits) {
+> +                        bits -= 8;
+> +                        dst[dst_len++] = (ac >> bits) & 0xff;
+> +                }
+> +                ac = 0;
+> +        }
+> +        dst_len -= pad;
+> +        return dst_len;
+> +}
+> +EXPORT_SYMBOL_GPL(base64_decode);
 
-Note that it wasn't simply a copy, as you changed the variant of base64 that is
-implemented.  So please make sure that you are very clear about which variant of
-base64 it is, and update all the comments accordingly.
+This should return an error if the input isn't valid base64.
 
 - Eric
 
