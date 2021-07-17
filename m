@@ -2,83 +2,85 @@ Return-Path: <SRS0=Rbl5=MJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BD0C636CA
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 07:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC04C636C9
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 09:31:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 912C9611C1
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 07:23:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 912C9611C1
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id BF6B6613BB
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 09:31:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF6B6613BB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r3MBhcyFWEjEMTwGcDNBDv1/m49hganyZBPqFKIdp+c=; b=tNId7wG5hSeUC5fneQDLtVNGyc
-	o6hP7gqRcGniXyogFPd57XQkNgj3vOIn3R25+kcHaCuLCmncFJwGVK5wvX0QNWc5brku9aJD2HjoS
-	IzqJkEuEiUM/AvfXJ4R6PQFJCRkzp3it9xCwRSTJ2ZvEgxI6LyOSswVZgRN/blXvPrPukbwVUkgs0
-	1uQ6ZXaWWClGAC955fCgTAoqheVFrrl3iS5Ey+F0EWmENWDi1wf2DFM2DFvbTWd83pcZiy3RiPo66
-	WzQ+eqi9DgAldjvNhowwsjIUX/2g6K4cNgh8jnx/nlIr9kM5LKpSsUJ9oZ00tYuXeBGCbqo4QP7z8
-	fNJx8oow==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=HDgVCoEscPD8sqd2OpNRQ3iAmVj75+qtutjF8Jv9Kvg=; b=3kXD2ktROSesHT
+	55X2EaAsqiXMN/DaERVW/4VfNE0koXIDyWTzwjcw0zduDq0B3vsJzjMg+4pA7caKLZhxgDjTNZ1J5
+	7+TAQeTPm7dH9CjE3ffojkOPgC46kbgaPA0aaTqmnyrboo/ldl7DeX7N1wS5/BkkXRpIbxsSpAkum
+	Dk1UtI4K7Or/4jvb25vB41CfBn60QCUMSZmkMZKbZznd3cRH5ptdj6PlybhRS7FjGQ39iEBrksJIn
+	mihK3aWoOmxzfJ6lZiLbgMmi3PZvfTA5+Fdtbc9ZO4bdL4NfU/m5j4PRrwJbfe2PUiWqLXivITrHA
+	XfvdEU9Fjzt2u6rN1oQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4efE-0065fB-4D; Sat, 17 Jul 2021 07:23:08 +0000
-Received: from mail-pg1-f172.google.com ([209.85.215.172])
+	id 1m4gfA-006MmP-5q; Sat, 17 Jul 2021 09:31:12 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4ef7-0065es-Qh
- for linux-nvme@lists.infradead.org; Sat, 17 Jul 2021 07:23:06 +0000
-Received: by mail-pg1-f172.google.com with SMTP id y4so12219966pgl.10
- for <linux-nvme@lists.infradead.org>; Sat, 17 Jul 2021 00:23:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=00MJQKy9YvizX/k2SAftsJmXWaEGMksobaqftCyFteY=;
- b=Btvt2zHGXxmZxMXYfh1Z61ON7nFElc0jTBshV8HnXicqyG+EI8FOtR/1i4Rj8t8vIQ
- eEPjD4cW9aE1jTKwHeg7vzxqDOxGLf1YABuOhzAFdLBp9jvKt2RG3nCBtOiTF/g/6Lgy
- 7HjSimUOxn2TaAR+Qghp1J5wvcabed4yk73lW3Jh6yhBRctoGysm/vnvj1dvLAQDJj3/
- WtIMikyPhGz8019cYc2kutPuIhIuPaCnBrkoOClUUyj/qO6HbgdBUTyr0xFSCy8mELKc
- H9Amgy8qY6EpibFYZNzyMS40MC9LRQuM4+2KX+xKrGrgrS5fBMVmGjODuGkSplo9Ytkm
- XjLA==
-X-Gm-Message-State: AOAM532H0zBPQGfCPHP85O3eGi0CXUdvtT3djtWNE5RTPsqibPFaZprd
- i5/Br4P/HgMcrsI8aXV0gJI=
-X-Google-Smtp-Source: ABdhPJxdIPeAlTJwnJB+nVDKdBRfzvgH54VmlMQcPIc4q88UTRm6Q5n967TS9JBpaMAfyJB1P6i7sQ==
-X-Received: by 2002:a05:6a00:84d:b029:329:a067:b1bf with SMTP id
- q13-20020a056a00084db0290329a067b1bfmr14245700pfk.47.1626506580731; 
- Sat, 17 Jul 2021 00:23:00 -0700 (PDT)
-Received: from [10.0.0.146] ([162.211.128.122])
- by smtp.gmail.com with ESMTPSA id x19sm12692929pfa.104.2021.07.17.00.22.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jul 2021 00:23:00 -0700 (PDT)
-Subject: Re: [PATCH 06/11] nvme: Implement In-Band authentication
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20210716110428.9727-1-hare@suse.de>
- <20210716110428.9727-7-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <bd588839-8acc-91cf-5946-f702007b0c7d@grimberg.me>
-Date: Sat, 17 Jul 2021 00:22:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ id 1m4gf7-006Mld-AL
+ for linux-nvme@lists.infradead.org; Sat, 17 Jul 2021 09:31:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626514265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qpkQ64ZywmmGid3wm2wpO4W6jPhvZtPWa6GAG8VtSbo=;
+ b=RPeTG1xP0ojA65g4BwQEHk70btfaozScT7QM38tKz4DBfopf/lBREQupUbbbknXGejDSt0
+ zSqo0nj0g3d0sm4mW6XKodOjJZ9O+1bHPiJBPp5P67UB5ejquHNiFiUaC4cRRfkxkwpwY2
+ oJBA8oHz2Fwl8qPhuPZ4AByP/cW3xYc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-fkIVUY3gMrKMjaSGLm28wg-1; Sat, 17 Jul 2021 05:31:03 -0400
+X-MC-Unique: fkIVUY3gMrKMjaSGLm28wg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D3B8100B3AC;
+ Sat, 17 Jul 2021 09:31:00 +0000 (UTC)
+Received: from T590 (ovpn-12-83.pek2.redhat.com [10.72.12.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DC6360C0F;
+ Sat, 17 Jul 2021 09:30:48 +0000 (UTC)
+Date: Sat, 17 Jul 2021 17:30:43 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+ Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>,
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V4 1/3] driver core: mark device as irq affinity managed
+ if any irq is managed
+Message-ID: <YPKjQxZ4roigdvbq@T590>
+References: <20210715120844.636968-2-ming.lei@redhat.com>
+ <20210716200154.GA2113453@bjorn-Precision-5520>
 MIME-Version: 1.0
-In-Reply-To: <20210716110428.9727-7-hare@suse.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210716200154.GA2113453@bjorn-Precision-5520>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210717_002301_968798_C5F46265 
-X-CRM114-Status: GOOD (  39.03  )
+X-CRM114-CacheID: sfid-20210717_023109_494464_76CD1957 
+X-CRM114-Status: GOOD (  32.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,1391 +92,101 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Implement NVMe-oF In-Band authentication. This patch adds two new
-> fabric options 'dhchap_key' to specify the PSK
+On Fri, Jul 16, 2021 at 03:01:54PM -0500, Bjorn Helgaas wrote:
+> On Thu, Jul 15, 2021 at 08:08:42PM +0800, Ming Lei wrote:
+> > irq vector allocation with managed affinity may be used by driver, and
+> > blk-mq needs this info because managed irq will be shutdown when all
+> > CPUs in the affinity mask are offline.
+> > 
+> > The info of using managed irq is often produced by drivers(pci subsystem,
+> 
+> Add space between "drivers" and "(".
+> s/pci/PCI/
 
-pre-shared-key.
-
-Also, we need a sysfs knob to rotate the key that will trigger
-re-authentication or even a simple controller(s-plural) reset, so this
-should go beyond just the connection string.
-
-P.S. can you add also the nvme-cli code in the next go?
-
-> and 'dhchap_authenticate'
-> to request bi-directional authentication of both the host and the controller.
-
-bidirectional? not uni-directional?
+OK.
 
 > 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/Kconfig   |  11 +
->   drivers/nvme/host/Makefile  |   1 +
->   drivers/nvme/host/auth.c    | 813 ++++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/auth.h    |  23 +
->   drivers/nvme/host/core.c    |  77 +++-
->   drivers/nvme/host/fabrics.c |  65 ++-
->   drivers/nvme/host/fabrics.h |   8 +
->   drivers/nvme/host/nvme.h    |  15 +
->   drivers/nvme/host/trace.c   |  32 ++
->   9 files changed, 1041 insertions(+), 4 deletions(-)
->   create mode 100644 drivers/nvme/host/auth.c
->   create mode 100644 drivers/nvme/host/auth.h
+> Does this "managed IRQ" (or "managed affinity", not sure what the
+> correct terminology is here) have something to do with devm?
 > 
-> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-> index c3f3d77f1aac..853c546305e9 100644
-> --- a/drivers/nvme/host/Kconfig
-> +++ b/drivers/nvme/host/Kconfig
-> @@ -85,3 +85,14 @@ config NVME_TCP
->   	  from https://github.com/linux-nvme/nvme-cli.
->   
->   	  If unsure, say N.
-> +
-> +config NVME_AUTH
-> +	bool "NVM Express over Fabrics In-Band Authentication"
-> +	depends on NVME_TCP
-> +	select CRYPTO_SHA256
-> +	select CRYPTO_SHA512
-> +	help
-> +	  This provides support for NVMe over Fabrics In-Band Authentication
-> +	  for the NVMe over TCP transport.
-
-In this form, nothing is specific to nvme-tcp here afaict.
-
-> +
-> +	  If unsure, say N.
-> diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-> index cbc509784b2e..03748a55a12b 100644
-> --- a/drivers/nvme/host/Makefile
-> +++ b/drivers/nvme/host/Makefile
-> @@ -20,6 +20,7 @@ nvme-core-$(CONFIG_NVME_HWMON)		+= hwmon.o
->   nvme-y					+= pci.o
->   
->   nvme-fabrics-y				+= fabrics.o
-> +nvme-fabrics-$(CONFIG_NVME_AUTH)	+= auth.o
->   
->   nvme-rdma-y				+= rdma.o
->   
-> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> new file mode 100644
-> index 000000000000..448a3adebea6
-> --- /dev/null
-> +++ b/drivers/nvme/host/auth.c
-> @@ -0,0 +1,813 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2020 Hannes Reinecke, SUSE Linux
-> + */
-> +
-> +#include <linux/crc32.h>
-> +#include <linux/base64.h>
-> +#include <asm/unaligned.h>
-> +#include <crypto/hash.h>
-> +#include <crypto/kpp.h>
-> +#include "nvme.h"
-> +#include "fabrics.h"
-> +#include "auth.h"
-> +
-> +static u32 nvme_dhchap_seqnum;
-> +
-> +struct nvme_dhchap_context {
-
-Maybe nvme_dhchap_queue_context ?
-
-I'm thinking that we should perhaps split
-it to host-wide, subsys-wide and queue specific
-auth contexts?
-
-Let's see...
-
-> +	struct crypto_shash *shash_tfm;
-> +	unsigned char *key;
-> +	size_t key_len;
-> +	int qid;
-> +	u32 s1;
-> +	u32 s2;
-> +	u16 transaction;
-> +	u8 status;
-> +	u8 hash_id;
-> +	u8 hash_len;
-> +	u8 c1[64];
-> +	u8 c2[64];
-> +	u8 response[64];
-> +	u8 *ctrl_key;
-> +	int ctrl_key_len;
-> +	u8 *host_key;
-> +	int host_key_len;
-> +	u8 *sess_key;
-> +	int sess_key_len;
-> +};
-> +
-> +struct nvmet_dhchap_hash_map {
-
-nvmet?
-
-> +	int id;
-> +	int hash_len;
-> +	const char hmac[15];
-> +	const char digest[15];
-> +} hash_map[] = {
-> +	{.id = NVME_AUTH_DHCHAP_HASH_SHA256,
-> +	 .hash_len = 32,
-> +	 .hmac = "hmac(sha256)", .digest = "sha256" },
-> +	{.id = NVME_AUTH_DHCHAP_HASH_SHA384,
-> +	 .hash_len = 48,
-> +	 .hmac = "hmac(sha384)", .digest = "sha384" },
-> +	{.id = NVME_AUTH_DHCHAP_HASH_SHA512,
-> +	 .hash_len = 64,
-> +	 .hmac = "hmac(sha512)", .digest = "sha512" },
-> +};
-> +
-> +const char *nvme_auth_hmac_name(int hmac_id)
-
-Should these arrays be static?
-
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
-> +		if (hash_map[i].id == hmac_id)
-> +			return hash_map[i].hmac;
-> +	}
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_auth_hmac_name);
-> +
-> +const char *nvme_auth_digest_name(int hmac_id)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
-> +		if (hash_map[i].id == hmac_id)
-> +			return hash_map[i].digest;
-> +	}
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_auth_digest_name);
-> +
-> +int nvme_auth_hmac_len(int hmac_id)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
-> +		if (hash_map[i].id == hmac_id)
-> +			return hash_map[i].hash_len;
-> +	}
-> +	return -1;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_auth_hmac_len);
-> +
-> +int nvme_auth_hmac_id(const char *hmac_name)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
-> +		if (!strncmp(hash_map[i].hmac, hmac_name,
-> +			     strlen(hash_map[i].hmac)))
-> +			return hash_map[i].id;
-> +	}
-> +	return -1;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_auth_hmac_id);
-> +
-> +unsigned char *nvme_auth_extract_secret(unsigned char *dhchap_secret,
-> +					size_t *dhchap_key_len)
-> +{
-> +	unsigned char *dhchap_key;
-> +	u32 crc;
-> +	int key_len;
-> +	size_t allocated_len;
-> +
-> +	allocated_len = strlen(dhchap_secret) - 10;
-
-the 10 feels like a magic here, should at least note this is the
-"DHHC-1:..." prefix.
-
-> +	dhchap_key = kzalloc(allocated_len, GFP_KERNEL);
-> +	if (!dhchap_key)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	key_len = base64_decode(dhchap_secret + 10,
-> +				allocated_len, dhchap_key);
-> +	if (key_len != 36 && key_len != 52 &&
-> +	    key_len != 68) {
-> +		pr_debug("Invalid DH-HMAC-CHAP key len %d\n",
-> +			 key_len);
-> +		kfree(dhchap_key);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +	pr_debug("DH-HMAC-CHAP Key: %*ph\n",
-> +		 (int)key_len, dhchap_key);
-
-One can argue if even printing this is problematic..
-
-> +
-> +	/* The last four bytes is the CRC in little-endian format */
-> +	key_len -= 4;
-> +	/*
-> +	 * The linux implementation doesn't do pre- and post-increments,
-> +	 * so we have to do it manually.
-> +	 */
-> +	crc = ~crc32(~0, dhchap_key, key_len);
-> +
-> +	if (get_unaligned_le32(dhchap_key + key_len) != crc) {
-> +		pr_debug("DH-HMAC-CHAP crc mismatch (key %08x, crc %08x)\n",
-> +		       get_unaligned_le32(dhchap_key + key_len), crc);
-> +		kfree(dhchap_key);
-> +		return ERR_PTR(-EKEYREJECTED);
-> +	}
-> +	*dhchap_key_len = key_len;
-> +	return dhchap_key;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_auth_extract_secret);
-> +
-> +static int nvme_auth_send(struct nvme_ctrl *ctrl, int qid,
-> +			  void *data, size_t tl)
-> +{
-> +	struct nvme_command cmd = {};
-> +	blk_mq_req_flags_t flags = qid == NVME_QID_ANY ?
-> +		0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED;
-> +	struct request_queue *q = qid == NVME_QID_ANY ?
-> +		ctrl->fabrics_q : ctrl->connect_q;
-> +	int ret;
-> +
-> +	cmd.auth_send.opcode = nvme_fabrics_command;
-> +	cmd.auth_send.fctype = nvme_fabrics_type_auth_send;
-> +	cmd.auth_send.secp = NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER;
-> +	cmd.auth_send.spsp0 = 0x01;
-> +	cmd.auth_send.spsp1 = 0x01;
-> +	cmd.auth_send.tl = tl;
-> +
-> +	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, tl, 0, qid,
-> +				     0, flags);
-> +	if (ret)
-> +		dev_dbg(ctrl->device,
-> +			"%s: qid %d error %d\n", __func__, qid, ret);
-
-Maybe a little more informative print rather than __func__ ?
-
-> +	return ret;
-> +}
-> +
-> +static int nvme_auth_receive(struct nvme_ctrl *ctrl, int qid,
-> +			     void *buf, size_t al,
-> +			     u16 transaction, u8 expected_msg )
-> +{
-> +	struct nvme_command cmd = {};
-> +	struct nvmf_auth_dhchap_failure_data *data = buf;
-> +	blk_mq_req_flags_t flags = qid == NVME_QID_ANY ?
-> +		0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED;
-> +	struct request_queue *q = qid == NVME_QID_ANY ?
-> +		ctrl->fabrics_q : ctrl->connect_q;
-> +	int ret;
-> +
-> +	cmd.auth_receive.opcode = nvme_fabrics_command;
-> +	cmd.auth_receive.fctype = nvme_fabrics_type_auth_receive;
-> +	cmd.auth_receive.secp = NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER;
-> +	cmd.auth_receive.spsp0 = 0x01;
-> +	cmd.auth_receive.spsp1 = 0x01;
-> +	cmd.auth_receive.al = al;
-> +
-> +	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, buf, al, 0, qid,
-> +				     0, flags);
-> +	if (ret > 0) {
-> +		dev_dbg(ctrl->device, "%s: qid %d nvme status %x\n",
-> +			__func__, qid, ret);
-> +		ret = -EIO;
-> +	}
-> +	if (ret < 0) {
-> +		dev_dbg(ctrl->device, "%s: qid %d error %d\n",
-> +			__func__, qid, ret);
-> +		return ret;
-> +	}
-> +	dev_dbg(ctrl->device, "%s: qid %d auth_type %d auth_id %x\n",
-> +		__func__, qid, data->auth_type, data->auth_id);
-> +	if (data->auth_type == NVME_AUTH_COMMON_MESSAGES &&
-> +	    data->auth_id == NVME_AUTH_DHCHAP_MESSAGE_FAILURE1) {
-> +		return data->reason_code_explanation;
-> +	}
-> +	if (data->auth_type != NVME_AUTH_DHCHAP_MESSAGES ||
-> +	    data->auth_id != expected_msg) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d invalid message %02x/%02x\n",
-> +			 qid, data->auth_type, data->auth_id);
-> +		return NVME_AUTH_DHCHAP_FAILURE_INVALID_PAYLOAD;
-> +	}
-> +	if (le16_to_cpu(data->t_id) != transaction) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d invalid transaction ID %d\n",
-> +			 qid, le16_to_cpu(data->t_id));
-> +		return NVME_AUTH_DHCHAP_FAILURE_INVALID_PAYLOAD;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int nvme_auth_dhchap_negotiate(struct nvme_ctrl *ctrl,
-> +				      struct nvme_dhchap_context *chap,
-> +				      void *buf, size_t buf_size)
-
-Maybe nvme_auth_set_dhchap_negotiate_data ?
-
-> +{
-> +	struct nvmf_auth_dhchap_negotiate_data *data = buf;
-> +	size_t size = sizeof(*data) + sizeof(union nvmf_auth_protocol);
-> +
-> +	if (buf_size < size)
-> +		return -EINVAL;
-> +
-> +	memset((u8 *)buf, 0, size);
-> +	data->auth_type = NVME_AUTH_COMMON_MESSAGES;
-> +	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
-> +	data->t_id = cpu_to_le16(chap->transaction);
-> +	data->sc_c = 0; /* No secure channel concatenation */
-> +	data->napd = 1;
-> +	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
-> +	data->auth_protocol[0].dhchap.halen = 3;
-> +	data->auth_protocol[0].dhchap.dhlen = 1;
-> +	data->auth_protocol[0].dhchap.idlist[0] = NVME_AUTH_DHCHAP_HASH_SHA256;
-> +	data->auth_protocol[0].dhchap.idlist[1] = NVME_AUTH_DHCHAP_HASH_SHA384;
-> +	data->auth_protocol[0].dhchap.idlist[2] = NVME_AUTH_DHCHAP_HASH_SHA512;
-> +	data->auth_protocol[0].dhchap.idlist[3] = NVME_AUTH_DHCHAP_DHGROUP_NULL;
-You should comment that this routine expects buf to have enough
-room for both negotiate and auth_proto structures.
-
-> +
-> +	return size;
-> +}
-> +
-> +static int nvme_auth_dhchap_challenge(struct nvme_ctrl *ctrl,
-> +				      struct nvme_dhchap_context *chap,
-> +				      void *buf, size_t buf_size)
-
-Maybe nvme_auth_process_dhchap_challange ?
-
-> +{
-> +	struct nvmf_auth_dhchap_challenge_data *data = buf;
-> +	size_t size = sizeof(*data) + data->hl + data->dhvlen;
-> +	const char *gid_name;
-> +
-> +	if (buf_size < size) {
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_INVALID_PAYLOAD;
-> +		return -ENOMSG;
-> +	}
-> +
-> +	if (data->hashid != NVME_AUTH_DHCHAP_HASH_SHA256 &&
-> +	    data->hashid != NVME_AUTH_DHCHAP_HASH_SHA384 &&
-> +	    data->hashid != NVME_AUTH_DHCHAP_HASH_SHA512) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d: DH-HMAC-CHAP: invalid HASH ID %d\n",
-> +			 chap->qid, data->hashid);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-> +		return -EPROTO;
-> +	}
-> +	switch (data->dhgid) {
-> +	case NVME_AUTH_DHCHAP_DHGROUP_NULL:
-> +		gid_name = "null";
-> +		break;
-> +	default:
-> +		gid_name = NULL;
-> +		break;
-> +	}
-> +	if (!gid_name) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d: DH-HMAC-CHAP: invalid DH group id %d\n",
-> +			 chap->qid, data->dhgid);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
-> +		return -EPROTO;
-> +	}
-
-Maybe some spaces between condition blocks?
-
-> +	if (data->dhgid != NVME_AUTH_DHCHAP_DHGROUP_NULL) {
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
-> +		return -EPROTO;
-> +	}
-> +	if (data->dhgid == NVME_AUTH_DHCHAP_DHGROUP_NULL && data->dhvlen != 0) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d: DH-HMAC-CHAP: invalid DH value for NULL DH\n",
-> +			chap->qid);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
-> +		return -EPROTO;
-> +	}
-> +	dev_dbg(ctrl->device, "%s: qid %d requested hash id %d\n",
-> +		__func__, chap->qid, data->hashid);
-> +	if (nvme_auth_hmac_len(data->hashid) != data->hl) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d: DH-HMAC-CHAP: invalid hash length\n",
-> +			chap->qid);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-> +		return -EPROTO;
-> +	}
-> +	chap->hash_id = data->hashid;
-> +	chap->hash_len = data->hl;
-> +	chap->s1 = le32_to_cpu(data->seqnum);
-> +	memcpy(chap->c1, data->cval, chap->hash_len);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nvme_auth_dhchap_reply(struct nvme_ctrl *ctrl,
-> +				  struct nvme_dhchap_context *chap,
-> +				  void *buf, size_t buf_size)
-
-nvme_auth_set_dhchap_reply
-
-> +{
-> +	struct nvmf_auth_dhchap_reply_data *data = buf;
-> +	size_t size = sizeof(*data);
-> +
-> +	size += 2 * chap->hash_len;
-> +	if (ctrl->opts->dhchap_auth) {
-
-The ctrl opts is not clear to me. what is dhchap_auth
-mean?
-
-Also shouldn't these params be lifted to the subsys?
-
-> +		get_random_bytes(chap->c2, chap->hash_len);
-> +		chap->s2 = nvme_dhchap_seqnum++;
-> +	} else
-> +		memset(chap->c2, 0, chap->hash_len);
-> +
-> +	if (chap->host_key_len)
-> +		size += chap->host_key_len;
-> +
-> +	if (buf_size < size)
-> +		return -EINVAL;
-> +
-> +	memset(buf, 0, size);
-> +	data->auth_type = NVME_AUTH_DHCHAP_MESSAGES;
-> +	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_REPLY;
-> +	data->t_id = cpu_to_le16(chap->transaction);
-> +	data->hl = chap->hash_len;
-> +	data->dhvlen = chap->host_key_len;
-> +	data->seqnum = cpu_to_le32(chap->s2);
-> +	memcpy(data->rval, chap->response, chap->hash_len);
-> +	if (ctrl->opts->dhchap_auth) {
-> +		dev_dbg(ctrl->device, "%s: qid %d ctrl challenge %*ph\n",
-> +			__func__, chap->qid,
-> +			chap->hash_len, chap->c2);
-> +		data->cvalid = 1;
-> +		memcpy(data->rval + chap->hash_len, chap->c2,
-> +		       chap->hash_len);
-> +	}
-> +	if (chap->host_key_len)
-> +		memcpy(data->rval + 2 * chap->hash_len, chap->host_key,
-> +		       chap->host_key_len);
-> +
-> +	return size;
-> +}
-> +
-> +static int nvme_auth_dhchap_success1(struct nvme_ctrl *ctrl,
-> +				     struct nvme_dhchap_context *chap,
-> +				     void *buf, size_t buf_size)
-
-nvme_auth_process_dhchap_success1
-
-> +{
-> +	struct nvmf_auth_dhchap_success1_data *data = buf;
-> +	size_t size = sizeof(*data);
-> +
-> +	if (ctrl->opts->dhchap_auth)
-> +		size += chap->hash_len;
-> +
-> +
-> +	if (buf_size < size) {
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_INVALID_PAYLOAD;
-> +		return -ENOMSG;
-> +	}
-> +
-> +	if (data->hl != chap->hash_len) {
-> +		dev_warn(ctrl->device,
-> +			 "qid %d: DH-HMAC-CHAP: invalid hash length %d\n",
-> +			 chap->qid, data->hl);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-> +		return -EPROTO;
-> +	}
-> +
-> +	if (!data->rvalid)
-> +		return 0;
-> +
-> +	/* Validate controller response */
-> +	if (memcmp(chap->response, data->rval, data->hl)) {
-> +		dev_dbg(ctrl->device, "%s: qid %d ctrl response %*ph\n",
-> +			__func__, chap->qid, chap->hash_len, data->rval);
-> +		dev_dbg(ctrl->device, "%s: qid %d host response %*ph\n",
-> +			__func__, chap->qid, chap->hash_len, chap->response);
-> +		dev_warn(ctrl->device,
-> +			 "qid %d: DH-HMAC-CHAP: controller authentication failed\n",
-> +			 chap->qid);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_INVALID_PAYLOAD;
-> +		return -EPROTO;
-> +	}
-> +	dev_info(ctrl->device,
-> +		 "qid %d: DH-HMAC-CHAP: controller authenticated\n",
-> +		chap->qid);
-> +	return 0;
-> +}
-> +
-> +static int nvme_auth_dhchap_success2(struct nvme_ctrl *ctrl,
-> +				     struct nvme_dhchap_context *chap,
-> +				     void *buf, size_t buf_size)
-
-same
-
-> +{
-> +	struct nvmf_auth_dhchap_success2_data *data = buf;
-> +	size_t size = sizeof(*data);
-> +
-> +	memset(buf, 0, size);
-> +	data->auth_type = NVME_AUTH_DHCHAP_MESSAGES;
-> +	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2;
-> +	data->t_id = cpu_to_le16(chap->transaction);
-> +
-> +	return size;
-> +}
-> +
-> +static int nvme_auth_dhchap_failure2(struct nvme_ctrl *ctrl,
-> +				     struct nvme_dhchap_context *chap,
-> +				     void *buf, size_t buf_size)
-
-same
-
-> +{
-> +	struct nvmf_auth_dhchap_failure_data *data = buf;
-> +	size_t size = sizeof(*data);
-> +
-> +	memset(buf, 0, size);
-> +	data->auth_type = NVME_AUTH_DHCHAP_MESSAGES;
-> +	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_FAILURE2;
-> +	data->t_id = cpu_to_le16(chap->transaction);
-> +	data->reason_code = 1;
-> +	data->reason_code_explanation = chap->status;
-> +
-> +	return size;
-> +}
-> +
-> +int nvme_auth_select_hash(struct nvme_ctrl *ctrl,
-> +			  struct nvme_dhchap_context *chap)
-
-Maybe _select_hf (hash function)? not a must, just sticks
-to the spec language.
-
-> +{
-> +	char *hash_name;
-> +	int ret;
-> +
-> +	switch (chap->hash_id) {
-> +	case NVME_AUTH_DHCHAP_HASH_SHA256:
-> +		hash_name = "hmac(sha256)";
-> +		break;
-> +	case NVME_AUTH_DHCHAP_HASH_SHA384:
-> +		hash_name = "hmac(sha384)";
-> +		break;
-> +	case NVME_AUTH_DHCHAP_HASH_SHA512:
-> +		hash_name = "hmac(sha512)";
-> +		break;
-> +	default:
-> +		hash_name = NULL;
-> +		break;
-> +	}
-> +	if (!hash_name) {
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
-> +		return -EPROTO;
-> +	}
-> +	chap->shash_tfm = crypto_alloc_shash(hash_name, 0,
-> +					     CRYPTO_ALG_ALLOCATES_MEMORY);
-> +	if (IS_ERR(chap->shash_tfm)) {
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
-> +		chap->shash_tfm = NULL;
-> +		return -EPROTO;
-> +	}
-> +	if (!chap->key) {
-> +		dev_warn(ctrl->device, "qid %d: cannot select hash, no key\n",
-> +			 chap->qid);
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
-> +		crypto_free_shash(chap->shash_tfm);
-
-Wouldn't it better to check this before allocating the tfm?
-
-> +		chap->shash_tfm = NULL;
-> +		return -EINVAL;
-> +	}
-> +	ret = crypto_shash_setkey(chap->shash_tfm, chap->key, chap->key_len);
-> +	if (ret) {
-> +		chap->status = NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE;
-> +		crypto_free_shash(chap->shash_tfm);
-> +		chap->shash_tfm = NULL;
-> +		return ret;
-> +	}
-> +	dev_info(ctrl->device, "qid %d: DH-HMAC_CHAP: selected hash %s\n",
-> +		 chap->qid, hash_name);
-> +	return 0;
-> +}
-> +
-> +static int nvme_auth_dhchap_host_response(struct nvme_ctrl *ctrl,
-> +					  struct nvme_dhchap_context *chap)
-> +{
-> +	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
-> +	u8 buf[4], *challenge = chap->c1;
-> +	int ret;
-> +
-> +	dev_dbg(ctrl->device, "%s: qid %d host response seq %d transaction %d\n",
-> +		__func__, chap->qid, chap->s1, chap->transaction);
-> +	shash->tfm = chap->shash_tfm;
-> +	ret = crypto_shash_init(shash);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, challenge, chap->hash_len);
-> +	if (ret)
-> +		goto out;
-> +	put_unaligned_le32(chap->s1, buf);
-> +	ret = crypto_shash_update(shash, buf, 4);
-> +	if (ret)
-> +		goto out;
-> +	put_unaligned_le16(chap->transaction, buf);
-> +	ret = crypto_shash_update(shash, buf, 2);
-> +	if (ret)
-> +		goto out;
-> +	memset(buf, 0, sizeof(buf));
-> +	ret = crypto_shash_update(shash, buf, 1);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, "HostHost", 8);
-
-HostHost ? Can you refer me to the specific section
-that talks about this?
-
-Would be good to have a comment on the format fed to the
-shash.
-
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
-> +				  strlen(ctrl->opts->host->nqn));
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, buf, 1);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
-> +			    strlen(ctrl->opts->subsysnqn));
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_final(shash, chap->response);
-> +out:
-> +	return ret;
-> +}
-> +
-> +static int nvme_auth_dhchap_ctrl_response(struct nvme_ctrl *ctrl,
-> +					  struct nvme_dhchap_context *chap)
-> +{
-> +	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
-> +	u8 buf[4], *challenge = chap->c2;
-> +	int ret;
-> +
-> +	dev_dbg(ctrl->device, "%s: qid %d host response seq %d transaction %d\n",
-> +		__func__, chap->qid, chap->s2, chap->transaction);
-> +	dev_dbg(ctrl->device, "%s: qid %d challenge %*ph\n",
-> +		__func__, chap->qid, chap->hash_len, challenge);
-> +	dev_dbg(ctrl->device, "%s: qid %d subsysnqn %s\n",
-> +		__func__, chap->qid, ctrl->opts->subsysnqn);
-> +	dev_dbg(ctrl->device, "%s: qid %d hostnqn %s\n",
-> +		__func__, chap->qid, ctrl->opts->host->nqn);
-> +	shash->tfm = chap->shash_tfm;
-> +	ret = crypto_shash_init(shash);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, challenge, chap->hash_len);
-> +	if (ret)
-> +		goto out;
-> +	put_unaligned_le32(chap->s2, buf);
-> +	ret = crypto_shash_update(shash, buf, 4);
-> +	if (ret)
-> +		goto out;
-> +	put_unaligned_le16(chap->transaction, buf);
-> +	ret = crypto_shash_update(shash, buf, 2);
-> +	if (ret)
-> +		goto out;
-> +	memset(buf, 0, 4);
-> +	ret = crypto_shash_update(shash, buf, 1);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, "Controller", 10);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
-> +				  strlen(ctrl->opts->subsysnqn));
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, buf, 1);
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
-> +				  strlen(ctrl->opts->host->nqn));
-> +	if (ret)
-> +		goto out;
-> +	ret = crypto_shash_final(shash, chap->response);
-> +out:
-> +	return ret;
-> +}
-> +
-> +int nvme_auth_generate_key(struct nvme_ctrl *ctrl,
-> +			   struct nvme_dhchap_context *chap)
-> +{
-> +	int ret;
-> +	u8 key_hash;
-> +	const char *hmac_name;
-> +	struct crypto_shash *key_tfm;
-> +
-> +	if (sscanf(ctrl->opts->dhchap_secret, "DHHC-1:%hhd:%*s:",
-> +		   &key_hash) != 1)
-> +		return -EINVAL;
-
-I'd expect that the user will pass in a secret key (as binary)
-the the driver will build the spec compliant formatted string no?
-
-Am I not reading this correctly?
-
-> +
-> +	chap->key = nvme_auth_extract_secret(ctrl->opts->dhchap_secret,
-> +					     &chap->key_len);
-> +	if (IS_ERR(chap->key)) {
-> +		ret = PTR_ERR(chap->key);
-> +		chap->key = NULL;
-> +		return ret;
-> +	}
-> +
-> +	if (key_hash == 0)
-> +		return 0;
-> +
-> +	hmac_name = nvme_auth_hmac_name(key_hash);
-> +	if (!hmac_name) {
-> +		pr_debug("Invalid key hash id %d\n", key_hash);
-> +		return -EKEYREJECTED;
-> +	}
-
-Why does the user influence the hmac used? isn't that is driven
-by the susbsystem?
-
-I don't think that the user should choose in this level.
-
-> +
-> +	key_tfm = crypto_alloc_shash(hmac_name, 0, 0);
-> +	if (IS_ERR(key_tfm)) {
-> +		kfree(chap->key);
-> +		chap->key = NULL;
-> +		ret = PTR_ERR(key_tfm);
-
-You set ret and later return 0? I think that the success
-path in the else clause is hard to read and error prone...
-
-> +	} else {
-> +		SHASH_DESC_ON_STACK(shash, key_tfm);
-> +
-> +		shash->tfm = key_tfm;
-> +		ret = crypto_shash_setkey(key_tfm, chap->key,
-> +					  chap->key_len);
-> +		if (ret < 0) {
-> +			crypto_free_shash(key_tfm);
-> +			kfree(chap->key);
-> +			chap->key = NULL;
-> +			return ret;
-> +		}
-> +		crypto_shash_init(shash);
-> +		crypto_shash_update(shash, ctrl->opts->host->nqn,
-> +				    strlen(ctrl->opts->host->nqn));
-> +		crypto_shash_update(shash, "NVMe-over-Fabrics", 17);
-> +		crypto_shash_final(shash, chap->key);
-> +		crypto_free_shash(key_tfm);
-
-Shouldn't these be done when preparing the dh-hmac-chap reply?
-
-> +	}
-> +	return 0;
-> +}
-> +
-> +void nvme_auth_free(struct nvme_dhchap_context *chap)
-> +{
-> +	if (chap->shash_tfm)
-> +		crypto_free_shash(chap->shash_tfm);
-> +	if (chap->key)
-> +		kfree(chap->key);
-> +	if (chap->ctrl_key)
-> +		kfree(chap->ctrl_key);
-> +	if (chap->host_key)
-> +		kfree(chap->host_key);
-> +	if (chap->sess_key)
-> +		kfree(chap->sess_key);
-
-No need to check null for kfree...
-
-> +	kfree(chap);
-> +}
-> +
-> +int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
-> +{
-> +	struct nvme_dhchap_context *chap;
-> +	void *buf;
-> +	size_t buf_size, tl;
-> +	int ret = 0;
-> +
-> +	chap = kzalloc(sizeof(*chap), GFP_KERNEL);
-> +	if (!chap)
-> +		return -ENOMEM;
-> +	chap->qid = qid;
-> +	chap->transaction = ctrl->transaction++;
-> +
-> +	ret = nvme_auth_generate_key(ctrl, chap);
-> +	if (ret) {
-> +		dev_dbg(ctrl->device, "%s: failed to generate key, error %d\n",
-> +			__func__, ret);
-> +		nvme_auth_free(chap);
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * Allocate a large enough buffer for the entire negotiation:
-> +	 * 4k should be enough to ffdhe8192.
-> +	 */
-> +	buf_size = 4096;
-> +	buf = kzalloc(buf_size, GFP_KERNEL);
-> +	if (!buf) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	/* DH-HMAC-CHAP Step 1: send negotiate */
-
-I'd consider breaking these into sub-routines.
-
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP negotiate\n",
-> +		__func__, qid);
-> +	ret = nvme_auth_dhchap_negotiate(ctrl, chap, buf, buf_size);
-> +	if (ret < 0)
-> +		goto out;
-> +	tl = ret;
-> +	ret = nvme_auth_send(ctrl, qid, buf, tl);
-> +	if (ret)
-> +		goto out;
-> +
-> +	memset(buf, 0, buf_size);
-> +	ret = nvme_auth_receive(ctrl, qid, buf, buf_size, chap->transaction,
-> +				NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE);
-> +	if (ret < 0) {
-> +		dev_dbg(ctrl->device,
-> +			"%s: qid %d DH-HMAC-CHAP failed to receive challenge\n",
-> +			__func__, qid);
-> +		goto out;
-> +	}
-> +	if (ret > 0) {
-> +		chap->status = ret;
-> +		goto fail1;
-> +	}
-> +
-> +	/* DH-HMAC-CHAP Step 2: receive challenge */
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP challenge\n",
-> +		__func__, qid);
-> +
-> +	ret = nvme_auth_dhchap_challenge(ctrl, chap, buf, buf_size);
-> +	if (ret) {
-> +		/* Invalid parameters for negotiate */
-> +		goto fail2;
-> +	}
-> +
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP select hash\n",
-> +		__func__, qid);
-> +	ret = nvme_auth_select_hash(ctrl, chap);
-> +	if (ret)
-> +		goto fail2;
-> +
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP host response\n",
-> +		__func__, qid);
-> +	ret = nvme_auth_dhchap_host_response(ctrl, chap);
-> +	if (ret)
-> +		goto fail2;
-> +
-> +	/* DH-HMAC-CHAP Step 3: send reply */
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP reply\n",
-> +		__func__, qid);
-> +	ret = nvme_auth_dhchap_reply(ctrl, chap, buf, buf_size);
-> +	if (ret < 0)
-> +		goto fail2;
-> +
-> +	tl = ret;
-> +	ret = nvme_auth_send(ctrl, qid, buf, tl);
-> +	if (ret)
-> +		goto fail2;
-> +
-> +	memset(buf, 0, buf_size);
-> +	ret = nvme_auth_receive(ctrl, qid, buf, buf_size, chap->transaction,
-> +				NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1);
-> +	if (ret < 0) {
-> +		dev_dbg(ctrl->device,
-> +			"%s: qid %d DH-HMAC-CHAP failed to receive success1\n",
-> +			__func__, qid);
-> +		goto out;
-> +	}
-> +	if (ret > 0) {
-> +		chap->status = ret;
-> +		goto fail1;
-> +	}
-> +
-> +	if (ctrl->opts->dhchap_auth) {
-> +		dev_dbg(ctrl->device,
-> +			"%s: qid %d DH-HMAC-CHAP controller response\n",
-> +			__func__, qid);
-> +		ret = nvme_auth_dhchap_ctrl_response(ctrl, chap);
-> +		if (ret)
-> +			goto fail2;
-> +	}
-> +
-> +	/* DH-HMAC-CHAP Step 4: receive success1 */
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP success1\n",
-> +		__func__, qid);
-> +	ret = nvme_auth_dhchap_success1(ctrl, chap, buf, buf_size);
-> +	if (ret < 0) {
-> +		/* Controller authentication failed */
-> +		goto fail2;
-> +	}
-> +	tl = ret;
-> +	/* DH-HMAC-CHAP Step 5: send success2 */
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP success2\n",
-> +		__func__, qid);
-> +	tl = nvme_auth_dhchap_success2(ctrl, chap, buf, buf_size);
-> +	ret = nvme_auth_send(ctrl, qid, buf, tl);
-> +	if (!ret)
-> +		goto out;
-> +
-> +fail1:
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP failure1, status %x\n",
-> +		__func__, qid, chap->status);
-> +	goto out;
-> +
-> +fail2:
-> +	dev_dbg(ctrl->device, "%s: qid %d DH-HMAC-CHAP failure2, status %x\n",
-> +		__func__, qid, chap->status);
-> +	tl = nvme_auth_dhchap_failure2(ctrl, chap, buf, buf_size);
-> +	ret = nvme_auth_send(ctrl, qid, buf, tl);
-> +
-> +out:
-> +	if (!ret && chap->status)
-> +		ret = -EPROTO;
-> +	if (!ret) {
-> +		ctrl->dhchap_hash = chap->hash_id;
-> +	}
-> +	kfree(buf);
-> +	nvme_auth_free(chap);
-> +	return ret;
-> +}
-> diff --git a/drivers/nvme/host/auth.h b/drivers/nvme/host/auth.h
-> new file mode 100644
-> index 000000000000..4950b1cb9470
-> --- /dev/null
-> +++ b/drivers/nvme/host/auth.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2021 Hannes Reinecke, SUSE Software Solutions
-> + */
-> +
-> +#ifndef _NVME_AUTH_H
-> +#define _NVME_AUTH_H
-> +
-> +const char *nvme_auth_dhgroup_name(int dhgroup_id);
-> +int nvme_auth_dhgroup_pubkey_size(int dhgroup_id);
-> +int nvme_auth_dhgroup_privkey_size(int dhgroup_id);
-> +const char *nvme_auth_dhgroup_kpp(int dhgroup_id);
-> +int nvme_auth_dhgroup_id(const char *dhgroup_name);
-> +
-> +const char *nvme_auth_hmac_name(int hmac_id);
-> +const char *nvme_auth_digest_name(int hmac_id);
-> +int nvme_auth_hmac_id(const char *hmac_name);
-> +int nvme_auth_hmac_len(int hmac_len);
-> +
-> +unsigned char *nvme_auth_extract_secret(unsigned char *dhchap_secret,
-> +					size_t *dhchap_key_len);
-> +
-> +#endif /* _NVME_AUTH_H */
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 11779be42186..7ce9b666dc09 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -708,7 +708,9 @@ bool __nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
->   		switch (ctrl->state) {
->   		case NVME_CTRL_CONNECTING:
->   			if (blk_rq_is_passthrough(rq) && nvme_is_fabrics(req->cmd) &&
-> -			    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
-> +			    (req->cmd->fabrics.fctype == nvme_fabrics_type_connect ||
-> +			     req->cmd->fabrics.fctype == nvme_fabrics_type_auth_send ||
-> +			     req->cmd->fabrics.fctype == nvme_fabrics_type_auth_receive))
->   				return true;
->   			break;
->   		default:
-> @@ -3426,6 +3428,66 @@ static ssize_t nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
->   static DEVICE_ATTR(fast_io_fail_tmo, S_IRUGO | S_IWUSR,
->   	nvme_ctrl_fast_io_fail_tmo_show, nvme_ctrl_fast_io_fail_tmo_store);
->   
-> +#ifdef CONFIG_NVME_AUTH
-> +struct nvmet_dhchap_hash_map {
-> +	int id;
-> +	const char name[15];
-> +} hash_map[] = {
-> +	{.id = NVME_AUTH_DHCHAP_HASH_SHA256,
-> +	 .name = "hmac(sha256)", },
-> +	{.id = NVME_AUTH_DHCHAP_HASH_SHA384,
-> +	 .name = "hmac(sha384)", },
-> +	{.id = NVME_AUTH_DHCHAP_HASH_SHA512,
-> +	 .name = "hmac(sha512)", },
-> +};
-> +
-> +static ssize_t dhchap_hash_show(struct device *dev,
-> +	struct device_attribute *attr, char *buf)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(hash_map); i++) {
-> +		if (hash_map[i].id == ctrl->dhchap_hash)
-> +			return sprintf(buf, "%s\n", hash_map[i].name);
-> +	}
-> +	return sprintf(buf, "none\n");
-> +}
-> +DEVICE_ATTR_RO(dhchap_hash);
-> +
-> +struct nvmet_dhchap_group_map {
-> +	int id;
-> +	const char name[15];
-> +} dhgroup_map[] = {
-> +	{.id = NVME_AUTH_DHCHAP_DHGROUP_NULL,
-> +	 .name = "NULL", },
-> +	{.id = NVME_AUTH_DHCHAP_DHGROUP_2048,
-> +	 .name = "ffdhe2048", },
-> +	{.id = NVME_AUTH_DHCHAP_DHGROUP_3072,
-> +	 .name = "ffdhe3072", },
-> +	{.id = NVME_AUTH_DHCHAP_DHGROUP_4096,
-> +	 .name = "ffdhe4096", },
-> +	{.id = NVME_AUTH_DHCHAP_DHGROUP_6144,
-> +	 .name = "ffdhe6144", },
-> +	{.id = NVME_AUTH_DHCHAP_DHGROUP_8192,
-> +	 .name = "ffdhe8192", },
-> +};
-> +
-> +static ssize_t dhchap_dhgroup_show(struct device *dev,
-> +	struct device_attribute *attr, char *buf)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(dhgroup_map); i++) {
-> +		if (hash_map[i].id == ctrl->dhchap_dhgroup)
-> +			return sprintf(buf, "%s\n", dhgroup_map[i].name);
-> +	}
-> +	return sprintf(buf, "none\n");
-> +}
-> +DEVICE_ATTR_RO(dhchap_dhgroup);
-> +#endif
-> +
->   static struct attribute *nvme_dev_attrs[] = {
->   	&dev_attr_reset_controller.attr,
->   	&dev_attr_rescan_controller.attr,
-> @@ -3447,6 +3509,10 @@ static struct attribute *nvme_dev_attrs[] = {
->   	&dev_attr_reconnect_delay.attr,
->   	&dev_attr_fast_io_fail_tmo.attr,
->   	&dev_attr_kato.attr,
-> +#ifdef CONFIG_NVME_AUTH
-> +	&dev_attr_dhchap_hash.attr,
-> +	&dev_attr_dhchap_dhgroup.attr,
-> +#endif
->   	NULL
->   };
->   
-> @@ -3470,6 +3536,10 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
->   		return 0;
->   	if (a == &dev_attr_fast_io_fail_tmo.attr && !ctrl->opts)
->   		return 0;
-> +#ifdef CONFIG_NVME_AUTH
-> +	if (a == &dev_attr_dhchap_hash.attr && !ctrl->opts)
-> +		return 0;
-> +#endif
->   
->   	return a->mode;
->   }
-> @@ -4581,6 +4651,11 @@ static inline void _nvme_check_size(void)
->   	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
->   	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_directive_cmd) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_negotiate_data) != 8);
-> +	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_challenge_data) != 16);
-> +	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_reply_data) != 16);
-> +	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_success1_data) != 16);
-> +	BUILD_BUG_ON(sizeof(struct nvmf_auth_dhchap_success2_data) != 16);
->   }
->   
->   
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index a5469fd9d4c3..6404ab9b604b 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -366,6 +366,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
->   	union nvme_result res;
->   	struct nvmf_connect_data *data;
->   	int ret;
-> +	u32 result;
->   
->   	cmd.connect.opcode = nvme_fabrics_command;
->   	cmd.connect.fctype = nvme_fabrics_type_connect;
-> @@ -398,8 +399,18 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
->   		goto out_free_data;
->   	}
->   
-> -	ctrl->cntlid = le16_to_cpu(res.u16);
-> -
-> +	result = le32_to_cpu(res.u32);
-> +	ctrl->cntlid = result & 0xFFFF;
-> +	if ((result >> 16) & 2) {
-> +		/* Authentication required */
-> +		ret = nvme_auth_negotiate(ctrl, NVME_QID_ANY);
-> +		if (ret)
-> +			dev_warn(ctrl->device,
-> +				 "qid 0: authentication failed\n");
-> +		else
-> +			dev_info(ctrl->device,
-> +				 "qid 0: authenticated\n");
-
-info is too chatty.
-
-> +	}
->   out_free_data:
->   	kfree(data);
->   	return ret;
-> @@ -432,6 +443,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
->   	struct nvmf_connect_data *data;
->   	union nvme_result res;
->   	int ret;
-> +	u32 result;
->   
->   	cmd.connect.opcode = nvme_fabrics_command;
->   	cmd.connect.fctype = nvme_fabrics_type_connect;
-> @@ -457,6 +469,17 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
->   		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
->   				       &cmd, data);
->   	}
-> +	result = le32_to_cpu(res.u32);
-> +	if ((result >> 16) & 2) {
-> +		/* Authentication required */
-> +		ret = nvme_auth_negotiate(ctrl, qid);
-> +		if (ret)
-> +			dev_warn(ctrl->device,
-> +				 "qid %u: authentication failed\n", qid);
-> +		else
-> +			dev_info(ctrl->device,
-> +				 "qid %u: authenticated\n", qid);
-> +	}
->   	kfree(data);
->   	return ret;
->   }
-> @@ -548,6 +571,9 @@ static const match_table_t opt_tokens = {
->   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
->   	{ NVMF_OPT_TOS,			"tos=%d"		},
->   	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
-> +	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
-> +	{ NVMF_OPT_DHCHAP_AUTH,		"authenticate"		},
-> +	{ NVMF_OPT_DHCHAP_GROUP,	"dhchap_group=%s"	},
-
-Isn't the group driven by the subsystem? also why is there a
-"authenticate" boolean? what is it good for?
-
->   	{ NVMF_OPT_ERR,			NULL			}
->   };
->   
-> @@ -824,6 +850,35 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			}
->   			opts->tos = token;
->   			break;
-> +		case NVMF_OPT_DHCHAP_SECRET:
-> +			p = match_strdup(args);
-> +			if (!p) {
-> +				ret = -ENOMEM;
-> +				goto out;
-> +			}
-> +			if (strncmp(p, "DHHC-1:00:", 10)) {
-> +				pr_err("Invalid DH-CHAP secret %s\n", p);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			kfree(opts->dhchap_secret);
-> +			opts->dhchap_secret = p;
-> +			break;
-> +		case NVMF_OPT_DHCHAP_AUTH:
-> +			opts->dhchap_auth = true;
-> +			break;
-> +		case NVMF_OPT_DHCHAP_GROUP:
-> +			if (match_int(args, &token)) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (token <= 0) {
-> +				pr_err("Invalid dhchap_group %d\n", token);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			opts->dhchap_group = token;
-> +			break;
->   		default:
->   			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
->   				p);
-> @@ -942,6 +997,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
->   	kfree(opts->subsysnqn);
->   	kfree(opts->host_traddr);
->   	kfree(opts->host_iface);
-> +	kfree(opts->dhchap_secret);
->   	kfree(opts);
->   }
->   EXPORT_SYMBOL_GPL(nvmf_free_options);
-> @@ -951,7 +1007,10 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
->   				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
->   				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
->   				 NVMF_OPT_DISABLE_SQFLOW |\
-> -				 NVMF_OPT_FAIL_FAST_TMO)
-> +				 NVMF_OPT_CTRL_LOSS_TMO |\
-> +				 NVMF_OPT_FAIL_FAST_TMO |\
-> +				 NVMF_OPT_DHCHAP_SECRET |\
-> +				 NVMF_OPT_DHCHAP_AUTH | NVMF_OPT_DHCHAP_GROUP)
->   
->   static struct nvme_ctrl *
->   nvmf_create_ctrl(struct device *dev, const char *buf)
-> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-> index a146cb903869..535bc544f0f6 100644
-> --- a/drivers/nvme/host/fabrics.h
-> +++ b/drivers/nvme/host/fabrics.h
-> @@ -67,6 +67,9 @@ enum {
->   	NVMF_OPT_TOS		= 1 << 19,
->   	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
->   	NVMF_OPT_HOST_IFACE	= 1 << 21,
-> +	NVMF_OPT_DHCHAP_SECRET	= 1 << 22,
-> +	NVMF_OPT_DHCHAP_AUTH	= 1 << 23,
-> +	NVMF_OPT_DHCHAP_GROUP	= 1 << 24,
->   };
->   
->   /**
-> @@ -96,6 +99,8 @@ enum {
->    * @max_reconnects: maximum number of allowed reconnect attempts before removing
->    *              the controller, (-1) means reconnect forever, zero means remove
->    *              immediately;
-> + * @dhchap_secret: DH-HMAC-CHAP secret
-> + * @dhchap_auth: DH-HMAC-CHAP authenticate controller
->    * @disable_sqflow: disable controller sq flow control
->    * @hdr_digest: generate/verify header digest (TCP)
->    * @data_digest: generate/verify data digest (TCP)
-> @@ -120,6 +125,9 @@ struct nvmf_ctrl_options {
->   	unsigned int		kato;
->   	struct nvmf_host	*host;
->   	int			max_reconnects;
-> +	char			*dhchap_secret;
-> +	int			dhchap_group;
-> +	bool			dhchap_auth;
->   	bool			disable_sqflow;
->   	bool			hdr_digest;
->   	bool			data_digest;
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 18ef8dd03a90..bcd5b8276c26 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -328,6 +328,12 @@ struct nvme_ctrl {
->   	struct work_struct ana_work;
->   #endif
->   
-> +#ifdef CONFIG_NVME_AUTH
-> +	u16 transaction;
-> +	u8 dhchap_hash;
-> +	u8 dhchap_dhgroup;
-
-Do multiple controllers in the same subsystem have different
-params? no, so I think these should be lifted to subsys.
-
-> +#endif
-> +
->   	/* Power saving configuration */
->   	u64 ps_max_latency_us;
->   	bool apst_enabled;
-> @@ -874,6 +880,15 @@ static inline bool nvme_ctrl_sgl_supported(struct nvme_ctrl *ctrl)
->   	return ctrl->sgls & ((1 << 0) | (1 << 1));
->   }
->   
-> +#ifdef CONFIG_NVME_AUTH
-> +int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
-> +#else
-> +static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
-> +{
-> +	return -EPROTONOSUPPORT;
-> +}
-> +#endif
-> +
->   u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->   			 u8 opcode);
->   int nvme_execute_passthru_rq(struct request *rq);
-> diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-> index 6543015b6121..66f75d8ea925 100644
-> --- a/drivers/nvme/host/trace.c
-> +++ b/drivers/nvme/host/trace.c
-
-I'd split out the tracing logic.
-
-> @@ -271,6 +271,34 @@ static const char *nvme_trace_fabrics_property_get(struct trace_seq *p, u8 *spc)
->   	return ret;
->   }
->   
-> +static const char *nvme_trace_fabrics_auth_send(struct trace_seq *p, u8 *spc)
-> +{
-> +	const char *ret = trace_seq_buffer_ptr(p);
-> +	u8 spsp0 = spc[1];
-> +	u8 spsp1 = spc[2];
-> +	u8 secp = spc[3];
-> +	u32 tl = get_unaligned_le32(spc + 4);
-> +
-> +	trace_seq_printf(p, "spsp0=%02x, spsp1=%02x, secp=%02x, tl=%u",
-> +			 spsp0, spsp1, secp, tl);
-> +	trace_seq_putc(p, 0);
-> +	return ret;
-> +}
-> +
-> +static const char *nvme_trace_fabrics_auth_receive(struct trace_seq *p, u8 *spc)
-> +{
-> +	const char *ret = trace_seq_buffer_ptr(p);
-> +	u8 spsp0 = spc[1];
-> +	u8 spsp1 = spc[2];
-> +	u8 secp = spc[3];
-> +	u32 al = get_unaligned_le32(spc + 4);
-> +
-> +	trace_seq_printf(p, "spsp0=%02x, spsp1=%02x, secp=%02x, al=%u",
-> +			 spsp0, spsp1, secp, al);
-> +	trace_seq_putc(p, 0);
-> +	return ret;
-> +}
-> +
->   static const char *nvme_trace_fabrics_common(struct trace_seq *p, u8 *spc)
->   {
->   	const char *ret = trace_seq_buffer_ptr(p);
-> @@ -290,6 +318,10 @@ const char *nvme_trace_parse_fabrics_cmd(struct trace_seq *p,
->   		return nvme_trace_fabrics_connect(p, spc);
->   	case nvme_fabrics_type_property_get:
->   		return nvme_trace_fabrics_property_get(p, spc);
-> +	case nvme_fabrics_type_auth_send:
-> +		return nvme_trace_fabrics_auth_send(p, spc);
-> +	case nvme_fabrics_type_auth_receive:
-> +		return nvme_trace_fabrics_auth_receive(p, spc);
->   	default:
->   		return nvme_trace_fabrics_common(p, spc);
->   	}
+> > platform device, ...), and it is consumed by blk-mq, so different subsystems
+> > are involved in this info flow
 > 
+> Add period at end of sentence.
+
+OK.
+
+> 
+> > Address this issue by adding one field of .irq_affinity_managed into
+> > 'struct device'.
+> > 
+> > Suggested-by: Christoph Hellwig <hch@lst.de>
+> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> > ---
+> >  drivers/base/platform.c | 7 +++++++
+> >  drivers/pci/msi.c       | 3 +++
+> >  include/linux/device.h  | 1 +
+> >  3 files changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> > index 8640578f45e9..d28cb91d5cf9 100644
+> > --- a/drivers/base/platform.c
+> > +++ b/drivers/base/platform.c
+> > @@ -388,6 +388,13 @@ int devm_platform_get_irqs_affinity(struct platform_device *dev,
+> >  				ptr->irq[i], ret);
+> >  			goto err_free_desc;
+> >  		}
+> > +
+> > +		/*
+> > +		 * mark the device as irq affinity managed if any irq affinity
+> > +		 * descriptor is managed
+> > +		 */
+> > +		if (desc[i].is_managed)
+> > +			dev->dev.irq_affinity_managed = true;
+> >  	}
+> >  
+> >  	devres_add(&dev->dev, ptr);
+> > diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> > index 3d6db20d1b2b..7ddec90b711d 100644
+> > --- a/drivers/pci/msi.c
+> > +++ b/drivers/pci/msi.c
+> > @@ -1197,6 +1197,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+> >  	if (flags & PCI_IRQ_AFFINITY) {
+> >  		if (!affd)
+> >  			affd = &msi_default_affd;
+> > +		dev->dev.irq_affinity_managed = true;
+> 
+> This is really opaque to me.  I can't tell what the connection between
+> PCI_IRQ_AFFINITY and irq_affinity_managed is.
+
+Comment for PCI_IRQ_AFFINITY is 'Auto-assign affinity',
+'irq_affinity_managed' basically means that irq's affinity is managed by
+kernel.
+
+What blk-mq needs is exactly if PCI_IRQ_AFFINITY is applied when
+allocating irq vectors. When PCI_IRQ_AFFINITY is used, genirq will
+shutdown the irq when all CPUs in the assigned affinity are offline,
+then blk-mq has to drain all in-flight IOs which will be completed
+via this irq and prevent new IO. That is the connection.
+
+Or you think 'irq_affinity_managed' isn't named well?
+
+> 
+> AFAICT the only place irq_affinity_managed is ultimately used is
+> blk_mq_hctx_notify_offline(), and there's no obvious connection
+> between that and this code.
+
+I believe the connection is described in comment.
+
+
+Thanks, 
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
