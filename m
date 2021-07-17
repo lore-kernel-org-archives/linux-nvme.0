@@ -2,65 +2,58 @@ Return-Path: <SRS0=Rbl5=MJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_ADSP_ALL,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 766AEC636CA
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 09:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF483C6377C
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 26F3761380
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 09:36:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26F3761380
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 90DB9613BB
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90DB9613BB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=natalenko.name
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MlacwaDk0im1/3CcKGgBqtPfUZ0b4/bWqFCsvb1XNr8=; b=R2avPEn9fbaSMq
-	5e+7yrL/gnKOSyb4FGx+q+ancS1JdfK9RYekgsGccB3FF/6Duaqd438Zq+88k7r3mLlq7857+OgXR
-	Ga/CjONaGHhPOrRPMuFQnHc1rU/yZwU9pa0tkDt3HI0piRnQdZ8WNT57mzM5EvDCVGfQeLRyVeoBK
-	QSjo+JmKl45KITxNA/3Yai9gWqJ1k8kY6SdQnXI83vUl7pkExwDSrYzBw1KB+W/8m7OHD9EQzHCDT
-	nf0vex3hMeKUoLkThZbL3wsV4BRaKtvp+BD8H/NmK1K3Lmvqah7YgzSQPtO50cFbzHGh77dE8kVCh
-	ZUlrS5FxEskRNQjZNEgA==;
+	List-Owner; bh=oNrNSM69i5niCT79fyHb5QNgKI6V4ZiNsKxOM/GwdbE=; b=t9Q7sXbZDN7HSg
+	gs6aKzcXislymwknGexivDfWy904UxmgZyTLv6pG51CeOzxjr0qwBU+/+cCkmYJqZ0x3H5spaVYsc
+	z4JbDF5YqwCo9wl1rr4UuC1B3hvP87q/5wMFq3OobSWCKTdvyLgIaeA9ghp+jmW7KPbIprAbGwEaV
+	uTc6IbGUej28oWngFNRBZRi5EhxJZTxvvuzCa0GUgRi38whrBzI6YougjCnB/QstwuEPvIvmngNmX
+	4cPKED8VbVr0hfdrLeaSRMLMFIT0ra66PV3pyTvasNy7jHTTxOXENKLpLqTA4SJfM82Ryxb4r7G7c
+	EoiTRqhosqyz7/wXEIcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m4gji-006NDl-61; Sat, 17 Jul 2021 09:35:54 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m4gjf-006NDJ-HC
- for linux-nvme@lists.infradead.org; Sat, 17 Jul 2021 09:35:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626514550;
+	id 1m4jA7-006Zbg-0L; Sat, 17 Jul 2021 12:11:19 +0000
+Received: from vulcan.natalenko.name ([2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat
+ Linux)) id 1m4jA4-006Zb6-A9
+ for linux-nvme@lists.infradead.org; Sat, 17 Jul 2021 12:11:18 +0000
+Received: from spock.localnet (unknown [151.237.229.131])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vulcan.natalenko.name (Postfix) with ESMTPSA id 2DE27B3A08A;
+ Sat, 17 Jul 2021 14:11:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+ s=dkim-20170712; t=1626523868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vMfm6Ul5FP8FBIaSxrSqUf9N4MLQ8vm57kxlps+k2qU=;
- b=Ulk/UrRUg1XuRk7jQcPLN6q0hKJz+48LvyicKEdMQXKU9PApsHAUAjd7bS1VgDC0AXd9ZK
- SOBCTJPDaFUBrU9aZ7XsK7XiN6tpzwuXXNDcH1QGOw0leoBgwH7ZlARl8ycWzgcF+ASkci
- BxBKaQpSc/ZkJXvKI/4fVPFAMf/hN6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-br8uF12bMaujpXW8N-2Tmg-1; Sat, 17 Jul 2021 05:35:48 -0400
-X-MC-Unique: br8uF12bMaujpXW8N-2Tmg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5762A1084F53;
- Sat, 17 Jul 2021 09:35:46 +0000 (UTC)
-Received: from T590 (ovpn-12-83.pek2.redhat.com [10.72.12.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C433260862;
- Sat, 17 Jul 2021 09:35:36 +0000 (UTC)
-Date: Sat, 17 Jul 2021 17:35:32 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
+ bh=ZiYmFhPrslmr76pYV3BfLEoydJp7cUW1ZKuTXoytCwI=;
+ b=YZujDnMBrkFpzQGzkoFW9B2bWknm9tOvyaVlFaB+Z0/FpJb/lzOjxiPxvN91gpT5iawQnm
+ SOPJJ/z8NYNuUJNJbGkhCmznPHAT7GXup8QG19ekSVrgWZeqOntWJJ25P+cufOH5gu8Tne
+ 3NArO+yn9Q8P1XcFMoPp+BUojmikwCc=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Ming Lei <ming.lei@redhat.com>
 Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  linux-nvme@lists.infradead.org, David Jeffery <djeffery@redhat.com>,
@@ -70,17 +63,15 @@ Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Keith Busch <kbusch@kernel.org>
 Subject: Re: New warning in nvme_setup_discard
-Message-ID: <YPKkZJWsD84mmKuk@T590>
+Date: Sat, 17 Jul 2021 14:11:05 +0200
+Message-ID: <5053297.vgnLoh5Ws3@natalenko.name>
+In-Reply-To: <YPKkZJWsD84mmKuk@T590>
 References: <4729812.CpyZKHjjVO@natalenko.name>
- <2455133.St5lIfLNcX@natalenko.name> <YPFicCW90Jse4oms@T590>
- <1687461.6WkTYu5mUM@natalenko.name>
+ <1687461.6WkTYu5mUM@natalenko.name> <YPKkZJWsD84mmKuk@T590>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1687461.6WkTYu5mUM@natalenko.name>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210717_023551_701765_14AF6C53 
-X-CRM114-Status: GOOD (  18.43  )
+X-CRM114-CacheID: sfid-20210717_051116_536918_D74D0EAD 
+X-CRM114-Status: GOOD (  11.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,33 +88,24 @@ Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gRnJpLCBKdWwgMTYsIDIwMjEgYXQgMDI6NTY6MjJQTSArMDIwMCwgT2xla3NhbmRyIE5hdGFs
-ZW5rbyB3cm90ZToKPiBPbiBww6F0ZWsgMTYuIMSNZXJ2ZW5jZSAyMDIxIDEyOjQxOjUyIENFU1Qg
-TWluZyBMZWkgd3JvdGU6Cj4gPiA+IERvIEkgdW5kZXJzdGFuZCBjb3JyZWN0bHkgdGhhdCB0aGlz
-IHdpbGwgYmUgc29tZXRoaW5nIGxpa2U6Cj4gPiA+IAo+ID4gPiBGaXhlczogMjcwNWRmYjIwOSAo
-ImJsb2NrOiBmaXggZGlzY2FyZCByZXF1ZXN0IG1lcmdlIikKPiA+ID4gCj4gPiA+ID8KPiA+ID4g
-Cj4gPiA+IEJlY2F1c2UgYXMgdGhlIGJpc2VjdGlvbiBwcm9ncmVzc2VzLCBJJ3ZlIGJ1bXBlZCBp
-bnRvIHRoaXMgY29tbWl0IG9ubHkuCj4gPiA+IFdpdGhvdXQgaXQgdGhlIGlzc3VlIGlzIG5vdCBy
-ZXByb2R1Y2libGUsIGF0IGxlYXN0IHNvIGZhci4KPiA+IAo+ID4gSXQgY291bGQgYmUuCj4gPiAK
-PiA+IFNvIGNhbiB5b3UganVzdCB0ZXN0IHY1LjE0LXJjMT8KPiAKPiBEb2luZyBpdCByaWdodCBu
-b3csIGJ1dCBJJ3ZlIGdvdCBhbm90aGVyIGlzc3VlLiBXaHkgQkZRIGlzIG5vdCBsaXN0ZWQgaGVy
-ZToKPiAKPiBgYGAKPiAvc3lzL2NsYXNzL2Jsb2NrL252bWUwbjEvcXVldWUvc2NoZWR1bGVyOltt
-cS1kZWFkbGluZV0ga3liZXIgbm9uZQo+IC9zeXMvY2xhc3MvYmxvY2svbnZtZTFuMS9xdWV1ZS9z
-Y2hlZHVsZXI6W21xLWRlYWRsaW5lXSBreWJlciBub25lCj4gYGBgCgpNYXliZSB5b3UgbmVlZCB0
-byBjaGVjayBpZiB0aGUgYnVpbGQgaXMgT0ssIEkgY2FuJ3QgcmVwcm9kdWNlIGl0IGluIG15ClZN
-LCBhbmQgQkZRIGlzIHN0aWxsIGJ1aWx0aW46Cgpbcm9vdEBrdGVzdC0wMSB+XSMgdW5hbWUgLWEK
-TGludXgga3Rlc3QtMDEgNS4xNC4wLXJjMSsgIzUyIFNNUCBGcmkgSnVsIDE2IDE4OjU2OjM2IENT
-VCAyMDIxIHg4Nl82NCB4ODZfNjQgeDg2XzY0IEdOVS9MaW51eApbcm9vdEBrdGVzdC0wMSB+XSMg
-Y2F0IC9zeXMvYmxvY2svbnZtZTBuMS9xdWV1ZS9zY2hlZHVsZXIKW25vbmVdIG1xLWRlYWRsaW5l
-IGt5YmVyIGJmcQoKPiAKPiA/Cj4gCj4gSXQgaXMgYSBidWlsdC1pbiwgRldJVzoKPiAKPiBgYGAK
-PiAkIG1vZGluZm8gYmZxCj4gbmFtZTogICAgICAgICAgIGJmcQo+IGZpbGVuYW1lOiAgICAgICAo
-YnVpbHRpbikKPiBkZXNjcmlwdGlvbjogICAgTVEgQnVkZ2V0IEZhaXIgUXVldWVpbmcgSS9PIFNj
-aGVkdWxlcgo+IGxpY2Vuc2U6ICAgICAgICBHUEwKPiBmaWxlOiAgICAgICAgICAgYmxvY2svYmZx
-Cj4gYXV0aG9yOiAgICAgICAgIFBhb2xvIFZhbGVudGUKPiBhbGlhczogICAgICAgICAgYmZxLWlv
-c2NoZWQKPiBgYGAKPiAKPiBTbyBmYXIgdGhlIGlzc3VlIGlzIG5vdCByZXByb2R1Y2libGUgd2l0
-aCB5b3VyIHBhdGNoICsgNS4xMy4yIGFzIHdlbGwgYXMgNS4xNC0KPiByYzEgKGJ1dCBJIGRvbid0
-IGhhdmUgQkZRIGVpdGhlciB3aXRoIHY1LjE0LXJjMSkuCgpZb3UgaGF2ZSB0byB2ZXJpZnkgaXQg
-d2l0aCBCRlEgYXBwbGllZCwgOi0pCgoKVGhhbmtzLCAKTWluZwoKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0Ckxp
-bnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+T24gc29ib3RhIDE3LiDEjWVydmVuY2UgMjAyMSAxMTozNTozMiBDRVNUIE1pbmcgTGVpIHdyb3Rl
+Ogo+IE1heWJlIHlvdSBuZWVkIHRvIGNoZWNrIGlmIHRoZSBidWlsZCBpcyBPSywgSSBjYW4ndCBy
+ZXByb2R1Y2UgaXQgaW4gbXkKPiBWTSwgYW5kIEJGUSBpcyBzdGlsbCBidWlsdGluOgo+IAo+IFty
+b290QGt0ZXN0LTAxIH5dIyB1bmFtZSAtYQo+IExpbnV4IGt0ZXN0LTAxIDUuMTQuMC1yYzErICM1
+MiBTTVAgRnJpIEp1bCAxNiAxODo1NjozNiBDU1QgMjAyMSB4ODZfNjQKPiB4ODZfNjQgeDg2XzY0
+IEdOVS9MaW51eCBbcm9vdEBrdGVzdC0wMSB+XSMgY2F0Cj4gL3N5cy9ibG9jay9udm1lMG4xL3F1
+ZXVlL3NjaGVkdWxlcgo+IFtub25lXSBtcS1kZWFkbGluZSBreWJlciBiZnEKCkkgZG9uJ3QgdGhp
+bmsgdGhpcyBpcyBhbiBpc3N1ZSB3aXRoIHRoZSBidWlsZOKApiBCVFcsIHdpdGggYGluaXRjYWxs
+X2RlYnVnYDoKCmBgYApbICAgIDAuOTAyNTU1XSBjYWxsaW5nICBiZnFfaW5pdCsweDAvMHg4YiBA
+IDEKWyAgICAwLjkwMzQ0OF0gaW5pdGNhbGwgYmZxX2luaXQrMHgwLzB4OGIgcmV0dXJuZWQgLTI4
+IGFmdGVyIDUwNyB1c2VjcwpgYGAKCi1FTk9TUEM/IFdoeT8gQWxzbyByZS10ZXN0ZWQgd2l0aCB0
+aGUgbGF0ZXN0IGdpdCB0aXAsIHNhbWUgcmVzdWx0IDooLgoKPiA+IFNvIGZhciB0aGUgaXNzdWUg
+aXMgbm90IHJlcHJvZHVjaWJsZSB3aXRoIHlvdXIgcGF0Y2ggKyA1LjEzLjIgYXMgd2VsbCBhcwo+
+ID4gNS4xNC0gcmMxIChidXQgSSBkb24ndCBoYXZlIEJGUSBlaXRoZXIgd2l0aCB2NS4xNC1yYzEp
+Lgo+IAo+IFlvdSBoYXZlIHRvIHZlcmlmeSBpdCB3aXRoIEJGUSBhcHBsaWVkLCA6LSkKClVuZGVy
+c3RhbmRhYmxl4oCmIEJUVywgSSdtIHN0aWxsIHJ1bm5pbmcgdjUuMTMuMiB3aXRoIHlvdXIgcGF0
+Y2ggYXBwbGllZCBhbmQgZG8gCm5vdCBzZWUgdGhlIGlzc3VlLgoKLS0gCk9sZWtzYW5kciBOYXRh
+bGVua28gKHBvc3QtZmFjdHVtKQoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmlu
+ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
+aW51eC1udm1lCg==
