@@ -7,91 +7,120 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED09C636C9
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 09:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B20EC07E9B
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 10:04:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 718B26108B
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 09:57:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 718B26108B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id CF1B5610D0
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 10:04:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF1B5610D0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:Subject:From:References:Cc:To:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=NP4ZGO/kyBUuBn6srLEdmx3F4C/jNndX+vkCCQOTXEY=; b=kqv/EuD5UrDIO/UYcU0z24o4Lg
-	hBcWe1S7aFnheW3vajasEQ417F0e88DFfTeSfKvOKKKmDXcOkeNFDzHpihrJTMHhfiIZFpX5Ik3vG
-	x73KIJuGStLol1KhqVXTS5VTwtjYq25/Umiy1lfOmubEW0zqhQnm79tqgcnuuBGblaQ5uYvEjTXac
-	u/v+cAgVFW5tshDsdhUcewa548aiPSaPx/8t6iaWjHPCxGaOGXB8ZYkKaSp98EbV1WnJfY3GYEIGF
-	j0Qf9TdFbgzVkBCK37NJKoYOwe449tk69TYyFPSHfPLNnPSR83YG/RvfkSPww9kPT5j4Ivs6bExza
-	Qs1kMTpw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YxpIGwL7ymwGzVhRcuHv35zrJhpgLmBJudG5XXaGbZY=; b=NJE95lAjIqS4oV58i4X5Rzwf2p
+	sHRaVlWXyJB9Wg+JPoraz56LP6x+s1xs7S3McgdEh84Dl8MOUzQczaBOAsGNZCb8W8hCuB4rmZkcc
+	A91qePt1Gx1eXAtyKe/+o7TomAfn4Zec2Suz0KhLdt28CtqACzaW8RK6jeVoPiKAo0nUgxP/jeOR+
+	a5qdVA7iUGCaRSK2WVp66ZNcf5Hd+bCL2ysxFcPBYc3YDR/uVVsybA6/uKH+3wNmtdQ1e89zNihEE
+	S7ow+czfj4XLW2Ciw/zMpaHyJ2yoZ//AJ1LOGP3wjwa7c1fS6C0rK90L2TVxmFIWo6PA/HNyjXJWa
+	W1ZEyofw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m5Q1Y-0099Rg-NL; Mon, 19 Jul 2021 09:57:20 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1m5Q8E-009BUC-96; Mon, 19 Jul 2021 10:04:14 +0000
+Received: from mail-bn8nam12on2058.outbound.protection.outlook.com
+ ([40.107.237.58] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m5Q1M-0099PT-R5
- for linux-nvme@lists.infradead.org; Mon, 19 Jul 2021 09:57:10 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 58EB522211;
- Mon, 19 Jul 2021 09:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626688627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hm0zebaLB1hjuy5JvbxVdPV/pSPvr5dtUW8IyF6POIw=;
- b=yTP5pKNoCyI7Jjy4ptxGgMmsdn8+gFd9uPryJOgL9cozn/N81BRGJzcrjgEeFM2YpgKDFg
- FclstTKBeA/eUCVoqA2ymDNDeLHF/Mya/UXiiBJPNrY4NNZZBdIDW1/2k5FkYPKhoTDqbC
- kR/deS+NQw5ZahK41LQN2s5Re0e193A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626688627;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hm0zebaLB1hjuy5JvbxVdPV/pSPvr5dtUW8IyF6POIw=;
- b=GDN7uLNmt7P8pyASVwy1uZF2gyMwKA7nG4gR3IWm2c90DUxBiXdNKt174lEHyi7+rEdtqd
- 1OxpoPGePQfGwODg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F21C13CA7;
- Mon, 19 Jul 2021 09:57:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Gr41D3NM9WDWMwAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 19 Jul 2021 09:57:07 +0000
-To: Stephan Mueller <smueller@chronox.de>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20210716110428.9727-1-hare@suse.de>
- <2510347.locV8n3378@positron.chronox.de>
- <a4d4bda0-2bc8-0d0c-3e81-55adecd6ce52@suse.de>
- <6538288.aohFRl0Q45@positron.chronox.de>
- <59695981-9edc-6b7a-480a-94cca95a0b8c@suse.de>
- <463a191b9896dd708015645cfc125988cd5deaef.camel@chronox.de>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 09/11] nvmet: Implement basic In-Band Authentication
-Message-ID: <2af95a8e-50d9-7e2d-a556-696e9404fee4@suse.de>
-Date: Mon, 19 Jul 2021 11:57:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ id 1m5Q8B-009BTC-2w
+ for linux-nvme@lists.infradead.org; Mon, 19 Jul 2021 10:04:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VsiGVOMIsios6tkViDvhSfTpkNY8PewCfLhsLao093p6jB7ZytEvL6NyiNpP5c6bDUHMUflwnjF2csgiM4nsN2dwUFl31NTtp99ZKaMzoLlNB4kq7/Kjs43eteN55M3Q6QcMfdtXz3rzn7e7uC2cUCqmCvIa+a+uZky4iDBxg4mU11OlpQ4wkI/P0e6JExLpevcY9dlfvOW5vNNQxOCJSkYotzsecf0f49hBdpmeiV1vphq0wwEA6ySC8UEHqWCj4fNQQDc5wgAb3HcJCbydHpTiXBeyt6SsH3IV0tyLwRuu8goaV4rv8iOdnkUQybbhkD6ETPNu0jws63EscY2j6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gvPttV6RiHVUlP/XLSMS3MCSZzxB0IgxwblXuo1edbU=;
+ b=AoA3gAP46x1xQeQhXaJHJwVARRQs1ArC34XER4YeVC4DDahg7RZ+4B/SLtZHQQRoMkQg98SOeQIf3YKqjbRvx/opPOEY958hOtMxecxsnH006S4Alblh4mgWDj/mjRAgNcAqamk5rL1RCK1Fkn7i5YdEZB84s/fx7m0RnuNaWT+FwvfHEV8DxNKt2twOY5Nh/5a3ay0uj9M2zoktciFvpU41tB1SnNBfTLq33A3qomA8g1N7fMOicGUEQN2tEnH2YJJMQASSuC+5vs7ItiAB3ZJctNgNfrYbPQu44TGEsR9Qm5ZL8LiGEg1gquqH8DJhDBui6wQyGGiooNv6W+8LHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=quarantine sp=none pct=100)
+ action=none header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gvPttV6RiHVUlP/XLSMS3MCSZzxB0IgxwblXuo1edbU=;
+ b=HiLTvfRIWD5+Xo8/4JHw95ymPKIRIfK0bLzOVY/J6vhPqAGha7gxIH3U4eiJOhHsLOBy1ulP68K2WEoPpI04x119LxgnsnW6Zyv2T/fyboGtwVmEDdL27+BgCsPHDl/R382hWhYSvAwtczfvh9FWv17sX1V4pvB0WPy3ofimfyKWIc7NI9T8IpyljKb1KMko2gp2J2AI51JBCpwaQ6nHdjxNxK1+7gfCtDNmxpirPGRNqzIKBW2UWY4/V5Dm2qaz09O/xNyICiKibV7PzPymknfNrcWZoQOxnV/IX/VL0NbEWzZPkGb+9/fuovlmzRU4+f/EjcfxBBSNYEnUeNDpIQ==
+Received: from DS7PR03CA0264.namprd03.prod.outlook.com (2603:10b6:5:3b3::29)
+ by MN2PR12MB4000.namprd12.prod.outlook.com (2603:10b6:208:16b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Mon, 19 Jul
+ 2021 10:04:08 +0000
+Received: from DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b3:cafe::1f) by DS7PR03CA0264.outlook.office365.com
+ (2603:10b6:5:3b3::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
+ Transport; Mon, 19 Jul 2021 10:04:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=pass action=none
+ header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT011.mail.protection.outlook.com (10.13.172.108) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 10:04:08 +0000
+Received: from [172.27.1.34] (172.20.187.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 19 Jul
+ 2021 10:04:06 +0000
+Subject: Re: [PATCH 1/1] nvme: introduce nvme_transport_sgl_desc structure
+To: Christoph Hellwig <hch@lst.de>
+CC: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <kbusch@kernel.org>, 
+ <james.smart@broadcom.com>, <oren@nvidia.com>
+References: <20210719095309.7777-1-mgurtovoy@nvidia.com>
+ <20210719095703.GA1880@lst.de>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Message-ID: <5e4d1b8b-0003-d861-4a94-d9c0f2a37544@nvidia.com>
+Date: Mon, 19 Jul 2021 13:04:03 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <463a191b9896dd708015645cfc125988cd5deaef.camel@chronox.de>
+In-Reply-To: <20210719095703.GA1880@lst.de>
 Content-Language: en-US
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c7766dee-68c6-4184-d49b-08d94a9c8ccb
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4000:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB400032C30311CCB3147307E5DEE19@MN2PR12MB4000.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3+YwRWoWnvfDtGUyouIdOAZB/dAsoYFJOixf82d/2zvYy92wf3I6oxvyRuSIE+rmlzDrfLLCAOv3xetk0wacTVNvKKso7f8ohQGpevQRhlsPha1inBUfaFbxEFyqEP3eZ3xnO9M0MzqS2w0d4U+MAXBDdErVAoPdUcHjtoaQz/q8vjRV+gSQ0IVTzQYNVmJTsRBEvD1kK+qXHqkB9UJg4HHb3dsuy2RVu7hiYr+OpGpCD4kGkGD2xbiQvyYmKM25ONjhprOVKRvzKfSOAvo6W5WLOBSpJd0WI7IbhXxB1R2/YOpQRM0VJlURT/7R2C4TJI6EXdXNPbPwzroMH5/tKY8bgI0AK1RdPzFJmF4FtFuf8qF7XftjkcPu0Jf4HVoKlsZWiOKQzu48c9quzg7RKISgolCNsszg0JEVbmrr5ivzomd/ghgfQIurVvCJt5zpHX2WEO83Af9l0q/vlJIvxotOFR1IVBVdRe9VVPPwZMk16/XHZZtVA2a2lTbMGkCu4zv4jXWEuAlRFgz+oUc8vjl+Y4+yG6CxSwkWpZPjEk/3cEiEBpGvCC2qoW7aRD/r8Qp4DkeNnv4c1MI4CWxOMm0PP8mHiMTRCQIjPXMd9LLw9s1J7TTfTmxEuvNZCbygf+N+JlMmY1sOU8jHA4wPeZhco8BZtWdYfpV6kKB4unCgpzpBxiiedFzhSt86xbMPEI/TEYuyUxe4/X76gZhSBnHDx0eTz9zfD6eQ/xoZCJU=
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(4744005)(426003)(5660300002)(36756003)(82310400003)(70206006)(7636003)(70586007)(47076005)(16576012)(508600001)(336012)(316002)(2616005)(8676002)(54906003)(36906005)(83380400001)(8936002)(86362001)(31686004)(186003)(16526019)(53546011)(26005)(356005)(2906002)(6666004)(107886003)(36860700001)(6916009)(31696002)(4326008)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 10:04:08.5918 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7766dee-68c6-4184-d49b-08d94a9c8ccb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4000
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210719_025709_071255_58D9A8C5 
-X-CRM114-Status: GOOD (  26.66  )
+X-CRM114-CacheID: sfid-20210719_030411_185140_2D78FEA8 
+X-CRM114-Status: GOOD (  10.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,57 +132,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNy8xOS8yMSAxMDo1MSBBTSwgU3RlcGhhbiBNdWVsbGVyIHdyb3RlOgo+IEFtIE1vbnRhZywg
-ZGVtIDE5LjA3LjIwMjEgdW0gMTA6MTUgKzAyMDAgc2NocmllYiBIYW5uZXMgUmVpbmVja2U6Cj4+
-IE9uIDcvMTgvMjEgMjo1NiBQTSwgU3RlcGhhbiBNw7xsbGVyIHdyb3RlOgo+Pj4gQW0gU29ubnRh
-ZywgMTguIEp1bGkgMjAyMSwgMTQ6Mzc6MzQgQ0VTVCBzY2hyaWViIEhhbm5lcyBSZWluZWNrZToK
-PiAKPj4+PiBUaGUga2V5IGlzIGFsc28gdXNlZCB3aGVuIHVzaW5nIHRoZSBmZmRoZSBhbGdvcml0
-aG0uCj4+Pj4gTm90ZTogSSBfdGhpbmtfIHRoYXQgSSBuZWVkIHRvIHVzZSB0aGlzIGtleSBmb3Ig
-dGhlIGZmZGhlIGFsZ29yaXRobSwKPj4+PiBiZWNhdXNlIHRoZSBpbXBsZW1lbnRhdGlvbiBJIGNh
-bWUgdXAgd2l0aCBpcyBlc3NlbnRpYWxseSBwbGFpbiBESCB3aXRoCj4+Pj4gcHJlLWRlZmluZWQg
-J3AnLCAncScgYW5kICdnJyB2YWx1ZXMuIEJ1dCB0aGUgREggaW1wbGVtZW50YXRpb24gYWxzbwo+
-Pj4+IHJlcXVpcmVzIGEgJ2tleScsIGFuZCBmb3IgdGhhdCBJJ20gdXNpbmcgdGhpcyBrZXkgaGVy
-ZS4KPj4+Pgo+Pj4+IEl0IG1pZ2h0IGJlIHRoYXQgSSdtIGNvbXBsZXRlbHkgb2ZmLCBhbmQgZG9u
-J3QgbmVlZCB0byB1c2UgYSBrZXkgZm9yIG91cgo+Pj4+IERIIGltcGxlbWVudGF0aW9uLiBJbiB0
-aGF0IGNhc2UgeW91IGFyZSBjb3JyZWN0Lgo+Pj4+IChBbmQgdGhhdCdzIHdoeSBJIHNhaWQgSSds
-bCBuZWVkIGEgcmV2aWV3IG9mIHRoZSBGRkRIRSBpbXBsZW1lbnRhdGlvbikuCj4+Pj4gQnV0IGZv
-ciBub3cgSSdsbCBuZWVkIHRoZSBrZXkgZm9yIEZGREhFLgo+Pj4KPj4+IERvIEkgdW5kZXJzdGFu
-ZCB5b3UgY29ycmVjdGx5IHRoYXQgdGhlIGRoY2hhcF9rZXkgaXMgdXNlZCBhcyB0aGUgaW5wdXQg
-dG8KPj4+IHRoZSAKPj4+IERIIC0gaS5lLiBpdCBpcyB0aGUgcmVtb3RlIHB1YmxpYyBrZXkgdGhl
-bj8gSXQgbG9va3Mgc3RyYW5nZSB0aGF0IHRoaXMgaXMKPj4+IHVzZWQgCj4+PiBmb3IgREggYnV0
-IHRoZW4gaXQgaXMgY2hhbmdlZCBoZXJlIGJ5IGhhc2hpbmcgaXQgdG9nZXRoZXIgd2l0aCBzb21l
-dGhpbmcKPj4+IGVsc2UgCj4+PiB0byBmb3JtIGEgbmV3IGRoY2hhcF9rZXkuIE1heWJlIHRoYXQg
-aXMgd2hhdCB0aGUgcHJvdG9jb2wgc2F5cy4gQnV0IGl0Cj4+PiBzb3VuZHMgCj4+PiBzdHJhbmdl
-IHRvIG1lLCBlc3BlY2lhbGx5IHdoZW4geW91IHRoaW5rIHRoYXQgZGhjaGFwX2tleSB3b3VsZCBi
-ZSwgc2F5LAo+Pj4gMjA0OCAKPj4+IGJpdHMgaWYgaXQgaXMgdHJ1bHkgdGhlIHJlbW90ZSBwdWJs
-aWMga2V5IGFuZCB0aGVuIGFmdGVyIHRoZSBoYXNoaW5nIGl0IGlzCj4+PiAyNTYgCj4+PiB0aGlz
-IGRoY2hhcF9rZXkgY2Fubm90IGJlIHVzZWQgZm9yIEZGQy1ESC4KPj4+Cj4+PiBPciBhcmUgeW91
-IHVzaW5nIHRoZSBkaGNoYXBfa2V5IGZvciB0d28gZGlmZmVyZW50IHB1cnBvc2VzPwo+Pj4KPj4+
-IEl0IHNlZW1zIEkgbWlzcyBzb21ldGhpbmcgaGVyZS4KPj4+Cj4+IE5vLCBub3QgZW50aXJlbHku
-IEl0J3MgbWUgd2hvIGJ1Z2dlcmVkIGl0IHVwLgo+PiBJIGdvdCBjYXJyaWVkIGF3YXkgYnkgdGhl
-IGZhY3QgdGhhdCB0aGVyZSBpcyBhIGNyeXB0b19kaF9lbmNvZGVfa2V5KCkKPj4gZnVuY3Rpb24s
-IGFuZCB0aG91Z2h0IEkgbmVlZCB0byB1c2UgaXQgaGVyZS4KPiAKPiBUaGFuayB5b3UgZm9yIGNs
-YXJpZnlpbmcgdGhhdC4gSXQgc291bmRzIHRvIG1lIHRoYXQgdGhlcmUgaXMgbm8gZGVmaW5lZAo+
-IHByb3RvY29sIChvciBpZiB0aGVyZSwgSSB3b3VsZCBiZSB3b25kZXJpbmcgaG93IHRoZSBjb2Rl
-IHdvdWxkIGhhdmUgd29ya2VkCj4gd2l0aCBhIGRpZmZlcmVudCBpbXBsZW1lbnRhdGlvbikuIFdv
-dWxkIGl0IG1ha2Ugc2Vuc2UgdG8gZmlyc3Qgc3BlY2lmeSBhCj4gcHJvdG9jb2wgZm9yIGF1dGhl
-bnRpY2F0aW9uIGFuZCBoYXZlIGl0IGRpc2N1c3NlZD8gSSBwZXJzb25hbGx5IHRoaW5rIGl0IGlz
-IGEKPiBiaXQgZGlmZmljdWx0IHRvIGZ1bGx5IHVuZGVyc3RhbmQgdGhlIHByb3RvY29sIGZyb20g
-dGhlIGNvZGUgYW5kIGRpc2N1c3MKPiBwcm90b2NvbC1sZXZlbCBpdGVtcyBiYXNlZCBvbiB0aGUg
-Y29kZS4KPiAKT2gsIHRoZSBwcm90b2NvbCBfaXNfIHNwZWNpZmllZDoKCmh0dHBzOi8vbnZtZXhw
-cmVzcy5vcmcvd3AtY29udGVudC91cGxvYWRzL05WTS1FeHByZXNzLUJhc2UtU3BlY2lmaWNhdGlv
-bi0yXzAtMjAyMS4wNi4wMi1SYXRpZmllZC01LnBkZgoKSXQncyBqdXN0IHRoYXQgSSBoYXZlIGlz
-c3VlcyB0cmFuc2xhdGluZyB0aGF0IHNwZWMgb250byB3aGF0IHRoZSBrZXJuZWwKcHJvdmlkZXMu
-CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UJCSAgICAgICAgICAgS2Vy
-bmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZQkJCSAgICAgICAgICAgICAgICAgICs0
-OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSCwgTWF4
-ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR0Y6
-IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZy
-YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
-dXgtbnZtZQo=
+
+On 7/19/2021 12:57 PM, Christoph Hellwig wrote:
+> On Mon, Jul 19, 2021 at 12:53:09PM +0300, Max Gurtovoy wrote:
+>> Currently the tcp and fc transports use nvme_sgl_desc structure to
+>> describe transport data blocks. Replace it with a new structure that
+>> describes the Transport SGL Data Block according to the NVMe
+>> specification.
+> What is the point?  Note that we should probably still clear the
+> reserved space anyway.
+
+The point is to use the correct structure from the spec and not enforce 
+some weird casting.
+
+This makes the code more readable.
+
+Reserved space should be treated as for all other reserved fields in the 
+spec.
+
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
