@@ -2,84 +2,67 @@ Return-Path: <SRS0=+L5I=ML=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F49C636C9
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 09:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF21DC12002
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 09:44:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B1906610A5
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 09:23:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B1906610A5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id B33EC6108B
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 09:44:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B33EC6108B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1paWXfHW8JLtDhdjcAMwe3VtYYuoFZWW+SXcrDWLJlI=; b=eE485q6wOnqaiHX2QkLkCtB0yA
-	GT/jbLFPrVlIj/mqZO70jLDjo+KzIFbEunOPZvzVY/J9EWXrih4cQOOeRDEA47nrAyH4SonAmLqDX
-	QVhwdXitSgVKkXcffpDMPaUhJqDgkpRxq3mI6JY8xPphjYLUCY6LoG7XIOKD+0N+Z8/ejpnIKRwfB
-	xCf/jEE9RgLuchM1+kcCI/YQbaqI4dlxTzlWdXW655YWqmH8dJGDQsbmDnON/kkEPmJuZcYJN/g4C
-	9TP+byNmHRB3RS21+tBmPkyCxqAhE7P1gMOQoeCdO19nE/zmRiw5Az+Jr3rPru6O6/tQFAhlmbY1w
-	FCbleq+A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=pTlfnOVhieYfBuljztHdrkFTdOXi7I48S/Hq2F45yoA=; b=qnPrRZiTqgUtEv
+	NMzHt4Lr1RcB96A70kMz3hmeKpOS8R50rUiLNcDaSYGwjtrNxWGRJClk0gnlmHMAQxn4yEGkudlFJ
+	xV7aQKhAcRUAiRXolvgfUWXwPcOnQhmUX2dmNeHH1AGzQNsJYpLAkI9o+8sEVEAEXFnTohRe4oyt3
+	U5qdvT71M4nyS6lIZ1CJ/gFheTOgqoq29ylaLQ3EKLTuftBn9Se6qrOIpgwQ4sNc1zIfKPzNs1WXB
+	v8sGpIPSJ4c2tuAPeIdd9utNRTlzEKVHJzvvEppuy1RA9a5vl0ggYTXpYVjFWziZAtXpTtGmG9smr
+	hV09opqm6t2dMo4d+RgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m5PUn-0094M6-4T; Mon, 19 Jul 2021 09:23:29 +0000
-Received: from mail-pf1-f175.google.com ([209.85.210.175])
+	id 1m5Pp5-0098dM-Ry; Mon, 19 Jul 2021 09:44:27 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m5PUk-0094L7-MV
- for linux-nvme@lists.infradead.org; Mon, 19 Jul 2021 09:23:28 +0000
-Received: by mail-pf1-f175.google.com with SMTP id u126so8224480pfb.8
- for <linux-nvme@lists.infradead.org>; Mon, 19 Jul 2021 02:23:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=puHlGDARRKbSpOH7EGqRKL60GpYMbcmkXPxSTYDDiuw=;
- b=PY6KZoKy7Aqg/NR1S9FzODL7oVGuN7GB2SFXxA+7OlQ2D/R+DHaiNIOWZP+k4JxDW0
- 3xgUQ5/l9j2UYDyCSsMjdcEr97FipsVzEI15VigrCEQ6O/sazKGp9/9L6yzRi2D83imZ
- nuO6wmH5EyMKaXEtEMVMp1JXjumJcYLFcPWxcyvEB6m65gK0KTx0rokoO/dhCFALaFZQ
- ojVyNGsLqToUohQ/xRdjiKEIU+5cfEllrbsQe0vlgfglr1BB4WBf1S05fNT1p5ZgnUpA
- YWIVWLXONKv+n1DfZ1PjHJTpY/nDB9aBLo4EBkYe31VUj59yvpQwLAj4HY2Bi/T9q+yS
- iF2w==
-X-Gm-Message-State: AOAM531u46jvuO/L620iswqatgRFcIGk+8xHGAQkUUzpPsboNl3swGSC
- SYd52BgSSYyFLOvJEzIRAvw=
-X-Google-Smtp-Source: ABdhPJxjn+oa7V92P0qr18bpUnLbzboWRXrQE8pmhZpsJ3xLgnGfDN0qpo5rVoFrh0tQLM9mWoaWYg==
-X-Received: by 2002:a05:6a00:a8a:b029:30c:a10b:3e3f with SMTP id
- b10-20020a056a000a8ab029030ca10b3e3fmr24830768pfl.40.1626686604790; 
- Mon, 19 Jul 2021 02:23:24 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:2ce3:950:ff23:e549?
- ([2601:647:4802:9070:2ce3:950:ff23:e549])
- by smtp.gmail.com with ESMTPSA id l6sm19238862pff.74.2021.07.19.02.23.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Jul 2021 02:23:24 -0700 (PDT)
-Subject: Re: [PATCH 11/11] nvme: add non-standard ECDH and curve25517
- algorithms
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20210716110428.9727-1-hare@suse.de>
- <20210716110428.9727-12-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <9ac44322-5c89-da94-b540-6086d2a32bc2@grimberg.me>
-Date: Mon, 19 Jul 2021 02:23:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ id 1m5Pp2-0098ba-SM
+ for linux-nvme@lists.infradead.org; Mon, 19 Jul 2021 09:44:26 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 7A7BF68B05; Mon, 19 Jul 2021 11:44:15 +0200 (CEST)
+Date: Mon, 19 Jul 2021 11:44:14 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.garry@huawei.com>
+Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+ Wen Xiong <wenxiong@us.ibm.com>, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V4 1/3] driver core: mark device as irq affinity
+ managed if any irq is managed
+Message-ID: <20210719094414.GC431@lst.de>
+References: <20210715120844.636968-1-ming.lei@redhat.com>
+ <20210715120844.636968-2-ming.lei@redhat.com>
+ <5e534fdc-909e-39b2-521d-31f643a10558@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210716110428.9727-12-hare@suse.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <5e534fdc-909e-39b2-521d-31f643a10558@huawei.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210719_022326_785665_F104F4EF 
-X-CRM114-Status: GOOD (  12.33  )
+X-CRM114-CacheID: sfid-20210719_024425_095593_FA57660B 
+X-CRM114-Status: GOOD (  15.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,21 +74,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Jul 19, 2021 at 08:51:22AM +0100, John Garry wrote:
+>> Address this issue by adding one field of .irq_affinity_managed into
+>> 'struct device'.
+>>
+>> Suggested-by: Christoph Hellwig <hch@lst.de>
+>> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+>
+> Did you consider that for PCI device we effectively have this info already:
+>
+> bool dev_has_managed_msi_irq(struct device *dev)
+> {
+> 	struct msi_desc *desc;
+>
+> 	list_for_each_entry(desc, dev_to_msi_list(dev), list) {
+> 		if (desc->affinity && desc->affinity->is_managed)
+> 			return true;
+> 	}
+>
+> 	return false;
 
-> TLS 1.3 specifies ECDH and curve25517 in addition to the FFDHE
-> groups, and these are already implemented in the kernel.
+Just walking the list seems fine to me given that this is not a
+performance criticial path.  But what are the locking implications?
 
-So?
-
-> So add support for these non-standard groups for NVMe in-band
-> authentication to validate the augmented challenge implementation.
-
-Why? why should users come to expect controllers to support it?
+Also does the above imply this won't work for your platform MSI case?
 
 _______________________________________________
 Linux-nvme mailing list
