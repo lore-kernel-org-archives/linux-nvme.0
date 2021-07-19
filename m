@@ -2,74 +2,65 @@ Return-Path: <SRS0=+L5I=ML=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E62FC07E95
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 16:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C33C636C9
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 16:45:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1861F61209
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 16:25:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1861F61209
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id C677C6108B
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jul 2021 16:45:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C677C6108B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VtVeuXni3EWiZ1JS5Hu3QVCJ8LEpbXwVjo4U8D3U22M=; b=ZP9q+apX0PIzYctxLcQlVujpa0
-	Z1oZWR3jV33jUmrMPFqIITPldj9hmS2WE1aLxyE/C5GPEwBdeUGu4uQyQyeQQ4N9p1dc+v5stYhKe
-	IyM51oL0bf1K2buNFKKoOmlyLuWVtHoK+kFEj0RKU3M8s+Ix8V4yuzJlcc9aCf6wQQlMpKHO1xlJ5
-	/3/YtgvVcipiOK/SHB89oOEranL8ZHZ/hcjQ87cRgLQ5F6SB5zNgztzjKYF/hsmFvnBWYEgPNB64B
-	DVgrhALjx8K6Y9hOesvtzfKL3gmQo0F7mukF3SLZCEs7nIzqbE1bNwr0pnjExTwqw8DEIgqEj5bf/
-	MkN5pTzA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=U6QxCJe/WyudL1kHOjZ8vY3v+PhiNLrkvmZaR1/Coqw=; b=YMvdwJfFcpBpol
+	ni5r0lvypv03bgViBokS+9WqLjQg8Q1Fb/TNKXyqNENt55U4BANiFos6AmyU20Mu+QrTFCJc4ckba
+	KnnACEsrQyKu2Y7fWJ1+qOFRQ1gQnx+Gbuq2u21dbH0auVrVvpfDtBXWUVy/0mQHp1mGdQJbHKYaf
+	WPmiePyV1yUyuYSEXXp/baNdpnszm2bbV2RBWxnhQe582vqHCEXjy+md/I1bbhRtBlUhVj5lA9rrP
+	un+bb0i29UZTJsIG8nQL5+P+f2qT83Wyr2t95Kr+2Nr1GFYj9GaJhcAwmBEQJoL7RJm1kAwzjpUAW
+	EeVrEW952Lt3DCuFarlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m5W5S-00AUBs-Pe; Mon, 19 Jul 2021 16:25:46 +0000
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+	id 1m5WOE-00Ac2Q-NR; Mon, 19 Jul 2021 16:45:10 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m5Vua-00APRs-3k; Mon, 19 Jul 2021 16:14:34 +0000
-Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GT6Br4p9Qz6FD8x;
- Tue, 20 Jul 2021 00:05:40 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 18:14:26 +0200
-Received: from [10.47.85.214] (10.47.85.214) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 19 Jul
- 2021 17:14:26 +0100
-Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
- from remote numa node
-To: Ming Lei <ming.lei@redhat.com>, Robin Murphy <robin.murphy@arm.com>
-CC: <iommu@lists.linux-foundation.org>, Will Deacon <will@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-References: <YOgK8fdv7dOQtkET@T590>
- <23e7956b-f3b5-b585-3c18-724165994051@arm.com> <YOhcOv1oOwm6fco+@T590>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com>
-Date: Mon, 19 Jul 2021 17:14:28 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ id 1m5WNm-00Ac14-WB
+ for linux-nvme@lists.infradead.org; Mon, 19 Jul 2021 16:44:46 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4656E60C40;
+ Mon, 19 Jul 2021 16:44:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626713082;
+ bh=gCarchxrwxzRh+UkXAi+byh+2IIFmWII0I/QQkJr/jk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=En4WGFKNEGVuELdNF/Q/WeABG64xKBSXe1+naIK1b3LSiwl3nusy/IUS9i4j9+GRZ
+ 2WH7OdJqDQ1gGsCHdqlPbKk1prZR3ELibsnp9YJJeUIW3h28Vhd9HOHTzWlPGW3zpz
+ 5+13GQ2ChhxhLE38HdcXttbjDs+FnBbzZtJebl+GKOMv7iQt2CJsAOEdpNxaUWQ6Y8
+ IQnb+0vDJWeThh71rYs3J0Bx0J6Zz1BwHLVBMV7+dSoMDzZ65s/FZg2JLPaqBxi6EY
+ 8INyZ9B3Gp4u8R1NAUpWEU/rtqGBgArWW4lyf4t6M0wxKnLgM11fMI9nqxKlUHnsWn
+ V0oTAN4MHyrTQ==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: fix nvme_setup_command metadata trace event
+Date: Mon, 19 Jul 2021 09:44:39 -0700
+Message-Id: <20210719164439.2002887-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <YOhcOv1oOwm6fco+@T590>
-Content-Language: en-US
-X-Originating-IP: [10.47.85.214]
-X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210719_091432_514081_1F76A3A2 
-X-CRM114-Status: UNSURE (   7.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210719_094443_123932_9C8717BA 
+X-CRM114-Status: GOOD (  10.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,129 +72,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMDkvMDcvMjAyMSAxNToyNCwgTWluZyBMZWkgd3JvdGU6Cj4+IGFzc29jaWF0ZWQgY29tcHJv
-bWlzZXMuCj4gRm9sbG93cyB0aGUgbG9nIG9mICdwZXJmIHJlcG9ydCcKPiAKPiAxKSBnb29kKHJ1
-biBmaW8gZnJvbSBjcHVzIGluIHRoZSBudm1lJ3MgbnVtYSBub2RlKQoKSGkgTWluZywKCklmIHlv
-dSdyZSBzdGlsbCBpbnRlcmVzdGVkIGluIHRoaXMgaXNzdWUsIGFzIGFuIGV4cGVyaW1lbnQgb25s
-eSB5b3UgY2FuIAp0cnkgbXkgcmViYXNlZCBwYXRjaGVzIGhlcmU6CgpodHRwczovL2dpdGh1Yi5j
-b20vaGlzaWxpY29uL2tlcm5lbC1kZXYvY29tbWl0cy9wcml2YXRlLXRvcGljLXNtbXUtNS4xNC1j
-bWRxLTQKCkkgdGhpbmsgdGhhdCB5b3Ugc2hvdWxkIHNlZSBhIHNpZ25pZmljYW50IHBlcmZvcm1h
-bmNlIGJvb3N0LgoKVGhhbmtzCkpvaG4KCj4gCj4gLSAgIDM0Ljg2JSAgICAgMS43MyUgIGZpbyAg
-ICAgICBbbnZtZV0gICAgICAgICAgICAgIFtrXSBudm1lX3Byb2Nlc3NfY3EgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgLSAzMy4x
-MyUgbnZtZV9wcm9jZXNzX2NxICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICDilpIKPiAgICAgICAgLSAzMi45MyUgbnZtZV9wY2lfY29tcGxldGVfcnEgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgLSAyNC45MiUgbnZtZV91bm1hcF9k
-YXRhICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAg
-LSAyMC4wOCUgZG1hX3VubWFwX3NnX2F0dHJzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDi
-lpIKPiAgICAgICAgICAgICAgICAgLSAxOS43OSUgaW9tbXVfZG1hX3VubWFwX3NnICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgLSAxOS41NSUgX19pb21t
-dV9kbWFfdW5tYXAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAg
-ICAgICAgLSAxNi44NiUgYXJtX3NtbXVfaW90bGJfc3luYyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIK
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgLSAxNi44MSUgYXJtX3NtbXVfdGxiX2ludl9yYW5n
-ZV9kb21haW4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLSAxNC43MyUg
-X19hcm1fc21tdV90bGJfaW52X3JhbmdlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAxNC40NCUgYXJtX3NtbXVfY21kcV9pc3N1ZV9jbWRsaXN0ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwLjg5JSBfX3BpX21lbXNldCAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwLjc1JSBhcm1f
-c21tdV9hdGNfaW52X2RvbWFpbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAg
-KyAxLjU4JSBpb21tdV91bm1hcF9mYXN0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAg
-ICAgICAgICAgICAgICAgICAgKyAwLjcxJSBpb21tdV9kbWFfZnJlZV9pb3ZhICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICDilpIKPiAgICAgICAgICAgICAgLSAzLjI1JSBkbWFfdW5tYXBfcGFnZV9hdHRycyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgLSAzLjIxJSBp
-b21tdV9kbWFfdW5tYXBfcGFnZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAg
-ICAgICAgICAgICAgLSAzLjE0JSBfX2lvbW11X2RtYV91bm1hcF9zd2lvdGxiICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAgLSAyLjg2JSBfX2lvbW11X2RtYV91bm1h
-cCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAgICAgLSAy
-LjQ4JSBhcm1fc21tdV9pb3RsYl9zeW5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgLSAyLjQ3JSBhcm1fc21tdV90bGJfaW52X3JhbmdlX2RvbWFpbiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLSAyLjE5JSBfX2FybV9zbW11
-X3RsYl9pbnZfcmFuZ2UgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAyLjE2JSBhcm1fc21tdV9jbWRxX2lzc3VlX2NtZGxpc3QgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilpIKPiAgICAgICAgICAgICAg
-KyAxLjM0JSBtZW1wb29sX2ZyZWUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDi
-lpIKPiAgICAgICAgICAgKyA3LjY4JSBudm1lX2NvbXBsZXRlX3JxICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICDilpIKPiAgICAgKyAxLjczJSBfc3RhcnQKPiAKPiAKPiAyKSBiYWQo
-cnVuIGZpbyBmcm9tIGNwdXMgbm90IGluIHRoZSBudm1lJ3MgbnVtYSBub2RlKQo+IC0gICA0OS4y
-NSUgICAgIDMuMDMlICBmaW8gICAgICAgW252bWVdICAgICAgICAgICAgICBba10gbnZtZV9wcm9j
-ZXNzX2NxICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAg4paSCj4gICAgIC0gNDYuMjIlIG52bWVfcHJvY2Vzc19jcSAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgIC0gNDYuMDclIG52bWVfcGNpX2NvbXBs
-ZXRlX3JxICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgIC0g
-NDEuMDIlIG52bWVfdW5tYXBfZGF0YSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-4paSCj4gICAgICAgICAgICAgIC0gMzQuOTIlIGRtYV91bm1hcF9zZ19hdHRycyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgIC0gMzQuNzUlIGlvbW11X2Rt
-YV91bm1hcF9zZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAg
-ICAgIC0gMzQuNTglIF9faW9tbXVfZG1hX3VubWFwICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paS
-Cj4gICAgICAgICAgICAgICAgICAgICAgIC0gMzMuMDQlIGFybV9zbW11X2lvdGxiX3N5bmMgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAgICAgICAgIC0gMzMuMDAlIGFy
-bV9zbW11X3RsYl9pbnZfcmFuZ2VfZG9tYWluICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIC0gMzEuODYlIF9fYXJtX3NtbXVfdGxiX2ludl9yYW5nZSAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMzEuNzElIGFybV9zbW11X2NtZHFfaXNz
-dWVfY21kbGlzdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAgICAgICsgMC45MCUgaW9tbXVfdW5t
-YXBfZmFzdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgIC0gNS4xNyUg
-ZG1hX3VubWFwX3BhZ2VfYXR0cnMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAg
-ICAgICAgICAgICAgIC0gNS4xNSUgaW9tbXVfZG1hX3VubWFwX3BhZ2UgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAgIC0gNS4xMiUgX19pb21tdV9kbWFfdW5t
-YXBfc3dpb3RsYiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAgICAgIC0g
-NS4wNSUgX19pb21tdV9kbWFfdW5tYXAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgIC0gNC44NiUgYXJtX3NtbXVfaW90bGJfc3luYyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0gNC44NSUgYXJtX3NtbXVf
-dGxiX2ludl9yYW5nZV9kb21haW4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIC0gNC43MCUgX19hcm1fc21tdV90bGJfaW52X3JhbmdlICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgNC42NyUgYXJtX3NtbXVfY21kcV9pc3N1ZV9jbWRs
-aXN0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAg4paSCj4gICAgICAgICAgICAgICsgMC43NCUgbWVtcG9vbF9mcmVlICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICAgICAgICsgNC44MyUgbnZtZV9jb21wbGV0
-ZV9ycSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4paSCj4gICAgICsgMy4wMyUg
-X3N0YXJ0CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-TGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0
-dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+The metadata address is set after the trace event, so the trace is not
+capturing anything useful. Rather than logging the memory address, it's
+useful to know if the command carries a metadata payload, so change the
+trace event to log that true/false state instead.
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/trace.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index daaf700eae79..35bac7a25422 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -56,7 +56,7 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__field(u8, fctype)
+ 		__field(u16, cid)
+ 		__field(u32, nsid)
+-		__field(u64, metadata)
++		__field(bool, metadata)
+ 		__array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
+@@ -66,13 +66,13 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__entry->flags = cmd->common.flags;
+ 		__entry->cid = cmd->common.command_id;
+ 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
+-		__entry->metadata = le64_to_cpu(cmd->common.metadata);
++		__entry->metadata = !!blk_integrity_rq(req);
+ 		__entry->fctype = cmd->fabrics.fctype;
+ 		__assign_disk_name(__entry->disk, req->rq_disk);
+ 		memcpy(__entry->cdw10, &cmd->common.cdw10,
+ 			sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%x, cmd=(%s %s)",
+ 		      __entry->ctrl_id, __print_disk_name(__entry->disk),
+ 		      __entry->qid, __entry->cid, __entry->nsid,
+ 		      __entry->flags, __entry->metadata,
+-- 
+2.25.4
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
