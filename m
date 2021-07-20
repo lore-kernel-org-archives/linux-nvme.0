@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE98FC07E9B
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 12:44:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9E9C07E9B
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 12:44:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BE8BB60FF2
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 12:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BE8BB60FF2
+	by mail.kernel.org (Postfix) with ESMTPS id 0398B6113C
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 12:44:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0398B6113C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=waf66goLF7ZjVabni2Dw52PtpETXthDKvJHSZwvNC4c=; b=NB6HVwDPNEaMWQ
-	ah1WbP/tDB1PylOQe2/G5jBy32HZXp9ns3iHyCR2sbTVHbjTbHK/Vqo4kcNFNSpHqDIcmZ/SMJY8t
-	v5ww7Uc6VX7F6EFI7GaQSb2rl3yRsPY71Gwew0GBGjWfgGB9zAxuyyYjmei/5ggsfcLXSbO3tQJxA
-	evAnKWrn2yvORM7s/SfZx9ntMdhMvNe2wUhu2aUeGdUYnaJNfTG3twESSIiz5GDukqF5O4vd1TsYd
-	yDt2kM7HQ7G+7T6gRlUma3lD2LS88Ph0j8BveKc+rdURL0sICSwzE6yz53eA3nXn27JKCkaY56e5/
-	28E65bY7KbFxMZH2UpPA==;
+	List-Owner; bh=P+/fp2jbGjubRKuGwRm517bkWY2tXnKw9LBOWKxv+uk=; b=yHPMR/Sv8s1RYj
+	xn49r1z5oBsLHW5JJNIMV5tCqc0FNywCbQzKplb1YHAMniKXWoxiM7H0eOMfm4LKIlCvEEbPSkfeQ
+	DlT/opIofmn0rcum35caUi/0aCWTU/B+B+Kco6+4XiiLFdmDTij2qNZd5wNI0xJJ8gXNaY/2hPLdN
+	uOA8epMJF47WVrSDsxTXoFDhHOhIMYaUzp0iJNFnp+3b0uDufePIG2a/EWJH5VMhQsSMeAS0fX+C3
+	jteR3Fieaav5vNNy2O70FnKgCejl73Ab4wpmU0jsspffFblaRGwqYTCYYpRmyUDp1SWK7EXhlU8gE
+	OpKooREpib+mP/VrgLpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m5p6p-00CoPi-AT; Tue, 20 Jul 2021 12:44:27 +0000
+	id 1m5p74-00CoUK-25; Tue, 20 Jul 2021 12:44:42 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m5p6Q-00CoHO-6t
- for linux-nvme@lists.infradead.org; Tue, 20 Jul 2021 12:44:04 +0000
+ id 1m5p6Q-00CoHc-8H
+ for linux-nvme@lists.infradead.org; Tue, 20 Jul 2021 12:44:05 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id DECDA22463;
+ by smtp-out1.suse.de (Postfix) with ESMTP id DB34B22461;
  Tue, 20 Jul 2021 12:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1626785038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wXPBPv4Xm2i92ggDEv2FxhL1rrXxqqPg+4Juaoq5FDY=;
- b=M8TEvckCuaoTeHEzlQK2nv0Gym7e4QrujZ1C8XtZt2IwxJtOeIES4K5gehjV7mO/Nh1hCd
- 5Izao1q6E3Rxr87USS/qLMKfFurD3e2XXgoo+55kAthGxLz6adILf7hdjX4NVEuisV0Vgb
- tViRlmpnu5X7tC2sRjFpW4sf55vwIA0=
+ bh=gt1WlTf8P4ACBthbjpoZHuxeoWC03SZl9KVFVscbuPc=;
+ b=09kIZ0BrxdXcxI+gMZTqrrv+2TxrcOtg2zP8a1FxUpR0Zs88XNOBoK4iz0gIM5Js2rHPdj
+ Cu/1+EClCP0KaGtah6bOBFUlz3scOGWckVEjgPOzBLgOE017thBiJA5vzwINy5VWZU0qJl
+ hODefdHyF85rv643hiex5AT1zZCA2c4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1626785038;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wXPBPv4Xm2i92ggDEv2FxhL1rrXxqqPg+4Juaoq5FDY=;
- b=IIXUn3ySHIYJfsT3TojoGpHRhm73H79sNu1qqmsWx5QJix+u/PtEgvBLKVTK22m6j18jZC
- iQevbwP5TGpLyMDw==
+ bh=gt1WlTf8P4ACBthbjpoZHuxeoWC03SZl9KVFVscbuPc=;
+ b=cGO9X/pNj64FFDyUpVjw1kw3/1QOS/LQAGEjDiXn+btL857WyajnyWeprxBQiNoGOHiy9i
+ LLkx34wW3zWJz4BA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 1EFA8A3BAB;
+ by relay2.suse.de (Postfix) with ESMTP id 12EECA3BA9;
  Tue, 20 Jul 2021 12:43:58 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id 0D416517192E; Tue, 20 Jul 2021 14:43:58 +0200 (CEST)
+ id 01241517192A; Tue, 20 Jul 2021 14:43:58 +0200 (CEST)
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
  Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
- James Smart <jsmart2021@gmail.com>
-Subject: [PATCH v3 4/6] nvme-fc: Wait with a timeout for queue to freeze
-Date: Tue, 20 Jul 2021 14:43:51 +0200
-Message-Id: <20210720124353.127959-5-dwagner@suse.de>
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v3 2/6] nvme-tcp: Update number of hardware queues before
+ using them
+Date: Tue, 20 Jul 2021 14:43:49 +0200
+Message-Id: <20210720124353.127959-3-dwagner@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210720124353.127959-1-dwagner@suse.de>
 References: <20210720124353.127959-1-dwagner@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210720_054402_464557_4292C1CE 
-X-CRM114-Status: GOOD (  11.36  )
+X-CRM114-CacheID: sfid-20210720_054402_529851_04267B6C 
+X-CRM114-Status: GOOD (  13.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,35 +95,56 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Do not wait indifinitly for all queues to freeze. Instead use a
-timeout and abort the operation if we get stuck.
+From: Hannes Reinecke <hare@suse.de>
 
-Reviewed-by: James Smart <jsmart2021@gmail.com>
+When the number of hardware queues changes during resetting we should
+update the tagset first before using it.
+
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/fc.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/nvme/host/tcp.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 8d742a6c82c1..a64be4fb07af 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2956,7 +2956,14 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- 		dev_info(ctrl->ctrl.device,
- 			"reconnect: revising io queue count from %d to %d\n",
- 			prior_ioq_cnt, nr_io_queues);
--		nvme_wait_freeze(&ctrl->ctrl);
-+		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
-+			/*
-+			 * If we timed out waiting for freeze we are likely to
-+			 * be stuck.  Fail the controller initialization just
-+			 * to be safe.
-+			 */
-+			return -ENODEV;
-+		}
- 		blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
- 		nvme_unfreeze(&ctrl->ctrl);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index cf3440fdada8..286e318403cb 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1791,6 +1791,7 @@ static void nvme_tcp_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
+ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ {
+ 	int ret;
++	u32 prior_q_cnt = ctrl->queue_count;
+ 
+ 	ret = nvme_tcp_alloc_io_queues(ctrl);
+ 	if (ret)
+@@ -1808,14 +1809,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 			ret = PTR_ERR(ctrl->connect_q);
+ 			goto out_free_tag_set;
+ 		}
+-	}
+-
+-	ret = nvme_tcp_start_io_queues(ctrl);
+-	if (ret)
+-		goto out_cleanup_connect_q;
+-
+-	if (!new) {
+-		nvme_start_queues(ctrl);
++	} else if (prior_q_cnt != ctrl->queue_count) {
+ 		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
+ 			/*
+ 			 * If we timed out waiting for freeze we are likely to
+@@ -1830,6 +1824,10 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 		nvme_unfreeze(ctrl);
  	}
+ 
++	ret = nvme_tcp_start_io_queues(ctrl);
++	if (ret)
++		goto out_cleanup_connect_q;
++
+ 	return 0;
+ 
+ out_wait_freeze_timed_out:
 -- 
 2.29.2
 
