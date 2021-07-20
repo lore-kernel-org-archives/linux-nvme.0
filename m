@@ -2,93 +2,79 @@ Return-Path: <SRS0=Lfpf=MM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55012C07E95
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 10:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3552C07E95
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 11:32:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E76296108B
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 10:50:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E76296108B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7C6B560FF2
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 11:32:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7C6B560FF2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=C4/fRUDBTy5Gq5FiFwHHBlUMG5ROPtBb4Bu6rTHqsQc=; b=Tyw0gSjAJGZON6
-	Cdk2roV1dAPgA1Skx9yhwC3HLo7yHPsrOgr6E4U3Su5e/Ve+qRud2i1G2VAj2x7iDMe//j9wm9q2w
-	aiG4Ze+YR/rKm43vs8wmp1fpobaCtZj4zIkN6UAkWxfmoDNZvNSlBa68WmOFjBE9jU6W7SumtuYSG
-	T+AxrJYphPBWAqWkrbykUyoSbMqmKzGQOSVdn2/u1YpoFF3+6C4n67RNmqiVKwqTko4kKCchauVsb
-	yf53nS7L9p9GXxSkDDDa4q1ZjYtWS1BwVgwhvAIAIajH3o4DQgo0agl/0GTFMSC02ievlJcbGfPX/
-	/Ejq2dAUSDDJtz4uXVHg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:Subject:From:References:Cc:To:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=zWFy6fc+X1gfpuqz+4St0jRKPgX1qdhAX6ixGuwJZ4I=; b=1f0d4QuE3IsCfhWfTdh84txai2
+	b3Ki8Ym9mwATMfJcuzRjUDjLOscLDqJ9PBP7zfrJ88PQ6L9jK169SyivnteDtjT1e7+Oag7I4N5Yn
+	AlCZBMMRtoDYhDZI3AXAre4nZBE3bJEK2wsnqX9ThPTZGl/gz08vbG4aLPQL6CTSPT46RYIKnRirG
+	sNVuXSG+t0LXZ2gtFRtHLY4jKNb6kvkyozSgQfywXGz7m/1kZkiNAVBWMWO8qavYAm6PGfZUyWk0p
+	EueX8oegRoCQnj4bFTKkDixGMFGnlHOTmf15mYezq+dtINjcTZM14NLYoBF8+BQNXq18meFsqgdX7
+	S9jCsPRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m5nK6-00CZjq-OB; Tue, 20 Jul 2021 10:50:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1m5nyY-00CfLX-1e; Tue, 20 Jul 2021 11:31:50 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m5nK2-00CZj6-Tf
- for linux-nvme@lists.infradead.org; Tue, 20 Jul 2021 10:50:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626778195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ id 1m5nyU-00CfL4-OZ
+ for linux-nvme@lists.infradead.org; Tue, 20 Jul 2021 11:31:48 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1997D2245C;
+ Tue, 20 Jul 2021 11:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626780705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TcBvlM0PO1J96UyBHCfK10rZCKfHKQT2nt9cT4JhOkc=;
- b=I2LWrVi7mTptUyGA6b3MccaJeCdm32X1MWo/jC+krdjMoHRUs0EexOE9m87N0lXuA7bLr/
- ufIjZpFqa0nS0YeneK95j7yXjxV6Xl0lbsWytKpJw60oM7ZCO/050dUgUi1cr+OX/jr9qY
- 6dL83YtlS//UBDY91ry/MqS8jTxKLdU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-q2mWD8ktP-iuKBowvhYP3g-1; Tue, 20 Jul 2021 06:49:50 -0400
-X-MC-Unique: q2mWD8ktP-iuKBowvhYP3g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- r23-20020aa7d5970000b02903ae404e7fb4so8762654edq.12
- for <linux-nvme@lists.infradead.org>; Tue, 20 Jul 2021 03:49:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=TcBvlM0PO1J96UyBHCfK10rZCKfHKQT2nt9cT4JhOkc=;
- b=jRILU9d2h4YgcxgUsmHEQ06N12U9wCZyGJaZp0cYFF0HHDtz++x4R3Gx26PkIuZV6U
- mnyvqEB0UKNw1dvhXus5JqrVss8Jsfj5CXjMDfKvFtNoRY5fMCM4GTcSd0EcqtQmu8za
- UTnBOxuHaaOupJBhXPSKxEAkKHOPTh5MRxffTSuIP1p+ojf7u6FFolcusBI3Xf2to4JF
- SSIxNTP/e2j34gXP1FLFd8rfDZfmPCfNZpNmXbQE980caTeeB3TY3jFkrM60fEJTsVwE
- edUlYRnPR7ORVduOdB1foDZHhTuaNmbIC9Kk3Hqs/qQQznnmmrcT/C83k9wgfIQMIkia
- v4kg==
-X-Gm-Message-State: AOAM531n9Ir2DnelY4WZowD6FFYYc/Pm/WjHWFPKcUt+bb2UfiVubDPx
- Uvnc1AEC47m7n+0Y7QpANo4xD35AGG9NIUpF0YuidqTe3sGuDXoLuSlbGLzOOnxwEQfBZnLaTg3
- FM/Fa1B7P6gU6PAxEj0ugjPvMK/w=
-X-Received: by 2002:a17:906:c302:: with SMTP id
- s2mr31809065ejz.151.1626778189286; 
- Tue, 20 Jul 2021 03:49:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXHUaumf3OMlJJfhNbDCWjmzsvW/jhdU3wQzuyevW25yMPJY14KDyl1R/Rc9dW4c7kv+JjmA==
-X-Received: by 2002:a17:906:c302:: with SMTP id
- s2mr31809052ejz.151.1626778189116; 
- Tue, 20 Jul 2021 03:49:49 -0700 (PDT)
-Received: from m8.users.ipa.redhat.com ([93.56.160.10])
- by smtp.gmail.com with ESMTPSA id i10sm8964149edf.12.2021.07.20.03.49.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 03:49:48 -0700 (PDT)
-Message-ID: <11ab4001f580a6b2c3cce959282259c1f9095f63.camel@redhat.com>
-Subject: Re: [PATCH 09/11] nvmet: Implement basic In-Band Authentication
-From: Simo Sorce <simo@redhat.com>
-To: Hannes Reinecke <hare@suse.de>, Stephan Mueller <smueller@chronox.de>, 
+ bh=HKJuwvlbpq9y+50Lzz2FJYdnyQhvoYmQQwpN1Z2oGU0=;
+ b=Zls6/hODZeTBb1YVm/s2efgmc4zBk1AYen7YCXkhWilqZLrqpSvpnaufNW6fxk+TKN1W4G
+ UmOzKtOlxLdNEfaqhmS6J10J1KALf+XNMo+6u7jyPMT/bGkz4ztB/c1eVQ2X7Hf++LhxTb
+ QUAp1bBE19M1rgVzfhOlCJ9qS9tZ7Qo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626780705;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HKJuwvlbpq9y+50Lzz2FJYdnyQhvoYmQQwpN1Z2oGU0=;
+ b=eEuGuzxiemKWNC577WViXUvTomRFMaoVL/PIS1rouPvlw/tRlCrI36/aw9wLILCT2zWFKX
+ SlVzff6dZ4hm8sDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00F7E13C8A;
+ Tue, 20 Jul 2021 11:31:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id TuUIOyC09mAdUgAAMHmgww
+ (envelope-from <hare@suse.de>); Tue, 20 Jul 2021 11:31:44 +0000
+To: Simo Sorce <simo@redhat.com>, Stephan Mueller <smueller@chronox.de>,
  Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>, 
- linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>, 
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
  "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
-Date: Tue, 20 Jul 2021 06:49:47 -0400
-In-Reply-To: <aac9448e-29e9-6d03-1077-148be3c10f50@suse.de>
 References: <20210716110428.9727-1-hare@suse.de>
  <2510347.locV8n3378@positron.chronox.de>
  <a4d4bda0-2bc8-0d0c-3e81-55adecd6ce52@suse.de>
@@ -100,16 +86,19 @@ References: <20210716110428.9727-1-hare@suse.de>
  <1eab1472-3b7b-307b-62ae-8bed39603b96@suse.de>
  <24d115c9b68ca98a3cf363e1cfcb961cc6b38069.camel@chronox.de>
  <aac9448e-29e9-6d03-1077-148be3c10f50@suse.de>
-Organization: Red Hat
-User-Agent: Evolution 3.40.2 (3.40.2-1.fc34)
+ <11ab4001f580a6b2c3cce959282259c1f9095f63.camel@redhat.com>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 09/11] nvmet: Implement basic In-Band Authentication
+Message-ID: <4cd673a8-a503-c29a-85f6-3c2703558181@suse.de>
+Date: Tue, 20 Jul 2021 13:31:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=simo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <11ab4001f580a6b2c3cce959282259c1f9095f63.camel@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210720_034959_094393_37BDC716 
-X-CRM114-Status: GOOD (  40.99  )
+X-CRM114-CacheID: sfid-20210720_043147_003915_71671826 
+X-CRM114-Status: GOOD (  36.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,112 +110,92 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 2021-07-20 at 12:14 +0200, Hannes Reinecke wrote:
-> On 7/19/21 1:52 PM, Stephan Mueller wrote:
-> > Am Montag, dem 19.07.2021 um 13:10 +0200 schrieb Hannes Reinecke:
-> > > On 7/19/21 12:19 PM, Stephan Mueller wrote:
-> > > > Am Montag, dem 19.07.2021 um 11:57 +0200 schrieb Hannes Reinecke:
-> > > > > On 7/19/21 10:51 AM, Stephan Mueller wrote:
-> [ .. ]
-> > > > > > 
-> > > > > > Thank you for clarifying that. It sounds to me that there is no
-> > > > > > defined protocol (or if there, I would be wondering how the code would have
-> > > > > > worked
-> > > > > > with a different implementation). Would it make sense to first specify
-> > > > > > a protocol for authentication and have it discussed? I personally think
-> > > > > > it is a bit difficult to fully understand the protocol from the code and
-> > > > > > discuss protocol-level items based on the code.
-> > > > > > 
-> > > > > Oh, the protocol _is_ specified:
-> > > > > 
-> > > > >  
-> > > > > https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-2_0-2021.06.02-Ratified-5.pdf
-> > > > > 
-> > > > > It's just that I have issues translating that spec onto what the kernel
-> > > > > provides.
-> > > > 
-> > > > according to the naming conventions there in figures 447 and following:
-> > > > 
-> > > > - x and y: DH private key (kernel calls it secret set with dh_set_secret
-> > > > or
-> > > > encoded into param.key)
-> > > > 
-> > > 
-> > > But that's were I got confused; one needs a private key here, but there
-> > > is no obvious candidate for it. But reading it more closely I guess the
-> > > private key is just a random number (cf the spec: g^y mod p, where y is
-> > > a random number selected by the host that shall be at least 256 bits
-> > > long). So I'll fix it up with the next round.
-> > 
-> > Here comes the crux: the kernel has an ECC private key generation function
-> > ecdh_set_secret triggered with crypto_kpp_set_secret using a NULL key, but it
-> > has no FFC-DH counterpart.
-> > 
-> > That said, generating a random number is the most obvious choice, but not the
-> > right one.
-> > 
-> > The correct one would be following SP800-56A rev 3 and here either section
-> > 5.6.1.1.3 or 5.6.1.1.4.
-> > 
-> Hmm. Okay. But after having read section 5.6.1.1.4, I still do have some
-> questions.
-> 
-> Assume we will be using a bit length of 512 for FFDHE, then we will
-> trivially pass Step 2 for all supported FFDHE groups (the maximum
-> symmetric-equivalent strength for ffdhe8192 is 192 bits).
-
-N = 512 is not a good choice, minimum length these days for DH should
-be 2048 or more.
-
-> From my understanding, the random number generator will fill out all
-> available bytes in the string (and nothing more), so we trivially
-> satisfy step 3 and 4.
-> 
-> And as q is always larger than the random number, step 6 reduces to
-> 'if (c > 2^N - 2)',
-
-Where is this coming from ?
-It seem you assume M = 2^N but M = min(2^N, q)
-
-The point here is to make sure the number X you return is:
-0 < X < (q-1)
-
->  ie we just need to check if the random number is a
-> string of 0xff characters. Which hardly is a random number at all, so
-> it'll be impossible to get this.
-> 
-> Which then would mean that our 'x' is simply the random number + 1,
-
-This is an artifact due to the random number being 0 <= c < 2^N - 1,
-therefore 1 needs to be added to make sure you never return 0.
-
-> which arguably is slightly pointless (one more than a random number is
-> as random as the number itself), so I do feel justified with just
-> returning a random number here.
-> 
-> Am I wrong with that reasoning?
-
-Looks to me you are not accounting for the fact that N = 512 is too
-small and a random number falling in the interval (q - 2) < X < 2^N is
-unsuitable?
-
-Simo.
-
--- 
-Simo Sorce
-RHEL Crypto Team
-Red Hat, Inc
-
-
-
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNy8yMC8yMSAxMjo0OSBQTSwgU2ltbyBTb3JjZSB3cm90ZToKPiBPbiBUdWUsIDIwMjEtMDct
+MjAgYXQgMTI6MTQgKzAyMDAsIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPj4gT24gNy8xOS8yMSAx
+OjUyIFBNLCBTdGVwaGFuIE11ZWxsZXIgd3JvdGU6Cj4+PiBBbSBNb250YWcsIGRlbSAxOS4wNy4y
+MDIxIHVtIDEzOjEwICswMjAwIHNjaHJpZWIgSGFubmVzIFJlaW5lY2tlOgo+Pj4+IE9uIDcvMTkv
+MjEgMTI6MTkgUE0sIFN0ZXBoYW4gTXVlbGxlciB3cm90ZToKPj4+Pj4gQW0gTW9udGFnLCBkZW0g
+MTkuMDcuMjAyMSB1bSAxMTo1NyArMDIwMCBzY2hyaWViIEhhbm5lcyBSZWluZWNrZToKPj4+Pj4+
+IE9uIDcvMTkvMjEgMTA6NTEgQU0sIFN0ZXBoYW4gTXVlbGxlciB3cm90ZToKPj4gWyAuLiBdCj4+
+Pj4+Pj4KPj4+Pj4+PiBUaGFuayB5b3UgZm9yIGNsYXJpZnlpbmcgdGhhdC4gSXQgc291bmRzIHRv
+IG1lIHRoYXQgdGhlcmUgaXMgbm8KPj4+Pj4+PiBkZWZpbmVkIHByb3RvY29sIChvciBpZiB0aGVy
+ZSwgSSB3b3VsZCBiZSB3b25kZXJpbmcgaG93IHRoZSBjb2RlIHdvdWxkIGhhdmUKPj4+Pj4+PiB3
+b3JrZWQKPj4+Pj4+PiB3aXRoIGEgZGlmZmVyZW50IGltcGxlbWVudGF0aW9uKS4gV291bGQgaXQg
+bWFrZSBzZW5zZSB0byBmaXJzdCBzcGVjaWZ5Cj4+Pj4+Pj4gYSBwcm90b2NvbCBmb3IgYXV0aGVu
+dGljYXRpb24gYW5kIGhhdmUgaXQgZGlzY3Vzc2VkPyBJIHBlcnNvbmFsbHkgdGhpbmsKPj4+Pj4+
+PiBpdCBpcyBhIGJpdCBkaWZmaWN1bHQgdG8gZnVsbHkgdW5kZXJzdGFuZCB0aGUgcHJvdG9jb2wg
+ZnJvbSB0aGUgY29kZSBhbmQKPj4+Pj4+PiBkaXNjdXNzIHByb3RvY29sLWxldmVsIGl0ZW1zIGJh
+c2VkIG9uIHRoZSBjb2RlLgo+Pj4+Pj4+Cj4+Pj4+PiBPaCwgdGhlIHByb3RvY29sIF9pc18gc3Bl
+Y2lmaWVkOgo+Pj4+Pj4KPj4+Pj4+ICAKPj4+Pj4+IGh0dHBzOi8vbnZtZXhwcmVzcy5vcmcvd3At
+Y29udGVudC91cGxvYWRzL05WTS1FeHByZXNzLUJhc2UtU3BlY2lmaWNhdGlvbi0yXzAtMjAyMS4w
+Ni4wMi1SYXRpZmllZC01LnBkZgo+Pj4+Pj4KPj4+Pj4+IEl0J3MganVzdCB0aGF0IEkgaGF2ZSBp
+c3N1ZXMgdHJhbnNsYXRpbmcgdGhhdCBzcGVjIG9udG8gd2hhdCB0aGUga2VybmVsCj4+Pj4+PiBw
+cm92aWRlcy4KPj4+Pj4KPj4+Pj4gYWNjb3JkaW5nIHRvIHRoZSBuYW1pbmcgY29udmVudGlvbnMg
+dGhlcmUgaW4gZmlndXJlcyA0NDcgYW5kIGZvbGxvd2luZzoKPj4+Pj4KPj4+Pj4gLSB4IGFuZCB5
+OiBESCBwcml2YXRlIGtleSAoa2VybmVsIGNhbGxzIGl0IHNlY3JldCBzZXQgd2l0aCBkaF9zZXRf
+c2VjcmV0Cj4+Pj4+IG9yCj4+Pj4+IGVuY29kZWQgaW50byBwYXJhbS5rZXkpCj4+Pj4+Cj4+Pj4K
+Pj4+PiBCdXQgdGhhdCdzIHdlcmUgSSBnb3QgY29uZnVzZWQ7IG9uZSBuZWVkcyBhIHByaXZhdGUg
+a2V5IGhlcmUsIGJ1dCB0aGVyZQo+Pj4+IGlzIG5vIG9idmlvdXMgY2FuZGlkYXRlIGZvciBpdC4g
+QnV0IHJlYWRpbmcgaXQgbW9yZSBjbG9zZWx5IEkgZ3Vlc3MgdGhlCj4+Pj4gcHJpdmF0ZSBrZXkg
+aXMganVzdCBhIHJhbmRvbSBudW1iZXIgKGNmIHRoZSBzcGVjOiBnXnkgbW9kIHAsIHdoZXJlIHkg
+aXMKPj4+PiBhIHJhbmRvbSBudW1iZXIgc2VsZWN0ZWQgYnkgdGhlIGhvc3QgdGhhdCBzaGFsbCBi
+ZSBhdCBsZWFzdCAyNTYgYml0cwo+Pj4+IGxvbmcpLiBTbyBJJ2xsIGZpeCBpdCB1cCB3aXRoIHRo
+ZSBuZXh0IHJvdW5kLgo+Pj4KPj4+IEhlcmUgY29tZXMgdGhlIGNydXg6IHRoZSBrZXJuZWwgaGFz
+IGFuIEVDQyBwcml2YXRlIGtleSBnZW5lcmF0aW9uIGZ1bmN0aW9uCj4+PiBlY2RoX3NldF9zZWNy
+ZXQgdHJpZ2dlcmVkIHdpdGggY3J5cHRvX2twcF9zZXRfc2VjcmV0IHVzaW5nIGEgTlVMTCBrZXks
+IGJ1dCBpdAo+Pj4gaGFzIG5vIEZGQy1ESCBjb3VudGVycGFydC4KPj4+Cj4+PiBUaGF0IHNhaWQs
+IGdlbmVyYXRpbmcgYSByYW5kb20gbnVtYmVyIGlzIHRoZSBtb3N0IG9idmlvdXMgY2hvaWNlLCBi
+dXQgbm90IHRoZQo+Pj4gcmlnaHQgb25lLgo+Pj4KPj4+IFRoZSBjb3JyZWN0IG9uZSB3b3VsZCBi
+ZSBmb2xsb3dpbmcgU1A4MDAtNTZBIHJldiAzIGFuZCBoZXJlIGVpdGhlciBzZWN0aW9uCj4+PiA1
+LjYuMS4xLjMgb3IgNS42LjEuMS40Lgo+Pj4KPj4gSG1tLiBPa2F5LiBCdXQgYWZ0ZXIgaGF2aW5n
+IHJlYWQgc2VjdGlvbiA1LjYuMS4xLjQsIEkgc3RpbGwgZG8gaGF2ZSBzb21lCj4+IHF1ZXN0aW9u
+cy4KPj4KPj4gQXNzdW1lIHdlIHdpbGwgYmUgdXNpbmcgYSBiaXQgbGVuZ3RoIG9mIDUxMiBmb3Ig
+RkZESEUsIHRoZW4gd2Ugd2lsbAo+PiB0cml2aWFsbHkgcGFzcyBTdGVwIDIgZm9yIGFsbCBzdXBw
+b3J0ZWQgRkZESEUgZ3JvdXBzICh0aGUgbWF4aW11bQo+PiBzeW1tZXRyaWMtZXF1aXZhbGVudCBz
+dHJlbmd0aCBmb3IgZmZkaGU4MTkyIGlzIDE5MiBiaXRzKS4KPiAKPiBOID0gNTEyIGlzIG5vdCBh
+IGdvb2QgY2hvaWNlLCBtaW5pbXVtIGxlbmd0aCB0aGVzZSBkYXlzIGZvciBESCBzaG91bGQKPiBi
+ZSAyMDQ4IG9yIG1vcmUuCj4gCgpBY2NvcmRpbmcgdG8gUkZDNzkxOToKUGVlcnMgdXNpbmcgZmZk
+aGU4MTkyIHRoYXQgd2FudCB0byBvcHRpbWl6ZSB0aGVpciBrZXkgZXhjaGFuZ2Ugd2l0aCBhCnNo
+b3J0IGV4cG9uZW50IChTZWN0aW9uIDUuMikgc2hvdWxkIGNob29zZSBhIHNlY3JldCBrZXkgb2Yg
+YXQgbGVhc3QKNDAwIGJpdHMuCgpTbyB3aGF0IGlzIHdyb25nIHdpdGggNTEyIGJpdHM/Cgo+PiBG
+cm9tIG15IHVuZGVyc3RhbmRpbmcsIHRoZSByYW5kb20gbnVtYmVyIGdlbmVyYXRvciB3aWxsIGZp
+bGwgb3V0IGFsbAo+PiBhdmFpbGFibGUgYnl0ZXMgaW4gdGhlIHN0cmluZyAoYW5kIG5vdGhpbmcg
+bW9yZSksIHNvIHdlIHRyaXZpYWxseQo+PiBzYXRpc2Z5IHN0ZXAgMyBhbmQgNC4KPj4KPj4gQW5k
+IGFzIHEgaXMgYWx3YXlzIGxhcmdlciB0aGFuIHRoZSByYW5kb20gbnVtYmVyLCBzdGVwIDYgcmVk
+dWNlcyB0bwo+PiAnaWYgKGMgPiAyXk4gLSAyKScsCj4gCj4gV2hlcmUgaXMgdGhpcyBjb21pbmcg
+ZnJvbSA/Cj4gSXQgc2VlbSB5b3UgYXNzdW1lIE0gPSAyXk4gYnV0IE0gPSBtaW4oMl5OLCBxKQo+
+IAo+IFRoZSBwb2ludCBoZXJlIGlzIHRvIG1ha2Ugc3VyZSB0aGUgbnVtYmVyIFggeW91IHJldHVy
+biBpczoKPiAwIDwgWCA8IChxLTEpCj4gCgpXaGljaCBpcyB3aGF0IEkndmUgdHJpZWQgdG8gYXJn
+dWUuIEZvciA1MTIgYml0cyBwcml2YXRlIGtleSBhbmQgdGhlCnNtYWxsZXN0IHBvc3NpYmxlIEZG
+REhFIGdyb3VwICh3aGljaCBoYXMgMjA0OCBiaXRzLCB3aXRoIHRoZSB0b3AgYml0Cm5vbi16ZXJv
+KSAyXk4gaXMgYWx3YXlzIHNtYWxsZXIgdGhhbiAocSAtIDEpLgpBcyB0aGUgb3RoZXIgRkZIREUg
+Z3JvdXBzIGFyZSB1c2luZyBldmVuIGxhcmdlciAncScgdmFsdWVzLCB0aGlzIGlzIHRydWUKZm9y
+IGFsbCBGRkhERSBncm91cHMuCgo+PiAgaWUgd2UganVzdCBuZWVkIHRvIGNoZWNrIGlmIHRoZSBy
+YW5kb20gbnVtYmVyIGlzIGEKPj4gc3RyaW5nIG9mIDB4ZmYgY2hhcmFjdGVycy4gV2hpY2ggaGFy
+ZGx5IGlzIGEgcmFuZG9tIG51bWJlciBhdCBhbGwsIHNvCj4+IGl0J2xsIGJlIGltcG9zc2libGUg
+dG8gZ2V0IHRoaXMuCj4+Cj4+IFdoaWNoIHRoZW4gd291bGQgbWVhbiB0aGF0IG91ciAneCcgaXMg
+c2ltcGx5IHRoZSByYW5kb20gbnVtYmVyICsgMSwKPiAKPiBUaGlzIGlzIGFuIGFydGlmYWN0IGR1
+ZSB0byB0aGUgcmFuZG9tIG51bWJlciBiZWluZyAwIDw9IGMgPCAyXk4gLSAxLAo+IHRoZXJlZm9y
+ZSAxIG5lZWRzIHRvIGJlIGFkZGVkIHRvIG1ha2Ugc3VyZSB5b3UgbmV2ZXIgcmV0dXJuIDAuCj4g
+CgpBbmQgbXkgYXJndW1lbnQgaGVyZSBpcyB0aGF0IGFsbCB6ZXJvcyAoYW5kIGFsbCBvbmVzKSBh
+cmUgbm90IGEgdmFsdWUgSQp3b3VsZCBleHBlY3QgZnJvbSBvdXIgUk5HLgoKPj4gd2hpY2ggYXJn
+dWFibHkgaXMgc2xpZ2h0bHkgcG9pbnRsZXNzIChvbmUgbW9yZSB0aGFuIGEgcmFuZG9tIG51bWJl
+ciBpcwo+PiBhcyByYW5kb20gYXMgdGhlIG51bWJlciBpdHNlbGYpLCBzbyBJIGRvIGZlZWwganVz
+dGlmaWVkIHdpdGgganVzdAo+PiByZXR1cm5pbmcgYSByYW5kb20gbnVtYmVyIGhlcmUuCj4+Cj4+
+IEFtIEkgd3Jvbmcgd2l0aCB0aGF0IHJlYXNvbmluZz8KPiAKPiBMb29rcyB0byBtZSB5b3UgYXJl
+IG5vdCBhY2NvdW50aW5nIGZvciB0aGUgZmFjdCB0aGF0IE4gPSA1MTIgaXMgdG9vCj4gc21hbGwg
+YW5kIGEgcmFuZG9tIG51bWJlciBmYWxsaW5nIGluIHRoZSBpbnRlcnZhbCAocSAtIDIpIDwgWCA8
+IDJeTiBpcwo+IHVuc3VpdGFibGU/Cj4gCgpPbmx5IGlmIChxIC0gMikgPCAyXk4uIEFuZCBteSBw
+b2ludCBpcyB0aGF0IGl0J3Mgbm90LgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJl
+aW5lY2tlCQkgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJ
+CQkgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4
+MDkgKEFHIE7DvHJuYmVyZyksIEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0
+CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
