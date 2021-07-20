@@ -2,88 +2,88 @@ Return-Path: <SRS0=Lfpf=MM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9382FC07E95
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 02:39:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B2A6C07E95
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 02:49:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 40BED610D2
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 02:39:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40BED610D2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 32A7761002
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jul 2021 02:49:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 32A7761002
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=z9eZb6mYUnhZij6uRmVjjI2upzOI8tTif9IW8Dh7cfg=; b=sUX5XfyQafXGm4
-	woqRt4jRWTLlzEvevoD8NFWL4XC+lWLGTzGbJw+r1SUJ10RdYA2msFaw7QvATwsRXsY5icvo4X79P
-	Vj09UEzTdZVOoliZHV/oE9U0aT4ST8SISEciJJ9X/rW0LeQltixa1TZUSgF7z6tvzqXpvrvmIAxaB
-	GoHOVHKU5C4RiC8jqigxNwtHrkwfbHg5T+6L9ydY9Mu4oa6H/JIvDqv6YhhvklMTFvoNOA1c/JfF1
-	qPMGnJot2gKN9dmP30OMnkNmsXh/YswKIQO5PTpDyOnIDP85FOG8J9ewV6DapLiqw53oRvEdEAM5N
-	3D4OD0+i/Uj5IeVkSgxQ==;
+	List-Owner; bh=OmY4zNew00KBWgRYc8yc1txybHhmcEURWwlkuujzqOw=; b=HLsG0bnpfcXLEL
+	tyQctraA8CMyAzi3I40OmcykPYrAnmgdXwg/7T0mjE9C6vxg3nZC0UsDXkwYM2fVK3VhQCPl97vEJ
+	5FVR2/c7LMzlOWfRMygBpCbJDw/UV5O0UVIpJXgxEWwMFgd7bPYnFKWZ10uGlRkIpNe+JKm9SvIhB
+	AnaoF8KnDRcObesv3swEtveRLr7Q2wo4egxlPeSGox4ZE77ZZ2FuzPYLqfGKcZdMjLgDQ4jgjKiAg
+	xu0ZbTVSXbox3eYkQcp4sHOjRNXkivsDQB05b3Eu6TG170HX6RvTuMOtXa42/TL4C4pjFy2uWzEYA
+	NWqFHvl8jCxKJhiFQNfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m5feW-00BiFu-Ae; Tue, 20 Jul 2021 02:38:36 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m5fof-00Bk18-My; Tue, 20 Jul 2021 02:49:05 +0000
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m5feT-00BiFa-Be
- for linux-nvme@lists.infradead.org; Tue, 20 Jul 2021 02:38:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626748707;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G3SWoqsOcAK0oX6I/hgpTqrzjtvMRxHWPl/NBHoZkvM=;
- b=ghZnFX9+8NnOGVhv/9hqM5OtwarOUehaYa3/JMLlwZhrehPyt3VD6T5zOBZFV35efv0nZr
- 61ax1p0wo1a7dLtg16i8rTkxfSEWGqqJJyg86IelGEQztn0BVjVxhBxjjYw9Gmhl8dXKE4
- 1rXEE4jajdmozGxuPNUH6W7L4v1F9Vs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-Ir__ZHnNMo2aKSHiw_R7PA-1; Mon, 19 Jul 2021 22:38:26 -0400
-X-MC-Unique: Ir__ZHnNMo2aKSHiw_R7PA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6318F106B7DF;
- Tue, 20 Jul 2021 02:38:23 +0000 (UTC)
-Received: from T590 (ovpn-12-229.pek2.redhat.com [10.72.12.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CFF919C79;
- Tue, 20 Jul 2021 02:38:13 +0000 (UTC)
-Date: Tue, 20 Jul 2021 10:38:08 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.garry@huawei.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V4 1/3] driver core: mark device as irq affinity managed
- if any irq is managed
-Message-ID: <YPY3EMngyf2JFZ3j@T590>
-References: <20210715120844.636968-1-ming.lei@redhat.com>
- <20210715120844.636968-2-ming.lei@redhat.com>
- <5e534fdc-909e-39b2-521d-31f643a10558@huawei.com>
- <20210719094414.GC431@lst.de>
- <5153406c-e3ed-d466-5603-14fd919304f4@huawei.com>
+ id 1m5foc-00Bjze-Tp
+ for linux-nvme@lists.infradead.org; Tue, 20 Jul 2021 02:49:04 +0000
+Received: by mail-pf1-x42f.google.com with SMTP id d9so7189281pfv.4
+ for <linux-nvme@lists.infradead.org>; Mon, 19 Jul 2021 19:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=E6Rf+4wgAd/KIx7u2UI7BooW0YqsBTQvN9ct7KjpyIs=;
+ b=RC6/CNzkC2FjOenOSnTfnDmv8POLfBCQ4hZGIdbJwBeW6tPlDX+qShSDYME6oOh4L1
+ DimRbpxEY5fT/AL53H/aNi//NqLm0xxARkcJo5Sm20n3psNPpiPJHdoYYuPO/1XOYK8v
+ D5B6CyXURzeeHolU4CvZEagEw5rdxfKqZlA6IKVziQPzQ1FACJTx6fU/lJLItiaKn3iS
+ kzYnwGw8cC0MwNlBYsRbRd1plSVjbRY+8Rsm+NcbVx8o+fAXvT9t1XK8+toulJkdicvg
+ XohztORvhRQf15Iwr5qkIWRTWNOJTtPO9hbycUHon1g29O7crVPWQJvSTd0R/wdvfOBU
+ fV6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=E6Rf+4wgAd/KIx7u2UI7BooW0YqsBTQvN9ct7KjpyIs=;
+ b=j86eKw0by7JKqKYb1soEtwcmVYpjt73LcKc4QFbu4Fdn3Z4/MccjsoDluKesvjuqKj
+ A41sTths2HNSACow9rtTOTKs0XmFqffforMyaGGl3vdEF7vIIxMayjZ+BzOPq4ylTyIE
+ uU0v2WjH1hl5XluyaHdebNIWKyfgJ2Q+02VvZOs0AfDZAngK9H+nMduunXK6wECXQqxv
+ ZxL0O7Afl9HHFDpzgX1Q4vSmF/DiWjqUlaPynXoufKomIKfq46iL9FoUjFYv94VEExo4
+ M8G2wL5SGdIO5iRLMJUkHVes1Mb84A4GXvtuP8V26vcK3RWkcPPpj/NTBOhGwsHq/xyH
+ Uwdw==
+X-Gm-Message-State: AOAM530hpwaLRw+1XoSXJbArdErVNWGPyom9iDBCt4tUUBRbDJdVlH2o
+ Ft5iMQJ2+x4/wn7FqgVptmI=
+X-Google-Smtp-Source: ABdhPJyC/SkINMaAUSZ3YzHZrUDsnqo/oajxu9ffao0WtQ8i+P9Rr5hfAEVPBiXHdF3odVZ0sR1QzQ==
+X-Received: by 2002:a63:494d:: with SMTP id y13mr28966533pgk.248.1626749339045; 
+ Mon, 19 Jul 2021 19:48:59 -0700 (PDT)
+Received: from houpudeMacBook-Pro.local.net ([61.120.150.70])
+ by smtp.gmail.com with ESMTPSA id w6sm24050035pgh.56.2021.07.19.19.48.56
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 19 Jul 2021 19:48:58 -0700 (PDT)
+From: Hou Pu <houpu.main@gmail.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me,
+ houpu.main@gmail.com
+Subject: Re: [PATCH] nvme: fix nvme_setup_command metadata trace event
+Date: Tue, 20 Jul 2021 10:48:47 +0800
+Message-Id: <20210720024847.805-1-houpu.main@gmail.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20210719164439.2002887-1-kbusch@kernel.org>
+References: <20210719164439.2002887-1-kbusch@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5153406c-e3ed-d466-5603-14fd919304f4@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210719_193833_531468_60532023 
-X-CRM114-Status: GOOD (  28.89  )
+X-CRM114-CacheID: sfid-20210719_194903_017010_5CAC6747 
+X-CRM114-Status: UNSURE (   8.79  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,77 +100,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 19, 2021 at 11:39:53AM +0100, John Garry wrote:
-> On 19/07/2021 10:44, Christoph Hellwig wrote:
-> > On Mon, Jul 19, 2021 at 08:51:22AM +0100, John Garry wrote:
-> > > > Address this issue by adding one field of .irq_affinity_managed into
-> > > > 'struct device'.
-> > > > 
-> > > > Suggested-by: Christoph Hellwig <hch@lst.de>
-> > > > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > > 
-> > > Did you consider that for PCI device we effectively have this info already:
-> > > 
-> > > bool dev_has_managed_msi_irq(struct device *dev)
-> > > {
-> > > 	struct msi_desc *desc;
-> > > 
-> > > 	list_for_each_entry(desc, dev_to_msi_list(dev), list)
-> 
-> I just noticed for_each_msi_entry(), which is the same
-> 
-> 
-> > > 		if (desc->affinity && desc->affinity->is_managed)
-> > > 			return true;
-> > > 	}
-> > > 
-> > > 	return false;
-> > 
-> > Just walking the list seems fine to me given that this is not a
-> > performance criticial path.  But what are the locking implications?
-> 
-> Since it would be used for sequential setup code, I didn't think any locking
-> was required. But would need to consider where that function lived and
-> whether it's public.
+On Mon, 19 Jul 2021 09:44:39 -0700, Keith Busch wrote:
+> @@ -66,13 +66,13 @@ TRACE_EVENT(nvme_setup_cmd,
+>  		__entry->flags = cmd->common.flags;
+>  		__entry->cid = cmd->common.command_id;
+>  		__entry->nsid = le32_to_cpu(cmd->common.nsid);
+> -		__entry->metadata = le64_to_cpu(cmd->common.metadata);
+> +		__entry->metadata = !!blk_integrity_rq(req);
+>  		__entry->fctype = cmd->fabrics.fctype;
+>  		__assign_disk_name(__entry->disk, req->rq_disk);
+>  		memcpy(__entry->cdw10, &cmd->common.cdw10,
+>  			sizeof(__entry->cdw10));
+>  	    ),
+> -	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+> +	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%x, cmd=(%s %s)",
 
-Yeah, the allocated irq vectors should be live when running map queues.
+Can we also change "cmd=(%s %s)" to "cmd(%s, %s)" like the target side.
 
-> 
-> > 
-> > Also does the above imply this won't work for your platform MSI case?
-> > .
-> > 
-> 
-> Right. I think that it may be possible to reach into the platform msi
-> descriptors to get this info, but I am not sure it's worth it. There is only
-> 1x user there and there is no generic .map_queues function, so could set the
-> flag directly:
-> 
-> int blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev
-> *pdev,
->  		for_each_cpu(cpu, mask)
->  			qmap->mq_map[cpu] = qmap->queue_offset + queue;
->  	}
-> +	qmap->use_managed_irq = dev_has_managed_msi_irq(&pdev->dev);
-> }
-> 
-> --- a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-> +++ b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-> @@ -3563,6 +3563,8 @@ static int map_queues_v2_hw(struct Scsi_Host *shost)
->                        qmap->mq_map[cpu] = qmap->queue_offset + queue;
->        }
-> 
-> +       qmap->use_managed_irq = 1;
-> +
->        return 0;
+Current host side trace:
+kworker/3:1H-120     [003] ....   115.253610: nvme_setup_cmd: nvme0: qid=0, cmdid=17, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_identify cns=2, ctrlid=0)
+kworker/3:1H-120     [003] ....   115.264971: nvme_setup_cmd: nvme0: qid=0, cmdid=18, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_admin_identify cns=3, ctrlid=0)
+kworker/3:1H-120     [003] ....   115.279639: nvme_setup_cmd: nvme0: qid=0, cmdid=19, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_admin_identify cns=0, ctrlid=0)
 
-virtio can be populated via platform device too, but managed irq affinity
-isn't used, so seems dev_has_managed_msi_irq() is fine.
-
+Current target side trace:
+kworker/0:1H-56      [000] .... 50793.382363: nvmet_req_init: nvmet1: qid=0, cmdid=17, nsid=0, flags=0x40, meta=0x0, cmd=(nvme_admin_identify, cns=2, ctrlid=0)
+kworker/0:1H-56      [000] .... 50793.391998: nvmet_req_init: nvmet1: qid=0, cmdid=18, nsid=1, flags=0x40, meta=0x0, cmd=(nvme_admin_identify, cns=3, ctrlid=0)
+kworker/0:1H-56      [000] .... 50793.406733: nvmet_req_init: nvmet1: qid=0, cmdid=19, nsid=1, flags=0x40, meta=0x0, cmd=(nvme_admin_identify, cns=0, ctrlid=0)
 
 Thanks,
-Ming
-
+Hou
 
 _______________________________________________
 Linux-nvme mailing list
