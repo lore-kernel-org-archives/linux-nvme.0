@@ -2,20 +2,20 @@ Return-Path: <SRS0=G/Rm=MN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E7EC636C8
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 01:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFEDC07E9B
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 02:47:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7B436113B
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 01:41:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7B436113B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0CA2560FE7
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 02:47:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CA2560FE7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=strugglers.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -23,61 +23,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tA+zq6HHCrusZlPuUr5u5NyBf76chCVQCL3HOq38Sws=; b=cBaCKm2dEKob6g
-	6RfVklu6jq/TwV1x17oCAfI1UjbWtxKaQcnZ3nHChaE4sD06ecMa+cx9CWNdzRpYG4/sbca7d9+sd
-	2tiHO5ecGfoXhK0QleWcduMhatA7Ak5x8WR9DN+/fG6duxrqfOr4ofMBM3pQ0/l28GYG+ymWyVI4Z
-	e0QRKJtwpG6ApaWYq2Z7qWQ80U2F7hiI5mXsxxZqJCiOHnetXW78Ja/r5MlJSrUt4niIxsbSvbPOL
-	AiX4EDPBKfLCu6SRvT8ACFI4KinGWc713HZ3KZLwQev4VxtzBLsTfNPubfeyvzWaP/KsoexkQT5sh
-	TizvqqYXh3bdqNzmwmJw==;
+	List-Owner; bh=KOhvUxzgpn/dAn1bBbbwRbwY7txsPySuJ+8H8RLCsZw=; b=slW3ELbM1NIJHm
+	qXGoYv9iFAmjiru9I7RBtxyxvvBcqvOQYMkuc4C8gVJenkaDOYPfZqsWbG8GOCiZp0g4xlAfGq61W
+	JbPsxuF4BbHXJXvGInaCW4lzK7SomMEMpCBnWshzqAlQBFoPOPrn6q+AQKMO3lS7lCGz63SwCAdXD
+	ZArq8DhfwjOC9Z9BjzQRj7XyMlIANJA0Wvp5T/N0V7AjjNxTo0YzPk1lEPEu6byX5OetU9R1YOyoc
+	rdLFMSZF44pE483rkzSmM6i3VDip8pfm+FS7kiaTgy7BJKC1XltMde8mfyCrK0jIRDcQFH2g52tuU
+	2QtLRwjjeiVQaT2qmS3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m61Ec-00EFTa-Hb; Wed, 21 Jul 2021 01:41:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1m62Gg-00ELnB-Gt; Wed, 21 Jul 2021 02:47:30 +0000
+Received: from mail.bitfolk.com ([2001:ba8:1f1:f019::25])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m61EP-00EFRu-2M
- for linux-nvme@lists.infradead.org; Wed, 21 Jul 2021 01:41:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626831663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SyII5sjQfVW2iEOXEHyiVYmuKihq8QrTV1vY6sLK7cs=;
- b=B2p/Y9IzzPA8P9nX2KCELbOEBhWLPNfFhYqIm/Pz6t8985Xm5IeBt5mSVq5pgAmTaL4H8Y
- MpFtCMhmV4kgCOZshz2r2SMMTXWSG/A0B/rmzA64L1qfY8c+47DxZUMVm40tV2id/iqbZd
- lXnrx7yoWPKfFCTUWGGWBwpT1FZmT7A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-3TZXnutvN6Wd7PFM0fVGXA-1; Tue, 20 Jul 2021 21:41:01 -0400
-X-MC-Unique: 3TZXnutvN6Wd7PFM0fVGXA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81BD9802C80;
- Wed, 21 Jul 2021 01:41:00 +0000 (UTC)
-Received: from T590 (ovpn-12-206.pek2.redhat.com [10.72.12.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65F035D9DC;
- Wed, 21 Jul 2021 01:40:53 +0000 (UTC)
-Date: Wed, 21 Jul 2021 09:40:48 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.garry@huawei.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
- from remote numa node
-Message-ID: <YPd7IGFZrsTRfUxE@T590>
-References: <YOgK8fdv7dOQtkET@T590>
- <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
- <YOhcOv1oOwm6fco+@T590>
- <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com>
+ id 1m62Gd-00ELmH-AT
+ for Linux-nvme@lists.infradead.org; Wed, 21 Jul 2021 02:47:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitfolk.com
+ ; s=alpha;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=xuLU2qfW5jmsLdDZtNgGBrhJb4Gkobs3NfmJEsquj4s=; b=3yizJgm0qCV+HMo+QZLfZP9J+H
+ i7E/RP4G3kp/9y9SujkMImvQVT/B8vbaspvQUQufblQbGmEmw8FtirZfxzsjEbIpwZD/Zofdj+OEp
+ bCD2u3Dk9wNIorK5n18g2or8xSqUZV4e+4b1701+EycQAzH6ai/7qF1cegGttYuynMNBRGKe33TfA
+ 4AbqkH7+GM2NhYwflJtZs2tAV85hrhiF/kmSNa/6/by8zhIUbXh5rvjeZrRG2JcLNGncus4b1v86+
+ dF1T0T10yG36odTtdWwXM33aMxDbdj1X96sxJA+2CGNQGvxhoc3jynmNbkliNRpZ2y9FX00eP9TLp
+ GiTLGqZA==;
+Received: from andy by mail.bitfolk.com with local (Exim 4.89)
+ (envelope-from <andy@strugglers.net>)
+ id 1m62Gb-0002fF-MB; Wed, 21 Jul 2021 02:47:25 +0000
+Date: Wed, 21 Jul 2021 02:47:25 +0000
+From: Andy Smith <andy@strugglers.net>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Linux-nvme@lists.infradead.org
+Subject: Re: 5.10.40-1 - Invalid SGL for payload:131072 nents:13
+Message-ID: <20210721024725.igwl5zyh2gcuav4c@bitfolk.com>
+References: <20210720220733.h324jghdtqorh2hs@bitfolk.com>
+ <20210721003434.GC2005888@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210721003434.GC2005888@dhcp-10-100-145-180.wdc.com>
+OpenPGP: id=BF15490B; url=http://strugglers.net/~andy/pubkey.asc
+X-URL: http://strugglers.net/wiki/User:Andy
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: andy@strugglers.net
+X-SA-Exim-Scanned: No (on mail.bitfolk.com); SAEximRunCond expanded to false
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210720_184105_255715_B8AE8083 
-X-CRM114-Status: GOOD (  14.75  )
+X-CRM114-CacheID: sfid-20210720_194727_566646_70195C6F 
+X-CRM114-Status: GOOD (  17.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,49 +83,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 19, 2021 at 05:14:28PM +0100, John Garry wrote:
-> On 09/07/2021 15:24, Ming Lei wrote:
-> > > associated compromises.
-> > Follows the log of 'perf report'
-> > 
-> > 1) good(run fio from cpus in the nvme's numa node)
-> 
-> Hi Ming,
-> 
-> If you're still interested in this issue, as an experiment only you can try
-> my rebased patches here:
-> 
-> https://github.com/hisilicon/kernel-dev/commits/private-topic-smmu-5.14-cmdq-4
-> 
-> I think that you should see a significant performance boost.
-
-There is build issue, please check your tree:
-
-  MODPOST vmlinux.symvers
-  MODINFO modules.builtin.modinfo
-  GEN     modules.builtin
-  LD      .tmp_vmlinux.btf
-ld: Unexpected GOT/PLT entries detected!
-ld: Unexpected run-time procedure linkages detected!
-ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.o: in function `smmu_test_store':
-/root/git/linux/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3892: undefined reference to `smmu_test_core'
-  BTF     .btf.vmlinux.bin.o
-pahole: .tmp_vmlinux.btf: No such file or directory
-  LD      .tmp_vmlinux.kallsyms1
-.btf.vmlinux.bin.o: file not recognized: file format not recognized
-make: *** [Makefile:1177: vmlinux] Error 1
-
-
-Thanks, 
-Ming
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+SGkgS2VpdGgsCgpPbiBUdWUsIEp1bCAyMCwgMjAyMSBhdCAwNTozNDozNFBNIC0wNzAwLCBLZWl0
+aCBCdXNjaCB3cm90ZToKPiBBcmUgeW91IHVzaW5nIHN3aW90bGI/CgpJJ3ZlIGp1c3QgcmVhbGlz
+ZWQgdGhhdCB0aGVyZSB3YXMgYW5vdGhlciBjaGFuZ2UgdG8gbXkgY29uZmlnCmJlc2lkZXMgdGhl
+IGtlcm5lbCB2ZXJzaW9uOiBJIGluY3JlYXNlZCB0aGUgYW1vdW50IG9mIG1lbW9yeQphbGxvY2F0
+ZWQgdG8gZG9tMCBmcm9tIDNHaUIgdG8gOEdpQi4KCklmIEkgdW5kZXJzdGFuZCB0aGluZ3MgY29y
+cmVjdGx5IHN3aW90bGIgaXMgbm90IHVzZWQgd2hlbiBtZW1vcnkgaXMKPCA0R2lCLCBzbyBJIHBy
+ZXZpb3VzbHkgd291bGQgbm90IGhhdmUgYmVlbiB1c2luZyBzd2lvdGxiIGJ1dCBub3cKd2lsbCBi
+ZS4KCldoYXQncyB0aGUgbGVhc3QgaW52YXNpdmUgd2F5IG9mIGRpc2FibGluZyBzd2lvdGxiPyBX
+b3VsZCBpdCBiZQoKICAgIHN3aW90bGI9bm9mb3JjZQoKT3IKCiAgICBpb21tdT1vZmYKCk9yIG1h
+eWJlCgogICAgc3dpb3RsYj0xCgp0byByZWR1Y2UgaXQgdG8gYW4gYW1vdW50IHRoYXQgd291bGQg
+bmV2ZXIgYmUgdXNlZD8KCihHb2luZyBieSBrZXJuZWwgcGFyYW1ldGVycyBhdmFpbGFibGUgaW4g
+NS4xMC40MCkKClRoaXMgaXMgYW4gSW50ZWwgc3lzdGVtIGFuZCBJIHNlZSB0aGUgdmFyaW91cyBp
+bnRlbF9pb21tdSBwYXJhbWV0ZXJzCmJ1dCBkb24ndCBrbm93IGlmIGFueSBvZiB0aGVtIHdvdWxk
+IGJlIG1vcmUgYXBwcm9wcmlhdGUuCgo+IElmIHNvLCB0aGlzIHJlY2VudCBwYXRjaCBzb3VuZHMg
+bGlrZSBpdCBzaG91bGQgZml4IG9mZnNldCBpc3N1ZXM6CgpBcyBJIGRvbid0IGhhdmUgYW4gZWFz
+eSB3YXkgdG8gcmVwcm9kdWNlIHRoZSBwcm9ibGVtIG9uIGRlbWFuZCBJCnRoaW5rIEkgd291bGQg
+bGlrZSB0byBmaXJzdCB0cnkgZ29pbmcgYmFjayB0byBhIHNpdHVhdGlvbiB3aGVyZQpzd2lvdGxi
+IGlzIG5vdCB1c2VkLCB0byBzZWUgaWYgdGhlIHByb2JsZW0gZ29lcyBhd2F5IGluIHRoYXQgY2Fz
+ZS4KSGFwcHkgdG8gZG8gbW9yZSBleHBlcmltZW50YXRpb24gbGF0ZXLigKYKClRoYW5rcyEKQW5k
+eQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgt
+bnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9s
+aXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
