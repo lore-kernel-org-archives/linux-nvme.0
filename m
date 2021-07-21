@@ -2,71 +2,64 @@ Return-Path: <SRS0=G/Rm=MN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 444E1C636C8
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 00:30:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9135C07E9B
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 00:34:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0F1761009
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 00:30:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0F1761009
+	by mail.kernel.org (Postfix) with ESMTPS id 95B2160BBB
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 00:34:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 95B2160BBB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=hGUvYMPHJi14aJ7zAswZhE5Kgf1PLueeT23kc9+Jiw8=; b=AuV8j2PqeDC7VP
-	Ihn0MKBNC2fk6cWbmJOUXf/cOfQQHZkIkMPvGchpZHG3MnmcQ7UvZMmUnWZ0StYwGPuGvqlYyVaOO
-	DOQ6/RiTu1V8pumXF72XG5NW8AyPCCs+OhlosDR0DpBRRV/hFHO+p+vphq+A4Bghmf5AdDMvFConk
-	ciMlmXWX/SQ4e0p6E9qkvqkuQnOnTAxUy4n5UCCy3VrVXYafkBfQDVMdIOewOPrQh2TXutVJ+MNAl
-	Hz1byook3J8GF7ZOB5sxRHT2ySCwkp3nNzD5vcE/LigYdkjBeieIdZDB8vYrTzE8nVn4GMZGxZ+dk
-	lt+Jz3MSftqlInvtDvOg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=p39YyVJmBqoAqlyalhLOT8Ud/9hnyprhgEbg4a31ruY=; b=rktemCpVzJyUU5
+	aALsXFYLK4LDCcfjKcKTkEespEvGCpWs7Q66NltyCoTjCIDLBtNF5MtbF4GNnsfRwCrWqY518MKhb
+	WWPq73l1+wYR+b29QXNpmDMJcbpRnShwu2WVbrul40HT6n16iyjc8BTB1eQBMj5Ech6Zc2Dxu4Ick
+	T7jIQ2WDvlWiilC6h8L/tx1t0uZO5f7TWXhQM/R2uZqw/xhs1Mkq4x/tWByHwKDdqX8Oq8ALeLwLm
+	yvKI6cDelXPaVYSVhEQ0cWtHNdwhPIkKQXGb9HZgKlLV+8EzvhaVWgC/GIJl+BeNqxH/uym1V+QXm
+	AfdShfmgq+vGT9MohT/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m607s-00EBaI-VU; Wed, 21 Jul 2021 00:30:16 +0000
+	id 1m60C9-00EBpM-FR; Wed, 21 Jul 2021 00:34:41 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m607q-00EBZy-1X
- for linux-nvme@lists.infradead.org; Wed, 21 Jul 2021 00:30:15 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 42F1960BBB;
- Wed, 21 Jul 2021 00:30:13 +0000 (UTC)
+ id 1m60C5-00EBow-UO
+ for Linux-nvme@lists.infradead.org; Wed, 21 Jul 2021 00:34:39 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CFE6660BBB;
+ Wed, 21 Jul 2021 00:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626827413;
- bh=oA6LUVtEtIPCXpJhxFUKzyM7hTN95PCWkcpLTJ+YT4s=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=pbmtrLNrkZYFQkdU0kuOtTOeJfzUKbGu52QkdgdAuMv3fn9SroY+iz6gdFUVG5Yb/
- enLzZ04deMTAR7bQPV3QY6J8+qIRDfmA/uh3OPf2cldVkua5juXwId6NUJv6mKE6AH
- oS3g8bpcwuPWqhf5+Z4fzvdcsAkjAvMVQ09gqUREW/mElhJwEjl/2b/gG6+NR4seRZ
- jieHyIu3xrHenFcCoHFtTCgnAIC/Mg13pMqC4O7czpnFnTpi0/bS6VwNCH4ILcmdYf
- HWx+Mm8FgbuzFoPHj2djpLNP+S+CtX3V6thz08cJPHdhWZ/2JT4pF7W+gdv32zjUlG
- twPnb45fzlmyg==
-Date: Tue, 20 Jul 2021 19:30:11 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>, John Garry <john.garry@huawei.com>,
- Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V4 1/3] driver core: mark device as irq affinity managed
- if any irq is managed
-Message-ID: <20210721003011.GA144876@bjorn-Precision-5520>
+ s=k20201202; t=1626827677;
+ bh=d3OOGJcmr7sKwKS1w5eoxI9fYNgCTjIhiZgzOnhQunk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=APROTc3H8oZTtqWwda7jzm0/rkCChE3qfqsyX1EhIZBYYzKuAASkf/vMtuU+yisSR
+ c9S71NChAJzK683Ce2nIx1JT5JR9fkupf7SIfZtrsBlvyAJzFO5r1AZo7YkzsESlns
+ Gm/9xb14n7leix8XPrDj/TkRrdpbfkfjEUjj3IGdsMKTtInL195qa1171rUumgfVxx
+ 4r8TUmTnSJG71hyWryLJ8K/237rsIcmGfC50RtyVJWdu3tGcQ0b8JIHQxazSrb8zOr
+ eox2Zm9LEh87n4790RYf9Di+Mu7+0AfCpxovzZcCFC7JcnVTHtb2iuM2OqZahPCzjb
+ qiwaF41ARzcCQ==
+Date: Tue, 20 Jul 2021 17:34:34 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Andy Smith <andy@strugglers.net>
+Cc: Linux-nvme@lists.infradead.org
+Subject: Re: 5.10.40-1 - Invalid SGL for payload:131072 nents:13
+Message-ID: <20210721003434.GC2005888@dhcp-10-100-145-180.wdc.com>
+References: <20210720220733.h324jghdtqorh2hs@bitfolk.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YPKjQxZ4roigdvbq@T590>
+In-Reply-To: <20210720220733.h324jghdtqorh2hs@bitfolk.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210720_173014_167711_93EB1323 
-X-CRM114-Status: GOOD (  39.12  )
+X-CRM114-CacheID: sfid-20210720_173438_040758_CE7AA59B 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,106 +76,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jul 17, 2021 at 05:30:43PM +0800, Ming Lei wrote:
-> On Fri, Jul 16, 2021 at 03:01:54PM -0500, Bjorn Helgaas wrote:
-> > On Thu, Jul 15, 2021 at 08:08:42PM +0800, Ming Lei wrote:
-> > > irq vector allocation with managed affinity may be used by driver, and
-> > > blk-mq needs this info because managed irq will be shutdown when all
-> > > CPUs in the affinity mask are offline.
-> > > 
-> > > The info of using managed irq is often produced by drivers(pci subsystem,
-> > 
-> > Add space between "drivers" and "(".
-> > s/pci/PCI/
+On Tue, Jul 20, 2021 at 10:07:33PM +0000, Andy Smith wrote:
+> Hi,
 > 
-> OK.
+> I have a Debian stable machine with a Samsung PM983 NVMe and a
+> Samsung SM883 in an MD RAID-1. It's been running the 4.19.x Debian
+> packaged kernel for almost 2 years now.
 > 
-> > Does this "managed IRQ" (or "managed affinity", not sure what the
-> > correct terminology is here) have something to do with devm?
-> > 
-> > > platform device, ...), and it is consumed by blk-mq, so different subsystems
-> > > are involved in this info flow
-> > 
-> > Add period at end of sentence.
+> About 24 hours ago I upgraded its kernel to the buster-backports
+> kernel which is version 5.10.40-1~bpo10+1 and around four hours
+> after that I got this:
 > 
-> OK.
-> 
-> > > Address this issue by adding one field of .irq_affinity_managed into
-> > > 'struct device'.
-> > > 
-> > > Suggested-by: Christoph Hellwig <hch@lst.de>
-> > > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > > ---
-> > >  drivers/base/platform.c | 7 +++++++
-> > >  drivers/pci/msi.c       | 3 +++
-> > >  include/linux/device.h  | 1 +
-> > >  3 files changed, 11 insertions(+)
-> > > 
-> > > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> > > index 8640578f45e9..d28cb91d5cf9 100644
-> > > --- a/drivers/base/platform.c
-> > > +++ b/drivers/base/platform.c
-> > > @@ -388,6 +388,13 @@ int devm_platform_get_irqs_affinity(struct platform_device *dev,
-> > >  				ptr->irq[i], ret);
-> > >  			goto err_free_desc;
-> > >  		}
-> > > +
-> > > +		/*
-> > > +		 * mark the device as irq affinity managed if any irq affinity
-> > > +		 * descriptor is managed
-> > > +		 */
-> > > +		if (desc[i].is_managed)
-> > > +			dev->dev.irq_affinity_managed = true;
-> > >  	}
-> > >  
-> > >  	devres_add(&dev->dev, ptr);
-> > > diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> > > index 3d6db20d1b2b..7ddec90b711d 100644
-> > > --- a/drivers/pci/msi.c
-> > > +++ b/drivers/pci/msi.c
-> > > @@ -1197,6 +1197,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
-> > >  	if (flags & PCI_IRQ_AFFINITY) {
-> > >  		if (!affd)
-> > >  			affd = &msi_default_affd;
-> > > +		dev->dev.irq_affinity_managed = true;
-> > 
-> > This is really opaque to me.  I can't tell what the connection between
-> > PCI_IRQ_AFFINITY and irq_affinity_managed is.
-> 
-> Comment for PCI_IRQ_AFFINITY is 'Auto-assign affinity',
-> 'irq_affinity_managed' basically means that irq's affinity is managed by
-> kernel.
-> 
-> What blk-mq needs is exactly if PCI_IRQ_AFFINITY is applied when
-> allocating irq vectors. When PCI_IRQ_AFFINITY is used, genirq will
-> shutdown the irq when all CPUs in the assigned affinity are offline,
-> then blk-mq has to drain all in-flight IOs which will be completed
-> via this irq and prevent new IO. That is the connection.
-> 
-> Or you think 'irq_affinity_managed' isn't named well?
+> Jul 20 02:17:54 lamb kernel: [21061.388607] sg[0] phys_addr:0x00000015eb803000 offset:0 length:4096 dma_address:0x000000209e7b7000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.389775] sg[1] phys_addr:0x00000015eb7bc000 offset:0 length:4096 dma_address:0x000000209e7b8000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.390874] sg[2] phys_addr:0x00000015eb809000 offset:0 length:4096 dma_address:0x000000209e7b9000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.391974] sg[3] phys_addr:0x00000015eb766000 offset:0 length:4096 dma_address:0x000000209e7ba000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.393042] sg[4] phys_addr:0x00000015eb7a3000 offset:0 length:4096 dma_address:0x000000209e7bb000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.394086] sg[5] phys_addr:0x00000015eb7c6000 offset:0 length:4096 dma_address:0x000000209e7bc000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.395078] sg[6] phys_addr:0x00000015eb7c2000 offset:0 length:4096 dma_address:0x000000209e7bd000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.396042] sg[7] phys_addr:0x00000015eb7a9000 offset:0 length:4096 dma_address:0x000000209e7be000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.397004] sg[8] phys_addr:0x00000015eb775000 offset:0 length:4096 dma_address:0x000000209e7bf000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.397971] sg[9] phys_addr:0x00000015eb7c7000 offset:0 length:4096 dma_address:0x00000020ff520000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.398889] sg[10] phys_addr:0x00000015eb7cb000 offset:0 length:4096 dma_address:0x00000020ff521000 dma_length:4096
+> Jul 20 02:17:54 lamb kernel: [21061.399814] sg[11] phys_addr:0x00000015eb7e3000 offset:0 length:61952 dma_address:0x00000020ff522000 dma_length:61952
+> Jul 20 02:17:54 lamb kernel: [21061.400754] sg[12] phys_addr:0x00000015eb7f2200 offset:512 length:24064 dma_address:0x00000020ff531200 dma_length:24064
 
-I've been looking at "devm" management where there is a concept of
-devm-managed IRQs, and you mentioned "managed IRQ" in the commit log.
-But IIUC this is a completely different sort of management.
+Perhaps we should add the virt_addr in this print. If it was there, I
+think it should show that the phys offset doesn't match the virtual
+offset, which we are depending on.
 
-> > AFAICT the only place irq_affinity_managed is ultimately used is
-> > blk_mq_hctx_notify_offline(), and there's no obvious connection
-> > between that and this code.
-> 
-> I believe the connection is described in comment.
+Are you using swiotlb? If so, this recent patch sounds like it should
+fix offset issues:
 
-You mean the comment that says "hctx needn't to be deactivated in case
-managed irq isn't used"?  Sorry, that really doesn't explain to me why
-pci_alloc_irq_vectors_affinity() needs to set irq_affinity_managed.
-There's just a lot of magic here that cannot be deduced by reading the
-code.
-
-Nit: s/needn't to be/needn't be/ in that comment.  Or maybe even
-"Deactivate hctx only when managed IRQ is used"?  I still have no idea
-what that means, but at least it's easier to read :)  Or maybe this is
-actually "draining a queue" instead of "deactivating"?
-
-Bjorn
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=5f89468e2f060031cd89fd4287298e0eaf246bf6
 
 _______________________________________________
 Linux-nvme mailing list
