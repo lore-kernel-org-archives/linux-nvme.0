@@ -2,65 +2,74 @@ Return-Path: <SRS0=G/Rm=MN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC5CC07E9B
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 08:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA33C12002
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 09:24:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2DD246100C
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 08:06:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2DD246100C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 632436109F
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 09:24:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 632436109F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ltFFcn/kTTmfJ44MuANksWmeZVyIr3uvFiJmlGlLbG8=; b=pF6Sa/WaBksh+E
-	lUIgZsGaiPUVJjBc1J/lq1xDgBUZOatyue26WmGfUL1UfJeCourLvT7T+aZpJioIpEE7x4sIDljWP
-	tB+6lK/AbWRgauK4EtPbTSsmxIaD3MNaNSTxmSHGePJVWL6VJXGD95j1WJuQ6senMRaeizC/lnCWH
-	X1nkqwI2lZ7sR3jnTjL0ZCa9kQevquomzeVbyppmC/RN+hpI78sJjwl8zUjyUd6K8OPOuIt1SDetB
-	g6Vn0uUG3+cbzUc7zgBRpv1y4XPwDwnOamK/BiwKIsu7Zj3BiCHi6wSdjoWRTQp7FFYtldte5GiXb
-	FIQYYzLJUVkMbRUUYfMw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cqafmFhf7OTafEAfzYu9CwdlVkZMuaf5PVcKBEjBQeo=; b=jxDiuGKVB2zPT6jrZBCjqPfMcs
+	UW7rBt23vEy3FAD18V0fOlNUMURnkTOxCCA2aKvRnTKDjPQRv6twFY3Bl49VxyJ3lPyRJHjTL+Wdg
+	zRIR/FbaBpO8ECoRwBxkRhkuoz8X4pQATYw2a8+kPPDvJoDtbCfaKgqODMJ42JJauxcfJBUTs5+bs
+	Vg2+9GIlgMHKQPzoQCvPg2BLO/MURdIo2RbHNYQUhXn4rnEDj0c03F6czhIcZOGpJrMjB4NbYFlZ4
+	dlcEv50Om7k/nsUm5OtN00TDPMJzyH+cN8IyB+5GuQlPeatIM/Yivzf3Cmy838fFsBpdxSJpItcLc
+	4af7Ez9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m67F3-00EpEv-Sf; Wed, 21 Jul 2021 08:06:09 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1m68SU-00F5F8-5b; Wed, 21 Jul 2021 09:24:06 +0000
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m67F2-00EpEn-JT
- for linux-nvme@bombadil.infradead.org; Wed, 21 Jul 2021 08:06:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=irq1b6yLqXEae7dF/A+aC0D+uKqb9GhmfYC08R+EVrk=; b=FfTwd6A9MYzqXIFgNc58zdOyWO
- ZNEyKnX9gG+RmNNR8ZXVaa1PL6ZsnHdhDsx6fXFzeEhoE8FHoMW5WmE9Z84eYZJgbfh5J1OZ35g4k
- 05hozYWCV6gb/dpIAd2ubkMovp8HQOVHJempzlmxbrIfUWQQM1546xTZ6tDAfk+uFpRsQNXCv5RcY
- O6ebYY/MaFrn/QTk7O3N/w3CdPgeTk1kV4+4o1D8GSEJ6WUUx3Imlhl9iDqNUPowZ8bsQLhEIdb/5
- GSJQERNT9IWRKfi9ioD//q8a7RZwrbK3hLFk5tfKE0YzPitka3ZHRVwl991x38uW+MYXtcIjAy+Mo
- rpzZKDOQ==;
-Received: from [2001:4bb8:193:7660:6708:80fd:7e56:3302] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m67Es-008xg0-6z; Wed, 21 Jul 2021 08:06:03 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: linux-nvme@lists.infradead.org
-Cc: martin.petersen@oracle.com,
-	keith.busch@wdc.com,
-	sagi@grimberg.me
-Subject: [PATCH] nvme: set the PRACT bit when using Write Zeroes with T10 PI
-Date: Wed, 21 Jul 2021 10:05:56 +0200
-Message-Id: <20210721080556.600892-1-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
+ id 1m68SH-00F5DK-1u; Wed, 21 Jul 2021 09:23:54 +0000
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GV8s41q2Hz6D8mK;
+ Wed, 21 Jul 2021 17:08:56 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 21 Jul 2021 11:23:41 +0200
+Received: from [10.47.85.43] (10.47.85.43) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 21 Jul
+ 2021 10:23:41 +0100
+Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
+ from remote numa node
+To: Ming Lei <ming.lei@redhat.com>
+CC: Robin Murphy <robin.murphy@arm.com>, <iommu@lists.linux-foundation.org>,
+ Will Deacon <will@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <YOgK8fdv7dOQtkET@T590>
+ <23e7956b-f3b5-b585-3c18-724165994051@arm.com> <YOhcOv1oOwm6fco+@T590>
+ <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com> <YPd7IGFZrsTRfUxE@T590>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <74537f9c-af5f-cd84-60ab-49ca6220310e@huawei.com>
+Date: Wed, 21 Jul 2021 10:23:38 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <YPd7IGFZrsTRfUxE@T590>
+Content-Language: en-US
+X-Originating-IP: [10.47.85.43]
+X-ClientProxiedBy: lhreml734-chm.china.huawei.com (10.201.108.85) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210721_022353_292853_7BB938AB 
+X-CRM114-Status: GOOD (  11.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,42 +81,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When using Write Zeroes on a namespace that has protection
-information enabled they behavior without the PRACT bit
-counter-intuitive and will generally lead to validation failures
-when reading the written blocks.  Fix this by always setting the
-PRACT bit that generates matching PI data on the fly.
+On 21/07/2021 02:40, Ming Lei wrote:
+>> I think that you should see a significant performance boost.
+> There is build issue, please check your tree:
+> 
+>    MODPOST vmlinux.symvers
+>    MODINFO modules.builtin.modinfo
+>    GEN     modules.builtin
+>    LD      .tmp_vmlinux.btf
+> ld: Unexpected GOT/PLT entries detected!
+> ld: Unexpected run-time procedure linkages detected!
+> ld: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.o: in function `smmu_test_store':
+> /root/git/linux/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3892: undefined reference to `smmu_test_core'
+>    BTF     .btf.vmlinux.bin.o
+> pahole: .tmp_vmlinux.btf: No such file or directory
+>    LD      .tmp_vmlinux.kallsyms1
+> .btf.vmlinux.bin.o: file not recognized: file format not recognized
+> make: *** [Makefile:1177: vmlinux] Error 1
 
-Fixes: 6e02318eaea5 ("nvme: add support for the Write Zeroes command")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Ah, sorry. I had some test code which was not properly guarded with 
+necessary build switches.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d64b406c1a42..2f0cbaba12ac 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -900,7 +900,10 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
- 		cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
- 	cmnd->write_zeroes.length =
- 		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
--	cmnd->write_zeroes.control = 0;
-+	if (nvme_ns_has_pi(ns))
-+		cmnd->write_zeroes.control = cpu_to_le16(NVME_RW_PRINFO_PRACT);
-+	else
-+		cmnd->write_zeroes.control = 0;
- 	return BLK_STS_OK;
- }
- 
--- 
-2.30.2
+I have now removed that from the tree, so please re-pull.
 
+Thanks,
+John
 
 _______________________________________________
 Linux-nvme mailing list
