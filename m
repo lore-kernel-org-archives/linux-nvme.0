@@ -2,85 +2,80 @@ Return-Path: <SRS0=G/Rm=MN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34201C636C9
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 11:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8DC5C12002
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 12:11:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E3DBD60E08
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 11:59:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E3DBD60E08
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 546586120E
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jul 2021 12:11:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 546586120E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=vlnb.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+wg4NGDyTLZMtQ9vrROyC4j/GYiVR6Z3CRJOUKT3bos=; b=BoTVcaj/Zreqln
-	E4BeaJU2k2MDFv8kEK9oF+WpjuGm9PnjVQhovql54M2F3+UblZSO9QlFuga1iy5avU2mdbnm099FG
-	OXIJo4l6WYoaMlCgCCtnM99tRI+SA1E3PnrbNronyR6t6gB8anEaK62F/zmrXTx7OZ9ti3XCbQFm+
-	bhAamPkg1Uu0QIQ5QVoaehSsEdlGvTY7FO4TblUNw6DLXox3QIY7T+fm3hr3AeTSlr9DpOu80qW/p
-	IgVlQ51XRFbgFGjCeRSnxFoSV812EyS8jvPu21Cys5Lcy05urPb8VwnBV3VAmF+d7aisq4Lpc15r/
-	nsmBEwXn6m+bWmIxlX/w==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=Vp3hDL/ilYa8piA0TzSka+HgUSeaO4tfcJ0cqdbuFSI=; b=I5T8OqNVIu6YSCdI2WyLOse6o9
+	Kcl7+r50wVWheXSrZuBU4N9X3iouIOEPylbrTfEv05RfcxoM0eIEY3sXU15qBa7ZbNjjrSfuSaUpa
+	DnU10rGIaN3YsPH6tLrez4nqhWAUyXRj8SMcEtG0prxmxFwOm8rxdRpWP4ATNFw2Vr2F67lQhFSbl
+	RTxEcSYExYsGJ3VM3ZwChXnWAL2IFzT/fQ83HrcP7Y5WZWWNUEFsKm0dFIdnqCbLGKxk4rpmWgYRT
+	ZUUD5cD0bl1BhjtFbpec91vPEszcRpvpjuh6rhRH6N5Drw3P7ImNJWocjYKUB4gDlnwyWuXJcMGhY
+	8thAlA5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6AsQ-00FYiy-0n; Wed, 21 Jul 2021 11:59:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m6B48-00FbpM-D6; Wed, 21 Jul 2021 12:11:08 +0000
+Received: from mout.kundenserver.de ([212.227.126.135])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6AsL-00FYg6-Ts
- for linux-nvme@lists.infradead.org; Wed, 21 Jul 2021 11:58:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626868735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gxJfZWLtNPAs2shHJ9IAWHN7TfwnN9A2aOkk0cTcs2k=;
- b=bmayNyRi7AT/WRCas2drY555KGrtORsvdmQJVQ70lOFA/FV+U6LyyOeQ9DQ8WNiWtq4LcT
- K/Qq7LqM32jAgkV6KR8pSRihhZ5rghpBW+56ke26Ph8EZ0X/8zPZ4IeqYipp5GWESBlYr3
- X0oo1Qi43XURg0COD/kesEvl4Lqbnko=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-GMMTpxDdNDy79OlVI1KIHQ-1; Wed, 21 Jul 2021 07:58:51 -0400
-X-MC-Unique: GMMTpxDdNDy79OlVI1KIHQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17430100F79B;
- Wed, 21 Jul 2021 11:58:50 +0000 (UTC)
-Received: from T590 (ovpn-13-178.pek2.redhat.com [10.72.13.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EFFE1B5C2;
- Wed, 21 Jul 2021 11:58:40 +0000 (UTC)
-Date: Wed, 21 Jul 2021 19:58:36 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.garry@huawei.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
- from remote numa node
-Message-ID: <YPgL7InbR9UPkSQD@T590>
-References: <YOgK8fdv7dOQtkET@T590>
- <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
- <YOhcOv1oOwm6fco+@T590>
- <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com>
- <YPd7IGFZrsTRfUxE@T590>
- <74537f9c-af5f-cd84-60ab-49ca6220310e@huawei.com>
- <YPfwAN1onpSKoeBj@T590>
- <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com>
+ id 1m6B44-00FboX-Ln
+ for linux-nvme@lists.infradead.org; Wed, 21 Jul 2021 12:11:06 +0000
+Received: from [192.168.0.113] ([178.252.67.224]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.163]) with ESMTPSA (Nemesis) id
+ 1MK3FW-1lo5Ap3rpu-00LRrJ; Wed, 21 Jul 2021 14:10:38 +0200
+Subject: Re: [RFC PATCH 00/11] nvme: In-band authentication support
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
+References: <20210716110428.9727-1-hare@suse.de>
+ <66b3b869-02bd-9dee-fadc-8538c6aad57a@vlnb.net>
+ <e339e6e7-fc32-2480-ca99-516547105776@suse.de>
+From: Vladislav Bolkhovitin <vst@vlnb.net>
+Message-ID: <833cfd62-1e1f-1dca-2e38-ff07b3a5e8fb@vlnb.net>
+Date: Wed, 21 Jul 2021 15:10:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <e339e6e7-fc32-2480-ca99-516547105776@suse.de>
+Content-Language: en-US
+X-Provags-ID: V03:K1:zbM9u+v9ZDUik8JpLNXsF0h3y9Y2NPHI/N8c7/Lq5bR/vSdJKcp
+ UZrccZ5qijLT8pbjYGo99G2jl0cbo2Aqoyd7CoiZPwrLkpJxwE5yYobTiSE1iJ61MbBjbQm
+ s5NvnnGCmAbV4PxAULDCThn0tlG7Wg/rpCTEl8Gx42rQOIkLZ6bIKdnb9VdvRVUy3lYMGDq
+ MEKPfG0Xp2DTJdrbdjsMw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hDe7GysI62M=:FkCpEmbyBNAb/Hb1GlBvwN
+ x69T+n5bwvlFeX2EbCRLfKQwfD+DEiNO6x6Gefrb2xzzVZ/w7+g52mkNe1pCDhJT7iaODtMeY
+ K6Ov6NWgBFAhstWKkUBxQvzen61UR7togP+R7iCtgBzT0rjLNlx3WVH9wgrNCvZbT6EOzmOlZ
+ whJDnjDB2f7qaqti3kg9xoazzYugJYnzoBHuCruMJkTjKiKZVm4YgulK8g/OkyeYK6eNvbuVA
+ FoObD2/a+HctvDXsLaGy0ZU1Pg/qAbeqAjqR7akfRXr0LNPirCs+XAK4EtVX1D8hiF4CRW8vH
+ i20DhWH+Ari6EvLwnCwUurQW5ElcWwZ37zEAXX86yTXb7T4U5D/ocz8kGwS/TH4pncS5hHT/7
+ QJU643kS2jgdn6p8//nW+ZpQhFHqer3I6gX8pWwsLWa9QyJH/Rn2YDXMpRHidTRaV9m1rYMgL
+ I64NUts2JaBEdzq0AMlzEf7C7JHxZPO25wRjtJtT1MWWwhtvx/XOmFVDnmT+TLltlCuSgZ5db
+ 4mWPKQCVK2D1fBjNylawiATxFHyDhrLsIqKJ42AEI26PLnx5BR8w7J1oFpEvhrtqTClkMSxIK
+ +ZNrWsSkZNQV+uFyE4j81kNlY/zSGMtU9vRHm60VfCz1gf+zJs5cqIOzfBlngDhYao22XYOql
+ JJF4vlfNcFSOb24jN5Fye2h6GL2kbiALACFbXYsR9mVDX/1YY8lcC0VUfmXTbV/gPG8hr4qA7
+ KGEt+f3WKY7t2bpCaS6uZE9mKiH3EejhnkoBF4Bp3B7IL0hb8pOlcqP2r96Ja34hAcbWf9Hoy
+ E/6Wifo9PElo/PyM6JhKGpZtfOD0WAMwZIN6UDlHNyV495kGtrGPnduCl3MEu2swUdOXrve
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210721_045858_105114_C5A2EBAD 
-X-CRM114-Status: GOOD (  15.49  )
+X-CRM114-CacheID: sfid-20210721_051105_070199_CD41F22B 
+X-CRM114-Status: GOOD (  21.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,48 +92,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 21, 2021 at 12:07:22PM +0100, John Garry wrote:
-> On 21/07/2021 10:59, Ming Lei wrote:
-> > > I have now removed that from the tree, so please re-pull.
-> > Now the kernel can be built successfully, but not see obvious improvement
-> > on the reported issue:
-> > 
-> > [root@ampere-mtjade-04 ~]# uname -a
-> > Linux ampere-mtjade-04.khw4.lab.eng.bos.redhat.com 5.14.0-rc2_smmu_fix+ #2 SMP Wed Jul 21 05:49:03 EDT 2021 aarch64 aarch64 aarch64 GNU/Linux
-> > 
-> > [root@ampere-mtjade-04 ~]# taskset -c 0 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
-> > + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
-> > test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
-> > fio-3.27
-> > Starting 1 process
-> > Jobs: 1 (f=1): [r(1)][100.0%][r=1503MiB/s][r=385k IOPS][eta 00m:00s]
-> > test: (groupid=0, jobs=1): err= 0: pid=3143: Wed Jul 21 05:58:14 2021
-> >    read: IOPS=384k, BW=1501MiB/s (1573MB/s)(14.7GiB/10001msec)
+
+On 7/21/21 9:06 AM, Hannes Reinecke wrote:
+> On 7/20/21 10:26 PM, Vladislav Bolkhovitin wrote:
+>> Hi,
+>>
+>> Great to see those patches coming! After some review, they look to be
+>> very well done. Some comments/suggestions below.
+>>
+>> 1. I strongly recommend to implement DH exponentials reuse (g x mod p /
+>> g y mod p as well as g xy mod p) as specified in section 8.13.5.7
+>> "DH-HMAC-CHAP Security Requirements". When I was working on TP 8006 I
+>> had a prototype that demonstrated that DH math has quite significant
+>> latency, something like (as far as I remember) 30ms for 4K group and few
+>> hundreds of ms for 8K group. For single connection it is not a big deal,
+>> but imagine AMD EPYC with 128 cores. Since all connections are created
+>> sequentially, even with 30 ms per connection time to complete full
+>> remote device connection would become 128*30 => almost 4 seconds. With
+>> 8K group it might be more than 10 seconds. Users are unlikely going to
+>> be happy with this, especially in cases, when connecting multiple of
+>> NVMe-oF devices is a part of a server or VM boot sequence.
+>>
+> Oh, indeed, I can confirm that. FFDHE calculations are quite time-consuming.
+> But incidentally, ECDH and curve25519 are reasonably fast,
+
+Yes, EC calculations are very fast, this is why EC cryptography is
+gaining more and more popularity.
+
+> so maybe
+> there _is_ a value in having a TPAR asking for them to be specified, too ...
+
+There's too much politics and procedures involved here. Even in the
+current scope it took more, than 2 years to get the spec officially done
+(I started proposing it early 2018). Maybe, in future, if someone comes
+in the the committee with the corresponding proposal and value
+justification.
+
+Although, frankly speaking, with DH exponentials reuse I personally
+don't see much value in ECDH in this application. Maybe, only for very
+small embedded devices with really limited computational capabilities.
+
+>> If DH exponential reuse implemented, for all subsequent connections the
+>> DH math is excluded, so authentication overhead becomes pretty much
+>> negligible.
+>>
+>> In my prototype I implemented DH exponential reuse as a simple
+>> per-host/target cache that keeps DH exponentials (including g xy mod p)
+>> for up to 10 seconds. Simple and sufficient.
+>>
 > 
-> I am not sure what baseline you used previously, but you were getting 327K
-> then, so at least this would be an improvement.
+> Frankly, I hadn't looked at exponential reuse; this implementation
+> really is just a first step to get feedback from people if this is a
+> direction they want to go.
 
-Yeah, that might be one improvement, but not checked it since code base
-is changed.
+Sure, I understand.
 
+>> Another, might be ever more significant reason why DH exponential reuse
+>> is important is that without it x (or y on the host side) must always be
+>> randomly generated each time a new connection is established. Which
+>> means, for instance, for 8K groups for each connection 1KB of random
+>> bytes must be taken from the random pool. With 128 connections it is now
+>> 128KB. Quite a big pressure on the random pool that DH exponential reuse
+>> mostly avoids.
+>>
+>> Those are the 2 reasons why we added this DH exponential reuse sentence
+>> in the spec. In the original TP 8006 there was a small informative piece
+>> explaining reasonings behind that, but for some reasons it was removed
+>> from the final version.
+>>
 > 
-> > 
-> > [root@ampere-mtjade-04 ~]# taskset -c 80 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
-> > + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
-> > test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
-> > fio-3.27
-> > Starting 1 process
-> > Jobs: 1 (f=1): [r(1)][100.0%][r=138MiB/s][r=35.4k IOPS][eta 00m:00s]
-> > test: (groupid=0, jobs=1): err= 0: pid=3063: Wed Jul 21 05:55:31 2021
-> >    read: IOPS=35.4k, BW=138MiB/s (145MB/s)(1383MiB/10001msec)
-> 
-> I can try similar on our arm64 board when I get a chance.
+> Thanks for the hint. I'll be adding exponential reuse to the code.
 
-The issue I reported is this one.
+Yes, please. Otherwise, people might start talking that Linux NVMe-oF
+authentication is too bad and slow.
 
-Thanks,
-Ming
-
+Vlad
 
 _______________________________________________
 Linux-nvme mailing list
