@@ -2,88 +2,123 @@ Return-Path: <SRS0=qdm1=MO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66FF8C6377D
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 10:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E3B1C63793
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 11:04:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 208BE61287
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 10:20:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 208BE61287
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id CE3BB60725
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 11:04:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE3BB60725
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0F2TotrItLGc0+G8KK+u5N3g2DzAGbJcu6/VHktZNQk=; b=zxp0WAbHqKIbMO
-	noOD+lVo6XLpBkCW7o1Gq4YBRexeoUcemxk+oOP5vP2h5Q1M1VkWGrPaIvYltBmFwHDw8kO8hNWNj
-	X/NvM+tO0+jv8vE3SkVLWKkEFYorcMgBbmmoUaauDFqjZNxJeXQ2zCVi78b/XxDqQ8g3v6/m6RfRb
-	0AagWnx0ybLiUQjT3ndx0m2wKhsKlTts9sO3L/8XPkxXg8wmm+HlwzZfDSyw0m94hF0u3tW3RH/QM
-	8y8zE3AgLpzXjTV13k20CC1pbeTzPa0C8OgLoUQoPlFt41hHGCw+I6rV8f3iXLTbhSZEDq0ryPK7h
-	Lzh0Rd49a7i02evoVBHg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=0UGkdecQ8tI6/FJj6ja2tWHuBOXhYigovy1IbOqiRaA=; b=0KyEaATQPdt0Gd
+	qfcGd48t0hiHG+RhoA2uvS3ox/mcTmoLEcoRotCgpNjuwkwsnecdymfs5zO0RS67fhLltRbSo6Hx6
+	XalpgJ8AweCN+sSh+0hWu5yn7TZ2/0QFcb2jMOu2dtjpNWbyPaQau+7ey6UARHpmHTHwZVhd7DqAn
+	oAjfk1M93w1TLZpygToi5AgFMK06LLZFmUmgIBlUTpv9LhTM3flWh6rfhkQ1zMNH4mpE9aNnaNk0e
+	W3y4aaPzcvjSYOjouP4WIGVnJx6QPY1A5m2XJNb844cwBZTt3nlotZXgEVDOFd1sHUh+E4vETSiMI
+	Mzima6eJdeuDNL5aCvcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6VoA-001CAW-2Y; Thu, 22 Jul 2021 10:20:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m6WV4-001ICf-J9; Thu, 22 Jul 2021 11:04:22 +0000
+Received: from mail-co1nam11on2077.outbound.protection.outlook.com
+ ([40.107.220.77] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6Vo4-001C7h-Mu
- for linux-nvme@lists.infradead.org; Thu, 22 Jul 2021 10:19:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626949194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9C3/RBYaUolmyP3VeziFcKEg2Hn93S2rUxjIWk+nhkM=;
- b=TDAHrSW0ocBVyrePy1qh499x6ZJF5x8x4lk0UN7kyswrht9fbw4N6H3N8YR1t+koczpZlg
- 5/SAFsfcZ6FcS9S4mz6Exwdl2mBFdlQNxvLYYptuEpn882PsN3mrr7Aejplxh0/juEBFlM
- VLailRgq8yS40ruT3q38gQdbgCUgB7A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-R9J8JA5kMm6jeaJSqzAD7Q-1; Thu, 22 Jul 2021 06:19:53 -0400
-X-MC-Unique: R9J8JA5kMm6jeaJSqzAD7Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0865710150A0;
- Thu, 22 Jul 2021 10:19:51 +0000 (UTC)
-Received: from T590 (ovpn-13-219.pek2.redhat.com [10.72.13.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8252060C5F;
- Thu, 22 Jul 2021 10:19:42 +0000 (UTC)
-Date: Thu, 22 Jul 2021 18:19:36 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.garry@huawei.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
- from remote numa node
-Message-ID: <YPlGOOMSdm6Bcyy/@T590>
-References: <YOgK8fdv7dOQtkET@T590>
- <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
- <YOhcOv1oOwm6fco+@T590>
- <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com>
- <YPd7IGFZrsTRfUxE@T590>
- <74537f9c-af5f-cd84-60ab-49ca6220310e@huawei.com>
- <YPfwAN1onpSKoeBj@T590>
- <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com>
- <YPklDMng1hL3bQ+v@T590>
- <9c929985-4fcb-e65d-0265-34c820b770ea@huawei.com>
+ id 1m6WV0-001IBq-8K
+ for linux-nvme@lists.infradead.org; Thu, 22 Jul 2021 11:04:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IEequTDt5ZLayfj6KBR2jNzX+FNsdFtTh2HDEcs+JuFTz2h2FJLm4BHmWTLDFnNWob2wA5ytO9jgE5H0bEUAaC9WJSRKBagbgg5a2QREK7HeHc9PD5igml43Vo5wwnaMbN0H4FJbc1mn50i45ojzofLX1HPTSBkHAeiRJBEowTPE7F7RQu0O9XbxGGIuIJWVlEM0Tgw8LAAHMyBPVTuJC9LDAggNu2OOVI+vp8XDAOZ244oGxGTpJ5mjr0hI4ZOMIcThb8fe58rmqLwz8VaytddgJBKxomUR09Zzs2EpwTj0VB3vamOO0By810I5ynVdHGW5Iv+faEyot9urbg8fTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qn8s5gaeKtsA02R+skdxLGrm9rIf8+33MKgMa9cb7bY=;
+ b=j7UK6YQk6fCKqa0aKNnDRumhCiDm4q95onrLH8dprnrutUEGjwOsyu49evfKFgRpXxYi7m3bFHoc8WoA0GXX3DuFw3/OOlgY9o8/qiiYGxm//+VjjrW0o+U+1ZXfFDtKXRQO8woCnJkzWehEeFjErPWY8cYKs2rVCMdV12hRNZOicyYAFvl6ljCkSB2mTfCmSVwgHp8PH4h0mnhplru3+tUvQjQWzUhHVXjYfdE1G65QBjT6nK8ZungyTwbD7vAuN4SgMoXIjlDxgxN3oYztQvQ+xdiRMk0OYTC/mUYxEtyTQxu6xuwgojnyi/TtrEY/OeRlzS9T69Zavdpo5DGafA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.32) smtp.rcpttodomain=marvell.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qn8s5gaeKtsA02R+skdxLGrm9rIf8+33MKgMa9cb7bY=;
+ b=oT9umydybrzqcByg55c9cJJeVeeHhPpR34/ViYEJlUaRKyQHRWmmNI0QLeDuEmUUrLa5nyUdfKZB4+RhBh4zrwNcP84ztq3dM5fT3orI1k5VWdHHkMjjT3ktEU0DlKXga0t0crvHWZtjHZDXJqAbYtbUXfu++Ui5ZaurCpxrJs6kluu+dMmzE9rGJFYrKF5ZXhq9r14jRiKhQvH8fbm5EIiCVkhJpydze3v3PgoUNPlTij4kD15GC2PH5uIKo9Fck5BunlkTHjVuM0kJqPAUJy/nWtt/roDxiOCHRJt5BXynnWUn90RSSKIg6hUHcLv06p9nJ9ku6Xj6td7DyLYTCg==
+Received: from DM5PR19CA0041.namprd19.prod.outlook.com (2603:10b6:3:9a::27) by
+ MW3PR12MB4396.namprd12.prod.outlook.com (2603:10b6:303:59::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.25; Thu, 22 Jul 2021 11:04:14 +0000
+Received: from DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:9a:cafe::e5) by DM5PR19CA0041.outlook.office365.com
+ (2603:10b6:3:9a::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25 via Frontend
+ Transport; Thu, 22 Jul 2021 11:04:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
+ smtp.mailfrom=nvidia.com; marvell.com; dkim=none (message not signed)
+ header.d=none;marvell.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ DM6NAM11FT032.mail.protection.outlook.com (10.13.173.93) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4352.24 via Frontend Transport; Thu, 22 Jul 2021 11:04:13 +0000
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 22 Jul
+ 2021 04:04:13 -0700
+Received: from vdi.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 22 Jul 2021 11:04:08 +0000
+From: Boris Pismenny <borisp@nvidia.com>
+To: <dsahern@gmail.com>, <kuba@kernel.org>, <davem@davemloft.net>,
+ <saeedm@nvidia.com>, <hch@lst.de>, <sagi@grimberg.me>, <axboe@fb.com>,
+ <kbusch@kernel.org>, <viro@zeniv.linux.org.uk>, <edumazet@google.com>,
+ <smalin@marvell.com>
+CC: <boris.pismenny@gmail.com>, <linux-nvme@lists.infradead.org>,
+ <netdev@vger.kernel.org>, <benishay@nvidia.com>, <ogerlitz@nvidia.com>,
+ <yorayz@nvidia.com>, Boris Pismenny <borisp@mellanox.com>
+Subject: [PATCH v5 net-next 00/36] nvme-tcp receive and tarnsmit offloads
+Date: Thu, 22 Jul 2021 14:02:49 +0300
+Message-ID: <20210722110325.371-1-borisp@nvidia.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9c929985-4fcb-e65d-0265-34c820b770ea@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 54ab7a6b-a0ea-44ac-7905-08d94d0070ed
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4396:
+X-Microsoft-Antispam-PRVS: <MW3PR12MB43961A9B7802FF6F3DBAAB4CBDE49@MW3PR12MB4396.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ialqMjMyo2RBH9b9xW6CE0zVMzjAVh0YAe0woKEzMjwGZdoPW9kQxXuwsAhYHIOqGiNwWR8H9hx3ErKzdbfYvY93VqGuWk0vbr9Q8u86l0PAx2F+tj589AxXVPzHDAuOUlabuB6W+ojcNeln02PQOG/ToW2UmpkALKin4qdCa3bVKFr2ektsU4UOvqXhKdCYqy37lW+89vmH6TfRn4IP0EzXMEXd68KacHYTIVN1yyhp8ZKCS1lOruBQ4QMGu7TVSuOOYXewxYWrJBAcUld1qZXCr4tc0IlQ5+oOU9U9ujMMmA9y3vei2EpA+NSZO9rQhY2gGjCXhZpdy+T1p88RKMBPelM7dPWWmGf5xrW28S6lmVJNBVi6IJn9QlgsrtdReYors4UKwmP8wtYXDK0npJwjkVljDGFP+f+bY+S/0G6uUfCOU/wdwdJCY+5jQMpn1SKBreqWXmgMP6MJErANZvPX5PsWbhI2FS7IQFI+1vty9IKUUHCZ/NWLee0LjovMnlLlLaX5jVnrY/5Veh5I+p2Pnq73IWlgbndtuXcijYaF069/hNKJbZzdfzcJiOPJZgJDEvzC5Vrt2e6BcZ4ZKfQtADFNsb9MPM/T3lG8UEYkXMH0grstfdDVs20mG0qhnehLBerMgqw9ut3qmjd+CfY8UVSyLxZBtuTo0Nfqhz6303GBwZmPGjppTboPt5W+hullthScf1JYVBN02jCrKNvSRNdZ2nJV978y9a3pGzHr+Z/mFgpuXpdTvct7TIXna/alKN+4sh0MN0InTgfVfm2FitjDOQLL54EhI56e9Be/a0XnE/jlt5Gifb5S2wvj
+X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(346002)(376002)(39860400002)(46966006)(36840700001)(47076005)(107886003)(336012)(7696005)(2906002)(186003)(8676002)(82310400003)(82740400003)(7636003)(5660300002)(26005)(30864003)(921005)(4326008)(83380400001)(36756003)(1076003)(478600001)(966005)(70206006)(36860700001)(2616005)(86362001)(426003)(110136005)(316002)(8936002)(7416002)(54906003)(6666004)(356005)(70586007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2021 11:04:13.8386 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54ab7a6b-a0ea-44ac-7905-08d94d0070ed
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4396
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_031956_905388_4C1C5785 
-X-CRM114-Status: GOOD (  29.21  )
+X-CRM114-CacheID: sfid-20210722_040418_401693_FC45074A 
+X-CRM114-Status: GOOD (  23.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,170 +135,315 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 22, 2021 at 11:05:00AM +0100, John Garry wrote:
-> On 22/07/2021 08:58, Ming Lei wrote:
-> > On Wed, Jul 21, 2021 at 12:07:22PM +0100, John Garry wrote:
-> > > On 21/07/2021 10:59, Ming Lei wrote:
-> > > > > I have now removed that from the tree, so please re-pull.
-> > > > Now the kernel can be built successfully, but not see obvious improvement
-> > > > on the reported issue:
-> > > > 
-> > > > [root@ampere-mtjade-04 ~]# uname -a
-> > > > Linux ampere-mtjade-04.khw4.lab.eng.bos.redhat.com 5.14.0-rc2_smmu_fix+ #2 SMP Wed Jul 21 05:49:03 EDT 2021 aarch64 aarch64 aarch64 GNU/Linux
-> > > > 
-> > > > [root@ampere-mtjade-04 ~]# taskset -c 0 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
-> > > > + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
-> > > > test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
-> > > > fio-3.27
-> > > > Starting 1 process
-> > > > Jobs: 1 (f=1): [r(1)][100.0%][r=1503MiB/s][r=385k IOPS][eta 00m:00s]
-> > > > test: (groupid=0, jobs=1): err= 0: pid=3143: Wed Jul 21 05:58:14 2021
-> > > >     read: IOPS=384k, BW=1501MiB/s (1573MB/s)(14.7GiB/10001msec)
-> > > I am not sure what baseline you used previously, but you were getting 327K
-> > > then, so at least this would be an improvement.
-> > Looks the improvement isn't from your patches, please see the test result on
-> > v5.14-rc2:
-> > 
-> > [root@ampere-mtjade-04 ~]# uname -a
-> > Linux ampere-mtjade-04.khw4.lab.eng.bos.redhat.com 5.14.0-rc2_linus #3 SMP Thu Jul 22 03:41:24 EDT 2021 aarch64 aarch64 aarch64 GNU/Linux
-> > [root@ampere-mtjade-04 ~]# taskset -c 0 ~/git/tools/test/nvme/io_uring 20 1 /dev/nvme1n1 4k
-> > + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
-> > test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
-> > fio-3.27
-> > Starting 1 process
-> > Jobs: 1 (f=1): [r(1)][100.0%][r=1489MiB/s][r=381k IOPS][eta 00m:00s]
-> > test: (groupid=0, jobs=1): err= 0: pid=3099: Thu Jul 22 03:53:04 2021
-> >    read: IOPS=381k, BW=1487MiB/s (1559MB/s)(29.0GiB/20001msec)
-> 
-> I'm a bit surprised at that.
-> 
-> Anyway, I don't see such an issue as you are seeing on my system. In
-> general, running from different nodes doesn't make a huge difference. But
-> note that the NVMe device is on NUMA node #2 on my 4-node system. I assume
-> that the IOMMU is also located in that node.
-> 
-> sudo taskset -c 0 fio/fio --bs=4k --ioengine=io_uring --fixedbufs
-> --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16
-> --iodepth_batch_complete_min=16 --filename=/dev/nvme0n1 --direct=1
-> --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
->  read: IOPS=479k
-> 
-> ---
-> sudo taskset -c 4 fio/fio --bs=4k --ioengine=io_uring --fixedbufs
-> --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16
-> --iodepth_batch_complete_min=16 --filename=/dev/nvme0n1 --direct=1
-> --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
->  read: IOPS=307k
-> 
-> ---
-> sudo taskset -c 32 fio/fio --bs=4k --ioengine=io_uring --fixedbufs
-> --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16
-> --iodepth_batch_complete_min=16 --filename=/dev/nvme0n1 --direct=1
-> --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
-> read: IOPS=566k
-> 
-> --
-> sudo taskset -c 64 fio/fio --bs=4k --ioengine=io_uring --fixedbufs
-> --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16
-> --iodepth_batch_complete_min=16 --filename=/dev/nvme0n1 --direct=1
-> --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
-> read: IOPS=488k
-> 
-> ---
-> sudo taskset -c 96 fio/fio --bs=4k --ioengine=io_uring --fixedbufs
-> --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16
-> --iodepth_batch_complete_min=16 --filename=/dev/nvme0n1 --direct=1
-> --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
-> 
->  read: IOPS=508k
-> 
-> 
-> If you check below, you can see that cpu4 services an NVMe irq. From
-> checking htop, during the test that cpu is at 100% load, which I put the
-> performance drop (vs cpu0) down to.
+From: Boris Pismenny <borisp@mellanox.com>
 
-nvme.poll_queues is 2 in my test, and no irq is involved. But the irq mode
-fio test is still as bad as io_uring.
+Changes since v4:
+=========================================
+* Add transmit offload patches
+* Use one feature bit for both receive and transmit offload
 
-> 
-> Here's some system info:
-> 
-> HW queue irq affinities:
-> PCI name is 81:00.0: nvme0n1
-> -eirq 298, cpu list 67, effective list 67
-> -eirq 299, cpu list 32-38, effective list 35
-> -eirq 300, cpu list 39-45, effective list 39
-> -eirq 301, cpu list 46-51, effective list 46
-> -eirq 302, cpu list 52-57, effective list 52
-> -eirq 303, cpu list 58-63, effective list 60
-> -eirq 304, cpu list 64-69, effective list 68
-> -eirq 305, cpu list 70-75, effective list 70
-> -eirq 306, cpu list 76-80, effective list 76
-> -eirq 307, cpu list 81-85, effective list 84
-> -eirq 308, cpu list 86-90, effective list 86
-> -eirq 309, cpu list 91-95, effective list 92
-> -eirq 310, cpu list 96-101, effective list 100
-> -eirq 311, cpu list 102-107, effective list 102
-> -eirq 312, cpu list 108-112, effective list 108
-> -eirq 313, cpu list 113-117, effective list 116
-> -eirq 314, cpu list 118-122, effective list 118
-> -eirq 315, cpu list 123-127, effective list 124
-> -eirq 316, cpu list 0-5, effective list 4
-> -eirq 317, cpu list 6-11, effective list 6
-> -eirq 318, cpu list 12-16, effective list 12
-> -eirq 319, cpu list 17-21, effective list 20
-> -eirq 320, cpu list 22-26, effective list 22
-> -eirq 321, cpu list 27-31, effective list 28
-> 
-> 
-> john@ubuntu:~$ lscpu | grep NUMA
-> NUMA node(s):  4
-> NUMA node0 CPU(s):   0-31
-> NUMA node1 CPU(s):   32-63
-> NUMA node2 CPU(s):   64-95
-> NUMA node3 CPU(s):   96-127
-> 
-> john@ubuntu:~$ lspci | grep -i non
-> 81:00.0 Non-Volatile memory controller: Huawei Technologies Co., Ltd. Device
-> 0123 (rev 45)
-> 
-> cat /sys/block/nvme0n1/device/device/numa_node
-> 2
+Changes since v3:
+=========================================
+* Use DDP_TCP ifdefs in iov_iter and skb iterators to minimize impact
+when compiled out (Christoph)
+* Simplify netdev references and reduce the use of
+get_netdev_for_sock (Sagi)
+* Avoid "static" in it's own line, move it one line down (Christoph)
+* Pass (queue, skb, *offset) and retrieve the pdu_seq in
+nvme_tcp_resync_response (Sagi)
+* Add missing assignment of offloading_netdev to null in offload_limits
+error case (Sagi)
+* Set req->offloaded = false once -- the lifetime rules are:
+set to false on cmd_setup / set to true when ddp setup succeeds (Sagi)
+* Replace pr_info_ratelimited with dev_info_ratelimited (Sagi)
+* Add nvme_tcp_complete_request and invoke it from two similar call
+sites (Sagi)
+* Introduce nvme_tcp_req_map_sg earlier in the series (Sagi)
+* Add nvme_tcp_consume_skb and put into it a hunk from
+nvme_tcp_recv_data to handle copy with and without offload
 
-BTW, nvme driver doesn't apply the pci numa node, and I guess the
-following patch is needed:
+Changes since v2:
+=========================================
+* Use skb->ddp_crc for copy offload to avoid skb_condense
+* Default mellanox driver support to no (experimental feature)
+* In iov_iter use non-ddp functions for kvec and iovec
+* Remove typecasting in nvme-tcp
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 11779be42186..3c5e10e8b0c2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4366,7 +4366,11 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
- 	ctrl->quirks = quirks;
-+#ifdef CONFIG_NUMA
-+	ctrl->numa_node = dev->numa_node;
-+#else
- 	ctrl->numa_node = NUMA_NO_NODE;
-+#endif
- 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+Changes since v1:
+=========================================
+* Rework iov_iter copy skip if src==dst to be less intrusive (David Ahern)
+* Add tcp-ddp documentation (David Ahern)
+* Refactor mellanox driver patches into more patches (Saeed Mahameed)
+* Avoid pointer casting (David Ahern)
+* Rename nvme-tcp offload flags (Shai Malin)
+* Update cover-letter according to the above
 
-> 
-> [   52.968495] nvme 0000:81:00.0: Adding to iommu group 5
-> [   52.980484] nvme nvme0: pci function 0000:81:00.0
-> [   52.999881] nvme nvme0: 23/0/0 default/read/poll queues
+Changes since RFC v1:
+=========================================
+* Split mlx5 driver patches to several commits
+* Fix nvme-tcp handling of recovery flows. In particular, move queue offlaod
+  init/teardown to the start/stop functions.
 
-Looks you didn't enabling polling. In irq mode, it isn't strange
-to observe IOPS difference when running fio on different CPUs.
+# Overview
+=========================================
+This series adds support for nvme-tcp receive and transmit offloads
+which do not mandate the offload of the network stack to the device.
+Instead, these work together with TCP to offload:
+1. copy from SKB to the block layer buffers
+2. CRC calculation and verification for received PDU
 
-Thanks,
-Ming
+The series implements these as a generic offload infrastructure for storage
+protocols, which we call TCP Direct Data Placement (TCP_DDP) and TCP DDP CRC,
+respectively. We use this infrastructure to implement NVMe-TCP offload for copy
+and CRC. Future implementations can reuse the same infrastructure for other
+protcols such as iSCSI.
+
+Note:
+These offloads are similar in nature to the packet-based NIC TLS offloads,
+which are already upstream (see net/tls/tls_device.c).
+You can read more about TLS offload here:
+https://www.kernel.org/doc/html/latest/networking/tls-offload.html
+
+# Initialization and teardown:
+=========================================
+The offload for IO queues is initialized after the handshake of the
+NVMe-TCP protocol is finished by calling `nvme_tcp_offload_socket`
+with the tcp socket of the nvme_tcp_queue:
+This operation sets all relevant hardware contexts in
+hardware. If it fails, then the IO queue proceeds as usually with no offload.
+If it succeeds then `nvme_tcp_setup_ddp` and `nvme_tcp_teardown_ddp` may be
+called to perform copy offload, and crc offload will be used.
+This initialization does not change the normal operation of nvme-tcp in any
+way besides adding the option to call the above mentioned NDO operations.
+
+For the admin queue, nvme-tcp does not initialize the offload.
+Instead, nvme-tcp calls the driver to configure limits for the controller,
+such as max_hw_sectors and max_segments; these must be limited to accomodate
+potential HW resource limits, and to improve performance.
+
+If some error occured, and the IO queue must be closed or reconnected, then
+offload is teardown and initialized again. Additionally, we handle netdev
+down events via the existing error recovery flow.
+
+# Copy offload works as follows:
+=========================================
+The nvme-tcp layer calls the NIC drive to map block layer buffers to ccid using
+`nvme_tcp_setup_ddp` before sending the read request. When the repsonse is
+received, then the NIC HW will write the PDU payload directly into the
+designated buffer, and build an SKB such that it points into the destination
+buffer; this SKB represents the entire packet received on the wire, but it
+points to the block layer buffers. Once nvme-tcp attempts to copy data from
+this SKB to the block layer buffer it can skip the copy by checking in the
+copying function (memcpy_to_page):
+if (src == dst) -> skip copy
+Finally, when the PDU has been processed to completion, the nvme-tcp layer
+releases the NIC HW context be calling `nvme_tcp_teardown_ddp` which
+asynchronously unmaps the buffers from NIC HW.
+
+As the copy skip change is in a sensative function, we are careful to avoid
+changing it. To that end, we create alternative skb copy and hash iterators
+that skip copy/hash if (src == dst). Nvme-tcp is the first user for these.
+
+# Asynchronous completion:
+=========================================
+The NIC must release its mapping between command IDs and the target buffers.
+This mapping is released when NVMe-TCP calls the NIC
+driver (`nvme_tcp_offload_socket`).
+As completing IOs is performance criticial, we introduce asynchronous
+completions for NVMe-TCP, i.e. NVMe-TCP calls the NIC, which will later
+call NVMe-TCP to complete the IO (`nvme_tcp_ddp_teardown_done`).
+
+An alternative approach is to move all the functions related to coping from
+SKBs to the block layer buffers inside the nvme-tcp code - about 200 LOC.
+
+# CRC receive offload works as follows:
+=========================================
+After offload is initialized, we use the SKB's ddp_crc bit to indicate that:
+"there was no problem with the verification of all CRC fields in this packet's
+payload". The bit is set to zero if there was an error, or if HW skipped
+offload for some reason. If *any* SKB in a PDU has (ddp_crc != 1), then software
+must compute the CRC, and check it. We perform this check, and
+accompanying software fallback at the end of the processing of a received PDU.
+
+# CRC transmit offload works as follows:
+=========================================
+The sending layer (e.g., nvme-tcp) sets the MSG_DDP_CRC when sending messages
+down to TCP. Thereafter TCP will mark corresponding SKBs with the ddp_crc bit.
+This ensures that CRC offload takes place for this packets, similarly to how
+skb->decrtypted is used for TLS.
+
+Additionally, nvme-tcp maintains a mapping between TCP sequence numbers
+and PDU data which allows the driver to handle reordered/retransmitted
+packet offload by resynchronizing the device's CRC state.
+
+# SKB changes:
+=========================================
+The CRC offload requires an additional bit in the SKB, which is useful for
+preventing the coalescing of SKB with different crc offload values. This bit
+is similar in concept to the "decrypted" bit. 
+
+# Performance:
+=========================================
+The expected performance gain from this offload varies with the block size.
+We perform a CPU cycles breakdown of the copy/CRC operations in nvme-tcp
+fio random read workloads:
+For 4K blocks we see up to 11% improvement for a 100% read fio workload,
+while for 128K blocks we see upto 52%. If we run nvme-tcp, and skip these
+operations, then we observe a gain of about 1.1x and 2x respectively.
+
+# Resynchronization:
+=========================================
+The resynchronization flow is performed to reset the hardware tracking of
+NVMe-TCP PDUs within the TCP stream. The flow consists of a request from
+the driver, regarding a possible location of a PDU header. Followed by
+a response from the nvme-tcp driver.
+
+This flow is rare, and it should happen only after packet loss or
+reordering events that involve nvme-tcp PDU headers.
+
+# The patches are organized as follows:
+=========================================
+Patches 1,3     the infrastructure for all TCP DDP.
+                and TCP DDP CRC offloads, respectively.
+Patch 2         the iov_iter change to skip copy if (src == dst).
+Patch 4         exposes the get_netdev_for_sock function from TLS.
+Patch 5         NVMe-TCP changes to call NIC driver on queue init/teardown.
+Patches 6       NVMe-TCP changes to call NIC driver on IO operation.
+                setup/teardown, and support async completions.
+Patches 7       NVMe-TCP changes to support CRC offload on receive.
+                Also, this patch moves CRC calculation to the end of PDU
+                in case offload requires software fallback.
+Patches 8       NVMe-TCP handling of netdev events: stop the offload if
+                netdev is going down.
+Patches 9-19    implement support for NVMe-TCP copy and CRC offload in
+                the mlx5 NIC driver as the first user.
+Patches 20      Document TCP DDP offload.
+Patches 21-24   Net core support for transmit offload
+Patches 25-26   NVMe-TCP transmit offload support 
+Patches 27-36   Mellanox NVMe-TCP transmit offload support
+
+Testing:
+=========================================
+This series was tested using fio with various configurations of IO sizes,
+depths, MTUs, and with both the SPDK and kernel NVMe-TCP targets.
+Also, we have used QEMU and gate-level simulation to verify these patches.
+
+Future work:
+=========================================
+A follow-up series will introduce support for TLS in NVMe-TCP and combining the
+two offloads.
+
+Ben Ben-Ishay (8):
+  net/mlx5e: NVMEoTCP offload initialization
+  net/mlx5e: KLM UMR helper macros
+  net/mlx5e: NVMEoTCP use KLM UMRs
+  net/mlx5e: NVMEoTCP queue init/teardown
+  net/mlx5e: NVMEoTCP async ddp invalidation
+  net/mlx5e: NVMEoTCP ddp setup and resync
+  net/mlx5e: NVMEoTCP, data-path for DDP+DDGST offload
+  net/mlx5e: NVMEoTCP statistics
+
+Ben Ben-ishay (2):
+  net/mlx5: Header file changes for nvme-tcp offload
+  net/mlx5: Add 128B CQE for NVMEoTCP offload
+
+Boris Pismenny (8):
+  net: Introduce direct data placement tcp offload
+  iov_iter: DDP copy to iter/pages
+  net: skb copy(+hash) iterators for DDP offloads
+  net/tls: expose get_netdev_for_sock
+  nvme-tcp: Add DDP offload control path
+  nvme-tcp: Add DDP data-path
+  net/mlx5e: TCP flow steering for nvme-tcp
+  Documentation: add ULP DDP offload documentation
+
+Or Gerlitz (1):
+  nvme-tcp: Deal with netdevice DOWN events
+
+Yoray Zack (17):
+  nvme-tcp: RX DDGST offload
+  net: drop ULP DDP HW offload feature if no CSUM offload feature
+  net: Add ulp_ddp_pdu_info struct
+  net: Add to ulp_ddp support for fallback flow
+  net: Add MSG_DDP_CRC flag
+  nvme-tcp: TX DDGST offload
+  nvme-tcp: Mapping between Tx NVMEoTCP pdu and TCP sequence
+  mlx5e: make preparation in TLS code for NVMEoTCP CRC Tx offload
+  mlx5: Add sq state test bit for nvmeotcp
+  mlx5: Add support to NETIF_F_HW_TCP_DDP_CRC_TX feature
+  net/mlx5e: NVMEoTCP DDGST TX offload TIS
+  net/mlx5e: NVMEoTCP DDGST Tx offload queue init/teardown
+  net/mlx5e: NVMEoTCP DDGST TX BSF and PSV
+  net/mlx5e: NVMEoTCP DDGST TX Data path
+  net/mlx5e: NVMEoTCP DDGST TX handle OOO packets
+  net/mlx5e: NVMEoTCP DDGST TX offload optimization
+  net/mlx5e: NVMEoTCP DDGST TX statistics
+
+ Documentation/networking/index.rst            |    1 +
+ Documentation/networking/ulp-ddp-offload.rst  |  415 +++++
+ .../net/ethernet/mellanox/mlx5/core/Kconfig   |   10 +
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |    2 +
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   36 +-
+ .../net/ethernet/mellanox/mlx5/core/en/fs.h   |    4 +-
+ .../ethernet/mellanox/mlx5/core/en/params.c   |   11 +-
+ .../ethernet/mellanox/mlx5/core/en/params.h   |    3 +
+ .../net/ethernet/mellanox/mlx5/core/en/txrx.h |   20 +-
+ .../ethernet/mellanox/mlx5/core/en/xsk/rx.c   |    1 +
+ .../ethernet/mellanox/mlx5/core/en/xsk/rx.h   |    1 +
+ .../mellanox/mlx5/core/en_accel/en_accel.h    |   22 +-
+ .../mellanox/mlx5/core/en_accel/fs_tcp.c      |   10 +
+ .../mellanox/mlx5/core/en_accel/fs_tcp.h      |    2 +-
+ .../mellanox/mlx5/core/en_accel/ktls_tx.c     |   16 +-
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 1555 +++++++++++++++++
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.h    |  138 ++
+ .../mlx5/core/en_accel/nvmeotcp_rxtx.c        |  264 +++
+ .../mlx5/core/en_accel/nvmeotcp_rxtx.h        |   43 +
+ .../mlx5/core/en_accel/nvmeotcp_utils.h       |   80 +
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |   30 +-
+ .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   66 +-
+ .../ethernet/mellanox/mlx5/core/en_stats.c    |   74 +
+ .../ethernet/mellanox/mlx5/core/en_stats.h    |   47 +
+ .../net/ethernet/mellanox/mlx5/core/en_tx.c   |   11 +
+ .../net/ethernet/mellanox/mlx5/core/en_txrx.c |   17 +
+ drivers/net/ethernet/mellanox/mlx5/core/fw.c  |    6 +
+ drivers/nvme/host/tcp.c                       |  567 +++++-
+ include/linux/mlx5/device.h                   |   44 +-
+ include/linux/mlx5/mlx5_ifc.h                 |  104 +-
+ include/linux/mlx5/qp.h                       |    1 +
+ include/linux/netdev_features.h               |    3 +-
+ include/linux/netdevice.h                     |    5 +
+ include/linux/skbuff.h                        |   13 +
+ include/linux/socket.h                        |    1 +
+ include/linux/uio.h                           |   17 +
+ include/net/inet_connection_sock.h            |    4 +
+ include/net/sock.h                            |   23 +
+ include/net/ulp_ddp.h                         |  192 ++
+ lib/iov_iter.c                                |   55 +
+ net/Kconfig                                   |   10 +
+ net/core/Makefile                             |    1 +
+ net/core/datagram.c                           |   48 +
+ net/core/dev.c                                |    2 +
+ net/core/skbuff.c                             |    8 +-
+ net/core/sock.c                               |    7 +
+ net/core/ulp_ddp.c                            |  235 +++
+ net/ethtool/common.c                          |    1 +
+ net/ipv4/tcp.c                                |    6 +
+ net/ipv4/tcp_input.c                          |    8 +
+ net/ipv4/tcp_ipv4.c                           |    3 +
+ net/ipv4/tcp_offload.c                        |    3 +
+ net/tls/tls_device.c                          |   20 +-
+ 53 files changed, 4192 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/networking/ulp-ddp-offload.rst
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_rxtx.h
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
+ create mode 100644 include/net/ulp_ddp.h
+ create mode 100644 net/core/ulp_ddp.c
+
+-- 
+2.24.1
 
 
 _______________________________________________
