@@ -2,83 +2,86 @@ Return-Path: <SRS0=qdm1=MO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36DD2C6377D
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 07:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA76C6377D
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 07:58:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 065DB60249
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 07:49:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 065DB60249
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7046461279
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Jul 2021 07:58:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7046461279
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D1zEfWU1am+y5hjr6D4CjNI5TY7ir91/0O9fAfRW1pw=; b=P9reJ0h+NoOQmSFRPcqaAR/PiJ
-	zr/gSef0LejBgbOfoZquprjYtmCIyh0gV4GZSe5cTK4BwnQkLwgMftT03DchxTYwgVEI0vnXeArCR
-	69qvklgU2fCcoW0q56vwJr4hKFCPZeeqnO1DV7fEE5nTkzrma/GuAnW2cApL+MJpo4D1GOS09PfCq
-	6PZaz3EDBaRBt725stZWP/ut+6G0a9MFB/O7dHz5cfYir5B6Q9iBmH0wb2y6ije5J1IUziHpjF/2s
-	/waMdeX10Gtg/Yr/HIjgvCi9v8Jx2XBdQnEMj18rNBGasrV+xmiQArBqU9/FkAJ/tCQFMu55y4TBn
-	KRKBlnVg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=lIlrLY9vejQYVl6ulhWi3h20RdMXapjpEo6tsVP9PWQ=; b=3sZPBmvL0057FH
+	BhnxPKNocZuVo7shOgJzjmIWsXTlViCq3RpTl0B8gScY7BcCPk7Wn1bclNGGHwqHPmZwsKegwUZ4C
+	jg1O9fsaMnR1DBj7Y4E8OuL64FP7Nusu+j2gHmnjW55Kr4VrjydjsUVwV//GTS04vGhnVL/GGG5qt
+	GmX3Ir5RTjm01Yo7s71nHZ94wELMYMu2oBXrhPXXaYG72Y3nAQAap8aFu0isKR3hBIYZL/e9Zlr39
+	mSOAfPpjc2Av8pzBOaKXZxHC915fMpi+QZgKTojVEaOKIFh1NmBdplKGX+oFCjC+UFGOCHzP9iFdY
+	+v/S72f6BIKsScTJLXpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6TRq-000aOM-CF; Thu, 22 Jul 2021 07:48:50 +0000
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+	id 1m6TbI-000bzY-Gl; Thu, 22 Jul 2021 07:58:36 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6TRm-000aMr-T4
- for linux-nvme@lists.infradead.org; Thu, 22 Jul 2021 07:48:48 +0000
-Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GVkhy5rnBz6D94x;
- Thu, 22 Jul 2021 15:33:54 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 22 Jul 2021 09:48:43 +0200
-Received: from [10.47.26.161] (10.47.26.161) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2176.2; Thu, 22 Jul
- 2021 08:48:42 +0100
-Subject: Re: [PATCH V4 1/3] driver core: mark device as irq affinity managed
- if any irq is managed
-To: Thomas Gleixner <tglx@linutronix.de>, Christoph Hellwig <hch@lst.de>
-CC: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Bjorn Helgaas
- <bhelgaas@google.com>, <linux-pci@vger.kernel.org>, Sagi Grimberg
- <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>, Wen Xiong
- <wenxiong@us.ibm.com>, Hannes Reinecke <hare@suse.de>, Keith Busch
- <kbusch@kernel.org>, Marc Zyngier <maz@kernel.org>
-References: <20210715120844.636968-1-ming.lei@redhat.com>
- <20210715120844.636968-2-ming.lei@redhat.com>
- <5e534fdc-909e-39b2-521d-31f643a10558@huawei.com>
- <20210719094414.GC431@lst.de> <87lf60cevz.ffs@nanos.tec.linutronix.de>
- <20210721072445.GA11257@lst.de>
- <fe34623e-1074-862d-e822-7359ae4def0f@huawei.com>
- <87y29zpgct.ffs@nanos.tec.linutronix.de>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <27cf7c97-6b03-d1fd-7bfc-6aaf3cd50272@huawei.com>
-Date: Thu, 22 Jul 2021 08:48:36 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ id 1m6Tb3-000bvP-PT
+ for linux-nvme@lists.infradead.org; Thu, 22 Jul 2021 07:58:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626940700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6lwGJN8TiFLyvyvEI71qHXGC7kR0F74D2az+cv8IX3c=;
+ b=VNLOSW+RFFAa31ENYkreYzf27nC0nJCzQwvzSqwnBqjFqXpIZ78PMysOjtHEoSOG+dpYjA
+ iKGIbWfST5/Q7mR2LX0CVRmB7h/FmtGdLqhlD0sbynPLlvyI7sLT6IMgiauCRUjq3RR1ir
+ +aX07HOoV6Rvjpq6esnrZ+pyHa/nKxk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284--TOyIPhhNMqqiunAANAukQ-1; Thu, 22 Jul 2021 03:58:17 -0400
+X-MC-Unique: -TOyIPhhNMqqiunAANAukQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB9D93923;
+ Thu, 22 Jul 2021 07:58:16 +0000 (UTC)
+Received: from T590 (ovpn-13-219.pek2.redhat.com [10.72.13.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE72160CA1;
+ Thu, 22 Jul 2021 07:58:08 +0000 (UTC)
+Date: Thu, 22 Jul 2021 15:58:04 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.garry@huawei.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
+ from remote numa node
+Message-ID: <YPklDMng1hL3bQ+v@T590>
+References: <YOgK8fdv7dOQtkET@T590>
+ <23e7956b-f3b5-b585-3c18-724165994051@arm.com>
+ <YOhcOv1oOwm6fco+@T590>
+ <ad5bc549-d83f-bee0-9a9f-03a5afd7f3d9@huawei.com>
+ <YPd7IGFZrsTRfUxE@T590>
+ <74537f9c-af5f-cd84-60ab-49ca6220310e@huawei.com>
+ <YPfwAN1onpSKoeBj@T590>
+ <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <87y29zpgct.ffs@nanos.tec.linutronix.de>
-Content-Language: en-US
-X-Originating-IP: [10.47.26.161]
-X-ClientProxiedBy: lhreml706-chm.china.huawei.com (10.201.108.55) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_004847_141522_72F25A8A 
-X-CRM114-Status: GOOD (  11.49  )
+X-CRM114-CacheID: sfid-20210722_005821_928310_D07AE2B6 
+X-CRM114-Status: GOOD (  14.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,31 +93,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 21/07/2021 21:22, Thomas Gleixner wrote:
->>> That's what I assumed, but this text from John suggested there is
->>> something odd about the platform case:
->>>
->>> "Did you consider that for PCI .."
->>> .
->> For this special platform MSI case there is a secondary interrupt
->> controller (called mbigen) which generates the MSI on behalf of the
->> device, which I think the MSI belongs to (and not the device, itself).
-> MBIGEN is a different story because it converts wired interrupts into
-> MSI interrupts, IOW a MSI based interrupt pin extender.
+On Wed, Jul 21, 2021 at 12:07:22PM +0100, John Garry wrote:
+> On 21/07/2021 10:59, Ming Lei wrote:
+> > > I have now removed that from the tree, so please re-pull.
+> > Now the kernel can be built successfully, but not see obvious improvement
+> > on the reported issue:
+> > 
+> > [root@ampere-mtjade-04 ~]# uname -a
+> > Linux ampere-mtjade-04.khw4.lab.eng.bos.redhat.com 5.14.0-rc2_smmu_fix+ #2 SMP Wed Jul 21 05:49:03 EDT 2021 aarch64 aarch64 aarch64 GNU/Linux
+> > 
+> > [root@ampere-mtjade-04 ~]# taskset -c 0 ~/git/tools/test/nvme/io_uring 10 1 /dev/nvme1n1 4k
+> > + fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=10 --numjobs=1 --rw=randread --name=test --group_reporting
+> > test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
+> > fio-3.27
+> > Starting 1 process
+> > Jobs: 1 (f=1): [r(1)][100.0%][r=1503MiB/s][r=385k IOPS][eta 00m:00s]
+> > test: (groupid=0, jobs=1): err= 0: pid=3143: Wed Jul 21 05:58:14 2021
+> >    read: IOPS=384k, BW=1501MiB/s (1573MB/s)(14.7GiB/10001msec)
 > 
-> I might be wrong, but I seriously doubt that any multiqueue device which
-> wants to use affinity managed interrupts is built on top of that.
+> I am not sure what baseline you used previously, but you were getting 327K
+> then, so at least this would be an improvement.
 
-Actually the SCSI device for which platform device managed interrupts 
-support was added in commit e15f2fa959f2 uses mbigen.
+Looks the improvement isn't from your patches, please see the test result on
+v5.14-rc2:
 
-Thanks,
-John
+[root@ampere-mtjade-04 ~]# uname -a
+Linux ampere-mtjade-04.khw4.lab.eng.bos.redhat.com 5.14.0-rc2_linus #3 SMP Thu Jul 22 03:41:24 EDT 2021 aarch64 aarch64 aarch64 GNU/Linux
+[root@ampere-mtjade-04 ~]# taskset -c 0 ~/git/tools/test/nvme/io_uring 20 1 /dev/nvme1n1 4k
++ fio --bs=4k --ioengine=io_uring --fixedbufs --registerfiles --hipri --iodepth=64 --iodepth_batch_submit=16 --iodepth_batch_complete_min=16 --filename=/dev/nvme1n1 --direct=1 --runtime=20 --numjobs=1 --rw=randread --name=test --group_reporting
+test: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=64
+fio-3.27
+Starting 1 process
+Jobs: 1 (f=1): [r(1)][100.0%][r=1489MiB/s][r=381k IOPS][eta 00m:00s]
+test: (groupid=0, jobs=1): err= 0: pid=3099: Thu Jul 22 03:53:04 2021
+  read: IOPS=381k, BW=1487MiB/s (1559MB/s)(29.0GiB/20001msec)
+
+
+thanks, 
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
