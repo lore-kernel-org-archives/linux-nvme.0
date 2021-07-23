@@ -2,19 +2,19 @@ Return-Path: <SRS0=kg3i=MP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53FC8C4338F
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Jul 2021 05:57:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBAF4C4338F
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Jul 2021 06:07:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 236C760E95
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Jul 2021 05:57:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 236C760E95
+	by mail.kernel.org (Postfix) with ESMTPS id 6100260E8B
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Jul 2021 06:07:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6100260E8B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,22 +23,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8N9idiVmSEnAulylxejSI9/icMC+Rod5vyRiqOAkUVs=; b=jDCTph0A/vOOnZ
-	MDOi5/txnz/4ShSg5g6sj0iF+CcseyzvXLk5oQhzS50Eoezi94/SHAo7bePY4Bf2mD8xddvc9SZOR
-	E3MpzT/c9GOgTmR9Q4TAe6FH/FhTqPQ6SUaZykuW0LpcUqZH1bKqF4ZvVaVEXy1XgXABe1368FN8E
-	V0WfGpMKXaGX7ZUIKuZIBgEpagQKCAOf0o5dxbh+ZoESjYFWHNLdrsqjXh+JYtyZLSp0PRToNeLHz
-	h6ocJfel0inAiM+Jh4mhHKq62As/3IuJl0uI5CCLIso1aOT6nkjC0blN4M9UhucU388i0awP7JbZg
-	hxBr1lVmKQDf34qklYeg==;
+	List-Owner; bh=LzO3PhxPsBftzKEwKgO+8u7qiJpldZ92QmThWg9c21g=; b=EzUv0zn53MVCiC
+	hMkLP/KzXWQk57HsajVptKhxdn4i3gWRJEyJG7IGW7NuLuKRut7M+SuY3rMzlHsKDGHSBBZrqoN0e
+	ZjIZeps3SzUqw1U5CmgXGjxJou5fI3SxyXOCHqClhG6JkuldHz6fxJVzYKJkMGBepmsy/TEZ/RIlB
+	yXEkTk0/Zk0cvAoXMUtGZTsIFH1mxIhjbIOlA3GExNP3V9Abud0Aqw9yuiQv7TirJ5+lXVwaDTTeW
+	CbiXSpSGHLdrJwF2pxEw9xUXMQsLhwQmGRJcPH9z1rqctIEeKV/lUM8h7mOBPSwdEz/PT8ub9u5Pe
+	sCOrTVuHezlulj6ww1+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m6oAm-003TPP-Dt; Fri, 23 Jul 2021 05:56:36 +0000
+	id 1m6oKV-003V6s-23; Fri, 23 Jul 2021 06:06:39 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6oAi-003TOS-HI
- for linux-nvme@lists.infradead.org; Fri, 23 Jul 2021 05:56:33 +0000
+ id 1m6oKR-003V6I-A6
+ for linux-nvme@lists.infradead.org; Fri, 23 Jul 2021 06:06:36 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5BFFE68AFE; Fri, 23 Jul 2021 07:56:27 +0200 (CEST)
-Date: Fri, 23 Jul 2021 07:56:26 +0200
+ id 6DA4A67373; Fri, 23 Jul 2021 08:06:31 +0200 (CEST)
+Date: Fri, 23 Jul 2021 08:06:31 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Boris Pismenny <borisp@nvidia.com>
 Cc: dsahern@gmail.com, kuba@kernel.org, davem@davemloft.net,
@@ -48,16 +48,17 @@ Cc: dsahern@gmail.com, kuba@kernel.org, davem@davemloft.net,
  linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
  benishay@nvidia.com, ogerlitz@nvidia.com, yorayz@nvidia.com,
  Boris Pismenny <borisp@mellanox.com>
-Subject: Re: [PATCH v5 net-next 00/36] nvme-tcp receive and tarnsmit offloads
-Message-ID: <20210723055626.GA32126@lst.de>
+Subject: Re: [PATCH v5 net-next 04/36] net/tls: expose get_netdev_for_sock
+Message-ID: <20210723060631.GA32369@lst.de>
 References: <20210722110325.371-1-borisp@nvidia.com>
+ <20210722110325.371-5-borisp@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210722110325.371-1-borisp@nvidia.com>
+In-Reply-To: <20210722110325.371-5-borisp@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210722_225632_759770_091CAFB9 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20210722_230635_544232_AA26D939 
+X-CRM114-Status: GOOD (  12.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,24 +75,19 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 22, 2021 at 02:02:49PM +0300, Boris Pismenny wrote:
+On Thu, Jul 22, 2021 at 02:02:53PM +0300, Boris Pismenny wrote:
 > From: Boris Pismenny <borisp@mellanox.com>
 > 
-> Changes since v4:
-> =========================================
+> get_netdev_for_sock is a utility that is used to obtain
+> the net_device structure from a connected socket.
+> 
+> Later patches will use this for nvme-tcp DDP and DDP DDGST offloads.
+> 
+> Signed-off-by: Boris Pismenny <borisp@mellanox.com>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-Explaining what the series does should go before the changelog.
-
-> * Add transmit offload patches
-
-But to be honest, the previous one was already mostly unreviewable,
-but this is now far beyond this.   Please try to get anything that
-is generally useful first in smaller series and the come back with
-a somewhat reviewable series.  That also means that at least for the
-code I care about (nvme) the patches should be grouped together,
-and actually provide meaningful functionality in each patch.  Right
-now even trying to understand what you add to the nvme code requires
-me to jump all over a gigantic series.
+I don't think this should be an inline.  Please move it to net/core/dev.c,
+andd add an EXPORT_SYMBOL_GPL and a kerneldoc comment.
 
 _______________________________________________
 Linux-nvme mailing list
