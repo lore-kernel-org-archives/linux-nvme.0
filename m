@@ -2,20 +2,20 @@ Return-Path: <SRS0=7ItS=MS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79994C432BE
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 17:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BEFC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 19:42:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 359C360F5D
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 17:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 359C360F5D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id F05BA60BD3
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 19:42:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F05BA60BD3
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ucw.cz
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -23,67 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fB4SvGIRRd5w5+aLhsXN0l+UE2j0/MzuiAL8JZUmFfI=; b=3m9CP6UOsWZfqN
-	7VIhG+OP2aQsokoDDIgnDeNQhFmnI9dATIXpneq2i8RWWZxWgputv5wGIquQX9RelBgZibPtL5eOn
-	xYOKvteo8ap93nmuu6B+MFaYP57qNXTUMKjeiVIxhEal7H+bg1LNp7t/A2eaGMdM2lpzdZLDwUtQ8
-	755RAOQSBDsDw0fegZRJf2itvV4oHDerpQbkhJ5PWTLKlV6IELpPvX3cn8OHi2xzIVB1OesGD+Krk
-	/FqtlQNhvOfOY9LKyFSI+cBRKB+r5iFm2xhoDj/Tpg6UHGvQ2PunUzPC9qjx4Jadx87Wm89baSQCl
-	387lG0/LBGjp1J74QPCg==;
+	List-Owner; bh=hwEVYbKvQcSTRz/pdrY2lH9THe5rTptafHD1j84kAl4=; b=LFJoz0BhCWlfeC
+	woLk+PACgTIvAHu4oZfSUvstDJpY9vXbOYJdmPi0enyLhk9pq4nukt7UROLzPo3ZwF6VSeXRyOgty
+	0PwNGDnKLVYeTg0sQge3c1oc7sD38QLkH3BmSX6srIrXloNDYUmYSOA8rcUyQqVj6eY00d5bLp9kS
+	/Nu9pFcD4TTsdSkyxrGPykA5EvEh698lHLG398Un4HvpjYczKNSf3H4Vc+lql+QmV5M2fJAVEPVm7
+	jifMzsl5TzlLEmCcZ/N6VjBf1o1Il3cnyvOf0bPsL4kz24ESgR1wYYFpFtKoFBOFDI/pJyqCNA1L+
+	L1CsuZCK6DaZQhVxikQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m84Nj-00C6bI-1U; Mon, 26 Jul 2021 17:27:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1m86UG-00CNZS-9K; Mon, 26 Jul 2021 19:42:04 +0000
+Received: from jabberwock.ucw.cz ([46.255.230.98])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m84Ng-00C6ap-3g
- for linux-nvme@lists.infradead.org; Mon, 26 Jul 2021 17:27:09 +0000
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 055E61FEC6;
- Mon, 26 Jul 2021 17:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627320425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=drwSswYjaqXt+R8keQ8tn2ECB9MnkEVK6sFZPPriypY=;
- b=V+H5wEJ9xp39BB8KJSgKpbiilfRE9vbZKJFAynQScSnhOClyh13HxfZi97GV0sFmyDW1Yf
- scMxBp/DW8X5ES/7/u7oPkvB7PJGnd/IlqjL2+i6NhZZRm+z/uD6WvKVP8e6jcWlmaiTvP
- 55tBOHx4DTBONm1NlXidkVTTL/WZdZE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627320425;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=drwSswYjaqXt+R8keQ8tn2ECB9MnkEVK6sFZPPriypY=;
- b=mN9vfW5upwlrhKcpzEtNBxpcESJP1Bqb3Ri1ba1WR6O0MMUzF/o5WOzvuCbmQ5vpwobJXP
- Ff4EmnrQJj9O6rBg==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id E3E5D13A96;
- Mon, 26 Jul 2021 17:27:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id tAA/N2jw/mC2RAAAGKfGzw
- (envelope-from <dwagner@suse.de>); Mon, 26 Jul 2021 17:27:04 +0000
-Date: Mon, 26 Jul 2021 19:27:04 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v3 0/6] Handle update hardware queues and queue freeze
- more carefully
-Message-ID: <20210726172704.j6cbv2qmox2cl2dz@beryllium.lan>
-References: <20210720124353.127959-1-dwagner@suse.de>
- <20210720124800.i2lo3hal7kjfc7rk@beryllium.lan>
+ id 1m86UC-00CNYI-TS
+ for linux-nvme@lists.infradead.org; Mon, 26 Jul 2021 19:42:02 +0000
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 49F911C0B76; Mon, 26 Jul 2021 21:41:52 +0200 (CEST)
+Date: Mon, 26 Jul 2021 21:41:46 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: shiva.linuxworks@gmail.com
+Cc: rjw@rjwysocki.net, len.brown@intel.com, linux-pm@vger.kernel.org,
+ kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Shivamurthy Shastri <sshivamurthy@micron.com>,
+ Keith Busch <kbush@kernel.org>
+Subject: Re: [PATCH v2 1/2] PM: enable support for imminent power loss
+Message-ID: <20210726194146.GA3986@localhost>
+References: <20210726132223.1661-1-sshivamurthy@micron.com>
+ <20210726132223.1661-2-sshivamurthy@micron.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210720124800.i2lo3hal7kjfc7rk@beryllium.lan>
+In-Reply-To: <20210726132223.1661-2-sshivamurthy@micron.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210726_102708_346423_54A0AE9C 
-X-CRM114-Status: GOOD (  11.75  )
+X-CRM114-CacheID: sfid-20210726_124201_139882_B104C3DA 
+X-CRM114-Status: GOOD (  11.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,24 +73,32 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 20, 2021 at 02:48:00PM +0200, Daniel Wagner wrote:
-> On Tue, Jul 20, 2021 at 02:43:47PM +0200, Daniel Wagner wrote:
-> > v1:
-> >  - https://lore.kernel.org/linux-nvme/20210625101649.49296-1-dwagner@suse.de/
-> > v2:
-> >  - https://lore.kernel.org/linux-nvme/20210708092755.15660-1-dwagner@suse.de/
-> >  - reviewed tags collected
-> >  - added 'update hardware queues' for all transport
-> >  - added fix for fc hanger in nvme_wait_freeze_timeout
-> > v3:
-> >  - dropped 'nvme-fc: Freeze queues before destroying them'
-> >  - added James' two patches
-> 
-> Forgot to add Hannes' reviewed tag. Sorry!
+Hi!
 
-FTR, I've tested the 'prior_ioq_cnt != nr_io_queues' case. In this
-scenario the series works. Though in the case of 'prior_ioq_cnt ==
-nr_io_queues' I see hanging I/Os.
+> If the shutdown is pwerformed when the platform is running on the
+> limited backup power supply, some of the devices might not have enough
+> power to perform a clean shutdown.
+> 
+> It is necessary to inform the driver about the limited backup power
+> supply, to allow the driver to decide to perform the minimal required
+> operation for a fast and clean shutdown.
+
+If you can do shutdown that is fast & clean, why not do it always?
+
+How fast is normal shutdown vs. fast shutdown?
+
+> +#define PM_SUSPEND_FLAG_POWER_LOSS_IMMINENT	BIT(3)
+
+I believe we should be more concrete here. Like explaining use (did
+UPS say battery is low? Or does it mean 10 seconds remaining? Or...?)
+
+Plus, who sets this flag? Userland?
+
+Best regards,
+								Pavel
+
+
+-- 
 
 _______________________________________________
 Linux-nvme mailing list
