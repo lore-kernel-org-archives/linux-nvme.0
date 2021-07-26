@@ -2,78 +2,90 @@ Return-Path: <SRS0=7ItS=MS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8E1C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 07:52:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3112EC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 13:24:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D51160560
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 07:52:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5D51160560
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id F07B760F4F
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 13:24:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F07B760F4F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XTp59mI2awMZdzP24g9jzXZLuB+Ui9VvlA1c18m+mLs=; b=nN6JluigP2I2Rv//2REA19jDfW
-	0zfDq5BqmDSpksOcsz/6rjoSvDTlhGzw+3aIHKuQLhZY7sCnYDEd/ute+Eriup+cBJn2w2XCsb3J9
-	fmC5O3P79R6Ciy57Oc+bPD6bpA1eLryOCTinbwXIOdkJ0DTQr0Tp9UKXv+9p48Uo3K3cyif//9nXJ
-	VdEPjI/CpxbK885IOlkBtn9lb51yV11Zxb5RDE+ohsiNwUQbUvZEJnRGzWzt7RNbOXivjaxGjpPLT
-	jdgaJd+34giq4ASuTMg9xes7C1yCf0a7M2/WY5ETflPszTV3B0ZFDQVidux6WpJsK2Eorv3JJCnl/
-	FWomaheQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=RC9j6o6ytxO9r/wR9/MGe/Z4d7dxooqibqUb2/tSKCE=; b=O9/MnMwNctkskO
+	U4W49kL+tz7moFkkBh76s2JSkV2Gmel1/uomPoM29GEv+AhgyAMPeBam4Lss1WsPVHtK3Kq/uYP5B
+	vTH3UTckf6cH6X3BnZYZ3uRtgMblWyyis1S3CkiOSdbZpxwaNQDb8ytOml8DRiUPfNlYbV3FqBgnh
+	t1a6xV0PR1GnC4+dLyauTdsnGa2cdMX5u/dV8f6uyOQu5wKXEnjbEoxLkvNEbKExiIX25qPpCdun2
+	GogjV2MU+hkUf8/g9c3G2/tTee5oBWtaz6BcFkiJcSEX0BON2Q6UEwLFhB7vn+ob+xysmZ0GJw475
+	GNDuJpjILYKJzc4HXmZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m7vPH-00A1t6-H1; Mon, 26 Jul 2021 07:52:11 +0000
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+	id 1m80aG-00BJ0k-OA; Mon, 26 Jul 2021 13:23:52 +0000
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m7vP3-00A1pU-Vy; Mon, 26 Jul 2021 07:51:59 +0000
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GYBZW2VHFz6BBDR;
- Mon, 26 Jul 2021 15:36:51 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 26 Jul 2021 09:51:50 +0200
-Received: from [10.47.94.42] (10.47.94.42) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 26 Jul
- 2021 08:51:50 +0100
-Subject: Re: [bug report] iommu_dma_unmap_sg() is very slow then running IO
- from remote numa node
-To: Ming Lei <ming.lei@redhat.com>, Robin Murphy <robin.murphy@arm.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
- <iommu@lists.linux-foundation.org>, Will Deacon <will@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>
-References: <YPd7IGFZrsTRfUxE@T590>
- <74537f9c-af5f-cd84-60ab-49ca6220310e@huawei.com> <YPfwAN1onpSKoeBj@T590>
- <a2650064-41cf-cb62-7ab4-d14ef1856966@huawei.com> <YPklDMng1hL3bQ+v@T590>
- <9c929985-4fcb-e65d-0265-34c820b770ea@huawei.com> <YPlGOOMSdm6Bcyy/@T590>
- <fc552129-e89d-74ad-9e57-30e3ffe4cf5d@huawei.com> <YPmUoBk9u+tU2rbS@T590>
- <0adbe03b-ce26-e4d3-3425-d967bc436ef5@arm.com> <YPqYDY9/VAhfHNfU@T590>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <6ceab844-465f-3bf3-1809-5df1f1dbbc5c@huawei.com>
-Date: Mon, 26 Jul 2021 08:51:32 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ id 1m80Zj-00BIzY-GA
+ for linux-nvme@lists.infradead.org; Mon, 26 Jul 2021 13:23:21 +0000
+Received: by mail-wm1-x329.google.com with SMTP id
+ f14-20020a05600c154eb02902519e4abe10so2004856wmg.4
+ for <linux-nvme@lists.infradead.org>; Mon, 26 Jul 2021 06:23:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YoTT5JSM0KXApnvSxTPPv5lEEtSTHE0jP5EJ2+BXK/4=;
+ b=mZSYePYuhUR/H3XVrwsU6Pb4g2MT7EECN5Cfd2yiEbYJ7qmp4aFq18eFxjOlVwMmP2
+ kRQ7FUs21J0PgfqMlAAAhIUukxUnMLiuwrt32ICQEAGSS+0HmFrd7l56WAeliPPxlMjx
+ /w2NgI7Ofztw49O206jJEC48oVhlZo3bjwq6kXYRSyMJGznu0kUO8k9JAP5p4bYVakIA
+ v2pHs9uGvg170OMBHB0Gi6w4oR8LEtgHLGbNOnMDvMNZAB+EbobO7LhAPfK6V9IUpVAB
+ zjJ4YHiihD4btVY6jvBIL8gmKDV2neqjmxcToa+7knOKfbABsOLYpnoTZ/Xw/fnqRZRO
+ pevQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YoTT5JSM0KXApnvSxTPPv5lEEtSTHE0jP5EJ2+BXK/4=;
+ b=dFX1YY5xGz3pfAdtexSS77h6R7UWHAvbGmnXZ2lrr5eF+30NYpbc7UdfpHYXGL40Xy
+ wmzc9rCf1KS5Kx5IWVRV7ycwr1hbo4VQCqSMeSofk7uIwwEWAReNsMTLn6psbAMo78G2
+ oHc0r2gGHh0RU3SOzamd4tPvc27APtAlo8+lu/UtEve8oC+fw5Th6z0tszVjncV5+IZO
+ kLipuhwGfvByTc3Czy7h6QnZOaqIXt9+bYpDPJQz8B+ZDHa/WToBXep1kU4mU6Owgm/l
+ Iyn0lPljdwcfuEXannzYrGutOyA/HM+H6lnqCDSG6YISuGmqUSzWDFVu20kFM8VJWK0N
+ MOAQ==
+X-Gm-Message-State: AOAM533izqJDvt2bfAHTd+fqeDE1K5XLX0Jj3HZhh4NHJ1QfP27xipHE
+ XojFSeCwJduNe+iH94RhCTo=
+X-Google-Smtp-Source: ABdhPJxU5jilS297dc5rkI2UEbiBQRYHMTgzJueVTM3EwBDy7lQOv2gWHV/Psmf1QdzuaNGEu/uiDA==
+X-Received: by 2002:a05:600c:4f4d:: with SMTP id
+ m13mr27309380wmq.31.1627305797286; 
+ Mon, 26 Jul 2021 06:23:17 -0700 (PDT)
+Received: from microndev.lxd (ip5f5ac0ff.dynamic.kabel-deutschland.de.
+ [95.90.192.255])
+ by smtp.gmail.com with ESMTPSA id w15sm8580wmi.3.2021.07.26.06.23.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 06:23:16 -0700 (PDT)
+From: shiva.linuxworks@gmail.com
+X-Google-Original-From: sshivamurthy@micron.com
+To: rjw@rjwysocki.net, pavel@ucw.cz, len.brown@intel.com,
+ linux-pm@vger.kernel.org, kbusch@kernel.org, axboe@fb.com, hch@lst.de,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Shivamurthy Shastri <sshivamurthy@micron.com>
+Subject: [PATCH v2 0/2] Abrupt Shutdown for NVMe SSD
+Date: Mon, 26 Jul 2021 13:22:21 +0000
+Message-Id: <20210726132223.1661-1-sshivamurthy@micron.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YPqYDY9/VAhfHNfU@T590>
-Content-Language: en-US
-X-Originating-IP: [10.47.94.42]
-X-ClientProxiedBy: lhreml748-chm.china.huawei.com (10.201.108.198) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210726_005158_226742_B811873C 
-X-CRM114-Status: UNSURE (   7.74  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210726_062319_586757_85597A2C 
+X-CRM114-Status: GOOD (  11.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,27 +97,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 23/07/2021 11:21, Ming Lei wrote:
->> Thanks, I was also going to suggest the latter, since it's what
->> arm_smmu_cmdq_issue_cmdlist() does with IRQs masked that should be most
->> indicative of where the slowness most likely stems from.
-> The improvement from 'iommu.strict=0' is very small:
-> 
+From: Shivamurthy Shastri <sshivamurthy@micron.com>
 
-Have you tried turning off the IOMMU to ensure that this is really just 
-an IOMMU problem?
+In the platform with a limited backup power supply, devices like NVMe
+SSD does unsafe shutdown.
 
-You can try setting CONFIG_ARM_SMMU_V3=n in the defconfig or passing 
-cmdline param iommu.passthrough=1 to bypass the the SMMU (equivalent to 
-disabling for kernel drivers).
+These two patches address this issue by adding a power loss imminent
+flag. The platform will enable the power loss imminent flag if the
+platform's power is running on the limited backup power supply. During
+the shutdown, the driver checks this information and pwerforms the
+abrupt shutdown.
 
-Thanks,
-John
+Shivamurthy Shastri (2):
+  PM: introduce power loss imminent
+  nvme: Add abrupt shutdown support
+
+ drivers/nvme/host/core.c |  7 ++++++-
+ drivers/nvme/host/pci.c  |  6 ++++--
+ include/linux/suspend.h  | 28 +++++++++++++++++++++++++---
+ 3 files changed, 35 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
+
 
 _______________________________________________
 Linux-nvme mailing list
