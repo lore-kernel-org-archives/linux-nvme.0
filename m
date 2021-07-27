@@ -1,70 +1,71 @@
-Return-Path: <SRS0=7ItS=MS=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=n/mE=MT=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC75CC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 20:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3052C4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Jul 2021 13:20:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 80B7260F8F
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jul 2021 20:17:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 80B7260F8F
+	by mail.kernel.org (Postfix) with ESMTPS id B559D61AFE
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Jul 2021 13:20:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B559D61AFE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8n61BPy2A5vhVbEfaeG22XNtC5k3yJLZkhli87payyU=; b=SUGvPsgAe44To0
-	fIKWBUxC23TgEqrbAwD6r8m/U06xNiGuOhQtFZcx9dPayP2uDgOvD0J5SnwcZJKu2a0jWinzzn4of
-	PaqHveHwcjlNHez8a/lJTHfKKE9SpmG5641xX2yPaVgcUQfY3KDWMoZFpzPuh/DW6uoOLLbeDXm0J
-	eg0Sey0pYtgJ9soPa9vT8/CAhM9DZzGruR/hMIO5+B3M+5c0oKGu5BC40NrBmF5LSU3ngrSVP7z+G
-	tg6RAICotjEH2sk9xTKxGhXq1vqtp1nZDqhs/7ipaKKeDxWKB79xjKXFZdZjEF0KYdRp0xXPmrdPH
-	h+JkB3d2ntyyXPCyQdRA==;
+	List-Owner; bh=B2VrZcxZXzjEVYrNR9i6sCqJZ1KziXQ1hzZ5egldQLw=; b=0irs8iDPW7KaxE
+	hsH9dRpTK4PR4WHJnLqAQEo5lXT5//+GXh08IhhBaFcTrgyCQ0TPIUZ8UxXkNqlUrgTtd1UJmDcwi
+	BevtBIiX6GtKXLS8j6D9Tr/BiAv7aKa8PYVXq+MdWzdf7/fY2NS6NSlJF5XEDjVOKEY+JleUXQE5j
+	5NUTz2o42eyg8Y6or2TyoV0c5KqpXu/ou3EV8fS5RPkjTiVfjDzxshhoNluO2c4Lc1+0Ea3IcbM/i
+	DoV8pzAfzzQ5BFzSnY0ab+2a7ycEH2fS+bOx4CzTJybZfa4VT0ireDl37SknwbX6HwWz/rGE9e1PD
+	BvToM8kT20/k5khXmGzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m871x-00CQ2Y-CA; Mon, 26 Jul 2021 20:16:53 +0000
+	id 1m8N00-00Eqvf-78; Tue, 27 Jul 2021 13:19:56 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m871u-00CQ2A-32
- for linux-nvme@lists.infradead.org; Mon, 26 Jul 2021 20:16:51 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CE98760F8F;
- Mon, 26 Jul 2021 20:16:48 +0000 (UTC)
+ id 1m8Mzb-00EqpN-4y
+ for linux-nvme@lists.infradead.org; Tue, 27 Jul 2021 13:19:32 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 26C1861AA8;
+ Tue, 27 Jul 2021 13:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627330609;
- bh=Z4hwq6b440OkyWGYI3HMsBLmFm75Y/asw4v0/OVEDyk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sEREw4glvypOLeWWc3l0NhaVgTrSd6R2J0yIzBQWNnscjxyEhYJgBFBvK2p6Ax6H7
- etXE3FYYDnwHSteOa7Xy1IKLPu4GEMOSt6YL2BgiQFX+jl2U0VwSmgzFI10PuXJAaL
- l+0p+2y/+qUveODb7rEIstqeC9hQ3Gwi+iBl3xsJq5JkgNAoMQfnONgQ5DK9HGNeQc
- Vux6h1JZ17eGPx52tD/kN2bVNnIygn7j1nE1W4l+OEKD83h3Si5/vBbuMS7PsybLhV
- hzMGMetMPudou0k9mz89KwpR8wJjMTUrjglURibH3wIp5rVYCCyvanfPoUj7Lj+F6e
- 1PKtHj7LEAwtg==
-Date: Mon, 26 Jul 2021 13:16:47 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>
-Cc: shiva.linuxworks@gmail.com, rjw@rjwysocki.net, len.brown@intel.com,
- linux-pm@vger.kernel.org, axboe@fb.com, hch@lst.de,
- sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Shivamurthy Shastri <sshivamurthy@micron.com>
-Subject: Re: [PATCH v2 1/2] PM: enable support for imminent power loss
-Message-ID: <20210726201615.GA2025233@dhcp-10-100-145-180.wdc.com>
-References: <20210726132223.1661-1-sshivamurthy@micron.com>
- <20210726132223.1661-2-sshivamurthy@micron.com>
- <20210726194146.GA3986@localhost>
+ s=k20201202; t=1627391970;
+ bh=K7sEvxaluQcGZVGgQ/AHGFUbIVDlE0JjgJajWOr5M40=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=lxmTaLBY7N9Xl6eOv/Ih3RfZus/hoouJoiZsAEA2C+RzSQWaXJNDCTlxowavO6m9p
+ qJ13y47G/i4JvKH2is9HWiRtjiRnkjTXABfcWk0Z+GBJ81QV3cClHnnB5+k7pkkVFF
+ 6afHFGgDqlo3otJgdKZIZOUpgtvEqlgdcsKbAnFYm7MhFGlU0609ZIRXhRjThdLXE+
+ bhP8jtHOV8dl9tx8kDavxENIFWQprhBfT4OQpuXz7r7M8cg2rpqshHRvr7ldEiQbbT
+ jVWazEteL/g4E0qeDUkT46l8/Css0XUIypojVKPmgwRNDg8Q9Sclyq8Ef81j/cy7ZZ
+ L1bbsypVPGdSw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.13 16/21] nvme: fix nvme_setup_command metadata
+ trace event
+Date: Tue, 27 Jul 2021 09:19:03 -0400
+Message-Id: <20210727131908.834086-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210727131908.834086-1-sashal@kernel.org>
+References: <20210727131908.834086-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210726194146.GA3986@localhost>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210726_131650_209915_819C2276 
-X-CRM114-Status: GOOD (  14.75  )
+X-CRM114-CacheID: sfid-20210727_061931_275151_528B0A71 
+X-CRM114-Status: GOOD (  11.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,21 +82,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 26, 2021 at 09:41:46PM +0200, Pavel Machek wrote:
-> > If the shutdown is pwerformed when the platform is running on the
-> > limited backup power supply, some of the devices might not have enough
-> > power to perform a clean shutdown.
-> > 
-> > It is necessary to inform the driver about the limited backup power
-> > supply, to allow the driver to decide to perform the minimal required
-> > operation for a fast and clean shutdown.
-> 
-> If you can do shutdown that is fast & clean, why not do it always?
+From: Keith Busch <kbusch@kernel.org>
 
-At least for nvme, I don't think this faster shutdown qualifies as
-"clean". It's just a little better than removing power without telling
-the device. Typical implementations take longer to become ready on their
-next power-on following the abrupt shutdown sequence.
+[ Upstream commit 234211b8dd161fa25f192c78d5a8d2dd6bf920a0 ]
+
+The metadata address is set after the trace event, so the trace is not
+capturing anything useful. Rather than logging the memory address, it's
+useful to know if the command carries a metadata payload, so change the
+trace event to log that true/false state instead.
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/trace.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index daaf700eae79..35bac7a25422 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -56,7 +56,7 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__field(u8, fctype)
+ 		__field(u16, cid)
+ 		__field(u32, nsid)
+-		__field(u64, metadata)
++		__field(bool, metadata)
+ 		__array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
+@@ -66,13 +66,13 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__entry->flags = cmd->common.flags;
+ 		__entry->cid = cmd->common.command_id;
+ 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
+-		__entry->metadata = le64_to_cpu(cmd->common.metadata);
++		__entry->metadata = !!blk_integrity_rq(req);
+ 		__entry->fctype = cmd->fabrics.fctype;
+ 		__assign_disk_name(__entry->disk, req->rq_disk);
+ 		memcpy(__entry->cdw10, &cmd->common.cdw10,
+ 			sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%x, cmd=(%s %s)",
+ 		      __entry->ctrl_id, __print_disk_name(__entry->disk),
+ 		      __entry->qid, __entry->cid, __entry->nsid,
+ 		      __entry->flags, __entry->metadata,
+-- 
+2.30.2
+
 
 _______________________________________________
 Linux-nvme mailing list
