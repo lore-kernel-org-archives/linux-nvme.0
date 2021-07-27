@@ -2,86 +2,67 @@ Return-Path: <SRS0=n/mE=MT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED064C4338F
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Jul 2021 15:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D30C4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Jul 2021 16:41:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B423D61B71
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Jul 2021 15:59:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B423D61B71
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id B5F5961037
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Jul 2021 16:41:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B5F5961037
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=m/6MrivrK4AU58b26n1Dqmo8oXDq00bVwTFigxUEcQo=; b=Wk+rloGECBjvgb
-	5aqpTsNqpnJvwaYD2YcQMfR4wIVppNapMEkmdKRiR0lzDaW0QDLIvlXzogVdekTbTKqjUK8yhxJ4W
-	XZ/mw6AaeMfRLaqdg4l+oGSoaILXbuzppcWkFzAPPO/ksPW52Rytg8fbl7YyiGjWG/Cwd1wYn4Y66
-	vLvXGex2cfZrlmooYPD/ScGIsOkwjg31LIv9TsFq7arFYDKswv9VcGChUsglkMB2RxNwUsaskxIp9
-	u7ZGjI0Hz25k3NosDmy0ev/nyHwtYYXeK1NqC9isxRP1gT8N1D/pn9uCVi5+JS9AQTgmcCz7JWuxI
-	qX/MD83VwVe2R4xY8LRw==;
+	List-Owner; bh=UPAmnPBn8XIiyoUOZa3Naivn3x32ClSwmWKgUKw9J4g=; b=oQbLjy8wK99ArM
+	KadxECJfcRPWTKdNmAq+2vFm9NdSr54v0g7QhvTwQZgRXwdqHOSt6qGnvucQGjuUsuCJ2WJsYHrRM
+	pelHH1mSNfyT0mqusiNfAlUL/UtX7kTWpz7Gbi3ADWblmNQ4EDdagGQU6DZyyFw3nd38HuV1XUFcT
+	x2l+n/cc5/ZpAc6uYum3Ctryd/5w88YrMv/etiLH8gcR1hNj4uQs/I3R4XNQbvXKxVY6ByuGgChqO
+	9Gk4xUtau4W+uFi60bKCMGjdPs7u8vSicZj//SgMdMHGVMgaTHqX+a09N14VxMU5D8DQPWre+nrrd
+	BevUoakNyp+9cL4OA+Ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m8PTy-00FGEe-Uy; Tue, 27 Jul 2021 15:59:03 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m8Q8Z-00FP3d-G0; Tue, 27 Jul 2021 16:40:59 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m8PTv-00FGDF-7a
- for linux-nvme@lists.infradead.org; Tue, 27 Jul 2021 15:59:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627401536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K9LvYes5FSz1dRTHrjLjQKvpBsLyCNKtikf2oQ8PRrg=;
- b=fDhNwr68EPREYIAyDhnqG57iyU79umDF2YDs9Q6E7F0oiRHBkqlbpLwB2m+Y/+u0nZKyXl
- lg1vuxOAdh1t92KX7bAjQF+x/uV2KSidkedtE2vU2AjODnA2R++f9MdCap56wPCrbrCCLB
- aQzvXjQbLyYP0DYNszStNW0wwwaPpNo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-aafm7Nq8PHmlN6QcbxaSKw-1; Tue, 27 Jul 2021 11:58:53 -0400
-X-MC-Unique: aafm7Nq8PHmlN6QcbxaSKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D9E25A07F;
- Tue, 27 Jul 2021 15:58:51 +0000 (UTC)
-Received: from T590 (ovpn-12-65.pek2.redhat.com [10.72.12.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70B0E6A901;
- Tue, 27 Jul 2021 15:58:39 +0000 (UTC)
-Date: Tue, 27 Jul 2021 23:58:39 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, David Jeffery <djeffery@redhat.com>,
- Laurence Oberman <loberman@redhat.com>,
- Paolo Valente <paolo.valente@linaro.org>, Jan Kara <jack@suse.cz>,
- Sasha Levin <sashal@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ id 1m8Q8M-00FP1Z-Sp
+ for linux-nvme@lists.infradead.org; Tue, 27 Jul 2021 16:40:48 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EA4A60551;
+ Tue, 27 Jul 2021 16:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627404046;
+ bh=XigEvdU9y0nJEvkVjWutOq/QYbMJIxIgEc0j40yJmVo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FPJbUP1oHHTDrbkJZHlg/ZnWpR7nMOJ5+9kJAxtzvQIrRkhHcxj0b7DEXgvfsCQUu
+ YFJ+eBdKYelMjKbAbrW0BzVhl3VzCST6h6x9iSD+sU8IiHh9m8IcPbKEHG1j6OyCou
+ jV/qGiSnz3ANlIV4KkkptzrjP7HSTo7lncilolqRI/oLGKZt46sO4hs5Q8+AWL7vqs
+ fJUnj2iJEj+56nqVpnG28EIw9IvQeU420HbLuqwz7mkMPeZ8dSKz02Ui4riQuP4g4M
+ vw8QL74dlGMnIr+ZX+zcc1R6MNkRpQPEJ/VM6lbUmsmM879rgbaR/lzGHslmjWhRPP
+ OKMHNE15jcz4Q==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de
+Cc: sagi@grimberg.me, kai.heng.feng@canonical.com,
  Keith Busch <kbusch@kernel.org>
-Subject: Re: New warning in nvme_setup_discard
-Message-ID: <YQAtL5i0pjlnBpHV@T590>
-References: <4729812.CpyZKHjjVO@natalenko.name>
- <2356877.Yf5hrMSTGe@natalenko.name> <YPfUOKrxGs6FjaOZ@T590>
- <17691292.WCMSeNvH9h@natalenko.name>
+Subject: [PATCH 2/2] nvme-pci: disable hmb on idle suspend
+Date: Tue, 27 Jul 2021 09:40:44 -0700
+Message-Id: <20210727164044.2285364-2-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20210727164044.2285364-1-kbusch@kernel.org>
+References: <20210727164044.2285364-1-kbusch@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <17691292.WCMSeNvH9h@natalenko.name>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210727_085859_409291_0B7709FA 
-X-CRM114-Status: GOOD (  39.16  )
+X-CRM114-CacheID: sfid-20210727_094046_985157_4FC272F6 
+X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,135 +74,80 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlLCBKdWwgMjcsIDIwMjEgYXQgMDU6MTI6MDNQTSArMDIwMCwgT2xla3NhbmRyIE5hdGFs
-ZW5rbyB3cm90ZToKPiBIZWxsby4KPiAKPiBPbiBzdMWZZWRhIDIxLiDEjWVydmVuY2UgMjAyMSAx
-MDowMDo1NiBDRVNUIE1pbmcgTGVpIHdyb3RlOgo+ID4gPiBJJ20gc3RpbGwgaGFtbWVyaW5nIHY1
-LjE0LXJjMiArIHlvdXIgcGF0Y2gsIGFuZCBJIGNhbm5vdCByZXByb2R1Y2UgdGhlCj4gPiA+IGlz
-c3VlLiBHaXZlbiBJIGRvIG5vdCBoYXZlIGEgcmVsaWFibGUgcmVwcm9kdWNlciAoSSdtIGp1c3Qg
-ZmlyaW5nIHVwIHRoZQo+ID4gPiBrZXJuZWwgYnVpbGQsIGFuZCB0aGUgaXNzdWUgcG9wcyB1cCBl
-dmVudHVhbGx5LCBzb29uZXIgb3IgbGF0ZXIsIGJ1dAo+ID4gPiB1c3VhbGx5IHdpdGhpbiBhIGNv
-dXBsZSBvZiBmaXJzdCB0cmllcyksIGZvciBob3cgbG9uZyBJIHNob3VsZCBoYW1tZXIgaXQKPiA+
-ID4gZm9yIHlvdXIgZml4IHRvIGJlIGNvbnNpZGVyZWQgcHJvdmVuPwo+ID4gCj4gPiBZb3UgbWVu
-dGlvbmVkIHRoYXQgdGhlIGlzc3VlIGlzIHJlcHJvZHVjaWJsZSB3aXRoIHY1LjE0LXJjLCB0aGF0
-IG1lYW5zCj4gPiBpdCBjYW4gYmUgYWx3YXlzIHJlcHJvZHVjZWQgaW4gbGltaXRlZCB0aW1lKHN1
-cHBvc2UgaXQgaXMgQSkuIElmIHRoZSBpc3N1ZQo+ID4gY2FuJ3QgYmUgcmVwcm9kdWNlZCBhbnkg
-bW9yZSBhZnRlciBhcHBseWluZyB0aGUgcGF0Y2ggaW4gbG9uZyBlbm91Z2ggdGltZQo+ID4gQihC
-ID4+IEEpLCB3ZSBjYW4gdGhpbmsgaXQgaXMgZml4ZWQgYnkgdGhlIHBhdGNoLgo+ID4gCj4gPiBG
-b3IgZXhhbXBsZSwgaWYgQSBpcyBvbmUgaG91ciwgd2UgY2FuIHNldCBCIGFzIDUqQSBvciBiaWdn
-ZXIgdG8gc2ltdWxhdGUKPiA+IHRoZSBsb25nIGVub3VnaCB0aW1lLgo+IAo+IFdpdGggeW91ciBw
-YXRjaCB0aGUgaXNzdWUgaXMgc3RpbGwgbm90IHJlcHJvZHVjaWJsZSBmb3IgbWUuIEhlbmNlLCBm
-cm9tIG15IAo+IHNpZGUgdGhlIHBhdGNoIGxvb2tzIHRvIGJlIHZlcmlmaWVkLgoKT0suCgpCVFcs
-IGNhbiB5b3UgdGVzdCB0aGUgZm9sbG93aW5nIHBhdGNoPyB3aGljaCBpcyBhbm90aGVyIGFwcHJv
-YWNoIG9uIHRoZSBzYW1lCmlzc3VlIHdpdGggb3RoZXIgYmVuZWZpdHMuCgpGcm9tIGM4NTNlN2Vk
-MDVhNzVmNjMxZGE1Yjc5NTJiOWE5ODk5ODM0Mzc4MTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CkZyb206IE1pbmcgTGVpIDxtaW5nLmxlaUByZWRoYXQuY29tPgpEYXRlOiBNb24sIDcgSnVuIDIw
-MjEgMTY6MDM6NTEgKzA4MDAKU3ViamVjdDogW1BBVENIIDIvMl0gYmxvY2s6IHN1cHBvcnQgYmlv
-IG1lcmdlIGZvciBtdWx0aS1yYW5nZSBkaXNjYXJkCgpTbyBmYXIgbXVsdGktcmFuZ2UgZGlzY2Fy
-ZCB0cmVhdHMgZWFjaCBiaW8gYXMgb25lIHNlZ21lbnQocmFuZ2UpIG9mIHNpbmdsZQpkaXNjYXJk
-IHJlcXVlc3QuIFRoaXMgd2F5IGJlY29tZXMgbm90IGVmZmljaWVudCBpZiBsb3RzIG9mIHNtYWxs
-IHNpemVkCmRpc2NhcmQgYmlvcyBhcmUgc3VibWl0dGVkLCBhbmQgb25lIGV4YW1wbGUgaXMgcmFp
-ZDQ1Ni4KClN1cHBvcnQgYmlvIG1lcmdlIGZvciBtdWx0aS1yYW5nZSBkaXNjYXJkIGZvciBpbXBy
-b3ZpbmcgbG90cyBvZiBzbWFsbApzaXplZCBkaXNjYXJkIGJpb3MuCgpUdXJucyBvdXQgaXQgaXMg
-ZWFzeSB0byBzdXBwb3J0IGl0OgoKMSkgYWx3YXlzIHRyeSB0byBtZXJnZSBiaW8gZmlyc3QKCjIp
-IHJ1biBpbnRvIG11bHRpLXJhbmdlIGRpc2NhcmQgb25seSBpZiBiaW8gbWVyZ2UgY2FuJ3QgYmUg
-ZG9uZQoKMykgYWRkIHJxX2Zvcl9lYWNoX2Rpc2NhcmRfcmFuZ2UoKSBmb3IgcmV0cmlldmluZyBl
-YWNoIHJhbmdlKHNlZ21lbnQpCm9mIGRpc2NhcmQgcmVxdWVzdAoKUmVwb3J0ZWQtYnk6IFdhbmcg
-U2hhbmtlciA8c2hhbmtlcndhbmdtaWFvQGdtYWlsLmNvbT4KU2lnbmVkLW9mZi1ieTogTWluZyBM
-ZWkgPG1pbmcubGVpQHJlZGhhdC5jb20+Ci0tLQogYmxvY2svYmxrLW1lcmdlLmMgICAgICAgICAg
-fCAxMiArKysrLS0tLS0KIGRyaXZlcnMvYmxvY2svdmlydGlvX2Jsay5jIHwgIDkgKysrKy0tLQog
-ZHJpdmVycy9udm1lL2hvc3QvY29yZS5jICAgfCAgOCArKystLS0KIGluY2x1ZGUvbGludXgvYmxr
-ZGV2LmggICAgIHwgNTEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDQg
-ZmlsZXMgY2hhbmdlZCwgNjYgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvYmxvY2svYmxrLW1lcmdlLmMgYi9ibG9jay9ibGstbWVyZ2UuYwppbmRleCBiY2RmZjE4
-NzljMzQuLjY1MjEwZTlhOGVmYSAxMDA2NDQKLS0tIGEvYmxvY2svYmxrLW1lcmdlLmMKKysrIGIv
-YmxvY2svYmxrLW1lcmdlLmMKQEAgLTcyNCwxMCArNzI0LDEwIEBAIHN0YXRpYyBpbmxpbmUgYm9v
-bCBibGtfZGlzY2FyZF9tZXJnYWJsZShzdHJ1Y3QgcmVxdWVzdCAqcmVxKQogc3RhdGljIGVudW0g
-ZWx2X21lcmdlIGJsa190cnlfcmVxX21lcmdlKHN0cnVjdCByZXF1ZXN0ICpyZXEsCiAJCQkJCXN0
-cnVjdCByZXF1ZXN0ICpuZXh0KQogewotCWlmIChibGtfZGlzY2FyZF9tZXJnYWJsZShyZXEpKQot
-CQlyZXR1cm4gRUxFVkFUT1JfRElTQ0FSRF9NRVJHRTsKLQllbHNlIGlmIChibGtfcnFfcG9zKHJl
-cSkgKyBibGtfcnFfc2VjdG9ycyhyZXEpID09IGJsa19ycV9wb3MobmV4dCkpCisJaWYgKGJsa19y
-cV9wb3MocmVxKSArIGJsa19ycV9zZWN0b3JzKHJlcSkgPT0gYmxrX3JxX3BvcyhuZXh0KSkKIAkJ
-cmV0dXJuIEVMRVZBVE9SX0JBQ0tfTUVSR0U7CisJZWxzZSBpZiAoYmxrX2Rpc2NhcmRfbWVyZ2Fi
-bGUocmVxKSkKKwkJcmV0dXJuIEVMRVZBVE9SX0RJU0NBUkRfTUVSR0U7CiAKIAlyZXR1cm4gRUxF
-VkFUT1JfTk9fTUVSR0U7CiB9CkBAIC05MDgsMTIgKzkwOCwxMiBAQCBib29sIGJsa19ycV9tZXJn
-ZV9vayhzdHJ1Y3QgcmVxdWVzdCAqcnEsIHN0cnVjdCBiaW8gKmJpbykKIAogZW51bSBlbHZfbWVy
-Z2UgYmxrX3RyeV9tZXJnZShzdHJ1Y3QgcmVxdWVzdCAqcnEsIHN0cnVjdCBiaW8gKmJpbykKIHsK
-LQlpZiAoYmxrX2Rpc2NhcmRfbWVyZ2FibGUocnEpKQotCQlyZXR1cm4gRUxFVkFUT1JfRElTQ0FS
-RF9NRVJHRTsKLQllbHNlIGlmIChibGtfcnFfcG9zKHJxKSArIGJsa19ycV9zZWN0b3JzKHJxKSA9
-PSBiaW8tPmJpX2l0ZXIuYmlfc2VjdG9yKQorCWlmIChibGtfcnFfcG9zKHJxKSArIGJsa19ycV9z
-ZWN0b3JzKHJxKSA9PSBiaW8tPmJpX2l0ZXIuYmlfc2VjdG9yKQogCQlyZXR1cm4gRUxFVkFUT1Jf
-QkFDS19NRVJHRTsKIAllbHNlIGlmIChibGtfcnFfcG9zKHJxKSAtIGJpb19zZWN0b3JzKGJpbykg
-PT0gYmlvLT5iaV9pdGVyLmJpX3NlY3RvcikKIAkJcmV0dXJuIEVMRVZBVE9SX0ZST05UX01FUkdF
-OworCWVsc2UgaWYgKGJsa19kaXNjYXJkX21lcmdhYmxlKHJxKSkKKwkJcmV0dXJuIEVMRVZBVE9S
-X0RJU0NBUkRfTUVSR0U7CiAJcmV0dXJuIEVMRVZBVE9SX05PX01FUkdFOwogfQogCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2Jsb2NrL3ZpcnRpb19ibGsuYyBiL2RyaXZlcnMvYmxvY2svdmlydGlvX2Js
-ay5jCmluZGV4IGI5ZmEzZWY1YjU3Yy4uOTcwY2IwZDhhY2FhIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2Jsb2NrL3ZpcnRpb19ibGsuYworKysgYi9kcml2ZXJzL2Jsb2NrL3ZpcnRpb19ibGsuYwpAQCAt
-MTE2LDcgKzExNiw2IEBAIHN0YXRpYyBpbnQgdmlydGJsa19zZXR1cF9kaXNjYXJkX3dyaXRlX3pl
-cm9lcyhzdHJ1Y3QgcmVxdWVzdCAqcmVxLCBib29sIHVubWFwKQogCXVuc2lnbmVkIHNob3J0IHNl
-Z21lbnRzID0gYmxrX3JxX25yX2Rpc2NhcmRfc2VnbWVudHMocmVxKTsKIAl1bnNpZ25lZCBzaG9y
-dCBuID0gMDsKIAlzdHJ1Y3QgdmlydGlvX2Jsa19kaXNjYXJkX3dyaXRlX3plcm9lcyAqcmFuZ2U7
-Ci0Jc3RydWN0IGJpbyAqYmlvOwogCXUzMiBmbGFncyA9IDA7CiAKIAlpZiAodW5tYXApCkBAIC0x
-MzgsOSArMTM3LDExIEBAIHN0YXRpYyBpbnQgdmlydGJsa19zZXR1cF9kaXNjYXJkX3dyaXRlX3pl
-cm9lcyhzdHJ1Y3QgcmVxdWVzdCAqcmVxLCBib29sIHVubWFwKQogCQlyYW5nZVswXS5zZWN0b3Ig
-PSBjcHVfdG9fbGU2NChibGtfcnFfcG9zKHJlcSkpOwogCQluID0gMTsKIAl9IGVsc2UgewotCQlf
-X3JxX2Zvcl9lYWNoX2JpbyhiaW8sIHJlcSkgewotCQkJdTY0IHNlY3RvciA9IGJpby0+YmlfaXRl
-ci5iaV9zZWN0b3I7Ci0JCQl1MzIgbnVtX3NlY3RvcnMgPSBiaW8tPmJpX2l0ZXIuYmlfc2l6ZSA+
-PiBTRUNUT1JfU0hJRlQ7CisJCXN0cnVjdCByZXFfZGlzY2FyZF9yYW5nZSByOworCisJCXJxX2Zv
-cl9lYWNoX2Rpc2NhcmRfcmFuZ2UociwgcmVxKSB7CisJCQl1NjQgc2VjdG9yID0gci5zZWN0b3I7
-CisJCQl1MzIgbnVtX3NlY3RvcnMgPSByLnNpemUgPj4gU0VDVE9SX1NISUZUOwogCiAJCQlyYW5n
-ZVtuXS5mbGFncyA9IGNwdV90b19sZTMyKGZsYWdzKTsKIAkJCXJhbmdlW25dLm51bV9zZWN0b3Jz
-ID0gY3B1X3RvX2xlMzIobnVtX3NlY3RvcnMpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hv
-c3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCmluZGV4IDI0YmNhZTg4NTg3YS4u
-NGIwYTM5MzYwY2U5IDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKKysrIGIv
-ZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCkBAIC04MTMsNyArODEzLDcgQEAgc3RhdGljIGJsa19z
-dGF0dXNfdCBudm1lX3NldHVwX2Rpc2NhcmQoc3RydWN0IG52bWVfbnMgKm5zLCBzdHJ1Y3QgcmVx
-dWVzdCAqcmVxLAogewogCXVuc2lnbmVkIHNob3J0IHNlZ21lbnRzID0gYmxrX3JxX25yX2Rpc2Nh
-cmRfc2VnbWVudHMocmVxKSwgbiA9IDA7CiAJc3RydWN0IG52bWVfZHNtX3JhbmdlICpyYW5nZTsK
-LQlzdHJ1Y3QgYmlvICpiaW87CisJc3RydWN0IHJlcV9kaXNjYXJkX3JhbmdlIHI7CiAKIAkvKgog
-CSAqIFNvbWUgZGV2aWNlcyBkbyBub3QgY29uc2lkZXIgdGhlIERTTSAnTnVtYmVyIG9mIFJhbmdl
-cycgZmllbGQgd2hlbgpAQCAtODM1LDkgKzgzNSw5IEBAIHN0YXRpYyBibGtfc3RhdHVzX3QgbnZt
-ZV9zZXR1cF9kaXNjYXJkKHN0cnVjdCBudm1lX25zICpucywgc3RydWN0IHJlcXVlc3QgKnJlcSwK
-IAkJcmFuZ2UgPSBwYWdlX2FkZHJlc3MobnMtPmN0cmwtPmRpc2NhcmRfcGFnZSk7CiAJfQogCi0J
-X19ycV9mb3JfZWFjaF9iaW8oYmlvLCByZXEpIHsKLQkJdTY0IHNsYmEgPSBudm1lX3NlY3RfdG9f
-bGJhKG5zLCBiaW8tPmJpX2l0ZXIuYmlfc2VjdG9yKTsKLQkJdTMyIG5sYiA9IGJpby0+YmlfaXRl
-ci5iaV9zaXplID4+IG5zLT5sYmFfc2hpZnQ7CisJcnFfZm9yX2VhY2hfZGlzY2FyZF9yYW5nZShy
-LCByZXEpIHsKKwkJdTY0IHNsYmEgPSBudm1lX3NlY3RfdG9fbGJhKG5zLCByLnNlY3Rvcik7CisJ
-CXUzMiBubGIgPSByLnNpemUgPj4gbnMtPmxiYV9zaGlmdDsKIAogCQlpZiAobiA8IHNlZ21lbnRz
-KSB7CiAJCQlyYW5nZVtuXS5jYXR0ciA9IGNwdV90b19sZTMyKDApOwpkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9saW51eC9ibGtkZXYuaCBiL2luY2x1ZGUvbGludXgvYmxrZGV2LmgKaW5kZXggZDY2ZDBk
-YTcyNTI5Li5iZDlkMjIyNjlhN2IgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvYmxrZGV2LmgK
-KysrIGIvaW5jbHVkZS9saW51eC9ibGtkZXYuaApAQCAtMTAwNyw2ICsxMDA3LDU3IEBAIHN0YXRp
-YyBpbmxpbmUgdW5zaWduZWQgaW50IGJsa19ycV9zdGF0c19zZWN0b3JzKGNvbnN0IHN0cnVjdCBy
-ZXF1ZXN0ICpycSkKIAlyZXR1cm4gcnEtPnN0YXRzX3NlY3RvcnM7CiB9CiAKK3N0cnVjdCByZXFf
-ZGlzY2FyZF9yYW5nZSB7CisJc2VjdG9yX3QJc2VjdG9yOworCXVuc2lnbmVkIGludAlzaXplOwor
-CisJLyoKKwkgKiBpbnRlcm5hbCBmaWVsZDogZHJpdmVyIGRvbid0IHVzZSBpdCwgYW5kIGl0IGFs
-d2F5cyBwb2ludHMgdG8KKwkgKiBuZXh0IGJpbyB0byBiZSBwcm9jZXNzZWQKKwkgKi8KKwlzdHJ1
-Y3QgYmlvICpfX2JpbzsKK307CisKK3N0YXRpYyBpbmxpbmUgdm9pZCByZXFfaW5pdF9kaXNjYXJk
-X3JhbmdlX2l0ZXIoY29uc3Qgc3RydWN0IHJlcXVlc3QgKnJxLAorCQlzdHJ1Y3QgcmVxX2Rpc2Nh
-cmRfcmFuZ2UgKnJhbmdlKQoreworCXJhbmdlLT5fX2JpbyA9IHJxLT5iaW87Cit9CisKKy8qIHJl
-dHVybiB0cnVlIGlmIEByYW5nZSBzdG9yZXMgb25lIHZhbGlkIGRpc2NhcmQgcmFuZ2UgKi8KK3N0
-YXRpYyBpbmxpbmUgYm9vbCByZXFfZ2V0X2Rpc2NhcmRfcmFuZ2Uoc3RydWN0IHJlcV9kaXNjYXJk
-X3JhbmdlICpyYW5nZSkKK3sKKwlzdHJ1Y3QgYmlvICpiaW87CisKKwlpZiAoIXJhbmdlLT5fX2Jp
-bykKKwkJcmV0dXJuIGZhbHNlOworCisJYmlvID0gcmFuZ2UtPl9fYmlvOworCXJhbmdlLT5zZWN0
-b3IgPSBiaW8tPmJpX2l0ZXIuYmlfc2VjdG9yOworCXJhbmdlLT5zaXplID0gYmlvLT5iaV9pdGVy
-LmJpX3NpemU7CisJcmFuZ2UtPl9fYmlvID0gYmlvLT5iaV9uZXh0OworCisJd2hpbGUgKHJhbmdl
-LT5fX2JpbykgeworCQlzdHJ1Y3QgYmlvICpiaW8gPSByYW5nZS0+X19iaW87CisKKwkJaWYgKHJh
-bmdlLT5zZWN0b3IgKyAocmFuZ2UtPnNpemUgPj4gU0VDVE9SX1NISUZUKSAhPQorCQkJCWJpby0+
-YmlfaXRlci5iaV9zZWN0b3IpCisJCQlicmVhazsKKworCQkvKgorCQkgKiAtPnNpemUgd29uJ3Qg
-b3ZlcmZsb3cgYmVjYXVzZSByZXEtPl9fZGF0YV9sZW4gaXMgZGVmaW5lZAorCQkgKiAgYXMgJ3Vu
-c2lnbmVkIGludCcKKwkJICovCisJCXJhbmdlLT5zaXplICs9IGJpby0+YmlfaXRlci5iaV9zaXpl
-OworCQlyYW5nZS0+X19iaW8gPSBiaW8tPmJpX25leHQ7CisJfQorCXJldHVybiB0cnVlOworfQor
-CisjZGVmaW5lIHJxX2Zvcl9lYWNoX2Rpc2NhcmRfcmFuZ2UocmFuZ2UsIHJxKSBcCisJZm9yIChy
-ZXFfaW5pdF9kaXNjYXJkX3JhbmdlX2l0ZXIoKHJxKSwgJnJhbmdlKTsgXAorCQkJcmVxX2dldF9k
-aXNjYXJkX3JhbmdlKCZyYW5nZSk7KQorCiAjaWZkZWYgQ09ORklHX0JMS19ERVZfWk9ORUQKIAog
-LyogSGVscGVyIHRvIGNvbnZlcnQgQkxLX1pPTkVfWk9ORV9YWFggdG8gaXRzIHN0cmluZyBmb3Jt
-YXQgWFhYICovCi0tIAoyLjMxLjEKCgoKVGhhbmtzLApNaW5nCgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGlu
-dXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+An idle suspend may or may not disable host memory access from devices
+placed in low power mode. Either way, it should always be safe to
+disable the host memory buffer prior to entering the low power mode, and
+this should also always be faster than a full device shutdown.
+
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/pci.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e8f3b32131d2..42d4cbe31a28 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3130,8 +3130,13 @@ static int nvme_resume(struct device *dev)
+ 
+ 	if (ndev->last_ps == U32_MAX ||
+ 	    nvme_set_power_state(ctrl, ndev->last_ps) != 0)
+-		return nvme_try_sched_reset(&ndev->ctrl);
++		goto reset;
++	if (ctrl->hmpre && nvme_setup_host_mem(ndev))
++		goto reset;
++
+ 	return 0;
++reset:
++	return nvme_try_sched_reset(ctrl);
+ }
+ 
+ static int nvme_suspend(struct device *dev)
+@@ -3155,15 +3160,9 @@ static int nvme_suspend(struct device *dev)
+ 	 * the PCI bus layer to put it into D3 in order to take the PCIe link
+ 	 * down, so as to allow the platform to achieve its minimum low-power
+ 	 * state (which may not be possible if the link is up).
+-	 *
+-	 * If a host memory buffer is enabled, shut down the device as the NVMe
+-	 * specification allows the device to access the host memory buffer in
+-	 * host DRAM from all power states, but hosts will fail access to DRAM
+-	 * during S3.
+ 	 */
+ 	if (pm_suspend_via_firmware() || !ctrl->npss ||
+ 	    !pcie_aspm_enabled(pdev) ||
+-	    ndev->nr_host_mem_descs ||
+ 	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+ 		return nvme_disable_prepare_reset(ndev, true);
+ 
+@@ -3174,6 +3173,17 @@ static int nvme_suspend(struct device *dev)
+ 	if (ctrl->state != NVME_CTRL_LIVE)
+ 		goto unfreeze;
+ 
++	/*
++	 * Host memory access may not be successful in a system suspend state,
++	 * but the specification allows the controller to access memory in a
++	 * non-operational power state.
++	 */
++	if (ndev->hmb) {
++		ret = nvme_set_host_mem(ndev, 0);
++		if (ret < 0)
++			goto unfreeze;
++	}
++
+ 	ret = nvme_get_power_state(ctrl, &ndev->last_ps);
+ 	if (ret < 0)
+ 		goto unfreeze;
+-- 
+2.25.4
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
