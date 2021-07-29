@@ -2,86 +2,147 @@ Return-Path: <SRS0=T4Lt=MV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBECC4338F
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jul 2021 09:30:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C45C4338F
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jul 2021 10:37:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 204C961050
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jul 2021 09:30:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 204C961050
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id B002D6069E
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jul 2021 10:37:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B002D6069E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=micron.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cRFCrhe1J6d7hajmi7J1Cf31prqe2JYyn4zb65C8P9I=; b=jTOSU9xVS6W5Z1
-	PISaJ52b4h4zOmu9TwvQpEYiD3tMB/5bCVqCuyNIEi7HLmQLxJ0sizgD7YyEL0JOwpo8njVAKtbng
-	WEXJj4/Des8LvFWHZf2stpXsNYftomCCS/Oh5jatdSM57GlE2gI4NhGkcgiS7Dm9i8ry4JPcF+Zmv
-	1PEX+5BoX4O1N+O/uxuraGOVjQN3epJ+7aJFBPx3VY6P9PFUIC1UB0mvnIOSdK0fheSpOcQlTUX1y
-	2SXph2GWZmBLfwPHFJH8+bB2lmDKDRiFDOITmmrzDGTRb+euHhmS6Uap2hC/ohEz0b5wveN68uCaM
-	nDHHW+RJbpYJZjFzyhVQ==;
+	List-Owner; bh=/x12S9gZ1Oaxd3jqku7mwy0z02xDUxcjcfocEiXuKwo=; b=3Yl45/o6q5f+Hp
+	bKgiV17n20K3LmDI0NpSLN8fWJtQ1sv4GJQSccZg9Apocu5oJejD1bBz9ijcK+br5idq/I7xfskiH
+	JBWxi+U4fxZyahPOt179G5iijcz9pOQYgU72vZrMyhc7KJWpf3M3cXjD2XMs0M42SUU/ySW1ge+WG
+	lFto08YrwwEKUSlt74ZElNZXmwDemJm0cp1jXrfH95fQQyiHhNOmCHE8MkByoo+ixgOyYw9Mbsk4Q
+	VsKAIikNRtdcjnl1nHBEIlRIJIQy9cxcSgSzAfb13PYpWeYBHGtu9p5DJRokYxDszNl1gFPVBhLWg
+	jR6yRn21vRb399OG4U/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m92MJ-003e8w-9q; Thu, 29 Jul 2021 09:29:43 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1m93Pq-003pi1-EM; Thu, 29 Jul 2021 10:37:26 +0000
+Received: from mail-co1nam11on2088.outbound.protection.outlook.com
+ ([40.107.220.88] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m92MG-003e8I-F4
- for linux-nvme@lists.infradead.org; Thu, 29 Jul 2021 09:29:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627550978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QU04D4AFtIumGhlAE34vrZ8TeIMsBn0CApcJIeHb9PI=;
- b=AsUCZZBK5GcySSFxn6wjkQ8lXRHW6NF3U6mSro4xQ2m2UhOD7QvVv3vMMDb+KH5IgR+KZX
- aEyRIgdiTxqfqD5sze5WGyrygv+oZ6VUIEQBs0dveTYrDbWiysnhaQKf57LjvVkMALyoHe
- VddqGBmyiePWPdTGdIZdw2LWd7MX9HU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-_xf3uillNICG3oRRPdDC8A-1; Thu, 29 Jul 2021 05:29:37 -0400
-X-MC-Unique: _xf3uillNICG3oRRPdDC8A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 022B8801AEB;
- Thu, 29 Jul 2021 09:29:35 +0000 (UTC)
-Received: from T590 (ovpn-12-146.pek2.redhat.com [10.72.12.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA16560877;
- Thu, 29 Jul 2021 09:29:24 +0000 (UTC)
-Date: Thu, 29 Jul 2021 17:29:25 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, David Jeffery <djeffery@redhat.com>,
- Laurence Oberman <loberman@redhat.com>,
- Paolo Valente <paolo.valente@linaro.org>, Jan Kara <jack@suse.cz>,
- Sasha Levin <sashal@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Keith Busch <kbusch@kernel.org>
-Subject: Re: New warning in nvme_setup_discard
-Message-ID: <YQJ09eaGIssStGXt@T590>
-References: <4729812.CpyZKHjjVO@natalenko.name>
- <3180854.nXyytZ0Y3r@natalenko.name> <YQF9YRSdRc+eVD1c@T590>
- <4560968.zrxKzTJTGe@natalenko.name> <YQIhfwP2z+DGWOxV@T590>
+ id 1m93Pn-003phJ-S4
+ for linux-nvme@lists.infradead.org; Thu, 29 Jul 2021 10:37:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m9BhTpcV108Bl8792NAxtN3J1gFl2Oq0P+eb5Erj+4GnbsWXH6gdYsK17B1gCkea2wzT3zZrtjbuz3rND7PANYZIExAHWuIXE59eceTcj7dB3jhoLPn0yRHCPT7nSkzp7NG6JNfkLSYJDMaIAraj8qkIdBIVCFHKCG6sEpyuezDy4+aSoCmXtUbHgDVq06fELWqnv8tToC+NbH4ZzvlYPULl/ZonKFP80m/B6H+x37wEJqwNmNCoyVBEXhBxKscNjMpOvN03uaQXmMj6qifXvMzHv63Rja10eAU7LG10J6M2hXpdBL90bAIhBaRL5UOdeNqCUUP8CeHPnznjTZm6bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fJ339CnPDV1hdxPv624J2oqydHyZUHxG0tLhHGC+T2A=;
+ b=l1AxlTfGRX9bWWb2Jer1zfZAAhKBy86vBQOmAvXphvQIe0V6uHeijsq0trWNWMJIZcleVR4UIbcpjhi3LtXY54u7rkK4BP+qYOxWPuIbTLuHsExl96cfwrycZ4LdUgIZTZ3mR7N6+9unWIOtmzIdfBcQam2YqGUqF9LyqwYVDHhWVDpcuNmNVDTUiYzXP946DZriHzP1eC4CYLN7XzViroNe5cSZ4Maw+LhFC7A7WgtwZgfU/XbiSEHnJHXCT92lXlReajx7q0VhlGWMO4URx6tqehwlkGiZxTEKhP8aFsU2KimRjNswz/uC8Ao1/exv6ckXMx3QRJIk01DjXt/4Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=micron.com; dmarc=pass action=none header.from=micron.com;
+ dkim=pass header.d=micron.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fJ339CnPDV1hdxPv624J2oqydHyZUHxG0tLhHGC+T2A=;
+ b=PNx4I5421AukZx6jOGxlFVJ8FXa8BaLyFWMLw+zeKClzpGTpxykmcj0lgMnOAq8HcnZd5MHks27Do3XuBbGBRXhyfp2s/URpehOYu2wOpWmO5NlJ/f27kFB7t8UlVGQxcL4l9QemkQir91gx/fpX8C/Da+4LcLLJrCr1eOYQYtg=
+Received: from BLAPR08MB6900.namprd08.prod.outlook.com (2603:10b6:208:325::21)
+ by BL0PR08MB5332.namprd08.prod.outlook.com (2603:10b6:208:2b::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Thu, 29 Jul
+ 2021 10:37:18 +0000
+Received: from BLAPR08MB6900.namprd08.prod.outlook.com
+ ([fe80::fde3:800c:617d:f516]) by BLAPR08MB6900.namprd08.prod.outlook.com
+ ([fe80::fde3:800c:617d:f516%9]) with mapi id 15.20.4373.019; Thu, 29 Jul 2021
+ 10:37:18 +0000
+From: "Shivamurthy Shastri (sshivamurthy)" <sshivamurthy@micron.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "pavel@ucw.cz" <pavel@ucw.cz>,
+ "len.brown@intel.com" <len.brown@intel.com>, "linux-pm@vger.kernel.org"
+ <linux-pm@vger.kernel.org>, "axboe@fb.com" <axboe@fb.com>, "hch@lst.de"
+ <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "shiva.linuxworks@gmail.com" <shiva.linuxworks@gmail.com>
+Subject: RE: [EXT] Re: [PATCH v2 0/2] Abrupt Shutdown for NVMe SSD
+Thread-Topic: [EXT] Re: [PATCH v2 0/2] Abrupt Shutdown for NVMe SSD
+Thread-Index: AQHXgjJctJSWzcMb8U6/xvTW6b+HaKtZxW6A
+Date: Thu, 29 Jul 2021 10:37:18 +0000
+Message-ID: <BLAPR08MB690021D560D577A959673570B8EB9@BLAPR08MB6900.namprd08.prod.outlook.com>
+References: <20210726132223.1661-1-sshivamurthy@micron.com>
+ <20210726152434.GA2024939@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <20210726152434.GA2024939@dhcp-10-100-145-180.wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Enabled=true;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_SetDate=2021-07-29T10:37:15Z; 
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Method=Standard;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Name=Confidential;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_SiteId=f38a5ecd-2813-4862-b11b-ac1d563c806f;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_ActionId=6d976bf5-c61b-4e19-b413-eff5bb380c6e;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_ContentBits=3
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=micron.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d83c9123-880c-4704-18e4-08d9527cd6e9
+x-ms-traffictypediagnostic: BL0PR08MB5332:
+x-microsoft-antispam-prvs: <BL0PR08MB53326D07C09997DDDA531255B8EB9@BL0PR08MB5332.namprd08.prod.outlook.com>
+x-ms-exchange-transport-forked: True
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Xts25C1dI1mTL9e0/44bu980rc+V5lB7ynFBAx1oPN10s0ov+QVL0bwrbJoaQLNTx0UrcgqywKXFhlb1xOM5PM4zHVXgYyWmNKeaD5duJi2fBqwNBDISM34Kc1BH9+gUbwxS+0V2U+Zb5wkzxyvtTqz9prEGNIZloaCQv+5Ex/x4L8Wx74s+2h/J9zmZk5n+C4Inu5Xyyxve5UVYTq1/b+h/ZgRD9C7ORuM4CMjLWi9i9i2B1ryk0B4r2nh0eOMrMCSJC9+C2corqZ+jeYAawEOBIcD1t3U/7sgr7REC9F6Hc8CwSBHlk3JGv8gcjd4iyp3NMFqsukiDVATTPIAs19x82bU7VyPu9ghDqMfxIolofbSwcFzqg4yEHvMnWCGKLgTLz5nGy9vnwBlMvX+EZ9JxpwGi7WcKf+T1CmqOlkDGFYxnhp9jt52VbNLh9xmuCqsP8qscvq1n0mgZoXb8ikeegvhI3CYsi6jJ0EYwealp790mNZJ771O6eMAkD7J5V7AChabX8i5hILxY8sNjJXUE2cQY6kvgmTX9v84I7n02Y7vEOqZqVDNMVrTzFH8LC+chxXY9UfNwO/PB9SlALdkBMQD+EcP30I6kv86FuJmFMsMGGQEDbpInbU8WWptOt2WXcyeSOrv1L9R3ShIyo46sx+ie30QBIAPzMFzhvMJbDlSZF+JrVUawyQgXPtyGGLRl9JJ39NduepUGAFR5GQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR08MB6900.namprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(52536014)(7416002)(38070700005)(122000001)(8676002)(38100700002)(186003)(66446008)(9686003)(7696005)(26005)(71200400001)(66556008)(64756008)(76116006)(66476007)(66946007)(55016002)(6506007)(8936002)(316002)(4744005)(478600001)(86362001)(4326008)(83380400001)(5660300002)(2906002)(33656002)(6916009)(54906003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?W10qXbrzQoghdWI/lS8zaaFknjfgLX/wuxzGA+mj3Y44qWTHoGDxnHnuK95/?=
+ =?us-ascii?Q?3McM6E+ewBmUHduTP54ZJy5S5yCs2yziqjj1UcKN3zDKWHvpW1pZ5lliRxJp?=
+ =?us-ascii?Q?yxkMIvV0WvYxlQwvJLvsUVm2OYldXc21G8UAMlimJU6AAypI/9ZilS22Ubau?=
+ =?us-ascii?Q?eRc1znhtiPjmCaOBTOhkNgpJ+YAr8+gr/tk3hKj216lFw+DCc3U/1FHcvHKc?=
+ =?us-ascii?Q?pAwvIIxrlhQn6JEbzd4x5O/VaJHI0gJAuVulS4mqIyWLkVIm8tKE+q9ulu2o?=
+ =?us-ascii?Q?AdAYo5UXo4Bk4IYvXM+jKvD7RmcGDQsSu/ZYtRAt61EEXTGdD2TsZG7UB4si?=
+ =?us-ascii?Q?JypGxs7FWx9ywDCDucCIaNkVijoZxtoS7FQ647QlZj24p/1IXo+wNFXMpxj2?=
+ =?us-ascii?Q?EEo6T/3/ydqCGpz1Pgrr0HL1E2LxFZhFjzTwhTVkOHrQ234vSNwY4HlAcz3/?=
+ =?us-ascii?Q?imP7zkdOtfXnp/JcPSAsUZoWp7tfkswMiC6iRwArqER6Qv/RCsra5jikUIPO?=
+ =?us-ascii?Q?kXgFyb1M071saGEHRcivvebNv1MkMTnul+DQ1Jd809hUcfqp5Mt24EFW4R/i?=
+ =?us-ascii?Q?0/SFhpG6IjY84hYokyZnYh40Xusz7zpdPkaDYd6urI8V9d/dAwmzUAsSjW+S?=
+ =?us-ascii?Q?zxbPRArhseaR4qVx7A9tyXMjk0VGhljo76n8atsa8iQm7GU3mKpEzj0rTA0j?=
+ =?us-ascii?Q?1i27rhwbJL15vKMEzouXELr04/1MbyBfq1sfYtb77ETnLiI+DLJUzK4t3VYA?=
+ =?us-ascii?Q?/SGGMwcDv1nYz5ZDRLCsxTCowtufmclBo9uFr1mX48+oirXerC0nCnUY3SvP?=
+ =?us-ascii?Q?wRPkfMcKaHxwy4TEB6rXqfyOf+ZmTLz9dh1ZSp4OObiF0rk2hcXD4h8IFz+c?=
+ =?us-ascii?Q?3OsSpH3fI3eIGac3ycKtSwNUKEpGah2n750UzBWdKgC0zM1302PvYtlWF5ks?=
+ =?us-ascii?Q?fLUOqGPePspZX/LFflOt06bG8+4pMO2oEdFW8Vk2KsUS/s6nHIy4j9jyNEyh?=
+ =?us-ascii?Q?gRZ/0QXSXYALn8frdo+fahYtkP0JZSKZN+GBfzurWrtS0vyYwrDPVp4hO6mz?=
+ =?us-ascii?Q?NxOSLY3FKmts7RWITRnPDH5PZdFcHM7EAHPgh6tHCeRP6Ir+AA3g2qMA8gD3?=
+ =?us-ascii?Q?4ipw4qR1k/+2Wo3nOu3kepmIjXFrIInrQgCnckPesTla2yh5Nu1hSHi4iKbW?=
+ =?us-ascii?Q?emGtziwC7jXVS9VzmiuWKFbZn/SGZA4QozlwQ1sNcoYdktqEijljNDIif+2x?=
+ =?us-ascii?Q?oaMqH9c/BfZaVyzobhjrgSor6KaPcb36YjakcbOjQHn3LkXMHx3kp7b9KdMj?=
+ =?us-ascii?Q?uKZEssxU3lOA0XeRv0BW+2fF?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YQIhfwP2z+DGWOxV@T590>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR08MB6900.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d83c9123-880c-4704-18e4-08d9527cd6e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2021 10:37:18.3075 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aMsNcwLCb2yfj6zSQvLjq5MXg1viZPT5BbZxdJabuj7pTzIKTn5KNpu0hHGxbH6z0t5roMZmMufjuaEKsB98Ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR08MB5332
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210729_022940_641778_85DF9B81 
-X-CRM114-Status: GOOD (  24.20  )
+X-CRM114-CacheID: sfid-20210729_033723_951454_DABF0349 
+X-CRM114-Status: GOOD (  13.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,93 +154,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gVGh1LCBKdWwgMjksIDIwMjEgYXQgMTE6MzM6MzNBTSArMDgwMCwgTWluZyBMZWkgd3JvdGU6
-Cj4gT24gV2VkLCBKdWwgMjgsIDIwMjEgYXQgMDY6Mzg6MzZQTSArMDIwMCwgT2xla3NhbmRyIE5h
-dGFsZW5rbyB3cm90ZToKPiA+IEhlbGxvLgo+ID4gCj4gPiBPbiBzdMWZZWRhIDI4LiDEjWVydmVu
-Y2UgMjAyMSAxNzo1MzowNSBDRVNUIE1pbmcgTGVpIHdyb3RlOgo+ID4gPiBDYW4geW91IGNvbGxl
-Y3QgZGVidWcgbG9nIGJ5IGFwcGx5aW5nIHRoZSBmb2xsb3dpbmcgcGF0Y2ggYWdhaW5zdCB0aGUK
-PiA+ID4gbGFzdCBvbmU/Cj4gPiAKPiA+IFllcywgcGxlYXNlIHNlZSBiZWxvdy4KPiA+IAo+ID4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hv
-c3QvY29yZS5jCj4gPiA+IGluZGV4IDg3ODBlNGFhOWRmMi4uZmJkOGE2OGM2MTliIDEwMDY0NAo+
-ID4gPiAtLS0gYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPiA+ID4gKysrIGIvZHJpdmVycy9u
-dm1lL2hvc3QvY29yZS5jCj4gPiA+IEBAIC04MjgsNiArODI4LDI0IEBAIHN0YXRpYyBpbmxpbmUg
-dm9pZCBudm1lX3NldHVwX2ZsdXNoKHN0cnVjdCBudm1lX25zICpucywKPiA+ID4gY21uZC0+Y29t
-bW9uLm5zaWQgPSBjcHVfdG9fbGUzMihucy0+aGVhZC0+bnNfaWQpOwo+ID4gPiAgfQo+ID4gPiAK
-PiA+ID4gK3N0YXRpYyBpbmxpbmUgdm9pZCBibGtfZHVtcF9ycShjb25zdCBzdHJ1Y3QgcmVxdWVz
-dCAqcmVxKQo+ID4gPiArewo+ID4gPiArCXN0cnVjdCBiaW8gKmJpbzsKPiA+ID4gKwlpbnQgaSA9
-IDA7Cj4gPiA+ICsKPiA+ID4gKwlwcmludGsoImR1bXAgcmVxICVwKGY6JXgsIHNlZzogJWQpXG4i
-LCByZXEsIHJlcS0+Y21kX2ZsYWdzLAo+ID4gPiArCQkJcmVxLT5ucl9waHlzX3NlZ21lbnRzKTsK
-PiA+ID4gKwo+ID4gPiArCV9fcnFfZm9yX2VhY2hfYmlvKGJpbywgcmVxKSB7Cj4gPiA+ICsJCXBy
-aW50aygiJWQtJXA6ICVoeC8laHggJWxsdSAldVxuIiwKPiA+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgaSsrLCBiaW8sCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGJpby0+YmlfZmxh
-Z3MsIGJpby0+Ymlfb3BmLAo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAodW5zaWduZWQg
-bG9uZyBsb25nKWJpby0+YmlfaXRlci5iaV9zZWN0b3IsCj4gPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgIGJpby0+YmlfaXRlci5iaV9zaXplPj45KTsKPiA+ID4gKwl9Cj4gPiA+ICt9Cj4gPiA+
-ICsKPiA+ID4gKwo+ID4gPiAgc3RhdGljIGJsa19zdGF0dXNfdCBudm1lX3NldHVwX2Rpc2NhcmQo
-c3RydWN0IG52bWVfbnMgKm5zLCBzdHJ1Y3QgcmVxdWVzdAo+ID4gPiAqcmVxLCBzdHJ1Y3QgbnZt
-ZV9jb21tYW5kICpjbW5kKQo+ID4gPiAgewo+ID4gPiBAQCAtODY4LDYgKzg4Niw4IEBAIHN0YXRp
-YyBibGtfc3RhdHVzX3QgbnZtZV9zZXR1cF9kaXNjYXJkKHN0cnVjdCBudm1lX25zCj4gPiA+ICpu
-cywgc3RydWN0IHJlcXVlc3QgKnJlcSwgfQo+ID4gPiAKPiA+ID4gIAlpZiAoV0FSTl9PTl9PTkNF
-KG4gIT0gc2VnbWVudHMpKSB7Cj4gPiA+ICsJCXByaW50aygiJXM6IHJhbmdlcyAldSBzZWdtZW50
-cyAldVxuIiwgX19mdW5jX18sIG4sIHNlZ21lbnRzKTsKPiA+ID4gKwkJYmxrX2R1bXBfcnEocmVx
-KTsKPiA+ID4gIAkJaWYgKHZpcnRfdG9fcGFnZShyYW5nZSkgPT0gbnMtPmN0cmwtPmRpc2NhcmRf
-cGFnZSkKPiA+ID4gIAkJCWNsZWFyX2JpdF91bmxvY2soMCwgJm5zLT5jdHJsLT5kaXNjYXJkX3Bh
-Z2VfYnVzeSk7Cj4gPiA+ICAJCWVsc2UKPiA+IAo+ID4gYGBgCj4gPiBXQVJOSU5HOiBDUFU6IDE3
-IFBJRDogODIxIGF0IGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYzo4NjggbnZtZV9zZXR1cF9kaXNj
-YXJkKzB4MWM2LzB4MjIwCj4gPiDigKYKPiA+IENQVTogMTcgUElEOiA4MjEgQ29tbToga3dvcmtl
-ci8xNzoxSCBOb3QgdGFpbnRlZCA1LjEzLjAtcGY0ICMxCj4gPiBIYXJkd2FyZSBuYW1lOiBBU1VT
-IFN5c3RlbSBQcm9kdWN0IE5hbWUvUHJvIFdTIFg1NzAtQUNFLCBCSU9TIDM2MDEgMDUvMjYvMjAy
-MQo+ID4gV29ya3F1ZXVlOiBrYmxvY2tkIGJsa19tcV9ydW5fd29ya19mbgo+ID4gUklQOiAwMDEw
-Om52bWVfc2V0dXBfZGlzY2FyZCsweDFjNi8weDIyMAo+ID4gQ29kZTogOGIgYTAgNDAgMGIgMDAg
-MDAgNGMgMmIgMjUgZjcgZmYgZDcgMDAgNDkgYzEgZmMgMDYgNDkgYzEgZTQgMGMgNGMgMDMgMjUg
-ZjggZmYgZDcgMDAgNGMgODkgZTUgNDggODUgZDIgMGYgODUgOWIgZmUgZmYgZmYgMzEgZDIgPDBm
-PiAwYiA0OCBjNyBjNiBlMCBhOCAxMCA4YiA0MSAwZiBiNyBjZCA0OCBjNyBjNyBhZiAwOSA0MCA4
-YiBlOCAxNAo+ID4gUlNQOiAwMDE4OmZmZmZhZmE4ODQ1MTdiZjAgRUZMQUdTOiAwMDAxMDI5Nwo+
-ID4gUkFYOiBmZmZmOTE2MDJmNWIyMGQwIFJCWDogZmZmZjkxNWUwNTc0M2MwMCBSQ1g6IDAwMDAw
-MDAwMDAwODAwMDAKPiA+IFJEWDogMDAwMDAwMDAwMDAwMDAwZiBSU0k6IDAwMDAwMDAwMjg0NDVj
-MDAgUkRJOiAwMDAwMDAwMDAwMDAwMDBmCj4gPiBSQlA6IGZmZmY5MTYwMmY1YjIwMDAgUjA4OiAw
-MDAwMDAwMDBiMzY2MDAwIFIwOTogZmZmZjkxNjAyZjViMjAwMAo+ID4gUjEwOiAwMDAwMDAwMDAw
-MDAwMDJkIFIxMTogZmVmZWZlZmVmZWZlZmVmZiBSMTI6IGZmZmY5MTYwMmY1YjIwMDAKPiA+IFIx
-MzogMDAwMDAwMDAwMDAwMDAwZSBSMTQ6IGZmZmY5MTVlMThjNzcwMDAgUjE1OiBmZmZmOTE1ZTE4
-Yzc3MTQ4Cj4gPiBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjkxNjUwZWU0MDAw
-MCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCj4gPiBDUzogIDAwMTAgRFM6IDAwMDAgRVM6
-IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCj4gPiBDUjI6IDAwMDAxYzkwYjM2ODc5YTggQ1Iz
-OiAwMDAwMDAwMTBkMThjMDAwIENSNDogMDAwMDAwMDAwMDM1MGVlMAo+ID4gQ2FsbCBUcmFjZToK
-PiA+ICBudm1lX3NldHVwX2NtZCsweDJlNC8weDZhMAo+ID4gIG52bWVfcXVldWVfcnErMHg3OS8w
-eGM5MAo+ID4gIGJsa19tcV9kaXNwYXRjaF9ycV9saXN0KzB4MTVjLzB4ODEwCj4gPiAgX19ibGtf
-bXFfZG9fZGlzcGF0Y2hfc2NoZWQrMHhjYS8weDMyMAo+ID4gIF9fYmxrX21xX3NjaGVkX2Rpc3Bh
-dGNoX3JlcXVlc3RzKzB4MTRkLzB4MTkwCj4gPiAgYmxrX21xX3NjaGVkX2Rpc3BhdGNoX3JlcXVl
-c3RzKzB4MmYvMHg2MAo+ID4gIGJsa19tcV9ydW5fd29ya19mbisweDQzLzB4YzAKPiA+ICBwcm9j
-ZXNzX29uZV93b3JrKzB4MjRlLzB4NDMwCj4gPiAgd29ya2VyX3RocmVhZCsweDU0LzB4NGQwCj4g
-PiAga3RocmVhZCsweDFiMy8weDFlMAo+ID4gIHJldF9mcm9tX2ZvcmsrMHgyMi8weDMwCj4gPiAt
-LS1bIGVuZCB0cmFjZSBiZDUxOTE3ZWFlMWQ3MjAxIF0tLS0KPiA+IG52bWVfc2V0dXBfZGlzY2Fy
-ZDogcmFuZ2VzIDE1IHNlZ21lbnRzIDE0Cj4gPiBkdW1wIHJlcSAwMDAwMDAwMDJjNmEwODViKGY6
-Mywgc2VnOiAxNCkKPiA+IDAtMDAwMDAwMDAyYzMyOTdjNzogZjgwLzMgNjc1NzczNDQwIDEwMjQK
-PiA+IDEtMDAwMDAwMDA5OGVkYjJhODogYjgwLzMgMTg4MzE5NzQ0IDEwMjQKPiA+IDItMDAwMDAw
-MDBmNThlM2IxODogYjgwLzMgNjc1Nzc1NDg4IDEwMjQKPiA+IDMtMDAwMDAwMDBmNjY3MGM1YTog
-YjgwLzMgMTg4MTI5MjgwIDIwNDgKPiA+IDQtMDAwMDAwMDBlYTM3MWE4ODogYjgwLzMgNjc1NTg1
-MDI0IDIwNDgKPiA+IDUtMDAwMDAwMDBlOWNlYzA0MzogYjgwLzMgMTg4MTQwNTQ0IDIwNDgKPiA+
-IDYtMDAwMDAwMDA2ZTExMjZlNjogYjgwLzMgNjc1NTk2Mjg4IDIwNDgKPiA+IDctMDAwMDAwMDA5
-NDY2ZjkzNzogYjgwLzMgMTg4MzI3OTM2IDIwNDgKPiA+IDgtMDAwMDAwMDAzYzllMmNjZDogYjgw
-LzMgNjc1NzgzNjgwIDIwNDgKPiA+IDktMDAwMDAwMDBhYjMyMmM2ODogYjgwLzMgMTg4MzI5OTg0
-IDIwNDgKPiAKPiAxODgzMjk5ODQgPSAxODgzMjc5MzYgKyAyMDQ4Cj4gCj4gPiAxMC0wMDAwMDAw
-MGViMmIzZmI2OiBiODAvMyA2NzU3ODU3MjggMjA0OAo+IAo+IDY3NTc4NTcyOCA9IDY3NTc4MzY4
-MCArIDIwNDgKPiAKPiBTZWVtcyB0aGUgYWRqYWNlbnQgYmlvcyBhcmUgY3V0IGJ5IGNvbWluZyBk
-aXNjYXJkCj4gcmFuZ2UuCj4gCj4gTG9va3MgaXQgaXNuJ3QgbWF0dXJlIHRvIHN1cHBvcnQgbWl4
-ZWQgZGlzY2FyZCBJTyBtZXJnZSgKPiB0cmFkaXRpb25hbCBpbyBtZXJnZSB2cy4gbXVsdGktcmFu
-Z2UgbWVyZ2UpLCBJIHdpbGwgcG9zdAo+IHRoZSBwcmV2aW91cyBwYXRjaCBmb3IgZml4aW5nIHRo
-aXMgaXNzdWUuCgpUaGUgcmVhc29uIGlzIHRoZSBmb2xsb3dpbmcgbGluZXMgb2YgY29kZToKCiNk
-ZWZpbmUgcnFfaGFzaF9rZXkocnEpICAgICAgICAgKGJsa19ycV9wb3MocnEpICsgYmxrX3JxX3Nl
-Y3RvcnMocnEpKQoKaWYgKGJsa19ycV9wb3MocnEpICsgYmxrX3JxX3NlY3RvcnMocnEpID09IGJp
-by0+YmlfaXRlci5iaV9zZWN0b3IpCgouLi4KClRoZSBjdXJyZW50IGJsb2NrIG1lcmdlIGNvZGUg
-dGhpbmtzIHRoYXQgYWxsIGJpb3MgaW4gb25lIHJlcXVlc3QgaXMgcGh5c2ljYWxseQpjb250aW51
-b3VzLCBzbyB3ZSBjYW4ndCBzdXBwb3J0IG1peGVkIG1lcmdlIGZvciBtdWx0aS1yYW5nZSBkaXNj
-YXJkIHJlcXVlc3Qgc2ltcGx5LgoKClRoYW5rcywKTWluZwoKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4
-LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Micron Confidential
+
+Hi,
+
+> 
+> 
+> On Mon, Jul 26, 2021 at 01:22:21PM +0000, shiva.linuxworks@gmail.com wrote:
+> > In the platform with a limited backup power supply, devices like NVMe
+> > SSD does unsafe shutdown.
+> >
+> > These two patches address this issue by adding a power loss imminent
+> > flag. The platform will enable the power loss imminent flag if the
+> > platform's power is running on the limited backup power supply. During
+> > the shutdown, the driver checks this information and pwerforms the
+> > abrupt shutdown.
+> 
+> I think the pm framework and nvme usage are ok, but you need a platform
+> specific caller to set the new power loss flag before this should be
+> considered, otherwise this is just unreachable code.
+
+Sure, I will send platform specific caller along with V3.
+
+Thanks,
+Shiva
+
+Micron Confidential
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
