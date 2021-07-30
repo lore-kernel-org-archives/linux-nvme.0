@@ -2,155 +2,77 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1063CC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A09C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:21:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D2C4F60E96
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:19:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D2C4F60E96
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
+	by mail.kernel.org (Postfix) with ESMTPS id E1FA360F11
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:21:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E1FA360F11
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=ZQcUngFtT9YM3+DW4/T0Wnz5/ux8EX25eP2NWN6yYI8=; b=1UaGll1DOTTmi7
-	24WPSJ/eDTz7vg80P4jImJrsJhRXYC76L9f1VCvzOtYVjGj/i5j21/oqetK1LyHPwmIXu6qOFbDC4
-	39JACX48W7gtLAK0QdZBouynPjv4wewP9BbJ31VldXnucLgtoe52aqCyUQre4OTsL7M6TGEeWzJ8/
-	H5XnPeWTueWHF+InCyHbqUsmGEswg3iURmIo872i0Mcw4upE1gGVDmj0zGWZooozfZyrmZtOtgAwm
-	Dq3kuoV1oYYi7ntA7q89d3CoYHxP3+hiib5Oyg6RHg/4/481ey0W9BOeNUGn8scSc9Ljg3G0t0Z0o
-	hm4U5nXEW7Gr4qGDyfJw==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=ZzDnGmQvhZX8Iagxpy5mKSvk3OE4zvzTp8w5hB7G5lA=; b=2vjbitxHAqzffsBoTEmckKN/Yt
+	xwuiCM4qbxIvdBuVIwTSdVCS6t0Ey5xONXfVmwja2nKssULISFe1gUDbSiPuq2AIcMBJRsj8CYUMw
+	g9JrKyUNPQLDqVIMKmUkU8A1JKjcCeKRe1Dw3AdxlVT41WsR39w6A+mZlIaOXxrJ+8/hnDNYiz/mE
+	o0gueJpyc6cqIECmtKK6AgGFQrCWvOtu1EL8DDBvOCx18E2M5NEq8I1Me5vbcSsIFph6rZktqBjUP
+	ZtlwkjtkWLxmlVUjOc9fbOUoSJ0adisHti6w3LbmfA5AGndgpaJbcjlYu/GNhbN9/1z684eXYkODu
+	SqhKFT3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maXc8-00F7x3-UO; Wed, 13 Oct 2021 06:19:45 +0000
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
- helo=mx0b-0016f401.pphosted.com)
+	id 1maXdi-00F8Ct-MX; Wed, 13 Oct 2021 06:21:22 +0000
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lqhlA-00AHfr-Fv
- for linux-nvme@lists.infradead.org; Tue, 08 Jun 2021 19:51:40 +0000
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
- by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 158JfTbQ003868; Tue, 8 Jun 2021 12:51:28 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-0016f401.pphosted.com with ESMTP id 39266gjhbt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Jun 2021 12:51:27 -0700
-Received: from m0045849.ppops.net (m0045849.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 158JpRXv022288;
- Tue, 8 Jun 2021 12:51:27 -0700
-Received: from nam02-dm3-obe.outbound.protection.outlook.com
- (mail-dm3nam07lp2044.outbound.protection.outlook.com [104.47.56.44])
- by mx0a-0016f401.pphosted.com with ESMTP id 39266gjhbr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Jun 2021 12:51:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aAWwTmjW7VpHYFabUAWuQK4Pby0gDeiN3xaFftzEEop4iAFnz0let7K3eQQrLPuIgVupA2CV/cU9hl3xQcwdLys9fceHeYpVZVE7sb8DSJKpJOZsX6NCZFASLOhV21twbkYql0ZY/cvjcMkCafdRcsi3G3092z6MhPO87O12qBNSBfQcA/8m67kyYvf07wGjXHDgdXj1haRWEMYZR+EfObIO2Ezz3QzXJkyL7DPAF7PYr+fuNcWmX7i8Ru34aYKMDy8jcdA8PwfP8ySDewp4wooRJesGv5Zl9O67cpHnIUsCRM7M3yDGSpimTJzIlrQ6UQjjb0VY08XgwatPSkEUiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SM16kkDTuBEvV3WzpK3nJ6A/10pgi8v+73QwKUvUPZg=;
- b=mvu/dC6xvMcQ0BKaafvkixqFhSBT0QBpVc/8e5u8ywYVa7ChZYKYybQ8a1wL7bUaMqs551GA5w2lu2rARq/nOjls4iztsPzGCPtBTElWLDOK1agnd0ZejxQXBA91orhyFtPUvgv7ZyZiJBOU7b4jC++bPnYrXVM/2bOfwktSoi949BdPblMEfWtVQiYO4FgpNDAlVr/FrgAHO44b7sNb+jlEOP+/YOVSMm+EoUcMrQteZOcuckkxRhCyMU46bDsyW7/IHql2iPXQInGPmeZX2G4VY+0yDnQwkEtpNUkpxC3Czoh4u02zVJotpfI4B2xhmtxiF/SvOrGDkgPGJPEFnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SM16kkDTuBEvV3WzpK3nJ6A/10pgi8v+73QwKUvUPZg=;
- b=K8cFJcG9fRhmIKky4/4YUORGcFOAeJ0YLvEhsT6AsJYoceo/I0YEPXLMU0QHPiqjxZDywU6HR+TgmrQzA5JMNgHYIDRe07R30Ot6EbNIvqSGI73bI7T0L2nrNg2c4jxL1Fu78AFC3Mj3Wp/uMpIHF9MtDDGfP87/peu1bmvZGrA=
-Received: from SJ0PR18MB3882.namprd18.prod.outlook.com (2603:10b6:a03:2c8::13)
- by BYAPR18MB2759.namprd18.prod.outlook.com (2603:10b6:a03:10b::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.25; Tue, 8 Jun
- 2021 19:51:25 +0000
-Received: from SJ0PR18MB3882.namprd18.prod.outlook.com
- ([fe80::419a:6920:f49:3ece]) by SJ0PR18MB3882.namprd18.prod.outlook.com
- ([fe80::419a:6920:f49:3ece%8]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
- 19:51:25 +0000
-From: Shai Malin <smalin@marvell.com>
-To: Keith Busch <kbusch@kernel.org>, David Miller <davem@davemloft.net>
-CC: "hch@lst.de" <hch@lst.de>, "geert@linux-m68k.org" <geert@linux-m68k.org>, 
- "axboe@fb.com" <axboe@fb.com>, "sagi@grimberg.me" <sagi@grimberg.me>, Omkar
- Kulkarni <okulkarni@marvell.com>, "hare@suse.de" <hare@suse.de>, Dean
- Balandin <dbalandin@marvell.com>, "himanshu.madhani@oracle.com"
- <himanshu.madhani@oracle.com>, "pmladek@suse.com" <pmladek@suse.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "malin1024@gmail.com" <malin1024@gmail.com>
-Subject: Re: please drop the nvme code from net-next
-Thread-Topic: please drop the nvme code from net-next
-Thread-Index: AddcnzAdEpx+aAPyQ+iYPM8zs/0YYQ==
-Date: Tue, 8 Jun 2021 19:51:25 +0000
-Message-ID: <SJ0PR18MB3882C20793EA35A3E8DAE300CC379@SJ0PR18MB3882.namprd18.prod.outlook.com>
-Accept-Language: he-IL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=marvell.com;
-x-originating-ip: [79.181.162.86]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c68be878-d6e0-469a-80e0-08d92ab6cc90
-x-ms-traffictypediagnostic: BYAPR18MB2759:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR18MB2759671F560ECE2C40CF4AEACC379@BYAPR18MB2759.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Y96pSY/4qbQZErSx27N3CS01/T8jHXpiuc+p9mvW0YWXmi9pcmcUX7+6BtDUxlfachDxom5gjMYMU2b8OMUbyZ6xVOWiVGeqR1xoyjahpp+k3jnKtNB4tEd8ZRrIHQW+yuHZAUCQoedMrzHa+SuGgHb9gGxMjGa2XX3INeqzstXMMAes7cCm7Gj0AwKNmTA0+5EljegttdK1Mm+H0v0aCWmNxCzV6OsS0FiEQh7Vn+J+bjd2MRxqzI+3C4JNlr3YVaQZO2ccWYvMVEGn7Jd1rIwMB3NnFEclLRmpllvHQ3VZfPuFPWoX5U/MSH8UsHxFUGB0Hv72VazOkV3QEOgcLD9jexWrHxq0mCsT+PRJVgg4Hxux79w0VP0KoUdDRqi105AorsfUjuWS0DrgeVoYoflpqknUQnqm9W9okE6Y100GBxRVDNrg2HjSPNIyw3exIFzZ4Izr6Nq/EWZR0t+aKVeSOMnyyLZsp6OLgTfmFUS6VVG7jVdHsljTvHeTWE99g9/VZGqlC38Uv1EzMbzO8k1tYPzvg+D5o2XHbouIOlc6k21YEYkZElnGBGdCG2qz03qHCqn8l2qCj7E+5MCVbF72ZFjAcxLrY0S1ksy7TZ4=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR18MB3882.namprd18.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(33656002)(4326008)(6506007)(316002)(76116006)(66476007)(38100700002)(4744005)(9686003)(7416002)(86362001)(7696005)(52536014)(5660300002)(8676002)(71200400001)(54906003)(8936002)(55016002)(110136005)(478600001)(26005)(66556008)(64756008)(122000001)(66446008)(186003)(2906002)(66946007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WHb64UQQHjKxdvwPjd5GYJizO8esGzwyTzIuUfGjMbrr0fKr09cHyFCYZUi+?=
- =?us-ascii?Q?CNdXqeWDwQexLZ6ixyTRQXuvsmMeswVKiKBKVfKYsu/79uNMe+xV8ymB24U+?=
- =?us-ascii?Q?Ex/BBBEDKMIJhyF7Ne27DTXtH07mPy3du1z1U8D8rjZq8seYHlqCEZvNeDdr?=
- =?us-ascii?Q?S9TgVHyQfFsGHgjUzRu+epmXZ5abNBRcIV4rpIrNVtA/pvCgBIGU6iU2oIyE?=
- =?us-ascii?Q?REjuou45Fhc5bUJj7ryWkNtNOk/8kGwyNfbx3nWc01GdoWv+oUV8IpE6gHOD?=
- =?us-ascii?Q?iR5N3bcUrcV2zBQRxGlfqMxZ9HVkOCVbAiwZNPF20zEaD4CUdwr97U5Plksv?=
- =?us-ascii?Q?ZylrwDKBSNVTzv66ROc9LS40h1OrPNnYOn7BrBK7O0+Zo+kHuMvUHn3A8zl7?=
- =?us-ascii?Q?VH6OtkUPft0FTKYaS9z7OeK30ElAFuqVz4YDAK5/ivJacUV3rrlqi+0L2glV?=
- =?us-ascii?Q?8AhDKQmsPZNS72rIwuFN5XevJdJdhM3FnQXgUOfB5GX5Fws2t8nWpMp2zZvP?=
- =?us-ascii?Q?7CsG9i2CmrlCMWc+SMCl+rTWzlMNhEm/bCFUBtLz4tLz6698VMJ6wLr3YUP7?=
- =?us-ascii?Q?DaaWI2uF632r4YN1grLCfkVYoKLsImEFVEAYzgbDwMQF0QpSVnqBbgKW1mJm?=
- =?us-ascii?Q?8WLPhc4HWl4v++3qgyfZDUL8FLMQEbXvXOMX8RJqiZDdtE38ATSAC5aR7lVv?=
- =?us-ascii?Q?BbuYOo23yDmpS+NGpTNkbwEdWavViBCYjBvgrYLoCWMpX70J6veieNgxkSel?=
- =?us-ascii?Q?bF+vObXziJPHZp5tuEoKhqh2qtA2Q6ZgaOFGNcr23WHkpG4WHtoTaAmI4Ku+?=
- =?us-ascii?Q?c1+XAjxCCgK5aaEgjTtPkkqfMvPySQly+u1znVLQOSVp5YPpVSJcDp+/7Mlq?=
- =?us-ascii?Q?xA6mmGS1mB728AQPSnyEYxYnYpwgWUkaRVmOYizDEaFoYF012rKpPe4CP1jo?=
- =?us-ascii?Q?CUh5XrYrpuwVDx/U4nVsWcLWQEROWuxxRzH2SVq2y8FbGp7rG/AMGuxv6HBD?=
- =?us-ascii?Q?5grxIn1x1P724t2g8rRDnfL3+ZGmJHISTa2iNIipZGwqCkbZFs6/fjfQHywS?=
- =?us-ascii?Q?b17uLNA9Tiupz/gjRzjfTcFWjRwiufVabpG9yOqhXmIYLu57fntOwdhpgKSI?=
- =?us-ascii?Q?nAfPnMFE4iFJJC4OzXkN3qnxWDPMFuZWNrlVb8rW5h+KtGV2kCNJEpJkJmJU?=
- =?us-ascii?Q?EOwkOWiz1xObw+zZaxEOSRfP4MBRgs1qLtbqtRDAudmefG7SKsvBvytju8RG?=
- =?us-ascii?Q?fHD4jRY0dzJ+xW7gPHLtAirmZUu67RWyAEJn4dKSylzny0T99eoLc8khPhGI?=
- =?us-ascii?Q?Y2LmOlDbQCmgdn6AipH+ywBO?=
+ id 1m9Nez-007gFw-JF
+ for linux-nvme@lists.infradead.org; Fri, 30 Jul 2021 08:14:27 +0000
+Received: by mail-ua1-x92c.google.com with SMTP id d6so3669622uav.2
+ for <linux-nvme@lists.infradead.org>; Fri, 30 Jul 2021 01:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=K/lXyeXMePgg9Tg9pFQn8T3gDDjXBGK+r9eruIO3A3k=;
+ b=YPb5MDsNYwCvQCbivctyRFHoxWN6lCov1Fyg6qJBvJ4PhSmt+I8i6zSlZXm8HMNDMX
+ ZXG3NnOnlty33VL7xGl1Px6+dBVxM4PUwVlsc3Z8bt0XMtM4jw+Fhq3Z+gKgZwIJwPXG
+ rtWBbxQDUssuvfF69XvYPVLifBZJIyDNthFKLz+EV4hIijU92YhghPt9IHUs0OUUp5rn
+ UPCpU9rJ2YVsIC7v4fbJ2LtJYyx1AFIfxeiteXaEpGInecGtrEdHWySRCC9CYB00t8jP
+ 7+TrnO3CANwcqDNfLWbZdWMAbzzJLhF2ugdktTCPivuuC22r3v+4miU/kqhtzxgK5pQL
+ h4VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=K/lXyeXMePgg9Tg9pFQn8T3gDDjXBGK+r9eruIO3A3k=;
+ b=JK/Fu0iOzkn2sce3q9fifCVRmbfHzpFIcbS5NlTyueVCdr5+/JU2Y0sHR5CEltNjMW
+ uN3CKQk/JqoaN9YCF4kwRi3yyblir6tujQ2DRa7ZP92z/L90wZi8Mv8yrZGAkKTzEX9N
+ S12/THwZ6o5EjL+2zki/Pjnpndb2sSsP9yOjhAPEKUUBQ4vEYT3WVg/ggPr3ktSGYqOX
+ G2YjUWaSuWu5G2yupDra1Pa9MDEdr4rTutAz7xt/m2KtJ9b0+K3zY4wxbXertTzMEZYd
+ i5QZyopWCngwDeZc5XioMwv/dWmdSSCVyVlbNp6Zp1v6c+dk8s/Pyd+teMJ7pqGeb7tl
+ ozzg==
+X-Gm-Message-State: AOAM533HW+8/ZTrX/bWkCYmv9VL50Dl9Oc4Pv1krXXTc+L+sDiYbEnlT
+ PeNQrni6kURlEBtx35mZBC++dj5XEUFh1t2umGcALONn0CFk3A==
+X-Google-Smtp-Source: ABdhPJzN/sEVb8oZDZl4/Zy7ZpvyNDAr+0EPzhSXSVgi9QTaROvcf4PAK+B9CTjsdxzzptQJD6lFnzn9h1kSWcs3ovI=
+X-Received: by 2002:ab0:1e07:: with SMTP id m7mr729256uak.67.1627632862294;
+ Fri, 30 Jul 2021 01:14:22 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR18MB3882.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c68be878-d6e0-469a-80e0-08d92ab6cc90
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2021 19:51:25.3604 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aKLMqnKllI/rok74WeOXwQlqSUdps6RB8+XGExv7jn9dd+mgr3SgdjxV2n5WB6XmnuzJecjvFD57CTttPuym5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR18MB2759
-X-Proofpoint-ORIG-GUID: GIwFNgMknXPlT6HppI9XoFBQuIzzBoz7
-X-Proofpoint-GUID: CMeGWyAKWMRrunhRAfiCuHYLWNnLw-S7
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-08_14:2021-06-04,
- 2021-06-08 signatures=0
-X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
+References: <CAGCbPWR7dk7fWxMGQW2ygSEbgPLbfaQiiVb2J6Tczdt_oOCheg@mail.gmail.com>
+In-Reply-To: <CAGCbPWR7dk7fWxMGQW2ygSEbgPLbfaQiiVb2J6Tczdt_oOCheg@mail.gmail.com>
+From: koos vriezen <koos.vriezen@gmail.com>
+Date: Fri, 30 Jul 2021 10:14:11 +0200
+Message-ID: <CAGCbPWSuHFQdZEciPVi8J3Yxd4rB=kn0VsV=26fZbeGftVk5HQ@mail.gmail.com>
+Subject: Fwd: bisected: 5befc7c26e nvme impl non-mdts gives smartd error log
+ entries
+To: linux-nvme@lists.infradead.org
+X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210608_125136_631143_921BE34D 
-X-CRM114-Status: GOOD (  15.31  )
+X-CRM114-CacheID: sfid-20210730_011425_697730_A37A1252 
+X-CRM114-Status: UNSURE (   6.00  )
+X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Tue, 12 Oct 2021 22:54:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -168,24 +90,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
-On Tue, Jun 08, 2021 at 10:41:00PM -0700, Keith Busch wrote:
-> On Tue, Jun 08, 2021 at 12:08:39PM -0700, David Miller wrote:
-> > From: Christoph Hellwig <hch@lst.de>
-> > Date: Tue, 8 Jun 2021 15:43:03 +0200
-> >
-> > > please drop the nvme-offload code from net-next.  Code for drivers/nvme/
-> > > needs ACKs from us nvme maintainers and for something this significant
-> > > also needs to go through the NVMe tree.  And this code is not ready yet.
-> >
-> > Please send me a revert, and I will apply it, thank you.
-> >
-> > It's tricky because at least one driver uses the new interfaces.
-> 
-> Shouldn't whoever merged un-ACK'ed patches from a different subsystem
-> get to own the tricky revert?
+On my XPS 13 9380 I get local mails with content
 
-Dave, we will provide a revert patch.
+"
+The following warning/error was logged by the smartd daemon:
+
+Device: /dev/nvme0, number of Error Log entries increased from 28 to 29
+
+Device info:
+PM981 NVMe Samsung 512GB, S/N:S3ZHNF0KB11472, FW:EXA74D1Q, 512 GB
+"
+
+after boot and increasing numbers after resume. Git bisect report:
+
+git bisect start
+# good: [9f4ad9e425a1d3b6a34617b8ea226d56a119a717] Linux 5.12
+git bisect good 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
+# bad: [62fb9874f5da54fdb243003b386128037319b219] Linux 5.13
+git bisect bad 62fb9874f5da54fdb243003b386128037319b219
+# bad: [85f3f17b5db2dd9f8a094a0ddc665555135afd22] Merge branch
+'md-fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/song/
+md into block-5.13
+git bisect bad 85f3f17b5db2dd9f8a094a0ddc665555135afd22
+# good: [ca62e9090d229926f43f20291bb44d67897baab7] Merge tag
+'regulator-v5.13' of git://git.kernel.org/pub/scm/linux/kernel/git/br
+oonie/regulator
+git bisect good ca62e9090d229926f43f20291bb44d67897baab7
+# good: [68a32ba14177d4a21c4a9a941cf1d7aea86d436f] Merge tag
+'drm-next-2021-04-28' of git://anongit.freedesktop.org/drm/drm
+git bisect good 68a32ba14177d4a21c4a9a941cf1d7aea86d436f
+# bad: [be18cd1fcae2ed7db58d92d20733dfa8aa0a5173] Merge tag
+'mmc-v5.13' of git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc
+git bisect bad be18cd1fcae2ed7db58d92d20733dfa8aa0a5173
+# bad: [fc0586062816559defb14c947319ef8c4c326fb3] Merge tag
+'for-5.13/drivers-2021-04-27' of git://git.kernel.dk/linux-block
+git bisect bad fc0586062816559defb14c947319ef8c4c326fb3
+# good: [42dec9a936e7696bea1f27d3c5a0068cd9aa95fd] Merge tag
+'perf-core-2021-04-28' of git://git.kernel.org/pub/scm/linux/kernel/g
+it/tip/tip
+git bisect good 42dec9a936e7696bea1f27d3c5a0068cd9aa95fd
+# bad: [2958a995edc94654df690318df7b9b49e5a3ef88] block/rnbd-clt:
+Support polling mode for IO latency optimization
+git bisect bad 2958a995edc94654df690318df7b9b49e5a3ef88
+# bad: [b60b270b3db617811e593db5d5920ed98e67ce49] swim3: support highmem
+git bisect bad b60b270b3db617811e593db5d5920ed98e67ce49
+# good: [de5878048e11f1ec44164ebb8994de132074367a] nvmet: remove
+unnecessary ctrl parameter
+git bisect good de5878048e11f1ec44164ebb8994de132074367a
+# bad: [5befc7c26e5a98cd49789fb1beb52c62bd472dba] nvme: implement
+non-mdts command limits
+git bisect bad 5befc7c26e5a98cd49789fb1beb52c62bd472dba
+# good: [d8e7b462f5b8b93920c6c6a191be887b32306e6b] nvmet-tcp: enable
+optional queue idle period tracking
+git bisect good d8e7b462f5b8b93920c6c6a191be887b32306e6b
+# good: [25a64e4e7ef6da605a86ec1bff18d2c3c6ed5329] nvme: remove
+superfluous else in nvme_ctrl_loss_tmo_store
+git bisect good 25a64e4e7ef6da605a86ec1bff18d2c3c6ed5329
+# good: [dd8f7fa908f66dd44abcd83cbb50410524b9f8ef] nvme: retrigger ANA
+log update if group descriptor isn't found
+git bisect good dd8f7fa908f66dd44abcd83cbb50410524b9f8ef
+# good: [c881a23fb6f7eb901155d25ba8dd1af0b8c7923b] nvme: disallow
+passthru cmd from targeting a nsid != nsid of the block dev
+git bisect good c881a23fb6f7eb901155d25ba8dd1af0b8c7923b
+# first bad commit: [5befc7c26e5a98cd49789fb1beb52c62bd472dba] nvme:
+implement non-mdts command limits
+
+Reverted 5befc7c26e (first 8609c63fce nvme: fix handling of large MDTS
+values) on 5.13.6 I don't see the error anymore.
+
+
+Best regards,
+
+Koos Vriezen
 
 _______________________________________________
 Linux-nvme mailing list
