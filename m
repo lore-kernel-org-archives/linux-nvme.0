@@ -2,90 +2,77 @@ Return-Path: <SRS0=g/A8=MX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EE3C4338F
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jul 2021 07:31:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDD0C4338F
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jul 2021 08:33:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A32D60EBC
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jul 2021 07:31:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6A32D60EBC
+	by mail.kernel.org (Postfix) with ESMTPS id 2D12C60F39
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jul 2021 08:33:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2D12C60F39
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=kYEXbLhU5vmTDnzbYib1ltLbEZcWEU1pXTPsIHfEEeM=; b=xJKWNx0bywv8/g
-	UoVx/cRnvHNi0dvv+JmePQOGqHTE+zXMo+U//+wmnJCAZez5Z1uPYJ7g1UNuebwWkUY72OV24tCVo
-	5HDhJOpkYl8vNNkWoBlLLnXiSZvUlhrsn8vNaho1qClj8YZy9X2XHiN8q0cK64RcOtn6ubS3d0fTn
-	dRFpjZ2Bp9XKFWJNRPQ5lwSynAQMoKkhvphYLeficYOQIpaKW8CM9F0YtHnjoFZrGRfROGyVHAbey
-	aJstJPrxDGcuOrpzqVbfwaoLE4y07WfU5UTG6zzMmead68/VjT8nZ0VINwXLhhpw1D3892ADkfQDq
-	qSrvUyPUBVw6JZECFW8Q==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=ZzDnGmQvhZX8Iagxpy5mKSvk3OE4zvzTp8w5hB7G5lA=; b=oGy
+	1tpggut1cmtM4upAJdtXiC5f1LCsqJBABW3qdv5lFWzYy8PbCzWbuI2M1kism5iATFNQG414B0aAN
+	zpWZfbe+VAxz00g1qwmt0ikixPGvkhMpUkdJtsO9O75LCWW7j1oe6UzVAoUrVkta0QtxEfANOSa/z
+	7Dftg2iVLHTocn2uXtwF5ALLD+qmIJptr/gh2Ucn1Pzv7ebgxYtDOkt+HBRSxA2+L9rulcTFprIA5
+	89hK7ZhfnaDBKm2Wv0kYbcXdKUk0tdM/k24XgdP0cOpfhBIn2UCF1eVC0kHn2XpDWuEr2t3vtFwi8
+	LHHrfvynERZTWe22M8tUEMWKdftm2mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m9jSy-00BAqV-6H; Sat, 31 Jul 2021 07:31:28 +0000
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+	id 1m9kQ9-00BH6d-SH; Sat, 31 Jul 2021 08:32:37 +0000
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m9jSf-00BApT-S2
- for linux-nvme@lists.infradead.org; Sat, 31 Jul 2021 07:31:11 +0000
-Received: by mail-pl1-x630.google.com with SMTP id t3so11658798plg.9
- for <linux-nvme@lists.infradead.org>; Sat, 31 Jul 2021 00:31:08 -0700 (PDT)
+ id 1m9kQ6-00BH5y-4H
+ for linux-nvme@lists.infradead.org; Sat, 31 Jul 2021 08:32:35 +0000
+Received: by mail-vs1-xe36.google.com with SMTP id a8so423601vsl.4
+ for <linux-nvme@lists.infradead.org>; Sat, 31 Jul 2021 01:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ixvu1XEGmErQ2qL4BETMLAH7Hfa5i4XGX4pSY/08eRM=;
- b=UVOfiyFjSOPhnd9YgU/y8Vy0AyLJkmUoykGQbUzZ/svRuCPBrMJUwoLwDEEd9fuDT/
- aKlkORWilmFJHRWejoKVMotXNvoRVlXTMTwecaAR/9leo9iqbOzCIZIAoeEZ3p2N7n4e
- ypriOK9bR3/koVtfejTDMaqGQeLXMd2RnG7Hz+X6ErgDRpSzh1ljLojsMNwj+eMLzNug
- 4cTrV2g/jUWu2pgFoQnfD+t7VDvULn/2h4CFSxTSHmdUXuF36V6rmlHlg1j/pXgBwnhx
- l/9k2PtPFixDDXy7+eT/2Fhy2aarEa8MScmHcezb0Yc63fr3RuO3Toy68OH/0C4940NG
- 1tWA==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=K/lXyeXMePgg9Tg9pFQn8T3gDDjXBGK+r9eruIO3A3k=;
+ b=ZwUh8aXIDGcNolWsbCB330z40qs8o2QO4szCdu67RFkja+DyNJHNvai7dNl2MLvibi
+ /gD+8rw5J2eAOeEzSOyvs9cmFFQk+MKy8H5lM1JD9im0l06FYEe9/ePS1gsTIDH9fReV
+ jqfk2DcAPSoGBYgwsxwSf545lD/CsSF+HbFGMtC21gpSkE8dlTPDXWg9ibIleWpDTLm+
+ J/9xfReph5mBe28RrkWHLlDebZa6OkAy23B5FCOIIl7JgaImmvjzW1FOfU56MU/MR1sW
+ h6LDYD2lFnVbt01L0fSqK22N4xWcZ3SRSMhS1W089AiHWUkEam3hDT8EaKJyvTAV8T5s
+ t9Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ixvu1XEGmErQ2qL4BETMLAH7Hfa5i4XGX4pSY/08eRM=;
- b=YQAS3Z7FE+DEjY0PeGCeXU5/PvfsrNFXck2txAit7JT65mJ6S25i4n0cFpij73HrWz
- 5v7LCF2agcAGN7koubevVuePH1JrLU84ViIR07e0oTYcbrwVyD8aLXg/gKrg6mudXRkv
- qimoUmIGXOuTPG+0dAggpjMXv/FT3sxhFbmwChqynnbG4/lix2wT4limu0WajOVFG01g
- qJlj6peOWhi1jFOIvxoEzrjdNZeZdlb2Ri1j6oC+7Pe5LsqwrcJMB6VFpgwv1E5Yfnxn
- t4aoRSovWLvcki5xx3K5bQ0P4gOZHveyDhs0pZ2JyrsaMzOCCwZZYd8TMh/1RHCntrz5
- 7jSw==
-X-Gm-Message-State: AOAM532ITcpsfqcgRDBBV1rVXBrfqjElAAlxf/4YOZWFXJaqGxc0bRme
- 1qrO70J8dfu7+c0cfxoT0eQ=
-X-Google-Smtp-Source: ABdhPJyfOctsm0ZR+7H0I0bz01K3VNl0dsYentIfKEybvfc+6f+QvMe9y33bXwk5ETdtZcLqtLobFQ==
-X-Received: by 2002:a63:1d41:: with SMTP id d1mr5703450pgm.199.1627716668396; 
- Sat, 31 Jul 2021 00:31:08 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.29])
- by smtp.gmail.com with ESMTPSA id z124sm5411949pgb.6.2021.07.31.00.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Jul 2021 00:31:07 -0700 (PDT)
-From: Tuo Li <islituo@gmail.com>
-To: kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- baijiaju1990@gmail.com, Tuo Li <islituo@gmail.com>,
- TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] lightnvm: fix possible uninitialized-variable access in
- nvme_nvm_submit_user_cmd()
-Date: Sat, 31 Jul 2021 00:30:42 -0700
-Message-Id: <20210731073042.49139-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=K/lXyeXMePgg9Tg9pFQn8T3gDDjXBGK+r9eruIO3A3k=;
+ b=FTLbNzOxu/albDYMszsFnGZJ5j6jc8qO2XQyFPeFFmNHizCAtiDv0aylt7QHah8PQ5
+ ItSD5iYFBu+VNahcFVBD1vlGT1CkVguaukfCR5ZYW8Pn+0zMz1NgvOGu927u57WF/bkJ
+ LvYH7fMBawIx6oejwDzus1JJVkpQI8a5eVa5eZXkBiEtx11yGJc4+RHobjdv3E6NrhDS
+ UaEVQg1PRIWdfcQbyPSJ+xQMpQ5sD5JvpysRaOhv0mVS9FxTsBfQ3J1ig9vsTmiEkaUd
+ uWZC7WGjcKINTCgh4fIj68/a8y0Ea6HVUX+hPFErJE3loXVCv/bsQFOcMdydjoDFbtr0
+ kKJg==
+X-Gm-Message-State: AOAM532zHYDAJE1fRTN0jBPBIovdxKpnn4sulPph5jKBCTpjOMBLfGQH
+ Y3TQ1aTGqyx3sAZ/kFnGWZXJYK309sSNPZyGbLAaClFFTwT9PixU
+X-Google-Smtp-Source: ABdhPJw+oWlJx/a0MyH3kButeMxB7WuIVNQ7fKO11dKUs+LcNu3FvufTRoK4LNy53zUZHrPTdoawRX6UHVtkvgxL7Bw=
+X-Received: by 2002:a67:e2da:: with SMTP id i26mr5141177vsm.16.1627720351243; 
+ Sat, 31 Jul 2021 01:32:31 -0700 (PDT)
 MIME-Version: 1.0
+From: koos vriezen <koos.vriezen@gmail.com>
+Date: Sat, 31 Jul 2021 10:32:20 +0200
+Message-ID: <CAGCbPWTKos2c7aLt35ZvsvK56Tqy05BTOTeaEbL8jJty25J+zg@mail.gmail.com>
+Subject: bisected: 5befc7c26e nvme impl non-mdts gives smartd error log entries
+To: linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210731_003109_990567_19E7D711 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20210731_013234_232629_13C12601 
+X-CRM114-Status: UNSURE (   5.38  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,39 +89,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The variable metadata_dma is not initialized at the beginning of the
-function nvme_nvm_submit_user_cmd(). If the parameter ubuf is NULL, it
-remains uninitialized at the label err_meta. However, it is accessed
-through the function dma_pool_free() if meta_buf is not NULL and
-meta_len is not zero. In fact, ubuf, meta_buf and meta_len can come from
-user space which indicates this can happen.
+Hi,
 
-To fix this possible bug, only when ubuf and meta_buf are not NULL, and
-bufflen and meta_len are not zero, the function dma_pool_free() is
-called.
+On my XPS 13 9380 I get local mails with content
 
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/nvme/host/lightnvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+"
+The following warning/error was logged by the smartd daemon:
 
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index e9d9ad47f70f..3d9fd098bd83 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -835,7 +835,7 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
- 			ret = -EFAULT;
- 	}
- err_meta:
--	if (meta_buf && meta_len)
-+	if (ubuf && bufflen && meta_buf && meta_len)
- 		dma_pool_free(dev->dma_pool, metadata, metadata_dma);
- err_map:
- 	if (bio)
--- 
-2.25.1
+Device: /dev/nvme0, number of Error Log entries increased from 28 to 29
 
+Device info:
+PM981 NVMe Samsung 512GB, S/N:S3ZHNF0KB11472, FW:EXA74D1Q, 512 GB
+"
+
+after boot and increasing numbers after resume. Git bisect report:
+
+git bisect start
+# good: [9f4ad9e425a1d3b6a34617b8ea226d56a119a717] Linux 5.12
+git bisect good 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
+# bad: [62fb9874f5da54fdb243003b386128037319b219] Linux 5.13
+git bisect bad 62fb9874f5da54fdb243003b386128037319b219
+# bad: [85f3f17b5db2dd9f8a094a0ddc665555135afd22] Merge branch
+'md-fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/song/
+md into block-5.13
+git bisect bad 85f3f17b5db2dd9f8a094a0ddc665555135afd22
+# good: [ca62e9090d229926f43f20291bb44d67897baab7] Merge tag
+'regulator-v5.13' of git://git.kernel.org/pub/scm/linux/kernel/git/br
+oonie/regulator
+git bisect good ca62e9090d229926f43f20291bb44d67897baab7
+# good: [68a32ba14177d4a21c4a9a941cf1d7aea86d436f] Merge tag
+'drm-next-2021-04-28' of git://anongit.freedesktop.org/drm/drm
+git bisect good 68a32ba14177d4a21c4a9a941cf1d7aea86d436f
+# bad: [be18cd1fcae2ed7db58d92d20733dfa8aa0a5173] Merge tag
+'mmc-v5.13' of git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc
+git bisect bad be18cd1fcae2ed7db58d92d20733dfa8aa0a5173
+# bad: [fc0586062816559defb14c947319ef8c4c326fb3] Merge tag
+'for-5.13/drivers-2021-04-27' of git://git.kernel.dk/linux-block
+git bisect bad fc0586062816559defb14c947319ef8c4c326fb3
+# good: [42dec9a936e7696bea1f27d3c5a0068cd9aa95fd] Merge tag
+'perf-core-2021-04-28' of git://git.kernel.org/pub/scm/linux/kernel/g
+it/tip/tip
+git bisect good 42dec9a936e7696bea1f27d3c5a0068cd9aa95fd
+# bad: [2958a995edc94654df690318df7b9b49e5a3ef88] block/rnbd-clt:
+Support polling mode for IO latency optimization
+git bisect bad 2958a995edc94654df690318df7b9b49e5a3ef88
+# bad: [b60b270b3db617811e593db5d5920ed98e67ce49] swim3: support highmem
+git bisect bad b60b270b3db617811e593db5d5920ed98e67ce49
+# good: [de5878048e11f1ec44164ebb8994de132074367a] nvmet: remove
+unnecessary ctrl parameter
+git bisect good de5878048e11f1ec44164ebb8994de132074367a
+# bad: [5befc7c26e5a98cd49789fb1beb52c62bd472dba] nvme: implement
+non-mdts command limits
+git bisect bad 5befc7c26e5a98cd49789fb1beb52c62bd472dba
+# good: [d8e7b462f5b8b93920c6c6a191be887b32306e6b] nvmet-tcp: enable
+optional queue idle period tracking
+git bisect good d8e7b462f5b8b93920c6c6a191be887b32306e6b
+# good: [25a64e4e7ef6da605a86ec1bff18d2c3c6ed5329] nvme: remove
+superfluous else in nvme_ctrl_loss_tmo_store
+git bisect good 25a64e4e7ef6da605a86ec1bff18d2c3c6ed5329
+# good: [dd8f7fa908f66dd44abcd83cbb50410524b9f8ef] nvme: retrigger ANA
+log update if group descriptor isn't found
+git bisect good dd8f7fa908f66dd44abcd83cbb50410524b9f8ef
+# good: [c881a23fb6f7eb901155d25ba8dd1af0b8c7923b] nvme: disallow
+passthru cmd from targeting a nsid != nsid of the block dev
+git bisect good c881a23fb6f7eb901155d25ba8dd1af0b8c7923b
+# first bad commit: [5befc7c26e5a98cd49789fb1beb52c62bd472dba] nvme:
+implement non-mdts command limits
+
+Reverted 5befc7c26e (first 8609c63fce nvme: fix handling of large MDTS
+values) on 5.13.6 I don't see the error anymore.
+
+
+Best regards,
+
+Koos Vriezen
 
 _______________________________________________
 Linux-nvme mailing list
