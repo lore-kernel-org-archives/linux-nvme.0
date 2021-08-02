@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 220BDC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 11:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFFF8C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 11:28:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E954260F36
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 11:27:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E954260F36
+	by mail.kernel.org (Postfix) with ESMTPS id 822F460FC2
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 11:28:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 822F460FC2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,62 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R5qldSoOk0x5WG4hPi4KDmYhhAFiZFckkyCcNAX1Qaw=; b=IAmsx7ZdHPR8e8
-	7/hyh//VN3LPe563H3kWUrlgmYO977zdKrZ6ON6ldRxhwaZ+fPXQpqmcIP+b64/EF6+2eycQ6kqOE
-	m0DclKh5Rp2lcVS0eFqzTODe9MI/OflLEM2ENM38VNmMnXhCdyoQJAA56eSXmTkxdstRPiJomGeTi
-	yvQYCHTuUaBEyG0EiBGWmgMFCANbEqwKDzgMbV52QKiHroVDSYk+P+gHDphQ/dcPeCZcwRXDwZLsj
-	40Tg468lXBXEBwHM08ezQoGTuxu//u4YZ3Ue+YvxBZlbrXOf5vxmRyjbihLQYb1HlhdIqg5cg4iY7
-	l6yYfCT9y17MWnoaOOlg==;
+	List-Owner; bh=DBLnp8l745GGdIhk0aYMeOE5ELZjpzbOTHUXrVsJpKI=; b=dmKpevUQdYisVW
+	hSk97VWBbixLxqOOgX9NEVWG8HbriaNXzFhMIDs3P4NO+rjuI7UzZ5Qk7CvRTnKWaDGR3OTkHwxjt
+	JwYd1D6Mjqhs/sVE6yjaMPXH6xazKMgeEnUL0ycELIPzCBafdXo/PcrB8aof2Bd7W8WMi6nTPVpoZ
+	qKw5H+Rk4mF8gJ+1CDrDWDNFHNRnLmyCto/kQPEWSnkhwQEZbQp/D6bWfgUVeGUL0PslFhPVMLWKr
+	Umb3z/7njxPhGETZXVquhGKk3YaLq2UtR8cDtDTp7gI0vLLcbxVSgT29WyBleq/AYimfF+5dB10u8
+	sY3airTXV/W/5POZq3Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mAW6T-00FvpM-Bs; Mon, 02 Aug 2021 11:27:29 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mAW6e-00FvtE-JC; Mon, 02 Aug 2021 11:27:40 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mAW6B-00FvfJ-6s
- for linux-nvme@lists.infradead.org; Mon, 02 Aug 2021 11:27:13 +0000
+ id 1mAW6B-00FvfP-MM
+ for linux-nvme@lists.infradead.org; Mon, 02 Aug 2021 11:27:15 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 1542F21EED;
+ by smtp-out2.suse.de (Postfix) with ESMTP id 1528F1FF7C;
  Mon,  2 Aug 2021 11:27:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1627903628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vuFuvhKlUfFYXf6FmlE9wh0koABi63V3tWPF92dXgDs=;
- b=T+MCcYPZkMEz3giv6QkqVZ1zrxfHWKkAC2gT3JhJf7eVaG2+2yvvod+t/C5LZxwiO/NBtS
- YuUXvL/fXmi/4a/D2O2/5QXWnJpyMF0iuoVSjmt0UHaKxeklDfGUpIll2CU6wDxcfgDCTo
- iVUhQtOw+W90Vbu0/PAU7ZOKaiQX7P8=
+ bh=kKKLeMvUSjTl9xhk4gs1WHWOoquSNjLGEcBM3zENZtY=;
+ b=FYcAg6x7ObqbbCLc0lYhaAE+gjOO8KOnfUbk8loC5OujR8asbSqtjnmy22/ntdHkU6evLT
+ 2Q4THZ/j6gFTWKZM4OgRgkuhWS+o9+wCHZVlV+K2+ku6vISlViWOv8bdSB4RHNmVeYX3ba
+ gVV3EFA3Hjnj84TgV/5UpiumpJlSPTE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1627903628;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vuFuvhKlUfFYXf6FmlE9wh0koABi63V3tWPF92dXgDs=;
- b=IF7WxU6P2YZflUcw3M5+xTBNQ5tqbzJJZma9sxSxUo/Ry/G4P3Na54uVIgiZP8sXs2PYD8
- kCXgGf0+VMdcZ/BA==
+ bh=kKKLeMvUSjTl9xhk4gs1WHWOoquSNjLGEcBM3zENZtY=;
+ b=5jhoDsS3eb8jhFdAPgL/xPhDtYNueixTSpYFeGWUWGLjmq4v2FnyR3zvXy2ycHO8mxAFxb
+ JmJpWwoo2KsauaAg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 00E2CA3BC8;
- Mon,  2 Aug 2021 11:27:08 +0000 (UTC)
+ by relay2.suse.de (Postfix) with ESMTP id 002BFA3BC4;
+ Mon,  2 Aug 2021 11:27:07 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id EC323518C0B0; Mon,  2 Aug 2021 13:27:07 +0200 (CEST)
+ id E69F4518C0AE; Mon,  2 Aug 2021 13:27:07 +0200 (CEST)
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
  Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
  Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
  Wen Xiong <wenxiong@us.ibm.com>, James Smart <jsmart2021@gmail.com>,
- Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v4 6/8] nvme-fc: fix controller reset hang during traffic
-Date: Mon,  2 Aug 2021 13:26:56 +0200
-Message-Id: <20210802112658.75875-7-dwagner@suse.de>
+ Chao Leng <lengchao@huawei.com>, Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v4 5/8] nvme-fc: avoid race between time out and tear down
+Date: Mon,  2 Aug 2021 13:26:55 +0200
+Message-Id: <20210802112658.75875-6-dwagner@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210802112658.75875-1-dwagner@suse.de>
 References: <20210802112658.75875-1-dwagner@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210802_042711_458844_B679F301 
-X-CRM114-Status: GOOD (  13.62  )
+X-CRM114-CacheID: sfid-20210802_042711_982952_023A2B28 
+X-CRM114-Status: GOOD (  11.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,55 +97,44 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: James Smart <jsmart2021@gmail.com>
 
-commit fe35ec58f0d3 ("block: update hctx map when use multiple maps")
-exposed an issue where we may hang trying to wait for queue freeze
-during I/O. We call blk_mq_update_nr_hw_queues which may attempt to freeze
-the queue. However we never started queue freeze when starting the
-reset, which means that we have inflight pending requests that entered the
-queue that we will not complete once the queue is quiesced.
+To avoid race between time out and tear down, in tear down process,
+first we quiesce the queue, and then delete the timer and cancel
+the time out work for the queue.
 
-So start a freeze before we quiesce the queue, and unfreeze the queue
-after we successfully connected the I/O queues (the unfreeze is already
-present in the code). blk_mq_update_nr_hw_queues will be called only
-after we are sure that the queue was already frozen.
-
-This follows to how the pci driver handles resets.
-
-This patch added logic introduced in commit 9f98772ba307 "nvme-rdma: fix
-controller reset hang during traffic".
+This patch merges the admin and io sync ops into the queue teardown logic
+as shown in the RDMA patch 3017013dcc "nvme-rdma: avoid race between time
+out and tear down". There is no teardown_lock in nvme-fc.
 
 Signed-off-by: James Smart <jsmart2021@gmail.com>
-CC: Sagi Grimberg <sagi@grimberg.me>
-[dwagner: call nvme_unfreeze() unconditionally in
-          nvme_fc_recreate_io_queues() to match the nvme_start_freeze()]
+CC: Chao Leng <lengchao@huawei.com>
 Tested-by: Daniel Wagner <dwagner@suse.de>
+[dwagner: updated commit id referenced in commit message]
 Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/fc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/fc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 133b87db4f1d..b292af0fd655 100644
+index dbb8ad816df8..133b87db4f1d 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2486,6 +2486,7 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
- 	 * (but with error status).
+@@ -2487,6 +2487,7 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
  	 */
  	if (ctrl->ctrl.queue_count > 1) {
-+		nvme_start_freeze(&ctrl->ctrl);
  		nvme_stop_queues(&ctrl->ctrl);
- 		nvme_sync_io_queues(&ctrl->ctrl);
++		nvme_sync_io_queues(&ctrl->ctrl);
  		blk_mq_tagset_busy_iter(&ctrl->tag_set,
-@@ -2966,8 +2967,8 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- 			return -ENODEV;
- 		}
- 		blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
--		nvme_unfreeze(&ctrl->ctrl);
- 	}
-+	nvme_unfreeze(&ctrl->ctrl);
- 
- 	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
- 	if (ret)
+ 				nvme_fc_terminate_exchange, &ctrl->ctrl);
+ 		blk_mq_tagset_wait_completed_request(&ctrl->tag_set);
+@@ -2510,6 +2511,7 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
+ 	 * clean up the admin queue. Same thing as above.
+ 	 */
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	blk_sync_queue(ctrl->ctrl.admin_q);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_fc_terminate_exchange, &ctrl->ctrl);
+ 	blk_mq_tagset_wait_completed_request(&ctrl->admin_tag_set);
 -- 
 2.29.2
 
