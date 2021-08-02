@@ -1,78 +1,91 @@
-Return-Path: <SRS0=g/A8=MX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=aESL=MZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDD0C4338F
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jul 2021 08:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19468C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 00:25:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D12C60F39
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jul 2021 08:33:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2D12C60F39
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B118F603E7
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 00:25:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B118F603E7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=ZzDnGmQvhZX8Iagxpy5mKSvk3OE4zvzTp8w5hB7G5lA=; b=oGy
-	1tpggut1cmtM4upAJdtXiC5f1LCsqJBABW3qdv5lFWzYy8PbCzWbuI2M1kism5iATFNQG414B0aAN
-	zpWZfbe+VAxz00g1qwmt0ikixPGvkhMpUkdJtsO9O75LCWW7j1oe6UzVAoUrVkta0QtxEfANOSa/z
-	7Dftg2iVLHTocn2uXtwF5ALLD+qmIJptr/gh2Ucn1Pzv7ebgxYtDOkt+HBRSxA2+L9rulcTFprIA5
-	89hK7ZhfnaDBKm2Wv0kYbcXdKUk0tdM/k24XgdP0cOpfhBIn2UCF1eVC0kHn2XpDWuEr2t3vtFwi8
-	LHHrfvynERZTWe22M8tUEMWKdftm2mg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=sguv+UuKhihdO8JYq3VPTflugM8YlozwMMRA6xODfjU=; b=SfS+dI+r3C6hRC
+	QHOKlpQWfBSn/Ut/hAJBZGW3XcEXtqnp1EmLG6O4QYpB1wzXeSJmvfrE7/yBflF5qILpd8RXl+Xch
+	1OmttiCV+xb4R8zIin7AhFdcUJTjYLUAeUdp3saUoYQNuEVZCUtnrF0Wv5KaG/eAc159uw7VbHBy5
+	vrS8BszoVcVuKdmZhZVRnHK1edpNkYjvG/6V78DxwOTIXmcp7/F1tIIAwEGJzmhYyUL/yu2Z4bh8E
+	SzUw5Be0v2zBzKM5bOfDBiUVD9v59Km0JelWTMhUyyMzejREsMc3ZZZP/0un9xJTyqvlk1zjD83Rh
+	NeezWoADx5YftV/8Jzcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m9kQ9-00BH6d-SH; Sat, 31 Jul 2021 08:32:37 +0000
-Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36])
+	id 1mALlu-00EUAc-Dr; Mon, 02 Aug 2021 00:25:34 +0000
+Received: from mo-csw1515.securemx.jp ([210.130.202.154]
+ helo=mo-csw.securemx.jp)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m9kQ6-00BH5y-4H
- for linux-nvme@lists.infradead.org; Sat, 31 Jul 2021 08:32:35 +0000
-Received: by mail-vs1-xe36.google.com with SMTP id a8so423601vsl.4
- for <linux-nvme@lists.infradead.org>; Sat, 31 Jul 2021 01:32:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=K/lXyeXMePgg9Tg9pFQn8T3gDDjXBGK+r9eruIO3A3k=;
- b=ZwUh8aXIDGcNolWsbCB330z40qs8o2QO4szCdu67RFkja+DyNJHNvai7dNl2MLvibi
- /gD+8rw5J2eAOeEzSOyvs9cmFFQk+MKy8H5lM1JD9im0l06FYEe9/ePS1gsTIDH9fReV
- jqfk2DcAPSoGBYgwsxwSf545lD/CsSF+HbFGMtC21gpSkE8dlTPDXWg9ibIleWpDTLm+
- J/9xfReph5mBe28RrkWHLlDebZa6OkAy23B5FCOIIl7JgaImmvjzW1FOfU56MU/MR1sW
- h6LDYD2lFnVbt01L0fSqK22N4xWcZ3SRSMhS1W089AiHWUkEam3hDT8EaKJyvTAV8T5s
- t9Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=K/lXyeXMePgg9Tg9pFQn8T3gDDjXBGK+r9eruIO3A3k=;
- b=FTLbNzOxu/albDYMszsFnGZJ5j6jc8qO2XQyFPeFFmNHizCAtiDv0aylt7QHah8PQ5
- ItSD5iYFBu+VNahcFVBD1vlGT1CkVguaukfCR5ZYW8Pn+0zMz1NgvOGu927u57WF/bkJ
- LvYH7fMBawIx6oejwDzus1JJVkpQI8a5eVa5eZXkBiEtx11yGJc4+RHobjdv3E6NrhDS
- UaEVQg1PRIWdfcQbyPSJ+xQMpQ5sD5JvpysRaOhv0mVS9FxTsBfQ3J1ig9vsTmiEkaUd
- uWZC7WGjcKINTCgh4fIj68/a8y0Ea6HVUX+hPFErJE3loXVCv/bsQFOcMdydjoDFbtr0
- kKJg==
-X-Gm-Message-State: AOAM532zHYDAJE1fRTN0jBPBIovdxKpnn4sulPph5jKBCTpjOMBLfGQH
- Y3TQ1aTGqyx3sAZ/kFnGWZXJYK309sSNPZyGbLAaClFFTwT9PixU
-X-Google-Smtp-Source: ABdhPJw+oWlJx/a0MyH3kButeMxB7WuIVNQ7fKO11dKUs+LcNu3FvufTRoK4LNy53zUZHrPTdoawRX6UHVtkvgxL7Bw=
-X-Received: by 2002:a67:e2da:: with SMTP id i26mr5141177vsm.16.1627720351243; 
- Sat, 31 Jul 2021 01:32:31 -0700 (PDT)
+ id 1mALlT-00EUA8-Hs
+ for linux-nvme@lists.infradead.org; Mon, 02 Aug 2021 00:25:09 +0000
+Received: by mo-csw.securemx.jp (mx-mo-csw1515) id 1720Oenj025785;
+ Mon, 2 Aug 2021 09:24:40 +0900
+X-Iguazu-Qid: 34ts0Afxgte1HvvDCT
+X-Iguazu-QSIG: v=2; s=0; t=1627863879; q=34ts0Afxgte1HvvDCT;
+ m=Z7EySAtOE1bn94zu5SpC2UkEWj1b/5Yfv0uz/zexrj8=
+Received: from CNN1EMTA03.test.kioxia.com ([202.248.33.144])
+ by relay.securemx.jp (mx-mr1513) id 1720ObZc002024;
+ Mon, 2 Aug 2021 09:24:37 +0900
+Received: from Switcher-Post_Send (gateway [10.232.20.1])
+ by CNN1EMTA03.test.kioxia.com (Postfix) with ESMTP id B8D4931B1E;
+ Mon,  2 Aug 2021 09:24:37 +0900 (JST)
+Received: from CNN1ESTR04.kioxia.com (localhost [127.0.0.1])
+ by Switcher-Post_Send (Postfix) with ESMTP id 96B4A190467A2F;
+ Mon,  2 Aug 2021 09:21:24 +0900 (JST)
+Received: from localhost [127.0.0.1] 
+ by CNN1ESTR04.kioxia.com with ESMTP id 0003KAAAAAA025KH;
+ Mon, 2 Aug 2021 09:21:24 +0900
+Received: from CNN1EXMB02.r1.kioxia.com (CNN1EXMB02.r1.kioxia.com
+ [10.232.20.151])
+ by Switcher-Pre_Send (Postfix) with ESMTP id 8BCCBA0093D81;
+ Mon,  2 Aug 2021 09:21:24 +0900 (JST)
+Received: from CNN1EXMB02.r1.kioxia.com (10.232.20.151) by
+ CNN1EXMB02.r1.kioxia.com (10.232.20.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Mon, 2 Aug 2021 09:24:37 +0900
+Received: from CNN1EXMB02.r1.kioxia.com ([10.13.100.21]) by
+ CNN1EXMB02.r1.kioxia.com ([10.13.100.21]) with mapi id 15.01.2242.010; Mon, 2
+ Aug 2021 09:24:37 +0900
+From: sasaki tatsuya <tatsuya6.sasaki@kioxia.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] nvme: update keep alive interval when kato is modified
+Thread-Topic: [PATCH] nvme: update keep alive interval when kato is modified
+Thread-Index: AdeHNEBfLn7U7T5+SsyG/rbRVH2ESA==
+Date: Mon, 2 Aug 2021 00:24:37 +0000
+Message-ID: <b7cde4c23c44485198f12739bb8fbca0@kioxia.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.211.40.97]
 MIME-Version: 1.0
-From: koos vriezen <koos.vriezen@gmail.com>
-Date: Sat, 31 Jul 2021 10:32:20 +0200
-Message-ID: <CAGCbPWTKos2c7aLt35ZvsvK56Tqy05BTOTeaEbL8jJty25J+zg@mail.gmail.com>
-Subject: bisected: 5befc7c26e nvme impl non-mdts gives smartd error log entries
-To: linux-nvme@lists.infradead.org
+X-CrossPremisesHeadersFilteredBySendConnector: CNN1EXMB02.r1.kioxia.com
+X-OrganizationHeadersPreserved: CNN1EXMB02.r1.kioxia.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210731_013234_232629_13C12601 
-X-CRM114-Status: UNSURE (   5.38  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210801_172507_842318_DCBF71E7 
+X-CRM114-Status: GOOD (  14.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,80 +102,91 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Currently the connection between host and NVMe-oF target gets
+disconnected by keep-alive timeout when a user connects to a target
+with a relatively large kato value and then sets the smaller kato
+with a set features command (e.g. connects with 60 seconds kato value
+and then sets 10 seconds kato value).
 
-On my XPS 13 9380 I get local mails with content
+The cause is that keep alive command interval on the host, which is
+defined as unsigned int kato in nvme_ctrl structure, does not follow
+the kato value changes.
 
-"
-The following warning/error was logged by the smartd daemon:
+This patch updates the keep alive interval in the following steps when
+the kato is modified by a set features command: stops the keep alive
+work queue, then sets the kato as new timer value and re-start the queue.
 
-Device: /dev/nvme0, number of Error Log entries increased from 28 to 29
+Signed-off-by: Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>
+---
+ drivers/nvme/host/core.c  |  3 ++-
+ drivers/nvme/host/ioctl.c | 17 +++++++++++++++++
+ drivers/nvme/host/nvme.h  |  1 +
+ 3 files changed, 20 insertions(+), 1 deletion(-)
 
-Device info:
-PM981 NVMe Samsung 512GB, S/N:S3ZHNF0KB11472, FW:EXA74D1Q, 512 GB
-"
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 66973bb56..3e821a0be 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1242,13 +1242,14 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ 	blk_execute_rq_nowait(NULL, rq, 0, nvme_keep_alive_end_io);
+ }
+ 
+-static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
++void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ {
+ 	if (unlikely(ctrl->kato == 0))
+ 		return;
+ 
+ 	nvme_queue_keep_alive_work(ctrl);
+ }
++EXPORT_SYMBOL_GPL(nvme_start_keep_alive);
+ 
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 9557ead02..574f956f0 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -225,6 +225,23 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			return -EFAULT;
+ 	}
+ 
++	/*
++	 * Keep alive commands interval on the host should be updated
++	 * when KATO is modified by Set Features commands.
++	 */
++	if (!status && c.common.opcode == nvme_admin_set_features &&
++	    ((u8)c.common.cdw10 & 0xFF) == NVME_FEAT_KATO) {
++		/* ms -> s */
++		unsigned int new_kato = DIV_ROUND_UP(c.common.cdw11, 1000);
++
++		dev_info(ctrl->device,
++			 "keep alive commands interval on the host is updated from %u milliseconds to %u milliseconds\n",
++			 ctrl->kato * 1000 / 2, new_kato * 1000 / 2);
++		nvme_stop_keep_alive(ctrl);
++		ctrl->kato = new_kato;
++		nvme_start_keep_alive(ctrl);
++	}
++
+ 	return status;
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0015860ec..150ad6d4d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -666,6 +666,7 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+ 		      u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
++void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
+-- 
+2.25.1
 
-after boot and increasing numbers after resume. Git bisect report:
 
-git bisect start
-# good: [9f4ad9e425a1d3b6a34617b8ea226d56a119a717] Linux 5.12
-git bisect good 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
-# bad: [62fb9874f5da54fdb243003b386128037319b219] Linux 5.13
-git bisect bad 62fb9874f5da54fdb243003b386128037319b219
-# bad: [85f3f17b5db2dd9f8a094a0ddc665555135afd22] Merge branch
-'md-fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/song/
-md into block-5.13
-git bisect bad 85f3f17b5db2dd9f8a094a0ddc665555135afd22
-# good: [ca62e9090d229926f43f20291bb44d67897baab7] Merge tag
-'regulator-v5.13' of git://git.kernel.org/pub/scm/linux/kernel/git/br
-oonie/regulator
-git bisect good ca62e9090d229926f43f20291bb44d67897baab7
-# good: [68a32ba14177d4a21c4a9a941cf1d7aea86d436f] Merge tag
-'drm-next-2021-04-28' of git://anongit.freedesktop.org/drm/drm
-git bisect good 68a32ba14177d4a21c4a9a941cf1d7aea86d436f
-# bad: [be18cd1fcae2ed7db58d92d20733dfa8aa0a5173] Merge tag
-'mmc-v5.13' of git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc
-git bisect bad be18cd1fcae2ed7db58d92d20733dfa8aa0a5173
-# bad: [fc0586062816559defb14c947319ef8c4c326fb3] Merge tag
-'for-5.13/drivers-2021-04-27' of git://git.kernel.dk/linux-block
-git bisect bad fc0586062816559defb14c947319ef8c4c326fb3
-# good: [42dec9a936e7696bea1f27d3c5a0068cd9aa95fd] Merge tag
-'perf-core-2021-04-28' of git://git.kernel.org/pub/scm/linux/kernel/g
-it/tip/tip
-git bisect good 42dec9a936e7696bea1f27d3c5a0068cd9aa95fd
-# bad: [2958a995edc94654df690318df7b9b49e5a3ef88] block/rnbd-clt:
-Support polling mode for IO latency optimization
-git bisect bad 2958a995edc94654df690318df7b9b49e5a3ef88
-# bad: [b60b270b3db617811e593db5d5920ed98e67ce49] swim3: support highmem
-git bisect bad b60b270b3db617811e593db5d5920ed98e67ce49
-# good: [de5878048e11f1ec44164ebb8994de132074367a] nvmet: remove
-unnecessary ctrl parameter
-git bisect good de5878048e11f1ec44164ebb8994de132074367a
-# bad: [5befc7c26e5a98cd49789fb1beb52c62bd472dba] nvme: implement
-non-mdts command limits
-git bisect bad 5befc7c26e5a98cd49789fb1beb52c62bd472dba
-# good: [d8e7b462f5b8b93920c6c6a191be887b32306e6b] nvmet-tcp: enable
-optional queue idle period tracking
-git bisect good d8e7b462f5b8b93920c6c6a191be887b32306e6b
-# good: [25a64e4e7ef6da605a86ec1bff18d2c3c6ed5329] nvme: remove
-superfluous else in nvme_ctrl_loss_tmo_store
-git bisect good 25a64e4e7ef6da605a86ec1bff18d2c3c6ed5329
-# good: [dd8f7fa908f66dd44abcd83cbb50410524b9f8ef] nvme: retrigger ANA
-log update if group descriptor isn't found
-git bisect good dd8f7fa908f66dd44abcd83cbb50410524b9f8ef
-# good: [c881a23fb6f7eb901155d25ba8dd1af0b8c7923b] nvme: disallow
-passthru cmd from targeting a nsid != nsid of the block dev
-git bisect good c881a23fb6f7eb901155d25ba8dd1af0b8c7923b
-# first bad commit: [5befc7c26e5a98cd49789fb1beb52c62bd472dba] nvme:
-implement non-mdts command limits
-
-Reverted 5befc7c26e (first 8609c63fce nvme: fix handling of large MDTS
-values) on 5.13.6 I don't see the error anymore.
-
-
-Best regards,
-
-Koos Vriezen
 
 _______________________________________________
 Linux-nvme mailing list
