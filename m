@@ -2,82 +2,65 @@ Return-Path: <SRS0=aESL=MZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D26C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 11:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 757F3C432BE
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 15:56:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B6EC60FC2
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 11:30:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9B6EC60FC2
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 40C3F61103
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Aug 2021 15:56:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 40C3F61103
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=CRTQPQI3ZyN7n6TD/GoGZ9jpG/VWxRPe2wCkKRY0IZg=; b=Lns1GLFK+q+/9s
-	/dkR2D1VMEuFyGLJ/oGzLPJK7YVOla3Plr3s02IZ1N50n0x0wFKsV8UbrkoR5x0KJ0itDBsf4mcGi
-	MeGByJSIFZQ2BWP8slGxNX8Ymm/Kbpgf7XC+FHk9mpruTDVSVaNxRTw28cJ9B75eGf1K7dr5cguBK
-	RPW33DJQLxrPLdoysKVzXoikWNRSyuHM7/65jUu/eISrxINatrqrSM+PwzI4IVga1gCyMETw0s651
-	F1gUvqVhnOwo4yXfXRFJFFqor3vye0oGQBseXXQpRd7Ig6PWaAHYDTkgGR/3FA4wccycqUiVFpdPW
-	wBFK300wGHxYCoqICb6w==;
+	List-Owner; bh=bFwTR15EEP9wcysyelb3PlyFEZLwsNe0aN4ljuuOvFg=; b=ZNFOaSh/TKkj7O
+	rxEdKtaSkqNdvz0XFq9iVnZvK8iNB18KOE2bcMyG7HjBxIqQhaCgyQeqfAR0sDjKfluDEgbGcshVN
+	vItbpZzJMhC3qURZxM+O8uOrcWs72ss8Pqnl82hfvRk+2kWhjWVzhEG+jPuNB3pd7IzQhX0I2Bzbq
+	nxhc6janiQKJfaWW5X4lmnzbJq5Kz0G5lSMvK15PL7/hDFXIOQ2JTkBHpT2m5Cke1E7VGRSA123bL
+	atM0muCMLHuzLH2Dyi28CihrNEV7Aih4UqiKUolgqZZFaPyQylm91B4G254OGO+6htZLwF/AIQoAE
+	WMKiQlKVeuUrIZyPVTEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mAW94-00FweP-Cj; Mon, 02 Aug 2021 11:30:10 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mAaJ3-00H4iW-83; Mon, 02 Aug 2021 15:56:45 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mAW6G-00Fvji-T4
- for linux-nvme@lists.infradead.org; Mon, 02 Aug 2021 11:27:18 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 1832E1FF7F;
- Mon,  2 Aug 2021 11:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627903628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CzLqnDMPgV4X2TVtB9CFgIWVEvkNhP+8WThUlGoV9nM=;
- b=id3afhjHrLuLzLNg3bp7J8byiyMuh8CFuwIGCFN6otealbcZu5ejOF0v0isNETl7pX95LT
- yqRV3/bSa/bNsuXh239UDdOO0VvdKkvVvv1ltk5TcFB8EW+cL9y4dhEFx6fS0r4BpBOSNI
- CROFn6rjmZerSr4OGTq4z1kt4euhP4E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627903628;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CzLqnDMPgV4X2TVtB9CFgIWVEvkNhP+8WThUlGoV9nM=;
- b=mpOw64a8qGPcPLO0gAVPTqrEPqMvcIibjtGoa0VLDjHoaavLzOwGP22JXZ7jrfkQMWJPoh
- 6M2XbU6Dh2hnRkBA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 08017A3BCB;
- Mon,  2 Aug 2021 11:27:08 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id 030F9518C0B4; Mon,  2 Aug 2021 13:27:08 +0200 (CEST)
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>, Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v4 8/8] nvme-rdma: Unfreeze queues on reconnect
-Date: Mon,  2 Aug 2021 13:26:58 +0200
-Message-Id: <20210802112658.75875-9-dwagner@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210802112658.75875-1-dwagner@suse.de>
-References: <20210802112658.75875-1-dwagner@suse.de>
+ id 1mAaJ0-00H4hV-PF
+ for linux-nvme@lists.infradead.org; Mon, 02 Aug 2021 15:56:44 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D169261103;
+ Mon,  2 Aug 2021 15:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627919802;
+ bh=rm3KUMEX7Ey/9EDUwMaGOFKN+Lwxj/SdFWzs3POcZzA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OiHQ0Ef21+vPBPNTyrSvMC39yqECQivJZ4tB/5iXvbzDbOrpt5fJhmvCzj4logLWe
+ JLoATGPXPam7qFmWSceFs5Sp1463nnbG2Np0ht96rQtwalCM0LcLevRdXvVTs098HC
+ vJFdlho2Jm5Ey5NKyyv7cYgfsMvOXD2Ymeydn51jLbLAJnYEIoeWg12m9d18RIpICm
+ k3NVqrE83+aVVep3BKsjVuX9RKmo5wDlthoBIZxf3QoYlrZ1Zfhi+r+/+KXL0mxFN/
+ q+V8wVWPVxdm6qaFGrxP+RWCETuEBCRjpssHamZlNphtodF2tpIJwWNaH/jf3vxxpi
+ 9DpflMhWPmrwQ==
+Date: Mon, 2 Aug 2021 08:56:39 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: koos vriezen <koos.vriezen@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: bisected: 5befc7c26e nvme impl non-mdts gives smartd error log
+ entries
+Message-ID: <20210802155639.GA2293188@dhcp-10-100-145-180.wdc.com>
+References: <CAGCbPWTKos2c7aLt35ZvsvK56Tqy05BTOTeaEbL8jJty25J+zg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAGCbPWTKos2c7aLt35ZvsvK56Tqy05BTOTeaEbL8jJty25J+zg@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210802_042717_131670_6149F177 
-X-CRM114-Status: GOOD (  11.59  )
+X-CRM114-CacheID: sfid-20210802_085642_884691_58CF4933 
+X-CRM114-Status: GOOD (  11.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,33 +77,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During the queue teardown in nvme_rdma_teardown_io_queues() freeze is
-called unconditionally. When we reconnect we need to pair the freeze
-with an unfreeze to avoid hanging I/Os. For newly created connection
-this is not needed.
+On Sat, Jul 31, 2021 at 10:32:20AM +0200, koos vriezen wrote:
+> Hi,
+> 
+> On my XPS 13 9380 I get local mails with content
+> 
+> "
+> The following warning/error was logged by the smartd daemon:
+> 
+> Device: /dev/nvme0, number of Error Log entries increased from 28 to 29
+> 
+> Device info:
+> PM981 NVMe Samsung 512GB, S/N:S3ZHNF0KB11472, FW:EXA74D1Q, 512 GB
+> "
+> 
+> after boot and increasing numbers after resume. Git bisect report:
 
-Fixes: 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/host/rdma.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index de2a8950d282..21a8a5353af0 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -901,6 +901,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 			error = PTR_ERR(ctrl->ctrl.admin_q);
- 			goto out_cleanup_fabrics_q;
- 		}
-+	} else {
-+		nvme_unfreeze(&ctrl->ctrl);
- 	}
- 
- 	error = nvme_rdma_start_queue(ctrl, 0);
--- 
-2.29.2
-
+The controller shouldn't log an error when we request an optional
+identification. We don't have another way to determine if the controller
+supports this other than to request it. I think this should be reported
+to the device vendor for a firmware fix.
 
 _______________________________________________
 Linux-nvme mailing list
