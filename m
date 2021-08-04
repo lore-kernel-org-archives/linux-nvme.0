@@ -1,66 +1,68 @@
-Return-Path: <SRS0=e03W=M2=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=aO7+=M3=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF463C432BE
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Aug 2021 15:56:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9E8C4338F
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 03:13:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0A4460F45
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Aug 2021 15:56:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A0A4460F45
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 89F4160FC4
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 03:13:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 89F4160FC4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Pmb2fWfRznJvDW+Yihxwbc8iMrZFnzi/0Y36IRHSIdM=; b=wg6+Z94UdbeMRb
-	w8Nr/fG8uCAx/9Czv0WWGnd2dh5zZhQden7fgIzDLKjSgp07ixz1DnV2jlmU+SMkmLXBN2M5mfnbd
-	b1slZXYGtSduMnPEFGUQEFaQUD+blzQOphDGrT5wKeZRUQOx3SgQZep9lzauKo6Ru6H+MzZEFKA81
-	lZBikjUtKy6s7A/xWM1s1Id6/RW5isi2geqUKhAmrjPk6/r58aBiJYsNpD3A8vlfd4XRGpvMugTCK
-	l0eNPDdPOcJ6fwXEcSOtg9IY8u9LjpDFV4ntt2ufB2JLEJPaqN2SrYLo97MxcwYQokYAH19p/CuvP
-	yQfR6QiMLqUYOp58QHEQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PK7n4IBKWpiRV99gxcz2L+aF4dTpMYbb0aip9R5zZKs=; b=yRvEXpIID9OSGcnxv1T+gSJbLV
+	/8vlBaYPyShtX2WwOonYQOQIu0sHhsQ4zOUkPosfCOiKmoVCRKu39B/TWLxlH+oqB7fGF/ok1cWm6
+	K25fGqEBrvi+SI5L+guTLsbbwfzQyYAjthSn7WqoHoq4hsp3dUJvDlFNuYExWLeRRXEG05kEyhlFI
+	yrwW0+4CBLHth5HFczBRjPwNVNDIj8cByk1f5Kr/V5HkEWaqXjwuft7H9iPrsVtxf/fi3SlyQAhRS
+	9ih4EBPHXxNJUfgeSLQtOzQbbkfPHNKfmi71GAcF0g7cYvFbfzhdJd7ppS7oUf1syl/0xTOplwgE/
+	vRd5cmoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mAwlo-003TqH-9f; Tue, 03 Aug 2021 15:55:56 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mB7LG-004ftn-VJ; Wed, 04 Aug 2021 03:13:14 +0000
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mAwlA-003Tdb-Df
- for linux-nvme@lists.infradead.org; Tue, 03 Aug 2021 15:55:17 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5578E60FC2;
- Tue,  3 Aug 2021 15:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628006114;
- bh=Xh6xJ92/S8QXvRgpEhtrmDAUaqiUF3pjAB51iTXYzY0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=u6u0UA20JK6/uxxm0UZN0jh044NTws23FKkrg1V/RltDduec9W3y+q/HNHp8Ph+95
- QziDsQuuGZLp2FlaJT8PNc7Mgvd1ciuUJQwfwmyfUxxnuj+ZvJnefRiU6osN/yXZXY
- TYjsC1TkJ2B75mtxrpWAsGgeaYFaQSYiAKmYev2S/McYZWr5+St3wQc5XS6JKN1sBd
- ZYTA+Z3QvVTGxl6WvYHi9EoKxzHpPB7vC8a/I7Ngb3FUuGj/RhjHw5EeOkoOWBAMp9
- aygpT+Diy+vbSirADPF4vPfWAsOpAx6Ekm+9wPXHknNBePrw9DgL4oKd1dAzcu+2S6
- 43gYuOt7z/y6Q==
-Date: Tue, 3 Aug 2021 08:55:12 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Ruozhu Li <liruozhu@huawei.com>
-Cc: linux-nvme@lists.infradead.org
+ id 1mB7Kh-004ftF-A1
+ for linux-nvme@lists.infradead.org; Wed, 04 Aug 2021 03:12:41 +0000
+Received: from dggeme719-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GfcHH5kFPz1CS9B;
+ Wed,  4 Aug 2021 11:12:27 +0800 (CST)
+Received: from [10.169.46.19] (10.169.46.19) by dggeme719-chm.china.huawei.com
+ (10.1.199.115) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 4 Aug
+ 2021 11:12:32 +0800
 Subject: Re: [PATCH 2/2] nvme: don't do scan work if io queue count is zero
-Message-ID: <20210803155512.GA2294634@dhcp-10-100-145-180.wdc.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: <linux-nvme@lists.infradead.org>
 References: <20210803090630.14425-1-liruozhu@huawei.com>
  <20210803090630.14425-3-liruozhu@huawei.com>
+ <20210803155512.GA2294634@dhcp-10-100-145-180.wdc.com>
+From: liruozhu <liruozhu@huawei.com>
+Message-ID: <21e1d620-12d2-5122-1714-eebb9ce23244@huawei.com>
+Date: Wed, 4 Aug 2021 11:12:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210803090630.14425-3-liruozhu@huawei.com>
+In-Reply-To: <20210803155512.GA2294634@dhcp-10-100-145-180.wdc.com>
+X-Originating-IP: [10.169.46.19]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggeme719-chm.china.huawei.com (10.1.199.115)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210803_085516_548856_D1A5D2C7 
-X-CRM114-Status: GOOD (  17.06  )
+X-CRM114-CacheID: sfid-20210803_201239_568154_39EAEFEF 
+X-CRM114-Status: GOOD (  15.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,50 +74,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="gbk"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 03, 2021 at 05:06:30PM +0800, Ruozhu Li wrote:
-> kernel panic when try to rescan ns when io queue count is zero.Because
-> kernel BUG_ON when hctx_idx is greater than ctrl->queue_count.
-> --
-> nvme_rdma_init_hctx+0x58/0x60 [nvme_rdma]
-> blk_mq_realloc_hw_ctxs+0x140/0x4c0
-> blk_mq_init_allocated_queue+0x130/0x410
-> blk_mq_init_queue+0x40/0x88
-> nvme_validate_ns+0xb8/0x740
-> nvme_scan_work+0x29c/0x460
-> process_one_work+0x1f8/0x490
-> worker_thread+0x50/0x4b8
-> kthread+0x134/0x138
-> ret_from_fork+0x10/0x18
-> --
-> Defence it by not allowing rescan ns when io queue count is zero.
-> 
-> Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
-> ---
->  drivers/nvme/host/core.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index dfd9dec0c1f6..d9f837eb3e26 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -141,7 +141,8 @@ void nvme_queue_scan(struct nvme_ctrl *ctrl)
->  	/*
->  	 * Only new queue scan work when admin and IO queues are both alive
->  	 */
-> -	if (ctrl->state == NVME_CTRL_LIVE && ctrl->tagset)
-> +	if (ctrl->state == NVME_CTRL_LIVE &&
-> +	    ctrl->tagset && ctrl->queue_count > 1)
-
-Why is the transport driver leaving an unusable tagset allocated when
-there are no IO queues to support it? I think it should free the tagset
-in that case. At least that's what pci does.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+SXQgc2VlbXMgdGhhdCB0cmFuc3BvcnQgZHJpdmVyIHdpbGwgb25seSByZWxlYXNlIHRoZSB0YWdz
+ZXQgd2hlbiB0aGUgCmNvbm5lY3Rpb24gaXMgY29tcGxldGVseSBkZWxldGVkLgpJbiByZWNvbm5l
+Y3Rpb24sIGlmIElPIHRhZ3NldCBpcyBjcmVhdGVkLCB0cmFuc3BvcnQgZHJpdmVyIGlzIG5vdCAK
+YWxsb3dlZCB0byByZWNvbm5lY3Qgd2l0aG91dCBhbnkgSU8gcXVldWVzLgpTZWUgcGF0Y2goIm52
+bWUtcmRtYTogZml4IHBvc3NpYmxlIGhhbmcgd2hlbiBmYWlsaW5nIHRvIHNldCBpbyBxdWV1ZXMi
+KS4KQnV0IGl0IGRpZG6hr3Qgd29yayBhcyBleHBlY3RlZCwgdGhlIGZpcnN0IHBhdGNoIHRyeSB0
+byBmaXggaXQuCgpUaGlzIHBhdGNoIHRyeSB0byBwcmV2ZW50IHNpbWlsYXIgbG9naWNhbCBwcm9i
+bGVtcyBpbiB0aGUgdHJhbnNwb3J0IGRyaXZlci4KClRoYW5rcywKUnVvemh1CtTaIDIwMjEvOC8z
+IDIzOjU1LCBLZWl0aCBCdXNjaCDQtLXAOgo+IE9uIFR1ZSwgQXVnIDAzLCAyMDIxIGF0IDA1OjA2
+OjMwUE0gKzA4MDAsIFJ1b3podSBMaSB3cm90ZToKPj4ga2VybmVsIHBhbmljIHdoZW4gdHJ5IHRv
+IHJlc2NhbiBucyB3aGVuIGlvIHF1ZXVlIGNvdW50IGlzIHplcm8uQmVjYXVzZQo+PiBrZXJuZWwg
+QlVHX09OIHdoZW4gaGN0eF9pZHggaXMgZ3JlYXRlciB0aGFuIGN0cmwtPnF1ZXVlX2NvdW50Lgo+
+PiAtLQo+PiBudm1lX3JkbWFfaW5pdF9oY3R4KzB4NTgvMHg2MCBbbnZtZV9yZG1hXQo+PiBibGtf
+bXFfcmVhbGxvY19od19jdHhzKzB4MTQwLzB4NGMwCj4+IGJsa19tcV9pbml0X2FsbG9jYXRlZF9x
+dWV1ZSsweDEzMC8weDQxMAo+PiBibGtfbXFfaW5pdF9xdWV1ZSsweDQwLzB4ODgKPj4gbnZtZV92
+YWxpZGF0ZV9ucysweGI4LzB4NzQwCj4+IG52bWVfc2Nhbl93b3JrKzB4MjljLzB4NDYwCj4+IHBy
+b2Nlc3Nfb25lX3dvcmsrMHgxZjgvMHg0OTAKPj4gd29ya2VyX3RocmVhZCsweDUwLzB4NGI4Cj4+
+IGt0aHJlYWQrMHgxMzQvMHgxMzgKPj4gcmV0X2Zyb21fZm9yaysweDEwLzB4MTgKPj4gLS0KPj4g
+RGVmZW5jZSBpdCBieSBub3QgYWxsb3dpbmcgcmVzY2FuIG5zIHdoZW4gaW8gcXVldWUgY291bnQg
+aXMgemVyby4KPj4KPj4gU2lnbmVkLW9mZi1ieTogUnVvemh1IExpIDxsaXJ1b3podUBodWF3ZWku
+Y29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgfCA2ICsrKystLQo+PiAg
+IDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+Cj4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJzL252bWUvaG9zdC9j
+b3JlLmMKPj4gaW5kZXggZGZkOWRlYzBjMWY2Li5kOWY4MzdlYjNlMjYgMTAwNjQ0Cj4+IC0tLSBh
+L2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwo+PiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9jb3Jl
+LmMKPj4gQEAgLTE0MSw3ICsxNDEsOCBAQCB2b2lkIG52bWVfcXVldWVfc2NhbihzdHJ1Y3QgbnZt
+ZV9jdHJsICpjdHJsKQo+PiAgIAkvKgo+PiAgIAkgKiBPbmx5IG5ldyBxdWV1ZSBzY2FuIHdvcmsg
+d2hlbiBhZG1pbiBhbmQgSU8gcXVldWVzIGFyZSBib3RoIGFsaXZlCj4+ICAgCSAqLwo+PiAtCWlm
+IChjdHJsLT5zdGF0ZSA9PSBOVk1FX0NUUkxfTElWRSAmJiBjdHJsLT50YWdzZXQpCj4+ICsJaWYg
+KGN0cmwtPnN0YXRlID09IE5WTUVfQ1RSTF9MSVZFICYmCj4+ICsJICAgIGN0cmwtPnRhZ3NldCAm
+JiBjdHJsLT5xdWV1ZV9jb3VudCA+IDEpCj4gV2h5IGlzIHRoZSB0cmFuc3BvcnQgZHJpdmVyIGxl
+YXZpbmcgYW4gdW51c2FibGUgdGFnc2V0IGFsbG9jYXRlZCB3aGVuCj4gdGhlcmUgYXJlIG5vIElP
+IHF1ZXVlcyB0byBzdXBwb3J0IGl0PyBJIHRoaW5rIGl0IHNob3VsZCBmcmVlIHRoZSB0YWdzZXQK
+PiBpbiB0aGF0IGNhc2UuIEF0IGxlYXN0IHRoYXQncyB3aGF0IHBjaSBkb2VzLgo+IC4KCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFp
+bGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5m
+cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
