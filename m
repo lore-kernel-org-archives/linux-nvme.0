@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B3AC4338F
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 10:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F1AC4338F
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 10:13:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5C8B60F0F
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 10:12:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D5C8B60F0F
+	by mail.kernel.org (Postfix) with ESMTPS id A88EB60BD3
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 10:13:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A88EB60BD3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,31 +23,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SHrtTa7eB0BiFxWdtTfcBacQQ8RpxZm5d3PBRdgZ9P0=; b=KbBwuQ9tAxY0ZA
-	mtVdv9rJ7e1VqgLh9dYprXJanlrpl+WUfTL96b5PEcxO8qD6/iR62JJ0GaA1S1JXuJdu3XRcjHXnW
-	BBaT5AE5n28L0iRw8LrkREvbbeVRx1RNbZBrA+FyNGOgR2LEtaVL4JAzRG5amDAWknSEtGJftGWbc
-	88zfZIsnUfxIfsuiZSn3jwO69cLIP+lN/W0dvCkCn/VLVoncgvjY7kLDT9rG5nM+UsPNq9xSiAHRd
-	+acmb8IMInb+NYzmys8l8314gyT49jT64veXQhLje0cm+lQc786gcoC9pBtlifMsD0B55rNTD3tbT
-	dk/8CxxkuZp/Z9P+DVUw==;
+	List-Owner; bh=nmzhuELdpsr0rzSPOVyqbrEek+JncIUzweex5whI55Q=; b=a+OqjLxdKLVSao
+	zG4333WVfM2sRL9zJobFuTOKFR6FoLedtXTNyXXusqRjDB3Rb54zD3DVRmZfowtdiN+TzbeAAwzR0
+	a1VDAxm3AVBpMJgUgIfdM4kHeVQUlotNz9Pv65l+St3R7MOlvM102kcnX9vXTrOPanZb1YOjRR51s
+	C3JVp4yB8we2b2ma5jFoXwiky15UviaYie/6TysO96ijyDZqFl+ATs0qzv/+hZ5ESnOOBbSuhmUCS
+	8DEISi3QNcdELFbIz4KaDCXaMXLvJEUtnLwkk4F5j+xSau9r68FSyUH/48joQK+JY3rlYQHcmIE+B
+	Wa9v5Bi3sl3uf9CzrlXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBDsq-005eYJ-0C; Wed, 04 Aug 2021 10:12:20 +0000
+	id 1mBDtj-005esK-RM; Wed, 04 Aug 2021 10:13:15 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBDol-005cUk-3P; Wed, 04 Aug 2021 10:08:07 +0000
+ id 1mBDpZ-005cou-FY; Wed, 04 Aug 2021 10:08:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=6DgUtwKNyR1a0g7YYdfnNpZ/CC1UQP+ErbVil3kCh1c=; b=hZg7Heuoi1cW7PM8NkA+rSJm9t
- I2KlL1Sq8tSDfak/FYjW0iTlFpdM5JzQt+VxoIwm3u6Cf0t5JALt5DeWfL4rLzTCjZs067eyLYZLM
- oAktJ5QR1BLAByF6wFWgdt4Vf1Khj9xH1AL98dEMW+T87DmVpV4fRP4C7bDFj9sy6O3iVhyU//xl6
- P6JCchl+81L6Iok4jXIyH34HXYiPyikdLQOYd+laX0rbeAjKMSfl89ueQtR3ycxjZ4FbfjSD8Ew5Y
- CAibi0DxATQ3bTiNdF5b7p1AIZ6NMjq/rlAWEiXu+FBq1odEVzUr/20Am2cHt5372vzKoxOhgZisY
- TVzqe11g==;
+ bh=GMfM9EsZUBHncaik750rjQrck1K0EDt7Zyd8DyDsQR8=; b=tr+JWjNanWktxua2tu8KBEVQPM
+ VyctgS15pe259rzKfF5Cnl9zsGOZwGuYm9KKXEG9KkVU/OXjXmoutUxD3KtVa1hc7sIzDOL0xBHg6
+ ouWKg49YE/w0a3I/5CyE5im2/IkgIt5h36qDG6iEVKLdm0bYYEaWZQNNpQ3/ly3BhHTT+VGChTRSA
+ t1t4AV538fKbiuL2Yzgst/hi/JUFHCOzwHqdzg8ut46IDHJ3Z60UfyB0/ffmOuu7Ku3k+weyK559G
+ 73X58xMPec7XJUSNLOyS/qJ7yYdzHQEljjfYG426vMaByMMBIZ1fvI2CSO1n9hwhGNLZQ/aY/Dvn+
+ uR6ZApew==;
 Received: from [2a02:1205:5023:1f80:c068:bd3d:78b3:7d37] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBDnx-005g2S-Sm; Wed, 04 Aug 2021 10:07:32 +0000
+ id 1mBDoj-005g7I-Ho; Wed, 04 Aug 2021 10:08:23 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -64,9 +64,9 @@ Cc: Richard Weinberger <richard@nod.at>,
  linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org
-Subject: [PATCH 14/15] dcssblk: use bvec_virt
-Date: Wed,  4 Aug 2021 11:56:33 +0200
-Message-Id: <20210804095634.460779-15-hch@lst.de>
+Subject: [PATCH 15/15] nvme: use bvec_virt
+Date: Wed,  4 Aug 2021 11:56:34 +0200
+Message-Id: <20210804095634.460779-16-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210804095634.460779-1-hch@lst.de>
 References: <20210804095634.460779-1-hch@lst.de>
@@ -93,23 +93,28 @@ Use bvec_virt instead of open coding it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/s390/block/dcssblk.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/s390/block/dcssblk.c b/drivers/s390/block/dcssblk.c
-index 29180bdf0977..5be3d1c39a78 100644
---- a/drivers/s390/block/dcssblk.c
-+++ b/drivers/s390/block/dcssblk.c
-@@ -892,8 +892,7 @@ dcssblk_submit_bio(struct bio *bio)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dfd9dec0c1f6..02ce94b2906b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -968,12 +968,11 @@ void nvme_cleanup_cmd(struct request *req)
+ {
+ 	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
+ 		struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+-		struct page *page = req->special_vec.bv_page;
  
- 	index = (bio->bi_iter.bi_sector >> 3);
- 	bio_for_each_segment(bvec, bio, iter) {
--		page_addr = (unsigned long)
--			page_address(bvec.bv_page) + bvec.bv_offset;
-+		page_addr = (unsigned long)bvec_virt(&bvec);
- 		source_addr = dev_info->start + (index<<12) + bytes_done;
- 		if (unlikely((page_addr & 4095) != 0) || (bvec.bv_len & 4095) != 0)
- 			// More paranoia.
+-		if (page == ctrl->discard_page)
++		if (req->special_vec.bv_page == ctrl->discard_page)
+ 			clear_bit_unlock(0, &ctrl->discard_page_busy);
+ 		else
+-			kfree(page_address(page) + req->special_vec.bv_offset);
++			kfree(bvec_virt(&req->special_vec));
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
 -- 
 2.30.2
 
