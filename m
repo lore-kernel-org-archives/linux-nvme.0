@@ -2,20 +2,19 @@ Return-Path: <SRS0=aO7+=M3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D5EC4338F
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 13:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D91DC4338F
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 13:51:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF04760F43
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 13:27:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DF04760F43
+	by mail.kernel.org (Postfix) with ESMTPS id B2D9C60EE9
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Aug 2021 13:51:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B2D9C60EE9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,68 +23,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qnxQx+ZEIHxpuRkecQKH/I0WlFs/2OrLREWkAFm6Drc=; b=OFBUQDpM2SquSc
-	N+oQnf/2nCGVk4s8GMVoS+/Oq1d4Rk63+MZ96flIqrrSDf7bhD8kHe0Sm1lNXFm/3aEJK2yhq+uL8
-	+58w5Gd4ZLBuvSqt2u525XzfgTv1muA2A2e678rfy5C7wAdN0T2/yXCuMZUdJ00f4NyWG64tg+pMa
-	hsN3z1fsxRDZWK11r9lgIuxn1z5WXBVz1RsTgFje+iLeuovJUgKrb5jcm8PUMQXVO4UdM3Xj+2iW5
-	n1jInNGunMXOwbtWzrJUcQPfbw+OChV80u0X+ofK4eajy5yKHTKLtacswwmbG521qszN/+OFqOrXP
-	fKLZVhGhCifuUlB/9kvw==;
+	List-Owner; bh=vgKmx/hxDH0eFGRxuk56+OT7fj9ke3zywYt0+OwFaBs=; b=3oOwtDGh+HPkdw
+	KQyHJlRtZfJvafjvQrH7zwCbM7lc+CrO+UOmuk0hM+sbhqiD5DncDWRNTvePdreJ4udHXn9gNxdcz
+	1yN5fs8F3cl+ygKvqNakBVafCLEiZCpxaSwMGWXmlmO6ShiVjny54btT8R6ZIY4Zob0tDiyyZWToj
+	HWyBBHb2eTr3BNq2hW1nOCNxUVg7xrDC4aTcn2wNS5F5bJIPa650WSXfTKmg+cqVclhEiXjDQR6QU
+	xCQ+UzL1I8OG4IoJRgU3CgWpMNGQth90uLkOIaEjyedg9SNLHeiNQOQO0Ylb/TPEee74bwsWDWfKa
+	f1r60zR274vY7ytL3dRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBGv0-006A8D-Bm; Wed, 04 Aug 2021 13:26:46 +0000
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
+	id 1mBHJ9-006CqX-OV; Wed, 04 Aug 2021 13:51:43 +0000
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBGux-006A7l-SZ
- for linux-nvme@lists.infradead.org; Wed, 04 Aug 2021 13:26:45 +0000
-Received: by mail-io1-xd29.google.com with SMTP id s184so2389584ios.2
- for <linux-nvme@lists.infradead.org>; Wed, 04 Aug 2021 06:26:42 -0700 (PDT)
+ id 1mBHJ6-006Cpp-3J
+ for linux-nvme@lists.infradead.org; Wed, 04 Aug 2021 13:51:41 +0000
+Received: by mail-io1-xd2e.google.com with SMTP id y200so2491040iof.1
+ for <linux-nvme@lists.infradead.org>; Wed, 04 Aug 2021 06:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dYdEg3FEjnNJNThyUvC517fEe1eHnKogxE9Vzfv1UIY=;
- b=pyuZLS/FOfE/HBGll+dPoZ1LtOgBykNvSiMNx5Kqhp/Ypy+svNMfDD4IVaPagLGLoM
- L4MXI00DzGsGUTi/nnu23RMlKv8X7QhmSMuEJd9dTbLVyLWHuMGhbM4Qhm/aMxyeeUOq
- nUmTi63s/xOtwLZZN465P50BtDaubNZgKKGjf4wPW0E2x5c5OQrJ+TXEIMxeYWw+cKny
- idm9y51ARmYxC58XFBZOk1Km6GxfVy02QHpI3wWp+eLFOrvciJzlQEHsYDWGqXQ306SC
- 3aD++ejy5rJMQyjyg1daDJhKE0rJYoa5ZDskmj+BuZ2HLfzTcE58/6fW+mRVS0Vw7YV7
- kPHQ==
+ :cc; bh=68nPIx50G72fNHdU1dcBEsPtx3OF9xmvajVBIyCS/po=;
+ b=qPayotjezohGISbFc0kL/JoSZmCfzaa9gtukgjIfhkhs24b15kO53YIUvTe1cg8JtO
+ OoYS86Lkwd0Q+Q4l44kZDefCpFAXXGfJ7glm1DkY3RKl9WCaed5QYICankMU/h/UF4u0
+ tEAbcRm0mCgBGBJMpHErxs5hWriK9njJqhDEM3fTcpqI04WxTC6G2tC3Q9mB26wWez8v
+ XmqmPSMCte9pCEY6Mzy6qvKC/NX6d34kkrMooMr/liRidv8/YXdgNbKEw2rYoV4u6r9w
+ IqnHYERy2PFy3o0EZydJzoP3jvRdqZTXhA9KX2IBVFbYdi+N/CTS0I5zXec7xYjplPDj
+ LETw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dYdEg3FEjnNJNThyUvC517fEe1eHnKogxE9Vzfv1UIY=;
- b=F61T8T3JJXR+6V/SD4s94YjOfmA6pCrvBSyvrNCYPotMGJ/JYld/VdNGQNyFI+PC3c
- 2oLqFLDgt6QLdJGdMGavioZNycZvEyk/Z7GCfHPAKFQ8mywSdcyAK/Qds/LvIyT1ROau
- quslXrP0RdREuQe5FzQIgogjRi68wnSo3fsrrm73z7da2C8RlKj+Nsr+TayG7n5cE9Bv
- YtG+SZ3YXkQDHb7Lv3JTyv0fWpCO7o20uS0+KV+z6kffLaiJ5kQOVG67PbbI3NoDvwlY
- v/ON+9rahDSwcdCC7yJNQAEYQHBkaA8dUSb/jBGZNfToVeRJvM68GB4+bBiwif4PjYDE
- 58ig==
-X-Gm-Message-State: AOAM530/n72+vP2wQHD5Q7ecb8kJbjrZWoCjlRZ0UqNNK1Kymo6u/Dnv
- HRUBdD0sAcQyUDqASxlNN1Lm8RnVcQkOa3PP/eE=
-X-Google-Smtp-Source: ABdhPJwHCkpNkLRfonCftH7xrpR5xKYOfBuU7tCEvKhzz4cL8l/tVlCLekEnJrlwYG79KY2VRUDXt2bCOoRTN5pbiAM=
-X-Received: by 2002:a6b:e602:: with SMTP id g2mr286609ioh.50.1628083602175;
- Wed, 04 Aug 2021 06:26:42 -0700 (PDT)
+ bh=68nPIx50G72fNHdU1dcBEsPtx3OF9xmvajVBIyCS/po=;
+ b=pg6+oOCso8UjCSBCJt97R6X1+x2GvZ5kbqj6yTCIyVG+SeRqHOvjXiY0jaEQXSqWyV
+ M9yfvbEc4D8IyufsLw6Aa0ciBPBDMufO9fyO8quOKWnhtVcMgTy1eekAaUs9Ygy7/7l8
+ Kt8zQzx/Ggy6e+GQ0m7tlU/PwA4z3X6am36gTwCyTS6u+R/vcVIiDKKIfzzte/tntApV
+ zHmk4wiPDxhsBRbGGcLjmsamE9LT89HJg74RXWnIsTGeeJyz3TeTOmxRSXwIesx/igeE
+ lDuHvc27XSNvK6v3WmbublxX2jfrymwjEXb1lE0XRDZBx/HMNNHvdXnoSydxTLgNGREY
+ cIzQ==
+X-Gm-Message-State: AOAM532oj4ypBBbsQirr/949GTwAVcOpHD29piAxeDOFsJazOYrY/nz8
+ 4QvvKOBHSYIR2gREix6UiHVwGMrcHdb/EzFkvY0=
+X-Google-Smtp-Source: ABdhPJx/s5W4aY4K+0PL8ycaC5ei0GbKojAogtOUr3HbryX7jmwMlpuUnAvnixVbtuP6fbqpISKI76GlF6qY4HOpRq8=
+X-Received: by 2002:a5d:96da:: with SMTP id r26mr872103iol.47.1628085099337;
+ Wed, 04 Aug 2021 06:51:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210722110325.371-1-borisp@nvidia.com>
- <20210722110325.371-5-borisp@nvidia.com>
- <20210723060631.GA32369@lst.de>
-In-Reply-To: <20210723060631.GA32369@lst.de>
+ <20210723055626.GA32126@lst.de>
+ <02c4e0af-0ae9-f4d9-d2ad-65802bdf036a@grimberg.me>
+In-Reply-To: <02c4e0af-0ae9-f4d9-d2ad-65802bdf036a@grimberg.me>
 From: Or Gerlitz <gerlitz.or@gmail.com>
-Date: Wed, 4 Aug 2021 16:26:31 +0300
-Message-ID: <CAJ3xEMjFOPFfU4ibFJPYdYUSh0nFkRwfW1cdAV2BMvg1aaP_eg@mail.gmail.com>
-Subject: Re: [PATCH v5 net-next 04/36] net/tls: expose get_netdev_for_sock
-To: Christoph Hellwig <hch@lst.de>, Jakub Kicinski <kuba@kernel.org>
-Cc: Boris Pismenny <borisp@nvidia.com>, David Miller <davem@davemloft.net>, 
- Saeed Mahameed <saeedm@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
- axboe@fb.com, 
- Keith Busch <kbusch@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Eric Dumazet <edumazet@google.com>, Shai Malin <smalin@marvell.com>,
- boris.pismenny@gmail.com, 
+Date: Wed, 4 Aug 2021 16:51:27 +0300
+Message-ID: <CAJ3xEMjzRqrj-EN7gbqKmD5txAV-gZn828V+6QAf5wfwYsqySQ@mail.gmail.com>
+Subject: Re: [PATCH v5 net-next 00/36] nvme-tcp receive and tarnsmit offloads
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Boris Pismenny <borisp@nvidia.com>,
+ David Ahern <dsahern@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, David Miller <davem@davemloft.net>, 
+ Saeed Mahameed <saeedm@nvidia.com>, axboe@fb.com,
+ Keith Busch <kbusch@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Eric Dumazet <edumazet@google.com>, 
+ Shai Malin <smalin@marvell.com>, boris.pismenny@gmail.com, 
  linux-nvme@lists.infradead.org, Linux Netdev List <netdev@vger.kernel.org>, 
  benishay@nvidia.com, Or Gerlitz <ogerlitz@nvidia.com>,
- Yoray Zack <yorayz@nvidia.com>, David Ahern <dsahern@gmail.com>
+ Yoray Zack <yorayz@nvidia.com>, Boris Pismenny <borisp@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210804_062644_006475_2FF25BCC 
-X-CRM114-Status: GOOD (  15.49  )
+X-CRM114-CacheID: sfid-20210804_065140_198313_AA0F269C 
+X-CRM114-Status: GOOD (  16.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,27 +102,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 23, 2021 at 9:09 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Jul 22, 2021 at 02:02:53PM +0300, Boris Pismenny wrote:
-> > From: Boris Pismenny <borisp@mellanox.com>
-> >
-> > get_netdev_for_sock is a utility that is used to obtain
-> > the net_device structure from a connected socket.
-> >
-> > Later patches will use this for nvme-tcp DDP and DDP DDGST offloads.
-> >
-> > Signed-off-by: Boris Pismenny <borisp@mellanox.com>
-> > Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
->
-> I don't think this should be an inline.  Please move it to net/core/dev.c,
-> andd add an EXPORT_SYMBOL_GPL and a kerneldoc comment.
+On Fri, Jul 23, 2021 at 10:59 PM Sagi Grimberg <sagi@grimberg.me> wrote:
 
-Jakub,
+> [.. ] It is difficult to review.
+> The order should be:
+> 1. ulp_ddp interface
+> 2. nvme-tcp changes
+> 3. mlx5e changes
 
-What's your preference here?
+.. and this is exactly how the series is organized, for v6 we will drop the
+TX offload part and stick to completing the review on the RX offload part.
 
-Or.
+> Also even beyond grouping patches together I have 2 requests:
+> 1. Please consolidate ddp routines under a single ifdef (also minimize
+> the ifdef in call-sites).
+
+ok, will make an effort to be better in that respect
+
+> 2. When consolidating functions, try to do this as prep patches
+> documenting in the change log that it is preparing to add ddp. Its
+> difficult digesting both at times.
+
+to clarify, you would like patch #5 "nvme-tcp: Add DDP offload control path"
+to only add the call sites and if-not-deffed implementation for the added knobs:
+
+nvme_tcp_offload_socket
+nvme_tcp_unoffload_socket
+nvme_tcp_offload_limits
+nvme_tcp_resync_response
+
+and a 2nd patch to add the if-yes-deffed implementation?
+
+This makes sense, however IMHO repeating this prep exercise for
+the data-path patch (#6 "nvme-tcp: Add DDP data-path") doesn't
+seem to provide notable value  b/c you will only see two call sites
+for the two added empty knobs:
+
+nvme_tcp_setup_ddp
+nvme_tcp_teardown_ddp
+
+but whatever you prefer, so.. let us know
 
 _______________________________________________
 Linux-nvme mailing list
