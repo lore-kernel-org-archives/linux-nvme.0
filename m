@@ -2,59 +2,132 @@ Return-Path: <SRS0=eYGd=M4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C82B7C4338F
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Aug 2021 12:17:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816ECC4338F
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Aug 2021 13:16:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6C68160F02
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Aug 2021 12:17:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6C68160F02
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ucw.cz
+	by mail.kernel.org (Postfix) with ESMTPS id 4458161131
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Aug 2021 13:16:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4458161131
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Qx55G/+g5QiHPl0DDMRkPkmgL7BzY3FDj/seucUXn/k=; b=Ew3NNRa9eDJotjAmqLumTMyOOd
-	ZiU77GbTsRtmqx4PIs3AdYvC2U2YJ6yFXFYF5QtLtQV5NXilJftBlOCja94mY2PzIkXqc8b2ReaAF
-	VH6O9QjwEGWHsqynhbceWx5sLFnqdr+hSbkADbMz0ImBZEINBIJGJgZ/XS9xj7esrJx2rs7g7Zhtg
-	4ufdchTJXwWUNwF4LWKT33B+6wMNs7cCE7T4ALpdPI9XTxGm0jsvLI/3vBFKaBzEt4IhbkWpfQFii
-	t6a4N57UGeqmRaWfzvkyHd+hT94Fx//eYALkt1lWna7ndClixHJXiwVX0DQGYR83g0ciaGqrwuXZF
-	oyi2jd0g==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:Message-Id:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=PTmmTEwVDLgts4joE7IF8fRFmViCoBRKCVnHdz90m6c=; b=dIi7d6mRaWjpIv
+	DaPvGPllWklXh/zCeAvk/yV0d7Sag6MEccvtCsyfhIOZk2GR9GdY8gpTH+oLZbHBduFoALWb6oQ8D
+	5JGPEQpGQrO8XPJcAOrDGUux/mlf6Nkpv7DYhf8t6rBiqUlePu/Cdp1aPN9+jAuLtnpGMQ/m/Zm1K
+	FN/uWpsnQAf+QQc56bre2AG2J2l72N5AvxmrtlXnbtqduC1/9V7+XIhGb395e19GVqCJDjedD7E+P
+	j1BOC7SHcOwoSPcQCIxNXrj/apkNYL2FgcTXxWr0qxBRi1PeC6GdDDhMzImckAlPH5b5XRb1oSlZu
+	HPrQ+SSo8kvo8WqMdlxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mBcJK-009RDA-6r; Thu, 05 Aug 2021 12:17:18 +0000
-Received: from jabberwock.ucw.cz ([46.255.230.98])
+	id 1mBdE7-009dru-Gx; Thu, 05 Aug 2021 13:15:59 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mBcJH-009RA2-Ak
- for linux-nvme@lists.infradead.org; Thu, 05 Aug 2021 12:17:17 +0000
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 6067B1C0B7C; Thu,  5 Aug 2021 14:17:10 +0200 (CEST)
-Date: Thu, 5 Aug 2021 14:17:09 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH AUTOSEL 5.10 14/17] nvme: fix nvme_setup_command metadata
- trace event
-Message-ID: <20210805121709.GA20159@amd>
-References: <20210727131938.834920-1-sashal@kernel.org>
- <20210727131938.834920-14-sashal@kernel.org>
+ id 1mBdE1-009dpD-5G
+ for linux-nvme@lists.infradead.org; Thu, 05 Aug 2021 13:15:57 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20210805131549epoutp0407c89519e08e8bf4f0d4d8ce6710cad4~Ya2Wo8kGH1865918659epoutp04L
+ for <linux-nvme@lists.infradead.org>; Thu,  5 Aug 2021 13:15:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20210805131549epoutp0407c89519e08e8bf4f0d4d8ce6710cad4~Ya2Wo8kGH1865918659epoutp04L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1628169349;
+ bh=j9P9vPvbT2iT8/YzUb/SidFn3bQRjCw4Zcljejai6Hc=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=V6xbvJDU4blRk0ZznvXgkRJ5sUA/q3WtP7sYnGb2+Fe0g0ZXAFyZ/AkgvgEqSrIKy
+ KzK6fPCLw076m1wHcRUL0E+d5H8tBuYcKprr/LDryRJzBmD9b6ExV2qRFLymDOfn3F
+ YJ9yndGZlqNB18nnstfdIhY+sKHecFMyMuGlm66w=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210805131548epcas5p196c45b0b62bd53c24f16eeb1f9aecb6f~Ya2VkW-fC0733907339epcas5p1t;
+ Thu,  5 Aug 2021 13:15:48 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4GgTcv5FFGz4x9Pt; Thu,  5 Aug
+ 2021 13:15:43 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ D8.2F.09595.F74EB016; Thu,  5 Aug 2021 22:15:43 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210805125910epcas5p1100e7093dd2b1ac5bbb751331e2ded23~Yan0Xtoux2708927089epcas5p1R;
+ Thu,  5 Aug 2021 12:59:10 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210805125910epsmtrp2b3aa44aca8e3f287e2323166dfa8e8d8~Yan0W7uLe2066920669epsmtrp25;
+ Thu,  5 Aug 2021 12:59:10 +0000 (GMT)
+X-AuditID: b6c32a4a-ed5ff7000000257b-48-610be47f383a
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 1C.84.32548.E90EB016; Thu,  5 Aug 2021 21:59:10 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210805125909epsmtip11fc1d584a8747f7bce882b0df86c0e57~Yany4NvjY1036010360epsmtip1e;
+ Thu,  5 Aug 2021 12:59:09 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ anuj20.g@samsung.com, javier.gonz@samsung.com, hare@suse.de, Kanchan Joshi
+ <joshi.k@samsung.com>
+Subject: [RFC PATCH 0/6] Fixed-buffers io_uring passthrough over nvme-char
+Date: Thu,  5 Aug 2021 18:25:33 +0530
+Message-Id: <20210805125539.66958-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210727131938.834920-14-sashal@kernel.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmum79E+5EgycbVS2aJvxltlh9t5/N
+ Ys+iSUwWK1cfZbJ413qOxeLxnc/sFkf/v2WzmHToGqPF/GVP2S2uTFnE7MDlcflsqcemVZ1s
+ HpuX1HvsvtnA5tG3ZRWjx+bT1R6fN8kFsEdl22SkJqakFimk5iXnp2TmpdsqeQfHO8ebmhkY
+ 6hpaWpgrKeQl5qbaKrn4BOi6ZeYAHaekUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJ
+ KTAp0CtOzC0uzUvXy0stsTI0MDAyBSpMyM7YPo+nYIFYxbdexwbGHqEuRk4OCQETiZ6b3axd
+ jFwcQgK7GSU+/PjMDOF8YpSYffIoE4TzmVFifuM5FpiW169WQ1XtYpRYtngzI1zVpaNfgYZx
+ cLAJaEpcmFwK0iAiYCSx/9NJsB3MAosYJbbe/80MkhAW8JJY1HOXHcRmEVCVaP08hRGkl1fA
+ QuLq9gKIZfISMy99ByvhFRCUODnzCdgRzEDx5q2zwY6QEPjILjHl5l9WiAYXiSOTPzFD2MIS
+ r45vYYewpSQ+v9vLBmEXS/y6cxSquYNR4nrDTKjX7CUu7vnLBHIEM9AD63fpQ4RlJaaeWscE
+ sZhPovf3EyaIOK/EjnkwtqLEvUlPoW4Ql3g4YwmU7SExqecCWI2QQKzE9BOXmCcwys9C8s8s
+ JP/MQti8gJF5FaNkakFxbnpqsWmBUV5qOTxek/NzNzGCk6iW1w7Ghw8+6B1iZOJgPMQowcGs
+ JMKbvJgrUYg3JbGyKrUoP76oNCe1+BCjKTCMJzJLiSbnA9N4Xkm8oYmlgYmZmZmJpbGZoZI4
+ L3v81wQhgfTEktTs1NSC1CKYPiYOTqkGpmDlYDl5z1uaHVvznqf88/UskNRU2flak0//wJR/
+ +rIvvXPX3p0lzPfR/ujyRIN3pQdUe0NjjTxP/ZiVtduf+dH7nxxFX2Z8cT9TIrKTRcVWrvS4
+ jf8PtpzJLzPtvhyw1JvDnhSzMSNWLY/3U94kAcntpueqC/d6tTF9efpJ67Bs1q2EWKFCa9Wv
+ i5/uWlM2Y1nyAsFHkhsvZuas3/6kdyX3H04O6aYtBtpLDpYY/V9y/7nIjieXQh/PWsoktynr
+ qfS5V1Nd+I9/yM48Z/mRu2pb92WhSV4Rt7NEDwqHzb1gXJjC+6bnypvzN3d/6zXPEG7RfiS5
+ 4aHmrVx5r+1S3UV/fi0SSar6zeO94XtesRJLcUaioRZzUXEiANkckbQrBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrELMWRmVeSWpSXmKPExsWy7bCSnO68B9yJBh8+aFg0TfjLbLH6bj+b
+ xZ5Fk5gsVq4+ymTxrvUci8XjO5/ZLY7+f8tmMenQNUaL+cuesltcmbKI2YHL4/LZUo9NqzrZ
+ PDYvqffYfbOBzaNvyypGj82nqz0+b5ILYI/isklJzcksSy3St0vgytg+j6dggVjFt17HBsYe
+ oS5GTg4JAROJ169WM3cxcnEICexglNjzYxUbREJcovnaD3YIW1hi5b/n7BBFHxklTmxcA+Rw
+ cLAJaEpcmFwKUiMiYCax9PAaFpAaZoEVjBK7+34zgiSEBbwkFvXcBRvEIqAq0fp5CiNIL6+A
+ hcTV7QUQ8+UlZl76DlbCKyAocXLmExYQmxko3rx1NvMERr5ZSFKzkKQWMDKtYpRMLSjOTc8t
+ Niwwykst1ytOzC0uzUvXS87P3cQIDmYtrR2Me1Z90DvEyMTBeIhRgoNZSYQ3eTFXohBvSmJl
+ VWpRfnxRaU5q8SFGaQ4WJXHeC10n44UE0hNLUrNTUwtSi2CyTBycUg1MxSoLJuWe2Fc02ff3
+ 4qnzf2tPu1rdcGmK/HceVWOOLOvZvgER69ZFBnbazV5+c47T4t/6lzw6Cjak7ngwN/zZqayF
+ SyZr37fp/KYwM+KrdgTTasu117idb8kpTTZaI1rXHvO2ObhCduW5byppj2+kRgsdmeL1J7K8
+ cuZc3z1b5xTk+n2IktUIVk0yupXt83+VVpDtWcMty/tDU3bF9cR42fB8DssQ9z9x8Uzfn1Xe
+ mwWDme8sj7epi2HZ/zJrb8ssk4YW5pcb5+aIGUx757VTzZsnh8Fj6bT+38+OSbz8dtynZYXJ
+ Tunw8rRbGS4hxe35JiqujOq1nDZBWQZ2mxb/Cr3JmHPzn87Xx97fLmxSYinOSDTUYi4qTgQA
+ 4GGZctUCAAA=
+X-CMS-MailID: 20210805125910epcas5p1100e7093dd2b1ac5bbb751331e2ded23
+X-Msg-Generator: CA
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210805125910epcas5p1100e7093dd2b1ac5bbb751331e2ded23
+References: <CGME20210805125910epcas5p1100e7093dd2b1ac5bbb751331e2ded23@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210805_051715_571394_4E176ED8 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20210805_061553_667532_37FC14D4 
+X-CRM114-Status: GOOD (  18.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,63 +139,88 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1988474702069500167=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
---===============1988474702069500167==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
-Content-Disposition: inline
+This series takes a dig at expanding io_uring passthrough to have
+fixed-buffer support.
+For the NVMe side plumbing, it uses the per-namespace char-device as
+the backend.
+
+The work is on top of  Jens' branch (which is 5.14-rc1 based):
+https://git.kernel.dk/cgit/linux-block/log/?h=io_uring-fops.v5
+
+Testing is done by integrating user-space side with fio:
+https://github.com/joshkan/fio/commit/a8f40d4f7013ccd38fc51275d8b00fb4ce2404f5
+
+Patches can be grouped into two parts -
+First part (patch 1 and 2) involves extending 'io_uring cmd' infra
+(for ioctl updates in task-context), and wire up nvme-passthrough on
+char-device (/dev/ngXnY).
+The second part (patch 4, 5, 6) introduces fixed-buffer variant of
+uring-cmd (IORING_OP_URING_CMD_FIXED), and new NVMe passthrough IOCTLs
+that operate on pre-registered buffers.
+
+The buffers are registered with io_uring in the usual fashion. And the
+buffer index is passed in command-SQE.
+This to be used along with two new fixed-buffer ioctl opcodes:
+NVME_IOCTL_IO_CMD_FIXED or NVME_IOCTL_IO64_CMD_FIXED.
+For existing passthrough ioctl, nvme-driver maps the buffers in I/O
+path for each command.
+For the new ioctl, driver supplies buffer-index to io_uring and gets
+to reuse pre-mapped buffers.
+
+If introducing new ioctls in nvme (for fixed-buffer) does not sound
+great, another option would be to use 'user flags' in the passthrough
+command.
+I look forward to the thoughts of the community on this.
+
+Jens,
+
+Command-SQE didn't have the field for buf_index. I'm torn among few
+options, but repurposed len for now. Please take a look.
+
+I'd appreciate the feedback/comments.
 
 
---LQksG6bCIzRHxTLp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks,
 
-Hi!
+Changes from v4:
+https://lore.kernel.org/linux-nvme/20210325170540.59619-1-joshi.k@samsung.com/
+1. Moved to v5 branch of Jens, adapted to task-work changes in io_uring
+2. Removed support for block-passthrough (over nvme0n1) for now
+3. Added support for char-passthrough (over ng0n1)
+4. Added fixed-buffer passthrough in io_uring and nvme plumbing
 
-> The metadata address is set after the trace event, so the trace is not
-> capturing anything useful. Rather than logging the memory address, it's
-> useful to know if the command carries a metadata payload, so change the
-> trace event to log that true/false state instead.
+Anuj Gupta (2):
+  io_uring: mark iopoll not supported for uring-cmd
+  io_uring: add support for uring_cmd with fixed-buffer
 
-I see this makes sense for mainline, but I'm not sure if it is
-severe-enough bug for -stable.
+Kanchan Joshi (4):
+  io_uring: add infra for uring_cmd completion in submitter-task.
+  nvme: wire-up support for async-passthru on char-device.
+  io_uring: add helper for fixed-buffer uring-cmd
+  nvme: enable passthrough with fixed-buffer
 
-Best regards,
-								Pavel
-							=09
---=20
-http://www.livejournal.com/~pavelmachek
+ drivers/nvme/host/core.c        |   1 +
+ drivers/nvme/host/ioctl.c       | 245 +++++++++++++++++++++++++++++---
+ drivers/nvme/host/multipath.c   |   1 +
+ drivers/nvme/host/nvme.h        |   5 +
+ fs/io_uring.c                   |  69 ++++++++-
+ include/linux/io_uring.h        |  15 ++
+ include/uapi/linux/io_uring.h   |   6 +-
+ include/uapi/linux/nvme_ioctl.h |   2 +
+ 8 files changed, 319 insertions(+), 25 deletions(-)
 
---LQksG6bCIzRHxTLp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmEL1sUACgkQMOfwapXb+vKKkgCgu2gVX0pMthBnrewv9t4Iivam
-+RkAn3pZLe940bLmbmZkDD2Wdjw3Twbt
-=qbOu
------END PGP SIGNATURE-----
-
---LQksG6bCIzRHxTLp--
-
-
---===============1988474702069500167==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============1988474702069500167==--
-
