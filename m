@@ -5,83 +5,77 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFEDC4320A
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Aug 2021 20:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7234C4338F
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Aug 2021 20:11:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D096561154
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Aug 2021 20:09:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D096561154
+	by mail.kernel.org (Postfix) with ESMTPS id 95DA960EE9
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Aug 2021 20:11:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 95DA960EE9
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NDl/Qo3XPauvrSge+AQ1Z0XqrJML2OiLlttVQCOVYxA=; b=Bwj5Y8wP3MXeFqBa3TpvNeYJ0c
-	T854XVkoHxBuBG4miqDFyWSdAuubnqh2gR5MXK3UqCBiSh7awUN1x3I1q3HnHBYnilKswp3/aK5Ej
-	V+ND++hzs/GiZVMUdFKyWRxWpzGnI2akGnxpYrIK8WXcyDmBoj1XFVQ82LgHwUg4BjLrFfe8bCCYr
-	1ZEdrPxVU8CxBXJjEpw9+LXDXywaPNNlrFMjpVND56LZH+j5nr99H3Bqdw+tcfozrerJAS1+rIwzW
-	Gs/nYmvBBEsrzuQqFeoKO+IWE/A0zRV3mZHLr9F2Eh779vkZeUkOlSe7QIzTsoByeX7sdfon9/Umj
-	AGo0AbdQ==;
+	bh=TZsBHfAZAVSj6cr1PBkqL9AQz5rxtTcNyXY08LyxkUs=; b=2FsVu1HEARdCaW37jQcUCkhDNb
+	pJS6VguqTojK66yt0R3+5jpGCMT9ru1XQr2W7Ai81pxeqrmb3t3oqjTNgowSU701tqn9z1pLURNJA
+	GEtq2Pfc8nocnHxXbvID3uSGntG0odFdBnLdHxURng99OubFB0aBScV83G0xBq01KvOnQ1T8QjPsT
+	kuqssjpQx+jkm7n5fqQUCszSketNcaOkreZNupwEouKI62sYdk87N0u9gfX2XDQZiXkHiiM7bpdvD
+	mzAeJl5bWegB5frPCrUaX5C3FdgAR++wcN1wPr32gUab+7ooZTJHzQrKBdacNoXXGPxaA32NFBsn0
+	1BdJiYng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mC699-00DRr3-9u; Fri, 06 Aug 2021 20:08:47 +0000
-Received: from mail-pj1-f41.google.com ([209.85.216.41])
+	id 1mC6Bn-00DSWs-0m; Fri, 06 Aug 2021 20:11:31 +0000
+Received: from mail-pl1-f178.google.com ([209.85.214.178])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mC67W-00DRN1-Pl
- for linux-nvme@lists.infradead.org; Fri, 06 Aug 2021 20:07:08 +0000
-Received: by mail-pj1-f41.google.com with SMTP id
- m10-20020a17090a34cab0290176b52c60ddso19524617pjf.4
- for <linux-nvme@lists.infradead.org>; Fri, 06 Aug 2021 13:07:06 -0700 (PDT)
+ id 1mC6Bj-00DSUz-EM
+ for linux-nvme@lists.infradead.org; Fri, 06 Aug 2021 20:11:28 +0000
+Received: by mail-pl1-f178.google.com with SMTP id e21so8572298pla.5
+ for <linux-nvme@lists.infradead.org>; Fri, 06 Aug 2021 13:11:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6AJy43CLMalIoLg/WtPA6ZpLHKZX2UeVbc74Z/QQaV8=;
- b=Mz3GqgsooNSgP2oSJ4dbb6gcwdS0BkVEnwFPjTb7rXDjWmNbWAFJ0sZg/T4+btHcW7
- TUvBs9ZiZAuXI5XIrzBcDi70laJWhXggp0/n0kgmO4TXDhVmZYZzECxBgD/MvXC1Ehmu
- kaZkHLdNtgvC4N850rfPOltDn1sJaZjz9Tm1Uo1vRQSbvTAMEo+jq7nQnfw0FbHkh+XE
- 4Up1Zzycwz/27seo3PyHKVq01gcZ4EpeQjZycj+gtDiIsWk0rMYbjm0trGcowFhaCkke
- bDTHQLbrkAjOkRZuDv4CwGye53xWnjsyNJKKHkm1JGCZYQ+g7n/mObpzhWYdlbbTafe8
- Rv9Q==
-X-Gm-Message-State: AOAM532ooOq8Vw73v92b1gK2Dme7QOqiFELD2Xu4KH17EoQ/zwEF5Qj0
- OMmH98zLUUu+JrVfTrn2z1Q=
-X-Google-Smtp-Source: ABdhPJy6FibPcKcy2ykUNKYQZjArN+qdr3XielsGJGbrPozfXZ+gLrPTs3h/p2ENK+sbex48diGToA==
-X-Received: by 2002:a63:fd51:: with SMTP id m17mr45543pgj.395.1628280425953;
- Fri, 06 Aug 2021 13:07:05 -0700 (PDT)
+ bh=tB/Yc6U+8xHPbr95B2szZH5/HlZhKmImQFqjj9dnI6E=;
+ b=G3NhNyYPvwRsEhoaFoZQxE+nu092fZ7F5Ld0cIzPx6S9+jmAhnbln0IQgnwiT3VUKp
+ 9hRQ1KBwJ+Ox5EUMKBNT5ZK5/vB3GV3SB29InUwmwnyWMuoAMrw9TMBX88TDJ22KyiI1
+ O3LZ2qXZXshnfoso9X/PeAXepu9rz0dUwTJVIH1B7tfAiQ+PPzZusyrW7C4lJcfhHYey
+ m6Y4KfXbG+ltDuSNujUEno4aWq8Edwd1zg+bGPpbSRef9bkHjIpFEjusJVWGXPGgjbv0
+ forYNXX2CeMAA/kvuItK+5AFafuHrqsDqsoQl+aVyr+uXEiwQ5fcu9dPgO4bq+4LUC1/
+ wXDg==
+X-Gm-Message-State: AOAM533OWa2YfCsjvo1NGxSy6iFQSVBZJv35uW/xT29UXHMGyDVBRN1I
+ Ao3UhRYNEn4KAisl963r5FU=
+X-Google-Smtp-Source: ABdhPJznD/IJUrQ/BEOXPyhI/945g8BjRtfpftHpJJSst80Cyz0U2onTqNAcgAHlgHwaL1WJMYNnHQ==
+X-Received: by 2002:a65:6183:: with SMTP id c3mr1089178pgv.73.1628280686321;
+ Fri, 06 Aug 2021 13:11:26 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:4a77:cdda:c1bf:a6b7?
  ([2601:647:4802:9070:4a77:cdda:c1bf:a6b7])
- by smtp.gmail.com with ESMTPSA id r7sm13232981pga.44.2021.08.06.13.07.04
+ by smtp.gmail.com with ESMTPSA id w130sm8423947pfd.118.2021.08.06.13.11.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Aug 2021 13:07:05 -0700 (PDT)
-Subject: Re: [PATCH] nvme: update keep alive interval when kato is modified
-To: sasaki tatsuya <tatsuya6.sasaki@kioxia.com>,
- kernel test robot <lkp@intel.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <b7cde4c23c44485198f12739bb8fbca0@kioxia.com>
- <202108021253.QwqCWvYe-lkp@intel.com>
- <1f5231f5d0d14829ae72aa97e5f2487a@kioxia.com>
+ Fri, 06 Aug 2021 13:11:25 -0700 (PDT)
+Subject: Re: [PATCH] nvme-rdma: Don't update queue count when failing to set
+ io queues
+To: Ruozhu Li <liruozhu@huawei.com>, linux-nvme@lists.infradead.org
+Cc: lengchao@huawei.com
+References: <20210728094120.27041-1-liruozhu@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <06929ff1-107f-c00e-7fd9-3c8999e26051@grimberg.me>
-Date: Fri, 6 Aug 2021 13:07:03 -0700
+Message-ID: <c651419b-2e14-03d3-42c2-59069bfc137f@grimberg.me>
+Date: Fri, 6 Aug 2021 13:11:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1f5231f5d0d14829ae72aa97e5f2487a@kioxia.com>
+In-Reply-To: <20210728094120.27041-1-liruozhu@huawei.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210806_130706_921430_499007B6 
-X-CRM114-Status: GOOD (  27.59  )
+X-CRM114-CacheID: sfid-20210806_131127_587458_1519617A 
+X-CRM114-Status: GOOD (  21.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,91 +88,48 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"; DelSp="yes"
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
+Can you send this patch for tcp as well?
 
-On 8/2/21 7:12 PM, sasaki tatsuya wrote:
-> Currently the connection between host and NVMe-oF target gets
-> disconnected by keep-alive timeout when a user connects to a target
-> with a relatively large kato value and then sets the smaller kato
-> with a set features command (e.g. connects with 60 seconds kato value
-> and then sets 10 seconds kato value).
+On 7/28/21 2:41 AM, Ruozhu Li wrote:
+> We update ctrl->queue_count and schedule another reconnect when io queue
+> count is zero.But we will never try to create any io queue in next reco-
+> nnection, because ctrl->queue_count already set to zero.We will end up
+> having an admin-only session in Live state, which is exactly what we try
+> to avoid in the original patch.
+> Update ctrl->queue_count after queue_count zero checking to fix it.
 > 
-> The cause is that keep alive command interval on the host, which is
-> defined as unsigned int kato in nvme_ctrl structure, does not follow
-> the kato value changes.
-> 
-> This patch updates the keep alive interval in the following steps when
-> the kato is modified by a set features command: stops the keep alive
-> work queue, then sets the kato as new timer value and re-start the queue.
-> 
-> Signed-off-by: Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>
+> Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
 > ---
->   drivers/nvme/host/core.c  |  3 ++-
->   drivers/nvme/host/ioctl.c | 17 +++++++++++++++++
->   drivers/nvme/host/nvme.h  |  1 +
->   3 files changed, 20 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/rdma.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index dfd9dec0c1f6..89c52da15618 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1255,13 +1255,14 @@ static void nvme_keep_alive_work(struct work_struct *work)
->   	blk_execute_rq_nowait(NULL, rq, 0, nvme_keep_alive_end_io);
->   }
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 7f6b3a991501..3bd9cbc80246 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -735,13 +735,13 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+>   	if (ret)
+>   		return ret;
 >   
-> -static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
-> +void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
->   {
->   	if (unlikely(ctrl->kato == 0))
->   		return;
->   
->   	nvme_queue_keep_alive_work(ctrl);
->   }
-> +EXPORT_SYMBOL_GPL(nvme_start_keep_alive);
->   
->   void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
->   {
-> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> index 305ddd415e45..0066728e77b2 100644
-> --- a/drivers/nvme/host/ioctl.c
-> +++ b/drivers/nvme/host/ioctl.c
-> @@ -231,6 +231,23 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->   			return -EFAULT;
+> -	ctrl->ctrl.queue_count = nr_io_queues + 1;
+> -	if (ctrl->ctrl.queue_count < 2) {
+> +	if (nr_io_queues == 0) {
+>   		dev_err(ctrl->ctrl.device,
+>   			"unable to set any I/O queues\n");
+>   		return -ENOMEM;
 >   	}
 >   
-> +	/*
-> +	 * Keep alive commands interval on the host should be updated
-> +	 * when KATO is modified by Set Features commands.
-> +	 */
-
-This is too specific. I'd move it to nvme_user_cmd_post similar to how
-we handle passthru commands (with start/end that does stuff based on the
-effects)
-
-> +	if (!status && cmd.opcode == nvme_admin_set_features &&
-> +	    (cmd.cdw10 & 0xFF) == NVME_FEAT_KATO) {
-> +		/* ms -> s */
-> +		unsigned int new_kato = DIV_ROUND_UP(cmd.cdw11, 1000);
-> +
-
-The section below needs to move to a core rountine:
-nvme_update_keep_alive()
-
-> +		dev_info(ctrl->device,
-> +			 "keep alive commands interval on the host is updated from %u milliseconds to %u milliseconds\n",
-> +			 ctrl->kato * 1000 / 2, new_kato * 1000 / 2);
-> +		nvme_stop_keep_alive(ctrl);
-> +		ctrl->kato = new_kato;
-> +		nvme_start_keep_alive(ctrl);
-> +	}
-> +
->   	return status;
->   }
->  
+> +	ctrl->ctrl.queue_count = nr_io_queues + 1;
+>   	dev_info(ctrl->ctrl.device,
+>   		"creating %d I/O queues.\n", nr_io_queues);
+>   
+> 
 
 _______________________________________________
 Linux-nvme mailing list
