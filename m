@@ -2,69 +2,90 @@ Return-Path: <SRS0=jKil=NA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BE9C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 06:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B524EC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 08:53:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1829660E78
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 06:49:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1829660E78
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 6D82A60F93
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 08:53:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6D82A60F93
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vFk3DXs6pFYvcs3EQY8qH185F2mcIXzRThjPx60XKog=; b=FvEzeRU7ShWdsU
-	lpDXYEV6Te4EQgDvsBABlRz1F3CeLXIdaxJD+yw3hhyuknET0gdUA6HBNOH4t+4hUFwbqUpU8uYFL
-	aUZT3B8PM68Nwyh94HHBJ29Fych8DGzTG5KzJAnOSCyoAnnPP8vJXrWsBzwVsoSPtaqCeQJu09RYG
-	8Y/zW14B8EY0z6L/5C0bx144PG4VvtUUeSfMghDhR6srqGUtjwcH66oFK4yaokkKgSTsudxiS56fx
-	JDMiWtE2kWKkjvGBWeor11IwclaNt7fPfrafdJskNWye1iH9jSs0bChS5Bc5uuqOEIg1Hymd4sFqm
-	5k0h6BNneNBHb+Qx4nXw==;
+	List-Owner; bh=msE7/L3PDzevYJDjjUNi/GaQXObByNbvn1ZVruIL7q0=; b=CQZ6ZNt4Gikb4J
+	2mEhF/1BRwl+QN9kPMNzgghQhurkcZuX0tb9TyE8p/SpAFjFaXUlbaXxB9yHKuekEUoYpfRTfguof
+	FCpti/y1RzLbb9By7QiSRqU9ZHY1rDZY8eWgzddsUwE9ZaEUbZKqp9jN2cBibvnlfsBuez+Em/is3
+	yRP9IDwD27s5FTqGy8MKdUKhc5t7ShOjjiI2Z7Ba68YHp3oLHD6nm19A34xwAEPQqWYdYOaOFM6fS
+	lM95kvhCq7UdnUvSNtcUuL3CTlTMLJhsDkgs2a2hC/WRifG9j0sEzUubi7JVuFKwKF7geRV6rucpT
+	pbKt6ZydhWB4HX572Ttg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mCz5w-00HITF-AN; Mon, 09 Aug 2021 06:49:08 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1mD11m-00HWDV-9d; Mon, 09 Aug 2021 08:52:58 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mCz5s-00HIRu-PJ
- for linux-nvme@bombadil.infradead.org; Mon, 09 Aug 2021 06:49:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=K2Uv5ue006I47lu2IjgV56o9UA3rTDZwUcup9SB25L4=; b=bJQHL3JhvOvIxfkQZMTpV7hYpq
- Grk9Z1xhJ9w5VWJKwcyvoUaTM69dIAqHEJ+BK7Wb0p9LfpsqI7erQbkX2hPSRWHGUdhpYSDwnHqJk
- yCqXDUTbJEPuC43nPVsKPmJ7+MEjQgmHW31YP38WuxXposcZl52+csW9QqErysbxgD1txY4bewrOx
- 9l6/QA/e2FVfN5TOTUdxAD1MDAHv7XeOGak6r+0pr22Y/j8sLcUnhYUoapWRZbpfSAAbYmIxya+MV
- lEk6IdN+JdvtsbIXGNvtij+tsbqzEoR4wmw4YmQiaMTpg1RDn1UrUexEweJj3owqltZLkhKRqPs5l
- xGqD4wAw==;
-Received: from [2a02:1205:5023:1f80:c068:bd3d:78b3:7d37] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mCz50-00Aj2V-Co; Mon, 09 Aug 2021 06:48:28 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Coly Li <colyli@suse.de>, Song Liu <song@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Luis Chamberlain <mcgrof@kernel.org>,
- linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: [PATCH 8/8] block: remove GENHD_FL_UP
-Date: Mon,  9 Aug 2021 08:40:28 +0200
-Message-Id: <20210809064028.1198327-9-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210809064028.1198327-1-hch@lst.de>
-References: <20210809064028.1198327-1-hch@lst.de>
+ id 1mD11i-00HWCx-L6
+ for linux-nvme@lists.infradead.org; Mon, 09 Aug 2021 08:52:56 +0000
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EE09E21F38;
+ Mon,  9 Aug 2021 08:52:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1628499170; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bepQzvatgJLao+zb9C6j+oevlY4gKiK09Ngv42kE38g=;
+ b=kl3QYAu24ESZk9XuMhHwyyKyrTXhxm8d0J0sTv1O9QwbpBj8HvMUuDZxbbwJ1M73InnMDP
+ RLlFN9ZDGq9tSKeE5BYnLUSOZh6HOwEaaw4F5uqfGDiaOFoIYKra4nOVs2pLS1XcjvDXem
+ x+DZPpgPZJKRMjCFq7UbW3wHc+KL/aU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1628499170;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bepQzvatgJLao+zb9C6j+oevlY4gKiK09Ngv42kE38g=;
+ b=R/7gyERwwF+oUn9XMq+YISSU0gyMc3Q8Y/uui8tCDQ/t7fzbAFA5xUMh7ItG4RUzm14vBz
+ +lb5sbg8zLTp9BAw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id D3C23132AB;
+ Mon,  9 Aug 2021 08:52:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id C/auM+LsEGFqKgAAGKfGzw
+ (envelope-from <dwagner@suse.de>); Mon, 09 Aug 2021 08:52:50 +0000
+Date: Mon, 9 Aug 2021 10:52:50 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ James Smart <james.smart@broadcom.com>,
+ Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, Wen Xiong <wenxiong@us.ibm.com>
+Subject: Re: [PATCH v4 2/8] nvme-tcp: Update number of hardware queues before
+ using them
+Message-ID: <20210809085250.xguvx5qiv2gxcoqk@carbon>
+References: <20210802112658.75875-1-dwagner@suse.de>
+ <20210802112658.75875-3-dwagner@suse.de>
+ <8373c07f-f5df-1ec6-9fda-d0262fc1b377@grimberg.me>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Disposition: inline
+In-Reply-To: <8373c07f-f5df-1ec6-9fda-d0262fc1b377@grimberg.me>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210809_015254_912295_776A77FC 
+X-CRM114-Status: GOOD (  24.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,150 +102,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Just check inode_unhashed on the whole device bdev inode instead,
-and provide a helper to check for that information.
+Hi Sagi,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/genhd.c            | 6 ++----
- block/partitions/core.c  | 4 ++--
- drivers/md/md.h          | 4 +---
- drivers/nvme/host/core.c | 2 +-
- fs/block_dev.c           | 2 +-
- include/linux/genhd.h    | 9 +++++----
- 6 files changed, 12 insertions(+), 15 deletions(-)
+On Fri, Aug 06, 2021 at 12:57:17PM -0700, Sagi Grimberg wrote:
+> > -	ret = nvme_tcp_start_io_queues(ctrl);
+> > -	if (ret)
+> > -		goto out_cleanup_connect_q;
+> > -
+> > -	if (!new) {
+> > -		nvme_start_queues(ctrl);
+> > +	} else if (prior_q_cnt != ctrl->queue_count) {
+> 
+> So if the queue count did not change we don't wait to make sure
+> the queue g_usage_counter ref made it to zero? What guarantees that it
+> did?
 
-diff --git a/block/genhd.c b/block/genhd.c
-index a4817e42f3a3..9021c8ce3869 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -77,7 +77,8 @@ bool set_capacity_and_notify(struct gendisk *disk, sector_t size)
- 	 * initial capacity during probing.
- 	 */
- 	if (size == capacity ||
--	    (disk->flags & (GENHD_FL_UP | GENHD_FL_HIDDEN)) != GENHD_FL_UP)
-+	    !disk_live(disk) ||
-+	    (disk->flags & GENHD_FL_HIDDEN))
- 		return false;
- 
- 	pr_info("%s: detected capacity change from %lld to %lld\n",
-@@ -519,8 +520,6 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
- 		disk->flags |= GENHD_FL_EXT_DEVT;
- 	}
- 
--	disk->flags |= GENHD_FL_UP;
--
- 	disk_alloc_events(disk);
- 
- 	if (disk->flags & GENHD_FL_HIDDEN) {
-@@ -604,7 +603,6 @@ void del_gendisk(struct gendisk *disk)
- 
- 	mutex_lock(&disk->open_mutex);
- 	remove_inode_hash(disk->part0->bd_inode);
--	disk->flags &= ~GENHD_FL_UP;
- 	blk_drop_partitions(disk);
- 	mutex_unlock(&disk->open_mutex);
- 
-diff --git a/block/partitions/core.c b/block/partitions/core.c
-index fb3a556cacce..c6738ccbcee5 100644
---- a/block/partitions/core.c
-+++ b/block/partitions/core.c
-@@ -459,7 +459,7 @@ int bdev_add_partition(struct block_device *bdev, int partno,
- 	int ret;
- 
- 	mutex_lock(&disk->open_mutex);
--	if (!(disk->flags & GENHD_FL_UP)) {
-+	if (!disk_live(disk)) {
- 		ret = -ENXIO;
- 		goto out;
- 	}
-@@ -669,7 +669,7 @@ int bdev_disk_changed(struct gendisk *disk, bool invalidate)
- 
- 	lockdep_assert_held(&disk->open_mutex);
- 
--	if (!(disk->flags & GENHD_FL_UP))
-+	if (!disk_live(disk))
- 		return -ENXIO;
- 
- rescan:
-diff --git a/drivers/md/md.h b/drivers/md/md.h
-index 832547cf038f..4c96c36bd01a 100644
---- a/drivers/md/md.h
-+++ b/drivers/md/md.h
-@@ -764,9 +764,7 @@ struct md_rdev *md_find_rdev_rcu(struct mddev *mddev, dev_t dev);
- 
- static inline bool is_mddev_broken(struct md_rdev *rdev, const char *md_type)
- {
--	int flags = rdev->bdev->bd_disk->flags;
--
--	if (!(flags & GENHD_FL_UP)) {
-+	if (!disk_live(rdev->bdev->bd_disk)) {
- 		if (!test_and_set_bit(MD_BROKEN, &rdev->mddev->flags))
- 			pr_warn("md: %s: %s array has a missing/failed member\n",
- 				mdname(rdev->mddev), md_type);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e24a0143fd87..cb12d8b94e82 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1822,7 +1822,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- static inline bool nvme_first_scan(struct gendisk *disk)
- {
- 	/* nvme_alloc_ns() scans the disk prior to adding it */
--	return !(disk->flags & GENHD_FL_UP);
-+	return !disk_live(disk);
- }
- 
- static void nvme_set_chunk_sectors(struct nvme_ns *ns, struct nvme_id_ns *id)
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 6658f40ae492..ab50428b328b 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -1374,7 +1374,7 @@ struct block_device *blkdev_get_by_dev(dev_t dev, fmode_t mode, void *holder)
- 
- 	mutex_lock(&disk->open_mutex);
- 	ret = -ENXIO;
--	if (!(disk->flags & GENHD_FL_UP))
-+	if (!disk_live(disk))
- 		goto abort_claiming;
- 	if (bdev_is_partition(bdev))
- 		ret = blkdev_get_part(bdev, mode);
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 849486de81c6..ddd02def1ed4 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -60,9 +60,6 @@ struct partition_meta_info {
-  * device.
-  * Affects responses to the ``CDROM_GET_CAPABILITY`` ioctl.
-  *
-- * ``GENHD_FL_UP`` (0x0010): indicates that the block device is "up",
-- * with a similar meaning to network interfaces.
-- *
-  * ``GENHD_FL_SUPPRESS_PARTITION_INFO`` (0x0020): don't include
-  * partition information in ``/proc/partitions`` or in the output of
-  * printk_all_partitions().
-@@ -97,7 +94,6 @@ struct partition_meta_info {
- /* 2 is unused (used to be GENHD_FL_DRIVERFS) */
- /* 4 is unused (used to be GENHD_FL_MEDIA_CHANGE_NOTIFY) */
- #define GENHD_FL_CD				0x0008
--#define GENHD_FL_UP				0x0010
- #define GENHD_FL_SUPPRESS_PARTITION_INFO	0x0020
- #define GENHD_FL_EXT_DEVT			0x0040
- #define GENHD_FL_NATIVE_CAPACITY		0x0080
-@@ -175,6 +171,11 @@ struct gendisk {
- 	u64 diskseq;
- };
- 
-+static inline bool disk_live(struct gendisk *disk)
-+{
-+	return !inode_unhashed(disk->part0->bd_inode);
-+}
-+
- /*
-  * The gendisk is refcounted by the part0 block_device, and the bd_device
-  * therein is also used for device model presentation in sysfs.
--- 
-2.30.2
+Hmm, good point. we should always call nvme_wait_freeze_timeout()
+for !new queues. Is this what you are implying?
 
+
+> >   		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
+> >   			/*
+> >   			 * If we timed out waiting for freeze we are likely to
+> > @@ -1828,6 +1822,10 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+> >   		nvme_unfreeze(ctrl);
+> >   	}
+> > +	ret = nvme_tcp_start_io_queues(ctrl);
+> > +	if (ret)
+> > +		goto out_cleanup_connect_q;
+> > +
+> 
+> Did you test this with both heavy I/O, reset loop and ifdown/ifup
+> loop?
+
+Not sure if this classifies as heavy I/O (on 80 CPU machine)
+
+fio --rw=readwrite --name=test --filename=/dev/nvme16n1 --size=50M \
+    --direct=1 --bs=4k --numjobs=40 --group_reporting --runtime=4h \
+    --time_based
+
+and then I installed iptables rules to block the traffic on the
+controller side. With this test it is pretty easily to get
+the host hanging. Let me know what test you would like to see
+from me. I am glad to try to get them running.
+
+> If we unquiesce and unfreeze before we start the queues the pending I/Os
+> may resume before the connect and not allow the connect to make forward
+> progress.
+
+So the unfreeze should happen after the connect call? What about the
+newly created queues? Do they not suffer from the same problem? Isn't
+the NVME_TCP_Q_LIVE flag not enough?
+
+Daniel
 
 _______________________________________________
 Linux-nvme mailing list
