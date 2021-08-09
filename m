@@ -2,19 +2,19 @@ Return-Path: <SRS0=jKil=NA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DEECC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 08:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7288FC43214
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 09:10:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 551D96103B
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 08:58:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 551D96103B
+	by mail.kernel.org (Postfix) with ESMTPS id 3B5F561056
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Aug 2021 09:10:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3B5F561056
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mmwE7M9L4CYAxvNkxfXflkIZ0/zzj8A/OZPKRfXrkOw=; b=VrEODQHvqlME7C
-	FcycyaoVrMXkQ0ym54+ml34pzJFfsofH+i6DXUFOQzs+GUDIFD7IDaj/3ins81M3yfrjKwsdOTjdE
-	7GrCwfIBORn8jGCwUhSRYfX6xHQXl9Q9B5wvGbTiMNSBfXzJbwAIh+Dz5bCbEK+uaPS6jZfhQ5tXS
-	B6DONnHy0AhCchk0CiZ+H87FVUBpuhLk3QA380/sb3H6Ze+C9rk3rgqwFNtSIBE2tD3ALWLthD2zF
-	uwrNpejINoJYTZ47ntc0nuUwM92FSO51XcraIMcFzF5dqWcYl+cAepxY5D86xtlJ3VC+1YHKvBYSt
-	eFqjwfR7gZZYgk0BtLmw==;
+	List-Owner; bh=22GLK2ayio7YYKnk4OrLMT+3jLECaNuqrEWqTsEgPlQ=; b=4xxFe8WOq/xoQw
+	A9y7WGol0A/wtR/Nc1ctE0nkSyGBreqhj+6ydSxyQ9AHe0EnoV5Tx71xmUESyKGPrUlVypy7TIV/C
+	rfzaHZnaZffCIoBuL8Tmc+JA6sUwcXZP38WqSeN0iiNkMsZnvNOm0MfOsgbgeBb0e/C71SYhilPiU
+	VR+BYVC9JjI+Ymb7KcUeGT54IC7BteE6+9KIzHIlrKf8Ef298xPKsmXfWb/Bvttk8V8Wk0dNzWohv
+	QbPm8ko0W4q9mf7aW3pAhPiK1tZ8Ugs/4hgMI/F4FaaqZrGLsOfwW5uq3s0jAZMq14og0/vh+eBmU
+	QemIf4ZKGBOe7CltLNoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mD16p-00HWcw-HW; Mon, 09 Aug 2021 08:58:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mD1I7-00HYCe-RA; Mon, 09 Aug 2021 09:09:51 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mD16n-00HWcE-0r
- for linux-nvme@lists.infradead.org; Mon, 09 Aug 2021 08:58:10 +0000
+ id 1mD1I4-00HYBp-UN
+ for linux-nvme@lists.infradead.org; Mon, 09 Aug 2021 09:09:50 +0000
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ADD161FDAD;
- Mon,  9 Aug 2021 08:58:07 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 95AC621F44;
+ Mon,  9 Aug 2021 09:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1628499487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1628500187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DcWWQK19Xa6GOBXM7LflCcqBUTWsQXKfbG2mDyL0SxU=;
- b=padfdtL4ld65kA1j8ASFunpTuCaQEeDyeltyz6XAOhqz+lA7V01Vkx08xKncHn8cXQN15B
- FcjnC0XRgwDa7iRVNGgiiP5MeDchU1WbdMa2I06fIzTlfKCzJSBfHTCNFftPLrlssgkt5D
- fg/ZIMh06KcKGDEHaZx1mBhezmfPnpo=
+ bh=qoQMlqTicS0HtimnKTTbCDkN5674ozjQ0AoY71P8px0=;
+ b=YO1Vd1BF59SZJsXEP03mFbkDMzLgDLCuLDrBJwug4jMtdOKccpi1RcpsydKPbhTg9RXf6s
+ UiSoaisfiNLLmWrcml0Ule+E3n2nSnj9gRDDcGfa/oeDW8N38aAiAEox3gFIv7qlXrSdEa
+ yfLEyVdVG/lXo13re9arw/Hb1q1Yjng=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1628499487;
+ s=susede2_ed25519; t=1628500187;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DcWWQK19Xa6GOBXM7LflCcqBUTWsQXKfbG2mDyL0SxU=;
- b=tEH0w+p3OnOz/t86IhLTtsNTIxHjArVIP4uUz0SIdIA6/6AIE+7gPMhivvQcO8vJJygI9g
- upu+H6b3V9IsatCA==
+ bh=qoQMlqTicS0HtimnKTTbCDkN5674ozjQ0AoY71P8px0=;
+ b=Y0kK/8oHEapwTCj0LNczmKG5p33oMgaTxfbDwlqKYdCLGoN8EX2nu0wgQoGOzzmu/3VPRq
+ czyeTZZL3hXQ28Bg==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 9CE43132AB;
- Mon,  9 Aug 2021 08:58:07 +0000 (UTC)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 85D33132AB;
+ Mon,  9 Aug 2021 09:09:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id FIfbJR/uEGG6KwAAGKfGzw
- (envelope-from <dwagner@suse.de>); Mon, 09 Aug 2021 08:58:07 +0000
-Date: Mon, 9 Aug 2021 10:58:07 +0200
+ by imap1.suse-dmz.suse.de with ESMTPSA id wPliINvwEGFTLgAAGKfGzw
+ (envelope-from <dwagner@suse.de>); Mon, 09 Aug 2021 09:09:47 +0000
+Date: Mon, 9 Aug 2021 11:09:47 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Hannes Reinecke <hare@suse.de>, Wen Xiong <wenxiong@us.ibm.com>
-Subject: Re: [PATCH v4 8/8] nvme-rdma: Unfreeze queues on reconnect
-Message-ID: <20210809085807.p5agrbuqxhlznmkr@carbon>
-References: <20210802112658.75875-1-dwagner@suse.de>
- <20210802112658.75875-9-dwagner@suse.de>
- <46d4d7cb-314a-3822-f59d-00588609421a@grimberg.me>
+ Hannes Reinecke <hare@suse.de>, yi.he@emc.com
+Subject: Re: [PATCH] nvme-tcp: Do not reset transport on data digest errors
+Message-ID: <20210809090947.luoqaooi7gc6u6yu@carbon>
+References: <20210805121541.77613-1-dwagner@suse.de>
+ <47ef76c6-4430-ca24-405e-a226d4303a39@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <46d4d7cb-314a-3822-f59d-00588609421a@grimberg.me>
+In-Reply-To: <47ef76c6-4430-ca24-405e-a226d4303a39@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210809_015809_259863_096B9628 
-X-CRM114-Status: GOOD (  22.58  )
+X-CRM114-CacheID: sfid-20210809_020949_170033_F1DF3C4D 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,38 +100,19 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Hi Sagi,
 
-On Fri, Aug 06, 2021 at 12:59:15PM -0700, Sagi Grimberg wrote:
+On Fri, Aug 06, 2021 at 12:42:00PM -0700, Sagi Grimberg wrote:
+> > @@ -89,6 +89,7 @@ struct nvme_tcp_queue {
+> >   	size_t			data_remaining;
+> >   	size_t			ddgst_remaining;
+> >   	unsigned int		nr_cqe;
+> > +	u16			status;
 > 
-> > During the queue teardown in nvme_rdma_teardown_io_queues() freeze is
-> > called unconditionally. When we reconnect we need to pair the freeze
-> > with an unfreeze to avoid hanging I/Os. For newly created connection
-> > this is not needed.
-> > 
-> > Fixes: 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
-> > Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> > ---
-> >   drivers/nvme/host/rdma.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > index de2a8950d282..21a8a5353af0 100644
-> > --- a/drivers/nvme/host/rdma.c
-> > +++ b/drivers/nvme/host/rdma.c
-> > @@ -901,6 +901,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
-> >   			error = PTR_ERR(ctrl->ctrl.admin_q);
-> >   			goto out_cleanup_fabrics_q;
-> >   		}
-> > +	} else {
-> > +		nvme_unfreeze(&ctrl->ctrl);
-> 
-> That seems misplaced.. unfreezing the I/O queues when setting up the admin
-> queue?
+> Why is this a queue member and not a request member?
 
-Indeed. After looking again on it, this should be almost identically to
-the tcp.c fix in nvme_rdma_configure_io_queues.
-
-BTW, I am working on getting a RDMA test setup running. Hopefully I have
-all the right licenses on the array.
+I was not sure if the TCP transport specific error handling should
+impact all other transport (size of struct request). Also I tried to
+avoid accessing cachelines which are not already in use. Except this I
+don't see there should be no problem to put this to struct request.
 
 Daniel
 
