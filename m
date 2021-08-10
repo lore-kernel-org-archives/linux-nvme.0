@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9334DC4338F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 12:44:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1DEAC4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 12:45:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 51EF7604DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 12:44:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 51EF7604DC
+	by mail.kernel.org (Postfix) with ESMTPS id A29BD604DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 12:45:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A29BD604DC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pSbeGsEne8mUGytaoTNMOVP/m0AUA5upiScpJtquy/Q=; b=fgV97SepRqghMq
-	B/AIS6nW+E3shN/ejL+5Dhe1v4x7ij1wMidWKF0EN1qav0IHovhPhiRcfi/Ew7sDWfnAKbjSx9YFI
-	vTFA8ycKBeYXN0KvNRR0Gf4O8KwuOZcRTPlDCBUG8pIxm9iNov8TrrhK4eFfQZcb9WsnXRU46f4R2
-	KuA6WGgmO5kvA6iQNO8WVRdu+P02ch8nrnh6FVIVUrSFrDvIizGLO8fhcM2+jJ1+YRjbqjnj/Jjuc
-	UyFpsxNzU0RQrTOMip8NWmxUDSPrD8onR9KkyEmmFOpJHgf/idw+Tfh/ZSOVJP4ZXdoA2AzXyBx+Y
-	yd1l3WfeffaluObShvRw==;
+	List-Owner; bh=FF0Vgnt+sXBZ6fLihZpjg9Vc6d+WTKZ3YCwHW4jpPFI=; b=z3Uqf3bySeKuYS
+	1/jTPcGPN5175xywBIL5Wf3CA8C+TMXwDRNh1BILFqrge5D0dEGTuwkyk39U/6b7AYawOdmuQ/V6U
+	M4qE6bjap0MStzf398VKctqCgPUZgaZChqhDCoUona3A8fOEzFJIumQEGi3UnxYfkjRQnDpJJ8SDz
+	L3vS0YQGlH6pjwxJJbdinuc8eJpwHJWkhyEwJlITC7ZdKcFmxnCCcVJQRRQyNHUvmkvDGAoYGE+/e
+	14dWO1u5Kl+Mq7BgRIutVJFtLc0rYtnyiiem6oIg3wqB1XTkLztDoWWoePSuHlYhWyzVXZVgq95tA
+	tXLsyh+bzxPTILgo//zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDR7C-003lXX-96; Tue, 10 Aug 2021 12:44:18 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mDR7b-003lgL-2I; Tue, 10 Aug 2021 12:44:43 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDR5p-003l2n-MV
- for linux-nvme@lists.infradead.org; Tue, 10 Aug 2021 12:42:58 +0000
+ id 1mDR5p-003l2m-LB
+ for linux-nvme@lists.infradead.org; Tue, 10 Aug 2021 12:43:01 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 25EDF200AF;
+ by smtp-out1.suse.de (Postfix) with ESMTP id 23D572205E;
  Tue, 10 Aug 2021 12:42:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1628599372; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9pA854x4+NZnK9VsYLRuDw6BPzTZncgGJA2I5lFQbIk=;
- b=tDyFqzBxgDKd2DFbOzjkhY95b2eBQFxhl6ed0Q3kHc9fTqRIY+7Yc77rMJc+qFysb5cc26
- SiqhwennuCHDtBgwvYwk05dl4JXM+WCVr2Nukq/b0kl/wBzIkP0jE0SdLSTA/x1dn90lEL
- dzIE0/yV93B7MGFtEoumAmbo+dhyQUQ=
+ bh=+RWp9TT74PI/W7gTm3C8We4/DOCgKW/4kX34e86Qrdo=;
+ b=JtnXQUNAdGycjXl6okGIRpDDbiFiDxlkpByQSTcVOp6eQuDvlI6k6lLPomVVG+S0wg5iRl
+ 6rGUG3HRm2UrImMw3EWiqVirJFakTsaXmYZGZOsZi3TQ3zTg+x1QRr9vUtGwkH3ivuZATt
+ GoL2VPoAa2UT3IsRAWkBK+t/xwXlO6M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1628599372;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9pA854x4+NZnK9VsYLRuDw6BPzTZncgGJA2I5lFQbIk=;
- b=x13LCBSmggHYxOcOCCspJjfUwH5EWVpI4cCxnInx2OgRGivQjopuqxseSxTHXbwhd6ugPy
- C46AB6MZdmwPtxDg==
+ bh=+RWp9TT74PI/W7gTm3C8We4/DOCgKW/4kX34e86Qrdo=;
+ b=dilKpGujbrYsM4yCFVvjpUDWN6uJEo3poTz+FkHaHdWjeFTTkJLq8lP5I2dZJqQZU8GI/E
+ bUe589jw29sXg2AQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 1862BA3B8E;
+ by relay2.suse.de (Postfix) with ESMTP id 18687A3B8F;
  Tue, 10 Aug 2021 12:42:52 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 7E75C518C552; Tue, 10 Aug 2021 14:42:50 +0200 (CEST)
+ id 692E5518C54A; Tue, 10 Aug 2021 14:42:50 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
  Herbert Xu <herbert@gondor.apana.org.au>,
  "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
  linux-crypto@vger.kernel.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 09/13] nvmet: Parse fabrics commands on all queues
-Date: Tue, 10 Aug 2021 14:42:26 +0200
-Message-Id: <20210810124230.12161-10-hare@suse.de>
+Subject: [PATCH 05/13] nvme: add definitions for NVMe In-Band authentication
+Date: Tue, 10 Aug 2021 14:42:22 +0200
+Message-Id: <20210810124230.12161-6-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210810124230.12161-1-hare@suse.de>
 References: <20210810124230.12161-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210810_054254_033303_1F3618C4 
-X-CRM114-Status: GOOD (  10.47  )
+X-CRM114-CacheID: sfid-20210810_054254_025110_7809505C 
+X-CRM114-Status: GOOD (  14.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,26 +94,236 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fabrics commands might be sent to all queues, not just the admin one.
-
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/nvme.h | 186 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 185 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index ac7210a3ea1c..163f7dc1a929 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -942,6 +942,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	if (unlikely(!req->sq->ctrl))
- 		/* will return an error for any non-connect command: */
- 		status = nvmet_parse_connect_cmd(req);
-+	else if (nvme_is_fabrics(req->cmd))
-+		status = nvmet_parse_fabrics_cmd(req);
- 	else if (likely(req->sq->qid != 0))
- 		status = nvmet_parse_io_cmd(req);
- 	else
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b7c4c4130b65..e2142e3246eb 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -19,6 +19,7 @@
+ #define NVMF_TRSVCID_SIZE	32
+ #define NVMF_TRADDR_SIZE	256
+ #define NVMF_TSAS_SIZE		256
++#define NVMF_AUTH_HASH_LEN	64
+ 
+ #define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
+ 
+@@ -1263,6 +1264,8 @@ enum nvmf_capsule_command {
+ 	nvme_fabrics_type_property_set	= 0x00,
+ 	nvme_fabrics_type_connect	= 0x01,
+ 	nvme_fabrics_type_property_get	= 0x04,
++	nvme_fabrics_type_auth_send	= 0x05,
++	nvme_fabrics_type_auth_receive	= 0x06,
+ };
+ 
+ #define nvme_fabrics_type_name(type)   { type, #type }
+@@ -1270,7 +1273,9 @@ enum nvmf_capsule_command {
+ 	__print_symbolic(type,						\
+ 		nvme_fabrics_type_name(nvme_fabrics_type_property_set),	\
+ 		nvme_fabrics_type_name(nvme_fabrics_type_connect),	\
+-		nvme_fabrics_type_name(nvme_fabrics_type_property_get))
++		nvme_fabrics_type_name(nvme_fabrics_type_property_get), \
++		nvme_fabrics_type_name(nvme_fabrics_type_auth_send),	\
++		nvme_fabrics_type_name(nvme_fabrics_type_auth_receive))
+ 
+ /*
+  * If not fabrics command, fctype will be ignored.
+@@ -1393,6 +1398,183 @@ struct nvmf_property_get_command {
+ 	__u8		resv4[16];
+ };
+ 
++struct nvmf_auth_send_command {
++	__u8		opcode;
++	__u8		resv1;
++	__u16		command_id;
++	__u8		fctype;
++	__u8		resv2[19];
++	union nvme_data_ptr dptr;
++	__u8		resv3;
++	__u8		spsp0;
++	__u8		spsp1;
++	__u8		secp;
++	__le32		tl;
++	__u8		resv4[16];
++};
++
++struct nvmf_auth_receive_command {
++	__u8		opcode;
++	__u8		resv1;
++	__u16		command_id;
++	__u8		fctype;
++	__u8		resv2[19];
++	union nvme_data_ptr dptr;
++	__u8		resv3;
++	__u8		spsp0;
++	__u8		spsp1;
++	__u8		secp;
++	__le32		al;
++	__u8		resv4[16];
++};
++
++/* Value for secp */
++enum {
++	NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER	= 0xe9,
++};
++
++/* Defined value for auth_type */
++enum {
++	NVME_AUTH_COMMON_MESSAGES	= 0x00,
++	NVME_AUTH_DHCHAP_MESSAGES	= 0x01,
++};
++
++/* Defined messages for auth_id */
++enum {
++	NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE	= 0x00,
++	NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE	= 0x01,
++	NVME_AUTH_DHCHAP_MESSAGE_REPLY		= 0x02,
++	NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1	= 0x03,
++	NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2	= 0x04,
++	NVME_AUTH_DHCHAP_MESSAGE_FAILURE2	= 0xf0,
++	NVME_AUTH_DHCHAP_MESSAGE_FAILURE1	= 0xf1,
++};
++
++struct nvmf_auth_dhchap_protocol_descriptor {
++	__u8		authid;
++	__u8		rsvd;
++	__u8		halen;
++	__u8		dhlen;
++	__u8		idlist[60];
++};
++
++enum {
++	NVME_AUTH_DHCHAP_AUTH_ID	= 0x01,
++};
++
++/* Defined hash functions for DH-HMAC-CHAP authentication */
++enum {
++	NVME_AUTH_DHCHAP_SHA256	= 0x01,
++	NVME_AUTH_DHCHAP_SHA384	= 0x02,
++	NVME_AUTH_DHCHAP_SHA512	= 0x03,
++};
++
++/* Defined Diffie-Hellman group identifiers for DH-HMAC-CHAP authentication */
++enum {
++	NVME_AUTH_DHCHAP_DHGROUP_NULL	= 0x00,
++	NVME_AUTH_DHCHAP_DHGROUP_2048	= 0x01,
++	NVME_AUTH_DHCHAP_DHGROUP_3072	= 0x02,
++	NVME_AUTH_DHCHAP_DHGROUP_4096	= 0x03,
++	NVME_AUTH_DHCHAP_DHGROUP_6144	= 0x04,
++	NVME_AUTH_DHCHAP_DHGROUP_8192	= 0x05,
++};
++
++union nvmf_auth_protocol {
++	struct nvmf_auth_dhchap_protocol_descriptor dhchap;
++};
++
++struct nvmf_auth_dhchap_negotiate_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd;
++	__le16		t_id;
++	__u8		sc_c;
++	__u8		napd;
++	union nvmf_auth_protocol auth_protocol[];
++};
++
++struct nvmf_auth_dhchap_challenge_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__u16		rsvd1;
++	__le16		t_id;
++	__u8		hl;
++	__u8		rsvd2;
++	__u8		hashid;
++	__u8		dhgid;
++	__le16		dhvlen;
++	__le32		seqnum;
++	/* 'hl' bytes of challenge value */
++	__u8		cval[];
++	/* followed by 'dhvlen' bytes of DH value */
++};
++
++struct nvmf_auth_dhchap_reply_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		hl;
++	__u8		rsvd2;
++	__u8		cvalid;
++	__u8		rsvd3;
++	__le16		dhvlen;
++	__le32		seqnum;
++	/* 'hl' bytes of response data */
++	__u8		rval[];
++	/* followed by 'hl' bytes of Challenge value */
++	/* followed by 'dhvlen' bytes of DH value */
++};
++
++enum {
++	NVME_AUTH_DHCHAP_RESPONSE_VALID	= (1 << 0),
++};
++
++struct nvmf_auth_dhchap_success1_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		hl;
++	__u8		rsvd2;
++	__u8		rvalid;
++	__u8		rsvd3[7];
++	/* 'hl' bytes of response value if 'rvalid' is set */
++	__u8		rval[];
++};
++
++struct nvmf_auth_dhchap_success2_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		rsvd2[10];
++};
++
++struct nvmf_auth_dhchap_failure_data {
++	__u8		auth_type;
++	__u8		auth_id;
++	__le16		rsvd1;
++	__le16		t_id;
++	__u8		rescode;
++	__u8		rescode_exp;
++};
++
++enum {
++	NVME_AUTH_DHCHAP_FAILURE_REASON_FAILED	= 0x01,
++};
++
++enum {
++	NVME_AUTH_DHCHAP_FAILURE_FAILED			= 0x01,
++	NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE		= 0x02,
++	NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH	= 0x03,
++	NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE		= 0x04,
++	NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE	= 0x05,
++	NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD	= 0x06,
++	NVME_AUTH_DHCHAP_FAILURE_INCORRECT_MESSAGE	= 0x07,
++};
++
++
+ struct nvme_dbbuf {
+ 	__u8			opcode;
+ 	__u8			flags;
+@@ -1436,6 +1618,8 @@ struct nvme_command {
+ 		struct nvmf_connect_command connect;
+ 		struct nvmf_property_set_command prop_set;
+ 		struct nvmf_property_get_command prop_get;
++		struct nvmf_auth_send_command auth_send;
++		struct nvmf_auth_receive_command auth_receive;
+ 		struct nvme_dbbuf dbbuf;
+ 		struct nvme_directive_cmd directive;
+ 	};
 -- 
 2.29.2
 
