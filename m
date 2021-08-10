@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FB2C4338F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 15:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 651F6C4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 15:59:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CC9960EB5
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 15:59:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8CC9960EB5
+	by mail.kernel.org (Postfix) with ESMTPS id D306060EB5
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Aug 2021 15:59:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D306060EB5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,36 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vjS9/2xJldera8NYd/+J8EFxUJ95BICjG4h2+E677ec=; b=vRXI1vl70s1nVW
-	6olsknX5c5vod6L7GcocHHPa76wT1C1HcKVKTkux9Er9hm8P/jMifjBnZklmsiYS/JaQ+wPcbOSFV
-	iAWdZdwJp3k4NBPB07pifeFPaP+FCkhty7GzRHNYlYzYiCKnzFyLP5g50o4Aye050MlPS/iCv5dRg
-	cWqt42L4mN1ZNaokawFyLfKWCI1S8h8dqx8KHTCh9qjYEhvxqcRsIJbRn5BAXhPgdTeeX3NLeIxCB
-	jGjpPJkwNgQupxrgiHNo/56CPr/dG3wMkOm/6sqUL1X52Ihezi7Hm2iG+5RKcNNz2mhswP/NDtYxZ
-	R0Z8dmzxeitZcLs1CubQ==;
+	List-Owner; bh=bF1TawUjWcTePgozK9TyHsMJvkJpQJI7tn0ooN3GBdU=; b=E1adjJFCYr8kZi
+	jJ8aPDnv3GIn+Bf9zKpswY17nP+YbTqQ/L1u5pYcA8eY6fGpn867oHKOcpUZe88CDUQSkOAamyFwE
+	hCh2BV3wQ37H016kGQkO+T0yn7lZI6SWWaUxkbFav6qdJEaqidAAIGcPsCuqxGQ9Y34JcKYaqXwtg
+	AHpdcMGxXMdY9xxRQLVFtrkuCaxQ5smQB5qSEWCIQeZFfHU9bI2IRe4AFuGU1PdqxWpT6YOBpB1+/
+	eYIvoS1M59SbvkoeUjbY/ytXc4HpHpk2WiyqV2FGKU0sd+//+THY9Mi+qU5lGp9OruGJ64gknGnX/
+	ht/1gGQcfaRVdt5UxyXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDU8v-004Nq1-Jj; Tue, 10 Aug 2021 15:58:17 +0000
+	id 1mDU95-004Nqx-2s; Tue, 10 Aug 2021 15:58:27 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDU8t-004Npc-Dm
- for linux-nvme@lists.infradead.org; Tue, 10 Aug 2021 15:58:16 +0000
+ id 1mDU8x-004Nq5-S1
+ for linux-nvme@lists.infradead.org; Tue, 10 Aug 2021 15:58:21 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8927D68B05; Tue, 10 Aug 2021 17:58:08 +0200 (CEST)
-Date: Tue, 10 Aug 2021 17:58:08 +0200
+ id 6C9AD68BEB; Tue, 10 Aug 2021 17:58:17 +0200 (CEST)
+Date: Tue, 10 Aug 2021 17:58:17 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
- kai.heng.feng@canonical.com
-Subject: Re: [PATCH 1/2] nvme: allow user toggling hmb usage
-Message-ID: <20210810155808.GA17339@lst.de>
-References: <20210727164044.2285364-1-kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de
+Subject: Re: [PATCH] nvme/tcp: pair send_mutex init with destroy
+Message-ID: <20210810155817.GB17339@lst.de>
+References: <20210806154143.2576327-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210727164044.2285364-1-kbusch@kernel.org>
+In-Reply-To: <20210806154143.2576327-1-kbusch@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210810_085815_652374_3F61F490 
-X-CRM114-Status: UNSURE (   8.04  )
+X-CRM114-CacheID: sfid-20210810_085820_091974_3F32AF35 
+X-CRM114-Status: UNSURE (   7.52  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -70,7 +69,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, I've applied both patches to nvme-5.15.
+Applied to nvme-5.15.
 
 _______________________________________________
 Linux-nvme mailing list
