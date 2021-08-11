@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A41A7C4338F
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Aug 2021 10:26:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E308FC432BE
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Aug 2021 10:31:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6C482600CD
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Aug 2021 10:26:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6C482600CD
+	by mail.kernel.org (Postfix) with ESMTPS id 9FD9B60D07
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Aug 2021 10:31:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9FD9B60D07
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,73 +23,71 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ijO0i4SiOCtEwmJOrB1c+XBa5GgjKyUMw1t1b3swYrY=; b=lV08mtDXttF4Ln
-	iFvEPr8pvZ1oFkIfQ1JkIuQL9W7RYiOuRWgC3DSed+F9C8BaweJZOskeo2gP8LLWAKBtTGV5sPRCJ
-	DiO2x0edz026+tvuua2zkXp+U7ov6MBtXi8JqaoJlWusWpIOnRrI0BbTOOpjZFtEEcNEldrBOowsm
-	hMZSY8s0yI957L99tv9PNKdnavuomxBgM1nanPnUXu3g83V+I25sQImtztNeYBYmNhyKf4ylKKg02
-	pvLBLtqcKlZH5ZEuPBBc3GwDYsG89TkMv4slnnVax+XtyCAZC//A+GWMoe6i3TuVyEKEpKPboj3FO
-	5I0RvDYKcGSnexgXVBGw==;
+	List-Owner; bh=fGoBlG/rFaFlGj4ZL02Yh1CDeT8NJr9LfTbdBm4o8OU=; b=dOJvJb2AlLxAuJ
+	Cq2h49Ct+h4WWKbI6J1ytvjUdxxIUHy1pX9YeIQPy2rBQOrvlL63GrEug4ywfARWQH9ElR7Oisp5T
+	Jlmm+dRg5xQtoj27n3DSx/pAQeZc0rKzCNh0hSZLj23n1V4voTBafaw8sekgA7MuQqHp3FNFOL8lN
+	zwHMnrUjbXnK28Jb4ZF1tIN6bdFsMF8hAoaBmh8lxaHZeVy5BG8oc4jeCMYvlMuMDkdPh5JEQco+l
+	PgUpO1iyOwrWtYOxPkG9wzN5bbuNWbloCiD599EjlVeKsfTfG/pvgjMklj2ecI+/M0YmL6yylQ45X
+	rajKyDkLIdNV80n5EkAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mDlRR-006cjE-63; Wed, 11 Aug 2021 10:26:33 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mDlVJ-006dCa-7I; Wed, 11 Aug 2021 10:30:33 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mDlQq-006cgr-Tb
- for linux-nvme@lists.infradead.org; Wed, 11 Aug 2021 10:26:00 +0000
+ id 1mDlV7-006dAk-J9
+ for linux-nvme@lists.infradead.org; Wed, 11 Aug 2021 10:30:25 +0000
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C49081FE29;
- Wed, 11 Aug 2021 10:25:53 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 350E9221D1;
+ Wed, 11 Aug 2021 10:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1628677553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1628677820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dIVroiF9CWXaHpVcigCtxn4G9TJ5tno4t7MoqivtmBE=;
- b=b+SuKVfs3TEK9nrziOok74mNZMgUtiymJF99t0VR8N6PbJOj4rqd7s7kiJeR5uwkFJE3V1
- qUuRkJhU8f8/CcC6xfB8bQ3ZpF2d4GnhJg1XqaXKt8Voxto9QGaBYOa1VSDjUz72YRjtih
- Dfku/ugQMlkKEyOeoAWGJMbPyGnXvFE=
+ bh=9PROUPtd8tEVskY/x6F4cQKQn0LeaTzerYxm4i+slnw=;
+ b=zTIZyeUy8mE4QaOiuEp13YJvKZp5L8XAaUDYhhMYAHx6k1kyQ4hvY18ZvQ6TrWZMh+jdyH
+ L3GXpO4H/jgTt9l4jZG7qpY62madXczy2FiLtK2etIFlnP+t0Sp9w4FdslWFNiWLFPrX86
+ RDj5gM59hmtd/daztRelmR7gfPICYaE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1628677553;
+ s=susede2_ed25519; t=1628677820;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dIVroiF9CWXaHpVcigCtxn4G9TJ5tno4t7MoqivtmBE=;
- b=88LED16uP9Jki6B+ocpzbFNhVd5PaojtVuvOjAht+8CLWYWTDGJ9K3HcZ5vgvumzwoISXg
- sp9gxICXsIV91YAQ==
+ bh=9PROUPtd8tEVskY/x6F4cQKQn0LeaTzerYxm4i+slnw=;
+ b=2YGzMIs6bMSGM1nNVEVwRaSd49v37+r29fwBw8DUzlbZE3C1SFuGEIYZYTIoAiW0IoLOQn
+ njjPEo2fxahy3xAg==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id ABDC8131F5;
- Wed, 11 Aug 2021 10:25:53 +0000 (UTC)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 1D66E131F5;
+ Wed, 11 Aug 2021 10:30:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id MS2KKbGlE2GbDgAAGKfGzw
- (envelope-from <dwagner@suse.de>); Wed, 11 Aug 2021 10:25:53 +0000
-Date: Wed, 11 Aug 2021 12:25:53 +0200
+ by imap1.suse-dmz.suse.de with ESMTPSA id SkrXBrymE2G0DwAAGKfGzw
+ (envelope-from <dwagner@suse.de>); Wed, 11 Aug 2021 10:30:20 +0000
+Date: Wed, 11 Aug 2021 12:30:19 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+Cc: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
- Ming Lei <ming.lei@redhat.com>, Hannes Reinecke <hare@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>
-Subject: Re: [PATCH v4 2/8] nvme-tcp: Update number of hardware queues before
- using them
-Message-ID: <20210811102553.auradulozluc5ond@carbon.lan>
+ Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ Wen Xiong <wenxiong@us.ibm.com>, James Smart <jsmart2021@gmail.com>
+Subject: Re: [PATCH v4 6/8] nvme-fc: fix controller reset hang during traffic
+Message-ID: <20210811103019.j2smukkfseqa3qdr@carbon.lan>
 References: <20210802112658.75875-1-dwagner@suse.de>
- <20210802112658.75875-3-dwagner@suse.de>
- <8373c07f-f5df-1ec6-9fda-d0262fc1b377@grimberg.me>
- <20210809085250.xguvx5qiv2gxcoqk@carbon>
- <01d7878c-e396-1d6b-c383-8739ca0b3d11@grimberg.me>
- <20210811010718.GA3135947@dhcp-10-100-145-180.wdc.com>
- <079108ce-6ca0-800e-e3df-29d015a4530c@grimberg.me>
+ <20210802112658.75875-7-dwagner@suse.de>
+ <79c89923-f586-79e7-6dfd-c15ceb21f569@suse.de>
+ <20210804080847.bajae2twtnmccvq7@beryllium.lan>
+ <d43f83cf-a3cd-df16-5af8-1f530b25d1cc@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <079108ce-6ca0-800e-e3df-29d015a4530c@grimberg.me>
+In-Reply-To: <d43f83cf-a3cd-df16-5af8-1f530b25d1cc@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210811_032557_147540_0E4ED8D6 
-X-CRM114-Status: GOOD (  19.72  )
+X-CRM114-CacheID: sfid-20210811_033021_840035_23F8749B 
+X-CRM114-Status: UNSURE (   9.95  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,33 +104,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 10, 2021 at 10:57:58PM -0700, Sagi Grimberg wrote:
-> > > I think we should always wait for the freeze to complete.
-> > 
-> > Don't the queues need to be started in order for the freeze to complete?
-> > Any enqueued requests on the quiesced queues will never complete this
-> > way, so the wait_freeze() will be stuck, right? If so, I think the
-> > nvme_start_queues() was in the correct place already.
-> 
-> Exactly what I was trying to point out (poorly though)
+On Tue, Aug 10, 2021 at 06:05:04PM -0700, Sagi Grimberg wrote:
+> Why is there a conditional freeze?
 
-Thanks for explaining. I think I got the general idea what the different
-states are doing and what the transitions are now. (famous last words).
-
-Anyway, the first three patches are the result of debugging the case of
-'prior_ioq_cnt != nr_io_queues'. Starting the queues before updating the
-number of queues lookes strange.
-
-I suppose in the case 'prior_ioq_cnt > nr_io_queues',
-nvme_tcp_start_io_queues() should be successful and we do the
-blk_mq_update_nr_hw_queues(). In the other case we should land in the
-error recovery.
-
-Wouldn't it make sense to always exercise the error recovery path if we
-detect 'prior_ioq_cnt != nr_io_queues' and reduce the number of things
-which can go wrong?
-
-Daniel
+The freeze only happens if I/O queues have been created/started. If I
+understand this correctly, this is the corner case we were only able to
+establish the admin queue and fail later to setup the I/O queues.
 
 _______________________________________________
 Linux-nvme mailing list
