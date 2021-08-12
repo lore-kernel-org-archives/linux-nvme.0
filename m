@@ -2,20 +2,20 @@ Return-Path: <SRS0=ZjMq=ND=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B849DC4338F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 15:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A1D9C4338F
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 16:31:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7481560E93
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 15:48:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7481560E93
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 2B2A0603E7
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 16:31:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2B2A0603E7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -24,72 +24,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=hqLpRFE47MzrOSoILWbQYOrTOOmgJvvFlSgUZQl4TPY=; b=oi+YS2aeVpGJ1iMasVG9uVduHb
-	0r66pvocHw+7xVcwNuKF5CPtirtiwAM0RCETHio36viVAE0qhsnQHxSDLCkr0CSNNs9YXWRvHCF1G
-	NBR1VsjkNZpBpFSwCAeij4gsU0EN1PljtEqgQAEbJWeAqJGHDlN9nsa5+CjnRFqDpDblA+r1L4YbO
-	7pnpDQALGhW/6K88f8MCJwyGjeq1jLNch+uZtWFRv7A1IO1RRqdXvcPitHp65FmngzU4xoSx7SEwm
-	LMRPayRSb+0v0wd48qV5grcgvCibwDSL91vUr8wq0x7IsQBYDNg+YtdCZNWVSrBUA39UDgUg2fT9Z
-	ux1vasLg==;
+	bh=C3npMcYmM5RgvMtFoS7wNeY/QjIdr/KlVSrhiyh/32c=; b=GowuBzDBwpqczVp0hSP7jQ8eJ/
+	9xViyZhVVI2X3V7HO6zStRAimoXdhKEU+Gic4/Fjd7gRw3lZR1EOUkXzei7W8YKaQNlp9HAe9bED0
+	tp4MNgXskqJvB3v205WYi+/euEIRl8Y6wKI+Nn2iceaW5pG17PnC8s/ZR8k5Jl/QuzRxEfb4FFay0
+	akJdoe2rLKbDHB7xN10BkkzF+z67T5+TzBDMD1L1ZAOkzv+iDhV0j9kC31/AgvpVemhCu9ks0XL4F
+	6Lry/2RCO2ZuFG5IBA9jrbdicPvcEZHqkK9oB9x7frKL2G9lhdKz+SdBGAAbb7Dj2IEikYiLt45We
+	8fNS+vVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mECwM-00Aaie-RC; Thu, 12 Aug 2021 15:48:18 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mEDbF-00Aede-E6; Thu, 12 Aug 2021 16:30:33 +0000
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mECwH-00AahE-6Z
- for linux-nvme@lists.infradead.org; Thu, 12 Aug 2021 15:48:17 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EA35F222A7;
- Thu, 12 Aug 2021 15:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1628783291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dggFCYfqvDGrc8ufyifdsUWa0iADyaxGU9QqwNJ3pNo=;
- b=NAfSTEBSkS/9UW2OGRu0KM86uMN88fpuuZtoZ0nyXuJbRTctqKyh0GvWMMiCntTvbWNXpe
- 7sgCRk8h28MJodPKkmk7skNfmgLD4i6itTH+af4ASG70uoioR8IJj8hDd5o7JuWDpt7UIU
- BEzdCi8FzV/QQVpIGcEGYVUoYbIHqVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1628783291;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dggFCYfqvDGrc8ufyifdsUWa0iADyaxGU9QqwNJ3pNo=;
- b=jlMXXbviU9zQg6ZGEOseMnWtZOCtL2RjJqg6qLc4keAjYa1QgoS7S/8NawXNXzIrXsnDwt
- ZGO8Eq2x0gyEi9Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7E09C13C59;
- Thu, 12 Aug 2021 15:48:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id f/BwFLlCFWE6HwAAMHmgww
- (envelope-from <colyli@suse.de>); Thu, 12 Aug 2021 15:48:09 +0000
-Subject: Re: [PATCH 6/8] bcache: add proper error unwinding in
- bcache_device_init
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Song Liu <song@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Luis Chamberlain <mcgrof@kernel.org>, linux-block@vger.kernel.org,
- linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-nvme@lists.infradead.org
+ id 1mEDbC-00AecJ-PM
+ for linux-nvme@lists.infradead.org; Thu, 12 Aug 2021 16:30:32 +0000
+Received: by mail-oi1-x236.google.com with SMTP id bj40so11235112oib.6
+ for <linux-nvme@lists.infradead.org>; Thu, 12 Aug 2021 09:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x4cHlQi/obhutO8LyeLFAXruEbBUWhCtJGxWE1s0N8U=;
+ b=1rQ0mvustmtHXZ9U4L7gESxZbbqf2omo6y+0DkbXfIM5f7jDR1C54mTtLi+VBRe8Ri
+ eKlcSaEDchw6I1SlloYW3zJh04HuTIYO+Q882Jty+7he4kk9+5qPwRsQsLOZVeMjMIsc
+ oi3ti9jbeFQ7J/hgVkb0EM50yCmk+wxySBnupMJHBjAM0Bx5zUYk34ix6PG4vi9yZ7oa
+ d48PgHNqKN03IFkifLYQ62bUSU7YhdJZ0I9vvA5ZLVJIw2JCm7DusCjxWeO87jlAh9zg
+ oSC9fDh0NRkzMVe+Tlv05IDtO33QLAZpSejO9BUjaeTjO8bYFsIpetOwwMJGZLXPeFsA
+ N4Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x4cHlQi/obhutO8LyeLFAXruEbBUWhCtJGxWE1s0N8U=;
+ b=EocDfYG+SWMxfBf2Y0YsjkQUghPTSLkqEadhJnZp9Ut8NRd4CrDNRr/4dB7EKKCZMj
+ r3jlFg+eTXBDxUA1LUwQ7xnytDP1EclUDzVq2RVRteSygOpjtNt+PiXhexBZ+SLxh2p8
+ MhqQ9mn9O48zAo6J6J/EQ0adpnTLYjGZFpihk0tdVxaQoksTMfh5AZIRryHsYGcfwbMk
+ Fcovj+Zfq3JOo+dbch9DTvdVT+l4phkoqgegPAytZ5QalacwX/x98h/MkriewVOlUZdl
+ pm0OxXdrz9me6vtUdyqssY17sfnrtJR/JC0CoNpcbAbGPu5lM4zPCEa3zo9o/nxvVGwE
+ N/hw==
+X-Gm-Message-State: AOAM533Fb9XDzCxQdIMS2A4mVDBU1NyCRRN0FwUoyUjcwKAJmR+EWU5M
+ /sCL4xV/E818bO5Tn3JjCLy/g53wHbslWA3j
+X-Google-Smtp-Source: ABdhPJy2dkFA+KnUiS1sS6pKuw2wcOYGZn612cKtDfh2S9ahMGuS9i7oBMQNyXf3JaG+igFZLuxRCw==
+X-Received: by 2002:aca:1c0a:: with SMTP id c10mr4010067oic.87.1628785827272; 
+ Thu, 12 Aug 2021 09:30:27 -0700 (PDT)
+Received: from [192.168.1.30] ([207.135.234.126])
+ by smtp.gmail.com with ESMTPSA id m9sm637634ooe.32.2021.08.12.09.30.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Aug 2021 09:30:26 -0700 (PDT)
+Subject: Re: remove GENHD_FL_UP
+To: Christoph Hellwig <hch@lst.de>
+Cc: Coly Li <colyli@suse.de>, Song Liu <song@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-nvme@lists.infradead.org
 References: <20210809064028.1198327-1-hch@lst.de>
- <20210809064028.1198327-7-hch@lst.de>
-From: Coly Li <colyli@suse.de>
-Message-ID: <bdec1e0a-e789-19f1-e9b6-d7f99413670d@suse.de>
-Date: Thu, 12 Aug 2021 23:48:07 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <477bcf09-1711-b643-85b2-e8f0809b6dda@kernel.dk>
+Date: Thu, 12 Aug 2021 10:30:25 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210809064028.1198327-7-hch@lst.de>
+In-Reply-To: <20210809064028.1198327-1-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210812_084813_450760_A3FE7F86 
-X-CRM114-Status: GOOD (  18.67  )
+X-CRM114-CacheID: sfid-20210812_093030_874642_08BDAFAF 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,67 +106,17 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/9/21 2:40 PM, Christoph Hellwig wrote:
-> Except for the IDA none of the allocations in bcache_device_init is
-> unwound on error, fix that.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On 8/9/21 12:40 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> this series first cleans up various drivers to not rely on the
+> internal GENHD_FL_UP to decided if they need to call del_gendisk
+> and then removes the flag entirely.
 
-Acked-by: Coly Li <colyli@suse.de>
+Applied, thanks.
 
-Thanks.
-
-Coly Li
-
-> ---
->  drivers/md/bcache/super.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-> index 185246a0d855..d0f08e946453 100644
-> --- a/drivers/md/bcache/super.c
-> +++ b/drivers/md/bcache/super.c
-> @@ -931,20 +931,20 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
->  	n = BITS_TO_LONGS(d->nr_stripes) * sizeof(unsigned long);
->  	d->full_dirty_stripes = kvzalloc(n, GFP_KERNEL);
->  	if (!d->full_dirty_stripes)
-> -		return -ENOMEM;
-> +		goto out_free_stripe_sectors_dirty;
->  
->  	idx = ida_simple_get(&bcache_device_idx, 0,
->  				BCACHE_DEVICE_IDX_MAX, GFP_KERNEL);
->  	if (idx < 0)
-> -		return idx;
-> +		goto out_free_full_dirty_stripes;
->  
->  	if (bioset_init(&d->bio_split, 4, offsetof(struct bbio, bio),
->  			BIOSET_NEED_BVECS|BIOSET_NEED_RESCUER))
-> -		goto err;
-> +		goto out_ida_remove;
->  
->  	d->disk = blk_alloc_disk(NUMA_NO_NODE);
->  	if (!d->disk)
-> -		goto err;
-> +		goto out_bioset_exit;
->  
->  	set_capacity(d->disk, sectors);
->  	snprintf(d->disk->disk_name, DISK_NAME_LEN, "bcache%i", idx);
-> @@ -987,8 +987,14 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
->  
->  	return 0;
->  
-> -err:
-> +out_bioset_exit:
-> +	bioset_exit(&d->bio_split);
-> +out_ida_remove:
->  	ida_simple_remove(&bcache_device_idx, idx);
-> +out_free_full_dirty_stripes:
-> +	kvfree(d->full_dirty_stripes);
-> +out_free_stripe_sectors_dirty:
-> +	kvfree(d->stripe_sectors_dirty);
->  	return -ENOMEM;
->  
->  }
+-- 
+Jens Axboe
 
 
 _______________________________________________
