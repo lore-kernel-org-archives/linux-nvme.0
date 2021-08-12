@@ -2,94 +2,62 @@ Return-Path: <SRS0=ZjMq=ND=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF169C4338F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 08:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28DEC4338F
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 12:26:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77D0A6103A
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 08:38:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 77D0A6103A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 2B65D61038
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Aug 2021 12:26:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2B65D61038
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=l3227xPj+uJNd1JFjKgr2NSgCNw4i+FBewNeoZnE4ik=; b=lOuNazWncHmLwZl3stF67VVcqm
-	LLn75a9c8Yfdzk1j47szRJT+gUxZuArCjyq+vqQuaKGdYtHyGeaAWw0/rC3K0APa18tu0ph8ALY4j
-	W/P8BLMwiMonseELWMh/48DGkwNFziRmhkw1CKQRc3o3pyR/CaV6rfTLCFoWOpmCK4ktpzKsjw1q3
-	LuuGMiwWWqeRvkx6eRbAaxqjcVy+uwqSnqEznKK18bRFk5NgQUWPe2w5/UHBMww4haIIQpSkvSXKG
-	vJTQmiTpe2KdjL0VKmcPp+fuDDgZj4bPGeMusloaTng/OeWlFZQ0NDOmPkhIWABGRfOdnyKaYc8UE
-	WW2Fuccw==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=+NSbzXKUtY7vrqmnrKUUyD7DS5YJ+xV8rXWhZij4G5I=; b=Y/NdWGHwIvt3y0
+	/A/5UFHFQo+9uHGHIG0M7ay1xsAbAMmF79MvkGRRpRtXa2SpLBQFq+xXPTj6Vm/jMkJRSVSLADVwq
+	VXUe9jccgsWwlHDirfqH+5htOo6mLhTRbq6WUKVRcvNhvEUW75Ehle9LfKRW0uII+0E6d6yD6k4dp
+	HUYcGC6mb9pEBvnkYexpypfCfItG/nbljbOF5IYXizCZyxs/Uuo60aB04IQVLlJT4eM93RNT6vWvG
+	akSpdMRvCzMJ8c1+gih1mQIDajnH5d8qfzOLypBSBR69uF2TL3KOu8a2eCh2j8Tj/Ee+P01eC3NHg
+	neNN0UdmrwwDsKYvYHzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mE6Ef-009BpN-Tv; Thu, 12 Aug 2021 08:38:45 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mE9mO-009zsL-1I; Thu, 12 Aug 2021 12:25:48 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mE6Ea-009Bms-1O
- for linux-nvme@lists.infradead.org; Thu, 12 Aug 2021 08:38:44 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B7B4D1FF27;
- Thu, 12 Aug 2021 08:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1628757518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZPpCgZsZujeHpFjKQKbfSj++xp0YtZ9ihzOrHo+mO84=;
- b=lqWyC3V0Viit0MCDa2F8x2Cxg+52gkzX0IMmmSaJv9pa1zQRH8Z/Ku01caEw6EVmBIQ3WQ
- /s8sjdv8HKDjG9kHai/YaHffgeIEfd0GE6C4bnNyrJIt/IB0W8SCbkEYEbIibdvOCs3M2y
- lerpWfd1yQI8dsFoo3/ZnlO7BF7Qa+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1628757518;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZPpCgZsZujeHpFjKQKbfSj++xp0YtZ9ihzOrHo+mO84=;
- b=9OyYFVp2+osa2ADsUh0iYui0qaiJ2PaF4wA0XkeewrHVcbpFSivlwIpLbFY1jppDHeuWED
- yV+2yqgKkGJxe8BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B17213C3B;
- Thu, 12 Aug 2021 08:38:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id TyTYDQzeFGHMLgAAMHmgww
- (envelope-from <colyli@suse.de>); Thu, 12 Aug 2021 08:38:36 +0000
-Subject: Re: [PATCH 7/8] bcache: move the del_gendisk call out of
- bcache_device_free
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Song Liu <song@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Luis Chamberlain <mcgrof@kernel.org>, linux-block@vger.kernel.org,
- linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20210809064028.1198327-1-hch@lst.de>
- <20210809064028.1198327-8-hch@lst.de>
-From: Coly Li <colyli@suse.de>
-Message-ID: <7ec809f8-c3d0-c3ad-8b2f-4b8d34b688ab@suse.de>
-Date: Thu, 12 Aug 2021 16:38:34 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.12.0
+ id 1mE9lw-009zru-Vr
+ for linux-nvme@lists.infradead.org; Thu, 12 Aug 2021 12:25:22 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 6B43868B05; Thu, 12 Aug 2021 14:25:18 +0200 (CEST)
+Date: Thu, 12 Aug 2021 14:25:18 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <keith.busch@wdc.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>,
+ linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 13/13] nvme: add non-standard ECDH and curve25517
+ algorithms
+Message-ID: <20210812122518.GA19050@lst.de>
+References: <20210810124230.12161-1-hare@suse.de>
+ <20210810124230.12161-14-hare@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210809064028.1198327-8-hch@lst.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210810124230.12161-14-hare@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210812_013840_299693_9CF6F588 
-X-CRM114-Status: GOOD (  19.18  )
+X-CRM114-CacheID: sfid-20210812_052521_222742_E8F03EEA 
+X-CRM114-Status: GOOD (  13.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,62 +74,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/9/21 2:40 PM, Christoph Hellwig wrote:
-> Let the callers call del_gendisk so that we can check if add_disk
-> has been called properly for the cached device case instead of relying
-> on the block layer internal GENHD_FL_UP flag.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Tue, Aug 10, 2021 at 02:42:30PM +0200, Hannes Reinecke wrote:
+> TLS 1.3 specifies ECDH and curve25517 in addition to the FFDHE
+> groups, and these are already implemented in the kernel.
+> So add support for these non-standard groups for NVMe in-band
+> authentication to validate the augmented challenge implementation.
 
-It looks good to me.
-
-Reviewed-by: Coly Li <colyli@suse.de>
-
-Thanks.
-
-Coly Li
-
-> ---
->  drivers/md/bcache/super.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-> index d0f08e946453..f2874c77ff79 100644
-> --- a/drivers/md/bcache/super.c
-> +++ b/drivers/md/bcache/super.c
-> @@ -885,11 +885,6 @@ static void bcache_device_free(struct bcache_device *d)
->  		bcache_device_detach(d);
->  
->  	if (disk) {
-> -		bool disk_added = (disk->flags & GENHD_FL_UP) != 0;
-> -
-> -		if (disk_added)
-> -			del_gendisk(disk);
-> -
->  		blk_cleanup_disk(disk);
->  		ida_simple_remove(&bcache_device_idx,
->  				  first_minor_to_idx(disk->first_minor));
-> @@ -1371,8 +1366,10 @@ static void cached_dev_free(struct closure *cl)
->  
->  	mutex_lock(&bch_register_lock);
->  
-> -	if (atomic_read(&dc->running))
-> +	if (atomic_read(&dc->running)) {
->  		bd_unlink_disk_holder(dc->bdev, dc->disk.disk);
-> +		del_gendisk(dc->disk.disk);
-> +	}
->  	bcache_device_free(&dc->disk);
->  	list_del(&dc->list);
->  
-> @@ -1518,6 +1515,7 @@ static void flash_dev_free(struct closure *cl)
->  	mutex_lock(&bch_register_lock);
->  	atomic_long_sub(bcache_dev_sectors_dirty(d),
->  			&d->c->flash_dev_dirty_sectors);
-> +	del_gendisk(d->disk);
->  	bcache_device_free(d);
->  	mutex_unlock(&bch_register_lock);
->  	kobject_put(&d->kobj);
-
+If you think these are useful please add them to the standard.
 
 _______________________________________________
 Linux-nvme mailing list
