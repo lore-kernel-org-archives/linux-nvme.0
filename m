@@ -6,14 +6,14 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F65C432BE
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Aug 2021 16:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E3FC4338F
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Aug 2021 20:02:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DBC2B610A4
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Aug 2021 16:46:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DBC2B610A4
+	by mail.kernel.org (Postfix) with ESMTPS id 96395610CF
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Aug 2021 20:02:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 96395610CF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,50 +22,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UXO7RajnoJJWdwHHkFaOBKnnW1ii4t4oz5/lCy7EDYA=; b=fsBAJQtrTsaicx
-	vg7WwFW/Y0WMSFhXASzWjWr8aszx2kPu14a21Cnv0pWNx5MSjmDrChCAO7d2JsLjQcC0BrUyQgzfN
-	x+4RGbARxdx2idbQngJEBs2hUEH8wi5nZjUN9oTBQKSf+g5FRvKgZxyCiYKteoXljMhIXfbCUTtwz
-	K2sWl8Y0BgzRhyXlwQYWQgWjm/iNXKZ/xVPVVuki5uIaGcwCgbgfrFHWyXx4uI0kYNAYtURQkn+yb
-	2rBiBIyBhuWTZ7NNTuxiE9u4OK9xfVttGEc6qAZiyzL1xc77S8MpTOIRJ3Zs/8BPGrdSjiQheaMnt
-	8l1igdiEosAT+Suz+aig==;
+	List-Owner; bh=U9DoguWP27l3db8cEDbHgNvB9ICg6n/J4Q6bOVE08TA=; b=jid7zExz4v5BJR
+	ACNCPsoU5Wr1DCHpEth/wPKWRwZ7xLtRzVoFpehSsDYCX1BPGp2epZ60mh5ZIqMcz1TVt+6WDBSBS
+	YcUt3n+8k2lyxEJgNDp655CR37pl1v3MevgihAGJQIijoCDAVH2Zln47Yjop34bx5PwVCJ/Rqc9oT
+	oBJ5EFT1/ftk0b+ShAfcl6iD+dCuROUGKJrrVslFaROQl2tMOp+PIIRTMTReAApfaLn+77cv49pWK
+	gxACZzVTzgwd3PocxsR9KM9WjZCfMWsAmTRzGDPmpds1I3/kt+1kXASMjskQapIQSLOXHPOWJA1Sk
+	k+gVrcPApv2IcSAwa6ow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mEaJw-00D9FA-1M; Fri, 13 Aug 2021 16:46:12 +0000
+	id 1mEdNr-00DWIk-5w; Fri, 13 Aug 2021 20:02:27 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mEaJd-00D9Ep-SG
- for linux-nvme@lists.infradead.org; Fri, 13 Aug 2021 16:45:55 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7CA5610A4;
- Fri, 13 Aug 2021 16:45:50 +0000 (UTC)
+ id 1mEdNm-00DWIE-OK
+ for linux-nvme@lists.infradead.org; Fri, 13 Aug 2021 20:02:24 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5CAB61042;
+ Fri, 13 Aug 2021 20:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628873152;
- bh=z8zsNkYA2AJX76w4oA0E7Lb62DHf0hifmBag+OVPBlY=;
+ s=k20201202; t=1628884942;
+ bh=2yn96sWlsC0fvsJxKsbolQbtW9+ykylHFid0uAISc2E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KhSWxIQAdSsoP3W2SWxihajKkoUO1Ag4eupbbze/aaMo2TY0cMkujpVlfCx5GLRkt
- MbOsWtnARMXkdS3fLnN4q4e2H/zBtnlTXe9Bram9haFGhK9ii4INshwLgLmGfj47wg
- zAS3E61pXz39Gz15TWr98JWZl1SnxN4VywFmi2T655pC77wpYPqRGG34WafXbLiU4y
- ZsUkx/DsOXrcg6+oGTzFQO+F3Krt1a037AXEt7Pd8s8FFE3xL0viC2au1NfobgH9qL
- abxvjXs5IPVpLLd4R8gnySjmhZM7idrRrVk0AJxRXFLsOV5oLOWxvmE7KNRHWPV+7N
- 3weUZKMyvdrlg==
-Date: Fri, 13 Aug 2021 09:45:47 -0700
+ b=u7/IWKN1DEwikJKbq9mqOTrwd/C3dEhedRY75klcG7+Nigfqaz4rJvCkhmKNvQ08i
+ cBo93HhB8pLWq3hV0U06xnMKFCIbel2dD8xaDGsnQ+9S7rMrzwWcbTdKjSkHGfMIj+
+ rTUEvJRr+xvS4qIMWSwTCCuLI55wMMTcFjAHFaJs5bzcQdvAAXPfGsONwVDBeQ/LvA
+ T70cymxe4FhgPmjRaZTaYCCSOuSnaKVMJMFpra8jiNjIgXER7AFH7hG9E2dfN0UfeR
+ zMuDr/7c6ny+eg7XxPEzbZHqEd69bcX1k7uUKuOD1ptchwXJoCeWr9bJA1XJTS8AxV
+ lRN8Q9/qv+00w==
+Date: Fri, 13 Aug 2021 13:02:19 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Naveen <naveen.n1@samsung.com>
-Cc: qemu-devel@nongnu.org, its@irrelevant.dk, stefanha@redhat.com,
- fam@euphon.net, kwolf@redhat.com, mreitz@redhat.com,
- qemu-block@nongnu.org, linux-nvme@lists.infradead.org,
- k.jensen@samsung.com, d.palani@samsung.com, prakash.v@samsung.com,
- jg123.choi@samsung.com, anuj.singh@samsung.com,
- raphel.david@samsung.com, p.kalghatgi@samsung.com, anaidu.gollu@samsung.com
-Subject: Re: [RFC PATCH v1] Adding Support for namespace management
-Message-ID: <20210813164547.GB3138953@dhcp-10-100-145-180.wdc.com>
-References: <CGME20210813101459epcas5p19cf9edbb414726886b9d3a5a140fc706@epcas5p1.samsung.com>
- <1628847142-24943-1-git-send-email-naveen.n1@samsung.com>
+To: Ruozhu Li <liruozhu@huawei.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, lengchao@huawei.com
+Subject: Re: [PATCH] nvme-tcp: Don't update queue count when failing to set
+ io queues
+Message-ID: <20210813200219.GA2661@dhcp-10-100-145-180.wdc.com>
+References: <20210807035023.27368-1-liruozhu@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1628847142-24943-1-git-send-email-naveen.n1@samsung.com>
+In-Reply-To: <20210807035023.27368-1-liruozhu@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210813_094553_997897_8228F74E 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20210813_130222_880075_03FDE5AE 
+X-CRM114-Status: GOOD (  22.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,214 +77,84 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 13, 2021 at 03:02:22PM +0530, Naveen wrote:
-> +static uint16_t nvme_identify_ns_common(NvmeCtrl *n, NvmeRequest *req)
-> +{
-> +    NvmeIdNs id_ns = {};
-> +
-> +    id_ns.nsfeat |= (0x4 | 0x10);
-> +    id_ns.dpc = 0x1f;
-> +
-> +    NvmeLBAF lbaf[16] = {
-> +        [0] = {.ds = 9},
-> +        [1] = {.ds = 9, .ms = 8},
-> +        [2] = {.ds = 9, .ms = 16},
-> +        [3] = {.ds = 9, .ms = 64},
-> +        [4] = {.ds = 12},
-> +        [5] = {.ds = 12, .ms = 8},
-> +        [6] = {.ds = 12, .ms = 16},
-> +        [7] = {.ds = 12, .ms = 64},
-> +    };
+On Sat, Aug 07, 2021 at 11:50:23AM +0800, Ruozhu Li wrote:
+> We update ctrl->queue_count and schedule another reconnect when io queue
+> count is zero.But we will never try to create any io queue in next reco-
+> nnection, because ctrl->queue_count already set to zero.We will end up
+> having an admin-only session in Live state, which is exactly what we try
+> to avoid in the original patch.
+> Update ctrl->queue_count after queue_count zero checking to fix it.
 
-Since the lbaf is a copy of what's defined in nvme_ns_init, so should be
-defined for reuse.
+I think this patch fixes more than just an admin-only session. We've observed
+an issue where a subsequent reconnect has the wrong queue_count and tries to
+use uninitialized sockets that leads to the below panic. We have not seen the
+panic with this patch included since it reconfigures the IO queues, so I feel
+this patch is good for either 5.14 or stable.
 
-> +
-> +    memcpy(&id_ns.lbaf, &lbaf, sizeof(lbaf));
-> +    id_ns.nlbaf = 7;
+ [00:30:04 2021] nvme nvme3: queue 0: timeout request 0x16 type 4
+ [00:30:04 2021] nvme nvme3: Could not set queue count (881)
+ [00:30:04 2021] nvme nvme3: unable to set any I/O queues
+ [00:30:04 2021] nvme nvme3: Failed reconnect attempt 4
+ [00:30:04 2021] nvme nvme3: Reconnecting in 10 seconds...
+ [00:30:15 2021] nvme nvme3: queue_size 128 > ctrl sqsize 16, clamping down
+ [00:30:15 2021] BUG: kernel NULL pointer dereference, address: 00000000000000a0
+ [00:30:15 2021] #PF: supervisor read access in kernel mode
+ [00:30:15 2021] #PF: error_code(0x0000) - not-present page
+ [00:30:15 2021] PGD 0 P4D 0
+ [00:30:15 2021] Oops: 0000 [#1] SMP NOPTI
+ [00:30:15 2021] CPU: 0 PID: 3776 Comm: kworker/0:2H Not tainted 5.12.9 #1
+ [00:30:15 2021] Hardware name: Dell Inc. PowerEdge R7525/0YHMCJ, BIOS 2.0.3 01/15/2021
+ [00:30:15 2021] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
+ [00:30:15 2021] RIP: 0010:kernel_sendpage+0x16/0xc0
+ [00:30:15 2021] Code: 5d c3 48 63 03 45 31 e4 48 89 1c c5 20 b1 55 a7 eb cc 66 90 0f 1f 44 00 00 55 48 89 e5 41 54 49 89 fc 48 83 ec 18 48 8b 47 20 <4c> 8b 88 a0 00 00 00 4d 85 c9 74 3d 48 8b 7e 08 48 8d 47 ff 83 e7
+ [00:30:15 2021] RSP: 0018:ffffa8e90aef3d60 EFLAGS: 00010286
+ [00:30:15 2021] RAX: 0000000000000000 RBX: ffff98bd601ca130 RCX: 0000000000000048
+ [00:30:15 2021] RDX: 0000000000000bc8 RSI: ffffd241a3c577c0 RDI: ffff98c4c64a3400
+ [00:30:15 2021] RBP: ffffa8e90aef3d80 R08: 0000000000028040 R09: ffff98bd9892b998
+ [00:30:15 2021] R10: ffff98bd9892b498 R11: 000000000000000c R12: ffff98c4c64a3400
+ [00:30:15 2021] R13: 0000000000000048 R14: 0000000000000000 R15: ffff98bd9892b998
+ [00:30:15 2021] FS:  0000000000000000(0000) GS:ffff98c49e800000(0000) knlGS:0000000000000000
+ [00:30:15 2021] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+ [00:30:15 2021] CR2: 00000000000000a0 CR3: 00000008901fc000 CR4: 0000000000350ef0
+ [00:30:15 2021] Call Trace:
+ [00:30:15 2021]  ? tcp_read_sock+0x199/0x270
+ [00:30:15 2021]  nvme_tcp_try_send+0x160/0x7f0 [nvme_tcp]
+ [00:30:15 2021]  ? _raw_spin_unlock_bh+0x1e/0x20
+ [00:30:15 2021]  ? release_sock+0x8f/0xa0
+ [00:30:15 2021]  ? nvme_tcp_try_recv+0x74/0xa0 [nvme_tcp]
+ [00:30:15 2021]  nvme_tcp_io_work+0x81/0xd0 [nvme_tcp]
+ [00:30:15 2021]  process_one_work+0x220/0x3c0
+ [00:30:15 2021]  worker_thread+0x4d/0x3f0
+ [00:30:15 2021]  kthread+0x114/0x150
+ [00:30:15 2021]  ? process_one_work+0x3c0/0x3c0
+ [00:30:15 2021]  ? kthread_park+0x90/0x90
+ [00:30:15 2021]  ret_from_fork+0x22/0x30
 
-The identify structure should be what's in common with all namespaces,
-and this doesn't look complete. Just off the top of my head, missing
-fields include MC and DLFEAT.
-
-> +
-> +    return nvme_c2h(n, (uint8_t *)&id_ns, sizeof(NvmeIdNs), req);
-> +}
-> +
->  static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
->  {
->      NvmeNamespace *ns;
-> @@ -4453,8 +4478,10 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+> ---
+>  drivers/nvme/host/tcp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 8cb15ee5b249..18bd68b82d78 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -1769,13 +1769,13 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>  	if (ret)
+>  		return ret;
 >  
->      trace_pci_nvme_identify_ns(nsid);
+> -	ctrl->queue_count = nr_io_queues + 1;
+> -	if (ctrl->queue_count < 2) {
+> +	if (nr_io_queues == 0) {
+>  		dev_err(ctrl->device,
+>  			"unable to set any I/O queues\n");
+>  		return -ENOMEM;
+>  	}
 >  
-> -    if (!nvme_nsid_valid(n, nsid) || nsid == NVME_NSID_BROADCAST) {
-> +    if (!nvme_nsid_valid(n, nsid)) {
->          return NVME_INVALID_NSID | NVME_DNR;
-> +    } else if (nsid == NVME_NSID_BROADCAST) {
-> +        return nvme_identify_ns_common(n, req);
->      }
+> +	ctrl->queue_count = nr_io_queues + 1;
+>  	dev_info(ctrl->device,
+>  		"creating %d I/O queues.\n", nr_io_queues);
 >  
->      ns = nvme_ns(n, nsid);
-> @@ -5184,6 +5211,195 @@ static void nvme_select_iocs_ns(NvmeCtrl *n, NvmeNamespace *ns)
->      }
->  }
->  
-> +static int nvme_blk_truncate(BlockBackend *blk, size_t len, Error **errp)
-> +{
-> +    int ret;
-> +    uint64_t perm, shared_perm;
-> +
-> +    blk_get_perm(blk, &perm, &shared_perm);
-> +
-> +    ret = blk_set_perm(blk, perm | BLK_PERM_RESIZE, shared_perm, errp);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    ret = blk_truncate(blk, len, false, PREALLOC_MODE_OFF, 0, errp);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    ret = blk_set_perm(blk, perm, shared_perm, errp);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static uint32_t nvme_allocate_nsid(NvmeCtrl *n)
-> +{
-> +    uint32_t nsid = 0;
-> +    for (int i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-> +        if (nvme_ns(n, i) || nvme_subsys_ns(n->subsys, i)) {
-> +            continue;
-> +        }
-> +
-> +        nsid = i;
-> +        return nsid;
-> +    }
-> +    return nsid;
-> +}
-> +
-> +static uint16_t nvme_namespace_create(NvmeCtrl *n, NvmeRequest *req)
-> +{
-> +   uint32_t ret;
-> +   NvmeIdNs id_ns_host;
-> +   NvmeSubsystem *subsys = n->subsys;
-> +   Error *err = NULL;
-> +   uint8_t flbas_host;
-> +   uint64_t ns_size;
-> +   int lba_index;
-> +   NvmeNamespace *ns;
-> +   NvmeCtrl *ctrl;
-> +   NvmeIdNs *id_ns;
-> +
-> +    ret = nvme_h2c(n, (uint8_t *)&id_ns_host, sizeof(id_ns_host), req);
-> +    if (ret) {
-> +        return ret;
-> +    }
-
-Some unusual indentation here.
-
-> +
-> +    if (id_ns_host.ncap < id_ns_host.nsze) {
-> +        return NVME_THIN_PROVISION_NO_SUPP | NVME_DNR;
-> +    } else if (id_ns_host.ncap > id_ns_host.nsze) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    if (!id_ns_host.nsze) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    if (QSLIST_EMPTY(&subsys->unallocated_namespaces)) {
-> +        return NVME_NS_ID_UNAVAILABLE;
-> +    }
-> +
-> +    ns = QSLIST_FIRST(&subsys->unallocated_namespaces);
-> +    id_ns = &ns->id_ns;
-> +    flbas_host = (id_ns_host.flbas) & (0xF);
-> +
-> +    if (flbas_host > id_ns->nlbaf) {
-> +        return NVME_INVALID_FORMAT | NVME_DNR;
-> +    }
-> +
-> +    ret = nvme_ns_setup(ns, &err);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    id_ns->flbas = id_ns_host.flbas;
-> +    id_ns->dps = id_ns_host.dps;
-> +    id_ns->nmic = id_ns_host.nmic;
-> +
-> +    lba_index = NVME_ID_NS_FLBAS_INDEX(id_ns->flbas);
-> +    ns_size = id_ns_host.nsze * ((1 << id_ns->lbaf[lba_index].ds) +
-> +                (id_ns->lbaf[lba_index].ms));
-> +    id_ns->nvmcap = ns_size;
-> +
-> +    if (ns_size > n->id_ctrl.unvmcap) {
-> +        return NVME_NS_INSUFF_CAP;
-> +    }
-> +
-> +    ret = nvme_blk_truncate(ns->blkconf.blk, id_ns->nvmcap, &err);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    ns->size = blk_getlength(ns->blkconf.blk);
-> +    nvme_ns_init_format(ns);
-> +
-> +    ns->params.nsid = nvme_allocate_nsid(n);
-> +    if (!ns->params.nsid) {
-> +        return NVME_NS_ID_UNAVAILABLE;
-> +    }
-> +    subsys->namespaces[ns->params.nsid] = ns;
-> +
-> +    for (int cntlid = 0; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
-> +        ctrl = nvme_subsys_ctrl(n->subsys, cntlid);
-> +        if (ctrl) {
-> +            ctrl->id_ctrl.unvmcap -= le64_to_cpu(ns->size);
-> +        }
-> +    }
-> +
-> +    stl_le_p(&req->cqe.result, ns->params.nsid);
-> +    QSLIST_REMOVE_HEAD(&subsys->unallocated_namespaces, entry);
-> +    return NVME_SUCCESS;
-> +}
-> +
-> +static void nvme_namespace_delete(NvmeCtrl *n, NvmeNamespace *ns, uint32_t nsid)
-> +{
-> +    NvmeCtrl *ctrl;
-> +    NvmeSubsystem *subsys = n->subsys;
-> +
-> +    subsys->namespaces[nsid] = NULL;
-> +    QSLIST_INSERT_HEAD(&subsys->unallocated_namespaces, ns, entry);
-> +
-> +    for (int cntlid = 0; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
-> +        ctrl = nvme_subsys_ctrl(n->subsys, cntlid);
-> +        if (ctrl) {
-> +            ctrl->id_ctrl.unvmcap += le64_to_cpu(ns->size);
-> +            if (nvme_ns(ctrl, nsid)) {
-> +                nvme_detach_ns(ctrl, ns, nsid);
-> +            }
-> +            nvme_ns_attr_changed_aer(ctrl, nsid);
-> +        }
-> +    }
-> +}
-> +
-> +static uint16_t nvme_ns_management(NvmeCtrl *n, NvmeRequest *req)
-> +{
-> +   uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
-> +   uint8_t sel = dw10 & 0x7;
-> +   uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-> +   NvmeNamespace *ns;
-
-There's no check for CDW11's CSI field. Since we support NVM and ZNS
-command sets, you have check this.
+> -- 
 
 _______________________________________________
 Linux-nvme mailing list
