@@ -2,92 +2,90 @@ Return-Path: <SRS0=EXTw=NF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E097C4338F
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Aug 2021 19:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 230D0C4338F
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Aug 2021 20:42:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2F2760720
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Aug 2021 19:30:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E2F2760720
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id B113F60EB5
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Aug 2021 20:42:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B113F60EB5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=CAwEjwddOWRsaFxVzit/lqwry03nxMozIztSmr+7zE8=; b=dv5oxXNVm1phY2bodEmiFQ6NoH
-	H2ajbKFZtbluZzdDXDeidZv44+xzCya92QE3Ce4GLKdjbcR3YQvASgJ74jgQz1sIwdL4b04DEqp7u
-	F9pYBFYH5iRGzZqzTvx35DqY95/QXyP9/KkB74/6llfrpD6HJBjMExDv8dikGOKHxET9ugJdVWPJE
-	BgbDzY5CpuDuVwGPZSddjD42gFQA1FS8/slAi30HEWHfjgVtuCPyR4/pvVo/l0PYCqboAcg7Y7DW5
-	4BIldjug1fkZXlu4NNjSZdE1x3VKe1Ia6LHP92UXiIFpGG/e13exCTNGPGbN+6pmP4QFeOxetCiM9
-	YCIIuAQA==;
+	List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:Cc:References:Message-Id
+	:Date:Subject:Mime-Version:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=7AmEI38l5cF29tUIFPaSy4ulLYpg4bmPuULt/iQ9kcc=; b=CHRqP+lyXQwAIR
+	UYVkbbfqE/e81LN4nDpHBeREmKSruDAROUba7ZAG5sszpcOE0SoF92IPakcdiGRJ2qmcpt+evuGkw
+	+LmdKReegZdjmog66pr9OOWzJHXuHEcBtur4etyVxZRcU1Y7Tp77kjYKSBoRwzL+PJMoQiiXyFtRu
+	2OQkFaHN54WuZ7IzsQV3ku6QdT6iBlk8xasAEiWiG5jLWtAgQc/QsEYU+xu1kQW6dTQXuSXOEjZ8Y
+	2oMxWYTbnoh5nuMfPifL/GMovOPFMYZ4dzvZDvoo86d5p4GOJ4NKaTP+tPdvxB/UP9kQQJ5zg8W6g
+	s651JuW5nkBIXQlMzCaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mEzMb-00EW59-Oh; Sat, 14 Aug 2021 19:30:37 +0000
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
+	id 1mF0UC-00EZxW-KD; Sat, 14 Aug 2021 20:42:32 +0000
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mEzMY-00EW4W-Rs
- for linux-nvme@lists.infradead.org; Sat, 14 Aug 2021 19:30:36 +0000
-Received: by mail-io1-xd32.google.com with SMTP id x10so17758817iop.13
- for <linux-nvme@lists.infradead.org>; Sat, 14 Aug 2021 12:30:34 -0700 (PDT)
+ id 1mF0U9-00EZwN-A0
+ for linux-nvme@lists.infradead.org; Sat, 14 Aug 2021 20:42:30 +0000
+Received: by mail-ed1-x534.google.com with SMTP id v2so10076991edq.10
+ for <linux-nvme@lists.infradead.org>; Sat, 14 Aug 2021 13:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JbeDQ4x16e5G5gIVypE4YgHTi2ZFRimYJ1CyJiMvUlQ=;
- b=xkiRijzMCah70wTodyE2LfL4ZqJrQirVS/aCf0QmkKuU/Ysq5hMtrYzgFV2R723eD7
- v2kX8S3ohjaWaCTYfXNKCN3QFy413zcCuc6Q8Lag9JVcDac3r0S54TUgBZhF/sWxdIMV
- 3ApfJZGIMKn1XpcmNL2XrPV2K1JGBfS16yjIedT7IYoJa7op6ryVKOu9DdCyOM+6dqz/
- xg+6bwdG1PHtXkPt4r5qve1KQr514suuLbdhSTXoJOvTK1CUC7Jh0iyQPtIJQZ7a2Ptd
- pvHMwyUYwtPsUpeTBqDQ5zw7i9yx+DTjbq0bOCVLeS6k2G7sc3xPIX2l7lzOcecfE4jf
- Pbeg==
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=yNzjxSfnVSUDSGUY1rHTEQ9gqqafkCS75FpW05fDG6g=;
+ b=aIQFsNMKSxQ5tem4VTSQs7xseHym013YLoVCgIvyc/0xD8c3vpYQOOZa6ywj5kZIQt
+ XSMqx+JQIPMhXQP0gy7ykQ42Q6plgPccIH+cHoyHiC3YBvlTQhQrDTmPAfST7YArRwQs
+ 0AqUuS8PmgU0UL3BIZSW1Woro5wA3BSL7vZ4TK+InRkh8npiDNO8P2GQLUiIyYx7srAN
+ Gol6t6s2pp78wEOfHaE+KWmrk0i3IdMkJNDjkZW5qywhkWO0v41dcyRYuHA26ubwBYk3
+ g3lY8TIAZYUAmNb/x0as1Sb435dG8TeQPPFh2iVWlBO7/1vYsLZjGoc74FjTMJdUnYY4
+ hh/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JbeDQ4x16e5G5gIVypE4YgHTi2ZFRimYJ1CyJiMvUlQ=;
- b=XSDO+ryVaMTHCHSxjDRzrKVAN3UP2wPtYnqd7Ge0j8gYAX9BVwlw8uDCIhkl8ZFr16
- KgaS6kUiDXRRLq59YOKZVHGTV9Fsa8EwEmY8FZ/lk2sdg1At5iXuZ5UEhNbYURtz9tnS
- 60JWf0x5O31jS58WYV/zqXH6gJeD53KAyp0s/v4uAOmmos/8ZZ+QnF7046BLM6CdNrSl
- G63qMuVp4dBOaaUREaJKkRgRe9xxZr+IbIsU+t+ANNCgeZ7MBi6cAMvG+UWKntalFWMd
- +Aah3tgq6F0uwVKl7ejJFhGfshGu+whuKFBr8BBc0owlvNVNRJpYD0TiEdWEO6VhUR3b
- v5qA==
-X-Gm-Message-State: AOAM532JXbPV5OJeyuYLgKvBscaj9AQw9mdW7bH9T6rW0mcOlDKb/vGj
- GbvYUIFJAn3Hs3xLu85HnVagfA==
-X-Google-Smtp-Source: ABdhPJyX1hdL4HzyioRyFH/5AU+jMOR8WI6MANxllEGuSGxPkVkqvH28RsHCdHYoG5zVX2sSaYRsTA==
-X-Received: by 2002:a02:4e04:: with SMTP id r4mr7905240jaa.99.1628969433368;
- Sat, 14 Aug 2021 12:30:33 -0700 (PDT)
-Received: from [192.168.1.116] ([66.219.217.159])
- by smtp.gmail.com with ESMTPSA id g14sm475564ila.28.2021.08.14.12.30.32
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=yNzjxSfnVSUDSGUY1rHTEQ9gqqafkCS75FpW05fDG6g=;
+ b=i/hX980uKbRyCOnniH8QTweYxExC+Yq2I8e6hDwJAQi63g79Tzbe5OlaAT/FM/KmZ9
+ lb+nIUL5N5m5odl582NRCTwbbGgW1Ycxg5TF/EF0fGtUcmPplxa1L1KN4l53d5sIGQn6
+ sa0oM837QKnJuwb20C4XMEwdit6+CN1f82sZUllJW53ZiRwdEPhk9VS3Hn7h5STscWuZ
+ 6sROrxHN/9Z85GJXnIjchpG29dopVQV6CnG2ghG/tiL07PuBlVdaTnCa9fyA5eaLty6c
+ LDBoXzxvve4YG191zzZ6XZ/oGiBo4z3aUhuePFD/hOaZ/MDQ9q8gEZ+VO28h/KGyqq6a
+ qbyQ==
+X-Gm-Message-State: AOAM531YVz0T0lRlFeFBArVGivPKzBh5WG9FNlqcv0//GNf8nTBVh9xw
+ OY7EzQX9EEcpSTv8XemV6ODjcA==
+X-Google-Smtp-Source: ABdhPJzTvddzsELNhz8McEhEGjR1s3BDpCyEOiQEwyuJ81VGNo1ZP2Hk/arY/AgqQHIc51yajHpm6A==
+X-Received: by 2002:a05:6402:27d1:: with SMTP id
+ c17mr10762249ede.178.1628973746133; 
+ Sat, 14 Aug 2021 13:42:26 -0700 (PDT)
+Received: from smtpclient.apple (5.186.124.144.cgn.fibianet.dk.
+ [5.186.124.144])
+ by smtp.gmail.com with ESMTPSA id v1sm2123489ejd.31.2021.08.14.13.42.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Aug 2021 12:30:33 -0700 (PDT)
+ Sat, 14 Aug 2021 13:42:25 -0700 (PDT)
+From: =?utf-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH] remove the lightnvm subsystem
-To: =?UTF-8?Q?Matias_Bj=c3=b8rling?= <mb@lightnvm.io>,
- Christoph Hellwig <hch@lst.de>, javier@javigon.com
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-References: <20210812132308.38486-1-hch@lst.de>
- <094e8eec-affe-81ba-908e-fbbe2fb7fa84@lightnvm.io>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <512bf4a4-fc60-36d0-adae-93caaf0441d2@kernel.dk>
-Date: Sat, 14 Aug 2021 13:30:31 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <094e8eec-affe-81ba-908e-fbbe2fb7fa84@lightnvm.io>
-Content-Language: en-US
+Date: Sat, 14 Aug 2021 22:42:25 +0200
+Message-Id: <52C4BBAD-21CE-4CD2-8B21-90ACEB4E4B01@javigon.com>
+References: <512bf4a4-fc60-36d0-adae-93caaf0441d2@kernel.dk>
+Cc: =?utf-8?Q?Matias_Bj=C3=B8rling?= <mb@lightnvm.io>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org
+In-Reply-To: <512bf4a4-fc60-36d0-adae-93caaf0441d2@kernel.dk>
+To: Jens Axboe <axboe@kernel.dk>
+X-Mailer: iPhone Mail (18G82)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210814_123034_947463_4FC43FF7 
-X-CRM114-Status: GOOD (  11.32  )
+X-CRM114-CacheID: sfid-20210814_134229_475021_B9FB9ACF 
+X-CRM114-Status: GOOD (  10.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,15 +102,18 @@ Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8xNC8yMSAxOjAxIFBNLCBNYXRpYXMgQmrDuHJsaW5nIHdyb3RlOgo+IFRoYW5rcywgQ2hy
-aXN0b3BoLgo+IAo+IFJldmlld2VkLWJ5OiBNYXRpYXMgQmrDuHJsaW5nIDxtYkBsaWdodG52bS5p
-bz4KPiAKPiBKYXZpZXIsIGlmIHlvdSBhZ3JlZSB0byB0aGUgcmVtb3ZhbCBvZiB0aGUgc3Vic3lz
-dGVtLCB3b3VsZCB5b3UgbGlrZSB0byAKPiBwcm92aWRlIHlvdXIgcmV2aWV3ZWQtYnkgYXMgd2Vs
-bD8gVGhhbmtzIQoKU2lkZSBiYXIgLSBwbGVhc2UgZG9uJ3QgcXVvdGUgNDAwayBvZiB0ZXh0LCB0
-aGlzIHJlcGx5IHJlYWxseSBkaWRuJ3QKbmVlZCBhbnkgb2YgaXQuCgpQZXQgcGVldmUgb2YgbWlu
-ZSwgYW5kIGl0IGhhcHBlbnMgd2F5IHRvbyBvZnRlbiBvbiByZXZpZXdzIGFzIHdlbGwuCkRvbid0
-IHF1b3RlIHRoZSB3aG9sZSBlbWFpbCBqdXN0IHRvIGFkZCBSZXZpZXdlZC9BY2tlZC1ieSwgaXQn
-cyBqdXN0Cndhc3RlZnVsLgoKLS0gCkplbnMgQXhib2UKCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1u
-dm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9saW51eC1udm1lCg==
+Cj4gT24gMTQgQXVnIDIwMjEsIGF0IDIxLjMwLCBKZW5zIEF4Ym9lIDxheGJvZUBrZXJuZWwuZGs+
+IHdyb3RlOgo+IAo+IO+7v09uIDgvMTQvMjEgMTowMSBQTSwgTWF0aWFzIEJqw7hybGluZyB3cm90
+ZToKPj4gVGhhbmtzLCBDaHJpc3RvcGguCj4+IAo+PiBSZXZpZXdlZC1ieTogTWF0aWFzIEJqw7hy
+bGluZyA8bWJAbGlnaHRudm0uaW8+Cj4+IAo+PiBKYXZpZXIsIGlmIHlvdSBhZ3JlZSB0byB0aGUg
+cmVtb3ZhbCBvZiB0aGUgc3Vic3lzdGVtLCB3b3VsZCB5b3UgbGlrZSB0byAKPj4gcHJvdmlkZSB5
+b3VyIHJldmlld2VkLWJ5IGFzIHdlbGw/IFRoYW5rcyEKPiAKPiBTaWRlIGJhciAtIHBsZWFzZSBk
+b24ndCBxdW90ZSA0MDBrIG9mIHRleHQsIHRoaXMgcmVwbHkgcmVhbGx5IGRpZG4ndAo+IG5lZWQg
+YW55IG9mIGl0Lgo+IAo+IFBldCBwZWV2ZSBvZiBtaW5lLCBhbmQgaXQgaGFwcGVucyB3YXkgdG9v
+IG9mdGVuIG9uIHJldmlld3MgYXMgd2VsbC4KPiBEb24ndCBxdW90ZSB0aGUgd2hvbGUgZW1haWwg
+anVzdCB0byBhZGQgUmV2aWV3ZWQvQWNrZWQtYnksIGl0J3MganVzdAo+IHdhc3RlZnVsLgo+IAo+
+IC0tIAo+IEplbnMgQXhib2UKCkxvb2tzIGdvb2QgdG8gbWUuIAoKUmV2aWV3ZWQtYnk6IEphdmll
+ciBHb256w6FsZXogPGphdmllckBqYXZpZ29uLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZt
+ZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4v
+bGlzdGluZm8vbGludXgtbnZtZQo=
