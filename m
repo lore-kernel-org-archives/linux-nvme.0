@@ -2,64 +2,65 @@ Return-Path: <SRS0=M7ZW=NH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A723FC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 13:46:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42949C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 16:25:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D7E4632AF
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 13:46:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6D7E4632AF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 06D9860FC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 16:25:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 06D9860FC3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=AKTiGiTOd/oGPmbGLMmzTy7AQZM1Dj+VKgIRrhQhs4c=; b=YktLK9tQVCE5uD
-	sxOku8/f5yizr98E79QQ+p9QJ/j+fXNzfYUbLWEE98DN+2Q+q3IAeo/yznvtAs/x5L3mmgTMZUWP5
-	wvXkm7I1EhjCLPpsRwltGnQv2x9LCcnLzl+VIwC5G4xniywHIeUqQAgD11XlgKDyEVd89ay8a5Bey
-	LNHbB1gAAgSsXSrMy24aBG1v2zUB18rc7aXv5/25uq3/R7uuXMRU1E7PAQqt8xsOQbOzXD9NBJgYu
-	cwjy72HW9zSOds3Xhsxr+suwHDt2rBXBsBZqmfm5xlcBkW73cmGSd30U59HtUrMV5otdC4jUc8oCI
-	4/DgXOL0K85lhbVRMUJA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=x34n1Yp9ZHQluuzDSp/wTR+f0A7uY5Ikt/Jby/nwoME=; b=giKLlXyFdf2F2Z
+	BZh/wJVHAO5n7D05Q/lJOW+FNtEPf3jIumzzutHx3yw6shPgKPfHum7FgRuC2JA8hmsR3v3+MjZZV
+	bLQAR16R29dZm1zgV1xPjqma7Q6YPmEHVix8rf6g2A+PbUH6YNhljw4CZ18dGVR7AutVTUf0I4NoW
+	0RJtIdpC1EuyUAu1Y7w9xWN9LVrCEjhPwr44phuVDx1ozfAmYFFf7c6UDS+hnWRednuZAV6TB+0tH
+	mMxeGlUXSUyTcSI8efLe0DWdc8cfkE7lnxNgSPjejR+CBE29xPy801pKw8ps3qxNNrctavCk6rTqj
+	AyGvq+3Dfr4sZo4F4VeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mFcwk-00HAaJ-EJ; Mon, 16 Aug 2021 13:46:34 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1mFfQA-00HQZo-1C; Mon, 16 Aug 2021 16:25:06 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mFcwh-00HAYS-6y
- for linux-nvme@lists.infradead.org; Mon, 16 Aug 2021 13:46:33 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 6C22E6736F; Mon, 16 Aug 2021 15:46:24 +0200 (CEST)
-Date: Mon, 16 Aug 2021 15:46:24 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Stefan Haberland <sth@linux.ibm.com>,
- Jan Hoeppner <hoeppner@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Doug Gilbert <dgilbert@interlog.com>,
- Kai =?iso-8859-1?Q?M=E4kisara?= <Kai.Makisara@kolumbus.fi>,
- Luis Chamberlain <mcgrof@kernel.org>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org
-Subject: [PATCH 9/9] block: add an explicit ->disk backpointer to the
- request_queue
-Message-ID: <20210816134624.GA24234@lst.de>
-References: <20210816131910.615153-1-hch@lst.de>
+ id 1mFfQ6-00HQZA-RV
+ for linux-nvme@lists.infradead.org; Mon, 16 Aug 2021 16:25:04 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 524FB60F58;
+ Mon, 16 Aug 2021 16:25:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629131101;
+ bh=fK/v/mhDX6VEF2jouOsLPQMcp8dXh7iCAFqAwHFrqys=;
+ h=From:To:Cc:Subject:Date:From;
+ b=V6CQcbzMzQoGTJV57rbhcSpgiq3nblnuXHCmY4l+QvCghVJB8m/M87RaqwRcVJ9fA
+ G9gFRICepviB+awmHyEt1hLYbhEk0x3DCUgU91rusA0actKPt7Xj6T6DFKPPZ2y/q1
+ Xr+S7ldAijSxAXkzKumQku2VcEDWxadtfikocArQLU9swtFj37fED53zU82lAIcJS7
+ S9Z5qR5PBF/pNkqB0Dsxvvhk3KO92idf4Jyv3T4SDA7ysU/H2Becyxeej1CraFINeR
+ MxgGWVFO4DPwIUFJdyOMMI+48mNsTnDcxSUzVQzs4D+BtjyIlvHIbHylUVS9sWc5P+
+ Cly4S0eGUe8zQ==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: remove nvm_ndev from ns
+Date: Mon, 16 Aug 2021 09:24:52 -0700
+Message-Id: <20210816162452.223334-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210816131910.615153-1-hch@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210816_064631_605352_8838E193 
-X-CRM114-Status: GOOD (  22.68  )
+X-CRM114-CacheID: sfid-20210816_092502_950915_300FCE5D 
+X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,257 +77,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace the magic lookup through the kobject tree with an explicit
-backpointer, given that the device model links are set up and torn
-down at times when I/O is still possible, leading to potential
-NULL or invalid pointer dereferences.
+Now that the lightnvm driver is removed, we don't need a pointer to it's
+now non-existent struct.
 
-Fixes: edb0872f44ec ("block: move the bdi from the request_queue to the gendisk")
-Reported-by: syzbot <syzbot+aa0801b6b32dca9dda82@syzkaller.appspotmail.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/bfq-iosched.c          |  2 +-
- block/blk-cgroup.c           |  4 ++--
- block/blk-mq.c               |  2 +-
- block/blk-settings.c         |  8 ++++----
- block/blk-sysfs.c            | 13 ++++++-------
- block/blk-wbt.c              | 10 +++++-----
- block/genhd.c                |  2 ++
- include/linux/blkdev.h       |  5 ++---
- include/trace/events/kyber.h |  6 +++---
- 9 files changed, 26 insertions(+), 26 deletions(-)
+ drivers/nvme/host/nvme.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index e4a61eda2d0f..6ccab91a6336 100644
---- a/block/bfq-iosched.c
-+++ b/block/bfq-iosched.c
-@@ -5269,7 +5269,7 @@ bfq_set_next_ioprio_data(struct bfq_queue *bfqq, struct bfq_io_cq *bic)
- 	switch (ioprio_class) {
- 	default:
- 		pr_err("bdi %s: bfq: bad prio class %d\n",
--			bdi_dev_name(queue_to_disk(bfqq->bfqd->queue)->bdi),
-+			bdi_dev_name(bfqq->bfqd->queue->disk->bdi),
- 			ioprio_class);
- 		fallthrough;
- 	case IOPRIO_CLASS_NONE:
-diff --git a/block/blk-cgroup.c b/block/blk-cgroup.c
-index db034e35ae20..a032536a298d 100644
---- a/block/blk-cgroup.c
-+++ b/block/blk-cgroup.c
-@@ -489,9 +489,9 @@ static int blkcg_reset_stats(struct cgroup_subsys_state *css,
- 
- const char *blkg_dev_name(struct blkcg_gq *blkg)
- {
--	if (!queue_has_disk(blkg->q) || !queue_to_disk(blkg->q)->bdi->dev)
-+	if (!blkg->q->disk || !blkg->q->disk->bdi->dev)
- 		return NULL;
--	return bdi_dev_name(queue_to_disk(blkg->q)->bdi);
-+	return bdi_dev_name(blkg->q->disk->bdi);
- }
- 
- /**
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 2ca7e7c94b18..0a33d16a7298 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -525,7 +525,7 @@ void blk_mq_free_request(struct request *rq)
- 		__blk_mq_dec_active_requests(hctx);
- 
- 	if (unlikely(laptop_mode && !blk_rq_is_passthrough(rq)))
--		laptop_io_completion(queue_to_disk(q)->bdi);
-+		laptop_io_completion(q->disk->bdi);
- 
- 	rq_qos_done(q, rq);
- 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 3613d2cc0688..a7c857ad7d10 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -141,9 +141,9 @@ void blk_queue_max_hw_sectors(struct request_queue *q, unsigned int max_hw_secto
- 				 limits->logical_block_size >> SECTOR_SHIFT);
- 	limits->max_sectors = max_sectors;
- 
--	if (!queue_has_disk(q))
-+	if (!q->disk)
- 		return;
--	queue_to_disk(q)->bdi->io_pages = max_sectors >> (PAGE_SHIFT - 9);
-+	q->disk->bdi->io_pages = max_sectors >> (PAGE_SHIFT - 9);
- }
- EXPORT_SYMBOL(blk_queue_max_hw_sectors);
- 
-@@ -475,9 +475,9 @@ EXPORT_SYMBOL(blk_limits_io_opt);
- void blk_queue_io_opt(struct request_queue *q, unsigned int opt)
- {
- 	blk_limits_io_opt(&q->limits, opt);
--	if (!queue_has_disk(q))
-+	if (!q->disk)
- 		return;
--	queue_to_disk(q)->bdi->ra_pages =
-+	q->disk->bdi->ra_pages =
- 		max(queue_io_opt(q) * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
- }
- EXPORT_SYMBOL(blk_queue_io_opt);
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 586507a5b8c2..7fd99487300c 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -90,9 +90,9 @@ static ssize_t queue_ra_show(struct request_queue *q, char *page)
- {
- 	unsigned long ra_kb;
- 
--	if (!queue_has_disk(q))
-+	if (!q->disk)
- 		return -EINVAL;
--	ra_kb = queue_to_disk(q)->bdi->ra_pages << (PAGE_SHIFT - 10);
-+	ra_kb = q->disk->bdi->ra_pages << (PAGE_SHIFT - 10);
- 	return queue_var_show(ra_kb, page);
- }
- 
-@@ -102,12 +102,12 @@ queue_ra_store(struct request_queue *q, const char *page, size_t count)
- 	unsigned long ra_kb;
- 	ssize_t ret;
- 
--	if (!queue_has_disk(q))
-+	if (!q->disk)
- 		return -EINVAL;
- 	ret = queue_var_store(&ra_kb, page, count);
- 	if (ret < 0)
- 		return ret;
--	queue_to_disk(q)->bdi->ra_pages = ra_kb >> (PAGE_SHIFT - 10);
-+	q->disk->bdi->ra_pages = ra_kb >> (PAGE_SHIFT - 10);
- 	return ret;
- }
- 
-@@ -254,9 +254,8 @@ queue_max_sectors_store(struct request_queue *q, const char *page, size_t count)
- 
- 	spin_lock_irq(&q->queue_lock);
- 	q->limits.max_sectors = max_sectors_kb << 1;
--	if (queue_has_disk(q))
--		queue_to_disk(q)->bdi->io_pages =
--			max_sectors_kb >> (PAGE_SHIFT - 10);
-+	if (q->disk)
-+		q->disk->bdi->io_pages = max_sectors_kb >> (PAGE_SHIFT - 10);
- 	spin_unlock_irq(&q->queue_lock);
- 
- 	return ret;
-diff --git a/block/blk-wbt.c b/block/blk-wbt.c
-index 31086afaad9c..874c1c37bf0c 100644
---- a/block/blk-wbt.c
-+++ b/block/blk-wbt.c
-@@ -97,7 +97,7 @@ static void wb_timestamp(struct rq_wb *rwb, unsigned long *var)
-  */
- static bool wb_recent_wait(struct rq_wb *rwb)
- {
--	struct bdi_writeback *wb = &queue_to_disk(rwb->rqos.q)->bdi->wb;
-+	struct bdi_writeback *wb = &rwb->rqos.q->disk->bdi->wb;
- 
- 	return time_before(jiffies, wb->dirty_sleep + HZ);
- }
-@@ -234,7 +234,7 @@ enum {
- 
- static int latency_exceeded(struct rq_wb *rwb, struct blk_rq_stat *stat)
- {
--	struct backing_dev_info *bdi = queue_to_disk(rwb->rqos.q)->bdi;
-+	struct backing_dev_info *bdi = rwb->rqos.q->disk->bdi;
- 	struct rq_depth *rqd = &rwb->rq_depth;
- 	u64 thislat;
- 
-@@ -287,7 +287,7 @@ static int latency_exceeded(struct rq_wb *rwb, struct blk_rq_stat *stat)
- 
- static void rwb_trace_step(struct rq_wb *rwb, const char *msg)
- {
--	struct backing_dev_info *bdi = queue_to_disk(rwb->rqos.q)->bdi;
-+	struct backing_dev_info *bdi = rwb->rqos.q->disk->bdi;
- 	struct rq_depth *rqd = &rwb->rq_depth;
- 
- 	trace_wbt_step(bdi, msg, rqd->scale_step, rwb->cur_win_nsec,
-@@ -359,8 +359,8 @@ static void wb_timer_fn(struct blk_stat_callback *cb)
- 
- 	status = latency_exceeded(rwb, cb->stat);
- 
--	trace_wbt_timer(queue_to_disk(rwb->rqos.q)->bdi, status,
--			rqd->scale_step, inflight);
-+	trace_wbt_timer(rwb->rqos.q->disk->bdi, status, rqd->scale_step,
-+			inflight);
- 
- 	/*
- 	 * If we exceeded the latency target, step down. If we did not,
-diff --git a/block/genhd.c b/block/genhd.c
-index 6294517cebe6..02cd9ec93e52 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1078,6 +1078,7 @@ static void disk_release(struct device *dev)
- 	disk_release_events(disk);
- 	kfree(disk->random);
- 	xa_destroy(&disk->part_tbl);
-+	disk->queue->disk = NULL;
- 	blk_put_queue(disk->queue);
- 	iput(disk->part0->bd_inode);	/* frees the disk */
- }
-@@ -1276,6 +1277,7 @@ struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
- 	device_initialize(disk_to_dev(disk));
- 	inc_diskseq(disk);
- 	disk->queue = q;
-+	q->disk = disk;
- 	lockdep_init_map(&disk->lockdep_map, "(bio completion)", lkclass, 0);
- #ifdef CONFIG_BLOCK_HOLDER_DEPRECATED
- 	INIT_LIST_HEAD(&disk->slave_bdevs);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index df404c1fb087..22b5b8502d2a 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -421,6 +421,8 @@ struct request_queue {
- 
- 	spinlock_t		queue_lock;
- 
-+	struct gendisk		*disk;
-+
- 	/*
- 	 * queue kobject
- 	 */
-@@ -661,9 +663,6 @@ extern void blk_clear_pm_only(struct request_queue *q);
- 	dma_map_page_attrs(dev, (bv)->bv_page, (bv)->bv_offset, (bv)->bv_len, \
- 	(dir), (attrs))
- 
--#define queue_has_disk(q)	((q)->kobj.parent != NULL)
--#define queue_to_disk(q)	(dev_to_disk(kobj_to_dev((q)->kobj.parent)))
--
- static inline bool queue_is_mq(struct request_queue *q)
- {
- 	return q->mq_ops;
-diff --git a/include/trace/events/kyber.h b/include/trace/events/kyber.h
-index f9802562edf6..491098a0d8ed 100644
---- a/include/trace/events/kyber.h
-+++ b/include/trace/events/kyber.h
-@@ -30,7 +30,7 @@ TRACE_EVENT(kyber_latency,
- 	),
- 
- 	TP_fast_assign(
--		__entry->dev		= disk_devt(queue_to_disk(q));
-+		__entry->dev		= disk_devt(q->disk);
- 		strlcpy(__entry->domain, domain, sizeof(__entry->domain));
- 		strlcpy(__entry->type, type, sizeof(__entry->type));
- 		__entry->percentile	= percentile;
-@@ -59,7 +59,7 @@ TRACE_EVENT(kyber_adjust,
- 	),
- 
- 	TP_fast_assign(
--		__entry->dev		= disk_devt(queue_to_disk(q));
-+		__entry->dev		= disk_devt(q->disk);
- 		strlcpy(__entry->domain, domain, sizeof(__entry->domain));
- 		__entry->depth		= depth;
- 	),
-@@ -81,7 +81,7 @@ TRACE_EVENT(kyber_throttled,
- 	),
- 
- 	TP_fast_assign(
--		__entry->dev		= disk_devt(queue_to_disk(q));
-+		__entry->dev		= disk_devt(q->disk);
- 		strlcpy(__entry->domain, domain, sizeof(__entry->domain));
- 	),
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ab803f91ace1..908ddba9e7ef 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -443,7 +443,6 @@ struct nvme_ns {
+ 	u32 ana_grpid;
+ #endif
+ 	struct list_head siblings;
+-	struct nvm_dev *ndev;
+ 	struct kref kref;
+ 	struct nvme_ns_head *head;
  
 -- 
-2.30.2
+2.25.4
 
 
 _______________________________________________
