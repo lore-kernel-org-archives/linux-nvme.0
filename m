@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB866C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 13:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB53C4320A
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 13:30:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9A00760F46
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 13:29:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9A00760F46
+	by mail.kernel.org (Postfix) with ESMTPS id 3A6E6632E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Aug 2021 13:30:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3A6E6632E3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,32 +23,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Oh5caTP7VXl4RYmnrtuh4FdiMZHJ1zslStdQQIyFxTg=; b=d0oEufUsqGOIsH
-	jQZeJ1TvEQ++KDCLGDpO9SPJccGSYs8T6yfcFhLW21+WtKQXTGp8eXCreimhKLTrtWmVey7ONaTlU
-	GZ8HC1Mve4a0mpM5PwqepqKLEEMqe/+/ELbm6JNoMQSWygeLqgWqekdJ4MOslU5ztmsgA+fHcNHyF
-	PHczV0ZOmm4aO4SCBGsqiYORhhQg8H0T3MDDInn+UeIgXL80Wj8HUO8Uaalj9utSAuIQ6ORfzeVsv
-	7OJkHMWMmNrA/AWa9D3YJ5vQgTKZLn4gSrILzMpsnIMk85Fz6Wq/r7+sz3unr7vUe1IPdRrPC2NpC
-	TiTU5uEXsE9WfqjR3j+w==;
+	List-Owner; bh=1NoIrExU1Bf4Q7efrGUFLr9odnphzGXqoPypgb1pvSA=; b=SV4kH+IN2qc4z0
+	/EX785fZHT+/D5/kd8NMBSk1BgmNTqIYoqzxJqshIYlCpqPCL8lwbV0Rfj1BbHk4QzXdSkgmJDd+y
+	b3DsfQX2uL6FXFE/BFwN/C4Lj8pK2p0Niu/C93hq2HeWKReDgUQXULXFXo47Yx8XWkvkaBbK8IMlX
+	Uf2ivnH/gWHu9PafrTh3bNdbE6fG2HB9S4C3b0sf/RyN2ICf1I126wFC3fVl7nHHxfuCBE2pS7Kw0
+	/qYynqlG5CNO+6FaiUM57Wzsbv8agKD4AOZ4eWzjqKNhWdxC2yjvhr/l2Ub7TRV15JqTp2cYEUqE9
+	vwD4izxKdv5oNLvS39Fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mFcfo-00H7ZT-VL; Mon, 16 Aug 2021 13:29:05 +0000
+	id 1mFcgf-00H7q0-R0; Mon, 16 Aug 2021 13:29:57 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mFcfm-00H7YZ-Hn
- for linux-nvme@bombadil.infradead.org; Mon, 16 Aug 2021 13:29:02 +0000
+ id 1mFcgd-00H7pH-F9
+ for linux-nvme@bombadil.infradead.org; Mon, 16 Aug 2021 13:29:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=PDnZhy0QacZQFKggiG8wQPxbE9N2h5O9os3Tc7qV/9I=; b=OlvxcAF6osuKcwgJujjEEXGeUt
- iys0eiLifOMI/aV13K+zle9dsnRMjO9gNlYREiINoLOcWuXIOOy4I/55hCTbmIlLAFg/xGMrItpKv
- +KqtCoNZQeFpSXa4z5vi9PxyhtmhwGOlzr4EcmL9XWS3wwq/F1wgAm85LqWo/RoWz1vfSrGjY1/Ra
- BSjmFA+fvsnchVm7n+o8cuWbaxDilVhc32J/7RDUMynJ3PhaP4z3MDQSTa9b5YU5b9IsRKVBMDq7U
- /58bA4a7hELmC86nVItbnFPPDu8SF8Oe9kXEOseh4GmvT0U5xQ1pCg8RtCOz8PbhLvbCSg8TDhNT0
- XGDgK/MA==;
+ bh=Z9Yri10K8M6BGWsRMrTxjIL24t36teCRg8L/pCbSkH8=; b=oG5gOuW0HzJM1OtrDGoUAqkcm6
+ EUTmPZK9dTTxPIk9iHscmU26urUK0QQYRXEOBAi/bGIBXubzyJ2hvFjHMtCcIwa4IkxDIUDotxF/m
+ OwKAGW3farxT2NRauRfLByQ2l4iDWaL92S+uvrZgItcNeqgbqc4Mxx63rD/lxVSukC+SfxjthoQ+E
+ 7fdO9qh3k/mg72P44vGRuxmcYn5n951Wl3T/9zaRPovcHBXmz2e16zVs5xPAnRetAhYK3craFqxJa
+ ACZ0gPNAU+9asBoBW+QM437oIlXha/0BqnfwvY8N6GegluALpo7QasyHEnppYNs/tB3YPmgzoOl+0
+ ARv0jBkw==;
 Received: from [2001:4bb8:188:1b1:3731:604a:a6cd:dc60] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mFcex-001PLQ-IG; Mon, 16 Aug 2021 13:28:29 +0000
+ id 1mFcfm-001PUw-0D; Mon, 16 Aug 2021 13:29:15 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Stefan Haberland <sth@linux.ibm.com>,
@@ -59,9 +59,10 @@ Cc: Stefan Haberland <sth@linux.ibm.com>,
  Luis Chamberlain <mcgrof@kernel.org>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org
-Subject: [PATCH 7/9] block: pass a request_queue to __blk_alloc_disk
-Date: Mon, 16 Aug 2021 15:19:08 +0200
-Message-Id: <20210816131910.615153-8-hch@lst.de>
+Subject: [PATCH 8/9] block: hold a request_queue reference for the lifetime of
+ struct gendisk
+Date: Mon, 16 Aug 2021 15:19:09 +0200
+Message-Id: <20210816131910.615153-9-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210816131910.615153-1-hch@lst.de>
 References: <20210816131910.615153-1-hch@lst.de>
@@ -84,153 +85,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Pass in a request_queue and assign disk->queue in __blk_alloc_disk to
-ensure struct gendisk always has a valid ->queue pointer.
+Acquire the queue ref dropped in disk_release in __blk_alloc_disk so any
+allocate gendisk always has a queue reference.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-mq.c                  | 3 +--
- block/genhd.c                   | 7 ++++---
- drivers/s390/block/dasd_genhd.c | 4 ++--
- drivers/scsi/sd.c               | 4 ++--
- drivers/scsi/sr.c               | 4 ++--
- include/linux/genhd.h           | 3 ++-
- 6 files changed, 13 insertions(+), 12 deletions(-)
+ block/genhd.c         | 19 +++++++------------
+ include/linux/genhd.h |  1 -
+ 2 files changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 8ac30c343c06..2ca7e7c94b18 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -3143,12 +3143,11 @@ struct gendisk *__blk_mq_alloc_disk(struct blk_mq_tag_set *set, void *queuedata,
- 	if (IS_ERR(q))
- 		return ERR_CAST(q);
- 
--	disk = __alloc_disk_node(set->numa_node, lkclass);
-+	disk = __alloc_disk_node(q, set->numa_node, lkclass);
- 	if (!disk) {
- 		blk_cleanup_queue(q);
- 		return ERR_PTR(-ENOMEM);
- 	}
--	disk->queue = q;
- 	return disk;
- }
- EXPORT_SYMBOL(__blk_mq_alloc_disk);
 diff --git a/block/genhd.c b/block/genhd.c
-index caeda726189c..f18122ee2778 100644
+index f18122ee2778..6294517cebe6 100644
 --- a/block/genhd.c
 +++ b/block/genhd.c
-@@ -1254,7 +1254,8 @@ dev_t blk_lookup_devt(const char *name, int partno)
- 	return devt;
+@@ -551,15 +551,6 @@ void device_add_disk(struct device *parent, struct gendisk *disk,
+ 	register_disk(parent, disk, groups);
+ 	blk_register_queue(disk);
+ 
+-	/*
+-	 * Take an extra ref on queue which will be put on disk_release()
+-	 * so that it sticks around as long as @disk is there.
+-	 */
+-	if (blk_get_queue(disk->queue))
+-		set_bit(GD_QUEUE_REF, &disk->state);
+-	else
+-		WARN_ON_ONCE(1);
+-
+ 	disk_add_events(disk);
+ 	blk_integrity_add(disk);
+ }
+@@ -1087,8 +1078,7 @@ static void disk_release(struct device *dev)
+ 	disk_release_events(disk);
+ 	kfree(disk->random);
+ 	xa_destroy(&disk->part_tbl);
+-	if (test_bit(GD_QUEUE_REF, &disk->state) && disk->queue)
+-		blk_put_queue(disk->queue);
++	blk_put_queue(disk->queue);
+ 	iput(disk->part0->bd_inode);	/* frees the disk */
  }
  
--struct gendisk *__alloc_disk_node(int node_id, struct lock_class_key *lkclass)
-+struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
-+		struct lock_class_key *lkclass)
+@@ -1259,9 +1249,12 @@ struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
  {
  	struct gendisk *disk;
  
-@@ -1281,6 +1282,7 @@ struct gendisk *__alloc_disk_node(int node_id, struct lock_class_key *lkclass)
- 	disk_to_dev(disk)->type = &disk_type;
- 	device_initialize(disk_to_dev(disk));
- 	inc_diskseq(disk);
-+	disk->queue = q;
- 	lockdep_init_map(&disk->lockdep_map, "(bio completion)", lkclass, 0);
- #ifdef CONFIG_BLOCK_HOLDER_DEPRECATED
- 	INIT_LIST_HEAD(&disk->slave_bdevs);
-@@ -1307,12 +1309,11 @@ struct gendisk *__blk_alloc_disk(int node, struct lock_class_key *lkclass)
- 	if (!q)
- 		return NULL;
- 
--	disk = __alloc_disk_node(node, lkclass);
-+	disk = __alloc_disk_node(q, node, lkclass);
- 	if (!disk) {
- 		blk_cleanup_queue(q);
- 		return NULL;
- 	}
--	disk->queue = q;
- 	return disk;
- }
- EXPORT_SYMBOL(__blk_alloc_disk);
-diff --git a/drivers/s390/block/dasd_genhd.c b/drivers/s390/block/dasd_genhd.c
-index 6e44515b4d33..fa966e0db6ca 100644
---- a/drivers/s390/block/dasd_genhd.c
-+++ b/drivers/s390/block/dasd_genhd.c
-@@ -40,7 +40,8 @@ int dasd_gendisk_alloc(struct dasd_block *block)
- 	if (base->devindex >= DASD_PER_MAJOR)
- 		return -EBUSY;
- 
--	gdp = __alloc_disk_node(NUMA_NO_NODE, &dasd_bio_compl_lkclass);
-+	gdp = __alloc_disk_node(block->request_queue, NUMA_NO_NODE,
-+				&dasd_bio_compl_lkclass);
- 	if (!gdp)
- 		return -ENOMEM;
- 
-@@ -76,7 +77,6 @@ int dasd_gendisk_alloc(struct dasd_block *block)
- 	    test_bit(DASD_FLAG_DEVICE_RO, &base->flags))
- 		set_disk_ro(gdp, 1);
- 	dasd_add_link_to_gendisk(gdp, base);
--	gdp->queue = block->request_queue;
- 	block->gdp = gdp;
- 	set_capacity(block->gdp, 0);
- 	device_add_disk(&base->cdev->dev, block->gdp, NULL);
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 4e22d1bb6226..93e92dec77ed 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3409,7 +3409,8 @@ static int sd_probe(struct device *dev)
- 	if (!sdkp)
- 		goto out;
- 
--	gd = __alloc_disk_node(NUMA_NO_NODE, &sd_bio_compl_lkclass);
-+	gd = __alloc_disk_node(sdp->request_queue, NUMA_NO_NODE,
-+			       &sd_bio_compl_lkclass);
- 	if (!gd)
- 		goto out_free;
- 
-@@ -3459,7 +3460,6 @@ static int sd_probe(struct device *dev)
- 
- 	gd->fops = &sd_fops;
- 	gd->private_data = &sdkp->driver;
--	gd->queue = sdkp->device->request_queue;
- 
- 	/* defaults, until the device tells us otherwise */
- 	sdp->sector_size = 512;
-diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-index 2c45b4140e67..a0df27db4d61 100644
---- a/drivers/scsi/sr.c
-+++ b/drivers/scsi/sr.c
-@@ -714,7 +714,8 @@ static int sr_probe(struct device *dev)
- 
- 	kref_init(&cd->kref);
- 
--	disk = __alloc_disk_node(NUMA_NO_NODE, &sr_bio_compl_lkclass);
-+	disk = __alloc_disk_node(sdev->request_queue, NUMA_NO_NODE,
-+				 &sr_bio_compl_lkclass);
++	if (!blk_get_queue(q))
++		return NULL;
++
+ 	disk = kzalloc_node(sizeof(struct gendisk), GFP_KERNEL, node_id);
  	if (!disk)
- 		goto fail_free;
- 	mutex_init(&cd->lock);
-@@ -765,7 +766,6 @@ static int sr_probe(struct device *dev)
+-		return NULL;
++		goto out_put_queue;
  
- 	set_capacity(disk, cd->capacity);
- 	disk->private_data = &cd->driver;
--	disk->queue = sdev->request_queue;
- 
- 	if (register_cdrom(disk, &cd->cdi))
- 		goto fail_minor;
+ 	disk->bdi = bdi_alloc(node_id);
+ 	if (!disk->bdi)
+@@ -1296,6 +1289,8 @@ struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
+ 	bdi_put(disk->bdi);
+ out_free_disk:
+ 	kfree(disk);
++out_put_queue:
++	blk_put_queue(q);
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(__alloc_disk_node);
 diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index d20f101be758..13e90e6231d8 100644
+index 13e90e6231d8..55acefdd8a20 100644
 --- a/include/linux/genhd.h
 +++ b/include/linux/genhd.h
-@@ -259,7 +259,8 @@ static inline sector_t get_capacity(struct gendisk *disk)
- int bdev_disk_changed(struct gendisk *disk, bool invalidate);
- void blk_drop_partitions(struct gendisk *disk);
+@@ -149,7 +149,6 @@ struct gendisk {
+ 	unsigned long state;
+ #define GD_NEED_PART_SCAN		0
+ #define GD_READ_ONLY			1
+-#define GD_QUEUE_REF			2
  
--struct gendisk *__alloc_disk_node(int node_id, struct lock_class_key *lkclass);
-+struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
-+		struct lock_class_key *lkclass);
- extern void put_disk(struct gendisk *disk);
- struct gendisk *__blk_alloc_disk(int node, struct lock_class_key *lkclass);
- 
+ 	struct mutex open_mutex;	/* open/close mutex */
+ 	unsigned open_partitions;	/* number of open partitions */
 -- 
 2.30.2
 
