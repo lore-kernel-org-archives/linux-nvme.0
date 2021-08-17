@@ -2,145 +2,74 @@ Return-Path: <SRS0=LLxJ=NI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7FAC4338F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 11:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E45AC4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 13:09:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3576E60232
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 11:31:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3576E60232
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	by mail.kernel.org (Postfix) with ESMTPS id DC90860F22
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 13:09:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DC90860F22
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=10TD2xnWmDBsa3k/yaF9X+oeNsEB1WgxjGjchlS07sU=; b=pP/LjHrcKRM5ZA
-	D6dwy+yHHGK/GNaISMQqtFgwhHkYl2S3kTbq/KXl9hkbCsFd9f2bpR/3vVqMfUCUVj92LvRG7vSKH
-	ITfLtqnqdl8nU04k46AkR6qyhOAB8SAzF+SSahr9w4q37Rd/myKRCCltPqYa1Xmp/WxbDBfuxdjbN
-	S8lRQQ3/K8WtdFMMfnLSWkVq8Wcpxmuao3VE+XuYFuR+Vd7YEhkjvC1X+VsjgqZKx1zFLn8Pw45IV
-	O+lroO5iwEQS9Y7LZ1ghxhOTKUnlBgo102/qlU6XYt2YENumMQm1l1kGapY9CkifQ9Ti0r9GaTfo7
-	nas5MmD5CDuREDSJehNg==;
+	List-Owner; bh=d7ftv5Lj4f/oIWleNS+vxUHDPPEpzE4vb4Gyh1clZss=; b=K4JIv2aF5Pi4tR
+	84CJf6iEOyp0G4IdkZozmZe2UebOMMmcEUV2u4EFYLC5/eEhWlPN8NzcuIgSkLeSd2bQavHtr30Gh
+	tyaH6YI5Oi7nqbHE08FHPl5W4PLg8zld5tvFejGr0d8CgWfsLM+50gUMbMhSxbCZhPbQ2mH9cECRP
+	S1k9BkRuThb9roHeWijn3NXngD3nXeMc/xIzr1wxf2F5jD7LsVvhJtyx6OXR63g4OZsHKDeG+zEwj
+	TlsHwatr2/5BhznCRiAiEonexlE+o37JVb3FiuuUPIc7w6AtwvJqcN7J27v4vrut33PgqzMBaFJr/
+	DXsYa/3kx3QvnVnYjrpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mFxJD-002Fej-Ig; Tue, 17 Aug 2021 11:31:07 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1mFyq5-002XL3-12; Tue, 17 Aug 2021 13:09:09 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mFxHm-002FDe-O8
- for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 11:29:41 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20210817112936epoutp0330667b4a93a140382166fa2abd912e3c~cFJCxTxnJ2755627556epoutp03b
- for <linux-nvme@lists.infradead.org>; Tue, 17 Aug 2021 11:29:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20210817112936epoutp0330667b4a93a140382166fa2abd912e3c~cFJCxTxnJ2755627556epoutp03b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1629199776;
- bh=muF+tmBf18oq+jqxS8Klsw9Cot4xGLU3sYZJeI5PbUg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ce462oEU3n86nWC94P6s/V+gFryuLMQYSHY5yXxzlBkzPiq//jeXhWBN9TOuqs7i5
- WjJra3LNGCKZZuG8TEYjL3DQfzS88RSBzu4iBFxt12a/yPhBgKGL86qdxNzkcxgP8U
- zCj2kw5DvOhZuof/39wHQikYMgl712jMMfSImjsg=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20210817112935epcas5p1c85a4d338de4388002d2ed46ef2c3f39~cFJB1cQDN0060000600epcas5p15;
- Tue, 17 Aug 2021 11:29:35 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4Gpphq5p9Mz4x9Px; Tue, 17 Aug
- 2021 11:29:31 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 13.9B.09595.B9D9B116; Tue, 17 Aug 2021 20:29:31 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20210817101822epcas5p470644cf681d5e8db5367dc7998305c65~cEK1x04pr2768027680epcas5p47;
- Tue, 17 Aug 2021 10:18:22 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210817101822epsmtrp138474bfe16a311ca3898be176791ab29~cEK1wcEAH2073620736epsmtrp1f;
- Tue, 17 Aug 2021 10:18:22 +0000 (GMT)
-X-AuditID: b6c32a4a-ed5ff7000000257b-5d-611b9d9b47ff
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 1D.19.32548.EEC8B116; Tue, 17 Aug 2021 19:18:22 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210817101818epsmtip24573d2010be5372cecb5a4286a23f483~cEKyBa81A3274532745epsmtip2H;
- Tue, 17 Aug 2021 10:18:18 +0000 (GMT)
-From: SelvaKumar S <selvakuma.s1@samsung.com>
-To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@redhat.com, kbusch@kernel.org,
- axboe@kernel.dk, damien.lemoal@wdc.com, asml.silence@gmail.com,
- johannes.thumshirn@wdc.com, hch@lst.de, willy@infradead.org, kch@kernel.org,
- martin.petersen@oracle.com, mpatocka@redhat.com, bvanassche@acm.org,
- djwong@kernel.org, snitzer@redhat.com, agk@redhat.com, selvajove@gmail.com,
+ id 1mFypj-002XIR-JX
+ for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 13:08:51 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C925E6054F;
+ Tue, 17 Aug 2021 13:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1629205726;
+ bh=J1u5EkWGe1vhFroD1IkbImRAmY2cS/NhgJTldLkgdQ0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G4sEWuIHg7dPIAdb+CNrXrzTwB17LGwdPnAKkHBjeFaDSeu0zgdgJ3WtuSvwm7Ke5
+ qxE2jqR/gnytpY4Px0tGv4k+kTSRxfZiGjlylGou8T6pgSEfNOHaYfOBoA5tol2NwA
+ 1w+n/Xyy20t5QAhTAy0o9AYp+44fdacT9SJtE6lI=
+Date: Tue, 17 Aug 2021 15:08:43 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: SelvaKumar S <selvakuma.s1@samsung.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
+ kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
+ asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
+ willy@infradead.org, kch@kernel.org, martin.petersen@oracle.com,
+ mpatocka@redhat.com, bvanassche@acm.org, djwong@kernel.org,
+ snitzer@redhat.com, agk@redhat.com, selvajove@gmail.com,
  joshiiitr@gmail.com, nj.shetty@samsung.com, nitheshshetty@gmail.com,
- joshi.k@samsung.com, javier.gonz@samsung.com, SelvaKumar S
- <selvakuma.s1@samsung.com>
-Subject: [PATCH 7/7] dm kcopyd: add simple copy offload support
-Date: Tue, 17 Aug 2021 15:44:23 +0530
-Message-Id: <20210817101423.12367-8-selvakuma.s1@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210817101423.12367-1-selvakuma.s1@samsung.com>
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTZxTfd29pC1lNVyB+VhzsJsjAAa0W9rGBksjMFR/DkcVA2OAOLs++
- 0hZRMxyMN8jLIWABUac4WwVX5CEW40DX0IVtDijDiIGtzIyHIJ0DB4yVFp3//c7v/M73O+d8
- OWycV83is1OkKlohpcQE04nR3uvt7VvXsJkSrGZtQy3G73FUr2kHSDtazkTVc89xlFfwN4YG
- zBtQ95M6B3RFew9Dvz+0sNBK8SMM3VudYaKfZnoxdKrHBJBeV8VArQuFTNT9YBvSd/cxUGPT
- BAuVDHcy0WXDvxiqLBzCUKc5G6D2pUYcDVZdwNHY7DALTS32MVH+t88AWlqsZ4a6kQOD+8ib
- 6lEW2fqNDznQn07qNEVMsvXiF+StkSwm+XTiAYOcvT3EJMtuaABp0b1JFtwpwSJej04LTqap
- BFrhQUvjZQkp0qQQYl9k7O7YgECB0FcYhN4lPKSUhA4hwvZH+O5JEVuXQXgcocTpViqCUioJ
- /53BClm6ivZIlilVIQQtTxDLRXI/JSVRpkuT/KS06j2hQLA9wCqMS0uuH61jyc3uR//RX8az
- QAW/GDiyIVcET/1w1aEYOLF53FsA1pXWrAfzAOY1NOP2wAJgx+kq/EVJg/4OZk90AWgYtLBe
- qh62VTisqZhcX2i6qGOsYRfuLnjlucb2Ls41MmDN7AXWWsLZmpj6tRZbwwyuJzyfu2LjOdwQ
- OHP3Z8xu5w7P/LJg5dlsR+5O2DXvaZe8AfvOmG3v41ZJTludrVXI1TrCq6Yapr02DBrPLTHs
- 2BlOGm6w7JgP/yzPX8cZ8I+i6nWvLADLZjPseBe8r1/B1nxxrjds6fK301vgaWMzZvfdAEuX
- zOulHNh51myTQ+5WaOwItNNucK63a70bEpbf1KwvrhLA/uXvHCqAh/qVcdSvjKP+3/kcwDVg
- Ey1XSpJoZYB8u5TOePnL8TKJDtgOxCe8E4yPzfn1AIwNegBk44QLx4vNp3icBOrYcVohi1Wk
- i2llDwiwrrsS57vGy6wXJlXFCkVBAlFgYKAoaEegkNjIidm/meJxkygVnUbTclrxog5jO/Kz
- sIyDezmGty5df9o2b5Is0FMRi65PTkamVro9DqvtatmY+Ki90TPq7tixyEuvVfDzS6gopfNk
- U3/4llGBU8ymI7UZ13cI+9SlH33qN97T3Hot80BTYWhRaN6Yi0K7mtM8J6nOrdXTBF9R5hjf
- K5teqJiUE+Wp4zMKQ67UU9BwOLrAf4/4aFJL99vPdNPvSJarGv2/DjfK3v+wT3P4eKElZaID
- jP01WJPo7jXMM2VOp33lTjuvfpki+fx21CfL2Sd0lsaRzEPXTi4fqMx2fXy/2nhQDX6MIeJG
- ks4rcqI5H2hxQ6TWxButkB/6eCpRJVrx+2x36m8ntkaKw4K9huKqcs82EAxlMiX0wRVK6j8p
- fxJIqQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Ra0hTYRjHe885nZ2tVscp9M4uxsCiVUtL6i3TiiAOlFYQCGmsoQctb2PT
- 7AJpmNXULppWusW6SOq026ylc6thas2SpGle6pTpLMk0tcyszHQa9O3P//d7nufDQ+GiesKT
- 2heXwKriFDESUkCYHku8lvdlzlX4ZJkodLuuFkc6gwmgEu4siS70j+Ao7eR3DDmcs5C1Tzsd
- FZfUYKjzzVceGk1/i6GasV4Sveh9jKHsqlcAWYw5BCobPkUia9tSZLHaCaS/0cVDGc3lJCp8
- 8gdDWaeaMFTuPAaQ6ZceR40513DU/qWZh3p+2El04u4QQL9+6MiN8xhH41amIp/jMWVFUsZR
- n8gYDRqSKStIZipbU0hmoKuNYL48bCKZM/cMgPlqXMCctGVgO2buFqyPYGP2HWBVKwL3CqJ0
- nJandHod/GkpxFPAOc90wKcg7QcvW2xYOhBQIrocwOvt+dgkmAdvchpyMrvD4j8feZPSAIBP
- 02wuiaSXw1cFRmIie9Cb4LNBk2sTTn8i4FuuEp8A7vQG2NNyyTVA0N7w6vFR3kQW0gGwt7ph
- 6poXzHs5PN5TFJ8OhOZB74laNK48suRO6W7Qnud03cLH9dT7WvwcoPP/Q/n/oSsAMwAxq1TH
- RsaqfZUr49gkmVoRq06Mi5SFx8cagevjUmk5sBj6ZVUAo0AVgBQu8RAupjwVImGE4tBhVhUv
- VyXGsOoqMJciJHOEDel2uYiOVCSw0SyrZFX/KEbxPVOwgG9B3OHtIeeviqfNqo/w6WI+67Cm
- LfKwwfbQ7FG3m2eEI1CUevTIWf26/lKrPeS2d7S5o9FjJ/8IeVqckCxoq/AL7LPqzZl7CuR1
- 3dJFqm65YBk/zSa+HzYQ9KYmdX5owIoM7evkhpYUaXBBy/7eqMyR4Lo9d2yJ1avMtcPf6LwP
- +ncHHQH6zbIikf+22Yb4leE+O8wznpOyav8x60W3z0ty39+FODcjZq27mxLThtInutfoFvol
- FZk7s7lnFTe6dLc0d3ZlPekplRc+iHaeLikN35n0tGZklZ7r0OQU+QYGi98Rn8I0rZWW32Ot
- 694PLQhuXg2Hhhz+eTB7aa2EUEcpfKW4Sq34CwqI2DlgAwAA
-X-CMS-MailID: 20210817101822epcas5p470644cf681d5e8db5367dc7998305c65
-X-Msg-Generator: CA
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210817101822epcas5p470644cf681d5e8db5367dc7998305c65
+ joshi.k@samsung.com, javier.gonz@samsung.com
+Subject: Re: [PATCH 2/7] block: Introduce queue limits for copy-offload support
+Message-ID: <YRu02+RgnZekKSqi@kroah.com>
 References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
- <CGME20210817101822epcas5p470644cf681d5e8db5367dc7998305c65@epcas5p4.samsung.com>
+ <CGME20210817101753epcas5p4f4257f8edda27e184ecbb273b700ccbc@epcas5p4.samsung.com>
+ <20210817101423.12367-3-selvakuma.s1@samsung.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210817101423.12367-3-selvakuma.s1@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210817_042939_269600_580FC3B1 
-X-CRM114-Status: GOOD (  21.71  )
+X-CRM114-CacheID: sfid-20210817_060847_728872_B1D7302A 
+X-CRM114-Status: UNSURE (   6.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,131 +86,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce copy_jobs to use copy-offload, if supported by underlying devices
-otherwise fall back to existing method.
+On Tue, Aug 17, 2021 at 03:44:18PM +0530, SelvaKumar S wrote:
+> From: Nitesh Shetty <nj.shetty@samsung.com>
+> 
+> Add device limits as sysfs entries,
+>         - copy_offload (READ_WRITE)
+>         - max_copy_sectors (READ_ONLY)
+>         - max_copy_ranges_sectors (READ_ONLY)
+>         - max_copy_nr_ranges (READ_ONLY)
 
-run_copy_jobs() calls block layer copy offload API, if both source and
-destination request queue are same and support copy offload.
-On successful completion, destination regions copied count is made zero,
-failed regions are processed via existing method.
+You forgot to add Documentation/ABI/ entries for your new sysfs files,
+so we can't properly review them :(
 
-Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
----
- drivers/md/dm-kcopyd.c | 56 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 50 insertions(+), 6 deletions(-)
+thanks,
 
-diff --git a/drivers/md/dm-kcopyd.c b/drivers/md/dm-kcopyd.c
-index 37b03ab7e5c9..d9ee105a6127 100644
---- a/drivers/md/dm-kcopyd.c
-+++ b/drivers/md/dm-kcopyd.c
-@@ -74,18 +74,20 @@ struct dm_kcopyd_client {
- 	atomic_t nr_jobs;
- 
- /*
-- * We maintain four lists of jobs:
-+ * We maintain five lists of jobs:
-  *
-- * i)   jobs waiting for pages
-- * ii)  jobs that have pages, and are waiting for the io to be issued.
-- * iii) jobs that don't need to do any IO and just run a callback
-- * iv) jobs that have completed.
-+ * i)	jobs waiting to try copy offload
-+ * ii)   jobs waiting for pages
-+ * iii)  jobs that have pages, and are waiting for the io to be issued.
-+ * iv) jobs that don't need to do any IO and just run a callback
-+ * v) jobs that have completed.
-  *
-- * All four of these are protected by job_lock.
-+ * All five of these are protected by job_lock.
-  */
- 	spinlock_t job_lock;
- 	struct list_head callback_jobs;
- 	struct list_head complete_jobs;
-+	struct list_head copy_jobs;
- 	struct list_head io_jobs;
- 	struct list_head pages_jobs;
- };
-@@ -579,6 +581,43 @@ static int run_io_job(struct kcopyd_job *job)
- 	return r;
- }
- 
-+static int run_copy_job(struct kcopyd_job *job)
-+{
-+	int r, i, count = 0;
-+	unsigned long flags = 0;
-+	struct range_entry srange;
-+
-+	struct request_queue *src_q, *dest_q;
-+
-+	for (i = 0; i < job->num_dests; i++) {
-+		srange.src = job->source.sector;
-+		srange.len = job->source.count;
-+
-+		src_q = bdev_get_queue(job->source.bdev);
-+		dest_q = bdev_get_queue(job->dests[i].bdev);
-+
-+		if (src_q != dest_q && !src_q->limits.copy_offload)
-+			break;
-+
-+		r = blkdev_issue_copy(job->source.bdev, 1, &srange,
-+			job->dests[i].bdev, job->dests[i].sector, GFP_KERNEL, flags);
-+		if (r)
-+			break;
-+
-+		job->dests[i].count = 0;
-+		count++;
-+	}
-+
-+	if (count == job->num_dests) {
-+		push(&job->kc->complete_jobs, job);
-+	} else {
-+		push(&job->kc->pages_jobs, job);
-+		r = 0;
-+	}
-+
-+	return r;
-+}
-+
- static int run_pages_job(struct kcopyd_job *job)
- {
- 	int r;
-@@ -659,6 +698,7 @@ static void do_work(struct work_struct *work)
- 	spin_unlock_irq(&kc->job_lock);
- 
- 	blk_start_plug(&plug);
-+	process_jobs(&kc->copy_jobs, kc, run_copy_job);
- 	process_jobs(&kc->complete_jobs, kc, run_complete_job);
- 	process_jobs(&kc->pages_jobs, kc, run_pages_job);
- 	process_jobs(&kc->io_jobs, kc, run_io_job);
-@@ -676,6 +716,8 @@ static void dispatch_job(struct kcopyd_job *job)
- 	atomic_inc(&kc->nr_jobs);
- 	if (unlikely(!job->source.count))
- 		push(&kc->callback_jobs, job);
-+	else if (job->source.bdev->bd_disk == job->dests[0].bdev->bd_disk)
-+		push(&kc->copy_jobs, job);
- 	else if (job->pages == &zero_page_list)
- 		push(&kc->io_jobs, job);
- 	else
-@@ -916,6 +958,7 @@ struct dm_kcopyd_client *dm_kcopyd_client_create(struct dm_kcopyd_throttle *thro
- 	spin_lock_init(&kc->job_lock);
- 	INIT_LIST_HEAD(&kc->callback_jobs);
- 	INIT_LIST_HEAD(&kc->complete_jobs);
-+	INIT_LIST_HEAD(&kc->copy_jobs);
- 	INIT_LIST_HEAD(&kc->io_jobs);
- 	INIT_LIST_HEAD(&kc->pages_jobs);
- 	kc->throttle = throttle;
-@@ -971,6 +1014,7 @@ void dm_kcopyd_client_destroy(struct dm_kcopyd_client *kc)
- 
- 	BUG_ON(!list_empty(&kc->callback_jobs));
- 	BUG_ON(!list_empty(&kc->complete_jobs));
-+	WARN_ON(!list_empty(&kc->copy_jobs));
- 	BUG_ON(!list_empty(&kc->io_jobs));
- 	BUG_ON(!list_empty(&kc->pages_jobs));
- 	destroy_workqueue(kc->kcopyd_wq);
--- 
-2.25.1
-
+greg k-h
 
 _______________________________________________
 Linux-nvme mailing list
