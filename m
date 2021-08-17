@@ -2,65 +2,96 @@ Return-Path: <SRS0=LLxJ=NI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA3AC4320E
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 18:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6864DC4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 20:31:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1ED7660FE6
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 18:05:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1ED7660FE6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2647F60187
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 20:31:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2647F60187
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=DAC4mKL48hUt5mgS1bQmhs+R7v894jat/QVGgvdlLr8=; b=OtcsJgmqUJDYdE
-	i3u9tqJ1tom7sBTK5B1qm4SkekJdfEXKUYNpnsvi/67G59RPcpF8AWvDi2Sy4S6CJgxhLc48+p4Pd
-	CVS73qrDei6Ax2pWC2vHEIq+1L5omTriZr2zTIrC9V1JtbtE5A7uCs0W02L0aSb0SVkoa1JjPOWil
-	QpzaZvM59hoQ8suerIF5B2yuzKVoJ6lwq58nzJHYis0Aq/yesl36ruwz8Gh7Al1YQ8EJHM52737vG
-	G/9UXAsfPEC4XJ39SZAExpZD++p94FZEqUgTiWOZcYYozj7QoFHgFeiXR81zKvvVHFePgGpOrXMvD
-	T3bpC4FkJzuaA5rS9JdA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
+	In-Reply-To:Subject:cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=x7KEsSo8o1jppZUm3rgZ1kIUJEmBRj57UdvxNvc64Sw=; b=ws0eddHajjVHG8
+	aD4wTwsUDY6+2IR67NO6ZYpBYPeGJM3oM70glfcx3Qijnht8t718rWsZz0HGlMO2w1VIUpCdQOQ0A
+	JU6GozmZgpHlpIj1CCv9RbbmJtFEVj+TxhRsRuEuQRTFamsFxOeDiwKi1iOD/x0yM2sTIKD3ECdDs
+	xPoiK6QyHUhMi019ZWNXLYXuQK/Uug9iOLK3zOWBJbvEW1CARRY8A6C8fyYMDvICPEnDzTx/yeHRP
+	mCkSm4oyhTAqjNk6baRwoNFGsXHq3BjxNqbF6jLuqTsplU1FWLRUmZ3/eERS6hBkUoy1TUoiemkia
+	IDACJyonDHqZLw2V7nxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mG3SG-003BpA-Lr; Tue, 17 Aug 2021 18:04:52 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1mG5j3-003Rt4-5U; Tue, 17 Aug 2021 20:30:21 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mG3SB-003BoA-5U
- for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 18:04:51 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="301742073"
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="301742073"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2021 11:04:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="424011375"
-Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 17 Aug 2021 11:04:41 -0700
-Received: from kbuild by d053b881505b with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mG3S4-000S5i-EE; Tue, 17 Aug 2021 18:04:40 +0000
-Date: Wed, 18 Aug 2021 02:03:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.15] BUILD SUCCESS
- 9891668e43c8e9f2d0d50088b151edefc2e560e5
-Message-ID: <611bf9fc.zeAc5fUE0Y24Znnv%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1mG5iz-003RrT-Pj
+ for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 20:30:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629232215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1AzhVHNoK9/20Cs/2nFYANQH0mGD63ytSsU0paNtXcA=;
+ b=X9E1fucILElXctiFUEw7YkwfD1oHVnsX5H5mldsQN8Zd6jzDx4SJVsVkRlfzRjfyKEgY7h
+ u3LiHjFVINKrnQMehA7ewxb0GWAkLc51VncZZLXGGMyq64TYwhdwsmK0XhogZJUhyZTRvx
+ aAlLaf/7geuczrnNd2TjLez+AiCBodo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-oJPkAuZMNWKAa0j1_RC_Og-1; Tue, 17 Aug 2021 16:30:12 -0400
+X-MC-Unique: oJPkAuZMNWKAa0j1_RC_Og-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3636A801AC5;
+ Tue, 17 Aug 2021 20:30:09 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com
+ (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70BBB5C1D5;
+ Tue, 17 Aug 2021 20:29:59 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+ by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
+ 17HKTwMF031021; Tue, 17 Aug 2021 16:29:58 -0400
+Received: from localhost (mpatocka@localhost)
+ by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
+ id 17HKTtxE031017; Tue, 17 Aug 2021 16:29:55 -0400
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
+ owned process doing -bs
+Date: Tue, 17 Aug 2021 16:29:55 -0400 (EDT)
+From: Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To: SelvaKumar S <selvakuma.s1@samsung.com>
+cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ snitzer@redhat.com, djwong@kernel.org, dm-devel@redhat.com, hch@lst.de,
+ agk@redhat.com, bvanassche@acm.org, linux-scsi@vger.kernel.org,
+ nitheshshetty@gmail.com, willy@infradead.org, nj.shetty@samsung.com,
+ kch@kernel.org, selvajove@gmail.com, javier.gonz@samsung.com,
+ kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
+ joshi.k@samsung.com, martin.petersen@oracle.com,
+ linux-api@vger.kernel.org, johannes.thumshirn@wdc.com,
+ linux-fsdevel@vger.kernel.org, joshiiitr@gmail.com, asml.silence@gmail.com
+Subject: Re: [dm-devel] [PATCH 7/7] dm kcopyd: add simple copy offload support
+In-Reply-To: <20210817101423.12367-8-selvakuma.s1@samsung.com>
+Message-ID: <alpine.LRH.2.02.2108171626250.30363@file01.intranet.prod.int.rdu2.redhat.com>
+References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
+ <CGME20210817101822epcas5p470644cf681d5e8db5367dc7998305c65@epcas5p4.samsung.com>
+ <20210817101423.12367-8-selvakuma.s1@samsung.com>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210817_110447_283963_6536ACA6 
-X-CRM114-Status: UNSURE (   6.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210817_133017_975365_B171DFB2 
+X-CRM114-Status: GOOD (  31.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,158 +108,148 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.15
-branch HEAD: 9891668e43c8e9f2d0d50088b151edefc2e560e5  nvme: remove the unused NVME_NS_* enum
 
-elapsed time: 725m
 
-configs tested: 133
-configs skipped: 3
+On Tue, 17 Aug 2021, SelvaKumar S wrote:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Introduce copy_jobs to use copy-offload, if supported by underlying devices
+> otherwise fall back to existing method.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210816
-powerpc                         ps3_defconfig
-powerpc                  mpc866_ads_defconfig
-arm                         lpc18xx_defconfig
-arm                         lubbock_defconfig
-arc                          axs101_defconfig
-mips                           gcw0_defconfig
-arm                        keystone_defconfig
-arm                           h5000_defconfig
-arm                  colibri_pxa270_defconfig
-sh                            hp6xx_defconfig
-mips                         rt305x_defconfig
-s390                          debug_defconfig
-arm                        clps711x_defconfig
-arc                     haps_hs_smp_defconfig
-parisc                           alldefconfig
-powerpc                 linkstation_defconfig
-arm                       cns3420vb_defconfig
-powerpc                     mpc512x_defconfig
-arm                          lpd270_defconfig
-sh                          lboxre2_defconfig
-powerpc                        cell_defconfig
-mips                          ath79_defconfig
-mips                      maltaaprp_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                          gemini_defconfig
-arm                            hisi_defconfig
-mips                  decstation_64_defconfig
-mips                        vocore2_defconfig
-powerpc                  iss476-smp_defconfig
-arc                            hsdk_defconfig
-powerpc                     skiroot_defconfig
-mips                 decstation_r4k_defconfig
-arm                        multi_v7_defconfig
-powerpc                 mpc837x_rdb_defconfig
-mips                      fuloong2e_defconfig
-powerpc                 mpc8560_ads_defconfig
-powerpc                     ppa8548_defconfig
-arm                         nhk8815_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210816
-x86_64               randconfig-a004-20210816
-x86_64               randconfig-a003-20210816
-x86_64               randconfig-a001-20210816
-x86_64               randconfig-a005-20210816
-x86_64               randconfig-a002-20210816
-i386                 randconfig-a004-20210816
-i386                 randconfig-a003-20210816
-i386                 randconfig-a002-20210816
-i386                 randconfig-a001-20210816
-i386                 randconfig-a006-20210816
-i386                 randconfig-a005-20210816
-x86_64               randconfig-a011-20210817
-x86_64               randconfig-a013-20210817
-x86_64               randconfig-a016-20210817
-x86_64               randconfig-a012-20210817
-x86_64               randconfig-a015-20210817
-x86_64               randconfig-a014-20210817
-i386                 randconfig-a011-20210817
-i386                 randconfig-a015-20210817
-i386                 randconfig-a014-20210817
-i386                 randconfig-a013-20210817
-i386                 randconfig-a016-20210817
-i386                 randconfig-a012-20210817
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+dm-kcopyd is usually used on the dm-linear target. And this patchset 
+doesn't support passing copy requests through the linear target - so this 
+patch doesn't seem useful.
 
-clang tested configs:
-i386                 randconfig-c001-20210816
-i386                 randconfig-a004-20210817
-i386                 randconfig-a003-20210817
-i386                 randconfig-a001-20210817
-i386                 randconfig-a002-20210817
-i386                 randconfig-a006-20210817
-i386                 randconfig-a005-20210817
-x86_64               randconfig-a011-20210816
-x86_64               randconfig-a013-20210816
-x86_64               randconfig-a016-20210816
-x86_64               randconfig-a012-20210816
-x86_64               randconfig-a015-20210816
-x86_64               randconfig-a014-20210816
-i386                 randconfig-a011-20210816
-i386                 randconfig-a015-20210816
-i386                 randconfig-a013-20210816
-i386                 randconfig-a014-20210816
-i386                 randconfig-a016-20210816
-i386                 randconfig-a012-20210816
+Mikulas
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> run_copy_jobs() calls block layer copy offload API, if both source and
+> destination request queue are same and support copy offload.
+> On successful completion, destination regions copied count is made zero,
+> failed regions are processed via existing method.
+> 
+> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>  drivers/md/dm-kcopyd.c | 56 +++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 50 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/md/dm-kcopyd.c b/drivers/md/dm-kcopyd.c
+> index 37b03ab7e5c9..d9ee105a6127 100644
+> --- a/drivers/md/dm-kcopyd.c
+> +++ b/drivers/md/dm-kcopyd.c
+> @@ -74,18 +74,20 @@ struct dm_kcopyd_client {
+>  	atomic_t nr_jobs;
+>  
+>  /*
+> - * We maintain four lists of jobs:
+> + * We maintain five lists of jobs:
+>   *
+> - * i)   jobs waiting for pages
+> - * ii)  jobs that have pages, and are waiting for the io to be issued.
+> - * iii) jobs that don't need to do any IO and just run a callback
+> - * iv) jobs that have completed.
+> + * i)	jobs waiting to try copy offload
+> + * ii)   jobs waiting for pages
+> + * iii)  jobs that have pages, and are waiting for the io to be issued.
+> + * iv) jobs that don't need to do any IO and just run a callback
+> + * v) jobs that have completed.
+>   *
+> - * All four of these are protected by job_lock.
+> + * All five of these are protected by job_lock.
+>   */
+>  	spinlock_t job_lock;
+>  	struct list_head callback_jobs;
+>  	struct list_head complete_jobs;
+> +	struct list_head copy_jobs;
+>  	struct list_head io_jobs;
+>  	struct list_head pages_jobs;
+>  };
+> @@ -579,6 +581,43 @@ static int run_io_job(struct kcopyd_job *job)
+>  	return r;
+>  }
+>  
+> +static int run_copy_job(struct kcopyd_job *job)
+> +{
+> +	int r, i, count = 0;
+> +	unsigned long flags = 0;
+> +	struct range_entry srange;
+> +
+> +	struct request_queue *src_q, *dest_q;
+> +
+> +	for (i = 0; i < job->num_dests; i++) {
+> +		srange.src = job->source.sector;
+> +		srange.len = job->source.count;
+> +
+> +		src_q = bdev_get_queue(job->source.bdev);
+> +		dest_q = bdev_get_queue(job->dests[i].bdev);
+> +
+> +		if (src_q != dest_q && !src_q->limits.copy_offload)
+> +			break;
+> +
+> +		r = blkdev_issue_copy(job->source.bdev, 1, &srange,
+> +			job->dests[i].bdev, job->dests[i].sector, GFP_KERNEL, flags);
+> +		if (r)
+> +			break;
+> +
+> +		job->dests[i].count = 0;
+> +		count++;
+> +	}
+> +
+> +	if (count == job->num_dests) {
+> +		push(&job->kc->complete_jobs, job);
+> +	} else {
+> +		push(&job->kc->pages_jobs, job);
+> +		r = 0;
+> +	}
+> +
+> +	return r;
+> +}
+> +
+>  static int run_pages_job(struct kcopyd_job *job)
+>  {
+>  	int r;
+> @@ -659,6 +698,7 @@ static void do_work(struct work_struct *work)
+>  	spin_unlock_irq(&kc->job_lock);
+>  
+>  	blk_start_plug(&plug);
+> +	process_jobs(&kc->copy_jobs, kc, run_copy_job);
+>  	process_jobs(&kc->complete_jobs, kc, run_complete_job);
+>  	process_jobs(&kc->pages_jobs, kc, run_pages_job);
+>  	process_jobs(&kc->io_jobs, kc, run_io_job);
+> @@ -676,6 +716,8 @@ static void dispatch_job(struct kcopyd_job *job)
+>  	atomic_inc(&kc->nr_jobs);
+>  	if (unlikely(!job->source.count))
+>  		push(&kc->callback_jobs, job);
+> +	else if (job->source.bdev->bd_disk == job->dests[0].bdev->bd_disk)
+> +		push(&kc->copy_jobs, job);
+>  	else if (job->pages == &zero_page_list)
+>  		push(&kc->io_jobs, job);
+>  	else
+> @@ -916,6 +958,7 @@ struct dm_kcopyd_client *dm_kcopyd_client_create(struct dm_kcopyd_throttle *thro
+>  	spin_lock_init(&kc->job_lock);
+>  	INIT_LIST_HEAD(&kc->callback_jobs);
+>  	INIT_LIST_HEAD(&kc->complete_jobs);
+> +	INIT_LIST_HEAD(&kc->copy_jobs);
+>  	INIT_LIST_HEAD(&kc->io_jobs);
+>  	INIT_LIST_HEAD(&kc->pages_jobs);
+>  	kc->throttle = throttle;
+> @@ -971,6 +1014,7 @@ void dm_kcopyd_client_destroy(struct dm_kcopyd_client *kc)
+>  
+>  	BUG_ON(!list_empty(&kc->callback_jobs));
+>  	BUG_ON(!list_empty(&kc->complete_jobs));
+> +	WARN_ON(!list_empty(&kc->copy_jobs));
+>  	BUG_ON(!list_empty(&kc->io_jobs));
+>  	BUG_ON(!list_empty(&kc->pages_jobs));
+>  	destroy_workqueue(kc->kcopyd_wq);
+> -- 
+> 2.25.1
+> 
+> 
+> --
+> dm-devel mailing list
+> dm-devel@redhat.com
+> https://listman.redhat.com/mailman/listinfo/dm-devel
+> 
+
 
 _______________________________________________
 Linux-nvme mailing list
