@@ -2,101 +2,82 @@ Return-Path: <SRS0=LLxJ=NI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C8DC4338F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 20:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FB1C4338F
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 21:22:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 604896023E
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 20:42:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 604896023E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0AA346102A
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 21:22:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0AA346102A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:
-	In-Reply-To:Subject:cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qC4+qXZc5vUkwonbwRRpVZ3KrOAmO5QkgaTKA+jlx8A=; b=k7ynWVZO5v7Uxj
-	Tq+tEQNsc5LxCAh66Ef73YnUxjCjXr61bIvnU8XTY+VnfyrunEsOgUPtSTWxexL2egCsZnlzoumcw
-	HDiygdKDupKylqT5iJKSgXK+/VBeu2UEE6D9L7xcL5VDRXsVS7EtcqGfeabdV+LIFHddYV4J3lFYd
-	3PNs4m+xqvoGAL2gKVWFb9uY1NHXzO7V5uQ+Bfii0kMpBNH/87PAB8yZx+SNbn9ubD0Bx0TjLV529
-	B+3JszESSUOSuFtjGns+fOaPyZYUdZG7+ILzp2IJO/mm/K7b1RxYN+UpRncNNCjoHRVn+uDcBasXJ
-	IyEDrED8a8zue+nNyD1A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QecgFf9oxgLgs5MyBrBwDh4tDB3pmDhZ6sKhR7Y7/80=; b=odLPqwJ6o1ADKO2Me3B9x+wnyu
+	a8Ufo8ys2ihqyELSYo4eYN0zqEyRbqMMC0kYnX54WwjCaHZ5CjoUC1HkO540+xmhGE4MmTQvaDaka
+	7sRzh11zDKD8Hltd+sY2t1T8D3YyIOWJ4E/YRJnR94pDV3/YvTCSMSMv9G6RgRqUP3bMdY0ki/8+E
+	q4UblZiNqwnFH7uLf3b8gfPop84FU18ZaMfnIJYMtL6PfcaGTCfvzzJWrrn8+1gnc+zNtYCG4k83A
+	73mlGKbu8kTta73EZaY6fknXGfdx1S+p2puUsYcyuV0IEIbKt8SjGuYoUeH94cX+/dJJ233PWlg7x
+	1AcBYfxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mG5uD-003TpK-6Q; Tue, 17 Aug 2021 20:41:53 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1mG6Wh-003WfM-VG; Tue, 17 Aug 2021 21:21:39 +0000
+Received: from mail-qt1-f178.google.com ([209.85.160.178])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mG5u9-003ToV-4F
- for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 20:41:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629232908;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wcl4Dsri643WTYT2ZVvqT65s7dgjheTTZlEE7QZJGi0=;
- b=YfGVCHHU/0+LXtetI8CmscSUPK6Czh/5Rrl2MxhFNJMM708lXkzQzas3Uc00kS9MVToSU/
- 70Nh+VlV+y9H0YwVODjDs/7zGWPeVSzR/5ylEUymGTauXKpuiRARMtdXkiBV9EoV29DrHo
- 53nW0lnxrAZmmROWLJcpJ5Qa/9fCZIA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-OibFsp8zNtK8OL7wOrtR7Q-1; Tue, 17 Aug 2021 16:41:46 -0400
-X-MC-Unique: OibFsp8zNtK8OL7wOrtR7Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D08F51082925;
- Tue, 17 Aug 2021 20:41:43 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3995E60BF4;
- Tue, 17 Aug 2021 20:41:36 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 17HKfZQS031822; Tue, 17 Aug 2021 16:41:35 -0400
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 17HKfZrZ031818; Tue, 17 Aug 2021 16:41:35 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Tue, 17 Aug 2021 16:41:35 -0400 (EDT)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Bart Van Assche <bvanassche@acm.org>
-cc: SelvaKumar S <selvakuma.s1@samsung.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-api@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- dm-devel@redhat.com, kbusch@kernel.org, axboe@kernel.dk,
- damien.lemoal@wdc.com, asml.silence@gmail.com,
- johannes.thumshirn@wdc.com, hch@lst.de, willy@infradead.org,
- kch@kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
- djwong@kernel.org, Mike Snitzer <snitzer@redhat.com>, agk@redhat.com,
- selvajove@gmail.com, joshiiitr@gmail.com, nj.shetty@samsung.com,
- nitheshshetty@gmail.com, joshi.k@samsung.com, javier.gonz@samsung.com,
- Mike Snitzer <snitzer@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
-In-Reply-To: <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
-Message-ID: <alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
- <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com>
- <20210817101423.12367-4-selvakuma.s1@samsung.com>
- <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ id 1mG6We-003Wek-7E
+ for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 21:21:37 +0000
+Received: by mail-qt1-f178.google.com with SMTP id t16so18402264qta.9
+ for <linux-nvme@lists.infradead.org>; Tue, 17 Aug 2021 14:21:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h4c9eridmxkphFFOBoPmYKgD9hRWmeja2kwztcEKjsg=;
+ b=DvjnJst+LsmMpAJvPXHB/ARtTUzDD7aPmP2dK9SW1la6uAi4KncAyIuPmrFitvYIR/
+ 9f2rkwrL9bLZxRPYo8Fxri6sWUIrcMmU08xChWs35nG+3DOSoRvbwtSi3xLDVvqq/hsM
+ WG+HpERjiOX3qFAiExuID/j2ASDMuK3KuJC4POtEdnh876mMdEgR9taLHZa9cbcpoO20
+ opYLvXRKkCOZh6ECOCFoDwyVuMbGWnedkXaElH8tHay4jJfZntIJpEKHWlX9FOXRP7ng
+ p5zjQtVLqJkm0deiemCWzBDdKn1ZqQaatJ9P0n6LpQ9zmChHEw2IfZMDh9S7U+ppXuCs
+ 9PBA==
+X-Gm-Message-State: AOAM533OQ8WQrXMH36AJkSWDY5Yg8JFI1AWB0+n7KhG7r6OXVqVrGK9Y
+ 1O1xuSMEtFSpY9ue6cKF15c=
+X-Google-Smtp-Source: ABdhPJwp7/RJGu4+3s+1aAyhr+on3BNtiGRUuYGVc+5vDmQrUcTornptNrZIQG+S9AQH/noHwR+J7g==
+X-Received: by 2002:ac8:7e81:: with SMTP id w1mr5007450qtj.81.1629235293764;
+ Tue, 17 Aug 2021 14:21:33 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:6c86:2864:dd78:e408?
+ ([2600:1700:65a0:78e0:6c86:2864:dd78:e408])
+ by smtp.gmail.com with ESMTPSA id 75sm2204474qko.100.2021.08.17.14.21.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 14:21:33 -0700 (PDT)
+Subject: Re: [PATCHv2 00/13] nvme: In-band authentication support
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
+ linux-crypto@vger.kernel.org
+References: <20210810124230.12161-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <5a69187b-cfb1-d09a-87e2-8435e27612a7@grimberg.me>
+Date: Tue, 17 Aug 2021 14:21:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210810124230.12161-1-hare@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210817_134149_309372_1C9DF84E 
-X-CRM114-Status: GOOD (  20.75  )
+X-CRM114-CacheID: sfid-20210817_142136_338100_EABF512D 
+X-CRM114-Status: GOOD (  22.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,48 +89,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On Tue, 17 Aug 2021, Bart Van Assche wrote:
-
-> On 8/17/21 3:14 AM, SelvaKumar S wrote:
-> > Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
-> > bio with control information as payload and submit to the device.
-> > Larger copy operation may be divided if necessary by looking at device
-> > limits. REQ_OP_COPY(19) is a write op and takes zone_write_lock when
-> > submitted to zoned device.
-> > Native copy offload is not supported for stacked devices.
+> Hi all,
 > 
-> Using a single operation for copy-offloading instead of separate operations
-> for reading and writing is fundamentally incompatible with the device mapper.
-> I think we need a copy-offloading implementation that is compatible with the
-> device mapper.
-
-I once wrote a copy offload implementation that is compatible with device 
-mapper. The copy operation creates two bios (one for reading and one for 
-writing), passes them independently through device mapper and pairs them 
-at the physical device driver.
-
-It's here: http://people.redhat.com/~mpatocka/patches/kernel/xcopy/current
-
-I verified that it works with iSCSI. Would you be interested in continuing 
-this work?
-
-Mikulas
-
-> Storing the parameters of the copy operation in the bio payload is
-> incompatible with the current implementation of bio_split().
+> recent updates to the NVMe spec have added definitions for in-band
+> authentication, and seeing that it provides some real benefit
+> especially for NVMe-TCP here's an attempt to implement it.
 > 
-> In other words, I think there are fundamental problems with this patch series.
+> Tricky bit here is that the specification orients itself on TLS 1.3,
+> but supports only the FFDHE groups. Which of course the kernel doesn't
+> support. I've been able to come up with a patch for this, but as this
+> is my first attempt to fix anything in the crypto area I would invite
+> people more familiar with these matters to have a look.
 > 
-> Bart.
+> Also note that this is just for in-band authentication. Secure
+> concatenation (ie starting TLS with the negotiated parameters) is not
+> implemented; one would need to update the kernel TLS implementation
+> for this, which at this time is beyond scope.
 > 
+> As usual, comments and reviews are welcome.
 
+Hey Hannes,
+
+First, can you also send the nvme-cli/nvmetcli bits as well?
+
+Second, one thing that is not clear to me here is how this
+works with the discovery log page.
+
+If the user issues a discovery log page to establish connections
+to the controllers entries, where it picks the appropriate
+secret?
+
+In other words, when the user runs connect-all, how does it handle
+the secrets based on the content of the discovery log-page?
 
 _______________________________________________
 Linux-nvme mailing list
