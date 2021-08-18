@@ -2,101 +2,104 @@ Return-Path: <SRS0=/QSy=NJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C26C432BE
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 06:01:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 901EBC4338F
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 06:27:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E847461076
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 06:01:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E847461076
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=irrelevant.dk
+	by mail.kernel.org (Postfix) with ESMTPS id 51E2660FDA
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 06:27:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 51E2660FDA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=svenpeter.dev
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NWChNwzcjZY9bmCFZlxuqpSRZ3MfvDi/tTKpG+Y68bk=; b=FIp8ThAnROHb37WDxk6Af8zXlD
-	l2wftQf7dlSD8xoxKr/Ggqveg7UYoG7rxdJ+nB8hkFlIp2KESGqD10zExjKlyturoii5vK0MUVHHG
-	9MXKTWHFotG2JAcxVJ/9puyxLi+jLiGp89kILXh0A+VyUDPvU3HTNDd4c0jHlPTfePlNEoWJi2XnB
-	3pY7GE4aC/GpjHySUa2rQW0uQgCz5p4YUd1OOl0U2hX/O73wMrhAKXLUZQ8pcdA7Bt2sY4hUVcZSg
-	eipMFI1zsUHXyb1LFdY7PL+CIZqxE++z7ocJm8LOn1eSzJ7bpwi+1/LeWWXtJusqvtcxU/nQSWVJS
-	ayJWBXQQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
+	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=ftpKh6jqtg1azumcRuiB+2vNy7vsDyX2jzycEuX7ef8=; b=d16I36uUgXNzLo
+	dMEiNAGSqiZDGYRUZd6Fk3en9sDFXSXsSx6uos9d0vCp41L/+y6c5R6ovgEk26mNBsgvY78kUnpiN
+	3vTPOccZduimhX4kEYd2/oh+wODrQ8lA8N/msxp9cIB2bTtl5Hn7xqWZW1HW482Yctj25Bl+hxddJ
+	OJa+Lkrm/O3c1Do7ZWkdjuklgrutDvJNZlYma8x2q6BEE7zRPy0Crp/3OPCJWZcm31U3iyz1b6SRy
+	m6twwtCg5xZcQ9q2HzC+PwrFFCY3TRJlzI5nWQlPOuVKp16KBYJZstrDjWP0KQ4K0hMX190c+RQy/
+	EJMm/f5C/zbjbCc/jkPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mGEdg-004IDQ-3H; Wed, 18 Aug 2021 06:01:24 +0000
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27])
+	id 1mGF3L-004N5p-4x; Wed, 18 Aug 2021 06:27:55 +0000
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mGEdZ-004IAC-3J
- for linux-nvme@lists.infradead.org; Wed, 18 Aug 2021 06:01:21 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id F3EB32B011E3;
- Wed, 18 Aug 2021 02:01:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 18 Aug 2021 02:01:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=heM2TvNxsotfnc7hjjKhOEZ+cx1
- fs+9CFsdet+NE/Jc=; b=JRTVrJs4Zt+i5KQpZQtt2zNjggqxVqnj3gdZTzj9RGP
- nKGXsh8/CQSFVy1xIT/g+13EkeacYUPEXjPW444JF/tGIizIGS+AYQGdkrrFkz4U
- 7QboNMSPig+2CILSge64nwuWXuEMrTYBkg3acmhwEHSuW8WaqTJNPGukSBy8d4O3
- aCIw38JzTnbQR9XSgBcp6HopyPlTvOFE1tlUizbIzc69dCAZUoTD4pp98QJcn1TX
- BRmW2SHk7ijtHeo8Ja3aEVd4p8UFKGBBfrnef/AwPQrsaiGCFYi0rjDrGFnUZZqm
- ixOjeKnn9wxLeRQyNFtAEUS+1r94jdoWHICQsd3h+gA==
+ id 1mGF3D-004N0v-5Y
+ for linux-nvme@lists.infradead.org; Wed, 18 Aug 2021 06:27:54 +0000
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 836A1320093B;
+ Wed, 18 Aug 2021 02:27:43 -0400 (EDT)
+Received: from imap21 ([10.202.2.71])
+ by compute1.internal (MEProxy); Wed, 18 Aug 2021 02:27:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ h=mime-version:message-id:in-reply-to:references:date:from:to
+ :cc:subject:content-type; s=fm2; bh=mNUlq2pHuxK8EC2gEBCm34DwI6OG
+ w6io6wRkQVP+uiQ=; b=hq21U8wd56/BtfmrKggx9tzXcwufIqqvZG+qSTjvencP
+ ee0rfsEXoqAyO4WTUHXAz1tAWaTCh/Cvnnw9fLhWjspGk2LJfOKQ/tu9FqeLeX1O
+ t9rVFQWBmkX5t9T2/uRi+ARkluYAsKk+04BsgbNQtt3w76dLqomxppIk8PxXON7m
+ eJauJVyFj3ZeN9veVXgi5j0dXEGPK5+tBZAFZzHZ6mMKQwFmQASaNotFsco1B6+b
+ B9pZMoF8Z+HdGdy50uGTT60YcePImPQNay0zlrISSYaXdH+FppZb+PRYzPNzLJBD
+ l7oTRW4a/ANpFm/8LqiSVjEYfiVKuiXlO7m3sUTH2A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=heM2Tv
- Nxsotfnc7hjjKhOEZ+cx1fs+9CFsdet+NE/Jc=; b=lyImZxs8On0ebRnevB2Q8h
- msChRzzoDMCWOYMxmv3HLAqD0Xnvu0s2nxc3cUau8voRRB9O4M0Mg2heGcaPdoVo
- m5wQ4EnUCCHSjFBrudtfi8bC8gJXQ5pE/8RVREh78kwiGLQhTiISdimEhi4YBaXP
- 8l76Gg+Psgum5AMoN8s3QZSwtM5qOWRHV6KI3LKz7kUeN5tWGIXRLLd0INykF2hd
- UAFRx1DhOrBia6XynlZuLfoSkgPGMRBshEb9Ynnj9FGC3yzBZppDJuB3ZDWAdpPw
- pg1HnwSHOQ82eY6W7XDiHc5dcHDknLrZT4UYHBCj3tNQxHx9vCg25iJJdp75xeRw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=mNUlq2
+ pHuxK8EC2gEBCm34DwI6OGw6io6wRkQVP+uiQ=; b=qYLvF42BdaHqSI9sFmkfTw
+ /8Gj3ldVnq110Cat3YrlLo9KUrzUPDSMRmcwfhc1oeiEu90Slpq9NwZyJUT+RPKb
+ 51WTabUUQZvTqPUZqK1lyD45YPTx131RP+7xqy0im0rVfoAZgB0b0LM6Cpx3FC51
+ K46ImhGwu30n9m7km37TQSifWHK9J53N2Y2X5MzaG+PwqzyWrlzJlfBayXke/tvf
+ 9IbCAb9SQeOohvf191PMFFqdId3OcP7nf+kf5IOEHFHQCmmXxuFQ+5dCKX7ceCts
+ lhUAnOC0mI4m6R5jI/pqeS11/O5SdNV9Y8HSNL3cFALqMubIxr0hjbs6SoYrTkww
  ==
-X-ME-Sender: <xms:JKIcYeMn-Flxis_Beg5uf69n-wrVz8g6nI6uEIXPnMe27g6i9tVwsQ>
- <xme:JKIcYc8JuSngoPZAwN6aaUrPj995gLUQoiTuJ4TmPrPSnCy_zKTx-bEE35bp-aSf7
- eNbTxxRhK5eFGmyGqk>
-X-ME-Received: <xmr:JKIcYVR_zYZ5Es_U8kcZK4Y1va3OZL4mwVwvwaRSAC-VAiy7MofXGzVqz_rvGi5hj5d61zfmeKpexHD-w2dszTwkJ180x9WpBt6cY3mpJ_2Uhe-oLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeggdellecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:JKIcYesaOISqVT5aurYvHd_XHkN1h8oPgbDtld2N_Uea7ck45ialoQ>
- <xmx:JKIcYWdc-orv7uxjh9K4PevQCRHwKej6iSt7zB73WzYdxnKUmOx0HQ>
- <xmx:JKIcYS1-eB0bLwoeWL5NcU2xrNknUC78Z1nLx1EcvT9VV6a2rEM7zQ>
- <xmx:JaIcYZuO3hnfG5CzqPpeIAcvsanBYxfmDkQgYWkI3_PI9QffKxRbc1E9c98>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 02:01:05 -0400 (EDT)
-Date: Wed, 18 Aug 2021 08:01:03 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@redhat.com,
- fam@euphon.net, kwolf@redhat.com, mreitz@redhat.com,
- qemu-block@nongnu.org, linux-nvme@lists.infradead.org,
- k.jensen@samsung.com, javier.gonz@samsung.com,
- mohit.kap@samsung.com, d.palani@samsung.com, prakash.v@samsung.com,
- jg123.choi@samsung.com, u.kishore@samsung.com, arun.kka@samsung.com
-Subject: Re: [RFC PATCH: v3 1/2] add mi device in qemu
-Message-ID: <YRyiH7aLzBh/Cko5@apples.localdomain>
-References: <CGME20210803080737epcas5p1c9bd6ecde8700d1194748533a3812db6@epcas5p1.samsung.com>
- <1627975487-1640-1-git-send-email-p.kalghatgi@samsung.com>
-MIME-Version: 1.0
-In-Reply-To: <1627975487-1640-1-git-send-email-p.kalghatgi@samsung.com>
+X-ME-Sender: <xms:XagcYXtk57Xxs5mRXPwOL4MZXf7iwHsNaWx6_dFJKmYzUnM4SS0Y9Q>
+ <xme:XagcYYdmJuvXs3uRkEOkqO7ptXaBE4Njnc6sJhM55f1NQEBL0aSTI75z2oRNzUP8J
+ wOM3Aq0d_QJ66AQWDs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeggddutdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ goufhushhpvggtthffohhmrghinhculdegledmnecujfgurhepofgfggfkjghffffhvffu
+ tgesthdtredtreerjeenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnse
+ hsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrhhnpefgfeelgeekhffhkeej
+ geelhfevkeeiffeftdfhieejtddtkeetveevteevhedtvdenucffohhmrghinhepnhgvfi
+ hoshigsghoohhkrdgtohhmpdhgihhthhhusgdrihhopdhsvhgvnhhpvghtvghrrdguvghv
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
+ hnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:XagcYaxJSy1d1AV7dZpq0O6ZQv7UQ-2FZdb8w0ngeH3yT9fD8wd5eQ>
+ <xmx:XagcYWNSskQlqwb97qDzJbV-FYWXPlPq3yO3ng91QxCQrnzLgWUzhw>
+ <xmx:XagcYX_KeX-irOxuHCWNfcq5XXP2F03-s8dbeV9y29dBeLkqGAEcKw>
+ <xmx:X6gcYUFwnzvkjXf2xAfXZeOCWKeoCso4OfYL-B1jrPSynH-EwMv1gw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id B4B0D51C0060; Wed, 18 Aug 2021 02:27:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1118-g75eff666e5-fm-20210816.002-g75eff666
+Mime-Version: 1.0
+Message-Id: <d133c3f0-1805-4f23-9710-45b31ed5fb64@www.fastmail.com>
+In-Reply-To: <05dfa9d8-7cee-4431-abe3-4cc583985773@www.fastmail.com>
+References: <202108051646.vdMMUBea-lkp@intel.com>
+ <YQ7GVu1TqpqbHZOb@infradead.org>
+ <CAK8P3a2t8qAr1q6uf-wuer6rpZnmOmZ1LytO6vOGXKT1DR2OmA@mail.gmail.com>
+ <YRE7vCyn9d1ClhRm@infradead.org>
+ <CAK8P3a1bDeJ56uk74qWxPjyuZwaDf-0mCsH3D5bP+yXWLKLGtA@mail.gmail.com>
+ <05dfa9d8-7cee-4431-abe3-4cc583985773@www.fastmail.com>
+Date: Wed, 18 Aug 2021 08:26:29 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Arnd Bergmann" <arnd@arndb.de>, "Christoph Hellwig" <hch@infradead.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: =?UTF-8?Q?Re:_[asahilinux:nvme/dev_13/17]_drivers/nvme/host/pci.c:2249:2?=
+ =?UTF-8?Q?-3:_Unneeded_semicolon?=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210817_230117_402152_39D0CCC5 
-X-CRM114-Status: GOOD (  19.08  )
+X-CRM114-CacheID: sfid-20210817_232747_372020_2A401951 
+X-CRM114-Status: GOOD (  26.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,102 +111,91 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3259391329447826698=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Alright, I've observed what macOS does by using the simple hypervisor we
+built and tracing its MMIO access. There actually is a single entry per page
+in both the TCB struct and the command queue and all entries are used.
 
---===============3259391329447826698==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zk20PYG4ooyImfh6"
-Content-Disposition: inline
+The reason for that needs a little more background around XNU and it's
+security architecture works:
 
+On these machines, XNU is split into two parts: The main kernel with all its
+extensions and hardware drivers, and a small section called "Page Protection Layer"
+or PPL.
+These machines have CPU extensions that allow them to prevent the normal kernel
+from writing to pagetables or accessing any MMIO related to IOMMUs. Switching to
+the PPL section is done with a custom instruction ("genter") which changes memory
+permissions, such that PPL is then able to modify pagetables and configures the 
+IOMMUs. It kinda works like a low-overhead hypervisor that controls pagetables.
+There are some writeups available about this if you are curious about
+the details [1][2][3].
 
---zk20PYG4ooyImfh6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The TCB structs and the NVMMU MMIO registers cannot be accessed by the part of the
+kernel that contains the NVME driver. The NVME driver can only prepare the
+command structure and fill the PRP list with entries for the DMA buffers.
+It then calls out to PPL, which verifies all the pages listed inside the PRP
+are allowed for DMA and then constructs the same structure again inside
+protected memory that can no longer be touched by the regular kernel.
 
-On Aug  3 12:54, Padmakar Kalghatgi wrote:
-> From: padmakar <p.kalghatgi@samsung.com>
->=20
-> This patch contains the implementation of certain commands=20
-> of nvme-mi specification.The MI commands are useful to
-> manage/configure/monitor the device.Eventhough the MI commands
-> can be sent via the inband NVMe-MI send/recieve commands, the idea=20
-> here is to emulate the sideband interface for MI.
->=20
-> The changes here includes the interface for i2c/smbus=20
-> for nvme-mi protocol. We have used i2c address of 0x15
-> using which the guest VM can send and recieve the nvme-mi
-> commands. Since the nvme-mi device uses the I2C_SLAVE as
-> parent, we have used the send and recieve callbacks by
-> which the nvme-mi device will get the required notification.
-> With the callback approach, we have eliminated the use of=20
-> threads.=20
->=20
-> One needs to specify the following command in the launch to
-> specify the nvme-mi device, link to nvme and assign the i2c address.
-> <-device nvme-mi,nvme=3Dnvme0,address=3D0x15>
->=20
-> This module makes use of the NvmeCtrl structure of the nvme module,
-> to fetch relevant information of the nvme device which are used in
-> some of the mi commands. Eventhough certain commands might require
-> modification to the nvme module, currently we have currently refrained
-> from making changes to the nvme module.
->=20
-> cmd-name                              cmd-type
-> *************************************************
-> read nvme-mi ds                        nvme-mi
-> configuration set                      nvme-mi
-> configuration get                      nvme-mi
-> vpd read                               nvme-mi
-> vpd write                              nvme-mi
-> controller Health Staus Poll           nvme-mi
-> nvme subsystem health status poll      nvme-mi
-> identify                               nvme-admin
-> get log page                           nvme-admin
-> get features                           nvme-admin
->=20
-> Signed-off-by: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
-> Reviewed-by: Klaus Birkelund Jensen <k.jensen@samsung.com>
-> Reviewed-by: Jaegyu Choi <jg123.choi@samsung.com>
->=20
+Then the NVMMU is configured with this secondary PRP list from inside PPL
+before it returns back control to the NVME driver. Effectively,
+this prevents someone from breaking into the normal kernel to just DMA
+over any buffer they want.
 
-My Reviewed-by here was added by mistake. I've not given it my formal
-R-b, but I'll provide a proper review on-list ASAP.
-
-But just glossing over it, I like this approach a lot better than v1
-(vsock).
-
---zk20PYG4ooyImfh6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEcohsACgkQTeGvMW1P
-DekCcAf/e3ez63dluPzli+KxhybVCfNu8rppjSI/dA9t2ZHcKrU75W23S0h8d9vc
-QF5I3rbdpuJe0Umc2J44nAhyE5y8QhB3FClHGaFIjvMAQLtnSY0m46Bk4/iyF3hA
-4pfdWVHKHhbxZvFs4Y2nCOcjKGvPKuJOHLI0TXIq9UaTCmFFbOOT7yUqnUscrOW3
-sDcqd+ieQ/sQeZQ0OMDLQVWbD8B91Vq6KDiXQOFUWAbwVZVVSu5CLnngpIrAvVxz
-QiTPkmmqf4oOO/jU/nL/qYdgd7PYXm6iXBfUtOgwUfZtOZXbc9z7uYLd8WHK89DB
-tjj2p3oCeMwWZ5gYYVUtonB6Kdkr0w==
-=p25e
------END PGP SIGNATURE-----
-
---zk20PYG4ooyImfh6--
+For Linux we can ignore all this and just point the NVMMU and the
+queue entry to the same PRP list.
 
 
---===============3259391329447826698==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+
+Sven
+
+
+[1] Jonathan Levin's writeup about the Page Protection Layer http://newosxbook.com/articles/CasaDePPL.html
+[2] siguza's writeup about how this was done on iOS https://siguza.github.io/APRR/
+[3] my writeup about the CPU extensions https://blog.svenpeter.dev/posts/m1_sprr_gxf/
+
+
+On Mon, Aug 9, 2021, at 22:11, Sven Peter wrote:
+> 
+> 
+> On Mon, Aug 9, 2021, at 17:53, Arnd Bergmann wrote:
+> > On Mon, Aug 9, 2021 at 4:29 PM Christoph Hellwig <hch@infradead.org> wrote:
+> > > Also can one of you look how PRPs are actually used by MacOS?  Given
+> > > that this device always seems to be behind a IOMMU creating one entry
+> > > per page seems rather weird given that the apple_nvmmu_tcb structure
+> > > already contains the full length.  Maybe it actually ignores all but
+> > > the first PRP?
+> > 
+> > I'll leave this up to Sven to answer. He also wrote the iommu driver,
+> > so he probably has a good idea of what is going on here already.
+> > 
+> >       Arnd
+> > 
+> 
+> Not yet, but figuring out how this NVMe-IOMMU works in detail was
+> already on my TODO list :-)
+> 
+> Some background - the M1 has at least four different IOMMU-like
+> HW blocks:
+> DART (for which I wrote a driver and where I'd actually know what's going
+> on in detail), SART (simple DMA address filter required by the NVMe
+> co-processor for non-nvme transactions), this weird NVMe IOMMU (that
+> also seems to be somehow related to disk encryption) and GART for their GPU.
+> 
+> 
+> 
+> Sven
+> 
+
+
+-- 
+Sven Peter
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============3259391329447826698==--
-
