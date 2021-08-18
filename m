@@ -1,75 +1,88 @@
-Return-Path: <SRS0=LLxJ=NI=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=/QSy=NJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8ACBC4338F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 23:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0BCC4338F
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 04:57:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D02861008
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Aug 2021 23:38:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9D02861008
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id C13086109F
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 04:57:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C13086109F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Xz6Sq3c89Rzd9q1abthpe2PnbAqZ3uj3lEI5MboFGaE=; b=GjKr/6eMDUDMne
-	2wZTMJYgSw4pq99Kb/sC7NDx9MLjzK6t/4EDWBkZD2LVwVmi6IPqbT06E4l/hTiYD+s+kE52U30Zj
-	t7m3i46YtecxhgOI3+e8rB8t4n5qVIrKQSc7VkYv3m2AOotjQDh78IXRrMNyWVZksyMpBi0K4bdPQ
-	upl9Iw65WziKTrgoYOuPSchnAIL39JnJGILNqhh0hWCuK4qNHbggc5qv0N3wDeLkypHpfS5cplQeT
-	Mu6282Vsb3SEUPipQn4TI7iYMV0l8q4pufRm/kylnP5Is0voTucKgfNj4LGipF1NTTW3ys78TdL4O
-	/erwJnklQZoyOT1UToVw==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=SuUi1qSBWbHVrupiBCPgyydby5eicrMA10Ed5mucx3E=; b=3Ec
+	v6wb4sTAGhu9x9SZ7dxSg22o/0zaAbPBL3RzR79XxRPVU//nU/rN4nbngcTfGf+z+5XPCH9FjcP0n
+	AMOnDu20Le1XsDaJBMB8X72pgWQiZAmubOSMgxi6ivxi5jR3/U7aduSgOwin1cYK3MufKSP08q4rC
+	7c0QveN/tRvUutMNL5UfeMAOEIl0u3aS0fpuHJ56Qx9MWvM7PaceREiQmQbYl7xwW772k/pKWmoPr
+	1ri4KbNBtiCxxYQtJsm25iVmcqu4ZHbmd4EGu7bF1Q1fwIWHp4mNiFQW8lBdnCaqdY4t64XwFxZGP
+	hYqsoqFGPrl0JSUIbG0iwd7CCVEPnHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mG8ek-003hkG-10; Tue, 17 Aug 2021 23:38:06 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mGDdB-004C8l-90; Wed, 18 Aug 2021 04:56:49 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mG8ed-003hjH-Kf
- for linux-nvme@lists.infradead.org; Tue, 17 Aug 2021 23:38:03 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3272261008;
- Tue, 17 Aug 2021 23:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629243479;
- bh=KvI87yrk0izqVPwd2j0JzMQ5KyLDj/89NGR3AMGLtaA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SFevmy3Yp5L1NVJDt2KdHlMaVsL/rAJK88ajUJEJbOWOPeYi962gnJvIj1mO7o0G6
- YYPMGd3nSLmsy75hH1hZCIh0qzIUzdyhMszOqvunT6gF4aYsRVdFV5JRn/TBgFdTOM
- YD1NjOL4qHBBLgsaCYoTCs4nsWxVKGjUh5RIvio7VxeSqlAkA+svsDBE7XlFdDnh1p
- xU7toufVVVlnAhp6LaQ917tNZ8b8Lx9p4pg8FM0L1MwVlmA1OywoJweUsTfWRfNpyd
- TzSJxzWcDBQTAZ/fSijyXydtEoPlnLFcS7a5NFSItn5coF8a4cSNE1sHGFPRaeRzlN
- WakI1T8TH71Hg==
-Date: Tue, 17 Aug 2021 16:37:58 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: SelvaKumar S <selvakuma.s1@samsung.com>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
- kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
- asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
- willy@infradead.org, kch@kernel.org, martin.petersen@oracle.com,
- mpatocka@redhat.com, bvanassche@acm.org, snitzer@redhat.com,
- agk@redhat.com, selvajove@gmail.com, joshiiitr@gmail.com,
- nj.shetty@samsung.com, nitheshshetty@gmail.com, joshi.k@samsung.com,
- javier.gonz@samsung.com
-Subject: Re: [PATCH 0/7] add simple copy support
-Message-ID: <20210817233758.GB12597@magnolia>
-References: <CGME20210817101741epcas5p174ca0a539587da6a67b9f58cd13f2bad@epcas5p1.samsung.com>
- <20210817101423.12367-1-selvakuma.s1@samsung.com>
+ id 1mGDd7-004C8K-SC
+ for linux-nvme@lists.infradead.org; Wed, 18 Aug 2021 04:56:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629262604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=a/ca7BEA4zywbNlK2KoU9IRR3jktn/LpBWXd2WdGoEY=;
+ b=fo7u/86kfbfjpJwE0cRxSYSpny4ptu4LZiJ5iCbNHXFM2eQuyWUnwJJBdSJddFXHFelmmZ
+ 1vahKZTY1MgGxNq3lsKds1Vub5yN9LX7DyNCxI3oLfQ9zcdc/bpKiyVOGvf2dLh3yzhWRi
+ GJgaH26lqG/PE5EU+GtfmYIO+Fi3Y+I=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-h4kW_svlMOmeDuUu4S9mJw-1; Wed, 18 Aug 2021 00:56:43 -0400
+X-MC-Unique: h4kW_svlMOmeDuUu4S9mJw-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ s205-20020a252cd6000000b0059449776539so1562760ybs.22
+ for <linux-nvme@lists.infradead.org>; Tue, 17 Aug 2021 21:56:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=a/ca7BEA4zywbNlK2KoU9IRR3jktn/LpBWXd2WdGoEY=;
+ b=gyVS04VWebED6EnvqNmjfygowrag7ski87b5dkrbRIk1uiUUN+Uranuzgy2EJaRR+g
+ 24JqvAccxuUfBAFGqM/ah7L1T6pE/eEJuNurqTbTheo7aD9DBJJI8XNn0fGKUD+ZIC7x
+ gwv9NiKarsp5Yv9rQ/FzsOlorIAR1rynvAirKlGXTj229qSojM1JpncUPf3X1yYybksO
+ S5TMTPQTwVIzxzZqWKYXS+ZwtB6JO4k3+HGn0jBQjvld5sOq1j36DCg/0li9ld3dVseQ
+ 9ykZ6DWrPh3yAlHSRjXQvaCtqIRYHAwviqEppMd3obQ63lHjM7xkKO+t05dYapFukZd+
+ wixw==
+X-Gm-Message-State: AOAM533J/g7qS9gILnUKxVQHRuFkrMO2CMsMRddsaSHp8ixbrkVb5Hfc
+ wTaRZqepvVXJRGtus1TjugTYMoPA/YkO5ACAHfFSMumCQiRy/YHvDKF1zkPpQ4qORi2ocpw4xlS
+ vnNgPDpZh0ZZ9tkGTYbFBNjaMXi3TRqVciuufCCpSsm8=
+X-Received: by 2002:a25:4d1:: with SMTP id 200mr8750831ybe.438.1629262602682; 
+ Tue, 17 Aug 2021 21:56:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnPbvMDfI7KTTcVzxhPsYLAUb7zwx5zj1jIdjcot+uaRYDFGz8qbqZzzzfuizOgyDgzYqDUGpZLlkIa8wI01o=
+X-Received: by 2002:a25:4d1:: with SMTP id 200mr8750824ybe.438.1629262602490; 
+ Tue, 17 Aug 2021 21:56:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210817101423.12367-1-selvakuma.s1@samsung.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Wed, 18 Aug 2021 12:56:31 +0800
+Message-ID: <CAHj4cs_M_PJ-7U3QdUxG5=Ce56mBP+WUwko2JqBO6gu_3CqJwQ@mail.gmail.com>
+Subject: [bug report] rdma_rxe doesn't work with blktests on 5.14.0-rc6
+To: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210817_163759_767997_2BB1DC28 
-X-CRM114-Status: GOOD (  37.38  )
+X-CRM114-CacheID: sfid-20210817_215646_026598_ED7D1A91 
+X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,174 +99,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 17, 2021 at 03:44:16PM +0530, SelvaKumar S wrote:
-> This started out as an attempt to support NVMe Simple Copy Command (SCC),
-> and evolved during the RFC review process.
-> 
-> The patchset, at this point, contains -
-> 1. SCC support in NVMe driver
-> 2. Block-layer infra for copy-offload operation
-> 3. ioctl interface to user-space
-> 4. copy-emulation infra in the block-layer
-> 5. copy-offload plumbing to dm-kcopyd (thus creating couple of in-kernel
-> 	users such as dm-clone)
-> 
-> 
-> The SCC specification, i.e. TP4065a can be found in following link
-> 
-> https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs.zip
-> 
-> Simple copy is a copy offloading feature and can be used to copy multiple
-> contiguous ranges (source_ranges) of LBA's to a single destination LBA
-> within the device, reducing traffic between host and device.
-> 
-> We define a block ioctl for copy and copy payload format similar to
-> discard. For device supporting native simple copy, we attach the control
-> information as payload to the bio and submit to the device. Copy emulation
-> is implemented incase underlaying device does not support copy offload or
-> based on sysfs choice. Copy emulation is done by reading each source range
-> into buffer and writing it to the destination.
+Hello
 
-Seems useful.  Would you mind adapting the loop driver to call
-copy_file_range (for files) so that anyone interested in making a
-filesystem use this capability (cough) can write fstests?
+I found rdma_rxe doesn't work with blktests on the latest upstream, is
+it a known issue, feel free to let me know if you need any info/test
+for it, thanks.
 
---D
+# nvme_trtype=rdma ./check nvme/008
+nvme/008 (create an NVMeOF host with a block device-backed ns) [failed]
+    runtime  0.323s  ...  0.329s
+    --- tests/nvme/008.out 2021-08-18 00:18:35.380345954 -0400
+    +++ /root/blktests/results/nodev/nvme/008.out.bad 2021-08-18
+00:35:11.126723074 -0400
+    @@ -1,5 +1,7 @@
+     Running nvme/008
+    -91fdba0d-f87b-4c25-b80f-db7be1418b9e
+    -uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
+    -NQN:blktests-subsystem-1 disconnected 1 controller(s)
+    +Failed to write to /dev/nvme-fabrics: Cannot allocate memory
+    +cat: '/sys/class/nvme/nvme*/subsysnqn': No such file or directory
+    +cat: /sys/block/n1/uuid: No such file or directory
+    ...
+    (Run 'diff -u tests/nvme/008.out
+/root/blktests/results/nodev/nvme/008.out.bad' to see the entire diff)
 
-> At present this implementation does not support copy offload for stacked/dm
-> devices, rather copy operation is completed through emulation.
-> 
-> One of the in-kernel use case for copy-offload is implemented by this
-> patchset. dm-kcopyd infra has been changed to leverage the copy-offload if
-> it is natively available. Other future use-cases could be F2FS GC, BTRFS
-> relocation/balance and copy_file_range.
-> 
-> Following limits are added to queue limits and are exposed via sysfs to
-> userspace, which user can use to form a payload.
-> 
->  - copy_offload:
-> 	configurable, can be used set emulation or copy offload
-> 		0 to disable copy offload,
-> 		1 to enable copy offloading support. Offload can be only
-> 			enabled, if underlaying device supports offload
-> 
->  - max_copy_sectors:
-> 	total copy length supported by copy offload feature in device.
-> 	0 indicates copy offload is not supported.
-> 
->  - max_copy_nr_ranges:
-> 	maximum number of source range entries supported by copy offload
-> 			feature in device
-> 
->  - max_copy_range_sectors:
-> 	maximum copy length per source range entry
-> 
-> *blkdev_issue_copy* takes source bdev, no of sources, array of source
-> ranges (in sectors), destination bdev and destination offset(in sectors).
-> If both source and destination block devices are same and queue parameter
-> copy_offload is 1, then copy is done through native copy offloading.
-> Copy emulation is used in otherwise.
-> 
-> Changes from  RFC v5
-> 
-> 1. Handle copy larger than maximum copy limits
-> 2. Create copy context and submit copy offload asynchronously
-> 3. Remove BLKDEV_COPY_NOEMULATION opt-in option of copy offload and
-> check for copy support before submission from dm and other layers
-> 4. Allocate maximum possible allocatable buffer for copy emulation
-> rather failing very large copy offload.
-> 5. Fix copy_offload sysfs to be either have 0 or 1
-> 
-> Changes from RFC v4
-> 
-> 1. Extend dm-kcopyd to leverage copy-offload, while copying within the
-> same device. The other approach was to have copy-emulation by moving
-> dm-kcopyd to block layer. But it also required moving core dm-io infra,
-> causing a massive churn across multiple dm-targets.
-> 2. Remove export in bio_map_kern()
-> 3. Change copy_offload sysfs to accept 0 or else
-> 4. Rename copy support flag to QUEUE_FLAG_SIMPLE_COPY
-> 5. Rename payload entries, add source bdev field to be used while
-> partition remapping, remove copy_size
-> 6. Change the blkdev_issue_copy() interface to accept destination and
-> source values in sector rather in bytes
-> 7. Add payload to bio using bio_map_kern() for copy_offload case
-> 8. Add check to return error if one of the source range length is 0
-> 9. Add BLKDEV_COPY_NOEMULATION flag to allow user to not try copy
-> emulation incase of copy offload is not supported. Caller can his use
-> his existing copying logic to complete the io.
-> 10. Bug fix copy checks and reduce size of rcu_lock()
-> 
-> Changes from RFC v3
-> 
-> 1. gfp_flag fixes.
-> 2. Export bio_map_kern() and use it to allocate and add pages to bio.
-> 3. Move copy offload, reading to buf, writing from buf to separate functions
-> 4. Send read bio of copy offload by chaining them and submit asynchronously
-> 5. Add gendisk->part0 and part->bd_start_sect changes to blk_check_copy().
-> 6. Move single source range limit check to blk_check_copy()
-> 7. Rename __blkdev_issue_copy() to blkdev_issue_copy and remove old helper.
-> 8. Change blkdev_issue_copy() interface generic to accepts destination bdev
->         to support XCOPY as well.
-> 9. Add invalidate_kernel_vmap_range() after reading data for vmalloc'ed memory.
-> 10. Fix buf allocoation logic to allocate buffer for the total size of copy.
-> 11. Reword patch commit description.
-> 
-> Changes from RFC v2
-> 
-> 1. Add emulation support for devices not supporting copy.
-> 2. Add *copy_offload* sysfs entry to enable and disable copy_offload
->         in devices supporting simple copy.
-> 3. Remove simple copy support for stacked devices.
-> 
-> Changes from RFC v1:
-> 
-> 1. Fix memory leak in __blkdev_issue_copy
-> 2. Unmark blk_check_copy inline
-> 3. Fix line break in blk_check_copy_eod
-> 4. Remove p checks and made code more readable
-> 5. Don't use bio_set_op_attrs and remove op and set
->    bi_opf directly
-> 6. Use struct_size to calculate total_size
-> 7. Fix partition remap of copy destination
-> 8. Remove mcl,mssrl,msrc from nvme_ns
-> 9. Initialize copy queue limits to 0 in nvme_config_copy
-> 10. Remove return in QUEUE_FLAG_COPY check
-> 11. Remove unused OCFS
-> 
-> 
-> Nitesh Shetty (4):
->   block: Introduce queue limits for copy-offload support
->   block: copy offload support infrastructure
->   block: Introduce a new ioctl for simple copy
->   block: add emulation for simple copy
-> 
-> SelvaKumar S (3):
->   block: make bio_map_kern() non static
->   nvme: add simple copy support
->   dm kcopyd: add simple copy offload support
-> 
->  block/blk-core.c          |  84 ++++++++-
->  block/blk-lib.c           | 352 ++++++++++++++++++++++++++++++++++++++
->  block/blk-map.c           |   2 +-
->  block/blk-settings.c      |   4 +
->  block/blk-sysfs.c         |  51 ++++++
->  block/blk-zoned.c         |   1 +
->  block/bounce.c            |   1 +
->  block/ioctl.c             |  33 ++++
->  drivers/md/dm-kcopyd.c    |  56 +++++-
->  drivers/nvme/host/core.c  |  83 +++++++++
->  drivers/nvme/host/trace.c |  19 ++
->  include/linux/bio.h       |   1 +
->  include/linux/blk_types.h |  20 +++
->  include/linux/blkdev.h    |  21 +++
->  include/linux/nvme.h      |  43 ++++-
->  include/uapi/linux/fs.h   |  20 +++
->  16 files changed, 775 insertions(+), 16 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+
+[  981.382774] run blktests nvme/008 at 2021-08-18 00:33:21
+[  981.470796] rdma_rxe: loaded
+[  981.474338] infiniband eno1_rxe: set active
+[  981.474340] infiniband eno1_rxe: added eno1
+[  981.476737] eno2 speed is unknown, defaulting to 1000
+[  981.481803] eno2 speed is unknown, defaulting to 1000
+[  981.486865] eno2 speed is unknown, defaulting to 1000
+[  981.492862] infiniband eno2_rxe: set down
+[  981.492864] infiniband eno2_rxe: added eno2
+[  981.492904] eno2 speed is unknown, defaulting to 1000
+[  981.497957] eno2 speed is unknown, defaulting to 1000
+[  981.504338] eno2 speed is unknown, defaulting to 1000
+[  981.510442] eno3 speed is unknown, defaulting to 1000
+[  981.515509] eno3 speed is unknown, defaulting to 1000
+[  981.520580] eno3 speed is unknown, defaulting to 1000
+[  981.526600] infiniband eno3_rxe: set down
+[  981.526601] infiniband eno3_rxe: added eno3
+[  981.526640] eno3 speed is unknown, defaulting to 1000
+[  981.531693] eno3 speed is unknown, defaulting to 1000
+[  981.538052] eno2 speed is unknown, defaulting to 1000
+[  981.543115] eno3 speed is unknown, defaulting to 1000
+[  981.549088] eno4 speed is unknown, defaulting to 1000
+[  981.554149] eno4 speed is unknown, defaulting to 1000
+[  981.559211] eno4 speed is unknown, defaulting to 1000
+[  981.565201] infiniband eno4_rxe: set down
+[  981.565203] infiniband eno4_rxe: added eno4
+[  981.565242] eno4 speed is unknown, defaulting to 1000
+[  981.570306] eno4 speed is unknown, defaulting to 1000
+[  981.576724] eno2 speed is unknown, defaulting to 1000
+[  981.581785] eno3 speed is unknown, defaulting to 1000
+[  981.586848] eno4 speed is unknown, defaulting to 1000
+[  981.599312] loop0: detected capacity change from 0 to 2097152
+[  981.612261] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[  981.614215] nvmet_rdma: enabling port 0 (10.16.221.116:4420)
+[  981.622586] nvmet: creating controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0035-4b10-8044-b9c04f463333.
+[  981.622830] nvme nvme0: creating 32 I/O queues.
+[  981.634860] nvme nvme0: failed to initialize MR pool sized 128 for
+QID 32         ----------------------- failed here
+[  981.772647] eno2 speed is unknown, defaulting to 1000
+[  981.641676] nvme nvme0: rdma connection establishment failed (-12)
+[  981.777715] eno3 speed is unknown, defaulting to 1000
+[  981.782780] eno4 speed is unknown, defaulting to 1000
+[  981.799443] rdma_rxe: unloaded
+
+--
+Best Regards,
+  Yi Zhang
+
 
 _______________________________________________
 Linux-nvme mailing list
