@@ -2,78 +2,192 @@ Return-Path: <SRS0=/QSy=NJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E177DC4338F
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 16:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 029EEC4338F
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 18:36:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A3A9060231
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 16:18:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A3A9060231
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id BEB4D60F39
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 18:36:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BEB4D60F39
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jXVTcOAxSh6ThmeFOudUzLz/yQOcJgq9C0RQ9Rztio8=; b=Hu67n37DP0DtNj
-	iwB+gzOpFtM38Pb4TYNTnJAsCJXg3HCd3PgBY5R2OjWz8FDKxkxZt0Ypj99Qzz3YBM/SCdkVlLrDm
-	kunPh5mvkN8Cy+z5brPwNNn2lUrO5YP6l8DiLbfMg4hAKitrJ6HEdbm9KN410hgKWr4/4XSB7C+qF
-	ZCO7HP/MS4cFbgxaNIAclC3fvDUOh1TznzltI95ZP7N0ln2yEC8cARc81vm5DO04ybrJVQ4jH0JzF
-	+Q99lDnposJnbm16zx/isoTAyw6DaAk2JyC/VY9FSbn/ppn7sKLIuOa1f+zOqYd2KwCNi4WOtZIAr
-	ShvfNaFEmAyLLRTXxyGQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:
+	References:Message-ID:From:Subject:Cc:To:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=iDIdtsFELSgiBrydFfFAHRxViND7Swz/MFmCbt0Dg0c=; b=JuOYfYhaR/pNTZBrkGMiG/wwG/
+	Taro19AVPldr0e5kGRrKd2kzZ8yTDGr49oydTp1K5hxq4ipCbtR7jmdg1FhhKny3N1T9g9hrsVJZG
+	Rbs8Uy/xHxXrJxZjI5MYBljMCOlAdcQHNJJB3c0LukmZ0D0xDdy7/IeZGsgU2pTPLCyxUVZ9klEzj
+	iWZ3jqOAKciD4rl8ROmfnT976nKY6DF1xh904EdbF/FcIWw6EfFjA2RoGZnKqq2sHngf/37jHvyZh
+	FrFPbqcU4Yymm/yTC+Kw83/r9xyhlI1t55d2gPmthZnxXUtGpSO4DFJcyyucKUM2Vaj1s1TmgGcrM
+	eTgEBepA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mGOGI-0069k4-FB; Wed, 18 Aug 2021 16:17:54 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mGQPs-006QUQ-NP; Wed, 18 Aug 2021 18:35:56 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mGOGE-0069il-W6
- for linux-nvme@lists.infradead.org; Wed, 18 Aug 2021 16:17:52 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8EDA6610A5;
- Wed, 18 Aug 2021 16:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629303470;
- bh=KPxieBci0vXg8rmYUy2so8SGtGACKhwfHUnpqQywB2U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YuZGxSb/qbJrnZ105zWsST1nzc3m5MixjmBIDb4Cqpf+Tw8XhntQlWVGRMwhIoXA7
- PTtnTQEfAVvrGpcExRjt1ERSU8HOof1WS87z7lpzbE0XvNK4dmam1hUQ3Cb5tmEtl4
- LQdsyFAHM06VRTXPscO6q5RGPRNYJ/p7auy1fidt0ulyrYV7J2rObWzPJh2wayByhW
- dD+K4DCpaPYtgRQUC0W7yQJz5RhyNsOdzq4PlthfwTFNMccSyBzUQf5XqVN5Xpf+0R
- eu2xlTZQILiBAamLWqT4orjL/dDPccR6l4KllQOYQis8vh+mMut2C5ziIwpIkHE3eK
- usfw3LYHare6w==
-Date: Wed, 18 Aug 2021 09:17:50 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Nitesh Shetty <nitheshshetty@gmail.com>
-Cc: SelvaKumar S <selvakuma.s1@samsung.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-api@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- dm-devel@redhat.com, kbusch@kernel.org, axboe@kernel.dk,
- damien.lemoal@wdc.com, asml.silence@gmail.com,
+ id 1mGQPq-006QTN-6A
+ for linux-nvme@lists.infradead.org; Wed, 18 Aug 2021 18:35:55 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17IIXHtC005472; Wed, 18 Aug 2021 18:35:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=WoyTSoLyivkqrmAuaKYKST31jQmw7vWOD7I7yQC+7NJ4vqNG8+vTWTz5Ahz9d0ndRI8Q
+ FyvfVz7gR9S5aLT2CH0p291cZ7mzNGX3DUGZl/1DTJ948bVFds8A3Ee2NO8AdLk7z63I
+ iYTktoZcBH0evtuOiV4ENVN+1uh0Wsw3L9mbEWu3Cw8A35CWzMP1zSLHdSpR+hEHJ3zw
+ tT+wlk9rieFEL9ZL+zWcBELZziX1z/58VWP5FNH/i3P/wpbrQ8mlxzhwBDwCRcJ1qc3t
+ xCUewsZeSdRz+aTDtzZTUlEqDLCslMxPx3avfRkcwTPH7qPCCSw/TGyQXU4f1XwfpJ4J zg== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=iTqwtKxdMpqLFwKO1enITLOICRE8kPBH585uPNhnMO5aGWigy1ZoFIGC2PxUi3AniE4+
+ I8S1yGnt1Gq7qNfPOcBiPbpz3TEijm8BIMq8APeTpGV9CWXdeSwET3cHAvXo1519E0QA
+ FnSOSoa78Ip2EJe+4ln+p3UjCc15Lid+IErZpyT7DtVL7VOxECqYoCn9cd47JnVkhsDy
+ tszsJTjXXgn6ekXhG/4B0TfWtG8ybykeeLKW3uQ2F4QRfZuGlCHcFL47RjeHi/mSy24Z
+ yYiA1A53Odk1qv8xEktBdX1LF7L/j0XWsA8Lg2lS99j9ATs8LTcJcDyxkeLzWw4oAnPK 6g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3agykmhaua-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Aug 2021 18:35:31 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17IIV8v3143978;
+ Wed, 18 Aug 2021 18:35:30 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08lp2046.outbound.protection.outlook.com [104.47.74.46])
+ by userp3030.oracle.com with ESMTP id 3ae2y2q9y1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Aug 2021 18:35:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hkz6DrPPbo/zZDxXLH84b5iAeIisXwAUf9IJ2HGzE//MQt7gsJtEvX6IUfXKq3VO9QnJCl47bIIVtZ4UUWNF5QsAtLhEZwaqsV8/bCbV8OoMM8nAVOxwdjLOK9M2wiMiAe/E+KvzncQs3RgAAjC1Yy/6o+hUO0QqdjDrRQ8mMGgIPqKCe97DwoyI7wE/iEUO6r44TwEqw5nNwv3Ur2iXZdmGtZuSvZlu25ZoN9G8N35EPRrV74bHGbyvRmOpYlVWcbvXDNV9yAPg4JFrUi6ip5QsrTdarhEQwNDjXwRcude1H6Pyzj9MkPa1P12F4gWClfh0N3C3qvb/0zgRFiPIaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=Qwnxvj21S4Z18g9asSPxY2X0Xn0wmA23SLW4Yaf1VshgRGuKdTOYiA6n+/aixRkQVyD4MBTab2wKl8GWcJVoCOaHN8PaUCksOaOvQ/qVYd3X+exxwzARasM4odrqdQrJi7b+Myr/JtA6cr02b3mOQICM96gr6tB2KYgdKsmQ6yJe4OOLHStlujuXxDQLFgfuF3EZlJTWPaI3TYhPRsou9ImvfYJTsidc8j1ax6WzzppDjMgw14LBVy8VAuhWkkub12623ICEHf8SRDe6PfcOPqww5Pqt6cIX+OdrbYRgbgMOcrt/Jyrl/bIoUa7pdeRMYRnPviV/F5EAS+peyHlfBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=lrWxFDW2jy1+RPzKL2VGu4wohONMNEiQbkDdAxDtEsdxSotwk4zCVODxatRkGAstJdUYwjWVygcQI3+/avrtPjBZcH/S7PJvkVg9XFhEJckVj0dPbzFa5ozucN0DN9707xrxyizmL7xd1eyVU/qV9eTaHIb0H5Tb3fnLJO8MfJA=
+Authentication-Results: samsung.com; dkim=none (message not signed)
+ header.d=none;samsung.com; dmarc=none action=none header.from=oracle.com;
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by PH0PR10MB5596.namprd10.prod.outlook.com (2603:10b6:510:f8::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.19; Wed, 18 Aug
+ 2021 18:35:26 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::c0ed:36a0:7bc8:f2dc]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::c0ed:36a0:7bc8:f2dc%6]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
+ 18:35:26 +0000
+To: SelvaKumar S <selvakuma.s1@samsung.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, dm-devel@redhat.com, kbusch@kernel.org,
+ axboe@kernel.dk, damien.lemoal@wdc.com, asml.silence@gmail.com,
  johannes.thumshirn@wdc.com, hch@lst.de, willy@infradead.org,
  kch@kernel.org, martin.petersen@oracle.com, mpatocka@redhat.com,
- bvanassche@acm.org, snitzer@redhat.com, agk@redhat.com,
- selvajove@gmail.com, joshiiitr@gmail.com, nj.shetty@samsung.com,
- joshi.k@samsung.com, javier.gonz@samsung.com
-Subject: Re: [PATCH 4/7] block: Introduce a new ioctl for simple copy
-Message-ID: <20210818161750.GF12664@magnolia>
+ bvanassche@acm.org, djwong@kernel.org, snitzer@redhat.com,
+ agk@redhat.com, selvajove@gmail.com, joshiiitr@gmail.com,
+ nj.shetty@samsung.com, nitheshshetty@gmail.com, joshi.k@samsung.com,
+ javier.gonz@samsung.com
+Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1sfz6loh9.fsf@ca-mkp.ca.oracle.com>
 References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
- <CGME20210817101803epcas5p10cda1d52f8a8f1172e34b1f9cf8eef3b@epcas5p1.samsung.com>
- <20210817101423.12367-5-selvakuma.s1@samsung.com>
- <20210817233613.GA12597@magnolia>
- <CAOSviJ2+deUdDXTWbWXaSxNX2t6cnhPg7KCDA4C2qm74KD9vdQ@mail.gmail.com>
+ <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com>
+ <20210817101423.12367-4-selvakuma.s1@samsung.com>
+Date: Wed, 18 Aug 2021 14:35:22 -0400
+In-Reply-To: <20210817101423.12367-4-selvakuma.s1@samsung.com> (SelvaKumar
+ S.'s message of "Tue, 17 Aug 2021 15:44:19 +0530")
+X-ClientProxiedBy: SA0PR11CA0037.namprd11.prod.outlook.com
+ (2603:10b6:806:d0::12) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAOSviJ2+deUdDXTWbWXaSxNX2t6cnhPg7KCDA4C2qm74KD9vdQ@mail.gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ca-mkp.ca.oracle.com (138.3.200.58) by
+ SA0PR11CA0037.namprd11.prod.outlook.com (2603:10b6:806:d0::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 18:35:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 21382182-2547-4135-b6a1-08d96276f229
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5596:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR10MB559692EBC6B94420CF645D318EFF9@PH0PR10MB5596.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2BGYh6qIQriDldauWLY68jn7Z351Qu1YIrT6esraEf5ehwLYscyk1nFrwtbsPWI70QV16i8gGFuMrNONB74W3JiaOBSjhTD6nynBIhE2VuLE+xXNdWQHGEFkqgBSUTx8ycMAX3dV+MJxA3UG0BBTwPIKyOg+2vI16Sk0X+Ih9jYynrtIlPtJU8CMw4CMVr4FQOqfstBGL/0msySmfCJ0DP1VzWOKUJr/IsTh2HZlbDLxfBJQ/Hf+D4HxKwoFPFgYJ4eB69ov0HyWvcy1f0LS5lqtoeAZbsDNWciT63OJVqcPGZMKWlNH8ViQj8dHzyBD/Qlfrfp88GIqTTwGHJi55CV2E2mW8Co6l9RIbiqRHTLQ+BXTDeRH1tABG+3nQ9QR2jkFSiZ2K0YGoyX4X38GsFh1XyhxPDE0SXNHmAN5k93cwo5CUxVU1aHF7iJ6tttXME7ZL2qlnmCQBKwx06WU0dEH5kAMxdxQvaHKTV6ysdFX9no38q4917DK5zFbUDx+oYZX6ZQeNScwnJiWHZYdoTYxNgdYHPSpI6gTu5I3JMLxVpk4OeBbgUVLJd6pMHWqZVQrrw3E5h3QLsUBucoMIpIbsTEE4uPh/cvNYq/mcUdq13ON9ipAeG6UFy7QhLgzk7Z2cDFMCU0f2a+JAnCwv6ifw2vlLg2a1eAOAvVPLQAJPe8RIIvl8ZoKONx3xQzqdiilmLjP3CosUf57m5Y8Eg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(39860400002)(366004)(376002)(136003)(346002)(5660300002)(8676002)(956004)(478600001)(8936002)(6916009)(316002)(83380400001)(36916002)(55016002)(38350700002)(4326008)(7696005)(38100700002)(52116002)(86362001)(66946007)(66476007)(186003)(66556008)(26005)(6666004)(2906002)(7416002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mSBNHsRPLAWUjMfUvinAyt2Mo/LFD4pwqpequnVfpH4z+aneMKLobh5a0DSH?=
+ =?us-ascii?Q?sweoGK7btq7HFQCJH7NnL1/YDg+b1bbUDhnIvcjR8maTNohvfEV9kd3LKT12?=
+ =?us-ascii?Q?dg6FDrSkRutxSkLOHeOs7RL1DztJyG/OMC0Hyurkpkz4cq2O2yP4/r016wXD?=
+ =?us-ascii?Q?iP1l90U542/mU8pc8Uiya4ZBVJlG7wITR2YCbLDqwuafaf67jreOgHlcnydC?=
+ =?us-ascii?Q?kzCoag10anTUbF7ZwSR6xeI7iFd/M06JN08vjVx98rnx3RPVZsltzc+8jqAK?=
+ =?us-ascii?Q?47/Us+IDhYY7uf99aGUYdNRxN+RzZHkjuO1VrPC8snbJ6H3xHKAglJ3nUSHU?=
+ =?us-ascii?Q?Cw7QJD1gYI4rz9UeAs4OnFBJM8S0n2A8gy6W/JR4PVTtDMzmjMkoXjzDZy9q?=
+ =?us-ascii?Q?t7609kz7yT8+XcLaVkXIbzxyC6ExLuqY9tPswVV2R/hUGStc/QPhWIEU8ESh?=
+ =?us-ascii?Q?z5MQSYoJulZ9GJju9CZjxNGjx9Hy91RNs3ZFoeQZvoxwVRalSA1YGXFsMeCv?=
+ =?us-ascii?Q?5u2zrw3wP7Q3Zw0N+HmqAEiAI0fECYNEWBp690bIJng+HSjqaBR0/L/zU/0a?=
+ =?us-ascii?Q?Cj8E2IZWGTjOpl/dr6DfC10VZRn4+DoOPUNMN+QeEjEhjh2F26W6B0aFij+H?=
+ =?us-ascii?Q?pjate4YsBF78z0ro05cApQldALNwmxFHmYIIzda4aGnQJS0MPaGIhK3VvQCj?=
+ =?us-ascii?Q?8ldJ6V2hQbahMdlgWTnKCitE5sTsY6v2U2a6I3k6bMGgkj0JJQ/K9ykMF8Xg?=
+ =?us-ascii?Q?fLTf+jmOuQ7I5ymaPFomPQ3qi1yndkLPULj+IqjqHXcJN7WdWvijA8gl8mrf?=
+ =?us-ascii?Q?c0vjTl1FzsEn44Y9oyonv+qFzFuPAXUmRqseItzv8+e16k0kUhn+vytdxCUX?=
+ =?us-ascii?Q?n79WzEIyRTh0LpSfxARWFQrsk+zaRCleldoUK/AeWxW3cTkI4pNEJccv7M7+?=
+ =?us-ascii?Q?E46dlttx2AgqH6TbXwu9dHACXDEXDdNYDulGQaiHDy6O+UVhFn7ovMQmI/OD?=
+ =?us-ascii?Q?3WN1lG1JS3bC7JhcmBbtJmtzUlx01A92NXuf3eODYFKxXNQr6Va/u4fNmph4?=
+ =?us-ascii?Q?I8JXJhhclvk7UmdQSKQFJ308Xe8KMO/Eep8AXJjP/n56R9Fbiu0Yx9rhcAD+?=
+ =?us-ascii?Q?+IwtVoJ8QGgLXjiFZzhJtHw32yfeQaZ1uNa1lv4rpKjiBaQw/WnkAqznCkmL?=
+ =?us-ascii?Q?XJiP2F70aSf9yQY0eBocgtaH5OIPHK3dyaWPHtXsRUyv8rv7VxKyExksFqb7?=
+ =?us-ascii?Q?QcI3XVVQnoV1xYYmUiAt57QyJCyAb9JYZ879s+n1jkF+QgRCsZMY0zU76w3R?=
+ =?us-ascii?Q?6RIHzmGJ6t0N5X82qsaACFE2?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21382182-2547-4135-b6a1-08d96276f229
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 18:35:25.9353 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sHc7u94W/QHGM8lD5GSzUg8LnI23KY3HOiVOsjEunBzshuYSU/MokY1lkrBxRTCzHwZ4yYrobeVN1Lh49WdsnHRcvmUFnpSqLMKXSC/V+ng=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5596
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10080
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ spamscore=0 adultscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=780 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108180116
+X-Proofpoint-ORIG-GUID: Gyd2TjD4-4FMg1vGcvo3PBu7--Qoh0SD
+X-Proofpoint-GUID: Gyd2TjD4-4FMg1vGcvo3PBu7--Qoh0SD
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210818_091751_156748_14C232E9 
-X-CRM114-Status: GOOD (  33.86  )
+X-CRM114-CacheID: sfid-20210818_113554_382387_C0AA7734 
+X-CRM114-Status: GOOD (  14.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,169 +204,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 18, 2021 at 09:07:54PM +0530, Nitesh Shetty wrote:
-> On Wed, Aug 18, 2021 at 5:06 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Tue, Aug 17, 2021 at 03:44:20PM +0530, SelvaKumar S wrote:
-> > > From: Nitesh Shetty <nj.shetty@samsung.com>
-> > >
-> > > Add new BLKCOPY ioctl that offloads copying of one or more sources ranges
-> > > to a destination in the device. COPY ioctl accepts a 'copy_range'
-> > > structure that contains destination (in sectors), no of sources and
-> > > pointer to the array of source ranges. Each source range is represented by
-> > > 'range_entry' that contains start and length of source ranges (in sectors)
-> > >
-> > > MAX_COPY_NR_RANGE, limits the number of entries for the IOCTL and
-> > > MAX_COPY_TOTAL_LENGTH limits the total copy length, IOCTL can handle.
-> > >
-> > > Example code, to issue BLKCOPY:
-> > > /* Sample example to copy three source-ranges [0, 8] [16, 8] [32,8] to
-> > >  * [64,24], on the same device */
-> > >
-> > > int main(void)
-> > > {
-> > >       int ret, fd;
-> > >       struct range_entry source_range[] = {{.src = 0, .len = 8},
-> > >               {.src = 16, .len = 8}, {.src = 32, .len = 8},};
-> > >       struct copy_range cr;
-> > >
-> > >       cr.dest = 64;
-> > >       cr.nr_range = 3;
-> > >       cr.range_list = (__u64)&source_range;
-> > >
-> > >       fd = open("/dev/nvme0n1", O_RDWR);
-> > >       if (fd < 0) return 1;
-> > >
-> > >       ret = ioctl(fd, BLKCOPY, &cr);
-> > >       if (ret < 0) printf("copy failure\n");
-> > >
-> > >       close(fd);
-> > >
-> > >       return ret;
-> > > }
-> > >
-> > > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> > > Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
-> > > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> > > ---
-> > >  block/ioctl.c           | 33 +++++++++++++++++++++++++++++++++
-> > >  include/uapi/linux/fs.h |  8 ++++++++
-> > >  2 files changed, 41 insertions(+)
-> > >
-> > > diff --git a/block/ioctl.c b/block/ioctl.c
-> > > index eb0491e90b9a..2af56d01e9fe 100644
-> > > --- a/block/ioctl.c
-> > > +++ b/block/ioctl.c
-> > > @@ -143,6 +143,37 @@ static int blk_ioctl_discard(struct block_device *bdev, fmode_t mode,
-> > >                                   GFP_KERNEL, flags);
-> > >  }
-> > >
-> > > +static int blk_ioctl_copy(struct block_device *bdev, fmode_t mode,
-> > > +             unsigned long arg)
-> > > +{
-> > > +     struct copy_range crange;
-> > > +     struct range_entry *rlist;
-> > > +     int ret;
-> > > +
-> > > +     if (!(mode & FMODE_WRITE))
-> > > +             return -EBADF;
-> > > +
-> > > +     if (copy_from_user(&crange, (void __user *)arg, sizeof(crange)))
-> > > +             return -EFAULT;
-> > > +
-> > > +     rlist = kmalloc_array(crange.nr_range, sizeof(*rlist),
-> > > +                     GFP_KERNEL);
-> > > +     if (!rlist)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     if (copy_from_user(rlist, (void __user *)crange.range_list,
-> > > +                             sizeof(*rlist) * crange.nr_range)) {
-> > > +             ret = -EFAULT;
-> > > +             goto out;
-> > > +     }
-> > > +
-> > > +     ret = blkdev_issue_copy(bdev, crange.nr_range, rlist, bdev, crange.dest,
-> > > +                     GFP_KERNEL, 0);
-> > > +out:
-> > > +     kfree(rlist);
-> > > +     return ret;
-> > > +}
-> > > +
-> > >  static int blk_ioctl_zeroout(struct block_device *bdev, fmode_t mode,
-> > >               unsigned long arg)
-> > >  {
-> > > @@ -468,6 +499,8 @@ static int blkdev_common_ioctl(struct block_device *bdev, fmode_t mode,
-> > >       case BLKSECDISCARD:
-> > >               return blk_ioctl_discard(bdev, mode, arg,
-> > >                               BLKDEV_DISCARD_SECURE);
-> > > +     case BLKCOPY:
-> > > +             return blk_ioctl_copy(bdev, mode, arg);
-> > >       case BLKZEROOUT:
-> > >               return blk_ioctl_zeroout(bdev, mode, arg);
-> > >       case BLKGETDISKSEQ:
-> > > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> > > index 7a97b588d892..4183688ff398 100644
-> > > --- a/include/uapi/linux/fs.h
-> > > +++ b/include/uapi/linux/fs.h
-> > > @@ -76,6 +76,13 @@ struct range_entry {
-> > >       __u64 len;
-> > >  };
-> > >
-> > > +struct copy_range {
-> > > +     __u64 dest;
-> > > +     __u64 nr_range;
-> >
-> > If the maximum number of elements in the range list is 1<<12, there's no
-> > need for this to be larger than a u16, right?
-> >
-> > > +     __u64 range_list;
-> >
-> > Pointers embedded in a structure are /not/ a good idea, because this
-> > will create a lot of compatibility headaches for 32-bit binaries running
-> > on 64-bit kernels.  Please just make the size of this header structure
-> > a multiple of 8 bytes and put the range_entry list immediately after it.
-> >
-> > struct copy_range {
-> >         __s64 dest_offset;
-> >         __u32 nr_range_entries;
-> >         __u32 flags;
-> >         __u64 reserved[2];
-> > };
-> >
-> > struct __user range_entry *re = ((struct range_entry *)(copyhead + 1));
-> >
-> > copy_from_user(&urk, re...);
-> >
-> > --D
-> >
-> Thanks, this is better. 'Reserved' field was there to be used for
-> future extension of the interface.
-> Now that you mentioned 'flags', it seems we can do away with
-> 'reserved' fields altogether?
 
-We still want the reserved-must-be-zero fields so that adding the first
-field or two doesn't require changes to the pointer arithmetic.
+> Native copy offload is not supported for stacked devices.
 
-Also, I suppose you could make the relationship between copy_range and
-range_entry more explicit:
+One of the main reasons that the historic attempts at supporting copy
+offload did not get merged was that the ubiquitous deployment scenario,
+stacked block devices, was not handled well.
 
-struct copy_range {
-        __s64 dest_offset;
-        __u32 nr_range_entries;
-        __u32 flags;
-        __u64 reserved[2];
+Pitfalls surrounding stacking has been brought up several times in
+response to your series. It is critically important that both kernel
+plumbing and user-facing interfaces are defined in a way that works for
+the most common use cases. This includes copying between block devices
+and handling block device stacking. Stacking being one of the most
+fundamental operating principles of the Linux block layer!
 
-	/* must come last */
-	struct range_entry entries[];
-};
+Proposing a brand new interface that out of the gate is incompatible
+with both stacking and the copy offload capability widely implemented in
+shipping hardware makes little sense. While NVMe currently only supports
+copy operations inside a single namespace, it is surely only a matter of
+time before that restriction is lifted.
 
-struct __user range_entry *re = &copyhead->entries[0];
+Changing existing interfaces is painful, especially when these are
+exposed to userland. We obviously can't predict every field or feature
+that may be needed in the future. But we should at the very least build
+the infrastructure around what already exists. And that's where the
+proposed design falls short...
 
---D
-
-> 
-> Regards,
-> Nitesh Shetty
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
 _______________________________________________
 Linux-nvme mailing list
