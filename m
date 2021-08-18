@@ -2,64 +2,73 @@ Return-Path: <SRS0=/QSy=NJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 831C4C4338F
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 07:43:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B5CC4338F
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 08:03:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4171B60FDA
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 07:43:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4171B60FDA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 41CED60F39
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Aug 2021 08:03:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 41CED60F39
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=FP8god5Xflh3+YTxAUG8pozKah17A2+mjcanGnC8OkE=; b=z4FuyGHCNUHjT7
-	taXGDZsmOVjQCQq2b5gH5Im29++uZPHvJIO29rc/3cVa9qIiSqyIkD4dbZbphwa7hWoN16+P47W0o
-	QlhLvzd7jMG7MTt9alIxJqTcM+8eMJGiXem+T4dd0xV8vGVK3zlfbMSZBryvNyW0JdK8fL+i2qeFA
-	HX/csvHRj3HmpP3EA0a0KuPj4WABpS0+RTOTR7st/QViZcPZVWuAz6W5pMeLG0ilMNUtCNp87TfJH
-	6ArwYld8VzbJDRBVPBLfptuj/Ygwo9Z/Wyc2NuQmaCo8XVz4xyFIj8rH1rBtrBEzCdojFSXzIsPG7
-	ZzB9AEMDW9Dzu2Ri8FvA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:From:References:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=LlrQE+UmlSik/32gBvKLpDGoY2/hrKw5SsfR7V3pH8Y=; b=BMdVmNFuCQARl/
+	oBZT85za95zjSQ8pRs9DEBF3MIVX191A3TV3jSmZ2tEKVv+XmHRECBJkTLOE0UL1+xgYe1iIunRhz
+	86JGUwt6PE65CjEhXAoTOLv3bWiY+71/k0m5rc81BzEkAAaeaMsTmUwfX0xZ69Kh4BEvrs/vVdiV0
+	xTG+2dtUD+I4lSmYKUNvVh6wddR/8YHxco4TmchW8Xz9cYmzYG6Zd4PyTCYQBBHCahIZLcb68jwNE
+	yeFpuvZX16rHgmKb1tdEQNyzetrGSCUPP0IUEXCscNi8wux3Ay3bpVbDaqe+ExifQ529lcScAjyj+
+	bffqOEViuQleSTNwqpvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mGGEQ-004WhT-8T; Wed, 18 Aug 2021 07:43:26 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1mGGXX-004ZCo-7l; Wed, 18 Aug 2021 08:03:11 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mGGEP-004WhE-5x
- for linux-nvme@bombadil.infradead.org; Wed, 18 Aug 2021 07:43:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=nd9cN56HL1mrF6Ir6BjczYHboyzl6QpT6r1kCisX79M=; b=Sm3lxbuRWYc/Ah1Jg+RWWUSmfg
- SYbduEhb0vUznNCzEo2hX6TB6ULEASiIMJ+InCrMHLeK4TAiZ8bEdHjNk6bx53R+tAweaZOqHRGcu
- Bh/F9FypIpTC/YSVQW8Hu9BeLaDJ7jvjfFaQd7YUG7+pRmsXCnnTHCU0F/ZY0H+yp0/EjQU+O1L1e
- xuEsA3c5YM951O2TxxES0TTtnIcAlbWvPlnOXYnmq8sWx4/oqqVYC/dhOapxyGEGzRZHnP2ha6BCc
- bFFTblixdquQtfEoylSS19/p3eAo48NVlI6JtBvKIc5c42G24bx65DzwV8hAII2tppfliCrU3gvr9
- KuHC4aGg==;
-Received: from [2001:4bb8:188:1b1:c70:4a89:bc61:2] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mGGCo-003WUE-VY; Wed, 18 Aug 2021 07:42:43 +0000
-Date: Wed, 18 Aug 2021 09:41:45 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] first round of nvme updates for Linux 5.15
-Message-ID: <YRy5uawonM5ERm3D@infradead.org>
+ id 1mGGXT-004ZCF-On
+ for linux-nvme@lists.infradead.org; Wed, 18 Aug 2021 08:03:09 +0000
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GqKzn3C3lzbfSc;
+ Wed, 18 Aug 2021 15:59:17 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 18 Aug 2021 16:03:01 +0800
+Received: from [10.169.63.14] (10.169.63.14) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2176.2; Wed, 18 Aug
+ 2021 16:03:01 +0800
+Message-ID: <3ec5e6fa-913b-b674-830d-a9f24c76f93e@huawei.com>
+Date: Wed, 18 Aug 2021 16:03:00 +0800
 MIME-Version: 1.0
-Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0
+Subject: Re: [PATCH nvme-cli 0/3] nvme-cli/plugins/huawei: display the status
+ of each disk
+To: Keith Busch <kbusch@kernel.org>
+CC: <linux-nvme@lists.infradead.org>, <sunao.sun@huawei.com>,
+ <liuzhouhua@huawei.com>, <lengchao@huawei.com>, <jiangtao62@huawei.com>
+References: <20210817150715.1173-1-chengjike.cheng@huawei.com>
+ <20210817161400.GB223727@dhcp-10-100-145-180.wdc.com>
+From: "Chengjike (ISSP)" <chengjike.cheng@huawei.com>
+In-Reply-To: <20210817161400.GB223727@dhcp-10-100-145-180.wdc.com>
+X-Originating-IP: [10.169.63.14]
+X-ClientProxiedBy: dggeme713-chm.china.huawei.com (10.1.199.109) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210818_010308_095935_420CFAD8 
+X-CRM114-Status: UNSURE (   7.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,93 +80,20 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 9ea9b9c48387edc101d56349492ad9c0492ff78d:
-
-  remove the lightnvm subsystem (2021-08-14 15:54:09 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git tags/nvme-5.15-2021-08-18
-
-for you to fetch changes up to 9891668e43c8e9f2d0d50088b151edefc2e560e5:
-
-  nvme: remove the unused NVME_NS_* enum (2021-08-17 06:20:17 +0200)
-
-----------------------------------------------------------------
-nvme updates for Linux 5.15.
-
- - suspend improvements for devices with an HMB (Keith Busch)
- - handle double completions more gacefull (Sagi Grimberg)
- - cleanup the selects for the nvme core code a bit (Sagi Grimberg)
- - don't update queue count when failing to set io queues (Ruozhu Li)
- - various nvmet connect fixes (Amit Engel)
- - cleanup lightnvm leftovers (Keith Busch, me)
- - small cleanups (Colin Ian King, Hou Pu)
- - add tracing for the Set Features command (Hou Pu)
- - CMB sysfs cleanups (Keith Busch)
- - add a mutex_destroy call (Keith Busch)
-
-----------------------------------------------------------------
-Amit Engel (3):
-      nvmet: pass back cntlid on successful completion
-      nvmet: avoid duplicate qid in connect cmd
-      nvmet: check that host sqsize does not exceed ctrl MQES
-
-Christoph Hellwig (1):
-      nvme: remove the unused NVME_NS_* enum
-
-Colin Ian King (1):
-      nvmet: remove redundant assignments of variable status
-
-Hou Pu (3):
-      nvme-fabrics: remove superfluous nvmf_host_put in nvmf_parse_options
-      nvme: add set feature tracing support
-      nvmet: add set feature tracing support
-
-Keith Busch (6):
-      nvme-pci: use attribute group for cmb sysfs
-      nvme-pci: cmb sysfs: one file, one value
-      nvme-pci: disable hmb on idle suspend
-      nvme: allow user toggling hmb usage
-      nvme-tcp: pair send_mutex init with destroy
-      nvme: remove nvm_ndev from ns
-
-Ruozhu Li (2):
-      nvme-tcp: don't update queue count when failing to set io queues
-      nvme-rdma: don't update queue count when failing to set io queues
-
-Sagi Grimberg (5):
-      params: lift param_set_uint_minmax to common code
-      nvme-pci: limit maximum queue depth to 4095
-      nvme-tcp: don't check blk_mq_tag_to_rq when receiving pdu data
-      nvme: code command_id with a genctr for use-after-free validation
-      nvme: Have NVME_FABRICS select NVME_CORE instead of transport drivers
-
- drivers/nvme/host/Kconfig         |   4 +-
- drivers/nvme/host/core.c          |   3 +-
- drivers/nvme/host/fabrics.c       |   1 -
- drivers/nvme/host/nvme.h          |  53 +++++++++--
- drivers/nvme/host/pci.c           | 181 +++++++++++++++++++++++++++++---------
- drivers/nvme/host/rdma.c          |   8 +-
- drivers/nvme/host/tcp.c           |  44 ++++-----
- drivers/nvme/host/trace.c         |  18 +++-
- drivers/nvme/target/Kconfig       |   2 -
- drivers/nvme/target/core.c        |   1 +
- drivers/nvme/target/fabrics-cmd.c |  38 +++++---
- drivers/nvme/target/loop.c        |   4 +-
- drivers/nvme/target/trace.c       |  18 +++-
- drivers/nvme/target/zns.c         |   5 +-
- include/linux/moduleparam.h       |   2 +
- kernel/params.c                   |  18 ++++
- net/sunrpc/xprtsock.c             |  18 ----
- 17 files changed, 295 insertions(+), 123 deletions(-)
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T2ssIEkgd2lsbCBsYXRlciBzZW5kIGEgc2VwYXJhdGUgcGF0Y2ggdG8gYWRkIHRoaXMgZmVhdHVy
+ZSB0byB0aGUgIm52bWUgCmxpc3QiIGNvbW1hbmQuCgrlnKggMjAyMS84LzE4IDA6MTQsIEtlaXRo
+IEJ1c2NoIOWGmemBkzoKPiBPbiBUdWUsIEF1ZyAxNywgMjAyMSBhdCAxMTowNzoxMlBNICswODAw
+LCBjaGVuZ2ppa2Ugd3JvdGU6Cj4+IEhpLCBJJ2QgbGlrZSB0byBkaXNwbGF5IHRoZSBjdXJyZW50
+IHN0YXR1cyBvZiBlYWNoIGRpc2sgd2hlbiBJIGV4ZWN1dGUgdGhlIGNvbW1hbmQgIm52bWUgaHVh
+d2VpIGxpc3QiLgo+PiBUd28gYnVncyB3ZXJlIGFsc28gZml4ZWQgaW4gb3JkZXIgdG8gYmUgYWJs
+ZSB0byBkaXNwbGF5IHN0YXR1cy4KPiBUaGVyZSBpcyBub3RoaW5nIGh1YXdlaSBzcGVjaWZpYyBh
+Ym91dCBhbnkgb2YgdGhpcywgY2FuJ3Qgd2UganVzdCBtYWtlCj4gdGhlIGdlbmVyaWMgbGlzdCBj
+b21tYW5kcyBkaXNwbGF5IHRoaXMga2luZCBvZiBzdHVmZj8KPiAuCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApM
+aW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
