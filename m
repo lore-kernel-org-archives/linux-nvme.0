@@ -2,104 +2,102 @@ Return-Path: <SRS0=ZTQI=NK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93DFEC4338F
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Aug 2021 14:28:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7EA7C4338F
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Aug 2021 14:33:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3ED5A610FA
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Aug 2021 14:28:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3ED5A610FA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=de.ibm.com
+	by mail.kernel.org (Postfix) with ESMTPS id 32F996112D
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Aug 2021 14:33:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 32F996112D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=irrelevant.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:From:
-	Subject:To:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=hQqH8qox4Sk8hj9u7Lz+KiuMXshsLPnryB8BZjvpPtc=; b=14v/rxi1aPixfm
-	iOOea3yTDSGQdFklIaq+RRdy5BSJ/ml5NW553jfFxO77Dk3N3zofLFGrSBbkIDspi/hMumNe/bwVO
-	yQAG7151c5tr1HadircbsCNYK9gj9Ew2re5O5NR33GPab95yo7QhKID6uQd++sac5iREh8NYuD8Tu
-	GJTOtBhSmgLLlOneQ2+oTFBLCEih5GWTdYs1hdMuu9ImtN3SjWaU22BXDGPfVNrMrFYf3ZIU3AwAX
-	kpIJ8sUKTUfakwhbDOht6EBt5S/bP/dauWcTcEv4szIR6mjEH3XMFng3RH8G1TvXvqzcgGRr9wcgD
-	LgUB9Dnq+gCZQ6s4BGmw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=U+gPZR9ANeRwZpTQU7I1PjJryXNnRk/Rx9gdicob7M8=; b=u+xl1RNMIaaTGRKFBQuGkNZP+x
+	aF4DTaUJ+BwPSUTM9pTmrCAcQr12SSdKcYScyUxc7JfuUWuONRq0HFV4a6hdoH9oWcWUNd9hRjjvu
+	DuFuBrV2Oo/qJA8GwkoSISfDTYLvlN5BZQe12+/vCPqvWxRopBiq4wxCtOC2oUc50z5arTDYPs8sK
+	iEjFUWbjPSpA99iDbIycXbzHb8tajhgR8y0nxFOxRSFjeO70ESTGka1dpbY3cmiQiU34pGiojSqST
+	dj0A9IbgSGiv7rWD+zAVZfyrtW2ZwjRI2vyLiNS2TeoYKOzvYC4fMMY4RzDRtXksKUn0+3YJpyW15
+	WhNb6C0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mGj1G-008ekN-Fr; Thu, 19 Aug 2021 14:27:46 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1mGj6U-008f6G-GU; Thu, 19 Aug 2021 14:33:10 +0000
+Received: from new2-smtp.messagingengine.com ([66.111.4.224])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mGj1B-008ejo-6h
- for linux-nvme@lists.infradead.org; Thu, 19 Aug 2021 14:27:45 +0000
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17JE30Qx063485
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 10:27:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=to : subject : from :
- message-id : date : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=vWRtwIGVTscf3XayG8KeKVy/AaHK0tdZHYdpQAF/DLU=;
- b=CsmjFuXhjFV8oWMwqWPp8wuVtFL4ys8j6i7beGpQLAyYZprJCExC5jgUr17bixcDsXqI
- wFaycJxY0d2KL5KENqSmEki8BKSh1Lu2mdk/j7EpqJoJhPljSuRevrIEeBwWVQMBUVCW
- e4GBAT4JPSp7JpilJgDSFOUbEh40AumJrV+z6PiNpIEI43XPCXkldDYkVHIVjDmw/MrD
- 7g2g68ppe13+QWB+QyEA8Fyg/Xodchgcd1NVfc2O8V7WQVk9Lsu7Bx40gFjHIykaPqnA
- Pcwzk1rVU+ihWO4pzdVf4DxayY6exA+c6j5Ir2OGE8A6Au/WCSNzobawzpQ4utUZjDC3 qA== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ahp9x5kgm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 10:27:40 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17JEDJ6W011147
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 14:27:39 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma04dal.us.ibm.com with ESMTP id 3ae5fg2ra4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 14:27:39 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17JERbcU40894732
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 14:27:37 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4C45BE053
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 14:27:37 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9B59BBE059
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 14:27:37 +0000 (GMT)
-Received: from mww0322.dal12m.mail.ibm.com (unknown [9.208.69.18])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS
- for <linux-nvme@lists.infradead.org>; Thu, 19 Aug 2021 14:27:37 +0000 (GMT)
-To: linux-nvme@lists.infradead.org
-Subject: hostname cannot be used for traddr?
-From: "Andreas Luengen" <LUENGEN@de.ibm.com>
-Message-ID: <OF6B2D5E85.F00AD733-ONC1258736.004F4A7C-C1258736.004F6E51@ibm.com>
-Date: Thu, 19 Aug 2021 16:27:35 +0200
+ id 1mGj6O-008f4c-Bk
+ for linux-nvme@lists.infradead.org; Thu, 19 Aug 2021 14:33:09 +0000
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 553C8580A24;
+ Thu, 19 Aug 2021 10:33:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 19 Aug 2021 10:33:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=TFpBk3d70DReYz8r6I46rFbHUZF
+ XUKYL87UuOG/gfR8=; b=LOGcQW9sdPtZr6FkBZs0237Zek2erMmPAgrPLpRImLC
+ THaYqxW5sKGKSLyrwWXx5ZQeVcPkABDk/KZcS1UhB4NQxZBNHBD0NgPyloAz40Bk
+ bfiZGuuxRsQjR40QzlTzZnGnu6747SnuQhLQO2X85GbT7DljvpFF59l/RGxOnr1q
+ S0XDrDxAoocSMGC2NCAALWrdi7kscYs4yPbzGNPi6yAC5Psg7ngs0Tu5JUQB/uAX
+ MeBvsy9pe6bxEwaN+q0V8KVfax9hOk8LikGpkk4yeM6oFdqKR5LwkLYufjs/UalC
+ zPVsmZinRFlV6HORQj/eI9ACt5iX6zQuvce7Zvc+a9Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TFpBk3
+ d70DReYz8r6I46rFbHUZFXUKYL87UuOG/gfR8=; b=BzqIEVsdTW+GLPpMRcc6F9
+ Qiabz4669M/ZF3KDa+oVL2mIndEHAdoRehva2y4mvNiYv12rBbMdh2ZC1ZBskG/q
+ /caIvvuZ35JVouvP4kXn4ss06NkdFcBheMCjuCDHFL7EoqG2OksvZDFyzho+/Ajh
+ M/1vrwUORx1VgL/mTEEawIKI4uO7ZUnLDtOnx8rNy0BSydA8ij/UtSOKazVw9MDG
+ fG8BX8D1hIgsDLPtsy8jBQnZQvafmwfjqRXkYL8cLzaPJUTn21STjMn7mV9zTkqh
+ Wo60Od32E7AONFIr6+rbnYv4lBiJKfS64kv6cvh0r0Tbkhl44jUKYpd+efVmcVxw
+ ==
+X-ME-Sender: <xms:mWseYcoBfj10nFZq8PxwT8y-CfxNKqsybz_f-2D0LnznQGkZU8MFmg>
+ <xme:mWseYSpbcH4WodktpTo09dfneAIumTaWfMLnGo8B3QVBCnRL6zUnX724pnL5ipglM
+ 5EKtTdKqkeykEOU19E>
+X-ME-Received: <xmr:mWseYRPl1jVxX6pD4odOa3-03giqtKDEDGpTRxCE0lCTOgfOoRLXpgfO7iJSmAm4GCljwbQubWP_x7w4479__U514FpLAUVUWsBzi-IjTTbst5XZvw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdejhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:mWseYT4Htupkxfd0a4d7pKn7qbqD9Pq-a_U1fnR4b3QYvvA7ZoYeSw>
+ <xmx:mWseYb6NbieljA7WhRZHIGTOkTB74qNnN0VZOJo1puObOxeCCijqbw>
+ <xmx:mWseYTiqeQ2dlwnQEvEeJhzi_dvlGzxVMLqNAzUktwhnoVN915OUxA>
+ <xmx:nGseYfoyGtxfBqaj9rSXS1uqndEY4tneyV1i9FMdX8rfpVspNgbDpg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Aug 2021 10:32:55 -0400 (EDT)
+Date: Thu, 19 Aug 2021 16:32:52 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Naveen Nagar <naveen.n1@samsung.com>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, stefanha@redhat.com,
+ fam@euphon.net, kwolf@redhat.com, mreitz@redhat.com,
+ qemu-block@nongnu.org, linux-nvme@lists.infradead.org,
+ k.jensen@samsung.com, p.kalghatgi@samsung.com,
+ raphel.david@samsung.com, d.palani@samsung.com,
+ prakash.v@samsung.com, jg123.choi@samsung.com,
+ anuj.singh@samsung.com, anaidu.gollu@samsung.com
+Subject: Re: [RFC PATCH v2] hw/nvme:Adding Support for namespace management
+Message-ID: <YR5rlHYZNRLa5Sxl@apples.localdomain>
+References: <CGME20210819135248epcas5p1fcc9f399f16a5336e6af004170a0eea4@epcas5p1.samsung.com>
+ <1629378597-30480-1-git-send-email-naveen.n1@samsung.com>
 MIME-Version: 1.0
-X-KeepSent: 6B2D5E85:F00AD733-C1258736:004F4A7C; name=$KeepSent; type=4
-X-Mailer: HCL Notes Release 11.0.1 March 21, 2020
-X-Disclaimed: 18283
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 3xZ3DeSdySCU4PGE88n8n0CO0yr9VCGD
-X-Proofpoint-GUID: 3xZ3DeSdySCU4PGE88n8n0CO0yr9VCGD
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-19_04:2021-08-17,
- 2021-08-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- impostorscore=0 bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=623
- suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108190083
+In-Reply-To: <1629378597-30480-1-git-send-email-naveen.n1@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210819_072741_305611_82C1B9F6 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20210819_073304_723213_E3550534 
+X-CRM114-Status: GOOD (  16.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,349 +109,94 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="===============5674632554187927519=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi nvmetcli developers.
 
-Following the NVMe specs I understand that it should be possible to use =
-
-host name or fully qualified domain name instead of an IP address in the =
-
-traddr field.
-Setting the host name works, but when I try to attach a device this fails. =
-
-Just changing the host name to a valid IP address and then attaching a =
-
-device works (see below).
-
-May I  miss something or is this a bug?
-
-
-/ports/3/subsystems> cd ..
-/ports/3> ls
-o- 3 =
-
-...........................................................................=
-... =
-
-[trtype=3Drdma, traddr=3D172.16.80.97, trsvcid=3D4420]
-  o- referrals =
-
-...........................................................................=
-.................................... =
-
-[...]
-  o- subsystems =
-
-...........................................................................=
-................................... =
-
-[...]
-/ports/3> set addr traddr=3Dcesip1
-Parameter traddr is now 'cesip1'.
-/ports/3> ls
-o- 3 =
-
-...........................................................................=
-......... =
-
-[trtype=3Drdma, traddr=3Dcesip1, trsvcid=3D4420]
-  o- referrals =
-
-...........................................................................=
-.................................... =
-
-[...]
-  o- subsystems =
-
-...........................................................................=
-................................... =
-
-[...]
-/ports/3> cd subsystems
-/ports/3/subsystems> ls
-o- subsystems =
-
-...........................................................................=
-..................................... =
-
-[...]
-/ports/3/subsystems> create cesnode1-0005
-Could not symlink cesnode1-0005 in configFS: [Errno 22] Invalid argument: =
-
-'/sys/kernel/config/nvmet/subsystems/cesnode1-0005' -> =
-
-'/sys/kernel/config/nvmet/ports/3/subsystems/cesnode1-0005'
-/ports/3/subsystems> cd ..
-/ports/3> set addr traddr=3D172.16.80.97
-Parameter traddr is now '172.16.80.97'.
-/ports/3> cd subsystems
-/ports/3/subsystems> create cesnode1-0005
-/ports/3/subsystems> ls
-o- subsystems =
-
-...........................................................................=
-..................................... =
-
-[...]
-  o- cesnode1-0005 =
-
-...........................................................................=
-................................ =
-
-[...]
-/ports/3/subsystems> cd /ports
-/ports> ls
-o- ports =
-
-...........................................................................=
-.......................................... =
-
-[...]
-  o- 1 =
-
-...........................................................................=
-. =
-
-[trtype=3Drdma, traddr=3D172.16.80.98, trsvcid=3D4420]
-  | o- referrals =
-
-...........................................................................=
-.................................. =
-
-[...]
-  | o- subsystems =
-
-...........................................................................=
-................................. =
-
-[...]
-  |   o- dvtc3a-0005 =
-
-...........................................................................=
-.............................. =
-
-[...]
-  o- 3 =
-
-...........................................................................=
-. =
-
-[trtype=3Drdma, traddr=3D172.16.80.97, trsvcid=3D4420]
-    o- referrals =
-
-...........................................................................=
-.................................. =
-
-[...]
-    o- subsystems =
-
-...........................................................................=
-................................. =
-
-[...]
-      o- cesnode1-0005 =
-
-...........................................................................=
-............................ =
-
-[...]
-/ports>
-/ports/3> cd subsystems
-/ports/3/subsystems> delete cesnode1-0005
-/ports/3/subsystems> cd ..
-/ports/3> set addr traddr=3Dcesip1.a.b.c.ibm.com
-Parameter traddr is now 'cesip1.a.b.c.ibm.com'.
-/ports/3> cd subsystems
-/ports/3/subsystems> create cesnode1-0005
-Could not symlink cesnode1-0005 in configFS: [Errno 22] Invalid argument: =
-
-'/sys/kernel/config/nvmet/subsystems/cesnode1-0005' -> =
-
-'/sys/kernel/config/nvmet/ports/3/subsystems/cesnode1-0005'
-
-
-Here when I trying to restore a preconfigured config file:
-
-[8.3 root@dvtc3a:/tmp 07:45:18 994]# nvmetcli clear; nvmetcli restore =
-
-/tmp/nvmet.dvtc3a.rdma.nameonly; nvmetcli ls
-Traceback (most recent call last):
-  File "/usr/lib/python3.6/site-packages/nvmet/nvme.py", line 635, in =
-
-add_subsystem
-    "%s/subsystems/%s" % (self._path, nqn))
-OSError: [Errno 22] Invalid argument: =
-
-'/sys/kernel/config/nvmet/subsystems/cesnode1-0005' -> =
-
-'/sys/kernel/config/nvmet/ports/3/subsystems/cesnode1-0005'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/sbin/nvmetcli", line 656, in <module>
-    main()
-  File "/usr/sbin/nvmetcli", line 639, in main
-    funcs[sys.argv[1]](savefile)
-  File "/usr/sbin/nvmetcli", line 595, in restore
-    errors =3D nvme.Root().restore_from_file(from_file)
-  File "/usr/lib/python3.6/site-packages/nvmet/nvme.py", line 382, in =
-
-restore_from_file
-    abort_on_error=3Dabort_on_error)
-  File "/usr/lib/python3.6/site-packages/nvmet/nvme.py", line 363, in =
-
-restore
-    Port.setup(self, t, err_func)
-  File "/usr/lib/python3.6/site-packages/nvmet/nvme.py", line 687, in =
-
-setup
-    port.add_subsystem(s)
-  File "/usr/lib/python3.6/site-packages/nvmet/nvme.py", line 637, in =
-
-add_subsystem
-    raise CFSError("Could not symlink %s in configFS: %s" % (nqn, e))
-nvmet.nvme.CFSError: Could not symlink cesnode1-0005 in configFS: [Errno =
-
-22] Invalid argument: '/sys/kernel/config/nvmet/subsystems/cesnode1-0005' =
-
--> '/sys/kernel/config/nvmet/ports/3/subsystems/cesnode1-0005'
-o- / =
-
-...........................................................................=
-.............................................. =
-
-[...]
-  o- hosts =
-
-...........................................................................=
-........................................ =
-
-[...]
-  | o- hostnqn-cesnode1ip1 =
-
-...........................................................................=
-........................ =
-
-[...]
-  o- ports =
-
-...........................................................................=
-........................................ =
-
-[...]
-  | o- 3 =
-
-...........................................................................=
-..... =
-
-[trtype=3Drdma, traddr=3Dcesip1, trsvcid=3D4420]
-  |   o- referrals =
-
-...........................................................................=
-................................ =
-
-[...]
-  |   o- subsystems =
-
-...........................................................................=
-............................... =
-
-[...]
-  o- subsystems =
-
-...........................................................................=
-................................... =
-
-[...]
-    o- cesnode1-0005 =
-
-........................................................... [version=3D1.3, =
-
-allow_any=3D1, serial=3D657df07bdfbd0a8c]
-      o- allowed_hosts =
-
-...........................................................................=
-............................ =
-
-[...]
-      o- namespaces =
-
-...........................................................................=
-............................... =
-
-[...]
-        o- 1 ................................ =
-
-[path=3D/ibm/scale01/nvme/disk5.img, =
-
-uuid=3D0fa67003-22db-4948-967d-31d30babd814, enabled]
-[8.3 root@dvtc3a:/tmp 07:45:38 995]#
-
-[8.3 root@dvtc3a:/tmp 07:45:38 995]# cat /tmp/nvmet.dvtc3a.rdma.nameonly
-{
-  "hosts": [
-    {
-      "nqn": "hostnqn-cesnode1ip1"
-    }
-  ],
-  "ports": [
-    {
-      "addr": {
-        "adrfam": "ipv4",
-        "traddr": "cesip1",
-        "treq": "not specified",
-        "trsvcid": "4420",
-        "trtype": "rdma"
-      },
-      "portid": 3,
-      "referrals": [],
-      "subsystems": [
-        "cesnode1-0005"
-      ]
-    }
-  ],
-  "subsystems": [
-    {
-      "allowed_hosts": [],
-      "attr": {
-        "allow_any_host": "1",
-        "serial": "657df07bdfbd0a8c",
-        "version": "1.3"
-      },
-      "namespaces": [
-        {
-          "device": {
-            "nguid": "00000000-0000-0000-0000-000000000000",
-            "path": "/ibm/scale01/nvme/disk5.img",
-            "uuid": "0fa67003-22db-4948-967d-31d30babd814"
-          },
-          "enable": 1,
-          "nsid": 1
-        }
-      ],
-      "nqn": "cesnode1-0005"
-    }
-  ]
-}
-
-/etc/hosts contains a mapping for this name (a,b,c are substitutes for the =
-
-real entries):
-172.16.80.97  cesip1  cesip1.a.b.c.ibm.com
-
-Mit freundlichen Gr=FC=DFen / Kind regards
-
-Andreas Luengen
-
-
-
+--===============5674632554187927519==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4CwuXjTjluigJgOL"
+Content-Disposition: inline
+
+
+--4CwuXjTjluigJgOL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Aug 19 18:39, Naveen Nagar wrote:
+> From: Naveen <naveen.n1@samsung.com>
+>=20
+> This patch supports namespace management : create and delete operations.
+>=20
+> Since v1:
+> - Modified and moved nvme_ns_identify_common in ns.c file=20
+> - Added check for CSI field in NS management
+> - Indentation fix in namespace create
+>=20
+> This patch has been tested with the following command and size of image
+> file for unallocated namespaces is taken as 0GB. ns_create will look into
+> the list of unallocated namespaces and it will initialize the same and=20
+> return the nsid of the same. A new mandatory field has been added called
+> tnvmcap and we have ensured that the total capacity of namespace created
+> does not exceed tnvmcap
+>=20
+> -device nvme-subsys,id=3Dsubsys0,tnvmcap=3D8
+> -device nvme,serial=3Dfoo,id=3Dnvme0,subsys=3Dsubsys0
+> -device nvme,serial=3Dbar,id=3Dnvme1,subsys=3Dsubsys0
+> -drive id=3Dns1,file=3Dns1.img,if=3Dnone
+> -device nvme-ns,drive=3Dns1,bus=3Dnvme0,nsid=3D1,zoned=3Dfalse,shared=3Dt=
+rue
+> -drive id=3Dns2,file=3Dns2.img,if=3Dnone
+> -device nvme-ns,drive=3Dns2,bus=3Dnvme0,nsid=3D2,zoned=3Dfalse,shared=3Dt=
+rue
+> -drive id=3Dns3,file=3Dns3.img,if=3Dnone
+> -device nvme-ns,drive=3Dns3,bus=3Dnvme0,nsid=3D3,zoned=3Dfalse,shared=3Dt=
+rue
+> -drive id=3Dns4,file=3Dns4.img,if=3Dnone
+> -device nvme-ns,drive=3Dns4,bus=3Dnvme0,nsid=3D4,zoned=3Dfalse,shared=3Dt=
+rue
+>=20
+> Please review and suggest if any changes are required.
+>=20
+> Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+>  =20
+
+Woops.
+
+Looks like you sent it to the wrong mailing list - I'd be happy to
+comment on this on qemu-{block,devel} instead :)
+
+--4CwuXjTjluigJgOL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEea5EACgkQTeGvMW1P
+Del6vwf9Ge4UvU3bKf3BL7Ffk2sA9rrzQ8X9bUp7/72q6a0oph5h3cyFSKiMIqvm
+TscMd06/stsNhi7o6/+UyTVRo/hlK7UG9c9847Aonow7xL0wsd2+zBwQCl2DogBk
+61h8cEdUfSQ+UTJBUCWrTcxVu8EzqSubJhhNdrV69QvytuFxMXHPTssGkh59TFyY
+A4o8Y2xoR9Tkfhr+TsNVR5x1Qciyn1AQJgJjgTmXziP/6qXr2IuHMmHVEHZfMVGJ
+1yew5kJOJ2zgRmPlW70CEURcbRrH88lFCZISMQTtHp/IQnAZoL7FjYXgBU0apxsG
+lwFnw5hriqP+D7T3Ow0Qdc/jeqsW+Q==
+=7GE0
+-----END PGP SIGNATURE-----
+
+--4CwuXjTjluigJgOL--
+
+
+--===============5674632554187927519==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============5674632554187927519==--
+
