@@ -2,99 +2,84 @@ Return-Path: <SRS0=THed=NL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BEBC4338F
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 15:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D94C4338F
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 18:35:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ECC9E60F44
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 15:28:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org ECC9E60F44
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 690FF60F8F
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 18:35:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 690FF60F8F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YWzeAasBe3V8ZEKtC1wTppW9GPsYIyItbLlKtrJxjHQ=; b=GSQtSg7d4jDYnITBZJQdtxLb4l
-	Z01txxSKZeUN6f01/4yi2Ync7Bw1C/syTIQ2QuF8Dhl2+0wA/LP8jWXqLrRQHYp5OBTB3MFh8tyQA
-	ebv6x3pWWjpmAq56McHa2KoTcQg9HcafKe7bDVcAhcaA2xyBI8ApEWwCJXMp9ICMOOrxILOBb43NY
-	QxUAdjtD2IKHL5KitSgxDl3YfxbCHF8RY92d/AXMV4eyJgowmwWU6Ro+Qy0i5jTNHvD2/u1oiP4/N
-	KkS0HX0zEugDId2Y+D+cmdDnToEoqfGLUkTxeoYs4UHFcliNnx9JVR5QrpV/VCvjU/fAgpcAVPtvH
-	sNv0b8bQ==;
+	MIME-Version:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
+	:List-Id:Subject:Cc:To:From:Date:Message-ID:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=OIc/5MVzzoduyY/t9Xl1j1gBOT4NJqzOjmOOaJIPBPg=; b=Z28
+	afPtDtOiHU92sVdFcaJkbpVtF+1nvIPZrcNeCSOnnRng2xDhxy5YvfDTCXoMeTsz/8YyboeNjJ7O8
+	IUmXtJCHioyNrewNx5M+UA7fm6kIENVJbobhaHfulDeFiNP3dZaM8QvdTlV960uecGAx30JqIzLxB
+	PZ1uksoDVCYSeF/XsbEzKtcibSItQcIG/QVwSeNBPSogpwCh/3YKH3OPzpT0TfiYfq0vzOAOs4h9N
+	i3+ur8I61iSxvQjIMUqxuuksgI9rbtZr1kbIChvDFRgkRnrlNp+6rslmHyR+7xSsCY6Xv9DR5dAcg
+	IYivjcFvUb8X3jvtecvfFm/GHGfxIIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mH6RB-00BWdz-9b; Fri, 20 Aug 2021 15:28:05 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1mH9MK-00BtUe-Uq; Fri, 20 Aug 2021 18:35:17 +0000
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mH6Qx-00BWcw-Hp
- for linux-nvme@lists.infradead.org; Fri, 20 Aug 2021 15:27:55 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id
- n13-20020a17090a4e0d00b0017946980d8dso13982753pjh.5
- for <linux-nvme@lists.infradead.org>; Fri, 20 Aug 2021 08:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xWUYFVShPfBnoUhetkkSmNUWocaFeL6/9s7+z7WErjc=;
- b=bghtBO7IJBFQP2SOMr7k6cKho3fdH1dZ1vC3B+ySOux1h8a172sFF7xofaaPaGrMoe
- r4giNUdyDZzTMdQ2KvnFfh5Vcp/3NwGyT6rargw2sfQkQ15wVdWeBTRJvafCPilot86o
- obXDCh2+74jQ2GCmL+6BDAQzGksxjgc5wDe3OS/lXHDBFoO17TyoED/dNVItoTUC6nM1
- tDC42Y3mJGa+B6CJ6PaEkb4AZJDKadBLrI+WvRV70AhnUdfqhwqvfcU6m1x4ddycBaeW
- zIeO0NZqzNEVV0LIzuxDFPg4NdpKLHx+vma77rBiJ4R7ECo8zyt2v79R4sHIkbTl99Kd
- DRrQ==
+ id 1mH9MH-00BtSL-R5
+ for linux-nvme@lists.infradead.org; Fri, 20 Aug 2021 18:35:15 +0000
+Received: by mail-qk1-x72e.google.com with SMTP id e14so11816967qkg.3
+ for <linux-nvme@lists.infradead.org>; Fri, 20 Aug 2021 11:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
+ h=message-id:date:from:to:cc:subject;
+ bh=20/a0sZ2dzFKeddKBSkNEVtv2AMo9NoJrHJmvABR31k=;
+ b=iraa4Yg2ZIyDuLWjWxoz7XhaITVgAYkL2+UmLSFrqzMB3Uvs29V23Zg5ZWoo3nSrSZ
+ b0dXIrjTqoCGqlt1bugRacT5AbM7T5760fHd5UgMw48rJMdz4pQCKgkQqu+1q6icd7Lh
+ tR4z5xVyYZXDdAyNdKWuDuKWkAVefKGJAU+UbRIwopG6QmTsWlPBx9e+xAAOzGooNbGA
+ /5NPhzg0yAMk99xz4CasbFUmtvV3ciy4mALUH8pW1BZ0fEBCJlOUuEc8VXFVTaPaSSfd
+ lX0gEIIFctA+XwIkf/dWjE4RhQP77SJUbdLGVanMyBnf0sf3Vbd62+dQ9ux2O4jgxyRK
+ V1Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xWUYFVShPfBnoUhetkkSmNUWocaFeL6/9s7+z7WErjc=;
- b=gpsGgvsZ9Y9alokvO3MLcWghjxreqMu7vWCOLUl+DiqXwM5jgc9QrZ68dclEvKof+b
- YO98ETr86bTLMfvY43YHOsTfW3pw9WRyt9GrVYmKReJ5jBIbMaMNQG/VGUCZDnFVjWKH
- BJ4SxKqPwaqN7Ielf93ZqAnXikFEEJyiE7S9e0EcNTKqxohePhv1Njz6SzOwhp3jPvLZ
- kYb1+lkF61ge20H5KocY2By3a7EMG74MO3K2i8JbBNaePv8PIjwetag3dc9UXcANBGGY
- AP9n3CG5LPJjPDMXVsNijTiw7439u7PMempqryDP3lEfb6q4tDD1E1L1/uleUWXwfLzi
- P/+g==
-X-Gm-Message-State: AOAM532hwaTW2n+BHE2pvbfhzLH9w1WOYbZ93p1BaiNJMO63xI4RFHrd
- r0mtnlOD3GYWAS9ihSuzaiI=
-X-Google-Smtp-Source: ABdhPJxysHeQTtCzXK0dNQgiidOi1ZOG5MX3uXaDcnuxN7BT2yxhF8TCrIcihHJZvUkwVkb0KPSeAw==
-X-Received: by 2002:a17:90b:d94:: with SMTP id
- bg20mr5105902pjb.61.1629473269873; 
- Fri, 20 Aug 2021 08:27:49 -0700 (PDT)
-Received: from [192.168.1.40] (ip174-67-196-173.oc.oc.cox.net.
- [174.67.196.173])
- by smtp.gmail.com with ESMTPSA id o10sm7984608pgp.68.2021.08.20.08.27.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 08:27:49 -0700 (PDT)
-Subject: Re: [PATCH v5 0/3] Handle update hardware queues and queue freeze
- more carefully
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>
-References: <20210818120530.130501-1-dwagner@suse.de>
- <20210820084832.nlsbiztn26fv3b73@carbon.lan>
- <20210820115521.alveifzvad3zuwh4@carbon.lan>
-From: James Smart <jsmart2021@gmail.com>
-Message-ID: <73a430da-84c8-5457-108a-7e1e2d81fa61@gmail.com>
-Date: Fri, 20 Aug 2021 08:27:48 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210820115521.alveifzvad3zuwh4@carbon.lan>
-Content-Language: en-US
+ h=x-gm-message-state:message-id:date:from:to:cc:subject;
+ bh=20/a0sZ2dzFKeddKBSkNEVtv2AMo9NoJrHJmvABR31k=;
+ b=UJs5GhQZPRKyVdgMeD198vpZ7FdtFqEbrO9mkNXG5Ighz12gs9jXXNuj9FUcY93sEt
+ 3gp0yliQQZBjM46KqxIiAzu5iHPXl+5s8KMq89e6UjkSypAFeYS9Jt1IJAczLvEed970
+ vVGbKJ9XaKZ+D/Jvca04WhfWOkJryN267HTHkhp0Q0vD07TADND6e88zanjs7/5k9iLK
+ Pj+QCuDslM4Drb3Wnd1gw9U/IAqlHgUxHcS6vXmUXPx0KACzlTGjnmRAhsLV+2XFvIjf
+ FSsak/v3+97W7t4gIkPabtm36oDYMSw+9bH7U5MdUql/E25RVSZaTKC5VKG5OklDSb7C
+ IJIg==
+X-Gm-Message-State: AOAM530zg/Dd+3ST9YSHx2Uaw2ilwotCGxML5Doz/L5fWvB7reaEAayp
+ u90ipC95aP1I4Xldw1PmuyMgSQ==
+X-Google-Smtp-Source: ABdhPJyu6VME/MSR6isTYWyYplihN92JlMd+BYrZuko4mFZdVnneppsOXB+uYbKpE5mJc8NKjPKd6A==
+X-Received: by 2002:a37:9481:: with SMTP id w123mr10382554qkd.75.1629484511800; 
+ Fri, 20 Aug 2021 11:35:11 -0700 (PDT)
+Received: from localhost (cpe-174-109-172-136.nc.res.rr.com. [174.109.172.136])
+ by smtp.gmail.com with ESMTPSA id p187sm3584045qkd.101.2021.08.20.11.35.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Aug 2021 11:35:11 -0700 (PDT)
+Message-ID: <611ff5df.1c69fb81.43234.a478@mx.google.com>
+Date: Fri, 20 Aug 2021 14:35:09 -0400
+From: Josef Bacik <josef@toxicpanda.com>
+To: lsf-pc@lists.linuxfoundation.org
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [REMINDER] LSF/MM/BPF: 2021: Cancellation announcement
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210820_082751_644534_F57F4750 
-X-CRM114-Status: GOOD (  25.16  )
+X-CRM114-CacheID: sfid-20210820_113513_959551_E8517A3C 
+X-CRM114-Status: UNSURE (   8.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,70 +91,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============2665040941510920715=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/20/2021 4:55 AM, Daniel Wagner wrote:
-> On Fri, Aug 20, 2021 at 10:48:32AM +0200, Daniel Wagner wrote:
->> Then we try to do the same thing again which fails, thus we never
->> make progress.
->>
->> So clearly we need to update number of queues at one point. What would
->> be the right thing to do here? As I understood we need to be careful
->> with frozen requests. Can we abort them (is this even possible in this
->> state?) and requeue them before we update the queue numbers?
-> 
-> After starring a bit longer at the reset path, I think there is no
-> pending request in any queue. nvme_fc_delete_association() calls
-> __nvme_fc_abort_outstanding_ios() which makes sure all queues are
-> drained (usage counter is 0). Also it clears the NVME_FC_Q_LIVE bit,
-> which prevents further request added to queues.
+--===============2665040941510920715==
+Content-Type: text/plain
 
-yes, as long as we haven't attempted to create the io queues via 
-nvme_fc_connect_io_queues(), nothing should be successful queueing and 
-running down the hctx to start the io. nvme_fc_connect_io_queues() will 
-use the queue for the Connect cmd, which is probably what generated the 
-prior -16389 error.
+Due to the continal assessments and growing concerns around the spiking COVID-19
+infections worldwide we have made the decision to cancel the Linux Storage,
+Filesystem, Memory Management, and BPF summit this year.
 
-Which says:"nvme-fc: Update hardware queues before using them" should be 
-good to use.
+We are investigating dates for 2022 with the hopes that we can finally hold a
+safe and productive conference.  When we have finalized those plans and are
+ready to begin planning again we will send out a new call for participation.
+The current board will stay in place until we can successfully host the next
+conference.
 
-> 
-> I start wonder why we have to do the nvme_start_freeze() in the first
-> place and why we want to wait for the freeze. 88e837ed0f1f ("nvme-fc:
-> wait for queues to freeze before calling update_hr_hw_queues") doesn't
-> really tell why we need wait for the freeze.
+We thank you for your patience and understanding while we continue to work
+through this very unpredictable situation.
 
-I think that is probably going to be true as well - no need to 
-freeze/unfreeze around this path.  This was also a rather late add (last 
-oct), so we had been running without the freezes for a long time, 
-granted few devices change their queue counts.
+The linux plumbers conference is being held virtually, and there are several
+micro conferences that cover the various topics that we cover at LSF.  If you
+have the desire to still talk with your fellow colleagues I encourage you to
+look into participating in linux plumbers and possibly submitting talks for the
+appropriate micro conference.
 
-I'll have to see if I can find what prompted the change. At first blush, 
-I'm fine reverting it.
+Thank you again for your support.  Our sincere sympathies are with all those
+who continue to be affected by this pandemic and wish for good health and safety
+for all.
 
-> 
-> Given we know the usage counter of the queues is 0, I think we are
-> safe to move the blk_mq_update_nr_hw_queues() before the start queue
-> code. Also note nvme_fc_create_hw_io_queues() calls
-> blk_mq_freeze_queue() but it wont block as we are sure there is no
-> pending request.
+Thank you on behalf of the program committe:
 
-Agree.
+        Josef Bacik (Filesystems)
+        Amir Goldstein (Filesystems)
+        Martin K. Petersen (Storage)
+        Omar Sandoval (Storage)
+        Michal Hocko (MM)
+        Dan Williams (MM)
+        Alexei Starovoitov (BPF)
+        Daniel Borkmann (BPF)
 
--- james
 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
-
+--===============2665040941510920715==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============2665040941510920715==--
