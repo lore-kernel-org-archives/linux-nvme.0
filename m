@@ -7,15 +7,15 @@ X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 115FEC4338F
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 12:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBD7C4338F
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 13:45:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AF50460ED5
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 12:02:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AF50460ED5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 2B2C1610CC
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Aug 2021 13:45:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2B2C1610CC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -23,69 +23,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KNX1hoJG5oRZoXISPd7BuFuJDNk5EDyjxQm11sd+uqs=; b=4mBOMIFR6ERmpz
-	ccktLfCH4xUr+1fUkUwBsIxiLMOl3OU/48HLASjfzYiIALMB4ER8t0k7ZCJJDKhOt9yZgTdWBlaN5
-	ctFcbHOi5Jub4pyOXR2ffXXjA9XbTw7hHm8w0fi1CHAlo/2BP8C7y22vb6HSgt3ytuNk71+pSFC9X
-	8zFJ5VPxO/YT2Lnbh8wXf9seo5x0WSS83OpDkfteh7uxTqFNz7hC5OoLFKKQUCt9Xb9T2m4EtryKs
-	vji6cxTDgykOPrh88KOMlRCADLW6XVJxi6PD9MSkfrHCe3SPN1bs5CWX40mbjXy1Q6W8+G8mAwlbP
-	VvhPwGmkPln/PImPDcNg==;
+	List-Owner; bh=5LtXDLxSYF4e92vuaRyKso3V0V4czbUj0+wPMbbSNd0=; b=HmxKX+4orh4XQB
+	Fo16hAyMou4DmEFdrsKEEfAA7KQf57YweXmIqcCvmPeUvAn+R+WBhqZ1kJZ1mxjEDk495TsVt/j6q
+	9XTeLXvBYt3P1kga+J1FGpzsMPhbrojVAJwTrqiEdTpqjlMH+j2J07TkzyjpmGvXVKKyVIqzLBy1v
+	AHqrsLdt8q3cNXw+Pz/7zz3TINJEGUOid42USwjHxkSWq+CgodfpUXnLHS3B8bOKLRO7IojqXywfY
+	YvVNI/gTZD6IsLWA8PTxQowffwlkKkDu8YSYROI2Ums1UyDeY9c1xfMmwarYap9Cg6JhM1h2wtHln
+	St8diPGlQKO/Or4rWU7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mH3Dx-00B2XI-2R; Fri, 20 Aug 2021 12:02:13 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mH4pK-00BK1w-Py; Fri, 20 Aug 2021 13:44:54 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mH37L-00B0K7-Bq
- for linux-nvme@lists.infradead.org; Fri, 20 Aug 2021 11:55:27 +0000
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B4EFD21F55;
- Fri, 20 Aug 2021 11:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1629460521; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ id 1mH4pI-00BK12-BB
+ for linux-nvme@lists.infradead.org; Fri, 20 Aug 2021 13:44:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629467090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TO8SPS42MqtUgER5AvlMEomQQplZq9qOHXpgo20Scrk=;
- b=kvs9bcNGubJH4ZnJkboxY/xli6iMNsaCm9srblPmUkUp9bC61imZQDz4eoQ3zMo70Obwxr
- yiFSOR4f56RmogCgx80MArxynga3Hs/FwILY6MmbWN1PHUn6nZI9QC9yKzCgvUKjZUVJrZ
- kUHGfJSPRAHm4k2doOCQgU9fsscS1EE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1629460521;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TO8SPS42MqtUgER5AvlMEomQQplZq9qOHXpgo20Scrk=;
- b=5knjeyv2pt/rSDf5q/9BS8fw8r+GScRhnWksQVbjUEnaQs7QCbHyk0CUNP1cSr2fXQIiio
- 3wY3MN9CMPgpIeBA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=a+ZiHy0S2JzjGTtry4ktJ98yuVUDhxplVu+BcUWdd38=;
+ b=CcXCwajz8mWmteEy63fET0Xt0fRhxyL8tDRc0Kkwbx3bgABkQbwKRjpxGE5DvIWX/l1CGj
+ 7Ebl+srftwOk43KT42EtQv8R5sL9pgKlJejvNIfl3/1mFy0e1kl1oiKfYjwbff8CDPXUFk
+ 2iq2Yz/YFELuoORtA5UpNQtPDGBPxeE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-IPnf2KVKP76iHbEqplX-Sw-1; Fri, 20 Aug 2021 09:44:46 -0400
+X-MC-Unique: IPnf2KVKP76iHbEqplX-Sw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id A388D13AD0;
- Fri, 20 Aug 2021 11:55:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id tSOtJymYH2FIfgAAGKfGzw
- (envelope-from <dwagner@suse.de>); Fri, 20 Aug 2021 11:55:21 +0000
-Date: Fri, 20 Aug 2021 13:55:21 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH v5 0/3] Handle update hardware queues and queue freeze
- more carefully
-Message-ID: <20210820115521.alveifzvad3zuwh4@carbon.lan>
-References: <20210818120530.130501-1-dwagner@suse.de>
- <20210820084832.nlsbiztn26fv3b73@carbon.lan>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C53F6192D785;
+ Fri, 20 Aug 2021 13:44:44 +0000 (UTC)
+Received: from T590 (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9D315D741;
+ Fri, 20 Aug 2021 13:44:23 +0000 (UTC)
+Date: Fri, 20 Aug 2021 21:42:58 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Stefan Haberland <sth@linux.ibm.com>,
+ Jan Hoeppner <hoeppner@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Doug Gilbert <dgilbert@interlog.com>,
+ Kai =?iso-8859-1?Q?M=E4kisara?= <Kai.Makisara@kolumbus.fi>,
+ Luis Chamberlain <mcgrof@kernel.org>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, blankburian@uni-muenster.de
+Subject: Re: [PATCH 8/9] block: hold a request_queue reference for the
+ lifetime of struct gendisk
+Message-ID: <YR+xYi3VX8MFilud@T590>
+References: <20210816131910.615153-1-hch@lst.de>
+ <20210816131910.615153-9-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210820084832.nlsbiztn26fv3b73@carbon.lan>
+In-Reply-To: <20210816131910.615153-9-hch@lst.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210820_045523_622490_11E40ADA 
-X-CRM114-Status: GOOD (  15.56  )
+X-CRM114-CacheID: sfid-20210820_064452_489086_DB50252F 
+X-CRM114-Status: GOOD (  15.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,31 +97,25 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 20, 2021 at 10:48:32AM +0200, Daniel Wagner wrote:
-> Then we try to do the same thing again which fails, thus we never
-> make progress.
-> 
-> So clearly we need to update number of queues at one point. What would
-> be the right thing to do here? As I understood we need to be careful
-> with frozen requests. Can we abort them (is this even possible in this
-> state?) and requeue them before we update the queue numbers?
+On Mon, Aug 16, 2021 at 03:19:09PM +0200, Christoph Hellwig wrote:
+> Acquire the queue ref dropped in disk_release in __blk_alloc_disk so any
+> allocate gendisk always has a queue reference.
 
-After starring a bit longer at the reset path, I think there is no
-pending request in any queue. nvme_fc_delete_association() calls
-__nvme_fc_abort_outstanding_ios() which makes sure all queues are
-drained (usage counter is 0). Also it clears the NVME_FC_Q_LIVE bit,
-which prevents further request added to queues.
+BTW, today Markus reported that request queue is released when the
+disk is still live.
 
-I start wonder why we have to do the nvme_start_freeze() in the first
-place and why we want to wait for the freeze. 88e837ed0f1f ("nvme-fc:
-wait for queues to freeze before calling update_hr_hw_queues") doesn't
-really tell why we need wait for the freeze.
+And looks it is triggered when running virtio-scsi hotplug from qemu
+side, and the reason could be that we grab the request queue refcount
+after disk is added to driver core, so there is small race window in
+which the request queue is released before we grab it in __device_add_disk().
 
-Given we know the usage counter of the queues is 0, I think we are
-safe to move the blk_mq_update_nr_hw_queues() before the start queue
-code. Also note nvme_fc_create_hw_io_queues() calls
-blk_mq_freeze_queue() but it wont block as we are sure there is no
-pending request.
+I guess this patch could fix the issue, but it is hard to verify
+since it takes days to reproduce.
+
+
+Thanks,
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
