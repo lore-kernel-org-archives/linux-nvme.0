@@ -2,80 +2,66 @@ Return-Path: <SRS0=nO+g=NO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DDAC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 11:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6534AC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 12:41:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 89C70613A6
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 11:25:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 89C70613A6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 218FF61250
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 12:41:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 218FF61250
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=0rnatp18lxeoHCsLdbF0A+hl9CvBEV1FEbeJg4RmHf0=; b=kYD9V8cFEjp1b4
-	x2Iy1wI05vaK8mCA8cKjYc8w6KPhyBSYg94VtKOAp2/x7QEAOfH11+NGGdFm/sbKfsrDt8wp0BRG3
-	z6paLlZle+Ud36Q4tx64ehLR8lUTarN7lZOe+LSIwZgdz8P9GvatzMQzCdXuO6baPAuZ6AgyTp2kC
-	G3L/tcRLPVdEujBIBinbekbVGkkk/ZLe4//NzC4dANg8rimKd+0AMpG2dWkEJHi/kAUG+CSt6pFka
-	RwaFhK0YE1qtxn/80K24Wi7+kuxVeA2Gn31sLz9O8cFkrF3q1APNKYWT/1WH+VEidt0eTNPSZMV+n
-	Xt07Jv675DY1Ecm6Z/mg==;
+	List-Owner; bh=Kro8sHSTFC/GVWXxcWWiSPNUvnGE1qWWCob5cfwrk48=; b=2gV2inPtG1ww0H
+	fibpeGlZMVNdNQJamakxvpvGMabvjdonk9+L+XOxPLBa+pTJsG0mBAGsw1bZMCU7K/UV0odMRiXKu
+	b1od5/smjSB/k/0E5EM7s3Gk2mrO+JKrCkAP7phsTnRqD66aXWXiMEDJfgBUz+Jbn6hg+AgHyoXXO
+	3DYZ2S5qKlwSvnjNagaeyii6YtCDwPCz9OV+p40IWjMoXuQ0fvBmkKvL+9FeraTvFAXC05RNUeJBS
+	/XX2sUeU2X024+st5YOSavnAhB1n2Y8jmlXwFGe+bwMfX+w7mmoghbLp+lXvLYun2ApDoSDth5dLP
+	/quWl2xDOANGT3zxMP/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mI84O-00GZAF-3Y; Mon, 23 Aug 2021 11:24:48 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mI9G5-00GoQI-OB; Mon, 23 Aug 2021 12:40:57 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mI83Z-00GYod-6q
- for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 11:24:02 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id EE62D1FFAD;
- Mon, 23 Aug 2021 11:23:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1629717832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=RA4HTkvFglG0/CjS1mPXjBNeKgRNmXs+Fgd4zJqlWOY=;
- b=tZsekKYxNsz1gmeaRFut4Yf7gU5dL2iwHK112uE7+EnjDDEgtbgq20z07l4Gdpwt7oOGxT
- GQzAuOpLlqsannzW3QEDzOL2fjWoGfpydugYU347DWAMxoJvEI4NEq9Avan2O+hkDgUYhM
- SgXnh1bK3Ng8xTiY0tJK6aS2pWX1Ywc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1629717832;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=RA4HTkvFglG0/CjS1mPXjBNeKgRNmXs+Fgd4zJqlWOY=;
- b=UQNBtlDCCBMGHvDx97dwJ/vtfdFiAVVkfqqEbcQ3G3G+Ienj2HTqOegYiBjYi/mpnxUvUL
- M6ZtkMsqrD0F+wBA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 2AF4FA3BB8;
- Mon, 23 Aug 2021 11:23:52 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id 18E83518D889; Mon, 23 Aug 2021 13:23:52 +0200 (CEST)
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
- Wen Xiong <wenxiong@us.ibm.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>,
- Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v6 0/3] Handle update hardware queues and queue freeze more
- carefully
-Date: Mon, 23 Aug 2021 13:23:48 +0200
-Message-Id: <20210823112351.82899-1-dwagner@suse.de>
-X-Mailer: git-send-email 2.29.2
+ id 1mI9G2-00GoNP-Iq
+ for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 12:40:56 +0000
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GtWvY5vsVz8tQV;
+ Mon, 23 Aug 2021 20:36:41 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 23 Aug 2021 20:40:49 +0800
+Received: from huawei.com (10.169.63.14) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 23 Aug
+ 2021 20:40:48 +0800
+From: chengjike <chengjike.cheng@huawei.com>
+To: <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <sunao.sun@huawei.com>, <jiangtao62@huawei.com>
+Subject: [PATCH nvme-cli] fix list command bugs
+Date: Mon, 23 Aug 2021 20:40:47 +0800
+Message-ID: <20210823124047.4593-1-chengjike.cheng@huawei.com>
+X-Mailer: git-send-email 2.24.0.windows.2
 MIME-Version: 1.0
+X-Originating-IP: [10.169.63.14]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210823_042357_508025_6B21CF20 
-X-CRM114-Status: UNSURE (   9.23  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210823_054055_016961_979E0BF7 
+X-CRM114-Status: GOOD (  13.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,54 +78,88 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+When execute the "nvme list" command in a multipath environment, it generate a core dump. Such as:
+[root@localhost ~]# nvme list
+Node                  SN                   Model                                    Namespace Usage                      Format           FW Rev
+--------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+Segmentation fault (core dumped)
+[root@localhost ~]#
 
-After our last discussion in v5, the nvme_freeze_start() is gone
-(James provided a new patch). I also updated the commit message of the
-first patch which adds the imported bit why we need to update the
-number queues first.
+The reason is that when a device is a multipath disk, the value of "nvme_ns_t->c" is NULL.
+This also happens when you execute "nvme list -o json" and "nvme list -v -o json" commands.
 
-Anyway, I think we figured out the details in this path and I am quiet
-confident that we nailed it now (yeah, famous last words).
+Signed-off-by: chengjike <chengjike.cheng@huawei.com>
+---
+ nvme-print.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-Daniel
-
-v1:
- - https://lore.kernel.org/linux-nvme/20210625101649.49296-1-dwagner@suse.de/
-v2:
- - https://lore.kernel.org/linux-nvme/20210708092755.15660-1-dwagner@suse.de/
- - reviewed tags collected
- - added 'update hardware queues' for all transport
- - added fix for fc hanger in nvme_wait_freeze_timeout
-v3:
- - https://lore.kernel.org/linux-nvme/20210720124353.127959-1-dwagner@suse.de/
- - dropped 'nvme-fc: Freeze queues before destroying them'
- - added James' two patches
-v4:
- - https://lore.kernel.org/linux-nvme/20210802112658.75875-1-dwagner@suse.de/
- - added 'nvme-*: Unfreeze queues on reconnect'
- - added Hannes' reviewed tags
-v5:
- - https://lore.kernel.org/linux-nvme/20210818120530.130501-1-dwagner@suse.de/
- - dropped non nvme-fc patches
- - updated 'nvme-fc: fix controller reset hang during traffic'
-v6:
- - updated commit message 'nvme-fc: Update hardware queues before using them'
- - dropped 'nvme-fc: fix controller reset hang during traffic'
- - added 'nvme-fc: Remove freeze/unfreeze around update_nr_hw_queues'
-
-Daniel Wagner (1):
-  nvme-fc: Update hardware queues before using them
-
-James Smart (2):
-  nvme-fc: avoid race between time out and tear down
-  nvme-fc: Remove freeze/unfreeze around update_nr_hw_queues
-
- drivers/nvme/host/fc.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
+diff --git a/nvme-print.c b/nvme-print.c
+index 9ef3ab2..d321ec0 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -5642,17 +5642,15 @@ static void nvme_show_list_item(nvme_ns_t n)
+ 	const char *u_suffix = suffix_si_get(&nuse);
+ 	const char *l_suffix = suffix_binary_get(&lba);
+ 
+-	nvme_ctrl_t c = nvme_ns_get_ctrl(n);
+-
+ 	snprintf(usage, sizeof(usage), "%6.2f %2sB / %6.2f %2sB", nuse,
+ 		u_suffix, nsze, s_suffix);
+ 	snprintf(format, sizeof(format), "%3.0f %2sB + %2d B", (double)lba,
+ 		l_suffix, nvme_ns_get_meta_size(n));
+ 
+ 	printf("%-21s %-20s %-40s %-9d %-26s %-16s %-8s\n",
+-		nvme_ns_get_name(n), nvme_ctrl_get_serial(c),
+-		nvme_ctrl_get_model(c), nvme_ns_get_nsid(n), usage, format,
+-		nvme_ctrl_get_firmware(c));
++		nvme_ns_get_name(n), nvme_ns_get_serial(n),
++		nvme_ns_get_model(n), nvme_ns_get_nsid(n), usage, format,
++		nvme_ns_get_firmware(n));
+ }
+ 
+ static void nvme_show_simple_list(nvme_root_t r)
+@@ -5794,6 +5792,7 @@ static void nvme_show_detailed_list(nvme_root_t r)
+ static void json_detail_list(nvme_root_t r)
+ {
+ 	struct json_object *jroot = json_create_object();
++	struct json_object *jdev = json_create_array();
+ 	struct json_object *jsslist = json_create_array();
+ 
+ 	nvme_host_t h;
+@@ -5881,8 +5880,9 @@ static void json_detail_list(nvme_root_t r)
+ 		}
+ 
+ 		json_object_add_value_object(hss, "subsystems", jsslist);
+-		json_array_add_value_object(jroot, hss);
++		json_array_add_value_object(jdev, hss);
+ 	}
++	json_object_add_value_array(jroot, "Devices", jdev);
+ 	json_print_object(jroot, NULL);
+ 	printf("\n");
+ 	json_free_object(jroot);
+@@ -5891,7 +5891,6 @@ static void json_detail_list(nvme_root_t r)
+ static struct json_object *json_list_item(nvme_ns_t n)
+ {
+ 	struct json_object *jdevice = json_create_object();
+-	nvme_ctrl_t c = nvme_ns_get_ctrl(n);
+ 
+ 	long long lba = nvme_ns_get_lba_size(n);
+ 	double nsze = nvme_ns_get_lba_count(n) * lba;
+@@ -5899,9 +5898,9 @@ static struct json_object *json_list_item(nvme_ns_t n)
+ 
+ 	json_object_add_value_int(jdevice, "namespace", nvme_ns_get_nsid(n));
+ 	json_object_add_value_string(jdevice, "device", nvme_ns_get_name(n));
+-	json_object_add_value_string(jdevice, "firmware", nvme_ctrl_get_firmware(c));
+-	json_object_add_value_string(jdevice, "model", nvme_ctrl_get_model(c));
+-	json_object_add_value_string(jdevice, "serial", nvme_ctrl_get_serial(c));
++	json_object_add_value_string(jdevice, "firmware", nvme_ns_get_firmware(n));
++	json_object_add_value_string(jdevice, "model", nvme_ns_get_model(n));
++	json_object_add_value_string(jdevice, "serial", nvme_ns_get_serial(n));
+ 	json_object_add_value_int(jdevice, "util", nuse);
+ 	json_object_add_value_int(jdevice, "maxlba", nvme_ns_get_lba_count(n));
+ 	json_object_add_value_int(jdevice, "capacity", nsze);
 -- 
-2.29.2
+2.24.0.windows.2
 
 
 _______________________________________________
