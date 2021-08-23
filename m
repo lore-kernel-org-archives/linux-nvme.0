@@ -2,80 +2,96 @@ Return-Path: <SRS0=nO+g=NO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC573C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 17:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C3DC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 18:56:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 87BF56136F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 17:31:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 87BF56136F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 2DCD060EAF
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 18:56:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2DCD060EAF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=3FccKKmqTAcDv999x0tLt8COhM
-	R2wo6+tvn2ObB5tVq1bU9rnk2Frbd2k6847+tt/spp6HkiAAdDFXOICWzPUPkpvxrP2BHhg1h/YHz
-	eL9nf8VKTh1PeeImpnfJCySjPjZNyEZhLaPrqf0cn5y0UV/DH3bPAoW48i5ZwI+R3G043VauDrCCn
-	2LKslMBBxsND7HCfh/O7vpYPg6zZrPMropsWYC1bj43f6VdYGd7aKGoFXaOioLidBx+SbMO0tz/ls
-	J7MvXGmS1/39AWKy3HIMXe06ILXR6dlOZ1OifQV1moVU2Fc7kORFArFz6fGKYJgnLOpori/B9sb4+
-	WU11l26Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=oqa3eJKyR5po31/9r1wEi7BmomTnqqb8aDwT2DTCrJI=; b=3br03rA2UT4VqcYZB9v38X833w
+	T9UDMQ71LmhfjkRHtQmgV/cz5KTG108OAOws4/no13WEGeILlQK5Srvp7PAeFwtMeaJgUJEwIV2Lj
+	EYhtgwqGK5sgx5G8mjrvA2KUuiO2VDGmcwyjtffC8MdilAFpQrBEN+JMpq+xQhHEAkIduRZzEkWyT
+	9HBb5z2zZr8eTb3Ufa/qAAT01oJuCowjL0BrrswlIEggxikY5QqRCmsObWwJh28lEK4Of+l2SynnH
+	pc8pbifpj1DvsqBJuKMEyfvftNmKgoR2dwboMYw41AvnrT2Ufo8x3f9/UBLRjHDoNXDxGsybuoqMG
+	fpABVYUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mIDnD-000BAD-KJ; Mon, 23 Aug 2021 17:31:27 +0000
-Received: from mail-ej1-f53.google.com ([209.85.218.53])
+	id 1mIF6W-000Nqh-RF; Mon, 23 Aug 2021 18:55:28 +0000
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mIDnA-000B9F-Hw
- for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 17:31:25 +0000
-Received: by mail-ej1-f53.google.com with SMTP id u3so38643436ejz.1
- for <linux-nvme@lists.infradead.org>; Mon, 23 Aug 2021 10:31:23 -0700 (PDT)
+ id 1mIF6R-000NoS-Cr
+ for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 18:55:27 +0000
+Received: by mail-io1-xd34.google.com with SMTP id n24so23133390ion.10
+ for <linux-nvme@lists.infradead.org>; Mon, 23 Aug 2021 11:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gN5m1+Ot8kbL1AcHDrnd1zQzLsJOMjFrZEkFY9Kqijo=;
+ b=ZvhpNLl+p2ohVL+AzWOpNfcZKAnyUOq9Xa1DD92KeHi4kQ1/R2QbzpF+/LVv8cBRGY
+ WrA+Ha2+0lcNf28Eg4viu/QmQu8s6aJgWNIGK5kpcJAD0OZ4gQeRL0WkhRVvNYnRIEH4
+ MVVUJPvekbmJhxTxBeLF/7VQFjrF+szaSASBaaV2Xv2mAaY31oZPxF8HuwY/CX39zKS4
+ oMfbV9hb2HqxQsgPh2vzUEDQ++Q+6cjXyxLGSF2DIt4ZJfzgMkDw7AzHQk8JYk6QPteT
+ 5zFs3TBUK4JypTPi5cuPJpOlhHHgHDsVxZ8pAjZrBF4tRV9T9uRw71mktnJHmBluTENp
+ wVeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=VcWlthOVK9flwa65OcBTFselZSf4Ke18r2jLefV0KRDdlqVHyAayzLhCPbtOOslmPP
- LFpdjshqVBFIZqdOE3hIdRqICTGntZ5WYfIapy8rAFnUKDNd2S0B/2jxhDR8l7HZmpxD
- TcU9C+SttF04HxDS0Cg/Ii9ZC6p+X9gUBayc74AqPu2AB2dj67Z9/HSzZyVAUJ79k810
- +G3dplvqHr8E0kqEslSYX9adYUBlSSl6RSuMOLocrw7RGBXeFsrI69o+K5QQBBd5BIHz
- 8j7MAJt6CL0SVWSQH2yYl5UvIjeG/8DUCdaFe0f2L7YRyi7w9pSHi4Ct3smxJtBzjrDo
- iNhQ==
-X-Gm-Message-State: AOAM5300yke8YQQXKP6/3yrN5Gq2LmigxE2/NpmwdmFzwASgI6u7VzTu
- GGeyeYwE+IiddGPF9sJv32LDN5JbEFc=
-X-Google-Smtp-Source: ABdhPJyWbYu8uKX1tPVF3063u0cvulgHpka3lhfRbr3LPLrFz0BJIHwA2RYqWJOEzf8hILYryaQWoQ==
-X-Received: by 2002:a17:906:158f:: with SMTP id
- k15mr36329294ejd.241.1629739882299; 
- Mon, 23 Aug 2021 10:31:22 -0700 (PDT)
-Received: from [10.100.102.14] (109-186-228-184.bb.netvision.net.il.
- [109.186.228.184])
- by smtp.gmail.com with ESMTPSA id r16sm7730472ejz.41.2021.08.23.10.31.21
+ bh=gN5m1+Ot8kbL1AcHDrnd1zQzLsJOMjFrZEkFY9Kqijo=;
+ b=uEXKJymZhSVs6t3zOG4ARPQVZ7+kYYkPjv8rGs6a/T/RvuBJ1P+HvPHTPaEaj3lKSW
+ b/Lr5Kn4+XnBbWe7sqj1+UgMUVBRzip6atwjxGvIk0J3HMQm8eeIGAR1o9idM10hYJ5G
+ wQygq3O781xhDw6U4TQ979R6Ke2zU69s6bltbxGXHmyyI9sTTz8qI5/NhV6KQsubkBVj
+ KqAo7cVD9b+/0Mku+MWl6aMcxapJg8UxTosHLXxGeZPopIpGPSVv1RNchRbOUpa00A50
+ 3dA/YZuUaOWCKqjYA/b+iERQdR0w6NRi+8KZ/QvB+2SneOgHZp3w/o/Epu7+t05WPzqc
+ WoBA==
+X-Gm-Message-State: AOAM533KZt/BvEtq++zDsCTARVL7iRqtNV1uw2/0vEAi5+IYI3Q6JK63
+ CS7ZmazdAdjfaaWy+9ca4xn6ew==
+X-Google-Smtp-Source: ABdhPJyHd1Xb+eQ9l6FLpdfbrM5gL1Wy8EM6ml3EzMk3dBxZ9Vtw4oKBhVroRXIzRwhscAsUcE7S3A==
+X-Received: by 2002:a02:c502:: with SMTP id s2mr31103930jam.135.1629744920613; 
+ Mon, 23 Aug 2021 11:55:20 -0700 (PDT)
+Received: from [192.168.1.116] ([66.219.217.159])
+ by smtp.gmail.com with ESMTPSA id p16sm8753371ilg.32.2021.08.23.11.55.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 10:31:21 -0700 (PDT)
-Subject: Re: [PATCH] nvme: remove the unused NVME_NS_* enum
-To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
-References: <20210816124604.606056-1-hch@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <d1520315-406f-a257-f0da-b1653a872c62@grimberg.me>
-Date: Mon, 23 Aug 2021 10:31:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Mon, 23 Aug 2021 11:55:20 -0700 (PDT)
+Subject: Re: ensure each gendisk always has a request_queue reference v2
+To: Christoph Hellwig <hch@lst.de>
+Cc: Stefan Haberland <sth@linux.ibm.com>,
+ Jan Hoeppner <hoeppner@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Doug Gilbert <dgilbert@interlog.com>, =?UTF-8?Q?Kai_M=c3=a4kisara?=
+ <Kai.Makisara@kolumbus.fi>, Luis Chamberlain <mcgrof@kernel.org>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org
+References: <20210816131910.615153-1-hch@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <cd739220-c7c0-fcca-6399-8afaa86b56e4@kernel.dk>
+Date: Mon, 23 Aug 2021 12:55:18 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210816124604.606056-1-hch@lst.de>
+In-Reply-To: <20210816131910.615153-1-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210823_103124_619885_C98D8702 
-X-CRM114-Status: UNSURE (   8.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210823_115523_545927_75CE2DA1 
+X-CRM114-Status: GOOD (  12.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,12 +103,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On 8/16/21 7:19 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> this is the final batch of the gendisk interface cleanup series.  This
+> remove the last uses of the legacy alloc_disk interface and ensures we
+> always have a request_queue reference for a gendisk.
+
+Applied, thanks.
+
+-- 
+Jens Axboe
+
 
 _______________________________________________
 Linux-nvme mailing list
