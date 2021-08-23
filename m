@@ -2,64 +2,90 @@ Return-Path: <SRS0=nO+g=NO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7965C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 08:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58182C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:14:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 584616136F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 08:04:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 584616136F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 1C9216136F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:14:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1C9216136F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=bEn4CwoFjv27EsXRwzB4Hj+B5vj83tpGvOsphP1B8bE=; b=q9Cim1YsmPx6LU
-	3bzjd2yfVJ3O4O/YhVzVqLEAQ79v9xyL09L1Rez6IRLdArcgE+80I3iZ6yu0WJ/2tdcNIxz83bs+z
-	TQQdaFiy1NHE4lCpbRw5uXorKiwOkFawSW732g+W/OYy+8Pb4d45PT9r6W17M5u4tLDbdY2Z2P1I2
-	mAgfrH9ODQvh3wqBEf04ZBGuTS75oJQQJjQOkpzZj4sOHjwrAKNucv8d+C3zG6DI5KHjqgt1i4dxX
-	GtpS7grBUqHgKOs7Umx84KIpK+xW6kdk9+kqkIurolvRw2GEXeerld5dRHjfFjdpMdCf/shuDl0BT
-	a7aDkhFLzigY4tRIueHg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=JAS4UwF3X1DH9hrmg5ZzEkbr9EQYSMbZv6Bch+mr0WY=; b=QQtE3jNKqW4c+w
+	ZVXB9UNnmT+uHDx/Yzu3CDCJ8AsllVX4J4r8BJq3VF1dhBJryc0cih1ctba+kqD3DBqY1bEs4cUVx
+	eQfbbF2JrZ6OFbClg5JL9A/1B8HhHyc1+8ND3S+0+3Im9RiJe+7oO+dM95ga9XC0GIgp4NNmtG2T1
+	EGVxRRP7f2wxfgPkNGrOnbpj1vT1UCv0x5O7wLGK2Ngx9ydwtckqtCb1aA6cbDAX0cZPXvcNN+WSs
+	UQ/iSW32gSPOOJMnhg+pdQ42MCjqgCcU5PeLUPIVGeg2qlA4881U/RAnrhJvjsSklKcPF5ONvoGRX
+	bLwDUPnvGousqQBIDJIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mI4vb-00FqZV-0Q; Mon, 23 Aug 2021 08:03:31 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1mI623-00G3mV-9V; Mon, 23 Aug 2021 09:14:15 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mI4uv-00FqMs-R1
- for linux-nvme@bombadil.infradead.org; Mon, 23 Aug 2021 08:02:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=oSQjEP5R+jtCgGIe8w5p+KGOxkPH8yqAikAOK4AxgUM=; b=jgGoudaq5nbvek9nWeYiVv+HkS
- 2DIXN6H+77dZGlUUqLhZEr1AQPyYtlrpMBn3Xbcfg6Ix5VRfktMFAx2GxRcnA1VYCEWrMBl/8tO4n
- 10pTftgdjTDvaHWwRuZhWymYCzLXC9DPalbC7NLF1qbzVpZfEdTO2fzGX22FZD+6n98RK2naO8aix
- O0N0T6H8v+eYpI0pNY0pbvJFwQ8IedQU/jvMEFBoWHFCu7EEjaD4Wn6Nh/sFfVCGc/bLLtcUKXwoF
- MIbBWEOoW00IQxRgob3UuuhuRK+5IQTfiLt9cRfvV5GIEWfXu+TfRR9U1dDMiiMLSDDDMNkyYz/zO
- w+1jMY0A==;
-Received: from [2001:4bb8:193:fd10:c6e8:3c08:6f8b:cbf0] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mI4uG-009SMI-Mb; Mon, 23 Aug 2021 08:02:18 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: kbusch@kernel.org,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-multipath: set QUEUE_FLAG_NOWAIT
-Date: Mon, 23 Aug 2021 10:02:07 +0200
-Message-Id: <20210823080207.711362-1-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
+ id 1mI61x-00G3jY-Eh
+ for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 09:14:13 +0000
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 28EFC21F3D;
+ Mon, 23 Aug 2021 09:14:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1629710046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jf4RvD/mw/nbQWr8Y9Fj9qty0PSRsJZCDwZff4vyIj4=;
+ b=e5X2ULVlQDy65O/CjPGxNBz/QjcZsHpbBKeGbk8jRdn28yHdab/k6Td5kP61d5/IgeDqqv
+ 42FRngk97eHUjHxqGBWtZPB27pJyClm3rXYHJwh/9T5AimnMbWFCqcC1fYCRh2wFZg1sgQ
+ AUyCq3FuPmuUOJuKAeONyui0jD2eOAw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1629710046;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jf4RvD/mw/nbQWr8Y9Fj9qty0PSRsJZCDwZff4vyIj4=;
+ b=9bgUG/61TFYHpAaTjyONrAWKS/pIPZ/dvmgjy2+ewwQT6ss4s2K5sBUDJ7F1U4/26uMfV8
+ dd8w0NzSJ+f6l4Cw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 1233613A92;
+ Mon, 23 Aug 2021 09:14:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id O/0EBN5mI2EKbQAAGKfGzw
+ (envelope-from <dwagner@suse.de>); Mon, 23 Aug 2021 09:14:06 +0000
+Date: Mon, 23 Aug 2021 11:14:05 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ James Smart <james.smart@broadcom.com>,
+ Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ Wen Xiong <wenxiong@us.ibm.com>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: Re: [PATCH v5 0/3] Handle update hardware queues and queue freeze
+ more carefully
+Message-ID: <20210823091405.pmmkubzgxodwgjij@carbon.lan>
+References: <20210818120530.130501-1-dwagner@suse.de>
+ <YSNV6vpaEnzc0Yv4@infradead.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Disposition: inline
+In-Reply-To: <YSNV6vpaEnzc0Yv4@infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210823_021409_694040_8C20956E 
+X-CRM114-Status: GOOD (  10.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,31 +102,17 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme multipathing code just dispatches bios to one of the blk-mq
-based paths and never blocks on its own, so set QUEUE_FLAG_NOWAIT
-to support REQ_NOWAIT bios.
+Hi Christoph,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/multipath.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Mon, Aug 23, 2021 at 09:01:46AM +0100, Christoph Hellwig wrote:
+> applied to nvme-5.15.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index d390f14b8bb6..c77dfe28df67 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -480,6 +480,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 			ctrl->subsys->instance, head->instance);
- 
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, head->disk->queue);
-+	blk_queue_flag_set(QUEUE_FLAG_NOWAIT, head->disk->queue);
-+
- 	/* set to a default value of 512 until the disk is validated */
- 	blk_queue_logical_block_size(head->disk->queue, 512);
- 	blk_set_stacking_limits(&head->disk->queue->limits);
--- 
-2.30.2
+Could you drop these patches again? James just sent me a new version of
+the series which addresses the points we discussed in this thread. They
+look good to me but I'd like to give them a spin and will post them
+shortly. Also James is giving them a test run.
 
+Daniel
 
 _______________________________________________
 Linux-nvme mailing list
