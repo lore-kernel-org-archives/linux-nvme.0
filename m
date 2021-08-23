@@ -3,37 +3,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C362FC432BE
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E73C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C41D61357
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8C41D61357
+	by mail.kernel.org (Postfix) with ESMTPS id 54E98613E8
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 54E98613E8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=NvmOob+LkVdRSWKtBn0Sj6g5LjeJZJlX9N/Jv21MQ5g=; b=d+zkfQP65/f41P
-	UY65+Rbx0Tr0NOa7kVLNmOioxLr5t+KBK8+SZKG/VK0pDNNmG8QjUf5otI184801ZhZpUX7fGFOgf
-	+s+smjmr1ZMPyDK8OtEsbbNygrNaRVp727kUh6P1LNghVJqL+lk+lzdv0ZV6eTNlISo03E2bl+wdF
-	7ymxS0NW29Se8aNCp9riO9XQ9sdwol3hlxMOIowcDuSDNZebiEg8kcVPjHplC8/+L3gupUeFb5V3H
-	akAZIjplRQywx5nSXVkNhNMo7yTpS9GXInKdtdn80l7Q5PSyafRLICHs09acWfg8n51tFumRV7DqT
-	jlTf9PED1c1hMvH1ujow==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=maC7rqFLsAnxnxmCdFgh3vQa+r7IRMJhsRpLBJ61jaQ=; b=IajALtWcp//2Tw
+	Ss+nG8oMrXrGC+lSp72tbcESM0L+joOUcnAvH0+55eG0MOUXnppDWVRcfeOVVDHJJD+9fyUx7iQFH
+	i5VNIOmeVMF4GQ+5N54Yd+gIDMOxR/Q0BShho2psFJ88gD+Bg4KeVwYSNwzD59IvbRiJj++5QPG3+
+	h0SuJrXAu4xTIuAewqgbhgaZGk+NNjRcrrx5s7lgoow8q5klmL9dSz0h8lpIrzOjxCIwwT6QnTOJG
+	cOLNdSA9hqJ1IpJxhD1TK/JrP6gpsjmxcmuEoNHv9XLlNW1vl7My/UVDdoF7FLw6kUJyCjFYv5pDg
+	zQBYaPRjMorRmOI7YZYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mIGax-000aRB-KM; Mon, 23 Aug 2021 20:30:59 +0000
+	id 1mIGbL-000ac7-HG; Mon, 23 Aug 2021 20:31:23 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mIGZZ-000ZjI-Ty; Mon, 23 Aug 2021 20:29:33 +0000
+ (Red Hat Linux)) id 1mIGZa-000ZjK-02; Mon, 23 Aug 2021 20:29:34 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -45,11 +45,12 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 00/10] block: first batch of add_disk() error handling
- conversions
-Date: Mon, 23 Aug 2021 13:29:20 -0700
-Message-Id: <20210823202930.137278-1-mcgrof@kernel.org>
+Subject: [PATCH 01/10] scsi/sd: use blk_cleanup_queue() insted of put_disk()
+Date: Mon, 23 Aug 2021 13:29:21 -0700
+Message-Id: <20210823202930.137278-2-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210823202930.137278-1-mcgrof@kernel.org>
+References: <20210823202930.137278-1-mcgrof@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -67,48 +68,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There's a total of 70 pending patches in my queue which transform
-drivers over to use the new add_disk() error handling. Now that
-Jens has merged the core components what is left are all the other
-driver conversions. A bit of these changes are helpers to make that
-easier to do.
+The single put_disk() is useful if you know you're not doing
+a cleanup after add_disk(), but since we want to add support
+for that, just use the normal form of blk_cleanup_disk() to
+cleanup the queue and put the disk.
 
-I'm going to split the driver conversions into batches, and
-this first batch are drivers which should be of high priority
-to consider.
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ drivers/scsi/sd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Should this get merged, I'll chug on with the next batch, and
-so on with batches of 10 each, until we tackle last the wonderful
-world of floppy drivers.
-
-I've put together a git tree based on Jen's for-5.15/block branch
-which holds all of my pending changes, in case anyone wants to
-take a peak.
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210823-for-axboe-add-disk-error-handling-next
-
-Luis Chamberlain (10):
-  scsi/sd: use blk_cleanup_queue() insted of put_disk()
-  scsi/sd: add error handling support for add_disk()
-  scsi/sr: use blk_cleanup_disk() instead of put_disk()
-  scsi/sr: add error handling support for add_disk()
-  nvme: add error handling support for add_disk()
-  mmc/core/block: add error handling support for add_disk()
-  md: add error handling support for add_disk()
-  dm: add add_disk() error handling
-  loop: add error handling support for add_disk()
-  nbd: add error handling support for add_disk()
-
- drivers/block/loop.c     |  9 ++++++++-
- drivers/block/nbd.c      |  6 +++++-
- drivers/md/dm.c          | 16 +++++++++++-----
- drivers/md/md.c          |  7 ++++++-
- drivers/mmc/core/block.c |  4 +++-
- drivers/nvme/host/core.c | 10 +++++++++-
- drivers/scsi/sd.c        |  8 ++++++--
- drivers/scsi/sr.c        |  7 +++++--
- 8 files changed, 53 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 610ebba0d66e..7d5217905374 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3508,7 +3508,7 @@ static int sd_probe(struct device *dev)
+  out_free_index:
+ 	ida_free(&sd_index_ida, index);
+  out_put:
+-	put_disk(gd);
++	blk_cleanup_disk(gd);
+  out_free:
+ 	sd_zbc_release_disk(sdkp);
+ 	kfree(sdkp);
 -- 
 2.30.2
 
