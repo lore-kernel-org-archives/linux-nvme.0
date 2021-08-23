@@ -2,71 +2,85 @@ Return-Path: <SRS0=nO+g=NO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E38EC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4E0C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 11:24:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2C6C61002
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:21:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E2C6C61002
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 4BC6C613A6
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 11:24:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4BC6C613A6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=adt2A/k4lk9cNjgeZBNO4v2J1VkGeDEC0HhZ2u56vfE=; b=dpgY6Dw+2lR6tb
-	dsvQUqwNv049IcTRiLTW8zfCu1jSo8USupyJozRdRCY1gIZx9cROP6CsLZeCpzdi4Qt9tMM6IONJC
-	cy2mCpXAoZGH0Btnm1L+QuT4mMm6vccTVouXKQiFp2ZNkWI7tEepPzInDZqatWJUDyoZ1CaR022S5
-	YtWeFApU34mWpEKrzHAkgoJcMOUZQ7Gz6Nq9UP4YU05dkJdDEkAvYJaMhH/vgBP1AgxmepEi8hPs/
-	MZO5pBg30gmzup3qzTkzgwMDgsTa1wjDQ99Zgg2MC4Cz5CJXzqk090DPB0wP2ZFGHfz9hdbpz1yMz
-	RP65of0rM8N7sQ3WCMcg==;
+	List-Owner; bh=z8KD1GeQ3NImo174e5/0AT077cJM1Tt0+tTUgvMmoCA=; b=uxQcD4iWgzps9h
+	WhoVTKjfynbUMHvvzHjGRahJgpqJhqWZAkSF5ypPbLckUFhoawks4GgPj1MczRuxQsqT/PIcS0idY
+	wWIuMVi0Pzf8xLPMNxY6boqaCvtaxV7I1+tozCPAXvqjZs159fTnCV3W/m4SfovVU73AnEF0gEzpk
+	f44lFXfgrjyPrvSNhiIXEgN61rat25LaUskDG+LsNlI1gV4utF2Uit2SC9Jt18L41F40xbUG5+tL5
+	ZCil+D4lDnyJeDmz70nHK9Mlzzyg/PovOyzNNThk0FOhbiLQhjZZQXfkg7gJM+0MMa1nRyKZ+5EWA
+	guEz6Gd7XBE57C9mCFBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mI68F-00G4rW-AH; Mon, 23 Aug 2021 09:20:39 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1mI83c-00GYra-4l; Mon, 23 Aug 2021 11:24:00 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mI68E-00G4q2-2W
- for linux-nvme@bombadil.infradead.org; Mon, 23 Aug 2021 09:20:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=m2UWnbGr+3dho2sklP4AJF5cECMOSLkmwWKYuXFM05Y=; b=i3gqpBFmQlc+SNiLRQuhZTW3HU
- TTDGsfYk+mRI+EMk0AGLfWR1AVp2id2eOX2kKUHCbOOqP6zovjtTBBVQV37xpeoAO4wMwMohcKpiX
- FWqPcyXFBfddEQ8WAvKt3SgFDRpLNUS1PGczKGPUiUq4bSPLvOhUuQ02byHMiyhVzjdgAksdBLB6X
- wKE/nXWyahNEvxNryXMRHmJv2LMkoGJpsUxbjrUkrzwRRFbq0eXfbaHBEw6Qkosm1MOi5us2Q4ITN
- 4hEFgkXvXYc7uWs9JN4AEr32kgXk8Xr7X6McM+3CiIwp6ygvzSOorcBopPuRsPwbo6vRD4OQzI/Kl
- t1DUWEOw==;
-Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat
- Linux)) id 1mI673-009XDb-RH; Mon, 23 Aug 2021 09:19:36 +0000
-Date: Mon, 23 Aug 2021 10:19:25 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
+ id 1mI83W-00GYoe-AK
+ for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 11:23:58 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id EFE1321F5C;
+ Mon, 23 Aug 2021 11:23:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1629717832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EayIZPvEx8NBX6gVMYZJJQtq+PDoTIWp/jqWnTRrcoI=;
+ b=oRNFq04/+fpitigIPbdiK59exX9c56+BEa8yZNZEXW3Bepbz+MMmxvLcBkbmwN2BfUrjzK
+ m7SNRUJefhW2s1AZattSrlP9jgkXiuN3LhG92j+ByhQoeYfu+MbbuCYPlvFVeDA6DszuLn
+ yGMAMNlJGrJfc+Nvuk7C/zM/P4R+bbQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1629717832;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EayIZPvEx8NBX6gVMYZJJQtq+PDoTIWp/jqWnTRrcoI=;
+ b=tcWvOCqER0uNdYm3BipT7jlGUb5GAnKqoXJIaCXd6EukIj6/aiYxobw3YuPu8xdFO9nMep
+ wbaFbKvOD39/6TBg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 37286A3BC1;
+ Mon, 23 Aug 2021 11:23:52 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 17828)
+ id 2257F518D88F; Mon, 23 Aug 2021 13:23:52 +0200 (CEST)
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
  Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
  Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
  Wen Xiong <wenxiong@us.ibm.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH v5 0/3] Handle update hardware queues and queue freeze
- more carefully
-Message-ID: <YSNoHVsQXKqmJ9nO@infradead.org>
-References: <20210818120530.130501-1-dwagner@suse.de>
- <YSNV6vpaEnzc0Yv4@infradead.org>
- <20210823091405.pmmkubzgxodwgjij@carbon.lan>
+ Himanshu Madhani <himanshu.madhani@oracle.com>,
+ James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v6 3/3] nvme-fc: Remove freeze/unfreeze around
+ update_nr_hw_queues
+Date: Mon, 23 Aug 2021 13:23:51 +0200
+Message-Id: <20210823112351.82899-4-dwagner@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210823112351.82899-1-dwagner@suse.de>
+References: <20210823112351.82899-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210823091405.pmmkubzgxodwgjij@carbon.lan>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210823_042354_557637_3EA8E4AF 
+X-CRM114-Status: GOOD (  10.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,18 +97,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 23, 2021 at 11:14:05AM +0200, Daniel Wagner wrote:
-> Hi Christoph,
-> 
-> On Mon, Aug 23, 2021 at 09:01:46AM +0100, Christoph Hellwig wrote:
-> > applied to nvme-5.15.
-> 
-> Could you drop these patches again? James just sent me a new version of
-> the series which addresses the points we discussed in this thread. They
-> look good to me but I'd like to give them a spin and will post them
-> shortly. Also James is giving them a test run.
+From: James Smart <jsmart2021@gmail.com>
 
-Ok.
+Remove the freeze/unfreeze around changes to the number of hardware
+queues. Study and retest has indicated there are no ios that can be
+active at this point so there is nothing to freeze.
+
+This patch primarily reverts 883837ed0f1f "nvme-fc: wait for queues to
+freeze before calling update_hr_hw_queues". It's not an exact revert as
+it leaves the adjusting of hw queues only if the count changes.
+
+Signed-off-by: James Smart <jsmart2021@gmail.com>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/fc.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 48aaa753be44..b71d0c2d4d31 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2957,9 +2957,7 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ 		dev_info(ctrl->ctrl.device,
+ 			"reconnect: revising io queue count from %d to %d\n",
+ 			prior_ioq_cnt, nr_io_queues);
+-		nvme_wait_freeze(&ctrl->ctrl);
+ 		blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
+-		nvme_unfreeze(&ctrl->ctrl);
+ 	}
+ 
+ 	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
+-- 
+2.29.2
+
 
 _______________________________________________
 Linux-nvme mailing list
