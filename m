@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E73C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9435DC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 54E98613E8
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 54E98613E8
+	by mail.kernel.org (Postfix) with ESMTPS id 56ED061401
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:31:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 56ED061401
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=maC7rqFLsAnxnxmCdFgh3vQa+r7IRMJhsRpLBJ61jaQ=; b=IajALtWcp//2Tw
-	Ss+nG8oMrXrGC+lSp72tbcESM0L+joOUcnAvH0+55eG0MOUXnppDWVRcfeOVVDHJJD+9fyUx7iQFH
-	i5VNIOmeVMF4GQ+5N54Yd+gIDMOxR/Q0BShho2psFJ88gD+Bg4KeVwYSNwzD59IvbRiJj++5QPG3+
-	h0SuJrXAu4xTIuAewqgbhgaZGk+NNjRcrrx5s7lgoow8q5klmL9dSz0h8lpIrzOjxCIwwT6QnTOJG
-	cOLNdSA9hqJ1IpJxhD1TK/JrP6gpsjmxcmuEoNHv9XLlNW1vl7My/UVDdoF7FLw6kUJyCjFYv5pDg
-	zQBYaPRjMorRmOI7YZYg==;
+	List-Owner; bh=dBq4dFRtzUei6wLBUZOr+yWilK54v5FvKK6E3wHCfgs=; b=EQfsE99dMz/BvR
+	zJGVnrepcGZx54s+pLiHbq9keMZp3aBN4S+tetHxON7jABf2hskRnl3bM5VjXgueZ/LvWIotAYiuz
+	FOYJq65zSgtnGUJyG/6GaSDpo4az2/5zRXkW+KphLY+lJdrk8D5TXGdVn1vNlh7M++2ehqwuHC5X4
+	sWRjQipDPHwywKnMuV7inpYsQ4CSVpRCFJrxW8Srr1HsGiVjKO/eDM3ozpKzmMQfFDpRQzgVdzWcV
+	8JKdN3IoZZ6hHMIj/kBcoDRZNFGNpKT3dm6d1pRDyK6eUihuZ1WA1sbwJEKYpN/m1fPuy9B0/ENmy
+	lIPsGkPE47RypP+h5Fqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mIGbL-000ac7-HG; Mon, 23 Aug 2021 20:31:23 +0000
+	id 1mIGbd-000aje-IG; Mon, 23 Aug 2021 20:31:41 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mIGZa-000ZjK-02; Mon, 23 Aug 2021 20:29:34 +0000
+ (Red Hat Linux)) id 1mIGZa-000ZjY-Cl; Mon, 23 Aug 2021 20:29:34 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -45,9 +45,9 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 01/10] scsi/sd: use blk_cleanup_queue() insted of put_disk()
-Date: Mon, 23 Aug 2021 13:29:21 -0700
-Message-Id: <20210823202930.137278-2-mcgrof@kernel.org>
+Subject: [PATCH 08/10] dm: add add_disk() error handling
+Date: Mon, 23 Aug 2021 13:29:28 -0700
+Message-Id: <20210823202930.137278-9-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210823202930.137278-1-mcgrof@kernel.org>
 References: <20210823202930.137278-1-mcgrof@kernel.org>
@@ -68,29 +68,46 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The single put_disk() is useful if you know you're not doing
-a cleanup after add_disk(), but since we want to add support
-for that, just use the normal form of blk_cleanup_disk() to
-cleanup the queue and put the disk.
+We never checked for errors on add_disk() as this function
+returned void. Now that this is fixed, use the shiny new
+error handling.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/scsi/sd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/md/dm.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 610ebba0d66e..7d5217905374 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3508,7 +3508,7 @@ static int sd_probe(struct device *dev)
-  out_free_index:
- 	ida_free(&sd_index_ida, index);
-  out_put:
--	put_disk(gd);
-+	blk_cleanup_disk(gd);
-  out_free:
- 	sd_zbc_release_disk(sdkp);
- 	kfree(sdkp);
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index 7981b7287628..cd26fde4ab56 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -2077,15 +2077,21 @@ int dm_setup_md_queue(struct mapped_device *md, struct dm_table *t)
+ 	if (r)
+ 		return r;
+ 
+-	add_disk(md->disk);
++	r = add_disk(md->disk);
++	if (r)
++		goto out_cleanup_disk;
+ 
+ 	r = dm_sysfs_init(md);
+-	if (r) {
+-		del_gendisk(md->disk);
+-		return r;
+-	}
++	if (r)
++		goto out_del_gendisk;
+ 	md->type = type;
+ 	return 0;
++
++out_cleanup_disk:
++	blk_cleanup_disk(md->disk);
++out_del_gendisk:
++	del_gendisk(md->disk);
++	return r;
+ }
+ 
+ struct mapped_device *dm_get_md(dev_t dev)
 -- 
 2.30.2
 
