@@ -6,15 +6,15 @@ X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58182C4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:14:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E38EC4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:21:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C9216136F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:14:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1C9216136F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id E2C6C61002
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 09:21:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E2C6C61002
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -22,70 +22,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JAS4UwF3X1DH9hrmg5ZzEkbr9EQYSMbZv6Bch+mr0WY=; b=QQtE3jNKqW4c+w
-	ZVXB9UNnmT+uHDx/Yzu3CDCJ8AsllVX4J4r8BJq3VF1dhBJryc0cih1ctba+kqD3DBqY1bEs4cUVx
-	eQfbbF2JrZ6OFbClg5JL9A/1B8HhHyc1+8ND3S+0+3Im9RiJe+7oO+dM95ga9XC0GIgp4NNmtG2T1
-	EGVxRRP7f2wxfgPkNGrOnbpj1vT1UCv0x5O7wLGK2Ngx9ydwtckqtCb1aA6cbDAX0cZPXvcNN+WSs
-	UQ/iSW32gSPOOJMnhg+pdQ42MCjqgCcU5PeLUPIVGeg2qlA4881U/RAnrhJvjsSklKcPF5ONvoGRX
-	bLwDUPnvGousqQBIDJIA==;
+	List-Owner; bh=adt2A/k4lk9cNjgeZBNO4v2J1VkGeDEC0HhZ2u56vfE=; b=dpgY6Dw+2lR6tb
+	dsvQUqwNv049IcTRiLTW8zfCu1jSo8USupyJozRdRCY1gIZx9cROP6CsLZeCpzdi4Qt9tMM6IONJC
+	cy2mCpXAoZGH0Btnm1L+QuT4mMm6vccTVouXKQiFp2ZNkWI7tEepPzInDZqatWJUDyoZ1CaR022S5
+	YtWeFApU34mWpEKrzHAkgoJcMOUZQ7Gz6Nq9UP4YU05dkJdDEkAvYJaMhH/vgBP1AgxmepEi8hPs/
+	MZO5pBg30gmzup3qzTkzgwMDgsTa1wjDQ99Zgg2MC4Cz5CJXzqk090DPB0wP2ZFGHfz9hdbpz1yMz
+	RP65of0rM8N7sQ3WCMcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mI623-00G3mV-9V; Mon, 23 Aug 2021 09:14:15 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mI68F-00G4rW-AH; Mon, 23 Aug 2021 09:20:39 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mI61x-00G3jY-Eh
- for linux-nvme@lists.infradead.org; Mon, 23 Aug 2021 09:14:13 +0000
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 28EFC21F3D;
- Mon, 23 Aug 2021 09:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1629710046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Jf4RvD/mw/nbQWr8Y9Fj9qty0PSRsJZCDwZff4vyIj4=;
- b=e5X2ULVlQDy65O/CjPGxNBz/QjcZsHpbBKeGbk8jRdn28yHdab/k6Td5kP61d5/IgeDqqv
- 42FRngk97eHUjHxqGBWtZPB27pJyClm3rXYHJwh/9T5AimnMbWFCqcC1fYCRh2wFZg1sgQ
- AUyCq3FuPmuUOJuKAeONyui0jD2eOAw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1629710046;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Jf4RvD/mw/nbQWr8Y9Fj9qty0PSRsJZCDwZff4vyIj4=;
- b=9bgUG/61TFYHpAaTjyONrAWKS/pIPZ/dvmgjy2+ewwQT6ss4s2K5sBUDJ7F1U4/26uMfV8
- dd8w0NzSJ+f6l4Cw==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 1233613A92;
- Mon, 23 Aug 2021 09:14:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id O/0EBN5mI2EKbQAAGKfGzw
- (envelope-from <dwagner@suse.de>); Mon, 23 Aug 2021 09:14:06 +0000
-Date: Mon, 23 Aug 2021 11:14:05 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- James Smart <james.smart@broadcom.com>,
+ id 1mI68E-00G4q2-2W
+ for linux-nvme@bombadil.infradead.org; Mon, 23 Aug 2021 09:20:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=m2UWnbGr+3dho2sklP4AJF5cECMOSLkmwWKYuXFM05Y=; b=i3gqpBFmQlc+SNiLRQuhZTW3HU
+ TTDGsfYk+mRI+EMk0AGLfWR1AVp2id2eOX2kKUHCbOOqP6zovjtTBBVQV37xpeoAO4wMwMohcKpiX
+ FWqPcyXFBfddEQ8WAvKt3SgFDRpLNUS1PGczKGPUiUq4bSPLvOhUuQ02byHMiyhVzjdgAksdBLB6X
+ wKE/nXWyahNEvxNryXMRHmJv2LMkoGJpsUxbjrUkrzwRRFbq0eXfbaHBEw6Qkosm1MOi5us2Q4ITN
+ 4hEFgkXvXYc7uWs9JN4AEr32kgXk8Xr7X6McM+3CiIwp6ygvzSOorcBopPuRsPwbo6vRD4OQzI/Kl
+ t1DUWEOw==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat
+ Linux)) id 1mI673-009XDb-RH; Mon, 23 Aug 2021 09:19:36 +0000
+Date: Mon, 23 Aug 2021 10:19:25 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, James Smart <james.smart@broadcom.com>,
  Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>,
  Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
  Wen Xiong <wenxiong@us.ibm.com>,
  Himanshu Madhani <himanshu.madhani@oracle.com>
 Subject: Re: [PATCH v5 0/3] Handle update hardware queues and queue freeze
  more carefully
-Message-ID: <20210823091405.pmmkubzgxodwgjij@carbon.lan>
+Message-ID: <YSNoHVsQXKqmJ9nO@infradead.org>
 References: <20210818120530.130501-1-dwagner@suse.de>
  <YSNV6vpaEnzc0Yv4@infradead.org>
+ <20210823091405.pmmkubzgxodwgjij@carbon.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YSNV6vpaEnzc0Yv4@infradead.org>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210823_021409_694040_8C20956E 
-X-CRM114-Status: GOOD (  10.23  )
+In-Reply-To: <20210823091405.pmmkubzgxodwgjij@carbon.lan>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,17 +83,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph,
+On Mon, Aug 23, 2021 at 11:14:05AM +0200, Daniel Wagner wrote:
+> Hi Christoph,
+> 
+> On Mon, Aug 23, 2021 at 09:01:46AM +0100, Christoph Hellwig wrote:
+> > applied to nvme-5.15.
+> 
+> Could you drop these patches again? James just sent me a new version of
+> the series which addresses the points we discussed in this thread. They
+> look good to me but I'd like to give them a spin and will post them
+> shortly. Also James is giving them a test run.
 
-On Mon, Aug 23, 2021 at 09:01:46AM +0100, Christoph Hellwig wrote:
-> applied to nvme-5.15.
-
-Could you drop these patches again? James just sent me a new version of
-the series which addresses the points we discussed in this thread. They
-look good to me but I'd like to give them a spin and will post them
-shortly. Also James is giving them a test run.
-
-Daniel
+Ok.
 
 _______________________________________________
 Linux-nvme mailing list
