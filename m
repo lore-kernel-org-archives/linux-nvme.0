@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9846CC4338F
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F88C4338F
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:30:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 689B360E97
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:30:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 689B360E97
+	by mail.kernel.org (Postfix) with ESMTPS id 4C3B660E97
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Aug 2021 20:30:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4C3B660E97
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QW2pUE2SXcRWTztidZGxIC2NnUdgsWPG5EpsXOdewrY=; b=J+X8p9Nu4hyX6m
-	60EC5LQCHq3eo1ngWy0X0RibVc1uv+IQJoqR9InVlnTvjJ1IFbvcHClcseMvlVRNjpWDL9dtdZ1BJ
-	PqxAmWOJCaq1UEkCa96vI3a87wseS2AAw2Lk0z2aGoYl1/fSUcfZQ7eQv9t2mSZDfb6Q/wqoloEsP
-	hpAfCoxSHoKmPtS5exGonKxQpJsD93xdfL8coM1iqK7WHzUXnKvl/u9KjqHu5Hw2gnM5hFcFZpldA
-	W4nuaxpai8pyciBzHRFdGwzjknjHT8GjWdPpqUtgxJeDi/WJeYVuAJloz9A0jp8IE1fn8BN7ph1kJ
-	beWEYZY7O81NBOGKQ/mQ==;
+	List-Owner; bh=VwjRpeoggijpaY4GzrjbZCU2rs3+zqIaKOHlwD03rbQ=; b=PO0kCF4pfey3kJ
+	02z0tMXd3SDtvgPLna0QcpHt4TuEOOnZJqsWUrULNS9XsmClMVZTBw6+l9+Hru1ZWobgLFOlAoSPy
+	B3TmP2GZUw1Q+5RTlJGKxikid+bunqB41nLsIjCbQhSIsNzqxllRNADkAjKKrF2j8v47KcTxZukVE
+	TOHafbaysBszqwpPwqIInGG3HWkyZHx9q+q6TmMFnQLD0HLtERamNmHidfa5H9j0TFtA+KFABIz3I
+	Jd+nMBzfpeVCFOcObGCBdR4kYEmgROPT/wJYE/xjIBjeLEk83BzBVMJe2D0O8Sj1gIq0eVpGTkc7T
+	ksIJPHZvQZKnOoLtbHLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mIGZp-000ZrP-HK; Mon, 23 Aug 2021 20:29:49 +0000
+	id 1mIGaD-000a2d-3b; Mon, 23 Aug 2021 20:30:13 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mIGZa-000ZjU-9o; Mon, 23 Aug 2021 20:29:34 +0000
+ (Red Hat Linux)) id 1mIGZa-000ZjM-2N; Mon, 23 Aug 2021 20:29:34 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -45,10 +45,9 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 06/10] mmc/core/block: add error handling support for
- add_disk()
-Date: Mon, 23 Aug 2021 13:29:26 -0700
-Message-Id: <20210823202930.137278-7-mcgrof@kernel.org>
+Subject: [PATCH 02/10] scsi/sd: add error handling support for add_disk()
+Date: Mon, 23 Aug 2021 13:29:22 -0700
+Message-Id: <20210823202930.137278-3-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210823202930.137278-1-mcgrof@kernel.org>
 References: <20210823202930.137278-1-mcgrof@kernel.org>
@@ -73,29 +72,28 @@ We never checked for errors on add_disk() as this function
 returned void. Now that this is fixed, use the shiny new
 error handling.
 
-The caller cleanups the disk already so all we need to do
-is just pass along the return value.
-
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/mmc/core/block.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/scsi/sd.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
-index 4c11f171e56d..4f12c6d1e1b5 100644
---- a/drivers/mmc/core/block.c
-+++ b/drivers/mmc/core/block.c
-@@ -2432,7 +2432,9 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
- 	/* used in ->open, must be set before add_disk: */
- 	if (area_type == MMC_BLK_DATA_AREA_MAIN)
- 		dev_set_drvdata(&card->dev, md);
--	device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-+	ret = device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-+	if (ret)
-+		goto out;
- 	return md;
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 7d5217905374..7df6f20f28ec 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3487,7 +3487,11 @@ static int sd_probe(struct device *dev)
+ 		pm_runtime_set_autosuspend_delay(dev,
+ 			sdp->host->hostt->rpm_autosuspend_delay);
+ 	}
+-	device_add_disk(dev, gd, NULL);
++
++	error = device_add_disk(dev, gd, NULL);
++	if (error)
++		goto out_free_index;
++
+ 	if (sdkp->capacity)
+ 		sd_dif_config_host(sdkp);
  
-  err_kfree:
 -- 
 2.30.2
 
