@@ -2,99 +2,86 @@ Return-Path: <SRS0=DYpX=NR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D06C432BE
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Aug 2021 07:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FA3C432BE
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Aug 2021 08:05:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BAE00610E6
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Aug 2021 07:47:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BAE00610E6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 26D9C60FE6
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Aug 2021 08:05:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 26D9C60FE6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=67lOo0JqGesxBEWPn5vTzj9+Ikf0NByHA0tuM3D2lXo=; b=hc1VJL2RL7GbSX
-	jq2AsH6YuvnDJ4t31mi5Dm6b6JtfROG0Z7MNRbbmhxVFeDosOg4SUG/T/5EjVM527wfXSEvnYjsvE
-	cmuo1IUui2+ijfoBYCuLFpjxLeoXipHBaDakJEubvGNFM/VbduQ+KVPcMxXNCiXxV26HzC/qOZTyw
-	MFYDAVw96WcjoAbAOyucr2l04Qx9G/4DmLHehmU60hNURRO++N8wAEOEOcLegAcJ+wjP3KSM4G1fH
-	4RYQRZy3oDJv1ZO9ACTn7iQAH6TwVWAchuJoE1yz/enfmLqdNx8eujRGEtR8pSVp9NVDIyENQkqMR
-	tLXPQgF6B2g8dJff3Pew==;
+	List-Owner; bh=3PkgBQcSvJAiD2+UkcrkpKFPxpMRS0/esQqrUF7pEdM=; b=lsKk8WNuRexs4F
+	S8IZK/lxVSUb7ppxjkABs0zQT7ynnto4UcLLeORDMYkzKLY/9Vb0OL9E1k0qLsdR1lIAGH5YnGnuf
+	qX8V8hPmzrP9OnH1ESRgnZLE7IhQnx6ELKpGrjDoSA51oTjbaWN6Zxw/Svg1epZYIEIWdFx+n9Z6R
+	1rkFkmsOCburuidAxz0lT5OT2qgLwGBGNL91ej53QxNgHUHX0tEMYBx5Wd5FyVhrzboDtJUZEfP1h
+	Hw+dJS8YDbx2vgKt4U3kuge59g+U8kwNrqJ+RlCgRuSKxTfEfXbix/2d5a3IVpzbLTi1Mxow88Qlx
+	yGW2rIiMHZVd9N8pL9gA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mJA6n-009SDt-Sd; Thu, 26 Aug 2021 07:47:33 +0000
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+	id 1mJANe-009VYs-40; Thu, 26 Aug 2021 08:04:58 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mJA6G-009S5h-Ud
- for linux-nvme@lists.infradead.org; Thu, 26 Aug 2021 07:47:02 +0000
-Received: by mail-lf1-x12d.google.com with SMTP id i28so4935896lfl.2
- for <linux-nvme@lists.infradead.org>; Thu, 26 Aug 2021 00:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WFfBSeUoIkVFq2c+wyysTynFg5YjCpP2+vF7k66ApRg=;
- b=uyQzTrBldhPBh5nnQ72jaL9ktwnDpjD+4r8yAyDP7End8hK4tImCX0vowpGHE7hmLS
- 8izi65eqLg79JdYWSVhXIsX+BCZfavs+2RzUBWIrPpKo0Op9znWybT+xFyfGrOzNy8m/
- e2jotR+rDmbQ7VRtpLgSYvBI27SHetTz8WHtP8fmLYjEIooMCsXjvYsfy64tH6oChXA/
- wXochubuastNo9MazCpWht5fF4C5FhRNPgBm0M9HSKDpjkoh9vsRCZ5UPxq/aJy0NheJ
- TK4XrpeBYwfk9KSL5aW8NGnWHFvupKUfr0mRT1s83xaNu35b+c2Ni4GeM4IJe36Ichhv
- Clhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WFfBSeUoIkVFq2c+wyysTynFg5YjCpP2+vF7k66ApRg=;
- b=S19Zj1N0dG2dLn8Eaq32s2zqVHoJaABAa9Mpi16xL3anZgcXeVa3VN3Hn6VeD0J88Q
- jwJCxlEKINM7/qqS2Dy630TSEcl6fBjUNOZk8aF4Zy3FWhKOEq1YkgHFz46oPCrKHCRy
- m3YRV7cbmLGLd3eD1tGWDuHgm2476/mX3F5JG0fOjgyvq+iukfDX4OrZEMIfMmZX7dXj
- o/o+h8ZcuCgEzvOycZRmUrbhvyRp0YmSKvoqslGJsi4WENgVAHpYVIm20StGCUv59MKP
- 9rwvdl8Rs+qq/8qxWbT18aGXRGSUIhMjLqDwYxbCn/HmKL9maT6j+HVXpNcSI8BuZQa6
- r7Vw==
-X-Gm-Message-State: AOAM531ypP2ClirmbADmUUPSfQSXwCsQBV7gLhhgDgpjqNb/6GAybb7v
- k+qM7nNOGT0nqYNwyRrJdJO7vtHvSfN8J0Acpyw=
-X-Google-Smtp-Source: ABdhPJyjbSulKVzeS1ayorUS6e0PDTdjH/3YKsApr3OabyEwjGfG27IO4vB7ZiqR7/y8lcLFPtK9qboXnc4pB3rdlck=
-X-Received: by 2002:a05:6512:1114:: with SMTP id
- l20mr1781869lfg.550.1629964017693; 
- Thu, 26 Aug 2021 00:46:57 -0700 (PDT)
+ id 1mJANZ-009VXm-3M
+ for linux-nvme@lists.infradead.org; Thu, 26 Aug 2021 08:04:57 +0000
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7C8CB1FE50;
+ Thu, 26 Aug 2021 08:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1629965089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dz4kMtmgcRiHH+eY6OlEi5nZ3aLXbNcHgM4etPf13YA=;
+ b=RaXHj+z76JhybAusnJe/l5NgRbJwuKMyClTuYWeByEJJa/3JcL7lcatSFh3wD6+BIsO7KH
+ lVKUfqGj/RN39FluYHyasW77HJs5DlJ/VQJ9i8apnUjLEz3zFh9zh7ASrPMz7HNOcUDcoj
+ Bd69K7fsaoOAiDFvrRaF8RRqaRLheHU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1629965089;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dz4kMtmgcRiHH+eY6OlEi5nZ3aLXbNcHgM4etPf13YA=;
+ b=uOQW8kR7vS07Lld8N+NnGkMD3J7DCLMAXy5tHiraRSCQp1sBKlYEMVQC0k2GdVXCc9MKCk
+ Dl4GJaPW/HRM9zDA==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 6F15713A79;
+ Thu, 26 Aug 2021 08:04:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id L3HLGiFLJ2HhBQAAGKfGzw
+ (envelope-from <dwagner@suse.de>); Thu, 26 Aug 2021 08:04:49 +0000
+Date: Thu, 26 Aug 2021 10:04:49 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, yi.he@emc.com
+Subject: Re: [PATCH v2] nvme-tcp: Do not reset transport on data digest errors
+Message-ID: <20210826080449.6pzvgihxzqbsosrx@carbon.lan>
+References: <20210825124259.28707-1-dwagner@suse.de>
+ <42916ab0-2997-b19f-47ee-e20e8e868a86@suse.de>
 MIME-Version: 1.0
-References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
- <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com>
- <20210817101423.12367-4-selvakuma.s1@samsung.com>
- <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
- <CA+1E3rK2ULVajQRkNTZJdwKoqBeGvkfoVYNF=WyK6Net85YkhA@mail.gmail.com>
- <fb9931ae-de27-820a-1333-f24e020913ff@acm.org>
-In-Reply-To: <fb9931ae-de27-820a-1333-f24e020913ff@acm.org>
-From: Nitesh Shetty <nitheshshetty@gmail.com>
-Date: Thu, 26 Aug 2021 13:16:46 +0530
-Message-ID: <CAOSviJ1uQo=O8trN71t5p+qYU8GRgGerSvkE9y5tDR+4pM4f1g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Kanchan Joshi <joshiiitr@gmail.com>,
- SelvaKumar S <selvakuma.s1@samsung.com>, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, dm-devel@redhat.com, 
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Damien Le Moal <damien.lemoal@wdc.com>, Pavel Begunkov <asml.silence@gmail.com>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>, Christoph Hellwig <hch@lst.de>,
- Matthew Wilcox <willy@infradead.org>, kch@kernel.org, mpatocka@redhat.com, 
- "Darrick J. Wong" <djwong@kernel.org>, agk@redhat.com,
- Selva Jove <selvajove@gmail.com>, 
- Nitesh Shetty <nj.shetty@samsung.com>, KANCHAN JOSHI <joshi.k@samsung.com>, 
- Javier Gonzalez <javier.gonz@samsung.com>, Mike Snitzer <snitzer@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>
+Content-Disposition: inline
+In-Reply-To: <42916ab0-2997-b19f-47ee-e20e8e868a86@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210826_004701_051489_00CC3FA4 
-X-CRM114-Status: GOOD (  36.17  )
+X-CRM114-CacheID: sfid-20210826_010453_342880_BD4274BF 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,82 +98,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Bart,Mikulas,Martin,Douglas,
+On Wed, Aug 25, 2021 at 05:27:10PM +0200, Hannes Reinecke wrote:
+> > @@ -506,6 +514,7 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+> >   static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
+> >   		struct nvme_tcp_data_pdu *pdu)
+> >   {
+> > +	struct nvme_tcp_request *req;
+> >   	struct request *rq;
+> >   	rq = nvme_find_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> > @@ -534,6 +543,8 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
+> >   		return -EPROTO;
+> >   	}
+> > +	req = blk_mq_rq_to_pdu(rq);
+> > +	req->status = NVME_SC_SUCCESS;
+> >   	return 0;
+> >   }
+> 
+> Can't you move the initialisation to nvme_tcp_setup_cmd_pdu()?
+> That'll save to to have to reference the tcp request here ...
 
-We will go through your previous work and use this thread as a medium for
-further discussion, if we come across issues to be sorted out.
-
-Thank you,
-Nitesh Shetty
-
-On Sat, Aug 21, 2021 at 2:48 AM Bart Van Assche <bvanassche@acm.org> wrote:
->
-> On 8/20/21 3:39 AM, Kanchan Joshi wrote:
-> > Bart, Mikulas
-> >
-> > On Tue, Aug 17, 2021 at 10:44 PM Bart Van Assche <bvanassche@acm.org> wrote:
-> >>
-> >> On 8/17/21 3:14 AM, SelvaKumar S wrote:
-> >>> Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
-> >>> bio with control information as payload and submit to the device.
-> >>> Larger copy operation may be divided if necessary by looking at device
-> >>> limits. REQ_OP_COPY(19) is a write op and takes zone_write_lock when
-> >>> submitted to zoned device.
-> >>> Native copy offload is not supported for stacked devices.
-> >>
-> >> Using a single operation for copy-offloading instead of separate
-> >> operations for reading and writing is fundamentally incompatible with
-> >> the device mapper. I think we need a copy-offloading implementation that
-> >> is compatible with the device mapper.
-> >>
-> >
-> > While each read/write command is for a single contiguous range of
-> > device, with simple-copy we get to operate on multiple discontiguous
-> > ranges, with a single command.
-> > That seemed like a good opportunity to reduce control-plane traffic
-> > (compared to read/write operations) as well.
-> >
-> > With a separate read-and-write bio approach, each source-range will
-> > spawn at least one read, one write and eventually one SCC command. And
-> > it only gets worse as there could be many such discontiguous ranges (for
-> > GC use-case at least) coming from user-space in a single payload.
-> > Overall sequence will be
-> > - Receive a payload from user-space
-> > - Disassemble into many read-write pair bios at block-layer
-> > - Assemble those (somehow) in NVMe to reduce simple-copy commands
-> > - Send commands to device
-> >
-> > We thought payload could be a good way to reduce the
-> > disassembly/assembly work and traffic between block-layer to nvme.
-> > How do you see this tradeoff?  What seems necessary for device-mapper
-> > usecase, appears to be a cost when device-mapper isn't used.
-> > Especially for SCC (since copy is within single ns), device-mappers
-> > may not be too compelling anyway.
-> >
-> > Must device-mapper support be a requirement for the initial support atop SCC?
-> > Or do you think it will still be a progress if we finalize the
-> > user-space interface to cover all that is foreseeable.And for
-> > device-mapper compatible transport between block-layer and NVMe - we
-> > do it in the later stage when NVMe too comes up with better copy
-> > capabilities?
->
-> Hi Kanchan,
->
-> These days there might be more systems that run the device mapper on top
-> of the NVMe driver or a SCSI driver than systems that do use the device
-> mapper. It is common practice these days to use dm-crypt on personal
-> workstations and laptops. LVM (dm-linear) is popular because it is more
-> flexible than a traditional partition table. Android phones use
-> dm-verity on top of hardware encryption. In other words, not supporting
-> the device mapper means that a very large number of use cases is
-> excluded. So I think supporting the device mapper from the start is
-> important, even if that means combining individual bios at the bottom of
-> the storage stack into simple copy commands.
->
-> Thanks,
->
-> Bart.
->
+Yes, that's a why better place to initialize it. Let me spin a new
+version.
 
 _______________________________________________
 Linux-nvme mailing list
