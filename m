@@ -1,66 +1,100 @@
-Return-Path: <SRS0=n325=NQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=DYpX=NR=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BDD3C432BE
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Aug 2021 20:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D06C432BE
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Aug 2021 07:47:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 278B761002
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Aug 2021 20:15:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 278B761002
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id BAE00610E6
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Aug 2021 07:47:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BAE00610E6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=GxJ3WvJiBCa5YfWjxgD6Amgwh91ozW64qItVadfR69w=; b=mwk5Z8CGSHSXTP
-	0QNjSNUlpono4mT69O73dahWH/5tpLPqMFcPRVB5oJEa1h1gwUUuKUP8ME0XVDZUuRF1JojiaE8OA
-	0mszaKg9hGD2qAX7oZfQ//Gh9YkUC7+do/0TYpaVs7ms0lcYClusoVIFQxCfSu8oOrlRHQChqXOHC
-	DOjZxTb0zNTubEqOymu68wrOHATMHaQl8b37OQXXkrLg1I4otJ+ukHb1MN0JM+BVFCaruSIPNqwLr
-	mr9HS0+HUiRRpnXP2cxPuyWEWbskRFvZ3RMNyT97CwJOxKE+JGtfc55VFXdgQuLy4wfd83N8xYxzT
-	FLpCIe0hyga7KtoZd1og==;
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=67lOo0JqGesxBEWPn5vTzj9+Ikf0NByHA0tuM3D2lXo=; b=hc1VJL2RL7GbSX
+	jq2AsH6YuvnDJ4t31mi5Dm6b6JtfROG0Z7MNRbbmhxVFeDosOg4SUG/T/5EjVM527wfXSEvnYjsvE
+	cmuo1IUui2+ijfoBYCuLFpjxLeoXipHBaDakJEubvGNFM/VbduQ+KVPcMxXNCiXxV26HzC/qOZTyw
+	MFYDAVw96WcjoAbAOyucr2l04Qx9G/4DmLHehmU60hNURRO++N8wAEOEOcLegAcJ+wjP3KSM4G1fH
+	4RYQRZy3oDJv1ZO9ACTn7iQAH6TwVWAchuJoE1yz/enfmLqdNx8eujRGEtR8pSVp9NVDIyENQkqMR
+	tLXPQgF6B2g8dJff3Pew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mIzIr-008QFN-08; Wed, 25 Aug 2021 20:15:17 +0000
-Received: from mga17.intel.com ([192.55.52.151])
+	id 1mJA6n-009SDt-Sd; Thu, 26 Aug 2021 07:47:33 +0000
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mIzIl-008QEV-Av
- for linux-nvme@lists.infradead.org; Wed, 25 Aug 2021 20:15:15 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="197843460"
-X-IronPort-AV: E=Sophos;i="5.84,351,1620716400"; d="scan'208";a="197843460"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2021 13:14:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,351,1620716400"; d="scan'208";a="456192605"
-Received: from lkp-server01.sh.intel.com (HELO 4fbc2b3ce5aa) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 25 Aug 2021 13:14:31 -0700
-Received: from kbuild by 4fbc2b3ce5aa with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mIzI6-0000Wi-Bc; Wed, 25 Aug 2021 20:14:30 +0000
-Date: Thu, 26 Aug 2021 04:14:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.15] BUILD SUCCESS
- d692c18d58229e084e92395d0831b3381f6d5ab9
-Message-ID: <6126a491.aqadm0r6cCYLCdiM%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1mJA6G-009S5h-Ud
+ for linux-nvme@lists.infradead.org; Thu, 26 Aug 2021 07:47:02 +0000
+Received: by mail-lf1-x12d.google.com with SMTP id i28so4935896lfl.2
+ for <linux-nvme@lists.infradead.org>; Thu, 26 Aug 2021 00:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WFfBSeUoIkVFq2c+wyysTynFg5YjCpP2+vF7k66ApRg=;
+ b=uyQzTrBldhPBh5nnQ72jaL9ktwnDpjD+4r8yAyDP7End8hK4tImCX0vowpGHE7hmLS
+ 8izi65eqLg79JdYWSVhXIsX+BCZfavs+2RzUBWIrPpKo0Op9znWybT+xFyfGrOzNy8m/
+ e2jotR+rDmbQ7VRtpLgSYvBI27SHetTz8WHtP8fmLYjEIooMCsXjvYsfy64tH6oChXA/
+ wXochubuastNo9MazCpWht5fF4C5FhRNPgBm0M9HSKDpjkoh9vsRCZ5UPxq/aJy0NheJ
+ TK4XrpeBYwfk9KSL5aW8NGnWHFvupKUfr0mRT1s83xaNu35b+c2Ni4GeM4IJe36Ichhv
+ Clhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WFfBSeUoIkVFq2c+wyysTynFg5YjCpP2+vF7k66ApRg=;
+ b=S19Zj1N0dG2dLn8Eaq32s2zqVHoJaABAa9Mpi16xL3anZgcXeVa3VN3Hn6VeD0J88Q
+ jwJCxlEKINM7/qqS2Dy630TSEcl6fBjUNOZk8aF4Zy3FWhKOEq1YkgHFz46oPCrKHCRy
+ m3YRV7cbmLGLd3eD1tGWDuHgm2476/mX3F5JG0fOjgyvq+iukfDX4OrZEMIfMmZX7dXj
+ o/o+h8ZcuCgEzvOycZRmUrbhvyRp0YmSKvoqslGJsi4WENgVAHpYVIm20StGCUv59MKP
+ 9rwvdl8Rs+qq/8qxWbT18aGXRGSUIhMjLqDwYxbCn/HmKL9maT6j+HVXpNcSI8BuZQa6
+ r7Vw==
+X-Gm-Message-State: AOAM531ypP2ClirmbADmUUPSfQSXwCsQBV7gLhhgDgpjqNb/6GAybb7v
+ k+qM7nNOGT0nqYNwyRrJdJO7vtHvSfN8J0Acpyw=
+X-Google-Smtp-Source: ABdhPJyjbSulKVzeS1ayorUS6e0PDTdjH/3YKsApr3OabyEwjGfG27IO4vB7ZiqR7/y8lcLFPtK9qboXnc4pB3rdlck=
+X-Received: by 2002:a05:6512:1114:: with SMTP id
+ l20mr1781869lfg.550.1629964017693; 
+ Thu, 26 Aug 2021 00:46:57 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
+ <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com>
+ <20210817101423.12367-4-selvakuma.s1@samsung.com>
+ <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
+ <CA+1E3rK2ULVajQRkNTZJdwKoqBeGvkfoVYNF=WyK6Net85YkhA@mail.gmail.com>
+ <fb9931ae-de27-820a-1333-f24e020913ff@acm.org>
+In-Reply-To: <fb9931ae-de27-820a-1333-f24e020913ff@acm.org>
+From: Nitesh Shetty <nitheshshetty@gmail.com>
+Date: Thu, 26 Aug 2021 13:16:46 +0530
+Message-ID: <CAOSviJ1uQo=O8trN71t5p+qYU8GRgGerSvkE9y5tDR+4pM4f1g@mail.gmail.com>
+Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Kanchan Joshi <joshiiitr@gmail.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, 
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, dm-devel@redhat.com, 
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Damien Le Moal <damien.lemoal@wdc.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>, Christoph Hellwig <hch@lst.de>,
+ Matthew Wilcox <willy@infradead.org>, kch@kernel.org, mpatocka@redhat.com, 
+ "Darrick J. Wong" <djwong@kernel.org>, agk@redhat.com,
+ Selva Jove <selvajove@gmail.com>, 
+ Nitesh Shetty <nj.shetty@samsung.com>, KANCHAN JOSHI <joshi.k@samsung.com>, 
+ Javier Gonzalez <javier.gonz@samsung.com>, Mike Snitzer <snitzer@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210825_131511_458078_BE102403 
-X-CRM114-Status: UNSURE (   6.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210826_004701_051489_00CC3FA4 
+X-CRM114-Status: GOOD (  36.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,204 +111,82 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.15
-branch HEAD: d692c18d58229e084e92395d0831b3381f6d5ab9  nvme-multipath: revalidate paths during rescan
+Hi Bart,Mikulas,Martin,Douglas,
 
-elapsed time: 734m
+We will go through your previous work and use this thread as a medium for
+further discussion, if we come across issues to be sorted out.
 
-configs tested: 179
-configs skipped: 3
+Thank you,
+Nitesh Shetty
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210825
-powerpc                       ebony_defconfig
-arm                           sama5_defconfig
-m68k                          amiga_defconfig
-m68k                          sun3x_defconfig
-xtensa                       common_defconfig
-h8300                               defconfig
-powerpc                     akebono_defconfig
-powerpc                   lite5200b_defconfig
-mips                    maltaup_xpa_defconfig
-powerpc                      ppc40x_defconfig
-mips                           ip32_defconfig
-m68k                            mac_defconfig
-arm                       aspeed_g4_defconfig
-mips                      bmips_stb_defconfig
-arm                            xcep_defconfig
-arm                            mps2_defconfig
-sparc                            alldefconfig
-arc                            hsdk_defconfig
-mips                        jmr3927_defconfig
-arc                        nsim_700_defconfig
-powerpc                   currituck_defconfig
-arm                            dove_defconfig
-arc                        vdk_hs38_defconfig
-sh                        edosk7760_defconfig
-powerpc                    klondike_defconfig
-powerpc                     mpc83xx_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                      ep88xc_defconfig
-alpha                            alldefconfig
-sh                          r7780mp_defconfig
-powerpc                     tqm5200_defconfig
-arm                           tegra_defconfig
-mips                      fuloong2e_defconfig
-sh                        sh7763rdp_defconfig
-sh                          sdk7786_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                         axm55xx_defconfig
-mips                         tb0219_defconfig
-arm                          moxart_defconfig
-mips                     decstation_defconfig
-powerpc                 mpc8560_ads_defconfig
-sh                            migor_defconfig
-arm                          pcm027_defconfig
-mips                      loongson3_defconfig
-mips                        nlm_xlp_defconfig
-m68k                                defconfig
-arc                          axs103_defconfig
-sh                 kfr2r09-romimage_defconfig
-mips                           ci20_defconfig
-sh                           se7722_defconfig
-mips                  maltasmvp_eva_defconfig
-mips                          malta_defconfig
-mips                           rs90_defconfig
-mips                   sb1250_swarm_defconfig
-sh                             sh03_defconfig
-m68k                        mvme16x_defconfig
-i386                                defconfig
-mips                         tb0226_defconfig
-xtensa                         virt_defconfig
-mips                     loongson2k_defconfig
-powerpc                    socrates_defconfig
-xtensa                    smp_lx200_defconfig
-mips                          ath25_defconfig
-powerpc                 mpc837x_mds_defconfig
-powerpc                     ksi8560_defconfig
-powerpc                       holly_defconfig
-parisc                generic-32bit_defconfig
-arm                        trizeps4_defconfig
-arm                        spear3xx_defconfig
-arm                           stm32_defconfig
-sh                             shx3_defconfig
-arm                           viper_defconfig
-arm                             pxa_defconfig
-powerpc                     tqm8540_defconfig
-microblaze                      mmu_defconfig
-powerpc                 mpc834x_itx_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                     tqm8548_defconfig
-ia64                             allyesconfig
-powerpc                    adder875_defconfig
-sh                           se7751_defconfig
-mips                       capcella_defconfig
-arm                          pxa910_defconfig
-sh                      rts7751r2d1_defconfig
-powerpc                     tqm8541_defconfig
-sh                   sh7770_generic_defconfig
-arm                         assabet_defconfig
-sh                ecovec24-romimage_defconfig
-sh                            hp6xx_defconfig
-powerpc64                        alldefconfig
-arm                       imx_v4_v5_defconfig
-powerpc                        icon_defconfig
-m68k                          multi_defconfig
-m68k                       m5249evb_defconfig
-powerpc                        warp_defconfig
-um                               alldefconfig
-arm                          collie_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a014-20210825
-x86_64               randconfig-a015-20210825
-x86_64               randconfig-a016-20210825
-x86_64               randconfig-a013-20210825
-x86_64               randconfig-a012-20210825
-x86_64               randconfig-a011-20210825
-i386                 randconfig-a011-20210825
-i386                 randconfig-a016-20210825
-i386                 randconfig-a012-20210825
-i386                 randconfig-a014-20210825
-i386                 randconfig-a013-20210825
-i386                 randconfig-a015-20210825
-arc                  randconfig-r043-20210825
-riscv                randconfig-r042-20210825
-s390                 randconfig-r044-20210825
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-s390                 randconfig-c005-20210825
-i386                 randconfig-c001-20210825
-arm                  randconfig-c002-20210825
-riscv                randconfig-c006-20210825
-powerpc              randconfig-c003-20210825
-x86_64               randconfig-c007-20210825
-x86_64               randconfig-a005-20210825
-x86_64               randconfig-a001-20210825
-x86_64               randconfig-a006-20210825
-x86_64               randconfig-a003-20210825
-x86_64               randconfig-a004-20210825
-x86_64               randconfig-a002-20210825
-i386                 randconfig-a006-20210825
-i386                 randconfig-a001-20210825
-i386                 randconfig-a002-20210825
-i386                 randconfig-a005-20210825
-i386                 randconfig-a004-20210825
-i386                 randconfig-a003-20210825
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+On Sat, Aug 21, 2021 at 2:48 AM Bart Van Assche <bvanassche@acm.org> wrote:
+>
+> On 8/20/21 3:39 AM, Kanchan Joshi wrote:
+> > Bart, Mikulas
+> >
+> > On Tue, Aug 17, 2021 at 10:44 PM Bart Van Assche <bvanassche@acm.org> wrote:
+> >>
+> >> On 8/17/21 3:14 AM, SelvaKumar S wrote:
+> >>> Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
+> >>> bio with control information as payload and submit to the device.
+> >>> Larger copy operation may be divided if necessary by looking at device
+> >>> limits. REQ_OP_COPY(19) is a write op and takes zone_write_lock when
+> >>> submitted to zoned device.
+> >>> Native copy offload is not supported for stacked devices.
+> >>
+> >> Using a single operation for copy-offloading instead of separate
+> >> operations for reading and writing is fundamentally incompatible with
+> >> the device mapper. I think we need a copy-offloading implementation that
+> >> is compatible with the device mapper.
+> >>
+> >
+> > While each read/write command is for a single contiguous range of
+> > device, with simple-copy we get to operate on multiple discontiguous
+> > ranges, with a single command.
+> > That seemed like a good opportunity to reduce control-plane traffic
+> > (compared to read/write operations) as well.
+> >
+> > With a separate read-and-write bio approach, each source-range will
+> > spawn at least one read, one write and eventually one SCC command. And
+> > it only gets worse as there could be many such discontiguous ranges (for
+> > GC use-case at least) coming from user-space in a single payload.
+> > Overall sequence will be
+> > - Receive a payload from user-space
+> > - Disassemble into many read-write pair bios at block-layer
+> > - Assemble those (somehow) in NVMe to reduce simple-copy commands
+> > - Send commands to device
+> >
+> > We thought payload could be a good way to reduce the
+> > disassembly/assembly work and traffic between block-layer to nvme.
+> > How do you see this tradeoff?  What seems necessary for device-mapper
+> > usecase, appears to be a cost when device-mapper isn't used.
+> > Especially for SCC (since copy is within single ns), device-mappers
+> > may not be too compelling anyway.
+> >
+> > Must device-mapper support be a requirement for the initial support atop SCC?
+> > Or do you think it will still be a progress if we finalize the
+> > user-space interface to cover all that is foreseeable.And for
+> > device-mapper compatible transport between block-layer and NVMe - we
+> > do it in the later stage when NVMe too comes up with better copy
+> > capabilities?
+>
+> Hi Kanchan,
+>
+> These days there might be more systems that run the device mapper on top
+> of the NVMe driver or a SCSI driver than systems that do use the device
+> mapper. It is common practice these days to use dm-crypt on personal
+> workstations and laptops. LVM (dm-linear) is popular because it is more
+> flexible than a traditional partition table. Android phones use
+> dm-verity on top of hardware encryption. In other words, not supporting
+> the device mapper means that a very large number of use cases is
+> excluded. So I think supporting the device mapper from the start is
+> important, even if that means combining individual bios at the bottom of
+> the storage stack into simple copy commands.
+>
+> Thanks,
+>
+> Bart.
+>
 
 _______________________________________________
 Linux-nvme mailing list
