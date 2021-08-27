@@ -2,20 +2,19 @@ Return-Path: <SRS0=9COT=NS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF90DC432BE
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 16:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 392E0C432BE
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 18:28:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F9E360EFF
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 16:27:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2F9E360EFF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id 02C5060F45
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 18:28:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 02C5060F45
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -23,37 +22,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BLLN4+38cxpOS+JeU9kllGGSrKhVLYNej1sM/MnqI2A=; b=P3/x1lyMYAilgx
-	DeQFbrhC6h5xD7G1yZkWe/4xSa5qtf0bfA44HqMjjEQxkoMX/+XdxkvVU+/DcON1KMevhlacscN5u
-	14OMA88YN9AqyPLkZfBjx1rnhnTJOPyXS9Zbp3ArrWusOvN2EALmWKiYjokaYUQqSM2Cq/Si3PXVA
-	voZKOA6sec4ME+FVjh97NrVizrwkQWKUWeszCcxDgfAYKKoMcjZ2/+39Oa8bPDlsr5RhjW8PPR+ws
-	15seAekf7WlmaLY7plKLX/AGSygtS2qgkkoa0UHvMqcVwJBUH0JjzcTE7DYGDq+rsE7I6S6Qf6cw0
-	jfeeYyqBkvCfi31O3lFg==;
+	List-Owner; bh=7o5Ncp6xEEJelqnClnNQuoLglwiCIauyTfD3GHXjC94=; b=SR2aNMdr+8l9IO
+	jGwBKc274jtIbznrfbCt9aZBfbM8q+O8IIm7mwG5F4ko61q3+sPLyNRyTORoBUQcp52CvdIeTantE
+	5Ztdvc0Ym9WTiR7MogIdJaGyDTna2C2SaeAUE15ISz4zH2NrvDBpT7AtBNd/37KmR0IanMoeLPvKj
+	zXEnDpBh++EC+hq7+AQW6brEy+l5jVPMKyw7Mr4YadCnIAckSkPEJFWja8fus7xmdQHsnRWp4JOy1
+	ZLbcFljs4hxN7EZ91B0t47YA+Kn/OhGrnxpMx7/YRpQBPGHw671I+3gYN4qOBLhJk1JJeTF19QJM+
+	Y4ZL3LnSKUfn1SOAZhag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mJegn-00CkHw-LD; Fri, 27 Aug 2021 16:26:45 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mJegk-00CkH6-2E
- for linux-nvme@lists.infradead.org; Fri, 27 Aug 2021 16:26:43 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 5216C67373; Fri, 27 Aug 2021 18:26:36 +0200 (CEST)
-Date: Fri, 27 Aug 2021 18:26:36 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet: fixup buffer overrun in nvmet_subsys_attr_serial()
-Message-ID: <20210827162636.GA24829@lst.de>
-References: <20210827092926.9525-1-hare@suse.de>
+	id 1mJgZm-00Cx9K-5H; Fri, 27 Aug 2021 18:27:38 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+ (Red Hat Linux)) id 1mJgZk-00Cx8z-5d; Fri, 27 Aug 2021 18:27:36 +0000
+Date: Fri, 27 Aug 2021 11:27:36 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
+ kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
+ beanhuo@micron.com, ulf.hansson@linaro.org, avri.altman@wdc.com,
+ swboyd@chromium.org, agk@redhat.com, snitzer@redhat.com,
+ josef@toxicpanda.com, hare@suse.de, bvanassche@acm.org,
+ ming.lei@redhat.com, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-mmc@vger.kernel.org,
+ dm-devel@redhat.com, nbd@other.debian.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/10] scsi/sd: use blk_cleanup_queue() insted of
+ put_disk()
+Message-ID: <YSkumJBTztoYdzC7@bombadil.infradead.org>
+References: <20210823202930.137278-1-mcgrof@kernel.org>
+ <20210823202930.137278-2-mcgrof@kernel.org>
+ <YSSJNTxyLHu/LsNJ@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210827092926.9525-1-hare@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210827_092642_298936_B7ECC769 
-X-CRM114-Status: GOOD (  13.70  )
+In-Reply-To: <YSSJNTxyLHu/LsNJ@infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,31 +70,20 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 27, 2021 at 11:29:26AM +0200, Hannes Reinecke wrote:
-> The serial number is copied into the buffer via memcpy_and_pad()
-> with the length NVMET_SN_MAX_SIZE. So when printing out we also
-> need to take just that length as anything beyond that will be
-> uninitialized.
+On Tue, Aug 24, 2021 at 06:52:53AM +0100, Christoph Hellwig wrote:
+> On Mon, Aug 23, 2021 at 01:29:21PM -0700, Luis Chamberlain wrote:
+> > The single put_disk() is useful if you know you're not doing
+> > a cleanup after add_disk(), but since we want to add support
+> > for that, just use the normal form of blk_cleanup_disk() to
+> > cleanup the queue and put the disk.
 > 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> Hmm, I don't think this is correct.  The request_queue is owned by the
+> core SCSI code.
 
-The normal way to print a potentially unterminated fixed length string
-would be something like:
+Alright, I'll drop this one. For the life of me I can't find the respective
+probe call on the scsi layer.
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index f74485c705ff2..d784f3c200b4c 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1067,7 +1067,8 @@ static ssize_t nvmet_subsys_attr_serial_show(struct config_item *item,
- {
- 	struct nvmet_subsys *subsys = to_subsys(item);
- 
--	return snprintf(page, PAGE_SIZE, "%s\n", subsys->serial);
-+	return snprintf(page, PAGE_SIZE, "%*s\n",
-+			NVMET_SN_MAX_SIZE, subsys->serial);
- }
- 
- static ssize_t
+  Luis
 
 _______________________________________________
 Linux-nvme mailing list
