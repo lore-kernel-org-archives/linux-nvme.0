@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13455C432BE
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08524C432BE
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 19:20:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D250A60F39
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 19:19:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D250A60F39
+	by mail.kernel.org (Postfix) with ESMTPS id CE28860F58
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 19:20:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CE28860F58
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=FiBC0VPDf3Lar3eVcb7nnwmxQA59kdSitp954MIhmro=; b=ZuK/FZwwSmUB1p
-	9S8FtUudCqHCgRj79/yteDGVATN1lT9K6EEtaE/rXBs7B4DTDFGZUFxdXZF57i5jwwGnn+HEUKqGT
-	T+x2GCm8GyL4fHBFT/3JhH6rHszcnO2qy9O3jr/BGaXmARrbS3qGIzs6+E5M6P3JyNh8Q8liBYIFq
-	tiA2PZfTd4Ps7XbgWvYhVgAT9PB3IakccSmUAnOGZCB7IjwnuzSmiVpr/Xe+jPaWh/VBCupjbqM0u
-	AzIXUo+BbUs9R7ug0dXvV7KuctSnkZvazlkXyMkZA4ckWKc+B0Cmq2qUoms49y7RwucEXb9QUl7oW
-	Qj1n9e90iW6syFDlPdrA==;
+	List-Owner; bh=9id8Q26vD+IoaYkgHDnhbPteBZ1hyV0cjru4LAdJX+0=; b=dsfq3/WUNn1hV5
+	tvGZFqLVKPxBTX4zHMV0JEswIBhH0TwgjK4CgGImLbH89NGgPtHb49l1qSf0/nbqZvVK8EFP2MgLQ
+	iQy0XB7Di5n6biU4NNntSby1+Liljt5j72L3Jcs6SFlYbf6PBEPPqiY9VQFfs9HYnFGOAsOt5BlSm
+	wsiaxbPhz8N/GOCufh8R5alRUCO8dOIijiJIFLp4YSRap887Qd/QZty35bytlbiGQg+kMEd2kn5Fj
+	5nUJmmhvh9IPS03R/sFuqeVPwrLKnrAKvciojzn3adGdYYt1vPsflJ3gK8vCFVwOmZD/NQK0R1oji
+	WbsK5fLx4S0ZfQFW4UTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mJhO3-00D5un-QP; Fri, 27 Aug 2021 19:19:35 +0000
+	id 1mJhOJ-00D62G-R7; Fri, 27 Aug 2021 19:19:51 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mJhMh-00D5B4-BH; Fri, 27 Aug 2021 19:18:11 +0000
+ (Red Hat Linux)) id 1mJhMh-00D5Aw-4U; Fri, 27 Aug 2021 19:18:11 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, colyli@suse.de, kent.overstreet@gmail.com,
  kbusch@kernel.org, sagi@grimberg.me, vishal.l.verma@intel.com,
@@ -45,9 +45,10 @@ Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 06/10] nvdimm/btt: add error handling support for add_disk()
-Date: Fri, 27 Aug 2021 12:18:05 -0700
-Message-Id: <20210827191809.3118103-7-mcgrof@kernel.org>
+Subject: [PATCH 03/10] nvme-multipath: add error handling support for
+ add_disk()
+Date: Fri, 27 Aug 2021 12:18:02 -0700
+Message-Id: <20210827191809.3118103-4-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210827191809.3118103-1-mcgrof@kernel.org>
 References: <20210827191809.3118103-1-mcgrof@kernel.org>
@@ -72,26 +73,42 @@ We never checked for errors on add_disk() as this function
 returned void. Now that this is fixed, use the shiny new
 error handling.
 
+Since we now can tell for sure when a disk was added, move
+setting the bit NVME_NSHEAD_DISK_LIVE only when we did
+add the disk successfully.
+
+Nothing to do here as the cleanup is done elsewhere.
+
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/nvdimm/btt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
-index 275704d80109..abdac4b7769f 100644
---- a/drivers/nvdimm/btt.c
-+++ b/drivers/nvdimm/btt.c
-@@ -1542,7 +1542,9 @@ static int btt_blk_init(struct btt *btt)
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 37ce3e8b1db2..f95643629fdb 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -479,13 +479,17 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ {
+ 	struct nvme_ns_head *head = ns->head;
++	int rc;
+ 
+ 	if (!head->disk)
+ 		return;
+ 
+-	if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+-		device_add_disk(&head->subsys->dev, head->disk,
+-				nvme_ns_id_attr_groups);
++	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
++		rc = device_add_disk(&head->subsys->dev, head->disk,
++				     nvme_ns_id_attr_groups);
++		if (rc)
++			return;
++		set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags);
+ 		nvme_add_ns_head_cdev(head);
  	}
  
- 	set_capacity(btt->btt_disk, btt->nlba * btt->sector_size >> 9);
--	device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
-+	rc = device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
-+	if (rc)
-+		goto out_cleanup_disk;
- 
- 	btt->nd_btt->size = btt->nlba * (u64)btt->sector_size;
- 	nvdimm_check_and_set_ro(btt->btt_disk);
 -- 
 2.30.2
 
