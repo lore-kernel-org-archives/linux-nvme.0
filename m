@@ -1,20 +1,21 @@
-Return-Path: <SRS0=9COT=NS=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=poiV=NT=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C18C432BE
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 20:31:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 629E0C432BE
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Aug 2021 07:13:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E393360234
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Aug 2021 20:31:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E393360234
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id CDE7661038
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Aug 2021 07:13:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CDE7661038
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -22,55 +23,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SkJ2gMOTiXOyE4qPkAIoRJCdER/9LCzVc4UUpvjmi+0=; b=xcr2/V63Y5XlcB
-	UPazm7PL5Lz0o3YdWekmUY4vLkvl/2zpwY/QUGot9fFDPRlNjHO/bEm7lhD8Lp0/BgEZzrz+A9o1x
-	IhmeIJ++eN0COzkIfjSSN+rS/TpSaGuxhdSAfxo5+VdCo3J/u/ZfuDWZ904nmj9HmzKwDx8Ph9Jtc
-	YZ1vSqBHGOg2NEowhH1NvsIjWxSFhYTq+ZHSs2AyFtkP7lT016sWlDjrVQVJXlTIuKuB0aF91QXC2
-	4Me6ECbjUDTPo1fskKFL+5l24ADPui6DgGeVUtCy+DWFGDiTv5JUm7jIvDq9YmyvSzO0uSXC7zJUF
-	VtyaG8BV62utwe7e/yOQ==;
+	List-Owner; bh=SgVXsRM8nyq8ICljSRkYNbIhlxVgL9zei0pShmBmFlY=; b=sWDKrWHgf5fVPR
+	DIWvtUV8ARsp6ICHzu+pD65jr5IWkBNBYBL4uLUoPgWiQqdUAcVUVPIkrtKAnUnY7qIJzfypP5+HW
+	5Vxp4WZqDVfpduOKbtdz66aaBB83Ohc2e7chkyYyUrAa7UvW1JHkADHNCEPm0mfREX8l8FhxaxwAX
+	gQ01l9Jx+msU+wjZUIQnaHspYqbJ1c4XDo7i1QgfYUafEBqQQEKNjM6Og6tYfS9yxx+Y9egsp95g9
+	nqti0VFqehPHRQrJt8X54vMuM9PG53yVgZ8pahpXmYeJgIKchM5mU+iJv9Gp4V4llpV42a8B7UC46
+	ex8+SlU60K3sRS2ryqvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mJiTr-00DCq1-BH; Fri, 27 Aug 2021 20:29:39 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mJsWP-00DpJo-Jn; Sat, 28 Aug 2021 07:12:57 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mJiTo-00DCov-H1
- for linux-nvme@lists.infradead.org; Fri, 27 Aug 2021 20:29:37 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 977CB60FD8;
- Fri, 27 Aug 2021 20:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630096176;
- bh=88bih5eGKB9i2ESLsafMWzYIwyGke7MVW8Rm8LZaCJM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VqgAkXLSFQ2s8YBhV0/BkRbyvjYS7iN8wS3+vPnrfYwjeVZbT3EcOkpsbz+6iOIIg
- K59JPqJADG5mnk2BZMwXfm+2K/QX3GabYmGmJMq75CAhfxkg4e7sYb4W90iqXt4wjY
- CCBcmFMkK/fitfaaSpE06RYuhbvQkR1xSjgZLyqV+ldHSk85VfL/sYK3yuWYBDlle0
- 4C9yBY22Kb164kHW1308QMn1cbMYjo7ekT+NZW9nIbbZyeN7dvOl3QZ8uGzlQBiwYO
- xvNRlNxn6B/Q+DSji3QgnHGBcKriUM+BPc6qVP1hIdIo6lvljcLrqIlc4i6mgmBrgk
- KvuManA4RC1Fw==
-Date: Fri, 27 Aug 2021 13:29:32 -0700
-From: Keith Busch <kbusch@kernel.org>
+ id 1mJsW8-00DpJg-QD
+ for linux-nvme@bombadil.infradead.org; Sat, 28 Aug 2021 07:12:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=l2WBiCb5duYJRA9nKpihqrJOH1Qjg6utSrFiu8qAdtc=; b=W4eRB3CuAwPNucz89uWUzvsXo4
+ jEyUTMiSlThDBk7KPM9rI3pL/Gmf8nYzlfArXcAH1OzrfQf/4r7FWBZZLv7irREI+EzQTilRSgTIV
+ WuGIUmue/B5W9AoSWldhgwDE1SoFotLL9+VyZfsNIiz7bQg3X2L6VB6aR4IoM+PKHgb1CLj+D+neC
+ OghX2Qw9MNXZLWXSgBJcRxrP3FJW6ot1ZfmaBR2Pr/W9kCh5kltmVk58wzjDmsIX+KF7CSfaUatOY
+ KWaBTGFheO4ZRCyAP6xFk8ZZuy6LQToYPZLAS2oE6XiTmV3n1xikYV9V36baRwYuXlI+YM8XHBM3k
+ GREAbHSQ==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat
+ Linux)) id 1mJsUo-00FMa7-Nt; Sat, 28 Aug 2021 07:11:36 +0000
+Date: Sat, 28 Aug 2021 08:11:18 +0100
+From: Christoph Hellwig <hch@infradead.org>
 To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: axboe@kernel.dk, colyli@suse.de, kent.overstreet@gmail.com,
- sagi@grimberg.me, vishal.l.verma@intel.com,
- dan.j.williams@intel.com, dave.jiang@intel.com, ira.weiny@intel.com,
- konrad.wilk@oracle.com, roger.pau@citrix.com,
- boris.ostrovsky@oracle.com, jgross@suse.com, sstabellini@kernel.org,
- minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org,
- xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
+Cc: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
+ kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
+ beanhuo@micron.com, ulf.hansson@linaro.org, avri.altman@wdc.com,
+ swboyd@chromium.org, agk@redhat.com, snitzer@redhat.com,
+ josef@toxicpanda.com, hch@infradead.org, hare@suse.de,
+ bvanassche@acm.org, ming.lei@redhat.com, linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-mmc@vger.kernel.org,
+ dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/10] nvme-multipath: add error handling support for
- add_disk()
-Message-ID: <20210827202932.GA82376@dhcp-10-100-145-180.wdc.com>
-References: <20210827191809.3118103-1-mcgrof@kernel.org>
- <20210827191809.3118103-4-mcgrof@kernel.org>
+Subject: Re: [PATCH v2 3/6] nvme: add error handling support for add_disk()
+Message-ID: <YSnhlvCsX9RsT6a5@infradead.org>
+References: <20210827190504.3103362-1-mcgrof@kernel.org>
+ <20210827190504.3103362-4-mcgrof@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210827191809.3118103-4-mcgrof@kernel.org>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210827_132936_622077_9657F8D3 
-X-CRM114-Status: UNSURE (   9.94  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20210827190504.3103362-4-mcgrof@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,32 +85,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 27, 2021 at 12:18:02PM -0700, Luis Chamberlain wrote:
-> @@ -479,13 +479,17 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
->  static void nvme_mpath_set_live(struct nvme_ns *ns)
->  {
->  	struct nvme_ns_head *head = ns->head;
-> +	int rc;
->  
->  	if (!head->disk)
->  		return;
->  
-> -	if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-> -		device_add_disk(&head->subsys->dev, head->disk,
-> -				nvme_ns_id_attr_groups);
-> +	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+Looks good,
 
-This should still be test_and_set_bit() because it is protecting against
-two nvme paths simultaneously calling device_add_disk() on the same
-namespace head.
-
-> +		rc = device_add_disk(&head->subsys->dev, head->disk,
-> +				     nvme_ns_id_attr_groups);
-> +		if (rc)
-> +			return;
-> +		set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags);
->  		nvme_add_ns_head_cdev(head);
->  	}
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 _______________________________________________
 Linux-nvme mailing list
