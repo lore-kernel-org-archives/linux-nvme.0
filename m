@@ -2,96 +2,65 @@ Return-Path: <SRS0=NAJj=NU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35BB8C432BE
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Aug 2021 07:51:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07E7BC432BE
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Aug 2021 18:05:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C063860E73
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Aug 2021 07:51:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C063860E73
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id C167B60E97
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Aug 2021 18:05:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C167B60E97
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XGDXQKRtd3fHBC7EopqP0+XQd2umwl98ecATJKqbdyQ=; b=yZyfp6PfSecSXI7aUQeSHMGeb7
-	WJ8oCn3rRCtgR8Licjb4ysaLK7kopkRqwFuJurxlw82Gyg5tjFX1V7TpUdtOMwaltwKs8V0CC7Fif
-	uOm33VeAcaEvPPQu3cr389HDqDCgO03bZmv0r4U6OpXa0fj3BklkcdcvMJ3RwO6lXFDDISgU57Xvo
-	/T+wq87nwI8WiY2VzK/y010nx9FNi8krXj6DVGyBxf7d+IVRRj9ptqWep2QEMSskm1EL6oLlzZPng
-	obBThNh0pYncAQKFP3rGq3f8SFEvG99NIk057ewb/M/SIMnPq+Dz4GGisnuRnEN7CFpZNq2/XtuHO
-	gq7RWKhA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=EFPwnsoowuEsm5BlviXBCHPIhOsYHOGsdZ+YBMFPz58=; b=Gik+ezXPW55I8V
+	PmLfNulJls+MizzeySf0tAZuxrJgOFVS6Sk7SJb3W7ep80krUMAnU9nnvCe+i0ZmIc59LFxYyTWEI
+	twP02jf5JyKImgdxMIKjZcfDgY0AnavjzIoK+vUFF/UGVbI2TLDXAGLAi4E53xbfhIyQPtlMSGB+u
+	qnHg8AP44rlopBQBkiQI2DWcBssWhcTEQEOhknjUbjMK0eRCWjIT1M0FhKz7dC92R0lXAkXB5CKAz
+	5V1xDzJRTFad2j4AfMH5bW1iCAyToQuTilVnp+/HOoPZ7heeptmXtrpLtCEIuK7+IzmWTH4G5kayL
+	vhgNmG1C+C8W9Xmx8NEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKFbG-00FFPq-LG; Sun, 29 Aug 2021 07:51:30 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mKPBB-00FrQ6-Ly; Sun, 29 Aug 2021 18:05:13 +0000
+Received: from mga18.intel.com ([134.134.136.126])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mKFam-00FFP1-1y
- for linux-nvme@lists.infradead.org; Sun, 29 Aug 2021 07:51:04 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 30EC12001C;
- Sun, 29 Aug 2021 07:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1630223456; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=73J2UE8Czy++p+oC2c1YQ/nI6lCZX18/T7xzfmn1GQM=;
- b=U/JTwI4r3UueWPSbL2BXG0B/1O//PhaHiI20X1CFPhvqcKVCPcipBO2UjcWjYYOYezDHsc
- jz+dY5JD+n47H2SRr9A44KhZB4Wor9uJqqtN7Qc6hIlEktbVPMVYm6O6BTv5kEv6tb9Crr
- SZLxy6G82g8to2hSA7W15AVvHpWWETo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1630223456;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=73J2UE8Czy++p+oC2c1YQ/nI6lCZX18/T7xzfmn1GQM=;
- b=MpYnVtu9WN8URWUoLPwSo92l76vQxZyq4UzwCv00Idt0AlLalqJbPnZZrNzWkIueaKk2T9
- 6+2V/KTFaZfEzEBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2FD0139F6;
- Sun, 29 Aug 2021 07:50:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gOd5KVs8K2GGHQAAMHmgww
- (envelope-from <colyli@suse.de>); Sun, 29 Aug 2021 07:50:51 +0000
-Subject: Re: [PATCH 02/10] bcache: add error handling support for add_disk()
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, axboe@kernel.dk,
- kent.overstreet@gmail.com, kbusch@kernel.org, sagi@grimberg.me,
- vishal.l.verma@intel.com, dan.j.williams@intel.com, dave.jiang@intel.com,
- ira.weiny@intel.com, konrad.wilk@oracle.com, roger.pau@citrix.com,
- boris.ostrovsky@oracle.com, jgross@suse.com, sstabellini@kernel.org,
- minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org
-References: <20210827191809.3118103-1-mcgrof@kernel.org>
- <20210827191809.3118103-3-mcgrof@kernel.org>
-From: Coly Li <colyli@suse.de>
-Message-ID: <59a4ce06-22ee-7047-487e-621da3f7c507@suse.de>
-Date: Sun, 29 Aug 2021 15:50:49 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+ id 1mKPB6-00FrIC-Aw
+ for linux-nvme@lists.infradead.org; Sun, 29 Aug 2021 18:05:12 +0000
+X-IronPort-AV: E=McAfee;i="6200,9189,10091"; a="205303417"
+X-IronPort-AV: E=Sophos;i="5.84,361,1620716400"; d="scan'208";a="205303417"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2021 11:05:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,361,1620716400"; d="scan'208";a="458780847"
+Received: from lkp-server01.sh.intel.com (HELO 4fbc2b3ce5aa) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 29 Aug 2021 11:05:03 -0700
+Received: from kbuild by 4fbc2b3ce5aa with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mKPB1-0004Uo-3C; Sun, 29 Aug 2021 18:05:03 +0000
+Date: Mon, 30 Aug 2021 02:04:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.15] BUILD SUCCESS
+ 9a6810fde787d16f9e05e58e4e6f6ef426573464
+Message-ID: <612bcc43.4dHSdcS3YlIeF7R4%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20210827191809.3118103-3-mcgrof@kernel.org>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210829_005100_312344_2F4FA49A 
-X-CRM114-Status: GOOD (  22.32  )
+X-CRM114-CacheID: sfid-20210829_110508_490212_C30B6E50 
+X-CRM114-Status: UNSURE (   7.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,84 +72,158 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/28/21 3:18 AM, Luis Chamberlain wrote:
-> We never checked for errors on add_disk() as this function
-> returned void. Now that this is fixed, use the shiny new
-> error handling.
->
-> This driver doesn't do any unwinding with blk_cleanup_disk()
-> even on errors after add_disk() and so we follow that
-> tradition.
->
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+tree/branch: git://git.infradead.org/nvme.git nvme-5.15
+branch HEAD: 9a6810fde787d16f9e05e58e4e6f6ef426573464  nvmet: return bool from nvmet_passthru_ctrl and nvmet_is_passthru_req
 
-Acked-by: Coly Li <colyli@suse.de>
+elapsed time: 722m
 
-Thanks.
+configs tested: 128
+configs skipped: 3
 
-> ---
->   drivers/md/bcache/super.c | 17 ++++++++++++-----
->   1 file changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-> index f2874c77ff79..f0c32cdd6594 100644
-> --- a/drivers/md/bcache/super.c
-> +++ b/drivers/md/bcache/super.c
-> @@ -1082,7 +1082,9 @@ int bch_cached_dev_run(struct cached_dev *dc)
->   		closure_sync(&cl);
->   	}
->   
-> -	add_disk(d->disk);
-> +	ret = add_disk(d->disk);
-> +	if (ret)
-> +		goto out;
->   	bd_link_disk_holder(dc->bdev, dc->disk.disk);
->   	/*
->   	 * won't show up in the uevent file, use udevadm monitor -e instead
-> @@ -1534,10 +1536,11 @@ static void flash_dev_flush(struct closure *cl)
->   
->   static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
->   {
-> +	int err = -ENOMEM;
->   	struct bcache_device *d = kzalloc(sizeof(struct bcache_device),
->   					  GFP_KERNEL);
->   	if (!d)
-> -		return -ENOMEM;
-> +		goto err_ret;
->   
->   	closure_init(&d->cl, NULL);
->   	set_closure_fn(&d->cl, flash_dev_flush, system_wq);
-> @@ -1551,9 +1554,12 @@ static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
->   	bcache_device_attach(d, c, u - c->uuids);
->   	bch_sectors_dirty_init(d);
->   	bch_flash_dev_request_init(d);
-> -	add_disk(d->disk);
-> +	err = add_disk(d->disk);
-> +	if (err)
-> +		goto err;
->   
-> -	if (kobject_add(&d->kobj, &disk_to_dev(d->disk)->kobj, "bcache"))
-> +	err = kobject_add(&d->kobj, &disk_to_dev(d->disk)->kobj, "bcache");
-> +	if (err)
->   		goto err;
->   
->   	bcache_device_link(d, c, "volume");
-> @@ -1567,7 +1573,8 @@ static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
->   	return 0;
->   err:
->   	kobject_put(&d->kobj);
-> -	return -ENOMEM;
-> +err_ret:
-> +	return err;
->   }
->   
->   static int flash_devs_run(struct cache_set *c)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210829
+um                             i386_defconfig
+arm                        mini2440_defconfig
+x86_64                            allnoconfig
+powerpc                      ppc44x_defconfig
+arm                      footbridge_defconfig
+um                               alldefconfig
+microblaze                      mmu_defconfig
+m68k                          multi_defconfig
+arm                          gemini_defconfig
+powerpc                 xes_mpc85xx_defconfig
+mips                     cu1000-neo_defconfig
+sparc                       sparc32_defconfig
+arm                           sunxi_defconfig
+s390                             allyesconfig
+sh                   sh7770_generic_defconfig
+sh                            migor_defconfig
+arm                          pxa168_defconfig
+s390                                defconfig
+mips                     loongson2k_defconfig
+powerpc                     redwood_defconfig
+sh                           se7724_defconfig
+arm                           stm32_defconfig
+s390                             alldefconfig
+m68k                        m5307c3_defconfig
+powerpc                mpc7448_hpc2_defconfig
+arm                        multi_v5_defconfig
+mips                        nlm_xlp_defconfig
+sh                           se7750_defconfig
+powerpc                 mpc834x_itx_defconfig
+arm                         at91_dt_defconfig
+mips                            ar7_defconfig
+mips                           xway_defconfig
+powerpc                          g5_defconfig
+powerpc                      chrp32_defconfig
+arm                       multi_v4t_defconfig
+xtensa                    xip_kc705_defconfig
+mips                     decstation_defconfig
+mips                          malta_defconfig
+sparc64                          alldefconfig
+mips                       bmips_be_defconfig
+sh                          rsk7203_defconfig
+arm                            lart_defconfig
+sh                        apsh4ad0a_defconfig
+arm                           h5000_defconfig
+powerpc                     mpc83xx_defconfig
+parisc                           allyesconfig
+arm                         lubbock_defconfig
+arc                     nsimosci_hs_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allmodconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a014-20210829
+x86_64               randconfig-a016-20210829
+x86_64               randconfig-a015-20210829
+x86_64               randconfig-a012-20210829
+x86_64               randconfig-a013-20210829
+x86_64               randconfig-a011-20210829
+i386                 randconfig-a011-20210829
+i386                 randconfig-a016-20210829
+i386                 randconfig-a012-20210829
+i386                 randconfig-a014-20210829
+i386                 randconfig-a013-20210829
+i386                 randconfig-a015-20210829
+arc                  randconfig-r043-20210829
+riscv                randconfig-r042-20210829
+s390                 randconfig-r044-20210829
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+s390                 randconfig-c005-20210829
+i386                 randconfig-c001-20210829
+arm                  randconfig-c002-20210829
+riscv                randconfig-c006-20210829
+x86_64               randconfig-c007-20210829
+powerpc              randconfig-c003-20210829
+mips                 randconfig-c004-20210829
+x86_64               randconfig-a001-20210829
+x86_64               randconfig-a006-20210829
+x86_64               randconfig-a005-20210829
+x86_64               randconfig-a003-20210829
+x86_64               randconfig-a004-20210829
+x86_64               randconfig-a002-20210829
+i386                 randconfig-a001-20210829
+i386                 randconfig-a006-20210829
+i386                 randconfig-a005-20210829
+i386                 randconfig-a004-20210829
+i386                 randconfig-a003-20210829
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
