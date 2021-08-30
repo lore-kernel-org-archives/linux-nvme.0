@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F1BC432BE
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:27:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7094C432BE
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:28:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E057460C3F
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:27:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E057460C3F
+	by mail.kernel.org (Postfix) with ESMTPS id AA8EF60F3A
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:28:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AA8EF60F3A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DBR075HHtGOo74nhHpV310L8v59ZgykwBzkXtgQWTC8=; b=iU/U4jDQaonQsm
-	CWVlZnVh+Q5mlclU+GnF+VleZb/NPoI1S/C9969cwxBp7wSHc/q090BqnU0byN1+qHqsFpQMlnhVZ
-	ll3ffnwUM0dj6TpBVZjCYih6ONCpT03WLYXjn0/TLI7UjxwIp+lAG88Sv5WkoBLYnxau+Yp6jpK+C
-	XwI9Qau/vS8EaZ8uvwhIBq/KAEcuu6LoYkO4N+u3rvUo387RKH+KKCRmTE/KqBDeK9rcSViYdXmDk
-	cwDdPAsKPLfZAO1NwK5pzoLDoLpT9/EBdQ3DliZOQ2TbQyYgQDPxA9iL+JAmg0aXmDC234AkmfGRD
-	XPg7GU6wQwBN3d5huSBw==;
+	List-Owner; bh=nIiLcDO3fS27Y1OIqHFhNUIasx3dnTuXrLKmz/O9Il0=; b=C/Ua3HF45161eE
+	ljWwbT8rPXxEfvJTbRIPABgA2KVnveRD+DTvIIX5tDmpt50tOOfugLNHQk7380GdYSmOUj3zkVfTE
+	43/5OAH3L/bmiMXuwvxUZjY+b7kb/HhkQeHIQdqaRiN8tM84FEjUk98NU9HHm1+pt0s4EXj3Zsv0V
+	Ivk5XcENOKDad4r3xCwHEuIVNjvDJgjplLRtErxFNuk3TmhrF1LcF6ej4MMPDMrR2MGzR26S8dfYL
+	GvtoaJoTugtLvT0tJ++tXo6dmGn0jeY3oKTggOQHhEctIfZ/0sVKgJ7Q6KmcT8EI5P3IeY3s0BNf3
+	eS5YCsrz9l4kUsM0gY9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKooI-000dRx-Mz; Mon, 30 Aug 2021 21:27:18 +0000
+	id 1mKooc-000dbk-Hw; Mon, 30 Aug 2021 21:27:38 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mKomk-000ciC-Ls; Mon, 30 Aug 2021 21:25:42 +0000
+ (Red Hat Linux)) id 1mKomk-000ciF-OG; Mon, 30 Aug 2021 21:25:42 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -44,11 +44,10 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH v3 4/8] mmc/core/block: add error handling support for
- add_disk()
-Date: Mon, 30 Aug 2021 14:25:34 -0700
-Message-Id: <20210830212538.148729-5-mcgrof@kernel.org>
+ Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v3 5/8] md: add error handling support for add_disk()
+Date: Mon, 30 Aug 2021 14:25:35 -0700
+Message-Id: <20210830212538.148729-6-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210830212538.148729-1-mcgrof@kernel.org>
 References: <20210830212538.148729-1-mcgrof@kernel.org>
@@ -73,35 +72,40 @@ We never checked for errors on add_disk() as this function
 returned void. Now that this is fixed, use the shiny new
 error handling.
 
-The caller only cleanups the disk if we pass on an allocated md
-but on error we return return ERR_PTR(ret), and so we must do all
-the unwinding ourselves.
+We just do the unwinding of what was not done before, and are
+sure to unlock prior to bailing.
 
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/mmc/core/block.c | 7 ++++++-
+ drivers/md/md.c | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
-index 6a15fdf6e5f2..9b2856aa6231 100644
---- a/drivers/mmc/core/block.c
-+++ b/drivers/mmc/core/block.c
-@@ -2453,9 +2453,14 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
- 	/* used in ->open, must be set before add_disk: */
- 	if (area_type == MMC_BLK_DATA_AREA_MAIN)
- 		dev_set_drvdata(&card->dev, md);
--	device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-+	ret = device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-+	if (ret)
-+		goto err_cleanup_queue;
- 	return md;
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index ae8fe54ea358..5c0d3536d7c7 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -5704,7 +5704,11 @@ static int md_alloc(dev_t dev, char *name)
+ 	 * through to md_open, so make sure it doesn't get too far
+ 	 */
+ 	mutex_lock(&mddev->open_mutex);
+-	add_disk(disk);
++	error = add_disk(disk);
++	if (error) {
++		blk_cleanup_disk(disk);
++		goto abort_unlock;
++	}
  
-+ err_cleanup_queue:
-+	blk_cleanup_queue(md->disk->queue);
-+	blk_mq_free_tag_set(&md->queue.tag_set);
-  err_kfree:
- 	kfree(md);
-  out:
+ 	error = kobject_add(&mddev->kobj, &disk_to_dev(disk)->kobj, "%s", "md");
+ 	if (error) {
+@@ -5718,6 +5722,7 @@ static int md_alloc(dev_t dev, char *name)
+ 	if (mddev->kobj.sd &&
+ 	    sysfs_create_group(&mddev->kobj, &md_bitmap_group))
+ 		pr_debug("pointless warning\n");
++ abort_unlock:
+ 	mutex_unlock(&mddev->open_mutex);
+  abort:
+ 	mutex_unlock(&disks_mutex);
 -- 
 2.30.2
 
