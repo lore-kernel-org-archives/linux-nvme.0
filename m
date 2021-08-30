@@ -2,18 +2,18 @@ Return-Path: <SRS0=Glcz=NV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2889C432BE
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB91C432BE
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:09:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C016960234
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:01:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C016960234
+	by mail.kernel.org (Postfix) with ESMTPS id EFDE460724
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:09:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EFDE460724
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,39 +22,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UCDkvN4uF1bI5+xBih9XfYhrQ0ETv37gP0weNlvZhJE=; b=JoEDboZuHkXBOJ
-	FXgozM1hsFzyzx+5YZ6fH5Mi9/gApJM/zUeO8mPcc1k4/BlufptX43PPzehBzkzafTqBpb0N6aAvx
-	LAmsApEBDJ0l8BLsr+4J+Sx8MWKNUA9Q7R3gBPuwuxM4G8p64fKadFej6M3zgTGZYj/XFqL5AmLlJ
-	zaFXxPjlTufh70HzF759W8ZHLWrwyjey8f7D/G7Nn7D5aTCL8weBZZdwxB4NFGoSzV36isClWCFB+
-	GoL8Opqj5NvTDFjXAyBQdLSaRluQTiljt/IdVJ2J5/fJb9MbUY/6WJfRxZONrRzQLoER6z1CHxYXD
-	buAaboXegczhkFgP0miA==;
+	List-Owner; bh=AKgZxsEtQKN5MoYQu+5qQ5GCLMsH1AHuoBTcXGrnFGk=; b=uIu4jrM0x9RZ5u
+	4zywRLAU0vAcAWSq4w/bPuZ2xsxZSlkS5KXpGVu2VwFpO/QHhdoMpSI6T7o1JlqpJnTwUqURIkQMF
+	pwclHSQ65pry3Z8vReozfAc+sO/SlKKKQ/m/xAIW2BmLfaYsWKfKE/c6XsYeoV7GvD0T0VSNJTHee
+	Q3Uvljg838WA9VAan6WcNPcgHzlRR0VEXGzg6eSwmFcsrAahw05/gLLR6GQ5PPaIRWD9nZBPWeUsx
+	jsV/Cbg+N+52t7fBD4q42OkcaI2VlDVHBFF3mIlBsj1Z93PCOczSCqx/KXG0bTFK8G5ZnFABjAbdk
+	OEtmeMfDLNit9mgQ5nJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKoOq-000ZIp-NL; Mon, 30 Aug 2021 21:01:00 +0000
+	id 1mKoWU-000bKZ-Nt; Mon, 30 Aug 2021 21:08:54 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mKoOo-000ZII-6j; Mon, 30 Aug 2021 21:00:58 +0000
-Date: Mon, 30 Aug 2021 14:00:58 -0700
+ (Red Hat Linux)) id 1mKoWS-000bKI-22; Mon, 30 Aug 2021 21:08:52 +0000
+Date: Mon, 30 Aug 2021 14:08:52 -0700
 From: Luis Chamberlain <mcgrof@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
- kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
- beanhuo@micron.com, ulf.hansson@linaro.org, avri.altman@wdc.com,
- swboyd@chromium.org, agk@redhat.com, snitzer@redhat.com,
- josef@toxicpanda.com, hare@suse.de, bvanassche@acm.org,
- ming.lei@redhat.com, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-mmc@vger.kernel.org,
- dm-devel@redhat.com, nbd@other.debian.org,
+To: Keith Busch <kbusch@kernel.org>
+Cc: axboe@kernel.dk, colyli@suse.de, kent.overstreet@gmail.com,
+ sagi@grimberg.me, vishal.l.verma@intel.com,
+ dan.j.williams@intel.com, dave.jiang@intel.com, ira.weiny@intel.com,
+ konrad.wilk@oracle.com, roger.pau@citrix.com,
+ boris.ostrovsky@oracle.com, jgross@suse.com, sstabellini@kernel.org,
+ minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org,
+ xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/10] dm: add add_disk() error handling
-Message-ID: <YS1HCgP/XdWmMtFN@bombadil.infradead.org>
-References: <20210823202930.137278-1-mcgrof@kernel.org>
- <20210823202930.137278-9-mcgrof@kernel.org>
- <YSSP6ujNQttGN2sZ@infradead.org>
- <YSk1EhUIr9OjIoVv@bombadil.infradead.org>
- <YSnnXdKLvxEY8yay@infradead.org>
+Subject: Re: [PATCH 03/10] nvme-multipath: add error handling support for
+ add_disk()
+Message-ID: <YS1I5DuGr0q7/uow@bombadil.infradead.org>
+References: <20210827191809.3118103-1-mcgrof@kernel.org>
+ <20210827191809.3118103-4-mcgrof@kernel.org>
+ <20210827202932.GA82376@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YSnnXdKLvxEY8yay@infradead.org>
+In-Reply-To: <20210827202932.GA82376@dhcp-10-100-145-180.wdc.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,22 +70,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Aug 28, 2021 at 08:35:57AM +0100, Christoph Hellwig wrote:
-> On Fri, Aug 27, 2021 at 11:55:14AM -0700, Luis Chamberlain wrote:
-> > > I think the add_disk should just return r.  If you look at the
-> > > callers they eventualy end up in dm_table_destroy, which does
-> > > this cleanup.
-> > 
-> > I don't see it. What part of dm_table_destroy() does this?
+On Fri, Aug 27, 2021 at 01:29:32PM -0700, Keith Busch wrote:
+> On Fri, Aug 27, 2021 at 12:18:02PM -0700, Luis Chamberlain wrote:
+> > @@ -479,13 +479,17 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+> >  static void nvme_mpath_set_live(struct nvme_ns *ns)
+> >  {
+> >  	struct nvme_ns_head *head = ns->head;
+> > +	int rc;
+> >  
+> >  	if (!head->disk)
+> >  		return;
+> >  
+> > -	if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+> > -		device_add_disk(&head->subsys->dev, head->disk,
+> > -				nvme_ns_id_attr_groups);
+> > +	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
 > 
-> Sorry, dm_destroy, not dm_table_destroy.  For dm_early_create it's
-> trivial as that calls both dm_table_destroy and dm_destroy in the error
-> path.  The normal table_load case is a separate ioctl, but if that
-> fails userspace needs to call the DM_DEV_REMOVE_CMD to cleanup
-> the state - similar to any other failure.
+> This should still be test_and_set_bit() because it is protecting against
+> two nvme paths simultaneously calling device_add_disk() on the same
+> namespace head.
 
-I see, ok sure I'll document this on the commit log as its not so
-obvious.
+Interesting, I'll add a comment as well, as this was not clear with the drive
+by effort.
 
   Luis
 
