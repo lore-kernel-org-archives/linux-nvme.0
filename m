@@ -2,19 +2,19 @@ Return-Path: <SRS0=Glcz=NV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CEFC43216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31A1C41537
 	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8673260C3F
+	by mail.kernel.org (Postfix) with ESMTPS id 85456600D0
 	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8673260C3F
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 85456600D0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=jjIP64eHKWPzioWW6GeBIBfuV9MfvDuiEU2ay4L/BlE=; b=t+HTYjo5YirzGm
-	Owf9nku4x8VWvSGxLLZn8XuA7ShPIJc5xe4jFKFMrg2BsTAr29xCh2X9ZodrRjD+eSTqj4NN7/Ruq
-	Zp1AK7c4ZjyCxizSEyNpBw0xByWOuD/Jn+odcDmgmHiSZkOq1gV7gonvKD96rGpbI95HvdY2B0mUi
-	MK5EpqSRuoSQ68l7WS+jxnAUj8h40GFmKxBm5Zx8E4VwdOHIT3RNwgQ1kJFzCFBT9OTgnu763dMmV
-	VE+D3lgD7HjTHF0Fx8bMVVsp5wee5aTzRgLuVFNS4LD62pqWbNuDMNoNbfvtZHZxGN1sMAVUQ7N2D
-	nsQTWXJD3KuoTiIyKKxg==;
+	List-Owner; bh=Hv2jdPNdDT9+OOHFGXYnKu2C6OqWaFvx7XS6nUPhnmw=; b=ivOvGIcnmmTFVZ
+	3k+8w9+PIFfDSbT4xsgkjY5EX0HYlQ9x4avdqXYhVKSiX/A7dmBktAlqikSsBA1Nq6mb948EmaKun
+	0c3S050emg/B0JrIBJPlrUHesAaVsc5VuYWkT8GAA6L/3KNBJk/4zl15FUVqZiSxdDdy/2UUQ7mpM
+	RupGax36eiemW4jRPhLuVqnCtjPidOFNOcsBWVQgL5hUSI2XTYiTT9peRGwH15F5rr0Tt4ZVL5tKi
+	wZ7f1q6gkPtqkD0jF70wzqFbTfXjEN9ShaVcqRkwa03r8jtKnLKUNaF21yNMniF8V09lHEyo32rck
+	CVU3oKmeQHXgbpY6b86A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKomm-000cjK-SX; Mon, 30 Aug 2021 21:25:44 +0000
+	id 1mKomx-000cmz-5x; Mon, 30 Aug 2021 21:25:55 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mKomk-000ci8-IK; Mon, 30 Aug 2021 21:25:42 +0000
+ (Red Hat Linux)) id 1mKomk-000ciA-Km; Mon, 30 Aug 2021 21:25:42 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -45,9 +45,9 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 2/8] scsi/sr: add error handling support for add_disk()
-Date: Mon, 30 Aug 2021 14:25:32 -0700
-Message-Id: <20210830212538.148729-3-mcgrof@kernel.org>
+Subject: [PATCH v3 3/8] nvme: add error handling support for add_disk()
+Date: Mon, 30 Aug 2021 14:25:33 -0700
+Message-Id: <20210830212538.148729-4-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210830212538.148729-1-mcgrof@kernel.org>
 References: <20210830212538.148729-1-mcgrof@kernel.org>
@@ -75,25 +75,36 @@ error handling.
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/scsi/sr.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-index 2942a4ec9bdd..72fd21844367 100644
---- a/drivers/scsi/sr.c
-+++ b/drivers/scsi/sr.c
-@@ -779,7 +779,10 @@ static int sr_probe(struct device *dev)
- 	dev_set_drvdata(dev, cd);
- 	disk->flags |= GENHD_FL_REMOVABLE;
- 	sr_revalidate_disk(cd);
--	device_add_disk(&sdev->sdev_gendev, disk, NULL);
-+
-+	error = device_add_disk(&sdev->sdev_gendev, disk, NULL);
-+	if (error)
-+		goto fail_minor;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8679a108f571..687d3be563a3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3763,7 +3763,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
  
- 	sdev_printk(KERN_DEBUG, sdev,
- 		    "Attached scsi CD-ROM %s\n", cd->cdi.name);
+ 	nvme_get_ctrl(ctrl);
+ 
+-	device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups);
++	if (device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups))
++		goto out_cleanup_ns_from_list;
++
+ 	if (!nvme_ns_head_multipath(ns->head))
+ 		nvme_add_ns_cdev(ns);
+ 
+@@ -3773,6 +3775,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 
+ 	return;
+ 
++ out_cleanup_ns_from_list:
++	nvme_put_ctrl(ctrl);
++	down_write(&ctrl->namespaces_rwsem);
++	list_del_init(&ns->list);
++	up_write(&ctrl->namespaces_rwsem);
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
 -- 
 2.30.2
 
