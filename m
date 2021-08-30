@@ -6,14 +6,14 @@ X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BD5C432BE
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 20:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2889C432BE
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:01:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7461260FC0
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 20:42:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7461260FC0
+	by mail.kernel.org (Postfix) with ESMTPS id C016960234
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:01:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C016960234
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,18 +22,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+pqg2jeeFQjOtH65I4h6Pg9QT+lRdPgA3ki0P5j8X+s=; b=tQ2zHiLhZ55pOO
-	Qs65kmL+1qYVQ7gPzNS+2zjbjAcG/rRIyUJj44f62LTZZZNGGYn+bqZzjJP8X1NGpSvK1h4aq2qVm
-	3bTC2srLEDbj9C5kamw/qH06920CdA8BVKhNdrr1/RRuV824ZUqLljVGkOdoUh94QyWdtIdS33AEV
-	DT5Ss9y6e2PqxJgN7rnt404gPyb3oz6tV8acglLgFWbLadQOEt66sQygV7OUCanuL9T0BIpxEYcVp
-	cnDKnSl6NNZrFiyzS0yCus+3+2ir8XllqOO9gVB3mzlpokge53s8GzK0pS53USFlBzMMgImWtnIBh
-	zc0LXH0whyocvNFeYNXg==;
+	List-Owner; bh=UCDkvN4uF1bI5+xBih9XfYhrQ0ETv37gP0weNlvZhJE=; b=JoEDboZuHkXBOJ
+	FXgozM1hsFzyzx+5YZ6fH5Mi9/gApJM/zUeO8mPcc1k4/BlufptX43PPzehBzkzafTqBpb0N6aAvx
+	LAmsApEBDJ0l8BLsr+4J+Sx8MWKNUA9Q7R3gBPuwuxM4G8p64fKadFej6M3zgTGZYj/XFqL5AmLlJ
+	zaFXxPjlTufh70HzF759W8ZHLWrwyjey8f7D/G7Nn7D5aTCL8weBZZdwxB4NFGoSzV36isClWCFB+
+	GoL8Opqj5NvTDFjXAyBQdLSaRluQTiljt/IdVJ2J5/fJb9MbUY/6WJfRxZONrRzQLoER6z1CHxYXD
+	buAaboXegczhkFgP0miA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKo6b-000WvS-3T; Mon, 30 Aug 2021 20:42:09 +0000
+	id 1mKoOq-000ZIp-NL; Mon, 30 Aug 2021 21:01:00 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mKo6Z-000Wv2-7h; Mon, 30 Aug 2021 20:42:07 +0000
-Date: Mon, 30 Aug 2021 13:42:07 -0700
+ (Red Hat Linux)) id 1mKoOo-000ZII-6j; Mon, 30 Aug 2021 21:00:58 +0000
+Date: Mon, 30 Aug 2021 14:00:58 -0700
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: Christoph Hellwig <hch@infradead.org>
 Cc: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
@@ -45,17 +45,16 @@ Cc: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  linux-nvme@lists.infradead.org, linux-mmc@vger.kernel.org,
  dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/10] mmc/core/block: add error handling support for
- add_disk()
-Message-ID: <YS1Cn6yMbpQGFOYe@bombadil.infradead.org>
+Subject: Re: [PATCH 08/10] dm: add add_disk() error handling
+Message-ID: <YS1HCgP/XdWmMtFN@bombadil.infradead.org>
 References: <20210823202930.137278-1-mcgrof@kernel.org>
- <20210823202930.137278-7-mcgrof@kernel.org>
- <YSSN+eac2aCFXTAA@infradead.org>
- <YSkyHINtV/djFEej@bombadil.infradead.org>
- <YSnme1mfHS/HCguW@infradead.org>
+ <20210823202930.137278-9-mcgrof@kernel.org>
+ <YSSP6ujNQttGN2sZ@infradead.org>
+ <YSk1EhUIr9OjIoVv@bombadil.infradead.org>
+ <YSnnXdKLvxEY8yay@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YSnme1mfHS/HCguW@infradead.org>
+In-Reply-To: <YSnnXdKLvxEY8yay@infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,24 +71,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Aug 28, 2021 at 08:32:11AM +0100, Christoph Hellwig wrote:
-> On Fri, Aug 27, 2021 at 11:42:36AM -0700, Luis Chamberlain wrote:
-> > > >  	if (area_type == MMC_BLK_DATA_AREA_MAIN)
-> > > >  		dev_set_drvdata(&card->dev, md);
-> > > > -	device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-> > > > +	ret = device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-> > > > +	if (ret)
-> > > > +		goto out;
-> > > 
-> > > This needs to do a blk_cleanup_queue and also te kfree of md.
+On Sat, Aug 28, 2021 at 08:35:57AM +0100, Christoph Hellwig wrote:
+> On Fri, Aug 27, 2021 at 11:55:14AM -0700, Luis Chamberlain wrote:
+> > > I think the add_disk should just return r.  If you look at the
+> > > callers they eventualy end up in dm_table_destroy, which does
+> > > this cleanup.
 > > 
-> > If mmc_blk_alloc_parts() fails mmc_blk_remove_req() is called which
-> > does both for us?
+> > I don't see it. What part of dm_table_destroy() does this?
 > 
-> Yes, but only for the main gendisk, and those parts already added to
-> the list which happens after device_add_disk succeeded.
+> Sorry, dm_destroy, not dm_table_destroy.  For dm_early_create it's
+> trivial as that calls both dm_table_destroy and dm_destroy in the error
+> path.  The normal table_load case is a separate ioctl, but if that
+> fails userspace needs to call the DM_DEV_REMOVE_CMD to cleanup
+> the state - similar to any other failure.
 
-Ah yes I see that now. Will fix up. The tag also needs to be cleaned up.
+I see, ok sure I'll document this on the commit log as its not so
+obvious.
 
   Luis
 
