@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CE5C432BE
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D03E1C432BE
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:27:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4011860F3A
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4011860F3A
+	by mail.kernel.org (Postfix) with ESMTPS id A25DF60C3F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:27:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A25DF60C3F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QKdK5zNi5p3E2+GAcjFr2CT15+/Y83Q/RDcRquV1m8o=; b=abJm04lT1nmlkn
-	oVglIaI6ejrA5tn3Ofja9RLaonqlt1n4NlfP7d0ANtwAgC+zLbAgkiRlKflNKBwIALuEOWjjTCAFr
-	aKyK0pCiQcj2rUmb26N4goGfnWxw41YOj38mR/X5CQe1KWIiBLz27djq8pRvLpbbQAlvc892JfrDR
-	xXKMolEI/GvjFiLkq9ZkzL19HDg4K7dSgM6WjPHnrZbCVbODjhmEgJm/4+pQ+tnhW09caeuPwHOU0
-	AhJctIQlCoDihNzwENUwvfNyADS0lvnI9lsbOwJH7AKqBzgwhLmsW7oQf7nChiVYs4jKKqztq5Kza
-	5wk5ntCfOLrKVTsQH+fw==;
+	List-Owner; bh=3drf9TYbmU0QGg3fmxolvSIHZzOgKOF7Ia+VQmCj4CU=; b=NAaC+qKyFfANms
+	4FBFOYuzwCDpePdtgqW4gBxPWtUrv0jGjxY3YWNFZnkMGvA46nNER77DAXIJ6ywp42fwwE0xEyFls
+	QIOx7nCQbeqf/Vg2tW3HIcu74p2C4+wttk/AqQQaCrbjJlBSI7USkyrIC/Ffp04IP9xEc1bDcnQ7a
+	4ZyuVzaM+IE81+BmadtFWayWTJSAZzCgNnheh71PYfVSFZKoRtg59DZ6GeiP9cJZgYrxqHFKkBWNr
+	chKxkyxqJLOZE9/zJ4NQVX+Kj0IwO6t9ecIMWdx4Q+ntUjMyQ54H+VzPE1cFyZvHXtvC19ez3FXq1
+	Sa9nRwRH8arbv3/vwlxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKoni-000dAU-2z; Mon, 30 Aug 2021 21:26:42 +0000
+	id 1mKonz-000dJa-ML; Mon, 30 Aug 2021 21:26:59 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mKomk-000ci6-Fs; Mon, 30 Aug 2021 21:25:42 +0000
+ (Red Hat Linux)) id 1mKomk-000ciL-Uw; Mon, 30 Aug 2021 21:25:42 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -45,9 +45,9 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 1/8] scsi/sd: add error handling support for add_disk()
-Date: Mon, 30 Aug 2021 14:25:31 -0700
-Message-Id: <20210830212538.148729-2-mcgrof@kernel.org>
+Subject: [PATCH v3 8/8] nbd: add error handling support for add_disk()
+Date: Mon, 30 Aug 2021 14:25:38 -0700
+Message-Id: <20210830212538.148729-9-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210830212538.148729-1-mcgrof@kernel.org>
 References: <20210830212538.148729-1-mcgrof@kernel.org>
@@ -75,26 +75,33 @@ error handling.
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/scsi/sd.c | 6 +++++-
+ drivers/block/nbd.c | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 610ebba0d66e..8c1273fff23e 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3487,7 +3487,11 @@ static int sd_probe(struct device *dev)
- 		pm_runtime_set_autosuspend_delay(dev,
- 			sdp->host->hostt->rpm_autosuspend_delay);
- 	}
--	device_add_disk(dev, gd, NULL);
-+
-+	error = device_add_disk(dev, gd, NULL);
-+	if (error)
-+		goto out_free_index;
-+
- 	if (sdkp->capacity)
- 		sd_dif_config_host(sdkp);
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 5170a630778d..741365295157 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -1757,7 +1757,9 @@ static struct nbd_device *nbd_dev_add(int index, unsigned int refs)
+ 	disk->fops = &nbd_fops;
+ 	disk->private_data = nbd;
+ 	sprintf(disk->disk_name, "nbd%d", index);
+-	add_disk(disk);
++	err = add_disk(disk);
++	if (err)
++		goto out_err_disk;
  
+ 	/*
+ 	 * Now publish the device.
+@@ -1766,6 +1768,8 @@ static struct nbd_device *nbd_dev_add(int index, unsigned int refs)
+ 	nbd_total_devices++;
+ 	return nbd;
+ 
++out_err_disk:
++	blk_cleanup_disk(disk);
+ out_free_idr:
+ 	mutex_lock(&nbd_index_mutex);
+ 	idr_remove(&nbd_index_idr, index);
 -- 
 2.30.2
 
