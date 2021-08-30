@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 809BCC43214
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CE5C432BE
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4BC2F60FE8
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4BC2F60FE8
+	by mail.kernel.org (Postfix) with ESMTPS id 4011860F3A
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Aug 2021 21:26:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4011860F3A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,17 +23,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SMMXi8HbO33WTOmKm8TewPCDJ0jq/C1ohXmFkPAY0Ls=; b=gf4qdyPEINzQiE
-	/dKjPT6Ai1lS07QZUoJdASRE2kXw5vEfg2rEYaVxaDMaQFDg62lMk7ORE+aGCevXovaFeO60Vcfo8
-	tRUOK/x47e3dFSoUlptNLeyoXwz4rE/FoJO1KLamaJrolFYcJbWeJxoUvX+qgesT5LgmDFUEWS1ub
-	wGQruV/9z4OzOzTJg77pcG9+GNiLHAACDrYp8J3k25+FN/YTdwfwr11RFNBPeNnN7pBIBkSOlWkVD
-	gvSWg+P0kLghlmgl4oOC44QjzgLNXnrzWh1XWjthiBXrNblId2bDY/GPfBN1/0o+xaXzpIt8vdBsF
-	8tJDSjq2GTpKJEy4RNrw==;
+	List-Owner; bh=QKdK5zNi5p3E2+GAcjFr2CT15+/Y83Q/RDcRquV1m8o=; b=abJm04lT1nmlkn
+	oVglIaI6ejrA5tn3Ofja9RLaonqlt1n4NlfP7d0ANtwAgC+zLbAgkiRlKflNKBwIALuEOWjjTCAFr
+	aKyK0pCiQcj2rUmb26N4goGfnWxw41YOj38mR/X5CQe1KWIiBLz27djq8pRvLpbbQAlvc892JfrDR
+	xXKMolEI/GvjFiLkq9ZkzL19HDg4K7dSgM6WjPHnrZbCVbODjhmEgJm/4+pQ+tnhW09caeuPwHOU0
+	AhJctIQlCoDihNzwENUwvfNyADS0lvnI9lsbOwJH7AKqBzgwhLmsW7oQf7nChiVYs4jKKqztq5Kza
+	5wk5ntCfOLrKVTsQH+fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mKonV-000d3X-4A; Mon, 30 Aug 2021 21:26:29 +0000
+	id 1mKoni-000dAU-2z; Mon, 30 Aug 2021 21:26:42 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mKomk-000ciJ-Tc; Mon, 30 Aug 2021 21:25:42 +0000
+ (Red Hat Linux)) id 1mKomk-000ci6-Fs; Mon, 30 Aug 2021 21:25:42 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -45,9 +45,9 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 7/8] loop: add error handling support for add_disk()
-Date: Mon, 30 Aug 2021 14:25:37 -0700
-Message-Id: <20210830212538.148729-8-mcgrof@kernel.org>
+Subject: [PATCH v3 1/8] scsi/sd: add error handling support for add_disk()
+Date: Mon, 30 Aug 2021 14:25:31 -0700
+Message-Id: <20210830212538.148729-2-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210830212538.148729-1-mcgrof@kernel.org>
 References: <20210830212538.148729-1-mcgrof@kernel.org>
@@ -75,32 +75,26 @@ error handling.
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/block/loop.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/scsi/sd.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index fa1c298a8cfb..b8b9e2349e77 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -2393,10 +2393,17 @@ static int loop_add(int i)
- 	disk->events		= DISK_EVENT_MEDIA_CHANGE;
- 	disk->event_flags	= DISK_EVENT_FLAG_UEVENT;
- 	sprintf(disk->disk_name, "loop%d", i);
--	add_disk(disk);
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 610ebba0d66e..8c1273fff23e 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3487,7 +3487,11 @@ static int sd_probe(struct device *dev)
+ 		pm_runtime_set_autosuspend_delay(dev,
+ 			sdp->host->hostt->rpm_autosuspend_delay);
+ 	}
+-	device_add_disk(dev, gd, NULL);
 +
-+	err = add_disk(disk);
-+	if (err)
-+		goto out_cleanup_disk;
++	error = device_add_disk(dev, gd, NULL);
++	if (error)
++		goto out_free_index;
 +
- 	mutex_unlock(&loop_ctl_mutex);
-+
- 	return i;
+ 	if (sdkp->capacity)
+ 		sd_dif_config_host(sdkp);
  
-+out_cleanup_disk:
-+	blk_cleanup_disk(disk);
- out_cleanup_tags:
- 	blk_mq_free_tag_set(&lo->tag_set);
- out_free_idr:
 -- 
 2.30.2
 
