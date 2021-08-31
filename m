@@ -2,175 +2,99 @@ Return-Path: <SRS0=iyK+=NW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C065C4320A
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 13:45:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE05C432BE
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 22:47:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23D9D61008
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 13:45:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 23D9D61008
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 08D6060FF2
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 22:47:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 08D6060FF2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kalrayinc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
-	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=6/wUvEyoCwZ+7BaXtThr0OjULaw4pG9Gx48TzOVDBZ0=; b=quJ5nWjz925IzJ
-	08a3lP7517OfaeYCpuN1/z9MdJ3+3cyMSaJ0TnBmmBm/INady7BIAi41FylEqKKW0cjIgqkzNI0iw
-	4v2viRaTTWugWkVCh0OKOJPgRweIjvPs8BHrWEcqx65oiFsRwT9+/5BU0kYDDk0Fo0YSl+FhAivA5
-	BKb0BX7NgLdy8bzCyiPhh25xtNEt/qZf2espUfHLPXShimGIbfUNa/g9mAj9xQAmn077RYv3P4kJk
-	r/HjOn9Ykt80Nt5rVTSDd2LT9utSCnJpN2dpebxnf3rQPa4cHxYIy2gq2vSgNWj6VOObGRyrlRtdl
-	I88O7U3NZV7ZH4ew+2Ww==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:References:
+	In-Reply-To:Message-ID:Cc:To:From:Date:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=QLntMKwY1az90n9Hxx+WiXRtUJ7njXKI/w9SOYaQl78=; b=QEdVW1fzYjejDi/u2yta/tAh1f
+	IZF+39z4qsp18jiMzPrJi6Qw4quk//I4oG4PXiUCMKj3D6lQgVlMlAdDmYBmT5d+pmreU8x/R7Gr+
+	NJE6SraqSD+Uyx9OK2Fwdi2d4zGwhkQDohEm4UZKx1dJreUpmUpoDgGzdlINJ/gjVkaKIaNTd9N6V
+	iHwzSpU0qF/x8iC3db4gReqKKNUBAbRw5jgdkUOY09g2LrlXCwAEXwHwxSz+VtA/15V7BnGrQeoYQ
+	UbPYeW5b4JJVuJQTokuq5cMRuTpfFH66u3+7PcmZyIdq7Y5x7vJ1iFq8ZV6y+qEQaCBdgmZj50yoT
+	gcrn/Lvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mL44z-002OAv-Io; Tue, 31 Aug 2021 13:45:33 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1mLCX7-003K9c-DU; Tue, 31 Aug 2021 22:47:09 +0000
+Received: from mxout.security-mail.net ([85.31.212.42]
+ helo=fx302.security-mail.net)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mL43Q-002NJw-Um
- for linux-nvme@lists.infradead.org; Tue, 31 Aug 2021 13:43:59 +0000
-Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17VDXLcj030876
- for <linux-nvme@lists.infradead.org>; Tue, 31 Aug 2021 09:43:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : subject :
- date : message-id : content-type : content-transfer-encoding :
- mime-version; s=smtpout1; bh=aCQZiRTf5GrlWZc6gIsmJLPDrmPpL/wVVszneX6280A=;
- b=VBM7oRIYNsYa3bKoiWplxVP3Vh7aYGYwRGMYAe++bMTvlW2bF09Pgp5zI22SGeSP4HKj
- NWTuiVDkgxfW/APquNNohzjELsE1VJqSeVkbiggMPqMZovMAFde7KnBPAbIMVsO0AqMi
- yIxwOzqM/tPlxFY1qgUy03RNNHdclQ30dYgcK2Ruo4lyr5DeA2yDDJedvb81YCc0xsZE
- Q9nTPtHNhSZ7AlgsfdEhckzl3LAG0p58hLWhj04BZszGUz1QQXjas2O5Wm29e9Q6lqVM
- 54sbP1jvfIFpsm8kbqrDpVMe088e9sOc9DOygPzPx3Xzvbs1ya6s32Wx8AGFCcVrOARQ Mg== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
- [67.231.149.39])
- by mx0b-00154904.pphosted.com with ESMTP id 3arvk5w81n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Tue, 31 Aug 2021 09:43:53 -0400
-Received: from pps.filterd (m0134746.ppops.net [127.0.0.1])
- by mx0a-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17VDZ3au171223
- for <linux-nvme@lists.infradead.org>; Tue, 31 Aug 2021 09:43:52 -0400
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
- by mx0a-00154901.pphosted.com with ESMTP id 3aru6j5ttj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Tue, 31 Aug 2021 09:43:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n5TmLg+bjuu2NDTAXW5CcbGLTH/G7LkaLdCk+fR3iDRSGGhEQ7AxmLIZG1w1njRI1tuaagWvyKHbjq+tqKfRynGJTHQnPqKrbxRqJS5aTXDkBgzIJJ5KGHBQ9bZ9FRIFyUzfUPFJTlkbkNre4kfFx7VcPI0t0nIKG7OPHKZwIlhomDoIpaYFMF/hbP46+Z6HB3OCgynzbRLXvZqPgM1oYlflzPOGblY8/05tARgiyhuqv5J6p66meSAESdP+MmgYDOYic4mwR2DcRkwAn+Ke73pwCOLOtK2eS7ETdP/AYpbuP8TPQ2jVzVzhKUQRxIHSTRmKAlO9sEp2Vlh/urcB2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aCQZiRTf5GrlWZc6gIsmJLPDrmPpL/wVVszneX6280A=;
- b=lluZzu8sqBjEqBvSICZoSS/PEB3b1OJ5uc98VKWhnYNIJqlFvb8QDGbv11FoakU0EdOzvKKGltvw80BeKevA2e+uQy3Ttn52deVkl+enNV4ZDQmGOUuKiPggvUT+7AlUA2hjJzmJrrcnCq8VAPVYX3ein6cRe3Vixx8XBBbnRnYWYPThhOoCCiBAjwlOxPl6g/qeGsRgWm6bCx2noNdx0FYFiRmOPm2Zn0V3jx8C6Onhilq9Sq1iDE99lZOJYrItiyDkmQj8RqlbM82087qVlKTPYW+IfPgaSqm9gGSHwlmKBdKIZpd8tjS8XYvPzkimr8H4LGdLrY++FcyiXPxeHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from SJ0PR19MB4544.namprd19.prod.outlook.com (2603:10b6:a03:281::7)
- by BY5PR19MB3841.namprd19.prod.outlook.com (2603:10b6:a03:22c::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Tue, 31 Aug
- 2021 13:43:49 +0000
-Received: from SJ0PR19MB4544.namprd19.prod.outlook.com
- ([fe80::88af:3327:6ca7:e439]) by SJ0PR19MB4544.namprd19.prod.outlook.com
- ([fe80::88af:3327:6ca7:e439%7]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
- 13:43:49 +0000
-From: "Belanger, Martin" <Martin.Belanger@dell.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: nvme: nvme-tcp shutdown when remote is unreachable
-Thread-Topic: nvme: nvme-tcp shutdown when remote is unreachable
-Thread-Index: AQHXnmftir4Zi/+qcUG6iNtqtmNhVg==
-Date: Tue, 31 Aug 2021 13:43:49 +0000
-Message-ID: <SJ0PR19MB454404CDF46273442694DE19F2CC9@SJ0PR19MB4544.namprd19.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Enabled=True;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SetDate=2021-08-31T13:43:48.954Z;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Name=Visual
- Label; MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ContentBits=0;
- MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Method=Standard; 
-authentication-results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=Dell.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5bef76a3-2baf-4872-1e6f-08d96c855ce6
-x-ms-traffictypediagnostic: BY5PR19MB3841:
-x-microsoft-antispam-prvs: <BY5PR19MB3841AA99CD6F155467567178F2CC9@BY5PR19MB3841.namprd19.prod.outlook.com>
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QBBUD+IbeokrXijyU3VrskFrPf2C6zppfnnxBOM/C7Ae97ptqQFtfe0cJ1IdN8DGvGogCzZ+KiBCxFEmhBXLYNBJpnYNWjghHBFllsIyZ+ip+W4YHnAauKv8FUG49ppaKz+cn2Rji5/LPUZCCuPQUAiHuzvr//GLKh8Q7T0L/Z9QfLfF6ukx3KMsfg6zOOmwfttjH9OaFqAZnsJ4qHEJqSC5SjSSrZqVngpjUIpnN2kczj/9E+NEU1ZncZoux+n8YPgMKd8zcSWJBMCH+ia8mq5qiMTZQ/8N3UQ8RJWXSXVJhOByLtFnHI2+uN/9zW2501zE5iw8nCBXgKc8kgLZ8MpfAuim8Xaag2GmEEMIFUYMrPB18CoO3lhAVxVSCAK8hJggW1IuPVSUB8CnTnZnf7DYvSseZSqw1//1+aw9JSx5QXxktlEmSZGmJYHCYNWS7Kb+QiTSMfpJamuHcCVgx8KHc5HCYsyuTUAGwBafKjJtuhv62V7oS3+CVHZVOjryceXlLcgDn9iBg4hR/UPsKDhx3UHFFUckBow3afyjt3pLwr5qibqY9JQ8ichnXIvEyeI/zP9BGjBPFp0YNQ9zCSD3RV5sLjBymHfIlytzEhm0jfxhd/hoslVVPguNtOFUnKDKYy5gz/UB4i4fN2hZ9YPukIDwx/0zAWCU3TOIebk62vjQ7WiS+MBUg5nXfntN/pzAi2rWUnniDHhMs1aZ1Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR19MB4544.namprd19.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(71200400001)(91956017)(2906002)(316002)(508600001)(66556008)(6506007)(66446008)(26005)(66476007)(786003)(186003)(66946007)(64756008)(33656002)(6916009)(52536014)(83380400001)(8676002)(38100700002)(38070700005)(9686003)(5660300002)(7696005)(86362001)(76116006)(122000001)(8936002)(55016002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?aAYKYBUkNQWicwUzn7bFRafcevAT716KKbWebP39DxEKOvGshrzGu589o5?=
- =?iso-8859-1?Q?Zy8iaKrNNIcmxoOU92wJvvKbJAAQybI8SwR9OG9BxSYIWaH4Ec5TWCmRj/?=
- =?iso-8859-1?Q?XN38ky8sP8AOkUfCeb62ud6jYEkdWknU3evMPjL+dpi5GbPzg5oDUI4y6R?=
- =?iso-8859-1?Q?QeEkCox7cweU6QfIH19ULNSjfldF6abi61HQhUrumU6a5gabYfDDrA2m9F?=
- =?iso-8859-1?Q?FoEpJuPnMeIQ6rluv7AN6+WP+RmukqP0pCEyvm58OXOq9XFJVwIA3JCeb1?=
- =?iso-8859-1?Q?Ym+GiaD+G7m094layLjE7in5Gh8U7dGI1mfd+G0Py5QLPa3i9ybNRlYcfo?=
- =?iso-8859-1?Q?J9glpWSr3yHr1chE1JMmrRZFlC/0FQgIYPfV5oH6jZ4LRQ9Hpux1wFW7o1?=
- =?iso-8859-1?Q?dJzr29gJhAE4FOWdQtpH9nsiyFmX/Z8Ya+QPI4Q0+2FUgy9z6U9btqtlqY?=
- =?iso-8859-1?Q?sjgBCYQzfe5tIAEY5ABKd59OwgAT0uK0+TqWJ+O60n/sgD7OFzMpoZ+PeP?=
- =?iso-8859-1?Q?0nxUTDeoJ0PI4hA/ptmK9NzhblI2dZQqAhBFJq5wAaeKGStVuiO7yYN1Aa?=
- =?iso-8859-1?Q?obDBwmmQSsGaH/YthZqLhfivLT49XcxnQJLW7zF/0JIDt/VX/sRcvGaETg?=
- =?iso-8859-1?Q?VI/HJdfNy5HeSSjWbKgt+KZCbJI7oGmDBGu/HQ3/hLEeKNGaw/GhW5g/2g?=
- =?iso-8859-1?Q?5u3mE9PU1JdpCtB5CZ/ZsbYp0JDBHp0eY/AqBSEZtNZw5BSUYQ5BRmtiAG?=
- =?iso-8859-1?Q?5Yw8qrb9THOOSJg09iBmTCxvcTQrjTLI6qnInBrmThyo+X7+ErDtGX+Yf3?=
- =?iso-8859-1?Q?l46Leb+wRChlmDkwdqNs3P2XPGw7R5XGlcQgYGygeaOKRoLyzSU4zKxuVB?=
- =?iso-8859-1?Q?BbyW7zL3wsOui2gnTc4TCbrqhmIJfRq4sLCXosE4u6wBitGbbjuasBjzqg?=
- =?iso-8859-1?Q?v9QanwcTbaECKCnsbFhA8n3T+I+FoNBWqr/y/kQQsK0R4fICobBcKfi+M3?=
- =?iso-8859-1?Q?+4RyrpIC+ZM60o1b/1OCcArcU1acyqO5CVwWOmpfMVPjGEHSrc1GztrHIA?=
- =?iso-8859-1?Q?j68FA0OTPHVHWlhUtQA5yI8Tgpk6BvVyRsizoPuATKXlVvcHcQm1aBLdNz?=
- =?iso-8859-1?Q?CBLFSqVucKviqXCVTmQKtrnV3cdXXf1BIrrI+Zuv5/0Xp4Q3XWrF0OYm8H?=
- =?iso-8859-1?Q?TdaqQESOFpaBXvzLA2vJjCYIGIKRFkVaq8HtAuYbRugiQD0xSSkGVFE0iz?=
- =?iso-8859-1?Q?oPzEQuk7rFru4cdRwL99+Vafw40ngVOqkxWCpHF8JMVGds3tfd/n26bwQ0?=
- =?iso-8859-1?Q?cXGknCXYblaZIjdbkcyp1lZ3XWtUiHAW12dSQ1qNQBV8XKP3NM9ukZlMC+?=
- =?iso-8859-1?Q?hwYTjl2Gjs?=
-x-ms-exchange-transport-forked: True
+ id 1mLCWy-003K9A-Uz
+ for linux-nvme@lists.infradead.org; Tue, 31 Aug 2021 22:47:05 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by fx302.security-mail.net (Postfix) with ESMTP id D82C43D3B06B
+ for <linux-nvme@lists.infradead.org>; Wed,  1 Sep 2021 00:46:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalrayinc.com;
+ s=sec-sig-email; t=1630450013;
+ bh=iyK5M5udoLjZjqyEs23TkPTYvCmj6tf08b4skpzkM/o=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject;
+ b=Pcsd5rnaBtZIK+LGF9SUM/hj8k+ictN913DiFG5bwwmjSC/y5ZBGPWnFy60NPtU2I
+ 62cKBOUhoySAfgEUKryNvcA4yT2MFQQ6P7jW5VO+iTyVv2NnmtlYYlMOcPLjUb4Jr3
+ Rhi2a8A9uII53QP3J7WnEIXwe11dv/GkAQ7K3lHc=
+Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
+ (Postfix) with ESMTP id 883813D3B078; Wed,  1 Sep 2021 00:46:53 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx302.security-mail.net (Postfix) with ESMTPS id 0FA4D3D3B06B; Wed,  1 Sep
+ 2021 00:46:53 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id E99F827E02EE; Wed,  1 Sep 2021
+ 00:46:52 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id CE28E27E02EB; Wed,  1 Sep 2021 00:46:52 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ 66SsGszYwN3X; Wed,  1 Sep 2021 00:46:52 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTP id B80BA27E02E8; Wed,  1 Sep 2021
+ 00:46:52 +0200 (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <b18d.612eb15d.ef05.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu CE28E27E02EB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalrayinc.com;
+ s=4F334102-7B72-11EB-A74E-42D0B9747555; t=1630450012;
+ bh=8JUpniNTfUlM8pcogh9iTFdkNu8DgpWZLf8q6CJ2Xzc=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=s7oTj8AeB0YEYBXHNVh3mh5SLiUgo0B/rVcF2c0hgHLClzijJO0rVtX2xwK3BGnIp
+ LHc6FYRdvlx5ktwo2N6lEARXVYYKFCn485tgQjDdxMIIS3p3K1AjxZ8HCyC5XLToH6
+ nQw4guLs2HmqEFCh7H7YDJBqc/nV4ZjMJ+BZcVWAITu2+Yth4/iL56NXInOGq+Cv9w
+ ImOpA98ph49RZ7NY39M9x0qOYFEsPcDjtKLa8ueOzju7DNxKdabe7m2oEFFz/xltsU
+ upNIZHuPISR8yj9KWLAMMBj5GlmtcHEjzdDg/FhBnp9TLX1kyubibVRGzbIZDRCMQ2
+ YOUpsZzibgBQA==
+Date: Wed, 1 Sep 2021 00:46:52 +0200 (CEST)
+From: Samuel Jones <sjones@kalrayinc.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme <linux-nvme@lists.infradead.org>
+Message-ID: <1306302519.5246175.1630450012705.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <20210831023712.GA4046@dhcp-10-100-145-180.wdc.com>
+References: <1058345072.5039165.1630330229081.JavaMail.zimbra@kalray.eu>
+ <20210831023712.GA4046@dhcp-10-100-145-180.wdc.com>
+Subject: Re: Command timeouts with NVMe TCP kernel driver
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR19MB4544.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bef76a3-2baf-4872-1e6f-08d96c855ce6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2021 13:43:49.3386 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: M7DECcgww35ZhklOugSxPCk7dWfghy3hf0t/mjgLYpt5eWJxzFrRmKURUqc6FT7pwdAxmyDyHzw3Gi+RmxfDhkWENueuxn44QWnBh0vgLNo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR19MB3841
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-31_05:2021-08-31,
- 2021-08-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 mlxlogscore=682 suspectscore=0 lowpriorityscore=0
- clxscore=1011 adultscore=0 phishscore=0 bulkscore=0 mlxscore=0
- malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108310077
-X-Proofpoint-ORIG-GUID: HXXayOW6U8T8vgjVDZBJ4Cmif9-IJkaZ
-X-Proofpoint-GUID: HXXayOW6U8T8vgjVDZBJ4Cmif9-IJkaZ
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- adultscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=823 spamscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108310077
+X-Originating-IP: [192.168.40.202]
+X-Mailer: Zimbra 9.0.0_GA_3990 (ZimbraWebClient - FF70 (Linux)/9.0.0_GA_3990)
+Thread-Topic: Command timeouts with NVMe TCP kernel driver
+Thread-Index: AbCnsJ1Ok+6SmkUOJZoQxTrOr7vU6Q==
+X-ALTERMIMEV2_out: done
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210831_064357_201334_5638CCF6 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20210831_154701_250356_8B181A12 
+X-CRM114-Status: GOOD (  36.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -187,21 +111,83 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello linux-nvme community,
+> On Mon, Aug 30, 2021 at 03:30:29PM +0200, Samuel Jones wrote:
+>> Hi all,
+>> 
+>> I'm experiencing command timeouts with recent versions of nvme-tcp driver. I
+>> have set up with a VM running 5.8 which is ok, but the same test load (100%RD
+>> 16K blocks) on a VM 5.11 or later, including 5.14-rc7, shows the same issue.
+>> The initatior complains as follows:
+>> 
+>> Aug 30 14:58:05 centos7 kernel: nvme nvme0: queue 7: timeout request 0x10 type 4
+>> Aug 30 14:58:05 centos7 kernel: nvme nvme0: starting error recovery
+>> 
+>> My target is a Kalray target, but I have no trace of any outstanding commands
+>> when this situation occurs. Quite the opposite: The Kalray board observes that
+>> the initiator stops sending new requests on the queue some time before this
+>> command times out.
+>> 
+>> I don't have any similar issues using SPDK as an initiator. I made the following
+>> modification to nvme-tcp code and my problem has disappeared:
+>> 
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -287,6 +287,7 @@ static inline void nvme_tcp_queue_request(struct
+>> nvme_tcp_request *req,
+>> * directly, otherwise queue io_work. Also, only do that if we
+>> * are on the same cpu, so we don't introduce contention.
+>> */
+>> +#if 0
+>> if (queue->io_cpu == raw_smp_processor_id() &&
+>> sync && empty && mutex_trylock(&queue->send_mutex)) {
+>> queue->more_requests = !last;
+>> @@ -296,6 +297,9 @@ static inline void nvme_tcp_queue_request(struct
+>> nvme_tcp_request *req,
+>> } else if (last) {
+>> queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>> }
+>> +#else
+>> + queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>> +#endif
+>> }
+>> 
+>> To be honest, this bit of code has always bothered me: I don't understand how we
+>> can guarantee that the thread doesn't change CPU between the call to
+>> raw_smp_processor_id() and the trylock. I assume that even if this does occur,
+>> the fact that we hold queue->send_mutex() is supposed to make sure that there
+>> are no atomicity issues, but I'm concerned about the logic that tries to
+>> determine if there is any more pending work and reschedule io_work if and only
+>> if there is something to do. I can't pinpoint an issue from just reading the
+>> code though..
+>> 
+>> Does anyone have any thoughts on this? Is my patch proof that there is an issue
+>> in this code, or am I likely to be changing the program flow so significantly
+>> that we can't conclude? Are there any open issues wrt command timeouts at the
+>> moment?
+> 
+> I've seen similar, but I thought we'd fixed all those issues. Your poc
+> patch indicates to me that there is still at least another condition
+> that's not being considered. I don't think the possibility of CPU
+> rescheduling is the culprit, though.
+> 
+> One thing that looks problematic is if 'bd.last' is true but
+> nvme_tcp_queue_rq() fails early after enqueuing previous commands in the
+> sequence. That could cause the io_work to never kick. There should have
+> been something else in dmesg indicating that error, though, so I'll look
+> for some other possibility.
+> 
 
-I ran into a 1 minute deadlock trying to disconnect from a remote (tcp) controller while the network was down. In this particular case, the network has been down for a period of time shorter than the kato. So, the kernel module has not yet detected that the network is down.
+Thanks for your help on this Keith. I think I have a better idea about what is happening now. First of all, I have a large number of devices exposed over NVMe-TCP: I'm connecting to 4 remote NVMe devices each of which is multi-namespace, so I have a total of 37 block devices at once. Then I run a userspace benchmark that's running 8 threads per block device and generating IO to each of them. I'm not sure how the multi queue block devices are layered over the X NVMe queues per device, but however it works my system is on its knees. I have been timestamping the time spent by NVMe-TCP threads inside kernel_sendpage() within nvme_tcp_try_send_cmd_pdu() when called from nvme_tcp_queue_rq() and I'm getting some ridiculous outliers : up to 60 seconds. I am confident this is what is responsible for my timeouts. If I increase the nvme_io_timeout to 300 seconds, my test case passes.
 
-After further investigations, I found that during a disconnect we try to clear the NVME_CC_ENABLE bit - see function nvme_disable_ctrl() in host/core.c. However, since the network is down, this operation blocks until the 1 minute timeout (default) expires. Therefore, the disconnect operation blocks for 1 minute.
+What's interesting is my quick patch that removed the direct call to kernel_sendpage via queue_rq() makes the system behave much better: no more outliers and no timeouts. I don't know much about the kernel network stack or the block device layer but I imagine that the difference is due to the number of calls into the network stack that can happen in parallel. Is queue_rq executed from the context of the userspace caller? In this case I will have close to 300 threads active on this code path. Whereas when we go through the workqueue, I guess we have only N max calls into the network stack at once, where N = the number of CPUs on the system? 
 
-Interestingly, nvme_disable_ctrl() defines a 5 sec timeout for reading the status (NVME_REG_CSTS) from the controller. So we have a 1 minute timeout for writing to the controller, but only a 5 sec timeout for reading from the controller.
+What do you think? Does my analysis make any sense?
+Thanks
+Sam
 
-My question is: On a disconnect shouldn't we use timeout shorter than the default 1 minute when writing to the controller? At the very least, shouldn't the timeout for writing to the controller be the same (5 sec) as the timeout for reading from the controller?
 
-Thanks,
-Martin Belanger
-Engineering Technologist, Dell Inc.
 
-Internal Use - Confidential
+
 
 _______________________________________________
 Linux-nvme mailing list
