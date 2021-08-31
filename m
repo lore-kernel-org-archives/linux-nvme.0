@@ -2,18 +2,19 @@ Return-Path: <SRS0=iyK+=NW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 915F0C432BE
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 13:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6946BC4320E
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 13:45:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 406E360234
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 13:31:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 406E360234
+	by mail.kernel.org (Postfix) with ESMTPS id 19EF060462
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 13:45:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 19EF060462
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=primelogic.nl
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -22,51 +23,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:Message-ID:Date
 	:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Xq0Fbdkvf9MdVBcf92m2lPnemqLqqRbSCdplbJgzdic=; b=B1vJsnhE8Gj1wQ
-	kYzCspO+pc5AGOISE9o7omeNyNdpJFWWi9oPM3rwA3rMNw0y91DI9KI1nH9Is86iBwFSz8ud0S/8m
-	wquSKnso34bfW+9ZR9oSw3XnHN8qjx0AyChc8QspjZ9nrZB3egimsimERlNa4Aif48Jj37mhcyH7v
-	6e6vNxpEQC8IX3tmjpHuC4Y5/BU1JfVpfy0km3+St8we0zJnL66sLba69t0nEU7o3O6SRVt7GhDen
-	EFbgkcgMOc0QkPuG/ouwsp3p32V61qq5wsWjpEi5U+1nRPNGidXyHBaD8LLc0PuKsFky/xCbdedGj
-	Gm10laJwzJH4Pss8YV3A==;
+	List-Owner; bh=FJp2aHDGZ14l3TnQdz3SqIn9k32VZ1HDrm3Cj/PWjjg=; b=hxbUxoWfoliTlQ
+	6VCAvmHRvTrdmmpPtPtWxNYa8jeqXVUXzkkFJjJIDIfBw6YtApggCqNs68Mr9cY0xBCqFJColhaXj
+	ZzoUrElJe0pu6Tk7LGL68TfpnuinRMKXF0Z64pkyY29lJO4bGsYxwo4pcrnvFavGPH4H7AxCXrjRl
+	DaoZG18Z1Z9wkrpmvz2T3o6fgeGzwN/Mruyr1lXog9BYGrZ9RhYEJ25+rxTm6Oi3wML0Ybyvps67z
+	kQTvao3hZM5ZG2qqZR9NUfqLtwG9pzvdNUJSWMThwMTfyh/A2vAMu3Au9DU5KbVyGnw5fyoauQE1c
+	TYSY/JkQ5LnrKaCbWJtw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mL3rC-002KJH-R6; Tue, 31 Aug 2021 13:31:18 +0000
-Received: from mail-am6eur05on2104.outbound.protection.outlook.com
- ([40.107.22.104] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+	id 1mL44A-002Nkj-Io; Tue, 31 Aug 2021 13:44:43 +0000
+Received: from mail-am6eur05on2102.outbound.protection.outlook.com
+ ([40.107.22.102] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mL3qs-002KIe-AJ
- for linux-nvme@lists.infradead.org; Tue, 31 Aug 2021 13:31:00 +0000
+ id 1mL42I-002Miu-9R
+ for linux-nvme@lists.infradead.org; Tue, 31 Aug 2021 13:42:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TQTNtodLV5ox8I2poz8a7dc8VLIl2xS4qRrZIe7I3i4+P+HUTdUYUBjnNylgGPXYb0tobnT1x9sVVU8zbauA0bF8GkRwWm9mXxJNt6zHXX60qcW4gAN5HQgGzoXJN19WzwS88GLHKAx6Vj+kR5bOi8RxUO84kwfFjgti8CR7KxR4SsPpx36H32roM17tuOrg0g9blWhja+cpmGE0AI0LL8hpbVw7Me2vvPk+7w3zR2CbnyHjtDXsnS8VlFaTYXjNcq0tXdSJUwA1fYgxvJAqiC6OlPLH8uW5AYZlyg6RRJCKNI5HkT5v8hv5RGz8qx0bvOL/wwc8sZn0jkDbaRwO0g==
+ b=A4zI5hwHx3GCQfQ5a3ciV3XFqddDIp8OXgn60Nk2jHL6VG/XiTMF3oUuG7S8RXYzWlvW1MLFXQWMVGCq6IF7TY3IDM9JNL5q8kfrtRHni5DWn/hxx1BZON3+JYQVrIT4awThaLKCGaTtjGiDK7Xtxcf60Q6VedUWESofYRi6A/NFkm6uB8F/dt4A75hqJTPq4F9sbwVAjsjqNHjclVCk93q05STInZCp89pbsbxx2F826Gzi/4QPioqIlPeEkzUK1hgO58pjM00nmEjHa79wpykt4FlutiyqzDd/KGjsqyO678UeUPTaLxsf2sAAu6gWT3ryDe4UftjP6phZ4ThI3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d80f/k2DMkkzZd2ihUWJHYsWKkfTaQLqQquZgnaM/ZQ=;
- b=JlEvC7z+S/U07eInByEhK2n42eVV5cTrptmeZOlMAJxlL4Tmrl3rpfKeGYzWeOrMmHjsB48JOZd8GGmv48RZ5U1w+/PbhWrMumayvvjJg08DD6qc+fUDlEXixs06qvQCoc3vfYP1p0DH5OkEncfEs/JIczwhMkxBu4iyG1D8b4aGJgBK7/EWlpdcVVkVJ4PTmOhStI6biphu9Y3FkW99+k61RL1F8zt/1Am8ckkf7aKLzw0boG5OVui+FgdVj69tQvQJdJLgcJ+0g8+71D45KCvFGXWUhf6gf1CjQ4XCA8LL11jy6hwa80q0tKBiHOUCdY3mD4AwDVhrljiP41G6Hg==
+ bh=nzpaejX55d/pTxaKtBSJvrVM29fug3Y7PPqW9drWKGA=;
+ b=Oi6nLIynY2FF9qBITYQ8m53MbjmK9150+5YM3GadmTzgUr7fu2eNjCTaqMdBo/Y6f0BNTq4AzgfioXkJ34nSOeMRXTMdf5spuyIl0Oy2tUf6D6HvxlWO4o5g4g7Ccb2FdRqHZ2ZRP/mB4sRITpGdcm6C4rNM2nKf5W/XH6QzbZr5ptDj9V3J8ioNHgiqRv+lBehx2G4+CHbFAOooPELd/HgZ6rWoG7TBgSnV61+2J5roWsdCePZ7XDY8ywVe+Aw1d/AoWYN2wF0g1oCi+Vcn+QGd3DYEuSqyXjTqAChozg2goq7FOcnEOpa69C1IvKnjE7xAyzziwxzgUgaqWE+3sQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=primelogic.nl; dmarc=pass action=none
  header.from=primelogic.nl; dkim=pass header.d=primelogic.nl; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=primelogicnl.onmicrosoft.com; s=selector1-primelogicnl-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d80f/k2DMkkzZd2ihUWJHYsWKkfTaQLqQquZgnaM/ZQ=;
- b=F/LxQzFAHIZ534aALtmB4V4/GGI9/Y6YQ1448uCQTBYyL2HvZIcgaRz3DkI7mqlgBJL3kzYzXPRx31rrcy/YlOaWaAaXo+fK4+uCC2/LTnXlaDw3eRd85EZ2FJaPl0DDgfa+FBIuhjv3x6XKlMdQ3PLaBKU3SfsnCU3O35VZdL4=
+ bh=nzpaejX55d/pTxaKtBSJvrVM29fug3Y7PPqW9drWKGA=;
+ b=wVLw8xamcEGqojSAOF+BwjQgViPHKj1zmw+i195YoY5c3gB30u9HOVvXjdiCurjt5Qlje92nGJmbM9MRH0LN1QndPYHT1g1BbLwCER+R6ebJLi9ZgvV7lvN+JWsbR+CeLMsVLY4IJfeETOjutg6SYt48PYDteLxJVhaQ5aEZgW4=
 Received: from AM0PR03MB4211.eurprd03.prod.outlook.com (2603:10a6:208:c1::28)
- by AM0PR03MB4339.eurprd03.prod.outlook.com (2603:10a6:208:d0::19)
+ by AM0PR03MB4721.eurprd03.prod.outlook.com (2603:10a6:208:ce::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.18; Tue, 31 Aug
- 2021 13:30:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Tue, 31 Aug
+ 2021 13:42:43 +0000
 Received: from AM0PR03MB4211.eurprd03.prod.outlook.com
  ([fe80::4d63:671e:2943:5086]) by AM0PR03MB4211.eurprd03.prod.outlook.com
  ([fe80::4d63:671e:2943:5086%5]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
- 13:30:51 +0000
+ 13:42:43 +0000
 From: Mark Ruijter <mruijter@primelogic.nl>
 To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: nvme-tcp crashes the system when overloading the backend device.
-Thread-Topic: nvme-tcp crashes the system when overloading the backend device.
-Thread-Index: AQHXnmxqX1Auh6AUnUypwfeIAEtsRA==
-Date: Tue, 31 Aug 2021 13:30:51 +0000
-Message-ID: <1A17C9D4-327C-45D6-B7BB-D69AEB169BBD@primelogic.nl>
+Subject: SPDK initiators (Vmware 7.x) can not connect to nvmet-rdma.
+Thread-Topic: SPDK initiators (Vmware 7.x) can not connect to nvmet-rdma.
+Thread-Index: AQHXnm4SW+F2pBQEIUGXFPYlGAQ1jg==
+Date: Tue, 31 Aug 2021 13:42:43 +0000
+Message-ID: <CA3F5384-4B57-47ED-9DFE-27E80F3D312C@primelogic.nl>
 Accept-Language: en-US
 Content-Language: en-GB
 X-MS-Has-Attach: 
@@ -75,65 +76,65 @@ authentication-results: lists.infradead.org; dkim=none (message not signed)
  header.d=none;lists.infradead.org; dmarc=none action=none
  header.from=primelogic.nl;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 25fbe059-2fc2-4238-72c7-08d96c838d5b
-x-ms-traffictypediagnostic: AM0PR03MB4339:
-x-microsoft-antispam-prvs: <AM0PR03MB4339C20F0D526201129BBF8ED1CC9@AM0PR03MB4339.eurprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-office365-filtering-correlation-id: 4fcd0150-1685-41d9-a3bc-08d96c85356a
+x-ms-traffictypediagnostic: AM0PR03MB4721:
+x-microsoft-antispam-prvs: <AM0PR03MB472189775D5AD6458CA9A8F8D1CC9@AM0PR03MB4721.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: u3xW34dNoQwIP3nVQHcTlngl0BT3WnQ57KzdnO2XOEbHLMn0IVWzB5ARC4sN9Z99uUTIjQbNOrXGihGBCHk5zWPwrYBiEcJ7Fdwre4seQpoxu/A2mOFXrrlxg6zMSxaX80HvhoDRSJC5NtymUGNDBArSRxtVskI+JXVsAT7YZzp6VD0HBVxAl89DEscf2BN7JRBHTuEHGWCOaQwzI19os1CFVo0N7GKKRYVRibLvVHxikYAafyCKjrjMWGNkZlcjMkKEbinLAbJyvQCA9b+r43JaUXH8J7m02ucZreKZenPkgXCy8JBgfL76ULKqRMXSBNcGcr5dcrd3JhjTOJA38npXSRsUu8MInQm/efFO+wadUpH8FTV+pmuuu6VhBsTbn2c7ZxzehpkSiHWM/8MnamC4pRbmC7h/0oyynQLfiH8h3bfgEQb/rr05H/BnKURfgxg9+2dqO8iozVtafU2dPaJ0meLiJGX35BRotgiZcIfXlwn8KjTRK67gioEpT0Bz1E1MJG5Skt0aTp99PHFdX0MJHr713hfy9OU3u6ooazrQ4Zwzr2kvTB30e+jBfO1L/NGQEwbUIKt2ZyO3mZVNl9rwSslToSPpwT+/xmxXjM36jdJfZR8sOBEMike+vxCW5nh2a1V+sUK0pT3AcUAOcySZAGkRmQe2aaOjFhKXBEttEoK6BaLMjTclRcdyrFPmulgNjBWJkqDIFzDb2oN0VkxU0uFYLGIbClWTcZkBUBY=
+x-microsoft-antispam-message-info: 4LBGQMdSuyhFWFahOIgKTQuVx5nGlCbHQ9LFUJEWAslxEkBHe5ZYkk1j2kA0VjPMhsamjXFwQm0cKJmDhDksQBGioHseHKLxFwAJDcrhIyboibY0zvsq+GUbOTTKN+zZ8ddt/67F9ZFLclkDEwp4dKBi3NmnMs/YglQDdFxzPfqiBnON8NS9QzqB1ymFBe438oLEvLakkgBPJkElwe3N0NuWcTgVrOphSJgSKwBG5692/KUhz76Duv6H46lIdjU1bTSflu+yhyJpTFmd84vUA6/uBZb9p328CqSx2BbEv18tQwQEuAx1wpKPW1z3jIeAyY8qFXIF5SCGZMNINNCg4q7JFK52TEqDRw+VAf4LLgsuPkFhY28yRvjCBNIE3RQ0LA4PPsfU5waahfUZIcZaQiTqCRK0sZnnwjCOIeqnqSI6O4qStkkSh3WayMkVCW30FPPeofjX98FCIlHcXqnWeBpxvCg5vpI1t2PDSBzm2r34fjeBCwj+XCskAIBKRFoLaPD+QQv7Eg9TZUxM6Fnv+tsEsrr0ofgfYHSqkVTWexi2P0SjFTi4tcTH8c+qBCKp0BWQdoQkQQoi9hnOWwjizLmRBcGJoPGlHVM40wVkNMLuU3kE5Qeq4ZlYKMHPM2/QsZWWVD4L9n2D6UuvRWzGToXww0MiV2Cv6DbkGoNbYw8UEDgm38DBle5etdzZRkqHcgqayWb7aHo0xipzeF0ZNb4uhONuMmYrLN401TaRR8R8zlLHajLILcXcdYRQ/QQ/UnoEcZHGg39Kx4780QQxc3ByvXU9/FntQfsVKpmeoMXWu4i8SJs724WR/v0XSgwa1J08UrMmDEK5xEp90opMtQ==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM0PR03MB4211.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(346002)(366004)(376002)(39830400003)(136003)(8936002)(33656002)(5660300002)(316002)(38100700002)(186003)(86362001)(71200400001)(2616005)(6486002)(6512007)(6506007)(8676002)(508600001)(38070700005)(66446008)(64756008)(36756003)(76116006)(2906002)(66476007)(66946007)(66556008)(26005)(122000001)(83380400001)(6916009)(45980500001);
+ SFS:(396003)(376002)(39830400003)(136003)(366004)(346002)(8676002)(508600001)(66946007)(38070700005)(5660300002)(6486002)(8936002)(38100700002)(6512007)(83380400001)(122000001)(966005)(76116006)(71200400001)(66446008)(64756008)(36756003)(186003)(33656002)(316002)(2616005)(86362001)(6506007)(6916009)(2906002)(66476007)(66556008)(26005)(21314003)(45980500001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cXVzRlFQOWw0eE5jQWtXZ2tWQ0p6WHJKdnNLVGtxVjFvdS9FWnUzM01ESFVJ?=
- =?utf-8?B?bVRFc2JkUVg4Qk1QUE0zREFVMUVITm9FUVJ2aWJZZHRkTEErMktvUFdkM3h0?=
- =?utf-8?B?eVFiRHliQjlLcURFait2Z0wvRzlQOGkzS0xkdU1Ub3k3UTFZYW5xeFBDSytB?=
- =?utf-8?B?eTV2U1dQS2lXUVBaQjFraWFkeVBUNmppYUlxcE9pZGpXd3RYMTNrUmhGSkYz?=
- =?utf-8?B?SElRejFMWEl6TjQ4QUVaOExRQTJLcHhhdUM0ZGV6dmpXVEppa0xFa3A0OGpX?=
- =?utf-8?B?c3RJZm13VHVrbmk2RTV4Z1ljRVpaaUpxWjd5c3NBUU5nZk91K1NMNGlsQkNX?=
- =?utf-8?B?N3hEOHhlWG0yVUduK2xDb3R1dGhXRHd4ODlkaHI2RkhzZ3dQdm5WUGU4ZTZY?=
- =?utf-8?B?RG9IY1IwamRrZXJZT0Z1MTA3cTZMbGdEWGtuNVNRa2dXd1g5bk9QYktOYkpP?=
- =?utf-8?B?Z2lyVGlvK0plTEY3b3dSY2phelkwb2tTUk5kVnBQK0NrNTE3a09CMlJwdm1D?=
- =?utf-8?B?VURjandSdU4yMVdra3ZaczlhOEppdXNVK29ManhMUlNWK3hEcGFLZHJoRkhn?=
- =?utf-8?B?TDRlZjBLVGFpalVuWFRYK2hEYUhvV3ZxSnBHV1BOQUZ4YmVBbGVaUzB5czNT?=
- =?utf-8?B?NGZ0cncwSGdQSFdGb0xBdlIvMFQzYVNTdzVMSjlKRHNTOVY5ZklIcGE4dEZv?=
- =?utf-8?B?Q05qdmlSSllBSWxYUGc4TFN3NkErYnJHaHpZakNHTDNsbVh1d1UrSGFXYnM2?=
- =?utf-8?B?VTB3cDMwSC81TEs2TE42N3JsTXB1ZG5iZFloT1Noc3MwRHZyUnZJcVFlZHRW?=
- =?utf-8?B?U1Z4c2tFeU1CS0xNMVcza2dWTElCN3ByMzEycjQ1cjcxZlRmYnZ4d0h5c0w3?=
- =?utf-8?B?bzF4UEFrdEVFUzdwSytISGRMclBnNytnS1psVG5UNFRSZ1Y1K3NQQWdWUjBU?=
- =?utf-8?B?Qlpud210enRWNFBFRXdqTE1kTnRBV2taQzNPSWFDZUxncXFJUG9PY3AyK1Rl?=
- =?utf-8?B?SDhHVktXYWxrcU44c1RZQjhnaHovUGVZTW9RWVArWURxMm9mZFljbmdnbEdU?=
- =?utf-8?B?MGlMODJiTlZWazJvOXdxY1d0TFRjNEs5bVhKSUxoaUJhbXBGZ2NDbHpSYVUv?=
- =?utf-8?B?aHhpOG1lZytBWEZwbFJNNFRoWlgrcHI1YlJrNlFsT0JCTGdMMHBJVlZWUnJt?=
- =?utf-8?B?blR5bWJQeS9Fem8zTlF3cGxkLzJ2Y3NuMXVWT25aMFROV2h4NGhVdmkzWCtW?=
- =?utf-8?B?K05Yc004Zys4dHYzbWFnbmUwL3dMdEV1YlYzTU5XQXE4SDRJMUhLQURCMjcz?=
- =?utf-8?B?SXAvRXJiZGsrcDd0WWErWU1La0U0QnRLZkxoVlR5MDBoUmorTU5kVWk0RC9m?=
- =?utf-8?B?d0d2SzBsMVpzUjZXUVA5dEo5QzlmQWRlVTFXSi9hK21rRERNU01GaW5SQldX?=
- =?utf-8?B?UXBnYU1YcWxTMXdYZlhnOUdycnQ0R2tWWDIrclBsa3o5NEdGY1JOb1U1MzlM?=
- =?utf-8?B?WHN2ZXZWZGZWRUowSXF0bUI3MHkxVjFEaHJmRVBISlhPMS8xZ25yVGxNMFBB?=
- =?utf-8?B?b3piWTdOTTdiQW9rV1pjc1RJZStEdFRQVVhVZVgzaVBVN2J5cEJwUTZHb3Zy?=
- =?utf-8?B?UzFNRFNPRFVHeDluNkZiSXdzMmVaWTZ2V2RaRi9oL1lMbGwvaVhwZmJxL1No?=
- =?utf-8?B?QldzUnlTeS95T3BneFFQTWMzUnZ0TTVyTUFwOTNsMlAxdkl5elBXR1NMakJj?=
- =?utf-8?Q?vR5eKT1gAXcnubLZR0x/SVVOk0qn+/oGbmwtHaa?=
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SnVvckk2SXFKeXhnYzF6R1pZKzNsMm9heHYvV3dSR29SeEhEN3dNNVRZcTBx?=
+ =?utf-8?B?bDg1RS9XZExNWFg2dG9jTVBYaVlEaGp2aStWUHg3Q1pacGZHbmFmV0lzMXMx?=
+ =?utf-8?B?aHdRek16OUhCQ1B6b1FHcmdhZVRnWHd6b0pLVjN5OE1FdS90bktHeTEvZDVl?=
+ =?utf-8?B?b0p0YXVGWk84YWpuYWt6RmZoSkowdzhWYnNIYkozc1N1OEI4aUlFdFEzcndu?=
+ =?utf-8?B?cS9YZ3BOQ2U5QU5MbFAyRnpsTVFSOFRoMkpkQ3owcDNrS2NFRlg4NDZ4R1JN?=
+ =?utf-8?B?eG1HOTBITnMxWThYQ1NnemprRFZkR3pOWWxYVEppeWxFa1NadE8wa3FEdUxI?=
+ =?utf-8?B?YWs2VEJBejZZdlVwN3poQUNZM2JJajE3NGMySytTM3ROdVcwbnhsU1FBZlNG?=
+ =?utf-8?B?WkFpVVhLck14ZmRrLy9PNmxXWmlac2xYWVBseWRGTnRQZVpSNTJOSTZkVVhu?=
+ =?utf-8?B?Q21rbkh4cG9NT3JUaS9uUEV0dzJKR1IxWDJtbEdKNFJyNjBFMEUzeWpRei9k?=
+ =?utf-8?B?dzBRZDhLWG16c0xGclFWQ1NGUjdkeTg0aDJaMnZIQXRvRXk5and0WW5peExk?=
+ =?utf-8?B?Rjl6eFAzU1JRQVJyN2NhYlV3SFpUVmhIZTgrSGxsM2Y2T3RLWUFhd1crQzEz?=
+ =?utf-8?B?cll5cFNjdWhsZXdyWm9lOXNNaTRhbFEvU05lV2Jqb2picE0ySUtCMUVaa0pD?=
+ =?utf-8?B?ZDl2a25HK0JONTc2Z0llRHd1VFp1ak1YaHlHdXJ2MytuRHRCL0JOMWY2MkNY?=
+ =?utf-8?B?ZVM2eWkxMDNWSWRkYXY1Z2NDSmNvQlRhampxUnRlcElhNHczYVkrM2tmaFps?=
+ =?utf-8?B?UC96c081M2lOYzhTUDlKaEFKMVJxUlE5dzdJYm9KLytXYnhmRUFBZWtjdmhx?=
+ =?utf-8?B?NlFrVER2RUxFYzJnK01hN1lpTDZweU9GZHM5WHZuVWtoTDYyTzZVNmRZVzdS?=
+ =?utf-8?B?cUxHTVlxaU9tYy8wa0dDY1lON0FNTTdzbTZ5SmVZRTNtczQ0SitCUCtnR3ls?=
+ =?utf-8?B?RU05QWZBaTdqYnpaN3V3d2YrVmpWQzFuUkZLVllQT2xYVERZSW9LRHI5Q3hH?=
+ =?utf-8?B?Q1krZHRHWVpOeGVSWGdleThza0NLTXhOTU5FTHFvYUw1OElHc0tRbHp2SCtE?=
+ =?utf-8?B?a1lEVTNHVVdHdUwwNU9LNEwrWnBodVhyRWI5TXE4SFgrWkZpaEJldFVzOXBp?=
+ =?utf-8?B?cnFnZEVjMjY2cXQ3ZVAxRHMrM05BYkdkUVV4YkkxQjdteG95clA1MWFZR1JW?=
+ =?utf-8?B?Q05CUTRRMCtnbXUvWmhCa3o5dk5kNEs4WmJWQlRCckVVRUJPQVpZbVlVelhH?=
+ =?utf-8?B?QnpPQWR6dTRZK0V1cWpuTlRIU2w3ZVp2L3kyZ0JMeXpTMWZHaW5zMmFyeldp?=
+ =?utf-8?B?d3k4QWZsQVhhVUNiRWlKeDllN0lsOCs0dlFPNXlLUW5vUnQwMnVXenZTRXNu?=
+ =?utf-8?B?S2UwOTFhM2h4anMrMDNrV29VeFd2MXNjUTBhcFk2dlRod0EvUTVkRnVaZlBF?=
+ =?utf-8?B?cGp0QW1Md2ptTVVhdEIyMGFBR1VrVVliZGVCNC94dTdPWEZPK1VZY25Rb3d1?=
+ =?utf-8?B?d2p0dk9JTDJIWjZWSGlsQW5lNGluVUk5SXJTUXNTSG5XaFo2aWtkUzBMeXlz?=
+ =?utf-8?B?dnFqREpZS203TVA3SUdWR0JIR0Z6dGVNdG9WbG5oc3k2QTNYTWpJTmtHRnpy?=
+ =?utf-8?B?WHlkZHUrYVJnVXF4dnIvZ0NqV1pzaFZ0RUFJVGQ1U2xISzdlbnhBRGp1dE5P?=
+ =?utf-8?Q?VvtpmpoFVCwI9wrZxdj1Iq9X8IQL0kbWhHlQNFo?=
 x-ms-exchange-transport-forked: True
-Content-ID: <03B01FE188098C41BA04136306C5054A@eurprd03.prod.outlook.com>
+Content-ID: <49550FD4B4C00A40BC5563506EF5B23B@eurprd03.prod.outlook.com>
 MIME-Version: 1.0
 X-OriginatorOrg: primelogic.nl
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR03MB4211.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25fbe059-2fc2-4238-72c7-08d96c838d5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2021 13:30:51.5963 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fcd0150-1685-41d9-a3bc-08d96c85356a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2021 13:42:43.1357 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: e6f00f2a-c615-4e27-aa0e-cb78655623c8
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6/YnBDiQUso5hECOQ7Yluata4M6vdojsmouE93GomClkmBd5NQ9xPy/CnchOozlF5rcyIV2ual6onYyHffFtRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB4339
+X-MS-Exchange-CrossTenant-userprincipalname: uNra4Of20N/ecFdmKGJ/mBh81I+UuqYaXTORyH0nxh2utFySI2i+ttmmDT2IJfzrPGcBhJRaoNXAyJIWdZcR9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB4721
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210831_063058_455875_22D3FFCA 
-X-CRM114-Status: GOOD (  10.49  )
+X-CRM114-CacheID: sfid-20210831_064246_408270_5F8C14D7 
+X-CRM114-Status: GOOD (  14.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,66 +151,67 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+When I connect an SPDK initiator it will try to connect using 1024 connections.
+The linux target is unable to handle this situation and return an error.
 
-I can consistently crash a system when I sufficiently overload the nvme-tcp target.
-The easiest way to reproduce the problem is by creating a raid5.
+Aug 28 14:22:56 crashme kernel: [169366.627010] infiniband mlx5_0: create_qp:2789:(pid 33755): Create QP type 2 failed
+Aug 28 14:22:56 crashme kernel: [169366.627913] nvmet_rdma: failed to create_qp ret= -12
+Aug 28 14:22:56 crashme kernel: [169366.628498] nvmet_rdma: nvmet_rdma_alloc_queue: creating RDMA queue failed (-12).
 
-While this R5 is resyncing export it with the nvmet-tcp target driver and start a high queue-depth 4K random fio workload from the initiator.
-At some point the target system will start logging these messages:
-[ 2865.725069] nvmet: ctrl 238 keep-alive timer (15 seconds) expired!
-[ 2865.725072] nvmet: ctrl 236 keep-alive timer (15 seconds) expired!
-[ 2865.725075] nvmet: ctrl 238 fatal error occurred!
-[ 2865.725076] nvmet: ctrl 236 fatal error occurred!
-[ 2865.725080] nvmet: ctrl 237 keep-alive timer (15 seconds) expired!
-[ 2865.725083] nvmet: ctrl 237 fatal error occurred!
-[ 2865.725087] nvmet: ctrl 235 keep-alive timer (15 seconds) expired!
-[ 2865.725094] nvmet: ctrl 235 fatal error occurred!
+It is really easy to reproduce the problem, even when not using the SPDK initiator.
 
-Even when you stop all IO from the initiator some of the nvmet_tcp_wq workers will keep running forever.
-The workload shown with "top" never returns to the normal idle level.
+Just type:
+nvme connect --transport=rdma --queue-size=1024 --nqn=SOME.NQN --traddr=SOME.IP --trsvcid=XXXX
+While a linux initiator attempts to setup 64 connections, SPDK attempts to create 1024 connections.
 
-root      5669  1.1  0.0      0     0 ?        D<   03:39   0:09 [kworker/22:2H+nvmet_tcp_wq]
-root      5670  0.8  0.0      0     0 ?        D<   03:39   0:06 [kworker/55:2H+nvmet_tcp_wq]
-root      5676  0.2  0.0      0     0 ?        D<   03:39   0:01 [kworker/29:2H+nvmet_tcp_wq]
-root      5677 12.2  0.0      0     0 ?        D<   03:39   1:35 [kworker/59:2H+nvmet_tcp_wq]
-root      5679  5.7  0.0      0     0 ?        D<   03:39   0:44 [kworker/27:2H+nvmet_tcp_wq]
-root      5680  2.9  0.0      0     0 ?        I<   03:39   0:23 [kworker/57:2H-nvmet_tcp_wq]
-root      5681  1.0  0.0      0     0 ?        D<   03:39   0:08 [kworker/60:2H+nvmet_tcp_wq]
-root      5682  0.5  0.0      0     0 ?        D<   03:39   0:04 [kworker/18:2H+nvmet_tcp_wq]
-root      5683  5.8  0.0      0     0 ?        D<   03:39   0:45 [kworker/54:2H+nvmet_tcp_wq]
+The result is that anything which relies on SPDK, like VMware 7.x for example, won't be able to connect.
+Forcing the queues to be restricted to 256 QD solves some of it. In this case SPDK and VMware seem to connect.
+See the code section below. Sadly, VMware declares the path to be dead afterwards. I guess this 'fix' needs more work. ;-(
 
-The number of running nvmet_tcp_wq will keep increasing once you hit the problem:
-
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvmet_tcp_wq | tail -3
-41114 ?        D<     0:00 [kworker/25:21H+nvmet_tcp_wq]
-41152 ?        D<     0:00 [kworker/54:25H+nvmet_tcp_wq]
-
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvme | grep wq | wc -l
-500
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvme | grep wq | wc -l
-502
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvmet_tcp_wq | wc -l
-503
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvmet_tcp_wq | wc -l
-505
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvmet_tcp_wq | wc -l
-506
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvmet_tcp_wq | wc -l
-511
-gold:/var/crash/2021-08-26-08:38 # ps ax | grep nvmet_tcp_wq | wc -l
-661
-
-Eventually the system runs out of resources.
-At some point the system will reach a workload of 2000+ and crash.
-
-So far, I have been unable to determine why the number of nvmet_tcp_wq keeps increasing.
-It must be because the current failed worker gets replaced by a new worker without the old being terminated.
+In noticed that someone reported this problem on the SPDK list: 
+https://github.com/spdk/spdk/issues/1719
 
 Thanks,
 
-Mark Ruijter
+Mark
 
+---
+static int
+nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
+                                struct nvmet_rdma_queue *queue)
+{
+        struct nvme_rdma_cm_req *req;
+
+        req = (struct nvme_rdma_cm_req *)conn->private_data;
+        if (!req || conn->private_data_len == 0)
+                return NVME_RDMA_CM_INVALID_LEN;
+
+        if (le16_to_cpu(req->recfmt) != NVME_RDMA_CM_FMT_1_0)
+                return NVME_RDMA_CM_INVALID_RECFMT;
+
+        queue->host_qid = le16_to_cpu(req->qid);
+
+        /*
+         * req->hsqsize corresponds to our recv queue size plus 1
+         * req->hrqsize corresponds to our send queue size
+         */
+        queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
+        queue->send_queue_size = le16_to_cpu(req->hrqsize);
+        if (!queue->host_qid && queue->recv_queue_size > NVME_AQ_DEPTH) {
+                pr_info("MARK nvmet_rdma_parse_cm_connect_req return %i", NVME_RDMA_CM_INVALID_HSQSIZE);
+                return NVME_RDMA_CM_INVALID_HSQSIZE;
+        }
+
++        if (queue->recv_queue_size > 256)
++               queue->recv_queue_size = 256;
++        if (queue->send_queue_size > 256)
++               queue->send_queue_size = 256;
++       pr_info("MARK queue->recv_queue_size = %i", queue->recv_queue_size);
++       pr_info("MARK queue->send_queue_size = %i", queue->send_queue_size);
+
+        /* XXX: Should we enforce some kind of max for IO queues? */
+        return 0;
+}
 
 
 
