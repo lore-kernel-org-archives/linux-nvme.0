@@ -2,82 +2,142 @@ Return-Path: <SRS0=EXAn=NX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 604EBC4320E
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Sep 2021 14:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 789D0C432BE
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Sep 2021 14:51:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1825A61056
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Sep 2021 14:47:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1825A61056
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id EB38160ED4
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Sep 2021 14:51:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EB38160ED4
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=primelogic.nl
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SkVmzcYuSbB42bxdHvsZrOxQPNWjGhIVTsCnCgi0wYQ=; b=UtfcHcCW7oiO4Rk+3IGi5hALmH
-	uQiK+P3j6ke9jY/ISyj7VtxfgbH78FWhycQ10cGGf7pBl21x/V5qCpzBnKwtsVlLuR70wiI90PrA4
-	JOLgXVAGkbCG2ntzD8xUTK4lx93f/nS8eTn6XPj5p6Tdkd0SYModYtJnzdYoIwJ/Zb/CiZeyYt+pQ
-	IIVdKpwGDBj1m2glQlBa/ZbX3qVGUbWdUwUylwqnCSYziS0p00Lw3kfq/GlIUnAjVl5/XUqz4IK6o
-	cmMKZod2h/OuCG9X7qYvIc7r5iw9JqMDSOvTnTx+bBXWk+6UygY1FJ5hJBoxANBf3QqWxWu9N4paO
-	rYYtuirA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=2ejPmYoXLt4t5mgEA+77NwX8dothw/9o0REZCiUfDA8=; b=3cnzef+xEogQRv
+	E/XE3tP1SnxojVODKTnSpTSr0FgDjLjDlFBhjRNB9sn0JMsf4RghGHkibUfhnwPy8d8Tj2ILcnAbb
+	CV2Ae/8qwn9LJ7gb4uf2MDoXgZufu4s9Hsd1u110dudxOgw0gai4ZEpfy8wi5/ctaYYu5q7TEBfyb
+	V3sol+93TsimKYMgvC/iCCp+zrOKgjhR0HM+TQ7jwsztWvY/jWcBbnz37Gj5ABrHFdq3wYqC9F3mP
+	Se48ncXYN4tXO3g/2Xo15MXOp1nudNwZsgR7v3HgYOZGhB1ump3yasZsP4jhUnWDKQogS8Qqm7+M/
+	XX1ALAnVaWr8OmkaE8BQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mLRWQ-006Hl7-Ru; Wed, 01 Sep 2021 14:47:26 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1mLRaO-006IQS-P6; Wed, 01 Sep 2021 14:51:32 +0000
+Received: from mail-eopbgr80105.outbound.protection.outlook.com
+ ([40.107.8.105] helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mLRWG-006Hjw-Sn
- for linux-nvme@lists.infradead.org; Wed, 01 Sep 2021 14:47:18 +0000
-Received: by mail-wm1-f41.google.com with SMTP id e26so2090589wmk.2
- for <linux-nvme@lists.infradead.org>; Wed, 01 Sep 2021 07:47:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cO9WV7kMd+UCwErRi8QICTFJxvpLvyFGb5rsDdVRM38=;
- b=suSh8WNKiZYwwmCwlr1FSytaW9SdbuFs4VsZqiQ4+m98cB+df02TZjUVbHpM+gHP3b
- sAqL6g+yUzc9OwuUN5tGPeZpFKkFvygCwhI9A0A4XU3R4YWGiK7Qx4DeQdry0DJTjKm/
- rGV0AkFQW338XS3vtT1dvfOwYz8fjPniWXEyIxTQHgN5Mo4mtyQMD9REO8iE7MQKIC/F
- GPGZJx83bj4EkvjjxM6D9SDygcT5tfopaFYUsnSeBnPiJ0G7KduJuhesnVdATPLj5SDt
- kMyjrTQbVcVx5IDvYPsboSRaTKL33aA05KN9swCJwPsoEFNjDjSkd3c1xG4BG5z9t1K9
- SCgg==
-X-Gm-Message-State: AOAM530Y1pCXx9RV805efy5t8wL1Zfy30u4I0S3Jw7+6m3/KWXdPGMkt
- 3ujm+vpaGroA2c6LrAEwF23y852dAlw=
-X-Google-Smtp-Source: ABdhPJxoSt6G0oC8hDbSXbbcuJ4A0lmvMJNKxHhqO92FikJRQZ7JQTX6IftOd1H1xClpc7q5FmSu3Q==
-X-Received: by 2002:a05:600c:3213:: with SMTP id
- r19mr9988807wmp.11.1630507633601; 
- Wed, 01 Sep 2021 07:47:13 -0700 (PDT)
-Received: from [10.100.102.14] (109-186-228-184.bb.netvision.net.il.
- [109.186.228.184])
- by smtp.gmail.com with ESMTPSA id p13sm21650028wro.8.2021.09.01.07.47.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 07:47:13 -0700 (PDT)
-Subject: Re: nvme-tcp crashes the system when overloading the backend device.
-To: Mark Ruijter <mruijter@primelogic.nl>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <1A17C9D4-327C-45D6-B7BB-D69AEB169BBD@primelogic.nl>
- <11cd3514-570a-8bf1-55f7-cda6cacc7124@grimberg.me>
- <2E0B97E4-8182-4EF5-8D90-DA4998C58295@primelogic.nl>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <06beadce-b135-f1ac-094a-8262ea37fe86@grimberg.me>
-Date: Wed, 1 Sep 2021 17:47:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ id 1mLRaB-006IOr-2C
+ for linux-nvme@lists.infradead.org; Wed, 01 Sep 2021 14:51:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m+U4GW/uO9bUMwV66cweYR0p848GI+UMjYFF3hRzVUSXfXstUG6NBbMU7FoGb+/4lFMaG5xYPD8tDmtf/AcFfxYkPQyLxzBopJ+gBLag2Xf/zY3wrvhzkt7S+UWMfKhSaq2dukuQeAK45julE6h4cUm1YUnyUe88krJ05c4eqFCju87tmqEttC7n+K+72QLLtTED4isnk6ajmv5nW/idkXJEO5d/H6uAJLnfY362sH43lWMNt5nzWzYVZ4wcredNJzc8ALA7lDy/9aLJ4HVEpMXkIzkM2cMSBa9JhOY/TBVFAbxVX6AjMr1BpuSW3JEACMNoORW2X6OsEEXSjLXzFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8omhjXvFWzD9VFUzVscic24Wb2wh6Vif3KRp7sQXpC8=;
+ b=JL9sScxLiHhCwBvFFzfw6cyYTDDgZHbCRGVGwdmm4kkCD/g1Ccw53yNhK3Y8lf9DYrcyGiUobdYHcvaxJSdS9NW3k3hmzjmFwqZEdfWveH+hVLFTPhuLguqF3yct0uW7dvZssgFRcEyTgn7v68ydtwiPBilF2+bgwJeonTF4c1V3xWCaYvHRdHVIFKZwlKXPqChaxczDaqZBMZshIo1vL14arGnfvRCUpjh34C6Gv5dtVZGxTlxxHyuWrcoh4JfeQR6N892wDfLiRgh1W5PbXF7Ja26RFLcfGBWm8TFEbKj2SGbkL5v5D9/aFujIU3CQJUouRbnGR/fOKJUKDdYH2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=primelogic.nl; dmarc=pass action=none
+ header.from=primelogic.nl; dkim=pass header.d=primelogic.nl; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=primelogicnl.onmicrosoft.com; s=selector1-primelogicnl-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8omhjXvFWzD9VFUzVscic24Wb2wh6Vif3KRp7sQXpC8=;
+ b=wq1hvOu09JGorjS60nbheKrutyEq81p+da9oGRzMEH7VlCKtgGqFdpVbycTBo6XtWWlVxoR+CDUjKizCoySWQ7ZZEsyfQk5u4HGPVm4vWOLNPbocGetvge+ta2vZnvUNGUttOY7L46uEhkHhWDQPR21dYLyquNo2ixFPneZ0NNI=
+Received: from AM0PR03MB4211.eurprd03.prod.outlook.com (2603:10a6:208:c1::28)
+ by AM9PR03MB6979.eurprd03.prod.outlook.com (2603:10a6:20b:285::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.24; Wed, 1 Sep
+ 2021 14:51:15 +0000
+Received: from AM0PR03MB4211.eurprd03.prod.outlook.com
+ ([fe80::149b:9250:f59:b791]) by AM0PR03MB4211.eurprd03.prod.outlook.com
+ ([fe80::149b:9250:f59:b791%5]) with mapi id 15.20.4478.019; Wed, 1 Sep 2021
+ 14:51:15 +0000
+From: Mark Ruijter <mruijter@primelogic.nl>
+To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: SPDK initiators (Vmware 7.x) can not connect to nvmet-rdma.
+Thread-Topic: SPDK initiators (Vmware 7.x) can not connect to nvmet-rdma.
+Thread-Index: AQHXnm4SW+F2pBQEIUGXFPYlGAQ1jquPI6QAgABCp4A=
+Date: Wed, 1 Sep 2021 14:51:15 +0000
+Message-ID: <0FA43353-7C04-4CAE-9E84-CA0DE6907492@primelogic.nl>
+References: <CA3F5384-4B57-47ED-9DFE-27E80F3D312C@primelogic.nl>
+ <07e2bbb2-2b62-f0a3-b845-27398268c468@grimberg.me>
+In-Reply-To: <07e2bbb2-2b62-f0a3-b845-27398268c468@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: grimberg.me; dkim=none (message not signed)
+ header.d=none;grimberg.me; dmarc=none action=none header.from=primelogic.nl;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 72e65124-e7b2-4a0e-bf07-08d96d57f319
+x-ms-traffictypediagnostic: AM9PR03MB6979:
+x-microsoft-antispam-prvs: <AM9PR03MB69799B2283761184CEECB76DD1CD9@AM9PR03MB6979.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FGBgNqglJAbYOI6dn61vbYzpAnqQCYNzHaPBK4vFJHfoGTSg6p1sB+2OJBa3vXB2zXyPXqPe3wmsRJUGuUZ/6F8kcUKCWv/NaoAftZNwJADb5SvYlmF0wn9D4WNV80yCUzN2ebrfu5RqvvQMkN+k7ziQVA/sDq78Wht3umZUU5Lac0AnkOFT3LKFhTdk66sgxyJJu8dBmvrdQZOkn/Qzu5OSLkh4xBPWgQGulQYccnFHGr5fWNbHVy3cGrR3Ev9DvSAWabtvQxlq0tYQFbKUtgiSiyO4CT6XiolTpHDAsUoiqbPeCXuWkORsSZAA9OO86pwIqsrQMpB1T2RUIWmvoxwQUNggAx2zgGZIaWr5SHSwOIEVSAAB8v+khISWMn/Mso5jJZRATfDMl73aBbcWIhs+0+nHY/rv86I3XdmoVhlez0A6YxKhozEirDWh399+1Noy/JpGqr4vvIQuWfaOpYSFXd8c4Qb9PdqbRSCOa4nJkWmKCHyKlBTk9+6dbMG/VzH7U7V+eeiaFqoac0WCndOHtPVUCW5o1pU3G2YKgjsRccMAJ2oh6AloRfVzQhYO2/zJ4bz+snvhXTwA28MauIt/qyFwxfu8KLdaMTWSbLz3iTh4gsn6jgbyPj/BicJxADfP3zUPAxvGnM2F8OoFST5IIoFcY11fBRpKurA0d0dGCyUA1Nu+MBXeJrXKFEnvH/WzshV2U7jHtc5vnXAN8kOZtXZbicRjvQUfI0LsfYw=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR03MB4211.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(366004)(136003)(346002)(376002)(39830400003)(478600001)(122000001)(110136005)(6486002)(2906002)(316002)(2616005)(38100700002)(6512007)(66446008)(66556008)(64756008)(66476007)(36756003)(8676002)(76116006)(66946007)(71200400001)(33656002)(8936002)(86362001)(5660300002)(186003)(6506007)(26005)(38070700005)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Vjc2Tzhrem5kOGptTXI4bC9JSVVVRVJYVGVmWEtURkx3VmIrM1Q5a1hvVU10?=
+ =?utf-8?B?ODVzM004ZjBldlFFbDJyLzU3MmxxbUpCSHhkZHlaVUlBd2RKU3dTQXVDK0Zn?=
+ =?utf-8?B?UEhYdzFQaU0vNTRRdnZ5a3JxZEdkeGczeW0xZUFNdnVxODlXOHRWNGYwbFlv?=
+ =?utf-8?B?OTNNV0VDZFdnNkUrbFZ5Y0xlK3hyWmE4bnVVRHZNcWl6bEJmeDhIOXF2OTNV?=
+ =?utf-8?B?ODNMYVdBNTF5bFRqUGhnMXVmSXBPQ2dOQlRlSCs2dWZCMW9oY2tZazV2WUlR?=
+ =?utf-8?B?VzRISTZFVnJwbjk0cUtUV2xjajlOR3hROHN5RG5PdEt6N3BieHQvWVpGVUhF?=
+ =?utf-8?B?enNxWDJnUFhyRUp5d0dzdStQUG4rOXkwajVJcEZEdWhNaUs4Z252Vlc5d290?=
+ =?utf-8?B?Y3NRS0JmMytKTUhpbHZaTjJLVEo2N0ZWc2NHcDVvcmo4ellWVXBrZ1pyWmJm?=
+ =?utf-8?B?WkF2QmhEV005cmFrYlVlQ2tscGtoU0k1NFBKeWZRNjRuZ2F3ZlBNQXl2aGFS?=
+ =?utf-8?B?MUgvL2Nkek1jY0ZzbkM5KzJ5UnJBMzJITncxZnJCYi9JTnNJR1p2T1oxY0pq?=
+ =?utf-8?B?Q2puYkNYcXRyUjZmdGpIWjNTaDNzV1VNLzd0WkdCSjQ3M04yQXVVajNHaFB2?=
+ =?utf-8?B?NFN3UkVrR24veVVoTytYZk5UNlpBUVBsSmRRVEQ5MjlRdndLenI1bTIwMzdO?=
+ =?utf-8?B?bHpEZ01EY093VVJsOWZSSHRWazFzOUc1Qnl5a2xWSmFVanVBMXljNEJIYU9D?=
+ =?utf-8?B?RWZEMjU4UHdPN091eGZXSnRNYWlFK1JxNSt2MGg0VUJNVTBjeXpNYlljYjl4?=
+ =?utf-8?B?UzNuQTJOSnVEL2x2a09XSkNwUlJLVVRTMnAzT1pIbDNIcW9ibzBHQmpySXBW?=
+ =?utf-8?B?Zml0UFRKNnhXTmFHeTNwVENwUW94UzhtR1NuaitOVE9GWEVCcWV0a1p3MDR0?=
+ =?utf-8?B?TGoreVRwbVNIUEEwaXRZN0g4V085c3JFMHR1Y2FmRU8zNURtZDRQQy9YemYz?=
+ =?utf-8?B?MWJETGVtV1Q5SDUzZGJudDN1VGp3QS9MY2ZJd09VUU5iRFU2dkdFeWxIOHZK?=
+ =?utf-8?B?Z0dFV2NDd1JXY1NyU3phcGJCTEx4Z3BBbllIMkNjSmtyS2xqcVh6Y2tHQ2ZL?=
+ =?utf-8?B?RnJ0Tkh4anZSS210V0xHQlpFVGZvSFJBUVNrQW9oKzNETFRtT3pzcG51N1RH?=
+ =?utf-8?B?U0IvbHdaZzg3N2FOVlRVallGU1pyeERibUZUK1Vqb3A4Y3djK3lWM3B4ZnMx?=
+ =?utf-8?B?U2ErdXhUTVJxV1RpZDNIWCtvYWV4MVNNVzVYdkVPZWROcHViVW9IK2dmbEln?=
+ =?utf-8?B?L2hxTE81bWtQTGEwZVJmVEhkTlhHUUlaTmdudk1RdW5jTXhBeXFQaHhKOUJl?=
+ =?utf-8?B?SnJGcDB1VGxuVEovbWtXS1VlN1NZUDdrOXdDN05xREduMVRPVThLQ0FXN0Rw?=
+ =?utf-8?B?TCtJcjJNeUtnTGZ5VTlEUExZcWN6QksrRE9IWFFpNm1yWkRwd051dEdHc05O?=
+ =?utf-8?B?QWZRdGRVOWRvUCtQOWFvcThtSXZEbFVvYmNlcHJKbWRJQmRUUkxKcEpUYlNN?=
+ =?utf-8?B?SmI4TXdScURMSXV2Ylk4TkgvRXFZUEpXcDY4b1grcUJKMk5MZWZlcjZJd0dV?=
+ =?utf-8?B?MEpUSHJYRXNMc1FBMzJaQlk3NmVoYlY2bVJkUE1NaHg1SmZLY3ArWE1yT1RL?=
+ =?utf-8?B?TURrS1FHSFZKK2ptMElEM0IwSjZ4SVloSktaWG5oM3lMRWZQNDhkOU45eC9n?=
+ =?utf-8?Q?gW7kabw2rZUrhhY2HgZ1v116KbHEjxbGXPge7/T?=
+x-ms-exchange-transport-forked: True
+Content-ID: <50A020E75B130D439BB8D020229B9AEF@eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <2E0B97E4-8182-4EF5-8D90-DA4998C58295@primelogic.nl>
-Content-Language: en-US
+X-OriginatorOrg: primelogic.nl
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR03MB4211.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72e65124-e7b2-4a0e-bf07-08d96d57f319
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2021 14:51:15.6599 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e6f00f2a-c615-4e27-aa0e-cb78655623c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: USH2D8Bkum6WO6lwLNrmsTd4d3l4kptVBObXFx0PgeXlO3DufAdFCfLsMoJwFL2Esgi4mhvQz5wX795QRglGdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB6979
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210901_074716_983634_1D53E78B 
-X-CRM114-Status: GOOD (  25.08  )
+X-CRM114-CacheID: sfid-20210901_075119_165805_138DAB6F 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,79 +149,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Hi Sagi,
-> 
-> I can reproduce this problem with any recent kernel.
-> At least all these kernels I tested suffer from the problem: 5.10.40, 5.10.57, 5.14-rc4 as well as SuSE SLES15-SP2 with kernel 5.3.18-24.37-default.
-> On the initiator I use Ubuntu 20.04 LTS with kernel 5.10.0-1019.
-
-Thanks.
-
->>> Is it possible to check if the R5 device has inflight commands? if not
-> there is some race condition or misaccounting that prevents an orderly
-> shutdown of the queues.
-> 
-> I will double check; however, I don't think that the underlying device is the problem.
-> The exact same test passes with the nvmet-rdma target.
-> It only fails with the nvmet-tcp target driver.
-
-OK, that is useful information.
-
-> 
-> At far as I can tell I exhaust the budget in nvmet_tcp_io_work and requeue:
-> 
-> 1293         } while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
-> 1294
-> 1295         /*
-> 1296          * Requeue the worker if idle deadline period is in progress or any
-> 1297          * ops activity was recorded during the do-while loop above.
-> 1298          */
-> 1299         if (nvmet_tcp_check_queue_deadline(queue, ops) || pending)
-> 1300                 queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
-> 
-> I added pr_info statements in the code to determine what is going on:
-> 2021-09-01T07:15:26.944067-06:00 gold kernel: [ 5502.786914] nvmet_tcp: MARK exhausted budget: ret = 0, ops = 71
-> 2021-09-01T07:15:26.944070-06:00 gold kernel: [ 5502.787455] nvmet: ctrl 49 keep-alive timer (15 seconds) expired!
-> 2021-09-01T07:15:26.944072-06:00 gold kernel: [ 5502.787461] nvmet: ctrl 49 fatal error occurred!
-> 
-> Shortly after the routine nvmet_fatal_error_handler gets triggered:
-> static void nvmet_fatal_error_handler(struct work_struct *work)
-> {
->          struct nvmet_ctrl *ctrl =
->                          container_of(work, struct nvmet_ctrl, fatal_err_work);
-> 
->          pr_err("ctrl %d fatal error occurred!\n", ctrl->cntlid);
->          ctrl->ops->delete_ctrl(ctrl);
-> }
-> 
-> Some of nvme_tcp_wq workers now keep running and the number of workers keeps increasing.
-> root      3686  3.3  0.0      0     0 ?        I<   07:31   0:29 [kworker/11:0H-nvmet_tcp_wq]
-> root      3689 12.0  0.0      0     0 ?        I<   07:31   1:43 [kworker/25:0H-nvmet_tcp_wq]
-> root      3695 12.0  0.0      0     0 ?        I<   07:31   1:43 [kworker/55:3H-nvmet_tcp_wq]
-> root      3699  5.0  0.0      0     0 ?        I<   07:31   0:43 [kworker/38:1H-nvmet_tcp_wq]
-> root      3704 11.5  0.0      0     0 ?        I<   07:31   1:39 [kworker/21:0H-nvmet_tcp_wq]
-> root      3708 12.1  0.0      0     0 ?        I<   07:31   1:44 [kworker/31:0H-nvmet_tcp_wq]
-> 
-> "nvmetcli clear" will no longer return after this and when you keep the initiators running the system eventually crashes.
-> 
-
-OK, so maybe some information can help. When you reproduce this for the 
-first time I would dump all the threads in the system to dmesg.
-
-So if you can do the following:
-1. reproduce the hang
-2. nvmetcli clear
-3. echo t > /proc/sysrq-trigger
-
-And share the dmesg output with us?
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+SGkgU2FnaSwNCg0KSSBhbSB1c2luZyBWTXdhcmUgNy54IGFzIGluaXRpYXRvciB3aXRoIFJETUEu
+DQpUaGUgdGFyZ2V0IHN5c3RlbSBpcyBydW5uaW5nIFVidW50dSAyMC4wNC4zIExUUyB3aXRoIGtl
+cm5lbCA1LjExLjIyKy4NCg0KVGhlIGRldmljZSB0aGF0IGlzIGV4cG9ydGVkIGlzIGFuIExWTSB2
+b2x1bWUsIGhvd2V2ZXIgSSBhbHNvIHRlc3RlZCB3aXRoIGEgZmlsZSBiYWNrZWQgbG9vcCBkZXZp
+Y2UuDQpDb25uZWN0aW5nIHdpdGggU1BESyBzZWVtcyB0byBiZSB0aGUgcHJvYmxlbSBhbmQgYXMg
+cmVwb3J0ZWQgb24gdGhlIFNQREsgbWFpbGluZy1saXN0IGl0IGNhbiBiZSB1c2VkIHRvIHJlcHJv
+ZHVjZSB0aGUgaXNzdWUgd2hlbiBWTVdhcmUgaXMgbm90IGF2YWlsYWJsZS4NCi4vcGVyZiAtcSA2
+NCAtUCAxIC1zIDQwOTYgLXcgcmVhZCAtdCAzMDAgLWMgMHgxIC1vIDQwOTYgLXIgJ3RydHlwZTpS
+RE1BIGFkcmZhbTpJUHY0IHRyYWRkcjoxNjkuMjU0Ljg1LjggdHJzdmNpZDo0NDIwJw0KDQpUaGlz
+IHNlZW1zIHRvIHByb2R1Y2UgYSBzaW1pbGFyIHJlc3VsdDoNCm52bWUgY29ubmVjdCAtLXRyYW5z
+cG9ydD1yZG1hIC0tcXVldWUtc2l6ZT0xMDI0IC0tbnFuPXRlc3RucW5fMSAtLXRyYWRkcj0xNjku
+MjU0Ljg1LjggLS10cnN2Y2lkPTQ0MjANCg0KSSBob3BlIHRoaXMgaGVscHMsDQoNCi0tTWFyaw0K
+DQrvu79PbiAwMS8wOS8yMDIxLCAxNDo1MiwgIlNhZ2kgR3JpbWJlcmciIDxzYWdpQGdyaW1iZXJn
+Lm1lPiB3cm90ZToNCg0KDQogICAgPiBXaGVuIEkgY29ubmVjdCBhbiBTUERLIGluaXRpYXRvciBp
+dCB3aWxsIHRyeSB0byBjb25uZWN0IHVzaW5nIDEwMjQgY29ubmVjdGlvbnMuDQogICAgPiBUaGUg
+bGludXggdGFyZ2V0IGlzIHVuYWJsZSB0byBoYW5kbGUgdGhpcyBzaXR1YXRpb24gYW5kIHJldHVy
+biBhbiBlcnJvci4NCiAgICA+IA0KICAgID4gQXVnIDI4IDE0OjIyOjU2IGNyYXNobWUga2VybmVs
+OiBbMTY5MzY2LjYyNzAxMF0gaW5maW5pYmFuZCBtbHg1XzA6IGNyZWF0ZV9xcDoyNzg5OihwaWQg
+MzM3NTUpOiBDcmVhdGUgUVAgdHlwZSAyIGZhaWxlZA0KICAgID4gQXVnIDI4IDE0OjIyOjU2IGNy
+YXNobWUga2VybmVsOiBbMTY5MzY2LjYyNzkxM10gbnZtZXRfcmRtYTogZmFpbGVkIHRvIGNyZWF0
+ZV9xcCByZXQ9IC0xMg0KICAgID4gQXVnIDI4IDE0OjIyOjU2IGNyYXNobWUga2VybmVsOiBbMTY5
+MzY2LjYyODQ5OF0gbnZtZXRfcmRtYTogbnZtZXRfcmRtYV9hbGxvY19xdWV1ZTogY3JlYXRpbmcg
+UkRNQSBxdWV1ZSBmYWlsZWQgKC0xMikuDQoNCiAgICBTZWVtcyB0aGF0IHRoZSB0YXJnZXQgaXMg
+dHJ5aW5nIHRvIG9wZW4gYSBxdWV1ZS1wYWlyIHRoYXQgaXMgbGFyZ2VyIHRoYW4NCiAgICBzdXBw
+b3J0ZWQsIHdoaWNoIGRldmljZSBhcmUgeW91IHVzaW5nPw0KDQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51
+eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
