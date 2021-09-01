@@ -1,100 +1,108 @@
-Return-Path: <SRS0=iyK+=NW=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=EXAn=NX=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE05C432BE
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 22:47:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 246E6C432BE
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Sep 2021 09:01:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08D6060FF2
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Aug 2021 22:47:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 08D6060FF2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kalrayinc.com
+	by mail.kernel.org (Postfix) with ESMTPS id DFA6B60462
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Sep 2021 09:01:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DFA6B60462
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:References:
-	In-Reply-To:Message-ID:Cc:To:From:Date:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=QLntMKwY1az90n9Hxx+WiXRtUJ7njXKI/w9SOYaQl78=; b=QEdVW1fzYjejDi/u2yta/tAh1f
-	IZF+39z4qsp18jiMzPrJi6Qw4quk//I4oG4PXiUCMKj3D6lQgVlMlAdDmYBmT5d+pmreU8x/R7Gr+
-	NJE6SraqSD+Uyx9OK2Fwdi2d4zGwhkQDohEm4UZKx1dJreUpmUpoDgGzdlINJ/gjVkaKIaNTd9N6V
-	iHwzSpU0qF/x8iC3db4gReqKKNUBAbRw5jgdkUOY09g2LrlXCwAEXwHwxSz+VtA/15V7BnGrQeoYQ
-	UbPYeW5b4JJVuJQTokuq5cMRuTpfFH66u3+7PcmZyIdq7Y5x7vJ1iFq8ZV6y+qEQaCBdgmZj50yoT
-	gcrn/Lvw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=uZQW7vm7q/zRiQ1tWXHuzkB/lSbfc30h0YumNTQOvH0=; b=Z9+XGX+tcfL2ij
+	l0BdysVHNRAbetjW6DrLzzlMcet/z2okp+n3OzMSYt6UFPXNdIc2nnymv7Be08BUto7JkiKTKx4uM
+	QwCYBRI+1iMt4GA6Pl2MME9YU0NR3LFEfSmamp+UG6FLTN2QQgkQvBXE5VJkL0GruTnc0SeK197UO
+	tw4e1sFpggwL3zgTga22CPjYnkdpWUtH+BtuCfSpRDN1tIxGeYB5L0Lqg51vffc1cq1P0MqXZmDi2
+	QiqW4gQalLM4iSPokLRRywwuNhzuTRRg8Ybl0vuGJfEhoLyStW7bwDegkH/3hZJyeQMC7VUt5UEre
+	Wmgi+eVIQz8EVlvfbtag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mLCX7-003K9c-DU; Tue, 31 Aug 2021 22:47:09 +0000
-Received: from mxout.security-mail.net ([85.31.212.42]
- helo=fx302.security-mail.net)
+	id 1mLM7U-004isp-4l; Wed, 01 Sep 2021 09:01:20 +0000
+Received: from mo-csw1516.securemx.jp ([210.130.202.155]
+ helo=mo-csw.securemx.jp)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mLCWy-003K9A-Uz
- for linux-nvme@lists.infradead.org; Tue, 31 Aug 2021 22:47:05 +0000
-Received: from localhost (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id D82C43D3B06B
- for <linux-nvme@lists.infradead.org>; Wed,  1 Sep 2021 00:46:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalrayinc.com;
- s=sec-sig-email; t=1630450013;
- bh=iyK5M5udoLjZjqyEs23TkPTYvCmj6tf08b4skpzkM/o=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject;
- b=Pcsd5rnaBtZIK+LGF9SUM/hj8k+ictN913DiFG5bwwmjSC/y5ZBGPWnFy60NPtU2I
- 62cKBOUhoySAfgEUKryNvcA4yT2MFQQ6P7jW5VO+iTyVv2NnmtlYYlMOcPLjUb4Jr3
- Rhi2a8A9uII53QP3J7WnEIXwe11dv/GkAQ7K3lHc=
-Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
- (Postfix) with ESMTP id 883813D3B078; Wed,  1 Sep 2021 00:46:53 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx302.security-mail.net (Postfix) with ESMTPS id 0FA4D3D3B06B; Wed,  1 Sep
- 2021 00:46:53 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id E99F827E02EE; Wed,  1 Sep 2021
- 00:46:52 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id CE28E27E02EB; Wed,  1 Sep 2021 00:46:52 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- 66SsGszYwN3X; Wed,  1 Sep 2021 00:46:52 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTP id B80BA27E02E8; Wed,  1 Sep 2021
- 00:46:52 +0200 (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <b18d.612eb15d.ef05.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu CE28E27E02EB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalrayinc.com;
- s=4F334102-7B72-11EB-A74E-42D0B9747555; t=1630450012;
- bh=8JUpniNTfUlM8pcogh9iTFdkNu8DgpWZLf8q6CJ2Xzc=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=s7oTj8AeB0YEYBXHNVh3mh5SLiUgo0B/rVcF2c0hgHLClzijJO0rVtX2xwK3BGnIp
- LHc6FYRdvlx5ktwo2N6lEARXVYYKFCn485tgQjDdxMIIS3p3K1AjxZ8HCyC5XLToH6
- nQw4guLs2HmqEFCh7H7YDJBqc/nV4ZjMJ+BZcVWAITu2+Yth4/iL56NXInOGq+Cv9w
- ImOpA98ph49RZ7NY39M9x0qOYFEsPcDjtKLa8ueOzju7DNxKdabe7m2oEFFz/xltsU
- upNIZHuPISR8yj9KWLAMMBj5GlmtcHEjzdDg/FhBnp9TLX1kyubibVRGzbIZDRCMQ2
- YOUpsZzibgBQA==
-Date: Wed, 1 Sep 2021 00:46:52 +0200 (CEST)
-From: Samuel Jones <sjones@kalrayinc.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme <linux-nvme@lists.infradead.org>
-Message-ID: <1306302519.5246175.1630450012705.JavaMail.zimbra@kalray.eu>
-In-Reply-To: <20210831023712.GA4046@dhcp-10-100-145-180.wdc.com>
-References: <1058345072.5039165.1630330229081.JavaMail.zimbra@kalray.eu>
- <20210831023712.GA4046@dhcp-10-100-145-180.wdc.com>
-Subject: Re: Command timeouts with NVMe TCP kernel driver
+ id 1mLLXV-004YUt-Ob
+ for linux-nvme@lists.infradead.org; Wed, 01 Sep 2021 08:24:11 +0000
+Received: by mo-csw.securemx.jp (mx-mo-csw1516) id 1818Njqh004816;
+ Wed, 1 Sep 2021 17:23:45 +0900
+X-Iguazu-Qid: 34trDWJKTf2SiJPISB
+X-Iguazu-QSIG: v=2; s=0; t=1630484625; q=34trDWJKTf2SiJPISB;
+ m=kn6fdyyjDWyL0Uhwj4t6ti3dxVxFCj4N2/4I9JTN0IM=
+Received: from CNN1EMTA01.test.kioxia.com ([202.248.33.144])
+ by relay.securemx.jp (mx-mr1513) id 1818NiFf032112;
+ Wed, 1 Sep 2021 17:23:44 +0900
+Received: from Switcher-Post_Send (gateway [10.232.20.1])
+ by CNN1EMTA01.test.kioxia.com (Postfix) with ESMTP id 2B8642F00E;
+ Wed,  1 Sep 2021 17:23:44 +0900 (JST)
+Received: from CNN1ESTR03.kioxia.com (localhost [127.0.0.1])
+ by Switcher-Post_Send (Postfix) with ESMTP id 12A2D1907AD217;
+ Wed,  1 Sep 2021 17:21:09 +0900 (JST)
+Received: from localhost [127.0.0.1] 
+ by CNN1ESTR03.kioxia.com with ESMTP id 0002TAAAAAA00JC2;
+ Wed, 1 Sep 2021 17:21:09 +0900
+Received: from CNN1EXMB03.r1.kioxia.com (CNN1EXMB03.r1.kioxia.com
+ [10.232.20.152])
+ by Switcher-Pre_Send (Postfix) with ESMTP id 07AD1A0347641;
+ Wed,  1 Sep 2021 17:21:09 +0900 (JST)
+Received: from CNN1EXMB02.r1.kioxia.com (10.232.20.151) by
+ CNN1EXMB03.r1.kioxia.com (10.232.20.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Wed, 1 Sep 2021 17:23:42 +0900
+Received: from CNN1EXMB02.r1.kioxia.com ([10.13.100.21]) by
+ CNN1EXMB02.r1.kioxia.com ([10.13.100.21]) with mapi id 15.01.2242.010; Wed, 1
+ Sep 2021 17:23:42 +0900
+From: sasaki tatsuya <tatsuya6.sasaki@kioxia.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] nvme: update keep alive interval when kato is modified
+Thread-Topic: [PATCH v3] nvme: update keep alive interval when kato is modified
+Thread-Index: AdefCnVHT6aDpXBYTEKau30wTNdtIA==
+Date: Wed, 1 Sep 2021 08:23:42 +0000
+Message-ID: <894db4eeb08a4622aa1b08425cad0133@kioxia.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.211.46.251]
+x-tm-as-product-ver: ISME-14.0.0.2080-8.5.1020-26380.000
+x-tm-as-result: No-10-1.468400-8.000000
+x-tmase-matchedrid: /nPNxfnsEhP5uyvfNjfPTxvgzEPRJaDEKQNhMboqZloTiSW9r3PknEfj
+ d+aXilyPRToGmkNUJwa4TDy5Lbm+t57ghrpuj+9i6s5dyYfDHehWy4+qD6wC2YB4XybRlTmEhL3
+ rCQ6U0+Qc+2+RgGf529PzWwTEpBnXu6Xs4AbfF8F+J3gtIe0gA7qoFakaELIgByGoU9ZSHrbFYx
+ BBONJAzQ4LQ4ivyVfr3W0MEVF2MTJfIZMaSDtuL4S/TV9k6ppAMVx/3ZYby79DlOm+558WVom99
+ KFCUKgfSqdra4WWujyPQi9XuOWoOHI/MxNRI7Uks0T0PE+KHuV7xIKEgZq/Aeffrtw9TYLh7fKx
+ aM2xqkADxZCHySssjFSCmfT2v3te9JykO4HIhnKtllqIt7O6XeRjZuXE0WlHvGAx/1ATZ5v6J9J
+ Pzr0FdcoLwUdWvzxRho9FZFW/cB2VH5Uhim9YYG/6CCblACLhZLeVqspIPked277WeIa5e1WGm7
+ GL6RCdngIgpj8eDcByZ8zcONpAscRB0bsfrpPINogTRkHigdygTkMzC2F9D9nbeNR4uIDN8RwA4
+ ZVylct4GSStKYzYmuWNmJGaCGf9lFOSU6PFPfQyBfFEI+ZKDwm1lnxnTxFMF8n+PiAiji0E2TM8
+ 4EuTy0FgpjGVf2/bBUYQ6VBjSapyPw0xDpM2TfHHxQDHp3JrVlxr1FJij9s=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10-1.468400-8.000000
+x-tmase-version: ISME-14.0.0.2080-8.5.1020-26380.000
+x-tm-snts-smtp: 52C2AE1A7D514335A88CFA192EDA386345EB4928B880FA4C60A19B3A92D850162000:8
 MIME-Version: 1.0
-X-Originating-IP: [192.168.40.202]
-X-Mailer: Zimbra 9.0.0_GA_3990 (ZimbraWebClient - FF70 (Linux)/9.0.0_GA_3990)
-Thread-Topic: Command timeouts with NVMe TCP kernel driver
-Thread-Index: AbCnsJ1Ok+6SmkUOJZoQxTrOr7vU6Q==
-X-ALTERMIMEV2_out: done
+X-CrossPremisesHeadersFilteredBySendConnector: CNN1EXMB03.r1.kioxia.com
+X-OrganizationHeadersPreserved: CNN1EXMB03.r1.kioxia.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210831_154701_250356_8B181A12 
-X-CRM114-Status: GOOD (  36.19  )
+X-CRM114-CacheID: sfid-20210901_012410_072917_68234CE0 
+X-CRM114-Status: GOOD (  17.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,81 +119,113 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> On Mon, Aug 30, 2021 at 03:30:29PM +0200, Samuel Jones wrote:
->> Hi all,
->> 
->> I'm experiencing command timeouts with recent versions of nvme-tcp driver. I
->> have set up with a VM running 5.8 which is ok, but the same test load (100%RD
->> 16K blocks) on a VM 5.11 or later, including 5.14-rc7, shows the same issue.
->> The initatior complains as follows:
->> 
->> Aug 30 14:58:05 centos7 kernel: nvme nvme0: queue 7: timeout request 0x10 type 4
->> Aug 30 14:58:05 centos7 kernel: nvme nvme0: starting error recovery
->> 
->> My target is a Kalray target, but I have no trace of any outstanding commands
->> when this situation occurs. Quite the opposite: The Kalray board observes that
->> the initiator stops sending new requests on the queue some time before this
->> command times out.
->> 
->> I don't have any similar issues using SPDK as an initiator. I made the following
->> modification to nvme-tcp code and my problem has disappeared:
->> 
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -287,6 +287,7 @@ static inline void nvme_tcp_queue_request(struct
->> nvme_tcp_request *req,
->> * directly, otherwise queue io_work. Also, only do that if we
->> * are on the same cpu, so we don't introduce contention.
->> */
->> +#if 0
->> if (queue->io_cpu == raw_smp_processor_id() &&
->> sync && empty && mutex_trylock(&queue->send_mutex)) {
->> queue->more_requests = !last;
->> @@ -296,6 +297,9 @@ static inline void nvme_tcp_queue_request(struct
->> nvme_tcp_request *req,
->> } else if (last) {
->> queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->> }
->> +#else
->> + queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->> +#endif
->> }
->> 
->> To be honest, this bit of code has always bothered me: I don't understand how we
->> can guarantee that the thread doesn't change CPU between the call to
->> raw_smp_processor_id() and the trylock. I assume that even if this does occur,
->> the fact that we hold queue->send_mutex() is supposed to make sure that there
->> are no atomicity issues, but I'm concerned about the logic that tries to
->> determine if there is any more pending work and reschedule io_work if and only
->> if there is something to do. I can't pinpoint an issue from just reading the
->> code though..
->> 
->> Does anyone have any thoughts on this? Is my patch proof that there is an issue
->> in this code, or am I likely to be changing the program flow so significantly
->> that we can't conclude? Are there any open issues wrt command timeouts at the
->> moment?
-> 
-> I've seen similar, but I thought we'd fixed all those issues. Your poc
-> patch indicates to me that there is still at least another condition
-> that's not being considered. I don't think the possibility of CPU
-> rescheduling is the culprit, though.
-> 
-> One thing that looks problematic is if 'bd.last' is true but
-> nvme_tcp_queue_rq() fails early after enqueuing previous commands in the
-> sequence. That could cause the io_work to never kick. There should have
-> been something else in dmesg indicating that error, though, so I'll look
-> for some other possibility.
-> 
+Currently the connection between host and NVMe-oF target gets
+disconnected by keep-alive timeout when a user connects to a target
+with a relatively large kato value and then sets the smaller kato
+with a set features command (e.g. connects with 60 seconds kato value
+and then sets 10 seconds kato value).
 
-Thanks for your help on this Keith. I think I have a better idea about what is happening now. First of all, I have a large number of devices exposed over NVMe-TCP: I'm connecting to 4 remote NVMe devices each of which is multi-namespace, so I have a total of 37 block devices at once. Then I run a userspace benchmark that's running 8 threads per block device and generating IO to each of them. I'm not sure how the multi queue block devices are layered over the X NVMe queues per device, but however it works my system is on its knees. I have been timestamping the time spent by NVMe-TCP threads inside kernel_sendpage() within nvme_tcp_try_send_cmd_pdu() when called from nvme_tcp_queue_rq() and I'm getting some ridiculous outliers : up to 60 seconds. I am confident this is what is responsible for my timeouts. If I increase the nvme_io_timeout to 300 seconds, my test case passes.
+The cause is that keep alive command interval on the host, which is
+defined as unsigned int kato in nvme_ctrl structure, does not follow
+the kato value changes.
 
-What's interesting is my quick patch that removed the direct call to kernel_sendpage via queue_rq() makes the system behave much better: no more outliers and no timeouts. I don't know much about the kernel network stack or the block device layer but I imagine that the difference is due to the number of calls into the network stack that can happen in parallel. Is queue_rq executed from the context of the userspace caller? In this case I will have close to 300 threads active on this code path. Whereas when we go through the workqueue, I guess we have only N max calls into the network stack at once, where N = the number of CPUs on the system? 
+This patch updates the keep alive interval in the following steps when
+the kato is modified by a set features command: stops the keep alive
+work queue, then sets the kato as new timer value and re-start the queue.
 
-What do you think? Does my analysis make any sense?
-Thanks
-Sam
+Signed-off-by: Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>
+---
+Changes since v1:
+- Add nvme_update_keep_alive to update keep alive timer in core routine.
+- Add nvme_user_cmd_post to call nvme_update_keep_alive in ioctl.c
+Changes since v2:
+- Remove unnecessary comment
+- Move DIV_ROUND_UP into nvme_update_keep_alive
+- Call nvme_update_keep_alive from nvme_passthru_end in core routine.
 
+drivers/nvme/host/core.c | 39 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dfd9dec0c1f6..5718e5898104 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -116,6 +116,8 @@ static struct class *nvme_ns_chr_class;
+ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					   unsigned nsid);
++static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
++				   struct nvme_command *cmd);
+ 
+ /*
+  * Prepare a queue for teardown.
+@@ -1155,7 +1157,8 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	return effects;
+ }
+ 
+-static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
++static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
++			      struct nvme_command *cmd, int status)
+ {
+ 	if (effects & NVME_CMD_EFFECTS_CSE_MASK) {
+ 		nvme_unfreeze(ctrl);
+@@ -1170,6 +1173,24 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ 		nvme_queue_scan(ctrl);
+ 		flush_work(&ctrl->scan_work);
+ 	}
++	switch (cmd->common.opcode) {
++	case nvme_admin_set_features:
++		switch (cmd->common.cdw10 & 0xFF) {
++		case NVME_FEAT_KATO:
++			/*
++			 * Keep alive commands interval on the host should be updated
++			 * when KATO is modified by Set Features commands.
++			 */
++			if (!status)
++				nvme_update_keep_alive(ctrl, cmd);
++			break;
++		default:
++			break;
++		}
++		break;
++	default:
++		break;
++	}
+ }
+ 
+ int nvme_execute_passthru_rq(struct request *rq)
+@@ -1184,7 +1205,7 @@ int nvme_execute_passthru_rq(struct request *rq)
+ 	effects = nvme_passthru_start(ctrl, ns, cmd->common.opcode);
+ 	ret = nvme_execute_rq(disk, rq, false);
+ 	if (effects) /* nothing to be done for zero cmd effects */
+-		nvme_passthru_end(ctrl, effects);
++		nvme_passthru_end(ctrl, effects, cmd, ret);
+ 
+ 	return ret;
+ }
+@@ -1263,6 +1284,20 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	nvme_queue_keep_alive_work(ctrl);
+ }
+ 
++static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
++				   struct nvme_command *cmd)
++{
++	unsigned int new_kato = DIV_ROUND_UP(cmd->common.cdw11, 1000);
++
++	dev_info(ctrl->device,
++		 "keep alive commands interval on the host is updated from %u ms to %u ms\n",
++		 ctrl->kato * 1000 / 2, new_kato * 1000 / 2);
++
++	nvme_stop_keep_alive(ctrl);
++	ctrl->kato = new_kato;
++	nvme_start_keep_alive(ctrl);
++}
++
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+ {
+ 	if (unlikely(ctrl->kato == 0))
+-- 
+2.25.1
 
 
 
