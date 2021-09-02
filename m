@@ -7,91 +7,69 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 948A0C432BE
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Sep 2021 08:54:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EAFC432BE
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Sep 2021 09:20:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 49DAE610C9
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Sep 2021 08:54:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 49DAE610C9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4EDDA60FE6
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Sep 2021 09:20:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4EDDA60FE6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=636Lsrsy25jN0Gve54qBhLILyT2y0s1sv4tJZpEOvGg=; b=2xcztCRBDTsUMR
-	VxjPDl1fW75bDpCeeSokru/ALGdMQwoAr9pMNAdDNrHbMUeeovv9LtewtRVAelgTM63xdwexdI2Pp
-	pD7Jlez4DX1BZczVq4L4Dkc9L/YXwZeavo4zImjWprPDNtp5rGrdWgwUbaEvUAKTyU65gkEL23Mmz
-	6OOPLNTIiyjMHUl0kyITkCjayNfdxSUDab3x/ONuzzSDK91bylzRrzZRancf+TsOOVlyxhUvrI40S
-	h30zyZzstN95AdGt5NzbJD60J9Hb65TT89Eq0QIQZ33lYE9Dje4Exq9TUp7PFVVL01LWDoaBF5oeL
-	QxnjtmgrYWVwQe1MDGDg==;
+	List-Owner; bh=hcVoM6g21s0aNxu93dVtxvBQtRC54oH+L2ZlY0VEViw=; b=DY98r+md93or0Z
+	dLr0G5/2z1hjrOs0qk64NJ/LfdqzPRaXWN4DhYr6jPVvgqeamGzE7YIpU4VjLaGNltfaLP4ViO5DG
+	t2DTRJP/VSIafYQhEZmf0wqnPCNcSL5QTF2OGkb5UJVyBAf8dyBziR4fuQ27Ak+6FqVUQo7TulTnx
+	2tOMela2CkBNfuI+xnWVqAzpYflUgZNzb5gPOokdvQnktM3UOo5yq++1gTA1+L8t7DVLjg1xFdpeI
+	DZ1+dsMAHNQMW0Y74gtzgLjLD4cPbiZNQeVWmwHjn0CWB+aUqU+vttOqATMTw+dOWhdqIaDhJLkAh
+	9PI33iRTkymPR9d+73lA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mLiTo-0090x7-Aa; Thu, 02 Sep 2021 08:53:52 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1mLitP-0094A2-0V; Thu, 02 Sep 2021 09:20:19 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mLiTh-0090wj-Us
- for linux-nvme@lists.infradead.org; Thu, 02 Sep 2021 08:53:47 +0000
-Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1828cfKD004871
- for <linux-nvme@lists.infradead.org>; Thu, 2 Sep 2021 04:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=SUuSmV9fpNu5ZiDTn2Gn6Q9Cyyjo+mse0xlz/ggojxs=;
- b=YF9zb3VYsZkRsfXLn9n9/67S1toPpC5mRC//BjLeXsQDhX4BcGkukQGHKuaFvnhaGRgW
- I14XuitFrsRDP8hPeBuYKAlortRCXaNG/uRByERzLHNe1wjR7P5cIfmj2LpxOE2HxHuh
- gjeTs+nU6FjQYZoi7kie1MkKsZwIOl1M767DXLnfmcKDPKfuIzeNH4VdvVlU9z37BRZf
- zROcxEsFpHGmtIzTdDBzt8LVuAZ6bqOirtSqaAjSZPxwk9rmEvPomMdxW57lgXT+wjO5
- CvrVItKrKFUcdMF7u+bio1adOs9ZRgzGuBN9Rb3lxevSURME9BJIlVPwVCsitnZRoenn LA== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
- [67.231.149.39])
- by mx0b-00154904.pphosted.com with ESMTP id 3atdy6jpsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Thu, 02 Sep 2021 04:53:40 -0400
-Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1828fNFn136257
- for <linux-nvme@lists.infradead.org>; Thu, 2 Sep 2021 04:53:39 -0400
-Received: from esaploutdur06.us.dell.com ([128.221.233.10])
- by mx0b-00154901.pphosted.com with ESMTP id 3ate0gu0mn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Thu, 02 Sep 2021 04:53:39 -0400
-X-PREM-Routing: D-Outbound
-X-LoopCount0: from 10.55.225.216
-X-IronPort-AV: E=McAfee;i="6000,8403,5688"; a="88938399"
-Received: from vd-amite.xiolab.lab.emc.com ([10.55.225.216])
- by esaploutdur06.us.dell.com with ESMTP; 02 Sep 2021 03:53:37 -0500
-From: amit.engel@dell.com
-To: sagi@grimberg.me, hch@infradead.org, linux-nvme@lists.infradead.org
-Cc: amit.engel@dell.com
-Subject: [PATCH] nvmet: return Invalid Log Page status code for unsupported lid
-Date: Thu,  2 Sep 2021 11:53:33 +0300
-Message-Id: <20210902085333.32107-1-amit.engel@dell.com>
-X-Mailer: git-send-email 2.18.2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-02_03:2021-09-01,
- 2021-09-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 phishscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109020054
-X-Proofpoint-GUID: X5m21KyoIe6VGkVGQ423Oaby6WqFEQhb
-X-Proofpoint-ORIG-GUID: X5m21KyoIe6VGkVGQ423Oaby6WqFEQhb
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 mlxscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2108310000
- definitions=main-2109020054
+ id 1mLitE-00948v-Ke
+ for linux-nvme@lists.infradead.org; Thu, 02 Sep 2021 09:20:12 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id DC3B020320;
+ Thu,  2 Sep 2021 09:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1630574405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=mCLKxbu6H+gkdS0vBCZqNAhLeUSXY2O0pR+5uorc2Nw=;
+ b=JGF7G2OHkGr0sf/v0m6TDelhbrvh4KOEC7hFWe5P59cDLhEA1aEklrx1qysiYXZtXBWtBH
+ GhyIRC3MQpEcDddcAUaF0F8n6pe70Up3S6aPDkWFd2JxAFMPNTYzEEkk+GTeuZbVMSfWcB
+ ytcYx87TF6x3qLvIWIjI/NGTizWJJIE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1630574405;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=mCLKxbu6H+gkdS0vBCZqNAhLeUSXY2O0pR+5uorc2Nw=;
+ b=DguZ15XQXGjXoPokT0nFdDs7FBrn0b7Se0GxWqm0Ui+n3W+t6g6SfpH+Krux6Jhir5xq1X
+ FGTZiVVVgCefKDAg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 56DE9A3B8D;
+ Thu,  2 Sep 2021 09:20:00 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 17828)
+ id C55C1518DECC; Thu,  2 Sep 2021 11:20:05 +0200 (CEST)
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Daniel Wagner <dwagner@suse.de>,
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH v2] nvme: avoid race in shutdown namespace removal
+Date: Thu,  2 Sep 2021 11:20:02 +0200
+Message-Id: <20210902092002.67614-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210902_015346_207429_731445F4 
-X-CRM114-Status: GOOD (  18.14  )
+X-CRM114-CacheID: sfid-20210902_022008_873591_83522895 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,55 +81,73 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Amit Engel <amit.engel@dell.com>
+When we remove the siblings entry, we update ns->head->list, hence we
+can't separate the removal and test for being empty. They have to be
+in the same critical section to avoid a race.
 
-In case of an invalid or not supported log page
-return NVME_SC_INVALID_LOG_PAGE
+To avoid breaking the refcounting imbalance again, add a list empty
+check to nvme_find_ns_head.
 
-Signed-off-by: Amit Engel <amit.engel@dell.com>
+Fixes: 5396fdac56d8 ("nvme: fix refcounting imbalance when all paths are down")
+Cc: Hannes Reinecke <hare@suse.de>
+Cc: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/target/admin-cmd.c | 2 +-
- drivers/nvme/target/discovery.c | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+v2:
+ - added nvme_find_ns_head fix as suggested by hch
+v1:
+ - https://lore.kernel.org/linux-nvme/20210830093618.97657-1-dwagner@suse.de/
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index aa6d84d8848e..5dcda2c87fdd 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -339,7 +339,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
- 	pr_debug("unhandled lid %d on qid %d\n",
- 	       req->cmd->get_log_page.lid, req->sq->qid);
- 	req->error_loc = offsetof(struct nvme_get_log_page_command, lid);
--	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-+	nvmet_req_complete(req, NVME_SC_INVALID_LOG_PAGE | NVME_SC_DNR);
- }
+ drivers/nvme/host/core.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4a3a33f5f11c..ac9a61d1d011 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3524,7 +3524,9 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_subsystem *subsys,
+ 	lockdep_assert_held(&subsys->lock);
  
- static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 7aa62bc6ae84..fdd52dbdd00f 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -176,9 +176,11 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- 		return;
- 
- 	if (req->cmd->get_log_page.lid != NVME_LOG_DISC) {
-+		pr_err("unhandled get log page cmd with lid %#x from ctrlid %d\n"
-+			req->cmd->get_log_page.lid, ctrl->cntlid);
- 		req->error_loc =
- 			offsetof(struct nvme_get_log_page_command, lid);
--		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		status = NVME_SC_INVALID_LOG_PAGE | NVME_SC_DNR;
- 		goto out;
+ 	list_for_each_entry(h, &subsys->nsheads, entry) {
+-		if (h->ns_id == nsid && nvme_tryget_ns_head(h))
++		if (h->ns_id != nsid)
++			continue;
++		if (!list_empty(&h->list) && nvme_tryget_ns_head(h))
+ 			return h;
  	}
  
+@@ -3836,6 +3838,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
++	if (list_empty(&ns->head->list)) {
++		list_del_init(&ns->head->entry);
++		last_path = true;
++	}
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
+ 	/* guarantee not available in head->list */
+@@ -3856,13 +3862,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	list_del_init(&ns->list);
+ 	up_write(&ns->ctrl->namespaces_rwsem);
+ 
+-	/* Synchronize with nvme_init_ns_head() */
+-	mutex_lock(&ns->head->subsys->lock);
+-	if (list_empty(&ns->head->list)) {
+-		list_del_init(&ns->head->entry);
+-		last_path = true;
+-	}
+-	mutex_unlock(&ns->head->subsys->lock);
+ 	if (last_path)
+ 		nvme_mpath_shutdown_disk(ns->head);
+ 	nvme_put_ns(ns);
 -- 
-2.18.2
+2.29.2
 
 
 _______________________________________________
