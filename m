@@ -2,63 +2,97 @@ Return-Path: <SRS0=/f9n=N4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCABC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 03:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BAC1C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 06:13:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0ADD60F21
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 03:52:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F0ADD60F21
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1224460EC0
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 06:13:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1224460EC0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=+YqAGI8nwv1ll37n1e8nKRPgPaN/ctDywEMHAYf2nhw=; b=RK6S4Iat4IyVFi
-	YIRbfdjxX59uwy7VBc0ygqjCw5OjZCj0Osm78I25JyWqzrslc3WgjDC/nFTkXMMtFjG2CvcMFdhe6
-	i1K6oopG9jUdcbHnXY/LFXF6ognPHx31U/q3Aq8Xf2ADuma1vEkevQjigCq7cVxdYTvz8utnEx/y3
-	oDtPW91NiPrt+Y4ubZ3L9HiUF8Y5asi1WjECSs38+CaZlVX64d/7ztMqzzVj+W0XecHm9HYa6aPSX
-	iQn76P8PSvoEnr+eCpcvh5UNcLOSW6fVqtUeRi/3RB9ZZFEqF5DOv2ZDT+Jify+vgvh7g+Qq8Bdt6
-	Won0cT+k39bjSPIs+AcQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3Va6W+JAiBJ4KyCIn2nYrr8YeyumdKGQuHXB511Gn7U=; b=d8ppqDLEenJmPFUn/6qymzo1by
+	uHNwWVH/3jzB9Yx2li1jrJzkjur9l3fy2Ygc+t6QoL7n5/zgXvkFvhDmcJhUwsRu4tsaFcvVsSTz2
+	i5aIrmxqsCpzE4ifHJS0062PMVmvoXDOeuWMmACYP00MXw7E8rjBPEIfiP+6IGnaQb4pgzuCwsmyb
+	grlKStltLKSlqEKQwxa3Otz1ZoUPX1HLL4UC5Q6w4nz0fRsljV1J89M0c1lmaLuVhfrMho2yadSuz
+	LIksABuPZU4ja0iHZlpDP1z6my7tQQFzzPe34leLIdg5OHilQL/xlKy6IXoK0ndJ7Zn0q0jb6skm1
+	tgzxiPIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mN5fs-00HCm0-5d; Mon, 06 Sep 2021 03:52:00 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1mN7sP-00HNLx-Sw; Mon, 06 Sep 2021 06:13:05 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mN5ff-00HCl2-CO
- for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 03:51:49 +0000
-Received: from dggeme770-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H2vVc2tk2zbkY2;
- Mon,  6 Sep 2021 11:47:36 +0800 (CST)
-Received: from huawei.com (10.29.88.127) by dggeme770-chm.china.huawei.com
- (10.3.19.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.8; Mon, 6 Sep
- 2021 11:51:35 +0800
-From: Ruozhu Li <liruozhu@huawei.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <sagi@grimberg.me>
-Subject: [PATCH 0/1] fix a panic cause by use qp after free 
-Date: Mon, 6 Sep 2021 11:51:33 +0800
-Message-ID: <20210906035134.14789-1-liruozhu@huawei.com>
-X-Mailer: git-send-email 2.16.4
+ id 1mN7sN-00HNLL-JR
+ for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 06:13:04 +0000
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6DBEA2007A;
+ Mon,  6 Sep 2021 06:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1630908780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IW2wXTx3q9w67ADlEVFXdIL/3i+IwIgYXJEPTjHUFLE=;
+ b=cdu5Kcxe5T45mIwBh0hw5uWrJPqfhaqUy5AHnSDVpWr1VK0bTyeuKnb89d220mhGRehvQW
+ WgVnj92lYOZLF1AnZwORbLX3ndF3hIZDm6+JpSQAsQrIiN2KtbNFQE+CpuJYDhxwP8JLlN
+ yAYZwubaK7d4XijvWC+NBBJgEaO76CQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1630908780;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IW2wXTx3q9w67ADlEVFXdIL/3i+IwIgYXJEPTjHUFLE=;
+ b=Haxu3h4FqB2gptSDa9nivWLj+aYZ7FbLfzRJIqR39E3EULT0+f8Kcko3XuIE76ycB1eNXX
+ XqOcs6STyIW2LQBg==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id C1BE713299;
+ Mon,  6 Sep 2021 06:12:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id EQ1rLGixNWGdTgAAGKfGzw
+ (envelope-from <hare@suse.de>); Mon, 06 Sep 2021 06:12:56 +0000
+Subject: Re: [PATCH v3 1/8] scsi/sd: add error handling support for add_disk()
+To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk,
+ martin.petersen@oracle.com, jejb@linux.ibm.com, kbusch@kernel.org,
+ sagi@grimberg.me, adrian.hunter@intel.com, beanhuo@micron.com,
+ ulf.hansson@linaro.org, avri.altman@wdc.com, swboyd@chromium.org,
+ agk@redhat.com, snitzer@redhat.com, josef@toxicpanda.com
+Cc: hch@infradead.org, bvanassche@acm.org, ming.lei@redhat.com,
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
+References: <20210830212538.148729-1-mcgrof@kernel.org>
+ <20210830212538.148729-2-mcgrof@kernel.org>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <10e3756d-09fb-7c5b-83d8-b1c527880b6c@suse.de>
+Date: Mon, 6 Sep 2021 08:13:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Originating-IP: [10.29.88.127]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggeme770-chm.china.huawei.com (10.3.19.116)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20210830212538.148729-2-mcgrof@kernel.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210905_205147_800652_15F9026A 
-X-CRM114-Status: UNSURE (   8.46  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210905_231303_819625_70C2AC0D 
+X-CRM114-Status: GOOD (  14.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,78 +104,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We got a panic when host received a rej cm event soon after a connect
-error cm event.
-When host get connect error cm event, it will destroy qp immediately.
-But cm_id is still valid then.Another cm event rise here, try to access
-the qp which was destroyed.Then we got a kernel panic blow:
-
-[87816.777089] [20473] ib_cm:cm_rep_handler:2343: cm_rep_handler: Stale connection. local_comm_id -154357094, remote_comm_id -1133609861
-[87816.777223] [20473] ib_cm:cm_init_qp_rtr_attr:4162: cm_init_qp_rtr_attr: local_id -1150387077, cm_id_priv->id.state: 13
-[87816.777225] [20473] rdma_cm:cma_rep_recv:1871: RDMA CM: CONNECT_ERROR: failed to handle reply. status -22
-[87816.777395] [20473] ib_cm:ib_send_cm_rej:2781: ib_send_cm_rej: local_id -1150387077, cm_id->state: 13
-[87816.777398] [20473] nvme_rdma:nvme_rdma_cm_handler:1718: nvme nvme278: connect error (6): status -22 id 00000000c3809aff
-[87816.801155] [20473] nvme_rdma:nvme_rdma_cm_handler:1742: nvme nvme278: CM error event 6
-[87816.801160] [20473] rdma_cm:cma_ib_handler:1947: RDMA CM: REJECTED: consumer defined
-[87816.801163] nvme nvme278: rdma connection establishment failed (-104)
-[87816.801168] BUG: unable to handle kernel NULL pointer dereference at 0000000000000370
-[87816.801171] PGD 0 P4D 0 
-[87816.801174] Oops: 0000 [#1] SMP PTI
-[87816.801177] CPU: 21 PID: 20473 Comm: kworker/21:0 Kdump: loaded Tainted: G           OE    --------- -  - 4.18.0-147.el8.x86_64 #1
-[87816.801179] Hardware name: Huawei RH2288H V3/BC11HGSA0, BIOS 3.57 02/26/2017
-[87816.801185] Workqueue: ib_cm cm_work_handler [ib_cm]
-[87816.801201] RIP: 0010:_ib_modify_qp+0x6e/0x3a0 [ib_core]
-[87816.801203] Code: 8b 7d 00 25 80 00 00 00 89 44 24 04 0f 85 fe 01 00 00 89 d8 45 31 e4 25 00 40 00 00 89 44 24 08 0f 85 00 01 00 00 48 c1 e5 04 <48> 03 af 70 03 00 00 f7 45 08 00 00 b0 00 74 7d f6 c7 10 74 36 41
-[87816.801204] RSP: 0018:ffff9b6805f23bd8 EFLAGS: 00010202
-[87816.801206] RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
-[87816.801207] RDX: 0000000000000001 RSI: ffff9b6805f23c48 RDI: 0000000000000000
-[87816.801208] RBP: 0000000000000010 R08: 000000000048ef34 R09: 0000000000000004
-[87816.801209] R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
-[87816.801210] R13: ffff8d351b5ef800 R14: ffff9b6805f23c48 R15: ffff8d353bdbd0e0
-[87816.801212] FS:  0000000000000000(0000) GS:ffff8d36afa40000(0000) knlGS:0000000000000000
-[87816.801213] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[87816.801214] CR2: 0000000000000370 CR3: 0000000367e0a004 CR4: 00000000001606e0
-[87816.801215] Call Trace:
-[87816.801223]  cma_modify_qp_err+0x52/0x80 [rdma_cm]
-[87816.801228]  ? __dynamic_pr_debug+0x8a/0xb0
-[87816.801232]  cma_ib_handler+0x25a/0x2f0 [rdma_cm]
-[87816.801235]  cm_process_work+0x60/0xe0 [ib_cm]
-[87816.801238]  cm_work_handler+0x13b/0x1b97 [ib_cm]
-[87816.801243]  ? __switch_to_asm+0x35/0x70
-[87816.801244]  ? __switch_to_asm+0x41/0x70
-[87816.801246]  ? __switch_to_asm+0x35/0x70
-[87816.801248]  ? __switch_to_asm+0x41/0x70
-[87816.801252]  ? __switch_to+0x8c/0x480
-[87816.801254]  ? __switch_to_asm+0x41/0x70
-[87816.801256]  ? __switch_to_asm+0x35/0x70
-[87816.801259]  process_one_work+0x1a7/0x3b0
-[87816.801263]  worker_thread+0x30/0x390
-[87816.801266]  ? create_worker+0x1a0/0x1a0
-[87816.801268]  kthread+0x112/0x130
-[87816.801270]  ? kthread_flush_work_fn+0x10/0x10
-[87816.801272]  ret_from_fork+0x35/0x40
-[87816.801274] Modules linked in: nft_chain_route_ipv4 xt_CHECKSUM nft_chain_nat_ipv4 ipt_MASQUERADE nf_nat_ipv4 nf_nat nf_conntrack_ipv4 nf_defrag_ipv4 xt_conntrack nf_conntrack ipt_REJECT nf_reject_ipv4 nft_counter nft_compat nf_tables nfnetlink tun bridge 8021q garp mrp stp llc vfat fat ib_isert iscsi_target_mod ext4 mbcache jbd2 ib_srpt target_core_mod ib_srp scsi_transport_srp nls_utf8 isofs loop intel_rapl sb_edac x86_pkg_temp_thermal coretemp kvm_intel rpcrdma kvm sunrpc irqbypass rdma_ucm ib_iser crct10dif_pclmul joydev ib_umad libiscsi crc32_pclmul ib_ipoib ghash_clmulni_intel scsi_transport_iscsi intel_cstate intel_uncore intel_rapl_perf ipmi_si ipmi_devintf pcspkr ipmi_msghandler wdat_wdt mei_me i2c_i801 sg mei lpc_ich acpi_power_meter xfs libcrc32c mlx5_ib ib_uverbs sr_mod cdrom sd_mod ahci
-[87816.801314]  libahci crc32c_intel libata megaraid_sas tg3 dm_mirror dm_region_hash dm_log dm_mod mlx5_core mlxfw nvme_rdma(OE) nvme_fabrics(OE) nvme_core(OE) rdma_cm iw_cm ib_cm ib_core
-[87816.801325] CR2: 0000000000000370
-
-Try to fix it with following patch.
-
-Ruozhu Li (1):
-  nvme-rdma: destroy cm id before destroy qp to avoid use after free
-
- drivers/nvme/host/rdma.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
-
--- 
-2.16.4
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gOC8zMC8yMSAxMToyNSBQTSwgTHVpcyBDaGFtYmVybGFpbiB3cm90ZToKPiBXZSBuZXZlciBj
+aGVja2VkIGZvciBlcnJvcnMgb24gYWRkX2Rpc2soKSBhcyB0aGlzIGZ1bmN0aW9uCj4gcmV0dXJu
+ZWQgdm9pZC4gTm93IHRoYXQgdGhpcyBpcyBmaXhlZCwgdXNlIHRoZSBzaGlueSBuZXcKPiBlcnJv
+ciBoYW5kbGluZy4KPiAKPiBSZXZpZXdlZC1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3Qu
+ZGU+Cj4gU2lnbmVkLW9mZi1ieTogTHVpcyBDaGFtYmVybGFpbiA8bWNncm9mQGtlcm5lbC5vcmc+
+Cj4gLS0tCj4gICBkcml2ZXJzL3Njc2kvc2QuYyB8IDYgKysrKystCj4gICAxIGZpbGUgY2hhbmdl
+ZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gClJldmlld2VkLWJ5OiBIYW5uZXMg
+UmVpbmVja2UgPGhhcmVAc3VzZS5kZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBS
+ZWluZWNrZSAgICAgICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNl
+LmRlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhS
+QiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7Zy
+ZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGlu
+dXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
