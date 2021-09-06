@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A7CC433FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 01:23:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F85BC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 01:24:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 69504610CF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 01:23:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69504610CF
+	by mail.kernel.org (Postfix) with ESMTPS id EC29061205
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 01:24:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EC29061205
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,40 +23,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ce2DdNS7piy+6bF7bRG7M1h+UIVEFHpG88H9iImPwtI=; b=VV4wYmDY1ZWuun
-	SGkOCAJEK8Y3t9Z7DpAPAMIZQs94qJgkJotYc3i+F4lK9a9EgCjOVyprlGeU7CnxRmlanstSpOfDO
-	ZudzLgALgNLYZcAVjgP7j5Xgvxo3/dpbRH+LqWQhiEESLMMll1gai5jk08+1pUiNZfG7WLPbCRc/I
-	jZ6jQru5Yxa2n1fF6TEjO4Gw31YjB6LLRRGdwxIYBDUDD4lIiZCro/Yxud9gQl9x5FHACuhtI9rZh
-	frM5ys5Mx7Zr+ndukYd/AEMg/1qetY7/ZrBQRlDjYV3t/1mk0tUtA5wJX9B5r6J2E4FBDKV5wdo4c
-	s3LuQ+8gfEPukilGWjlQ==;
+	List-Owner; bh=aQjpbx0pa+tjf4TAEKDomaTNid5Nd0C/t9afCQutkzc=; b=cDnSzH1Bl8IhB0
+	0xhHMr6VW7nuYr2BAAFw9+cwV6/3421xdZxeJvhh26fs0uclHAHb4oR20hFekzMOd/z3sQSZ0mhHq
+	mR+qqkK4UR/XH5Ewx/I1MkhzOgXij+vWEbue5UwoCFlvYZEwkwTmKQ1o9BSizg+Am1DfXbp7qceGJ
+	d20oe41G8H284s8gTyLJU13oXOWtn0KG/DHQs8u0+fXzY/TfBSJpgQnrH7bd85LPF8+PM6FolsHs1
+	uaTWHOZuujw4opu5zeA1Fi05AfV4kw2ZtXv7ZH9KuVHIYeV+546mIzl51f9xtl0rS91nqSQnZzy1h
+	6fenDyvFJQ15lg1VnDHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mN3Ls-00Gufy-GC; Mon, 06 Sep 2021 01:23:12 +0000
+	id 1mN3Mi-00Gv2T-Rf; Mon, 06 Sep 2021 01:24:04 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mN3Kz-00GuGx-9M
- for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 01:22:18 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4ADD161153;
- Mon,  6 Sep 2021 01:22:16 +0000 (UTC)
+ id 1mN3L0-00GuHv-GJ
+ for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 01:22:19 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DAB3610C8;
+ Mon,  6 Sep 2021 01:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630891337;
- bh=AbnGdYKQC5qqiEOoKwJTjXRBceh5WyClv3tpWA0VNFs=;
+ s=k20201202; t=1630891338;
+ bh=z8AA1EfCo8S/9fC5SzWZcni02Tq5jrEtRJiAkJXgr0I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J2JCSVc71u5m1e6qwsaBA88xhH/Cz4bRmwaGpR6dVn2XtqM8JYLZAWiFCPK9k+4GO
- B0kXpJP7LuPP7ETu+0h8rKDIbgYJOCQuNUEpkIz/3VypHEmwW+taJayQtKKun57Inq
- DJja3w/G3D0qSjf8ujTCwvHpxM4Vu15EukZl8FBcxAeTOaH9j+m3LXx6/TThwStSKU
- 746y6bbCLZbfAGrx+kTTitVr+keoJ/R9EIs2pag9VnCF3ie958I6z1KWAWid5Jxb5B
- PZAB3AkrjV9sllWa6qP4M3TnyJK+f5BePD3rzDkSMmaOViBDGzgBqUKOdtw60mznxa
- Y1rvmO4SmxlZA==
+ b=UgV2Rg7dd/84tOSJQ4bPyg8M0MqwDg9GymX8xYknRE9qS8x3smUXglmiWgwCKRH1E
+ qkWwbwxVPOKV1t2Gsls4us551oFgKIwvVmp+3nkcbqUm2JkTinUE7WWpHVfRDMjPzC
+ aepT8rK3Zb50/RPcGdrgtQOd1cWLbNNi0lpkAPFxoPlQwzc+fXbo8AqizHqxYeZria
+ //oVtiO7DeA5UQPSqEXPHImlm2fZ4QJXhG37q+0vIlQ/CJGgOU86QuY9CC6bULPgHv
+ M4A0iHY1DMsl1vmjxbCpHnmVjC5y81RM9JSULenrGlkRzbG/MMWctkieIstldauIW4
+ AKnELOBncUDnQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ruozhu Li <liruozhu@huawei.com>, Christoph Hellwig <hch@lst.de>,
- Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 19/39] nvme-tcp: don't update queue count when
+Cc: Ruozhu Li <liruozhu@huawei.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 20/39] nvme-rdma: don't update queue count when
  failing to set io queues
-Date: Sun,  5 Sep 2021 21:21:33 -0400
-Message-Id: <20210906012153.929962-19-sashal@kernel.org>
+Date: Sun,  5 Sep 2021 21:21:34 -0400
+Message-Id: <20210906012153.929962-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210906012153.929962-1-sashal@kernel.org>
 References: <20210906012153.929962-1-sashal@kernel.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210905_182217_381390_25C6B030 
-X-CRM114-Status: GOOD (  13.62  )
+X-CRM114-CacheID: sfid-20210905_182218_641361_36898401 
+X-CRM114-Status: GOOD (  13.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,7 +85,7 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Ruozhu Li <liruozhu@huawei.com>
 
-[ Upstream commit 664227fde63844d69e9ec9e90a8a7801e6ff072d ]
+[ Upstream commit 85032874f80ba17bf187de1d14d9603bf3f582b8 ]
 
 We update ctrl->queue_count and schedule another reconnect when io queue
 count is zero.But we will never try to create any io queue in next reco-
@@ -94,30 +95,31 @@ to avoid in the original patch.
 Update ctrl->queue_count after queue_count zero checking to fix it.
 
 Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 4 ++--
+ drivers/nvme/host/rdma.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 82b2611d39a2..5b11d8a23813 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1755,13 +1755,13 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index e6d58402b829..c6c2e2361b2f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -735,13 +735,13 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
  	if (ret)
  		return ret;
  
--	ctrl->queue_count = nr_io_queues + 1;
--	if (ctrl->queue_count < 2) {
+-	ctrl->ctrl.queue_count = nr_io_queues + 1;
+-	if (ctrl->ctrl.queue_count < 2) {
 +	if (nr_io_queues == 0) {
- 		dev_err(ctrl->device,
+ 		dev_err(ctrl->ctrl.device,
  			"unable to set any I/O queues\n");
  		return -ENOMEM;
  	}
  
-+	ctrl->queue_count = nr_io_queues + 1;
- 	dev_info(ctrl->device,
++	ctrl->ctrl.queue_count = nr_io_queues + 1;
+ 	dev_info(ctrl->ctrl.device,
  		"creating %d I/O queues.\n", nr_io_queues);
  
 -- 
