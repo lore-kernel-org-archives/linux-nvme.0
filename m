@@ -2,143 +2,96 @@ Return-Path: <SRS0=/f9n=N4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEC1C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 15:13:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04885C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 17:11:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 716D160F6E
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 15:13:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 716D160F6E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	by mail.kernel.org (Postfix) with ESMTPS id BB9D660FBF
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 17:11:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BB9D660FBF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IwMCsZv21MZd+NYcgO9EKkAHWUNyZ99KW4H/UauSz7w=; b=ra+XpSCljp+xiLyCOa+KyIX+Q3
-	pMTGiopIjiUDEo4PZmHMmZGKo0rwb2iahJ4kX1lbIsRFTKBzPCMAxYAK80d4Dt6tZJd3LpsKxbdi9
-	EBdNsFzAyXfEUq0l+So3QYIw07/s7cEqnc3rDDkmoF4NPUMIDqYuhiW1nJ5j5Gnm9/xN3ED3Vxmdv
-	7N/w8dLwouBQEvGGK6k4Osmc8JcY534U6aYGnpQKTwj6IB033HodvDF7QJqMW28VU5JbvzYTxk1Fk
-	+SfwxiZ8hCRrrVtvRXmnXg/hgxbRk3e//KiVfoNcnF6GdHvz4vQuQWS4CCiZ51od/eNGVb1OjZObL
-	cvvwlCRw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=DNDZH7R8bijGDyFYBcnAsSp1OiElsMqLpSoyRTsxLBU=; b=zvUYkUVsvdhW7c
+	B5JZPU5xsgiIsTSgh8U5D5XOXwZ7SXLonhLqjg1FU59rH34VkfsYV49lXSsNv7NJgalRwWxC6UyWr
+	MTAtDkrsFrMQ7cF7bEr3B0awrn89xJPkWYjM+poMrhbMf8KooZnWM2mbk2QvWoUa8cYmPTkZho+vc
+	vwvdhCMTrLF48dZ34ax/8c868MfGDG47+ons9yZZ5yvRvrfwc8ubJN0IaFA1lmWQV/GA2PhsK0aTL
+	4kvUCkpGet4JukX6EDU5WpTPiND5RX9Lx07Z7mG7kEnBAMTuaCrzc1r4FV3VyzOcbfoNa0MzDb1+j
+	sXS5J/SDzNujSmxbgpDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mNGJF-001Cdg-4C; Mon, 06 Sep 2021 15:13:21 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1mNI9H-001Oo9-Jz; Mon, 06 Sep 2021 17:11:11 +0000
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mNGJC-001Ccs-9e
- for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 15:13:20 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20210906151311epoutp0260a63e34fb98e67c65ae0897f5fe86f3~iRF9xRYSY1833618336epoutp02c
- for <linux-nvme@lists.infradead.org>; Mon,  6 Sep 2021 15:13:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20210906151311epoutp0260a63e34fb98e67c65ae0897f5fe86f3~iRF9xRYSY1833618336epoutp02c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1630941191;
- bh=L/Dk2aecmW1XBEG797niwF/HDZT9ptt+wA3hKdLdDBA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dDPCxkD/jiwwOdIMApQLVM1D6j3MBQ6T9T9BGtR7/TF+x1QKtM0t4bmQn5b734xXg
- Vkyq/2KiTo72hjztHRsu9li7TSpmBDIwUmPzx3aKgtA1XdBKw3csid1oFUNzf3NwWY
- nyTX2IRl51ZCw2bsSoY+P5wugiw8GrZcd0QxuCkI=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20210906151310epcas5p21a0e6d6a6edc1a2838839ab2794916e5~iRF80Dfa90586205862epcas5p2D;
- Mon,  6 Sep 2021 15:13:10 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.182]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4H3BjX0hKJz4x9Pr; Mon,  6 Sep
- 2021 15:13:04 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- F9.83.38346.00036316; Tue,  7 Sep 2021 00:13:04 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210906151053epcas5p184a694196a6e1816061872b50682e3f0~iRD9Jxlm73253532535epcas5p1K;
- Mon,  6 Sep 2021 15:10:53 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210906151053epsmtrp2e838d6e8e896d464aeb27726b5e05cc3~iRD8yJH3j1102111021epsmtrp2l;
- Mon,  6 Sep 2021 15:10:53 +0000 (GMT)
-X-AuditID: b6c32a4b-23bff700000095ca-2b-61363000a03e
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 5F.3A.08750.D7F26316; Tue,  7 Sep 2021 00:10:53 +0900 (KST)
-Received: from test.sa.corp.samsungelectronics.net (unknown [107.108.56.58])
- by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210906151051epsmtip12d91ccfda35df8836435cb203cf04801~iRD6wlBFw0309703097epsmtip1G;
- Mon,  6 Sep 2021 15:10:50 +0000 (GMT)
-Date: Mon, 6 Sep 2021 19:48:54 +0530
-From: Mohit Kapoor <mohit.kap@samsung.com>
-To: kbusch@kernel.org, fam@euphon.net, its@irrelevant.dk, kwolf@redhat.com,
- linux-nvme@lists.infradead.org, mreitz@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, stefanha@redhat.com
-Cc: arun.kka@samsung.com, d.palani@samsung.com, p.kalghatgi@samsung.com,
- javier.gonz@samsung.com, k.jensen@samsung.com, prakash.v@samsung.com,
- u.kishore@samsung.com
-Subject: Re: [RFC PATCH : v3 2/2] Implementation of nvme-mi plugin in nvme-cli
-Message-ID: <20210906141854.GD22632@test.sa.corp.samsungelectronics.net>
+ id 1mNI8v-001Odx-3d
+ for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 17:10:50 +0000
+Received: by mail-lj1-x233.google.com with SMTP id l18so12270936lji.12
+ for <linux-nvme@lists.infradead.org>; Mon, 06 Sep 2021 10:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eBV6xJO0OJaH8jzRZsLqKsR9gePhFCKXaYbJlTL1SK0=;
+ b=LFms5S3j0LvWEYimyPf3cb4Aisdn+Fk0RcpOrMN+ZdxUItBFt03MZgAJyCUWWC62gA
+ xL6pVj/R4056hMSTJXWaAAW0XJxWY95ANL2inlfc7gjmf6BFW8UdEkjBN6OfL9igtewV
+ 2JgY9QMy4BbUAgVA1jm1THz+5T5uS585jDOW2nVtjNTStboUZCsKHDlx3pvPga5s2Aea
+ dvtTuh0M4AIM0YiFHE2rv2jMoWzeXBDMGduAbcmjYKzTNfr7wM1AzhSBU6ieiQ9XTDvy
+ XQyK9QeN2IRddAghms+zRMV1up63wzN38bLJRWblvnD5e2vOcie3vnIumG6eir16lfbi
+ jm5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eBV6xJO0OJaH8jzRZsLqKsR9gePhFCKXaYbJlTL1SK0=;
+ b=aftNCTr2cuRtoYr1z5I41C0QNh4XHMSyP/iz8a2tQpTK8haGciJ/YVjg3aNLVAcsLu
+ RTl62Rx/yDbUAW1+z3iZ2DvIv6+DiUBz9rwSVAXLpBwSqZcd8EA8pu4+4ujoYw1FDVsQ
+ VRz9vGW4yJlHi+7pcaoFI+W2Rp3e7YdtuTWy59P8k0MTIbRfhTaexsTgjay1Rqtz8rkR
+ NZyYMLwe9ntXYdeK9hAj7TNCMH7IvE04oNrv1529abQAAAyVNVzJodJpGi+9d0HvoP9o
+ QdXV9+i8JzJSgdcoOyhukid1lyMVIMlmojdGn8eiOjg9ace88Cxh8Tm8Jso0sho2AHP8
+ Guew==
+X-Gm-Message-State: AOAM532tFq8iioOCC/4nsT32mhEYWu0/FfyWDxh/8NQcsv99ST+v8bAa
+ e2w+qZcVw+ukmd5TCIH8bSYI0QqPytVuykFdbaH0RUgmHlU=
+X-Google-Smtp-Source: ABdhPJxhSEFI8wMN4u5XHazx2hzbbCQEPxdsCfALNn+wlwsdQueMDsoHtriqduJghpS67u2M98pG6gst9sXWJqwHE5o=
+X-Received: by 2002:a05:651c:1b3:: with SMTP id
+ c19mr11757010ljn.16.1630948247165; 
+ Mon, 06 Sep 2021 10:10:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1627981486-3369-1-git-send-email-mohit.kap@samsung.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xbVRj33NveXnB3uZTizhC0KVsmmNJ2a+tlvEzGWBNQwRkXmRm7gWth
- Lb1NW3DOMWEYJ0RIx0vW8doDZFAZg0lwbhCKkTEDjPAwyAIIJermVkaVyECx7fX13+/7fb/f
- +b7vfOfgqPBbLBjPNlgYk4HWSzB/XvdA+AvSp+RqWj5b+DRVO0dRD3+bx6iJvlFA9fWv8qnF
- e24BNVR4k0+VO6YAdXmMoRqalwRU/fdh1HdrCwJqovIiStkencGowdIeHvWgfJNPTRctYS+T
- mt9HzmCakZ5RgaaztRjTdF3+QOOc6kI0rt5JTFN2vRWkCNJ0MVkMncmYxIwhg83MNmhjJUkH
- 0/elq9RyhVQRRb0kERvoHCZWkpCcIk3M1ntal4jzaH2uh0qhzWaJLC7GxOZaGHEWa7bEShhj
- pt6oNEaa6RxzrkEbaWAsexVy+W6VR3hUl1XwSTHfOM0/XuS6hxSAVV4JwHFIKmHnpqgE+OFC
- 8isAz8+zJcDfg1cArB5pQ7jADeDi6X7Uq/IarBf6UC5xA8Aa+xLGBYUIbCmrBV4Vj9wBL87N
- +DBGRkDbwKbPLSK/BrBuMM1rQMkWAMuvVvO8iUAyBRZVuHw9EaQGNsyd8tIEGQCHzjl9tB+5
- H64PE146yHN85VC3ry4k7+LwXNEXgOsuAVrnm/gcDoT3B68LOBwM3Y9uYdzI70NbO8F5Pwaw
- sWwY4zTxcOzmH4hXg5JZ0F5j4uhQWHWnHfFilNwKS9edCMcTsKfeiXBHhsHmX/UcvR2udFT8
- 3YEG/tzSJuCuZxLAisFxvhU8b/vfZLb/qtl8FfbC4uXTfI5+Fn72J87BcHj1hqwR8FvBdsZo
- ztEyZpVxj4F5999lZ7A5ncD3qiOSesDC/HKkAyA4cACIoxIRcXjfblpIZNLvnWBMbLopV8+Y
- HUDlWdRZNDgog/V8C4MlXaGMkivVarUyao9aIdlGSO+H0EJSS1sYHcMYGdM/PgT3Cy5AYsC4
- zBaUmBdaG/1OiqwgPC403rW467yqQDwynC+Y1lkKX02dWE+8PaB8e6Omub/qw/G6ZEsjMvmj
- MGTiOefJlqbYLTPsldWoW2PPvKm+5HxjI/+nb1YOtlSJlprE+LXSmKp0Wjqkmq39MlBXF2Zt
- yAvLf1B9osOxmFw6E+dONWzkJUb0XoqP+3zW8tGpyt5o/7ekd65UV4CAjuMn3aa05Sf140mp
- 9jWX5dMEELDNUdx9d+1wzoH+0aOvszzZQ3vnWZFVJaIPNV8LjsbYQ1uedB1BHmfaZa9IXwt5
- XCnv7Wp78ZeFBkpLsLfhMV2QM2PHD3n2qfYjkcTWncek+4d3aSU8cxatiEBNZvovIILWgF4E
- AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEIsWRmVeSWpSXmKPExsWy7bCSnG6tvlmiwckWZYs59y0s3n59wGZx
- Zf95Rov9B7+xWjy+85nd4mTjHlaLSYeuMVosuZhqMX/ZU3aLebeULa7/fMRucWXKImaLWe/a
- 2SyO9+5gsXg96T+rxc3mp2wOAh4/zrWzeZzbcZ7dY9OqTjaPzUvqPZ5c28zk8X7fVTaPvi2r
- GAPYo7hsUlJzMstSi/TtErgynm2ex1zQzVzxYfdKxgbGQ0xdjJwcEgImEhMW7mfuYuTiEBLY
- wShx+eM8doiEpMT8nTOYIWxhiZX/nrNDFP1nlHh6Zz8jSIJFQEVi0f3bYDabgJbErMP/wSaJ
- CBxhlNi3ZB0LiMMssIJR4tTOO6wgVcICfhIfN+8Bsjk4eAU8JObfr4OYepVRYumLA2A1vAKC
- EidnPmEBsZkFzCTmbX7IDFLPLCAtsfwfB4jJKeAq8fssL0iFKNANU05uY5vAKDgLSfMsJM2z
- EJoXMDKvYpRMLSjOTc8tNiwwykst1ytOzC0uzUvXS87P3cQIjjYtrR2Me1Z90DvEyMTBeIhR
- goNZSYQ32tkoUYg3JbGyKrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5O
- qQamxaFPpnOnXSoSny4mxLpL+NgUPasjZxYUOHR1aj1+Hv+5wuDpRo5J1x7sDpzqfI9Pzv0d
- 01I+9WsTun13vZkmVP/V6uOc5qMByftU1eLC2MIu3Wx369jhfi/06YorP+M/vvY/9+lr2HFl
- z5WLGeJ36R43PnG+m99/ftA/R+0uW8ePPfcX+vAs27tH1S5duSg+p2ZBSe6i44qnLFfPC/N+
- KZB6m1/CaMr9PauOP/RT85k14+PR27UX27ddcU4179u7Qq9nb52tY0bIqsTf+1wbmmolvghv
- rp3Sf2mKpK9kgPrsX/7hrvnTOJcousV41O3jSHLRjTzO+Cu1v/hNXmz29PTKF1wnjU+ev2J1
- eYOYEktxRqKhFnNRcSIAfpTsqSUDAAA=
-X-CMS-MailID: 20210906151053epcas5p184a694196a6e1816061872b50682e3f0
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----U8CIXdF52oAoGeRkYVEVeH2qRGPDUYqN5.u0c97gxHEcYtzV=_57908_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210803094723epcas5p323efa7e40e3d843ff8b91507c48edd17
-References: <1627975487-1640-1-git-send-email-p.kalghatgi@samsung.com>
- <CGME20210803094723epcas5p323efa7e40e3d843ff8b91507c48edd17@epcas5p3.samsung.com>
- <1627981486-3369-1-git-send-email-mohit.kap@samsung.com>
+References: <20210830212538.148729-1-mcgrof@kernel.org>
+ <20210830212538.148729-5-mcgrof@kernel.org>
+In-Reply-To: <20210830212538.148729-5-mcgrof@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 6 Sep 2021 19:10:10 +0200
+Message-ID: <CAPDyKFp9HTjQ_6c2tHuPhhixfcnFa8XQBrPO2PqoB113BszLJw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/8] mmc/core/block: add error handling support for
+ add_disk()
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>, 
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, kbusch@kernel.org,
+ sagi@grimberg.me, Adrian Hunter <adrian.hunter@intel.com>,
+ "Bean Huo (beanhuo)" <beanhuo@micron.com>, 
+ Avri Altman <avri.altman@wdc.com>, Stephen Boyd <swboyd@chromium.org>,
+ agk@redhat.com, 
+ Mike Snitzer <snitzer@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+ Christoph Hellwig <hch@infradead.org>, Hannes Reinecke <hare@suse.de>,
+ Bart Van Assche <bvanassche@acm.org>, 
+ Ming Lei <ming.lei@redhat.com>, linux-scsi <linux-scsi@vger.kernel.org>, 
+ linux-nvme@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>, 
+ dm-devel@redhat.com, nbd@other.debian.org, 
+ linux-block <linux-block@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210906_081318_792470_AF34A93D 
-X-CRM114-Status: UNSURE (   9.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210906_101049_194676_4AB27EC3 
+X-CRM114-Status: GOOD (  21.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,41 +103,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------U8CIXdF52oAoGeRkYVEVeH2qRGPDUYqN5.u0c97gxHEcYtzV=_57908_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On Tue, Aug 03, 2021 at 02:34:46PM +0530, Mohit Kapoor wrote:
->From: mohit kapoor <mohit.kap@samsung.com>
+On Mon, 30 Aug 2021 at 23:26, Luis Chamberlain <mcgrof@kernel.org> wrote:
 >
->Subject: [RFC PATCH : v3 2/2] Implementation of nvme-mi plugin in nvme-cli
+> We never checked for errors on add_disk() as this function
+> returned void. Now that this is fixed, use the shiny new
+> error handling.
+>
+> The caller only cleanups the disk if we pass on an allocated md
+> but on error we return return ERR_PTR(ret), and so we must do all
+> the unwinding ourselves.
+>
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 
-Hello All,
-Request to kindly provide your valuable feedback for the patches shared
-for nvme-mi over QEMU and nvme-cli.
-Looking forward for any suggestions and improvements.
+Queued for v5.16 on the temporary devel branch, thanks!
 
-Regards,
-Mohit Kapoor
+Kind regards
+Uffe
 
 
-------U8CIXdF52oAoGeRkYVEVeH2qRGPDUYqN5.u0c97gxHEcYtzV=_57908_
-Content-Type: text/plain; charset="utf-8"
-
-
-------U8CIXdF52oAoGeRkYVEVeH2qRGPDUYqN5.u0c97gxHEcYtzV=_57908_
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> ---
+>  drivers/mmc/core/block.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
+> index 6a15fdf6e5f2..9b2856aa6231 100644
+> --- a/drivers/mmc/core/block.c
+> +++ b/drivers/mmc/core/block.c
+> @@ -2453,9 +2453,14 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
+>         /* used in ->open, must be set before add_disk: */
+>         if (area_type == MMC_BLK_DATA_AREA_MAIN)
+>                 dev_set_drvdata(&card->dev, md);
+> -       device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
+> +       ret = device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
+> +       if (ret)
+> +               goto err_cleanup_queue;
+>         return md;
+>
+> + err_cleanup_queue:
+> +       blk_cleanup_queue(md->disk->queue);
+> +       blk_mq_free_tag_set(&md->queue.tag_set);
+>   err_kfree:
+>         kfree(md);
+>   out:
+> --
+> 2.30.2
+>
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
-------U8CIXdF52oAoGeRkYVEVeH2qRGPDUYqN5.u0c97gxHEcYtzV=_57908_--
-
