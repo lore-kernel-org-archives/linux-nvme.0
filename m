@@ -2,96 +2,65 @@ Return-Path: <SRS0=/f9n=N4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04885C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 17:11:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE93C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 21:21:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BB9D660FBF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 17:11:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BB9D660FBF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	by mail.kernel.org (Postfix) with ESMTPS id 1C97E60238
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 21:21:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1C97E60238
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DNDZH7R8bijGDyFYBcnAsSp1OiElsMqLpSoyRTsxLBU=; b=zvUYkUVsvdhW7c
-	B5JZPU5xsgiIsTSgh8U5D5XOXwZ7SXLonhLqjg1FU59rH34VkfsYV49lXSsNv7NJgalRwWxC6UyWr
-	MTAtDkrsFrMQ7cF7bEr3B0awrn89xJPkWYjM+poMrhbMf8KooZnWM2mbk2QvWoUa8cYmPTkZho+vc
-	vwvdhCMTrLF48dZ34ax/8c868MfGDG47+ons9yZZ5yvRvrfwc8ubJN0IaFA1lmWQV/GA2PhsK0aTL
-	4kvUCkpGet4JukX6EDU5WpTPiND5RX9Lx07Z7mG7kEnBAMTuaCrzc1r4FV3VyzOcbfoNa0MzDb1+j
-	sXS5J/SDzNujSmxbgpDQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=vxKyxpdaWyFwQ5kvTU+enq8lm9ppavRxl8aV3biN7io=; b=vtRU0VaaxD57r/
+	47TKeThCXrjF7NXt3sbgDOigVbNCIivaDcgRQLEjdhocwOs3AOg28mEQpE6xyPHcKcys8P8UvlOh8
+	wieh1IJCfsFXP/STvR32BTpDqL2MPV0O8QwKR77OXHe8YDqayWipb5Bd2HGDPj8dG1HJNFMy1PRwa
+	eQ5ijF/kyqD1Dgkixtzm9gpN83ivcKSxsXtdVgxKVpHT3x7Ml3lPM9rH4++103UvnSPplOuE4k67M
+	kSUdVeUlSOMFsvhjncBq7mNIO+O+MHVsFdI7LqkgWVkIAXlYzJxO9BVnSmkH9N12jLQsMxk5Hwt6l
+	N2f6dOYkw8QwPSAcNJBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mNI9H-001Oo9-Jz; Mon, 06 Sep 2021 17:11:11 +0000
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+	id 1mNM2t-001yEF-Ri; Mon, 06 Sep 2021 21:20:51 +0000
+Received: from mga07.intel.com ([134.134.136.100])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mNI8v-001Odx-3d
- for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 17:10:50 +0000
-Received: by mail-lj1-x233.google.com with SMTP id l18so12270936lji.12
- for <linux-nvme@lists.infradead.org>; Mon, 06 Sep 2021 10:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eBV6xJO0OJaH8jzRZsLqKsR9gePhFCKXaYbJlTL1SK0=;
- b=LFms5S3j0LvWEYimyPf3cb4Aisdn+Fk0RcpOrMN+ZdxUItBFt03MZgAJyCUWWC62gA
- xL6pVj/R4056hMSTJXWaAAW0XJxWY95ANL2inlfc7gjmf6BFW8UdEkjBN6OfL9igtewV
- 2JgY9QMy4BbUAgVA1jm1THz+5T5uS585jDOW2nVtjNTStboUZCsKHDlx3pvPga5s2Aea
- dvtTuh0M4AIM0YiFHE2rv2jMoWzeXBDMGduAbcmjYKzTNfr7wM1AzhSBU6ieiQ9XTDvy
- XQyK9QeN2IRddAghms+zRMV1up63wzN38bLJRWblvnD5e2vOcie3vnIumG6eir16lfbi
- jm5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eBV6xJO0OJaH8jzRZsLqKsR9gePhFCKXaYbJlTL1SK0=;
- b=aftNCTr2cuRtoYr1z5I41C0QNh4XHMSyP/iz8a2tQpTK8haGciJ/YVjg3aNLVAcsLu
- RTl62Rx/yDbUAW1+z3iZ2DvIv6+DiUBz9rwSVAXLpBwSqZcd8EA8pu4+4ujoYw1FDVsQ
- VRz9vGW4yJlHi+7pcaoFI+W2Rp3e7YdtuTWy59P8k0MTIbRfhTaexsTgjay1Rqtz8rkR
- NZyYMLwe9ntXYdeK9hAj7TNCMH7IvE04oNrv1529abQAAAyVNVzJodJpGi+9d0HvoP9o
- QdXV9+i8JzJSgdcoOyhukid1lyMVIMlmojdGn8eiOjg9ace88Cxh8Tm8Jso0sho2AHP8
- Guew==
-X-Gm-Message-State: AOAM532tFq8iioOCC/4nsT32mhEYWu0/FfyWDxh/8NQcsv99ST+v8bAa
- e2w+qZcVw+ukmd5TCIH8bSYI0QqPytVuykFdbaH0RUgmHlU=
-X-Google-Smtp-Source: ABdhPJxhSEFI8wMN4u5XHazx2hzbbCQEPxdsCfALNn+wlwsdQueMDsoHtriqduJghpS67u2M98pG6gst9sXWJqwHE5o=
-X-Received: by 2002:a05:651c:1b3:: with SMTP id
- c19mr11757010ljn.16.1630948247165; 
- Mon, 06 Sep 2021 10:10:47 -0700 (PDT)
+ id 1mNM2q-001yDe-Bz
+ for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 21:20:50 +0000
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="283749296"
+X-IronPort-AV: E=Sophos;i="5.85,273,1624345200"; d="scan'208";a="283749296"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 14:20:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,273,1624345200"; d="scan'208";a="691872764"
+Received: from lkp-server01.sh.intel.com (HELO 53c23d017ad5) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 06 Sep 2021 14:20:43 -0700
+Received: from kbuild by 53c23d017ad5 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mNM2l-00017E-3B; Mon, 06 Sep 2021 21:20:43 +0000
+Date: Tue, 07 Sep 2021 05:20:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.15] BUILD SUCCESS
+ aff959c2840858d55d9ee155d555b3aa7e068b32
+Message-ID: <6136861c.yW0LTO0ml60WC+KP%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20210830212538.148729-1-mcgrof@kernel.org>
- <20210830212538.148729-5-mcgrof@kernel.org>
-In-Reply-To: <20210830212538.148729-5-mcgrof@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 6 Sep 2021 19:10:10 +0200
-Message-ID: <CAPDyKFp9HTjQ_6c2tHuPhhixfcnFa8XQBrPO2PqoB113BszLJw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/8] mmc/core/block: add error handling support for
- add_disk()
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>,
- "Martin K . Petersen" <martin.petersen@oracle.com>, 
- "James E.J. Bottomley" <jejb@linux.ibm.com>, kbusch@kernel.org,
- sagi@grimberg.me, Adrian Hunter <adrian.hunter@intel.com>,
- "Bean Huo (beanhuo)" <beanhuo@micron.com>, 
- Avri Altman <avri.altman@wdc.com>, Stephen Boyd <swboyd@chromium.org>,
- agk@redhat.com, 
- Mike Snitzer <snitzer@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
- Christoph Hellwig <hch@infradead.org>, Hannes Reinecke <hare@suse.de>,
- Bart Van Assche <bvanassche@acm.org>, 
- Ming Lei <ming.lei@redhat.com>, linux-scsi <linux-scsi@vger.kernel.org>, 
- linux-nvme@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>, 
- dm-devel@redhat.com, nbd@other.debian.org, 
- linux-block <linux-block@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210906_101049_194676_4AB27EC3 
-X-CRM114-Status: GOOD (  21.18  )
+X-CRM114-CacheID: sfid-20210906_142048_516306_2CCC250D 
+X-CRM114-Status: UNSURE (   6.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,51 +77,150 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 30 Aug 2021 at 23:26, Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> We never checked for errors on add_disk() as this function
-> returned void. Now that this is fixed, use the shiny new
-> error handling.
->
-> The caller only cleanups the disk if we pass on an allocated md
-> but on error we return return ERR_PTR(ret), and so we must do all
-> the unwinding ourselves.
->
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+tree/branch: git://git.infradead.org/nvme.git nvme-5.15
+branch HEAD: aff959c2840858d55d9ee155d555b3aa7e068b32  nvme: update MAINTAINERS email address
 
-Queued for v5.16 on the temporary devel branch, thanks!
+elapsed time: 720m
 
-Kind regards
-Uffe
+configs tested: 124
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> ---
->  drivers/mmc/core/block.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/core/block.c b/drivers/mmc/core/block.c
-> index 6a15fdf6e5f2..9b2856aa6231 100644
-> --- a/drivers/mmc/core/block.c
-> +++ b/drivers/mmc/core/block.c
-> @@ -2453,9 +2453,14 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
->         /* used in ->open, must be set before add_disk: */
->         if (area_type == MMC_BLK_DATA_AREA_MAIN)
->                 dev_set_drvdata(&card->dev, md);
-> -       device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-> +       ret = device_add_disk(md->parent, md->disk, mmc_disk_attr_groups);
-> +       if (ret)
-> +               goto err_cleanup_queue;
->         return md;
->
-> + err_cleanup_queue:
-> +       blk_cleanup_queue(md->disk->queue);
-> +       blk_mq_free_tag_set(&md->queue.tag_set);
->   err_kfree:
->         kfree(md);
->   out:
-> --
-> 2.30.2
->
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20210906
+mips                           ip28_defconfig
+m68k                            mac_defconfig
+powerpc                      pmac32_defconfig
+powerpc                        icon_defconfig
+arm                        multi_v7_defconfig
+arm                          moxart_defconfig
+powerpc                     sequoia_defconfig
+m68k                        mvme147_defconfig
+sparc                               defconfig
+riscv                    nommu_virt_defconfig
+powerpc                    ge_imp3a_defconfig
+arm                            qcom_defconfig
+arm                           stm32_defconfig
+mips                       bmips_be_defconfig
+mips                        bcm47xx_defconfig
+mips                 decstation_r4k_defconfig
+mips                           ip27_defconfig
+s390                             alldefconfig
+sh                            hp6xx_defconfig
+powerpc                         ps3_defconfig
+sh                         ap325rxa_defconfig
+mips                      malta_kvm_defconfig
+ia64                      gensparse_defconfig
+powerpc64                        alldefconfig
+s390                                defconfig
+mips                     cu1830-neo_defconfig
+mips                           mtx1_defconfig
+powerpc                 canyonlands_defconfig
+mips                   sb1250_swarm_defconfig
+powerpc                     tqm8541_defconfig
+mips                         tb0219_defconfig
+x86_64                              defconfig
+arm                            zeus_defconfig
+powerpc                     mpc83xx_defconfig
+mips                      maltasmvp_defconfig
+riscv                          rv32_defconfig
+powerpc                       maple_defconfig
+powerpc                    adder875_defconfig
+powerpc                 mpc832x_mds_defconfig
+s390                             allmodconfig
+powerpc                      tqm8xx_defconfig
+s390                          debug_defconfig
+arm                            lart_defconfig
+um                                  defconfig
+arm                          pxa910_defconfig
+mips                       lemote2f_defconfig
+powerpc                     tqm5200_defconfig
+powerpc                       ebony_defconfig
+arm                        mvebu_v7_defconfig
+h8300                               defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm                  randconfig-c002-20210906
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                               defconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                             allyesconfig
+parisc                              defconfig
+parisc                           allyesconfig
+i386                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+i386                 randconfig-a005-20210906
+i386                 randconfig-a004-20210906
+i386                 randconfig-a006-20210906
+i386                 randconfig-a002-20210906
+i386                 randconfig-a003-20210906
+i386                 randconfig-a001-20210906
+i386                 randconfig-a012-20210905
+x86_64               randconfig-a006-20210906
+x86_64               randconfig-a004-20210906
+x86_64               randconfig-a003-20210906
+x86_64               randconfig-a005-20210906
+x86_64               randconfig-a001-20210906
+x86_64               randconfig-a002-20210906
+arc                  randconfig-r043-20210906
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+s390                 randconfig-c005-20210906
+mips                 randconfig-c004-20210906
+powerpc              randconfig-c003-20210906
+i386                 randconfig-c001-20210906
+arm                  randconfig-c002-20210906
+x86_64               randconfig-c007-20210906
+riscv                randconfig-c006-20210906
+i386                 randconfig-a015-20210906
+i386                 randconfig-a016-20210906
+i386                 randconfig-a011-20210906
+i386                 randconfig-a012-20210906
+i386                 randconfig-a013-20210906
+i386                 randconfig-a014-20210906
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 _______________________________________________
 Linux-nvme mailing list
