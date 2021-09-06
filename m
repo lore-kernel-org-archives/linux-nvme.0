@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB036C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 06:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF36C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 06:59:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B533360EE1
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 06:20:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B533360EE1
+	by mail.kernel.org (Postfix) with ESMTPS id BFB9E60EBA
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Sep 2021 06:59:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BFB9E60EBA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,76 +23,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8VYBsf6XeC1yfneXNZ1iusRyZlMtUeDbf/c93blW2D8=; b=a/d3Ww99DQLZnfkGxfnWetgzQM
-	5cGJDADMn2BaTVIEWQ3ZitGaIlRJiKbsEQyNQ5UAyrPF6WxM7PvS/1HJRelepkszlADx9XLu+qTKY
-	TYyYXc4tCoNAJOfPK7NVQCeGG7KrVIUNhgAIvlCiYJMxQ3Gm0QCqsJ23EepJjp2dAh87SgTw9fIQ3
-	T4PckZ9SVN+ai4JVne2K3lpFetuShRVQhut1v4MSERV1hTKuRi5AohVrOHRE4puICz7hjPpvvsHMR
-	EYq07gbRNacdUkVJuStqhl5++4anEQQ5FhytGsDuMkyNyI41Aci1hT1DCGwG02YtDvFOGCWBbKobc
-	Lq+nKHMA==;
+	bh=EbylkZfEaaFvic/k+SRQ0EbaDk+5Cnu3CE3jvLLsqFM=; b=ySSSiFDnjdGmot2h5khV47iEaC
+	PO+kURF9JkC1NW9BUETyFKm8dnwEreh6VW9ROrPCHCTWGkDaZmpxsguYiuSPymCaivHQwAzcPIQuS
+	FxMQL4dQ5Y0sKKGUvNjI3AQXnhNk7GKgLoQyJ8JdkU0mfMJbjFa3EoISld+YneIWhng8mLmgBazx2
+	FUpP/fSiEjdsDWl6hz7UUzxp6h12OzOdTu/RsT+iWo6AK7eFeaEtFaaQEA2MyfT+a4H8lYvCNnJGs
+	Egib13oJhjEJZgnLIiVXdZmSN0K1gT0aj7+F019xo9UajZfqwngjZfHwKlKTP7cQ0tt48CvyHFiYC
+	w5QvLMZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mN7zH-00HOgn-Qp; Mon, 06 Sep 2021 06:20:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mN8ax-00HTkq-Fq; Mon, 06 Sep 2021 06:59:07 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mN7z9-00HOdV-9J
- for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 06:20:04 +0000
+ id 1mN8av-00HTkC-Ee
+ for linux-nvme@lists.infradead.org; Mon, 06 Sep 2021 06:59:06 +0000
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E9D1220081;
- Mon,  6 Sep 2021 06:20:01 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1D2C82204F;
+ Mon,  6 Sep 2021 06:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1630909201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1630911544; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WnsfEm24FiY97oUuBVkQpzIL/MgLM8SuyHc8JYLAsNY=;
- b=G6amEv4Aay3hAY1inpj2Md8h3+uttQfDibLAnOOGzrFy7lJFDkhx0sztzAGTNR4GVkCW3K
- F+pHfwSAtaz0uYFnubD+DSFHs9IZ0gkxYd+inQcBdPn4wIAycTdrdrccikfoGrKbpQwYZZ
- LJHWr1hWGeoIjmdFG8aMhkRuEhvPVkA=
+ bh=Dn0AdOvFpZsUlxjV7t+j3XKO1jkWdOoSxY3S7G4pEQ0=;
+ b=iBl212aH0D/EELR8gHhKD8PTFR+y7Jj/RkoRzTP9wiq0fitael9dqrnWPTRJtuToFGNxk4
+ b2HLI0L7uqjnOMQyluQmeZoh+gyjVbQHVriTl6eyoDq7bz3yxWjS9Ujy0BcwfJHz4IadzZ
+ 4TAbEVrSeKInT5ocC7ytVSbNsozhtFs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1630909201;
+ s=susede2_ed25519; t=1630911544;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WnsfEm24FiY97oUuBVkQpzIL/MgLM8SuyHc8JYLAsNY=;
- b=oO5/PbjMxF/qs8tYulSXPGwu3sVi3uFKYQ3zil56qMsvk3vDb3FfUXHhz6Js3n0SXvqvlr
- rHuRJBcLLrpd09Ag==
+ bh=Dn0AdOvFpZsUlxjV7t+j3XKO1jkWdOoSxY3S7G4pEQ0=;
+ b=5+c3MmVDMZMmPVmvg9/t8jFNraF3/pF5u85tBzmf3y7lDML1xMHkKLGm6KEeR7tO7ciHMy
+ gg6i0GusvzMEwVAw==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 1A4BB13299;
- Mon,  6 Sep 2021 06:20:01 +0000 (UTC)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 0288713299;
+ Mon,  6 Sep 2021 06:59:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id u9eHAxGzNWHKTwAAGKfGzw
- (envelope-from <hare@suse.de>); Mon, 06 Sep 2021 06:20:01 +0000
-Subject: Re: [PATCH v3 8/8] nbd: add error handling support for add_disk()
-To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk,
- martin.petersen@oracle.com, jejb@linux.ibm.com, kbusch@kernel.org,
- sagi@grimberg.me, adrian.hunter@intel.com, beanhuo@micron.com,
- ulf.hansson@linaro.org, avri.altman@wdc.com, swboyd@chromium.org,
- agk@redhat.com, snitzer@redhat.com, josef@toxicpanda.com
-Cc: hch@infradead.org, bvanassche@acm.org, ming.lei@redhat.com,
- linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
-References: <20210830212538.148729-1-mcgrof@kernel.org>
- <20210830212538.148729-9-mcgrof@kernel.org>
+ by imap1.suse-dmz.suse.de with ESMTPSA id HZQ5Oze8NWHzVgAAGKfGzw
+ (envelope-from <hare@suse.de>); Mon, 06 Sep 2021 06:59:03 +0000
+Subject: Re: [PATCH] nvmet: fixup buffer overrun in nvmet_subsys_attr_serial()
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20210827092926.9525-1-hare@suse.de>
+ <20210827162636.GA24829@lst.de> <20210901122247.GA10562@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <bd2ed860-89c5-36d8-3bf6-29c677d70c40@suse.de>
-Date: Mon, 6 Sep 2021 08:20:05 +0200
+Message-ID: <f06240ed-5fd4-b8fa-a8cc-be10b9f62bcf@suse.de>
+Date: Mon, 6 Sep 2021 08:59:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210830212538.148729-9-mcgrof@kernel.org>
+In-Reply-To: <20210901122247.GA10562@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210905_232003_585147_DE3E0B7C 
-X-CRM114-Status: GOOD (  14.31  )
+X-CRM114-CacheID: sfid-20210905_235905_685525_D43D94F5 
+X-CRM114-Status: GOOD (  18.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,18 +102,33 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8zMC8yMSAxMToyNSBQTSwgTHVpcyBDaGFtYmVybGFpbiB3cm90ZToKPiBXZSBuZXZlciBj
-aGVja2VkIGZvciBlcnJvcnMgb24gYWRkX2Rpc2soKSBhcyB0aGlzIGZ1bmN0aW9uCj4gcmV0dXJu
-ZWQgdm9pZC4gTm93IHRoYXQgdGhpcyBpcyBmaXhlZCwgdXNlIHRoZSBzaGlueSBuZXcKPiBlcnJv
-ciBoYW5kbGluZy4KPiAKPiBSZXZpZXdlZC1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3Qu
-ZGU+Cj4gU2lnbmVkLW9mZi1ieTogTHVpcyBDaGFtYmVybGFpbiA8bWNncm9mQGtlcm5lbC5vcmc+
-Cj4gLS0tCj4gICBkcml2ZXJzL2Jsb2NrL25iZC5jIHwgNiArKysrKy0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5l
-cyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVz
-IFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1
-c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNF
-IFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcK
-SFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTD
-tnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpM
-aW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0
-cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+T24gOS8xLzIxIDI6MjIgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE9uIEZyaSwgQXVn
+IDI3LCAyMDIxIGF0IDA2OjI2OjM2UE0gKzAyMDAsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+
+PiBPbiBGcmksIEF1ZyAyNywgMjAyMSBhdCAxMToyOToyNkFNICswMjAwLCBIYW5uZXMgUmVpbmVj
+a2Ugd3JvdGU6Cj4+PiBUaGUgc2VyaWFsIG51bWJlciBpcyBjb3BpZWQgaW50byB0aGUgYnVmZmVy
+IHZpYSBtZW1jcHlfYW5kX3BhZCgpCj4+PiB3aXRoIHRoZSBsZW5ndGggTlZNRVRfU05fTUFYX1NJ
+WkUuIFNvIHdoZW4gcHJpbnRpbmcgb3V0IHdlIGFsc28KPj4+IG5lZWQgdG8gdGFrZSBqdXN0IHRo
+YXQgbGVuZ3RoIGFzIGFueXRoaW5nIGJleW9uZCB0aGF0IHdpbGwgYmUKPj4+IHVuaW5pdGlhbGl6
+ZWQuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2UuZGU+
+Cj4+Cj4+IFRoZSBub3JtYWwgd2F5IHRvIHByaW50IGEgcG90ZW50aWFsbHkgdW50ZXJtaW5hdGVk
+IGZpeGVkIGxlbmd0aCBzdHJpbmcKPj4gd291bGQgYmUgc29tZXRoaW5nIGxpa2U6Cj4gCj4gRG9l
+cyB0aGlzIHZlcnNpb24gc3RpbGwgbG9vayBvayB0byB5b3U/Cj4gCj4+Cj4+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL252bWUvdGFyZ2V0L2NvbmZpZ2ZzLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2Nv
+bmZpZ2ZzLmMKPj4gaW5kZXggZjc0NDg1YzcwNWZmMi4uZDc4NGYzYzIwMGI0YyAxMDA2NDQKPj4g
+LS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb25maWdmcy5jCj4+ICsrKyBiL2RyaXZlcnMvbnZt
+ZS90YXJnZXQvY29uZmlnZnMuYwo+PiBAQCAtMTA2Nyw3ICsxMDY3LDggQEAgc3RhdGljIHNzaXpl
+X3QgbnZtZXRfc3Vic3lzX2F0dHJfc2VyaWFsX3Nob3coc3RydWN0IGNvbmZpZ19pdGVtICppdGVt
+LAo+PiAgIHsKPj4gICAJc3RydWN0IG52bWV0X3N1YnN5cyAqc3Vic3lzID0gdG9fc3Vic3lzKGl0
+ZW0pOwo+PiAgIAo+PiAtCXJldHVybiBzbnByaW50ZihwYWdlLCBQQUdFX1NJWkUsICIlc1xuIiwg
+c3Vic3lzLT5zZXJpYWwpOwo+PiArCXJldHVybiBzbnByaW50ZihwYWdlLCBQQUdFX1NJWkUsICIl
+KnNcbiIsCj4+ICsJCQlOVk1FVF9TTl9NQVhfU0laRSwgc3Vic3lzLT5zZXJpYWwpOwo+PiAgIH0K
+Pj4gICAKPj4gICBzdGF0aWMgc3NpemVfdAo+IC0tLWVuZCBxdW90ZWQgdGV4dC0tLQo+IApZZXMs
+IGl0IGRvZXM7IHdpbGwgYmUgc2VuZGluZyBhbiB1cGRhdGVkIHBhdGNoLgoKQ2hlZXJzLAoKSGFu
+bmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdl
+IEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkg
+OTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1
+LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8
+aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3Rz
+LmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9saW51eC1udm1lCg==
