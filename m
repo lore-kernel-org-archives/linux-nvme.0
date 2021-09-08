@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B70AC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 07:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36878C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 07:46:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F73E61167
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 07:45:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2F73E61167
+	by mail.kernel.org (Postfix) with ESMTPS id EF0DE60F6C
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 07:46:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EF0DE60F6C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=McSVeWEDPV/WOWsNyI7zV0L74p0sGmTSsL8CW58BPhU=; b=Eh5lF1+e9Fcs9O
-	8HtvVZDgUNTrEw7q+cHaZafZ88vUFaG266APPHslaciPsJEOnJJt8+eCHO3tY9g3dC3w2Z4iT6rTX
-	aDUjrcCADfoHOk9w22E+kJpxcI4Y0rQYeo3FyuYXZgfnqKF6ETBHkKQGlHf1QOHH+cCkeIoclIMdz
-	Tf/gHfIMO4paQfjDlYPMBUT2WFqD+nGaPskUlZaEyfjsrnlWy2huTuvxfHP2USErg2cZQrsPvrgyA
-	Oon4ftHQe1Uc3OnfhRVrlohpA+dObVXPTby16e7w3A7qgov+yFnq3tF6MIzo7o5KwO1LFGwCDAt4c
-	kCmJJaNi856qdFXEzh/w==;
+	List-Owner; bh=3WPWOwT8cbMytg+9tIPXrSwbA/X8H/8ZQjLel7di4YY=; b=rYaV3et0s2/L5Y
+	kRQ7hIvWOZJpTp1aL5Cz26PaR37RVM/NZ9HVXACaAvjFcGLkTEcH4Co4wiRD7nxPxi4Z3+jrBXSQO
+	PrSmFX2BbC96hvw6TiWc2m2dCEd5e8zmZYFrWKX4Eg5iq2HDqlH6a6gTEgGt6t/XFBkEltE5VmDEf
+	6kV++ic3H9hTPvS8b4/KT73rrpcPn13mXAMV1+Fe90dTQ5H+f4fni5hYDWhVaXoJ+HXy/Qo9ao5y2
+	l4LGufl1YwUhdmn8eiqLpvqJ2+GLa7dwiq9VfvvOsQFY7/x7zyfriPpO6Ia2WFx4up8pLFSUgwxXp
+	4g1DuDJns2mpxsbHTljg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mNsFv-005yDz-Ma; Wed, 08 Sep 2021 07:44:27 +0000
+	id 1mNsHD-005yVb-As; Wed, 08 Sep 2021 07:45:47 +0000
 Received: from mx0b-0016f401.pphosted.com ([67.231.156.173])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mNs2J-005tgY-9B
+ id 1mNs2K-005thR-6i
  for linux-nvme@lists.infradead.org; Wed, 08 Sep 2021 07:30:26 +0000
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
- by mx0b-0016f401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1882s7OJ018373; 
- Wed, 8 Sep 2021 00:30:22 -0700
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
- by mx0b-0016f401.pphosted.com with ESMTP id 3axcmjaeay-2
+ by mx0b-0016f401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1883JW4e018275; 
+ Wed, 8 Sep 2021 00:30:23 -0700
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+ by mx0b-0016f401.pphosted.com with ESMTP id 3axcmjaeaw-5
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Wed, 08 Sep 2021 00:30:22 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Wed, 08 Sep 2021 00:30:23 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
  Wed, 8 Sep 2021 00:30:20 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
  Transport; Wed, 8 Sep 2021 00:30:20 -0700
 Received: from dut1171.mv.qlogic.com (unknown [10.112.88.18])
- by maili.marvell.com (Postfix) with ESMTP id 141D83F70AF;
+ by maili.marvell.com (Postfix) with ESMTP id 343C13F70AE;
  Wed,  8 Sep 2021 00:30:20 -0700 (PDT)
 Received: from dut1171.mv.qlogic.com (localhost [127.0.0.1])
- by dut1171.mv.qlogic.com (8.14.7/8.14.7) with ESMTP id 1887UKOJ010150;
+ by dut1171.mv.qlogic.com (8.14.7/8.14.7) with ESMTP id 1887UKFH010154;
  Wed, 8 Sep 2021 00:30:20 -0700
 Received: (from root@localhost)
- by dut1171.mv.qlogic.com (8.14.7/8.14.7/Submit) id 1887UK04010149;
+ by dut1171.mv.qlogic.com (8.14.7/8.14.7/Submit) id 1887UKUj010153;
  Wed, 8 Sep 2021 00:30:20 -0700
 From: Nilesh Javali <njavali@marvell.com>
 To: <martin.petersen@oracle.com>, <linux-nvme@lists.infradead.org>
 CC: <linux-scsi@vger.kernel.org>, <GR-QLogic-Storage-Upstream@marvell.com>,
  <djeffery@redhat.com>, <loberman@redhat.com>
-Subject: [PATCH 08/10] qla2xxx: Move heart beat handling from dpc thread to
- workqueue
-Date: Wed, 8 Sep 2021 00:28:44 -0700
-Message-ID: <20210908072846.10011-9-njavali@marvell.com>
+Subject: [PATCH 09/10] qla2xxx: Fix use after free in eh_abort path
+Date: Wed, 8 Sep 2021 00:28:45 -0700
+Message-ID: <20210908072846.10011-10-njavali@marvell.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <20210908072846.10011-1-njavali@marvell.com>
 References: <20210908072846.10011-1-njavali@marvell.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: 2iGk1pakmIUTuTRLkgnoZa4QUZzGa3NK
-X-Proofpoint-ORIG-GUID: 2iGk1pakmIUTuTRLkgnoZa4QUZzGa3NK
+X-Proofpoint-GUID: FTmLUtrwRpHqzgv5uHB0oGINzBr5JCkx
+X-Proofpoint-ORIG-GUID: FTmLUtrwRpHqzgv5uHB0oGINzBr5JCkx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-08_02,2021-09-07_02,2020-04-07_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210908_003023_547247_BAC5AD1E 
-X-CRM114-Status: GOOD (  24.07  )
+X-CRM114-CacheID: sfid-20210908_003024_503773_E37615A7 
+X-CRM114-Status: GOOD (  13.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,121 +88,89 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogTWFuaXNoIFJhbmdhbmthciA8bXJhbmdhbmthckBtYXJ2ZWxsLmNvbT4KCkRQQyB0aHJl
-YWQgZ2V0cyByZXN0cmljdGVkIGR1ZSB0byBhIG5vLW9wIG1haWxib3gsIHdoaWNoIGlzIGEgYmxv
-Y2tpbmcgY2FsbAphbmQgaGFzIGEgaGlnaCBleGVjdXRpb24gZnJlcXVlbmN5LiBUbyBmcmVlIHVw
-IHRoZSBEUEMgdGhyZWFkIHdlIG1vdmUgbm8tb3AKaGFuZGxpbmcgdG8gdGhlIHdvcmtxdWV1ZS4g
-QWxzbywgbW9kaWZpZWQgcWxhX2RvX2hiIHRvIHNlbmQgbm8tb3AgTUJDIGlmCndlIGRvbuKAmXQg
-aGF2ZSBhbnkgYWN0aXZlIGludGVycnVwdHMsIGJ1dCB0aGVyZSBhcmUgc3RpbGwgSU9zIG91dHN0
-YW5kaW5nCndpdGggZmlybXdhcmUuCgpGaXhlczogZDk0ZDgxNThlMTg0ICgic2NzaTogcWxhMnh4
-eDogQWRkIGhlYXJ0YmVhdCBjaGVjayIpClNpZ25lZC1vZmYtYnk6IE1hbmlzaCBSYW5nYW5rYXIg
-PG1yYW5nYW5rYXJAbWFydmVsbC5jb20+ClNpZ25lZC1vZmYtYnk6IE5pbGVzaCBKYXZhbGkgPG5q
-YXZhbGlAbWFydmVsbC5jb20+Ci0tLQogZHJpdmVycy9zY3NpL3FsYTJ4eHgvcWxhX2RlZi5oICB8
-ICA0ICstCiBkcml2ZXJzL3Njc2kvcWxhMnh4eC9xbGFfaW5pdC5jIHwgIDIgKwogZHJpdmVycy9z
-Y3NpL3FsYTJ4eHgvcWxhX29zLmMgICB8IDc0ICsrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0t
-LS0tLQogMyBmaWxlcyBjaGFuZ2VkLCAzOCBpbnNlcnRpb25zKCspLCA0MiBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL3Njc2kvcWxhMnh4eC9xbGFfZGVmLmggYi9kcml2ZXJzL3Nj
-c2kvcWxhMnh4eC9xbGFfZGVmLmgKaW5kZXggYmUyZWI3NWVlMWEzLi5kNmUxMzFiZjE4MjQgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvc2NzaS9xbGEyeHh4L3FsYV9kZWYuaAorKysgYi9kcml2ZXJzL3Nj
-c2kvcWxhMnh4eC9xbGFfZGVmLmgKQEAgLTM3NTAsNiArMzc1MCw3IEBAIHN0cnVjdCBxbGFfcXBh
-aXIgewogCXN0cnVjdCBxbGFfZndfcmVzb3VyY2VzIGZ3cmVzIF9fX19jYWNoZWxpbmVfYWxpZ25l
-ZDsKIAl1MzIJY21kX2NudDsKIAl1MzIJY21kX2NvbXBsZXRpb25fY250OworCXUzMglwcmV2X2Nv
-bXBsZXRpb25fY250OwogfTsKIAogLyogUGxhY2UgaG9sZGVyIGZvciBGVyBidWZmZXIgcGFyYW1l
-dGVycyAqLwpAQCAtNDYwNyw2ICs0NjA4LDcgQEAgc3RydWN0IHFsYV9od19kYXRhIHsKIAlzdHJ1
-Y3QgcWxhX2NoaXBfc3RhdGVfODR4eCAqY3M4NHh4OwogCXN0cnVjdCBpc3Bfb3BlcmF0aW9ucyAq
-aXNwX29wczsKIAlzdHJ1Y3Qgd29ya3F1ZXVlX3N0cnVjdCAqd3E7CisJc3RydWN0IHdvcmtfc3Ry
-dWN0IGhiX3dvcms7CiAJc3RydWN0IHFsZmNfZncgZndfYnVmOwogCiAJLyogRkNQX0NNTkQgcHJp
-b3JpdHkgc3VwcG9ydCAqLwpAQCAtNDcwOCw3ICs0NzEwLDYgQEAgc3RydWN0IHFsYV9od19kYXRh
-IHsKIAogCXN0cnVjdCBxbGFfaHdfZGF0YV9zdGF0IHN0YXQ7CiAJcGNpX2Vycm9yX3N0YXRlX3Qg
-cGNpX2Vycm9yX3N0YXRlOwotCXU2NCBwcmV2X2NtZF9jbnQ7CiAJc3RydWN0IGRtYV9wb29sICpw
-dXJleF9kbWFfcG9vbDsKIAlzdHJ1Y3QgYnRyZWVfaGVhZDMyIGhvc3RfbWFwOwogCkBAIC00ODU0
-LDcgKzQ4NTUsNiBAQCB0eXBlZGVmIHN0cnVjdCBzY3NpX3FsYV9ob3N0IHsKICNkZWZpbmUgU0VU
-X1pJT19USFJFU0hPTERfTkVFREVEIDMyCiAjZGVmaW5lIElTUF9BQk9SVF9UT19ST00JMzMKICNk
-ZWZpbmUgVlBPUlRfREVMRVRFCQkzNAotI2RlZmluZSBIRUFSVEJFQVRfQ0hLCQkzOAogCiAjZGVm
-aW5lIFBST0NFU1NfUFVSRVhfSU9DQgk2MwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Njc2kvcWxh
-Mnh4eC9xbGFfaW5pdC5jIGIvZHJpdmVycy9zY3NpL3FsYTJ4eHgvcWxhX2luaXQuYwppbmRleCBj
-NmIzZDBlNzQ4OWUuLmE5YTQyNDNjYjE1YSAxMDA2NDQKLS0tIGEvZHJpdmVycy9zY3NpL3FsYTJ4
-eHgvcWxhX2luaXQuYworKysgYi9kcml2ZXJzL3Njc2kvcWxhMnh4eC9xbGFfaW5pdC5jCkBAIC03
-MDI1LDEyICs3MDI1LDE0IEBAIHFsYTJ4MDBfYWJvcnRfaXNwX2NsZWFudXAoc2NzaV9xbGFfaG9z
-dF90ICp2aGEpCiAJaGEtPmNoaXBfcmVzZXQrKzsKIAloYS0+YmFzZV9xcGFpci0+Y2hpcF9yZXNl
-dCA9IGhhLT5jaGlwX3Jlc2V0OwogCWhhLT5iYXNlX3FwYWlyLT5jbWRfY250ID0gaGEtPmJhc2Vf
-cXBhaXItPmNtZF9jb21wbGV0aW9uX2NudCA9IDA7CisJaGEtPmJhc2VfcXBhaXItPnByZXZfY29t
-cGxldGlvbl9jbnQgPSAwOwogCWZvciAoaSA9IDA7IGkgPCBoYS0+bWF4X3FwYWlyczsgaSsrKSB7
-CiAJCWlmIChoYS0+cXVldWVfcGFpcl9tYXBbaV0pIHsKIAkJCWhhLT5xdWV1ZV9wYWlyX21hcFtp
-XS0+Y2hpcF9yZXNldCA9CiAJCQkJaGEtPmJhc2VfcXBhaXItPmNoaXBfcmVzZXQ7CiAJCQloYS0+
-cXVldWVfcGFpcl9tYXBbaV0tPmNtZF9jbnQgPQogCQkJICAgIGhhLT5xdWV1ZV9wYWlyX21hcFtp
-XS0+Y21kX2NvbXBsZXRpb25fY250ID0gMDsKKwkJCWhhLT5iYXNlX3FwYWlyLT5wcmV2X2NvbXBs
-ZXRpb25fY250ID0gMDsKIAkJfQogCX0KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9zY3NpL3FsYTJ4
-eHgvcWxhX29zLmMgYi9kcml2ZXJzL3Njc2kvcWxhMnh4eC9xbGFfb3MuYwppbmRleCBhMWU4NjFl
-Y2ZjMDEuLjA0NTRmNzlhODA0NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9zY3NpL3FsYTJ4eHgvcWxh
-X29zLmMKKysrIGIvZHJpdmVycy9zY3NpL3FsYTJ4eHgvcWxhX29zLmMKQEAgLTI3OTQsNiArMjc5
-NCwxNiBAQCBxbGEyeHh4X3NjYW5fZmluaXNoZWQoc3RydWN0IFNjc2lfSG9zdCAqc2hvc3QsIHVu
-c2lnbmVkIGxvbmcgdGltZSkKIAlyZXR1cm4gYXRvbWljX3JlYWQoJnZoYS0+bG9vcF9zdGF0ZSkg
-PT0gTE9PUF9SRUFEWTsKIH0KIAorc3RhdGljIHZvaWQgcWxhX2hiX3dvcmtfZm4oc3RydWN0IHdv
-cmtfc3RydWN0ICp3b3JrKQoreworCXN0cnVjdCBxbGFfaHdfZGF0YSAqaGEgPSBjb250YWluZXJf
-b2Yod29yaywKKwkJc3RydWN0IHFsYV9od19kYXRhLCBoYl93b3JrKTsKKwlzdHJ1Y3Qgc2NzaV9x
-bGFfaG9zdCAqYmFzZV92aGEgPSBwY2lfZ2V0X2RydmRhdGEoaGEtPnBkZXYpOworCisJaWYgKCFo
-YS0+ZmxhZ3MubWJveF9idXN5ICYmIGJhc2VfdmhhLT5mbGFncy5pbml0X2RvbmUpCisJCXFsYV9u
-b19vcF9tYihiYXNlX3ZoYSk7Cit9CisKIHN0YXRpYyB2b2lkIHFsYTJ4MDBfaW9jYl93b3JrX2Zu
-KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKIHsKIAlzdHJ1Y3Qgc2NzaV9xbGFfaG9zdCAqdmhh
-ID0gY29udGFpbmVyX29mKHdvcmssCkBAIC0zMjMyLDYgKzMyNDIsNyBAQCBxbGEyeDAwX3Byb2Jl
-X29uZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3RydWN0IHBjaV9kZXZpY2VfaWQgKmlk
-KQogCSAgICBob3N0LT50cmFuc3BvcnR0LCBzaHQtPnZlbmRvcl9pZCk7CiAKIAlJTklUX1dPUkso
-JmJhc2VfdmhhLT5pb2NiX3dvcmssIHFsYTJ4MDBfaW9jYl93b3JrX2ZuKTsKKwlJTklUX1dPUkso
-JmhhLT5oYl93b3JrLCBxbGFfaGJfd29ya19mbik7CiAKIAkvKiBTZXQgdXAgdGhlIGlycXMgKi8K
-IAlyZXQgPSBxbGEyeDAwX3JlcXVlc3RfaXJxcyhoYSwgcnNwKTsKQEAgLTcxMTgsMTcgKzcxMjks
-NiBAQCBxbGEyeDAwX2RvX2RwYyh2b2lkICpkYXRhKQogCQkJcWxhMngwMF9saXBfcmVzZXQoYmFz
-ZV92aGEpOwogCQl9CiAKLQkJaWYgKHRlc3RfYml0KEhFQVJUQkVBVF9DSEssICZiYXNlX3ZoYS0+
-ZHBjX2ZsYWdzKSkgewotCQkJLyoKLQkJCSAqIGlmIHRoZXJlIGlzIGEgbWIgaW4gcHJvZ3Jlc3Mg
-dGhlbiB0aGF0J3MKLQkJCSAqIGVub3VnaCBvZiBhIGNoZWNrIHRvIHNlZSBpZiBmdyBpcyBzdGls
-bCB0aWNraW5nLgotCQkJICovCi0JCQlpZiAoIWhhLT5mbGFncy5tYm94X2J1c3kgJiYgYmFzZV92
-aGEtPmZsYWdzLmluaXRfZG9uZSkKLQkJCQlxbGFfbm9fb3BfbWIoYmFzZV92aGEpOwotCi0JCQlj
-bGVhcl9iaXQoSEVBUlRCRUFUX0NISywgJmJhc2VfdmhhLT5kcGNfZmxhZ3MpOwotCQl9Ci0KIAkJ
-aGEtPmRwY19hY3RpdmUgPSAwOwogZW5kX2xvb3A6CiAJCXNldF9jdXJyZW50X3N0YXRlKFRBU0tf
-SU5URVJSVVBUSUJMRSk7CkBAIC03MTg3LDU3ICs3MTg3LDUxIEBAIHFsYTJ4MDBfcnN0X2Flbihz
-Y3NpX3FsYV9ob3N0X3QgKnZoYSkKIAogc3RhdGljIGJvb2wgcWxhX2RvX2hlYXJ0YmVhdChzdHJ1
-Y3Qgc2NzaV9xbGFfaG9zdCAqdmhhKQogewotCXU2NCBjbWRfY250LCBwcmV2X2NtZF9jbnQ7Ci0J
-Ym9vbCBkb19oYiA9IGZhbHNlOwogCXN0cnVjdCBxbGFfaHdfZGF0YSAqaGEgPSB2aGEtPmh3Owot
-CWludCBpOworCXUzMiBjbXBsX2NudDsKKwl1MTYgaTsKKwlib29sIGRvX2hiID0gZmFsc2U7CiAK
-LQkvKiBpZiBjbWRzIGFyZSBzdGlsbCBwZW5kaW5nIGRvd24gaW4gZncsIHRoZW4gZG8gaGIgKi8K
-LQlpZiAoaGEtPmJhc2VfcXBhaXItPmNtZF9jbnQgIT0gaGEtPmJhc2VfcXBhaXItPmNtZF9jb21w
-bGV0aW9uX2NudCkgeworCS8qCisJICogQWxsb3cgZG9faGIgb25seSBpZiB3ZSBkb27igJl0IGhh
-dmUgYW55IGFjdGl2ZSBpbnRlcnJ1cHRzLAorCSAqIGJ1dCB0aGVyZSBhcmUgc3RpbGwgSU9zIG91
-dHN0YW5kaW5nIHdpdGggZmlybXdhcmUuCisJICovCisJY21wbF9jbnQgPSBoYS0+YmFzZV9xcGFp
-ci0+Y21kX2NvbXBsZXRpb25fY250OworCWlmIChjbXBsX2NudCA9PSBoYS0+YmFzZV9xcGFpci0+
-cHJldl9jb21wbGV0aW9uX2NudCAmJgorCSAgICBjbXBsX2NudCAhPSBoYS0+YmFzZV9xcGFpci0+
-Y21kX2NudCkgewogCQlkb19oYiA9IHRydWU7CiAJCWdvdG8gc2tpcDsKIAl9CisJaGEtPmJhc2Vf
-cXBhaXItPnByZXZfY29tcGxldGlvbl9jbnQgPSBjbXBsX2NudDsKIAogCWZvciAoaSA9IDA7IGkg
-PCBoYS0+bWF4X3FwYWlyczsgaSsrKSB7Ci0JCWlmIChoYS0+cXVldWVfcGFpcl9tYXBbaV0gJiYK
-LQkJICAgIGhhLT5xdWV1ZV9wYWlyX21hcFtpXS0+Y21kX2NudCAhPQotCQkgICAgaGEtPnF1ZXVl
-X3BhaXJfbWFwW2ldLT5jbWRfY29tcGxldGlvbl9jbnQpIHsKLQkJCWRvX2hiID0gdHJ1ZTsKLQkJ
-CWJyZWFrOworCQlpZiAoaGEtPnF1ZXVlX3BhaXJfbWFwW2ldKSB7CisJCQljbXBsX2NudCA9IGhh
-LT5xdWV1ZV9wYWlyX21hcFtpXS0+Y21kX2NvbXBsZXRpb25fY250OworCQkJaWYgKGNtcGxfY250
-ID09IGhhLT5xdWV1ZV9wYWlyX21hcFtpXS0+cHJldl9jb21wbGV0aW9uX2NudCAmJgorCQkJICAg
-IGNtcGxfY250ICE9IGhhLT5xdWV1ZV9wYWlyX21hcFtpXS0+Y21kX2NudCkgeworCQkJCWRvX2hi
-ID0gdHJ1ZTsKKwkJCQlicmVhazsKKwkJCX0KKwkJCWhhLT5xdWV1ZV9wYWlyX21hcFtpXS0+cHJl
-dl9jb21wbGV0aW9uX2NudCA9IGNtcGxfY250OwogCQl9CiAJfQogCiBza2lwOgotCXByZXZfY21k
-X2NudCA9IGhhLT5wcmV2X2NtZF9jbnQ7Ci0JY21kX2NudCA9IGhhLT5iYXNlX3FwYWlyLT5jbWRf
-Y250OwotCWZvciAoaSA9IDA7IGkgPCBoYS0+bWF4X3FwYWlyczsgaSsrKSB7Ci0JCWlmIChoYS0+
-cXVldWVfcGFpcl9tYXBbaV0pCi0JCQljbWRfY250ICs9IGhhLT5xdWV1ZV9wYWlyX21hcFtpXS0+
-Y21kX2NudDsKLQl9Ci0JaGEtPnByZXZfY21kX2NudCA9IGNtZF9jbnQ7Ci0KLQlpZiAoIWRvX2hi
-ICYmICgoY21kX2NudCAtIHByZXZfY21kX2NudCkgPiA1MCkpCi0JCS8qCi0JCSAqIElPcyBhcmUg
-Y29tcGxldGluZyBiZWZvcmUgcGVyaW9kaWMgaGIgY2hlY2suCi0JCSAqIElPcyBzZWVtcyB0byBi
-ZSBydW5uaW5nLCBkbyBoYiBmb3Igc2FuaXR5IGNoZWNrLgotCQkgKi8KLQkJZG9faGIgPSB0cnVl
-OwotCiAJcmV0dXJuIGRvX2hiOwogfQogCiBzdGF0aWMgdm9pZCBxbGFfaGVhcnRfYmVhdChzdHJ1
-Y3Qgc2NzaV9xbGFfaG9zdCAqdmhhKQogeworCXN0cnVjdCBxbGFfaHdfZGF0YSAqaGEgPSB2aGEt
-Pmh3OworCiAJaWYgKHZoYS0+dnBfaWR4KQogCQlyZXR1cm47CiAKIAlpZiAodmhhLT5ody0+Zmxh
-Z3MuZWVoX2J1c3kgfHwgcWxhMngwMF9jaGlwX2lzX2Rvd24odmhhKSkKIAkJcmV0dXJuOwogCi0J
-aWYgKHFsYV9kb19oZWFydGJlYXQodmhhKSkgewotCQlzZXRfYml0KEhFQVJUQkVBVF9DSEssICZ2
-aGEtPmRwY19mbGFncyk7Ci0JCXFsYTJ4eHhfd2FrZV9kcGModmhhKTsKLQl9CisJaWYgKHFsYV9k
-b19oZWFydGJlYXQodmhhKSkKKwkJcXVldWVfd29yayhoYS0+d3EsICZoYS0+aGJfd29yayk7CiB9
-CiAKIC8qKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKgotLSAKMi4xOS4wLnJjMAoKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0Ckxp
-bnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+From: Quinn Tran <qutran@marvell.com>
+
+In eh_abort path, driver prematurely exit the call to upper layer.
+This patch would check for command is aborted / completed by FW
+before exiting the call.
+
+9 [ffff8b1ebf803c00] page_fault at ffffffffb0389778
+  [exception RIP: qla2x00_status_entry+0x48d]
+  RIP: ffffffffc04fa62d  RSP: ffff8b1ebf803cb0  RFLAGS: 00010082
+  RAX: 00000000ffffffff  RBX: 00000000000e0000  RCX: 0000000000000000
+  RDX: 0000000000000000  RSI: 00000000000013d8  RDI: fffff3253db78440
+  RBP: ffff8b1ebf803dd0   R8: ffff8b1ebcd9b0c0   R9: 0000000000000000
+  R10: ffff8b1e38a30808  R11: 0000000000001000  R12: 00000000000003e9
+  R13: 0000000000000000  R14: ffff8b1ebcd9d740  R15: 0000000000000028
+  ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
+10 [ffff8b1ebf803cb0] enqueue_entity at ffffffffafce708f
+11 [ffff8b1ebf803d00] enqueue_task_fair at ffffffffafce7b88
+12 [ffff8b1ebf803dd8] qla24xx_process_response_queue at ffffffffc04fc9a6
+[qla2xxx]
+13 [ffff8b1ebf803e78] qla24xx_msix_rsp_q at ffffffffc04ff01b [qla2xxx]
+14 [ffff8b1ebf803eb0] __handle_irq_event_percpu at ffffffffafd50714
+
+Fixes: f45bca8c5052 ("scsi: qla2xxx: Fix double scsi_done for abort path")
+Signed-off-by: David Jeffery <djeffery@redhat.com>
+Signed-off-by: Laurence Oberman <loberman@redhat.com>
+Signed-off-by: Quinn Tran <qutran@marvell.com>
+Signed-off-by: Nilesh Javali <njavali@marvell.com>
+---
+ drivers/scsi/qla2xxx/qla_os.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+index 0454f79a8047..0f3048723965 100644
+--- a/drivers/scsi/qla2xxx/qla_os.c
++++ b/drivers/scsi/qla2xxx/qla_os.c
+@@ -1258,6 +1258,7 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
+ 	uint32_t ratov_j;
+ 	struct qla_qpair *qpair;
+ 	unsigned long flags;
++	int fast_fail_status = SUCCESS;
+ 
+ 	if (qla2x00_isp_reg_stat(ha)) {
+ 		ql_log(ql_log_info, vha, 0x8042,
+@@ -1266,9 +1267,10 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
+ 		return FAILED;
+ 	}
+ 
++	/* Save any FAST_IO_FAIL value to return later if abort succeeds */
+ 	ret = fc_block_scsi_eh(cmd);
+ 	if (ret != 0)
+-		return ret;
++		fast_fail_status = ret;
+ 
+ 	sp = scsi_cmd_priv(cmd);
+ 	qpair = sp->qpair;
+@@ -1276,7 +1278,7 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
+ 	vha->cmd_timeout_cnt++;
+ 
+ 	if ((sp->fcport && sp->fcport->deleted) || !qpair)
+-		return SUCCESS;
++		return fast_fail_status != SUCCESS ? fast_fail_status : FAILED;
+ 
+ 	spin_lock_irqsave(qpair->qp_lock_ptr, flags);
+ 	sp->comp = &comp;
+@@ -1311,7 +1313,7 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
+ 			    __func__, ha->r_a_tov/10);
+ 			ret = FAILED;
+ 		} else {
+-			ret = SUCCESS;
++			ret = fast_fail_status;
+ 		}
+ 		break;
+ 	default:
+-- 
+2.19.0.rc0
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
