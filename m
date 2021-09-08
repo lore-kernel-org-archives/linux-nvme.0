@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5344C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 06:21:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2BF8C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 06:22:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 842C1610A3
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 06:21:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 842C1610A3
+	by mail.kernel.org (Postfix) with ESMTPS id 6CB1E6113C
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 06:22:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6CB1E6113C
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,22 +23,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SLhXuJgpxadg4QgKmVQrtbOfmxNNCi5PPq7ABxnK4KU=; b=E2G7w6w7Rwuann
-	5UPYsDpMam6+Zr2xYClvvros5+FTsNK+7fSQUVentrsqyvIrd07eelKROlzIv+VBHzYrHNG0CBaNa
-	vrrnoTN65PQcHHqXOZ3OqHQJQL6jBkf0bXq/tnX98gPj24vaD9VLGUBCDyxOZHkctSH2qI6FGqBOz
-	90FF8uakjcH+APsDBi5pjy4uEm+5Yj1kIa8xBrz+uYYUC3TErEQC+MoxUVo5KA2ywtkNLRgK2eo21
-	sgL7tvDGEEdscJAEKrwleDFjzPlj6iYILFlgevyyJTP/a84m4qvMjr+QZUQPby/e1q4k5U+jq3xht
-	sXVSlyD8dc+UAXEvMqeg==;
+	List-Owner; bh=VmN8xiFmoHWu+ykbW3EXp2s/FBIIOCTHmaPb8JW6Uns=; b=EzMpYsL7BtDpcL
+	0kgGN2jebdwf0SH833bhAbkWCBSXgF6QoV03c6iEBn9S2qvq458GgJerFrpnizEDJWpQyPPT2fms/
+	qFjz7vfBSRNMRzcbV9jltaOGalFMVOXO6VXytt3pkxuuqyYSlQBWSTt0VF6pnrmobYOpM+t9bY1QL
+	fZHpSRLfaBTOhjqFCQSemFA7FOqVjxrPyV26JOFd3/6XhF3UhMTYaYdEuM9i414QKC4cmP3seHCFa
+	u9pd8cy7JpmVbzf+qpw37WGacVCSgzbB/LnfetAoei4Cb4ACnGoHmMs5BpAzezaggH7PccxZmvxQ7
+	ftjlveBr+cA7YISsaxFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mNqxL-005Z2n-Sr; Wed, 08 Sep 2021 06:21:12 +0000
+	id 1mNqy1-005ZdJ-6r; Wed, 08 Sep 2021 06:21:53 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mNqry-005WNb-2R
- for linux-nvme@lists.infradead.org; Wed, 08 Sep 2021 06:15:42 +0000
+ id 1mNqst-005WtF-Ez
+ for linux-nvme@lists.infradead.org; Wed, 08 Sep 2021 06:16:39 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C1A8D67373; Wed,  8 Sep 2021 08:15:30 +0200 (CEST)
-Date: Wed, 8 Sep 2021 08:15:30 +0200
+ id 6D92F67373; Wed,  8 Sep 2021 08:16:32 +0200 (CEST)
+Date: Wed, 8 Sep 2021 08:16:31 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Kanchan Joshi <joshiiitr@gmail.com>
 Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
@@ -46,20 +46,19 @@ Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
  io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
  anuj20.g@samsung.com, Javier Gonzalez <javier.gonz@samsung.com>,
  hare@suse.de
-Subject: Re: [RFC PATCH 2/6] nvme: wire-up support for async-passthru on
- char-device.
-Message-ID: <20210908061530.GA28505@lst.de>
+Subject: Re: [RFC PATCH 6/6] nvme: enable passthrough with fixed-buffer
+Message-ID: <20210908061631.GB28505@lst.de>
 References: <20210805125539.66958-1-joshi.k@samsung.com>
- <CGME20210805125923epcas5p10e6c1b95475440be68f58244d5a3cb9a@epcas5p1.samsung.com>
- <20210805125539.66958-3-joshi.k@samsung.com> <20210907074650.GB29874@lst.de>
- <CA+1E3rJAav=4abJXs8fO49aiMNPqjv6dD7HBfhB+JQrNbaX3=A@mail.gmail.com>
+ <CGME20210805125937epcas5p15667b460e28d87bd40400f69005aafe3@epcas5p1.samsung.com>
+ <20210805125539.66958-7-joshi.k@samsung.com> <20210907075055.GE29874@lst.de>
+ <CA+1E3rJsrBjpS8mNTg3jk2VWDCZ54OsbB4LC8zZaVeaN0dr2dA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CA+1E3rJAav=4abJXs8fO49aiMNPqjv6dD7HBfhB+JQrNbaX3=A@mail.gmail.com>
+In-Reply-To: <CA+1E3rJsrBjpS8mNTg3jk2VWDCZ54OsbB4LC8zZaVeaN0dr2dA@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210907_231538_340703_ED378889 
-X-CRM114-Status: GOOD (  24.21  )
+X-CRM114-CacheID: sfid-20210907_231635_713887_DA74019A 
+X-CRM114-Status: GOOD (  12.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,52 +75,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 07, 2021 at 09:50:27PM +0530, Kanchan Joshi wrote:
-> > A few other notes:
-> >
-> >  - I suspect the ioctl_cmd really should move into the core using_cmd
-> >    infrastructure
-> 
-> Yes, that seems possible by creating that field outside by combining
-> "op" and "unused" below.
-> +struct io_uring_cmd {
-> + struct file *file;
-> + __u16 op;
-> + __u16 unused;
-> + __u32 len;
-> + __u64 pdu[5]; /* 40 bytes available inline for free use */
-> +};
+On Tue, Sep 07, 2021 at 10:17:53PM +0530, Kanchan Joshi wrote:
+> I'll do away with that comment. But sorry, what part do you think
+> should rather move to io_uring. Is that for the whole helper
+> "nvme_rq_map_user_fixed"?
 
-Two different issues here:
-
- - the idea of having a two layer indirection with op and a cmd doesn't
-   really make much sense
- - if we want to avoid conflicts using 32-bit probably makes sense
-
-So I'd turn op and unused into a single cmd field, use the ioctl encoding
-macros for it (but preferably pick different numbers than the existing
-ioctls).
-
-> >  - that whole mix of user space interface and internal data in the
-> >    ->pdu field is a mess.  What is the problem with deferring the
-> >    request freeing into the user context, which would clean up
-> >    quite a bit of that, especially if io_uring_cmd grows a private
-> >    field.
-> 
-> That mix isn't great but the attempt was to save the allocation.
-> And I was not very sure if it'd be fine to defer freeing the request
-> until task-work fires up.
-
-What would be the problem with the delaying?
-
-> Even if we take that route, we would still need a place to store bio
-> pointer (hopefully meta pointer can be extracted out of bio).
-> Do you see it differently?
-
-We don't need the bio pointer at all.  The old passthrough code needed
-it when we still used block layer bonuce buffering for it.  But that
-bounce buffering for passthrough commands got removed a while ago,
-and even before nvme never used it.
+Yes.  Nothing nvme-specific in it.  Given that it only makes sense
+to be used for io_uring support moving it to io_uring.c might make
+sense. Or conditionally to block/blk-map.c.
 
 _______________________________________________
 Linux-nvme mailing list
