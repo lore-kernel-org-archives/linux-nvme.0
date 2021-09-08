@@ -2,184 +2,86 @@ Return-Path: <SRS0=Nr0d=N6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B23EAC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 14:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B00AEC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 20:56:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A7466056B
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 14:33:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6A7466056B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4D2DF60EFE
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Sep 2021 20:56:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4D2DF60EFE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=39D0NIYFXIWq2TXRRJj+IsqKITle6j8Ks5Bf7X3SkEA=; b=FRhSqM8us1Lu/J
-	iaQX9LaEeHhvEnTgE65vTbJYrlyBOawCZED0MqwfxACEyngB2xJf7cRzG83yqcJz0yCprmZQzdZ6M
-	yVNfHGdYKxUz9Nfn2nQE8GOTccUcJgXHJQ02y+1nQzxoUsDxU/tfL5csiRIs8kI3UqMFMd3BobGjv
-	TupQuyOgy/tktiWmIFzD0cViwz88Gu+U9bQ+XlLQlRFB+GWIJMltViA4zqeyNARc2CTkm+If4eCbT
-	I1Q0/jjRJEUqw02HPicKh4SukAgnWiTrTha9c/1TreOk1zRCyjCLNxTDhQCWDtgZZJUZLPopoyLhN
-	yhYEbZDmEYXsbWUQfmQw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o5NcMpsbhqVCtgirpa09YHlZ60Qt160yhXtLzjOBtl8=; b=oaNgRL60C9bRSXvEeU6/G7LZBA
+	PdVuSIDGd0ldLc5s/6w4+rqge+vm+I6U0g3+t8dQ+vQYVGCY+w5ibdrurapDX1SXXVRtKV8BEzcQw
+	bepYoQZJ4nsYpDh512p8CH/WTV1/iI45DvvHUCL15CBIREnyqgm/jwMn57KsmeCpWbcXpmgu8xcCH
+	XfPiLQkCTkHH05nQp/Ey0bQB0pGKlxGULZXb+RBLOrjIHtX2M3jOj54enf4iTwG6js4HI1I0p1n16
+	oIwIDv3i1cjnsQj0H0eS9uMS3Cn5i4RBOrHtoWmN3zoX4qSksFJM/VgxvetAQTKzCJBhIwciLHQpb
+	SUwC5SdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mNydH-006xfO-Gp; Wed, 08 Sep 2021 14:32:59 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1mO4c3-007ZwO-H4; Wed, 08 Sep 2021 20:56:07 +0000
+Received: from mail-ed1-f45.google.com ([209.85.208.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mNydE-006xes-Lh
- for linux-nvme@lists.infradead.org; Wed, 08 Sep 2021 14:32:58 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 188DjKw9030428; 
- Wed, 8 Sep 2021 14:32:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=fHUozu+BySUoMZOq1khk5Ph79RCcpn/6FVqr8tsYcMQ=;
- b=SUMTiKGu+90KRWhLPhcifn/RidiDIUeKT5Edm2Mnta+lYNhRlkcBC8/nS4HEPsAtU5vH
- G/AUN284Xa/e0HbWq0pS3SB1qKpA/6+nhs0a9Onct/vGHNPjW9N+0uq2gE/ks1cULgfR
- 6MWOx1jRdTnZk2u4q4T6ProZp409awMJjAhN7UnJ+bLKFNfrrWeAqZkKk751ggSgbeZ1
- snG+tsWSOdz0Bltm4RPi6AuWXgV+FJNao/yYSYUFeXzugSSZXvdN0IBvE2VQRfjlypyq
- urCgt2JMwf8pI18v8NyfvSy1kH2UA6ncX7vMM+V72hGVM5P/bQh3QE2VEhm/yHaJ+Ni3 DQ== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=fHUozu+BySUoMZOq1khk5Ph79RCcpn/6FVqr8tsYcMQ=;
- b=QD2/JImvFhMv1cAeGUxX02b+ikzkQ2n9v/rXNNfJpDD6PipaLWiHyH82X2BN24agiQNE
- oKbXW7RdBWSPuXmxeTGdnbhSiWCBEZJDp631+O0tJcZ9x1VBJrfXjm5dvF1RufFaZjA4
- 6VNBtxfFm52li4nV4gXXjQgkoX3erdEi9esMfEbIqhwO/KCG/XIKZFsQy7x0B+B9qcUA
- ec6APgFljZooW7H5ZUHzuvjceGZDPJ3D0EywYmEu2rLuSBJ0RKNLQBD8atbAck3IlQPJ
- 7fe/Kyzv4WdjnVOT5kY62akeZXFcBB77l9ubzpqlbTWH90E39h7mzUWSzHswBm1Z0gfm ug== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3axd44tvtj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Sep 2021 14:32:55 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 188EAHAM009076;
- Wed, 8 Sep 2021 14:16:45 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
- by userp3020.oracle.com with ESMTP id 3axst3vnnk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 08 Sep 2021 14:16:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d8loSrJC/dmd8PaEvTZGaPniajkMETefuO+vNDrCU5E122QpvwlWkBCK7PuFJ1Mu6MgdJ1b40H5/aQyHzZqjaVb+J+mYms05FPCP5EttRHBHBBYfTE+v2zBYOKF9VNlZPB07z6nYdWwAvpaPAKpXS09toIor81XpLVIFXWzTeVYq2puvTWYROrx5Ezy1ntwl6oosR8UHSJkZCIOfw7JULaqSJe3YVwWoBTr80QU82GHESR6pYfMfnImoLQOu1g63smsIUubkHrSOFbrYnTRczUlC83vZVjld7x88QVY1fO6Ue9UdU1T3/vPYPINpLu1NMkaY/e2rOqlNElILrBy1sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=fHUozu+BySUoMZOq1khk5Ph79RCcpn/6FVqr8tsYcMQ=;
- b=EzuC6ers0RC27bmDIW4/If5sJw00FesUrau5xlJPusU/WOapcTfPcdu0EcTqaDAx2q7vJGl1buO22sVwu5KhZJ2H6D4EERoBLjv6HvFTi2g9VyerumFnNwj66xRBMw8oIYmJ9YwiKeNnTshtGvRZclwiTLjuTRdyoJFJRvdkH7x9PeJZYVge0za5Z8uoCABUee3PSgd9BEFBEWfGfLME5UlKyZsNPca4A4wrB4Tlqca+zHKU75pu7NV/VqRISrqb0TQekDGBOAylvlijtUsTCYRcM16Wp9gCMlFFz3X3efZ5LjeSisi5MYg95GNRRnMN9nwkJcmAz9+D3umhkikfzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fHUozu+BySUoMZOq1khk5Ph79RCcpn/6FVqr8tsYcMQ=;
- b=zfSg5Ep3laUVmQjCnloc1Bg+hJcTA7vSpQfSs4KYxYAI7owpA4fiNsHIGz9ZanJe5Xl7uNJh+qRLmY63lCCxvca682pZWxt5cJWuRe9IPgtCVLH2j2RsvGJ+bEZ2bsUhXWSZUTKUUj6fy9dZOXVwQOPF/zWMYVJBzr+0n9gNvZo=
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com (2603:10b6:805:d4::19)
- by SN6PR10MB2573.namprd10.prod.outlook.com (2603:10b6:805:48::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Wed, 8 Sep
- 2021 14:16:43 +0000
-Received: from SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::38df:8fa2:1602:2dfe]) by SN6PR10MB2943.namprd10.prod.outlook.com
- ([fe80::38df:8fa2:1602:2dfe%3]) with mapi id 15.20.4500.015; Wed, 8 Sep 2021
- 14:16:43 +0000
-From: Himanshu Madhani <himanshu.madhani@oracle.com>
-To: Nilesh Javali <njavali@marvell.com>
-CC: Martin Petersen <martin.petersen@oracle.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "GR-QLogic-Storage-Upstream@marvell.com"
- <GR-QLogic-Storage-Upstream@marvell.com>, "djeffery@redhat.com"
- <djeffery@redhat.com>, "loberman@redhat.com" <loberman@redhat.com>
-Subject: Re: [PATCH 09/10] qla2xxx: Fix use after free in eh_abort path
-Thread-Topic: [PATCH 09/10] qla2xxx: Fix use after free in eh_abort path
-Thread-Index: AQHXpIN0eHS2UzVqBEiosXYVxVLJ2KuaL0QA
-Date: Wed, 8 Sep 2021 14:16:42 +0000
-Message-ID: <4E3ED2A4-5E94-4202-9B74-569DA0C820F9@oracle.com>
-References: <20210908072846.10011-1-njavali@marvell.com>
- <20210908072846.10011-10-njavali@marvell.com>
-In-Reply-To: <20210908072846.10011-10-njavali@marvell.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.7)
-authentication-results: marvell.com; dkim=none (message not signed)
- header.d=none;marvell.com; dmarc=none action=none header.from=oracle.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a1b6e465-9085-4a54-1646-08d972d3488f
-x-ms-traffictypediagnostic: SN6PR10MB2573:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR10MB257381F850822DDFBF1C2177E6D49@SN6PR10MB2573.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2331;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 07wuj5WVFEjE65qXnP/n+HoO+r692t//vO1vG40NTOE61tC8rN7ftBN0Gwr5P6JUQKeEvLwUaHiQr00j8uYAap60YeFDmlaUwgmM5ghb+r7vqX/GOXgsyPNnYUCN6tsyzIhP0EhaGz9+WPPT1zcwRYIONWpsYRj/K4mzGgaB0xGT5ZsbqKb64qI8YNdYcnGAuH6MySwSsau+4LWQFNtZvyzK8dVhj1lTykYdg4UvbDfvVjWSI2Dbg5ou2agJMSalbPLlhi4u0TNgKpj+c5kmmD4Nf9fEW3BxdLAhrou1c5CN7GgZfHOMlgy8nCk721uEx2QZYRcnuJH6CpcWRhyUpNksuoaY2xkNkz3/hvARu0UOqv1zeD7ptb6laPNynnmoxM14E4jwlFK95nJQYQA3qqJ2+ZEfuQkEnXmNni9mrFWmG0mryBKkv3gw8RvJowK9D7sewIYW5XRlrulz4iJHn/Ep3fxXEqXyvuBXMpOwD5O0aoBrwwUFaN9QKkBPvXYe2QMPTwPoXQAWxMNgonpx5petf9NLVwCLrAgAwhk0CbTFLG4ivBE0Ji0QzyFu2MHJhKxCqYKxsh9hn3kyutOg6eduoy/sHBMlPM4yAH8wwT37B6pWu3lY2SG5vxqbn5ik0MSemBv5VpHWZ0iJBL9l7iPLy94Uw3ah0GdRQfulKa5MR9PLebsFhYDFt7uqulATWn8OgJ+fVyVJ4+0seKIzxfyC47MnVo/aAbF4ERv4sF9wavB9AY9tHJCW2xEc0RcG
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR10MB2943.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(346002)(376002)(136003)(39860400002)(366004)(86362001)(6916009)(316002)(186003)(66446008)(6486002)(5660300002)(8936002)(33656002)(4326008)(64756008)(478600001)(36756003)(71200400001)(44832011)(38070700005)(8676002)(38100700002)(6506007)(2906002)(53546011)(76116006)(26005)(122000001)(6512007)(54906003)(66556008)(66946007)(66476007)(2616005)(83380400001)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?FaoZq88znLLDo3oNjGCCFQ9/rosR1093QjoLJVQUlmrJDeZqgXwc7oleqdNd?=
- =?us-ascii?Q?TsEUW8eplJ+PHLiVtNdxTzJfFyjV0+38SlS/p2ZmDpPYKKx5uDGXIJM9VxrV?=
- =?us-ascii?Q?Oa4aKHKBDA4fgI79Q+Uv8xhIplZJLRSqfedWU32qgd1ZNJmkiCmIRN5m1Nkp?=
- =?us-ascii?Q?n4YFxu6OPiAUxXPdRpNNu0wjzrCtO0gpOEPzuH4p32CXbDvLboE194s0SBjm?=
- =?us-ascii?Q?myFmR0593tmWvxLbv/h1lHLjgqmq0E7nDr/CMS4FOpVU98KCoyt0xy3KWDsT?=
- =?us-ascii?Q?XhL/rAmE/pF2Mqw0uAY4umJeyZDDrWyklYrRQ29hKYhdMR8A4XMK/X7xT3JT?=
- =?us-ascii?Q?c/RDBpStR/oSORKjVgTpbGF579dKzcd64Wlp+2JoTjfPjlhyFoWU2VPY+1PI?=
- =?us-ascii?Q?/r4TYpPmUtGpnobUOelqrEjUle172zrAK6Gyf6c+k9g2RhQ9+7lW/vr/KSz8?=
- =?us-ascii?Q?5sc0u90ykAFyDWh8IRq/lcxxQFQxIwMjZqIB0ct7iLeD9AW0a4YL0R9Ohhn4?=
- =?us-ascii?Q?Cb03cW1HbiZdmaAvLo92eOjnrVh9qOJWAYiMxR6JKeLTMP54ET1jopT3zosJ?=
- =?us-ascii?Q?Tum5JiY4KenARnxCcGLMoNAJhcH54Xw/JlbYsNlsp/iskjWmNpu+05GPwo82?=
- =?us-ascii?Q?7bBB8mjqYCy5CYlQnYoW255k4HFW5T2Wb3YJgECS4NlQ2vZqkDnZgcxqTMW7?=
- =?us-ascii?Q?5bI/2fp7nGkgunVqEADQUz5X2pJTh5Vua1Ur/IFhad5bqA+zxVf5XRtOUosf?=
- =?us-ascii?Q?fYacU9psOfydlfjJYI5D9eYwdhbczr1pA7WV1vHHEHZLq8iNfWqoztOV4nwa?=
- =?us-ascii?Q?66LAo/81szOY/DCZFUqarUTHbWH+dI4snoBafA+70GJK9v9faMtarlFB4xSs?=
- =?us-ascii?Q?NMcqYwAge1Q+Fh5Pkfj1EsvxiAhTVUAeICrattbVz1ydIiBIIYF36zWyeaT+?=
- =?us-ascii?Q?970niZlAG/TU8ZJujS02X/XM0QX86+G4ixp11Y92ggKqwCGW4A2nlDACKYUa?=
- =?us-ascii?Q?BLzyvkBPTVvCTrbBUNswhejgh0EDu1RCqAocXQN5nKuwWPdkOqfjFAA62obk?=
- =?us-ascii?Q?YKM/bmwmT4tgGLNM23yYKyzIBg0BHTQbUKbeHgiVS1YnUSgHXBhXKLyWatlE?=
- =?us-ascii?Q?1VsttphsBB7ASYG/RFJedpj0vSvwc+2AfAkHGglFDAZ3JYpE88Z1u/u6mSgO?=
- =?us-ascii?Q?xwcSe6+qriaSkovFf7JE/q1Uw4HQZWB2wkOsQi9+QxOnIeCz/Eq4FArW3K/Y?=
- =?us-ascii?Q?Jmiil4qzVWHWCZDSXhFJsNDKDxvMnXx4SbSV0FSs7WnWZw8P9+bcHAD3RkQ3?=
- =?us-ascii?Q?K3D6If5+dnxapm9QozrTodU5bXW3m2TeG5YaBAernllL7Q=3D=3D?=
-Content-ID: <74258D92F35D214EBD2050F132712FE3@namprd10.prod.outlook.com>
+ id 1mO4c0-007Zvo-3l
+ for linux-nvme@lists.infradead.org; Wed, 08 Sep 2021 20:56:05 +0000
+Received: by mail-ed1-f45.google.com with SMTP id s25so4774249edw.0
+ for <linux-nvme@lists.infradead.org>; Wed, 08 Sep 2021 13:56:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UiTqM7KmYIZe3e5WMYAH1LNRUYWEzD8B47U+rPeswGM=;
+ b=rkLbgXjbRV98VkyJo9VK2ankequ6zrTFNBEKla6FwffuQLw2CxnPPmcBxvWpWgzMet
+ J7ixUGvzB1o5AyMb/psUgR4vPbGKWu55x3v45HSiVBkME97+fZGuICSkiprUnhvx/D7O
+ 6/eYWjSuRKzpnVWkKbEEOKp4t7p+lbQuffq3gc/KyF0H9jDEZ0t3HdcbIehoNCr/d0Yl
+ 7C5E7jOj3JEVMasr7StfIPZfv6qKf1tePMbn9XwX+gwwOEtVlBenE7WHr22lII5ascb9
+ 3e3vfjnYQ7Xc9gtCRCyX4+PWLqIlqxtPxxOHh+JoyvjP2kbgeg/mksfRZBBeA8Gtj3BG
+ 1DkQ==
+X-Gm-Message-State: AOAM530Fe3mFWXuB+1yEkkFg5VB8382rW8LUCIyNDioQgxLD0oEE3ZOs
+ ySpWoYB3cZHL6OPADyfBaoV33sOP97I=
+X-Google-Smtp-Source: ABdhPJxoSUllLSeX+JoiHHO27hLuMz7gKBYeVPRa3gZNpJWyDVtIQ0eNhIhEJXMZW0BII/sOur0Kwg==
+X-Received: by 2002:a05:6402:1913:: with SMTP id
+ e19mr193677edz.9.1631134561758; 
+ Wed, 08 Sep 2021 13:56:01 -0700 (PDT)
+Received: from [10.100.102.14] (109-186-228-184.bb.netvision.net.il.
+ [109.186.228.184])
+ by smtp.gmail.com with ESMTPSA id gl2sm45167ejb.110.2021.09.08.13.56.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Sep 2021 13:56:01 -0700 (PDT)
+Subject: Re: Command timeouts with NVMe TCP kernel driver
+To: Keith Busch <kbusch@kernel.org>, Samuel Jones <sjones@kalrayinc.com>
+Cc: linux-nvme <linux-nvme@lists.infradead.org>
+References: <1058345072.5039165.1630330229081.JavaMail.zimbra@kalray.eu>
+ <20210831023712.GA4046@dhcp-10-100-145-180.wdc.com>
+ <1306302519.5246175.1630450012705.JavaMail.zimbra@kalray.eu>
+ <6e2770ca-c0ea-872a-377e-a17fa12961d9@grimberg.me>
+ <337815466.5790984.1631005553242.JavaMail.zimbra@kalray.eu>
+ <20210907164236.GA367782@dhcp-10-100-145-180.wdc.com>
+ <20210907204615.GA591280@dhcp-10-100-145-180.wdc.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <473ad941-a01d-8107-a6a8-6d051f6955a5@grimberg.me>
+Date: Wed, 8 Sep 2021 23:55:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2943.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1b6e465-9085-4a54-1646-08d972d3488f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2021 14:16:42.9509 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iahcvdF3GDyJNt1aybeMFMSbPLK6YS+qeTMFq+6ONKlzDoGz9DlXJLvmosRh1i9mU3/kt98Wti30ZmdwPECkZG4lfAj+6P8KcRm2h6r9g24=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2573
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10100
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109080091
-X-Proofpoint-GUID: wYK9MZnICAgZi59we3U4NIL5keaLCsh6
-X-Proofpoint-ORIG-GUID: wYK9MZnICAgZi59we3U4NIL5keaLCsh6
+In-Reply-To: <20210907204615.GA591280@dhcp-10-100-145-180.wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210908_073256_874674_8DDBF010 
-X-CRM114-Status: GOOD (  25.37  )
+X-CRM114-CacheID: sfid-20210908_135604_218220_111DF131 
+X-CRM114-Status: GOOD (  33.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -191,102 +93,89 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+>>> 1. Userspace context grabs send_mutex via queue_rq and calls into kernel_sendpage. This context is pinned to a CPU X because that's the way my benchmark works.
+>>> 2. Userspace context is descheduled.
+>>> 3. nvme_tcp_io_work is scheduled on the same CPU X because it so happens that io_cpu == X. (I have hundreds of threads which are statically assigned to CPUs and spread over all the CPUs of the VM, so there are necessarily some userspace threads whose CPU coincides with io_cpu).
+>>> 4. nvme_tcp_io_work obviously can't grab send_mutex because it's held by the userspace. But because req_list is not empty, it doesn't yield but keeps on spinning in the loop until it expires.
+>>> 5. Since pending = true nvme_tcp_io_work re-schedules itself for immediate execution. Because it's flagged as HIGHPRI, I guess this means it is rescheduled very soon/almost immediately, and my poor userspace context doesn't get enough CPU to make reasonable forward progress. We find ourselves in a kind of livelock.
+>>>
+>>> This seems coherent with the fact that my problem disappears if I do any one of the 3 following things:
+>>>
+>>> 1. Modify my userspace benchmark to avoid pinning threads to CPUs => direct send path can execute on a different CPU and make forward progress
+>>> 2. Modify nvme-tcp to remove the "direct send" path in queue_rq and always post to the work queue => no contention between direct send path and the workqueue
+>>> 3. Modify the tcp wq to remove the WQ_HIGHPRI flag. => I guess this makes the scheduler more friendly towards my userspace thread
+>>>
+>>> Does this make sense? What do you think is the best way to fix this? I guess the WQ_HIGHPRI flag is there for a reason, and that the "direct send" path can provide lower latency in some cases. What about a heuristic in io_work that will prevent it from looping indefinitely after a certain number of failed attempts to claim the send mutex?
+>>
+>> Sounds possible. The "pending" check on the req_list was to fix a race
+>> condition where the io_work could miss handling a request, resulting in
+>> a different command time out. It sounds like that could make the io_work
+>> spin without having anything to do, while starving the lower priority
+>> task. I'll try to think of another way to handle it.
+> 
+> Instead of relying on io_work to determine if there's pending requests,
+> the queuing action can try to re-schedule it only after the send_mutex
+> is released, and I think that should address the issue you've described
+> while still fixing the IO timeout the "pending" trick was addressing.
+> Can you try the below patch?
+> 
+> Sagi, does this look okay to you?
 
-> On Sep 8, 2021, at 2:28 AM, Nilesh Javali <njavali@marvell.com> wrote:
-> 
-> From: Quinn Tran <qutran@marvell.com>
-> 
-> In eh_abort path, driver prematurely exit the call to upper layer.
-> This patch would check for command is aborted / completed by FW
-> before exiting the call.
-> 
-> 9 [ffff8b1ebf803c00] page_fault at ffffffffb0389778
->  [exception RIP: qla2x00_status_entry+0x48d]
->  RIP: ffffffffc04fa62d  RSP: ffff8b1ebf803cb0  RFLAGS: 00010082
->  RAX: 00000000ffffffff  RBX: 00000000000e0000  RCX: 0000000000000000
->  RDX: 0000000000000000  RSI: 00000000000013d8  RDI: fffff3253db78440
->  RBP: ffff8b1ebf803dd0   R8: ffff8b1ebcd9b0c0   R9: 0000000000000000
->  R10: ffff8b1e38a30808  R11: 0000000000001000  R12: 00000000000003e9
->  R13: 0000000000000000  R14: ffff8b1ebcd9d740  R15: 0000000000000028
->  ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
-> 10 [ffff8b1ebf803cb0] enqueue_entity at ffffffffafce708f
-> 11 [ffff8b1ebf803d00] enqueue_task_fair at ffffffffafce7b88
-> 12 [ffff8b1ebf803dd8] qla24xx_process_response_queue at ffffffffc04fc9a6
-> [qla2xxx]
-> 13 [ffff8b1ebf803e78] qla24xx_msix_rsp_q at ffffffffc04ff01b [qla2xxx]
-> 14 [ffff8b1ebf803eb0] __handle_irq_event_percpu at ffffffffafd50714
-> 
-> Fixes: f45bca8c5052 ("scsi: qla2xxx: Fix double scsi_done for abort path")
+It looks OK to me, but on the other hand the former
+one looked perfectly fine to me. I'm trying to understand
+if we can have a race condition hiding here....
 
-Cc: stable@vger.kernel.org
-
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
-> Signed-off-by: Laurence Oberman <loberman@redhat.com>
-> Signed-off-by: Quinn Tran <qutran@marvell.com>
-> Signed-off-by: Nilesh Javali <njavali@marvell.com>
 > ---
-> drivers/scsi/qla2xxx/qla_os.c | 8 +++++---
-> 1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
-> index 0454f79a8047..0f3048723965 100644
-> --- a/drivers/scsi/qla2xxx/qla_os.c
-> +++ b/drivers/scsi/qla2xxx/qla_os.c
-> @@ -1258,6 +1258,7 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
-> 	uint32_t ratov_j;
-> 	struct qla_qpair *qpair;
-> 	unsigned long flags;
-> +	int fast_fail_status = SUCCESS;
-> 
-> 	if (qla2x00_isp_reg_stat(ha)) {
-> 		ql_log(ql_log_info, vha, 0x8042,
-> @@ -1266,9 +1267,10 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
-> 		return FAILED;
-> 	}
-> 
-> +	/* Save any FAST_IO_FAIL value to return later if abort succeeds */
-> 	ret = fc_block_scsi_eh(cmd);
-> 	if (ret != 0)
-> -		return ret;
-> +		fast_fail_status = ret;
-> 
-> 	sp = scsi_cmd_priv(cmd);
-> 	qpair = sp->qpair;
-> @@ -1276,7 +1278,7 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
-> 	vha->cmd_timeout_cnt++;
-> 
-> 	if ((sp->fcport && sp->fcport->deleted) || !qpair)
-> -		return SUCCESS;
-> +		return fast_fail_status != SUCCESS ? fast_fail_status : FAILED;
-> 
-> 	spin_lock_irqsave(qpair->qp_lock_ptr, flags);
-> 	sp->comp = &comp;
-> @@ -1311,7 +1313,7 @@ qla2xxx_eh_abort(struct scsi_cmnd *cmd)
-> 			    __func__, ha->r_a_tov/10);
-> 			ret = FAILED;
-> 		} else {
-> -			ret = SUCCESS;
-> +			ret = fast_fail_status;
-> 		}
-> 		break;
-> 	default:
-> -- 
-> 2.19.0.rc0
-> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index e2ab12f3f51c..e4249b7dc056 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -274,6 +274,12 @@ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
+>   	} while (ret > 0);
+>   }
+>   
+> +static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
+> +{
+> +	return !list_empty(&queue->send_list) ||
+> +		!llist_empty(&queue->req_list) || queue->more_requests;
+> +}
+> +
+>   static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+>   		bool sync, bool last)
+>   {
+> @@ -294,9 +300,10 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+>   		nvme_tcp_send_all(queue);
+>   		queue->more_requests = false;
+>   		mutex_unlock(&queue->send_mutex);
+> -	} else if (last) {
+> -		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>   	}
+> +
+> +	if (last && nvme_tcp_queue_more(queue))
+> +		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
 
-Looks good.
+Basically now the last request in the batch will not trigger
+unconditionally (if the direct-send path was not taken), but only if it
+sees queued requests, which in theory could be reaped by a running
+io_work, that would result in an empty io_work invocation. On one hand
+it is undesired, on the other hand should be harmless as it shouldn't
+miss an invocation... So it looks reasonable to me.
 
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+Sam, can you run some more extensive I/O testing with this (different
+patterns of r/w and block sizes)? Also Keith, can you ask the WD folks
+to also take it for a spin?
 
---
-Himanshu Madhani	 Oracle Linux Engineering
-
+All of these issues have a common theme, which is less I/O queues than
+CPUs for each controller which make RX/TX and queue_rq/io_work compete
+and usually controllers with smaller MDTS (that trigger multiple R2Ts
+per request and uncovered some races in this area). So testing those
+would be beneficial.
 
 _______________________________________________
 Linux-nvme mailing list
