@@ -2,89 +2,107 @@ Return-Path: <SRS0=/7z5=N7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBFA9C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 08:02:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C64C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 08:10:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7A08861101
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 08:02:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7A08861101
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 54B0961139
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 08:10:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 54B0961139
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kalrayinc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	Cc:To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sr5uZ/8BFQFMHMTNpsvK4bJ9XCJBhtqK1+8IJ0WIl7E=; b=URK+AFdFx5o2GaBbnXvSQKjHz8
-	isxqRwbX5vVIs8Sy7ZCuaAJU2WarHLzhltmU3NxtNK9aDTklqRW6axyyrqmircks/kC3jfaqW7Wsa
-	C83cb1wXjFzWkF4qaANAKYtzTx/w5q7fbON1DUrZnlSZIQo7O+YwNSfU2bS1CEaSLrxacAiA6ARxK
-	kidp0VjnoHw1mxD6/miKlm6RfZ2aoIYITu1yRm6l0yHqY1PZsd/HXz8IRLxdAk/8hVdBFmK7AhmTA
-	GKUYeqirNs1B0sMNbZtDapwSrAC8batpxf+S33qHuKwRpLEMrQVe5u8LZkfuXu73L1cBQ93uqM1j7
-	ZGdbBXng==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:References:
+	In-Reply-To:Message-ID:Cc:To:From:Date:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=A8DhQCwDH9T+l9Bt/pevx+s1Zc2UcbNe/1bRsU9JQkg=; b=uPvxkkOkMnjwSVJMm6J4LaLDup
+	QDY8Y6rPk+wNIAewN64DBtgHYmHyxUQhL3TI7JohS8eMXv5hY6dVqtVe9MkWrwAS84pxaBPiTbgUm
+	YgF5ZtF7ZTJODW3IQrF1Kddrt82+5ng7KjM4CbMkVnREE58gZ93YSnjCYNXKXZY9b1bGxUnQMlyNH
+	LJkkQkZjQar6NCM9549kqUDJyxiET9JkDGGSFYNtvcttt3asndQ8o481FhJlZjXfKexXuCcHizFMt
+	0Vn0IKvioxO7xjQxo9ak8YX2YYI2wlVTpiS7mIrXRHgAJLjxIbXIQCZ2N9u6VSSch84Ja348W97hI
+	ntRTQvUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mOF0P-008WL1-0Y; Thu, 09 Sep 2021 08:01:57 +0000
-Received: from mail-ed1-f54.google.com ([209.85.208.54])
+	id 1mOF7v-008XWh-6j; Thu, 09 Sep 2021 08:09:43 +0000
+Received: from smtpout140.security-mail.net ([85.31.212.145]
+ helo=fx405.security-mail.net)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mOF0L-008WK1-VN
- for linux-nvme@lists.infradead.org; Thu, 09 Sep 2021 08:01:55 +0000
-Received: by mail-ed1-f54.google.com with SMTP id 9so1435411edx.11
- for <linux-nvme@lists.infradead.org>; Thu, 09 Sep 2021 01:01:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pxniV/MCbL+TaosaTUyfIk9UPkHwQWCyVmyp9DfrHEI=;
- b=MGMHoPj2wzYGwxytpOCT3kSLiXlCmMeDrkSm/vUQ87HB+dGPk3fWigJ92tubQeerav
- lTJ8mRxmHk05m5J4T5kX7aruwIPhDksJEXLzhwAxNbm5lggs8HseTsK/GiPMjIBbbss6
- 3Fv/0tleDNsRerGzuuHHih2jVYSBi/utySj+w6lovAB7VxbrCghUUFFR+f/gqREyPFON
- vHQWZXKYBX6reBiVs2a72Eawl47HopZe1J1w26sLstNIkOi2TBPZz6qJPEOOmPUt/IHL
- 1FXhmKRgwJj/MGY16xktVy8LJg4xR8ttwU7orLLQRn490sAKQC2ADqkTYd3r0rlbp1zw
- EFCQ==
-X-Gm-Message-State: AOAM533ZdmE3VEx7TSfOEQEqgaGnLBUoLJB5mDwZPvJe3Ty0xBdiYody
- dLmYsJiBfWUA1WdXFBh5Jy4uygLNmbo=
-X-Google-Smtp-Source: ABdhPJxzyq+1KP69gHSGu0a+Zt1l6N3IXZ6N+nLTkOPDilcJk+Gt+sl3x2Bc4lATkzWhhv2YfG32KA==
-X-Received: by 2002:a50:cb8b:: with SMTP id k11mr1860359edi.256.1631174511885; 
- Thu, 09 Sep 2021 01:01:51 -0700 (PDT)
-Received: from [10.100.102.14] (109-186-228-184.bb.netvision.net.il.
- [109.186.228.184])
- by smtp.gmail.com with ESMTPSA id i6sm478052ejd.57.2021.09.09.01.01.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Sep 2021 01:01:51 -0700 (PDT)
-Subject: Re: Command timeouts with NVMe TCP kernel driver
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Samuel Jones <sjones@kalrayinc.com>,
- linux-nvme <linux-nvme@lists.infradead.org>
+ id 1mOF7r-008XVz-PL
+ for linux-nvme@lists.infradead.org; Thu, 09 Sep 2021 08:09:42 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by fx405.security-mail.net (Postfix) with ESMTP id 297CE3237D0
+ for <linux-nvme@lists.infradead.org>; Thu,  9 Sep 2021 10:09:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalrayinc.com;
+ s=sec-sig-email; t=1631174976;
+ bh=tJdtzYRS2SFGcKO4uwFZjx+rzvJHCE044jF9Om8Mb88=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject;
+ b=B9xzii7hoTtRD3gOGTP4wyHjbOcLrAMLuaC1QgGCcyM0isiA7S5Nq0xGk3XRdveiN
+ 5xpMwP7R/BDGRXdPkNMQE7hpXvRl5eD5A1wWCLwnb7PJ+5yzRYVZHBu3buKkGEEr0t
+ iCEauMaPj6J0UZqnvnkHsvkKSzM7UiLzRhl/67gA=
+Received: from fx405 (localhost [127.0.0.1]) by fx405.security-mail.net
+ (Postfix) with ESMTP id CDC753237A9; Thu,  9 Sep 2021 10:09:35 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx405.security-mail.net (Postfix) with ESMTPS id EBE0F323777; Thu,  9 Sep
+ 2021 10:09:34 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id D2AF727E02EB; Thu,  9 Sep 2021
+ 10:09:34 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id BC99127E02E5; Thu,  9 Sep 2021 10:09:34 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ PMsPxeRqShr1; Thu,  9 Sep 2021 10:09:34 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTP id A839927E02DA; Thu,  9 Sep 2021
+ 10:09:34 +0200 (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <915.6139c13e.ea05d.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu BC99127E02E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalrayinc.com;
+ s=4F334102-7B72-11EB-A74E-42D0B9747555; t=1631174974;
+ bh=45Mm5skaPU+f4WBgnUerUILgHJkt4yhN5rA2RSx3D6Y=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=oUWq+Aq55UflxAXRmo1POA8C07GAgc0w6Uen2W0yqU+noTMJyTAUdbDIHT6rki0m2
+ o8HlnPO8XJe7ZJJgNsDkipzLQ0ud2BhFLGvVVeMKkkYHQf2KLoBl0oqH140h2PP8he
+ UuEtRIlZSaANkNezeOPyyRIID1HCG+FVr+7IgrQKYPJziPjy9lwVjTV39Z0WOgQHw5
+ 0tb3RirKHtBAWmGgJWA5Qi0GQs7jy00YTEUpLIn0lRAOTcD2NBucb2PvZ1RI5Uc1Uj
+ KboL2gXsaYoP0T9W3zitlHdKKqx8N5xcnOMk9LWwIMbCiapQLgcAtoIo9l1ae+8URC
+ dW1laXP6VDMZg==
+Date: Thu, 9 Sep 2021 10:09:34 +0200 (CEST)
+From: Samuel Jones <sjones@kalrayinc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme
+ <linux-nvme@lists.infradead.org>
+Message-ID: <1537083616.6148364.1631174974578.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <dc84f3ee-5f22-2f79-5483-9ae0235e42fe@grimberg.me>
 References: <1058345072.5039165.1630330229081.JavaMail.zimbra@kalray.eu>
- <20210831023712.GA4046@dhcp-10-100-145-180.wdc.com>
- <1306302519.5246175.1630450012705.JavaMail.zimbra@kalray.eu>
- <6e2770ca-c0ea-872a-377e-a17fa12961d9@grimberg.me>
  <337815466.5790984.1631005553242.JavaMail.zimbra@kalray.eu>
  <20210907164236.GA367782@dhcp-10-100-145-180.wdc.com>
  <20210907204615.GA591280@dhcp-10-100-145-180.wdc.com>
  <473ad941-a01d-8107-a6a8-6d051f6955a5@grimberg.me>
  <20210908215017.GA2116734@dhcp-10-100-145-180.wdc.com>
  <9266ad25-ec2c-377d-092d-941f26371c7b@grimberg.me>
-Message-ID: <dc84f3ee-5f22-2f79-5483-9ae0235e42fe@grimberg.me>
-Date: Thu, 9 Sep 2021 11:01:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ <dc84f3ee-5f22-2f79-5483-9ae0235e42fe@grimberg.me>
+Subject: Re: Command timeouts with NVMe TCP kernel driver
 MIME-Version: 1.0
-In-Reply-To: <9266ad25-ec2c-377d-092d-941f26371c7b@grimberg.me>
-Content-Language: en-US
+X-Originating-IP: [192.168.40.202]
+X-Mailer: Zimbra 9.0.0_GA_3990 (ZimbraWebClient - FF70 (Linux)/9.0.0_GA_3990)
+Thread-Topic: Command timeouts with NVMe TCP kernel driver
+Thread-Index: rrnteH2YMBWA953yI4tNA85/WQRCYg==
+X-ALTERMIMEV2_out: done
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210909_010154_068556_ECD89C1D 
-X-CRM114-Status: GOOD (  11.97  )
+X-CRM114-CacheID: sfid-20210909_010940_614459_F156226C 
+X-CRM114-Status: UNSURE (   8.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,25 +114,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> Sam, can you run some more extensive I/O testing with this (different
->>> patterns of r/w and block sizes)? Also Keith, can you ask the WD folks
->>> to also take it for a spin?
->>
->> Sure, I'll request this patch for their next test cycle.
+>>>> Sam, can you run some more extensive I/O testing with this (different
+>>>> patterns of r/w and block sizes)? Also Keith, can you ask the WD folks
+>>>> to also take it for a spin?
+>>>
+>>> Sure, I'll request this patch for their next test cycle.
+>> 
+>> Great.
 > 
-> Great.
+> Keith, can you send a proper patch with a Fixes: tag and a descriptive
+> title so this can go to stable.
+> 
+> And let's wait for Sam to do some more extensive testing. Ideally we can
+> also hear from the WD folks that this doesn't cause any regressions.
 
-Keith, can you send a proper patch with a Fixes: tag and a descriptive
-title so this can go to stable.
+OK, I'll do some more testing over the weekend and let you know next week.
 
-And let's wait for Sam to do some more extensive testing. Ideally we can
-also hear from the WD folks that this doesn't cause any regressions.
+
+
+
+
 
 _______________________________________________
 Linux-nvme mailing list
