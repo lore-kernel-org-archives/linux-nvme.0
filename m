@@ -4,17 +4,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BECEC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB401C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 13:09:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D9BD3604D1
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D9BD3604D1
+	by mail.kernel.org (Postfix) with ESMTPS id A84E8611B0
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Sep 2021 13:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A84E8611B0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,51 +23,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=v+SuioVktRrFSokoSXW7YLYCFYRYJwpCR9Wg9Jf3/7A=; b=dnHhqxl9Vn+9x+
-	qH066vuc69jgr29uBtIRUmprKdEZgRiQKlaJYyebpaPUrDTY2q2AV6IZDhQ/giUIlnPfEQfNhjkdK
-	ZbVoyGNQ4ASZVkGnag4jmIXJHHrX9Ok5ewErB92CWVSE3pgTwJkFVS7dtANzxt0Mw5XKoaN0Y+Xlb
-	Dfq5F5fMMtVeF3QlF9IVjpwu8mpe2/H14AEWhlSB0KTgXQvj8D7ymY9+5m9wPelrK7qSt1NGIVYWM
-	09brEINJs4JCBVacOB6FmDUdbzQWBrsFhhyK+gXosZpx1DAhe60Olc6tWRDSt0Lh1MtnVKoi9uvZP
-	CitbPjTgfU6LZAPnlMOg==;
+	List-Owner; bh=l7V7BaUoD+94C2HcWR/mnkFqAlov60itG7Mex/E92lo=; b=mV3WY6PB7EJLe6
+	oUsFjFjJcPS7CLDz+z4Q9dKIoUkj44vioz48N0LIpJEzf7637W13nnLXEn05j6KyRvxwUtRg8kK+p
+	/1FHTCAq9dOL9+aFIJN+ZfxDgmcV6c+MG1C5Su9rB335No94PTmSYGranMU2IJXufHrNCwuXLAefc
+	rOlPl290C+gKS3WEx/Cr4SNppQoVzLk3K2tdqXp+xlMhXZp/jN3keHfs7j0mOZEyy5Hg+FkJuyRSV
+	5Ro2whAvfCpwytD0OMIUeQSK1b6RVbcjP/Jo7W9yhxOtV8PKErHA1iTTai7Io77DF5+YueLnWAwZR
+	kdiOa741GxAwLiWgWGVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mOJbc-009ddt-Nh; Thu, 09 Sep 2021 12:56:40 +0000
+	id 1mOJnh-009jHb-Af; Thu, 09 Sep 2021 13:09:09 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mOIcj-009AAD-8q
- for linux-nvme@lists.infradead.org; Thu, 09 Sep 2021 11:53:47 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D5B6D61B60;
- Thu,  9 Sep 2021 11:53:43 +0000 (UTC)
+ id 1mOIfS-009Bjc-Q7
+ for linux-nvme@lists.infradead.org; Thu, 09 Sep 2021 11:56:36 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C4DB60555;
+ Thu,  9 Sep 2021 11:56:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188424;
- bh=hraAZUaUstvGfsDdP1DapaZvNGEzFa/sM4IgVGUNtHk=;
+ s=k20201202; t=1631188594;
+ bh=ya837GmVjltzofHK0e4DImDd6KZP8/OzW8tMJEzZJ3U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EXEDkxhtwC8bySx4TvnxDaI7xUOrSRm/WEf5W0F08rGlrwzXYonEWrIpZ9wOQWqPM
- v962Bt7v6pcvG9Vr1GjkrGKvvCamewoxGewe2WYhqe7hhggoq1SDRaKw+OKWJfCrMr
- G3wqiZaOk0hlzYTc5BFMWr9RAQCtMDeRuaJobaLVm45vg05DyNSlwN2MQVpQP5QjNr
- X9AtJQh9zqryyvxbZlbhibG8DDIoIB7jGT4plpZQ1EgQSUGHuKBCjPHhQOzYItIY4X
- 73vDwjxBi7ZJfenprpWADDUvcCn/G2TLjbYngOcMVPCI4xV91AKSc0hlVRQtJIKbZl
- hsthMUBeCC3pw==
+ b=F4RFH9rGiFP9omwyzDi/XV4qeJahUx32NQH9tdoSDOKK2PBfaE/VuwBNDwfyE5S42
+ GL7i6ZDcrK3GKa3B+w6pBg8HeNL1qmUNpGpeFjmitk55ANtVVq5b4uVi8lm3HNQt36
+ F77eVoobq5rcNc5tNDAoqyXPdZEgtTMiyQjGuLq5cFignQP3T1UUdVpDHzu+6yxXl5
+ vlShKO3kOuD6Umj55jMm06VUzHvZ7K53Y5gxUbJSlY3iqAyt36Yr9ckSeFrGsprdqP
+ Al5vDNPP4hcXCtGasVeAsSu0y+NO8h5BpSyqELIbzJd8vjLb9vvn8eBDUCQ/2LDOsl
+ d/o1pCpTYQ3Cw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
- Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 113/176] nvme: code command_id with a genctr for
- use-after-free validation
-Date: Thu,  9 Sep 2021 07:50:15 -0400
-Message-Id: <20210909115118.146181-113-sashal@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 068/109] nvme-tcp: don't check blk_mq_tag_to_rq
+ when receiving pdu data
+Date: Thu,  9 Sep 2021 07:54:25 -0400
+Message-Id: <20210909115507.147917-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
-References: <20210909115118.146181-1-sashal@kernel.org>
+In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
+References: <20210909115507.147917-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210909_045345_444742_D868793D 
-X-CRM114-Status: GOOD (  18.97  )
+X-CRM114-CacheID: sfid-20210909_045634_950942_905E4D81 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,253 +85,45 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit e7006de6c23803799be000a5dcce4d916a36541a ]
+[ Upstream commit 3b01a9d0caa8276d9ce314e09610f7fb70f49a00 ]
 
-We cannot detect a (perhaps buggy) controller that is sending us
-a completion for a request that was already completed (for example
-sending a completion twice), this phenomenon was seen in the wild
-a few times.
+We already validate it when receiving the c2hdata pdu header
+and this is not changing so this is a redundant check.
 
-So to protect against this, we use the upper 4 msbits of the nvme sqe
-command_id to use as a 4-bit generation counter and verify it matches
-the existing request generation that is incrementing on every execution.
-
-The 16-bit command_id structure now is constructed by:
-| xxxx | xxxxxxxxxxxx |
-  gen    request tag
-
-This means that we are giving up some possible queue depth as 12 bits
-allow for a maximum queue depth of 4095 instead of 65536, however we
-never create such long queues anyways so no real harm done.
-
-Suggested-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-Acked-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: Daniel Wagner <dwagner@suse.de>
-Tested-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c   |  3 ++-
- drivers/nvme/host/nvme.h   | 47 +++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/pci.c    |  2 +-
- drivers/nvme/host/rdma.c   |  4 ++--
- drivers/nvme/host/tcp.c    | 26 ++++++++++-----------
- drivers/nvme/target/loop.c |  4 ++--
- 6 files changed, 66 insertions(+), 20 deletions(-)
+ drivers/nvme/host/tcp.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ff5a16b17133..5a9b2f1b1418 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -878,7 +878,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 		return BLK_STS_IOERR;
- 	}
- 
--	cmd->common.command_id = req->tag;
-+	nvme_req(req)->genctr++;
-+	cmd->common.command_id = nvme_cid(req);
- 	trace_nvme_setup_cmd(req, cmd);
- 	return ret;
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3cb3c82061d7..8c735c55c15b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -153,6 +153,7 @@ enum nvme_quirks {
- struct nvme_request {
- 	struct nvme_command	*cmd;
- 	union nvme_result	result;
-+	u8			genctr;
- 	u8			retries;
- 	u8			flags;
- 	u16			status;
-@@ -469,6 +470,49 @@ struct nvme_ctrl_ops {
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
- };
- 
-+/*
-+ * nvme command_id is constructed as such:
-+ * | xxxx | xxxxxxxxxxxx |
-+ *   gen    request tag
-+ */
-+#define nvme_genctr_mask(gen)			(gen & 0xf)
-+#define nvme_cid_install_genctr(gen)		(nvme_genctr_mask(gen) << 12)
-+#define nvme_genctr_from_cid(cid)		((cid & 0xf000) >> 12)
-+#define nvme_tag_from_cid(cid)			(cid & 0xfff)
-+
-+static inline u16 nvme_cid(struct request *rq)
-+{
-+	return nvme_cid_install_genctr(nvme_req(rq)->genctr) | rq->tag;
-+}
-+
-+static inline struct request *nvme_find_rq(struct blk_mq_tags *tags,
-+		u16 command_id)
-+{
-+	u8 genctr = nvme_genctr_from_cid(command_id);
-+	u16 tag = nvme_tag_from_cid(command_id);
-+	struct request *rq;
-+
-+	rq = blk_mq_tag_to_rq(tags, tag);
-+	if (unlikely(!rq)) {
-+		pr_err("could not locate request for tag %#x\n",
-+			tag);
-+		return NULL;
-+	}
-+	if (unlikely(nvme_genctr_mask(nvme_req(rq)->genctr) != genctr)) {
-+		dev_err(nvme_req(rq)->ctrl->device,
-+			"request %#x genctr mismatch (got %#x expected %#x)\n",
-+			tag, genctr, nvme_genctr_mask(nvme_req(rq)->genctr));
-+		return NULL;
-+	}
-+	return rq;
-+}
-+
-+static inline struct request *nvme_cid_to_rq(struct blk_mq_tags *tags,
-+                u16 command_id)
-+{
-+	return blk_mq_tag_to_rq(tags, nvme_tag_from_cid(command_id));
-+}
-+
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
- void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
- 			    const char *dev_name);
-@@ -566,7 +610,8 @@ static inline void nvme_put_ctrl(struct nvme_ctrl *ctrl)
- 
- static inline bool nvme_is_aen_req(u16 qid, __u16 command_id)
- {
--	return !qid && command_id >= NVME_AQ_BLK_MQ_DEPTH;
-+	return !qid &&
-+		nvme_tag_from_cid(command_id) >= NVME_AQ_BLK_MQ_DEPTH;
- }
- 
- void nvme_complete_rq(struct request *req);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index fb48a88d1acb..09767a805492 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1012,7 +1012,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 		return;
- 	}
- 
--	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), command_id);
-+	req = nvme_find_rq(nvme_queue_tagset(nvmeq), command_id);
- 	if (unlikely(!req)) {
- 		dev_warn(nvmeq->dev->ctrl.device,
- 			"invalid id %d completed on queue %d\n",
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index e6d58402b829..3d225d7fa896 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1738,10 +1738,10 @@ static void nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
- 	struct request *rq;
- 	struct nvme_rdma_request *req;
- 
--	rq = blk_mq_tag_to_rq(nvme_rdma_tagset(queue), cqe->command_id);
-+	rq = nvme_find_rq(nvme_rdma_tagset(queue), cqe->command_id);
- 	if (!rq) {
- 		dev_err(queue->ctrl->ctrl.device,
--			"tag 0x%x on QP %#x not found\n",
-+			"got bad command_id %#x on QP %#x\n",
- 			cqe->command_id, queue->qp->qp_num);
- 		nvme_rdma_error_recovery(queue->ctrl);
- 		return;
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index ab03da094db7..f0dae80c2e8d 100644
+index 718152adc625..1458b18cbf24 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -484,11 +484,11 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- {
- 	struct request *rq;
- 
--	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), cqe->command_id);
-+	rq = nvme_find_rq(nvme_tcp_tagset(queue), cqe->command_id);
- 	if (!rq) {
- 		dev_err(queue->ctrl->ctrl.device,
--			"queue %d tag 0x%x not found\n",
--			nvme_tcp_queue_id(queue), cqe->command_id);
-+			"got bad cqe.command_id %#x on queue %d\n",
-+			cqe->command_id, nvme_tcp_queue_id(queue));
- 		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
- 		return -EINVAL;
- 	}
-@@ -505,11 +505,11 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
- {
- 	struct request *rq;
- 
--	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
-+	rq = nvme_find_rq(nvme_tcp_tagset(queue), pdu->command_id);
- 	if (!rq) {
- 		dev_err(queue->ctrl->ctrl.device,
--			"queue %d tag %#x not found\n",
--			nvme_tcp_queue_id(queue), pdu->command_id);
-+			"got bad c2hdata.command_id %#x on queue %d\n",
-+			pdu->command_id, nvme_tcp_queue_id(queue));
- 		return -ENOENT;
- 	}
- 
-@@ -603,7 +603,7 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
- 	data->hdr.plen =
- 		cpu_to_le32(data->hdr.hlen + hdgst + req->pdu_len + ddgst);
- 	data->ttag = pdu->ttag;
--	data->command_id = rq->tag;
-+	data->command_id = nvme_cid(rq);
- 	data->data_offset = cpu_to_le32(req->data_sent);
- 	data->data_length = cpu_to_le32(req->pdu_len);
- 	return 0;
-@@ -616,11 +616,11 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	struct request *rq;
- 	int ret;
- 
--	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
-+	rq = nvme_find_rq(nvme_tcp_tagset(queue), pdu->command_id);
- 	if (!rq) {
- 		dev_err(queue->ctrl->ctrl.device,
--			"queue %d tag %#x not found\n",
--			nvme_tcp_queue_id(queue), pdu->command_id);
-+			"got bad r2t.command_id %#x on queue %d\n",
-+			pdu->command_id, nvme_tcp_queue_id(queue));
- 		return -ENOENT;
- 	}
- 	req = blk_mq_rq_to_pdu(rq);
-@@ -700,7 +700,7 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+@@ -642,17 +642,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 			      unsigned int *offset, size_t *len)
  {
  	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
- 	struct request *rq =
--		blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
-+		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
- 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+-	struct nvme_tcp_request *req;
+-	struct request *rq;
+-
+-	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+-	if (!rq) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"queue %d tag %#x not found\n",
+-			nvme_tcp_queue_id(queue), pdu->command_id);
+-		return -ENOENT;
+-	}
+-	req = blk_mq_rq_to_pdu(rq);
++	struct request *rq =
++		blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
++	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
  
  	while (true) {
-@@ -793,8 +793,8 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
- 	}
- 
- 	if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
--		struct request *rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue),
--						pdu->command_id);
-+		struct request *rq = nvme_cid_to_rq(nvme_tcp_tagset(queue),
-+					pdu->command_id);
- 
- 		nvme_tcp_end_request(rq, NVME_SC_SUCCESS);
- 		queue->nr_cqe++;
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 16d71cc5a50e..ff3258c3eb8b 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -107,10 +107,10 @@ static void nvme_loop_queue_response(struct nvmet_req *req)
- 	} else {
- 		struct request *rq;
- 
--		rq = blk_mq_tag_to_rq(nvme_loop_tagset(queue), cqe->command_id);
-+		rq = nvme_find_rq(nvme_loop_tagset(queue), cqe->command_id);
- 		if (!rq) {
- 			dev_err(queue->ctrl->ctrl.device,
--				"tag 0x%x on queue %d not found\n",
-+				"got bad command_id %#x on queue %d\n",
- 				cqe->command_id, nvme_loop_queue_idx(queue));
- 			return;
- 		}
+ 		int recv_len, ret;
 -- 
 2.30.2
 
