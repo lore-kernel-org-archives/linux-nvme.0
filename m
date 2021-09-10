@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F9BFC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A94CC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 617E761100
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 617E761100
+	by mail.kernel.org (Postfix) with ESMTPS id 64E3E61100
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Sep 2021 06:44:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 64E3E61100
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XOSHTxToyzNdVBZpGPiq6L16HtvxyPsrDhWDk0UdEcI=; b=YOey7cybb/C1np
-	Os3LP5jFuRZuz+8Qd9a4SzNM+tPlAuv/jXHUxsIz4oiCDptMYrdvrBC1SuxYQSisXLVzUi27kkno6
-	yw4mIqcZ859PRYeHNVsEZ2yJSl82JN5i2UIoqPtXhlFVJmffcEaEzGQpqEFafA2ZnVzTjPscSO5Pc
-	N0laDo5DKV02n3Z00KSMTjgo2H2S4errlqoZ6qICNdC9NMPvUo/azEXPKtkWOlKUQJHOtZr0gnP9P
-	rh7gG7wkpO4q/XTTdlaXvNoosZOeZuOB9Zkxd2gb6ejBvD/BfWfpIKL06vr6uJ+/lvGQjuVmbBF67
-	1fix7cgW7G+E5Vq2VKJQ==;
+	List-Owner; bh=1f2EUGaSg4ZrqeQkayJkxTxfVk8xcE1udCSy3OwqDz0=; b=FDBQn3hlp/sgFh
+	bEt7dfLElzNqL3HYwLEX+zQ+/SsMcCT2HuskHlmTUMZXaoUVtsNm3cw/kox6Q1i9UHBPA8qWZk6zn
+	xdaJAsDfkdoa3tzyEjuhb4CbaBRvoYMAZv2jiBeHcwSavuwHzctQzuH5qLgi2x7M7rBtfuxFpIQr9
+	maUjviPgXG//ZNHNUvt4DwvGl5KyvzmzfgSfSV0iFpnFhQOkmSBcKPhC9MFjfW8y5qA8bhuFttnNG
+	ofIAeBz4TEy6Z5X1qGPfm6b8Z504VQ6ZMF3qoqZIdIsZ1AeQzZoXhg/dfArx0/v+RD93EEbmUSiHK
+	hRBhXE8+5kwzmifISRaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mOaGp-00Byph-Dc; Fri, 10 Sep 2021 06:44:19 +0000
+	id 1mOaGz-00Byqw-GW; Fri, 10 Sep 2021 06:44:29 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mOaGH-00ByiD-5J
- for linux-nvme@lists.infradead.org; Fri, 10 Sep 2021 06:43:46 +0000
+ id 1mOaGH-00ByiK-5K
+ for linux-nvme@lists.infradead.org; Fri, 10 Sep 2021 06:43:48 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 258B220203;
+ by smtp-out2.suse.de (Postfix) with ESMTP id 340FC20209;
  Fri, 10 Sep 2021 06:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1631256219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fXSDZW0HceQ0uVUSB6Jl5YO/WIeeZVwZeGWjktfvU9Q=;
- b=nR0/nSeEsuP2Qr2Tzj9HmePFF13IJMBB2aiZSkvn/faOfMbQYLbI79w3TC989DxJ9zipYe
- 08mFNw+ZEoQ0Lw/qbt5CUENt0iQMmjpaJpFdhgQTBAW8JfLUSKg4KZlINaljBD914cEfag
- Szdyihj2O8QNJ3mtKjev8rTPu++tGpA=
+ bh=Ho5DpRbvH9SAMQnxKwkauGos06CLIp7YKDV0R315tdw=;
+ b=Vzo7zWPegs/HDgKWrigfYfdK1QSlTnj8W2BNRzYEriLKFThoPuVzE8J4q2gpYGRg8ghrnz
+ JBHKNq4QDwH/OFRX29ixSWLEtSqRV7JxFCvW+BcAHZtLbFa/xbldZSB2Vfj+NmqDs/z8/h
+ n8H14bRRIKry7DdkvobQtKBPt9pq5bY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1631256219;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fXSDZW0HceQ0uVUSB6Jl5YO/WIeeZVwZeGWjktfvU9Q=;
- b=5m0uy4YjQe+rcJdNOXudKb16tiGqjcixCIv3mO0gi8eItfIQKq31NXfuMgKahACYrQvmAU
- pOAY1fPdVQCFtFAg==
+ bh=Ho5DpRbvH9SAMQnxKwkauGos06CLIp7YKDV0R315tdw=;
+ b=ffdsOwu3EIBMXtcFpBOOPmWX5dwnhw1SHdTTZ2XVpcJ+zA/UKFh/pfCB9OK+64FpK+kWk+
+ tvlqZDkMN0u16CBg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id D3727A3B8A;
- Fri, 10 Sep 2021 06:43:36 +0000 (UTC)
+ by relay2.suse.de (Postfix) with ESMTP id 272ABA3BAC;
+ Fri, 10 Sep 2021 06:43:39 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 92D0C518E31E; Fri, 10 Sep 2021 08:43:36 +0200 (CEST)
+ id A935B518E326; Fri, 10 Sep 2021 08:43:36 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
  Herbert Xu <herbert@gondor.apana.org.au>,
  "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
  linux-crypto@vger.kernel.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 02/12] crypto: add crypto_has_kpp()
-Date: Fri, 10 Sep 2021 08:43:12 +0200
-Message-Id: <20210910064322.67705-3-hare@suse.de>
+Subject: [PATCH 06/12] nvme-fabrics: decode 'authentication required' connect
+ error
+Date: Fri, 10 Sep 2021 08:43:16 +0200
+Message-Id: <20210910064322.67705-7-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210910064322.67705-1-hare@suse.de>
 References: <20210910064322.67705-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210909_234345_456795_903A42B8 
-X-CRM114-Status: GOOD (  10.21  )
+X-CRM114-CacheID: sfid-20210909_234345_492901_2D6064A3 
+X-CRM114-Status: UNSURE (   9.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,44 +96,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add helper function to determine if a given key-agreement protocol primitive is supported.
+The 'connect' command might fail with NVME_SC_AUTH_REQUIRED, so we
+should be decoding this error, too.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- crypto/kpp.c         | 6 ++++++
- include/crypto/kpp.h | 2 ++
- 2 files changed, 8 insertions(+)
+ drivers/nvme/host/fabrics.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/crypto/kpp.c b/crypto/kpp.c
-index 313b2c699963..416e8a1a03ee 100644
---- a/crypto/kpp.c
-+++ b/crypto/kpp.c
-@@ -87,6 +87,12 @@ struct crypto_kpp *crypto_alloc_kpp(const char *alg_name, u32 type, u32 mask)
- }
- EXPORT_SYMBOL_GPL(crypto_alloc_kpp);
- 
-+int crypto_has_kpp(const char *alg_name, u32 type, u32 mask)
-+{
-+	return crypto_type_has_alg(alg_name, &crypto_kpp_type, type, mask);
-+}
-+EXPORT_SYMBOL_GPL(crypto_has_kpp);
-+
- static void kpp_prepare_alg(struct kpp_alg *alg)
- {
- 	struct crypto_alg *base = &alg->base;
-diff --git a/include/crypto/kpp.h b/include/crypto/kpp.h
-index cccceadc164b..24d01e9877c1 100644
---- a/include/crypto/kpp.h
-+++ b/include/crypto/kpp.h
-@@ -104,6 +104,8 @@ struct kpp_alg {
-  */
- struct crypto_kpp *crypto_alloc_kpp(const char *alg_name, u32 type, u32 mask);
- 
-+int crypto_has_kpp(const char *alg_name, u32 type, u32 mask);
-+
- static inline struct crypto_tfm *crypto_kpp_tfm(struct crypto_kpp *tfm)
- {
- 	return &tfm->base;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 668c6bb7a567..9a8eade7cd23 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -332,6 +332,10 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
+ 		dev_err(ctrl->device,
+ 			"Connect command failed: host path error\n");
+ 		break;
++	case NVME_SC_AUTH_REQUIRED:
++		dev_err(ctrl->device,
++			"Connect command failed: authentication required\n");
++		break;
+ 	default:
+ 		dev_err(ctrl->device,
+ 			"Connect command failed, error wo/DNR bit: %d\n",
 -- 
 2.29.2
 
