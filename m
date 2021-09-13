@@ -2,84 +2,74 @@ Return-Path: <SRS0=T5dq=OD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B394C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 13:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE0FBC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 14:10:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA9DD60FF2
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 13:56:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EA9DD60FF2
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id AEE5160EE0
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 14:10:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AEE5160EE0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=CUrHebdqznM6jW7Y6MUBazuUuS
-	SzntRW3u2TPXGpOJ18qz+XOdpuP1vV8LBUunpSSDOdKCrKWJ+8+mLmVoqXiFt2RKhIZvJJnCqc8lH
-	paCXKs8rcgXHMPiVwDbAhguGQo5nP+Leo4et6N6lwtMmP5VOzOeqlLke5/PUp5Qww70ZOkwp3QOBi
-	LSfpTem+gliomDS12cIWKYk4RQpMK724PQL6q8n/Sn1/GfzuEBmQee0PWARVR+tGuNnTiuU9ZoFds
-	erBoiXwlgaVnSBTZhtYDIKJpVk2pgso1//+SbA/6OJH5zTkQPKdVroL2n473+4K6qMj1+xHr5M85j
-	EYYn4iIg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=DNYC1imD7X6bXQkonOXFr19mjyYaQIVokYLFPDPjcpA=; b=fMrJdVe5/oMrRB
+	dmOtzZPBXdzeJzXbgmWxM5M615woLNhPuqmKSjLOgtrJYyQMnd6pPE7quEzNkX+xH5ys8fbsOPyyK
+	lqLI+PzaOGpPTebp4iuzhGTBP9ATsvBwuiHe7MFGMEhznTaox3NIwukh5MFHr+KDWtMzYti+p1R2G
+	gk+5RDB+i40EpIq9uF0KgL9KM/arRgsn9mbbeQ0JBQM7APi672opP0BorJOSEkO1TKhM2SXMzfPEa
+	Niur5dYj4z+vnfPAqOZtyYsu0U5f5B17JYhIjyeoitiLhlrSiVDdJn5rEb9Js0o2Vc5AQ8UPd5mo7
+	iRSwcy43GLe2BDxPSeWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mPmRt-001vz7-O1; Mon, 13 Sep 2021 13:56:41 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1mPmfI-0021ED-N8; Mon, 13 Sep 2021 14:10:32 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mPmRr-001vyI-Nw
- for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 13:56:40 +0000
-Received: by mail-wr1-f51.google.com with SMTP id b6so14834718wrh.10
- for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 06:56:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=A1EjTQLiCTJYQidJRbuAlZoIJbdfeV0wn1UIEp/+N9H3paWVfm13tFmMBzRTaingbg
- DldoZFcyCNEpjyq0Q2C2VDnkztzU6965eivizXC2rkqlE7yFOrr443zpKvJhkFo89Tml
- XgBQcxMPv9j3OIa7QIoH+Vvwt0TEJsyXalfQoNJIVrPmlkO66s3wXGycdwwRxW60zdFL
- 8Y+v6yClN8O0OICtDkgb25O7/zwoT3fTixwLfBwERY0MwOAONb/yiPgvsV1M+LIxWmj6
- S2n6049MQxRJaOf49F1z/45jtLoL06xoHXcQPXavXjMo/V4a7AD/SrFTBKcdcIO+guEP
- VkPg==
-X-Gm-Message-State: AOAM531pVfv2s35PWepa0myqL7Fj8otr3EP3uSRK6og/E5HRIf9JePT3
- XAx/O2SrigtKm+7KhY879R8=
-X-Google-Smtp-Source: ABdhPJwGAeUwYWWh8DuyIIS+KhDQ6obsRHVANfkl7HEXKftFOHbkntJbkL4c5r1WdwaH7OZ4HcxAYw==
-X-Received: by 2002:adf:eb83:: with SMTP id t3mr12461437wrn.365.1631541398005; 
- Mon, 13 Sep 2021 06:56:38 -0700 (PDT)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id z13sm8651351wrs.90.2021.09.13.06.56.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 06:56:37 -0700 (PDT)
-Subject: Re: [PATCH 09/12] nvmet: Parse fabrics commands on all queues
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
- linux-crypto@vger.kernel.org
-References: <20210910064322.67705-1-hare@suse.de>
- <20210910064322.67705-10-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <af9e417f-fb76-87dd-506a-39dcf9897b3b@grimberg.me>
-Date: Mon, 13 Sep 2021 16:56:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ id 1mPmfF-0021DF-QI
+ for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 14:10:31 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9C5F60EE0;
+ Mon, 13 Sep 2021 14:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631542229;
+ bh=OTsRl5Q3kDZL5wkUcNUuh63p31uqgYtaOZofdSX9D7c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HBF99wVwkxxWBQj0mgmdT/dckA9MTQpK1jgE5Va0qR6hAWBT6pw58iWVb445GKwwg
+ l4u8xUN+FqZt0Vegxcaxs282MVgS4kuflHOPWzbdmCwoQRgYndzicl789c8bAQVLIR
+ hnquiaYKwQ7QOguHPi6SKfA1Y1BDSRKWdBNCXAFERQsFc4C8WBh0p5GUguaxsgGWYH
+ Zq3wthaT+LnThl6oNqhOrOdPZrRhSKeQEfdobFaI/BHDELntLGF45OoRR/q+lbNu3p
+ uyHCmlJF1PZIE57DspukkMy3VQ0SWI5OrgZgv6ykRAL66H1yk7z30xEFuZD44SkizJ
+ n8IbbJk/szLFw==
+Date: Mon, 13 Sep 2021 07:10:26 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Samuel Jones <sjones@kalrayinc.com>,
+ linux-nvme <linux-nvme@lists.infradead.org>
+Subject: Re: Command timeouts with NVMe TCP kernel driver
+Message-ID: <20210913141026.GA3283786@dhcp-10-100-145-180.wdc.com>
+References: <1058345072.5039165.1630330229081.JavaMail.zimbra@kalray.eu>
+ <20210907204615.GA591280@dhcp-10-100-145-180.wdc.com>
+ <473ad941-a01d-8107-a6a8-6d051f6955a5@grimberg.me>
+ <20210908215017.GA2116734@dhcp-10-100-145-180.wdc.com>
+ <9266ad25-ec2c-377d-092d-941f26371c7b@grimberg.me>
+ <dc84f3ee-5f22-2f79-5483-9ae0235e42fe@grimberg.me>
+ <1537083616.6148364.1631174974578.JavaMail.zimbra@kalray.eu>
+ <7e313963-b377-74ef-2fb2-650e15cde2e6@grimberg.me>
+ <1387247003.6552417.1631519054752.JavaMail.zimbra@kalray.eu>
+ <cec5db7f-a785-e219-b502-5aa4ed1be880@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <20210910064322.67705-10-hare@suse.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <cec5db7f-a785-e219-b502-5aa4ed1be880@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210913_065639_821441_A1D6D25D 
-X-CRM114-Status: UNSURE (   9.17  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210913_071029_906212_0EAAD4A9 
+X-CRM114-Status: GOOD (  14.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,12 +81,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Mon, Sep 13, 2021 at 12:15:25PM +0300, Sagi Grimberg wrote:
+> 
+> > > > > Keith, can you send a proper patch with a Fixes: tag and a descriptive
+> > > > > title so this can go to stable.
+> > > > > 
+> > > > > And let's wait for Sam to do some more extensive testing. Ideally we can
+> > > > > also hear from the WD folks that this doesn't cause any regressions.
+> > > > 
+> > > > OK, I'll do some more testing over the weekend and let you know next week.
+> > > 
+> > > Thanks.
+> > 
+> > Hey,
+> > 
+> > No further issues on my side with this patch.
+> 
+> Thanks Sam,
+> 
+> Keith, any updates from the WD team?
+
+This was queued up for their next test cycle late last week, I will send
+an update as soon as I hear back from them. I believe it's a multi-day
+test, so it may be later this week depending on when they started.
 
 _______________________________________________
 Linux-nvme mailing list
