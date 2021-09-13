@@ -1,91 +1,70 @@
-Return-Path: <SRS0=sv4i=OC=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=T5dq=OD=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F96C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Sep 2021 18:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5261C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 01:51:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0BF6A6058D
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Sep 2021 18:56:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0BF6A6058D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3C6676108E
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 01:51:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3C6676108E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pk9SYIcWmnkSwsmEt953UGJL8BtEmfYG4x4W+PmqLms=; b=1iKfNF9ZIp3ABv
-	6sm6EWBzoH0nAdUTxCckMeLFyIL+XlMHF4quf9sI7pNsCXpuwz60Gd/EbC5f/R1OzgbLqPnKE4m4i
-	STbViIcE7XNHmaO9Weja33DBqgJcdk18m7guUBGuUYxrD105m96HLkcb1udXHSjKpOMM0nSNlIaxd
-	LJnRsqD9k2aViyblLcejCbYszj0wwdME6zFvWvM6g1MajCf8gO8QxuuhGLWhiBItzigC4ciXfGWp6
-	LJK+pnwA8gOPCe3ZAXfLBUEEBw7xWu2NfmpaCvbv9RAGcZMcLThWY5LhKyuE4G/AMjXohlV0snb0M
-	KWynpv2ziY+XRUXtdZgw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:CC:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UPY+n7vmQxq2jdwzITZGq7584URDaS2KvLp23JKJ+Ds=; b=hVtDv/aj4QC27+x6EVaSbNO6Pg
+	vAXh2/MZD7BJQLl7o0jOg+4Dqb1U2xcciw0tFsLQaS9OhDAZY26DdNJ/EvYfpapr1C3E5wSnNKXXr
+	SNulfDCj7E5xIpna+3jcNIx7CqjGY0huXkFptIcbu1r3B9/jenfIswX+OVIsgDei0I+sJlLlrXiY2
+	EhHQvefdI0efkXRYZwV/JaMjwTbvc/RMfF8WbnqyB4hDUM8TYguwBV8i8ltMseeXyBhTS7mqVexdE
+	fGwOYQCsdDx/wBx5ou3F1iu4cYAcwzJlD29599T+TWIh6TK2/uPskC+nCc5ew5po7w2tVxIxx1ZTQ
+	wFexB6LA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mPUe4-00Gy2Q-2i; Sun, 12 Sep 2021 18:56:04 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	id 1mPb75-0007bY-Gw; Mon, 13 Sep 2021 01:50:27 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mPUdR-00GxrU-I3
- for linux-nvme@lists.infradead.org; Sun, 12 Sep 2021 18:55:27 +0000
-Received: by mail-wm1-x329.google.com with SMTP id s24so5040195wmh.4
- for <linux-nvme@lists.infradead.org>; Sun, 12 Sep 2021 11:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=k/A7huC9EPdQyaBAXOONIGj5mrpMsYyH9ME7mDw0yMc=;
- b=CxoU7v6kK+tXU54ms9O51FNd+D1kv86r+GFIj4oUKcQGdBUEQmi0N2KcdlCvceF27E
- HzY7v7FRh/9Wrtge/RAFtpJTzpJuMqUIbCgBdRR6+5sMHJR0MqnM2VTDHG8PdzfhwsZf
- vhN7+nyn6Tx3ozULvhESkf+jlDVVNfH445wLbsIILVpWVFyXRKpKKBbmo8vzf7KWbeiw
- fsIXL7iNMgdCzpODdU0bjCCv8wzngxw742t25mA93E1MAAtdB+gy3xMz5NEr6fh/dWGJ
- VyfG9+xzrPbQbJWzwxDe5shjHYQN2u3Q5Y/BbLFuPeAafdtIFiVe8d2XqQcyy6Am1PZq
- tcBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=k/A7huC9EPdQyaBAXOONIGj5mrpMsYyH9ME7mDw0yMc=;
- b=mGL+X/VQM3JjqIZPa/kaA5a7r7K6QjmvipeMOcGbVR3Pqmu6Le0eIdifxbn5lLsAMp
- xYGlN4OCR139OPcVyS0HqfGGVrq3AUJhuky9KXuaxdpsaF6azWi1MfqRXBTgC/Ft4yT8
- NkBAAQA7nWhYlnfGQq40fS+uM7YsUGyNToWe/NAv687YHf1hls7zYni3alTYHRPMuqSX
- Q3tpjJ3mgGFoaYQZ3FW02wAZbPVDPh8h/J6sEKaAzONofi9HKq8TwMa9o1IcCDVgswoa
- F3dqMJCX2ewporRxTfi85fIhZPUNLJ8vg0GIzO6x+JOC8GtmnQjk+/Ip2PrmOZ7xmipM
- PnVg==
-X-Gm-Message-State: AOAM532ryF8aaihEUhZHSj1EWHmOe1GnB3wnX9CL6A3h9E/RrC7aNOAP
- yO1sg9D6TdNBrREoJXdPrMTW3ReS+Puq8g==
-X-Google-Smtp-Source: ABdhPJxfu2qsR8et/PmyG5WDoqJpDkEbQtk2brbxyTMBo136/O/hCIVwkxNE6qG8Ae7WR6JbWZMOvw==
-X-Received: by 2002:a1c:1d42:: with SMTP id d63mr7961495wmd.55.1631472923823; 
- Sun, 12 Sep 2021 11:55:23 -0700 (PDT)
-Received: from anton-latitude..lbits (c-76-23-2-87.hsd1.ut.comcast.net.
- [76.23.2.87])
- by smtp.googlemail.com with ESMTPSA id s15sm5196974wrb.22.2021.09.12.11.55.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 11:55:23 -0700 (PDT)
-From: Anton Eidelman <anton.eidelman@gmail.com>
-X-Google-Original-From: Anton Eidelman <anton@lightbitslabs.com>
-To: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
- sagi@grimberg.me, axboe@fb.com
-Cc: Anton Eidelman <anton@lightbitslabs.com>
-Subject: [PATCH 3/3] nvme/multipath: fix stale ana state for namespaces just
- added by scan work
-Date: Sun, 12 Sep 2021 12:54:59 -0600
-Message-Id: <20210912185459.13496-4-anton@lightbitslabs.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210912185459.13496-1-anton@lightbitslabs.com>
-References: <20210912185459.13496-1-anton@lightbitslabs.com>
+ id 1mPb6V-0007Z8-Vb
+ for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 01:49:54 +0000
+Received: from dggeme718-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4H78SJ2Xkjz8yKW;
+ Mon, 13 Sep 2021 09:45:20 +0800 (CST)
+Received: from [10.169.46.19] (10.169.46.19) by dggeme718-chm.china.huawei.com
+ (10.1.199.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.8; Mon, 13
+ Sep 2021 09:49:44 +0800
+Subject: Re: [PATCH 1/1] nvme-rdma: destroy cm id before destroy qp to avoid
+ use after free
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@infradead.org>
+CC: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>
+References: <20210906035134.14789-1-liruozhu@huawei.com>
+ <20210906035134.14789-2-liruozhu@huawei.com> <YToUji9WujpL9vnt@infradead.org>
+ <90356fc2-837c-0ba2-5fcf-d9e9dcc06dba@nvidia.com>
+From: liruozhu <liruozhu@huawei.com>
+Message-ID: <9aa78ab2-ef69-abf7-7fca-7f135553f429@huawei.com>
+Date: Mon, 13 Sep 2021 09:49:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0.1
 MIME-Version: 1.0
+In-Reply-To: <90356fc2-837c-0ba2-5fcf-d9e9dcc06dba@nvidia.com>
+Content-Language: en-US
+X-Originating-IP: [10.169.46.19]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggeme718-chm.china.huawei.com (10.1.199.114)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210912_115525_650862_7655EF7E 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20210912_184952_387931_FBCAE949 
+X-CRM114-Status: GOOD (  19.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,71 +76,78 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Scan work initially adds new namespaces to ctrl->namespaces TAIL.
-They make the list unordered temporarily until nvme_scan_work()
-finally sorts the list.
-
-In case nvme_update_ana_state() runs while the list is unsorted,
-the recently added namespaces are missed and their ana state
-may remain not updated forever if timing between scan work and ana work
-is unfortunate, e.g.
-Initial state: namespaces = {2, 3}
-scan_work: adds nsid=1: namespaces = {2, 3, 1}
-scan_work: finds nsid=1 is still Inaccessible
-ana_work: log page has nsids = {1, 2, 3, 4}, all Optimized.
-ana_work: updates nsids {2, 3} but fails to find nsid=1 in namespaces.
-scan_work: adds nsid=4: namespaces = {2, 3, 1, 4}
-scan_work: finds nsid=4 is Optimized: sets it live.
-scan_work: completes an sorts namespaces = {1, 2, 3, 4}
-Result: nsid=1 will remain in Inaccessible state.
-
-Solution:
-In order to preserve the way ctrl->namespaces is updated and sorted,
-make nvme_update_ana_state() deal with the case where ctrl->namespaces
-is not fully sorted and has new namespaces appended with potentially
-lower nsids.
-nvme_update_ana_state() keeps track of the nsid seen in the list,
-detects the unsorted case (rare), and restarts scanning of desc->nsids.
-
-Signed-off-by: Anton Eidelman <anton@lightbitslabs.com>
----
- drivers/nvme/host/multipath.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a51561d67b93..1ad8dc8adb86 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -587,6 +587,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 	u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
- 	unsigned *nr_change_groups = data;
- 	struct nvme_ns *ns;
-+	unsigned int last_ns_nsid = 0;
- 
- 	dev_dbg(ctrl->device, "ANA group %d: %s.\n",
- 			le32_to_cpu(desc->grpid),
-@@ -603,6 +604,11 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 		unsigned int nsid;
- 		unsigned int ns_nsid = ns->head->ns_id;
- 
-+		if (ns_nsid < last_ns_nsid) {
-+			/* Detected unsorted ctrl->namespaces: re-scan desc->nsids */
-+			last_ns_nsid = ns_nsid;
-+			n = 0;
-+		}
- again:
- 		nsid = le32_to_cpu(desc->nsids[n]);
- 		if (ns_nsid < nsid)
--- 
-2.25.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+SGkgYWxsLAoKSSB0ZXN0ZWQgdGhlIHRlc3Qgc2NlbmFyaW8gbWVudGlvbmVkIGJ5IG1heCwgYW5k
+IEkgaGF2ZW4ndCBmb3VuZCBhbnkgCmFibm9ybWFsaXR5IGluIHRoZSBob3N0LgoKSWYgdGhlcmUg
+YXJlIG90aGVyIGludGVyZXN0aW5nIHNjZW5lcyBvciBzdWdnZXN0aW9ucyBmb3IgcGF0Y2gsIHBs
+ZWFzZSAKbGV0IG1lIGtub3cuCgpUaGFua3MuCgpPbiAyMDIxLzkvMTAgMTozMiwgTWF4IEd1cnRv
+dm95IHdyb3RlOgo+Cj4gT24gOS85LzIwMjEgNTowNSBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3Jv
+dGU6Cj4+IFRoaXMgbG9va3MgcmVhc29uYWJsZSB0byBtZS7CoCBTYWdpLCBNYXg6IGFueSBjb21t
+ZW50cz8KPj4KPj4gT24gTW9uLCBTZXAgMDYsIDIwMjEgYXQgMTE6NTE6MzRBTSArMDgwMCwgUnVv
+emh1IExpIHdyb3RlOgo+Pj4gV2Ugc2hvdWxkIGFsd2F5cyBkZXN0cm95IGNtX2lkIGJlZm9yZSBk
+ZXN0cm95IHFwIHRvIGF2b2lkIHRvIGdldCBjbWEKPj4+IGV2ZW50IGFmdGVyIHFwIHdhcyBkZXN0
+cm95ZWQsIHdoaWNoIG1heSBsZWFkIHRvIHVzZSBhZnRlciBmcmVlLgo+Cj4gRG8geW91IHJlYWxs
+eSBlbmNvdW50ZXIgdXNlLWFmdGVyLWZyZWUgPwo+Cj4gSSB0aGluayB0aGUgY29kZSBsb29rcyBj
+b3JyZWN0IGJ1dCBmcm9tIGV4cGVyaWVuY2Ugd2l0aCBSRE1BLUNNIEkgCj4gd291bGQgbGlrZSB0
+byBrbm93IHdoaWNoIHRlc3RzIGRpZCB5b3UgcnVuIHdpdGggdGhpcyBjb2RlID8KPgo+IGludGVy
+ZXN0aW5nIHRlc3RzIGFyZTogcG9ydCB0b2dnbGluZyB3aXRoL3dpdGhvdXQgSU8sIHVubG9hZCAK
+PiBtbHg1L290aGVyX3JkbWFfaHcgZHJpdmVycyBkdXJpbmcgY29ubmVjdGlvbiBlc3RhYmxpc2ht
+ZW50IG9yIGR1cmluZyAKPiBJTywgcmVib290IHRhcmdldCwgcmVib290IHRhcmdldCBkdXJpbmcg
+Y29ubmVjdGlvbiBlc3RhYmxpc2htZW50LCAKPiByZWJvb3QgdGFyZ2V0IGR1cmluZyBJTy4KPgo+
+IFRoYW5rcy4KPgo+Cj4+PiBJbiBSRE1BIGNvbm5lY3Rpb24gZXN0YWJsaXNobWVudCBlcnJvciBm
+bG93LCBkb24ndCBkZXN0cm95IHFwIGluIGNtCj4+PiBldmVudCBoYW5kbGVyLkp1c3QgcmVwb3J0
+IGNtX2Vycm9yIHRvIHVwcGVyIGxldmVsLCBxcCB3aWxsIGJlIGRlc3Ryb3kKPj4+IGluIG52bWVf
+cmRtYV9hbGxvY19xdWV1ZSgpIGFmdGVyIGRlc3Ryb3kgY20gaWQuCj4+Pgo+Pj4gU2lnbmVkLW9m
+Zi1ieTogUnVvemh1IExpIDxsaXJ1b3podUBodWF3ZWkuY29tPgo+Pj4gLS0tCj4+PiDCoCBkcml2
+ZXJzL252bWUvaG9zdC9yZG1hLmMgfCAxNiArKystLS0tLS0tLS0tLS0tCj4+PiDCoCAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jIGIvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5j
+Cj4+PiBpbmRleCBhNjg3MDRlMzkwODQuLjA0MmM1OTRiYzU3ZSAxMDA2NDQKPj4+IC0tLSBhL2Ry
+aXZlcnMvbnZtZS9ob3N0L3JkbWEuYwo+Pj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5j
+Cj4+PiBAQCAtNjU2LDggKzY1Niw4IEBAIHN0YXRpYyB2b2lkIG52bWVfcmRtYV9mcmVlX3F1ZXVl
+KHN0cnVjdCAKPj4+IG52bWVfcmRtYV9xdWV1ZSAqcXVldWUpCj4+PiDCoMKgwqDCoMKgIGlmICgh
+dGVzdF9hbmRfY2xlYXJfYml0KE5WTUVfUkRNQV9RX0FMTE9DQVRFRCwgJnF1ZXVlLT5mbGFncykp
+Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+Pj4gwqAgLcKgwqDCoCBudm1lX3JkbWFf
+ZGVzdHJveV9xdWV1ZV9pYihxdWV1ZSk7Cj4+PiDCoMKgwqDCoMKgIHJkbWFfZGVzdHJveV9pZChx
+dWV1ZS0+Y21faWQpOwo+Pj4gK8KgwqDCoCBudm1lX3JkbWFfZGVzdHJveV9xdWV1ZV9pYihxdWV1
+ZSk7Cj4+PiDCoMKgwqDCoMKgIG11dGV4X2Rlc3Ryb3koJnF1ZXVlLT5xdWV1ZV9sb2NrKTsKPj4+
+IMKgIH0KPj4+IMKgIEBAIC0xODE1LDE0ICsxODE1LDEwIEBAIHN0YXRpYyBpbnQgCj4+PiBudm1l
+X3JkbWFfY29ubl9lc3RhYmxpc2hlZChzdHJ1Y3QgbnZtZV9yZG1hX3F1ZXVlICpxdWV1ZSkKPj4+
+IMKgwqDCoMKgwqAgZm9yIChpID0gMDsgaSA8IHF1ZXVlLT5xdWV1ZV9zaXplOyBpKyspIHsKPj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXQgPSBudm1lX3JkbWFfcG9zdF9yZWN2KHF1ZXVlLCAmcXVl
+dWUtPnJzcF9yaW5nW2ldKTsKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0KQo+Pj4gLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXRfZGVzdHJveV9xdWV1ZV9pYjsKPj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+PiDCoMKgwqDCoMKgIH0KPj4+IMKgIMKg
+wqDCoMKgwqAgcmV0dXJuIDA7Cj4+PiAtCj4+PiAtb3V0X2Rlc3Ryb3lfcXVldWVfaWI6Cj4+PiAt
+wqDCoMKgIG52bWVfcmRtYV9kZXN0cm95X3F1ZXVlX2liKHF1ZXVlKTsKPj4+IC3CoMKgwqAgcmV0
+dXJuIHJldDsKPj4+IMKgIH0KPj4+IMKgIMKgIHN0YXRpYyBpbnQgbnZtZV9yZG1hX2Nvbm5fcmVq
+ZWN0ZWQoc3RydWN0IG52bWVfcmRtYV9xdWV1ZSAqcXVldWUsCj4+PiBAQCAtMTkxNiwxNCArMTkx
+MiwxMCBAQCBzdGF0aWMgaW50IG52bWVfcmRtYV9yb3V0ZV9yZXNvbHZlZChzdHJ1Y3QgCj4+PiBu
+dm1lX3JkbWFfcXVldWUgKnF1ZXVlKQo+Pj4gwqDCoMKgwqDCoCBpZiAocmV0KSB7Cj4+PiDCoMKg
+wqDCoMKgwqDCoMKgwqAgZGV2X2VycihjdHJsLT5jdHJsLmRldmljZSwKPj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgICJyZG1hX2Nvbm5lY3RfbG9ja2VkIGZhaWxlZCAoJWQpLlxuIiwgcmV0
+KTsKPj4+IC3CoMKgwqDCoMKgwqDCoCBnb3RvIG91dF9kZXN0cm95X3F1ZXVlX2liOwo+Pj4gK8Kg
+wqDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+PiDCoMKgwqDCoMKgIH0KPj4+IMKgIMKgwqDCoMKg
+wqAgcmV0dXJuIDA7Cj4+PiAtCj4+PiAtb3V0X2Rlc3Ryb3lfcXVldWVfaWI6Cj4+PiAtwqDCoMKg
+IG52bWVfcmRtYV9kZXN0cm95X3F1ZXVlX2liKHF1ZXVlKTsKPj4+IC3CoMKgwqAgcmV0dXJuIHJl
+dDsKPj4+IMKgIH0KPj4+IMKgIMKgIHN0YXRpYyBpbnQgbnZtZV9yZG1hX2NtX2hhbmRsZXIoc3Ry
+dWN0IHJkbWFfY21faWQgKmNtX2lkLAo+Pj4gQEAgLTE5NTQsOCArMTk0Niw2IEBAIHN0YXRpYyBp
+bnQgbnZtZV9yZG1hX2NtX2hhbmRsZXIoc3RydWN0IAo+Pj4gcmRtYV9jbV9pZCAqY21faWQsCj4+
+PiDCoMKgwqDCoMKgIGNhc2UgUkRNQV9DTV9FVkVOVF9ST1VURV9FUlJPUjoKPj4+IMKgwqDCoMKg
+wqAgY2FzZSBSRE1BX0NNX0VWRU5UX0NPTk5FQ1RfRVJST1I6Cj4+PiDCoMKgwqDCoMKgIGNhc2Ug
+UkRNQV9DTV9FVkVOVF9VTlJFQUNIQUJMRToKPj4+IC3CoMKgwqDCoMKgwqDCoCBudm1lX3JkbWFf
+ZGVzdHJveV9xdWV1ZV9pYihxdWV1ZSk7Cj4+PiAtwqDCoMKgwqDCoMKgwqAgZmFsbHRocm91Z2g7
+Cj4+PiDCoMKgwqDCoMKgIGNhc2UgUkRNQV9DTV9FVkVOVF9BRERSX0VSUk9SOgo+Pj4gwqDCoMKg
+wqDCoMKgwqDCoMKgIGRldl9kYmcocXVldWUtPmN0cmwtPmN0cmwuZGV2aWNlLAo+Pj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgIkNNIGVycm9yIGV2ZW50ICVkXG4iLCBldi0+ZXZlbnQpOwo+
+Pj4gLS0gCj4+PiAyLjE2LjQKPj4+Cj4+Pgo+Pj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KPj4+IExpbnV4LW52bWUgbWFpbGluZyBsaXN0Cj4+PiBMaW51
+eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKPj4+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3Jn
+L21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo+PiAtLS1lbmQgcXVvdGVkIHRleHQtLS0KPiAu
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1u
+dm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xp
+c3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
