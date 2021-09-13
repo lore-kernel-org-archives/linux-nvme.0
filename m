@@ -2,93 +2,75 @@ Return-Path: <SRS0=T5dq=OD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A4D7C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 09:50:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 111F5C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 10:25:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DC2176103B
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 09:50:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DC2176103B
+	by mail.kernel.org (Postfix) with ESMTPS id D1C6C6108B
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 10:25:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D1C6C6108B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=eX/EfPmJ4ubOZxve349r+wCKgBuDUUIC7YWrzG4oZmg=; b=UBSUmL+B1HFM6kj3OpaI3OCAly
-	PqV2xj6+RGe0glm4Hc4BOnsXQnwZLLU5JuzAiHL/b09onSBAF/pVpJsUABgK7NvqkxAGv3/QHw3be
-	68KpWLzDs27xhVMOI1n10ipYAeYpxe5dgVPgNZn5lMJGjCkbYqtvwHxS0OzzV+4UxQzANHGDDd7hR
-	0KPQuFNHZvrkkV/xsTk6iXe+EPvumgCNl7dB0O5+aIdPVHxRWP5axRza9GwbKdkDLPxWYofM9Te7L
-	xViEbwV+bHboQnyL4vHMlzF+GkA+eBFAtYFKvy4VkAri6xkO1pwEm/Y5XVwnm8NmeLb7oH39QhSfB
-	gefVvYSA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=TLEzl+VbtoeQQ90VhIrHY8lwIRzTbFp3ezXav1fiZOY=; b=3Qm0LyUTy0U/4U
+	5VKB2nWf8RI74xlh7Nu1Dx98838UhcQj2FpoKmDngOV7jRu27WWca3xkPLr/HBkcaiQyEs2R6Xi7F
+	yuZTdeUvHxoT9GD/jz0Qz5E/JH1gbyvmCxUEgCWz7rV1kbxCuLhzWn4zKJrw3PgFoc6Al1HaW7jOD
+	yZyylGFh+1/CaMXx1vrofsKEwHnSUfmUJ37Ux45eWk6ehLoWBcxWde8eR0TNS6BNHwWLRx+b9FqdE
+	QqACRQ0Lh2FcSipCeRmE5lcYetGvHt3YJsgwvC+Na/rldyd528/S2ipnhKmC1vTSW+Uwhs+0eYhDn
+	b+BCtPVmQP28WMdUyC0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mPibW-0018Ym-IX; Mon, 13 Sep 2021 09:50:22 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mPj8X-001Fu9-UE; Mon, 13 Sep 2021 10:24:29 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mPiUt-0016z8-Q7
- for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 09:43:33 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 73C151FFC2;
- Mon, 13 Sep 2021 09:43:30 +0000 (UTC)
+ id 1mPj8T-001FqP-An
+ for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 10:24:28 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id C53F421FD3;
+ Mon, 13 Sep 2021 10:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1631526210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/VvwVSp+siaxFTQ0nA6pMCVjKYop5kzwx3kuWkB4cEI=;
- b=XYteGMtx3EeOM+WhtNnveTpaloytVuzV6CeoDtq8zWupweE596UyK/INUuaTrkF5XoUmrz
- ZjajeV045o3BPEy5amh+hjLJa/rxwhmbXi1tT74bDh8HOe6UNiOMqydBeYkayoARVTBzLr
- SbG4ECWagU89EK6mzWZ10gz25P98QwU=
+ t=1631528663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=g9nuf3e2j7dL++6EWv0XLIzaGaTYV35YYa6PvI3uxbs=;
+ b=HLRbgSSNDCAA1bF+qqCriEDTdOL3fuPDw7TAQ1fp4WKlNT/0ePZnc9JE9cFpY9e8VX/JRW
+ vAkR3OpZtUucmvxvF6PNp6UXchtszSAVrVpfdl6EqSqGWnbBpceVaWCwR30H8kJ/AEeWAX
+ ik/EFUVzz70rCmW4lH4UuFYKeMGTWs0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1631526210;
+ s=susede2_ed25519; t=1631528663;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/VvwVSp+siaxFTQ0nA6pMCVjKYop5kzwx3kuWkB4cEI=;
- b=3AMNTROkHLgXA3U5yhHkU7/4Og8g1bCHeMyZxQSK2OH8bYQadAUd7diKMUJJginSRUee4x
- voTLgF7jf4tW7ADw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6371B13A09;
- Mon, 13 Sep 2021 09:43:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id vGobGEIdP2E8YgAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 13 Sep 2021 09:43:30 +0000
-Subject: Re: [PATCHv3 00/12] nvme: In-band authentication support
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
- linux-crypto@vger.kernel.org
-References: <20210910064322.67705-1-hare@suse.de>
- <47a839c3-1c8d-9ccf-3b3d-387862227c4f@grimberg.me>
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=g9nuf3e2j7dL++6EWv0XLIzaGaTYV35YYa6PvI3uxbs=;
+ b=CSw0CB9wSPtCLX/UnmjjB7mWgw+m43CBxd1m4MltW8BxrXrYXWw70NQWdTJyzrD1zA1qi4
+ 2gsQl7v9S2A1NjCg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 6F15DA3B91;
+ Mon, 13 Sep 2021 10:24:23 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 5DFA1518E59C; Mon, 13 Sep 2021 12:24:23 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <0ab8d79a-6403-9177-319d-ad41dfa4c41b@suse.de>
-Date: Mon, 13 Sep 2021 11:43:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCH nvme-cli 0/2] Support commands for NVMe In-band authentication
+Date: Mon, 13 Sep 2021 12:24:13 +0200
+Message-Id: <20210913102415.19044-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <47a839c3-1c8d-9ccf-3b3d-387862227c4f@grimberg.me>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210913_024332_083401_ABD18506 
-X-CRM114-Status: GOOD (  17.99  )
+X-CRM114-CacheID: sfid-20210913_032425_623176_CE89F043 
+X-CRM114-Status: UNSURE (   9.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,34 +82,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOS8xMy8yMSAxMToxNiBBTSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPiAKPj4gSGkgYWxsLAo+
-Pgo+PiByZWNlbnQgdXBkYXRlcyB0byB0aGUgTlZNZSBzcGVjIGhhdmUgYWRkZWQgZGVmaW5pdGlv
-bnMgZm9yIGluLWJhbmQKPj4gYXV0aGVudGljYXRpb24sIGFuZCBzZWVpbmcgdGhhdCBpdCBwcm92
-aWRlcyBzb21lIHJlYWwgYmVuZWZpdAo+PiBlc3BlY2lhbGx5IGZvciBOVk1lLVRDUCBoZXJlJ3Mg
-YW4gYXR0ZW1wdCB0byBpbXBsZW1lbnQgaXQuCj4+Cj4+IFRyaWNreSBiaXQgaGVyZSBpcyB0aGF0
-IHRoZSBzcGVjaWZpY2F0aW9uIG9yaWVudHMgaXRzZWxmIG9uIFRMUyAxLjMsCj4+IGJ1dCBzdXBw
-b3J0cyBvbmx5IHRoZSBGRkRIRSBncm91cHMuIFdoaWNoIG9mIGNvdXJzZSB0aGUga2VybmVsIGRv
-ZXNuJ3QKPj4gc3VwcG9ydC4gSSd2ZSBiZWVuIGFibGUgdG8gY29tZSB1cCB3aXRoIGEgcGF0Y2gg
-Zm9yIHRoaXMsIGJ1dCBhcyB0aGlzCj4+IGlzIG15IGZpcnN0IGF0dGVtcHQgdG8gZml4IGFueXRo
-aW5nIGluIHRoZSBjcnlwdG8gYXJlYSBJIHdvdWxkIGludml0ZQo+PiBwZW9wbGUgbW9yZSBmYW1p
-bGlhciB3aXRoIHRoZXNlIG1hdHRlcnMgdG8gaGF2ZSBhIGxvb2suCj4+Cj4+IEFsc28gbm90ZSB0
-aGF0IHRoaXMgaXMganVzdCBmb3IgaW4tYmFuZCBhdXRoZW50aWNhdGlvbi4gU2VjdXJlCj4+IGNv
-bmNhdGVuYXRpb24gKGllIHN0YXJ0aW5nIFRMUyB3aXRoIHRoZSBuZWdvdGlhdGVkIHBhcmFtZXRl
-cnMpIGlzIG5vdAo+PiBpbXBsZW1lbnRlZDsgb25lIHdvdWxkIG5lZWQgdG8gdXBkYXRlIHRoZSBr
-ZXJuZWwgVExTIGltcGxlbWVudGF0aW9uCj4+IGZvciB0aGlzLCB3aGljaCBhdCB0aGlzIHRpbWUg
-aXMgYmV5b25kIHNjb3BlLgo+Pgo+PiBBcyB1c3VhbCwgY29tbWVudHMgYW5kIHJldmlld3MgYXJl
-IHdlbGNvbWUuCj4gCj4gU3RpbGwgbm8gbnZtZS1jbGkgbm9yIG52bWV0Y2xpIDooCgpKdXN0IHNl
-bmQgaXQgKGZvciBsaWJudm1lIGFuZCBudm1lLWNsaSkuIFBhdGNoIGZvciBudm1ldGNsaSB0byBm
-b2xsb3cuCgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UJCSAgICAgICAg
-ICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZQkJCSAgICAgICAgICAgICAg
-ICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJn
-KSwgR0Y6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0
-cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vbGludXgtbnZtZQo=
+Hi all,
+
+this patchset adds two new functions 'gen-dhchap-key' and 'check-dhchap-key'
+to help generating and validating host keys for NVMe In-band authentication.
+
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (2):
+  Add 'gen-dhchap-key' command
+  Add 'check-dhchap-key' function
+
+ Documentation/nvme-check-dhchap-key.txt |  31 ++++
+ Documentation/nvme-gen-dhchap-key.txt   |  52 ++++++
+ Makefile                                |  17 +-
+ nvme-builtin.h                          |   2 +
+ nvme.c                                  | 224 ++++++++++++++++++++++++
+ util/argconfig.h                        |   1 +
+ util/base64.c                           | 100 +++++++++++
+ util/base64.h                           |   7 +
+ 8 files changed, 433 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/nvme-check-dhchap-key.txt
+ create mode 100644 Documentation/nvme-gen-dhchap-key.txt
+ create mode 100644 util/base64.c
+ create mode 100644 util/base64.h
+
+-- 
+2.26.2
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
