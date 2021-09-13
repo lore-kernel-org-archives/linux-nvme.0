@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD192C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 09:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94804C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 09:28:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D01E60D42
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 09:26:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7D01E60D42
+	by mail.kernel.org (Postfix) with ESMTPS id 669ED60D42
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 09:28:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 669ED60D42
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,68 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9RWCxeTh74N3CCYYf2/+kJJUdMxeXt90QevdIiAPhsA=; b=zBsQuzIgN/Dgo1EqQteZ8z9N/R
-	H3zm+UlTFsFACBi7HQt4UhSENdahIGISr8JAVmXUCRpzRDGZl6nCnoQ1CZeE4874b6GcXDAPEkyUh
-	g5csyhAoNUxhShboDkL5pIV+tsctEO/TKskfhbIk/3H5tr3HqUKin869g6iba0hvrjTnmRr2pe295
-	eW53vssQkpqhM+RbK0okI+N+k2sCf95ybYRZyVIN0sc42lSglQ5Mj3AfgWbc2MAaZZQNrOey6UBex
-	nj2DfmuXhxoxgJSNwzUv0cffUg+5aFz5aygS9BxfnKWnj5rAJ/9PKLUh8kF4Qbmwdo81z8PRGPc96
-	/fMCCfGQ==;
+	bh=sqMY/uLwti4ABLv8G8MnR9BF4+mMl1zl5WdtuJX5qBo=; b=Z5cwNWwfpEW2ZXerm0iIIxpR0h
+	2FQpnq0Tn8bzK3QwuS3jJWCMLS/zcD14rRwIajDhqFHTTPeo1cEtlXKeh1/dSJ51f2SUfbcge9Rr8
+	TskSTNhJCFBvEioRKvmO+1IwCuXCvd8EKiboT3hqH4NeeM636NvQq3fZXFNd/dt+RQJKLO0s9kBPE
+	i775qcdQX/B7koju3Xhr78QIB5v0PwV1GmxtdE17uFSMNCtoz2lsq9oueS7ciFz1yOG7ntkyO7un/
+	kb2DoicvEO6YQBiOVLb4zsRyjrQUEQCmJO8qe2sQsiufJW0EVEfD2NZy1jE5M68R2Tbt8PD9zO+eP
+	n4AOEceA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mPiEG-0013MH-Lf; Mon, 13 Sep 2021 09:26:20 +0000
+	id 1mPiFa-0013f3-P4; Mon, 13 Sep 2021 09:27:42 +0000
 Received: from mail-wm1-f47.google.com ([209.85.128.47])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mPi3n-00109y-GD
- for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 09:15:35 +0000
-Received: by mail-wm1-f47.google.com with SMTP id i3so6095488wmq.3
- for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 02:15:28 -0700 (PDT)
+ id 1mPi4L-0010Od-Bc
+ for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 09:16:06 +0000
+Received: by mail-wm1-f47.google.com with SMTP id
+ k5-20020a05600c1c8500b002f76c42214bso6365686wms.3
+ for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 02:16:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WHpLWJ8H/fkNgfU88lj/JLsBmLoWewM3ZWg4XfFKR80=;
- b=n0ANkoXnJsWm+vaLdomLY6aTa6VcdZz6DVhyXIBM0eL/63W363scTNIWnVqPzVKEZ7
- XWvax6yhbFDxZBFkMbp7mcIQrTGc3luDDLY6Brum/zOEH2LyIuXgkqSkRJ5nsXtW9VbR
- 4dUgk3cT8seL9n5hClIGKWVeE8bDlPmBeNIURz2EeOMZxFHF35CgDmDBp4R2RwRh9Y3k
- kQypI+kr4ecGapj7WRIPP+cUQGP3Dom0j27P73jfNaBCI+7tGHNrMEVkp5MYzZQZURte
- bvl5gOXBlKbD2HvKtS8P/pzlTRsT6gBSLvzFz66P8Fn2F2L28wbA6rq8XPQJth9Qlk3H
- +IUg==
-X-Gm-Message-State: AOAM5308/gVpO7tTUONcWXv3ESNQXdq0b/RGCNRL6UyIIGjOulEWVqkc
- B6zr9en3T027+LS0m4oo2xaabUB+0T0=
-X-Google-Smtp-Source: ABdhPJyL8mbCOOFoXtG599svx2RAQGcSw6iBQZNtz+iBNBgp2MYXb9Lg0mXtWOS3+wO1bU7zo9sSlg==
-X-Received: by 2002:a05:600c:2046:: with SMTP id
- p6mr10379544wmg.132.1631524527053; 
- Mon, 13 Sep 2021 02:15:27 -0700 (PDT)
+ bh=UlWb7GG9KmgW1uBK20hHYqN4Cy+L80BmV4mPEcAhQv8=;
+ b=VpBjz+r+gW3Hn4skxHAUrXtcWJTtttqcQTbfB+XhGFTFIEoOwoVqbXli/y0y6JS4sQ
+ h8034H5DmMQrp/Z7//a8mJgeT3iizaNv6QgQnGz1EIZg4M1Y5kipvJlbdsPygnyrjSA3
+ 0AgLmH9FCCRdSBHeOs3mNtlkCRFq5dVtEdGaVuGpS39p3/U+Mi15E34braMYW8wCJLi/
+ HRbV0IXgBguV+edNOwRtePt0DskesRZMqJ+zNPdVB+6EWNKVmhGWXdfHLVV8H85BFXbo
+ CNH0/+bTfzB68D2ngLqX6o6x9JlEMxGJMH7LdWEN/aJgh9hOiPE3ovFmT3Sm9O0v3DlC
+ YiKw==
+X-Gm-Message-State: AOAM533/1zwR/3/uvDrdTnCN5RjfVeHKntvR8FPCjDYURfHrYbtwHb/m
+ BGEm9CLZZQ4gTI7VPrwFNIw=
+X-Google-Smtp-Source: ABdhPJz2+/ks0/io8Q8QcVIq/Dm/v+sGRIKkMWLyJ6HGuPjRmIX+l3rZvmMIfXN2VK0XvqkJS0hs5Q==
+X-Received: by 2002:a7b:c0c7:: with SMTP id s7mr10129533wmh.66.1631524564128; 
+ Mon, 13 Sep 2021 02:16:04 -0700 (PDT)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id k22sm7138707wrd.59.2021.09.13.02.15.25
+ by smtp.gmail.com with ESMTPSA id u13sm5830705wmq.33.2021.09.13.02.16.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 02:15:26 -0700 (PDT)
-Subject: Re: Command timeouts with NVMe TCP kernel driver
-To: Samuel Jones <sjones@kalrayinc.com>
-Cc: Keith Busch <kbusch@kernel.org>,
- linux-nvme <linux-nvme@lists.infradead.org>
-References: <1058345072.5039165.1630330229081.JavaMail.zimbra@kalray.eu>
- <20210907204615.GA591280@dhcp-10-100-145-180.wdc.com>
- <473ad941-a01d-8107-a6a8-6d051f6955a5@grimberg.me>
- <20210908215017.GA2116734@dhcp-10-100-145-180.wdc.com>
- <9266ad25-ec2c-377d-092d-941f26371c7b@grimberg.me>
- <dc84f3ee-5f22-2f79-5483-9ae0235e42fe@grimberg.me>
- <1537083616.6148364.1631174974578.JavaMail.zimbra@kalray.eu>
- <7e313963-b377-74ef-2fb2-650e15cde2e6@grimberg.me>
- <1387247003.6552417.1631519054752.JavaMail.zimbra@kalray.eu>
+ Mon, 13 Sep 2021 02:16:03 -0700 (PDT)
+Subject: Re: [PATCHv3 00/12] nvme: In-band authentication support
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
+ linux-crypto@vger.kernel.org
+References: <20210910064322.67705-1-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <cec5db7f-a785-e219-b502-5aa4ed1be880@grimberg.me>
-Date: Mon, 13 Sep 2021 12:15:25 +0300
+Message-ID: <47a839c3-1c8d-9ccf-3b3d-387862227c4f@grimberg.me>
+Date: Mon, 13 Sep 2021 12:16:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1387247003.6552417.1631519054752.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <20210910064322.67705-1-hare@suse.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210913_021532_128669_BABC1A69 
-X-CRM114-Status: GOOD (  11.79  )
+X-CRM114-CacheID: sfid-20210913_021605_475572_0BB3A50C 
+X-CRM114-Status: GOOD (  21.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,23 +96,26 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>> Keith, can you send a proper patch with a Fixes: tag and a descriptive
->>>> title so this can go to stable.
->>>>
->>>> And let's wait for Sam to do some more extensive testing. Ideally we can
->>>> also hear from the WD folks that this doesn't cause any regressions.
->>>
->>> OK, I'll do some more testing over the weekend and let you know next week.
->>
->> Thanks.
+> Hi all,
 > 
-> Hey,
+> recent updates to the NVMe spec have added definitions for in-band
+> authentication, and seeing that it provides some real benefit
+> especially for NVMe-TCP here's an attempt to implement it.
 > 
-> No further issues on my side with this patch.
+> Tricky bit here is that the specification orients itself on TLS 1.3,
+> but supports only the FFDHE groups. Which of course the kernel doesn't
+> support. I've been able to come up with a patch for this, but as this
+> is my first attempt to fix anything in the crypto area I would invite
+> people more familiar with these matters to have a look.
+> 
+> Also note that this is just for in-band authentication. Secure
+> concatenation (ie starting TLS with the negotiated parameters) is not
+> implemented; one would need to update the kernel TLS implementation
+> for this, which at this time is beyond scope.
+> 
+> As usual, comments and reviews are welcome.
 
-Thanks Sam,
-
-Keith, any updates from the WD team?
+Still no nvme-cli nor nvmetcli :(
 
 _______________________________________________
 Linux-nvme mailing list
