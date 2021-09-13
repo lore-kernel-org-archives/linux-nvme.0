@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF587C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 13:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A6FC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 13:16:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6B30F60FA0
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 13:16:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6B30F60FA0
+	by mail.kernel.org (Postfix) with ESMTPS id DFD5E60724
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 13:16:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DFD5E60724
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,62 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=CiIHi87rKaGHIcqHPoQWnJjJLS
-	xKiakKK6LiYvaBp1FBW1gzXvMovk/Q5tMm+xsB2PZrm7nD+2FvoIaJEI6eStSNLRVkECELb3EMAD7
-	av88lhc8h4/eLmKI7jk+IvOg16JOa40PkOP4d5sZuIfcbihDOUiq552ofI8gmvLysJ/Npcm+BxBkE
-	NJd7/lRnA0yC0PfY/YyUQsD+ZPGG2p3hWeqjibKD3QOx/vabDKXlnn1X3yGxasxXMH3lY6WEjjXhP
-	swkpaWNXfmlOWYRZghnG4zkXpESAqG1y5H9qCCYAc+mTDoGod0wRevi/Xjc/k5oV2dKYotWxPT284
-	M3HWyhUA==;
+	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=X1B5FJTeW6a9jDczbdbPhhM9cG
+	GbYmWNbKzy07CwmxXoZPRkh2lfg1eg17W8+mGvm34YjaEf5esPe2cqL7PIQG5GP7na2Exp1DXMSXD
+	Xdxxh5KuAL17lHR59B0513El0cHGKzRAPahO1i2X1DtdVtBdzDX+/FeCSO5W9ngpeCN2/uKSXK8TM
+	Y0wMinRBVT83yDU/qnllzUoqjSsrDbpyb0BciZc70Y32QdPtIS9rqptCKHjrQRqcZM8lMwX6CrRY/
+	4R4Av+wJKHuFI+ObDcaE1ZoMm/X4l8ft5CdrHg4EkbSqrqpnJFUdwGA/LFVbd+mPWWExq0hd7fJzK
+	QdNWnBXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mPloZ-001jxu-3R; Mon, 13 Sep 2021 13:16:03 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1mPlol-001jzg-Em; Mon, 13 Sep 2021 13:16:15 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mPloW-001jxT-T8
- for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 13:16:02 +0000
-Received: by mail-wr1-f50.google.com with SMTP id t18so14693781wrb.0
- for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 06:16:00 -0700 (PDT)
+ id 1mPloc-001jyM-SF
+ for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 13:16:09 +0000
+Received: by mail-wr1-f49.google.com with SMTP id u15so8593867wru.6
+ for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 06:16:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=d6A0m5sbv1QatSkVb8B6oRyhyZ7h/5mA8nm04FxsqaqRxSGcETOKaSiwrPuWODLk42
- TeawHa32yJzYrUs9U6wvmMhK0al5TAoHUM6AGNI1j44/N1Dx0nePsJvlxvksiiN34yBc
- O8cFOzHUR7OklUoXXR8kiPKBNnNebgrLQpy3Wl3yWN0ko1Yq9zH46+sCntomi4FWNCPB
- UsDL2+BSEo5b3ER1oBIQCs25BMkurmBCCTaBW1gMlX8mkGt5aYXAwr1Pw0FiV8y7kYcD
- MKS8MXetzWIxpFUOvVZ2l2vLzneMXMYLrMhrStPOpEhTrlMeDCq3okGV7OYd75agN+HU
- JyWg==
-X-Gm-Message-State: AOAM532DFAoBFEdhiLxdwjylMc8dghzQ4sDAwVOqXakPDi705714lWxJ
- QeoWliMnXWsW5qDpnqtFZxQ=
-X-Google-Smtp-Source: ABdhPJxFgeh4+N3wpZmHrqmgbG2kFVg3bcDyohXhCvE1/hCk30HeAA5pubOAFoAdz4U2cEWP72hMzg==
-X-Received: by 2002:a5d:58e9:: with SMTP id f9mr11291202wrd.325.1631538959458; 
- Mon, 13 Sep 2021 06:15:59 -0700 (PDT)
+ b=UDYGIo5Oz2Dw7bzK94xf4ZkvN01Cnpaq5zSBZjOWzzrm8f6LSOBQsGOgN2+AYVPYv5
+ W1aCbKaks0q6dMNwDMQyweh8UR1S5puzF7ftuOA5f4xXRMnYniW4anAwhanvpNbP5J3a
+ 0pYPQJQlpjPb0VfwWc5H9dCrgxXTxTpxndcbF94lWJiTujgkhxiRr8JPSnhIdtUPfnHI
+ vHT/FjYo3ZnzbHMt44ZeEu9noNHVnRT2GVPwkDc20rVpMqqVTfo96rbXuvu2Z53lecTZ
+ qgG/ThG4r1OxViOny0BnNuiXZ33pGIvrypIKMnVKmPUCjNgU/bfQ3wxkayHYUorZby2M
+ HPtA==
+X-Gm-Message-State: AOAM531mjYSS3ctFLTA3By4DqaYRhyQ3LU6FM/likSewCOJvb4Eq7psM
+ 1NxxVdtQyUy+DIXATxT9CuYlp6BXDg4=
+X-Google-Smtp-Source: ABdhPJxC2G+83Sn9m2HoK7rtfsVr7UeNIaPHspr5GhsqFvsj4Tog4ygakvq61LUuUsQ2iktHWnst1Q==
+X-Received: by 2002:a5d:4b50:: with SMTP id w16mr12479916wrs.71.1631538965422; 
+ Mon, 13 Sep 2021 06:16:05 -0700 (PDT)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id b16sm7535459wrp.82.2021.09.13.06.15.58
+ by smtp.gmail.com with ESMTPSA id l15sm6045604wme.42.2021.09.13.06.16.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 06:15:59 -0700 (PDT)
-Subject: Re: [PATCH 01/12] crypto: add crypto_has_shash()
+ Mon, 13 Sep 2021 06:16:05 -0700 (PDT)
+Subject: Re: [PATCH 02/12] crypto: add crypto_has_kpp()
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <keith.busch@wdc.com>,
  Herbert Xu <herbert@gondor.apana.org.au>,
  "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
  linux-crypto@vger.kernel.org
 References: <20210910064322.67705-1-hare@suse.de>
- <20210910064322.67705-2-hare@suse.de>
+ <20210910064322.67705-3-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <fd70f87e-9890-22a8-ef80-f221eeece498@grimberg.me>
-Date: Mon, 13 Sep 2021 16:15:57 +0300
+Message-ID: <9ce7e32a-7409-df05-ff04-10e8eaf0f22d@grimberg.me>
+Date: Mon, 13 Sep 2021 16:16:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210910064322.67705-2-hare@suse.de>
+In-Reply-To: <20210910064322.67705-3-hare@suse.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210913_061601_008234_D472CD26 
-X-CRM114-Status: UNSURE (   9.32  )
+X-CRM114-CacheID: sfid-20210913_061606_949638_EF0ABEF2 
+X-CRM114-Status: UNSURE (   9.23  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
