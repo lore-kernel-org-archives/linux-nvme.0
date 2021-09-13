@@ -2,84 +2,90 @@ Return-Path: <SRS0=T5dq=OD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54135C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 19:32:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA13C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 20:20:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 109EF610F9
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 19:32:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 109EF610F9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 69D0760E76
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Sep 2021 20:20:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69D0760E76
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=g0Ywh/Ra2WM1EOmIdvGdqQZcue
-	gMKpNr/VkCY7aVkM9oOUpTdjgFMfF6ac0vc15FWzLU7vAJvG/IDAprNAL5J2LfC7U398ZODS7TXhb
-	qOtpnKkDsDqQCTQHSPm6UqZ3odOUt00F9rEWuu8d6aaUV4oAsxBZ5VX1HLPPQf9MaPPzktVKzLpdf
-	spgFQbXMzFfJLQSvgzPd04OmNy9jdsCZqrYF8z3Eg9MvPDiwcC9eBcJK2I10GB0J/dgL1DKdqBCwK
-	wRpZd9SBWYTNDvAsS2wBeobL0eX2p5w9rwiVihWBRiA151wlqOX34wZDaPmDlMIfb1PPExmGzproc
-	QpcJVS1w==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=hSyDWcos8voK0laV9iiR6rLcJYcA/zGVhRMe3KflZbY=; b=Fnn30+Jq9zGLNl
+	c0S3xTwX2q5zj+XWRXy9t198ut5yTSrPyL/nXSX5lRH2bTkKNOsRJA5YYJReOdNkpPXXYGfJa0oh+
+	gXB7KEcrjqYNJl/cYbKIt6kHbC+Gb8aoAbwwRjbf0MxcFqPyKs1AthKFMjN4nzOmb+ZkJDZVlMesv
+	naU6pt/y9ib8B3tKn/MA1Zild9PoCcPYgz4SJfzlxtskGCaDFJFZdzSIgKECKtL+2fCZQiIeRfWmP
+	88ZScMvxQaddGvlitzeLAkPxpZ1WIv1vipjBBijjGLnI/GMfJXny9RZEyX3z3jnvoXlt2GpLqeFQj
+	akkXTfvnGKdS81NP6IGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mPrgL-0036Na-Gb; Mon, 13 Sep 2021 19:31:57 +0000
-Received: from mail-ej1-f43.google.com ([209.85.218.43])
+	id 1mPsQg-003AZv-0Y; Mon, 13 Sep 2021 20:19:50 +0000
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mPreF-0035GE-Qt
- for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 19:29:49 +0000
-Received: by mail-ej1-f43.google.com with SMTP id qq21so17519045ejb.10
- for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 12:29:46 -0700 (PDT)
+ id 1mPsQd-003AYr-0O
+ for linux-nvme@lists.infradead.org; Mon, 13 Sep 2021 20:19:48 +0000
+Received: by mail-wr1-x433.google.com with SMTP id t8so11525313wrq.4
+ for <linux-nvme@lists.infradead.org>; Mon, 13 Sep 2021 13:19:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Bz6FvGGU07KPK+agys9SwAMl1hDlSOpUcqq9bmZVgr0=;
+ b=n6LgbsNvb0G+smQjZONYALt7AmZ9kxNBmDB2x7hfCYP/pHvh7eQTF+Ucm2Tm4hy7aj
+ ZyJicZUz2i8w6Sv5KaF8nPemK1e7t/0NxWBA7CA7Kp+/2s/ET3iZKvRAlEPHPfEeN+X0
+ YSn/tMtK5nQZSTXHbpvTZMBobhqqN/GGXBo26owaRtOb7GFCox1mNzm0MPuYhVkahcuO
+ S/eSR+VVDhj2mqMKnAMRZZzjXtnUIRdSFTRYqsOeoBdZniNXoN8dpelBP/0krEIJixB5
+ RF9foj6sVmy/AvJ2YcACzu68ndiW/ESPbb4TCmwN24FCUmuHvKwhaZRcNM5jLmDEXlcZ
+ fvVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=j+2S6xAk+Yyv+3FmRwBANT0yFuNv7cvTvPzNuEKlSX25caHBXK4Z3ms+r1ANSF7g9Q
- KG4XnluaQ3bo/4kYPf9JXcp26bTvHyV8ORLRQNYimlM14MNKXAzTlonYZln+3PBaJhvR
- yLFZ0cmtqCQ0YE1UrjBA1wmBBJIK3vr6DTyDYbc1alsICb4PF/3AfJ8BNcFROt45dNDm
- CwRabZRbCiR0yTcfkdz1VITMM63TG4OpsqMcMkC7qNiDwJJivEsqn9kVPw0vlvW5gcsZ
- mgS2qj2+6AGlwOhjU/HCy4FV/NXXR6Y7tms088pYjr5nUHm2cdZuGaafxol4gbbU0Isv
- 0QUA==
-X-Gm-Message-State: AOAM533EY/0exrzEtA2Y4Z6/PM2emHp3o19eKhHPpomevz5Ns4taPC9t
- CfZN8HoX5EvlOrppYOAK0wA=
-X-Google-Smtp-Source: ABdhPJy2nH9kPjbJdis0QhUl0BXVgh1At4MHLGLcWbDG1Njt9g7lwcc7Z6JvQMHw2PyEhMYrqJ/f0A==
-X-Received: by 2002:a17:906:942:: with SMTP id
- j2mr4872952ejd.303.1631561385877; 
- Mon, 13 Sep 2021 12:29:45 -0700 (PDT)
-Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
- [109.186.240.23])
- by smtp.gmail.com with ESMTPSA id 90sm4238725edc.36.2021.09.13.12.29.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 12:29:45 -0700 (PDT)
-Subject: Re: [PATCH v2 1/3] nvme/multipath: fix failure to update ns ana state
-To: Anton Eidelman <anton.eidelman@gmail.com>,
- linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com
-Cc: Anton Eidelman <anton@lightbitslabs.com>
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Bz6FvGGU07KPK+agys9SwAMl1hDlSOpUcqq9bmZVgr0=;
+ b=eYgPoGuWBFxx2aGrKhW2PO3I9mM8QoKoC88nDRevEwmyGEFP7u+WfSLWBoRqHSiGKu
+ gde7Zi54TCfrM83D1PbPxW60nM8qksLKE3QOqPFeqlC1BbkTlYy7blILFApy996lrW2s
+ +AkGzg92zUpdNP5glKAwzfes2oJgbyWClugLaYHnJvxHK3M+nI98YqWuTjcKV1ivjGLc
+ qnBSAI0To6NumDaGhxp/ouQIXfoZNLsWhTUNh+uFDCNx5rRYAtycKJ62uGDZoLVZME95
+ AN0tfBBSRhP531zMp9Gii0Pm4tjLqN90Zye7+y97Vbur2NWk4ipl4hFBDkgBWdSgIPKS
+ r2uQ==
+X-Gm-Message-State: AOAM5318tmu2XRj6imfBN5/32bAZXf1h5sI9hQ1QJSJ2CP3XC79I4TAp
+ pnbLeEScdCrvez5jDGYV1Kc=
+X-Google-Smtp-Source: ABdhPJyhgeGhk8wEizAHq3mqIsw/QaHHsTXRModpsQeQBufT3CECdNdIpkNu0aUhADxGtlbMZVgKDg==
+X-Received: by 2002:a5d:4b0b:: with SMTP id v11mr15072200wrq.359.1631564380718; 
+ Mon, 13 Sep 2021 13:19:40 -0700 (PDT)
+Received: from anton-latitude (c-76-23-2-87.hsd1.ut.comcast.net. [76.23.2.87])
+ by smtp.gmail.com with ESMTPSA id
+ j14sm8433188wrp.21.2021.09.13.13.19.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 13:19:40 -0700 (PDT)
+Date: Mon, 13 Sep 2021 14:19:35 -0600
+From: Anton Eidelman <anton.eidelman@gmail.com>
+To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com
+Subject: Re: [PATCH v2 2/3] nvme/multipath: cosmetic: keep ns nsid locally
+Message-ID: <20210913201935.GA83181@anton-latitude>
 References: <20210912185459.13496-4-anton@lightbitslabs.com>
  <20210913153023.70879-1-anton@lightbitslabs.com>
- <20210913153023.70879-2-anton@lightbitslabs.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <1f7797ca-7fc3-f0b1-3cdb-81bf5ab87916@grimberg.me>
-Date: Mon, 13 Sep 2021 22:29:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ <20210913153023.70879-3-anton@lightbitslabs.com>
+ <20210913160220.GB6442@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20210913153023.70879-2-anton@lightbitslabs.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210913160220.GB6442@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210913_122947_916228_D7B44C37 
-X-CRM114-Status: UNSURE (   8.95  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210913_131947_096626_B67F361E 
+X-CRM114-Status: GOOD (  13.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,12 +97,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Mon, Sep 13, 2021 at 06:02:20PM +0200, Christoph Hellwig wrote:
+> On Mon, Sep 13, 2021 at 09:30:22AM -0600, Anton Eidelman wrote:
+> > Keep the nsid of the current namespace in a local variable.
+> > Change the type to unsigned int to make checkpatch happy.
+> > 
+> > Signed-off-by: Anton Eidelman <anton@lightbitslabs.com>
+> 
+> I can't really see any improvement here.  Also checkpath as so often
+> these days is fundamentally wrong here.
+
+Do we you prefer to scrap this commit?
+
+I just wanted to get rid of multiple occurances of "ns->head->ns_id",
+and just use a local variable that only changes
+once in the for_each iteration.
 
 _______________________________________________
 Linux-nvme mailing list
