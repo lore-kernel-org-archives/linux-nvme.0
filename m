@@ -2,82 +2,76 @@ Return-Path: <SRS0=UXA3=OE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D95C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 14:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB79C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 15:39:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C01B60FC0
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 14:28:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8C01B60FC0
+	by mail.kernel.org (Postfix) with ESMTPS id 5F97461056
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 15:39:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5F97461056
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NSFAACAaxUYx0bd2/AA901Xr+2PxP5F3LWqrgjqoMx8=; b=Ot/hlcKdL2Qq6T373670KCO5eD
-	yuirzinxKQzefV/o40Cbz4bkFW+ehiIFn5QUJmmu5csAX1rn61YcqJDNPPFZGhmMEUvZN/be9lGbC
-	f1r+KlRYOBxtoUcCz7BYHg3r5z47goi7g8LU04uY41hye7P9gCa9Rhh+t+MNEggHdlpKzm5Ysn+09
-	gmDoMKPDdJ9uiAKLlMVKogbbQih48MFhy2g/LK+X1g2WtnnV6r84IQw5HabRuiCsPsDGqm/U0Vu9F
-	XyiPCJzXgN+t6lHcCnvJeQtNsddIJ+6bUFDkg5ZbtUgZ33+ERWgahO0Y742d01Bqv+kAwmQvDjLIT
-	IhsQG3Ag==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YcXeSEDz2BTN9mzU0clgTMVyvM6FltO3F5l0ocjAaq8=; b=s3TKLyt/Pyuc/8
+	t4EyFOyxgX3JoFPSlP/z8At68vuTd9xnPpnB6lDw1AJ7ydtdY1XgZNP5G2EDyGp4hvXX+goFtiR+v
+	Kj46DxiVko5iZlnQ4/Nuq9jBfPDuxxUFzH3O7at4YI8GzdMnU6Y3ZFONI5Iw1G63sdEvweEm+5eco
+	Gy3LkkveNXSHeso+3OtqWJfKWW5lR9Hlztx6DIf3KQiyXIeKmoaxXG59Q6icJoQ8DJ1FkpKGAaoWr
+	yIFtG9jv0Glavp20cJVW9+4D5UxkAFXG2fgHjjMUljUrrRt19CqsoDsqZ6n+GCclHnOLWPmcoE+mE
+	zVWYS2TUFMAHWLY93LnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mQ9QA-006064-Oh; Tue, 14 Sep 2021 14:28:26 +0000
-Received: from mail-ed1-f46.google.com ([209.85.208.46])
+	id 1mQAWV-006F3s-Gu; Tue, 14 Sep 2021 15:39:03 +0000
+Received: from mail-ed1-f49.google.com ([209.85.208.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mQ9Q7-006050-P4
- for linux-nvme@lists.infradead.org; Tue, 14 Sep 2021 14:28:24 +0000
-Received: by mail-ed1-f46.google.com with SMTP id g8so20222764edt.7
- for <linux-nvme@lists.infradead.org>; Tue, 14 Sep 2021 07:28:22 -0700 (PDT)
+ id 1mQAWS-006F3W-80
+ for linux-nvme@lists.infradead.org; Tue, 14 Sep 2021 15:39:01 +0000
+Received: by mail-ed1-f49.google.com with SMTP id z94so14399151ede.8
+ for <linux-nvme@lists.infradead.org>; Tue, 14 Sep 2021 08:38:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kicEnr2Cugeg1q66CI/wvoiBYIFJN2vXcDbJaUW4tr0=;
- b=G01S5gtFHZcaliNlCp4WH9Jh0MzFdNmS7uQ45mfUz7k50xkIMxMWuidrwnXKziGg61
- VMlF0V+LHXH1DPSZM4DL31bTOQxEu6GYGa4c+lvgp6jBvCANRGBmMplsLf8sav9sMPq4
- LgPX7rIa095qyTvdAAgKi3YsqtwdEZ2ZqdjbejSzEJMRMnbm7Gq8qe+YeAJNjDlTxf9I
- hKadZ0tHc4z1lYuTq0w22BGYlIuTiqHC7wHKGOCdVwFzcD/YjHKpnzsOzMSKjnyBmiSV
- 6w6+wpbPjsX4ONho4tdoNN21yueOBWK0fYlXRANNnYvkWPzcdND9KSmieqcZnFJexP8R
- hDcg==
-X-Gm-Message-State: AOAM530hiSPQuNoeeiePiRxSrw3jgxej8cGtHNMMrUe6Plxi8Ye4YsuD
- 2jw1J999u1QemPl39hCoj08=
-X-Google-Smtp-Source: ABdhPJx/TtwjqUpck2gI5RgHPPw6P8avek2CfZ1CWFvY/bPMA1mWlaDBKIKo2V5dnfBmLBqhcPI+wA==
-X-Received: by 2002:a05:6402:150a:: with SMTP id
- f10mr19579705edw.318.1631629701787; 
- Tue, 14 Sep 2021 07:28:21 -0700 (PDT)
-Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
+ bh=S8YvMyK3E/v0sgFrmr95ZRmLAMbqYw4mLs8r73vYGSg=;
+ b=QNUtjfJEGI4AFzpsfACF41hkSRS8x5usb27r8Y14C2G+18IifUhTaIC9uWzq0algeA
+ RHSTdIwwbRki/b7MObWdidH9PhxI1gxXRBugsifDCkQ3ClA4kEnGfGiazlz3SA9+/hjh
+ KBvC5gBA4l+bmYLXnNcB++2ZSoe7RsfgeE6OHFSErbC3q03tVX2a7DQvey0xcZ2TDxGY
+ PnV+VhxsXlvgoC5z5J+nqpiOgvdYs+ThpAjfZrEaSQX7cMWB49MEyPeDZD1UEIcS5JiW
+ scM0j7xOgPfZLu+LbCQIOAK9jVBQuDDuFEYCDiQyuQbf+lw25oDFX3dNJQPqR5zogOzD
+ Eg0A==
+X-Gm-Message-State: AOAM531Ud+tnSGoGKWc533W0hokKOaQiJMaQH8VGQvSkmDDT/GB8QlGr
+ jhOoksEW+umKMn4DfYkr76UCfKAictE=
+X-Google-Smtp-Source: ABdhPJzSTvKDtBhUQ9kqj/MG+vwH3ZOhYZE/epmf1mcaShzYu7kevrI+CfC7LQCaCzs/OjQCGCjm0g==
+X-Received: by 2002:a05:6402:28ad:: with SMTP id
+ eg45mr18285777edb.226.1631633938117; 
+ Tue, 14 Sep 2021 08:38:58 -0700 (PDT)
+Received: from localhost.localdomain (109-186-240-23.bb.netvision.net.il.
  [109.186.240.23])
- by smtp.gmail.com with ESMTPSA id bt24sm5011798ejb.77.2021.09.14.07.28.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 07:28:20 -0700 (PDT)
-Subject: Re: [bug report] nvme0n1 node still exists after blktests
- nvme-tcp/014 on 5.13.16-rc1
-To: Yi Zhang <yi.zhang@redhat.com>, Hannes Reinecke <hare@suse.de>,
- linux-nvme@lists.infradead.org
-Cc: stable@vger.kernel.org
-References: <CAHj4cs94pDUfSSfij=ENQxL-2PaGrHJSnhn_mHTC+hqSvPzBTQ@mail.gmail.com>
+ by smtp.gmail.com with ESMTPSA id k15sm5018295ejb.92.2021.09.14.08.38.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 08:38:57 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <ca405578-5462-0ab9-91ab-de9d42ee0570@grimberg.me>
-Date: Tue, 14 Sep 2021 17:28:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: [PATCH] nvme-tcp: fix incorrect h2cdata pdu offset accounting
+Date: Tue, 14 Sep 2021 18:38:55 +0300
+Message-Id: <20210914153855.16177-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAHj4cs94pDUfSSfij=ENQxL-2PaGrHJSnhn_mHTC+hqSvPzBTQ@mail.gmail.com>
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210914_072823_862751_B6196644 
-X-CRM114-Status: GOOD (  10.91  )
+X-CRM114-CacheID: sfid-20210914_083900_332473_CF5C6A86 
+X-CRM114-Status: GOOD (  16.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,18 +83,76 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+When the controller sends us multiple r2t PDUs in a single
+request we need to account for it correctly as our send/recv
+context run concurrently (i.e. we get a new r2t with r2t_offset
+before we updated our iterator and req->data_sent marker). This
+can cause wrong offsets to be sent to the controller.
 
-> Hello
-> I found this failure on stable 5.13.16-rc1[1] and cannot reproduce it
-> on 5.14, seems we are missing commit[2] on 5.13.y, could anyone help
-> check it?
+To fix that, we will first know that this may happen only in
+the send sequence of the last page, hence we will take
+the r2t_offset to the h2c PDU data_offset, and in
+nvme_tcp_try_send_data loop, we make sure to increment
+the request markers also when we completed a PDU but
+we are expecting more r2t PDUs as we still did not send
+the entire data of the request.
 
-Was it picked up and didn't apply correctly?
+Fixes: 825619b09ad3 ("nvme-tcp: fix possible use-after-completion")
+Reported-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+Tested-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+- Keith, can you ask the WD team to test this as well?
+
+ drivers/nvme/host/tcp.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 645025620154..87b73eb94041 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -607,7 +607,7 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+ 		cpu_to_le32(data->hdr.hlen + hdgst + req->pdu_len + ddgst);
+ 	data->ttag = pdu->ttag;
+ 	data->command_id = nvme_cid(rq);
+-	data->data_offset = cpu_to_le32(req->data_sent);
++	data->data_offset = pdu->r2t_offset;
+ 	data->data_length = cpu_to_le32(req->pdu_len);
+ 	return 0;
+ }
+@@ -939,7 +939,15 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 			nvme_tcp_ddgst_update(queue->snd_hash, page,
+ 					offset, ret);
+ 
+-		/* fully successful last write*/
++		/*
++		 * update the request iterator except for the last payload send
++		 * in the request where we don't want to modify it as we may
++		 * compete with the RX path completing the request.
++		 */
++		if (req->data_sent + ret < req->data_len)
++			nvme_tcp_advance_req(req, ret);
++
++		/* fully successful last send in current PDU */
+ 		if (last && ret == len) {
+ 			if (queue->data_digest) {
+ 				nvme_tcp_ddgst_final(queue->snd_hash,
+@@ -951,7 +959,6 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 			}
+ 			return 1;
+ 		}
+-		nvme_tcp_advance_req(req, ret);
+ 	}
+ 	return -EAGAIN;
+ }
+-- 
+2.30.2
+
 
 _______________________________________________
 Linux-nvme mailing list
