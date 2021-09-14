@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3603C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 07:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 212B3C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 07:19:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9E66B610A6
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 07:19:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9E66B610A6
+	by mail.kernel.org (Postfix) with ESMTPS id DCDB0610A6
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Sep 2021 07:19:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DCDB0610A6
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,62 +23,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=LqnU3sYGsewU4M882piIR633s6
-	u3+EmlcD3VUwSCwiRSIJqEXiYRHfAKTuwop0FmqfK2ixtr0hkUgRMFGEn8HQRuXH1P5WLCBztUnRM
-	S3uhZOAZMW9uLz7Y60p6z8pc9GF2ecbRAZL6qGT21a/oW50GYNVtE8rsNP9kawdCWz+qgPRFmvo6K
-	j+tAZw+DnyTe0vH5eUm9syzC24cdkJPnr2HLo0cba/QGihKNUvloLsv2kSfV66zvx8B9/B8SEIBfS
-	ryjZEVGShOTCtNjltbShJ43mshrDJHRRJvA+E+QNeLOO/IRm8WyLk917kKshJpMdXii+rD2bOaH8T
-	z4yu5lxg==;
+	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=qeF8ndeZ30KiUcg7BbgElyLNqH
+	RxyFfMcVxvy+M28Jhn47gAG3m0BWyWKx5JcF0txXtSImT8SERC6N8FYiUAWJ0Q7WH34aESsMJpymW
+	onypVxKQQT3zs8h/P5YOQEOIfaDEo0RENGIPnJeXL9vgqALjyUMhrUVKtYE55JPPpEcTaviaGuQBI
+	m82YhsY7+O9Q85U8y4+TiDge87QJXelpk5vn04VaCCtv8+qIyTnPG+qfJtd5pWcExoJRHBFkj+HMH
+	6H5m0nOqxGH98oPGIX5V7UbMVQTIjGIh7prHWxv4ucGlZM18yMJ5cKexiOdFuWo9qZibFK1fqsAap
+	Jnx/KqJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mQ2ir-004RFd-9w; Tue, 14 Sep 2021 07:19:17 +0000
-Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	id 1mQ2jH-004RLP-V1; Tue, 14 Sep 2021 07:19:43 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mQ2io-004REN-3z
- for linux-nvme@lists.infradead.org; Tue, 14 Sep 2021 07:19:15 +0000
-Received: by mail-wr1-f49.google.com with SMTP id i23so18549583wrb.2
- for <linux-nvme@lists.infradead.org>; Tue, 14 Sep 2021 00:19:13 -0700 (PDT)
+ id 1mQ2jF-004RKD-Un
+ for linux-nvme@lists.infradead.org; Tue, 14 Sep 2021 07:19:43 +0000
+Received: by mail-wr1-f51.google.com with SMTP id d21so10829959wra.12
+ for <linux-nvme@lists.infradead.org>; Tue, 14 Sep 2021 00:19:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=XNDd1z6MrgEGad6L0T6H8vbbboWl4nsumwf74CcK2mIdYO6OzxYj6XSFtcICllradY
- R3tD2lOg6Dh60XoiSGsUPS3xmztEvETUmWeqaHoI/WvEF2TlJrFx9RjUdD5u6ipJ2ekW
- 4d1KFDcw1v3b940dhu/5oCRmBxZQkKzJdC5EqL3z3GZ2mA0k6fcrfJLvpWEtNosLfyQW
- x4ZRVfCW078w6r1PxBXgNYrgkKLJhfRADr872VZ79pJw4zAmidbfB4ghOAVT3zdrp3pG
- A48zJ796Qps5n/hu9kVh79HmaC24Kgyu9htf400aGoWCWsnOXIlcfjUDWTMH0H5b3Ns8
- AP9g==
-X-Gm-Message-State: AOAM533GklXTc95joxOx7rMGdwgq8m7NuG+FA6gjmY65jAcEVL+xJu5s
- Rrl68INQ4EV1jHY/CcLYHIpBLnESXk8=
-X-Google-Smtp-Source: ABdhPJxR799W7iZRWsnn/gvqBdGPd4O8oQj1ua+YcV6wiwAcLEmqUJdizidlrmz1Tsb2uOZU2cGpxQ==
-X-Received: by 2002:adf:9e4d:: with SMTP id v13mr17055511wre.419.1631603952058; 
- Tue, 14 Sep 2021 00:19:12 -0700 (PDT)
+ b=sDpLzUsfcwlZHg5J+x+sqYr7tCct+kxuXNsmp+HmeRGUf9YDHPcDZGl/o34AqiPWk+
+ 5Ohtfc1s4q5oMP/0nII2hZmbQ/wNvylcLqlI5qA/x5JT7Br/TuSYvOlDrA2ga7nJh5XJ
+ LAntbIt51sr7ZIuWnQmRG59fRthT+h1UZXLg8TzHaTTn0G9xjQkCK7hJmEbxQuNaPJzq
+ MrJgf3//gG5IRQp95wnWJEtq9YJVFe/C/ITBFMwmnKGTLJOTlUsHGRNVD7VKqMUkaxXP
+ bJROt9VpH84YfDIT0Y1OT6UrIx0+CqBheOgqsQfv7yGkl01ac068FFdO1FZBHPdwKrwP
+ Nimg==
+X-Gm-Message-State: AOAM532Ef3pc4wYA8GLe3M377XTmuEtyAmgNLZ2BJLZIcgLwng6qJl/F
+ JZKmT7vuFiBHINXEYV9Wp0IPn3J57Q0=
+X-Google-Smtp-Source: ABdhPJy9z6CpITP67ev5Ol8EfatoT8ipd25xq3VsulzVTvvzDTCzJ1JtAavl6Y6hJgM8XBImgbNQUQ==
+X-Received: by 2002:adf:b748:: with SMTP id n8mr17074321wre.133.1631603979895; 
+ Tue, 14 Sep 2021 00:19:39 -0700 (PDT)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id o26sm261015wmc.17.2021.09.14.00.19.11
+ by smtp.gmail.com with ESMTPSA id k17sm9500325wrq.7.2021.09.14.00.19.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 00:19:11 -0700 (PDT)
-Subject: Re: [PATCH 2/3] block: flush the integrity workqueue in
- blk_integrity_unregister
+ Tue, 14 Sep 2021 00:19:39 -0700 (PDT)
+Subject: Re: [PATCH 3/3] nvme: remove the call to nvme_update_disk_info in
+ nvme_ns_remove
 To: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, martin.petersen@oracle.com
 Cc: Lihong Kou <koulihong@huawei.com>, kbusch@kernel.org,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
 References: <20210914070657.87677-1-hch@lst.de>
- <20210914070657.87677-3-hch@lst.de>
+ <20210914070657.87677-4-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <0057deed-40b0-b86b-e4c4-fbd77b45bbbb@grimberg.me>
-Date: Tue, 14 Sep 2021 10:19:10 +0300
+Message-ID: <dbb48ddd-dc90-782f-c129-275ad2f96ebf@grimberg.me>
+Date: Tue, 14 Sep 2021 10:19:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210914070657.87677-3-hch@lst.de>
+In-Reply-To: <20210914070657.87677-4-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210914_001914_203856_669944E8 
-X-CRM114-Status: UNSURE (   9.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210914_001942_030805_7B7607D4 
+X-CRM114-Status: GOOD (  10.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
