@@ -2,65 +2,65 @@ Return-Path: <SRS0=Ydhk=OG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24BDEC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 04:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FA5C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 16:46:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BB7A561186
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 04:42:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BB7A561186
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 50CFB63156
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 16:46:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 50CFB63156
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=55PrXi6hrA0wllT9lLUwdi1f6T2zYz0nRTKtaU2m1lI=; b=HdQVaWVfQ6fgEg
-	M6B8eH380dofjBXnrdyFwv5sbpqOTDKlg7sfQjq+iS0ibj5IPRMzC4V5S0fIMUOIGXRlDviLLRjFG
-	dgfR9fnRAQHCR2aNFfZK4xGlcgHutjD+DpW7mhgUWF9vYi0IfjI2+mCO94eT0pJ0F8Y9P+5lPY3n4
-	RcmdGfWtybPPot9i7PEp3L2qtdrPhop1OkXlDogajbCvZjCMY5fIMkuSv3skTqbSqBiBe4GZDofOW
-	RJH8d1dZfK3ADzeiwmN7GXPD836XgTRtGLc4/aJRkOWXOPAqY+hls9KexXkpD8u2THn+kq7TPM/GL
-	nKcaliExDfLO6qgJvMsA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=QIc1NJe9oNLgyqnlN05Ksz5UiPlUOXxOEjr6YTn4GmM=; b=KgKKVGPPuClYmh
+	v3ibIEq33O92tvdJwJlqLG1/unvXbp6gwvDZrE4/tHILDAgGekuAln5maAB+8qB1qc1lymoDyTDuk
+	yC+2oMvAs/BwhJ7RjBgTXTVvkUYDmWVQfd/9uPHdFP8Sucx7TV4ZQ4BdI1kDkezq9JqFGwt4BwWle
+	MLg2ujEZ8Gsj0cLJAYK8Y7eXwfARGBcw1gcN0H1BmoRfxAfOerPo1otW8kkmrwLgse5x7g6BWVFZi
+	engoT/4PTDFwbt7RefJ7wsD1UvXl4L/24gG3MyNP8tIOCCDTg2ibvB8GWV/F4N2iunVbnhtAGYPlG
+	YFCx7YwryZumN+F/VjTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mQjDV-00AJcv-EF; Thu, 16 Sep 2021 04:41:45 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1mQuWY-00Bjbx-Kf; Thu, 16 Sep 2021 16:46:10 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mQjDR-00AJcL-EC
- for linux-nvme@lists.infradead.org; Thu, 16 Sep 2021 04:41:43 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="222141577"
-X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="222141577"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 21:41:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="452791846"
-Received: from lkp-server01.sh.intel.com (HELO 285e7b116627) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 15 Sep 2021 21:41:32 -0700
-Received: from kbuild by 285e7b116627 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mQjDH-0000jg-O9; Thu, 16 Sep 2021 04:41:31 +0000
-Date: Thu, 16 Sep 2021 12:41:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.15] BUILD SUCCESS
- 70f437fb4395ad4d1d16fab9a1ad9fbc9fc0579b
-Message-ID: <6142cae6.wzfEcDheqP1g0uQ8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1mQuWQ-00BjZV-PF
+ for linux-nvme@lists.infradead.org; Thu, 16 Sep 2021 16:46:04 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C9EA261CF1;
+ Thu, 16 Sep 2021 16:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631810762;
+ bh=jP5fTIs88LGdjnSrW+yfsUCcjaX6LkhsJHWs7bAvVn8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RzNEmLaKUdnHwIjUMVGQNJdR1Wm7PIiE0BS+pYHE/vgoxAHknsMMhUvjdI0D4EfKx
+ qT4pqaxIBeCOVjOMTapiOKfvWvkyj+ng9Eq/3Qzb9+usGtTRev4nNAKC4tEFZIK1Rp
+ 3oanUlXKZiJgCXcY/BtajSIk/QRlVHg+41H/nWrw1yDlfJV2U+bblmyKGR1Di8wCMn
+ Bi/qfo4Z8gfJkcILI/gJVHXS4mBHdk73Uiao2gepEWGSGAdnDFPmphob892CNaG509
+ etLSTu7UIxUbOClKjdFs3STbd2emQ7BjtGhMU2inAsdus8i+s9+sp7EgkoXKP7lMAg
+ 4a1YmaVDIfeoA==
+Date: Thu, 16 Sep 2021 09:45:59 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH] nvme-tcp: fix incorrect h2cdata pdu offset accounting
+Message-ID: <20210916164559.GB3908552@dhcp-10-100-145-180.wdc.com>
+References: <20210914153855.16177-1-sagi@grimberg.me>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210914153855.16177-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210915_214141_561117_F56F4832 
-X-CRM114-Status: UNSURE (   7.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210916_094602_859657_0D6C2167 
+X-CRM114-Status: GOOD (  26.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,255 +77,74 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.15
-branch HEAD: 70f437fb4395ad4d1d16fab9a1ad9fbc9fc0579b  nvme-tcp: fix io_work priority inversion
+On Tue, Sep 14, 2021 at 06:38:55PM +0300, Sagi Grimberg wrote:
+> When the controller sends us multiple r2t PDUs in a single
+> request we need to account for it correctly as our send/recv
+> context run concurrently (i.e. we get a new r2t with r2t_offset
+> before we updated our iterator and req->data_sent marker). This
+> can cause wrong offsets to be sent to the controller.
+> 
+> To fix that, we will first know that this may happen only in
+> the send sequence of the last page, hence we will take
+> the r2t_offset to the h2c PDU data_offset, and in
+> nvme_tcp_try_send_data loop, we make sure to increment
+> the request markers also when we completed a PDU but
+> we are expecting more r2t PDUs as we still did not send
+> the entire data of the request.
+> 
+> Fixes: 825619b09ad3 ("nvme-tcp: fix possible use-after-completion")
+> Reported-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+> Tested-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> - Keith, can you ask the WD team to test this as well?
+> 
+>  drivers/nvme/host/tcp.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 645025620154..87b73eb94041 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -607,7 +607,7 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+>  		cpu_to_le32(data->hdr.hlen + hdgst + req->pdu_len + ddgst);
+>  	data->ttag = pdu->ttag;
+>  	data->command_id = nvme_cid(rq);
+> -	data->data_offset = cpu_to_le32(req->data_sent);
+> +	data->data_offset = pdu->r2t_offset;
 
-elapsed time: 2646m
+Shouldn't this be "le32_to_cpu(pdu->r2t_offset)"?
 
-configs tested: 227
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                              allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-i386                 randconfig-c001-20210916
-i386                 randconfig-c001-20210914
-nds32                            alldefconfig
-parisc                generic-64bit_defconfig
-powerpc                          g5_defconfig
-mips                         mpc30x_defconfig
-powerpc                      acadia_defconfig
-sh                        sh7785lcr_defconfig
-sh                   sh7724_generic_defconfig
-sh                          kfr2r09_defconfig
-sh                     sh7710voipgw_defconfig
-mips                 decstation_r4k_defconfig
-riscv                            alldefconfig
-mips                malta_qemu_32r6_defconfig
-arm                        mvebu_v5_defconfig
-arm                         vf610m4_defconfig
-powerpc                      ppc40x_defconfig
-sh                          rsk7201_defconfig
-arm                       aspeed_g4_defconfig
-sparc                            alldefconfig
-mips                          rb532_defconfig
-powerpc                     ksi8560_defconfig
-powerpc                 mpc834x_mds_defconfig
-powerpc                    socrates_defconfig
-powerpc                      cm5200_defconfig
-xtensa                          iss_defconfig
-arm                      jornada720_defconfig
-powerpc                    amigaone_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                 canyonlands_defconfig
-powerpc                     kmeter1_defconfig
-powerpc                 mpc836x_rdk_defconfig
-sh                           se7705_defconfig
-arm                            qcom_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                        magician_defconfig
-arm                         cm_x300_defconfig
-sh                          polaris_defconfig
-mips                        omega2p_defconfig
-arm                        multi_v5_defconfig
-arc                          axs103_defconfig
-arm                           corgi_defconfig
-m68k                        m5307c3_defconfig
-m68k                            mac_defconfig
-arm                     eseries_pxa_defconfig
-powerpc                     redwood_defconfig
-powerpc                      obs600_defconfig
-powerpc                      bamboo_defconfig
-m68k                       bvme6000_defconfig
-arm                           sunxi_defconfig
-arm                         axm55xx_defconfig
-arm                           sama5_defconfig
-arm                          ixp4xx_defconfig
-arm                          lpd270_defconfig
-ia64                          tiger_defconfig
-arm                      pxa255-idp_defconfig
-arc                           tb10x_defconfig
-arm                        oxnas_v6_defconfig
-powerpc                 mpc8315_rdb_defconfig
-mips                  cavium_octeon_defconfig
-arm                         s5pv210_defconfig
-arm                         assabet_defconfig
-mips                      pic32mzda_defconfig
-sh                        sh7763rdp_defconfig
-arm                        cerfcube_defconfig
-ia64                                defconfig
-nios2                            allyesconfig
-powerpc                    mvme5100_defconfig
-arm                       cns3420vb_defconfig
-mips                        nlm_xlr_defconfig
-sh                          r7785rp_defconfig
-m68k                       m5275evb_defconfig
-arm                           spitz_defconfig
-ia64                         bigsur_defconfig
-powerpc                 mpc837x_mds_defconfig
-powerpc                        icon_defconfig
-sh                                  defconfig
-riscv                    nommu_virt_defconfig
-i386                                defconfig
-s390                       zfcpdump_defconfig
-m68k                       m5249evb_defconfig
-powerpc                   lite5200b_defconfig
-mips                         cobalt_defconfig
-arm                         shannon_defconfig
-arm                  colibri_pxa300_defconfig
-s390                             alldefconfig
-riscv                          rv32_defconfig
-x86_64               randconfig-c001-20210914
-arm                  randconfig-c002-20210914
-x86_64               randconfig-c001-20210916
-arm                  randconfig-c002-20210916
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-arc                              allyesconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                             allmodconfig
-s390                                defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20210915
-x86_64               randconfig-a003-20210915
-x86_64               randconfig-a004-20210915
-x86_64               randconfig-a006-20210915
-x86_64               randconfig-a005-20210915
-x86_64               randconfig-a001-20210915
-i386                 randconfig-a004-20210915
-i386                 randconfig-a005-20210915
-i386                 randconfig-a006-20210915
-i386                 randconfig-a002-20210915
-i386                 randconfig-a001-20210915
-i386                 randconfig-a003-20210915
-x86_64               randconfig-a013-20210914
-x86_64               randconfig-a016-20210914
-x86_64               randconfig-a012-20210914
-x86_64               randconfig-a011-20210914
-x86_64               randconfig-a014-20210914
-x86_64               randconfig-a015-20210914
-x86_64               randconfig-a016-20210916
-x86_64               randconfig-a013-20210916
-x86_64               randconfig-a012-20210916
-x86_64               randconfig-a011-20210916
-x86_64               randconfig-a014-20210916
-x86_64               randconfig-a015-20210916
-i386                 randconfig-a016-20210914
-i386                 randconfig-a015-20210914
-i386                 randconfig-a011-20210914
-i386                 randconfig-a012-20210914
-i386                 randconfig-a013-20210914
-i386                 randconfig-a014-20210914
-i386                 randconfig-a016-20210916
-i386                 randconfig-a015-20210916
-i386                 randconfig-a011-20210916
-i386                 randconfig-a012-20210916
-i386                 randconfig-a013-20210916
-i386                 randconfig-a014-20210916
-riscv                randconfig-r042-20210916
-s390                 randconfig-r044-20210916
-arc                  randconfig-r043-20210916
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-riscv                randconfig-c006-20210914
-x86_64               randconfig-c007-20210914
-powerpc              randconfig-c003-20210914
-arm                  randconfig-c002-20210914
-i386                 randconfig-c001-20210914
-s390                 randconfig-c005-20210914
-riscv                randconfig-c006-20210916
-x86_64               randconfig-c007-20210916
-mips                 randconfig-c004-20210916
-powerpc              randconfig-c003-20210916
-arm                  randconfig-c002-20210916
-i386                 randconfig-c001-20210916
-s390                 randconfig-c005-20210916
-x86_64               randconfig-a002-20210916
-x86_64               randconfig-a003-20210916
-x86_64               randconfig-a006-20210916
-x86_64               randconfig-a004-20210916
-x86_64               randconfig-a005-20210916
-x86_64               randconfig-a001-20210916
-i386                 randconfig-a004-20210914
-i386                 randconfig-a005-20210914
-i386                 randconfig-a006-20210914
-i386                 randconfig-a002-20210914
-i386                 randconfig-a001-20210914
-i386                 randconfig-a003-20210914
-i386                 randconfig-a004-20210916
-i386                 randconfig-a005-20210916
-i386                 randconfig-a006-20210916
-i386                 randconfig-a002-20210916
-i386                 randconfig-a003-20210916
-i386                 randconfig-a001-20210916
-x86_64               randconfig-a013-20210915
-x86_64               randconfig-a016-20210915
-x86_64               randconfig-a012-20210915
-x86_64               randconfig-a011-20210915
-x86_64               randconfig-a014-20210915
-x86_64               randconfig-a015-20210915
-x86_64               randconfig-a002-20210914
-x86_64               randconfig-a003-20210914
-x86_64               randconfig-a004-20210914
-x86_64               randconfig-a006-20210914
-x86_64               randconfig-a005-20210914
-x86_64               randconfig-a001-20210914
-i386                 randconfig-a016-20210915
-i386                 randconfig-a015-20210915
-i386                 randconfig-a011-20210915
-i386                 randconfig-a012-20210915
-i386                 randconfig-a013-20210915
-i386                 randconfig-a014-20210915
-hexagon              randconfig-r045-20210914
-hexagon              randconfig-r041-20210914
-riscv                randconfig-r042-20210915
-hexagon              randconfig-r045-20210915
-s390                 randconfig-r044-20210915
-hexagon              randconfig-r041-20210915
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>  	data->data_length = cpu_to_le32(req->pdu_len);
+>  	return 0;
+>  }
+> @@ -939,7 +939,15 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>  			nvme_tcp_ddgst_update(queue->snd_hash, page,
+>  					offset, ret);
+>  
+> -		/* fully successful last write*/
+> +		/*
+> +		 * update the request iterator except for the last payload send
+> +		 * in the request where we don't want to modify it as we may
+> +		 * compete with the RX path completing the request.
+> +		 */
+> +		if (req->data_sent + ret < req->data_len)
+> +			nvme_tcp_advance_req(req, ret);
+> +
+> +		/* fully successful last send in current PDU */
+>  		if (last && ret == len) {
+>  			if (queue->data_digest) {
+>  				nvme_tcp_ddgst_final(queue->snd_hash,
+> @@ -951,7 +959,6 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>  			}
+>  			return 1;
+>  		}
+> -		nvme_tcp_advance_req(req, ret);
+>  	}
+>  	return -EAGAIN;
+>  }
+> -- 
+> 2.30.2
 
 _______________________________________________
 Linux-nvme mailing list
