@@ -5,16 +5,16 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9513C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 23:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 881E1C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 23:59:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6FC7E60EE2
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 23:56:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6FC7E60EE2
+	by mail.kernel.org (Postfix) with ESMTPS id 4CA2260EE2
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Sep 2021 23:59:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4CA2260EE2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,35 +24,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Cc:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=+/nHpw6Ew869BlbQN7hZmtu9Ws/5Z8uml6srJn6Ygb0=; b=yASivQrf/xlatM9HpDAVfFtn7f
-	9xtIJI8mS36S3UY5BMJy1dIdSHQBqzGykFJMD7/lvqO4F2ZE6sCNSzovGDIj7BnZCoNIiwCOhx1Re
-	k7snpZ04MH4SczMYFjhg5HiOXeemx5QNAZELcsHSt7GH6/NpJm/RsYCWRFH0USTxZ3Jfy7S+RiY9l
-	os57xMMEwW4RIAXkDGmgvFT6xxwmjL/vSZAlTPoWG8tF94J/mixQDy2mJQb1Imo2iZYPZSKTOFrtY
-	LXQRxYWZbki3VRIe9gx0fcIOrpFdnocFz5vv/Cj+GkGMABQ44gCfO3fIBLEvJEBz3ajw0ZKcPgb0/
-	TboK6jyQ==;
+	bh=P8S/M08xLiVx6oCfNbqYWMAN6AfWzB1Ufx9uIidYaB8=; b=f+/Pron/UVjMfkJRzB1sSOMjSl
+	yXmrTPGHyz2Z9G8ZDSHF5Gu/j8Oj/lnmyDjhfo6QDDNGqYRGm18V9Nn0RbKOyKz4Aky20OMgZ0adN
+	ZBXhoyV8EO6fHbtOoJT3ntTp1xWZtyLFlHfy8ilVcrCQjLwil1Ad/KAqPJAMadxf0J7eruhD0J4tl
+	tunNIhOXW/L0lyH3uZcKNa7tMP0K6qiMCrWMxBp/I17pzD8n40+m+sf9BEI6DjIa4LVJrl52ouebj
+	eu3/75xQGEoP6QQ1AEDTy1qGSRJe3IqR6lG8Ug1MBdz5yrzIvu6NPsG30RFjTCfPT71tMPMoobvJq
+	LoX1aMTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mR1Ev-00Clqw-5u; Thu, 16 Sep 2021 23:56:25 +0000
+	id 1mR1HB-00CmC0-J7; Thu, 16 Sep 2021 23:58:45 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mR10I-00CiVV-SG
- for linux-nvme@lists.infradead.org; Thu, 16 Sep 2021 23:41:21 +0000
+ id 1mR10O-00CiZn-Cr
+ for linux-nvme@lists.infradead.org; Thu, 16 Sep 2021 23:41:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=Yz7/Dg6RG5uFdKEWz7fCfOIaPt94X46Gov2AZcvx1yo=; b=Zs5M0NYfy/xXFIpoRhIv/Q09ZY
- ZNc/ktEXRqFRUQ+RWdFANpv1kwCS8ebErssaGlf7W80S5v4VxCqpX8RXs9LKkKbngodxeBilCfs5e
- CsjCMmoIudLnULI2ucZuyWZu1VJfOutGm7bhiIuXdjAXF8SnCtNM5TVY25JlXwPjkskE+Ks7mxijw
- 53vbhVCYOixN7WhIzEfOTo1VcRJet7jxCqs8dGnKkVqyx+aiA/RPQsEPYPPEWgn4+cGJ0kksM+vhV
- fQjwR64UCzxdbE/QXaFFwtchbj0IzuJ8j8PuKTF3bP28hlTQS/NsojchbXUwKQn8+6YayRpq1UHsl
- JEwRTA/Q==;
+ bh=0VjpBnfEXTqeS7LssS80lKjFqlCuU84Zlsdnl3oeMpI=; b=WZnD0MBgD7W6AB36XxHV2lNlDa
+ SODeMIPMBb4FiAUu1h8K0BRuZr+wkuBH47ULQS3On7unyZpf6n2CJV/MWBstSHLALzgicjsi48T9A
+ drgEvjZvNkjAGHUa7BgBzPBUfkztBKXx0bzWmS9ibJy8cDLqA8rssls1h5zUTJJ1aKh6TaT98AEcw
+ OJ2zxGyUTYNJj2qBLJsOa0KeqoHb/ALpMZ0NFi1QD3HxqIw1ONRoDaLusfWSWnoV+WGQ/8/v76b2R
+ tRk2S4oSQff3DebCOkRjenq9BSHH0bAStcFQUn6CsAtzk2DqEM5oM9ahRrKwzl30TBdHCiKrZODck
+ kL+MhWUg==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1mR10H-0008I1-GG; Thu, 16 Sep 2021 17:41:18 -0600
+ id 1mR10A-0008I3-AH; Thu, 16 Sep 2021 17:41:23 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mR104-000Vr1-5i; Thu, 16 Sep 2021 17:41:04 -0600
+ id 1mR106-000Vrm-7e; Thu, 16 Sep 2021 17:41:06 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -73,8 +73,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 16 Sep 2021 17:40:45 -0600
-Message-Id: <20210916234100.122368-6-logang@deltatee.com>
+Date: Thu, 16 Sep 2021 17:40:57 -0600
+Message-Id: <20210916234100.122368-18-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210916234100.122368-1-logang@deltatee.com>
 References: <20210916234100.122368-1-logang@deltatee.com>
@@ -90,13 +90,12 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
  martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v3 05/20] dma-mapping: allow EREMOTEIO return code for P2PDMA
- transfers
+Subject: [PATCH v3 17/20] block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210916_164119_266443_45D4463D 
-X-CRM114-Status: GOOD (  12.68  )
+X-CRM114-CacheID: sfid-20210916_164124_529007_F439FD03 
+X-CRM114-Status: GOOD (  11.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,49 +112,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add EREMOTEIO error return to dma_map_sgtable() which will be used
-by .map_sg() implementations that detect P2PDMA pages that the
-underlying DMA device cannot access.
+When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
+iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be
+passed from userspace and enables the NVMe passthru requests to
+use P2PDMA pages.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- kernel/dma/mapping.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ block/blk-map.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 7ee5284bff58..7315ae31cf1d 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -197,7 +197,7 @@ static int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 	if (ents > 0)
- 		debug_dma_map_sg(dev, sg, nents, ents, dir);
- 	else if (WARN_ON_ONCE(ents != -EINVAL && ents != -ENOMEM &&
--			      ents != -EIO))
-+			      ents != -EIO && ents != -EREMOTEIO))
- 		return -EIO;
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 4526adde0156..7508448e290c 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -234,6 +234,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		gfp_t gfp_mask)
+ {
+ 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
++	unsigned int flags = 0;
+ 	struct bio *bio;
+ 	int ret;
+ 	int j;
+@@ -246,13 +247,17 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		return -ENOMEM;
+ 	bio->bi_opf |= req_op(rq);
  
- 	return ents;
-@@ -248,12 +248,14 @@ EXPORT_SYMBOL(dma_map_sg_attrs);
-  * Returns 0 on success or a negative error code on error. The following
-  * error codes are supported with the given meaning:
-  *
-- *   -EINVAL - An invalid argument, unaligned access or other error
-- *	       in usage. Will not succeed if retried.
-- *   -ENOMEM - Insufficient resources (like memory or IOVA space) to
-- *	       complete the mapping. Should succeed if retried later.
-- *   -EIO    - Legacy error code with an unknown meaning. eg. this is
-- *	       returned if a lower level call returned DMA_MAPPING_ERROR.
-+ *   -EINVAL	- An invalid argument, unaligned access or other error
-+ *		  in usage. Will not succeed if retried.
-+ *   -ENOMEM	- Insufficient resources (like memory or IOVA space) to
-+ *		  complete the mapping. Should succeed if retried later.
-+ *   -EIO	- Legacy error code with an unknown meaning. eg. this is
-+ *	          returned if a lower level call returned DMA_MAPPING_ERROR.
-+ *   -EREMOTEIO	- The DMA device cannot access P2PDMA memory specified in
-+ *		  the sg_table. This will not succeed if retried.
-  */
- int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
- 		    enum dma_data_direction dir, unsigned long attrs)
++	if (blk_queue_pci_p2pdma(rq->q))
++		flags |= FOLL_PCI_P2PDMA;
++
+ 	while (iov_iter_count(iter)) {
+ 		struct page **pages;
+ 		ssize_t bytes;
+ 		size_t offs, added = 0;
+ 		int npages;
+ 
+-		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
++		bytes = iov_iter_get_pages_alloc_flags(iter, &pages, LONG_MAX,
++						       &offs, flags);
+ 		if (unlikely(bytes <= 0)) {
+ 			ret = bytes ? bytes : -EFAULT;
+ 			goto out_unmap;
 -- 
 2.30.2
 
