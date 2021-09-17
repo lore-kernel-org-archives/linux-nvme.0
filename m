@@ -2,100 +2,77 @@ Return-Path: <SRS0=CCYl=OH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB0DC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Sep 2021 00:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73467C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Sep 2021 03:10:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8F4486105A
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Sep 2021 00:04:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8F4486105A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3D15460F26
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Sep 2021 03:10:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3D15460F26
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:References:
-	In-Reply-To:Message-Id:Date:Cc:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=Y2KTrBYiKF49AU0AGS53iszFt8G82lqb63OibUPvSnM=; b=OmJRerov+Gjdd9/i/sWn0lbMQF
-	fIQfC7lG0jcCMfD/sMhGg8oNZmXUDM94BmkR9E/D3mSopEZnaTXgCqbqGnH9AVhdbdn/S6sPsm6aJ
-	B3DkrwuDwLA5+vvWaYsLpm0oCuEDbYnseH1fQpGyiLaE3yYq/gEqZcoJeB8nCyQu5W3dBCz1dnrLa
-	d+Vw5UzeZVxrDUGjbkkTxE5apwOxZSaKbwgYH5EAIajqPaiaMoq8UOpSnOzp1VlUBlgWUepvW2N40
-	LN92j+FRp6wer10/5LfBrXzHWyCD83DXgwqZeiLnqCn+EGmMEN6w3pbY/OBn4Sr2aUm3SsHIumPpa
-	jRtex6PA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=HlOzMKdJBNipQZO9SGEaMe5a5DAm3DBFjMZJ5KAQ52w=; b=zlaT6wQcC6/Z+3
+	ODXzL12GaAuE4WhMIRTpyVpGF+P4lYhUcePn/FdlMPGDzih9XpNFGvcEWqErp7NSC/j3Jw3O0JgmI
+	O8OpmTuC7MvzoQAfd+JrQrBwbWUirkIbm/73enpCYxYaikHxWCxyxOpT1Q13jS/yWugypdxZEqOuB
+	pE9W6Dm5f2K1wAkGcFXUdVp5zxdjmO0jIi10obuOafWKyk+rLR2q1z4fLQuZmJSxaH2C+6U5Q3hS2
+	fPW/wrBzuBqesAyvuNTTGb+bVuL0INLKObJL+FPruKXuVqzX/5aUvcHzYn9A/WMlaOnareQ1Ds9YK
+	+s6YgZUVLTocTa1whgsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mR1M8-00Cn3W-1b; Fri, 17 Sep 2021 00:03:52 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1mR4GH-00D7RJ-Nw; Fri, 17 Sep 2021 03:10:01 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mR10O-00CiZo-El
- for linux-nvme@lists.infradead.org; Thu, 16 Sep 2021 23:41:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=ldkK6FksW6AxBSIsN/n+YIWPajMSW0GYq8IzRYvtFoM=; b=OMj+IXhA0JlmDcMTNtuw+2naNo
- h+aSEBqNXGALEhnyVoJJQ02Zj7o7Zc9QOB+HlQGmZ1MdLz/kYLSgLKXn3vNz4ZouyEjt5er7gupt5
- z33xIhm/pO6gFpEIcnqKlAvm9oUXO347Qddi9w6t//UZb/L7JZH7xFHh33H6AhrWylBygyn17hAvR
- /H1rKFjBtB7mFHaD4INKJGVdTq9Lo+eQ+MB6SpwSuitUO/WBujObJ655/GoumkDOgj9twvXY2vM0F
- 47f1/CRT1Dc+KenE0m9BVndGCJMkc2kcmbKYHLNSMJpiFZ895GlsBV2IabtQxZ81oTtdlhF9V5ps0
- h1jpMxjA==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1mR10A-0008Hz-91; Thu, 16 Sep 2021 17:41:23 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
- 4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mR106-000Vrq-CV; Thu, 16 Sep 2021 17:41:06 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Logan Gunthorpe <logang@deltatee.com>
-Date: Thu, 16 Sep 2021 17:40:58 -0600
-Message-Id: <20210916234100.122368-19-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210916234100.122368-1-logang@deltatee.com>
-References: <20210916234100.122368-1-logang@deltatee.com>
+ id 1mR4GE-00D7Qj-0B
+ for linux-nvme@lists.infradead.org; Fri, 17 Sep 2021 03:09:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631848195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=n9ORYpjzpwp6Ym/dMpPDG+8FjhqIkwMtITEMI6byja0=;
+ b=hxtR0YR3eGHDMlmUHMPVXExJC8tE/mDmSIzZL8GmIHg1ljmdB3an3iKOOqb8v9IwaSWmYz
+ eWMRRLJETmrRqre7UmsK8TS+xq0WVniqscWu4ToRac+P61xj9WrP0Yq3h7iSMd78DbthbM
+ T9eSoJKt6osRQiR0l0/M2+WkmuzBAac=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-XDDPBJQaO7SluvD-owoirA-1; Thu, 16 Sep 2021 23:09:53 -0400
+X-MC-Unique: XDDPBJQaO7SluvD-owoirA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79749824FA6;
+ Fri, 17 Sep 2021 03:09:32 +0000 (UTC)
+Received: from dhcp-12-105.nay.redhat.com (unknown [10.66.61.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D090510013D7;
+ Fri, 17 Sep 2021 03:09:30 +0000 (UTC)
+From: Yi Zhang <yi.zhang@redhat.com>
+To: bvanassche@acm.org,
+	osandov@osandov.com
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH V2 blktests] nvmeof-mp/001: fix failure when CONFIG_NVME_HWMON
+ enabled
+Date: Fri, 17 Sep 2021 11:09:11 +0800
+Message-Id: <20210917030911.25646-1-yi.zhang@redhat.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, jhubbard@nvidia.com,
- ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch,
- jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org,
- dan.j.williams@intel.com, andrzej.jakowski@intel.com, dave.b.minturn@intel.com,
- jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com,
- martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v3 18/20] mm: use custom page_free for P2PDMA pages
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210916_164124_604331_8DA2B889 
-X-CRM114-Status: GOOD (  17.90  )
+X-CRM114-CacheID: sfid-20210916_200958_164544_B644E9E0 
+X-CRM114-Status: UNSURE (   9.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,80 +84,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-V2hlbiBQMlBETUEgcGFnZXMgYXJlIHBhc3NlZCB0byB1c2Vyc3BhY2UsIHRoZXkgd2lsbCBuZWVk
-IHRvIGJlCnJlZmVyZW5jZSBjb3VudGVkIHByb3Blcmx5IGFuZCByZXR1cm5lZCB0byB0aGVpciBn
-ZW5hbGxvYyBhZnRlciB0aGVpcgpyZWZlcmVuY2UgY291bnQgcmV0dXJucyB0byAxLiBUaGlzIGlz
-IGFjY29tcGxpc2hlZCB3aXRoIHRoZSBleGlzdGluZwpERVZfUEFHRU1BUF9PUFMgYW5kIHRoZSAu
-cGFnZV9mcmVlKCkgb3BlcmF0aW9uLgoKQ2hhbmdlIENPTkZJR19QMlBETUEgdG8gc2VsZWN0IENP
-TkZJR19ERVZfUEFHRU1BUF9PUFMgYW5kIGFkZApNRU1PUllfREVWSUNFX1BDSV9QMlBETUEgdG8g
-cGFnZV9pc19kZXZtYXBfbWFuYWdlZCgpLApkZXZtYXBfbWFuYWdlZF9lbmFibGVfW3B1dHxnZXRd
-KCkgYW5kIGZyZWVfZGV2bWFwX21hbmFnZWRfcGFnZSgpLgoKU2lnbmVkLW9mZi1ieTogTG9nYW4g
-R3VudGhvcnBlIDxsb2dhbmdAZGVsdGF0ZWUuY29tPgotLS0KIGRyaXZlcnMvcGNpL0tjb25maWcg
-IHwgIDEgKwogZHJpdmVycy9wY2kvcDJwZG1hLmMgfCAxMyArKysrKysrKysrKysrCiBpbmNsdWRl
-L2xpbnV4L21tLmggICB8ICAxICsKIG1tL21lbXJlbWFwLmMgICAgICAgIHwgMTIgKysrKysrKysr
-LS0tCiA0IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvS2NvbmZpZyBiL2RyaXZlcnMvcGNpL0tjb25maWcKaW5k
-ZXggOTBiNGJkZGIzMzAwLi5iMzFkMzUyNTlkM2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL0tj
-b25maWcKKysrIGIvZHJpdmVycy9wY2kvS2NvbmZpZwpAQCAtMTY1LDYgKzE2NSw3IEBAIGNvbmZp
-ZyBQQ0lfUDJQRE1BCiAJYm9vbCAiUENJIHBlZXItdG8tcGVlciB0cmFuc2ZlciBzdXBwb3J0Igog
-CWRlcGVuZHMgb24gWk9ORV9ERVZJQ0UgJiYgNjRCSVQKIAlzZWxlY3QgR0VORVJJQ19BTExPQ0FU
-T1IKKwlzZWxlY3QgREVWX1BBR0VNQVBfT1BTCiAJaGVscAogCSAgRW5hYmxl0ZUgZHJpdmVycyB0
-byBkbyBQQ0kgcGVlci10by1wZWVyIHRyYW5zYWN0aW9ucyB0byBhbmQgZnJvbQogCSAgQkFScyB0
-aGF0IGFyZSBleHBvc2VkIGluIG90aGVyIGRldmljZXMgdGhhdCBhcmUgdGhlIHBhcnQgb2YKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvcGNpL3AycGRtYS5jIGIvZHJpdmVycy9wY2kvcDJwZG1hLmMKaW5k
-ZXggNDQ3ODYzMzM0NmJkLi4yNDIyYWY1YTUyOWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL3Ay
-cGRtYS5jCisrKyBiL2RyaXZlcnMvcGNpL3AycGRtYS5jCkBAIC0xMDAsNiArMTAwLDE4IEBAIHN0
-YXRpYyBjb25zdCBzdHJ1Y3QgYXR0cmlidXRlX2dyb3VwIHAycG1lbV9ncm91cCA9IHsKIAkubmFt
-ZSA9ICJwMnBtZW0iLAogfTsKIAorc3RhdGljIHZvaWQgcDJwZG1hX3BhZ2VfZnJlZShzdHJ1Y3Qg
-cGFnZSAqcGFnZSkKK3sKKwlzdHJ1Y3QgcGNpX3AycGRtYV9wYWdlbWFwICpwZ21hcCA9IHRvX3Ay
-cF9wZ21hcChwYWdlLT5wZ21hcCk7CisKKwlnZW5fcG9vbF9mcmVlKHBnbWFwLT5wcm92aWRlci0+
-cDJwZG1hLT5wb29sLAorCQkgICAgICAodWludHB0cl90KXBhZ2VfdG9fdmlydChwYWdlKSwgUEFH
-RV9TSVpFKTsKK30KKworc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZfcGFnZW1hcF9vcHMgcDJwZG1h
-X3BnbWFwX29wcyA9IHsKKwkucGFnZV9mcmVlID0gcDJwZG1hX3BhZ2VfZnJlZSwKK307CisKIHN0
-YXRpYyB2b2lkIHBjaV9wMnBkbWFfcmVsZWFzZSh2b2lkICpkYXRhKQogewogCXN0cnVjdCBwY2lf
-ZGV2ICpwZGV2ID0gZGF0YTsKQEAgLTE5Nyw2ICsyMDksNyBAQCBpbnQgcGNpX3AycGRtYV9hZGRf
-cmVzb3VyY2Uoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGludCBiYXIsIHNpemVfdCBzaXplLAogCXBn
-bWFwLT5yYW5nZS5lbmQgPSBwZ21hcC0+cmFuZ2Uuc3RhcnQgKyBzaXplIC0gMTsKIAlwZ21hcC0+
-bnJfcmFuZ2UgPSAxOwogCXBnbWFwLT50eXBlID0gTUVNT1JZX0RFVklDRV9QQ0lfUDJQRE1BOwor
-CXBnbWFwLT5vcHMgPSAmcDJwZG1hX3BnbWFwX29wczsKIAogCXAycF9wZ21hcC0+cHJvdmlkZXIg
-PSBwZGV2OwogCXAycF9wZ21hcC0+YnVzX29mZnNldCA9IHBjaV9idXNfYWRkcmVzcyhwZGV2LCBi
-YXIpIC0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW0uaCBiL2luY2x1ZGUvbGludXgvbW0u
-aAppbmRleCA2YWZkYzA5ZDA3MTIuLjlhNmVhMDBlNTI5MiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9s
-aW51eC9tbS5oCisrKyBiL2luY2x1ZGUvbGludXgvbW0uaApAQCAtMTE2Myw2ICsxMTYzLDcgQEAg
-c3RhdGljIGlubGluZSBib29sIHBhZ2VfaXNfZGV2bWFwX21hbmFnZWQoc3RydWN0IHBhZ2UgKnBh
-Z2UpCiAJc3dpdGNoIChwYWdlLT5wZ21hcC0+dHlwZSkgewogCWNhc2UgTUVNT1JZX0RFVklDRV9Q
-UklWQVRFOgogCWNhc2UgTUVNT1JZX0RFVklDRV9GU19EQVg6CisJY2FzZSBNRU1PUllfREVWSUNF
-X1BDSV9QMlBETUE6CiAJCXJldHVybiB0cnVlOwogCWRlZmF1bHQ6CiAJCWJyZWFrOwpkaWZmIC0t
-Z2l0IGEvbW0vbWVtcmVtYXAuYyBiL21tL21lbXJlbWFwLmMKaW5kZXggY2VlYmRiOGE3MmJiLi5m
-YmRjOTk5MWFmMGUgMTAwNjQ0Ci0tLSBhL21tL21lbXJlbWFwLmMKKysrIGIvbW0vbWVtcmVtYXAu
-YwpAQCAtNDQsMTQgKzQ0LDE2IEBAIEVYUE9SVF9TWU1CT0woZGV2bWFwX21hbmFnZWRfa2V5KTsK
-IHN0YXRpYyB2b2lkIGRldm1hcF9tYW5hZ2VkX2VuYWJsZV9wdXQoc3RydWN0IGRldl9wYWdlbWFw
-ICpwZ21hcCkKIHsKIAlpZiAocGdtYXAtPnR5cGUgPT0gTUVNT1JZX0RFVklDRV9QUklWQVRFIHx8
-Ci0JICAgIHBnbWFwLT50eXBlID09IE1FTU9SWV9ERVZJQ0VfRlNfREFYKQorCSAgICBwZ21hcC0+
-dHlwZSA9PSBNRU1PUllfREVWSUNFX0ZTX0RBWCB8fAorCSAgICBwZ21hcC0+dHlwZSA9PSBNRU1P
-UllfREVWSUNFX1BDSV9QMlBETUEpCiAJCXN0YXRpY19icmFuY2hfZGVjKCZkZXZtYXBfbWFuYWdl
-ZF9rZXkpOwogfQogCiBzdGF0aWMgdm9pZCBkZXZtYXBfbWFuYWdlZF9lbmFibGVfZ2V0KHN0cnVj
-dCBkZXZfcGFnZW1hcCAqcGdtYXApCiB7CiAJaWYgKHBnbWFwLT50eXBlID09IE1FTU9SWV9ERVZJ
-Q0VfUFJJVkFURSB8fAotCSAgICBwZ21hcC0+dHlwZSA9PSBNRU1PUllfREVWSUNFX0ZTX0RBWCkK
-KwkgICAgcGdtYXAtPnR5cGUgPT0gTUVNT1JZX0RFVklDRV9GU19EQVggfHwKKwkgICAgcGdtYXAt
-PnR5cGUgPT0gTUVNT1JZX0RFVklDRV9QQ0lfUDJQRE1BKQogCQlzdGF0aWNfYnJhbmNoX2luYygm
-ZGV2bWFwX21hbmFnZWRfa2V5KTsKIH0KICNlbHNlCkBAIC0zNTUsNiArMzU3LDEwIEBAIHZvaWQg
-Km1lbXJlbWFwX3BhZ2VzKHN0cnVjdCBkZXZfcGFnZW1hcCAqcGdtYXAsIGludCBuaWQpCiAJY2Fz
-ZSBNRU1PUllfREVWSUNFX0dFTkVSSUM6CiAJCWJyZWFrOwogCWNhc2UgTUVNT1JZX0RFVklDRV9Q
-Q0lfUDJQRE1BOgorCQlpZiAoIXBnbWFwLT5vcHMtPnBhZ2VfZnJlZSkgeworCQkJV0FSTigxLCAi
-TWlzc2luZyBwYWdlX2ZyZWUgbWV0aG9kXG4iKTsKKwkJCXJldHVybiBFUlJfUFRSKC1FSU5WQUwp
-OworCQl9CiAJCXBhcmFtcy5wZ3Byb3QgPSBwZ3Byb3Rfbm9uY2FjaGVkKHBhcmFtcy5wZ3Byb3Qp
-OwogCQlicmVhazsKIAlkZWZhdWx0OgpAQCAtNTA0LDcgKzUxMCw3IEBAIEVYUE9SVF9TWU1CT0xf
-R1BMKGdldF9kZXZfcGFnZW1hcCk7CiB2b2lkIGZyZWVfZGV2bWFwX21hbmFnZWRfcGFnZShzdHJ1
-Y3QgcGFnZSAqcGFnZSkKIHsKIAkvKiBub3RpZnkgcGFnZSBpZGxlIGZvciBkYXggKi8KLQlpZiAo
-IWlzX2RldmljZV9wcml2YXRlX3BhZ2UocGFnZSkpIHsKKwlpZiAoIWlzX2RldmljZV9wcml2YXRl
-X3BhZ2UocGFnZSkgJiYgIWlzX3BjaV9wMnBkbWFfcGFnZShwYWdlKSkgewogCQl3YWtlX3VwX3Zh
-cigmcGFnZS0+X3JlZmNvdW50KTsKIAkJcmV0dXJuOwogCX0KLS0gCjIuMzAuMgoKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGlu
-ZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
-ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+skip checking ng0n1/hwmon5 in count_devices
+
+$ use_siw=1  ./check nvmeof-mp/001
+nvmeof-mp/001 (Log in and log out)                           [failed]
+    runtime  3.695s  ...  4.002s
+    --- tests/nvmeof-mp/001.out	2021-09-12 05:35:17.866892187 -0400
+    +++ /root/blktests/results/nodev/nvmeof-mp/001.out.bad	2021-09-12 06:49:25.621880616 -0400
+    @@ -1,3 +1,3 @@
+     Configured NVMe target driver
+    -count_devices(): 1 <> 1
+    +count_devices(): 3 <> 1
+     Passed
+$ ls -l /sys/class/nvme-fabrics/ctl/*/*/device
+lrwxrwxrwx. 1 root root 0 Sep 12 06:49 /sys/class/nvme-fabrics/ctl/nvme0/hwmon5/device -> ../../nvme0
+lrwxrwxrwx. 1 root root 0 Sep 12 06:49 /sys/class/nvme-fabrics/ctl/nvme0/ng0n1/device -> ../../nvme0
+lrwxrwxrwx. 1 root root 0 Sep 12 06:49 /sys/class/nvme-fabrics/ctl/nvme0/nvme0n1/device -> ../../nvme0
+
+Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
+---
+V2: update regex to hwmon[0-9]+|ng[0-9]+n[0-9]+
+
+---
+ tests/nvmeof-mp/001 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/nvmeof-mp/001 b/tests/nvmeof-mp/001
+index 69f1e24..f3e6394 100755
+--- a/tests/nvmeof-mp/001
++++ b/tests/nvmeof-mp/001
+@@ -11,6 +11,7 @@ count_devices() {
+ 	local d devs=0
+ 
+ 	for d in /sys/class/nvme-fabrics/ctl/*/*/device; do
++		[[ "$d" =~ hwmon[0-9]+|ng[0-9]+n[0-9]+ ]] && continue
+ 		[ -d "$d" ] && ((devs++))
+ 	done
+ 	echo "$devs"
+-- 
+2.21.3
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
