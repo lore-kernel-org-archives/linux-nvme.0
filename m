@@ -2,19 +2,19 @@ Return-Path: <SRS0=MITl=OJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A517C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Sep 2021 14:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CF8C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 19 Sep 2021 14:06:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D336461019
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Sep 2021 14:01:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D336461019
+	by mail.kernel.org (Postfix) with ESMTPS id 765D060FF2
+	for <linux-nvme@archiver.kernel.org>; Sun, 19 Sep 2021 14:06:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 765D060FF2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,59 +23,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=nX0eQX29/HYg6yTKwTfR4ClGHE
-	O5xmRq3vzgbXhouPPC7KE91IlfxTHMgYn7sxrBjqdgnvwt9XBdIDC/xhNgwQeMaErSEIMptVSdV5p
-	WAn9UhX+RowoJw8XH9T1587DkV3S/5ySDyBPv0s5+rD0w1dsUYkoCROsWYUxbIzEeY1mvjXLU7s9w
-	fM5jMmXOIphJOUzzlRFVtuXNw0z5oULfcGrOAIv0myotguutW6xEsSQwyV4fIpcKK0LPX2CnPAdOa
-	aBBM9cSh+VLpgkqgxC0OAN5q1l8sxL9SFS4FTspD2ZS+9taW0Y4jZ5Ops/rBPywMiI8SJDwiSjmrs
-	pn2YlCdw==;
+	bh=Dx74MkwuDuF1jvIN391QWNV+RlUulZCHEbtz+p2UDuw=; b=SmSaT+IDlpgn/9Uum0cutRkGVT
+	weMK+6zkNAuyXht0JI3GRIxuJfCj5OF1K4MAzw7cJ9QZRr5Ox2GQBYXmahn852mulQFkbQVXaxRfP
+	uYFzMF59HvtyVraqDza1Ofb+6nX/4TRQlQAIDVHSqrUPVeLARkHnT12PPnyvpvfsYY18R0x1R+eBF
+	uU7Mo2Fe56Drcdld1HgfzSdwhbeoMA9JWqWge7otWaimdRV9684Po3vOezYwt7YnhcFLM3MYnD2s5
+	ih6pA6eY3QuoJT9sTXQHVmF1ZCFQg6XHSslGojlu6sYSPQ1xPw+NMts31pvbcV+A6ONR6epYBGJ12
+	t1pXbxyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mRxO0-00HODl-3Y; Sun, 19 Sep 2021 14:01:40 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1mRxS2-00HOOf-MM; Sun, 19 Sep 2021 14:05:50 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mRxNx-00HOD4-0y
- for linux-nvme@lists.infradead.org; Sun, 19 Sep 2021 14:01:38 +0000
-Received: by mail-wr1-f46.google.com with SMTP id i23so23904518wrb.2
- for <linux-nvme@lists.infradead.org>; Sun, 19 Sep 2021 07:01:31 -0700 (PDT)
+ id 1mRxRz-00HOOF-8P
+ for linux-nvme@lists.infradead.org; Sun, 19 Sep 2021 14:05:48 +0000
+Received: by mail-wm1-f43.google.com with SMTP id 140so11100916wma.0
+ for <linux-nvme@lists.infradead.org>; Sun, 19 Sep 2021 07:05:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=qYp4DLGGuoAcfcZEmdaT3LTenkRPO+mNBokv0MNb0HWFH/rxVUMkvcdigtTl9hiYyP
- P3qygN2NiD9SYb9zmm/DqOpx+zM3YPEvu85p0JIfZL4CmzqwEv+qx7j8RFsHfm4uiK10
- 8ja22CgPiXTAaqSb+D6pm3uURxkD65ILeSWNm4nek2TdMSLIGb0zYsFDL7w/VEIEuvYw
- SkBDsOwK4TmPbR5zHgmlQV25rLHSHekWf0Lcmct4lPdleu1dCpwlSkOiuTyYdum+cvc6
- OqaeksIC/28XVFH0/WjPR268LPDwqqXsySMfFlJu3lc7CCiofCb6lwGnPAc2BkdGrn63
- Gwqw==
-X-Gm-Message-State: AOAM533WsJQAPznrx4NfrWWojehbc2ts0iaOPFXSfQv0Yc/vrs8CJrjf
- 5WDHZunt10CEMEyVzSoHvIk=
-X-Google-Smtp-Source: ABdhPJzyVVJ1ZNecpJWVF8P5OfIWPV3PsPPlN90BubQwaPCIqGXjHS25Qm+4OhTXG/PjmVZvDRXy3g==
-X-Received: by 2002:adf:fe0b:: with SMTP id n11mr23378134wrr.371.1632060090591; 
- Sun, 19 Sep 2021 07:01:30 -0700 (PDT)
+ bh=khZ1gp0podNVgaw/YKgLQm3PIjqOC5aasDptwlPkZhs=;
+ b=BG24Yqm3SVUAVcuXqmYJxPPC3scnLl2gD6HD+TbXjBTbTCConGk39N/duJryTarowj
+ 29i5xxpsl9qOxQa9mc+qjVVpaoVMg6ay0HgKXxW6M/jk/OhXmj4Iy+l0SuKZL7UvpYx3
+ VsZ6zQ5EPu6TdaqE+dNVxTd/WtYfDLsZgjec4rh2e8YIYbRmTwAo0NtmcpOe7MPmFyPp
+ GK1F+2X64ubvOXgLp8k5XTb+ATYYcAdZazTmVI+RrHvnED1lz3oodxFAnMXB5rKF86Wk
+ 7B3KfkuQCcriO9URLuvuum9tRC5j0x3ATyANepqt7uYV8c0BO9FfsFTP7G2A9aa0pUqQ
+ uoZw==
+X-Gm-Message-State: AOAM532+Nb9zGg5JJb1HgI45UBJslzsGz3/z1J9DhHKAThyHdrzQxcFj
+ lp5bIwzjsB+VfBNuamAHmWs=
+X-Google-Smtp-Source: ABdhPJxivPbx22GUPOnZ+Dn7HqMibFM4sRtTJfrTzwwzqLQeQTaV0wEVyjlNoAZlkphl8BJ4vQNdSg==
+X-Received: by 2002:a7b:cc96:: with SMTP id p22mr20048519wma.83.1632060345686; 
+ Sun, 19 Sep 2021 07:05:45 -0700 (PDT)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id c14sm7063935wrd.50.2021.09.19.07.01.29
+ by smtp.gmail.com with ESMTPSA id d9sm16192667wrb.36.2021.09.19.07.05.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 07:01:30 -0700 (PDT)
-Subject: Re: [PATCH V2] fabrics: fix return value of hostnqn_read_file()
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, Chaitanya Kulkarni <kch@nvidia.com>
-References: <20210916230312.84776-1-chaitanyak@nvidia.com>
+ Sun, 19 Sep 2021 07:05:45 -0700 (PDT)
+Subject: Re: [PATCH nvme-cli 0/2] add "State" field in command "nvme list"
+To: chengjike <chengjike.cheng@huawei.com>, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org
+Cc: sunao.sun@huawei.com, jiangtao62@huawei.com
+References: <20210915132912.3004-1-chengjike.cheng@huawei.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <9aad23dc-7000-7e6b-aad1-6e4bead982d2@grimberg.me>
-Date: Sun, 19 Sep 2021 17:01:28 +0300
+Message-ID: <efc0a9d9-0ebd-e90b-faf0-3ee8c53d4f98@grimberg.me>
+Date: Sun, 19 Sep 2021 17:05:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210916230312.84776-1-chaitanyak@nvidia.com>
+In-Reply-To: <20210915132912.3004-1-chengjike.cheng@huawei.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210919_070137_112524_C52100F8 
-X-CRM114-Status: UNSURE (   9.08  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210919_070547_356736_6EB7E170 
+X-CRM114-Status: GOOD (  16.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,7 +92,22 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+> When NVMe Subsystem is connected with one or more controllers via fabric, such as NVMe-oF over RDMA,
+> if some links are down, some nvme disks on the host are faulty and they won't be deleted immediately.
+> But the "nvme list" command does not show these faulty disks.
+> So add "State" field  in command "nvme list", and display the status of each disk for users.
+> For example:
+> [root@localhost nvme-cli]# nvme list
+> Node        SN                   Model         Namespace Usage                    Format           FW Rev   Status
+> ----------- -------------------- ------------- --------- ------------------------ ---------------- -------- --------
+> nvme0n2     25658552656655456265 Huawei-XSG1   2         2.83  GB /  10.74  GB    512   B +  0 B   1000001  live
+> nvme0n1     25658552656655456265 Huawei-XSG1   1         2.78  GB /  10.74  GB    512   B +  0 B   1000001  faulty
+> [root@localhost nvme-cli]#
+
+State is too generic, Maybe "Path Access" or something?
+The point here is to provide general feedback for the user to go and
+look in nvme list-subsys?
 
 _______________________________________________
 Linux-nvme mailing list
