@@ -2,76 +2,87 @@ Return-Path: <SRS0=JSVl=OK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD5F0C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Sep 2021 13:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E7BBC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Sep 2021 14:59:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADB486109D
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Sep 2021 13:04:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org ADB486109D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=fused.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4CF4B61077
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Sep 2021 14:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4CF4B61077
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:Subject:
-	From:To:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=T1Z3aljYiO/ScLIJjy8V6TEkaEJ3jquuogoTXCZYkrA=; b=41dTG0AhvVOSkX
-	A9PDKbIy/xFkroqXQYb+n6X3Psxcvzpbif8l49pteIVtcZjKz+oQSMNKf2IyPCIta3h7OZvJtVNba
-	CnwFMKWkJf1CMqSqFKMO0do8oob6tjMsr43qv/7ZaCbD5YaRmEjnj+os6FOxKksnQ32TO553SmSbq
-	e/Nc/9djADUfj+rSxbnaNaiJ+TIO3AVQLgokXaHMpNW0ipTvQ4mBqW88S8pXQL2gMukOL5jfislGG
-	2haEqxuAR5qFl/ZRCFCBRFOgqc7ZkSTiPhiXeY6MwV7l4qeW8tcQ1hQlvghCgRd5EYaiApuDo/YvI
-	TGXT4OL2F54ywmYvimyg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=6ckm6RBlbbX/DUHMCoN8LoTZIleIfyJDxVw8UrqBTCg=; b=YXKQoWEFQRo/Mq
+	BB2ilobyBDg85mZ/qzgK1dEob41De8Dur0Q2t5vxuiKY2QO9oWinxOvIyu/ZHaEDzVaOJRS45KnX2
+	11mPZiIB8w1P3jKwBIR+Go7Ip7/n6X/HZJpvXnZ3kl2eqrWjQy0axvEXXd0cdw6PQE+IvE14BCpJs
+	qrYjyLiyDU7DmQHDL8Ucz5VKBmnJVVpZGSULgpz4y8gzlT/0xNvO150AX96igTwKGCV+RlxaQz36B
+	ojbwhkVUWVlY7f91zjgHOWpQEjd2f6Py68wRrP4DXXgvkxMNFIASVzubI9iJNRYp4TZ8wo29EuF9p
+	9rYhUg1u/hWAn1mpbcBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mSIyP-001ip9-I1; Mon, 20 Sep 2021 13:04:41 +0000
-Received: from bb-3.out.fused.email ([69.162.149.152])
+	id 1mSKl8-0026Gv-5W; Mon, 20 Sep 2021 14:59:06 +0000
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mSIyM-001inv-Jg
- for linux-nvme@lists.infradead.org; Mon, 20 Sep 2021 13:04:40 +0000
-Received: (Haraka outbound: OUT) with LOCAL id
- 91AA6BBB-1D43-4D93-BC1C-901F7CE42D59.1; Mon, 20 Sep 2021 08:04:38 -0500
-Received: from in7.smtp.fused.net ([10.77.1.147])
- by out-2.smtp.fused.email (Haraka) with ESMTP id
- 91AA6BBB-1D43-4D93-BC1C-901F7CE42D59.1
- envelope-from <ylkml@fused.com>; Mon, 20 Sep 2021 08:04:33 -0500
-Received: (Haraka outbound: IN) with LOCAL id
- CE31FBF3-E8E0-49D5-A027-4F59CE6EA2D6.1; Mon, 20 Sep 2021 08:04:33 -0500
-X-Haraka-FCrDNS: static-52-119-46-66.at.fused.hosting
-Received: from [10.50.1.10] (static-52-119-46-66.at.fused.hosting
- [52.119.46.66]) by in7.smtp.fused.net (Haraka) with ESMTPSA id
- CE31FBF3-E8E0-49D5-A027-4F59CE6EA2D6.1
- envelope-from <ylkml@fused.com> (authenticated bits=0)
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Mon, 20 Sep 2021 08:04:32 -0500
-To: linux-nvme@lists.infradead.org
-From: Yuri Arabadji <ylkml@fused.com>
-Subject: lack of security
-Organization: Fused
-Message-ID: <da4d6647-7c05-676f-e37f-8b245c66bf19@fused.com>
-Date: Mon, 20 Sep 2021 16:04:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ id 1mSKfw-0023zc-Vb
+ for linux-nvme@lists.infradead.org; Mon, 20 Sep 2021 14:53:46 +0000
+Received: by mail-io1-xd2b.google.com with SMTP id z6so15734847iof.5
+ for <linux-nvme@lists.infradead.org>; Mon, 20 Sep 2021 07:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=N3CS2tH8R/u7Uz6A3O+THyOE4x5rnQ/+nqJkTyG04zM=;
+ b=PQLBQFUv09+BWlpCwVvKKXjw+zmi4B5j1GI+YU8XQKSHdr5mJwHEnnzxoYiIKQHucT
+ 3WLf9V13zPYgsuH4mLPViMkM+DM8xL3E0qbhHxc66Jl1gnLrIqWiO2Lytq7fwgeCUHmF
+ Ys9Whx2t7ajUv2bukSIhMvyUQ1Gusd3zUHq2zJ/+H3ud2hrSqVrY13ggGfauysQe5qqc
+ GnWcmyvlpfEfIs8v7GA3W5fAXjEbk09CB2m5OTDR51Qx4JTBZ9Tqd/4N+MdyXMn09idO
+ rAFfqz3tJGF8bNCWA8m5xFu2aWXm+vHxJ+pi9IT6RQxltD8uIEHMf3frkAGp5cUa9b/o
+ mSfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=N3CS2tH8R/u7Uz6A3O+THyOE4x5rnQ/+nqJkTyG04zM=;
+ b=vvst8IGg9Rb0OwimRNGSgyPk5cRb3TG0Crw/ZLvxW+H7gp6nNCS6dp7zY5kfxWpUg6
+ V+8FcB516BrP090BRBqFNQSe+1SgvMkW3bi7+1RjEENn4A9AOrZzjRSEQ/izNskoCAld
+ H1KQ60C+XjmHo8Jkon4nsvqSzb8lORXlomwBhuXIbghGouDKTzT3RIDd0Ft9sSJ91or7
+ IQfkVrMfKhCXfHPe/BOAtR5Ac7zEyqTs2AnLq5h1bcgwdCr6+Dw7Min9Gejyd13vF2To
+ z6GFVfL7GnLmc2c1qiSYzWdqd172lsPA2VhOIbsLuUOxDkVXYxVJGBdNNASmppUrqB73
+ igOA==
+X-Gm-Message-State: AOAM531DAiE/0cYfyqvQUHBl14H2hG69yv9mpYG5uM+sPgX9bhmUM6Sj
+ Tpmqk/TLRgQzgjxoAbcnFGQ=
+X-Google-Smtp-Source: ABdhPJw4J0CKvj4CNt9U3ntR+fm31nhuDvoZ3CMNDWcqSWKEVgYQbzqCX7FZNXIpqgUvlB/BGRDojQ==
+X-Received: by 2002:a5d:9493:: with SMTP id v19mr2700127ioj.34.1632149619799; 
+ Mon, 20 Sep 2021 07:53:39 -0700 (PDT)
+Received: from anton-latitude (c-76-23-2-87.hsd1.ut.comcast.net. [76.23.2.87])
+ by smtp.gmail.com with ESMTPSA id
+ 3sm8905821iln.79.2021.09.20.07.53.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 07:53:38 -0700 (PDT)
+Date: Mon, 20 Sep 2021 08:53:36 -0600
+From: Anton Eidelman <anton.eidelman@gmail.com>
+To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com
+Subject: Re: [PATCH] nvme/mpath: fix hang when disk goes live over reconnect
+Message-ID: <20210920145336.GA489494@anton-latitude>
+References: <20210918215729.388968-1-anton@lightbitslabs.com>
+ <20210920063534.GA26999@lst.de>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Haraka-Karma: connect: 9, history: 1199, total_connects: 1965, pass:auth_user,
- headers.pass, skip:penalty
-Original-Authentication-Results: in7.smtp.fused.net; iprev=pass;
- auth=pass (plain)
-DKIM-Signature: v=1; a=rsa-sha256;
- bh=DuLodjqbybNd8rBtWZlz4S7sVfvLR7GuXBSNAJU1uU8=; c=relaxed/simple; d=fused.com;
- h=from:subject:date:message-id:to:mime-version; s=default;
- b=h8GPFLXd0jJ2jbMm0ZW/5oCyGTOh/yZVM4EiVCDy1/5Ozeic5qRj5r+fGWimRm82exuKMWu6+4Ps/BSgolePiCcrQ0Jwu8cObc2yH+R2AgfKWUzfTsQPzLbALhJC5uaoWAoVD7AzRftDuXxwsSiZN+P3LNrlJWMe/1ATS+0awivFUM4gJBoi5V4zDGFAJGW0T5K88rS4mbqAFQRjuVQiaMDWh35L5xejE3JRLYlZCyuNW45/adwLX76rtb9a+TmvUj44sle78XykSLq3vLdYaUoAMS2xU8wQ+Sxce0FWIgaVpWwn4Uu5LbqoWLN9E/l9aLmx/AWGMfIlEKjh+PBVrg==
+Content-Disposition: inline
+In-Reply-To: <20210920063534.GA26999@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210920_060438_797959_2A801726 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20210920_075345_120304_1745D739 
+X-CRM114-Status: GOOD (  12.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,63 +99,24 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi.
+The wrapper is to:
+- follow the naming convention for mpath functions called from core
+- allow the implementation to have more logic in future
 
-First of all, this 1980's era maillist should be ditched in favor of
-GitHub-like collaboration for users. I wanted to submit a bugreport, but
-instead had to go and adjust our mailer to suppress the greylisting and
-holdoff ehlo timer because somehow yours mailer wants to show off his
-manners. Set something up like bugzilla or github issues. Leave maillist
-for coders/old people like yourself.
+As for error propagation, nvme_start_ctrl is void.
+Any error in nvme_read_ana_log() will have the same effect as
+when it is invoked from nvme_ana_work(), i.e. will be ignored.
 
-Now the issues I'm actually after.
-
-1. Lack of security
-
-With iSCSI, I have to supply a user and password.
-With nvmetof-rdma, the only "shared secret" is the host nqn. This is
-totally fine with me, except that for discovery, it automatically uses
-that special nqn and with target configured to accept the "shared
-secret" nqn, you get (as expected) the following on the target:
-
-nvmet: connect by host nqn.2016-06.net.fused:node1 for subsystem
-nqn.2014-08.org.nvmexpress.discovery not allowed
-
-All guides out there suggest configuring nvmet wide-open. This isn't
-what I want. More than that, I'd like to point out the current trend in
-which companies started to prioritize security over performance.
-
-This needs to be fixed in some way or another. Possibly allowing
-discovery nqn to retrieve the directory, but denying connection to a
-subsystem (or how do you call it -- I don't know the terminology).
-
-2. block sizes wrong
-
-# on target, an LV:
-NAME                ALIGNMENT MIN-IO OPT-IO PHY-SEC LOG-SEC ROTA SCHED
-RQ-SIZE  RA WSAME
-fused-random--disk0         0   4096      0    4096     512    1
-   128 128    0B
-# nvmeof on host:
-nvme0n2         0    512      0     512     512    0 none      128 128    0B
-
-As you see, minimal, optimal IO, physical sector size are all wrong. I
-don't care much about rotating, but I would really care about optimal IO
-as that's a hint to queue scheduler I guess.
-
-There's no attribute to adjust in /subsystems/X/namespaces/Y to manually
-set the values.
-
-3. feature request.
-
-I also wanted to store a custom string "attached" to a namespace, to
-identify the blkdev I'm working with. I could get off with a serial, but
-that's so UUID. I wanted to have something more humane.
-
-Thanks.
-
---
-
+On Mon, Sep 20, 2021 at 08:35:34AM +0200, Christoph Hellwig wrote:
+> On Sat, Sep 18, 2021 at 03:57:29PM -0600, Anton Eidelman wrote:
+> > +void nvme_mpath_update(struct nvme_ctrl *ctrl)
+> > +{
+> > +	nvme_read_ana_log(ctrl);
+> > +}
+> 
+> What is the point of this wrapper vs just calling nvme_read_ana_log
+> directly?  Also shouldn;t we propagate the error here and through
+> nvme_start_ctrl?
 
 _______________________________________________
 Linux-nvme mailing list
