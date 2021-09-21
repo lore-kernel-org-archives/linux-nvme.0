@@ -2,19 +2,19 @@ Return-Path: <SRS0=kLfw=OL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C508EC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 22:48:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB59CC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 22:53:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7822261050
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 22:48:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7822261050
+	by mail.kernel.org (Postfix) with ESMTPS id 8D40D61156
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 22:53:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8D40D61156
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,61 +23,62 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dk8T5RDJYBkYGzu1bj1+5lYekez96YzrXAkQqaemI9A=; b=Jb/bz4hp0sFCsWw5t8+ccoH5uD
-	bFaQ7ZTsGCSCmZj3/0/Ft/0uIq14kpqyFzU5OX9tIPOPAgYIacanHFINYnUANd7JGSWzlY4dHrQmC
-	Yf1795nockYe8MOkkHKWVSYdjx3RSqxhqAA1wtknx5UFjhvkJyyAzmLPWZQ2NbK3OWHXwEumz2Ne7
-	yS2Y9XpfjJWAw2SrF70bB3B/KeLMnENDSdIq7FXl9y8eNt9H8Z6b3AMw3ViD44XESTrsQKcKUg2Rq
-	RCorIXZdfCiHdIO/cAwWWb/ARq8JZhjHayMFz7chNRbwyXoeWigSBlLenQNZWufefFCpwd8mPRxPe
-	FG3Iyb2w==;
+	bh=GT/fQcTX/bOR8fW5fK9W3vBWPB1q6L9PDzEUpIRmqFs=; b=N/I8+UcQFypi3bs/Klx5X0kEd4
+	X8jCC0ePVP40twUFFGKJWbBvFgAF08SvkCMuz8OGavOpE2x4ZDBiDwvUSOIUp1fkVKqhjHMtM/XSJ
+	NHPcOIfqLqowvJ8tFPjdbtZaLJ5UAQbIAis4PzZktTj1OQHPhswmN9xzeaePYeMp+pHSBrZj0yhva
+	O6O+798mlR7xqc0uHa8gCzmq1DzYP9/snyziJ51g+WUREIbFomWXSIee089hzYc82JKBhd3acYT15
+	iO3ZLPxlg+5WlcSYbE95f0KNyjtSbNd2yMLgFfhQpz/czkTdzsqun/HURsyPk4CfhWwxJuEdq3GFJ
+	zktkBtrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mSoYO-006BVb-0J; Tue, 21 Sep 2021 22:47:56 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1mSocy-006CCf-6l; Tue, 21 Sep 2021 22:52:40 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mSoYL-006BVB-8l
- for linux-nvme@lists.infradead.org; Tue, 21 Sep 2021 22:47:54 +0000
-Received: by mail-wr1-f51.google.com with SMTP id w29so1119955wra.8
- for <linux-nvme@lists.infradead.org>; Tue, 21 Sep 2021 15:47:52 -0700 (PDT)
+ id 1mSocu-006CC3-RP
+ for linux-nvme@lists.infradead.org; Tue, 21 Sep 2021 22:52:38 +0000
+Received: by mail-wr1-f48.google.com with SMTP id u15so1192326wru.6
+ for <linux-nvme@lists.infradead.org>; Tue, 21 Sep 2021 15:52:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oyCSR/4cQt09aXxzgphMQtiwrj2pA9aFBvzcPjP9LYc=;
- b=lVVwwr9rH0tcNBQ7qlvdodb3k5EucH4FX+p9DIaUH0ukE9iH4qks3AQjXP5Nify9rl
- ip5HSDXvj37rSyN5Cy4BEIwQjY8le5fkXsiiYiDPP3ifYnem2BDp92iUqWYY3nhnCdhx
- pS+qwvGFeuxDkoz5HGoqoKEral4ZJuejc7049eiWgm9bJ+Z7gNgcDVE7sQUyUAEovyoO
- bLDmRtUE8OtSVFT8KBccPGzehIXMWdvUUdut+Z9mGaFpCaZra5/VKSJ73zZNFiANvMNs
- FyNZXrwhTK4tASlznzXsYnqcntf9qQJTfM/TQCFEh7EAqdqh3zZJNIFQrPcDCVfgSkcX
- T1Bg==
-X-Gm-Message-State: AOAM533LcpcC2cdfsJnm+r71tkbcMsDpfMP9rKHDq7Shn0Sys58+WsLD
- Kaps3uH6aiu7mK45d+E0fxI=
-X-Google-Smtp-Source: ABdhPJz/09qzz9x9S46Zw2XgZ10qk95FZImue3ciZS6vZ2YHZrI9T/dhXBf706Ct6XsLs4TqgKC/Fw==
-X-Received: by 2002:adf:aacb:: with SMTP id i11mr38588130wrc.296.1632264470867; 
- Tue, 21 Sep 2021 15:47:50 -0700 (PDT)
+ bh=5vXzozD2pGXYra2DocOMhxodDedz59xM54eWj4XXmzY=;
+ b=zOeNGsjNKyOwgApDDRjzGzirlmvcWIk0J0X3QZymCyS2+OXlGkmKnlGlyjR6lsGwl/
+ 79sPZCX2yNYihULZJInB2qVyo2iKLR2dgN5Y+dN5bE4q3fYFlGg5yiBdVK+GuMRZILoT
+ mgfSP7clKMGPdDPo36z6y/BPlOQmWJZSEZsO1qvYyfC8jgi+2rAHHzKbnCheo3QmtGAt
+ 1Hp7t4XJqDURzpIQ8FCyVZVViPYKb4+SdC8AOk6lsDBg5am/+JplxJ7FKI/KUzJivn7k
+ Y6CehlpGbb0XdKfHQLBU6SoF8NGIdFXp31zUaF6f5rp3FZevADc89Vm4ettgJb7G0epF
+ ZQmw==
+X-Gm-Message-State: AOAM533kbAAv2wiQ6Oxc2aVqNL8GAppWvgV9IfY7rBmbBoxyXxceT9PP
+ 0QZqTSKDUWlttP0cZ/1VR8ZpGqJk/Nw=
+X-Google-Smtp-Source: ABdhPJz2m8Hj3kMF3I9nCurU58svS4UV+ByuIG1VWApEde/Ononv8ebLyTvXBlept2hkYGNerpjFGg==
+X-Received: by 2002:a05:600c:4fce:: with SMTP id
+ o14mr419281wmq.181.1632264755335; 
+ Tue, 21 Sep 2021 15:52:35 -0700 (PDT)
 Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
  [109.186.240.23])
- by smtp.gmail.com with ESMTPSA id m18sm326450wrn.85.2021.09.21.15.47.49
+ by smtp.gmail.com with ESMTPSA id k18sm336380wrh.68.2021.09.21.15.52.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 15:47:50 -0700 (PDT)
-Subject: Re: [PATCH 1/2] nvmet: add get_queue_size op for controllers
+ Tue, 21 Sep 2021 15:52:35 -0700 (PDT)
+Subject: Re: [PATCH 2/2] nvmet-rdma: implement get_queue_size controller op
 To: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
  hch@lst.de, kbusch@kernel.org, chaitanyak@nvidia.com
 Cc: israelr@nvidia.com, mruijter@primelogic.nl, oren@nvidia.com,
  nitzanc@nvidia.com
 References: <20210921190445.6974-1-mgurtovoy@nvidia.com>
- <20210921190445.6974-2-mgurtovoy@nvidia.com>
+ <20210921190445.6974-3-mgurtovoy@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <62df9e92-1530-2fb6-68f2-4040fea02fb4@grimberg.me>
-Date: Wed, 22 Sep 2021 01:47:48 +0300
+Message-ID: <0b93503b-93c6-6314-939a-34bd69c30113@grimberg.me>
+Date: Wed, 22 Sep 2021 01:52:33 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210921190445.6974-2-mgurtovoy@nvidia.com>
+In-Reply-To: <20210921190445.6974-3-mgurtovoy@nvidia.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210921_154753_366479_D9747B8D 
-X-CRM114-Status: GOOD (  13.46  )
+X-CRM114-CacheID: sfid-20210921_155236_939408_AEB83D34 
+X-CRM114-Status: GOOD (  11.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,18 +96,16 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index b8425fa34300..cd42655d2980 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1205,7 +1205,10 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
->   	/* CC.EN timeout in 500msec units: */
->   	ctrl->cap |= (15ULL << 24);
->   	/* maximum queue entries supported: */
-> -	ctrl->cap |= NVMET_QUEUE_SIZE - 1;
-> +	if (ctrl->ops->get_queue_size)
+> Limit the maximal queue size for RDMA controllers. Today, the target
+> reports a limit of 1024 and this limit isn't valid for some of the RDMA
+> based controllers. For now, limit RDMA transport to 128 entries (the
+> default queue depth configured for Linux NVMeoF host fabric drivers).
+> Future general solution should use RDMA/core API to calculate this size
+> according to device capabilities and number of WRs needed per NVMe IO
+> request.
 
-Maybe call it max_queue_size? it is a maximum supported in essence.
+What is preventing you from doing that today? You have the device,
+can't you check attr.max_qp_wr?
 
 _______________________________________________
 Linux-nvme mailing list
