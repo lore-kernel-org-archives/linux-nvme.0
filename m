@@ -2,19 +2,20 @@ Return-Path: <SRS0=kLfw=OL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EEBCC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEB5C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:16:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1926760F6D
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:16:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1926760F6D
+	by mail.kernel.org (Postfix) with ESMTPS id 39ACE61002
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:16:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 39ACE61002
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,59 +24,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3DJj8HipQiMGonJl7FBG5VVpC/t+up5HMdcNm+cX+jg=; b=r/Nq+j6Xxymjoi
-	H492TVT/EtcqL6nQanJqxlRMWOf/e7Zw8uf72en9lehfI6yaxn4/24dz5tdQ6SgZ9+at+01qoY5iw
-	Kd3trsQwYk7VsTLpi+MKwlhks5vgz1njsMCOlTtE7Oq6Z7JYB7D9sDn+qVOFZE5f58j8VOyQboYxi
-	REa5Jm6S2OhCOYfD2VLHRCaPRsKW/Cw37Gq5Wvzr90IteRPurR2vEY8u8yKbcNPTJta9FI3GRsd0Q
-	PVZtKeI8htjz1ApRLoNmVpS9vdWii0YIeYKlVe3EoMjzzCyMsxaMmrx60/deJdvSWK6L5fllr0MBo
-	Fh904jMmlzvsDVM9fDQw==;
+	List-Owner; bh=2wdDYdODK2m+bf56EsLFD/kOjQ1rNlQssrpUNFCJ7co=; b=KfHRk0cspod2In
+	lW7sa34rRuG0Cj90sFCr319OYC1GqhcQ41vvlOyfbRXe79VPRt+ocqRybazFgS2H6KCcosecOdpyV
+	kds9M5+JCXkI/vf6PKNsbgYBbbbfGenoOPYHACO29JHoLPnlDe+9Sfr95wnNi6+3lee6oH2nfDH2b
+	wr3vOmCG0I9NaLMU67R7hRMeIT95HP5SdXKTqso3XRq2mjBsrB59sNUVcEvOJfU6JTQhsC5xE5U1x
+	URjf9xfClRpu+stBEcfItVEyOZB4/tusfTkQysq2JD0Rh/kZBfcYoQQv6lqgz2D8ci3nGb4Vi0txw
+	2qupgFcroe11yFIVmKmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mShVC-004r9e-6U; Tue, 21 Sep 2021 15:16:10 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mShVM-004rFi-BF; Tue, 21 Sep 2021 15:16:20 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mShUn-004r6P-8G
- for linux-nvme@lists.infradead.org; Tue, 21 Sep 2021 15:15:46 +0000
+ id 1mShUn-004r6N-9Y
+ for linux-nvme@lists.infradead.org; Tue, 21 Sep 2021 15:15:47 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 75C0F22047;
+ by smtp-out2.suse.de (Postfix) with ESMTP id 752581FEEF;
  Tue, 21 Sep 2021 15:15:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1632237341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0aZW9MpDSBCmf1eyhdKQ3HgBaTDgkDCQcorYUE5SrvE=;
- b=Pxs7IjmmAYJYtL6ZXskDGaY89GocuUTggJw/PIDxwIWaFTUFhjX6/ZHd8h6tenVvXRKbB5
- KIeKzFK6LNmYPd/aBUNC3A/wki02cA2qDDeRhcLMdD3OQlhna+crZhheFi9NMy6Z99d07b
- t4VX9+L8VHDxdzTjkMEWV8qiZl/ObDU=
+ bh=GKiMiB+uedWZeccfphkNViNPXb+r6xQVS8MLz+Dn8e8=;
+ b=TIaDVZ1mnGEOkE5o6ZyF28COT+wVrtjLtSIEqDwEIPNZFbqvM9Torg868faOzDnRWnH3R0
+ YWsZhiAS6TuUGfiAroufouLeLbnADQW5FvuyHEV9kNZEqatbFRj0eEXn9J+f90vGlhIQ/t
+ 5lmdR91Dl725E2y53xK05wvy/qLCZ24=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1632237341;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0aZW9MpDSBCmf1eyhdKQ3HgBaTDgkDCQcorYUE5SrvE=;
- b=kvpPwqsX3KAtNIpMh6eN+Z1xFfYnyGI6D5hubNA9/8Os38NH3ctag1U15itux1riU2h727
- fGtWQWAjyHodrQCA==
+ bh=GKiMiB+uedWZeccfphkNViNPXb+r6xQVS8MLz+Dn8e8=;
+ b=WgT5hEiT2O8DoarOhK0E7B0i2VeWaHRwI++5iWf07k5UrYxuzu+B067QewGuCd4ykYbPVw
+ QwMZmsUYV6ONhOBw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 470C8A3BA4;
+ by relay2.suse.de (Postfix) with ESMTP id 44598A3BA2;
  Tue, 21 Sep 2021 15:15:40 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 6D8E0518EA8B; Tue, 21 Sep 2021 17:15:40 +0200 (CEST)
+ id 72C4C518EA8D; Tue, 21 Sep 2021 17:15:40 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 1/6] nvmet: make discovery NQN configurable
-Date: Tue, 21 Sep 2021 17:15:24 +0200
-Message-Id: <20210921151529.29419-2-hare@suse.de>
+Subject: [PATCH 2/6] nvme: add CNTRLTYPE definitions for 'identify controller'
+Date: Tue, 21 Sep 2021 17:15:25 +0200
+Message-Id: <20210921151529.29419-3-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210921151529.29419-1-hare@suse.de>
 References: <20210921151529.29419-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210921_081545_467704_D37456A7 
-X-CRM114-Status: GOOD (  13.67  )
+X-CRM114-CacheID: sfid-20210921_081545_524552_B8542002 
+X-CRM114-Status: GOOD (  11.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,90 +93,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TPAR8013 allows for unique discovery NQNs, so make the discovery
-controller NQN configurable by exposing a subsys attribute
-'discovery_nqn'.
+Update the 'identify controller' structure to define the missing
+CNTRLTYPE field.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/configfs.c | 42 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c     |  3 ++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ include/linux/nvme.h | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index be5d82421e3a..d80717b9779d 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1233,6 +1233,47 @@ static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
- }
- CONFIGFS_ATTR(nvmet_subsys_, attr_model);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b7c4c4130b65..ed2428918bca 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -31,6 +31,12 @@ enum nvme_subsys_type {
+ 	NVME_NQN_NVME	= 2,		/* NVME type target subsystem */
+ };
  
-+static ssize_t nvmet_subsys_attr_discovery_nqn_show(struct config_item *item,
-+			char *page)
-+{
-+	struct nvmet_subsys *subsys = nvmet_disc_subsys;
++enum nvme_ctrl_type {
++	NVME_CTRL_IO	= 1,		/* I/O controller */
++	NVME_CTRL_DISC	= 2,		/* Discovery controller */
++	NVME_CTRL_ADMIN	= 3,		/* Administrative controller */
++};
 +
-+	return snprintf(page, PAGE_SIZE, "%s\n",
-+			subsys->subsysnqn);
-+}
-+
-+static ssize_t nvmet_subsys_attr_discovery_nqn_store(struct config_item *item,
-+			const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	char *subsysnqn;
-+	int len;
-+
-+	len = strcspn(page, "\n");
-+	if (!len)
-+		return -EINVAL;
-+
-+	subsysnqn = kmemdup_nul(page, len, GFP_KERNEL);
-+	if (!subsysnqn)
-+		return -ENOMEM;
-+
-+	/*
-+	 * The discovery NQN must be different from
-+	 * subsystem NQN.
-+	 */
-+	if (!strcmp(subsysnqn, subsys->subsysnqn)) {
-+		kfree(subsysnqn);
-+		return -EBUSY;
-+	}
-+	down_write(&nvmet_config_sem);
-+	kfree(nvmet_disc_subsys->subsysnqn);
-+	nvmet_disc_subsys->subsysnqn = subsysnqn;
-+	up_write(&nvmet_config_sem);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_discovery_nqn);
-+
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- static ssize_t nvmet_subsys_attr_pi_enable_show(struct config_item *item,
- 						char *page)
-@@ -1262,6 +1303,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_cntlid_min,
- 	&nvmet_subsys_attr_attr_cntlid_max,
- 	&nvmet_subsys_attr_attr_model,
-+	&nvmet_subsys_attr_attr_discovery_nqn,
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 	&nvmet_subsys_attr_attr_pi_enable,
- #endif
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b8425fa34300..88ed746c675f 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1491,7 +1491,8 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
- 	if (!port)
- 		return NULL;
- 
--	if (!strcmp(NVME_DISC_SUBSYS_NAME, subsysnqn)) {
-+	if (!strcmp(NVME_DISC_SUBSYS_NAME, subsysnqn) ||
-+	    !strcmp(nvmet_disc_subsys->subsysnqn, subsysnqn)) {
- 		if (!kref_get_unless_zero(&nvmet_disc_subsys->ref))
- 			return NULL;
- 		return nvmet_disc_subsys;
+ /* Address Family codes for Discovery Log Page entry ADRFAM field */
+ enum {
+ 	NVMF_ADDR_FAMILY_PCI	= 0,	/* PCIe */
+@@ -244,7 +250,9 @@ struct nvme_id_ctrl {
+ 	__le32			rtd3e;
+ 	__le32			oaes;
+ 	__le32			ctratt;
+-	__u8			rsvd100[28];
++	__u8			rsvd100[11];
++	__u8			cntrltype;
++	__u8			fguid[16];
+ 	__le16			crdt1;
+ 	__le16			crdt2;
+ 	__le16			crdt3;
 -- 
 2.29.2
 
