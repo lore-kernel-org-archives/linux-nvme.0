@@ -7,14 +7,14 @@ X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 627C7C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D66C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:17:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23FC960F6D
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:17:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 23FC960F6D
+	by mail.kernel.org (Postfix) with ESMTPS id 94D1E61165
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Sep 2021 15:17:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 94D1E61165
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -23,59 +23,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HshQMa3Yk9YUNKXf3DlIp4wgBy055ZFKOawWPpnjSis=; b=q51Nmj6a3AGzXG
-	cpJQdPZRY6sIy3Kse6Y64JB6wSc9ObqXrPX2c/uidMwjMqLPZix6kV1hYq2SbIwYYe6DK1JLlPDyd
-	nlGnnXmDHy8dPZJSEHnEik7Ah8DlyyJiXB9lwXDth5TwIxagDgtFaZc/zIdBJND+yp/+Sm41kkqBI
-	SlkLTuaRhGr3vStvRd9AIVkeb9ViAaNwGF/MhDtwNR3VXt23O6d4sUNycpdXvSj/Un4cwnwvHkkcI
-	igoR6TF32UN74es809mxHeGARWJgVYnTAhLWKPoNNulVhDdkbAlAz0ALouhdO+4ixi6+oyeLqI2rN
-	Qad2l0ITPdRlG5uMxQcg==;
+	List-Owner; bh=Ofq5EzTmJalolA+gBcm0V9XXnAp6A61AyvF1w6FLvc8=; b=EPcdTcqmIu11pX
+	ff81D4bnlFFyacXSCR+ea4tYmg2HR8Qg3Uv5owT4AdzGKLu8qSfrt7na/AV3RFrIQaYQUmLOn3+sB
+	HumDtuIVrUSCaiXYyhgxWcmgfU5dareSpXnPzv5FmqWGrR8aEU+3wnzfGXiYVBcC5Y6UaHrClP6bR
+	Rfz84WSnb8IYjVdnNl+FAGO+Isk8pFDg9Rajj3CoXfobsHFLrhzH6niPhGxEdZskcDw05Q/KYFxjG
+	PbwMgNOOhhse4eIZUpfwGttC0OGCIWUv4Dh0+JIxT6dsfGyBoLEhoWraagjeoHclefN3OJGiV6AU3
+	dd80uFGZUd2DQipZ1WUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mShW7-004rQF-5R; Tue, 21 Sep 2021 15:17:07 +0000
+	id 1mShWa-004rYt-CN; Tue, 21 Sep 2021 15:17:36 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mShUn-004r6O-AZ
- for linux-nvme@lists.infradead.org; Tue, 21 Sep 2021 15:15:48 +0000
+ id 1mShUq-004r9c-Oc
+ for linux-nvme@lists.infradead.org; Tue, 21 Sep 2021 15:15:50 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 7CF7A2015A;
+ by smtp-out2.suse.de (Postfix) with ESMTP id 7CED520158;
  Tue, 21 Sep 2021 15:15:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1632237341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zLQLVzV+iC+L/AhMsxZgoLhIV8DCKqaJP4a9IjASP64=;
- b=wMGTaQLT8MUAVwVfSCZJ+4Ukb0T4WsQjiDqNqI6XbRV7za4Idv8wLfZpM/eL9FclxTnywC
- H94p8ogRfXrG6eRUmsctuFoHOxK1r+7llibFSPyxB/qU2KIXd/IlM0SweoIdRl+6RKGcXZ
- pwWzrNbm2L34l7fkB5h/CJa9FOBdf6M=
+ bh=Fl5iCwJKF3DgrTRwHlXQ9dHas/dQ/RTXCid88zl06G4=;
+ b=d/wm18YWLUJI2GJj7pnVzYzhLHv23k3lPrG+En1Vgd7srffuOkdHPIK3G2tplmDtv2rwR8
+ jPi+1uJoIYxKHZlfuQVvtGy3h0z+gZIcPXvVnuaiAoF7LtHSqkWx5VT8eehD0ZrZnoXFCN
+ vkQBtxNHYr5ToktGX4CaxTAFX0z5ujs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1632237341;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zLQLVzV+iC+L/AhMsxZgoLhIV8DCKqaJP4a9IjASP64=;
- b=WWVzhYRZS9EkVrVyNMD49GiiUdZQ1Hs7X4Er9OwVV1ACCOiC5ac+zkS0hKe7pSS5WAcKDO
- T07Fkjb0WxVT54Bw==
+ bh=Fl5iCwJKF3DgrTRwHlXQ9dHas/dQ/RTXCid88zl06G4=;
+ b=CdRnYiwcDQ3ekHiZYojf91KBwWlmwmSfh6HR1S+sV5hhrmhFSzMH7kl8951a8kmU8z2GAL
+ SMrRFnFZarAAtaDA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 752D6A3BA7;
+ by relay2.suse.de (Postfix) with ESMTP id 75331A3BA8;
  Tue, 21 Sep 2021 15:15:41 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 89110518EA95; Tue, 21 Sep 2021 17:15:40 +0200 (CEST)
+ id 836AE518EA93; Tue, 21 Sep 2021 17:15:40 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 6/6] nvme: display correct subsystem NQN
-Date: Tue, 21 Sep 2021 17:15:29 +0200
-Message-Id: <20210921151529.29419-7-hare@suse.de>
+Subject: [PATCH 5/6] nvme: Add connect option 'discovery'
+Date: Tue, 21 Sep 2021 17:15:28 +0200
+Message-Id: <20210921151529.29419-6-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210921151529.29419-1-hare@suse.de>
 References: <20210921151529.29419-1-hare@suse.de>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210921_081545_624839_4C9C61F2 
-X-CRM114-Status: GOOD (  12.03  )
+X-CRM114-CacheID: sfid-20210921_081549_006947_766F2379 
+X-CRM114-Status: GOOD (  14.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,88 +92,81 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With discovery controllers supporting unique subsystem NQNs the
-actual subsystem NQN might be different from that one passed in
-via the connect args. So add a helper to display the resulting
-subsystem NQN.
+Add a connect option 'discovery' to specify that the connection
+should be made to a discovery controller, not a normal I/O controller.
+With discovery controllers supporting unique subsystem NQNs we
+cannot easily distinguish by the subsystem NQN if this should be
+a discovery connection, but we need this information to blank out
+options not supported by discovery controllers.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/core.c    | 2 +-
- drivers/nvme/host/fabrics.h | 5 +++++
- drivers/nvme/host/fc.c      | 2 +-
- drivers/nvme/host/rdma.c    | 2 +-
- drivers/nvme/host/tcp.c     | 2 +-
- 5 files changed, 9 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c    | 7 +++++++
+ drivers/nvme/host/fabrics.c | 6 +++++-
+ drivers/nvme/host/fabrics.h | 1 +
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ad01e2778cb6..084a2df2a58e 100644
+index 1ed1b7be2812..ad01e2778cb6 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -221,7 +221,7 @@ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
- static void nvme_do_delete_ctrl(struct nvme_ctrl *ctrl)
- {
- 	dev_info(ctrl->device,
--		 "Removing ctrl: NQN \"%s\"\n", ctrl->opts->subsysnqn);
-+		 "Removing ctrl: NQN \"%s\"\n", nvmf_ctrl_subsysnqn(ctrl));
+@@ -2715,6 +2715,13 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	else
+ 		subsys->subtype = NVME_NQN_NVME;
  
- 	flush_work(&ctrl->reset_work);
- 	nvme_stop_ctrl(ctrl);
++	if (nvme_discovery_ctrl(ctrl) && subsys->subtype != NVME_NQN_DISC) {
++		dev_err(ctrl->device,
++			"Subsystem %s is not a discovery controller",
++			subsys->subnqn);
++		kfree(subsys);
++		return -EINVAL;
++	}
+ 	subsys->awupf = le16_to_cpu(id->awupf);
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	subsys->iopolicy = NVME_IOPOLICY_NUMA;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 668c6bb7a567..c5a2b71c5268 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -548,6 +548,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+ 	{ NVMF_OPT_TOS,			"tos=%d"		},
+ 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
++	{ NVMF_OPT_DISCOVERY,		"discovery"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -823,6 +824,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->tos = token;
+ 			break;
++		case NVMF_OPT_DISCOVERY:
++			opts->discovery_nqn = true;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -949,7 +953,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+-				 NVMF_OPT_DISABLE_SQFLOW |\
++				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
+ 				 NVMF_OPT_FAIL_FAST_TMO)
+ 
+ static struct nvme_ctrl *
 diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index b61b666e10ec..56253a060258 100644
+index a146cb903869..b61b666e10ec 100644
 --- a/drivers/nvme/host/fabrics.h
 +++ b/drivers/nvme/host/fabrics.h
-@@ -179,6 +179,11 @@ nvmf_ctlr_matches_baseopts(struct nvme_ctrl *ctrl,
- 	return true;
- }
+@@ -67,6 +67,7 @@ enum {
+ 	NVMF_OPT_TOS		= 1 << 19,
+ 	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
+ 	NVMF_OPT_HOST_IFACE	= 1 << 21,
++	NVMF_OPT_DISCOVERY	= 1 << 22,
+ };
  
-+static inline char *nvmf_ctrl_subsysnqn(struct nvme_ctrl *ctrl)
-+{
-+	return ctrl->subsys ? ctrl->subsys->subnqn : ctrl->opts->subsysnqn;
-+}
-+
- int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
- int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index aa14ad963d91..fa8bd6c21073 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3572,7 +3572,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
--		ctrl->cnum, ctrl->ctrl.opts->subsysnqn);
-+		ctrl->cnum, nvmf_ctrl_subsysnqn(&ctrl->ctrl));
- 
- 	return &ctrl->ctrl;
- 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 042c594bc57e..d795a9868674 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2385,7 +2385,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		goto out_uninit_ctrl;
- 
- 	dev_info(ctrl->ctrl.device, "new ctrl: NQN \"%s\", addr %pISpcs\n",
--		ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
-+		nvmf_ctrl_subsysnqn(&ctrl->ctrl), &ctrl->addr);
- 
- 	mutex_lock(&nvme_rdma_ctrl_mutex);
- 	list_add_tail(&ctrl->list, &nvme_rdma_ctrl_list);
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3c1c29dd3020..78966b8ddb1e 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2582,7 +2582,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 		goto out_uninit_ctrl;
- 
- 	dev_info(ctrl->ctrl.device, "new ctrl: NQN \"%s\", addr %pISp\n",
--		ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
-+		nvmf_ctrl_subsysnqn(&ctrl->ctrl), &ctrl->addr);
- 
- 	mutex_lock(&nvme_tcp_ctrl_mutex);
- 	list_add_tail(&ctrl->list, &nvme_tcp_ctrl_list);
+ /**
 -- 
 2.29.2
 
