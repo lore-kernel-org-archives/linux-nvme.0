@@ -2,147 +2,87 @@ Return-Path: <SRS0=1D85=OM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 132FCC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 07:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D559C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 07:20:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C194961266
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 07:09:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C194961266
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 36E0E61168
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 07:20:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 36E0E61168
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kLv/HxXuSwX3uwr9GTBH9bk+hNPyEPCpCSyYyYSx7ds=; b=hM4pgS8zXofHJc
-	x1yU07HWlsmylXWdsEK9x+VWzfaG1piYITmKkQoikFApbzejSBNMqKktEURO/ZueTrcKBTPkXUnuh
-	2u/nUUVULNCusqyVRE2Y7LLIA4L6PiFJD/YM6IdgqOpjyqVmI01p+pCzSAHAvHBgVkgteAZJpRVf1
-	a6onZHD2Muj/zGnc7aDsAvnbKnCt3hw9d9A4pRqF8CkhXp7bA8kob/Mv+o/hPVxlalIr7caBY/HTh
-	1GKkARcXMzN2UC0hXbippo+92qyXV9zIPSethNfIUvFOwaSRIG/j4paUisyZxchAUWv7hQnj56MYK
-	Ehvw8519HYbzgqgvHxiw==;
+	List-Owner; bh=RaqLqM99HjTyXP9gjwyNGoGXP8EJkb4EYeprvoqAmTY=; b=kwF5HnqIMB+i0P
+	8ITE11Y0Uc9god6UMmQM6IC0q/RsuoEvoPvN2cXp70zAT4Lom+cCl0u/psp6EJ/k5IlnApW1Vyv3+
+	u8nRQBnmoKZmL7197FHjf5UGwWF+2752lf56uYDNf7DKYwuxmVvskgQP4UPM973WYLqJqfXbk5MlP
+	GSbvsVtZy3ocxjHElOGzsnZO9Evz+nXQLAWbGyDnFuVhpOOlbmEsdk+hVWKEA/s4WJATWQvbvWJ5L
+	RH1v7sMi1Fy9dF/m7/fWd4rVzVKBcP07lLahgKS9ATI2Z+FmEhLXTv6vXmpA6bV6Sx2HSVBC2kBaS
+	OG1+OU1+I47pvaDMMszg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mSwNB-007FS9-8P; Wed, 22 Sep 2021 07:08:53 +0000
-Received: from mail-mw2nam08on2058.outbound.protection.outlook.com
- ([40.107.101.58] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1mSwYM-007IdP-45; Wed, 22 Sep 2021 07:20:26 +0000
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mSwN6-007FOk-VA
- for linux-nvme@lists.infradead.org; Wed, 22 Sep 2021 07:08:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YLC/OcB5YJDlQ/PQqfuods29FUbhICevTpL1DPRGTcgRWglN3d+xdqAeB77mSeb2AHTzdNce1Q+dPLmg3P6b/YCrt/I4l0Knxth5Q8E1Q0G/h5ZOzj7JUG1u5bfbxcuJ1tQHoZN+qqpnP4qCUzz9Zxg09xUEjLuyjVaHc0jf1nLfJMgcOYJkMPQYOPXKbbccE4A97IBe3iHBSKQNNjgcvBXw+8ADLCu/cQBo8xUvJU049Z4NqEaeg9mJQxHXuJfkQCnrcF2hkeBMCLzpI4kRttWh8YTi89JllQblG/HoDM8gEWRvhOUUjg0aHquCvTCfwdONNt8cSFtdbFQYLRsxWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=sKawj+8KD4yEcAV3ewhdrglBImTrVEQWi4eKsc1uE9g=;
- b=XH8yobsIMu09v89487/QXeEYhln1fybUEPuGA1m3kO0fLFGxszt9sTbgObQjTVzl3pJ8WZj68CpFPk9BAEYhyQlXlU7h5mwMTt/pZciT85BTrqXpttYKhLkC57g8Ag8Vn+DAEPLduQJKXl2TCRbkxj/YzKcW2JP+Mbx/xtfeObtmmplAyfd7SQHpLOJHo1Bcb1OeVDfoX2U3aY3OXPBK954dmQ1TkwK4jRh9bwJQ20GmnHPaxYS7Aa7FAU87M05+nKeoZj0TukNKdhlzq4Ug1yEf/sOSL9w537b8dyZ/N7o6C4QJHoDfWms7SkqXvvHGxR+sRiij/ppMpzbMVUoTRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sKawj+8KD4yEcAV3ewhdrglBImTrVEQWi4eKsc1uE9g=;
- b=hBfeK9tiIKQA5bkBA083ZqAROEKZD7zOCmqE83nVxJ9Jf+Z3ULJMbRE29/geiC/v19heBaaw7m+aKu1JbNcy4facbIub97YuTyfgKV8BQo0NcAkPB0nxkZr8tDQklgvsgImCrclS7aATpG3NkoHnDBoRKupGp02wG9X8IctjS5NctrYf8tIkTlUL+49xGTGLm87NNtE+TvG1NELPjuLe4QYR63Nrcbi1fJqwIvjkw9MX0UCF54TQeif7I/hr9ARGEimrh39NsE+VeaeDQyU1ZSRO8eyfdlWnLXmfjglyAKgTcrtsXYhlQzv30sGVUjGzMpGGT91oB2q05wCrLpbBOw==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MW3PR12MB4459.namprd12.prod.outlook.com (2603:10b6:303:56::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Wed, 22 Sep
- 2021 07:08:39 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::498a:4620:df52:2e9f]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::498a:4620:df52:2e9f%5]) with mapi id 15.20.4523.018; Wed, 22 Sep 2021
- 07:08:39 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-CC: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 4/7] nvmet: set 'CNTRLTYPE' in the identify controller data
-Thread-Topic: [PATCH 4/7] nvmet: set 'CNTRLTYPE' in the identify controller
- data
-Thread-Index: AQHXr3wJY/BqLnDwpked73Sq2Pr466uvolwA
-Date: Wed, 22 Sep 2021 07:08:39 +0000
-Message-ID: <81372298-81b9-ec3c-af23-aa11b65432f1@nvidia.com>
-References: <20210922063525.143045-1-hare@suse.de>
- <20210922063525.143045-5-hare@suse.de>
-In-Reply-To: <20210922063525.143045-5-hare@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-authentication-results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 99278798-7441-4d9a-d0cb-08d97d97cdac
-x-ms-traffictypediagnostic: MW3PR12MB4459:
-x-microsoft-antispam-prvs: <MW3PR12MB4459EAFF26F1343467A0E668A3A29@MW3PR12MB4459.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: HhQB3KyFSHI1i6HJl1hE4U9zJOX5B0c6JlR6rPh3MupY1QWleKuHnBcOi36OygopFTSFxr8HIi2MBb5aVgjepg9wCx7ACSb1TU9GnThOE7UPhsRrabaBs5ZcpK6p661cpMrMmWY+8r2M/GpCvGFa79jb2WusE6uA2afSGNrRbOXyH0ATlOJdua6yyUXA840Y3U7BDcQZgsLF3lrKfPPXaO60fvCw0GB3q5wjpaE9RpFnrd6DndBX4dGaDzlPvqaozdbh/6CL6WF4bzRdVH/SsjCkmW9pj49p2Veg0303lJtykyIhDwgd2PkNiTh6sjYRt4Upb7GHWMX4DZPPeZ6JJnatyoEyCByfahJPR621iAzgGX+VINb7IHxlCEvSPRgMIwhfmPPraEjPv84s2msEHyeIFa+DaQ/N0qp8Cz9TzPpKYo9ku7YbVgosu6jn8IBQ2mcvyABib4E1lCKnm/jSOrvIFSf7BDO+ICv6WAjh4ZTx+ad20YLTGuC/akIWHc1UbtKHlvtHlcKTZSvxIWcric7SSyG7Who5JrJR13SQSbcfWNoZYaPp2HVJzbBpUn/dVt37c3ST/miFsVPWYZ+Mrf1L4bqaZuRLgbH4EZFa9exfa66f3qCOvBnNTxdgGiSqy8npFdDmhTYBKhJYsm0gdoR1T1FR1vbjre5L0PnWA/c2XdPdqVs6lg2yQS3TgkmvF+4xrkG/nu5/M/EbmhrQ4R2G4JE487ha9cwths6wG7wP0yrO4+8ulQbtotZivclpfXoCuIaSJD3Sf5Ff2XOFrw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(186003)(31696002)(316002)(86362001)(71200400001)(6506007)(122000001)(31686004)(38100700002)(38070700005)(558084003)(76116006)(66946007)(508600001)(66476007)(66556008)(6512007)(4326008)(2616005)(64756008)(66446008)(53546011)(54906003)(5660300002)(6486002)(110136005)(8936002)(2906002)(36756003)(91956017)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U0VPSHloTWxLVnRHUGVlazlaazQrV29KZjBKZDYrMHZIOVpvd3JwVUFTN1g3?=
- =?utf-8?B?ZXJQa0VWYnJ4K0o5ZjlQejVsN0VnaDR2K3JuR0Z6NFRyWGFsYmM4ckMxMzlG?=
- =?utf-8?B?Q29zM2RyZk1tbWY5NHNlandSYjRqK21FRHVucVYxWndBbUZTR3VlWVlybUFL?=
- =?utf-8?B?dGZNWkFJa3ROOUJoWXkxTEdpS0VJZEM0VkhnaFJyb01iZDZlUStUYm5YN24x?=
- =?utf-8?B?Sjc3b01ITW1EU2lnaVZaZ3BqQkQ0SzVacGVmTDZnamN5M2YvU0JqZWRwMjhy?=
- =?utf-8?B?TU9LcTBpNkNiM2N2eXNXUmpNY2NIQmdIN2VCNEwxQi9qRTVIUXJ1TE9lZVJV?=
- =?utf-8?B?RVNFTkdTZkFnaGRqTXp1ODBOcjNHaTFSTFB3U1VHRmFWTE11SE0yeFBSVUlL?=
- =?utf-8?B?cjBrdjBvMjRPUXRQcWFhN0NITFpCR2Y4d2luOHJlVHFJYmdXKzJyeW0rVW9p?=
- =?utf-8?B?R2NZSktKSUJ6TjBnTkk5WW9JcTBpSExza1JTaW5pbWc2Q0pWd0J6M0JVRHV5?=
- =?utf-8?B?d21Fc0pDd2NWbU4wYm5uWXk2eENNR1dZRUdaYzNvUWtCaU1mWnNsNlNyUHJX?=
- =?utf-8?B?aEV1VnNpT0JObTRKemQrVGh1ZEp6MU9MZWNLVTBEbDhLTm9YTzFpT1p4ZUts?=
- =?utf-8?B?VDlxNmI1UFVrc1l5YmVZL2JGWTBnUVhKVE9tellPUGtrdkNTd1FUTXVQcitW?=
- =?utf-8?B?alJPcWxSUUgybEtKOXk0RDFtTkJVTXg3bEtFQktoU0VDRE9EcTJJVXo4UTJJ?=
- =?utf-8?B?eWlMZFRMRXVlNzNZNFBlanViQjc2RHI5M0dtcEYxSnpwNE9xaTYzZ3U1QytV?=
- =?utf-8?B?WnZnTFNLOWtoS3M5bU1ObWJwN1VhbTNDWlMzTk4ram5PSHZEU1ZBMDVibUhz?=
- =?utf-8?B?L2gyWlBWTXYwaVVVY2lzVkZJc0pHRjlKVUxTcWpEU3AyQlRiRVRjMTdlWm1L?=
- =?utf-8?B?Z2Z4V0FmZ29NWkw5QnJVMU50M1BVMURoS1BCR2V0THlQanEyR0tEUHBIeTV0?=
- =?utf-8?B?YkhQeHhQbnpOUUZqYTFHWkpyaWlhNkRhQXplNHNwT1VGaTdxNWxaYjVvM2Rq?=
- =?utf-8?B?cEhCMS9JTVd5azNqNHBNYWtHYkNTSnA4VUhjNEpTdmlwQzJLRVNaTGx2UzZD?=
- =?utf-8?B?S0JDVHB2ZlRtWTZtNnVYamNMeGsyUXh1NUJEd3orQXRid1ZTeUpjUHhuMlNN?=
- =?utf-8?B?a0Z5WjhZeDJyd3p5V2QvRHRoa0x2Qm82MTA2OEl3U3NhU2tZYUt3K1JKZ3M2?=
- =?utf-8?B?aUc2Q1kvV29IRExJWTMrOThwQlNxeU1ST3lOUjRUbHpqV3ZVWVloZzZheExJ?=
- =?utf-8?B?N3ZneHArUzlQTTFFdFppN2NlcTFReVF5Z2wwRG5ONnRLWWFWNDdHd0E5ekJw?=
- =?utf-8?B?RmZMbjhTcEQ1cm8yNUQ5azdjdFNiekRYZGJ5YmI3Z3FmVnFiOFNSYmpGUm5P?=
- =?utf-8?B?Z0txak1icStFRG14ejVFT1g0R3FkdnI0bWI4N2JRM2pIN1NpMTZHNEpuWXR1?=
- =?utf-8?B?M1oydVVkMSs3WXRyQnlrOVVlcHZ3YWU0ajJEcUs1R2FHVFgrek9uQ2pkaVM4?=
- =?utf-8?B?OFVFSDE0eHR1RHJ3ejk2YU9maVZxdzAwVVZJMlJHZTRrNFFhWkdRWFhpZ2Rs?=
- =?utf-8?B?eHdobUJVdEticFZOK2FVM3Fyay9VTjkzbzhXNWozVXRPQ05FN09WcFY2Rys3?=
- =?utf-8?B?Vzg3N1hFd0JlMHdiRVRxamtEemJxbVpKTy94K3gxak82UWsraWIvMFB2d0dF?=
- =?utf-8?B?U05GcWpVU0hZYlM2RWpIQTVtWjA0L1BNcll5SUwrU1VOdVp0amV2Z1ZaWEZO?=
- =?utf-8?B?U0NCTXc4ZGdEa00reWJLQT09?=
-x-ms-exchange-transport-forked: True
-Content-ID: <1E30181017E34A4BA2E3A3CE199526BF@namprd12.prod.outlook.com>
+ id 1mSwYI-007Ibv-2T
+ for linux-nvme@lists.infradead.org; Wed, 22 Sep 2021 07:20:23 +0000
+Received: by mail-wr1-x42e.google.com with SMTP id d21so3725254wra.12
+ for <linux-nvme@lists.infradead.org>; Wed, 22 Sep 2021 00:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yIWDbUeb9eVjg614LLtNWsjwRP6rzLhm90LjC7m9WB8=;
+ b=RwRvzT9WSFDWEGPN4KQntoyoN9ipb/5tISApBgsHlothq1kXIF5aXHcUN/dO9CmwtV
+ sWaxPZy6pH9zOYKFkBWlKASBviamDk1iBLoWeSaPjFzevqo1WiVkluoOcFYsa7UtJ/Kn
+ YSB/1VPwXfiDeGLBBHuxIfOGZam6a3PfJSBcscliVvyB20E2YqWScPgT4VZd0/9MfT2f
+ cYjZVfhVu54I1qhIYw2lZNCStKeLudDrXO01tdAQ0HgVNpXhKiAVuDsVXMYcG2kKfNSd
+ sKLx0XNRTMMjVJyY2CVDOl6/4eR2blOql769DwE7x7jqJb6MWeuxbtr29fUHuJAw22s7
+ Y2Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yIWDbUeb9eVjg614LLtNWsjwRP6rzLhm90LjC7m9WB8=;
+ b=olp+UzjPlPiL7CJWwNnl1PxtTixc9TtrcHhzxh4la+tHnh7uahlV/dZBGOpx51XCol
+ LuQMS/S16VK8LG00VeyIyZCsCYTAVGuJJIlQi3CFKDFI1V4VcTxURryo7uyN5XH7+7ga
+ fnHkulrjYwVb/B2USxrzU8cq1DPsICO5evg+CnVSo9xQIGRWOzM2t/v1PASBJ5SRO8cq
+ uqvXqznhSstmxxZWJri+84WbYNLxDywtQdYNnrkeS+F8slIFm9LDaq1B7/ACcyG4vl2E
+ kxknFcTKC2RTxSnV/HG16uEv2g+2p5Pwnm6/KzfFeu0upHu0ZOwbpneiUuYPZ7VMMWdN
+ uVmg==
+X-Gm-Message-State: AOAM532jY6hH22S44sPBa97li+rM1/Vzjw1O3OX62qA++heSL7ejOGM4
+ zf3kh7IESAYIbnT073gUg9M0UINx4pMjTByICUAWG9pc+gc=
+X-Google-Smtp-Source: ABdhPJwUTr4MdOkW7jZQVC8cFh/55BoLEygUfs6oW2DUmxurxeZfGGg2LbmR3gRaKBkDxZ/arWKjQhNTPCtMU6lM9VI=
+X-Received: by 2002:adf:8b19:: with SMTP id n25mr42586574wra.216.1632295219240; 
+ Wed, 22 Sep 2021 00:20:19 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99278798-7441-4d9a-d0cb-08d97d97cdac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2021 07:08:39.2055 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5MrvHfspnZI5IrFT5EvR38I+Mr6InUT8Pg7p78X/Vqr92dqGjq8ULhsKGHOv9r4CTmktS87M5YiFgq/MSNTDnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4459
+References: <20210805125539.66958-1-joshi.k@samsung.com>
+ <CGME20210805125923epcas5p10e6c1b95475440be68f58244d5a3cb9a@epcas5p1.samsung.com>
+ <20210805125539.66958-3-joshi.k@samsung.com> <20210907074650.GB29874@lst.de>
+ <CA+1E3rJAav=4abJXs8fO49aiMNPqjv6dD7HBfhB+JQrNbaX3=A@mail.gmail.com>
+ <20210908061530.GA28505@lst.de>
+In-Reply-To: <20210908061530.GA28505@lst.de>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Wed, 22 Sep 2021 12:49:52 +0530
+Message-ID: <CA+1E3rLeM=GZn1gR_KN7b6o8LHDistp1ZoHBb0N54ayK-2+tPA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/6] nvme: wire-up support for async-passthru on
+ char-device.
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
+ Keith Busch <kbusch@kernel.org>, io-uring@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, anuj20.g@samsung.com, 
+ Javier Gonzalez <javier.gonz@samsung.com>, hare@suse.de
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210922_000849_047408_71601A5F 
-X-CRM114-Status: GOOD (  10.89  )
+X-CRM114-CacheID: sfid-20210922_002022_198582_FE800161 
+X-CRM114-Status: GOOD (  33.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,19 +99,101 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/21/21 23:35, Hannes Reinecke wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> Set the correct 'CNTRLTYPE' field in the identify controller data.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
+I am sorry for taking longer than I should have.
 
-Looks good.
+On Wed, Sep 8, 2021 at 11:45 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Sep 07, 2021 at 09:50:27PM +0530, Kanchan Joshi wrote:
+> > > A few other notes:
+> > >
+> > >  - I suspect the ioctl_cmd really should move into the core using_cmd
+> > >    infrastructure
+> >
+> > Yes, that seems possible by creating that field outside by combining
+> > "op" and "unused" below.
+> > +struct io_uring_cmd {
+> > + struct file *file;
+> > + __u16 op;
+> > + __u16 unused;
+> > + __u32 len;
+> > + __u64 pdu[5]; /* 40 bytes available inline for free use */
+> > +};
+>
+> Two different issues here:
+>
+>  - the idea of having a two layer indirection with op and a cmd doesn't
+>    really make much sense
+>  - if we want to avoid conflicts using 32-bit probably makes sense
+>
+> So I'd turn op and unused into a single cmd field, use the ioctl encoding
+> macros for it (but preferably pick different numbers than the existing
+> ioctls).
 
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+I was thinking along the same lines, except the "picking different
+numbers than existing ioctls" part.
+Does that mean adding a new IOCTL for each operation which requires
+async transport?
 
+> > >  - that whole mix of user space interface and internal data in the
+> > >    ->pdu field is a mess.  What is the problem with deferring the
+> > >    request freeing into the user context, which would clean up
+> > >    quite a bit of that, especially if io_uring_cmd grows a private
+> > >    field.
+> >
+> > That mix isn't great but the attempt was to save the allocation.
+> > And I was not very sure if it'd be fine to defer freeing the request
+> > until task-work fires up.
+>
+> What would be the problem with the delaying?
+
+When we free the request, the tag is also freed, and that may enable
+someone else to pump more IO.
+Pushing freeing of requests to user-context seemed like delaying that part.
+If you think that is a misplaced concern, I can change.
+The changed structure will look like this -
+
+struct nvme_uring_cmd {
+       __u32   ioctl_cmd;
+       __u32   unused1;
+       void __user *argp;
+      union {
+                struct bio *bio;
+                struct request *req;
+             };
+       void *meta;
+};
+cmd->bio will be freed in nvme-completion while cmd->req will be freed
+in user context.
+Since we have the request intact, we will not store "u64 result; int
+status;" anymore and overall there will be a reduction of 4 bytes in
+size of nvme_uring_cmd.
+Would you prefer this way?
+
+> > Even if we take that route, we would still need a place to store bio
+> > pointer (hopefully meta pointer can be extracted out of bio).
+> > Do you see it differently?
+>
+> We don't need the bio pointer at all.  The old passthrough code needed
+> it when we still used block layer bonuce buffering for it.  But that
+> bounce buffering for passthrough commands got removed a while ago,
+> and even before nvme never used it.
+
+nvme_submit_user_cmd() calls blk_rq_map_user(), which sets up req->bio
+(and that is regardless of bounce buffering I suppose).
+For sync-ioctl, this bio pointer is locally stored and that is used to
+free the bio post completion.
+For async-ioctl too, we need some place to store this.
+So I could not connect this to bounce buffering (alone). Am I missing
+your point?
+
+One of the way could be to change blk_update_request() to avoid
+setting req->bio to NULL. But perhaps that may invite more troubles,
+and we are not saving anything: bio-pointer is inside the union anyway
+(in above struct nvme_uring_cmd).
+
+
+-- 
+Kanchan
 
 _______________________________________________
 Linux-nvme mailing list
