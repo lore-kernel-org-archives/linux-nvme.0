@@ -2,93 +2,126 @@ Return-Path: <SRS0=1D85=OM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D73C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 17:00:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A44C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 21:56:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45906611EE
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 17:00:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 45906611EE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3A9EA60F24
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Sep 2021 21:56:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3A9EA60F24
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:From:References:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0WFNKgCeea57iDRZs7ElD8JRvYwUd5Ge5miIPSlWlPQ=; b=3BYG+LR0Q/oref
-	aFX/vjdoi1r0vDN7MKwZ45tt1NJN8lBC+sI8NaSibKOeQxTiDaCMud6ierSNocab8ELVrl1mZn3YS
-	bBWf8UzSWkp+bzP2yOkRYZn6x72a71wLoAO3PufuGIGH67ofEZ13LW3KFb2ZIPq4mP5VpB4/vaU/f
-	OmzOv2AGERTy9kaWmq9IwLkzMgR9mkTXG9smsBeQeTs5vnAIsbsBXfO9bRe51kVWuV3j3piedkpl6
-	tj9J1U3xtKY5i9Ovamm3hEeHS4huyXDd8IqSzkgRYga4CKdm08quLWQR8CZLDrgb4iokiZHJHm4Hw
-	rCO6ck4inMgjYIVCOFNg==;
+	List-Owner; bh=5QWYetiOFcSO6Gj2kj2+oj/JWpZ0CJS+oIzzBUR3b3o=; b=qZyPVq30O+dTpm
+	H0RKVGHdcYIE7VJ5DPp6QeivsY2lAvJ6g4bso3VrzCIscHJ0XggQzdmEbRd8L0mdXeJJPD6WHnv2p
+	9aKPt6XLx0zjBpN0vxk/tJt0GOCWxtG0b9QSc6mPFQvSZF46iGJZeMQ9TZZiu8Nm7AyZxylJhwG4W
+	UeSkU9UIda8XAhACwAFvXIEE8nQALtwQRHx5EaMtkvs4Z4di/NIjkKjfNYfexmoAyR0MPnwt+2c89
+	HLSQMWGjwcvKZFrvQdyR9b7lS/81sc2JM4nsnWusXEo5DV6HySsY31LYx9HnDceU7XAzopAh4PVK2
+	hkl08nNVjm96fEDAoVpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mT5au-009Bkz-E9; Wed, 22 Sep 2021 16:59:40 +0000
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+	id 1mTADa-009mhO-Fq; Wed, 22 Sep 2021 21:55:54 +0000
+Received: from mail-dm3nam07on2047.outbound.protection.outlook.com
+ ([40.107.95.47] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mT5ar-009Bkc-AQ
- for linux-nvme@lists.infradead.org; Wed, 22 Sep 2021 16:59:38 +0000
-Received: by mail-pg1-x530.google.com with SMTP id e7so3377889pgk.2
- for <linux-nvme@lists.infradead.org>; Wed, 22 Sep 2021 09:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iWFwX0IfGz2o+dtm7t4qroyBKTHFbmX+isPP+o06z2k=;
- b=ji0/NtHLfOeKx77DbmUSAAR9ga7/rsurJmBtxrseqwn3PBXQxUyuN+V4S1kEVkTNG0
- 67yDQXRvv+OzTWilnGkaB2jkLNV/yZkVM/iG69sgsx1D0/h4yXc7o3XjXu08jOuxkTsf
- hNZEdyrW0+lSiL1CCsVtCK6alXhLI0qcspSRaQReW3/kaYiadZlGQ8cFab1HLtk4sc9J
- xx23HDNEcRck40cRWP/fK7CDtucV4UtKrTHMskaji5M+08OztZZFM8+SKwcGqHiCeCsV
- Z7i/oWYoyzURITuB9U9pqqDOT0MSuD7MLJehnw24pdR/StZQX9vnwd1H6vma4UirehGy
- gIww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iWFwX0IfGz2o+dtm7t4qroyBKTHFbmX+isPP+o06z2k=;
- b=sFKCS1JvO0SKmusKmQfJVmaeib5D7lI65qCFAp2NEQnAQjkSmSHSltixmC7FvDlYHV
- 4mBHOr+fSXNXriUoTq2Gz8suerlXANVu5IlGD2QcRvkab4uu2+f6tRGQHwbHMsiSKBEO
- qYcHXeN9DiM9MdH453wld2tVJpF0osoH0X0gXDQNqTCVkqXL+3ftSJSMnINPz3TxWckn
- E6jZ+/6BGBEWJGo9W6/6in9VS+7Jz2mUyuLlq0XqHh/SWv/IFlHwz7WZ4BQCGpS7sTcn
- /CNKKXrwRN+kTYdfe0TshyMkBSNmT0Pmnb02+NPg8hvNYLcuKbkJQlMzePC8GbtH1Uaj
- 75cw==
-X-Gm-Message-State: AOAM532UDLce8V7yr3+qCGZ2FVzAx2KEFNNHcn4zBYnNh0QVVOwQxNE7
- LiKGaQFCMPjznOh9i69KI6VMjqvrFs9RGXIT
-X-Google-Smtp-Source: ABdhPJzxfeZ39Ii02QM2mXK3EDDN48nA4H7YTZBG7LL50lL1RqyvuUFklaoboDYhHXFgIkzmaxqZvQ==
-X-Received: by 2002:a62:51c6:0:b0:43d:e849:c69d with SMTP id
- f189-20020a6251c6000000b0043de849c69dmr415219pfb.31.1632329975127; 
- Wed, 22 Sep 2021 09:59:35 -0700 (PDT)
-Received: from [10.69.44.239] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id y7sm3043087pfr.33.2021.09.22.09.59.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 09:59:34 -0700 (PDT)
-Message-ID: <f38f89f9-90c7-40ca-3d62-1491cb36be19@gmail.com>
-Date: Wed, 22 Sep 2021 09:59:29 -0700
+ id 1mTADX-009mgH-Hk
+ for linux-nvme@lists.infradead.org; Wed, 22 Sep 2021 21:55:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gFGME/05lDFiu+/iXsccR2y+gRTdXlfDTS7sps/cioOc30Wht8uu2R5SqIHwovSliXhkaGIpZXeJE6RA+SGA23Lb3D/w0ozkY7aTtgBNTmpTeNUxBzmGlwV7XLcQ+LS+vuHQy9VWiAIUn525hq7pT4JpahlkyCP05LXy6LgTO1kJoKVdFDceqCa5OOBoUbWkZPmhgt7l0OUuUhtCIsLn6htjP2LHnImphBGNNkTRlkJTkSEC8nN2OoUiseIu/GqtoP8ni6k9wZqY2IiR+TeIZFBsUwx6vqQsOnE2QrPxxg7Y86MBKig6ANUKpfOWhlxXpkI8jbPIl7qS+DZVYDDyZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=YmAH8g4dPwdk5bjFjt1ih9Zxkxbl3+K4ezaOZoWe2ek=;
+ b=DfupmYw2tDjitifBBCuErZk5y500kyPdhwCv4sgFxmIMXG+DNqc8Z3ym+vpurjeDcSrD2qsYIM6RZ/fWs0+b5oPzgg5tzGCUWka7UPr3hjAFRYLMWR2OJg93DIVv25m4ZVni1QI3widvbfMJSbS2+APYyv221tVmBz2b24xl6RxrLzuMC/Tcjr6HpSDB0nRO2JTKn7V3NpAAfD/zPjzmNpLJT9qFOy0E+lKqvD/47BNYDQoWhePiZ6vNkTxLAzMPpkv0SnMz5ISI6zd6qRmcqtjt5RceohGE6rQIWAYCn7Ia6BTmUjLFy7X5kDDC+fYtAaHY8UFbNQcwwaI3hMT8HQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YmAH8g4dPwdk5bjFjt1ih9Zxkxbl3+K4ezaOZoWe2ek=;
+ b=NtUwy9hQK9N9YiZcO3Wv90IjJHg2tch5jzHSPk51xE9Ysb9OFpQsx3gYr4RKlPdhlqMdgQR7FehMQuXHcO2sovNuBIfyVKSuY23+1cJ7tKmPUdbF1FnhstbsRD2UOIKfa8Pv+I4X7s/tyFDlqQHNeSkFMWQoj6wb7tfFzkX55hpJmENgYEPfHUuCt+vsqCIYURgwQ8QoA8Eq/27hpUxMLU+12gM7iJ4WyRRcExlUhonIDa0X9E+bYU74mbDiwc0Pk1QdmDnNoSY17OSmkqEwVXyD5509/OWEHYMC1wl9JDd6GqbMvDSkYzC/FSxCiEhX0SytsOkPuQaot+wBPoqBDg==
+Received: from BN0PR04CA0088.namprd04.prod.outlook.com (2603:10b6:408:ea::33)
+ by DM5PR12MB1803.namprd12.prod.outlook.com (2603:10b6:3:10d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14; Wed, 22 Sep
+ 2021 21:55:44 +0000
+Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ea:cafe::f2) by BN0PR04CA0088.outlook.office365.com
+ (2603:10b6:408:ea::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
+ Transport; Wed, 22 Sep 2021 21:55:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 21:55:44 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 22 Sep
+ 2021 21:55:44 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 22 Sep
+ 2021 21:55:43 +0000
+Received: from r-arch-stor02.mtr.labs.mlnx (172.20.187.5) by mail.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Wed, 22 Sep 2021 21:55:40 +0000
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <kbusch@kernel.org>,
+ <sagi@grimberg.me>, <chaitanyak@nvidia.com>
+CC: <israelr@nvidia.com>, <mruijter@primelogic.nl>, <oren@nvidia.com>,
+ <nitzanc@nvidia.com>, <jgg@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: [PATCH 1/3] nvme-rdma: limit the maximal queue size for RDMA
+ controllers
+Date: Thu, 23 Sep 2021 00:55:35 +0300
+Message-ID: <20210922215537.6499-2-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
+In-Reply-To: <20210922215537.6499-1-mgurtovoy@nvidia.com>
+References: <20210922215537.6499-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH 6/7] nvme: Add connect option 'discovery'
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <kch@nvidia.com>
-References: <20210922063525.143045-1-hare@suse.de>
- <20210922063525.143045-7-hare@suse.de>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20210922063525.143045-7-hare@suse.de>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7ec48ec8-4522-4e64-d0a8-08d97e13ba7c
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1803:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1803683B2960236A0959DD77DEA29@DM5PR12MB1803.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UMxnnHx7pQhALQcRSiWhToYXQQI7/aRidZP9ha+kejyQg8oJEoK6tMcTr6cJEs4xe7eSMqj2zIAZALXJ+HlBTJQx/6JZLtZ2tOKdS/VYCUhKXytMJk0Nha+oPrOlmYvhe4XREPKa4rJLeSumzCSTZiuxY+Gu4O3Ywd9BANChPBbFuN9Qj3wsrQQs54UcVdpEm3UTSdyhyFz4Nn+Pf+yBwfDYtl15pxzsAe27twh68apcI8xZ+TiSc3/cdHOimBdGunYXtKR9P9HZKAb+m58h+AqRkpXm6FEJme+5j7X9lDzuBfTjl2kVGFUCS91VvoTkKj26/MVjQ3Re3FOTZsGAEaNkLtCcgGup97l9k31/jnyEyA4tJx6X8m7rtM2JLCj+H/u8X0GJe9KLwHMSRUmkyIYpQMZUDtbbmSSovlUmEvvCtSSwkRzHrR1MUa3DC+B9Ao5zQjIhU4IaxzMI+FSTZiaL3KGpKoq5ahJGAOJMewAcRdpp4l98rW+9/XYmKWnWTipynfalhTvc9c9TBIzqaEcfd0jqxFS5y3x5meHL64gcIozjE692S3kX8ykLd6s+Hu89trEKL9i3TH4IsJhJwofYTw8Hdq0zg9V7FqcPGrEQtrNWNY3bIUiU+kz1zW4ySLqEJdmOUvGMl045oqgm39v2a9+42n6/oFXPHsxOlPN3v1Ezo58BASDkho4HXl9dtGZFnFUWvfU9AndnJSYfOA==
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(8936002)(54906003)(426003)(110136005)(82310400003)(356005)(508600001)(70586007)(107886003)(70206006)(2616005)(83380400001)(336012)(5660300002)(36860700001)(86362001)(4326008)(26005)(36906005)(6636002)(186003)(1076003)(36756003)(8676002)(2906002)(47076005)(6666004)(7636003)(316002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 21:55:44.6197 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ec48ec8-4522-4e64-d0a8-08d97e13ba7c
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1803
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210922_095937_439392_34D825DA 
-X-CRM114-Status: GOOD (  22.88  )
+X-CRM114-CacheID: sfid-20210922_145551_862563_38FB35D7 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,99 +133,59 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/21/2021 11:35 PM, Hannes Reinecke wrote:
-> Add a connect option 'discovery' to specify that the connection
-> should be made to a discovery controller, not a normal I/O controller.
-> With discovery controllers supporting unique subsystem NQNs we
-> cannot easily distinguish by the subsystem NQN if this should be
-> a discovery connection, but we need this information to blank out
-> options not supported by discovery controllers.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->   drivers/nvme/host/core.c    | 7 +++++++
->   drivers/nvme/host/fabrics.c | 6 +++++-
->   drivers/nvme/host/fabrics.h | 1 +
->   3 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 1ed1b7be2812..ad01e2778cb6 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2715,6 +2715,13 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   	else
->   		subsys->subtype = NVME_NQN_NVME;
->   
-> +	if (nvme_discovery_ctrl(ctrl) && subsys->subtype != NVME_NQN_DISC) {
-> +		dev_err(ctrl->device,
-> +			"Subsystem %s is not a discovery controller",
-> +			subsys->subnqn);
-> +		kfree(subsys);
-> +		return -EINVAL;
-> +	}
->   	subsys->awupf = le16_to_cpu(id->awupf);
->   #ifdef CONFIG_NVME_MULTIPATH
->   	subsys->iopolicy = NVME_IOPOLICY_NUMA;
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 668c6bb7a567..c5a2b71c5268 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -548,6 +548,7 @@ static const match_table_t opt_tokens = {
->   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
->   	{ NVMF_OPT_TOS,			"tos=%d"		},
->   	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
-> +	{ NVMF_OPT_DISCOVERY,		"discovery"		},
->   	{ NVMF_OPT_ERR,			NULL			}
->   };
->   
-> @@ -823,6 +824,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			}
->   			opts->tos = token;
->   			break;
-> +		case NVMF_OPT_DISCOVERY:
-> +			opts->discovery_nqn = true;
-> +			break;
->   		default:
->   			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
->   				p);
-> @@ -949,7 +953,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
->   #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
->   				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
->   				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
-> -				 NVMF_OPT_DISABLE_SQFLOW |\
-> +				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
->   				 NVMF_OPT_FAIL_FAST_TMO)
->   
->   static struct nvme_ctrl *
-> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-> index a146cb903869..b61b666e10ec 100644
-> --- a/drivers/nvme/host/fabrics.h
-> +++ b/drivers/nvme/host/fabrics.h
-> @@ -67,6 +67,7 @@ enum {
->   	NVMF_OPT_TOS		= 1 << 19,
->   	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
->   	NVMF_OPT_HOST_IFACE	= 1 << 21,
-> +	NVMF_OPT_DISCOVERY	= 1 << 22,
->   };
->   
->   /**
-> 
+Corrent limit of 1024 isn't valid for some of the RDMA based ctrls. In
+case the target expose a cap of larger amount of entries (e.g. 1024),
+the initiator may fail to create a QP with this size. Thus limit to a
+value that works for all RDMA adapters.
 
+Future general solution should use RDMA/core API to calculate this size
+according to device capabilities and number of WRs needed per NVMe IO
+request.
 
-I think you need to be patching __nvme_find_get_subsystem(), which looks 
-for subsystem name and opts out (allowing multiple connects to discovery 
-subsystems) if discovery controller nqn.
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
+ drivers/nvme/host/rdma.c  | 7 +++++++
+ include/linux/nvme-rdma.h | 2 ++
+ 2 files changed, 9 insertions(+)
 
-e.g. the loop matching subsys name (assuming discovery ctlr now has a 
-unique name) continues if subsys->subtype is NVME_NQN_DISC
-
--- james
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index a68704e39084..a2f62eefccd9 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1111,6 +1111,13 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ 			ctrl->ctrl.opts->queue_size, ctrl->ctrl.sqsize + 1);
+ 	}
+ 
++	if (ctrl->ctrl.sqsize + 1 > NVME_RDMA_MAX_QUEUE_SIZE) {
++		dev_warn(ctrl->ctrl.device,
++			"ctrl sqsize %u > max queue size %u, clamping down\n",
++			ctrl->ctrl.sqsize + 1, NVME_RDMA_MAX_QUEUE_SIZE);
++		ctrl->ctrl.sqsize = NVME_RDMA_MAX_QUEUE_SIZE - 1;
++	}
++
+ 	if (ctrl->ctrl.sqsize + 1 > ctrl->ctrl.maxcmd) {
+ 		dev_warn(ctrl->ctrl.device,
+ 			"sqsize %u > ctrl maxcmd %u, clamping down\n",
+diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
+index 3ec8e50efa16..4dd7e6fe92fb 100644
+--- a/include/linux/nvme-rdma.h
++++ b/include/linux/nvme-rdma.h
+@@ -6,6 +6,8 @@
+ #ifndef _LINUX_NVME_RDMA_H
+ #define _LINUX_NVME_RDMA_H
+ 
++#define NVME_RDMA_MAX_QUEUE_SIZE	128
++
+ enum nvme_rdma_cm_fmt {
+ 	NVME_RDMA_CM_FMT_1_0 = 0x0,
+ };
+-- 
+2.18.1
 
 
 _______________________________________________
