@@ -2,14 +2,14 @@ Return-Path: <SRS0=ODQg=OO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0341BC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 21:09:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B1FC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 21:09:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B4AD56140F
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 21:09:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B4AD56140F
+	by mail.kernel.org (Postfix) with ESMTPS id EC9786140F
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 21:09:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EC9786140F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,50 +18,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cj7deu3ivmNXo7CWavNhW4YZwlXUp9mhOv02R41j864=; b=wB4bPvU4+jvxuC
-	qwcIxgafrBI94zjvkQC9pPaZdbGYEx3TMc/foN3k1QXOHxCrQbM0AlMcsptSKajkOwLl8AMhWfgTV
-	1do/UM0fSkCYy4N7dNLu6U2Ypc+wD3wQw3IeOJO3qvigmFX+KReC3kg+Qc4IF+SQXc7T8LevEa8Qd
-	IoOdzPWdPWjriP7z5TOS8JM4w1ehCLd6+A69ig00Jb3YmgMas172Eqh8+NKgbMxAd6SKZzPkMRsHu
-	U2J+JLuzgz18bDRwHtvlaJABw0G4LV3enDi57DotJLFElvdkI0sAmSU8Tz+hsPhW0B1OdBW1DNRSl
-	AQ7esdyBmUbgbp/w4XqA==;
+	List-Owner; bh=miEs+m45ERk3r+kfyDkC/ehLX1QkzxeeMdjsVMBodaU=; b=VaXFJR4dxFLlMf
+	cp04W5DPk5b9dZIC1HlWkApaG0h9LORB1IyII7uA48IxExkvpIhAT7aV06JWLWrMIG1wg+tOGTvDr
+	6aRaUkOHWUUo6YVPSebn++0bpjkuECCSEMxR9xyuMSlpo6yCGCWPkpz2xXw2PBGu7bRfS7xikK0ns
+	5VjE+MFmusSGyOOEfnGqiluO6QeoAsaG/ckZ5b+4jJU3xY///ua8vpJe5JMJGQ8Ez3/uvNFuYyqIx
+	V1KJSF30vDs4Duz118ZV7r2xEQEOh9MOIJy9GEZ33V61TlATV5aoXH/xpV8GMisHY59aS72x3Poer
+	wxZuImE7SdhFM9IjUKKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mTsR9-00FXNq-Jr; Fri, 24 Sep 2021 21:08:51 +0000
-Received: from smtp-fw-80007.amazon.com ([99.78.197.218])
+	id 1mTsRK-00FXQ9-6U; Fri, 24 Sep 2021 21:09:02 +0000
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mTsQl-00FXGc-Ep
+ id 1mTsQl-00FXGQ-Et
  for linux-nvme@lists.infradead.org; Fri, 24 Sep 2021 21:08:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1632517708; x=1664053708;
+ t=1632517707; x=1664053707;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Vp0181MQ7YCifJz0Bvr485NHukaJGuKll+3I8exW69c=;
- b=k/kltiKmvX9qJtudU4i6/D1t0ol+nIGpgay0QGvi0pzEl/1KQfDNJsiz
- prRKGZ5+3/c0I8OzzGVycO6oaA0hKKw3YaDslYigd0M22g/ChtKF4KHRG
- TnO+TkKU91JidIp7sYjwgRwreNNVLtPFVY3EDiHCVYSJQdWJSyvhk9J83 Y=;
-X-IronPort-AV: E=Sophos;i="5.85,321,1624320000"; d="scan'208";a="29543158"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
- email-inbound-relay-pdx-2a-5feb294a.us-west-2.amazon.com) ([10.25.36.210])
- by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP;
- 24 Sep 2021 21:08:26 +0000
+ bh=oVUhj6eDK6fsHl9cG3O92vuW4CiVg5liRZ2ixDWLg7E=;
+ b=p4xGhckTbLYyvl806Saa4Vp+JH1pCtLJQ656X1rDlG6BlYo1KePGZXHl
+ cxt4ugZY2KehlNRDGHIF8jKxT4GaYsQjINdTt9SM1oLii/nwALNIpEVbJ
+ pzZZBKKrD/lfGz7DmOlb/v9KZwickXnITlwdXs5U/rQC7e0XqXfxBH/L4 c=;
+X-IronPort-AV: E=Sophos;i="5.85,321,1624320000"; d="scan'208";a="144508881"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ email-inbound-relay-pdx-2a-39fdda15.us-west-2.amazon.com) ([10.43.8.6])
+ by smtp-border-fw-6001.iad6.amazon.com with ESMTP; 24 Sep 2021 21:08:22 +0000
 Received: from EX13MTAUWB001.ant.amazon.com
  (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
- by email-inbound-relay-pdx-2a-5feb294a.us-west-2.amazon.com (Postfix) with
- ESMTPS id 916A9819F6; Fri, 24 Sep 2021 21:08:25 +0000 (UTC)
+ by email-inbound-relay-pdx-2a-39fdda15.us-west-2.amazon.com (Postfix) with
+ ESMTPS id 1110741AD9; Fri, 24 Sep 2021 21:08:22 +0000 (UTC)
 Received: from EX13D04UWA003.ant.amazon.com (10.43.160.212) by
  EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
- id 15.0.1497.23; Fri, 24 Sep 2021 21:08:25 +0000
+ id 15.0.1497.23; Fri, 24 Sep 2021 21:08:21 +0000
 Received: from dev-dsk-nikitina-1d-36de5be9.us-east-1.amazon.com
  (10.43.162.216) by EX13D04UWA003.ant.amazon.com (10.43.160.212) with
- Microsoft SMTP Server (TLS) id 15.0.1497.23; Fri, 24 Sep 2021 21:08:24 +0000
+ Microsoft SMTP Server (TLS) id 15.0.1497.23; Fri, 24 Sep 2021 21:08:20 +0000
 From: Andrey Nikitin <nikitina@amazon.com>
 To: <linux-nvme@lists.infradead.org>
 CC: <benh@kernel.crashing.org>, <davebuch@amazon.com>, Andrey Nikitin
  <nikitina@amazon.com>
-Subject: [RFC PATCH 3/3] nvme: implement SQ associations
-Date: Fri, 24 Sep 2021 21:08:09 +0000
-Message-ID: <20210924210809.14536-4-nikitina@amazon.com>
+Subject: [RFC PATCH 1/3] nvme: split admin queue in pci
+Date: Fri, 24 Sep 2021 21:08:07 +0000
+Message-ID: <20210924210809.14536-2-nikitina@amazon.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210924210809.14536-1-nikitina@amazon.com>
 References: <20210924210809.14536-1-nikitina@amazon.com>
@@ -70,8 +69,8 @@ X-Originating-IP: [10.43.162.216]
 X-ClientProxiedBy: EX13D44UWC003.ant.amazon.com (10.43.162.138) To
  EX13D04UWA003.ant.amazon.com (10.43.160.212)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210924_140827_641294_418F207B 
-X-CRM114-Status: GOOD (  28.00  )
+X-CRM114-CacheID: sfid-20210924_140827_673504_A7667121 
+X-CRM114-Status: GOOD (  23.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,326 +82,374 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-VGhpcyBwYXRjaCBpbXBsZW1lbnRzIFNRIGFzc29jaWF0aW9uIGZlYXR1cmUgZm9yIFBDSSBob3N0
-LgpJZiB0aGUgY29udHJvbGxlciBpbmRpY2F0ZXMgc3VwcG9ydCBmb3IgTlZNIHNldHMgYW5kIFNR
-IGFzc29jaWF0aW9ucwphbmQgaGFzIGEgc3VmZmljaWVudCBudW1iZXIgb2YgcXVldWVzIHN1cHBv
-cnRlZCB0aGVuIGVhY2ggTlZNIHNldApnZXRzIGl0cyBvd24gYmxrLW1xIHRhZ3NldCBhbmQgcXVl
-dWVzIGFyZSBkaXN0cmlidXRlZCB1bmlmb3JtbHkKYWNyb3NzIE5WTSBzZXRzLgpJZiB0aGUgbnVt
-YmVyIG9mIG14aS14IHZlY3RvcnMgc3VwcG9ydGVkIGJ5IGEgY29udHJvbGxlciBpcyBsZXNzCnRo
-YW4gdGhlIHRvdGFsIG51bWJlciBvZiBxdWV1ZXMgZm9yIGFsbCBOVk0gc2V0cyB0aGUgdmVjdG9y
-cyB3aWxsCmJlIHNoYXJlZCBieSBxdWV1ZXMgYXNzb2NpYXRlZCB3aXRoIGRpZmZlcmVudCBOVk0g
-c2V0cywgdGhleeKAmWxsCmJlIGFzc2lnbmVkIGluIGEgcm91bmQtcm9iaW4gZmFzaGlvbi4KClNp
-Z25lZC1vZmYtYnk6IEFuZHJleSBOaWtpdGluIDxuaWtpdGluYUBhbWF6b24uY29tPgotLS0KIGRy
-aXZlcnMvbnZtZS9ob3N0L2NvcmUuYyAgIHwgIDE3ICsrLQogZHJpdmVycy9udm1lL2hvc3QvZmMu
-YyAgICAgfCAgIDEgKwogZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oICAgfCAgIDIgKwogZHJpdmVy
-cy9udm1lL2hvc3QvcGNpLmMgICAgfCAyMTUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0tLS0tLQogZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jICAgfCAgIDEgKwogZHJpdmVycy9udm1l
-L2hvc3QvdGNwLmMgICAgfCAgIDEgKwogZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMgfCAgIDEg
-KwogNyBmaWxlcyBjaGFuZ2VkLCAxODIgaW5zZXJ0aW9ucygrKSwgNTYgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hvc3Qv
-Y29yZS5jCmluZGV4IDYzZDZhMjE2MmU3Mi4uNmFhNjE2M2VjNDA3IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL252bWUvaG9zdC9jb3JlLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCkBAIC00
-MTIsMTAgKzQxMiwxNiBAQCBFWFBPUlRfU1lNQk9MX0dQTChudm1lX2NhbmNlbF9yZXF1ZXN0KTsK
-IAogdm9pZCBudm1lX2NhbmNlbF90YWdzZXQoc3RydWN0IG52bWVfY3RybCAqY3RybCkKIHsKLQlp
-ZiAoY3RybC0+dGFnc2V0KSB7Ci0JCWJsa19tcV90YWdzZXRfYnVzeV9pdGVyKGN0cmwtPnRhZ3Nl
-dCwKKwlpbnQgaTsKKworCWlmICghY3RybC0+dGFnc2V0KSB7CisJCXJldHVybjsKKwl9CisKKwlm
-b3IgKGkgPSAwOyBpIDwgY3RybC0+bnJfdGFnc2V0czsgaSsrKSB7CisJCWJsa19tcV90YWdzZXRf
-YnVzeV9pdGVyKCZjdHJsLT50YWdzZXRbaV0sCiAJCQkJbnZtZV9jYW5jZWxfcmVxdWVzdCwgY3Ry
-bCk7Ci0JCWJsa19tcV90YWdzZXRfd2FpdF9jb21wbGV0ZWRfcmVxdWVzdChjdHJsLT50YWdzZXQp
-OworCQlibGtfbXFfdGFnc2V0X3dhaXRfY29tcGxldGVkX3JlcXVlc3QoJmN0cmwtPnRhZ3NldFtp
-XSk7CiAJfQogfQogRVhQT1JUX1NZTUJPTF9HUEwobnZtZV9jYW5jZWxfdGFnc2V0KTsKQEAgLTM3
-MTYsNiArMzcyMiw3IEBAIHN0YXRpYyB2b2lkIG52bWVfYWxsb2NfbnMoc3RydWN0IG52bWVfY3Ry
-bCAqY3RybCwgdW5zaWduZWQgbnNpZCwKIAlzdHJ1Y3QgZ2VuZGlzayAqZGlzazsKIAlzdHJ1Y3Qg
-bnZtZV9pZF9ucyAqaWQ7CiAJaW50IG5vZGUgPSBjdHJsLT5udW1hX25vZGU7CisJaW50IHRhZ3Nl
-dF9pZHg7CiAKIAlpZiAobnZtZV9pZGVudGlmeV9ucyhjdHJsLCBuc2lkLCBpZHMsICZpZCkpCiAJ
-CXJldHVybjsKQEAgLTM3MjQsNyArMzczMSw5IEBAIHN0YXRpYyB2b2lkIG52bWVfYWxsb2NfbnMo
-c3RydWN0IG52bWVfY3RybCAqY3RybCwgdW5zaWduZWQgbnNpZCwKIAlpZiAoIW5zKQogCQlnb3Rv
-IG91dF9mcmVlX2lkOwogCi0JZGlzayA9IGJsa19tcV9hbGxvY19kaXNrKGN0cmwtPnRhZ3NldCwg
-bnMpOworCXRhZ3NldF9pZHggPSBpZC0+bnZtc2V0aWQgJiYgaWQtPm52bXNldGlkIDw9IGN0cmwt
-Pm5yX3RhZ3NldHMgPworCQkJaWQtPm52bXNldGlkIC0gMSA6IDA7CisJZGlzayA9IGJsa19tcV9h
-bGxvY19kaXNrKCZjdHJsLT50YWdzZXRbdGFnc2V0X2lkeF0sIG5zKTsKIAlpZiAoSVNfRVJSKGRp
-c2spKQogCQlnb3RvIG91dF9mcmVlX25zOwogCWRpc2stPmZvcHMgPSAmbnZtZV9iZGV2X29wczsK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZjLmMgYi9kcml2ZXJzL252bWUvaG9zdC9m
-Yy5jCmluZGV4IGIwOGE2MWNhMjgzZi4uZTNlYWVlNjhkNDM2IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L252bWUvaG9zdC9mYy5jCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZjLmMKQEAgLTI4ODksNiAr
-Mjg4OSw3IEBAIG52bWVfZmNfY3JlYXRlX2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9mY19jdHJsICpj
-dHJsKQogCQlyZXR1cm4gcmV0OwogCiAJY3RybC0+Y3RybC50YWdzZXQgPSAmY3RybC0+dGFnX3Nl
-dDsKKwljdHJsLT5jdHJsLm5yX3RhZ3NldHMgPSAxOwogCiAJY3RybC0+Y3RybC5jb25uZWN0X3Eg
-PSBibGtfbXFfaW5pdF9xdWV1ZSgmY3RybC0+dGFnX3NldCk7CiAJaWYgKElTX0VSUihjdHJsLT5j
-dHJsLmNvbm5lY3RfcSkpIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L252bWUuaCBi
-L2RyaXZlcnMvbnZtZS9ob3N0L252bWUuaAppbmRleCAwM2JlNmM5MTMyMTYuLmNlYjNhMmM0Zjk5
-YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCisrKyBiL2RyaXZlcnMvbnZt
-ZS9ob3N0L252bWUuaApAQCAtMjM1LDYgKzIzNSw4IEBAIHN0cnVjdCBudm1lX2N0cmwgewogCXN0
-cnVjdCBkZXZpY2UgKmRldjsKIAlpbnQgaW5zdGFuY2U7CiAJaW50IG51bWFfbm9kZTsKKwlpbnQg
-bnJfdGFnc2V0czsKKwlpbnQgbnJfdGFnc2V0X3F1ZXVlczsKIAlzdHJ1Y3QgYmxrX21xX3RhZ19z
-ZXQgKnRhZ3NldDsKIAlzdHJ1Y3QgYmxrX21xX3RhZ19zZXQgKmFkbWluX3RhZ3NldDsKIAlzdHJ1
-Y3QgbGlzdF9oZWFkIG5hbWVzcGFjZXM7CmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9w
-Y2kuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jCmluZGV4IDM3ZGU3YWM3OWIzZi4uMGQ2ZjMz
-Mzk5YTI2IDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUvaG9zdC9wY2kuYworKysgYi9kcml2ZXJz
-L252bWUvaG9zdC9wY2kuYwpAQCAtMTE0LDYgKzExNCw4IEBAIHN0YXRpYyBib29sIF9fbnZtZV9k
-aXNhYmxlX2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9kZXYgKmRldiwgdTggb3Bjb2RlKTsKICAqLwog
-c3RydWN0IG52bWVfcXVldWUgewogCXN0cnVjdCBudm1lX2RldiAqZGV2OworCWludCB0YWdzZXRf
-aWR4OworCWludCBoY3R4X2lkeDsKIAlzcGlubG9ja190IHNxX2xvY2s7CiAJdm9pZCAqc3FfY21k
-czsKIAkgLyogb25seSB1c2VkIGZvciBwb2xsIHF1ZXVlczogKi8KQEAgLTE0Nyw3ICsxNDksOCBA
-QCBzdHJ1Y3QgbnZtZV9xdWV1ZSB7CiAgKi8KIHN0cnVjdCBudm1lX2RldiB7CiAJc3RydWN0IG52
-bWVfcXVldWUgKnF1ZXVlczsKLQlzdHJ1Y3QgYmxrX21xX3RhZ19zZXQgdGFnc2V0OworCXN0cnVj
-dCBibGtfbXFfdGFnX3NldCAqdGFnc2V0OworCXVuc2lnbmVkIGludCB0YWdzZXRfaHdfcXVldWVz
-OwogCXN0cnVjdCBudm1lX3F1ZXVlIGFkbWluX3F1ZXVlOwogCXN0cnVjdCBibGtfbXFfdGFnX3Nl
-dCBhZG1pbl90YWdzZXQ7CiAJdTMyIF9faW9tZW0gKmRiczsKQEAgLTM2OCw2ICszNzEsMTMgQEAg
-c3RhdGljIGJvb2wgbnZtZV9kYmJ1Zl91cGRhdGVfYW5kX2NoZWNrX2V2ZW50KHUxNiB2YWx1ZSwg
-dTMyICpkYmJ1Zl9kYiwKIAlyZXR1cm4gdHJ1ZTsKIH0KIAorc3RhdGljIGJvb2wgbnZtZV9jaGVj
-a19xYXNzb2Moc3RydWN0IG52bWVfZGV2ICpkZXYsIHVuc2lnbmVkIGludCBucl9pb19xdWV1ZXMp
-Cit7CisJcmV0dXJuIG52bWVfaXNfcWFzc29jX3N1cHBvcnRlZCgmZGV2LT5jdHJsKSAmJgorCQkh
-ZGV2LT5ucl93cml0ZV9xdWV1ZXMgJiYgIWRldi0+bnJfcG9sbF9xdWV1ZXMgJiYKKwkJbnJfaW9f
-cXVldWVzID49IGRldi0+Y3RybC5uc2V0aWRtYXg7Cit9CisKIC8qCiAgKiBXaWxsIHNsaWdodGx5
-IG92ZXJlc3RpbWF0ZSB0aGUgbnVtYmVyIG9mIHBhZ2VzIG5lZWRlZC4gIFRoaXMgaXMgT0sKICAq
-IGFzIGl0IG9ubHkgbGVhZHMgdG8gYSBzbWFsbCBhbW91bnQgb2Ygd2FzdGVkIG1lbW9yeSBmb3Ig
-dGhlIGxpZmV0aW1lIG9mCkBAIC00MTUsOSArNDI1LDIzIEBAIHN0YXRpYyBpbnQgbnZtZV9pbml0
-X2hjdHgoc3RydWN0IGJsa19tcV9od19jdHggKmhjdHgsIHZvaWQgKmRhdGEsCiAJCQkgIHVuc2ln
-bmVkIGludCBoY3R4X2lkeCkKIHsKIAlzdHJ1Y3QgbnZtZV9kZXYgKmRldiA9IGRhdGE7Ci0Jc3Ry
-dWN0IG52bWVfcXVldWUgKm52bWVxID0gJmRldi0+cXVldWVzW2hjdHhfaWR4XTsKKwlzdHJ1Y3Qg
-bnZtZV9xdWV1ZSAqbnZtZXEgPSBOVUxMOworCWludCBpOwogCi0JV0FSTl9PTihkZXYtPnRhZ3Nl
-dC50YWdzW2hjdHhfaWR4XSAhPSBoY3R4LT50YWdzKTsKKwlmb3IgKGkgPSAwOyBpIDwgZGV2LT5j
-dHJsLm5yX3RhZ3NldHM7IGkrKykKKwkJaWYgKGRldi0+dGFnc2V0W2ldLnRhZ3NbaGN0eF9pZHhd
-ID09IGhjdHgtPnRhZ3MpIHsKKwkJCW52bWVxID0gJmRldi0+cXVldWVzW2kgKiBkZXYtPnRhZ3Nl
-dF9od19xdWV1ZXMgKyBoY3R4X2lkeF07CisJCQlicmVhazsKKwkJfQorCisJaWYgKCFudm1lcSkg
-eworCQlkZXZfd2FybihkZXYtPmN0cmwuZGV2aWNlLAorCQkJIkRldmljZSBxdWV1ZSBub3QgZm91
-bmQgZm9yIGhjdHggJWRcbiIsIGhjdHhfaWR4KTsKKwkJcmV0dXJuIC1FSU5WQUw7CisJfQorCisJ
-V0FSTl9PTihkZXYtPnRhZ3NldFtudm1lcS0+dGFnc2V0X2lkeF0udGFnc1toY3R4X2lkeF0gIT0g
-aGN0eC0+dGFncyk7CisJbnZtZXEtPmhjdHhfaWR4ID0gaGN0eF9pZHg7CiAJaGN0eC0+ZHJpdmVy
-X2RhdGEgPSBudm1lcTsKIAlyZXR1cm4gMDsKIH0KQEAgLTQ0Miw4ICs0NjYsMTggQEAgc3RhdGlj
-IGludCBudm1lX2luaXRfcmVxdWVzdChzdHJ1Y3QgYmxrX21xX3RhZ19zZXQgKnNldCwgc3RydWN0
-IHJlcXVlc3QgKnJlcSwKIHsKIAlzdHJ1Y3QgbnZtZV9kZXYgKmRldiA9IHNldC0+ZHJpdmVyX2Rh
-dGE7CiAJc3RydWN0IG52bWVfaW9kICppb2QgPSBibGtfbXFfcnFfdG9fcGR1KHJlcSk7Ci0JaW50
-IHF1ZXVlX2lkeCA9IGhjdHhfaWR4OwotCXN0cnVjdCBudm1lX3F1ZXVlICpudm1lcSA9ICZkZXYt
-PnF1ZXVlc1txdWV1ZV9pZHhdOworCWludCB0YWdzZXRfaWR4LCBxdWV1ZV9pZHg7CisJc3RydWN0
-IG52bWVfcXVldWUgKm52bWVxOworCisJaWYgKHNldCA8IGRldi0+dGFnc2V0IHx8IHNldCA+PSAm
-ZGV2LT50YWdzZXRbZGV2LT5jdHJsLm5yX3RhZ3NldHNdKSB7CisJCWRldl93YXJuKGRldi0+Y3Ry
-bC5kZXZpY2UsCisJCQkiSW52YWxpZCB0YWdzZXQgZm9yIHJlcXVlc3QgaW5pdCAlcFxuIiwgc2V0
-KTsKKwkJcmV0dXJuIC1FSU5WQUw7CisJfQorCisJdGFnc2V0X2lkeCA9IHNldCAtIGRldi0+dGFn
-c2V0OworCXF1ZXVlX2lkeCA9IHRhZ3NldF9pZHggKiBkZXYtPnRhZ3NldF9od19xdWV1ZXMgKyBo
-Y3R4X2lkeDsKKwludm1lcSA9ICZkZXYtPnF1ZXVlc1txdWV1ZV9pZHhdOwogCiAJQlVHX09OKCFu
-dm1lcSk7CiAJaW9kLT5udm1lcSA9IG52bWVxOwpAQCAtNDcxLDcgKzUwNSw4IEBAIHN0YXRpYyBp
-bnQgbnZtZV9wY2lfbWFwX3F1ZXVlcyhzdHJ1Y3QgYmxrX21xX3RhZ19zZXQgKnNldCkKIAlmb3Ig
-KGkgPSAwLCBxb2ZmID0gMDsgaSA8IHNldC0+bnJfbWFwczsgaSsrKSB7CiAJCXN0cnVjdCBibGtf
-bXFfcXVldWVfbWFwICptYXAgPSAmc2V0LT5tYXBbaV07CiAKLQkJbWFwLT5ucl9xdWV1ZXMgPSBk
-ZXYtPmlvX3F1ZXVlc1tpXTsKKwkJbWFwLT5ucl9xdWV1ZXMgPSBkZXYtPmN0cmwubnJfdGFnc2V0
-cyA+IDEgJiYgaSA9PSAwID8KKwkJCQkJZGV2LT50YWdzZXRfaHdfcXVldWVzIDogZGV2LT5pb19x
-dWV1ZXNbaV07CiAJCWlmICghbWFwLT5ucl9xdWV1ZXMpIHsKIAkJCUJVR19PTihpID09IEhDVFhf
-VFlQRV9ERUZBVUxUKTsKIAkJCWNvbnRpbnVlOwpAQCAtMTAxMyw3ICsxMDQ4LDcgQEAgc3RhdGlj
-IGlubGluZSBzdHJ1Y3QgYmxrX21xX3RhZ3MgKm52bWVfcXVldWVfdGFnc2V0KHN0cnVjdCBudm1l
-X3F1ZXVlICpudm1lcSkKIHsKIAlpZiAoIW52bWVxLT5xaWQpCiAJCXJldHVybiBudm1lcS0+ZGV2
-LT5hZG1pbl90YWdzZXQudGFnc1swXTsKLQlyZXR1cm4gbnZtZXEtPmRldi0+dGFnc2V0LnRhZ3Nb
-bnZtZXEtPnFpZCAtIDFdOworCXJldHVybiBudm1lcS0+ZGV2LT50YWdzZXRbbnZtZXEtPnRhZ3Nl
-dF9pZHhdLnRhZ3NbbnZtZXEtPmhjdHhfaWR4XTsKIH0KIAogc3RhdGljIGlubGluZSB2b2lkIG52
-bWVfaGFuZGxlX2NxZShzdHJ1Y3QgbnZtZV9xdWV1ZSAqbnZtZXEsIHUxNiBpZHgpCkBAIC0xMTcy
-LDcgKzEyMDcsNyBAQCBzdGF0aWMgaW50IGFkYXB0ZXJfYWxsb2NfY3Eoc3RydWN0IG52bWVfZGV2
-ICpkZXYsIHUxNiBxaWQsCiB9CiAKIHN0YXRpYyBpbnQgYWRhcHRlcl9hbGxvY19zcShzdHJ1Y3Qg
-bnZtZV9kZXYgKmRldiwgdTE2IHFpZCwKLQkJCQkJCXN0cnVjdCBudm1lX3F1ZXVlICpudm1lcSkK
-KwkJc3RydWN0IG52bWVfcXVldWUgKm52bWVxLCB1MTYgcWFzc29jKQogewogCXN0cnVjdCBudm1l
-X2N0cmwgKmN0cmwgPSAmZGV2LT5jdHJsOwogCXN0cnVjdCBudm1lX2NvbW1hbmQgYyA9IHsgfTsK
-QEAgLTExOTYsNiArMTIzMSw3IEBAIHN0YXRpYyBpbnQgYWRhcHRlcl9hbGxvY19zcShzdHJ1Y3Qg
-bnZtZV9kZXYgKmRldiwgdTE2IHFpZCwKIAljLmNyZWF0ZV9zcS5xc2l6ZSA9IGNwdV90b19sZTE2
-KG52bWVxLT5xX2RlcHRoIC0gMSk7CiAJYy5jcmVhdGVfc3Euc3FfZmxhZ3MgPSBjcHVfdG9fbGUx
-NihmbGFncyk7CiAJYy5jcmVhdGVfc3EuY3FpZCA9IGNwdV90b19sZTE2KHFpZCk7CisJYy5jcmVh
-dGVfc3EubnZtc2V0aWQgPSBjcHVfdG9fbGUxNihxYXNzb2MpOwogCiAJcmV0dXJuIG52bWVfc3Vi
-bWl0X3N5bmNfY21kKGRldi0+Y3RybC5hZG1pbl9xLCAmYywgTlVMTCwgMCk7CiB9CkBAIC0xNTk4
-LDcgKzE2MzQsOCBAQCBzdGF0aWMgaW50IG52bWVfc2V0dXBfaW9fcXVldWVzX3RyeWxvY2soc3Ry
-dWN0IG52bWVfZGV2ICpkZXYpCiAJcmV0dXJuIDA7CiB9CiAKLXN0YXRpYyBpbnQgbnZtZV9jcmVh
-dGVfcXVldWUoc3RydWN0IG52bWVfcXVldWUgKm52bWVxLCBpbnQgcWlkLCBib29sIHBvbGxlZCkK
-K3N0YXRpYyBpbnQgbnZtZV9jcmVhdGVfcXVldWUoc3RydWN0IG52bWVfcXVldWUgKm52bWVxLCBp
-bnQgcWlkLAorCQlib29sIHBvbGxlZCwgaW50IHFhc3NvYykKIHsKIAlzdHJ1Y3QgbnZtZV9kZXYg
-KmRldiA9IG52bWVxLT5kZXY7CiAJaW50IHJlc3VsdDsKQEAgLTE2MDcsMTEgKzE2NDQsMTIgQEAg
-c3RhdGljIGludCBudm1lX2NyZWF0ZV9xdWV1ZShzdHJ1Y3QgbnZtZV9xdWV1ZSAqbnZtZXEsIGlu
-dCBxaWQsIGJvb2wgcG9sbGVkKQogCWNsZWFyX2JpdChOVk1FUV9ERUxFVEVfRVJST1IsICZudm1l
-cS0+ZmxhZ3MpOwogCiAJLyoKLQkgKiBBIHF1ZXVlJ3MgdmVjdG9yIG1hdGNoZXMgdGhlIHF1ZXVl
-IGlkZW50aWZpZXIgdW5sZXNzIHRoZSBjb250cm9sbGVyCi0JICogaGFzIG9ubHkgb25lIHZlY3Rv
-ciBhdmFpbGFibGUuCisJICogQSBxdWV1ZSdzIHZlY3RvciBtYXRjaGVzIHRoZSBxdWV1ZSBpZGVu
-dGlmaWVyIChtb2R1bG8gbnVtYmVyIG9mCisJICogdmVjdG9ycykgdW5sZXNzIHRoZSBjb250cm9s
-bGVyIGhhcyBvbmx5IG9uZSB2ZWN0b3IgYXZhaWxhYmxlLgogCSAqLwogCWlmICghcG9sbGVkKQot
-CQl2ZWN0b3IgPSBkZXYtPm51bV92ZWNzID09IDEgPyAwIDogcWlkOworCQl2ZWN0b3IgPSBkZXYt
-Pm51bV92ZWNzID09IDEgPyAwIDoKKwkJCQkoKHFpZCAtIDEpICUgKGRldi0+bnVtX3ZlY3MgLSAx
-KSkgKyAxOwogCWVsc2UKIAkJc2V0X2JpdChOVk1FUV9QT0xMRUQsICZudm1lcS0+ZmxhZ3MpOwog
-CkBAIC0xNjE5LDEzICsxNjU3LDE0IEBAIHN0YXRpYyBpbnQgbnZtZV9jcmVhdGVfcXVldWUoc3Ry
-dWN0IG52bWVfcXVldWUgKm52bWVxLCBpbnQgcWlkLCBib29sIHBvbGxlZCkKIAlpZiAocmVzdWx0
-KQogCQlyZXR1cm4gcmVzdWx0OwogCi0JcmVzdWx0ID0gYWRhcHRlcl9hbGxvY19zcShkZXYsIHFp
-ZCwgbnZtZXEpOworCXJlc3VsdCA9IGFkYXB0ZXJfYWxsb2Nfc3EoZGV2LCBxaWQsIG52bWVxLCBx
-YXNzb2MpOwogCWlmIChyZXN1bHQgPCAwKQogCQlyZXR1cm4gcmVzdWx0OwogCWlmIChyZXN1bHQp
-CiAJCWdvdG8gcmVsZWFzZV9jcTsKIAogCW52bWVxLT5jcV92ZWN0b3IgPSB2ZWN0b3I7CisJbnZt
-ZXEtPnRhZ3NldF9pZHggPSBxYXNzb2MgPyBxYXNzb2MgLSAxIDogMDsKIAogCXJlc3VsdCA9IG52
-bWVfc2V0dXBfaW9fcXVldWVzX3RyeWxvY2soZGV2KTsKIAlpZiAocmVzdWx0KQpAQCAtMTc5Niw3
-ICsxODM1LDggQEAgc3RhdGljIGludCBudm1lX3BjaV9jb25maWd1cmVfYWRtaW5fcXVldWUoc3Ry
-dWN0IG52bWVfZGV2ICpkZXYpCiBzdGF0aWMgaW50IG52bWVfY3JlYXRlX2lvX3F1ZXVlcyhzdHJ1
-Y3QgbnZtZV9kZXYgKmRldikKIHsKIAl1bnNpZ25lZCBpLCBtYXgsIHJ3X3F1ZXVlczsKLQlpbnQg
-cmV0ID0gMDsKKwlpbnQgcmV0ID0gMGksIHF1ZXVlc19wZXJfc2V0OworCWJvb2wgcWFzc29jX2Vu
-OwogCiAJZm9yIChpID0gZGV2LT5jdHJsLnF1ZXVlX2NvdW50OyBpIDw9IGRldi0+bWF4X3FpZDsg
-aSsrKSB7CiAJCWlmIChudm1lX2FsbG9jX3F1ZXVlKGRldiwgaSwgZGV2LT5xX2RlcHRoKSkgewpA
-QCAtMTgxMywxMCArMTg1MywxNCBAQCBzdGF0aWMgaW50IG52bWVfY3JlYXRlX2lvX3F1ZXVlcyhz
-dHJ1Y3QgbnZtZV9kZXYgKmRldikKIAkJcndfcXVldWVzID0gbWF4OwogCX0KIAorCXFhc3NvY19l
-biA9IG52bWVfY2hlY2tfcWFzc29jKGRldiwgbWF4KTsKKwlxdWV1ZXNfcGVyX3NldCA9IHFhc3Nv
-Y19lbiA/IG1heCAvIGRldi0+Y3RybC5uc2V0aWRtYXggOiAwOworCiAJZm9yIChpID0gZGV2LT5v
-bmxpbmVfcXVldWVzOyBpIDw9IG1heDsgaSsrKSB7CiAJCWJvb2wgcG9sbGVkID0gaSA+IHJ3X3F1
-ZXVlczsKKwkJaW50IHFhc3NvYyA9IHFhc3NvY19lbiA/ICgoaSAtIDEpIC8gcXVldWVzX3Blcl9z
-ZXQpICsgMSA6IDA7CiAKLQkJcmV0ID0gbnZtZV9jcmVhdGVfcXVldWUobnZtZV9nZXRfcXVldWUo
-ZGV2LCBpKSwgaSwgcG9sbGVkKTsKKwkJcmV0ID0gbnZtZV9jcmVhdGVfcXVldWUobnZtZV9nZXRf
-cXVldWUoZGV2LCBpKSwgaSwgcG9sbGVkLCBxYXNzb2MpOwogCQlpZiAocmV0KQogCQkJYnJlYWs7
-CiAJfQpAQCAtMjI0Myw4ICsyMjg3LDEwIEBAIHN0YXRpYyBpbnQgbnZtZV9zZXR1cF9pcnFzKHN0
-cnVjdCBudm1lX2RldiAqZGV2LCB1bnNpZ25lZCBpbnQgbnJfaW9fcXVldWVzKQogCSAqIHZlY3Rv
-ci4KIAkgKi8KIAlpcnFfcXVldWVzID0gMTsKLQlpZiAoIShkZXYtPmN0cmwucXVpcmtzICYgTlZN
-RV9RVUlSS19TSU5HTEVfVkVDVE9SKSkKKwlpZiAoIShkZXYtPmN0cmwucXVpcmtzICYgTlZNRV9R
-VUlSS19TSU5HTEVfVkVDVE9SKSkgewogCQlpcnFfcXVldWVzICs9IChucl9pb19xdWV1ZXMgLSBw
-b2xsX3F1ZXVlcyk7CisJfQorCiAJcmV0dXJuIHBjaV9hbGxvY19pcnFfdmVjdG9yc19hZmZpbml0
-eShwZGV2LCAxLCBpcnFfcXVldWVzLAogCQkJICAgICAgUENJX0lSUV9BTExfVFlQRVMgfCBQQ0lf
-SVJRX0FGRklOSVRZLCAmYWZmZCk7CiB9CkBAIC0yMjU1LDYgKzIzMDEsMTEgQEAgc3RhdGljIHZv
-aWQgbnZtZV9kaXNhYmxlX2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9kZXYgKmRldikKIAkJX19udm1l
-X2Rpc2FibGVfaW9fcXVldWVzKGRldiwgbnZtZV9hZG1pbl9kZWxldGVfY3EpOwogfQogCitzdGF0
-aWMgdW5zaWduZWQgaW50IG52bWVfZGVmYXVsdF9pb19xdWV1ZXMoc3RydWN0IG52bWVfZGV2ICpk
-ZXYpCit7CisJcmV0dXJuIG51bV9wb3NzaWJsZV9jcHVzKCkgKyBkZXYtPm5yX3dyaXRlX3F1ZXVl
-cyArIGRldi0+bnJfcG9sbF9xdWV1ZXM7Cit9CisKIHN0YXRpYyB1bnNpZ25lZCBpbnQgbnZtZV9t
-YXhfaW9fcXVldWVzKHN0cnVjdCBudm1lX2RldiAqZGV2KQogewogCS8qCkBAIC0yMjYzLDcgKzIz
-MTQsMTMgQEAgc3RhdGljIHVuc2lnbmVkIGludCBudm1lX21heF9pb19xdWV1ZXMoc3RydWN0IG52
-bWVfZGV2ICpkZXYpCiAJICovCiAJaWYgKGRldi0+Y3RybC5xdWlya3MgJiBOVk1FX1FVSVJLX1NI
-QVJFRF9UQUdTKQogCQlyZXR1cm4gMTsKLQlyZXR1cm4gbnVtX3Bvc3NpYmxlX2NwdXMoKSArIGRl
-di0+bnJfd3JpdGVfcXVldWVzICsgZGV2LT5ucl9wb2xsX3F1ZXVlczsKKworCWlmIChudm1lX2No
-ZWNrX3Fhc3NvYyhkZXYsIE5WTUVfTUFYX1FJRCkpIHsKKwkJcmV0dXJuIG1pbihudW1fcG9zc2li
-bGVfY3B1cygpICogZGV2LT5jdHJsLm5zZXRpZG1heCwKKwkJCQkodW5zaWduZWQgaW50KU5WTUVf
-TUFYX1FJRCk7CisJfQorCisJcmV0dXJuIG52bWVfZGVmYXVsdF9pb19xdWV1ZXMoZGV2KTsKIH0K
-IAogc3RhdGljIGludCBudm1lX3NldHVwX2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9kZXYgKmRldikK
-QEAgLTIyODIsNiArMjMzOSwxNSBAQCBzdGF0aWMgaW50IG52bWVfc2V0dXBfaW9fcXVldWVzKHN0
-cnVjdCBudm1lX2RldiAqZGV2KQogCWRldi0+bnJfcG9sbF9xdWV1ZXMgPSBwb2xsX3F1ZXVlczsK
-IAogCW5yX2lvX3F1ZXVlcyA9IG52bWVfbWF4X2lvX3F1ZXVlcyhkZXYpOworCisJcmVzdWx0ID0g
-bnZtZV9zZXRfcXVldWVfY291bnQoJmRldi0+Y3RybCwgJm5yX2lvX3F1ZXVlcyk7CisJaWYgKHJl
-c3VsdCA8IDApCisJCXJldHVybiByZXN1bHQ7CisKKwlucl9pb19xdWV1ZXMgPSBudm1lX2NoZWNr
-X3Fhc3NvYyhkZXYsIG5yX2lvX3F1ZXVlcykgPworCQkJcm91bmRkb3duKG5yX2lvX3F1ZXVlcywg
-ZGV2LT5jdHJsLm5zZXRpZG1heCkgOgorCQkJbWluKG5yX2lvX3F1ZXVlcywgbnZtZV9kZWZhdWx0
-X2lvX3F1ZXVlcyhkZXYpKTsKKwogCWlmIChucl9pb19xdWV1ZXMgIT0gZGV2LT5ucl9hbGxvY2F0
-ZWRfcXVldWVzKSB7CiAJCWRldi0+bnJfYWxsb2NhdGVkX3F1ZXVlcyA9IG5yX2lvX3F1ZXVlczsK
-IApAQCAtMjI5MywxMCArMjM1OSw2IEBAIHN0YXRpYyBpbnQgbnZtZV9zZXR1cF9pb19xdWV1ZXMo
-c3RydWN0IG52bWVfZGV2ICpkZXYpCiAJCQlyZXR1cm4gLUVOT01FTTsKIAl9CiAKLQlyZXN1bHQg
-PSBudm1lX3NldF9xdWV1ZV9jb3VudCgmZGV2LT5jdHJsLCAmbnJfaW9fcXVldWVzKTsKLQlpZiAo
-cmVzdWx0IDwgMCkKLQkJcmV0dXJuIHJlc3VsdDsKLQogCWlmIChucl9pb19xdWV1ZXMgPT0gMCkK
-IAkJcmV0dXJuIDA7CiAKQEAgLTIzNTMsNyArMjQxNSw5IEBAIHN0YXRpYyBpbnQgbnZtZV9zZXR1
-cF9pb19xdWV1ZXMoc3RydWN0IG52bWVfZGV2ICpkZXYpCiAKIAlkZXYtPm51bV92ZWNzID0gcmVz
-dWx0OwogCXJlc3VsdCA9IG1heChyZXN1bHQgLSAxLCAxKTsKLQlkZXYtPm1heF9xaWQgPSByZXN1
-bHQgKyBkZXYtPmlvX3F1ZXVlc1tIQ1RYX1RZUEVfUE9MTF07CisJZGV2LT5tYXhfcWlkID0gbnZt
-ZV9jaGVja19xYXNzb2MoZGV2LCBucl9pb19xdWV1ZXMpID8KKwkJCW1pbigoaW50KW5yX2lvX3F1
-ZXVlcywgcmVzdWx0ICogZGV2LT5jdHJsLm5zZXRpZG1heCkgOgorCQkJcmVzdWx0ICsgZGV2LT5p
-b19xdWV1ZXNbSENUWF9UWVBFX1BPTExdOwogCiAJLyoKIAkgKiBTaG91bGQgaW52ZXN0aWdhdGUg
-aWYgdGhlcmUncyBhIHBlcmZvcm1hbmNlIHdpbiBmcm9tIGFsbG9jYXRpbmcKQEAgLTI0NjAsMzkg
-KzI1MjQsNzQgQEAgc3RhdGljIGJvb2wgX19udm1lX2Rpc2FibGVfaW9fcXVldWVzKHN0cnVjdCBu
-dm1lX2RldiAqZGV2LCB1OCBvcGNvZGUpCiAKIHN0YXRpYyB2b2lkIG52bWVfZGV2X2FkZChzdHJ1
-Y3QgbnZtZV9kZXYgKmRldikKIHsKLQlpbnQgcmV0OworCWludCByZXQsIGk7CiAKLQlpZiAoIWRl
-di0+Y3RybC50YWdzZXQpIHsKLQkJZGV2LT50YWdzZXQub3BzID0gJm52bWVfbXFfb3BzOwotCQlk
-ZXYtPnRhZ3NldC5ucl9od19xdWV1ZXMgPSBkZXYtPm9ubGluZV9xdWV1ZXMgLSAxOwotCQlkZXYt
-PnRhZ3NldC5ucl9tYXBzID0gMjsgLyogZGVmYXVsdCArIHJlYWQgKi8KLQkJaWYgKGRldi0+aW9f
-cXVldWVzW0hDVFhfVFlQRV9QT0xMXSkKLQkJCWRldi0+dGFnc2V0Lm5yX21hcHMrKzsKLQkJZGV2
-LT50YWdzZXQudGltZW91dCA9IE5WTUVfSU9fVElNRU9VVDsKLQkJZGV2LT50YWdzZXQubnVtYV9u
-b2RlID0gZGV2LT5jdHJsLm51bWFfbm9kZTsKLQkJZGV2LT50YWdzZXQucXVldWVfZGVwdGggPSBt
-aW5fdCh1bnNpZ25lZCBpbnQsIGRldi0+cV9kZXB0aCwKLQkJCQkJCUJMS19NUV9NQVhfREVQVEgp
-IC0gMTsKLQkJZGV2LT50YWdzZXQuY21kX3NpemUgPSBzaXplb2Yoc3RydWN0IG52bWVfaW9kKTsK
-LQkJZGV2LT50YWdzZXQuZmxhZ3MgPSBCTEtfTVFfRl9TSE9VTERfTUVSR0U7Ci0JCWRldi0+dGFn
-c2V0LmRyaXZlcl9kYXRhID0gZGV2OworCWRldi0+dGFnc2V0X2h3X3F1ZXVlcyA9IGRldi0+b25s
-aW5lX3F1ZXVlcyAtIDE7CiAKLQkJLyoKLQkJICogU29tZSBBcHBsZSBjb250cm9sbGVycyByZXF1
-aXJlcyB0YWdzIHRvIGJlIHVuaXF1ZQotCQkgKiBhY3Jvc3MgYWRtaW4gYW5kIElPIHF1ZXVlLCBz
-byByZXNlcnZlIHRoZSBmaXJzdCAzMgotCQkgKiB0YWdzIG9mIHRoZSBJTyBxdWV1ZS4KLQkJICov
-Ci0JCWlmIChkZXYtPmN0cmwucXVpcmtzICYgTlZNRV9RVUlSS19TSEFSRURfVEFHUykKLQkJCWRl
-di0+dGFnc2V0LnJlc2VydmVkX3RhZ3MgPSBOVk1FX0FRX0RFUFRIOworCWlmIChudm1lX2NoZWNr
-X3Fhc3NvYyhkZXYsIGRldi0+dGFnc2V0X2h3X3F1ZXVlcykpIHsKKwkJaWYgKGRldi0+Y3RybC5u
-c2V0aWRtYXggIT0gZGV2LT5jdHJsLm5yX3RhZ3NldHMpIHsKKwkJCWtmcmVlKGRldi0+dGFnc2V0
-KTsKKwkJCWRldi0+Y3RybC50YWdzZXQgPSBOVUxMOworCQkJZGV2LT5jdHJsLm5yX3RhZ3NldHMg
-PSBkZXYtPmN0cmwubnNldGlkbWF4OworCQl9CisKKwkJZGV2LT50YWdzZXRfaHdfcXVldWVzIC89
-IGRldi0+Y3RybC5uc2V0aWRtYXg7CisJfSBlbHNlIGlmIChkZXYtPmN0cmwubnJfdGFnc2V0cyAh
-PSAxKSB7CisJCWtmcmVlKGRldi0+dGFnc2V0KTsKKwkJZGV2LT5jdHJsLnRhZ3NldCA9IE5VTEw7
-CisJCWRldi0+Y3RybC5ucl90YWdzZXRzID0gMTsKKwl9CiAKLQkJcmV0ID0gYmxrX21xX2FsbG9j
-X3RhZ19zZXQoJmRldi0+dGFnc2V0KTsKLQkJaWYgKHJldCkgeworCWlmICghZGV2LT5jdHJsLnRh
-Z3NldCkgeworCQlkZXYtPnRhZ3NldCA9IGtjYWxsb2Nfbm9kZShkZXYtPmN0cmwubnJfdGFnc2V0
-cywKKwkJCQlzaXplb2Yoc3RydWN0IGJsa19tcV90YWdfc2V0KSwgR0ZQX0tFUk5FTCwKKwkJCQlk
-ZXZfdG9fbm9kZShkZXYtPmRldikpOworCQlpZiAoIWRldi0+dGFnc2V0KSB7CiAJCQlkZXZfd2Fy
-bihkZXYtPmN0cmwuZGV2aWNlLAotCQkJCSJJTyBxdWV1ZXMgdGFnc2V0IGFsbG9jYXRpb24gZmFp
-bGVkICVkXG4iLCByZXQpOworCQkJCSJEZXZpY2UgJWQgdGFnc2V0cyBhbGxvY2F0aW9uIGZhaWxl
-ZFxuIiwKKwkJCQlkZXYtPmN0cmwubnJfdGFnc2V0cyk7CisJCQlkZXYtPmN0cmwubnJfdGFnc2V0
-cyA9IDA7CiAJCQlyZXR1cm47CiAJCX0KLQkJZGV2LT5jdHJsLnRhZ3NldCA9ICZkZXYtPnRhZ3Nl
-dDsKKworCQlmb3IgKGkgPSAwOyBpIDwgZGV2LT5jdHJsLm5yX3RhZ3NldHM7IGkrKykgeworCQkJ
-c3RydWN0IGJsa19tcV90YWdfc2V0ICp0YWdzZXQgPSAmZGV2LT50YWdzZXRbaV07CisKKwkJCXRh
-Z3NldC0+b3BzID0gJm52bWVfbXFfb3BzOworCQkJdGFnc2V0LT5ucl9od19xdWV1ZXMgPSBkZXYt
-PnRhZ3NldF9od19xdWV1ZXM7CisJCQl0YWdzZXQtPm5yX21hcHMgPSAyOyAvKiBkZWZhdWx0ICsg
-cmVhZCAqLworCQkJaWYgKGRldi0+aW9fcXVldWVzW0hDVFhfVFlQRV9QT0xMXSkKKwkJCQl0YWdz
-ZXQtPm5yX21hcHMrKzsKKwkJCXRhZ3NldC0+dGltZW91dCA9IE5WTUVfSU9fVElNRU9VVDsKKwkJ
-CXRhZ3NldC0+bnVtYV9ub2RlID0gZGV2LT5jdHJsLm51bWFfbm9kZTsKKwkJCXRhZ3NldC0+cXVl
-dWVfZGVwdGggPSBtaW5fdCh1bnNpZ25lZCBpbnQsIGRldi0+cV9kZXB0aCwKKwkJCQkJCUJMS19N
-UV9NQVhfREVQVEgpIC0gMTsKKwkJCXRhZ3NldC0+Y21kX3NpemUgPSBzaXplb2Yoc3RydWN0IG52
-bWVfaW9kKTsKKwkJCXRhZ3NldC0+ZmxhZ3MgPSBCTEtfTVFfRl9TSE9VTERfTUVSR0U7CisJCQl0
-YWdzZXQtPmRyaXZlcl9kYXRhID0gZGV2OworCisJCQkvKgorCQkJICogU29tZSBBcHBsZSBjb250
-cm9sbGVycyByZXF1aXJlcyB0YWdzIHRvIGJlIHVuaXF1ZQorCQkJICogYWNyb3NzIGFkbWluIGFu
-ZCBJTyBxdWV1ZSwgc28gcmVzZXJ2ZSB0aGUgZmlyc3QgMzIKKwkJCSAqIHRhZ3Mgb2YgdGhlIElP
-IHF1ZXVlLgorCQkJICovCisJCQlpZiAoZGV2LT5jdHJsLnF1aXJrcyAmIE5WTUVfUVVJUktfU0hB
-UkVEX1RBR1MpCisJCQkJdGFnc2V0LT5yZXNlcnZlZF90YWdzID0gTlZNRV9BUV9ERVBUSDsKKwor
-CQkJcmV0ID0gYmxrX21xX2FsbG9jX3RhZ19zZXQodGFnc2V0KTsKKwkJCWlmIChyZXQpIHsKKwkJ
-CQlkZXZfd2FybihkZXYtPmN0cmwuZGV2aWNlLAorCQkJCQkiSU8gcXVldWVzIHRhZ3NldCBhbGxv
-Y2F0aW9uIGZhaWxlZCAlZFxuIiwKKwkJCQkJcmV0KTsKKwkJCQlyZXR1cm47CisJCQl9CisJCX0K
-KworCQlkZXYtPmN0cmwudGFnc2V0ID0gZGV2LT50YWdzZXQ7CiAJfSBlbHNlIHsKLQkJYmxrX21x
-X3VwZGF0ZV9ucl9od19xdWV1ZXMoJmRldi0+dGFnc2V0LCBkZXYtPm9ubGluZV9xdWV1ZXMgLSAx
-KTsKKwkJZm9yIChpID0gMDsgaSA8IGRldi0+Y3RybC5ucl90YWdzZXRzOyBpKyspCisJCQlibGtf
-bXFfdXBkYXRlX25yX2h3X3F1ZXVlcygmZGV2LT50YWdzZXRbaV0sCisJCQkJCWRldi0+dGFnc2V0
-X2h3X3F1ZXVlcyk7CiAKIAkJLyogRnJlZSBwcmV2aW91c2x5IGFsbG9jYXRlZCBxdWV1ZXMgdGhh
-dCBhcmUgbm8gbG9uZ2VyIHVzYWJsZSAqLwogCQludm1lX2ZyZWVfcXVldWVzKGRldiwgZGV2LT5v
-bmxpbmVfcXVldWVzKTsKQEAgLTI2MTIsNiArMjcxMSw3IEBAIHN0YXRpYyB2b2lkIG52bWVfZGV2
-X2Rpc2FibGUoc3RydWN0IG52bWVfZGV2ICpkZXYsIGJvb2wgc2h1dGRvd24pCiB7CiAJYm9vbCBk
-ZWFkID0gdHJ1ZSwgZnJlZXplID0gZmFsc2U7CiAJc3RydWN0IHBjaV9kZXYgKnBkZXYgPSB0b19w
-Y2lfZGV2KGRldi0+ZGV2KTsKKwlpbnQgaTsKIAogCW11dGV4X2xvY2soJmRldi0+c2h1dGRvd25f
-bG9jayk7CiAJaWYgKHBjaV9pc19lbmFibGVkKHBkZXYpKSB7CkBAIC0yNjQ0LDkgKzI3NDQsMTMg
-QEAgc3RhdGljIHZvaWQgbnZtZV9kZXZfZGlzYWJsZShzdHJ1Y3QgbnZtZV9kZXYgKmRldiwgYm9v
-bCBzaHV0ZG93bikKIAludm1lX3BjaV9kaXNhYmxlKGRldik7CiAJbnZtZV9yZWFwX3BlbmRpbmdf
-Y3FlcyhkZXYpOwogCi0JYmxrX21xX3RhZ3NldF9idXN5X2l0ZXIoJmRldi0+dGFnc2V0LCBudm1l
-X2NhbmNlbF9yZXF1ZXN0LCAmZGV2LT5jdHJsKTsKKwlmb3IgKGkgPSAwOyBpIDwgZGV2LT5jdHJs
-Lm5yX3RhZ3NldHM7IGkrKykgeworCQlibGtfbXFfdGFnc2V0X2J1c3lfaXRlcigmZGV2LT50YWdz
-ZXRbaV0sIG52bWVfY2FuY2VsX3JlcXVlc3QsCisJCQkJCQkJCSZkZXYtPmN0cmwpOworCQlibGtf
-bXFfdGFnc2V0X3dhaXRfY29tcGxldGVkX3JlcXVlc3QoJmRldi0+dGFnc2V0W2ldKTsKKwl9CisK
-IAlibGtfbXFfdGFnc2V0X2J1c3lfaXRlcigmZGV2LT5hZG1pbl90YWdzZXQsIG52bWVfY2FuY2Vs
-X3JlcXVlc3QsICZkZXYtPmN0cmwpOwotCWJsa19tcV90YWdzZXRfd2FpdF9jb21wbGV0ZWRfcmVx
-dWVzdCgmZGV2LT50YWdzZXQpOwogCWJsa19tcV90YWdzZXRfd2FpdF9jb21wbGV0ZWRfcmVxdWVz
-dCgmZGV2LT5hZG1pbl90YWdzZXQpOwogCiAJLyoKQEAgLTI2OTYsOSArMjgwMCwxNSBAQCBzdGF0
-aWMgdm9pZCBudm1lX3JlbGVhc2VfcHJwX3Bvb2xzKHN0cnVjdCBudm1lX2RldiAqZGV2KQogCiBz
-dGF0aWMgdm9pZCBudm1lX2ZyZWVfdGFnc2V0KHN0cnVjdCBudm1lX2RldiAqZGV2KQogewotCWlm
-IChkZXYtPnRhZ3NldC50YWdzKQotCQlibGtfbXFfZnJlZV90YWdfc2V0KCZkZXYtPnRhZ3NldCk7
-CisJaW50IGk7CisKKwlmb3IgKGkgPSAwOyBpIDwgZGV2LT5jdHJsLm5yX3RhZ3NldHM7IGkrKykg
-eworCQlpZiAoZGV2LT50YWdzZXRbaV0udGFncykKKwkJCWJsa19tcV9mcmVlX3RhZ19zZXQoJmRl
-di0+dGFnc2V0W2ldKTsKKwl9CisKIAlkZXYtPmN0cmwudGFnc2V0ID0gTlVMTDsKKwlkZXYtPmN0
-cmwubnJfdGFnc2V0cyA9IDA7CiB9CiAKIHN0YXRpYyB2b2lkIG52bWVfcGNpX2ZyZWVfY3RybChz
-dHJ1Y3QgbnZtZV9jdHJsICpjdHJsKQpAQCAtMjcxMyw2ICsyODIzLDcgQEAgc3RhdGljIHZvaWQg
-bnZtZV9wY2lfZnJlZV9jdHJsKHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpCiAJbWVtcG9vbF9kZXN0
-cm95KGRldi0+aW9kX21lbXBvb2wpOwogCXB1dF9kZXZpY2UoZGV2LT5kZXYpOwogCWtmcmVlKGRl
-di0+cXVldWVzKTsKKwlrZnJlZShkZXYtPnRhZ3NldCk7CiAJa2ZyZWUoZGV2KTsKIH0KIApkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jIGIvZHJpdmVycy9udm1lL2hvc3QvcmRt
-YS5jCmluZGV4IGE2ODcwNGUzOTA4NC4uNDdkMjk1MTJkOTZiIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L252bWUvaG9zdC9yZG1hLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jCkBAIC05Nzcs
-NiArOTc3LDcgQEAgc3RhdGljIGludCBudm1lX3JkbWFfY29uZmlndXJlX2lvX3F1ZXVlcyhzdHJ1
-Y3QgbnZtZV9yZG1hX2N0cmwgKmN0cmwsIGJvb2wgbmV3KQogCQkJZ290byBvdXRfZnJlZV9pb19x
-dWV1ZXM7CiAJCX0KIAorCQljdHJsLT5jdHJsLm5yX3RhZ3NldHMgPSAxOwogCQljdHJsLT5jdHJs
-LmNvbm5lY3RfcSA9IGJsa19tcV9pbml0X3F1ZXVlKCZjdHJsLT50YWdfc2V0KTsKIAkJaWYgKElT
-X0VSUihjdHJsLT5jdHJsLmNvbm5lY3RfcSkpIHsKIAkJCXJldCA9IFBUUl9FUlIoY3RybC0+Y3Ry
-bC5jb25uZWN0X3EpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvdGNwLmMgYi9kcml2
-ZXJzL252bWUvaG9zdC90Y3AuYwppbmRleCA2NDUwMjU2MjAxNTQuLjk3OTE2NGJjYTIzNyAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvdGNwLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3Qv
-dGNwLmMKQEAgLTE4MDMsNiArMTgwMyw3IEBAIHN0YXRpYyBpbnQgbnZtZV90Y3BfY29uZmlndXJl
-X2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCBib29sIG5ldykKIAkJCWdvdG8gb3V0
-X2ZyZWVfaW9fcXVldWVzOwogCQl9CiAKKwkJY3RybC0+bnJfdGFnc2V0cyA9IDE7CiAJCWN0cmwt
-PmNvbm5lY3RfcSA9IGJsa19tcV9pbml0X3F1ZXVlKGN0cmwtPnRhZ3NldCk7CiAJCWlmIChJU19F
-UlIoY3RybC0+Y29ubmVjdF9xKSkgewogCQkJcmV0ID0gUFRSX0VSUihjdHJsLT5jb25uZWN0X3Ep
-OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMgYi9kcml2ZXJzL252bWUv
-dGFyZ2V0L2xvb3AuYwppbmRleCAwMjg1Y2NjNzU0MWYuLjJkZjhhYTExZjQ2YSAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9udm1lL3RhcmdldC9sb29wLmMKKysrIGIvZHJpdmVycy9udm1lL3RhcmdldC9s
-b29wLmMKQEAgLTUzNiw2ICs1MzYsNyBAQCBzdGF0aWMgaW50IG52bWVfbG9vcF9jcmVhdGVfaW9f
-cXVldWVzKHN0cnVjdCBudm1lX2xvb3BfY3RybCAqY3RybCkKIAljdHJsLT50YWdfc2V0Lm5yX2h3
-X3F1ZXVlcyA9IGN0cmwtPmN0cmwucXVldWVfY291bnQgLSAxOwogCWN0cmwtPnRhZ19zZXQudGlt
-ZW91dCA9IE5WTUVfSU9fVElNRU9VVDsKIAljdHJsLT5jdHJsLnRhZ3NldCA9ICZjdHJsLT50YWdf
-c2V0OworCWN0cmwtPmN0cmwubnJfdGFnc2V0cyA9IDE7CiAKIAlyZXQgPSBibGtfbXFfYWxsb2Nf
-dGFnX3NldCgmY3RybC0+dGFnX3NldCk7CiAJaWYgKHJldCkKLS0gCjIuMzIuMAoKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUgbWFpbGlu
-ZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFk
-ZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+To determine the number of required IO queues it may be needed to
+send admin commands. To facilitate that process admin queue is split
+from the array of IO queues and allocation of IO queues is moved to
+reset routine.
+
+Signed-off-by: Andrey Nikitin <nikitina@amazon.com>
+---
+ drivers/nvme/host/pci.c | 162 +++++++++++++++++++++++-----------------
+ 1 file changed, 93 insertions(+), 69 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b82492cd7503..37de7ac79b3f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -108,12 +108,47 @@ struct nvme_queue;
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
+ 
++/*
++ * An NVM Express queue.  Each device has at least two (one for admin
++ * commands and one for I/O commands).
++ */
++struct nvme_queue {
++	struct nvme_dev *dev;
++	spinlock_t sq_lock;
++	void *sq_cmds;
++	 /* only used for poll queues: */
++	spinlock_t cq_poll_lock ____cacheline_aligned_in_smp;
++	struct nvme_completion *cqes;
++	dma_addr_t sq_dma_addr;
++	dma_addr_t cq_dma_addr;
++	u32 __iomem *q_db;
++	u32 q_depth;
++	u16 cq_vector;
++	u16 sq_tail;
++	u16 last_sq_tail;
++	u16 cq_head;
++	u16 qid;
++	u8 cq_phase;
++	u8 sqes;
++	unsigned long flags;
++#define NVMEQ_ENABLED		0
++#define NVMEQ_SQ_CMB		1
++#define NVMEQ_DELETE_ERROR	2
++#define NVMEQ_POLLED		3
++	u32 *dbbuf_sq_db;
++	u32 *dbbuf_cq_db;
++	u32 *dbbuf_sq_ei;
++	u32 *dbbuf_cq_ei;
++	struct completion delete_done;
++};
++
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+  */
+ struct nvme_dev {
+ 	struct nvme_queue *queues;
+ 	struct blk_mq_tag_set tagset;
++	struct nvme_queue admin_queue;
+ 	struct blk_mq_tag_set admin_tagset;
+ 	u32 __iomem *dbs;
+ 	struct device *dev;
+@@ -181,40 +216,6 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+ 	return container_of(ctrl, struct nvme_dev, ctrl);
+ }
+ 
+-/*
+- * An NVM Express queue.  Each device has at least two (one for admin
+- * commands and one for I/O commands).
+- */
+-struct nvme_queue {
+-	struct nvme_dev *dev;
+-	spinlock_t sq_lock;
+-	void *sq_cmds;
+-	 /* only used for poll queues: */
+-	spinlock_t cq_poll_lock ____cacheline_aligned_in_smp;
+-	struct nvme_completion *cqes;
+-	dma_addr_t sq_dma_addr;
+-	dma_addr_t cq_dma_addr;
+-	u32 __iomem *q_db;
+-	u32 q_depth;
+-	u16 cq_vector;
+-	u16 sq_tail;
+-	u16 last_sq_tail;
+-	u16 cq_head;
+-	u16 qid;
+-	u8 cq_phase;
+-	u8 sqes;
+-	unsigned long flags;
+-#define NVMEQ_ENABLED		0
+-#define NVMEQ_SQ_CMB		1
+-#define NVMEQ_DELETE_ERROR	2
+-#define NVMEQ_POLLED		3
+-	u32 *dbbuf_sq_db;
+-	u32 *dbbuf_cq_db;
+-	u32 *dbbuf_sq_ei;
+-	u32 *dbbuf_cq_ei;
+-	struct completion delete_done;
+-};
+-
+ /*
+  * The nvme_iod describes the data in an I/O.
+  *
+@@ -235,9 +236,14 @@ struct nvme_iod {
+ 	struct scatterlist *sg;
+ };
+ 
++static struct nvme_queue *nvme_get_queue(struct nvme_dev *dev, unsigned int qid)
++{
++	return qid == 0 ? &dev->admin_queue : &dev->queues[qid - 1];
++}
++
+ static inline unsigned int nvme_dbbuf_size(struct nvme_dev *dev)
+ {
+-	return dev->nr_allocated_queues * 8 * dev->db_stride;
++	return dev->ctrl.queue_count * 8 * dev->db_stride;
+ }
+ 
+ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
+@@ -322,7 +328,7 @@ static void nvme_dbbuf_set(struct nvme_dev *dev)
+ 		nvme_dbbuf_dma_free(dev);
+ 
+ 		for (i = 1; i <= dev->online_queues; i++)
+-			nvme_dbbuf_free(&dev->queues[i]);
++			nvme_dbbuf_free(nvme_get_queue(dev, i));
+ 	}
+ }
+ 
+@@ -396,7 +402,7 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 				unsigned int hctx_idx)
+ {
+ 	struct nvme_dev *dev = data;
+-	struct nvme_queue *nvmeq = &dev->queues[0];
++	struct nvme_queue *nvmeq = &dev->admin_queue;
+ 
+ 	WARN_ON(hctx_idx != 0);
+ 	WARN_ON(dev->admin_tagset.tags[0] != hctx->tags);
+@@ -409,19 +415,34 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 			  unsigned int hctx_idx)
+ {
+ 	struct nvme_dev *dev = data;
+-	struct nvme_queue *nvmeq = &dev->queues[hctx_idx + 1];
++	struct nvme_queue *nvmeq = &dev->queues[hctx_idx];
+ 
+ 	WARN_ON(dev->tagset.tags[hctx_idx] != hctx->tags);
+ 	hctx->driver_data = nvmeq;
+ 	return 0;
+ }
+ 
++static int nvme_admin_init_request(struct blk_mq_tag_set *set, struct request *req,
++		unsigned int hctx_idx, unsigned int numa_node)
++{
++	struct nvme_dev *dev = set->driver_data;
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	struct nvme_queue *nvmeq = &dev->admin_queue;
++
++	BUG_ON(!nvmeq);
++	iod->nvmeq = nvmeq;
++
++	nvme_req(req)->ctrl = &dev->ctrl;
++	nvme_req(req)->cmd = &iod->cmd;
++	return 0;
++}
++
+ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
+ 		unsigned int hctx_idx, unsigned int numa_node)
+ {
+ 	struct nvme_dev *dev = set->driver_data;
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	int queue_idx = (set == &dev->tagset) ? hctx_idx + 1 : 0;
++	int queue_idx = hctx_idx;
+ 	struct nvme_queue *nvmeq = &dev->queues[queue_idx];
+ 
+ 	BUG_ON(!nvmeq);
+@@ -1109,7 +1130,7 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx)
+ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_dev *dev = to_nvme_dev(ctrl);
+-	struct nvme_queue *nvmeq = &dev->queues[0];
++	struct nvme_queue *nvmeq = &dev->admin_queue;
+ 	struct nvme_command c = { };
+ 
+ 	c.common.opcode = nvme_admin_async_event;
+@@ -1377,7 +1398,7 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+ 
+ 	for (i = dev->ctrl.queue_count - 1; i >= lowest; i--) {
+ 		dev->ctrl.queue_count--;
+-		nvme_free_queue(&dev->queues[i]);
++		nvme_free_queue(nvme_get_queue(dev, i));
+ 	}
+ }
+ 
+@@ -1406,12 +1427,12 @@ static void nvme_suspend_io_queues(struct nvme_dev *dev)
+ 	int i;
+ 
+ 	for (i = dev->ctrl.queue_count - 1; i > 0; i--)
+-		nvme_suspend_queue(&dev->queues[i]);
++		nvme_suspend_queue(nvme_get_queue(dev, i));
+ }
+ 
+ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+ {
+-	struct nvme_queue *nvmeq = &dev->queues[0];
++	struct nvme_queue *nvmeq = &dev->admin_queue;
+ 
+ 	if (shutdown)
+ 		nvme_shutdown_ctrl(&dev->ctrl);
+@@ -1432,9 +1453,11 @@ static void nvme_reap_pending_cqes(struct nvme_dev *dev)
+ 	int i;
+ 
+ 	for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
+-		spin_lock(&dev->queues[i].cq_poll_lock);
+-		nvme_process_cq(&dev->queues[i]);
+-		spin_unlock(&dev->queues[i].cq_poll_lock);
++		struct nvme_queue *nvmeq = nvme_get_queue(dev, i);
++
++		spin_lock(&nvmeq->cq_poll_lock);
++		nvme_process_cq(nvmeq);
++		spin_unlock(&nvmeq->cq_poll_lock);
+ 	}
+ }
+ 
+@@ -1491,7 +1514,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 
+ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+ {
+-	struct nvme_queue *nvmeq = &dev->queues[qid];
++	struct nvme_queue *nvmeq = nvme_get_queue(dev, qid);
+ 
+ 	if (dev->ctrl.queue_count > qid)
+ 		return 0;
+@@ -1631,7 +1654,7 @@ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.complete	= nvme_pci_complete_rq,
+ 	.init_hctx	= nvme_admin_init_hctx,
+-	.init_request	= nvme_init_request,
++	.init_request	= nvme_admin_init_request,
+ 	.timeout	= nvme_timeout,
+ };
+ 
+@@ -1746,7 +1769,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 
+ 	dev->ctrl.numa_node = dev_to_node(dev->dev);
+ 
+-	nvmeq = &dev->queues[0];
++	nvmeq = &dev->admin_queue;
+ 	aqa = nvmeq->q_depth - 1;
+ 	aqa |= aqa << 16;
+ 
+@@ -1793,7 +1816,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 	for (i = dev->online_queues; i <= max; i++) {
+ 		bool polled = i > rw_queues;
+ 
+-		ret = nvme_create_queue(&dev->queues[i], i, polled);
++		ret = nvme_create_queue(nvme_get_queue(dev, i), i, polled);
+ 		if (ret)
+ 			break;
+ 	}
+@@ -2245,7 +2268,7 @@ static unsigned int nvme_max_io_queues(struct nvme_dev *dev)
+ 
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ {
+-	struct nvme_queue *adminq = &dev->queues[0];
++	struct nvme_queue *adminq = &dev->admin_queue;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	unsigned int nr_io_queues;
+ 	unsigned long size;
+@@ -2258,7 +2281,18 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	dev->nr_write_queues = write_queues;
+ 	dev->nr_poll_queues = poll_queues;
+ 
+-	nr_io_queues = dev->nr_allocated_queues - 1;
++	nr_io_queues = nvme_max_io_queues(dev);
++	if (nr_io_queues != dev->nr_allocated_queues) {
++		dev->nr_allocated_queues = nr_io_queues;
++
++		kfree(dev->queues);
++		dev->queues = kcalloc_node(dev->nr_allocated_queues,
++				sizeof(struct nvme_queue), GFP_KERNEL,
++				dev_to_node(dev->dev));
++		if (!dev->queues)
++			return -ENOMEM;
++	}
++
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+ 	if (result < 0)
+ 		return result;
+@@ -2404,13 +2438,13 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
+  retry:
+ 	timeout = NVME_ADMIN_TIMEOUT;
+ 	while (nr_queues > 0) {
+-		if (nvme_delete_queue(&dev->queues[nr_queues], opcode))
++		if (nvme_delete_queue(nvme_get_queue(dev, nr_queues), opcode))
+ 			break;
+ 		nr_queues--;
+ 		sent++;
+ 	}
+ 	while (sent) {
+-		struct nvme_queue *nvmeq = &dev->queues[nr_queues + sent];
++		struct nvme_queue *nvmeq = nvme_get_queue(dev, nr_queues + sent);
+ 
+ 		timeout = wait_for_completion_io_timeout(&nvmeq->delete_done,
+ 				timeout);
+@@ -2606,7 +2640,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
+ 	nvme_suspend_io_queues(dev);
+-	nvme_suspend_queue(&dev->queues[0]);
++	nvme_suspend_queue(&dev->admin_queue);
+ 	nvme_pci_disable(dev);
+ 	nvme_reap_pending_cqes(dev);
+ 
+@@ -2779,6 +2813,10 @@ static void nvme_reset_work(struct work_struct *work)
+ 		dev->ctrl.opal_dev = NULL;
+ 	}
+ 
++	result = nvme_setup_io_queues(dev);
++	if (result)
++		goto out;
++
+ 	if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP) {
+ 		result = nvme_dbbuf_dma_alloc(dev);
+ 		if (result)
+@@ -2792,10 +2830,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 			goto out;
+ 	}
+ 
+-	result = nvme_setup_io_queues(dev);
+-	if (result)
+-		goto out;
+-
+ 	/*
+ 	 * Keep the controller around but remove all namespaces if we don't have
+ 	 * any working I/O queue.
+@@ -2970,14 +3004,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
+-	dev->nr_write_queues = write_queues;
+-	dev->nr_poll_queues = poll_queues;
+-	dev->nr_allocated_queues = nvme_max_io_queues(dev) + 1;
+-	dev->queues = kcalloc_node(dev->nr_allocated_queues,
+-			sizeof(struct nvme_queue), GFP_KERNEL, node);
+-	if (!dev->queues)
+-		goto free;
+-
+ 	dev->dev = get_device(&pdev->dev);
+ 	pci_set_drvdata(pdev, dev);
+ 
+@@ -3041,8 +3067,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	nvme_dev_unmap(dev);
+  put_pci:
+ 	put_device(dev->dev);
+- free:
+-	kfree(dev->queues);
+ 	kfree(dev);
+ 	return result;
+ }
+-- 
+2.32.0
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
