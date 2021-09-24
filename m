@@ -2,66 +2,64 @@ Return-Path: <SRS0=ODQg=OO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EABF9C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 03:13:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1556C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 06:37:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A3E0060F44
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 03:13:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A3E0060F44
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 7197060F48
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Sep 2021 06:37:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7197060F48
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tQIWeO4o8CVmvUEvb9+P0goTDV9PYI3diTPO/IlhJq4=; b=qCkAd2kmyAxyZc
-	X2EG8jElDdisuXb8GpeUP9gSIY5yCu7T23+xGvUZZyZ5TlAU9nS2KzT7layTj0uFhqPuZaASic6sh
-	3vOHNbfjs8jdr2EDjreFSlKHHP8UCqrYIDrmuWVaGJf84qDI7Y2AwcAKsBaH5jnO5RvAg1+1+1Ejj
-	P30gmh+E6zD8n4GU/WmB1CjVP7ERf6pVPSikIqDI/zdf1WrtclFbgjY+162iNEHgr66aR5OrfvLJB
-	VBCclCPXgZHk94hZPafoHZ+kuFN/cNF0l3eP08YlNskrqg0Phcfih8gu4jYDC0tsmtSk7S6Wktrmh
-	G5DgOAilWVXbD1El5rQg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=5zn/i5hLTfQ5ezbOJJ87fDIoAgAZKh+7/r/P3UfpPVE=; b=MhJO3nrcjOwQNj
+	dgbfA6FLrOdFeXhMI+5E2R7zcVQ4mhNaQ95lDucG8HkaEsNqKDSZi/0LCJ6RS3PodP0C8U4+tmglt
+	HitgPownNBhzoQrObbmzzPqWXuGNOVIGWoGqzUAVYc94VvyiKjmAaG0N1RiHHjcwpSsjPty3858xj
+	Olkqf01I9LmHmyr7QMq8X95sSXpJCJAdzWsqzgI/+KWhAvRSB353dKmG5nO7Z4V/ZM1oGM9YIwBt2
+	DQEHw2TIpB17zYBc6YuJNyrF+1ilrbfz16srZcL51uyTdazkJPwnC1qutLDH4UC8XN/nK3/AA/WFW
+	iYCtCp+XzrSGYH/izHdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mTbeJ-00CyC0-OW; Fri, 24 Sep 2021 03:13:19 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mTepq-00DATQ-QW; Fri, 24 Sep 2021 06:37:26 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mTbeH-00CyBR-I0
- for linux-nvme@lists.infradead.org; Fri, 24 Sep 2021 03:13:18 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F2F4360F44;
- Fri, 24 Sep 2021 03:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632453197;
- bh=9C1CpZebNZPOuS8BQ6bPo6u0WIU3rIY+JsZNrLixgCQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EKx2oHfhlzhM5slykpGEQOjGp8DGeqyDjzyrI5RMJ/Hpl0QxnP5yww1fE00Ve/r5M
- I17KU3rstlYN0wBktF9sstccjKtM4bZli6ZJ3XOvPrPuMhsH5fAd170rOV67HJEQsp
- aj7EwqrZRuoQPpoYjIJMAyFzvYwcP4ruzmU7pAWXeb2g6dAJ7UXO0dEdWzMIkUHeby
- yNp6ysDdiWBBfMEn20SOGWtgzdAFPae5kGLq/baehgnCRFtsFOuYrTToOq6nKJ9x2/
- EM1uQfemSQyIm8duXeZ+T4xQxHQmxGMXcEbIdOOMOvSS8zkSiHLohBAnuPUmlFZeLt
- UvFSvgiFeJNvg==
-Date: Thu, 23 Sep 2021 21:13:15 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [bug report] nvme removing after probe failed with pci rescan
- after nvme sysfs removal
-Message-ID: <20210924031315.GA14438@C02WT3WMHTD6>
-References: <CAHj4cs_9AM7YvirAhcztZjhOV0nac_qShHs9qs4B1JAMc3PXdA@mail.gmail.com>
+ id 1mTepp-00DATK-A4
+ for linux-nvme@bombadil.infradead.org; Fri, 24 Sep 2021 06:37:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=E88Z00ZlAwLBAUITmbRn6M8Pl/W09ZjXCUecGA0cccs=; b=sULAqj+uLXdWuZvG6CmAxm76wZ
+ qGj1GhWwQfOfIe4OtN9F8vHBAxiqfDhG5knui07tRIq+LCsofnkxQguHU7lVOwnPIhjRVxoIfUUZs
+ uM8Kt/BpPk6o3uAnzCrDdaj1UGSO3qxtu4FWNPRT8OstJPoED6ioIJipL7LoUkNAPp8IfHGQ3n23h
+ 8BL3sUa/9QAk+D83h2kLHs9fE0XfSWjeGhqekEcWuWzcyfxaOekgEMrDx+E2tbL4IH1V7TDW8SFZ3
+ i28IVSTRpx8tqIfj0My8hr3Ztnwuu+A+nVcCA+qbQlkqtmtLQp8cZ+KyZQcCFgEw0cqQR0jXBZBw4
+ wgOOeP9g==;
+Received: from [2001:4bb8:184:72db:7155:a6da:d23f:c65d] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mTepM-006vTg-4w; Fri, 24 Sep 2021 06:37:03 +0000
+Date: Fri, 24 Sep 2021 08:36:54 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 5.15
+Message-ID: <YU1yBgH+CqJu9h5u@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAHj4cs_9AM7YvirAhcztZjhOV0nac_qShHs9qs4B1JAMc3PXdA@mail.gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210923_201317_634934_FA1615A0 
-X-CRM114-Status: UNSURE (   7.26  )
-X-CRM114-Notice: Please train this message.
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,22 +76,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 22, 2021 at 09:56:47AM +0800, Yi Zhang wrote:
-> # echo 1 >/sys/bus/pci/devices/0000\:87\:00.0/remove
-> # echo 1 >/sys/bus/pci/rescan
-> # dmesg
-> [  251.864254] pci 0000:87:00.0: [144d:a808] type 00 class 0x010802
-> [  251.864286] pci 0000:87:00.0: reg 0x10: [mem 0xc8600000-0xc8603fff 64bit]
-> [  251.864337] pci 0000:87:00.0: reg 0x30: [mem 0xffff0000-0xffffffff pref]
-> [  251.889196] pci 0000:87:00.0: BAR 6: assigned [mem 0xc8600000-0xc860ffff pref]
-> [  251.889206] pci 0000:87:00.0: BAR 0: assigned [mem 0xc8610000-0xc8613fff 64bit]
-> [  251.889777] nvme nvme0: pci function 0000:87:00.0
-> [  251.889888] nvme nvme0: readl(dev->bar + NVME_REG_CSTS) == -1,
-> return - ENODEV
+The following changes since commit 858560b27645e7e97aca37ee8f232cccd658fbd2:
 
-An all 1's return almost certainly means the memory read request failed. The
-test your described usually means the target did not properly configure the
-memory range it was assigned. Is this directly attached to a root port?
+  blk-cgroup: fix UAF by grabbing blkcg lock before destroying blkg pd (2021-09-15 12:03:18 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-5.15-2021-09-24
+
+for you to fetch changes up to 298ba0e3d4af539cc37f982d4c011a0f07fca48c:
+
+  nvme: keep ctrl->namespaces ordered (2021-09-21 09:17:15 +0200)
+
+----------------------------------------------------------------
+nvme fixes for Linux 5.15:
+
+ - keep ctrl->namespaces ordered (me)
+ - fix incorrect h2cdata pdu offset accounting in nvme-tcp
+   (Sagi Grimberg)
+ - handled updated hw_queues in nvme-fc more carefully (Daniel Wagner,
+   James Smart)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme: keep ctrl->namespaces ordered
+
+Daniel Wagner (1):
+      nvme-fc: update hardware queues before using them
+
+James Smart (2):
+      nvme-fc: avoid race between time out and tear down
+      nvme-fc: remove freeze/unfreeze around update_nr_hw_queues
+
+Sagi Grimberg (1):
+      nvme-tcp: fix incorrect h2cdata pdu offset accounting
+
+ drivers/nvme/host/core.c | 33 +++++++++++++++++----------------
+ drivers/nvme/host/fc.c   | 18 +++++++++---------
+ drivers/nvme/host/tcp.c  | 13 ++++++++++---
+ 3 files changed, 36 insertions(+), 28 deletions(-)
 
 _______________________________________________
 Linux-nvme mailing list
