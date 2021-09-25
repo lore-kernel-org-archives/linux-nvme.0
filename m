@@ -2,103 +2,60 @@ Return-Path: <SRS0=MUCY=OP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB8B0C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 20:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B74C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 23:40:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7DA0261029
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 20:49:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7DA0261029
-Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=svenpeter.dev
+	by mail.kernel.org (Postfix) with ESMTPS id D452D6103B
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 23:40:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D452D6103B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:Cc:To:From:Date:References:
-	In-Reply-To:Message-Id:Mime-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=P+bEQS7wStbrdEE1bzK2ZA89BtVC0TFl3qHsLFymTnA=; b=2Y6amPb3pDunBm
-	lMR31QnhLGEjKenttpec/9gBNJTfxpSEz4jFdOkteL0r4bao9/07FuDxljfurYrCxS3D2nuW2CvyU
-	v1Ts2LzRzKaYjDfoXQOsajVgcXyPaYMtDx+3HwY61v3n7uN4YIM17bNfmx4q6jDe1gzs9iesnSzOt
-	d3mTA1yjb86O+aMhNcig2sjPhfqvCRCxLZesaf4RBLHUyWllaxWht4haCJCnREd96nx40qOWNPX1n
-	ufo1Ule21HRSB8N99VvrgrFiY+0xhSsvSKyUqIlnUcIehAKfHKgMvFNgxrlfAxm2uI/V9HbyTHpjE
-	Mzbund5+yxkI5sHUvU/A==;
+	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:
+	In-Reply-To:Message-ID:Subject:Cc:From:To:Date:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=AjZ/8o/Fkt61a3hrJkHdsEKf3Fjqd3nSrq6gydXFslI=; b=o+cuL35CoiSBHm
+	vk/NX+hoGmX7IZpKjmB10OdQhTVXJD6xllh5jD2ny/LztV8cAY2DVqPCJnIObSKYgyD5WEuDxMGen
+	bVGUsQm/5a/aflZEHhoEX4PVevcqukVSWC7sST2Eyr+cgKKWj/v8mkwtHncrX3f/i5WkxQTvBbVXy
+	+Fxt/EgNStBcBsIO9WREVIjs2uNjPKauIsdYIry8QZTP9ydqafjtLPrtMN6clc9jIKFiqwu0EezCy
+	dHtfw7pwu4iwe3VtMlgEhLe/5elU12tQOosK60gpxv251tG52wdmMeoTtKCKByO5AunWQnfKOdBmB
+	w3Cyb2WSj1OVTEjJNkqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mUEbX-00HEFR-9W; Sat, 25 Sep 2021 20:49:03 +0000
-Received: from new2-smtp.messagingengine.com ([66.111.4.224])
+	id 1mUHHQ-00HPGZ-Ek; Sat, 25 Sep 2021 23:40:28 +0000
+Received: from mail-4319.protonmail.ch ([185.70.43.19])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mUEbV-00HEEZ-4m
- for linux-nvme@lists.infradead.org; Sat, 25 Sep 2021 20:49:02 +0000
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 73A0D580D4B;
- Sat, 25 Sep 2021 16:49:00 -0400 (EDT)
-Received: from imap21 ([10.202.2.71])
- by compute1.internal (MEProxy); Sat, 25 Sep 2021 16:49:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- h=mime-version:message-id:in-reply-to:references:date:from:to
- :cc:subject:content-type; s=fm2; bh=YgDo6sYrTikpb+AQKSVT01CWd92f
- psqGQwY+L/v1hmw=; b=Beb9qi2CBq+tq3fFfSs3C7lo0iIdSVu8DPDA0M3BYvZX
- Vl6lnn0BYLZ6Og/CHAhoEKq0FQjvC0R7x/eN3fksG84f74ng3uMp+K0rJuL/cTNk
- OY7UuuPbSqhJaCTYUBy8gXBrmNnJotuS/h0Os57W+jSLLJs3jeY7oLB0SyDdCTYQ
- dh9m/Frpm4YTzgFb1pDL/yf/rZPjh2fAQ4Xrj8fJfTFisWVyctxD91dOItMInDpm
- eMRsPL21C5jnihmp3cOd0tTgQ8vpMvmUD0LEX1Whg13ugxNNrVFa6eAlz4pUIEj2
- GQCfhJS6WxTxHv5gSCZh0ejjZrxw0IksxSYNk05IGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YgDo6s
- YrTikpb+AQKSVT01CWd92fpsqGQwY+L/v1hmw=; b=Y0tazXopVJ4wOuH/GdmVZ9
- kpXx/Z+n9YlFtlaV6gR9jsqjJN0BFeJbEROI8sInODGnC/ZpXGB1xVoG2jejhUV2
- 8/YTSO/H5B9TOdTu2Pp6EgLfp/MUCfaOF/Rz4vuMM2LjJfEOkdWW8JtIcKMOkPc1
- 7qViP1TpJ5+xDlPExiPXUAou7X5JjG2psu3KWPJc/55E4l0O5uSfzYMRN6lANvCm
- hdF2eVraanfgrGmFkN9ywRYOofjYO87C8dqD9Lc5Af56Y5soym6Y/uqT/eTuzVuC
- FFmELZL8a9RG4P3lLpplS5AkRjcC/S76qftriKXzZJ6wBuO4GPMPgn74JUF1jMHw
- ==
-X-ME-Sender: <xms:PItPYfjERS1UX_pdipN3izCU5fFI1UHCXC4xvZvqeS3qemcZeiZXtQ>
- <xme:PItPYcDJQeIkJcmGKsqzwFotHKX-6fgc-w2rSjaXiBCcanGYMPafKLxXAuvy0TBHJ
- Hd9TTSvncMyfBoCDuQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejfedgudehudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfufhv
- vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
- grthhtvghrnhepgfeigeeiffeuhfettdejgfetjeetfeelfefgfefgvddvtdfghfffudeh
- vdefkeffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:PItPYfG-peXMduQ1Q37ca64Fkdym_zISF-4uNoaxabWrxttgB-g4jQ>
- <xmx:PItPYcQ-Lvrfol7dMyKvMNrbKSK7uAk_sQW0defAsvS4zrBmKX9iXQ>
- <xmx:PItPYcyVCCMPrD2g7ec8YfJq-hsDHHe7XECRpTcdHMCliISBkgDt8g>
- <xmx:PItPYYeYIPDvslIqOUY6SI0vN2OXRORl3tOiKJORThvS8SwNFuqDhw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 03A5351C0060; Sat, 25 Sep 2021 16:48:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1303-gb2406efd75-fm-20210922.002-gb2406efd
-Mime-Version: 1.0
-Message-Id: <08930bdf-6a3a-4d49-b366-8029b88b25b4@www.fastmail.com>
-In-Reply-To: <20210925203857.GC116968@dhcp-10-100-145-180.wdc.com>
-References: <PNZPR01MB4415600ACD3C8D9944F15058B8A59@PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM>
- <CAHk-=wgML11x9afCvmg9yhVm9wi5mvnjBvmX+i7OfMA0Vd4FWA@mail.gmail.com>
- <20210925195425.GB116968@dhcp-10-100-145-180.wdc.com>
- <4849f3d3-4abd-49b7-b053-d7965daa7138@www.fastmail.com>
- <20210925203857.GC116968@dhcp-10-100-145-180.wdc.com>
-Date: Sat, 25 Sep 2021 22:48:39 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Keith Busch" <kbusch@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Aditya Garg" <gargaditya08@live.com>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "james.smart@broadcom.com" <james.smart@broadcom.com>,
- "chaitanya.kulkarni@wdc.com" <chaitanya.kulkarni@wdc.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "trivial@kernel.org" <trivial@kernel.org>
-Subject: Re: [PATCH] Urgent bug fix causing Apple SSDs to not work.
+ id 1mUHHN-00HPG9-Kz
+ for linux-nvme@lists.infradead.org; Sat, 25 Sep 2021 23:40:27 +0000
+Date: Sat, 25 Sep 2021 23:40:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1632613221;
+ bh=JU9d1XuEqHX+89EhnD/H5YuEA8AAXubY0+4+MTIBjPc=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=n1l9yQ0lLHwv+QJ7qbt9A6Jn4Dd9T5VC0d5XMr4IwsJlZDOrjzHBDscoHaylwJ+pn
+ TgP5f9zviZruN32KnCKyxaU3ca8VLov2ZJQNig8X2E5z1AOLPF+taf1FThiOVwV/5P
+ eMhPRCCUu6tjg39SGJKmWFpUYJWtAlqJHARDkYc8=
+To: Keith Busch <kbusch@kernel.org>
+From: Orlando Chamberlain <redecorating@protonmail.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ "gargaditya08@live.com" <gargaditya08@live.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "hare@suse.de" <hare@suse.de>,
+ "dwagner@suse.de" <dwagner@suse.de>, "hch@lst.de" <hch@lst.de>
+Subject: Re: [REGRESSION] nvme: code command_id with a genctr for
+ use-after-free validation crashes apple T2 SSD
+Message-ID: <fa9de055-c3b8-20d3-41e0-12e43d0c336a@protonmail.com>
+In-Reply-To: <20210925171618.GA116968@dhcp-10-100-145-180.wdc.com>
+References: <cjJiSFV77WM51ciS8EuBcdeBcv9T83PUB-Kw3yi8PuC_LwrrUUnQ3w5RC1PbKvSYE72KryXp3wOJhv4Ov_WWIe2gKWOOo5uwuUjbbFA8HDM=@protonmail.com>
+ <20210925171618.GA116968@dhcp-10-100-145-180.wdc.com>
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210925_134901_284764_A74EEA6A 
-X-CRM114-Status: GOOD (  21.72  )
+X-CRM114-CacheID: sfid-20210925_164025_876062_903A2064 
+X-CRM114-Status: GOOD (  15.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,6 +67,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Orlando Chamberlain <redecorating@protonmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -117,42 +75,66 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On Sat, Sep 25, 2021, at 22:38, Keith Busch wrote:
-> On Sat, Sep 25, 2021 at 10:08:53PM +0200, Sven Peter wrote:
->> I actually ran into a similar issue while adding support for the NVMe
->> controller found on the M1 and assumed it was only present there.
->> 
->> Some background why this happens: ANS2 is a co-processor that emulates
->> an NVMe MMIO interface and uses the tag as an index to an internal data
->> structure. 
->
-> Thanks for confirming the behavior. The patch should restore the
-> command_id values to when everything was working. I'll just need to
-> update the quirk description to better align with the actual limitation
-> if the patch is successful. 
->
->> On the M1 we can directly talk to ANS2 and while we can submit
->> commands with a higher index it'll just ignore the upper bits and only
->> return the lowest eight IIRC in the completion queue.
->> I guess whatever software is running on the T2 actually has an assert to
->> ensure that the tag is within the limits before forwarding the command
->> to ANS2.
->
-> Is the PCI Device ID for the M1 the same as reported for the T2? Either
-> 0x2005 or 0x2003 should make this quirk apply.
+On 26/9/21 03:16, Keith Busch wrote:
+> On Sat, Sep 25, 2021 at 01:10:42PM +0000, Orlando Chamberlain wrote:
+>> Commit e7006de6c238 causes the SSD controller on Apple T2 computers to crash
+>> and prevents linux from booting.
+>>
+>> This commit implemented a counter that is stored within the NVMe command_id,
+>> however this counter makes the command_id higher than normal, causing a panic
+>> on the T2 security chip that functions as the SSD controller, which then
+>> causes the system to power off after a few seconds.
+> 
+> Ah, yet another spec non-complainat quirk from these controllers.
 
-Oh, it's worse. It's no longer a PCIe device there but a platform device
-directly attached to the SoC's bus. It'll need almost all T2 quirks and then
-some additional changes to the way command submission works and support to
-program a tightly coupled IOMMU which Apple calls NVMMU (which probably is another
-reason for this limit: they use the command id to find the corresponding entry in
-the IOMMU that allows access to memory listed in the PRPs).
-I'll just use the quirk in my platform driver and submit it once I get it into a
-shape that can actually be reviewed.
+Apple does like to think different.
 
+>> This is the entry in lspci -nn for the ssd:
+>>
+>> 04:00.0 Mass storage controller [0180]: Apple Inc. ANS2 NVMe Controller [106b:2005] (rev 01)
+>>
+>> This commit was included in 5.14.6 and backported to 5.10.67, but does not
+>> occur in 5.14.5 and 5.10.66. I am on a MacBookPro16,1, the crash has been
+>> reproduced on a MacBookPro16,2 as well.
+> 
+> Is the PCI VID:DID the same from in your lspci output for all affected
+> macbooks?
 
+Yes, they all have 106b:2005
 
-Sven
+>> I've tried to modify the genctr so that it is in the other side of the
+>> command_id (which I thought might make the command_id's lower) with the patch
+>> below, but it did not prevent the crash.
+> 
+> That might mean the h/w is using the command id as an index into
+> internal structures. That is not spec compliant, so it sounds like
+> we'll need to introduce another quirk for the macs.
+> 
+
+I've managed to get it to boot by commenting out the counter increment, which might work
+as a quirk:
+
+--- a/drivers/nvme/host/core.c
+
++++ b/drivers/nvme/host/core.c
+
+@@ -1027,7 +1027,7 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
+
+                return BLK_STS_IOERR;
+
+        }
+
+ 
+
+-       nvme_req(req)->genctr++;
+
++       //nvme_req(req)->genctr++;
+
+        cmd->common.command_id = nvme_cid(req);
+
+        trace_nvme_setup_cmd(req, cmd);
+
+        return ret;
 
 
 _______________________________________________
