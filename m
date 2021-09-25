@@ -2,62 +2,52 @@ Return-Path: <SRS0=MUCY=OP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2367C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 03:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E516C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 08:33:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E2B561100
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 03:02:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4E2B561100
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id D95886127A
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Sep 2021 08:33:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D95886127A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=oaPLSTuUw2uW16105xSpEgu8sx8W1cwVhQBJXXmgy6c=; b=VAGJTBTWyVkoJZ
-	8uFMfnQcEDKjEuHArv8yqVlS5zzW402L4ngQp4VlTNzDxTYriwakg7wYmitXXNZFHLvh+6LlKXcoL
-	EtiskLod2pLujLfy72GjmblvUqQwa3H1i31EL/Z8iDx8zdUCBpC8rNT+zEGV5cMG7lBw6IKu1SOrK
-	vlJxak/K6EpsqwB+8Od8psqN46dgZJTIZpo2Ey326aRmH2yETFKSAPUlc3GY6sDwLBoO4vn7jhfPo
-	Quj4Vf1IHQOSizvWeIRh4TbuNbiSHG0o0ORK5o2xGd5yq7U0GehIlDSP7s2NEQtDyR4QFmvBTZQrw
-	7cmElkV0zk2NtVa3qQbw==;
+	List-Owner; bh=U/ryRzSoZnUAf5BaY5RkujAhLTYEHLne6uKugQuaT9M=; b=OgW1+trbBYA1d4
+	7s7ymSxyI2nUVyzJ50aVkFP+K+hO1m3rON3xWALKRjYaZYRDnMlP0gwfTCf4tFmf3NzI7HTij9iaW
+	hAanClxfc8weDmEWfFzYQ5yj+fUWMwf2d942SXJbF5b3jf5PEonnnPxWItqc2PdkxdTLOO+jf9zGN
+	tbo5KyhjMG8BUmOqdkh+ILq99QWhbnvMDIcG2QPVr02dYthDFx707mkCVs0Q63GupRdPwONCLS8r+
+	7Oyl7U4WSCI4s2uXzAQctUbrrTQ5Gvvt5pYqQ864lMjTxl0J38pv/I0zOBtPRjcFbI1I54V9dKbKp
+	bLtpGxP9v5N6V9m4UkgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mTxxB-00G2Bz-Gy; Sat, 25 Sep 2021 03:02:17 +0000
-Received: from mail.kernel.org ([198.145.29.99])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mTxx8-00G2Bf-9O
- for linux-nvme@lists.infradead.org; Sat, 25 Sep 2021 03:02:15 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B258610F7;
- Sat, 25 Sep 2021 03:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632538933;
- bh=3PfLjJcrU+N5TIWxBbDCx4xiSZdcU3zGcOvxWtEf+TE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fFjQO/5U5KOZwJUQlk6qyVG/DDOjBzItYFa+wJuuvBzERCkpFaJuXBmIudLDGwb6U
- sn43zJTqarg/0N+lw+y9bKujxDCgoTnKFCjBK0IkBVMWZXsHZH+OSqIw7I1NDUYprp
- IZy/LBn0R93z/bsg4ESOIf7LjRcPRdW4/fN3eruF6GZKS6kJdU4SlEA3dem2a/Em73
- 1ii2EnNEqb/lUaIlHCk+wEA62XkwLu/OT1/zlsD2/PmBQpLwsIGFPPrks4FFQuCfFg
- wFUUZWKpat1SjDfHD8WZ+Wjkl7uAZiGAtHJkNptaU8b2YVaWcMGGkyKSM5r2y1LEjv
- hDEddNO+cROAA==
-Date: Sat, 25 Sep 2021 12:02:07 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Andrey Nikitin <nikitina@amazon.com>
-Cc: linux-nvme@lists.infradead.org, benh@kernel.crashing.org,
- davebuch@amazon.com
+	id 1mU37O-00GIfe-NS; Sat, 25 Sep 2021 08:33:10 +0000
+Received: from gate.crashing.org ([63.228.1.57])
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mU37L-00GIfA-OW
+ for linux-nvme@lists.infradead.org; Sat, 25 Sep 2021 08:33:09 +0000
+Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 18P8VwJB021277;
+ Sat, 25 Sep 2021 03:31:59 -0500
+Message-ID: <de8f41b03ff2c82f7013ef3b9e7dc3b044c2b69f.camel@kernel.crashing.org>
 Subject: Re: [RFC PATCH 0/3] nvme sq associations
-Message-ID: <20210925030207.GA20848@redsun51.ssa.fujisawa.hgst.com>
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Keith Busch <kbusch@kernel.org>, Andrey Nikitin <nikitina@amazon.com>
+Cc: linux-nvme@lists.infradead.org, davebuch@amazon.com
+Date: Sat, 25 Sep 2021 18:31:58 +1000
+In-Reply-To: <20210925030207.GA20848@redsun51.ssa.fujisawa.hgst.com>
 References: <20210924210809.14536-1-nikitina@amazon.com>
+ <20210925030207.GA20848@redsun51.ssa.fujisawa.hgst.com>
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210924210809.14536-1-nikitina@amazon.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210924_200214_367242_D049EBE0 
-X-CRM114-Status: GOOD (  16.42  )
+X-CRM114-CacheID: sfid-20210925_013308_074000_EB63BB5F 
+X-CRM114-Status: GOOD (  11.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,49 +59,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gRnJpLCBTZXAgMjQsIDIwMjEgYXQgMDk6MDg6MDZQTSArMDAwMCwgQW5kcmV5IE5pa2l0aW4g
-d3JvdGU6Cj4gVGhlIE5WTWUgc3BlY2lmaWNhdGlvbiBhbGxvd3MgZm9yIG5hbWVzcGFjZXMgd2l0
-aCBkaWZmZXJlbnQgcGVyZm9ybWFuY2UKPiBjaGFyYWN0ZXJpc3RpY3MsIGFzIHdlbGwgYXMgYWxs
-b3dpbmcgSU9zIHN1Ym1pc3Npb25zIHRvIGFueSBuYW1lc3BhY2UgdmlhCj4gYW55IG5vbi1lbXB0
-eSBzdWJtaXNzaW9uIHF1ZXVlLiBIb3dldmVyLCBzaGFyaW5nIHF1ZXVlIHJlc291cmNlcyBiZXR3
-ZWVuCj4gbmFtZXNwYWNlcyB3aXRoIGRpZmZlcmVudCBwZXJmb3JtYW5jZSBjaGFyYWN0ZXJpc3Rp
-Y3MgY2FuIGNhdXNlIHVuZGVzaXJlZAo+IGJlaGF2aW9yIChlLmcuIGhlYWQtb2YtbGluZS1ibG9j
-a2luZyBmb3IgSU9zIHRoYXQgdGFyZ2V0IGEgaGlnaC1wZXJmb3JtYW5jZQo+IG5hbWVzcGFjZSBi
-ZWhpbmQgSU9zIHRoYXQgdGFyZ2V0IGEgbG93IHBlcmZvcm1hbmNlIG5hbWVzcGFjZSB2aWEgdGhl
-IHNhbWUKPiBxdWV1ZSkuIEluIGFkZGl0aW9uLCB0aGUgbGFjayBvZiBoYXJkd2FyZSBxdWV1ZSBp
-c29sYXRpb24gc3VwcG9ydCBjYW4gY2F1c2UKPiDigJxub2lzeSBuZWlnaGJvcuKAnSB0eXBlIHBy
-b2JsZW1zIGZvciBhcHBsaWNhdGlvbnMgaXNzdWluZyBJT3MgdG8gZGlmZmVyZW50Cj4gbmFtZXNw
-YWNlcyBvZiB0aGUgc2FtZSBjb250cm9sbGVyLiBUaGlzIHByb2JsZW0gbWF5IGJlIGVzcGVjaWFs
-bHkgcHJvbm91bmNlZAo+IGluIG11bHRpLXRlbmFudCBlbnZpcm9ubWVudHMgc3VjaCBhcyB0aGUg
-b25lcyBwcm92aWRlZCBieSBjbG91ZCBzZXJ2aWNlcy4KPiAKPiBUaGUgTlZNZSAxLjQgc3BlY2lm
-aWNhdGlvbiBoYXMgaW50cm9kdWNlZCBzb21lIG9wdGlvbmFsIGZlYXR1cmVzIChOVk0gc2V0cwo+
-IGFuZCBTUSBhc3NvY2lhdGlvbnMpIHRoYXQgY2FuIGJlIHV0aWxpemVkIHRvIGltcHJvdmUgdGhp
-cyBzaXR1YXRpb24gcHJvdmlkZWQKPiB0aGVzZSBmZWF0dXJlcyBhcmUgc3VwcG9ydGVkIGJ5IGJv
-dGggY29udHJvbGxlcnMgYW5kIGhvc3QgZHJpdmVycy4gTmFtZXNwYWNlcwo+IGNhbiBiZSBhc3Np
-Z25lZCB0byBOVk0gc2V0cyAoYnkgcGVyZm9ybWFuY2UgY2hhcmFjdGVyaXN0aWNzLCBmb3IgZXhh
-bXBsZSkKPiB3aGljaCBlYWNoIE5WTSBzZXQgaGF2aW5nIGl0cyBvd24gc2V0IG9mIGFzc29jaWF0
-ZWQgcXVldWVzLgo+IAo+IFRoaXMgcGF0Y2ggc2VyaWVzIHByb3Bvc2VzIGEgc2ltcGxlIGltcGxl
-bWVudGF0aW9uIG9mIE5WTSBzZXRzIGFuZAo+IFNRIGFzc29jaWF0aW9ucyBmb3IgdGhlIE5WTWUg
-aG9zdCBQQ0kgbW9kdWxlLiAgQSBjb250cm9sbGVyIHRoYXQgc3VwcG9ydHMKPiB0aGVzZSBmZWF0
-dXJlcywgYWxvbmcgd2l0aCBhIHN1ZmZpY2llbnQgbnVtYmVyIG9mIHF1ZXVlIHBhaXJzIChhdCBs
-ZWFzdAo+IG9uZSBwZXIgTlZNIHNldCksIHdpbGwgaGF2ZSB0aGUgYXZhaWxhYmxlIHF1ZXVlIHBh
-aXJzIGFzc29jaWF0ZWQgdW5pZm9ybWx5Cj4gYWNyb3NzIGVhY2ggTlZNIHNldC4gSU8gcmVxdWVz
-dHMgZGlyZWN0ZWQgYXQgdGhlIGNvbnRyb2xsZXIgd2lsbCBob25vcgo+IHRoZSBuYW1lc3BhY2Uv
-TlZNIHNldC9xdWV1ZSBhc3NvY2lhdGlvbiBieSB2aXJ0dWUgb2YgZWFjaCBOVk0gc2V0IGhhdmlu
-Zwo+IGl0cyBvd24gYmxrLW1xIHRhZ3NldCBhc3NvY2lhdGVkIHdpdGggaXQuCgpEaWZmZXJlbnQg
-c3VibWlzc2lvbiBxdWV1ZSBncm91cHMgcGVyIE5WTSBTZXQgc291bmRzIHJpZ2h0IGZvciB0aGlz
-CmZlYXR1cmUsIGJ1dCBJJ20gbm90IHN1cmUgaXQgbWFrZXMgc2Vuc2UgZm9yIHRoZXNlIHRvIGhh
-dmUgdGhlaXIgb3duCmNvbXBsZXRpb24gcXVldWVzOiBjb21wbGV0aW9ucyBmcm9tIGRpZmZlcmVu
-dCBzZXRzIHdvdWxkIHRyeSB0byBzY2hlZHVsZQpvbiB0aGUgc2FtZSBDUFUuIEkgdGhpbmsgaXQg
-c2hvdWxkIGJlIG1vcmUgZWZmaWNpZW50IHRvIGJyZWFrIHRoZSAxOjEKU1E6Q1EgcGFpcmluZywg
-YW5kIGluc3RlYWQgaGF2ZSBhbGwgdGhlIFNRcyB3aXRoIHRoZSBzYW1lIENQVSBhZmZpbml0eQpz
-aGFyZSBhIHNpbmdsZSBDUSBzbyB0aGF0IGNvbXBsZXRpb25zIGZyb20gZGlmZmVyZW50IG5hbWVz
-cGFjZXMgY291bGQgYmUKaGFuZGxlZCBpbiBhIHNpbmdsZSBpbnRlcnJ1cHQuCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcg
-bGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVh
-ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+On Sat, 2021-09-25 at 12:02 +0900, Keith Busch wrote:
+> 
+> Different submission queue groups per NVM Set sounds right for this
+> feature, but I'm not sure it makes sense for these to have their own
+> completion queues: completions from different sets would try to
+> schedule on the same CPU. I think it should be more efficient to
+> break the 1:1
+> SQ:CQ pairing, and instead have all the SQs with the same CPU
+> affinity share a single CQ so that completions from different
+> namespaces could be handled in a single interrupt.
+
+Can this be an incremental improvement ?
+
+Cheers,
+Ben.
+
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
