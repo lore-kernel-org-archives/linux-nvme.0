@@ -2,14 +2,14 @@ Return-Path: <SRS0=w6YM=OR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAAF0C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D8B1C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:48:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 706CB60FED
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:40:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 706CB60FED
+	by mail.kernel.org (Postfix) with ESMTPS id 59DE06103B
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:48:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 59DE06103B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -19,78 +19,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=O5ZoWzNydOweUfg6t27t9Lb6R/n1yNcUuQFvid++Aek=; b=XLUx71Pw+3a3DL+imBuuWTwNPo
-	lAoXeD1jAsTFuSDyrYJlf77IeXf/NK+RbP11rfvL/HIznKgXqPrO3qocJ5VYIlg14yeMtejCJr/lI
-	i+Nz3JOJlSgeC1YK0vzbJnZpzuslLUapTCAd191FUF2hG7263+JgGrV8xnC24Efoot3Rv/1K9GZHU
-	yegDb0K3dbzXsTyY6gE72HE5GAcPX6RMRxEkYPrq7u8plZBW6yiUUiUvQJYsbgX4Sp+m/ydLuBcsL
-	zRn6OOxKQ1cUnveg2+ytVXnCSqRFPM75H4WDWG+saeb4Ur6WQK6eGqYCA+HUJamaPINh68Zf84ke8
-	Rg1meErg==;
+	bh=XAABogTewbeA+H7VftfucJz+Mp3h8SOMP2d3qpr5SAQ=; b=psF0jN1z11567fTk/UDdtC2yYZ
+	LeyZwD9FfNSi8+ZaTQLNY+U2S93cfN1Nfbztzg5sa84BUCiNosaJmQWQDT7nBiSC2TyZSITzGVljy
+	hQnr1PjNIbgdWCfxp96wODZwRU8+/ueRvUQYLx00kbJkVa5bzkuJDnoUwBchIgVorCcuBQ8IscepV
+	B39tfOu+ju25q6sb/lh2ltjhOBDzGWn8l2/3MMkSvtPJxu7AeMhiCCqpGtHqNGzQzF3z1j9D3teO/
+	2rkE5A3BmmfKTeAjRR1DsboFf8+shhqmaFxNtu5l7VD8A0LIq2WddbM6SSgddUFsoo3PYf0b6+YMN
+	3h9V5YYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mUzHq-004iJb-4G; Mon, 27 Sep 2021 22:39:50 +0000
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
+	id 1mUzOz-004k61-OG; Mon, 27 Sep 2021 22:47:13 +0000
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mUz7N-004f45-Ac
- for linux-nvme@lists.infradead.org; Mon, 27 Sep 2021 22:29:02 +0000
-Received: by mail-il1-x136.google.com with SMTP id q6so7100524ilm.3
- for <linux-nvme@lists.infradead.org>; Mon, 27 Sep 2021 15:29:00 -0700 (PDT)
+ id 1mUzBw-004gRE-6X
+ for linux-nvme@lists.infradead.org; Mon, 27 Sep 2021 22:33:45 +0000
+Received: by mail-il1-x129.google.com with SMTP id b6so21135156ilv.0
+ for <linux-nvme@lists.infradead.org>; Mon, 27 Sep 2021 15:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=kernel-dk.20210112.gappssmtp.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=w9ezsQ1UkQZeC53NkFhy7B+1aNQW9TNDf1kl1c4M4R4=;
- b=Ffjc9XDV39XVuLIm8DJDvOIHuyWwHa/JDveqkJIq4EPQcwwF6i2IwXvqTayH1Zs+J0
- zBBIHTdeujFBpyTsi7j+hLC6dG1lmzreXcsCJibD0ZHuJdAABtpVv3xmIelWiJg4Kiwx
- y74YiDFOoIziOuEp0bFDeka+WbUijbofv2enBSkOGJFIlEwWIxbA3L0TdOIDNHbvW4s3
- UX5WZ/WNqYbm3RB9OdDLcEyEdxxaBYh8+Ce09lqPv5Y/yeoNEYf2H8gl9ZQ2Gx73QUuz
- bK1mNwQj3yvOA8l/cfkBNHF9G4YJ0ALLNw+vW7N07eAC0HlFOVJ1jxEY1tUin9ivF4Jg
- GOjQ==
+ bh=LOsuwHDiPC+PPoCEQN/qtQeyMVFZbR3g1AzPIbWGz1s=;
+ b=YTqmdXk5vu2O6Z09DphFzhzdWxPQ8jmaJFHrIsMI+6Jhr8dovpFIgf0hfWsFZmWJGq
+ EVBCGkS1YFFNZ8M01WgONYjDBxGTGP/DCZWSKVCmRzFam2Hh4IgqxVmjePf268PGtV81
+ f5vMDXMmwBYUfauwYcel2Rv7+Z/vgk39qzYsRkTAosBsqgB4GwDsvm6cOxLKEb7WhBzu
+ TSGL2cQt0huoDrGurVnZof3FIGpxyaHR8+jLKBQHjcW0vLlSgpEdy3xv/8pfNM0RjCzL
+ S68pit92xtiJTYJshqe0ROVs/67npCPOQRoa5DA5iXWksCwd+SjdXeI2A9yZ8hXhKis6
+ coXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=w9ezsQ1UkQZeC53NkFhy7B+1aNQW9TNDf1kl1c4M4R4=;
- b=4xJfSvpTlqCwY/a1gs4Va8i4+8H1M0dzHuzhGVXPV4R2FachWTABArJSKbu2oEdbS3
- s5FgsN9PkIWuGdyLspUzUtvuW1rG8mlVIKnhHnCbDf+rvZ1nBo3hoR2EIHKAHO9MLajy
- nwtSp6P1YWPNBtoUv1dCdQJw3amU/K03KuU0j1g3AKtClqz6JSanMwCQdnBfvaaYPndC
- yqaABHhTqQtohWtHCRanBFjryDhBbEiSKn9IwY/sHpkD8PKsXk9hXshdq3x0r2evUtH7
- dHdTn3vksHjphq2D49OOYaX9dmbnKebXpqd/zrp8KHA5bnsXUKFfLq9Xep+GHhTfH5DO
- zOQA==
-X-Gm-Message-State: AOAM533qRCOehR+wq1fO9iR8tmM67OPP7dpSblWfa1gW9dSMlQdAw71D
- BKxPMSFTPW1/06zS7kmRjGYVDA==
-X-Google-Smtp-Source: ABdhPJz2QpC01URNtiA6TI68tVS50xc5AHbinQF2wOnvWrWvzOWk+mcoidVwrUAWxR5vBmrTJemKng==
-X-Received: by 2002:a05:6e02:661:: with SMTP id
- l1mr1855976ilt.122.1632781740297; 
- Mon, 27 Sep 2021 15:29:00 -0700 (PDT)
+ bh=LOsuwHDiPC+PPoCEQN/qtQeyMVFZbR3g1AzPIbWGz1s=;
+ b=NbpTKE9HnNMXMUYC4D8wLQXJnmh5bxyk04NKqdb3Y0icD1ihfxaCtDp3NNEap2+lfp
+ q+heg3tQl1k56Ca05VGa5mrLfJooycrWNeeKV6Md8ZiNSudCK2bDDYRN0ngrYaW9hjq8
+ jUvZTIUy/7wCy52AqfgX4pWi5Q+eV1pkHq8NCkFLO+q1VZhr1FXFnhZ3ywglT+OpeFct
+ E0XT5a0SKkZCpFQ9GeUF/ZRF+iuyKMm/f1HvQS1PoK2RONvEHAIxXYq2PX9I7NXmLD7A
+ WPI7a9HiNlT1qP4wPuzuwuFUx6mOKD3Sx5sk0GRDEyQ05W/THpEnoRaqeVoxDC2J5GhC
+ Ws+A==
+X-Gm-Message-State: AOAM530KkbL513AWwnVmcC8qFDpd4Zii9vi6MC6iDBIDBiZ4IouoqtwE
+ +wjVqAg4+EJ4jRSCvdmv1Vk3Uw==
+X-Google-Smtp-Source: ABdhPJwueWxtKqjP8KyNWWEV43ZHbAJgLgbtzL1ErWyEowm3/77Murhw193eceS6jFlQ9sjaEQjTVg==
+X-Received: by 2002:a92:da85:: with SMTP id u5mr1851944iln.213.1632782018707; 
+ Mon, 27 Sep 2021 15:33:38 -0700 (PDT)
 Received: from [192.168.1.116] ([66.219.217.159])
- by smtp.gmail.com with ESMTPSA id z25sm7614559iow.20.2021.09.27.15.28.58
+ by smtp.gmail.com with ESMTPSA id y2sm6427866iot.45.2021.09.27.15.33.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 15:28:59 -0700 (PDT)
-Subject: Re: [PATCH v4 6/6] nbd: add error handling support for add_disk()
-To: Luis Chamberlain <mcgrof@kernel.org>, martin.petersen@oracle.com,
- jejb@linux.ibm.com, kbusch@kernel.org, sagi@grimberg.me,
- adrian.hunter@intel.com, beanhuo@micron.com, ulf.hansson@linaro.org,
- avri.altman@wdc.com, swboyd@chromium.org, agk@redhat.com,
- snitzer@redhat.com, josef@toxicpanda.com
-Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com, 
- linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
-References: <20210927215958.1062466-1-mcgrof@kernel.org>
- <20210927215958.1062466-7-mcgrof@kernel.org>
+ Mon, 27 Sep 2021 15:33:38 -0700 (PDT)
+Subject: Re: [PATCH v2 00/10] block: second batch of add_disk() error handling
+ conversions
+To: Luis Chamberlain <mcgrof@kernel.org>, colyli@suse.de,
+ kent.overstreet@gmail.com, kbusch@kernel.org, sagi@grimberg.me,
+ vishal.l.verma@intel.com, dan.j.williams@intel.com, dave.jiang@intel.com,
+ ira.weiny@intel.com, konrad.wilk@oracle.com, roger.pau@citrix.com,
+ boris.ostrovsky@oracle.com, jgross@suse.com, sstabellini@kernel.org,
+ minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org
+Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210927220039.1064193-1-mcgrof@kernel.org>
 From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <dc945e14-498b-2cc1-8ef3-8dcaacfb948c@kernel.dk>
-Date: Mon, 27 Sep 2021 16:28:58 -0600
+Message-ID: <c17004ed-884f-5a97-c333-602e3f9903e7@kernel.dk>
+Date: Mon, 27 Sep 2021 16:33:37 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210927215958.1062466-7-mcgrof@kernel.org>
+In-Reply-To: <20210927220039.1064193-1-mcgrof@kernel.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210927_152901_399371_476BE450 
-X-CRM114-Status: GOOD (  10.15  )
+X-CRM114-CacheID: sfid-20210927_153344_279575_DCC6BD4C 
+X-CRM114-Status: GOOD (  11.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,12 +105,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/27/21 3:59 PM, Luis Chamberlain wrote:
-> We never checked for errors on add_disk() as this function
-> returned void. Now that this is fixed, use the shiny new
-> error handling.
+On 9/27/21 4:00 PM, Luis Chamberlain wrote:
+> This is the second series of driver conversions for add_disk()
+> error handling. You can find this set and the rest of the 7th set of
+> driver conversions on my 20210927-for-axboe-add-disk-error-handling
+> branch [0].
 
-Applied, thanks.
+Applied 1, thanks.
 
 -- 
 Jens Axboe
