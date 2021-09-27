@@ -2,14 +2,14 @@ Return-Path: <SRS0=w6YM=OR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3220BC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C7BC433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:00:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DB87861058
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:00:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DB87861058
+	by mail.kernel.org (Postfix) with ESMTPS id 38E7E611C5
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:00:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 38E7E611C5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BKnwT5uKnbLArYLl88BYPU5WxdZdBg4DzbzobgpUnUg=; b=pDrtD4EmmKyuZ3
-	fE62Y7VHWcSxmPSapeErj4jdUs1xF3ZyzxGkq5N1ZNpwXMubfiSMYKQmuuWU5oM4BrIWS3XH0zBws
-	LiWAq7efrt3TaO5E19borPr9Y9ySOH7pCdTYinoB1OnfcwINeHyXYsIdj2mJBU4tLVRrd+fcylG7t
-	9sb5XuC2wdpK1Lw/ZUvVamwiOPRzJAYRvjg5FhmXPLuLaXUN4zby/DtVo3sCTg9P1sJJ9l9UZn543
-	KBGSH/FfZqv0C6sAMxkUF7Cc6i8GUdEcGaDQ+ZG0rWxdyMrYm9oKZ8z899AFmKIM8iB9FniLFROxR
-	VJnBh35JSjW+7NPoEdzQ==;
+	List-Owner; bh=8SefV8s80qSLMFmtib+k4BkGbYdOMYE+yYDiuLy9ruU=; b=OSTDQC3+tVaKE3
+	QxS3et3nLZnx2lzfWtNm0p4z+GVCyhAMNO+Nt53hIwK/hpuSsFTDKynI/aMqW5yIEbUdmqOgEgZuW
+	PWfRB4guSd992NcCx4vzyu4fot5GbmO1jSzAcBSEFLxB33n/q80XQEJN80aAch7Cy5kvivEPe9Yd4
+	N+ZurUw5bnBRmH5JJjMxOU5qtndebmZXna3iCT1dxVfMWVxbILLxiI7YZBF7vjM9eJsWBsNQLgGGn
+	C7p3xYP3+GJWjpNHYmBiCsr3gfqWZp6lVu987aqWeV60d3OnjROO0Zz1TDD+hzhxhqs/HkfwzVJuO
+	sD75GECf1cLoxr4xTgsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mUyfj-004Shq-2Z; Mon, 27 Sep 2021 22:00:27 +0000
+	id 1mUyft-004Spq-1g; Mon, 27 Sep 2021 22:00:37 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mUyfM-004SUx-Sp; Mon, 27 Sep 2021 22:00:04 +0000
+ (Red Hat Linux)) id 1mUyfM-004SUz-Tn; Mon, 27 Sep 2021 22:00:04 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, martin.petersen@oracle.com, jejb@linux.ibm.com,
  kbusch@kernel.org, sagi@grimberg.me, adrian.hunter@intel.com,
@@ -39,10 +39,11 @@ Cc: hch@infradead.org, hare@suse.de, bvanassche@acm.org, ming.lei@redhat.com,
  linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-mmc@vger.kernel.org, dm-devel@redhat.com, nbd@other.debian.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v4 2/6] scsi/sr: add error handling support for add_disk()
-Date: Mon, 27 Sep 2021 14:59:54 -0700
-Message-Id: <20210927215958.1062466-3-mcgrof@kernel.org>
+ Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Song Liu <songliubraving@fb.com>
+Subject: [PATCH v4 3/6] md: add error handling support for add_disk()
+Date: Mon, 27 Sep 2021 14:59:55 -0700
+Message-Id: <20210927215958.1062466-4-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927215958.1062466-1-mcgrof@kernel.org>
 References: <20210927215958.1062466-1-mcgrof@kernel.org>
@@ -67,33 +68,33 @@ We never checked for errors on add_disk() as this function
 returned void. Now that this is fixed, use the shiny new
 error handling.
 
-Just put the cdrom kref and have the unwinding be done by
-sr_kref_release().
+We just do the unwinding of what was not done before, and are
+sure to unlock prior to bailing.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Song Liu <songliubraving@fb.com>
 ---
- drivers/scsi/sr.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/md/md.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-index 8b17b35283aa..d769057b25a0 100644
---- a/drivers/scsi/sr.c
-+++ b/drivers/scsi/sr.c
-@@ -727,7 +727,12 @@ static int sr_probe(struct device *dev)
- 	dev_set_drvdata(dev, cd);
- 	disk->flags |= GENHD_FL_REMOVABLE;
- 	sr_revalidate_disk(cd);
--	device_add_disk(&sdev->sdev_gendev, disk, NULL);
-+
-+	error = device_add_disk(&sdev->sdev_gendev, disk, NULL);
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 6c0c3d0d905a..6bd5ad3c30b4 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -5700,7 +5700,11 @@ static int md_alloc(dev_t dev, char *name)
+ 	disk->flags |= GENHD_FL_EXT_DEVT;
+ 	disk->events |= DISK_EVENT_MEDIA_CHANGE;
+ 	mddev->gendisk = disk;
+-	add_disk(disk);
++	error = add_disk(disk);
 +	if (error) {
-+		kref_put(&cd->kref, sr_kref_release);
-+		goto fail;
++		blk_cleanup_disk(disk);
++		goto abort;
 +	}
  
- 	sdev_printk(KERN_DEBUG, sdev,
- 		    "Attached scsi CD-ROM %s\n", cd->cdi.name);
+ 	error = kobject_add(&mddev->kobj, &disk_to_dev(disk)->kobj, "%s", "md");
+ 	if (error) {
 -- 
 2.30.2
 
