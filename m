@@ -2,14 +2,14 @@ Return-Path: <SRS0=w6YM=OR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D227EC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F905C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:08:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A0FE460F3A
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:06:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A0FE460F3A
+	by mail.kernel.org (Postfix) with ESMTPS id E330A60F4F
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:08:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E330A60F4F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gm/WPrAKs1F8SrO7LAk2DlrWIDcgtRdD8Zx7+cmC6AQ=; b=Q2G+5X1XtZriBY
-	m03OCXWH82hSYRRoBe3KSaqVwjGBGWWaDfXff7K4E75yqPpJI8iOqe1QgdIIeM3l/0ed4yZtvI6lJ
-	Yee2bIHw/n8gCFJ753U6zG8hWKd4oUKGCuHnPV0ipgqBqiVr9dYdRsvgOSSUOSCvn9WmniiqVgyvX
-	Rw0rHbaQV9mTVkxvDie3LATfeTJPYqlalWBg7Nf8nHTkhBiFnoAj1LvLBjcLiOwQ1D0nglZS8XUlB
-	hKRtC5eXOxln0QjSETEu4tnUQpDlLVa5cFcnRwbvHEk61cERNcPU1EDkxhuFsWEb7m7IXo3tbI5gp
-	ZWZTpgFKPphoBIH0TwdA==;
+	List-Owner; bh=rjykQc05iBIwxhejvCcKr8kOPDO9qETAOv23OpnY7O8=; b=4Xqg9Q1e6Qs8dm
+	JaP6tMY4UrdgrtjE7/1fAbthSqGcUen4l0GEFrBkMhAHl0Tlphv2wgyBk9dqMCdazS9IO28QBx2+w
+	hukLcmvhLStmZJ8BBSktnZrlIFVlmo2cSBzdHpjhZ3xUdGxWrZb9zTfncbIyF53CHZpKnWJqxow9p
+	ceySzWe3bL74J6zjrfDrtGPzxVne2E9+niGvQcWPpo0cm2Wo3ebCPem1EPfMsygEKrQBPq9rJiitQ
+	oHjTLnzgUpZE9q1MA4zslclOk103vlnDjOMJKEF4MtG+SzKOFuhCeaHjBdL31enQoR7jBd9cdQ8Pi
+	H6GbTUt7lh7AHNd+Nv7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mUyln-004X50-Ct; Mon, 27 Sep 2021 22:06:43 +0000
+	id 1mUynJ-004Xa4-P1; Mon, 27 Sep 2021 22:08:17 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mUyfw-004SvY-Q6; Mon, 27 Sep 2021 22:00:40 +0000
+ (Red Hat Linux)) id 1mUyfw-004Sv0-HC; Mon, 27 Sep 2021 22:00:40 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, colyli@suse.de, kent.overstreet@gmail.com,
  kbusch@kernel.org, sagi@grimberg.me, vishal.l.verma@intel.com,
@@ -40,9 +40,9 @@ Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH v2 10/10] zram: add error handling support for add_disk()
-Date: Mon, 27 Sep 2021 15:00:39 -0700
-Message-Id: <20210927220039.1064193-11-mcgrof@kernel.org>
+Subject: [PATCH v2 05/10] nvdimm/btt: use goto error labels on btt_blk_init()
+Date: Mon, 27 Sep 2021 15:00:34 -0700
+Message-Id: <20210927220039.1064193-6-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927220039.1064193-1-mcgrof@kernel.org>
 References: <20210927220039.1064193-1-mcgrof@kernel.org>
@@ -63,39 +63,60 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We never checked for errors on add_disk() as this function
-returned void. Now that this is fixed, use the shiny new
-error handling.
+This will make it easier to share common error paths.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/block/zram/zram_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/nvdimm/btt.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index f61910c65f0f..59086e178fbd 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1953,7 +1953,9 @@ static int zram_add(void)
- 		blk_queue_max_write_zeroes_sectors(zram->disk->queue, UINT_MAX);
+diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+index 29cc7325e890..23ee8c005db5 100644
+--- a/drivers/nvdimm/btt.c
++++ b/drivers/nvdimm/btt.c
+@@ -1520,10 +1520,11 @@ static int btt_blk_init(struct btt *btt)
+ {
+ 	struct nd_btt *nd_btt = btt->nd_btt;
+ 	struct nd_namespace_common *ndns = nd_btt->ndns;
++	int rc = -ENOMEM;
  
- 	blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, zram->disk->queue);
--	device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
-+	ret = device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
-+	if (ret)
-+		goto out_cleanup_disk;
+ 	btt->btt_disk = blk_alloc_disk(NUMA_NO_NODE);
+ 	if (!btt->btt_disk)
+-		return -ENOMEM;
++		goto out;
  
- 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
+ 	nvdimm_namespace_disk_name(ndns, btt->btt_disk->disk_name);
+ 	btt->btt_disk->first_minor = 0;
+@@ -1535,19 +1536,23 @@ static int btt_blk_init(struct btt *btt)
+ 	blk_queue_flag_set(QUEUE_FLAG_NONROT, btt->btt_disk->queue);
  
-@@ -1961,6 +1963,8 @@ static int zram_add(void)
- 	pr_info("Added device: %s\n", zram->disk->disk_name);
- 	return device_id;
+ 	if (btt_meta_size(btt)) {
+-		int rc = nd_integrity_init(btt->btt_disk, btt_meta_size(btt));
+-
+-		if (rc) {
+-			blk_cleanup_disk(btt->btt_disk);
+-			return rc;
+-		}
++		rc = nd_integrity_init(btt->btt_disk, btt_meta_size(btt));
++		if (rc)
++			goto out_cleanup_disk;
+ 	}
++
+ 	set_capacity(btt->btt_disk, btt->nlba * btt->sector_size >> 9);
+ 	device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
++
+ 	btt->nd_btt->size = btt->nlba * (u64)btt->sector_size;
+ 	nvdimm_check_and_set_ro(btt->btt_disk);
  
+ 	return 0;
++
 +out_cleanup_disk:
-+	blk_cleanup_disk(zram->disk);
- out_free_idr:
- 	idr_remove(&zram_index_idr, device_id);
- out_free_dev:
++	blk_cleanup_disk(btt->btt_disk);
++out:
++	return rc;
+ }
+ 
+ static void btt_blk_cleanup(struct btt *btt)
 -- 
 2.30.2
 
