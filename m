@@ -2,81 +2,63 @@ Return-Path: <SRS0=w6YM=OR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C357C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 15:03:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C46D4C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 15:36:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0535160F39
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 15:03:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0535160F39
+	by mail.kernel.org (Postfix) with ESMTPS id 75269604DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 15:36:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 75269604DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=edlQzrUJjizJGWmjBy8zHo0TCvZ4700aI5ro1CqIefE=; b=DFdEgdC8vC58nB
-	WilFXYZwiCJmEALZEz7S+DevgvwZKfYJ+7Q353CEkbJ6449ap3G2YvgUvtWxC0zfsnBniCWp8AKsc
-	9nW6ZD74DD7Rb1u3FLrtCdNaiq6Id+9zm+JRw4I7iUAh7s3+ldBTGDoGySqXodlthFMa9rhvVmwtG
-	K8YkZW6uhOdKvwc9HxYYh7Xuv6FoHgPKs83afF3dX3cUHKHhw5Ko6nFqI/8NCorsJFpRArHPYqzZM
-	fwAzIKLeX8nb2R/5P/gvzVwDSDMmlFOe3sfEyGsD/8ZhTt3y9EyKdyL1a0P/yncN/tSV1WxJOuCeO
-	vKJBbupaW61IUg+3ipoA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=C+hzerBbr1QoTak74w74LCru+4iId3wiMuRbCMMT0CM=; b=Yn4L0HhsulrbEB
+	+r1rQQZsvQpagUKTFGJo56kpFeovUR8x7m0EGgWBpBc1qIgxgfEx2Lps0gMGO/vVIBuU7YHUZ2+/F
+	34OJTVSwHwQEmmzOh0VT2cxJ2GI18ScfZ5Ety7kuu7y7TtkkKQBcjojAV0+CRs2x6PRKAscmq9ygb
+	QeWibSfOLsAZlrjEfZl0Yre9IwV84JSAHBRJDSULIbwQ45Evfx0anLNc+GiA2ew+Cz2dpocskWoFn
+	40qWBKqo/gY2pa+8mNG9+qyCgpdJevSoSTnBvm3pgMucKorXJrDdjSfpXTr27ROc7rf9BYe/lgmm4
+	PjGRDEBlWXpKg+GZnSMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mUs9h-0030Vo-3T; Mon, 27 Sep 2021 15:02:57 +0000
+	id 1mUsfR-003C1K-Ay; Mon, 27 Sep 2021 15:35:45 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mUs9d-0030UD-Rj
- for linux-nvme@lists.infradead.org; Mon, 27 Sep 2021 15:02:55 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC38F60FED;
- Mon, 27 Sep 2021 15:02:51 +0000 (UTC)
+ id 1mUsfO-003C0Q-3q
+ for linux-nvme@lists.infradead.org; Mon, 27 Sep 2021 15:35:43 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 43B40604DB;
+ Mon, 27 Sep 2021 15:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632754972;
- bh=NOnXKz3j8SF7vlCFUvHvs5X4xIJFwfY2ZbVXhTcTrwI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XMaBKXiDeZdKN9ENJh8WDYkhbQxEE/tE7UWhY7FlgduHrpeWWtgxJ6NC+C/b2deJ5
- 6FnIjyM52Guvmwd9NiUmUV6uZcI/zATz7lQcGAe2AQPSv50DqxvrwOiqEjPEc1q8t3
- aTA1a4B33/Wh3qG7C2R2O2btYC7J4ntjyAp8YXJB5KxR/3za9pajrvTHUlbCFVzGuc
- FG3jOXuIgGEiJL/Opz6hu0wcbHn4TpByvOsSgwChqZyzZFg/fWIjRIMR2TqQaAWrmv
- +Ws+9Zan3zWGmHhphwILYYveKZyHO81kp7O46gLKXaUY3sXYFtEnG9LDEyI3JTtrRD
- mWmmTFNWwpyLA==
-Date: Mon, 27 Sep 2021 08:02:49 -0700
+ s=k20201202; t=1632756941;
+ bh=Q9+I4wEImnOLr+V45cPev4boT5DC7GTCSjTGy4LHB8c=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Bbe6MG/sIZlfd7j0Z7SWSkQNRe1rilXRFw6/rELmbymUmfJWXEPwYOcTIZdx+knMf
+ mwl/ee5Ww5G5z1hWB2agF3rSHWiW+vpdgdtdeDfr1sqvAEurWy78Kj9MgjTw9KSgaA
+ bTaTR3DR9D/0fWVatQa1zelJi6Lz03f/iF6k0oCZv687v7Iu9NHYC6AmHpB4+uPo2S
+ iabiS62MQKVXD6HJHQAD4mAi4LkW9gOmj1abjn4V6Lv7KseWbHntQxbZnAyLY9Elyw
+ ajlBTWDu3R0BpxQ0rQnHPSkMGKFJ+l1xud/nuZImTQ2SaBb6ilyPJWK0cCLL8Rbs3v
+ pwecnp8mbF8gw==
 From: Keith Busch <kbusch@kernel.org>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Aditya Garg <gargaditya08@live.com>,
+To: linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	hch@lst.de
+Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Sven Peter <sven@svenpeter.dev>,
  Orlando Chamberlain <redecorating@protonmail.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- "hare@suse.de" <hare@suse.de>, "dwagner@suse.de" <dwagner@suse.de>,
- "hch@lst.de" <hch@lst.de>, Linus Torvalds <torvalds@linux-foundation.org>,
- "axboe@fb.com" <axboe@fb.com>,
- "james.smart@broadcom.com" <james.smart@broadcom.com>,
- "chaitanya.kulkarni@wdc.com" <chaitanya.kulkarni@wdc.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [REGRESSION] nvme: code command_id with a genctr for
- use-after-free validation crashes apple T2 SSD
-Message-ID: <20210927150249.GA148020@dhcp-10-100-145-180.wdc.com>
-References: <20210925171618.GA116968@dhcp-10-100-145-180.wdc.com>
- <fa9de055-c3b8-20d3-41e0-12e43d0c336a@protonmail.com>
- <20210926020839.GA96176@C02WT3WMHTD6>
- <1a6f5030-27d9-d1ae-aff4-0ed2a10dce6b@protonmail.com>
- <1b5d6bef-db6f-073f-8d24-4963f0df82ab@protonmail.com>
- <PNZPR01MB4415801C6084E8CFD068A84AB8A69@PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM>
- <d65ecc69-35c9-4400-8fb0-95aa04360b03@grimberg.me>
- <31c4dc69-5d10-cc6a-4295-e42bbc0993d0@protonmail.com>
- <PNZPR01MB4415F35759F136E812A8F91DB8A79@PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM>
- <d4fb602c-43ab-4b5d-93ad-fa9116462dec@www.fastmail.com>
+ Aditya Garg <gargaditya08@live.com>
+Subject: [PATCH] nvme: add command id quirk for apple controllers
+Date: Mon, 27 Sep 2021 08:35:39 -0700
+Message-Id: <20210927153539.372986-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d4fb602c-43ab-4b5d-93ad-fa9116462dec@www.fastmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210927_080253_959865_48445470 
-X-CRM114-Status: GOOD (  26.72  )
+X-CRM114-CacheID: sfid-20210927_083542_199638_0BEB77E9 
+X-CRM114-Status: GOOD (  14.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,57 +75,85 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 27, 2021 at 08:05:00AM +0200, Sven Peter wrote:
-> Hi,
-> 
-> 
-> On Mon, Sep 27, 2021, at 06:51, Aditya Garg wrote:
-> > I am getting the same error.
-> >
-> > ________________________________________
-> > From: Orlando Chamberlain <redecorating@protonmail.com>
-> > Sent: Monday, September 27, 2021 4:22 AM
-> > To: Sagi Grimberg; Aditya Garg; kbusch@kernel.org
-> > Cc: linux-nvme@lists.infradead.org; regressions@lists.linux.dev; 
-> > hare@suse.de; dwagner@suse.de; hch@lst.de
-> > Subject: Re: [REGRESSION] nvme: code command_id with a genctr for 
-> > use-after-free validation crashes apple T2 SSD
-> >
-> > On 26/9/21 18:44, Sagi Grimberg wrote:
-> >>
-> >>> I checked out the proposal sent by Orlando Chamberlain to replace NVME_QUIRK_SHARED_TAGS , by NVME_QUIRK_SHARED_TAGS | given in the patch on http://lists.infradead.org/pipermail/linux-nvme/2021-September/027665.html. The , still causes panics to the T2 as described before. In the case of |, the kernel boots correctly without panicking the T2, but in case we are having Linux on an External Drive, which is my case, then the internal SSD doesn't seem to be recognised at all. I've tested the patch on 5.14.7.
-> >>
-> >> That sounds like a separate issue, because with this patch applied,
-> >> all tags should be within the queue entry range (with generation
-> >> set to 0 always).
-> >>
-> >> Is it possible that the io_queue_depth is being set to something
-> >> that exceeds NVME_PCI_MAX_QUEUE_SIZE (4095) ? the default is 1024
-> >>
-> > I've been able to reproduce it by using the same kernel Aditya is using:
-> > https://github.com/AdityaGarg8/T2-Big-Sur-Ubuntu-Kernel/actions/runs/1275383460
-> >
-> > From the initramfs:
-> >
-> > # dmesg | grep nvme
-> > nvme nvme0: pci function 0000:04:00.0
-> > nvme nvme0: 1/0/0 default/read/poll queues
-> > nvme nvme0: Identify NS List failed (status=0xb)
-> > nvme nvme0: LightNVM init failure
-> 
-> Maybe I should've just submitted the quirks required for the M1 already...
-> The ANS2 firmware on there doesn't support the vanilla nvme_scan_ns_list
-> call. That should not break anything though because core.c falls back to
-> nvme_scan_ns_sequential in that case which does work. It just results
-> in that "Identify NS List failed (status=0xb)" error message.
-> 
-> Not sure where that LightNVM failure comes from though. Afaict lightnvm has been 
-> removed from 5.15 and shouldn't be used for the Apple controller anyway.
+Some apple controllers use the command id as an index to implementation
+specific data structures and will fail if the value is out of bounds.
+The nvme driver's recently introduced command sequence number breaks
+this controller.
 
-Yes, lightnvm was removed in 5.15, so the quirk bit identifying these
-devices was removed. The patch was made for upstream 5.15. If you want
-to backport it to stable, the bit will need to be changed, otherwise it
-make the driver think its an openchannel SSD instead and fail.
+Provide a quirk so these spec incompliant controllers can function as
+before. The driver will not have the ability to detect bad completions
+when this quirk is used, but we weren't previously checking this anyway.
+
+The quirk bit was selected so that it can readily apply to stable.
+
+Fixes: e7006de6c2380 ("nvme: code command_id with a genctr for use-after-free validation")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=214509
+Cc: Sven Peter <sven@svenpeter.dev>
+Reported-by: Orlando Chamberlain <redecorating@protonmail.com>
+Reported-by: Aditya Garg <gargaditya08@live.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 4 +++-
+ drivers/nvme/host/nvme.h | 6 ++++++
+ drivers/nvme/host/pci.c  | 3 ++-
+ 3 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e486845d2c7e..afbd47e16293 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -978,6 +978,7 @@ EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
+ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
+ {
+ 	struct nvme_command *cmd = nvme_req(req)->cmd;
++	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+ 	blk_status_t ret = BLK_STS_OK;
+ 
+ 	if (!(req->rq_flags & RQF_DONTPREP)) {
+@@ -1026,7 +1027,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
+ 		return BLK_STS_IOERR;
+ 	}
+ 
+-	nvme_req(req)->genctr++;
++	if (!ctrl->quirks & NVME_QUIRK_SKIP_CID_GEN)
++		nvme_req(req)->genctr++;
+ 	cmd->common.command_id = nvme_cid(req);
+ 	trace_nvme_setup_cmd(req, cmd);
+ 	return ret;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9871c0c9374c..ed79a6c7e804 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -138,6 +138,12 @@ enum nvme_quirks {
+ 	 * 48 bits.
+ 	 */
+ 	NVME_QUIRK_DMA_ADDRESS_BITS_48		= (1 << 16),
++
++	/*
++	 * The controller requires the command_id value be be limited, so skip
++	 * encoding the generation sequence number.
++	 */
++	NVME_QUIRK_SKIP_CID_GEN			= (1 << 17),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b82492cd7503..456a0e8a5718 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3369,7 +3369,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
+ 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
+ 				NVME_QUIRK_128_BYTES_SQES |
+-				NVME_QUIRK_SHARED_TAGS },
++				NVME_QUIRK_SHARED_TAGS |
++				NVME_QUIRK_SKIP_CID_GEN },
+ 
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ 0, }
+-- 
+2.25.4
+
 
 _______________________________________________
 Linux-nvme mailing list
