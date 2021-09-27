@@ -2,14 +2,14 @@ Return-Path: <SRS0=w6YM=OR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A831BC433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:02:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5BAC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:02:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7848F60E73
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:02:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7848F60E73
+	by mail.kernel.org (Postfix) with ESMTPS id 9557060EB6
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Sep 2021 22:02:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9557060EB6
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SaefOmpTetUjQ5aNKyhnfzNmQ3byIT/EvWQdlUDQvhs=; b=DkLyFSVrvXnSBm
-	TXoE7FIFbueWjVuVzg5DFBzEY6vx2fGsyGYYyFDvXs/DWickPTmiTp1sNHFtXfvgTjqRhnlED88il
-	gHuGz8V8LwZHFqut6tzgyAkUmMex/yMPntfRhdMEcXzkSZeoi8YVwToUEJQRhN0mqvnf9QsyDaV90
-	UGKZGfhERVkmzgfpfn0sD3ZWh+E6aYfenqmPcQXbGHBitBmPwDLgfC5C2yrO0gEG15uBSW+sRUaxa
-	ZQ/78fBkVnRSVu+Buykupok8kdgPnArXZWYf5SZtv6vaLPTMB62bSnF3RIj1Ud9W6SC2exu+4YrpR
-	roBVpIWFcIWjjipZaNpA==;
+	List-Owner; bh=bqAXjkrGAGBBYg/PwxqlTapMhTM3cISkeEUiovQtC6Y=; b=m28vKIeXOTmqby
+	vKaLmOe4Quw5PT8qIsDXnxqbHISrzry1nsf1+oG9URvta0NKAuF0aleiZ4gqnsCrgsAzdqFBuTxUF
+	t/hf3vNPIcDW1O9loX+toimolozYsAhW5+OnGnaRHXpqgX0JL+/6P/wEg4kcRpXl+gfwYqxGRtl/O
+	GdFNOCwjov5pFDe9/RGUjQZu7Sh64gI1ZS9B8gPrYaOJkhgqGOMg2ofgxT+jyJxKmuaDy/WvIPy4p
+	B8eVuQYvQ5PtC5SOnZiIkxmMrfV/425ZiO5d84gIjEAZHGF4AUZ1JVnFv5QOsuEt/1gtNXgdcqSOp
+	yGn1O3rKtz3EzGjs6aKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mUyhD-004ULB-EO; Mon, 27 Sep 2021 22:01:59 +0000
+	id 1mUyhe-004Un6-7y; Mon, 27 Sep 2021 22:02:26 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mUyfw-004SvC-K7; Mon, 27 Sep 2021 22:00:40 +0000
+ (Red Hat Linux)) id 1mUyfw-004Suu-Fq; Mon, 27 Sep 2021 22:00:40 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, colyli@suse.de, kent.overstreet@gmail.com,
  kbusch@kernel.org, sagi@grimberg.me, vishal.l.verma@intel.com,
@@ -40,9 +40,9 @@ Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
  linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH v2 06/10] nvdimm/btt: add error handling support for add_disk()
-Date: Mon, 27 Sep 2021 15:00:35 -0700
-Message-Id: <20210927220039.1064193-7-mcgrof@kernel.org>
+Subject: [PATCH v2 04/10] nvdimm/btt: do not call del_gendisk() if not needed
+Date: Mon, 27 Sep 2021 15:00:33 -0700
+Message-Id: <20210927220039.1064193-5-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927220039.1064193-1-mcgrof@kernel.org>
 References: <20210927220039.1064193-1-mcgrof@kernel.org>
@@ -63,30 +63,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We never checked for errors on add_disk() as this function
-returned void. Now that this is fixed, use the shiny new
-error handling.
+We know we don't need del_gendisk() if we haven't added
+the disk, so just skip it. This should fix a bug on older
+kernels, as del_gendisk() became able to deal with
+disks not added only recently, after the patch titled
+"block: add flag for add_disk() completion notation".
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/nvdimm/btt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvdimm/btt.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
-index 23ee8c005db5..57b921c5fbb5 100644
+index 52de60b7adee..29cc7325e890 100644
 --- a/drivers/nvdimm/btt.c
 +++ b/drivers/nvdimm/btt.c
-@@ -1542,7 +1542,9 @@ static int btt_blk_init(struct btt *btt)
- 	}
+@@ -1538,7 +1538,6 @@ static int btt_blk_init(struct btt *btt)
+ 		int rc = nd_integrity_init(btt->btt_disk, btt_meta_size(btt));
  
- 	set_capacity(btt->btt_disk, btt->nlba * btt->sector_size >> 9);
--	device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
-+	rc = device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
-+	if (rc)
-+		goto out_cleanup_disk;
- 
- 	btt->nd_btt->size = btt->nlba * (u64)btt->sector_size;
- 	nvdimm_check_and_set_ro(btt->btt_disk);
+ 		if (rc) {
+-			del_gendisk(btt->btt_disk);
+ 			blk_cleanup_disk(btt->btt_disk);
+ 			return rc;
+ 		}
 -- 
 2.30.2
 
