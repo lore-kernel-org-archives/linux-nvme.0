@@ -2,15 +2,15 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AAFDC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 20:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA8CC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 20:41:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 423A4610E6
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 20:05:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 423A4610E6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+	by mail.kernel.org (Postfix) with ESMTPS id 797056137E
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 20:41:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 797056137E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
@@ -18,84 +18,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=S9t8S/qDhT0Xql2yKIv9kFYei6SLEF3vuQXcC/zUKTE=; b=FD5yrC+QqhZT5F
-	YB5KpwvD8Xl75n002KttR8sFiVLRsCH32SuJAPKWWm3b7+pMVGNIIiQh1gYoAQ7RfBSnMkXrWSAsX
-	Egt0xrKTXiJI+vUhkOsc4Q1T2+4l8PSVii/Cr7IHzGQOJkOCnhHhWnrcKf1dpfrU4eCAQBeREXVlL
-	X6jf8JQkeZt0pvTjPWIHVazcgfazl/sX1xgXPnDMM0bngXWlb8z70tKkr0TBLNOKwjYKwOqO0rpWv
-	JT2VPNmN7f8WxazZfjATneYUdlEX2D48V/tobkDYjPj59crtzgeXW06h9JkK9L7fo+qmKP6yhLukD
-	gTXkad1gz7qn8blL9GOA==;
+	List-Owner; bh=MmNIFOUGzt5ZbtZ741nBNPyqnc+pfP/+zujxBJxyDwo=; b=AUPxcL0VKZZDCY
+	kYowptICPWV3gvQsuBW4GdORkp/rlvRYn9iJWr2xkT4PZ7nsuO7wnlIPBK9zkakYrxtgYY6Clnky5
+	JMtnDDbp9lIksjUTQbPrM/8Ld7X5uGB9M+j7RZ13Eie8Rz30es98NpJbvgxaN1XqbwpGGXQ2fCfRV
+	pUcjSTVc+l6KEVFQmAMLHKVjpFBHumBmCFckq73cQCuZ828Z0UEHKaSUdAzATgo5/zvIZ6FMOHq1J
+	2aMZyO3DbqBbsjhB7bf/nya/ZkRbqE1oyCMrMX+MpRf2Uzl80fDNutWr/XaVs8vC2r4RsK4mckkoj
+	xlab4jub0CAz8027aGKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVJLk-008jXh-Mm; Tue, 28 Sep 2021 20:05:12 +0000
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c])
+	id 1mVJuM-008mXV-NW; Tue, 28 Sep 2021 20:40:58 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVJLi-008jWW-0u
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 20:05:11 +0000
-Received: by mail-qv1-xf2c.google.com with SMTP id x9so59863qvn.12
- for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 13:05:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cW8g3RMiiX7YozMyBpzJQ3i0X8a1a6uo52SxjKINHuA=;
- b=mXg4nC/0EIy5mcGZgRBdVGh4+PtQ/R7qKfJdIHvckLXvlCgA6RG20VZtoVAC7XwA0/
- 1Q9jV1hRPeuiqNHTfiF2xEDf/GmdCrABm9VW4FZUzunFeWsbqWbu0OIpkB0K7pTzfgbd
- 6AZsXvNDXNRBaOqQHwB6uloUHcpht9y8ZbZWcpcNkXzVJmyDxhAzyVOeTC4gm52ORmXN
- mB9dfyB6upC6rckPem/56kkVq6mMDb0monvwsJpjKud0G8lLORhrGaRbWZcJi7ULZ9Wj
- 5fjO0VyJ8XxtZ4Gi+c3kBFto+M+PTYIof3BPLlQNFsws5BUO2HFuvQyKhOfpgnkZotGZ
- sdyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cW8g3RMiiX7YozMyBpzJQ3i0X8a1a6uo52SxjKINHuA=;
- b=zKrEDEqV4c6ut7xuEawGV2w0Vl6bL5UY8CEYtMq5J2khbUG0lLuudsR1iHuLFSfxfD
- ZA9L8Sg7i9iSdywMCwSsgHLM5gHu8gt09uEsvTsh6tIxPvjf7iSzPYelBXiwfMw4J38T
- DctF2ucHwhbm9Q2cFYy/79T8PiMO80KrbZpy5nW/jvI77mbrGy/KF6jXrpTGx8114ha+
- 51SaLveaW7jXibjoYbyRUP9rHlSSvFi/IWiy4fZNv24clmbCB0wkLEzwgMMSkSXR6S+8
- jdNWaVwQCmMNRGwRRqdox5ASSwg+8dqOLdSEfVJZ+luUEKeLsJ77adgcTxIVwNJoC0kl
- y7yw==
-X-Gm-Message-State: AOAM532kpUilfG39HveBJZ3i4OMVeOEgSFSCNBbQH1bZgTeqXl1RKcmY
- 5Ju+VDwFoqnfVOQ8f7S+FLyO9Q==
-X-Google-Smtp-Source: ABdhPJzKbJYaBmt9+b2JfarRag3/wc7athe6CPjiFKF1JovwH1BSJxbPc5yOuJ/qnsZmJUt2zTx5pQ==
-X-Received: by 2002:a0c:9043:: with SMTP id o61mr7850968qvo.54.1632859508704; 
- Tue, 28 Sep 2021 13:05:08 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
- by smtp.gmail.com with ESMTPSA id x125sm118440qkd.8.2021.09.28.13.05.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 13:05:07 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVJLe-007GuE-T8; Tue, 28 Sep 2021 17:05:06 -0300
-Date: Tue, 28 Sep 2021 17:05:06 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
-Message-ID: <20210928200506.GX3544071@ziepe.ca>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-20-logang@deltatee.com>
+ id 1mVJuJ-008mX1-EK
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 20:40:56 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6892E6136F;
+ Tue, 28 Sep 2021 20:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632861654;
+ bh=NLf12B7HJC8SjIhd363qbSg5tbs/ByEhomOR8oYu2nY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=seSUTJC2waLQYvrtkcZ3Pmo0TFK0nkxlu8aTjIE9PQCqPcc17GpNMmzffdXCA0hI5
+ JGExwa4nnmhC7XAxdG5h+p/H56gpBIEueWLeniuGDtWgWOmsVTLyxh10YLfMyFW7fz
+ sse5tBsNEgcvw3MOjjqIMcJtWr2eYEOALAoWKspLhYZyY0xEWgyorS3ZidVAOU6zkL
+ KcYd6JGHdTXR1sjJhEfvMaQNPw0423RwFD+mYAFvQr0AtS9eq/EvZzyOI/N9rOrld/
+ FUfajk4fOLEnLd7htplwvVgbUs+6VfXB05iqIjexBjBmwvwQAhjgzujf6IwPPX3aYh
+ C13VMp0+ttnUQ==
+Date: Tue, 28 Sep 2021 13:40:52 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH] nvme-tcp: fix incorrect h2cdata pdu offset accounting
+Message-ID: <20210928204052.GA390773@dhcp-10-100-145-180.wdc.com>
+References: <20210914153855.16177-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210916234100.122368-20-logang@deltatee.com>
+In-Reply-To: <20210914153855.16177-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_130510_086247_8222DD2C 
-X-CRM114-Status: GOOD (  11.63  )
+X-CRM114-CacheID: sfid-20210928_134055_518647_E8F36960 
+X-CRM114-Status: GOOD (  17.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,30 +73,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 16, 2021 at 05:40:59PM -0600, Logan Gunthorpe wrote:
+On Tue, Sep 14, 2021 at 06:38:55PM +0300, Sagi Grimberg wrote:
+> When the controller sends us multiple r2t PDUs in a single
+> request we need to account for it correctly as our send/recv
+> context run concurrently (i.e. we get a new r2t with r2t_offset
+> before we updated our iterator and req->data_sent marker). This
+> can cause wrong offsets to be sent to the controller.
+> 
+> To fix that, we will first know that this may happen only in
+> the send sequence of the last page, hence we will take
+> the r2t_offset to the h2c PDU data_offset, and in
+> nvme_tcp_try_send_data loop, we make sure to increment
+> the request markers also when we completed a PDU but
+> we are expecting more r2t PDUs as we still did not send
+> the entire data of the request.
+> 
+> Fixes: 825619b09ad3 ("nvme-tcp: fix possible use-after-completion")
+> Reported-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+> Tested-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> - Keith, can you ask the WD team to test this as well?
 
-> +static void pci_p2pdma_unmap_mappings(void *data)
-> +{
-> +	struct pci_dev *pdev = data;
-> +	struct pci_p2pdma *p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
-> +
-> +	p2pdma->active = false;
-> +	synchronize_rcu();
-> +	unmap_mapping_range(p2pdma->inode->i_mapping, 0, 0, 1);
-> +	pci_p2pdma_free_mappings(p2pdma->inode->i_mapping);
-> +}
+I finally have some feedback on testing, and it looks like this patch
+has created a regression. The testers are observing:
 
-If this is going to rely on unmap_mapping_range then GUP should also
-reject this memory for FOLL_LONGTERM..
+  [Tue Sep 28 02:12:55 2021] nvme nvme6: req 3 r2t len 8192 exceeded data len 8192 (4096 sent)
+  [Tue Sep 28 02:12:55 2021] nvme nvme6: receive failed:  -71
+  [Tue Sep 28 02:12:55 2021] nvme nvme6: starting error recovery
 
-What along this control flow:
+Which we had seen before, and you fixed with commit:
 
-> +       error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
-> +                                        pdev);
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=825619b09ad351894d2c6fb6705f5b3711d145c7
 
-Waits for all the page refcounts to go to zero?
-
-Jason
+I only just recently heard about this, so I haven't looked into any
+additional possible cause for this regression yet, but just wanted to
+let you know earlier.
 
 _______________________________________________
 Linux-nvme mailing list
