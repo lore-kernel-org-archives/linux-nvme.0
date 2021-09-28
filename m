@@ -2,14 +2,14 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F95DC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 20:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7893DC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 21:00:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5156F6138E
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 20:46:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5156F6138E
+	by mail.kernel.org (Postfix) with ESMTPS id 1CCB860FBF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 21:00:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1CCB860FBF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,61 +18,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dn76g9fu2v1zIklAfAjnAdK/Ow8n+r8ZbwB2BKOszmQ=; b=lK2lIOvncH9k3YAQtD/ev7BkhA
-	OyWLTULeCfaSku+6z83YBKfiDViU6hcVBPeMr1brrwePvjPR+GbH/PXLIlchvzFpjDHkNa+aDLo/l
-	uqwWlQqfhkib9Np+IH/7NIl+Rhx7R/jx+r9NPZDJoldHyvEd0T4OXrsA2QdF2JkOEXy+8N1VnBHp2
-	Cc2gg1vpEzJ81KmUlFowHftjZsnujaO8mNa2zxnnC74Ix1JQCgWfFKbbSJZdH5/IjWdPDg2j45Vqp
-	Y5UC8i3jpyK5lSUmWEWJCY3japVZZe6RbIN1Lcax5sQpwrmnLIosvIneNKCZAHA0s/MEFancITEuG
-	XM22K7Vw==;
+	bh=7R55m+aByolg8O6XbXIOP6AvP4g7pt/wunXG9edN+4M=; b=OAlv0d42GRtw2MdkDC2CqYqM6/
+	MbXf+DmIzGLAkinAZqB1xIjtvn6sJyN+ocY6v4GX2BauPWMqM7e6UteN0TWpiR9fubhPSBFZ+LAeC
+	IoUW3pZNKbp7ihp8fhcQx+a5J1prlMR0+dhgipcVkLIoapGSjBiX1Dops+Jv4vJ/rcYIETtmdKAvo
+	YLN9RqPnpncEMNtSaAk+8+6FxCCxuhBxsHuzRlkUt8hcxH78MPRkUV/WCHnu4BCkZFe9SzdFVgITs
+	BE9FZYFwX+/Z01dXcZR7WrxN1zzFSqoyy0uv32fuC7pP9XGIo94jKHhsSunIBO/hsSyCUyc3ayq2Y
+	0pdodkjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVJyw-008n1t-PL; Tue, 28 Sep 2021 20:45:42 +0000
-Received: from mail-ed1-f54.google.com ([209.85.208.54])
+	id 1mVKDD-008oE6-TB; Tue, 28 Sep 2021 21:00:27 +0000
+Received: from mail-ed1-f53.google.com ([209.85.208.53])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVJyt-008n17-RR
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 20:45:41 +0000
-Received: by mail-ed1-f54.google.com with SMTP id g7so106017edv.1
- for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 13:45:38 -0700 (PDT)
+ id 1mVKDA-008oDe-M1
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 21:00:26 +0000
+Received: by mail-ed1-f53.google.com with SMTP id v18so63898edc.11
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 14:00:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kU/RhnR/mTB35hRcNkYdg4Gnf/B5MqhgFk3wEq/WDYA=;
- b=bBssaV7oxnzlw0xz7iFdiXQnFRrdorOHtLq9zOwfHEq1cNQ3+Qo4EratbH+iPboBAR
- GI99RbOBQHbxQ/6tunerao5W4HbcAjKnw1w33DzV33GimOhA7exM7XilIeI+u5dsrP3V
- 7jiuBKo+HszVvkN0Hnv7HxzSqo5DNm5nGK5aSltUrt27rUHX0JKz4IPKIoB/vm59nh8g
- Lv5Mt/aoWDge10ZQdg7YrqPA1i3TVjMbIInENu749iGCZ/VwO4VUYqdNSe+tfPzU2ReI
- JxPsel0oG947SkadPbzMPAJL6ApNDHQiaSDrHr438cTE4Q0V4OKiC4Wl/gGJXIxrbQe2
- 72EQ==
-X-Gm-Message-State: AOAM530pKV98MHxmTAUgiA9bxJCHpuzBiLOHhkgByEz6KKHUSiY2eCoq
- iYFfKsN7eFodBSYXyrFArxM=
-X-Google-Smtp-Source: ABdhPJxaVN+zcbbjD/1LBXL7YhGaLuzHifWSHhYtlzTV9ZC/ZNOxTJMzQ/11Du/bmRVJLmsW5lCOHg==
-X-Received: by 2002:a17:907:1b06:: with SMTP id
- mp6mr8869213ejc.188.1632861937150; 
- Tue, 28 Sep 2021 13:45:37 -0700 (PDT)
+ bh=KrUqw/vZ1YFIp99tZFUznVrucXDz8VM9iLvZUg4af4c=;
+ b=rZqIP304lu0AlF/kcj9wWmn1ynkXfhqst/XJZVhVddrtT6EKaeH6I2YEMiK0X5bXi0
+ vHQlXH/cYxwOsrduSxX/jAzCNJ9QASblgLTXrZhm5mOmgoBX5L6IjbQgQ0lvmjpVcpd6
+ VIcrf98w7s+pvtZ+YmARLWO+A8WZG/3GOL+ySL0vj5PvhDfwXK3nGmrDWn0CFewRVQ8l
+ LjIsnzxt96KHv6oSTHXNQm8HkzqJo8JqrOXlAkvU3eWj9C/CHnrH611EU1YL/7WkCh52
+ YBH7VeuHu/ljtkn5aAbhCCIp1JKwM2wPTr6UZmp5qfJR2IUNRTZRM4ujVs4dYPhy/gv2
+ R0rA==
+X-Gm-Message-State: AOAM533ax95M7K9mYWoGAHzwkFKF5YkRZpRS7WCzQvvJ3uCMvFewQC82
+ zYtPCzYorqtT0h4s18HcZmpr14ti1sM=
+X-Google-Smtp-Source: ABdhPJwjcdNHNAsibSjSCS8hWB+eHWF2zJ9s4lpWOhJM9363Qe8vrJQo6/IWXImlfqpmngb9jHC0sg==
+X-Received: by 2002:a17:906:af1a:: with SMTP id
+ lx26mr9238180ejb.563.1632862822330; 
+ Tue, 28 Sep 2021 14:00:22 -0700 (PDT)
 Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
  [109.186.240.23])
- by smtp.gmail.com with ESMTPSA id q6sm102366ejm.106.2021.09.28.13.45.36
+ by smtp.gmail.com with ESMTPSA id h7sm123532edt.37.2021.09.28.14.00.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 13:45:36 -0700 (PDT)
-Subject: Re: [PATCH V3 nvme-cli 1/2] initialize disk "access" variable
-To: chengjike <chengjike.cheng@huawei.com>, kbusch@kernel.org,
- linux-nvme@lists.infradead.org, chaitanyak@nvidia.com
-Cc: sunao.sun@huawei.com, jiangtao62@huawei.com
-References: <20210928085050.4141-1-chengjike.cheng@huawei.com>
- <20210928085050.4141-2-chengjike.cheng@huawei.com>
+ Tue, 28 Sep 2021 14:00:22 -0700 (PDT)
+Subject: Re: [PATCH] nvme-tcp: fix incorrect h2cdata pdu offset accounting
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+References: <20210914153855.16177-1-sagi@grimberg.me>
+ <20210928204052.GA390773@dhcp-10-100-145-180.wdc.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <e916dbea-8796-5ed1-06f6-4d89c72f3b69@grimberg.me>
-Date: Tue, 28 Sep 2021 23:45:35 +0300
+Message-ID: <d969a4b7-4d3c-9df7-5a7d-9700bff37d50@grimberg.me>
+Date: Wed, 29 Sep 2021 00:00:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210928085050.4141-2-chengjike.cheng@huawei.com>
+In-Reply-To: <20210928204052.GA390773@dhcp-10-100-145-180.wdc.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_134539_920502_B0837966 
-X-CRM114-Status: GOOD (  15.96  )
+X-CRM114-CacheID: sfid-20210928_140024_765148_95519D29 
+X-CRM114-Status: GOOD (  29.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,28 +90,98 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> (This is a prep patch, which provides functions for the next "patch 2/2")
-> When it is failed to get nvme_id_ns data from NVMe Subsystem.
 
-If there was a failure the nsid should be -1, and all the size info 
-should be zero, that is enough of an indication that the ns is "faulty".
+On 9/28/21 11:40 PM, Keith Busch wrote:
+> On Tue, Sep 14, 2021 at 06:38:55PM +0300, Sagi Grimberg wrote:
+>> When the controller sends us multiple r2t PDUs in a single
+>> request we need to account for it correctly as our send/recv
+>> context run concurrently (i.e. we get a new r2t with r2t_offset
+>> before we updated our iterator and req->data_sent marker). This
+>> can cause wrong offsets to be sent to the controller.
+>>
+>> To fix that, we will first know that this may happen only in
+>> the send sequence of the last page, hence we will take
+>> the r2t_offset to the h2c PDU data_offset, and in
+>> nvme_tcp_try_send_data loop, we make sure to increment
+>> the request markers also when we completed a PDU but
+>> we are expecting more r2t PDUs as we still did not send
+>> the entire data of the request.
+>>
+>> Fixes: 825619b09ad3 ("nvme-tcp: fix possible use-after-completion")
+>> Reported-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+>> Tested-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+>> ---
+>> - Keith, can you ask the WD team to test this as well?
+> 
+> I finally have some feedback on testing, and it looks like this patch
+> has created a regression. The testers are observing:
+> 
+>    [Tue Sep 28 02:12:55 2021] nvme nvme6: req 3 r2t len 8192 exceeded data len 8192 (4096 sent)
+>    [Tue Sep 28 02:12:55 2021] nvme nvme6: receive failed:  -71
+>    [Tue Sep 28 02:12:55 2021] nvme nvme6: starting error recovery
+> 
+> Which we had seen before, and you fixed with commit:
+> 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=825619b09ad351894d2c6fb6705f5b3711d145c7
+> 
+> I only just recently heard about this, so I haven't looked into any
+> additional possible cause for this regression yet, but just wanted to
+> let you know earlier.
 
-Also live/faulty is not a good terminology for path access.
-Maybe full/partial or complete/incomplete.
+Yes I definitely see the bug... Damn it..
 
-I thought that this was about showing the completeness of the
-path access for a given ns, regardless of failure of identify-ns...
+The issue here is that we peek at req->data_sent and req->data_len
+after the last send, but by then the request may have completed
+and these members were overwritten by a new execution of the
+request.
 
-Meaning that if I have a ns with 2 paths, where one is live and the
-other is connecting/resetting then "Path Access" would be "incomplete"
-or "partial".. Also in the case where all paths are live, but some
-have ANA state "inaccessible" or "persistent loss" then "Path Access"
-would be "partial" and only if all paths are "live" and ANA accessible
-i.e. "optimized/non-optimized" it will show "full/complete" Path
-Access...
+We really should make sure that we record these before we perform
+the network send to avoid this race.
 
-Otherwise, I don't see the point in adding this information to
-nvme list output.
+Can you guys check that this restores the correct behavior?
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 3c1c29dd3020..6d63129adccc 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -926,15 +926,17 @@ static void nvme_tcp_fail_request(struct 
+nvme_tcp_request *req)
+  static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+  {
+         struct nvme_tcp_queue *queue = req->queue;
++       int req_data_len = req->data_len;
+
+         while (true) {
+                 struct page *page = nvme_tcp_req_cur_page(req);
+                 size_t offset = nvme_tcp_req_cur_offset(req);
+                 size_t len = nvme_tcp_req_cur_length(req);
+-               bool last = nvme_tcp_pdu_last_send(req, len);
++               bool pdu_last = nvme_tcp_pdu_last_send(req, len);
++               bool req_data_sent = req->data_sent;
+                 int ret, flags = MSG_DONTWAIT;
+
+-               if (last && !queue->data_digest && 
+!nvme_tcp_queue_more(queue))
++               if (pdu_last && !queue->data_digest && 
+!nvme_tcp_queue_more(queue))
+                         flags |= MSG_EOR;
+                 else
+                         flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+@@ -958,7 +960,7 @@ static int nvme_tcp_try_send_data(struct 
+nvme_tcp_request *req)
+                  * in the request where we don't want to modify it as 
+we may
+                  * compete with the RX path completing the request.
+                  */
+-               if (req->data_sent + ret < req->data_len)
++               if (req_data_sent + ret < req_data_len)
+                         nvme_tcp_advance_req(req, ret);
+
+                 /* fully successful last send in current PDU */
+                                 nvme_tcp_ddgst_final(queue->snd_hash,
+                                         &req->ddgst);
+--
 
 _______________________________________________
 Linux-nvme mailing list
