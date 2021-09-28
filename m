@@ -2,101 +2,150 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3952C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 19:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 696B0C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 19:13:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 733FE61209
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 19:11:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 733FE61209
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+	by mail.kernel.org (Postfix) with ESMTPS id 1E36F61131
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 19:13:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1E36F61131
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=v6UyHCveSDQDL3kKEMfUsbPll8iLPtgIWu0XTZ9FJxA=; b=4Vy32DMI7ZdUMw
-	ntWhyLW8cShhd/Iw4Dg+VopP0PXCdzP4l3uPsUGADkl7sXlpC8nuU9VCjhw8Zaws/aLPRnE8V2R7p
-	dkKNS7nqWj6xmkPpdJTt5bLGmhY4s4L92nwYd/CQK7lF6k1gj7ahc5Z4ncEVKkinVEPUUENG/JcxZ
-	3yJLmzg7pV/H2ebrsBgDaXBm0cfqfu4WzrgMdzi0wb0UPX9tN3lVdCgAlbyghp1KC4fVlKOgdY1Pq
-	b55avM6UsIqgee8IZbVPwZ9MRA/2J58ati94VIOR+WuWKxPHYlTgY1aHOY9DsMVbZA++Eauh8HoCe
-	Jh8qrkpfrAEwnRSqb7BQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Message-ID:
+	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3XCr83XFXB4tIUIt3c6If5I194/BWS25e0/HXnvYOIo=; b=Ut5+izpAHOWoP3kuzw1zTg96/A
+	l1KipimAep5Xwe73TpTM0SO6Ego5WsfXzjJrzwzvQq3IbiaSl+Yv4u0I3nm6qJQOB1F7oqnKLIG2B
+	mQUK6qxTtVo6ahnr5bRE0r8vqs08jSOtY4n0AtMIbsbUD2GaH1QGBhU75IyC2g9f22kAze7RVFyPJ
+	5AtcgW9I3IoowBssIiYvyuTqqxUdry7GtDEmKmLaCRUfSZUIdQk32BR5ts5QvrqOnpocXh4n3Xwjl
+	TNt9As1N378HOvXErDMlbKi0lolYsL1+2L940KiaxXeBbJhwRzFSOXpAGTYYdFr77bJApoEtZ7zl+
+	PZ5NedqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVIVW-008bpr-8s; Tue, 28 Sep 2021 19:11:14 +0000
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31])
+	id 1mVIY3-008cPR-13; Tue, 28 Sep 2021 19:13:51 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVIVT-008boG-P8
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 19:11:13 +0000
-Received: by mail-io1-xd31.google.com with SMTP id y197so28717600iof.11
- for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 12:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dAXGT1q19wzeDZuDAAKylN0FjSdSatuZU8qbovqANdw=;
- b=NIsddmzY0SYPds0DsYkmoKZofq4uefBOl/rEvHgX2wf4Sq0Q/kPfCr88FedGCk72x4
- M85CSii4YgqgeM0qNeZZf3HW2JP2y18v42D5jWWJxvBa620My0qz75JLiIxzKFePaec2
- fhlmmNtBIFu07KD16S0Ue2uzNiDFkv4tUm/ROVOWgsufiRUPYkqXwQJynXHEpPzfeWNl
- lT9KnR8RE94I6VBQwgECcNJi86FzLxVTZHjBXlz92yIisi+ep1Kytv6n7liUaJT+LBIn
- HQ3MgYljZM9zacpI6dVo9OhsLwET/JAbBNrnWr1DQI5h4ySl49sjVWB2ztyrVHrLwEzy
- Inxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dAXGT1q19wzeDZuDAAKylN0FjSdSatuZU8qbovqANdw=;
- b=m/NtrdQKFzoIlI8LrNQTAfbSLyfXSMkCmJqs65kn1sICn/gq5gzxYwJVww4I+UQyJF
- v0X/cWZxOap4XqjYX/Ox2OBtE22Y2QZQsqqj7xzLWj20zQtjhuFctI6Lif3lpQiEqFmF
- kz8gpISwdTp87kW3DgpximF7J3bi0bFitkPRTL4qaqriG4M/lCNt8g6Z1D0eXHT7RYTe
- K13HiLWaPhVYs7AMugEt0A4zwAYUGe6FZYMiU42+T26uHfovCTZnUsiBlI3rIOCHqs7C
- BkRZ1lIgHo7GDJtr7BmQIGSgJ6iM7Y1kfUoYcdOejj15C2mjOYTf+MhmdMo7lDCgfent
- nzGw==
-X-Gm-Message-State: AOAM5339ka4MKsl0elbAycwjMpU/PrZ2Hn2LHnfikD+qrC9PVsq+pUvB
- hPLILgR0Wyly8CyXC+lCBmcm0Q==
-X-Google-Smtp-Source: ABdhPJyf8mt18AlEnK05TMnL1sFZAfxIPVyMiQRw0bFkerbSvSvkBso11/Xmw8q6+HkK6ya/0EoZuA==
-X-Received: by 2002:a6b:5b14:: with SMTP id v20mr5202033ioh.142.1632856270563; 
- Tue, 28 Sep 2021 12:11:10 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
- by smtp.gmail.com with ESMTPSA id b14sm1785849ilc.63.2021.09.28.12.11.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 12:11:10 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVIVR-007Fxh-2M; Tue, 28 Sep 2021 16:11:09 -0300
-Date: Tue, 28 Sep 2021 16:11:09 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 07/20] dma-mapping: add flags to dma_map_ops to
- indicate PCI P2PDMA support
-Message-ID: <20210928191109.GO3544071@ziepe.ca>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-8-logang@deltatee.com>
+ id 1mVIY0-008cO9-3M
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 19:13:50 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210928191344euoutp0103b203a495c6c02d0fe00bc5fc37a700~pEkQ1BDVi1830418304euoutp013
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 19:13:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210928191344euoutp0103b203a495c6c02d0fe00bc5fc37a700~pEkQ1BDVi1830418304euoutp013
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1632856424;
+ bh=WCjj/eTFYFtT74BPRzNb1VVr8ZyatpOXxZCtUM0p/+4=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=HderbyPaEcNqwEMmLiFsiJwWllV6dSToV4ZUo0KnczKGGhOmCH2L3Ssm77Msxjfs1
+ VX6dD9df8wcexD+mU1qOFhPog6nrBzPwrEwGErvEPKOx+s5JbCpYtZq9Qcw5Oz4XRL
+ uICXnYV1B7MPZqKljsfD/r5JtuU1NoFGUiQAtwf8=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210928191343eucas1p1dcb8f91ba5677eb85814676136da4047~pEkQixJGu3000330003eucas1p1o;
+ Tue, 28 Sep 2021 19:13:43 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 8E.C3.56448.76963516; Tue, 28
+ Sep 2021 20:13:43 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c~pEkPwDJfn3124431244eucas1p2x;
+ Tue, 28 Sep 2021 19:13:42 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210928191342eusmtrp2ad0242704d815a2ddbd01533014f75e2~pEkPvEiSk3183031830eusmtrp2z;
+ Tue, 28 Sep 2021 19:13:42 +0000 (GMT)
+X-AuditID: cbfec7f5-d53ff7000002dc80-10-61536967f9b8
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id C9.0F.31287.66963516; Tue, 28
+ Sep 2021 20:13:42 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210928191342eusmtip1befbade2ffa71fb4c036d18ada9f7ff7~pEkPhnrVk1922619226eusmtip1V;
+ Tue, 28 Sep 2021 19:13:42 +0000 (GMT)
+Received: from localhost (106.210.248.142) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 28 Sep 2021 20:13:41 +0100
+Date: Tue, 28 Sep 2021 21:13:40 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+CC: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "axboe@kernel.dk" <axboe@kernel.dk>, "msnitzer@redhat.com"
+ <msnitzer@redhat.com>, "bvanassche@acm.org" <bvanassche@acm.org>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "roland@purestorage.com" <roland@purestorage.com>, "mpatocka@redhat.com"
+ <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>, "kbusch@kernel.org"
+ <kbusch@kernel.org>, "rwheeler@redhat.com" <rwheeler@redhat.com>,
+ "hch@lst.de" <hch@lst.de>, "Frederick.Knight@netapp.com"
+ <Frederick.Knight@netapp.com>, "zach.brown@ni.com" <zach.brown@ni.com>,
+ "osandov@fb.com" <osandov@fb.com>, Adam Manzanares
+ <a.manzanares@samsung.com>, SelvaKumar S <selvakuma.s1@samsung.com>, "Nitesh
+ Shetty" <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ "Vincent Fu" <vincent.fu@samsung.com>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210916234100.122368-8-logang@deltatee.com>
+In-Reply-To: <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
+X-Originating-IP: [106.210.248.142]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGOfe2t7fNWi/l68SPLVadFSbOwbaTYZxL0F0HZE6zDzcFm3EH
+ jBZIWybMmIEQ1DI/6BaB2oghwxZKdAGL5dtgZsEW6oCK64ANFQmQWUohKw7LqFc3/3ve5/09
+ Oe+THBIXP+auJDOy1IwySyaXEAJO082Fvs1pGftkr/dMSJFp5AyBzs0s4Ej3+zQHtT86z0X3
+ G5Yw1FatxVCt6RcMPdGMYkjbdQegdlcUqro0zkOlQxYCdUy348hg9WOo7IQTQ326RQLdGHVy
+ kGkRodqHGJrqTN4RSg8MJtBlRY949EBvLt1Qd5KgG3/6jv7hrgHQrb8VEHTF7BxBD9mvYbRn
+ 3MWhm8ZO8Wh3h3MZsx2hvQ0v08evl2J7Vnwu2JbKyDO+YZRbth8SpN+8sITnXI7Mc+h/5RWA
+ bokG8ElIxUL9P/McDRCQYsoI4JBvgscOcwCea7v4bPAC2N08xnkeaZvtxdiFYTnS78X+o8pb
+ S7gBSkyZlzeV8QHNoTZA/7CNCGiCehf2X3LhGkCSoVQMXLgcF8jiVCEfnrqhwQJMCLUbWn4+
+ gwUYIZUEqywbA7aQCoY9lQ+eHoFT78CTM8e4AQSnVkGDnwzYfOog7LzlJQI2pNZBQ3kSe/JR
+ eOuqC2O1RgCLJ7ezOh56hicBq0PglPUqj9Wr4VJz1dNWkCoC0F4/iLPD9wAuao2AfSAOnrbL
+ 2cB78NqPYzhri+Ddv4LZK0VQ21T+zBbCEyViln4VWo6ZwVmwTvdCL90LvXT/97oI8DoQweSq
+ FGmMKiaLORytkilUuVlp0V9mKxrA8ve0+a3zFmCc8kR3AYwEXQCSuCRU6IvYJxMLU2X53zLK
+ 7BRlrpxRdYFVJEcSIWwx16eIqTSZmslkmBxG+XyLkfyVBdjH3B2ze2FF9eGv56Xhqe573OKx
+ O5+u9iWsjQ0qfBhx5fYV6xYtyne9VXnQrQ3uqPA9sYa/FBquaTfWe13m67sOzJT59UA6HBJT
+ 8X7xK/GPb2/8s7O7NntvekeUyCpam5hw/3hpUU0rZ/Tvuf3Jm9XNNZMPHJGbykMu+D6TL1k/
+ aUyyD/Z/oQ/Cx18jIr3qo/vBH9KwNUb+mqDEwQ+rd+626R3pVYnumqHquZGRFqd7fiJlmyKu
+ 6Z7NKTzv2eXJEa9Qhx0xRZMHTHtEJYYeQZgdG9Ct73VMx3/1EXAMCPssH/CTi/AWaV7m1rqR
+ NzX5itmdeW9nxpoLGwsOna6N2vSGhKNKl22NxJUq2b//psH0DQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJKsWRmVeSWpSXmKPExsVy+t/xu7ppmcGJBhtn6lmsvtvPZjHtw09m
+ i1m3X7NY7H03m9Xi8ab/TBZ7Fk1isli5+iiTxd+ue0wWkw5dY7TYe0vbYv6yp+wW3dd3sFns
+ e72X2WL58X9MFhM7rjJZnJv1h83i8L2rLBar/1hYrHzGZPFqf5yDiMflK94eE5vfsXtcPlvq
+ sWlVJ5vH5iX1HpNvLGf02H2zgc1jxqcvbB7Xz2xn8vj49BaLx7aHvewe7/ddBSo7Xe3xeZOc
+ R/uBbqYA/ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9
+ uwS9jGPz/jMXrNOqOD/nInsD4wmlLkZODgkBE4k9n84ydTFycQgJLGWUeD71JzNEQkbi05WP
+ 7BC2sMSfa11sEEUfGSU2HF3FDOFsZZRYcn4KE0gVi4CqxL87p9lAbDYBe4lLy24BFXFwiAgY
+ S/xcZw1SzyzQyCnRe7gLrF5YwFNix4Z+JpAaXgFfifk71CFmrmeU+HV8NtgVvAKCEidnPmEB
+ sZkFLCRmzj/PCFLPLCAtsfwfB0iYUyBWYv+pz2wgYQkBZYnl030hbq6V+Pz3GeMERuFZSAbN
+ QjJoFsKgBYzMqxhFUkuLc9Nziw31ihNzi0vz0vWS83M3MQLTyLZjPzfvYJz36qPeIUYmDsZD
+ jBIczEoivD/EgxOFeFMSK6tSi/Lji0pzUosPMZoCA2Iis5Rocj4wkeWVxBuaGZgamphZGpha
+ mhkrifNunbsmXkggPbEkNTs1tSC1CKaPiYNTqoFplb6Hv+Sz4I/cIb18BUt+NT7QuS3C9Z3N
+ 0Zyl8HzcppTjXjfDlc99vdVmrJ+5Pk01edJ7BwGek3xtos+cHVPncmktS877+fm+wNaJ63hc
+ tcP/Ba32z/u/6euLfetd28tO3ZGR/bdA1G/vWbbWUP3A+eu09jJ4nTJWvvn/xUoNpzCNpu8L
+ GLufyy5o9slcrje5afaqFR/bTisuvL9f+a1t+Pyz1ccP9qWkLAg37Q5YdllD0nN/4tsbk+9N
+ P+6zr8RG5cQNC5WZrQs//wgol0o52bOS7xLrH6ULifM/xG/6Py00qFf0mq2c7cJdUxpkW3ac
+ 7vgtrSr9e9p7lpSNuUE7/ofJKj5YbBty/06T5LZOJZbijERDLeai4kQAknxuH6wDAAA=
+X-CMS-MailID: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
+X-Msg-Generator: CA
+X-RootMTR: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
+References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_121111_855369_A7C2889C 
-X-CRM114-Status: GOOD (  11.87  )
+X-CRM114-CacheID: sfid-20210928_121348_478557_CA627B27 
+X-CRM114-Status: GOOD (  27.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,27 +157,139 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 16, 2021 at 05:40:47PM -0600, Logan Gunthorpe wrote:
-> Add a flags member to the dma_map_ops structure with one flag to
-> indicate support for PCI P2PDMA.
-> 
-> Also, add a helper to check if a device supports PCI P2PDMA.
-> 
-> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> ---
->  include/linux/dma-map-ops.h | 10 ++++++++++
->  include/linux/dma-mapping.h |  5 +++++
->  kernel/dma/mapping.c        | 18 ++++++++++++++++++
->  3 files changed, 33 insertions(+)
+On 12.05.2021 07:30, Johannes Thumshirn wrote:
+>On 11/05/2021 02:15, Chaitanya Kulkarni wrote:
+>> Hi,
+>>
+>> * Background :-
+>> -----------------------------------------------------------------------
+>>
+>> Copy offload is a feature that allows file-systems or storage devices
+>> to be instructed to copy files/logical blocks without requiring
+>> involvement of the local CPU.
+>>
+>> With reference to the RISC-V summit keynote [1] single threaded
+>> performance is limiting due to Denard scaling and multi-threaded
+>> performance is slowing down due Moore's law limitations. With the rise
+>> of SNIA Computation Technical Storage Working Group (TWG) [2],
+>> offloading computations to the device or over the fabrics is becoming
+>> popular as there are several solutions available [2]. One of the common
+>> operation which is popular in the kernel and is not merged yet is Copy
+>> offload over the fabrics or on to the device.
+>>
+>> * Problem :-
+>> -----------------------------------------------------------------------
+>>
+>> The original work which is done by Martin is present here [3]. The
+>> latest work which is posted by Mikulas [4] is not merged yet. These two
+>> approaches are totally different from each other. Several storage
+>> vendors discourage mixing copy offload requests with regular READ/WRITE
+>> I/O. Also, the fact that the operation fails if a copy request ever
+>> needs to be split as it traverses the stack it has the unfortunate
+>> side-effect of preventing copy offload from working in pretty much
+>> every common deployment configuration out there.
+>>
+>> * Current state of the work :-
+>> -----------------------------------------------------------------------
+>>
+>> With [3] being hard to handle arbitrary DM/MD stacking without
+>> splitting the command in two, one for copying IN and one for copying
+>> OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
+>> candidate. Also, with [4] there is an unresolved problem with the
+>> two-command approach about how to handle changes to the DM layout
+>> between an IN and OUT operations.
+>>
+>> * Why Linux Kernel Storage System needs Copy Offload support now ?
+>> -----------------------------------------------------------------------
+>>
+>> With the rise of the SNIA Computational Storage TWG and solutions [2],
+>> existing SCSI XCopy support in the protocol, recent advancement in the
+>> Linux Kernel File System for Zoned devices (Zonefs [5]), Peer to Peer
+>> DMA support in the Linux Kernel mainly for NVMe devices [7] and
+>> eventually NVMe Devices and subsystem (NVMe PCIe/NVMeOF) will benefit
+>> from Copy offload operation.
+>>
+>> With this background we have significant number of use-cases which are
+>> strong candidates waiting for outstanding Linux Kernel Block Layer Copy
+>> Offload support, so that Linux Kernel Storage subsystem can to address
+>> previously mentioned problems [1] and allow efficient offloading of the
+>> data related operations. (Such as move/copy etc.)
+>>
+>> For reference following is the list of the use-cases/candidates waiting
+>> for Copy Offload support :-
+>>
+>> 1. SCSI-attached storage arrays.
+>> 2. Stacking drivers supporting XCopy DM/MD.
+>> 3. Computational Storage solutions.
+>> 7. File systems :- Local, NFS and Zonefs.
+>> 4. Block devices :- Distributed, local, and Zoned devices.
+>> 5. Peer to Peer DMA support solutions.
+>> 6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
+>>
+>> * What we will discuss in the proposed session ?
+>> -----------------------------------------------------------------------
+>>
+>> I'd like to propose a session to go over this topic to understand :-
+>>
+>> 1. What are the blockers for Copy Offload implementation ?
+>> 2. Discussion about having a file system interface.
+>> 3. Discussion about having right system call for user-space.
+>> 4. What is the right way to move this work forward ?
+>> 5. How can we help to contribute and move this work forward ?
+>>
+>> * Required Participants :-
+>> -----------------------------------------------------------------------
+>>
+>> I'd like to invite file system, block layer, and device drivers
+>> developers to:-
+>>
+>> 1. Share their opinion on the topic.
+>> 2. Share their experience and any other issues with [4].
+>> 3. Uncover additional details that are missing from this proposal.
+>>
+>> Required attendees :-
+>>
+>> Martin K. Petersen
+>> Jens Axboe
+>> Christoph Hellwig
+>> Bart Van Assche
+>> Zach Brown
+>> Roland Dreier
+>> Ric Wheeler
+>> Trond Myklebust
+>> Mike Snitzer
+>> Keith Busch
+>> Sagi Grimberg
+>> Hannes Reinecke
+>> Frederick Knight
+>> Mikulas Patocka
+>> Keith Busch
+>>
+>
+>I would like to participate in this discussion as well. A generic block layer
+>copy API is extremely helpful for filesystem garbage collection and copy operations
+>like copy_file_range().
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Jason
+Hi all,
+
+Since we are not going to be able to talk about this at LSF/MM, a few of
+us thought about holding a dedicated virtual discussion about Copy
+Offload. I believe we can use Chaitanya's thread as a start. Given the
+current state of the current patches, I would propose that we focus on
+the next step to get the minimal patchset that can go upstream so that
+we can build from there.
+
+Before we try to find a date and a time that fits most of us, who would
+be interested in participating?
+
+Thanks,
+Javier
 
 _______________________________________________
 Linux-nvme mailing list
