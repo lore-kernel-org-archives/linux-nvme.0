@@ -2,14 +2,14 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16487C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 12:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99913C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 12:34:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C7F1461058
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 12:31:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C7F1461058
+	by mail.kernel.org (Postfix) with ESMTPS id 595F061159
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 12:34:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 595F061159
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,53 +18,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=J5BrAEni+B+4Bwwkua7zR/Pd58i1aGtpeD5SElHDWgs=; b=GEv8gcqOFQzQz8
-	5Aymldk05atwtrJ+vUQxlTCZjp/JzAMpqa+tn8KeQmr4kZ6Yk9aVDQWtDpq0h6I1RsQfgSQIXaSoI
-	fEvydz0hRLc1BWdw0/oiLo9188fZ+G1fmaDekdORs/lg7U/mStcrcOP4JK6jVl58lZh6Hczk9k7EQ
-	CIBgb3+jEi0ueuf1s6LBtYRmSaZo+HINO4t0/WRjNHG3dVppYIo0o8wqceV+zAcbLF76rTZolqPox
-	L5tgYfPDxiGYF6lAFdGkFiOJYClAUHiSRGQAWfGJ/AazA8lW1GqXe22IMNTHyr09EcAbdOS/Rvh8/
-	1RqMc1WSWuNzYzYO4O8w==;
+	List-Owner; bh=Zx7URaILBK3KfSN0SKMJfYJRUK8sFyv95zp/l8Rimow=; b=IJLkrgpOnqeAvc
+	/O/oWIhs6cE8ftRgiBbx4tP9GfOgQpL/vNqPutkyWg+oaMdz/qC57dWmWuZfgNJX2XafahRFbMXZZ
+	CeeD6I7Oc1WteMZtEQNdYXJH5efUAgZJdSb3B2ENIuovKHXQdDYlsZZKOtXjP/cd86N5OscJCQopE
+	RSN3s87Y4ZtqKyDQ/S5jBHbNXxTZeDGvH5UKMNiSCFFhLZV6MDy7upyfg6Vas4SDop1I6wNgxdblp
+	2hUsoqOs1V3AZVWNB1FR30Cl6uMzpS52br7NJDAVYA39N+zeP2jykaLMwmVtrqYXjHRTElDMqHoj1
+	wpDM2zQEkU8jfVAbbMXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVCG4-00789m-3o; Tue, 28 Sep 2021 12:30:52 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mVCJ4-0079Ax-Jk; Tue, 28 Sep 2021 12:33:58 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVC74-00745y-CE
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 12:21:36 +0000
+ id 1mVCBY-00769Y-LD
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 12:26:14 +0000
 Received: from relay1.suse.de (relay1.suse.de [149.44.160.133])
- by smtp-out2.suse.de (Postfix) with ESMTP id 6E2FF20202;
- Tue, 28 Sep 2021 12:21:32 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTP id B6CBF220EB;
+ Tue, 28 Sep 2021 12:26:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1632831692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1632831970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=4l1lbwYbh8cFCWtbltC6HNIiHtAq/EaWOh4sNU6xiuU=;
- b=hNwmF0JgyIfZRwmWbRZkr7Ayyr5ANmNa8i1n60KFUy0razXKnuX9KXD+dxjlq34ChMnlDF
- hRlfbd0n2Iuz87UoAVZk9ZfNBgq8sZ7+SYsYkjon4ngDbtDrRYxtsXhCzMHEtTIj3dSZzB
- 4bWa+4VZ5YF5+NoqDnhzWWu6Pd3EOQg=
+ bh=hM5YldtK1iGt5pLHE5nN4NDqATXuJNCKZSXrCNlrCVQ=;
+ b=HJmzkHzCwLrUFZzDUr22Rr4EeXrwHQmotU4zbIuygCPESB4P+JNIJ+F1Lib6//1HaIBgJg
+ 6t6FM+hroXIRnQzb7xNo2yHu+gjnaWox6hRghKXmVCkV19c5X5vnVBhQNs3CQUGne7+S1C
+ KGndLTZV0CDl10nWdRdOmSL47HuUoRQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1632831692;
+ s=susede2_ed25519; t=1632831970;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=4l1lbwYbh8cFCWtbltC6HNIiHtAq/EaWOh4sNU6xiuU=;
- b=YGN6+9HHVirw3UoFJcPUMAIl4Gp/Gm3Et5bxZNnqTQJAutL0I7nhWn3a8XIHPgIkYKwuca
- Mlf2qshqsENpIMCg==
+ bh=hM5YldtK1iGt5pLHE5nN4NDqATXuJNCKZSXrCNlrCVQ=;
+ b=QioN5iqLWL2ZHh27izA/HcVf0pFxHV2u+2BTMs/ngsiHZAzX8bSTAWIC2c+LWoNyGLjz+/
+ PEySqy1jAyEW6oCA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay1.suse.de (Postfix) with ESMTP id 3F2E325D86;
- Tue, 28 Sep 2021 12:21:32 +0000 (UTC)
+ by relay1.suse.de (Postfix) with ESMTP id AFC9825D4D;
+ Tue, 28 Sep 2021 12:26:10 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 2FC12518EE61; Tue, 28 Sep 2021 14:21:32 +0200 (CEST)
+ id A3CF8518EE63; Tue, 28 Sep 2021 14:26:10 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH libnvme] Implement 'dhchap_key' host and controller attributes
-Date: Tue, 28 Sep 2021 14:21:28 +0200
-Message-Id: <20210928122128.34512-1-hare@suse.de>
+Subject: [PATCH nvme-cli] nvme-connect: Add 'dhchap-secret' and
+ 'dhchap-ctrl-secret' arguments
+Date: Tue, 28 Sep 2021 14:25:59 +0200
+Message-Id: <20210928122559.46896-1-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_052134_623220_EB5F9B20 
-X-CRM114-Status: GOOD (  15.25  )
+X-CRM114-CacheID: sfid-20210928_052612_893569_488567D2 
+X-CRM114-Status: GOOD (  15.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,288 +82,133 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement a 'dhchap_key' attribute for the nvme_host structure to
-support the 'dhchap_secret' connection argument, and a
-'dhchap_key' attribute for the nvme_controller structure to support
-the 'dhchap_ctrl_secret' connection argument.
+Add 'dhchap-secret' and 'dhchap-ctrl-secret' arguments for nvme-connect
+to enable NVMe In-Band authentication.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- pynvme/nvme.i      |  2 ++
- src/nvme/fabrics.c |  8 +++++++-
- src/nvme/json.c    | 16 +++++++++++++++-
- src/nvme/private.h |  2 ++
- src/nvme/tree.c    | 43 +++++++++++++++++++++++++++++++++++++++++++
- src/nvme/tree.h    | 32 ++++++++++++++++++++++++++++++++
- 6 files changed, 101 insertions(+), 2 deletions(-)
+ Documentation/nvme-connect.txt | 17 +++++++++++++++++
+ fabrics.c                      | 17 ++++++++++++++---
+ 2 files changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/pynvme/nvme.i b/pynvme/nvme.i
-index 9193617..eb9e6ef 100644
---- a/pynvme/nvme.i
-+++ b/pynvme/nvme.i
-@@ -271,6 +271,7 @@ struct nvme_host {
-   %immutable hostid;
-   char *hostnqn;
-   char *hostid;
-+  char *dhchap_key;
- };
+diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
+index 4d7bb52..489adf7 100644
+--- a/Documentation/nvme-connect.txt
++++ b/Documentation/nvme-connect.txt
+@@ -17,6 +17,8 @@ SYNOPSIS
+ 		[--host-iface=<iface>     | -f <iface>]
+ 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
+ 		[--hostid=<hostid>        | -I <hostid>]
++		[--dhchap-secret=<secret> | -S <secret>]
++		[--dhchap-ctrl-secret=<secret> | -C <secret>]
+ 		[--nr-io-queues=<#>       | -i <#>]
+ 		[--nr-write-queues=<#>    | -W <#>]
+ 		[--nr-poll-queues=<#>     | -P <#>]
+@@ -92,6 +94,21 @@ OPTIONS
+ 	UUID(Universally Unique Identifier) to be discovered which should be
+ 	formatted.
  
- struct nvme_subsystem {
-@@ -302,6 +303,7 @@ struct nvme_ctrl {
-   char *traddr;
-   char *host_traddr;
-   char *trsvcid;
-+  char *dhchap_key;
-   char *address;
-   char *firmware;
-   char *model;
-diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
-index ebfc635..62012a0 100644
---- a/src/nvme/fabrics.c
-+++ b/src/nvme/fabrics.c
-@@ -276,7 +276,7 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
++-S <secret>::
++--dhchap-secret=<secret>::
++	NVMe In-band authentication secret; needs to be in ASCII format as
++	specified in NVMe 2.0 section 8.13.5.8 'Secret representation'.
++	If this option is not specified, the default is read from
++	/etc/nvme/hostkey. If that does not exist no in-band authentication
++	is attempted.
++
++-C <secret>::
++--dhchap-ctrl-secret=<secret>::
++	NVMe In-band authentication controller secret for bi-directional
++	authentication; needs to be in ASCII format as
++	specified in NVMe 2.0 section 8.13.5.8 'Secret representation'.
++	If not present bi-directional authentication is not attempted.
++
+ -i <#>::
+ --nr-io-queues=<#>::
+ 	Overrides the default number of I/O queues create by the driver.
+diff --git a/fabrics.c b/fabrics.c
+index 012bcb8..8ed618e 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -60,6 +60,8 @@ static const char *nvmf_htraddr		= "host traddr (e.g. FC WWN's)";
+ static const char *nvmf_hiface		= "host interface (for tcp transport)";
+ static const char *nvmf_hostnqn		= "user-defined hostnqn";
+ static const char *nvmf_hostid		= "user-defined hostid (if default not used)";
++static const char *nvmf_hostkey		= "user-defined dhchap key (if default not used)";
++static const char *nvmf_ctrlkey		= "user-defined dhchap controller key (for bi-directional authentication)";
+ static const char *nvmf_nr_io_queues	= "number of io queues to use (default is core count)";
+ static const char *nvmf_nr_write_queues	= "number of write queues to use (default 0)";
+ static const char *nvmf_nr_poll_queues	= "number of poll queues to use (default 0)";
+@@ -82,6 +84,8 @@ static const char *nvmf_config_file	= "Use specified JSON configuration file or
+ 	OPT_STRING("host-iface",      'f', "STR", &host_iface,	nvmf_hiface), \
+ 	OPT_STRING("hostnqn",         'q', "STR", &hostnqn,	nvmf_hostnqn), \
+ 	OPT_STRING("hostid",          'I', "STR", &hostid,	nvmf_hostid), \
++	OPT_STRING("dhchap-secret",   'S', "STR", &hostkey,	nvmf_hostkey), \
++	OPT_STRING("dhchap-ctrl-secret", 'C', "STR", &ctrlkey,	nvmf_ctrlkey), \
+ 	OPT_INT("nr-io-queues",       'i', &c.nr_io_queues,       nvmf_nr_io_queues),	\
+ 	OPT_INT("nr-write-queues",    'W', &c.nr_write_queues,    nvmf_nr_write_queues),\
+ 	OPT_INT("nr-poll-queues",     'P', &c.nr_poll_queues,     nvmf_nr_poll_queues),	\
+@@ -93,7 +97,7 @@ static const char *nvmf_config_file	= "Use specified JSON configuration file or
+ 	OPT_FLAG("duplicate-connect", 'D', &c.duplicate_connect,  nvmf_dup_connect),	\
+ 	OPT_FLAG("disable-sqflow",    'd', &c.disable_sqflow,     nvmf_disable_sqflow),	\
+ 	OPT_FLAG("hdr-digest",        'g', &c.hdr_digest,         nvmf_hdr_digest),	\
+-	OPT_FLAG("data-digest",       'G', &c.data_digest,        nvmf_data_digest)     \
++	OPT_FLAG("data-digest",       'G', &c.data_digest,        nvmf_data_digest)	\
+ 
+ 
+ static void space_strip_len(int max, char *str)
+@@ -296,7 +300,7 @@ static int discover_from_conf_file(nvme_host_t h, const char *desc,
  {
- 	struct nvme_fabrics_config *cfg = nvme_ctrl_get_config(c);
- 	const char *transport = nvme_ctrl_get_transport(c);
--	const char *hostnqn, *hostid;
-+	const char *hostnqn, *hostid, *hostkey, *ctrlkey;
- 	bool discover = false;
- 
- 	if (!transport) {
-@@ -306,6 +306,8 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
- 		discover = true;
- 	hostnqn = nvme_host_get_hostnqn(h);
- 	hostid = nvme_host_get_hostid(h);
-+	hostkey = nvme_host_get_dhchap_key(h);
-+	ctrlkey = nvme_ctrl_get_dhchap_key(c);
- 	if (add_argument(argstr, "transport", transport) ||
- 	    add_argument(argstr, "traddr",
- 			 nvme_ctrl_get_traddr(c)) ||
-@@ -317,6 +319,10 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
- 			 nvme_ctrl_get_trsvcid(c)) ||
- 	    (hostnqn && add_argument(argstr, "hostnqn", hostnqn)) ||
- 	    (hostid && add_argument(argstr, "hostid", hostid)) ||
-+	    (!discover && hostkey &&
-+	     add_argument(argstr, "dhchap_secret", hostkey)) ||
-+	    (!discover && ctrlkey &&
-+	     add_argument(argstr, "dhchap_ctrl_secret", ctrlkey)) ||
- 	    (!discover &&
- 	     add_int_argument(argstr, "nr_io_queues",
- 			      cfg->nr_io_queues, false)) ||
-diff --git a/src/nvme/json.c b/src/nvme/json.c
-index 9d49758..83c91ac 100644
---- a/src/nvme/json.c
-+++ b/src/nvme/json.c
-@@ -94,6 +94,9 @@ static void json_parse_port(nvme_subsystem_t s, struct json_object *port_obj)
- 	c = nvme_lookup_ctrl(s, transport, traddr, host_traddr,
- 			     host_iface, trsvcid);
- 	if (c) {
-+		attr_obj = json_object_object_get(port_obj, "dhchap_key");
-+		if (attr_obj)
-+			nvme_ctrl_set_dhchap_key(c, json_object_get_string(attr_obj));
- 		json_update_attributes(c, port_obj);
+ 	char *transport = NULL, *traddr = NULL, *trsvcid = NULL;
+ 	char *host_traddr = NULL, *host_iface = NULL;
+-	char *hostnqn = NULL, *hostid = NULL;
++	char *hostnqn = NULL, *hostid = NULL, *hostkey = NULL, *ctrlkey = NULL;
+ 	char *ptr, **argv, *p, line[4096];
+ 	int argc, ret = 0;
+ 	unsigned int verbose = 0;
+@@ -383,7 +387,7 @@ out:
+ int nvmf_discover(const char *desc, int argc, char **argv, bool connect)
+ {
+ 	char *nqn = NVME_DISC_SUBSYS_NAME;
+-	char *hostnqn = NULL, *hostid = NULL;
++	char *hostnqn = NULL, *hostid = NULL, *hostkey = NULL, *ctrlkey = NULL;
+ 	char *host_traddr = NULL, *host_iface = NULL;
+ 	char *transport = NULL, *traddr = NULL, *trsvcid = NULL;
+ 	char *hnqn = NULL, *hid = NULL;
+@@ -459,6 +463,8 @@ int nvmf_discover(const char *desc, int argc, char **argv, bool connect)
+ 		else if (!strncmp(device, "/dev/", 5))
+ 			device += 5;
  	}
- }
-@@ -136,6 +139,9 @@ static void json_parse_host(nvme_root_t r, struct json_object *host_obj)
- 	if (attr_obj)
- 		hostid = json_object_get_string(attr_obj);
- 	h = nvme_lookup_host(r, hostnqn, hostid);
-+	attr_obj = json_object_object_get(host_obj, "dhchap_key");
-+	if (attr_obj)
-+		nvme_host_set_dhchap_key(h, json_object_get_string(attr_obj));
- 	subsys_array = json_object_object_get(host_obj, "subsystems");
- 	if (!subsys_array)
- 		return;
-@@ -192,6 +198,10 @@ static void json_update_port(struct json_object *ctrl_array, nvme_ctrl_t c)
- 	value = nvme_ctrl_get_trsvcid(c);
- 	if (value)
- 		json_object_add_value_string(port_obj, "trsvcid", value);
-+	value = nvme_ctrl_get_dhchap_key(c);
-+	if (value)
-+		json_object_add_value_string(port_obj, "dhchap_key",
-+					     value);
- 	JSON_INT_OPTION(cfg, port_obj, nr_io_queues, 0);
- 	JSON_INT_OPTION(cfg, port_obj, nr_write_queues, 0);
- 	JSON_INT_OPTION(cfg, port_obj, nr_poll_queues, 0);
-@@ -248,7 +258,7 @@ int json_update_config(nvme_root_t r, const char *config_file)
- 	json_root = json_object_new_array();
- 	nvme_for_each_host(r, h) {
- 		nvme_subsystem_t s;
--		const char *hostid;
-+		const char *hostid, *dhchap_key;
++	if (hostkey)
++		nvme_host_set_dhchap_key(h, hostkey);
  
- 		host_obj = json_object_new_object();
- 		json_object_add_value_string(host_obj, "hostnqn",
-@@ -257,6 +267,10 @@ int json_update_config(nvme_root_t r, const char *config_file)
- 		if (hostid)
- 			json_object_add_value_string(host_obj, "hostid",
- 						     hostid);
-+		dhchap_key = nvme_host_get_dhchap_key(h);
-+		if (dhchap_key)
-+			json_object_add_value_string(host_obj, "dhchap_key",
-+						     dhchap_key);
- 		subsys_array = json_object_new_array();
- 		nvme_for_each_subsystem(h, s) {
- 			json_update_subsys(subsys_array, s);
-diff --git a/src/nvme/private.h b/src/nvme/private.h
-index 2a151bf..803d0ce 100644
---- a/src/nvme/private.h
-+++ b/src/nvme/private.h
-@@ -77,6 +77,7 @@ struct nvme_ctrl {
- 	char *trsvcid;
- 	char *host_traddr;
- 	char *host_iface;
-+	char *dhchap_key;
- 	bool discovered;
- 	bool persistent;
- 	struct nvme_fabrics_config cfg;
-@@ -103,6 +104,7 @@ struct nvme_host {
- 
- 	char *hostnqn;
- 	char *hostid;
-+	char *dhchap_key;
- };
- 
- struct nvme_root {
-diff --git a/src/nvme/tree.c b/src/nvme/tree.c
-index 293b0c0..0910b32 100644
---- a/src/nvme/tree.c
-+++ b/src/nvme/tree.c
-@@ -147,6 +147,21 @@ const char *nvme_host_get_hostid(nvme_host_t h)
- 	return h->hostid;
- }
- 
-+const char *nvme_host_get_dhchap_key(nvme_host_t h)
-+{
-+	return h->dhchap_key;
-+}
-+
-+void nvme_host_set_dhchap_key(nvme_host_t h, const char *key)
-+{
-+	if (h->dhchap_key) {
-+		free(h->dhchap_key);
-+		h->dhchap_key = NULL;
-+	}
-+	if (key)
-+		h->dhchap_key = strdup(key);
-+}
-+
- nvme_subsystem_t nvme_first_subsystem(nvme_host_t h)
- {
- 	return list_top(&h->subsystems, struct nvme_subsystem, entry);
-@@ -310,6 +325,8 @@ static void __nvme_free_host(struct nvme_host *h)
- 	free(h->hostnqn);
- 	if (h->hostid)
- 		free(h->hostid);
-+	if (h->dhchap_key)
-+		free(h->dhchap_key);
- 	h->r->modified = true;
- 	free(h);
- }
-@@ -415,6 +432,11 @@ static int nvme_scan_subsystem(struct nvme_root *r, char *name,
- 		free(hostnqn);
- 		if (hostid)
- 			free(hostid);
-+		if (h) {
-+			if (h->dhchap_key)
-+				free(h->dhchap_key);
-+			h->dhchap_key = nvme_get_attr(path, "dhchap_secret");
-+		}
+ 	if (!device && !transport && !traddr) {
+ 		ret = discover_from_conf_file(h, desc, connect, &cfg);
+@@ -546,6 +552,7 @@ int nvmf_connect(const char *desc, int argc, char **argv)
+ 	char *transport = NULL, *traddr = NULL;
+ 	char *host_traddr = NULL, *host_iface = NULL;
+ 	char *trsvcid = NULL, *hostnqn = NULL, *hostid = NULL;
++	char *hostkey = NULL, *ctrlkey = NULL;
+ 	char *config_file = PATH_NVMF_CONFIG;
+ 	unsigned int verbose = 0;
+ 	nvme_root_t r;
+@@ -618,12 +625,16 @@ int nvmf_connect(const char *desc, int argc, char **argv)
+ 		errno = ENOMEM;
+ 		goto out_free;
  	}
- 	if (!h)
- 		h = nvme_default_host(r);
-@@ -666,6 +688,21 @@ struct nvme_fabrics_config *nvme_ctrl_get_config(nvme_ctrl_t c)
- 	return &c->cfg;
- }
++	if (hostkey)
++		nvme_host_set_dhchap_key(h, hostkey);
+ 	c = nvme_create_ctrl(subsysnqn, transport, traddr,
+ 			     host_traddr, host_iface, trsvcid);
+ 	if (!c) {
+ 		errno = ENOMEM;
+ 		goto out_free;
+ 	}
++	if (ctrlkey)
++		nvme_ctrl_set_dhchap_key(c, ctrlkey);
  
-+const char *nvme_ctrl_get_dhchap_key(nvme_ctrl_t c)
-+{
-+	return c->dhchap_key;
-+}
-+
-+void nvme_ctrl_set_dhchap_key(nvme_ctrl_t c, const char *key)
-+{
-+	if (c->dhchap_key) {
-+		free(c->dhchap_key);
-+		c->dhchap_key = NULL;
-+	}
-+	if (key)
-+		c->dhchap_key = strdup(key);
-+}
-+
- void nvme_ctrl_disable_sqflow(nvme_ctrl_t c, bool disable_sqflow)
- {
- 	c->cfg.disable_sqflow = disable_sqflow;
-@@ -1035,6 +1072,7 @@ static int nvme_configure_ctrl(nvme_ctrl_t c, const char *path,
- 	c->queue_count = nvme_get_ctrl_attr(c, "queue_count");
- 	c->serial = nvme_get_ctrl_attr(c, "serial");
- 	c->sqsize = nvme_get_ctrl_attr(c, "sqsize");
-+	c->dhchap_key = nvme_get_ctrl_attr(c, "dhchap_ctrl_secret");
- 	return 0;
- }
- 
-@@ -1173,6 +1211,11 @@ nvme_ctrl_t nvme_scan_ctrl(nvme_root_t r, const char *name)
- 		free(hostnqn);
- 	if (hostid)
- 		free(hostid);
-+	if (h) {
-+		if (h->dhchap_key)
-+			free(h->dhchap_key);
-+		h->dhchap_key = nvme_get_attr(path, "dhchap_secret");
-+	}
- 	if (!h) {
- 		h = nvme_default_host(r);
- 		if (!h) {
-diff --git a/src/nvme/tree.h b/src/nvme/tree.h
-index 4974741..48f2ad4 100644
---- a/src/nvme/tree.h
-+++ b/src/nvme/tree.h
-@@ -105,6 +105,21 @@ const char *nvme_host_get_hostnqn(nvme_host_t h);
-  */
- const char *nvme_host_get_hostid(nvme_host_t h);
- 
-+/**
-+ * nvme_host_get_dhchap_key() -
-+ * @h:
-+ *
-+ * Return: 
-+ */
-+const char *nvme_host_get_dhchap_key(nvme_host_t h);
-+
-+/**
-+ * nvme_host_set_dhchap_key() -
-+ * @h: 
-+ * @key: 
-+ */
-+void nvme_host_set_dhchap_key(nvme_host_t h, const char *key);
-+
- /**
-  * nvme_default_host() -
-  * @r:
-@@ -787,6 +802,23 @@ const char *nvme_ctrl_get_host_traddr(nvme_ctrl_t c);
-  */
- const char *nvme_ctrl_get_host_iface(nvme_ctrl_t c);
- 
-+/**
-+ * nvme_ctrl_set_dhchap_key() -
-+ * @c:
-+ * @key:
-+ *
-+ * Return:
-+ */
-+void nvme_ctrl_set_dhchap_key(nvme_ctrl_t c, const char *key);
-+
-+/**
-+ * nvme_ctrl_get_dhchap_key() -
-+ * @c:
-+ *
-+ * Return:
-+ */
-+const char *nvme_ctrl_get_dhchap_key(nvme_ctrl_t c);
-+
- /**
-  * nvme_ctrl_get_config() -
-  * @c:
+ 	errno = 0;
+ 	ret = nvmf_add_ctrl(h, c, &cfg, cfg.disable_sqflow);
 -- 
 2.29.2
 
