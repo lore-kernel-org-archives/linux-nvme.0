@@ -2,151 +2,84 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E9DC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 22:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A09B1C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 23:21:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B24146136A
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 22:05:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B24146136A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 62D54613A8
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 23:21:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 62D54613A8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=NpVfBYXswnV9yzqmcVB34jGV6p/nDK8I+qmilxZdaaU=; b=bJ1mVFdjYY/P0e
-	MJ25ibBSitThhMgj5OpRz87wCPxkaewZxD9sgHfjCkZcenFOQImq/cKuZ+nyR3IbCaNnj2lQRoj6t
-	3VG4RrF4pTtumaQjBwswQ1fmzV8PSziiGCNaBQuiW7oaPVeQXb63i9I/mdDPZYsSq6GKM88tV1vG+
-	YLXPOxrB6rJqHziowuNjvTYYTAAhI036aBWbgqlTEgi8wQCF2ul1l1ysPnF7OlYL2TVvNlgL1hDTi
-	XKLchq+oQ+abB17XvlPNpofUIygPL4tANrZOB+dcbUHmFh8qklNiNlnBR51LUfgvbtVWyKAzNbnpK
-	tAEkQfNao0vGe/+L2Lxw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=f6/WarFThHLwXIsjF0GWf+4PmF8pmlMcxj/h2oQTtAw=; b=beStjWdqEXgYBXNg0tapv1mW/l
+	1XX/hYe0nrOCVdL1h2ZBiXQ48WDG419X2Q9kKsSA9xU4By7VIgjBkN7shNr2W2/VHUxnz/W/o1f3z
+	jw9bRIQKiY0Errcs75THbIxvdU5GxC7veBxdfdbj4Yd+1sEPIdVKt33kIc06xCA1gTwBjB0ys2a2Y
+	+24FIw+muPY4isiLLpfhttrwTurTgl2lefFzBjdQJGol0AiRTUzwMSqKd73IXfg8F277upsJu61Mx
+	4ZiNU1e62Ui9s8qllpJpOVOBrErt2pWsR21dQAaS3Ks4smBZyMDNxTRylrxCPy+cy8dtIdOmM9hOu
+	Wl8Xih7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVLDr-008xHX-GY; Tue, 28 Sep 2021 22:05:11 +0000
-Received: from mail-bn7nam10on2055.outbound.protection.outlook.com
- ([40.107.92.55] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1mVMOX-009Ffw-Lk; Tue, 28 Sep 2021 23:20:17 +0000
+Received: from mail-ed1-f46.google.com ([209.85.208.46])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVLDm-008xEy-A9
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 22:05:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WRUzzhdefmJ6h3g6TIr7vSBu3tgHVLduDzIpiSGOzHan9q6/GBGZ+RKLVLLkp+qhj6D8E5h0dIBNFdpf3Jm0EqwWPCAmfyO4Et/Zi2cYefkReCQLIqfMS1fCZXgNQpWVRdIj3Rbw4p+6wG7wR8OYsq822G9xIb6oYsB/y66201hU3c7vCg87sZ65b2BecbRP9dxWU/4LTpD0fl9vDQyHdWCsLaJxqg2+PIM8QTugN8wt5CvV7joH7xuGv1vGTkcswnf2Mfw42httFtwgcP69Q5aj+l77TT06ofJGWAzbmThzhwpKw5XuWKnN2WHYTW+hkrjUz+Myb5Ii0II1NRBiaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Qe5kxN0ddAG7mPItxuJHjsxxxyi+e/yvMrh0jCYFVH0=;
- b=mq8SV5SwxizebaiuKKDLEeP8XekjDCKr5/VbnQcTyQZoSV+rSL+KJGE/Uj/SBZntl9aI84z936/XL1IX0ucXY4aAaQFoocvmI58Ewp4zkAvYZboj3pI9vkMMo3l2mt4xwK3VDQNL8a9Aah8A8DPKFXPQhjLZg5hBh706IzvXkk3vpyYbvuDnxrFckGuquwOK6QQYZV5IeOmZZ/Rb9zSBG5d5ABBBKUtNeyZaymnEfxMzSL06U/le4cUdD9qbvOrUr7sRiGvhmCv19wX9B+NMuX7ZAgq78BcREFTbOEYp8rr9HkTZtT8WTKuVfqF27kTZN9PqzEedKcIsBgC868p9Eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qe5kxN0ddAG7mPItxuJHjsxxxyi+e/yvMrh0jCYFVH0=;
- b=Pxlsptf+DlMyCcU6pvK6KDdace9IB2bgH53hk5FHMLMQxFKfyglGMjqlkZOLQ4mSNtKNDjpYCId45G3Dbq89iPIxKGzr4ARhTcqIJYhGLwuzg/eiFK7f2dewZAS/07Moa2g9MXaHKkW0z0rDNRW7IPLGLT+QAuJeP0h8C7olmnrjF92S2XcNes5FMjMfm8ORP97OCmWs1Q+s1dk6UrT8iKy7OScqWg5bhCsTykKhrpLHMmQ6K2n26xnsp2/Lg6PTPwZw2kQ7xgd/D2kMcofxgTeA+NGXd1N1ppcYjsQSrdyhPT/Na0Jr0UhdWmFVs58I5pLb2n2NL0D6n+grt+JOWA==
-Authentication-Results: deltatee.com; dkim=none (message not signed)
- header.d=none;deltatee.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5520.namprd12.prod.outlook.com (2603:10b6:5:208::9) by
- DM6PR12MB5550.namprd12.prod.outlook.com (2603:10b6:5:1b6::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.14; Tue, 28 Sep 2021 22:05:03 +0000
-Received: from DM6PR12MB5520.namprd12.prod.outlook.com
- ([fe80::3817:44ce:52ad:3c0b]) by DM6PR12MB5520.namprd12.prod.outlook.com
- ([fe80::3817:44ce:52ad:3c0b%5]) with mapi id 15.20.4544.022; Tue, 28 Sep 2021
- 22:05:03 +0000
-Date: Tue, 28 Sep 2021 19:05:02 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 4/20] PCI/P2PDMA: introduce helpers for dma_map_sg
- implementations
-Message-ID: <20210928220502.GA1738588@nvidia.com>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-5-logang@deltatee.com>
-Content-Disposition: inline
-In-Reply-To: <20210916234100.122368-5-logang@deltatee.com>
-X-ClientProxiedBy: CH2PR12CA0007.namprd12.prod.outlook.com
- (2603:10b6:610:57::17) To DM6PR12MB5520.namprd12.prod.outlook.com
- (2603:10b6:5:208::9)
+ id 1mVLiV-00979w-PN
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 22:36:53 +0000
+Received: by mail-ed1-f46.google.com with SMTP id b26so1190103edt.0
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 15:36:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=S1uMPmMDCuhl7hGahrzQNiphiHqo3gb8qEbVNkjuXtg=;
+ b=ZBnD4YO1BBUMlTjnNG98nhG4VBpQHLVFugeFuFa5lzWrb3DYlAE1oQdqj9gVPkKTdZ
+ Zqw6m2QX5l5b6iwbvDgWoSwoMutP3pbp+CuB9LPZkN9Y2nVDn6tJ+LdXAaXq8lK/F+I9
+ UiAKzhOJy/oGabFY5ADuoNK8eY/+rqApRS7hwO0lNSSg8a6E8WK0z3SRf4ubTU4MpUhl
+ oCKDXg3FhRwbXmdUZtgGmIAof17yC0E757qBaffHLMxcRzPWJIW3wKazcba+5KYBR+dx
+ C52+q+LxFB0Blih9HkB+u1370PrsPEoZ/4tWNScO/NbjK3qgW6yJZ3zLfHJeApk1l5Y9
+ lpVg==
+X-Gm-Message-State: AOAM530AnMNIikz+FOj9Tnm7pPp/wthdVM3sUUyQK8oBAPDV71dmF/3v
+ SF8Tf9fOCw5rotWbejo8Dpg=
+X-Google-Smtp-Source: ABdhPJxR9giMtZqLl4BWZfAwyz74U2L8eyMtV4yDnOMe7oeocnJlrlxOCRf8G/qY9JnpOssU8JU7xg==
+X-Received: by 2002:a17:906:86c4:: with SMTP id
+ j4mr9446475ejy.355.1632868609382; 
+ Tue, 28 Sep 2021 15:36:49 -0700 (PDT)
+Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
+ [109.186.240.23])
+ by smtp.gmail.com with ESMTPSA id e22sm254319edu.35.2021.09.28.15.36.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Sep 2021 15:36:49 -0700 (PDT)
+Subject: Re: [PATCH 10/12] nvmet: Implement basic In-Band Authentication
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, linux-nvme@lists.infradead.org,
+ linux-crypto@vger.kernel.org
+References: <20210910064322.67705-1-hare@suse.de>
+ <20210910064322.67705-11-hare@suse.de>
+ <79742bd7-a41c-0abc-e7de-8d222b146d02@grimberg.me>
+ <c7739610-6d0b-7740-c339-b35ca5ae34e2@suse.de>
+ <a2596777-25b2-f633-4b00-18b1a319c5c2@suse.de>
+ <32d8f860-9fdb-606c-62b7-ad89837d8e71@grimberg.me>
+ <2ccfb62a-d782-7bb2-4d41-6d1152851a4a@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <24d3ee65-83e7-c958-cd17-eb4351a8349c@grimberg.me>
+Date: Wed, 29 Sep 2021 01:36:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (206.223.160.26) by
- CH2PR12CA0007.namprd12.prod.outlook.com (2603:10b6:610:57::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.14 via Frontend Transport; Tue, 28 Sep 2021 22:05:03 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mVLDi-007Ice-4B; Tue, 28 Sep 2021 19:05:02 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d1431c98-a1fb-40f7-c25b-08d982cc05ba
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5550:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB555067D3D9625CE21F528D0DC2A89@DM6PR12MB5550.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z/+59L6XbL1hKX79x54TMl+VW5TtLSP0rhJlfYGz9uibMTqstalowo3f7tJL7X7cHzTY9GsTKbOiQWdF8HvueBRAULoBkww4NNuwxogzgSBQwl22aCqKdgL5YXeQnu5dh0pdtpcpA3F68EqDtlKVHNb/Haz+nUwvGXeMEme+AEFBwnfrsHpKs91R8a2/zduf8Vgq4YxCjhhQTO548VEUGf08XfgrK0KpV3pt53kdr04SHhvxI7kANemBsLY4+p9yimGD7DUfzOPD6CBkO2YWi/6bD1qtxAtTKML6062AdENpGMiRPwCE33LN//UAjHDTu0I8W3DFozFQ+qVv0xU+Tg9Jve8mjET3x8w6U5sHV+Tkf0pw6IakhbY2mGQKIu2zmkwEglxYPR+9CytQ3/ArdwSQ8/3RLs07A4noOxk2PJ29YYS7WtTrXcG7epfGHVhGtoGxDhTDYTsJlxMqEzuhyDojP+rDrxcD73WPDZMdqaZKhpgjYwTJoGDdz7EGDBL2cWOXtftLV4NJE1szabmxbt9z6c7zfy/dYuxWvl8IhBuSch0OvOaoNIb90SfiVb2sHefdZHUjbP+AUW4TmAlw71tfVnqTsB/WP2/C/secvr5hBeKs/LQbfIlgmAFxVR9YhfKChu2lboDrgommteqY9Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5520.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(316002)(2906002)(7416002)(1076003)(83380400001)(9786002)(26005)(66556008)(66476007)(54906003)(36756003)(6916009)(186003)(33656002)(8936002)(9746002)(66946007)(426003)(508600001)(38100700002)(4326008)(2616005)(8676002)(86362001)(4744005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MbeOzvmyZtyGuYqIg8gFYQZVCLgxMhHjTbX6Cnf1P9tfwz7Suor1pImP8JPj?=
- =?us-ascii?Q?caO8q1PgVCOahQCCszk+zupX80XmzidTgq5okzLL73ltgtcSFMy5vAa4CEVn?=
- =?us-ascii?Q?TOQ4M5oEnT4EYh+gy5MQriwS/vct5rvCGogsj4kWW8zIh5puafcFPu+6pAB9?=
- =?us-ascii?Q?V7OllzpJtrWh8hp2HgHpNVhci6xk0OiPGuPtA0oNGgr0++xtZtBtrmNunmLO?=
- =?us-ascii?Q?MucA9WuPEaFD/hw7cpAfzMbkpw7eYQE97keo9C5hiewxKvPwkUtW0DIg3c68?=
- =?us-ascii?Q?iOzevMIgS2nCLU6KDhvgZ55iR09fqDN3kwYevBqbsPS2h2VD3aKA1i0SaagF?=
- =?us-ascii?Q?SrIwjD7XKqdtiiLN4B/9msRh/JYdOTTFVoft0g+D2ufyo+Gg7EWShXnJlQB0?=
- =?us-ascii?Q?3sJb1n/DBr3th7oz2cKMW85m6j2mDCWGPptgzmltkW02madh4fmGoJm9DBiA?=
- =?us-ascii?Q?sWAQrv942SbRP3h6RdameJXH6vUaHg48/S1twHJzMpuhD2z6gl/unIVx9yXu?=
- =?us-ascii?Q?sBVVSkjcD2NkVmzwBRgXkk+GV2OnenDZgwOv/JFLhioHDbrXxzOjcsM0wmgz?=
- =?us-ascii?Q?NEmRcIqZ2P0Ng/Ryp2MBUVbmj40rJC1SQbTPyDLjqO2GHTgeqk926by5iLdT?=
- =?us-ascii?Q?slZdR+entC+eQs/umXo3i/pFV9n0zgr6syMQ0M8s0f0jhympu3tZNU+F3YJ7?=
- =?us-ascii?Q?Zu1S7YDpNMVmUbPj4clJcnnPL733cw0OG+ptUj88XFX/fHY3Q15O7HNh4mG5?=
- =?us-ascii?Q?2wSTo+5XqDG9QRxxlGE/ypIcw1Kk4D1komdsBV4DMtFMxMl706iHRd/UAPKS?=
- =?us-ascii?Q?/TH0F2SbPzNo+6sVYd2NXBZ8XafDICmctv9X1gfHLpcFOkNVh+CROMVREZEx?=
- =?us-ascii?Q?mgRij3Tf9d4wuU11eV3jPowrANntpnds0fj4WCe0Bf6Y+rMADOngMmBLZwkZ?=
- =?us-ascii?Q?43hjPmt8O3zVgKw/hGidiRfpjqKAfHsaKB77sksgx6WTzI7fHRpYd04j0nmp?=
- =?us-ascii?Q?KucamxJj8AEGbCuVwOou9r/zEwMhZS1rb9GDOYlVjZY9eCFvZHF9Llx4YRTP?=
- =?us-ascii?Q?sCTnAgrS8OUlTT0uTHZ/Ek/mM6r/XBnrBAusOskl0wjtoR6WpLOxt6CcaZTV?=
- =?us-ascii?Q?IsHvuMXf2vt3vy6RUO9pqhcnvZzw0qKwK35sUyXFdjzruV3E+cEG2Jcph/I5?=
- =?us-ascii?Q?UoZElAKOQacaP7S27rdxv0zkVOUKY4d08rJN8Y5V7LCJhRyTVEAvNtg1EFzO?=
- =?us-ascii?Q?YUi4BnlgpAxnLnWHRPWXag72kSxRKl1A+EVY+WVvZu86jG2MRTepe+gD9Cto?=
- =?us-ascii?Q?PfCZfhJoc6EB1bM8xJaBiMbP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1431c98-a1fb-40f7-c25b-08d982cc05ba
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5520.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 22:05:03.4026 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uzyvAr62RCkiS3PB4f9w7ovyyuBGQUV5TbN1p4rjkcrxQooUFwxjGG3tU9k4b3o9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5550
+In-Reply-To: <2ccfb62a-d782-7bb2-4d41-6d1152851a4a@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_150506_562546_E4AE2E91 
-X-CRM114-Status: GOOD (  10.23  )
+X-CRM114-CacheID: sfid-20210928_153651_884500_CAF62568 
+X-CRM114-Status: GOOD (  18.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,31 +91,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 16, 2021 at 05:40:44PM -0600, Logan Gunthorpe wrote:
 
-> +enum pci_p2pdma_map_type
-> +pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-> +		       struct scatterlist *sg)
-> +{
-> +	if (state->pgmap != sg_page(sg)->pgmap) {
-> +		state->pgmap = sg_page(sg)->pgmap;
+>>> Actually, having re-read the spec I'm not sure if the second path is
+>>> correct.
+>>> As per spec only the _host_ can trigger re-authentication. There is no
+>>> provision for the controller to trigger re-authentication, and given
+>>> that re-auth is a soft-state anyway (ie the current authentication
+>>> stays valid until re-auth enters a final state) I _think_ we should be
+>>> good with the current implementation, where we can change the
+>>> controller keys
+>>> via configfs, but they will only become active once the host triggers
+>>> re-authentication.
+>>
+>> Agree, so the proposed addition is good with you?
+>>
+> Why would we need it?
+> I do agree there's a bit missing for removing the old shash_tfm if there
+> is a hash-id mismatch, but why would we need to reset the entire
+> authentication?
 
-This has built into it an assumption that every page in the sg element
-has the same pgmap, but AFAIK nothing enforces this rule? There is no
-requirement that the HW has pfn gaps between the pgmaps linux decides
-to create over it.
-
-At least sg_alloc_append_table_from_pages() and probably something in
-the block world should be updated to not combine struct pages with
-different pgmaps, and this should be documented in scatterlist.*
-someplace.
-
-Jason
+Just need to update the new host dhchap_key from the host at this point
+as the host is doing a re-authentication. I agree we don't need a big
+hammer but we do need the re-authentication to not access old host
+dhchap_key.
 
 _______________________________________________
 Linux-nvme mailing list
