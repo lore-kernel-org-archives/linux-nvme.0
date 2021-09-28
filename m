@@ -2,83 +2,69 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2FFC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 11:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16487C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 12:31:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4FE186108F
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 11:21:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4FE186108F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id C7F1461058
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 12:31:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C7F1461058
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=/iSFbSM/UaJ1Moh6SyOOiayOTRn6dRCJ4VD2ZdF1gm4=; b=pZF
-	ja47N1/LcCLR5gWis76GhcVTaqUq0uL7m4UibobvRXs1DgzUfT7F3SBIMlpynemaKHJxHfPtjqM0p
-	mZ2Dmm1IL2lWjw1xASaAL+S3FKxSENVmhOfsm4u9PBmxYTHHfoa6brKig3K8DU/R3+9XNDURHZoH0
-	/j1P/e10yVwZYWUhXrFdJBjlq3sDdpE6/CbRqEMKAqBAMFH79FiUfsuoVfqKix52iCUZRudIBWQoj
-	1tCZKWfx7oirNlmlaTmN6ktpSTc9ivHhceMEos0wynIJulfOEGflu4eRuJAETDkmJByjQgdmpVWEg
-	5QQc4GFJyDc83whPg5olhI/HMS+IQtQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=J5BrAEni+B+4Bwwkua7zR/Pd58i1aGtpeD5SElHDWgs=; b=GEv8gcqOFQzQz8
+	5Aymldk05atwtrJ+vUQxlTCZjp/JzAMpqa+tn8KeQmr4kZ6Yk9aVDQWtDpq0h6I1RsQfgSQIXaSoI
+	fEvydz0hRLc1BWdw0/oiLo9188fZ+G1fmaDekdORs/lg7U/mStcrcOP4JK6jVl58lZh6Hczk9k7EQ
+	CIBgb3+jEi0ueuf1s6LBtYRmSaZo+HINO4t0/WRjNHG3dVppYIo0o8wqceV+zAcbLF76rTZolqPox
+	L5tgYfPDxiGYF6lAFdGkFiOJYClAUHiSRGQAWfGJ/AazA8lW1GqXe22IMNTHyr09EcAbdOS/Rvh8/
+	1RqMc1WSWuNzYzYO4O8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVBAK-006ukq-D4; Tue, 28 Sep 2021 11:20:52 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1mVCG4-00789m-3o; Tue, 28 Sep 2021 12:30:52 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVBAF-006ukT-Vo
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 11:20:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632828042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type;
- bh=7ki8EJbrj2hQnCixQfuVRhD0oVEVHcI4McwxyMLJou8=;
- b=bs+pL19gS2GAMPcc9PMA1ViVt6WFqpe+pGuXFbRWGXIasbBwQFCKI5XwgJwZlqaNjK0zaI
- F/YBzHVEt8T380P/yyiPw2/WZKrM8b6uG8zTqWf1X5nct5I8nTNVWgk/WxBbdtN+3cWcQY
- CayXB49iZd0wMuRbKpv2tHWNDbH1loU=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-cqv2w5mpPpWcpC7WpJ9RuA-1; Tue, 28 Sep 2021 07:20:40 -0400
-X-MC-Unique: cqv2w5mpPpWcpC7WpJ9RuA-1
-Received: by mail-yb1-f198.google.com with SMTP id
- l11-20020a056902072b00b005a776eefb28so23249579ybt.5
- for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 04:20:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=7ki8EJbrj2hQnCixQfuVRhD0oVEVHcI4McwxyMLJou8=;
- b=459zn/3n5UhC+RKX8vOue4ryWmVXE4NfDLrQV5FrDyrFmxwOsC6K3iX9YL4J8rZnTq
- 72eIqQdSPOe0Kdrl7oMKhLGsSGrX/y9RUdjyKJczqzb9KoU8Iz/QU+OGyKZDFCfiUGX3
- drnPP21wddntteJd0xsmjwS3Lr5MDA0O44WWloOoP0tdHIx2ME0wluxa4k69s3wl+oAL
- OwU32VNHGkcbXWmqQP9WdvBodDNZhkDQ06Y6vrqvMVtRQtxCMxHgpoR7Oud/Ia+qPz3f
- F9CdIfXrq0qjI59wg8prJObQJGnnjB/zT61MIhyNN/IG/+NKCTIZd7rO2LS3KY6t06xz
- YMgg==
-X-Gm-Message-State: AOAM531bN2PqmxvTt71pkQeQpgECWg+mA0yMHmVk6mrsSi2w7ZNi8IXd
- 2XrFmegALNQDTFT0KYdCx0u3jRThWbequtnflxrAEUn0xK/SqVB9glp0U2BcRwPbwLJR2aibcLt
- hw4fWdi+O7gm3wa1MDk8xn2+5IDkH55cWQyPXE2ZMjPw=
-X-Received: by 2002:a25:ce51:: with SMTP id x78mr6089421ybe.138.1632828039566; 
- Tue, 28 Sep 2021 04:20:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpK3Q8Xfek3bRaOB1HsIMOsCg71Uxu0jOWKmCQ9/BaSGV+Va2RjjGM6tHJoGayCmyWEre8n9F8tquO76pvlkE=
-X-Received: by 2002:a25:ce51:: with SMTP id x78mr6089388ybe.138.1632828039132; 
- Tue, 28 Sep 2021 04:20:39 -0700 (PDT)
+ id 1mVC74-00745y-CE
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 12:21:36 +0000
+Received: from relay1.suse.de (relay1.suse.de [149.44.160.133])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 6E2FF20202;
+ Tue, 28 Sep 2021 12:21:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1632831692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4l1lbwYbh8cFCWtbltC6HNIiHtAq/EaWOh4sNU6xiuU=;
+ b=hNwmF0JgyIfZRwmWbRZkr7Ayyr5ANmNa8i1n60KFUy0razXKnuX9KXD+dxjlq34ChMnlDF
+ hRlfbd0n2Iuz87UoAVZk9ZfNBgq8sZ7+SYsYkjon4ngDbtDrRYxtsXhCzMHEtTIj3dSZzB
+ 4bWa+4VZ5YF5+NoqDnhzWWu6Pd3EOQg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1632831692;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=4l1lbwYbh8cFCWtbltC6HNIiHtAq/EaWOh4sNU6xiuU=;
+ b=YGN6+9HHVirw3UoFJcPUMAIl4Gp/Gm3Et5bxZNnqTQJAutL0I7nhWn3a8XIHPgIkYKwuca
+ Mlf2qshqsENpIMCg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay1.suse.de (Postfix) with ESMTP id 3F2E325D86;
+ Tue, 28 Sep 2021 12:21:32 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 2FC12518EE61; Tue, 28 Sep 2021 14:21:32 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCH libnvme] Implement 'dhchap_key' host and controller attributes
+Date: Tue, 28 Sep 2021 14:21:28 +0200
+Message-Id: <20210928122128.34512-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Tue, 28 Sep 2021 19:20:28 +0800
-Message-ID: <CAHj4cs9MDYLJ+q+2_GXUK9HxFizv2pxUryUR0toX974M040z7g@mail.gmail.com>
-Subject: [bug report] WARNING: possible circular locking dependency detected
- with blktests nvme-tcp nvme/013
-To: linux-nvme@lists.infradead.org
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_042048_156636_5A87BBD7 
-X-CRM114-Status: UNSURE (   6.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20210928_052134_623220_EB5F9B20 
+X-CRM114-Status: GOOD (  15.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,206 +81,290 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
+Implement a 'dhchap_key' attribute for the nvme_host structure to
+support the 'dhchap_secret' connection argument, and a
+'dhchap_key' attribute for the nvme_controller structure to support
+the 'dhchap_ctrl_secret' connection argument.
 
-Bellow warning was triggered with blktests nvme-tcp on latest
-5.15.0-rc3, pls help check it.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ pynvme/nvme.i      |  2 ++
+ src/nvme/fabrics.c |  8 +++++++-
+ src/nvme/json.c    | 16 +++++++++++++++-
+ src/nvme/private.h |  2 ++
+ src/nvme/tree.c    | 43 +++++++++++++++++++++++++++++++++++++++++++
+ src/nvme/tree.h    | 32 ++++++++++++++++++++++++++++++++
+ 6 files changed, 101 insertions(+), 2 deletions(-)
 
-[ 2153.718873] run blktests nvme/013 at 2021-09-28 07:14:57
-[ 2154.082894] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 2154.116627] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[ 2154.174352] nvmet: creating controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:c83e4244a1d04d318ced2447da679f67.
-[ 2154.196889] nvme nvme0: creating 40 I/O queues.
-[ 2154.222389] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[ 2154.275779] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 2155.648483] XFS (nvme0n1): Mounting V5 Filesystem
-[ 2155.717630] XFS (nvme0n1): Ending clean mount
-[ 2155.734834] xfs filesystem being mounted at /mnt/blktests supports
-timestamps until 2038 (0x7fffffff)
-
-[ 2155.932675] ======================================================
-[ 2155.939575] WARNING: possible circular locking dependency detected
-[ 2155.946467] 5.15.0-rc3 #1 Not tainted
-[ 2155.950551] ------------------------------------------------------
-[ 2155.957447] fio/1496 is trying to acquire lock:
-[ 2155.962504] ffff93d58ffe2470 (sk_lock-AF_INET){+.+.}-{0:0}, at:
-tcp_sendpage+0x23/0x80
-[ 2155.971355]
-               but task is already holding lock:
-[ 2155.977866] ffff93d59bb7f8f0 (&xfs_dir_ilock_class/5){+.+.}-{3:3},
-at: xfs_ilock+0xcf/0x290 [xfs]
-[ 2155.987885]
-               which lock already depends on the new lock.
-
-[ 2155.997012]
-               the existing dependency chain (in reverse order) is:
-[ 2156.005362]
-               -> #3 (&xfs_dir_ilock_class/5){+.+.}-{3:3}:
-[ 2156.012843]        down_write_nested+0x49/0x120
-[ 2156.017904]        xfs_ilock+0xcf/0x290 [xfs]
-[ 2156.022850]        xfs_create+0x1e8/0x660 [xfs]
-[ 2156.027989]        xfs_generic_create+0xfa/0x340 [xfs]
-[ 2156.033805]        vfs_mkdir+0x12b/0x1e0
-[ 2156.038194]        do_mkdirat+0x10a/0x130
-[ 2156.042669]        __x64_sys_mkdir+0x48/0x70
-[ 2156.047434]        do_syscall_64+0x3b/0x90
-[ 2156.052013]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 2156.058238]
-               -> #2 (sb_internal){.+.+}-{0:0}:
-[ 2156.064654]        xfs_trans_alloc+0x1a1/0x3c0 [xfs]
-[ 2156.070281]        xfs_vn_update_time+0xc6/0x260 [xfs]
-[ 2156.076097]        touch_atime+0x129/0x230
-[ 2156.080672]        xfs_file_mmap+0x84/0x90 [xfs]
-[ 2156.085906]        mmap_region+0x497/0x6b0
-[ 2156.090480]        do_mmap+0x362/0x560
-[ 2156.094663]        vm_mmap_pgoff+0xb8/0x150
-[ 2156.099330]        ksys_mmap_pgoff+0x198/0x1f0
-[ 2156.104288]        do_syscall_64+0x3b/0x90
-[ 2156.108860]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 2156.115078]
-               -> #1 (&mm->mmap_lock#2){++++}-{3:3}:
-[ 2156.121978]        __might_fault+0x56/0x80
-[ 2156.126553]        _copy_from_user+0x20/0xa0
-[ 2156.131327]        ip_setsockopt+0x123d/0x15c0
-[ 2156.136287]        __sys_setsockopt+0xba/0x1a0
-[ 2156.141250]        __x64_sys_setsockopt+0x1b/0x20
-[ 2156.146499]        do_syscall_64+0x3b/0x90
-[ 2156.151069]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 2156.157289]
-               -> #0 (sk_lock-AF_INET){+.+.}-{0:0}:
-[ 2156.164093]        __lock_acquire+0x11fe/0x1e00
-[ 2156.169154]        lock_acquire+0xc4/0x2e0
-[ 2156.173727]        lock_sock_nested+0x2e/0x80
-[ 2156.178593]        tcp_sendpage+0x23/0x80
-[ 2156.183068]        inet_sendpage+0x4f/0x80
-[ 2156.187645]        kernel_sendpage+0x62/0xf0
-[ 2156.192413]        nvme_tcp_try_send+0x128/0x810 [nvme_tcp]
-[ 2156.198633]        nvme_tcp_queue_rq+0x35a/0x380 [nvme_tcp]
-[ 2156.204853]        __blk_mq_try_issue_directly+0x120/0x1c0
-[ 2156.210983]        blk_mq_try_issue_list_directly+0x157/0x250
-[ 2156.217400]        blk_mq_sched_insert_requests+0x241/0x2a0
-[ 2156.223620]        blk_mq_flush_plug_list+0x114/0x210
-[ 2156.229256]        blk_finish_plug+0x21/0x30
-[ 2156.234028]        _xfs_buf_ioapply+0x30a/0x3c0 [xfs]
-[ 2156.239747]        __xfs_buf_submit+0x92/0x260 [xfs]
-[ 2156.245360]        xfs_buf_read_map+0xe9/0x2a0 [xfs]
-[ 2156.250969]        xfs_trans_read_buf_map+0x1bb/0x550 [xfs]
-[ 2156.257274]        xfs_btree_read_buf_block.constprop.0+0x75/0xb0 [xfs]
-[ 2156.264732]        xfs_btree_lookup_get_block+0x87/0x160 [xfs]
-[ 2156.271316]        xfs_btree_lookup+0x123/0x4d0 [xfs]
-[ 2156.277027]        xfs_dialloc_ag_update_inobt+0x3a/0x180 [xfs]
-[ 2156.283709]        xfs_dialloc+0x43f/0x800 [xfs]
-[ 2156.288938]        xfs_create+0x404/0x660 [xfs]
-[ 2156.294075]        xfs_generic_create+0xfa/0x340 [xfs]
-[ 2156.299891]        lookup_open.isra.0+0x537/0x670
-[ 2156.305141]        path_openat+0x2aa/0xa20
-[ 2156.309713]        do_filp_open+0x9f/0x130
-[ 2156.314290]        do_sys_openat2+0x7a/0x140
-[ 2156.319057]        __x64_sys_openat+0x45/0x70
-[ 2156.323918]        do_syscall_64+0x3b/0x90
-[ 2156.328491]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 2156.334712]
-               other info that might help us debug this:
-
-[ 2156.343644] Chain exists of:
-                 sk_lock-AF_INET --> sb_internal --> &xfs_dir_ilock_class/5
-
-[ 2156.355972]  Possible unsafe locking scenario:
-
-[ 2156.362579]        CPU0                    CPU1
-[ 2156.367632]        ----                    ----
-[ 2156.372685]   lock(&xfs_dir_ilock_class/5);
-[ 2156.377351]                                lock(sb_internal);
-[ 2156.383764]                                lock(&xfs_dir_ilock_class/5);
-[ 2156.391242]   lock(sk_lock-AF_INET);
-[ 2156.395230]
-                *** DEADLOCK ***
-
-[ 2156.401834] 6 locks held by fio/1496:
-[ 2156.405919]  #0: ffff93d584c36498 (sb_writers#13){.+.+}-{0:0}, at:
-path_openat+0x9fc/0xa20
-[ 2156.415147]  #1: ffff93d59bb7fb30
-(&inode->i_sb->s_type->i_mutex_dir_key){++++}-{3:3}, at:
-path_openat+0x296/0xa20
-[ 2156.426693]  #2: ffff93d584c366b8 (sb_internal){.+.+}-{0:0}, at:
-xfs_trans_alloc_icreate+0x41/0xd0 [xfs]
-[ 2156.437363]  #3: ffff93d59bb7f8f0
-(&xfs_dir_ilock_class/5){+.+.}-{3:3}, at: xfs_ilock+0xcf/0x290 [xfs]
-[ 2156.447838]  #4: ffff93d5d75f4c60 (hctx->srcu){....}-{0:0}, at:
-hctx_lock+0x51/0xd0
-[ 2156.456386]  #5: ffff93d59d7bc3f0 (&queue->send_mutex){+.+.}-{3:3},
-at: nvme_tcp_queue_rq+0x33e/0x380 [nvme_tcp]
-[ 2156.467748]
-               stack backtrace:
-[ 2156.472612] CPU: 27 PID: 1496 Comm: fio Not tainted 5.15.0-rc3 #1
-[ 2156.479410] Hardware name: Intel Corporation S2600CP/S2600CP, BIOS
-RMLSDP.86I.R3.27.D685.1305151734 05/15/2013
-[ 2156.490578] Call Trace:
-[ 2156.493312]  dump_stack_lvl+0x57/0x72
-[ 2156.497404]  check_noncircular+0xdf/0x100
-[ 2156.501879]  ? usage_match+0x20/0x20
-[ 2156.505867]  ? __bfs+0xf5/0x230
-[ 2156.509373]  __lock_acquire+0x11fe/0x1e00
-[ 2156.513850]  lock_acquire+0xc4/0x2e0
-[ 2156.517829]  ? tcp_sendpage+0x23/0x80
-[ 2156.521917]  lock_sock_nested+0x2e/0x80
-[ 2156.526199]  ? tcp_sendpage+0x23/0x80
-[ 2156.530285]  tcp_sendpage+0x23/0x80
-[ 2156.534179]  inet_sendpage+0x4f/0x80
-[ 2156.538170]  kernel_sendpage+0x62/0xf0
-[ 2156.542355]  nvme_tcp_try_send+0x128/0x810 [nvme_tcp]
-[ 2156.547994]  ? mutex_trylock+0x13f/0x160
-[ 2156.552374]  ? nvme_tcp_queue_rq+0x33e/0x380 [nvme_tcp]
-[ 2156.558210]  nvme_tcp_queue_rq+0x35a/0x380 [nvme_tcp]
-[ 2156.563850]  __blk_mq_try_issue_directly+0x120/0x1c0
-[ 2156.569395]  blk_mq_try_issue_list_directly+0x157/0x250
-[ 2156.575230]  blk_mq_sched_insert_requests+0x241/0x2a0
-[ 2156.580869]  blk_mq_flush_plug_list+0x114/0x210
-[ 2156.585926]  blk_finish_plug+0x21/0x30
-[ 2156.590110]  _xfs_buf_ioapply+0x30a/0x3c0 [xfs]
-[ 2156.595252]  __xfs_buf_submit+0x92/0x260 [xfs]
-[ 2156.600295]  xfs_buf_read_map+0xe9/0x2a0 [xfs]
-[ 2156.605335]  xfs_trans_read_buf_map+0x1bb/0x550 [xfs]
-[ 2156.611060]  ? xfs_btree_read_buf_block.constprop.0+0x75/0xb0 [xfs]
-[ 2156.618129]  xfs_btree_read_buf_block.constprop.0+0x75/0xb0 [xfs]
-[ 2156.625006]  xfs_btree_lookup_get_block+0x87/0x160 [xfs]
-[ 2156.631008]  xfs_btree_lookup+0x123/0x4d0 [xfs]
-[ 2156.636137]  ? rcu_read_lock_sched_held+0x3f/0x80
-[ 2156.641395]  ? kmem_cache_alloc+0x28a/0x340
-[ 2156.646070]  xfs_dialloc_ag_update_inobt+0x3a/0x180 [xfs]
-[ 2156.652172]  xfs_dialloc+0x43f/0x800 [xfs]
-[ 2156.656822]  ? lock_acquired+0xbc/0x380
-[ 2156.661104]  xfs_create+0x404/0x660 [xfs]
-[ 2156.665663]  xfs_generic_create+0xfa/0x340 [xfs]
-[ 2156.670900]  lookup_open.isra.0+0x537/0x670
-[ 2156.675573]  path_openat+0x2aa/0xa20
-[ 2156.679564]  do_filp_open+0x9f/0x130
-[ 2156.683554]  ? lock_release+0x28a/0x400
-[ 2156.687840]  ? _raw_spin_unlock+0x1f/0x30
-[ 2156.692314]  ? alloc_fd+0x12f/0x1f0
-[ 2156.696210]  do_sys_openat2+0x7a/0x140
-[ 2156.700394]  __x64_sys_openat+0x45/0x70
-[ 2156.704676]  do_syscall_64+0x3b/0x90
-[ 2156.708658]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 2156.714297] RIP: 0033:0x7fcb40bc7584
-[ 2156.718290] Code: 24 20 eb 8f 66 90 44 89 54 24 0c e8 56 8b f8 ff
-44 8b 54 24 0c 44 89 e2 48 89 ee 41 89 c0 bf 9c ff ff ff b8 01 01 00
-00 0f 05 <48> 3d 00 f0 ff ff 77 34 44 89 c7 89 44 24 0c e8 98 8b f8 ff
-8b 44
-[ 2156.739247] RSP: 002b:00007ffda2d2e600 EFLAGS: 00000293 ORIG_RAX:
-0000000000000101
-[ 2156.747698] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fcb40bc7584
-[ 2156.755660] RDX: 0000000000000041 RSI: 00007fcb3fad72b0 RDI: 00000000ffffff9c
-[ 2156.763626] RBP: 00007fcb3fad72b0 R08: 0000000000000000 R09: 0000000000000000
-[ 2156.771591] R10: 00000000000001a4 R11: 0000000000000293 R12: 0000000000000041
-[ 2156.779553] R13: 0000000000000000 R14: 00007fcb3fad7110 R15: 000000003b600000
-
+diff --git a/pynvme/nvme.i b/pynvme/nvme.i
+index 9193617..eb9e6ef 100644
+--- a/pynvme/nvme.i
++++ b/pynvme/nvme.i
+@@ -271,6 +271,7 @@ struct nvme_host {
+   %immutable hostid;
+   char *hostnqn;
+   char *hostid;
++  char *dhchap_key;
+ };
+ 
+ struct nvme_subsystem {
+@@ -302,6 +303,7 @@ struct nvme_ctrl {
+   char *traddr;
+   char *host_traddr;
+   char *trsvcid;
++  char *dhchap_key;
+   char *address;
+   char *firmware;
+   char *model;
+diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
+index ebfc635..62012a0 100644
+--- a/src/nvme/fabrics.c
++++ b/src/nvme/fabrics.c
+@@ -276,7 +276,7 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
+ {
+ 	struct nvme_fabrics_config *cfg = nvme_ctrl_get_config(c);
+ 	const char *transport = nvme_ctrl_get_transport(c);
+-	const char *hostnqn, *hostid;
++	const char *hostnqn, *hostid, *hostkey, *ctrlkey;
+ 	bool discover = false;
+ 
+ 	if (!transport) {
+@@ -306,6 +306,8 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
+ 		discover = true;
+ 	hostnqn = nvme_host_get_hostnqn(h);
+ 	hostid = nvme_host_get_hostid(h);
++	hostkey = nvme_host_get_dhchap_key(h);
++	ctrlkey = nvme_ctrl_get_dhchap_key(c);
+ 	if (add_argument(argstr, "transport", transport) ||
+ 	    add_argument(argstr, "traddr",
+ 			 nvme_ctrl_get_traddr(c)) ||
+@@ -317,6 +319,10 @@ static int build_options(nvme_host_t h, nvme_ctrl_t c, char **argstr)
+ 			 nvme_ctrl_get_trsvcid(c)) ||
+ 	    (hostnqn && add_argument(argstr, "hostnqn", hostnqn)) ||
+ 	    (hostid && add_argument(argstr, "hostid", hostid)) ||
++	    (!discover && hostkey &&
++	     add_argument(argstr, "dhchap_secret", hostkey)) ||
++	    (!discover && ctrlkey &&
++	     add_argument(argstr, "dhchap_ctrl_secret", ctrlkey)) ||
+ 	    (!discover &&
+ 	     add_int_argument(argstr, "nr_io_queues",
+ 			      cfg->nr_io_queues, false)) ||
+diff --git a/src/nvme/json.c b/src/nvme/json.c
+index 9d49758..83c91ac 100644
+--- a/src/nvme/json.c
++++ b/src/nvme/json.c
+@@ -94,6 +94,9 @@ static void json_parse_port(nvme_subsystem_t s, struct json_object *port_obj)
+ 	c = nvme_lookup_ctrl(s, transport, traddr, host_traddr,
+ 			     host_iface, trsvcid);
+ 	if (c) {
++		attr_obj = json_object_object_get(port_obj, "dhchap_key");
++		if (attr_obj)
++			nvme_ctrl_set_dhchap_key(c, json_object_get_string(attr_obj));
+ 		json_update_attributes(c, port_obj);
+ 	}
+ }
+@@ -136,6 +139,9 @@ static void json_parse_host(nvme_root_t r, struct json_object *host_obj)
+ 	if (attr_obj)
+ 		hostid = json_object_get_string(attr_obj);
+ 	h = nvme_lookup_host(r, hostnqn, hostid);
++	attr_obj = json_object_object_get(host_obj, "dhchap_key");
++	if (attr_obj)
++		nvme_host_set_dhchap_key(h, json_object_get_string(attr_obj));
+ 	subsys_array = json_object_object_get(host_obj, "subsystems");
+ 	if (!subsys_array)
+ 		return;
+@@ -192,6 +198,10 @@ static void json_update_port(struct json_object *ctrl_array, nvme_ctrl_t c)
+ 	value = nvme_ctrl_get_trsvcid(c);
+ 	if (value)
+ 		json_object_add_value_string(port_obj, "trsvcid", value);
++	value = nvme_ctrl_get_dhchap_key(c);
++	if (value)
++		json_object_add_value_string(port_obj, "dhchap_key",
++					     value);
+ 	JSON_INT_OPTION(cfg, port_obj, nr_io_queues, 0);
+ 	JSON_INT_OPTION(cfg, port_obj, nr_write_queues, 0);
+ 	JSON_INT_OPTION(cfg, port_obj, nr_poll_queues, 0);
+@@ -248,7 +258,7 @@ int json_update_config(nvme_root_t r, const char *config_file)
+ 	json_root = json_object_new_array();
+ 	nvme_for_each_host(r, h) {
+ 		nvme_subsystem_t s;
+-		const char *hostid;
++		const char *hostid, *dhchap_key;
+ 
+ 		host_obj = json_object_new_object();
+ 		json_object_add_value_string(host_obj, "hostnqn",
+@@ -257,6 +267,10 @@ int json_update_config(nvme_root_t r, const char *config_file)
+ 		if (hostid)
+ 			json_object_add_value_string(host_obj, "hostid",
+ 						     hostid);
++		dhchap_key = nvme_host_get_dhchap_key(h);
++		if (dhchap_key)
++			json_object_add_value_string(host_obj, "dhchap_key",
++						     dhchap_key);
+ 		subsys_array = json_object_new_array();
+ 		nvme_for_each_subsystem(h, s) {
+ 			json_update_subsys(subsys_array, s);
+diff --git a/src/nvme/private.h b/src/nvme/private.h
+index 2a151bf..803d0ce 100644
+--- a/src/nvme/private.h
++++ b/src/nvme/private.h
+@@ -77,6 +77,7 @@ struct nvme_ctrl {
+ 	char *trsvcid;
+ 	char *host_traddr;
+ 	char *host_iface;
++	char *dhchap_key;
+ 	bool discovered;
+ 	bool persistent;
+ 	struct nvme_fabrics_config cfg;
+@@ -103,6 +104,7 @@ struct nvme_host {
+ 
+ 	char *hostnqn;
+ 	char *hostid;
++	char *dhchap_key;
+ };
+ 
+ struct nvme_root {
+diff --git a/src/nvme/tree.c b/src/nvme/tree.c
+index 293b0c0..0910b32 100644
+--- a/src/nvme/tree.c
++++ b/src/nvme/tree.c
+@@ -147,6 +147,21 @@ const char *nvme_host_get_hostid(nvme_host_t h)
+ 	return h->hostid;
+ }
+ 
++const char *nvme_host_get_dhchap_key(nvme_host_t h)
++{
++	return h->dhchap_key;
++}
++
++void nvme_host_set_dhchap_key(nvme_host_t h, const char *key)
++{
++	if (h->dhchap_key) {
++		free(h->dhchap_key);
++		h->dhchap_key = NULL;
++	}
++	if (key)
++		h->dhchap_key = strdup(key);
++}
++
+ nvme_subsystem_t nvme_first_subsystem(nvme_host_t h)
+ {
+ 	return list_top(&h->subsystems, struct nvme_subsystem, entry);
+@@ -310,6 +325,8 @@ static void __nvme_free_host(struct nvme_host *h)
+ 	free(h->hostnqn);
+ 	if (h->hostid)
+ 		free(h->hostid);
++	if (h->dhchap_key)
++		free(h->dhchap_key);
+ 	h->r->modified = true;
+ 	free(h);
+ }
+@@ -415,6 +432,11 @@ static int nvme_scan_subsystem(struct nvme_root *r, char *name,
+ 		free(hostnqn);
+ 		if (hostid)
+ 			free(hostid);
++		if (h) {
++			if (h->dhchap_key)
++				free(h->dhchap_key);
++			h->dhchap_key = nvme_get_attr(path, "dhchap_secret");
++		}
+ 	}
+ 	if (!h)
+ 		h = nvme_default_host(r);
+@@ -666,6 +688,21 @@ struct nvme_fabrics_config *nvme_ctrl_get_config(nvme_ctrl_t c)
+ 	return &c->cfg;
+ }
+ 
++const char *nvme_ctrl_get_dhchap_key(nvme_ctrl_t c)
++{
++	return c->dhchap_key;
++}
++
++void nvme_ctrl_set_dhchap_key(nvme_ctrl_t c, const char *key)
++{
++	if (c->dhchap_key) {
++		free(c->dhchap_key);
++		c->dhchap_key = NULL;
++	}
++	if (key)
++		c->dhchap_key = strdup(key);
++}
++
+ void nvme_ctrl_disable_sqflow(nvme_ctrl_t c, bool disable_sqflow)
+ {
+ 	c->cfg.disable_sqflow = disable_sqflow;
+@@ -1035,6 +1072,7 @@ static int nvme_configure_ctrl(nvme_ctrl_t c, const char *path,
+ 	c->queue_count = nvme_get_ctrl_attr(c, "queue_count");
+ 	c->serial = nvme_get_ctrl_attr(c, "serial");
+ 	c->sqsize = nvme_get_ctrl_attr(c, "sqsize");
++	c->dhchap_key = nvme_get_ctrl_attr(c, "dhchap_ctrl_secret");
+ 	return 0;
+ }
+ 
+@@ -1173,6 +1211,11 @@ nvme_ctrl_t nvme_scan_ctrl(nvme_root_t r, const char *name)
+ 		free(hostnqn);
+ 	if (hostid)
+ 		free(hostid);
++	if (h) {
++		if (h->dhchap_key)
++			free(h->dhchap_key);
++		h->dhchap_key = nvme_get_attr(path, "dhchap_secret");
++	}
+ 	if (!h) {
+ 		h = nvme_default_host(r);
+ 		if (!h) {
+diff --git a/src/nvme/tree.h b/src/nvme/tree.h
+index 4974741..48f2ad4 100644
+--- a/src/nvme/tree.h
++++ b/src/nvme/tree.h
+@@ -105,6 +105,21 @@ const char *nvme_host_get_hostnqn(nvme_host_t h);
+  */
+ const char *nvme_host_get_hostid(nvme_host_t h);
+ 
++/**
++ * nvme_host_get_dhchap_key() -
++ * @h:
++ *
++ * Return: 
++ */
++const char *nvme_host_get_dhchap_key(nvme_host_t h);
++
++/**
++ * nvme_host_set_dhchap_key() -
++ * @h: 
++ * @key: 
++ */
++void nvme_host_set_dhchap_key(nvme_host_t h, const char *key);
++
+ /**
+  * nvme_default_host() -
+  * @r:
+@@ -787,6 +802,23 @@ const char *nvme_ctrl_get_host_traddr(nvme_ctrl_t c);
+  */
+ const char *nvme_ctrl_get_host_iface(nvme_ctrl_t c);
+ 
++/**
++ * nvme_ctrl_set_dhchap_key() -
++ * @c:
++ * @key:
++ *
++ * Return:
++ */
++void nvme_ctrl_set_dhchap_key(nvme_ctrl_t c, const char *key);
++
++/**
++ * nvme_ctrl_get_dhchap_key() -
++ * @c:
++ *
++ * Return:
++ */
++const char *nvme_ctrl_get_dhchap_key(nvme_ctrl_t c);
++
+ /**
+  * nvme_ctrl_get_config() -
+  * @c:
 -- 
-Best Regards,
-  Yi Zhang
+2.29.2
 
 
 _______________________________________________
