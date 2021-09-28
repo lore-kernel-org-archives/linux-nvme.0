@@ -2,14 +2,14 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDA9C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 18:49:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 203F4C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 18:56:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1035D60F9D
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 18:49:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1035D60F9D
+	by mail.kernel.org (Postfix) with ESMTPS id C4D4B61246
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 18:56:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C4D4B61246
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,54 +18,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kP8FHS0mLhLERt8sFaLQvU49suFLbEAFyfy67kZd6xU=; b=QmjLj0k6ezcmhI
-	1oEU4i6tOAHdN7A+evZd06z5QkHYVS6fd8slvRBkl/l2ZMyp+VIyp/88sBpNEOBTYpRcWMngGFCer
-	+1NgObfvYjjYypfUfciVCccqzh82BEUk0uBFpLh2ii4f8tx+P5h4Wv/XvSMcIVGcb/5oWLuNQiqCO
-	lBL/xPmc+hry7QrTtuPh7Y3eCoIFYdr1xh6LwqitlR96ETeCHUTy1eaolL2s+g4DAhEsD7+w/57pE
-	kN+9x7NKG4+nWTWA3GeRalxwxRZiANWaOb0TsShruxtKXcWsxPW7sR8YRazd6+opZ++d0XyKU4BuG
-	hZ6Z1198KBmSJtGWdCCQ==;
+	List-Owner; bh=tIL45ia/i3UrB3RAPnPt4Xuij5QD2iZt1TQeiX8KcN0=; b=zwtQ4L+ynxOaz0
+	mijJ405whgO5qxceZ/TTcanMytHo1EjNZcaMkWxZdFTQAgd5wpXy4Kwfv0CPJwAfPLKAHXS/68rSh
+	C6aP977IV9OxKYAEkW73gozmI4iNQloCnde2zgr5G9eqirMuX97Iyz91khzpap6Xril9f67RF0MHq
+	CMitM7kRQt6xCxta0kZuTPUnY4FsNdht7ykNqcxodWoAM384zk6dVDNryGpBTzuAXmTAZCGOlFFrv
+	Uvf1h82YNCJA5AILoOgHFAoRyJofXb6hDsNG4TLmAJ5OKoLADXAM9Y9FFTNkJoWGBAbkSaizy412O
+	dS2CTkq7QokuOh+GxlZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVI9u-008WLx-FX; Tue, 28 Sep 2021 18:48:54 +0000
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
+	id 1mVIGl-008XbF-9f; Tue, 28 Sep 2021 18:55:59 +0000
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVI9r-008WKa-8R
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 18:48:52 +0000
-Received: by mail-qt1-x82e.google.com with SMTP id r16so20817023qtw.11
- for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 11:48:50 -0700 (PDT)
+ id 1mVIGh-008XZ4-ER
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 18:55:57 +0000
+Received: by mail-qt1-x831.google.com with SMTP id l13so20912933qtv.3
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 11:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=V9OdhKHkz+bDWOgw519ym53HGQqRyLuvFdP/XrS7z5w=;
- b=U6Cle1ar5YMOX4vRLBQAyCUIzflL0rP5DDqpOBJE+YXNQaN+2OCi9d0Iy1j+ZqEb0q
- ldJaiLHkalWypayZHQx3L3YPO9DcOqCmj/7fnNa9sm7+IILMYJgnEeoBHOfV3+5sIA1G
- 7PoT13IhlGy54nJMnWjX2JC+DO7VxjDE7MqR0TIZG4kkDyH5MeFimp+WrD7+H8fZcSrr
- rjU6GjV1RHVgJefkq1bsjD7HjG42edUR2AMuNMVNVDWGsf2VmvclfT7eJ7t5/82dwAMV
- kHPwsALEwDASPTTgXVp7pyVtxMvNs1y+xdofJ6ktmPZVIieklzttcPQ7dqgixshVYpDP
- cjwQ==
+ bh=ebZlYMj5MQ2pOTOwk0j9IKlcwdjsdmrFMDz+5vItq+c=;
+ b=QmduZpNQDgW0HX/nW9RkW9k4dvojdWvu6yI+Y+rCA9o9oH5bVLI6TsHunUzrSn1qan
+ PHU5+AW3MXramsIkU+ZDSrxmYZBvYuQYjMJ8ZK3HTUAC/kk+ABbFI4PQo0l6PK6M7nRv
+ n9Qd+JTkspzOmRVuSE1NXDvXPcxu9E655NnWfHIdpbSyUqeZ7AB0M+jzXvboydl8/4mW
+ Q+dh5+5Bb8TwSQyJYjXU55dzd2f6hLFNFMramZxQUeiowu7DX/YyaxsNVUfw6W0sCx/t
+ RtayIzeJe4Z2LkvZb8z0oxWAhpakBOql79f7LUXTsyzSQH6U2cnhDUwgm442Ri1+Tm5t
+ 65Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=V9OdhKHkz+bDWOgw519ym53HGQqRyLuvFdP/XrS7z5w=;
- b=wnvCM80xVKvI0UOJXgMXk+EbtdzUd+E44unzFXUUZUxvyCg8v/pIdpy/tg8ClVfl4H
- hMJN5COG5O+iQl/oDQCbSV2Q9DigRExqB5PyNNG+fPJtrdoMw8PCmY4jFIjkmKxpUT62
- IVvREAfh4wQiY7BGOIejCkc7813li9AfP4f6QhSxQtzuKAsOgVKjO7cFfueqZgj4mJqe
- T6tmG2q9ZH9cGcHySWjFtVljwbioLN/pHDQ1EvDGC9ug5P3Mumi/F2rO+S88CFp+WMy/
- AYsazAO30uOAU53RYjqT+KYCZm9QuS3gfIcBd7KOinC2G+BsRK3GZSPPxlLOt5vQ7lWt
- ouNQ==
-X-Gm-Message-State: AOAM5313zbAQ506SpCkEtV4Mf2sbUGWfNkG20C7DVvJa/LSWF2FIWmP9
- b0wDTvt64W5V991/simNXpVw8g==
-X-Google-Smtp-Source: ABdhPJxMh4uLV/Co2Bi0Uj4NMD1oETxTUQz1ehKuaeVQOMiXGKhC5tKssJhY1an+RZ/0cNTGVGgAwg==
-X-Received: by 2002:ac8:46c8:: with SMTP id h8mr7389965qto.341.1632854929767; 
- Tue, 28 Sep 2021 11:48:49 -0700 (PDT)
+ bh=ebZlYMj5MQ2pOTOwk0j9IKlcwdjsdmrFMDz+5vItq+c=;
+ b=0PAdIna2uwDZKpvwzWayZIoOWJPbpTcaxe2qLvgmwphZQT1We0yMZzfNn50ELrKghd
+ U9RPK5Mxl3l5vbhTfuqH4l+/xeejsX2+mqwvJmAgnjJe5FjoOh6PfJF2EmETAd+ZBp7J
+ hAbT3YhSR4T63iv+Z/DgRYeC4igXE+nQzP4+Hqpn5BsSDEXgk9etY6xgCneQGeNTtEBG
+ ZFK+iDY59nUONvzZ5hufdWyKGI7VA0ELnL3H8BdshjkI9L18+pUAcBlfemKKFv0XCXZ8
+ SJ2usOSkf9Vude2QE0xESmeICTXkV6t8Bny0xS4robReMInhIjUbdMyxgwYzy8hrqkeZ
+ MnDg==
+X-Gm-Message-State: AOAM533VV3gToTr1tKOojE34X/80MeUg8z6uRZeXWZsws8sOIC/+s/K2
+ 8eQSduIyysj2CzIVEcETKboS+g==
+X-Google-Smtp-Source: ABdhPJzc93AKyHeS6K7zWxJdqrv7pkOmkEPKPPpfQfpspxPiIl8jo/No84ral2c1mS98kp4huyOz7g==
+X-Received: by 2002:ac8:7eee:: with SMTP id r14mr7427193qtc.56.1632855354397; 
+ Tue, 28 Sep 2021 11:55:54 -0700 (PDT)
 Received: from ziepe.ca ([206.223.160.26])
- by smtp.gmail.com with ESMTPSA id b65sm15601470qkc.46.2021.09.28.11.48.49
+ by smtp.gmail.com with ESMTPSA id bm27sm15284065qkb.6.2021.09.28.11.55.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 11:48:49 -0700 (PDT)
+ Tue, 28 Sep 2021 11:55:53 -0700 (PDT)
 Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVI9o-007FZ4-5q; Tue, 28 Sep 2021 15:48:48 -0300
-Date: Tue, 28 Sep 2021 15:48:48 -0300
+ id 1mVIGe-007Fgc-Tq; Tue, 28 Sep 2021 15:55:52 -0300
+Date: Tue, 28 Sep 2021 15:55:52 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -86,16 +86,17 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Robin Murphy <robin.murphy@arm.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 03/20] PCI/P2PDMA: make pci_p2pdma_map_type() non-static
-Message-ID: <20210928184848.GK3544071@ziepe.ca>
+Subject: Re: [PATCH v3 04/20] PCI/P2PDMA: introduce helpers for dma_map_sg
+ implementations
+Message-ID: <20210928185552.GL3544071@ziepe.ca>
 References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-4-logang@deltatee.com>
+ <20210916234100.122368-5-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210916234100.122368-4-logang@deltatee.com>
+In-Reply-To: <20210916234100.122368-5-logang@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_114851_343525_AF5A6183 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20210928_115555_526635_721807C6 
+X-CRM114-Status: GOOD (  27.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,51 +113,73 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 16, 2021 at 05:40:43PM -0600, Logan Gunthorpe wrote:
-> +enum pci_p2pdma_map_type {
-> +	/*
-> +	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally for indicating the mapping
-> +	 * type hasn't been calculated yet. Functions that return this enum
-> +	 * never return this value.
-> +	 */
-> +	PCI_P2PDMA_MAP_UNKNOWN = 0,
-> +
-> +	/*
-> +	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
-> +	 * traverse the host bridge and the host bridge is not in the
-> +	 * whitelist. DMA Mapping routines should return an error when
+On Thu, Sep 16, 2021 at 05:40:44PM -0600, Logan Gunthorpe wrote:
+> Add pci_p2pdma_map_segment() as a helper for simple dma_map_sg()
+> implementations. It takes an scatterlist segment that must point to a
+> pci_p2pdma struct page and will map it if the mapping requires a bus
+> address.
+> 
+> The return value indicates whether the mapping required a bus address
+> or whether the caller still needs to map the segment normally. If the
+> segment should not be mapped, -EREMOTEIO is returned.
+> 
+> This helper uses a state structure to track the changes to the
+> pgmap across calls and avoid needing to lookup into the xarray for
+> every page.
+> 
+> Also add pci_p2pdma_map_bus_segment() which is useful for IOMMU
+> dma_map_sg() implementations where the sg segment containing the page
+> differs from the sg segment containing the DMA address.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>  drivers/pci/p2pdma.c       | 59 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/pci-p2pdma.h | 21 ++++++++++++++
+>  2 files changed, 80 insertions(+)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index b656d8c801a7..58c34f1f1473 100644
+> +++ b/drivers/pci/p2pdma.c
+> @@ -943,6 +943,65 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+>  }
+>  EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+>  
+> +/**
+> + * pci_p2pdma_map_segment - map an sg segment determining the mapping type
+> + * @state: State structure that should be declared outside of the for_each_sg()
+> + *	loop and initialized to zero.
+> + * @dev: DMA device that's doing the mapping operation
+> + * @sg: scatterlist segment to map
+> + *
+> + * This is a helper to be used by non-iommu dma_map_sg() implementations where
+> + * the sg segment is the same for the page_link and the dma_address.
+> + *
+> + * Attempt to map a single segment in an SGL with the PCI bus address.
+> + * The segment must point to a PCI P2PDMA page and thus must be
+> + * wrapped in a is_pci_p2pdma_page(sg_page(sg)) check.
+> + *
+> + * Returns the type of mapping used and maps the page if the type is
+> + * PCI_P2PDMA_MAP_BUS_ADDR.
+> + */
+> +enum pci_p2pdma_map_type
+> +pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
+> +		       struct scatterlist *sg)
+> +{
+> +	if (state->pgmap != sg_page(sg)->pgmap) {
+> +		state->pgmap = sg_page(sg)->pgmap;
+> +		state->map = pci_p2pdma_map_type(state->pgmap, dev);
+> +		state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
+> +	}
 
-I gather we are supposed to type allowlist now
+Is this safe? I was just talking with Joao about this,
 
-> +	 * this is returned.
-> +	 */
-> +	PCI_P2PDMA_MAP_NOT_SUPPORTED,
-> +
-> +	/*
-> +	 * PCI_P2PDMA_BUS_ADDR: Indicates that two devices can talk to
-> +	 * eachother directly through a PCI switch and the transaction will
+ https://lore.kernel.org/r/20210928180150.GI3544071@ziepe.ca
 
-'each other'
+API wise I absolutely think this should be safe as written, but is it
+really?
 
-> +	 * not traverse the host bridge. Such a mapping should program
-> +	 * the DMA engine with PCI bus addresses.
-> +	 */
-> +	PCI_P2PDMA_MAP_BUS_ADDR,
-> +
-> +	/*
-> +	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
-> +	 * to eachother, but the transaction traverses a host bridge on the
-
-'each other'
-
-> +	 * whitelist. In this case, a normal mapping either with CPU physical
-> +	 * addresses (in the case of dma-direct) or IOVA addresses (in the
-> +	 * case of IOMMUs) should be used to program the DMA engine.
-> +	 */
-> +	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
-> +};
-
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Does pgmap ensure that a positive refcount struct page always has a
+valid pgmap pointer (and thus the mess in gup can be deleted) or does
+this need to get the pgmap as well to keep it alive?
 
 Jason
 
