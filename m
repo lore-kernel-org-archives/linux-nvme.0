@@ -2,64 +2,82 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 058ADC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 09:08:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2FFC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 11:21:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BAA5060F44
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 09:08:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BAA5060F44
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
+	by mail.kernel.org (Postfix) with ESMTPS id 4FE186108F
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 11:21:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4FE186108F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=C6DeGvoaWYUb9bwRVh4yeR7Ed8YYSrP8+o6aYs4RslU=; b=XCHWkfWPog5oVM
-	lw+JD1vwtYrEv8rFThcMro2z5jYmehhkfzmAeNYUxYR8UAfO3Vr8s59FwXI99olU7e1fIFrN6rRtj
-	dcUDaGwp+3Ssc9NOIrm3f8lhPr7x12chNyrwAruW5RVRnsaVY/+Z61r5xjr2hiOD6JC2a1IhnB3+2
-	b4X3Q4u0bw9n2OTxPXAfy9b1eu/ET9R3NF6Uc+nWEc9JsE3nj1vm3gQXqpUlPl03XIrF6BNXJUjX0
-	F2x9ZpOivoKJgVACu7LDfxKUDbnJovAWgtbmL2OHJRuH/qVMtuHNRrFZySACL/pGzNZBspZy3zkOc
-	fvYKuBGbVejSuUu37ZYw==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=/iSFbSM/UaJ1Moh6SyOOiayOTRn6dRCJ4VD2ZdF1gm4=; b=pZF
+	ja47N1/LcCLR5gWis76GhcVTaqUq0uL7m4UibobvRXs1DgzUfT7F3SBIMlpynemaKHJxHfPtjqM0p
+	mZ2Dmm1IL2lWjw1xASaAL+S3FKxSENVmhOfsm4u9PBmxYTHHfoa6brKig3K8DU/R3+9XNDURHZoH0
+	/j1P/e10yVwZYWUhXrFdJBjlq3sDdpE6/CbRqEMKAqBAMFH79FiUfsuoVfqKix52iCUZRudIBWQoj
+	1tCZKWfx7oirNlmlaTmN6ktpSTc9ivHhceMEos0wynIJulfOEGflu4eRuJAETDkmJByjQgdmpVWEg
+	5QQc4GFJyDc83whPg5olhI/HMS+IQtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mV95y-006TC9-51; Tue, 28 Sep 2021 09:08:14 +0000
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+	id 1mVBAK-006ukq-D4; Tue, 28 Sep 2021 11:20:52 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mV8pH-006LYt-So
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 08:51:01 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HJY8z1l2dz1DHNb;
- Tue, 28 Sep 2021 16:49:39 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 28 Sep 2021 16:50:52 +0800
-Received: from huawei.com (10.169.63.14) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 28 Sep
- 2021 16:50:51 +0800
-From: chengjike <chengjike.cheng@huawei.com>
-To: <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, 
- <chaitanyak@nvidia.com>
-CC: <sunao.sun@huawei.com>, <jiangtao62@huawei.com>
-Subject: [PATCH V3 nvme-cli 2/2] add "Path Access" entry in command output
-Date: Tue, 28 Sep 2021 16:50:50 +0800
-Message-ID: <20210928085050.4141-3-chengjike.cheng@huawei.com>
-X-Mailer: git-send-email 2.24.0.windows.2
-In-Reply-To: <20210928085050.4141-1-chengjike.cheng@huawei.com>
-References: <20210928085050.4141-1-chengjike.cheng@huawei.com>
+ id 1mVBAF-006ukT-Vo
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 11:20:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632828042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=7ki8EJbrj2hQnCixQfuVRhD0oVEVHcI4McwxyMLJou8=;
+ b=bs+pL19gS2GAMPcc9PMA1ViVt6WFqpe+pGuXFbRWGXIasbBwQFCKI5XwgJwZlqaNjK0zaI
+ F/YBzHVEt8T380P/yyiPw2/WZKrM8b6uG8zTqWf1X5nct5I8nTNVWgk/WxBbdtN+3cWcQY
+ CayXB49iZd0wMuRbKpv2tHWNDbH1loU=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-cqv2w5mpPpWcpC7WpJ9RuA-1; Tue, 28 Sep 2021 07:20:40 -0400
+X-MC-Unique: cqv2w5mpPpWcpC7WpJ9RuA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ l11-20020a056902072b00b005a776eefb28so23249579ybt.5
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Sep 2021 04:20:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=7ki8EJbrj2hQnCixQfuVRhD0oVEVHcI4McwxyMLJou8=;
+ b=459zn/3n5UhC+RKX8vOue4ryWmVXE4NfDLrQV5FrDyrFmxwOsC6K3iX9YL4J8rZnTq
+ 72eIqQdSPOe0Kdrl7oMKhLGsSGrX/y9RUdjyKJczqzb9KoU8Iz/QU+OGyKZDFCfiUGX3
+ drnPP21wddntteJd0xsmjwS3Lr5MDA0O44WWloOoP0tdHIx2ME0wluxa4k69s3wl+oAL
+ OwU32VNHGkcbXWmqQP9WdvBodDNZhkDQ06Y6vrqvMVtRQtxCMxHgpoR7Oud/Ia+qPz3f
+ F9CdIfXrq0qjI59wg8prJObQJGnnjB/zT61MIhyNN/IG/+NKCTIZd7rO2LS3KY6t06xz
+ YMgg==
+X-Gm-Message-State: AOAM531bN2PqmxvTt71pkQeQpgECWg+mA0yMHmVk6mrsSi2w7ZNi8IXd
+ 2XrFmegALNQDTFT0KYdCx0u3jRThWbequtnflxrAEUn0xK/SqVB9glp0U2BcRwPbwLJR2aibcLt
+ hw4fWdi+O7gm3wa1MDk8xn2+5IDkH55cWQyPXE2ZMjPw=
+X-Received: by 2002:a25:ce51:: with SMTP id x78mr6089421ybe.138.1632828039566; 
+ Tue, 28 Sep 2021 04:20:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpK3Q8Xfek3bRaOB1HsIMOsCg71Uxu0jOWKmCQ9/BaSGV+Va2RjjGM6tHJoGayCmyWEre8n9F8tquO76pvlkE=
+X-Received: by 2002:a25:ce51:: with SMTP id x78mr6089388ybe.138.1632828039132; 
+ Tue, 28 Sep 2021 04:20:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.169.63.14]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Tue, 28 Sep 2021 19:20:28 +0800
+Message-ID: <CAHj4cs9MDYLJ+q+2_GXUK9HxFizv2pxUryUR0toX974M040z7g@mail.gmail.com>
+Subject: [bug report] WARNING: possible circular locking dependency detected
+ with blktests nvme-tcp nvme/013
+To: linux-nvme@lists.infradead.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_015100_321985_0487D4C3 
-X-CRM114-Status: UNSURE (   7.57  )
+X-CRM114-CacheID: sfid-20210928_042048_156636_5A87BBD7 
+X-CRM114-Status: UNSURE (   6.56  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -77,72 +95,206 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When users run commands such as nvme list, nvme list -o json, nvme list -v -o json,
-the "Path Access" entry of each disk is displayed.
+Hello
 
-Signed-off-by: chengjike <chengjike.cheng@huawei.com>
----
- nvme-print.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Bellow warning was triggered with blktests nvme-tcp on latest
+5.15.0-rc3, pls help check it.
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 7bb34cd..47c2070 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -5649,10 +5649,10 @@ static void nvme_show_list_item(nvme_ns_t n)
- 	snprintf(format, sizeof(format), "%3.0f %2sB + %2d B", (double)lba,
- 		l_suffix, nvme_ns_get_meta_size(n));
- 
--	printf("%-21s %-20s %-40s %-9d %-26s %-16s %-8s\n",
-+	printf("%-21s %-20s %-40s %-9d %-26s %-16s %-8s %-12s\n",
- 		nvme_ns_get_name(n), nvme_ns_get_serial(n),
- 		nvme_ns_get_model(n), nvme_ns_get_nsid(n), usage, format,
--		nvme_ns_get_firmware(n));
-+		nvme_ns_get_firmware(n), nvme_ns_get_access(n));
- }
- 
- static void nvme_show_simple_list(nvme_root_t r)
-@@ -5662,10 +5662,10 @@ static void nvme_show_simple_list(nvme_root_t r)
- 	nvme_ctrl_t c;
- 	nvme_ns_t n;
- 
--	printf("%-21s %-20s %-40s %-9s %-26s %-16s %-8s\n",
--	    "Node", "SN", "Model", "Namespace", "Usage", "Format", "FW Rev");
--	printf("%-.21s %-.20s %-.40s %-.9s %-.26s %-.16s %-.8s\n", dash, dash,
--		dash, dash, dash, dash, dash);
-+	printf("%-21s %-20s %-40s %-9s %-26s %-16s %-8s %-12s\n",
-+	    "Node", "SN", "Model", "Namespace", "Usage", "Format", "FW Rev", "Path Access");
-+	printf("%-.21s %-.20s %-.40s %-.9s %-.26s %-.16s %-.8s %-.12s\n", dash, dash,
-+		dash, dash, dash, dash, dash, dash);
- 
- 	nvme_for_each_host(r, h) {
- 		nvme_for_each_subsystem(h, s) {
-@@ -5841,6 +5841,7 @@ static void json_detail_list(nvme_root_t r)
- 					json_object_add_value_int(jns, "maxlba", nvme_ns_get_lba_count(n));
- 					json_object_add_value_int(jns, "capacity", nsze);
- 					json_object_add_value_int(jns, "sector", lba);
-+					json_object_add_value_string(jns, "path access", nvme_ns_get_access(n));
- 
- 					json_array_add_value_object(jnss, jns);
- 				}
-@@ -5873,6 +5874,7 @@ static void json_detail_list(nvme_root_t r)
- 				json_object_add_value_int(jns, "maxlba", nvme_ns_get_lba_count(n));
- 				json_object_add_value_int(jns, "capacity", nsze);
- 				json_object_add_value_int(jns, "sector", lba);
-+				json_object_add_value_string(jns, "path access", nvme_ns_get_access(n));
- 
- 				json_array_add_value_object(jnss, jns);
- 			}
-@@ -5907,6 +5909,7 @@ static struct json_object *json_list_item(nvme_ns_t n)
- 	json_object_add_value_int(jdevice, "maxlba", nvme_ns_get_lba_count(n));
- 	json_object_add_value_int(jdevice, "capacity", nsze);
- 	json_object_add_value_int(jdevice, "sector", lba);
-+	json_object_add_value_string(jdevice, "path access", nvme_ns_get_access(n));
- 
- 	return jdevice;
- }
+[ 2153.718873] run blktests nvme/013 at 2021-09-28 07:14:57
+[ 2154.082894] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[ 2154.116627] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[ 2154.174352] nvmet: creating controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:c83e4244a1d04d318ced2447da679f67.
+[ 2154.196889] nvme nvme0: creating 40 I/O queues.
+[ 2154.222389] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+[ 2154.275779] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+127.0.0.1:4420
+[ 2155.648483] XFS (nvme0n1): Mounting V5 Filesystem
+[ 2155.717630] XFS (nvme0n1): Ending clean mount
+[ 2155.734834] xfs filesystem being mounted at /mnt/blktests supports
+timestamps until 2038 (0x7fffffff)
+
+[ 2155.932675] ======================================================
+[ 2155.939575] WARNING: possible circular locking dependency detected
+[ 2155.946467] 5.15.0-rc3 #1 Not tainted
+[ 2155.950551] ------------------------------------------------------
+[ 2155.957447] fio/1496 is trying to acquire lock:
+[ 2155.962504] ffff93d58ffe2470 (sk_lock-AF_INET){+.+.}-{0:0}, at:
+tcp_sendpage+0x23/0x80
+[ 2155.971355]
+               but task is already holding lock:
+[ 2155.977866] ffff93d59bb7f8f0 (&xfs_dir_ilock_class/5){+.+.}-{3:3},
+at: xfs_ilock+0xcf/0x290 [xfs]
+[ 2155.987885]
+               which lock already depends on the new lock.
+
+[ 2155.997012]
+               the existing dependency chain (in reverse order) is:
+[ 2156.005362]
+               -> #3 (&xfs_dir_ilock_class/5){+.+.}-{3:3}:
+[ 2156.012843]        down_write_nested+0x49/0x120
+[ 2156.017904]        xfs_ilock+0xcf/0x290 [xfs]
+[ 2156.022850]        xfs_create+0x1e8/0x660 [xfs]
+[ 2156.027989]        xfs_generic_create+0xfa/0x340 [xfs]
+[ 2156.033805]        vfs_mkdir+0x12b/0x1e0
+[ 2156.038194]        do_mkdirat+0x10a/0x130
+[ 2156.042669]        __x64_sys_mkdir+0x48/0x70
+[ 2156.047434]        do_syscall_64+0x3b/0x90
+[ 2156.052013]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 2156.058238]
+               -> #2 (sb_internal){.+.+}-{0:0}:
+[ 2156.064654]        xfs_trans_alloc+0x1a1/0x3c0 [xfs]
+[ 2156.070281]        xfs_vn_update_time+0xc6/0x260 [xfs]
+[ 2156.076097]        touch_atime+0x129/0x230
+[ 2156.080672]        xfs_file_mmap+0x84/0x90 [xfs]
+[ 2156.085906]        mmap_region+0x497/0x6b0
+[ 2156.090480]        do_mmap+0x362/0x560
+[ 2156.094663]        vm_mmap_pgoff+0xb8/0x150
+[ 2156.099330]        ksys_mmap_pgoff+0x198/0x1f0
+[ 2156.104288]        do_syscall_64+0x3b/0x90
+[ 2156.108860]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 2156.115078]
+               -> #1 (&mm->mmap_lock#2){++++}-{3:3}:
+[ 2156.121978]        __might_fault+0x56/0x80
+[ 2156.126553]        _copy_from_user+0x20/0xa0
+[ 2156.131327]        ip_setsockopt+0x123d/0x15c0
+[ 2156.136287]        __sys_setsockopt+0xba/0x1a0
+[ 2156.141250]        __x64_sys_setsockopt+0x1b/0x20
+[ 2156.146499]        do_syscall_64+0x3b/0x90
+[ 2156.151069]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 2156.157289]
+               -> #0 (sk_lock-AF_INET){+.+.}-{0:0}:
+[ 2156.164093]        __lock_acquire+0x11fe/0x1e00
+[ 2156.169154]        lock_acquire+0xc4/0x2e0
+[ 2156.173727]        lock_sock_nested+0x2e/0x80
+[ 2156.178593]        tcp_sendpage+0x23/0x80
+[ 2156.183068]        inet_sendpage+0x4f/0x80
+[ 2156.187645]        kernel_sendpage+0x62/0xf0
+[ 2156.192413]        nvme_tcp_try_send+0x128/0x810 [nvme_tcp]
+[ 2156.198633]        nvme_tcp_queue_rq+0x35a/0x380 [nvme_tcp]
+[ 2156.204853]        __blk_mq_try_issue_directly+0x120/0x1c0
+[ 2156.210983]        blk_mq_try_issue_list_directly+0x157/0x250
+[ 2156.217400]        blk_mq_sched_insert_requests+0x241/0x2a0
+[ 2156.223620]        blk_mq_flush_plug_list+0x114/0x210
+[ 2156.229256]        blk_finish_plug+0x21/0x30
+[ 2156.234028]        _xfs_buf_ioapply+0x30a/0x3c0 [xfs]
+[ 2156.239747]        __xfs_buf_submit+0x92/0x260 [xfs]
+[ 2156.245360]        xfs_buf_read_map+0xe9/0x2a0 [xfs]
+[ 2156.250969]        xfs_trans_read_buf_map+0x1bb/0x550 [xfs]
+[ 2156.257274]        xfs_btree_read_buf_block.constprop.0+0x75/0xb0 [xfs]
+[ 2156.264732]        xfs_btree_lookup_get_block+0x87/0x160 [xfs]
+[ 2156.271316]        xfs_btree_lookup+0x123/0x4d0 [xfs]
+[ 2156.277027]        xfs_dialloc_ag_update_inobt+0x3a/0x180 [xfs]
+[ 2156.283709]        xfs_dialloc+0x43f/0x800 [xfs]
+[ 2156.288938]        xfs_create+0x404/0x660 [xfs]
+[ 2156.294075]        xfs_generic_create+0xfa/0x340 [xfs]
+[ 2156.299891]        lookup_open.isra.0+0x537/0x670
+[ 2156.305141]        path_openat+0x2aa/0xa20
+[ 2156.309713]        do_filp_open+0x9f/0x130
+[ 2156.314290]        do_sys_openat2+0x7a/0x140
+[ 2156.319057]        __x64_sys_openat+0x45/0x70
+[ 2156.323918]        do_syscall_64+0x3b/0x90
+[ 2156.328491]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 2156.334712]
+               other info that might help us debug this:
+
+[ 2156.343644] Chain exists of:
+                 sk_lock-AF_INET --> sb_internal --> &xfs_dir_ilock_class/5
+
+[ 2156.355972]  Possible unsafe locking scenario:
+
+[ 2156.362579]        CPU0                    CPU1
+[ 2156.367632]        ----                    ----
+[ 2156.372685]   lock(&xfs_dir_ilock_class/5);
+[ 2156.377351]                                lock(sb_internal);
+[ 2156.383764]                                lock(&xfs_dir_ilock_class/5);
+[ 2156.391242]   lock(sk_lock-AF_INET);
+[ 2156.395230]
+                *** DEADLOCK ***
+
+[ 2156.401834] 6 locks held by fio/1496:
+[ 2156.405919]  #0: ffff93d584c36498 (sb_writers#13){.+.+}-{0:0}, at:
+path_openat+0x9fc/0xa20
+[ 2156.415147]  #1: ffff93d59bb7fb30
+(&inode->i_sb->s_type->i_mutex_dir_key){++++}-{3:3}, at:
+path_openat+0x296/0xa20
+[ 2156.426693]  #2: ffff93d584c366b8 (sb_internal){.+.+}-{0:0}, at:
+xfs_trans_alloc_icreate+0x41/0xd0 [xfs]
+[ 2156.437363]  #3: ffff93d59bb7f8f0
+(&xfs_dir_ilock_class/5){+.+.}-{3:3}, at: xfs_ilock+0xcf/0x290 [xfs]
+[ 2156.447838]  #4: ffff93d5d75f4c60 (hctx->srcu){....}-{0:0}, at:
+hctx_lock+0x51/0xd0
+[ 2156.456386]  #5: ffff93d59d7bc3f0 (&queue->send_mutex){+.+.}-{3:3},
+at: nvme_tcp_queue_rq+0x33e/0x380 [nvme_tcp]
+[ 2156.467748]
+               stack backtrace:
+[ 2156.472612] CPU: 27 PID: 1496 Comm: fio Not tainted 5.15.0-rc3 #1
+[ 2156.479410] Hardware name: Intel Corporation S2600CP/S2600CP, BIOS
+RMLSDP.86I.R3.27.D685.1305151734 05/15/2013
+[ 2156.490578] Call Trace:
+[ 2156.493312]  dump_stack_lvl+0x57/0x72
+[ 2156.497404]  check_noncircular+0xdf/0x100
+[ 2156.501879]  ? usage_match+0x20/0x20
+[ 2156.505867]  ? __bfs+0xf5/0x230
+[ 2156.509373]  __lock_acquire+0x11fe/0x1e00
+[ 2156.513850]  lock_acquire+0xc4/0x2e0
+[ 2156.517829]  ? tcp_sendpage+0x23/0x80
+[ 2156.521917]  lock_sock_nested+0x2e/0x80
+[ 2156.526199]  ? tcp_sendpage+0x23/0x80
+[ 2156.530285]  tcp_sendpage+0x23/0x80
+[ 2156.534179]  inet_sendpage+0x4f/0x80
+[ 2156.538170]  kernel_sendpage+0x62/0xf0
+[ 2156.542355]  nvme_tcp_try_send+0x128/0x810 [nvme_tcp]
+[ 2156.547994]  ? mutex_trylock+0x13f/0x160
+[ 2156.552374]  ? nvme_tcp_queue_rq+0x33e/0x380 [nvme_tcp]
+[ 2156.558210]  nvme_tcp_queue_rq+0x35a/0x380 [nvme_tcp]
+[ 2156.563850]  __blk_mq_try_issue_directly+0x120/0x1c0
+[ 2156.569395]  blk_mq_try_issue_list_directly+0x157/0x250
+[ 2156.575230]  blk_mq_sched_insert_requests+0x241/0x2a0
+[ 2156.580869]  blk_mq_flush_plug_list+0x114/0x210
+[ 2156.585926]  blk_finish_plug+0x21/0x30
+[ 2156.590110]  _xfs_buf_ioapply+0x30a/0x3c0 [xfs]
+[ 2156.595252]  __xfs_buf_submit+0x92/0x260 [xfs]
+[ 2156.600295]  xfs_buf_read_map+0xe9/0x2a0 [xfs]
+[ 2156.605335]  xfs_trans_read_buf_map+0x1bb/0x550 [xfs]
+[ 2156.611060]  ? xfs_btree_read_buf_block.constprop.0+0x75/0xb0 [xfs]
+[ 2156.618129]  xfs_btree_read_buf_block.constprop.0+0x75/0xb0 [xfs]
+[ 2156.625006]  xfs_btree_lookup_get_block+0x87/0x160 [xfs]
+[ 2156.631008]  xfs_btree_lookup+0x123/0x4d0 [xfs]
+[ 2156.636137]  ? rcu_read_lock_sched_held+0x3f/0x80
+[ 2156.641395]  ? kmem_cache_alloc+0x28a/0x340
+[ 2156.646070]  xfs_dialloc_ag_update_inobt+0x3a/0x180 [xfs]
+[ 2156.652172]  xfs_dialloc+0x43f/0x800 [xfs]
+[ 2156.656822]  ? lock_acquired+0xbc/0x380
+[ 2156.661104]  xfs_create+0x404/0x660 [xfs]
+[ 2156.665663]  xfs_generic_create+0xfa/0x340 [xfs]
+[ 2156.670900]  lookup_open.isra.0+0x537/0x670
+[ 2156.675573]  path_openat+0x2aa/0xa20
+[ 2156.679564]  do_filp_open+0x9f/0x130
+[ 2156.683554]  ? lock_release+0x28a/0x400
+[ 2156.687840]  ? _raw_spin_unlock+0x1f/0x30
+[ 2156.692314]  ? alloc_fd+0x12f/0x1f0
+[ 2156.696210]  do_sys_openat2+0x7a/0x140
+[ 2156.700394]  __x64_sys_openat+0x45/0x70
+[ 2156.704676]  do_syscall_64+0x3b/0x90
+[ 2156.708658]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 2156.714297] RIP: 0033:0x7fcb40bc7584
+[ 2156.718290] Code: 24 20 eb 8f 66 90 44 89 54 24 0c e8 56 8b f8 ff
+44 8b 54 24 0c 44 89 e2 48 89 ee 41 89 c0 bf 9c ff ff ff b8 01 01 00
+00 0f 05 <48> 3d 00 f0 ff ff 77 34 44 89 c7 89 44 24 0c e8 98 8b f8 ff
+8b 44
+[ 2156.739247] RSP: 002b:00007ffda2d2e600 EFLAGS: 00000293 ORIG_RAX:
+0000000000000101
+[ 2156.747698] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fcb40bc7584
+[ 2156.755660] RDX: 0000000000000041 RSI: 00007fcb3fad72b0 RDI: 00000000ffffff9c
+[ 2156.763626] RBP: 00007fcb3fad72b0 R08: 0000000000000000 R09: 0000000000000000
+[ 2156.771591] R10: 00000000000001a4 R11: 0000000000000293 R12: 0000000000000041
+[ 2156.779553] R13: 0000000000000000 R14: 00007fcb3fad7110 R15: 000000003b600000
+
 -- 
-2.21.0.windows.1
+Best Regards,
+  Yi Zhang
 
 
 _______________________________________________
