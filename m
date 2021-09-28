@@ -2,14 +2,14 @@ Return-Path: <SRS0=nS76=OS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DDFC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 09:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058ADC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 09:08:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 439A860FC2
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 09:06:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 439A860FC2
+	by mail.kernel.org (Postfix) with ESMTPS id BAA5060F44
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Sep 2021 09:08:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BAA5060F44
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,26 +18,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ra7jSq9NlNMPH6vmYRnt/873UqpWAuxhWFh7Fe0+oek=; b=X8xUJ9J30WQl/Z
-	L+qvEFFsKF3LuBjOaOVSwp/q215AnlhOcx/e3HKpDwmsRpCtXiI7uG7drnJ6htXHE30xvTOdLisha
-	QmG3b9bpjfU1aYsfuo0n9zmpTALnrdhC4glHv6/fYfcDe/3esqgsUVbVv0K2kz0tJIytIKGB7FERy
-	OMnBIT0cmIQoYf0Khw4Z7qTXa/Ka58hOtzptnRZoUNXK7sb9bWMJqc5IpQutG0AUG0Od8woiM9Uzy
-	T0y9RjsBgI8WDhNpeRYYqz7rSqixDgqlMtxjvT+CEBJKptacVp0VzV+7/8f4yritbFOqmkYB0hQcM
-	NrxYJvlWJcT762F2En4A==;
+	List-Owner; bh=C6DeGvoaWYUb9bwRVh4yeR7Ed8YYSrP8+o6aYs4RslU=; b=XCHWkfWPog5oVM
+	lw+JD1vwtYrEv8rFThcMro2z5jYmehhkfzmAeNYUxYR8UAfO3Vr8s59FwXI99olU7e1fIFrN6rRtj
+	dcUDaGwp+3Ssc9NOIrm3f8lhPr7x12chNyrwAruW5RVRnsaVY/+Z61r5xjr2hiOD6JC2a1IhnB3+2
+	b4X3Q4u0bw9n2OTxPXAfy9b1eu/ET9R3NF6Uc+nWEc9JsE3nj1vm3gQXqpUlPl03XIrF6BNXJUjX0
+	F2x9ZpOivoKJgVACu7LDfxKUDbnJovAWgtbmL2OHJRuH/qVMtuHNRrFZySACL/pGzNZBspZy3zkOc
+	fvYKuBGbVejSuUu37ZYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mV94B-006SXT-3j; Tue, 28 Sep 2021 09:06:23 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1mV95y-006TC9-51; Tue, 28 Sep 2021 09:08:14 +0000
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mV8pD-006LWt-A5
- for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 08:50:57 +0000
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HJY5R6Qb2zbmsJ;
- Tue, 28 Sep 2021 16:46:35 +0800 (CST)
+ id 1mV8pH-006LYt-So
+ for linux-nvme@lists.infradead.org; Tue, 28 Sep 2021 08:51:01 +0000
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HJY8z1l2dz1DHNb;
+ Tue, 28 Sep 2021 16:49:39 +0800 (CST)
 Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 28 Sep 2021 16:50:51 +0800
+ 15.1.2308.8; Tue, 28 Sep 2021 16:50:52 +0800
 Received: from huawei.com (10.169.63.14) by dggpeml500006.china.huawei.com
  (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 28 Sep
@@ -46,9 +46,9 @@ From: chengjike <chengjike.cheng@huawei.com>
 To: <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, 
  <chaitanyak@nvidia.com>
 CC: <sunao.sun@huawei.com>, <jiangtao62@huawei.com>
-Subject: [PATCH V3 nvme-cli 1/2] initialize disk "access" variable
-Date: Tue, 28 Sep 2021 16:50:49 +0800
-Message-ID: <20210928085050.4141-2-chengjike.cheng@huawei.com>
+Subject: [PATCH V3 nvme-cli 2/2] add "Path Access" entry in command output
+Date: Tue, 28 Sep 2021 16:50:50 +0800
+Message-ID: <20210928085050.4141-3-chengjike.cheng@huawei.com>
 X-Mailer: git-send-email 2.24.0.windows.2
 In-Reply-To: <20210928085050.4141-1-chengjike.cheng@huawei.com>
 References: <20210928085050.4141-1-chengjike.cheng@huawei.com>
@@ -58,8 +58,9 @@ X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpeml500006.china.huawei.com (7.185.36.76)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210928_015055_746631_8A0FB676 
-X-CRM114-Status: GOOD (  16.35  )
+X-CRM114-CacheID: sfid-20210928_015100_321985_0487D4C3 
+X-CRM114-Status: UNSURE (   7.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,151 +77,70 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-(This is a prep patch, which provides functions for the next "patch 2/2")
-When it is failed to get nvme_id_ns data from NVMe Subsystem.
-Then the "access" of disk is set to "faulty"(otherwise, set the value to "live").
-Some displaying content of fault device can be obtained from the disk attribute files.
-In addition, external function "nvme_ns_get_access" is added,
-which will be used in the next patch.
+When users run commands such as nvme list, nvme list -o json, nvme list -v -o json,
+the "Path Access" entry of each disk is displayed.
 
 Signed-off-by: chengjike <chengjike.cheng@huawei.com>
 ---
- src/nvme/private.h |  1 +
- src/nvme/tree.c    | 54 +++++++++++++++++++++++++++++++++++++++++-----
- src/nvme/tree.h    | 11 ++++++++++
- 3 files changed, 61 insertions(+), 5 deletions(-)
+ nvme-print.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/src/nvme/private.h b/src/nvme/private.h
-index 2a151bf..255c1b1 100644
---- a/src/nvme/private.h
-+++ b/src/nvme/private.h
-@@ -37,6 +37,7 @@ struct nvme_ns {
- 	__u32 nsid;
- 	char *name;
- 	char *sysfs_dir;
-+	char *access;
+diff --git a/nvme-print.c b/nvme-print.c
+index 7bb34cd..47c2070 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -5649,10 +5649,10 @@ static void nvme_show_list_item(nvme_ns_t n)
+ 	snprintf(format, sizeof(format), "%3.0f %2sB + %2d B", (double)lba,
+ 		l_suffix, nvme_ns_get_meta_size(n));
  
- 	int lba_shift;
- 	int lba_size;
-diff --git a/src/nvme/tree.c b/src/nvme/tree.c
-index 293b0c0..04d92c9 100644
---- a/src/nvme/tree.c
-+++ b/src/nvme/tree.c
-@@ -229,9 +229,11 @@ nvme_ns_t nvme_subsystem_next_ns(nvme_subsystem_t s, nvme_ns_t n)
- static void __nvme_free_ns(struct nvme_ns *n)
- {
- 	list_del_init(&n->entry);
--	close(n->fd);
-+	if (n->fd > 0)
-+		close(n->fd);
- 	free(n->name);
- 	free(n->sysfs_dir);
-+	free(n->access);
- 	free(n);
+-	printf("%-21s %-20s %-40s %-9d %-26s %-16s %-8s\n",
++	printf("%-21s %-20s %-40s %-9d %-26s %-16s %-8s %-12s\n",
+ 		nvme_ns_get_name(n), nvme_ns_get_serial(n),
+ 		nvme_ns_get_model(n), nvme_ns_get_nsid(n), usage, format,
+-		nvme_ns_get_firmware(n));
++		nvme_ns_get_firmware(n), nvme_ns_get_access(n));
  }
  
-@@ -1023,9 +1025,6 @@ static int nvme_configure_ctrl(nvme_ctrl_t c, const char *path,
- 	closedir(d);
+ static void nvme_show_simple_list(nvme_root_t r)
+@@ -5662,10 +5662,10 @@ static void nvme_show_simple_list(nvme_root_t r)
+ 	nvme_ctrl_t c;
+ 	nvme_ns_t n;
  
- 	c->fd = nvme_open(name);
--	if (c->fd < 0)
--		return c->fd;
--
- 	c->name = strdup(name);
- 	c->sysfs_dir = (char *)path;
- 	c->firmware = nvme_get_ctrl_attr(c, "firmware_rev");
-@@ -1277,6 +1276,11 @@ const char *nvme_ns_get_name(nvme_ns_t n)
- 	return n->name;
+-	printf("%-21s %-20s %-40s %-9s %-26s %-16s %-8s\n",
+-	    "Node", "SN", "Model", "Namespace", "Usage", "Format", "FW Rev");
+-	printf("%-.21s %-.20s %-.40s %-.9s %-.26s %-.16s %-.8s\n", dash, dash,
+-		dash, dash, dash, dash, dash);
++	printf("%-21s %-20s %-40s %-9s %-26s %-16s %-8s %-12s\n",
++	    "Node", "SN", "Model", "Namespace", "Usage", "Format", "FW Rev", "Path Access");
++	printf("%-.21s %-.20s %-.40s %-.9s %-.26s %-.16s %-.8s %-.12s\n", dash, dash,
++		dash, dash, dash, dash, dash, dash);
+ 
+ 	nvme_for_each_host(r, h) {
+ 		nvme_for_each_subsystem(h, s) {
+@@ -5841,6 +5841,7 @@ static void json_detail_list(nvme_root_t r)
+ 					json_object_add_value_int(jns, "maxlba", nvme_ns_get_lba_count(n));
+ 					json_object_add_value_int(jns, "capacity", nsze);
+ 					json_object_add_value_int(jns, "sector", lba);
++					json_object_add_value_string(jns, "path access", nvme_ns_get_access(n));
+ 
+ 					json_array_add_value_object(jnss, jns);
+ 				}
+@@ -5873,6 +5874,7 @@ static void json_detail_list(nvme_root_t r)
+ 				json_object_add_value_int(jns, "maxlba", nvme_ns_get_lba_count(n));
+ 				json_object_add_value_int(jns, "capacity", nsze);
+ 				json_object_add_value_int(jns, "sector", lba);
++				json_object_add_value_string(jns, "path access", nvme_ns_get_access(n));
+ 
+ 				json_array_add_value_object(jnss, jns);
+ 			}
+@@ -5907,6 +5909,7 @@ static struct json_object *json_list_item(nvme_ns_t n)
+ 	json_object_add_value_int(jdevice, "maxlba", nvme_ns_get_lba_count(n));
+ 	json_object_add_value_int(jdevice, "capacity", nsze);
+ 	json_object_add_value_int(jdevice, "sector", lba);
++	json_object_add_value_string(jdevice, "path access", nvme_ns_get_access(n));
+ 
+ 	return jdevice;
  }
- 
-+const char *nvme_ns_get_access(nvme_ns_t n)
-+{
-+	return n->access;
-+}
-+
- const char *nvme_ns_get_model(nvme_ns_t n)
- {
- 	return n->c ? n->c->model : n->s->model;
-@@ -1515,6 +1519,34 @@ free_ns:
- 	return NULL;
- }
- 
-+static nvme_ns_t nvme_ns_get_local_data(const char *name, const char *path)
-+{
-+	struct nvme_ns *n;
-+	char *ns_id;
-+
-+	n = calloc(1, sizeof(*n));
-+	if (!n) {
-+		errno = ENOMEM;
-+		return NULL;
-+	}
-+
-+	n->name = strdup(name);
-+	n->fd = -1;
-+	ns_id = nvme_get_attr(path, "nsid");
-+	if (!ns_id) {
-+		free(n->name);
-+		free(n);
-+		return NULL;
-+	}
-+	n->nsid = atoi(ns_id);
-+	free(ns_id);
-+
-+	list_head_init(&n->paths);
-+	list_node_init(&n->entry);
-+
-+	return n;
-+}
-+
- static struct nvme_ns *__nvme_scan_namespace(const char *sysfs_dir, const char *name)
- {
- 	struct nvme_ns *n;
-@@ -1528,9 +1560,21 @@ static struct nvme_ns *__nvme_scan_namespace(const char *sysfs_dir, const char *
- 	}
- 
- 	n = nvme_ns_open(name);
--	if (!n)
-+	if (!n) {
-+		n = nvme_ns_get_local_data(name, path);
-+		if (!n)
-+			goto free_path;
-+		ret = asprintf(&n->access, "%s", "faulty");
-+		if (ret < 0) 
-+			goto free_path;
-+ 		goto get_attr;
-+	}
-+
-+	ret = asprintf(&n->access, "%s", "live");
-+	if (ret < 0) 
- 		goto free_path;
- 
-+get_attr:
- 	n->sysfs_dir = path;
- 	return n;
- 
-diff --git a/src/nvme/tree.h b/src/nvme/tree.h
-index 68f5cbf..82895bd 100644
---- a/src/nvme/tree.h
-+++ b/src/nvme/tree.h
-@@ -452,6 +452,17 @@ const char *nvme_ns_get_sysfs_dir(nvme_ns_t n);
-  */
- const char *nvme_ns_get_name(nvme_ns_t n);
- 
-+/**
-+ * nvme_ns_get_access() - 
-+ * @n: Address of the nvme namespace structure
-+ *
-+ * Get the access status of the nvme namespace
-+ *
-+ * Return: The 'access' field from 'nvme_ns'(for normal namespace, 
-+ * 'live' is returned; for inaccessible namespace, 'faulty' is returned). 
-+ */
-+const char *nvme_ns_get_access(nvme_ns_t n);
-+
- /**
-  * nvme_ns_get_firmware() -
-  * @n:
 -- 
 2.21.0.windows.1
 
