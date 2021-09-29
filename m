@@ -2,14 +2,14 @@ Return-Path: <SRS0=HFDN=OT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E86C0C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Sep 2021 23:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 388BAC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Sep 2021 23:22:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A926361440
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Sep 2021 23:06:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A926361440
+	by mail.kernel.org (Postfix) with ESMTPS id E386B611C3
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Sep 2021 23:22:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E386B611C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,56 +18,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=yNoFxApsNg2hOxlU2fLPD8XCESvSuvyPkaIMa1PCU6M=; b=1ouID1c4NbJGSd
-	BinMzB+Ihss3BFWga9QP0Vx0C4T9dwmzO5sNx/L0PuiaDzXa3thQKz4vCuF+k2YnfzpPN4cNFB+2u
-	Qi5HpMlX5fuTaq92vAq5QMJf9AZL2JAvCUEfogJwAca8kQLvgcQsaaHz2tZgNsVg3Xil2/txzfZ1P
-	JOszmLskizId9tbA4++yv2Eqg+MrLhyz+eUjY0BW4fyCCEL0bUtCr6WJLvXvj78K19SAhRwGsbE8h
-	RUHXI1VciaIAfMqe9uWZKIiFeRah+5MVdBDY29/X+qXj3aMNHEZpcSDsKqsNtxArjUTgdQLOmQ3CG
-	7yDFijrbZZ8AdQ38govA==;
+	List-Owner; bh=XGVWc7ug/JduSM2z+nsUNfrQ4tIuIdpGkp3MB8DO+u4=; b=em55a1lkf1Gyia
+	16FW/EWjFr1Xgkzb3fcn3VhRllEwwgv64bqZE6bMsghLh4YvF0Qm0sqinEzyPSUTyXiDXxczhApQm
+	VLZ/Q7uibNL7zHYfEn+Rc0k1CK8FYVbofGXtYlxoTxZkZjGdFVhrb1uWsGHT/Is6aH5STv+mK4QKm
+	rkGfy0X6YubohUA6SzisiwGDhmY7rNltxjofbToZo143U54kXgBUh+jdtlQ7f/naiBiXvbHHH7Wte
+	ETBYGVtRruJznTn9DRsRGRFm1O/DpEtCYZHRICHxhcSE3t7p6NeFBH1keEM7pU7ZV1xgjFN4iIxqt
+	cChEXTqXr+DHlMKb9yAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVie5-00CZR6-Fe; Wed, 29 Sep 2021 23:05:49 +0000
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
+	id 1mVitx-00CaaN-9x; Wed, 29 Sep 2021 23:22:13 +0000
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVie2-00CZPM-IW
- for linux-nvme@lists.infradead.org; Wed, 29 Sep 2021 23:05:47 +0000
-Received: by mail-qt1-x831.google.com with SMTP id e16so3957194qts.4
- for <linux-nvme@lists.infradead.org>; Wed, 29 Sep 2021 16:05:45 -0700 (PDT)
+ id 1mVitZ-00CaZS-Tz
+ for linux-nvme@lists.infradead.org; Wed, 29 Sep 2021 23:21:51 +0000
+Received: by mail-qk1-x72c.google.com with SMTP id f130so4030994qke.6
+ for <linux-nvme@lists.infradead.org>; Wed, 29 Sep 2021 16:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Rb14cjSJqqt1iOg7v1WUt5AVmuRSH7cZOE8ujwxMcMg=;
- b=DIaskCn5WR5tA6jhdOqyO4JGz4+XatRitSbJTb+kmIqDsCr01GjZ0p3lPuKzblpDJT
- zhfIKMKyyPJmhP4fwKW9s1DOIPeWnXpgnGWww2ZsqZXMAXwagCxFkdbr/ZZNpdbvhNz6
- yhMxNtaJ4799pZOw9yof96R6NI1pis1TXcHgXiz2OGYJ2JTRjUBWxNfY9Bnx4SBlBLHZ
- NOkoZJeyzIFho5nhxKuuBqHTm7LkOuC/VLVY0i+EnUBy4CEUt/GqO7FcsIRDEUISOa/r
- ebsfSg+Kyd8gPXIldmrnVbOFPyE5xD126E/0FnMFaQl4NuKh0l+VCCKdHBolF0rJnHvM
- E9AA==
+ bh=1Hmlahc/i9658U3YzBDCjabD8lk1Mv+/ZOzt2omk2Ho=;
+ b=SJtWHdnGo9L4mdll+qKaZsmtvpn7ds7Jqf9UErLrQmOsqRP3sxU8o3aw5o2MvhL5Mj
+ lM03toh8ImPud8H7vh/AGGkl+3vURvGKxRBh5yeP3iqYJ3RXD4HkzTzjBF6Mgc3CyYL4
+ NPwaDU2c+i54bQ4atNBSa63XnbDUvexvPwjoCQkmNEdCUAl1T+QvgnRV98lCDddMEe7S
+ LVFALRCv3M02kPjD9ocMpxen45b3XXJIbEyj72HfycWLiBpEdaWRxZc5TzgjO4IW95ia
+ 6tYGEjCfhjevDUh3QKMgzT1YEh/Dp9tLfgFk0cHBocInRv2rBNOuuogJ3/Vn3OANJNLH
+ kWlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Rb14cjSJqqt1iOg7v1WUt5AVmuRSH7cZOE8ujwxMcMg=;
- b=uOCplKgii4rpciNqCvtk/BtPK80TvsGhJIY0E8ld/mr1WUZXAgpasoJ5j/3pbI2+6p
- +82QBOxYo1ltO/5hqjhu/qij1TGJ8415EseER1QMpSWWa8NgTq4xKcWgRvkjIEkvtcBc
- qDeFBrSrIvo+s9mKFqiFiGTsdcD+7176quLZ5tvuc44M6VhHjm8ONP4+1t4pgYcH5Dpn
- kktKyFLPiw2GAZH1jORzrcxQyirBFIY6Zgz9uV2oxYM88HmmrqpniCgb1AxQ8gwJ+oTH
- xx7xUlcYRy/hG1Sr+ppBA5Fzo2Re2wAcVZe4rhxtf9HSLHQzNboYk7Us7anVVoSonxRe
- O3Bg==
-X-Gm-Message-State: AOAM533ojPHXQoiws50fNP65+L+vL0k0RWVCw/gmtJxhtsMvU7/FI0dt
- 6NaC3cfW0QD/SuwPk9qcjiCerg==
-X-Google-Smtp-Source: ABdhPJyapID+TUOl/mUzGMXiMJpXeNaxe+8Z2o/bunUXmIm+EzT4IvoM8B4R+kDDMjzs5lMTxyRE3w==
-X-Received: by 2002:ac8:7613:: with SMTP id t19mr2882513qtq.365.1632956745011; 
- Wed, 29 Sep 2021 16:05:45 -0700 (PDT)
+ bh=1Hmlahc/i9658U3YzBDCjabD8lk1Mv+/ZOzt2omk2Ho=;
+ b=WFGrIROvStRxt1pKpiqer123cM3cUOHClq+YE1VU3+IaBykeSYHIyP9LLrfkyeT6qv
+ +9X9oNG3xOTj+ZiBTDOdOzb5ytRjhXLbYgNMEa2gsrbYT9gQA43/Su8hv8KPX3f0ZMb6
+ DTG4aNE+zak0a5E6IBdrUE1HY7qJH61vTw7cLDbvD1ZknFOUF1at8x59ROsD95CMKUYU
+ qxrhZGav5Zx5TG3WelhnpFzFPEgX+FGnpZ13zo8Su+q3JLk4Qfm1BvVR+4wZGa8f2CSJ
+ ANCgOkffGSVvv2YSjqpSY+8rbHu6tlkLwQxdZ9fumJuEmMiQXAtI+HC6/PKcIMoRsbsE
+ +5gA==
+X-Gm-Message-State: AOAM533S628J0vpTer2061jY3e+h+mC45/fqUQseEumSWhZwa5uj6CPP
+ 5EN6RYp15UJKg9UUcvMSe/5AZg==
+X-Google-Smtp-Source: ABdhPJxjfksXX9RBzjsealxa+5cO5Ph50HuUSNxxHRV+6R5kI7btDIJAlC0cqyNxWaWuBVsQ1jP8wA==
+X-Received: by 2002:a37:b386:: with SMTP id c128mr2193672qkf.426.1632957708587; 
+ Wed, 29 Sep 2021 16:21:48 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id h4sm645980qtj.83.2021.09.29.16.05.44
+ by smtp.gmail.com with ESMTPSA id x3sm631017qkl.107.2021.09.29.16.21.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 16:05:44 -0700 (PDT)
+ Wed, 29 Sep 2021 16:21:48 -0700 (PDT)
 Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVidz-007iU5-Sx; Wed, 29 Sep 2021 20:05:43 -0300
-Date: Wed, 29 Sep 2021 20:05:43 -0300
+ id 1mVitX-007ii8-Gm; Wed, 29 Sep 2021 20:21:47 -0300
+Date: Wed, 29 Sep 2021 20:21:47 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Logan Gunthorpe <logang@deltatee.com>
 Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -88,18 +88,17 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Robin Murphy <robin.murphy@arm.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
-Message-ID: <20210929230543.GB3544071@ziepe.ca>
+Subject: Re: [PATCH v3 00/20] Userspace P2PDMA with O_DIRECT NVMe devices
+Message-ID: <20210929232147.GD3544071@ziepe.ca>
 References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-20-logang@deltatee.com>
- <20210928195518.GV3544071@ziepe.ca>
- <8d386273-c721-c919-9749-fc0a7dc1ed8b@deltatee.com>
+ <20210928200216.GW3544071@ziepe.ca>
+ <06d75fcb-ce8b-30a5-db36-b6c108460d3d@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8d386273-c721-c919-9749-fc0a7dc1ed8b@deltatee.com>
+In-Reply-To: <06d75fcb-ce8b-30a5-db36-b6c108460d3d@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210929_160546_638489_3AB0FBC2 
-X-CRM114-Status: GOOD (  16.40  )
+X-CRM114-CacheID: sfid-20210929_162149_996246_76F0AFD3 
+X-CRM114-Status: GOOD (  21.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,36 +115,37 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 29, 2021 at 03:42:00PM -0600, Logan Gunthorpe wrote:
+On Wed, Sep 29, 2021 at 03:50:02PM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 2021-09-28 2:02 p.m., Jason Gunthorpe wrote:
+> > On Thu, Sep 16, 2021 at 05:40:40PM -0600, Logan Gunthorpe wrote:
+> >> Hi,
+> >>
+> >> This patchset continues my work to add userspace P2PDMA access using
+> >> O_DIRECT NVMe devices. My last posting[1] just included the first 13
+> >> patches in this series, but the early P2PDMA cleanup and map_sg error
+> >> changes from that series have been merged into v5.15-rc1. To address
+> >> concerns that that series did not add any new functionality, I've added
+> >> back the userspcae functionality from the original RFC[2] (but improved
+> >> based on the original feedback).
+> > 
+> > I really think this is the best series yet, it really looks nice
+> > overall. I know the sg flag was a bit of a debate at the start, but it
+> > serves an undeniable purpose and the resulting standard DMA APIs 'just
+> > working' is really clean.
+> 
+> Actually, so far, nobody has said anything negative about using the SG flag.
+> 
+> > There is more possible here, we could also pass the new GUP flag in the
+> > ib_umem code..
+> 
+> Yes, that would be very useful.
 
-> The main reason is probably this: if we don't use VM_MIXEDMAP, then we
-> can't set pte_devmap(). 
-
-I think that is an API limitation in the fault routines..
-
-finish_fault() should set the pte_devmap - eg by passing the
-PFN_DEV|PFN_MAP somehow through the vma->vm_page_prot to mk_pte() or
-otherwise signaling do_set_pte() that it should set those PTE bits
-when it creates the entry.
-
-(or there should be a vmf_* helper for this special case, but using
-the vmf->page seems righter to me)
-
-> If we don't set pte_devmap(), then every single page that GUP
-> processes needs to check if it's a ZONE_DEVICE page and also if it's
-> a P2PDMA page (thus dereferencing pgmap) in order to satisfy the
-> requirements of FOLL_PCI_P2PDMA.
-
-Definately not suggesting not to set pte_devmap(), only that
-VM_MIXEDMAP should not be set on VMAs that only contain struct
-pages. That is an abuse of what it is intended for.
-
-At the very least there should be a big comment above the usage
-explaining that this is just working around a limitation in
-finish_fault() where it cannot set the PFN_DEV|PFN_MAP bits today.
+You might actually prefer to do that then the bio changes to get the
+infrastructur merged as it seems less "core"
 
 Jason
-
 
 _______________________________________________
 Linux-nvme mailing list
