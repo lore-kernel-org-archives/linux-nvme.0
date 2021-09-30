@@ -2,81 +2,98 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB62C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 14:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 850E2C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 14:57:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D893619F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 14:08:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9D893619F5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 3FEBC6128E
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 14:57:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3FEBC6128E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=hotmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Hf+fqArwTwEDxc3ZOUcv5uKJSa121J0YV5U43bUq9nM=; b=3ehK0MgoJswCpP65G0hWIZojfY
-	UXrK1H8KeqMHimOE15BlTPmKnDyFemgddw730EtUBlRO1rHXwdhxkeGZFp8Z26J6z2x8jsFJGSIOi
-	Fe7FNMvJSLYVQQWWY+ROLYrC+5EpqIhbZk555Dt8F8Ep13DTU+o+LA3E8xPj+/no4EQTGOmNZNmur
-	mtas/dvTk3heyIQGMpBC4/8SoQB2TV8pvld9Gw+qA5HKY45SDLcn1ixzJ/begychPoJLdvX16en/E
-	fi+ArGnPSAelSWffRisLrsg7xcACvkXkFQDlBekICsU4oBJtZOz3iWjnudsP87wrvPDvZeNYIjMZa
-	CnCk4dJw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=x/+8o/5hV2HnTwxpMtOakBf0dLEUFxC8Blhpm2R6oQ0=; b=TRkVBf7igzy61T
+	b9xA7JcHevF45ByOjMjwhRnEgGiaUgepQuTotPW1t6zLJqo6yPNMjuzPHFK/x3lg+e05AQohxQbO3
+	bhpLIRLUviwAcuLMX2bpDZp0CIEi02Ifid9V5Rql26D8OmHkC6+SRf75PPTctda27UAu+TtSoM9Uq
+	2M+AcZFfHz0KSUIIUi4bRRsG9ZUBXrt1RtGnM7ra+OTcgUcwO+5ziwwid5WTK9q5ay9Qn84mDFcL/
+	an4HG50dWEKrG+mxtrZ/kJmNh+Zn0bfGCcmWp6qvM3wykl0Y+/TNMFGmyXGoJvuowqdBJQynoqssf
+	hjFA9BRxddCiJFFLhE6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVwjG-00Ee7G-GG; Thu, 30 Sep 2021 14:08:06 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
+	id 1mVxUt-00Erhn-Az; Thu, 30 Sep 2021 14:57:19 +0000
+Received: from mail-mw2nam08olkn2090.outbound.protection.outlook.com
+ ([40.92.46.90] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVwjE-00Ee3b-DL
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 14:08:05 +0000
-Received: by mail-wm1-f48.google.com with SMTP id v127so4764624wme.5
- for <linux-nvme@lists.infradead.org>; Thu, 30 Sep 2021 07:07:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MH2AjkC1f+wfQFUwN+uYijRUSXhG1GjCKaamXrLeRx8=;
- b=7E+RxviNKXxRCeWK+blGSDNTRnWWmbhRTlZ2mO/xBx9KaGjD5T7TImceZ7aKLiz+C7
- CHC/erDu43yNkcLcQe2+H81ElvEcBJ+jnopqnFGVVxcWBiOKg+pagwueO83pyO1GpInU
- 4bdP1eOxu7cOVcPd5IM4H50iHmdtq64TR8bxDVM1WCymy5Yf4EcP8Zjsd4dG/CJ06jFQ
- G1+XRP5nyFx1tPlOz5d7p8YqyABTEMAcqRer9DD2AcvRVCkzZhbEp8IgY8Bylt6TKQqo
- +X1jme/sYdHjRXL2PS69S5m8dZmg0gYzW/rYgZmnBrBgvLesAtFmcNRMNz5VlNB0l+qy
- U0Ow==
-X-Gm-Message-State: AOAM530rlkBDbow1R6VNFwntVYkIGGctCBrryCRgCNNm3/jrulDlHALw
- 8ktiUEyveNs5ljs+aDiog0L861u0rsQ=
-X-Google-Smtp-Source: ABdhPJxye+QGZRp8QC4xmd9cmbxpYjlHhjdhucVuh1GVTZZSum+0SnKWvN3QFAVRAV/s7DQu0cOoXg==
-X-Received: by 2002:a05:600c:3585:: with SMTP id
- p5mr16345799wmq.110.1633010860134; 
- Thu, 30 Sep 2021 07:07:40 -0700 (PDT)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id h18sm3061549wrs.75.2021.09.30.07.07.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Sep 2021 07:07:39 -0700 (PDT)
-Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
-To: Yi Zhang <yi.zhang@redhat.com>, minwoo.im.dev@gmail.com
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
- <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
- <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
- <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
- <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
- <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <1b992460-26a6-cff6-bee4-b81ac28e93f5@grimberg.me>
-Date: Thu, 30 Sep 2021 17:07:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ id 1mVxUq-00Ergf-RD
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 14:57:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C3842UvEkrqamVwKULIvbBRFI9+ih1JN3TI3WDCej+IP89W+J2C0nStkqmZPaj+DNc0GROySjcr6dwtWR/wCgkNR6wjncstu9nR/LtX6ksAHSagp0RJGWlhqc8xcPg4n4MsVa7uul9ZrFVl6sYjmk0f5Sa0lVgGCQDdKOsAcBxvbaSG8bvzdiuIMWUr8CJPqKOAxBhTZq2s7Bq0WMEHJuEcfOJ+z0fumTRlv2XnHm5CCkj6PK4vcykiPvJA23PYXnigN7jFtJrsMesciDktv8x+5uOjzmpoL3IkTeOaQtSDEFj1hMmtUzdCYlqmxnJPbwCNb7oQjogis7kW5xeOi0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AUkNWJPq3OA6RH4a/aSP70+QLGjMKfO4onaOxWh4Y1s=;
+ b=OCdacNSXUVSaXG0+tt8G4rcKEeKa0qX9MXrUsjaTPTyBr9sek/bTIb1E+bKE08UFY4zQ71xQH69gGgcR52SgC2wQXxtyiC6tMBM7vnLkaZlbc9WV7OTszAbmRHkRFohE6y0RTlZczVeHi/3iBkdpXp3rESXqukI5cMxL68yq+ZOrI51D5I/oXEiCNB+3bGMHSKi+AEZ0Y4gYZCsU/s3Cy4qw1qbWrzzKHL+KmknAxqx87WOHLfRLH/IfCiI++dLtysPGfWl+AVSEm9ndrXjRW56a+KV/KvofCoRPAwX4MFt9+Rl8PeqoBpRXl0FPr5vpZvtnjsOclP0bVLooG/B5Gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AUkNWJPq3OA6RH4a/aSP70+QLGjMKfO4onaOxWh4Y1s=;
+ b=Ht1L1RIMTdkGCNmhdTrAtA86tohz/LV+UIAiaXJB3Pa+GiUyDoR6hWrALvkMNTzhUcc9kYhPxe+R0UIeyE/xKhqnFEy4QxUBjrfM+bGK/9FxFnVkXVCCN4Q5/ESkne8QglwK59X7UsZEmZQM1Ii9bcurpaC65C1Q1bBz6Tlh/S7N3XhD97qV4Iia8rNZzCWEQkXoSWixOObUDKO43noXmvt88ki2lzf0EGhj91rpqVYOUZaprw9k4z0frGrxxUU8pPbsdrpiv2SQf/MMwacPpYDEREKBhCuRBYdF6fWfgZXoPKFcbWQiRRRekRpYzxaP0BSdv+4itPnoHe9ur24mRQ==
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
+ by MN2PR13MB4366.namprd13.prod.outlook.com (2603:10b6:208:a4::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.9; Thu, 30 Sep
+ 2021 14:57:12 +0000
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::b504:e6a9:7b77:e348]) by BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::b504:e6a9:7b77:e348%7]) with mapi id 15.20.4587.009; Thu, 30 Sep 2021
+ 14:57:12 +0000
+From: Martin Belanger <nitram_67@hotmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ Martin Belanger <martin.belanger@dell.com>
+Subject: [PATCH] nvme-fabrics: Use shutdown timeout on disconnect
+Date: Thu, 30 Sep 2021 10:56:34 -0400
+Message-ID: <BL0PR13MB42919DA26E7A75E9219F62DF9CAA9@BL0PR13MB4291.namprd13.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [sULMYKa+8b1yr/ws1iG8ZfQvJALU2rcl]
+X-ClientProxiedBy: BL1PR13CA0090.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::35) To BL0PR13MB4291.namprd13.prod.outlook.com
+ (2603:10b6:208:8e::12)
+X-Microsoft-Original-Message-ID: <20210930145634.30816-1-nitram_67@hotmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (71.217.156.225) by
+ BL1PR13CA0090.namprd13.prod.outlook.com (2603:10b6:208:2b8::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.9 via Frontend
+ Transport; Thu, 30 Sep 2021 14:57:11 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2084d27e-8fac-46cf-ae76-08d984229520
+X-MS-TrafficTypeDiagnostic: MN2PR13MB4366:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m7GshItyOkQkQUurzwHzjXnQKV9DM/lEDfO8D2cB2UV3HYoBvCtgvpCAj+G7mKKXGCx8qj9r0KIUqBVQVggBVcMK7S7uyFE5xWcqAsDMp7Lqdscd1Ux+mmlIS21h9vh4UTBbp23iS5IytUzn6REhjHhfkGn7TrvVi+yTVa8jyEmIwPABjHEWFs99w+jUIqzfONMqNCpBNqx0w/T/KEnEY+sw7kJkDqcHZe3Jv9hb3vsiJfMW0v6OqzFg3kwaYIkHppNOpb1zQCqaXeEUZ149AWuV9mzAKJXZAuQuT5pNtNsmh2lfPc7AgQQEvDDAWaled9xeQhXlZR+OI+WQO793hhgmxQpTqLobC7CItXrpz8UG+6dWUaG+F0rUYA3s2cak8amJ/9dHCgvpCVrnLW3bMuyVtRvIU8JzjF4pYvdzd3arwvmiHmcionOcVjeg4CUC
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 5RAAxGWzp9qQUnAlQ6q08vEXJPM5AG+ePuBu2jKa9s7kgqLwEyL/UeIgCd4xv8UpQvx1mSDauHM6calvwKWVpM9afTONwhnwT+LweVxKI9+kipfPQlODyTu8yr1sLDWp0DrWHEPaJbphOCj1Y15thQ==
+X-OriginatorOrg: sct-15-20-3174-8-msonline-outlook-32ef5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2084d27e-8fac-46cf-ae76-08d984229520
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2021 14:57:12.7360 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB4366
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_070804_488582_7F5CD2AD 
-X-CRM114-Status: GOOD (  12.07  )
+X-CRM114-CacheID: sfid-20210930_075717_037773_1787B843 
+X-CRM114-Status: GOOD (  18.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,40 +105,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Martin Belanger <martin.belanger@dell.com>
 
-> Bisect shows it was introduced from the below commit:
-> 
-> commit 2637baed78010eeaae274feb5b99ce90933fadfb
-> Author: Minwoo Im <minwoo.im.dev@gmail.com>
-> Date:   Wed Apr 21 16:45:04 2021 +0900
-> 
->      nvme: introduce generic per-namespace chardev
-> 
+Before disconnecting from a controller the driver may send commands
+such as setting the NVME_CC_SHN_NORMAL bit.
 
-Makes sense as both leaks relate to the nshead cdev...
+However, if the controller cannot be reached (e.g. network down),
+these commands will block for 1 minute, which is the default timeout
+for a write opration. We should not be waiting for this long when
+we're actually trying to disconnect.
 
-I think another put on the cdev_device is missing?
---
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1d103ae4afdf..328e314af199 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3668,6 +3668,7 @@ void nvme_cdev_del(struct cdev *cdev, struct 
-device *cdev_device)
-  {
-         cdev_device_del(cdev, cdev_device);
-         ida_simple_remove(&nvme_ns_chr_minor_ida, 
-MINOR(cdev_device->devt));
-+       put_device(cdev_device);
-  }
+The driver already specifies a shorter 5-second timeout to be used
+during shutdowns (ctrl->shutdown_timeout).
 
-  int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
---
+This patch checks the state of the controller before performing a
+write command, and if the state is NVME_CTRL_DELETING,
+NVME_CTRL_DELETING_NOIO, or NVME_CTRL_DEAD, the shorter timeout
+ctrl->shutdown_timeout is used instead of the default.
+
+Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+---
+ drivers/nvme/host/fabrics.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 668c6bb7a567..fa1ef8b5fd02 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -237,6 +237,19 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ {
+ 	struct nvme_command cmd = { };
+ 	int ret;
++	unsigned int timeout = 0;
++
++	/* Use shutdown timeout when the controller is being deleted */
++	switch (ctrl->state) {
++	case NVME_CTRL_DELETING:
++	case NVME_CTRL_DELETING_NOIO:
++	case NVME_CTRL_DEAD:
++		timeout = jiffies + (ctrl->shutdown_timeout * HZ);
++		break;
++	default:
++		timeout = 0;
++		break;
++	}
+ 
+ 	cmd.prop_set.opcode = nvme_fabrics_command;
+ 	cmd.prop_set.fctype = nvme_fabrics_type_property_set;
+@@ -244,8 +257,8 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 	cmd.prop_set.offset = cpu_to_le32(off);
+ 	cmd.prop_set.value = cpu_to_le64(val);
+ 
+-	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0, 0,
+-			NVME_QID_ANY, 0, 0);
++	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0,
++				     timeout, NVME_QID_ANY, 0, 0);
+ 	if (unlikely(ret))
+ 		dev_err(ctrl->device,
+ 			"Property Set error: %d, offset %#x\n",
+-- 
+2.31.1
+
 
 _______________________________________________
 Linux-nvme mailing list
