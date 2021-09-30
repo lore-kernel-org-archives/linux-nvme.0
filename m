@@ -2,108 +2,157 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDEFC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 00:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCAC9C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 04:48:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DFF7661288
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 00:37:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DFF7661288
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+	by mail.kernel.org (Postfix) with ESMTPS id 6108761267
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 04:48:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6108761267
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4eU1yR/4U7OsvZSRaZT9+WvtkhIKYduKZtwh+iRg+io=; b=ywdgcVppA9QMKS
-	9K3fDQGJARLAdYK5gCEWAsByveJFgkmPteicRU9CFv2QCmVWAgD/gYa0JpuJxxxJyJ9+oH54flXtQ
-	g9uxkABMNP/CRqxsVlYjw/9sQQCaZCVIpQhE24voGwQVWn1OaFe/xfClx5Sb1uONtfq2uw5fpFiDE
-	E9wl7mfouoj9FZtQXhnwuqzTYo58xAMx/mqmV3UGfp+0tgZEBT1GOZ/haC4ZPuoTjUIWB6ixoJgNQ
-	yWI9gYNKlh4fHgvnLgujxVLqKrWtghRUW7QLwSVU5I7tc28JhvOVnbZM3h9Az47dFbGM/Gd2WnMsK
-	YwGa28JDGb/MnEk55xlg==;
+	List-Owner; bh=9HD8OE8dsEXEbjvDcX+IJmd52IRs7pQ01QqsR+imMto=; b=rSVCmozbZ1mLnJ
+	hWth7Ho4jeN3PHldvc33OeyR8ASnH7JZk8Pxf2dH1FTpm8u6QVV/EH47a3Gigrp6SieXMBbn0Ds+k
+	tlprLCwGB7DuUaGsAYZMrPS67kwasW6NheSH6ML9vNXrdNX0sJPPQN/8VtjiLGxLJAx3VVau5GjYg
+	1KzdRV2nOM5Vy3fU9wHddVCj5/BRPMd2MDfxYuLHgHz0zDvIJP7PVy14aTeCpb1wsTHXxT7WVUASi
+	P7Oc4hYQ7qOuHRH+vBVXoMlUHwKHFN0smPh0dRngzZgByx8wqFz3qFluwzoSOjWDVKtZu0wJ6bF7y
+	tKeEnTHrcsRwVu790mMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVk4N-00CfqI-Ee; Thu, 30 Sep 2021 00:37:03 +0000
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
+	id 1mVnzH-00Cz3y-VE; Thu, 30 Sep 2021 04:48:04 +0000
+Received: from mail-dm6nam10on2043.outbound.protection.outlook.com
+ ([40.107.93.43] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVk4E-00CfpE-SB
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 00:36:56 +0000
-Received: by mail-qt1-x82b.google.com with SMTP id f15so4114362qtv.9
- for <linux-nvme@lists.infradead.org>; Wed, 29 Sep 2021 17:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BwrEOqITMVHTWeCijhMHSDgtGtdliHDBULe1zYCMads=;
- b=cnipXcpqu4R5bM9dgEXfQv8BOGJdXA84Z/vct47TAZsrhe6w/r9oUXvVRUGjrFVc9o
- 1pqzLcPWuKWB7IKDJ67GQ2rJ0XJHZa9rDepLeYkUUjlUxrxSVALpK00Eq0gEhv5XCimW
- sHs4w+N9g0alec3otIgld2+AWdRLOeWRpLw+d3vtzb9Y7LM/WjCoP1OCGXbI5oFH2wcA
- Od4IxfZeZh+ym8BbKDSyGmZFnDZ/c6eOX1Sg9JX8M/BMCZdpEJadR2DfQiZA22RjHFQD
- 9rTLu0GC5IGCqxQldXIJQ2vZ9a0iJRa0h0Mj+ZaME/saY1/RCbRN+q8xTUUHVWNi7uTT
- 2+YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BwrEOqITMVHTWeCijhMHSDgtGtdliHDBULe1zYCMads=;
- b=H8Ae2A6FC3paOSnrfk/+Zkd/WOqQEOhnl0sG/KqwBUBkXhSDP0Pzejyltl5czaO61a
- Bw1zAVJ4RXA/Nsox2ybEDABeNWmXR3nKyct6Y22y8qmnwyCKv8S2rAaat6WT/Fyg9H8q
- TnGEbY1VlqGHYRF2Qa9C5g5osAh1KAOKt5jMIa820uyOz8/7Q4aAXn4BC9XTQkB+XbrH
- DJAeAAmUwh93UTE+K3tWSwf8DY4vV3YekaLPdggHr8xBLgHq3wRPVFV1UR8B0/vbnjM3
- hS0Z2erHAFK4d1IKvoDXqE09BZFZhrNmXwL2Iy0sA8tu6h6cu6MEnNqgUbHU0IN3jQWq
- TFGQ==
-X-Gm-Message-State: AOAM533qrLGeH9oL4+8kS6NExOxpDQ86eHumKGd47ocQ+net6sltBAh+
- JqLLVunXP2iByOgpdNUHZgwKvg==
-X-Google-Smtp-Source: ABdhPJyC31MajIpVcurSSZ3nYCkO27psWnTuDsfNku/zaFdrDm/CS7iSRUZR5Bb8yV4im907u+gPsg==
-X-Received: by 2002:ac8:5ad5:: with SMTP id d21mr3421614qtd.345.1632962213405; 
- Wed, 29 Sep 2021 17:36:53 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id h4sm815147qtb.67.2021.09.29.17.36.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 17:36:52 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVk4C-007upE-BZ; Wed, 29 Sep 2021 21:36:52 -0300
-Date: Wed, 29 Sep 2021 21:36:52 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
-Message-ID: <20210930003652.GH3544071@ziepe.ca>
+ id 1mVnzF-00Cz3W-Ek
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 04:48:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IzxDVQCvderuY+pMqxRqmFLUPYRXBhdY/FOMUcSZ8EK/CUijQFeDi6rBvsG2VcOax9lYkWUGKWT2KoocqHp2IAWqdDLo5ogD1ghHbiitGk6qebPCgph6mtXJ0DcPrPjN5jRTZ+M3h/MshBaRRPo87mRH3XWSy5mleLnHx/VdtBbcf0YWgvszTJsv7rdTkbrw6nNz9FzaGMlYgzB/buhTWLnnlmjfhDYgGZrHGgPgr3KEIC+lcc9gHYdRV5Ntyc8XiPZvQCwFKmhZ08Z5rsCI1TNUuUaJZ5qE3gzdmKYt20yqQloZJuUgti+Q/+gmFY24N27QS8iWtSh/YDBh2Wo0qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=nvJySuV2yMR+6sLk06OC4u6J3kgcQAhUEB04+A3lX4U=;
+ b=muTMg/viLdP8INuzPTLVKpS2jdmRjpMEUjgQQTnzN2CNBqvCZ/B+TPgDLMxOG3WXU4xrUmSbUsAAPeDB41JopGoMLTZI9vy7Xwl+ogSZXahY/r0JtOT0+wGBLwSpIi14AeAJnWJFwAbU36FcRUDNpPhpcNxoqu7nH+1CfeX/mYihHpa/49KDAUCvuakOXX3y360MIRX++lr5ZsLF175mjwOW65ppGGfDLgpOFHwJRpRNWfQo8sMOX3dw3zbu7b6MBJsMTYSCW04r/ztqjorMMgyDb6O9RIZFZrHGfZ3MRrnrmbe/vgT04QUyFLt+E9Yh4YRdzrKu7PyNv8oqdshiUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nvJySuV2yMR+6sLk06OC4u6J3kgcQAhUEB04+A3lX4U=;
+ b=NWJbv7Q99Eo/1wdxbdEpbj5e5pzjpG1nesUOlB6fysA/xEV3aWpEwUg9F/4M21a029RoykGlvMTk893wce5vjh3DYvHybgl2IHBafbubI3kAObfASEVnBzfeMcOMWdkUd9OWVMjNZrVkJOJIn/PiCr7jriryTE0WL6nmkiN80gXhYULjTN4yvdO+EjQPLetFeeISS/61y4b4ygwj9Wa3L5YN5fexPphb4NE2MZswr3bPGxsx7jv0nX6h6g/49EswmU7tEkwfgHVseMtBDpI1r9DDhCoSQCWuPD443a7KJku2xq8BESAHjj0A/AOyqb2FvOk5vvVFO14ioiUsJJqbtQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MWHPR12MB1389.namprd12.prod.outlook.com (2603:10b6:300:13::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.21; Thu, 30 Sep
+ 2021 04:47:51 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::3db1:105d:2524:524]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::3db1:105d:2524:524%7]) with mapi id 15.20.4566.014; Thu, 30 Sep 2021
+ 04:47:51 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Logan Gunthorpe <logang@deltatee.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-pci@vger.kernel.org"
+ <linux-pci@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+CC: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>, Dan
+ Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, John Hubbard
+ <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>, Matthew Wilcox
+ <willy@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Jakowski
+ Andrzej <andrzej.jakowski@intel.com>, Minturn Dave B
+ <dave.b.minturn@intel.com>, Jason Ekstrand <jason@jlekstrand.net>, Dave
+ Hansen <dave.hansen@linux.intel.com>, Xiong Jianxin
+ <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny
+ <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>, Martin Oliveira
+ <martin.oliveira@eideticom.com>, Chaitanya Kulkarni
+ <ckulkarnilinux@gmail.com>
+Subject: Re: [PATCH v3 01/20] lib/scatterlist: add flag for indicating P2PDMA
+ segments in an SGL
+Thread-Topic: [PATCH v3 01/20] lib/scatterlist: add flag for indicating P2PDMA
+ segments in an SGL
+Thread-Index: AQHXq1RaC0AUk7ABDUmYF9Nk+3cp+Ku8FfsA
+Date: Thu, 30 Sep 2021 04:47:50 +0000
+Message-ID: <fa99b871-8753-7c3c-09f0-3fd7f610e664@nvidia.com>
 References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-20-logang@deltatee.com>
- <20210928195518.GV3544071@ziepe.ca>
- <8d386273-c721-c919-9749-fc0a7dc1ed8b@deltatee.com>
- <20210929230543.GB3544071@ziepe.ca>
- <32ce26d7-86e9-f8d5-f0cf-40497946efe9@deltatee.com>
- <20210929233540.GF3544071@ziepe.ca>
- <f9a83402-3d66-7437-ca47-77bac4108424@deltatee.com>
+ <20210916234100.122368-2-logang@deltatee.com>
+In-Reply-To: <20210916234100.122368-2-logang@deltatee.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+authentication-results: deltatee.com; dkim=none (message not signed)
+ header.d=none;deltatee.com; dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 954a709c-e90a-466d-a8ac-08d983cd756b
+x-ms-traffictypediagnostic: MWHPR12MB1389:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR12MB1389D7B7588428108DBD299FA3AA9@MWHPR12MB1389.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BOQvgjzA+kOSiMOacnHDuvVljXSwiEreGGj1o/Wd/V9LDVNof3OyWHGicHhxLKtMPMWTQHlOjnk+XsT24We9maER/fe9XYM2x0v7VjQiQrvn5yeuF8tDhshqRQMEJrd36coSaKwUkmb8QInYlp3AL5ALWeOJFlNCvra913OoiQlV+siyp/A0T5ayJTNazTlWIJrW1uPX8vvq9RgYabs9LC+OLwSDH6UB+GbQOJsWGlBl9793OW+4toV0AFHbORJqV1NHWiclEC67ntoNrV+vYn6RuBjUwTqIgtGfbLohq6mBuUlJXvqan/N2fhHg2hNqe+9QmEQKuSPOfYATstc6ApcNr3FTSav8JDV6HkFzLAgTpeWi+IijH2Md9iLJRjFkpmbdVbL9z+6wA5TIO3bIdKOqOCbwwNUYwYUkaanHMmdXyHN6sAuH3TBiDB8wTRTGjLwd13QaQDQSk7+V+YHvvytpkueX/hEEUfJvmLjKcjnfbBzzKs6fFwkZselqfWZ2ESc3S6lHYpxBZYrYCx17Vk/Kx5T6Tb+vOuq7Th6N/8AZsLdDsPR0cD5WGtvOnU54uqWsrJDxXiJgx/CSU5/nOJIRwHhwUMlNho9/fyvUnqXY0S6Qo7nXIjbBeueUTKvl9/JDpzhZldDdlwKXr6s6oxV1Zumtat+byl0GdE7CJBUy6evUIuwvbVTE1C/4CC70LbaU8LEzAYeQcpbOdUq8Re5v/AcSW5ZlxNgQI928grBhI+/uNFomIBRWXUzj3/cCrE82gXRWS4vTV1ImL2CSpw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66476007)(7416002)(38100700002)(2616005)(4744005)(76116006)(91956017)(4326008)(66446008)(71200400001)(54906003)(8676002)(110136005)(64756008)(66556008)(36756003)(8936002)(66946007)(26005)(38070700005)(316002)(6512007)(6486002)(86362001)(5660300002)(508600001)(186003)(31686004)(2906002)(122000001)(6506007)(31696002)(83380400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eEpaSmhUV1lJT0oxL01EdG9ybE93RmcvZDJVK0xNWGpWVjc3Nk40aTNkdjNW?=
+ =?utf-8?B?SUtvQzFrNDNGTjZzZGphZHBsQ2V5WHBsY1h0VytuVEwyNmJacHdnRnJXdDln?=
+ =?utf-8?B?aXFEd2NJNFJPcVFxYTZZSy85RXFJOGpWZnBmVjBEd3Zid0tOdUxtZE00WmpS?=
+ =?utf-8?B?ZStIQU8vRmVRdncvdStnQzFHaklaSk9hd0s1YSthMnpCRGk1ZDYxdWF3dDRN?=
+ =?utf-8?B?VkdsUmp4K3h1V0FwVW4vN3NWRE1BUlZpdkZJZnlKREpVK1VqbUxEbUhkOGI3?=
+ =?utf-8?B?ZTB4MThRNjA4bkZHTk9zNUZVWDMzQ3E3bTlmMFNEYktZbW42eGc4MnI2UDd4?=
+ =?utf-8?B?WWg1RC92Q3MxQmdKeUl3Z05ZK1BsWXR1Znp4YVJKUTloQjFxRFBYL2VRTEMy?=
+ =?utf-8?B?bnFnaUNKVEtSMnEzLzhKYmN1VGJoaXYrV1l0QkpPL0V6NHhEM3A5VWU5dkNQ?=
+ =?utf-8?B?ZFlJaElHRk41MHUrQ3VpRjkyNTl2b0tjV2RtODB0dGlxdVhQYUNhRTRKTEQ5?=
+ =?utf-8?B?aFhWOCs4dXdld2Q5Tm1zTzhqanBheDUxdDB0L2ZNNmtrTTllOXdranNzL255?=
+ =?utf-8?B?dlBncExJYis1SFZLWWl2cGIwRDBtbFlaSUhrQ0VOZDNIS004WTN1NWY4a21C?=
+ =?utf-8?B?UXpEeFVqUXZBMU5lV3RNdDdjZ09DTWtsRlVwaEtTdHhzUUxpeUJSRVZKRy93?=
+ =?utf-8?B?WGV4UHBPeWUxeWtkNlJBVTArNzJoQm1Odks4dGxXMFJ5TjRBbGlYenBxWGRz?=
+ =?utf-8?B?ZEF4S1R1L1FFS1FZUnhJVDljanFRb1pQd2dCb1g3VE1VMSt5RmNmT3JBRG1n?=
+ =?utf-8?B?UjIvclVscHFReUZzZjdzZ3JMNGtCY1RSMEU4cTJYT3QrbjZZMjVYeGl0OXBq?=
+ =?utf-8?B?dExXamo1Z2hubWUvcEpLUldPbi9CSWtmV0lRRVljVTdBYWFvdXNuK2YwQmk0?=
+ =?utf-8?B?WlUya0FzMTR1cEl4c2YrdmJZc0kwYVFpSzJyU045Zmc0UkpVSC82TExSWFBa?=
+ =?utf-8?B?WGVody9jMkJhSlF5MVc3RVRhTXJoMXlxRlg4Nmh2eW5hbW9PdDBlYWJNMUVi?=
+ =?utf-8?B?NTBKTk5hMzR5ODhtZzh0U2RyNUtYdk51RytNRXZoQksxOFM5OHFsQUVEKy8z?=
+ =?utf-8?B?QXBLeGRiSGNvaHM5SlM0UmVJRVN3Z0kwRzYwZEY4a0k5L01sL05uZ2N0bVo1?=
+ =?utf-8?B?TFhBdTRnYUJkZnZUcXllS3I3ZmFiQVZiSXNOOWJBWHFzbXhsdWI1WTk3SzFU?=
+ =?utf-8?B?eitOeTdYbXU1ZEo4aVFmMTl2d0hjMlNQaERvSXJ6bmcrMGJtaUFDa2Erd1E4?=
+ =?utf-8?B?MjEyd2JsbkU3bDB5d2F1QU9ZZzgyUFZBREpHM0MzRTRtVnJLdUVqbEVJc3Bx?=
+ =?utf-8?B?Y3dsSXNGQ1piNVlxQnFhUTZMR3hJU043MVhKdzJYd2RUNW5QQ2Y4VFkyUkFp?=
+ =?utf-8?B?Y1g4S3lyaEtqc1dycW9Sb1I4TmpCSkpVZVA3MHJ1TVZRQ3dKMnErZFFKY2Ev?=
+ =?utf-8?B?ZVhMM2lsWU42VUZmWVZtam1wTVZKY0FraHc1QnhIVk03UjBKckJwUWZDUXpP?=
+ =?utf-8?B?dXlkVU1WcEN1c0dpWnNUUS9VL1RGODlPbEM0L3RScnY5eVBhRjk2aytHVGpk?=
+ =?utf-8?B?SUtnMEQrc0FGVlZwZHRzKzd0THN3M3dlMVAwT1JBL3kzejh3Q0hpWDJ4V3J5?=
+ =?utf-8?B?WGF1UzRKbHB2VVp3WVh5VHMyT3ZwZ0hsQTFmMmpTWnlXcEZhMEI0cnZ4dXBE?=
+ =?utf-8?Q?HnvRdofIgYAyUb0k1A=3D?=
+Content-ID: <9F877ECCA712174780F499A29B92028B@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f9a83402-3d66-7437-ca47-77bac4108424@deltatee.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 954a709c-e90a-466d-a8ac-08d983cd756b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2021 04:47:50.9321 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +AKjejW7uEMlvUyufrutVH1+UcShjref4KkJS0/3NLPQ7BULvQIgiwWKHp6nBPsOcW/G7tcqas9XK/MmufT+3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1389
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210929_173655_239640_25556BA5 
-X-CRM114-Status: GOOD (  10.29  )
+X-CRM114-CacheID: sfid-20210929_214801_526624_CD1876A3 
+X-CRM114-Status: GOOD (  15.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,31 +169,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 29, 2021 at 05:49:36PM -0600, Logan Gunthorpe wrote:
+Logan,
 
-> Some of this seems out of date. Pretty sure the pages are not refcounted
-> with vmf_insert_mixed() and vmf_insert_mixed() is currently the only way
-> to use VM_MIXEDMAP mappings.
+> +/*
+> + * bit 2 is the third free bit in the page_link on 64bit systems which
+> + * is used by dma_unmap_sg() to determine if the dma_address is a PCI
+> + * bus address when doing P2PDMA.
+> + * Note: CONFIG_PCI_P2PDMA depends on CONFIG_64BIT because of this.
+> + */
+> +
+> +#ifdef CONFIG_PCI_P2PDMA
+> +#define SG_DMA_PCI_P2PDMA      0x04UL
+> +#else
+> +#define SG_DMA_PCI_P2PDMA      0x00UL
+> +#endif
+> +
+> +#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END | SG_DMA_PCI_P2PDMA)
+> +
 
-Hum.
+You are doing two things in one patch :-
+1. Introducing a new macro to replace the current macros.
+2. Adding a new member to those macros.
 
-vmf_insert_mixed() boils down to insert_pfn() which always sets the
-special bit, so vm_normal_page() returns NULL and thus the pages are
-not freed during zap.
+shouldn't this be split into two patches where you introduce a
+macro SG_PAGE_LINK_MASK (SG_CHAIN | SG_END) in prep patch and
+update the SF_PAGE_LINK_MASK with SG_DMA_PCI_P2PDMA with related
+code?
 
-So, if the pages are always special and not refcounted all the docs
-seem really out of date - or rather they describe the situation
-without the special bit, I think.
+OR
 
-Why would DAX want to do this in the first place?? This means the
-address space zap is much more important that just speeding up
-destruction, it is essential for correctness since the PTEs are not
-holding refcounts naturally...
+Is there a reason why it is not split ?
 
-Sigh.
-
-Jason
-
+-ck
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
