@@ -2,14 +2,14 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 197C3C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 16:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C07C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 16:52:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CEA9361527
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 16:50:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CEA9361527
+	by mail.kernel.org (Postfix) with ESMTPS id 0BB1561247
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 16:52:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0BB1561247
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,33 +18,33 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:Cc:To:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sv7YDpRFnLqpkY7kqFsPEFmpnpkdrFVe2/AdewiL9F8=; b=ZCsuhS86impbXb
-	QK4pFzL4sPCPINenL3JxrtOhsyj8DqAFgRtXh2KA1Vst3tJcFgFlmVGG/eTwZtH7kOvCCRBwtHByi
-	2vSjwTDG1D9kwC4u9nJzYmDB9UphayCs42KWWtv3nAKVWSzh3vQN3NJAS4Pj8LsrQ0n0FTf5e/skk
-	AlFLvm8qxP0TPuZ1RURH12bYf4N6sluyoGxn7BlF5G32rY4Yc4+vzPLSk8o/ghEhWwCF3QdtJUk2O
-	ZqIEQ2PPM1LhNpnwPmr5P1vq56I/dHCodpwU93Sk58JmDCePSIyB7S5XQr54lEeH5s7QgzfMEtOQT
-	bs8YorAoaOioCAoj20TQ==;
+	List-Owner; bh=WdGynPSlQS65Tk7k7v6R5poxSN+1hm6DLYyVIhGVgYc=; b=co2iTBnHsBMVBP
+	6Qu4dAAlgF+lU3+qf5N+pHPAJ3/YVyG8RDV3w/z3r5sC6tb9ZPGMpi6fCCYj6ZwTQzrt8pyUQI7Do
+	gS28A+YcRZ5STWtRX9RJVjVWagW8rvu04doVtXyyhQMmG/9raOgab+YMwdN7BgymsYBLggE3btZVq
+	V+kE8R83PwZrn9X+ep47M7S7LQ3DvZ5o19l6JNZ7Y7nYX1G/Y/Caojd1CnM5u8XXLWsOHTY8F21I5
+	4m9ooHdQ7P3gqvfKmTuI0USNUglozpQzBJaRKsTXU2TDuVbeTeo3ABRRNTPl3BJgnLFcVXMUzBrWG
+	1PZj7ZRZ2ysiL9sadJIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVzGA-00FH8b-7O; Thu, 30 Sep 2021 16:50:14 +0000
+	id 1mVzHW-00FHOV-4j; Thu, 30 Sep 2021 16:51:38 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVzG7-00FH82-EV
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 16:50:12 +0000
+ id 1mVzHT-00FHNb-Qw
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 16:51:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=74h/+uZ+hrx0m4JxI1QkVpn5MOeSFXzNtUhZ4V300TI=; b=B5EPYCR6ELWWooi0yJ6/qwUCfs
- xW68Odfkghb4ttQc08Np1dJRJhN9XdQKzIzlF9dxrShVzcR/fZ5mUTyUvDuCkeNQ4pQDaLqRNu4AV
- 9LBrq4VtrshpfRFd0tC3BAEpbaapoxt2T047s7v1k6PNW0G2koW4beGyNRcL+qQrpt1pAbvFArccc
- 9VhMSwHDeIwHWvh1BwQ3z3yRH/FBLA0ifIAFC12OqOFSrd1SnYHwgJBpvv5ay7kPYeRzcbtcELV2O
- OfNoBSYFaO6AmrjP+TI7VDSlCZHBP7pqp9YmEG2tAPspvl1N53iFQI2JW4LgrqkrZjwFCuG05yLoM
- xP02bFUA==;
+ bh=DY98l6f/p37o1n6z2SAmaZFkiMoprnW0+Juc+mDOhCo=; b=pTfd2cTcyBzH2LpKD5iE+L5qG5
+ 1YxVv6haFuR4tVxbCWzg77WlnQgwPvUMZwmaeKZ/dooUcIP5nxEHrl6iUZij4mssaKTc1px7tpQdx
+ UMyTxmWTfEjMtRe2GIkYjVgqlDS1F3IkTZYJ19rOxetGBvpeebtdTkcvo2LLMm8BaIdwZQW6M+yDA
+ xwkZTQaVYuM6i+YEvgQv3b/vT6jMo3j0z9ni8dqNTUIbj+9inuXDYYSM/W4MlssDZdeD33aXoOrpZ
+ tIrW+L7X4llhAn1S/KznAKSdwTbT4O7Y3kK3KgNwTuziND3TP1yUKnxXkkTO5ob60fRu9UHxzZrhf
+ 5AMobH0g==;
 Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200]
  helo=[192.168.0.10])
  by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1mVzFp-0004cR-WF; Thu, 30 Sep 2021 10:49:55 -0600
+ id 1mVzHI-0004dm-2w; Thu, 30 Sep 2021 10:51:25 -0600
 To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
@@ -66,15 +66,15 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
 References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-2-logang@deltatee.com>
- <fa99b871-8753-7c3c-09f0-3fd7f610e664@nvidia.com>
+ <20210916234100.122368-10-logang@deltatee.com>
+ <c04215bd-442a-6520-4fc7-5035c1310662@nvidia.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <c38e2ed7-43d8-767e-5b84-562c479267f4@deltatee.com>
-Date: Thu, 30 Sep 2021 10:49:46 -0600
+Message-ID: <acaa91df-f932-7449-3623-4209c41634d9@deltatee.com>
+Date: Thu, 30 Sep 2021 10:51:22 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <fa99b871-8753-7c3c-09f0-3fd7f610e664@nvidia.com>
+In-Reply-To: <c04215bd-442a-6520-4fc7-5035c1310662@nvidia.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 24.64.144.200
 X-SA-Exim-Rcpt-To: ckulkarnilinux@gmail.com, martin.oliveira@eideticom.com,
@@ -88,13 +88,13 @@ X-SA-Exim-Rcpt-To: ckulkarnilinux@gmail.com, martin.oliveira@eideticom.com,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  chaitanyak@nvidia.com
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 01/20] lib/scatterlist: add flag for indicating P2PDMA
- segments in an SGL
+Subject: Re: [PATCH v3 09/20] nvme-pci: check DMA ops when indicating support
+ for PCI P2PDMA
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_095011_504646_5F6ACD0E 
-X-CRM114-Status: GOOD (  18.58  )
+X-CRM114-CacheID: sfid-20210930_095135_885332_2CABC25E 
+X-CRM114-Status: GOOD (  20.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,39 +113,57 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 2021-09-29 10:47 p.m., Chaitanya Kulkarni wrote:
+On 2021-09-29 11:06 p.m., Chaitanya Kulkarni wrote:
 > Logan,
 > 
->> +/*
->> + * bit 2 is the third free bit in the page_link on 64bit systems which
->> + * is used by dma_unmap_sg() to determine if the dma_address is a PCI
->> + * bus address when doing P2PDMA.
->> + * Note: CONFIG_PCI_P2PDMA depends on CONFIG_64BIT because of this.
->> + */
->> +
->> +#ifdef CONFIG_PCI_P2PDMA
->> +#define SG_DMA_PCI_P2PDMA      0x04UL
->> +#else
->> +#define SG_DMA_PCI_P2PDMA      0x00UL
->> +#endif
->> +
->> +#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END | SG_DMA_PCI_P2PDMA)
->> +
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 7efb31b87f37..916750a54f60 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -3771,7 +3771,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+>>                  blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
+>>
+>>          blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
+>> -       if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
+>> +       if (ctrl->ops->supports_pci_p2pdma &&
+>> +           ctrl->ops->supports_pci_p2pdma(ctrl))
+>>                  blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
+>>
+>>          ns->ctrl = ctrl;
+>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>> index 9871c0c9374c..fb9bfc52a6d7 100644
+>> --- a/drivers/nvme/host/nvme.h
+>> +++ b/drivers/nvme/host/nvme.h
+>> @@ -477,7 +477,6 @@ struct nvme_ctrl_ops {
+>>          unsigned int flags;
+>>   #define NVME_F_FABRICS                 (1 << 0)
+>>   #define NVME_F_METADATA_SUPPORTED      (1 << 1)
+>> -#define NVME_F_PCI_P2PDMA              (1 << 2)
+>>          int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+>>          int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+>>          int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+>> @@ -485,6 +484,7 @@ struct nvme_ctrl_ops {
+>>          void (*submit_async_event)(struct nvme_ctrl *ctrl);
+>>          void (*delete_ctrl)(struct nvme_ctrl *ctrl);
+>>          int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+>> +       bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
+>>   };
+>>
 > 
-> You are doing two things in one patch :-
-> 1. Introducing a new macro to replace the current macros.
-> 2. Adding a new member to those macros.
-> 
-> shouldn't this be split into two patches where you introduce a
-> macro SG_PAGE_LINK_MASK (SG_CHAIN | SG_END) in prep patch and
-> update the SF_PAGE_LINK_MASK with SG_DMA_PCI_P2PDMA with related
-> code?
-> 
+> Is this new ops only needed for the PCIe transport ? or do you have 
+> following patches to use this op for the other transports ?
 
-Ok, will split. I'll also add the static inline cleanup Jason suggested
-in the first patch.
+No, I don't think this will make sense for transports that are not based
+on PCI devices.
+
+> If it is only needed for the PCIe then we need to find a way to
+> not add this somehow...
+
+I don't see how we can do that. The core code needs to know whether the
+transport supports this and must have an operation to query it.
 
 Logan
+
 
 _______________________________________________
 Linux-nvme mailing list
