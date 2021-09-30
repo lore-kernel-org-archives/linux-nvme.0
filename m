@@ -2,70 +2,73 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA60C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 12:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 324A3C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 12:57:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7BA88613A7
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 12:57:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7BA88613A7
+	by mail.kernel.org (Postfix) with ESMTPS id EF3656124B
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 12:57:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EF3656124B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=cpM8ico+waoy6Ry808Lp/giSIfijXfa/VnCIXiVqstQ=; b=uguC+PEpBSUCLu
-	qg5NDICQgLdkg6IkG+uxD8Q1a3qXNuOfBYSvYgNVNj7xBdVuB5pDN+VwKVQyFy4fXkbYoB+kcM6n9
-	h/4mAykYAvS9YPT7ck2nxhv2xaHcUGdVG3KTIzu1TgUPckuq8i7wGraZlWUjZ0zZl8EeOuWNatS0P
-	uGttBM5sHlXb+yjAjyZyDBuOoXDZzjHFtUESDIouTRjTfNkFbP7JJ7ZXteXCJWup6ggeWJ5gRwpWs
-	oRJP73LnHVLCE6pJRTBf6WijSo8yHPRsJChbhDY/PrnNqfESCojiKtF22pn6QJaJO5Kp88TIEfba4
-	/DseuKAoNpiCeC3CFV8w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=rAaasakPLLq82XSNYeGpIXiHJdlxG6lrqT8ozs2q7LI=; b=HG6tbO6yfhYHMS
+	hZ8xI26EzLIcUjSv2d5aH3TUT9nn8jshHhniqQTRDYdMPNy42RsXaui9LMQQkJJcbkoek4LCBExIJ
+	FTiVC6omEKVMT8RpInrZCxHwFXbu7tNcMdRZ6oEcZ//IlH3l487kVIZPipoCKDG0NRhP6qLU8+xNq
+	ufIP9nfYJN5jhOsY+4FkIfH0VSWyRCHaiElPMSOZsYEsQ46Kt6sgi2ehynmY1qYSe2lz+ofbxKq0H
+	FTwrNfEmY2ViWUvkQqzomGr1bX4mrC5s+Pq0Z5BLHl58n5R7JHeqcpIL7jNlz1WBDuFKuq9vY1Evq
+	o8EbS9yo8CpwjLCXY0WA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVvcE-00EJj2-NS; Thu, 30 Sep 2021 12:56:46 +0000
+	id 1mVvcP-00EJoL-9o; Thu, 30 Sep 2021 12:56:57 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVvcC-00EJh2-Cb
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 12:56:45 +0000
+ id 1mVvcF-00EJj4-GW
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 12:56:48 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633006603;
+ s=mimecast20190719; t=1633006606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=RX9RlcTs+c2zIM/RTHHCkJJbaueEK8M/sumCaOzGWXE=;
- b=CNpQ6iXNlwgv3X1kjKClWZag7n6Jwfzpn5p5rPajR55LgRDApFNI0m5ici1zqjTCv02ZMA
- uto8sMnLTc8ojXJZz7JGRoYBiJ+s1QSrXlPJmhAw3L0Vpe/428IQajEsWJ2tD9n+MP+D6U
- HKi/r6kEjBT3yFNyiNbWVweD7muHThM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f6EPpWJMM1oEudtfCAFWs0O0JIxg1Z+CB9nptxSUO/I=;
+ b=HmuMJIt195wSJaqDCcnzxFqPnUZgBB8LyUMivxFgkZFewJlKA1Emd3RxxJahGjlNgvdKTv
+ mmwoy3ltFjG7W+7tYnIWGD48ZTh4JwjbRs/2qN3FkBrHaL0eZ+GgWTQS1LihtPfX08MJQ+
+ dBB7qKoaLKD20XNCYfJCBgCFaB1l/BI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-iatLPiA2N1uVDvZ-eOW8Xg-1; Thu, 30 Sep 2021 08:56:41 -0400
-X-MC-Unique: iatLPiA2N1uVDvZ-eOW8Xg-1
+ us-mta-306-wZb5arZYNqu_9zk9FQAF8A-1; Thu, 30 Sep 2021 08:56:45 -0400
+X-MC-Unique: wZb5arZYNqu_9zk9FQAF8A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60EC38145E6;
- Thu, 30 Sep 2021 12:56:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D48B8145EE;
+ Thu, 30 Sep 2021 12:56:44 +0000 (UTC)
 Received: from localhost (ovpn-8-17.pek2.redhat.com [10.72.8.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCA625D9CA;
- Thu, 30 Sep 2021 12:56:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D7E380940;
+ Thu, 30 Sep 2021 12:56:42 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 0/5] blk-mq: support concurrent queue quiescing
-Date: Thu, 30 Sep 2021 20:56:16 +0800
-Message-Id: <20210930125621.1161726-1-ming.lei@redhat.com>
+Subject: [PATCH V2 1/5] nvme: add APIs for stopping/starting admin queue
+Date: Thu, 30 Sep 2021 20:56:17 +0800
+Message-Id: <20210930125621.1161726-2-ming.lei@redhat.com>
+In-Reply-To: <20210930125621.1161726-1-ming.lei@redhat.com>
+References: <20210930125621.1161726-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_055644_530108_F4761EB4 
-X-CRM114-Status: GOOD (  12.63  )
+X-CRM114-CacheID: sfid-20210930_055647_650075_89AE2072 
+X-CRM114-Status: GOOD (  12.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,47 +85,50 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+Add two APIs for stopping and starting admin queue.
 
-request queue quiescing has been applied in lots of block drivers and
-block core from different/un-related code paths. So far, both quiesce
-and unquiesce changes the queue state unconditionally. This way has
-caused trouble, such as, driver is quiescing queue for its own purpose,
-however block core's queue quiesce may come because of elevator switch,
-updating nr_requests or other queue attributes, then un-expected
-unquiesce may come too early.
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+ drivers/nvme/host/core.c | 12 ++++++++++++
+ drivers/nvme/host/nvme.h |  2 ++
+ 2 files changed, 14 insertions(+)
 
-It has been observed kernel panic when running stress test on dm-mpath
-suspend and updating nr_requests.
-
-Fix the issue by supporting concurrent queue quiescing. But nvme has very
-complicated uses on quiesce/unquiesce, which two may not be called in
-pairing, so switch to this way in patch 1~4, and patch 5 provides
-nested queue quiesce.
-
-V2:
-	- replace mutex with atomic ops for supporting paring quiesce &
-	  unquiesce
-
-
-Ming Lei (5):
-  nvme: add APIs for stopping/starting admin queue
-  nvme: apply nvme API to quiesce/unquiesce admin queue
-  nvme: prepare for pairing quiescing and unquiescing
-  nvme: paring quiesce/unquiesce
-  blk-mq: support concurrent queue quiesce/unquiesce
-
- block/blk-mq.c             | 20 +++++++++--
- drivers/nvme/host/core.c   | 70 ++++++++++++++++++++++++++------------
- drivers/nvme/host/fc.c     |  8 ++---
- drivers/nvme/host/nvme.h   |  4 +++
- drivers/nvme/host/pci.c    |  8 ++---
- drivers/nvme/host/rdma.c   | 14 ++++----
- drivers/nvme/host/tcp.c    | 16 ++++-----
- drivers/nvme/target/loop.c |  4 +--
- include/linux/blkdev.h     |  2 ++
- 9 files changed, 96 insertions(+), 50 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7fa75433c036..c675eef70a63 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4563,6 +4563,18 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
+ 
++void nvme_stop_admin_queue(struct nvme_ctrl *ctrl)
++{
++	blk_mq_quiesce_queue(ctrl->admin_q);
++}
++EXPORT_SYMBOL_GPL(nvme_stop_admin_queue);
++
++void nvme_start_admin_queue(struct nvme_ctrl *ctrl)
++{
++	blk_mq_unquiesce_queue(ctrl->admin_q);
++}
++EXPORT_SYMBOL_GPL(nvme_start_admin_queue);
++
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9871c0c9374c..47877a5f1515 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -659,6 +659,8 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 
+ void nvme_stop_queues(struct nvme_ctrl *ctrl);
+ void nvme_start_queues(struct nvme_ctrl *ctrl);
++void nvme_stop_admin_queue(struct nvme_ctrl *ctrl);
++void nvme_start_admin_queue(struct nvme_ctrl *ctrl);
+ void nvme_kill_queues(struct nvme_ctrl *ctrl);
+ void nvme_sync_queues(struct nvme_ctrl *ctrl);
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl);
 -- 
 2.31.1
 
