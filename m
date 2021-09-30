@@ -2,153 +2,90 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B47C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 09:54:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83EA7C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 10:41:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 47686615E2
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 09:54:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 47686615E2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	by mail.kernel.org (Postfix) with ESMTPS id 565BF619E2
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 10:41:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 565BF619E2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Message-ID:
-	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AI7YV5Cvn5mzOQlVqHrRnq8d5E8gl5B6GqhY07GqASI=; b=rq3B7Q7pXErWfxaQWe+WG1+F85
-	1qb9j5+w/WfUpXOXlhhkA+94pPpo8ziTJkTYvSjm+/rPAV1fvJcx8Ao/29rwzCSJ9jCELk2ZvlXsz
-	dLceSXBOINs+pZ5IlXVJTcMULAnPscIOmU6EO+5r3A3ntSHHeJgAE0QC3E2xeRUUsu7YJpXquHuhd
-	bLj4KakSsj1VpOYWaS7c4uHsq3B9H+iUTamufewMtKNQWLqQnQiFAQgvVNhYvgMG+Z9qrw8aHSkwC
-	hrSYmdWV2MxMUcUqZkt/+aXzxufKqoKgT6VUT/XE5U2mH3YRpTRyRouBOn8gzg+6svNNj5d6RV1Zb
-	mHrfVLSQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=sSkVJmFTZsZCj+l5QYD1zkXiNNMJwPfM0ehxbZZuKgo=; b=2ELITR+rud4Mn6
+	rf1QU6cZSCQZLcBdjj5bBqgI1OwXPUYx78aTUq95d8QsqgzPyQ7WrmZD1BT4qpft2nCCXXYNo4quy
+	EmynZZ83jM0ZLW7Fr1atzlq31iTBIXhc70T2S1zhMb+uOhaGLHu0pVw5gu4BCnRYgh8vn05RuTdSh
+	kbek1F15nSfyMrLD6t1+3M1xwrSL5jz2fnpyXFYjvPnX0SybNto/S8BySy4Uiy3qC0YwPYTgrASCj
+	w6MQBYhQxFq1nyGOaL3qyG0pAHW3QWNjnnV2jf24Rqw/GZdT5CZw4LL71Qu/gIUsNDmN3kT0gijUC
+	JMMp4qKMmZzMAYMjGO/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVslT-00Deck-6b; Thu, 30 Sep 2021 09:54:07 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1mVtUc-00DsBz-OO; Thu, 30 Sep 2021 10:40:46 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVskh-00DeFy-PV
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 09:53:22 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210930095315euoutp02d7e49aa6752f576783f1a95f3276e242~pkNed75q30046900469euoutp029
- for <linux-nvme@lists.infradead.org>; Thu, 30 Sep 2021 09:53:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210930095315euoutp02d7e49aa6752f576783f1a95f3276e242~pkNed75q30046900469euoutp029
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1632995595;
- bh=dXfx/WMyrIWN+HAvhSUPKljKtdHmk58fulLYoRVhSCA=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=e1Qmnd67Lr4Y4gmee2mrgSfbzgUhUzAYi8CkLB1cb00buI1uZ2xMqCYYKzvkKzWaK
- aePCGZPFBK8o8E2NBzwWysumTNmaNQ1kJT1yD4nT0F/P2MBDVTQn6xYqXolTOgz3WK
- njiGwRQLShsJD8liY1PAmlXQxqBYZw2xgyEkGjjE=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210930095315eucas1p242b75713efbe09654512e314cb32f1e2~pkNeMkA8A1821518215eucas1p2E;
- Thu, 30 Sep 2021 09:53:15 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 5B.EC.42068.B0985516; Thu, 30
- Sep 2021 10:53:15 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210930095314eucas1p10f56a3c7bc3cc167d93b3bd472c6852a~pkNdq_OAy1563315633eucas1p1X;
- Thu, 30 Sep 2021 09:53:14 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210930095314eusmtrp2613aace3fff86eb43febc14d1c8711da~pkNdp4irE0109501095eusmtrp2p;
- Thu, 30 Sep 2021 09:53:14 +0000 (GMT)
-X-AuditID: cbfec7f4-c89ff7000002a454-73-6155890b83b1
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 5B.9B.20981.A0985516; Thu, 30
- Sep 2021 10:53:14 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210930095314eusmtip1eb040877616c6f8f18287fae83016cfe~pkNdeTsf-2640426404eusmtip1J;
- Thu, 30 Sep 2021 09:53:14 +0000 (GMT)
-Received: from localhost (106.210.248.142) by CAMSVWEXC02.scsc.local
- (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 30 Sep 2021 10:53:13 +0100
-Date: Thu, 30 Sep 2021 11:53:12 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-CC: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Chaitanya Kulkarni
- <Chaitanya.Kulkarni@wdc.com>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "dm-devel@redhat.com"
- <dm-devel@redhat.com>, "lsf-pc@lists.linux-foundation.org"
- <lsf-pc@lists.linux-foundation.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "msnitzer@redhat.com" <msnitzer@redhat.com>, "bvanassche@acm.org"
- <bvanassche@acm.org>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>, "roland@purestorage.com"
- <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
- "hare@suse.de" <hare@suse.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
- "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
- Adam Manzanares <a.manzanares@samsung.com>, SelvaKumar S
- <selvakuma.s1@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>, "Kanchan
- Joshi" <joshi.k@samsung.com>, Vincent Fu <vincent.fu@samsung.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20210930095312.jeipuaxzyyhd5e6e@mpHalley.local>
+ id 1mVtRA-00DqST-2j
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 10:37:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632998230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fIynjB3KQIRLo+CuNY6gdWmeevq5ziubtl0qp57nI4c=;
+ b=Gaap/2vVuob1aQ4rR7XkcnyA84nVzT/QZ2xWGbUZT9ZF/nYLZeHi/Fmro2jQ2korN+qy0a
+ vPoqh065fH0br+nl1S+OWXOy4us3K6KnW3S3UYL+LdloebyAFE6c2BiEhLU/8wo8J34L0P
+ an8cVzVB8pXinfBQxmazbSekclKXnMc=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-avOrOKDxPm2Ks5rzwuc7Aw-1; Thu, 30 Sep 2021 06:37:09 -0400
+X-MC-Unique: avOrOKDxPm2Ks5rzwuc7Aw-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ x16-20020a25b910000000b005b6b7f2f91cso7874338ybj.1
+ for <linux-nvme@lists.infradead.org>; Thu, 30 Sep 2021 03:37:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fIynjB3KQIRLo+CuNY6gdWmeevq5ziubtl0qp57nI4c=;
+ b=zX7txnxoW9EK48M6ua7nHDkhtzauu/RQYr3c2m7KBk5rWjXU+6QQMpcnpZa19oef1W
+ kCssNI8wdQyArQP5VfIhw5woq0FEd17zKHpxSXW0D72/YzBbNF39OexwcXgaDFe58MWv
+ Vfr3z9kGIrqFN9eJ7269gPkcp2JLTf0igEBuXVfJ7wG+ESGcNS4IcjtHzOiCc7xPmK9L
+ WmJU1zpDlimgaWfkX3HBerAzC9HOI1h1xmNkgu5JYdQUYKA07xBEPQFv3s2F03B+AgIy
+ q2/Gr7wVnWKBfvHB7KwglXlNHiAA3XseWExymYrYBiqTtrTZQmJJiT2uc9Ofe/FnJcAf
+ Fx7Q==
+X-Gm-Message-State: AOAM533cDy151qljI5YK/sDtJLotR4+5LPM8hwGQZyq9/2CnfL+A3XHw
+ tRLTYaygVHUz8RMuEJiUbzrA7QNUc3pXIblPGUTsTqoDiZafSDXPjJwr901Kxc2szysTnt5Oe+D
+ kXKgnoSTUiRc9+eo9PAh26z1nYXLB/qFxf771fhlOOSQ=
+X-Received: by 2002:a25:496:: with SMTP id 144mr5400291ybe.522.1632998228899; 
+ Thu, 30 Sep 2021 03:37:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRx8JSORgzzKA6phKCXl7L3yWUWVcipNXdnrnt+jh425/ohL1/LoVj6mCfb1W064CH+/66Y6gsQ01RMajG4yQ=
+X-Received: by 2002:a25:496:: with SMTP id 144mr5400245ybe.522.1632998228326; 
+ Thu, 30 Sep 2021 03:37:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c1b0f954-0728-e6ab-73ab-7b466a7d2eb7@nvidia.com>
-X-Originating-IP: [106.210.248.142]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTZxjde2+5vVTKLpXZN+LYVseyOAfqyPKyGXEfcZeI23SabN0yVuSm
- MsvH+iGicXSAswVaZyVDqkZkSoUqYvloG2w3MSvZAAdokRWpIOAI1arYJTIqjvbq5r9zznNO
- nuckD4kL9hKLyexcJSPPlchEBI/T5pr54/UF2i2SFY7jccg8vJ9AP96dwZFxyMdBdy6MRSCH
- /3AEGrM8wtD5WgOG6s2/YuhhmRdDho4BgBye19CxugkuKr9qI5DT58CRqXMOQwc0bgxdMgYJ
- dNHr5iBzEKH6mxia+vnLtc/Rl6+spw+U+Ln05R4VbWnQEnTziSL64KAJ0O1/qgn60HSAoK92
- WzFaV+In6HsTHg7dNqrj0nec7nlv1276viWe3vdLOfYxJeatzmJk2TsYedKar3jbWl3OiPx/
- eDsnK6YINWghy0AkCalkaBnz4WWARwqoUwCab13AWBIAUGN1RbDkPoD9pdeJJ5Hzdh0ewgLK
- BODha/H/mRp79ARLWgEc8VXPu0iSQyXAYl1UKEBQqbC/zhMOx1KJ0O0Z5Ib8ONUUCS21TeEN
- C6k0aGvaj4WyfGo1tHelh2Q+FQN/qx7nhDBOvQW1d4sjQhacioOmuXCdSGoNdDYPhWVILYWm
- qg3syXvg7y2ecDFIHeXBYY2Hww7eh0fagxiLF8KpzhYui5fAR/ZjjwMlAHafvoKzpALAoOEU
- YDe8DfXdMjbwDrRWjuKsHA0Hb8ewZ0ZDQ1vVY5kPNd8LWPcr0FbcCn4AS41PFTM+Vcz4f7Ea
- gDcAIaNS5EgZxapcpiBRIclRqHKliVvzcixg/lO75joDNmCaupfYATASdABI4qJY/gPhJxIB
- P0tSuIuR52XIVTJG0QHiSI5IyM9sOZ0hoKQSJbOdYfIZ+ZMpRkYuVmPVltTbn93ocy7ftFyZ
- VhjwoHdrHu5t1g8kyL3lMuwLoXDVqCvpTKo/s3K4RjdjbEwv7ak913dycqgdP2e3wudNM9KR
- zqzZa3vyQY6qdPyGdol3QjuR8upG8YdvBn/627e1oEH5edQ3ydJAyspNjUeTvhuaFvQd3+5f
- +8Eu66KXzOsq+9cpDC/ogC3rbCPmtd+MzetNcWRO+3e/8bJwB/h0xYP0OniCyfi2eCzZLD47
- vq+nUCM1iHe6lAl5Fw/pmy+VWjdsNtQXqYvU721ZZrxe0d2bPbBo8zODvQ3utIS/XjxzUBRz
- sv1WfupkdEm8umrkI//XUbPCjQXPxvjFfQv0I7MijmKbZOUyXK6Q/AvpltwAGAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsVy+t/xu7pcnaGJBkt3GVisvtvPZjHtw09m
- i1m3X7NYvD/4mNVi77vZrBaPN/1nstizaBKTxcrVR5ks/nbdY7KYdOgao8XeW9oW85c9Zbfo
- vr6DzWLf673MFsuP/2OymNhxlcni3Kw/bBaH711lsVj9x8Ji5TMmi1f74xxEPS5f8faY2PyO
- 3ePy2VKPTas62Tw2L6n3mHxjOaPH7psNbB4zPn1h87h+ZjuTR2/zOzaPj09vsXhse9jL7vF+
- 31Wg2tPVHp83yXm0H+hmChCI0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXS
- t7NJSc3JLEst0rdL0MvYemwfa8EvrooXPa/YGhi3cHQxcnJICJhI7NnZywxiCwksZZT4/dYe
- Ii4j8enKR3YIW1jiz7Uuti5GLqCaj4wSq27dYYZwtjJKdG+ZwtLFyMHBIqAq0dTLA9LAJmAv
- cWnZLbChIgJ6Eldv3WAHqWcW2MApsWnRBjaQhLCAp8SODf1MIL28AjYSO0/7QMz8zSSx+tt9
- sGZeAUGJkzOfsIDYzAIWEjPnn2cEqWcWkJZY/g/sAU4BO4l9m2+zgoQlBJQllk/3hbi5VuLz
- 32eMExiFZyEZNAvJoFkIgxYwMq9iFEktLc5Nzy020itOzC0uzUvXS87P3cQITCzbjv3csoNx
- 5auPeocYmTgYDzFKcDArifD+EA9OFOJNSaysSi3Kjy8qzUktPsRoCgyIicxSosn5wNSWVxJv
- aGZgamhiZmlgamlmrCTOa3JkTbyQQHpiSWp2ampBahFMHxMHp1QDk0zi7xmLNk5zy1/9ae0O
- 00i33yzHmpesEmnaGrYvcq3aW4E332dm7jfef//ew9ffphrq+M1W25A/a4POvyVmL8WnXgqr
- lli9ofro/Ul26x26pnS9Cik7kGozK6bz890nllnTLktPDdqbYjnXJnRH/K6pTJdUPs37lRZr
- r+pumJqQHdAxL33CqzM9UreblCSWmqT1nLthtL1a8L6T+Gwmu9KQ+feVYnfd2Rk+JXHBzMSk
- BbNT//76vj3Or/X5h3UrNU/HmbRduHrt2y31e+qvJ/b/CBf24p5gKxg8+W7+m4XshoKbxI1F
- YkM0vqS21Lf+CuwOf3D81Lap8gx30xY777cMPn15ms30JE9jB6nT658psRRnJBpqMRcVJwIA
- sh+3PrUDAAA=
-X-CMS-MailID: 20210930095314eucas1p10f56a3c7bc3cc167d93b3bd472c6852a
-X-Msg-Generator: CA
-X-RootMTR: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
-References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
- <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
- <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
- <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
- <c1b0f954-0728-e6ab-73ab-7b466a7d2eb7@nvidia.com>
+References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
+ <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
+ <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
+ <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
+In-Reply-To: <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 30 Sep 2021 18:36:56 +0800
+Message-ID: <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
+Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_025320_150229_5FD84BAC 
-X-CRM114-Status: GOOD (  14.17  )
+X-CRM114-CacheID: sfid-20210930_033712_241201_4740FF88 
+X-CRM114-Status: GOOD (  14.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,55 +97,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 30.09.2021 09:43, Chaitanya Kulkarni wrote:
->Javier,
+On Thu, Sep 30, 2021 at 3:55 PM Sagi Grimberg <sagi@grimberg.me> wrote:
 >
->>
->> Hi all,
->>
->> Since we are not going to be able to talk about this at LSF/MM, a few of
->> us thought about holding a dedicated virtual discussion about Copy
->> Offload. I believe we can use Chaitanya's thread as a start. Given the
->> current state of the current patches, I would propose that we focus on
->> the next step to get the minimal patchset that can go upstream so that
->> we can build from there.
->>
 >
->I agree with having a call as it has been two years I'm trying to have
->this discussion.
+> >>> Hello
+> >>>
+> >>> Below kmemleak was triggered with blktests nvme-tcp on latest
+> >>> 5.15.0-rc3, pls check it.
+> >>>
+> >>
+> >> Please share the test number and the frequency to reproduce this...
+> >>
+> >
+> > Hi
+> > I'm running the full blktests nvme-tcp[1] and it's 100% reproduced.
+> >
+> > [1]
+> > # nvme_trtype=tcp ./check nvme/
 >
->Before we setup a call, please summarize following here :-
->
->1. Exactly what work has been done so far.
->2. What kind of feedback you got.
->3. What are the exact blockers/objections.
->4. Potential ways of moving forward.
->
->Although this all information is present in the mailing archives it is
->scattered all over the places, looking at the long CC list above we need
->to get the everyone on the same page in order to have a productive call.
->
->Once we have above discussion we can setup a precise agenda and assign
->slots.
+> Yi, this does not happen with nvme_trtype=rdma? It looks like
 
-Sounds reasonable. Let me collect all this information and post it here.
-I will maintain a list of people that has showed interest on joining.
-For now:
+nvme_trtype=rdma use_siw=1 also can reproduce it.
 
-   - Martin
-   - Johannes
-   - Fred
-   - Chaitanya
-   - Adam
-   - Kanchan
-   - Selva
-   - Nitesh
-   - Javier
+> we don't get to call cdev_device_del and del_gendisk, which means
+> we may have a referencing problem...
+>
+> I'm wandering if this is a regression we can bisect to?
+
+So just run[1] with nvme_core: multipath=Y will trigger it.
+[1]
+nvme_trtype=tcp ./check nvme/004
+
+Will try bisect it.
+
 
 _______________________________________________
 Linux-nvme mailing list
