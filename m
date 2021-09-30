@@ -2,157 +2,82 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7DAFC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 05:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7205C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 06:00:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 742A161880
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 05:06:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 742A161880
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9C26D61152
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 06:00:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9C26D61152
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=E1ZWwhy1T5C24gk5muEfoIltVSIasNolV3t2jRFQlaY=; b=sx7A4kI9yaPeKj
-	jr14t0g9U8mupEwulDf1gHDdw6N6mVq2seUqGW1CgwO1NwaVuO5pilRN0j7KDJe4QpS4xi96CUp0g
-	RznkwbvhOx+KJjv/Y4BXjkIN9yE26NgNWTb9x5Y2XPrWXUNkoDUUPTaScIgiKj+3Modpplx6l8Kg7
-	paPMlz3wp6y123zUugovGs0FqTeawv8xDkBszhPhXd3hENzbx0jWu49JcLbeTCjcx5mUBdVbpEMlj
-	9G/+tp5fqvmyRuODzXJTSsP0K7yF58Yu6SOqvJZ5D+HP4ycoLeE5IFQyVY7169kem9oJQeWAQY2TK
-	5acCfIy4BUsvjzsQGvjw==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=uPl49DYkbN6JmaeStnIZLYyJABjPftcbNHuXuvhST18=; b=OYx
+	5upYrgZ9bH05socQOdHEMm3cAnoNg4839CTsaI6SoGrOwuvyH8h4JjJ+ywIlX3yOifmpouMIkvJPS
+	YOEjjCCcAAO2n4xq8uFa6XmlgzRf6ofayIDqLzRI+CNKUGMDH/1uX78PgFKm5Cqt3w9pifDAI3nz3
+	vF+2f0n93xxF6Sg9KJZUVHThwwzqrXrRRXglsLYloazW2m92hFUEM2++fPUsqIi0yQyQwM+zkifri
+	k4O/kxETbswPF/koVfITZDCNUXrqaORvASojj3jcJ4F7jPu/oATAv/1pKaFIqN+b4pr1N5bHr7hdb
+	rJUE23THBP/8ShPibh+3HQOMdu+vbPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVoGo-00D0eu-GF; Thu, 30 Sep 2021 05:06:10 +0000
-Received: from mail-bn7nam10on2040.outbound.protection.outlook.com
- ([40.107.92.40] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1mVp6k-00D3YK-Cy; Thu, 30 Sep 2021 05:59:50 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVoGl-00D0dB-EP
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 05:06:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jq2NR55RtAcAZ9nD8fYXv8wWYQWhcDN/SJXpp3QMqsXieKLoPYMcGUbxR4aU/5s21VBYyzHa6Wq0JACIvYkPhu0B0msnZqDRl2suiD2zrPuJmhegxq+MHkl2fKUKczIYwthmECOgLbQVMrfxZY2yviYtuf9a4k/HbggOHkCPV6IWt4RlRU4Y7kRMZumrfaB1B279kMogKVJ7VGwB22+gaIstEPQ/DMLW6wTu8xEYHKRcyog58tHsQUwaE0cIS2jOWPidRJNkq4rQf44hA4JsONARW6aaEUggNIl/rVLC9XMTDpSdToQr5Q8QB2tcqdC7gM55TqJnVrcESgriYbIXsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=n4apOFsF6g5BVOtw89xtPAjefBg3Zju1qz1MqxDBEXc=;
- b=OW8Pra4iA7uXUA0jSrw7GRVw4de0VyQInaaXW/8n78vNM1KgfcpLM3hTbwQjYRiapc6g6I9bCw35Js7DXlw6ODJHyC0RByfBy5EJCWL8h8AUiaAxBAIolnXBGOPdROUHNBKUVB91ZRQmD4wwjNJOzpo2mzNTeiHMQ7TF+8htw65FKm2x8HUlUz1ukgtGEBeK1ePOZFo+n+H28XUSULA7PLCNVYfH0K7KEJZ4LNB6yYzYQH3sQJJKffKogARnjkjOwDz/6QxzSlMJdlr7zzDObTokXAstTIfSiHZx1ExjHOAFA5jF3e+ILAM2LMiFaLgQ/mtdefQ3+JFM0aggee3Ztg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n4apOFsF6g5BVOtw89xtPAjefBg3Zju1qz1MqxDBEXc=;
- b=l9Px9BdZ0EH0PuGsTcwRRWavVViKqAalEQIM0VBwEXsBmYKwwDeAKAAFnzr4ybxy2r0rGR7wANkcUSLTGWyeC0Xam+W4edMDijpoNqgMnZ3mLi8lfUc1qQHV2ql3ps1mZr9PxzIK+1np7p7PR6HlTEQV0Wl3ILRep06bvtFS9KYQ/M77jgcIQ4WT9uN4TpzwqQT8tOafYCE/ToGfgvjK7uHHBFntr2RkXanM/1x5+bX5c2y/4F0VnFi+fY4ugPIetWXeTCrgJfQ4OvfCmzsUUuBe/jVUtE8cLvcfXrSm2q3FVKbCyqlQ5qqFu95idLZGzDO1HqwzcU/Sga07cHGEMA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MWHPR12MB1199.namprd12.prod.outlook.com (2603:10b6:300:10::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14; Thu, 30 Sep
- 2021 05:06:04 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::3db1:105d:2524:524]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::3db1:105d:2524:524%7]) with mapi id 15.20.4566.014; Thu, 30 Sep 2021
- 05:06:04 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Logan Gunthorpe <logang@deltatee.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-pci@vger.kernel.org"
- <linux-pci@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-CC: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>, Dan
- Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, John Hubbard
- <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>, Matthew Wilcox
- <willy@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Jakowski
- Andrzej <andrzej.jakowski@intel.com>, Minturn Dave B
- <dave.b.minturn@intel.com>, Jason Ekstrand <jason@jlekstrand.net>, Dave
- Hansen <dave.hansen@linux.intel.com>, Xiong Jianxin
- <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny
- <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>, Martin Oliveira
- <martin.oliveira@eideticom.com>, Chaitanya Kulkarni
- <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 09/20] nvme-pci: check DMA ops when indicating support
- for PCI P2PDMA
-Thread-Topic: [PATCH v3 09/20] nvme-pci: check DMA ops when indicating support
- for PCI P2PDMA
-Thread-Index: AQHXq1RfNFWZGZ0XhUyLU5ISdBtHSKu8GxKA
-Date: Thu, 30 Sep 2021 05:06:03 +0000
-Message-ID: <c04215bd-442a-6520-4fc7-5035c1310662@nvidia.com>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-10-logang@deltatee.com>
-In-Reply-To: <20210916234100.122368-10-logang@deltatee.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-authentication-results: deltatee.com; dkim=none (message not signed)
- header.d=none;deltatee.com; dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 777e5a4f-a1f2-4c79-5cf4-08d983d000ee
-x-ms-traffictypediagnostic: MWHPR12MB1199:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR12MB119923677811C4266C81079EA3AA9@MWHPR12MB1199.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tjgYc7HlMPZV+h+4lXXyq0FpimubPsv/g7EwewUvRE5Mkb8DJTGb2B00RZKY31GvPGuz1jTM837woGlfOlcNq6PT59eYCNTBkJ6uElLl3uGcUfsOj1QCqRlvipEBdhE3HVKTAgomQAvsk1+I/GhNzVEjz9Hfbba+per6PP+GpHoSrsd3GTFpN1kS67VSRlZ6wj50vPf5+3eIKk70llYZoWpWR7MbiJ5I7N9f9w1ud/TztEnd+ddTR54b9ARaCWYeWIj24EvUbaTWNfijNHMUh/kfvLCf7cSEfqruZ/978RG3EgoywJlqAjVyWCyEVBIlsgVD5SgsxEj3eYI/V3AbW7C7t4jGcYqhgR6kDQBmXVr9KliFcVDCvr23P2DrdXtxQLRvrwPaOqUV0w7NpGj4GT4VU18mrhyhSaC5duC2Sc6kxr5Ga0eaV8R8z3ZSyYJyzcgMeEm0yhQbSgW2NUYIS45tP+t4ucHJ0z/G8vnN9MZWSGhKJvYpCAtv/fsI15JdogGEOBpZ6y5td0yBK8s8c/jte/XNvgSwfbiw6Zw/4dKBbthviLyVjCYHlBUE7vEExkc7z53Dps4TSziZBsU2NUqj+a+7NUpmp28lecZXknIwk02LnKVklV/Ef7FvbSXjrwOJ9qo2PAhlHb0asH+3lgq5mThRXgCYGJ5ncJn0bhHmh+q2KtHYCxqy4bwAdmsckTV120IZdhj5wM7rjamoAHWH8a3NwXSTDWlGm/BINon+vVvqiBIU0czeGjSWtQlmUhiyEpUeWjK2gqnFTFRZ8g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(38100700002)(86362001)(5660300002)(7416002)(508600001)(26005)(122000001)(2906002)(36756003)(54906003)(186003)(4326008)(66946007)(6512007)(31696002)(110136005)(316002)(71200400001)(38070700005)(6506007)(31686004)(66476007)(83380400001)(76116006)(2616005)(8676002)(8936002)(91956017)(6486002)(64756008)(66446008)(66556008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZlRmc0V0UEJGUWZQa1FsY21vdUQweUpFYU4zdGhlNU1tblltRnk3WVc3aC9U?=
- =?utf-8?B?ZTlMR080MnNQV2VWR0tjWEY5aXpzVG1RZ1JTZ3hvWG53OXFQakxUNVBHZHJE?=
- =?utf-8?B?czdpcXBSakpEMWRUMFFZdzZsQlFVNVFhT2VVaWRDeWFQMGFycWNQRVJxRjFO?=
- =?utf-8?B?Z3ExY3pUd2dPRmwxOXRLUURYeTAvNFJDM1dPMGFhMkZNKzV1VTRHUWc2THdK?=
- =?utf-8?B?R1RndzBqV0tsVWtvMTlDRTFTYzRYeVZJNDRkODEyK0I2MUs1Umt2MTR5U1dv?=
- =?utf-8?B?SXVmcTNTdWd0R2JsZ0ttVWNGblBmcGJRZXdvS1NoUHc5MUtFbzVuZmRmMWNF?=
- =?utf-8?B?QnUrdTFvcmpKV05uSDdua1ZQam5Oenh6Y0hDTEhyb2tQdU12N0h6ZHRJblMz?=
- =?utf-8?B?WnpBcUJ6OVM0LytNcTB4TzZXcDNtblV4azJHUkx3SkFTY3cvL3djOXdudDBL?=
- =?utf-8?B?NmlNQm5nQXFqVHlWVnRHdVVhOVU5Y1N4WmJxSisvcnpWUmx2Wks2SHZxQ3JI?=
- =?utf-8?B?UDQ2VHJ5NFFTTEZOK0NxVDBKdDlwaUVieE5SYWJqYkxSQzdabFBKVi9YNlg3?=
- =?utf-8?B?M1ZFZjdzSlhwT0NGK3BZU2NvcmVLSGpnMHozL1dDQ2dzeUpST1c4M1lDYWNu?=
- =?utf-8?B?emFwU3h5blJFQmo3VGp4N2R5dE5haHpRQjRSRXkyRzd3TGxEeFBWbE40K29J?=
- =?utf-8?B?NFNwdm9tRzU0QUh6dU83QXdUM2RPVm9hbnJ1MDZ2b1hWYlBuaDdNNDl3TlF4?=
- =?utf-8?B?TlgrckgvWFZqTzQ3czBORzhGeDNrT0JWTUltSHZtSkcyK3VRQlVubEI1YVk0?=
- =?utf-8?B?OEcramFnazJrZEtTTWlUbU16NUJTL2NTeURSZm9IOEdxMDVOd1VQK3YyOCsr?=
- =?utf-8?B?d0xKM1lXY0lRZCtRSHZxSVpPakVHRG95K3k2VFhlVngyWmxnSXRKSEtWSUoz?=
- =?utf-8?B?cTR1Z0ZDb0FwbVZHNDBJVmlHMk5idDU5N1JiOWtHcUppWkYrY1psOWFFQmp2?=
- =?utf-8?B?TSs5TFlRSzJqTlV4Y1Jpb3dteXFHbkNVa1IxRm1VRG83dXRjTytESHE1SkZH?=
- =?utf-8?B?OXRPR1VKOUhYVGV4c1dGem1DVDYxMVd4SWxzYnRXRXl6Qi9ja2wrZVJnSiti?=
- =?utf-8?B?QTRKNURITGtHQ0NVTElFSHFXSkJqSVI0K0VLMzRRekErRDcxdzhaaVdTamxL?=
- =?utf-8?B?Rk9tc1NKU1hOMm5PRkdpNHYxVG9OdWx1L2hqQnpsTWFIeHVhK25WQXY4ZWF0?=
- =?utf-8?B?bzF4ZzRGdGNYMTJzZEVFU1pab3FRLzRKOGlyenZiTHZBZFQ4UktkeGY4Znpt?=
- =?utf-8?B?bERCRUhwM09EQ050MDlMam9BYkxlQk91NW16K095TkJTblVWeWVjWXluNTF3?=
- =?utf-8?B?L21Nbnh5eWc1U0EyeWtpcXN3Q0I2aGkrclRzaERqSHlsenFPOEFCQndOc3Vp?=
- =?utf-8?B?NW82d1VJb1pENTV5akdzUlpwSHRCNlJrQTR4Q1NQN3RlY1Z4ci94SjU1M25S?=
- =?utf-8?B?eGM3TElMNklCNnlrUTQrT0tSbTk2ZTFTNzJsY2Q3cktDbHY3bXFGNHlBd0o1?=
- =?utf-8?B?bGs2cWVzN2pTUUovaEI3OGkrNG5pS0g4ZU9pK0ZEaWlRWkFraDY2SWxGS0Qv?=
- =?utf-8?B?NzFSeG1mcFE5WkdNYXJURjh6b3dUN252MW5BZ1l3d3haMENtVHd5LzdQTTBn?=
- =?utf-8?B?QjlYMlRHMUVuR3cyLzYzdlZ4SGFOOWpIaVhCQWs1T1NRODc4ZVdqMmM1Q3Z0?=
- =?utf-8?Q?sArylWtH+P1cDrKmGs=3D?=
-Content-ID: <5FF28D33A5C7914D8479462BA157C132@namprd12.prod.outlook.com>
+ id 1mVp6h-00D3Xm-Je
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 05:59:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632981584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=UQPkCfBjTcavKJzMjFKUO8fWDmhtb5puJ5hHDRTUd/w=;
+ b=C2RpoL7n6jBJ9vuTl3uxaRxwwa1KYptnf+q+ByQCcfXaAdwEpcmTAzF2c9r+dBjNZ4BoHm
+ 9yWk8tkJ+vGewRcwujI3mKRFU3GK2M8J1DkFM+6S71nq9zI/R2UlkmX6koUkpgMk0FPdxm
+ qYf05ruilMWRaxFEZcIxoDHQuF0fxuo=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-Cs41qt9BMGeh3Mqq9eQMNg-1; Thu, 30 Sep 2021 01:59:43 -0400
+X-MC-Unique: Cs41qt9BMGeh3Mqq9eQMNg-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ f8-20020a2585480000b02905937897e3daso6941035ybn.2
+ for <linux-nvme@lists.infradead.org>; Wed, 29 Sep 2021 22:59:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=UQPkCfBjTcavKJzMjFKUO8fWDmhtb5puJ5hHDRTUd/w=;
+ b=jf0hJP94WygWpePhZskeArx3z/3lqYv63WAEinWQBGn0xpzbdgoVvYg0J/KOzX7xMn
+ +CHmRUyBW0lsUxwAsorq0ZzWmKU/OLyClctr/JlpKhzHxABcBVUHJYLz+VDR/T6UXwk6
+ VF1SKz5ICQy0hNh/NnT6ZhZ52f0VISayPS7OATcA4etO/cld0sUVFDPHE1efYprmeAfy
+ gVyNqYaEMhRsuKXEBbGcB1pMtlzhEuwMhOr7vOJnD8yV3zQpakEF230W3M3fjBVxhur2
+ dzsu30IqGSBnguu7Ok1RxLPXW9fA8W9uRRT7Z1Hf7jhPnMgA7hJbPKIgz863apLfUqCC
+ /DiA==
+X-Gm-Message-State: AOAM530JM1clAlmj33OG+SxNvHW1bgpO2ecRr+9oHgUkvkkT2wfQGP0x
+ 3aE43zHpV8BD91xYhV6NySL0ECLf1go5/LS3vfXocfXYBa74Oy50lODQ5escu9PJmOWXw57aS1+
+ WLL3I54r/zTBzoj7jBMZpTlHjupKb6WKqdbp+fimK/XI=
+X-Received: by 2002:a25:2208:: with SMTP id i8mr4681753ybi.86.1632981582956;
+ Wed, 29 Sep 2021 22:59:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWcMZhn4wDN4t/e/N+LoIPRGXWdrhjl2kZvR0MsbByRyzfw3J7GjfYHHPoR3xb6p3qCUZ7Q7ZzfPV4xho8DAQ=
+X-Received: by 2002:a25:2208:: with SMTP id i8mr4681738ybi.86.1632981582732;
+ Wed, 29 Sep 2021 22:59:42 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 777e5a4f-a1f2-4c79-5cf4-08d983d000ee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2021 05:06:03.9814 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0fvCR/4ED2Ayi6HSchUtjcYuvhr9IO6JHd9fgplg1magDGfGHaOxut5ftTUJf+itmnK7p6phJvgkcwyjKdqkxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1199
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 30 Sep 2021 13:59:31 +0800
+Message-ID: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
+Subject: [bug report] kmemleak observed with blktests nvme-tcp tests
+To: linux-nvme@lists.infradead.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210929_220607_514650_DD21F2D3 
-X-CRM114-Status: GOOD (  16.88  )
+X-CRM114-CacheID: sfid-20210929_225947_763719_F7465AA2 
+X-CRM114-Status: UNSURE (   4.04  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -169,47 +94,54 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Logan,
+Hello
 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 7efb31b87f37..916750a54f60 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3771,7 +3771,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
->                  blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
-> 
->          blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
-> -       if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
-> +       if (ctrl->ops->supports_pci_p2pdma &&
-> +           ctrl->ops->supports_pci_p2pdma(ctrl))
->                  blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
-> 
->          ns->ctrl = ctrl;
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 9871c0c9374c..fb9bfc52a6d7 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -477,7 +477,6 @@ struct nvme_ctrl_ops {
->          unsigned int flags;
->   #define NVME_F_FABRICS                 (1 << 0)
->   #define NVME_F_METADATA_SUPPORTED      (1 << 1)
-> -#define NVME_F_PCI_P2PDMA              (1 << 2)
->          int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
->          int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
->          int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-> @@ -485,6 +484,7 @@ struct nvme_ctrl_ops {
->          void (*submit_async_event)(struct nvme_ctrl *ctrl);
->          void (*delete_ctrl)(struct nvme_ctrl *ctrl);
->          int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
-> +       bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
->   };
-> 
+Below kmemleak was triggered with blktests nvme-tcp on latest
+5.15.0-rc3, pls check it.
 
-Is this new ops only needed for the PCIe transport ? or do you have 
-following patches to use this op for the other transports ?
+unreferenced object 0xffff8882bc8d6668 (size 8):
+  comm "kworker/u26:2", pid 82, jiffies 4295107562 (age 2911.554s)
+  hex dump (first 8 bytes):
+    6e 67 31 6e 31 00 7b 7c                          ng1n1.{|
+  backtrace:
+    [<0000000046e1c456>] __kmalloc_track_caller+0x129/0x260
+    [<00000000a8f7a3a1>] kvasprintf+0xa7/0x120
+    [<0000000076a54cc5>] kobject_set_name_vargs+0x41/0x110
+    [<00000000a569a16a>] dev_set_name+0x9b/0xd0
+    [<00000000f793cc3d>] nvme_mpath_set_live+0x322/0x430 [nvme_core]
+    [<000000001f948cbb>] nvme_mpath_add_disk+0x3ef/0x6a0 [nvme_core]
+    [<00000000d405af45>] nvme_alloc_ns+0xeb1/0x1ae0 [nvme_core]
+    [<000000002fd9b34d>] nvme_validate_or_alloc_ns+0x170/0x350 [nvme_core]
+    [<000000009762df74>] nvme_scan_work+0x2dc/0x4b0 [nvme_core]
+    [<000000007be5c512>] process_one_work+0x9a8/0x16b0
+    [<000000002ae51314>] worker_thread+0x87/0xbf0
+    [<0000000034c41079>] kthread+0x371/0x440
+    [<0000000020c3a70f>] ret_from_fork+0x22/0x30
+unreferenced object 0xffff8882d1509800 (size 512):
+  comm "kworker/u26:2", pid 82, jiffies 4295107562 (age 2911.554s)
+  hex dump (first 32 bytes):
+    00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
+    ff ff ff ff ff ff ff ff c0 b6 b7 97 ff ff ff ff  ................
+  backtrace:
+    [<00000000d6c8d6f1>] kmem_cache_alloc_trace+0x10b/0x220
+    [<00000000e6493d28>] device_add+0xe08/0x1d10
+    [<00000000aa40e6ce>] cdev_device_add+0xf1/0x150
+    [<00000000142436f1>] nvme_cdev_add+0xf8/0x160 [nvme_core]
+    [<00000000d948ccab>] nvme_mpath_set_live+0x347/0x430 [nvme_core]
+    [<000000001f948cbb>] nvme_mpath_add_disk+0x3ef/0x6a0 [nvme_core]
+    [<00000000d405af45>] nvme_alloc_ns+0xeb1/0x1ae0 [nvme_core]
+    [<000000002fd9b34d>] nvme_validate_or_alloc_ns+0x170/0x350 [nvme_core]
+    [<000000009762df74>] nvme_scan_work+0x2dc/0x4b0 [nvme_core]
+    [<000000007be5c512>] process_one_work+0x9a8/0x16b0
+    [<000000002ae51314>] worker_thread+0x87/0xbf0
+    [<0000000034c41079>] kthread+0x371/0x440
+    [<0000000020c3a70f>] ret_from_fork+0x22/0x30
 
-If it is only needed for the PCIe then we need to find a way to
-not add this somehow...
+
+-- 
+Best Regards,
+  Yi Zhang
+
 
 _______________________________________________
 Linux-nvme mailing list
