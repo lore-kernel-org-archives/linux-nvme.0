@@ -2,73 +2,91 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50996C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 12:59:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30137C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 13:02:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A21C61452
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 12:59:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1A21C61452
+	by mail.kernel.org (Postfix) with ESMTPS id E2DA76124B
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 13:02:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E2DA76124B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=tnxoKtzQsL1nVLuR/UfbprAiRfNoS+RwIvn2NOauPzs=; b=MxucoDlqktrgVE
-	ilpJQWnWBdgZL7mTwFn2FvhpOmi4ShNIUzdzxRdd/R/6w1BMEpTJpReELWL/DvRv9CVfZCoQmIXTx
-	iBZOuJO8+Sh3TfDzk2QeVmCvfJcSiEOXwI35g6qj0pW3FssTZ0csB0sqJEYowVds0rS95gwF4L8V3
-	VyBUwl3Zgu2KcliBqvhzzkouBe02G+dIzXL/wwWZuF28285f+Q6HOC3GeBiAlK3KrGBsvcCfZV1L2
-	Ap+Xd2SxNkJJC46bTgRZwomNjMm0kx9osmyt2pSSNPc1A8xrD9ZUPBOuLaknJxsl8rtDydpdtpgK2
-	hbUi8+LfJRwQUjiGgUIg==;
+	List-Owner; bh=OHXs3T8RFpfH/jLrh+4DZhQFRNUBQhwVKs/r6hpEoRg=; b=NxF2fJdfz7Ycs2
+	ViD9hejcADE7Co1PX8IsLNQlu01Iq+YHkOSo/qY5tagv+H4UGXs09D+om4QGnLTbvkg2vCMMopEzs
+	87DqMslZUy02P7yTIzG1DGY5i0uspSyAjnC7zqi0ms1IdKHBX2Ak96c63L5btAtE1yGdkAKpEek+R
+	REz0H1Z6N6GP+UXsMyLJSYHgppZFZqYcQkF6CvH2bogWoY2pS1bMlTBSpMfMY5L4q0ttlMR0aprGB
+	f54UVZ1cfT3w6N3Tz8nyDCtmom6Xo0TW3tuwWoGZkgn4OCTNptFXwJhcx7rmyypz7qNvQF1vKoKyc
+	/ynypV5pRVzL+SsnqLWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVvdT-00EK7d-7x; Thu, 30 Sep 2021 12:58:03 +0000
+	id 1mVvgz-00EL1P-AL; Thu, 30 Sep 2021 13:01:41 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVvcz-00EJyB-DX
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 12:57:36 +0000
+ id 1mVvgw-00EL0f-Oz
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 13:01:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633006652;
+ s=mimecast20190719; t=1633006897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jN4b3GyfHa+amFzmyGSuIhBG2KY0aTYefQa+d6RG6DE=;
- b=a0IoCJ4NaidwnFaMwe37QXKBDvth89f14WFdX3tMzo4j0ZtOoljA4plPh5u8/9DMmC4+Jy
- 69sTgwOfUkswahmtGCt8d7oyNbLOZOxC0M5S6VXBdIIni0zdZiEYlUuf9ZS3BId72izIru
- 1lXSajzRpVrXw34KI0MJIw5PBK3FwE0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-k1bzz9uhOOW80irEMUyeKQ-1; Thu, 30 Sep 2021 08:57:28 -0400
-X-MC-Unique: k1bzz9uhOOW80irEMUyeKQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0753B1060D71;
- Thu, 30 Sep 2021 12:57:06 +0000 (UTC)
-Received: from localhost (ovpn-8-17.pek2.redhat.com [10.72.8.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B58AA88EF8;
- Thu, 30 Sep 2021 12:57:04 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 5/5] blk-mq: support concurrent queue quiesce/unquiesce
-Date: Thu, 30 Sep 2021 20:56:21 +0800
-Message-Id: <20210930125621.1161726-6-ming.lei@redhat.com>
-In-Reply-To: <20210930125621.1161726-1-ming.lei@redhat.com>
-References: <20210930125621.1161726-1-ming.lei@redhat.com>
+ bh=1NWAxPtJGZgh0LgxeixEIBJmRp1/t4taogZ21etg+nI=;
+ b=aXDP2j1gULgHbC/hHQdy1kabDt72iPyG7EWXHchmk/bkUVQBKpB3tjI/GCIQzZ+icLfk9G
+ Bj2hV1Zs1tvqGLfcXjPCY4/zcEyBVAwAJXu9+DlMAX/2z6xL2AOztjwijmVpnGZz8pEJMg
+ 80MCYgaEjTFcsXzU8rM6GbXivgOwmRE=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-MjNWcYy1PIWBaDe6QIPfRg-1; Thu, 30 Sep 2021 09:01:35 -0400
+X-MC-Unique: MjNWcYy1PIWBaDe6QIPfRg-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ z130-20020a256588000000b005b6b4594129so8215101ybb.15
+ for <linux-nvme@lists.infradead.org>; Thu, 30 Sep 2021 06:01:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1NWAxPtJGZgh0LgxeixEIBJmRp1/t4taogZ21etg+nI=;
+ b=ilmmY/WxDreuTWmXOsI+gL2VvQkSIscjz0xEdTKMHrwnnETT37Jfk2yLD2hQALX3ks
+ RR5sTIOpHx0+EOw5en7/ebLRTh0diM+/hmDDBDNGFGPtM9UhIa/p7l8fmUtmQEnTavua
+ n8LNk/EnFa7m5vnmT0onNjE6n+S3h7tUvcqYQmMkEfRKck+GRQMOBAQ1C4gIGyV8f2ct
+ t7yRYPdboPWhIZQFX7XTaBtsOqystPRRTE1PvRnFv4tbCTTpWQRDZhBmIP1ykqDgTZLQ
+ KzyrSfqRmvhdxkhLPMytEOBfYhBMSBU6LbZNgIrL803ln3CotWWmS+Q8PErpoVqIUUXD
+ lFrA==
+X-Gm-Message-State: AOAM531Q83bKNrocws9B5aBCuH+ajm8AHxoM+tvhNXwt82RJGqNRfmgf
+ Mc4SyKDzJuWReg9ek3ZsTD547G4SEUUFPDvINf/NZZrtb7zlNdefv8Nsh0wwzY2MZMAiQbd0iCD
+ HDiA8ZR17VnfOzRouWiLL+daTBPi0L53sFFrfyhW1iBs=
+X-Received: by 2002:a25:b94a:: with SMTP id s10mr6467205ybm.153.1633006894738; 
+ Thu, 30 Sep 2021 06:01:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHR/hJqDv/ltpQUhiohV3HRGxluUrMPW+fMuJC7V15DXufuIaJBxIvf9QM7ktrMiR2jt7+SK7p4+k6aY8W/70=
+X-Received: by 2002:a25:b94a:: with SMTP id s10mr6467161ybm.153.1633006894381; 
+ Thu, 30 Sep 2021 06:01:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
+ <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
+ <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
+ <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
+ <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
+In-Reply-To: <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 30 Sep 2021 21:01:23 +0800
+Message-ID: <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
+Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
+To: Sagi Grimberg <sagi@grimberg.me>, minwoo.im.dev@gmail.com
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_055733_575437_D2C564A1 
-X-CRM114-Status: GOOD (  19.78  )
+X-CRM114-CacheID: sfid-20210930_060138_907634_7AA57E3C 
+X-CRM114-Status: GOOD (  17.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,88 +103,55 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Turns out that blk_mq_freeze_queue() isn't stronger[1] than
-blk_mq_quiesce_queue() because dispatch may still be in-progress after
-queue is frozen, and in several cases, such as switching io scheduler,
-updating nr_requests & wbt latency, we still need to quiesce queue as a
-supplement of freezing queue.
+Bisect shows it was introduced from the below commit:
 
-As we need to extend uses of blk_mq_quiesce_queue(), it is inevitable
-for us to need support nested quiesce, especially we can't let
-unquiesce happen when there is quiesce originated from other contexts.
+commit 2637baed78010eeaae274feb5b99ce90933fadfb
+Author: Minwoo Im <minwoo.im.dev@gmail.com>
+Date:   Wed Apr 21 16:45:04 2021 +0900
 
-This patch introduces q->mq_quiesce_depth to deal concurrent quiesce,
-and we only unquiesce queue when it is the last/outer-most one of all
-contexts.
+    nvme: introduce generic per-namespace chardev
 
-One kernel panic issue has been reported[2] when running stress test on
-dm-mpath's updating nr_requests and suspending queue, and the similar
-issue should exist on almost all drivers which use quiesce/unquiesce.
 
-[1] https://marc.info/?l=linux-block&m=150993988115872&w=2
-[2] https://listman.redhat.com/archives/dm-devel/2021-September/msg00189.html
+On Thu, Sep 30, 2021 at 6:36 PM Yi Zhang <yi.zhang@redhat.com> wrote:
+>
+> On Thu, Sep 30, 2021 at 3:55 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+> >
+> >
+> > >>> Hello
+> > >>>
+> > >>> Below kmemleak was triggered with blktests nvme-tcp on latest
+> > >>> 5.15.0-rc3, pls check it.
+> > >>>
+> > >>
+> > >> Please share the test number and the frequency to reproduce this...
+> > >>
+> > >
+> > > Hi
+> > > I'm running the full blktests nvme-tcp[1] and it's 100% reproduced.
+> > >
+> > > [1]
+> > > # nvme_trtype=tcp ./check nvme/
+> >
+> > Yi, this does not happen with nvme_trtype=rdma? It looks like
+>
+> nvme_trtype=rdma use_siw=1 also can reproduce it.
+>
+> > we don't get to call cdev_device_del and del_gendisk, which means
+> > we may have a referencing problem...
+> >
+> > I'm wandering if this is a regression we can bisect to?
+>
+> So just run[1] with nvme_core: multipath=Y will trigger it.
+> [1]
+> nvme_trtype=tcp ./check nvme/004
+>
+> Will try bisect it.
 
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- block/blk-mq.c         | 20 +++++++++++++++++---
- include/linux/blkdev.h |  2 ++
- 2 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 21bf4c3f0825..10f8a3d4e3a1 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -209,7 +209,12 @@ EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
-  */
- void blk_mq_quiesce_queue_nowait(struct request_queue *q)
- {
--	blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&q->queue_lock, flags);
-+	if (!q->quiesce_depth++)
-+		blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
-+	spin_unlock_irqrestore(&q->queue_lock, flags);
- }
- EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
- 
-@@ -250,10 +255,19 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
-  */
- void blk_mq_unquiesce_queue(struct request_queue *q)
- {
--	blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-+	unsigned long flags;
-+	bool run_queue = false;
-+
-+	spin_lock_irqsave(&q->queue_lock, flags);
-+	if (q->quiesce_depth > 0 && !--q->quiesce_depth) {
-+		blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-+		run_queue = true;
-+	}
-+	spin_unlock_irqrestore(&q->queue_lock, flags);
- 
- 	/* dispatch requests which are inserted during quiescing */
--	blk_mq_run_hw_queues(q, true);
-+	if (run_queue)
-+		blk_mq_run_hw_queues(q, true);
- }
- EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 0e960d74615e..74c60e2d61f9 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -315,6 +315,8 @@ struct request_queue {
- 	 */
- 	struct mutex		mq_freeze_lock;
- 
-+	int			quiesce_depth;
-+
- 	struct blk_mq_tag_set	*tag_set;
- 	struct list_head	tag_set_list;
- 	struct bio_set		bio_split;
+
 -- 
-2.31.1
+Best Regards,
+  Yi Zhang
 
 
 _______________________________________________
