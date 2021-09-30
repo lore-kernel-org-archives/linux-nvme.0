@@ -2,91 +2,81 @@ Return-Path: <SRS0=VDBV=OU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30137C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 13:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1B0C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 13:11:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2DA76124B
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 13:02:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E2DA76124B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 586446187A
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Sep 2021 13:11:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 586446187A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OHXs3T8RFpfH/jLrh+4DZhQFRNUBQhwVKs/r6hpEoRg=; b=NxF2fJdfz7Ycs2
-	ViD9hejcADE7Co1PX8IsLNQlu01Iq+YHkOSo/qY5tagv+H4UGXs09D+om4QGnLTbvkg2vCMMopEzs
-	87DqMslZUy02P7yTIzG1DGY5i0uspSyAjnC7zqi0ms1IdKHBX2Ak96c63L5btAtE1yGdkAKpEek+R
-	REz0H1Z6N6GP+UXsMyLJSYHgppZFZqYcQkF6CvH2bogWoY2pS1bMlTBSpMfMY5L4q0ttlMR0aprGB
-	f54UVZ1cfT3w6N3Tz8nyDCtmom6Xo0TW3tuwWoGZkgn4OCTNptFXwJhcx7rmyypz7qNvQF1vKoKyc
-	/ynypV5pRVzL+SsnqLWw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+	Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vni0K3O1VrkVc8v5NVpGPt/cbAVbPS7UGNQYbaQ2GBA=; b=nHGhlKCBTaeeDj3r90IMSKUgbu
+	SYamLVDShvK30wgVZrhHYrxpZBvhLOBGjeUaocshIxtvsco5QSiuInMYZ1/jmexIMSdU4N/ONV8za
+	DavsF1Q060ZL9u+Q+qygAun4PtUz1c6QHQ6maBT7vs7lK6hl0cLqU4F57vunQAE8KT9Z61gxMmY9K
+	dtEAjsjwG3JmMV7Rz2NrNa52qYdzNYO022BMVqMyKNIyblpUdji+mMchXiIZQP+2Uw0VGTHR7pB4T
+	l/uOiObejhtUMzdqZRsvYBJvdII62YfRiQlVOb1MNh5yzzHIoRVOJ3KQQykm5x9IYRKMOEkXY4djj
+	HYJN9gSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mVvgz-00EL1P-AL; Thu, 30 Sep 2021 13:01:41 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1mVvpf-00ENTI-A1; Thu, 30 Sep 2021 13:10:39 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVvgw-00EL0f-Oz
- for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 13:01:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633006897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ id 1mVvn2-00EMRD-76
+ for linux-nvme@lists.infradead.org; Thu, 30 Sep 2021 13:07:57 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6B654203BB;
+ Thu, 30 Sep 2021 13:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1633007266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1NWAxPtJGZgh0LgxeixEIBJmRp1/t4taogZ21etg+nI=;
- b=aXDP2j1gULgHbC/hHQdy1kabDt72iPyG7EWXHchmk/bkUVQBKpB3tjI/GCIQzZ+icLfk9G
- Bj2hV1Zs1tvqGLfcXjPCY4/zcEyBVAwAJXu9+DlMAX/2z6xL2AOztjwijmVpnGZz8pEJMg
- 80MCYgaEjTFcsXzU8rM6GbXivgOwmRE=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-MjNWcYy1PIWBaDe6QIPfRg-1; Thu, 30 Sep 2021 09:01:35 -0400
-X-MC-Unique: MjNWcYy1PIWBaDe6QIPfRg-1
-Received: by mail-yb1-f197.google.com with SMTP id
- z130-20020a256588000000b005b6b4594129so8215101ybb.15
- for <linux-nvme@lists.infradead.org>; Thu, 30 Sep 2021 06:01:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1NWAxPtJGZgh0LgxeixEIBJmRp1/t4taogZ21etg+nI=;
- b=ilmmY/WxDreuTWmXOsI+gL2VvQkSIscjz0xEdTKMHrwnnETT37Jfk2yLD2hQALX3ks
- RR5sTIOpHx0+EOw5en7/ebLRTh0diM+/hmDDBDNGFGPtM9UhIa/p7l8fmUtmQEnTavua
- n8LNk/EnFa7m5vnmT0onNjE6n+S3h7tUvcqYQmMkEfRKck+GRQMOBAQ1C4gIGyV8f2ct
- t7yRYPdboPWhIZQFX7XTaBtsOqystPRRTE1PvRnFv4tbCTTpWQRDZhBmIP1ykqDgTZLQ
- KzyrSfqRmvhdxkhLPMytEOBfYhBMSBU6LbZNgIrL803ln3CotWWmS+Q8PErpoVqIUUXD
- lFrA==
-X-Gm-Message-State: AOAM531Q83bKNrocws9B5aBCuH+ajm8AHxoM+tvhNXwt82RJGqNRfmgf
- Mc4SyKDzJuWReg9ek3ZsTD547G4SEUUFPDvINf/NZZrtb7zlNdefv8Nsh0wwzY2MZMAiQbd0iCD
- HDiA8ZR17VnfOzRouWiLL+daTBPi0L53sFFrfyhW1iBs=
-X-Received: by 2002:a25:b94a:: with SMTP id s10mr6467205ybm.153.1633006894738; 
- Thu, 30 Sep 2021 06:01:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHR/hJqDv/ltpQUhiohV3HRGxluUrMPW+fMuJC7V15DXufuIaJBxIvf9QM7ktrMiR2jt7+SK7p4+k6aY8W/70=
-X-Received: by 2002:a25:b94a:: with SMTP id s10mr6467161ybm.153.1633006894381; 
- Thu, 30 Sep 2021 06:01:34 -0700 (PDT)
+ bh=i1SW8NPZGg1GriXI8CfQXVexUlt3KJF4BcMKC51Kwak=;
+ b=LPlYtfdJpzZoWGEb9OpP3I+Ro64B6sDmaWTwNzu+WURecbGDciVR+wilIgJJT0FcNfWA0b
+ QkqhidCcc22ktXKB6zBhOlcDjxvHZJaLkGBvb0gyZp/XHrLod0MDWsz/Pjenue+MJHQSlC
+ 6USfxJ0g+eShB767YAxj/m6iTzNMHzI=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEA2613AF5;
+ Thu, 30 Sep 2021 13:07:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DesOM6G2VWG1VAAAMHmgww
+ (envelope-from <jgross@suse.com>); Thu, 30 Sep 2021 13:07:45 +0000
+Subject: Re: [PATCH v2 09/10] xen-blkfront: add error handling support for
+ add_disk()
+To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk, colyli@suse.de,
+ kent.overstreet@gmail.com, kbusch@kernel.org, sagi@grimberg.me,
+ vishal.l.verma@intel.com, dan.j.williams@intel.com, dave.jiang@intel.com,
+ ira.weiny@intel.com, konrad.wilk@oracle.com, roger.pau@citrix.com,
+ boris.ostrovsky@oracle.com, sstabellini@kernel.org, minchan@kernel.org,
+ ngupta@vflare.org, senozhatsky@chromium.org
+Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210927220039.1064193-1-mcgrof@kernel.org>
+ <20210927220039.1064193-10-mcgrof@kernel.org>
+From: Juergen Gross <jgross@suse.com>
+Message-ID: <50f5fcbe-fb34-1cb8-1965-dd3bfd7e1f12@suse.com>
+Date: Thu, 30 Sep 2021 15:07:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
- <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
- <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
- <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
- <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
-In-Reply-To: <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Thu, 30 Sep 2021 21:01:23 +0800
-Message-ID: <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
-Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
-To: Sagi Grimberg <sagi@grimberg.me>, minwoo.im.dev@gmail.com
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210927220039.1064193-10-mcgrof@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210930_060138_907634_7AA57E3C 
-X-CRM114-Status: GOOD (  17.80  )
+X-CRM114-CacheID: sfid-20210930_060756_447631_30A5CDA0 
+X-CRM114-Status: GOOD (  14.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,63 +88,192 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4824968208218197863=="
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Bisect shows it was introduced from the below commit:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============4824968208218197863==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="O5jaGfuKPjp2dmoP5IHIhPbF1qqBfXK7C"
 
-commit 2637baed78010eeaae274feb5b99ce90933fadfb
-Author: Minwoo Im <minwoo.im.dev@gmail.com>
-Date:   Wed Apr 21 16:45:04 2021 +0900
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--O5jaGfuKPjp2dmoP5IHIhPbF1qqBfXK7C
+Content-Type: multipart/mixed; boundary="ZhXoHV0IZVGJD3tZd4HDqm50wpYE06BGa";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk, colyli@suse.de,
+ kent.overstreet@gmail.com, kbusch@kernel.org, sagi@grimberg.me,
+ vishal.l.verma@intel.com, dan.j.williams@intel.com, dave.jiang@intel.com,
+ ira.weiny@intel.com, konrad.wilk@oracle.com, roger.pau@citrix.com,
+ boris.ostrovsky@oracle.com, sstabellini@kernel.org, minchan@kernel.org,
+ ngupta@vflare.org, senozhatsky@chromium.org
+Cc: xen-devel@lists.xenproject.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-bcache@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <50f5fcbe-fb34-1cb8-1965-dd3bfd7e1f12@suse.com>
+Subject: Re: [PATCH v2 09/10] xen-blkfront: add error handling support for
+ add_disk()
+References: <20210927220039.1064193-1-mcgrof@kernel.org>
+ <20210927220039.1064193-10-mcgrof@kernel.org>
+In-Reply-To: <20210927220039.1064193-10-mcgrof@kernel.org>
 
-    nvme: introduce generic per-namespace chardev
+--ZhXoHV0IZVGJD3tZd4HDqm50wpYE06BGa
+Content-Type: multipart/mixed;
+ boundary="------------657B867CC90834C60D5C497D"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------657B867CC90834C60D5C497D
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+On 28.09.21 00:00, Luis Chamberlain wrote:
+> We never checked for errors on device_add_disk() as this function
+> returned void. Now that this is fixed, use the shiny new error
+> handling. The function xlvbd_alloc_gendisk() typically does the
+> unwinding on error on allocating the disk and creating the tag,
+> but since all that error handling was stuffed inside
+> xlvbd_alloc_gendisk() we must repeat the tag free'ing as well.
+>=20
+> We set the info->rq to NULL to ensure blkif_free() doesn't crash
+> on blk_mq_stop_hw_queues() on device_add_disk() error as the queue
+> will be long gone by then.
+>=20
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+
+Reviewed-by: Juergen Gross <jgross@suse.com>
 
 
-On Thu, Sep 30, 2021 at 6:36 PM Yi Zhang <yi.zhang@redhat.com> wrote:
->
-> On Thu, Sep 30, 2021 at 3:55 PM Sagi Grimberg <sagi@grimberg.me> wrote:
-> >
-> >
-> > >>> Hello
-> > >>>
-> > >>> Below kmemleak was triggered with blktests nvme-tcp on latest
-> > >>> 5.15.0-rc3, pls check it.
-> > >>>
-> > >>
-> > >> Please share the test number and the frequency to reproduce this...
-> > >>
-> > >
-> > > Hi
-> > > I'm running the full blktests nvme-tcp[1] and it's 100% reproduced.
-> > >
-> > > [1]
-> > > # nvme_trtype=tcp ./check nvme/
-> >
-> > Yi, this does not happen with nvme_trtype=rdma? It looks like
->
-> nvme_trtype=rdma use_siw=1 also can reproduce it.
->
-> > we don't get to call cdev_device_del and del_gendisk, which means
-> > we may have a referencing problem...
-> >
-> > I'm wandering if this is a regression we can bisect to?
->
-> So just run[1] with nvme_core: multipath=Y will trigger it.
-> [1]
-> nvme_trtype=tcp ./check nvme/004
->
-> Will try bisect it.
+Juergen
 
 
+--------------657B867CC90834C60D5C497D
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
 
--- 
-Best Regards,
-  Yi Zhang
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------657B867CC90834C60D5C497D--
+
+--ZhXoHV0IZVGJD3tZd4HDqm50wpYE06BGa--
+
+--O5jaGfuKPjp2dmoP5IHIhPbF1qqBfXK7C
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmFVtqAFAwAAAAAACgkQsN6d1ii/Ey9/
+Ggf9Fzrs35IrfdUjKBrgggetJDMgl6I0Cc/n6Jtov78ZI8feS38DFu/MBlJr7yJi7nDb927EgLkY
+Y12gOa0cyy+IViB/FsDGnzneZefxCV8ddwXHxUCK087pTn/rAExcemxNE6AQuP4c+Sg8SCgYbLuq
+VMaH5zOY5g4WAv7oC5wxvUNRJDun8GXGkc3nrpqjmmK1jlQ3eYGUIuHk4I7aD4Ms75pVOywkbpOg
+C9JTmp+fz8MknREAfAwX9343sfEr0+yceuLOx508VcF7asOTuQe78cbszDRUqWjUKvBniise0zdL
+XkmSEsvS4U6iJZ0ZvU8D1pH443giDVPA6cWx9XIbQg==
+=r4+e
+-----END PGP SIGNATURE-----
+
+--O5jaGfuKPjp2dmoP5IHIhPbF1qqBfXK7C--
+
+
+--===============4824968208218197863==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============4824968208218197863==--
+
