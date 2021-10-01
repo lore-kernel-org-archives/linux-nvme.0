@@ -2,111 +2,103 @@ Return-Path: <SRS0=bzk4=OV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74424C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 13:49:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51868C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 13:56:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BB5B615A4
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 13:49:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2BB5B615A4
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+	by mail.kernel.org (Postfix) with ESMTPS id F3417619EE
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 13:56:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F3417619EE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=hotmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xTPisvJgqk+AEkkqA0/GksIZZulykvkEjva0Jhnycow=; b=Qgyw/ZzARfdL/8
-	dCbmx9FmO9F4X5TP8VmHd0hrR2FLzaFfQU0GxkxSuXo3rzCVEShOLsUFbCKpxaIPUhWHaKDJBm9mJ
-	IqdK1JNMdUufUdNeQ0ljAagFHrvmaZ7wifxDlJjVFsGgo3w9CEhWHUhaIwIpED1hxTLmU/8j9+vam
-	le0Oa2kigq/IjvwPsQzYXsx1YbkGLd4DAhfv9ZnKBB0w6w0liv5pmXaPAXtbgon+rlsnTJFwY6Obc
-	mxU9rfZZmfJrf25bxSNULwSivNIuj+SEyEnp/4k4c/KkoPVqBgdBuTV832y4o0lWwU0paKldMh2wc
-	E3QP0f0svQUY4SDlqXnA==;
+	List-Owner; bh=ik7WUjRJ1oAhj3g6wr4pWP3dAdNeJbl844z3LWFH638=; b=2sJePae4iJB14z
+	6szxHj9sZeXa2jQxOX5kZLtNsRje8YyTWV+jny2TyVxtjvSkP8TqTj11XcGl1Dtw+APOcul8l+QGg
+	iagPeP2JIjo3DW24y6b4r8+uCXga6lbTNGny5ej2LSkXX0kNyq6eobaAcQprNL+CldnQPT7kQKEuH
+	Gog6phowNo2hra1/tXBiVgVya5+RqzOHaQTFicYvfjuF2wirKs58uc9g8X+X1E+HkNeeG0gayp0ZQ
+	vA/GDpOvlwhy2JlwARR+kN/kWyVWchSAoPRMFMrgmAAI27spmBNhMK7bV/L1AJjtIN303s9A6qIB8
+	JD6wPs+Uq/WB5w6OxseA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mWIuN-000SFG-Fp; Fri, 01 Oct 2021 13:49:03 +0000
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734])
+	id 1mWJ0z-000Spu-NX; Fri, 01 Oct 2021 13:55:53 +0000
+Received: from mail-dm6nam10olkn2054.outbound.protection.outlook.com
+ ([40.92.41.54] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mWIuK-000SEC-Iu
- for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 13:49:01 +0000
-Received: by mail-qk1-x734.google.com with SMTP id 194so9117795qkj.11
- for <linux-nvme@lists.infradead.org>; Fri, 01 Oct 2021 06:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=LG5nuVM12UKCUvMUz/H7oZ+JnPtb7xeOrg+cdikjdUw=;
- b=i2nZSJalGl2HFR2lljteQga9LLzznj1VY4sKfMFrOuI5TPw+9fxa9Y7VF6ORCDu6gf
- s1VZcbmu8prmAySSW0muDV9sPFy+ocsOAHMu7czDjdTka8/r9gDirvuLv+DjNcMP+yu2
- 2vpgG0jpIzFJO3o2EESr3Knc9sAVcu/3zrGpfyryk0rXsa3CM7UVEgJZI2lyiRkkfNpM
- 06X0/la9ZF1/JOw1nIH1hT6QVKTk7TJuv33hiHw5ih9p7MWcfmzNHEd0oxDuij3diKPb
- ruwnbMTM1vlfPcAVocSCOhTaVtV1FJ3tIhW47hPjbC6RUYlSTDx8/p4BvGKL4lQu/579
- YBXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LG5nuVM12UKCUvMUz/H7oZ+JnPtb7xeOrg+cdikjdUw=;
- b=HHOLMojhM3VflinztWeKVJjNmBRFJiuolTqlWA4ohiZayqWbX5L77zCwnqglktup2+
- l5jQ9JgmECt8BucU8mnedIJbTwHYsvnfjnQd7GetTs0GT2/1miqMLcgVJIVeA7ncY9bW
- lwR7hK7LwrXV9SA76KeGohyGfa0bm0pf/pObRCJNmq9amULpNHiZxyXBJ/TQ1aM46cpx
- sYqpGCQSinV7QvaWfCMTScSPbq3Lk71ZViStv1zxttjDpwIiyk+KGTj0eVI73Xp2DxLR
- WuFOh0DgAa1Q6qS+N/k8DD+dwScKKUxEzaon0/p4rv4Lw60RswxOi/Kj5IqJJTGSGLVj
- Akbg==
-X-Gm-Message-State: AOAM533Q1Ns8kjKT7+g4k34epfnsZiHSqDqqzDSlcQ9Lh8Flc3e+5gQn
- 03jiS7IrmNC6082Rew3cEuy29g==
-X-Google-Smtp-Source: ABdhPJxAWiRAix1MOnP+fusB3RWFs4aefuUjIqiau0+pjC7MwPUEHTq7EjNfCISJpSPUQC5qQMYTaw==
-X-Received: by 2002:a37:65d6:: with SMTP id z205mr9907719qkb.522.1633096138367; 
- Fri, 01 Oct 2021 06:48:58 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id u19sm3747206qtx.40.2021.10.01.06.48.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 06:48:57 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mWIuG-008R2P-Oj; Fri, 01 Oct 2021 10:48:56 -0300
-Date: Fri, 1 Oct 2021 10:48:56 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>,
- Alistair Popple <apopple@nvidia.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Stephen Bates <sbates@raithlin.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
-Message-ID: <20211001134856.GN3544071@ziepe.ca>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-20-logang@deltatee.com>
- <20210928195518.GV3544071@ziepe.ca>
- <8d386273-c721-c919-9749-fc0a7dc1ed8b@deltatee.com>
- <20210929230543.GB3544071@ziepe.ca>
- <32ce26d7-86e9-f8d5-f0cf-40497946efe9@deltatee.com>
- <20210929233540.GF3544071@ziepe.ca>
- <f9a83402-3d66-7437-ca47-77bac4108424@deltatee.com>
- <20210930003652.GH3544071@ziepe.ca>
+ id 1mWJ0w-000SpJ-UV
+ for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 13:55:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gtvV7BIZwQgihiLKFFjnW+ghmL/X2rSaXPyCs4dc4HzGdQIOL611zEPjk+0zHvKJIPDkvgZbtjBbT5pigX/5SwXFABStcjvlxW5P4N5GhyIk7nVI9755KnjvNUIXcyx8PodgutXsDTAD+7e2vAOM+gPZV5PHv7anVHNfpM/oSSNwbhp77XX/BIz1lxXmvDfAr9o3VA/beWyCWLWWUqwzFkB1Y+FhzMCyJJPtyrsRi5V6CC2MRcGfW5IWeap9tkM9PlsB3FgUrZMw4voE9/s4S3ZSJeJaj+jN7vr6Yl1qtTHKRl/iYkTs6oyuiaV1hLZ3FPQx+mztw40dEGFp8eoJaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tn9E9GF0fxoqLIBFdoY2c70FGoWJMDTr5T/q8zkPvdI=;
+ b=eMXqDua4MkwFSWjWYfJM1SJp2aNg//Iv9WFkbbOnx2MH5N1/tISSJNbk31jRFjfaWStwT8MijR8QttT1EHbPFjHAD7NiUTFoDu4EBx12pbZ/dmcQnsi8mM6fsCI+63ocOMo/oUNurkj4/M8k7Iq/mHkspvHqIAPdVYxh7vhWEwyts857SeF2g2DJjUkTQJNE4WIDXmVJ7A9qFTXo6IdIY/WMOlePwcqLulH9ZvfKwXWlEp458jJweOGUXEFHUciU5wv84lXbfNMyn2ZaEGtWFfMEifWBz1qNepXeh6tgG3AJ0Knue3bTwZAondzK0ZTak8f3ko7jRO1mpespwi48hQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tn9E9GF0fxoqLIBFdoY2c70FGoWJMDTr5T/q8zkPvdI=;
+ b=IkfT+XTKtAzt9329/mICJseOkgTaI6eNO/jLTnzTf+QnxbebKCEft5LYo9eJr4cAGIZnIy6c2sldfJM9Okb0EALBIpLs8g/3RKWlvJTfBVYfo+hVbhHffrEa9FRA+5CuMQVD9HKoG/LlJMSG/TE00VO9rw4+NqXpe70M6aWWjO6jZVQtzq120/vMGa/8dAOckPLXENCE8JSwZEpUYDvnjj7wHSz/ABQ7aP+Q25Awj18Qx8JT+J2LW752ZE+HMnM60QYhThWdz5q4PLYMxx6kKKX+hty8ie/ReX7V9fgSRLV15eVPiMSBaFeuQfgNqwgLEVzpzgJZQ0IYch0vdzNQbQ==
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
+ by MN2PR13MB3648.namprd13.prod.outlook.com (2603:10b6:208:1e8::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.12; Fri, 1 Oct
+ 2021 13:55:48 +0000
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::b504:e6a9:7b77:e348]) by BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::b504:e6a9:7b77:e348%7]) with mapi id 15.20.4587.009; Fri, 1 Oct 2021
+ 13:55:48 +0000
+From: Martin Belanger <nitram_67@hotmail.com>
+To: Daniel Wagner <dwagner@suse.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>, Martin
+ Belanger <martin.belanger@dell.com>
+Subject: Re: [PATCH] nvme-fabrics: Use shutdown timeout on disconnect
+Thread-Topic: [PATCH] nvme-fabrics: Use shutdown timeout on disconnect
+Thread-Index: AQHXtgtzpGUDjsGdgUCq1Qf0g6p5SKu9/iIAgAAqgpo=
+Date: Fri, 1 Oct 2021 13:55:48 +0000
+Message-ID: <BL0PR13MB42917F29A038398392FECB4A9CAB9@BL0PR13MB4291.namprd13.prod.outlook.com>
+References: <BL0PR13MB42919DA26E7A75E9219F62DF9CAA9@BL0PR13MB4291.namprd13.prod.outlook.com>
+ <20211001111142.cpergy5bcleywv72@carbon.lan>
+In-Reply-To: <20211001111142.cpergy5bcleywv72@carbon.lan>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+suggested_attachment_session_id: 1cff4bc1-79df-b931-e591-232ca0e384dd
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [+nPpysPHTdFSJ76iMQycTRs80UVg3Pzz]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 77c44d9d-895f-44e1-6689-08d984e32c56
+x-ms-traffictypediagnostic: MN2PR13MB3648:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PYpluSiBtUMQKEs0DYUzeDouPUiGHdbZkI8Aioiuny4I2eQMTu57YLH9dm5AgQab03dBrcDsiJPlPxdChT0Zdon2ZsO3q4HF54BBOsYwcnNLs+eSNIBc2nLaVFkgfMix+ObFqWlilkbzhASj5c/NMdOGJrOYo1gej4mV2eaiZNm+GzVAWLgvIzygWYwEw8x46v8EJ6/jQGILomwChgmJ6DwwXbZnWYuFc4Z7+MfvYSNXun04l6QZTq7UxtBbzZcr37i+rVivlqhEBJzAk7se+sVWV7WE1sKJt18jzn4PP53torGygPLdUukPU46aQXGqXNnOhYMVaYv7hidEPgVK0niMCLCt3iv/XKNbvUYeNmyYv7Zn71r4riS3QmyAQpp2NZ+XoE/dvx0r+GeaOfwgF3sEioc/Ci/t/Psz1yl9dI4WoS7uDjZYt3+ktYjcoKPc
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: RTQZjH2EWkFHpprCeNtAZ/Yg0n2rfTQS1ZPVJvHMfVaQ4T3+cBn3FjL5B5/ANcub8u/QGA3nUAETjvQd0KHVvKhktcNHC1LC44qGNVMZF593vgBjIGQRKa9AJwzlFlZo9F3kbU2Qqr0CJlPDnPtf9g==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210930003652.GH3544071@ziepe.ca>
+X-OriginatorOrg: sct-15-20-3174-8-msonline-outlook-32ef5.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77c44d9d-895f-44e1-6689-08d984e32c56
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2021 13:55:48.5008 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB3648
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211001_064900_648428_4B0BA891 
-X-CRM114-Status: GOOD (  16.24  )
+X-CRM114-CacheID: sfid-20211001_065551_095439_08756B1B 
+X-CRM114-Status: UNSURE (   9.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,55 +110,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 29, 2021 at 09:36:52PM -0300, Jason Gunthorpe wrote:
+From: Daniel Wagner <dwagner@suse.de>
+Sent: Friday, October 1, 2021 7:11 AM
+To: Martin Belanger <nitram_67@hotmail.com>
+Cc: linux-nvme@lists.infradead.org <linux-nvme@lists.infradead.org>; kbusch=
+@kernel.org <kbusch@kernel.org>; axboe@fb.com <axboe@fb.com>; hch@lst.de <h=
+ch@lst.de>; sagi@grimberg.me <sagi@grimberg.me>; Martin Belanger <martin.be=
+langer@dell.com>
+Subject: Re: [PATCH] nvme-fabrics: Use shutdown timeout on disconnect =
 
-> Why would DAX want to do this in the first place?? This means the
-> address space zap is much more important that just speeding up
-> destruction, it is essential for correctness since the PTEs are not
-> holding refcounts naturally...
+=A0
+On Thu, Sep 30, 2021 at 10:56:34AM -0400, Martin Belanger wrote:
+> @@ -244,8 +257,8 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off,=
+ u32 val)
+>=A0=A0=A0=A0=A0=A0=A0 cmd.prop_set.offset =3D cpu_to_le32(off);
+>=A0=A0=A0=A0=A0=A0=A0 cmd.prop_set.value =3D cpu_to_le64(val);
+>=A0 =
 
-It is not really for this series to fix, but I think the whole thing
-is probably racy once you start allowing pte_special pages to be
-accessed by GUP.
+> -=A0=A0=A0=A0 ret =3D __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL,=
+ NULL, 0, 0,
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 NVME_QID_AN=
+Y, 0, 0);
+> +=A0=A0=A0=A0 ret =3D __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL,=
+ NULL, 0,
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 timeout, NVME_QID_ANY, 0, 0);
 
-If we look at unmapping the PTE relative to GUP fast the important
-sequence is how the TLB flushing doesn't decrement the page refcount
-until after it knows any concurrent GUP fast is completed. This is
-arch specific, eg it could be done async through a call_rcu handler.
+If I am not mistaken nvmf_connect_io_queue() suffers from the same
+problem.
 
-This ensures that pages can't cross back into the free pool and be
-reallocated until we know for certain that nobody is walking the PTEs
-and could potentially take an additional reference on it. The scheme
-cannot rely on the page refcount being 0 because oce it goes into the
-free pool it could be immeidately reallocated back to a non-zero
-refcount.
-
-A DAX user that simply does an address space invalidation doesn't
-sequence itself with any of this mechanism. So we can race with a
-thread doing GUP fast and another thread re-cycling the page into
-another use - creating a leakage of the page from one security context
-to another.
-
-This seems to be made worse for the pgmap stuff due to the wonky
-refcount usage - at least if the refcount had dropped to zero gup fast
-would be blocked for a time, but even that doesn't happen.
-
-In short, I think using pg special for anything that can be returned
-by gup fast (and maybe even gup!) is racy/wrong. We must have the
-normal refcount mechanism work for correctness of the recycling flow.
-
-I don't know why DAX did this, I think we should be talking about
-udoing it all of it, not just the wonky refcounting Alistair and Felix
-are working on, but also the use of MIXEDMAP and pte special for
-struct page backed memory.
-
-Jason
-
+What I'm trying to fix is the timeout when disconnecting. The disconnect ti=
+meout should be short so that we don't get blocked for 1 minute. nvmf_conne=
+ct_io_queue() is used when establishing a connection, in which case we do w=
+ant to use the default (longer) timeout.
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
