@@ -2,104 +2,75 @@ Return-Path: <SRS0=bzk4=OV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C59C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 23:35:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 104BBC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 23:40:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 73EC661A6F
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 23:35:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 73EC661A6F
+	by mail.kernel.org (Postfix) with ESMTPS id BCEEB619F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 23:40:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BCEEB619F5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gbZBJwAcZG07T8CM7BSuzRMyfoGmvq3cwoWQLMC/rkw=; b=orQnbeOUfMPjYL
-	vmKxvSMFdaJHsDCpSojpWSdvs/FSE1KGtLY1omzt9tfMR0qMCaUMVmxXklT7Tj98ZMBUHGuA+TQDr
-	Fi1v0vovjywrPXRiJmx6WUT0M/eqCSK6NEU5lmSH72EGaACoxImI9LLLxRd73hqUXop5K1x0md4au
-	4yRqMKYyOMSLe/ama5T/s9Pf5aCORxo2FlgzQ0p3VnYURW8y6dfxj2I7T49HqZKdb7CXyDtL5yNEZ
-	j3YOe0cONy7SIVGmkmBRVqyx47lIfs++1paDWrQOYMMFUwO0mq2sEWTQRUVeLx0GgFZovKb5uWYL1
-	Ds0gUQyJsOynH0Fp9Oww==;
+	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=nxaj6VKuzJl2cANC+DBxs78tyI7JivOc8wjD+unB56U=; b=JMOSNlbOZ1IsOZ
+	9tMgsY3I0BtTaKrXGe+7J5jttUs4ale+B+51T5wLXcsz6q5lgcpXl2E5SI850uh/u1Xr3gNniUHpv
+	20t0MLAhZm8OtXMcHRFt47cEq5kbjt1w7WXTcM6KeGz/u/Ut6OJFgBOZ6WADGeJENDkS6XfQl3o/o
+	pUoqHqpT2BhUjOTYPSMWNj1gPeQX0isrm2WIDo4FP+ONdfGLeAbXX/HlrC52SWaqfR1vP2n/mY4Y2
+	HTFVXzblKtwAH6blmBjR89G8pQgkYxeew5jCLEorfoSbkzSB8zBYypXHM9IvpdKsq7ScgD8k94YRQ
+	5zfoYt/76i58SfkoDdAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mWS3B-001TLU-4T; Fri, 01 Oct 2021 23:34:45 +0000
+	id 1mWS8k-001Tzr-Jy; Fri, 01 Oct 2021 23:40:30 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mWS38-001TKw-IY
- for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 23:34:43 +0000
+ id 1mWS8h-001TzV-He
+ for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 23:40:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=1h1Lv0INI1OkG2kBb9PHFlHBKi/1CeW6GebCwGSVCmc=; b=Smqa+CJcH0Wt95tA7+NZxuHH+n
- QUOQh3trTTFGYaKSHuUijP9WcPujSedn7FDstFfsYhuknQTCYJHwhBs9cKWTjKDdAzQkEE7GaX0i6
- 8K2pKqN2XF4KMFJY2jPmPQHJB1KnCR+OcKBF37Dhi5yK3QrkpuvO3zcMb+nZC4n1fkUW7p2kM1ndG
- mgaSoULxDn+dkgGi43vCLs4LmlqVzCU99zRkih0sc2y2Phgb6F7/ihLzNisYQt7mmIEzjzZUs89W5
- UlF2030OiaRuSysvpaxMpvCp+kDbWZkzQWzIwXh6tKMgBZS01QvFxj82l74HQjP+NYCDw5mEN5oAh
- IowOY+8g==;
-Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1mWS2y-0001th-RF; Fri, 01 Oct 2021 17:34:33 -0600
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Alistair Popple <apopple@nvidia.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-References: <32ce26d7-86e9-f8d5-f0cf-40497946efe9@deltatee.com>
- <20210929233540.GF3544071@ziepe.ca>
- <f9a83402-3d66-7437-ca47-77bac4108424@deltatee.com>
- <20210930003652.GH3544071@ziepe.ca> <20211001134856.GN3544071@ziepe.ca>
- <4fdd337b-fa35-a909-5eee-823bfd1e9dc4@deltatee.com>
- <20211001174511.GQ3544071@ziepe.ca>
- <95ada0ac-08cc-5b77-8675-b955b1b6d488@deltatee.com>
- <20211001221405.GR3544071@ziepe.ca>
- <8871549c-63b5-d062-87ea-9036605984d5@deltatee.com>
- <20211001224605.GS3544071@ziepe.ca>
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+ :references:content-disposition:in-reply-to;
+ bh=wRe6OmdV+ic/VrXDKnYhC5DhYl9+aS4xXGi038GKF8s=; b=baqaxHo1aZZOFHDOyOstBNxcNQ
+ hEaMkMVk6+vRC7ZtLlHlDao745Eqhykc2DExpYustKcV9jDIqFrbKpw63xcHj4vzLE8SvcPzEWVRo
+ PYwXrCFZO9fR/CLbuio/T/uOTgviYzwvT76FGIIEW/5p/jZXZxptLcz9ZaotGuzZiqpFsjQsoNCPS
+ bH6a1dTAgoTiXQXh/cHSE9QA6O12kslU+MJCFPmY4L6z1J6CG3pcu5FToniz3/q90JHL8BIV7dw3m
+ AOJFK/UH3msEzPA79CthwRkqWrzecO97bBdKsEO9B7Yxv7ov2g6py4oM/q3oV33jRcnnN2rj26seG
+ n6+4TYWw==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1mWS8b-00020w-Rd; Fri, 01 Oct 2021 17:40:23 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
+ 4.94.2) (envelope-from <gunthorp@deltatee.com>)
+ id 1mWS8a-0001Bg-B1; Fri, 01 Oct 2021 17:40:20 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <ab49e8a7-8e81-29bb-250f-b395942b4da1@deltatee.com>
-Date: Fri, 1 Oct 2021 17:34:30 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Stephen Bates <sbates@raithlin.com>,
+ David Sloan <David.Sloan@eideticom.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Kanchan Joshi <joshi.k@samsung.com>, Logan Gunthorpe <logang@deltatee.com>
+Date: Fri,  1 Oct 2021 17:40:17 -0600
+Message-Id: <20211001234017.4519-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20211001224605.GS3544071@ziepe.ca>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: ckulkarnilinux@gmail.com, martin.oliveira@eideticom.com,
- robin.murphy@arm.com, ira.weiny@intel.com, helgaas@kernel.org,
- jianxin.xiong@intel.com, dave.hansen@linux.intel.com, jason@jlekstrand.net,
- dave.b.minturn@intel.com, andrzej.jakowski@intel.com, daniel.vetter@ffwll.ch,
- willy@infradead.org, ddutile@redhat.com, jhubbard@nvidia.com,
- christian.koenig@amd.com, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- dan.j.williams@intel.com, hch@lst.de, Felix.Kuehling@amd.com,
- apopple@nvidia.com, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ sbates@raithlin.com, David.Sloan@eideticom.com, martin.oliveira@eideticom.com,
+ joshi.k@samsung.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [RFC PATCH] nvme: allow specific passthrough IOs without CAP_SYSADMIN
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211001_163442_631040_BC5CAA9A 
-X-CRM114-Status: GOOD (  17.90  )
+X-CRM114-CacheID: sfid-20211001_164027_614576_1725DF03 
+X-CRM114-Status: GOOD (  18.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,35 +87,116 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The passthrough IOCTL interface allows for prototyping new non-standard
+NVMe features in userspace. However, all passthrough commands require
+full CAP_SYSADMIN over and above file access to the device. This means
+applications must run as root when running proof of concepts which is
+not often desirable.
 
+Instead, relax that requirement for vendor specific commands as well
+as identify and get_log_page admin commands (which both have vendor
+specific components). Identify and get_log_page only query information
+from the controller so users with this privilege shouldn't be able to
+cause any negative side effects and vendor specific commands are the
+vendors responsibility to avoid dangerous side effects.
 
+Users that want to send any of these passthrough commands will still
+require access to the NVMe char device or namespace. Typically, the
+char device is only accessible by root anyway and namespaces are
+accessible by root and the disk group. Administrators are free to
+add udev rules to adjust these permissions for specific devices they
+want to allow.
 
-On 2021-10-01 4:46 p.m., Jason Gunthorpe wrote:
-> On Fri, Oct 01, 2021 at 04:22:28PM -0600, Logan Gunthorpe wrote:
-> 
->>> It would close this issue, however synchronize_rcu() is very slow
->>> (think > 1second) in some cases and thus cannot be inserted here.
->>
->> It shouldn't be *that* slow, at least not the vast majority of the
->> time... it seems a bit unreasonable that a CPU wouldn't schedule for
->> more than a second. 
-> 
-> I've seen bug reports on exactly this, it is well known. Loaded
-> big multi-cpu systems have high delays here, for whatever reason.
-> 
->> But these aren't fast paths and synchronize_rcu() already gets
->> called in the unbind path for p2pdma a of couple times. I'm sure it
->> would also be fine to slow down the vma_close() path as well.
-> 
-> vma_close is done in a loop destroying vma's and if each synchronize
-> costs > 1s it can take forever to close a process. We had to kill a
-> similar use of synchronize_rcu in RDMA because users were complaining
-> of > 40s process exit times.
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+---
 
-Ah, fair. This adds a bit of complexity, but we could do a call_rcu() in
- vma_close to do the page frees.
+Hi,
+
+Wondering what people might think of loosening these restrictions a
+touch with this RFC patch. Open to other options if people have them.
+
+This will also become more generally useful with Joshi's io_uring work
+which enables asynchronous passthrough IOs.
+
+Thanks,
 
 Logan
+
+drivers/nvme/host/ioctl.c | 26 ++++++++++++++++++++++----
+ include/linux/nvme.h      |  1 +
+ 2 files changed, 23 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 22314962842d..3411269194e1 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -187,6 +187,24 @@ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
+ 	return true;
+ }
+
++static bool nvme_user_cmd_allowed(struct nvme_ns *ns, int opcode)
++{
++	if (ns) {
++		if (opcode >= nvme_cmd_vendor_start)
++			return true;
++	} else {
++		if (opcode >= nvme_admin_vendor_start)
++			return true;
++		switch (opcode) {
++		case nvme_admin_identify:
++		case nvme_admin_get_log_page:
++			return true;
++		}
++	}
++
++	return capable(CAP_SYS_ADMIN);
++}
++
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd)
+ {
+@@ -196,10 +214,10 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	u64 result;
+ 	int status;
+
+-	if (!capable(CAP_SYS_ADMIN))
+-		return -EACCES;
+ 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+ 		return -EFAULT;
++	if (!nvme_user_cmd_allowed(ns, cmd.opcode))
++		return -EACCES;
+ 	if (cmd.flags)
+ 		return -EINVAL;
+ 	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+@@ -242,10 +260,10 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	unsigned timeout = 0;
+ 	int status;
+
+-	if (!capable(CAP_SYS_ADMIN))
+-		return -EACCES;
+ 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+ 		return -EFAULT;
++	if (!nvme_user_cmd_allowed(ns, cmd.opcode))
++		return -EACCES;
+ 	if (cmd.flags)
+ 		return -EINVAL;
+ 	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b7c4c4130b65..8d36dcf6d2a4 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -692,6 +692,7 @@ enum nvme_opcode {
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
++	nvme_cmd_vendor_start   = 0x80,
+ };
+
+ #define nvme_opcode_name(opcode)	{ opcode, #opcode }
+
+base-commit: 5816b3e6577eaa676ceb00a848f0fd65fe2adc29
+--
+2.30.2
 
 _______________________________________________
 Linux-nvme mailing list
