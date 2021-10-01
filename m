@@ -2,102 +2,112 @@ Return-Path: <SRS0=bzk4=OV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9A22C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 17:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDAEC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 17:45:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9AC4D61AD0
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 17:02:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9AC4D61AD0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id 716D2619F8
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 17:45:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 716D2619F8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/Ip1CyOD+e05/pb4OAjhFFIJLMMvbQlO/LHGRqztleg=; b=DtiMzsP2Lq8y9R
-	mFEhbah9RcYkS7rAlXuChCoO0Kw7N9P8485KKY1JRIEErDb2vNYTrsHk2Xj0dpXJcEb2Vx4jJ6S1s
-	d6g1j3Q8PJMJVxLJseTSatFMv5G2ssRVxOMzIUNnjJluK1AZnVTd7l3CF5iysnp4VAvgJ/jYbiIvA
-	PIFYoZox61UXgnnvAhzQORvhDhMD9CNjNzqj1dR2gyULyYbUvJYSjxxOVeEr4x+/1aapSPLiEfzPE
-	T9sYV56ErZFo4FYOQm3h8LuRZieCnaO1wzmA/P1b6MlCJGgSJBUtAaBh1jJPfJSTUA4tUe9Q0HF18
-	FptXz/SVIqgdvRW23/GQ==;
+	List-Owner; bh=ZU7rogT1LgVkhSL4SfOZb4cpuwxy8PFaFGRX1g1Fd1Q=; b=L0THFKwiZJJ8fK
+	LnkcRaIr73hOGHChpBnDrP6MOdFNQ+RwP+9mo0403E7312AA6DyDLLbDeNfeZvDYnMgX+oQMvp5jg
+	huS7qj0nPhLyLYBJSo2rUZxGSCl0oAKQq/LPrAzDYTJW6K/obwK1axaqMPfR+ICkmf6e1aG8PsXzC
+	4nubT1tk8D8kjxz2O/ojoHvDjEUZLLF34T/ZrJ3VY61VJHHiaEk/hZm7azDq0g9wI8uxC4riR6stc
+	UyO+7OKubhdhSmsmhRagg+xe9TNfjgIKgcyQcc64FBNMn2hGzTmcyYYAL4zitTk3zrdwI75Ei9TY4
+	i4KgKpWI5yZ0/vF7WhUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mWLvT-000vzF-4b; Fri, 01 Oct 2021 17:02:23 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1mWMaz-0013ao-Jf; Fri, 01 Oct 2021 17:45:17 +0000
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mWLvP-000vyM-Nz
- for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 17:02:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=bYDtmI7g7itWVy9sZ7LZkZ5dph2F7VuLw3CuGucti2U=; b=s+nPOYtyQCnFiiolUwnh/1xJPy
- jCHFyQWGtLHmjRe53BoYJrs5hmHckB4NFM/qIqfZZZO5lTiS7WvK2SdMyNLJFlg/bu1oE74AOhejB
- d8wOCUasBDys2glJalldfVv6TUiPSaUxZQRWbLKjUapjMR9RAWlxkjwxG02a9pFpI4Gm2d9rkTZvo
- MUIcjHvQyuIvcitOyZoy7CF5UB1SgjTDqFkjiJJQCp52iC4QOlz1FBbMJh3IJ15gS9P3+8jQvA8Pp
- ZwM053wanqfZc2CKQodO+KbEyKtRkTlqcOjGOp7F5HI4U+2r/Iy2q0dU7FPTXU8n5UDQG6zzytd/7
- FnJI3MUg==;
-Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1mWLv1-0002AH-Aj; Fri, 01 Oct 2021 11:01:56 -0600
-To: Jason Gunthorpe <jgg@ziepe.ca>, Alistair Popple <apopple@nvidia.com>,
+ id 1mWMaw-0013Yz-PX
+ for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 17:45:16 +0000
+Received: by mail-qk1-x72e.google.com with SMTP id 138so9904367qko.10
+ for <linux-nvme@lists.infradead.org>; Fri, 01 Oct 2021 10:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=CY+QWSave8EGEaNVpceAJQ+ky5w1DWCyy9j7COQnHFM=;
+ b=askYTJzym7O5yaOqpeMzKwOj0j6Qwo04kEM179/a3sFhqrYyXzPAu1ifpOhcFl9q0Y
+ F/PLEDnH9R02hCpQbyV2Dzb5iXF38C6sxpIDCyRjVSLdg9m4x9mzmxGfikoOrIb4KO5g
+ KK7/5+UqT19eZNeA5mH/CtKtbeSKvPvg7bkvpD2k5W8s0SA56gdmbn7g92dyRjv6qzWm
+ NApTHpAV13PnJqbcQXh1/icou6aS6s4O8Q5naDdwg2J2VccmTim8IhxnqvDSONGlD1i/
+ 3CEpYbeXydKMWMWPJCbhj1ViExG40KWNfqcSecJq4GbUKkEnpgalIV0poHVYP2TUwniL
+ UMFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CY+QWSave8EGEaNVpceAJQ+ky5w1DWCyy9j7COQnHFM=;
+ b=QH3ABJifxeg7MeYnRuM+HSTdSXecnvuhX5uRxicbkCp5Tc1SuZt9567N0l07IHxone
+ WxISIqDLA9X2wOIjBpALQ/nEeSR97Y55BalmtrPv3eO71z2ZkoOkQWXqJ5IC8XSKrWuw
+ vQ1eM0oXrkGeIUyMuUZ2imISrdH0TRaCzrus1fh6okJ5sX9Fv9lluCbiTGclbwvAs5fx
+ ZuoY3ktqbR0hTZdXXqKU55ygstznJniIXxkXA+qSqOV9vEsWBjDu7c3iqqAxy75IcFaT
+ HKaUl3uTatiiu+Bax+VsgnuGHB+QOBULMmEpm9gaDb7kJAGhokPf7xLGBf17XpQzC4eO
+ YG5A==
+X-Gm-Message-State: AOAM53284xPkUQutXQo3kDj5cDXg6nldItpSDHJlfB51ivy8bMN+UfiP
+ 4JrmbOoao384ViY8Nkqw67z9Gg==
+X-Google-Smtp-Source: ABdhPJx/K6VNm0duCKrTeu/4uI4ViO+0lSC4pUeGkBrnh5E8R/aNPnPsk6AlICpx2DIIm1QpxAom9A==
+X-Received: by 2002:a37:8747:: with SMTP id j68mr10365945qkd.165.1633110313062; 
+ Fri, 01 Oct 2021 10:45:13 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129])
+ by smtp.gmail.com with ESMTPSA id w17sm3357837qkf.97.2021.10.01.10.45.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 10:45:12 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mWMat-0097tt-HS; Fri, 01 Oct 2021 14:45:11 -0300
+Date: Fri, 1 Oct 2021 14:45:11 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: Alistair Popple <apopple@nvidia.com>,
  Felix Kuehling <Felix.Kuehling@amd.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Stephen Bates <sbates@raithlin.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
  John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
  Minturn Dave B <dave.b.minturn@intel.com>,
  Jason Ekstrand <jason@jlekstrand.net>,
  Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-References: <20210916234100.122368-1-logang@deltatee.com>
- <20210916234100.122368-20-logang@deltatee.com>
+Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
+Message-ID: <20211001174511.GQ3544071@ziepe.ca>
+References: <20210916234100.122368-20-logang@deltatee.com>
  <20210928195518.GV3544071@ziepe.ca>
  <8d386273-c721-c919-9749-fc0a7dc1ed8b@deltatee.com>
  <20210929230543.GB3544071@ziepe.ca>
  <32ce26d7-86e9-f8d5-f0cf-40497946efe9@deltatee.com>
  <20210929233540.GF3544071@ziepe.ca>
  <f9a83402-3d66-7437-ca47-77bac4108424@deltatee.com>
- <20210930003652.GH3544071@ziepe.ca> <20211001134856.GN3544071@ziepe.ca>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <4fdd337b-fa35-a909-5eee-823bfd1e9dc4@deltatee.com>
-Date: Fri, 1 Oct 2021 11:01:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <20210930003652.GH3544071@ziepe.ca>
+ <20211001134856.GN3544071@ziepe.ca>
+ <4fdd337b-fa35-a909-5eee-823bfd1e9dc4@deltatee.com>
 MIME-Version: 1.0
-In-Reply-To: <20211001134856.GN3544071@ziepe.ca>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: ckulkarnilinux@gmail.com, martin.oliveira@eideticom.com,
- robin.murphy@arm.com, ira.weiny@intel.com, helgaas@kernel.org,
- jianxin.xiong@intel.com, dave.hansen@linux.intel.com, jason@jlekstrand.net,
- dave.b.minturn@intel.com, andrzej.jakowski@intel.com, daniel.vetter@ffwll.ch,
- willy@infradead.org, ddutile@redhat.com, jhubbard@nvidia.com,
- christian.koenig@amd.com, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- dan.j.williams@intel.com, hch@lst.de, Felix.Kuehling@amd.com,
- apopple@nvidia.com, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 19/20] PCI/P2PDMA: introduce pci_mmap_p2pmem()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Disposition: inline
+In-Reply-To: <4fdd337b-fa35-a909-5eee-823bfd1e9dc4@deltatee.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211001_100219_796280_4E410D79 
-X-CRM114-Status: GOOD (  31.09  )
+X-CRM114-CacheID: sfid-20211001_104514_985635_DFB7EE44 
+X-CRM114-Status: GOOD (  27.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,83 +124,85 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, Oct 01, 2021 at 11:01:49AM -0600, Logan Gunthorpe wrote:
 
+> In device-dax, the refcount is only used to prevent the device, and
+> therefore the pages, from going away on device unbind. Pages cannot be
+> recycled, as you say, as they are mapped linearly within the device. The
+> address space invalidation is done only when the device is unbound.
 
+By address space invalidation I mean invalidation of the VMA that is
+pointing to those pages.
 
-On 2021-10-01 7:48 a.m., Jason Gunthorpe wrote:
-> On Wed, Sep 29, 2021 at 09:36:52PM -0300, Jason Gunthorpe wrote:
-> 
->> Why would DAX want to do this in the first place?? This means the
->> address space zap is much more important that just speeding up
->> destruction, it is essential for correctness since the PTEs are not
->> holding refcounts naturally...
-> 
-> It is not really for this series to fix, but I think the whole thing
-> is probably racy once you start allowing pte_special pages to be
-> accessed by GUP.
-> 
-> If we look at unmapping the PTE relative to GUP fast the important
-> sequence is how the TLB flushing doesn't decrement the page refcount
-> until after it knows any concurrent GUP fast is completed. This is
-> arch specific, eg it could be done async through a call_rcu handler.
-> 
-> This ensures that pages can't cross back into the free pool and be
-> reallocated until we know for certain that nobody is walking the PTEs
-> and could potentially take an additional reference on it. The scheme
-> cannot rely on the page refcount being 0 because oce it goes into the
-> free pool it could be immeidately reallocated back to a non-zero
-> refcount.
-> 
-> A DAX user that simply does an address space invalidation doesn't
-> sequence itself with any of this mechanism. So we can race with a
-> thread doing GUP fast and another thread re-cycling the page into
-> another use - creating a leakage of the page from one security context
-> to another.
-> 
-> This seems to be made worse for the pgmap stuff due to the wonky
-> refcount usage - at least if the refcount had dropped to zero gup fast
-> would be blocked for a time, but even that doesn't happen.
-> 
-> In short, I think using pg special for anything that can be returned
-> by gup fast (and maybe even gup!) is racy/wrong. We must have the
-> normal refcount mechanism work for correctness of the recycling flow.
+device-dax may not have a issue with use-after-VMA-invalidation by
+it's very nature since every PFN always points to the same
+thing. fsdax and this p2p stuff are different though.
 
-I'm not quite following all of this. I'm not entirely sure how fs/dax
-works in this regard, but for device-dax (and similarly p2pdma) it
-doesn't seem as bad as you say.
+> Before the invalidation, an active flag is cleared to ensure no new
+> mappings can be created while the unmap is proceeding.
+> unmap_mapping_range() should sequence itself with the TLB flush and
 
-In device-dax, the refcount is only used to prevent the device, and
-therefore the pages, from going away on device unbind. Pages cannot be
-recycled, as you say, as they are mapped linearly within the device. The
-address space invalidation is done only when the device is unbound.
-Before the invalidation, an active flag is cleared to ensure no new
-mappings can be created while the unmap is proceeding.
-unmap_mapping_range() should sequence itself with the TLB flush and
-GUP-fast using the same mechanism it does for regular pages. As far as I
-can see, by the time unmap_mapping_range() returns, we should be
-confident that there are no pages left in any mapping (seeing no new
-pages could be added since before the call). Then before finishing the
-unbind, device-dax decrements the refcount of all pages and then waits
-for the refcount of all pages to go to zero. Thus, any pages that
-successfully were got with GUP, during or before unmap_mapping_range
-should hold a reference and once all those references are returned,
-unbind can finish.
+AFIAK unmap_mapping_range() kicks off the TLB flush and then
+returns. It doesn't always wait for the flush to fully finish. Ie some
+cases use RCU to lock the page table against GUP fast and so the
+put_page() doesn't happen until the call_rcu completes - after a grace
+period. The unmap_mapping_range() does not wait for grace periods.
 
-P2PDMA follows this pattern, except pages are not mapped linearly and
-are returned to the genalloc when their refcount falls to 1. This only
-happens after a VMA is closed which should imply the PTEs have already
-been unlinked from the pages. And the same situation occurs on unbind
-with a flag preventing new mappings from being created before
-unmap_mapping_range(), etc.
+This is why for normal memory the put_page is done after the TLB flush
+completes, not when unmap_mapping_range() finishes. This ensures that
+before the refcount reaches 0 no concurrent GUP fast can still observe
+the old PTEs.
 
-Not to say that all this couldn't use a big conceptual cleanup. A
-similar question exists with the single find_special_page() user
-(xen/gntdev) and it's definitely not clear what the differences are
-between the find_special_page() and vmf_insert_mixed() techniques and
-when one should be used over the other. Or could they both be merged to
-use the same technique?
+> GUP-fast using the same mechanism it does for regular pages. As far as I
+> can see, by the time unmap_mapping_range() returns, we should be
+> confident that there are no pages left in any mapping (seeing no new
+> pages could be added since before the call). 
 
-Logan
+When viewed under the page table locks this is true, but the 'fast'
+walkers like gup_fast and hmm_range_fault can continue to be working
+on old data in the ptes because they don't take the page table locks.
+
+They interact with unmap_mapping_range() via the IPI/rcu (gup fast) or
+mmu notifier sequence count (hmm_range_fault)
+
+> P2PDMA follows this pattern, except pages are not mapped linearly and
+> are returned to the genalloc when their refcount falls to 1. This only
+> happens after a VMA is closed which should imply the PTEs have already
+> been unlinked from the pages. 
+
+And here is the problem, since the genalloc is being used we now care
+that a page should not continue to be accessed by userspace after it
+has be placed back into the genalloc. I suppose fsdax has the same
+basic issue too.
+
+> Not to say that all this couldn't use a big conceptual cleanup. A
+> similar question exists with the single find_special_page() user
+> (xen/gntdev) and it's definitely not clear what the differences are
+> between the find_special_page() and vmf_insert_mixed() techniques and
+> when one should be used over the other. Or could they both be merged to
+> use the same technique?
+
+Oh that gntdev stuff is just nonsense. IIRC is trying to delegate
+control over a PTE entry itself to the hypervisor.
+
+		/*
+		 * gntdev takes the address of the PTE in find_grant_ptes() and
+		 * passes it to the hypervisor in gntdev_map_grant_pages(). The
+		 * purpose of the notifier is to prevent the hypervisor pointer
+		 * to the PTE from going stale.
+		 *
+		 * Since this vma's mappings can't be touched without the
+		 * mmap_lock, and we are holding it now, there is no need for
+		 * the notifier_range locking pattern.
+
+I vaugely recall it stuffs in a normal page then has the hypervisor
+overwrite the PTE. When it comes time to free the PTE it recovers the
+normal page via the 'find_special_page' hack and frees it. Somehow the
+hypervisor is also using the normal page for something.
+
+It is all very strange and one shouldn't think about it :|
+
+Jason
 
 _______________________________________________
 Linux-nvme mailing list
