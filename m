@@ -1,76 +1,79 @@
-Return-Path: <SRS0=bzk4=OV=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=yvpF=OW=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 104BBC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 23:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 265ACC433F5
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Oct 2021 22:20:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCEEB619F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Oct 2021 23:40:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BCEEB619F5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
+	by mail.kernel.org (Postfix) with ESMTPS id AE0BD61B27
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Oct 2021 22:20:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AE0BD61B27
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=nxaj6VKuzJl2cANC+DBxs78tyI7JivOc8wjD+unB56U=; b=JMOSNlbOZ1IsOZ
-	9tMgsY3I0BtTaKrXGe+7J5jttUs4ale+B+51T5wLXcsz6q5lgcpXl2E5SI850uh/u1Xr3gNniUHpv
-	20t0MLAhZm8OtXMcHRFt47cEq5kbjt1w7WXTcM6KeGz/u/Ut6OJFgBOZ6WADGeJENDkS6XfQl3o/o
-	pUoqHqpT2BhUjOTYPSMWNj1gPeQX0isrm2WIDo4FP+ONdfGLeAbXX/HlrC52SWaqfR1vP2n/mY4Y2
-	HTFVXzblKtwAH6blmBjR89G8pQgkYxeew5jCLEorfoSbkzSB8zBYypXHM9IvpdKsq7ScgD8k94YRQ
-	5zfoYt/76i58SfkoDdAw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rAcaYpwgEEliMJIZt7ulelonWUJP0BGJoXVN9VbZGV0=; b=nA6n520iCdWZAcXdSEMXg9yXy8
+	N31XWfgkAXQ+JWlp1xutXKq9ybMEw3oHD6HMd+wxbkPHsT9Ub0JX5lU/w3D4lH11K8qBx2baph2it
+	yZ1tY958os7/jORwMWAJmpYWTnYfYA5YVOcR1SREwfK9YZQCrFrpQarn0+o112MzZ9pTWXAG4e4ch
+	IbAN9ZhDrdZjAiKgTexu8chZS6buYCJN+tsX9WaeLmuQZbVE7Fzfr7BlJ3nIXHCAlUvYiHOfh3Iw7
+	bX4ZqjPAxC2wRvmUEKPi6k5IWBstcpo4iBLK1Y3n/ENvKI04d+/zKDoMtg9L31iqzMYi8jrDuXCEM
+	cesRXzug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mWS8k-001Tzr-Jy; Fri, 01 Oct 2021 23:40:30 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1mWnMF-002pEY-Lu; Sat, 02 Oct 2021 22:19:51 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mWS8h-001TzV-He
- for linux-nvme@lists.infradead.org; Fri, 01 Oct 2021 23:40:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
- :references:content-disposition:in-reply-to;
- bh=wRe6OmdV+ic/VrXDKnYhC5DhYl9+aS4xXGi038GKF8s=; b=baqaxHo1aZZOFHDOyOstBNxcNQ
- hEaMkMVk6+vRC7ZtLlHlDao745Eqhykc2DExpYustKcV9jDIqFrbKpw63xcHj4vzLE8SvcPzEWVRo
- PYwXrCFZO9fR/CLbuio/T/uOTgviYzwvT76FGIIEW/5p/jZXZxptLcz9ZaotGuzZiqpFsjQsoNCPS
- bH6a1dTAgoTiXQXh/cHSE9QA6O12kslU+MJCFPmY4L6z1J6CG3pcu5FToniz3/q90JHL8BIV7dw3m
- AOJFK/UH3msEzPA79CthwRkqWrzecO97bBdKsEO9B7Yxv7ov2g6py4oM/q3oV33jRcnnN2rj26seG
- n6+4TYWw==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1mWS8b-00020w-Rd; Fri, 01 Oct 2021 17:40:23 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
- 4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mWS8a-0001Bg-B1; Fri, 01 Oct 2021 17:40:20 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: Stephen Bates <sbates@raithlin.com>,
- David Sloan <David.Sloan@eideticom.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Kanchan Joshi <joshi.k@samsung.com>, Logan Gunthorpe <logang@deltatee.com>
-Date: Fri,  1 Oct 2021 17:40:17 -0600
-Message-Id: <20211001234017.4519-1-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
+ id 1mWnLw-002pE3-Nl
+ for linux-nvme@lists.infradead.org; Sat, 02 Oct 2021 22:19:34 +0000
+Received: by mail-wr1-f50.google.com with SMTP id o20so3851117wro.3
+ for <linux-nvme@lists.infradead.org>; Sat, 02 Oct 2021 15:19:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=89tXh8o7/0KtBldzOPuCdBrBw5c0oa+M5SA3mDPcjDo=;
+ b=T5b9wE7g50vr2Padt+X8lwPIwMxkp5aKIfeIUn8SIdkVItoroGARsNp4N91ocheL2Z
+ qmTymyV4Fx5nyZevglOok9GPpni67p8ZK2BH0oiKW9ZwvqebKd6RT+xqIoZvgDOx/jYi
+ o4EnYqi4qBbjWIlUH3O7IqGxEz6l4gjf/2jzkyexXNEaJ3FLCjNGQZiyLPYaw2cNJcem
+ vjnsWmg5wBcJ+sLo5wF39lCpd/7ObLEjYyIAZD67SH7YDLC5UJgrVTm6jyoMeuSv91rw
+ UGXcoObgMOEGBkTK4iuzSlvU+4NmyS/RjJe1x9G4YK4UahnuRv5j1jsn9LhjzMU1OzCO
+ HUTQ==
+X-Gm-Message-State: AOAM53108fJBpmdXa60AhX3iIerZPCR8yrBs0T/r36M9D0dMWQsrP8Gj
+ nGSmSFN8LVxWUWfQ+vPucdxMsQZrsl0=
+X-Google-Smtp-Source: ABdhPJynpwxtAHXjk4J/xRN27mBxckYaYC2gpTYHZvHn672SaIl2tUVg59hqfZQwzwvHVNBbLyFTVw==
+X-Received: by 2002:adf:a45c:: with SMTP id e28mr5318658wra.347.1633213170506; 
+ Sat, 02 Oct 2021 15:19:30 -0700 (PDT)
+Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
+ [109.186.240.23])
+ by smtp.gmail.com with ESMTPSA id v6sm1851138wrd.71.2021.10.02.15.19.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Oct 2021 15:19:30 -0700 (PDT)
+Subject: Re: [PATCH] nvme-tcp: fix incorrect h2cdata pdu offset accounting
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+References: <20210914153855.16177-1-sagi@grimberg.me>
+ <20210928204052.GA390773@dhcp-10-100-145-180.wdc.com>
+ <d969a4b7-4d3c-9df7-5a7d-9700bff37d50@grimberg.me>
+ <20210930201510.GA94540@C02WT3WMHTD6>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <0dedfd62-d61b-cfe3-8b5f-13c213323b46@grimberg.me>
+Date: Sun, 3 Oct 2021 01:19:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de,
- sagi@grimberg.me, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- sbates@raithlin.com, David.Sloan@eideticom.com, martin.oliveira@eideticom.com,
- joshi.k@samsung.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH] nvme: allow specific passthrough IOs without CAP_SYSADMIN
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+In-Reply-To: <20210930201510.GA94540@C02WT3WMHTD6>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211001_164027_614576_1725DF03 
-X-CRM114-Status: GOOD (  18.88  )
+X-CRM114-CacheID: sfid-20211002_151932_814257_0CB26636 
+X-CRM114-Status: GOOD (  21.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,121 +85,71 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The passthrough IOCTL interface allows for prototyping new non-standard
-NVMe features in userspace. However, all passthrough commands require
-full CAP_SYSADMIN over and above file access to the device. This means
-applications must run as root when running proof of concepts which is
-not often desirable.
 
-Instead, relax that requirement for vendor specific commands as well
-as identify and get_log_page admin commands (which both have vendor
-specific components). Identify and get_log_page only query information
-from the controller so users with this privilege shouldn't be able to
-cause any negative side effects and vendor specific commands are the
-vendors responsibility to avoid dangerous side effects.
+>>>> When the controller sends us multiple r2t PDUs in a single
+>>>> request we need to account for it correctly as our send/recv
+>>>> context run concurrently (i.e. we get a new r2t with r2t_offset
+>>>> before we updated our iterator and req->data_sent marker). This
+>>>> can cause wrong offsets to be sent to the controller.
+>>>>
+>>>> To fix that, we will first know that this may happen only in
+>>>> the send sequence of the last page, hence we will take
+>>>> the r2t_offset to the h2c PDU data_offset, and in
+>>>> nvme_tcp_try_send_data loop, we make sure to increment
+>>>> the request markers also when we completed a PDU but
+>>>> we are expecting more r2t PDUs as we still did not send
+>>>> the entire data of the request.
+>>>>
+>>>> Fixes: 825619b09ad3 ("nvme-tcp: fix possible use-after-completion")
+>>>> Reported-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+>>>> Tested-by: Nowak, Lukasz <Lukasz.Nowak@Dell.com>
+>>>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+>>>> ---
+>>>> - Keith, can you ask the WD team to test this as well?
+>>>
+>>> I finally have some feedback on testing, and it looks like this patch
+>>> has created a regression. The testers are observing:
+>>>
+>>>     [Tue Sep 28 02:12:55 2021] nvme nvme6: req 3 r2t len 8192 exceeded data len 8192 (4096 sent)
+>>>     [Tue Sep 28 02:12:55 2021] nvme nvme6: receive failed:  -71
+>>>     [Tue Sep 28 02:12:55 2021] nvme nvme6: starting error recovery
+>>>
+>>> Which we had seen before, and you fixed with commit:
+>>>
+>>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=825619b09ad351894d2c6fb6705f5b3711d145c7
+>>>
+>>> I only just recently heard about this, so I haven't looked into any
+>>> additional possible cause for this regression yet, but just wanted to
+>>> let you know earlier.
+>>
+>> Yes I definitely see the bug... Damn it..
+>>
+>> The issue here is that we peek at req->data_sent and req->data_len
+>> after the last send, but by then the request may have completed
+>> and these members were overwritten by a new execution of the
+>> request.
+>>
+>> We really should make sure that we record these before we perform
+>> the network send to avoid this race.
+>>
+>> Can you guys check that this restores the correct behavior?
+> 
+> Unfortunately this was unsuccessful. The same issue is still occuring. Please
+> let me know if you have another patch to try. I'll also keep looking for a
+> solution as well.
 
-Users that want to send any of these passthrough commands will still
-require access to the NVMe char device or namespace. Typically, the
-char device is only accessible by root anyway and namespaces are
-accessible by root and the disk group. Administrators are free to
-add udev rules to adjust these permissions for specific devices they
-want to allow.
+Really? That's unexpected, this patch should ensure that the request
+is not advanced after the last payload send. The req->data_sent and
+req->data_len are recorded before we actually perform the send so
+the request should not be advanced if (e.g. last send):
+	(req_data_sent + ret == req_data_len)
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
-
-Hi,
-
-Wondering what people might think of loosening these restrictions a
-touch with this RFC patch. Open to other options if people have them.
-
-This will also become more generally useful with Joshi's io_uring work
-which enables asynchronous passthrough IOs.
-
-Thanks,
-
-Logan
-
-drivers/nvme/host/ioctl.c | 26 ++++++++++++++++++++++----
- include/linux/nvme.h      |  1 +
- 2 files changed, 23 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 22314962842d..3411269194e1 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -187,6 +187,24 @@ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
- 	return true;
- }
-
-+static bool nvme_user_cmd_allowed(struct nvme_ns *ns, int opcode)
-+{
-+	if (ns) {
-+		if (opcode >= nvme_cmd_vendor_start)
-+			return true;
-+	} else {
-+		if (opcode >= nvme_admin_vendor_start)
-+			return true;
-+		switch (opcode) {
-+		case nvme_admin_identify:
-+		case nvme_admin_get_log_page:
-+			return true;
-+		}
-+	}
-+
-+	return capable(CAP_SYS_ADMIN);
-+}
-+
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			struct nvme_passthru_cmd __user *ucmd)
- {
-@@ -196,10 +214,10 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	u64 result;
- 	int status;
-
--	if (!capable(CAP_SYS_ADMIN))
--		return -EACCES;
- 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
- 		return -EFAULT;
-+	if (!nvme_user_cmd_allowed(ns, cmd.opcode))
-+		return -EACCES;
- 	if (cmd.flags)
- 		return -EINVAL;
- 	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
-@@ -242,10 +260,10 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	unsigned timeout = 0;
- 	int status;
-
--	if (!capable(CAP_SYS_ADMIN))
--		return -EACCES;
- 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
- 		return -EFAULT;
-+	if (!nvme_user_cmd_allowed(ns, cmd.opcode))
-+		return -EACCES;
- 	if (cmd.flags)
- 		return -EINVAL;
- 	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index b7c4c4130b65..8d36dcf6d2a4 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -692,6 +692,7 @@ enum nvme_opcode {
- 	nvme_cmd_zone_mgmt_send	= 0x79,
- 	nvme_cmd_zone_mgmt_recv	= 0x7a,
- 	nvme_cmd_zone_append	= 0x7d,
-+	nvme_cmd_vendor_start   = 0x80,
- };
-
- #define nvme_opcode_name(opcode)	{ opcode, #opcode }
-
-base-commit: 5816b3e6577eaa676ceb00a848f0fd65fe2adc29
---
-2.30.2
+So I'm surprised that the same issue is still occurring.
 
 _______________________________________________
 Linux-nvme mailing list
