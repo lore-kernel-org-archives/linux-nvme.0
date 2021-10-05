@@ -2,78 +2,77 @@ Return-Path: <SRS0=bdbJ=OZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61899C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 08:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9584C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 12:39:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1F03F610EA
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 08:05:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1F03F610EA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 80D5E61872
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 12:39:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 80D5E61872
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=STjyFMp7Pj741GmPDdz6eThYGi9PeYfc84RY3j2cM3I=; b=3xvigea2OHLj0x
-	jj0mKXAC+DPwx25vUJ6SMmvwnGCBv8WpqVUBj4MLiVXEz86j3kWTbWzdVvjTcGNTBal9vR3bN0cPy
-	lTZNt//sOi8yY75MwliDXxfjZ+yRvVccdOcZXuq4KiZuX7DLRp6B0i4fuazRm3jDi/uBM8oKphAS8
-	BJrZyEEhpDmbk+YJCr60vkBHsQAbYCfl7HPoGku78xMIrRVZE0Xkd/uZSJJWRKS75/x9qiO7rZYbL
-	6oDpHLzIBglC0oSqIu2nvqA6dvnPewjOYL++CDF+i3xMc9sWSBDXbUM+9AVN/9Vnq8eyNjVvccRzh
-	yyytv2luiZB/SfQDqrFg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UavjXEZkkxq/dyBMqnGAGu1anjw+QQ+sYtAhc5DdI5Y=; b=Fk0R3cXKtqDSJgZquAeHWdUeCe
+	siJT3voW4nK55iOjHilRm1fGL9Li6H3GgAPMlAw9N4XVKQIxWsNR0umw+IF5Oz96VX9uJWZtQ1T5F
+	aBPbOaorlfeU5GnNjDt5zyDdAtmjRIPkSndeFUME84aTPgepRWcPyeiCKZWcTMp6Mds/Iom17rbfL
+	OU8fNE/i9AeGnqoVHRucZV1M5xSFHCqvsSjFXuYM1imb5WeXgk91I3zVyybLFss6UwT5zRla5xWhd
+	MZhU6OADfGywU9dYY//zLbi0SpHH6tcLeGWe+Ia855+StNM8PLxDTB1ba6/6po2z74g4ojJkw2Jsv
+	nOsEmOSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mXfRo-009T6o-M3; Tue, 05 Oct 2021 08:05:12 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1mXjid-00ASne-CG; Tue, 05 Oct 2021 12:38:51 +0000
+Received: from mail-ed1-f48.google.com ([209.85.208.48])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mXfQx-009T5G-Ed
- for linux-nvme@lists.infradead.org; Tue, 05 Oct 2021 08:04:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633421058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vtULx88xAOp/JsicdkATYnwFMV/hB6VPvYC999jApo8=;
- b=JSk7PFpS80G3NFN3RFjUWXLPKPW0CGeq10kZo5k6bSzoHZa8NdwyOILeaULmtD/anYIUNq
- mFctHj+fU3vsep6xTzsZixPpkv6gYGiuOVcatNg1pqkFrMpdu0Tc0FyXAkchdBlRoks8jw
- 7wlhGgIiRCp1r6jI1st9rD/FtCPDL9Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-8fu__61VMtOhSr-PMRLRiw-1; Tue, 05 Oct 2021 04:04:16 -0400
-X-MC-Unique: 8fu__61VMtOhSr-PMRLRiw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 140611842158;
- Tue,  5 Oct 2021 08:04:15 +0000 (UTC)
-Received: from T590 (ovpn-8-16.pek2.redhat.com [10.72.8.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F88E60C17;
- Tue,  5 Oct 2021 08:04:10 +0000 (UTC)
-Date: Tue, 5 Oct 2021 16:04:06 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V2 1/5] nvme: add APIs for stopping/starting admin queue
-Message-ID: <YVwG9qjNUNrE5duR@T590>
-References: <20210930125621.1161726-1-ming.lei@redhat.com>
- <20210930125621.1161726-2-ming.lei@redhat.com>
- <95d25bd6-f632-67cc-657e-5158c6412256@nvidia.com>
- <YVu3EjPqT8VME/oY@T590>
- <79efb733-4904-d27f-b336-d5d97d3ca261@nvidia.com>
+ id 1mXjhv-00ASlW-QY
+ for linux-nvme@lists.infradead.org; Tue, 05 Oct 2021 12:38:09 +0000
+Received: by mail-ed1-f48.google.com with SMTP id r18so77842843edv.12
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Oct 2021 05:38:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y1yYpKnm27mAgTiPO6O2C9KQEiROAk/pkmzPnUflbls=;
+ b=2oW2lkbJ50huUBuvcjVVOL1Y0hR3vMawtjDaSlma7+0coQoM3mtIoBIElBBFaa5EEn
+ vBSkOYdBFB0JWow+kNo8ceOAVijCWnfOd8Na+Eig35lem8UUEJxsZV5eM7GAbL8yB94X
+ aRx3913uj1Fam4hltD0o7UwVdVXxhhanYiWTq3LHNKIerOVz7//8enS/7kFFbbkVAd8D
+ b1quiRXemex+4PT2bEu6fvzhTVEPBfV6F36cOeoSz0FB8/P5vIDqvvqi6Rd3CrwcfXV+
+ 3/YfNsN5BEr8ZQAx/vDiMIIA06/7BTWlofGBXOpzRNeZXwI+kQSxH8uV9OIUPJR3dGAM
+ uPIg==
+X-Gm-Message-State: AOAM530EiFyglkrJRIwL/WmfzHefAhs4L0FI585CumQ58katOF2E/B7t
+ yBq/7G5rN8CM7uhTFa0UJ0+XcXdIQEU=
+X-Google-Smtp-Source: ABdhPJzK2w0PuoxhaVNoLHrti3zZUad0JxTy5iVLm79MnAEzMUb1tpvwqQmgHim9adthUkLg/p8W6Q==
+X-Received: by 2002:a50:ccc4:: with SMTP id b4mr26231441edj.83.1633437483475; 
+ Tue, 05 Oct 2021 05:38:03 -0700 (PDT)
+Received: from [10.100.102.14] (109-186-240-23.bb.netvision.net.il.
+ [109.186.240.23])
+ by smtp.gmail.com with ESMTPSA id bt24sm7752124ejb.77.2021.10.05.05.38.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 05:38:02 -0700 (PDT)
+Subject: Re: [PATCH] nvme/mpath: fix hang when disk goes live over reconnect
+To: Christoph Hellwig <hch@lst.de>, Anton Eidelman <anton.eidelman@gmail.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com
+References: <20210918215729.388968-1-anton@lightbitslabs.com>
+ <20210920063534.GA26999@lst.de> <20210920145336.GA489494@anton-latitude>
+ <20210921071527.GA24837@lst.de> <20211004164612.GA1475751@anton-latitude>
+ <20211004165725.GB21511@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <6dcfff91-3973-3b2d-e289-38533463cfb6@grimberg.me>
+Date: Tue, 5 Oct 2021 15:38:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <79efb733-4904-d27f-b336-d5d97d3ca261@nvidia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20211004165725.GB21511@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211005_010419_701481_19201E39 
-X-CRM114-Status: GOOD (  31.06  )
+X-CRM114-CacheID: sfid-20211005_053807_901070_40340D20 
+X-CRM114-Status: GOOD (  22.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,65 +84,127 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 05, 2021 at 03:38:18AM +0000, Chaitanya Kulkarni wrote:
-> On 10/4/21 19:23, Ming Lei wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > Hello Chaitanya,
-> > 
-> > On Fri, Oct 01, 2021 at 05:56:04AM +0000, Chaitanya Kulkarni wrote:
-> >> On 9/30/2021 5:56 AM, Ming Lei wrote:
-> >>> External email: Use caution opening links or attachments
-> >>>
-> >>>
-> >>> Add two APIs for stopping and starting admin queue.
-> >>>
-> >>> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> >>
-> >>
-> >> this patch looks good to me, but from the feedback I've received in past
-> >> we need to add the new functions in the patch where they are actually
-> >> used than adding it in a separate patch.
-> > 
-> > The added two APIs are exported via EXPORT_SYMBOL_GPL(), so it won't
-> > cause any build warning. I see lots of such practise too.
-> > 
+
+>> How do we proceed with this fix?
 > 
-> the comment was not related to any build or warning.
+> Please resend with the suggested updates.
 > 
-> > It is easier for reviewing in this way since the 1st patch focuses on
-> > API implementation, and the 2nd patch focuses on using the API,
-> > especially there are lots of users in patch 2.
-> > 
+>> I believe error propagation here is not wanted because:
+>> 1) A failure to fetch or parse the ANA log should not be considered
+>>     an error in ctrl initialization.
 > 
-> I am aware of that, just sharing what I got the comments in the past.
+> We must handle error that are due to a controller failing to initialize.
 > 
-> > But if you really don't like this way, I am fine to merge the two since
-> > merging is always easier than splitting, :-)
-> > 
+>> 2) Such error will not cause problems in teardown.
+>> 3) The same failure is possible in ANA work and we do not take
+>>     any action in such case.
 > 
-> it will be good if we can keep the consistency ... nothing else ..
+> Failing in a workqueue is different from failing in the initialization
+> path.
+> 
+>> 4) Adding support for failure to nvme_start_ctrl() adds complexity
+>>     and does not look useful due to the above 1-3.
 
-OK, got it, and the latest such nvme patch is the following one, which
-introduced an API in one standalone patch.
+The feedback here is that this patch is changing the functionality
+as before we failed initialization and now we don't.
 
-commit dda3248e7fc306e0ce3612ae96bdd9a36e2ab04f
-Author: Chao Leng <lengchao@huawei.com>
-Date:   Thu Feb 4 08:55:11 2021 +0100
+What is the issue in propagating the error and then modify
+the call-sites? Shouldn't it be simple enough to do?
+--
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index aa14ad963d91..d86623b90eea 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3158,8 +3158,11 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
 
-    nvme: introduce a nvme_host_path_error helper
+         ctrl->ctrl.nr_reconnects = 0;
 
+-       if (changed)
+-               nvme_start_ctrl(&ctrl->ctrl);
++       if (changed) {
++               ret = nvme_start_ctrl(&ctrl->ctrl);
++               if (ret)
++                       goto out_term_aen_ops;
++       }
 
+         return 0;       /* Success */
 
-Thanks 
-Ming
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b82492cd7503..59bfdd72a51a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2827,7 +2827,10 @@ static void nvme_reset_work(struct work_struct *work)
+                         &nvme_pci_attr_group))
+                 dev->attrs_added = true;
 
+-       nvme_start_ctrl(&dev->ctrl);
++       ret = nvme_start_ctrl(&dev->ctrl);
++       if (ret)
++               goto out_unlock;
++
+         return;
+
+   out_unlock:
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 042c594bc57e..9e9e34a012e7 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1141,7 +1141,10 @@ static int nvme_rdma_setup_ctrl(struct 
+nvme_rdma_ctrl *ctrl, bool new)
+                 goto destroy_io;
+         }
+
+-       nvme_start_ctrl(&ctrl->ctrl);
++       ret = nvme_start_ctrl(&ctrl->ctrl);
++       if (ret)
++               goto destroy_io;
++
+         return 0;
+
+  destroy_io:
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 10b164f02b5d..22199281ad17 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -923,6 +923,11 @@ static void nvme_tcp_fail_request(struct 
+nvme_tcp_request *req)
+         nvme_tcp_end_request(blk_mq_rq_from_pdu(req), 
+NVME_SC_HOST_PATH_ERROR);
+  }
+@@ -2045,7 +2052,10 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl 
+*ctrl, bool new)
+                 goto destroy_io;
+         }
+
+-       nvme_start_ctrl(ctrl);
++       ret = nvme_start_ctrl(ctrl);
++       if (ret)
++               goto destroy_io;
++
+         return 0;
+
+  destroy_io:
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 0285ccc7541f..3fa89650c0d1 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -490,7 +490,9 @@ static void nvme_loop_reset_ctrl_work(struct 
+work_struct *work)
+         if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE))
+                 WARN_ON_ONCE(1);
+
+-       nvme_start_ctrl(&ctrl->ctrl);
++       ret = nvme_start_ctrl(&ctrl->ctrl);
++       if (ret)
++               goto out_destroy_io;
+
+         return;
+--
 
 _______________________________________________
 Linux-nvme mailing list
