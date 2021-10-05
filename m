@@ -2,83 +2,78 @@ Return-Path: <SRS0=bdbJ=OZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D06C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 04:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61899C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 08:05:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8D68561130
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 04:53:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8D68561130
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 1F03F610EA
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 08:05:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1F03F610EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=uivkJtitUdAT8WajPKKx9azA/8tAj6Xuy72XGcFQFcw=; b=3orSucQsfkHGD6
-	5Bnj8Q+TZtUMie9Ro74pBrotO9q4P6ziahx+y0oO671pEuK5+uxGCUr8snzqVAFgcUYUA0gQ6hr3S
-	M8V8joLDb0zrKVp1YcSsQ331q0oiOYII1ikzcc3yiEdzWZkfGBFcNGcZb3MamoIgELacc8qnVAueJ
-	lHuCI3qKTbOmlAmozwtK+on0hQSiA6s+E4UVgHiKnPVSenXYeY4S2cUbYjjhfnXcDC6VYn1u96ckv
-	qlTibzLVDXI+hG6DaTD+HYiNo3QCZXFnQgZxA45coUtbo/LJ2rhmK+Eo25CteV2LpPNAX/yYkyCpm
-	+nDXUrCETW8NnnMsNcyg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=STjyFMp7Pj741GmPDdz6eThYGi9PeYfc84RY3j2cM3I=; b=3xvigea2OHLj0x
+	jj0mKXAC+DPwx25vUJ6SMmvwnGCBv8WpqVUBj4MLiVXEz86j3kWTbWzdVvjTcGNTBal9vR3bN0cPy
+	lTZNt//sOi8yY75MwliDXxfjZ+yRvVccdOcZXuq4KiZuX7DLRp6B0i4fuazRm3jDi/uBM8oKphAS8
+	BJrZyEEhpDmbk+YJCr60vkBHsQAbYCfl7HPoGku78xMIrRVZE0Xkd/uZSJJWRKS75/x9qiO7rZYbL
+	6oDpHLzIBglC0oSqIu2nvqA6dvnPewjOYL++CDF+i3xMc9sWSBDXbUM+9AVN/9Vnq8eyNjVvccRzh
+	yyytv2luiZB/SfQDqrFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mXcSB-008v8E-MA; Tue, 05 Oct 2021 04:53:23 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1mXfRo-009T6o-M3; Tue, 05 Oct 2021 08:05:12 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mXcS8-008v6S-TF
- for linux-nvme@lists.infradead.org; Tue, 05 Oct 2021 04:53:22 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id
- oa6-20020a17090b1bc600b0019ffc4b9c51so978482pjb.2
- for <linux-nvme@lists.infradead.org>; Mon, 04 Oct 2021 21:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+lpcd/dIjLX1XzfbWfSb6TmisR3YFI0hYoc80N7VkYY=;
- b=BhgqGB8g17r5OxfsHfDIYnO7ToRyWkNnL85cxRnFnizGIRfe/9x8l5X5hU8nKLz+ZY
- HsFPQ61tW8MntttqiVH/xXzvFYuwzs8KyoEF0g53UkB2pkqB4Ph82wcd6EdUYb0JGFwy
- bps2xyQHAbImvP851z8re3BufkUhXRoDgfVxQhNCGNgHFtFEwK2NGTNEA4M7VqyM/NS2
- mQyDtwOxhoPevOjCFyu8pJcqm4crd8V6mFO9VwtYq3HJV3jxk8QAJmO1OpsJpjFXaGhK
- LYpvl9Jqs2zxkvnd+L9gsNk+xvugMpBJI65MErYsaJ0NBzvTJGMLOxbwpSUTE3Ol50es
- mpxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+lpcd/dIjLX1XzfbWfSb6TmisR3YFI0hYoc80N7VkYY=;
- b=0Dm6Bbb/M/xyi4nlmg7wSgls3ZmrKSIQE10ZSw3uV5qRaHSylDI8gcethHOo4Wd02Z
- u0c3fqLzE4ADXejqHjJp8e6in0wcWkjvk9ZcGapbTR3HHHMcCpb4333P0/8khcwC151A
- G/1DO/myxh5fKkSMjM9rMflc+GlZgWgykpoBkamLr+cwYVpDaPwsimRFYvX+JccIsqN1
- vZTj3ut2UXnY8ljJGN3NZ6q3cvAPVLU0oNLU9s1Qlk6JYLjJRIR8QIo5J5FoN0MwBaEw
- 1tK70pnxgX1ATxG55GI4xaY4ZmEiue03ImakUS4KzEQon3CFiUjn+kq35rGvqQqyUOuN
- mLWw==
-X-Gm-Message-State: AOAM532E9it+3NGeyKcdemvj38XHkOSeTL/XoM4MszhFngDO3+GPKba2
- dtdCbRA1Y6vXc3B04PemYa5Tm/IMlnclJQ==
-X-Google-Smtp-Source: ABdhPJxiLyKrha7hOr7TSfdw329+HXtI4TnawBipdk6FTVxXB+3vU6ujtzp9sRk8CqcgD+7vQP8FvQ==
-X-Received: by 2002:a17:90a:29a6:: with SMTP id
- h35mr1331262pjd.188.1633409596779; 
- Mon, 04 Oct 2021 21:53:16 -0700 (PDT)
-Received: from unconquered.home.aehallh.com (24-113-252-168.wavecable.com.
- [24.113.252.168])
- by smtp.gmail.com with ESMTPSA id g22sm19006046pfj.15.2021.10.04.21.53.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 21:53:16 -0700 (PDT)
-From: "Zephaniah E. Loss-Cutler-Hull" <zephaniah@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
- "Zephaniah E. Loss-Cutler-Hull" <zephaniah@gmail.com>
-Subject: [PATCH] nvme: hwmon: Do not create min and max values when not
- supported.
-Date: Mon,  4 Oct 2021 21:53:06 -0700
-Message-Id: <20211005045306.1429931-1-zephaniah@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ id 1mXfQx-009T5G-Ed
+ for linux-nvme@lists.infradead.org; Tue, 05 Oct 2021 08:04:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633421058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vtULx88xAOp/JsicdkATYnwFMV/hB6VPvYC999jApo8=;
+ b=JSk7PFpS80G3NFN3RFjUWXLPKPW0CGeq10kZo5k6bSzoHZa8NdwyOILeaULmtD/anYIUNq
+ mFctHj+fU3vsep6xTzsZixPpkv6gYGiuOVcatNg1pqkFrMpdu0Tc0FyXAkchdBlRoks8jw
+ 7wlhGgIiRCp1r6jI1st9rD/FtCPDL9Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-8fu__61VMtOhSr-PMRLRiw-1; Tue, 05 Oct 2021 04:04:16 -0400
+X-MC-Unique: 8fu__61VMtOhSr-PMRLRiw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 140611842158;
+ Tue,  5 Oct 2021 08:04:15 +0000 (UTC)
+Received: from T590 (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F88E60C17;
+ Tue,  5 Oct 2021 08:04:10 +0000 (UTC)
+Date: Tue, 5 Oct 2021 16:04:06 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V2 1/5] nvme: add APIs for stopping/starting admin queue
+Message-ID: <YVwG9qjNUNrE5duR@T590>
+References: <20210930125621.1161726-1-ming.lei@redhat.com>
+ <20210930125621.1161726-2-ming.lei@redhat.com>
+ <95d25bd6-f632-67cc-657e-5158c6412256@nvidia.com>
+ <YVu3EjPqT8VME/oY@T590>
+ <79efb733-4904-d27f-b336-d5d97d3ca261@nvidia.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <79efb733-4904-d27f-b336-d5d97d3ca261@nvidia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211004_215320_967375_3FC24B64 
-X-CRM114-Status: GOOD (  13.89  )
+X-CRM114-CacheID: sfid-20211005_010419_701481_19201E39 
+X-CRM114-Status: GOOD (  31.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,46 +90,59 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The Mushkin Enhanced Pilot-E 2TB (MKNSSDPE2TB-D8) provides a composite
-temperature, as well as the over temperature threshold and under
-temperature threshold settings for the composite temperature.
+On Tue, Oct 05, 2021 at 03:38:18AM +0000, Chaitanya Kulkarni wrote:
+> On 10/4/21 19:23, Ming Lei wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > Hello Chaitanya,
+> > 
+> > On Fri, Oct 01, 2021 at 05:56:04AM +0000, Chaitanya Kulkarni wrote:
+> >> On 9/30/2021 5:56 AM, Ming Lei wrote:
+> >>> External email: Use caution opening links or attachments
+> >>>
+> >>>
+> >>> Add two APIs for stopping and starting admin queue.
+> >>>
+> >>> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> >>
+> >>
+> >> this patch looks good to me, but from the feedback I've received in past
+> >> we need to add the new functions in the patch where they are actually
+> >> used than adding it in a separate patch.
+> > 
+> > The added two APIs are exported via EXPORT_SYMBOL_GPL(), so it won't
+> > cause any build warning. I see lots of such practise too.
+> > 
+> 
+> the comment was not related to any build or warning.
+> 
+> > It is easier for reviewing in this way since the 1st patch focuses on
+> > API implementation, and the 2nd patch focuses on using the API,
+> > especially there are lots of users in patch 2.
+> > 
+> 
+> I am aware of that, just sharing what I got the comments in the past.
+> 
+> > But if you really don't like this way, I am fine to merge the two since
+> > merging is always easier than splitting, :-)
+> > 
+> 
+> it will be good if we can keep the consistency ... nothing else ..
 
-However for the 5 individual sensors, no over or under temperature
-thresholds appear to be available, any attempt to access them results in
-an error.
+OK, got it, and the latest such nvme patch is the following one, which
+introduced an API in one standalone patch.
 
-At the moment, that means that reading from or writing to the _min or
-_max files in sys (as lmsensors does) results in an error.
+commit dda3248e7fc306e0ce3612ae96bdd9a36e2ab04f
+Author: Chao Leng <lengchao@huawei.com>
+Date:   Thu Feb 4 08:55:11 2021 +0100
 
-That isn't horribly user friendly, and we can detect this situation at
-initialization time.
+    nvme: introduce a nvme_host_path_error helper
 
-So in nvme_hwmon_is_visible, for the hwmon_temp_max/hwmon_temp_min case,
-we now attempt to actually get the threshold data, and if that fails we
-return 0 to indicate that the data should not be made visible.
 
-Signed-off-by: Zephaniah E. Loss-Cutler-Hull <zephaniah@gmail.com>
----
- drivers/nvme/host/hwmon.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
-index 0a586d712920..063f8aaddcd5 100644
---- a/drivers/nvme/host/hwmon.c
-+++ b/drivers/nvme/host/hwmon.c
-@@ -164,6 +164,10 @@ static umode_t nvme_hwmon_is_visible(const void *_data,
- 	case hwmon_temp_min:
- 		if ((!channel && data->ctrl->wctemp) ||
- 		    (channel && data->log.temp_sensor[channel - 1])) {
-+			long val;
-+
-+			if (nvme_get_temp_thresh(data->ctrl, channel, (attr == hwmon_temp_min), &val) < 0)
-+				return 0;
- 			if (data->ctrl->quirks &
- 			    NVME_QUIRK_NO_TEMP_THRESH_CHANGE)
- 				return 0444;
--- 
-2.33.0
+Thanks 
+Ming
 
 
 _______________________________________________
