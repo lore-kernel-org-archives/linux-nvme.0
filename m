@@ -2,75 +2,144 @@ Return-Path: <SRS0=bdbJ=OZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E771C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 02:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771C7C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 03:39:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1B5FB60F5B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 02:31:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1B5FB60F5B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 077016138B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Oct 2021 03:39:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 077016138B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/ChZX0z6u6BuiVmHRLXoNRzPcIzOV2G6VZ7sAKNSdy8=; b=eDZ4rn36rTD7rI
-	/tI/kNyjn1GhQfcxbJ6rxvSrZzUCKpF2Is1UAjqIHtOzrznE7WWtEdrtC6jhsKe9FzXNVM4xElZ0c
-	3MxU4tik/W/AMN2bBbKOlwfm9Fl/HOk00fg8DyY8VaNVHzaPlXZPtTu9Uni6ZXN3FqwG77Q4Ie7Ao
-	N6uF+1ITTLvBM6myUx1b/GsbvncqJKL9+8ao47TSL81eNaN49or5vFTokmkZ0kjNmoq0lvh7LDfRl
-	dEdcCDHsGBWq27VWIrNuLoJESeohUhWR72bL7Hwm0RiJuIAUa/hh5gUY5IxSxe4XearOpEPA23Yk8
-	cfzB1DRf9LH1UEpfhzkg==;
+	List-Owner; bh=4EhALzf90/jLgLRQOM5ISb831d7h71G9hZ6E4t4LDLE=; b=zAN5M7IGZ1PoZA
+	ojhXfjSoZ9kTWC1Tl6oOFTlkQy6cTdiXb/6U2j93pvFga6jswHNq4K5biUhLPQMTtBgENCRD+quHu
+	85ZlUY8BZYxGYhQZjcZE+ecdZNgvUt1dzC8IozCOlnQrySQZr2beImn/z52O8ykVx7TMYEx1a6zhv
+	wN6fKY4m+MA5/JIBGglR5oRFMvFkneUMmKBoB8YbqJMt4bTSEQ1Vnpl52mgIiDGbCdakDh+rQZORK
+	CjR2NTrSuy0CzVU6cvYQ9NIoI3Re6S0dgILssaidR8WXMne0+YD8qUop/fuc9Z7gPtLTgZjgu2dHX
+	UwGkn44KXwrP+IR2dp6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mXaEz-008iLH-9A; Tue, 05 Oct 2021 02:31:37 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1mXbHe-008nw7-HE; Tue, 05 Oct 2021 03:38:26 +0000
+Received: from mail-bn8nam12on2041.outbound.protection.outlook.com
+ ([40.107.237.41] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mXaEv-008iKb-Ug
- for linux-nvme@lists.infradead.org; Tue, 05 Oct 2021 02:31:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633401092;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Y7jJ6KHx8OrB8Mx5SJVvL7UsMt1KY18IEIlpK+BFivY=;
- b=dXOjH15KG/dHLSro+6/t0PIs3pwSionmcPLb3IKIF4GruIGr1UpIMeMeY8somQgTzqJH6y
- xq5IbW0VA4/x9aimKUoW+VvLC1n8QC5DmYQb8bDrv0qPo7faTalJHqeSy+6jrfFUdPhxgr
- fYL1UBnxV7sbuMs2QjxShvkYboZmNjw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-EBiTeELeNvax-nm-USI9VQ-1; Mon, 04 Oct 2021 22:31:31 -0400
-X-MC-Unique: EBiTeELeNvax-nm-USI9VQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C02EB8145E6;
- Tue,  5 Oct 2021 02:31:29 +0000 (UTC)
-Received: from T590 (ovpn-8-16.pek2.redhat.com [10.72.8.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2181410013D7;
- Tue,  5 Oct 2021 02:31:24 +0000 (UTC)
-Date: Tue, 5 Oct 2021 10:31:19 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V2 5/5] blk-mq: support concurrent queue quiesce/unquiesce
-Message-ID: <YVu49xcM1N//fvKR@T590>
+ id 1mXbHb-008nvB-Tp
+ for linux-nvme@lists.infradead.org; Tue, 05 Oct 2021 03:38:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NvmTs14nl7d1IKJMfk8TmYxJHd/L7rWQVnPBdNMYqVZ95fgPH+4/6mR7lRHR2FSRHqmMdyWHuPPyh84UnOl5yIi0w7SQDiZp6EEGCsbJArzticfbbDdMWoz2kRtXsF/EYw5zch7yGGlDH92ffJVZS2AvaIbXHGZbMpilHRfJL7Gs9yNg6Io4QswuQU4xHv89ly+DlMvjym7KLvyry1r8iPRPcpaY1eHevpfnyiiooZ0Nt34sAfuCV0VN4y80cgJAsh9JBgqL/QkKgeir/WtIIWs6wnUn5s9xOgmfy0V7EepnuWvXvZIGc+4BEL0scEDFj2VgGOnlHWqWAXx58JH2qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O/LWTdjbtuGHcGEwjeKSMtfXP+fJdyL1QAwPLQoN/08=;
+ b=kmizn1ymXQV+IMnIA7Bo5qQH5/YQ+eOcQ+3Dt1med5UnmQhBEqSUJ368YjQ52FEqLcaI7ergNayJqhL12RcfZkDhne5eUDxyQWbyVDdUL+SISf5dYSFlfjoF6I9BqPaLq+4EoYi/qf33vJ2no9ILaAkB+OlMNrVPVQD8co/9iAYLQzNYo13pN3BrThp21wwahbtmf6QjwlOJwybNQl8pj7evLnAxmwwdxTOlUPkOAdA9PaZXRtyzsRd68x9Fe4zvKvH+gqWikF2A01Su8wMuzYh7W5BER7kIl5cYTAC0nD1VugB88HoDNxkBk51nogFx4x0OrskWYbzzFx2diWFeMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O/LWTdjbtuGHcGEwjeKSMtfXP+fJdyL1QAwPLQoN/08=;
+ b=Frd0s2EpYtY4WoXc/KYcbDBRy0TjWreyA1KlowMZGmnIwo68SVg6aIaE7bWFkzFL6pbqAjW8ns5b9MW15KdigOdOZOkrV6rEmkk0a1pEfZkKbEgODWxC0vn/BLAdxRKXo1W1VcFCuyoe9E+HRgrIGf6kQMK8mJiaL5XKeeuTeIh4164mOXF4qtbEDIeszCLVhEfVPvwoAshoOqZYzngl48qdsYzIm4ATQ1YmSwUksH9rQ7UyelxyrNut/XeAYZ3xJ8uMN72Ji8GJ/YZxKOLq8xbLhPYyAitT9TjGVh/QkWrSyz0KMqEw4lbQAy26FaBJOdgw4n30OwN+N8RzLI9IxQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MWHPR12MB1726.namprd12.prod.outlook.com (2603:10b6:300:110::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.13; Tue, 5 Oct
+ 2021 03:38:18 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::3db1:105d:2524:524]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::3db1:105d:2524:524%7]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
+ 03:38:18 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Ming Lei <ming.lei@redhat.com>
+CC: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Sagi
+ Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V2 1/5] nvme: add APIs for stopping/starting admin queue
+Thread-Topic: [PATCH V2 1/5] nvme: add APIs for stopping/starting admin queue
+Thread-Index: AQHXtfqjo6XrkhaLxkCH4OgsGNpS36u9phOAgAYN3QCAABT4gA==
+Date: Tue, 5 Oct 2021 03:38:18 +0000
+Message-ID: <79efb733-4904-d27f-b336-d5d97d3ca261@nvidia.com>
 References: <20210930125621.1161726-1-ming.lei@redhat.com>
- <20210930125621.1161726-6-ming.lei@redhat.com>
- <e3d6c61c-f7cf-dcb0-df2e-a8e9acf5aaaa@acm.org>
+ <20210930125621.1161726-2-ming.lei@redhat.com>
+ <95d25bd6-f632-67cc-657e-5158c6412256@nvidia.com> <YVu3EjPqT8VME/oY@T590>
+In-Reply-To: <YVu3EjPqT8VME/oY@T590>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6f092334-a013-4fbf-209a-08d987b1922a
+x-ms-traffictypediagnostic: MWHPR12MB1726:
+x-microsoft-antispam-prvs: <MWHPR12MB1726063C9F666DDBFE07C41BA3AF9@MWHPR12MB1726.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ECprFV25M5l5ZznUtyAFiZWmdnKL3oZkCjvNVsAK/uyYpsXzDSBum92MRBEk7qZHzTSS+Kj2dd9hYEDmkwglA7C4gPL/gRpVG58BZIzAOv5A76tBVloFlquIeXv3rNlBtHCBs0qIdKRuyqAjxYpMro+uTwJcIPyZchcA6HEn3mr3kVhOqFLPkceviWv4I1Z3fJTu2h1wk8x0pk5anpTMxx+vJIJWU/OeCdtu44uHsFvNrN6M7ogfglCy56AdX7f5qcbCPRp6HpvPb7FTQslJJYHiWxLMRD86s4Smgv1WSn05ZY3tJj46eE8R+ywy8H86fb/jGWJcJtW3WE3sKC+6JUlEzp3OhWQM9SwqmpdBlyDu3dKoZD0X17MqgS/eRj/UVoatzEqRPkqrKJrdNkrYGjeDgyPwpExYxG+N8zu4hDEiWAvX1hralAd1hsUiaJPfaGrlWRv2ZEugFRRW8TXJS8Yvfnh7aozlxkZiPxD1qbw51t4sPLYWKRb14sZr/mVqBXTbcL+iKXd8edMUCQEZPs07jNKpLR8ISmu7dhYj86a3pPa3gSOw4iSSXmKc9r17CUs/AtYPk3ULfhadtLA0JZ2iwG2iJ20wHn7dGdYel3Ox4XDVi7GcoDuAkGkOOzyrCiPHFq0Gp7OhBP3a880hrqcvRxVKU84KEcn8sZ4l9ig/oZ3XhntaNJfPZ8Uw+eQRs+pDwVG1ssHraG7rr0gWEfTfJDOkP4bYPUdeZ/+rxiVV1lBcggwlH9cA/90qcKT5p8P9KtDWJqMQwi1TK2/wWw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(83380400001)(6916009)(66946007)(91956017)(66446008)(186003)(8936002)(76116006)(4326008)(508600001)(66476007)(66556008)(2906002)(36756003)(6512007)(2616005)(64756008)(31696002)(8676002)(38100700002)(31686004)(71200400001)(86362001)(54906003)(5660300002)(53546011)(316002)(38070700005)(122000001)(6486002)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eHlPdW9oV3ZIeGdYNVZ1N1p2bjRTVitSWTh2MFN2aW1lbG8xQUFiK1B5Mm5j?=
+ =?utf-8?B?azNEVzJuSEx4L1M0Z1IveVFBZlJxTjArcWpneG01TGh2MU5jeERUZWVrcVNq?=
+ =?utf-8?B?UndsTzFRMTVrdjQyV0tjMUM2ZEwrK0VHTE9UcWVJOWpaNUNSYUUrMzk2ZkxI?=
+ =?utf-8?B?TEdjU3FIUnFJekppTEM0Y2NiVE9GVGFxM1V6bWFENm5NMWkyUUpaN0xicjIz?=
+ =?utf-8?B?VVNJQkwwa21IcjUrVGJaWkxnSndqSUpWSTMrSUhENE9qSHZNYjQ0bE5rK0M2?=
+ =?utf-8?B?SVpsWW9zbksvVjJRaVhHQmY5QnZhdnNPb3hldmRDR1U1ZVdZckRKM01ONHVh?=
+ =?utf-8?B?aTdZWkRFUVV0dFZTWlVvUmNlaHRzcFBJNWlxYzdveDNtWldnOU9Hd3BLQkhO?=
+ =?utf-8?B?b0RVd1FUMXozVHZaZzR3Qk15b0R3MU9NTjBWUkkvSlMrUS93eVNvL0h4c3RM?=
+ =?utf-8?B?VFN4ZVM4MmpTUFhodXp1S09BZlc0LzZEYnUvU3FVR3A4aHhndndTYWtjUnU0?=
+ =?utf-8?B?RzUxRCtsL2JtNENjRFpuWExwWWg0T1VUYjVxRUUxemJMZWJKazg0dWY1Yll4?=
+ =?utf-8?B?aDcvU3lXTWVKREh0bXFSL3c5aDZ6SlBGa3M0SmR2YmUwSkdsSkExSE9FYTBo?=
+ =?utf-8?B?ZkhvZit5em9wRzJhWEZDTUZFTTh4Nk55UFUxa1JQVlE0OEcyR1hOcysxS0VT?=
+ =?utf-8?B?Tm5tTkNzckgvMmhqVXgvZFpNSitzc2pNOVErVWRsNnlDb1pLZUdmc3ZYRUQ1?=
+ =?utf-8?B?UVA0alhDeDZRM3RtOU16MFQzcXFBWWNWdi9wc2RjRFVSMmhiSWpQN2ZMcTRj?=
+ =?utf-8?B?djNKalQzeGs0cXpiTS9oWU5sK2FvN0dZdGx2K3ZqLzZwZGxTa2UwdXo1ZWVy?=
+ =?utf-8?B?QUxDOTFLQnptY1hFMVp5ZmkrNlBldGVBWTFDaUNZMzBoNElRUHZtTnd6RjMx?=
+ =?utf-8?B?V3VmTnRYMnVnMzRSOXZxSHVKWVBPMUJUWm5HOVNPWk4vWWx3VXZvL0V1NHZq?=
+ =?utf-8?B?akJZL3grSCtVZGNUdTZsU1JNV0lOY1N3ZlBPRUVKN0FjcFhtbVN6MkllN2Jm?=
+ =?utf-8?B?TGxmS296M2c5SFhaNWdWaitxWDV3TW1OaW9jcGNuLzBDNDhvbGJ6dEdZNHkz?=
+ =?utf-8?B?T1pRczF1ckljdFZ3VDZXQmlEUlNsQkJxWkpnZmtLM2VVWW1xd1l3UjNzcFNE?=
+ =?utf-8?B?NlliZEIzeERaTnpXM1Rwakh5VTNnT1lNYmVlSmtUbDlSMU4vK3o0SHl2L1Fj?=
+ =?utf-8?B?dkt6dXJheWt4RitKVHRuei9EcUlOR1k3a3BYK2R6UnE3LzcwUzNQcHJvWGNU?=
+ =?utf-8?B?eXpUSGRNSEFzdDNWN0hVQjROT0EyQWhINThOSllqYlNaSlVrUjg3QUl0NjBS?=
+ =?utf-8?B?MEo5SVhmV2VoclBpUlhQSlBuUVRuRlBsc2tGVmliZ2s1VXpOclI0aXcvQWNl?=
+ =?utf-8?B?eEVqNDUvTzVMRmxpU2syK2IrbTNmc2wzV1BYZ2ZLckRmOEFvYlVXbG9kRGtp?=
+ =?utf-8?B?SVFyNjlUNG9mUytERzlnVE5WR3FBR25xSVdWRVdXSU1vR2NZajBPc1UrdUF5?=
+ =?utf-8?B?Y2s1V1NqT0RtazhZTFhMWXlpVzFzYXZEdkxWcnpMZzA2Z216RmRkWThkb3hK?=
+ =?utf-8?B?OS85M3NKU0h2blJzRFQ4Wi9ER1JDV055S3hYaTQzeUVKVHlCZkdCb2FhUnZy?=
+ =?utf-8?B?NmZ0enZQMkFNUnlFbDgyTW5HQVlNay9RQjkwZ25LWWljZ3lVR21NRWFWdHVi?=
+ =?utf-8?B?ZTBqQy9FRFJSNTkxc25KdXRZaTZpc1dWY1p6cGdxeHV6UWtocitnenZxUWNl?=
+ =?utf-8?B?UzV6SkVZT0dLc3JhTmxWUT09?=
+x-ms-exchange-transport-forked: True
+Content-ID: <407AA98FAEE64548A03BB218B09C599D@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e3d6c61c-f7cf-dcb0-df2e-a8e9acf5aaaa@acm.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f092334-a013-4fbf-209a-08d987b1922a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2021 03:38:18.0411 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MGdMpGkK71vdvo/A7KLSlV5hw9MpAdW3b2hJUE0499GIYRNqpYTX2QCzTfGR5+8Bp8MR1S5I9X6hT+afQwbEIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1726
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211004_193134_087831_01A25F6E 
-X-CRM114-Status: GOOD (  33.40  )
+X-CRM114-CacheID: sfid-20211004_203824_010784_E4C54E8F 
+X-CRM114-Status: GOOD (  23.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,120 +156,49 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 30, 2021 at 08:56:29AM -0700, Bart Van Assche wrote:
-> On 9/30/21 5:56 AM, Ming Lei wrote:
-> > Turns out that blk_mq_freeze_queue() isn't stronger[1] than
-> > blk_mq_quiesce_queue() because dispatch may still be in-progress after
-> > queue is frozen, and in several cases, such as switching io scheduler,
-> > updating nr_requests & wbt latency, we still need to quiesce queue as a
-> > supplement of freezing queue.
+On 10/4/21 19:23, Ming Lei wrote:
+> External email: Use caution opening links or attachments
 > 
-> Is there agreement about this? If not, how about leaving out the above from the
-> patch description?
-
-Yeah, actually the code has been merged, please see the related
-functions: elevator_switch(), queue_wb_lat_store() and
-blk_mq_update_nr_requests().
-
 > 
-> > As we need to extend uses of blk_mq_quiesce_queue(), it is inevitable
-> > for us to need support nested quiesce, especially we can't let
-> > unquiesce happen when there is quiesce originated from other contexts.
-> > 
-> > This patch introduces q->mq_quiesce_depth to deal concurrent quiesce,
-> > and we only unquiesce queue when it is the last/outer-most one of all
-> > contexts.
-> > 
-> > One kernel panic issue has been reported[2] when running stress test on
-> > dm-mpath's updating nr_requests and suspending queue, and the similar
-> > issue should exist on almost all drivers which use quiesce/unquiesce.
-> > 
-> > [1] https://marc.info/?l=linux-block&m=150993988115872&w=2
-> > [2] https://listman.redhat.com/archives/dm-devel/2021-September/msg00189.html
+> Hello Chaitanya,
 > 
-> Please share the call stack of the kernel oops fixed by [2] since that
-> call stack is not in the patch description.
+> On Fri, Oct 01, 2021 at 05:56:04AM +0000, Chaitanya Kulkarni wrote:
+>> On 9/30/2021 5:56 AM, Ming Lei wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> Add two APIs for stopping and starting admin queue.
+>>>
+>>> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+>>
+>>
+>> this patch looks good to me, but from the feedback I've received in past
+>> we need to add the new functions in the patch where they are actually
+>> used than adding it in a separate patch.
+> 
+> The added two APIs are exported via EXPORT_SYMBOL_GPL(), so it won't
+> cause any build warning. I see lots of such practise too.
+> 
 
-OK, it is something like the following:
+the comment was not related to any build or warning.
 
-[  145.453672] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.12.0-2.fc30 04/01/2014
-[  145.454104] RIP: 0010:dm_softirq_done+0x46/0x220 [dm_mod]
-[  145.454536] Code: 85 ed 0f 84 40 01 00 00 44 0f b6 b7 70 01 00 00 4c 8b a5 18 01 00 00 45 89 f5 f6 47 1d 04 75 57 49 8b 7c 24 08 48 85 ff 74 4d <48> 8b 47 08 48 8b 40 58 48 85 c0 74 40 49 8d 4c 24 50 44 89 f2 48
-[  145.455423] RSP: 0000:ffffa88600003ef8 EFLAGS: 00010282
-[  145.455865] RAX: ffffffffc03fbd10 RBX: ffff979144c00010 RCX: dead000000000200
-[  145.456321] RDX: ffffa88600003f30 RSI: ffff979144c00068 RDI: ffffa88600d01040
-[  145.456764] RBP: ffff979150eb7990 R08: ffff9791bbc27de0 R09: 0000000000000100
-[  145.457205] R10: 0000000000000068 R11: 000000000000004c R12: ffff979144c00138
-[  145.457647] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000010
-[  145.458080] FS:  00007f57e5d13180(0000) GS:ffff9791bbc00000(0000) knlGS:0000000000000000
-[  145.458516] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  145.458945] CR2: ffffa88600d01048 CR3: 0000000106cf8003 CR4: 0000000000370ef0
-[  145.459382] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  145.459815] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  145.460250] Call Trace:
-[  145.460779]  <IRQ>
-[  145.461453]  blk_done_softirq+0xa1/0xd0
-[  145.462138]  __do_softirq+0xd7/0x2d6
-[  145.462814]  irq_exit+0xf7/0x100
-[  145.463480]  do_IRQ+0x7f/0xd0
-[  145.464131]  common_interrupt+0xf/0xf
-[  145.464797]  </IRQ>
+> It is easier for reviewing in this way since the 1st patch focuses on
+> API implementation, and the 2nd patch focuses on using the API,
+> especially there are lots of users in patch 2.
+> 
+
+I am aware of that, just sharing what I got the comments in the past.
+
+> But if you really don't like this way, I am fine to merge the two since
+> merging is always easier than splitting, :-)
+> 
+
+it will be good if we can keep the consistency ... nothing else ..
 
 > 
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index 21bf4c3f0825..10f8a3d4e3a1 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -209,7 +209,12 @@ EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
-> >    */
-> >   void blk_mq_quiesce_queue_nowait(struct request_queue *q)
-> >   {
-> > -	blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&q->queue_lock, flags);
-> > +	if (!q->quiesce_depth++)
-> > +		blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
-> > +	spin_unlock_irqrestore(&q->queue_lock, flags);
-> >   }
-> >   EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+> Thanks,
+> Ming
 > 
-> Consider using == 0 instead of ! to check whether or not quiesce_depth is
-> zero to improve code readability.
-
-Fine.
-
-> 
-> > @@ -250,10 +255,19 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
-> >    */
-> >   void blk_mq_unquiesce_queue(struct request_queue *q)
-> >   {
-> > -	blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-> > +	unsigned long flags;
-> > +	bool run_queue = false;
-> > +
-> > +	spin_lock_irqsave(&q->queue_lock, flags);
-> > +	if (q->quiesce_depth > 0 && !--q->quiesce_depth) {
-> > +		blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-> > +		run_queue = true;
-> > +	}
-> > +	spin_unlock_irqrestore(&q->queue_lock, flags);
-> >   	/* dispatch requests which are inserted during quiescing */
-> > -	blk_mq_run_hw_queues(q, true);
-> > +	if (run_queue)
-> > +		blk_mq_run_hw_queues(q, true);
-> >   }
-> 
-> So calling with blk_mq_unquiesce_queue() q->quiesce_depth <= 0 is ignored
-> quietly? How about triggering a kernel warning for that condition?
-
-OK.
-
-
-Thanks, 
-Ming
-
-
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
