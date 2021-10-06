@@ -2,14 +2,14 @@ Return-Path: <SRS0=nAjD=O2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 596CDC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Oct 2021 10:02:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE5AC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Oct 2021 10:05:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 117CD6109F
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Oct 2021 10:02:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 117CD6109F
+	by mail.kernel.org (Postfix) with ESMTPS id B28B16113E
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Oct 2021 10:05:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B28B16113E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,61 +18,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Message-ID:
 	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8brPnFsUFO6BWjmgIyKBq53w2v7hJGVZOWhSXcYn9ao=; b=zLnvRITvytr1y+TxHUAs+dOU3F
-	SR/k03PeUs7W5VLMwrUxWWmRLtgL/zddJH7rsSIsxb8MEJr/98I3xGjiWWtdYKUD9OK3+bTNuu7UQ
-	GTPWIaW2c0hKdJI1Oz5zMBSDxHWK2b6h5egwRuPdria6atQYBZexSxmeTBk6azyBokwGnsEFESTv9
-	VcrLHcUxPvOuSBhQ+vuIeOJePgKNv7bTte6qEjykhe4xvfBxMSuZr+VnQmAd+nAIMPZBVn/OpCsfK
-	JadouYY2rcqvOIcDvbrjBiZvCC+SuLABMElp4k1XDd6dLfX42DE1+jvutBgNgrHVp03IP9GiMeoHu
-	I5jWBIjw==;
+	bh=XOdAc/O5XBuG8QAcXmcYcBTVP39FDfpinXD0fMbToVg=; b=ViIBfKrFF/IZoxv/fS7jWYkATK
+	LA204c1uLsNtK9GjApiMh4OdJ9lj4zdSk88OdzjtDV+b36gR/CD3Q5SQpC1WP3thYLCcmU9MQ8E0u
+	VLOmHy/AaYyQWZpp1G8Lcck77b9xR9ZKdfe1Pihtw1mPaRYQWP51Om+T7BWPeRNM026s1MW1CLdP/
+	h+RxhbC+P2rXjk1IUtj5m9AhvzUP/uSiQSuk9ZuTFKuRWC2CgzlogtSgaJlZ0QOOTFVa8U498U4Y+
+	nxB/lxi91FJ5uWAetC5MQKEk5DDCOdokocwIZfW9M4HSonrckUM0O3osa8z/tHotrSIrQYJzNQvKs
+	lscm91nA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mY3ju-00DnXB-98; Wed, 06 Oct 2021 10:01:30 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1mY3nm-00DotP-Mc; Wed, 06 Oct 2021 10:05:30 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mY3jq-00DnVy-8Y
- for linux-nvme@lists.infradead.org; Wed, 06 Oct 2021 10:01:28 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20211006100123euoutp022b206020bcae45f7ae710f6814168d13~raMShJl551611516115euoutp021
- for <linux-nvme@lists.infradead.org>; Wed,  6 Oct 2021 10:01:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20211006100123euoutp022b206020bcae45f7ae710f6814168d13~raMShJl551611516115euoutp021
+ id 1mY3nk-00Dook-45
+ for linux-nvme@lists.infradead.org; Wed, 06 Oct 2021 10:05:29 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20211006100525euoutp018e6211eae783e9b2556a131c808336c3~raP0G6jCo1405514055euoutp01m
+ for <linux-nvme@lists.infradead.org>; Wed,  6 Oct 2021 10:05:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20211006100525euoutp018e6211eae783e9b2556a131c808336c3~raP0G6jCo1405514055euoutp01m
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1633514483;
- bh=FZBcHb7MoaKYxbk+/NhmGvSxHVs2WdKOe/OzkP+g/sg=;
+ s=mail20170921; t=1633514725;
+ bh=8UeUB7ujFp054c6NYv5PnL9PcSTwN20u+c3tPWoZ/Ts=;
  h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=aZQqF29olwPxwX6/Lo1rzXOBxvhShFGnO6azdoCTvkVWBdDFUOj+GQy0pT6vWGHlc
- tZrB+OFYFYBrtZkDg8raA1u5fInFr5Ud6DNjcAdqXyv/30FLCVLZyNIxo3FFsQCVLa
- LSywS8SyQKA+hDzy+M+SV4z1yiA2zUjZvVueBrMA=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ b=avcp1oua8BhCsycRT2GuU3Wa9D7L2/jxeo8x2fxU07m1NaMxh2nkjP+DgQfMHc5rW
+ vO6QUuhNsRj75hady99JIdFB+MF6GID/JELFR0/67lYPlfmbY+W1EKmVe0gQf35UPG
+ qPo8hpO/0FgW80bPc41Ho/JoPOb7P3lnLe3zWkBA=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20211006100123eucas1p13b64ab837df0cb5e262b2d517e4d2b6a~raMSNZ5mx2823628236eucas1p10;
- Wed,  6 Oct 2021 10:01:23 +0000 (GMT)
+ 20211006100525eucas1p11a0dd5d9be9e7517aa477f007d64a89f~raPzzOT322660526605eucas1p1p;
+ Wed,  6 Oct 2021 10:05:25 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id A3.76.56448.3F37D516; Wed,  6
- Oct 2021 11:01:23 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20211006100122eucas1p119be2455fe2809febb16490e7bbbe108~raMRpg3ox2795227952eucas1p13;
- Wed,  6 Oct 2021 10:01:22 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20211006100122eusmtrp2e553e6ca56aa3549f6bb389ab2268695~raMRofIT80327103271eusmtrp2N;
- Wed,  6 Oct 2021 10:01:22 +0000 (GMT)
-X-AuditID: cbfec7f5-d3bff7000002dc80-79-615d73f305cb
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 05.36.45756.5E47D516; Wed,  6
+ Oct 2021 11:05:25 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20211006100524eucas1p2a1686056cf4a213dc42af4da610ddb67~raPzQbfZM3035530355eucas1p2m;
+ Wed,  6 Oct 2021 10:05:24 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20211006100524eusmtrp1f259da37f2d056536891022ee35c0c12~raPzPegq41327913279eusmtrp1w;
+ Wed,  6 Oct 2021 10:05:24 +0000 (GMT)
+X-AuditID: cbfec7f2-7d5ff7000002b2bc-04-615d74e51519
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 61.7C.20981.2F37D516; Wed,  6
- Oct 2021 11:01:22 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 84.78.31287.4E47D516; Wed,  6
+ Oct 2021 11:05:24 +0100 (BST)
 Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20211006100122eusmtip1a94e2a6cd325173ea0fbbe1dcc9b7c90~raMRaQOYD0323803238eusmtip1Y;
- Wed,  6 Oct 2021 10:01:22 +0000 (GMT)
+ 20211006100524eusmtip128bb89f78867a5936408df4c49982d42~raPzBqDMU0572405724eusmtip1Y;
+ Wed,  6 Oct 2021 10:05:24 +0000 (GMT)
 Received: from localhost (106.210.248.142) by CAMSVWEXC01.scsc.local
  (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 6 Oct 2021 11:01:21 +0100
-Date: Wed, 6 Oct 2021 12:01:21 +0200
+ Wed, 6 Oct 2021 11:05:23 +0100
+Date: Wed, 6 Oct 2021 12:05:23 +0200
 From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Bart Van Assche <bvanassche@acm.org>
 CC: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Chaitanya Kulkarni
  <Chaitanya.Kulkarni@wdc.com>, "linux-block@vger.kernel.org"
  <linux-block@vger.kernel.org>, "linux-scsi@vger.kernel.org"
@@ -80,8 +80,7 @@ CC: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Chaitanya Kulkarni
  <linux-nvme@lists.infradead.org>, "dm-devel@redhat.com"
  <dm-devel@redhat.com>, "lsf-pc@lists.linux-foundation.org"
  <lsf-pc@lists.linux-foundation.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "msnitzer@redhat.com" <msnitzer@redhat.com>, "bvanassche@acm.org"
- <bvanassche@acm.org>, "martin.petersen@oracle.com"
+ "msnitzer@redhat.com" <msnitzer@redhat.com>, "martin.petersen@oracle.com"
  <martin.petersen@oracle.com>, "roland@purestorage.com"
  <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
  "hare@suse.de" <hare@suse.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
@@ -92,50 +91,50 @@ CC: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Chaitanya Kulkarni
  <selvakuma.s1@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>, "Kanchan
  Joshi" <joshi.k@samsung.com>, Vincent Fu <vincent.fu@samsung.com>
 Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20211006100121.2hqfdkyuivzvzd33@mpHalley.domain_not_set.invalid>
+Message-ID: <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c1b0f954-0728-e6ab-73ab-7b466a7d2eb7@nvidia.com>
+In-Reply-To: <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
 X-Originating-IP: [106.210.248.142]
 X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
  CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjk+LIzCtJLcpLzFFi42LZduznOd3PxbGJBtNvKlmsvtvPZjHtw09m
- i1m3X7NYvD/4mNVi77vZrBaPN/1nstizaBKTxcrVR5ks/nbdY7KYdOgao8XeW9oW85c9Zbfo
- vr6DzWLf673MFsuP/2OymNhxlcni3Kw/bBaH711lsVj9x8Ji5TMmi1f74xxEPS5f8faY2PyO
- 3ePy2VKPTas62Tw2L6n3mHxjOaPH7psNbB4zPn1h87h+ZjuTR2/zOzaPj09vsXhse9jL7vF+
- 31Wg2tPVHp83yXm0H+hmChCI4rJJSc3JLEst0rdL4Mrovj+dtWCneEX33z/MDYxvhboYOTkk
- BEwkPt5ZwtzFyMUhJLCCUWLq1J9MEM4XRolFzRegMp8ZJWY9/MYG03L2/A4mEFtIYDmjxN/3
- inBF1+b/ZoVwtjBKXFr9nQWkikVARaL34wMwm03AXuLSslvMILaIgJ7E1Vs32EEamAU2cEps
- WrQBbIWwgKfEjg39YCt4BXwl9k9pZ4WwBSVOznwCNohZwEqi80MTUJwDyJaWWP6PAyTMKWAn
- sW/zbbCwhICyxPLpvhBH10qsPXYGbJWEwFQuia3bHjNB1LhIdH9JgKgRlnh1fAs7hC0j8X/n
- fCaI+mZGiTNrrjBDOD2MEn8mrWCEaLaW6DuTA9HgKLF9ykNmiDCfxI23ghBX8klM2jYdKswr
- 0dEGDXY1iR1NWxknMCrPQvLXLCR/zUL4awEj8ypG8dTS4tz01GLjvNRyveLE3OLSvHS95Pzc
- TYzApHr63/GvOxhXvPqod4iRiYPxEKMEB7OSCG++fWyiEG9KYmVValF+fFFpTmrxIUZpDhYl
- cd5dW9fECwmkJ5akZqemFqQWwWSZODilGphi1n9f49/KeCVw54OOLZcXPlkctCx1l7275vGL
- eaGu86+EdLxV8H4jPuPnzyWXPip8Dr+vzvy3ZkX3Kdb1s1TNNAOUlx4zNpqx7qPRaamLjR3l
- swWE9Vjruze2/HgtsdYvU0+a7Yhqi0U8l5bP0ouRsSs1jpXIt76M/c4zYdPcjTfEFk7d8Nz5
- g3zuyWWqHjdOG8rcfVQV0FoT963ixFnBfN9vO1yXbihUn2yedf/irCmqu4s5Qi58nDfpVrmf
- VP+R4JAHNWvME+ZeXRrNdjvR4tqN6Y6h3Cc+mdpf3cPseP8NT3BqB/OdpsdaDHEagcbzo5kO
- z+2b77tO6JL1A/+qkLnhXdd/RsR93G+YdNtaiaU4I9FQi7moOBEAExL6ARkEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsVy+t/xu7qfimMTDV4ckrZYfbefzWLah5/M
- FrNuv2axeH/wMavF3nezWS0eb/rPZLFn0SQmi5WrjzJZ/O26x2Qx6dA1Rou9t7Qt5i97ym7R
- fX0Hm8W+13uZLZYf/8dkMbHjKpPFuVl/2CwO37vKYrH6j4XFymdMFq/2xzmIely+4u0xsfkd
- u8fls6Uem1Z1snlsXlLvMfnGckaP3Tcb2DxmfPrC5nH9zHYmj97md2weH5/eYvHY9rCX3eP9
- vqtAtaerPT5vkvNoP9DNFCAQpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqk
- b2eTkpqTWZZapG+XoJfRfX86a8FO8Yruv3+YGxjfCnUxcnJICJhInD2/gwnEFhJYyijx5qc3
- RFxG4tOVj+wQtrDEn2tdbF2MXEA1Hxklmvra2SGcLYwSR77cZAGpYhFQkej9+ADMZhOwl7i0
- 7BYziC0ioCdx9dYNsAZmgQ2cEpsWbWADSQgLeErs2NAPtppXwFdi/5R2Voipv5kkVn+7zwyR
- EJQ4OfMJ2FRmAQuJmfPPM3YxcgDZ0hLL/3GAhDkF7CT2bb7NChKWEFCWWD7dF+LqWolX93cz
- TmAUnoVk0Cwkg2YhDFrAyLyKUSS1tDg3PbfYSK84Mbe4NC9dLzk/dxMjMLlsO/Zzyw7Gla8+
- 6h1iZOJgPMQowcGsJMKbbx+bKMSbklhZlVqUH19UmpNafIjRFBgUE5mlRJPzgektryTe0MzA
- 1NDEzNLA1NLMWEmc1+TImnghgfTEktTs1NSC1CKYPiYOTqkGJlvmwgt8uvs2fJEyKxM/3Mvn
- ziM/0bW6aINqfsituT4Cuw39tvD8W9z+4KbFpnjrjdcPaDfahl/JuTGZeaKsVru574tOXk+5
- Bd77FXavK1+8+1jbl+WG3sG7Ns5XStqsG1Lb1stqKsnIy3PB6p3iarWTHWaWy99xWssUqB6Y
- a3kpoctUX5fdhbdLOSPlHaf5mucCqddjWoSCV7yV2Xndkc1gxm2rbz4n+x5fF9pxT/WRmd+x
- 6jj3a/tk3Z8VJns9zvy3atmsiRkHjqnus302X/d0os1nmYXuErXzNLP4Y0/GTBO7f27J/tuz
- JnyVfb37u+Md1yVWkivatG6p9ofwbtu6+21h75xqxQA55bXqSizFGYmGWsxFxYkAjPGcILcD
- AAA=
-X-CMS-MailID: 20211006100122eucas1p119be2455fe2809febb16490e7bbbe108
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG9957e3tbBlwLC29Et6zTberE4czyRo3iZPE2pmTTDfeF0Iy7
+ SiyttrC5D7Wjxq3VCVYjWAIaolQoX2sVGaModYMh1Q0tExCrrmVT5ENK2cpG2dpezfjvd855
+ nvecJ3kpXGQg51I5yjxWrZQpxKSQaGyfurp0MC9D9nLQAJHlViGJjj2cwpHp5gMC2UdLechj
+ /RdDLRVGDFVZfsRQ0ODGkNHxK0D2/iXoROUgHx240USi1gd2HJk7ZjB0+OseDF01TZPokruH
+ QJZphKp+x9DQha0p8cx110bmsG6Uz1y/ks9Yq/UkYzu1lznSawbM931akinx+UnmhvM8xowP
+ 9hNM491v+MxYa09I1vU5M2F9mvnq4gHsjdj3hKuzWUXOx6x62Zos4bbTjm58hzNqV6DgGE8L
+ fhAYgICC9ArYfr8NGICQEtFnACz3XOZxhR/AuvGjWFgloicA9HnQY8dA8CafE5kBdBuGHxUh
+ kct/+dFbZwFscBWBsIWgF8CGAS0ZZpJeC69V9uNhjqdfhH/eMRNhA06XU9B/u5kID56gWbhv
+ uI0f5jhaApsaCiN3RNNSWFbcx+N4Duw87o3ocXol1D8sCPWpECdC8wzFtZ+BunOlkV0CehW8
+ dbs5IoH0c9BcLOXS7Ia17c5IAEifFsLAtW9JbpAKp+z1PI7j4FDHWT7H82DXkYMEZ9AB6Kxx
+ 4VxxEMBp4xnAbVgFDzkVnGEdPH/0Ls61Y2DvyBzuthhobCzGi8BC06w0pllpTP+nMc1KcxIQ
+ 1SCBzdfkyllNspL9JEkjy9XkK+VJH6pyrSD0XbtmOnxNoGxoPMkBMAo4AKRwcXy0am2GTBSd
+ Lfv0M1atylTnK1iNAyRShDghurq0JlNEy2V57HaW3cGqH08xSjBXiwnu6ep/Nr2Z3brko2df
+ aIhJ6NP/tIDZuCxjzDdi01eumZ+ir0u7uG61KqH8XpZIYtzQY07xSSzpu6L+kVQd9yXu6bRM
+ irG0J7+Yx3re1wmlbYujbG63duFwb1vhhKven5pb9Jp8/6X+lj9obwny7V2OKl7a8pv93Pqc
+ +96ynI6CpzqzuucvktYsSn69aES927b8+fVRryytNX2QuYk3Sqh2BrauRCXvDOj2TwalgjjF
+ CVB75VBfZbPty/Sh7yRBZWxs4OSr+3QoNX3nW5Nl0pZ3S8ZNlurUC95AfK2uNVn899unNkxa
+ PXV/VXiFUmJsRfedqrRfprzbmzWb5W56i2UPISY022TJi3G1RvYfXce2Jx0EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPKsWRmVeSWpSXmKPExsVy+t/xu7pPSmITDc5u07dYfbefzWLah5/M
+ FrNuv2ax2PtuNqvF403/mSz2LJrEZLFy9VEmi79d95gsJh26xmix95a2xfxlT9ktuq/vYLPY
+ 93ovs8Xy4/+YLCZ2XGWyODfrD5vF4XtXWSxW/7GwWPmMyeLV/jgHEY/LV7w9Jja/Y/e4fLbU
+ Y9OqTjaPzUvqPSbfWM7osftmA5vHjE9f2Dyun9nO5PHx6S0Wj20Pe9k93u+7ClR2utrj8yY5
+ j/YD3UwB/FF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6
+ dgl6GUsPXWQuOMNd8aNpGmsD4xHOLkZODgkBE4k7f2+zdzFycQgJLGWUmPDkDRtEQkbi05WP
+ 7BC2sMSfa11sEEUfGSW+dGxhhXC2MEo8v90JVsUioCKx4U4DWDebgL3EpWW3mEFsEQENiW8P
+ lrOANDALzOOQ+HJ/FwtIgkEgVaLlzUGwZmEBT4kdG/qZQGxeAV+JudNvQm34wSRx4GYvG0RC
+ UOLkzCdgzcwCFhIz559n7GLkALKlJZb/44AIy0s0b50NtphTwFri7v1drCAlEgLKEsun+0J8
+ Uyvx6v5uxgmMorOQDJ2FZOgshKGzkAxdwMiyilEktbQ4Nz232FCvODG3uDQvXS85P3cTIzAl
+ bTv2c/MOxnmvPuodYmTiYDzEKMHBrCTCm28fmyjEm5JYWZValB9fVJqTWnyI0RQYXBOZpUST
+ 84FJMa8k3tDMwNTQxMzSwNTSzFhJnHfr3DXxQgLpiSWp2ampBalFMH1MHJxSDUz5D4/J/m5b
+ rutbZPpGbkurskns0fMnbDqaGqpe+l3fO19aV6GAJXCdy1RvDe5+yUhHvUL25sWKPhMsypmb
+ mR+veLpuxbNXC9/b6slzXJYrn7OSu2vfmt0BHLcuvnVjeNVadFVCX7JDKqrP5tzfP9ujm5fE
+ Fzb/bit4POdcAcM6+8baM+GH/8aJvZ88jW/qWsvqffMj06uUbwoJlX1b+yq859L1tslumz7f
+ OuK0yjjqQk31kvvcMRuX/iyTW23O+T7WaNP7tyzfJnvd2rVDT8ZfWJ55WbTRG6bpuqw79lUy
+ uCxmXRCwpWvl3L9K06JEpjCwnF3tzrsruPEQg3bMWcH3LDP1VDcHB3lMr1iVtk+JpTgj0VCL
+ uag4EQABnR0A0gMAAA==
+X-CMS-MailID: 20211006100524eucas1p2a1686056cf4a213dc42af4da610ddb67
 X-Msg-Generator: CA
 X-RootMTR: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
 X-EPHeader: CA
@@ -145,10 +144,10 @@ References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.
  <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
  <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
  <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
- <c1b0f954-0728-e6ab-73ab-7b466a7d2eb7@nvidia.com>
+ <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211006_030126_677175_BD83BF6C 
-X-CRM114-Status: GOOD (  17.75  )
+X-CRM114-CacheID: sfid-20211006_030528_466535_86E4B7FB 
+X-CRM114-Status: GOOD (  13.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,94 +159,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 30.09.2021 09:43, Chaitanya Kulkarni wrote:
->Javier,
->
->>
->> Hi all,
->>
->> Since we are not going to be able to talk about this at LSF/MM, a few of
->> us thought about holding a dedicated virtual discussion about Copy
->> Offload. I believe we can use Chaitanya's thread as a start. Given the
->> current state of the current patches, I would propose that we focus on
->> the next step to get the minimal patchset that can go upstream so that
->> we can build from there.
->>
->
->I agree with having a call as it has been two years I'm trying to have
->this discussion.
->
->Before we setup a call, please summarize following here :-
->
->1. Exactly what work has been done so far.
-
-
-We can categorize that into two sets. First one for XCopy (2014), and
-second one for NVMe Copy (2021).
-
-XCOPY set *********
-- block-generic copy command (single range, between one
-   source/destination device)
-- ioctl interface for the above
-- SCSI plumbing (block-generic to XCOPY conversion)
-- device-mapper support: offload copy whenever possible (if IO is not
-   split while traveling layers of virtual devices)
-
-NVMe-Copy set *************
-- block-generic copy command (multiple ranges, between one
-   source/destination device)
-- ioctl interface for the above
-- NVMe plumbing (block-generic to NVMe Copy conversion)
-- copy-emulation (read + write) in block-layer
-- device-mapper support: no offload, rather fall back to copy-emulation
-
-
->2. What kind of feedback you got.
-
-For NVMe Copy, the major points are - a) add copy-emulation in
-block-layer and use that if copy-offload is not natively supported by
-device b) user-interface (ioctl) should be extendable for copy across
-two devices (one source, one destination) c) device-mapper targets
-should support copy-offload, whenever possible
-
-"whenever possible" cases get reduced compared to XCOPY because NVMe
-Copy is wit
-
->3. What are the exact blockers/objections.
-
-I think it was device-mapper for XCOPY and remains the same for NVMe
-Copy as well.  Device-mapper support requires decomposing copy operation
-to read and write.  While that is not great for efficiency PoV, bigger
-concern is to check if we are taking the same route as XCOPY.
-
- From Martin's document (http://mkp.net/pubs/xcopy.pdf), if I got it
-right, one the major blocker is having more failure cases than
-successful ones. And that did not justify the effort/code to wire up
-device mapper.  Is that a factor to consider for NVMe Copy (which is
-narrower in scope than XCOPY).
-
->4. Potential ways of moving forward.
-
-a) we defer attempt device-mapper support (until NVMe has
-support/usecase), and address everything else (reusable user-interface
-etc.)
-
-b) we attempt device-mapper support (by moving to composite read+write
-communication between block-layer and nvme)
-
-
-Is this enough in your mind to move forward with a specific agenda? If
-we can, I would like to target the meetup in the next 2 weeks.
-
-Thanks,
-Javier
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMzAuMDkuMjAyMSAwOToyMCwgQmFydCBWYW4gQXNzY2hlIHdyb3RlOgo+T24gOS8yOC8yMSAx
+MjoxMyBQTSwgSmF2aWVyIEdvbnrDoWxleiB3cm90ZToKPj5TaW5jZSB3ZSBhcmUgbm90IGdvaW5n
+IHRvIGJlIGFibGUgdG8gdGFsayBhYm91dCB0aGlzIGF0IExTRi9NTSwgYSBmZXcgb2YKPj51cyB0
+aG91Z2h0IGFib3V0IGhvbGRpbmcgYSBkZWRpY2F0ZWQgdmlydHVhbCBkaXNjdXNzaW9uIGFib3V0
+IENvcHkKPj5PZmZsb2FkLiBJIGJlbGlldmUgd2UgY2FuIHVzZSBDaGFpdGFueWEncyB0aHJlYWQg
+YXMgYSBzdGFydC4gR2l2ZW4gdGhlCj4+Y3VycmVudCBzdGF0ZSBvZiB0aGUgY3VycmVudCBwYXRj
+aGVzLCBJIHdvdWxkIHByb3Bvc2UgdGhhdCB3ZSBmb2N1cyBvbgo+PnRoZSBuZXh0IHN0ZXAgdG8g
+Z2V0IHRoZSBtaW5pbWFsIHBhdGNoc2V0IHRoYXQgY2FuIGdvIHVwc3RyZWFtIHNvIHRoYXQKPj53
+ZSBjYW4gYnVpbGQgZnJvbSB0aGVyZS4KPj4KPj5CZWZvcmUgd2UgdHJ5IHRvIGZpbmQgYSBkYXRl
+IGFuZCBhIHRpbWUgdGhhdCBmaXRzIG1vc3Qgb2YgdXMsIHdobyB3b3VsZAo+PmJlIGludGVyZXN0
+ZWQgaW4gcGFydGljaXBhdGluZz8KPgo+R2l2ZW4gdGhlIHRlY2huaWNhbCBjb21wbGV4aXR5IG9m
+IHRoaXMgdG9waWMgYW5kIGFsc28gdGhhdCB0aGUgcGVvcGxlIHdobyBhcmUKPmludGVyZXN0ZWQg
+bGl2ZSBpbiBtdWx0aXBsZSB0aW1lIHpvbmVzLCBJIHByZWZlciBlbWFpbCB0byBkaXNjdXNzIHRo
+ZSB0ZWNobmljYWwKPmFzcGVjdHMgb2YgdGhpcyB3b3JrLiBNeSBhdHRlbXB0IHRvIHN1bW1hcml6
+ZSBob3cgdG8gaW1wbGVtZW50IGNvcHkgb2ZmbG9hZGluZwo+aXMgYXZhaWxhYmxlIGhlcmU6IGh0
+dHBzOi8vcHJvdGVjdDIuZmlyZWV5ZS5jb20vdjEvdXJsP2s9YmE3ZTVkOWEtZTVlNTY0ZDUtYmE3
+ZmQ2ZDUtMGNjNDdhMzBkNDQ2LTA3YTQ3ZjNmNTNjYmZlNTMmcT0xJmU9YzM5NzNiZGMtYjZmZC00
+M2ZiLTgwZTYtMGM4NmNiNmI0ZDVmJnU9aHR0cHMlM0ElMkYlMkZnaXRodWIuY29tJTJGYnZhbmFz
+c2NoZSUyRmxpbnV4LWtlcm5lbC1jb3B5LW9mZmxvYWQuCj5GZWVkYmFjayBvbiB0aGlzIHRleHQg
+aXMgd2VsY29tZS4KClRoYW5rcyBmb3Igc2hhcmluZyB0aGlzIEJhcnQuCgpJIGFncmVlIHRoYXQg
+dGhlIHRvcGljIGlzIGNvbXBsZXguIEhvd2V2ZXIsIHdlIGhhdmUgbm90IGJlZW4gYWJsZSB0bwpm
+aW5kIGEgY2xlYXIgcGF0aCBmb3J3YXJkIGluIHRoZSBtYWlsaW5nIGxpc3QuCgpXaGF0IGRvIHlv
+dSB0aGluayBhYm91dCBqb2luaW5nIHRoZSBjYWxsIHRvIHRhbGsgdmVyeSBzcGVjaWZpYyBuZXh0
+CnN0ZXBzIHRvIGdldCBhIHBhdGNoc2V0IHRoYXQgd2UgY2FuIHN0YXJ0IHJldmlld2luZyBpbiBk
+ZXRhaWwuCgpJIHRoaW5rIHRoYXQgeW91ciBwcmVzZW5jZSBpbiB0aGUgY2FsbCB3aWxsIGhlbHAg
+dXMgYWxsLgoKV2hhdCBkbyB5b3UgdGhpbms/CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBs
+aXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlz
+dGluZm8vbGludXgtbnZtZQo=
