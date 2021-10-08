@@ -2,63 +2,65 @@ Return-Path: <SRS0=1aKD=O4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2730C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Oct 2021 12:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B53C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Oct 2021 12:26:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A8D8560F44
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Oct 2021 12:26:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A8D8560F44
+	by mail.kernel.org (Postfix) with ESMTPS id 5630360F44
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Oct 2021 12:26:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5630360F44
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=huawei.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Wn93O71wuTz9ySqPkdrTLu0hlNJPhirsB1SqQbmvh6Y=; b=ygI6lfFx/c4W7k
-	FbRILNmrktRlLw1Z0+2CmwUX6kTKav3SVivsxqeo0fWiAs3rK+HTJeqqhVSNVhNgDMpQwIzrG3X3x
-	fwM3wziacDKKHgwQgqidsRyWIgl4GnXtxWkzSf/RozJ2bIH90hnIojWi+yzFDLDjpchwtAE3+Mha1
-	YnWOH1x3HhoML/4TdnJfX5dp4w1RNtyvBSLBeOAOdHVPSFV7wz43ElPup4HU0ZKGNi/py+fmb4Xtm
-	yaeSIJbiU0g+A9NxVENoHHI+nS86zVQpnln0P9+cjvxen76V+VcxKwxPOoz+orUM3YgvVWB2FNO/T
-	YWqrF987x28Q6FEKYjMw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=SqEb3Bv22yW9cvwtWLwwxBLYLZjDBZiJhL0fUmha/Qg=; b=Nz47S+aYoO8bgQ
+	fSAJ0nbj0tboOGmN3Glr1+xB0LYvZQK5JWavat4Steuhwzia9UnKAVi+7dyqidKunHIUnr4y+iBZ7
+	TDA75H/ePcqJL8Pt5QBiL6etI2emNNKRjNan36fS4rx8plykC4s89qaFgHcZev7/8gipLrylXp548
+	hS2wImuWzTjTZRPHbviztBe/jytre1tVwiwwT3t/arVJmH4L7vpXJQJ+LNW8CjnuKXH+e2vVz+8EO
+	3V54sR0jw4PkyMXwkklZF7QeGHPCMHPTTy4xKoB1QxKo6luN7xi5wAz00CWtTulOha0ldq3YCgeyY
+	2xt5cTEN+TbISL7vmtlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mYowr-002gxo-1e; Fri, 08 Oct 2021 12:26:01 +0000
+	id 1mYox4-002h3X-Vg; Fri, 08 Oct 2021 12:26:15 +0000
 Received: from szxga02-in.huawei.com ([45.249.212.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mYowo-002gv9-0f
+ id 1mYowo-002gvS-0g
  for linux-nvme@lists.infradead.org; Fri, 08 Oct 2021 12:25:59 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HQnNp4nzszYk36;
- Fri,  8 Oct 2021 20:21:30 +0800 (CST)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HQnNq4J63zR5Wp;
+ Fri,  8 Oct 2021 20:21:31 +0800 (CST)
 Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2308.8; Fri, 8 Oct 2021 20:25:55 +0800
 Received: from huawei.com (10.169.63.14) by dggpeml500006.china.huawei.com
  (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Fri, 8 Oct 2021
- 20:25:54 +0800
+ 20:25:55 +0800
 From: chengjike <chengjike.cheng@huawei.com>
 To: <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, 
  <chaitanyak@nvidia.com>
 CC: <sunao.sun@huawei.com>, <jiangtao62@huawei.com>
-Subject: [PATCH V4 nvme-cli 0/3] add "Path Access" field
-Date: Fri, 8 Oct 2021 20:25:50 +0800
-Message-ID: <20211008122553.1779-1-chengjike.cheng@huawei.com>
+Subject: [PATCH V4 nvme-cli 2/3] get access state of Native NVME Multipath
+ device
+Date: Fri, 8 Oct 2021 20:25:52 +0800
+Message-ID: <20211008122553.1779-3-chengjike.cheng@huawei.com>
 X-Mailer: git-send-email 2.24.0.windows.2
+In-Reply-To: <20211008122553.1779-1-chengjike.cheng@huawei.com>
+References: <20211008122553.1779-1-chengjike.cheng@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.169.63.14]
 X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  dggpeml500006.china.huawei.com (7.185.36.76)
 X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211008_052558_274994_617FC6F8 
-X-CRM114-Status: UNSURE (   4.49  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211008_052558_469043_EA7E5A5A 
+X-CRM114-Status: GOOD (  11.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,24 +77,131 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch V4 is to add "Path Access" field in command "nvme list".
-Changes on this V4 since the last version of this
- - display faulty disk through the value of nsid is set to "-1" by Sagi Grimberg
- - The "full/partial/faulty" fields are used to display "Path Access" by Sagi Grimberg
+(This is a prep patch, which provides functions for the next "patch 3/3").
+Achieve nvme_ns_get_access function: If all paths state of namespace are "live" and ana_state
+of all paths are "optimized" or "non-optimized", access state of ns is "full";
+If ana_state of partial paths are "optimized" or "non-optimized" and their state is "live",
+access state of ns is "partial"; Otherwise, access state of ns is "faulty".
 
-patch V3
-https://lore.kernel.org/linux-nvme/20210928085050.4141-1-chengjike.cheng@huawei.com/T/#t
+Signed-off-by: chengjike <chengjike.cheng@huawei.com>
+---
+ src/nvme/tree.c | 33 +++++++++++++++++++++++++++++++++
+ src/nvme/tree.h | 37 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 70 insertions(+)
 
-
-chengjike (1):
-  display faulty disk in "nvme list" command
-
-chengjike (1):
-  get access state of Native NVME Multipath device
-
-chengjike (1):
-  add "Path Access" field in command "nvme list"
-
+diff --git a/src/nvme/tree.c b/src/nvme/tree.c
+index 07a687a..78d709f 100644
+--- a/src/nvme/tree.c
++++ b/src/nvme/tree.c
+@@ -747,6 +747,16 @@ nvme_path_t nvme_ctrl_next_path(nvme_ctrl_t c, nvme_path_t p)
+ 	return p ? list_next(&c->paths, p, entry) : NULL;
+ }
+ 
++nvme_path_t nvme_ns_first_path(nvme_ns_t n)
++{
++	return list_top(&n->paths, struct nvme_path, nentry);
++}
++
++nvme_path_t nvme_ns_next_path(nvme_ns_t n, nvme_path_t p)
++{
++	return p ? list_next(&n->paths, p, nentry) : NULL;
++}
++
+ #define FREE_CTRL_ATTR(a) \
+ 	do { if (a) { free(a); (a) = NULL; } } while (0)
+ void nvme_deconfigure_ctrl(nvme_ctrl_t c)
+@@ -1335,6 +1345,29 @@ const char *nvme_ns_get_name(nvme_ns_t n)
+ 	return n->name;
+ }
+ 
++const char *nvme_ns_get_access(nvme_ns_t n)
++{
++	int total = 0;
++	int invalid = 0;
++	nvme_path_t p;
++
++	nvme_ns_for_each_path(n, p) {
++		if (p->c && p->c->state && strcmp(p->c->state, "live"))
++			invalid++;
++		else if (p->ana_state && strcmp(p->ana_state, "optimized") && 
++			strcmp(p->ana_state, "non-optimized"))
++			invalid++;
++		total++;
++	}
++
++	if (total == invalid) 
++		return "faulty";
++	else if (invalid == 0)
++		return "full";
++	else
++		return "partial";
++}
++
+ const char *nvme_ns_get_model(nvme_ns_t n)
+ {
+ 	return n->c ? n->c->model : n->s->model;
+diff --git a/src/nvme/tree.h b/src/nvme/tree.h
+index 68f5cbf..0af5b9b 100644
+--- a/src/nvme/tree.h
++++ b/src/nvme/tree.h
+@@ -190,6 +190,23 @@ nvme_path_t nvme_ctrl_first_path(nvme_ctrl_t c);
+  */
+ nvme_path_t nvme_ctrl_next_path(nvme_ctrl_t c, nvme_path_t p);
+ 
++/**
++ * nvme_ns_first_path() -
++ * @n: Address of the nvme namespace structure
++ *
++ * Return: a pointer of first nvme namespace structure in the linked list
++ */
++nvme_path_t nvme_ns_first_path(nvme_ns_t n);
++
++/**
++ * nvme_ns_next_path() -
++ * @n: Address of the nvme namespace structure
++ * @p: Address of the nvme path structure
++ *
++ * Return: a pointer of next nvme path structure in the linked list
++ */
++nvme_path_t nvme_ns_next_path(nvme_ns_t n, nvme_path_t p);
++
+ /**
+  * nvme_subsystem_first_ctrl() -
+  * @s:
+@@ -336,6 +353,13 @@ nvme_ns_t nvme_subsystem_next_ns(nvme_subsystem_t s, nvme_ns_t n);
+ 	for (p = nvme_ctrl_first_path(c); p != NULL; 		\
+ 		p = nvme_ctrl_next_path(c, p))
+ 
++/**
++ * nvme_ns_for_each_path()
++ */
++#define nvme_ns_for_each_path(n, p)			\
++	for (p = nvme_ns_first_path(n); p != NULL; 	\
++		p = nvme_ns_next_path(n, p))
++
+ /**
+  * nvme_subsystem_for_each_ns_safe()
+  */
+@@ -452,6 +476,19 @@ const char *nvme_ns_get_sysfs_dir(nvme_ns_t n);
+  */
+ const char *nvme_ns_get_name(nvme_ns_t n);
+ 
++/**
++ * nvme_ns_get_access() - 
++ * @n: Address of the nvme namespace structure
++ *
++ * Get the access status of Native NVME Multipath device
++ *
++ * Return: If all paths state of namespace are "live" and ana_state of 
++ * all paths are "optimized" or "non-optimized", "full" is returned; 
++ * If ana_state of partial paths are "optimized" or "non-optimized" and 
++ * their state is "live", "partial" is returned; Otherwise, "faulty" is returned. 
++ */
++const char *nvme_ns_get_access(nvme_ns_t n);
++
+ /**
+  * nvme_ns_get_firmware() -
+  * @n:
 -- 
 2.21.0.windows.1
 
