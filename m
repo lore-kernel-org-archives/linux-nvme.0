@@ -2,14 +2,14 @@ Return-Path: <SRS0=GEgN=O7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F3EC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Oct 2021 18:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F263C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Oct 2021 19:13:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA39060C4A
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Oct 2021 18:01:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EA39060C4A
+	by mail.kernel.org (Postfix) with ESMTPS id 17C2160E53
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Oct 2021 19:13:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 17C2160E53
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,51 +18,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IO5SbQcSdPYtoBqJJ96THw6tVNVjTksfzg0ehcbDirA=; b=cv7DXpeVo5CKuj
-	lwuJxnyWGFHwTg1L7wZJcrmD6cQw6vXgRKNlxI8L1+WRqARzFta6omtMFgqBkX2801hJikXcQSkBM
-	baGeyU9hL2StOOS8AvKXi7JMCkHHyA3fuuREjqnOun7VdFboj5odlSOJ7ABNIA1JsiM/7dXtbJLKH
-	YmhrDIr2g6ko3srdBrUzoVYoKjvnPkPcgtYiGjrzicuESJzRWrkJzmx2BOQ8Aa51O/lBwxN3cQrDD
-	SzWRQ+HkAvjpZgUbhaPcuIAyDs+PEhvOz7qob1SXvXtOlihD7bITwX50Qw4JLq6jbRbBUMOo3z+pL
-	VLES3K7xQw+jZIihvbMQ==;
+	List-Owner; bh=/QX3LMOzQZcj3q1DimazM0+6lg6bSnRpG3ehpNiud/U=; b=loEvRbS7L8BgwJ
+	PZntdxXU7Ez+spA8pTsk9tVduAFM8QcGy0BKOtvEFKShu10NtnvEKp/CyJgROJfWzij1ZBB4pXwhG
+	UX3M1zNxTz6EE6KVRDsZxAAbOw1SbrSyY6BO9Y/Fziy6eYOMq55DfC9eCjw/CtGGwL+4XkqA8PZI1
+	JjFs4JJWRF5P4SQIUnwpLuQu/Vkc+yNA1/rkwtRDoW4HKO9U93Q1s1rGltq+neii0W9GKoGQZpHSJ
+	6G97qoVxWzmCBelI7yQtwfdXk+xUd/QW86mgADCyNSAZFbZFcdEDe0U7wZJy9qDRZuuFYGx45Hb94
+	+SKl7XI9Jrn/PXEv3EDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mZzbl-00AJvC-W4; Mon, 11 Oct 2021 18:01:06 +0000
+	id 1ma0jG-00AT4V-Vp; Mon, 11 Oct 2021 19:12:55 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mZzbh-00AJty-Hq
- for linux-nvme@lists.infradead.org; Mon, 11 Oct 2021 18:01:02 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 316A860C41;
- Mon, 11 Oct 2021 18:01:00 +0000 (UTC)
+ id 1ma0jE-00AT3m-9E
+ for linux-nvme@lists.infradead.org; Mon, 11 Oct 2021 19:12:53 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94EA260E53;
+ Mon, 11 Oct 2021 19:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633975260;
- bh=4/+YntBNV5/w3ng5djSjZdGKqSo18/DR2D/M+OvZxno=;
+ s=k20201202; t=1633979571;
+ bh=LoGOZtxcG5VKmjYlhGIF6zG1jDyJNiDKClkO6AFaIsc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KS0q01UBnmpOLoXLA0HdFSarXsWoI3XTIupotWA9HE9ynY/7z5eQp5li5vgGI7RAE
- pAWMZStlUlbRKv3hODPICLUjyraLVOiwBEO1o1ZlFNXsKV21v396K72uuBG4lcmDNa
- B3e6bt7AB4O9xKBvXeK6tMCGzXs1s2NxpDA1iUGBWXIumg/YP8Bt4GF4pifCf2br0C
- +rSsXh2THIl0Zoi0HDtL1+hmiaIwZaS50HO1IFG7GgbD/D3Ssxk7vw9qGy/I3/Oz1e
- 6N4uoCxs6ayE2lKLwRkx8y8a9DlyhVQHbcrvcxSIu486EgF2VH21bqdMaVtfa+yRkX
- Be9MVCSH7dqOQ==
-Date: Mon, 11 Oct 2021 11:00:58 -0700
+ b=WmGcxjtpqYLvGIq2C2CZEAXPh6hgxtxTPe1zgqY3fCi1rKVRiiZ1ErQfSz63Mwf8d
+ DsPEGGFEeYALcrSFi2ExcGtfBv0taYERFhsDa2AxQquQtqePr4F9KJ+7bScWKmzUvZ
+ j6NCCSiZy3aLaSQ3KE0bxnQDJGaLvZ4jeRAidkdcVRNvVvbQvxScu5N0pWQylB48OH
+ Tr1mXkRaPAPlcedHN+wpW7aX7UCHE8aSmBkyJpy/ueHLrqhL6X8n2vwwbthMj3G3CR
+ AGyRjl29z2KI9glhQDJipTcxk/m9hnH2Ky8uO+hD4gftMJSheSeoMc+xrwtHENb51z
+ yqgDT4XB4JcCg==
+Date: Mon, 11 Oct 2021 12:12:49 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- LKML <linux-kernel@vger.kernel.org>, Dell.Client.Kernel@dell.com
-Subject: Re: SK hynix BC511: warning: nvme nvme0: missing or invalid SUBNQN
- field.
-Message-ID: <20211011180058.GA635062@dhcp-10-100-145-180.wdc.com>
-References: <67f74c8e-9d5e-22a1-f1c2-a4284b07ba56@molgen.mpg.de>
- <20210817161638.GC223727@dhcp-10-100-145-180.wdc.com>
- <f3f78d3c-d3f7-67f5-4263-f306b4f623d1@molgen.mpg.de>
- <20210817170222.GA224912@dhcp-10-100-145-180.wdc.com>
- <f02a8989-d255-26ee-2fca-c9db2d1e158c@molgen.mpg.de>
+To: Michael Fuckner <michael@fuckner.net>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: Namespaces on MZQL2960HCJR-00A07
+Message-ID: <20211011191249.GB635062@dhcp-10-100-145-180.wdc.com>
+References: <34244386.3221623.1633769595569@com4.strato.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f02a8989-d255-26ee-2fca-c9db2d1e158c@molgen.mpg.de>
+In-Reply-To: <34244386.3221623.1633769595569@com4.strato.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211011_110101_634240_26C9D3AE 
-X-CRM114-Status: GOOD (  16.35  )
+X-CRM114-CacheID: sfid-20211011_121252_362700_86D22E42 
+X-CRM114-Status: GOOD (  12.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,35 +72,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 11, 2021 at 03:08:15PM +0200, Paul Menzel wrote:
-> Am 17.08.21 um 19:02 schrieb Keith Busch:
-> > 
-> > In the section for "Identify Controller Data Structure" (section
-> > 5.17.2.1, figure 257 in spec version 2.0), the NQN definition says:
-> > 
-> >    "Support for this field is mandatory if the controller supports revision
-> >    1.2.1 or later"
-> > 
-> > The driver does confirm the controller's reported revision meets this
-> > requirement before emitting the warning.
+On Sat, Oct 09, 2021 at 10:53:15AM +0200, Michael Fuckner wrote:
+> I have a system with 2x PM9A3 (FW GDC5302Q) and nvme1 shall use namespacesfor testing.
 > 
-> The Dell support came back to me, and said, that Hynix refuses to publish a
-> fixed firmware unless I show them a use case, where I need that field.
+> I could use nvme detach-ns, delete-ns and create-ns, but it fails at attach-ns the new namespace to make it usable:
 > 
-> Can somebody think of a use case, 
+> test135:~ # nvme id-ctrl /dev/nvme1|grep -e nn -e cntlid
+> cntlid    : 0x6
+> nn        : 32
+> test135:~ # nvme attach-ns /dev/nvme1 --namespace-id=1 -controllers=0x6
 
-Spec compliance certification. UNH test 1.1 case 2, for example.
+The long options should use "--" rather than just the single "-". I'm
+unsure if that changes the parsing, though.
 
-> and why this field was made mandatory in
-> the specification?
+> NVMe status: Controller List Invalid: The controller list provided contains invalid controller ids(0x211c)
+> 
+> Any idea how to attach this or other namespaces back so I can use the drive?
 
-A dependable way to uniquely identify a specific device is generally
-useful. The NVMe TWG determined the previous methods were inadequate.
+Was the namespace attached to cntlid 0x6 prior to the detach/delete part
+of the test?
 
-The linux kernel will continue to use the device without this capability
-since the low level driver doesn't need it to interact with a
-controller, but the driver will warn about the non-compliance in case
-host software is relying on this field.
+When you created the namespace, did the output confirm the namespace was
+created as nsid 1?
+
+Is the namespace attached to any other controllers? You have to specify
+multi-controller enabled when creating the namespace in that case.
 
 _______________________________________________
 Linux-nvme mailing list
