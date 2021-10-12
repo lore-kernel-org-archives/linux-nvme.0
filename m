@@ -2,91 +2,76 @@ Return-Path: <SRS0=8G/6=PA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9191C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 14:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7446C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:03:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 54E246103D
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 14:59:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 54E246103D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id 69E1D60527
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:03:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69E1D60527
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Subject:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=36c3UNcPzkU19kpeZf0NP9pidM0JNOtIlWlI3T4oflI=; b=o4VkzEJcvXoqkdi/n+PTgS4eO2
-	+gGALo6zS7tvCjy1cnOkVPJgea+RFV3d0tRHkJmhVoQg2F0s/YiLiA3woqc+cImQZlnIXMUGhxxp7
-	8PqaXQrcp8bTY99jMidSY2N1/h0qAdhL6YU/dZeT0iaEGd2QLrK4LK7fNst1t8C2w2vyRt6CFiesM
-	usGmyRrpc92RgDhTPlsfgVRmTBs3Pf0E2IEKotXMMX8F2QbZPo8OWFsWHkf1AmV7ZqstZdUzSW0i2
-	uBLRnDQTS/EMRsoPvv+hVLjYZetxzAjSTfcuN3ytgiBWGXwA7GIQ3wzXewymxWXtrET2T+GNFY7en
-	CzS0ChEg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=p2zKnuVv4/jGoNM5e4TR8KNjLzv28qzsqbbDFbLImEc=; b=PEt5J8OZ9kKvJa
+	HqfRPvMXYUJATt+81wh6hxeSVP7S7dFDLV7y48RUB1R0ZRm5cdBBNGi3zhyl9uMSy/kCbwVXF3640
+	dOnQmuS19sQGImypwEbYk4jKLqTkRmVcNLcgkSS/gFfhZwowuAj26sHu/fJ/PiW2RTbq4S6SYdI1v
+	90qSxIWw6YlR2gzLiIghhm8LyAMin0JUjVeckOMqjKeUvIy3FBKUCsb+gG68DBDN3PHRvyPLzkpWS
+	N8NBOyWit2JCmiE6POT4nRFd6Kt5JAXEupoWX5ylYOT3az8euiIW+SgqDGgdyDFzi39p7qqCFyw0x
+	NuLEb9Y+zqpGigfpRm5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maJEy-00DH5Q-He; Tue, 12 Oct 2021 14:58:52 +0000
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
+	id 1maJIe-00DHYn-L3; Tue, 12 Oct 2021 15:02:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maJEv-00DH4K-7S
- for linux-nvme@lists.infradead.org; Tue, 12 Oct 2021 14:58:50 +0000
-Received: by mail-io1-xd2b.google.com with SMTP id q205so23996187iod.8
- for <linux-nvme@lists.infradead.org>; Tue, 12 Oct 2021 07:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tqA23ObcMjBgZVvCWLFVqQeiCNLoGDBftx5XWNNYGp8=;
- b=1Ysqi5Tuua6c+DOLSCokMMRS0S3ouQULZDGn4I6OUS6O8h961XDJX5twQE8MEv3sYV
- yLKA+6+hnbhAFFd4liTVO0RAFAkhGdM/S74YHZB8IDjSJy7RI7fhnHIXklQCCs8tle6N
- 4CC3iMtQeDwfxmML9nUnM23Mfe7YcrnJ1unghGz8N4xotNALRNSq4IKGWQxEJHDs6as0
- +/OD/rLxQ3TOY/Hj8Y5TUiXurkChyAiiljPthkqsePedmYW0D8a3EOhBhu/zsdhi2vQK
- c4L7JJLs0hXqLKYLbj3GRqS19j9cqxaDQp6KDApM/GdqunKznW5jYFku3mRxppSz02G0
- T3KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tqA23ObcMjBgZVvCWLFVqQeiCNLoGDBftx5XWNNYGp8=;
- b=x+deB2MhfVgG1DThtc8WASOR2yOcTuDZbXJuIf1CdihiaBrS8LiT0IqE3ZlpNLVTtb
- KY8r+LzE0IotAFwZTBtpL+q9BBkdeCEb6Hcvhr9UfxbrlULDJyZnizswxzKruP7PFUXp
- I2200i5oW5NGZXXR9DXfXCG3ifD0uSlN2MX+r2ElIiItL/L+bzhQGJJQFVepqf0eiR3L
- zmHRTfuvnN4uFcU1QmOeEuyPL76TxiygQe2Ai3ztFskqDhWt5EDWl4dVYAqJKAXrdj4f
- GGqv+U5oLL/sASGot2+FsPUsn9C9Bh8rGWX8gSYybvT/01F+fwRuD1izK0B3L24rRu9d
- fsog==
-X-Gm-Message-State: AOAM531pRfWAvq5UMyzexvcg3atQbGTDNTfVk5jIJuC/RL2co39m/5KN
- mieD2W4r0j1ftd1kzB6/Y5xGsDDLrovxwA==
-X-Google-Smtp-Source: ABdhPJyv1Javrn/St42VuUvMZqKad4SdoRQwzO4D5Q9r1lS2yVB+cCZF7l5V9bE9h582nw9V5kHLyg==
-X-Received: by 2002:a6b:8e52:: with SMTP id q79mr21218840iod.64.1634050727820; 
- Tue, 12 Oct 2021 07:58:47 -0700 (PDT)
-Received: from [192.168.1.30] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id c9sm5649857ilo.18.2021.10.12.07.58.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 07:58:47 -0700 (PDT)
-Subject: Re: switch block layer polling to a bio based model v4
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, Keith Busch <kbusch@kernel.org>,
- "Wunderlich, Mark" <mark.wunderlich@intel.com>,
- "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20211012111226.760968-1-hch@lst.de>
- <07f31547-5570-4150-7a4b-1d773fb9fa87@kernel.dk>
- <040104f6-720d-35ed-7e15-a704e6488fd4@grimberg.me>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <1f53ea37-6825-de63-0f51-5ff54fa7618e@kernel.dk>
-Date: Tue, 12 Oct 2021 08:58:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1maJIb-00DHY3-Fn
+ for linux-nvme@lists.infradead.org; Tue, 12 Oct 2021 15:02:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634050954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H5n0vZXzpKUr4bdvWBgiF2GxyHPbprOqb+7u3O+dEug=;
+ b=OZXaj8MdraQzsfikS35WDWRJLzHZNmv7WK/bVKyH6/cUTxz4CnP+963Bx85R8bjPLg3jfO
+ YeF7EPP7XfFddM3DxtqEp2ZfHtv1Y6XwHoau7AHYjqDtiN3P32Ct6F7YTDC1wndbGD5hjC
+ o3t9LrLH9OCbKMBPalTkcFXFRIOKj7E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-jiS4h6U3MFWVJ22ABzKX0Q-1; Tue, 12 Oct 2021 11:02:31 -0400
+X-MC-Unique: jiS4h6U3MFWVJ22ABzKX0Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 856CF80158D;
+ Tue, 12 Oct 2021 15:02:29 +0000 (UTC)
+Received: from T590 (ovpn-8-34.pek2.redhat.com [10.72.8.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CCE82B060;
+ Tue, 12 Oct 2021 15:02:24 +0000 (UTC)
+Date: Tue, 12 Oct 2021 23:01:48 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [PATCH V3 4/6] nvme: paring quiesce/unquiesce
+Message-ID: <YWWjXN3GEzypVFZ/@T590>
+References: <20211009034713.1489183-1-ming.lei@redhat.com>
+ <20211009034713.1489183-5-ming.lei@redhat.com>
+ <20211012103620.GB29640@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <040104f6-720d-35ed-7e15-a704e6488fd4@grimberg.me>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20211012103620.GB29640@lst.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211012_075849_310553_CFCEEFEF 
-X-CRM114-Status: GOOD (  19.56  )
+X-CRM114-CacheID: sfid-20211012_080237_668072_B708ECD0 
+X-CRM114-Status: GOOD (  20.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,50 +88,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/12/21 8:57 AM, Sagi Grimberg wrote:
+On Tue, Oct 12, 2021 at 12:36:20PM +0200, Christoph Hellwig wrote:
+> On Sat, Oct 09, 2021 at 11:47:11AM +0800, Ming Lei wrote:
+> > The current blk_mq_quiesce_queue() and blk_mq_unquiesce_queue() always
+> > stops and starts the queue unconditionally. And there can be concurrent
+> > quiesce/unquiesce coming from different unrelated code paths, so
+> > unquiesce may come unexpectedly and start queue too early.
+> > 
+> > Prepare for supporting concurrent quiesce/unquiesce from multiple
+> > contexts, so that we can address the above issue.
+> > 
+> > NVMe has very complicated quiesce/unquiesce use pattern, add one atomic
+> > bit for makeiing sure that blk-mq quiece/unquiesce is always called in
+> > pair.
 > 
->>> Hi all,
->>>
->>> This series clean up the block polling code a bit and changes the interface
->>> to poll for a specific bio instead of a request_queue and cookie pair.
->>>
->>> Polling for the bio itself leads to a few advantages:
->>>
->>>    - the cookie construction can made entirely private in blk-mq.c
->>>    - the caller does not need to remember the request_queue and cookie
->>>      separately and thus sidesteps their lifetime issues
->>>    - keeping the device and the cookie inside the bio allows to trivially
->>>      support polling BIOs remapping by stacking drivers
->>>    - a lot of code to propagate the cookie back up the submission path can
->>>      removed entirely
->>>
->>> The one major caveat is that this requires RCU freeing polled BIOs to make
->>> sure the bio that contains the polling information is still alive when
->>> io_uring tries to poll it through the iocb. For synchronous polling all the
->>> callers have a bio reference anyway, so this is not an issue.
->>
->> I ran this through the usual peak testing, and it doesn't seem to regress
->> anything for me. We're still at around ~7.4M polled IOPS on a single CPU
->> core:
->>
->> taskset -c 0,16 t/io_uring -d128 -b512 -s32 -c32 -p1 -F1 -B1 -D1 -n2 /dev/nvme1n1 /dev/nvme2n1
->> Added file /dev/nvme1n1 (submitter 0)
->> Added file /dev/nvme2n1 (submitter 1)
->> polled=1, fixedbufs=1, register_files=1, buffered=0, QD=128
->> Engine=io_uring, sq_ring=128, cq_ring=256
->> submitter=0, tid=1199
->> submitter=1, tid=1200
->> IOPS=7322112, BW=3575MiB/s, IOS/call=32/31, inflight=(110 71)
->> IOPS=7452736, BW=3639MiB/s, IOS/call=32/31, inflight=(52 80)
->> IOPS=7419904, BW=3623MiB/s, IOS/call=32/31, inflight=(78 104)
->> IOPS=7392576, BW=3609MiB/s, IOS/call=32/32, inflight=(75 102)
+> Can you explain the need for these bits a little more?  If they are
+> unbalanced we should probably fix the root cause.
 > 
-> Jens, is that with nvme_core.multipath=Y ?
+> What issues did you see?
 
-No, I don't have multipath enabled. I can run that too, if you'd like.
+There are lots of unbalanced usage in nvme, such as
 
--- 
-Jens Axboe
+1) nvme pci:
+
+- nvme_dev_disable() can be called more than one times before starting
+reset, so multiple nvme_stop_queues() vs. single nvme_start_queues().
+
+2) Forcibly unquiesce queues in nvme_kill_queues() even though queues
+are never quiesced, and similar usage can be seen in tcp/fc/rdma too
+
+Once the quiesce and unquiesce are run from difference context, it becomes
+not easy to audit if the two is done in pair.
+
+
+
+Thanks,
+Ming
 
 
 _______________________________________________
