@@ -2,14 +2,14 @@ Return-Path: <SRS0=8G/6=PA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCEEC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 11:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBCBC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 11:16:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A60086101D
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 11:14:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A60086101D
+	by mail.kernel.org (Postfix) with ESMTPS id 63FF26101D
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 11:16:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 63FF26101D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,32 +18,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=aWY0b0knK8jcfRLVKWvkzV5sjpf+x/q317BUxv/3qmM=; b=0OwKQDjFO5WA3d
-	culO2J3WQU1Kah1ieYhSuqs7SpjiQM+quyxJ/DvO+zo1v1i4N82ryghL1rXqKRtBwiD31fyxR7NVh
-	773zDhdMA+mUBPbELIx6GWxHiZOjyhdPgSSOYeOKG26s7U//UvyWameJCDlltp5V799hDTsx/NO5Q
-	geE2RxZzwQG9XMvj8QYFkifbCCIY68XDaaJVK76EnCPGpusqNF1xWhcvErL3hQ4t0kkBiHzT2w+ig
-	bPZkjyK5BVwA8OU0dP6c7SDG4ULR+jWKW1COpiFYxah0AKvEOuojIvTE3wdTeL9COg+CuKRQcr1du
-	1qylAjUJl0FqgoFuTq1g==;
+	List-Owner; bh=TihxsBwnHxXJpdB2/M3N0znOFA09ZI0p0O3kFRXB1OM=; b=WO99I76/qDhPU/
+	0rbimUDziHGfTpbibARMQSGbkO/S7cAEpiimHs0G9AQPXcTPZD1DOq5eM5ebNtVlzQB3jgIITdS6Y
+	U8DWan8+Ls4TtQUJFwxi3QR/eiTq3FnSzZomido6Y2xl2xhKIASyUFpQkjceWiXbFVYQA5nOo0lG7
+	AFOS/LpbjppU++UnK6ZP8BkJKlTxNUy0kDLgDjH1afSONOXwaLlrWo5y23NcBCCdfAeAVRKbb42mz
+	DBv6KgYiTVfiiLHZCWSwqIm6/5WkTy2vTL/omfPGjbj7DvTfieyW5e7n1yhFt/vqpEnn7dyylLd47
+	nbE3r/+xzhURkmHbvAEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maFjy-00CWus-AR; Tue, 12 Oct 2021 11:14:38 +0000
+	id 1maFl4-00CX3O-AD; Tue, 12 Oct 2021 11:15:46 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maFjx-00CWui-AK
- for linux-nvme@bombadil.infradead.org; Tue, 12 Oct 2021 11:14:37 +0000
+ id 1maFl3-00CX3E-DZ
+ for linux-nvme@bombadil.infradead.org; Tue, 12 Oct 2021 11:15:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=YaEjgBUtA2vphpQF+wTXe+cEE2KjTqL1g0deqC72xfw=; b=Wuw2nnoeDoSc5/sdrwK7HU846r
- RKD4ltUY6vFVZZKPlOXpFeA763wxLA2TC1vpwO2Gp/sGw+G1Oi5SEiYZ7AUupQ20sTIeXF29fKVHd
- FHFV+fJ8w67vrTYyB7m5lGCuDF/hb63pbcGzi3Ox6nQb7hOxSq2wJhFf8ztZMCqCUz7BF290FB+gd
- xzPXt1cSrf2b0EOQZhXgkCX4B/LralYfUBCOV1D6CF2co8UPJBNN47D8rIliYlThRSN+s7E2YZCHJ
- kCmENJEkBnC6xckKE3ks3aIpBsp6xWLLGewpCpFwsOCrx1dJL5QEY9V86K9yDsmUISw35JJpy3BuC
- fh8N0ikg==;
+ bh=dfLmHdTHOwWISM4CncKHIKnO5smotSMqN/rH5FtxI78=; b=Kqxx435kkCiUFQIp4oMzCwpYRB
+ K7v4Jjd3+GFd8TMk/VZV/Zn+xrOHIT2LoyeMKbE9Amrsgj2D3jXEIwnPHIm5140Ks80bkpy2NSCs8
+ 4NWjUAWpEO89oTT3qIQs6QzS3ZszT1fKc/Bj0cAX2nHz9CsriEZ1WWhutLnntwYntFq/53S6FaIO7
+ jAUV4I15B+Lr65oTQREY3ks3+Kr1wn/VrBisn5a1hTnvEE3shIfoe4jfOuflh78FEqNDJqeIUpXFZ
+ gEUU8RXWqLoWKvn3hVEzBXwLW6w1i7WquxYaXVwE6bj4q7U43oEG6z1sLbakyZZkhuj4qinOQyNVU
+ klO2T7cA==;
 Received: from [2001:4bb8:199:73c5:f5ed:58c2:719f:d965] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maFiq-006RQP-Eu; Tue, 12 Oct 2021 11:13:54 +0000
+ id 1maFjw-006RRs-Kj; Tue, 12 Oct 2021 11:15:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
@@ -52,9 +52,10 @@ Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
  "Wunderlich, Mark" <mark.wunderlich@intel.com>,
  "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: [PATCH 01/16] direct-io: remove blk_poll support
-Date: Tue, 12 Oct 2021 13:12:11 +0200
-Message-Id: <20211012111226.760968-2-hch@lst.de>
+Subject: [PATCH 02/16] block: don't try to poll multi-bio I/Os in
+ __blkdev_direct_IO
+Date: Tue, 12 Oct 2021 13:12:12 +0200
+Message-Id: <20211012111226.760968-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211012111226.760968-1-hch@lst.de>
 References: <20211012111226.760968-1-hch@lst.de>
@@ -77,65 +78,86 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The polling support in the legacy direct-io support is a little crufty.
-It already doesn't support the asynchronous polling needed for io_uring
-polling, and is hard to adopt to upcoming changes in the polling
-interfaces.  Given that all the major file systems already use the iomap
-direct I/O code, just drop the polling support.
+If an iocb is split into multiple bios we can't poll for both.  So don't
+even bother to try to poll in that case.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Tested-by: Mark Wunderlich <mark.wunderlich@intel.com>
 ---
- fs/direct-io.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ block/fops.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/fs/direct-io.c b/fs/direct-io.c
-index b2e86e739d7a1..453dcff0e7f56 100644
---- a/fs/direct-io.c
-+++ b/fs/direct-io.c
-@@ -119,7 +119,6 @@ struct dio {
- 	int flags;			/* doesn't change */
- 	int op;
- 	int op_flags;
--	blk_qc_t bio_cookie;
- 	struct gendisk *bio_disk;
- 	struct inode *inode;
- 	loff_t i_size;			/* i_size when submitted */
-@@ -438,11 +437,10 @@ static inline void dio_bio_submit(struct dio *dio, struct dio_submit *sdio)
+diff --git a/block/fops.c b/block/fops.c
+index 7bb9581a146cf..15324f2e5a914 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -197,7 +197,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 	struct blk_plug plug;
+ 	struct blkdev_dio *dio;
+ 	struct bio *bio;
+-	bool is_poll = (iocb->ki_flags & IOCB_HIPRI) != 0;
++	bool do_poll = (iocb->ki_flags & IOCB_HIPRI);
+ 	bool is_read = (iov_iter_rw(iter) == READ), is_sync;
+ 	loff_t pos = iocb->ki_pos;
+ 	blk_qc_t qc = BLK_QC_T_NONE;
+@@ -226,7 +226,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 	 * Don't plug for HIPRI/polled IO, as those should go straight
+ 	 * to issue
+ 	 */
+-	if (!is_poll)
++	if (!(iocb->ki_flags & IOCB_HIPRI))
+ 		blk_start_plug(&plug);
  
- 	dio->bio_disk = bio->bi_bdev->bd_disk;
+ 	for (;;) {
+@@ -260,20 +260,13 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
  
--	if (sdio->submit_io) {
-+	if (sdio->submit_io)
- 		sdio->submit_io(bio, dio->inode, sdio->logical_offset_in_bio);
--		dio->bio_cookie = BLK_QC_T_NONE;
--	} else
--		dio->bio_cookie = submit_bio(bio);
-+	else
-+		submit_bio(bio);
- 
- 	sdio->bio = NULL;
- 	sdio->boundary = 0;
-@@ -481,9 +479,7 @@ static struct bio *dio_await_one(struct dio *dio)
- 		__set_current_state(TASK_UNINTERRUPTIBLE);
- 		dio->waiter = current;
- 		spin_unlock_irqrestore(&dio->bio_lock, flags);
--		if (!(dio->iocb->ki_flags & IOCB_HIPRI) ||
--		    !blk_poll(dio->bio_disk->queue, dio->bio_cookie, true))
--			blk_io_schedule();
-+		blk_io_schedule();
- 		/* wake up sets us TASK_RUNNING */
- 		spin_lock_irqsave(&dio->bio_lock, flags);
- 		dio->waiter = NULL;
-@@ -1214,8 +1210,6 @@ do_blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
- 	} else {
- 		dio->op = REQ_OP_READ;
+ 		nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS);
+ 		if (!nr_pages) {
+-			bool polled = false;
+-
+-			if (iocb->ki_flags & IOCB_HIPRI) {
++			if (do_poll)
+ 				bio_set_polled(bio, iocb);
+-				polled = true;
+-			}
+-
+ 			qc = submit_bio(bio);
+-
+-			if (polled)
++			if (do_poll)
+ 				WRITE_ONCE(iocb->ki_cookie, qc);
+ 			break;
+ 		}
+-
+ 		if (!dio->multi_bio) {
+ 			/*
+ 			 * AIO needs an extra reference to ensure the dio
+@@ -284,6 +277,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 				bio_get(bio);
+ 			dio->multi_bio = true;
+ 			atomic_set(&dio->ref, 2);
++			do_poll = false;
+ 		} else {
+ 			atomic_inc(&dio->ref);
+ 		}
+@@ -292,7 +286,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 		bio = bio_alloc(GFP_KERNEL, nr_pages);
  	}
--	if (iocb->ki_flags & IOCB_HIPRI)
--		dio->op_flags |= REQ_HIPRI;
  
- 	/*
- 	 * For AIO O_(D)SYNC writes we need to defer completions to a workqueue
+-	if (!is_poll)
++	if (!(iocb->ki_flags & IOCB_HIPRI))
+ 		blk_finish_plug(&plug);
+ 
+ 	if (!is_sync)
+@@ -303,8 +297,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 		if (!READ_ONCE(dio->waiter))
+ 			break;
+ 
+-		if (!(iocb->ki_flags & IOCB_HIPRI) ||
+-		    !blk_poll(bdev_get_queue(bdev), qc, true))
++		if (!do_poll || !blk_poll(bdev_get_queue(bdev), qc, true))
+ 			blk_io_schedule();
+ 	}
+ 	__set_current_state(TASK_RUNNING);
 -- 
 2.30.2
 
