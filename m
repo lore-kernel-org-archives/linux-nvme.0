@@ -2,14 +2,14 @@ Return-Path: <SRS0=8G/6=PA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C87C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:07:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA3CC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:08:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C14460527
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:07:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1C14460527
+	by mail.kernel.org (Postfix) with ESMTPS id E9E3160D43
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:08:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E9E3160D43
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,22 +18,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RBm/xaVK32n7Fe1ypBg+xP+8XH313ZsXhuZmJ0wjgrc=; b=ORe7hPaDt0yAQu
-	SmBjTOJmp8h45QLa1fSwDpjP/6DWzTLpWUFuU9Q++w/VSu505s80n/Ex/SP73u0gnCoOtuCv9Tje9
-	khtChoz63aC6Jgz43+oXf4xEycNiERt4zLFwNv8eWABLSI5uX8vievHoJZjACX+7ugyp3GRdxLOAl
-	RispXidacX6+5OqwTnRZAy1DbPs5G4VOTsaACj3MGVddRC1SlR3FRcQd6a/lLIrmKKq+nQ2tjUmST
-	uU+csjMp7znY9JZLX+AEzm1UnrIGwGR0JPEu6uOblYGNNgDbwWnRkSp1K2xxMbAsK/mDaxBj0yKyg
-	NwlOLp0XAu4R+jmmZp6Q==;
+	List-Owner; bh=Bh1OH5V/oXV6axi6Wa6ZUOnVKPhnkofaE34tMa46+lc=; b=PGdJDBCT1mwF5s
+	SdTV23/OigCC5lfdPNdv0h2aB1LazqEqSfo/pC6rsQbbxGqqk2umfoPkMnf3ffO1oenZfCDo1cu1I
+	0fPBKBmeo4Peg9imJa5VC7RxpoGHVEGpI0knmX3yW4F0U57mJNWh6f41m56/HFanQ905++rRRf58u
+	hxUAEapoaWPhZ2y2VqLnlnpSwwLdS//J/irCFk+9BgsLSawh/tIb+qEdu7OHXE+UHaBR3yywJ3Mmf
+	/FlBMfe8fwTBz5QciZKwQ6feON7rJXg+saKQL3GFW+c8dmTPEuf1RfERBmav3f8oOTJhIf/Xfu8NR
+	FdCEpH3cfmbAgKultEsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maJNa-00DIO0-DA; Tue, 12 Oct 2021 15:07:46 +0000
+	id 1maJOJ-00DIZ1-Qq; Tue, 12 Oct 2021 15:08:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maJNX-00DIN5-NX
- for linux-nvme@lists.infradead.org; Tue, 12 Oct 2021 15:07:45 +0000
+ id 1maJOH-00DIY6-IL
+ for linux-nvme@lists.infradead.org; Tue, 12 Oct 2021 15:08:30 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id D336667373; Tue, 12 Oct 2021 17:07:41 +0200 (CEST)
-Date: Tue, 12 Oct 2021 17:07:41 +0200
+ id 9F3FD67373; Tue, 12 Oct 2021 17:08:27 +0200 (CEST)
+Date: Tue, 12 Oct 2021 17:08:27 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Ming Lei <ming.lei@redhat.com>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
@@ -41,18 +41,18 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  Chaitanya Kulkarni <chaitanyak@nvidia.com>,
  Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH V3 4/6] nvme: paring quiesce/unquiesce
-Message-ID: <20211012150741.GA20571@lst.de>
+Subject: Re: [PATCH V3 6/6] blk-mq: support concurrent queue quiesce/unquiesce
+Message-ID: <20211012150827.GB20571@lst.de>
 References: <20211009034713.1489183-1-ming.lei@redhat.com>
- <20211009034713.1489183-5-ming.lei@redhat.com>
- <20211012103620.GB29640@lst.de> <YWWjXN3GEzypVFZ/@T590>
+ <20211009034713.1489183-7-ming.lei@redhat.com>
+ <20211012103010.GA29640@lst.de> <YWWki6An1sOpx3rV@T590>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YWWjXN3GEzypVFZ/@T590>
+In-Reply-To: <YWWki6An1sOpx3rV@T590>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211012_080743_937909_2050235A 
-X-CRM114-Status: GOOD (  16.20  )
+X-CRM114-CacheID: sfid-20211012_080829_779938_2FC286C3 
+X-CRM114-Status: GOOD (  15.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,23 +69,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 12, 2021 at 11:01:48PM +0800, Ming Lei wrote:
-> There are lots of unbalanced usage in nvme, such as
+On Tue, Oct 12, 2021 at 11:06:51PM +0800, Ming Lei wrote:
+> > We can get rid of the QUEUE_FLAG_QUIESCED flag now and just look
+> > at ->quiesce_depth directly.
 > 
-> 1) nvme pci:
-> 
-> - nvme_dev_disable() can be called more than one times before starting
-> reset, so multiple nvme_stop_queues() vs. single nvme_start_queues().
-> 
-> 2) Forcibly unquiesce queues in nvme_kill_queues() even though queues
-> are never quiesced, and similar usage can be seen in tcp/fc/rdma too
-> 
-> Once the quiesce and unquiesce are run from difference context, it becomes
-> not easy to audit if the two is done in pair.
+> I'd rather not to do that given we need to check QUEUE_FLAG_QUIESCED in fast
+> path.
 
-Yes, but I'm not sure a magic flag is really the solution here.
-I think we need to work on our state machine here so that this is less
-of a mess.
+Checking an integer vs checking a bit is easier actually faster or at
+least the same speed depending on the architecture / micro architecture.
 
 _______________________________________________
 Linux-nvme mailing list
