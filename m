@@ -2,80 +2,77 @@ Return-Path: <SRS0=8G/6=PA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5784C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:09:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75434C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:14:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9684F6052B
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:09:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9684F6052B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 34D8060E05
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Oct 2021 15:14:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 34D8060E05
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sD46WWgzAObSAcghdvkIp8oMObNkXZIkiaixyiqmeBs=; b=1A/4PorO/J7QJfkZthl5x55Xdk
-	Pn0OZiB9NlYYCJfLXWXMhL92FRYWCqY2ooJRp8hx1GSYGQ8WaD0fmowPDfsmZLq7sbGcVLC2VZaEb
-	tCxsYOPQTHkckrryQbv9NnSDyZ3ue1v0yj1zQcKrGOZ75XrccJhfWN+4xyaVgbKKI9kTFG0wLTAJW
-	MsGJweRX2vszCJIuy4CIB/bogh1aD0TF0ZI0B4jUdQcsrozz9tI65fiSvkrYyFcpF/adaboVbtVJJ
-	boLyWrAGokmIlyB5Cts996UZ2oyYYRowMANNGaC70qsOv3lERt3+/WWrlwgj5kziP9+AemsKDfs2V
-	Kcxj8mhg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=4yE1SuF/vp7/Dm0i7QrvbhVyf5odGa8wqCEqgqI+scU=; b=W0SGy3zbHyomUu
+	cCc0m75Lt0qJAGk66QnuDdrNWjvl1c4DHdUbpFlQ9ecbAaSgb2XSR01IP/T1tMUFRa1wKijSa8AD4
+	qMmQu5ImKh91GIlC6Q2RFUiPw4lMUUY7tbMgmJpGTpraYYkNAnhSnP1rcUpefT5ZNLEGpiKLLpprR
+	Rxmm10806TUB9g7KzVFztfI62uHlF/DjQQJ/5rXtqjKiZpvsVIeMGRStiqiT2rOiIJn6DhEeKoZ9R
+	x7EWObdxuW7+hrwGFSyTfLIy6riYSPC+FU07Lf/QlrzIK6oOa7HLlhIOg0Rc+uwWhkd/2HYChuK1o
+	Bs7DoCEYcD3JkPC/jMgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maJPE-00DIkS-Bd; Tue, 12 Oct 2021 15:09:28 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1maJTr-00DK1h-MN; Tue, 12 Oct 2021 15:14:15 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maJPB-00DIjW-7k
- for linux-nvme@lists.infradead.org; Tue, 12 Oct 2021 15:09:26 +0000
-Received: by mail-wr1-f52.google.com with SMTP id t2so67953017wrb.8
- for <linux-nvme@lists.infradead.org>; Tue, 12 Oct 2021 08:09:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J1LZaElNrkRTt0L3TOQg6vlE4jRHoB3hzqVL1wIyGtw=;
- b=zcqQ1/rgeGstosNwPvpl1TKErdP8nJmd9cX6W0A+76tL+NqoVYN3JVDW8yETuS9QcN
- +QOD6s/nwxyBnEZgp0ro4kCotWPHAkP2s5Ia/y839OMqV+x+PEkNqRASbjNhLgrKUJ3D
- bIvH6A9Lubt77udg04dsJkhHPrjNAxFpGLYTMRWGVSuo3ypl9T1refbdKJF6iN8Ae03P
- J11hLtxDKSD3fRsrwFQNzNElAn+sy0dvgN+KCst9jLoGc02bkISx2/A1c/+A8oQjT2jj
- QizitDL9G+/WYTlR9Ql5UunjosYB968Ubpz0QM6zFmEutpR7dTT8lA9kfx0xKie8Vrh0
- k8YQ==
-X-Gm-Message-State: AOAM5335HSszpzhH8BteJ9TJXQ5cjJypc7MR97L7RrRw6qAyP1c4ljHS
- 5obvNfN6kwz3QDiuNM/jnHqQTqEgSWI=
-X-Google-Smtp-Source: ABdhPJzUa0NDblM2T2QL1+RHFgBKRczuoTxZUdRpZb6VVmvwDGzRabZJtooobPPXFM3WMF7ximyaQw==
-X-Received: by 2002:adf:a550:: with SMTP id j16mr33357712wrb.180.1634051362822; 
- Tue, 12 Oct 2021 08:09:22 -0700 (PDT)
-Received: from [192.168.81.70] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id a63sm899421wmd.34.2021.10.12.08.09.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 08:09:22 -0700 (PDT)
-Subject: Re: switch block layer polling to a bio based model v4
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, Keith Busch <kbusch@kernel.org>,
- "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20211012111226.760968-1-hch@lst.de>
- <07f31547-5570-4150-7a4b-1d773fb9fa87@kernel.dk>
- <040104f6-720d-35ed-7e15-a704e6488fd4@grimberg.me>
- <1f53ea37-6825-de63-0f51-5ff54fa7618e@kernel.dk>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <054cd2ed-1996-d6dd-5842-2bf5a03fbdea@grimberg.me>
-Date: Tue, 12 Oct 2021 18:09:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ id 1maJTo-00DJzT-Vg
+ for linux-nvme@lists.infradead.org; Tue, 12 Oct 2021 15:14:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634051651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2xvN2vLxgg7nr/3sm0rZxnDgmYjVBd3T2S4YxkSk3YY=;
+ b=JHjUJIvpgbpLyuBTHpojPp9hgsXU0/aLpFJyjqxPrrM6+M9tFUCnsMebuMgo8GzlTK3ueg
+ j6SeShZ0VlVSJYXm+onlqSELDI46y7tr/9Jt+qv8Y5KzVKV++jZkhmNtMjWpmd3fg7IhLX
+ gS5SfOMYcaffrR6kPoTqeCr+eWB0Whw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-i9Dvu8TpNbmzFE8yTvmj4A-1; Tue, 12 Oct 2021 11:14:08 -0400
+X-MC-Unique: i9Dvu8TpNbmzFE8yTvmj4A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9719B112A0A0;
+ Tue, 12 Oct 2021 15:14:06 +0000 (UTC)
+Received: from T590 (ovpn-8-34.pek2.redhat.com [10.72.8.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AC0F196FA;
+ Tue, 12 Oct 2021 15:14:01 +0000 (UTC)
+Date: Tue, 12 Oct 2021 23:13:56 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [PATCH V3 6/6] blk-mq: support concurrent queue quiesce/unquiesce
+Message-ID: <YWWmNMNKEUtBI1EH@T590>
+References: <20211009034713.1489183-1-ming.lei@redhat.com>
+ <20211009034713.1489183-7-ming.lei@redhat.com>
+ <20211012103010.GA29640@lst.de> <YWWki6An1sOpx3rV@T590>
+ <20211012150827.GB20571@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <1f53ea37-6825-de63-0f51-5ff54fa7618e@kernel.dk>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20211012150827.GB20571@lst.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211012_080925_312274_291199F1 
-X-CRM114-Status: GOOD (  21.07  )
+X-CRM114-CacheID: sfid-20211012_081413_121290_B146FD06 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,57 +84,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 10/12/21 5:58 PM, Jens Axboe wrote:
-> On 10/12/21 8:57 AM, Sagi Grimberg wrote:
->>
->>>> Hi all,
->>>>
->>>> This series clean up the block polling code a bit and changes the interface
->>>> to poll for a specific bio instead of a request_queue and cookie pair.
->>>>
->>>> Polling for the bio itself leads to a few advantages:
->>>>
->>>>     - the cookie construction can made entirely private in blk-mq.c
->>>>     - the caller does not need to remember the request_queue and cookie
->>>>       separately and thus sidesteps their lifetime issues
->>>>     - keeping the device and the cookie inside the bio allows to trivially
->>>>       support polling BIOs remapping by stacking drivers
->>>>     - a lot of code to propagate the cookie back up the submission path can
->>>>       removed entirely
->>>>
->>>> The one major caveat is that this requires RCU freeing polled BIOs to make
->>>> sure the bio that contains the polling information is still alive when
->>>> io_uring tries to poll it through the iocb. For synchronous polling all the
->>>> callers have a bio reference anyway, so this is not an issue.
->>>
->>> I ran this through the usual peak testing, and it doesn't seem to regress
->>> anything for me. We're still at around ~7.4M polled IOPS on a single CPU
->>> core:
->>>
->>> taskset -c 0,16 t/io_uring -d128 -b512 -s32 -c32 -p1 -F1 -B1 -D1 -n2 /dev/nvme1n1 /dev/nvme2n1
->>> Added file /dev/nvme1n1 (submitter 0)
->>> Added file /dev/nvme2n1 (submitter 1)
->>> polled=1, fixedbufs=1, register_files=1, buffered=0, QD=128
->>> Engine=io_uring, sq_ring=128, cq_ring=256
->>> submitter=0, tid=1199
->>> submitter=1, tid=1200
->>> IOPS=7322112, BW=3575MiB/s, IOS/call=32/31, inflight=(110 71)
->>> IOPS=7452736, BW=3639MiB/s, IOS/call=32/31, inflight=(52 80)
->>> IOPS=7419904, BW=3623MiB/s, IOS/call=32/31, inflight=(78 104)
->>> IOPS=7392576, BW=3609MiB/s, IOS/call=32/32, inflight=(75 102)
->>
->> Jens, is that with nvme_core.multipath=Y ?
+On Tue, Oct 12, 2021 at 05:08:27PM +0200, Christoph Hellwig wrote:
+> On Tue, Oct 12, 2021 at 11:06:51PM +0800, Ming Lei wrote:
+> > > We can get rid of the QUEUE_FLAG_QUIESCED flag now and just look
+> > > at ->quiesce_depth directly.
+> > 
+> > I'd rather not to do that given we need to check QUEUE_FLAG_QUIESCED in fast
+> > path.
 > 
-> No, I don't have multipath enabled. I can run that too, if you'd like.
+> Checking an integer vs checking a bit is easier actually faster or at
+> least the same speed depending on the architecture / micro architecture.
 
-That would be useful to learn. thanks.
+->queue_flag is always hot, but quiesce_depth can't be and shouldn't be
+since it is used very less.
+
+
+-- 
+Ming
+
 
 _______________________________________________
 Linux-nvme mailing list
