@@ -2,87 +2,74 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A09C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A6AC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 12:01:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 74BC260273
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:59:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 74BC260273
+	by mail.kernel.org (Postfix) with ESMTPS id 8179860F94
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 12:01:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8179860F94
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
 	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MmRnl1M18GB/wwQgcOurK6WxY4ZZHReY6viPB+ys0/I=; b=1/MNgx8yDNYhIEPXSO/fWrYnPA
-	xG0gauQJxXkILvLTgE6c3nAwC59bE3ZAXLmLPq2YQ5j89M0dIUG6LUOvj0MLeLFguCXLWBZszyuMY
-	AzMGsSjRKbIK9ooc4kLXNvnBFysT1i24Ycbq0mASaED7GKFI0e9K9SfgZSbaKPZxMmf+d7cB9eKph
-	cN2MbnhyDJhGI2A7k+aB2SWpvND994iA8vAYd1xgsnsN4o4v1f3bCy3RlmOR8FyXA/TSk2pnS2w3M
-	7aVCqdtPIl/PuG6dV33ZgxVP27ghVeZXsidPBPMbhm0MzbfB6bvhYkzC9bUYf49HgzhtaMKBfZFlR
-	2ug7Mkng==;
+	bh=F56ySn91q9t4VXEX4Opd1U8XAEIB7c/S7Gc9tSONP9Q=; b=A6QaSTA4v3HbDxyVBsK47VL1BI
+	P8z19Aatj7OgmQy7UV+dhJOMXvXJ7a0ysPuh1Yo7NbYkQWEBIgq9h77B2N5BnjVavE1agmD5IScSe
+	ha+KHBKRviiHsH7+G3BL0TLpofNIWy+vYuIirsJDLFzgKJePuUw3+lhUfxQAi7fboNbv55/7fN1xT
+	cdBUS3yt2uzgOG1mUwMcA+8KCtq9rLppCcmpB5BSpGS9HXAJD3ftLvSmHnIc3ZoDujt+jUUjsP/Dh
+	/vzs0wzTjyimszf/beu87HPKNGQ7WStLKESfK5ESLPm7nGGx3+nTjLykKXDKLHZPzFL/JOKEsla0l
+	l9dpu/wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1macuy-00GQuT-AU; Wed, 13 Oct 2021 11:59:32 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1macwy-00GRNf-Jw; Wed, 13 Oct 2021 12:01:36 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mabnV-00G5q6-M4
- for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 10:47:46 +0000
-Received: by mail-wr1-f46.google.com with SMTP id m22so7012653wrb.0
- for <linux-nvme@lists.infradead.org>; Wed, 13 Oct 2021 03:47:45 -0700 (PDT)
+ id 1mabtE-00G7LK-Td
+ for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 10:53:42 +0000
+Received: by mail-wr1-f47.google.com with SMTP id y3so6951738wrl.1
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Oct 2021 03:53:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZiaQoyU45xhgDOKQLLeQzqGlt0Ff7V0IGrHFdC4CAG4=;
- b=OQecHuylM/tV1o9FYiGIRGwRAszeQlDRX0JYkQJFZGUfo6PtjiKdbEdtrdNzoEe74T
- 6DdlpnC/EdgKvd6bK6YAQ2U8HEfODvQSKzT+VhnvcemhLMa/YvdGUeU9axm9bpevPNcx
- vlYCFHy05W35ephjYLg0FytTaTu1g1q+2/ruBQ8w6N6TqFAa7wY+BRnkIjbUKbdQnaRE
- G3qMWRWz6+UdyMLrtHvGZumF/cyv5snkhs8agxxP7RBm2LkfeRgYF21r0dMlMUzglcNn
- F5c26/AIX4ofHPoSj++75yKi0KB/b3zKputhFpgdrLIXZDmhdIbiVEDZJMI9p4VomUm1
- ScPw==
-X-Gm-Message-State: AOAM532cjZvjhLb7/pFiUa3+ahsw7z4JH/z14CT5cFIn6rm5cZirIDGx
- y3iDoUj/JRf9vgGs4lhPh0rz5Rqglbk=
-X-Google-Smtp-Source: ABdhPJzJynT71nTLo0q+7Ju1iSw1+NGuHD3lp2wuMN5k6g5z+IdXTFAssJ5DrKduipHsCgFHr+wJqg==
-X-Received: by 2002:a1c:4b08:: with SMTP id y8mr12496863wma.98.1634122064135; 
- Wed, 13 Oct 2021 03:47:44 -0700 (PDT)
+ bh=jkexyjpjWtchbt6lNUNbTEVgq3MA1z7TXzSJ3cC0SuY=;
+ b=abFdBFh4kZrMvl0j7jut4UgqmsCirfvo4l7ohVoEn+QP8hZROOb6Qm9qAScm+tqWR8
+ Lac6Y4w2IsB7Dudk/GJscuOMcxOxofNhzorRX+prYSo90oloJMwlXi5P3bNiJziUi/aU
+ Go89c5ZUm4U9xvytP6kREQQojtL4wpOQRtP00+6nH1xfe3WuH4i8DGawOb7Ey7QS0Ntg
+ KxExkVQM1rVQwWjE2gGy+i5bnw96Un7YiKMnahbm3MQrhYmlsJ8rpt12HcO78Il28lg9
+ hRkT1KwAdFoMK5Qz/zHF7s5D/lzOjJJ+iXJrKJNEKC14w6JZThdq+saaVlyflAENjb/F
+ 0tDQ==
+X-Gm-Message-State: AOAM531GVlVeDdnwKyzvtzQA/qSgqbfFBaBuX2u1LhkfKbFdSILuNXNp
+ ax6Dtnz6nEHVBD7D7504ndU=
+X-Google-Smtp-Source: ABdhPJxy8xMfvwAcWuiIK4XRZLUCm7IbCILUSCMzQamyfsZB1IoDLrscAL7TUBY90wttGDQAPSfFWA==
+X-Received: by 2002:a05:6000:168d:: with SMTP id
+ y13mr31146520wrd.172.1634122419433; 
+ Wed, 13 Oct 2021 03:53:39 -0700 (PDT)
 Received: from [192.168.81.70] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id o6sm5344817wms.3.2021.10.13.03.47.43
+ by smtp.gmail.com with ESMTPSA id s14sm12749416wro.76.2021.10.13.03.53.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 03:47:43 -0700 (PDT)
-Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
-To: Yi Zhang <yi.zhang@redhat.com>, Adam Manzanares <a.manzanares@samsung.com>
-Cc: "minwoo.im.dev@gmail.com" <minwoo.im.dev@gmail.com>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
- <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
- <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
- <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
- <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
- <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
- <1b992460-26a6-cff6-bee4-b81ac28e93f5@grimberg.me>
- <CAHj4cs8Vff_C8FnFciHtYdnifoOHBrNtaGN1Fvpg5m2gV8JpZw@mail.gmail.com>
- <CGME20211002230919uscas1p1bc872acda3a68abc1438443d78ac921b@uscas1p1.samsung.com>
- <05d2844e-81fb-0180-03cc-423cedfd7ac7@grimberg.me>
- <20211012183446.GA264712@bgt-140510-bm01>
- <CAHj4cs94Ts7iLBjw+1Dn3FM9sjj7sTx7j=30ytshH9YTA2jdDg@mail.gmail.com>
+ Wed, 13 Oct 2021 03:53:39 -0700 (PDT)
+Subject: Re: [PATCH] nvme-pci: calculate IO timeout
+To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
+References: <20211013022744.1357498-1-kbusch@kernel.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <a6401bac-cfd0-9a29-ff82-dd548590301a@grimberg.me>
-Date: Wed, 13 Oct 2021 13:47:42 +0300
+Message-ID: <1505b177-5360-20d1-48ba-6ffb65933a00@grimberg.me>
+Date: Wed, 13 Oct 2021 13:53:37 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAHj4cs94Ts7iLBjw+1Dn3FM9sjj7sTx7j=30ytshH9YTA2jdDg@mail.gmail.com>
+In-Reply-To: <20211013022744.1357498-1-kbusch@kernel.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211013_034745_798293_0E1060F6 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20211013_035341_020666_B0B8D19B 
+X-CRM114-Status: GOOD (  20.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,14 +87,52 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->> Hello all,
->>
->> Does the following patch fix the issue for you.
->>
+> Existing host and nvme device combinations are more frequently capable
+> of sustaining outstanding transfer sizes exceeding the driver's default
+> timeout tolerance, given the available device throughput.
 > 
-> Yes, the kmemleak was fixed by this patch.
+> Let's consider a "mid" level server and controller with 128 CPUs and an
+> NVMe controller with no MDTS limit (the driver will throttle to 4MiB).
+> 
+> If we assume the driver's default 1k depth per-queue, this can allow
+> 128k outstanding IO submission queue entries.
+> 
+> If all SQ Entries are transferring the 4MiB max request, 512GB will be
+> outstanding at the same time with the default 30 second timer to
+> complete the entirety.
+> 
+> If we assume a currently modern PCIe Gen4 x4 NVMe device, that amount of
+> data will take ~70 seconds to transfer over the PCIe link, not
+> considering the device side internal latency: timeouts and IO failures
+> are therefore inevitable.
+> 
+> There are some driver options to mitigate the issue:
+> 
+>   a) Throttle the hw queue depth
+>       - harms high-depth single-threaded workloads
+>   b) Throttle the number of IO queues
+>       - harms low-depth multi-threaded workloads
+>   c) Throttle max transfer size
+>       - harms large sequential workloads
+>   d) Delay dispatch based on outstanding data transfer
+>       - requires hot-path atomics
+>   e) Increase IO Timeout
+> 
+> This RFC implements option 'e', increasing the timeout. The timeout is
+> calculated based on the largest possible outstanding data transfer
+> against the device's available bandwidth. The link time is arbitrarily
+> doubled to allow for additional device side latency and potential link
+> sharing with another device.
+> 
+> The obvious downside to this option means it may take a long time for
+> the driver to notice a stuck controller.
+> 
+> Any other ideas?
 
-Great, Adam care to send a proper patch?
+I think that the case where the workload will behave in the worst
+possible case then the admin should probably override the default
+manually. I don't think it is desirable to have an absolute-worst-case
+default timeout.
 
 _______________________________________________
 Linux-nvme mailing list
