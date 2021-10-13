@@ -2,154 +2,100 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6D5C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 10:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A250C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:18:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5F8AB61040
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 10:42:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5F8AB61040
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	by mail.kernel.org (Postfix) with ESMTPS id C905361027
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:18:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C905361027
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:References:In-Reply-To:MIME-Version:Message-ID:
-	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2w6MoYTQcYhg9UWzUhtIYpP2ItQosRsTSRlp/OWbo7I=; b=OG881KghUtpMmNH6Xz2SAqtJNH
-	qNOVdNmpo7NscCFu2oL1EH0sgnyqif1EfG3I1Cjv0+YIER9jLm/QNNcIfLZOGrdgBnst8iOxClRA+
-	sPRK3iq9E+l3arY0qORSsiQ5tL5aRNiLMbrHo1q97qNPb+ruzPWPbYHt3i1vcz3Fdbt4s8qw7Hk7N
-	BHVcTJ5XNiSMiU0CkYUsrRMljr+jp6Fr/xhqP6LjEnaP6mzMpI/+OUmkF7G6sMs7m6ody4e9A4icO
-	CeqPrF1nHm5KlwyMbdRO4AyBWAEldlRVRmWXIQ9YL72c6gFIhNyELVEdNM2r7NdNnblovB45ZJ1ji
-	KP1HwB0A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Cc:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=zaWDpHpo5UNP7NPrVx13tTSZVksQrcHwttmhRihYdlg=; b=B8tpWTaY08lvrC
+	LyhGxWDaPHXz9thNi0JqloCsb11AvHMTXe8TfF/90zxd98AB+LFcUvByS9/9yNvJNNBZnEi412iZX
+	qfjRXLXfH5sl+pl5B0/vQCgJ3nG5lt1CWj8/u9HvtowxwW9I116+BElCZKmyWaFcHGIEb+zVR17n3
+	Y14w/x3KcllMbeqxRSmhEFmpajBAAEMwSOFj1wLtVKtAakPVgHryqtQfNgeCrNwKHauZZyXHQ4iaG
+	iIqDNXPg+AV4E+QWqjbPbmyHSehP3NxVSGBKpfaP5rRFIJR3zPLW7WT8g4xF889/auuNvJHBawrV3
+	ghlP8AVIC/ytwXwAaO+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mabhw-00G44X-H4; Wed, 13 Oct 2021 10:42:01 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1macHD-00GGDz-OC; Wed, 13 Oct 2021 11:18:27 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maZjf-00Fb9g-VD
- for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 08:35:42 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20211013083536euoutp02379ebd839d8f2c615a224cfb8e55e79e~tiiY8gM-X1909819098euoutp02o
- for <linux-nvme@lists.infradead.org>; Wed, 13 Oct 2021 08:35:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20211013083536euoutp02379ebd839d8f2c615a224cfb8e55e79e~tiiY8gM-X1909819098euoutp02o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1634114136;
- bh=lEXMQGbCbMscpq5Afgy20WzMWHP7jdEjLxxE5OlTv9w=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=Lrtu5DaW4v3dIKxcvPevjQhUxvpsJLRlXsW4Wnbr84VYuhvGUIDXAfyCHuFq5iwKw
- qpOTfmtjw+Gn3w/3v3tctgsc2kUt6/AU5JZL+GUlfPqpC9URXHugzYODUXMYvQbLcX
- 2g/ID1y3UP+e9Ts7OV0Ncv7UISPCqOj3MlNoM45Q=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20211013083536eucas1p1a795c57a764df3335f868000c9bd6669~tiiYmAiHG0164501645eucas1p1B;
- Wed, 13 Oct 2021 08:35:36 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id E7.15.45756.85A96616; Wed, 13
- Oct 2021 09:35:36 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20211013083535eucas1p13f4ddfc4b6ee1a62c824d48b0cc0e105~tiiYLEzD81511715117eucas1p1f;
- Wed, 13 Oct 2021 08:35:35 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20211013083535eusmtrp1e3e4270a1575147c3e0ee833770dc49b~tiiYKE2KJ2173921739eusmtrp1c;
- Wed, 13 Oct 2021 08:35:35 +0000 (GMT)
-X-AuditID: cbfec7f2-7bdff7000002b2bc-16-61669a58817f
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 2F.C0.20981.75A96616; Wed, 13
- Oct 2021 09:35:35 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20211013083535eusmtip2ecd856f2ed1ab8f61ba652b25279da00~tiiX7G0Tr2272522725eusmtip2s;
- Wed, 13 Oct 2021 08:35:35 +0000 (GMT)
-Received: from localhost (106.210.248.142) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 13 Oct 2021 09:35:34 +0100
-Date: Wed, 13 Oct 2021 10:35:33 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-CC: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Chaitanya Kulkarni
- <Chaitanya.Kulkarni@wdc.com>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "dm-devel@redhat.com"
- <dm-devel@redhat.com>, "lsf-pc@lists.linux-foundation.org"
- <lsf-pc@lists.linux-foundation.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "msnitzer@redhat.com" <msnitzer@redhat.com>, "bvanassche@acm.org"
- <bvanassche@acm.org>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>, "roland@purestorage.com"
- <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
- "hare@suse.de" <hare@suse.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
- "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
- Adam Manzanares <a.manzanares@samsung.com>, SelvaKumar S
- <selvakuma.s1@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>, "Kanchan
- Joshi" <joshi.k@samsung.com>, Vincent Fu <vincent.fu@samsung.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20211013083533.hhgrkm3lhoytfp3a@mpHalley-2.domain_not_set.invalid>
+ id 1maaeg-00FmPu-Co
+ for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 09:34:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634117671;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gAoPJUI5dBXQXBQUPXZ+jEQfE2wjGpzBmBaeMOakwsg=;
+ b=JHuYR13FBNkA3sQqFY8vLwwRj4wQpZ9Va2NKxklkYwcfxguJH1htWBZbtDuN4RTJCGkoqr
+ n10nzrHKtpYmnm3cSMisq7AAGn3XV+ZtnC1lBnfrtCN4GlNuBcL/MF4dUG9kqa3jVyDoeH
+ 5sNDheK4jRgGIekjjs931oK12N2t2EI=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-134-a4pRQ9qhNsCBHHuPMEfAIA-1; Wed, 13 Oct 2021 05:34:28 -0400
+X-MC-Unique: a4pRQ9qhNsCBHHuPMEfAIA-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ s66-20020a252c45000000b005ba35261459so2550997ybs.7
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Oct 2021 02:34:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gAoPJUI5dBXQXBQUPXZ+jEQfE2wjGpzBmBaeMOakwsg=;
+ b=PmbNjx3LdxAGC3eGsRjIOEoUsWaIF1Ayc0D+4zyd5EPiBR/eFhWsVxJhm96fL1Tkri
+ VX+kXTPG+ZibzjNcGLpcsm2OS7//Md86Eb3RW2Nu65uuGGp9GoAqCk3whcU+tSDBB827
+ br4k1/xDFdiF+XmxVt8wOXdiJ3DrYF7F3mTDkrZQ1ONKTlCv59XCkQYqwoc1GmpZbdwj
+ FfX3Y9pP6StJ0mZGnZNdEANFP/oltNgNfFeyMDiHWSbOpT1v+xSbY5HlVKkJ7GIV97xM
+ NH7F3yhMtqUDEnbIM14RXVf42nvHihRbHu0fvM3v+jMfZQN35uqh6BwNj/a7qGWIqLOt
+ 36Qw==
+X-Gm-Message-State: AOAM531aEgh8XGEpUSzcd3XkR/Et6Nl317a0xb6bNTpmWK3hro6tkmV7
+ gfiZYcL1WaJNJikEMmLuXduwYQ4njMGqXBz4tXbpVuQnQRbbApVAPghvaVPGJGwqjlgWBYXpbmq
+ yxeeW+dNIYtOLOeFnxnjec2EA9M4Nm0LEWkxUEo7iarg=
+X-Received: by 2002:a25:3104:: with SMTP id x4mr33768383ybx.512.1634117667339; 
+ Wed, 13 Oct 2021 02:34:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu4Pr4xWhiMFWBjy5LCYDTpyS49GcQ6N7FGFCWNMsoizODnEfLUWR8ZVuIz18pViD9pC4u1h4Yq6qY0utUrZY=
+X-Received: by 2002:a25:3104:: with SMTP id x4mr33768362ybx.512.1634117667002; 
+ Wed, 13 Oct 2021 02:34:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20211006100121.2hqfdkyuivzvzd33@mpHalley.domain_not_set.invalid>
-X-Originating-IP: [106.210.248.142]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIJsWRmVeSWpSXmKPExsWy7djPc7oRs9ISDc53c1qsvtvPZjHtw09m
- i1m3X7NYvD/4mNVi77vZrBaPN/1nstizaBKTxcrVR5ks/nbdY7KYdOgao8XeW9oW85c9Zbfo
- vr6DzWLf673MFsuP/2OymNhxlcni3Kw/bBaH711lsVj9x8Ji5TMmi1f74xxEPS5f8faY2PyO
- 3ePy2VKPTas62Tw2L6n3mHxjOaPH7psNbB4zPn1h87h+ZjuTR2/zOzaPj09vsXhse9jL7vF+
- 31Wg2tPVHp83yXm0H+hmChCI4rJJSc3JLEst0rdL4MroPu9ecE+y4t9/1wbGVyJdjJwcEgIm
- Ehe/LmLrYuTiEBJYwSjxafZfRpCEkMAXRonmLZkQic+MEh2vn7HAdJx8+pIZIrGcUeJa6zVW
- uKqGUwegMlsZJZadvssG0sIioCrx4OUvVhCbTcBe4tKyW8wgtoiAnsTVWzfYQRqYBTZwSmxa
- tAGsQVjAU2LHhn4mEJtXwF/i6eJZbBC2oMTJmU/A7mAWsJLo/NAENJQDyJaWWP6PAyIsL9G8
- dTbYfE4BP4nm67vZQUokBJQllk/3hfigVmLtsTNgayUElnJJzJ/wkhUi4SJx/eIiZghbWOLV
- 8S3sELaMxOnJPSwQDc2MEmfWXGGGcHoYJf5MWsEIscFaou9MDkSDo8T2KQ+ZIcJ8EjfeCkLc
- xicxadt0qDCvREeb0ARGlVlIHpuF5LFZCI/NQvLYAkaWVYziqaXFuempxYZ5qeV6xYm5xaV5
- 6XrJ+bmbGIGp9vS/4592MM599VHvECMTB+MhRgkOZiURXsOM1EQh3pTEyqrUovz4otKc1OJD
- jNIcLErivKtmr4kXEkhPLEnNTk0tSC2CyTJxcEo1MCXLzpqz3Cqm+6/Xr8t3/TvrmYvbXdOf
- a0483P2k7Fjwf4NXutccvutv7U4SDJLMmSP0Ji+g2nDlbdbV87JezJlorBf15HMj3+Ku1Qn/
- HgX+OqbA2/PMbUvT169MZx3uNEQ9vPpkQ/aSrfozPf1C+7oKYp5q6+THK/c7z3W9ZXTCWjve
- cfbn+rlMl45zrT0cwFW2MGLuqYLtNzOb71nIxzu3Xlpzr77uZsfOey+5kp4JPbpcmsO1v/Xp
- /whxwzme7Noni2uOLO82OHlI2n+7ke+9MvZ8hnTOj9fefvxnPO3b5D2BXXL8RRkGWd7a2mFp
- FyNbD87J3ap6tvG71TOPrxNehs09pCeSFVtio155SImlOCPRUIu5qDgRAIXemJckBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNKsWRmVeSWpSXmKPExsVy+t/xe7rhs9ISDQ7vU7dYfbefzWLah5/M
- FrNuv2axeH/wMavF3nezWS0eb/rPZLFn0SQmi5WrjzJZ/O26x2Qx6dA1Rou9t7Qt5i97ym7R
- fX0Hm8W+13uZLZYf/8dkMbHjKpPFuVl/2CwO37vKYrH6j4XFymdMFq/2xzmIely+4u0xsfkd
- u8fls6Uem1Z1snlsXlLvMfnGckaP3Tcb2DxmfPrC5nH9zHYmj97md2weH5/eYvHY9rCX3eP9
- vqtAtaerPT5vkvNoP9DNFCAQpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqk
- b2eTkpqTWZZapG+XoJfRfd694J5kxb//rg2Mr0S6GDk5JARMJE4+fcncxcjFISSwlFFi18Ev
- jBAJGYlPVz6yQ9jCEn+udbFBFH1klFj8vIkJwtkK5OyaAtbBIqAq8eDlL1YQm03AXuLSslvM
- ILaIgJ7E1Vs32EEamAU2cEpsWrSBDSQhLOApsWNDPxOIzSvgL/F08SyoFfuZJTo2/WCFSAhK
- nJz5hAXEZhawkJg5/zzQNg4gW1pi+T8OiLC8RPPW2WDLOAX8JJqv72YHKZEQUJZYPt0X4oNa
- iVf3dzNOYBSZhWToLCRDZyEMnYVk6AJGllWMIqmlxbnpucVGesWJucWleel6yfm5mxiBqWjb
- sZ9bdjCufPVR7xAjEwfjIUYJDmYlEV7DjNREId6UxMqq1KL8+KLSnNTiQ4ymwCCayCwlmpwP
- TIZ5JfGGZgamhiZmlgamlmbGSuK8JkfWxAsJpCeWpGanphakFsH0MXFwSjUwzXKcnt9/9urp
- FfIp8xYvYWI9ovucP8NhyrR7kjIx9cLX7HbOfjStX/VJkFbXjXVbO97Lny6YNq9BjTGSf2lV
- 39pvqgufWZy8bGO5KqjUv1Fkxbki/XC/bXmnGNYoruLmCnvZox0574F4y4evJ3an1Z9LDxPe
- 3nbu1rIt3D2yc42eXmn4sExZVePLFX2lx1N+adWlZCfUv4ueuVff+Crnr5aDr2bpRGzdY/Wu
- ecHd0sh/F8U/Wm+bpTtli5HjQi07908/V9b2zBNM5QkxKtr99HeueqJjzY6MjbWRqevEP0cs
- Mdx+4pqcS+mWl3efr94+76DhlzjfNcZOc2bIeG7ijDvAtkfQadnTSz7rrGaaP1diKc5INNRi
- LipOBAAGHKBGzgMAAA==
-X-CMS-MailID: 20211013083535eucas1p13f4ddfc4b6ee1a62c824d48b0cc0e105
-X-Msg-Generator: CA
-X-RootMTR: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c
-References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
- <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
- <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
- <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
- <c1b0f954-0728-e6ab-73ab-7b466a7d2eb7@nvidia.com>
- <20211006100121.2hqfdkyuivzvzd33@mpHalley.domain_not_set.invalid>
+References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
+ <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
+ <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
+ <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
+ <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
+ <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
+ <1b992460-26a6-cff6-bee4-b81ac28e93f5@grimberg.me>
+ <CAHj4cs8Vff_C8FnFciHtYdnifoOHBrNtaGN1Fvpg5m2gV8JpZw@mail.gmail.com>
+ <CGME20211002230919uscas1p1bc872acda3a68abc1438443d78ac921b@uscas1p1.samsung.com>
+ <05d2844e-81fb-0180-03cc-423cedfd7ac7@grimberg.me>
+ <20211012183446.GA264712@bgt-140510-bm01>
+In-Reply-To: <20211012183446.GA264712@bgt-140510-bm01>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Wed, 13 Oct 2021 17:34:14 +0800
+Message-ID: <CAHj4cs94Ts7iLBjw+1Dn3FM9sjj7sTx7j=30ytshH9YTA2jdDg@mail.gmail.com>
+Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
+To: Adam Manzanares <a.manzanares@samsung.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ "minwoo.im.dev@gmail.com" <minwoo.im.dev@gmail.com>, 
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211013_013540_325179_215409A2 
-X-CRM114-Status: GOOD (  17.63  )
+X-CRM114-CacheID: sfid-20211013_023434_660932_51F80ACA 
+X-CRM114-Status: GOOD (  34.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,67 +107,249 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Q2hhaXRhbnlhLAoKRGlkIHlvdSBoYXZlIGEgY2hhbmNlIHRvIGxvb2sgYXQgdGhlIGFuc3dlcnMg
-YmVsb3c/CgpJIHdvdWxkIGxpa2UgdG8gc3RhcnQgZmluZGluZyBjYW5kaWRhdGUgZGF0ZXMgdGhy
-b3VnaG91dCB0aGUgbmV4dCBjb3VwbGUKb2Ygd2Vla3MuCgpUaGFua3MsCkphdmllcgoKT24gMDYu
-MTAuMjAyMSAxMjowMSwgSmF2aWVyIEdvbnrDoWxleiB3cm90ZToKPk9uIDMwLjA5LjIwMjEgMDk6
-NDMsIENoYWl0YW55YSBLdWxrYXJuaSB3cm90ZToKPj5KYXZpZXIsCj4+Cj4+Pgo+Pj5IaSBhbGws
-Cj4+Pgo+Pj5TaW5jZSB3ZSBhcmUgbm90IGdvaW5nIHRvIGJlIGFibGUgdG8gdGFsayBhYm91dCB0
-aGlzIGF0IExTRi9NTSwgYSBmZXcgb2YKPj4+dXMgdGhvdWdodCBhYm91dCBob2xkaW5nIGEgZGVk
-aWNhdGVkIHZpcnR1YWwgZGlzY3Vzc2lvbiBhYm91dCBDb3B5Cj4+Pk9mZmxvYWQuIEkgYmVsaWV2
-ZSB3ZSBjYW4gdXNlIENoYWl0YW55YSdzIHRocmVhZCBhcyBhIHN0YXJ0LiBHaXZlbiB0aGUKPj4+
-Y3VycmVudCBzdGF0ZSBvZiB0aGUgY3VycmVudCBwYXRjaGVzLCBJIHdvdWxkIHByb3Bvc2UgdGhh
-dCB3ZSBmb2N1cyBvbgo+Pj50aGUgbmV4dCBzdGVwIHRvIGdldCB0aGUgbWluaW1hbCBwYXRjaHNl
-dCB0aGF0IGNhbiBnbyB1cHN0cmVhbSBzbyB0aGF0Cj4+PndlIGNhbiBidWlsZCBmcm9tIHRoZXJl
-Lgo+Pj4KPj4KPj5JIGFncmVlIHdpdGggaGF2aW5nIGEgY2FsbCBhcyBpdCBoYXMgYmVlbiB0d28g
-eWVhcnMgSSdtIHRyeWluZyB0byBoYXZlCj4+dGhpcyBkaXNjdXNzaW9uLgo+Pgo+PkJlZm9yZSB3
-ZSBzZXR1cCBhIGNhbGwsIHBsZWFzZSBzdW1tYXJpemUgZm9sbG93aW5nIGhlcmUgOi0KPj4KPj4x
-LiBFeGFjdGx5IHdoYXQgd29yayBoYXMgYmVlbiBkb25lIHNvIGZhci4KPgo+Cj5XZSBjYW4gY2F0
-ZWdvcml6ZSB0aGF0IGludG8gdHdvIHNldHMuIEZpcnN0IG9uZSBmb3IgWENvcHkgKDIwMTQpLCBh
-bmQKPnNlY29uZCBvbmUgZm9yIE5WTWUgQ29weSAoMjAyMSkuCj4KPlhDT1BZIHNldCAqKioqKioq
-KioKPi0gYmxvY2stZ2VuZXJpYyBjb3B5IGNvbW1hbmQgKHNpbmdsZSByYW5nZSwgYmV0d2VlbiBv
-bmUKPiAgc291cmNlL2Rlc3RpbmF0aW9uIGRldmljZSkKPi0gaW9jdGwgaW50ZXJmYWNlIGZvciB0
-aGUgYWJvdmUKPi0gU0NTSSBwbHVtYmluZyAoYmxvY2stZ2VuZXJpYyB0byBYQ09QWSBjb252ZXJz
-aW9uKQo+LSBkZXZpY2UtbWFwcGVyIHN1cHBvcnQ6IG9mZmxvYWQgY29weSB3aGVuZXZlciBwb3Nz
-aWJsZSAoaWYgSU8gaXMgbm90Cj4gIHNwbGl0IHdoaWxlIHRyYXZlbGluZyBsYXllcnMgb2Ygdmly
-dHVhbCBkZXZpY2VzKQo+Cj5OVk1lLUNvcHkgc2V0ICoqKioqKioqKioqKioKPi0gYmxvY2stZ2Vu
-ZXJpYyBjb3B5IGNvbW1hbmQgKG11bHRpcGxlIHJhbmdlcywgYmV0d2VlbiBvbmUKPiAgc291cmNl
-L2Rlc3RpbmF0aW9uIGRldmljZSkKPi0gaW9jdGwgaW50ZXJmYWNlIGZvciB0aGUgYWJvdmUKPi0g
-TlZNZSBwbHVtYmluZyAoYmxvY2stZ2VuZXJpYyB0byBOVk1lIENvcHkgY29udmVyc2lvbikKPi0g
-Y29weS1lbXVsYXRpb24gKHJlYWQgKyB3cml0ZSkgaW4gYmxvY2stbGF5ZXIKPi0gZGV2aWNlLW1h
-cHBlciBzdXBwb3J0OiBubyBvZmZsb2FkLCByYXRoZXIgZmFsbCBiYWNrIHRvIGNvcHktZW11bGF0
-aW9uCj4KPgo+PjIuIFdoYXQga2luZCBvZiBmZWVkYmFjayB5b3UgZ290Lgo+Cj5Gb3IgTlZNZSBD
-b3B5LCB0aGUgbWFqb3IgcG9pbnRzIGFyZSAtIGEpIGFkZCBjb3B5LWVtdWxhdGlvbiBpbgo+Ymxv
-Y2stbGF5ZXIgYW5kIHVzZSB0aGF0IGlmIGNvcHktb2ZmbG9hZCBpcyBub3QgbmF0aXZlbHkgc3Vw
-cG9ydGVkIGJ5Cj5kZXZpY2UgYikgdXNlci1pbnRlcmZhY2UgKGlvY3RsKSBzaG91bGQgYmUgZXh0
-ZW5kYWJsZSBmb3IgY29weSBhY3Jvc3MKPnR3byBkZXZpY2VzIChvbmUgc291cmNlLCBvbmUgZGVz
-dGluYXRpb24pIGMpIGRldmljZS1tYXBwZXIgdGFyZ2V0cwo+c2hvdWxkIHN1cHBvcnQgY29weS1v
-ZmZsb2FkLCB3aGVuZXZlciBwb3NzaWJsZQo+Cj4id2hlbmV2ZXIgcG9zc2libGUiIGNhc2VzIGdl
-dCByZWR1Y2VkIGNvbXBhcmVkIHRvIFhDT1BZIGJlY2F1c2UgTlZNZQo+Q29weSBpcyB3aXQKPgo+
-PjMuIFdoYXQgYXJlIHRoZSBleGFjdCBibG9ja2Vycy9vYmplY3Rpb25zLgo+Cj5JIHRoaW5rIGl0
-IHdhcyBkZXZpY2UtbWFwcGVyIGZvciBYQ09QWSBhbmQgcmVtYWlucyB0aGUgc2FtZSBmb3IgTlZN
-ZQo+Q29weSBhcyB3ZWxsLiAgRGV2aWNlLW1hcHBlciBzdXBwb3J0IHJlcXVpcmVzIGRlY29tcG9z
-aW5nIGNvcHkgb3BlcmF0aW9uCj50byByZWFkIGFuZCB3cml0ZS4gIFdoaWxlIHRoYXQgaXMgbm90
-IGdyZWF0IGZvciBlZmZpY2llbmN5IFBvViwgYmlnZ2VyCj5jb25jZXJuIGlzIHRvIGNoZWNrIGlm
-IHdlIGFyZSB0YWtpbmcgdGhlIHNhbWUgcm91dGUgYXMgWENPUFkuCj4KPkZyb20gTWFydGluJ3Mg
-ZG9jdW1lbnQgKGh0dHA6Ly9ta3AubmV0L3B1YnMveGNvcHkucGRmKSwgaWYgSSBnb3QgaXQKPnJp
-Z2h0LCBvbmUgdGhlIG1ham9yIGJsb2NrZXIgaXMgaGF2aW5nIG1vcmUgZmFpbHVyZSBjYXNlcyB0
-aGFuCj5zdWNjZXNzZnVsIG9uZXMuIEFuZCB0aGF0IGRpZCBub3QganVzdGlmeSB0aGUgZWZmb3J0
-L2NvZGUgdG8gd2lyZSB1cAo+ZGV2aWNlIG1hcHBlci4gIElzIHRoYXQgYSBmYWN0b3IgdG8gY29u
-c2lkZXIgZm9yIE5WTWUgQ29weSAod2hpY2ggaXMKPm5hcnJvd2VyIGluIHNjb3BlIHRoYW4gWENP
-UFkpLgo+Cj4+NC4gUG90ZW50aWFsIHdheXMgb2YgbW92aW5nIGZvcndhcmQuCj4KPmEpIHdlIGRl
-ZmVyIGF0dGVtcHQgZGV2aWNlLW1hcHBlciBzdXBwb3J0ICh1bnRpbCBOVk1lIGhhcwo+c3VwcG9y
-dC91c2VjYXNlKSwgYW5kIGFkZHJlc3MgZXZlcnl0aGluZyBlbHNlIChyZXVzYWJsZSB1c2VyLWlu
-dGVyZmFjZQo+ZXRjLikKPgo+Yikgd2UgYXR0ZW1wdCBkZXZpY2UtbWFwcGVyIHN1cHBvcnQgKGJ5
-IG1vdmluZyB0byBjb21wb3NpdGUgcmVhZCt3cml0ZQo+Y29tbXVuaWNhdGlvbiBiZXR3ZWVuIGJs
-b2NrLWxheWVyIGFuZCBudm1lKQo+Cj4KPklzIHRoaXMgZW5vdWdoIGluIHlvdXIgbWluZCB0byBt
-b3ZlIGZvcndhcmQgd2l0aCBhIHNwZWNpZmljIGFnZW5kYT8gSWYKPndlIGNhbiwgSSB3b3VsZCBs
-aWtlIHRvIHRhcmdldCB0aGUgbWVldHVwIGluIHRoZSBuZXh0IDIgd2Vla3MuCj4KPlRoYW5rcywK
-PkphdmllcgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpo
-dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+On Wed, Oct 13, 2021 at 2:35 AM Adam Manzanares
+<a.manzanares@samsung.com> wrote:
+>
+> On Sun, Oct 03, 2021 at 02:02:20AM +0300, Sagi Grimberg wrote:
+> >
+> > > > > Bisect shows it was introduced from the below commit:
+> > > > >
+> > > > > commit 2637baed78010eeaae274feb5b99ce90933fadfb
+> > > > > Author: Minwoo Im <minwoo.im.dev@gmail.com>
+> > > > > Date:   Wed Apr 21 16:45:04 2021 +0900
+> > > > >
+> > > > >       nvme: introduce generic per-namespace chardev
+> > > > >
+> > > >
+> > > > Makes sense as both leaks relate to the nshead cdev...
+> > > >
+> > > > I think another put on the cdev_device is missing?
+> > > > --
+> > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > > > index 1d103ae4afdf..328e314af199 100644
+> > > > --- a/drivers/nvme/host/core.c
+> > > > +++ b/drivers/nvme/host/core.c
+> > > > @@ -3668,6 +3668,7 @@ void nvme_cdev_del(struct cdev *cdev, struct
+> > > > device *cdev_device)
+> > > >    {
+> > > >           cdev_device_del(cdev, cdev_device);
+> > > >           ida_simple_remove(&nvme_ns_chr_minor_ida,
+> > > > MINOR(cdev_device->devt));
+> > > > +       put_device(cdev_device);
+> > > >    }
+> > > >
+> > > >    int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
+> > > > --
+> > > >
+> > >
+> > > Hi Sagi
+> > >
+> > > This introduced one new issue, here is the log:
+> >
+> > Hmm, looks like a use-after-free. I thought that
+> > there was a missing put on the cdev_device paired to
+> > device_initialize() call on it...
+> >
+> > Minwoo?
+>
+> Hello all,
+>
+> Does the following patch fix the issue for you.
+>
+
+Yes, the kmemleak was fixed by this patch.
+
+
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e486845d2c7e..587385bc82b6 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3548,10 +3548,15 @@ static int __nvme_check_ids(struct nvme_subsystem *subsys,
+>         return 0;
+>  }
+>
+> +static void nvme_cdev_rel(struct device *dev)
+> +{
+> +       ida_simple_remove(&nvme_ns_chr_minor_ida, MINOR(dev->devt));
+> +}
+> +
+>  void nvme_cdev_del(struct cdev *cdev, struct device *cdev_device)
+>  {
+>         cdev_device_del(cdev, cdev_device);
+> -       ida_simple_remove(&nvme_ns_chr_minor_ida, MINOR(cdev_device->devt));
+> +       put_device(cdev_device);
+>  }
+>
+>  int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
+> @@ -3564,14 +3569,14 @@ int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
+>                 return minor;
+>         cdev_device->devt = MKDEV(MAJOR(nvme_ns_chr_devt), minor);
+>         cdev_device->class = nvme_ns_chr_class;
+> +       cdev_device->release = nvme_cdev_rel;
+>         device_initialize(cdev_device);
+>         cdev_init(cdev, fops);
+>         cdev->owner = owner;
+>         ret = cdev_device_add(cdev, cdev_device);
+> -       if (ret) {
+> +       if (ret)
+>                 put_device(cdev_device);
+> -               ida_simple_remove(&nvme_ns_chr_minor_ida, minor);
+> -       }
+> +
+>         return ret;
+>  }
+>
+> @@ -3603,11 +3608,9 @@ static int nvme_add_ns_cdev(struct nvme_ns *ns)
+>                            ns->ctrl->instance, ns->head->instance);
+>         if (ret)
+>                 return ret;
+> -       ret = nvme_cdev_add(&ns->cdev, &ns->cdev_device, &nvme_ns_chr_fops,
+> -                           ns->ctrl->ops->module);
+> -       if (ret)
+> -               kfree_const(ns->cdev_device.kobj.name);
+> -       return ret;
+> +
+> +       return nvme_cdev_add(&ns->cdev, &ns->cdev_device, &nvme_ns_chr_fops,
+> +                            ns->ctrl->ops->module);
+>  }
+>
+>  static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index e8ccdd398f78..fba06618c6c2 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -431,8 +431,6 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+>                 return ret;
+>         ret = nvme_cdev_add(&head->cdev, &head->cdev_device,
+>                             &nvme_ns_head_chr_fops, THIS_MODULE);
+> -       if (ret)
+> -               kfree_const(head->cdev_device.kobj.name);
+>         return ret;
+>  }
+>
+>
+>
+> >
+> > >
+> > > [  250.764659] run blktests nvme/004 at 2021-09-30 20:23:39
+> > > [  250.938913] loop0: detected capacity change from 0 to 2097152
+> > > [  250.963292] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> > > [  250.976418] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> > > [  251.003499] nvmet: creating controller 1 for subsystem
+> > > blktests-subsystem-1 for NQN
+> > > nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0035-4b10-8044-b9c04f463333.
+> > > [  251.020277] nvme nvme0: creating 32 I/O queues.
+> > > [  251.050637] nvme nvme0: mapped 32/0/0 default/read/poll queues.
+> > > [  251.091232] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+> > > 127.0.0.1:4420
+> > > [  252.179608] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+> > > [  252.228383] ------------[ cut here ]------------
+> > > [  252.234400] Device 'ng0n1' does not have a release() function, it
+> > > is broken and must be fixed. See Documentation/core-api/kobject.rst.
+> > > [  252.246498] WARNING: CPU: 10 PID: 2086 at drivers/base/core.c:2198
+> > > device_release+0x189/0x210
+> > > [  252.255029] Modules linked in: nvme_tcp nvme_fabrics nvme_core
+> > > nvmet_tcp nvmet loop rfkill sunrpc vfat fat dm_multipath iTCO_wdt
+> > > iTCO_vendor_support ipmi_ssif intel_rapl_msr intel_rapl_common
+> > > isst_if_common skx_edac x86_pkg_temp_thermal intel_powerclamp coretemp
+> > > kvm_intel mgag200 i2c_algo_bit kvm drm_kms_helper dell_smbios
+> > > irqbypass crct10dif_pclmul crc32_pclmul syscopyarea sysfillrect
+> > > sysimgblt dcdbas fb_sys_fops ghash_clmulni_intel cec rapl intel_cstate
+> > > drm intel_uncore mei_me dell_wmi_descriptor wmi_bmof pcspkr i2c_i801
+> > > mei acpi_ipmi i2c_smbus lpc_ich ipmi_si ipmi_devintf ipmi_msghandler
+> > > dax_pmem_compat nd_pmem device_dax nd_btt dax_pmem_core
+> > > acpi_power_meter xfs libcrc32c sd_mod t10_pi sg ahci libahci libata
+> > > tg3 megaraid_sas crc32c_intel wmi nfit libnvdimm dm_mirror
+> > > dm_region_hash dm_log dm_mod [last unloaded: nvmet]
+> > > [  252.327704] CPU: 10 PID: 2086 Comm: nvme Tainted: G S        I
+> > >   5.15.0-rc3.v1.fix+ #4
+> > > [  252.335974] Hardware name: Dell Inc. PowerEdge R640/06NR82, BIOS
+> > > 2.11.2 004/21/2021
+> > > [  252.343635] RIP: 0010:device_release+0x189/0x210
+> > > [  252.348262] Code: 48 8d 7b 50 48 89 fa 48 c1 ea 03 80 3c 02 00 0f
+> > > 85 88 00 00 00 48 8b 73 50 48 85 f6 74 13 48 c7 c7 60 cb 18 af e8 dc
+> > > fb c5 00 <0f> 0b e9 0b ff ff ff 48 b8 00 00 00 00 00 fc ff df 48 89 da
+> > > 48 c1
+> > > [  252.367015] RSP: 0018:ffffc90003d5fb00 EFLAGS: 00010282
+> > > [  252.372249] RAX: 0000000000000000 RBX: ffff8882a5474a48 RCX: ffffffffad731d52
+> > > [  252.379393] RDX: 0000000000000004 RSI: 0000000000000008 RDI: ffff888e259e3b2c
+> > > [  252.386533] RBP: ffff8882e390ec00 R08: ffffed11c4b3d9b9 R09: ffffed11c4b3d9b9
+> > > [  252.393675] R10: ffff888e259ecdc7 R11: ffffed11c4b3d9b8 R12: ffff8882e328b500
+> > > [  252.400812] R13: ffff88852e9ee500 R14: 0000000000000000 R15: ffffc90003d5fbf8
+> > > [  252.407946] FS:  00007f6f3cad2780(0000) GS:ffff888e25800000(0000)
+> > > knlGS:0000000000000000
+> > > [  252.416040] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [  252.421795] CR2: 000055c593c2e6b0 CR3: 00000002a1aec006 CR4: 00000000007706e0
+> > > [  252.428937] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > > [  252.436078] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > > [  252.443221] PKRU: 55555554
+> > > [  252.445941] Call Trace:
+> > > [  252.448403]  kobject_release+0x109/0x3a0
+> > > [  252.452338]  nvme_mpath_shutdown_disk+0x92/0xe0 [nvme_core]
+> > > [  252.457929]  nvme_ns_remove+0x4a3/0x7f0 [nvme_core]
+> > > [  252.462824]  ? up_write+0x14d/0x460
+> > > [  252.466324]  nvme_remove_namespaces+0x242/0x3a0 [nvme_core]
+> > > [  252.471914]  ? nvme_execute_passthru_rq+0x5a0/0x5a0 [nvme_core]
+> > > [  252.477852]  ? del_timer_sync+0xab/0xf0
+> > > [  252.481699]  nvme_do_delete_ctrl+0xaa/0x108 [nvme_core]
+> > > [  252.486941]  nvme_sysfs_delete.cold.100+0x8/0xd [nvme_core]
+> > > [  252.492532]  kernfs_fop_write_iter+0x2d0/0x490
+> > > [  252.496984]  ? trace_hardirqs_on+0x1c/0x150
+> > > [  252.501180]  new_sync_write+0x3b2/0x620
+> > > [  252.505026]  ? rcu_read_lock_held_common+0xe/0xa0
+> > > [  252.509742]  ? new_sync_read+0x610/0x610
+> > > [  252.513677]  ? rcu_tasks_trace_pregp_step+0xe1/0x170
+> > > [  252.518651]  ? rcu_read_lock_held_common+0xe/0xa0
+> > > [  252.523368]  ? rcu_read_lock_sched_held+0x5f/0xd0
+> > > [  252.528082]  ? rcu_read_unlock+0x40/0x40
+> > > [  252.532016]  ? rcu_read_lock_held+0xb0/0xb0
+> > > [  252.536212]  vfs_write+0x4b5/0x950
+> > > [  252.539626]  ksys_write+0xf1/0x1c0
+> > > [  252.543039]  ? __ia32_sys_read+0xb0/0xb0
+> > > [  252.546975]  do_syscall_64+0x37/0x80
+> > > [  252.550563]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> > > [  252.555621] RIP: 0033:0x7f6f3c1bb648
+> > > [  252.559209] Code: 89 02 48 c7 c0 ff ff ff ff eb b3 0f 1f 80 00 00
+> > > 00 00 f3 0f 1e fa 48 8d 05 55 6f 2d 00 8b 00 85 c0 75 17 b8 01 00 00
+> > > 00 0f 05 <48> 3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 41 54 49 89
+> > > d4 55
+> > > [  252.577965] RSP: 002b:00007fff4826bb88 EFLAGS: 00000246 ORIG_RAX:
+> > > 0000000000000001
+> > > [  252.585537] RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f6f3c1bb648
+> > > [  252.592679] RDX: 0000000000000001 RSI: 000055c593c70da5 RDI: 0000000000000004
+> > > [  252.599821] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+> > > [  252.606962] R10: 0000000000000000 R11: 0000000000000246 R12: 000055c5945d7540
+> > > [  252.614102] R13: 00007fff4826e0fc R14: 0000000000000008 R15: 0000000000000003
+> > > [  252.621246] irq event stamp: 0
+> > > [  252.624310] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+> > > [  252.630585] hardirqs last disabled at (0): [<ffffffffac9d68f3>]
+> > > copy_process+0x2023/0x6b20
+> > > [  252.638854] softirqs last  enabled at (0): [<ffffffffac9d6932>]
+> > > copy_process+0x2062/0x6b20
+> > > [  252.647121] softirqs last disabled at (0): [<0000000000000000>] 0x0
+> > > [  252.653396] ---[ end trace 96526c0d562adac3 ]---
+> > >
+> > >
+> >
+> > _______________________________________________
+> > Linux-nvme mailing list
+> > Linux-nvme@lists.infradead.org
+> > https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=c4623b75-9bf90238-c463b03a-0cc47aa8f5ba-4705d26d62157aef&q=1&e=e8f1e635-f4b8-4b35-af63-85700ecd6dd3&u=http*3A*2F*2Flists.infradead.org*2Fmailman*2Flistinfo*2Flinux-nvme__;JSUlJSUl!!EwVzqGoTKBqv-0DWAJBm!GNcPQ8XAKsCJJcCcuc6fY9-radUDLzK6DGiO1Js8mf_-Jg1XVAfs30Cd7G7YXqwtPRdh$
+>
+
+
+-- 
+Best Regards,
+  Yi Zhang
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
