@@ -2,15 +2,15 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806ACC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 15:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E25C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 15:54:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4107561168
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 15:54:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4107561168
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id E9F40610EA
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 15:54:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E9F40610EA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=mit.edu
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -18,47 +18,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4fKsdRoxADPreSwOWUDRba7IfdIUAdcjlp4Iw5AMJqk=; b=JvJrE4NRurTh7sjMnI6/NJd6UP
-	57dbvZJDE5UKIRNuOe3tp+lihfiG7bMrghlyxVggIRr1sLrtq1dr7ueRFV8f016upKDCOXUVg7yQg
-	3M0oXLUM2iby3seVk4nGG9uiY6OJv5+fELV04HRXWPQh/PaqZqDwFHLLShWnJS4GITeKdKWBLrdlK
-	1bDSSXarWJzba1wHrtv8BPTz9fiujilOu5JgbHXArBpZr63ENxizYLVawsG2+Lqpspef2mkDAY7ds
-	p5mG8MInfi00owi8BecmeGdUd92pQkUYM8Uen9wu4PTkoHsxc/yuiK7h122GOHAEx/8NcK5KEzPaE
-	vxIKNogg==;
+	bh=ennSWJ4G+CKe4VAbanQzjP3z4q4QH6hNOgHXNSd8FUs=; b=hk6rwdQCdB437P2VJSRXDy3zDA
+	mnKWZSyxCvQqJRs8b72gKI8/lFrIDBDrEaXbFLDGuGSXOWh1W1d9ngUXP6T0Axza8kzhI47etCUBR
+	Lt7iek4AJoH5+44GY1BjEK8/BStr/7rhwHrux1T5zah5dkXBz/7ra9BKHuo86z//gqRt9y/s81QiS
+	83toSl6YV2PvMXeYkl0I/YRWshhvCtTm1GJbrONWcOB4gROrXoslAg6GVnEpE7QcoktncSEURvh1q
+	hv04Enz5UGs/13d6o+zBXifP0F4Ga1F+J6QB8xSRvN98CN+QafArcqGKmNaZAoBLP/Eyfm375yaNL
+	PfUze4pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1magZw-00HSOm-AK; Wed, 13 Oct 2021 15:54:04 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1magaA-00HSRN-Jh; Wed, 13 Oct 2021 15:54:18 +0000
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1magZt-00HSO7-CO
- for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 15:54:02 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D2D061168;
- Wed, 13 Oct 2021 15:54:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634140441;
- bh=i4508OYXyLbeY8gTV77p+GKbLzVc43Dq4rHzRwreF+I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cao+ulCo6DQFkZozH7oVHRAWNMagrpAGhrnzwgGUOZ6Kbvo56olmdXE+ZNRvc4JAe
- JAAFF2+0Cs7dQ2zri4LteTSi63p1/k8xDoZ/owQtVO9puWW/iM9Y+e3J+EXtEALTwY
- Gl4sXvRwf8JOoCeOqzG7w/A4OX+rj80SD9g0cTXsAUSc58fc6P7OHAuh34GdGSyjb/
- Wrq+lfw54mIFDK7+mySwsTzibk8dojNgM5hx4rh/v70mbEou5kBWgE2lrlnV9vidM6
- j+rujYl2hFe2aeliM4YpH3HQoTA4+lrYBguo+6mHN+HsR7ATb1xknpoykMT3ZobkWa
- PW+4QzqI4SHvg==
-Date: Wed, 13 Oct 2021 08:53:58 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH] nvme-pci: calculate IO timeout
-Message-ID: <20211013155358.GB1594461@dhcp-10-100-145-180.wdc.com>
-References: <20211013022744.1357498-1-kbusch@kernel.org>
- <YWb8iVY74vWZiMCU@T590>
+ id 1magXE-00HRs8-U3; Wed, 13 Oct 2021 15:51:18 +0000
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net
+ [72.74.133.215]) (authenticated bits=0)
+ (User authenticated as tytso@ATHENA.MIT.EDU)
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 19DFp2vF009493
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Oct 2021 11:51:03 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+ id 9296B15C00CA; Wed, 13 Oct 2021 11:51:02 -0400 (EDT)
+Date: Wed, 13 Oct 2021 11:51:02 -0400
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
+ Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
+ David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Anton Altaparmakov <anton@tuxera.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Kees Cook <keescook@chromium.org>,
+ Phillip Lougher <phillip@squashfs.org.uk>, Jan Kara <jack@suse.com>,
+ linux-block@vger.kernel.org, dm-devel@redhat.com,
+ drbd-dev@lists.linbit.com, linux-bcache@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
+Subject: Re: [PATCH 25/29] ext4: use sb_bdev_nr_blocks
+Message-ID: <YWcAZq8eGQiZyxZS@mit.edu>
+References: <20211013051042.1065752-1-hch@lst.de>
+ <20211013051042.1065752-26-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YWb8iVY74vWZiMCU@T590>
+In-Reply-To: <20211013051042.1065752-26-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211013_085401_467040_7C92F676 
-X-CRM114-Status: GOOD (  19.01  )
+X-CRM114-CacheID: sfid-20211013_085117_200250_2736FBF6 
+X-CRM114-Status: UNSURE (   9.71  )
+X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Wed, 13 Oct 2021 08:54:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,44 +87,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 13, 2021 at 11:34:33PM +0800, Ming Lei wrote:
-> On Tue, Oct 12, 2021 at 07:27:44PM -0700, Keith Busch wrote:
-> > Existing host and nvme device combinations are more frequently capable
-> > of sustaining outstanding transfer sizes exceeding the driver's default
-> > timeout tolerance, given the available device throughput.
-> > 
-> > Let's consider a "mid" level server and controller with 128 CPUs and an
-> > NVMe controller with no MDTS limit (the driver will throttle to 4MiB).
-> > 
-> > If we assume the driver's default 1k depth per-queue, this can allow
-> > 128k outstanding IO submission queue entries.
-> > 
-> > If all SQ Entries are transferring the 4MiB max request, 512GB will be
-> > outstanding at the same time with the default 30 second timer to
-> > complete the entirety.
-> > 
-> > If we assume a currently modern PCIe Gen4 x4 NVMe device, that amount of
-> > data will take ~70 seconds to transfer over the PCIe link, not
-> > considering the device side internal latency: timeouts and IO failures
-> > are therefore inevitable.
+On Wed, Oct 13, 2021 at 07:10:38AM +0200, Christoph Hellwig wrote:
+> Use the sb_bdev_nr_blocks helper instead of open coding it.
 > 
-> PCIe link is supposed to be much quicker than handling IOs in device side,
-> so nvme device should have been saturated already before using up the
-> PCIe link, is there any event or feedback from nvme device side(host or
-> device) about the saturation status?
-> 
-> SCSI have such mechanism so that queue depth can be adjusted according
-> to the feedback, and Martin is familiar with this field. 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Device side saturation should be achieved lower than the depths
-considered here, and that usually happens without reaching link
-saturation.
-
-We do not really have event feedback for the NVMe driver to react to
-though, so I had this patch cautiously assume 50% throughput for timeout
-consideration.
-
-I suppose we could react to the IO completion times and try to adjust
-queue depths accordingly, though that is probably more aligned with a
-longer term project.
+Acked-by: Theodore Ts'o <tytso@mit.edu>
 
