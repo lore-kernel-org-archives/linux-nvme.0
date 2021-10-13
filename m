@@ -2,14 +2,14 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A9DC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3652C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:06:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A049A60E78
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:04:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A049A60E78
+	by mail.kernel.org (Postfix) with ESMTPS id 8BD8F60E78
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:06:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8BD8F60E78
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,32 +18,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=e0K+LpmGOBoXemZmWwEAV+WczIf70kWz/HsGQliKo54=; b=ocxvLxiIF5fpgc
-	P3s3LxDOGER9BMhEjs9iPfZ1ZmdcTbWBnBOuxkpCVVteRWLrzFooyaAHUZUa7UsSjNRtR17JdC53G
-	SrbG3hkdYvocOgMY+vCHVWdD8ovPbTYON2LxMpi2isyMpqf+ycSjHEn0XZkoDSa3zdtfOu0C4ABPF
-	bAWVhM30/tAktSWYS5YQwjqmYWayp/yjZsPagzpJA8W4VBpW7TGRTFNbF44OqinuOnN8hkBxHqTpq
-	N6loljOMrENpOAdYnwtAioxtY+Fl9QP64cV3kGYxM2gn5tm1bAeqTdYuWLkqJZys8zH0qYKbZ12rd
-	1UTJDHVlN3zd4joDR7fQ==;
+	List-Owner; bh=yXOoWcS35X1KfrNWeqQ+b0IDU1Tj0XRaqfC0AVJT5Kw=; b=oyNsgYZI3FAVkH
+	2xnH4Sujrdn7rKnj6R+byeR0OORLHZpHY0tXn9S769yHfKgitnZHtK8OgYyJFrwiz8iK2uiKWnGrN
+	ciGXTNa+lh7TxUtmryMi8FyfyymArivv2XCZVcmrkvdi5XHH7r84FZZoHfcxFUcYcit5O9d19FFwj
+	JOxkF+PvKwPuGqiXv5TvGzWiYYxDduPn6JhnWk7lws/ZB1NW99+wJ7OqIPugjo0rVBuj+/Wo3W0ur
+	8SdjnVAcKmqc6ud4POTAhBazxH2w4odQlKSwFQDQMHGquaU5ZMtYof3XcZqv4o9/3LRd1CoCT5wT3
+	atx4uP1NqhzSpZP/ST3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maYJa-00FGNM-Sy; Wed, 13 Oct 2021 07:04:39 +0000
+	id 1maYLG-00FGl2-Hy; Wed, 13 Oct 2021 07:06:22 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWuj-00Eyk0-IN; Wed, 13 Oct 2021 05:34:53 +0000
+ id 1maWwF-00Ez3K-Hk; Wed, 13 Oct 2021 05:36:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=DI57HM99JgBzfFnLmBUybQWNf682vnIdHw9T61SP0gQ=; b=vNbS7uqoz6/aNrya2ptXVceM+G
- Skcz/WgNdnkyrlwsdIEGVCi7e7QuKXvljYw9z9lYreb/M56Q3xCWJPS4TFHuwso/XAOq/0HS/IXaL
- ppl46l7/TyY3Q9sUEfW2RdBsCLctWocpR21vfbIiyhG6Q7sG24gAEK6ui0dSC8cH45NZt498z107H
- +m54zXQrXvLIUveBpSb09/sJLLhPgmEmV7GVD4LusuGHTFNdeYqaehK1OAo0cgyKsPhLYTBHGuabV
- oanuJI2d6DyBNBOEQS538E1Ld8Q99m/XmzMYCfe/qgfpraqlpkqpSPldbRTfV+9B7Y3nqBeOYAgRS
- 3372D83Q==;
+ bh=neY9ZJPH9MOzXmChpQoZ9vtfCPorKJutFa1ekdF3DV4=; b=PfsnohEdvhV/ruqSbu6iivGJd0
+ Zo3djyN81Xn383MmVLbTJS1kEa9ZCXS2mDK7N5D8NmAUj88uBINNyCVjbt3Hz2fQVnR03Zhjiq14G
+ 7zKHh2mUo689xTR7fXEhFyPZxgwKxVIRy1j43hJzInRINaWAIzmG5d6Ld0VmrNJ+Kq8r9BVg4Cbci
+ R/3myVb4K7ohrxlSfIhxqYAmYvFKTO+S1ZDDBa/9e8IX/lkJ4nmXRD2lGIKarWEbMdpJEKTQye58o
+ teu82AOgZQfEvAkdOov+/Ln7EN2g7QtqcBdIkCnPq14ddL0H7JCQgOHyHVTLPqcDo9HQcK5qlrTAA
+ FSxta/Cg==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63]
  helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWtU-0077im-2k; Wed, 13 Oct 2021 05:33:50 +0000
+ id 1maWui-0077oT-Pz; Wed, 13 Oct 2021 05:35:26 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -65,10 +65,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
  linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
  ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: [PATCH 20/29] pstore/blk: use bdev_nr_sectors instead of open coding
- it
-Date: Wed, 13 Oct 2021 07:10:33 +0200
-Message-Id: <20211013051042.1065752-21-hch@lst.de>
+Subject: [PATCH 21/29] reiserfs: use bdev_nr_sectors instead of open coding it
+Date: Wed, 13 Oct 2021 07:10:34 +0200
+Message-Id: <20211013051042.1065752-22-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -92,28 +91,28 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the proper helper to read the block device size.
+Use the proper helper to read the block device size and remove two
+cargo culted checks that can't be false.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/pstore/blk.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/reiserfs/super.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
-index 04ce58c939a0b..f43009cb2ec82 100644
---- a/fs/pstore/blk.c
-+++ b/fs/pstore/blk.c
-@@ -223,8 +223,8 @@ static int __register_pstore_blk(struct pstore_device_info *dev,
- 		goto err_fput;
- 	}
- 
--	inode = I_BDEV(psblk_file->f_mapping->host)->bd_inode;
--	dev->zone.total_size = i_size_read(inode);
-+	inode = psblk_file->f_mapping->host;
-+	dev->zone.total_size = bdev_nr_sectors(I_BDEV(inode)) << SECTOR_SHIFT;
- 
- 	ret = __register_pstore_device(dev);
- 	if (ret)
+diff --git a/fs/reiserfs/super.c b/fs/reiserfs/super.c
+index 58481f8d63d5b..6c9681e2809f0 100644
+--- a/fs/reiserfs/super.c
++++ b/fs/reiserfs/super.c
+@@ -1986,8 +1986,7 @@ static int reiserfs_fill_super(struct super_block *s, void *data, int silent)
+ 	 * smaller than the filesystem. If the check fails then abort and
+ 	 * scream, because bad stuff will happen otherwise.
+ 	 */
+-	if (s->s_bdev && s->s_bdev->bd_inode
+-	    && i_size_read(s->s_bdev->bd_inode) <
++	if ((bdev_nr_sectors(s->s_bdev) << SECTOR_SHIFT) <
+ 	    sb_block_count(rs) * sb_blocksize(rs)) {
+ 		SWARN(silent, s, "", "Filesystem cannot be "
+ 		      "mounted because it is bigger than the device");
 -- 
 2.30.2
 
