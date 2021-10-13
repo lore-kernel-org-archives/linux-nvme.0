@@ -2,14 +2,14 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79471C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:33:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9437C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:34:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3782760E97
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:33:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3782760E97
+	by mail.kernel.org (Postfix) with ESMTPS id BAAC160FDC
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:34:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BAAC160FDC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,32 +18,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IpfYuTkKLa3nL+bb2IfC3G6DFs/v7850bQAeKB2apK4=; b=QswZlnXNiNBUW6
-	oqCMSzEalh95P0fjZdkRuX0wGVddZZIWmLPnBm4EN3VS5faeKY2ckLdKy7KCSz0sXiH2TT5+6kORZ
-	gML39Z3R9PPP7h8HdjBXb5Yj9Hoik0h7+xk0ht+G6PzccE9fxcxcZfHqsdQOq9TpuHO1/ocjap3E1
-	8ewnvymYJCUVnCAdJKIHIsc9eLpwkm4enixBQl2rZQY3axwTG1egMODcIMlvHKGN8cbwGLefGYJvO
-	gLpzzAoC0F9MGuUmxGxmY7phrwHaaYTFA8ou47F0FqL/+5RKffnkv8fMqFEnv996kDZ4GtkmF+BjA
-	+eHvYMF+ifDADauA03Bw==;
+	List-Owner; bh=/YjS/4Y08SY9ap84aHQ3OHkL/J0HurF9yRgERuJwNYQ=; b=IRUPMhtFBesCEv
+	i22zyrUazunZptd0dnMBq65WQtNunCWS2nyaDcbwdnNUvrmvgR+wguCLs+NbFvtS0cUuOn1WzolMo
+	kFJ7UAFJYr+1jqiPEMODlZd1w9hcNGLEYFNy1iW6XdJpXBu4wbgt19+/yIiMzc4xKdXlAMpnrMhqC
+	DOMbZAAEEBMIpIuMqXKKigkFiHA3TaTcOMBN/s55SFODcQ1V64NIZBIOIsk5QQY5N8RApCiQzG2Jg
+	waORvQ9s+S0wLAHfpu2VSfKTKBFTg1KQWs8TXRl8uSkHjdknGsMnB7t+yjQaDBrtNwVB97+3ytjxf
+	wJHe5tNwCqx9la9uycig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maXop-00FA0Y-0i; Wed, 13 Oct 2021 06:32:51 +0000
+	id 1maXpu-00FAEk-2S; Wed, 13 Oct 2021 06:33:58 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWco-00EuN3-3B; Wed, 13 Oct 2021 05:16:22 +0000
+ id 1maWdh-00EufH-NO; Wed, 13 Oct 2021 05:17:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=1lNPQaRpzOMqDjq+W29E2FqgHNPMuQktxUoVAMHRW6k=; b=cnK0OQUUmD59S3qMMwOCg07Xqu
- b65fChUuNH8gIZ5zFG9s3tfFOujmJzNsoPNw+AtwAIJihhYtlDNSVOaE+DwYG22fD1LKIZIbInufc
- eNd34k3OVE+Lum+V/zvu5MLgGPuSFoOmWiskijST8R7hqMvv3SDiYktZig3jFh6JUoPhLEwfhwT+k
- x9PKo3es8B+G2Da5u0W+Q7B+eCdefXDpPbh0sY2v/xBkSyOSzbeqgexvCy7C33wfvif2QBNOl3y3o
- vA4dIt9Z0P07uV5pAtDEmGZtoHfDPZgy274e7M/cwRBuSBQTcZE+E03XmUbQc1a8P7wgtB/z8sC0X
- NVUEnkIQ==;
+ bh=aKWVIKm4qTCGfWucJpKknVpyj1fAJQTGUy8obOoxkuQ=; b=RruPipVajHMi0j7MHBs3Pon4xn
+ jelNKvVU+XoTDnYNF2QzP2GYE7Sfm2SF51tl6epi3hb0itbFUOW3ZvWYBpv4nzQucieSoY1wg8cEy
+ 7jTrW7JOcLfXCnEJq5CDbdYCmLxZfHH7VEFcxlrY4XQ7LGxjg4YR0toqWEF+IQe2JJO1fFap5pCwf
+ XWXaOHoEtOTdzZgATJL0Ovs/f/Xya495HJde/3+pli0uXmnff+dOVz2Z7XS7Ep8cPSBgQHTq3AQao
+ /ITUxljsQ4XCV3xji5dilEDib1A3E1VfB4m34M0Azks0NOaCgg1QYJZy32D43YXfa7P//2TdWAXN7
+ xgbFX/kQ==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63]
  helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWbc-00768E-Im; Wed, 13 Oct 2021 05:15:40 +0000
+ id 1maWcn-0076CB-CH; Wed, 13 Oct 2021 05:16:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -65,10 +65,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
  linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
  ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: [PATCH 05/29] mtd/block2mtd: use bdev_nr_sectors instead of open
- coding it
-Date: Wed, 13 Oct 2021 07:10:18 +0200
-Message-Id: <20211013051042.1065752-6-hch@lst.de>
+Subject: [PATCH 06/29] nvmet: use bdev_nr_sectors instead of open coding it
+Date: Wed, 13 Oct 2021 07:10:19 +0200
+Message-Id: <20211013051042.1065752-7-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -96,32 +95,31 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/mtd/devices/block2mtd.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mtd/devices/block2mtd.c b/drivers/mtd/devices/block2mtd.c
-index c08721b11642b..d2d1a712188ce 100644
---- a/drivers/mtd/devices/block2mtd.c
-+++ b/drivers/mtd/devices/block2mtd.c
-@@ -269,7 +269,7 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
- 		goto err_free_block2mtd;
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 6139e1de50a66..683246303f62e 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -87,7 +87,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 		ns->bdev = NULL;
+ 		return ret;
  	}
+-	ns->size = i_size_read(ns->bdev->bd_inode);
++	ns->size = bdev_nr_sectors(ns->bdev) << SECTOR_SHIFT;
+ 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
  
--	if ((long)dev->blkdev->bd_inode->i_size % erase_size) {
-+	if ((long)(bdev_nr_sectors(dev->blkdev) << SECTOR_SHIFT) % erase_size) {
- 		pr_err("erasesize must be a divisor of device size\n");
- 		goto err_free_block2mtd;
- 	}
-@@ -284,7 +284,8 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
+ 	ns->pi_type = 0;
+@@ -108,7 +108,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
  
- 	dev->mtd.name = name;
+ void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
+ {
+-	ns->size = i_size_read(ns->bdev->bd_inode);
++	ns->size = bdev_nr_sectors(ns->bdev) << SECTOR_SHIFT;
+ }
  
--	dev->mtd.size = dev->blkdev->bd_inode->i_size & PAGE_MASK;
-+	dev->mtd.size =
-+		(bdev_nr_sectors(dev->blkdev) << SECTOR_SHIFT) & PAGE_MASK;
- 	dev->mtd.erasesize = erase_size;
- 	dev->mtd.writesize = 1;
- 	dev->mtd.writebufsize = PAGE_SIZE;
+ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
 -- 
 2.30.2
 
