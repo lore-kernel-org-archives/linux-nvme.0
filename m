@@ -2,14 +2,14 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9437C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:34:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56489C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:35:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BAAC160FDC
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:34:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BAAC160FDC
+	by mail.kernel.org (Postfix) with ESMTPS id DC4C860FDC
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:35:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DC4C860FDC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,32 +18,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/YjS/4Y08SY9ap84aHQ3OHkL/J0HurF9yRgERuJwNYQ=; b=IRUPMhtFBesCEv
-	i22zyrUazunZptd0dnMBq65WQtNunCWS2nyaDcbwdnNUvrmvgR+wguCLs+NbFvtS0cUuOn1WzolMo
-	kFJ7UAFJYr+1jqiPEMODlZd1w9hcNGLEYFNy1iW6XdJpXBu4wbgt19+/yIiMzc4xKdXlAMpnrMhqC
-	DOMbZAAEEBMIpIuMqXKKigkFiHA3TaTcOMBN/s55SFODcQ1V64NIZBIOIsk5QQY5N8RApCiQzG2Jg
-	waORvQ9s+S0wLAHfpu2VSfKTKBFTg1KQWs8TXRl8uSkHjdknGsMnB7t+yjQaDBrtNwVB97+3ytjxf
-	wJHe5tNwCqx9la9uycig==;
+	List-Owner; bh=TLZ6jZPEBze2d68m+a3T//5huV1Ry9gRybayBrQMmgc=; b=uJKqlSpuPXE3ku
+	QgkTLWnl9xQ3ssy03uDzIeR9B/gv6TFReSo7mekQEyX0jmiKOaNL+jI9qpitBWUE24hVvxpAH9wAL
+	NIO1R1Qyv3OgWuFMtSIgsfrP0LkiS8tYNKY+A0kt15bi1idtGqQcgihOBfbDlVocZA16FcKRyT5n/
+	oBZgxjRyVqYrBQ9CBFbalYgQw/pVyiyUmeXANQTnW3+OEyFJspg9pfTyXWovZiYnRtUlWs8UXCpE+
+	XrSkwe72MYjknYhgA5rJzZ6R1UWVuwfsCFcLuiWB14574XcJ6cBtHAu60Q5OUqbQQcENztKYW4t0v
+	EgVBdTBlRP1a1/tOzdOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maXpu-00FAEk-2S; Wed, 13 Oct 2021 06:33:58 +0000
+	id 1maXr4-00FAU9-V4; Wed, 13 Oct 2021 06:35:11 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWdh-00EufH-NO; Wed, 13 Oct 2021 05:17:17 +0000
+ id 1maWel-00Euwy-17; Wed, 13 Oct 2021 05:18:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=aKWVIKm4qTCGfWucJpKknVpyj1fAJQTGUy8obOoxkuQ=; b=RruPipVajHMi0j7MHBs3Pon4xn
- jelNKvVU+XoTDnYNF2QzP2GYE7Sfm2SF51tl6epi3hb0itbFUOW3ZvWYBpv4nzQucieSoY1wg8cEy
- 7jTrW7JOcLfXCnEJq5CDbdYCmLxZfHH7VEFcxlrY4XQ7LGxjg4YR0toqWEF+IQe2JJO1fFap5pCwf
- XWXaOHoEtOTdzZgATJL0Ovs/f/Xya495HJde/3+pli0uXmnff+dOVz2Z7XS7Ep8cPSBgQHTq3AQao
- /ITUxljsQ4XCV3xji5dilEDib1A3E1VfB4m34M0Azks0NOaCgg1QYJZy32D43YXfa7P//2TdWAXN7
- xgbFX/kQ==;
+ bh=2DQz2WV/6nrwiR72242gRkqq8vUi4whhUhfjcP1bIOA=; b=Xa7GvbJUMqzfvYueWwVUK3Ux0y
+ yeuPdYMbBAsv9epgGKu1vVzGX5AB9rd3WONNmNoS6gf48CEj/PVW94BBUJX37asekH4NgbraHAxgt
+ WFbcI0BRgTaJDdjCqpms7HMs5C8IrEAXCvDE3EtdqraUh37FzwbfyoXL8GMrpEuNmvxXHABcddDQj
+ moa/NVUObti9FIhR2tmwTqQ9CsQE6vspnROJ/w7q712HU1YfTb1JyVgsUDPAlJjCQuTqpVjblOKfa
+ d1LJSuZJXvLyYiS+rDzxGbQbtLoGp+8OE0X2NKJLWnwHbMtue0DP5hxKAu9iTrDO6aiD7Uy0tXmC+
+ 90afCgmw==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63]
  helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWcn-0076CB-CH; Wed, 13 Oct 2021 05:16:42 +0000
+ id 1maWdg-0076G9-GA; Wed, 13 Oct 2021 05:17:32 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -65,9 +65,10 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
  linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
  ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: [PATCH 06/29] nvmet: use bdev_nr_sectors instead of open coding it
-Date: Wed, 13 Oct 2021 07:10:19 +0200
-Message-Id: <20211013051042.1065752-7-hch@lst.de>
+Subject: [PATCH 07/29] target/iblock: use bdev_nr_sectors instead of open
+ coding it
+Date: Wed, 13 Oct 2021 07:10:20 +0200
+Message-Id: <20211013051042.1065752-8-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -95,31 +96,25 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/io-cmd-bdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/target/target_core_iblock.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 6139e1de50a66..683246303f62e 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -87,7 +87,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 		ns->bdev = NULL;
- 		return ret;
- 	}
--	ns->size = i_size_read(ns->bdev->bd_inode);
-+	ns->size = bdev_nr_sectors(ns->bdev) << SECTOR_SHIFT;
- 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
- 
- 	ns->pi_type = 0;
-@@ -108,7 +108,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 
- void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
+diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
+index 31df20abe141f..ab7f5678ebc44 100644
+--- a/drivers/target/target_core_iblock.c
++++ b/drivers/target/target_core_iblock.c
+@@ -232,8 +232,9 @@ static unsigned long long iblock_emulate_read_cap_with_block_size(
+ 	struct block_device *bd,
+ 	struct request_queue *q)
  {
--	ns->size = i_size_read(ns->bdev->bd_inode);
-+	ns->size = bdev_nr_sectors(ns->bdev) << SECTOR_SHIFT;
- }
+-	unsigned long long blocks_long = (div_u64(i_size_read(bd->bd_inode),
+-					bdev_logical_block_size(bd)) - 1);
++	loff_t size = bdev_nr_sectors(bd) << SECTOR_SHIFT;
++	unsigned long long blocks_long =
++		div_u64(size, bdev_logical_block_size(bd)) - 1;
+ 	u32 block_size = bdev_logical_block_size(bd);
  
- u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
+ 	if (block_size == dev->dev_attrib.block_size)
 -- 
 2.30.2
 
