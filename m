@@ -2,14 +2,14 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99CFCC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B38EC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:38:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4FD3260E97
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:36:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4FD3260E97
+	by mail.kernel.org (Postfix) with ESMTPS id 2A62360235
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 06:38:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2A62360235
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,32 +18,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RT0MQPE0tlVk4YzNSIYWJhpB5k/ANSFcLOD/HnAi86g=; b=vRlKTWu/s/clih
-	ZMsAoSYIlIBTidpZsp+J4+VgrI/8o2bxCbqKtEyxSOA8WrLIECYeilI4lZxCLzPkF1LgSZb9e7jGn
-	3anoM+fy94bqdSgX4UMAqT0sSE4QbxpWoyZHOtgxKPF8AcNFkcX7tJPC/sNdF57wZvf9XvV9HxM0n
-	7/Oou2Pd1P7JRNTN0ORcI29vnk6NGsOD/PJGxd470x/xR3znVa/LEfDxRXPrw7OJ7QvZMmTNcd2Ka
-	7CS3uLxVmGXWSl6v8iZDn0R27v8exOSAgSlPVmvY88z5UqOq3CDfAwsi7+a1Gu0v5JGKmtSKLEfF1
-	X7NHJym2+sBKJYu5DXag==;
+	List-Owner; bh=rDAnP1hQ4J5O/f3lIrhLhpYQGeoAatch2PV2TY6utJs=; b=Ki33uZZ5CTmHaS
+	+uDbQvRw653B4uGBOsm+J/OtLY5M5F9YBHGen+rYVLzLBwS3x7KEizKOqgM6llwg3Rgo1em3ZM0kX
+	yMkTSOew+ehXtBzoWDvZAwHnEnrX7TQrBenG2wt6N3rWYFmHZ6u7AO/IN4xTserGctA1K2gC71hji
+	6Di84VbciewuZ3NILjK7XKPaKjiY9tUwel4OFozFCtW2uJPrgljv6LdJNlFC4aRhgObVArlZkmUwW
+	YvW//z3Y5+GNIAtIzO3Z91q3344x7xvuvPJ9MoINKMC33n0NX5lAqdJTd2WFve/oSSL8JSm2VwN6Z
+	Hk5rdn+an5ePz6OgXzYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maXs6-00FAgK-2t; Wed, 13 Oct 2021 06:36:14 +0000
+	id 1maXth-00FAwn-0v; Wed, 13 Oct 2021 06:37:53 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWfm-00EvF3-OK; Wed, 13 Oct 2021 05:19:26 +0000
+ id 1maWhP-00EveU-Gf; Wed, 13 Oct 2021 05:21:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=TaHNzTEbIlyf8VXszJ+3gUpeBMoLxyPeY6M0WbLeJoE=; b=E+78EEJ2GHUy8Hk4P4DcOEjmwX
- HIQ2kNmA3WYxpDbTzgmiYyRL2xWCpSEifFW8boMSUF/sGaztAh3FbTDSkpa8miOFEZFNArrh9A/Ki
- peiQ6gNWuohYoOYEJ2aeJhiJkXX+ruL0fTrfijH7xWchqQ4kexPkIoSShXoyh6yHu37hoO2fDKYzY
- +yS55l1rIobhbkKzjv6H80Q2JgO7oc8Y8RPhkmll4qN72NgoDdwUDfEOxrfgtQZOXfF2S8EnoANXq
- 9aLLxZ52YRtDKUJr7TbTHvQ6wCqBdpgppsBYsyqry+UY++1dQpz1Bq7l0+coY3Sl5L/KV8yTCbJYt
- jIiTKAGQ==;
+ bh=NsQsVuWr8bWP70PtWOyIIt7IS6He0KNvqjFlC9dYhZ4=; b=Ew4D4bJU2khGePoaHa7o+E3zV6
+ +YnBcRQumMxslqX1pbHbi2x3aZu0jSa1syVga+ovHnkiUvqmRfI0DSbvlIBIons91q/y7LwBC+rt7
+ ljLUIJKylzikWb8/DDtXWEmbo3PVzdLaD5+UeBoEpdghnuFhnyZ+eFhNlSOqy1C3ILd1RRXjsk4SA
+ TIYdV5+Xjmcbs8sMb8rd9XmMwXKKQ77nz+WFSnQ9FDRqElegNQrC/j0gD+AAXIN5BGiLeFOwPFtc5
+ SSicnwV+Z7JCkg1j3Hfq7OPsge69ggSYDVUW1Y0Wb3vn4pbsJSaM7NthMqM5vfYTZbKzMF89lBaTw
+ B4nut1Lw==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63]
  helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWek-0076NJ-T3; Wed, 13 Oct 2021 05:18:53 +0000
+ id 1maWfl-0076UD-PC; Wed, 13 Oct 2021 05:20:03 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -65,10 +65,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
  linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
  ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: [PATCH 08/29] fs: use bdev_nr_sectors instead of open coding it in
- blkdev_max_block
-Date: Wed, 13 Oct 2021 07:10:21 +0200
-Message-Id: <20211013051042.1065752-9-hch@lst.de>
+Subject: [PATCH 09/29] fs: simplify init_page_buffers
+Date: Wed, 13 Oct 2021 07:10:22 +0200
+Message-Id: <20211013051042.1065752-10-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -92,7 +91,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the proper helper to read the block device size.
+No need to convert from bdev to inode and back.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
@@ -100,18 +99,18 @@ Signed-off-by: Christoph Hellwig <hch@lst.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fs/buffer.c b/fs/buffer.c
-index c615387aedcae..3fb9c5b457ab6 100644
+index 3fb9c5b457ab6..ef1fe4f77a952 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -878,7 +878,7 @@ link_dev_buffers(struct page *page, struct buffer_head *head)
- static sector_t blkdev_max_block(struct block_device *bdev, unsigned int size)
- {
- 	sector_t retval = ~((sector_t)0);
--	loff_t sz = i_size_read(bdev->bd_inode);
-+	loff_t sz = bdev_nr_sectors(bdev) << SECTOR_SHIFT;
+@@ -897,7 +897,7 @@ init_page_buffers(struct page *page, struct block_device *bdev,
+ 	struct buffer_head *head = page_buffers(page);
+ 	struct buffer_head *bh = head;
+ 	int uptodate = PageUptodate(page);
+-	sector_t end_block = blkdev_max_block(I_BDEV(bdev->bd_inode), size);
++	sector_t end_block = blkdev_max_block(bdev, size);
  
- 	if (sz) {
- 		unsigned int sizebits = blksize_bits(size);
+ 	do {
+ 		if (!buffer_mapped(bh)) {
 -- 
 2.30.2
 
