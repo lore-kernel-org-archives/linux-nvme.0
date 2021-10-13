@@ -2,14 +2,14 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB97C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A09C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:59:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B4FB56109E
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:56:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B4FB56109E
+	by mail.kernel.org (Postfix) with ESMTPS id 74BC260273
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 11:59:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 74BC260273
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,64 +18,71 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:Cc:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=BrTaSpQqHCNFiQj0DIPOcXkDAp
-	Jyy9NipB3XMsvE0GsCDU3Ng6bS1SpubAUAYUruYyki8RwhQ/SkDSMZiuaD2QyTR544CKBIhFb7H0I
-	QeKqOHS9t8umpHrtGDet/QDtOQ8vRf9lBPchunjybbVofChEWzwSwJ8LF0LGvVYDf/7L1K11WQlSV
-	aUWSkxoPvHNZnDvJAUpbVnJzRpRcul0FNTbnqTwfORw6eMT8YBvPi+cpCV52X8s4Nqfq/hPOi3yNj
-	jgz1n7+Xe7uPXWcopBtmMwJ7CfLXloObZCsjqcfuyepFQ0ZUzDMETQURgcTW+ofBBOKs8DMp1kb8f
-	IdOXJ0Pw==;
+	bh=MmRnl1M18GB/wwQgcOurK6WxY4ZZHReY6viPB+ys0/I=; b=1/MNgx8yDNYhIEPXSO/fWrYnPA
+	xG0gauQJxXkILvLTgE6c3nAwC59bE3ZAXLmLPq2YQ5j89M0dIUG6LUOvj0MLeLFguCXLWBZszyuMY
+	AzMGsSjRKbIK9ooc4kLXNvnBFysT1i24Ycbq0mASaED7GKFI0e9K9SfgZSbaKPZxMmf+d7cB9eKph
+	cN2MbnhyDJhGI2A7k+aB2SWpvND994iA8vAYd1xgsnsN4o4v1f3bCy3RlmOR8FyXA/TSk2pnS2w3M
+	7aVCqdtPIl/PuG6dV33ZgxVP27ghVeZXsidPBPMbhm0MzbfB6bvhYkzC9bUYf49HgzhtaMKBfZFlR
+	2ug7Mkng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1macrL-00GQAE-Hw; Wed, 13 Oct 2021 11:55:47 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1macuy-00GQuT-AU; Wed, 13 Oct 2021 11:59:32 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mabmj-00G5WH-Ki
- for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 10:46:58 +0000
-Received: by mail-wr1-f50.google.com with SMTP id u18so6865790wrg.5
- for <linux-nvme@lists.infradead.org>; Wed, 13 Oct 2021 03:46:56 -0700 (PDT)
+ id 1mabnV-00G5q6-M4
+ for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 10:47:46 +0000
+Received: by mail-wr1-f46.google.com with SMTP id m22so7012653wrb.0
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Oct 2021 03:47:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=gtv7zEwPPqnMMnIh2WstqqHFytSYWBwR3V4P2QhcoCZn6E3vae5jl/D+JSQIEbUjg5
- fR7P7px+9khdCzM18SuqlpliQSagsVR7PlpL6/HNKxk5OJDdTRP/RcG6a8AsUVQ+LQCU
- YGs0CakzmPifvn0PxXHVkdw9T2XrKhfX5fdC57gm01wliRN9v/kQ23bG880lADvT0aWU
- vwkxUf/9GlI6wqdWyZHAHtA9Erkqw4zgf23uYiwszHWoxPUyma3MGtaIssErvrBFUnFC
- 0+jMoFVi8+Egh1+r+XycFUE8MvpYytFtWYgSOpbBCU5l4f4M5GCqKaF9WycL9cB5/owA
- nGTA==
-X-Gm-Message-State: AOAM533mZUaUDbABiMMxS7CRV1xnS/NjaBvViej8MBWu4IKMduCulNVN
- cPTMNElGLPWmRtWLOOoZsE5TWAEpdGA=
-X-Google-Smtp-Source: ABdhPJznl0Cyha9YuoZzj0ui6fzyAaFrBAoonpFx7/+lsuoz2aW/ggguxny9EKM286SHQQCueElklQ==
-X-Received: by 2002:a5d:6d8c:: with SMTP id l12mr17578526wrs.80.1634122015071; 
- Wed, 13 Oct 2021 03:46:55 -0700 (PDT)
+ bh=ZiaQoyU45xhgDOKQLLeQzqGlt0Ff7V0IGrHFdC4CAG4=;
+ b=OQecHuylM/tV1o9FYiGIRGwRAszeQlDRX0JYkQJFZGUfo6PtjiKdbEdtrdNzoEe74T
+ 6DdlpnC/EdgKvd6bK6YAQ2U8HEfODvQSKzT+VhnvcemhLMa/YvdGUeU9axm9bpevPNcx
+ vlYCFHy05W35ephjYLg0FytTaTu1g1q+2/ruBQ8w6N6TqFAa7wY+BRnkIjbUKbdQnaRE
+ G3qMWRWz6+UdyMLrtHvGZumF/cyv5snkhs8agxxP7RBm2LkfeRgYF21r0dMlMUzglcNn
+ F5c26/AIX4ofHPoSj++75yKi0KB/b3zKputhFpgdrLIXZDmhdIbiVEDZJMI9p4VomUm1
+ ScPw==
+X-Gm-Message-State: AOAM532cjZvjhLb7/pFiUa3+ahsw7z4JH/z14CT5cFIn6rm5cZirIDGx
+ y3iDoUj/JRf9vgGs4lhPh0rz5Rqglbk=
+X-Google-Smtp-Source: ABdhPJzJynT71nTLo0q+7Ju1iSw1+NGuHD3lp2wuMN5k6g5z+IdXTFAssJ5DrKduipHsCgFHr+wJqg==
+X-Received: by 2002:a1c:4b08:: with SMTP id y8mr12496863wma.98.1634122064135; 
+ Wed, 13 Oct 2021 03:47:44 -0700 (PDT)
 Received: from [192.168.81.70] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id p8sm4946239wmg.15.2021.10.13.03.46.53
+ by smtp.gmail.com with ESMTPSA id o6sm5344817wms.3.2021.10.13.03.47.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 03:46:54 -0700 (PDT)
-Subject: Re: [PATCH 16/16] nvme-multipath: enable polled I/O
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Jeffle Xu <jefflexu@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, Keith Busch <kbusch@kernel.org>,
- "Wunderlich, Mark" <mark.wunderlich@intel.com>,
- "Vasudevan, Anil" <anil.vasudevan@intel.com>, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20211012111226.760968-1-hch@lst.de>
- <20211012111226.760968-17-hch@lst.de>
+ Wed, 13 Oct 2021 03:47:43 -0700 (PDT)
+Subject: Re: [bug report] kmemleak observed with blktests nvme-tcp tests
+To: Yi Zhang <yi.zhang@redhat.com>, Adam Manzanares <a.manzanares@samsung.com>
+Cc: "minwoo.im.dev@gmail.com" <minwoo.im.dev@gmail.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <CAHj4cs8pcLTjHMhh_0vebWUgwTY+UtYoKAhQntCsFvKM4zcKfA@mail.gmail.com>
+ <caa2467e-9763-b9dd-db91-4cb7020bab47@nvidia.com>
+ <CAHj4cs_NqB6WYQQOpqjoOFvTbbN_VydJkn1VquzTkyGpFqMM2Q@mail.gmail.com>
+ <0a8810e0-4c42-4275-acd6-475fd42485fe@grimberg.me>
+ <CAHj4cs_icpHAf7wN3LFt7avcPcrhjOYiSnU8SnCLQN1ObkRV1Q@mail.gmail.com>
+ <CAHj4cs9QBFXca-rnP05ZmWBKDJv4aviiDQ=q2_JihMQuESE7OA@mail.gmail.com>
+ <1b992460-26a6-cff6-bee4-b81ac28e93f5@grimberg.me>
+ <CAHj4cs8Vff_C8FnFciHtYdnifoOHBrNtaGN1Fvpg5m2gV8JpZw@mail.gmail.com>
+ <CGME20211002230919uscas1p1bc872acda3a68abc1438443d78ac921b@uscas1p1.samsung.com>
+ <05d2844e-81fb-0180-03cc-423cedfd7ac7@grimberg.me>
+ <20211012183446.GA264712@bgt-140510-bm01>
+ <CAHj4cs94Ts7iLBjw+1Dn3FM9sjj7sTx7j=30ytshH9YTA2jdDg@mail.gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <aad822e0-137e-a08b-62a8-0a4b69162466@grimberg.me>
-Date: Wed, 13 Oct 2021 13:46:53 +0300
+Message-ID: <a6401bac-cfd0-9a29-ff82-dd548590301a@grimberg.me>
+Date: Wed, 13 Oct 2021 13:47:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211012111226.760968-17-hch@lst.de>
+In-Reply-To: <CAHj4cs94Ts7iLBjw+1Dn3FM9sjj7sTx7j=30ytshH9YTA2jdDg@mail.gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211013_034657_713459_CE2A5D47 
-X-CRM114-Status: UNSURE (   8.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211013_034745_798293_0E1060F6 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,7 +99,15 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+>> Hello all,
+>>
+>> Does the following patch fix the issue for you.
+>>
+> 
+> Yes, the kmemleak was fixed by this patch.
+
+Great, Adam care to send a proper patch?
 
 _______________________________________________
 Linux-nvme mailing list
