@@ -2,14 +2,14 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A4AFC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA9DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:15:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 424BD600D4
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:13:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 424BD600D4
+	by mail.kernel.org (Postfix) with ESMTPS id 024C360EDF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 07:15:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 024C360EDF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,32 +18,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=q3R+GM8UrZTDp3FHIOMwkV/f4BqLByzWehvQRA9ZcsM=; b=CkOHZCE1IljmhH
-	hX3B4FJ/7e3krkg2cwWZYD9P18PamnS17MzVxdibLMeVUvMRPRWihmwTDv3iWs8GCJen3aZoR9MZA
-	aMT6k2naWKIhgorEe1sWcO8WNbPWyowqvUCbMyTcmVj5M46GGXSsR6zVM+X2+f31fuZ95+ZQEoaeZ
-	Q7o9DYC9vu48fiCpjjdgpKIQH66qD1eKxgHSwfGxQyB+qnTFRiWEjHKXcDkd2n5jRECCSpcq9cmVN
-	E+xV/KMenGb2rSLWsHLj+lEPDjhJ7GBhByKKhTUAnVaP14MNkON6nx5UbuRnt3mbhqVraniojZJOB
-	QeFMvZc4kPC7RCX6Q8rA==;
+	List-Owner; bh=wl1v30gXPehghGa1G71intILZU74c8zVJPmLtFe5N08=; b=ux0oovftG0KuBJ
+	pH/+Xquhs7r1t2fWF9juQ0k3nz+anhqN6dxZjTgLm6BxeguLuxdfeMGb/5BXhJHCT1sM0/qOIYjEe
+	7V+zWW0UVyhzoreevOBiyYt7GXyXog5N5gNrj4GmxU5xQ8wQqcKl/GgYQ+Mh1xXM26MXpCN8u8w9V
+	scBkC1MyD2sRj36qwLfkYWmV66apAa0nmBo5Ij0yEiz0pA0izRSRR8ZcRj9NyVvfYmH0pw6ii2rqW
+	wYvEiy0E5JhSTQeP3y58KHaZd9Lddjfl/0ZdDaUpSOfCKvdAZwx/cQXjGysliPPNYylGqgXi13EvP
+	bdwpMQ3WnQc0s03SmgIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maYRo-00FIBE-3u; Wed, 13 Oct 2021 07:13:08 +0000
+	id 1maYTo-00FIcO-3p; Wed, 13 Oct 2021 07:15:12 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maX1D-00F035-87; Wed, 13 Oct 2021 05:41:35 +0000
+ id 1maX2q-00F0ON-Py; Wed, 13 Oct 2021 05:43:16 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=kwfQLb7O9l96WELHgKkQp9uAWAHVStsZsqmvY42uDo4=; b=Js2OVKVfiBuoQhUaPUfmkclx7M
- vrcm9EA/k/58MnCVYR8evsjUq/8YSxHWrce4AslfsXGvyvTdhhqIyGJPATvDxpqQoD9IScte+hEkz
- DnB3FboglDfnuxse6DhZbT7kv4ybTwHy3r7ZExgrRfNsTj/EtZ/9HExURYmOO5GKGASY9oD12P8bt
- oLK99Yr3VXl9XkDp+Wc1ZhWpJWTkh33e4joQUxjU/cGOr5BdZGSsLck2z425Mw/QlOZ43bY9ROw+f
- Tq43ONvwIFJHr+HX+y1s/mwjBNvb8CC05HJyiYVwEqZEtf52eABp80sHiXOw2OyQ26fsS7F3Q7HqZ
- 7cPBt4fA==;
+ bh=MKwukInBFyTrKs6Aaqva7I1GF564O65mEY1S2Zysf+k=; b=oqNTvlSr0gVAj0cgPWjUWrqx5W
+ 302GO5JLoORjXACgqvRCalGteDMLyREVnZEUqj7xcXjq/iId0NgEzrSbOh4obQ/4ee5i8l5o4LHIM
+ wuROI6BCvi3PT9S4ISVOdom6x+IJvC1vWyuVq0NPvO9jZe22/fFauPkXcii4KKRs5DNXGpYni/AL8
+ 7HHnxpob34N0OG8teoDCDT7mKUkmCfBE3Z53xu4LPhWgu0mT3MaKEu43GOXtbQZ/0tXbgdi3R0K1w
+ t+4AxSmLzZ2HoIZ3ScAlF5AU7pcSW/CSoinAM1YX5U1B5IcEYVGt+llNo1haLmMx3TH1LnU3xsrsR
+ xISwV+ig==;
 Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63]
  helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWzm-0078GH-5A; Wed, 13 Oct 2021 05:40:38 +0000
+ id 1maX1B-0078JQ-HS; Wed, 13 Oct 2021 05:41:50 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -65,9 +65,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
  linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
  ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-Subject: [PATCH 25/29] ext4: use sb_bdev_nr_blocks
-Date: Wed, 13 Oct 2021 07:10:38 +0200
-Message-Id: <20211013051042.1065752-26-hch@lst.de>
+Subject: [PATCH 26/29] jfs: use sb_bdev_nr_blocks
+Date: Wed, 13 Oct 2021 07:10:39 +0200
+Message-Id: <20211013051042.1065752-27-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 References: <20211013051042.1065752-1-hch@lst.de>
@@ -95,22 +95,38 @@ Use the sb_bdev_nr_blocks helper instead of open coding it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ext4/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/jfs/resize.c | 3 +--
+ fs/jfs/super.c  | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index 0775950ee84e3..3dde8be5df490 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -4468,7 +4468,7 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
- 		goto cantfind_ext4;
+diff --git a/fs/jfs/resize.c b/fs/jfs/resize.c
+index 51a8b22e71030..f23445fa4b417 100644
+--- a/fs/jfs/resize.c
++++ b/fs/jfs/resize.c
+@@ -86,8 +86,7 @@ int jfs_extendfs(struct super_block *sb, s64 newLVSize, int newLogSize)
+ 		goto out;
+ 	}
  
- 	/* check blocks count against device size */
--	blocks_count = sb->s_bdev->bd_inode->i_size >> sb->s_blocksize_bits;
-+	blocks_count = sb_bdev_nr_blocks(sb);
- 	if (blocks_count && ext4_blocks_count(es) > blocks_count) {
- 		ext4_msg(sb, KERN_WARNING, "bad geometry: block count %llu "
- 		       "exceeds size of device (%llu blocks)",
+-	VolumeSize = i_size_read(sb->s_bdev->bd_inode) >> sb->s_blocksize_bits;
+-
++	VolumeSize = sb_bdev_nr_blocks(sb);
+ 	if (VolumeSize) {
+ 		if (newLVSize > VolumeSize) {
+ 			printk(KERN_WARNING "jfs_extendfs: invalid size\n");
+diff --git a/fs/jfs/super.c b/fs/jfs/super.c
+index 992870160903d..fecef43f94ae8 100644
+--- a/fs/jfs/super.c
++++ b/fs/jfs/super.c
+@@ -284,8 +284,7 @@ static int parse_options(char *options, struct super_block *sb, s64 *newLVSize,
+ 		}
+ 		case Opt_resize_nosize:
+ 		{
+-			*newLVSize = i_size_read(sb->s_bdev->bd_inode) >>
+-				sb->s_blocksize_bits;
++			*newLVSize = sb_bdev_nr_blocks(sb);
+ 			if (*newLVSize == 0)
+ 				pr_err("JFS: Cannot determine volume size\n");
+ 			break;
 -- 
 2.30.2
 
