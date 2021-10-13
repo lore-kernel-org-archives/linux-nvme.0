@@ -2,166 +2,94 @@ Return-Path: <SRS0=o8oB=PC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95133C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 04:41:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E862C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 04:41:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C376610EA
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 04:41:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5C376610EA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id D0B26610EA
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 04:41:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D0B26610EA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=squashfs.org.uk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=864Gkq+OUjAaLhBpXJA5Ah2pBllzcjFIWDplOWzOyP4=; b=pE/7YDu6T8TCCcxmRK8a0dcUQM
-	8Cu5U+Fd9Pg9vwlWNnXzIiQfSNmSSNRDB85dJ/l80AKUe1T1iZFbIqvQl6Unk+k+gbO8LGJVwC9hA
-	6ozfrgLWylTZ+nN1/5oi5JlcHX/AlZsgZ3uh+CGgbkKtxYB/xF1q793EY6XNsAFH2uPiyj3m7kg15
-	PHyJ/XHGcl+puWvxrybaOdjFmftHrEaLQy1REq3CeRufXI1kN/7jnn510gArQ4hk/VntboNbmAHr4
-	hLFznRRy1otTaBIyyhgzBrKLcoIDt7SFMf7FaRLEaooxsho1tgMPzZKnEKoUdxIfDxWXDUbtP5I32
-	QlJ7DuJA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jxDGGUKnrWj4ICV0qbo8vvkeOU7nrZ+YCvAHJ0uOtGY=; b=iXJ8/M4Vo24VD4stH0UT1D8q0x
+	PTh6mfTJxW1DSQEYwVvUJwywB4PCNg919qM+zKUWwAOtQJxAVmPlPh+sv2BFcbJJpzIHitmzMUG5n
+	08P22GPpiUD4+zmFX+lkMimP9bVRlxoLJKAzS3hPw2OMknkwQv3lfQV8mdOFaAQYWM25kmgOXbl6h
+	DuoFZezAxch+8soQs1+Vgw8L0BRhUZGyp7l3HS3QfQEjsuP+BJosNKDloc/V/FFzL4aKihdDy9HTB
+	p5OYwOkwRooDv3il2KsSLGWQj8p37slWUuuqTnaYqGKjMwtetauc0VcbmJ5TcIgdVoWjbnZQDcfDi
+	mDSNgtCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1masYI-001WmO-28; Thu, 14 Oct 2021 04:41:10 +0000
-Received: from mail-bn8nam12on2050.outbound.protection.outlook.com
- ([40.107.237.50] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1masYS-001Wne-NX; Thu, 14 Oct 2021 04:41:20 +0000
+Received: from p3plsmtp05-02-2.prod.phx3.secureserver.net ([97.74.135.47]
+ helo=p3plwbeout05-02.prod.phx3.secureserver.net)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mamp0-000sjW-3J; Wed, 13 Oct 2021 22:34:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eAhd5I6nnjhGqg9wfbNUBBBSoBrlYpc5IkcS4AJ3d85TveWNYIER96FpAiBdNqzOYFHpTmrlqp2fjGSCXsoJlkWYcgXT6okzLAsuMP8iZJAXaSBCvVC+AF/GlYWzxJKrXtOTQD/Kx9icCs2IPzlk+Dckl5m5na2ewdxCSl36Z6iXaDOMA5/+iUuhwXmOhS9Ry2Ndv8SPuPhGQWRKQAvGz0GpsbyxxXcvKpTR9SdiC74I6kjC1xCeQ0itPgxBKbF5DZQiTvNWCbOg8iuXuRstC3x1nFvAjtzAz9KVdhZtRkWxA7k9vdH3p0nncsYln8B/8G+GpCAj3RAs0r6qAJINZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=864Gkq+OUjAaLhBpXJA5Ah2pBllzcjFIWDplOWzOyP4=;
- b=aFShMIt9jV3ra3fSkvlzvlQVaHKXKGaHw6NaSusbnR2cOxJLpTNxtpqZ8OgLgR1Y4KrIPaBIQTq6V7zyxwIJIaTyUBzdehXxxphMIiTu9ioQlXqZAh0RJLh6kt86FYZzSb9+xhxv77e3ROEqBhJXPeHibgSyTcXMHRNr8rOvOYFPlSOPf2/u5LMYfsG+SfQ1ekwCwbPl1psAJE8HxDmS8La68zv6vPUBrit/M+Jo5oVhfa4Tc60X/AeeVqzBOHQkasXu1oLP9BFDC1tvcZW5JN4OZB1YYBd0JgQbyqoHUPMjXdS80YFqRYDYkp/quawlEsVh5SDgjeGGQkxGxlk5zQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=864Gkq+OUjAaLhBpXJA5Ah2pBllzcjFIWDplOWzOyP4=;
- b=SR7TM+mzsVKJ5FcwuH4OJ/G6M7CVpu9nLgJGLji70wSll0bcXNQulE85bH5e4usBWwGp/h3mkJCnwPKOp/k9obor0lqbUS5BWCdwUcwxMwNUBhJkeO4D0dsCkCzyxiHbdC6K1KbCPqDS3pJtTx08yTpJFmn9XJKPYNzeAx4y5Vlm5I5+0upcLYyIImD+56o7GpNtg7HqYVlYnz/3EWic8VabFL+ZEqU5XPZquQRczajCRVup/HMIBFwC6o7JgXHWjmztJuu1zzKNFQweOLEdd3Mbrm7NRaULyvaUGIjZbtRmocQrCXvxm6EFz7/SB60BJR8Q9pCOfCC8Xy+Nix/I4w==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MW2PR12MB2379.namprd12.prod.outlook.com (2603:10b6:907:9::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Wed, 13 Oct
- 2021 22:33:58 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::3db1:105d:2524:524]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::3db1:105d:2524:524%7]) with mapi id 15.20.4587.026; Wed, 13 Oct 2021
- 22:33:58 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+ id 1mak3t-000RfI-Dg
+ for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 19:37:14 +0000
+Received: from mailex.mailcore.me ([94.136.40.143]) by :WBEOUT: with ESMTP
+ id ak3ommBWcr0XRak3pmBNeN; Wed, 13 Oct 2021 12:37:09 -0700
+X-CMAE-Analysis: v=2.4 cv=CMfv4TnD c=1 sm=1 tr=0 ts=61673565
+ a=EhJYbXVJKsomWlz4CTV+qA==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
+ a=ggZhUymU-5wA:10 a=IkcTkHD0fZMA:10 a=8gfv0ekSlNoA:10 a=FXvPX3liAAAA:8
+ a=Tqnnkb1RH65CB2acoZsA:9 a=QEXdDO2ut3YA:10 a=SM4aVyO6fsoA:10
+ a=UxLD5KG5Eu0A:10 a=OunuuIp3J4_2X_e7vt2U:22 a=fDQtvUcBV1mJc6yKnRhE:22
+ a=UObqyxdv-6Yh2QiB9mM_:22
+X-SECURESERVER-ACCT: phillip@squashfs.org.uk  
+X-SID: ak3ommBWcr0XR
+Received: from 82-69-79-175.dsl.in-addr.zen.co.uk ([82.69.79.175]
+ helo=[192.168.178.33])
+ by smtp01.mailcore.me with esmtpa (Exim 4.94.2)
+ (envelope-from <phillip@squashfs.org.uk>)
+ id 1mak3n-0001YR-Im; Wed, 13 Oct 2021 20:37:07 +0100
+Subject: Re: [PATCH 22/29] squashfs: use bdev_nr_sectors instead of open
+ coding it
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-CC: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>, Song Liu
- <song@kernel.org>, David Sterba <dsterba@suse.com>, Josef Bacik
- <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>, OGAWA Hirofumi
- <hirofumi@mail.parknet.co.jp>, Dave Kleikamp <shaggy@kernel.org>, Ryusuke
- Konishi <konishi.ryusuke@gmail.com>, Anton Altaparmakov <anton@tuxera.com>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Kees Cook
- <keescook@chromium.org>, Phillip Lougher <phillip@squashfs.org.uk>, Jan Kara
- <jack@suse.com>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
- "dm-devel@redhat.com" <dm-devel@redhat.com>, "drbd-dev@lists.linbit.com"
- <drbd-dev@lists.linbit.com>, "linux-bcache@vger.kernel.org"
- <linux-bcache@vger.kernel.org>, "linux-raid@vger.kernel.org"
- <linux-raid@vger.kernel.org>, "linux-mtd@lists.infradead.org"
- <linux-mtd@lists.infradead.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>, "target-devel@vger.kernel.org"
- <target-devel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>, "linux-btrfs@vger.kernel.org"
- <linux-btrfs@vger.kernel.org>, "linux-ext4@vger.kernel.org"
- <linux-ext4@vger.kernel.org>, "jfs-discussion@lists.sourceforge.net"
- <jfs-discussion@lists.sourceforge.net>, "linux-nfs@vger.kernel.org"
- <linux-nfs@vger.kernel.org>, "linux-nilfs@vger.kernel.org"
- <linux-nilfs@vger.kernel.org>, "linux-ntfs-dev@lists.sourceforge.net"
- <linux-ntfs-dev@lists.sourceforge.net>, "ntfs3@lists.linux.dev"
- <ntfs3@lists.linux.dev>, "reiserfs-devel@vger.kernel.org"
- <reiserfs-devel@vger.kernel.org>
-Subject: Re: [PATCH 02/29] drbd: use bdev_nr_sectors instead of open coding it
-Thread-Topic: [PATCH 02/29] drbd: use bdev_nr_sectors instead of open coding it
-Thread-Index: AQHXv/Fw+fZmcLtgm0ivWGuz5dJtu6vRhO+A
-Date: Wed, 13 Oct 2021 22:33:58 +0000
-Message-ID: <473988dd-f18a-3ca0-7b3e-f5ad34f1b045@nvidia.com>
+Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+ Song Liu <song@kernel.org>, David Sterba <dsterba@suse.com>,
+ Josef Bacik <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Anton Altaparmakov <anton@tuxera.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.com>,
+ linux-block@vger.kernel.org, dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+ linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ reiserfs-devel@vger.kernel.org
 References: <20211013051042.1065752-1-hch@lst.de>
- <20211013051042.1065752-3-hch@lst.de>
-In-Reply-To: <20211013051042.1065752-3-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 82b45371-cc14-405f-24bd-08d98e998c64
-x-ms-traffictypediagnostic: MW2PR12MB2379:
-x-microsoft-antispam-prvs: <MW2PR12MB2379E51F4C87ED93D1735180A3B79@MW2PR12MB2379.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:883;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yc2rUiYBejKEb16Y8tfL5gzu0Ohbg9H7y9NStXHxgHhTYm6o6/HVrpYHPmg4ACugQAC7d8CqoVZb/wB3okQl5ZywXtXLj6N5du38klYVQXd9Gu+/RVUWDsQjAA4o5YaDXV0CYDaqPq3huJlQCnkEpii3r5mAFkJQ1Q6Ddotscy907z67twCV1nAFpIwTqWkBu6u7iBU0wb3K5PSYJhxxES8UPVToI/vRV71O3T6L1k1s+ZFbm7u6Nl364ZIjU6MbPC9yUFjaAWF6RbqUS36O8suOHsP9UuCfXmUe0UTGzqOmUud8UIr0S3Q1mz5HeE0gB08xf1rGQiTeh8G3d0YNzgb3afO7j0y6Ag258GUSvnenzm/SVfPyIMxiM7uCrEETvL3tT8XS/m+yiib1ZwON3WhGCMx01hPcob1voyJNpdVxi8LMhqfRlVD7RJo+/26xsEEk4OvTmpVK99dg4aDD5B6K/ebX7AJrzDovbHFFKy92C/aAIkrS8Rd7y0P/W+nY2b/IhmcVEuQ0cwK346JetkytHJck7Ko8x7agnKvNQB/I+jsdZIbPHhteUkraKcnNAMFSi3miKTgWTkKfareXVGMlj1TB7SBe2bdUNEjc4bC/WnE53d5VznJutxjVL6a0FjIw2y02GgSHW4phu+3EndafWQlKTgeYHKFTffGH+jX2ee16bs/es5ufpnEYsckB3HNc4SLqLIer9QdH9SXHPh3Sadum6tYMxdihWbX1u3oTZ4q55w6Ap1isqS9iM3DwDGRK8n9ic+TimKywGt5jrg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(508600001)(122000001)(38100700002)(36756003)(5660300002)(83380400001)(316002)(6506007)(91956017)(66476007)(76116006)(86362001)(6486002)(8936002)(8676002)(66556008)(4326008)(2616005)(2906002)(110136005)(54906003)(66446008)(6512007)(64756008)(186003)(66946007)(31686004)(53546011)(71200400001)(38070700005)(7416002)(558084003)(7406005)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d2UrellEYXM5NjBPYzdYcjVzRTNNak5CY0VCUWtzc1lENDliS05XL1dZMnhk?=
- =?utf-8?B?dGFiVzg1WElIeGkzZm1RTlBBeFBmc2ZuR28wNi9kdVVoOTJIMGd6VU4rSS9K?=
- =?utf-8?B?TzZBSWNzclhFR2NFa2s3Sjl0UTVhQTl4Ylo4d1VTZUJaR2dBd1lKS3BTSW11?=
- =?utf-8?B?Y2J3Z2JxYkM0RHZkQityMjlzNE5kU0FVL2gwMWQ1OU0wNE9rak9FM3dmUjRR?=
- =?utf-8?B?VFJsN05JMHZZNmc1N3FrS0w4d3hmd3lGUGxHckY0aHdzMFZNYkJCQUkyWVhn?=
- =?utf-8?B?VHN6eCtZbndHQVlwQTRlWEQzZ3NiNm9UamdnZ0hlZlZ2dk1zSlVHeWhnOHpw?=
- =?utf-8?B?aE04ZXFiblhLYS9mUC9Dbk01Wm1LM2RUQ2hOa1pFRStiekhCVGdYRm1wem5P?=
- =?utf-8?B?aExYNFltZWZJbk90ZkY1U240NVRKbnRVdzM4UFFHSlB1RklnWXpCMDAxblZn?=
- =?utf-8?B?RTVzM1R0M2pFNUxGTTgxV2UyTk1qRjRXTUdDVzFEYnZOSnROQ2xhb1FUTkp5?=
- =?utf-8?B?WkhaTy9JcWZRTEZSTS9aNGpSZHNNMnZiWStnM1VXblM4SWozdHFURVFBQVlh?=
- =?utf-8?B?c1MxcXFLKzNINUpqZ2Yvemx4ejdDcXNYbFdqTisyVTNDbmViQ0lxY3hYeFhj?=
- =?utf-8?B?TVppaXd0OU1ONS9pYTZPRFZNb3R2cGVlOFk5OVZYb0s4WmdueFJpWXJmRWtm?=
- =?utf-8?B?d04zQTVOeUllRUFnQ2w3d2N5bmV1U2pTRmpQZ1hiOWhaWStZOVpFSFk2Wkp2?=
- =?utf-8?B?ZHpGMDZkUU5Ia3Z5WHJPTFpnT2NXTmhBajZPcS9OV2VhY2VSQm5PZkNhaHZP?=
- =?utf-8?B?Z0tKUGU2WkVHV3cxN2NkSGQweVJEaDI4N1FySEp6RkJBOUttVmFGbzc2UzE1?=
- =?utf-8?B?K1VIdGZMdW9zeFFVRFNBMC9wVEdXdzlYV0hGRXN2NzFDeGJ1aFoyTFVUNmQv?=
- =?utf-8?B?Z1M2TTVpQ1NJZFdZS3JCNFRiR2hlcSttSlVOMzVDbC9PTjlrTU1zWDN2TEdB?=
- =?utf-8?B?bVN4Y3VZbkxWM1hkSHpwcEhsVjVNbGd6cklyaldHRjVMeFIveGFzb3h4T0RY?=
- =?utf-8?B?M3REaUl2YmNIaC9oK2w1ZTVhcFQ5blU4OUJkU1hwSTBjYlp3WEhhTkdXT3Za?=
- =?utf-8?B?RkVHdE9Nek5XZlBVNVJmZmtMaEdVRXBjTGtEbEMyNEUzaUFBUmdadkNlOFQ1?=
- =?utf-8?B?K2NDbWJ3SHcxVktZQ1NoVGRRMXBEZWYwWlpKMjdVT1VkbDU1ZXhLUnVSdHoz?=
- =?utf-8?B?MzR2UEErOVlYY0lMbmJZQ3RGcVppa0tHZjVyaDhhT1Y1UW5NeU1PTnRIb1dZ?=
- =?utf-8?B?eHp6NDdYU0pzck91UEQzYURIT3gzMlp0T3VTQ1Ywd2dsVzY3S0RJNmZJOXVm?=
- =?utf-8?B?TjNmbHlRdnBiM04xSTU1alhNcTVKT0JIMHlMUm8xZno0QXRoQmpMMHJSd0Nh?=
- =?utf-8?B?MGRDN1pJRmkydzluSUhlQkd2eDFJNldKdzY1S0FTNGtlTlNzM29kWEUyUE4y?=
- =?utf-8?B?YUNrdnlVSjd0b2VKRzUveC9SQU1lSG1Jd2cySjdTeU0yWEJnOHNuTWc0ZVdj?=
- =?utf-8?B?OU11V2tpNmdWeUc2emd5dnBOdUVSclVDOXJJVTA5a3ljdmthU1lybVV6Mm5y?=
- =?utf-8?B?Z2hHYVZtcHcxWTl0ek5kRi9EdWFWT0RlaFMwL2plRlhzNXQzODlKQjNTVmt1?=
- =?utf-8?B?VUFQNUdmZElZZ3JrS293M0w5TU5XTElrWFR4ZDR1NzhuUndPUmthM0k4MHVK?=
- =?utf-8?B?cENaOHA5enhjcmRZR0REMlFaOFpIN0pDS1B5KzJINldGR1pGMmhWcm90ck0w?=
- =?utf-8?B?Y0Yyc081RUtKQWY0NlZIOEpOWTV1YUNoeUQzdEdqNmRNVUNCajhyRWNzOVd1?=
- =?utf-8?Q?LLSYYjlw9Pj/w?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <43BBE4AA93E9954CAC870DE93CD2159C@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <20211013051042.1065752-23-hch@lst.de>
+From: Phillip Lougher <phillip@squashfs.org.uk>
+Message-ID: <cbd3585f-87c6-ab31-2911-4d3550287e22@squashfs.org.uk>
+Date: Wed, 13 Oct 2021 20:37:03 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82b45371-cc14-405f-24bd-08d98e998c64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2021 22:33:58.4460 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sUXTUhN7+/pSfSk2Q8INU7sTSrLD8giM4dtXzKen74fxkniAVtH+59sgrSc9iRqeHqxYKyJSInGCb0g8228cXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2379
+In-Reply-To: <20211013051042.1065752-23-hch@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Mailcore-Auth: 439999529
+X-Mailcore-Domain: 1394945
+X-123-reg-Authenticated: phillip@squashfs.org.uk  
+X-Originating-IP: 82.69.79.175
+X-CMAE-Envelope: MS4xfGDtHBK8mz1x7fvOira6+ZLX1muqgEGY5KmLmIRgSfXvZoY1795NsRN97MrzCLIn3bLuRTjzfU2AYnSE9b0emgCcysjudVNPCNjKe0A6NDGNO/JlxBOL
+ r9oeglkrnL6syw/usExZ26EIiaeV81BtC8GghpARjg9LSTYaFe/tZW4cndNIdWYPbBwlUa6RhEg79VcVZUfnpj+E9R83OQrRoqlcL8UhEc163WaPqD3PTY32
+ OTP56cy4Rt/dBuaQPg6CxQ==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211013_153402_202495_4DA9D7D3 
-X-CRM114-Status: UNSURE (   8.71  )
+X-CRM114-CacheID: sfid-20211013_123713_521927_102BAFB2 
+X-CRM114-Status: UNSURE (   8.30  )
 X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Wed, 13 Oct 2021 21:40:48 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -178,8 +106,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTAvMTIvMjAyMSAxMDoxMCBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IFVzZSB0
-aGUgcHJvcGVyIGhlbHBlciB0byByZWFkIHRoZSBibG9jayBkZXZpY2Ugc2l6ZS4NCj4gDQo+IFNp
-Z25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPg0KDQpMb29rcyBnb29k
-Lg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg==
+On 13/10/2021 06:10, Christoph Hellwig wrote:
+> Use the proper helper to read the block device size.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Acked-by: Phillip Lougher <phillip@squashfs.org.uk>
 
