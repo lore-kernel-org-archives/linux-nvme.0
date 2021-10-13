@@ -2,52 +2,161 @@ Return-Path: <SRS0=KS3B=PB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2FC4C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 05:04:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C69C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 05:09:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7C25A60EE9
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 05:04:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7C25A60EE9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	by mail.kernel.org (Postfix) with ESMTPS id B62ED60E8B
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Oct 2021 05:09:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B62ED60E8B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=marvell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XrYwJTSmKBMaCw4nDqG87TqNJHF2cqYpLO1ovMdKjdQ=; b=UL10wOoE3vUSYp
-	2Fh1CRtTgfeYFItmtgyxu0qQwx1XzKLm+hRgRdYd3CB7cmsmHDMT1aQDrbdqORqBck8vsWfor1xKA
-	RPqv3Zj4llEyo4f82z7DuHhg9uHv/AfjZ+xNppj+nCuQir1dBL64dZ7IarheUIxmuDojiGh31Lfw7
-	saw6TmEqs4XWW0RAVXN0gh744aHgfB63SAvox2G73+tBybUcsIKjknq/HlDQW9UNcg/TwwB+xE0Bm
-	vkudSgnIq26eIPvpiSMynnvsp/wxvsy7xrwNeK4BrwYjpdEeLnEajU40uOXJ87Fc/a/S6Vd2f7kep
-	LT4NMeDkQRLod9HjeEgQ==;
+	List-Owner; bh=t953DiViL/D+P2S+K53oaxxev3B/wvX6c/eEGgcx+x4=; b=03yPDdCVz5dFIT
+	BobdoXpf0NJ6JSSO2J8ewFtdT05apEEtSGaN3tiIRboEuMLQpMFZLsoknlqhuohX/wAU5aHOkc/mp
+	QXe/xTgrgjKcZgkn7F0mHaxBeh1km2xZ21AQbETXFSgJJUWlGv2OdMjx538SP0gn22EWoqflTGf8Z
+	r7K6iMydZ5pZ0CdptC88HFBc+fNM/A9XHP0BYt9nwUZpkCK2oVvieH9Ul2XGBcThty3+4hgXtEcWo
+	OHEDdMow7m/CBOaYuppmgE7Mg8KYi0iFiTskBidl+6vdkNMPT7wN0c6J0qqE149naFloUQ8HLHT/0
+	Fsmev8VOML2oOgiAx8xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1maWQf-00Erdb-2H; Wed, 13 Oct 2021 05:03:49 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1maWW9-00EsW8-RN; Wed, 13 Oct 2021 05:09:29 +0000
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
+ helo=mx0b-0016f401.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1maWQb-00ErcL-66
- for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 05:03:47 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id AF98C67373; Wed, 13 Oct 2021 07:03:35 +0200 (CEST)
-Date: Wed, 13 Oct 2021 07:03:35 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- axboe@kernel.dk, linux-block@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: calculate IO timeout
-Message-ID: <20211013050335.GA24898@lst.de>
-References: <20211013022744.1357498-1-kbusch@kernel.org>
+ id 1maWW6-00EsVH-TB
+ for linux-nvme@lists.infradead.org; Wed, 13 Oct 2021 05:09:28 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19CMeSFK003710; 
+ Tue, 12 Oct 2021 22:09:07 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-0016f401.pphosted.com with ESMTP id 3bnkc5scnc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Oct 2021 22:09:06 -0700
+Received: from m0045849.ppops.net (m0045849.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19D4nQfJ030466;
+ Tue, 12 Oct 2021 22:09:06 -0700
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
+ by mx0a-0016f401.pphosted.com with ESMTP id 3bnkc5scn5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Oct 2021 22:09:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vl4DSGumMWb92uL4hLqBc1Tzqoix0EGFgo5+HL32KO1oG/jBtRND072UbPjkNXSYtdBkdhago4gVdq9kHQbBMJJv6GNhrb83Hcb7KU5Zr3u5+Jx0H6OqqNABpAvmVuMpYk5Tx9m8vep4CyvfmG5knftaGnHFmll0cFz4XBU8J2B19gIV5eHZKZVBnOjzl9M16k+0g9QuGMtk5UDPxYEEr2xSXFG0Tzt5NNMKV25uMaecHOss+kAX1CyE76KFlfpfWUfDV8GeFv+9QVM/CEUfUkdXycLCx+vALjNgUt5VT2fgVjcu6E8TQaREPWNdFtt6QASXh2XQzS5ukk6FTZUyMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qf72BZMNVJ9RcnAFLZAXPAcrCo11MM1vrWRZ+OdTQMg=;
+ b=Tky4s8zaLPIVf0dCKlcgdydHCDJ1SNouWueQlWd42gfZi9NOA0XaqOwseVFgPS9/wXBealRssQP1onDYHbL5s4k/GpjlHoFCWH7Hr+oft5oPtc0fVQmv6K7vrS/rZTY9XXOixnJuFnJTaKaK5cXdvuVVz4ESkFzIDQQUg73DkoKMDWEvPwSDVHngl6OusJv2QbyLfBdx1XGHmocvoBwZXW4N1EtE7PX+grrVxKjeNY5GFzIx7UbP5ZIZhhqaKuLO0+l+LvSgROFOlY1fABI9tOsS4nN4pI2ESefYn2AZsvBUPM1eE0ydu7c7lwYPCrjXlB+/ocWmsIXmWXM5s0ozRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qf72BZMNVJ9RcnAFLZAXPAcrCo11MM1vrWRZ+OdTQMg=;
+ b=i9gz86eCoouDQHiAYmTqUozHpuIKYBsQfzgxjonnWCnM+lGxMer2PG29xEAPd9Vkzf5OrK1Uawa4VwmsMOE7eV9tlQU6R5etY+vSOtdUAWa2wYPeOZ1FQFzcN2oCTmxTc5+HBnLPOsr5kCh7yENqXTW/t8vlfPYtxqLP7tTGEZM=
+Received: from DM6PR18MB3034.namprd18.prod.outlook.com (2603:10b6:5:18c::32)
+ by DM6PR18MB3308.namprd18.prod.outlook.com (2603:10b6:5:1c6::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Wed, 13 Oct
+ 2021 05:09:04 +0000
+Received: from DM6PR18MB3034.namprd18.prod.outlook.com
+ ([fe80::75c2:4fd:a07e:fe18]) by DM6PR18MB3034.namprd18.prod.outlook.com
+ ([fe80::75c2:4fd:a07e:fe18%4]) with mapi id 15.20.4587.026; Wed, 13 Oct 2021
+ 05:09:04 +0000
+From: Saurav Kashyap <skashyap@marvell.com>
+To: "hch@lst.de" <hch@lst.de>
+CC: Ming Lei <ming.lei@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Nilesh
+ Javali <njavali@marvell.com>, "martin.petersen@oracle.com"
+ <martin.petersen@oracle.com>, "linux-scsi@vger.kernel.org"
+ <linux-scsi@vger.kernel.org>, GR-QLogic-Storage-Upstream
+ <GR-QLogic-Storage-Upstream@marvell.com>, "james.smart@broadcom.com"
+ <james.smart@broadcom.com>,
+ "axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org" <kbusch@kernel.org>
+Subject: RE: [EXT] Re: [PATCH 0/2] qla2xxx - add nvme map_queues support
+Thread-Topic: [EXT] Re: [PATCH 0/2] qla2xxx - add nvme map_queues support
+Thread-Index: AQHXmB5nQhsPGOkOI0qGifl5VUdIxquBVlsAgACqKsCAAAR/AIABpizwgBS26kCACujCgIAACxqAgC1abUA=
+Date: Wed, 13 Oct 2021 05:09:04 +0000
+Message-ID: <DM6PR18MB30342CF2C3CB23EE3B947841D2B79@DM6PR18MB3034.namprd18.prod.outlook.com>
+References: <20210823125649.16061-1-njavali@marvell.com>
+ <c72c7669-8818-77f1-2e5d-98bb24308f08@grimberg.me>
+ <DM6PR18MB30340DC93DCC82CFFAAE3ACCD2C59@DM6PR18MB3034.namprd18.prod.outlook.com>
+ <YSRrmOmrwm5olk0D@T590>
+ <DM6PR18MB30341F714429F8552EB4E126D2C69@DM6PR18MB3034.namprd18.prod.outlook.com>
+ <DM6PR18MB30345F9B2131600CDFEA91AFD2D39@DM6PR18MB3034.namprd18.prod.outlook.com>
+ <DM6PR18MB3034746DCB33C51D8CA4EEFED2DA9@DM6PR18MB3034.namprd18.prod.outlook.com>
+ <20210914083249.GA5341@lst.de>
+In-Reply-To: <20210914083249.GA5341@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7f3e68a6-9d38-4b7d-e29d-08d98e0793fd
+x-ms-traffictypediagnostic: DM6PR18MB3308:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR18MB3308E5BCF8334CF26917ECDFD2B79@DM6PR18MB3308.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: g8dLqbtyzlspKExa396WUZN6L76RoLGiPkPgE+7mflrOUN02bn8Vl1odZ1mkIml3gr+8Syp0d6933uTdUfvnET6ldekQJihbZLGB+/X67x3qcRKZsktLxuTtMWMZqAj7IdQBqITmIhyiDRAqpNAKFOqz9es1Hg9Dzvad15mT9Jh/rpZ1pvCIUFx+hlbBvWYYwZzpfXwRe9qhAVwHWVBI8tS0OGWWQh5dZOEpxHJg3sK/tNh/0iD+6vxp9h7XjmcHOX53VPKkJnP1A6RxbzGB1y2LfjFvlz1toU+FROMjSg3Zsd00U1MCzJBaD/wsUkwxFx1EZ1S4Gs1zOup/lGxS0tPcDAZVjkiOpDlbvGrilPlWfhRbMQSkOTHdZApCSFZ8Fp6gG7uBEAbYA9GX0cBrBFZ5cLCMR0/GzvMl7oQtvvK7zRAlXgMtuRxYBZ5zM4l/mPTe48CP/RHV/sM7uvBVGcCvTexUZokxT3vfKY/e/EL8YLQRNMaE0OhpP6US7UjDmwo42Fvnw7xxWKeh+zhnO8QHw0+jInY4e5zQU40xiZBv++0vfSWT2FuosUQ3qe7EKUiBglzuQT+1T0JN2r8iJa+E/DSyTn0aCHL7ZjiwrEbBbkwyn/5BPLMtdy3QGEzeD3+37NmCZiGXjEeZfodH0iejrErRpRG12aSptoB/EiMXBX/Cf16COXZ33dODWVMSE0z/9DdLxovqVJ6n92f/LA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR18MB3034.namprd18.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(55016002)(38070700005)(33656002)(66946007)(508600001)(2906002)(558084003)(66446008)(7696005)(5660300002)(71200400001)(122000001)(86362001)(64756008)(9686003)(38100700002)(6506007)(76116006)(8936002)(66476007)(186003)(4326008)(54906003)(316002)(83380400001)(6916009)(66556008)(52536014)(8676002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?80LgYoSWhQLGqX6phjBRufmVtuLJwIMKM1IP5nRgO5TNfoUVdEtousba5whT?=
+ =?us-ascii?Q?Mxrc+6jSHa7n1YyBzuku7rmJxTgbrrwh9v/9imrHTg0GX6YOP3gQjdCBr+Eg?=
+ =?us-ascii?Q?tLzi/qFD2fGSlXvkC8Ck/ByfzbLs+41GRQ+KaAeF44uiXS/nGC6zikyB1wvx?=
+ =?us-ascii?Q?q3j6QAExPgTSYJVhAI1fnjD8l6pEWSInuZ+2aL9Q/yvl5Wiek3rYYLn+bbQ9?=
+ =?us-ascii?Q?WD4SzHOhzTe3AzuMml79AQHoQl2coY+edEeLMDbpEpIDg42sblecUQ6PwrQy?=
+ =?us-ascii?Q?X9g1+j0PjaHHeuYWCKgdO5d2W4r50FAhD/u6rEVB9pmA/ohncDSMp2lKy9a8?=
+ =?us-ascii?Q?FkDPdMf2Nkj5vqw6rcXNbPcwIZx+ZxNfbxYZFrCoZivPa4ACANBCg+D1Yo57?=
+ =?us-ascii?Q?SwzqpMAPBttmW+S9c0lHeS98kW+Zt8dV1UB51U3ffJ4+czQu9u8hpOz+ayGt?=
+ =?us-ascii?Q?lf9iYUDXlAQfxAbeiLiOPRy2YOAovKVMXJRa1WdvbGPvoNfvXiKoP1bkfO6f?=
+ =?us-ascii?Q?RkXwcYTer3hXTf5lvh3ZM1U1vd+r2oLv1HC22kQUFsBNTdhNZT2jMh9yvtY0?=
+ =?us-ascii?Q?TmDiR587NZr2g78oS2aS3lZa4of47fB+v5QqOVF136NocSfQd4gD8H7E3L0z?=
+ =?us-ascii?Q?CmCH5Yi4KLPGsPRFYDnIwa4ZEDNszdFjZUn4hZLblRAE39a6sPQCZeGjdx7c?=
+ =?us-ascii?Q?qOJqHvK69+5EkApy20PQ1F81JPeM7pmKrWSY/Hj9I73ONOTXbaxpU3vhhXrL?=
+ =?us-ascii?Q?9oGjigSMvt+ERpg8PPP3kbK3tLdRwJWC+ITEJv4Xd0CUP5Qagtjmxf0zE2Mi?=
+ =?us-ascii?Q?5OxtVAItB6hwb4AyLHdlVtEWQXUkazNVAnZQMcMmaGJWCKIyKR52vH+Gy6Fq?=
+ =?us-ascii?Q?gpk+Dfz2INPrPheIotO5jtn1d12FZpahU4pNSGYrIcJdyjZuZtG+YJEwZIhx?=
+ =?us-ascii?Q?zoA9xmKddx6iilVSvkr9TR5no55iTYfogYU2T4lLT+xFqvzgIlnKHa00gc7Z?=
+ =?us-ascii?Q?Ugxj4K0YoX1Srg6QBfCWpXFOL9DeEhVt4cDWYpoRQVlzjOXvKkxRBwugFWXg?=
+ =?us-ascii?Q?mvXk9ScxpXCiEg97XLimxnBuxqN41C+HceglCIVyWmqgdyd9j5q3S4PkAm+R?=
+ =?us-ascii?Q?7hek0c1H1/duMmx1Peb1YCEx634sICIn8n9+sF/lUO0srsXHr33dug5FXSdj?=
+ =?us-ascii?Q?jrl/i0kNtll0Q3gxLeL8nuMRkVfR61812mU4I/upfEGakj3aK93MDEU2OQFd?=
+ =?us-ascii?Q?YkvtrME6DcfP9XAW7l8QUbrhcPjtZ8PCvTZknEP9E34Z0W/Xeo96PwqgLM2c?=
+ =?us-ascii?Q?LNHDiY9sON2OZbhecZEyNoMK27Sczgm+LTqHMRQZqSJ04PqY5R+LFfXKTkSB?=
+ =?us-ascii?Q?wlKjpoZnyuMAronXllFTzRKp6cFJ?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20211013022744.1357498-1-kbusch@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR18MB3034.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f3e68a6-9d38-4b7d-e29d-08d98e0793fd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2021 05:09:04.7121 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IlYdcoKdw9/C1I2gVDLEzIRD9B/OeEBgDUulm4auAh3PYM/QYlaYk2fOMaJ+bYFbPeSDUalavbzpdTNkDxr7Cw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR18MB3308
+X-Proofpoint-GUID: P2qREXiwFLn1ApUkZ6Ywr5kZLQZ14KcI
+X-Proofpoint-ORIG-GUID: LaCrECF88LZL2Xr7aCCbQG6-7HXje0cN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-13_01,2021-10-13_01,2020-04-07_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211012_220345_569933_3BFF8BB4 
-X-CRM114-Status: GOOD (  29.15  )
+X-CRM114-CacheID: sfid-20211012_220927_038630_B23E1778 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,107 +173,21 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 12, 2021 at 07:27:44PM -0700, Keith Busch wrote:
->  e) Increase IO Timeout
-> 
-> This RFC implements option 'e', increasing the timeout. The timeout is
-> calculated based on the largest possible outstanding data transfer
-> against the device's available bandwidth. The link time is arbitrarily
-> doubled to allow for additional device side latency and potential link
-> sharing with another device.
-> 
-> The obvious downside to this option means it may take a long time for
-> the driver to notice a stuck controller.
+Hi Christoph,
 
-Besides the timeout the amount of data in flight also means horrible
-tail latencies.  I suspect in the short run decrementing both the
-maximum I/O size and maximum queue depth might be a good idea, preferably
-based on looking at the link speed as your patch already does.  That is
-based on the max timeout make sure we're not likely to exceed it.
+> > Hi Sagi/Christoph,
+> >
+> > I haven't heard anything on this and there are no review comments on this
+> patch set, kindly include this in nvme tree.
+> >
+> 
+> I'll queue this up once the 5.16 tree opens unless James voices any
+> objections.
 
-In the long run we need to be able to do some throttling based on the
-amount of data in flight.  I suspect blk-qos or an I/O scheduler would
-be the right place for that.
+Any updates on this one?
 
-> 
-> Any other ideas?
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  drivers/nvme/host/pci.c | 43 ++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 7fc992a99624..556aba525095 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2424,6 +2424,40 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
->  	return true;
->  }
->  
-> +static u32 nvme_calculate_timeout(struct nvme_dev *dev)
-> +{
-> +	u32 timeout;
-> +
-> +	u32 max_bytes = dev->ctrl.max_hw_sectors << SECTOR_SHIFT;
-> +
-> +	u32 max_prps = DIV_ROUND_UP(max_bytes, NVME_CTRL_PAGE_SIZE);
-> +	u32 max_prp_lists = DIV_ROUND_UP(max_prps * sizeof(__le64),
-> +					 NVME_CTRL_PAGE_SIZE);
-> +	u32 max_prp_list_size = NVME_CTRL_PAGE_SIZE * max_prp_lists;
-> +
-> +	u32 total_depth = dev->tagset.nr_hw_queues * dev->tagset.queue_depth;
-> +
-> +	/* Max outstanding NVMe data transfer scenario in MiB */
-> +	u32 max_xfer = (total_depth * (max_bytes +
-> +			   sizeof(struct nvme_command) +
-> +			   sizeof(struct nvme_completion) +
-> +			   max_prp_list_size + 16)) >> 20;
-> +
-> +	u32 bw = pcie_bandwidth_available(to_pci_dev(dev->dev), NULL, NULL,
-> +					  NULL);
-> +
-> +	/*
-> +	 * PCIe overhead based on worst case MPS achieves roughy 86% link
-> +	 * efficiency.
-> +	 */
-> +	bw = bw * 86/ 100;
-> +	timeout = DIV_ROUND_UP(max_xfer, bw);
-> +
-> +	/* Double the time to generously allow for device side overhead */
-> +	return (2 * timeout) * HZ;
-> +
-> +}
-> +
->  static void nvme_dev_add(struct nvme_dev *dev)
->  {
->  	int ret;
-> @@ -2434,7 +2468,6 @@ static void nvme_dev_add(struct nvme_dev *dev)
->  		dev->tagset.nr_maps = 2; /* default + read */
->  		if (dev->io_queues[HCTX_TYPE_POLL])
->  			dev->tagset.nr_maps++;
-> -		dev->tagset.timeout = NVME_IO_TIMEOUT;
->  		dev->tagset.numa_node = dev->ctrl.numa_node;
->  		dev->tagset.queue_depth = min_t(unsigned int, dev->q_depth,
->  						BLK_MQ_MAX_DEPTH) - 1;
-> @@ -2442,6 +2475,14 @@ static void nvme_dev_add(struct nvme_dev *dev)
->  		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
->  		dev->tagset.driver_data = dev;
->  
-> +		dev->tagset.timeout = max_t(unsigned int,
-> +					    nvme_calculate_timeout(dev),
-> +					    NVME_IO_TIMEOUT);
-> +
-> +		if (dev->tagset.timeout > NVME_IO_TIMEOUT)
-> +			dev_warn(dev->ctrl.device,
-> +				 "max possible latency exceeds default timeout:%u; set to %u\n",
-> +				 NVME_IO_TIMEOUT, dev->tagset.timeout);
->  		/*
->  		 * Some Apple controllers requires tags to be unique
->  		 * across admin and IO queue, so reserve the first 32
-> -- 
-> 2.25.4
----end quoted text---
+Thanks,
+~Saurav
 
 _______________________________________________
 Linux-nvme mailing list
