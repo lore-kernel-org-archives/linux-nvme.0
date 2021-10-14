@@ -2,14 +2,14 @@ Return-Path: <SRS0=o8oB=PC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2B4C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 08:18:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D87C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 08:18:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0243D610E6
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 08:18:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0243D610E6
+	by mail.kernel.org (Postfix) with ESMTPS id E6D3960E96
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 08:18:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E6D3960E96
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,42 +18,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8khe7q1vnNQnXOkYiEUEG4zTHCshU/XmPklcL2J55YA=; b=q2AIt5FtOVzzmbhZeIBDupCkX5
-	PmOBArgXUS/Zqzkg8Bzbd08rdOVFDOV238S8ieMqBouIh3Ceyc9bTbazS3pJoX6wV6rUn80DsoXc/
-	CRp/Dpf/Xen6xoorbQpXvHMyiUeZWledbBHlO/xSl7+FIKLNbz3sIReCu/ytLKiN7HIX5bKo2Nuoi
-	cu1TsrcJLnvtPSOdq84lk36Q3EB2AXmnIrUJ5W70dGEnPN9JN9+MHUZLXy4y4l7F4yOaL8yaJZv5+
-	T0smfxOWUI6d6Cg6T+iFadjRnfh6qloAwigadmmDbxxUDo4gHe/yYTdbHAv0auozbIwLMEbA9W+eu
-	TkZTIAZA==;
+	bh=Kv5fvG9KZriDjoofQEBWp898Mk3hvdOZp76TKP2/6jo=; b=puVdkOFdndoa4LD3kKpLZUKfRe
+	SRNdOTDd+r43Q9twAZPftr47od8B+NIWEj8pV4bCBRLim+nIm9Z9vTWNn9o98NTqwBrr7yKkqhrgt
+	CWakmGwQmp5Ow+49FhQyQxp94L0WmWAMDRN/hbEqH1dq35WfSRwN51GjzGcyKAoiBk2jEuEoXeP5y
+	2YFy5UIBPjP/KU59lKJHDO2dyAM6rq9ilE6IbK+A0nPMdNhL9+z+x62olOeqo7W5c5tEJ8XgxXLs9
+	RwLVKtKc/KnB7vBMRnVoUcV2jViLgDZHtXXAZVLhLYoNRHqSJGdcrHSzeq+LWiNRBmefvLKGJUlPH
+	4vrLz/GA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mavw4-00293v-1e; Thu, 14 Oct 2021 08:17:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1mavwJ-00298T-OC; Thu, 14 Oct 2021 08:18:11 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mavvn-00290I-M4
- for linux-nvme@lists.infradead.org; Thu, 14 Oct 2021 08:17:41 +0000
+ id 1mavw0-00292d-Qv
+ for linux-nvme@lists.infradead.org; Thu, 14 Oct 2021 08:17:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634199458;
+ s=mimecast20190719; t=1634199471;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8khe7q1vnNQnXOkYiEUEG4zTHCshU/XmPklcL2J55YA=;
- b=WKZL2XObmC47tdOdPaayIN4J7KMqaxm5hJ0QDWXCSND38pY1sSKrQjmhSOpJmWn/Vh2wk0
- 1qoQCBOjXOJQog2bYpz1ZBPs7s8KOCglpRFyolOl7/DP7wHDecFt2hATmDn4p4yDQH/549
- orK6wTnvkCoO6CGSGgTxLG2VKMkURgY=
+ bh=Kv5fvG9KZriDjoofQEBWp898Mk3hvdOZp76TKP2/6jo=;
+ b=ObLX6WcZv4bMnQRZpTqb/HASrZJbYPhF4INXWDXcLh4Evs15RfKQNq6B67frHDwJK3L9KP
+ BlOAG/vbAVK1XoXPgkizhpG1jRvdQbobsZ+M2P1ahgJJIwCbI205DjuPFOza/6j0d9mzqk
+ 3Ik4FVEAU3fECns0X5GVcJOIhpOoRO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-ZgcjB5a_MpaRtmO7P9xkgA-1; Thu, 14 Oct 2021 04:17:32 -0400
-X-MC-Unique: ZgcjB5a_MpaRtmO7P9xkgA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-144-MWBkp6otPwCo7Jamuqw7Rg-1; Thu, 14 Oct 2021 04:17:48 -0400
+X-MC-Unique: MWBkp6otPwCo7Jamuqw7Rg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24EC41923767;
- Thu, 14 Oct 2021 08:17:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28E0A805750;
+ Thu, 14 Oct 2021 08:17:47 +0000 (UTC)
 Received: from localhost (ovpn-8-32.pek2.redhat.com [10.72.8.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2AA641AA;
- Thu, 14 Oct 2021 08:17:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 817FA5DF35;
+ Thu, 14 Oct 2021 08:17:33 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -61,17 +61,17 @@ To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  Bart Van Assche <bvanassche@acm.org>, Yu Kuai <yukuai3@huawei.com>,
  Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V4 2/6] nvme: apply nvme API to quiesce/unquiesce admin queue
-Date: Thu, 14 Oct 2021 16:17:06 +0800
-Message-Id: <20211014081710.1871747-3-ming.lei@redhat.com>
+Subject: [PATCH V4 3/6] nvme: prepare for pairing quiescing and unquiescing
+Date: Thu, 14 Oct 2021 16:17:07 +0800
+Message-Id: <20211014081710.1871747-4-ming.lei@redhat.com>
 In-Reply-To: <20211014081710.1871747-1-ming.lei@redhat.com>
 References: <20211014081710.1871747-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211014_011739_868758_FF9AA7C8 
-X-CRM114-Status: GOOD (  18.57  )
+X-CRM114-CacheID: sfid-20211014_011752_998185_D965BA02 
+X-CRM114-Status: GOOD (  13.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,270 +86,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Apply the added two APIs to quiesce/unquiesce admin queue.
+Add two helpers so that we can prepare for pairing quiescing and
+unquiescing which will be done in next patch.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/nvme/host/core.c   |  2 +-
- drivers/nvme/host/fc.c     |  8 ++++----
- drivers/nvme/host/pci.c    |  8 ++++----
- drivers/nvme/host/rdma.c   | 14 +++++++-------
- drivers/nvme/host/tcp.c    | 16 ++++++++--------
- drivers/nvme/target/loop.c |  4 ++--
- 6 files changed, 26 insertions(+), 26 deletions(-)
+ drivers/nvme/host/core.c | 52 ++++++++++++++++++++++++----------------
+ 1 file changed, 31 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c675eef70a63..91d91d4f76d7 100644
+index 91d91d4f76d7..23fb746a8970 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -4484,7 +4484,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+@@ -119,25 +119,6 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
+ 				   struct nvme_command *cmd);
  
- 	/* Forcibly unquiesce queues to avoid blocking dispatch */
- 	if (ctrl->admin_q && !blk_queue_dying(ctrl->admin_q))
--		blk_mq_unquiesce_queue(ctrl->admin_q);
-+		nvme_start_admin_queue(ctrl);
- 
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
- 		nvme_set_queue_dying(ns);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index aa14ad963d91..580a216da619 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2382,7 +2382,7 @@ nvme_fc_ctrl_free(struct kref *ref)
- 	list_del(&ctrl->ctrl_list);
- 	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
- 
--	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_start_admin_queue(&ctrl->ctrl);
- 	blk_cleanup_queue(ctrl->ctrl.admin_q);
- 	blk_cleanup_queue(ctrl->ctrl.fabrics_q);
- 	blk_mq_free_tag_set(&ctrl->admin_tag_set);
-@@ -2510,7 +2510,7 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
+-/*
+- * Prepare a queue for teardown.
+- *
+- * This must forcibly unquiesce queues to avoid blocking dispatch, and only set
+- * the capacity to 0 after that to avoid blocking dispatchers that may be
+- * holding bd_butex.  This will end buffered writers dirtying pages that can't
+- * be synced.
+- */
+-static void nvme_set_queue_dying(struct nvme_ns *ns)
+-{
+-	if (test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+-		return;
+-
+-	blk_set_queue_dying(ns->queue);
+-	blk_mq_unquiesce_queue(ns->queue);
+-
+-	set_capacity_and_notify(ns->disk, 0);
+-}
+-
+ void nvme_queue_scan(struct nvme_ctrl *ctrl)
+ {
  	/*
- 	 * clean up the admin queue. Same thing as above.
- 	 */
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_stop_admin_queue(&ctrl->ctrl);
- 	blk_sync_queue(ctrl->ctrl.admin_q);
- 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
- 				nvme_fc_terminate_exchange, &ctrl->ctrl);
-@@ -3095,7 +3095,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	ctrl->ctrl.max_hw_sectors = ctrl->ctrl.max_segments <<
- 						(ilog2(SZ_4K) - 9);
- 
--	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_start_admin_queue(&ctrl->ctrl);
- 
- 	ret = nvme_init_ctrl_finish(&ctrl->ctrl);
- 	if (ret || test_bit(ASSOC_FAILED, &ctrl->flags))
-@@ -3249,7 +3249,7 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 	nvme_fc_free_queue(&ctrl->queues[0]);
- 
- 	/* re-enable the admin_q so anything new can fast fail */
--	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_start_admin_queue(&ctrl->ctrl);
- 
- 	/* resume the io queues so that things will fast fail */
- 	nvme_start_queues(&ctrl->ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ca5bda26226a..fa3efb003aa6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1396,7 +1396,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 
- 	nvmeq->dev->online_queues--;
- 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
--		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
-+		nvme_stop_admin_queue(&nvmeq->dev->ctrl);
- 	if (!test_and_clear_bit(NVMEQ_POLLED, &nvmeq->flags))
- 		pci_free_irq(to_pci_dev(nvmeq->dev->dev), nvmeq->cq_vector, nvmeq);
- 	return 0;
-@@ -1655,7 +1655,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
- 		 * user requests may be waiting on a stopped queue. Start the
- 		 * queue to flush these to completion.
- 		 */
--		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-+		nvme_start_admin_queue(&dev->ctrl);
- 		blk_cleanup_queue(dev->ctrl.admin_q);
- 		blk_mq_free_tag_set(&dev->admin_tagset);
- 	}
-@@ -1689,7 +1689,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 			return -ENODEV;
- 		}
- 	} else
--		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-+		nvme_start_admin_queue(&dev->ctrl);
- 
- 	return 0;
+@@ -4469,6 +4450,35 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
  }
-@@ -2624,7 +2624,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	if (shutdown) {
- 		nvme_start_queues(&dev->ctrl);
- 		if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q))
--			blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-+			nvme_start_admin_queue(&dev->ctrl);
- 	}
- 	mutex_unlock(&dev->shutdown_lock);
+ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+ 
++static void nvme_start_ns_queue(struct nvme_ns *ns)
++{
++	blk_mq_unquiesce_queue(ns->queue);
++}
++
++static void nvme_stop_ns_queue(struct nvme_ns *ns)
++{
++	blk_mq_quiesce_queue(ns->queue);
++}
++
++/*
++ * Prepare a queue for teardown.
++ *
++ * This must forcibly unquiesce queues to avoid blocking dispatch, and only set
++ * the capacity to 0 after that to avoid blocking dispatchers that may be
++ * holding bd_butex.  This will end buffered writers dirtying pages that can't
++ * be synced.
++ */
++static void nvme_set_queue_dying(struct nvme_ns *ns)
++{
++	if (test_and_set_bit(NVME_NS_DEAD, &ns->flags))
++		return;
++
++	blk_set_queue_dying(ns->queue);
++	nvme_start_ns_queue(ns);
++
++	set_capacity_and_notify(ns->disk, 0);
++}
++
+ /**
+  * nvme_kill_queues(): Ends all namespace queues
+  * @ctrl: the dead controller that needs to end
+@@ -4547,7 +4557,7 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+ 
+ 	down_read(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_quiesce_queue(ns->queue);
++		nvme_stop_ns_queue(ns);
+ 	up_read(&ctrl->namespaces_rwsem);
  }
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 40317e1b9183..799a35558986 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -919,7 +919,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	else
- 		ctrl->ctrl.max_integrity_segments = 0;
+ EXPORT_SYMBOL_GPL(nvme_stop_queues);
+@@ -4558,7 +4568,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
  
--	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_start_admin_queue(&ctrl->ctrl);
- 
- 	error = nvme_init_ctrl_finish(&ctrl->ctrl);
- 	if (error)
-@@ -928,7 +928,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	return 0;
- 
- out_quiesce_queue:
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_stop_admin_queue(&ctrl->ctrl);
- 	blk_sync_queue(ctrl->ctrl.admin_q);
- out_stop_queue:
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
-@@ -1026,12 +1026,12 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- static void nvme_rdma_teardown_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_stop_admin_queue(&ctrl->ctrl);
- 	blk_sync_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
- 	if (remove)
--		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+		nvme_start_admin_queue(&ctrl->ctrl);
- 	nvme_rdma_destroy_admin_queue(ctrl, remove);
+ 	down_read(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_unquiesce_queue(ns->queue);
++		nvme_start_ns_queue(ns);
+ 	up_read(&ctrl->namespaces_rwsem);
  }
- 
-@@ -1154,7 +1154,7 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
- 		nvme_rdma_destroy_io_queues(ctrl, new);
- 	}
- destroy_admin:
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_stop_admin_queue(&ctrl->ctrl);
- 	blk_sync_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
-@@ -1194,7 +1194,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 	nvme_rdma_teardown_io_queues(ctrl, false);
- 	nvme_start_queues(&ctrl->ctrl);
- 	nvme_rdma_teardown_admin_queue(ctrl, false);
--	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_start_admin_queue(&ctrl->ctrl);
- 
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
- 		/* state change failure is ok if we started ctrl delete */
-@@ -2232,7 +2232,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- 	cancel_delayed_work_sync(&ctrl->reconnect_work);
- 
- 	nvme_rdma_teardown_io_queues(ctrl, shutdown);
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_stop_admin_queue(&ctrl->ctrl);
- 	if (shutdown)
- 		nvme_shutdown_ctrl(&ctrl->ctrl);
- 	else
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3c1c29dd3020..4109b726e052 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1915,7 +1915,7 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- 	if (error)
- 		goto out_stop_queue;
- 
--	blk_mq_unquiesce_queue(ctrl->admin_q);
-+	nvme_start_admin_queue(ctrl);
- 
- 	error = nvme_init_ctrl_finish(ctrl);
- 	if (error)
-@@ -1924,7 +1924,7 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- 	return 0;
- 
- out_quiesce_queue:
--	blk_mq_quiesce_queue(ctrl->admin_q);
-+	nvme_stop_admin_queue(ctrl);
- 	blk_sync_queue(ctrl->admin_q);
- out_stop_queue:
- 	nvme_tcp_stop_queue(ctrl, 0);
-@@ -1946,12 +1946,12 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
- 		bool remove)
- {
--	blk_mq_quiesce_queue(ctrl->admin_q);
-+	nvme_stop_admin_queue(ctrl);
- 	blk_sync_queue(ctrl->admin_q);
- 	nvme_tcp_stop_queue(ctrl, 0);
- 	nvme_cancel_admin_tagset(ctrl);
- 	if (remove)
--		blk_mq_unquiesce_queue(ctrl->admin_q);
-+		nvme_start_admin_queue(ctrl);
- 	nvme_tcp_destroy_admin_queue(ctrl, remove);
- }
- 
-@@ -1960,7 +1960,7 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
- {
- 	if (ctrl->queue_count <= 1)
- 		return;
--	blk_mq_quiesce_queue(ctrl->admin_q);
-+	nvme_stop_admin_queue(ctrl);
- 	nvme_start_freeze(ctrl);
- 	nvme_stop_queues(ctrl);
- 	nvme_sync_io_queues(ctrl);
-@@ -2055,7 +2055,7 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
- 		nvme_tcp_destroy_io_queues(ctrl, new);
- 	}
- destroy_admin:
--	blk_mq_quiesce_queue(ctrl->admin_q);
-+	nvme_stop_admin_queue(ctrl);
- 	blk_sync_queue(ctrl->admin_q);
- 	nvme_tcp_stop_queue(ctrl, 0);
- 	nvme_cancel_admin_tagset(ctrl);
-@@ -2098,7 +2098,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 	/* unquiesce to fail fast pending requests */
- 	nvme_start_queues(ctrl);
- 	nvme_tcp_teardown_admin_queue(ctrl, false);
--	blk_mq_unquiesce_queue(ctrl->admin_q);
-+	nvme_start_admin_queue(ctrl);
- 
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
- 		/* state change failure is ok if we started ctrl delete */
-@@ -2116,7 +2116,7 @@ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- 	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
- 
- 	nvme_tcp_teardown_io_queues(ctrl, shutdown);
--	blk_mq_quiesce_queue(ctrl->admin_q);
-+	nvme_stop_admin_queue(ctrl);
- 	if (shutdown)
- 		nvme_shutdown_ctrl(ctrl);
- 	else
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 0285ccc7541f..440e1544033b 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -398,7 +398,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	ctrl->ctrl.max_hw_sectors =
- 		(NVME_LOOP_MAX_SEGMENTS - 1) << (PAGE_SHIFT - 9);
- 
--	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_start_admin_queue(&ctrl->ctrl);
- 
- 	error = nvme_init_ctrl_finish(&ctrl->ctrl);
- 	if (error)
-@@ -428,7 +428,7 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- 		nvme_loop_destroy_io_queues(ctrl);
- 	}
- 
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_stop_admin_queue(&ctrl->ctrl);
- 	if (ctrl->ctrl.state == NVME_CTRL_LIVE)
- 		nvme_shutdown_ctrl(&ctrl->ctrl);
- 
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
 -- 
 2.31.1
 
