@@ -2,14 +2,14 @@ Return-Path: <SRS0=o8oB=PC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB77C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 06:04:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C280FC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 06:33:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F16E960FF2
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 06:04:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F16E960FF2
+	by mail.kernel.org (Postfix) with ESMTPS id 9606061027
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Oct 2021 06:33:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9606061027
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,44 +18,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H0SWCxhebfwL1j9wLhL+e+0z5Do+QmXPQJydryG/Vv0=; b=UxKYgHifVHAlWPBXGMh8vAVKKV
-	Nwmef0ydWkoUoHF0fo2g5vfIxGPDzjH/3ufUj+cidYNbeJz8bWez9TqXkK4TyXP7yAg/iJ9DlD9Mb
-	h5l+EW8E9WOmFj7XIuEbNvgsdjU99jiiG/sn65NDadQWUM3Qkp1IBwB7soCHRozch9V8tNRdnaAsy
-	ElS11S/Bg4LOIBBrcGd5ZMOH9UYkr95gt2dG1riXhT7v5QqBBc+ckTMOoue9RWzcin3h3WURo92nO
-	iSwG/h6YNrFrGSMpl7pJg197sp1A7TAWkhsOVPLbwk1J9RdPEVjolhM+tkQPx6+Yks1a4Q1OwsUSe
-	6JaKCksA==;
+	bh=p00kZzsB2wbYSNebcxRpfdoWEJZwTR2iqIiLPvef07w=; b=iyd4mwWbZOi/1ziGiThL24mA3S
+	BP/Eb02Lu7aZ9v4kG1vxyW+7ye9cbSCJ3ojDLoz30y8ppQ7tEHSSHeJ4jvEIbED2hBlsJRJWLnm5V
+	b9gJ4qOrNei9od41j727sFq7BN38pfem508mbuA18SsJN+6lssSGnUn8BScsbDdohrMt/i98ZQ2fI
+	cGVSMUI84cJwRf/+CMfPYumCMtTC3Alnc8V1HpdlINa8iCDTFfHxPq65Uxje7t3O5SnQGRDd3XkV9
+	LPsfKWfkgSnlzz7ZhYhPDq61grLUmGsCgt14Le8d068987owDDidEo1NmZ+IlMPehs0TK20MkbACC
+	ZeTxrqSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1matr0-001eyV-AW; Thu, 14 Oct 2021 06:04:34 +0000
+	id 1mauIt-001i2d-AX; Thu, 14 Oct 2021 06:33:23 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1matqx-001exe-Im
- for linux-nvme@lists.infradead.org; Thu, 14 Oct 2021 06:04:33 +0000
+ id 1mauES-001h4b-AB; Thu, 14 Oct 2021 06:28:49 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id AC47068B05; Thu, 14 Oct 2021 08:04:23 +0200 (CEST)
-Date: Thu, 14 Oct 2021 08:04:22 +0200
+ id 5DA6768B05; Thu, 14 Oct 2021 08:28:44 +0200 (CEST)
+Date: Thu, 14 Oct 2021 08:28:44 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Adam Manzanares <a.manzanares@samsung.com>
-Cc: "yi.zhang@redhat.com" <yi.zhang@redhat.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme: Cleanup per-namespace chardev deletion
-Message-ID: <20211014060422.GA24897@lst.de>
-References: <CGME20211013150421uscas1p297a8bd51cf3f3b68dcef3a1c87da2959@uscas1p2.samsung.com>
- <20211013150413.320133-1-a.manzanares@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+ Song Liu <song@kernel.org>, David Sterba <dsterba@suse.com>,
+ Josef Bacik <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Anton Altaparmakov <anton@tuxera.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Kees Cook <keescook@chromium.org>,
+ Phillip Lougher <phillip@squashfs.org.uk>, Jan Kara <jack@suse.com>,
+ linux-block@vger.kernel.org, dm-devel@redhat.com,
+ drbd-dev@lists.linbit.com, linux-bcache@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
+Subject: Re: don't use ->bd_inode to access the block device size
+Message-ID: <20211014062844.GA25448@lst.de>
+References: <20211013051042.1065752-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211013150413.320133-1-a.manzanares@samsung.com>
+In-Reply-To: <20211013051042.1065752-1-hch@lst.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211013_230431_818322_3834A55B 
-X-CRM114-Status: GOOD (  12.97  )
+X-CRM114-CacheID: sfid-20211013_232848_546731_55557779 
+X-CRM114-Status: GOOD (  14.70  )
+X-Mailman-Approved-At: Wed, 13 Oct 2021 23:33:21 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,16 +80,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 13, 2021 at 03:04:19PM +0000, Adam Manzanares wrote:
-> Decrease reference count of chardevice during char device deletion in order to
-> fix a kmemleak. Add relese function for the device associated chardev and moved
-> ida_simple_remove into the release function.
-> 
-> Fixes: 2637bae (nvme: introduce generic per-namespace chardev)
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Suggested-by: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Adam Manzanares <a.manzanares@samsung.com>
+On Wed, Oct 13, 2021 at 07:10:13AM +0200, Christoph Hellwig wrote:
+> I wondered about adding a helper for looking at the size in byte units
+> to avoid the SECTOR_SHIFT shifts in various places.  But given that
+> I could not come up with a good name and block devices fundamentally
+> work in sector size granularity I decided against that.
 
-This looks good, but the subject seems wrong.  This isn't a cleanup
-but a fix.  I can fix up the subject when applying it.
+So it seems like the biggest review feedback is that we should have
+such a helper.  I think the bdev_size name is the worst as size does
+not imply a particular unit.  bdev_nr_bytes is a little better but I'm
+not too happy.  Any other suggestions or strong opinions?
 
