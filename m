@@ -2,14 +2,14 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D91C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 517C4C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:45:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3EF25600D4
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:44:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3EF25600D4
+	by mail.kernel.org (Postfix) with ESMTPS id 1898361151
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:45:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1898361151
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l6H+xWHI2buGGvGsIZb/A3dvICuo/7ewDE4S1/fqN/c=; b=Gubzyjp2pdOn1cqg4sAmKKSgnD
-	P7qAGXxdZgMeMKYg6uudeagXYJB51ZF9bIkDsBjnkEB53D9NpsAffXQboNOoEcZYtrcyr4OV1qeTM
-	TIFT8QS19EdQ1JCYXlftZouPCtLgXKi//EOsrfgAtcQ3mzCsbxG4NtcXOz+0tl5garPl+W20eIOzg
-	tTIVsR8L25otilOonbcAlOOfjXrHBwVr62ASdJWQYZ8UMLPYaq92Ez4lBpor8q/z5GIRhkiPzkEVO
-	ey4rPly2kK1IugE470Rct0EtA/68L/9Q8bUD0aIpcGPACFGoM7hfJnz6tYOT9RlZ/cGilI8CO9d+T
-	pS4pWhyw==;
+	bh=nOP5ubv8zHIPTFPGGp4mMR4qIBoLNo6J7j7POF84hxo=; b=iaZXPyQyYeFPIwFMAkLYmzAQVT
+	b0a23wTbgx0gtYTHHRQBRsTd8lmhyKCJBCdxP7PduhroCEKTyl/EtXWXNzR6DQconAB7o82eaOVEq
+	vcJVNOXUR+XLswebZyreaigbMv2mzBkfrpJLQ5L+C+krNhF3jQtRPGG7279t7IZHpyO2UKhDhQpsS
+	1M851mWPnIxkLIoUO+VqYAgiqtbhskL+EfB3ADKLr58sO2d/qOqYqM2pkpv4BtmPP/tZS+n9Nw/K5
+	4NqfE7+hAwx3/0XV4B9RhEeliL8gJPgs9zMVGCOtzR8UsS8dTKficLJiK2iMHjzSAOGU4bW+vxBbg
+	UAqqlIbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNVB-007Kwt-2N; Fri, 15 Oct 2021 13:44:01 +0000
+	id 1mbNWN-007LNQ-0j; Fri, 15 Oct 2021 13:45:15 +0000
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbNF4-007D8w-Ce; Fri, 15 Oct 2021 13:27:22 +0000
+ id 1mbNF7-007DCF-0g; Fri, 15 Oct 2021 13:27:25 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
  reiserfs-devel@vger.kernel.org
-Subject: [PATCH 14/30] fat: use bdev_nr_sectors instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:27 +0200
-Message-Id: <20211015132643.1621913-15-hch@lst.de>
+Subject: [PATCH 15/30] hfs: use bdev_nr_sectors instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:28 +0200
+Message-Id: <20211015132643.1621913-16-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -79,29 +79,22 @@ Use the proper helper to read the block device size.
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- fs/fat/inode.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ fs/hfs/mdb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-index de0c9b013a851..9f3cd03668adc 100644
---- a/fs/fat/inode.c
-+++ b/fs/fat/inode.c
-@@ -1536,14 +1536,11 @@ static int fat_read_static_bpb(struct super_block *sb,
- 	struct fat_bios_param_block *bpb)
- {
- 	static const char *notdos1x = "This doesn't look like a DOS 1.x volume";
--
-+	sector_t bd_sects = bdev_nr_sectors(sb->s_bdev);
- 	struct fat_floppy_defaults *fdefaults = NULL;
- 	int error = -EINVAL;
--	sector_t bd_sects;
- 	unsigned i;
+diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+index cdf0edeeb2781..5beb826524354 100644
+--- a/fs/hfs/mdb.c
++++ b/fs/hfs/mdb.c
+@@ -36,7 +36,7 @@ static int hfs_get_last_session(struct super_block *sb,
  
--	bd_sects = i_size_read(sb->s_bdev->bd_inode) / SECTOR_SIZE;
--
- 	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
- 	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
- 		if (!silent)
+ 	/* default values */
+ 	*start = 0;
+-	*size = i_size_read(sb->s_bdev->bd_inode) >> 9;
++	*size = bdev_nr_sectors(sb->s_bdev);
+ 
+ 	if (HFS_SB(sb)->session >= 0) {
+ 		struct cdrom_tocentry te;
 -- 
 2.30.2
 
