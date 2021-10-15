@@ -2,14 +2,14 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C31C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 17:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E55C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 17:05:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A55C960F25
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 17:04:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A55C960F25
+	by mail.kernel.org (Postfix) with ESMTPS id C85C460F25
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 17:05:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C85C460F25
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,49 +18,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D4ik1Lt2fUu7rVQyF8CllyYkKQv1Uz9xzDA6N8pwEt0=; b=pmTBvgG5l1q+VxSYuNDSD4AHs8
-	SPw+/z1UelW8NKvLYhWHlHINRpDIiwIfqZAt+Q/1iumjKM6Z9onc4iOTH0PT/+sEeSP5+c5lnE5D/
-	0WO03j59sUJrp5pJWD7SsIbnxKKkMtup8ntlxvLf4bFptj1auANOQ6PFXu/Mtm7PFL2rT3sM+zrgX
-	LVv8zKbfBFQiHfE3HwycG+EDA9Hk/iLb5RJv4obNMiVHpF/JEMoxxhnR7cJGdDcEXiMiTsOFPPXgi
-	eK7OqO7WVLHAICVuOTY/lEWvN2qwUkBmsA6SKfd8F6qxKJVlIcomyCKCKA9+97Y8QdKSEDOoX/jO4
-	QDrGD16g==;
+	bh=KeY5Iupdn4Pa1b1ywzkz23CB7y+Fa3Cfufu6RZZIPYI=; b=f56vNPwLX02meB11diZ1dXx3hh
+	v3lVHifcJ5X3lKXVw+3ykVgRvvux4S6ZoC3GY9cZFmrXCvy0nU9Ybsv4Dg3g8Odj5Uog5+hPGD9zl
+	eQcQxmmwZZ2ZqtNAk4Mzs3Rx2wcNvujbH4lGA79dnzp8wJyKob0k0k++kXbQPSrRU11I29N31N29Y
+	ztqjySUM1DeC0xNQmwyS8++RK91Jg1iS/ezi7ZxygWKwsKbRvVVvtKuXOsgEUCETqEunqRcgu95SQ
+	C30aLbPSPLnSgh/hilUYJEW5XTLr6gTtf8rFyBtHorxfFxndTxEZcNGidR/z4RuR4x+t5e5TZegVE
+	SZPAV0CA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbQcv-008DzI-Ix; Fri, 15 Oct 2021 17:04:13 +0000
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+	id 1mbQe2-008EbV-NC; Fri, 15 Oct 2021 17:05:22 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbQX3-008C2K-1P
- for linux-nvme@lists.infradead.org; Fri, 15 Oct 2021 16:58:14 +0000
-Received: by mail-pf1-x436.google.com with SMTP id k26so8865895pfi.5
- for <linux-nvme@lists.infradead.org>; Fri, 15 Oct 2021 09:58:08 -0700 (PDT)
+ id 1mbQYT-008CUM-TX
+ for linux-nvme@lists.infradead.org; Fri, 15 Oct 2021 16:59:39 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id f5so9101825pgc.12
+ for <linux-nvme@lists.infradead.org>; Fri, 15 Oct 2021 09:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=D4ik1Lt2fUu7rVQyF8CllyYkKQv1Uz9xzDA6N8pwEt0=;
- b=Wa0EACpWQ8IomuSobKiAJDXNIo9H/HSTHk3bhesUYAYHCsUAKK+Bjrkw13ye1TxZcf
- TuQa8RCxeCC8IVmjTZdx5iQYLmOHoIRbNEFY9PFnqm6LcjTjI/8URYdBHdOJCis8Hcgz
- 7OkB4Z6yrhdMDXf4pPYVZP18IZMykjhm0o16E=
+ bh=KeY5Iupdn4Pa1b1ywzkz23CB7y+Fa3Cfufu6RZZIPYI=;
+ b=VfHpzO3tYcRdDu0YlVkKzx/ciItoc9jkR356sB11SejVmPNb6TbARwblxJNv77Pw+N
+ f8l5X6Xk6dZ16M5aIo4oyfynzDADoHwHbbl+nEWOg/Hpm3DtdjVVH1S12Q1eI7nmyOz6
+ dWXhnsHrWbhYXafHG9GJqGCTKk1oPJdLtiQOs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=D4ik1Lt2fUu7rVQyF8CllyYkKQv1Uz9xzDA6N8pwEt0=;
- b=12h8CFSfoZbT9hLUPSguO5hmYQaEntgqTR4EBeLr7NJXOdUAZiAWssiUbZGwQgL0UN
- 1lm44SS/00Q+Lmqmqk0fbwAcfO8sYFtCkzG1Y6rgOQAELVrqvfZOkwP/Y5eCCaT6Paxf
- 2bX5+0RAYjO2n0txv+/iLgCYbqvimtaTAXN5yKiIQjwzrQJbuFFErBPAI+lHDOvlaYy4
- 0S/e+LrfiMhJ8qMn6eeT4E4OohKPO1Gbc2UvgwzQ33EskVXr9lsq1AVisgxBoodGhM3/
- Is+SeQVk0ciV0Zb4LfnYDn6/TwuTB32bW/Bza3oPm6x0K3yp7LEi01aBTIL/xb4eGI/d
- lKaw==
-X-Gm-Message-State: AOAM531AiYHTjiD+8TPYU3Yaafd3gh5ejtpWnkKkT/Tlraorah+hklPx
- u/PGdIyIoseOTODbC+3VW0BMqw==
-X-Google-Smtp-Source: ABdhPJwjs+d5iHomMRfB84u/9uN/BXfrv3rJikQOTGFeQP4iBMjOf7nvTwY+G4DJFOV8bNrfnz+CuA==
-X-Received: by 2002:a63:4766:: with SMTP id w38mr10056849pgk.104.1634317087874; 
- Fri, 15 Oct 2021 09:58:07 -0700 (PDT)
+ bh=KeY5Iupdn4Pa1b1ywzkz23CB7y+Fa3Cfufu6RZZIPYI=;
+ b=5Z+L7qb5Q1fS4R4VAMk66cFT65pDqUc35MxpSLedQKnzgm6UQa9vz2rqETvn68doux
+ gzoPU8vRZiHB5U14uvIWbmC9+ccQjoFqzuePJM3pgRP0SAzFbE2xIXBbP8H7vu9pw4kU
+ DowcgEpzpCgDKs+puLI/qcOu/6LtzNdAlstEeC2TW4MWSyzCDBiz7cDlu+6MnpIIa1lE
+ B0YJT3WilTMCmthzflV8nDjRO5efGUU4hjhPclZU5C88xf23bEFXQLYZQKUrlDEwxPUJ
+ /weOAHWIfACRKNJ2YwI++dkv+uQmRrFENvvRlI+fvJ7q9L84820W5z8qdOrUg2u4+FO+
+ DcdA==
+X-Gm-Message-State: AOAM530KAlXsyVJoVkvpnly81Mc84v2Um47jnDjtqGhi8bHghDm0R3LC
+ GlqyZyA+5WOFCY0etyjo0YIkRw==
+X-Google-Smtp-Source: ABdhPJyZcIPxqI061aZSIz4/wOG8MIjCzx1/IGr1O74KMeY0yclhOMeVn1PfQJDWXy+egSNKM0RvAw==
+X-Received: by 2002:a62:1bd2:0:b0:44c:db2e:5a88 with SMTP id
+ b201-20020a621bd2000000b0044cdb2e5a88mr13192615pfb.29.1634317177017; 
+ Fri, 15 Oct 2021 09:59:37 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id e1sm5367341pgi.43.2021.10.15.09.58.07
+ by smtp.gmail.com with ESMTPSA id t38sm1001799pfg.102.2021.10.15.09.59.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Oct 2021 09:58:07 -0700 (PDT)
-Date: Fri, 15 Oct 2021 09:58:06 -0700
+ Fri, 15 Oct 2021 09:59:35 -0700 (PDT)
+Date: Fri, 15 Oct 2021 09:59:35 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
@@ -81,18 +82,19 @@ Cc: Jens Axboe <axboe@kernel.dk>, Coly Li <colyli@suse.de>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 25/30] block: add a sb_bdev_nr_blocks helper
-Message-ID: <202110150957.44EE74B5@keescook>
+ reiserfs-devel@vger.kernel.org, Anand Jain <anand.jain@oracle.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH 12/30] btrfs: use bdev_nr_bytes instead of open coding it
+Message-ID: <202110150959.D3A3EBD2DD@keescook>
 References: <20211015132643.1621913-1-hch@lst.de>
- <20211015132643.1621913-26-hch@lst.de>
+ <20211015132643.1621913-13-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211015132643.1621913-26-hch@lst.de>
+In-Reply-To: <20211015132643.1621913-13-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211015_095809_129904_C301060A 
-X-CRM114-Status: GOOD (  14.22  )
+X-CRM114-CacheID: sfid-20211015_095937_976366_7C86ACD2 
+X-CRM114-Status: GOOD (  11.68  )
 X-Mailman-Approved-At: Fri, 15 Oct 2021 10:01:29 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,16 +110,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 15, 2021 at 03:26:38PM +0200, Christoph Hellwig wrote:
-> Add a helper to return the size of sb->s_bdev in sb->s_blocksize_bits
-> based unites.  Note that SECTOR_SHIFT has to be open coded due to
-> include dependency issues for now, but I have a plan to sort that out
-> eventually.
+On Fri, Oct 15, 2021 at 03:26:25PM +0200, Christoph Hellwig wrote:
+> Use the proper helper to read the block device size.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-You can adjust this changelog to remove the note about SECTOR_SHIFT
-now. :)
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
