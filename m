@@ -2,14 +2,14 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A258C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D91C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:44:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 037A760EFF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:43:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 037A760EFF
+	by mail.kernel.org (Postfix) with ESMTPS id 3EF25600D4
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:44:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3EF25600D4
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AcEX6OpFDERvfacKxgLT0Jy2T+5w2Rz/ks1kzajBMSE=; b=t4OunO6F8dJ+K5IZscSk+kJ3NU
-	y4Ie7vjSm8S4hqcE6pl4/zHXb+/eiaqLB7BFcEQTxlG3AfutehfedGCuvq+8EHu0RjvKytwghUTBa
-	2SF1/2QHR1vnvaXaNs+kcSYVSujsIFBakpbF+TSPHHi2fhGbJlWCBA6Q21/nAaPsrqR0hsgF6fIPe
-	FJrR/d0ZkCTohr2LVDbbeg5VtAaNW58qgJJYBExFg5eXwQxY58kx6k0Jhg33vWHO30vadb6VaRcqv
-	XNlaka3HdNp/Jq/TErloAze/kFCljT5hsCxM9zvq4aDC/wSuCYGA3pQU7DeHnkYv1twX+LSfZLyYA
-	287LxyDA==;
+	bh=l6H+xWHI2buGGvGsIZb/A3dvICuo/7ewDE4S1/fqN/c=; b=Gubzyjp2pdOn1cqg4sAmKKSgnD
+	P7qAGXxdZgMeMKYg6uudeagXYJB51ZF9bIkDsBjnkEB53D9NpsAffXQboNOoEcZYtrcyr4OV1qeTM
+	TIFT8QS19EdQ1JCYXlftZouPCtLgXKi//EOsrfgAtcQ3mzCsbxG4NtcXOz+0tl5garPl+W20eIOzg
+	tTIVsR8L25otilOonbcAlOOfjXrHBwVr62ASdJWQYZ8UMLPYaq92Ez4lBpor8q/z5GIRhkiPzkEVO
+	ey4rPly2kK1IugE470Rct0EtA/68L/9Q8bUD0aIpcGPACFGoM7hfJnz6tYOT9RlZ/cGilI8CO9d+T
+	pS4pWhyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNUC-007KcC-2b; Fri, 15 Oct 2021 13:43:00 +0000
+	id 1mbNVB-007Kwt-2N; Fri, 15 Oct 2021 13:44:01 +0000
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbNF1-007D5b-QU; Fri, 15 Oct 2021 13:27:20 +0000
+ id 1mbNF4-007D8w-Ce; Fri, 15 Oct 2021 13:27:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
  reiserfs-devel@vger.kernel.org
-Subject: [PATCH 13/30] cramfs: use bdev_nr_bytes instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:26 +0200
-Message-Id: <20211015132643.1621913-14-hch@lst.de>
+Subject: [PATCH 14/30] fat: use bdev_nr_sectors instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:27 +0200
+Message-Id: <20211015132643.1621913-15-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -77,23 +77,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- fs/cramfs/inode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fat/inode.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/fs/cramfs/inode.c b/fs/cramfs/inode.c
-index 2be65269a987c..666aa380011e0 100644
---- a/fs/cramfs/inode.c
-+++ b/fs/cramfs/inode.c
-@@ -209,7 +209,7 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
- 		return read_buffers[i] + blk_offset;
- 	}
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+index de0c9b013a851..9f3cd03668adc 100644
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -1536,14 +1536,11 @@ static int fat_read_static_bpb(struct super_block *sb,
+ 	struct fat_bios_param_block *bpb)
+ {
+ 	static const char *notdos1x = "This doesn't look like a DOS 1.x volume";
+-
++	sector_t bd_sects = bdev_nr_sectors(sb->s_bdev);
+ 	struct fat_floppy_defaults *fdefaults = NULL;
+ 	int error = -EINVAL;
+-	sector_t bd_sects;
+ 	unsigned i;
  
--	devsize = mapping->host->i_size >> PAGE_SHIFT;
-+	devsize = bdev_nr_bytes(sb->s_bdev) >> PAGE_SHIFT;
- 
- 	/* Ok, read in BLKS_PER_BUF pages completely first. */
- 	for (i = 0; i < BLKS_PER_BUF; i++) {
+-	bd_sects = i_size_read(sb->s_bdev->bd_inode) / SECTOR_SIZE;
+-
+ 	/* 16-bit DOS 1.x reliably wrote bootstrap short-jmp code */
+ 	if (b->ignored[0] != 0xeb || b->ignored[2] != 0x90) {
+ 		if (!silent)
 -- 
 2.30.2
 
