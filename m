@@ -2,14 +2,14 @@ Return-Path: <SRS0=EQPQ=PE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A88F2C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BF1C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:20:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6853C610E8
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:17:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6853C610E8
+	by mail.kernel.org (Postfix) with ESMTPS id BC83A610E8
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:20:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BC83A610E8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6NZfHmNoX5N/dbslA9tEZ3wm71g//v2MOeHuD/3FoC0=; b=vM2u95E31Y8HAtzcpjEgUbIVrj
-	2/uG1j33si6+kHKNV/K4deKCNXrb0Owmt7Owuafu1gOu4jLunWe/Xc+flBGGErnMYRiClwhU5meTx
-	dx6eHfgIEvJoN843GY7On3kGkMXTGmLDtEs66XYIAmdtfwTytV05xrIjuvOk3yUXH13uwnQO6+JFB
-	HA2G59vbKSjDICdrZMqRBAfBEGmRpentNbPbAlNLwGGx+3voMCgOgi9C0bY0r7CLj0plt9tfi5tYZ
-	7AEBcM4IIq7J2zdzwH9MyK+AuZWKnwAXwnlV6N/cU9dTK3JmMflUd4GxdOuWS25KPMV01baai5m2B
-	3yNy/HUA==;
+	bh=bWrYy27/Ft+aLDChsLBGCGZJ9I29Pbmku4dc9v02/r0=; b=wHU6qvKp32yCqAovOVr92xWC8F
+	UzKwzIrDgGOQm1zkOXdegVOjVgSCVkvz0QHk0ZtvlS3cbaa4/PZRi6jmwsY1sY8BIhRDQ/6oiukEH
+	Q0aLHHFHHmdbWmhEubiG15T7I1zbSeayXr71XJKetmgbYIvWKYrPzvh8rpzoMYYSLfSFTBdqxVtgG
+	ifxQs+kMNhEoypAUW4jstipf6sPsZp32oh2mZnDmj5cxRM/eHNtoSWlLWfsgrlGLTftgLCu6tqjLQ
+	f0NF52CyL27yyVRkDb8iP8+v9QiRyKGjrDZk7zp4oWrNIIAonLuo6ZxmW5xheVH5bRi8IOxK2c0TA
+	193V897w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbXOO-009Kit-9i; Sat, 16 Oct 2021 00:17:40 +0000
+	id 1mbXQl-009LRp-B2; Sat, 16 Oct 2021 00:20:07 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mbWzt-009C3H-Bn; Fri, 15 Oct 2021 23:52:21 +0000
+ (Red Hat Linux)) id 1mbWzt-009C2x-0D; Fri, 15 Oct 2021 23:52:21 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, geoff@infradead.org, mpe@ellerman.id.au,
  benh@kernel.crashing.org, paulus@samba.org, jim@jtan.com,
@@ -40,9 +40,10 @@ Cc: linux-block@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 11/13] ps3vram: add error handling support for add_disk()
-Date: Fri, 15 Oct 2021 16:52:17 -0700
-Message-Id: <20211015235219.2191207-12-mcgrof@kernel.org>
+Subject: [PATCH 02/13] nvme-multipath: add error handling support for
+ add_disk()
+Date: Fri, 15 Oct 2021 16:52:08 -0700
+Message-Id: <20211015235219.2191207-3-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211015235219.2191207-1-mcgrof@kernel.org>
 References: <20211015235219.2191207-1-mcgrof@kernel.org>
@@ -66,31 +67,50 @@ We never checked for errors on add_disk() as this function
 returned void. Now that this is fixed, use the shiny new
 error handling.
 
+Since we now can tell for sure when a disk was added, move
+setting the bit NVME_NSHEAD_DISK_LIVE only when we did
+add the disk successfully.
+
+Nothing to do here as the cleanup is done elsewhere. We take
+care and use test_and_set_bit() because it is protects against
+two nvme paths simultaneously calling device_add_disk() on the
+same namespace head.
+
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/block/ps3vram.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/ps3vram.c b/drivers/block/ps3vram.c
-index c7b19e128b03..af2a0d09c598 100644
---- a/drivers/block/ps3vram.c
-+++ b/drivers/block/ps3vram.c
-@@ -755,9 +755,14 @@ static int ps3vram_probe(struct ps3_system_bus_device *dev)
- 	dev_info(&dev->core, "%s: Using %llu MiB of GPU memory\n",
- 		 gendisk->disk_name, get_capacity(gendisk) >> 11);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index e8ccdd398f78..022837f7be41 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -496,13 +496,23 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ {
+ 	struct nvme_ns_head *head = ns->head;
++	int rc;
  
--	device_add_disk(&dev->core, gendisk, NULL);
-+	error = device_add_disk(&dev->core, gendisk, NULL);
-+	if (error)
-+		goto out_cleanup_disk;
-+
- 	return 0;
+ 	if (!head->disk)
+ 		return;
  
-+out_cleanup_disk:
-+	blk_cleanup_disk(gendisk);
- out_cache_cleanup:
- 	remove_proc_entry(DEVICE_NAME, NULL);
- 	ps3vram_cache_cleanup(dev);
++	/*
++	 * test_and_set_bit() is used because it is protecting against two nvme
++	 * paths simultaneously calling device_add_disk() on the same namespace
++	 * head.
++	 */
+ 	if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+-		device_add_disk(&head->subsys->dev, head->disk,
+-				nvme_ns_id_attr_groups);
++		rc = device_add_disk(&head->subsys->dev, head->disk,
++				     nvme_ns_id_attr_groups);
++		if (rc) {
++			clear_bit(NVME_NSHEAD_DISK_LIVE, &ns->flags);
++			return;
++		}
+ 		nvme_add_ns_head_cdev(head);
+ 	}
+ 
 -- 
 2.30.2
 
