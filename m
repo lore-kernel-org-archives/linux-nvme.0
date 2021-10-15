@@ -2,14 +2,14 @@ Return-Path: <SRS0=EQPQ=PE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55ECC433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D316FC433EF
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:05:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5157C60F9E
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:04:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5157C60F9E
+	by mail.kernel.org (Postfix) with ESMTPS id 904BC611C8
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:05:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 904BC611C8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OEudjQURI1tjI6DN2XbbpoNvfS6WRIGCcJ/ZL9K/jW0=; b=FYokXIqKDngvQNh39FjrGui9PO
-	rOhSgSJHqmvrry84bw+zvP/w655nd4U97OCcjH5K+Llo7ozvcG0YhRWrCeoV2vKQvgDC2WDudqWJy
-	lYPOhw/Q7cZoPtO4QMr2vLHaqQQoZCWcamFgnCW3uxkrM/tOtIr6+ArjYU7E93Bd78uQ+FYs1JnFd
-	uFSY9P0gqZL88xSxtc9ojwZnQGHjol9jExaMrJ/rkHAyaEZRuQ9AdrnlEqOdGWM5XzePHL0aOFCSF
-	KwguXAC8zwPUeq0wbTWjoqsq9XjublAkuish5uDVC0pWrw4S8mYHiWjVYXmU4NDERpggPr3IcWF0V
-	Q9k9e89A==;
+	bh=7R5PYVFPXskQk20vzfFqzumtxD4zBhl8b3RLHCGuP34=; b=YfVfAR50lYtYtkyzsI1p/4dYRC
+	QYEc9MAF7TVhXtITPNufHklhYsocuyPhFKil5SaBLkZzNzIhvTUrW/Ma4XfDTX3JeraRo+MplgRjx
+	J4E5j/ShFA98E7ijpuATJAKPZxZH7UYC793dVE6asDVOMFTN6vH/obkJ+Im/bOtGxW4NDyaviRrqo
+	3eiVkkL6YNiifEeidFbUSVLo2jhQxDmzOr1VEtU3XTgb7yySONaqr+80mSyOfmpq5J88wmQcVO32E
+	MnWM8y3K29EDIVW+5km70Xgj6U2RHVf+AsXwsEJLkMkqFXsZavu6MIkGnhM9qwqozCjzhU4blXRwy
+	fdvPoEpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbXBR-009Ges-7k; Sat, 16 Oct 2021 00:04:17 +0000
+	id 1mbXCw-009H1Y-P8; Sat, 16 Oct 2021 00:05:50 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mbWzt-009C3L-EQ; Fri, 15 Oct 2021 23:52:21 +0000
+ (Red Hat Linux)) id 1mbWzt-009C3D-99; Fri, 15 Oct 2021 23:52:21 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, geoff@infradead.org, mpe@ellerman.id.au,
  benh@kernel.crashing.org, paulus@samba.org, jim@jtan.com,
@@ -40,9 +40,9 @@ Cc: linux-block@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 13/13] mtd/ubi/block: add error handling support for add_disk()
-Date: Fri, 15 Oct 2021 16:52:19 -0700
-Message-Id: <20211015235219.2191207-14-mcgrof@kernel.org>
+Subject: [PATCH 09/13] z2ram: add error handling support for add_disk()
+Date: Fri, 15 Oct 2021 16:52:15 -0700
+Message-Id: <20211015235219.2191207-10-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211015235219.2191207-1-mcgrof@kernel.org>
 References: <20211015235219.2191207-1-mcgrof@kernel.org>
@@ -64,37 +64,39 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 We never checked for errors on add_disk() as this function
 returned void. Now that this is fixed, use the shiny new
-error handling.
+error handling. Only the disk is cleaned up inside
+z2ram_register_disk() as the caller deals with the rest.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/mtd/ubi/block.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/block/z2ram.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
-index e003b4b44ffa..062e6c2c45f5 100644
---- a/drivers/mtd/ubi/block.c
-+++ b/drivers/mtd/ubi/block.c
-@@ -447,12 +447,18 @@ int ubiblock_create(struct ubi_volume_info *vi)
- 	list_add_tail(&dev->list, &ubiblock_devices);
+diff --git a/drivers/block/z2ram.c b/drivers/block/z2ram.c
+index 4eef218108c6..ccc52c935faf 100644
+--- a/drivers/block/z2ram.c
++++ b/drivers/block/z2ram.c
+@@ -318,6 +318,7 @@ static const struct blk_mq_ops z2_mq_ops = {
+ static int z2ram_register_disk(int minor)
+ {
+ 	struct gendisk *disk;
++	int err;
  
- 	/* Must be the last step: anyone can call file ops from now on */
--	add_disk(dev->gd);
-+	ret = add_disk(dev->gd);
-+	if (ret)
-+		goto out_destroy_wq;
-+
- 	dev_info(disk_to_dev(dev->gd), "created from ubi%d:%d(%s)",
- 		 dev->ubi_num, dev->vol_id, vi->name);
- 	mutex_unlock(&devices_mutex);
- 	return 0;
+ 	disk = blk_mq_alloc_disk(&tag_set, NULL);
+ 	if (IS_ERR(disk))
+@@ -333,8 +334,10 @@ static int z2ram_register_disk(int minor)
+ 		sprintf(disk->disk_name, "z2ram");
  
-+out_destroy_wq:
-+	list_del(&dev->list);
-+	destroy_workqueue(dev->wq);
- out_remove_minor:
- 	idr_remove(&ubiblock_minor_idr, gd->first_minor);
- out_cleanup_disk:
+ 	z2ram_gendisk[minor] = disk;
+-	add_disk(disk);
+-	return 0;
++	err = add_disk(disk);
++	if (err)
++		blk_cleanup_disk(disk);
++	return err;
+ }
+ 
+ static int __init z2_init(void)
 -- 
 2.30.2
 
