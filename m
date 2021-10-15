@@ -2,14 +2,14 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D97C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13E46C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:52:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 125CF600D4
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:51:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 125CF600D4
+	by mail.kernel.org (Postfix) with ESMTPS id AE1E1611C3
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:52:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AE1E1611C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=79IfCL0cwBZyl3TQ005uMyV6UFeBUdi+0xEOD4Xebrg=; b=NuvEtzSNdTgwRHKUzMjZYjlS5Q
-	stVm7eQzkGmP+QUEcH0wpJNcPB9jVZ9f1CvB1wpJgtJBIs0VmFKH9tJN/wkRddP9kghG+P5vneSmM
-	Hn5LUr7GvwyCdbJkiNQbgT4n/tRS7cyWf//o17evI143Y1QzuORLXXXcyv+IIwBotjQ8+4z6b675g
-	xg4STnTh2pGkX258OvdSLW7MMG4lmYrNvdPCq3/+t/0Bd3BicTlk4kbKMzci5qy+68Pv3+y3J41Hs
-	wh5kGUA1J++VWyfIAFQDXMdRJ2SYmLDJvaYry27voT49SivMKmpRIe7/aGt8iaQxUI85In/c5mwHZ
-	JLSDVaIA==;
+	bh=7vy0+8EI8WhVCxcCPpT3E3xZPAv/h7863mIj0HITKC4=; b=hhYm6p+uj5Bhvha5ymxow6nMD4
+	ZKjZY0tR9asPWbe06betCsE+WA45muUstschspcbYH1auXCsJkTnQDpuqHj8pCMo2mRJ8aXRfHdVx
+	Ev+xMGNVfKdi0NOBWMURfj9DafjYqsp5F4svQRb/4XjLnv1CIvKze/CPL+9TSr9tC5yGc57x46LNN
+	De9z/FovdBgJY+2lxrptPrv0mII2JQ7Zli2aM5lRDQkGi57NPQZ/QweB/4PEWSj6F5VI6iEpYKaNM
+	X8rbH6zjOw9nkFoSIjuvq2HjAnQXTJcyyXmYGUnjdN3W3U/CJXMinCvcUUxVUpNQ61wPmMFWrV4fb
+	ro0FC3dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNcc-007NNG-5h; Fri, 15 Oct 2021 13:51:42 +0000
+	id 1mbNdn-007Nmo-Jl; Fri, 15 Oct 2021 13:52:55 +0000
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbNFH-007DOn-Bg; Fri, 15 Oct 2021 13:27:35 +0000
+ id 1mbNFJ-007DRi-Uj; Fri, 15 Oct 2021 13:27:38 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
  reiserfs-devel@vger.kernel.org
-Subject: [PATCH 19/30] nilfs2: use bdev_nr_bytes instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:32 +0200
-Message-Id: <20211015132643.1621913-20-hch@lst.de>
+Subject: [PATCH 20/30] ntfs3: use bdev_nr_bytes instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:33 +0200
+Message-Id: <20211015132643.1621913-21-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -78,50 +78,30 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/nilfs2/ioctl.c     | 2 +-
- fs/nilfs2/super.c     | 2 +-
- fs/nilfs2/the_nilfs.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ fs/ntfs3/super.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
-index 640ac8fe891e6..1d0583cfd9701 100644
---- a/fs/nilfs2/ioctl.c
-+++ b/fs/nilfs2/ioctl.c
-@@ -1107,7 +1107,7 @@ static int nilfs_ioctl_set_alloc_range(struct inode *inode, void __user *argp)
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 55bbc9200a10e..7ed2cb5e8b1d9 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -918,7 +918,6 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+ 	int err;
+ 	struct ntfs_sb_info *sbi;
+ 	struct block_device *bdev = sb->s_bdev;
+-	struct inode *bd_inode = bdev->bd_inode;
+ 	struct request_queue *rq = bdev_get_queue(bdev);
+ 	struct inode *inode = NULL;
+ 	struct ntfs_inode *ni;
+@@ -967,7 +966,7 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+ 
+ 	/* Parse boot. */
+ 	err = ntfs_init_from_boot(sb, rq ? queue_logical_block_size(rq) : 512,
+-				  bd_inode->i_size);
++				  bdev_nr_bytes(bdev));
+ 	if (err)
  		goto out;
  
- 	ret = -ERANGE;
--	if (range[1] > i_size_read(inode->i_sb->s_bdev->bd_inode))
-+	if (range[1] > bdev_nr_bytes(inode->i_sb->s_bdev))
- 		goto out;
- 
- 	segbytes = nilfs->ns_blocks_per_segment * nilfs->ns_blocksize;
-diff --git a/fs/nilfs2/super.c b/fs/nilfs2/super.c
-index f6b2d280aab5a..3134c0e42fd46 100644
---- a/fs/nilfs2/super.c
-+++ b/fs/nilfs2/super.c
-@@ -403,7 +403,7 @@ int nilfs_resize_fs(struct super_block *sb, __u64 newsize)
- 	int ret;
- 
- 	ret = -ERANGE;
--	devsize = i_size_read(sb->s_bdev->bd_inode);
-+	devsize = bdev_nr_bytes(sb->s_bdev);
- 	if (newsize > devsize)
- 		goto out;
- 
-diff --git a/fs/nilfs2/the_nilfs.c b/fs/nilfs2/the_nilfs.c
-index c8bfc01da5d71..1bfcb5d3ea480 100644
---- a/fs/nilfs2/the_nilfs.c
-+++ b/fs/nilfs2/the_nilfs.c
-@@ -489,7 +489,7 @@ static int nilfs_load_super_block(struct the_nilfs *nilfs,
- {
- 	struct nilfs_super_block **sbp = nilfs->ns_sbp;
- 	struct buffer_head **sbh = nilfs->ns_sbh;
--	u64 sb2off = NILFS_SB2_OFFSET_BYTES(nilfs->ns_bdev->bd_inode->i_size);
-+	u64 sb2off = NILFS_SB2_OFFSET_BYTES(bdev_nr_bytes(nilfs->ns_bdev));
- 	int valid[2], swp = 0;
- 
- 	sbp[0] = nilfs_read_super_block(sb, NILFS_SB_OFFSET_BYTES, blocksize,
 -- 
 2.30.2
 
