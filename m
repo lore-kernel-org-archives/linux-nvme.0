@@ -2,75 +2,89 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D31C6C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 08:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B903C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 08:57:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9EFE761090
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 08:51:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9EFE761090
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id DFA7260C4B
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 08:57:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DFA7260C4B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fBDNW0hb1+M3BPtdOfPK6L4dfflKNVv2CXHr8vZ+Uvg=; b=TRArPKiLFBujrVRJoo1SExjiqQ
-	FQGtDX3BKyU/L4U8PHamLZXjOvoxGZHJ3l+q1u/rNr6nZ1kGlfCsTDVAOg8PSYgq4eup5Dv4mQNrD
-	EZm9n5ciYLgB+f/HB+Mg8fnG7iwQupj8Zvk3+9SIjXIAaczszjCtg2MFheqZHXWb/hYdQNq3JKZ+6
-	SaA3CRW/65MfDDXrVlGBMkvKIHHCTXzYeb8uuNijstC6d3YmeeO8It9AH63KbN3ZKHVvlLGPDgvjT
-	MsLzc2jMdlC5H85RHLA7/SnbNf13eVMdVQuKh1QfspNxFSjz/FUaEJNedcWh0M/sEjEaK58P9l7Lq
-	ncEc8THg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LpGoqEWei5FXrKy5qTqsLJCtKd2jpbBDiauT/XgCqN4=; b=KEtaE48IJZNsZRQnrQXEn+X4qx
+	w2+4zxNbx5azUOlzTgKg3a1BnchthdzGYl2cM7+oz8EiWu2rdy1kesgibksaqMg2fYqZW3P9ZF24t
+	HlFUxlnM3s6HbccR5D/F7UAgNV4eVfsUECyaPeujeLa4M0qEjDXposJiVr25Dc7vD9pbt4Po/asaU
+	UyhTxUbDR1XjraIuG7QS56rFpV6T6Th6n3DAnLLYouqWt5XRWd+Viq4b9pK7c6CVJ4WYlfQOVJJGg
+	ZpbNu5amS5BFS5dyP3UKsv4UQ/itP3poO+e8wcZDYgc8V73MZIHUY/wS/U43VPCq89AaavUhDwUfW
+	feurQqoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbIvb-0065nx-6x; Fri, 15 Oct 2021 08:50:59 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1mbJ2F-0067kj-MW; Fri, 15 Oct 2021 08:57:51 +0000
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbIYA-005ywq-9q
- for linux-nvme@lists.infradead.org; Fri, 15 Oct 2021 08:26:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634286402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fBDNW0hb1+M3BPtdOfPK6L4dfflKNVv2CXHr8vZ+Uvg=;
- b=MChcYdQcXF3vpAavRLNmsze40u49FcGGykrHMtzCAfYgHQNKz9ZMkhvAbrQuCEctMRvHUG
- YqUMlJ0z+dX5q764Z3QVY0+pC83Mlay3Lr9O4QER7s2e3kiAEgC5z2PMfCo5l/7CpCH1XD
- DYgcM9KRccYNWEK9yJzcyiOtA6bQlnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-B9U-edWXNXS5z8Pg1lK9WA-1; Fri, 15 Oct 2021 04:26:39 -0400
-X-MC-Unique: B9U-edWXNXS5z8Pg1lK9WA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F88A801ADB;
- Fri, 15 Oct 2021 08:26:38 +0000 (UTC)
-Received: from raketa.redhat.com (unknown [10.40.192.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E81F31972D;
- Fri, 15 Oct 2021 08:26:35 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, sagi@grimberg.me, hare@suse.de, chaitanya.kulkarni@wdc.com,
- jmeneghi@redhat.com
-Subject: [PATCH] nvmet-tcp: fix a memory leak when releasing a queue
-Date: Fri, 15 Oct 2021 10:26:34 +0200
-Message-Id: <20211015082634.555494-1-mlombard@redhat.com>
+ id 1mbIbm-0060AD-3U
+ for linux-nvme@lists.infradead.org; Fri, 15 Oct 2021 08:30:32 +0000
+Received: by mail-lf1-x132.google.com with SMTP id x27so38781943lfu.5
+ for <linux-nvme@lists.infradead.org>; Fri, 15 Oct 2021 01:30:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=LpGoqEWei5FXrKy5qTqsLJCtKd2jpbBDiauT/XgCqN4=;
+ b=H72WQZEscxVJsu+eWElnCHCUXOukvxf46e1VnF83K6j9v7nsP3+19wEpz7B4f1RH7D
+ 7CDRwUD6+N8ffcFTc90gVU5pND2FXfQAczcVAyc+7cURXriueOD/4YDedzYVABpNoroD
+ CYbL7Ap6c6L+IZ0oFn6Pp5fXTPK0x0xQ/yv6IXBB+YOnmisCKrOhBEB9/p0/K6f4hgNc
+ 4Tugx6JtZJ0lXyGs+rBo7PkhfDGk9dg/c22xac9tr0RwGtyshlFFRFrcoSvnpaHcqizc
+ lv6y93SrtuS8i213itZv+77Ns3DncA1EpLruBOAv5Tasi/5JHb8KOa8ck10lCQclIq9H
+ yYNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LpGoqEWei5FXrKy5qTqsLJCtKd2jpbBDiauT/XgCqN4=;
+ b=xG1FSd4l/w+2FjPRInsDCtWFN9v/fYmk4MkAiQ4KevSOGBC3a9FshaLz5X/Pv8gCq9
+ 19ZCPBjr4Mkslegvb+qK7YZ2XHAMMTnBwzIlhHe/N61DQFVXHz8b7F50obZm4JRr4Ces
+ XOPVeG1jItxxV8eNt/agkdtjJlPoFHYM6G3oq6hReypXsRCOq4IniYKvf1BIX2gACygV
+ KM7dOy0fav2XDGaXQ40L4uzw3Xv5zow2eiEVrKlrVK7DXT2Sbk3+smo2Z+lPMJhJuQro
+ GX4dgpgQ046+6CevYAmRUThvJUwWByA1WLQM6q4TfKJy3LzhMm+kx1Aj6j2dtyM+WY5n
+ 756w==
+X-Gm-Message-State: AOAM531VhVlSnEvsfqpsOSuGq1y8WNYoKW6Hbhm3yPECenvKIvfgeWEv
+ fgLcjnElC46AwIthXFI4NQU=
+X-Google-Smtp-Source: ABdhPJyjX7GxxUZgQH2jAvzQ0Vlt+MCNSvpXHNNMMUEhpz//xRQC+cI+Z0eCH4vbBVyhrGxxsefqfg==
+X-Received: by 2002:a2e:9ad6:: with SMTP id p22mr11452577ljj.357.1634286627882; 
+ Fri, 15 Oct 2021 01:30:27 -0700 (PDT)
+Received: from localhost (80-62-117-201-mobile.dk.customer.tdc.net.
+ [80.62.117.201])
+ by smtp.gmail.com with ESMTPSA id s12sm438870lfc.256.2021.10.15.01.30.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Oct 2021 01:30:27 -0700 (PDT)
+Date: Fri, 15 Oct 2021 10:30:26 +0200
+From: Pankaj Raghav <pankydev8@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Ming Lei <ming.lei@redhat.com>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "Vasudevan, Anil" <anil.vasudevan@intel.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH 14/16] block: switch polling to be bio based
+Message-ID: <20211015083026.3geaix6r6kcnncu7@quentin>
+References: <20211012111226.760968-1-hch@lst.de>
+ <20211012111226.760968-15-hch@lst.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211012111226.760968-15-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211015_012646_513615_94A3B8F1 
-X-CRM114-Status: GOOD (  11.74  )
+X-CRM114-CacheID: sfid-20211015_013030_186488_4C96A0DA 
+X-CRM114-Status: GOOD (  14.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,43 +99,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-page_frag_free() won't completely release the memory
-allocated for the commands, the cache page must be explicitly
-freed by calling __page_frag_cache_drain().
+On Tue, Oct 12, 2021 at 01:12:24PM +0200, Christoph Hellwig wrote:
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 2b80c98fc373e..2a8689e949b4c 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -25,6 +25,7 @@ struct request;
+>  struct sg_io_hdr;
+>  struct blkcg_gq;
+>  struct blk_flush_queue;
+> +struct kiocb;
+>  struct pr_ops;
+>  struct rq_qos;
+>  struct blk_queue_stats;
+> @@ -550,7 +551,7 @@ static inline unsigned int blk_queue_depth(struct request_queue *q)
+>  
+>  extern int blk_register_queue(struct gendisk *disk);
+>  extern void blk_unregister_queue(struct gendisk *disk);
+> -blk_qc_t submit_bio_noacct(struct bio *bio);
+> +void submit_bio_noacct(struct bio *bio);
+>  
+>  extern int blk_lld_busy(struct request_queue *q);
+>  extern void blk_queue_split(struct bio **);
+> @@ -568,7 +569,8 @@ blk_status_t errno_to_blk_status(int errno);
+>  #define BLK_POLL_ONESHOT		(1 << 0)
+>  /* do not sleep to wait for the expected completion time */
+>  #define BLK_POLL_NOSLEEP		(1 << 1)
+Minor comment: Could we also have a flag #define BLK_POLL_SPIN 0?
+It can improve the readability from the caller side instead of having
+just a 0 to indicate spinning.
 
-This bug can be easily reproduced by repeatedly
-executing the following command on the initiator:
-
-$echo 1 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/reset_controller
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-Reviewed-by: John Meneghini <jmeneghi@redhat.com>
----
- drivers/nvme/target/tcp.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 07ee347ea3f3..c33a0464346f 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1428,6 +1428,7 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
- 
- static void nvmet_tcp_release_queue_work(struct work_struct *w)
- {
-+	struct page *page;
- 	struct nvmet_tcp_queue *queue =
- 		container_of(w, struct nvmet_tcp_queue, release_work);
- 
-@@ -1447,6 +1448,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 		nvmet_tcp_free_crypto(queue);
- 	ida_simple_remove(&nvmet_tcp_queue_ida, queue->idx);
- 
-+	page = virt_to_head_page(queue->pf_cache.va);
-+	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
- 	kfree(queue);
- }
- 
--- 
-2.27.0
-
+Regards, 
+Pankaj Raghav
 
