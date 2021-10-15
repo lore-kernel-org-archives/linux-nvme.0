@@ -2,14 +2,14 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66097C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5A8C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:56:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D838A611C3
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:55:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D838A611C3
+	by mail.kernel.org (Postfix) with ESMTPS id CBC7161090
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 13:56:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CBC7161090
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JcbZRJdzKR6lA+XJCAc0x+lsN7pLEs6yrnMAqoaLruE=; b=OrldvG+M+nB3bDBvQwM+JjZ/2n
-	rp/CVCzvh4xvkJxzN98PnsSS7W6Jy1cNEZHfSMw59ztGrhrLukKjRwVk1amtreaWCurlN6O/mdPXt
-	9NOR0iTyGdNFGgkOIhORgLhdn1J1BeoDCW4skS2P1bGuLa+AcdgCEjxB+TXVWHu7ltJAH3s6RCyPH
-	YM0ZXZVu6xMkd0vwhLc/fQ7YSWpAf3YNGEEdqCeFvtBNnxgKtIDzgqizcquwnPJJHVgqZGqbulGOj
-	UDJFabTmoVhJNydGq8WN+UeKi+UPUc1/+t58ZOIegdkRAjEkmKMhVNJOP9XAnLbXk/Jc+YSIUYXw7
-	K5pILAjw==;
+	bh=Ce/xbUkNVs/DL/PvHdluKHxtvXGNzoHJMZpOCdwn74E=; b=5EAsRE6CbZ3OOjiEh3DoffkGH8
+	j2El2TSlzOf+wKaX1Jn2T4bSA05wkynPgEDcuV3ENNgvz/JVgkOyEgPDLcXiKqN9HZmqHDHTyn24s
+	E3dmffdmh10VmdrueUOwECAJDuQEmH9FFgoqitE48GjVqI4yncwxdnKtz3u215rboWNZJ3oD/xQ3S
+	aO/o5t0hUnui9dqkvScpOcg78EcTXEpOqlFwM6xhK1NFrFEBI66mi6LSfPTkwNo/lH+zrd4yMtT7a
+	auNpt6nOL2pJweZI0bjUC7jrF7FTlqseZsT8/m+RZSjCjPjhrpflaUBjlQYw1VrHcxnk6rAq/YRIr
+	jsp33Zkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNgG-007OiJ-OS; Fri, 15 Oct 2021 13:55:28 +0000
+	id 1mbNhG-007P05-Ma; Fri, 15 Oct 2021 13:56:30 +0000
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbNFP-007DX8-3z; Fri, 15 Oct 2021 13:27:43 +0000
+ id 1mbNFR-007DZR-Me; Fri, 15 Oct 2021 13:27:46 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,10 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Subject: [PATCH 22/30] reiserfs: use bdev_nr_bytes instead of open coding it
-Date: Fri, 15 Oct 2021 15:26:35 +0200
-Message-Id: <20211015132643.1621913-23-hch@lst.de>
+ reiserfs-devel@vger.kernel.org
+Subject: [PATCH 23/30] squashfs: use bdev_nr_bytes instead of open coding it
+Date: Fri, 15 Oct 2021 15:26:36 +0200
+Message-Id: <20211015132643.1621913-24-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -74,30 +74,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the proper helper to read the block device size and remove two
-cargo culted checks that can't be false.
+Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Jan Kara <jack@suse.cz>
+Acked-by: Phillip Lougher <phillip@squashfs.org.uk>
 ---
- fs/reiserfs/super.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ fs/squashfs/super.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/fs/reiserfs/super.c b/fs/reiserfs/super.c
-index 58481f8d63d5b..8647a00434ea4 100644
---- a/fs/reiserfs/super.c
-+++ b/fs/reiserfs/super.c
-@@ -1986,9 +1986,7 @@ static int reiserfs_fill_super(struct super_block *s, void *data, int silent)
- 	 * smaller than the filesystem. If the check fails then abort and
- 	 * scream, because bad stuff will happen otherwise.
- 	 */
--	if (s->s_bdev && s->s_bdev->bd_inode
--	    && i_size_read(s->s_bdev->bd_inode) <
--	    sb_block_count(rs) * sb_blocksize(rs)) {
-+	if (bdev_nr_bytes(s->s_bdev) < sb_block_count(rs) * sb_blocksize(rs)) {
- 		SWARN(silent, s, "", "Filesystem cannot be "
- 		      "mounted because it is bigger than the device");
- 		SWARN(silent, s, "", "You may need to run fsck "
+diff --git a/fs/squashfs/super.c b/fs/squashfs/super.c
+index 60d6951915f44..bb44ff4c5cc67 100644
+--- a/fs/squashfs/super.c
++++ b/fs/squashfs/super.c
+@@ -16,6 +16,7 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <linux/blkdev.h>
+ #include <linux/fs.h>
+ #include <linux/fs_context.h>
+ #include <linux/fs_parser.h>
+@@ -179,8 +180,8 @@ static int squashfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	/* Check the filesystem does not extend beyond the end of the
+ 	   block device */
+ 	msblk->bytes_used = le64_to_cpu(sblk->bytes_used);
+-	if (msblk->bytes_used < 0 || msblk->bytes_used >
+-			i_size_read(sb->s_bdev->bd_inode))
++	if (msblk->bytes_used < 0 ||
++	    msblk->bytes_used > bdev_nr_bytes(sb->s_bdev))
+ 		goto failed_mount;
+ 
+ 	/* Check block size for sanity */
 -- 
 2.30.2
 
