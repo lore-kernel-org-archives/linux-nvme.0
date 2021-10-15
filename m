@@ -2,14 +2,14 @@ Return-Path: <SRS0=EQPQ=PE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29AF5C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DABAC433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:12:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5504611F0
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:10:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D5504611F0
+	by mail.kernel.org (Postfix) with ESMTPS id 1DF0260EBB
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Oct 2021 00:12:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1DF0260EBB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RKU66AnJzLKhhgSWEHLOfZ4aIkidqzrddEWqP9yNa3s=; b=INM85RJhKz4T6I2ob6WZi+WSOU
-	V4TlS2aA0wol3wNoFleaJcJBcvBtmSAtI44bjp6AfiVcqv4v31xKjq4aeSL7BjFVdzK0oked8BnqW
-	O9uuGbbzqC1BpszBg++GRJsRmJwufqpBOEockT+JQJ3TVigNWBs+5e9QC4VPqUm1Rca7yfEvLbxx2
-	/MZorv1/AR3MH1csojEh2hRViosGFfpoPbR5vOHs4vI/jDdtpIkDgsYFhfmp5e13tulPYgt+eCkeG
-	LnYlgn8xxW6/NDnFBh7BNE2d/J8XAQv06hYumet1FeWD4POWhVYD8Xj2zj+YAD3b/f5eBnDoPf4Mn
-	XUUBAVEQ==;
+	bh=omBKsWTl8Q/WM0k3AiOvEAjN+m9JDz574ka/nFE6G1U=; b=u8bF6JBfqpNZbp+JYmCNGz9vTW
+	2SxWHis3LOV/m4xfVKEP5B5pFd0j5pvIEqSEh652fiRinVfr8+qvYBxvJOX26ReSv4dGvcb7yNhNG
+	SZWdwBB7tpvYOaNe+wwUUUTNJ3QHg3bo2HaCD5vMnLZeRXaDfL7K6oh3/Mt8BHRDEOdIy4DS/+qAW
+	XfovjGaJhOw7HquFVqBLb/AohE1jOMMcs3LW1D/wSYJBanZtU59w5T9Va+FFAS9yAjwd3GIDn08CV
+	dLog7sfzwRHA6lWAjknU8OPlPVWIYNjN0XDq405T26TjNt/sasHQpBNEjNiCzqVBNcWTtcqX0HFPM
+	197WEBXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbXHL-009IMI-Sg; Sat, 16 Oct 2021 00:10:23 +0000
+	id 1mbXIu-009J1p-UB; Sat, 16 Oct 2021 00:12:00 +0000
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1mbWzt-009C33-3r; Fri, 15 Oct 2021 23:52:21 +0000
+ (Red Hat Linux)) id 1mbWzt-009C3A-7r; Fri, 15 Oct 2021 23:52:21 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, geoff@infradead.org, mpe@ellerman.id.au,
  benh@kernel.crashing.org, paulus@samba.org, jim@jtan.com,
@@ -40,9 +40,9 @@ Cc: linux-block@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 05/13] nvdimm/btt: add error handling support for add_disk()
-Date: Fri, 15 Oct 2021 16:52:11 -0700
-Message-Id: <20211015235219.2191207-6-mcgrof@kernel.org>
+Subject: [PATCH 08/13] zram: add error handling support for add_disk()
+Date: Fri, 15 Oct 2021 16:52:14 -0700
+Message-Id: <20211015235219.2191207-9-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211015235219.2191207-1-mcgrof@kernel.org>
 References: <20211015235219.2191207-1-mcgrof@kernel.org>
@@ -68,24 +68,33 @@ error handling.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/nvdimm/btt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/block/zram/zram_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
-index 23ee8c005db5..57b921c5fbb5 100644
---- a/drivers/nvdimm/btt.c
-+++ b/drivers/nvdimm/btt.c
-@@ -1542,7 +1542,9 @@ static int btt_blk_init(struct btt *btt)
- 	}
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index 0a9309a2ef54..bdbded107e6b 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -1983,7 +1983,9 @@ static int zram_add(void)
+ 		blk_queue_max_write_zeroes_sectors(zram->disk->queue, UINT_MAX);
  
- 	set_capacity(btt->btt_disk, btt->nlba * btt->sector_size >> 9);
--	device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
-+	rc = device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
-+	if (rc)
+ 	blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, zram->disk->queue);
+-	device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
++	ret = device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
++	if (ret)
 +		goto out_cleanup_disk;
  
- 	btt->nd_btt->size = btt->nlba * (u64)btt->sector_size;
- 	nvdimm_check_and_set_ro(btt->btt_disk);
+ 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
+ 
+@@ -1991,6 +1993,8 @@ static int zram_add(void)
+ 	pr_info("Added device: %s\n", zram->disk->disk_name);
+ 	return device_id;
+ 
++out_cleanup_disk:
++	blk_cleanup_disk(zram->disk);
+ out_free_idr:
+ 	idr_remove(&zram_index_idr, device_id);
+ out_free_dev:
 -- 
 2.30.2
 
