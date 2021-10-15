@@ -2,14 +2,14 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D3BC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 14:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFCAC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 14:02:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08F8560230
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 14:02:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 08F8560230
+	by mail.kernel.org (Postfix) with ESMTPS id 6892960EE2
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 14:02:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6892960EE2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JRUJFkyjxq71rT2gSHQzVSwiRN9DYj/nxSJqzQ3gbXo=; b=pZi7AqVJ3P1x07zLn8UvWYpTxc
-	0+JLY/X9a3oGqnHnGSSKS4m2/n6gW8AKDmgGjBfts56Jqz4bz+nJ/BZTj2v/2YE1AKvk5Gc+U81Jr
-	Y8g1wtW3qWTdULR2SJpLdrur12C2odPPJil8kSl1C0ybP/+QXO14LueNWoxYb2swGWO7QTZ1vwu+t
-	/rzMGlAE1IYUiKxfCDUl6211AsgnA7eckYBBHbe6RkF/p77DRzO+NGApcQL2cacCdDOtJw8y6QDH+
-	yzWXQUt2ibhoNml5hTYgl1OmCRuwoTfvGwCZMigXcrvCZ31721tzfxV/OVEhI0zeoBRkDKfzTsYT9
-	9eZPOWEw==;
+	bh=sSdphJbx9SQw+wN4za3/OjMw3p4iKMeSjeY0No/E5ck=; b=fkKDgbqnxJIfaLvZIwy5fRiex+
+	shMbRGCKfTTcx202Ty1qZj2Gj+0Bv1Duzs7AabHJLs3wF4DKVCbC063b7E50/Y19/qnYVzZMtnws6
+	9f7YkoaZDB5ZqxNxMV5vP2KWk6OoiCGR6NtzUEu4mXCAFTnECrAUKNA7wcACmzt3Qu3mVa1v8x6Ws
+	x1vYa5tRj3gqmeNI09fntOFcgFWUEmQop4oHunyvmdVjzITW4Za4K1oRObL1vRgvw9ugWJz4i/L1m
+	94+ljyoZ8pHyuXPk5XothrzTWKHp+3ZHJpN0pCHB0gnO2jkZKWj2ebyRDFewJgGeqoPIo3BHMtReF
+	RBhVErYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNma-007Qpa-7b; Fri, 15 Oct 2021 14:02:00 +0000
+	id 1mbNnQ-007R5w-Na; Fri, 15 Oct 2021 14:02:52 +0000
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbNFh-007Ds0-3f; Fri, 15 Oct 2021 13:28:01 +0000
+ id 1mbNFj-007Dux-Lc; Fri, 15 Oct 2021 13:28:04 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
  reiserfs-devel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Subject: [PATCH 29/30] reiserfs: use sb_bdev_nr_blocks
-Date: Fri, 15 Oct 2021 15:26:42 +0200
-Message-Id: <20211015132643.1621913-30-hch@lst.de>
+Subject: [PATCH 30/30] udf: use sb_bdev_nr_blocks
+Date: Fri, 15 Oct 2021 15:26:43 +0200
+Message-Id: <20211015132643.1621913-31-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -80,24 +80,67 @@ Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/reiserfs/super.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ fs/udf/lowlevel.c | 5 ++---
+ fs/udf/super.c    | 9 +++------
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/fs/reiserfs/super.c b/fs/reiserfs/super.c
-index 8647a00434ea4..076f9ab943060 100644
---- a/fs/reiserfs/super.c
-+++ b/fs/reiserfs/super.c
-@@ -1199,9 +1199,7 @@ static int reiserfs_parse_options(struct super_block *s,
+diff --git a/fs/udf/lowlevel.c b/fs/udf/lowlevel.c
+index f1094cdcd6cde..46d6971721975 100644
+--- a/fs/udf/lowlevel.c
++++ b/fs/udf/lowlevel.c
+@@ -47,8 +47,7 @@ unsigned int udf_get_last_session(struct super_block *sb)
  
- 			if (!strcmp(arg, "auto")) {
- 				/* From JFS code, to auto-get the size. */
--				*blocks =
--				    i_size_read(s->s_bdev->bd_inode) >> s->
--				    s_blocksize_bits;
-+				*blocks = sb_bdev_nr_blocks(s);
- 			} else {
- 				*blocks = simple_strtoul(arg, &p, 0);
- 				if (*p != '\0') {
+ unsigned long udf_get_last_block(struct super_block *sb)
+ {
+-	struct block_device *bdev = sb->s_bdev;
+-	struct cdrom_device_info *cdi = disk_to_cdi(bdev->bd_disk);
++	struct cdrom_device_info *cdi = disk_to_cdi(sb->s_bdev->bd_disk);
+ 	unsigned long lblock = 0;
+ 
+ 	/*
+@@ -56,7 +55,7 @@ unsigned long udf_get_last_block(struct super_block *sb)
+ 	 * Try using the device size...
+ 	 */
+ 	if (!cdi || cdrom_get_last_written(cdi, &lblock) || lblock == 0)
+-		lblock = i_size_read(bdev->bd_inode) >> sb->s_blocksize_bits;
++		lblock = sb_bdev_nr_blocks(sb);
+ 
+ 	if (lblock)
+ 		return lblock - 1;
+diff --git a/fs/udf/super.c b/fs/udf/super.c
+index b2d7c57d06881..34247fba6df91 100644
+--- a/fs/udf/super.c
++++ b/fs/udf/super.c
+@@ -1175,8 +1175,7 @@ static int udf_load_vat(struct super_block *sb, int p_index, int type1_index)
+ 	struct udf_inode_info *vati;
+ 	uint32_t pos;
+ 	struct virtualAllocationTable20 *vat20;
+-	sector_t blocks = i_size_read(sb->s_bdev->bd_inode) >>
+-			  sb->s_blocksize_bits;
++	sector_t blocks = sb_bdev_nr_blocks(sb);
+ 
+ 	udf_find_vat_block(sb, p_index, type1_index, sbi->s_last_block);
+ 	if (!sbi->s_vat_inode &&
+@@ -1838,8 +1837,7 @@ static int udf_check_anchor_block(struct super_block *sb, sector_t block,
+ 	int ret;
+ 
+ 	if (UDF_QUERY_FLAG(sb, UDF_FLAG_VARCONV) &&
+-	    udf_fixed_to_variable(block) >=
+-	    i_size_read(sb->s_bdev->bd_inode) >> sb->s_blocksize_bits)
++	    udf_fixed_to_variable(block) >= sb_bdev_nr_blocks(sb))
+ 		return -EAGAIN;
+ 
+ 	bh = udf_read_tagged(sb, block, block, &ident);
+@@ -1901,8 +1899,7 @@ static int udf_scan_anchors(struct super_block *sb, sector_t *lastblock,
+ 		last[last_count++] = *lastblock - 152;
+ 
+ 	for (i = 0; i < last_count; i++) {
+-		if (last[i] >= i_size_read(sb->s_bdev->bd_inode) >>
+-				sb->s_blocksize_bits)
++		if (last[i] >= sb_bdev_nr_blocks(sb))
+ 			continue;
+ 		ret = udf_check_anchor_block(sb, last[i], fileset);
+ 		if (ret != -EAGAIN) {
 -- 
 2.30.2
 
