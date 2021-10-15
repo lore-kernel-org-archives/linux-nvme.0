@@ -2,62 +2,75 @@ Return-Path: <SRS0=TQUi=PD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CC5C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 02:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D31C6C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 08:51:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2014A60C4D
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 02:56:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2014A60C4D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9EFE761090
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Oct 2021 08:51:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9EFE761090
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=57JWXpKC51j6viIDugt857CZfuFlj1tIRQpPJBrK1ow=; b=2T2jUmCt5b7kDmj8I6SwVTtW2e
-	NK2ZMhnszQkvWs3IbNjNAViWGO7FRpP29Wq+0VBPuWMUoVz8GBarEITVsTr5A13lqkaXBQ5XBnWJf
-	0LU2amg6FVWwopUJl3z7DzytPS6ipZLm/Y73jbrkZvkNT4jxHYJmQKi+ytxd7jGIZDi6XV/i5hqYx
-	z4eMQbxhHaTA6cOcQj/DGdYoeOIc26c+59NS3i5iDNOs0SnGe4is0tPaql6kQ6wzgsFspyGdvx5H6
-	plAI+FoyuUMwQuEffNbpwDnHrs/sQYzc2uGi8oK/M/1+LLt+zgHGrK79Tzt5jO0YYRSIx718gPNTQ
-	RgC1qY+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=fBDNW0hb1+M3BPtdOfPK6L4dfflKNVv2CXHr8vZ+Uvg=; b=TRArPKiLFBujrVRJoo1SExjiqQ
+	FQGtDX3BKyU/L4U8PHamLZXjOvoxGZHJ3l+q1u/rNr6nZ1kGlfCsTDVAOg8PSYgq4eup5Dv4mQNrD
+	EZm9n5ciYLgB+f/HB+Mg8fnG7iwQupj8Zvk3+9SIjXIAaczszjCtg2MFheqZHXWb/hYdQNq3JKZ+6
+	SaA3CRW/65MfDDXrVlGBMkvKIHHCTXzYeb8uuNijstC6d3YmeeO8It9AH63KbN3ZKHVvlLGPDgvjT
+	MsLzc2jMdlC5H85RHLA7/SnbNf13eVMdVQuKh1QfspNxFSjz/FUaEJNedcWh0M/sEjEaK58P9l7Lq
+	ncEc8THg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbDOJ-005Bzc-Mv; Fri, 15 Oct 2021 02:56:15 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1mbIvb-0065nx-6x; Fri, 15 Oct 2021 08:50:59 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mbDOG-005Byd-Cd
- for linux-nvme@lists.infradead.org; Fri, 15 Oct 2021 02:56:14 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10137"; a="251281426"
-X-IronPort-AV: E=Sophos;i="5.85,374,1624345200"; d="scan'208";a="251281426"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2021 19:56:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,374,1624345200"; d="scan'208";a="660226114"
-Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 14 Oct 2021 19:56:09 -0700
-Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mbDOD-000762-3v; Fri, 15 Oct 2021 02:56:09 +0000
-Date: Fri, 15 Oct 2021 10:55:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.15] BUILD SUCCESS
- be5eb933542629ad6a7d4c92097b1b472b1612d0
-Message-ID: <6168edb4.JzLW9Pi/UF4QSqn9%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1mbIYA-005ywq-9q
+ for linux-nvme@lists.infradead.org; Fri, 15 Oct 2021 08:26:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634286402;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fBDNW0hb1+M3BPtdOfPK6L4dfflKNVv2CXHr8vZ+Uvg=;
+ b=MChcYdQcXF3vpAavRLNmsze40u49FcGGykrHMtzCAfYgHQNKz9ZMkhvAbrQuCEctMRvHUG
+ YqUMlJ0z+dX5q764Z3QVY0+pC83Mlay3Lr9O4QER7s2e3kiAEgC5z2PMfCo5l/7CpCH1XD
+ DYgcM9KRccYNWEK9yJzcyiOtA6bQlnU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-B9U-edWXNXS5z8Pg1lK9WA-1; Fri, 15 Oct 2021 04:26:39 -0400
+X-MC-Unique: B9U-edWXNXS5z8Pg1lK9WA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F88A801ADB;
+ Fri, 15 Oct 2021 08:26:38 +0000 (UTC)
+Received: from raketa.redhat.com (unknown [10.40.192.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E81F31972D;
+ Fri, 15 Oct 2021 08:26:35 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, hare@suse.de, chaitanya.kulkarni@wdc.com,
+ jmeneghi@redhat.com
+Subject: [PATCH] nvmet-tcp: fix a memory leak when releasing a queue
+Date: Fri, 15 Oct 2021 10:26:34 +0200
+Message-Id: <20211015082634.555494-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211014_195612_486441_85707523 
-X-CRM114-Status: UNSURE (   7.47  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211015_012646_513615_94A3B8F1 
+X-CRM114-Status: GOOD (  11.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,195 +85,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.15
-branch HEAD: be5eb933542629ad6a7d4c92097b1b472b1612d0  nvme: fix per-namespace chardev deletion
+page_frag_free() won't completely release the memory
+allocated for the commands, the cache page must be explicitly
+freed by calling __page_frag_cache_drain().
 
-elapsed time: 1238m
+This bug can be easily reproduced by repeatedly
+executing the following command on the initiator:
 
-configs tested: 171
-configs skipped: 3
+$echo 1 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/reset_controller
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211014
-sh                         microdev_defconfig
-powerpc                   lite5200b_defconfig
-powerpc                      cm5200_defconfig
-powerpc                  iss476-smp_defconfig
-mips                     loongson1b_defconfig
-arm                            mmp2_defconfig
-mips                          rb532_defconfig
-arm                          exynos_defconfig
-sh                        edosk7705_defconfig
-arm                            zeus_defconfig
-sh                           se7206_defconfig
-sh                         ap325rxa_defconfig
-powerpc                      chrp32_defconfig
-sh                   sh7724_generic_defconfig
-arm                           spitz_defconfig
-arm                       multi_v4t_defconfig
-xtensa                           alldefconfig
-sh                          polaris_defconfig
-powerpc                     rainier_defconfig
-arm                             ezx_defconfig
-s390                             alldefconfig
-mips                 decstation_r4k_defconfig
-arm                          collie_defconfig
-s390                       zfcpdump_defconfig
-mips                        qi_lb60_defconfig
-arm                  colibri_pxa270_defconfig
-powerpc                     tqm8560_defconfig
-arm                            qcom_defconfig
-arc                      axs103_smp_defconfig
-powerpc                   currituck_defconfig
-mips                  decstation_64_defconfig
-powerpc                     skiroot_defconfig
-xtensa                         virt_defconfig
-um                           x86_64_defconfig
-mips                         bigsur_defconfig
-arc                              alldefconfig
-xtensa                    xip_kc705_defconfig
-mips                      maltaaprp_defconfig
-mips                        workpad_defconfig
-mips                     loongson2k_defconfig
-arc                     haps_hs_smp_defconfig
-m68k                          atari_defconfig
-um                                  defconfig
-sh                      rts7751r2d1_defconfig
-arc                                 defconfig
-riscv                            alldefconfig
-powerpc                      ppc40x_defconfig
-m68k                           sun3_defconfig
-m68k                        stmark2_defconfig
-powerpc                      tqm8xx_defconfig
-powerpc                    adder875_defconfig
-arc                        nsim_700_defconfig
-arm                       aspeed_g4_defconfig
-arm                     eseries_pxa_defconfig
-mips                        omega2p_defconfig
-powerpc                 mpc836x_mds_defconfig
-riscv                    nommu_k210_defconfig
-sh                           se7722_defconfig
-arm                         s3c6400_defconfig
-sparc                       sparc32_defconfig
-powerpc                     tqm8540_defconfig
-powerpc                         ps3_defconfig
-openrisc                  or1klitex_defconfig
-sh                          rsk7269_defconfig
-mips                          rm200_defconfig
-mips                      malta_kvm_defconfig
-powerpc                      arches_defconfig
-mips                        bcm47xx_defconfig
-xtensa                              defconfig
-riscv                            allmodconfig
-m68k                             alldefconfig
-nds32                               defconfig
-mips                         tb0219_defconfig
-sh                          urquell_defconfig
-arm                        mvebu_v5_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                     tqm8541_defconfig
-nios2                         3c120_defconfig
-mips                      fuloong2e_defconfig
-powerpc                        warp_defconfig
-openrisc                    or1ksim_defconfig
-powerpc                 mpc8560_ads_defconfig
-arm                        vexpress_defconfig
-powerpc                      pmac32_defconfig
-powerpc                    ge_imp3a_defconfig
-powerpc                     sequoia_defconfig
-arm                       aspeed_g5_defconfig
-xtensa                       common_defconfig
-powerpc                      ppc44x_defconfig
-arm                  randconfig-c002-20211014
-x86_64               randconfig-c001-20211014
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                                defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-s390                             allmodconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20211014
-x86_64               randconfig-a004-20211014
-x86_64               randconfig-a001-20211014
-x86_64               randconfig-a005-20211014
-x86_64               randconfig-a002-20211014
-x86_64               randconfig-a003-20211014
-i386                 randconfig-a003-20211014
-i386                 randconfig-a001-20211014
-i386                 randconfig-a005-20211014
-i386                 randconfig-a004-20211014
-i386                 randconfig-a002-20211014
-i386                 randconfig-a006-20211014
-arc                  randconfig-r043-20211014
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                           allyesconfig
-
-clang tested configs:
-arm                  randconfig-c002-20211014
-i386                 randconfig-c001-20211014
-s390                 randconfig-c005-20211014
-x86_64               randconfig-c007-20211014
-powerpc              randconfig-c003-20211014
-riscv                randconfig-c006-20211014
-x86_64               randconfig-a012-20211014
-x86_64               randconfig-a015-20211014
-x86_64               randconfig-a016-20211014
-x86_64               randconfig-a014-20211014
-x86_64               randconfig-a011-20211014
-x86_64               randconfig-a013-20211014
-i386                 randconfig-a016-20211014
-i386                 randconfig-a014-20211014
-i386                 randconfig-a011-20211014
-i386                 randconfig-a015-20211014
-i386                 randconfig-a012-20211014
-i386                 randconfig-a013-20211014
-hexagon              randconfig-r041-20211014
-s390                 randconfig-r044-20211014
-riscv                randconfig-r042-20211014
-hexagon              randconfig-r045-20211014
-
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: John Meneghini <jmeneghi@redhat.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/nvme/target/tcp.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 07ee347ea3f3..c33a0464346f 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1428,6 +1428,7 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
+ 
+ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ {
++	struct page *page;
+ 	struct nvmet_tcp_queue *queue =
+ 		container_of(w, struct nvmet_tcp_queue, release_work);
+ 
+@@ -1447,6 +1448,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 		nvmet_tcp_free_crypto(queue);
+ 	ida_simple_remove(&nvmet_tcp_queue_ida, queue->idx);
+ 
++	page = virt_to_head_page(queue->pf_cache.va);
++	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
+ 	kfree(queue);
+ }
+ 
+-- 
+2.27.0
+
 
