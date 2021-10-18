@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FE0C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:23:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B52C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:24:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3546960FF2
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:23:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3546960FF2
+	by mail.kernel.org (Postfix) with ESMTPS id 4847F60FF2
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:24:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4847F60FF2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nOP5ubv8zHIPTFPGGp4mMR4qIBoLNo6J7j7POF84hxo=; b=uxBtjJwQnz8vU+CBBZq8Uwrr8F
-	raJwvwhtz96pNCyS2z3KAue9DrzKF1Xf3MprtATiVbVykpVibJmyFbHp5To3kwb/Q/4a4DzI21bHh
-	bbQX/gVMqHgiKCuGy4TEpZbvrxpkKcyfXb+dS7DLH+wnya47KfDE2Z5glXBBPzQHnlTwVd1QPsEia
-	pkiCPWpsIDG7pXfQ0KNPu+TByCnTU6UKbarS9f9xhaf3Sdu71aGC94fzn0JmLo4wFSB/15Rxk7gH3
-	dEmhQ/o6/0NbQ6XdRvilQDES7ia6BRshaD/E5vvg3MAzn7Dl95xUiUVUesHZlbv7MeyMESsOWZP6Q
-	TdJ31VFw==;
+	bh=Y/n231v6mya+HLQ5553wYpz7337dsR2Clc1g640C0Nc=; b=Y94Kiult+KMl3yvGguGYb2Tz9S
+	KfvQDYxsDvr9hypQCwA5q+9jUaaetJ3eUt7FRXbzRG1ZJwpmnXPwcvHFS6PoIUfr9qp0qo6mx9Y+7
+	/rIRhxJ8A8QYPN34VSpzOvqzlR/zmUSUIAj10mCDyTzPBw87XF4nH1667OIzuU2lD6wBZVEXpBxVw
+	/pXuequO/+MlAy1Cl8XB1nD/h43lYDD7DBXcQWJV8iWY0jI+BtyDG1Lj8xE5X/C5HzINkxz3FPM6p
+	SyIRP4u9hfywgdbdnPIwo5xqKUSzKLLHpyJwAtG2Q9qlqMNS2RXFADylblhn79YAwajegLSreBg96
+	GuO2MPyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPnh-00EzP0-CV; Mon, 18 Oct 2021 10:23:25 +0000
+	id 1mcPp5-00Ezqh-HI; Mon, 18 Oct 2021 10:24:51 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcr-00EuNu-H4; Mon, 18 Oct 2021 10:12:13 +0000
+ id 1mcPcu-00EuPk-5o; Mon, 18 Oct 2021 10:12:16 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
  reiserfs-devel@vger.kernel.org
-Subject: [PATCH 15/30] hfs: use bdev_nr_sectors instead of open coding it
-Date: Mon, 18 Oct 2021 12:11:15 +0200
-Message-Id: <20211018101130.1838532-16-hch@lst.de>
+Subject: [PATCH 16/30] hfsplus: use bdev_nr_sectors instead of open coding it
+Date: Mon, 18 Oct 2021 12:11:16 +0200
+Message-Id: <20211018101130.1838532-17-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -79,21 +79,21 @@ Use the proper helper to read the block device size.
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- fs/hfs/mdb.c | 2 +-
+ fs/hfsplus/wrapper.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-index cdf0edeeb2781..5beb826524354 100644
---- a/fs/hfs/mdb.c
-+++ b/fs/hfs/mdb.c
-@@ -36,7 +36,7 @@ static int hfs_get_last_session(struct super_block *sb,
+diff --git a/fs/hfsplus/wrapper.c b/fs/hfsplus/wrapper.c
+index 0350dc7821bf9..51ae6f1eb4a55 100644
+--- a/fs/hfsplus/wrapper.c
++++ b/fs/hfsplus/wrapper.c
+@@ -131,7 +131,7 @@ static int hfsplus_get_last_session(struct super_block *sb,
  
  	/* default values */
  	*start = 0;
 -	*size = i_size_read(sb->s_bdev->bd_inode) >> 9;
 +	*size = bdev_nr_sectors(sb->s_bdev);
  
- 	if (HFS_SB(sb)->session >= 0) {
+ 	if (HFSPLUS_SB(sb)->session >= 0) {
  		struct cdrom_tocentry te;
 -- 
 2.30.2
