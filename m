@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D942C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A7EC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 70DA460EE9
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 70DA460EE9
+	by mail.kernel.org (Postfix) with ESMTPS id 7994360E90
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7994360E90
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xjTWeSayf3PGdeuuH3Uv1mvdxKcTliIdGd38f16e0vY=; b=Yt+QSTYCks/cJwNqxHYrQWmbOl
-	1Y2ja7xA2jgqgiBMdKm7VwzIBq4Pm1NFkYOJ784k480yHHnndbZy9abG3ez712HbkGs5irnyXiWtE
-	CTiupat7K5EGmO8Bt7vfQ75IvdGEzMpSSiMSGuWW/iqj31Z0mwW24y8ae8Ed4H5hcyUxBDeSXYDSk
-	uL4Q4CAThX1viRBh/6tGHJ3wSL22D2G0CcRRjVqNnJmDFUr46WevEMYoMBt4aURLGHBRevyvKozZS
-	Lsi3roXPGSpgcBjX54S+qCDO8iDv0tkrw+ndOIEWpkoc5DWX4YRJYowrN6r1efsiOah3VQMynOJi1
-	XYwnJPLw==;
+	bh=ua3x6oobbjatF9m91a/TfkciVlhvg2RT0UK88GOOPcc=; b=NFMJJ17ii7/CcbIgsA+w8cA0HM
+	vQvs3e54NLMFkhSz7Kh4r68vLKIOpUiIYDXDALTqoWhIgpiaECu8eZSdSFvnrlZgsT7PybaGg96na
+	4CUBXfUT5/SRqeKzaAVrUwyr7kQD+pwlz/psYOXHO3mYicgk65e3L0JEVQR+dfbkxvih7zQL1Nbfy
+	Ct4gS2hCkgdGca9DrzbmTuvpJnefK1XcBEGI6kLaqIO0FUJy/GK+t1+V87Z+yNQ19G51jb6Z+/V6O
+	MDm/IFOO7jnhpMKgc84c4yn0sojIFGEk/FHu7JtRXugh4xzWU6IWgS17AJWaNVV5rm7iLIlbm4Urh
+	QSbjAgjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPf7-00Ew9L-Rq; Mon, 18 Oct 2021 10:14:33 +0000
+	id 1mcPfM-00EwIi-55; Mon, 18 Oct 2021 10:14:48 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcI-00EtzV-J2; Mon, 18 Oct 2021 10:11:39 +0000
+ id 1mcPcL-00Eu0X-91; Mon, 18 Oct 2021 10:11:41 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,10 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org
-Subject: [PATCH 02/30] block: add a bdev_nr_bytes helper
-Date: Mon, 18 Oct 2021 12:11:02 +0200
-Message-Id: <20211018101130.1838532-3-hch@lst.de>
+ reiserfs-devel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 03/30] bcache: remove bdev_sectors
+Date: Mon, 18 Oct 2021 12:11:03 +0200
+Message-Id: <20211018101130.1838532-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -74,35 +74,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to query the size of a block device in bytes.  This
-will be used to remove open coded access to ->bd_inode.
+Use the equivalent block layer helper instead.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Acked-by: Coly Li <colyli@suse.de>
 ---
- include/linux/genhd.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/md/bcache/super.c     | 2 +-
+ drivers/md/bcache/util.h      | 4 ----
+ drivers/md/bcache/writeback.c | 2 +-
+ 3 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 082a3e5fd8fa1..b560aee1d69f0 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -235,9 +235,14 @@ static inline sector_t get_start_sect(struct block_device *bdev)
- 	return bdev->bd_start_sect;
- }
+diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
+index f2874c77ff797..4f89985abe4b7 100644
+--- a/drivers/md/bcache/super.c
++++ b/drivers/md/bcache/super.c
+@@ -1002,7 +1002,7 @@ static void calc_cached_dev_sectors(struct cache_set *c)
+ 	struct cached_dev *dc;
  
-+static inline loff_t bdev_nr_bytes(struct block_device *bdev)
-+{
-+	return i_size_read(bdev->bd_inode);
-+}
-+
- static inline sector_t bdev_nr_sectors(struct block_device *bdev)
- {
--	return i_size_read(bdev->bd_inode) >> 9;
-+	return bdev_nr_bytes(bdev) >> SECTOR_SHIFT;
- }
+ 	list_for_each_entry(dc, &c->cached_devs, list)
+-		sectors += bdev_sectors(dc->bdev);
++		sectors += bdev_nr_sectors(dc->bdev);
  
- static inline sector_t get_capacity(struct gendisk *disk)
+ 	c->cached_dev_sectors = sectors;
+ }
+diff --git a/drivers/md/bcache/util.h b/drivers/md/bcache/util.h
+index b64460a762677..a7da7930a7fda 100644
+--- a/drivers/md/bcache/util.h
++++ b/drivers/md/bcache/util.h
+@@ -584,8 +584,4 @@ static inline unsigned int fract_exp_two(unsigned int x,
+ void bch_bio_map(struct bio *bio, void *base);
+ int bch_bio_alloc_pages(struct bio *bio, gfp_t gfp_mask);
+ 
+-static inline sector_t bdev_sectors(struct block_device *bdev)
+-{
+-	return bdev->bd_inode->i_size >> 9;
+-}
+ #endif /* _BCACHE_UTIL_H */
+diff --git a/drivers/md/bcache/writeback.c b/drivers/md/bcache/writeback.c
+index 8120da278161e..c7560f66dca88 100644
+--- a/drivers/md/bcache/writeback.c
++++ b/drivers/md/bcache/writeback.c
+@@ -45,7 +45,7 @@ static uint64_t __calc_target_rate(struct cached_dev *dc)
+ 	 * backing volume uses about 2% of the cache for dirty data.
+ 	 */
+ 	uint32_t bdev_share =
+-		div64_u64(bdev_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
++		div64_u64(bdev_nr_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
+ 				c->cached_dev_sectors);
+ 
+ 	uint64_t cache_dirty_target =
 -- 
 2.30.2
 
