@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20637C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:31:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72DF4C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:32:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC1C46103B
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:31:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CC1C46103B
+	by mail.kernel.org (Postfix) with ESMTPS id 3C71F60E97
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:32:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3C71F60E97
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7vy0+8EI8WhVCxcCPpT3E3xZPAv/h7863mIj0HITKC4=; b=hmO/H+DLLk1uiiX106g7dFrBp8
-	bhsnMJ5V8qfCyOgadrcDQhcyL+3RsePqsrdTOdAaH6V+R9rWvzwW/CwsyidhrZVpjksURnVER7xNb
-	A/ZYaqc2cgCfcTH14W4IeJZEjBl0ACalWTaGnHy1U+xgLOjpVYAGQIkQAhVM+E2QmsnDWVl0ON7MZ
-	yCUnZ/unqGjz1ZZNysOjTKB6PhdBSzMYE4t8hYdly3uhwjNbdLLCnWWw3TgFjadFUq66Ik4VN9LKf
-	MVh+ksWBgUvihaYQoEyTotVKdcCcPTWYWVy7p5sBkbSDZZT0PhD+W7+vH1GxStgk9fBBUjIQL9jL2
-	v9TS4ADA==;
+	bh=OtkCPV+Fhjutx3CncSj5AK/1XKnCr941YaNIR+S0yec=; b=bKxHb5sqTpm6yjlSQQwhjhg2pI
+	zKjZ6NPWQMa5rKgvQSeobk8bJ/MvH6mdRPeB1vpQsf+Kc4VvgLE06JVErwTw1bk0o1w5G9AyX1Ee5
+	hcLoNHITxgYBLe4nE+eK52Y8n+tQejvrsNNlzQWssY0L4cSqWIakkBrtB+sjtwaLEsclzWgeLTteK
+	Xpp+8c4tWptw2ffnR0x5LDMHnefRIZOJI560xnFpz5t9E1fMxYGW+CpbikpRCRx6uxLIdNTvqRU6M
+	SHI9xkUOdlbsrgc8n+GC6l+Au3uvOc/tlw1Kgi/OWh/asQGxdar2jMYXGFC4j2/yy8C3Xol4eABPF
+	x1NKPxOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPva-00F1rX-0S; Mon, 18 Oct 2021 10:31:34 +0000
+	id 1mcPwj-00F2Di-Ji; Mon, 18 Oct 2021 10:32:45 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPd4-00Eubv-MF; Mon, 18 Oct 2021 10:12:27 +0000
+ id 1mcPd7-00EufA-9w; Mon, 18 Oct 2021 10:12:29 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
  reiserfs-devel@vger.kernel.org
-Subject: [PATCH 20/30] ntfs3: use bdev_nr_bytes instead of open coding it
-Date: Mon, 18 Oct 2021 12:11:20 +0200
-Message-Id: <20211018101130.1838532-21-hch@lst.de>
+Subject: [PATCH 21/30] pstore/blk: use bdev_nr_bytes instead of open coding it
+Date: Mon, 18 Oct 2021 12:11:21 +0200
+Message-Id: <20211018101130.1838532-22-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -77,31 +77,41 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Kees Cook <keescook@chromium.org>
 ---
- fs/ntfs3/super.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/pstore/blk.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 55bbc9200a10e..7ed2cb5e8b1d9 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -918,7 +918,6 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
- 	int err;
- 	struct ntfs_sb_info *sbi;
- 	struct block_device *bdev = sb->s_bdev;
--	struct inode *bd_inode = bdev->bd_inode;
- 	struct request_queue *rq = bdev_get_queue(bdev);
- 	struct inode *inode = NULL;
- 	struct ntfs_inode *ni;
-@@ -967,7 +966,7 @@ static int ntfs_fill_super(struct super_block *sb, void *data, int silent)
+diff --git a/fs/pstore/blk.c b/fs/pstore/blk.c
+index 04ce58c939a0b..5d1fbaffd66a1 100644
+--- a/fs/pstore/blk.c
++++ b/fs/pstore/blk.c
+@@ -205,7 +205,6 @@ static ssize_t psblk_generic_blk_write(const char *buf, size_t bytes,
+ static int __register_pstore_blk(struct pstore_device_info *dev,
+ 				 const char *devpath)
+ {
+-	struct inode *inode;
+ 	int ret = -ENODEV;
  
- 	/* Parse boot. */
- 	err = ntfs_init_from_boot(sb, rq ? queue_logical_block_size(rq) : 512,
--				  bd_inode->i_size);
-+				  bdev_nr_bytes(bdev));
- 	if (err)
- 		goto out;
+ 	lockdep_assert_held(&pstore_blk_lock);
+@@ -217,14 +216,13 @@ static int __register_pstore_blk(struct pstore_device_info *dev,
+ 		goto err;
+ 	}
  
+-	inode = file_inode(psblk_file);
+-	if (!S_ISBLK(inode->i_mode)) {
++	if (!S_ISBLK(file_inode(psblk_file)->i_mode)) {
+ 		pr_err("'%s' is not block device!\n", devpath);
+ 		goto err_fput;
+ 	}
+ 
+-	inode = I_BDEV(psblk_file->f_mapping->host)->bd_inode;
+-	dev->zone.total_size = i_size_read(inode);
++	dev->zone.total_size =
++		bdev_nr_bytes(I_BDEV(psblk_file->f_mapping->host));
+ 
+ 	ret = __register_pstore_device(dev);
+ 	if (ret)
 -- 
 2.30.2
 
