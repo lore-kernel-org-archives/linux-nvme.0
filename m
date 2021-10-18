@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DF6C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:15:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1422C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:16:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C612060F22
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:15:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C612060F22
+	by mail.kernel.org (Postfix) with ESMTPS id 7395260FD8
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:16:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7395260FD8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1gZf+H891s0ly+N+We+WSsOR96hNSH99XqMkm5gKgvI=; b=J6it/Sl4bGaGE4PrS3z8vnpUC2
-	BLORzWjhuXoEJebIC0eL4A1UeJhgvc4+2PBSV+aKJOm0ocVllIKvfQ3b/poDiyLNMHU+IRNAQ4bmh
-	lFC/pob4eBlozzt8abspbs6i2D989BKj5Ibq5Zn/kA6vMp5AWr6MhO08k5f6puw5xESPkLUA58QO1
-	zP915eJzrGLhTePJhIH1NSHVQyrK/v3/BYXATninfnmZcaz/eEiwvzXSzG3geOkx5847ZMaGUTuCO
-	PGJnkusPXsLrmPCswiwpfWsZaxiu3Jo1TPBALqUGfU0jnnK0pJAelXQ3eqMOX8Bx0nTIeoM34MTSK
-	hxhs34oA==;
+	bh=fFiyZJBuziQrITu6AwTrNzk8Coj3yxtnkFBgzy+4utY=; b=aR7hB4rYUTnB7VR9pAfPHgdo5p
+	H86l2leHtCkO7JQZj8EdscONzjlK4mUYVZ9aAr8ilmXHZ0uPipOcu1wFgGVdi6bs3FlbZ2bAwMABK
+	+cjw0e1K07a4L/mF+xCpLZQJQZ6XCQS1FlA+p1jOXxdPr4qgWewF9TJ6Lk5cXs2mhm3qBdxGkjXIB
+	PT3Q2kgMrQuXUGFKLLIyYgnKUNS7vAF4wlsi3IHhaOO2Nhj8VBEY3ROpLRejC5iWEQ0lTjGGvrEus
+	wqmUx8Jl5tlkATj/Qu4+izgL9xRblvbpvK8tshGmU+MKuUd9VvSLaerWigWqDiSbpLpbxRyXa61SJ
+	Gyt+2akg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPgL-00Ewo0-8R; Mon, 18 Oct 2021 10:15:49 +0000
+	id 1mcPgh-00Ewyn-KP; Mon, 18 Oct 2021 10:16:11 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcT-00Eu4B-82; Mon, 18 Oct 2021 10:11:49 +0000
+ id 1mcPcV-00Eu56-U0; Mon, 18 Oct 2021 10:11:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,10 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org
-Subject: [PATCH 06/30] md: use bdev_nr_sectors instead of open coding it
-Date: Mon, 18 Oct 2021 12:11:06 +0200
-Message-Id: <20211018101130.1838532-7-hch@lst.de>
+ reiserfs-devel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 07/30] nvmet: use bdev_nr_bytes instead of open coding it
+Date: Mon, 18 Oct 2021 12:11:07 +0200
+Message-Id: <20211018101130.1838532-8-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -78,104 +78,33 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Song Liu <song@kernel.org>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/md/md.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index ec09083ff0eff..0c75ba047ef60 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -890,8 +890,7 @@ static struct md_personality *find_pers(int level, char *clevel)
- /* return the offset of the super block in 512byte sectors */
- static inline sector_t calc_dev_sboffset(struct md_rdev *rdev)
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 6139e1de50a66..70ca9dfc1771a 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -87,7 +87,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 		ns->bdev = NULL;
+ 		return ret;
+ 	}
+-	ns->size = i_size_read(ns->bdev->bd_inode);
++	ns->size = bdev_nr_bytes(ns->bdev);
+ 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
+ 
+ 	ns->pi_type = 0;
+@@ -108,7 +108,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 
+ void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
  {
--	sector_t num_sectors = i_size_read(rdev->bdev->bd_inode) / 512;
--	return MD_NEW_SIZE_SECTORS(num_sectors);
-+	return MD_NEW_SIZE_SECTORS(bdev_nr_sectors(rdev->bdev));
+-	ns->size = i_size_read(ns->bdev->bd_inode);
++	ns->size = bdev_nr_bytes(ns->bdev);
  }
  
- static int alloc_disk_sb(struct md_rdev *rdev)
-@@ -1633,8 +1632,7 @@ static int super_1_load(struct md_rdev *rdev, struct md_rdev *refdev, int minor_
- 	 */
- 	switch(minor_version) {
- 	case 0:
--		sb_start = i_size_read(rdev->bdev->bd_inode) >> 9;
--		sb_start -= 8*2;
-+		sb_start = bdev_nr_sectors(rdev->bdev) - 8 * 2;
- 		sb_start &= ~(sector_t)(4*2-1);
- 		break;
- 	case 1:
-@@ -1789,10 +1787,9 @@ static int super_1_load(struct md_rdev *rdev, struct md_rdev *refdev, int minor_
- 		else
- 			ret = 0;
- 	}
--	if (minor_version) {
--		sectors = (i_size_read(rdev->bdev->bd_inode) >> 9);
--		sectors -= rdev->data_offset;
--	} else
-+	if (minor_version)
-+		sectors = bdev_nr_sectors(rdev->bdev) - rdev->data_offset;
-+	else
- 		sectors = rdev->sb_start;
- 	if (sectors < le64_to_cpu(sb->data_size))
- 		return -EINVAL;
-@@ -2170,8 +2167,7 @@ super_1_rdev_size_change(struct md_rdev *rdev, sector_t num_sectors)
- 		return 0; /* too confusing */
- 	if (rdev->sb_start < rdev->data_offset) {
- 		/* minor versions 1 and 2; superblock before data */
--		max_sectors = i_size_read(rdev->bdev->bd_inode) >> 9;
--		max_sectors -= rdev->data_offset;
-+		max_sectors = bdev_nr_sectors(rdev->bdev) - rdev->data_offset;
- 		if (!num_sectors || num_sectors > max_sectors)
- 			num_sectors = max_sectors;
- 	} else if (rdev->mddev->bitmap_info.offset) {
-@@ -2180,7 +2176,7 @@ super_1_rdev_size_change(struct md_rdev *rdev, sector_t num_sectors)
- 	} else {
- 		/* minor version 0; superblock after data */
- 		sector_t sb_start, bm_space;
--		sector_t dev_size = i_size_read(rdev->bdev->bd_inode) >> 9;
-+		sector_t dev_size = bdev_nr_sectors(rdev->bdev);
- 
- 		/* 8K is for superblock */
- 		sb_start = dev_size - 8*2;
-@@ -3384,7 +3380,7 @@ rdev_size_store(struct md_rdev *rdev, const char *buf, size_t len)
- 			if (!sectors)
- 				return -EBUSY;
- 		} else if (!sectors)
--			sectors = (i_size_read(rdev->bdev->bd_inode) >> 9) -
-+			sectors = bdev_nr_sectors(rdev->bdev) -
- 				rdev->data_offset;
- 		if (!my_mddev->pers->resize)
- 			/* Cannot change size for RAID0 or Linear etc */
-@@ -3711,7 +3707,7 @@ static struct md_rdev *md_import_device(dev_t newdev, int super_format, int supe
- 
- 	kobject_init(&rdev->kobj, &rdev_ktype);
- 
--	size = i_size_read(rdev->bdev->bd_inode) >> BLOCK_SIZE_BITS;
-+	size = bdev_nr_bytes(rdev->bdev) >> BLOCK_SIZE_BITS;
- 	if (!size) {
- 		pr_warn("md: %s has zero or unknown size, marking faulty!\n",
- 			bdevname(rdev->bdev,b));
-@@ -6882,7 +6878,7 @@ int md_add_new_disk(struct mddev *mddev, struct mdu_disk_info_s *info)
- 
- 		if (!mddev->persistent) {
- 			pr_debug("md: nonpersistent superblock ...\n");
--			rdev->sb_start = i_size_read(rdev->bdev->bd_inode) / 512;
-+			rdev->sb_start = bdev_nr_sectors(rdev->bdev);
- 		} else
- 			rdev->sb_start = calc_dev_sboffset(rdev);
- 		rdev->sectors = rdev->sb_start;
-@@ -6969,7 +6965,7 @@ static int hot_add_disk(struct mddev *mddev, dev_t dev)
- 	if (mddev->persistent)
- 		rdev->sb_start = calc_dev_sboffset(rdev);
- 	else
--		rdev->sb_start = i_size_read(rdev->bdev->bd_inode) / 512;
-+		rdev->sb_start = bdev_nr_sectors(rdev->bdev);
- 
- 	rdev->sectors = rdev->sb_start;
- 
+ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
 -- 
 2.30.2
 
