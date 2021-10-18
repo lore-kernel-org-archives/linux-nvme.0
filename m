@@ -2,34 +2,34 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8574C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E44C43219
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B196560E90
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B196560E90
+	by mail.kernel.org (Postfix) with ESMTPS id 2D24260E54
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2D24260E54
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DmM3dWgdZg1sq+ld1mvVd1MY5RYF5XMOWvyajjuiGc4=; b=1iSziu5YHMizdPAmKzEf1RXWK3
-	N8SNl68PmIR75M/0acVkrejv9ng9nf0SNnH0SIx7zTutYcoV0MrwPJU7viKEDuF78i9MC8JfPpmc8
-	5Y3yfHhot1A2317lJwpuN99OClGb2stIaJST8a03HNuC6H6Pv+qLGxAiJPNu3e9FK2rssKmocESpu
-	aoQ/wgFZAHbVk3IAlFwjutfp5KromKReadDfM0kyqfSJDJIG1Wiw2RatyVKI/jz5sUjUbqSiGqA7F
-	xMtzdUoDdAKdrzaciJX3VBwoT9eDnnc0wHmAMxByyx9X7eIcZcMI5z23y2LFg4wuadEe5SfLWh9gI
-	CXCKEmYQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XEauwBeyle229Q9YGjw8X73gVoQGpNTHUdJ6d3ufcSY=; b=TNzO6Yj2BOoneEevWDi3EMqPOR
+	s2enEFLN2LYnJiJOd3AB4w+gq9goocsN0VJz0jIehMyFJ+h1lXoZ55j5ZWsbs4v2yBf6xBw9znGiT
+	a+bCH9U3arvTUHFeKbqSB95AJw6YgeyXvARSC3iAIqBX379rz4dIFZTJ/Z6IiSA4cidj5ogeZKs9w
+	RdE4CEaT4BgS+iAz7dRPJw2JiVenfsD+1xEmk+DEp9JV2+ddfl4M5nOkVWv7WYg1diY9ROf0757NY
+	ldsdPhHxlEw8QvbwORILhW1tiTjIf3t0wXEdCsGK15OdtFl1iFZNogr5qgZdVaY5zCwpuAghTiWO3
+	CtCjmHSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPee-00Evt0-G3; Mon, 18 Oct 2021 10:14:04 +0000
+	id 1mcPev-00Ew2b-S9; Mon, 18 Oct 2021 10:14:21 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcF-00Etyg-Rf; Mon, 18 Oct 2021 10:11:36 +0000
+ id 1mcPcD-00EtyD-1s; Mon, 18 Oct 2021 10:11:33 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,15 +50,11 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 01/30] block: move the SECTOR_SIZE related definitions to
- blk_types.h
-Date: Mon, 18 Oct 2021 12:11:01 +0200
-Message-Id: <20211018101130.1838532-2-hch@lst.de>
+ reiserfs-devel@vger.kernel.org
+Subject: don't use ->bd_inode to access the block device size v3
+Date: Mon, 18 Oct 2021 12:11:00 +0200
+Message-Id: <20211018101130.1838532-1-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
-References: <20211018101130.1838532-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 18 Oct 2021 03:14:03 -0700
@@ -76,75 +72,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ensure these are always available for inlines in the various block layer
-headers.
+Hi Jens,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- include/linux/blk_types.h | 17 +++++++++++++++++
- include/linux/blkdev.h    | 17 -----------------
- 2 files changed, 17 insertions(+), 17 deletions(-)
+various drivers currently poke directy at the block device inode, which
+is a bit of a mess.  This series cleans up the places that read the
+block device size to use the proper helpers.  I have separate patches
+for many of the other bd_inode uses, but this series is already big
+enough as-is,
 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 3b967053e9f5a..dc8da0c7fa09b 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -20,6 +20,23 @@ struct cgroup_subsys_state;
- typedef void (bio_end_io_t) (struct bio *);
- struct bio_crypt_ctx;
- 
-+/*
-+ * The basic unit of block I/O is a sector. It is used in a number of contexts
-+ * in Linux (blk, bio, genhd). The size of one sector is 512 = 2**9
-+ * bytes. Variables of type sector_t represent an offset or size that is a
-+ * multiple of 512 bytes. Hence these two constants.
-+ */
-+#ifndef SECTOR_SHIFT
-+#define SECTOR_SHIFT 9
-+#endif
-+#ifndef SECTOR_SIZE
-+#define SECTOR_SIZE (1 << SECTOR_SHIFT)
-+#endif
-+
-+#define PAGE_SECTORS_SHIFT	(PAGE_SHIFT - SECTOR_SHIFT)
-+#define PAGE_SECTORS		(1 << PAGE_SECTORS_SHIFT)
-+#define SECTOR_MASK		(PAGE_SECTORS - 1)
-+
- struct block_device {
- 	sector_t		bd_start_sect;
- 	struct disk_stats __percpu *bd_stats;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 17705c970d7e1..161496d1aced0 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -571,23 +571,6 @@ static inline struct request_queue *bdev_get_queue(struct block_device *bdev)
- 	return bdev->bd_disk->queue;	/* this is never NULL */
- }
- 
--/*
-- * The basic unit of block I/O is a sector. It is used in a number of contexts
-- * in Linux (blk, bio, genhd). The size of one sector is 512 = 2**9
-- * bytes. Variables of type sector_t represent an offset or size that is a
-- * multiple of 512 bytes. Hence these two constants.
-- */
--#ifndef SECTOR_SHIFT
--#define SECTOR_SHIFT 9
--#endif
--#ifndef SECTOR_SIZE
--#define SECTOR_SIZE (1 << SECTOR_SHIFT)
--#endif
--
--#define PAGE_SECTORS_SHIFT	(PAGE_SHIFT - SECTOR_SHIFT)
--#define PAGE_SECTORS		(1 << PAGE_SECTORS_SHIFT)
--#define SECTOR_MASK		(PAGE_SECTORS - 1)
--
- #ifdef CONFIG_BLK_DEV_ZONED
- 
- /* Helper to convert BLK_ZONE_ZONE_XXX to its string format XXX */
--- 
-2.30.2
+Changes since v2:
+ - bdev_nr_bytes should return loff_t
+ - fix a commit message typo
+ - drop a redundant note in a commit message
 
+Changes since v1:
+ - move SECTOR_SIZE & co
+ - use SECTOR_SHIFT in sb_bdev_nr_blocks
+ - add a bdev_nr_bytes helper
+ - reuse a variable in the SCSI target code
+ - drop the block2mtd patch, a bigger rewrite for that code is pending
+
+Diffstat:
+ block/fops.c                        |    2 +-
+ drivers/block/drbd/drbd_int.h       |    3 +--
+ drivers/md/bcache/super.c           |    2 +-
+ drivers/md/bcache/util.h            |    4 ----
+ drivers/md/bcache/writeback.c       |    2 +-
+ drivers/md/dm-bufio.c               |    2 +-
+ drivers/md/dm-cache-metadata.c      |    2 +-
+ drivers/md/dm-cache-target.c        |    2 +-
+ drivers/md/dm-clone-target.c        |    2 +-
+ drivers/md/dm-dust.c                |    5 ++---
+ drivers/md/dm-ebs-target.c          |    2 +-
+ drivers/md/dm-era-target.c          |    2 +-
+ drivers/md/dm-exception-store.h     |    2 +-
+ drivers/md/dm-flakey.c              |    3 +--
+ drivers/md/dm-integrity.c           |    6 +++---
+ drivers/md/dm-linear.c              |    3 +--
+ drivers/md/dm-log-writes.c          |    4 ++--
+ drivers/md/dm-log.c                 |    2 +-
+ drivers/md/dm-mpath.c               |    2 +-
+ drivers/md/dm-raid.c                |    6 +++---
+ drivers/md/dm-switch.c              |    2 +-
+ drivers/md/dm-table.c               |    3 +--
+ drivers/md/dm-thin-metadata.c       |    2 +-
+ drivers/md/dm-thin.c                |    2 +-
+ drivers/md/dm-verity-target.c       |    3 +--
+ drivers/md/dm-writecache.c          |    2 +-
+ drivers/md/dm-zoned-target.c        |    2 +-
+ drivers/md/md.c                     |   26 +++++++++++---------------
+ drivers/nvme/target/io-cmd-bdev.c   |    4 ++--
+ drivers/target/target_core_iblock.c |    4 ++--
+ fs/affs/super.c                     |    2 +-
+ fs/btrfs/dev-replace.c              |    3 +--
+ fs/btrfs/disk-io.c                  |    2 +-
+ fs/btrfs/ioctl.c                    |    4 ++--
+ fs/btrfs/volumes.c                  |    8 ++++----
+ fs/buffer.c                         |    4 ++--
+ fs/cramfs/inode.c                   |    2 +-
+ fs/ext4/super.c                     |    2 +-
+ fs/fat/inode.c                      |    5 +----
+ fs/hfs/mdb.c                        |    2 +-
+ fs/hfsplus/wrapper.c                |    2 +-
+ fs/jfs/resize.c                     |    5 ++---
+ fs/jfs/super.c                      |    5 ++---
+ fs/nfs/blocklayout/dev.c            |    4 ++--
+ fs/nilfs2/ioctl.c                   |    2 +-
+ fs/nilfs2/super.c                   |    2 +-
+ fs/nilfs2/the_nilfs.c               |    2 +-
+ fs/ntfs/super.c                     |    8 +++-----
+ fs/ntfs3/super.c                    |    3 +--
+ fs/pstore/blk.c                     |    8 +++-----
+ fs/reiserfs/super.c                 |    8 ++------
+ fs/squashfs/super.c                 |    5 +++--
+ fs/udf/lowlevel.c                   |    5 ++---
+ fs/udf/super.c                      |    9 +++------
+ include/linux/blk_types.h           |   17 +++++++++++++++++
+ include/linux/blkdev.h              |   17 -----------------
+ include/linux/genhd.h               |   13 ++++++++++++-
+ 57 files changed, 118 insertions(+), 139 deletions(-)
 
