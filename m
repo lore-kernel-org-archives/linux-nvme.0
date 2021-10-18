@@ -2,62 +2,107 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D42DC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 17:29:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADE7C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 17:49:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D67FC61074
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 17:29:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D67FC61074
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9116F60EB1
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 17:49:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9116F60EB1
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qAmsQxC7vOiiaHOl0gHcw2CJr0qTdWYw1ed0MjDrRfc=; b=CbpgNbcN6sIk7TyFeQar1mena+
-	xkAPMjqYgceZrB6VCXcLxh7vTLpPANnnfrZrshAUzONCsDdik1L7YC1VHwMJAyKun5xq0KiTJyEvR
-	DSofcrfHU9/YjdXswfgAFPrFYpzkSeRKG1E3nTZNd7WeCl6Uyu5ScPkVOQDT+Rmsg6gyqPpUgZTOA
-	ckLgAlyL/SxoF1UdYuZDsCDtUYCOnJOPn964DMYUBvwmCUlGVqYV/f7IhEebzBbyPCoyMGFXp7Gix
-	t8jsv7Puk9MYP+Z8Ny1FgxiC5EDrCFAfNDEtZMCJ3pR4aRyE4lGA+J26kvGo2/q1sxw45NIT7aQH/
-	k5J6UvEg==;
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8eHyIh60ZUzo3JWH2PHiHe4cTmG/UJai+TUUoRo1bPo=; b=1sOfIQzkydu5zAw4+BRD8et9ZJ
+	2Gge7zlf2ijlVJF7fncpz0/77eH2RJgB8+Mv6hs0TgTK+k7pH3/rjgf/YWxLnZK/2hFvnAgrKnu6b
+	XyIAANJTJTRcAXQ+xCWXvf+qS2JhLYDdRAtV/XBAHtJQpq/s7+lPcz+ngAAGT6oeg+yg84VnfaG9D
+	nh+rDCu18VbjxtIzyvJojKYDNybwOvo+qZV41HwgNIHisfuWce+/0idiURvBmesB8O85vUU1mFMvM
+	SmWDG5vqPPRJaUXXuSFZkHbbFjaTRE5WsXC9Asxmg51Nt0MOB04c/m9DSV/0B+HucrbtAj0vz1WyT
+	+sGis71A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcWRz-00Ge6T-TK; Mon, 18 Oct 2021 17:29:27 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1mcWl1-00GhJ1-Ln; Mon, 18 Oct 2021 17:49:07 +0000
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcWRt-00Ge5Q-3I
- for linux-nvme@lists.infradead.org; Mon, 18 Oct 2021 17:29:22 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10141"; a="251769406"
-X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="251769406"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2021 10:19:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,382,1624345200"; d="scan'208";a="661453976"
-Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 18 Oct 2021 10:19:28 -0700
-Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mcWIK-000BZf-2a; Mon, 18 Oct 2021 17:19:28 +0000
-Date: Tue, 19 Oct 2021 01:19:13 +0800
-From: kernel test robot <lkp@intel.com>
+ id 1mcWd4-00GgOd-O1
+ for linux-nvme@lists.infradead.org; Mon, 18 Oct 2021 17:40:56 +0000
+Received: by mail-il1-x133.google.com with SMTP id k3so5364159ilo.7
+ for <linux-nvme@lists.infradead.org>; Mon, 18 Oct 2021 10:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8eHyIh60ZUzo3JWH2PHiHe4cTmG/UJai+TUUoRo1bPo=;
+ b=FxDre2hjyoHZ64BANF3MmORptiQUy9H6AZXx6LsuyaBb3BcaZC0U/QrU21BtTujGBo
+ 8pKXev+INoMpwpLRfH86fYXpprj4xYaVKSen9V7xFxUy/Adi3YagOWpZv1TCL1fYRKF4
+ KJjdISFmhkQQ0L4EmrQXCfcR5w3Zzj3aqn6DzOl13eefz8vxGa1vYg1bewxzJ9VB28da
+ 3UiILqBGRheOtvSI5gJ9xtk7xHUS/Gucotz2TgqyyRfnlasGRztSAeszEgY1u2mV13ER
+ EMsST0UXfQiH71wz4IGsonA4VDgwXa5gnJGRFiHsgHIEksPy/aZTeVCzAUrIhmXl9xQs
+ p/ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8eHyIh60ZUzo3JWH2PHiHe4cTmG/UJai+TUUoRo1bPo=;
+ b=A4gUv+0dnJd621H2rsAEDg2M/x/Nbes+DZ/FI0T15SEQUOXZlX9cJqFZ+l3Qpo/RgO
+ 7rewA3AXeW+wX+4AiXBqZJlC0ZIkuA5sp/bcsvK0ff5xAphCCyRD2OIfbgIpDi8HaszI
+ zD3k0wA0NOYSbBmxReIanzZwXTs3YWOfTLaFsducedpBN+Z/nQq/bGKLawzIEm7Ct5LQ
+ A1pPv5CtAJlIHqNNNNk95+gB9p7xdMtXkb5OT0YuZyNatI6zNik4kumenfPr3GRc+1wE
+ aqvietFZvZv9KF4gyIynyc73QSkD7BGQWtZ9zau8xUgqOEfGclBjYc7NKBLFMnEoHfzb
+ m7Mg==
+X-Gm-Message-State: AOAM533KZGVDeGEVnqsSgwH8CIMu2mlhRCm+iF3LOm56S4dfCKzlxL8r
+ 0RmkbMF39n7Y+I5b0u5WL9K1QA==
+X-Google-Smtp-Source: ABdhPJwRrr1OSerCMeedIq2RIL4WChs1nkzMA+HxEg+LQORSp5DecggK+ro0hO8CL+NowqI2hdNiZw==
+X-Received: by 2002:a05:6e02:14d3:: with SMTP id
+ o19mr15105521ilk.257.1634578853304; 
+ Mon, 18 Oct 2021 10:40:53 -0700 (PDT)
+Received: from [192.168.1.30] ([207.135.234.126])
+ by smtp.gmail.com with ESMTPSA id s6sm3131684ilv.18.2021.10.18.10.40.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Oct 2021 10:40:52 -0700 (PDT)
+Subject: Re: don't use ->bd_inode to access the block device size v3
 To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.16] BUILD SUCCESS
- 1b05b7825ef38c7e8969e111360ec13520cb4ea9
-Message-ID: <616dac91.rozBbY8/WNEPtbWM%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+ Song Liu <song@kernel.org>, David Sterba <dsterba@suse.com>,
+ Josef Bacik <josef@toxicpanda.com>, Theodore Ts'o <tytso@mit.edu>,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Anton Altaparmakov <anton@tuxera.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Kees Cook <keescook@chromium.org>, Phillip Lougher
+ <phillip@squashfs.org.uk>, Jan Kara <jack@suse.com>,
+ linux-block@vger.kernel.org, dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+ linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
+References: <20211018101130.1838532-1-hch@lst.de>
+ <4a8c3a39-9cd3-5b2f-6d0f-a16e689755e6@kernel.dk>
+ <20211018171843.GA3338@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <2f5dcf79-8419-45ff-c27c-68d43242ccfe@kernel.dk>
+Date: Mon, 18 Oct 2021 11:40:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20211018171843.GA3338@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211018_102921_193616_5D91FF8F 
-X-CRM114-Status: UNSURE (   8.46  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211018_104054_824771_4FEA4631 
+X-CRM114-Status: GOOD (  22.23  )
+X-Mailman-Approved-At: Mon, 18 Oct 2021 10:49:06 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,149 +117,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.16
-branch HEAD: 1b05b7825ef38c7e8969e111360ec13520cb4ea9  nvme-rdma: fix error code in nvme_rdma_setup_ctrl
+On 10/18/21 11:18 AM, Christoph Hellwig wrote:
+> On Mon, Oct 18, 2021 at 11:16:08AM -0600, Jens Axboe wrote:
+>> This looks good to me. Followup question, as it's related - I've got a
+>> hacky patch that caches the inode size in the bdev:
+>>
+>> https://git.kernel.dk/cgit/linux-block/commit/?h=perf-wip&id=c754951eb7193258c35a574bd1ccccb7c4946ee4
+>>
+>> so we don't have to dip into the inode itself for the fast path. While
+>> it's obviously not something being proposed for inclusion right now, is
+>> there a world in which we can make something like that work?
+> 
+> There's just two places that update i_size for block devices:
+> set_capacity and bdev_set_nr_sectors.  So you just need to update
+> bd_nr_sectors there and you're done.
 
-elapsed time: 722m
+This on top of your patches should do the trick, then.
 
-configs tested: 127
-configs skipped: 4
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+commit eebb7c5048163985fb21d6cb740ebac78cb46051
+Author: Jens Axboe <axboe@kernel.dk>
+Date:   Mon Oct 18 11:39:45 2021 -0600
 
-gcc tested configs:
-arm64                            allyesconfig
-arm64                               defconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                 mpc834x_itx_defconfig
-mips                         tb0219_defconfig
-sh                               j2_defconfig
-mips                     loongson1c_defconfig
-powerpc                      chrp32_defconfig
-arm                          moxart_defconfig
-m68k                        m5307c3_defconfig
-um                             i386_defconfig
-m68k                          sun3x_defconfig
-powerpc                     sequoia_defconfig
-m68k                          atari_defconfig
-mips                       capcella_defconfig
-powerpc                         ps3_defconfig
-arm                    vt8500_v6_v7_defconfig
-sh                         apsh4a3a_defconfig
-powerpc                 mpc8560_ads_defconfig
-powerpc                      pcm030_defconfig
-powerpc                          allyesconfig
-powerpc                   microwatt_defconfig
-alpha                               defconfig
-sh                            shmin_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                         hackkit_defconfig
-powerpc                          g5_defconfig
-powerpc                        fsp2_defconfig
-sparc                       sparc64_defconfig
-mips                         tb0226_defconfig
-sh                        dreamcast_defconfig
-mips                     cu1000-neo_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                 mpc837x_mds_defconfig
-sh                         microdev_defconfig
-powerpc                     taishan_defconfig
-powerpc                     mpc512x_defconfig
-powerpc                 mpc834x_mds_defconfig
-sh                        sh7757lcr_defconfig
-powerpc                      tqm8xx_defconfig
-arm                       mainstone_defconfig
-sh                          r7785rp_defconfig
-m68k                         amcore_defconfig
-powerpc                     kmeter1_defconfig
-arm                  randconfig-c002-20211018
-i386                 randconfig-c001-20211018
-x86_64               randconfig-c001-20211018
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nios2                            allyesconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                                defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                             allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a004-20211018
-x86_64               randconfig-a006-20211018
-x86_64               randconfig-a005-20211018
-x86_64               randconfig-a001-20211018
-x86_64               randconfig-a002-20211018
-x86_64               randconfig-a003-20211018
-i386                 randconfig-a001-20211018
-i386                 randconfig-a003-20211018
-i386                 randconfig-a004-20211018
-i386                 randconfig-a005-20211018
-i386                 randconfig-a002-20211018
-i386                 randconfig-a006-20211018
-arc                  randconfig-r043-20211018
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                           allyesconfig
+    block: cache inode size in bdev
+    
+    Reading the inode size brings in a new cacheline for IO submit, and
+    it's in the hot path being checked for every single IO. When doing
+    millions of IOs per core per second, this is noticeable overhead.
+    
+    Cache the nr_sectors in the bdev itself.
+    
+    Signed-off-by: Jens Axboe <axboe@kernel.dk>
 
-clang tested configs:
-i386                 randconfig-a003-20211017
-i386                 randconfig-a001-20211017
-i386                 randconfig-a005-20211017
-i386                 randconfig-a004-20211017
-i386                 randconfig-a002-20211017
-i386                 randconfig-a006-20211017
-x86_64               randconfig-a015-20211018
-x86_64               randconfig-a012-20211018
-x86_64               randconfig-a016-20211018
-x86_64               randconfig-a014-20211018
-x86_64               randconfig-a013-20211018
-x86_64               randconfig-a011-20211018
-i386                 randconfig-a014-20211018
-i386                 randconfig-a016-20211018
-i386                 randconfig-a011-20211018
-i386                 randconfig-a015-20211018
-i386                 randconfig-a012-20211018
-i386                 randconfig-a013-20211018
-hexagon              randconfig-r041-20211018
-s390                 randconfig-r044-20211018
-riscv                randconfig-r042-20211018
-hexagon              randconfig-r045-20211018
+diff --git a/block/genhd.c b/block/genhd.c
+index 759bc06810f8..53495e3391e3 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -58,6 +58,7 @@ void set_capacity(struct gendisk *disk, sector_t sectors)
+ 
+ 	spin_lock(&bdev->bd_size_lock);
+ 	i_size_write(bdev->bd_inode, (loff_t)sectors << SECTOR_SHIFT);
++	bdev->bd_nr_sectors = sectors;
+ 	spin_unlock(&bdev->bd_size_lock);
+ }
+ EXPORT_SYMBOL(set_capacity);
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index 9dbddc355b40..66ef9bc6d6a1 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -91,6 +91,7 @@ static void bdev_set_nr_sectors(struct block_device *bdev, sector_t sectors)
+ {
+ 	spin_lock(&bdev->bd_size_lock);
+ 	i_size_write(bdev->bd_inode, (loff_t)sectors << SECTOR_SHIFT);
++	bdev->bd_nr_sectors = sectors;
+ 	spin_unlock(&bdev->bd_size_lock);
+ }
+ 
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 472e55e0e94f..fe065c394fff 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -39,6 +39,7 @@ struct bio_crypt_ctx;
+ 
+ struct block_device {
+ 	sector_t		bd_start_sect;
++	sector_t		bd_nr_sectors;
+ 	struct disk_stats __percpu *bd_stats;
+ 	unsigned long		bd_stamp;
+ 	bool			bd_read_only;	/* read-only policy */
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 7b0326661a1e..001f617f82da 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -238,7 +238,7 @@ static inline sector_t get_start_sect(struct block_device *bdev)
+ 
+ static inline loff_t bdev_nr_bytes(struct block_device *bdev)
+ {
+-	return i_size_read(bdev->bd_inode);
++	return bdev->bd_nr_sectors;
+ }
+ 
+ static inline sector_t bdev_nr_sectors(struct block_device *bdev)
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Jens Axboe
+
 
