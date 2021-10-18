@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 409DFC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55625C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:40:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10BF560FC3
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:39:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 10BF560FC3
+	by mail.kernel.org (Postfix) with ESMTPS id EE00E610C7
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:40:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EE00E610C7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M1HrL0ni4sgTns+jBUpHYxmGLLEuq17ZtgEK/6C2V3k=; b=EUA5fWpPFNnCFMI233mK20ULmG
-	9QoIa+WJ3hfbSIUzkl/HW8ejD08HPBJXEmMwJUC2xDNxSb7OwvnRxRz2PQngptrZwJ5+Xf8OSmS/d
-	1ebpgmzAjpbPInk7VnyKelzITlvaQ6Z9CQLdOGWYjwgqDgrNGq9UsHmWxjC+U64VlQsr9ZxX3gU5P
-	YFEZWS4rwd0klAz7Hmk0G/uZszQrQ+2eno3zW8lnDN/8VeHi/OEOgv/zJhjSPwl8VY481zR7m0wZZ
-	YjmX8/u+bsPntXyugAMjDdisWspylCmjSsJa0lQXcXUSAARsYpQA9U8klHeJk6B/JAYnUSm2Dm+yG
-	XRMIZOOg==;
+	bh=JRUJFkyjxq71rT2gSHQzVSwiRN9DYj/nxSJqzQ3gbXo=; b=sfTPLajYnYiJOhITMMPrg7L+up
+	j/RKzdyqbYSvgEN7oOuJRwitqNRJ5K2eKDpqt5lNWuEXDJ+IrWBWLWEcUObGpiL2rHRPredcz2EJY
+	YQclDybJRN8bNHxFTVVM3eWddwpNFMfcITkqDYlw1BIM4QzrYMkvINPk+u5b8OmSQTh4tzYwOqVUR
+	eKorx9e6U1HH1G6luuEJbZEXZCzKZCCtdXEIe0WLrHZ+AO5l24wm7JgLgYRjzFH62apI6+hC4o8h9
+	vqhYblb8Uuipo9OBc6vR4L6zLLTdY6MtSv7gJmyHVc9KY5g9oEDInrS+cLO7RYQbRy3x8Zq6Vr2cy
+	507eivhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcQ3a-00F4Q4-QJ; Mon, 18 Oct 2021 10:39:50 +0000
+	id 1mcQ4c-00F4k8-4Y; Mon, 18 Oct 2021 10:40:54 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPdQ-00Ev0o-83; Mon, 18 Oct 2021 10:12:48 +0000
+ id 1mcPdS-00Ev2p-Si; Mon, 18 Oct 2021 10:12:51 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,10 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org
-Subject: [PATCH 28/30] ntfs: use sb_bdev_nr_blocks
-Date: Mon, 18 Oct 2021 12:11:28 +0200
-Message-Id: <20211018101130.1838532-29-hch@lst.de>
+ reiserfs-devel@vger.kernel.org, Jan Kara <jack@suse.cz>
+Subject: [PATCH 29/30] reiserfs: use sb_bdev_nr_blocks
+Date: Mon, 18 Oct 2021 12:11:29 +0200
+Message-Id: <20211018101130.1838532-30-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -74,47 +74,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the sb_bdev_nr_blocks helper instead of open coding it and clean up
-ntfs_fill_super a bit by moving an assignment a little earlier that has
-no negative side effects.
+Use the sb_bdev_nr_blocks helper instead of open coding it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Anton Altaparmakov <anton@tuxera.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- fs/ntfs/super.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ fs/reiserfs/super.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index 0d7e948cb29c9..5ae8de09b271b 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -2772,13 +2772,12 @@ static int ntfs_fill_super(struct super_block *sb, void *opt, const int silent)
- 	ntfs_debug("Set device block size to %i bytes (block size bits %i).",
- 			blocksize, sb->s_blocksize_bits);
- 	/* Determine the size of the device in units of block_size bytes. */
--	if (!i_size_read(sb->s_bdev->bd_inode)) {
-+	vol->nr_blocks = sb_bdev_nr_blocks(sb);
-+	if (!vol->nr_blocks) {
- 		if (!silent)
- 			ntfs_error(sb, "Unable to determine device size.");
- 		goto err_out_now;
- 	}
--	vol->nr_blocks = i_size_read(sb->s_bdev->bd_inode) >>
--			sb->s_blocksize_bits;
- 	/* Read the boot sector and return unlocked buffer head to it. */
- 	if (!(bh = read_ntfs_boot_sector(sb, silent))) {
- 		if (!silent)
-@@ -2816,8 +2815,7 @@ static int ntfs_fill_super(struct super_block *sb, void *opt, const int silent)
- 			goto err_out_now;
- 		}
- 		BUG_ON(blocksize != sb->s_blocksize);
--		vol->nr_blocks = i_size_read(sb->s_bdev->bd_inode) >>
--				sb->s_blocksize_bits;
-+		vol->nr_blocks = sb_bdev_nr_blocks(sb);
- 		ntfs_debug("Changed device block size to %i bytes (block size "
- 				"bits %i) to match volume sector size.",
- 				blocksize, sb->s_blocksize_bits);
+diff --git a/fs/reiserfs/super.c b/fs/reiserfs/super.c
+index 8647a00434ea4..076f9ab943060 100644
+--- a/fs/reiserfs/super.c
++++ b/fs/reiserfs/super.c
+@@ -1199,9 +1199,7 @@ static int reiserfs_parse_options(struct super_block *s,
+ 
+ 			if (!strcmp(arg, "auto")) {
+ 				/* From JFS code, to auto-get the size. */
+-				*blocks =
+-				    i_size_read(s->s_bdev->bd_inode) >> s->
+-				    s_blocksize_bits;
++				*blocks = sb_bdev_nr_blocks(s);
+ 			} else {
+ 				*blocks = simple_strtoul(arg, &p, 0);
+ 				if (*p != '\0') {
 -- 
 2.30.2
 
