@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67F4AC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:26:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF374C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:28:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 309D8610A3
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:26:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 309D8610A3
+	by mail.kernel.org (Postfix) with ESMTPS id 9E164610A3
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:28:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9E164610A3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ss3ilUyKMuPfHBXzBJ88Vs1wtib02SxYRpGnTBbPDiA=; b=2Wqc1Cr011G7QOWZjK7JAu9WE6
-	fSD24AVisyUQ4Pjkx9+I1Y/ymA0SbJobE7DC+nhFYbosIS/qlswQH0G9ryIoxpAsvINc0mkzRqZTg
-	V1tNa4kowja2dAqD1vZXNmoweAjjZhu/P51DYwzW86kQiX2fy6vgh0QaPSO+yyo//Cufjt2oA/Gc2
-	SPvOLGr3i1NUD+UazSwKiMWxNTTOrpsDBklcd5iL0+5RKB0oye76ubWuHl/u5/cfqB+VJK/dDcZ8+
-	tIjKfdirdmnROqaBXmjTy7BgSuT3qBwhh66NhSHtqNmMnxvFtXek79pUNJttO8ipjuhovX2xiMpMK
-	0z5pAz5g==;
+	bh=osxw+vfeTnGlEsqH7zjz3v2g+MYYgjLX6YEKTd2gUSw=; b=c17JryBId93l6P7XcKWJWF6zYp
+	M8ivLnlu/eQ2RkSo/16UiJdL48roZ8Ldbf0M8n8e1C3LzPUW9Skb0zA1zOb1687cNWovEqhPobawa
+	j+WvVy6qnI6ze/cq6k5WsX8soRnxte/N9BhV9QhKlMztu1JpJOdBiTC5JS56mVp/uYhkKlxf07VGK
+	ivvZqLfEdRQnxov2oTiDopXWOSDznZARGE6wDuxQ4lz6hNs7Dyc484b0Zcq0a1CVEGveuOw0h9OjT
+	lzxHarl7zQBtv3aj9AutQyhjdSQ+jZplNmNHkb0DKcUtObOinfOpipPJh+hwXkhaxLa5wdKn+TQG0
+	6d71SbXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPqh-00F0Qg-Sv; Mon, 18 Oct 2021 10:26:32 +0000
+	id 1mcPsP-00F0wH-A2; Mon, 18 Oct 2021 10:28:17 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcw-00EuTH-R5; Mon, 18 Oct 2021 10:12:19 +0000
+ id 1mcPcz-00EuUT-EY; Mon, 18 Oct 2021 10:12:21 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,11 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org, Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH 17/30] jfs: use bdev_nr_bytes instead of open coding it
-Date: Mon, 18 Oct 2021 12:11:17 +0200
-Message-Id: <20211018101130.1838532-18-hch@lst.de>
+ reiserfs-devel@vger.kernel.org
+Subject: [PATCH 18/30] nfs/blocklayout: use bdev_nr_bytes instead of open
+ coding it
+Date: Mon, 18 Oct 2021 12:11:18 +0200
+Message-Id: <20211018101130.1838532-19-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -78,38 +79,32 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Dave Kleikamp <dave.kleikamp@oracle.com>
 ---
- fs/jfs/resize.c | 2 +-
- fs/jfs/super.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ fs/nfs/blocklayout/dev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/jfs/resize.c b/fs/jfs/resize.c
-index bde787c354fcc..a42dbb0d3d28a 100644
---- a/fs/jfs/resize.c
-+++ b/fs/jfs/resize.c
-@@ -199,7 +199,7 @@ int jfs_extendfs(struct super_block *sb, s64 newLVSize, int newLogSize)
- 	txQuiesce(sb);
+diff --git a/fs/nfs/blocklayout/dev.c b/fs/nfs/blocklayout/dev.c
+index acb1d22907daf..5e56da748b2ab 100644
+--- a/fs/nfs/blocklayout/dev.c
++++ b/fs/nfs/blocklayout/dev.c
+@@ -252,7 +252,7 @@ bl_parse_simple(struct nfs_server *server, struct pnfs_block_dev *d,
+ 	d->bdev = bdev;
  
- 	/* Reset size of direct inode */
--	sbi->direct_inode->i_size =  i_size_read(sb->s_bdev->bd_inode);
-+	sbi->direct_inode->i_size = bdev_nr_bytes(sb->s_bdev);
  
- 	if (sbi->mntflag & JFS_INLINELOG) {
- 		/*
-diff --git a/fs/jfs/super.c b/fs/jfs/super.c
-index 9030aeaf0f886..9241caa161163 100644
---- a/fs/jfs/super.c
-+++ b/fs/jfs/super.c
-@@ -551,7 +551,7 @@ static int jfs_fill_super(struct super_block *sb, void *data, int silent)
- 		ret = -ENOMEM;
- 		goto out_unload;
- 	}
--	inode->i_size = i_size_read(sb->s_bdev->bd_inode);
-+	inode->i_size = bdev_nr_bytes(sb->s_bdev);
- 	inode->i_mapping->a_ops = &jfs_metapage_aops;
- 	inode_fake_hash(inode);
- 	mapping_set_gfp_mask(inode->i_mapping, GFP_NOFS);
+-	d->len = i_size_read(d->bdev->bd_inode);
++	d->len = bdev_nr_bytes(d->bdev);
+ 	d->map = bl_map_simple;
+ 
+ 	printk(KERN_INFO "pNFS: using block device %s\n",
+@@ -367,7 +367,7 @@ bl_parse_scsi(struct nfs_server *server, struct pnfs_block_dev *d,
+ 		return PTR_ERR(bdev);
+ 	d->bdev = bdev;
+ 
+-	d->len = i_size_read(d->bdev->bd_inode);
++	d->len = bdev_nr_bytes(d->bdev);
+ 	d->map = bl_map_simple;
+ 	d->pr_key = v->scsi.pr_key;
+ 
 -- 
 2.30.2
 
