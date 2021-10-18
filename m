@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D5E1C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:35:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A634C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:35:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BB796101B
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:35:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2BB796101B
+	by mail.kernel.org (Postfix) with ESMTPS id 24E496103B
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:35:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 24E496103B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2zn8NhPz2uMutIfYtKOd61bO1SYl+3hcc5qagxR0u/o=; b=XPrKrzQu6Yc7UyZwS76dZPifn/
-	qmseO1o1TlNIk7U9aekxhJbkSBNRH9wIzQIvx4X0MXrDzGFZtlkYvXgXqQIt2Fw5fE2NRF/9h3dLK
-	awSDn1IvEvJ7V5XRbYpCYwcAJ4eyrPCQBJydhg6TffkVzZHppywhlvaHqSvuXrSLRBwjWDz6VA4sQ
-	BP8n94iEHzQfc6EJxEAH8jZ2a4LIYW9/xz/8pzGMqmQ5wcslw9rl5XP7rvf6gqDsj1UaSABnxHHME
-	/vlbe/FCljTSXwN1j9LQUdXzgHL6S+HVuvILwdas2wRT8M2Z40uNck/P7dCtr4rYka1MnBAVJ/nEa
-	/TWxyOBQ==;
+	bh=c5d0QK+yd5Xo4ZZ7wO7eHh2GZgh8Yi/WWWEcEdNRvZM=; b=S1Z4+0XQAk3qIywVM+L3L1da+D
+	zYGzdIqy84CGGzhre/HURk3EZv/SXNmRn0RaUhFnUbJ6TLRp7hhY5SukhMztVdRITh8lGM5PC8h5n
+	zkcPFzHPfNhlNXiaZrY+SEaxl7P6Np7VDdo4EUWqykMyuSluaqIE0yPtKetEKvLonH7cOgb03C8Ut
+	UHQYKyUsisAPAdDsQghV+q7aYxAeP0S4YGHzkfsZUjRS/oQOrETX7aVsCRkVOFuBi41D8qsbaJmDJ
+	BXivKgl9Vw0BrhkaLGiPSuIrM2XMW6yjzI7KDkrybWKxaUlDECMrZNumfz0dafdHslBHGmb8ejlh6
+	oZaqWumQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPyr-00F2tq-Gs; Mon, 18 Oct 2021 10:34:57 +0000
+	id 1mcPzb-00F3AB-RQ; Mon, 18 Oct 2021 10:35:43 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPdC-00EumL-JP; Mon, 18 Oct 2021 10:12:35 +0000
+ id 1mcPdF-00EupS-H7; Mon, 18 Oct 2021 10:12:37 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,12 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org
-Subject: [PATCH 23/30] squashfs: use bdev_nr_bytes instead of open coding it
-Date: Mon, 18 Oct 2021 12:11:23 +0200
-Message-Id: <20211018101130.1838532-24-hch@lst.de>
+ reiserfs-devel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 24/30] block: use bdev_nr_bytes instead of open coding it in
+ blkdev_fallocate
+Date: Mon, 18 Oct 2021 12:11:24 +0200
+Message-Id: <20211018101130.1838532-25-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -78,34 +80,25 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Phillip Lougher <phillip@squashfs.org.uk>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- fs/squashfs/super.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ block/fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/squashfs/super.c b/fs/squashfs/super.c
-index 60d6951915f44..bb44ff4c5cc67 100644
---- a/fs/squashfs/super.c
-+++ b/fs/squashfs/super.c
-@@ -16,6 +16,7 @@
+diff --git a/block/fops.c b/block/fops.c
+index 7bb9581a146cf..a6a4d412720cd 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -548,7 +548,7 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+ 		return -EOPNOTSUPP;
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/blkdev.h>
- #include <linux/fs.h>
- #include <linux/fs_context.h>
- #include <linux/fs_parser.h>
-@@ -179,8 +180,8 @@ static int squashfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	/* Check the filesystem does not extend beyond the end of the
- 	   block device */
- 	msblk->bytes_used = le64_to_cpu(sblk->bytes_used);
--	if (msblk->bytes_used < 0 || msblk->bytes_used >
--			i_size_read(sb->s_bdev->bd_inode))
-+	if (msblk->bytes_used < 0 ||
-+	    msblk->bytes_used > bdev_nr_bytes(sb->s_bdev))
- 		goto failed_mount;
- 
- 	/* Check block size for sanity */
+ 	/* Don't go off the end of the device. */
+-	isize = i_size_read(bdev->bd_inode);
++	isize = bdev_nr_bytes(bdev);
+ 	if (start >= isize)
+ 		return -EINVAL;
+ 	if (end >= isize) {
 -- 
 2.30.2
 
