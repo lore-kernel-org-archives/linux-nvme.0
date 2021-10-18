@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D048DC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D884C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:17:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97B7B60E90
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:16:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 97B7B60E90
+	by mail.kernel.org (Postfix) with ESMTPS id CFE9C60C51
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:17:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CFE9C60C51
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=crZRJgOkjYi3EiJOxDBxffWr9S5JpN7jYdBxf7e+8rk=; b=00952zc+TiUluy1HLCm0BnEjTn
-	7n2ivbzlpSwwb/FVCAWbrlmiCVZ0gCPNbzwmT289Rkcwl7HSSnAPsoHDEk9Ml07XO1yk0p4Wto+vK
-	2/DHjNYZ1H8DOwy2Vu2WX4wIct5Vkok1I6J99Sbn0sCzoqGrPSlR4YMjMpWrvNLZ3Kkzf2tlvlJPj
-	HbjuMg4CDNoAk9Q7bvH0ytR9h6XIim4Ukf5q5Yf/ExlZXreqE2RkNWkXHdd76PR0YdfC+w8KwrHeV
-	65jGZ4jnaIlMIkhQdr25E/ak3WJYc9uIfhYs8xaMkfuxr6od16qQGCnYHExMW35L7wjweUaUJMzJm
-	F9qKL7dw==;
+	bh=BEMGsHVLTIykAoNtwRps7ZgL75VOsiTXMqaq61KcMi4=; b=e63fA4AP50mrSc15O3GuqgPbCw
+	89mc+n5MHbdsja8pPRgWC1pkjw/2cXZDrKF/4eArkABQBNaxI7BSSvgr38aqpBkE+LQNZ32+d3m5Q
+	GbK+7an0ylxQW1f4+n1EL3WWnnh4eLahzRv+mxKGgBWDSXUkpzdqKMwYyGK67CS52sRc6Ib0vwGWc
+	nnpdo7HfsN6p5yoRRrK6J+uSXJnsDRvynvOPZ/W54CISZf3FTwq65jZhJsFpe5g/BpDOpkeGIjTtE
+	kBGKY6BdvF8kiIayBp70QJd1nu7B2/RiCS0yUdJRNbiUKC60pPmxX1T77Q3e1cRxfIwvk4efPEV4X
+	rBO+qZFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPhD-00ExBX-Mr; Mon, 18 Oct 2021 10:16:43 +0000
+	id 1mcPhi-00ExNX-1W; Mon, 18 Oct 2021 10:17:14 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcY-00Eu6p-Hz; Mon, 18 Oct 2021 10:11:54 +0000
+ id 1mcPcb-00Eu8m-81; Mon, 18 Oct 2021 10:11:57 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,11 +50,12 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 08/30] target/iblock: use bdev_nr_bytes instead of open coding
- it
-Date: Mon, 18 Oct 2021 12:11:08 +0200
-Message-Id: <20211018101130.1838532-9-hch@lst.de>
+ reiserfs-devel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 09/30] fs: use bdev_nr_bytes instead of open coding it in
+ blkdev_max_block
+Date: Mon, 18 Oct 2021 12:11:09 +0200
+Message-Id: <20211018101130.1838532-10-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -79,27 +80,25 @@ Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Jan Kara <jack@suse.cz>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/target/target_core_iblock.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
-index 31df20abe141f..b1ef041cacd81 100644
---- a/drivers/target/target_core_iblock.c
-+++ b/drivers/target/target_core_iblock.c
-@@ -232,9 +232,9 @@ static unsigned long long iblock_emulate_read_cap_with_block_size(
- 	struct block_device *bd,
- 	struct request_queue *q)
+diff --git a/fs/buffer.c b/fs/buffer.c
+index c615387aedcae..156358977249f 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -878,7 +878,7 @@ link_dev_buffers(struct page *page, struct buffer_head *head)
+ static sector_t blkdev_max_block(struct block_device *bdev, unsigned int size)
  {
--	unsigned long long blocks_long = (div_u64(i_size_read(bd->bd_inode),
--					bdev_logical_block_size(bd)) - 1);
- 	u32 block_size = bdev_logical_block_size(bd);
-+	unsigned long long blocks_long =
-+		div_u64(bdev_nr_bytes(bd), block_size) - 1;
+ 	sector_t retval = ~((sector_t)0);
+-	loff_t sz = i_size_read(bdev->bd_inode);
++	loff_t sz = bdev_nr_bytes(bdev);
  
- 	if (block_size == dev->dev_attrib.block_size)
- 		return blocks_long;
+ 	if (sz) {
+ 		unsigned int sizebits = blksize_bits(size);
 -- 
 2.30.2
 
