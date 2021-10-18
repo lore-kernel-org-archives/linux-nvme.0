@@ -2,14 +2,14 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A7EC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A399C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:15:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7994360E90
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:14:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7994360E90
+	by mail.kernel.org (Postfix) with ESMTPS id 5C47F60E90
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 10:15:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5C47F60E90
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,18 +18,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ua3x6oobbjatF9m91a/TfkciVlhvg2RT0UK88GOOPcc=; b=NFMJJ17ii7/CcbIgsA+w8cA0HM
-	vQvs3e54NLMFkhSz7Kh4r68vLKIOpUiIYDXDALTqoWhIgpiaECu8eZSdSFvnrlZgsT7PybaGg96na
-	4CUBXfUT5/SRqeKzaAVrUwyr7kQD+pwlz/psYOXHO3mYicgk65e3L0JEVQR+dfbkxvih7zQL1Nbfy
-	Ct4gS2hCkgdGca9DrzbmTuvpJnefK1XcBEGI6kLaqIO0FUJy/GK+t1+V87Z+yNQ19G51jb6Z+/V6O
-	MDm/IFOO7jnhpMKgc84c4yn0sojIFGEk/FHu7JtRXugh4xzWU6IWgS17AJWaNVV5rm7iLIlbm4Urh
-	QSbjAgjw==;
+	bh=6+r/5plvJ8OP57S4LNsM02c/IkmCxsa75L+hdJWrUDU=; b=2FU/fV3lR+VBEQnHDY4bYSVWXY
+	syDlo3fV7uh96cnTnGQ1JnhR3TzQdF1xUCqUrx+WyzpXTsB2ATvk0nGvRAM3QfBBc8TKuz1OU62vS
+	lwCtdqmBHEFbRjCgppZDhvIKCCyB8dcBvYw/uf12ZdOcn1hTK9+Jvvp/Y2+qFG6nH/Vrx8wKakPkZ
+	0mDQS+Uud0nj/usuj+xAt6Wc9a0UXRVqFpdkaB6XiGJt1p3WanpmYKSMXDftNaqxKUrmZTC2jLg72
+	SeU/bHS2+1pjTbUva0WT409HCQPMhgOAS2t51fgv5jKX/aXkq39E3vnJ/exGi1l4iM0LuvV0GkP53
+	/Se16sIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcPfM-00EwIi-55; Mon, 18 Oct 2021 10:14:48 +0000
+	id 1mcPfg-00EwV7-8K; Mon, 18 Oct 2021 10:15:08 +0000
 Received: from [2001:4bb8:199:73c5:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcPcL-00Eu0X-91; Mon, 18 Oct 2021 10:11:41 +0000
+ id 1mcPcN-00Eu1r-TL; Mon, 18 Oct 2021 10:11:44 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -50,10 +50,11 @@ Cc: Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
  linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
  linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
  linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
- reiserfs-devel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 03/30] bcache: remove bdev_sectors
-Date: Mon, 18 Oct 2021 12:11:03 +0200
-Message-Id: <20211018101130.1838532-4-hch@lst.de>
+ reiserfs-devel@vger.kernel.org, Lee Duncan <lduncan@suse.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 04/30] drbd: use bdev_nr_sectors instead of open coding it
+Date: Mon, 18 Oct 2021 12:11:04 +0200
+Message-Id: <20211018101130.1838532-5-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211018101130.1838532-1-hch@lst.de>
 References: <20211018101130.1838532-1-hch@lst.de>
@@ -74,57 +75,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the equivalent block layer helper instead.
+Use the proper helper to read the block device size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Lee Duncan <lduncan@suse.com>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Acked-by: Coly Li <colyli@suse.de>
 ---
- drivers/md/bcache/super.c     | 2 +-
- drivers/md/bcache/util.h      | 4 ----
- drivers/md/bcache/writeback.c | 2 +-
- 3 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/block/drbd/drbd_int.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-index f2874c77ff797..4f89985abe4b7 100644
---- a/drivers/md/bcache/super.c
-+++ b/drivers/md/bcache/super.c
-@@ -1002,7 +1002,7 @@ static void calc_cached_dev_sectors(struct cache_set *c)
- 	struct cached_dev *dc;
- 
- 	list_for_each_entry(dc, &c->cached_devs, list)
--		sectors += bdev_sectors(dc->bdev);
-+		sectors += bdev_nr_sectors(dc->bdev);
- 
- 	c->cached_dev_sectors = sectors;
+diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
+index 5d9181382ce19..75fda53eed8cf 100644
+--- a/drivers/block/drbd/drbd_int.h
++++ b/drivers/block/drbd/drbd_int.h
+@@ -1826,8 +1826,7 @@ static inline sector_t drbd_md_last_sector(struct drbd_backing_dev *bdev)
+ /* Returns the number of 512 byte sectors of the device */
+ static inline sector_t drbd_get_capacity(struct block_device *bdev)
+ {
+-	/* return bdev ? get_capacity(bdev->bd_disk) : 0; */
+-	return bdev ? i_size_read(bdev->bd_inode) >> 9 : 0;
++	return bdev ? bdev_nr_sectors(bdev) : 0;
  }
-diff --git a/drivers/md/bcache/util.h b/drivers/md/bcache/util.h
-index b64460a762677..a7da7930a7fda 100644
---- a/drivers/md/bcache/util.h
-+++ b/drivers/md/bcache/util.h
-@@ -584,8 +584,4 @@ static inline unsigned int fract_exp_two(unsigned int x,
- void bch_bio_map(struct bio *bio, void *base);
- int bch_bio_alloc_pages(struct bio *bio, gfp_t gfp_mask);
  
--static inline sector_t bdev_sectors(struct block_device *bdev)
--{
--	return bdev->bd_inode->i_size >> 9;
--}
- #endif /* _BCACHE_UTIL_H */
-diff --git a/drivers/md/bcache/writeback.c b/drivers/md/bcache/writeback.c
-index 8120da278161e..c7560f66dca88 100644
---- a/drivers/md/bcache/writeback.c
-+++ b/drivers/md/bcache/writeback.c
-@@ -45,7 +45,7 @@ static uint64_t __calc_target_rate(struct cached_dev *dc)
- 	 * backing volume uses about 2% of the cache for dirty data.
- 	 */
- 	uint32_t bdev_share =
--		div64_u64(bdev_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
-+		div64_u64(bdev_nr_sectors(dc->bdev) << WRITEBACK_SHARE_SHIFT,
- 				c->cached_dev_sectors);
- 
- 	uint64_t cache_dirty_target =
+ /**
 -- 
 2.30.2
 
