@@ -2,89 +2,71 @@ Return-Path: <SRS0=IkIX=PG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8723CC4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 14:14:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED5F6C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 15:22:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5875260F8F
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 14:14:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5875260F8F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B6F5C60E52
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Oct 2021 15:22:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B6F5C60E52
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sDd4+zyhss9ZAouduQv/tTng8pis4kRMChF6D85Kmck=; b=tEA8iZJLzxQdCUCz2QVX9TaYoT
-	RrFU+TNh8OWTnaUBt9BPGpkXv94DxIPUJJ3LQ0U+fXSVSIg6Bcqw86ifUDAevqBEK/Mww9U37XJrf
-	00xh4j9zFNVeupK00+EtOScmk2Wkk+HWfidfyyFMDEqrAhlzC434ni6JRU0lvG/k6SXpXO09c2/nB
-	TsjUkPbxML0tnD+rFMI91rNHTPZOu6aLUsn+90vTnW6JyAV2FVQwFYHJxde4YBvaDB5WMSmuxJqbu
-	Exvkl+GFNrret+T8OMxoI3xf7tgt6iwqeFiMCOZeqGnPA6PTVChHbN9lqLrTGf5Q+TfEfrEDzIqX2
-	h4AKDEnw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WkwrD0ZeRHUWIn2HGDzo7oHsCoG82+GwUHE8JLIAVNM=; b=UbKwGtNf7xIzH5IYeiDE7/I03M
+	jBPepXcS6LB1on4jtg0ROqFnAz2yta3GkcIgKLMMzEb+D4dfAfZZBZWBbny8QIcLHJ8eZXqq1MN2v
+	nRdzXPR+H4Dt2vNBD8vjdkcxANW0YUGt18mtql8Bee5419yCVuANZnSHRg0iLQPewAWwZ2SoSHMWV
+	f0x0GYt8e6p8Aqlf+kD7r2OspE6sJJNZ/blYJFL9XaveGu8kN6yWujqoQLU7dorKlTxQgiQQC7TvA
+	QQmFp4qDGDZHUb79FBZhj+dd0S6Aj5qbmJx7vmii7AYdFnUEda5CaFA1M1vKfG/AA3+wwHe/iswua
+	9n+hFmLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcTOz-00G1s7-Gw; Mon, 18 Oct 2021 14:14:09 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1mcUSP-00GHgV-O4; Mon, 18 Oct 2021 15:21:45 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcTJA-00G01B-OH
- for linux-nvme@lists.infradead.org; Mon, 18 Oct 2021 14:08:10 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id
- e5-20020a17090a804500b001a116ad95caso62980pjw.2
- for <linux-nvme@lists.infradead.org>; Mon, 18 Oct 2021 07:08:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sDd4+zyhss9ZAouduQv/tTng8pis4kRMChF6D85Kmck=;
- b=FOP3QJEgM0gUHNVmVW2NTX6sBvHyLswIy582yFz8lGGFF7GpGeN3GsDG/5TUaJ29eY
- 1hDYFmVprU4u80ViOVlEEg+DaIigWvgzeS+NdbOCFsbzPS0Qn9joRWLLhu+DzFV+AtE7
- yKhbHdwpOg7bWbzbyq9/KhTgxis1C1pQ8jwFFQ29FQL4MMuS3HEZUh1SFu0vtJrMVsgG
- TtGjUw9L0UPG35VRDIEIgjJ8kAqTeaRCTJkAsxDzLIHK4kzUtt6RtvsSHU8nndCQDA3+
- Hgk4oRGLkOa7rcEHdDZRCpCxgad/v/8BdyLy/tBDJQcZME9U0FwukkQHVTotUJ2i3D3c
- vEgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sDd4+zyhss9ZAouduQv/tTng8pis4kRMChF6D85Kmck=;
- b=62PTL5Z7Oz1qJW/iViKgslaVaq1UBaeSM8r6hM/WhG6LC7kndBcBY9ARt0psmU6mux
- JvCxo1vOXktfOXSJwz5FCvvwRtuJ/Fj0YBVaz3WRZTxG2tNtAm3tdx1sx0PUAv+iBbeb
- I6yFi5Mq94b7O4r3+Wxm6ovMrU4JKxPCjcrPCZ0qDSRtba+TbXc4BdxRbrRdn/IIwunx
- t8/nH2CHp4aQ6u2g2//C/ax+VMbIDaY5UiICvrtvfx1uLuOiLR3ofb5oLOfiVHFCJHtF
- nKE28lOCsT6DBMbRIY9slGyeyVoJFXmM4EjOJQrUomX84eEaOxLt4LZ2i/8p5ruTzA0N
- Xcrw==
-X-Gm-Message-State: AOAM532gJgMlr8X7nZE7QrkSRnqtgPulylJ3ix75ZWcCTlwQAaVlgV52
- 4jDjoO9tzEy2rx8vfd/w2fk=
-X-Google-Smtp-Source: ABdhPJy6DLUh7xumfWey3D8WpnrDOG7EE05rEIYgo4W5iQPgXTNESOkKnosTpigS60oEwqlrv1m00Q==
-X-Received: by 2002:a17:90b:164b:: with SMTP id
- il11mr34256152pjb.98.1634566085134; 
- Mon, 18 Oct 2021 07:08:05 -0700 (PDT)
-Received: from [192.168.1.26] (ip174-67-196-173.oc.oc.cox.net.
- [174.67.196.173])
- by smtp.gmail.com with ESMTPSA id rm14sm8494264pjb.4.2021.10.18.07.08.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Oct 2021 07:08:04 -0700 (PDT)
-Message-ID: <4002b4b2-1a57-8c4f-c2cb-5c4bf13aafbe@gmail.com>
-Date: Mon, 18 Oct 2021 07:08:06 -0700
+ id 1mcUSM-00GHeW-Iy
+ for linux-nvme@lists.infradead.org; Mon, 18 Oct 2021 15:21:43 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 6A81F21961;
+ Mon, 18 Oct 2021 15:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634570499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=WkwrD0ZeRHUWIn2HGDzo7oHsCoG82+GwUHE8JLIAVNM=;
+ b=zXeLX8geb7/VepBi0mB2yUJIzEubWEbWWRwLmHz4fvEsHDSqT4HjkBDUbUaMInQQcyWyyJ
+ f9XH7cq6UI1v+p7dHvu1Pq09CCFPj9ryjMR8JBka0NLNmvBa6MiZBbIlQK7RLGEAJOza7a
+ uhg4oGX1OAij51Cf+I4pmVRAn179zhY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634570499;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=WkwrD0ZeRHUWIn2HGDzo7oHsCoG82+GwUHE8JLIAVNM=;
+ b=tdlXm8CLzpl5/Az+E7QXT9Sfa6L0eOXn3g9rLvcZ4MtXNhQ+JiS3gXh64Kl6IfqVFlUBPI
+ 8V/EjLF4jcicjUBQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 38BC8A3B91;
+ Mon, 18 Oct 2021 15:21:39 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 1DC22518FBBD; Mon, 18 Oct 2021 17:21:39 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv2 0/3] nvmet: discovery controller discovery support
+Date: Mon, 18 Oct 2021 17:21:35 +0200
+Message-Id: <20211018152138.2128-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v1 0/7] Centrelize common fabrics code to core drivers
-Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
- hch@lst.de, kbusch@kernel.org, sagi@grimberg.me
-Cc: chaitanyak@nvidia.com, israelr@nvidia.com, oren@nvidia.com
-References: <20211018134020.33838-1-mgurtovoy@nvidia.com>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20211018134020.33838-1-mgurtovoy@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211018_070808_893173_CCCEF5DB 
-X-CRM114-Status: GOOD (  16.97  )
+X-CRM114-CacheID: sfid-20211018_082142_827339_C670C1DA 
+X-CRM114-Status: UNSURE (   9.02  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,61 +81,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/18/2021 6:40 AM, Max Gurtovoy wrote:
-> Hi Christoph, Sagi, Keith and Co,
-> This series is intended to move common reconnection, device removal and
-> error recovery logic to common fabrics and core drivers. In this stage,
-> it mainly deals with the RDMA and TCP drivers which had the same logic
-> for the above tasks. FC driver can start using this framework in the
-> future after some preparation work that should be done.
-> 
-> This will ease on code maintenance and reduce the code duplication
-> between the RDMA and TCP drivers.
-> 
-> Since there are some attributes that were moved to generic nvme_ctrl
-> structure, I've measured perf impact.
-> 
-> NVMe PCI Perf numbers using NVIDIA's NVMe SNAP Bluefield-2 device
-> (Fio 16 jobs, 128 iodepth, libaio):
-> 
-> IO size   rand READ (before/after)  rand WRITE (before/after)
-> -------- -------------------------  --------------------------
->   512B          2189k/2197k                2031k/2092k
->   1KB           2188k/2201k                2027k/2088k
->   2KB           2166k/2181k                2023k/2078k
->   4KB           2153k/2169k                2025k/2076k
->   8KB           1381k/1381k                1378k/1375k
->   16KB          669k/676k                  660k/664k
->   32KB          320k/322k                  305k/305k
->   64KB          157k/157k                  151k/151k
-> 
-> As we can see, there is no impact on the performance.
-> 
-> Max Gurtovoy (7):
->    nvme: add connect_work attribute to nvme ctrl
->    nvme-fabrics: introduce nvmf_reconnect_or_remove API
->    nvme: add err_work attribute to nvme ctrl
->    nvme-fabrics: introduce nvmf_error_recovery API
->    nvme/nvme-fabrics: introduce nvmf_error_recovery_work API
->    nvme/nvme-fabrics: introduce nvmf_reconnect_ctrl_work API
->    nvme-fabrics: add nvmf_init_ctrl/nvmf_teardown_ctrl API
-> 
->   drivers/nvme/host/fabrics.c |  90 ++++++++++++++++++++++++
->   drivers/nvme/host/fabrics.h |   4 ++
->   drivers/nvme/host/fc.c      |  23 ++++---
->   drivers/nvme/host/nvme.h    |   7 ++
->   drivers/nvme/host/rdma.c    | 134 ++++++++++--------------------------
->   drivers/nvme/host/tcp.c     | 124 ++++++++-------------------------
->   6 files changed, 180 insertions(+), 202 deletions(-)
-> 
+TPAR 8014 (discovery controller discovery) adds a new discovery
+log page entry type '3' to describe the current discovery controller.
+This patchset adds support for this to the nvme target.
 
-Thanks Max.
+As usual, comments and reviews are welcome.
 
-I've been thinking we needed to do this for a while as well.  FC should 
-be part of this, and up front, so the abstraction is tested properly. 
-I'd rather merge now than spin things again.  I'll go through this over 
-the next day or so.
+Changes to v1:
+- Rebased to nvme-5.16
 
--- james
+Hannes Reinecke (3):
+  nvmet: switch check for subsystem type
+  nvme: add new discovery log page entry definitions
+  nvmet: register discovery subsystem as 'current'
+
+ drivers/nvme/target/core.c      |  2 ++
+ drivers/nvme/target/discovery.c | 13 ++++++++-----
+ drivers/nvme/target/nvmet.h     |  2 +-
+ include/linux/nvme.h            | 12 ++++++++++--
+ 4 files changed, 21 insertions(+), 8 deletions(-)
+
+-- 
+2.29.2
 
 
