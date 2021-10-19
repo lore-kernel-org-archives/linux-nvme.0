@@ -2,81 +2,91 @@ Return-Path: <SRS0=W3/M=PH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32320C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Oct 2021 15:09:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB17C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Oct 2021 15:13:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EE6456115A
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Oct 2021 15:09:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EE6456115A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 0362460FDA
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Oct 2021 15:13:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0362460FDA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uEBftk0oRKLTsPD4o29+UUhqfAipcIzYmD3XlqMyuNM=; b=yEVEOvPIQCkHg+ljbXFdq98/Tm
-	wrvN4163S7Ova/n4bnNs1MQ98AZ5aB0wK/ZxPFMpgAwfwOO8i9oio4yXyzdUnLoMf2lBAUKWL+mpy
-	QbNMgoH3zCw3PXywjyUBKiuRAIa+3EvVwrNK8ARHbl5bmY4O+SMHIj9V4S7/fAPm736nHJvNT8PcO
-	KTvDVfYmLyBkn5/bRYMZn6J0s225zxZEBXKQl8zHOqBH8gTQGG+nf/N2DT7ydzaks4tRt7I8rb+Pm
-	b7MTIIKy8O4rVFaElAajGxm+gmb0FGH61uec74DlIDSAXGm2SntDns+DfyEeaYMgNVzbz/kDo3I0k
-	ANuNsJXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=maK7Jqkyo72rFGF4c/a3CYVEdUM/Rekqjp5lLrmd//4=; b=iw45r+zNC1VVdvpJuE23pAujrt
+	hR564oUB+OcvUhJq2dcabHMK9TdW6+xq0vkcdB4Spis+1TFLOw/UBtk3mHSA50+k1mXglFeg4q/pT
+	tYze9ln+ntZs9k1xw10ShZMQuA/jokdfDGkEfbTTNOut4UDcijNsnnZ+MBlZU5tTkRQSAaoBTneAq
+	A50RCh00iJ/b5buZzic6sSkeJ2yPG2QHddcOpvfpMxIGLm8hYcOFEZkzxW6q6TprxaeDiJ/UY0B14
+	iYci90HFJhpUXztXBwmh19uOoAWeEiqZJslW87uHaJ4Bctg5+NNxWg4uo7DjndRckraT6kpDwXcDe
+	VuZig+RQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mcqkP-001e3U-6j; Tue, 19 Oct 2021 15:09:49 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1mcqnt-001esT-Cw; Tue, 19 Oct 2021 15:13:25 +0000
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mcqkL-001e1w-Tr
- for linux-nvme@lists.infradead.org; Tue, 19 Oct 2021 15:09:47 +0000
-Received: by mail-wm1-f44.google.com with SMTP id g39so8155861wmp.3
- for <linux-nvme@lists.infradead.org>; Tue, 19 Oct 2021 08:09:45 -0700 (PDT)
+ id 1mcqnq-001eqp-1U
+ for linux-nvme@lists.infradead.org; Tue, 19 Oct 2021 15:13:23 +0000
+Received: by mail-io1-xd36.google.com with SMTP id r134so20731799iod.11
+ for <linux-nvme@lists.infradead.org>; Tue, 19 Oct 2021 08:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=maK7Jqkyo72rFGF4c/a3CYVEdUM/Rekqjp5lLrmd//4=;
+ b=k+x/10nFJLwkqfoZNzL6IAGgVAGyDLHLjq/xyChRlbY1pma9fyq/5ztQuRhba/m9sZ
+ xDba+3cDfCxOLS6TsVpwq6AkXMPN3B2nESMbVGUNXL0wK+SKPsZ+o0On60R5G1nAr9El
+ wpxtkbigcgrg0W4A6pv1hvIUsU/PC6ROKQPDinVjZaXcRK7vSNlbz8o4RzaYBSmNzyQ9
+ OQCutDEOeG1VMMy/CP7b9AFsX+rP1dAVf6lKutofNIpUNT4wEQeMaZF6OJGsCtbaE+G9
+ 0TMCM6WlzuE5TBWvhNEsut2lSAYiQK/Ng5gW3OD/ZAKIfn6KLeEM8xPSXT7Is86yAnPI
+ ji2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uEBftk0oRKLTsPD4o29+UUhqfAipcIzYmD3XlqMyuNM=;
- b=C7aRMDlpVxbNBPpZo2breIVYCpGPaOV5buSJ2TxS9idnTvZoGrIp9hbNIO2Pjk/SH3
- jj1jRPhAWx0+sUpvAMM3vfdLXUBHNEqs3uZKI5hY6XAiSmyams3lMzPoqjrcUR5XVt3g
- q/wH+kYBrfnyoQ4cJ/3BoGa7BPo0bZJkZoqPg6mBfMWAtek3rW745D6cQig/jO0o63db
- 3EVHdSZCakfySXRNXxv9r0MCBqUX/OiPWI9AJcyn9+rG/k7Vw+GRpOdE1NPu2ySm2yQE
- Aa1jdVw2exnk99FnN7ZT8jn6vzbDfe61xeIuiKQ1vJhgCgsSTjifC3bUz7nM9bWPe8ro
- A0SA==
-X-Gm-Message-State: AOAM5304uEnJALipfoN3X0I1ckbjdI8oKGWzWaPPYvqjS+KrdgBCSf2k
- 6CggFa1ua3FQlAiQlqOhmds=
-X-Google-Smtp-Source: ABdhPJyP5cSxQ7vg2g1RmP/GDtIaVJ/rpk4+nJP2grtUBBAE5J5eo6/Lww478qRtXgaN/mPXWqXFwA==
-X-Received: by 2002:a5d:6892:: with SMTP id h18mr44179963wru.177.1634656183861; 
- Tue, 19 Oct 2021 08:09:43 -0700 (PDT)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id c17sm15715004wrq.4.2021.10.19.08.09.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Oct 2021 08:09:43 -0700 (PDT)
-Subject: Re: Deadlock on failure to read NVMe namespace
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>
-References: <87df4b26-19e7-6cc5-e973-23b6e98f4e19@suse.de>
- <e13114d1-b204-b89a-12bc-53ae049dfaa7@grimberg.me>
- <ce39fdb3-d60f-4e62-f70d-c433145dc68f@suse.de>
- <f5a43c7e-608b-5191-dd73-11c6c8dc1953@grimberg.me>
- <ed1d5970-60a8-88bb-c0d7-0c3e8eafbf7c@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <8ecb32d7-7388-3758-4067-e93e733436e9@grimberg.me>
-Date: Tue, 19 Oct 2021 18:09:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=maK7Jqkyo72rFGF4c/a3CYVEdUM/Rekqjp5lLrmd//4=;
+ b=5BYuV2qKHaEkTWNpu35QjaW2A+FKUi6XJZU+vwyAg2x5fPmcSAaDrFwenrBgf3hcfc
+ 9A0xW4i3zI6snkJwqktJWb6GeVMmOt09HW1gYBFZcAc1WM61LOM3+vMMXyXf3Rrj664D
+ V0Egi6fnO8VnNqv0Dva80uGUGB6XdG03TK0L7OnsTc+M2l45r/l7CqF1LiMIiYphWh6h
+ sTqgZwhxzFnTnyBD4MKVI8i1bZ/iSZi3+1skOerdhWgmtD5QgPxZ0K04kgij0Kn/NPE7
+ VeN9v/VrJnAQrD22Vf7ybSQ6rfPVhtNkyxvs6YYW7LzRe4WpXFxmYp2GG1IkUb5AiisD
+ NrfA==
+X-Gm-Message-State: AOAM533rxW6QJBTqG+Sx6/QOGVgfYteKEq385V2E7wnVJxUrW9hRJUyx
+ DzcbsGV1bJXCWNl8Ir3BHiI=
+X-Google-Smtp-Source: ABdhPJzoZjV60neqDy/PIPlZ2vioWvd219tKPcUE92bs3W4SWY4zbliQ9P10wnCJqqt2ICMjQhuMIw==
+X-Received: by 2002:a02:a391:: with SMTP id y17mr4584795jak.116.1634656398525; 
+ Tue, 19 Oct 2021 08:13:18 -0700 (PDT)
+Received: from anton-latitude (c-76-23-2-87.hsd1.ut.comcast.net. [76.23.2.87])
+ by smtp.gmail.com with ESMTPSA id
+ w11sm8308487ior.40.2021.10.19.08.13.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Oct 2021 08:13:17 -0700 (PDT)
+Date: Tue, 19 Oct 2021 09:13:09 -0600
+From: Anton Eidelman <anton.eidelman@gmail.com>
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ hch@lst.de, kbusch@kernel.org, axboe@fb.com
+Subject: Re: [PATCH] nvme/mpath: fix hang when disk goes live over reconnect
+Message-ID: <20211019151309.GA51473@anton-latitude>
+References: <20210918215729.388968-1-anton@lightbitslabs.com>
+ <20210920063534.GA26999@lst.de>
+ <20210920145336.GA489494@anton-latitude>
+ <20210921071527.GA24837@lst.de>
+ <20211004164612.GA1475751@anton-latitude>
+ <20211004165725.GB21511@lst.de>
+ <6dcfff91-3973-3b2d-e289-38533463cfb6@grimberg.me>
+ <368499da-c117-e8b7-7b1b-46894e1e0b48@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <ed1d5970-60a8-88bb-c0d7-0c3e8eafbf7c@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <368499da-c117-e8b7-7b1b-46894e1e0b48@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211019_080945_990518_5B401F31 
-X-CRM114-Status: GOOD (  32.08  )
+X-CRM114-CacheID: sfid-20211019_081322_126327_C93EEE86 
+X-CRM114-Status: GOOD (  33.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,157 +101,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Looking into making nvme_start_ctrl capable of returning an error.
+This is a bit more complicated IMHO, because the in most transports
+the ctrl is already in LIVE state when nvme_start_ctrl is invoked,
+so we need to bail out carefully.
 
-
-On 10/19/21 6:04 PM, Hannes Reinecke wrote:
-> On 10/19/21 4:27 PM, Sagi Grimberg wrote:
->>
->>>>> 481:~ # cat /proc/15761/stack
->>>>> [<0>] nvme_mpath_clear_ctrl_paths+0x25/0x80 [nvme_core]
->>>>> [<0>] nvme_remove_namespaces+0x31/0xf0 [nvme_core]
->>>>> [<0>] nvme_do_delete_ctrl+0x4b/0x80 [nvme_core]
->>>>> [<0>] nvme_sysfs_delete+0x42/0x60 [nvme_core]
->>>>> [<0>] kernfs_fop_write_iter+0x12f/0x1a0
->>>>> [<0>] new_sync_write+0x122/0x1b0
->>>>> [<0>] vfs_write+0x1eb/0x250
->>>>> [<0>] ksys_write+0xa1/0xe0
->>>>> [<0>] do_syscall_64+0x3a/0x80
->>>>> [<0>] entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>>> c481:~ # cat /proc/14965/stack
->>>>> [<0>] do_read_cache_page+0x49b/0x790
->>>>> [<0>] read_part_sector+0x39/0xe0
->>>>> [<0>] read_lba+0xf9/0x1d0
->>>>> [<0>] efi_partition+0xf1/0x7f0
->>>>> [<0>] bdev_disk_changed+0x1ee/0x550
->>>>> [<0>] blkdev_get_whole+0x81/0x90
->>>>> [<0>] blkdev_get_by_dev+0x128/0x2e0
->>>>> [<0>] device_add_disk+0x377/0x3c0
->>>>> [<0>] nvme_mpath_set_live+0x130/0x1b0 [nvme_core]
->>>>> [<0>] nvme_mpath_add_disk+0x150/0x160 [nvme_core]
->>>>> [<0>] nvme_alloc_ns+0x417/0x950 [nvme_core]
->>>>> [<0>] nvme_validate_or_alloc_ns+0xe9/0x1e0 [nvme_core]
->>>>> [<0>] nvme_scan_work+0x168/0x310 [nvme_core]
->>>>> [<0>] process_one_work+0x231/0x420
->>>>> [<0>] worker_thread+0x2d/0x3f0
->>>>> [<0>] kthread+0x11a/0x140
->>>>> [<0>] ret_from_fork+0x22/0x30
->>>>>
->>>>> My theory here is that the partition scanning code just calls into 
->>>>> the pagecache, which doesn't set a timeout for any I/O operation.
->>>>> As this is done under the scan_mutex we cannot clear the active 
->>>>> paths, and consequently we hang.
->>>>
->>>> But the controller removal should have cancelled all inflight
->>>> commands...
->>>>
->>>> Maybe we're missing unfreeze? Hannes, can you try this one?
->>>> -- 
->>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>>> index e29c47114739..783fde36d2ba 100644
->>>> --- a/drivers/nvme/host/tcp.c
->>>> +++ b/drivers/nvme/host/tcp.c
->>>> @@ -1974,8 +1974,11 @@ static void 
->>>> nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
->>>> Â Â Â Â Â Â Â Â  nvme_sync_io_queues(ctrl);
->>>> Â Â Â Â Â Â Â Â  nvme_tcp_stop_io_queues(ctrl);
->>>> Â Â Â Â Â Â Â Â  nvme_cancel_tagset(ctrl);
->>>> -Â Â Â Â Â Â  if (remove)
->>>> +Â Â Â Â Â Â  if (remove) {
->>>> Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  nvme_start_queues(ctrl);
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â  nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT);
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â  nvme_unfreeze(ctrl);
->>>> +Â Â Â Â Â Â  }
->>>> Â Â Â Â Â Â Â Â  nvme_tcp_destroy_io_queues(ctrl, remove);
->>>> Â Â }
->>>> -- 
->>> Nope. Same problem.
->>>
->>> I managed to make the problem go away (for some definitions of 'go 
->>> away') with this patch:
->>>
->>> diff --git a/drivers/nvme/host/multipath.c 
->>> b/drivers/nvme/host/multipath.c
->>> index fb96e900dd3a..30d1154eb611 100644
->>> --- a/drivers/nvme/host/multipath.c
->>> +++ b/drivers/nvme/host/multipath.c
->>> @@ -141,12 +141,12 @@ void nvme_mpath_clear_ctrl_paths(struct 
->>> nvme_ctrl *ctrl)
->>> Â Â {
->>> Â Â Â Â Â Â Â Â  struct nvme_ns *ns;
->>>
->>> -Â Â Â Â Â Â  mutex_lock(&ctrl->scan_lock);
->>> Â Â Â Â Â Â Â Â  down_read(&ctrl->namespaces_rwsem);
->>> Â Â Â Â Â Â Â Â  list_for_each_entry(ns, &ctrl->namespaces, list)
->>> Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  if (nvme_mpath_clear_current_path(ns))
->>> Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  kblockd_schedule_work(&ns->head->requeue_work);
->>> Â Â Â Â Â Â Â Â  up_read(&ctrl->namespaces_rwsem);
->>> +Â Â Â Â Â Â  mutex_lock(&ctrl->scan_lock);
->>> Â Â Â Â Â Â Â Â  mutex_unlock(&ctrl->scan_lock);
->>> Â Â }
->>>
->>> But I'd be the first to agree that this really is hackish.
->>
->> Yea, that doesn't solve anything.
->>
->> I think this sequence is familiar and was addressed by a fix from Anton
->> (CC'd) which still has some pending review comments.
->>
->> Can you lookup and try:
->> [PATCH] nvme/mpath: fix hang when disk goes live over reconnect
+On Tue, Oct 19, 2021 at 05:37:30PM +0300, Sagi Grimberg wrote:
 > 
-> I actually had looked at it, but then decided it's (trying) to address a 
-> different issue.
 > 
-> Thing is, I'll see it being stuck even _before_ disconnect happens; 
-> we're stuck with the _initial_ scan:
+> On 10/5/21 3:38 PM, Sagi Grimberg wrote:
+> > 
+> > > > How do we proceed with this fix?
+> > > 
+> > > Please resend with the suggested updates.
+> > > 
+> > > > I believe error propagation here is not wanted because:
+> > > > 1) A failure to fetch or parse the ANA log should not be considered
+> > > >     an error in ctrl initialization.
+> > > 
+> > > We must handle error that are due to a controller failing to initialize.
+> > > 
+> > > > 2) Such error will not cause problems in teardown.
+> > > > 3) The same failure is possible in ANA work and we do not take
+> > > >     any action in such case.
+> > > 
+> > > Failing in a workqueue is different from failing in the initialization
+> > > path.
+> > > 
+> > > > 4) Adding support for failure to nvme_start_ctrl() adds complexity
+> > > >     and does not look useful due to the above 1-3.
+> > 
+> > The feedback here is that this patch is changing the functionality
+> > as before we failed initialization and now we don't.
+> > 
+> > What is the issue in propagating the error and then modify
+> > the call-sites? Shouldn't it be simple enough to do?
+> > -- 
+> > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> > index aa14ad963d91..d86623b90eea 100644
+> > --- a/drivers/nvme/host/fc.c
+> > +++ b/drivers/nvme/host/fc.c
+> > @@ -3158,8 +3158,11 @@ nvme_fc_create_association(struct nvme_fc_ctrl
+> > *ctrl)
+> > 
+> >          ctrl->ctrl.nr_reconnects = 0;
+> > 
+> > -       if (changed)
+> > -               nvme_start_ctrl(&ctrl->ctrl);
+> > +       if (changed) {
+> > +               ret = nvme_start_ctrl(&ctrl->ctrl);
+> > +               if (ret)
+> > +                       goto out_term_aen_ops;
+> > +       }
+> > 
+> >          return 0;       /* Success */
+> > 
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index b82492cd7503..59bfdd72a51a 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -2827,7 +2827,10 @@ static void nvme_reset_work(struct work_struct
+> > *work)
+> >                          &nvme_pci_attr_group))
+> >                  dev->attrs_added = true;
+> > 
+> > -       nvme_start_ctrl(&dev->ctrl);
+> > +       ret = nvme_start_ctrl(&dev->ctrl);
+> > +       if (ret)
+> > +               goto out_unlock;
+> > +
+> >          return;
+> > 
+> >    out_unlock:
+> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> > index 042c594bc57e..9e9e34a012e7 100644
+> > --- a/drivers/nvme/host/rdma.c
+> > +++ b/drivers/nvme/host/rdma.c
+> > @@ -1141,7 +1141,10 @@ static int nvme_rdma_setup_ctrl(struct
+> > nvme_rdma_ctrl *ctrl, bool new)
+> >                  goto destroy_io;
+> >          }
+> > 
+> > -       nvme_start_ctrl(&ctrl->ctrl);
+> > +       ret = nvme_start_ctrl(&ctrl->ctrl);
+> > +       if (ret)
+> > +               goto destroy_io;
+> > +
+> >          return 0;
+> > 
+> >   destroy_io:
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 10b164f02b5d..22199281ad17 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -923,6 +923,11 @@ static void nvme_tcp_fail_request(struct
+> > nvme_tcp_request *req)
+> >          nvme_tcp_end_request(blk_mq_rq_from_pdu(req),
+> > NVME_SC_HOST_PATH_ERROR);
+> >   }
+> > @@ -2045,7 +2052,10 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl
+> > *ctrl, bool new)
+> >                  goto destroy_io;
+> >          }
+> > 
+> > -       nvme_start_ctrl(ctrl);
+> > +       ret = nvme_start_ctrl(ctrl);
+> > +       if (ret)
+> > +               goto destroy_io;
+> > +
+> >          return 0;
+> > 
+> >   destroy_io:
+> > diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> > index 0285ccc7541f..3fa89650c0d1 100644
+> > --- a/drivers/nvme/target/loop.c
+> > +++ b/drivers/nvme/target/loop.c
+> > @@ -490,7 +490,9 @@ static void nvme_loop_reset_ctrl_work(struct
+> > work_struct *work)
+> >          if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE))
+> >                  WARN_ON_ONCE(1);
+> > 
+> > -       nvme_start_ctrl(&ctrl->ctrl);
+> > +       ret = nvme_start_ctrl(&ctrl->ctrl);
+> > +       if (ret)
+> > +               goto out_destroy_io;
+> > 
+> >          return;
+> > -- 
 > 
-> [ 3920.880552]Â  device_add_disk+0x377/0x3c0
-> [ 3920.880558]Â  nvme_mpath_set_live+0x130/0x1b0 [nvme_core]
-> [ 3920.880574]Â  nvme_mpath_add_disk+0x150/0x160 [nvme_core]
-> [ 3920.880588]Â  ? device_add_disk+0x27d/0x3c0
-> [ 3920.880593]Â  nvme_alloc_ns+0x417/0x950 [nvme_core]
-> [ 3920.880606]Â  nvme_validate_or_alloc_ns+0xe9/0x1e0 [nvme_core]
-> [ 3920.880618]Â  ? __nvme_submit_sync_cmd+0x19b/0x210 [nvme_core]
-> [ 3920.880631]Â  nvme_scan_work+0x168/0x310 [nvme_core]
-> 
-> and can't make progress as the I/O is _NOT_ failed, but rather causing a 
-> reconnect:
-> [ 1364.442390] nvme nvme0: request 0x0 genctr mismatch (got 0x0 expected 
-> 0x2)
-> [ 1364.442408] nvme nvme0: got bad c2hdata.command_id 0x0 on queue 2
-> [ 1364.442411] nvme nvme0: receive failed:Â  -2
-> [ 1364.442414] nvme nvme0: starting error recovery
-> [ 1364.442502] block nvme0n1: no usable path - requeuing I/O
-> 
-> so we don't have an usable path, and will requeue I/O.
-> But upon reconnect we will retry _the same_ I/O, and get into the same 
-> state.
-> 
-> So the I/O will be stuck until disconnect happens.
-> But disconnect does a
-> nvme_do_dele te_ctrl()
-> -> nvme_remove_namespaces()
->  Â Â  -> nvme_mpath_clear_ctrl_paths()
->  Â Â Â Â Â  -> mutex_lock(&scan_mutex)
-> 
-> and hangs.
-> 
-> Everything would be solved if we had _aborted_ the invalid I/O instead 
-> of forcing a reconnect;
-
-But you don't know which I/O to abort, you got a bad command_id.
-
-  which, incidentally, is a far better way to
-> handle TCP PDU sequence errors than the current way of dropping the 
-> connection.
-
-This is not a transport error, a digest error would be a transport
-error, this is a controller logic error.
-
-> Which would only help if it were a transport artifact, but 
-> I've yet to see a fabric which eats individual bits of a frame;
-> a programming error far more likely, in which case an I/O error would be 
-> a far better response.
-
-Again, which I/O?
+> So Anton, can this suggestion work? I think Hannes reported the same
+> issue that this patch addresses.
 
