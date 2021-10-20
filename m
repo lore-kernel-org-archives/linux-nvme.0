@@ -2,14 +2,14 @@ Return-Path: <SRS0=Nmvj=PI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CFEC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 10:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A4AC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 10:39:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 331FA61260
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 10:39:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 331FA61260
+	by mail.kernel.org (Postfix) with ESMTPS id E92A5600CC
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 10:39:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E92A5600CC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,27 +18,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OB4yp9A1bjWxqioUBKB30sxpIZ3tyGeaFhVzBlkne3A=; b=pXC8uc/zk2MlQK9jh5H5ee4zBd
-	wXkbEpiD2/4yq1ixWMCou10SnyqiFrf0/B7wSMpFuu9O1Xwfr5F0TK4clhu5ARAlKG72xS4Pr0gzw
-	bT7D+b6HQ/aaFjszifZXOeFHHBzOhEWTVR2EgGqZILyPhn9KWBU10H71sSHLtkIQsMdREk7RlrZOe
-	VBo7pE5v1Y3iU4TK3wsBtVZkAAfi84ofnRNj0R2jQwhg5F9YjIsR9OmZTEAaaMgGKzItknUB2L+MR
-	dVx9rcg7izSnNvBY4CQH4GbTZfwCliIWQKW/aMYuYTfqSrmpRj1em1Cw46+lq2qgr8spS3R2MNsut
-	1DvpISmQ==;
+	bh=/1MiJ5HnXHOwLcpHHluC+2IjmLhCiwbhThP+/EkzTBs=; b=et+WyqiLvju0I6oXzPy0Dcq1Bz
+	Nt5UBvE+lTfnz8H3/Q6MQ73fXSGA8SXHR515WFi8yJYlv/QdEgyBLSyp76JOsWTpou0e6tG+enaOg
+	vF7tcMrTYaO/51YuKXENBfZjOXGj1CeA2rg0m9Zh/NGVEvT6aq1yq6syOt+j5MUorh1XM0+Dy1IvH
+	GWbtDPe3mWXhD40DNsl0cJa8d5R13MRQjkQ2n16+C6Cpkyo/tYej/Bn+ong6Mi8z1S5LqD0Me7EBn
+	NV6mx9LYyjSTGLKOQIigTiM+uKxEkrKgK3L1XRn6JbS6PqrAXhTiFpiDNNr5KLEC4/4ZDGxg659g8
+	h88LirRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1md905-0049NJ-SX; Wed, 20 Oct 2021 10:39:13 +0000
-Received: from mail-dm6nam12on2054.outbound.protection.outlook.com
- ([40.107.243.54] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1md90G-0049Pg-DU; Wed, 20 Oct 2021 10:39:24 +0000
+Received: from mail-co1nam11on2082.outbound.protection.outlook.com
+ ([40.107.220.82] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1md8zs-0049KQ-JG
- for linux-nvme@lists.infradead.org; Wed, 20 Oct 2021 10:39:02 +0000
+ id 1md8zt-0049KU-04
+ for linux-nvme@lists.infradead.org; Wed, 20 Oct 2021 10:39:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e/YR5spy13J/p7UmVurOJQrpoSItYZLWdy/Dt4lSzBSI8L8P+NgGBOD/Ri1CxSBH4Zx6MMMCWZbspicoeiQnvFYJUga2hrGBOO79PDYVyJWRK27h4+BpTF55mmCKwOyung+jggvNx0bxNkWqGL3BC3lrm2AzFYh/GdxlkDvKCCpdb/hShck6H0fdrOuac6KDuEL4iB9A3rueMSWzW2AqV9bDBl89sGvyl3JQoHwiG2P5IiiA0vyFVg7RB36FLg6jGbNsWU0gEOdqlOS2fsIzc3Nc9H1E/LiqalOIhMFGrrNDwDS1G2J2y9YsToeJYeOVjdbVvyhLVfepV4i9zYNOQQ==
+ b=KywnOiHg9IqpopOyyGXQlcSa1WVRpmF3FIsr/ET3vZWjOl9A5NArNdzH2Da871mNe+gvyWsVdZpTI9grLVAzN3vG05goZTNyFMTa909GgIMNJWijnNJ42u0xoutT0d+dp5YDSBDa9rSSNs+MsKw9y6aByrwo9IJ9UwkqyapnUqZPlx9O8wfXmTxA7NH1aQqgxLUsGuXWpJDirrWZnuGLQxj6zhzXF2dA16PRH6mAfAHRybt2ewOnCXBYSN7orlWjje+tiIS2ZDKQ9hWC8n3OQnZAWO9seW9P2yXXoYn6jjvfiDiHXbxKl7Pl0vzXb7g8Hz/yCkNhO9a0KySwjpw+9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OB4yp9A1bjWxqioUBKB30sxpIZ3tyGeaFhVzBlkne3A=;
- b=DZDKXVH4xYRvU7AWfXJyKzNEGrLiOcuNz1dC7a9Sz7ZetGbnXuRDBpdI3inJOXJFEGnfuLJ9Me7JlltKWF1jKdQErTD+Fw8iakYih8enMPT8GjkMNjKRHhsxmEcpNPaKsV/IZMKm40LLOuh5ADKZzKT6Uyh0Jxm/3ZZr8fc9u6rIF7gEbDcdHMx077ykN4bHK5UjsZ3ObT+W6kjSwBcBV8KtnO/RuE877NuC8mbchtGRzgIT2JKU3L+Afx0HeYBnCbYD5DktoS2r+jELjTNVAM2ne/fo9cOzr4YTAWrX1SH4sdexCSJwYSPAzcyggXUbvz1L/O72ST0dxHUt/PcNlA==
+ bh=/1MiJ5HnXHOwLcpHHluC+2IjmLhCiwbhThP+/EkzTBs=;
+ b=USYE8QJ0GMOKEdZWdwnkD9MScZnhHLhxI9dAkh/WpiF06Qik6dSfH40jJW4rNYuFqOXg6rJKSBAw8ES4cWQrHU3DlpcPGB0fN19G1lJwWv6O3QRha2NSZDsUE73W0q0ie5aOy+ET3y8BqLXegcaKKsRhuqrJyttya20drxY5Vv3xX66q1PtU/AN4D2YOP+HUJ4B4ZZMc6TF84LGdSlgHT/OV8PITKGIOKYfguL2UUZSPjJNQI0yfblHORM1LZq+kuRU8cfpyGuWY42b100V3RZX9l2BfHfQlpYyZaRq57qwBrmzBvQZygvdLgfrKcozdstWiDrAt8jJnYsUEjsaEmQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.112.32) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
@@ -46,18 +46,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OB4yp9A1bjWxqioUBKB30sxpIZ3tyGeaFhVzBlkne3A=;
- b=qNs0aEXI6JPUvk6bVi25JpfqCk6A7OJBo/Ju55jjV4Kq4irUv5Slg7EMWxsGLDRnNwCvicEturSg5ILNFNamnwwPwDgLhDb+LSfZc5smTK+q4mlQ9Vb/ZNbU6uCUz5f19m51brThtJB3qpcbFHnvI4tBqO8wHCZTzgOzCLfqaYzCohldPv2ccad2cYviFqwCmpf2Dy2i3JN8NgHrto8GFrWvv4qNsmdjFDYPWNgDY/kE1/sg+osSNM0ZcReiaomd6dhmxGL9y86+7R1lQyBJPKajwvvvwRdcK6n1xxiLYrrGq80aNEPh7VKy38gReiHvn/45yEhGiaaiS0e+jGd3Dg==
-Received: from DM5PR19CA0039.namprd19.prod.outlook.com (2603:10b6:3:9a::25) by
- DM6PR12MB4843.namprd12.prod.outlook.com (2603:10b6:5:1d1::16) with
+ bh=/1MiJ5HnXHOwLcpHHluC+2IjmLhCiwbhThP+/EkzTBs=;
+ b=B+6MVoyJvHTEP2pFc+Og4HQ6RFTse702LZ/8z6NGFQZzA1/l5QvRHJ2GEkjP6RwR4RtV3oYDkHjWrkmJKb0uefMYIRwrdcdsRQrckXvoFf9gTFcmD228LRZsY0oroI7TAA19loRXs0eEVUDcPK8zikxVUeGiKFJj5RCE9qbzYVt8KEq06I/G6jwZKejhdYV0n+IHjCrPZuMhWjAIkQBNSwqYByM983jPC/5lOYJMtesGJ7dt+i7k9xGoNG5llvkCBobmUBx7+RmC06TemtwindCDMwSXTcCVbjwrkrKGW8piunr1nZE07dSfdL2VbSUDNWVoxSg4eE8wE6XurG5PMA==
+Received: from DM5PR19CA0033.namprd19.prod.outlook.com (2603:10b6:3:9a::19) by
+ MW3PR12MB4505.namprd12.prod.outlook.com (2603:10b6:303:5a::24) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.17; Wed, 20 Oct 2021 10:38:56 +0000
+ 15.20.4628.16; Wed, 20 Oct 2021 10:38:55 +0000
 Received: from DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:9a:cafe::54) by DM5PR19CA0039.outlook.office365.com
- (2603:10b6:3:9a::25) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:3:9a:cafe::f6) by DM5PR19CA0033.outlook.office365.com
+ (2603:10b6:3:9a::19) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend
- Transport; Wed, 20 Oct 2021 10:38:56 +0000
+ Transport; Wed, 20 Oct 2021 10:38:55 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
  smtp.mailfrom=nvidia.com; grimberg.me; dkim=none (message not signed)
  header.d=none;grimberg.me; dmarc=pass action=none header.from=nvidia.com;
@@ -67,21 +67,21 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
 Received: from mail.nvidia.com (216.228.112.32) by
  DM6NAM11FT039.mail.protection.outlook.com (10.13.172.83) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4628.16 via Frontend Transport; Wed, 20 Oct 2021 10:38:55 +0000
+ 15.20.4628.16 via Frontend Transport; Wed, 20 Oct 2021 10:38:51 +0000
 Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 20 Oct
- 2021 03:38:53 -0700
+ 2021 03:38:50 -0700
 Received: from r-arch-stor02.mtr.labs.mlnx (172.20.187.6) by mail.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Wed, 20 Oct 2021 10:38:50 +0000
+ Transport; Wed, 20 Oct 2021 10:38:47 +0000
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
 To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <kbusch@kernel.org>,
  <sagi@grimberg.me>
 CC: <chaitanyak@nvidia.com>, <israelr@nvidia.com>, <oren@nvidia.com>,
  <hare@suse.de>, <jsmart2021@gmail.com>, Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH 02/10] nvme-fabrics: introduce nvmf_reconnect_or_remove API
-Date: Wed, 20 Oct 2021 13:38:36 +0300
-Message-ID: <20211020103844.7533-3-mgurtovoy@nvidia.com>
+Subject: [PATCH 01/10] nvme: add connect_work attribute to nvme ctrl
+Date: Wed, 20 Oct 2021 13:38:35 +0300
+Message-ID: <20211020103844.7533-2-mgurtovoy@nvidia.com>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20211020103844.7533-1-mgurtovoy@nvidia.com>
 References: <20211020103844.7533-1-mgurtovoy@nvidia.com>
@@ -89,31 +89,31 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a6896bf1-ab9e-4005-e80c-08d993b5d175
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4843:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4843BE7B6DF9F6923CAD1074DEBE9@DM6PR12MB4843.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Office365-Filtering-Correlation-Id: 9cf2615d-a076-414a-5b3e-08d993b5cf2d
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4505:
+X-Microsoft-Antispam-PRVS: <MW3PR12MB4505ACF08B53882B5C52FBFADEBE9@MW3PR12MB4505.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1388;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IKunsAM7/vQcpTa/RHfOGMcu2pcsOkgZ8G4zCqlSWalOaj1fntyEIAXFFsFvGembJcouDFPS9LnHVEJ6EbbbzyFSzu7uYzfMsF72PR1uKdaZfWZeUjme6QDduHLmvQSzGxBPHrvzhiWm8DARTWWvzS5acaNgiVfLYKz6uOwvHbZ+4YuBTEMS+eJLtQDfOX72tEK/Oy/alUI9CUuX/ew85V83/JbnOGIpSoGmh6n+XmWy76sVviwTmlL2J4GnyPchEZ0pswY7d5y1o169Trk/BDJCv3LC/dRWDcnGj/gtIpEwiALfSPeRzQbNwkPsqovFEQ3097ForxR48TyMfKmIySk6mGN43KhCZzcTBzCufqXaXGV4EUkxK1/o6Qe8Ylgii+DTpAYiLwbrE+t2ERwkdxgA/YRJh+ee8sLhhn/wRSwsteHJaaxWo54X8At80ZIQX1gA0oWI6Ldy/4eEXunDCZIswvWiOcwsVnaPZqDJrCk0sTk9CYx0kfdtjxv/gVm+1VYbitWcey0wvcOannMK6l7Va8orixzbDZtba0wd09O6vMhYWqPEoyZ6aSeLiLIA00UnGas+YhN4jhVr0N4GLVis+7QKV4CNWGNGTfUHlOnsecsSqYkz9LeGjsaJtliuNOfa8iPJS9qkbISRf9eHBALfRWRmlqlq9hRGnHIYmCvJOFM0RtfDSI3fWlbwGWQXLI+on19lixajzC6kxG/vqw==
+X-Microsoft-Antispam-Message-Info: 6GLOGAE1acGVuLFMVM3cRruqU6GTAMDERjc/BAo3AfXhSXu+f1L8asRqPKh4TjCMo4UEjhE/EHi8w93vFH8L2WP1kVSFL6+WlY2wTmL2N37Vff/8f/+wOgnHRLe7y24lNKwgK9p66WAYw3DASlWFo17rXEn8Ctu02Uf0eSjRbclL8fYCFIDtEBRgM+azV43wGlFM/D2fksTGoa/cWeKh4US8clNVfCU8ZDUxmgSGhnT44lC26sctTffIDkpmCDYPg5ofBFA64mwQz8/z9Mglzi1wZzms6OnzA8vNyd7qxAYlG80a9Txv6OshJH4Rgs3EEm28zuIp7DyFqzsuQky9oIiIltNCgV4YRS3Q5Y0WheVhypDcAwhwjfhiSh+16rsIPzb2TKd3gvyU35cSWJfMcBhHqaC/6LufzP/6gX0V3O5LI9yOWqGcg0XhqNiv/WBKQB6Fe2QcUS63/sqZAyZV/FD/xNSUIkbRpoSWHJp4mwYqDHbB0sUR/DqGbj/AFfHtT5oypy3dzpBs4gAYV27562k+NLgG/s9BOq2hYIXR6DDJ9biMfIieAl0+U5XIoSWGS4Ujme0b0OnmVbUOSXsZ1gRBM8eg43qieZQUOns96kEFFhmcquSCod8PiaRJFehSYG65W5WIMys4krqZI7Ux2JysCDafYDPM7OlJPkLJCHQg9go2+wYQzRXRFX/u502BCvotIAO/SPmtMBbFS6tlNQ==
 X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(36860700001)(110136005)(86362001)(2906002)(47076005)(316002)(2616005)(6666004)(336012)(5660300002)(426003)(1076003)(107886003)(8676002)(54906003)(8936002)(70586007)(70206006)(36756003)(4326008)(508600001)(26005)(82310400003)(186003)(7636003)(356005)(83380400001);
+ SFS:(4636009)(46966006)(36840700001)(36860700001)(70206006)(36756003)(8676002)(1076003)(4326008)(2906002)(508600001)(70586007)(8936002)(2616005)(86362001)(107886003)(110136005)(6666004)(5660300002)(54906003)(316002)(83380400001)(356005)(426003)(82310400003)(336012)(7636003)(47076005)(186003)(26005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 10:38:55.6917 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6896bf1-ab9e-4005-e80c-08d993b5d175
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 10:38:51.8578 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cf2615d-a076-414a-5b3e-08d993b5cf2d
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
  Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4843
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4505
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211020_033900_684963_FB1974E1 
-X-CRM114-Status: GOOD (  13.68  )
+X-CRM114-CacheID: sfid-20211020_033901_093178_2220718F 
+X-CRM114-Status: GOOD (  16.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,182 +128,230 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This logic is duplicated today for RDMA and TCP controllers. Move it to
-the fabrics driver and export it as a new API.
+This structure is duplicated for all the fabric controllers. Move it to
+common code.
 
-Also update the RDMA/TCP transport drivers to use this API and remove
-the duplicated code.
-
-Reviewed-by: Israel Rukshin <israelr@nvidia.com>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Israel Rukshin <israelr@nvidia.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/fabrics.c | 21 +++++++++++++++++++++
- drivers/nvme/host/fabrics.h |  1 +
- drivers/nvme/host/rdma.c    | 25 +++----------------------
- drivers/nvme/host/tcp.c     | 26 +++-----------------------
- 4 files changed, 28 insertions(+), 45 deletions(-)
+ drivers/nvme/host/fc.c   | 23 ++++++++++++-----------
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/rdma.c | 10 ++++------
+ drivers/nvme/host/tcp.c  |  9 ++++-----
+ 4 files changed, 21 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 668c6bb7a567..4a1ef67c6fb3 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -472,6 +472,27 @@ bool nvmf_should_reconnect(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvmf_should_reconnect);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index aa14ad963d91..4c7dffa8126e 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -167,7 +167,6 @@ struct nvme_fc_ctrl {
+ 	struct blk_mq_tag_set	tag_set;
  
-+void nvmf_reconnect_or_remove(struct nvme_ctrl *ctrl)
-+{
-+	/* If we are resetting/deleting then do nothing */
-+	if (ctrl->state != NVME_CTRL_CONNECTING) {
-+		WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
-+			ctrl->state == NVME_CTRL_LIVE);
-+		return;
-+	}
-+
-+	if (nvmf_should_reconnect(ctrl)) {
-+		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
-+			ctrl->opts->reconnect_delay);
-+		queue_delayed_work(nvme_wq, &ctrl->connect_work,
-+				ctrl->opts->reconnect_delay * HZ);
-+	} else {
-+		dev_info(ctrl->device, "Removing controller...\n");
-+		nvme_delete_ctrl(ctrl);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(nvmf_reconnect_or_remove);
-+
- /**
-  * nvmf_register_transport() - NVMe Fabrics Library registration function.
-  * @ops:	Transport ops instance to be registered to the
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a146cb903869..de213ab26977 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -188,6 +188,7 @@ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
- int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
-+void nvmf_reconnect_or_remove(struct nvme_ctrl *ctrl);
- bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
- 		struct nvmf_ctrl_options *opts);
+ 	struct work_struct	ioerr_work;
+-	struct delayed_work	connect_work;
  
+ 	struct kref		ref;
+ 	unsigned long		flags;
+@@ -567,7 +566,7 @@ nvme_fc_resume_controller(struct nvme_fc_ctrl *ctrl)
+ 			"NVME-FC{%d}: connectivity re-established. "
+ 			"Attempting reconnect\n", ctrl->cnum);
+ 
+-		queue_delayed_work(nvme_wq, &ctrl->connect_work, 0);
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work, 0);
+ 		break;
+ 
+ 	case NVME_CTRL_RESETTING:
+@@ -3263,7 +3262,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
+ 	cancel_work_sync(&ctrl->ioerr_work);
+-	cancel_delayed_work_sync(&ctrl->connect_work);
++	cancel_delayed_work_sync(&ctrl->ctrl.connect_work);
+ 	/*
+ 	 * kill the association on the link side.  this will block
+ 	 * waiting for io to terminate
+@@ -3300,7 +3299,8 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 		else if (time_after(jiffies + recon_delay, rport->dev_loss_end))
+ 			recon_delay = rport->dev_loss_end - jiffies;
+ 
+-		queue_delayed_work(nvme_wq, &ctrl->connect_work, recon_delay);
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work,
++				   recon_delay);
+ 	} else {
+ 		if (portptr->port_state == FC_OBJSTATE_ONLINE) {
+ 			if (status > 0 && (status & NVME_SC_DNR))
+@@ -3340,12 +3340,13 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 			"to CONNECTING\n", ctrl->cnum);
+ 
+ 	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE) {
+-		if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
++		if (!queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work,
++					0)) {
+ 			dev_err(ctrl->ctrl.device,
+ 				"NVME-FC{%d}: failed to schedule connect "
+ 				"after reset\n", ctrl->cnum);
+ 		} else {
+-			flush_delayed_work(&ctrl->connect_work);
++			flush_delayed_work(&ctrl->ctrl.connect_work);
+ 		}
+ 	} else {
+ 		nvme_fc_reconnect_or_delete(ctrl, -ENOTCONN);
+@@ -3373,7 +3374,7 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ 
+ 	struct nvme_fc_ctrl *ctrl =
+ 			container_of(to_delayed_work(work),
+-				struct nvme_fc_ctrl, connect_work);
++				struct nvme_fc_ctrl, ctrl.connect_work);
+ 
+ 	ret = nvme_fc_create_association(ctrl);
+ 	if (ret)
+@@ -3485,7 +3486,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	kref_init(&ctrl->ref);
+ 
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+-	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
++	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work, nvme_fc_connect_ctrl_work);
+ 	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
+ 	spin_lock_init(&ctrl->lock);
+ 
+@@ -3561,14 +3562,14 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 		goto fail_ctrl;
+ 	}
+ 
+-	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
++	if (!queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work, 0)) {
+ 		dev_err(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: failed to schedule initial connect\n",
+ 			ctrl->cnum);
+ 		goto fail_ctrl;
+ 	}
+ 
+-	flush_delayed_work(&ctrl->connect_work);
++	flush_delayed_work(&ctrl->ctrl.connect_work);
+ 
+ 	dev_info(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
+@@ -3580,7 +3581,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
+ 	cancel_work_sync(&ctrl->ioerr_work);
+ 	cancel_work_sync(&ctrl->ctrl.reset_work);
+-	cancel_delayed_work_sync(&ctrl->connect_work);
++	cancel_delayed_work_sync(&ctrl->ctrl.connect_work);
+ 
+ 	ctrl->ctrl.opts = NULL;
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ed79a6c7e804..81ca5dd9b7f9 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -343,6 +343,7 @@ struct nvme_ctrl {
+ 	unsigned long flags;
+ #define NVME_CTRL_FAILFAST_EXPIRED	0
+ 	struct nvmf_ctrl_options *opts;
++	struct delayed_work connect_work;
+ 
+ 	struct page *discard_page;
+ 	unsigned long discard_page_busy;
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index fbfa18a47bd8..f31a56d8fd73 100644
+index 0498801542eb..fbfa18a47bd8 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -1064,25 +1064,6 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
- 	kfree(ctrl);
- }
+@@ -110,8 +110,6 @@ struct nvme_rdma_ctrl {
  
--static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
--{
--	/* If we are resetting/deleting then do nothing */
--	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
--		WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
--			ctrl->ctrl.state == NVME_CTRL_LIVE);
--		return;
--	}
+ 	struct nvme_rdma_qe	async_event_sqe;
+ 
+-	struct delayed_work	reconnect_work;
 -
--	if (nvmf_should_reconnect(&ctrl->ctrl)) {
--		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
--			ctrl->ctrl.opts->reconnect_delay);
--		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work,
--				ctrl->ctrl.opts->reconnect_delay * HZ);
--	} else {
--		nvme_delete_ctrl(&ctrl->ctrl);
--	}
--}
--
- static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ 	struct list_head	list;
+ 
+ 	struct blk_mq_tag_set	admin_tag_set;
+@@ -1078,7 +1076,7 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+ 	if (nvmf_should_reconnect(&ctrl->ctrl)) {
+ 		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
+ 			ctrl->ctrl.opts->reconnect_delay);
+-		queue_delayed_work(nvme_wq, &ctrl->reconnect_work,
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work,
+ 				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else {
+ 		nvme_delete_ctrl(&ctrl->ctrl);
+@@ -1166,7 +1164,7 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
  {
- 	int ret;
-@@ -1181,7 +1162,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- requeue:
- 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
- 			ctrl->ctrl.nr_reconnects);
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvmf_reconnect_or_remove(&ctrl->ctrl);
- }
+ 	struct nvme_rdma_ctrl *ctrl = container_of(to_delayed_work(work),
+-			struct nvme_rdma_ctrl, reconnect_work);
++			struct nvme_rdma_ctrl, ctrl.connect_work);
  
- static void nvme_rdma_error_recovery_work(struct work_struct *work)
-@@ -1202,7 +1183,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 		return;
+ 	++ctrl->ctrl.nr_reconnects;
+ 
+@@ -2230,7 +2228,7 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
+ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
+ 	cancel_work_sync(&ctrl->err_work);
+-	cancel_delayed_work_sync(&ctrl->reconnect_work);
++	cancel_delayed_work_sync(&ctrl->ctrl.connect_work);
+ 
+ 	nvme_rdma_teardown_io_queues(ctrl, shutdown);
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+@@ -2358,7 +2356,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		goto out_free_ctrl;
  	}
  
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvmf_reconnect_or_remove(&ctrl->ctrl);
- }
- 
- static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
-@@ -2265,7 +2246,7 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 
- out_fail:
- 	++ctrl->ctrl.nr_reconnects;
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvmf_reconnect_or_remove(&ctrl->ctrl);
- }
- 
- static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+-	INIT_DELAYED_WORK(&ctrl->reconnect_work,
++	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
+ 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3ace20e39c86..530ff76d4ac9 100644
+index 3c1c29dd3020..3ace20e39c86 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -1970,26 +1970,6 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
- 	nvme_tcp_destroy_io_queues(ctrl, remove);
- }
+@@ -127,7 +127,6 @@ struct nvme_tcp_ctrl {
+ 	struct nvme_ctrl	ctrl;
  
--static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
--{
--	/* If we are resetting/deleting then do nothing */
--	if (ctrl->state != NVME_CTRL_CONNECTING) {
--		WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
--			ctrl->state == NVME_CTRL_LIVE);
--		return;
--	}
--
--	if (nvmf_should_reconnect(ctrl)) {
--		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
--			ctrl->opts->reconnect_delay);
--		queue_delayed_work(nvme_wq, &ctrl->connect_work,
--				ctrl->opts->reconnect_delay * HZ);
--	} else {
--		dev_info(ctrl->device, "Removing controller...\n");
--		nvme_delete_ctrl(ctrl);
--	}
--}
--
- static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ 	struct work_struct	err_work;
+-	struct delayed_work	connect_work;
+ 	struct nvme_tcp_request async_req;
+ 	u32			io_queues[HCTX_MAX_TYPES];
+ };
+@@ -1983,7 +1982,7 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+ 	if (nvmf_should_reconnect(ctrl)) {
+ 		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
+ 			ctrl->opts->reconnect_delay);
+-		queue_delayed_work(nvme_wq, &to_tcp_ctrl(ctrl)->connect_work,
++		queue_delayed_work(nvme_wq, &ctrl->connect_work,
+ 				ctrl->opts->reconnect_delay * HZ);
+ 	} else {
+ 		dev_info(ctrl->device, "Removing controller...\n");
+@@ -2066,7 +2065,7 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
  {
- 	struct nvmf_ctrl_options *opts = ctrl->opts;
-@@ -2083,7 +2063,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- requeue:
- 	dev_info(ctrl->device, "Failed reconnect attempt %d\n",
- 			ctrl->nr_reconnects);
--	nvme_tcp_reconnect_or_remove(ctrl);
-+	nvmf_reconnect_or_remove(ctrl);
- }
+ 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(to_delayed_work(work),
+-			struct nvme_tcp_ctrl, connect_work);
++			struct nvme_tcp_ctrl, ctrl.connect_work);
+ 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
  
- static void nvme_tcp_error_recovery_work(struct work_struct *work)
-@@ -2106,7 +2086,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 		return;
- 	}
- 
--	nvme_tcp_reconnect_or_remove(ctrl);
-+	nvmf_reconnect_or_remove(ctrl);
- }
- 
- static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
-@@ -2150,7 +2130,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 
- out_fail:
  	++ctrl->nr_reconnects;
--	nvme_tcp_reconnect_or_remove(ctrl);
-+	nvmf_reconnect_or_remove(ctrl);
- }
+@@ -2113,7 +2112,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+ {
+ 	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
+-	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
++	cancel_delayed_work_sync(&ctrl->connect_work);
  
- static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
+ 	nvme_tcp_teardown_io_queues(ctrl, shutdown);
+ 	blk_mq_quiesce_queue(ctrl->admin_q);
+@@ -2513,7 +2512,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 	ctrl->ctrl.sqsize = opts->queue_size - 1;
+ 	ctrl->ctrl.kato = opts->kato;
+ 
+-	INIT_DELAYED_WORK(&ctrl->connect_work,
++	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work,
+ 			nvme_tcp_reconnect_ctrl_work);
+ 	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
 -- 
 2.18.1
 
