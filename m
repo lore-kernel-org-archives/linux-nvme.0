@@ -2,88 +2,86 @@ Return-Path: <SRS0=Nmvj=PI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC030C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 00:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C36DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 05:58:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AF30F610E6
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 00:28:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AF30F610E6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id ED44E60EE9
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Oct 2021 05:58:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org ED44E60EE9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NCBYMmyWBTij8GrA0rmTzTTz81qB2hbsuZq37PhU+Ps=; b=zjz3Y3ctCzKkVTmRRu4kkgagKe
-	1bt91NueX3yrXRnhLRH50goJe7dGiTtgi8XqBwTvHXdMoi4VNNZAeo8n0cm20b8/lKyI5AuuaETAi
-	R+q8R5fP47uorAUxQqoaa71R8dqWV7Alk5wVtkGYF4JUnZrCjBljBbRXox4Lv6xn3S53GSE+buxo5
-	n7AgGMBso/52s+Ur9gIhWI5YDVWozLwgLy+NTe3fpyN4Jzlm4f9xQZizElUjzjtCoMZhR4s6iU1Wm
-	RA6Cpk/nInkTebwnFHvsHeEaO1419cVQvwA8700A3qi5EeS39OWKc3lVASqye7xXceXu+BTgAjTL4
-	XgJLjGBg==;
+	bh=glMUE3PGChr42vWAhJHVGB2150hn/b/2HsM8cx/qvBc=; b=njsMyALRimhoDYJg2m4WrNzNeI
+	pAMDN3wXvV1uVS1gWIH5rzptkuFTK/1or8OeRAtvJd8zJC1BaEjQXCCWb+dBJ58BEUhtCnAjNKl9H
+	mTgxruAfUiw+cWzjeP2e8JQ+WpHPo9rjT774+DFR8EXC13USZUhARmVzKJZxqK2UWeRfvKwusUp67
+	ccqJBdCkOT7kk92XpMBp0ozedXMwDJygetomV8VabifHHqo58iu8Qk1z5McLlcG+0Yyt4+nlDKzW+
+	4d0zOdnDG8vBFUOrNoX00OhJMcpnNNO2RJXbdouqAch3KwzLqMxiLYpPmlq7du3hugBYjoQ4vAe0r
+	hrU5KXyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mczSz-00340q-Ek; Wed, 20 Oct 2021 00:28:25 +0000
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31])
+	id 1md4cm-003RSS-Iz; Wed, 20 Oct 2021 05:58:52 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mczSw-0033zo-Jt
- for linux-nvme@lists.infradead.org; Wed, 20 Oct 2021 00:28:24 +0000
-Received: by mail-io1-xd31.google.com with SMTP id r134so22497569iod.11
- for <linux-nvme@lists.infradead.org>; Tue, 19 Oct 2021 17:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NCBYMmyWBTij8GrA0rmTzTTz81qB2hbsuZq37PhU+Ps=;
- b=8WHvWN4/ehC9bK0jRL/5g7a4EweYQ+d+pYmkPI4eZJSXgPJTJnQrUoRFPak8lhkY0m
- iztNqBcWXQJUvreARYLVWq9CHQXBBsLJk2BeayLgVCRnh9+JgJglYC2HUb09zujR3VL+
- NquDQPIHQ4jtGl+j7mB5O+Otl6aTuxoFOXHoWvmqVpEeekf1KGAIa+0kwbH4BFAFcQS4
- HI2LARMTs6JKC3QX5LmXtq+4LP8qgXe1K/C/MqI9+1bnr8erEay6CkI54CvYzc7dMHpm
- qGNxLfB04J33HjubZr4ECsN3tqyW8nL6VwubEpbhSMR5ghNC8nzS2sF64lZk/B44PhNQ
- jcLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NCBYMmyWBTij8GrA0rmTzTTz81qB2hbsuZq37PhU+Ps=;
- b=e7zqtOJ8wQpJOuXprft1D2WUfjIV1cgR5D3eNcD9CXfUmAsMOqmIgglarYWtDtbG2k
- eE64f0TKq/cP4WMVMnpZACO1LNItMJ0cfQPwxVHx9p4Hl0gOaS8iGONrtYv51TbHv5u8
- NsTizG4DNqeUn3nFSVZtpWVrlq9Fp0A7L6JENGVhAKHJT7xuVNoEP8kDMA+jysznrtXJ
- rzzT92wn85Zu2w4A6Fy+UqXdcvgzgN++ydSd2eiwaCy31LEXaEKJkfI96DJV7Njinwqn
- CnFl6IzoyEnUC7SMSkbvHwcwO88tH37yef9l/0jij5oFdvVTLouN8GtiQvYTIWmLigbv
- VRPg==
-X-Gm-Message-State: AOAM533mnc7wez0SE1ev7Hr0WFaZXPsAkkVXBl5HHyEBSU2dsAArimx8
- +FBUnWXxjsun/0M3ceRNi9Uu4w==
-X-Google-Smtp-Source: ABdhPJyD0OAkDNxgyLxgJIgP7vJUdUIKldS2Up83evAkUunJNwIi0L7HMaS/NJxD13OEo7rUHpSy7A==
-X-Received: by 2002:a05:6638:3396:: with SMTP id
- h22mr6462578jav.13.1634689701009; 
- Tue, 19 Oct 2021 17:28:21 -0700 (PDT)
-Received: from localhost.localdomain ([66.219.217.159])
- by smtp.gmail.com with ESMTPSA id l9sm340155ilh.19.2021.10.19.17.28.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Oct 2021 17:28:20 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ id 1md4cj-003RRl-BM
+ for linux-nvme@lists.infradead.org; Wed, 20 Oct 2021 05:58:50 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 77D6C21A7F;
+ Wed, 20 Oct 2021 05:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1634709527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=glMUE3PGChr42vWAhJHVGB2150hn/b/2HsM8cx/qvBc=;
+ b=kHSz2qcgk3yHZgR1BJZ12DEEu8026iWWL55Ly388yaZl1NBwKuyujo+8e4daVAlmbqiMHD
+ FZn3DefMZzhZAKrlWF5zndu54kfKAnnSME0Nyic2kdr1NtKdREw2DXkRIQ2JcQF5NTc0T9
+ mROyRWfusgChsrimKQdMmkirwfGsICo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1634709527;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=glMUE3PGChr42vWAhJHVGB2150hn/b/2HsM8cx/qvBc=;
+ b=8ninQhk5Vuq9dQkiRkvC9VuhKaeg3VKJADyvgDvunG9COV1ljVH+HSRZIonm68exIdY/cg
+ Sy8vzrjg4Qp+nlAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 54450139EC;
+ Wed, 20 Oct 2021 05:58:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id LyP6Ehewb2FZIAAAMHmgww
+ (envelope-from <hare@suse.de>); Wed, 20 Oct 2021 05:58:47 +0000
+Subject: Re: [PATCH] nvme: invalidate paths when removing contoller
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
  linux-nvme@lists.infradead.org
-Cc: Jens Axboe <axboe@kernel.dk>, Yu Kuai <yukuai3@huawei.com>,
- Keith Busch <kbusch@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH V4 0/6] blk-mq: support concurrent queue quiescing
-Date: Tue, 19 Oct 2021 18:28:16 -0600
-Message-Id: <163468969358.719012.15754644754744739872.b4-ty@kernel.dk>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211014081710.1871747-1-ming.lei@redhat.com>
-References: <20211014081710.1871747-1-ming.lei@redhat.com>
+References: <20211019154823.91586-1-hare@suse.de>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <1785d43c-b161-3378-04e7-c9a229d680db@suse.de>
+Date: Wed, 20 Oct 2021 07:58:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211019154823.91586-1-hare@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211019_172822_682624_24B9B900 
-X-CRM114-Status: GOOD (  11.91  )
+X-CRM114-CacheID: sfid-20211019_225849_563374_A7CF3258 
+X-CRM114-Status: GOOD (  18.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,35 +96,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 14 Oct 2021 16:17:04 +0800, Ming Lei wrote:
-> request queue quiescing has been applied in lots of block drivers and
-> block core from different/un-related code paths. So far, both quiesce
-> and unquiesce changes the queue state unconditionally. This way has
-> caused trouble, such as, driver is quiescing queue for its own purpose,
-> however block core's queue quiesce may come because of elevator switch,
-> updating nr_requests or other queue attributes, then un-expected
-> unquiesce may come too early.
+On 10/19/21 5:48 PM, Hannes Reinecke wrote:
+> When the I/O from the initial partition scan encounters an error
+> it will not necessarily be failed, but might trigger a reconnect
+> with the I/O itself being requeued.
+> Upon disconnect we need to ensure to flush the requeue list
+> independent on the current path, otherwise the I/O will never
+> complete.
 > 
-> [...]
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/core.c      |  2 +-
+>   drivers/nvme/host/multipath.c | 13 +++++++++++++
+>   drivers/nvme/host/nvme.h      |  4 ++++
+>   3 files changed, 18 insertions(+), 1 deletion(-)
+> 
+Ignore it; I've found a better way of fixing this.
+Patch will be send shortly.
 
-Applied, thanks!
+Cheers,
 
-[1/6] nvme: add APIs for stopping/starting admin queue
-      commit: a277654bafb51fb8b4cf23550f15926bb02536f4
-[2/6] nvme: apply nvme API to quiesce/unquiesce admin queue
-      commit: 6ca1d9027e0d9ce5604a3e28de89456a76138034
-[3/6] nvme: prepare for pairing quiescing and unquiescing
-      commit: ebc9b95260151d966728cf0063b3b4e465f934d9
-[4/6] nvme: paring quiesce/unquiesce
-      commit: 9e6a6b1212100148c109675e003369e3e219dbd9
-[5/6] nvme: loop: clear NVME_CTRL_ADMIN_Q_STOPPED after admin queue is reallocated
-      commit: 1d35d519d8bf224ccdb43f9a235b8bda2d6d453c
-[6/6] blk-mq: support concurrent queue quiesce/unquiesce
-      commit: e70feb8b3e6886c525c88943b5f1508d02f5a683
-
-Best regards,
+Hannes
 -- 
-Jens Axboe
-
-
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
