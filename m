@@ -2,14 +2,14 @@ Return-Path: <SRS0=gxeb=PJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3358CC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 08:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E11AC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 08:42:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EA625610A3
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 08:42:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EA625610A3
+	by mail.kernel.org (Postfix) with ESMTPS id 3706E610C8
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 08:42:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3706E610C8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,50 +18,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GxqV4GzgSGYR4iAttf66EuGf6k/FIWcaoUbxmisqZEo=; b=PDCmA3NrE3EpwFLJUyRWzDN2tS
-	18XGRUIKev4c+8vhUeOHj1DuGZQR/B2fwSjA8C+8ntah8HITER543LpZ9LFMVcgi4n8mmp9AJD2hn
-	z5IfE5DNXO0jWyh0Bz97vMicdHRCzSdSXauI3knIlyS77XIPogNVt34c/ehfoN88H75HudAlwJnFU
-	nngdLyXmCn2MlN5qtIP/shTTAZFquqoCj2vpNa/GkDKyFdL4ylWNXNsTfpvQz2fhG1iu56QVusaDz
-	nRfNBE2tu0HpreibIZ2c/CMPh/w78zSvpAyYBZ0WhzkizKBKSQnEWHp3B9FiOYtIW3ZEPEk0WU76A
-	d23KMU7A==;
+	bh=IW0tikTsxpMkEF3tsod0NL9ZNviFkkhO79asw741cIM=; b=kcGvl+D/j/PEbLeFp7jGhpovZY
+	W6eQBwpBizz23SWD2KJ3mW6uIrla1aSw4v68XgZCD7FJVcqxe+X0W1ks4cyult6Q70S6XfEAG05cq
+	JJUdAiZVsJANFEBwdLD20mCk4ER7tETnD2ljU9ZuWXuN4GQ34ei6Zk+cd/Tsa2y7LivpfzKRFs/xb
+	Mi97Exv2yQGkm+EVft3y+Na/aQMhc1ku1JRHlqK7JkGw/z+humFjiblgn4+ZqJScuSHvrkiwVGo7T
+	PN0Et1eGw2gflQlwQj4r01wDYq8hXEN0Um906zTwbie6F2GJN1gFOlAVuQmWSF7TlObr5UW2ol7Ux
+	/XpssmAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mdTee-006s65-Ke; Thu, 21 Oct 2021 08:42:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124])
+	id 1mdTep-006s9p-3l; Thu, 21 Oct 2021 08:42:39 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mdTeL-006rzj-Rk
- for linux-nvme@lists.infradead.org; Thu, 21 Oct 2021 08:42:11 +0000
+ id 1mdTeR-006s1g-Ul
+ for linux-nvme@lists.infradead.org; Thu, 21 Oct 2021 08:42:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634805727;
+ s=mimecast20190719; t=1634805734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GxqV4GzgSGYR4iAttf66EuGf6k/FIWcaoUbxmisqZEo=;
- b=KX4fX7haZY4qdUWBtpS2nnCjmp9IvmOxHbT8ZiwFg275jVukMvQdn/+2ast2YXxclxyWru
- EGBFNL8DQfsVIfFcxQZIJBPtxYvHxslZb9o2+SUNPRmLU/AcobmBKbdF8mFTlbu4Ch+NEF
- fhOrbF1qm38jLfKbcUl6BQ1bxc1jYQQ=
+ bh=IW0tikTsxpMkEF3tsod0NL9ZNviFkkhO79asw741cIM=;
+ b=B7AmNFdmHWatU22RMC7JT8igGAeb+D3JZKaDPpFWuGbZEdRaNDPPfgBDp5D//KPz6aNYz+
+ ExQAUvgmMYWft/cynye3lc5pUBK4IV6FpL+74PD9eUqHj7CE08PpBGcAdPj2ua/sZSCWBC
+ gHZs/4JLIsYovjkXVQR3B9MSSTBVlq0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-IHdsdiukNQKJZs3wJSaR_g-1; Thu, 21 Oct 2021 04:42:04 -0400
-X-MC-Unique: IHdsdiukNQKJZs3wJSaR_g-1
+ us-mta-10-cLjMStAUNNaMZAJx_CMn5g-1; Thu, 21 Oct 2021 04:42:02 -0400
+X-MC-Unique: cLjMStAUNNaMZAJx_CMn5g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463B080A5C0;
- Thu, 21 Oct 2021 08:42:03 +0000 (UTC)
-Received: from raketa.redhat.com (unknown [10.40.193.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BC4019D9F;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40133BD520;
  Thu, 21 Oct 2021 08:42:01 +0000 (UTC)
+Received: from raketa.redhat.com (unknown [10.40.193.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B5E3E144;
+ Thu, 21 Oct 2021 08:41:59 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: linux-nvme@lists.infradead.org
 Cc: hch@lst.de, sagi@grimberg.me, hare@suse.de, chaitanya.kulkarni@wdc.com,
  jmeneghi@redhat.com
-Subject: [PATCH 2/2] nvmet: fix a race condition between release_queue and
- io_work
-Date: Thu, 21 Oct 2021 10:41:55 +0200
-Message-Id: <20211021084155.16109-3-mlombard@redhat.com>
+Subject: [PATCH 1/2] nvmet: add an helper to free the iovec
+Date: Thu, 21 Oct 2021 10:41:54 +0200
+Message-Id: <20211021084155.16109-2-mlombard@redhat.com>
 In-Reply-To: <20211021084155.16109-1-mlombard@redhat.com>
 References: <20211021084155.16109-1-mlombard@redhat.com>
 MIME-Version: 1.0
@@ -73,8 +72,8 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211021_014210_131266_1ACAC9D4 
-X-CRM114-Status: GOOD (  13.89  )
+X-CRM114-CacheID: sfid-20211021_014216_085238_9872D4B3 
+X-CRM114-Status: GOOD (  15.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,71 +88,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the initiator executes a reset controller operation while
-performing I/O, the target kernel will crash because of a race condition
-between release_queue and io_work;
-nvmet_tcp_uninit_data_in_cmds() may be executed while io_work
-is running, calling flush_work(io_work) was not sufficient to
-prevent this because io_work could requeue itself.
+Makes the code easier to read and to debug.
 
-* Fix this bug by preventing io_work from being enqueued when
-sk_user_data is NULL (it means that the queue is going to be deleted)
-
-* Ensure that all the memory allocated for the commands' iovec is freed
+Sets the freed pointers to NULL, it will be useful
+when destroying the queues to understand if the
+iovecs have been released already or not.
 
 Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- drivers/nvme/target/tcp.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/nvme/target/tcp.c | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 2f03a94725ae..1eedbd83c95f 100644
+index c33a0464346f..2f03a94725ae 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -551,6 +551,7 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
- 	struct nvmet_tcp_cmd *cmd =
- 		container_of(req, struct nvmet_tcp_cmd, req);
- 	struct nvmet_tcp_queue	*queue = cmd->queue;
-+	struct socket *sock = queue->sock;
- 	struct nvme_sgl_desc *sgl;
- 	u32 len;
+@@ -166,6 +166,8 @@ static struct workqueue_struct *nvmet_tcp_wq;
+ static const struct nvmet_fabrics_ops nvmet_tcp_ops;
+ static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
+ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
++static void nvmet_tcp_free_iovec(struct nvmet_tcp_cmd *cmd);
++static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd);
  
-@@ -570,7 +571,10 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
- 	}
- 
- 	llist_add(&cmd->lentry, &queue->resp_list);
--	queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &cmd->queue->io_work);
-+	read_lock_bh(&sock->sk->sk_callback_lock);
-+	if (likely(sock->sk->sk_user_data))
-+		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &cmd->queue->io_work);
-+	read_unlock_bh(&sock->sk->sk_callback_lock);
+ static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
+ 		struct nvmet_tcp_cmd *cmd)
+@@ -297,6 +299,16 @@ static int nvmet_tcp_check_ddgst(struct nvmet_tcp_queue *queue, void *pdu)
+ 	return 0;
  }
  
- static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
-@@ -1427,7 +1431,9 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
++static void nvmet_tcp_free_iovec(struct nvmet_tcp_cmd *cmd)
++{
++	WARN_ON(unlikely(cmd->nr_mapped > 0));
++
++	kfree(cmd->iov);
++	sgl_free(cmd->req.sg);
++	cmd->iov = NULL;
++	cmd->req.sg = NULL;
++}
++
+ static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+ {
+ 	struct scatterlist *sg;
+@@ -306,6 +318,8 @@ static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
  
- 	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
- 		if (nvmet_tcp_need_data_in(cmd))
--			nvmet_tcp_finish_cmd(cmd);
-+			nvmet_req_uninit(&cmd->req);
-+		nvmet_tcp_unmap_pdu_iovec(cmd);
-+		nvmet_tcp_free_iovec(cmd);
+ 	for (i = 0; i < cmd->nr_mapped; i++)
+ 		kunmap(sg_page(&sg[i]));
++
++	cmd->nr_mapped = 0;
+ }
+ 
+ static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+@@ -387,7 +401,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
+ 
+ 	return 0;
+ err:
+-	sgl_free(cmd->req.sg);
++	nvmet_tcp_free_iovec(cmd);
+ 	return NVME_SC_INTERNAL;
+ }
+ 
+@@ -632,10 +646,8 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ 		}
  	}
  
- 	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
-@@ -1447,11 +1453,10 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
+-	if (queue->nvme_sq.sqhd_disabled) {
+-		kfree(cmd->iov);
+-		sgl_free(cmd->req.sg);
+-	}
++	if (queue->nvme_sq.sqhd_disabled)
++		nvmet_tcp_free_iovec(cmd);
  
- 	nvmet_tcp_restore_socket_callbacks(queue);
--	flush_work(&queue->io_work);
-+	cancel_work_sync(&queue->io_work);
+ 	return 1;
  
- 	nvmet_tcp_uninit_data_in_cmds(queue);
- 	nvmet_sq_destroy(&queue->nvme_sq);
--	cancel_work_sync(&queue->io_work);
- 	sock_release(queue->sock);
- 	nvmet_tcp_free_cmds(queue);
- 	if (queue->hdr_digest || queue->data_digest)
+@@ -664,8 +676,7 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
+ 	if (left)
+ 		return -EAGAIN;
+ 
+-	kfree(cmd->iov);
+-	sgl_free(cmd->req.sg);
++	nvmet_tcp_free_iovec(cmd);
+ 	cmd->queue->snd_cmd = NULL;
+ 	nvmet_tcp_put_cmd(cmd);
+ 	return 1;
+@@ -1406,8 +1417,7 @@ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
+ {
+ 	nvmet_req_uninit(&cmd->req);
+ 	nvmet_tcp_unmap_pdu_iovec(cmd);
+-	kfree(cmd->iov);
+-	sgl_free(cmd->req.sg);
++	nvmet_tcp_free_iovec(cmd);
+ }
+ 
+ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
 -- 
 2.27.0
 
