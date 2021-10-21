@@ -2,78 +2,62 @@ Return-Path: <SRS0=gxeb=PJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E11AC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 08:42:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59352C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 11:18:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3706E610C8
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 08:42:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3706E610C8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 011E560EFE
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 11:18:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 011E560EFE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IW0tikTsxpMkEF3tsod0NL9ZNviFkkhO79asw741cIM=; b=kcGvl+D/j/PEbLeFp7jGhpovZY
-	W6eQBwpBizz23SWD2KJ3mW6uIrla1aSw4v68XgZCD7FJVcqxe+X0W1ks4cyult6Q70S6XfEAG05cq
-	JJUdAiZVsJANFEBwdLD20mCk4ER7tETnD2ljU9ZuWXuN4GQ34ei6Zk+cd/Tsa2y7LivpfzKRFs/xb
-	Mi97Exv2yQGkm+EVft3y+Na/aQMhc1ku1JRHlqK7JkGw/z+humFjiblgn4+ZqJScuSHvrkiwVGo7T
-	PN0Et1eGw2gflQlwQj4r01wDYq8hXEN0Um906zTwbie6F2GJN1gFOlAVuQmWSF7TlObr5UW2ol7Ux
-	/XpssmAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=sgcEU/85LcX9OFd4amqiUWRZX7MUic9STS1tfp3nZ00=; b=DBqlMOpOLDNH3WiAgeWWfiS+a5
+	IyuoHy92V0N77+38vydQF72cugORB64yU67WP8ujdThl8Jtqmj7px4HFTXU7hQA/y4LjHBCs+xavV
+	l23UKRu4U9a99RPHnjKahAjPGoO2GQcS4eyn+7FV9LVAJCXXMkMvfL5aMYBQl28w/MEZHFZ3JscVD
+	jwEINYVyQRPSEDzxhNf9+/GmEDafVljrUHtr5IfI/AHsZeBIWr66XFZwMD+Ju61Q5aV1FPcgfMJ2E
+	/9Ol3YMlZqgiogFLR26O+Ex0jWzVSOMP08EB8WK2d6Y7cPDbFXaCxbApPBEMbCi0OK5oNWrN7wIt3
+	nkbOc6fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mdTep-006s9p-3l; Thu, 21 Oct 2021 08:42:39 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1mdW5m-007K9A-TY; Thu, 21 Oct 2021 11:18:38 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mdTeR-006s1g-Ul
- for linux-nvme@lists.infradead.org; Thu, 21 Oct 2021 08:42:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634805734;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IW0tikTsxpMkEF3tsod0NL9ZNviFkkhO79asw741cIM=;
- b=B7AmNFdmHWatU22RMC7JT8igGAeb+D3JZKaDPpFWuGbZEdRaNDPPfgBDp5D//KPz6aNYz+
- ExQAUvgmMYWft/cynye3lc5pUBK4IV6FpL+74PD9eUqHj7CE08PpBGcAdPj2ua/sZSCWBC
- gHZs/4JLIsYovjkXVQR3B9MSSTBVlq0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-cLjMStAUNNaMZAJx_CMn5g-1; Thu, 21 Oct 2021 04:42:02 -0400
-X-MC-Unique: cLjMStAUNNaMZAJx_CMn5g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40133BD520;
- Thu, 21 Oct 2021 08:42:01 +0000 (UTC)
-Received: from raketa.redhat.com (unknown [10.40.193.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B5E3E144;
- Thu, 21 Oct 2021 08:41:59 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, sagi@grimberg.me, hare@suse.de, chaitanya.kulkarni@wdc.com,
- jmeneghi@redhat.com
-Subject: [PATCH 1/2] nvmet: add an helper to free the iovec
-Date: Thu, 21 Oct 2021 10:41:54 +0200
-Message-Id: <20211021084155.16109-2-mlombard@redhat.com>
-In-Reply-To: <20211021084155.16109-1-mlombard@redhat.com>
-References: <20211021084155.16109-1-mlombard@redhat.com>
+ id 1mdW5j-007K8t-5g
+ for linux-nvme@lists.infradead.org; Thu, 21 Oct 2021 11:18:36 +0000
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="229279859"
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="229279859"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2021 04:18:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; d="scan'208";a="662669579"
+Received: from lkp-server02.sh.intel.com (HELO 08b2c502c3de) ([10.239.97.151])
+ by orsmga005.jf.intel.com with ESMTP; 21 Oct 2021 04:18:29 -0700
+Received: from kbuild by 08b2c502c3de with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mdW5c-000EJR-GB; Thu, 21 Oct 2021 11:18:28 +0000
+Date: Thu, 21 Oct 2021 19:17:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.16] BUILD SUCCESS
+ 117d5b6d00ee02f73d7065fe906e2ef1af74bb68
+Message-ID: <61714c52.w4RNlVx8txu19qY8%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211021_014216_085238_9872D4B3 
-X-CRM114-Status: GOOD (  15.74  )
+X-CRM114-CacheID: sfid-20211021_041835_264606_C76EF2FC 
+X-CRM114-Status: UNSURE (   6.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,99 +72,198 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Makes the code easier to read and to debug.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.16
+branch HEAD: 117d5b6d00ee02f73d7065fe906e2ef1af74bb68  nvmet: use struct_size over open coded arithmetic
 
-Sets the freed pointers to NULL, it will be useful
-when destroying the queues to understand if the
-iovecs have been released already or not.
+elapsed time: 1068m
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+configs tested: 175
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                              allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+i386                 randconfig-c001-20211019
+i386                 randconfig-c001-20211021
+sh                         microdev_defconfig
+arm                        mvebu_v5_defconfig
+powerpc                       eiger_defconfig
+ia64                      gensparse_defconfig
+arm                         shannon_defconfig
+arm                             pxa_defconfig
+m68k                        mvme16x_defconfig
+arm                       imx_v6_v7_defconfig
+powerpc                     asp8347_defconfig
+x86_64                           allyesconfig
+m68k                          sun3x_defconfig
+arm                         mv78xx0_defconfig
+sh                            hp6xx_defconfig
+powerpc                      ppc44x_defconfig
+powerpc                 mpc8272_ads_defconfig
+mips                          rm200_defconfig
+ia64                         bigsur_defconfig
+arm                            dove_defconfig
+powerpc                     ksi8560_defconfig
+arm                         axm55xx_defconfig
+sh                           se7722_defconfig
+mips                         tb0219_defconfig
+powerpc64                           defconfig
+xtensa                       common_defconfig
+xtensa                  nommu_kc705_defconfig
+sh                 kfr2r09-romimage_defconfig
+csky                             alldefconfig
+powerpc                      ppc40x_defconfig
+sh                             shx3_defconfig
+powerpc                 mpc8540_ads_defconfig
+powerpc                    adder875_defconfig
+mips                malta_qemu_32r6_defconfig
+arc                            hsdk_defconfig
+arm                            mmp2_defconfig
+powerpc                     tqm8548_defconfig
+openrisc                 simple_smp_defconfig
+arm                          gemini_defconfig
+arm                        spear6xx_defconfig
+powerpc                      ppc6xx_defconfig
+arm                        trizeps4_defconfig
+sh                          kfr2r09_defconfig
+powerpc                     sequoia_defconfig
+arm                          exynos_defconfig
+arm                         orion5x_defconfig
+arm                       aspeed_g4_defconfig
+sh                             espt_defconfig
+parisc                generic-64bit_defconfig
+powerpc                     tqm8540_defconfig
+arm                    vt8500_v6_v7_defconfig
+powerpc                 xes_mpc85xx_defconfig
+arm                            lart_defconfig
+powerpc                 mpc8560_ads_defconfig
+sh                        edosk7760_defconfig
+m68k                       bvme6000_defconfig
+sh                          rsk7201_defconfig
+powerpc               mpc834x_itxgp_defconfig
+powerpc                          g5_defconfig
+ia64                             alldefconfig
+arc                        nsimosci_defconfig
+arm                  randconfig-c002-20211019
+x86_64               randconfig-c001-20211019
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+s390                                defconfig
+parisc                           allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                              debian-10.3
+i386                             allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a004-20211020
+i386                 randconfig-a003-20211020
+i386                 randconfig-a002-20211020
+i386                 randconfig-a005-20211020
+i386                 randconfig-a006-20211020
+i386                 randconfig-a001-20211020
+x86_64               randconfig-a013-20211021
+x86_64               randconfig-a015-20211021
+x86_64               randconfig-a011-20211021
+x86_64               randconfig-a014-20211021
+x86_64               randconfig-a016-20211021
+x86_64               randconfig-a012-20211021
+x86_64               randconfig-a015-20211019
+x86_64               randconfig-a012-20211019
+x86_64               randconfig-a016-20211019
+x86_64               randconfig-a014-20211019
+x86_64               randconfig-a013-20211019
+x86_64               randconfig-a011-20211019
+i386                 randconfig-a012-20211021
+i386                 randconfig-a013-20211021
+i386                 randconfig-a011-20211021
+i386                 randconfig-a016-20211021
+i386                 randconfig-a015-20211021
+i386                 randconfig-a014-20211021
+i386                 randconfig-a014-20211019
+i386                 randconfig-a016-20211019
+i386                 randconfig-a011-20211019
+i386                 randconfig-a015-20211019
+i386                 randconfig-a012-20211019
+i386                 randconfig-a013-20211019
+arc                  randconfig-r043-20211019
+s390                 randconfig-r044-20211019
+riscv                randconfig-r042-20211019
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+powerpc              randconfig-c003-20211021
+riscv                randconfig-c006-20211021
+arm                  randconfig-c002-20211021
+x86_64               randconfig-c007-20211021
+mips                 randconfig-c004-20211021
+s390                 randconfig-c005-20211021
+i386                 randconfig-c001-20211021
+x86_64               randconfig-a002-20211021
+x86_64               randconfig-a004-20211021
+x86_64               randconfig-a005-20211021
+x86_64               randconfig-a001-20211021
+x86_64               randconfig-a006-20211021
+x86_64               randconfig-a003-20211021
+i386                 randconfig-a004-20211021
+i386                 randconfig-a003-20211021
+i386                 randconfig-a002-20211021
+i386                 randconfig-a005-20211021
+i386                 randconfig-a001-20211021
+i386                 randconfig-a006-20211021
+hexagon              randconfig-r045-20211021
+hexagon              randconfig-r041-20211021
+hexagon              randconfig-r041-20211019
+hexagon              randconfig-r045-20211019
+x86_64               randconfig-a004-20211019
+x86_64               randconfig-a006-20211019
+x86_64               randconfig-a005-20211019
+x86_64               randconfig-a001-20211019
+x86_64               randconfig-a002-20211019
+x86_64               randconfig-a003-20211019
+
 ---
- drivers/nvme/target/tcp.c | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index c33a0464346f..2f03a94725ae 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -166,6 +166,8 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_free_iovec(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd);
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -297,6 +299,16 @@ static int nvmet_tcp_check_ddgst(struct nvmet_tcp_queue *queue, void *pdu)
- 	return 0;
- }
- 
-+static void nvmet_tcp_free_iovec(struct nvmet_tcp_cmd *cmd)
-+{
-+	WARN_ON(unlikely(cmd->nr_mapped > 0));
-+
-+	kfree(cmd->iov);
-+	sgl_free(cmd->req.sg);
-+	cmd->iov = NULL;
-+	cmd->req.sg = NULL;
-+}
-+
- static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- {
- 	struct scatterlist *sg;
-@@ -306,6 +318,8 @@ static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- 
- 	for (i = 0; i < cmd->nr_mapped; i++)
- 		kunmap(sg_page(&sg[i]));
-+
-+	cmd->nr_mapped = 0;
- }
- 
- static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
-@@ -387,7 +401,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
- 
- 	return 0;
- err:
--	sgl_free(cmd->req.sg);
-+	nvmet_tcp_free_iovec(cmd);
- 	return NVME_SC_INTERNAL;
- }
- 
-@@ -632,10 +646,8 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- 		}
- 	}
- 
--	if (queue->nvme_sq.sqhd_disabled) {
--		kfree(cmd->iov);
--		sgl_free(cmd->req.sg);
--	}
-+	if (queue->nvme_sq.sqhd_disabled)
-+		nvmet_tcp_free_iovec(cmd);
- 
- 	return 1;
- 
-@@ -664,8 +676,7 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
- 	if (left)
- 		return -EAGAIN;
- 
--	kfree(cmd->iov);
--	sgl_free(cmd->req.sg);
-+	nvmet_tcp_free_iovec(cmd);
- 	cmd->queue->snd_cmd = NULL;
- 	nvmet_tcp_put_cmd(cmd);
- 	return 1;
-@@ -1406,8 +1417,7 @@ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
- {
- 	nvmet_req_uninit(&cmd->req);
- 	nvmet_tcp_unmap_pdu_iovec(cmd);
--	kfree(cmd->iov);
--	sgl_free(cmd->req.sg);
-+	nvmet_tcp_free_iovec(cmd);
- }
- 
- static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
--- 
-2.27.0
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
