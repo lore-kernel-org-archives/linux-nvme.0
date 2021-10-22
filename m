@@ -1,16 +1,16 @@
-Return-Path: <SRS0=gxeb=PJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=dtL6=PK=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2601C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 14:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E39C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Oct 2021 03:12:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83A416136F
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Oct 2021 14:58:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 83A416136F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id CD807613A9
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Oct 2021 03:12:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CD807613A9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -18,67 +18,55 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=33mvsFyHO06g20deWCIZy6AcPLfOXXH+HUF55s+An6k=; b=LrP3irr+RxcbzVmNZm5wQ8iZXn
-	gp40RqGCMyJtL+M/eL+1cvQTHN18w4hnEmNbuHmGlDEWS1POcc6b3hxxD5n4m23uhYjFgivl9TKSx
-	xbAOiklgCmCrY3mSZ/avGooHYValoLkC4hecm2JgmY6EDwjV+woiQkfK1vctY0cU5fA/gmOOzP8qD
-	r5iVdb9Ih9FtoheqOyCPnbXLLcFxxR/ft/VpqRgUbWtZvzYGn7DCGcn+xAcTDar0ztEO9velDppUG
-	QwTIHLbnIxnCLJNKwXKc2PTG+rk7N/V0ElgXu4VlM5QlPVJdAwV9CLC4+RgsDbFFAsWYf3RnREYQ8
-	+e+ZHOEQ==;
+	bh=W0LD9iPvxxhEJ3MC2BpmyEY64d7qaINAGgTsXYSy428=; b=e9MBbENtwHUn46aoSi60b2f+ID
+	Dr03zVB/qYVZvN/Y9emTiKnwaBrgpeyH146DEbvCLQ5FZNwveKbGarrkUeyic0bk0lOFxDAJd5rIF
+	IAvXY5jQJrHPuzcEfNwTw+qj1d9IWkCacPQyXLwhAnNKuyxvTiXDKRynkIyraDr/dAg5ooyf0KyLH
+	/PXhBchtzJUiNoY05ygU7bRvilb1mXDu96PLUxVi99wAO6K6NI1sIq8YbbPgpaWeYoTin68bUtgSf
+	yJ1VYHPbjUro0APEplZ9kqi78vdaMAiWUp8zJP1+uAqodrCwrk+Pcui8JUUgjUKr0icwsuVcC+Ys1
+	CMsr8uPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mdZWW-007vyK-GW; Thu, 21 Oct 2021 14:58:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1mdkyr-009fCW-5L; Fri, 22 Oct 2021 03:12:29 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mdZWR-007vx9-O5
- for linux-nvme@lists.infradead.org; Thu, 21 Oct 2021 14:58:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634828302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=33mvsFyHO06g20deWCIZy6AcPLfOXXH+HUF55s+An6k=;
- b=F7FloaRozL7NbNxSNtxgfKNjYAjQUGC2eovWcLkAdLiQ/vZ/19/Isacl0uI8DSUkBO74Ln
- Gtrut8yUw0RLMMfSHYljE4u56P06dnptQPzty+3DYdnZ3+ID/cMttyeoQ6+hbN4KiwvkS+
- q12hjhqsdZ2gwFmPXfoHnPbOJ27UnIw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-VOeJmNPCNCWIIu5-WLae1Q-1; Thu, 21 Oct 2021 10:56:17 -0400
-X-MC-Unique: VOeJmNPCNCWIIu5-WLae1Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F4CF8066F2;
- Thu, 21 Oct 2021 14:56:16 +0000 (UTC)
-Received: from jmeneghi.bos.csb (unknown [10.22.16.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE2B25F4E9;
- Thu, 21 Oct 2021 14:56:14 +0000 (UTC)
-Subject: Re: [PATCH 1/2] nvmet: add an helper to free the iovec
-To: Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, sagi@grimberg.me, hare@suse.de, chaitanya.kulkarni@wdc.com,
- John Meneghini <jmeneghi@redhat.com>
-References: <20211021084155.16109-1-mlombard@redhat.com>
- <20211021084155.16109-2-mlombard@redhat.com>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-Message-ID: <56f23216-0b70-972b-7a24-8f496e62992e@redhat.com>
-Date: Thu, 21 Oct 2021 10:56:14 -0400
+ id 1mdkyq-009fCH-B5; Fri, 22 Oct 2021 03:12:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=W0LD9iPvxxhEJ3MC2BpmyEY64d7qaINAGgTsXYSy428=; b=cYDUUwCiDlFw5AzyRMN9tlggeH
+ 9bieqFxqnVXkwZshKFtrCWiWTRj42Do3v3duec5Oh2NeBr/KtY2JFs19YrFYe0pjKgkjitbcJVU74
+ 3L08/bDkVn1tUvxtnfojRZTI4YQuqf0qGPiYnvURf63sODp5N4b02/KHuPw9GCLRd3M6EmVk8Ojgu
+ oBS83rFU7lxFzpRkPtkVGxQiFpQdqzIyU3p0je/yXb3QsaRNe4eexfYRYdsHlsX8Pbp3yHsoQjWpz
+ Wurr52oXnhVFBC7Wm/ZyMZRdkLB1Q5ijXqsDPwyM11+aSkVj9GJTqnh7As2hIZpDy+Zf5omesnM5z
+ tH6JZAqw==;
+Received: from [2602:306:c5a2:a380:b27b:25ff:fe2c:51a8]
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mdkxM-00DffH-LH; Fri, 22 Oct 2021 03:11:19 +0000
+Subject: Re: [PATCH 00/13] block: add_disk() error handling stragglers
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: axboe@kernel.dk, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org, jim@jtan.com, minchan@kernel.org, ngupta@vflare.org,
+ senozhatsky@chromium.org, richard@nod.at, miquel.raynal@bootlin.com,
+ vigneshr@ti.com, dan.j.williams@intel.com, vishal.l.verma@intel.com,
+ dave.jiang@intel.com, ira.weiny@intel.com, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me, linux-block@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-mtd@lists.infradead.org,
+ nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20211015235219.2191207-1-mcgrof@kernel.org>
+ <a31970d6-8631-9d9d-a36f-8f4fcebfb1e6@infradead.org>
+ <YW2duaTqf3qUbTIm@bombadil.infradead.org>
+From: Geoff Levand <geoff@infradead.org>
+Message-ID: <24bc86d0-9d8d-8c8a-7f74-a87f9089342b@infradead.org>
+Date: Thu, 21 Oct 2021 20:10:49 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211021084155.16109-2-mlombard@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmeneghi@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YW2duaTqf3qUbTIm@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211021_075823_924851_37043EDB 
-X-CRM114-Status: GOOD (  26.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,108 +81,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good Maurizio.
+Hi Luis,
 
-You should also mention that you have a simple test you can run which reproduces this bug and results in a kernel panic.
-
-We might want to add that test to the blktests tool.
-
-Reviewed-by: John Meneghini <jmeneghi.redhat.com>
-
-
-On 10/21/21 4:41 AM, Maurizio Lombardi wrote:
-> Makes the code easier to read and to debug.Reviewed-by: John Meneghini <jmeneghi at redhat.com>
+On 10/18/21 9:15 AM, Luis Chamberlain wrote:
+> On Sun, Oct 17, 2021 at 08:26:33AM -0700, Geoff Levand wrote:
+>> Hi Luis,
+>>
+>> On 10/15/21 4:52 PM, Luis Chamberlain wrote:
+>>> This patch set consists of al the straggler drivers for which we have
+>>> have no patch reviews done for yet. I'd like to ask for folks to please
+>>> consider chiming in, specially if you're the maintainer for the driver.
+>>> Additionally if you can specify if you'll take the patch in yourself or
+>>> if you want Jens to take it, that'd be great too.
+>>
+>> Do you have a git repo with the patch set applied that I can use to test with?
 > 
-> Sets the freed pointers to NULL, it will be useful
-> when destroying the queues to understand if the
-> iovecs have been released already or not.
+> Sure, although the second to last patch is in a state of flux given
+> the ataflop driver currently is broken and so we're seeing how to fix
+> that first:
 > 
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> ---
->   drivers/nvme/target/tcp.c | 28 +++++++++++++++++++---------
->   1 file changed, 19 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index c33a0464346f..2f03a94725ae 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -166,6 +166,8 @@ static struct workqueue_struct *nvmet_tcp_wq;
->   static const struct nvmet_fabrics_ops nvmet_tcp_ops;
->   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
->   static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
-> +static void nvmet_tcp_free_iovec(struct nvmet_tcp_cmd *cmd);
-> +static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd);
->   
->   static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
->   		struct nvmet_tcp_cmd *cmd)
-> @@ -297,6 +299,16 @@ static int nvmet_tcp_check_ddgst(struct nvmet_tcp_queue *queue, void *pdu)
->   	return 0;
->   }
->   
-> +static void nvmet_tcp_free_iovec(struct nvmet_tcp_cmd *cmd)
-> +{
-> +	WARN_ON(unlikely(cmd->nr_mapped > 0));
-> +
-> +	kfree(cmd->iov);
-> +	sgl_free(cmd->req.sg);
-> +	cmd->iov = NULL;
-> +	cmd->req.sg = NULL;
-> +}
-> +
->   static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
->   {
->   	struct scatterlist *sg;
-> @@ -306,6 +318,8 @@ static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
->   
->   	for (i = 0; i < cmd->nr_mapped; i++)
->   		kunmap(sg_page(&sg[i]));
-> +
-> +	cmd->nr_mapped = 0;
->   }
->   
->   static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
-> @@ -387,7 +401,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
->   
->   	return 0;
->   err:
-> -	sgl_free(cmd->req.sg);
-> +	nvmet_tcp_free_iovec(cmd);
->   	return NVME_SC_INTERNAL;
->   }
->   
-> @@ -632,10 +646,8 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
->   		}
->   	}
->   
-> -	if (queue->nvme_sq.sqhd_disabled) {
-> -		kfree(cmd->iov);
-> -		sgl_free(cmd->req.sg);
-> -	}
-> +	if (queue->nvme_sq.sqhd_disabled)
-> +		nvmet_tcp_free_iovec(cmd);
->   
->   	return 1;
->   
-> @@ -664,8 +676,7 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
->   	if (left)
->   		return -EAGAIN;
->   
-> -	kfree(cmd->iov);
-> -	sgl_free(cmd->req.sg);
-> +	nvmet_tcp_free_iovec(cmd);
->   	cmd->queue->snd_cmd = NULL;
->   	nvmet_tcp_put_cmd(cmd);
->   	return 1;
-> @@ -1406,8 +1417,7 @@ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
->   {
->   	nvmet_req_uninit(&cmd->req);
->   	nvmet_tcp_unmap_pdu_iovec(cmd);
-> -	kfree(cmd->iov);
-> -	sgl_free(cmd->req.sg);
-> +	nvmet_tcp_free_iovec(cmd);
->   }
->   
->   static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
-> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20211011-for-axboe-add-disk-error-handling
 
+That branch has so many changes applied on top of the base v5.15-rc4
+that the patches I need to apply to test on PS3 with don't apply.
+
+Do you have something closer to say v5.15-rc5?  Preferred would be
+just your add_disk() error handling patches plus what they depend
+on.
+
+Thanks.
+
+-Geoff
 
