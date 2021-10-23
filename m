@@ -2,86 +2,65 @@ Return-Path: <SRS0=orSy=PL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0563C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Oct 2021 11:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94855C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Oct 2021 20:10:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 61BED60F5D
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Oct 2021 11:29:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 61BED60F5D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmx.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5BB6F60F6F
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Oct 2021 20:10:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5BB6F60F6F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hC8W2RtomSMLakyQOt2ocKeXp3RMT16FYDuWkaqu1u0=; b=Tf+uhj48oNbB2JJPJ0VqbXWn6h
-	qzXLdTqs5WCGbgPA9nBkDFqUx15kaq3gCwYmeI9ZkleHGioUQQjFE892yNuGBasWwOuNLgUB6b9CQ
-	aMaq1JFqx/ogd9KiAiqpHfDNHYaX/9V0We4HiI8Huvc7JAXqvrgY5EyDY+PQ3ydW8he1aPnWuRhJD
-	SaGeGGbfPF7zPy6sM+6oGdSSPq2TEmlxgSS0sj9aPl7BMd2FSzXAqtQY/A+J+tEQF+xfecWz1OYls
-	+QSSyGG5HZ8GXQIGFhI4CtQ8r3oHIbi61Ix3iA/58vq6/C5TFiDjQis5scPVzzDPfGtImtqz5ui4x
-	dqAY5+Pg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TAlMTScHP+GLU1q/JYvLVP9zm8s/Fm0ZgIYHVoI/Q6E=; b=zz9xKu1TtcwtrV8Ael7f+xbQfm
+	lrTwJhnKL7l2IQBPYEMR+9n6R9ic2vW67W45GldFY/BVLVqSDheeHdgIi0uQMPHCXcaC9zqQcFABz
+	lUshxMbU8LqqwMc+c9ZamMZq51n2sjAgfGHkmldppKzcg81bIaNMIgyP5PUoZ+LJKBLJsOSV9CENH
+	VxSUjRRZAlR9/3VNe5oN4E/SqJFiELskIz19lSok+ZF4bvKP9X1Xc7WZK4gFlvcGT9dQOxPHfrCJ8
+	GfpGbHw7XbDwCs+gZhoTVNtE3JD4uTNKYZJqR8XYlFe6toWGMXaxKiEoVjAmT7IvM2VREoaj/OD7q
+	L8ELnMVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1meFCs-00Chu1-NT; Sat, 23 Oct 2021 11:28:58 +0000
-Received: from mout.gmx.net ([212.227.15.18])
+	id 1meNL2-00DEZU-Jd; Sat, 23 Oct 2021 20:09:56 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1meFCl-00Chsf-BJ
- for linux-nvme@lists.infradead.org; Sat, 23 Oct 2021 11:28:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1634988521;
- bh=yOKngPoCbu6DtsIx/xx/DKQtmpvJ/9ZOA1akkMZBYws=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=NcqsTAJ7H5m0zzWJDLvHnqFK8axb/sQMfcin60R0GffAM51o3jXG91d6xqL+CVfZo
- 8s9h5B0TJZK7FuvBHhYxfPmt29zRgTpMvklPH729l6tEnHcNaGEAzxH/vxrbnXitnO
- ELRoJIo8OLWk2HalQzjdcgtiAshBkZ3MQf3RzvsE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MiaY9-1n9ARb2eX9-00fmqG; Sat, 23
- Oct 2021 13:28:40 +0200
-Date: Sat, 23 Oct 2021 13:28:38 +0200
-From: Len Baker <len.baker@gmx.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Len Baker <len.baker@gmx.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ id 1meNKz-00DEYo-DP
+ for linux-nvme@lists.infradead.org; Sat, 23 Oct 2021 20:09:54 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BF86D60F8F;
+ Sat, 23 Oct 2021 20:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635019792;
+ bh=Z2UnwJI+9oAgRIyuriM6ZijPMHqaj6ZBWEKOVaGHMWg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MI+Ep3nBT4owULahLaCWGl9KL8jzCcBz/ZEosBSx7FLahUdwTcQNw3Wu4g5YhLNtz
+ V3KzXIiGsv61oCtvhyWPNGUyGxhlDRycHGnafuUibektssYpNCNqihcJUuG8QbU7Bh
+ D6TYdVMecKhdz90iTBabrAv/Fmztee4QjsE9G35wFA5rmeRjiELxwH9nhfa9TyiHKg
+ 3CdQVNgKWekds4RqZSoSq25DI3eiDyh7G3N8HNZe5zlnn4Oo2iUAcys2cdm2RtrYGK
+ QaboQ9+tbgRb9U5glvxoLoryoksyEEjsq6Y4gk3dZc6RHA+gNcCMfpUg2NO4bZUnON
+ NssDCtkbzUIDQ==
+Date: Sat, 23 Oct 2021 15:14:38 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Len Baker <len.baker@gmx.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
  Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] nvmet: prefer struct_size over open coded arithmetic
-Message-ID: <20211023112838.GB4145@titan>
+Message-ID: <20211023201438.GA1405616@embeddedor>
 References: <20211017095650.3718-1-len.baker@gmx.com>
- <20211017172357.GA1214270@embeddedor>
+ <20211017172357.GA1214270@embeddedor> <20211023112838.GB4145@titan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211017172357.GA1214270@embeddedor>
-X-Provags-ID: V03:K1:q24hAsdZyZkzGXssf6uzzfSQUq54U9TAyYd0Z7aXuiRoUaczvVn
- S+DngOWqw4Q+T0ZTVoMD9ZYLb5Pv6EnSNEvaMohvt2iOI7jkIcipVtLI71UveHcGCdt7XUC
- XRifiSwxP26fft2hT0k2gnOy2ZKALSmC0PNmaIb4GL1nd7fBdT8XbkMyGAFgW4mzkPDDI/M
- Otq+WHQJvhvRUrTEBrBUg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VS8SjNB1WTk=:sCNZLkoktU7b6nNoMVOEIO
- FsBuE498TTiJ6l0SbwDSTOvZdhkAmaJngBWfzoyL2BMKdtjqOHqUjtonXprBJZGEMQGLYk5zw
- BzlpJDno1v0CWbjCAwC4wMo+DLKMMpXVbh8bm85RGJy7OXOFtud132IACBvMmMCv6JS7z3ovz
- qIX3Ftb+1LaNT7dro5mP+KguvkI5tXOcny7yOPTsleg4SLFcspfQ0s2Oww40cpzYzsmOXMVJw
- eVP0846Tr9VE54s9SD1GonfX1xtJahKrolZgxvVh7o7BfwAlCtMPt02WSEf0vfQden+aqC6u4
- W6Bnf8K88EzP3Rje3raFGymFYjYeQq1SRaozREfuwJSo5LRDLo+71/rZ4doVPKpqkPgm26/rE
- J18jEGVBPFhSP1LBqEPUoIO4lGtf0Fu+h9j0KNboWFiz9unsJAVUK92J0afvhguk9Yp2Q3ieD
- 6XAWO+IG+OSYEEj+RiHdp+WWJ/w5XP4Q9ZMbnTbe21iHrPNVSnLyFhbn73E4OtXOd1NvLpOxF
- CBcaNGODccwzAPCSEfOVMMU7/2z18Z64TtHH87CFHMEqnWU1TNvnwFILqcZp0xA/GKSPWhzpe
- 44q7hSbUii8BT1T0kYt3ZTDVgkdivvDQyAwAM2BM0RevUhIXJ54zHe4PJDiTT9a0R7Y3e3VOe
- UkYC7XXt0QkKakBH0/8ffm8Xmcn2bWf5g1Cj7FFzwoLrHp6p5YIL5tKERjRCeFwnmZvANplNI
- yXuEYxKXTZBChtE8ruXSUSkgWltFuL/iBVG50Nr77QZaVSO1PEicr7zxPsXd+F59k+qXdJ5VZ
- UooAg6v+65O33xWe0KVZZlN7IuOOLqMG2FRjl3GfwxZ7uA4nVkiuga/ts9ZG6h1TGdwSoLHF+
- pCZlc1ICkFr7BNil6VdmDif8hkcjErciReoX97cGBJrJxpwx78T9yV6dbRpaERqcoVz+AlHfA
- Q12DQcYneAemFfNfcKYSbOq0z2SprvgIYKtjmRZQ4/sHEzVrjrIC4ZBs23rvl+V6FkDPrcYLu
- mdEzhZ1b0m8AidYHIxfZHc/KLTKBn/qZigcMP4+MiM1yPvYlKgUDcl7GzoPdvtzWnE4+nQ4Fs
- DtFYEyn7xXX9bI=
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211023112838.GB4145@titan>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211023_042851_736032_1DA66A75 
-X-CRM114-Status: GOOD (  39.70  )
+X-CRM114-CacheID: sfid-20211023_130953_499498_3147A672 
+X-CRM114-Status: GOOD (  12.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,150 +75,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Gustavo,
+On Sat, Oct 23, 2021 at 01:28:38PM +0200, Len Baker wrote:
+> Hi Gustavo,
+> 
+> first of all, thanks for this review (and all others reviews as
+> well) ;)
 
-first of all, thanks for this review (and all others reviews as
-well) ;)
+No problem. :)
 
-More below.
+> I think that it is better to use the dynamic allocation since in the
+> future the struct size could be dynamic.
 
-On Sun, Oct 17, 2021 at 12:23:57PM -0500, Gustavo A. R. Silva wrote:
-> On Sun, Oct 17, 2021 at 11:56:50AM +0200, Len Baker wrote:
-> > As noted in the "Deprecated Interfaces, Language Features, Attributes,
-> > and Conventions" documentation [1], size calculations (especially
-> > multiplication) should not be performed in memory allocator (or simila=
-r)
-> > function arguments due to the risk of them overflowing. This could lea=
-d
-> > to values wrapping around and a smaller allocation being made than the
-> > caller was expecting. Using those allocations could lead to linear
-> > overflows of heap memory and other misbehaviors.
-> >
-> > In this case this is not actually dynamic size: all the operands
-> > involved in the calculation are constant values. However it is better =
-to
-> > refactor this anyway, just to keep the open-coded math idiom out of
-> > code.
-> >
-> > So, use the struct_size() helper to do the arithmetic instead of the
-> > argument "size + count * size" in the kmalloc() function.
-> >
-> > This code was detected with the help of Coccinelle and audited and fix=
-ed
-> > manually.
-> >
-> > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#ope=
-n-coded-arithmetic-in-allocator-arguments
-> >
-> > Signed-off-by: Len Baker <len.baker@gmx.com>
-> > ---
-> > Hi,
-> >
-> > this patch is built against the linux-next tree (tag next-20211015).
->
-> You don't need to include these lines in every patch. Just add [next]
-> to the subject line, like this:
->
-> 	[PATCH][next] nvmet: prefer struct_size over open coded arithmetic
->
-> It should be clear enough for people that you are talking about
-> linux-next. And in case someone asks, then you proceed to clarify. :)
+Yep; that seems sensible.
 
-Ok, understood. Thanks for the advise.
+> it's not one single element. The "sizeof(struct nvme_ana_group_desc)" is
+> multiplied by "ctrl->nanagrpid" and then added "ctrl->max_namespaces * sizeof(__le32)".
 
-> > Regards,
-> > Len
-> >
-> >  drivers/nvme/target/admin-cmd.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/adm=
-in-cmd.c
-> > index aa6d84d8848e..4aa71625c86a 100644
-> > --- a/drivers/nvme/target/admin-cmd.c
-> > +++ b/drivers/nvme/target/admin-cmd.c
-> > @@ -278,8 +278,8 @@ static void nvmet_execute_get_log_page_ana(struct =
-nvmet_req *req)
-> >  	u16 status;
-> >
-> >  	status =3D NVME_SC_INTERNAL;
-> > -	desc =3D kmalloc(sizeof(struct nvme_ana_group_desc) +
-> > -			NVMET_MAX_NAMESPACES * sizeof(__le32), GFP_KERNEL);
-> > +	desc =3D kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
-> > +		       GFP_KERNEL);
->
-> It might be worth exploring if the flexible array is actually needed,
-> once the allocation is always determined by NVMET_MAX_NAMESPACES. Maybe
-> it can be changed to the following and remove the dynamic allocation
-> entirely?
->
-> 	struct nvme_ana_group_desc {
-> 		__le32  grpid;
-> 		__le32  nnsids;
-> 		__le64  chgcnt;
-> 		__u8    state;
-> 		__u8    rsvd17[15];
-> 		__le32  nsids[NVMET_MAX_NAMESPACES];
-> 	};
+You're right. The whole expression got me a bit confused.
 
-What's the size limit for dynamic allocation vs stack allocation? I think
-that NVMET_MAX_NAMESPACES * sizeof(__le32) =3D 1024 * 4 =3D 4096 bytes is =
-big
-enough (but I don't know if it is the correct way to think).
+> > drivers/nvme/target/admin-cmd.c:267:    return sizeof(struct nvme_ana_group_desc) + count * sizeof(__le32);
+> 
+> Ok. I forgot it. Apologies.
 
-However, due to the following comment in the NVMET_MAX_NAMESPACES macro
-definition:
+No apologies. Thanks for your patches. 
 
-/*
- * Nice round number that makes a list of nsids fit into a page.
- * Should become tunable at some point in the future.
- */
-#define NVMET_MAX_NAMESPACES	1024
+> Again, thanks for your time and advises,
 
-I think that it is better to use the dynamic allocation since in the
-future the struct size could be dynamic.
+Anytime.
 
->
-> If the above is possible then (at least) these lines should be audited:
->
-> drivers/nvme/host/multipath.c-551-              if (WARN_ON_ONCE(offset =
-> ctrl->ana_log_size - sizeof(*desc)))
->
-> drivers/nvme/host/multipath.c-566-              offset +=3D sizeof(*desc=
-);
-> drivers/nvme/host/multipath.c-567-              if (WARN_ON_ONCE(offset =
-> ctrl->ana_log_size - nsid_buf_size))
->
-> If the flexible array remains, then this line could use
-> flex_array_size():
->
-> drivers/nvme/host/multipath.c-555-              nsid_buf_size =3D nr_nsi=
-ds * sizeof(__le32);
-
-Ok. I didn't see it.
->
-> struct_size() could be used here, as well:
->
-> drivers/nvme/host/multipath.c-847-      ana_log_size =3D sizeof(struct n=
-vme_ana_rsp_hdr) +
-> drivers/nvme/host/multipath.c:848:              ctrl->nanagrpid * sizeof=
-(struct nvme_ana_group_desc) +
-> drivers/nvme/host/multipath.c-849-              ctrl->max_namespaces * s=
-izeof(__le32);
-
-Sorry, but here it's not possible to use struct_size() due to
-
-sizeof(struct nvme_ana_group_desc) + ctrl->max_namespaces * sizeof(__le32)
-
-it's not one single element. The "sizeof(struct nvme_ana_group_desc)" is
-multiplied by "ctrl->nanagrpid" and then added "ctrl->max_namespaces * siz=
-eof(__le32)".
-
-> drivers/nvme/target/admin-cmd.c:267:    return sizeof(struct nvme_ana_gr=
-oup_desc) + count * sizeof(__le32);
-
-Ok. I forgot it. Apologies.
-
-Again, thanks for your time and advises,
-Len
+Thanks
+--
+Gustavo
 
