@@ -1,86 +1,78 @@
-Return-Path: <SRS0=FSxx=PM=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=jIqL=PN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EF1DC433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Oct 2021 17:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C06C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Oct 2021 07:21:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A5C860FC3
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Oct 2021 17:30:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3A5C860FC3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmx.com
+	by mail.kernel.org (Postfix) with ESMTPS id BE0A260724
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Oct 2021 07:21:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BE0A260724
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eXOelahJJ9fhOa3bPm4VlWt6s1vTfauBydtOtaHSTuA=; b=RUuVyUEKdOnmW8/jFN0A5fPo98
-	9dwpnfchW++Trcn4P4e7L1W/AWBo+wV8jliqitgX8TgC3konQ1TY71IpJgFbl00a9B7LcFGuVgGbs
-	JAgImXQmMMJSfPGI7a7X0FRiZVDl4gIOjZ3HOzgtUDqoFnNDNEBTyK0TLf5HFPF/bKPEm2OtRriPl
-	UAYRNPA3dFG+S6nu5CP6U2ivomRIBeTmi1OLWeHa2wJXwM6EArI3iWpF6igS3dzn7QydNgejOGNKx
-	2nM6zTcJhzgTfQcmSNAsX/3oNA0DwEUKYZ3Lg7kKIdjOGf6MwmluuIN9a9gKzXNHFXoccetaz8I5n
-	n5XjJoEA==;
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:To:From:
+	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hSzklK57AoABHuaOpS4+dDI6d2+9ts3pkvota0sJ30E=; b=wlRVFEVtZBvgDkVpoiIG6nFqhN
+	AhUcA+hfIoeD9rrROrVduy650hX2X9tmMiUp53vb913svsMZcSc1V76fYNEFamsRPa+Cj3Hq1CcB1
+	8tDOyy+3S5oM7dwey5ehvCCt5X1mcaK7iM6TJiAxlBU76JV+LS8FoMqoFyzKkrhLI0Zgp3I+vwrCp
+	Cy0CiK2bEA1QcBmsXHzWq2iyHFUTbB7AJlZdq64R9Q3U9QAhONo6pxF/qK3pW9Y6kqh11EIWihF8c
+	IfdCa7HJFaIBQ/dcz6TKL6ghhV5iys+8QDnWYbMSyIt8lLFJUO3aeeLcyfUjpsq/8TVkyCx2JHcaN
+	b4yJcesQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mehJv-00EOoO-Gk; Sun, 24 Oct 2021 17:30:07 +0000
-Received: from mout.gmx.net ([212.227.15.18])
+	id 1meuIk-00FaYa-EO; Mon, 25 Oct 2021 07:21:46 +0000
+Received: from mail-wm1-f42.google.com ([209.85.128.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mehJo-00EOnV-8P
- for linux-nvme@lists.infradead.org; Sun, 24 Oct 2021 17:30:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1635096586;
- bh=eJf292/lZFzvszJXQLPbd7P/v4bSpcZvX7PKS7XhsKs=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=ReDfyYeo49apVvB0odLLK/7xdF6Vcb/lxo8dsBEA7LGY8iQ2E28Dt8nodhXG9b/bu
- uQ63tAT8mf2St+ZvdWp3XXPmhCrv/Lp6ONk0Mw92ohYZ2ETOevVBrOtBlV6qNzhR7/
- 2Isf8OwdSXP0kO2lS4bKy2Z3+CZ4M43ZMxetZOww=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MLiCo-1mNASn3W7c-00HcSB; Sun, 24 Oct 2021 19:29:46 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-hardening@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] nvmet: prefer flex_array_size and struct_size over open coded
- arithmetic
-Date: Sun, 24 Oct 2021 19:29:21 +0200
-Message-Id: <20211024172921.4110-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+ id 1meuFu-00FZQ6-Ma
+ for linux-nvme@lists.infradead.org; Mon, 25 Oct 2021 07:18:51 +0000
+Received: by mail-wm1-f42.google.com with SMTP id y78so4426133wmc.0
+ for <linux-nvme@lists.infradead.org>; Mon, 25 Oct 2021 00:18:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hSzklK57AoABHuaOpS4+dDI6d2+9ts3pkvota0sJ30E=;
+ b=q3vXW663gWFkTxAeB6dcIpcR8fJGwiAskpKBTGHPTm69ye4/siv3JtVw1xhMEfXuB3
+ cAKAOZ1rQtL6wRXqxY9BGB7zdTDtnOfsTMqpGReephamEt2oxuP2CabkdsKBS2l9GbVp
+ ybJCZbHhueQV8/LCgy+lNXDktDLzJ3oOMdSm4oF7GxTM98W1WojMUKa7jxtOdn33MAV4
+ yED0IxQ7+plPxdu0SpTwytyBiWl7cD5aUtVuScs+XBSRcwUN8RkdEX9JgC1eAkrH76nt
+ sLw98UEo69rxKhxBJtlpazH9dbJNQl4xRqvJPpg1AlCbvEftwrbBkDNj80S28IxQiugL
+ LtAA==
+X-Gm-Message-State: AOAM531FCmHiSFBlPwXkjWHI5Alr+QKQwCLnIJk6rvzxo7C2Doc2Qs+w
+ iMSetSdt4oF8CX+/i6ccUtU=
+X-Google-Smtp-Source: ABdhPJy768LF0q6jQS1tKF9ptH98NOtok+0zG1lrPOQ2Jx/XK13suws9arq34AAbEibyt+c6YVr/cg==
+X-Received: by 2002:a1c:f21a:: with SMTP id s26mr18371938wmc.117.1635146319331; 
+ Mon, 25 Oct 2021 00:18:39 -0700 (PDT)
+Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id q1sm7894200wmj.20.2021.10.25.00.18.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Oct 2021 00:18:38 -0700 (PDT)
+Subject: Re: [PATCH] nvme-tcp: Fix H2CData PDU send accounting (again)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+References: <20211024074331.546635-1-sagi@grimberg.me>
+Message-ID: <f50b529f-d2c5-d654-4e3e-2977ce6d80e2@grimberg.me>
+Date: Mon, 25 Oct 2021 10:18:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:nXvwuaFef6387OyRsR8ktRo9t1nVZlLvmGBWTQ0LCcys0NB7oV2
- qnV0JRZ0zDT9ZS1nL1szZ7q7Dp5lL4+sLpwFvqzVbc8OSxH9MYTlFLgcahgxkbEkAdLOVCA
- sWDRal7DUONvR0VCtwYsrFyLwxR62POK59fPUFFhlewU7yUypeps05E0uBtaY1H5eiv0zuy
- bZw5EgrNujNCCitXsqhbA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6AN4P+IrtkM=:klp7il6T9/RgIJo2pQzhDA
- Mgsqnwf6pFMkXXq/+OwTSBeMu3TLa1ts+7cPFySclV6wz6S2qJcrhiUqrhiYiclkcOBoJKyaS
- YGLGm5jE5fnkIOWk9p2NQiB6xXHjSdP3UElHyKgTWJBHmYJh4GUeqnJEE3FavfJ5SLykWJHQm
- p8JgLexZZ1A5V29n7L0nC3JogfKw7A7OdpsMtzhu3ApZICS+6RxcVwMjkLSbLVjofK3j/g/xg
- /ZdBwkAjFaWHdXtw6B0+MzBRheYUPntEuTHXPdq2+WVLefp9HQklAGHDwwezcXRtcXzxY6Z98
- JhgNc8k2ECFviYpOKdBbfAcDXuHFjN6dFRKNlIFfoo2bwxOVaWdW4DVIZzY4l6d/59byxn0P7
- YlEDewFj4ZoRenpGC594bWZw+PlwhkchN9gdtbuyL6WoDhpItTM31IdbuH995dFFKuALnGHIu
- m0ha4eGaH1jsXuH5zlQW1touUPHgw9UKUN8c6nKVI9YlBZAuycHkZE7RvEUKgxPSfGY2r+uFZ
- cMEqXfG6vNnyDNWOAWeWkZ/l4YnZ1O/cQMHi2pJ0Eo6XzlL8Zvb0fFOhSX1YCbGV+j0WbdAoq
- sNCNCYkag4s/Vnu/glsUAQuvjviIaLv2i+Y+9nx7CukS404PJRIPnOHbz6DoK0xaDiiXuId0+
- g6pgq4vkxb783A7zM4ya3KT8JYt82vMh16eAib/9Wr2rqzaFg3txTjdfv7OJLejEx28rpYKJM
- /RByiebfAs0u+T3Di+K6gzGnputTx5VIXD3dGPXiTsZACqXHqgxhtThnhZt1Ek4iJFIoA3Yha
- VmRvDKw/PtM8bTDoo55rajW1w6vGHBViV5HKpecRlldYLFAHKJg2RbDIWXWeQGv1dXj427sPa
- D6oh1+8zaC7NHJu4E1guWow+6ZZ+kjUE+RntjzZMZBdS2skQa4ZKrnUOPdtB07//oZ8PWap/j
- tdENU/dCMV+8u7loj0+CVX9WHZvwJonhn79FHiLR/yvYwkjtw+vEg+RxS5A0g8GAaoOJK7585
- 9EyNztWi0VTEyzdgmGLaIyXTWQeHiWJoxql4TJB1Ob5LlGXKHm8yCTg1sS5UQ0uvalBXrMYYH
- 3U19DJxPaIkXMw=
+In-Reply-To: <20211024074331.546635-1-sagi@grimberg.me>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211024_103000_618990_67773A4F 
-X-CRM114-Status: GOOD (  11.25  )
+X-CRM114-CacheID: sfid-20211025_001850_790595_636B57E8 
+X-CRM114-Status: GOOD (  14.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,48 +87,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In an effort to avoid open-coded arithmetic in the kernel [1], use the
-flex_array_size() and struct_size() helpers instead of an open-coded
-calculation.
 
-[1] https://github.com/KSPP/linux/issues/160
+> We should not access request members after the last send, even to
+> determine if indeed it was the last data payload send. The reason is
+> that a completion could have arrived and trigger a new execution of the
+> request which overridden these members. This was fixed by commit
+> 825619b09ad3 ("nvme-tcp: fix possible use-after-completion").
+> 
+> Commit e371af033c56 broke that assumption again to address cases where
+> multiple r2t pdus are sent per request. To fix it, we need to record the
+> request data_sent and data_len and after the payload network send we
+> reference these counters to determine weather we should advance the
+> request iterator.
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/nvme/host/multipath.c   | 2 +-
- drivers/nvme/target/admin-cmd.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 954e84df6eb7..7f2071f2460c 100644
-=2D-- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -562,7 +562,7 @@ static int nvme_parse_ana_log(struct nvme_ctrl *ctrl, =
-void *data,
- 			return -EINVAL;
-
- 		nr_nsids =3D le32_to_cpu(desc->nnsids);
--		nsid_buf_size =3D nr_nsids * sizeof(__le32);
-+		nsid_buf_size =3D flex_array_size(desc, nsids, nr_nsids);
-
- 		if (WARN_ON_ONCE(desc->grpid =3D=3D 0))
- 			return -EINVAL;
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-c=
-md.c
-index 403de678fd06..6fb24746de06 100644
-=2D-- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -264,7 +264,7 @@ static u32 nvmet_format_ana_group(struct nvmet_req *re=
-q, u32 grpid,
- 	desc->chgcnt =3D cpu_to_le64(nvmet_ana_chgcnt);
- 	desc->state =3D req->port->ana_state[grpid];
- 	memset(desc->rsvd17, 0, sizeof(desc->rsvd17));
--	return sizeof(struct nvme_ana_group_desc) + count * sizeof(__le32);
-+	return struct_size(desc, nsids, count);
- }
-
- static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
-=2D-
-2.25.1
-
+Keith, can I get a reviewed/tested tag here?
 
