@@ -2,82 +2,78 @@ Return-Path: <SRS0=3UZ0=PO=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69421C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Oct 2021 15:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6429C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Oct 2021 15:42:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D61A60F9D
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Oct 2021 15:35:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2D61A60F9D
+	by mail.kernel.org (Postfix) with ESMTPS id 9669D60F9D
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Oct 2021 15:42:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9669D60F9D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z7uODUUiQb06oP+J75Wcn0jV5wrOGJAJM7FEoWx1Sk0=; b=M3ugxMaPFD+ryECkIV8efL5vBj
-	9xJiShCTyQm5uiYVe9y3GtvdAREmo9HKQB+pC559bza+l1uj4T6efA9uGv1WWxT6NZvwtC3Fjgg2m
-	AqgQ2XAIEmk/mOM+69K4wa8fPuL74VX/zLTeS2tGLgZ8t+sOwlXENGplZ7LjbElKrPOsCGVHdwgP9
-	mDwCJDxSJ40X22FsqDakUrrjImELv6j5ztObEko59H+d6/JvfL1UaPmiXwltxJRnzlrwQkB6oYrIF
-	a55nrUCQcVjVhtW2DzWbnAyeTIhcPpEryz+ja881KwZc8Dm+2vQCoktXCWEZT8md+8J36FfL2tWhp
-	/h26zjJQ==;
+	bh=pEeFx7fKwVz7r6OjBSTxpey03pHjAhV98o20OpErjpI=; b=STR+OjIDL40AO9GZdr+JCO4m4d
+	3HMoR/81Rv6TKLV1gkv+Qr1yfqzi6Xh8HA8WdvMrN3p3yJqHOJqIG/frzSwxpSNTgWKxEBYFOHCh0
+	ouM9s8mudmGgAdZ2hQ/Fqi2UAWPNZncdjBxLODKZpMe9t+1VVh6eohihAG9Nnk2OD3hqiLgEHcFyJ
+	yISMOjgd4aq4/EdqkJ77c16plCWrG3S24+Ws9GK6sQcgI0OX5ueB6EW9nbeijyfGwMhhBzHb9KiXA
+	5w15laa9I1lIN2LeSK/3FvLal72Xx3rxfmWcfCSjWsfKX0N0TdSBnlV0cjjr50lP0sg6G/NfR/79Y
+	ugXNKwHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mfOTU-002CAM-Ac; Tue, 26 Oct 2021 15:34:52 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1mfOaW-002DU6-LF; Tue, 26 Oct 2021 15:42:08 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mfOTR-002C9a-Rb
- for linux-nvme@lists.infradead.org; Tue, 26 Oct 2021 15:34:51 +0000
-Received: by mail-wm1-f44.google.com with SMTP id
- j2-20020a1c2302000000b0032ca9b0a057so2601854wmj.3
- for <linux-nvme@lists.infradead.org>; Tue, 26 Oct 2021 08:34:45 -0700 (PDT)
+ id 1mfOaT-002DRM-NA
+ for linux-nvme@lists.infradead.org; Tue, 26 Oct 2021 15:42:06 +0000
+Received: by mail-wr1-f49.google.com with SMTP id e4so20020260wrc.7
+ for <linux-nvme@lists.infradead.org>; Tue, 26 Oct 2021 08:42:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Z7uODUUiQb06oP+J75Wcn0jV5wrOGJAJM7FEoWx1Sk0=;
- b=Mh06Zm4464f0HBBtiufCQ0YFmLslaEUo5xMb60XIeeLMKzH9Jaq3iJOsof7oFj2DvV
- LGWKOmZUfkslUhByIfJ/B0IaTCMQe6OzjMPykyQ1eTYxXA2KgX47gKBZtEgikwFEyri3
- DfSsdg+4vQFezLlyrwmumRoqGIhQiJiH+q7Ln4WmqwfUANETQxj9WXWMcsX/uWDoejTz
- nvxSSEt+lYS8T54rx2tVi35jdCgTedno+hSGARs6GsMjUnAXQu0Ba8oqKj7DCnAm53u+
- OsB75CLjyko3+RKwM9UsH6iQh008inF+GX1yFojaAeQWR7hUvqZpAghl8xchBtrT/44z
- d59w==
-X-Gm-Message-State: AOAM533Stw/pJb9V8AECpan7vVm20/h6CORCT+j4moMaFlAyugqUIwNs
- PcX3iEVdm7nba9mNMjbExQ4=
-X-Google-Smtp-Source: ABdhPJx3Zl+338fEVI9TDi5qVr0vb1oH16xL6hOsWCdNvFBZ2CeMdIJDP/QiK7FPNZklYAcYhkkBgQ==
-X-Received: by 2002:a7b:c103:: with SMTP id w3mr24372203wmi.145.1635262484652; 
- Tue, 26 Oct 2021 08:34:44 -0700 (PDT)
+ bh=pEeFx7fKwVz7r6OjBSTxpey03pHjAhV98o20OpErjpI=;
+ b=cO+WxdVN82wlItGxjDBJDaILZHxNuNpTFjSIvt1+vG1yr7AgquOFSnAc9fVY2CQWTM
+ TqgaMBlmvWvZ76w88aL+dug4m/Ycuvx/RBxQ5Fty1jZjGblfO0FgN5pU6dtPco4gUpcS
+ STsdU1X4N1/q7kJiDpqfPEyuVuQnkpBJWu/8Ow1ONxRNO5sOxIThh/Mfj8gC8qNN5Bl8
+ Xwm9o1z5Z7/tYxDgyFoyyfULOQ5d4Z7Iaov+7gaP5eWHYNGRUxVyTVJpHBNXe1i3Sf76
+ 66jvBU5Yn79EFUIz/CH/Jm8nzYRAdhlM22SVsRUxXIuPpxTW4becNe8nkiC03ksoyo82
+ Icog==
+X-Gm-Message-State: AOAM532Bwj4QlXN6PNiw7dnFyi1ALr6euFubfC91UTvF4lV2dV+8LD0h
+ HkkJ4KkBNRheF/e+0gAcjvY=
+X-Google-Smtp-Source: ABdhPJx/86KOS9Mv+wHPLClCqJMZJg3BbHXgqXvshXgcHIV7S8eRLeHaPk2r9kpnJ2mKJFeMTEhJnw==
+X-Received: by 2002:adf:dd07:: with SMTP id a7mr27069606wrm.395.1635262923689; 
+ Tue, 26 Oct 2021 08:42:03 -0700 (PDT)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id y23sm970512wmi.43.2021.10.26.08.34.43
+ by smtp.gmail.com with ESMTPSA id p18sm1034202wmq.4.2021.10.26.08.42.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Oct 2021 08:34:44 -0700 (PDT)
-Subject: Re: [PATCH] nvmet_tcp: fix header digest verification
-To: "Engel, Amit" <Amit.Engel@Dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>
-References: <20211019113307.31852-1-amit.engel@dell.com>
- <2f46c62b-a8c4-5d48-17c4-ac33dec8a318@grimberg.me>
- <CO1PR19MB4885C691C3B1B15AA139A9E0EEBE9@CO1PR19MB4885.namprd19.prod.outlook.com>
- <4a71a194-c715-a38d-6b3e-560eae714451@grimberg.me>
- <CO1PR19MB48856AA2F52E022418DEA773EE839@CO1PR19MB4885.namprd19.prod.outlook.com>
+ Tue, 26 Oct 2021 08:42:03 -0700 (PDT)
+Subject: Re: [PATCH 2/2] nvmet: fix a race condition between release_queue and
+ io_work
+To: Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, hare@suse.de, chaitanya.kulkarni@wdc.com, jmeneghi@redhat.com
+References: <20211021084155.16109-1-mlombard@redhat.com>
+ <20211021084155.16109-3-mlombard@redhat.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <f74d1d66-1400-89cf-fb15-782369ad28d2@grimberg.me>
-Date: Tue, 26 Oct 2021 18:34:42 +0300
+Message-ID: <54e0464e-0d05-4611-10d9-7b706900af28@grimberg.me>
+Date: Tue, 26 Oct 2021 18:42:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CO1PR19MB48856AA2F52E022418DEA773EE839@CO1PR19MB4885.namprd19.prod.outlook.com>
+In-Reply-To: <20211021084155.16109-3-mlombard@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211026_083449_926667_BECC320D 
-X-CRM114-Status: GOOD (  13.96  )
+X-CRM114-CacheID: sfid-20211026_084205_802900_ED4C8D0A 
+X-CRM114-Status: GOOD (  15.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,28 +88,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Maurizio,
 
-> In nvmet_tcp_try_recv_pdu:
-> 1. After kernel_recvmsg, 'queue->offset' is equal to 'sizeof(struct nvme_tcp_hdr)'
-> 
-> 2. update queue->left = hdr->hlen - queue->offset + hdgst and 'goto recv'
-> 
-> 3. after recvmsg , the offset is greater than the digest.
-> 
-> So , In this case offset != hdr->hlen
-> 
-> This will lead to nvmet_tcp_verify_hdgst to always pass, which
+On 10/21/21 11:41 AM, Maurizio Lombardi wrote:
+> If the initiator executes a reset controller operation while
+> performing I/O, the target kernel will crash because of a race condition
+> between release_queue and io_work;
 
-I see, so the patch should modify the call-site to
-nvmet_tcp_verify_hdgst to pass in hdr->hlen.
+Can you add the stack trace?
 
-> 
-> Thanks
-> Amit
-> 
-> 
-> Internal Use - Confidential
+> nvmet_tcp_uninit_data_in_cmds() may be executed while io_work
+> is running, calling flush_work(io_work) was not sufficient to
+> prevent this because io_work could requeue itself.
 
-You should remove this footer from your emails to the public
-mailing list...
+OK, then this should be sufficient to fix it right?
+
+> * Fix this bug by preventing io_work from being enqueued when
+> sk_user_data is NULL (it means that the queue is going to be deleted)
+
+This is triggered from the completion path, where the commands
+are not in a state where they are still fetching data from the
+host. How does this prevent the crash?
+
+> * Ensure that all the memory allocated for the commands' iovec is freed
+
+How is this needed to prevent a crash?
 
