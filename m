@@ -2,14 +2,14 @@ Return-Path: <SRS0=8pqL=PP=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE88C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Oct 2021 07:13:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD85EC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Oct 2021 07:21:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CDB06109E
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Oct 2021 07:13:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5CDB06109E
+	by mail.kernel.org (Postfix) with ESMTPS id 9747E60F9B
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Oct 2021 07:21:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9747E60F9B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,39 +18,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AZUWrWlFQY9zeqeSZmTmGiB116l2niUUjjPOfIDAdzQ=; b=Y/07FdsgE4XINILw/XhdL5NRrp
-	JFWzUD3MNphKArfEvKrAwU+hMVC8mEFDF6jhkuoMsVXqa65EGEG7CotBr7KUYG73IkgzbvUNzIad5
-	Eg/aaCVXC4+0G7cooXKoc611eZ9OohNiL67xBYGePhWBhh4ShzdXEVqKaxSXSo1X1cv5b2/pzu0QM
-	8aZvPRKDUwHRzD6J0Qg6ABX1+PWk8IVW/fNsKMb/+syHNUdd+EqL0jr2p2E4szApaJTXhJblG8fjD
-	6pk5RRL5OE6zgBHV7TEdyqufd61NwFm6C8flTObZZt7xrNfDnvk8hki1Z01YFcljQ6hOp9XbTy9G6
-	IIi4RkWA==;
+	bh=0YHLZvLC/xYlfH0XYhEFmgV1nKxhlxOO7Z/IK6ZmpAI=; b=RdhST9blZg/ReHA2mTPrt1F19U
+	xOqRwlrhZTNWXtjBQ3sDoDRTG3kkq5Dfe7Yma9BaJ1q3wu3f8DJsXyBKsZ7wBxdDvsKVxD8M2v3kp
+	znjxakbGMyi7PqW5ieLCIypMzmFLeO0liN9hlZ63k/nc9bfMiPb9OTnYViG6pHCylJ9zx7FqR7DZ9
+	RgFAuG3nCmU+P9/FKRY5of0hHJJ9I9IyF8Cqz5WCQ+xAwy1XXPBZLw55WiS93/jnsv+orTWrdscTd
+	mUKwzzOaV/LEtbiDEz6TFxFNOudXOUgClomXJxubDMfbJwV9jRK3DyMchaLUuC7uTGOOMzPRF/Cg7
+	f9iLhtew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mfd7l-0047Ol-4r; Wed, 27 Oct 2021 07:13:25 +0000
+	id 1mfdFS-0048ch-IW; Wed, 27 Oct 2021 07:21:22 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mfd7i-0047No-L2
- for linux-nvme@lists.infradead.org; Wed, 27 Oct 2021 07:13:23 +0000
+ id 1mfdFP-0048ae-Cr
+ for linux-nvme@lists.infradead.org; Wed, 27 Oct 2021 07:21:20 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id EB74868AFE; Wed, 27 Oct 2021 09:13:16 +0200 (CEST)
-Date: Wed, 27 Oct 2021 09:13:16 +0200
+ id 1458668AFE; Wed, 27 Oct 2021 09:21:16 +0200 (CEST)
+Date: Wed, 27 Oct 2021 09:21:15 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Varun Prakash <varun@chelsio.com>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet-tcp: fix data digest pointer calculation
-Message-ID: <20211027071316.GA11266@lst.de>
-References: <1635182214-3958-1-git-send-email-varun@chelsio.com>
- <20211027055725.GA9635@lst.de>
- <26648af7-f459-5d43-bc2a-ef2c63715418@grimberg.me>
+To: Amit Engel <amit.engel@dell.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+ "amit.engel@dell.com--from=amit.engel"@dell.com
+Subject: Re: [PATCH] nvmet_tcp: fix header digest verification
+Message-ID: <20211027072115.GA11660@lst.de>
+References: <20211027064927.20452-1-amit.engel@dell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26648af7-f459-5d43-bc2a-ef2c63715418@grimberg.me>
+In-Reply-To: <20211027064927.20452-1-amit.engel@dell.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211027_001322_863388_97237713 
-X-CRM114-Status: GOOD (  15.99  )
+X-CRM114-CacheID: sfid-20211027_002119_589962_9F369CBC 
+X-CRM114-Status: UNSURE (   7.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,22 +64,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 27, 2021 at 10:11:01AM +0300, Sagi Grimberg wrote:
->>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->>> index 07ee347..d641bfa 100644
->>> --- a/drivers/nvme/target/tcp.c
->>> +++ b/drivers/nvme/target/tcp.c
->>> @@ -702,7 +702,7 @@ static int nvmet_try_send_ddgst(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
->>>   	struct nvmet_tcp_queue *queue = cmd->queue;
->>>   	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
->>>   	struct kvec iov = {
->>> -		.iov_base = &cmd->exp_ddgst + cmd->offset,
->>> +		.iov_base = (u8 *)&cmd->exp_ddgst + cmd->offset,
->>
->> Wouldn't be the better fix to divide cmd->offset by 4 instead of the
->> casts?  I can fix this up inline if that is ok.
->
-> Don't really mind, what makes it a better fix?
+Thanks,
 
-I generally prefer to avoid casts as they paper over bugs.
+applied to nvme-5.15.
 
