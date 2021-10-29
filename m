@@ -2,90 +2,69 @@ Return-Path: <SRS0=7cDU=PR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4AE4C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 17:05:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3A62C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 20:11:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9086C60E78
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 17:05:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9086C60E78
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmx.com
+	by mail.kernel.org (Postfix) with ESMTPS id 60640603E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 20:11:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 60640603E5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UBQu2NaBw0leNJlGUn2ClfwzgV4ttHKz2FJYUhUzXRo=; b=k6XRzZx0nF3cUdXmQQ6Rd6ah4V
-	7ML5a/EfSfHsM1l91Ynlv4/lvIoGeDpTBMcEkIz14mhN1DaMLDj755r8XpBZl+GAIz36chG06plfh
-	BcKZMljZavPgEXh6vVUrgVZjA/B5otucjLtsRJatyHigYMC8cgNeg3rj/YVWwiPoKpCyfK6bH0RAd
-	NdHC+n8NvCJBwsHlV05QZOczr93dbZoOgwlCCVC4RHo5vwGkcdZq3UHpzQIFqsgpML+0+A6kr1M44
-	kZySm3j4C0+twnoZaSsaOw93JqsUzBxd/fCr/DZV154xrImRtogB9lCDMzZWFrKcmXnVx3fWnakOS
-	CH2CjTIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=0iQFSxYLLWIMz8jKKHB3pQtQYdwI5D51L63RVSheyuw=; b=qc3VG1InMPJeGK
+	2HczRUkkkQM/+BRBKFlizC7hQQm9dGlU2irizV8S9mzuh986JkMJOrm9LdCetnn9vUL9MyNJLfUve
+	RpPDSHNF2L454a4DXvkPhGy631/FdAR0OqNniWK0PV1mdWIbrCPfxrpazpnpxrgmoLoMFJCxyn0gU
+	rtH0Z7YkQsTB2X0vzR+6dFFkwk7mvdafjdhoU9NCTa5lAt/MUWHsmmJccU2AggzhQ7QfcfNYyHIoG
+	mCxM+jb8zCbwANsBfgZ+f0JShm3mgis/PQckYvwI4zDWQPX+qH/4/WeiznTsnHT0H91qF03QWoBGY
+	ejmmK/F1FOq1F4ajBiUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mgVJb-00BXfn-S4; Fri, 29 Oct 2021 17:05:15 +0000
-Received: from mout.gmx.net ([212.227.15.15])
+	id 1mgYDH-00CBb6-NT; Fri, 29 Oct 2021 20:10:56 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgVJY-00BXf9-8Q
- for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 17:05:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1635527095;
- bh=UBQu2NaBw0leNJlGUn2ClfwzgV4ttHKz2FJYUhUzXRo=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=io0EmqdcFB1d01A6sQpNDNpRpAmDizeHcLp44bv9rv1WULm/MEkwc/U3bsGVCAG/M
- dJKLXUUKOfy9OFzZ5D34GFbRTHd3pM8r1kv3ts1BMWrMdBkfuwNcgh9r9GCl3FUZ4p
- T8KBXx0J502Urj4+fnDLX35Ol0dEV54078rnn7YI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MC30Z-1mUdjf3SaT-00CUoV; Fri, 29
- Oct 2021 19:04:55 +0200
-Date: Fri, 29 Oct 2021 19:04:52 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Len Baker <len.baker@gmx.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Kees Cook <keescook@chromium.org>,
- linux-hardening@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvmet: prefer flex_array_size and struct_size over open
- coded arithmetic
-Message-ID: <20211029170452.GB2124@titan>
-References: <20211024172921.4110-1-len.baker@gmx.com>
- <20211027060740.GB9949@lst.de>
+ id 1mgXmC-00C31F-30
+ for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 19:42:58 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4985160F58;
+ Fri, 29 Oct 2021 19:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635536575;
+ bh=MImQ+A6efjy2I8+a/pp6zKUXGNbj24+Vxt4Ky/zJaCU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=cPv3B/R8fJFR2usW/rNFTEdShDiVjtH6wxf82liiI1dlOELL2zjsJpCBHSh5vMY8D
+ ZVRS5IKJ43hQzIOnQSMmUNFTf21HiYquO5xNJsg3SGQlV1Un8IWx571iNT16n3vaAV
+ Sss+XWBqrLCq9HYAUgr06Hax4UaqCaCZBQsiJB+5BwMKELhfaJ/CzzhLa+tlFSuIhk
+ VF7f5fevBYfbbORU2DgaAsjKSc2N3bcU9pDkw5D45oHPFk3N429KUomElW011RKPPv
+ YNkdeLS1GMhsPTebBpvmB9+GIQCvqqyCZ5gq2/0kIxiCpsfEbt6ErVJE/ybXC6gDL4
+ JJzG41zMYff+w==
+Date: Fri, 29 Oct 2021 14:42:53 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Li Chen <lchen@ambarella.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rob Herring <robh@kernel.org>, "kw@linux.com" <kw@linux.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Tom Joseph <tjoseph@cadence.com>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [EXT] Re: nvme may get timeout from dd when using different
+ non-prefetch mmio outbound/ranges
+Message-ID: <20211029194253.GA345237@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211027060740.GB9949@lst.de>
-X-Provags-ID: V03:K1:KtOAKC3QeoN2eTs+KoV3lQcpfyIO3RqIyE4fzQLQGs0h+ANU3vW
- ypyFCHXnIH/AY536yHQQZ0tSJc6t8tLoCGFfTawQ7kpLr22hK1zOfATQOQCdtzCFhfvAw1p
- h9+4c43eudVUtDJCakTZyeTJ+wB5Qx4xn3j1yBW8yzZ5OPBeKU6np0Zaz1DN63L587YBdmg
- N99xdXgXUEi+75M0BOKZw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H/LfKFHkclc=:hlvxRFxMJJGxCw1GVEhnU7
- Q+T3PDabx2OGw50mHEkFJzB6crrhmHf/JshrYrV0Wxoa4lN+lgs5D42ZqO3765JgzaZlPVmjs
- LwlleoB9L8gY4qY2enOgeyFfAuHFi89X2DuN/fDADIz3Buti/6AKh8uZnBLG1P5cmKm18aSR/
- 7JMHepqBtSd5zssuwDy3uHV22+wKl0v4eeafcUHBwn+cxpYuqCa2MbPsONEpyY1lXMq9SyVb/
- KV1J4+4ZE7olcFEXzvA9KpQKUhCLyG5g9nz3JnWvUz/Nomgul6GQVCIztifBO3tS8j9JPVeQx
- iSRou2+SDD/1rrvN7Shtn6n9ZA5nGglVyjrHez+YNgqP/Xh5ua+nXTFA05U8RZzKekjwnaqwW
- cD4Ro16EqnNRepyDZ8UP599vhEYO0o9TX9Gn81VTJgQzNnC6S+ktIezCiZmlquurZ9cOLlvtD
- N78hjkdVJCrYkD7ywzG3tZezFFFXqU6yv+VEgeDAvEtOKgEB8qRnnmWdmAfK+g7NfFYAKLXM0
- E/tcSthRTewkagbGgy1y5WF9uRwyHzyC6KpwBVX6VNP4ZLqnlBihoBPEifAwOPh89zwmbT3r/
- 760pvcjorlIc6I98w61C/yoh9N+S+J6ibEGSCl5hPwwDsZCDJrF23JH5j4qfR1FPlgeKHGXJc
- VosReCJ0eRC7FASgAQv5v87cXgFLGFy9+lfE+NBYxCXeNLYES5ubJ00pNrxzA6+j0FpFemZI7
- fVRoTp6/0FMZGIa0KpBU3mPqa5FpI9EwUbehHvJ2sRLBK9hYOH5DODIbUAGdYmYSrq3m0zz44
- dZm3jzCVaGIM9X0Z4UI/vsMEd/ISdB8RwcT/wXHvVRVoIZO5b25ZJLZWr66S7Rwezv0RDRIaU
- uJbtlyDi6iOZFDdLml54NsyjBBOcgECYrstBsKwDOs+uXtqW8eu29tGfUkI8iR7yLc+0pzRXG
- RRrBNwk1l1cUwIcnZs374/n3vOBDw81IGwVkoEKetPcY87NrcdpO7rPKgUjPZYtTMcamlUDes
- H03EvGiFo/TFyuexWNdMFTDaGSrC1jg196KE3p6GWNBAA9UVIgcBXqIpesabUXgxPvVUdwHHi
- 6dDUhbwO50XNCw=
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CH2PR19MB4024F88716768EC49BCA08CCA0879@CH2PR19MB4024.namprd19.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211029_100512_621051_286FA610 
-X-CRM114-Status: UNSURE (   8.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211029_124256_229755_BD60D39B 
+X-CRM114-Status: GOOD (  44.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,15 +79,167 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 27, 2021 at 08:07:40AM +0200, Christoph Hellwig wrote:
-> Thanks,
+On Fri, Oct 29, 2021 at 10:52:37AM +0000, Li Chen wrote:
+> > -----Original Message-----
+> > From: Keith Busch [mailto:kbusch@kernel.org]
+> > Sent: Tuesday, October 26, 2021 12:16 PM
+> > To: Li Chen
+> > Cc: Bjorn Helgaas; linux-pci@vger.kernel.org; Lorenzo Pieralisi; Rob Herring;
+> > kw@linux.com; Bjorn Helgaas; linux-kernel@vger.kernel.org; Tom Joseph; Jens
+> > Axboe; Christoph Hellwig; Sagi Grimberg; linux-nvme@lists.infradead.org
+> > Subject: Re: [EXT] Re: nvme may get timeout from dd when using different non-
+> > prefetch mmio outbound/ranges
+> > 
+> > On Tue, Oct 26, 2021 at 03:40:54AM +0000, Li Chen wrote:
+> > > My nvme is " 05:00.0 Non-Volatile memory controller: Samsung Electronics Co
+> > Ltd NVMe SSD Controller 980". From its datasheet,
+> > https://urldefense.com/v3/__https://s3.ap-northeast-
+> > 2.amazonaws.com/global.semi.static/Samsung_NVMe_SSD_980_Data_Sheet_R
+> > ev.1.1.pdf__;!!PeEy7nZLVv0!3MU3LdTWuzON9JMUkq29zwJM4d7g7wKtkiZszTu-
+> > PVepWchI_uLHpQGgdR_LEZM$ , it says nothing about CMB/SQEs, so I'm not sure.
+> > Is there other ways/tools(like nvme-cli) to query?
+> > 
+> > The driver will export a sysfs property for it if it is supported:
+> > 
+> >   # cat /sys/class/nvme/nvme0/cmb
+> > 
+> > If the file doesn't exist, then /dev/nvme0 doesn't have the capability.
+> > 
+> > > > > I don't know how to interpret "ranges".  Can you supply the dmesg and
+> > > > > "lspci -vvs 0000:05:00.0" output both ways, e.g.,
+> > > > >
+> > > > >   pci_bus 0000:00: root bus resource [mem 0x7f800000-0xefffffff window]
+> > > > >   pci_bus 0000:00: root bus resource [mem 0xfd000000-0xfe7fffff window]
+> > > > >   pci 0000:05:00.0: [vvvv:dddd] type 00 class 0x...
+> > > > >   pci 0000:05:00.0: reg 0x10: [mem 0x.....000-0x.....fff ...]
+> > > > >
+> > > > > > Question:
+> > > > > > 1.  Why dd can cause nvme timeout? Is there more debug ways?
+> > > >
+> > > > That means the nvme controller didn't provide a response to a posted
+> > > > command within the driver's latency tolerance.
+> > >
+> > > FYI, with the help of pci bridger's vendor, they find something
+> > > interesting:
+> > "From catc log, I saw some memory read pkts sent from SSD card,
+> > but its memory range is within the memory range of switch down
+> > port. So, switch down port will replay UR pkt. It seems not
+> > normal." and "Why SSD card send out some memory pkts which memory
+> > address is within switch down port's memory range. If so, switch
+> > will response UR pkts". I also don't understand how can this
+> > happen?
+> > 
+> > I think we can safely assume you're not attempting peer-to-peer,
+> > so that behavior as described shouldn't be happening. It sounds
+> > like the memory windows may be incorrect. The dmesg may help to
+> > show if something appears wrong.
+> 
+> Agree that here doesn't involve peer-to-peer DMA. After conforming
+> from switch vendor today, the two ur(unsupported request) is because
+> nvme is trying to dma read dram with bus address 80d5000 and
+> 80d5100. But the two bus addresses are located in switch's down port
+> range, so the switch down port report ur. 
+> 
+> In our soc, dma/bus/pci address and physical/AXI address are 1:1,
+> and DRAM space in physical memory address space is 000000.0000 -
+> 0fffff.ffff 64G, so bus address 80d5000 and 80d5100 to cpu address
+> are also 80d5000 and 80d5100, which both located inside dram space. 
+> 
+> Both our bootloader and romcode don't enum and configure pcie
+> devices and switches, so the switch cfg stage should be left to
+> kernel. 
+> 
+> Come back to the subject of this thread: " nvme may get timeout from
+> dd when using different non-prefetch mmio outbound/ranges". I found:
+> 
+> 1. For <0x02000000 0x00 0x08000000 0x20 0x08000000 0x00 0x04000000>;
+> (which will timeout nvme)
+> 
+> Switch(bridge of nvme)'s resource window: 
+> Memory behind bridge: Memory behind bridge: 08000000-080fffff [size=1M]
 >
-> applied to nvme-5.16 with a fixed up subject.
+> 80d5000 and 80d5100 are both inside this range.
 
-Hi all,
+The PCI host bridge MMIO window is here:
 
-Thanks Sagi, Chaitanya, Gustavo and Christoph.
+  pci_bus 0000:00: root bus resource [mem 0x2008000000-0x200bffffff] (bus address [0x08000000-0x0bffffff])
+  pci 0000:01:00.0: PCI bridge to [bus 02-05]
+  pci 0000:01:00.0:   bridge window [mem 0x2008000000-0x20080fffff]
+  pci 0000:02:06.0: PCI bridge to [bus 05]
+  pci 0000:02:06.0:   bridge window [mem 0x2008000000-0x20080fffff]
+  pci 0000:05:00.0: BAR 0: assigned [mem 0x2008000000-0x2008003fff 64bit]
 
-Regards,
-Len
+So bus address [0x08000000-0x0bffffff] is the area used for PCI BARs.
+If the NVMe device is generating DMA transactions to 0x080d5000, which
+is inside that range, those will be interpreted as peer-to-peer
+transactions.  But obviously that's not intended and there's no device
+at 0x080d5000 anyway.
+
+My guess is the nvme driver got 0x080d5000 from the DMA API, e.g.,
+dma_map_bvec() or dma_map_sg_attrs(), so maybe there's something wrong
+in how that's set up.  Is there an IOMMU?  There should be arch code
+that knows what RAM is available for DMA buffers, maybe based on the
+DT.  I'm not really familiar with how all that would be arranged, but
+the complete dmesg log and complete DT might have a clue.  Can you
+post those somewhere?
+
+> 2. For <0x02000000 0x00 0x00400000 0x20 0x00400000 0x00 0x08000000>; 
+> (which make nvme not timeout) 
+> 
+> Switch(bridge of nvme)'s resource window: 
+> Memory behind bridge: Memory behind bridge: 00400000-004fffff [size=1M]
+> 
+> 80d5000 and 80d5100 are not inside this range, so if nvme tries to
+> read 80d5000 and 80d5100 , ur won't happen.
+>
+> From /proc/iomen:
+> # cat /proc/iomem
+> 01200000-ffffffff : System RAM
+>   01280000-022affff : Kernel code
+>   022b0000-0295ffff : reserved
+>   02960000-040cffff : Kernel data
+>   05280000-0528ffff : reserved
+>   41cc0000-422c0fff : reserved
+>   422c1000-4232afff : reserved
+>   4232d000-667bbfff : reserved
+>   667bc000-667bcfff : reserved
+>   667bd000-667c0fff : reserved
+>   667c1000-ffffffff : reserved
+> 2000000000-2000000fff : cfg
+> 
+> No one uses 0000000-1200000, so " Memory behind bridge: Memory
+> behind bridge: 00400000-004fffff [size=1M]" will never have any
+> problem(because 0x1200000 > 0x004fffff). 
+> 
+> Above answers the question in Subject, one question left: what's the
+> right way to resolve this problem? Use ranges property to configure
+> switch memory window indirectly(just what I did)? Or something else?
+> 
+> I don't think changing range property is the right way: If my PCIe
+> topology becomes more complex and have more endpoints or switches,
+> maybe I have to reserve more MMIO through range property(please
+> correct me if I'm wrong), the end of switch's memory window may be
+> larger than 0x01200000. In case getting ur again,  I must reserve
+> more physical memory address for them(like change kernel start
+> address 0x01200000 to 0x02000000), which will make my visible dram
+> smaller(I have verified it with "free -m"), it is not acceptable.
+
+Right, I don't think changing the PCI ranges property is the right
+answer.  I think it's just a coincidence that moving the host bridge
+MMIO aperture happens to move it out of the way of the DMA to
+0x080d5000.
+
+As far as I can tell, the PCI core and the nvme driver are doing the
+right things here, and the problem is something behind the DMA API.
+
+I think there should be something that removes the MMIO aperture bus
+addresses, i.e., 0x08000000-0x0bffffff in the timeout case, from the
+pool of memory available for DMA buffers.
+
+The MMIO aperture bus addresses in the non-timeout case,
+0x00400000-0x083fffff, are not included in the 0x01200000-0xffffffff
+System RAM area, which would explain why a DMA buffer would never
+overlap with it.
+
+Bjorn
 
