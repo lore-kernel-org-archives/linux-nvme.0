@@ -2,15 +2,15 @@ Return-Path: <SRS0=7cDU=PR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF88C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 15:10:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7613C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 16:15:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71896611C6
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 15:10:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 71896611C6
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 6F1A36044F
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 16:15:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6F1A36044F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -18,54 +18,75 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4YN8DKc/50CxJ1/q46BvmC8TnMeGci9z1miBkCyhNpU=; b=vW1zvVeFggq7Yrk5di0ewXyQ0D
-	PTrFQAXFiSnwAhTRNMw1OqRLubSHuDsgFqnc3IfXNvHZwsRzOztVX08hsZwHnq/fQ3CUYLUiL6iqO
-	jIBuKzxBsyzyQkc1eq7pt7/14rfrADfjX6YnGmVFJdN8es5MkwxQD+8gWmfWx+LU1sb5ggt1EHQVq
-	q1CcQBZGDEuIfumDym5uBrx5R+zQgFijRGq9bnWzueyMzlt+4hCp5/I1+FyLMNmnQjFOro0qaLp8m
-	SNTYvXeq2LGpiwtoXVIPkHrguDYYIerHilY0KAM/n6F7BhoGzqEwyg5KBrNL7rlw6kXACz/tNNlcL
-	fSyjnIZA==;
+	bh=jKXUH2KRwO4V5xMJ+T8M1TeZFj9xrcQY7R7PFnzsrsY=; b=oXSw2LV2JR1t0rcTmyuxeRxTOQ
+	Z5PsFoieKcjgYu7lsFp24jvbxwkQH+qqxoa+AHDRDC1AfGpgPv2tUWVsCF4yph0aErDcZdqFf7qPW
+	CvE9R1RzZaZezguVtchDatxXYdPOfEutGajUd0fHlNB2FhGsphjHTe5/Y4fnMlh12eL9jSwjSnzcH
+	fO89PyaHNaRHycLqWE2lkR5NoDZueKlaw8VNa0uO86HHoSlUL1umpVLWpGXhsbeGT9yPK01RvgXWM
+	y5g6zxmw9Zac/LFyaxg9mp01WLUnSqxzHf4LkHzsdjIw9It3dYcZln2UbYibt7RMSa8gq8tOgr2is
+	1Chc8BbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mgTWD-00BIsy-2G; Fri, 29 Oct 2021 15:10:09 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1mgUXl-00BRBT-Pu; Fri, 29 Oct 2021 16:15:49 +0000
+Received: from mail-pj1-f43.google.com ([209.85.216.43])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgTWB-00BIsX-Hp; Fri, 29 Oct 2021 15:10:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=4YN8DKc/50CxJ1/q46BvmC8TnMeGci9z1miBkCyhNpU=; b=FV3owrfnS0CfUbnuX9OXOFFqJX
- NmdXz/DOByNNeprGTa6FC6aCLvgPTkCUorqFQSUa+L8LcKCSn304KpqFF6IrnnLOyTrD+evEDLQNK
- 0ozka9hMYFCBdJJi2TW7fTAaOcYdSEWqAhbmHvvJybh5ws+8VX5lV7FbxZ9oHcRz52mpd+MYzcmQY
- q9LHMBOH2BBDn2Qqjlgaf7ipi7kV+dlrv7WbmGGZKTuh7jReVQZfRggusg5qsRfyB1SLDw0PUdCl6
- sj1lMU6/nR3d9jQhIR7slT5in4a2hvAfpyIJmBmlT5iK/ycRhNn1PBughoXKBA+URp0XO1NddfCzi
- QwHixX/g==;
-Received: from [2602:306:c5a2:a380:b27b:25ff:fe2c:51a8]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgTW9-00D6lg-CO; Fri, 29 Oct 2021 15:10:05 +0000
-Subject: Re: [PATCH 11/13] ps3vram: add error handling support for add_disk()
-To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk,
- mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
- jim@jtan.com, minchan@kernel.org, ngupta@vflare.org,
- senozhatsky@chromium.org, richard@nod.at, miquel.raynal@bootlin.com,
- vigneshr@ti.com, dan.j.williams@intel.com, vishal.l.verma@intel.com,
- dave.jiang@intel.com, ira.weiny@intel.com, kbusch@kernel.org, hch@lst.de,
- sagi@grimberg.me
-Cc: linux-block@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20211015235219.2191207-1-mcgrof@kernel.org>
- <20211015235219.2191207-12-mcgrof@kernel.org>
-From: Geoff Levand <geoff@infradead.org>
-Message-ID: <2b782451-f931-27bb-1114-2aba450c5879@infradead.org>
-Date: Fri, 29 Oct 2021 08:09:59 -0700
+ id 1mgUXj-00BRA6-4b
+ for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 16:15:48 +0000
+Received: by mail-pj1-f43.google.com with SMTP id
+ v1-20020a17090a088100b001a21156830bso10983972pjc.1
+ for <linux-nvme@lists.infradead.org>; Fri, 29 Oct 2021 09:15:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jKXUH2KRwO4V5xMJ+T8M1TeZFj9xrcQY7R7PFnzsrsY=;
+ b=HbfLQLn1AONHeQhXyUyCuJ9BvhFuQ8KkVdhbHC6cp/c+WBrBKiYeBO+t1KUVJIlmkK
+ lqIeYx8WK/aUTsD9nPoHBeJ96Z9twfyHD5gnzS10dKA4a0Nc8HrwH5mO87J117PTR2ry
+ nS3f3S8HxzJw6tdUTL87TmNMr0gYyADdNok+cRVFDeH4WWVmDxKp8ujQIFvIcseJMdxl
+ Hr3dMyeMJNnHSks0Uyf2HOqE1iWMt7oe7yuPb9yq3m/PEMQLljivMmPLAu3F9ydZEtA6
+ w8z6L0VeyZu7msM87WvjrXW30818amQcGie13Y3cmrLF5+h4Lme9eQkiv/E2YKL5m//T
+ kmcw==
+X-Gm-Message-State: AOAM532Xmqp+8LiMMnlu4hRG3Rcoueye63zLZ/epYiq8VBwmyykVK6Nw
+ v/LX1thXDYFWJcWObgxZqqU=
+X-Google-Smtp-Source: ABdhPJwmiz+YImWEBzmpCqKfSuiQbDI0Gd4nWkdhrFsTjLBkZ9Q+upPQOIKIxvtxSPGosOf0hyw62g==
+X-Received: by 2002:a17:903:248f:b0:141:5a79:ae48 with SMTP id
+ p15-20020a170903248f00b001415a79ae48mr10311651plw.12.1635524145387; 
+ Fri, 29 Oct 2021 09:15:45 -0700 (PDT)
+Received: from bvanassche-linux.mtv.corp.google.com
+ ([2620:15c:211:201:7346:8d3b:12d0:7278])
+ by smtp.gmail.com with ESMTPSA id a7sm7087948pfo.32.2021.10.29.09.15.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Oct 2021 09:15:44 -0700 (PDT)
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+To: Hannes Reinecke <hare@suse.de>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
+ <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
+ <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
+ <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
+ <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
+ <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
+ <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+ <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <5edcab45-afc6-3766-cede-f859da2934d1@acm.org>
+Date: Fri, 29 Oct 2021 09:15:43 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211015235219.2191207-12-mcgrof@kernel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20211029_091547_215415_BDE29C73 
+X-CRM114-Status: GOOD (  10.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,15 +101,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Luis,
+On 10/28/21 10:51 PM, Hannes Reinecke wrote:
+> Also Keith presented his work on a simple zone-based remapping block device, which included an in-kernel copy offload facility.
+> Idea is to lift that as a standalone patch such that we can use it a fallback (ie software) implementation if no other copy offload mechanism is available.
 
-On 10/15/21 4:52 PM, Luis Chamberlain wrote:
-> We never checked for errors on add_disk() as this function
-> returned void. Now that this is fixed, use the shiny new
-> error handling.
+Is a link to the presentation available?
 
-I didn't yet test this ps3vram related change, but based
-on the ps3disk testing I think this change will be OK.
+Thanks,
 
-Acked-by: Geoff Levand <geoff@infradead.org>
+Bart.
 
