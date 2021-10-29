@@ -2,14 +2,14 @@ Return-Path: <SRS0=7cDU=PR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36900C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC58C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:16:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 011FA61151
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:15:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 011FA61151
+	by mail.kernel.org (Postfix) with ESMTPS id 59AB861151
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:16:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 59AB861151
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,57 +18,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8ddftgpK0LDx+G+FjrkBslhvyIqXHl28zfgWlGOCfAA=; b=xJ+LK0eORBu1qyPcA8y2r1QKLg
-	Inlp4yFtxN0Z05JgT6B/J6cAuCx04xvzqHrOAt6WQwFaXqIyqUiucuKvUjkWAycyEODJe50ZtGGVT
-	gS8F2XjyAeEvmLV0noGFbWGY4GOTIVtgYLvUp7WpENG64H6SbDRDeRaV0KocDWfBOb64VAADLUC+W
-	PwcBr1/aG5Rak2zZsLFqwVbcX+5tFLUBjRssnEJyD7S+/ea5S09ZpJlaWWUnnx6qiMi3m2fqWdIUg
-	mgInIC/yISSUapE0CT+D7itv5xBa4FTiwidmSmGjT8WWorF8sjgLew+5MYvc9dgHroB3a0E6Uu/IS
-	rZt+ObgA==;
+	bh=+A2GKLI9DhSLswhTJfVeFD3Ahs1nltZEg2bN0VulWy8=; b=wnCVLs4z1tuZ6ildx6jnilOtml
+	SJ032ROIW11fDgZb02YzFMIknHV6azT4P0TzdHPlN5WRvz4fDpP6qmcbcsZcJ/MOv0KRH5u7tD26f
+	mUvX8of979P1mwsRbaNJgZ8Ay7/GWQsDKnTbvFA0TTccq+mrhuXOxY8nq9yVa3lGjdHVnth8SWKeQ
+	ZhhWqnfyMzNBDRMNj9b5Vb1lT9bVOGoZZT2FJpxhqU5nqI+XKdo6MD87ftID8/CXBartRPs0hzDFO
+	Fga4IqslD4mvtFe9obxFhkjBnCmQ9pnswHdO7YsMTSKWMFahv5Cdu6/G1kpazJ6WLENaFLQW/2fUW
+	+9bOYp+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mgN2M-00AEv1-HZ; Fri, 29 Oct 2021 08:14:54 +0000
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+	id 1mgN3f-00AFN6-EH; Fri, 29 Oct 2021 08:16:15 +0000
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgN2J-00AEt6-99
- for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 08:14:53 +0000
-Received: by mail-wr1-x42c.google.com with SMTP id z14so14917072wrg.6
- for <linux-nvme@lists.infradead.org>; Fri, 29 Oct 2021 01:14:50 -0700 (PDT)
+ id 1mgN3b-00AFLG-Oy
+ for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 08:16:13 +0000
+Received: by mail-wm1-x330.google.com with SMTP id
+ 207-20020a1c04d8000000b0033123de3425so1413044wme.0
+ for <linux-nvme@lists.infradead.org>; Fri, 29 Oct 2021 01:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=javigon-com.20210112.gappssmtp.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=8ddftgpK0LDx+G+FjrkBslhvyIqXHl28zfgWlGOCfAA=;
- b=ZvbA6OirgjAS7+trJNLUfzUzxnDghd5zTvC77XLYSKiUJni+0fhVC882L/ZVeGk6nP
- /kqxXGYeIC8ozy0ThUYCWPYJj/TnAzJyT1FoDRlAW81PXLjx1H4dovtDjSUYxLWm89Fm
- QeYR518/SaS27GmrZdJnfY4dbWaImq1x9hLn6jWFVn9mzRPWjglKS8+xiGDRwDWz/iYO
- zYrVWby82S3kK8LXamSjv0A8Cb66H4Oml/LfuIsvJZgM75kD+NlXEN9xPLTHLb4g/Maz
- 3JCfMkKUJr7mv7erdqTMwWKCCXCZ8zHBaXoAeoSql0VKFMra1tHxcXHRWOHY5d7i4HUp
- zSSg==
+ bh=+A2GKLI9DhSLswhTJfVeFD3Ahs1nltZEg2bN0VulWy8=;
+ b=hB5kBjOFs7MAfzwDO189P01WGd8nmfCbIqwRoeiF8+P9jSilK5Ez2qgyB3KnFevKwJ
+ TWly59hVZD0G5qEZgrCMpQGbFZhobs1K79vYUOXDakL0c6nyAlZrsp9vK0wRggm0C7W9
+ BUdyaxSMG85kJqmItNf8MSrY9B57NfdmTAvPPmKYzlNBhSMWZrtv60wH54oIyiubli04
+ 8msCNHWgwQjV8LnkDxLvhZo4qH8dAQ18dVynKzkSxeDydInlUsCgEDMZ7Y42W2hzeziN
+ oiimlNWQJQvNEPrJlpq22VXTHmp2rXJo1w1IEQjELbU6qgpKqxPzmxMI440Y92qkJ8Z9
+ Ab0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=8ddftgpK0LDx+G+FjrkBslhvyIqXHl28zfgWlGOCfAA=;
- b=aQCHrnkgH8tybdBDDWkTqTgqBClnkFW/gM8+0ESLqSiOgC0GvnWmrgns2zaINgTL4Z
- kC0uGAAPE2GDQUuzdmz0S83VDngE2JxWRQ6yv6y2yHtWzwUDM4/CFp5Bpn+XnOWidDN6
- uQrQ6VcAYTQzavnNuOTkKKGywZ91y8BpnFa4A5uIcQUJLmiEdqGtotfHNQ6DFAEqkqPa
- zM1WDw48S6hvN+r6OYJnutGqB92j/lgQiXubagXs25eQmYc8OrPD6Mxey1TPXCL/nI6D
- hxXU7nR2b5GgPHpEfvm7W5DVfXyTLrc7UFHu6EQvT+7ySq1G4JFzH0ZO8llFesgqzEzN
- gqeQ==
-X-Gm-Message-State: AOAM530MYmj2igVXvNzOn18ngi1P/oy9SaSTfCEZCMPWkRab6lFW1bCX
- irIC2LBbSuhWeB0cl+XjONTtdw==
-X-Google-Smtp-Source: ABdhPJz4KKl/vCIv4EZQxDSYhXgl6hLs1xW5oRUFqmNOfzBiIlxs2qrs7OEPigr3oNUptn2YXM3COQ==
-X-Received: by 2002:adf:e387:: with SMTP id e7mr1473005wrm.412.1635495289096; 
- Fri, 29 Oct 2021 01:14:49 -0700 (PDT)
+ bh=+A2GKLI9DhSLswhTJfVeFD3Ahs1nltZEg2bN0VulWy8=;
+ b=ZB5UGXGHkYGGRtNpbJvUtmcvO1NTOyBstZeg56Li87FgBJfuafLw/VHKjWRNVvLKcu
+ 9FiqzCn+264C4DQxrxSHGg0dCQUffYCiB0wcP8+N4+XkYrPpayFRZZyAi9sWarPpZbgE
+ rxDkplC0e7vapEsevAGGyTEc3dcPxBd4m5YTXYRdjyLNUmV0yd/Wtbc2MkDq/dOHvPTo
+ seYaU8eGU7f8aiSmhpD5Nzm8o0RwHq/RJpyXEShlpP7ZgI7RPrPWbbCZMcrYQoKWo0FW
+ BjQ0DqfSK4dRDX/UgX95atPVYHs2ouEo0O+mnH02A8aXHpn/aEAZTEujATqOi7zXgMaz
+ cFZQ==
+X-Gm-Message-State: AOAM531eSBq14eHzWcvmYL/4rYl/ib6NKrA0/ePpo5aQNiLIoTc1bsil
+ bNNrqSU+wzakPTgX1heUyjKTPw==
+X-Google-Smtp-Source: ABdhPJxEYoo56lOQFgqbHz0cJdbenOnmGMwhPleHbo+aaGvg342CUYI8ey6L6o22+/T2Kqj82W+gKA==
+X-Received: by 2002:a1c:2507:: with SMTP id l7mr10125921wml.144.1635495370273; 
+ Fri, 29 Oct 2021 01:16:10 -0700 (PDT)
 Received: from localhost (5.186.124.144.cgn.fibianet.dk. [5.186.124.144])
- by smtp.gmail.com with ESMTPSA id s3sm8001684wmh.30.2021.10.29.01.14.48
+ by smtp.gmail.com with ESMTPSA id i3sm7380661wmq.18.2021.10.29.01.16.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 01:14:48 -0700 (PDT)
-Date: Fri, 29 Oct 2021 10:14:47 +0200
+ Fri, 29 Oct 2021 01:16:09 -0700 (PDT)
+Date: Fri, 29 Oct 2021 10:16:09 +0200
 From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+To: Hannes Reinecke <hare@suse.de>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
@@ -79,7 +81,7 @@ Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  "msnitzer@redhat.com" <msnitzer@redhat.com>,
  "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
  "roland@purestorage.com" <roland@purestorage.com>,
- "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>,
  "kbusch@kernel.org" <kbusch@kernel.org>,
  "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
  "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
@@ -89,7 +91,7 @@ Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
  Vincent Fu <vincent.fu@samsung.com>, Bart Van Assche <bvanassche@acm.org>
 Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20211029081447.ativv64dofpqq22m@ArmHalley.local>
+Message-ID: <20211029081609.obt7ssqxd3aotnum@ArmHalley.local>
 References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
  <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
  <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
@@ -99,14 +101,15 @@ References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.
  <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
  <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
  <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+ <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+In-Reply-To: <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211029_011451_426080_3E930F4A 
-X-CRM114-Status: GOOD (  18.98  )
+X-CRM114-CacheID: sfid-20211029_011611_867456_29D4C3AE 
+X-CRM114-Status: GOOD (  16.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,53 +124,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 29.10.2021 00:21, Chaitanya Kulkarni wrote:
->On 10/7/21 11:49 PM, Javier González wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> On 06.10.2021 10:33, Bart Van Assche wrote:
->>> On 10/6/21 3:05 AM, Javier González wrote:
->>>> I agree that the topic is complex. However, we have not been able to
->>>> find a clear path forward in the mailing list.
+On 29.10.2021 07:51, Hannes Reinecke wrote:
+>On 10/29/21 2:21 AM, Chaitanya Kulkarni wrote:
+>>On 10/7/21 11:49 PM, Javier González wrote:
+>>>External email: Use caution opening links or attachments
 >>>
->>> Hmm ... really? At least Martin Petersen and I consider device mapper
->>> support essential. How about starting from Mikulas' patch series that
->>> supports the device mapper? See also
->>> https://lore.kernel.org/all/alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com/
 >>>
->
->When we add a new REQ_OP_XXX we need to make sure it will work with
->device mapper, so I agree with Bart and Martin.
->
->Starting with Mikulas patches is a right direction as of now..
->
+>>>On 06.10.2021 10:33, Bart Van Assche wrote:
+>>>>On 10/6/21 3:05 AM, Javier González wrote:
+>>>>>I agree that the topic is complex. However, we have not been able to
+>>>>>find a clear path forward in the mailing list.
+>>>>
+>>>>Hmm ... really? At least Martin Petersen and I consider device mapper
+>>>>support essential. How about starting from Mikulas' patch series that
+>>>>supports the device mapper? See also
+>>>>https://lore.kernel.org/all/alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com/
+>>>>
 >>
->> Thanks for the pointers. We are looking into Mikulas' patch - I agree
->> that it is a good start.
+>>When we add a new REQ_OP_XXX we need to make sure it will work with
+>>device mapper, so I agree with Bart and Martin.
 >>
->>>> What do you think about joining the call to talk very specific next
->>>> steps to get a patchset that we can start reviewing in detail.
+>>Starting with Mikulas patches is a right direction as of now..
+>>
 >>>
->>> I can do that.
+>>>Thanks for the pointers. We are looking into Mikulas' patch - I agree
+>>>that it is a good start.
+>>>
+>>>>>What do you think about joining the call to talk very specific next
+>>>>>steps to get a patchset that we can start reviewing in detail.
+>>>>
+>>>>I can do that.
+>>>
+>>>Thanks. I will wait until Chaitanya's reply on his questions. We will
+>>>start suggesting some dates then.
+>>>
 >>
->> Thanks. I will wait until Chaitanya's reply on his questions. We will
->> start suggesting some dates then.
+>>I think at this point we need to at least decide on having a first call
+>>focused on how to proceed forward with Mikulas approach  ...
 >>
+>>Javier, can you please organize a call with people you listed in this
+>>thread earlier ?
+>>
+>Also Keith presented his work on a simple zone-based remapping block 
+>device, which included an in-kernel copy offload facility.
+>Idea is to lift that as a standalone patch such that we can use it a 
+>fallback (ie software) implementation if no other copy offload 
+>mechanism is available.
 >
->I think at this point we need to at least decide on having a first call
->focused on how to proceed forward with Mikulas approach  ...
->
->Javier, can you please organize a call with people you listed in this
->thread earlier ?
 
-Here you have a Doogle for end of next week and the week after OCP.
-Please fill it out until Wednesday. I will set up a call with the
-selected slot:
+I believe this is in essence what we are trying to convey here: a
+minimal patchset that enables Simple Copy and the infra around to extend
+copy-offload use-cases.
 
-     https://doodle.com/poll/r2c8duy3r8g88v8q?utm_source=poll&utm_medium=link
+I look forward to hear Keith's ideas around this!
 
-Thanks,
 Javier
-
 
