@@ -2,114 +2,86 @@ Return-Path: <SRS0=7cDU=PR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC58C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EBDC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 10:19:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 59AB861151
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:16:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 59AB861151
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	by mail.kernel.org (Postfix) with ESMTPS id 92CA4610E5
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 10:19:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 92CA4610E5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+A2GKLI9DhSLswhTJfVeFD3Ahs1nltZEg2bN0VulWy8=; b=wnCVLs4z1tuZ6ildx6jnilOtml
-	SJ032ROIW11fDgZb02YzFMIknHV6azT4P0TzdHPlN5WRvz4fDpP6qmcbcsZcJ/MOv0KRH5u7tD26f
-	mUvX8of979P1mwsRbaNJgZ8Ay7/GWQsDKnTbvFA0TTccq+mrhuXOxY8nq9yVa3lGjdHVnth8SWKeQ
-	ZhhWqnfyMzNBDRMNj9b5Vb1lT9bVOGoZZT2FJpxhqU5nqI+XKdo6MD87ftID8/CXBartRPs0hzDFO
-	Fga4IqslD4mvtFe9obxFhkjBnCmQ9pnswHdO7YsMTSKWMFahv5Cdu6/G1kpazJ6WLENaFLQW/2fUW
-	+9bOYp+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Hg+9Z9+RCyC/8NTPxf+T0VYEw1NVtczTXmjXXS1EJH4=; b=L+ij+gokiyfhBQZscMZOrXTtaM
+	mAnReC/aOKGFTYVr61QxQU92+UENJpMks1qHi/S3FqLx6dvC0UQFbaMn6xMJb0EzWqaXxdBajt16U
+	0YAhXd6GdR29Kn718sVznQxPjglm27Q3MiNg72PobnKzCj3f7PTYIKQpq5UmUNORlUwLy8XFEtYPk
+	l/ihZYUJtbn/393o8mV90fbuokKrVcs/SvP7pJWyyB+fm5JzPNSyYCsBKEYoMPKdebWODuPY92onm
+	PO3FkjzUuS2x6lvd5LBLtosPto8ZOTK7iXZ7vl7XOKz2MwLfbd/59EQKrYZ6pY4Ods+XaPRQ7Lrlm
+	Ix6JYg+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mgN3f-00AFN6-EH; Fri, 29 Oct 2021 08:16:15 +0000
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+	id 1mgOyh-00Aa5R-SY; Fri, 29 Oct 2021 10:19:15 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgN3b-00AFLG-Oy
- for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 08:16:13 +0000
-Received: by mail-wm1-x330.google.com with SMTP id
- 207-20020a1c04d8000000b0033123de3425so1413044wme.0
- for <linux-nvme@lists.infradead.org>; Fri, 29 Oct 2021 01:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=+A2GKLI9DhSLswhTJfVeFD3Ahs1nltZEg2bN0VulWy8=;
- b=hB5kBjOFs7MAfzwDO189P01WGd8nmfCbIqwRoeiF8+P9jSilK5Ez2qgyB3KnFevKwJ
- TWly59hVZD0G5qEZgrCMpQGbFZhobs1K79vYUOXDakL0c6nyAlZrsp9vK0wRggm0C7W9
- BUdyaxSMG85kJqmItNf8MSrY9B57NfdmTAvPPmKYzlNBhSMWZrtv60wH54oIyiubli04
- 8msCNHWgwQjV8LnkDxLvhZo4qH8dAQ18dVynKzkSxeDydInlUsCgEDMZ7Y42W2hzeziN
- oiimlNWQJQvNEPrJlpq22VXTHmp2rXJo1w1IEQjELbU6qgpKqxPzmxMI440Y92qkJ8Z9
- Ab0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=+A2GKLI9DhSLswhTJfVeFD3Ahs1nltZEg2bN0VulWy8=;
- b=ZB5UGXGHkYGGRtNpbJvUtmcvO1NTOyBstZeg56Li87FgBJfuafLw/VHKjWRNVvLKcu
- 9FiqzCn+264C4DQxrxSHGg0dCQUffYCiB0wcP8+N4+XkYrPpayFRZZyAi9sWarPpZbgE
- rxDkplC0e7vapEsevAGGyTEc3dcPxBd4m5YTXYRdjyLNUmV0yd/Wtbc2MkDq/dOHvPTo
- seYaU8eGU7f8aiSmhpD5Nzm8o0RwHq/RJpyXEShlpP7ZgI7RPrPWbbCZMcrYQoKWo0FW
- BjQ0DqfSK4dRDX/UgX95atPVYHs2ouEo0O+mnH02A8aXHpn/aEAZTEujATqOi7zXgMaz
- cFZQ==
-X-Gm-Message-State: AOAM531eSBq14eHzWcvmYL/4rYl/ib6NKrA0/ePpo5aQNiLIoTc1bsil
- bNNrqSU+wzakPTgX1heUyjKTPw==
-X-Google-Smtp-Source: ABdhPJxEYoo56lOQFgqbHz0cJdbenOnmGMwhPleHbo+aaGvg342CUYI8ey6L6o22+/T2Kqj82W+gKA==
-X-Received: by 2002:a1c:2507:: with SMTP id l7mr10125921wml.144.1635495370273; 
- Fri, 29 Oct 2021 01:16:10 -0700 (PDT)
-Received: from localhost (5.186.124.144.cgn.fibianet.dk. [5.186.124.144])
- by smtp.gmail.com with ESMTPSA id i3sm7380661wmq.18.2021.10.29.01.16.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 01:16:09 -0700 (PDT)
-Date: Fri, 29 Oct 2021 10:16:09 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "axboe@kernel.dk" <axboe@kernel.dk>,
- "msnitzer@redhat.com" <msnitzer@redhat.com>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- "roland@purestorage.com" <roland@purestorage.com>,
- "mpatocka@redhat.com" <mpatocka@redhat.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
- "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
- Adam Manzanares <a.manzanares@samsung.com>,
- SelvaKumar S <selvakuma.s1@samsung.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Vincent Fu <vincent.fu@samsung.com>, Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20211029081609.obt7ssqxd3aotnum@ArmHalley.local>
-References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
- <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
- <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
- <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
- <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
- <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
- <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
- <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
- <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
- <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
+ id 1mgOyf-00Aa4R-Gb
+ for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 10:19:15 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A12E31FD53;
+ Fri, 29 Oct 2021 10:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1635502750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hg+9Z9+RCyC/8NTPxf+T0VYEw1NVtczTXmjXXS1EJH4=;
+ b=mwzgkBxT1MJPsYzB4fodOvrnl1wV4vdThqGP7+rmRxMKbhDS91EnuHlZDMNBjhN9qEybyw
+ AoGvkVRlpieMzv9jaazhJQF/bqvMTZNgcIvmncDFZW1t55gfAmqHo3qp/1Q/ZETLAlEGL2
+ 6lmM4PguHD+eBOr0gJOQvIZZPqpBgnQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1635502750;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hg+9Z9+RCyC/8NTPxf+T0VYEw1NVtczTXmjXXS1EJH4=;
+ b=kNPgJstfwerL2PRdFEYVNzt5yIuQipNsQPHR+Z4uEgYalxZve/4ZVF4+EwfgmzvM+Z8pAX
+ fO2p5lDyiz4rnxCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A5A113B8D;
+ Fri, 29 Oct 2021 10:19:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0GcbIZ7Ke2HkRQAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 29 Oct 2021 10:19:10 +0000
+Subject: Re: [GIT PULL] second round of nvme updates for Linux 5.16
+To: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <YXqzb6dj0DCrIbGY@infradead.org>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <9684ed24-532d-952a-a478-5388a9da1bbc@suse.de>
+Date: Fri, 29 Oct 2021 12:19:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+In-Reply-To: <YXqzb6dj0DCrIbGY@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211029_011611_867456_29D4C3AE 
-X-CRM114-Status: GOOD (  16.15  )
+X-CRM114-CacheID: sfid-20211029_031913_734911_88996DA4 
+X-CRM114-Status: GOOD (  17.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,59 +96,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 29.10.2021 07:51, Hannes Reinecke wrote:
->On 10/29/21 2:21 AM, Chaitanya Kulkarni wrote:
->>On 10/7/21 11:49 PM, Javier González wrote:
->>>External email: Use caution opening links or attachments
->>>
->>>
->>>On 06.10.2021 10:33, Bart Van Assche wrote:
->>>>On 10/6/21 3:05 AM, Javier González wrote:
->>>>>I agree that the topic is complex. However, we have not been able to
->>>>>find a clear path forward in the mailing list.
->>>>
->>>>Hmm ... really? At least Martin Petersen and I consider device mapper
->>>>support essential. How about starting from Mikulas' patch series that
->>>>supports the device mapper? See also
->>>>https://lore.kernel.org/all/alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com/
->>>>
->>
->>When we add a new REQ_OP_XXX we need to make sure it will work with
->>device mapper, so I agree with Bart and Martin.
->>
->>Starting with Mikulas patches is a right direction as of now..
->>
->>>
->>>Thanks for the pointers. We are looking into Mikulas' patch - I agree
->>>that it is a good start.
->>>
->>>>>What do you think about joining the call to talk very specific next
->>>>>steps to get a patchset that we can start reviewing in detail.
->>>>
->>>>I can do that.
->>>
->>>Thanks. I will wait until Chaitanya's reply on his questions. We will
->>>start suggesting some dates then.
->>>
->>
->>I think at this point we need to at least decide on having a first call
->>focused on how to proceed forward with Mikulas approach  ...
->>
->>Javier, can you please organize a call with people you listed in this
->>thread earlier ?
->>
->Also Keith presented his work on a simple zone-based remapping block 
->device, which included an in-kernel copy offload facility.
->Idea is to lift that as a standalone patch such that we can use it a 
->fallback (ie software) implementation if no other copy offload 
->mechanism is available.
->
+On 10/28/21 4:27 PM, Christoph Hellwig wrote:
+> The following changes since commit d28e4dff085c5a87025c9a0a85fb798bd8e9ca17:
+> 
+>   block: ataflop: more blk-mq refactoring fixes (2021-10-25 07:54:32 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-5.16-2021-10-28
+> 
+> for you to fetch changes up to d156cfcafbd0eae4224ea007d95ebda467eb0c46:
+> 
+>   nvmet: use flex_array_size and struct_size (2021-10-27 08:06:41 +0200)
+> 
+> ----------------------------------------------------------------
+> nvme updates for Linux 5.16
+> 
+>  - support the current discovery subsystem entry (Hannes Reinecke)
+>  - use flex_array_size and struct_size (Len Baker)
+> 
+> ----------------------------------------------------------------
+> Hannes Reinecke (3):
+>       nvme: add new discovery log page entry definitions
+>       nvmet: switch check for subsystem type
+>       nvmet: register discovery subsystem as 'current'
+> 
+> Len Baker (1):
+>       nvmet: use flex_array_size and struct_size
+> 
+>  drivers/nvme/host/multipath.c   |  2 +-
+>  drivers/nvme/target/admin-cmd.c |  2 +-
+>  drivers/nvme/target/core.c      |  1 +
+>  drivers/nvme/target/discovery.c | 17 +++++++++++------
+>  drivers/nvme/target/nvmet.h     |  2 +-
+>  include/linux/nvme.h            | 19 ++++++++++++++++---
+>  6 files changed, 31 insertions(+), 12 deletions(-)
+> 
+This one hangs at boot for me:
 
-I believe this is in essence what we are trying to convey here: a
-minimal patchset that enables Simple Copy and the infra around to extend
-copy-offload use-cases.
+[  220.294358] Code: ef e8 61 25 3e 00 3b 05 3f c1 5d 01 89 c5 73 24 48
+63 c5 49 8b 7d 00 48 03 3c c5 c0 0a 20 82 66 90 8b 47 08 a8 01 74 0a f3
+90 <8b> 57 08 83 e2 01 75 f6 eb c7 48 83 c4 48 5b 5d 41 5c 41 5d 41 5e
+[  220.297931] RSP: 0018:ffffc900011ebd20 EFLAGS: 00000202
+[  220.299181] RAX: 0000000000000011 RBX: 0000000000000001 RCX:
+0000000000000000
+[  220.300656] RDX: 0000000000000001 RSI: 0000000000000000 RDI:
+ffff88827fc32d40
+[  220.302126] RBP: 0000000000000000 R08: 0000000000000000 R09:
+0000000000000000
+[  220.303603] R10: 0000000000000000 R11: 0000000000000000 R12:
+ffff88827fdec040
+[  220.305052] R13: ffff88827fdec040 R14: 0000000000000000 R15:
+0000000000000006
+[  220.306509] FS:  0000000000000000(0000) GS:ffff88827fdc0000(0000)
+knlGS:0000000000000000
+[  220.308074] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  220.309338] CR2: 00005644f553dcd8 CR3: 000000010392e000 CR4:
+0000000000350ee0
+[  220.310777] Call Trace:
+[  220.311655]  ? __flush_tlb_all+0x30/0x30
+[  220.312686]  on_each_cpu_cond_mask+0x1e/0x20
+[  220.313776]  __purge_vmap_area_lazy+0xbc/0x6d0
+[  220.314887]  ? __cond_resched+0x15/0x40
+[  220.315921]  ? vunmap_range_noflush+0x3fc/0x4b0
+[  220.317024]  ? cpumask_next+0x1f/0x30
+[  220.318002]  ? purge_fragmented_blocks_allcpus+0x51/0x1d0
+[  220.319235]  _vm_unmap_aliases.part.50+0xdf/0x110
+[  220.320356]  __vunmap+0x11d/0x250
+[  220.321301]  do_free_init+0x26/0x50
+[  220.322266]  process_one_work+0x231/0x420
+[  220.323304]  ? process_one_work+0x420/0x420
+[  220.324352]  worker_thread+0x2d/0x3f0
+[  220.325346]  ? process_one_work+0x420/0x420
+[  220.326400]  kthread+0x11a/0x140
+[  220.327362]  ? set_kthread_struct+0x40/0x40
+[  220.328413]  ret_from_fork+0x22/0x30
 
-I look forward to hear Keith's ideas around this!
+Known issue?
 
-Javier
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
