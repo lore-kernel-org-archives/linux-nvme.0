@@ -2,71 +2,72 @@ Return-Path: <SRS0=7cDU=PR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E523C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 05:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36900C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:15:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 59D1760FC0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 05:51:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 59D1760FC0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 011FA61151
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Oct 2021 08:15:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 011FA61151
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZkHtVMt92gUgbsYTtS4S1lP2SDGldWukUMlY/TrnM0E=; b=TXU7PPPxmOq+Va2VtrUqsoWEfW
-	8r/hYGqn6YOo0GcPG6RFE5qBQhA+maUyAZ8sa3ndKTOVIuxpR9k3HZbGffJT3NCWy5KS6N3Dk8jzm
-	zK8bFGl1HFvX+93dqXvvMgvtS95uwQLm6srpFa2Mq5a4JbXnqx5Uqjs/D1vGeF3PZMI4Sncc0YeWL
-	BPhxJbV7yP/HGzGvJbeybkw171bRt2XwGrxs2gWgXGmg4GUEW380I4VFXzvyr0xRVlXEF/BnQmDMn
-	3BW49TuWEIDA5X/5ubyz3s/ql/MwTaHXddQ7/W+ab8ii9i6F/vF+CrdOEU6Hn+6sTfFQIH219Bq0W
-	04k77zGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8ddftgpK0LDx+G+FjrkBslhvyIqXHl28zfgWlGOCfAA=; b=xJ+LK0eORBu1qyPcA8y2r1QKLg
+	Inlp4yFtxN0Z05JgT6B/J6cAuCx04xvzqHrOAt6WQwFaXqIyqUiucuKvUjkWAycyEODJe50ZtGGVT
+	gS8F2XjyAeEvmLV0noGFbWGY4GOTIVtgYLvUp7WpENG64H6SbDRDeRaV0KocDWfBOb64VAADLUC+W
+	PwcBr1/aG5Rak2zZsLFqwVbcX+5tFLUBjRssnEJyD7S+/ea5S09ZpJlaWWUnnx6qiMi3m2fqWdIUg
+	mgInIC/yISSUapE0CT+D7itv5xBa4FTiwidmSmGjT8WWorF8sjgLew+5MYvc9dgHroB3a0E6Uu/IS
+	rZt+ObgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mgKnJ-009szJ-Bb; Fri, 29 Oct 2021 05:51:13 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mgN2M-00AEv1-HZ; Fri, 29 Oct 2021 08:14:54 +0000
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mgKnF-009sxE-HH
- for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 05:51:11 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DAEDD218E0;
- Fri, 29 Oct 2021 05:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1635486664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZkHtVMt92gUgbsYTtS4S1lP2SDGldWukUMlY/TrnM0E=;
- b=E1iGctEvkOk8C1MZU+wzQNeMxIna9MZ50SbzoCyuQXXja+p1KvdqzzB/po54k0GnY0qfy2
- Yy9q1uXRrOWK68qh0/Rg60z4DVDWRMmTSnYjxMSdsx/TYbRGMTByrxIiLGAnOsZEkiH3gf
- NiyWzDnswqu/MbihUotjCokAleF92fc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1635486664;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZkHtVMt92gUgbsYTtS4S1lP2SDGldWukUMlY/TrnM0E=;
- b=K8drR/+tVTdMf9IuYydU4OQxbBlXc+WpgVdm6e41TjOCS4FgIAT3Om/h6mDVY9xwoLziWH
- KxhhiWo4soKjIEDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 19BF713AF5;
- Fri, 29 Oct 2021 05:51:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JCVQA8iLe2GSVAAAMHmgww
- (envelope-from <hare@suse.de>); Fri, 29 Oct 2021 05:51:04 +0000
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>
+ id 1mgN2J-00AEt6-99
+ for linux-nvme@lists.infradead.org; Fri, 29 Oct 2021 08:14:53 +0000
+Received: by mail-wr1-x42c.google.com with SMTP id z14so14917072wrg.6
+ for <linux-nvme@lists.infradead.org>; Fri, 29 Oct 2021 01:14:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=8ddftgpK0LDx+G+FjrkBslhvyIqXHl28zfgWlGOCfAA=;
+ b=ZvbA6OirgjAS7+trJNLUfzUzxnDghd5zTvC77XLYSKiUJni+0fhVC882L/ZVeGk6nP
+ /kqxXGYeIC8ozy0ThUYCWPYJj/TnAzJyT1FoDRlAW81PXLjx1H4dovtDjSUYxLWm89Fm
+ QeYR518/SaS27GmrZdJnfY4dbWaImq1x9hLn6jWFVn9mzRPWjglKS8+xiGDRwDWz/iYO
+ zYrVWby82S3kK8LXamSjv0A8Cb66H4Oml/LfuIsvJZgM75kD+NlXEN9xPLTHLb4g/Maz
+ 3JCfMkKUJr7mv7erdqTMwWKCCXCZ8zHBaXoAeoSql0VKFMra1tHxcXHRWOHY5d7i4HUp
+ zSSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=8ddftgpK0LDx+G+FjrkBslhvyIqXHl28zfgWlGOCfAA=;
+ b=aQCHrnkgH8tybdBDDWkTqTgqBClnkFW/gM8+0ESLqSiOgC0GvnWmrgns2zaINgTL4Z
+ kC0uGAAPE2GDQUuzdmz0S83VDngE2JxWRQ6yv6y2yHtWzwUDM4/CFp5Bpn+XnOWidDN6
+ uQrQ6VcAYTQzavnNuOTkKKGywZ91y8BpnFa4A5uIcQUJLmiEdqGtotfHNQ6DFAEqkqPa
+ zM1WDw48S6hvN+r6OYJnutGqB92j/lgQiXubagXs25eQmYc8OrPD6Mxey1TPXCL/nI6D
+ hxXU7nR2b5GgPHpEfvm7W5DVfXyTLrc7UFHu6EQvT+7ySq1G4JFzH0ZO8llFesgqzEzN
+ gqeQ==
+X-Gm-Message-State: AOAM530MYmj2igVXvNzOn18ngi1P/oy9SaSTfCEZCMPWkRab6lFW1bCX
+ irIC2LBbSuhWeB0cl+XjONTtdw==
+X-Google-Smtp-Source: ABdhPJz4KKl/vCIv4EZQxDSYhXgl6hLs1xW5oRUFqmNOfzBiIlxs2qrs7OEPigr3oNUptn2YXM3COQ==
+X-Received: by 2002:adf:e387:: with SMTP id e7mr1473005wrm.412.1635495289096; 
+ Fri, 29 Oct 2021 01:14:49 -0700 (PDT)
+Received: from localhost (5.186.124.144.cgn.fibianet.dk. [5.186.124.144])
+ by smtp.gmail.com with ESMTPSA id s3sm8001684wmh.30.2021.10.29.01.14.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Oct 2021 01:14:48 -0700 (PDT)
+Date: Fri, 29 Oct 2021 10:14:47 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
 Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
@@ -78,7 +79,7 @@ Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  "msnitzer@redhat.com" <msnitzer@redhat.com>,
  "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
  "roland@purestorage.com" <roland@purestorage.com>,
- "mpatocka@redhat.com" <mpatocka@redhat.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
  "kbusch@kernel.org" <kbusch@kernel.org>,
  "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
  "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
@@ -87,6 +88,8 @@ Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  SelvaKumar S <selvakuma.s1@samsung.com>,
  Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
  Vincent Fu <vincent.fu@samsung.com>, Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20211029081447.ativv64dofpqq22m@ArmHalley.local>
 References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.outlook.com>
  <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
  <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
@@ -96,19 +99,14 @@ References: <BYAPR04MB49652C4B75E38F3716F3C06386539@BYAPR04MB4965.namprd04.prod.
  <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
  <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
  <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
-Date: Fri, 29 Oct 2021 07:51:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211028_225109_770959_4EB3A319 
-X-CRM114-Status: GOOD (  24.49  )
+X-CRM114-CacheID: sfid-20211029_011451_426080_3E930F4A 
+X-CRM114-Status: GOOD (  18.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,8 +121,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/29/21 2:21 AM, Chaitanya Kulkarni wrote:
-> On 10/7/21 11:49 PM, Javier González wrote:
+On 29.10.2021 00:21, Chaitanya Kulkarni wrote:
+>On 10/7/21 11:49 PM, Javier González wrote:
 >> External email: Use caution opening links or attachments
 >>
 >>
@@ -138,12 +136,12 @@ On 10/29/21 2:21 AM, Chaitanya Kulkarni wrote:
 >>> supports the device mapper? See also
 >>> https://lore.kernel.org/all/alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com/
 >>>
-> 
-> When we add a new REQ_OP_XXX we need to make sure it will work with
-> device mapper, so I agree with Bart and Martin.
-> 
-> Starting with Mikulas patches is a right direction as of now..
-> 
+>
+>When we add a new REQ_OP_XXX we need to make sure it will work with
+>device mapper, so I agree with Bart and Martin.
+>
+>Starting with Mikulas patches is a right direction as of now..
+>
 >>
 >> Thanks for the pointers. We are looking into Mikulas' patch - I agree
 >> that it is a good start.
@@ -156,25 +154,20 @@ On 10/29/21 2:21 AM, Chaitanya Kulkarni wrote:
 >> Thanks. I will wait until Chaitanya's reply on his questions. We will
 >> start suggesting some dates then.
 >>
-> 
-> I think at this point we need to at least decide on having a first call
-> focused on how to proceed forward with Mikulas approach  ...
-> 
-> Javier, can you please organize a call with people you listed in this
-> thread earlier ?
-> 
-Also Keith presented his work on a simple zone-based remapping block 
-device, which included an in-kernel copy offload facility.
-Idea is to lift that as a standalone patch such that we can use it a 
-fallback (ie software) implementation if no other copy offload mechanism 
-is available.
+>
+>I think at this point we need to at least decide on having a first call
+>focused on how to proceed forward with Mikulas approach  ...
+>
+>Javier, can you please organize a call with people you listed in this
+>thread earlier ?
 
-Cheers,
+Here you have a Doogle for end of next week and the week after OCP.
+Please fill it out until Wednesday. I will set up a call with the
+selected slot:
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+     https://doodle.com/poll/r2c8duy3r8g88v8q?utm_source=poll&utm_medium=link
+
+Thanks,
+Javier
+
 
