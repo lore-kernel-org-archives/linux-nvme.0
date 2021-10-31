@@ -2,14 +2,14 @@ Return-Path: <SRS0=mUzn=PT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67216C433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Oct 2021 17:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 685C0C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 31 Oct 2021 17:51:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F3A7560FD9
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Oct 2021 17:48:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F3A7560FD9
+	by mail.kernel.org (Postfix) with ESMTPS id 2E6346108C
+	for <linux-nvme@archiver.kernel.org>; Sun, 31 Oct 2021 17:51:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2E6346108C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,57 +18,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7MuoEHjjO8VeJaVuFed8XWzS0lEfBBHPNJTbN9pP/Kk=; b=0CsNFqFaSS0VXfVtli1UR9hX0n
-	RymM7PksPVJzlxbxJHguOlB380FkYANFf6b3bAupIvrxOil9ixvtvmaa4AcvmACf8BY3KtIdeFVp6
-	26YNwMcIzk2XQZHz+ohnu4AzZ0mQCqL1suaEii8DOF0TzZtZCu4QaLKaFZicba5Az3xNII5I+40UJ
-	IQJrCb6xmJ1BVp4Em9OZ+xzf/JqFuG2nbIFrjvDua2wc8xlbwnqyyRTPjgESIfN8YrDvqIN+x0hN5
-	SLMxsxbVsrYtJFIkrSMbkUILG0povI4XDH728kJXA5nE66oodm9ATnNp06W/FULwMgcsRLkj8DJwj
-	nWjN0m3A==;
+	bh=f8mR+D/eH/dZNNjPVwCwixw0JTq5UBSJUqcsN3WCTdc=; b=jZ7c5L9cu6Z6Ejx4bQm0DRSO6I
+	rWvvmo7GrtSZhmV2HZN3M/qjiKSd5ge7RlwLjE48CJww595/2S+a1/sqxPc4x25LhdhWxP0/WH/q+
+	gBUTAP2FtObGMvC3xpEDfkLOl4IK431tRhHNvzpiaFvE0bxQdZtpDZujS906464hpAQVdmwEi+OEK
+	YPbDKXoc/WdjjQqye+dANtdnGESg/iz/XqjSVaw0kaxVoJqw4YtsP1pe63VYAUbLmFzJMUy6g4kC/
+	/GoJiloifGcmIGDDXYujMTPP151I0Zxr69qF9mrqTEwh5v4FzXMmpM0jWaMKMi00V6RHgm176W4t5
+	VYgASC2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mhEvz-00ETKW-SH; Sun, 31 Oct 2021 17:47:55 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1mhEzK-00ETvz-JF; Sun, 31 Oct 2021 17:51:22 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mhEve-00ETHd-HQ
- for linux-nvme@lists.infradead.org; Sun, 31 Oct 2021 17:47:35 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id
- o10-20020a17090a3d4a00b001a6555878a8so2951897pjf.1
- for <linux-nvme@lists.infradead.org>; Sun, 31 Oct 2021 10:47:33 -0700 (PDT)
+ id 1mhEzH-00ETto-Dl
+ for linux-nvme@lists.infradead.org; Sun, 31 Oct 2021 17:51:20 +0000
+Received: by mail-pf1-x433.google.com with SMTP id p20so8999122pfo.12
+ for <linux-nvme@lists.infradead.org>; Sun, 31 Oct 2021 10:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=intel-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7MuoEHjjO8VeJaVuFed8XWzS0lEfBBHPNJTbN9pP/Kk=;
- b=4tOJMdKFSRsgNH+AUIYaqm2kjoYMRFX1rF2DJJ+SkN3TxFcC6WFZTlfZ/p19kQbT9K
- 3ucowaD3UjTRl1wxq0AhkO2grIrwJ1CUzZL9iaOW9qQruYwZiNTLyT8xPdcntcGZTnKO
- oHouSuIItcBdIuUQi3se1/cFTWoJaoIMfatJqvTJNtdVS5k8eQGd7+SN6PbVUPLsaGtZ
- l1ZNkN5xiSBdq4V2xHL4j3AS7JUzTTQy6aixWFwT8tGnH7btlFyMUA6OKqRZ3rOIuHsc
- 1ZLLqjh17RQWY85HyaOON7GqX1MfrrlXjw7ctSAkgQItKO1cowEaIPOliTgHjuC8pBHM
- Mnbg==
+ :cc; bh=f8mR+D/eH/dZNNjPVwCwixw0JTq5UBSJUqcsN3WCTdc=;
+ b=MvRLH8wCuHLDGU5wWh67k3cqC1Fdd3cZizRDNMF6VwG3BIGVykQrXQ5XqN/SFH4gF0
+ aMNjx/sd3ls8H4qnD1YxCP5l5GJAAEpAG/Esp4V6LKux9NYOWi96TwUZ/pFb3TcmZBWP
+ zVBzvEL+MVUnbMk9GV0AJMQQu68lxnATIX9jNgOg6W2MrQQWyRvUFoiusZtaNgUAPfI1
+ AxT4pyI0WF/pD617rNm69wlS3SI/GAt5yD+1ZKqpLA3r9I/GOI56o8ePSp4PP7gIIGX3
+ ZjKHBLE0TTaieZDjpKAQiXOrBhNCxqkLUX94RtN1Jp6OGXuvi8GYPomwsciSqBwOSwmF
+ zWpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7MuoEHjjO8VeJaVuFed8XWzS0lEfBBHPNJTbN9pP/Kk=;
- b=lIhg1ALezbl8IWM1bm8B4VBohq+Y9o1k9u/ACAf8E74MGygrV2Rip9RTsDdyX+hX7y
- 6HwSSXMl+ypvyzEykRjHQmoCPCnpbvu6P+1QQbyvuMj9yoFNmd312NyHXEnEmlTSGZmJ
- +w+MfeZX5ydqexYS61NDsqUOjXtVrXwpv7tnoZpEzA2TlR9h2EpQdFhM0sdOitlumcvZ
- F3JPPFbzLlFTKQn5j9A3h949x6aQfGt4Pk+7afE6IwG1f8sDiXkAsDoV7b0Zha9VlxSp
- 9tJoW+xmMc18o5GMkesLXKPPIv93uMzOTo169rkJfR5lw16tGOjSSnoLACZtRms3fUIV
- nkTA==
-X-Gm-Message-State: AOAM532MBIDsnfdyI6t5hpBs5yM+NVVXeVmnQT7XMsm1W0MDuzteEpGL
- pHPs4LT0VmMoKKlnkGa4hUEv/5WbIqMTVEpxwU43pw==
-X-Google-Smtp-Source: ABdhPJyA7Laj0AUg2FKVlcU7XOrNA0zdW+Ju6E23SLHq82Op6ARxl3h9QltxEajuidxiYWqVOR7E35WaYaY6PyVeaf4=
-X-Received: by 2002:a17:902:8a97:b0:13e:6e77:af59 with SMTP id
- p23-20020a1709028a9700b0013e6e77af59mr20648644plo.4.1635702452583; Sun, 31
- Oct 2021 10:47:32 -0700 (PDT)
+ bh=f8mR+D/eH/dZNNjPVwCwixw0JTq5UBSJUqcsN3WCTdc=;
+ b=osMyCSIj5Hmc77XpcxjTlLQK8thKWUhkLvLCRKAvHajcl837Z+ANVbzeiq49Q3zFz1
+ jhU5AbiSi4E4fyqxPEe3J8N5KcZQ6s3c5goMxW/dSyTseIszwlBPBMQEmrNVKAr4QW2J
+ pcCpI49pICNwXtxKYwA2ILC+kvc8Aj4wRnSO0HsWtVWXMGJEjKQi/wtz6t8ZVQYF/uol
+ iKmNqgeHpAVnWlND/AmpzU304XAnalM4fls9PEpA+gjK0JnMtFqrNtaI/nGIePdRoREG
+ SuIJtenvoMkJAgszfpeEwwFc/fiVDCwg6rhvvLkHesKk5woxLyb2oYCuKAN3NsjI41ou
+ oWRA==
+X-Gm-Message-State: AOAM530tOCpWAbz7E0bmxJD5DSXXYEPPEyP+jZExk+W80xOfbRnH9b3O
+ XYq5j2fF39/ypn4SPRvjP3/ckSt/cP1x/nlTvg2uuw==
+X-Google-Smtp-Source: ABdhPJwgKG5Mr66Ui8RTcSTuDFaX+/IepWZB1EHkIZ09RxQEUmJyKltynz0/5/JNtOiXpRzef+xr6SruizxyjaU9z7s=
+X-Received: by 2002:a63:6bc2:: with SMTP id
+ g185mr17997770pgc.356.1635702678641; 
+ Sun, 31 Oct 2021 10:51:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211015235219.2191207-1-mcgrof@kernel.org>
- <20211015235219.2191207-4-mcgrof@kernel.org>
-In-Reply-To: <20211015235219.2191207-4-mcgrof@kernel.org>
+ <20211015235219.2191207-5-mcgrof@kernel.org>
+In-Reply-To: <20211015235219.2191207-5-mcgrof@kernel.org>
 From: Dan Williams <dan.j.williams@intel.com>
-Date: Sun, 31 Oct 2021 10:47:22 -0700
-Message-ID: <CAPcyv4gU0q=UhDhGoDjK1mwS8WNcWYUXgEb7Rd8Amqr1XFs6ow@mail.gmail.com>
-Subject: Re: [PATCH 03/13] nvdimm/btt: do not call del_gendisk() if not needed
+Date: Sun, 31 Oct 2021 10:51:08 -0700
+Message-ID: <CAPcyv4g98Dk4HFvgzEeCfCNjF-vjfpEhjGjsPDazGPg-BqMr8A@mail.gmail.com>
+Subject: Re: [PATCH 04/13] nvdimm/btt: use goto error labels on btt_blk_init()
 To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Geoff Levand <geoff@infradead.org>, 
  Michael Ellerman <mpe@ellerman.id.au>,
@@ -86,8 +85,8 @@ Cc: Jens Axboe <axboe@kernel.dk>, Geoff Levand <geoff@infradead.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211031_104734_609457_129F4EEC 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20211031_105119_518027_18625F9A 
+X-CRM114-Status: GOOD (  17.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,30 +103,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Fri, Oct 15, 2021 at 4:53 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
 >
-> We know we don't need del_gendisk() if we haven't added
-> the disk, so just skip it. This should fix a bug on older
-> kernels, as del_gendisk() became able to deal with
-> disks not added only recently, after the patch titled
-> "block: add flag for add_disk() completion notation".
+> This will make it easier to share common error paths.
+>
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> ---
+>  drivers/nvdimm/btt.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+> index 29cc7325e890..23ee8c005db5 100644
+> --- a/drivers/nvdimm/btt.c
+> +++ b/drivers/nvdimm/btt.c
+> @@ -1520,10 +1520,11 @@ static int btt_blk_init(struct btt *btt)
+>  {
+>         struct nd_btt *nd_btt = btt->nd_btt;
+>         struct nd_namespace_common *ndns = nd_btt->ndns;
+> +       int rc = -ENOMEM;
+>
+>         btt->btt_disk = blk_alloc_disk(NUMA_NO_NODE);
+>         if (!btt->btt_disk)
+> -               return -ENOMEM;
+> +               goto out;
 
-Perhaps put this in:
+I tend to not use a goto when there is nothing to unwind.
 
-    commit $abbrev_commit ("block: add flag for add_disk() completion notation")
-
-...format, but I can't seem to find that commit?
-
-If you're touching the changelog how about one that clarifies the
-impact and drops "we"?
-
-"del_gendisk() is not required if the disk has not been added. On
-kernels prior to commit $abbrev_commit ("block: add flag for
-add_disk() completion notation")
-it is mandatory to not call del_gendisk() if the underlying device has
-not been through device_add()."
-
-Fixes: 41cd8b70c37a ("libnvdimm, btt: add support for blk integrity")
-
-With that you can add:
+The rest looks good to me. After dropping "goto out;" you can add:
 
 Reviewed-by: Dan Williams <dan.j.williams@intel.com>
 
