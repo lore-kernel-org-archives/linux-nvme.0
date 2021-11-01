@@ -1,92 +1,76 @@
-Return-Path: <SRS0=mUzn=PT=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=7QfS=PU=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 685C0C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Oct 2021 17:51:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6BBC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Nov 2021 17:54:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2E6346108C
-	for <linux-nvme@archiver.kernel.org>; Sun, 31 Oct 2021 17:51:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2E6346108C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	by mail.kernel.org (Postfix) with ESMTPS id 74E6E610D2
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Nov 2021 17:54:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 74E6E610D2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f8mR+D/eH/dZNNjPVwCwixw0JTq5UBSJUqcsN3WCTdc=; b=jZ7c5L9cu6Z6Ejx4bQm0DRSO6I
-	rWvvmo7GrtSZhmV2HZN3M/qjiKSd5ge7RlwLjE48CJww595/2S+a1/sqxPc4x25LhdhWxP0/WH/q+
-	gBUTAP2FtObGMvC3xpEDfkLOl4IK431tRhHNvzpiaFvE0bxQdZtpDZujS906464hpAQVdmwEi+OEK
-	YPbDKXoc/WdjjQqye+dANtdnGESg/iz/XqjSVaw0kaxVoJqw4YtsP1pe63VYAUbLmFzJMUy6g4kC/
-	/GoJiloifGcmIGDDXYujMTPP151I0Zxr69qF9mrqTEwh5v4FzXMmpM0jWaMKMi00V6RHgm176W4t5
-	VYgASC2Q==;
+	bh=Vvg2q1MByk1KXcqILDaTRzicFc12pJAm7F81mDbJ388=; b=H00U0ikHvI7qys9XNAmzuNNx4t
+	3zJ/BY40iCVC38LCVFA0vC0//VJrrDBvQknDkT0yTb6ZhDjCwfbroGm9/EwzfOfKP11CSUJrPj4xj
+	PrnaIGjjkEXji6M/LBIzoeaBE75gidtiB65J3VNyoenOj+ilNUKl31IcZ2VOiBjnKpWEsKODK6SSq
+	pBT2yb5b18uymjAa8oTf7gMVkuVuZuAobyMYvGAxguCKleegoG6lRRGR8KlKJiWAJd8nlJm7JRZup
+	MMYDCUwwpcIxwbU6N4nRKmOPcCeoE/MuB9ar6q+HaYG/fhcHHGkniS5uTMmcgQTOX0ivlqxgp7lMJ
+	3NPmUDog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mhEzK-00ETvz-JF; Sun, 31 Oct 2021 17:51:22 +0000
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+	id 1mhbVj-00GxZr-Go; Mon, 01 Nov 2021 17:54:19 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mhEzH-00ETto-Dl
- for linux-nvme@lists.infradead.org; Sun, 31 Oct 2021 17:51:20 +0000
-Received: by mail-pf1-x433.google.com with SMTP id p20so8999122pfo.12
- for <linux-nvme@lists.infradead.org>; Sun, 31 Oct 2021 10:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f8mR+D/eH/dZNNjPVwCwixw0JTq5UBSJUqcsN3WCTdc=;
- b=MvRLH8wCuHLDGU5wWh67k3cqC1Fdd3cZizRDNMF6VwG3BIGVykQrXQ5XqN/SFH4gF0
- aMNjx/sd3ls8H4qnD1YxCP5l5GJAAEpAG/Esp4V6LKux9NYOWi96TwUZ/pFb3TcmZBWP
- zVBzvEL+MVUnbMk9GV0AJMQQu68lxnATIX9jNgOg6W2MrQQWyRvUFoiusZtaNgUAPfI1
- AxT4pyI0WF/pD617rNm69wlS3SI/GAt5yD+1ZKqpLA3r9I/GOI56o8ePSp4PP7gIIGX3
- ZjKHBLE0TTaieZDjpKAQiXOrBhNCxqkLUX94RtN1Jp6OGXuvi8GYPomwsciSqBwOSwmF
- zWpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f8mR+D/eH/dZNNjPVwCwixw0JTq5UBSJUqcsN3WCTdc=;
- b=osMyCSIj5Hmc77XpcxjTlLQK8thKWUhkLvLCRKAvHajcl837Z+ANVbzeiq49Q3zFz1
- jhU5AbiSi4E4fyqxPEe3J8N5KcZQ6s3c5goMxW/dSyTseIszwlBPBMQEmrNVKAr4QW2J
- pcCpI49pICNwXtxKYwA2ILC+kvc8Aj4wRnSO0HsWtVWXMGJEjKQi/wtz6t8ZVQYF/uol
- iKmNqgeHpAVnWlND/AmpzU304XAnalM4fls9PEpA+gjK0JnMtFqrNtaI/nGIePdRoREG
- SuIJtenvoMkJAgszfpeEwwFc/fiVDCwg6rhvvLkHesKk5woxLyb2oYCuKAN3NsjI41ou
- oWRA==
-X-Gm-Message-State: AOAM530tOCpWAbz7E0bmxJD5DSXXYEPPEyP+jZExk+W80xOfbRnH9b3O
- XYq5j2fF39/ypn4SPRvjP3/ckSt/cP1x/nlTvg2uuw==
-X-Google-Smtp-Source: ABdhPJwgKG5Mr66Ui8RTcSTuDFaX+/IepWZB1EHkIZ09RxQEUmJyKltynz0/5/JNtOiXpRzef+xr6SruizxyjaU9z7s=
-X-Received: by 2002:a63:6bc2:: with SMTP id
- g185mr17997770pgc.356.1635702678641; 
- Sun, 31 Oct 2021 10:51:18 -0700 (PDT)
+ id 1mhbVc-00GxYw-Bd
+ for linux-nvme@lists.infradead.org; Mon, 01 Nov 2021 17:54:13 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 00C82610D2;
+ Mon,  1 Nov 2021 17:54:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1635789251;
+ bh=lYi2aGJ1ooV9VTgAd9ni2Aq8I8gmC2AMQ2WBvVmGyXo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=USAxOoUpoPthTp0gPLaP0Dmz+IrOklnbz3hxfaINU34HdN1KKLosqti5cOqQYAaqx
+ vAzwAmlRKJCS4A+x3oMJQC9AcOKtiJT2KoUaJ4cme5I1NotGS1dDN/bvui3u93bbcE
+ B3Rn9jI2etOBKHaGzpWpNSKH8+DKvAoPRJRFBtf6N1zm28ciWQseguItfGTE8S5SGE
+ gJyHvhjcrWhkpnG1mmJggGByc6GpS8LMJMtHSKeqjbFpDR5Mxh0w5yTRZEV8GrOCxe
+ BxgY+sBpcZee82y2ujQ1VYBu2NSTbwyTRob4gcnvVGQ+X4+T1CrWDHjF0DwblF8aJB
+ gzM9v7RS/EqpQ==
+Date: Mon, 1 Nov 2021 10:54:09 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Hannes Reinecke <hare@suse.de>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20211101175409.GA2651512@dhcp-10-100-145-180.wdc.com>
+References: <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
+ <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
+ <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
+ <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
+ <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
+ <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
+ <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+ <ba6c099b-42bf-4c7d-a923-00e7758fc835@suse.de>
+ <5edcab45-afc6-3766-cede-f859da2934d1@acm.org>
 MIME-Version: 1.0
-References: <20211015235219.2191207-1-mcgrof@kernel.org>
- <20211015235219.2191207-5-mcgrof@kernel.org>
-In-Reply-To: <20211015235219.2191207-5-mcgrof@kernel.org>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Sun, 31 Oct 2021 10:51:08 -0700
-Message-ID: <CAPcyv4g98Dk4HFvgzEeCfCNjF-vjfpEhjGjsPDazGPg-BqMr8A@mail.gmail.com>
-Subject: Re: [PATCH 04/13] nvdimm/btt: use goto error labels on btt_blk_init()
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Geoff Levand <geoff@infradead.org>, 
- Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
- Paul Mackerras <paulus@samba.org>, Jim Paris <jim@jtan.com>,
- Minchan Kim <minchan@kernel.org>, 
- Nitin Gupta <ngupta@vflare.org>, senozhatsky@chromium.org, 
- Richard Weinberger <richard@nod.at>, miquel.raynal@bootlin.com, vigneshr@ti.com,
- Vishal L Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
- "Weiny, Ira" <ira.weiny@intel.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org, 
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-mtd@lists.infradead.org, 
- Linux NVDIMM <nvdimm@lists.linux.dev>, linux-nvme@lists.infradead.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5edcab45-afc6-3766-cede-f859da2934d1@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211031_105119_518027_18625F9A 
-X-CRM114-Status: GOOD (  17.82  )
+X-CRM114-CacheID: sfid-20211101_105412_438975_5295A586 
+X-CRM114-Status: GOOD (  10.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,33 +85,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 15, 2021 at 4:53 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> This will make it easier to share common error paths.
->
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> ---
->  drivers/nvdimm/btt.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
-> index 29cc7325e890..23ee8c005db5 100644
-> --- a/drivers/nvdimm/btt.c
-> +++ b/drivers/nvdimm/btt.c
-> @@ -1520,10 +1520,11 @@ static int btt_blk_init(struct btt *btt)
->  {
->         struct nd_btt *nd_btt = btt->nd_btt;
->         struct nd_namespace_common *ndns = nd_btt->ndns;
-> +       int rc = -ENOMEM;
->
->         btt->btt_disk = blk_alloc_disk(NUMA_NO_NODE);
->         if (!btt->btt_disk)
-> -               return -ENOMEM;
-> +               goto out;
+On Fri, Oct 29, 2021 at 09:15:43AM -0700, Bart Van Assche wrote:
+> On 10/28/21 10:51 PM, Hannes Reinecke wrote:
+> > Also Keith presented his work on a simple zone-based remapping block device, which included an in-kernel copy offload facility.
+> > Idea is to lift that as a standalone patch such that we can use it a fallback (ie software) implementation if no other copy offload mechanism is available.
+> 
+> Is a link to the presentation available?
 
-I tend to not use a goto when there is nothing to unwind.
+Thanks for the interest.
 
-The rest looks good to me. After dropping "goto out;" you can add:
+I didn't post them online as the conference didn't provide it, and I
+don't think the slides would be particularly interesting without the
+prepared speech anyway.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+The presentation described a simple prototype implementing a redirection
+table on zone block devices. There was one bullet point explaining how a
+generic kernel implementation would be an improvement. For zoned block
+devices, an "append" like copy offload would be an even better option.
 
