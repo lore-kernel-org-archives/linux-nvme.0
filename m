@@ -2,150 +2,172 @@ Return-Path: <SRS0=i2V4=PV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A780AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Nov 2021 03:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF0EC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Nov 2021 05:19:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6A62760EE3
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Nov 2021 03:02:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6A62760EE3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 529B260F36
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Nov 2021 05:19:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 529B260F36
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ambarella.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O0yMgDnILawUFDrU7TduX0FXkX7cVGKLLNx79OmdzVM=; b=D5Lw6tvKT2PO8yeYXuYHqevVFc
-	xUxtT08SDDEhHdM6Ic3m3Sp+HLvMLFTv68gj6/cnT0jhAFB9U1UFxsa8yt4KJ+uQ6xJTIorTs2p1W
-	1ZAGqRCy53yqdoH+xP6G1HuyPeU813L37PEx1eB/eV1D2kZgpPiPYENJaU/1qkPKRm39eYy4EN6bJ
-	67XqvEqsDr+1xsPQ8Ue1e5GS7UqhwwOfAQ9pSTcC/b87t0f44DBfqw6SsOVfFMU2FlC4mmx+X/oBb
-	ITEbGQxGsL6mKBxoIzw+3xaPoBQIHxAg54FheayafSauTsBc5O/qA+JASPx8wM1liIvFryqOWspsF
-	jt2npIBA==;
+	bh=ciHq54YJ//X/cXA1nW8MdtF81DCx5kSHyXT0Ylk5GCM=; b=dB4+NLGMnMy3T/xFuCUIHZjicY
+	hT64ratCyTu6SyQBduJoHIYnOiIyHFYlrkQQp78IRwU6hiebnKw196cEBA7ECN/pjbpl/J7zJU+na
+	QG5NogsVAbWY4nk/xZ+ORJcQtChTEyLiyGPqCvS2ELaPVewS3SSCPAxOhp+neu0D7FdeLmI89XysZ
+	KuutMtXSJHKSOZdnu40/aTw2eTkJy0Vy2DeIf6v+8w+mbTUOYoKzN8tTl3MlcLHfn3dZ7B267XYzW
+	y33lUO32lmS/sP0Mm2Yzq+eIqmYBsP6xSMD+69CV4VHLXhHK//V4+OA4abxL8kqWOjpvire90uUHE
+	SpzqVaZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mhk4N-000O6u-Jn; Tue, 02 Nov 2021 03:02:39 +0000
-Received: from mail-mw2nam12on2066.outbound.protection.outlook.com
- ([40.107.244.66] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1mhmCG-000YtB-Bm; Tue, 02 Nov 2021 05:18:56 +0000
+Received: from mx0b-00622301.pphosted.com ([205.220.175.205])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mhk4L-000O5m-Md
- for linux-nvme@lists.infradead.org; Tue, 02 Nov 2021 03:02:39 +0000
+ id 1mhmCC-000YsQ-6i
+ for linux-nvme@lists.infradead.org; Tue, 02 Nov 2021 05:18:54 +0000
+Received: from pps.filterd (m0241925.ppops.net [127.0.0.1])
+ by mx0a-00622301.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1A24uNwF021399;
+ Tue, 2 Nov 2021 05:18:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ambarella.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=com20210415pp;
+ bh=ciHq54YJ//X/cXA1nW8MdtF81DCx5kSHyXT0Ylk5GCM=;
+ b=dlZCuaZ+tRvWPapiS0jSfpZNIxoYEyvuVO+Vr+6qQYaeksqsuKmG4YinnZtcayfLwmyY
+ hat3Smw8v5F2fRYxJpFxmY1HHfA9mb+r5Fy3L5FakeZIEk+xnyKvwU+hCLN5w+0sEa9I
+ BZ+33C+qe1lNxbhxt3vcDm8eqLu31R/uplYMLcm/KbOJGYzRoOhZUNz6vmxnqsi/lCPd
+ yJhp7SQlgnzNg6eQD9u6Ol8Do1Qr2EXsJ4kn+Fho93y7emDbKLhyS5Q8GaoBRwmWfaDB
+ 7+0SXlQeYtgz+mDG7fynLjapa9IP+ZF4o9wnASkTo45vSlNYkaG3tP1JxDcL4xTbSUgH WQ== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2108.outbound.protection.outlook.com [104.47.55.108])
+ by mx0a-00622301.pphosted.com (PPS) with ESMTPS id 3c28c88hn9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Nov 2021 05:18:24 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R2it+HrTO1e56lI3QwRn53nVOLSjzeYr1+zC0077XbUvrc0s6mF5kMJBdI6p+2A17RfqLms1o0pjMNx78xebqbtgd6dQGYrapZS4eCr4G05MnZcQgq708AjIhgXAs23KFPmhofgIVmFsT9FbmF/rpuiUOdsXub6apnl7fJXIU4e3+A0G+x/RbDMGTq/tZKWP1IcadLObCLGTbBjLebR/GcUQrTGleCxS9aop/O5tkDihXYYJpa/aC4wsYahM9dQBRASiweRce5Xdcm1BlatNHCxksWIeUXD9La89mhuu+7v8g44upi26WFM5/PXxUGJYIjvuu1ehBi6c2TWf9Q+7UA==
+ b=eVQEwCbK1OQO3JhGgGdJs+wkFGrPq3ITn1HrUfesmJr/BW4SL/im1LQKVeW3XAFy4udVg2pwjUj2wUVLLzWuTdEdK6gamZV9tkQkgGPD7PdEATVjYL2VzW4rXwtB50Tj4BnMN4LX4Zcnkc0eHRGpExOQqqSz7GyLAHHMUdUzp7nMIutGMiRFzqFVB6bHoZPt5EdzmSBr7fby8soP8d0q/zzm0fIb+C1/iYjR+jZxKKUzlUDtOWi/i/NJfmCncd3+Y6JAg6FZ06TClZfYn26qxkUgeXhIMuqZmpjobHhSWGoGFl0KZvaCuSAPOmTE37Sv2wz8kZPSjUwWAipg2lkw5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O0yMgDnILawUFDrU7TduX0FXkX7cVGKLLNx79OmdzVM=;
- b=nD/ao55tAWT9yN+7J6KQgIa1JEX8YUOLjVSnMKwNYJL78c6awxmNwUL58judl5bliZ7hvT/jY6N27Xx+otvtaxaD/n6nz/51VUBbpWjf0yuCV7GjmEKL3cdj+6Ihlh5JRskM6ch4VxoXPlewRETg8lFUiXd3KA2wwITLcts2UprA9vKVZukDTva2G+h+4sSL4D3m7Er8Ci3T7ZVlXO0BZNiyB74JSrobkOKbFYPZzECvF5dBLW9rvAY5yxBfAmM3qpl5Jx79U2nPySxJQTZezBLJ5Hxb/S+edLBaLpkZhLsbKrc2HHXIpzSVfzXMKAEbBvy4PnJWXdQbGUbeIw8jNw==
+ bh=8XvA5HTTnDvl0OkP+mCnK07XkJDSbPNzHNR7JaDbknA=;
+ b=Ui5g2wGJzqBEKj6MoBv3G1ajvei1euxRye3Yfvz/ylo1uwlz/XU11i17i/LRl8UQ8chGOt69lxQsP8TWukW/3MyPxQN/xYEhaccCX+QVIlhXlLi4VfTj+a0qOad4qpEMShA7GQHk5M+oKDiTaMWDpzukWH1G1XFrREcDLnIIz/jpF0Rz+e39VGLh86O60KoV7mg/eu/QgoxtGJDT5XfSfniirnz1Dzj7uTuBzZRiRIMrx2WFyWi05Q9dF4c5vtsQymsYpseefET3huWnGvJPLjyjlJosE/Vs/fA44A1Z4O6Xfy8FeaSQGqy82CtsEp+6IUkf70U8gfo8O1AQz6xwJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=ambarella.com; dmarc=pass action=none
+ header.from=ambarella.com; dkim=pass header.d=ambarella.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ambarella.onmicrosoft.com; s=selector1-ambarella-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O0yMgDnILawUFDrU7TduX0FXkX7cVGKLLNx79OmdzVM=;
- b=RU+XRElqPGqWkWb7Qb3mREK5Sh2rKAiODdXZutG6LVhIIFQtATTDDtLhGtvBJ0o+fjyH+H458RDp/2qYH6llpu8YSnIFlNqKnYh5HXSNQqlCI+k5gLo3gUXAolZWMaF0XiodxmX6R4LGeA8bx2I3Ik9yu5deU2I0XpUUnPZpMvCqo6LttQ/ya3pQ5DSVlsVib3H70z16Ivf9QST5yY1sPT1VJF9wm5INqi0bfd3OLiWSWESoycjMnwFcFqbWBNMb2NmoOu3N1mdqb/8jeQ6k9Fac+sKLbZidH/Bq+zOISa+6YoKSoXF2UKbPCWtTpD9ANi0Irl9DwJ13864rRRPOWA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MW3PR12MB4395.namprd12.prod.outlook.com (2603:10b6:303:5c::23)
+ bh=8XvA5HTTnDvl0OkP+mCnK07XkJDSbPNzHNR7JaDbknA=;
+ b=jGWVWgvKpKdF+bjKrLfvXL0JHs8dZCjQ9NNm096SWK3UiHJs19fFgoZdFqrWgeDcjXM3y5e1geaaRWdpKFxFz+puzs9RXbu58kTrAmMV88j3aIDg5LIsK4sLXucFkymjMq4Dc/keA7nnH8gFAltSOy9ph1bZ1pXrd+V2fCmYFk4=
+Received: from CH2PR19MB4024.namprd19.prod.outlook.com (2603:10b6:610:92::22)
+ by CH2PR19MB4087.namprd19.prod.outlook.com (2603:10b6:610:a0::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Tue, 2 Nov
- 2021 03:02:35 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::3db1:105d:2524:524]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::3db1:105d:2524:524%7]) with mapi id 15.20.4649.019; Tue, 2 Nov 2021
- 03:02:35 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>, Chaitanya Kulkarni
- <chaitanyak@nvidia.com>
-Subject: Re: [RFC PATCH] nvmf: allow user to choose cid-genctr feature
-Thread-Topic: [RFC PATCH] nvmf: allow user to choose cid-genctr feature
-Thread-Index: AQHXz3aoLXOHDyeJs0ampjki68QegqvvjUOA
-Date: Tue, 2 Nov 2021 03:02:35 +0000
-Message-ID: <378d5392-38c2-bf10-afff-0cae564970ce@nvidia.com>
-References: <20211101231719.10256-1-chaitanyak@nvidia.com>
-In-Reply-To: <20211101231719.10256-1-chaitanyak@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 2 Nov
+ 2021 05:18:14 +0000
+Received: from CH2PR19MB4024.namprd19.prod.outlook.com
+ ([fe80::8143:f3e0:9fd3:a8e7]) by CH2PR19MB4024.namprd19.prod.outlook.com
+ ([fe80::8143:f3e0:9fd3:a8e7%5]) with mapi id 15.20.4649.019; Tue, 2 Nov 2021
+ 05:18:14 +0000
+From: Li Chen <lchen@ambarella.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+CC: Keith Busch <kbusch@kernel.org>, "linux-pci@vger.kernel.org"
+ <linux-pci@vger.kernel.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rob Herring <robh@kernel.org>, "kw@linux.com" <kw@linux.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,
+ Tom Joseph <tjoseph@cadence.com>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: RE: [EXT] Re: nvme may get timeout from dd when using different
+ non-prefetch mmio outbound/ranges
+Thread-Topic: [EXT] Re: nvme may get timeout from dd when using different
+ non-prefetch mmio outbound/ranges
+Thread-Index: AdfHKUVD4pdAQATdSnyIoo960S9VyQCjl4+AAAEy0AAAFvQC8AAB+KwAAJu5nUAAG4h1gACqLnSw
+Date: Tue, 2 Nov 2021 05:18:14 +0000
+Message-ID: <CH2PR19MB402445CF3AEF3529E9041211A08B9@CH2PR19MB4024.namprd19.prod.outlook.com>
+References: <CH2PR19MB4024F88716768EC49BCA08CCA0879@CH2PR19MB4024.namprd19.prod.outlook.com>
+ <20211029194253.GA345237@bhelgaas>
+In-Reply-To: <20211029194253.GA345237@bhelgaas>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-authentication-results: lists.infradead.org; dkim=none (message not signed)
- header.d=none;lists.infradead.org; dmarc=none action=none
- header.from=nvidia.com;
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=ambarella.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 85d92bfa-00aa-46d4-d041-08d99dad38d2
-x-ms-traffictypediagnostic: MW3PR12MB4395:
-x-microsoft-antispam-prvs: <MW3PR12MB4395AB9B2D728D8B416011DCA38B9@MW3PR12MB4395.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-office365-filtering-correlation-id: 03d94325-4891-4e6f-c556-08d99dc02c04
+x-ms-traffictypediagnostic: CH2PR19MB4087:
+x-microsoft-antispam-prvs: <CH2PR19MB40876DB6E024DF7C76D00616A08B9@CH2PR19MB4087.namprd19.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:651;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QXyomVF15tgJPNZ9AtMa5bfVq90b4HdkcP2jD7NCv2QSD7jyngHCzUcSc2ozQnK77GaDEUeEt+L4yP7wwSCSrnGwZF0DZBwXVPQvQPyu8NItMOlLXh1g8te9GSa+kJ+uMLn83ND7ewz+D51OjSxWUDKA3taHLUrbAw6Xxd/pLs2MQKVESzKX+nyW4UUk4X4jm9wCx4iTElwfHfvDM5wHwUYH9I+Gd7nch5PACyhxMiKKYJgVk4i4IgHP3PUwyFXrhazFUSkT8Ue+TOVLhyRy/2XQXite1oQ1T/W/f66iSEC7vmLodZTYEpoDTkVzxwxpYKlOlDJ6wamSnUKeUQkESwWFC0WjJbFB/KvB+KtDPpLhz7jNW/OIgRBRInwJhvcbjwfBeOCsIKoHiMLm8o5JJB1JwO/1Imo07iB9CLLkgw7apJDXJhcqc3diOQMF11gEDeJEgOVCABGByLIKL9KaK+YW2ckMvjr/dqfDTLrwuz4Ipv3L0QUGpDFJTyPyMCwLQ3IyXwwhorEQjZmxqUDhSj9c9aw2udLV/x23dVKd7/smjRhO9bs+NToY4cceuyWamOBlWSgg7tLf8L94Q6/4W5WT4p+4wAvDF3x12f/Nhy70YLU+DMCfZhZ94aJFGmOVtCWSlbin1pZ5WeW+YH3vjxf3WdEiAPyGaedrIIdQ0lBij0hKQCwf6FMXmg2KN5GB41dAimQtH3OhfUlTi00Vy03pvI7cr5dQXsufyBMu+i3f7nEGAOEP4LDjGxnCSwaUswMu4n7hKUTlq4HmwrGkZw==
+x-microsoft-antispam-message-info: m8P1tnSzjmcGP/JTWgxaPmUqx353sH8x/pc0YJJjJ3/LR/fDLlYu6oKyH01e4q5gwaL67foJsAXsE3dOZP4fQ2DFNmlTVupBwNECe034iA1nNvt3AUREpI+OgdkP0JcdC6RsQGnjNERPFp1g6ZDUWJDqPmoR6GKzBEoOxkw+Bqi6tt7OuthsQf7aHKQ6IjVKliaZj1IDEQjC1I2vPwnmHRkiAMT42Ne6lt4eiU0oRR94wsxyaWJDmxdwZJPUgdhaokLETBHQxf0W10j6REfOAv1+y4sSgPCZ+0HD2+JmwXTD5NYQ+xQ3ZRn71gM8a6n0SuV/FwbvlQ6yAxuCqPJFgya+DZbn0+hg0Cu6LHSi0whXjHXRamthNvt20b6gDRPS3EdmoJiT3MmFh8xSs0o8O047avMFSL6r22PfgDIb7l2eWhaRcb7LNhIQNWgDoRBa5El9WKtuuh5bYekxoRmMhe0qimjVCvSla/vnKoR7oEDUGu+zP2A4g4cYhTMAfEGwQeV03Z2F7jE1r1wMmHlPw+AMAU0YTo6QVJL2aysrAL0WKqdtE/CODeXeB/Ks7Wah6/ymKM1Rro38WA5iYssrgy7LiIV4Q9uj1/Yk568MRpI5a/BXauRQhIMiVEn070CWQyd9ISsglfMOptdpVv3Grqq+bStCNV4WqPwbxo2V3dTRXG+FbEETrYY6BcN4u1S7/O/6vqNCrXd92DlZJmrT0MkQZepS2JiJmAJOqBK/a4r7pBEg1ERSKgJ9eDOyutSZeY6ZWiVDCRIPZGLjJG6mRw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(71200400001)(36756003)(76116006)(508600001)(6512007)(4744005)(107886003)(66946007)(83380400001)(2906002)(5660300002)(31686004)(31696002)(2616005)(38070700005)(64756008)(66476007)(38100700002)(66556008)(8676002)(4326008)(8936002)(186003)(54906003)(6486002)(6916009)(86362001)(122000001)(316002)(66446008)(6506007)(53546011)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:CH2PR19MB4024.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(55016002)(7696005)(53546011)(66476007)(86362001)(6916009)(6506007)(64756008)(88996005)(66446008)(66556008)(30864003)(508600001)(7416002)(8676002)(316002)(33656002)(966005)(83380400001)(122000001)(52536014)(4326008)(186003)(38100700002)(9686003)(8936002)(5660300002)(2906002)(54906003)(71200400001)(66946007)(26005)(21314003);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d0lLWWU4UEJhcmpNZXY4aEF2UCs4T2wzMzR4NWhieVRKZjVrTUNURFo1VC9S?=
- =?utf-8?B?WkpMdkQyZmxXdTlBZUhGYVZnSEZnclN6ay8vQUVGQ2l5S0ZlZjZMa2pOUzFa?=
- =?utf-8?B?anZNMmNmZmtHZHo2RWI5U0x3RVNWMHI2ZGJqNWNQc0JXME9tNEpGSngyV0Ez?=
- =?utf-8?B?eFRjc09xZll2SmpjMW9JVUQ3SEw4MXQ5bStCNnBVaWZsK2kwRW0vY1o5WE1Q?=
- =?utf-8?B?Y3I1b1U4anNSckw3dVNyWC8raEdXOUN6OGs2ZzdrQmU1UkZ5QzJwei96clhn?=
- =?utf-8?B?WmxsYnBMTU1ZV3BKQldCSWVubGQwTldSVklSU0lkOEFWMEZ2dHlHL3o1b2d4?=
- =?utf-8?B?d1J6MFJ1ZEZpU2xmY0U0aW8vNGNpaEd6Qml1U2VBUXR2Mzl2RUlHNlhjaU90?=
- =?utf-8?B?Q25tcjIxZHRJNERHalVQY1Y5MzV6eTdtTWZBMHNuT01HcUNmbU5NRVB5dG9F?=
- =?utf-8?B?NXJnbWZBVlN2WE9TSUp6Z3pVcUdZcHVZN1I2RHQ3V3NqdndoeWtpSjZiaFd2?=
- =?utf-8?B?ckhxMEx4Z2hleEZtSlFXRkNGUlgzUlJTOGZMZ2FVWTBOakdlaEM3c1plQjc5?=
- =?utf-8?B?THQ3OUVETWRCUjJ4WVVBNGVtN1NOTXB2bmNsMlBSZHpDd3RlMGNyTGlDdXJH?=
- =?utf-8?B?QmhhWTdHR2ZqelZ3Z2ZEczhOTjZ0ci9BeXVrUFVBTEQ4UFgxYTNjdmhMZEhv?=
- =?utf-8?B?SUMwOS9TNVJ6aHZTTUJveCtUTXJJSEYwWnFhQmo3WGRvU3YxMXIxUGZNQklo?=
- =?utf-8?B?VTAzYnlZYkRHWmRSQ1VyM1hpTGNPYzU3bzBWc0JOK1pzeXRIWjg1ckJjNStQ?=
- =?utf-8?B?Z0YzbHhmSTBxK1MySlZ3WCtDOGFEVGRZdDlCNEI4SE1MZ1JRemw5Sjl6ekRB?=
- =?utf-8?B?RzhWSmdpbm9DNUZLU1FoWnZycFJVNjJsU2tGWmtpMnBwSHpwZ1dEOFhsYldN?=
- =?utf-8?B?TFNLMG5TWHEzQ1NaZi9JcUVqVkIyb0ljbWRXUTM5anQ2bkROTjVXK202OWlW?=
- =?utf-8?B?MGpmSDllbThuTXpTNDZLSDlYaXk0eGdlcTNnU3MyRDBjVlUxN0VRcUF3MEJh?=
- =?utf-8?B?VElZU0EyeWJZRjB4SUkxbEZoZEtaV005TEZ4M2YvVWd1aTVCa1YvRUhkRVl2?=
- =?utf-8?B?bnFEL1RCMW5RS2d2Y3ppc3RDR2ZDbHM1YUhNOGVlc1YwM3hUSmo5eHdjK2k0?=
- =?utf-8?B?KzNRRmZTMTBjRFdyMkwzVzdGNzNvYldZNjZGZDYwakVOVWhWa0ppcWNVV2d3?=
- =?utf-8?B?U2tPQ0d5OVJIbzVqQTh0QUMxSDlWU0hwRUFYUktqSkdqU3dxTlBTMkYrZnp0?=
- =?utf-8?B?Unl3NVRKVjNOZTEwdERtT3dDKy9yMlhDci96a0Ira1l6dVpuRUxlNWF5ZmtZ?=
- =?utf-8?B?OWZnbHAvY3NrZ0VoaW9rdDZhQktGN2c4U0tzUDJ1bmpNT1k1WFphV2lXcmZT?=
- =?utf-8?B?Y0htVlRTbmdYK3Z4N2pVa21CTWhyY1I1VC9VVjRhdjN5L0hlZmduektKeEgv?=
- =?utf-8?B?SDhjN0JCeUYvTXYzUHlROGZxSmVTVTF4ODJGQkQvUTJvaE03V0RVRFQ1aCtn?=
- =?utf-8?B?cEtWZ2hSSEE0Q2syYmhab05XUThZL1ByNmNidXQxZHlOUHdTWE94Z080ZFV6?=
- =?utf-8?B?ZUpBTmNrTEFxTDNnY1dBMlFGQkNHeUxKSmcrZk9na29ZOTlHKzNrMDI2VTFq?=
- =?utf-8?B?S0RJeTYvMlhsejMzTmY1WjRNQ095UUg0b3h5TWh2YzFhVngzVnVPNWhuN0JJ?=
- =?utf-8?B?Z3FqVjE2R0F0TEorQytzZDlqSi9RdWtiZktWYlFFUnhBOHlJN0QwUUJTdHpm?=
- =?utf-8?B?dDM4L1NlRUFUaldQbGp0eUZBR2dNOVpMSmlkYnIrZTZkeGdjTWp0OWhIL1hH?=
- =?utf-8?B?OThuWTNJbDlpcHYrY1BTWDlOOHFabHlRd1pQTmY2RS9pbTBxTzczaVNpWTRC?=
- =?utf-8?B?UjIxdzlUTWhVdEFPaEJVRThxWk44aVBZSjZlS0hERWJ6ZVhmUDJxdUlBWWRF?=
- =?utf-8?B?MzNjNkVjZU5kWkQ2QjU1S0VDdzUrRWljbmdPYlhURmZUZ0ZyQXEyazlEc2RM?=
- =?utf-8?B?Q0ZpeFpvaXpJZWJyOERqcmovNEZCcnpvcHRHbktvNEJNL2l1bHpmVVlEcGFt?=
- =?utf-8?B?RkhQTlBPY2Jsc1AvUyt3dUFuNkVGajlQN2JOMVRXcUpxRWJ6anE5SXJZUGxV?=
- =?utf-8?B?aTZYTkF0WVZvbEZpMWRjYWZHaCs2N2tVaXpRSUhpbVVDZHQ0S0N4dUZzNlIz?=
- =?utf-8?Q?OuPc72LUeyYakM7k8Tn0zzsZ7yIFIfa/rPZ7UP39ik=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1CBCD1B43F314048BA3F950068C0844C@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HJuGVKmkk97ru+tb/7RXCjXIvKw7ci4i8WvnM7CryrylkMdpFR1XSZ899afS?=
+ =?us-ascii?Q?npEi5IqaIjCfXIbH+GeWTa1LOyfCJmKRVOgbO3kb25c9MI3XoVgUClLdXNhi?=
+ =?us-ascii?Q?EJepWXOL7W8V9CvEZROfes6y1GKZpzcgGTteXkgMCbCdiK0IBYh5QJaiK2T6?=
+ =?us-ascii?Q?tQJOxKKc/sopJhd4U/JyTMHdEygdzxB0Fk8Eo2jWAUSPEcC0kxj9VR/Z+RpC?=
+ =?us-ascii?Q?085PJX/0eWdQhBevOlilNCGc7fsmgIYY4DoCeGeq+52DqLjZUPEPATahWV0L?=
+ =?us-ascii?Q?BBkaKgqi754kg8n+3MEhKs6QwiEIrdf/M/vpTLMWboyJoEHFFy4ymuTogDhd?=
+ =?us-ascii?Q?ptwbDAXEau0+RHDZYIcUhi3+Ji6/9WfoSry6xdldMo40DSCXiJbukz2hebrL?=
+ =?us-ascii?Q?Q3jAsbEr/llAG+85Hb2dCL4QcydFLXmZY3mKLAGhToW2lt0ZkSkV7W4q0LYi?=
+ =?us-ascii?Q?w5pYcYY0RnRMtvPZ3QCkP42v6Q7pP19WU0I9osmn4BNEmkrfKbYn5u3Gx30v?=
+ =?us-ascii?Q?yGxkN6NksEMLWm6LMNcjNwnO/PlZlR75GD5hHeDDG6zK0FOtie/IqKT0ytps?=
+ =?us-ascii?Q?zyZfbVJQsU5JbMKS6Spk9Ssq50ietGLHcFHaAdMCWLTtURvHmgkwKl73yJz5?=
+ =?us-ascii?Q?ScxlDvGt+F7j45RLeiSr4+TqiQqAq6pL2EzYJks7bK+C9QZAzO5XEIL4jc4L?=
+ =?us-ascii?Q?oLpfJUJWz3x9LizL+pSOo76h7VTsnreHXhBDOT3w3kfGdtZAvVZJvUc+ei3d?=
+ =?us-ascii?Q?AMnFCdVNO7YJAnotLfnqQqaydKwknZSxoZtDIPgPnYNRJN3Ilz22ccK2OaPj?=
+ =?us-ascii?Q?2PiOoEI3lSgGVJKHgQOIWFch7Ufy4HeabxpL2q84boUZjEhK7JxxDKOYg1AU?=
+ =?us-ascii?Q?U8m46FIWccBS0l+ZUpINDw6FGcPGfgFzg24K635ynvYleFjmQvYBmKdh6A57?=
+ =?us-ascii?Q?5Tl5VFCOZXbaEQto3zeCjnTLB4RcU2jLNlmB+C33lQJh9qP7QIa1EbCXj0C2?=
+ =?us-ascii?Q?1HeWnC0jL2tzew3Ig2KsD1KYbn2odxqIPLqooY5IOv6xgd6CXoPKb7gggSLO?=
+ =?us-ascii?Q?EpiZ1yA6rgKlJh3u7DXSFtu39lN0DQdzh0HfC0kHFjt5fK0/l5Uqjxx2dklR?=
+ =?us-ascii?Q?Ugo6eNOs+T9gbBRvud+0SBKLW5ufNw3DbDJUq0bzHaA/qaV/EfvcQmCSHeRb?=
+ =?us-ascii?Q?4gQYrjyhZV35SyHCPCcOEfr8+qylwn1OWS8RxUXluGHautqESkns0U4j2mVt?=
+ =?us-ascii?Q?hRn7rDfpxCjB9YaiZzl78byEazId2eu7Go+HlPCJJr3bVHgAr5Me/vZi96Kj?=
+ =?us-ascii?Q?aXEFZzDbIKXfDqT00RG7gq+5NbvzhbUhh9xcKpAeJtLrvQWlFFc0+PT4rl/L?=
+ =?us-ascii?Q?ty/wZ5prfkXhRPGPnLcXERhssyB+tCYwq0lIaAVIOxl29dGfQyF6LMBaZgs5?=
+ =?us-ascii?Q?XuQEuBWI85O33qWiOC+x1XKsqqlRV6PqLEtsRUz0T0kZ3sUuGkYok0TjhoqL?=
+ =?us-ascii?Q?aE0odR4eqr8fu5u2ay/Cp4VX3PC+im9JBjVVX3ZjdIztOlI5y4pMp2jDr37M?=
+ =?us-ascii?Q?hvT+zomYZZrkfqUynrpGlMpdimn/Mp9moWXVBMV5yiQTpv25t2y0Vxo/7AnX?=
+ =?us-ascii?Q?GmJNTUmF5Ax7Mszsd63RrfA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-OriginatorOrg: ambarella.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85d92bfa-00aa-46d4-d041-08d99dad38d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2021 03:02:35.6659 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR19MB4024.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03d94325-4891-4e6f-c556-08d99dc02c04
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2021 05:18:14.5804 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-id: 3ccd3c8d-5f7c-4eb4-ae6f-32d8c106402c
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: injRWoXe1GLnBEXChLNI/HU7aadu/5DgAQB0K18X1QIx92KzmNLjcvRmz1ExVzH2HqOXornggWIef70y2meCBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4395
+X-MS-Exchange-CrossTenant-userprincipalname: N8I97VaPVtl/29auTGtAHEoVDjRnVzeSRvENX704PJyWMD7oBKljuhvmGf42NU14f6uNtznraOHgum2ojjE87g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB4087
+X-Proofpoint-GUID: 4dsmBpy9hCG_DhwPwgfMgIGxu9KFP5e-
+X-Proofpoint-ORIG-GUID: 4dsmBpy9hCG_DhwPwgfMgIGxu9KFP5e-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-02_01,2021-11-01_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111020030
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211101_200237_936451_9B524474 
-X-CRM114-Status: GOOD (  13.15  )
+X-CRM114-CacheID: sfid-20211101_221852_478174_13EEF71C 
+X-CRM114-Status: GOOD (  44.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,17 +182,340 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMS8yMDIxIDQ6MTcgUE0sIENoYWl0YW55YSBLdWxrYXJuaSB3cm90ZToNCj4gRnJvbTog
-Q2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCj4gDQo+IFNvbWUgZmFicmljcyBj
-b250cm9sbGVycyB1c2UgdGhlIGNvbW1hbmQgaWQgYXMgYW4gaW5kZXggdG8NCj4gaW1wbGVtZW50
-IHNwZWNpZmljIGRhdGEgc3RydWN0dXJlcyBhbmQgd2lsbCBmYWlsIGlmIHRoZSB2YWx1ZSBpcw0K
-PiBvdXQgb2YgYm91bmRzLiBUaGUgbnZtZSBkcml2ZXIncyByZWNlbnRseSBpbnRyb2R1Y2VkIGNv
-bW1hbmQgc2VxdWVuY2UNCj4gbnVtYmVyIGJyZWFrcyB0aGVzZSBjb250cm9sbGVycy4NCj4gICAN
-Cj4gQWxsb3cgdGhlIHVzZXIgdG8gY2hvb3NlIHRoZSB1c2Ugb2YgdGhlIGdlbmN0ciBpbiBjYWxj
-dWxhdGluZyB0aGUgY29tbWFuZA0KPiBpZCB3aGVuIGNvbm5lY3RpbmcgdG8gdGhlIGZhYnJpY3Mg
-Y29udHJvbGxlci4NCj4gICANCj4gVGhlIGRyaXZlciB3aWxsIG5vdCBoYXZlIHRoZSBhYmlsaXR5
-IHRvIGRldGVjdCBiYWQgY29tcGxldGlvbnMgd2hlbg0KPiB0aGlzIGZsYWcgaXMgc2V0IHRvIGZh
-bHNlIGZvciBhIGN0cmwsIGJ1dCB3ZSB3ZXJlbid0IHByZXZpb3VzbHkNCj4gY2hlY2tpbmcgdGhp
-cyBhbnl3YXkuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBu
-dmlkaWEuY28NCg0KUGxlYXNlIGlnbm9yZSB0aGlzIHNvcnJ5IGZvciB0aGUgbm9pc2UuDQoNCg0K
+Hi, Bjorn
+
+> -----Original Message-----
+> From: Bjorn Helgaas [mailto:helgaas@kernel.org]
+> Sent: Saturday, October 30, 2021 3:43 AM
+> To: Li Chen
+> Cc: Keith Busch; linux-pci@vger.kernel.org; Lorenzo Pieralisi; Rob Herrin=
+g;
+> kw@linux.com; Bjorn Helgaas; linux-kernel@vger.kernel.org; Tom Joseph; Je=
+ns
+> Axboe; Christoph Hellwig; Sagi Grimberg; linux-nvme@lists.infradead.org
+> Subject: Re: [EXT] Re: nvme may get timeout from dd when using different =
+non-
+> prefetch mmio outbound/ranges
+>=20
+> On Fri, Oct 29, 2021 at 10:52:37AM +0000, Li Chen wrote:
+> > > -----Original Message-----
+> > > From: Keith Busch [mailto:kbusch@kernel.org]
+> > > Sent: Tuesday, October 26, 2021 12:16 PM
+> > > To: Li Chen
+> > > Cc: Bjorn Helgaas; linux-pci@vger.kernel.org; Lorenzo Pieralisi; Rob =
+Herring;
+> > > kw@linux.com; Bjorn Helgaas; linux-kernel@vger.kernel.org; Tom Joseph;
+> Jens
+> > > Axboe; Christoph Hellwig; Sagi Grimberg; linux-nvme@lists.infradead.o=
+rg
+> > > Subject: Re: [EXT] Re: nvme may get timeout from dd when using differ=
+ent
+> non-
+> > > prefetch mmio outbound/ranges
+> > >
+> > > On Tue, Oct 26, 2021 at 03:40:54AM +0000, Li Chen wrote:
+> > > > My nvme is " 05:00.0 Non-Volatile memory controller: Samsung Electr=
+onics
+> Co
+> > > Ltd NVMe SSD Controller 980". From its datasheet,
+> > > https://urldefense.com/v3/__https://s3.ap-northeast-
+> > >
+> 2.amazonaws.com/global.semi.static/Samsung_NVMe_SSD_980_Data_Sheet_R
+> > >
+> ev.1.1.pdf__;!!PeEy7nZLVv0!3MU3LdTWuzON9JMUkq29zwJM4d7g7wKtkiZszTu-
+> > > PVepWchI_uLHpQGgdR_LEZM$ , it says nothing about CMB/SQEs, so I'm not
+> sure.
+> > > Is there other ways/tools(like nvme-cli) to query?
+> > >
+> > > The driver will export a sysfs property for it if it is supported:
+> > >
+> > >   # cat /sys/class/nvme/nvme0/cmb
+> > >
+> > > If the file doesn't exist, then /dev/nvme0 doesn't have the capabilit=
+y.
+> > >
+> > > > > > I don't know how to interpret "ranges".  Can you supply the dme=
+sg and
+> > > > > > "lspci -vvs 0000:05:00.0" output both ways, e.g.,
+> > > > > >
+> > > > > >   pci_bus 0000:00: root bus resource [mem 0x7f800000-0xefffffff
+> window]
+> > > > > >   pci_bus 0000:00: root bus resource [mem 0xfd000000-0xfe7fffff
+> window]
+> > > > > >   pci 0000:05:00.0: [vvvv:dddd] type 00 class 0x...
+> > > > > >   pci 0000:05:00.0: reg 0x10: [mem 0x.....000-0x.....fff ...]
+> > > > > >
+> > > > > > > Question:
+> > > > > > > 1.  Why dd can cause nvme timeout? Is there more debug ways?
+> > > > >
+> > > > > That means the nvme controller didn't provide a response to a pos=
+ted
+> > > > > command within the driver's latency tolerance.
+> > > >
+> > > > FYI, with the help of pci bridger's vendor, they find something
+> > > > interesting:
+> > > "From catc log, I saw some memory read pkts sent from SSD card,
+> > > but its memory range is within the memory range of switch down
+> > > port. So, switch down port will replay UR pkt. It seems not
+> > > normal." and "Why SSD card send out some memory pkts which memory
+> > > address is within switch down port's memory range. If so, switch
+> > > will response UR pkts". I also don't understand how can this
+> > > happen?
+> > >
+> > > I think we can safely assume you're not attempting peer-to-peer,
+> > > so that behavior as described shouldn't be happening. It sounds
+> > > like the memory windows may be incorrect. The dmesg may help to
+> > > show if something appears wrong.
+> >
+> > Agree that here doesn't involve peer-to-peer DMA. After conforming
+> > from switch vendor today, the two ur(unsupported request) is because
+> > nvme is trying to dma read dram with bus address 80d5000 and
+> > 80d5100. But the two bus addresses are located in switch's down port
+> > range, so the switch down port report ur.
+> >
+> > In our soc, dma/bus/pci address and physical/AXI address are 1:1,
+> > and DRAM space in physical memory address space is 000000.0000 -
+> > 0fffff.ffff 64G, so bus address 80d5000 and 80d5100 to cpu address
+> > are also 80d5000 and 80d5100, which both located inside dram space.
+> >
+> > Both our bootloader and romcode don't enum and configure pcie
+> > devices and switches, so the switch cfg stage should be left to
+> > kernel.
+> >
+> > Come back to the subject of this thread: " nvme may get timeout from
+> > dd when using different non-prefetch mmio outbound/ranges". I found:
+> >
+> > 1. For <0x02000000 0x00 0x08000000 0x20 0x08000000 0x00 0x04000000>;
+> > (which will timeout nvme)
+> >
+> > Switch(bridge of nvme)'s resource window:
+> > Memory behind bridge: Memory behind bridge: 08000000-080fffff [size=3D1=
+M]
+> >
+> > 80d5000 and 80d5100 are both inside this range.
+>=20
+> The PCI host bridge MMIO window is here:
+>=20
+>   pci_bus 0000:00: root bus resource [mem 0x2008000000-0x200bffffff] (bus
+> address [0x08000000-0x0bffffff])
+>   pci 0000:01:00.0: PCI bridge to [bus 02-05]
+>   pci 0000:01:00.0:   bridge window [mem 0x2008000000-0x20080fffff]
+>   pci 0000:02:06.0: PCI bridge to [bus 05]
+>   pci 0000:02:06.0:   bridge window [mem 0x2008000000-0x20080fffff]
+>   pci 0000:05:00.0: BAR 0: assigned [mem 0x2008000000-0x2008003fff 64bit]
+>=20
+> So bus address [0x08000000-0x0bffffff] is the area used for PCI BARs.
+> If the NVMe device is generating DMA transactions to 0x080d5000, which
+> is inside that range, those will be interpreted as peer-to-peer
+> transactions.  But obviously that's not intended and there's no device
+> at 0x080d5000 anyway.
+>=20
+> My guess is the nvme driver got 0x080d5000 from the DMA API, e.g.,
+> dma_map_bvec() or dma_map_sg_attrs(), so maybe there's something wrong
+> in how that's set up.  Is there an IOMMU?  There should be arch code
+> that knows what RAM is available for DMA buffers, maybe based on the
+> DT.  I'm not really familiar with how all that would be arranged, but
+> the complete dmesg log and complete DT might have a clue.  Can you
+> post those somewhere?
+
+After some printk, I found nvme_pci_setup_prps get some dma addresses insid=
+e switch's memory window from sg, but I don't where the sg is from(see comm=
+ents in following source codes):
+
+static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+		struct request *req, struct nvme_rw_command *cmnd)
+{
+	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+	struct dma_pool *pool;
+	int length =3D blk_rq_payload_bytes(req);
+	struct scatterlist *sg =3D iod->sg;
+	int dma_len =3D sg_dma_len(sg);
+	u64 dma_addr =3D sg_dma_address(sg);
+                ......
+	for (;;) {
+		if (i =3D=3D NVME_CTRL_PAGE_SIZE >> 3) {
+			__le64 *old_prp_list =3D prp_list;
+			prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+			printk("lchen %s %d dma pool %llx", __func__, __LINE__, prp_dma);
+			if (!prp_list)
+				goto free_prps;
+			list[iod->npages++] =3D prp_list;
+			prp_list[0] =3D old_prp_list[i - 1];
+			old_prp_list[i - 1] =3D cpu_to_le64(prp_dma);
+			i =3D 1;
+		}
+		prp_list[i++] =3D cpu_to_le64(dma_addr);
+		dma_len -=3D NVME_CTRL_PAGE_SIZE;
+		dma_addr +=3D NVME_CTRL_PAGE_SIZE;
+		length -=3D NVME_CTRL_PAGE_SIZE;
+		if (length <=3D 0)
+			break;
+		if (dma_len > 0)
+			continue;
+		if (unlikely(dma_len < 0))
+			goto bad_sgl;
+		sg =3D sg_next(sg);
+		dma_addr =3D sg_dma_address(sg);
+		dma_len =3D sg_dma_len(sg);
+
+
+		// XXX: Here get the following output, the region is inside bridge's wind=
+ow 08000000-080fffff [size=3D1M]
+		/*
+
+# dmesg | grep " 80" | grep -v "  80"
+[    0.000476] Console: colour dummy device 80x25
+[   79.331766] lchen dma nvme_pci_setup_prps 708 addr 80ba000, end addr 80b=
+c000
+[   79.815469] lchen dma nvme_pci_setup_prps 708 addr 8088000, end addr 809=
+0000
+[  111.562129] lchen dma nvme_pci_setup_prps 708 addr 8088000, end addr 809=
+0000
+[  111.873690] lchen dma nvme_pci_setup_prps 708 addr 80ba000, end addr 80b=
+c000
+			 * * */
+		printk("lchen dma %s %d addr %llx, end addr %llx", __func__, __LINE__, dm=
+a_addr, dma_addr + dma_len);
+	}
+done:
+	cmnd->dptr.prp1 =3D cpu_to_le64(sg_dma_address(iod->sg));
+	cmnd->dptr.prp2 =3D cpu_to_le64(iod->first_dma);
+	return BLK_STS_OK;
+free_prps:
+	nvme_free_prps(dev, req);
+	return BLK_STS_RESOURCE;
+bad_sgl:
+	WARN(DO_ONCE(nvme_print_sgl, iod->sg, iod->nents),
+			"Invalid SGL for payload:%d nents:%d\n",
+			blk_rq_payload_bytes(req), iod->nents);
+	return BLK_STS_IOERR;
+}
+
+Backtrace of this function:
+# entries-in-buffer/entries-written: 1574/1574   #P:2
+#
+#                                _-----=3D> irqs-off
+#                               / _----=3D> need-resched
+#                              | / _---=3D> hardirq/softirq
+#                              || / _--=3D> preempt-depth
+#                              ||| /     delay
+#           TASK-PID     CPU#  ||||   TIMESTAMP  FUNCTION
+#              | |         |   ||||      |         |
+    kworker/u4:0-7       [000] ...1    40.095494: nvme_queue_rq <-blk_mq_di=
+spatch_rq_list
+    kworker/u4:0-7       [000] ...1    40.095503: <stack trace>
+ =3D> nvme_queue_rq
+ =3D> blk_mq_dispatch_rq_list
+ =3D> __blk_mq_do_dispatch_sched
+ =3D> __blk_mq_sched_dispatch_requests
+ =3D> blk_mq_sched_dispatch_requests
+ =3D> __blk_mq_run_hw_queue
+ =3D> __blk_mq_delay_run_hw_queue
+ =3D> blk_mq_run_hw_queue
+ =3D> blk_mq_sched_insert_requests
+ =3D> blk_mq_flush_plug_list
+ =3D> blk_flush_plug_list
+ =3D> blk_mq_submit_bio
+ =3D> __submit_bio_noacct_mq
+ =3D> submit_bio_noacct
+ =3D> submit_bio
+ =3D> submit_bh_wbc.constprop.0
+ =3D> __block_write_full_page
+ =3D> block_write_full_page
+ =3D> blkdev_writepage
+ =3D> __writepage
+ =3D> write_cache_pages
+ =3D> generic_writepages
+ =3D> blkdev_writepages
+ =3D> do_writepages
+ =3D> __writeback_single_inode
+ =3D> writeback_sb_inodes
+ =3D> __writeback_inodes_wb
+ =3D> wb_writeback
+ =3D> wb_do_writeback
+ =3D> wb_workfn
+ =3D> process_one_work
+ =3D> worker_thread
+ =3D> kthread
+ =3D> ret_from_fork
+
+
+We don't have IOMMU and just have 1:1 mapping dma outbound.=20
+
+
+Here is the whole dmesg output(without my debug log): https://paste.debian.=
+net/1217721/
+Here is our dtsi: https://paste.debian.net/1217723/
+>=20
+> > 2. For <0x02000000 0x00 0x00400000 0x20 0x00400000 0x00 0x08000000>;
+> > (which make nvme not timeout)
+> >
+> > Switch(bridge of nvme)'s resource window:
+> > Memory behind bridge: Memory behind bridge: 00400000-004fffff [size=3D1=
+M]
+> >
+> > 80d5000 and 80d5100 are not inside this range, so if nvme tries to
+> > read 80d5000 and 80d5100 , ur won't happen.
+> >
+> > From /proc/iomen:
+> > # cat /proc/iomem
+> > 01200000-ffffffff : System RAM
+> >   01280000-022affff : Kernel code
+> >   022b0000-0295ffff : reserved
+> >   02960000-040cffff : Kernel data
+> >   05280000-0528ffff : reserved
+> >   41cc0000-422c0fff : reserved
+> >   422c1000-4232afff : reserved
+> >   4232d000-667bbfff : reserved
+> >   667bc000-667bcfff : reserved
+> >   667bd000-667c0fff : reserved
+> >   667c1000-ffffffff : reserved
+> > 2000000000-2000000fff : cfg
+> >
+> > No one uses 0000000-1200000, so " Memory behind bridge: Memory
+> > behind bridge: 00400000-004fffff [size=3D1M]" will never have any
+> > problem(because 0x1200000 > 0x004fffff).
+> >
+> > Above answers the question in Subject, one question left: what's the
+> > right way to resolve this problem? Use ranges property to configure
+> > switch memory window indirectly(just what I did)? Or something else?
+> >
+> > I don't think changing range property is the right way: If my PCIe
+> > topology becomes more complex and have more endpoints or switches,
+> > maybe I have to reserve more MMIO through range property(please
+> > correct me if I'm wrong), the end of switch's memory window may be
+> > larger than 0x01200000. In case getting ur again,  I must reserve
+> > more physical memory address for them(like change kernel start
+> > address 0x01200000 to 0x02000000), which will make my visible dram
+> > smaller(I have verified it with "free -m"), it is not acceptable.
+>=20
+> Right, I don't think changing the PCI ranges property is the right
+> answer.  I think it's just a coincidence that moving the host bridge
+> MMIO aperture happens to move it out of the way of the DMA to
+> 0x080d5000.
+>=20
+> As far as I can tell, the PCI core and the nvme driver are doing the
+> right things here, and the problem is something behind the DMA API.
+>=20
+> I think there should be something that removes the MMIO aperture bus
+> addresses, i.e., 0x08000000-0x0bffffff in the timeout case, from the
+> pool of memory available for DMA buffers.
+>=20
+> The MMIO aperture bus addresses in the non-timeout case,
+> 0x00400000-0x083fffff, are not included in the 0x01200000-0xffffffff
+> System RAM area, which would explain why a DMA buffer would never
+> overlap with it.
+>=20
+> Bjorn
+
+Regards,
+Li
+
+**********************************************************************
+This email and attachments contain Ambarella Proprietary and/or Confidentia=
+l Information and is intended solely for the use of the individual(s) to wh=
+om it is addressed. Any unauthorized review, use, disclosure, distribute, c=
+opy, or print is prohibited. If you are not an intended recipient, please c=
+ontact the sender by reply email and destroy all copies of the original mes=
+sage. Thank you.
 
