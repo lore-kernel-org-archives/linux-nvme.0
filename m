@@ -2,71 +2,77 @@ Return-Path: <SRS0=DxE/=PW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B94C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 08:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3427DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 08:19:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2823060F5A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 08:06:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2823060F5A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=hisilicon.com
+	by mail.kernel.org (Postfix) with ESMTPS id EC3EC6113B
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 08:19:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EC3EC6113B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:CC:References:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4mGA7Xucphb5INUB+X36A8SbQOPv94fGaDQlOqNC224=; b=dsfVfhQfkSFv8HcqKlCdLFxdJ0
-	3SGuUbGTxZx29fPJLeW7l5BsEKB8s02Z7HD/7MyJo/2zx8Ig47AU1foam0nzDvLpmBW1QqYVE0MJH
-	BJLRNY8T7JfKeIz2a4ArUxhSU7pWZg6D2t8dxYiXOfEr3h++BL4l+aiiyTsR2kXJJ3XsM50NRSy45
-	RVu7mh41OsFbri/BJJuBtZgQeNrz5FmyBgG8gmcvZheiC2UMyleqaqcmIuoj7BuTNS5cKzkkgz7iw
-	ocGNTiYchxtGr7rDsZ3Ov+s0rh65Bx188swZ/hvu5saQLhDtY9eQMPknuMy5SAvuHwB33Q6wmfI8D
-	8najd0AQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=JZtCwcUJrAi7/VWXFyEdpb/WYXB6YikAvmQRZbTtUgM=; b=1TvhZfnpIqL8yqjJB5u2c1Du7K
+	gXmnaNnQxPFFBNX2fGkupSuNjoc9icGTY1V5+s/SMaSi8VhlEKi021LwfV52ISyiUqg6N1aBZZJjB
+	U9weSmXBiLzAhgMoJ04XVi+CrT/ihOG62Yo9noTuLvuSoiZwMEpbERA39O+NxNoy7icI7uST6BstB
+	U5RN+EwEXYN0lmGsBfh/jGp4iK+Wn67S8tpATWIWYVg3I37lMCqnAQMgk1CFS4EyVs0+6GVN9p9/f
+	mK9WaI+xaJiqcy1+OGlqaTozxGKKjjXUN7lfqFJGim1BQKuX67GEIwRFuud7C76ocXGN4bDUDA46u
+	qJbH/7Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1miBHP-004SyL-RQ; Wed, 03 Nov 2021 08:05:55 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1miBUm-004VR5-1Q; Wed, 03 Nov 2021 08:19:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1miBHM-004Sx1-N8
- for linux-nvme@lists.infradead.org; Wed, 03 Nov 2021 08:05:54 +0000
-Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HkfTT17R2z90k7;
- Wed,  3 Nov 2021 16:05:33 +0800 (CST)
-Received: from [127.0.0.1] (10.40.193.166) by dggeme756-chm.china.huawei.com
- (10.3.19.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.15; Wed, 3
- Nov 2021 16:05:41 +0800
-Subject: Re: [PATCH 14/16] block: switch polling to be bio based
-To: Christoph Hellwig <hch@lst.de>
-References: <20211012111226.760968-1-hch@lst.de>
- <20211012111226.760968-15-hch@lst.de>
- <beb633f4-4508-ea53-4a34-adf0f20cda85@hisilicon.com>
- <20211103072223.GB31003@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>, Jeffle Xu <jefflexu@linux.alibaba.com>, Ming
- Lei <ming.lei@redhat.com>, Damien Le Moal <Damien.LeMoal@wdc.com>, Keith
- Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, "Wunderlich,
- Mark" <mark.wunderlich@intel.com>, "Vasudevan, Anil"
- <anil.vasudevan@intel.com>, <linux-block@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-From: "chenxiang (M)" <chenxiang66@hisilicon.com>
-Message-ID: <eb91f95b-4cb2-ef6f-a204-15b8b0077f81@hisilicon.com>
-Date: Wed, 3 Nov 2021 16:05:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+ id 1miBTW-004UdX-Ub
+ for linux-nvme@lists.infradead.org; Wed, 03 Nov 2021 08:18:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635927504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JZtCwcUJrAi7/VWXFyEdpb/WYXB6YikAvmQRZbTtUgM=;
+ b=cgIbOuCa5xdk7LgKglba1Cc1mqFUhJOuc5vd5+BsJGkP3RG7zmxJBrf4V/Cn01LLYEgr6X
+ 9yEBTJuiD3rZqlAbNOrwSIcGeP9pT3WzC+E+Xdj9h8a/0zTD+Dncbp3jy3NehMyBhUh/NI
+ Al3exebxSQgoKIahx2DKcxOWbV0FQJI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-szDt8C7EO-yZ6plLXVc6pw-1; Wed, 03 Nov 2021 04:18:21 -0400
+X-MC-Unique: szDt8C7EO-yZ6plLXVc6pw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C54A10A8E00;
+ Wed,  3 Nov 2021 08:18:20 +0000 (UTC)
+Received: from raketa.redhat.com (unknown [10.40.193.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C174760C05;
+ Wed,  3 Nov 2021 08:18:18 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCH] nvme-tcp: fix memory leak when freeing a queue
+Date: Wed,  3 Nov 2021 09:18:17 +0100
+Message-Id: <20211103081817.94820-1-mlombard@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211103072223.GB31003@lst.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.40.193.166]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggeme756-chm.china.huawei.com (10.3.19.102)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="US-ASCII"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211103_010553_050151_6FA92AE4 
-X-CRM114-Status: UNSURE (   8.18  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211103_011827_107099_E81FFA06 
+X-CRM114-Status: GOOD (  11.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,16 +87,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Release the page frag cache when tearing down the io queues
 
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/host/tcp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-在 2021/11/3 15:22, Christoph Hellwig 写道:
-> On Wed, Nov 03, 2021 at 03:11:25PM +0800, chenxiang (M) wrote:
->> For some scsi command sent by function __scsi_execute() without data, it
->> has request but no bio (bufflen = 0),
->> then how to use bio_poll() for them ?
-> You can't send these requests as polled.  Note that these are passthrough
-> requests only.
-
-Understood, thanks.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 07156ea9d1a8..999417626b15 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1229,6 +1229,7 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+ 
+ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ {
++	struct page *page;
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+ 
+@@ -1238,6 +1239,11 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvme_tcp_free_crypto(queue);
+ 
++	if (queue->pf_cache.va) {
++		page = virt_to_head_page(queue->pf_cache.va);
++		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
++		queue->pf_cache.va = NULL;
++	}
+ 	sock_release(queue->sock);
+ 	kfree(queue->pdu);
+ 	mutex_destroy(&queue->send_mutex);
+-- 
+2.27.0
 
 
