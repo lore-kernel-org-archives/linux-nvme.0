@@ -2,14 +2,14 @@ Return-Path: <SRS0=DxE/=PW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D4CC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 10:45:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 997FDC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 11:03:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E328760524
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 10:45:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E328760524
+	by mail.kernel.org (Postfix) with ESMTPS id 69AC26103B
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Nov 2021 11:03:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69AC26103B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,52 +18,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UKjM8KQkY11zyN0i3t01mXgIi/4Vd7w8FzA375EM8BA=; b=BLUgvtBFG8kgpxhXNJv/EdPjsV
-	5QEEG+lWtP1HnFNUobUVYk6R1PtzMTxw1p1ebje+Ly9vty+D/K5pBkBq4RrY8VXayrteRBliJ7Tc5
-	3DJHbNACrPCQjDeFy4QevnK4RhCFdjLgkVYu5c+s0k/cWb/5eRfG+DTUPNk7sF+m+4twiFY02ki1e
-	7YiMGo6xYSkkuRgThYj1I4O6x9OiaY/luZhWg5DXNy2AOub9dT3IsNqDm+tdMP0gV9Flzm4/khbvs
-	SPAD+Hh2aUNMVZSobN1KRuIuL8fArN6kHRT8q88B8SKBn4puFTQsAASC/zmEYCmevjIRw6VEqbhQR
-	/axn4B4g==;
+	bh=GNKj2A9aHZSA2A3kXt7jqTmGai+Do+jtz82gXUgVuCc=; b=b4TlbaP4zRu2kvdRkk8X8j/kA4
+	VmBILGSTfJ+CflrmWFjGO1TXBHu4WsFJYryWTT4aN1qwudhHbo3QXF4CGcmHK6wi6x2J0e10zp0sp
+	rzo3Wo94WxgcpggU79xc5JbPriFclUmsYSp1MQ7CCOkKLF231Pfjyr1cm9Y6xXuesVsXv4VsFpHSq
+	nPpuLb7aGEkFcVNETcWrOKsp+f13joLrQUNrx0N+dYHwU16e3WU2SoeaisEMVk51HgTlg40OhgmWT
+	2bp2xmXAGG5p6tf3LXyAfgG8vEVIl2qb+D10nJ6J/XQo7xkaffICxUtAxEgFwpJCWKWN3o6dXDW+8
+	W0KqIAyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1miDm7-004ryv-IH; Wed, 03 Nov 2021 10:45:47 +0000
+	id 1miE3A-004uAz-6T; Wed, 03 Nov 2021 11:03:24 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1miDm4-004ryN-Bo
- for linux-nvme@lists.infradead.org; Wed, 03 Nov 2021 10:45:45 +0000
+ id 1miE37-004uAE-PK
+ for linux-nvme@lists.infradead.org; Wed, 03 Nov 2021 11:03:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635936342;
+ s=mimecast20190719; t=1635937400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UKjM8KQkY11zyN0i3t01mXgIi/4Vd7w8FzA375EM8BA=;
- b=V23SBngJ7aCxeAHyCVE1nb6q68xPr6lnKQ1+uLI8bMARru6EoFQ1GpLFtCePc8NTFYeGmo
- 16/MhWxmcTnruRHlkh8cJRaPgoRNKqvB2up8zEfvBXMY8fhF+ALXcg9D2oZrR/rBc+q6I9
- 1Ld+vGDwE4AI8sowa22ZQrbQA40NdAc=
+ bh=GNKj2A9aHZSA2A3kXt7jqTmGai+Do+jtz82gXUgVuCc=;
+ b=M2PbFPstcG9F858I9b2CQWy+4VklOCqD2GA1BYNWkpPHy9g2X7GLM+dbfzI5nP7CG07fnt
+ hz48i7swvz3Z2BMcBIsVYuVAqhgdceqHHw7ygCF4Djcp5+8EBHqJR00WQCSGY6HmqQS31H
+ V3PofBJiVS1BoRojxKFfCE7CgJbU9Is=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-i1RCmjlpMJ6XP_-SApq-9w-1; Wed, 03 Nov 2021 06:45:39 -0400
-X-MC-Unique: i1RCmjlpMJ6XP_-SApq-9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-474-GsGEFW6zOUaU6b_TUZfe6A-1; Wed, 03 Nov 2021 07:03:15 -0400
+X-MC-Unique: GsGEFW6zOUaU6b_TUZfe6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BBE5100B700;
- Wed,  3 Nov 2021 10:45:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FCF987D541;
+ Wed,  3 Nov 2021 11:03:14 +0000 (UTC)
 Received: from raketa (unknown [10.40.193.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D4991ACBB;
- Wed,  3 Nov 2021 10:45:34 +0000 (UTC)
-Date: Wed, 3 Nov 2021 11:45:16 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F7B36788F;
+ Wed,  3 Nov 2021 11:03:12 +0000 (UTC)
+Date: Wed, 3 Nov 2021 12:03:10 +0100
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com, hch@lst.de
 Subject: Re: [PATCH] nvme-tcp: fix memory leak when freeing a queue
-Message-ID: <20211103104516.GD4840@raketa>
+Message-ID: <20211103110310.GE4840@raketa>
 References: <20211103081817.94820-1-mlombard@redhat.com>
  <a609e935-f529-d87e-a950-33367694aef5@grimberg.me>
+ <20211103104516.GD4840@raketa>
 MIME-Version: 1.0
-In-Reply-To: <a609e935-f529-d87e-a950-33367694aef5@grimberg.me>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20211103104516.GD4840@raketa>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -71,8 +72,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211103_034544_624254_34BE6EFD 
-X-CRM114-Status: GOOD (  22.50  )
+X-CRM114-CacheID: sfid-20211103_040321_916239_B663D14B 
+X-CRM114-Status: GOOD (  14.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,49 +88,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 03, 2021 at 11:23:45AM +0200, Sagi Grimberg wrote:
-> 
-> > Release the page frag cache when tearing down the io queues
 > > 
-> > Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> > ---
-> >   drivers/nvme/host/tcp.c | 6 ++++++
-> >   1 file changed, 6 insertions(+)
+> > Thanks Maurizio,
 > > 
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 07156ea9d1a8..999417626b15 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -1229,6 +1229,7 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
-> >   static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
-> >   {
-> > +	struct page *page;
-> >   	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-> >   	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
-> > @@ -1238,6 +1239,11 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
-> >   	if (queue->hdr_digest || queue->data_digest)
-> >   		nvme_tcp_free_crypto(queue);
-> > +	if (queue->pf_cache.va) {
-> > +		page = virt_to_head_page(queue->pf_cache.va);
-> > +		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
-> > +		queue->pf_cache.va = NULL;
-> > +	}
+> > Why do we need to the pf_cache.va protection? nvme_tcp_free_queue
+> > is already protected against re-entry with the NVME_TCP_Q_ALLOCATED
+> > bit.
+> > 
 > 
-> Thanks Maurizio,
-> 
-> Why do we need to the pf_cache.va protection? nvme_tcp_free_queue
-> is already protected against re-entry with the NVME_TCP_Q_ALLOCATED
-> bit.
-> 
+> It's not the re-entry what worried me, I thought that nvme_tcp_free_queue()
+> might be called before page_frag_alloc() had the chance to initialize the pf_cache, triggering
+> a NULL pointer dereference. I am doing some tests right now and it seems not to be
+> possible so maybe we can drop the "if".
 
-It's not the re-entry what worried me, I thought that nvme_tcp_free_queue()
-might be called before page_frag_alloc() had the chance to initialize the pf_cache, triggering
-a NULL pointer dereference. I am doing some tests right now and it seems not to be
-possible so maybe we can drop the "if".
-
-However, we still need to set pf_cache.va to NULL because the queues might be re-used
-in the error code path and we have to prevent page_frag_alloc() from dereferencing a
-freed cache page and corrupting the memory.
+Oh wait, if nvme_tcp_setup_ctrl() fails it could call nvme_tcp_destroy_io_queues() and
+iI guess that in that case the pf_cache is not initialized, so the if(pf_cache.va) protection
+is necessary.
 
 Maurizio
 
