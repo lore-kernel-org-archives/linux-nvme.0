@@ -2,14 +2,14 @@ Return-Path: <SRS0=yHGa=PY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9A7C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Nov 2021 05:19:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B49ABC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Nov 2021 05:19:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C67061251
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Nov 2021 05:19:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8C67061251
+	by mail.kernel.org (Postfix) with ESMTPS id 405C061251
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Nov 2021 05:19:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 405C061251
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,80 +18,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E9Yjqc2hlQFoL84hQsEw/9hzTTiiiQW6vHUM7sv5Tbk=; b=bhEbbyMCDW8x8yjJ/j0uw7HF69
-	gZtrifi6qVLOhg6KMXptc+sodyOix2I2f6tyHQMrDDR78tkj/b6ga4YoD7hCDPRR88llIT0pGKLLT
-	49ktl1qdoI1S3INW0c8tcrMH9cuggAwKu6WhF5+urRAJ8kAIZxXBGL4qkc0GX9Enw0K1fSCDakctj
-	RYON6WGoEOSTtnR41BRbSr6/pTB++7WHfUpQFZUQ2hXd8PL4FH2KJ/DqSFs90il3bsdlzTfc8d/L5
-	3yPOB4zBU3N/GX5XMLGUMR2Oh2b3A3ahVqQ8RHPmXsU/xawXsu9YDCi/TkAVdpvimKrlixCga73wb
-	I/L4nHiw==;
+	bh=x2uzvMURoOMgQHNayHSfw0Z9zAIy+zY8rewnSWaIwec=; b=Nm/5dDxXjlE/CbpSzIBpFNaz6N
+	25M13hsG65pE/a26rgJSVATLPIFiVH9koBz00W+SFH1rzIiPVrF+iszoNsSPenESWo7lQdl+7bM78
+	ZqZmjFhvabWHNVJTI6O5zk1MWRfIxrKTktn49riTtCIO9u80PrLQnrL/se0KUGjin/mcspFWT3nxa
+	KWoCbIBsZbky07gTRTRGxMqWqmO8vqlktpETYWfLQumgxx3TqRugeOD5+CW1acgce15QSsocYCEIE
+	P2/tdZgi+PJt135NSz3np+psMRukgIHn6ApU7Qx6+bppcLpuTtWNOtr8o8QLcJEDvaeauOXk6rORc
+	G6d5TKew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mirdR-00AcGE-9n; Fri, 05 Nov 2021 05:19:29 +0000
+	id 1mirdb-00AcHL-5d; Fri, 05 Nov 2021 05:19:39 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1milMc-00A4in-8l
- for linux-nvme@lists.infradead.org; Thu, 04 Nov 2021 22:37:43 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B13666112E;
- Thu,  4 Nov 2021 22:37:38 +0000 (UTC)
+ id 1milTl-00A5R1-9w
+ for linux-nvme@lists.infradead.org; Thu, 04 Nov 2021 22:45:06 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 34F0561220;
+ Thu,  4 Nov 2021 22:45:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636065461;
- bh=d0SlTjW092+hNldgcKqMvjRj8A4fH3dQeSYxjCXIE+c=;
+ s=k20201202; t=1636065903;
+ bh=ULRO/b21e2jF5Il9UheXH6nsdKwZYueNSl7SVt5O9zM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p2Z1NXGFJcrDHRSJ4YsljTKXDwTIDfXjPxjuw4cAkJqfDVc7cASUlgwflC88tOweV
- JFP5arOcXbccjl5/V+EMbowyZTqn0MQ4afVsp5xV3ebPz89zxsZB5eQJoiOoRAUyM3
- vuWV/QVVj/EJhT6iJoToF4AGQnqZIXLhmWwXYe+0wuAmdxpFNjA+HlW8qMhcs90gRl
- XhCLuHp8KdWMvBLiFUBTKBvwZgadkK57w6drNa6+5g6puakjnWhz/GhxocC1DYtZh0
- IicrB7Jg7pWPnaBNvAuE6xBflXcJyk8Y1t2dmz+iFrFE+plPRYZ2Ly3cgts6eM5evQ
- uI+hx3W5popiw==
-Date: Thu, 4 Nov 2021 15:37:36 -0700
+ b=ZUlP9UzxX3fkNEDMeQgJtLu4w9c+qEK9huvXYqqHBTEkI3uCuqX0tLz5RVvdLWyh/
+ hZ8PhEBO4htT2iwl68hfYDFMT0oyEA9gelhnZ4O4FxB+iv3cAPiOIZr8G3sshzoooj
+ Df8MZwd+A2ohPEGqD8UoQcly2xD1WL9Wyp4vXPhDmviwFLLDhqb68g1n9gqXVHMizl
+ dpwXmmfrHcKHvT3m3c8DH0lW0s4UTfcbIw75uZFJSLVW6Y3erFMaBpiAyjTvKeuWhs
+ rHGgvZikJbnsNW9oovgkNlETNpgHvyVU3jrmTV6/dRMoC2wTI6ORrvKvxCBKcr888g
+ 8tVcvq2G9A3rQ==
+Date: Thu, 4 Nov 2021 15:44:59 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "axboe@kernel.dk" <axboe@kernel.dk>, "agk@redhat.com" <agk@redhat.com>,
- "snitzer@redhat.com" <snitzer@redhat.com>,
- "song@kernel.org" <song@kernel.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
- "javier@javigon.com" <javier@javigon.com>,
- "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
- "bvanassche@acm.org" <bvanassche@acm.org>,
- "dongli.zhang@oracle.com" <dongli.zhang@oracle.com>,
- "ming.lei@redhat.com" <ming.lei@redhat.com>,
- "osandov@fb.com" <osandov@fb.com>,
- "willy@infradead.org" <willy@infradead.org>,
- "jefflexu@linux.alibaba.com" <jefflexu@linux.alibaba.com>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
- "jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
- "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "jlayton@kernel.org" <jlayton@kernel.org>,
- "idryomov@gmail.com" <idryomov@gmail.com>,
- "danil.kipnis@cloud.ionos.com" <danil.kipnis@cloud.ionos.com>,
- "ebiggers@google.com" <ebiggers@google.com>,
- "jinpu.wang@cloud.ionos.com" <jinpu.wang@cloud.ionos.com>
-Subject: Re: [RFC PATCH 0/8] block: add support for REQ_OP_VERIFY
-Message-ID: <20211104223736.GA2655721@dhcp-10-100-145-180.wdc.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, dm-devel@redhat.com, axboe@kernel.dk,
+ agk@redhat.com, snitzer@redhat.com, song@kernel.org,
+ djwong@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, viro@zeniv.linux.org.uk,
+ javier@javigon.com, johannes.thumshirn@wdc.com, bvanassche@acm.org,
+ dongli.zhang@oracle.com, ming.lei@redhat.com, osandov@fb.com,
+ willy@infradead.org, jefflexu@linux.alibaba.com,
+ josef@toxicpanda.com, clm@fb.com, dsterba@suse.com, jack@suse.com,
+ tytso@mit.edu, adilger.kernel@dilger.ca, jlayton@kernel.org,
+ idryomov@gmail.com, danil.kipnis@cloud.ionos.com,
+ ebiggers@google.com, jinpu.wang@cloud.ionos.com,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [RFC PATCH 3/8] nvme: add support for the Verify command
+Message-ID: <20211104224459.GB2655721@dhcp-10-100-145-180.wdc.com>
 References: <20211104064634.4481-1-chaitanyak@nvidia.com>
- <20211104071439.GA21927@lst.de>
- <661bcadd-a030-4a72-81ae-ef15080f0241@nvidia.com>
- <20211104173235.GI2237511@magnolia> <20211104173431.GA31740@lst.de>
+ <20211104064634.4481-4-chaitanyak@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211104173431.GA31740@lst.de>
+In-Reply-To: <20211104064634.4481-4-chaitanyak@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211104_153742_360529_FC99C629 
-X-CRM114-Status: GOOD (  15.46  )
+X-CRM114-CacheID: sfid-20211104_154505_403783_1B616736 
+X-CRM114-Status: GOOD (  12.46  )
 X-Mailman-Approved-At: Thu, 04 Nov 2021 22:19:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -107,18 +87,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 04, 2021 at 06:34:31PM +0100, Christoph Hellwig wrote:
-> On Thu, Nov 04, 2021 at 10:32:35AM -0700, Darrick J. Wong wrote:
-> > I also wonder if it would be useful (since we're already having a
-> > discussion elsewhere about data integrity syscalls for pmem) to be able
-> > to call this sort of thing against files?  In which case we'd want
-> > another preadv2 flag or something, and then plumb all that through the
-> > vfs/iomap as needed?
-> 
-> IFF we do this (can't answer if there is a need) we should not
-> overload read with it.  It is an operation that does not return
-> data but just a status, so let's not get into that mess.
+On Wed, Nov 03, 2021 at 11:46:29PM -0700, Chaitanya Kulkarni wrote:
+> +static inline blk_status_t nvme_setup_verify(struct nvme_ns *ns,
+> +		struct request *req, struct nvme_command *cmnd)
+> +{
 
-If there is a need for this, a new io_uring opcode seems like the
-appropirate user facing interface for it.
+Due to recent driver changes, you need a "memset(cmnd, 0, sizeof(*cmnd))"
+prior to setting up the rest of the command, or you need to set each
+command dword individually.
+
+> +	cmnd->verify.opcode = nvme_cmd_verify;
+> +	cmnd->verify.nsid = cpu_to_le32(ns->head->ns_id);
+> +	cmnd->verify.slba =
+> +		cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
+> +	cmnd->verify.length =
+> +		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
+> +	cmnd->verify.control = 0;
+> +	return BLK_STS_OK;
+> +}
+
+> +static void nvme_config_verify(struct gendisk *disk, struct nvme_ns *ns)
+> +{
+> +	u64 max_blocks;
+> +
+> +	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_VERIFY))
+> +		return;
+> +
+> +	if (ns->ctrl->max_hw_sectors == UINT_MAX)
+> +		max_blocks = (u64)USHRT_MAX + 1;
+> +	else
+> +		max_blocks = ns->ctrl->max_hw_sectors + 1;
+
+If supported by the controller, this maximum is defined in the non-mdts
+command limits in NVM command set specific Identify Controller VSL field.
+
+> +
+> +	/* keep same as discard */
+> +	if (blk_queue_flag_test_and_set(QUEUE_FLAG_VERIFY, disk->queue))
+> +		return;
+> +
+> +	blk_queue_max_verify_sectors(disk->queue,
+> +				     nvme_lba_to_sect(ns, max_blocks));
+> +
+> +}
 
