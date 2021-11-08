@@ -2,14 +2,14 @@ Return-Path: <SRS0=LsNR=P3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08FFEC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 14:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F62AC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 14:48:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BACC361359
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 14:48:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BACC361359
+	by mail.kernel.org (Postfix) with ESMTPS id 113AA61361
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 14:48:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 113AA61361
 Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,75 +18,75 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iq5R2UTpSuhQkBz2YG/zOVfozh66lE9pSY5jvCO/exE=; b=LGtSkEp+4AdFNumAYnVG8QDSiY
-	Jpx9mjZimklQR2Ympjh/EqZtQpNWIfnbcH1IykdHLEqBNY/LZYacKaLmnjpfNguWwKI4/HumJU/no
-	U47YNSmfwDmpZTsZ5A1BU6680H2ij1qEjhzhvd7dOMZJx7q7CMzpB/loiPXzRoOdZL6mtA5sSGonL
-	Q5LSz+IPc94rADZVWB09Qka5n29SGxwSQH4JJRbIhc9p4zfi6JDTyjXX0KB9evM6AOCHhyCfbabQ1
-	yLWYGr3pbMKXwTADEeNZ0XKvti0STqb/mvVxX5SFpYEvwnaHA/p3HTuFCvFOnFYGvVsqFw8QUSOmh
-	Kl/X/R9g==;
+	bh=/+fG5fRNYbsOufqVZj6pHCNFgmRqT7l5pnoR7vs36qA=; b=2gIxCuV4wdD1dz8JHciyWVBSGk
+	aXcv2omPvJp1804CXExkNYXKkYW+nQpErJNMFOGjKDdmiXhVeEdB3ebTLHFI8Su+7SUDNsqD46oGc
+	+NNmuM/oK2ByymWLnLCBFiyI7XlpPI7fJRGahVC61UilKu+OcVZnPG0QxYSlaPNoSzOKoH3hZ5IrW
+	htGHnXOJa1siGDUtODmI6iZOhJJSK0mqT4SujkysJtdMAJh4rT+FyBWGvwxbtbGHv6MNTXB+L/F7V
+	UEjLb2dGGWhDRFyteMpIMG+e41xCEeZHvTOKBvqN/lQk4iK891i/6//g0b6E6nD4SG6sjiy3ZwiwN
+	wkaShSFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mk5wS-00Gi9n-CW; Mon, 08 Nov 2021 14:48:12 +0000
-Received: from mail-dm6nam10on2051.outbound.protection.outlook.com
- ([40.107.93.51] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1mk5wh-00GiD6-2X; Mon, 08 Nov 2021 14:48:27 +0000
+Received: from mail-bn8nam12on2040.outbound.protection.outlook.com
+ ([40.107.237.40] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mk5vh-00Ghyc-La
- for linux-nvme@lists.infradead.org; Mon, 08 Nov 2021 14:47:27 +0000
+ id 1mk5vk-00GhzC-O5
+ for linux-nvme@lists.infradead.org; Mon, 08 Nov 2021 14:47:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nbsLTlagyZBAb84BK5u+FaGXELuELRj8f7NWKxBuS8FJnbuDAWcTUuwMlI/hPmmGDjvU/FlRWqXwmzGh8urniTctzwhEpEuFULruMUl4UOD4JBGqCDLL7iP2DaoaNgkYNz4mVh2gwvPuI4y7SseUiJ3/3l8R7CyIfrt0WZEhaDNavkKx5GYhYUhD/ItQNaajUjjsd/w8DPT7VhX/gr+4GiBPKCR+48dnlhpxw5RdZWfNq54qQPfXzZoTC8uWPCg+fvRY4uv31KEltKp5sOcGr92m/JUVjHyFoQjETMG4B38wxTcXHUHozKzfFZu2X1W/NlCaQ5FsUnk9xf2tjN99Rg==
+ b=hIDeXvKJDU+qVSb0IW898J6nPS5o5jEnyNF6ZBcOOkwUZho3Ig12pu+F7CsJ3eG1inQThJmAPMKz0PvzeH56ZvZc2N3awWmB/SUh/NEJ93FYACQh8Qv8TyXYnaxEOCtwOm5ICIaQcn8ymLGNaTX4BpROhHEqlT3kt+RWdi6ve5TRThaUqqhF3WvqWZkztMJTfjyPkKBIZl/oDX/HVqS6736J9Db4snFSKMnJUKryt/UuridDL7DbqgWLQrwpkNrEqYU7wZVhHNUXUr2MCn1yC7Pw8skTeCQeTjS4H6T9Xmqb7VuB329Mu4h73ZVIspVujbqPPl0XgO5/782jaF0g3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iq5R2UTpSuhQkBz2YG/zOVfozh66lE9pSY5jvCO/exE=;
- b=nZgpEnckshBT1lTHMUM6rhYKFG/gEFo+B9qLtg59q90faeaMIM5UukkUd7b+9B2YpR1sBWJWn8bxg27tSN7oXSurujKhgeP4GnMOkm+2JH0cyF/jpEjBW/3Le8OyUxyTcaJzcIESlydGpO8DtY+IT+wtfFXK88DwdfH0eELReomZ6hVanhZjOmA+7r0r8tvDVEeoJab0aXX5lvZNdMb+cN6CWXQmHWnVExTaBTbmdvEA5WFpTaLlNyRY+sjghM709FtwTeuw83OG+lw/D1fNU781nwFQWipxBt0cactEzjc7gfJRXT0R8UICa4O7OIwdzjlvb2M96UjPhjiXWj/FVg==
+ bh=/+fG5fRNYbsOufqVZj6pHCNFgmRqT7l5pnoR7vs36qA=;
+ b=OHeAd5Y6QmUYnY26p6LxwXLVICEXOZYEQmfOlBO1EPPwIcvj2nI2y9t2masKFpJ+r85a7WnxnwjfxUwJN9ACu6SmqKvA7ts59iU+CPxUuNFkY0N9iNaVBvIQ+DVATKHXIxU+DVzQvRDkvgww1XAEoCGoXXO7BDTlc+ve2tDq5JGIwc/2m7TUhAnlE6JV2LB/TgEyeCrThR0JC+Y915yXGQr8ZkXnD8SYmDDOwOcU7XVnP7rqDxDhyXTLv0IDU9cS+1UgkFE9RqdftV8q6CzAv7NoYNscvkISi/55Le5O1zAGCZCJXTfoh9mx8Q3gWKqOWfpwxW7TmtJDU5FOpVUlBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lists.infradead.org
+ 216.228.112.35) smtp.rcpttodomain=lists.infradead.org
  smtp.mailfrom=nvidia.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=nvidia.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iq5R2UTpSuhQkBz2YG/zOVfozh66lE9pSY5jvCO/exE=;
- b=UPKBntVNEqT2/HIUDzFDK3ENrnjbL0QajHYPkHG+7eYpgZTnXe5H+n89rAkxQnvNEmYCErRTzIDWUQzY2hja0OX/3nVQmyJqf+PTdTIcNkofDB612PxztoLlOrT6tXq7aHbCn3kQBhe4RPio+QX3jy5S4Nfk0W1IoKnvbkTMkJoyB+Wto06k4qrtKmkSmheSbH9cdmhZ+XY9cTY+z0+4Y54MFbN1r+4SCNYcno3fmXx+C6z2S2ffTUGUWKEacymaX6OxQ3w9XB9tQwbR33G1bgksSe4jkiGkbfZETMnV7UOfkbi61N78qRtx2/9tgBA/PtL2Q8uSTN5Gsfu01I6QXw==
-Received: from DM6PR14CA0050.namprd14.prod.outlook.com (2603:10b6:5:18f::27)
- by BYAPR12MB3431.namprd12.prod.outlook.com (2603:10b6:a03:da::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Mon, 8 Nov
- 2021 14:47:18 +0000
-Received: from DM6NAM11FT003.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:18f:cafe::9e) by DM6PR14CA0050.outlook.office365.com
- (2603:10b6:5:18f::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend
- Transport; Mon, 8 Nov 2021 14:47:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ bh=/+fG5fRNYbsOufqVZj6pHCNFgmRqT7l5pnoR7vs36qA=;
+ b=Qbox7GCjPQtJHi9kd4sJkMY3v0S5kGtElkQ0yn5k4VPKu3aF1GEycf4//X14Sh19VjXCUMWjoW6xelp7WdmJDW6k3n3Yde7v/1acANWRxY3x8cTAGdP3Qvl/GgIX2SSy7k0wU/9UgqNbi/Z77XzzTH+6UNd2gGS6D6D7pc2M0SxBX9Z8TaznUqBrzCLQjKT44Q+RDdWKJ4LmzsTc3ERbePdzB7LVpVHjAnBg4YZ/93PCRZW7XdSFWpXQHDBs7YcJckHko85eKCPR9D8E2y7a+moflsc8nZUfSZ/XP+lrXSscon34QpcCs5ulmz/RGsdG9CjQLmrKm0kx++L1QvTy7w==
+Received: from BN6PR20CA0069.namprd20.prod.outlook.com (2603:10b6:404:151::31)
+ by MN2PR12MB4173.namprd12.prod.outlook.com (2603:10b6:208:1d8::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.13; Mon, 8 Nov
+ 2021 14:47:26 +0000
+Received: from BN8NAM11FT044.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:151:cafe::38) by BN6PR20CA0069.outlook.office365.com
+ (2603:10b6:404:151::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
+ Transport; Mon, 8 Nov 2021 14:47:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
  smtp.mailfrom=nvidia.com; lists.infradead.org; dkim=none (message not signed)
  header.d=none;lists.infradead.org; dmarc=pass action=none
  header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT003.mail.protection.outlook.com (10.13.173.162) with Microsoft SMTP
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ BN8NAM11FT044.mail.protection.outlook.com (10.13.177.219) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4669.10 via Frontend Transport; Mon, 8 Nov 2021 14:47:17 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 8 Nov
- 2021 14:47:17 +0000
+ 15.20.4669.10 via Frontend Transport; Mon, 8 Nov 2021 14:47:25 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 8 Nov
+ 2021 14:47:23 +0000
 Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 8 Nov
- 2021 14:47:16 +0000
+ 2021 14:47:23 +0000
 Received: from r-arch-stor02.mtr.labs.mlnx (172.20.187.6) by mail.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Mon, 8 Nov 2021 14:47:14 +0000
+ Transport; Mon, 8 Nov 2021 14:47:20 +0000
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
 To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <kbusch@kernel.org>,
  <sagi@grimberg.me>
 CC: <chaitanyak@nvidia.com>, <oren@nvidia.com>, <benishay@nvidia.com>,
  <borisp@nvidia.com>, <aviadye@nvidia.com>, <idanb@nvidia.com>,
  <jsmart2021@gmail.com>, Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH 1/4] nvme-fabrics: add command id quirk for fabrics controllers
-Date: Mon, 8 Nov 2021 16:47:00 +0200
-Message-ID: <20211108144703.7971-4-mgurtovoy@nvidia.com>
+Subject: [PATCH 3/4] nvme-tcp: add command id quirk for TCP controllers
+Date: Mon, 8 Nov 2021 16:47:02 +0200
+Message-ID: <20211108144703.7971-6-mgurtovoy@nvidia.com>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20211108144703.7971-1-mgurtovoy@nvidia.com>
 References: <20211108144703.7971-1-mgurtovoy@nvidia.com>
@@ -94,31 +94,32 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 694b262e-99ef-4b81-9d32-08d9a2c6a97f
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3431:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3431C82800EB6E835DC42193DE919@BYAPR12MB3431.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:268;
+X-MS-Office365-Filtering-Correlation-Id: e532e336-4fcd-47eb-8f0b-08d9a2c6adf6
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4173:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4173A09DFBE6F4005BD06F53DE919@MN2PR12MB4173.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: po3UBBz3XaNNTJ915NtYRFZuZIaU+jMNwk+K4t/3QluNuY20AEOKymVJAv4/5yeku9W7kILWDX8oJ/NU2eAW4bqH8PCAH3e+6Ji69/zM2UIS4C9p6WF+ynSxX+1CZmagvzio1fG0nEFughJiged06hRJGQAXKOp2JQ/gGI+wTAxOMvQwvdr6DBaIGh1dhm7qIQ0e43JYZq9zEiVHxJw5er2CJtoYrOcaglEI75S/+HAVh3t93cjuB68MI6YiMF0MbIYRjEarP9GJ2JfP6stqIY3KZOWPnJB+yihU+1otYPiz7QkkW0TEjdGlXixu+yDA0p5KDbYKdPXSFDX3l+DnaytdcTpZC5VA5SUxc4wNCZ2zJxj8erLOvbsbJTJzpoI+YyPJ4CttoLEbhz0rbzBLbyj31ZsFY8VLkM5qOG72vOfa0nKAe/JyR6vst02klsy1cjWKi7nPGZzq4m4Kh6yazrHyGT2MVTjnQ7JIUcHTe9EtA9hezf6M1BunWszeNqgauo7p4M6iOsDozCsijVr2AbXkMyefO6/+BTB0hPJUp03IuxMztzqZB3XjTXLKglhjkuO9ujv07DfRaATbv1/xabG1s1QKHsvkaUuAiKNJS7pZUjslLclFuntdwLoFvGhK+H36z3FCuyyFDe/hZ+nZn2PMOa+XL8M92bYYiyvh/FXFcZmspMjzX/AL1ZCWh6htzPK5RgGLx9EbcvsNfdAv8A==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(316002)(7636003)(70206006)(4326008)(6666004)(336012)(47076005)(508600001)(83380400001)(8936002)(82310400003)(26005)(70586007)(1076003)(356005)(36860700001)(36906005)(2906002)(186003)(86362001)(5660300002)(426003)(36756003)(110136005)(8676002)(107886003)(2616005)(54906003);
+X-Microsoft-Antispam-Message-Info: Cf+tBx6qoyF9JqDVF1HxGxNFkI9vxhnYmY6c/li1dAFCdIEVvzH83bzhTwL1xvDnwmpk2+VoKMrqOx+J6KOW7/x4f4gIHSG95rFaeEDWz2EJf4JMXXvLltRJZUhHVziJHHo3k8fSyRFojNAw8zXNb7JAKNA4O32Zh4uDTIEfiBogPV8LUXwrOjNgq995xK8jd3jWK38ww2za8Bba+bO/y0OSEkNLcSxArC9f5ytEY6n4xMEdCWlrSVUcAgnLvyyAFydLe7ks0bBfLSHAiCqO0E+wBpNdp5boTPKd2RQPeFO+hxA24UTvSEf9KCEYBfubXCyzszBiKLgcYg7siD/GGCfY3ZFlQDEaJBVymSHF+KTfUb2/OD3KEBt5mouXepArjandA9wNMIty8OQYL4ECfXEPguC8y+cQVUNBsgzowKaC0Bfxz/GK0ntiJ6pSXH9B1lMQKOLWZhs2/LDwJCjVGOvqh5IWa3uNooLFOGdTh4nQNb9t8q/tWAABd2CzAp5T587iw3ZeCScsRYY0zmeJPHyY46RWypWAL8N5xdt2RR9/v6XtUBmlZsd0oapKcJM26iQSRjnI6j0e40Dp3KBXwXRG/7lrNiGBfcGPDvrlSPfV+uQDZwd63radA3WpjLR4CQ7tVKeHsT08faSrz3eXOTIWTTQshz2/bnFptSMGfOfruPrIgn/2jZJaUgSiXM4FgXmGTbcuHpVAKb/2BbSlbQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.35; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid02.nvidia.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(86362001)(82310400003)(426003)(2906002)(356005)(1076003)(4744005)(70586007)(508600001)(8936002)(36756003)(36906005)(2616005)(316002)(7636003)(70206006)(110136005)(5660300002)(107886003)(336012)(26005)(83380400001)(54906003)(8676002)(47076005)(6666004)(4326008)(36860700001)(186003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2021 14:47:17.7954 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 694b262e-99ef-4b81-9d32-08d9a2c6a97f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2021 14:47:25.3757 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e532e336-4fcd-47eb-8f0b-08d9a2c6adf6
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.35];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT003.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT044.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3431
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4173
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211108_064725_732838_4E0D826C 
-X-CRM114-Status: GOOD (  14.74  )
+X-CRM114-CacheID: sfid-20211108_064728_821788_B727BF01 
+X-CRM114-Status: UNSURE (   9.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,80 +134,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit a2941f6aa71a ("nvme: add command id quirk for apple controllers")
-introduced a quirk for apple controllers that were affected by adding
-the new generation bit inside the command id. Add this quirk for fabrics
-controllers as well, since some fabrics implementations also use command
-id as an index in their logic. This quirk will be disabled by default
-and can be enabled per connection.
-
-For example (with a suitable NVMe-cli version):
-nvme connect -t <transport> -n <nqn> -a <addr> -s <sid> --skip-cid-gen
-or
-nvme connect -t <transport> -n <nqn> -a <addr> -s <sid> -p
-
-As was mentioned for the apple controllers commit, the driver will not
-have the ability to detect bad completions when this quirk is used, but
-we weren't previously checking this anyway.
+Enable NVME_QUIRK_SKIP_CID_GEN quirk if "--skip-cid-gen" flag was
+set by the user during the connect command for TCP transport.
 
 Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/fabrics.c | 7 ++++++-
- drivers/nvme/host/fabrics.h | 2 ++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/nvme/host/tcp.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index c5a2b71c5268..c8ec8ae2266a 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -549,6 +549,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
- 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
- 	{ NVMF_OPT_DISCOVERY,		"discovery"		},
-+	{ NVMF_OPT_SKIP_CID_GEN,	"skip_cid_gen"		},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 07156ea9d1a8..13f641f0033b 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2501,6 +2501,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ {
+ 	struct nvme_tcp_ctrl *ctrl;
+ 	int ret;
++	unsigned long quirks = 0;
  
-@@ -827,6 +828,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_DISCOVERY:
- 			opts->discovery_nqn = true;
- 			break;
-+		case NVMF_OPT_SKIP_CID_GEN:
-+			opts->skip_cid_gen = true;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -954,7 +958,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
- 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
--				 NVMF_OPT_FAIL_FAST_TMO)
-+				 NVMF_OPT_FAIL_FAST_TMO |\
-+				 NVMF_OPT_SKIP_CID_GEN)
+ 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+ 	if (!ctrl)
+@@ -2567,7 +2568,10 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 		goto out_free_ctrl;
+ 	}
  
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index c3203ff1c654..eefb2d1d477e 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -68,6 +68,7 @@ enum {
- 	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
- 	NVMF_OPT_HOST_IFACE	= 1 << 21,
- 	NVMF_OPT_DISCOVERY	= 1 << 22,
-+	NVMF_OPT_SKIP_CID_GEN	= 1 << 23,
- };
+-	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
++	if (opts->skip_cid_gen)
++		quirks |= NVME_QUIRK_SKIP_CID_GEN;
++
++	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, quirks);
+ 	if (ret)
+ 		goto out_kfree_queues;
  
- /**
-@@ -128,6 +129,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_poll_queues;
- 	int			tos;
- 	int			fast_io_fail_tmo;
-+	bool			skip_cid_gen;
- };
- 
- /*
 -- 
 2.18.1
 
