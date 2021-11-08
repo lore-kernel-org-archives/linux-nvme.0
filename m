@@ -2,81 +2,64 @@ Return-Path: <SRS0=LsNR=P3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF4EEC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 16:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A31E1C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 16:45:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6ACDA60F5A
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 16:42:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6ACDA60F5A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=HansenPartnership.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7624261215
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Nov 2021 16:45:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7624261215
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2farPdFCDAhXUe81W2GyFhorqJQvvXLtFkVl5JzpXU4=; b=CdI5xGh6hfG1pQARJpB8c/7Meo
-	5i4NNNrMlcE+o6ZbcqXao2V78a6uf+I+hqi19d676Ulmt0nlW1A6gTlqdcACWx0XR6e4Bzs80Mf4l
-	BBqozWrxyQzqwP9ChVQceq9xSZXNsZqOsxRM+RZoQvW4eAIKJ8ur+rdpLLSPAFqmQXIqfiFN6ckE3
-	DjvbPYjqTtgPjCAtBd81+nwSDVrsuoUj+6HREppCMxhfzMddUyMlrIz3Endx3womWXFWlrtqYIyWE
-	+Nm9bgYOYch/1n57jQ39MRCKoc7V14SObx64jDYh06tCnQg3GlSaw8hRfDvPoU/PBoPeubVKknkyA
-	ANOqSPuA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9UDtwx4IYB2KJwIoLzdzUWVX4USEQlUlAQ/21efRqBw=; b=paqspcZhKyqnXDMST+NMHIsAp1
+	L8ycyY9OWQ/vFbHqDgTEb5dmRWhqn7lbDdKxZnpmu9zB7To8IjHkIPdEza2DAyUVTrcCd+mLYSeX3
+	vzjf1t8YIdN5DcFcmEAdCDWasXr8ithjsw6Y0LGNMGb6kpulqo95g58k5ZO+eaotiFyav+nbUOh/t
+	5C5CJDTbGXGQPEshTD+V6HKtI4ZkCay7QEgrgyJZEmmXmkyFjaNTW6n3yL9g3bkCRT8BgMtFDMHqG
+	XgpQbrKbFsJUXRhIJeK5FrsSF2MBPFUuqww0Z7Qj9zMT8aLphVNiJgLdqCCYFauIXFngG1fKTTiVQ
+	t3ERy6MQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mk7ik-00GzP7-NS; Mon, 08 Nov 2021 16:42:10 +0000
-Received: from bedivere.hansenpartnership.com ([96.44.175.130])
+	id 1mk7lm-00GzhJ-23; Mon, 08 Nov 2021 16:45:18 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mk7ih-00GzNy-Qy
- for linux-nvme@lists.infradead.org; Mon, 08 Nov 2021 16:42:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1636389723;
- bh=lpuLhbP5D8y7Rh++3/m1gJ/kmzDRQihOj3d0Ea3+naw=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=vGp3HXQPGECmrit0ElRfIxrq4UE5s9ccP2I5N4d1tx20bGxFJQirlcN25WzOorCX1
- c+hY1TzUrSDiD8rZK9oHTJNaB7MtpRngWZi0Yw52XwCWC8j5HeoFLrPIFwRqofowOL
- y6ommqbMLoQDxDhuGatF3WLs1OICVeJc/gIxOxHc=
-Received: from localhost (localhost [127.0.0.1])
- by bedivere.hansenpartnership.com (Postfix) with ESMTP id 8F42112804CC;
- Mon,  8 Nov 2021 11:42:03 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id u_heyEEjYIWy; Mon,  8 Nov 2021 11:42:03 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1636389723;
- bh=lpuLhbP5D8y7Rh++3/m1gJ/kmzDRQihOj3d0Ea3+naw=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=vGp3HXQPGECmrit0ElRfIxrq4UE5s9ccP2I5N4d1tx20bGxFJQirlcN25WzOorCX1
- c+hY1TzUrSDiD8rZK9oHTJNaB7MtpRngWZi0Yw52XwCWC8j5HeoFLrPIFwRqofowOL
- y6ommqbMLoQDxDhuGatF3WLs1OICVeJc/gIxOxHc=
-Received: from jarvis.int.hansenpartnership.com (unknown
- [IPv6:2601:5c4:4300:c551::527])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id C56881280492;
- Mon,  8 Nov 2021 11:42:02 -0500 (EST)
-Message-ID: <08f0e186093b0d5067347a1376228010cb4cc7f4.camel@HansenPartnership.com>
-Subject: Re: [PATCH 3/4] scsi: make sure that request queue queiesce and
- unquiesce balanced
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Cc: Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, "Martin K . Petersen"
- <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org
-Date: Mon, 08 Nov 2021 11:42:01 -0500
-In-Reply-To: <20211103034305.3691555-4-ming.lei@redhat.com>
-References: <20211103034305.3691555-1-ming.lei@redhat.com>
- <20211103034305.3691555-4-ming.lei@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ id 1mk7lj-00GzgK-C3
+ for linux-nvme@lists.infradead.org; Mon, 08 Nov 2021 16:45:16 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C623261215;
+ Mon,  8 Nov 2021 16:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636389914;
+ bh=24+higw4tHAQXdAcEApca47M2UCrMCLt/YHSW8F4waU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gniMBhVHs5UN3qcvpJcgFvZg8dFRDhG3udxg/ShBf3qmfZ49VbFVeVSlBOuJlUCJ3
+ VM5dIag76M5TWl5kiVBbon0FlxG5pF35p5bO0dsnm0nDelEOxc70bbaacPBLSpkUqg
+ opep0WOPICnUU0a1d+05fi6lg6IS/fC7VdlMrx/ugqZiDB+pHzrd3Xr1tROSbyrCk7
+ YIiHDSwubHxYUPpLx0itLHYyeL/1D2JLj0S1ipVSNjTybGj+ehm5mFJ+15etG1TtQ4
+ VU3veVNAy0No6p97MKfo+bbM/zRJKvUpSrPX68EEe+oe0lKfVwoujOGtPKeb42UKTg
+ +NPngABCa/0iw==
+Date: Mon, 8 Nov 2021 08:45:11 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+ chaitanyak@nvidia.com, oren@nvidia.com, benishay@nvidia.com,
+ borisp@nvidia.com, aviadye@nvidia.com, idanb@nvidia.com,
+ jsmart2021@gmail.com
+Subject: Re: [PATCH v1 0/4] Add command id quirk for fabrics
+Message-ID: <20211108164511.GA2660170@dhcp-10-100-145-180.wdc.com>
+References: <20211108144703.7971-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211108144703.7971-1-mgurtovoy@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211108_084207_916515_BA040939 
-X-CRM114-Status: GOOD (  13.88  )
+X-CRM114-CacheID: sfid-20211108_084515_447747_5D427F2C 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,36 +74,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2021-11-03 at 11:43 +0800, Ming Lei wrote:
-[...]
-> +void scsi_start_queue(struct scsi_device *sdev)
-> +{
-> +	if (cmpxchg(&sdev->queue_stopped, 1, 0))
-> +		blk_mq_unquiesce_queue(sdev->request_queue);
-> +}
-> +
-> +static void scsi_stop_queue(struct scsi_device *sdev, bool nowait)
-> +{
-> +	if (!cmpxchg(&sdev->queue_stopped, 0, 1)) {
-> +		if (nowait)
-> +			blk_mq_quiesce_queue_nowait(sdev-
-> >request_queue);
-> +		else
-> +			blk_mq_quiesce_queue(sdev->request_queue);
-> +	} else {
-> +		if (!nowait)
-> +			blk_mq_wait_quiesce_done(sdev->request_queue);
-> +	}
-> +}
+On Mon, Nov 08, 2021 at 04:46:57PM +0200, Max Gurtovoy wrote:
+> Hi all,
+> Commit a2941f6aa71a ("nvme: add command id quirk for apple controllers")
+> was merged to fix a regression in apple controllers that was introduced
+> after merging commit e7006de6c238 ("nvme: code command_id with a genctr
+> for use-after-free validation").
+> 
+> This series is comming to enable the same quirk for fabrics controllers
+> that used the command id index in the same way that was probably used in
+> apple controllers.
 
-This looks counter intuitive.  I assume it's done so that if we call
-scsi_stop_queue when the queue has already been stopped, it waits until
-the queue is actually quiesced before returning so the behaviour is the
-same in the !nowait case?  Some sort of comment explaining that would
-be useful.
+If there really are targets behaving this way, then this looks good and
+necessary, however unfortunate. A TCP target triggered the need for
+valid tag validation in the first place.
 
-James
-
-
-
+Are there really fabrics targets behaving this way, or is this series
+anticipating they might exist? Apple disregarding specs is nothing new,
+but I would have hoped no other targets would do this since most vendors
+care about interop.
 
