@@ -2,87 +2,85 @@ Return-Path: <SRS0=GOb3=P4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5757C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E562C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:38:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CDCB610E9
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:15:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8CDCB610E9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	by mail.kernel.org (Postfix) with ESMTPS id 69A3161053
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:38:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69A3161053
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cuLupL0qeqkrPOQGvhaPBdy4ZNfF/HvnVu1GlBW2I0w=; b=rKPpFeX99t1F+uVi4YAYMZ4GG7
-	THiI6+i8/dh0dQC1IbzJ2WeJxRRy2NGSi3WqdPVr2Rg/+QKo07YUOryxBv/F5Np+xZQrXMFuwAzsZ
-	rJMaCA7y0gOOj7ztet+Iis7tusv67UdpkRIel/ScC1/wexWqk9NjffgAqpmQvgKPBev5f52rZX6nV
-	kel2h07CPJ76eCQfN2YRMJMEWM/PsPvHuY0Pw60wuI/qJS26POYKvu+RtZJoN2+6VDRsfbqVFjBU0
-	z7JTHXyZRrx3nWdnE0aZXZp7FmECvxm0H/4vDiUSViP/BYhgFrWl8wEMtTSH7UvJcEAH+wv7++YYR
-	rcleTI0Q==;
+	bh=ZTmlGEJW7tpFYrzfd6sNdF+S3duevoe4ZKGZT/1YBUs=; b=NOSvgwp9daffJiF0x2EaJUXu97
+	texcgrBKy183K/rLBkMpDc68elLmMlhbz8mpN7ZHyoxaeUkyh1LyRc9yHOPj8ojfMI+c15JJnsBGr
+	bMoFUTIHxnbqPDo9BucLqx/h1UcqWQ1yvGBLIDJVj5R5TkWEOuS+AnCMreNmMy9UmlAKNeMHqnEu3
+	NAhJko86P1SsjxpgQS6H0sWgYjN2UwOqzRtuCmZr5QVSIHSqA5yxLJPTclPaAP6NTr3ncVRr4InD0
+	SaBUvOFSvwZ1kMd0cy3I+iNHWefszRYoe3N82D+36YhSXN//FRrll/GsUQ0CTUBHHZu7O61vomFUT
+	Bk5bMfhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mkSpu-002XQi-QX; Tue, 09 Nov 2021 15:14:58 +0000
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
+	id 1mkTCF-002aUa-9e; Tue, 09 Nov 2021 15:38:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkSpr-002XQM-PV
- for linux-nvme@lists.infradead.org; Tue, 09 Nov 2021 15:14:57 +0000
-Received: by mail-io1-xd36.google.com with SMTP id w22so8903210ioa.1
- for <linux-nvme@lists.infradead.org>; Tue, 09 Nov 2021 07:14:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:in-reply-to:references:subject:message-id:date
- :mime-version:content-transfer-encoding;
- bh=cuLupL0qeqkrPOQGvhaPBdy4ZNfF/HvnVu1GlBW2I0w=;
- b=kmQIvoYyag+9tIB/F156SVSLwPLJxQOT/kSY2gTku/cXg+WCZGtwJAsIZtOAmQnni1
- 9BK5F+HdbpYw9mYqbaJN9qfLdZ+VtRV6IYn4dnxieAj/ftqzLleJJUo/oiLF3BBhE25l
- uATHJ+70MXjnINc6A/RYsiMCTGOnhPgkmf/V8aaea20ODRxMIkOaS81wx/9ayLWNw4sp
- mOkypbzdzvzXn+g1aay7QlfmEb4Zz8g26376gU+58OH9JO1wjOnuyyRtYIcmRYf6T2u2
- LMADY+MGO5bDRb+alUkIS88ocq4SoiPNdw9tdURKdIU7lqXyVZuq5XHb+oImRhS+1KfP
- MMnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
- :message-id:date:mime-version:content-transfer-encoding;
- bh=cuLupL0qeqkrPOQGvhaPBdy4ZNfF/HvnVu1GlBW2I0w=;
- b=vFyuJADlRtfSEV/8Rj3ln5lT8/raxERDlodJOTLKN8iaBOjwP27k5T/UB/hJxsj/qK
- f0on8OnmXNPAHvgIz0DOGbBAobUUhD7X8ETxJtuw3675aTBuFALMAb3op4mmmTrwMwW1
- s7um7CNRWvZ4pmjmvI3qFcLFEII08drbd0e1YZCUyWP4Hcnymdf4F2bsnRRs3VxhRmNN
- ebPaq/S36twI3wbLJrZZDECIQH0gpJcU3UIYYVlnngTbsDNM4z0JppyG5fsFE+8xbYkZ
- yUV1FwFbF5Vq+oG6PDejR/B7VlfW3YTduDvSS7fmHiwma8a9nLa83S3244F0tJeHehRU
- 5MkQ==
-X-Gm-Message-State: AOAM531GM9cYqYkyQ/072LPhQHpgXkInaat2LCPq/1P2mR99ERxNnZds
- rmdKNTsdoiK1irX8sPcLn2WhYA==
-X-Google-Smtp-Source: ABdhPJxRmOq51TfrRGB5R/m0NitxjqMuxR9iNz/jrvLmzwxbSv/3ZYKZv782sq9+OjNVuVtQi1GtLQ==
-X-Received: by 2002:a02:a11d:: with SMTP id f29mr6313385jag.78.1636470894294; 
- Tue, 09 Nov 2021 07:14:54 -0800 (PST)
-Received: from [127.0.1.1] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id k8sm10290379iov.11.2021.11.09.07.14.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Nov 2021 07:14:53 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: linux-scsi@vger.kernel.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-block@vger.kernel.org, Yi Zhang <yi.zhang@redhat.com>,
- linux-nvme@lists.infradead.org,
- James Bottomley <James.Bottomley@hansenpartnership.com>
-In-Reply-To: <20211109071144.181581-1-ming.lei@redhat.com>
-References: <20211109071144.181581-1-ming.lei@redhat.com>
-Subject: Re: [PATCH V2 0/4] block: fix concurrent quiesce
-Message-Id: <163647089353.413881.8401016435701752543.b4-ty@kernel.dk>
-Date: Tue, 09 Nov 2021 08:14:53 -0700
+ id 1mkTCC-002aTH-9A
+ for linux-nvme@lists.infradead.org; Tue, 09 Nov 2021 15:38:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636472277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZTmlGEJW7tpFYrzfd6sNdF+S3duevoe4ZKGZT/1YBUs=;
+ b=PInQgvyF9761zb20YD+X/dk3t17AfcMz/NDHEAzqrdef4OYm9s2Rl905NA3iBOh7JK+NhR
+ WMuOW8ANXLQvAFBRygA+HwNZAkVO3MjZfy3rCjNnsWFhu3Q7I9pY+p55byGlXjdtVZGl3f
+ n6jLpyqV+4g7RlWffhqlSRHHTlQjGOg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-fO6a46yxNHaYmrBUno4nsw-1; Tue, 09 Nov 2021 10:37:53 -0500
+X-MC-Unique: fO6a46yxNHaYmrBUno4nsw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA011926DB7;
+ Tue,  9 Nov 2021 15:37:38 +0000 (UTC)
+Received: from [10.22.33.237] (unknown [10.22.33.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFB7F1007605;
+ Tue,  9 Nov 2021 15:37:37 +0000 (UTC)
+Message-ID: <9845ee70-e89b-6d76-6131-67eb5b573924@redhat.com>
+Date: Tue, 9 Nov 2021 10:37:37 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] nvme-tcp: fix memory leak when freeing a queue
+To: Christoph Hellwig <hch@lst.de>, Maurizio Lombardi <mlombard@redhat.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, axboe@fb.com
+References: <20211103081817.94820-1-mlombard@redhat.com>
+ <a609e935-f529-d87e-a950-33367694aef5@grimberg.me>
+ <20211103104516.GD4840@raketa> <20211103110310.GE4840@raketa>
+ <20211109081303.GC28785@lst.de>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <20211109081303.GC28785@lst.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmeneghi@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211109_071455_853238_0E09A962 
-X-CRM114-Status: UNSURE (   9.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211109_073800_460126_D1EBFEB0 
+X-CRM114-Status: GOOD (  13.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,32 +95,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 9 Nov 2021 15:11:40 +0800, Ming Lei wrote:
-> Convert SCSI into balanced quiesce and unquiesce by using atomic
-> variable as suggested by James, meantime fix previous nvme conversion by
-> adding one new API because we have to wait until the started quiesce is
-> done.
+Looks good to me.
+
+Reviewed-by: John Meneghini <jmeneghi@redhat.com>
+
+On 11/9/21 03:13, Christoph Hellwig wrote:
+> On Wed, Nov 03, 2021 at 12:03:10PM +0100, Maurizio Lombardi wrote:
+>>>>
+>>>> Thanks Maurizio,
+>>>>
+>>>> Why do we need to the pf_cache.va protection? nvme_tcp_free_queue
+>>>> is already protected against re-entry with the NVME_TCP_Q_ALLOCATED
+>>>> bit.
+>>>>
+>>>
+>>> It's not the re-entry what worried me, I thought that nvme_tcp_free_queue()
+>>> might be called before page_frag_alloc() had the chance to initialize the pf_cache, triggering
+>>> a NULL pointer dereference. I am doing some tests right now and it seems not to be
+>>> possible so maybe we can drop the "if".
+>>
+>> Oh wait, if nvme_tcp_setup_ctrl() fails it could call nvme_tcp_destroy_io_queues() and
+>> iI guess that in that case the pf_cache is not initialized, so the if(pf_cache.va) protection
+>> is necessary.
 > 
-> V2:
-> 	- add comment on scsi's change, as suggested by James, 3/4
-> 	- add reviewed-by tag, 4/4
+> Sagi, does this look good to you now?
 > 
-> [...]
-
-Applied, thanks!
-
-[1/4] blk-mq: add one API for waiting until quiesce is done
-      commit: 9ef4d0209cbadb63656a7aa29fde49c27ab2b9bf
-[2/4] scsi: avoid to quiesce sdev->request_queue two times
-      commit: d2b9f12b0f7cf95c43f5fd4a18688d958d39e423
-[3/4] scsi: make sure that request queue queiesce and unquiesce balanced
-      commit: 93542fbfa7b726d053c01a9399577c03968c4f6b
-[4/4] nvme: wait until quiesce is done
-      commit: 26af1cd00364ce20dbec66b93ef42f9d42dc6953
-
-Best regards,
--- 
-Jens Axboe
-
 
 
