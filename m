@@ -2,84 +2,78 @@ Return-Path: <SRS0=GOb3=P4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E562C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:38:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1F2C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:54:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 69A3161053
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:38:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69A3161053
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id 63F8E6023F
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:54:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 63F8E6023F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZTmlGEJW7tpFYrzfd6sNdF+S3duevoe4ZKGZT/1YBUs=; b=NOSvgwp9daffJiF0x2EaJUXu97
-	texcgrBKy183K/rLBkMpDc68elLmMlhbz8mpN7ZHyoxaeUkyh1LyRc9yHOPj8ojfMI+c15JJnsBGr
-	bMoFUTIHxnbqPDo9BucLqx/h1UcqWQ1yvGBLIDJVj5R5TkWEOuS+AnCMreNmMy9UmlAKNeMHqnEu3
-	NAhJko86P1SsjxpgQS6H0sWgYjN2UwOqzRtuCmZr5QVSIHSqA5yxLJPTclPaAP6NTr3ncVRr4InD0
-	SaBUvOFSvwZ1kMd0cy3I+iNHWefszRYoe3N82D+36YhSXN//FRrll/GsUQ0CTUBHHZu7O61vomFUT
-	Bk5bMfhw==;
+	bh=kwCW/aTCmT5NDdXukIXV+fHPyJfdcVyAHw9VxpTrT0M=; b=mJJhjMcoBervC14lSt0OLKVsWf
+	TeEcdIpV7MkFzgs95GQjQs0dZY2f3i+j/PePL8XPP1YQGlgp4k9etFbjV7PinpWHF03nmfSSZYHGL
+	HVuQisZJrKF4/AgCrAwOQnAQSNRRNfUKNkvfQPij+5+A8SSFuqrPdzi2uKhge02Vm07H9/FywlRda
+	0NhGt+o5a7zkatJyUCqVIBBxPF/Emy921GQJoKJOxBKppN06Ub/V1EYVnyUhCrZZOewpyWHNZ7uPC
+	MFMUaxHsYqZkTLCMU9EXGfBO4u1aOMr2scVh+5DqZrZPLC6+MOauYMC2k+XEtmP6PEfQOn3OkYlDq
+	3uSwBCoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mkTCF-002aUa-9e; Tue, 09 Nov 2021 15:38:03 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1mkTSR-002cVs-1w; Tue, 09 Nov 2021 15:54:47 +0000
+Received: from mail-pg1-f170.google.com ([209.85.215.170])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkTCC-002aTH-9A
- for linux-nvme@lists.infradead.org; Tue, 09 Nov 2021 15:38:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636472277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZTmlGEJW7tpFYrzfd6sNdF+S3duevoe4ZKGZT/1YBUs=;
- b=PInQgvyF9761zb20YD+X/dk3t17AfcMz/NDHEAzqrdef4OYm9s2Rl905NA3iBOh7JK+NhR
- WMuOW8ANXLQvAFBRygA+HwNZAkVO3MjZfy3rCjNnsWFhu3Q7I9pY+p55byGlXjdtVZGl3f
- n6jLpyqV+4g7RlWffhqlSRHHTlQjGOg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-fO6a46yxNHaYmrBUno4nsw-1; Tue, 09 Nov 2021 10:37:53 -0500
-X-MC-Unique: fO6a46yxNHaYmrBUno4nsw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA011926DB7;
- Tue,  9 Nov 2021 15:37:38 +0000 (UTC)
-Received: from [10.22.33.237] (unknown [10.22.33.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EFB7F1007605;
- Tue,  9 Nov 2021 15:37:37 +0000 (UTC)
-Message-ID: <9845ee70-e89b-6d76-6131-67eb5b573924@redhat.com>
-Date: Tue, 9 Nov 2021 10:37:37 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+ id 1mkTSO-002cVD-6R
+ for linux-nvme@lists.infradead.org; Tue, 09 Nov 2021 15:54:45 +0000
+Received: by mail-pg1-f170.google.com with SMTP id q126so14925395pgq.13
+ for <linux-nvme@lists.infradead.org>; Tue, 09 Nov 2021 07:54:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kwCW/aTCmT5NDdXukIXV+fHPyJfdcVyAHw9VxpTrT0M=;
+ b=mE5gkbh4YsCBdEjs1Q94EidQIUga63UWMwcnPyDuR4RkPdzdudHpoUqdGw5jq48br7
+ rOGKMQMMr4MhAVBwj+2tQ3DY8OkJE+MkA/QZ6d2vdslgAsHJ/Ksj4h6+mj4xSq80Fpt2
+ 9bCOT6tRXtDeWTuyLjoENfddOS8fJ4Q6FZzTMOR7p252/PNz0Pacr8X0GSazpLCxWnGW
+ KE9JmJXkwS2b8OaYI5uxZFqZZdqeBo60eygnSZJCrIbFMHibr9AVOrwKfFkII4cIyV1p
+ zYY8APbMXiNQ+CJqTKW4bR16UdhLO3OJ0FsZ0pue+G97kBIoCosNnFZ8YO0XCxFXxSob
+ BYJA==
+X-Gm-Message-State: AOAM530Uyba0KsNfvS4ALOTdb6NoYNinukn0FOb9RGeQUNOUbygRDzLq
+ xdPwv+o4392HtVIO/rY4Bn0=
+X-Google-Smtp-Source: ABdhPJwgyKF2bZZeNfJIaRSg7qeVKa0taiDlelOJLVgm2sfYitScH6preSv++g6WiPGhVrm9pRj8JQ==
+X-Received: by 2002:a05:6a00:2af:b0:49f:c4b0:879b with SMTP id
+ q15-20020a056a0002af00b0049fc4b0879bmr8858600pfs.55.1636473282403; 
+ Tue, 09 Nov 2021 07:54:42 -0800 (PST)
+Received: from [10.0.3.224] ([12.1.36.164])
+ by smtp.gmail.com with ESMTPSA id o16sm6467746pfu.72.2021.11.09.07.54.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Nov 2021 07:54:41 -0800 (PST)
 Subject: Re: [PATCH] nvme-tcp: fix memory leak when freeing a queue
 To: Christoph Hellwig <hch@lst.de>, Maurizio Lombardi <mlombard@redhat.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, axboe@fb.com
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com
 References: <20211103081817.94820-1-mlombard@redhat.com>
  <a609e935-f529-d87e-a950-33367694aef5@grimberg.me>
  <20211103104516.GD4840@raketa> <20211103110310.GE4840@raketa>
  <20211109081303.GC28785@lst.de>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <8aac779e-512e-d816-f6c8-133ad3979d8b@grimberg.me>
+Date: Tue, 9 Nov 2021 07:54:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
 In-Reply-To: <20211109081303.GC28785@lst.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmeneghi@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211109_073800_460126_D1EBFEB0 
+X-CRM114-CacheID: sfid-20211109_075444_290505_D2A1BA07 
 X-CRM114-Status: GOOD (  13.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,13 +89,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good to me.
 
-Reviewed-by: John Meneghini <jmeneghi@redhat.com>
-
-On 11/9/21 03:13, Christoph Hellwig wrote:
-> On Wed, Nov 03, 2021 at 12:03:10PM +0100, Maurizio Lombardi wrote:
->>>>
 >>>> Thanks Maurizio,
 >>>>
 >>>> Why do we need to the pf_cache.va protection? nvme_tcp_free_queue
@@ -119,6 +107,8 @@ On 11/9/21 03:13, Christoph Hellwig wrote:
 >> is necessary.
 > 
 > Sagi, does this look good to you now?
-> 
 
+Yes,
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
