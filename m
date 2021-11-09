@@ -2,79 +2,70 @@ Return-Path: <SRS0=GOb3=P4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1F2C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C9BFC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 16:16:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 63F8E6023F
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 15:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 63F8E6023F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 02BAF604D7
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Nov 2021 16:16:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 02BAF604D7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kwCW/aTCmT5NDdXukIXV+fHPyJfdcVyAHw9VxpTrT0M=; b=mJJhjMcoBervC14lSt0OLKVsWf
-	TeEcdIpV7MkFzgs95GQjQs0dZY2f3i+j/PePL8XPP1YQGlgp4k9etFbjV7PinpWHF03nmfSSZYHGL
-	HVuQisZJrKF4/AgCrAwOQnAQSNRRNfUKNkvfQPij+5+A8SSFuqrPdzi2uKhge02Vm07H9/FywlRda
-	0NhGt+o5a7zkatJyUCqVIBBxPF/Emy921GQJoKJOxBKppN06Ub/V1EYVnyUhCrZZOewpyWHNZ7uPC
-	MFMUaxHsYqZkTLCMU9EXGfBO4u1aOMr2scVh+5DqZrZPLC6+MOauYMC2k+XEtmP6PEfQOn3OkYlDq
-	3uSwBCoQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KGLu4qgQ5P+TptfDmpJj+NcJJIwzn2saVNBDVPYASCw=; b=4y/Ek46ayCfCy9vsNS7h8Qzgdo
+	PBhaVsk9x8CN7NyYo6IVi7abgnWzmqtgbYdGSM1gHK1ZWqul6Tv2kKa11E8JLbmK2E8FvJokhlWTz
+	9lefRLvFbIrE9s73A7Pyg2ui/Ts9ZWIP1IbzNEMoM2p+2TBY7NZTRjDQHIzuzVCIC/DNZK+D5GVr9
+	UmhvyZbSNJN+lE4v8mR4WDfn+nH3TQju8vAkKAQ7fHqHF0Fw3jUNjb/ORDQpOQwUpSn6BTcu0dHwh
+	HxZ/w9NtcG/ZtECCG3/DvMG2jzOhpG6wHt4P6G8072BRAT/uat8zG5lCUKhpB9W4wHDLCg0QsJe+S
+	UNj9TjOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mkTSR-002cVs-1w; Tue, 09 Nov 2021 15:54:47 +0000
-Received: from mail-pg1-f170.google.com ([209.85.215.170])
+	id 1mkTmt-002eVH-E0; Tue, 09 Nov 2021 16:15:55 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkTSO-002cVD-6R
- for linux-nvme@lists.infradead.org; Tue, 09 Nov 2021 15:54:45 +0000
-Received: by mail-pg1-f170.google.com with SMTP id q126so14925395pgq.13
- for <linux-nvme@lists.infradead.org>; Tue, 09 Nov 2021 07:54:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kwCW/aTCmT5NDdXukIXV+fHPyJfdcVyAHw9VxpTrT0M=;
- b=mE5gkbh4YsCBdEjs1Q94EidQIUga63UWMwcnPyDuR4RkPdzdudHpoUqdGw5jq48br7
- rOGKMQMMr4MhAVBwj+2tQ3DY8OkJE+MkA/QZ6d2vdslgAsHJ/Ksj4h6+mj4xSq80Fpt2
- 9bCOT6tRXtDeWTuyLjoENfddOS8fJ4Q6FZzTMOR7p252/PNz0Pacr8X0GSazpLCxWnGW
- KE9JmJXkwS2b8OaYI5uxZFqZZdqeBo60eygnSZJCrIbFMHibr9AVOrwKfFkII4cIyV1p
- zYY8APbMXiNQ+CJqTKW4bR16UdhLO3OJ0FsZ0pue+G97kBIoCosNnFZ8YO0XCxFXxSob
- BYJA==
-X-Gm-Message-State: AOAM530Uyba0KsNfvS4ALOTdb6NoYNinukn0FOb9RGeQUNOUbygRDzLq
- xdPwv+o4392HtVIO/rY4Bn0=
-X-Google-Smtp-Source: ABdhPJwgyKF2bZZeNfJIaRSg7qeVKa0taiDlelOJLVgm2sfYitScH6preSv++g6WiPGhVrm9pRj8JQ==
-X-Received: by 2002:a05:6a00:2af:b0:49f:c4b0:879b with SMTP id
- q15-20020a056a0002af00b0049fc4b0879bmr8858600pfs.55.1636473282403; 
- Tue, 09 Nov 2021 07:54:42 -0800 (PST)
-Received: from [10.0.3.224] ([12.1.36.164])
- by smtp.gmail.com with ESMTPSA id o16sm6467746pfu.72.2021.11.09.07.54.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Nov 2021 07:54:41 -0800 (PST)
-Subject: Re: [PATCH] nvme-tcp: fix memory leak when freeing a queue
-To: Christoph Hellwig <hch@lst.de>, Maurizio Lombardi <mlombard@redhat.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com
-References: <20211103081817.94820-1-mlombard@redhat.com>
- <a609e935-f529-d87e-a950-33367694aef5@grimberg.me>
- <20211103104516.GD4840@raketa> <20211103110310.GE4840@raketa>
- <20211109081303.GC28785@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <8aac779e-512e-d816-f6c8-133ad3979d8b@grimberg.me>
-Date: Tue, 9 Nov 2021 07:54:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ id 1mkTmq-002eUf-OF
+ for linux-nvme@lists.infradead.org; Tue, 09 Nov 2021 16:15:53 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B6E3A604D7;
+ Tue,  9 Nov 2021 16:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1636474552;
+ bh=KgGIsDjDda52BPXNkS18MC+GtkqOUfYLvRP98YQG1wA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hhzRXuK5Rs3fg6eLdL8T7iDoV3c6wJ45Ub8cypoiLt/WyjcgjQ35zpuaZy9epPxsH
+ RkOnaiE2hq9GMRi3ahIfR/qKzoswu+LlQimT2cz1aI+NIXhMhpD15HxPrhtI0JKTZ+
+ ljnohCciH8y8fyZavd/USSe7qcYtPyXNJGWPl9AEI7KE42MktHTXkqBD1KB5ycL1Jb
+ i+rInBlvsB9SiAxm/tuWU6IKDClIikZ3La0HM4RlkFHI5KvqFoQSC+eqT8VG8YRSln
+ XaVZE4+qbHL2qtadTZOEOY5uD2p5G18+0ofGL4Mteuo/7Arjb78zfhoD0l+Yj3V4xi
+ dy9o9b/eDY6oQ==
+Date: Tue, 9 Nov 2021 08:15:47 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me, chaitanyak@nvidia.com, oren@nvidia.com,
+ benishay@nvidia.com, borisp@nvidia.com, aviadye@nvidia.com,
+ idanb@nvidia.com, jsmart2021@gmail.com
+Subject: Re: [PATCH v1 0/4] Add command id quirk for fabrics
+Message-ID: <20211109161547.GC2660170@dhcp-10-100-145-180.wdc.com>
+References: <20211108144703.7971-1-mgurtovoy@nvidia.com>
+ <20211108164511.GA2660170@dhcp-10-100-145-180.wdc.com>
+ <20211109080903.GA28785@lst.de>
+ <6292cd43-c746-0316-1820-aa52ec85d375@nvidia.com>
+ <20211109131510.GA19713@lst.de>
+ <9c740227-8c98-5877-9a9a-ae17756e851c@nvidia.com>
+ <20211109143102.GA25263@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20211109081303.GC28785@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211109143102.GA25263@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211109_075444_290505_D2A1BA07 
-X-CRM114-Status: GOOD (  13.93  )
+X-CRM114-CacheID: sfid-20211109_081552_850503_7C0A7CFF 
+X-CRM114-Status: GOOD (  15.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,26 +80,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>> Thanks Maurizio,
->>>>
->>>> Why do we need to the pf_cache.va protection? nvme_tcp_free_queue
->>>> is already protected against re-entry with the NVME_TCP_Q_ALLOCATED
->>>> bit.
->>>>
->>>
->>> It's not the re-entry what worried me, I thought that nvme_tcp_free_queue()
->>> might be called before page_frag_alloc() had the chance to initialize the pf_cache, triggering
->>> a NULL pointer dereference. I am doing some tests right now and it seems not to be
->>> possible so maybe we can drop the "if".
->>
->> Oh wait, if nvme_tcp_setup_ctrl() fails it could call nvme_tcp_destroy_io_queues() and
->> iI guess that in that case the pf_cache is not initialized, so the if(pf_cache.va) protection
->> is necessary.
+On Tue, Nov 09, 2021 at 03:31:02PM +0100, Christoph Hellwig wrote:
+> On Tue, Nov 09, 2021 at 04:23:33PM +0200, Max Gurtovoy wrote:
+> > On 11/9/2021 3:15 PM, Christoph Hellwig wrote:
+> >> Max, if you can't point us to a broken target (and yes, it is broken)
+> >> this will not go anywhere.
+> >
+> > Any target that uses Apple device as backend can be harmed.
+> >
+> > Most simple example is Linux PT target that copy the sqe as-is and passes 
+> > it to the NVMe Apple drive.
 > 
-> Sagi, does this look good to you now?
+> Take another close look at how command_id are assigned my Linux driver.
+> We obviously do not pass it through as that would be completely broken.
 
-Yes,
-
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Also worth noting this driver has always defined the command id as a
+__u16, not __le16, yet we don't have any bug reports from big-endian
+hosts.
 
