@@ -2,151 +2,95 @@ Return-Path: <SRS0=m9zU=P5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC2BC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 06:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15A30C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 08:43:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF2C2610A5
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 06:10:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DF2C2610A5
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=nvidia.com
+	by mail.kernel.org (Postfix) with ESMTPS id 85DB061106
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 08:43:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 85DB061106
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=irrelevant.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nmrvVntWMERGjxdn9ARlLm0a8Jt5rfmaqfuw6ia0ESs=; b=BIUv8VYk4dhlw8nVkCraCmyO7F
-	Yy19WA8g6eceKAmdJtdFaH5k3JfXWMg3tIULBOFQ73nK37Y6AwaHgfEZEVZBHzVu7fPqVNCN++mZu
-	mXA2JVGtpQ2lhZ4t+uV2BWOcA4UvUhZI7Kxlg0OIAgjARnreJhKVvoC+J+6WkPt+v6pEb3tQv5iZA
-	H7sKp1+klqL6yM8joV1kU5GBPOXfUnSGAZmZIfDRKGOZSr8rMh3DIjIgCBQmo7wP8/lRFLpMCpD3y
-	UjrXSKmeX8VigBErCvcxovZtvQ06jI9HwfxQ1QtmoBHXSJlO7jyhceovrXJMbh7HtIlvziVuEJvSq
-	5gV+5x4Q==;
+	bh=owWYeiWFYkGF/b1JsBUI116OWsEG0GBwjuejxm+3SCs=; b=lh1yBtTkYeidxq4D7k6v7V6oBu
+	rIVToB62u8lRtpjCnrP2j/vcxvLSwIv/UVpESMJfGpVyEPaNlKo6e1AJubEMsqPvPPJKXe6PIo4DK
+	kurlcyC5s/Y/ZMdn+yL7LQTeRCGwzkJCj1qbESLFjF12I0g8EBhVQph7lKE7c+4y+MJmVcQTj8Sq/
+	zg1rNCaZO3Z1siIAGQbdqvfyPffvYo7pHx3sOkzCJpxOvQ5X18uuY0dKH3Ny35H7H5LfBsjEY+5X3
+	1M//fZBsk1J4micpiiKfgNwVPfAvg4CF9a5mURT5ApOAG3z7+cG/CeDstfG9r4UGx3RNE8YNXUxe8
+	nCjv0M+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mkgoY-004YIj-73; Wed, 10 Nov 2021 06:10:30 +0000
-Received: from mail-co1nam11on2068.outbound.protection.outlook.com
- ([40.107.220.68] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+	id 1mkjCo-004ru6-V4; Wed, 10 Nov 2021 08:43:43 +0000
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkgoV-004YI6-KR
- for linux-nvme@lists.infradead.org; Wed, 10 Nov 2021 06:10:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kqpu+puHcFhxkZjtM7a83t6phSquFxqxmAh9gsMOxFfSRbGC1ucyTNIC8TuZoH+A+mOZxJP1i8fRPuyEQXNy207pPd0CBF5Ru8A04u/HmCfHk1kt35589T5PyKUqVKsZb5RGx4RRtWFkMrUqxR2kaPDZB+PoiLKLG80UtrrVOTr7os67bjUlsmJ5jWnN6vCr/Ll0qwVCL6KacVZM0IG4gy9Efe1AdjZJW+zpjrbrcQQYMcVDy22a+h1JGbBbZ/jlYf0ftl2VaBT4fRyobcLDYdDJWyqp3IN5nt3qWFACwdCEyIAHXzjjlS+IEDrFkucrMCtBjJVF61xdoWaz+mkYYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nmrvVntWMERGjxdn9ARlLm0a8Jt5rfmaqfuw6ia0ESs=;
- b=XKLJgDg9oOETmEz502VVK+Eclw8h8KMfYaRe+7v3pNXYSmiGGF3LTu7xcAoB7uON91Og1IbRU96r9PPIJ2IjnDUcd3SIp3RMcbhGsFV/piDdFXDWEdWfRmme366TNJe7VrKkgLLefBSpcQPT7bPVWCq29j/7uWC+JlLST4qBTkDbXbdVRnLPftq7G9R+9L/5pSp8L4+awXiWI4oyTBj2n6o/VgPFZMofrJPWmjjckeb9B6+Ifl+rw+fjdM6ckSkis26+hRVhffCoi5rGZzqdEVcTjkM2FhMpa5Qo1EwVlboLVSqtTHpKKNxFwmUOdfPmp3s8ZyeXZQJQxg6Oyh1CHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nmrvVntWMERGjxdn9ARlLm0a8Jt5rfmaqfuw6ia0ESs=;
- b=UhjqSJiguICXju6hoJnmYmv1F2UlxQMcq9njP6pF4DdPXOhW8Y2GAetU2fyBGrDCqAoz4e9Po4vdFK9xlv0umhFjSlWev9Cjg+wQkGJsNoEovdZYflIZd+6onkQo4CVjtlKTz201WrmeHCr9nkY9ZJ/YxNSRjVIfInYETHB9XDDJ/3zTDXuDX47Tu0Yr6I9K4hucrkVg1qk2o7h9wHU518ZsgVvw8xiVj4NZzH/Q5jeXH0jhte2OIipEKfUI5z2hi9SIoWrnl8g7beGRm0bFsENuVpy7tNA0OgEBIPyPhEHjWUBmqibrrEKU1M4bTw80PTr8sA0cwftCuRYh2MfzfA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MWHPR12MB1391.namprd12.prod.outlook.com (2603:10b6:300:10::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.16; Wed, 10 Nov
- 2021 06:10:18 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::c961:59f1:3120:1798]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::c961:59f1:3120:1798%4]) with mapi id 15.20.4669.016; Wed, 10 Nov 2021
- 06:10:18 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Klaus Jensen <its@irrelevant.dk>
-CC: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Jens
- Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Klaus
- Jensen <k.jensen@samsung.com>
+ id 1mkjCl-004rp5-FE
+ for linux-nvme@lists.infradead.org; Wed, 10 Nov 2021 08:43:40 +0000
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id DCEE03200C17;
+ Wed, 10 Nov 2021 03:43:32 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 10 Nov 2021 03:43:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=owWYeiWFYkGF/b1JsBUI116OWsE
+ G0GBwjuejxm+3SCs=; b=nBaULEZIHdgRiY1v4bet9pErzPVyMLWg+1kD4IQ+aTI
+ E0XJyEXzAgQ3xfPRw9Qmzur89MVl6LIvJEjd+jmCsnSXh1Zy+7asVwMfNGrnoPXy
+ e9So2SVmyAEs/ZvH5jh2swKVAcd6KjHTpdoMrdWyEkKXinPfKSocbd7Zhs7iWjBl
+ inhmk66mgT2Nd7WGz7EoKFJ8RAFNJXCUf+8poDG4Po2QqedyVfozz8OYGn12evGq
+ Fv5hg0RuhwV6UXFa8JZrqL1pSol9Zu5ZFCkzoQuK2o5jNER4GPUsNH8gA77NPkHU
+ 42Jtkf8B0p2p5U4xd9elyaTr62UuIyWZiWWwHkIaDnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=owWYei
+ WFYkGF/b1JsBUI116OWsEG0GBwjuejxm+3SCs=; b=co3nDw2vqowJfJLV/AbjvF
+ cxEaPUUxg0tOZo+7Xt0LIrCr1vZJz0Lzh2dpM0+4NZjbpoo2/p1H6KLc92z2dshO
+ ECdRkNZHoNhct+N9vklzpq+zOJWGB7weLHFHGu6+I3Uzt+KLEOjA7al2Q1YwGFDk
+ LlbAWF6QveZnM94MW+v+WwJQ7+pfrOrirdKJYl5x0tz8eg4W2PBZyeUxQ9TCOGGt
+ uGzzuQB3SNxVIoccaqlV/dVN1uB5cYYA52FOWw8EzpNmOpmKUt3pmSsdgQallEYH
+ c53E7ZbZfcJxIg5AXqyBBy/PVD/awbpRWkzSZUEGx1jm2Nkak4PgBDbYppz47BWA
+ ==
+X-ME-Sender: <xms:M4aLYbIsvA8AVcsYqCFigDMveaepIp6fGvlOf7O18NK-3HEjo63G4A>
+ <xme:M4aLYfIPVZs19rL4xkLSvA0-loFju4Q5SjdYvkSeF0NGc7aqtOMsHPnR0PT5HvJ7u
+ 9idFqcZxaqRgk4HzT4>
+X-ME-Received: <xmr:M4aLYTuOAxY615IMdplMJaSFuUrtiGc-NO1nLdkGAwK2HSyNdNxpZK5tl6h3mvlVAf267l3QdKYym4prZGdLGOTeuWQjeBPxInqWMj7myqwchapJmw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudeigddtkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:M4aLYUb9kx5G1NXrqaeSe1qtchhPEemaO36m4qfKObzvNr4G_858Aw>
+ <xmx:M4aLYSZ_W2dSKQufw1TzYrzes5ybm1gHrS4Fcg_qKaxPgP8LVYod-Q>
+ <xmx:M4aLYYDjH-JNTXA1onBRfS_IjUJ1wiQIafjeVPwdrasJ4UVNojW3bQ>
+ <xmx:NIaLYXMiNiPUqp_y3cKQdf8vw6_5GP62XGF6W0-WHYnnH-ZRpt5GRw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 10 Nov 2021 03:43:30 -0500 (EST)
+Date: Wed, 10 Nov 2021 09:43:28 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-kernel@vger.kernel.org, Klaus Jensen <k.jensen@samsung.com>
 Subject: Re: [PATCH] nvme: fix write zeroes pi
-Thread-Topic: [PATCH] nvme: fix write zeroes pi
-Thread-Index: AQHX0ahdoiiPVPBuf0SAQrCEhrQcWav8T/WA
-Date: Wed, 10 Nov 2021 06:10:18 +0000
-Message-ID: <db739cda-2dd7-015a-5ad9-d2d6e44131c6@nvidia.com>
+Message-ID: <YYuGMBYaiZD2vybH@apples.localdomain>
 References: <20211104181618.864157-1-its@irrelevant.dk>
-In-Reply-To: <20211104181618.864157-1-its@irrelevant.dk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-authentication-results: irrelevant.dk; dkim=none (message not signed)
- header.d=none;irrelevant.dk; dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 18478f87-acd0-4442-39c3-08d9a410c576
-x-ms-traffictypediagnostic: MWHPR12MB1391:
-x-microsoft-antispam-prvs: <MWHPR12MB13915E7C39D7C1EB5C6D3C66A3939@MWHPR12MB1391.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4125;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: StonPQjMdxM8obYEnlN3fi2YH1Za+h/3s931aG+ZAtzR+bqt3202c0hWuBVohO1SKF46I40Twq2nUedcV0BGaD8Fx31/3X8reKxRv2bjnsWW/Zu0+z58bgvFUz9EnO0JnWNl2XKx4t8tCZzusJ3vD9SUt5MsgV7i9OoeWLgDbSTqu7eEQoE3WMXLcCPIalKYOV6Da9e4Oc99arA9UxNj+vlnPt+8KhpXbEtCVTcCUSRcNu5BKjOLlHELeKb3+ui3Sze9jpoSKYBw8gX8fDTYZMU++ere7xNB8hUT9pOdUk0+VFP2RfUFyP6CGsfzQKwCj5ePH2fhsekFYmh00O+aOJrVs6/ORHyqGeQQ9einLvGwfR9MC/n1Rf7LeK5DaIml/xf7JTB0J4isodHsdKQXGveCV2hlHctgxJmBs2mDXJrZEuzbO7pOpgFnjuRwTbwFhryOaru9QNHJ8zjpaaK63WrMsaP64W2li1gAxyoKEeQkc2u2JWdljokECwMiCKX/BOVjE5lW7Y5lnp55jXpyIn1WsOdxbVToRvKMiV2oOlxuTO1NMUWvTjy8EPXgXGGp7IS8gJmnsUFPNkQlp6vOZbgfT1TLVSUy4BVR0psIZ6uX0F7b5urcQvIqwZldynfxxqBqgxsxIcKSc8P8t4ZBvClgia7ZKNRoBaeifoQ/GtGBk43jdD69c/mysFrPkBH+uflqpMmWLNLdoNuMfo7S/FRJ3KgMHO5Zav5LicgO8lNQ0PAyF7SJCeywp9ze3J0ohseBevJyVTEW9BpIqzf6Hw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4744005)(6916009)(8936002)(66446008)(71200400001)(64756008)(6486002)(66476007)(66556008)(508600001)(66946007)(38070700005)(36756003)(54906003)(86362001)(5660300002)(316002)(8676002)(122000001)(76116006)(38100700002)(31696002)(6512007)(6506007)(31686004)(83380400001)(2906002)(186003)(2616005)(4326008)(53546011)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TTl3RVdTNTAyVkpJQU5abmN4RjU5ZmFMd2hZcWRHeVBGbExVWW85TFRLQUQ2?=
- =?utf-8?B?WTZDVzNndnY0bThaT2pyZ1pTQVZwWDBOcVNleEJVWmZTa0ttc0svMHN4bVlG?=
- =?utf-8?B?RFBQYjU0dFRNSkM4RzROVk50aTFiMWtaZS9iaVdZN25qaU9FWmMxOGw0aHlZ?=
- =?utf-8?B?RGlPR29sTzY1eDhSWUtHVXVaM2cvVDJpMngyRVI4ZFJxNXhkM2JnSEpscHhn?=
- =?utf-8?B?dEpYajVpMkZESEQyekNIMU1FbGxOMm42TXFHTTVFTU03cWtnZlhXRHBuc2Nh?=
- =?utf-8?B?d2VoUFFDajlnR2k2b2hOdHBsN2tKbnVaMk9hdDhGUElxUUQwTlZRblpBNi9G?=
- =?utf-8?B?R3duazhOanc0MHZSTmJxZUExWlJYUGRydThMeFVMNm9IVHBDaU1NeVZacmY1?=
- =?utf-8?B?Qkdoa05EL2lScklFZmFyY21FZmh4ZDZlQ29GVk5mUjRrZ04yU3V0Yk5rb0Zj?=
- =?utf-8?B?LzRjTGhsYUVuQmtkWk4xTi9qREpiNm1wT25SWUNBVGhUaHczK3BkbFBhbzFZ?=
- =?utf-8?B?UHUwOVY4YXVoOWRKTUJSY2NETFRUb243MSt2TmxpM3AxU2EydXVKY0o2MzdW?=
- =?utf-8?B?L2Z4ZllubDJiZlhSdSs5TXhwVDF6NFRGd2g1YjkxR3AyMHpReWFDNlRhTStk?=
- =?utf-8?B?cGlobXZsVFpWUEhWejMxaWJlT1ZQRVRMN1pzeWRZdHJQZ0d4TzQ1QWtmNFlP?=
- =?utf-8?B?SWNQM2d6RnBOMGU0b1Q4SXdFLys0Ni8zdFZWRWllQVVVOGxxQjZQYllkMlRC?=
- =?utf-8?B?ZkJkWGZKUUZXTmo3TmxPZVZWQjZoenR1YkZxcm9RNXYvdXlEV29oYkFqZXg1?=
- =?utf-8?B?dVhtcWYzd09xVWZ3OG95ZFZiamVRY0pvMXl3MVVpaXV0Z3FXeTNuZkhoRi8v?=
- =?utf-8?B?VUhDS25nb1M1YnIrS0RpK0JoanJUaTRZNmFkVlZLdkhqMGovcU9CS0R1Mit4?=
- =?utf-8?B?cEZ2OVkwMktlZjhaRTZJWFFRMHhOWTFKaFdoRFh5MXN3RlJTUlMrRmREUTk1?=
- =?utf-8?B?alhhbWF4TlBFcjhKYjBlUE9COWYxalhlNjY4QkVuK0tIcVo5RnFHM0JwUmFp?=
- =?utf-8?B?M3FWVCtYZkhzZXZUcmVIbkdid2taWkxTcmlGVHlBQlFsdGdLYk5VMFBtd3JQ?=
- =?utf-8?B?WEZnVnpETzhZZ2c1QU9JWWhxVFNuRmgvTGI1WTQ2NWpXT1hXc1QzWFRYdlhr?=
- =?utf-8?B?WUN0UGRCVXV2M1h4bkFKUmtsVS9wWHJEbEp6N2tFZEVJU0Y1U0l5bjdQaDd6?=
- =?utf-8?B?VlIwa2xnZ1k2b0tGVEZ5b3ljcGdqNXFpNUdzUzhXYUgwZVpBRkF3MzhmMERI?=
- =?utf-8?B?NGF0VXNGS3ZneEZ0UmZ0SUJZMVc2UWxkZzBPVHpQZXBPVFZ2TmQxZ1c0Y0lu?=
- =?utf-8?B?SnpEYjRkSXZwa3NyOWNlM01UOXR0RWZlQ0tia1JuMGVsTXNSQThvMWtud1dy?=
- =?utf-8?B?R3BwMEI2K09EWWZ5Zy9GcUpQNVlnaE8rZzZld0JOUUlrRUZIVm56OHRoYy9a?=
- =?utf-8?B?bjZHTStRbnFuZEVkRm5xa2tBdldXS3RzbVVxV0kvQWY1M3NRSGtJVGo3U0dS?=
- =?utf-8?B?WWE0Kzl0UmV6SjNuU1NlMW5iekluS0NjeW9tQVo0Y24rK2tzVFpmT2hLTXhm?=
- =?utf-8?B?T2hUc3NTejJpVGYvRXFUS1UwRjJOSjlvdXFqL1RFQ1loQnZVdVRXTWFmbVdH?=
- =?utf-8?B?UzB4VHoyRWd6eDIzSCtmRDhmRGg1azdETTM0bEEzeXR1NS8zcDNNQmp6ajFH?=
- =?utf-8?B?NDBhRERBL1pKblhkN2c2N0t5Q3dIQXpwdmRodzJNZ0pGT0FIcWY2VVlTdFNJ?=
- =?utf-8?B?L3RXYktqbWlGWkM3NUF5VUYxa0pURTJtdUc4NVhvdDdkN2NCYnBCWTY1bUtN?=
- =?utf-8?B?T0lObHlJbTFzY2d1VkRuNCt3blVVQzZONFhlZ2NNNC9oL0xidXRlWVBMVXl5?=
- =?utf-8?B?MlFuY04wbVhlbTVMc0JtUGNhNXlwRmJjK2NJUXVWZ3RvRzdscEg0d3pIcXdy?=
- =?utf-8?B?a1pFOTRpWVFiVEczYmlTZlR3QmN1VHVld0l1TTQyRmd0Sk5RVVN6czNmclJv?=
- =?utf-8?B?bjNFdkZBb1BGN0NnN0NsWVorV2REdTRJeCs0Z3RXS0hiZ01NS1N3ODhaTkgr?=
- =?utf-8?B?enNHcWllSit3YjZpcjZwcGpGRzYxZWlDcTY0V1dEMkZVQnY0cm9VNFhzSXJ1?=
- =?utf-8?B?UE9BWGpjNzM4b1U0VzRTK2JzcWF0N0JvWmZ1VWYwUzZLM1I0WVp3bFpTMysx?=
- =?utf-8?Q?S3nwTez6uApjIifSfstOlNWNZh0xp0hkI+Thcasvto=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1814B869D851464AAF865AD206250311@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18478f87-acd0-4442-39c3-08d9a410c576
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2021 06:10:18.7488 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: o3mzohgf0vYc83bFES+fvRZOq6U0WjqFQaJQ7tcNdJi8VESgQrtgTtqmS6UW5EopZb7siuMPkeIe7W3eQFld/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1391
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="q89p0TJFKQIxYF7I"
+Content-Disposition: inline
+In-Reply-To: <20211104181618.864157-1-its@irrelevant.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211109_221027_702647_151EC246 
-X-CRM114-Status: GOOD (  12.07  )
+X-CRM114-CacheID: sfid-20211110_004339_565441_6C948A6D 
+X-CRM114-Status: GOOD (  19.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,14 +105,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-S2xhdXMsDQoNCk9uIDExLzQvMjAyMSAxMToxNiBBTSwgS2xhdXMgSmVuc2VuIHdyb3RlOg0KPiBG
-cm9tOiBLbGF1cyBKZW5zZW4gPGsuamVuc2VuQHNhbXN1bmcuY29tPg0KPiANCj4gV3JpdGUgWmVy
-b2VzIHNldHMgUFJBQ1Qgd2hlbiBibG9jayBpbnRlZ3JpdHkgaXMgZW5hYmxlZCAoYXMgaXQgc2hv
-dWxkKSwNCj4gYnV0IG5lZ2xlY3RzIHRvIGFsc28gc2V0IHRoZSByZWZ0YWcgd2hpY2ggaXMgZXhw
-ZWN0ZWQgYnkgcmVhZHMuIFRoaXMNCj4gY2F1c2VzIHByb3RlY3Rpb24gZXJyb3JzIG9uIHJlYWRz
-Lg0KPiANCj4gRml4IHRoaXMgYnkgc2V0dGluZyB0aGUgcmVmdGFnIGZvciB0eXBlIDEgYW5kIDIg
-KGZvciB0eXBlIDMsIHJlYWRzIHdpbGwNCj4gbm90IGNoZWNrIHRoZSByZWZ0YWcpLg0KPiANCj4g
-U2lnbmVkLW9mZi1ieTogS2xhdXMgSmVuc2VuIDxrLmplbnNlbkBzYW1zdW5nLmNvbT4NCg0KUGF0
-Y2ggbG9va3MgZ29vZCB0byBtZSBidXQgZGlkIHlvdSBnZXQgYSBjaGFuY2UgdG8gdGVzdCBvbg0K
-bXVsdGlwbGUgbm9uLVFFTVUgY29udHJvbGxlcnMgPw0KDQoNCg==
+
+--q89p0TJFKQIxYF7I
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Nov  4 19:16, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Write Zeroes sets PRACT when block integrity is enabled (as it should),
+> but neglects to also set the reftag which is expected by reads. This
+> causes protection errors on reads.
+>=20
+> Fix this by setting the reftag for type 1 and 2 (for type 3, reads will
+> not check the reftag).
+>=20
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  drivers/nvme/host/core.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 3825b596ca16..532bad4de025 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -914,10 +914,15 @@ static inline blk_status_t nvme_setup_write_zeroes(=
+struct nvme_ns *ns,
+>  		cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
+>  	cmnd->write_zeroes.length =3D
+>  		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
+> -	if (nvme_ns_has_pi(ns))
+> +
+> +	switch (ns->pi_type) {
+> +	case NVME_NS_DPS_PI_TYPE1:
+> +	case NVME_NS_DPS_PI_TYPE2:
+>  		cmnd->write_zeroes.control =3D cpu_to_le16(NVME_RW_PRINFO_PRACT);
+> -	else
+> -		cmnd->write_zeroes.control =3D 0;
+> +		cmnd->write_zeroes.reftag =3D cpu_to_le32(t10_pi_ref_tag(req));
+> +		break;
+> +	}
+> +
+>  	return BLK_STS_OK;
+>  }
+> =20
+
+Ugh. I goofed up. This fails to set PRACT for type 3.
+
+--q89p0TJFKQIxYF7I
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGLhiwACgkQTeGvMW1P
+Denhuwf/fZjJnnl4d8Bwdf7F/FdyVyc+Qn0aPsT7lrumoajOSh1Q2tKeTmsAPvWg
+J9MA70nNUe1lnpqJSUa+7kQJnFnBATMkGr+kDuOPD4Ris2vwOoaF+8msfxUNE/+g
+7qaZyTuA3J/a4x2cM4wr4zMJoiOdR51ounHBHqFnL+feURkhlAIOVqCBiXCK0FBI
+SkPmbFHjncMWL4oR4AwRPqeHfC0dGda1F5aIGbVYi80asSyfRZs4DqWW3JXYj0bs
+o2Q590Hie+4shf+EmVBldnNrBgaTQqYXpSOZvbB39+GU99uo/LlG59KfEYbhp2qT
+VwPJU4byb1S2norsRvJenlGGNAd7Dw==
+=Zszk
+-----END PGP SIGNATURE-----
+
+--q89p0TJFKQIxYF7I--
 
