@@ -2,80 +2,54 @@ Return-Path: <SRS0=m9zU=P5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B4F8C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 12:33:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B79C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 12:59:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 413126102A
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 12:33:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 413126102A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=HansenPartnership.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5164E6103C
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Nov 2021 12:59:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5164E6103C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o4bAPUIcPKFjRRD+4xvYJ3eOiJPtCOHiJaC3hZz+5eg=; b=xWgswdocdtzCvMmiIa55tkyrMg
-	tdggV3QMDxx89tNRjmkwQWQVBK5JrwvJ5UIGXzGLyxpkhHZgNhQwDfhlCdTQZIkJ2ozstrVGdQioL
-	k5goZ5SbEAg91guheU/U0+1MiWclosza7B/uLX0/kGITPOQm8QvikbJKhn5i0C4gk3lCq1A+rveSl
-	lI+MIxqvtzd+xY8f2CsjbVgJ0mPAKfPKbsgkA4FD7i2tOHhycRXjGIY5JkFG8dDozItuKD1Ho3YXB
-	EcAolA09cZV97FZMztkunA2u8SOwQB5HLuRSR5dyM6qPdInPuCrmiAukWxE/jkv4/glwzJFbSOxPV
-	snPan3lw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pbhXMzma7yH8YOcVaHZkAGcmPrAOtY5d5QHcK5iXL9Y=; b=0mzN4XH39Rl59Bg0RRjAOjdESL
+	Fpvv0V9J8MhMNgZQi4edAYSZv0wKAL/rljZeRDRB03p0a8lMdFj9OSVpdd8u2nafrA8I6qi4lTsCP
+	UmNaA/nAKXrw3/wJcbhoRWEBncB8/kUjX0SPsFLq0gppgNpbcAVPQfKA+XEn2zEnVf60OYFy3CgOH
+	wH2EGz8qmOZOWehN7DQopkxgPFm0xCCiSuIN0YG1vPuoHgap72DsBsdS6lAD/Dj59P5uHdcLT0PWU
+	2qKVTPHVvAKyMZIlnY8yvNdhWc2e5rSlxDFXtF4kiTXPzUMZZBwoKIlU9ZcdXLJOnuoTRXhUZ6sdG
+	5wF77yQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mkmn8-005QPY-6y; Wed, 10 Nov 2021 12:33:26 +0000
-Received: from bedivere.hansenpartnership.com ([2607:fcd0:100:8a00::2])
+	id 1mknBv-005UjZ-0t; Wed, 10 Nov 2021 12:59:03 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mkmm5-005Ptn-25
- for linux-nvme@lists.infradead.org; Wed, 10 Nov 2021 12:32:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1636547535;
- bh=Z3YhinHc8QcbATN4epE+xiKzHYWvAPm6wVUqFFN14TI=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=vyJ+fGgyrDLFBqsvq/+O4TvOfAfQiSj4ADfAzC74KBvIJEM0dRIJaMijnlJjFJkPu
- 9tLD4RbJFaE4DQ0DDuWDrQiJWFkkKlK6ZasenSU0UJ/ma8l0/viCM8ATS1jNI/mNpI
- QpS4MInhLSQSooQdoJPauMT1zWSFS2PRltDGbGh0=
-Received: from localhost (localhost [127.0.0.1])
- by bedivere.hansenpartnership.com (Postfix) with ESMTP id 21726128094A;
- Wed, 10 Nov 2021 07:32:15 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id TXkaZrjrk1bF; Wed, 10 Nov 2021 07:32:15 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1636547534;
- bh=Z3YhinHc8QcbATN4epE+xiKzHYWvAPm6wVUqFFN14TI=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=xj2h/XZyfmg5xrko5DoctyB0RyZbyuwBIMn6le8dUK3PdcB8jUG1Yftn1vCkCzo3+
- vofbWN+lR7xJm9tLjWy2olqG49MqczbmlsTZBJ7LRAyrSuhtr7KqilAtwtVtkmAgQ3
- 1wKGdv+UD2rcUHIeWzswvFabzECRQyE557vJGQrc=
-Received: from jarvis.int.hansenpartnership.com (unknown
- [IPv6:2601:5c4:4300:c551::527])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 4E943128088B;
- Wed, 10 Nov 2021 07:32:14 -0500 (EST)
-Message-ID: <4829537ded072df6fe596e7fd0387a790f1b87d0.camel@HansenPartnership.com>
-Subject: Re: sorting out the freeze / quiesce mess
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Jens
- Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ id 1mknBs-005UiO-Cy
+ for linux-nvme@lists.infradead.org; Wed, 10 Nov 2021 12:59:02 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 2872768AA6; Wed, 10 Nov 2021 13:58:57 +0100 (CET)
+Date: Wed, 10 Nov 2021 13:58:56 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Date: Wed, 10 Nov 2021 07:32:13 -0500
-In-Reply-To: <477f3098-39be-ad07-e2fb-3ef3309c4dce@suse.de>
-References: <20211110091407.GA8396@lst.de>
- <477f3098-39be-ad07-e2fb-3ef3309c4dce@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+Subject: Re: sorting out the freeze / quiesce mess
+Message-ID: <20211110125856.GA25614@lst.de>
+References: <20211110091407.GA8396@lst.de> <YYuQ9mhHtDNDVFQ3@T590>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YYuQ9mhHtDNDVFQ3@T590>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211110_043221_167383_A6C06E1B 
-X-CRM114-Status: GOOD (  22.98  )
+X-CRM114-CacheID: sfid-20211110_045900_609110_E0B77015 
+X-CRM114-Status: GOOD (  20.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,48 +64,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2021-11-10 at 11:22 +0100, Hannes Reinecke wrote:
-> On 11/10/21 10:14 AM, Christoph Hellwig wrote:
+On Wed, Nov 10, 2021 at 05:29:26PM +0800, Ming Lei wrote:
+> On Wed, Nov 10, 2021 at 10:14:07AM +0100, Christoph Hellwig wrote:
 > > Hi Jens and Ming,
 > > 
-> > I've been looking into properly supporting queue freezing for bio
-> > based
-> > drivers (that is only release q_usage_counter on bio completion for
-> > them).
-> > And the deeper I look into the code the more I'm confused by us
-> > having
-> > the blk_mq_quiesce* interface in addition to
-> > blk_freeze_queue.  What
+> > I've been looking into properly supporting queue freezing for bio based
+> > drivers (that is only release q_usage_counter on bio completion for them).
+> > And the deeper I look into the code the more I'm confused by us having
+> > the blk_mq_quiesce* interface in addition to blk_freeze_queue.  What
 > > is a good reason to do a quiesce separately from a freeze?
-> > 
-> IIRC the 'quiesce' interface was an abstraction from the SCSI
-> 'quiesce'
-> operation, where we had to stop all I/O except for TMFs and scanning.
-> And 'freeze' was designed fro stopping all I/O.
-
-Quiesce was a specific invention for SPI Domain Validation.  That's
-where you try a specific set of patterns to the buffer and read them
-back and try to jack up the transport parameters.  Pretty much every
-transport does this type of retraining, but on all but SPI it's usually
-hidden in hardware.
-
-The point is you need to be able to stop all other I/O and then send
-READ/WRITE_BUFFER commands to the device.
-
-> But I'm not sure if that ever was the distinction, or if it still
-> applies today.
-
-As long as the SPI transport class exists, there'll be a distinction.
-I'm not sure there's a use for quiesce beyond that.
-
-> And yeah, I've been wondering myself.
 > 
-> Probably we should just kill the 'quiesce' stuff and see where we end
-> up :-)
+> freeze can make sure that all requests are done, quiesce can make sure that
+> dispatch critical area(covered by hctx lock/unlock) is done.
 
-The SPI transport class would break.
-
-James
-
-
+Yeah, but why do we need to still call quiesce after we just did a
+freeze, which is about half of the users?
 
