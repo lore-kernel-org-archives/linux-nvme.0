@@ -2,14 +2,14 @@ Return-Path: <SRS0=CVLn=P6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9498C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Nov 2021 13:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD5CC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Nov 2021 13:21:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5563B61107
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Nov 2021 13:06:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5563B61107
+	by mail.kernel.org (Postfix) with ESMTPS id 55D7E60FC3
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Nov 2021 13:21:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 55D7E60FC3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,53 +18,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=1na+RYmpzV52C4O+CcJC08V6zROqirBn0An9GHu+mXs=; b=lOCrzsl5VRppwVPo/14+sMRhCK
-	Y9KcWirpfrScpgdkvYkEeLa6kDJRwZHR8xFBpeR+GtCS3q3hDh4K8Ur8H1kuU1Y1N7VNORDNZ69NM
-	VBYiPD56BAlnrKVKysD85MuQRxED6Kh+HOlqSsEG6aKPt+fIGWy42QuFso4EOpLN68a8rS1v3LH5C
-	daG+OTWGnJ6RxmGIBmOIkYyCpsBm7imdV0jaYeptHvU3oxufzuZrIJJQiUlQjUX2pqOd+Ll+Z5iOn
-	xr6GlbCMNVvTFvfL95ByaCR/vwJ0eXmtbFmaW8sV9Z8oWbMvST4HC4qmlIgXbkWfEx11gf6I82hTC
-	z/xtZflA==;
+	bh=wnt7mFLAjVnxm6agU/pUDd8KQgF9aKwvQATvhFbENRE=; b=OmfuCetsuHTqnhI74daNKBXpre
+	jP8tD9uaqKfgw39s30qMNIkUh4N9xllOX2Rwh1o461Ko1BsWklqJeZlrsBcAetl2fI5OrSZ0O1nZU
+	QQr5QGDXlrpsWsUJ5zx1vPCMIQowzgNqGzqrKUefQKf/JkM9o/5SSj0JmKpQqoPQRc4jOiD9Rjcjz
+	3eEk7KZslduPxWnOraos97bCC7NWLzQNrf6p6oQ0KEtIzJTdHUkBryYVPswsXlIdT+pL77lR77hR5
+	94k/rl6W4boUU3zsUzUn24IcyQGFRK6/1nWRy6sbVIpvf4vxb2eC9oluG0j+6wG/AerbLXzwT0dqh
+	3s5ITOFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ml9mO-007vUJ-Iz; Thu, 11 Nov 2021 13:06:12 +0000
+	id 1mlA1O-007xc9-8j; Thu, 11 Nov 2021 13:21:42 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ml9mL-007vTd-JD
- for linux-nvme@lists.infradead.org; Thu, 11 Nov 2021 13:06:11 +0000
+ id 1mlA1K-007xbg-Av
+ for linux-nvme@lists.infradead.org; Thu, 11 Nov 2021 13:21:39 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id DEB3121B43
- for <linux-nvme@lists.infradead.org>; Thu, 11 Nov 2021 13:06:04 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTP id 03E0F21B38
+ for <linux-nvme@lists.infradead.org>; Thu, 11 Nov 2021 13:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636635964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1636636897; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=1na+RYmpzV52C4O+CcJC08V6zROqirBn0An9GHu+mXs=;
- b=Jum6c6iKKMljcGGEw3lQcHe/xwPQ+OsH+7hfoqdhMJFpydXT7KFQDZaFU+iPJsbrDK+gAB
- 25TjquBQd3LQnAibWcw7gfdv/PYHkVXjeUzKgKJt0LISvBOAgM6/3wPWos/FDaHqsLInSA
- 4oOnFIYC/uBPydIHEQIB5PtJPIxhy/k=
+ bh=wnt7mFLAjVnxm6agU/pUDd8KQgF9aKwvQATvhFbENRE=;
+ b=UpFvU64Cmo3/6+j4FTl1Ea7Vj4FLeRMGkM1OMFV7AlVnI9s7GM1GFMQjjPUKFOokNenwk3
+ OqOXQJ9PJQAL5AxBbOY0+Fyg1bldT6TETthP22+oMHnYC0qUI2tzepiHgp67y6UNOAS1bB
+ i+qdWMJ4NBR0dEW1QCK+iVb1n//D83M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636635964;
+ s=susede2_ed25519; t=1636636897;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=1na+RYmpzV52C4O+CcJC08V6zROqirBn0An9GHu+mXs=;
- b=0/6A45fIctiv1YgCEWP/Nk/mhcg5DPyKUitgYU9TfotrwX6Pl6lzryNaNbjyWmEtIkVtQv
- F8S50Rff0ch8NGDg==
+ bh=wnt7mFLAjVnxm6agU/pUDd8KQgF9aKwvQATvhFbENRE=;
+ b=P05u/1P2UvRCcYcmbujDfTHb8RW7fvGBkJAizNkJJHRMwdFHIdJq+0GrAReS7CWLHJHquw
+ Dp6yB2L8wrZ4DQBg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id D9EB3A3BC9;
- Thu, 11 Nov 2021 13:06:04 +0000 (UTC)
+ by relay2.suse.de (Postfix) with ESMTP id F2606A3BB8;
+ Thu, 11 Nov 2021 13:21:36 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id CC97251911C8; Thu, 11 Nov 2021 14:06:04 +0100 (CET)
+ id E65A451911CC; Thu, 11 Nov 2021 14:21:36 +0100 (CET)
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH] nvme: Add sibling to list after full initialization
-Date: Thu, 11 Nov 2021 14:06:03 +0100
-Message-Id: <20211111130603.16547-1-dwagner@suse.de>
+Subject: [PATCH v2] nvme: Add sibling to list after full initialization
+Date: Thu, 11 Nov 2021 14:21:35 +0100
+Message-Id: <20211111132135.19216-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211111_050609_826213_5603636A 
-X-CRM114-Status: GOOD (  14.65  )
+X-CRM114-CacheID: sfid-20211111_052138_550042_1CDCC19B 
+X-CRM114-Status: GOOD (  14.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,6 +86,7 @@ over the sibling list.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
+v2: use list_add_tail_rcu instead of list_add_tail
 
 I got a few bug reports from our customer hitting this
 quite often:
@@ -123,7 +124,7 @@ only call synchronize_srcu when clearing current path").
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9a2610e147ce..84f52e6c1a02 100644
+index 9a2610e147ce..7e43cb31d41e 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
 @@ -3776,7 +3776,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
@@ -139,7 +140,7 @@ index 9a2610e147ce..84f52e6c1a02 100644
  		goto out_unlink_ns;
  
 +	mutex_lock(&ctrl->subsys->lock);
-+	list_add_tail(&ns->siblings, &ns->head->list);
++	list_add_tail_rcu(&ns->siblings, &ns->head->list);
 +	mutex_unlock(&ctrl->subsys->lock);
 +
  	down_write(&ctrl->namespaces_rwsem);
