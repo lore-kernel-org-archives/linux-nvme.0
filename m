@@ -2,14 +2,14 @@ Return-Path: <SRS0=M30F=P7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54958C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 13:11:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCA3C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 13:13:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 024C660EFE
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 13:11:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 024C660EFE
+	by mail.kernel.org (Postfix) with ESMTPS id 728F360FBF
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 13:13:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 728F360FBF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,60 +18,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UGfcvKI8fjTpB69GHHZCWzhrgsp+mEwX3mEPryrBCmc=; b=VP5CdmPMcqMIyo3qkSDUs0c9Kn
-	XNQ0NLBUZEgjla6j7v4BuR+PFeE2I8GM7FbGR9vGQFkrwvuk2UkcoU/0itHNZvbnn1dKPPBeG4lPI
-	ls+NR+miqZS1fyduy5qtcwMZKVxJaclPi8/NjGiL5rt9Y8e8dmpnr7gpReR/hvAw6QlQSS3DwCyxg
-	RBN5rDwC+LFdHa6qDwhuJegA7DAk2AzVd7fEL7Quk5p7TVHajOjeB3AK6xHR42wONG1WPRV35r11T
-	+iGVigiTjsln7Nq//eLGl3Kt8eO8SB+kieqjv0LNIqdqSTa1g3PwyB983PhLIX8ZvVsEWtUJG2ceX
-	8y6wmEbw==;
+	bh=dXVCEEt3M0pBzMV38aognGqCT2KTujJDogg4iYRlBf8=; b=zndIZlEceF0amsLuqwcKSoP42G
+	nUERBZAl4JSPR5TtozLHp/PzhT1+PfP+3bFdDzaZ/cV/fgBZG5gVTVKyhuLz9Dq4ZWhow02hMWzvi
+	hsBYPPMho4Zp6F7iN6PrrO/W93N3fUSVSnteQ2SVWMKYxPB8eZjeo4BZwYHURTEgSqdg/rcHDP5l1
+	XdlWc/mX9s2lwS9coepVMmiupXDw/kcCDZBWWAV7KiSI1LVCEA6xCVL33nkD1r6MokvLNq5+Y/DGI
+	wjEKss1wnsapQPKueTTYkBeq3FU0u4DSJQdh3JRum0tAhMq7glZpjylHZ9jqWXBLlwfPyHxw+hgP2
+	K2fYNNYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mlWL5-00AUFg-1F; Fri, 12 Nov 2021 13:11:31 +0000
+	id 1mlWMZ-00AUcb-9C; Fri, 12 Nov 2021 13:13:03 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mlWKu-00AUCt-7t
+ id 1mlWKu-00AUCs-7z
  for linux-nvme@lists.infradead.org; Fri, 12 Nov 2021 13:11:26 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id CA8711FD5B;
+ by smtp-out2.suse.de (Postfix) with ESMTP id CB65A1FD5E;
  Fri, 12 Nov 2021 13:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1636722678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UGfcvKI8fjTpB69GHHZCWzhrgsp+mEwX3mEPryrBCmc=;
- b=0R1nidQBr1wn8JqxJA8b1XC5XDPFyfYjCSARBJ6XPHr9QeUHR3wtTBuoKoUA4QLwzwPXKh
- c6EvUYKJTOR6rprzZFTDPxD/JX1W1F5KgOJc5a1GyFFrGZllc4TnNM8G1NLoQnaqEbU51U
- jNkAmoeipzVfQyuVNYVmEQKir7T45GE=
+ bh=dXVCEEt3M0pBzMV38aognGqCT2KTujJDogg4iYRlBf8=;
+ b=Ao/nWggJed3764H04QUA6bMLJz8RyiP4EBoiJLEgeSLNH87F7WAL7O64WaLQjgqPxRhZkl
+ Wm0Yf9YiP31ERPHWeV9S1Dj3dNGH5Iag7liS3gEk5mbXhdhaaAde6EdPFEdu0mp8dQZFPZ
+ lt10ZidWt+kSj/ZLnO794Um2A7lrq+I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1636722678;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UGfcvKI8fjTpB69GHHZCWzhrgsp+mEwX3mEPryrBCmc=;
- b=yo+PEAf9wxeOBW96SgeyfwucyjQQyc9vbRq4iDqOcB4/73hnE3SEeB686p9+/LjTP+byGw
- PaMoUmsYJ/FV5NAw==
+ bh=dXVCEEt3M0pBzMV38aognGqCT2KTujJDogg4iYRlBf8=;
+ b=ZlkKHXR8EUvCKl+bGPWCo3yMxNG1H97rkLDQbn3zG0gUDhBFjrUYSQd1k5WHSvagu6Ljlf
+ uKMyR24aFE1sRIAg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 9C071A3B87;
+ by relay2.suse.de (Postfix) with ESMTP id A9384A3B89;
  Fri, 12 Nov 2021 13:11:18 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 8E5295191272; Fri, 12 Nov 2021 14:11:18 +0100 (CET)
+ id 9882E5191276; Fri, 12 Nov 2021 14:11:18 +0100 (CET)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH nvme-cli 1/3] Add 'gen-dhchap-key' command
-Date: Fri, 12 Nov 2021 14:11:09 +0100
-Message-Id: <20211112131111.97599-2-hare@suse.de>
+Subject: [PATCH nvme-cli 3/3] nvme-connect: Add 'dhchap-secret' and
+ 'dhchap-ctrl-secret' arguments
+Date: Fri, 12 Nov 2021 14:11:11 +0100
+Message-Id: <20211112131111.97599-4-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211112131111.97599-1-hare@suse.de>
 References: <20211112131111.97599-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211112_051120_686090_D71167F8 
-X-CRM114-Status: GOOD (  33.68  )
+X-CRM114-CacheID: sfid-20211112_051120_526141_960132EC 
+X-CRM114-Status: GOOD (  15.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,439 +87,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add command 'gen-dhchap-key' to generate an DH-HMAC-CHAP host key
-for NVMe in-band authentication.
+Add 'dhchap-secret' and 'dhchap-ctrl-secret' arguments for nvme-connect
+to enable NVMe In-Band authentication.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- Documentation/nvme-gen-dhchap-key.txt |  52 ++++++++
- Makefile                              |  17 ++-
- nvme-builtin.h                        |   1 +
- nvme.c                                | 178 ++++++++++++++++++++++++++
- util/argconfig.h                      |   1 +
- util/base64.c                         |  62 +++++++++
- util/base64.h                         |   6 +
- 7 files changed, 316 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/nvme-gen-dhchap-key.txt
- create mode 100644 util/base64.c
- create mode 100644 util/base64.h
+ Documentation/nvme-connect.txt | 17 +++++++++++++++++
+ fabrics.c                      | 17 ++++++++++++++---
+ 2 files changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/nvme-gen-dhchap-key.txt b/Documentation/nvme-gen-dhchap-key.txt
-new file mode 100644
-index 0000000..eecde76
---- /dev/null
-+++ b/Documentation/nvme-gen-dhchap-key.txt
-@@ -0,0 +1,52 @@
-+nvme-gen-dhchap-key(1)
-+===================
-+
-+NAME
-+----
-+nvme-gen-dhchap-key - Generate a host DH-HMAC-CHAP key
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme gen-dhchap-key' [--hmac=<hmac-id> | -h <hmac-id>]
-+		      [--secret=<secret> | -s <secret> ]
-+		      [--key-length=<len> | -l <len> ]
-+		      [--nqn=<host-nqn> | -n <host-nqn> ]
-+
-+DESCRIPTION
-+-----------
-+Generate a base64-encoded DH-HMAC-CHAP host key in the form:
-+DHHC-1:00:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-+and prints it to stdout.
-+
-+OPTIONS
-+-------
-+-h <hmac-id>::
-+--hmac=<hmac-id>::
-+	Select a HMAC algorithm to use. Possible values are:
-+	0 - No HMAC algorithm
-+	1 - SHA-256
-+	2 - SHA-384
-+	3 - SHA-512
-+
-+-s <secret>::
-+--secret=<secret>::
-+	Secret value (in hexadecimal) to be used for the key. If none are
-+	provided a random value is used.
-+
-+-l <len>::
-+--key-length=<len>::
-+	Length of the resulting key. Possible values are 32, 48, or 64.
-+
-+-n <hostnqn>::
-+--nqn=<hostnqn>::
-+	Host-NQN to be used for the transformation. This parameter is only
-+	valid if a non-zero HMAC function has been specified.
-+
-+EXAMPLES
-+--------
-+No Examples
-+
-+NVME
-+----
-+Part of the nvme-user suite
-diff --git a/Makefile b/Makefile
-index 4da13d5..22aafd3 100644
---- a/Makefile
-+++ b/Makefile
-@@ -5,6 +5,8 @@ LIBUUID = $(shell $(LD) -o /dev/null -luuid >/dev/null 2>&1; echo $$?)
- LIBHUGETLBFS = $(shell $(LD) -o /dev/null -lhugetlbfs >/dev/null 2>&1; echo $$?)
- HAVE_SYSTEMD = $(shell pkg-config --exists libsystemd  --atleast-version=242; echo $$?)
- LIBJSONC = $(shell $(LD) -o /dev/null -ljson-c >/dev/null 2>&1; echo $$?)
-+LIBZ = $(shell $(LD) -o /dev/null -lz >/dev/null 2>&1; echo $$?)
-+LIBOPENSSL = $(shell $(LD) -o /dev/null -lssl >/dev/null 2>&1; echo $$?)
- NVME = nvme
- INSTALL ?= install
- DESTDIR =
-@@ -37,6 +39,18 @@ ifeq ($(LIBHUGETLBFS),0)
- 	override LIB_DEPENDS += hugetlbfs
- endif
+diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
+index 45b517a..4d24e2f 100644
+--- a/Documentation/nvme-connect.txt
++++ b/Documentation/nvme-connect.txt
+@@ -17,6 +17,8 @@ SYNOPSIS
+ 		[--host-iface=<iface>     | -f <iface>]
+ 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
+ 		[--hostid=<hostid>        | -I <hostid>]
++		[--dhchap-secret=<secret> | -S <secret>]
++		[--dhchap-ctrl-secret=<secret> | -C <secret>]
+ 		[--nr-io-queues=<#>       | -i <#>]
+ 		[--nr-write-queues=<#>    | -W <#>]
+ 		[--nr-poll-queues=<#>     | -P <#>]
+@@ -92,6 +94,21 @@ OPTIONS
+ 	UUID(Universally Unique Identifier) to be discovered which should be
+ 	formatted.
  
-+ifeq ($(LIBZ),0)
-+	override LDFLAGS += -lz
-+	override CFLAGS += -DLIBZ
-+	override LIB_DEPENDS += zlib
-+endif
++-S <secret>::
++--dhchap-secret=<secret>::
++	NVMe In-band authentication secret; needs to be in ASCII format as
++	specified in NVMe 2.0 section 8.13.5.8 'Secret representation'.
++	If this option is not specified, the default is read from
++	/etc/nvme/hostkey. If that does not exist no in-band authentication
++	is attempted.
 +
-+ifeq ($(LIBOPENSSL),0)
-+	override LDFLAGS += -lssl -lcrypto
-+	override CFLAGS += -DOPENSSL
-+	override LIB_DEPENDS += openssl
-+endif
++-C <secret>::
++--dhchap-ctrl-secret=<secret>::
++	NVMe In-band authentication controller secret for bi-directional
++	authentication; needs to be in ASCII format as
++	specified in NVMe 2.0 section 8.13.5.8 'Secret representation'.
++	If not present bi-directional authentication is not attempted.
 +
- INC=-Iutil
+ -i <#>::
+ --nr-io-queues=<#>::
+ 	Overrides the default number of I/O queues create by the driver.
+diff --git a/fabrics.c b/fabrics.c
+index 012bcb8..8ed618e 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -60,6 +60,8 @@ static const char *nvmf_htraddr		= "host traddr (e.g. FC WWN's)";
+ static const char *nvmf_hiface		= "host interface (for tcp transport)";
+ static const char *nvmf_hostnqn		= "user-defined hostnqn";
+ static const char *nvmf_hostid		= "user-defined hostid (if default not used)";
++static const char *nvmf_hostkey		= "user-defined dhchap key (if default not used)";
++static const char *nvmf_ctrlkey		= "user-defined dhchap controller key (for bi-directional authentication)";
+ static const char *nvmf_nr_io_queues	= "number of io queues to use (default is core count)";
+ static const char *nvmf_nr_write_queues	= "number of write queues to use (default 0)";
+ static const char *nvmf_nr_poll_queues	= "number of poll queues to use (default 0)";
+@@ -82,6 +84,8 @@ static const char *nvmf_config_file	= "Use specified JSON configuration file or
+ 	OPT_STRING("host-iface",      'f', "STR", &host_iface,	nvmf_hiface), \
+ 	OPT_STRING("hostnqn",         'q', "STR", &hostnqn,	nvmf_hostnqn), \
+ 	OPT_STRING("hostid",          'I', "STR", &hostid,	nvmf_hostid), \
++	OPT_STRING("dhchap-secret",   'S', "STR", &hostkey,	nvmf_hostkey), \
++	OPT_STRING("dhchap-ctrl-secret", 'C', "STR", &ctrlkey,	nvmf_ctrlkey), \
+ 	OPT_INT("nr-io-queues",       'i', &c.nr_io_queues,       nvmf_nr_io_queues),	\
+ 	OPT_INT("nr-write-queues",    'W', &c.nr_write_queues,    nvmf_nr_write_queues),\
+ 	OPT_INT("nr-poll-queues",     'P', &c.nr_poll_queues,     nvmf_nr_poll_queues),	\
+@@ -93,7 +97,7 @@ static const char *nvmf_config_file	= "Use specified JSON configuration file or
+ 	OPT_FLAG("duplicate-connect", 'D', &c.duplicate_connect,  nvmf_dup_connect),	\
+ 	OPT_FLAG("disable-sqflow",    'd', &c.disable_sqflow,     nvmf_disable_sqflow),	\
+ 	OPT_FLAG("hdr-digest",        'g', &c.hdr_digest,         nvmf_hdr_digest),	\
+-	OPT_FLAG("data-digest",       'G', &c.data_digest,        nvmf_data_digest)     \
++	OPT_FLAG("data-digest",       'G', &c.data_digest,        nvmf_data_digest)	\
  
- ifeq ($(HAVE_SYSTEMD),0)
-@@ -88,7 +102,8 @@ OBJS := nvme-print.o nvme-rpmb.o \
- 	fabrics.o nvme-models.o plugin.o
  
- UTIL_OBJS := util/argconfig.o util/suffix.o util/parser.o \
--	util/cleanup.o
-+	util/cleanup.o util/base64.o
-+
- ifneq ($(LIBJSONC), 0)
- override UTIL_OBJS += util/json.o
- endif
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index a413d00..a256f05 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -81,6 +81,7 @@ COMMAND_LIST(
- 	ENTRY("disconnect-all", "Disconnect from all connected NVMeoF subsystems", disconnect_all_cmd)
- 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
- 	ENTRY("show-hostnqn", "Show NVMeoF host NQN", show_hostnqn_cmd)
-+	ENTRY("gen-dhchap-key", "Generate NVMeoF DH-HMAC-CHAP host key", gen_dhchap_key)
- 	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
- 	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
- 	ENTRY("virt-mgmt", "Manage Flexible Resources between Primary and Secondary Controller ", virtual_mgmt)
-diff --git a/nvme.c b/nvme.c
-index dd51468..4ad91da 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -38,22 +38,31 @@
- #include <math.h>
- #include <dirent.h>
- #include <libgen.h>
-+#include <zlib.h>
- 
- #ifdef LIBHUGETLBFS
- #include <hugetlbfs.h>
- #endif
- 
-+#ifdef OPENSSL
-+#include <openssl/engine.h>
-+#include <openssl/evp.h>
-+#include <openssl/hmac.h>
-+#endif
-+
- #include <linux/fs.h>
- 
- #include <sys/mman.h>
- #include <sys/types.h>
- #include <sys/stat.h>
-+#include <sys/random.h>
- 
- #include "common.h"
- #include "nvme.h"
- #include "libnvme.h"
- #include "nvme-print.h"
- #include "plugin.h"
-+#include "base64.h"
- 
- #include "util/argconfig.h"
- #include "fabrics.h"
-@@ -5915,6 +5924,175 @@ static int show_hostnqn_cmd(int argc, char **argv, struct command *command, stru
- 	return 0;
- }
- 
-+static int gen_dhchap_key(int argc, char **argv, struct command *command, struct plugin *plugin)
-+{
-+	const char *desc = "Generate a DH-HMAC-CHAP host key usable "\
-+		"for NVMe In-Band Authentication.";
-+	const char *secret = "Optional secret (in hexadecimal characters) "\
-+		"to be used to initialize the host key.";
-+	const char *key_len = "Length of the resulting key "\
-+		"(32, 48, or 64 bytes).";
-+	const char *hmac = "HMAC function to use for key transformation "\
-+		"(0 = none, 1 = SHA-256, 2 = SHA-384, 3 = SHA-512).";
-+	const char *nqn = "Host NQN to use for key transformation.";
-+
-+	char *raw_secret;
-+	unsigned char key[68];
-+	char encoded_key[128];
-+	unsigned long crc = crc32(0L, NULL, 0);
-+	int err = 0;
-+#ifdef OPENSSL
-+	const EVP_MD *md = NULL;
-+	const char *hostnqn;
-+#else
-+	const char *md = NULL;
-+#endif
-+	struct config {
-+		char *secret;
-+		unsigned int key_len;
-+		char *nqn;
-+		unsigned int hmac;
-+	};
-+
-+	struct config cfg = {
-+		.secret = NULL,
-+		.key_len = 0,
-+		.nqn = NULL,
-+		.hmac = 0,
-+	};
-+
-+	OPT_ARGS(opts) = {
-+		OPT_STR("secret", 's', &cfg.secret, secret),
-+		OPT_UINT("key-length", 'l', &cfg.key_len, key_len),
-+		OPT_STR("nqn", 'n', &cfg.nqn, nqn),
-+		OPT_UINT("hmac", 'm', &cfg.hmac, hmac),
-+		OPT_END()
-+	};
-+
-+	err = argconfig_parse(argc, argv, desc, opts);
-+	if (err)
-+		return err;
-+
-+	if (cfg.hmac > 3) {
-+		fprintf(stderr, "Invalid HMAC identifier %u\n", cfg.hmac);
-+		return -EINVAL;
-+	}
-+	if (cfg.hmac > 0) {
-+#ifdef OPENSSL
-+		if (!cfg.nqn) {
-+			hostnqn = nvmf_hostnqn_from_file();
-+			if (!hostnqn) {
-+				fprintf(stderr, "Could not read host NQN\n");
-+				return -ENOENT;
-+			}
-+		} else {
-+			hostnqn = cfg.nqn;
-+		}
-+		switch (cfg.hmac) {
-+		case 1:
-+			md = EVP_sha256();
-+			if (!cfg.key_len)
-+				cfg.key_len = 32;
-+			else if (cfg.key_len != 32) {
-+				fprintf(stderr, "Invalid key length %d for SHA(256)\n",
-+					cfg.key_len);
-+				return -EINVAL;
-+			}
-+			break;
-+		case 2:
-+			md = EVP_sha384();
-+			if (!cfg.key_len)
-+				cfg.key_len = 48;
-+			else if (cfg.key_len != 48) {
-+				fprintf(stderr, "Invalid key length %d for SHA(384)\n",
-+					cfg.key_len);
-+				return -EINVAL;
-+			}
-+			break;
-+		case 3:
-+			md = EVP_sha512();
-+			if (!cfg.key_len)
-+				cfg.key_len = 64;
-+			else if (cfg.key_len != 64) {
-+				fprintf(stderr, "Invalid key length %d for SHA(512)\n",
-+					cfg.key_len);
-+				return -EINVAL;
-+			}
-+			break;
-+		default:
-+			break;
-+		}
-+#else
-+		fprintf(stderr, "HMAC transformation not supported; "\
-+			"recompile with OpenSSL support.\n");
-+		return -EINVAL;
-+#endif
-+	} else if (!cfg.key_len)
-+		cfg.key_len = 32;
-+
-+	if (cfg.key_len != 32 && cfg.key_len != 48 && cfg.key_len != 64) {
-+		fprintf(stderr, "Invalid key length %u\n", cfg.key_len);
-+		return -EINVAL;
-+	}
-+	raw_secret = malloc(cfg.key_len);
-+	if (!raw_secret)
-+		return -ENOMEM;
-+	if (!cfg.secret) {
-+		if (getrandom(raw_secret, cfg.key_len, GRND_NONBLOCK) < 0)
-+			return errno;
-+	} else {
-+		int secret_len = 0, i;
-+		unsigned int c;
-+
-+		for (i = 0; i < strlen(cfg.secret); i+=2) {
-+			if (sscanf(&cfg.secret[i], "%02x", &c) != 1) {
-+				fprintf(stderr, "Invalid secret '%s'\n",
-+					cfg.secret);
-+				return -EINVAL;
-+			}
-+			raw_secret[secret_len++] = (unsigned char)c;
-+		}
-+		if (secret_len != cfg.key_len) {
-+			fprintf(stderr, "Invalid key length (%d bytes)\n",
-+				secret_len);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	if (md) {
-+#ifdef OPENSSL
-+		HMAC_CTX *hmac_ctx = HMAC_CTX_new();
-+		const char hmac_seed[] = "NVMe-over-Fabrics";
-+		unsigned int key_len;
-+
-+		ENGINE_load_builtin_engines();
-+		ENGINE_register_all_complete();
-+
-+		HMAC_Init_ex(hmac_ctx, raw_secret, cfg.key_len,md, NULL);
-+		HMAC_Update(hmac_ctx, (unsigned char *)hostnqn,
-+			    strlen(hostnqn));
-+		HMAC_Update(hmac_ctx, (unsigned char *)hmac_seed,
-+			    strlen(hmac_seed));
-+		HMAC_Final(hmac_ctx, key, &key_len);
-+		HMAC_CTX_free(hmac_ctx);
-+#endif
-+	} else {
-+		memcpy(key, raw_secret, cfg.key_len);
-+	}
-+
-+	crc = crc32(crc, key, cfg.key_len);
-+	key[cfg.key_len++] = crc & 0xff;
-+	key[cfg.key_len++] = (crc >> 8) & 0xff;
-+	key[cfg.key_len++] = (crc >> 16) & 0xff;
-+	key[cfg.key_len++] = (crc >> 24) & 0xff;
-+
-+	memset(encoded_key, 0, sizeof(encoded_key));
-+	base64_encode(key, cfg.key_len, encoded_key);
-+
-+	printf("DHHC-1:%02x:%s:\n", cfg.hmac, encoded_key);
-+	return 0;
-+}
-+
- static int discover_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+ static void space_strip_len(int max, char *str)
+@@ -296,7 +300,7 @@ static int discover_from_conf_file(nvme_host_t h, const char *desc,
  {
- 	const char *desc = "Send Get Log Page request to Discovery Controller.";
-diff --git a/util/argconfig.h b/util/argconfig.h
-index 1a5c693..3b6da4c 100644
---- a/util/argconfig.h
-+++ b/util/argconfig.h
-@@ -100,6 +100,7 @@ enum argconfig_types {
- #define OPT_FMT(l, s, v, d)  OPT_STRING(l, s, "FMT", v, d)
- #define OPT_FILE(l, s, v, d) OPT_STRING(l, s, "FILE", v, d)
- #define OPT_LIST(l, s, v, d) OPT_STRING(l, s, "LIST", v, d)
-+#define OPT_STR(l, s, v, d) OPT_STRING(l, s, "STRING", v, d)
+ 	char *transport = NULL, *traddr = NULL, *trsvcid = NULL;
+ 	char *host_traddr = NULL, *host_iface = NULL;
+-	char *hostnqn = NULL, *hostid = NULL;
++	char *hostnqn = NULL, *hostid = NULL, *hostkey = NULL, *ctrlkey = NULL;
+ 	char *ptr, **argv, *p, line[4096];
+ 	int argc, ret = 0;
+ 	unsigned int verbose = 0;
+@@ -383,7 +387,7 @@ out:
+ int nvmf_discover(const char *desc, int argc, char **argv, bool connect)
+ {
+ 	char *nqn = NVME_DISC_SUBSYS_NAME;
+-	char *hostnqn = NULL, *hostid = NULL;
++	char *hostnqn = NULL, *hostid = NULL, *hostkey = NULL, *ctrlkey = NULL;
+ 	char *host_traddr = NULL, *host_iface = NULL;
+ 	char *transport = NULL, *traddr = NULL, *trsvcid = NULL;
+ 	char *hnqn = NULL, *hid = NULL;
+@@ -459,6 +463,8 @@ int nvmf_discover(const char *desc, int argc, char **argv, bool connect)
+ 		else if (!strncmp(device, "/dev/", 5))
+ 			device += 5;
+ 	}
++	if (hostkey)
++		nvme_host_set_dhchap_key(h, hostkey);
  
- struct argconfig_commandline_options {
- 	const char *option;
-diff --git a/util/base64.c b/util/base64.c
-new file mode 100644
-index 0000000..d9b8f01
---- /dev/null
-+++ b/util/base64.c
-@@ -0,0 +1,62 @@
-+/*
-+ * base64.c - RFC4648-compliant base64 encoding
-+ *
-+ * Copyright (c) 2020 Hannes Reinecke, SUSE
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License
-+ * as published by the Free Software Foundation; either version 2
-+ * of the License, or (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, write to the Free Software
-+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-+ * MA  02110-1301, USA.
-+ */
-+
-+#include <stdlib.h>
-+
-+static const char base64_table[65] =
-+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-+
-+/**
-+ * base64_encode() - base64-encode some bytes
-+ * @src: the bytes to encode
-+ * @srclen: number of bytes to encode
-+ * @dst: (output) the base64-encoded string.  Not NUL-terminated.
-+ *
-+ * Encodes the input string using characters from the set [A-Za-z0-9+,].
-+ * The encoded string is roughly 4/3 times the size of the input string.
-+ *
-+ * Return: length of the encoded string
-+ */
-+int base64_encode(const unsigned char *src, int srclen, char *dst)
-+{
-+	int i, bits = 0;
-+	u_int32_t ac = 0;
-+	char *cp = dst;
-+
-+	for (i = 0; i < srclen; i++) {
-+		ac = (ac << 8) | src[i];
-+		bits += 8;
-+		do {
-+			bits -= 6;
-+			*cp++ = base64_table[(ac >> bits) & 0x3f];
-+		} while (bits >= 6);
-+	}
-+	if (bits) {
-+		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
-+		bits -= 6;
-+	}
-+	while (bits < 0) {
-+		*cp++ = '=';
-+		bits += 2;
-+	}
-+
-+	return cp - dst;
-+}
-diff --git a/util/base64.h b/util/base64.h
-new file mode 100644
-index 0000000..374f5e6
---- /dev/null
-+++ b/util/base64.h
-@@ -0,0 +1,6 @@
-+#ifndef _BASE64_H
-+#define _BASE64_H
-+
-+int base64_encode(const unsigned char *src, int len, char *dst);
-+
-+#endif /* _BASE64_H */
+ 	if (!device && !transport && !traddr) {
+ 		ret = discover_from_conf_file(h, desc, connect, &cfg);
+@@ -546,6 +552,7 @@ int nvmf_connect(const char *desc, int argc, char **argv)
+ 	char *transport = NULL, *traddr = NULL;
+ 	char *host_traddr = NULL, *host_iface = NULL;
+ 	char *trsvcid = NULL, *hostnqn = NULL, *hostid = NULL;
++	char *hostkey = NULL, *ctrlkey = NULL;
+ 	char *config_file = PATH_NVMF_CONFIG;
+ 	unsigned int verbose = 0;
+ 	nvme_root_t r;
+@@ -618,12 +625,16 @@ int nvmf_connect(const char *desc, int argc, char **argv)
+ 		errno = ENOMEM;
+ 		goto out_free;
+ 	}
++	if (hostkey)
++		nvme_host_set_dhchap_key(h, hostkey);
+ 	c = nvme_create_ctrl(subsysnqn, transport, traddr,
+ 			     host_traddr, host_iface, trsvcid);
+ 	if (!c) {
+ 		errno = ENOMEM;
+ 		goto out_free;
+ 	}
++	if (ctrlkey)
++		nvme_ctrl_set_dhchap_key(c, ctrlkey);
+ 
+ 	errno = 0;
+ 	ret = nvmf_add_ctrl(h, c, &cfg, cfg.disable_sqflow);
 -- 
 2.31.1
 
