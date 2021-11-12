@@ -2,62 +2,62 @@ Return-Path: <SRS0=M30F=P7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AEB2C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 16:19:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB02C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 18:58:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 273C360FBF
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 16:19:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 273C360FBF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 3503E60EB8
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 18:58:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3503E60EB8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a7MsTfsWedMtkpy0aKpM769sXADzRZObaN21LWCBI4Q=; b=NujPPfHk/tbxNQbhB8L3jm/OPd
-	BhAj9D/PZ1OVKtbqIvWDEpUn/aRB616zlQQRtGQ9a0Zt4zt/w0TxZRsckiiVOtIK2sTPEa1DMKylM
-	BV2W7VFdXYD20U8gzcthfGAyVhUoosY1NMqaZlR/zzHkRkeCWETjmQQgBw7yBfxENSC/CmLAg/J53
-	SJW/GrnMZ55v9rp0gWOPcXlgZGhrGNpLX/Bbfjt/h1WVvkaug+hzHOhdRJ4FrsNZ4NWMy7wAhuFUD
-	Tfm45lxoXP6dAdhcHX640nsPALNBZgsYfFjeVaYT3kLVYrE4rdTIhOsYevkv21Qug9l2SiwMi+sEz
-	6cPxQ6uw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5Y72OjuLIf/eQccWS0z9TLCmi5zBmy/DqLngqydAuhs=; b=bFkFVTmPOSS0KNUUFc2EcODMJ/
+	HUzXfXINq0fqZXRl6irHHwrwrNlAtthBtLbtaN6L6EvARAE8MMcTcDZ/lY1tzUKnJ3ipg2xV7H2F8
+	h5wuJB9JhKDOjMhLv5JpWHhSDVPw7RVHvj36cq11QHTptTvhy/ceAKFp5HSAgsPhbjg9Lxp/DBqCL
+	tJF4Y8Zg5UMy0bleio/zmUBbtUJlmuzjQ3uFoKCRVdK7YT7zQ5WFzYOkfEdKszfRvXRaS4Bc7oQKi
+	GIrmIG5D5quU56QurMzRiZzshljDcaqK1aM67Six9x9QmG4bN7SxQblyEbDgYSJ/I4uHkAba5R7Pd
+	jRXH/KsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mlZGx-00BDaM-Bl; Fri, 12 Nov 2021 16:19:27 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mlbkX-00BRe1-2m; Fri, 12 Nov 2021 18:58:09 +0000
+Received: from mga09.intel.com ([134.134.136.24])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mlZGv-00BDZz-9t
- for linux-nvme@lists.infradead.org; Fri, 12 Nov 2021 16:19:26 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A819660EE2;
- Fri, 12 Nov 2021 16:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1636733965;
- bh=deKjYhvu0O/NYaZlRwK9sf4264HaDXl4ovklMBhkI5M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GzbYmrKL1OjbBPOGZDmmi1Pulfx82OWjczgjVYx6RkMwgVfsVPvZi5prQNEuTTlzZ
- RWUBX8N8xyQFqrUBRCGC7uKes4n3juR8b2sZL2lH935RiWo7rFch/dMbriJsVtvFHF
- zJxRrBu5PZ1cYWaFDrLZPqB/WyPNAUROYhceDIiM2kDLyinG3WJbLhpSiJk9c4aH9h
- 1ky03lPFichzvfB5pOHivw14adT6IfXECZA9fJPtmA1HmWjANJUwYAq0Lcrx1CCdSz
- Mzelcm/dyrd1yMo3Oe2wQZs0G2G9KWJlcR6w7iuCWkBaXRLjdsZbgPHjk8E1aayP3O
- E2KdpXAfOU3Rw==
-Date: Fri, 12 Nov 2021 08:19:22 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: keith.busch@wdc.com, Hannes Reinecke <hare@suse.de>,
- linux-nvme@lists.infradead.org
-Subject: Re: nvme-cli release naming strategy
-Message-ID: <20211112161922.GA2889444@dhcp-10-100-145-180.wdc.com>
-References: <2f583f14-bdc4-2d7c-3e3b-cbaa7809eef8@suse.de>
+ id 1mlbkU-00BRcv-0Q
+ for linux-nvme@lists.infradead.org; Fri, 12 Nov 2021 18:58:07 +0000
+X-IronPort-AV: E=McAfee;i="6200,9189,10166"; a="233031104"
+X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="233031104"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2021 10:58:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,230,1631602800"; d="scan'208";a="453242196"
+Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 12 Nov 2021 10:58:03 -0800
+Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mlbkR-000Io6-3h; Fri, 12 Nov 2021 18:58:03 +0000
+Date: Sat, 13 Nov 2021 02:57:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.16] BUILD SUCCESS
+ 9d7c645779f2650a20e26634aa0b552ff2dda5fb
+Message-ID: <618eb91a.LBgK4AN9+pfslGYB%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2f583f14-bdc4-2d7c-3e3b-cbaa7809eef8@suse.de>
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211112_081925_379469_E90AFD86 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20211112_105806_135124_D96CEE50 
+X-CRM114-Status: UNSURE (   7.00  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,25 +72,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 12, 2021 at 04:49:37PM +0100, Daniel Wagner wrote:
-> Hi Keith,
-> 
-> I was thinking on how we want to handle releases with
-> the master and  nvme-cli-monolithic branch. I think it
-> would make sense  to rename  nvme-cli-monolitic to
-> something v1.x and  keep it maintained for a while alife.
-> 
-> And the master would be marked as v2.x. This would
-> avoid a flag day release which we force to switch
-> the users from monolithic version to the splited
-> version.
-> 
-> What do you think?
+tree/branch: git://git.infradead.org/nvme.git nvme-5.16
+branch HEAD: 9d7c645779f2650a20e26634aa0b552ff2dda5fb  nvme: add NO APST quirk for Kioxia device
 
-Yep, I was thinking the same thing: once we feel the master branch is
-stable with the backend library split from the command line utility, we
-should start a new v2.x version naming. If there's any reason to make a
-release on the old one in the meantime (I had to tag one yesterday due
-to an unfortunate bug in v1.15), that branch can continue using the v1.x
-names.
+elapsed time: 1967m
+
+configs tested: 53
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm64                               defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+parisc                              defconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+i386                                defconfig
+i386                              debian-10.3
+sparc                            allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+arc                              allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
+x86_64                           allyesconfig
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
