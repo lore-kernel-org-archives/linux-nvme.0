@@ -2,78 +2,78 @@ Return-Path: <SRS0=M30F=P7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74341C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 14:16:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 172A0C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 14:56:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3599B61027
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 14:16:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3599B61027
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	by mail.kernel.org (Postfix) with ESMTPS id B116E601FA
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Nov 2021 14:56:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B116E601FA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dFsujYkl/I+PPwZp6Npe6lNc/quyl2I8OOF73g5zgNQ=; b=Q4Io/i2u8TMkaNV3fSOEMttzFw
-	VgKFNJH2E9Sq4X2iCFRrHUfYYtp+eBdntGNf1u103TzTkoGAFrV8X2Y22kyAytj5BsIWzkdnFMMC3
-	o1KT4MxKcE3BUMx7rOY9U2H+lLuDfE7zy38pPPL3htytioS14+HAJv5jfMUKta3a0AieJpId8V8U6
-	hSBi9i72KLneHZZG7xsThwkBSniTNM5CLvH0KUFtK5m01Cc9sS1FVklXjbJZisddXWMZZlNLiSkrU
-	H0AKdCRxR2rpxkPOKLIQvFpSdKeX9SBrdR1RoQ0P/SXkQZ7Y+11xBl0yOEJ5pkYgfCGjsozee6HGd
-	a7/x+row==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QEEZKASnBfntd7FSlvUNnenXVHB7FgyLaB8toBCooNA=; b=xNif7x8YUxCqjQNg+0gbscW07A
+	NQolm3fEzhNGVsVeu9bDELemuq+OLDbGjZrToFcYqTrxOsjCNEa0hBi/MIdANtCwuIQSCG0hZu5S0
+	bt2PnmhJNJ6x+CRlnLlsZG9/G90HbxnwvZHA+VBcGFWHMzu4CgnKFW22QpWtDG3VESXUJeBghfUPU
+	hSw7IhQWi0f8vMtcC1mqPKQ0z82JZg+kEtiGX2WQ5vEckOQVTW18bCwcWvc7HCodWQj63obGOArCg
+	3y2ofuudqZBmiCqBd0uIkd/TVgkROZRtnthSg/BLzQV3FsqoxhvWmdlgAAPDbIx05bnTOBLzNmExN
+	VIL3bE+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mlXLs-00AjLN-VD; Fri, 12 Nov 2021 14:16:24 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1mlXyw-00AwJF-6s; Fri, 12 Nov 2021 14:56:46 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mlXLq-00AjKv-1d
- for linux-nvme@lists.infradead.org; Fri, 12 Nov 2021 14:16:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636726580;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dFsujYkl/I+PPwZp6Npe6lNc/quyl2I8OOF73g5zgNQ=;
- b=CLEXNCRSpq+Lp5GMc3C30UhaWKqNP7IS901gHY4NcGgwdzKBPAtHnN1gv90ouO21sDCGTA
- ZiF3bRDHj/TuptPfFzriX9bXPYzw7dDHQUt5h4jjHozNg4ewUXSwzVLq6A4fNEFDHggiys
- z9EQN6JQTbp7+1MRkpY0PNSoAr0ltAE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-ucHrCpC6MCeANpF-7F4zUQ-1; Fri, 12 Nov 2021 09:16:16 -0500
-X-MC-Unique: ucHrCpC6MCeANpF-7F4zUQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E76A81017968;
- Fri, 12 Nov 2021 14:16:14 +0000 (UTC)
-Received: from raketa.redhat.com (unknown [10.40.193.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE97960C05;
- Fri, 12 Nov 2021 14:16:13 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: sagi@grimberg.me,
-	hch@lst.de,
-	kbusch@kernel.org
-Subject: [PATCH] nvme-host: prevent nvme-cli from setting invalid
- fast_io_fail_tmo values
-Date: Fri, 12 Nov 2021 15:16:12 +0100
-Message-Id: <20211112141612.201297-1-mlombard@redhat.com>
+ id 1mlXns-00AsN6-Fg
+ for linux-nvme@lists.infradead.org; Fri, 12 Nov 2021 14:45:22 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 9DE6A21991;
+ Fri, 12 Nov 2021 14:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636728318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QEEZKASnBfntd7FSlvUNnenXVHB7FgyLaB8toBCooNA=;
+ b=0BtuCFFM90ukmn+xXZUUuj09EVttl/0gXUKVtGqQghq3aUJTYEn6ysGCKgmxZR188U50YW
+ dd5ySlEmw6mrHW37+3N5v9tV7lBXDJ9r3zFJuSr6pBuhGtnFY38gyjEfWj9GDvwjBgUK5w
+ lMN9VALQgJyKCIElT5oG+lrV1vaHBqE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636728318;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QEEZKASnBfntd7FSlvUNnenXVHB7FgyLaB8toBCooNA=;
+ b=LQ+5Mx73CCNKenmI/vRDYEnCH3s+Kv9jrUvnfIMwlet8BvNBUlRynC7EndQosDuViXKOi0
+ OV+EQZHKV2+xZGBw==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 628FDA3B8E;
+ Fri, 12 Nov 2021 14:45:18 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 543DC5191283; Fri, 12 Nov 2021 15:45:18 +0100 (CET)
+From: Hannes Reinecke <hare@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 2/6] nvmeof-tcp/002: create an authenticated nvmeof-tcp
+ connection
+Date: Fri, 12 Nov 2021 15:45:06 +0100
+Message-Id: <20211112144510.98523-3-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20211112144510.98523-1-hare@suse.de>
+References: <20211112144510.98523-1-hare@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlombard@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211112_061622_184707_010D80B4 
-X-CRM114-Status: UNSURE (   9.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211112_064520_728089_EDEB9DC1 
+X-CRM114-Status: GOOD (  13.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,29 +88,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Valid fast_io_fail_tmo values are integers >= 0 or -1 (disabled).
-Prevent userspace from setting arbitrary negative values.
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/fabrics.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/nvmeof-tcp/002     | 62 ++++++++++++++++++++++++++++++++++++++++
+ tests/nvmeof-tcp/002.out |  6 ++++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 tests/nvmeof-tcp/002
+ create mode 100644 tests/nvmeof-tcp/002.out
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index c5a2b71c5268..282d54117e0a 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -698,6 +698,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			if (token >= 0)
- 				pr_warn("I/O fail on reconnect controller after %d sec\n",
- 					token);
-+			else
-+				token = -1;
+diff --git a/tests/nvmeof-tcp/002 b/tests/nvmeof-tcp/002
+new file mode 100644
+index 0000000..fad77c9
+--- /dev/null
++++ b/tests/nvmeof-tcp/002
+@@ -0,0 +1,62 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
++#
++# Test nvme over tcp authentication
 +
- 			opts->fast_io_fail_tmo = token;
- 			break;
- 		case NVMF_OPT_HOSTNQN:
++. tests/nvmeof-tcp/rc
++
++DESCRIPTION="Create authenticated TCP connection via localhost"
++QUICK=1
++
++requires() {
++	_nvme_requires
++	_have_modules loop
++	_require_nvme_trtype_is_fabrics
++}
++
++
++test() {
++	local port
++	local genctr
++	local subsys="blktests-subsystem-"
++	local hostid="$(uuidgen)"
++	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
++	local scratch="/tmp/blktest-ns1.img"
++	local hostkey
++
++	echo "Running ${TEST_NAME}"
++
++	hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
++	if [ $? -ne 0 ] ; then
++		echo "nvme gen-dhchap-key command missing"
++		return 1
++	fi
++
++	_setup_nvmet
++
++	truncate -s 512M "${scratch}"
++
++	port="$(_create_nvmet_port "${nvme_trtype}")"
++
++	_create_nvmet_subsystem "${subsys}1" "${scratch}"
++	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
++	_create_nvmet_host "${subsys}1" "${hostnqn}" "${hostkey}"
++
++	nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
++	     -a "${def_traddr}" -s "${def_trsvcid}" -S "${hostkey}" \
++	     --hostnqn="${hostnqn}" --hostid="${hostid}"
++
++	nvme list-subsys
++
++	nvme disconnect -n "${subsys}1"
++
++	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
++	_remove_nvmet_subsystem "${subsys}1"
++
++	_remove_nvmet_port "${port}"
++
++	rm ${scratch}
++
++	echo "Test complete"
++}
+diff --git a/tests/nvmeof-tcp/002.out b/tests/nvmeof-tcp/002.out
+new file mode 100644
+index 0000000..c46ad3c
+--- /dev/null
++++ b/tests/nvmeof-tcp/002.out
+@@ -0,0 +1,6 @@
++Running nvmeof-tcp/002
++nvme-subsys0 - NQN=blktests-subsystem-1
++\
++ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
++NQN:blktests-subsystem-1 disconnected 1 controller(s)
++Test complete
 -- 
-2.27.0
+2.26.2
 
 
