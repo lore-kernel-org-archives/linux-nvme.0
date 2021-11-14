@@ -2,14 +2,14 @@ Return-Path: <SRS0=Lvqr=QB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87EF6C433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:38:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 974A1C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:44:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4CFB960F55
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:38:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4CFB960F55
+	by mail.kernel.org (Postfix) with ESMTPS id 347CB61077
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:44:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 347CB61077
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,72 +18,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RPZ52bT4dGMa1yg32eHCi12SCyzT9GM58BpZ8eE3IoU=; b=GOgq2i1UdFxkt673w8CUfHCkFo
-	leOX9TV4RtMOFpy10zsZ45wop0DYM+FDVQJUB+KpPwkzcfWQg+EJn2XpwRIcagaBAi1R2bVjKy1dU
-	m/cWVMPGWz5TdmY7gewz2jrAnQG+ST+zEHYl5fNmFgP6CRmc+W/CyOVVLZ+VwsP9lPGutzz9UGexT
-	oOVt2+HPxI0yKBdwCjkgkW5xcm043LXSgIDhXd07h0yNr0GbSP/UoWPjUtiJFsdpVQPIb12ZLsIE1
-	iV76M8bzCjJ60rMkPrB0b2mgjk3et9oQxLcfplZMn8LternMFao2EpjaDgH5LLfGLSbSt3enX1YMk
-	buRRul9Q==;
+	bh=QrHkmKGbYmITS8a/7t0Ro+g4X5QH+zs9pEanB1HcmCo=; b=yN+L+gbK13vGbHUZX2jCjkHjoH
+	ax8IA7jdw+rIB1Yi1ukVKAScT6JKtOrEjNVGSxQBFi3Yb3I2Iy/LZ0GzP0wpm9sSjfaqLBf2h6puw
+	43yfVc/0yuhe8+YoxjpmMmIQqJ4CknrdkwusHL5Qwu3/TuYCGtAzrA4ZeYXevebOyvbARZ/8yjTXC
+	BYGs71ek4haTtS9ScF1QaDRAVWBkpdBxSi1Ms9AzsElnS+AJ5hT/hRfhQS9QQssSRo80e4uydB4Rb
+	Vik0IiCWnXlw/vF2M0WptQeoybu8pvLCB7lxM65/6IWppNf3y5CMKoPdxUlHqGIiY1G4Gb3L+wK1+
+	EkHDIfAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mmFiM-00DhaN-IA; Sun, 14 Nov 2021 13:38:34 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mmFnw-00Dhqz-0t; Sun, 14 Nov 2021 13:44:20 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mmFiJ-00Dha3-TO
- for linux-nvme@lists.infradead.org; Sun, 14 Nov 2021 13:38:33 +0000
+ id 1mmFnt-00Dhpn-4j
+ for linux-nvme@lists.infradead.org; Sun, 14 Nov 2021 13:44:19 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 07D1D218F8;
- Sun, 14 Nov 2021 13:38:28 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 144431FD32;
+ Sun, 14 Nov 2021 13:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636897108; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1636897453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RPZ52bT4dGMa1yg32eHCi12SCyzT9GM58BpZ8eE3IoU=;
- b=VOkP1F0lNYg2J9Svl0SVUTjfe58QZZTcVqcb/qBlTdizpz1yWEN6qcOteDvN0QyVDz6qk4
- gz0/zSBnZvN6j2IYfyDUgvYIozC/mPlHPOjaFQp3I+FfPx4y4zDjIxANzkJVuIbxR2dvIu
- Po8JevGVBa2IVV3ws6Kt3ORUep2PD7Y=
+ bh=QrHkmKGbYmITS8a/7t0Ro+g4X5QH+zs9pEanB1HcmCo=;
+ b=0MJxIiHPCMvbt1famOwEyW+yt36CZl73NYH+t2WBV7w/oYqga8fBhZ6X6T6gQ7Lm3WMOI1
+ 1s8ulD62q1WSEHVL1cH8H5Ack6JQFGBojjY/l/kjQrNzu2OY22NofEocW5zPkmiuSrijkF
+ 37ZrcLT5LyHBYvABBUeyAKkp8mPO4HI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636897108;
+ s=susede2_ed25519; t=1636897453;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RPZ52bT4dGMa1yg32eHCi12SCyzT9GM58BpZ8eE3IoU=;
- b=7VaAsnWx9B/PNeQIpdX7Rr+QKACSjIxt8YOmsIjC2GAEPFVaXUT9EEX0IlVJ17j0CBaPXR
- t616R8YpZ5myMSDw==
+ bh=QrHkmKGbYmITS8a/7t0Ro+g4X5QH+zs9pEanB1HcmCo=;
+ b=EEe8fdqAiAHMunG7Pbtrw9fKpEoJoWZNCYGSZcA0M1r6ybmRPTtpAR5Ad/BcjHghjOZ4BK
+ MkbxqcXo/7ZaWbCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C55C513A98;
- Sun, 14 Nov 2021 13:38:27 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C42411348A;
+ Sun, 14 Nov 2021 13:44:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gNvULlMRkWE3VQAAMHmgww
- (envelope-from <hare@suse.de>); Sun, 14 Nov 2021 13:38:27 +0000
-Subject: Re: [PATCH libnvme] Implement 'dhchap_key' host and controller
- attributes
+ by imap2.suse-dmz.suse.de with ESMTPSA id CjotLawSkWHqVgAAMHmgww
+ (envelope-from <hare@suse.de>); Sun, 14 Nov 2021 13:44:12 +0000
+Subject: Re: [PATCHv5 00/12] nvme: In-band authentication support
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
-References: <20211112130053.97493-1-hare@suse.de>
- <550af202-0a01-63dc-0c71-ee893d880cad@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Miller <davem@davemloft.net>, linux-crypto@vger.kernel.org
+References: <20211112125928.97318-1-hare@suse.de>
+ <74db7c77-7cbf-4bc9-1c80-e7c42acaea64@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <32923fc4-a5e0-2731-cc06-da2211e5be69@suse.de>
-Date: Sun, 14 Nov 2021 14:38:26 +0100
+Message-ID: <f67ca46e-f421-33f7-da8b-ff6e47acf8c2@suse.de>
+Date: Sun, 14 Nov 2021 14:44:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <550af202-0a01-63dc-0c71-ee893d880cad@grimberg.me>
+In-Reply-To: <74db7c77-7cbf-4bc9-1c80-e7c42acaea64@grimberg.me>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211114_053832_145646_535D6F6A 
-X-CRM114-Status: GOOD (  19.96  )
+X-CRM114-CacheID: sfid-20211114_054417_359300_312DCDDC 
+X-CRM114-Status: GOOD (  27.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,26 +98,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/14/21 11:38 AM, Sagi Grimberg wrote:
->> Implement a 'dhchap_key' attribute for the nvme_host structure to
->> support the 'dhchap_secret' connection argument, and a
->> 'dhchap_key' attribute for the nvme_controller structure to support
->> the 'dhchap_ctrl_secret' connection argument.
+On 11/14/21 11:40 AM, Sagi Grimberg wrote:
 > 
-> Hannes, can you add an example of a json entry to the change log?
-> Ideally there is some sort of documentation on what is the
-> format and how to populate the config file?
 > 
-> It is unclear to me how the user is supposed to work with it.
-> Is there a dump config functionality like we discussed before?
+> On 11/12/21 2:59 PM, Hannes Reinecke wrote:
+>> Hi all,
+>>
+>> recent updates to the NVMe spec have added definitions for in-band
+>> authentication, and seeing that it provides some real benefit
+>> especially for NVMe-TCP here's an attempt to implement it.
+>>
+>> Tricky bit here is that the specification orients itself on TLS 1.3,
+>> but supports only the FFDHE groups. Which of course the kernel doesn't
+>> support. I've been able to come up with a patch for this, but as this
+>> is my first attempt to fix anything in the crypto area I would invite
+>> people more familiar with these matters to have a look.
+>>
+>> Also note that this is just for in-band authentication. Secure
+>> concatenation (ie starting TLS with the negotiated parameters) is not
+>> implemented; one would need to update the kernel TLS implementation
+>> for this, which at this time is beyond scope.
+>>
+>> As usual, comments and reviews are welcome.
+>>
+>> Changes to v4:
+>> - Validate against blktest suite
+> 
+> Nice! thanks hannes, this is going to be very useful moving
+> forward.
+> 
+Oh, definitely. The number of issue these tests found...
 
-I would rather keep the json functionality separate from this.
-Yes, I know that we really need json functionality to make it usable, 
-but then the same could be said for other options, too.
+>> - Fixup base64 decoding
+> 
+> What was fixed up there?
+> 
+The padding character '=' wasn't handled correctly on decoding (the 
+character itself was skipped, by the 'bits' value wasn't increased, 
+leading to a spurious error in decoding an any key longer than 32 bit 
+not being accepted.
 
-And the problem here is that we'll need to coordinate libnvme and 
-nvme-cli updates to get the whole thing to build, so I'd rather keep the 
-json update separate from this one.
+>> - Transform secret with correct hmac algorithm
+> 
+> Is that what I reported last time? Can you perhaps
+> point me to the exact patch that fixes this?
+
+Well, no, not really; the patch itself got squashed in the main patches.
+But problem here was that the key transformation from section 8.13.5.7 
+had been using the hash algorithm from the initial challenge, not the 
+one specified in the key itself.
+This lead to decoding errors when using a key with a different length 
+than the hash algorithm.
 
 Cheers,
 
