@@ -2,14 +2,14 @@ Return-Path: <SRS0=Lvqr=QB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 974A1C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1CCC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:50:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 347CB61077
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:44:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 347CB61077
+	by mail.kernel.org (Postfix) with ESMTPS id EC63F6112E
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 13:50:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EC63F6112E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,72 +18,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QrHkmKGbYmITS8a/7t0Ro+g4X5QH+zs9pEanB1HcmCo=; b=yN+L+gbK13vGbHUZX2jCjkHjoH
-	ax8IA7jdw+rIB1Yi1ukVKAScT6JKtOrEjNVGSxQBFi3Yb3I2Iy/LZ0GzP0wpm9sSjfaqLBf2h6puw
-	43yfVc/0yuhe8+YoxjpmMmIQqJ4CknrdkwusHL5Qwu3/TuYCGtAzrA4ZeYXevebOyvbARZ/8yjTXC
-	BYGs71ek4haTtS9ScF1QaDRAVWBkpdBxSi1Ms9AzsElnS+AJ5hT/hRfhQS9QQssSRo80e4uydB4Rb
-	Vik0IiCWnXlw/vF2M0WptQeoybu8pvLCB7lxM65/6IWppNf3y5CMKoPdxUlHqGIiY1G4Gb3L+wK1+
-	EkHDIfAg==;
+	bh=vlgkek4UD7NHDB4OLcJH95TvwDUpoiwD2aU37tt5GXU=; b=WnR5YS1xkRNyPFxR9Macl+oNRq
+	kO4T0aYkMkLJv9qGS8zXz/KptcjmI9eAggx17VIpiE2DnAlO90rJJNKs+m43tOZoSD9vGtfdQ7ALt
+	KshUnSPIkRHSlSa1S5emtE+CAwZf/WBTp04InaF6rWopzgsmvUjrNI/xU7k0HuFHneCOcQnVvOZUg
+	nh722LY134CS6Bp4O01eLOzTl73Bl6aALnN0FHBi5rsldCf9inVYVVQxpb0utHs0YahgWupGt621+
+	1pjxc2R3VVImnMn3MAw0WpfqSHV7Xrpymb6dQcG9cFFcJ0ZAAUWf84E2FO2wrPAPJNq9Gr8ZH83Wm
+	cSb0MmzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mmFnw-00Dhqz-0t; Sun, 14 Nov 2021 13:44:20 +0000
+	id 1mmFu3-00Dije-R1; Sun, 14 Nov 2021 13:50:39 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mmFnt-00Dhpn-4j
- for linux-nvme@lists.infradead.org; Sun, 14 Nov 2021 13:44:19 +0000
+ id 1mmFu0-00Diiw-8Z
+ for linux-nvme@lists.infradead.org; Sun, 14 Nov 2021 13:50:37 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 144431FD32;
- Sun, 14 Nov 2021 13:44:13 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 027CD1FD50;
+ Sun, 14 Nov 2021 13:50:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1636897453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1636897835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QrHkmKGbYmITS8a/7t0Ro+g4X5QH+zs9pEanB1HcmCo=;
- b=0MJxIiHPCMvbt1famOwEyW+yt36CZl73NYH+t2WBV7w/oYqga8fBhZ6X6T6gQ7Lm3WMOI1
- 1s8ulD62q1WSEHVL1cH8H5Ack6JQFGBojjY/l/kjQrNzu2OY22NofEocW5zPkmiuSrijkF
- 37ZrcLT5LyHBYvABBUeyAKkp8mPO4HI=
+ bh=vlgkek4UD7NHDB4OLcJH95TvwDUpoiwD2aU37tt5GXU=;
+ b=Ar3c1WF5c4GwdlPOX0xVqSwVOqsskn7FiWhhLFwWXQR3v8mn0PKEUUnr+rV/uD+/gk7yCB
+ XAAGXzb0E+Dfo5MvO2X8sZjdeVtbc9CvtbNq6uvuujJmKgllzkUZYtmjS/AAmsOBhiEMUT
+ 0c90PI7NmgAy2AghpIbI/v25qN4pUgE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1636897453;
+ s=susede2_ed25519; t=1636897835;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QrHkmKGbYmITS8a/7t0Ro+g4X5QH+zs9pEanB1HcmCo=;
- b=EEe8fdqAiAHMunG7Pbtrw9fKpEoJoWZNCYGSZcA0M1r6ybmRPTtpAR5Ad/BcjHghjOZ4BK
- MkbxqcXo/7ZaWbCA==
+ bh=vlgkek4UD7NHDB4OLcJH95TvwDUpoiwD2aU37tt5GXU=;
+ b=D1baD2+VmuXId+1CiJyEGj4tZuwBRGTI1l5yCeTeVgHbPjzAjzlVpITIXtTEyGCATOTFVp
+ zhAEpGeyqzAhZ8Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C42411348A;
- Sun, 14 Nov 2021 13:44:12 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4DAE13AAE;
+ Sun, 14 Nov 2021 13:50:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CjotLawSkWHqVgAAMHmgww
- (envelope-from <hare@suse.de>); Sun, 14 Nov 2021 13:44:12 +0000
-Subject: Re: [PATCHv5 00/12] nvme: In-band authentication support
+ by imap2.suse-dmz.suse.de with ESMTPSA id cWSXLioUkWGAWAAAMHmgww
+ (envelope-from <hare@suse.de>); Sun, 14 Nov 2021 13:50:34 +0000
+Subject: Re: [PATCH 1/6] nvmeof-tcp/001: simple test for nvmeof-tcp connection
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
- David Miller <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20211112125928.97318-1-hare@suse.de>
- <74db7c77-7cbf-4bc9-1c80-e7c42acaea64@grimberg.me>
+ Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
+References: <20211112144510.98523-1-hare@suse.de>
+ <20211112144510.98523-2-hare@suse.de>
+ <de1a1ff4-0c1a-6642-9d94-30b3d1cb0406@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <f67ca46e-f421-33f7-da8b-ff6e47acf8c2@suse.de>
-Date: Sun, 14 Nov 2021 14:44:12 +0100
+Message-ID: <6a8fd808-8a92-3215-597e-7e094e753a9a@suse.de>
+Date: Sun, 14 Nov 2021 14:50:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <74db7c77-7cbf-4bc9-1c80-e7c42acaea64@grimberg.me>
+In-Reply-To: <de1a1ff4-0c1a-6642-9d94-30b3d1cb0406@grimberg.me>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211114_054417_359300_312DCDDC 
-X-CRM114-Status: GOOD (  27.72  )
+X-CRM114-CacheID: sfid-20211114_055036_485682_BB59AD7E 
+X-CRM114-Status: GOOD (  20.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,57 +98,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/14/21 11:40 AM, Sagi Grimberg wrote:
+On 11/14/21 11:31 AM, Sagi Grimberg wrote:
 > 
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   tests/nvmeof-tcp/001     |  55 +++++++
+>>   tests/nvmeof-tcp/001.out |   6 +
+>>   tests/nvmeof-tcp/rc      | 347 +++++++++++++++++++++++++++++++++++++++
 > 
-> On 11/12/21 2:59 PM, Hannes Reinecke wrote:
->> Hi all,
->>
->> recent updates to the NVMe spec have added definitions for in-band
->> authentication, and seeing that it provides some real benefit
->> especially for NVMe-TCP here's an attempt to implement it.
->>
->> Tricky bit here is that the specification orients itself on TLS 1.3,
->> but supports only the FFDHE groups. Which of course the kernel doesn't
->> support. I've been able to come up with a patch for this, but as this
->> is my first attempt to fix anything in the crypto area I would invite
->> people more familiar with these matters to have a look.
->>
->> Also note that this is just for in-band authentication. Secure
->> concatenation (ie starting TLS with the negotiated parameters) is not
->> implemented; one would need to update the kernel TLS implementation
->> for this, which at this time is beyond scope.
->>
->> As usual, comments and reviews are welcome.
->>
->> Changes to v4:
->> - Validate against blktest suite
+> Why another directory? why nvmeof-tcp? what prevents inband-auth
+> to be tested with loop/rdma?
 > 
-> Nice! thanks hannes, this is going to be very useful moving
-> forward.
-> 
-Oh, definitely. The number of issue these tests found...
+Technically, nothing.
+But as I'll be looking into tcp in-band _encryption_ as the next step I 
+found it logical to have a disinct directory.
+Especially as I still fail to see the actual use-case for using in-band 
+authentication _without_ encryption.
 
->> - Fixup base64 decoding
-> 
-> What was fixed up there?
-> 
-The padding character '=' wasn't handled correctly on decoding (the 
-character itself was skipped, by the 'bits' value wasn't increased, 
-leading to a spurious error in decoding an any key longer than 32 bit 
-not being accepted.
+We could rename it to nvmeof-auth, though.
 
->> - Transform secret with correct hmac algorithm
-> 
-> Is that what I reported last time? Can you perhaps
-> point me to the exact patch that fixes this?
+Especially as there's the nvmeof-mp precedent, which also has a separate 
+directory.
 
-Well, no, not really; the patch itself got squashed in the main patches.
-But problem here was that the key transformation from section 8.13.5.7 
-had been using the hash algorithm from the initial challenge, not the 
-one specified in the key itself.
-This lead to decoding errors when using a key with a different length 
-than the hash algorithm.
+>>   3 files changed, 408 insertions(+)
+>>   create mode 100644 tests/nvmeof-tcp/001
+>>   create mode 100644 tests/nvmeof-tcp/001.out
+>>   create mode 100644 tests/nvmeof-tcp/rc
+>>
+>> diff --git a/tests/nvmeof-tcp/001 b/tests/nvmeof-tcp/001
+>> new file mode 100644
+>> index 0000000..39f4108
+>> --- /dev/null
+>> +++ b/tests/nvmeof-tcp/001
+>> @@ -0,0 +1,55 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-3.0+
+>> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
+>> +#
+>> +# Test nvme over tcp connection
+>> +
+>> +. tests/nvmeof-tcp/rc
+>> +
+>> +DESCRIPTION="Create single TCP connection via localhost"
+>> +QUICK=1
+>> +
+>> +requires() {
+>> +    _nvme_requires
+>> +    _have_modules loop
+>> +    _require_nvme_trtype_is_fabrics
+>> +}
+>> +
+>> +
+>> +test() {
+>> +    local port
+>> +    local genctr
+>> +    local subsys="blktests-subsystem-"
+>> +    local hostid="$(uuidgen)"
+>> +    local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
+>> +    local scratch="/tmp/blktest-ns1.img"
+>> +
+>> +    echo "Running ${TEST_NAME}"
+>> +
+>> +    _setup_nvmet
+>> +
+>> +    truncate -s 512M "${scratch}"
+>> +
+>> +    port="$(_create_nvmet_port "${nvme_trtype}")"
+>> +
+>> +    _create_nvmet_subsystem "${subsys}1" "${scratch}"
+>> +    _add_nvmet_subsys_to_port "${port}" "${subsys}1"
+>> +    _create_nvmet_host "${subsys}1" "${hostnqn}"
+>> +
+>> +    nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
+>> +         -a "${def_traddr}" -s "${def_trsvcid}" \
+>> +         --hostnqn="${hostnqn}" --hostid="${hostid}"
+>> +
+>> +    nvme list-subsys
+>> +
+>> +    nvme disconnect -n "${subsys}1"
+>> +
+>> +    _remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
+>> +    _remove_nvmet_subsystem "${subsys}1"
+>> +
+>> +    _remove_nvmet_port "${port}"
+>> +
+>> +    rm ${scratch}
+>> +
+>> +    echo "Test complete"
+>> +}
+>> diff --git a/tests/nvmeof-tcp/001.out b/tests/nvmeof-tcp/001.out
+>> new file mode 100644
+>> index 0000000..1eae834
+>> --- /dev/null
+>> +++ b/tests/nvmeof-tcp/001.out
+>> @@ -0,0 +1,6 @@
+>> +Running nvmeof-tcp/001
+>> +nvme-subsys0 - NQN=blktests-subsystem-1
+>> +\
+>> + +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
+>> +NQN:blktests-subsystem-1 disconnected 1 controller(s)
+>> +Test complete
+>> diff --git a/tests/nvmeof-tcp/rc b/tests/nvmeof-tcp/rc
+>> new file mode 100644
+>> index 0000000..9ae0899
+>> --- /dev/null
+>> +++ b/tests/nvmeof-tcp/rc
+>> @@ -0,0 +1,347 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-3.0+
+>> +# Copyright (C) 2018 Johannes Thumshirn
+>> +#
+>> +# Test specific to NVMe devices
+> 
+> Isn't this just a copy of nvme/rc?
+
+Essentially, yes.
+And I'd be happy to merge them, like having a common nvme rc
+file to be used for all nvme related tests.
 
 Cheers,
 
