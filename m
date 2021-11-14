@@ -2,78 +2,75 @@ Return-Path: <SRS0=Lvqr=QB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE0DAC433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 10:40:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB68C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 10:57:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6885D61056
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 10:40:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6885D61056
+	by mail.kernel.org (Postfix) with ESMTPS id 1F24660ED5
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Nov 2021 10:57:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1F24660ED5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ijAtENWn1ygUhu59xmA540JQUcVLLz9Nox8HONApS5w=; b=AmTojwTbZkj30NiUADPnwGtrJH
-	8PTrprLTkOr8VgYHZijdz4NsFB585wyIxNQ9hhuYIcy3WmUi4nYvAhZcFzswHQUuKJ/aGWn7JE/FT
-	FwvFo0OgFlSh+WuBxInnMpZHlDKjLH5zVfWYBJmqyy0hHVhZ6Bv5/w8BIWwoYiD8JdYLpcHo8z9br
-	cUckesU5rZOqg51F0GKhkHuwzW4e1E6tK8BbZez/oTs18QMNYmSQ7rQa1C2wNdFtu/HPq0Imvdpaw
-	bVb0hA+MtBkQHYtJy9J3bechlE8+HHnLIPtgmKfyhy0cEOyCRphiVqmvrNMkTlIhBmknVE3Qr0rGo
-	S6/eaj7Q==;
+	bh=DHBHPUiE4ye1HVisi2vFkUMhKTwIb4OH21532yvmNpg=; b=rOF4QKGRrcB/pHhpqAByBFjjmb
+	nIbL9Lq/CvpMwWKnmhCzYpu3qvTcjJB/KQnrUR3d/WO76VjtLFA4+9rofVC96ilWhn2E9dOCFZv/5
+	NuwAnH14klf45WXiS7aKpDoiWcR/pnkUGzG8EShju33vZYRbBCEaEcmRpkgaWHtjbsZJEQJEm1HwV
+	t+3FC15xa69L5d7qjx8T6Hsxvki7UjNNrgVW6s7bMe0ZP8HBQg96UVFkoyBorDSc3EieJMAyHgPmz
+	EiqluKdcjdLvSmPwmd8/ZPD4rnrKJkeor1yhCPBBdZNO1uYtI0fPqzDYf8M8mILRiS5Y0wkCMdOZz
+	54bcMcXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mmCwB-00DXfK-4r; Sun, 14 Nov 2021 10:40:39 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1mmDC1-00DYdh-Tx; Sun, 14 Nov 2021 10:57:01 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mmCw8-00DXeQ-5Z
- for linux-nvme@lists.infradead.org; Sun, 14 Nov 2021 10:40:37 +0000
-Received: by mail-wm1-f45.google.com with SMTP id 133so11385895wme.0
- for <linux-nvme@lists.infradead.org>; Sun, 14 Nov 2021 02:40:35 -0800 (PST)
+ id 1mmDBy-00DYdG-GF
+ for linux-nvme@lists.infradead.org; Sun, 14 Nov 2021 10:56:59 +0000
+Received: by mail-wr1-f50.google.com with SMTP id d27so24431310wrb.6
+ for <linux-nvme@lists.infradead.org>; Sun, 14 Nov 2021 02:56:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ijAtENWn1ygUhu59xmA540JQUcVLLz9Nox8HONApS5w=;
- b=DMCKyO7hc0JRIPNfHCoeKne2LoKGxEivR9N8NhlZiB1vQcNVIe/L90lyJZElJpbssl
- eXRcq7gRGDMdv5t90upJLnw5HiP3jHcPVzhUbsKx6Dr4IqvWa8jJrjkNLatjJ6ItgMTk
- TizfuRI/6+nc6IfX47LcPfWBMW/RDqcTApBX8NNWKW3WLG9MX3iHZAdEd6dg5A3PqdIe
- YuAsGJL/YCEPvBBD3ZF9UyvdWBz7FPaofeMBb6l8gaRf0oi26Twkk3aoaCzmEXMiJcI/
- fhlXFZIm+zBVxb8OQTEbBtsXHsCByakYAS+WjCc+QMe8zxDZurjCqipxabxumujI8LlR
- MMiQ==
-X-Gm-Message-State: AOAM532pqMQIYnL07xpa54jZZ7dfC2OTzBxbY87P5+YqwFU8d6wBIC7q
- JijF7FpRWkNOKWmdVEl7vk8vaj24Co8=
-X-Google-Smtp-Source: ABdhPJzbCHf7KtlEb6QB1X2JJ414kye+aE2OlXNM87ZZRWWxsIXaAq84q0yH3B1wCJ+T6cb66HzsIQ==
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr38231010wmc.187.1636886434640; 
- Sun, 14 Nov 2021 02:40:34 -0800 (PST)
+ bh=DHBHPUiE4ye1HVisi2vFkUMhKTwIb4OH21532yvmNpg=;
+ b=zLAY8YErmLd1DBTOXzSGUDMLLWsHjiUF0NDSGH8ywoTe1T+djhIyfeT6ZbBtIEdUHr
+ PDrt8davt7B/cPj/aDuqpoZqcoFCBC2dY5698ahXhQtoCrvz3A1BVHg9CZ7JJc1dvjSt
+ upMIGLfE520E19l3PV4y1v1z5L5yJpnK+6I8xyraGdNIjvhWLSQy+GUTSl2vDEyOVSZV
+ A8/2cj49sMWw4YkWrVkcOpLIBxZEMe2oL/7HFHbeu9yFWUs6XC6YAeW32GFCcibdcbLC
+ cxj2a/cnvYxau+9csqT+YF3gIip8SIn8+qXaQk6wswuk2uaFZ12xR1aywRBNAvAoPFTG
+ f9Iw==
+X-Gm-Message-State: AOAM533vy8SVstbXehCLKJzVogaF0rih/iHa3ce2ikqW7nJR6XQv45AQ
+ vPmz4r3dPuwpASN4XD5TboD7c37toYs=
+X-Google-Smtp-Source: ABdhPJxZ25KndkvIjeCds8YeURkMZkVkKMNK5sGB7en1qTB2GJZO34IRL6Bn1XmuCHugeCrLzDasIw==
+X-Received: by 2002:a5d:6d01:: with SMTP id e1mr37798247wrq.157.1636887416843; 
+ Sun, 14 Nov 2021 02:56:56 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id f18sm10729240wre.7.2021.11.14.02.40.33
+ by smtp.gmail.com with ESMTPSA id h3sm10645388wrv.69.2021.11.14.02.56.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Nov 2021 02:40:34 -0800 (PST)
-Subject: Re: [PATCHv5 00/12] nvme: In-band authentication support
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
- David Miller <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20211112125928.97318-1-hare@suse.de>
+ Sun, 14 Nov 2021 02:56:56 -0800 (PST)
+Subject: Re: [PATCH] nvme: Add sibling to list after full initialization
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+References: <20211111130603.16547-1-dwagner@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <74db7c77-7cbf-4bc9-1c80-e7c42acaea64@grimberg.me>
-Date: Sun, 14 Nov 2021 12:40:33 +0200
+Message-ID: <bf2ad20e-5c79-54a1-05e9-057f36901990@grimberg.me>
+Date: Sun, 14 Nov 2021 12:56:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211112125928.97318-1-hare@suse.de>
+In-Reply-To: <20211111130603.16547-1-dwagner@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211114_024036_245410_D6138FF6 
-X-CRM114-Status: GOOD (  24.37  )
+X-CRM114-CacheID: sfid-20211114_025658_603519_8C01EDFF 
+X-CRM114-Status: GOOD (  26.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,40 +85,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+> Adding the newly created namespace before the object is fully
+> initialized is opening a race with nvme_mpath_revalidate_paths() which
+> tries to access ns->disk. ns->disk can still be NULL when iterating
+> over the sibling list.
 
+But ns->disk is assigned before nvme_init_ns_head is even called.
+Maybe you mean that ns->head is NULL?
 
-On 11/12/21 2:59 PM, Hannes Reinecke wrote:
-> Hi all,
+Where you would just need this?
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8642cf2160c4..19f7cde5bbc6 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3878,8 +3878,8 @@ static int nvme_init_ns_head(struct nvme_ns *ns, 
+unsigned nsid,
+                 }
+         }
+
+-       list_add_tail_rcu(&ns->siblings, &head->list);
+         ns->head = head;
++       list_add_tail_rcu(&ns->siblings, &head->list);
+         mutex_unlock(&ctrl->subsys->lock);
+         return 0;
+--
+
 > 
-> recent updates to the NVMe spec have added definitions for in-band
-> authentication, and seeing that it provides some real benefit
-> especially for NVMe-TCP here's an attempt to implement it.
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
 > 
-> Tricky bit here is that the specification orients itself on TLS 1.3,
-> but supports only the FFDHE groups. Which of course the kernel doesn't
-> support. I've been able to come up with a patch for this, but as this
-> is my first attempt to fix anything in the crypto area I would invite
-> people more familiar with these matters to have a look.
+> I got a few bug reports from our customer hitting this
+> quite often:
 > 
-> Also note that this is just for in-band authentication. Secure
-> concatenation (ie starting TLS with the negotiated parameters) is not
-> implemented; one would need to update the kernel TLS implementation
-> for this, which at this time is beyond scope.
+>   RIP: 0010:nvme_mpath_revalidate_paths+0x27/0xb0 [nvme_core]
+>   Code: 44 00 00 0f 1f 44 00 00 55 53 48 8b 6f 50 48 8b 55 00 48 8b 85 10 c5 00 00 48 39 d5 48 8b 48 40 74 20 48 8d 42 d0 48 8b 50 20 <48> 3b 4a 40 74 05 f0 80 60 78 ef 48 8b 50 30 48 39 d5 48 8d 42 d0
+>   RSP: 0018:ffffaf1303fffcc0 EFLAGS: 00010283
+>   RAX: ffff95f75ef5c400 RBX: ffff95f71f63aa00 RCX: 0000000000200000
+>   RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff95f71f63aa00
+>   RBP: ffff95f71b1d0000 R08: 0000000800000000 R09: 00000008ffffffff
+>   R10: 00000000000007be R11: 0000000000000384 R12: 0000000000000000
+>   R13: ffff95f71b1d0000 R14: ffff95f721d79338 R15: ffff95f71f63aa00
+>   FS:  0000000000000000(0000) GS:ffff95f77f9c0000(0000) knlGS:0000000000000000
+>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>   CR2: 0000000000000040 CR3: 000000033940a005 CR4: 00000000003706e0
+>   DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>   DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>   Call Trace:
+>    nvme_update_ns_info+0x15b/0x2f0 [nvme_core]
+>    nvme_alloc_ns+0x27f/0x810 [nvme_core]
+>    nvme_validate_or_alloc_ns+0xbb/0x190 [nvme_core]
+>    nvme_scan_work+0x155/0x2d0 [nvme_core]
+>    process_one_work+0x1f4/0x3e0
+>    worker_thread+0x24c/0x3e0
+>    ? process_one_work+0x3e0/0x3e0
+>    kthread+0x10d/0x130
+>    ? kthread_park+0xa0/0xa0
+>    ret_from_fork+0x35/0x40
 > 
-> As usual, comments and reviews are welcome.
+> This patch fixes the problem reported. I am not totally sure why this
+> suddenly happens but I guess it is related to 041bd1a1fc73 ("nvme:
+> only call synchronize_srcu when clearing current path").
 > 
-> Changes to v4:
-> - Validate against blktest suite
+>   drivers/nvme/host/core.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 9a2610e147ce..84f52e6c1a02 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3776,7 +3776,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+>   		}
+>   	}
+>   
+> -	list_add_tail_rcu(&ns->siblings, &head->list);
+>   	ns->head = head;
+>   	mutex_unlock(&ctrl->subsys->lock);
+>   	return 0;
+> @@ -3873,6 +3872,10 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+>   	if (nvme_update_ns_info(ns, id))
+>   		goto out_unlink_ns;
+>   
+> +	mutex_lock(&ctrl->subsys->lock);
+> +	list_add_tail(&ns->siblings, &ns->head->list);
+> +	mutex_unlock(&ctrl->subsys->lock);
 
-Nice! thanks hannes, this is going to be very useful moving
-forward.
-
-> - Fixup base64 decoding
-
-What was fixed up there?
-
-> - Transform secret with correct hmac algorithm
-
-Is that what I reported last time? Can you perhaps
-point me to the exact patch that fixes this?
+What is the subsys->lock protecting here? I don't see
+nvme_mpath_revalidate_paths acquiring it.
 
