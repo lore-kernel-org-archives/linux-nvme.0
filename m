@@ -2,14 +2,14 @@ Return-Path: <SRS0=wlVn=QD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A02C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 10:12:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C5AC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 10:19:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0A8DC613AD
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 10:12:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0A8DC613AD
+	by mail.kernel.org (Postfix) with ESMTPS id A267B6187F
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 10:19:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A267B6187F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,64 +18,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IYs70cN1U/JowrHQLw06EcTQPJ9ZNnkRcNjDsFNXdPE=; b=KbU9fPKETBT5xzLUdpq2cF5Lm0
-	QxM/pkMl/w4yq3mhY+fODUs7uxxvZavhzZL0JP/vrz3lK+XzelrLrFqxp8CWRPS7/BquqJR2Ewg72
-	5noq6DAdPRRqyWeqKR/DrTTPVwJlqvV5OVQT/5p9OjSadXN49UgT8hkBMeJ+QsUdhkcli8bJrpLbc
-	yHq34PQC1q4C+CXe3nXFt5dV3Z01ZU/71St/J8EpcBFj/MAAmdvtOTVxxSHodYtbQ5hWaEZ3LcHo4
-	WYB+aq19Fy8io4ycsnOj8O6WNtiJmZXIOl14qdegH0/uSFU32E4n9r5rY0sYWdSnpWj9ciMOQ8+yh
-	PZSsiTTQ==;
+	bh=2pVUUhOW+PPHRe1owVHKWAC0hNxvDcyMPYMZUcLWpfo=; b=S3OBOIY6j0i6GQX1sckIyq1+m1
+	l8lyPWWZBy8qAQRQGfCpHvK6TOHXxXreeeqlLj712hMhTKIyiuJ1I1KnkuZRUcQv02LysfMBh9dz1
+	rhsEXaimGmO5lrbA1VwfOIH1fmJav77KCJFuXigDfC3AU59r749zb/Gfure6Fs08cdl3ahELgkJLG
+	8s+R4cHBeW7qCTfXBc+Dkk1ic3x0bcfHuHjSAqImvNb6yBzuw7H3vra8SOxdgv+KWSewORGt6l4nj
+	XyA6aAu9AL/UrzngoempHOPYueR5exX4eeavRDMdTD8rvpOf5nw4be5zt+tzP6WakjObAqMEm0+X9
+	oJ+ievAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mmvRn-0017sx-UR; Tue, 16 Nov 2021 10:12:15 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1mmvYm-001A3S-LJ; Tue, 16 Nov 2021 10:19:28 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mmvRR-0017lA-LV
- for linux-nvme@lists.infradead.org; Tue, 16 Nov 2021 10:11:55 +0000
-Received: by mail-wr1-f50.google.com with SMTP id t30so36394191wra.10
- for <linux-nvme@lists.infradead.org>; Tue, 16 Nov 2021 02:11:52 -0800 (PST)
+ id 1mmvYk-001A2c-3U
+ for linux-nvme@lists.infradead.org; Tue, 16 Nov 2021 10:19:27 +0000
+Received: by mail-wr1-f49.google.com with SMTP id n29so36447314wra.11
+ for <linux-nvme@lists.infradead.org>; Tue, 16 Nov 2021 02:19:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IYs70cN1U/JowrHQLw06EcTQPJ9ZNnkRcNjDsFNXdPE=;
- b=vZOwR3fbckoFOpB+UBWXPXq+x6KFWcKrk+MuaEBC5PNE9nKwtZBB6N/UFvL8J+2D/u
- ulMB6TfFjYCXqWbgk7S5PII5Om/cUU/ffJ56SYIKMJQeMQEtB6nNnl5c90b4vW6niJJS
- KaxdFf6P7/3xDGcAs6Kg3b6EkG4dU9rw1Ks/DLAzx96+eAjoen1mU5vQNDxnvuAoeR9U
- cFq0rXQBECNKNvYrCPiwoAigudeP1DCo2A4kQx/vwUvKx8zmqhM/yIHVSQANxe6N/AhE
- hy4Laz7YkFQKUPFx4ptKQv78L1LnnaK7EgaE9EJ9TeDNvaSjwoDyVKVzKHLSYB7PZ5l2
- y83Q==
-X-Gm-Message-State: AOAM5305e+BkRV3BfP/y9LvkVXc21onbfDm7P6v0vHsZ+0PhSs13lqz3
- Rvjqt4+X5BlCO6qnhDY1kJo=
-X-Google-Smtp-Source: ABdhPJz1pS/imfbBEXWbHoMOjGInVSSFR1pPNfQ0R+Ip6wTNJmLKztyCyTDOCQoelVPQ5+jiMUt/fA==
-X-Received: by 2002:a5d:6351:: with SMTP id b17mr7574971wrw.151.1637057510285; 
- Tue, 16 Nov 2021 02:11:50 -0800 (PST)
+ bh=2pVUUhOW+PPHRe1owVHKWAC0hNxvDcyMPYMZUcLWpfo=;
+ b=WegKBICzp9Xm1bS9SxwIgt7KYcLEeS1EnZU4dcYk/N4ORixvF5PCWEW2GNyvwDFP66
+ 5HaIB6ZyfJY9Z8H+ZbmfK3ZzgYz+kLMJLVny30jpoO2DD3RgJFDMRpcbiNwpty8vZcau
+ hWMVccbxa2E2DWucIrrA0FB4Bnrdco3AHpiDVPgQJgL2ZoRYJMp1Nnzk67UyHogPfzUH
+ 5xnuDRw804NpV4Q5m76rsJLcjL4SW0VZiNs4Grj26BDsCMNKU2K1BULma+WKEXcceV+8
+ xrAwvT5JI5/+rbBt1pH+yNVc8XifNNsQNFTs6TDtXRN1Sa4wFWt/o3WOs2uK1cj1pTv1
+ KmKg==
+X-Gm-Message-State: AOAM532DNCOrWuVyjr57g9v5XZthpYlBmrdoT/6DUXnIMF+bI0ZpJ2Ih
+ KyuKN+o8m2oBEDXJLK+nMiw=
+X-Google-Smtp-Source: ABdhPJwqefqf0wNR0FMTlsltbl/SJPJHAGRP8LTifsg0vB3tNEwjvpbKaPNg2IP7kWKdjELhfRti7Q==
+X-Received: by 2002:adf:e882:: with SMTP id d2mr7934329wrm.389.1637057964056; 
+ Tue, 16 Nov 2021 02:19:24 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id o5sm16329716wrx.83.2021.11.16.02.11.24
+ by smtp.gmail.com with ESMTPSA id z6sm2560612wmp.1.2021.11.16.02.19.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Nov 2021 02:11:34 -0800 (PST)
-Subject: Re: [PATCH V2 3/3] nvmet-tcp: fix memory leak when performing a
- controller reset
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, chaitanya.kulkarni@wdc.com
-References: <20211115163114.48716-1-mlombard@redhat.com>
- <20211115163114.48716-4-mlombard@redhat.com>
- <6f864cab-8460-3956-5784-2c3669069028@grimberg.me>
- <20211116092248.GG21836@raketa>
+ Tue, 16 Nov 2021 02:19:08 -0800 (PST)
+Subject: Re: [PATCHv5 00/12] nvme: In-band authentication support
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Miller <davem@davemloft.net>, linux-crypto@vger.kernel.org
+References: <20211112125928.97318-1-hare@suse.de>
+ <74db7c77-7cbf-4bc9-1c80-e7c42acaea64@grimberg.me>
+ <f67ca46e-f421-33f7-da8b-ff6e47acf8c2@suse.de>
+ <8553266f-005c-f947-4737-2108cb7062d1@grimberg.me>
+ <a7363853-05af-9d7f-4d6f-b02ec756ce6b@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <be8b41bb-f477-3848-9923-14aa12606f6c@grimberg.me>
-Date: Tue, 16 Nov 2021 12:11:13 +0200
+Message-ID: <50095ec8-3825-efa5-98bb-76b0f0fdc21e@grimberg.me>
+Date: Tue, 16 Nov 2021 12:18:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211116092248.GG21836@raketa>
+In-Reply-To: <a7363853-05af-9d7f-4d6f-b02ec756ce6b@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211116_021153_738690_F0AC3F1A 
-X-CRM114-Status: GOOD (  18.28  )
+X-CRM114-CacheID: sfid-20211116_021926_177414_2551EA3C 
+X-CRM114-Status: GOOD (  14.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,42 +93,24 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> If a reset controller is executed while the initiator
->>> is performing some I/O the driver may leak the memory allocated
->>> for the commands' iovec.
+>>>>> - Transform secret with correct hmac algorithm
+>>>>
+>>>> Is that what I reported last time? Can you perhaps
+>>>> point me to the exact patch that fixes this?
 >>>
->>> Make sure that nvmet_tcp_uninit_data_in_cmds() releases
->>> all the memory.
->>>
->>> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
->>> ---
->>>    drivers/nvme/target/tcp.c | 5 ++++-
->>>    1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->>> index 028b47ff0f0f..5a238fa067cd 100644
->>> --- a/drivers/nvme/target/tcp.c
->>> +++ b/drivers/nvme/target/tcp.c
->>> @@ -1427,7 +1427,10 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
->>>    	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
->>>    		if (nvmet_tcp_need_data_in(cmd))
->>> -			nvmet_tcp_finish_cmd(cmd);
->>> +			nvmet_req_uninit(&cmd->req);
->>> +
->>> +		nvmet_tcp_unmap_pdu_iovec(cmd);
->>> +		nvmet_tcp_free_iovec(cmd);
+>>> Well, no, not really; the patch itself got squashed in the main patches.
+>>> But problem here was that the key transformation from section 8.13.5.7
+>>> had been using the hash algorithm from the initial challenge, not the
+>>> one specified in the key itself.
+>>> This lead to decoding errors when using a key with a different length
+>>> than the hash algorithm.
 >>
->> I understand how unmap_pdu_iovec is re-entrance safe, but sgl_free
->> called from free_iovec is not. What prevents it from being called
->> for commands that have already freed their sgls?
+>> That is exactly what I reported, changing the key length leads to
+>> authentication errors.
 > 
-> The commands that have already freed their sgls
-> will have the pointers set to NULL,
-> calling sgl_free() against a NULL pointer is safe (it does nothing, like kfree())
-> but if you prefer I will add a check.
+> Right-o. So it should be sorted then.
 
-Oh, right.
+Hannes, was the issue on the host side or the controller side?
 
-So,
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+I'm a little lost into what was the actual fix...
 
