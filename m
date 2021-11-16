@@ -2,89 +2,111 @@ Return-Path: <SRS0=wlVn=QD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A45C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 10:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F20C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 13:43:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 45A4960F44
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 10:42:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 45A4960F44
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 8123A61B3F
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Nov 2021 13:43:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8123A61B3F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zTuDbRhkINv1mNjnQEob3aU1PxWXoYn7KcHUj9KPuxg=; b=trgBYDNhuCPOrOcXJS2FisrG5E
-	+CQ6FqCbltMdQKH0hQzBg+kAZkEdxP61YEzUVLz4fKxyjvE4hVl8EQnv0WtnqRTRUMVxoizL+F7iW
-	c/vT7/jGKZvucIqz/D9FVQe++PsmshKajeUMdubeuKZe7eC94YP/IPu+ZlFD76a/RL4UkZ3zPYaou
-	iA92T+l9ah9ZBgBl4BRijQi0PLIRIGddJD6ZKl05+STYK2NsuL6epyeMufGm16CaAbNnyfRokY40B
-	WobnfbGsZhnceCswjjlLWmIdMyj+FQVDfwNOaMJT1PwfZQJyhYL3qFgCMu/Fmq2LiiVa469Expwz9
-	bq6vMVeA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KRYob5UpR+HW1UgJCdrQVrkG2CB+gcAgwD9AJ1Q6jl8=; b=eCBmhsZ5aR6GWe+CCvhJ9aL3OH
+	HeWvputtskgzrA6g+ZleqKKJOP92hqrqqx0RL9ZstiV7gAp+WyVPPQFwLjbEmI9TpVb/RDGDElUPA
+	9z7uvyg5rqedQXZyG95ErSNItReoV8rXijY6nPiEckHlNxeMCw2qNgk5KfnTFRVOetJDKQ8DPf2r5
+	9MQUmpFBbTR6Dm4ouOYzYxwgzm9P78HEuKV4QtnURdNQ/qB0LQTz7+VNDQ0DN2UtuKPPOt4sD5WXJ
+	N9bfSL53lFfdzrAmxXWB/ic4UBKwKAyEcNpUEJH2wMmzEotcZPKoJDcEMDaqyuZz6gLnyahsE15xB
+	SWZSiXfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mmvvO-001FiL-UZ; Tue, 16 Nov 2021 10:42:51 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mmykE-001opO-W3; Tue, 16 Nov 2021 13:43:31 +0000
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mmvtx-001FLl-F6
- for linux-nvme@lists.infradead.org; Tue, 16 Nov 2021 10:41:23 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 28474218D5;
- Tue, 16 Nov 2021 10:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637059280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zTuDbRhkINv1mNjnQEob3aU1PxWXoYn7KcHUj9KPuxg=;
- b=MHtdgan+RqrGAyqdgZouZWNckibOpSVsFR1XtJ1w2IcRnB0K03IjR7cIOX/DWV2kxoqwtD
- u4OAnxBY0Yivg/635AzqarIznVeNmOWm5DOJ42+jXuM17jdS8XlRkgFv37gadsB2U2cPrd
- SJ4TDYMUtQovkLtNFAtnRVpoMJSi+KM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637059280;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zTuDbRhkINv1mNjnQEob3aU1PxWXoYn7KcHUj9KPuxg=;
- b=JFAchyTqD507FNUmTztRfsLKFRcfxeWP32Fr33utScYK47VQPLOcH7Ks8KuN5hVbyXNqje
- awQTGL7d4w2+AIBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 139C213BA1;
- Tue, 16 Nov 2021 10:41:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iw55BNCKk2HYLgAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 16 Nov 2021 10:41:20 +0000
-Subject: Re: [PATCH 07/12] nvme: Implement In-Band authentication
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
- David Miller <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20211112125928.97318-1-hare@suse.de>
- <20211112125928.97318-8-hare@suse.de>
- <ce8ad3e5-6f18-0ffa-33b4-11e52b39e1b4@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <b7323907-6036-1181-7967-cda5985acb2e@suse.de>
-Date: Tue, 16 Nov 2021 11:41:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ id 1mmykB-001op4-U0
+ for linux-nvme@lists.infradead.org; Tue, 16 Nov 2021 13:43:29 +0000
+Received: by mail-ed1-x531.google.com with SMTP id y12so31564868eda.12
+ for <linux-nvme@lists.infradead.org>; Tue, 16 Nov 2021 05:43:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=KRYob5UpR+HW1UgJCdrQVrkG2CB+gcAgwD9AJ1Q6jl8=;
+ b=McbNpWKdQv3snjiBdKVjiCMPrmcuVNKLy58ZVz8ly2z0KQlalBGOOYQIYxCtwWRqkR
+ N0YStnPB7SqmKlST3AaDjU3xT385xq8vmeT93EA9zlXhobbyQf7XFwJ+kWKVR8Ghsw8O
+ rNR7rZyCycl/+D19EN+oFfcpp94opyYH3WOISiPNdg36NMcR3HTNeWcV9/XeNya+IUDE
+ oYZka/qD1VqAR8QwQAVa05b3XDntn9SmmnF+3fY736rtZ1V6PG8wG7NKuqv3sQtfbX/U
+ MuaRZmiRvUtEMsjohHyGe02gIBaJJcD9LTvOV89ofuTMBow/cbJCnTrBvITqTlCrKIMb
+ X/PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=KRYob5UpR+HW1UgJCdrQVrkG2CB+gcAgwD9AJ1Q6jl8=;
+ b=NC0txOv7QqbPuV4RjuLgmmHskvSsyythsaNXJpI4m/ul0qRW5qJFsQjcaHy+LkyjsM
+ WDF4j6xCwZOPukWFuzmm/b2Ol+HmzUkatFTS43b73kbVc8W//RM4KsrGYVf3hrZh1ne1
+ X4b2Z7KHNF0/6jhajzglH9Ws0xtggeZiI5SIv7GBdc5b10FicKJST5Z33zKlZPA+hZhk
+ MqOZXK7buwJbj2be5/xd+QY2AI93CeS5hzi9e1FuChLUZg8gVm0tvRr5oqfta9tKVZsc
+ xa/oNE15NwHpXbaEaDXLZVVRetN8NfL8daQCo47i8iPGrElzbJWjeqWE9Ls7M45RWy1K
+ A63w==
+X-Gm-Message-State: AOAM531E21zUC3MI4kKH/QqTQK4LzzE3aeW059OjtJ2rJ61UUgds1KQ5
+ rDT+0+LueW2v7I2nepTIglbChQ==
+X-Google-Smtp-Source: ABdhPJxUIBIRGuiudLhLqlGGmXvbEWTLx3ubRxQoIdfOPt1u04Vu3kDjMVkYGgkbKcw0d0AJNIREWQ==
+X-Received: by 2002:a17:907:9801:: with SMTP id
+ ji1mr10190475ejc.170.1637070205347; 
+ Tue, 16 Nov 2021 05:43:25 -0800 (PST)
+Received: from localhost (5.186.126.13.cgn.fibianet.dk. [5.186.126.13])
+ by smtp.gmail.com with ESMTPSA id i5sm8426046ejw.121.2021.11.16.05.43.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Nov 2021 05:43:24 -0800 (PST)
+Date: Tue, 16 Nov 2021 14:43:24 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "axboe@kernel.dk" <axboe@kernel.dk>,
+ "msnitzer@redhat.com" <msnitzer@redhat.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "roland@purestorage.com" <roland@purestorage.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Vincent Fu <vincent.fu@samsung.com>, Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20211116134324.hbs3tp5proxootd7@ArmHalley.localdomain>
+References: <PH0PR04MB74161CD0BD15882BBD8838AB9B529@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <CGME20210928191342eucas1p23448dcd51b23495fa67cdc017e77435c@eucas1p2.samsung.com>
+ <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
+ <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
+ <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
+ <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
+ <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
+ <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+ <20211029081447.ativv64dofpqq22m@ArmHalley.local>
+ <20211103192700.clqzvvillfnml2nu@mpHalley-2>
 MIME-Version: 1.0
-In-Reply-To: <ce8ad3e5-6f18-0ffa-33b4-11e52b39e1b4@grimberg.me>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20211103192700.clqzvvillfnml2nu@mpHalley-2>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211116_024121_699222_F42DD5C1 
-X-CRM114-Status: GOOD (  15.93  )
+X-CRM114-CacheID: sfid-20211116_054328_090271_C46F6B1B 
+X-CRM114-Status: GOOD (  23.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,102 +121,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/16/21 11:35 AM, Sagi Grimberg wrote:
-> 
->> +static int nvme_auth_dhchap_host_response(struct nvme_ctrl *ctrl,
->> +        struct nvme_dhchap_queue_context *chap)
-> 
-> Maybe better to call it nvme_auth_dhchap_setup_host_response()?
-> 
-Ok.
+Hi all,
 
->> +{
->> +    SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
->> +    u8 buf[4], *challenge = chap->c1;
->> +    int ret;
->> +
->> +    dev_dbg(ctrl->device, "%s: qid %d host response seq %d
->> transaction %d\n",
->> +        __func__, chap->qid, chap->s1, chap->transaction);
->> +
->> +    if (!chap->host_response) {
->> +        chap->host_response = nvme_auth_transform_key(ctrl->dhchap_key,
->> +                    ctrl->dhchap_key_len,
->> +                    ctrl->dhchap_key_hash,
->> +                    ctrl->opts->host->nqn);
->> +        if (IS_ERR(chap->host_response)) {
->> +            ret = PTR_ERR(chap->host_response);
->> +            chap->host_response = NULL;
->> +            return ret;
->> +        }
->> +    } else {
->> +        dev_dbg(ctrl->device, "%s: qid %d re-using host response\n",
->> +            __func__, chap->qid);
->> +    }
->> +
->> +    ret = crypto_shash_setkey(chap->shash_tfm,
->> +            chap->host_response, ctrl->dhchap_key_len);
->> +    if (ret) {
->> +        dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
->> +             chap->qid, ret);
->> +        goto out;
->> +    }
->> +
->> +    shash->tfm = chap->shash_tfm;
->> +    ret = crypto_shash_init(shash);
->> +    if (ret)
->> +        goto out;
->> +    ret = crypto_shash_update(shash, challenge, chap->hash_len);
->> +    if (ret)
->> +        goto out;
->> +    put_unaligned_le32(chap->s1, buf);
->> +    ret = crypto_shash_update(shash, buf, 4);
->> +    if (ret)
->> +        goto out;
->> +    put_unaligned_le16(chap->transaction, buf);
->> +    ret = crypto_shash_update(shash, buf, 2);
->> +    if (ret)
->> +        goto out;
->> +    memset(buf, 0, sizeof(buf));
->> +    ret = crypto_shash_update(shash, buf, 1);
->> +    if (ret)
->> +        goto out;
->> +    ret = crypto_shash_update(shash, "HostHost", 8);
->> +    if (ret)
->> +        goto out;
->> +    ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
->> +                  strlen(ctrl->opts->host->nqn));
->> +    if (ret)
->> +        goto out;
->> +    ret = crypto_shash_update(shash, buf, 1);
->> +    if (ret)
->> +        goto out;
->> +    ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
->> +                strlen(ctrl->opts->subsysnqn));
->> +    if (ret)
->> +        goto out;
->> +    ret = crypto_shash_final(shash, chap->response);
->> +out:
->> +    if (challenge != chap->c1)
->> +        kfree(challenge);
->> +    return ret;
->> +}
->> +
->> +static int nvme_auth_dhchap_ctrl_response(struct nvme_ctrl *ctrl,
->> +        struct nvme_dhchap_queue_context *chap)
-> 
-> Maybe better to call it nvme_auth_dhchap_validate_ctrl_response()?
+Thanks for attending the call on Copy Offload yesterday. Here you have
+the meeting notes and 2 specific actions before we proceed with another
+version of the patchset.
 
-Will be doing so for the next round.
+We will work on a version of the use-case matrix internally and reply
+here in the next couple of days.
 
-Thanks for the review.
+Please, add to the notes and the matrix as you see fit.
 
-Cheers,
+Thanks,
+Javier
 
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+----
+
+ATTENDEES
+
+- Adam
+- Arnav
+- Chaitanya
+- Himashu
+- Johannes
+- Kanchan
+- Keith
+- Martin
+- Mikulas
+- Niklas
+- Nitesh
+- Selva
+- Vincent
+- Bart
+
+NOTES
+
+- MD and DM are hard requirements
+	- We need support for all the main users of the block layer
+	- Same problem with crypto and integrity
+- Martin would be OK with separating Simple Copy in ZNS and Copy Offload
+- Why did Mikulas work not get upstream?
+	- Timing was an issue
+		- Use-case was about copying data across VMs
+		- No HW vendor support
+		- Hard from a protocol perspective
+			- At that point, SCSI was still adding support in the spec
+			- MSFT could not implement extended copy command in the target (destination) device.
+				- This is what triggered the token-based implementation
+				- This triggered array vendors to implement support for copy offload as token-based. This allows mixing with normal read / write workloads
+			- Martin lost the implementation and dropped it
+
+DIRECTION
+
+- Keeping the IOCTL interface is an option. It might make sense to move from IOCTL to io_uring opcode
+- Martin is happy to do the SCSIpart if the block layer API is upstreamed
+- Token-based implementationis the norm. This allows mixing normal read / write workloads to avoid DoS
+	- This is the direction as opposed to the extended copy command
+	- It addresses problems when integrating with DM and simplifies command multiplexing a single bio into many
+	- It simplifies multiple bios
+	- We should explore Mikulas approach with pointers.
+- Use-cases
+	- ZNS GC
+	- dm-kcopyd
+	- file system GC
+	- fabrics offload to the storage node
+	- copy_file_range
+- It is OK to implement support incrementally, but the interface needs to support all customers of the block layer
+	- OK to not support specific DMs (e.g., RAID5)
+	- We should support DM and MD as a framework and the personalities that are needed. Inspiration in integrity
+		- dm-linear
+		- dm-crypt and dm-verify are needed for F2FSuse-case in Androd
+			- Here, we need copy emulation to support encryption without dealing with HW issues and garbage
+- User-interface can wait and be carried out on the side
+- Maybe it makes sense to start with internal users
+	- copy_file_range
+	- F2FS GC, btrfs GC
+- User-space should be allowed to do anything and kernel-space can chop the command accordingly
+- We need to define the heuristics of the sizes
+- User-space should only work on block devices (no other constructs that are protocol-specific) . Export capabilities in sysfs
+	- Need copy domains to be exposed in sysfs
+	- We need to start with bdev to bdev in block layer
+	- Not specific requirement on multi-namespace in NVMe, but it should be extendable
+	- Plumbing will support all use-cases
+- Try to start with one in-kernel consumer
+- Emulation is a must
+	- Needed for failed I/Os
+	- Expose capabilities so that users can decide
+- We can get help from btrfs and F2FS folks
+- The use case for GC and for copy are different. We might have to reflect this in the interface, but the internal plumbing should allow both paths to be maintained as a single one.
+
+ACTIONS
+
+- [ ] Make a list of use-cases that we want to support in each specification and pick 1-2 examples for MD, DM. Make sure that the interfaces support this
+- [ ] Vendors: Ask internally what is the recommended size for copy, if
+   any
+
 
