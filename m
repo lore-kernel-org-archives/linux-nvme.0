@@ -2,14 +2,14 @@ Return-Path: <SRS0=tSwM=QE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA7EC35263
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 21:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64E34C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 21:55:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 950DD61265
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 21:54:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 950DD61265
+	by mail.kernel.org (Postfix) with ESMTPS id 29CDE61265
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 21:55:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 29CDE61265
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -18,36 +18,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l3AgzlVFISW/9ucMB3Q/AoBaOHeVal7cwU+QcbWrG+0=; b=IPQ53EaZpycCFkGS+ikGEvf3zf
-	0uvtEL3EdpGZdVIPQ5U37V1r3k1LQiQEbQNLmJjKF1eUuwa/KXrbWp4Tz0ssGa575vKyZkby3X9Qs
-	zcMcYv3sP6j9FoFrC+VzwMDD7deHw6WNoReEPHSAuxR7U3hQkrcnCdZq2smudLgGnYtuTAn+CQhEJ
-	jHBPLmOuV8jm5uFziJjXqb7+OvNnqyjfOahrOf+2ZkJgtHx8Zg5bViZEEGZsBGNKoHydJM37QOelM
-	wruSOHy1ADkyyA/+0OBsA5QsGJo4PIEPkoB8ttJLUyCb9vK8AvRQiti4FsH1OB7lP1NqD8Ulj3J21
-	OmfNJ0/A==;
+	bh=y/LpDRNpoxO/QG8kL7Hoa3DKMMqf8eCIiho5qIX6wDU=; b=qYLg81+oYA+WFfnhsr6r1fUXBv
+	OHgbASUmo7OfgGG3jw5YelRC6/yd3Htr6yrRqKxzpq94mVMxoU5gT1TYQg0rWmTE6h661+0w/uJMj
+	NqRkh5tA+XQfveCp6IRtLlbuM1iclibXGatDFX0+wBIAJx+PCbR+TyKlLhm7s7t6QAy4/Gqx/oEPm
+	QgqGa+nyxsIfuIE8KhN20RJJNJiVv69EiBY/6MUMUQBLJT3FAUqA1NrFpvrgo8YA6Zmc/FrlJSXQe
+	oCSEhgiqvH2JmKyOyWzgSB0ZbiDqlx+HxhFlmke9Trsc0MQUZfQ7rtS2cYqvf/rFkc1rMIW8i8mp0
+	DDU9r+PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mnStD-006LgD-SN; Wed, 17 Nov 2021 21:54:47 +0000
+	id 1mnStS-006LuV-MV; Wed, 17 Nov 2021 21:55:02 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mnSst-006LSx-DL
+ id 1mnSst-006LSa-8g
  for linux-nvme@lists.infradead.org; Wed, 17 Nov 2021 21:54:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=l3AgzlVFISW/9ucMB3Q/AoBaOHeVal7cwU+QcbWrG+0=; b=q2Sk3ZcSlHvAbqaoJA3AELfakD
- 2Ac+6J6kLxSdN+Oo7DwpMsRbK+J2ApxaONZAaovShI2VQjkWR9wLfOLHldHDYuDogNqkc2l2u4JIS
- HHW/jBkKtHPpAH4YtE577kqqLYnXuAkdH8sYYSUFfS/MTrQVxpK8Bzd4kgWJ/vMNmQi89GfuwwFH3
- jmFMxWlSBPhHG2Orw4mRzclvpH0Kwxr/F7oC+UWYPn9bjdhcbopuXkc1zcwimQPGLxqrsBUWyZTOG
- dQEC4Op01CNpDuYId4mA6OmetXCW/JeDa+SC0NRsD+ETiiXJSIZJCI8bMo8HbC+xTzfruseheDoR/
- kQfrkUrQ==;
+ bh=y/LpDRNpoxO/QG8kL7Hoa3DKMMqf8eCIiho5qIX6wDU=; b=tbRfeMjLtdiAvYXxVDke4l7vE7
+ QXfrYfBCb42ytrnPr0ALrhoZ5+Nn2ZK8p5qbsHiOjO8z6nj1JtZVzpdvjXNlwgsjZnNClcduJgb4b
+ vmcB9RtKgGWqPg5n/FOxGfVHSWTMiHtpAoLpY+33bR02aTeIUDbLp/NEZ+A+Ch+MW7chlokjn24dx
+ yV8gwPGgbgn7lv5x2R08vj985rTrd1nBfU2y581KC0IgfsNpyzmhMr7uoCbYj5VnQPcwjdffn/r/3
+ BSY4LBr+YPu6Gl+/closZ14tK4OR+WKitKkgPjWbhIFCz6osnhqioD7k6TcnK5y2GT5d82zOcec9o
+ J5UgebdQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsp-000Zo6-BK; Wed, 17 Nov 2021 14:54:24 -0700
+ id 1mnSsk-000Zo3-U9; Wed, 17 Nov 2021 14:54:20 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1mnSsk-0000zU-02; Wed, 17 Nov 2021 14:54:18 -0700
+ id 1mnSsj-0000zQ-Q6; Wed, 17 Nov 2021 14:54:17 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -67,9 +67,10 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Robin Murphy <robin.murphy@arm.com>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@nvidia.com>
-Date: Wed, 17 Nov 2021 14:54:00 -0700
-Message-Id: <20211117215410.3695-14-logang@deltatee.com>
+ Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>
+Date: Wed, 17 Nov 2021 14:53:59 -0700
+Message-Id: <20211117215410.3695-13-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117215410.3695-1-logang@deltatee.com>
 References: <20211117215410.3695-1-logang@deltatee.com>
@@ -85,14 +86,14 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
  ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
- jgg@nvidia.com
+ jgg@nvidia.com, mgurtovoy@nvidia.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v4 13/23] RDMA/rw: drop pci_p2pdma_[un]map_sg()
+Subject: [PATCH v4 12/23] RDMA/core: introduce ib_dma_pci_p2p_dma_supported()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211117_135427_493347_ADA36A5C 
-X-CRM114-Status: GOOD (  11.36  )
+X-CRM114-CacheID: sfid-20211117_135427_403681_6210E597 
+X-CRM114-Status: GOOD (  14.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,119 +108,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
-is no longer necessary and may be dropped. This means the
-rdma_rw_[un]map_sg() helpers are no longer necessary. Remove it all.
+Introduce the helper function ib_dma_pci_p2p_dma_supported() to check
+if a given ib_device can be used in P2PDMA transfers. This ensures
+the ib_device is not using virt_dma and also that the underlying
+dma_device supports P2PDMA.
+
+Use the new helper in nvme-rdma to replace the existing check for
+ib_uses_virt_dma(). Adding the dma_pci_p2pdma_supported() check allows
+switching away from pci_p2pdma_[un]map_sg().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/infiniband/core/rw.c | 45 ++++++++----------------------------
- 1 file changed, 9 insertions(+), 36 deletions(-)
+ drivers/nvme/target/rdma.c |  2 +-
+ include/rdma/ib_verbs.h    | 11 +++++++++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-index 5a3bd41b331c..d4517b68d1ca 100644
---- a/drivers/infiniband/core/rw.c
-+++ b/drivers/infiniband/core/rw.c
-@@ -273,33 +273,6 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	return 1;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 1deb4043e242..22519739a874 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -415,7 +415,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+ 	if (ib_dma_mapping_error(ndev->device, r->send_sge.addr))
+ 		goto out_free_rsp;
+ 
+-	if (!ib_uses_virt_dma(ndev->device))
++	if (ib_dma_pci_p2p_dma_supported(ndev->device))
+ 		r->req.p2p_client = &ndev->device->dev;
+ 	r->send_sge.length = sizeof(*r->req.cqe);
+ 	r->send_sge.lkey = ndev->pd->local_dma_lkey;
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 6e9ad656ecb7..6355a0d5fd00 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -4003,6 +4003,17 @@ static inline bool ib_uses_virt_dma(struct ib_device *dev)
+ 	return IS_ENABLED(CONFIG_INFINIBAND_VIRT_DMA) && !dev->dma_device;
  }
  
--static void rdma_rw_unmap_sg(struct ib_device *dev, struct scatterlist *sg,
--			     u32 sg_cnt, enum dma_data_direction dir)
--{
--	if (is_pci_p2pdma_page(sg_page(sg)))
--		pci_p2pdma_unmap_sg(dev->dma_device, sg, sg_cnt, dir);
--	else
--		ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
--}
--
--static int rdma_rw_map_sgtable(struct ib_device *dev, struct sg_table *sgt,
--			       enum dma_data_direction dir)
--{
--	int nents;
--
--	if (is_pci_p2pdma_page(sg_page(sgt->sgl))) {
--		if (WARN_ON_ONCE(ib_uses_virt_dma(dev)))
--			return 0;
--		nents = pci_p2pdma_map_sg(dev->dma_device, sgt->sgl,
--					  sgt->orig_nents, dir);
--		if (!nents)
--			return -EIO;
--		sgt->nents = nents;
--		return 0;
--	}
--	return ib_dma_map_sgtable_attrs(dev, sgt, dir, 0);
--}
--
++/*
++ * Check if a IB device's underlying DMA mapping supports P2PDMA transfers.
++ */
++static inline bool ib_dma_pci_p2p_dma_supported(struct ib_device *dev)
++{
++	if (ib_uses_virt_dma(dev))
++		return false;
++
++	return dma_pci_p2pdma_supported(dev->dma_device);
++}
++
  /**
-  * rdma_rw_ctx_init - initialize a RDMA READ/WRITE context
-  * @ctx:	context to initialize
-@@ -326,7 +299,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
- 	};
- 	int ret;
- 
--	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
-+	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
- 	if (ret)
- 		return ret;
- 	sg_cnt = sgt.nents;
-@@ -365,7 +338,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
- 	return ret;
- 
- out_unmap_sg:
--	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
-+	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
- 	return ret;
- }
- EXPORT_SYMBOL(rdma_rw_ctx_init);
-@@ -413,12 +386,12 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 		return -EINVAL;
- 	}
- 
--	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
-+	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
- 	if (ret)
- 		return ret;
- 
- 	if (prot_sg_cnt) {
--		ret = rdma_rw_map_sgtable(dev, &prot_sgt, dir);
-+		ret = ib_dma_map_sgtable_attrs(dev, &prot_sgt, dir, 0);
- 		if (ret)
- 			goto out_unmap_sg;
- 	}
-@@ -485,9 +458,9 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	kfree(ctx->reg);
- out_unmap_prot_sg:
- 	if (prot_sgt.nents)
--		rdma_rw_unmap_sg(dev, prot_sgt.sgl, prot_sgt.orig_nents, dir);
-+		ib_dma_unmap_sgtable_attrs(dev, &prot_sgt, dir, 0);
- out_unmap_sg:
--	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
-+	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
- 	return ret;
- }
- EXPORT_SYMBOL(rdma_rw_ctx_signature_init);
-@@ -620,7 +593,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 		break;
- 	}
- 
--	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
- }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy);
- 
-@@ -648,8 +621,8 @@ void rdma_rw_ctx_destroy_signature(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	kfree(ctx->reg);
- 
- 	if (prot_sg_cnt)
--		rdma_rw_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
--	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+		ib_dma_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
- }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy_signature);
- 
+  * ib_dma_mapping_error - check a DMA addr for error
+  * @dev: The device for which the dma_addr was created
 -- 
 2.30.2
 
