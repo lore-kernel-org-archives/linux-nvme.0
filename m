@@ -2,76 +2,113 @@ Return-Path: <SRS0=tSwM=QE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F93C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 09:04:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B4FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 12:54:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 941A561BAA
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 09:04:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 941A561BAA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	by mail.kernel.org (Postfix) with ESMTPS id 5230160F41
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Nov 2021 12:54:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5230160F41
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hhVc2y+QZBQ2GIulCkcsrwzsAZu1TwDqCc9PUxfmqAc=; b=FK+GMeWCcCm9PwOHIEl6f1jro3
-	XSL70o4gImKHlG8HD4Xt4YyAt1QtnoUUgVje3We7YOKWSMY8EeTkh6VqW3Nko00HqUsKodvVoR4TH
-	DsrR5qCwuzEImUlGmVP9pMFXY0GmMu9738oem4cUz+zJPMVk1KvlQAqe/BEknqoDvwaTUhg0x4B+l
-	ZP3bV0hD+SSCbhkYn8ks/bx78Gn4CpWWAw6MRdEXXVOaJqXe7qSjX2OiEOH+Ppe3OYIrVf3soMf2/
-	B86hHfP7ViXI17UA6naKQThzS0mM4a7azSgX/aGqZlLAQzUQSmLHiCG5TxqjZO71Ns/IC34nWgh3W
-	/o3G3bcw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hss0my1U543SYA62Ffactpc9+//eg0/Fsm4KpfOP4TA=; b=LSLyLXdvrtnYYx30WBDmL9MSyu
+	6BO0qbZ5FM+L8GlMnRJi/zWwOSgIBzp1N0b30ADt1X8WSF0Ly2hyWGrwjKeU5EhUWIsmQfQLbo86H
+	7WUAs2BoEgDsXcfZa77zGw3ftLahJpdzgM0tx7SkjIXmWcO0IPGZKUUVGr65/kYJ3V/Qu1lW+PPLM
+	vHTAhFKtorNlURtHkP/TF3KuDPLAeIk+e4PPjP8bjSrZBXukpn+XCcmt/ycHtJIaJKz/tJ2xx+TpG
+	gflFTKC27ZkviMLlqT0NYv7vmW0TzM+kEZYeReursvKN9sOJd7MID8nFkAbw/OLNsNz4IzQzqAnNE
+	Owuha+Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mnGrQ-0044qY-I0; Wed, 17 Nov 2021 09:04:08 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1mnKRy-004lJh-Nu; Wed, 17 Nov 2021 12:54:06 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mnGpJ-0043VD-0U
- for linux-nvme@lists.infradead.org; Wed, 17 Nov 2021 09:01:58 +0000
-Received: by mail-wr1-f48.google.com with SMTP id d5so3230339wrc.1
- for <linux-nvme@lists.infradead.org>; Wed, 17 Nov 2021 01:01:55 -0800 (PST)
+ id 1mnKRs-004lGU-VE
+ for linux-nvme@lists.infradead.org; Wed, 17 Nov 2021 12:54:02 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id 133so2148130wme.0
+ for <linux-nvme@lists.infradead.org>; Wed, 17 Nov 2021 04:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=hss0my1U543SYA62Ffactpc9+//eg0/Fsm4KpfOP4TA=;
+ b=cNSGVCgXy2Jr0DDROORE8h8J8ohDTgYgTeZwzXZy1XX72D7vMjy8+FDF8OElAFsPlt
+ YU9hPx/B9RhVz9/JaIqmgAPMZsUtogLmKaV2ijNZ05+Z/4iFpO3J8Umt6jEbcvAWAcZK
+ mcrAEBQkoqFKbQKvlwGe8/9d/35yaUQoHDbiLSEQR+TrKeunKkyCyKnQZJWWVlKj1RBP
+ AZ1vSLkAoORo7sWj9raNWButcAjsPxq5x4irMkgt8Vh/lC9uY2RebAWWlyQfk7rpPU8I
+ H96skOZMMuajYOxCQGi9C76/4onuRGkYVs1n7zwvLjpY4xg/f+XVlxq+ev/f9uqThiNu
+ wsqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hhVc2y+QZBQ2GIulCkcsrwzsAZu1TwDqCc9PUxfmqAc=;
- b=oO0eWCida1KotQ0LVie4iwI3+yvivA/VvBPLhQIBQG0Mpu8qnCZ+6ONDjvZL7GmoxP
- L1ETf1neAtgJ/Vz8rd4vgmG6JHdG+19ouFUywJ8tlU4zjI8S2rLg1IvmKZm9cvR9uPeo
- chyT13YPVa0PslTiC2e6pXa2xxo8FpjpYB8rFXWYPyF/u1c/F84aJl1hxa81/5TPardc
- Kf+wMINWiPQgM+PFkfa3nO5awaaULDlVl5RPup848Tzc9XZ0qxMjch6EtigNGJKKZY8X
- WzumRIgz/Ar8fFXtQnEZFTH6PNmTB9YH5CiYFB0RPvNle9yH/JHZlIb0/YdLy9b7va2A
- K4TA==
-X-Gm-Message-State: AOAM5339xHZ5nzwvytojn7z6H2wYQIWvWVZWQf5jjPBXWZ4LNT7fPEoe
- etPUCbdHacthnKoBM2iM3izWG9qGwdQ=
-X-Google-Smtp-Source: ABdhPJzoQQDSCJROcCthRfq4Pkm78ZN5AXpy9UdQ91N1CbrUITClH3RxTPkhhWrFiI1j5NrmuwUQDg==
-X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr17868141wrz.401.1637139713973; 
- Wed, 17 Nov 2021 01:01:53 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id r17sm5841768wmq.5.2021.11.17.01.01.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 01:01:53 -0800 (PST)
-Subject: Re: [PATCH] nvme-tcp: send H2CData PDUs based on MAXH2CDATA
-To: Varun Prakash <varun@chelsio.com>, hch@lst.de, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org
-References: <1635337439-4311-1-git-send-email-varun@chelsio.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <57fe4578-d8be-8c05-4f52-ece4b3f4cabb@grimberg.me>
-Date: Wed, 17 Nov 2021 11:01:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hss0my1U543SYA62Ffactpc9+//eg0/Fsm4KpfOP4TA=;
+ b=nlFeJdigubTKpkaUej9bqGl1T4+Y4mX20BCdf0AU19LZ3r7jLFjHmp6588aw5lirqe
+ WAzlKFUjxOXb/Ua3YLU2wRec6Ms0KeOVjhTHwmCvm3JuKDGcGV32KECxOKdtaAHvgSuT
+ TCJNupY5cpRmtzl3xb+6olsoreHMaUqRW8EZoGaxW6z94XzDdfwCfcMy103O8KUB3Sj7
+ vgZ07aqz7wfP8mdix1LxHDEI8vXDr3wW80zKgda8kTgzWnAsN/j0Nxdlawk8haMo61ps
+ h/LPaDxAEG9nLLsGb8rCnp5DkzKypblSk9GnSkjBWZnrsbGOVBhFPNDU4BN5N2ZAF02z
+ 94pg==
+X-Gm-Message-State: AOAM530v9QiaX/7CKHpuOPpByGW2rmbrBiv/4s39vzin2zvpIFarqqqi
+ 0LX6t/3pLiwdhmtQb1bG88o5sw==
+X-Google-Smtp-Source: ABdhPJxOXnHxfcN/nA4AKyAuhHjB0XGlYF1ByvmNcUHfw88xbXLPy+hq3hyfltHTbv+vqGO7YiaBXA==
+X-Received: by 2002:a1c:43c2:: with SMTP id q185mr77977369wma.30.1637153631243; 
+ Wed, 17 Nov 2021 04:53:51 -0800 (PST)
+Received: from localhost ([194.62.217.57])
+ by smtp.gmail.com with ESMTPSA id w4sm8368899wrs.88.2021.11.17.04.53.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Nov 2021 04:53:50 -0800 (PST)
+Date: Wed, 17 Nov 2021 13:53:49 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "axboe@kernel.dk" <axboe@kernel.dk>,
+ "msnitzer@redhat.com" <msnitzer@redhat.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "roland@purestorage.com" <roland@purestorage.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Vincent Fu <vincent.fu@samsung.com>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20211117125224.z36hp2crpj4fwngc@ArmHalley.local>
+References: <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
+ <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
+ <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
+ <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
+ <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
+ <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+ <20211029081447.ativv64dofpqq22m@ArmHalley.local>
+ <20211103192700.clqzvvillfnml2nu@mpHalley-2>
+ <20211116134324.hbs3tp5proxootd7@ArmHalley.localdomain>
+ <ab4ec640-9a89-ea25-fe68-85bae2ae5d8d@acm.org>
 MIME-Version: 1.0
-In-Reply-To: <1635337439-4311-1-git-send-email-varun@chelsio.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ab4ec640-9a89-ea25-fe68-85bae2ae5d8d@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211117_010157_128196_4FC91A80 
-X-CRM114-Status: GOOD (  34.82  )
+X-CRM114-CacheID: sfid-20211117_045401_037272_2B8EA44B 
+X-CRM114-Status: GOOD (  11.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,187 +123,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Varun,
+On 16.11.2021 09:59, Bart Van Assche wrote:
+>On 11/16/21 05:43, Javier González wrote:
+>>             - Here, we need copy emulation to support encryption 
+>>without dealing with HW issues and garbage
+>
+>Hi Javier,
+>
+>Thanks very much for having taken notes and also for having shared 
+>these.
 
-Sorry for the delay, thanks for the patch, I have a few
-comments.
+My pleasure. Thanks for attending. Happy to see this moving.
 
-On 10/27/21 3:23 PM, Varun Prakash wrote:
-> As per NVMe/TCP specification (revision 1.0a, section 3.6.2.3)
-> Maximum Host to Controller Data length (MAXH2CDATA): Specifies the
-> maximum number of PDU-Data bytes per H2CData PDU in bytes. This value
-> is a multiple of dwords and should be no less than 4,096.
-> 
-> Current code sets H2CData PDU data_length to r2t_length,
-> it does not check MAXH2CDATA value. Fix this by setting H2CData PDU
-> data_length to min(req->rem_r2t_len, queue->maxh2cdata).
-> 
-> Also validate MAXH2CDATA value returned by target in ICResp PDU,
-> if it is not a multiple of dword or if it is less than 4096 return
-> -EINVAL from nvme_tcp_init_connection().
-> 
-> Signed-off-by: Varun Prakash <varun@chelsio.com>
-> ---
->   drivers/nvme/host/tcp.c  | 86 ++++++++++++++++++++++++++++++++++++++++--------
->   include/linux/nvme-tcp.h |  1 +
->   2 files changed, 74 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 22da856..d7a7d85 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -42,6 +42,7 @@ struct nvme_tcp_request {
->   	void			*pdu;
->   	struct nvme_tcp_queue	*queue;
->   	u32			data_len;
-> +	u32			rem_r2t_len;
+>Regarding the above comment, after the meeting I learned that 
+>the above is not correct. Encryption in Android is LBA independent and 
+>hence it should be possible to offload F2FS garbage collection in 
+>Android once the (UFS) storage controller supports this.
+>
+>For the general case, I propose to let the dm-crypt driver decide 
+>whether or not to offload data copying since that driver knows whether 
+>or not data copying can be offloaded.
 
-I suggest that given this is a decrementing value we should
-call it h2cdata_left.
+Thanks for sharing this. We will make sure that DM / MD are supported
+and then we can cover examples. Hopefully, you guys can help with the
+bits for dm-crypt to make the decision to offload when it make sense.
 
->   	u32			pdu_len;
->   	u32			pdu_sent;
->   	u16			ttag;
-> @@ -95,6 +96,7 @@ struct nvme_tcp_queue {
->   	struct nvme_tcp_request *request;
->   
->   	int			queue_size;
-> +	u32			maxh2cdata;
->   	size_t			cmnd_capsule_len;
->   	struct nvme_tcp_ctrl	*ctrl;
->   	unsigned long		flags;
-> @@ -578,23 +580,21 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
->   	struct nvme_tcp_data_pdu *data = req->pdu;
->   	struct nvme_tcp_queue *queue = req->queue;
->   	struct request *rq = blk_mq_rq_from_pdu(req);
-> +	u32 r2t_length = le32_to_cpu(pdu->r2t_length);
->   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->   	u8 ddgst = nvme_tcp_ddgst_len(queue);
->   
-> -	req->pdu_len = le32_to_cpu(pdu->r2t_length);
-> -	req->pdu_sent = 0;
-> -
-> -	if (unlikely(!req->pdu_len)) {
-> +	if (unlikely(!r2t_length)) {
->   		dev_err(queue->ctrl->ctrl.device,
->   			"req %d r2t len is %u, probably a bug...\n",
-> -			rq->tag, req->pdu_len);
-> +			rq->tag, r2t_length);
->   		return -EPROTO;
->   	}
->   
-> -	if (unlikely(req->data_sent + req->pdu_len > req->data_len)) {
-> +	if (unlikely(req->data_sent + r2t_length > req->data_len)) {
->   		dev_err(queue->ctrl->ctrl.device,
->   			"req %d r2t len %u exceeded data len %u (%zu sent)\n",
-> -			rq->tag, req->pdu_len, req->data_len,
-> +			rq->tag, r2t_length, req->data_len,
->   			req->data_sent);
->   		return -EPROTO;
->   	}
+I will update the notes to keep them alive. Maybe we can have them open
+in your github page?
 
-I think we should move these checks to nvme_tcp_handle_r2t anyways, this
-should only be setting the h2cdata pdu. This should probably be a prep
-patch.
+>
+>Thanks,
+>
+>Bart.
 
-> @@ -607,9 +607,15 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
->   		return -EPROTO;
->   	}
->   
-> +	req->rem_r2t_len = r2t_length;
-> +	req->pdu_len = min(req->rem_r2t_len, queue->maxh2cdata);
-> +	req->pdu_sent = 0;
-> +	req->rem_r2t_len -= req->pdu_len;
-> +
->   	memset(data, 0, sizeof(*data));
->   	data->hdr.type = nvme_tcp_h2c_data;
-> -	data->hdr.flags = NVME_TCP_F_DATA_LAST;
-> +	if (!req->rem_r2t_len)
-> +		data->hdr.flags = NVME_TCP_F_DATA_LAST;
->   	if (queue->hdr_digest)
->   		data->hdr.flags |= NVME_TCP_F_HDGST;
->   	if (queue->data_digest)
-> @@ -923,9 +929,34 @@ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
->   	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_HOST_PATH_ERROR);
->   }
->   
-> +static void nvme_tcp_update_h2c_data_pdu(struct nvme_tcp_request *req)
-> +{
-> +	struct nvme_tcp_queue *queue = req->queue;
-> +	struct nvme_tcp_data_pdu *data = req->pdu;
-> +	u8 hdgst = nvme_tcp_hdgst_len(queue);
-> +	u8 ddgst = nvme_tcp_ddgst_len(queue);
-> +	u32 pdu_sent = req->pdu_len;
-> +
-> +	req->pdu_len = min(req->rem_r2t_len, queue->maxh2cdata);
-> +	req->pdu_sent = 0;
-> +	req->rem_r2t_len -= req->pdu_len;
-> +
-> +	if (!req->rem_r2t_len)
-> +		data->hdr.flags |= NVME_TCP_F_DATA_LAST;
-> +	data->hdr.plen =
-> +		cpu_to_le32(data->hdr.hlen + hdgst + req->pdu_len + ddgst);
-> +	data->data_offset =
-> +		cpu_to_le32(le32_to_cpu(data->data_offset) + pdu_sent);
-> +	data->data_length = cpu_to_le32(req->pdu_len);
-> +
-> +	req->state = NVME_TCP_SEND_H2C_PDU;
-> +	req->offset = 0;
-> +}
-
-Ideally we don't have two functions one for setup and one for update,
-they should be the same.
-
-This can probably be acheived when the r2t checks will move out of
-this function, and we can record the r2t_legnth and r2t_offset in the
-request and use that in nvme_tcp_setup_h2c_data_pdu.
-
-> +
->   static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
->   {
->   	struct nvme_tcp_queue *queue = req->queue;
-> +	u32 rem_r2t_len = req->rem_r2t_len;
->   
->   	while (true) {
->   		struct page *page = nvme_tcp_req_cur_page(req);
-> @@ -969,7 +1000,10 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
->   				req->state = NVME_TCP_SEND_DDGST;
->   				req->offset = 0;
->   			} else {
-> -				nvme_tcp_done_send_req(queue);
-> +				if (rem_r2t_len)
-> +					nvme_tcp_update_h2c_data_pdu(req);
-> +				else
-> +					nvme_tcp_done_send_req(queue);
->   			}
->   			return 1;
->   		}
-> @@ -1022,14 +1056,26 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
->   	struct nvme_tcp_data_pdu *pdu = req->pdu;
->   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->   	int len = sizeof(*pdu) - req->offset + hdgst;
-> +	int flags = MSG_DONTWAIT | MSG_MORE;
->   	int ret;
->   
->   	if (queue->hdr_digest && !req->offset)
->   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
->   
-> -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-> -			offset_in_page(pdu) + req->offset, len,
-> -			MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-> +	if (req->rem_r2t_len) {
-> +		struct msghdr msg = { .msg_flags = flags };
-> +		struct kvec iov = {
-> +			.iov_base = (u8 *)pdu + req->offset,
-> +			.iov_len = len
-> +		};
-> +
-> +		ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
-> +	} else {
-> +		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-> +				      offset_in_page(pdu) + req->offset, len,
-> +				      flags | MSG_SENDPAGE_NOTLAST);
-> +	}
-
-Why is this needed? Seems out-of-place to me...
 
