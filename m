@@ -2,76 +2,96 @@ Return-Path: <SRS0=aga3=QF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5F2C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Nov 2021 16:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CF8C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Nov 2021 18:27:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8089B61A6C
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Nov 2021 16:31:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8089B61A6C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=suse.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3339261B2B
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Nov 2021 18:27:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3339261B2B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S8EAdpivs4s0Wk4mXPm7EqohUmpgfCcdoAnrE3GuRpM=; b=GxlCr/lhtIqqW4A3k+ZXDlMyXA
-	N0Wpy/QXAB2A8wKhDgVzbsES17GFght1y5r9TJLCRoLsFhgWyQxYqh2TgGlQv9CHNRNFUb2+20Uz7
-	GGDAHQ75U//RuO1ZZZuT2byOPM7SvlSxxqC2wJfpd0WWjim4ql518cMTbxp0VgqHXVuvHh5du0tfD
-	aE0DV5xeZf/mih17HkRitQHoNxeSgdTlMOea+yT+fiVjOWSzS01qvI6LvdIR0DuXF3eVq3JzP9psQ
-	qRsFLp5vtj/StvlxyY3sLRxwrWBDHL2cm5qqV/B/CN1sjAvmntKxygu1nDltCGv6P6/fzMg/LeURM
-	NTRE48LA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Pv8uHxy1Ctec3oTJtL2chFExM1aGL5sxbvB0jUlk+2Q=; b=Orx3kYEzyz7aEZ6ZNsUXkhs2MZ
+	AIq/S9sPh15t72m48axnQSwip9i0ZCqBIH0I7ZPcaXTOwXXE8UNA7IlYhpZW9L0g5pk6MII3LaO9p
+	fAzco78V2GmEUekvxJUKNMpFHejsKxOl4GN6X8TQ79iXl2YbUUCenOx1eaIdGLh630fFLXKOZ1dzP
+	6RbqhTRKzTOgWLWB324n5jwb4lw0ebLtxyFdFjIbykWaA9qC1VvAxFt4AaC54TWsSaHrASKYfmMDG
+	uBf8U2+ORPXiMCJKVJr3YgGqaSUOBXk8NYUobuSUKa/VXcq54k90rFK2w1GrOqR+mPPLxt+SyfzpP
+	loHmOFUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mnkK5-008M2v-LZ; Thu, 18 Nov 2021 16:31:41 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mnm7q-008YEN-Bz; Thu, 18 Nov 2021 18:27:10 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mnkK2-008M1s-Km
- for linux-nvme@lists.infradead.org; Thu, 18 Nov 2021 16:31:40 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0C4BD218CE;
- Thu, 18 Nov 2021 16:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1637253095; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S8EAdpivs4s0Wk4mXPm7EqohUmpgfCcdoAnrE3GuRpM=;
- b=hvGqFbDDsA+KMIg0j6CjdYYCA0pt2YwIy0Pao4AAsZ3jKJSRd9wPQWlLNywP780FQZHXQV
- IwnYHppye2Xe+9a/Lf9o4qh2mPSUfd9+5Z7D68E+ir89KIEK9EGIvjcTviV110doUSbrxs
- M69QzxiXqjEEHnu/pD7a70VO0wCF00E=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B56AE13D21;
- Thu, 18 Nov 2021 16:31:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id tllFKuZ/lmERPgAAMHmgww
- (envelope-from <mwilck@suse.com>); Thu, 18 Nov 2021 16:31:34 +0000
-Message-ID: <b98f6062f59c1c1cfc4a200de83e4e244efbffbf.camel@suse.com>
-Subject: Re: Sysfs paths to NVME devices
-From: Martin Wilck <mwilck@suse.com>
-To: Keith Busch <kbusch@kernel.org>, Jean Delvare <jdelvare@suse.de>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Date: Thu, 18 Nov 2021 17:31:33 +0100
-In-Reply-To: <20211118153016.GA3296638@dhcp-10-100-145-180.wdc.com>
-References: <3c725e5deaabaaf145f48f2f6fcfdae9f6d41e2e.camel@suse.de>
- <20211118153016.GA3296638@dhcp-10-100-145-180.wdc.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.42.1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ id 1mnm7n-008YDd-HS
+ for linux-nvme@lists.infradead.org; Thu, 18 Nov 2021 18:27:09 +0000
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIHg6OI000879; 
+ Thu, 18 Nov 2021 18:27:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=Pv8uHxy1Ctec3oTJtL2chFExM1aGL5sxbvB0jUlk+2Q=;
+ b=CMcr/5w0IwkXdxGvguQkOYZg/0TuMXzgHn/tk/I2Y+spyXACYaw/v3dUsymNyfULJDuX
+ KPwAHkw5lC4oTk5IkIq8YuZpwEDyO6/lbk4VXKTO7yYxvq9dVNSqc57DGNi9+T0WRk/d
+ SwRnFqZOvuhGW9UAE7SuUEvQyg/vBLov1DaRzVYqp6t6jnDh1+6EAwwj0mCyIfgZQ0/g
+ xEIiqvEFEaYISxVC0uzKJ0D193kDG4fAfYwSL50tjkcvACyu0mPZwEltJ9kSE+AoxZ4I
+ coskeGYwLbL84eQ/P5T9Eby3KTStbZeyYZLnCcX72R7EP1COlNVb11kq8Ltl0s9eHgDQ kA== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cduf1gyr7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Nov 2021 18:27:03 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AIIIpJn020057;
+ Thu, 18 Nov 2021 18:27:02 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 3ca50dcb5n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Nov 2021 18:27:02 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AIIQx1x10748262
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Nov 2021 18:26:59 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48ED0AC067;
+ Thu, 18 Nov 2021 18:26:59 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C405EAC069;
+ Thu, 18 Nov 2021 18:26:58 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.40.195.89])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 18 Nov 2021 18:26:58 +0000 (GMT)
+From: wenxiong@linux.ibm.com
+To: chaitanyak@nvidia.com
+Cc: keith.busch@wdc.com, linux-nvme@lists.infradead.org, hare@suse.de,
+ wenxiong@us.ibm.com, Wen Xiong <wenxiong@linux.ibm.com>
+Subject: [PATCH V2 0/1] libnvme: Add new events support in PEL header
+Date: Thu, 18 Nov 2021 10:57:18 -0600
+Message-Id: <1637254639-19479-1-git-send-email-wenxiong@linux.ibm.com>
+X-Mailer: git-send-email 1.6.0.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NqhkfQd5KhHspfYDXjF5IPbz9xHWKw45
+X-Proofpoint-ORIG-GUID: NqhkfQd5KhHspfYDXjF5IPbz9xHWKw45
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-18_12,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1011 bulkscore=0 adultscore=0 phishscore=0 suspectscore=0
+ spamscore=0 mlxlogscore=782 mlxscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111180095
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211118_083138_874151_6A52C27F 
-X-CRM114-Status: GOOD (  39.37  )
+X-CRM114-CacheID: sfid-20211118_102707_731860_6BA03D0D 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,100 +106,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2021-11-18 at 07:30 -0800, Keith Busch wrote:
-> On Thu, Nov 18, 2021 at 03:28:26PM +0100, Jean Delvare wrote:
-> > Hi all,
-> > 
-> > I have a few questions related to the sysfs paths to NVME devices. We
-> > have a dracut module using udevadm on block devices (under
-> > /sys/dev/block) to figure out which drivers should be included in the
-> > initrd, and noticed that it does not always work for NVME devices.
-> > Upon
-> > investigation, it was discovered that the link in /sys/dev/block
-> > leads
-> > to either a physical NVME device (e.g.
-> > /sys/devices/pci0000:00/0000:00:06.0/nvme/nvme0/nvme0n1) or a virtual
-> > NVME device (e.g. /sys/devices/virtual/nvme-subsystem/nvme-
-> > subsys0/nvme0n1). The latter case is problematic because virtual NVME
-> > devices do not have a driver attached to them.
-> > 
-> > First of all I would like to understand what is the deciding factor
-> > inside the kernel to go for virtual devices or physical devices. At
-> > first I thought it was related to CONFIG_NVME_MULTIPATH, but in fact
-> > all our systems have that option enabled, still some have virtual
-> > devices and others have physical devices.
-> 
-> If you're using nvme native multipathing, and your namespace reports
-> that it is multipath capable (ID_NS.NMIC), then the driver will set up
-> the virtual device for the visible block device.
-> 
-> If your namespace isn't multipath capable, you will only get the
-> physical device. That's just for pci, though; fabrics targets always
-> link to a virtual nvme subsystem device.
-> 
-> In the case you have a multipath namespace, the driver will also create
-> "hidden" block devices for each controller path that it found. As an
-> exampe, if you have multipath nvme /sys/block/nvme0n1, there should be
-> a
-> /sys/block/nvme0c0n1, which should link to a physical device in sysfs
-> for pci.
->  
+From: Wen Xiong <wenxiong@linux.ibm.com>
 
-For the multipath case, you obtain the hidden path devices for a given
-name space like this:
+nvme-cli tree splits into frontend(cli) and backend(lib) now.
+This patch adds header support in backend(libnvme).
 
-NSID=1
+Wen Xiong (1):
+  libnvme: Add new events support in PEL
 
-ls -d /sys/block/nvme0n${NSID}/device/nvme*/nvme*c*n${NSID}
-/sys/block/nvme0n1/device/nvme0/nvme0c0n1 
-/sys/block/nvme0n1/device/nvme1/nvme0c1n1 
-...
-(/sys/block/nvme0n1/device is a symlink to the nvme-subsystem device,
-and /sys/block/nvme0n1/device/nvme* are symlinks to the
-respective fabrics controllers).
+ src/nvme/types.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Because there are multiple symlinks involved, you can't use these
-relationships in udev rules easily, as udev can only match attributes
-of the device itself and its parents.
-
-> > Secondly, I would like to know if there's a chance to have a
-> > consistent
-> > behavior where the paths would be the same on all systems, so that
-> > user-space only has to deal with one naming scheme instead of two.
-> > It
-> > would be nice not to have to deal with exceptions in dracut and
-> > udev.
-
-I don't think there's much hope.
-
-> > 
-> > Lastly, in the case of virtual NVME device paths (which I suspect
-> > can't
-> > be avoided in multipath scenarios), could you suggest a reliable
-> > way to
-> > figure out which drivers are being used? Multipath existed before
-> > NVME
-> > so I suppose there's a way to do it already, maybe the NVME
-> > subsystem
-> > needs to be adjusted to do it the same way other subsystems (SCSI)
-> > do
-> > it?
-
-For the fabrics case, deriving the necessary drivers for the initramfs
-is non-trivial. You would need to look at the "transport" and "address"
-sysfs attributes in the sysfs directory of the controller, e.g.
-/sys/block/nvme0n1/device/nvme0, map these to FC ports or NICs, and
-figure out the drivers for those.
-
-The situation is roughly similar to iscsi, where there's also no easy
-mapping from SCSI devices to drivers. For iSCSI, the by-path devices
-are There won't be any by-path device links for NVMe multipath like for
-SCSI though, because the path devices are hidden by the kernel and thus
-no symlink targets would exist. It should be possible to create a
-utility similar to udev's "path_id" builtin with support for NVMe
-though.
-
-Regards
-Martin
+-- 
+2.27.0
 
 
