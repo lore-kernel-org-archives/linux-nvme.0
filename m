@@ -2,88 +2,90 @@ Return-Path: <SRS0=7/ZJ=QG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25939C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Nov 2021 11:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C144EC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Nov 2021 15:51:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5BE161A58
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Nov 2021 11:29:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D5BE161A58
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
+	by mail.kernel.org (Postfix) with ESMTPS id 7E5FD61B1E
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Nov 2021 15:51:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7E5FD61B1E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fyLtb5CiUrSVK0oxX6Zrr43cslzU9bP/48lNcNiy/rs=; b=3/6bJ3GJHsWbY7WKVO3h8ehskT
-	xysV5pRXz31MCquirTu6e6rw8SzgraMLz7GIjSYQW7uADCOCMJXDexbryfkKxUy57hL9cyTAJytmB
-	FhXCoKQxgUjuXipKc6nySYI0VzhPkHWHVeNJaxRmp1DFHbtdrJZ+df41/jGpcfviaTkz47u1bXpY3
-	SlxY6fQLkmEea/gRsKGyjFctnqrQIFp0T+BPoq3rpi38m6NHCCZyJG1CBtE2P88aGX2ZwbJfP3UY2
-	ylmk6SieN+k42+CKmyEdkHCqsage6GOX/N6rAaz0QcLy3Xe5R2R1fsiHQR7/UVq4cYBM41azWuIsk
-	l2nzgKlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=whUiuJFDFuwD+wvushIve7sNdYVTgiq3Xcmxkte/4AU=; b=yoF7D/6YzNDF92l8FDTnpPuE9X
+	42+p31/WtwcDxUAYvMjFofp/AmeKy6dUFncORBp3zL8Q48ZXrg4Ej9gDcy3f76KDETUSGjXuJKojB
+	OLq1e5Le6eZ0fxD0l9U4SmWwTf6bb9X3QIvi/NDFI5CFTX5xhG6n/sPaAqRzJx5r3DQUXAUw9aC/i
+	AoaHg7D+x+adtP9VgcR8HLF8oYwzfBEnWRQofkemObEO8CgSZcTtSwXExXsil4DQFLUqKisfRenhW
+	O5P8PE75/uofgymjEmbvf0yZJ6aSPskqUb3m8DPtT/sQieUyVHej3gZI8gcPsN1+Pbsg+XvmkMSff
+	4b40Iq8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mo25W-00AG2K-Oa; Fri, 19 Nov 2021 11:29:50 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mo6AY-00AudD-Ia; Fri, 19 Nov 2021 15:51:18 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mo25T-00AG1X-Qe
- for linux-nvme@lists.infradead.org; Fri, 19 Nov 2021 11:29:49 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 601951FD39;
- Fri, 19 Nov 2021 11:29:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637321384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fyLtb5CiUrSVK0oxX6Zrr43cslzU9bP/48lNcNiy/rs=;
- b=0cfBPPXZ/9Hbs4DGI5QG/XuW6DzpWtYcCPxPW7/z7n5lVH8tFNgx3G2HTEKLEcILJOmwOF
- JjJMxNK9FlYaKF801ev0mYj0lctZKP63Ul5dlDbqykjZ+ixPQWfOWR7m1ZQHFXCHHl5AgX
- 0DIIliDX0nj/fzInTvju/RXOtRzpk54=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637321384;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fyLtb5CiUrSVK0oxX6Zrr43cslzU9bP/48lNcNiy/rs=;
- b=DStn2YEb9HlTGolUfQlmheV5Oy4+9BhHCzYB7uzwpvOBixczkH/APt5slsHvqP5Hr0TFrn
- YOANuQVhV1nOWABQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2237F13B1E;
- Fri, 19 Nov 2021 11:29:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id p+DEBqiKl2HrLQAAMHmgww
- (envelope-from <hare@suse.de>); Fri, 19 Nov 2021 11:29:44 +0000
-Subject: Re: [PATCH 5/6] nvmeof-tcp/005: test bi-directional authentication
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
-References: <20211112144510.98523-1-hare@suse.de>
- <20211112144510.98523-6-hare@suse.de>
- <c34f1bbc-c54e-9e9e-86ed-421ea602efe8@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <5d919dbd-be95-3465-1b51-a3be84ffa194@suse.de>
-Date: Fri, 19 Nov 2021 12:29:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ id 1mo6AR-00AucN-8Q
+ for linux-nvme@lists.infradead.org; Fri, 19 Nov 2021 15:51:12 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A92861221;
+ Fri, 19 Nov 2021 15:51:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637337070;
+ bh=TlDTq9AOv8FgH+en11enMFFGBmpJzRegCF+fD5onZjM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bQeuXN4l1sz2ptHXt/d6W4TIuBCmMUS0qzRCLG2JD/OcSt3CWMjf4Kz9umEyD1Mnf
+ sSoYa9EvfwrozqMXJmAWFC6ibMXKDdNcJ1i4SI49sZqWZBHEPRV0ZD7AozXVQE+IU0
+ EzMQyJzLToEDD2KSF0UKITDIqDo4grbVTo9CDIcpWapmUvwbLfWN+O/dHAX6Sxf6nd
+ UHHuN3UipIyG16hQ2b2UTuK8qG4j3heaexfNuzUAeZgikGs+VXBm0hhb2+G/TDwtM5
+ sK4sguJxwE8PWRLdzTHlwVJ6JKtYTbavkglzBiWlscMyKruLREW97MhYaavX/CKMqF
+ Te3gnmFDubS9w==
+Date: Fri, 19 Nov 2021 07:51:05 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Kanchan Joshi <joshiiitr@gmail.com>
+Cc: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "axboe@kernel.dk" <axboe@kernel.dk>,
+ "msnitzer@redhat.com" <msnitzer@redhat.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "roland@purestorage.com" <roland@purestorage.com>,
+ "mpatocka@redhat.com" <mpatocka@redhat.com>, "hare@suse.de" <hare@suse.de>,
+ "rwheeler@redhat.com" <rwheeler@redhat.com>, "hch@lst.de" <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ SelvaKumar S <selvakuma.s1@samsung.com>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Vincent Fu <vincent.fu@samsung.com>, Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Message-ID: <20211119155105.GA3298398@dhcp-10-100-145-180.wdc.com>
+References: <20210928191340.dcoj7qrclpudtjbo@mpHalley.domain_not_set.invalid>
+ <c2d0dff9-ad6d-c32b-f439-00b7ee955d69@acm.org>
+ <20211006100523.7xrr3qpwtby3bw3a@mpHalley.domain_not_set.invalid>
+ <fbe69cc0-36ea-c096-d247-f201bad979f4@acm.org>
+ <20211008064925.oyjxbmngghr2yovr@mpHalley.local>
+ <2a65e231-11dd-d5cc-c330-90314f6a8eae@nvidia.com>
+ <20211029081447.ativv64dofpqq22m@ArmHalley.local>
+ <20211103192700.clqzvvillfnml2nu@mpHalley-2>
+ <20211116134324.hbs3tp5proxootd7@ArmHalley.localdomain>
+ <CA+1E3rJRT+89OCyqRtb5BFbez0BfkKvCGijd=nObMEB3_v6MyA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <c34f1bbc-c54e-9e9e-86ed-421ea602efe8@grimberg.me>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+1E3rJRT+89OCyqRtb5BFbez0BfkKvCGijd=nObMEB3_v6MyA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211119_032948_058733_BA77953C 
-X-CRM114-Status: GOOD (  20.83  )
+X-CRM114-CacheID: sfid-20211119_075111_364017_251D3C13 
+X-CRM114-Status: GOOD (  11.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,71 +100,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/17/21 10:50 PM, Sagi Grimberg wrote:
-> Hannes,
+On Fri, Nov 19, 2021 at 04:17:51PM +0530, Kanchan Joshi wrote:
+> Given the multitude of things accumulated on this topic, Martin
+> suggested to have a table/matrix.
+> Some of those should go in the initial patchset, and the remaining are
+> to be staged for subsequent work.
+> Here is the attempt to split the stuff into two buckets. Please change
+> if something needs to be changed below.
 > 
-> Should we add negative test cases for each of these tests?
-> Currently for some reason I'm able to connect even though
-> I provide the host a different dhchap_ctrl_key.
-> 
-> Controller:
-> -- 
-> # grep -r ''
-> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:b73ff014-2723-4114-aa8d-2f784ecba4f4
-> 
-> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:b73ff014-2723-4114-aa8d-2f784ecba4f4/dhchap_dhgroup:null
-> 
-> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:b73ff014-2723-4114-aa8d-2f784ecba4f4/dhchap_hash:hmac(sha512)
-> 
-> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:b73ff014-2723-4114-aa8d-2f784ecba4f4/dhchap_ctrl_key:DHHC-1:03:M4ik+B5zPy9vqzH0Ef9sLWXLL7HQ1JEqx0IkhMWwNPc0tq8ZLkTQstMl1A9wkMFzzo52hJwQ0wP9GELWmUwUgFisuGw=:
-> 
-> /sys/kernel/config/nvmet/hosts/nqn.2014-08.org.nvmexpress:uuid:b73ff014-2723-4114-aa8d-2f784ecba4f4/dhchap_key:DHHC-1:03:ynOWXFT8AC/OlvuIkpQ1RQlDAuHz2axeP43zmws90yRhPHNP5HyDQSI3m+WCBKcUfl7gRraflcb7nHAHR5mTh9t22Js=:
-> 
-> -- 
-> 
-> Host (use same key for -S and -C):
-> -- 
-> # ./nvme connect -t tcp -a 192.168.123.1 -n testnqn1 -s 8009 -S
-> "DHHC-1:03:ynOWXFT8AC/OlvuIkpQ1RQlDAuHz2axeP43zmws90yRhPHNP5HyDQSI3m+WCBKcUfl7gRraflcb7nHAHR5mTh9t22Js=:"
-> -C
-> "DHHC-1:03:ynOWXFT8AC/OlvuIkpQ1RQlDAuHz2axeP43zmws90yRhPHNP5HyDQSI3m+WCBKcUfl7gRraflcb7nHAHR5mTh9t22Js=:"
-> 
-> # nvme list
-> Node                  SN                   Model             Namespace
-> Usage                      Format           FW Rev
-> --------------------- --------------------
-> ---------------------------------------- ---------
-> -------------------------- ---------------- --------
-> /dev/nvme0n1          c7ebe13b94f6ad3885c7 Linux             1        
-> 268.44  GB / 268.44  GB    512   B +  0 B   5.15.0-r
-> -- 
-> 
-> Am I doing something wrong?
-> 
-D'oh. Fix is:
+> 1. Driver
+> *********
+> Initial: NVMe Copy command (single NS)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 4dafa04aee8c..68f195dd245a 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -1351,7 +1351,7 @@ static void __nvme_auth_work(struct work_struct *work)
-        }
-
-        ret = nvme_auth_process_dhchap_success1(ctrl, chap);
--       if (ret < 0) {
-+       if (ret) {
-                /* Controller authentication failed */
-                goto fail2;
-        }
-
-I'll fold it into the next version.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Does this point include implementing the copy command in the nvme target
+driver or just the host side? Enabling the target should be pretty
+straight forward, and would provide an in-kernel standard compliant
+"device" that everyone could test future improvements against.
 
