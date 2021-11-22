@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D564BC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13727C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Vcf1hhZCWFgfHxi8kTviWKhZCncx+U6N2s3OPnkYNeg=; b=1FpBjYmNa+Ixu3wHXuXCuYlf/e
-	4Qb+sX5gHB0NmfRB/gVAiGmu7IApHIlq8+rVfwntem+eXCymdTFBgg5aLPcojceqooyPyj38GoLuW
-	TqUhDHlF3PYNmiL/11ZlFg8mvobWyKFhOayOVHJ2Y50wfpp+Fb7/4CwC9SUvY8dMWzGcezBkGfF6q
-	qs4Smx0FE+JL0KmPoWYUSUs+bM1sa3xGxyUrgP8Rc/vGJQXdwjRqgykUqDI1G2uLPXs1h+2FBGlVZ
-	ckx1RPpyXYZ09s1o+7MliYy8x6Tw6Bbw6ebs1BzefnqA3R3871oXZF2S3dTjtqIQWymCA6fpiKSa/
-	lWCJRIiQ==;
+	bh=E76cHHXiZhO/RW6N+yP1iXK+GYc5dF2rQSVH8W5d+aQ=; b=yIzVvXWRw+qjIIi1THskT26Y/3
+	ui9v+FBaAZV35xkGFH7asUpHKim/Eju9eKzQ4Qd3TFzcKhffIghQZrjedOCakF+x1i0R+8LrMXN4M
+	vV6rOnnMbPoiFNef/br8DTfce8cYO7//b/Qed7F88QvI6+VlrNnWHUD2TbfmFTFC+0/ipgubSmANx
+	iDnzBa8PqwNZn3mo4f5tKuhyL8SaZMmfnd+FkV8o/5GCsuk0DDIyk+X9iWpd2ZflFhxN/+HV3SD1q
+	o5YMYDs2hN3DkiD3LSs0QIoB301S6UDxRX37QeGxkPKbeUPw/drfsut3SEGn36ZJlhUT8QDfpfDEn
+	tabw61NA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp57p-00FQa4-0B; Mon, 22 Nov 2021 08:56:33 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1mp59K-00FRFP-RL; Mon, 22 Nov 2021 08:58:06 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp54J-00FOOX-DW
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:52:56 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 133so14565820wme.0
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:52:55 -0800 (PST)
+ id 1mp58K-00FQmY-EV
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:57:06 +0000
+Received: by mail-wr1-f51.google.com with SMTP id i5so31330703wrb.2
+ for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:57:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Vcf1hhZCWFgfHxi8kTviWKhZCncx+U6N2s3OPnkYNeg=;
- b=F5SDTVJHKSuZcxI3OYdMBHzaW/t8lJsvP9lzvUxqnb1p2xOiXsXge5zsohwZzCcODA
- PPUXvRa3b0krKs9w0zY7P56A2HjHFBVoUr75wFLuvRodlQtLCWlfbQB4YQGeRlQdg2d3
- SW32vJR00y8ltXEquJAva81n8CbTAwwu2POYQ+Mz/RrcomUUmEBQZ2e2+L2CCJl5xxLA
- /GzOhUjRl8026uqZuqEqKn2Tm4Fg+jK+/JgS5MZTVJgwFneTWkPzx4Lp0mm46k3yqpaN
- bqPsEYO4e+hCoitJyGRoiiGB5+KX4pKy7gRtn5sLtsz3JGmQvY8o93xqyivg15qRXArb
- hDig==
-X-Gm-Message-State: AOAM533QPccWXSXywVGE2FXuZbiFMI7dDOfnItTLjTj/1Bt73jH18enH
- VIyl76UYMTodwZ4FA0vKYv15CoDvDYY=
-X-Google-Smtp-Source: ABdhPJwgTtodn1Adf/Ft52y8SrMQJtZHrUIFTx/rGxWz9v/aPa0IFa88Ky9I6qmtqbDyysqaAYr81w==
-X-Received: by 2002:a1c:9814:: with SMTP id a20mr26828431wme.18.1637571173733; 
- Mon, 22 Nov 2021 00:52:53 -0800 (PST)
+ bh=E76cHHXiZhO/RW6N+yP1iXK+GYc5dF2rQSVH8W5d+aQ=;
+ b=M0cSUnd1DnyQzmqAbDMFNRo78z4OEHJM7c52CjqM9zi/LtARLhs5MMb9VyLFrblZHN
+ 09jskvn2UIdjOkLCtbH0C/XrGblsZjdyP0WfDaXcENmw7Des3cVMJ7R0SVcmtSor6Fbt
+ 62GtkajyE2ATt8bC6AkrNeLPdBs78mj0xcBOwt2zT/r1jVkY+BE/qeuuDUwSbq3SjQKa
+ dCpUigcR21WgxtN91Q1aU17WNRCRzBhTQBdoFcTiThs85bCPMyLdQ4QmkcLmfkaiodT5
+ 22BPqrc58a8U9BrMFCwyjvgm5CH7NlTwQkB0pZdjlPPnBGGW9RGOuUDESQcwOQWXUSxn
+ LG6w==
+X-Gm-Message-State: AOAM532jD6kYLpKB2KUplRxsE1JE4RmwqVQ8/fIvkXy9MX9AcL4cKqr0
+ M4xYqc5jTGCk+LYxXlscX98MmR/alGo=
+X-Google-Smtp-Source: ABdhPJypVNGX192kTzLl08qh3cVg6+FWJe9fIYdBQVTVT4Tn8d2hXl/sLEXpejboPjtXi2rXtQhUzg==
+X-Received: by 2002:adf:fdc3:: with SMTP id i3mr35809463wrs.200.1637571422164; 
+ Mon, 22 Nov 2021 00:57:02 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id 21sm7937946wmj.18.2021.11.22.00.52.53
+ by smtp.gmail.com with ESMTPSA id s63sm9045842wme.22.2021.11.22.00.57.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 00:52:53 -0800 (PST)
-Subject: Re: [PATCH 4/9] nvme/039: simple test for nvmeof-tcp connection
+ Mon, 22 Nov 2021 00:57:01 -0800 (PST)
+Subject: Re: [PATCH 5/9] nvme/040: create an authenticated nvmeof-tcp
+ connection
 To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
  Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
 References: <20211122075524.26207-1-hare@suse.de>
- <20211122075524.26207-5-hare@suse.de>
+ <20211122075524.26207-6-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <197826e6-273c-6f19-f5cf-44814433976c@grimberg.me>
-Date: Mon, 22 Nov 2021 10:52:52 +0200
+Message-ID: <6f85d8e0-a930-9ddc-e810-f56bf483a22c@grimberg.me>
+Date: Mon, 22 Nov 2021 10:57:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211122075524.26207-5-hare@suse.de>
+In-Reply-To: <20211122075524.26207-6-hare@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_005255_510246_39D8A96E 
-X-CRM114-Status: GOOD (  16.85  )
+X-CRM114-CacheID: sfid-20211122_005704_555637_EF8AE87B 
+X-CRM114-Status: GOOD (  22.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,27 +88,112 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 11/22/21 9:55 AM, Hannes Reinecke wrote:
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   tests/nvme/039     | 56 ++++++++++++++++++++++++++++++++++++++++++++++
->   tests/nvme/039.out |  6 +++++
->   2 files changed, 62 insertions(+)
->   create mode 100644 tests/nvme/039
->   create mode 100644 tests/nvme/039.out
+>   tests/nvme/040     | 64 ++++++++++++++++++++++++++++++++++++++++++++++
+>   tests/nvme/040.out |  6 +++++
+>   2 files changed, 70 insertions(+)
+>   create mode 100644 tests/nvme/040
+>   create mode 100644 tests/nvme/040.out
 > 
-> diff --git a/tests/nvme/039 b/tests/nvme/039
+> diff --git a/tests/nvme/040 b/tests/nvme/040
 > new file mode 100644
-> index 0000000..eb015be
+> index 0000000..9c2eb07
 > --- /dev/null
-> +++ b/tests/nvme/039
-> @@ -0,0 +1,56 @@
+> +++ b/tests/nvme/040
+> @@ -0,0 +1,64 @@
 > +#!/bin/bash
 > +# SPDX-License-Identifier: GPL-3.0+
 > +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
 > +#
-> +# Test nvme over tcp connection
+> +# Test nvme over tcp authentication
 > +
 > +. tests/nvme/rc
 > +
-> +DESCRIPTION="Create single TCP connection via localhost"
+> +DESCRIPTION="Create authenticated TCP connection via localhost"
+> +QUICK=1
+> +
+> +requires() {
+> +	_nvme_requires
+> +	_have_modules loop
+> +	_require_nvme_trtype_is_fabrics
+> +}
+> +
+> +
+> +test() {
+> +	local port
+> +	local genctr
+> +	local subsys="blktests-subsystem-"
+> +	local hostid="$(uuidgen)"
+> +	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
+> +	local scratch="/tmp/blktest-ns1.img"
+> +	local nvme_trtype="tcp"
 
-Why is this test needed?
+Why is this tcp specific? what prevents this from passing with
+loop/rdma?
+
+AFAICT the rest of the tests are not tcp specific either, nor
+is inband auth in general...
+
+I think we should have the tests run with a user-defind nvme_trtype.
+
+> +	local hostkey
+> +
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
+> +	if [ $? -ne 0 ] ; then
+> +		echo "nvme gen-dhchap-key command missing"
+> +		return 1
+> +	fi
+
+I think that this belongs in nvme/rc
+
+> +
+> +	_setup_nvmet
+> +
+> +	truncate -s 512M "${scratch}"
+> +
+> +	port="$(_create_nvmet_port "${nvme_trtype}")"
+> +
+> +	_create_nvmet_subsystem "${subsys}1" "${scratch}"
+> +	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
+> +	_create_nvmet_host "${subsys}1" "${hostnqn}"
+> +	_set_nvmet_hostkey "${hostnqn}" "${hostkey}"
+
+Can you comment that hash/dhgrp are used with their default values.
+
+> +
+> +	nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
+> +	     -a "${def_traddr}" -s "${def_trsvcid}" -S "${hostkey}" \
+> +	     --hostnqn="${hostnqn}" --hostid="${hostid}"
+> +
+> +	nvme list-subsys
+
+Why not just look in the connect retcode? why do you need the 
+list-subsys output?
+
+> +
+> +	nvme disconnect -n "${subsys}1"
+> +
+> +	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
+> +	_remove_nvmet_subsystem "${subsys}1"
+> +
+> +	_remove_nvmet_port "${port}"
+> +
+> +	rm ${scratch}
+> +
+> +	echo "Test complete"
+> +}
+> diff --git a/tests/nvme/040.out b/tests/nvme/040.out
+> new file mode 100644
+> index 0000000..b1c6825
+> --- /dev/null
+> +++ b/tests/nvme/040.out
+> @@ -0,0 +1,6 @@
+> +Running nvme/040
+> +nvme-subsys0 - NQN=blktests-subsystem-1
+> +\
+> + +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
+> +NQN:blktests-subsystem-1 disconnected 1 controller(s)
+> +Test complete
+> 
 
