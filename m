@@ -4,69 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75DE2C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE5DEC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VTall5Sp5wxaGAnI1v3rBHpNwNB952Rk8sQQz7Chpzo=; b=kqzFaRd7DE315e+g4Fxn+TUyii
-	3fQbv3Xyy0BdcnDqc8uUtxQddcAfXKCD1jF6zbOUkblU9SZikVjjZvv77JwKWpyfIofT1V7P8cvjx
-	GtC5icPwlLkuFwtBCZHai0aukIQN3a/Q8TJKzYT9iocSbRTSqpadsPW7iz+dTGLojlcfkkcut+Y1/
-	le4vieF2Y8ytbC/3aQzRAfpQ6hINMmVIpJSi3Qf8OW6s4EEJmCfgDbirHIS6dJT9i5uo/rtPvxkY9
-	vRCFYC+1ZlteALGphV9mCmkohJvO+rCmIuLp8OnObNpVZ61hHo/26pg618OnyUnBlYnCawvMIdP7D
-	NKg9SJKw==;
+	bh=RC3vqKD9hTcCEz5IFzW1f6PPJL6TcyhoZreRczcumkw=; b=LQBGNNQ8pEeakqNUnb3iSeDvLX
+	KUmIJFoJ5I9/bSHJJh3wji/BTRMX5Z+j6hWXJk/+059/keTUeMvl24KHTaZ/nH1pMleJRH2wccUqq
+	RrRGHgMZLC/nPPa7J74es0OFnUT2NqF3Tj2+aDMhTp6JDmVxtMdybWcra51yZOM2sQq0KhqgPtNiy
+	zv649oJcUTV30nyDI23wM/s4HlC0haZLXVaQGRbXzMePcuFlWyX6M3Hc1FiP+lNt9GSj3BHX1ITPt
+	OP40uOP+T1ynO9N/OIZBkgzByBh2/L65ZIk/XlUAnTZZY53Hj1tjeg5nMMs0+LI5+R66EsYyKCa4w
+	apoKoLMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp4UU-00FF33-3l; Mon, 22 Nov 2021 08:15:54 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mp4Xa-00FFoK-J0; Mon, 22 Nov 2021 08:19:06 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp4As-00FAuO-Bd
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 07:55:43 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 7C897218BB;
- Mon, 22 Nov 2021 07:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637567736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VTall5Sp5wxaGAnI1v3rBHpNwNB952Rk8sQQz7Chpzo=;
- b=ErpIyzsv0V00HRRZJkLbeXKX0+nKxifKR2v1v0ZCDvDSKLoqku3ZFBREFjZi9nxeLyv+WZ
- ALR8yy2SL5F9yHYCMwU/Y3cx47/coPutLW4DjwFaAzecnyTlh/xNdM6DA+U0swBUMIU3fz
- 8W+B2yzz9cXznIxEG1Ek0t/XF9zDQfA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637567736;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VTall5Sp5wxaGAnI1v3rBHpNwNB952Rk8sQQz7Chpzo=;
- b=NhuiS/lGWoYm2WXIz/s3lV6RxNH614aY+YoZ6Vb/tbnTYbAbN1MjQjUgkezN/O8CnEgA7B
- JZqWad9fHUk5lXBw==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 5A4BCA3B8B;
- Mon, 22 Nov 2021 07:55:36 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 48DDF51917F5; Mon, 22 Nov 2021 08:55:36 +0100 (CET)
-From: Hannes Reinecke <hare@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 4/9] nvme/039: simple test for nvmeof-tcp connection
-Date: Mon, 22 Nov 2021 08:55:19 +0100
-Message-Id: <20211122075524.26207-5-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20211122075524.26207-1-hare@suse.de>
-References: <20211122075524.26207-1-hare@suse.de>
+ id 1mp4MJ-00FDSE-P0
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:07:29 +0000
+Received: by mail-wr1-f52.google.com with SMTP id n29so30987781wra.11
+ for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:07:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RC3vqKD9hTcCEz5IFzW1f6PPJL6TcyhoZreRczcumkw=;
+ b=QNRpmcGs+D1Gfg/lRPKypz2LH4b6NAcpMFKAqRPWRL7xVTFIQ3nE9vaLW1DlBBnBRh
+ jSvbYDhmprQlciNZqEhXA7pflknIQXwPEFdqmM2oGljTH3Qb3j4oJLjsbjmq8x44P4p+
+ i5rC5TGp1S65yHys6XlelZ3H2+dPiRKEqF+GKv+3p3h60QhPkwx3NazgboYalJWqYi/l
+ 4qES6/sD24tu3HIbbEPR/k0SUO2M73AWkAod5zVrcXPUcfw1CGR283u8IXpJoGMKBjHj
+ fzsm6MVUasjnbSNUjjJsGFHki1Hx/34Sn+Vu3XLYLqmiXUrZwjlaDS5syImKW1evWPGD
+ 5hew==
+X-Gm-Message-State: AOAM531DlhaZqzm97K1qCgqhpEl3cDiPDeukNNVF3jv0WJlkEmkl7EyJ
+ Ve6SfEDOO8RrUzNfQq6ueSE=
+X-Google-Smtp-Source: ABdhPJxbNRaRTtAyqwOPZ4j2lhyUy3FE9JmpQkWy0BpH4ksV9H6Z70PwoM66ii78SHDO1pIjj879vA==
+X-Received: by 2002:a5d:6347:: with SMTP id b7mr34477235wrw.36.1637568446438; 
+ Mon, 22 Nov 2021 00:07:26 -0800 (PST)
+Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id j17sm11054638wmq.41.2021.11.22.00.07.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 00:07:26 -0800 (PST)
+Subject: Re: [PATCH 4/5] nvme: quiesce namespace queue in parallel
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Chao Leng <lengchao@huawei.com>
+References: <20211119021849.2259254-1-ming.lei@redhat.com>
+ <20211119021849.2259254-5-ming.lei@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <37036ab3-da87-898e-5af6-1abf228b4390@grimberg.me>
+Date: Mon, 22 Nov 2021 10:07:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211119021849.2259254-5-ming.lei@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211121_235538_642423_DF59016C 
-X-CRM114-Status: GOOD (  13.78  )
+X-CRM114-CacheID: sfid-20211122_000727_884479_753D20C3 
+X-CRM114-Status: GOOD (  23.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,89 +85,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- tests/nvme/039     | 56 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/039.out |  6 +++++
- 2 files changed, 62 insertions(+)
- create mode 100644 tests/nvme/039
- create mode 100644 tests/nvme/039.out
 
-diff --git a/tests/nvme/039 b/tests/nvme/039
-new file mode 100644
-index 0000000..eb015be
---- /dev/null
-+++ b/tests/nvme/039
-@@ -0,0 +1,56 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
-+#
-+# Test nvme over tcp connection
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="Create single TCP connection via localhost"
-+QUICK=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
-+}
-+
-+
-+test() {
-+	local port
-+	local genctr
-+	local subsys="blktests-subsystem-"
-+	local hostid="$(uuidgen)"
-+	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	local scratch="/tmp/blktest-ns1.img"
-+	local nvme_trtype="tcp"
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	truncate -s 512M "${scratch}"
-+
-+	port="$(_create_nvmet_port "${nvme_trtype}")"
-+
-+	_create_nvmet_subsystem "${subsys}1" "${scratch}"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
-+	_create_nvmet_host "${subsys}1" "${hostnqn}"
-+
-+	nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
-+	     -a "${def_traddr}" -s "${def_trsvcid}" \
-+	     --hostnqn="${hostnqn}" --hostid="${hostid}"
-+
-+	nvme list-subsys
-+
-+	nvme disconnect -n "${subsys}1"
-+
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
-+	_remove_nvmet_subsystem "${subsys}1"
-+
-+	_remove_nvmet_port "${port}"
-+
-+	rm ${scratch}
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/039.out b/tests/nvme/039.out
-new file mode 100644
-index 0000000..7970853
---- /dev/null
-+++ b/tests/nvme/039.out
-@@ -0,0 +1,6 @@
-+Running nvme/039
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test complete
--- 
-2.26.2
 
+On 11/19/21 4:18 AM, Ming Lei wrote:
+> Chao Leng reported that in case of lots of namespaces, it may take quite a
+> while for nvme_stop_queues() to quiesce all namespace queues.
+> 
+> Improve nvme_stop_queues() by running quiesce in parallel, and just wait
+> once if global quiesce wait is allowed.
+> 
+> Link: https://lore.kernel.org/linux-block/cc732195-c053-9ce4-e1a7-e7f6dcf762ac@huawei.com/
+> Reported-by: Chao Leng <lengchao@huawei.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>   drivers/nvme/host/core.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 4b5de8f5435a..06741d3ed72b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4517,9 +4517,7 @@ static void nvme_start_ns_queue(struct nvme_ns *ns)
+>   static void nvme_stop_ns_queue(struct nvme_ns *ns)
+>   {
+>   	if (!test_and_set_bit(NVME_NS_STOPPED, &ns->flags))
+> -		blk_mq_quiesce_queue(ns->queue);
+> -	else
+> -		blk_mq_wait_quiesce_done(ns->queue);
+> +		blk_mq_quiesce_queue_nowait(ns->queue);
+>   }
+>   
+>   /*
+> @@ -4620,6 +4618,11 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+>   	down_read(&ctrl->namespaces_rwsem);
+>   	list_for_each_entry(ns, &ctrl->namespaces, list)
+>   		nvme_stop_ns_queue(ns);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> +		blk_mq_wait_quiesce_done(ns->queue);
+> +		if (blk_mq_global_quiesce_wait(ns->queue))
+> +			break;
+> +	}
+>   	up_read(&ctrl->namespaces_rwsem);
+
+
+Can you quantify how much of a difference it is to do rcu_read_unlock()
+for every queue? The big improvement here is that it is done in parallel
+instead of serially. Just wandering if it is worth the less than elegant
+interface...
 
