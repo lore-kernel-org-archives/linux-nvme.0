@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BA3BC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:56:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D564BC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5TtBNBvMl6JvIK0aoTcj/mILEdsXI8q8SZTB8zh87GY=; b=Y9oChWeJMLvdvFGWMso9IKbA1Z
-	J/OCiS/AtZ2+cHOpkncRMd1l6IF+7KNUQOJ4D8F5qroEoCEVEeOhoyWpWE0u/Krh890h3pOIvdV9M
-	qkJk76oKFsI9yRNynK8wpD6Pycq94YWsOZOWjfjpUIi/KRaol/RIXzchOAkgFoohIr5gxrVD0q7D8
-	bsOW2jb+l6Wbj17aQbxW+OsHBovxDb6g+VusGHH3Psi/pZlI4i6JMmc2dQr/OvDvwUivPsodp9L7+
-	NFT+gL/QlbuVQ4o4TFKWIByyIy+bOyiOJ7VbqhXZKS+clp76AaPOWqZn9Dr4GMWuRSlTvltM0tP0R
-	w2d/0cwg==;
+	bh=Vcf1hhZCWFgfHxi8kTviWKhZCncx+U6N2s3OPnkYNeg=; b=1FpBjYmNa+Ixu3wHXuXCuYlf/e
+	4Qb+sX5gHB0NmfRB/gVAiGmu7IApHIlq8+rVfwntem+eXCymdTFBgg5aLPcojceqooyPyj38GoLuW
+	TqUhDHlF3PYNmiL/11ZlFg8mvobWyKFhOayOVHJ2Y50wfpp+Fb7/4CwC9SUvY8dMWzGcezBkGfF6q
+	qs4Smx0FE+JL0KmPoWYUSUs+bM1sa3xGxyUrgP8Rc/vGJQXdwjRqgykUqDI1G2uLPXs1h+2FBGlVZ
+	ckx1RPpyXYZ09s1o+7MliYy8x6Tw6Bbw6ebs1BzefnqA3R3871oXZF2S3dTjtqIQWymCA6fpiKSa/
+	lWCJRIiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp57O-00FQLt-U8; Mon, 22 Nov 2021 08:56:06 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1mp57p-00FQa4-0B; Mon, 22 Nov 2021 08:56:33 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp53n-00FO0i-2K
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:52:24 +0000
-Received: by mail-wm1-f41.google.com with SMTP id p18so14503458wmq.5
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:52:22 -0800 (PST)
+ id 1mp54J-00FOOX-DW
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:52:56 +0000
+Received: by mail-wm1-f47.google.com with SMTP id 133so14565820wme.0
+ for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:52:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5TtBNBvMl6JvIK0aoTcj/mILEdsXI8q8SZTB8zh87GY=;
- b=NLy+qgo+IujtSrWdcqtD0jE1IEM/i9nTomyCuMLpbGCt9NbaYm17MxyZQ7S0YJdc7T
- fZkznmoQQ5FnHBTE9FeIJHWp0Z/PZviyXIknvejVL88MbqOowifaFoU4TukT3S3Wtfb6
- 8eqoxV8MNEUgwqkXyi1uFg0NI6I2XOfCCSS9Qi6IippCQ/Ve/6ymlc+NfbtkpfbiVO36
- SCRPqNl8u9k56RdENe7UUXAY+xhYy9C1E2KZdz2LhZ08nrrtQHxhgzuh2q9/9O227B35
- npRxe/qpVlTT3ogGfO5DyzYHmwO+NFmoQsy/HCy6jtJYt4grg3wXyIaoKLRzPGJIYsBC
- 6WBg==
-X-Gm-Message-State: AOAM53053Lt4se3GYs3m4Mu1hcb4rr4uL0JHaUPdo9dM1rDls6kT1DxJ
- UQn0mmyk4MePakhTHaQ6CKpegMuYkPU=
-X-Google-Smtp-Source: ABdhPJw7kOuQP6F0o2nTdmIcvuTvwL3Teaz1b8YGnFOnnJfXRAUBTsSdt9YXpS8L5dNDnnJvNzeFDw==
-X-Received: by 2002:a1c:2585:: with SMTP id l127mr27595891wml.72.1637571141230; 
- Mon, 22 Nov 2021 00:52:21 -0800 (PST)
+ bh=Vcf1hhZCWFgfHxi8kTviWKhZCncx+U6N2s3OPnkYNeg=;
+ b=F5SDTVJHKSuZcxI3OYdMBHzaW/t8lJsvP9lzvUxqnb1p2xOiXsXge5zsohwZzCcODA
+ PPUXvRa3b0krKs9w0zY7P56A2HjHFBVoUr75wFLuvRodlQtLCWlfbQB4YQGeRlQdg2d3
+ SW32vJR00y8ltXEquJAva81n8CbTAwwu2POYQ+Mz/RrcomUUmEBQZ2e2+L2CCJl5xxLA
+ /GzOhUjRl8026uqZuqEqKn2Tm4Fg+jK+/JgS5MZTVJgwFneTWkPzx4Lp0mm46k3yqpaN
+ bqPsEYO4e+hCoitJyGRoiiGB5+KX4pKy7gRtn5sLtsz3JGmQvY8o93xqyivg15qRXArb
+ hDig==
+X-Gm-Message-State: AOAM533QPccWXSXywVGE2FXuZbiFMI7dDOfnItTLjTj/1Bt73jH18enH
+ VIyl76UYMTodwZ4FA0vKYv15CoDvDYY=
+X-Google-Smtp-Source: ABdhPJwgTtodn1Adf/Ft52y8SrMQJtZHrUIFTx/rGxWz9v/aPa0IFa88Ky9I6qmtqbDyysqaAYr81w==
+X-Received: by 2002:a1c:9814:: with SMTP id a20mr26828431wme.18.1637571173733; 
+ Mon, 22 Nov 2021 00:52:53 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id d7sm8032519wrw.87.2021.11.22.00.52.20
+ by smtp.gmail.com with ESMTPSA id 21sm7937946wmj.18.2021.11.22.00.52.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 00:52:21 -0800 (PST)
-Subject: Re: [PATCH 3/9] nvme/rc: add functions for in-band authentication
+ Mon, 22 Nov 2021 00:52:53 -0800 (PST)
+Subject: Re: [PATCH 4/9] nvme/039: simple test for nvmeof-tcp connection
 To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
  Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
 References: <20211122075524.26207-1-hare@suse.de>
- <20211122075524.26207-4-hare@suse.de>
+ <20211122075524.26207-5-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <a4e3d91a-f618-8bff-0218-1396274bf1fd@grimberg.me>
-Date: Mon, 22 Nov 2021 10:52:20 +0200
+Message-ID: <197826e6-273c-6f19-f5cf-44814433976c@grimberg.me>
+Date: Mon, 22 Nov 2021 10:52:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211122075524.26207-4-hare@suse.de>
+In-Reply-To: <20211122075524.26207-5-hare@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_005223_162178_F2D741EB 
-X-CRM114-Status: GOOD (  18.25  )
+X-CRM114-CacheID: sfid-20211122_005255_510246_39D8A96E 
+X-CRM114-Status: GOOD (  16.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,33 +85,29 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 11/22/21 9:55 AM, Hannes Reinecke wrote:
-> Add functions to enable in-band authentication.
-> 
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   tests/nvme/rc | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 54 insertions(+)
+>   tests/nvme/039     | 56 ++++++++++++++++++++++++++++++++++++++++++++++
+>   tests/nvme/039.out |  6 +++++
+>   2 files changed, 62 insertions(+)
+>   create mode 100644 tests/nvme/039
+>   create mode 100644 tests/nvme/039.out
 > 
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index aa223df..7d05e4a 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -247,6 +247,17 @@ _create_nvmet_subsystem() {
->   	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
->   }
->   
-> +_create_nvmet_host() {
-> +	local nvmet_subsystem="$1"
-> +	local nvmet_hostnqn="$2"
-> +	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+> diff --git a/tests/nvme/039 b/tests/nvme/039
+> new file mode 100644
+> index 0000000..eb015be
+> --- /dev/null
+> +++ b/tests/nvme/039
+> @@ -0,0 +1,56 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
+> +#
+> +# Test nvme over tcp connection
 > +
-> +	mkdir "${NVMET_CFS}/hosts/${nvmet_hostnqn}"
-> +	echo 0 > "${cfs_path}/attr_allow_any_host"
-> +	ln -s "${NVMET_CFS}/hosts/${nvmet_hostnqn}" \
-> +	   "${cfs_path}/allowed_hosts/${nvmet_hostnqn}"
-> +}
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="Create single TCP connection via localhost"
 
-I'd say that perhaps we can add optional parameters for
-host key,hash,dhgrp so that simple tests can just add
-a host with these params set?
+Why is this test needed?
 
