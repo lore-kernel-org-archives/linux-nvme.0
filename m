@@ -4,70 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D814C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 281D5C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GV9VBm79SKngmQ7cve6tyxoEDAnDq2/eaDqc8avRVJg=; b=QufmIiT6TW5wmFQ0vrMSpITvD3
-	7GQy3qnXkfL/oUv+undS+t8H7+YMZsyoIrqmnCeTcRZHQbuQ7pV4iR7lYYktGdBDMAInNBOmSCf0m
-	Nb1DbtBW3CHPO7EycPj+pAQFJa8B05+0ss5WcddGppbvPLGthCh27UgCBpVoKp/eOj5tkX7QOpYmi
-	buFQf1SparWZeA42v7d98fph65msAjAFPyLsmIL5pzRwk/15lbsERsejHLkPBQlWJuu7O1fKlaho/
-	7eU6fXi9Yiz+pmIFWfjsxw2eZ9J6xTVLn9gd2CXAsNqGTs+9+XsdhoNMjO0ryOrY7tzOEt2/MsBBh
-	W+AiA8wA==;
+	bh=whPOZezOG/c+6mEuvMoWrjak4ggZA/ulEtBj3hK6sNE=; b=jgwDcuAyL1TGjmSpcfu+XoJQYk
+	ZxW1/LeLspJ+lGXdt9O2fhmeUhiRldcP3p0ysdCRYhy5E3K0QvPT5FieHUncYo/EwXYG7v/WFJUQ5
+	z2rn6hvtLNT7vDzuz8+Tal9Mx8TU24zK6Br2mEr0Yc7a9ZrQrcLDyTADIJ4/v8sZhmlgE1IXcvgez
+	pOuRh3NyM/2fZfY+ianHo8oP9UNq6b52K6WgrLoI4g5tCKa6/iqAv0sztr+DIUuhy4Eamf3FbXnOO
+	htukiFSglQO2uzjewopQ+EAaWpGxw9OE+try5huvTKqfPCIuUM3UnqcWWHZOPhtWuyDFvq8qcmo7R
+	InCtesHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp5F0-00FT8F-CH; Mon, 22 Nov 2021 09:03:58 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1mp5G7-00FTSB-Ii; Mon, 22 Nov 2021 09:05:07 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp5E6-00FSs8-81
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 09:03:04 +0000
-Received: by mail-wr1-f52.google.com with SMTP id d5so31343551wrc.1
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 01:03:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GV9VBm79SKngmQ7cve6tyxoEDAnDq2/eaDqc8avRVJg=;
- b=GwVgiBUr9VdizDD5l/ngbKrTuolxm9bjXGqFEiawb8+7Y48Rhg+IJa/qsYFSTxSZq4
- 82vFYuJo/L3+tfBomEfzKYVdoWt0dcQav1+r5JHUCdXs2lhueNelZTkkd0zlpn3/T2zJ
- Yuz+3Wx0F5Mfx9U1o/pnmvxURKu56vHGIddQQUy3ozQ/cKjUTXSZ/J4HIOhohzb0pifT
- PYZoopHIzQ6k4UoPnd/Wy9zVFNcfo6jSRuSzDwYh9yrmDFZj8MXMcCsDStUiGdx651UQ
- eS8rX0OdyB4JPDc0G/bIaZzeHtsDrHqASAA/kWX+wAou4+urDy9KJzn0vzvtzEaFVtj/
- r48g==
-X-Gm-Message-State: AOAM530BHMZmmfaoAPdd3Sx6bZ0lM2NWp5uxApamatZzITdtD2pUILH2
- JDNKJN+u3NDDMEyt9eGflbsbKxnDCZ0=
-X-Google-Smtp-Source: ABdhPJxq3fU71+pBXkmsyDlXyVyLmnlcsVk613+0GAjWyUAIzbGQOAaoOH5OWj582NTdoFqolZGY2g==
-X-Received: by 2002:a5d:68cb:: with SMTP id p11mr34338025wrw.262.1637571780051; 
- Mon, 22 Nov 2021 01:03:00 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id p13sm20999584wmi.0.2021.11.22.01.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 01:02:59 -0800 (PST)
-Subject: Re: [PATCH 9/9] nvme/044: test re-authentication
-To: Hannes Reinecke <hare@suse.de>
+ id 1mp5Eb-00FT0z-8J
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 09:03:34 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0DD432114E;
+ Mon, 22 Nov 2021 09:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1637571811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=whPOZezOG/c+6mEuvMoWrjak4ggZA/ulEtBj3hK6sNE=;
+ b=w12OB1bYJ9+zl+//D6K2MW5asuPBurPX8LBLg1lgsa5cZikskQSVXExX9rxTZbUmpRS199
+ jydbl0/aw/wXEC/SIQh7ji0nigkorPHXaQG1OSm+pRGKZL4/L7jzu/iTeVwfE8gRU59BcL
+ Wn6yI7C7ob/BxHLv/fnj1qyobeT3pbs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1637571811;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=whPOZezOG/c+6mEuvMoWrjak4ggZA/ulEtBj3hK6sNE=;
+ b=vKs5wd7ugukbK/Kry/nGnkhUC3TRtHxYPr/8vgwrpV5RBUGm5rrCxB1qrQWwW3fwNcANTm
+ MnXthn1Mt3uHXTCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8624513B9E;
+ Mon, 22 Nov 2021 09:03:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id PRZPFeFcm2HTRwAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 22 Nov 2021 09:03:29 +0000
+Subject: Re: [PATCHv6 00/12] nvme: In-band authentication support
+To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
-References: <20211122075524.26207-1-hare@suse.de>
- <20211122075524.26207-10-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <2bdd14e4-ac97-c21b-6ecf-f7ea6c4b215a@grimberg.me>
-Date: Mon, 22 Nov 2021 11:02:58 +0200
+ linux-nvme@lists.infradead.org, Herbert Xu <herberg@gondor.apana.org.au>,
+ David Miller <davem@davemloft.org>, linux-crypto@vger.kernel.org
+References: <20211122074727.25988-1-hare@suse.de>
+ <14b025bc-746f-ea73-a325-7805c4b46c28@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Organization: SUSE Linux GmbH
+Message-ID: <8e0909ad-f431-2600-7b68-d86d014fc9ec@suse.de>
+Date: Mon, 22 Nov 2021 10:03:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20211122075524.26207-10-hare@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <14b025bc-746f-ea73-a325-7805c4b46c28@grimberg.me>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_010302_391477_E572677A 
-X-CRM114-Status: GOOD (  19.82  )
+X-CRM114-CacheID: sfid-20211122_010333_495239_CBE98483 
+X-CRM114-Status: GOOD (  24.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,129 +93,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 11/22/21 9:55 AM, Hannes Reinecke wrote:
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   tests/nvme/044     | 116 +++++++++++++++++++++++++++++++++++++++++++++
->   tests/nvme/044.out |  22 +++++++++
->   2 files changed, 138 insertions(+)
->   create mode 100644 tests/nvme/044
->   create mode 100644 tests/nvme/044.out
+On 11/22/21 9:13 AM, Sagi Grimberg wrote:
 > 
-> diff --git a/tests/nvme/044 b/tests/nvme/044
-> new file mode 100644
-> index 0000000..e3a1e94
-> --- /dev/null
-> +++ b/tests/nvme/044
-> @@ -0,0 +1,116 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
-> +#
-> +# Test nvme over tcp re-authentication
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="Test re-authentication for TCP connection via localhost"
-> +QUICK=1
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_have_modules loop
-> +	_require_nvme_trtype_is_fabrics
-> +}
-> +
-> +
-> +test() {
-> +	local port
-> +	local genctr
-> +	local subsys="blktests-subsystem-"
-> +	local hostid="$(uuidgen)"
-> +	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-> +	local scratch="/tmp/blktest-ns1.img"
-> +	local nvme_trtype="tcp"
-> +	local hostkey
-> +	local ctrlkey
-> +
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
-> +	if [ $? -ne 0 ] ; then
-> +		echo "nvme gen-dhchap-key command missing"
-> +		return 1
-> +	fi
-> +
-> +	ctrlkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
-> +	if [ $? -ne 0 ] ; then
-> +		echo "nvme gen-dhchap-key command missing"
-> +		return 1
-> +	fi
-> +
-> +	_setup_nvmet
-> +
-> +	truncate -s 512M "${scratch}"
-> +
-> +	port="$(_create_nvmet_port "${nvme_trtype}")"
-> +
-> +	_create_nvmet_subsystem "${subsys}1" "${scratch}"
-> +	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
-> +	_create_nvmet_host "${subsys}1" "${hostnqn}"
-> +
-> +	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
-> +	_set_nvmet_hostkey "${hostnqn}" "${hostkey}"
-> +	_set_nvmet_ctrlkey "${hostnqn}" "${ctrlkey}"
-> +
-> +	nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
-> +	     -a "${def_traddr}" -s "${def_trsvcid}" \
-> +	     -S "${hostkey}" -C "${ctrlkey}" \
-> +	     --hostnqn="${hostnqn}" --hostid="${hostid}"
-> +
-> +	nvme list-subsys
-> +
-> +	ctrl=$(_find_nvme_dev "${subsys}1")
-> +
-> +	echo "Re-authenticate with original host key"
-> +
-> +	echo "${hostkey}" > /sys/class/nvme/${ctrl}/dhchap_secret
-> +
-> +	echo "Renew host key on the controller"
-> +
-> +	new_hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
-> +
-> +	_set_nvmet_hostkey "${hostnqn}" "${new_hostkey}"
-> +
-> +	echo "Re-authenticate with new host key"
-> +
-> +	echo "${new_hostkey}" > /sys/class/nvme/${ctrl}/dhchap_secret
-> +
-> +	nvme list-subsys
-> +
-> +	echo "Renew ctrl key on the controller"
-> +
-> +	new_ctrlkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
-> +
-> +	_set_nvmet_ctrlkey "${hostnqn}" "${new_ctrlkey}"
-> +
-> +	echo "Re-authenticate with new ctrl key"
-> +
-> +	echo "${new_ctrlkey}" > /sys/class/nvme/${ctrl}/dhchap_ctrl_secret
-> +
-> +	nvme list-subsys
-> +
-> +	echo "Change DH group to ffdhe8192"
-> +
-> +	_set_nvmet_dhgroup "${hostnqn}" "ffdhe8192"
-> +
-> +	echo "Re-authenticate with changed DH group"
-> +	echo "${new_hostkey}" > /sys/class/nvme/${ctrl}/dhchap_secret
-> +
-> +	nvme list-subsys
+> 
+> On 11/22/21 9:47 AM, Hannes Reinecke wrote:
+>> Hi all,
+>>
+>> recent updates to the NVMe spec have added definitions for in-band
+>> authentication, and seeing that it provides some real benefit
+>> especially for NVMe-TCP here's an attempt to implement it.
+>>
+>> Tricky bit here is that the specification orients itself on TLS 1.3,
+>> but supports only the FFDHE groups. Which of course the kernel doesn't
+>> support. I've been able to come up with a patch for this, but as this
+>> is my first attempt to fix anything in the crypto area I would invite
+>> people more familiar with these matters to have a look.
+>>
+>> Also note that this is just for in-band authentication. Secure
+>> concatenation (ie starting TLS with the negotiated parameters) is not
+>> implemented; one would need to update the kernel TLS implementation
+>> for this, which at this time is beyond scope.
+>>
+>> As usual, comments and reviews are welcome.
+>>
+>> Changes to v5:
+>> - Unify nvme_auth_generate_key()
+>> - Unify nvme_auth_extract_key()
+> 
+> You mean nvme_auth_extract_secret() ?
+> 
+Yes.
 
-Here you may want to compare the lists, but why not to a local
-variable?
+>> - Include reviews from Sagi
+> 
+> What about the bug fix folded in?
 
-If you insist of printing, how about introducing a
-generic filter helper to filter-out the transport from list-subsys?
+Yeah, and that, to
+Forgot to mention it.
+
+Also note that I've already folded the nvme-cli patches into the git
+repository to ease testing; I gather that the interface won't change
+that much anymore, so I felt justified in doing so.
+And I got tired of explaining to interested parties how to build a
+non-standard nvme-cli :-)
+But that's why I didn't post separate patches for nvme-cli.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		        Kernel Storage Architect
+hare@suse.de			               +49 911 74053 688
+SUSE Software Solutions Germany GmbH, 90409 Nürnberg
+GF: F. Imendörffer, HRB 36809 (AG Nürnberg)
 
