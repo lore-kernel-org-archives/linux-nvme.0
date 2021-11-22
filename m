@@ -4,75 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7B01C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 14:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45363C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 14:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NOpI29WK93kPIoQN+4npStzaJDQP3VzNREpVcUJTXwI=; b=qcNCZZlRtNZuaUIVJUBRrelDbN
-	HCYl85TLN2v49KbQ6WaydFAV2GrQHSLDPepWaCJD5RmQMJLUO6hsNJSJ3k1uPlcp8NdrHK/7wzALV
-	pgeMY0EE3AbZbdhvG0STU2MRUGP6YJ6h1h2cK6hJTGgxjvEiqmpgshNogDY6Prus1bS6YuJKGn5Ch
-	7QKNmMDmhJ3OlffkNwyCGGdeBfkyK02riphIPQMfc7PkR/Bg2vj1QJppIbEudxfFr1to25vnqE23F
-	QqwiihxW2ZBp9uiJ/XFmJMMlw+6BhYT7OmsDhGIe3P0t/gpxmJJw7SHyLlyzLl/TAk22oKd8r6HfV
-	47j4BKAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YDqS6FiVz+PUhurU7a/sQEr/QnCo3AMh0NDv4+1HLgo=; b=rV75Akkc2EnivjtjwB3nilR6DT
+	zFInph97UgL5scG7w8O2EIRb/wxxf6mJ446ytqOPHbV7/0vdlRMlymoA1sIoAL/QcSGEyZ0geZT8N
+	DR102OQqRo43E7ZxpwouEMTIJiQPxeqEYxtiCerVTiordONBGuhbyHeqRoTGIeXJoB2vrZslS+kRZ
+	2t25OS9CjNfidq+b+GV6ni+4Rw/cj6mjOYpXrW4nnbiVWcip5RtzmQIKGNDLruw4RXvU69MXu/aMU
+	n35tjsj7e4YsjijILbQrxHlZdoLAgdRB21ADJuqShhYmLvRUzez4NUQx3IeFN2lyKr1eA1ICvj2sZ
+	oeE21wxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpALp-00GrbK-Ee; Mon, 22 Nov 2021 14:31:21 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1mpAOz-00GscX-Le; Mon, 22 Nov 2021 14:34:37 +0000
+Received: from stargate.chelsio.com ([12.32.117.8])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpALm-00GraO-7m
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 14:31:19 +0000
-Received: by mail-wr1-f46.google.com with SMTP id d5so33121277wrc.1
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 06:31:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NOpI29WK93kPIoQN+4npStzaJDQP3VzNREpVcUJTXwI=;
- b=EZUbrUV6CLENa03gi/EYrCsFKcJekAX0OzvhNrURVT5IBZf9f5nHTKTvlUAjEjWKEZ
- VFTF7ZXI5BxJnm0wUjTQzYBcQqWodf2HP5qrs+HOw7Jg6rC2nYa4rD7VVJaMYncZW40Y
- NCpcBwumpqNSuv8vi/rqPQur8yaxVpIr2JOg9288siSC1qXebO6oEKB6zZXBc60FGNUx
- 2/Ej8bbpM1Ix/PKuKGUIUd0B7OjOcyApUQKFXZxsFBCHtUb1Hm1ocACMdfH06moT3NLC
- L8eZUzsK6sv8h+P7YPhBtg5GQPRYKjvBlLclBu43ups1FREDfvi0t3+erutUIKm+WXCs
- V1MQ==
-X-Gm-Message-State: AOAM533YhAEmNPF0tGkREbGGgA4PyCpE1NxkWqChxPucjDPpblsk+NUV
- xIZZrX75KYuxt00YTBtsoVE=
-X-Google-Smtp-Source: ABdhPJx3q5pqRSYEpp0EUSXAYEjgOp7ZwMBhmfiocfElS4LJr62IrLXfEQybOL8EzHGD3G34nBAdbw==
-X-Received: by 2002:adf:d1cb:: with SMTP id b11mr40733574wrd.33.1637591475370; 
- Mon, 22 Nov 2021 06:31:15 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id g6sm12354677wmq.36.2021.11.22.06.31.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 06:31:14 -0800 (PST)
-Subject: Re: [PATCH 10/12] nvmet: Implement basic In-Band Authentication
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Herbert Xu <herberg@gondor.apana.org.au>,
- David Miller <davem@davemloft.org>, linux-crypto@vger.kernel.org
-References: <20211122074727.25988-1-hare@suse.de>
- <20211122074727.25988-11-hare@suse.de>
- <762ce404-9035-30ca-078d-eb0b36223e4c@grimberg.me>
- <313b19d2-ea54-ce1c-f9cb-3f1fb6743787@suse.de>
- <891fe077-40d3-5bad-52fb-f0ee6f6107b6@grimberg.me>
- <f7011868-4542-bd09-6d44-3aaa192a9212@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <27432703-8e83-10c0-c428-090e6ec4b9af@grimberg.me>
-Date: Mon, 22 Nov 2021 16:31:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1mpAOw-00GsbE-JH
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 14:34:35 +0000
+Received: from localhost (varun.asicdesigners.com [10.193.191.31])
+ by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 1AMEYSLI009355;
+ Mon, 22 Nov 2021 06:34:28 -0800
+Date: Mon, 22 Nov 2021 20:04:27 +0530
+From: Varun Prakash <varun@chelsio.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: hch@lst.de, kbusch@kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/2] nvme-tcp: validate R2T PDU in nvme_tcp_handle_r2t()
+Message-ID: <20211122143425.GA1716@chelsio.com>
+References: <1637575953-3143-1-git-send-email-varun@chelsio.com>
+ <76c6cd6b-8846-a9c9-d0b7-00405fe63740@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <f7011868-4542-bd09-6d44-3aaa192a9212@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76c6cd6b-8846-a9c9-d0b7-00405fe63740@grimberg.me>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_063118_301631_9FA6766B 
-X-CRM114-Status: GOOD (  16.19  )
+X-CRM114-CacheID: sfid-20211122_063434_682861_A40A0C83 
+X-CRM114-Status: GOOD (  11.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,43 +58,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>>> +    if (data->auth_type == NVME_AUTH_COMMON_MESSAGES) {
->>>>> +        if (data->auth_id == NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE) {
->>>>> +            /* Restart negotiation */
->>>>> +            pr_debug("%s: ctrl %d qid %d reset negotiation\n",
->>>>> __func__,
->>>>> +                 ctrl->cntlid, req->sq->qid);
->>>>> +            if (!req->sq->qid) {
->>>>> +                status = nvmet_setup_auth(ctrl);
->>>>
->>>> Aren't you leaking memory here?
->>>
->>> I've checked, and I _think_ everything is in order.
->>> Any particular concerns?
->>> ( 'd' is free at 'done_kfree', and we never exit without going through
->>> it AFAICS).
->>> Have I missed something?
->>
->> You are calling nvmet_setup_auth for re-authentication, who is calling
->> nvmet_destroy_auth to free the controller auth stuff?
->>
->> Don't you need something like:
->> -- 
->>          if (!req->sq->qid) {
->>              nvmet_destroy_auth(ctrl);
->>              status = nvmet_setup_auth(ctrl);
->>              ...
->>          }
->> -- 
+On Mon, Nov 22, 2021 at 12:45:14PM +0200, Sagi Grimberg wrote:
 > 
-> nvme_setup_auth() should be re-entrant, ie it'll free old and reallocate
-> new keys as required. Hence no need to call nvmet_destroy_auth().
-> At least that's the plan.
+> >@@ -2321,6 +2327,9 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+> >  	req->data_sent = 0;
+> >  	req->pdu_len = 0;
+> >  	req->pdu_sent = 0;
+> >+	req->h2cdata_left = 0;
+> >+	req->h2cdata_offset = 0;
+> >+	req->h2cdata_ttag = 0;
+> 
+> This doesn't hurt anything, but it also redundant AFAICT no? these are
+> only referenced in nvme_tcp_setup_h2c_data_pdu which is called from
+> nvme_tcp_handle_r2t, which is setting these right before the call...
 
-OK, I see.
+if (req->h2cdata_left) check will also execute for inline data, can it
+have a garbage value if driver does not set it to 0?
 
-> Always possible that I messed up things somewhere.
-
-Worth checking with kmemleak but it looks ok to me.
+We can remove h2cdata_offset and h2cdata_ttag as these will be used only for
+h2cdata.
 
