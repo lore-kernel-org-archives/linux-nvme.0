@@ -4,81 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99588C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA8D7C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 10:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wl4PS7sJ5Ed4pBftjGwF/ZfMMiUi4fJqEocfskHGhhw=; b=Lf4a5U4vc8Sg0ap5yld4XCSb8v
-	OFDiqG4zD2K/AdWJfhxoJuNTJegTGVBwbinvC2iQmTRPCgP17mYAmNuGrZ9NHXXTnKWOcdI01w94+
-	E+1APHA0GnbHr76siBuZPIErj4STjRAb/MTbndE5muYtrHFZa2us+Y+0mKu9Jr32dIibk+UdJDCbW
-	jlKJchC6VxuRcPMl9UwnuijXV7A4AWtpkbUZ6pTzcaDKi8xROGzK4UeCm9N4uhlA5TkRnvGrY7AuP
-	J9lqg+DV6iyBXWlwi/5p/EUJXb9Sb+eRiKYEzboJYXuW5TcFavPCk2MNNG84yCNbr3ToYnW4QmEe7
-	/wpMD6OA==;
+	bh=7BH913p0kCNjWhJQSwXzkEvjGX5q7bgdHRFIxvVYVKU=; b=mBHnbb7vpkZz6XZoPtuGqBdJTi
+	6qX2cdI3t/y2rQoR5+AOFUhOl9PpCR2bGOAv5ESF8nIwj5dLtZHnUxdsaNY35Z0Nixjp+PLEtcVdH
+	Qf/ZY87wpU1hDPt4F452j/A79jfXcI3GTg4KEXd0D+JJCEv7xKEKWIBP5688OuHvzv6T/22BxVw4f
+	gpC2YgPMVZMF2xL+jWw2SBOKyAsDPi+bfbxrfaI4hFiIF4msNhdwywK0s78cYGKA960S16g5voehU
+	bYuf/sbEMrPvzpx1WEWS6zzIIdXlywSsHJ783zNfSSN0oW0afY6D/Q4XIzHJRNtiOQ0o/bPpj9CZ0
+	74MbS5Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp5rG-00Fetx-6Q; Mon, 22 Nov 2021 09:43:30 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mp687-00Fk0R-QQ; Mon, 22 Nov 2021 10:00:55 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp5a5-00FZNW-8L
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 09:25:46 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EC9E81FD5A;
- Mon, 22 Nov 2021 09:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637573143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wl4PS7sJ5Ed4pBftjGwF/ZfMMiUi4fJqEocfskHGhhw=;
- b=slcNqYEVaj4gE5e9Oi+BzdywclcgJLCkLKUBJR4Tr3WbXMdZDxF0WGRfn7T1nG5HDHoFw4
- PcF4sbdew3LQN4TSDzAcvf/p5fD0V/unpGhSaCQfhoiH4b8Kr8Uafr5CE5yuRkIfERMVyJ
- VqK1OHDB8L8RYMp7w+ga2DIIBfgHRIg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637573143;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wl4PS7sJ5Ed4pBftjGwF/ZfMMiUi4fJqEocfskHGhhw=;
- b=LkX+Qr126wmtFQLN2EZBzsbpKN1vc4bQ/pQPyBpCAWCUBpmeW9w7JQRX6E2tUXVdrVWZxW
- rxHwLNdj2JWiZUCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FC7A13C23;
- Mon, 22 Nov 2021 09:25:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MzJvJhdim2GJUwAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 22 Nov 2021 09:25:43 +0000
-Subject: Re: [PATCH 6/9] nvme/041: test different key types
-To: Sagi Grimberg <sagi@grimberg.me>
+ id 1mp5o7-00Fe7n-FL
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 09:40:16 +0000
+Received: by mail-wm1-f51.google.com with SMTP id y196so14629597wmc.3
+ for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 01:40:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7BH913p0kCNjWhJQSwXzkEvjGX5q7bgdHRFIxvVYVKU=;
+ b=Hjrd0fHy38tA69r9tQqjBfEoiEBM7j/Aaaq9dP5BVtw3tmpoeZhBd6gZ7uCfFgcxlJ
+ g8ORb25/52Ibj1Ed5OFNLTcebth+LRlj3lQdFRpZ8TSspQyZE2AjRTC+ypr09soCyNDF
+ zLZdKrz3lNOCYJeLdXwPW6gFSrBWAOuvBOcPc1NJjXTFypB4+Z/x/IsD/few5XTiljsB
+ WIYRA+Vqk2QyJJP3qTRIUuTYE4KSZOPl991Dcr8RZrR1LPB6f6lQJ1hvIYQ8Bs2wcu1g
+ YIomkNq01sfO5bVKn2baHB2zpJS5jjOpo6bBqnHUWiujiulLSbxTu5GMXENPBE/Kkm6L
+ 43ug==
+X-Gm-Message-State: AOAM530e4goH0fDJDAmJFy0jAz3g1dXyRt2YUQ95ao7UgQuGYAEkA1rH
+ ZeA0F+W3ZSLjltkSwzSaH5Gqh32jltU=
+X-Google-Smtp-Source: ABdhPJwZo3f9WeVdD+rJkVGl8hu/OgrDKRoZdUOX0zbnmPFikNMn30f3k5uB+BD6c2WxdCRq++jD/w==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr26627539wmi.173.1637574013751; 
+ Mon, 22 Nov 2021 01:40:13 -0800 (PST)
+Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id g13sm11057279wrd.57.2021.11.22.01.40.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Nov 2021 01:40:13 -0800 (PST)
+Subject: Re: [PATCH 4/9] nvme/039: simple test for nvmeof-tcp connection
+To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
  Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
 References: <20211122075524.26207-1-hare@suse.de>
- <20211122075524.26207-7-hare@suse.de>
- <96c61139-5206-dad1-6157-d8dab1f314c1@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Organization: SUSE Linux GmbH
-Message-ID: <ff74b9cd-04a1-bc37-14f2-dd40823fa73c@suse.de>
-Date: Mon, 22 Nov 2021 10:25:43 +0100
+ <20211122075524.26207-5-hare@suse.de>
+ <197826e6-273c-6f19-f5cf-44814433976c@grimberg.me>
+ <f5e414cd-c60c-442a-01c5-dfb0c1422b17@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <3aac418e-339a-1cc6-8b29-456be0174234@grimberg.me>
+Date: Mon, 22 Nov 2021 11:40:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <96c61139-5206-dad1-6157-d8dab1f314c1@grimberg.me>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <f5e414cd-c60c-442a-01c5-dfb0c1422b17@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_012545_492984_2ED3FD55 
-X-CRM114-Status: GOOD (  16.74  )
+X-CRM114-CacheID: sfid-20211122_014015_583477_2E666D15 
+X-CRM114-Status: GOOD (  11.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,76 +84,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/22/21 9:58 AM, Sagi Grimberg wrote:
-> 
-> 
-> On 11/22/21 9:55 AM, Hannes Reinecke wrote:
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   tests/nvme/041     | 102 +++++++++++++++++++++++++++++++++++++++++++++
->>   tests/nvme/041.out |  36 ++++++++++++++++
->>   2 files changed, 138 insertions(+)
->>   create mode 100644 tests/nvme/041
->>   create mode 100644 tests/nvme/041.out
+
+>>> +DESCRIPTION="Create single TCP connection via localhost"
 >>
->> diff --git a/tests/nvme/041 b/tests/nvme/041
->> new file mode 100644
->> index 0000000..8fc4ab9
->> --- /dev/null
->> +++ b/tests/nvme/041
->> @@ -0,0 +1,102 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: GPL-3.0+
->> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
->> +#
->> +# Test nvme over tcp dhchap keys
->> +
->> +. tests/nvme/rc
->> +
->> +DESCRIPTION="Test dhchap keys for authenticated TCP connection via
->> localhost"
->> +QUICK=1
->> +
->> +requires() {
->> +    _nvme_requires
->> +    _have_modules loop
->> +    _require_nvme_trtype_is_fabrics
->> +}
->> +
->> +
->> +test() {
->> +    local port
->> +    local genctr
->> +    local subsys="blktests-subsystem-"
->> +    local hostid="$(uuidgen)"
->> +    local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
->> +    local scratch="/tmp/blktest-ns1.img"
->> +    local nvme_trtype="tcp"
->> +    local hostkey
->> +
->> +    echo "Running ${TEST_NAME}"
->> +
->> +    hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
->> +    if [ $? -ne 0 ] ; then
->> +        echo "nvme gen-dhchap-key command missing"
->> +        return 1
->> +    fi
+>> Why is this test needed?
 > 
-> Don't we want to test different secret formats?
+> To establish a baseline that I didn't mess up _normal_ connections when
+> adding the authentication stuff.
+> But yeah, I can fold it in with the next test.
 
-We do.
-But this is just a check if the nvme cli contains functionality for
-generating keys in the first place.
-
-Maybe we should make this a requirement (like
-_requre_nvme_trtype_is_fabrics).
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		        Kernel Storage Architect
-hare@suse.de			               +49 911 74053 688
-SUSE Software Solutions Germany GmbH, 90409 Nürnberg
-GF: F. Imendörffer, HRB 36809 (AG Nürnberg)
+This is something all other tests already do though...
 
