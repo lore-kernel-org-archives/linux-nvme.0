@@ -4,71 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E701AC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:59:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22074C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/YqTM3Nw57K+lbbMBUXAbo5JwUmFi7YnqVmnSk14OJw=; b=kT4FNEuuoX5xCG46u3SsGetYba
-	aEqAwlPDEV+PzAewPyKvbNS2EgFyVF4Y5pn8NkrRZmhHLqwMDt1DktB5UasotRpQLMxb+YoUc/Bnc
-	wJTILkEBy+cW7nspIxhbuWr2/xjW5a5wZrzrzmU9K4lnhX9DLQYTzZict2expD/KDl5BmjxmQGos6
-	Z/OwPHDyECGEmvK2H4hIlQRs1red0i1SlEXAJitz0eHwrGRhKO8H52GAEVqU80S5QTXHEZ5/sTe2L
-	lGFtqQuRD3pBdOM1QfJINMpWtrzv2LEfPScBen9M9URrDD+PnOYkqJo/2QXeZ+FefQ9hb8t9F0pO+
-	YBxK6nPg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OvDFHZz2wL8p8VKMm8u/0A0aZyL7VIN41Wx0LspyyZU=; b=uxzrUufrRxQ8mh/jUsYE2CL9kt
+	u22wv4nbRNc8DXLch5y8fCzcSWeLG9AVEcs3nRX0o8uEnbmFHg/7H/HTJkzEo60EzJJcVW6GX+Lkc
+	x6qVrX9mOObsnJ8Envn4OxJEeC6XJEcSuJsyyDBGErPI6uLT4YEMS8f37EblRzQcDqNPQSvMn0Yd0
+	yS03eEjhUsDtc6YrSFAIKgWNfqptwTIVdofHSXlGAX79yOitr+AMB3jwoz5xTTKeW616/20GS6yhf
+	F53RjBhIP27xdXtvuik8+YzFe/XbMq8nnAQ4b50V+W2VBl26JO55hkCUU7vEDdEcWpUP6v9XoftU9
+	2HSvZnjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp5B5-00FS1C-1e; Mon, 22 Nov 2021 08:59:55 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1mp5Bt-00FSHJ-CB; Mon, 22 Nov 2021 09:00:45 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp5A6-00FRce-NR
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:58:56 +0000
-Received: by mail-wr1-f41.google.com with SMTP id a9so31274907wrr.8
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:58:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/YqTM3Nw57K+lbbMBUXAbo5JwUmFi7YnqVmnSk14OJw=;
- b=qxLh8dWvqNB/Q/jCw67567evle8SKzxw8uzA/hyjEEUxt/F0/eptZn3mWRR5t4P1pf
- 3A/dZESAxUqws4Feb2AsoncD8YbcLj7wjNRYUmDzKT/6SV/puVeEJ9qHG93YBX58v/H/
- 5BvzD2g5G3AHt+0TN4MaP5pP+rEtp2oOg7HsTEE768hY9YVWeNokRktKfdinhNlP/P2W
- 041nqyz7X/SN7d30cuf6EMXehpktEucRpN+yMNaAJW2xbSKS39R7YM8kB5pw/F/dzT9F
- bxDcI6xA/F0zLcsUyxbUfandy8/l+Qwu3q6vGxh2JTWD07RHpdzveo8ve9C5pBgOY2+Y
- HSBQ==
-X-Gm-Message-State: AOAM531eBkMvmzF73WLD+zrbSBEL/2TCRCLtpTyU9C/CXdXGQeBCcUgB
- DMS5fxEJHMRZMoKznjabsbP+1rtV4Ts=
-X-Google-Smtp-Source: ABdhPJyTq4k3WfBUXjBNtAFv6+N2Mua6bjAcluIUAAfxG4HRsixS7VTv6FJq4v9XSnQPgEsryGTYew==
-X-Received: by 2002:a05:6000:184e:: with SMTP id
- c14mr35597922wri.241.1637571532580; 
- Mon, 22 Nov 2021 00:58:52 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id l22sm8007134wmp.34.2021.11.22.00.58.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 00:58:52 -0800 (PST)
-Subject: Re: [PATCH 6/9] nvme/041: test different key types
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
-References: <20211122075524.26207-1-hare@suse.de>
- <20211122075524.26207-7-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <96c61139-5206-dad1-6157-d8dab1f314c1@grimberg.me>
-Date: Mon, 22 Nov 2021 10:58:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1mp5Bo-00FSED-EB
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 09:00:42 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id BF4BD68AA6; Mon, 22 Nov 2021 10:00:31 +0100 (CET)
+Date: Mon, 22 Nov 2021 10:00:31 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 2/5] blk-mq: rename hctx_lock & hctx_unlock
+Message-ID: <20211122090031.GA28870@lst.de>
+References: <20211119021849.2259254-1-ming.lei@redhat.com>
+ <20211119021849.2259254-3-ming.lei@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211122075524.26207-7-hare@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211119021849.2259254-3-ming.lei@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_005854_823376_71D3212E 
-X-CRM114-Status: GOOD (  17.72  )
+X-CRM114-CacheID: sfid-20211122_010040_676441_5B391C6B 
+X-CRM114-Status: GOOD (  15.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,58 +61,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, Nov 19, 2021 at 10:18:46AM +0800, Ming Lei wrote:
+> +static inline void queue_unlock(struct request_queue *q, bool blocking,
+> +		int srcu_idx)
 
+I don't think this is a good name, as it can be easily confused with
+q->queue_lock.
 
-On 11/22/21 9:55 AM, Hannes Reinecke wrote:
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   tests/nvme/041     | 102 +++++++++++++++++++++++++++++++++++++++++++++
->   tests/nvme/041.out |  36 ++++++++++++++++
->   2 files changed, 138 insertions(+)
->   create mode 100644 tests/nvme/041
->   create mode 100644 tests/nvme/041.out
-> 
-> diff --git a/tests/nvme/041 b/tests/nvme/041
-> new file mode 100644
-> index 0000000..8fc4ab9
-> --- /dev/null
-> +++ b/tests/nvme/041
-> @@ -0,0 +1,102 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
-> +#
-> +# Test nvme over tcp dhchap keys
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="Test dhchap keys for authenticated TCP connection via localhost"
-> +QUICK=1
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_have_modules loop
-> +	_require_nvme_trtype_is_fabrics
-> +}
-> +
-> +
-> +test() {
-> +	local port
-> +	local genctr
-> +	local subsys="blktests-subsystem-"
-> +	local hostid="$(uuidgen)"
-> +	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-> +	local scratch="/tmp/blktest-ns1.img"
-> +	local nvme_trtype="tcp"
-> +	local hostkey
-> +
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
-> +	if [ $? -ne 0 ] ; then
-> +		echo "nvme gen-dhchap-key command missing"
-> +		return 1
-> +	fi
+> +	__releases(q->srcu)
+>  {
+> -	if (!(hctx->flags & BLK_MQ_F_BLOCKING))
+> +	if (!blocking)
+>  		rcu_read_unlock();
+>  	else
+> -		srcu_read_unlock(hctx->queue->srcu, srcu_idx);
+> +		srcu_read_unlock(q->srcu, srcu_idx);
+>  }
 
-Don't we want to test different secret formats?
+I think you want to make BLK_MQ_F_BLOCKING accessible from the
+request_queue instead of passing the extra argument as well.
 
