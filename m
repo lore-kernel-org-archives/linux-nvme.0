@@ -4,73 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74E8EC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61A29C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:38:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2p0Anl/Hp40Z+kJU8iVohVkBOqdp10wLUJBBQgkwUxw=; b=1/o3zPI4NR2aCwJtGPekWWTNVQ
-	bxDsGXktqYLj49kA7UIe2maDHfrhEAy+E/Gja720PlUFelCviZVDNcIVCDPp0sMvBSpz7JZ/Bjp9Y
-	MKjcv0VADrgMlsKgjRTZ9DRQPz3S3OlJINJXUxp25W8xf7viSLkbu4YhapJZh1vRl4lfDNE9U3U+r
-	nBzWCdSb0AKTC0ia7FAGH9O/hkS37pmyy4C1MACvuNIwJOGTi8lcn0/5eLXy3sjycmFaYoI386SXn
-	MJBK1aHILZPS8nBOZOi0aU5U0HvtWl6LBofaGE/PRnaA4RbhUcmoL/cDAzsxGgZii4ez35YUySNsX
-	WTX5m1mw==;
+	bh=JRZOr9ReNxwdbK656KslzswFIwdKmvYGDm2UvqThBQg=; b=BN9jdeHNyeqQDvD178+4flKT60
+	zaTCsu9yEbqAa2Za6+zFpAM5a0GpofbDykDs0IS9S9k6eYjhbwYFKQR5Sy4TeQxANajXx0NJMfSfQ
+	ryt2Rk3qRInZBJQSyC8HWbUqfwUon3wzvuPzpIfMnADPfmKXOUkoQVBwB/Kgwtu7KkmotVil65L6i
+	ZWQTnLrYwlN3hlW//YhVvqYsgewpNMrc7YzmifOaSaro+JKhJ34mk9BL5QXCsIIq5E/r0ijq9Ebme
+	oWOsPCbUevPNP0MV+GSuRsK1OWr92fa9E2SKJD0+WsLb9FJrCWMNaQMrRho8xET+4k+U06dPE1dO/
+	iXptwfPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp5ig-00FcIl-MG; Mon, 22 Nov 2021 09:34:38 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1mp5lm-00FdJP-Pq; Mon, 22 Nov 2021 09:37:51 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp4FO-00FCCr-Ok
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:00:20 +0000
-Received: by mail-wr1-f52.google.com with SMTP id a9so30993750wrr.8
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:00:17 -0800 (PST)
+ id 1mp4RO-00FEU8-3L
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:12:44 +0000
+Received: by mail-wr1-f48.google.com with SMTP id n29so31012246wra.11
+ for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:12:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2p0Anl/Hp40Z+kJU8iVohVkBOqdp10wLUJBBQgkwUxw=;
- b=qMr9E8IRy5+d/Z2YsEh8upzw/Sn/nF+hdaMKSAQu6Yg2QDqkpwZge+MtFHgKq7VOOI
- 84IGfMoFlsf/vcKBn8k2o6Kt3noa5jrNABYxn2IQC04AXXHl8DmcPQHB2YbXqDATKC4n
- ktSmPB+DFHMywlVlPri13G7LPOvGZ6jLsywMgXWEzyYfvLEemY1h+QmiH5fl4KFg9Jmt
- hQFnfa7xj66GNYPkIrbeshJbIE7gA7WOeWdm5SJU7S19Pi96SHOV4uXYS67nIJwHa18l
- SYJe5uIU5vqAcErv7bBr7OC7SHXJi06jdv86nIlfkTLGW0RP4k6YwxkCaujHOs2JuorP
- mfEA==
-X-Gm-Message-State: AOAM531t8PclEE5MXTXOX+7Rc1xnXtNEO9FrD+xKIrJxy+t9QJzkkzSM
- pTAVRGnMkeQHO3g2hXVq+ssfUrlhzIc=
-X-Google-Smtp-Source: ABdhPJw7NiOcUuKogho041u6gxFJakYmXYz6ZpubZXkXzNXvTRi1noobcFgC7NR0ahrcqxS/2BuXZw==
-X-Received: by 2002:adf:e7cf:: with SMTP id e15mr35553803wrn.287.1637568016730; 
- Mon, 22 Nov 2021 00:00:16 -0800 (PST)
+ bh=JRZOr9ReNxwdbK656KslzswFIwdKmvYGDm2UvqThBQg=;
+ b=RBhXsF/SyB1zSgDbOu0/cugTxptwLQr1cUxi+oeBn8szx2q0ZnD01iGYvQHi+HXFPC
+ obHrzBzckg9po1sjUy4jWvHoPFf6e2QWvzjh/ZRTefHuHWjolkRcQcaQLs86Ve3gZbxS
+ ci3Gw9rIcLQmzugL9lItiyRbt1nh+8Uug5QmDMseYBu3gb8c4wABKbG5CrEJbmpnJhNP
+ OtUuTT8MZYOLWQt6ULyhC1yFM2YHoPPACYKze3WmDVeK8jFpU5vaSEgPo5VUwgNgWt2F
+ n7e79juTSPR2IfZfpK1/0AC3VRPe4/T2PhPTJMDwXSOWKg3qtJ/Wat3YyOIWHB+gufpz
+ Zbgg==
+X-Gm-Message-State: AOAM53192HJctOmlEMA4KQjGpSwG1xKPShALWCRUAikUiwpLyc815E8t
+ YmAdQVcJX6Pm/2EqsRauPzoaNcS9XJA=
+X-Google-Smtp-Source: ABdhPJyfwX7jIq5oVb8kvi33y1Hx/2Dj4OOmd2n8lkGhOSruHCErMl203NTR8e0/rFxK0E49Ikg/jA==
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr36537759wrn.337.1637568760405; 
+ Mon, 22 Nov 2021 00:12:40 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id g13sm10637911wrd.57.2021.11.22.00.00.15
+ by smtp.gmail.com with ESMTPSA id d8sm8206214wrm.76.2021.11.22.00.12.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 00:00:16 -0800 (PST)
-Subject: Re: [PATCH 3/5] blk-mq: add helper of blk_mq_global_quiesce_wait()
+ Mon, 22 Nov 2021 00:12:40 -0800 (PST)
+Subject: Re: [PATCH 07/12] nvme: Implement In-Band authentication
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Herbert Xu <herberg@gondor.apana.org.au>,
+ David Miller <davem@davemloft.org>, linux-crypto@vger.kernel.org
+References: <20211122074727.25988-1-hare@suse.de>
+ <20211122074727.25988-8-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, Keith Busch <kbusch@kernel.org>
-References: <20211119021849.2259254-1-ming.lei@redhat.com>
- <20211119021849.2259254-4-ming.lei@redhat.com>
- <8f6b6452-9abb-fd89-0262-9fb9d00d42a5@grimberg.me>
-Message-ID: <b642d5bb-de39-905f-0e12-991ef50ec75d@grimberg.me>
-Date: Mon, 22 Nov 2021 10:00:14 +0200
+Message-ID: <8f6c144d-0354-2753-ab58-1f5cabcafbdd@grimberg.me>
+Date: Mon, 22 Nov 2021 10:12:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <8f6b6452-9abb-fd89-0262-9fb9d00d42a5@grimberg.me>
+In-Reply-To: <20211122074727.25988-8-hare@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_000018_855307_6AF06B77 
-X-CRM114-Status: GOOD (  19.61  )
+X-CRM114-CacheID: sfid-20211122_001242_218326_4533B2B5 
+X-CRM114-Status: GOOD (  15.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,44 +84,43 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+> +int nvme_auth_generate_key(struct nvme_ctrl *ctrl, u8 *secret, bool set_ctrl)
 
-On 11/22/21 9:56 AM, Sagi Grimberg wrote:
-> 
->> Add helper of blk_mq_global_quiesce_wait() for supporting to quiesce
->> queues in parallel, then we can just wait once if global quiesce wait
->> is allowed.
-> 
-> blk_mq_global_quiesce_wait() is a poor name... global is scope-less and
-> obviously it has a scope.
-> 
-> 
->> Signed-off-by: Ming Lei <ming.lei@redhat.com>
->> ---
->>   include/linux/blk-mq.h | 13 +++++++++++++
->>   1 file changed, 13 insertions(+)
->>
->> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
->> index 5cc7fc1ea863..a9fecda2507e 100644
->> --- a/include/linux/blk-mq.h
->> +++ b/include/linux/blk-mq.h
->> @@ -777,6 +777,19 @@ static inline bool blk_mq_add_to_batch(struct 
->> request *req,
->>       return true;
->>   }
->> +/*
->> + * If the queue has allocated & used srcu to quiesce queue, quiesce 
->> wait is
->> + * done via the synchronize_srcu(q->rcu), otherwise it is done via 
->> global
->> + * synchronize_rcu().
->> + *
->> + * This helper can help us to support quiescing queue in parallel, so 
->> just
->> + * one quiesce wait is enough if global quiesce wait is allowed.
->> + */
->> +static inline bool blk_mq_global_quiesce_wait(struct request_queue *q)
->> +{
->> +    return !q->alloc_srcu;
+Maybe instead of set_ctrl introduct struct dhchap_key and pass a pointer
+into that?
 
-	return !q->srcu ?
+> +{
+> +	u8 *key;
+> +	size_t key_len;
+> +	u8 key_hash;
+> +
+> +	if (!secret)
+> +		return 0;
+> +
+> +	if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
+> +		return -EINVAL;
+> +
+> +	/* Pass in the secret without the 'DHHC-1:XX:' prefix */
+> +	key = nvme_auth_extract_secret(secret + 10, key_hash,
+> +				       &key_len);
+> +	if (IS_ERR(key)) {
+> +		dev_dbg(ctrl->device, "failed to extract key, error %ld\n",
+> +			PTR_ERR(key));
+> +		return PTR_ERR(key);
+> +	}
+> +
+> +	if (set_ctrl) {
+> +		ctrl->dhchap_ctrl_key = key;
+> +		ctrl->dhchap_ctrl_key_len = key_len;
+> +		ctrl->dhchap_ctrl_key_hash = key_hash;
+> +	} else {
+> +		ctrl->dhchap_key = key;
+> +		ctrl->dhchap_key_len = key_len;
+> +		ctrl->dhchap_key_hash = key_hash;
+> +	}
+
+Then it becomes:
+	dhchap_key->key = key;
+	dhchap_key->len = key_len;
+	dhchap_key->hash = key_hash;
 
