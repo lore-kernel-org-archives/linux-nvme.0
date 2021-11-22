@@ -4,73 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 648C2C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:54:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFE02C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 08:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Oe7KBssScEPSTtmYXJLb1keNsAXElNllDenRchEZULg=; b=ljtZcBApsqi8mXYDwjaXH+3xzk
-	u1J100uFZn8JHHhpw4Ng7Jxv2Ojlw8O8sYaQE1JsRc4aesXWAZDvcepvIlT115o74vHQt5cHX/jeI
-	QIoRH78oTKiqMg6tDPhbk2SzkbjGHNbTqHDuB/EfZBFpWC8BJjOq3EkNCA+WtgB86FePwhVFt5jJk
-	zpvncdJz3jFddKtiPZeqdctN9ieelQOuBXq6LlWFuG+FM9R9GOrgwq0XG1Rl8tNXthTAbjpy10b5c
-	pgFt8s8CMbVq2n5xeVbMNaT/Ri+lDYfgrsUce0HH59fBPGKyjfTxOy9ivkw7TdgxHCmHoWmedLPp0
-	4vFqWZ6A==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=w+O37SxwlvcRsVx8Bw6cPTelTN
+	apDuCQ2gUaMC+JQ9/8sbq7vmqwWFle2vxlmerhV+RU1v1SXB2p52kQ+mGN+2ATcyTue2ykbogHIRc
+	xztV5/KPhP+rPWOsoOpOnXnntdR5ex6e3gzQTi/2hTcpY/oCcnp1SkcVJm8vqvjKoLy7G7MVXsxa3
+	U6XgLaX6SijktNahFy6GuhHKV6LwhlNeDO8dcL0koyfnT2P2tIC4xfetm07BxwHtIdz/kc34q4E11
+	pUo3dc+pOZ4ZiiiuWeV1XmisULbEYUvIRbO104JqDYibMVzLAW3zUfBnQavat8aVHIxhAcQDjg4CX
+	ZxvH7xVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp55e-00FPIc-SS; Mon, 22 Nov 2021 08:54:18 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1mp56j-00FPxu-H3; Mon, 22 Nov 2021 08:55:25 +0000
+Received: from mail-wm1-f50.google.com ([209.85.128.50])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp510-00FM4s-Jn
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:49:32 +0000
-Received: by mail-wm1-f45.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso11627199wmh.0
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:49:29 -0800 (PST)
+ id 1mp51H-00FMFa-HP
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 08:49:49 +0000
+Received: by mail-wm1-f50.google.com with SMTP id p18so14497033wmq.5
+ for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 00:49:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Oe7KBssScEPSTtmYXJLb1keNsAXElNllDenRchEZULg=;
- b=C0mBDSQqkGEaIhop2+ixxOJoulsxFjyutoKcZ/GL4hyRzhTanTghug+jLa84rn1TOf
- iuvi35m3NyG4poDmNYaTw8NkChGRQHHdDu5i6Wdv/qBuCvxc7PH4a218Z3HY4iu0HheB
- 8+MmPqoQZTzApBWDGyYQaqtSTgeCLyNeHu/uqrC+iekJu2PQ6kGLLUBjihKkNagJKLP9
- IjiEQM3pZDIhxJSf1IJZWTp+txDajDUCtg7SeYD0lF3ql8xF6j80mNYpLW7HhOyB5Glt
- IrOSq+cp1xxqv4pfOPFXC4ClnnhdNbdWs310oM22Tmex7agPVXjJZbiThfYedCM0sHRk
- /now==
-X-Gm-Message-State: AOAM533rrRoFeZpRA3rI/XngKqrW+OLoCO25jYJXVO59ZxVJYGgbMu3b
- SZQsdFBL0G8sDzyrrAcJKvPI0uHgzKg=
-X-Google-Smtp-Source: ABdhPJw0H/BVXSPg1TkBrAU5mMbjrRL8FrBqr5KQEDZvK7Ef/U3OFpUT8w1qDrGaEdUMZB0Wgj/7QQ==
-X-Received: by 2002:a05:600c:4104:: with SMTP id
- j4mr27608896wmi.178.1637570968473; 
- Mon, 22 Nov 2021 00:49:28 -0800 (PST)
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=5yC0lKPmcZF9cCijxin3EAvRZ8ScMBamezq7QreaEDkIbXbwnqGaiIR8phq0RKey8O
+ ItXynGRseGq/pouwht1cNg3xAsOOlJELNJBFJeBPCgD05TVCUd0+GbbgNU0phCVUNUH8
+ ZiCJOioR2Bd1OX7rLXJXLaVTlAF/V2khiz/RY2ZHFtNaATTFsKlGBnsrE8LUpfR4S8P3
+ GGrGKYt8DkpgWs2cFpUNhdWJ65f9T7bjhOaVTm/7OMHzQzfapJaZyaGCycAXAMcqTFb5
+ skWhRKz6AXT4M4UGKRKGL2R9qxj5Lrnxibfx0eDTUcxPfO9DqYwzdapPGnBh3r3fTTVs
+ EGpA==
+X-Gm-Message-State: AOAM532ZDHCj8BMKFlNQgK7eMHtXq+3X406OcnY6nY6naNVp0YN5rjFk
+ hCgnpmE7L4eKwy7+kQywkcY6bbM1RDg=
+X-Google-Smtp-Source: ABdhPJxh7cGpinx8OA7b6+4YQxACpxSRFZv3cM+sMwV4l1bl4VYG7nXi+4CfmsOPkoW+hcH+Vxj0TQ==
+X-Received: by 2002:a05:600c:35d4:: with SMTP id
+ r20mr27704737wmq.76.1637570982625; 
+ Mon, 22 Nov 2021 00:49:42 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id m14sm10734552wrp.28.2021.11.22.00.49.27
+ by smtp.gmail.com with ESMTPSA id r7sm8135381wrq.29.2021.11.22.00.49.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 00:49:28 -0800 (PST)
-Subject: Re: [PATCH 1/9] nvme/rc: do not print error message when no nvme
- device is found
+ Mon, 22 Nov 2021 00:49:42 -0800 (PST)
+Subject: Re: [PATCH 2/9] nvme/rc: clear allowed_hosts subdirectory
 To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
  Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
 References: <20211122075524.26207-1-hare@suse.de>
- <20211122075524.26207-2-hare@suse.de>
+ <20211122075524.26207-3-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <8a895a42-56e1-c695-babb-86ba6b8487be@grimberg.me>
-Date: Mon, 22 Nov 2021 10:49:27 +0200
+Message-ID: <6036ac15-00ef-0cca-46d9-c0db50e4801b@grimberg.me>
+Date: Mon, 22 Nov 2021 10:49:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211122075524.26207-2-hare@suse.de>
+In-Reply-To: <20211122075524.26207-3-hare@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_004930_714891_2DACCF1C 
-X-CRM114-Status: GOOD (  18.17  )
+X-CRM114-CacheID: sfid-20211122_004947_658767_B00628E0 
+X-CRM114-Status: UNSURE (   9.17  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,31 +83,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
-
-
-> _find_nvme_dev() will only print an nvme device node if one is found,
-> so no point in printing an error message.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   tests/nvme/rc | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index 1c27cde..086c094 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -306,6 +306,7 @@ _find_nvme_dev() {
->   	local subsysnqn
->   	local dev
->   	for dev in /sys/class/nvme/nvme*; do
-> +		[ -e "$dev" ] || continue
->   		dev="$(basename "$dev")"
->   		subsysnqn="$(cat "/sys/class/nvme/${dev}/subsysnqn")"
->   		if [[ "$subsysnqn" == "$subsys" ]]; then
-> 
-
-OK,
 
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
