@@ -4,69 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01098C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93E00C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 09:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GCh43rBY2tzJxLnoVAnLykkZC68yhKG1IMdVxeQvXoc=; b=lr6opmHf43XwgKN5cDUEu5NQkz
-	MEn7a/Cf5CfUzUvq24KyOk/Ht/bYQoZKa9sn2oLM7uZ6cN0LiV+p7258lEPInSdhl1DIIzbuHv5eD
-	fGpQ4QtyLwJ2hOe+H1QvOTvLJkVb0D9kTt1yMjDkobVoKeME3tJ9S6m2KH79cosjOS47bKZzp55uK
-	pQbbHdyxrzC13hnw3CCtuzki35jmDJ4Cf9yGGXo08vKQ95GZasJwVYTRBIpMoeL7J/btaeFCIBDqQ
-	OeAednVE0IIoU0ruUem6XaS8HVKuVznn6PyhE0sxwGRbVKfGgfPp5cab6Gf3oOgi2WhuAvHDG2FnZ
-	Que5rfyg==;
+	bh=78Zaoc+ysQZW0svRK1nsW0QmI3S17DItZByKXc3/tr8=; b=mjZEP+8vNNxUHZCvFpn/xFlqJU
+	n5T8YQAKfFvSUAOAMYCa4oItU5Bz8AIfGl8zEXZBstvWJ62n1r36M3A65FVgtQhL2YdWCp1Ty15yK
+	JxZhQ9C9onwcrJf6to4inCipsh6O5jng8B8DIATbIMpuhqCknBYY78W8G8NP8zsERb9BDX25WBBB1
+	ZmHCONZpnKU9HtzJRF6VzQXie4u9mfSengd5fgqg3vrpkhWOeWBN1wPx2M2c2cPeFqNjwaQGre+Yf
+	w+e15JPVx0OHdgw3kGFpp0yQPKqr2JXYLyspk/w/4cZuKPz78fFrIvCEtR6+VUJjNiHJ4OE2Efkpa
+	4pNKt99A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mp5fo-00FbKm-N4; Mon, 22 Nov 2021 09:31:40 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mp5ha-00FbwI-Du; Mon, 22 Nov 2021 09:33:30 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mp4Ax-00FAxy-3a
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 07:55:44 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 84F6B218D6;
- Mon, 22 Nov 2021 07:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637567736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GCh43rBY2tzJxLnoVAnLykkZC68yhKG1IMdVxeQvXoc=;
- b=rDmGi+gwSst3+hM7hyuCpDn0IE5suea+Ef1uNzR64jowgr8SLkY0KS7HwqJAcdf6rHP0Bu
- iFMlI9oUlPSse3QL4wAOlH4Y1rOKWsjXlOqTwwiq1u4zq7AzEzTU4eIQOCgpFo9Tbeg5bs
- zb+5G2ejsjTx5nFrLNPd0bCKhYknkvY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637567736;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GCh43rBY2tzJxLnoVAnLykkZC68yhKG1IMdVxeQvXoc=;
- b=zc0tDRNGX1utIARwFcQwbQUM9xsis5Qly3gFbGweT6xpgNhblNd7O7VC+36QUi4diYjujm
- nIK3ZzAEa1VG30Ag==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 77B4CA3B8E;
- Mon, 22 Nov 2021 07:55:36 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 5777551917FB; Mon, 22 Nov 2021 08:55:36 +0100 (CET)
-From: Hannes Reinecke <hare@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 7/9] nvme/042: test hash and dhgroup variations
-Date: Mon, 22 Nov 2021 08:55:22 +0100
-Message-Id: <20211122075524.26207-8-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20211122075524.26207-1-hare@suse.de>
-References: <20211122075524.26207-1-hare@suse.de>
+ id 1mp4BR-00FB6c-HG
+ for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 07:56:15 +0000
+Received: by mail-wr1-f53.google.com with SMTP id s13so31019399wrb.3
+ for <linux-nvme@lists.infradead.org>; Sun, 21 Nov 2021 23:56:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=78Zaoc+ysQZW0svRK1nsW0QmI3S17DItZByKXc3/tr8=;
+ b=nkbjbPzDmcVlqudD49hxQ3zCxN/hsEO/q6iW9wz8/vGSzm3tSiaiwQ+wX+YyCi6aqi
+ zP/NrNq99u1WpbVfG/4DesGFBMNSXy52D9GrpdVU8BYtnfH1Sr2x0XA6UtahXmyk+YOE
+ nNkMxNvo+aOYMkl399FQIsaF7K0NJiv7v0rydptqThION5336a4vu6pphjpSGrYRr3tW
+ 2g6V0d0ceOpJWs9fMHh0LiYD/nJhFtXTjUG6VD+TfkSmOscGx+QHSZhVwzH3n4xTjLXv
+ 2xFegSjeVTqsOY6FOuhms7yvLJbZtv+dRWY98IfBywQ917vGX9FBOUjeFa37wWZAKjiI
+ RCaA==
+X-Gm-Message-State: AOAM531k2/f8XrypkAiqUzGM5uvncXOECJDstKf7I6XTigq5JF7aI1f9
+ i69FBtO4WhO7L9lSEO0K7G0=
+X-Google-Smtp-Source: ABdhPJy05or7AiPXEADL1NGpquFhxqkO2PYPdr/Gq1eAF15MB4FM5Abvecrg2lRFpC6RvQu5DZGgjA==
+X-Received: by 2002:adf:eece:: with SMTP id a14mr36297769wrp.333.1637567772184; 
+ Sun, 21 Nov 2021 23:56:12 -0800 (PST)
+Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id m17sm7931073wrz.22.2021.11.21.23.56.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Nov 2021 23:56:11 -0800 (PST)
+Subject: Re: [PATCH 3/5] blk-mq: add helper of blk_mq_global_quiesce_wait()
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+References: <20211119021849.2259254-1-ming.lei@redhat.com>
+ <20211119021849.2259254-4-ming.lei@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <8f6b6452-9abb-fd89-0262-9fb9d00d42a5@grimberg.me>
+Date: Mon, 22 Nov 2021 09:56:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211119021849.2259254-4-ming.lei@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211121_235543_340605_3AD2E2D7 
-X-CRM114-Status: GOOD (  14.33  )
+X-CRM114-CacheID: sfid-20211121_235613_683746_A7097343 
+X-CRM114-Status: GOOD (  20.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,152 +84,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- tests/nvme/042     | 88 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/042.out | 37 +++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100644 tests/nvme/042
- create mode 100644 tests/nvme/042.out
 
-diff --git a/tests/nvme/042 b/tests/nvme/042
-new file mode 100644
-index 0000000..722f6cc
---- /dev/null
-+++ b/tests/nvme/042
-@@ -0,0 +1,88 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
-+#
-+# Test nvme over tcp hash and dh group selection
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="Test hash and DH group for authenticated TCP connection via localhost"
-+QUICK=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
-+}
-+
-+
-+test() {
-+	local port
-+	local genctr
-+	local subsys="blktests-subsystem-"
-+	local hostid="$(uuidgen)"
-+	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	local scratch="/tmp/blktest-ns1.img"
-+	local nvme_trtype="tcp"
-+	local hostkey
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	hostkey="$(nvme gen-dhchap-key -n ${subsys}1 2> /dev/null)"
-+	if [ $? -ne 0 ] ; then
-+		echo "nvme gen-dhchap-key command missing"
-+		return 1
-+	fi
-+
-+	_setup_nvmet
-+
-+	truncate -s 512M "${scratch}"
-+
-+	port="$(_create_nvmet_port "${nvme_trtype}")"
-+
-+	_create_nvmet_subsystem "${subsys}1" "${scratch}"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
-+	_create_nvmet_host "${subsys}1" "${hostnqn}"
-+	_set_nvmet_hostkey "${hostnqn}" "${hostkey}"
-+
-+	for hash in "hmac(sha384)" "hmac(sha512)" ; do
-+
-+		echo "Testing hash ${hash}"
-+
-+		_set_nvmet_hash "${hostnqn}" "${hash}"
-+
-+		nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
-+		     -a "${def_traddr}" -s "${def_trsvcid}" -S "${hostkey}" \
-+		     --hostnqn="${hostnqn}" --hostid="${hostid}"
-+
-+		nvme list-subsys
-+
-+		nvme disconnect -n "${subsys}1"
-+	done
-+
-+	for dhgroup in "ffdhe2048" "ffdhe3072" "ffdhe4096" "ffdhe6144" "ffdhe8192" ; do
-+
-+		echo "Testing DH group ${dhgroup}"
-+
-+		_set_nvmet_dhgroup "${hostnqn}" "${dhgroup}"
-+
-+		nvme connect -t "${nvme_trtype}" -n "${subsys}1" \
-+		     -a "${def_traddr}" -s "${def_trsvcid}" -S "${hostkey}" \
-+		     --hostnqn="${hostnqn}" --hostid="${hostid}"
-+
-+		nvme list-subsys
-+
-+		nvme disconnect -n "${subsys}1"
-+	done
-+
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
-+	_remove_nvmet_subsystem "${subsys}1"
-+
-+	_remove_nvmet_port "${port}"
-+
-+	_remove_nvmet_host "${hostnqn}"
-+
-+	rm ${scratch}
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/042.out b/tests/nvme/042.out
-new file mode 100644
-index 0000000..7ac606c
---- /dev/null
-+++ b/tests/nvme/042.out
-@@ -0,0 +1,37 @@
-+Running nvme/042
-+Testing hash hmac(sha384)
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Testing hash hmac(sha512)
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Testing DH group ffdhe2048
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Testing DH group ffdhe3072
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Testing DH group ffdhe4096
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Testing DH group ffdhe6144
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Testing DH group ffdhe8192
-+nvme-subsys0 - NQN=blktests-subsystem-1
-+\
-+ +- nvme0 tcp traddr=127.0.0.1,trsvcid=4420 live
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test complete
--- 
-2.26.2
+> Add helper of blk_mq_global_quiesce_wait() for supporting to quiesce
+> queues in parallel, then we can just wait once if global quiesce wait
+> is allowed.
 
+blk_mq_global_quiesce_wait() is a poor name... global is scope-less and
+obviously it has a scope.
+
+
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>   include/linux/blk-mq.h | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index 5cc7fc1ea863..a9fecda2507e 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -777,6 +777,19 @@ static inline bool blk_mq_add_to_batch(struct request *req,
+>   	return true;
+>   }
+>   
+> +/*
+> + * If the queue has allocated & used srcu to quiesce queue, quiesce wait is
+> + * done via the synchronize_srcu(q->rcu), otherwise it is done via global
+> + * synchronize_rcu().
+> + *
+> + * This helper can help us to support quiescing queue in parallel, so just
+> + * one quiesce wait is enough if global quiesce wait is allowed.
+> + */
+> +static inline bool blk_mq_global_quiesce_wait(struct request_queue *q)
+> +{
+> +	return !q->alloc_srcu;
+> +}
+> +
+>   void blk_mq_requeue_request(struct request *rq, bool kick_requeue_list);
+>   void blk_mq_kick_requeue_list(struct request_queue *q);
+>   void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
+> 
 
