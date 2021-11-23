@@ -4,81 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD633C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 13:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D40B4C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 15:41:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vrJi5uPfWJ5hczlkJc8rwXM5Ug5ljtSq9/Ls3aVQjo0=; b=kFxbjP7jAF5HGRkZluPfBCDEdi
-	bidiobRt2d2H/bnG1CaHK2l4JGoQeAWI3ucV5+6ay4z9G2prjbEBWltPKrZUQxhfdsVkcJH/AUHA6
-	jL67sCxGUKEqx/lykIFSKs+SPrWoFN61h9PwsalgZG3HJBIeM9+surzHJdiQrc/8Yw9Fo/EZ5u9fV
-	ssRt/BvngRywp+G+4AK00PMXPSDwgZmNbKU21fGr7H4200HBdV8NJ6B6yK/Hg2sZ7O5E6mZsxs3fs
-	uxWpXhe1Q8T2RL8qJowPh6hU/uo34H3EfDVjee6Jct4zdkEi6iE2UBFM8mZGFWTGVELa+KWMHtDQW
-	turfuzDQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=D/dy8OhCtC1d6J8VVurNIRzi/99E1+Pozni8Dgf0Lyw=; b=bXJYgF9wY3rXrGBvOHtcZ4Pktr
+	MPDJBDgmwoUVuF8liuPda6/0lmpL0PsoTcOn8gcrtpGd5Jnb+qdrLSltfKfTaItJSE7QoPebgcTBM
+	41wFq0472vmQoWeYqUCyNe2gY5A3b08nvfNl/qrjBV8CNQm8gVgJRoMlb+TBnjKQZDpNGBWoXZ/LN
+	YpVsarOhmrqcI0sYebkuii52jSCbT/+uog41/h3WCsZT/YJyCWLm1gOKuy8P0R81fGFEqNz1nt9Zj
+	sAKWuKbjAoUBVG36gu75/1tF8kas7QGrNiJCsVlpKXS4/Vchj/A2vNG07FtwIC8tl14crvXOPYtpU
+	8+ERISAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpVt3-002OER-T6; Tue, 23 Nov 2021 13:31:06 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mpXvJ-002laE-NP; Tue, 23 Nov 2021 15:41:33 +0000
+Received: from stargate.chelsio.com ([12.32.117.8])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpVst-002O8h-RU
- for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 13:30:57 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 12D2F21921;
- Tue, 23 Nov 2021 13:30:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1637674254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vrJi5uPfWJ5hczlkJc8rwXM5Ug5ljtSq9/Ls3aVQjo0=;
- b=C/fcuRjuqtvzEeTONHn79mRtxAl3yMfs6uOA5NjHKPZnxpKF/OEFevci99L/dlqLN8ijKs
- 4/tlp8g5V3Xnxa2mTOqukBTDsnIQ+wIR122GrHhmR1fm/DSLqNwxIse2YeU9IXEFLOhueL
- M26BccGN9RcFCShiFFbkrdFKMGbhf/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1637674254;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vrJi5uPfWJ5hczlkJc8rwXM5Ug5ljtSq9/Ls3aVQjo0=;
- b=d0C+OricXxvUjNL2Ry0OI4dQ85sUIUmHtkn7B+Lz6nxR1ipZCPT9fiSo7Ru/US7I3KM1Ix
- AV7s151CZ8dSrOAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EB78D13DE9;
- Tue, 23 Nov 2021 13:30:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id DNgeOQ3tnGEYEAAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 23 Nov 2021 13:30:53 +0000
-Subject: Re: [PATCH 07/12] nvme: Implement In-Band authentication
+ id 1mpXvG-002lZP-P2
+ for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 15:41:32 +0000
+Received: from localhost (varun.asicdesigners.com [10.193.191.31])
+ by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 1ANFfIof011781;
+ Tue, 23 Nov 2021 07:41:19 -0800
+Date: Tue, 23 Nov 2021 21:11:18 +0530
+From: Varun Prakash <varun@chelsio.com>
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
- David Miller <davem@davemloft.org>, linux-crypto@vger.kernel.org
-References: <20211123123801.73197-1-hare@suse.de>
- <20211123123801.73197-8-hare@suse.de>
- <ffd1519b-1f39-898a-be7f-5d9db7377ad1@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <33461345-668f-112c-9552-9930714ab609@suse.de>
-Date: Tue, 23 Nov 2021 14:30:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Cc: hch@lst.de, kbusch@kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 2/2] nvme-tcp: send H2CData PDUs based on MAXH2CDATA
+Message-ID: <20211123154117.GA1714@chelsio.com>
+References: <1637665162-3609-1-git-send-email-varun@chelsio.com>
+ <3b3a65a7-0885-0dc9-e78f-ac8a8c04a646@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <ffd1519b-1f39-898a-be7f-5d9db7377ad1@grimberg.me>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b3a65a7-0885-0dc9-e78f-ac8a8c04a646@grimberg.me>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211123_053056_083510_1A8B9110 
-X-CRM114-Status: GOOD (  22.11  )
+X-CRM114-CacheID: sfid-20211123_074130_848252_309146B5 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,90 +58,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/23/21 2:11 PM, Sagi Grimberg wrote:
+On Tue, Nov 23, 2021 at 02:58:05PM +0200, Sagi Grimberg wrote:
+> >@@ -633,14 +640,19 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+> >  		return -EPROTO;
+> >  	}
+> >-	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
+> >+	if (unlikely(r2t_offset < req->data_sent)) {
+> >  		dev_err(queue->ctrl->ctrl.device,
+> >  			"req %d unexpected r2t offset %u (expected %zu)\n",
+> >-			rq->tag, le32_to_cpu(pdu->r2t_offset), req->data_sent);
+> >+			rq->tag, r2t_offset, req->data_sent);
+> >  		return -EPROTO;
+> >  	}
+> >-	nvme_tcp_setup_h2c_data_pdu(req, pdu);
+> >+	req->pdu_len = 0;
 > 
->> +int nvme_auth_generate_key(struct nvme_ctrl *ctrl, u8 *secret, bool
->> set_ctrl)
-> 
-> Didn't we agree to pass the key pointer? i.e.
-> int nvme_auth_generate_key(struct nvme_dhchap_key **key, u8 *secret)
-> 
-Ah. That's what you had in mind.
-Why, of course we can do that.
+> Why do you need to set this here? it is set in the initial command
+> execution...
 
->> +{
->> +    struct nvme_dhchap_key *key;
->> +    u8 key_hash;
->> +
->> +    if (!secret)
->> +        return 0;
->> +
->> +    if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
->> +        return -EINVAL;
->> +
->> +    /* Pass in the secret without the 'DHHC-1:XX:' prefix */
->> +    key = nvme_auth_extract_key(secret + 10, key_hash);
->> +    if (IS_ERR(key)) {
->> +        dev_dbg(ctrl->device, "failed to extract key, error %ld\n",
->> +            PTR_ERR(key));
-> 
-> The print here is slightly redundant - you already have prints inside
-> nvme_auth_extract_key already.
-> 
-Yeah; I really need to go through the code and remove the redundant
-messages. Especially on the error paths.
-
->> +        return PTR_ERR(key);
->> +    }
->> +
-> 
-> Then we instead just do:
->     *key = key;
-> 
->> +    if (set_ctrl)
->> +        ctrl->ctrl_key = key;
->> +    else
->> +        ctrl->host_key = key;
->> +
->> +    return 0;
->> +}
-> 
-> ...
-> 
->> +EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
->> diff --git a/drivers/nvme/host/auth.h b/drivers/nvme/host/auth.h
->> new file mode 100644
->> index 000000000000..16e3d893d54a
->> --- /dev/null
->> +++ b/drivers/nvme/host/auth.h
->> @@ -0,0 +1,33 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Copyright (c) 2021 Hannes Reinecke, SUSE Software Solutions
->> + */
->> +
->> +#ifndef _NVME_AUTH_H
->> +#define _NVME_AUTH_H
->> +
->> +#include <crypto/kpp.h>
->> +
->> +struct nvme_dhchap_key {
->> +    u8 *key;
->> +    size_t key_len;
->> +    u8 key_hash;
-> 
-> Why not just name it len and hash? don't think the key_
-> prefix is useful...
-
-True.
-Will do so.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+This is needed for multiple R2T case.
 
