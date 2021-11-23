@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8491BC433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 16:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BB95C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 16:23:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VszlENjCJ3QQ5KvFIeSsfGOEUhb2i0XX2RaQ3R5pOdc=; b=L8AzPVkrr+ecGJsjcEwgkq/aBo
-	7ey0i3Xej83wRYh1hlqSINXjIAYz1uFyZxRjBkTUITl5Z8jT8A22cN8xyBCE8vl8HY5SGG1t1tPzl
-	eo836L5Cptxck4NsfzZ7/oTJU4efWX9wP3eKy5kRb9K44iefcG8qz0FHMcU1F7NfrbqtzxJ/sx638
-	d2hAtri6oFtq7S0zFwucbR3ZefN0c712QUshJNSVZw3kos7dhTTcXHmKNeaG8hI58nFzhEUI2kSCW
-	7HzsUnmpmxwa0ZABqM9AeKRzjbk7eIcUGrtkQ0jSperKmy2UlG6oOB6YJpdFzlBbMYev6L33k97wp
-	ViKRHroA==;
+	bh=VszlENjCJ3QQ5KvFIeSsfGOEUhb2i0XX2RaQ3R5pOdc=; b=wO6VwY6n8MtfYFJSgiAbqTbGem
+	+SmYTs5SOuREtxFyGZG1b0ylYR/nW924gD6wJakLt3KvGsVzZvWfeZZXXVhn9QwHqFtknR1HE15Ej
+	MYj6jjMcEeCKhhhZjXWAq/LhylbAw1/CK2v4Lddw6CtkBfb9Sv45h5VEM5nXud2OD12xU79CgkNEY
+	n3c2tHg7iNpgYlcADxkFqP1k3Qy0cRRJ44sdUWRIDIaYkN822Ruikz9Ry6LIOGnTTi1t0ylw632gi
+	yjnD0DOu38bWveo+wpwGdXzVpvP7MCuHATpESJRsasXAiMN9DUCTh2yvWMeb/MQj5jzBexylQl41H
+	E2lQOBAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpYa3-002rL9-Bm; Tue, 23 Nov 2021 16:23:39 +0000
+	id 1mpYaF-002rOe-Vx; Tue, 23 Nov 2021 16:23:52 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpYZy-002rJq-SC
- for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 16:23:36 +0000
+ id 1mpYaA-002rN0-B2
+ for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 16:23:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2E64B68B05; Tue, 23 Nov 2021 17:23:32 +0100 (CET)
-Date: Tue, 23 Nov 2021 17:23:31 +0100
+ id AC27168AFE; Tue, 23 Nov 2021 17:23:43 +0100 (CET)
+Date: Tue, 23 Nov 2021 17:23:43 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: kch@nvidia.com, linux-nvme@lists.infradead.org, sagi@grimberg.me,
- hch@lst.de
-Subject: Re: [PATCH] nvmet: use IOCB_NOWAIT only if the filesystem supports it.
-Message-ID: <20211123162331.GD23957@lst.de>
-References: <20211122100827.290117-1-mlombard@redhat.com>
+To: Varun Prakash <varun@chelsio.com>
+Cc: sagi@grimberg.me, hch@lst.de, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet-tcp: fix incomplete data digest send
+Message-ID: <20211123162343.GE23957@lst.de>
+References: <1637575721-3055-1-git-send-email-varun@chelsio.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211122100827.290117-1-mlombard@redhat.com>
+In-Reply-To: <1637575721-3055-1-git-send-email-varun@chelsio.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211123_082335_087192_172F16AE 
-X-CRM114-Status: UNSURE (   8.19  )
+X-CRM114-CacheID: sfid-20211123_082346_550179_E7E0C964 
+X-CRM114-Status: UNSURE (   8.26  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
