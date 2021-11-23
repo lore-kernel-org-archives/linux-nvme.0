@@ -4,144 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9D4AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 09:20:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBFB9C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 10:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gPM+KcHQ6R4OxF60uL8gWP4wqeytkGJ5iejUyjhrz/A=; b=Mc8Q51luB5yOQd5egWHgz6d+14
-	wLSO2w66CQbFq4Gsnrq2fDLeJ08W2Gc5uFim6rEet2j4yLt8GaoY+gyWxMZX9km5yQQ6cpWFpju83
-	5NGi6/t1U8gniV3XUuK4WHIiAX8vVVpXId5+VtDj9vMccC5JRAIgCNXSzDTrznOdlyqQrYTs3Q0Cw
-	lHqayvUD00+tMinwXWZEf30ERBwg3k9mZTP5q+ucNMfXNWgJkie1RUXtkIRIfuf/SOcZW80eSEazd
-	NUB2gAO3tTjic92MQwKOOxIJgJgf2qUzh401Oj9mCgAKR1uvjZBbhifsTJJJClp+pfZEoAuAwxdo9
-	wEaWhOUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=mtvj0rvxLeDJvZzRnT1MVyAee3Yykd5b4y1fx+ZViS4=; b=ctp+iPzY/4zOd33FcMINRW8KZH
+	NctkQDAcwdwuw5oxnWOsIfLaTYaVcHs31zLanBIW6F8osyo/klge+lOQ6LRanKZsXmNccRpw/coAr
+	wmnoV4xCEI79OFJ5xDu0gvIOa1PPr9+mfvS8bEsvX1o12LIG+bvSFO7CPrke16bUcElmWsSDFYSP5
+	MCe2pyN2seiK1UYrJ8C5LvJrWpiKf3TP/QgdEfqHBmi+RSiY5CsHsjD++PK8VpoaSGBtp9VYTzZo1
+	8/IvPwyF2rrGEnWJzUUe1z94js7Ydc5unxJ/z1e4LMQabHO0kVKub1OUCuTwdLPdk1sru9T6/9eoq
+	X2S381Gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpRyq-001TgV-En; Tue, 23 Nov 2021 09:20:48 +0000
-Received: from mail-bn7nam10on2048.outbound.protection.outlook.com
- ([40.107.92.48] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1mpTWH-001ohR-Lk; Tue, 23 Nov 2021 10:59:25 +0000
+Received: from stargate.chelsio.com ([12.32.117.8])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpRyo-001TfZ-84
- for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 09:20:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=msniWdHDu0PvplPkJTpiPkat8UZLQKgHIOduSON0caU9HtfMYMKHGe6rR9FWOW+F5A2HAIpo+r8ARluYWoPhUN1m7M6M3SbhC3FHS1L2ZJz8kRVxPfBQnlc3+zJGox9IdYfdMMcg+Q8NqWuCDfDGAYFnGOOeWDKCdHSvqmd1Zoyfv49cjz+kW+KzzScnxNlkt0zzkl97uDscj8iF+MPjT8rbwVUA/Ic82PcXZKZEQyFcMyAIkGktPre6lqR9EeucPBhHNc8zJz5M44fGrPt3N5IsXGlQTyzygDmbncDAkuzAVPVYoypyjLoJONTI3bBNDhFmGc3dnzn+2wqKyuHF5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gPM+KcHQ6R4OxF60uL8gWP4wqeytkGJ5iejUyjhrz/A=;
- b=duRXNWu6el7hMCkhO90uvIyEmxD+jHHwz0ebnp0yzlGO0AI6P+qbV7msKci7DE/gclIZeQkuOiVoWJzaQ9SrpXT2PLlAw0kfIRk1NPsyHW1wclzXMoaFLeNNgTbKpTdGEu4xPFafA+2lhj0EH/xvKLDqcSu7cSoznW5XYCPF7wg6KYyBRZZhT4b96p2LgJfiIK6udFmSg0CiL+FyC/CcCzUaIJGT17AkN2PbIt8m5mU198+i2xdAX55hs+eGMnRsV74cehh4w5XZuHEZYBOkn0/MvXF59y9gStu0i/Qqeo1xxv0AumNCmp3B0U9laA736wp11fO6UbnZGiShVkFtow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gPM+KcHQ6R4OxF60uL8gWP4wqeytkGJ5iejUyjhrz/A=;
- b=e8GzbGhA3HWUEvgFW9ajjZn8VMWU8HG+1Q2yK2AXNuEDKN5/GcPJuALQewbhTySBTK3+XPlk01/GD9ODFNnjLzgbKTZlOodCU2AR+Korxt3O5ubfvvOxmc6y0hL/i6rf61JQnpzoCTSmmrJpC1tZSVyv/AisuwptdEq2wnJ7orFTk/dUlonQCbIYT9dpOe54FhI6ea7NiSo+E/sRsvvt/dUSn2+9aAWoojEEW58c+gIuZukpPOxQZc2DDM3wSwdFlFmmeanHTz3i/y8Vf+LJ2r6syC8pykzPj7MhG+eUG64HGmxR/97EMVHSsRmpuEZJbOewOrR4olcoNqOZkhD28Q==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MW2PR12MB2378.namprd12.prod.outlook.com (2603:10b6:907:f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.24; Tue, 23 Nov
- 2021 09:06:33 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::c961:59f1:3120:1798]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::c961:59f1:3120:1798%4]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
- 09:06:33 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>
-CC: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Herbert Xu
- <herberg@gondor.apana.org.au>, David Miller <davem@davemloft.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Himanshu
- Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH 09/12] nvmet: Parse fabrics commands on all queues
-Thread-Topic: [PATCH 09/12] nvmet: Parse fabrics commands on all queues
-Thread-Index: AQHX33WMMkWuoAmcC0elgEzKN+gIQqwQ0+UA
-Date: Tue, 23 Nov 2021 09:06:32 +0000
-Message-ID: <194c883c-4871-e2d5-e5f8-3fc43b975ad8@nvidia.com>
-References: <20211122074727.25988-1-hare@suse.de>
- <20211122074727.25988-10-hare@suse.de>
-In-Reply-To: <20211122074727.25988-10-hare@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dad16a14-a096-4d1c-c7a7-08d9ae608b85
-x-ms-traffictypediagnostic: MW2PR12MB2378:
-x-microsoft-antispam-prvs: <MW2PR12MB2378E2DBD98AC1D0FE04BE59A3609@MW2PR12MB2378.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1091;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: friJQdfau9tTG4bzqnPMmU1oyJ9ns1anfBeZt9p+XNlAIPN7OKbrqUi1MjBFuhtc5pru7VNAsarkYjOGsQIctOk1FrMvvLZohxgv2knBGD4UzScceURe07tWj7z9fjduyK0Ch2PX5b5n0d7mGGCcwlDwYrh76mdxIjUANcvfXcBxWldYJlhVcbQPcGee7fdP5vXYMXLgtBPM0jlwcEtbKoAM+d18KdqVbSNSrz/P86/GEoXN3ZVDEYBcAXve0B5fQZxtzmY8qFqkJvt4zyF5DYUiTbZ6Y9tasiMW49h6Xp9TJ0F3YvW6RMTMnaaF6gabm4ytGopWmhEAB/3oiGiPEQHXc/4nU+PgZYU83g+kwgvo6YI8gMb0kugnHEHAWLRfoZY0CApvKIGnjMWyTZSLZ4ewIM1V4DEppMafxtXGqOpE2Fgs0EeMawJ4Q/R1htVrx/fhZdSOQRuDcsA823osG3qn4ay1HLY2yQohLasUNJsjHeSqO8w7uV3OtNqIH+6nvEcr9ZvD55BlU/yQyVV02vbUEC+maeK4rEDQ8jWVyaXsrAxfiS6ffm9Lxp5xwnZNriCFqlc1vOgkzXnwA0RoUGQVeotX8SbCMxXThX+dLSH8iL6NxxAckcFksZKUrU6aMskjmGTWGQ9kljBDBWf2W6Y1YAH7B5sEbrTm6Y+XCfmdWF77Ec7b8r607SViXU//Sckbn5pNw4XI6kzeA69/tM3E63w3nIxk3aKy2+YA/WUkIVUtAAuikcrqx7vtTSkv8cEtpjNEHLyOBDMnuFWtLw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(31686004)(83380400001)(6506007)(53546011)(508600001)(186003)(316002)(71200400001)(8676002)(54906003)(110136005)(8936002)(38100700002)(5660300002)(66476007)(66556008)(64756008)(66446008)(66946007)(91956017)(2906002)(76116006)(31696002)(4326008)(6512007)(6486002)(86362001)(122000001)(2616005)(558084003)(38070700005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y1VDQmNTaGdOclIrRWJtSk9GakM3VEVubkFFOGhyM2dUZDRuS0lxcC9KQVVW?=
- =?utf-8?B?WWRiejB0S2s3Umo1anZvNEUzN0hXNEdLRVRRdkNYVGVZUHhrQ2hscHAwd2ND?=
- =?utf-8?B?dTdaZ3NJNnVHdVVWbzZOa3QyNHExZVRKV3dHVTFlcFUwUWVyL2NqbXE3bXV1?=
- =?utf-8?B?U2s4TXppRllkWGFoRWV0TDVBWnFuRXUvLzJtNkhWRFlzS2JCcWswUlZ1Tk9z?=
- =?utf-8?B?VFpjNFFHMitIT3l6SW1vQWFYVU4ya2JLeGZCY1ZuejBJbjFwei80U0JkTWpz?=
- =?utf-8?B?NU5kVEt0M3RtbFFQZ09ZSnU5OElGeEhSdXl0UHJCbGlENUxQc1BGc2ZZV1Y1?=
- =?utf-8?B?T29nT1ZDc1MyV094ZStKa05VSzJIZFdyWnR3L0hjR2lJV2Y1azhuZ2VISTNj?=
- =?utf-8?B?eVpFQnJEQmV5ZW1BWXlUNnNQbTZwZUhiOUpROGo2MDVobHh0aHlFaXpSS1NM?=
- =?utf-8?B?ZVFwcXRsQTZjWkZiSG0wQmdrU0NrRFgxbHVYaEEzVjZKa2E5dXZuTnViQURJ?=
- =?utf-8?B?aTR4alBldENpS2ZYem1Od3VaWlJ1YXZocld3ajY5UUdNWVUxclRNeWVwYzFx?=
- =?utf-8?B?ckV3VXI2OWhyTWxWZ2ZrOVVpYUJsRWVHOEtHRm5FWGQzMWw4OWZoNXZlaTFG?=
- =?utf-8?B?WE5yNEwwdDcvLzA2Y2ZCRG9yVmJ2VjhuQ3ZYbHVkbmVsUndVWEdoOG81RUN1?=
- =?utf-8?B?bkx3Um1NTlhMYzU2Tk9LS2dNVWI4R1NrSEdFVnBKdnVjTm5SZEV3b0Rtcjg1?=
- =?utf-8?B?M3g5dUJZRG1KZzRRSDF6OEtreDIvTVE4UCtQaEZOVWQyMGdQZWE2TWh2a3lp?=
- =?utf-8?B?K0U1YlBjTXVBcFdqbVVOWk5seFJNR3lYbnExOUt4S2svbHovWXhlUE1MVnVt?=
- =?utf-8?B?elBRR3dmMmxjTHlZOEFvL0hxdGtkRkpualpxb25hUkRZUFpjSjVIbU5TN3Uw?=
- =?utf-8?B?ZzEzQWxOU052NUE3RUYyc21vMlpUN2hKTlF5Wm9sY3M3b2hVSlNHdU14cU9Z?=
- =?utf-8?B?NVN2eEloUTRDQm9qN0xPeFB2VnVVQ0xpT0dHbkhQaWg5NzF2R2VUMnFsRXo3?=
- =?utf-8?B?eXVtc1hDVjNHZTExcUt6ZzgyS25PaHRBTlg3Q3hkd25zWSszVUwvQktZOFJQ?=
- =?utf-8?B?cWxoR0ZkV0pWclRRVGhvWitFV0YxeUhuSldOeUE2UkZqbnBLM3VydlFoYk5m?=
- =?utf-8?B?MEppMjFBdFJwdXhCYlR5ODRTY0JVdDY1aXFZNUlhWEdoOS9ON240em5wcDdx?=
- =?utf-8?B?ektyVWtMYzlPWlhyem1DNUQ2c0k3cGExQUhHNklvSG42SmJRYUxSMFRaSVZD?=
- =?utf-8?B?VDBZdU1LSW9wdlBCRXRkOHhvQzFIT2JuMVlnLzlFcE1lUVJvWlJ4S3loM09r?=
- =?utf-8?B?QTN4YThZSDdvQ0ZXZjdleW9hVXo4Sk14WmNwTVhqRTI3Ymk4TUZDVHdEY1NZ?=
- =?utf-8?B?Yk9FN3VUZ3NDSiszdDdtL2xYd1FwbFB2MXBNZmQ5T1p3ZW4wYlZlVVBMY3V0?=
- =?utf-8?B?dEppYkZoTmtYTjZsVmJ3OUo4ZjFDbkQrMGRNdTVvN3lvVFE1WFNFYnM1SDlY?=
- =?utf-8?B?MEgycWxlT0xTVXZGaEpTcndIelAwZnZLNXJvL0hxV0FhamxLS2xPanRCODRj?=
- =?utf-8?B?Vlg0YkpTN0J0elFXRS9JL0FZSUdHSk0zRkJaSWVxRzhOS05hb2Y1Nm9YTndh?=
- =?utf-8?B?Zm9neGdLMDRXT1V4OVVKemhOejg1VG1VOTJJUlZNcExzYU4vcWtLMEFLL1dl?=
- =?utf-8?B?Myt4S2FQMHRiUXNuQUVtdjV2Y3prazVpWXlJdm80ZnY4TFFjb3hDZE9aTTdC?=
- =?utf-8?B?QjVUZmt0Y3ZuQXRxRlJodmN2czk2Q3QwTFJYZXZNeEo0NzNhNmdsbFBBU09E?=
- =?utf-8?B?T2NUQ2ZydTlZbldad3FVOHQ3akJOQUVPM0dIeXhmZ2JtdncrUGJZSS9KYnI5?=
- =?utf-8?B?cERLaVQwODBSNVRoQ25lcW1kUEQ1QXJUSjZaanRpUzJWL3BSa09TZmhYM0ZL?=
- =?utf-8?B?UWM2WFM0NTI2WWVoai9ubm9PTFJIMXd2aXpTdHB2Y3hRdnR5S245TmU4Qmli?=
- =?utf-8?B?a3IrWUJxcm1XU0o5SkxNbjBUeFMvNDUrZzhzcFNaeUplMnUxRVV0amFGZkMz?=
- =?utf-8?B?ak1rTlhVbFhHNWg1R0hsNCtwSjhuUjBBK05PMVd2bjFZMVNpRVJmcm84Nklr?=
- =?utf-8?Q?cfn7iU2DnlMC92ndgM9gpgCD6wrNPFZ2ByckdAkJRQJZ?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F37702EF2FFC9B4FBCC45A9B865227BD@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dad16a14-a096-4d1c-c7a7-08d9ae608b85
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2021 09:06:32.8720 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u3re43Y8aRbvlgid6qp+wmgJJwIfQwIn2sSMkNJsKZvfH8oYDGYArhCz/LMzs3Yjol6t8f7kpSGStnGT1fyNhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2378
+ id 1mpTW9-001ogx-3c
+ for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 10:59:18 +0000
+Received: from fcoe-test11.asicdesigners.com
+ (fcoe-test11.blr.asicdesigners.com [10.193.185.180])
+ by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 1ANAx1dK011255;
+ Tue, 23 Nov 2021 02:59:02 -0800
+From: Varun Prakash <varun@chelsio.com>
+To: sagi@grimberg.me, hch@lst.de, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org, varun@chelsio.com
+Subject: [PATCH v2 1/2] nvme-tcp: validate R2T PDU in nvme_tcp_handle_r2t()
+Date: Tue, 23 Nov 2021 16:28:56 +0530
+Message-Id: <1637665136-3563-1-git-send-email-varun@chelsio.com>
+X-Mailer: git-send-email 2.0.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211123_012046_299797_1858FD0B 
-X-CRM114-Status: UNSURE (   9.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211123_025917_186706_2B91C019 
+X-CRM114-Status: GOOD (  11.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,11 +53,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMjEvMjEgMjM6NDcsIEhhbm5lcyBSZWluZWNrZSB3cm90ZToNCj4gRmFicmljcyBjb21t
-YW5kcyBtaWdodCBiZSBzZW50IHRvIGFsbCBxdWV1ZXMsIG5vdCBqdXN0IHRoZSBhZG1pbiBvbmUu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4NCj4g
-UmV2aWV3ZWQtYnk6IFNhZ2kgR3JpbWJlcmcgPHNhZ2lAZ3JpbWJlcmcubWU+DQo+IFJldmlld2Vk
-LWJ5OiBIaW1hbnNodSBNYWRoYW5pIDxoaW1hbnNodS5tYWRoYW5pQG9yYWNsZS5jb20+DQoNCkxv
-b2tzIGdvb2QuDQoNClJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEu
-Y29tPg0KDQoNCg==
+If maxh2cdata < r2t_length then driver will form multiple
+H2CData PDUs, validate R2T PDU in nvme_tcp_handle_r2t() to
+reuse nvme_tcp_setup_h2c_data_pdu().
+
+Also set req->state to NVME_TCP_SEND_H2C_PDU in
+nvme_tcp_setup_h2c_data_pdu().
+
+Signed-off-by: Varun Prakash <varun@chelsio.com>
+---
+
+v2:
+- removed h2cdata_left, h2cdata_offset, h2cdata_ttag
+- set req->state to NVME_TCP_SEND_H2C_PDU in nvme_tcp_setup_h2c_data_pdu()
+
+ drivers/nvme/host/tcp.c | 55 +++++++++++++++++++++----------------------------
+ 1 file changed, 24 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 33bc83d..5f8ad4d 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -572,7 +572,7 @@ static int nvme_tcp_handle_comp(struct nvme_tcp_queue *queue,
+ 	return ret;
+ }
+ 
+-static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
++static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+ 		struct nvme_tcp_r2t_pdu *pdu)
+ {
+ 	struct nvme_tcp_data_pdu *data = req->pdu;
+@@ -581,32 +581,11 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 	u8 ddgst = nvme_tcp_ddgst_len(queue);
+ 
++	req->state = NVME_TCP_SEND_H2C_PDU;
++	req->offset = 0;
+ 	req->pdu_len = le32_to_cpu(pdu->r2t_length);
+ 	req->pdu_sent = 0;
+ 
+-	if (unlikely(!req->pdu_len)) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"req %d r2t len is %u, probably a bug...\n",
+-			rq->tag, req->pdu_len);
+-		return -EPROTO;
+-	}
+-
+-	if (unlikely(req->data_sent + req->pdu_len > req->data_len)) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"req %d r2t len %u exceeded data len %u (%zu sent)\n",
+-			rq->tag, req->pdu_len, req->data_len,
+-			req->data_sent);
+-		return -EPROTO;
+-	}
+-
+-	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"req %d unexpected r2t offset %u (expected %zu)\n",
+-			rq->tag, le32_to_cpu(pdu->r2t_offset),
+-			req->data_sent);
+-		return -EPROTO;
+-	}
+-
+ 	memset(data, 0, sizeof(*data));
+ 	data->hdr.type = nvme_tcp_h2c_data;
+ 	data->hdr.flags = NVME_TCP_F_DATA_LAST;
+@@ -622,7 +601,6 @@ static int nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
+ 	data->command_id = nvme_cid(rq);
+ 	data->data_offset = pdu->r2t_offset;
+ 	data->data_length = cpu_to_le32(req->pdu_len);
+-	return 0;
+ }
+ 
+ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+@@ -630,7 +608,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ {
+ 	struct nvme_tcp_request *req;
+ 	struct request *rq;
+-	int ret;
++	u32 r2t_length = le32_to_cpu(pdu->r2t_length);
+ 
+ 	rq = nvme_find_rq(nvme_tcp_tagset(queue), pdu->command_id);
+ 	if (!rq) {
+@@ -641,13 +619,28 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+ 	}
+ 	req = blk_mq_rq_to_pdu(rq);
+ 
+-	ret = nvme_tcp_setup_h2c_data_pdu(req, pdu);
+-	if (unlikely(ret))
+-		return ret;
++	if (unlikely(!r2t_length)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"req %d r2t len is %u, probably a bug...\n",
++			rq->tag, r2t_length);
++		return -EPROTO;
++	}
+ 
+-	req->state = NVME_TCP_SEND_H2C_PDU;
+-	req->offset = 0;
++	if (unlikely(req->data_sent + r2t_length > req->data_len)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"req %d r2t len %u exceeded data len %u (%zu sent)\n",
++			rq->tag, r2t_length, req->data_len, req->data_sent);
++		return -EPROTO;
++	}
++
++	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
++		dev_err(queue->ctrl->ctrl.device,
++			"req %d unexpected r2t offset %u (expected %zu)\n",
++			rq->tag, le32_to_cpu(pdu->r2t_offset), req->data_sent);
++		return -EPROTO;
++	}
+ 
++	nvme_tcp_setup_h2c_data_pdu(req, pdu);
+ 	nvme_tcp_queue_request(req, false, true);
+ 
+ 	return 0;
+-- 
+2.0.2
+
 
