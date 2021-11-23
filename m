@@ -4,53 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50A73C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 17:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3AFDC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 18:20:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=57ixsZWBLTeZ/2AOamvsGM3ZSHZjSmUh7klSv7MB39M=; b=QScXBDXi5F5YhqrqUjswG5Aq38
-	SofkUsT1v5YlpVhz0LyVknFlxOKVhdxidLVp0vJbCmYOPZA9kd88NrLXh0cBkVxBVOQFa9+1r8yVN
-	iARIPtbnkjqGxkWR/YEaO85YOW1cCZO5tIB1pxZymrXfJLl7Yda3qRkwSETPQsh+hOJAMyWQSfWII
-	dR+uDbncIekmpenwnbijmUt1ZARiMVot1FIiC4Lq8eZZOW3nN/4PVlZyEpoLcSmx4DWwpOWdb3ah8
-	KkgIxB367HNXRhJmmXuXDteZw0MAjMVnE9h/daGNOIFJGbEoaWzwDx89g/NK9PSu53e6OXdFI1hyB
-	h30YfgLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/oGeobPgKEELQ9jR8Tid54S7CEBgVi/4RdF59awrB6M=; b=E7wqx7fcgr3l1Vs5CYvNXLBE7U
+	1q7suEol4N9zcXT9YtQrzFjhYk1KH9op3v4qT4CxeO91ml+2QS11pzosRjkbOysKfUxoxIioohCTp
+	iDe2cKXAnVJM2RALaleC7mrREIBnrjKBiEBkMunimzFosGngW3KHfUr94wd0q6Lz898DikuRP/kBt
+	x8DISOLmETWA5ayujXvEjGtyt/skai81RJaL0MpsTHNSU9DopWSAWURnIujU0kCoduNdseOSygsau
+	THWQKoZX27tSBxQ1sRTrnb6WIxmN1JPUABg6rVxBuc639+kM12baGKykIs8C3996VY05BoaP6bj5O
+	bcA4m2AA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpZrp-0035LH-D4; Tue, 23 Nov 2021 17:46:05 +0000
+	id 1mpaOj-003BSU-Ms; Tue, 23 Nov 2021 18:20:05 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpZrm-0035KN-7W
- for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 17:46:03 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0937760F41;
- Tue, 23 Nov 2021 17:46:00 +0000 (UTC)
+ id 1mpaOf-003BRn-Uf
+ for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 18:20:04 +0000
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C53C660F6E;
+ Tue, 23 Nov 2021 18:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637689561;
- bh=sGXqzSTAWi+KfJ/Wzm2ABEUV8ZnLYm8WJ84aEXyfSCk=;
- h=From:To:Cc:Subject:Date:From;
- b=r01TwYCP1Htj0SanMWA2T/7aPNCxS5ni1Y/uaBDCW9brdPUZ90WTayxIodgwPgghJ
- 47EDDFYuSFcSsmUVk9jbU6+VWd6A0qX/rYFeQy0VESMoFeZwe2wVEOaCxhAOuowFDw
- B13JnDqOeX0Q3M5xUoSUg1SOmFK7dyX6J18YCoShB6KUdkMRJaw3UO2+Ol3CV0obRp
- pM9yYln66R9EjNMJLbE4yjyFH85hnZ4zRIeHRx2JaSot52+NUGxb9xelWVDJoks49v
- vbmtdAtI2MMf2Zvk2xueM3qBWVoTdDZj7K2X8l34cCubTp/0kJ9iWeZDkj2M+XVTO3
- 7oTKo2EfKrmKQ==
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	hch@lst.de
-Cc: Keith Busch <kbusch@kernel.org>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH] nvme: disable namespaces with unsupported metadata
-Date: Tue, 23 Nov 2021 09:45:54 -0800
-Message-Id: <20211123174554.3574990-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.25.4
+ s=k20201202; t=1637691601;
+ bh=/oGeobPgKEELQ9jR8Tid54S7CEBgVi/4RdF59awrB6M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lOfhWqjGTMY5cSS2hechhcQTagHANlBU6FDHuZ2Gx3PVuM29N1MzlIItLdulSljk6
+ AEmseKxSX1kUPxFkzDtwbVA8y3Do5Vi7QLPh5Mh5oQ1YQytBuo/AWn0y/czdQ5xg+s
+ jQvU64VrSM1KEl7bS/z/hVnHOdyAe6mUzjLPkMvK85xRmDgjlrnFEkp/2hyPNF79ig
+ o0AbmsZ++TXC356q4reWTN4DLbPUWamUR/JrWFN7BujPlpgK4ivzEz9raSeP8gH8/4
+ tNfFVGgAp/z5DiSWE9KxaFIJqs22D0cZ+qoqmQQ7VKJje2RvzN04jVKtq5dbFHe/Ys
+ A3VjoccNiSyXQ==
+Date: Tue, 23 Nov 2021 10:19:59 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ David Miller <davem@davemloft.org>, linux-crypto@vger.kernel.org,
+ Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: Re: [PATCH 04/12] lib/base64: RFC4648-compliant base64 encoding
+Message-ID: <YZ0wz+4uA4Nk+aVQ@gmail.com>
+References: <20211123123801.73197-1-hare@suse.de>
+ <20211123123801.73197-5-hare@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211123123801.73197-5-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211123_094602_331735_DCD76C10 
-X-CRM114-Status: GOOD (  11.82  )
+X-CRM114-CacheID: sfid-20211123_102002_037320_C8423F48 
+X-CRM114-Status: UNSURE (   8.34  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,45 +71,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The only fabrics target that supports metadata is RDMA and usable only
-if it is 8B per block, and formatted for protection information. If an
-rdma target were to export a namespace with a different format (ex:
-4k+64B), the driver will not be able to submit a valid command for that
-format.
+On Tue, Nov 23, 2021 at 01:37:53PM +0100, Hannes Reinecke wrote:
+> + * Return: the length of the resulting base64url-encoded string in bytes.
 
-Suppress exporting these namespaces as read/writeable to the block
-stack.
+As I mentioned on a previous version, this is base64, not base64url.
 
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+> + * Decodes a string using base64url encoding, i.e. the "Base 64 Encoding"
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4b5de8f5435a..3afbf73639c3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1740,7 +1740,16 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
- 		 */
- 		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
- 			return -EINVAL;
--		if (ctrl->max_integrity_segments)
-+
-+		/*
-+		 * Currently rdma is the only fabrics nvme host that supports
-+		 * metadata integrity segments, but will not use the metadata
-+		 * payload if it doesn't satisfy 'nvme_ns_has_pi()'. Since the
-+		 * initiator is not able to form requests that satisify the
-+		 * format, do not support the namespace if the metadata does
-+		 * not satisfy that requirement.
-+		 */
-+		if (ctrl->max_integrity_segments && nvme_ns_has_pi(ns))
- 			ns->features |=
- 				(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
- 	} else {
--- 
-2.25.4
+Likewise here.
 
+- Eric
 
