@@ -4,70 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2C8AC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Nov 2021 14:42:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0D1AC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 00:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Tab8mExZ4oTzUdTEjDqIXzkFcjph0WsizEVVVTROgis=; b=2a6LYfDxy8yDSHVCSdVHcSooFH
-	4j+IwaQxyZRIXlOi/6FL/wLJgZTNCJ7KAAQ2uLYPJGgXtkhGShPOT0Y8g5nreoEDBG3sOTR6t2Fh8
-	xn4fKtvBzC+VW4nGcsMckHxi4ysB78WM5uDSd7eoPgJYPTRNffzGSE708M4KXmFr1DqeBPFeYStB5
-	FbrMs3g5iagTnPdVvLAsaYW8Lj5onG3aK7giPhuc+ZR2uRCjUdH4uaHPePxAjX37RPZA4xkdV/gpZ
-	LeSFeh8JZjmkP36BMnnwJRxN7bopwBMh2EPk/aXfWXe5+hZg/bh+uHLnKb4cSwseSu93JgQa+9kR/
-	yX45ly5A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tHp1kJGVcSW77yxYlIZev6n0xAiadeeDY1Ct+JvYyXY=; b=DtzEJjE2rKlAxz1c6qBJECbVWC
+	24U6imNHYXgJM1Ru0Ux0enJkrwTWKAkgKbpZcSEnBwM14Az+NxTomv7I4hI/adYMrQEBknvsnUqsg
+	y51+HUc/D92+6rE6VY2m1qMycabueoRUYAdc3FQmYqNiDerUCqMPE270abQsRlu5IUD8fxvs9zI0i
+	0ZTpGppaBEyaQoZAPASPTqlGxq+Ow2TdYEaG5CnJ9HYQB8nA4VufBZixQttqE4F7N+y/VDOjrVXcP
+	LMk3b3l7eE5NH1/j580pIq/S3AxBC4jKRu2N4WQmLSpY7Xym4xcAMgypcuyagVvxQ/1jwInjoheYK
+	r0zuusrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpAWi-00GuOX-Mn; Mon, 22 Nov 2021 14:42:36 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1mpJMw-000VNW-L6; Tue, 23 Nov 2021 00:09:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpAWg-00GuNK-TU
- for linux-nvme@lists.infradead.org; Mon, 22 Nov 2021 14:42:36 +0000
-Received: by mail-wr1-f44.google.com with SMTP id b12so33145487wrh.4
- for <linux-nvme@lists.infradead.org>; Mon, 22 Nov 2021 06:42:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tab8mExZ4oTzUdTEjDqIXzkFcjph0WsizEVVVTROgis=;
- b=izFEJ1FTEhoZF5nr1MU90ZpPH4FlBG+9vlq9OTYOiXPbvJRWXibCKNMsz0jCj68G1+
- bCQo0xif2Qw26nAj3kjmJTquOM4D5YCJYaxeoxcFLj5h2ON9AlYVmzYCStKq5T928qIe
- EqP+Z67RLnDE4GQCySNlitGn+gfZLKZneGPJfAEx3ytGiCtAP+lmsIZY87Want4VL9GU
- PQR8LPiBnAbe/AJjf/SYCtCPO68r/Jfg2N9lb5EglUyWr02dr2wRkn47occCuNWvqXSg
- CNywoh6QeqqLiigMFXQqI+a0iDrwV57O6xUrqJjObluZCLL/vmWg2fErfID2yr1TSeFs
- mo9w==
-X-Gm-Message-State: AOAM530FKTMOlQ2LM5+7LeXwTEimNyw1t/DLo+lZzabLPQoA5Au8oTCp
- 7xvCxlq3/0q3FkfyXEuN2EurFlET6wA=
-X-Google-Smtp-Source: ABdhPJzhe4LUi9JF5/JCKAk4hOYblFdqDcuNS3UMg1ZRm8HqJjCxdg7N8Yggn37NqN02WKtojc2qjA==
-X-Received: by 2002:adf:f00a:: with SMTP id j10mr38438893wro.339.1637592152840; 
- Mon, 22 Nov 2021 06:42:32 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id a9sm8610879wrt.66.2021.11.22.06.42.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Nov 2021 06:42:32 -0800 (PST)
-Subject: Re: [PATCH 1/2] nvme-tcp: validate R2T PDU in nvme_tcp_handle_r2t()
-To: Varun Prakash <varun@chelsio.com>
-Cc: hch@lst.de, kbusch@kernel.org, linux-nvme@lists.infradead.org
-References: <1637575953-3143-1-git-send-email-varun@chelsio.com>
- <76c6cd6b-8846-a9c9-d0b7-00405fe63740@grimberg.me>
- <20211122143425.GA1716@chelsio.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <4a895412-d02f-2286-e901-eba5e6c8f6a9@grimberg.me>
-Date: Mon, 22 Nov 2021 16:42:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1mpJMt-000VLw-0N
+ for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 00:09:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637626136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tHp1kJGVcSW77yxYlIZev6n0xAiadeeDY1Ct+JvYyXY=;
+ b=P8Gyzsr+iY9aEgRjja4HDfKadGpfYn4ibcuHYhY/bJy4h+vLDpTIF6u/i687/vw5Vje8Wb
+ cLG4ybthnWXMtuxqX8IOEMK9mgdZcwygyHmy+pbi5zUf9jIkpPSaEufqdPb/4ibpHicqqO
+ kjwB5deu9CF8gTmFNc81tvoYXMCB3C8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-171-x8s2i858N3y578ezCmaDzA-1; Mon, 22 Nov 2021 19:08:51 -0500
+X-MC-Unique: x8s2i858N3y578ezCmaDzA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7B7F1018721;
+ Tue, 23 Nov 2021 00:08:49 +0000 (UTC)
+Received: from T590 (ovpn-8-21.pek2.redhat.com [10.72.8.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 799125F4EA;
+ Tue, 23 Nov 2021 00:08:37 +0000 (UTC)
+Date: Tue, 23 Nov 2021 08:08:31 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 2/5] blk-mq: rename hctx_lock & hctx_unlock
+Message-ID: <YZww/1iBDbou1yQY@T590>
+References: <20211119021849.2259254-1-ming.lei@redhat.com>
+ <20211119021849.2259254-3-ming.lei@redhat.com>
+ <ed13ee7f-a017-874a-cd28-e40b3aa6b4a7@grimberg.me>
+ <YZuZCsCIyQrc+539@T590>
+ <737e0543-9b7b-4872-082c-9ea51069d57f@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <20211122143425.GA1716@chelsio.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <737e0543-9b7b-4872-082c-9ea51069d57f@grimberg.me>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_064234_984958_EFEDCAED 
-X-CRM114-Status: GOOD (  12.37  )
+X-CRM114-CacheID: sfid-20211122_160903_147546_B4067F9A 
+X-CRM114-Status: GOOD (  22.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,21 +84,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> @@ -2321,6 +2327,9 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
->>>   	req->data_sent = 0;
->>>   	req->pdu_len = 0;
->>>   	req->pdu_sent = 0;
->>> +	req->h2cdata_left = 0;
->>> +	req->h2cdata_offset = 0;
->>> +	req->h2cdata_ttag = 0;
->>
->> This doesn't hurt anything, but it also redundant AFAICT no? these are
->> only referenced in nvme_tcp_setup_h2c_data_pdu which is called from
->> nvme_tcp_handle_r2t, which is setting these right before the call...
+On Mon, Nov 22, 2021 at 03:50:14PM +0200, Sagi Grimberg wrote:
 > 
-> if (req->h2cdata_left) check will also execute for inline data, can it
-> have a garbage value if driver does not set it to 0?
+> 
+> On 11/22/21 3:20 PM, Ming Lei wrote:
+> > On Mon, Nov 22, 2021 at 09:53:53AM +0200, Sagi Grimberg wrote:
+> > > 
+> > > > -static inline void hctx_unlock(struct blk_mq_hw_ctx *hctx, int srcu_idx)
+> > > > -	__releases(hctx->srcu)
+> > > > +static inline void queue_unlock(struct request_queue *q, bool blocking,
+> > > > +		int srcu_idx)
+> > > > +	__releases(q->srcu)
+> > > >    {
+> > > > -	if (!(hctx->flags & BLK_MQ_F_BLOCKING))
+> > > > +	if (!blocking)
+> > > >    		rcu_read_unlock();
+> > > >    	else
+> > > > -		srcu_read_unlock(hctx->queue->srcu, srcu_idx);
+> > > > +		srcu_read_unlock(q->srcu, srcu_idx);
+> > > 
+> > > Maybe instead of passing blocking bool just look at srcu_idx?
+> > > 
+> > > 	if (srcu_idx < 0)
+> > > 		rcu_read_unlock();
+> > > 	else
+> > > 		srcu_read_unlock(q->srcu, srcu_idx);
+> > 
+> > This way needs to initialize srcu_idx in each callers.
+> 
+> Then look at q->has_srcu that Bart suggested?
 
-Right, that one needs to reset.
+Bart just suggested to rename q->alloc_srcu as q->has_srcu.
+
+> 
+> > 
+> > > 
+> > > Or look if the queue has srcu allocated?
+> > > 
+> > > 	if (!q->srcu)
+> > > 		rcu_read_unlock();
+> > > 	else
+> > > 		srcu_read_unlock(q->srcu, srcu_idx);
+> > 
+> > This way is worse since q->srcu may involve one new cacheline fetch.
+> > 
+> > hctx->flags is always hot, so it is basically zero cost to check it.
+> 
+> Yea, but the interface is awkward that the caller tells the
+> routine how it should lock/unlock...
+
+If the two helpers are just blk-mq internal, I think it is fine to keep
+this way with comment.
+
+If driver needs the two exported, they should be often used in slow path, then
+it is fine to refine the interface type.
+
+
+Thanks,
+Ming
+
 
