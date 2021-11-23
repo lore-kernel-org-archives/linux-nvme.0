@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B3D4C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 07:50:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46456C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Nov 2021 07:50:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aCl644BS86xIuOgxKcQTaXj0Oocl1yF68WtmvUFdCkI=; b=pvXf6YyxnK4WCYkb5HdWVpLtPa
-	W+V1SVLCfmuheE9MubvAj8KrjZ4xvWU+FvXB6OHRw2tUWgIwyJF2zrugbyC7Klpy5uKKMRCw0JzN0
-	vdc1s1uQbaujMQBNMLWxzWa1UfeRBQg+YoCBmquEZLbu7Hw9cG3NjQXBOWoL8I6kLbAZfhvK253I7
-	XJHV/ZJ3nwmO0KJ+9ajzSuaPmK5Lju7B2Rl/K/O9Wsav/q7QBZUBR06b08iUUkvitVFt8t6gEm1mE
-	89QiEHqFIS7Uor3/XXuZbGhKws/UFxcDTs/aSMHu2cKTzRshnDWXn4JcOOAmZmBFxxvMIVT6OAA1K
-	Z965MpRQ==;
+	bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=; b=mu7JzaXog7xYMbfPSY9e9caheM
+	rCmoV7H8zL0O42yNt7CLS10bslpzh3OsO3TeFYWTIEYAlzu/HOVQXGDHloPRJ9/4nihCGcuRg6uUv
+	a+p4cf76dHpAhncTcZ7iR8k5TkU3jQqiEWWhxsJSLPBHAad5aLqqLD9nRzyDmhVPbQFXMJCmIR4yV
+	0LQ+0XTz4eeoRddMPoaXBFGeGHXiS0pS6G5II8TB1Y+m/0/gMrk9Z1m2JrfdWsYQP+y7S5aSdafNF
+	6WFR51UfSvgRHzl884ZfWxRwwIYDnVhwHmp5MiAhAQPB6qvCEY2HeRXc4wvgirEF03R1xfAkGcegL
+	QrbQ47EA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpQZ5-0016ne-Ks; Tue, 23 Nov 2021 07:50:07 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mpQZF-0016pm-Oz; Tue, 23 Nov 2021 07:50:17 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpQYq-0016hB-41
+ id 1mpQYp-0016hA-U5
  for linux-nvme@lists.infradead.org; Tue, 23 Nov 2021 07:49:55 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 16E351FD58;
+ by smtp-out1.suse.de (Postfix) with ESMTP id 2412B218E0;
  Tue, 23 Nov 2021 07:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1637653788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aCl644BS86xIuOgxKcQTaXj0Oocl1yF68WtmvUFdCkI=;
- b=xt0OfuBg3ZUYlalLwakygWJC4NlXBmeY5Yha4rBWGuBQ/RxQ8htwINhIocB1oGKEQIBNst
- lK120wDr/zwTQUDWTFzSlTBedbyMIB8BOJKoAi2+jj8zfdul33rVZz5fBFEs3sMd4aILRc
- icwYMvUleDKJfX7i/V7O05RXMMCNtWs=
+ bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=;
+ b=dxvGhjQjjqUSYZkvHlw+EDmjTBapShT71T1WmH+AT+z3HgMjSIXvc1e+3yKDHI3GwNqLdi
+ 8Gk6BwI75ifdtrpQYIQCFTY9rUyDXYAW471aQLk3apya1EkMFOgKrR1KRfNKQPOV3oyVBI
+ W3iRvvyUK1+TRe8raoE8GLhzvDb4Svw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1637653788;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aCl644BS86xIuOgxKcQTaXj0Oocl1yF68WtmvUFdCkI=;
- b=hQxaewOeuVXlMoNJnJbz+Hge3yonY+5r+/an4svzCuEXeBEogj1E36z7petArQhPfH/ZK2
- fjYdTMA8cCw0oBBA==
+ bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=;
+ b=4ZBTC21v/SEHLexNE73TOEDlkLea/EupJlJCdGGBwbD413Jg1OXDZPBMyxTz6sKzV5eEOv
+ bWgWHH7PgLoOTzCg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 2ED7CA3B89;
- Tue, 23 Nov 2021 07:49:47 +0000 (UTC)
+ by relay2.suse.de (Postfix) with ESMTP id 1A123A3B8D;
+ Tue, 23 Nov 2021 07:49:48 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 1CFD25191887; Tue, 23 Nov 2021 08:49:47 +0100 (CET)
+ id 3B0885191893; Tue, 23 Nov 2021 08:49:47 +0100 (CET)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
  Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.com>, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 03/10] nvme/rc: clear hosts directory in _cleanup_nvmet()
-Date: Tue, 23 Nov 2021 08:49:33 +0100
-Message-Id: <20211123074940.113390-4-hare@suse.de>
+ Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 09/10] nvme/042: test bi-directional authentication
+Date: Tue, 23 Nov 2021 08:49:39 +0100
+Message-Id: <20211123074940.113390-10-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211123074940.113390-1-hare@suse.de>
 References: <20211123074940.113390-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211122_234952_425605_14E67226 
-X-CRM114-Status: UNSURE (   9.60  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211122_234952_157408_904CD704 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,33 +81,141 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.com>
-
-When clearing out the configuration we need to clear the 'hosts'
-directory, too, as scripts might have added host configurations.
-
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- tests/nvme/rc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/nvme/042     | 107 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/042.out |   8 ++++
+ 2 files changed, 115 insertions(+)
+ create mode 100644 tests/nvme/042
+ create mode 100644 tests/nvme/042.out
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index aa223df..c284602 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -122,6 +122,12 @@ _cleanup_nvmet() {
- 		rmdir "${subsys}"
- 	done
- 
-+	for host in "${NVMET_CFS}"/hosts/*; do
-+		name=$(basename "${host}")
-+		echo "WARNING: Test did not clean up host: ${name}"
-+		rmdir "${host}"
-+	done
+diff --git a/tests/nvme/042 b/tests/nvme/042
+new file mode 100644
+index 0000000..f3954b4
+--- /dev/null
++++ b/tests/nvme/042
+@@ -0,0 +1,107 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
++#
++# Test bi-directional authentication
 +
- 	shopt -u nullglob
- 	trap SIGINT
- 
++. tests/nvme/rc
++
++DESCRIPTION="Test bi-directional authentication"
++QUICK=1
++
++requires() {
++	_nvme_requires
++	_have_modules loop
++	_require_nvme_trtype_is_fabrics
++}
++
++
++test() {
++	local port
++	local subsys="blktests-subsystem-1"
++	local hostid="$(uuidgen)"
++	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
++	local scratch="/tmp/blktest-ns1.img"
++	local hostkey
++	local ctrlkey
++	local ctrldev
++
++	echo "Running ${TEST_NAME}"
++
++	hostkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
++	if [ $? -ne 0 ] ; then
++		echo "nvme gen-dhchap-key command missing"
++		return 1
++	fi
++
++	ctrlkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
++	if [ $? -ne 0 ] ; then
++		echo "nvme gen-dhchap-key command missing"
++		return 1
++	fi
++
++	_setup_nvmet
++
++	truncate -s 512M "${scratch}"
++
++	port="$(_create_nvmet_port "${nvme_trtype}")"
++
++	_create_nvmet_subsystem "${subsys}" "${scratch}"
++	_add_nvmet_subsys_to_port "${port}" "${subsys}"
++	_create_nvmet_host "${subsys}" "${hostnqn}" "${hostkey}" "${ctrlkey}"
++
++	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
++
++	# Step 1: Connect with host authentication only
++	echo "Test host authentication"
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
++			     "${def_traddr}" "${def_trsvcid}" \
++			     "${hostnqn}" "${hostid}" \
++			     "${hostkey}"
++
++	ctrldev=$(_find_nvme_dev "${subsys}")
++	if [ -z "$ctrldev" ] ; then
++		echo "nvme controller not found"
++	fi
++
++	_nvme_disconnect_subsys "${subsys}"
++
++	# Step 2: Connect with host authentication
++	# and invalid ctrl authentication
++	echo "Test host authentication and invalid ctrl authentication"
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
++			     "${def_traddr}" "${def_trsvcid}" \
++			     "${hostnqn}" "${hostid}" \
++			     "${hostkey}" "${hostkey}"
++	ctrldev=$(_find_nvme_dev "${subsys}1")
++	if [ -n "${ctrldev}" ] ; then
++		echo "nvme controller found!"
++		_nvme_disconnect_subsys "${ctrldev}"
++	fi
++
++	# Step 3: Connect with host authentication
++	# and valid ctrl authentication
++	echo "Test host authentication and valid ctrl authentication"
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
++			     "${def_traddr}" "${def_trsvcid}" \
++			     "${hostnqn}" "${hostid}" \
++			     "${hostkey}" "${ctrlkey}"
++
++	ctrldev=$(_find_nvme_dev "${subsys}")
++	if [ -z "$ctrldev" ] ; then
++		echo "nvme controller not found"
++	fi
++
++	_nvme_disconnect_subsys "${subsys}"
++
++	_remove_nvmet_subsystem_from_port "${port}" "${subsys}"
++	_remove_nvmet_subsystem "${subsys}"
++
++	_remove_nvmet_port "${port}"
++
++	_remove_nvmet_host "${hostnqn}"
++
++	rm ${scratch}
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/042.out b/tests/nvme/042.out
+new file mode 100644
+index 0000000..17a461b
+--- /dev/null
++++ b/tests/nvme/042.out
+@@ -0,0 +1,8 @@
++Running nvme/042
++Test host authentication
++NQN:blktests-subsystem-1 disconnected 1 controller(s)
++Test host authentication and invalid ctrl authentication
++no controller found
++Test host authentication and valid ctrl authentication
++NQN:blktests-subsystem-1 disconnected 1 controller(s)
++Test complete
 -- 
 2.29.2
 
