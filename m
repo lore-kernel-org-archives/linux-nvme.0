@@ -4,60 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CEF6C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Nov 2021 03:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3ED94C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Nov 2021 14:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:To:From:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rNXve4tMXrv35LXbcJk+UpP5girBnV8171M1iGJ8hj4=; b=Api94W9oT1RmnmPbhIappmhUGR
-	ZbN/sFBjoOBrRgIHHHUkcAhgAMYT71K6XvuLcMWjehtDuDN1mCS9FsHdxu7FPTH505MkC1Baug7ME
-	hwpzCJ3C5yrmvZSXEIifmKdQ4GsLBccmuk/LOK4KMoYDeXWMDcxxleh5schiDoHzm16Z/d+D3w4En
-	dWbTrJqeAu+wFwRZY5bjUtdKysdFTUn2tB9d7vzNE9C1tWbVw46aRorYlKHJLhn2yqlrwAHQxNxDb
-	jdqqMdzucJ1JD9uaaowXQqaygO00gigO+L4Pb6uIOfxFDQ5inme5ehBk766rz0WNVsINDF0mYPtFB
-	hmVLehpQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ptEcs74jg7JXVCFnq9EvP8cDmSWilpR23/XJsWuuo+o=; b=bwR+rZMoGOPsUBTeo/658oeC/N
+	iGPPQyN0TVO6isBELXVGm27E1JLixv+NruL9JXm3pdO06bzdwL1lJcD2iN5x48oSCiaf7m6N+oJqK
+	890PEzrWW+xkKLGNzNQJ95j8r4mKFUo45X83hd7CXwxQvWckuE8CY02j2/6eCD6iE0eeWEtC+y39g
+	qPF+qv1QRmeRuuWByy9uBOSWKvovzods6l8IYrgZ80Jm3HUpVOhWcRSdNWebOrit/Zrn+LgF89Y8y
+	D50gCKqXlQZCT0VpXVMC9l4Zdhg1CTfkKx7Zd4ia6Pub0s8GhNlNkIJSjT9Dpq4AcCBoRRgTHzVdR
+	ZseplwTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mq5J7-006JkR-0D; Thu, 25 Nov 2021 03:20:21 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1mqFMq-007l1A-Bk; Thu, 25 Nov 2021 14:04:52 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mq5J2-006Jj3-Et
- for linux-nvme@lists.infradead.org; Thu, 25 Nov 2021 03:20:18 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4J03615DLlzbj3k
- for <linux-nvme@lists.infradead.org>; Thu, 25 Nov 2021 11:20:09 +0800 (CST)
-Received: from kwepemm600011.china.huawei.com (7.193.23.229) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 25 Nov 2021 11:20:12 +0800
-Received: from [10.169.46.19] (10.169.46.19) by kwepemm600011.china.huawei.com
- (7.193.23.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 25 Nov
- 2021 11:20:11 +0800
-Subject: Re: [PATCH 1/1] nvme: fix use after free when disconnect a
- reconnecting ctrl
-From: liruozhu <liruozhu@huawei.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-References: <20211104071332.28952-1-liruozhu@huawei.com>
- <20211104071332.28952-2-liruozhu@huawei.com>
-Message-ID: <932cec36-fe0b-7739-9551-7492ff656d46@huawei.com>
-Date: Thu, 25 Nov 2021 11:20:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.0.1
+ id 1mqFMo-007l04-JI
+ for linux-nvme@bombadil.infradead.org; Thu, 25 Nov 2021 14:04:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=ptEcs74jg7JXVCFnq9EvP8cDmSWilpR23/XJsWuuo+o=; b=ocieuV+Zu2gxYyTLvXmR9ER4MK
+ CbzUfLoSpOsn71He4D44KX3aQin603TvLfOgomAmtcNJ78ea3mvDbFwlFHzoEixEl6REramUFCOet
+ AsVqmLry/eUQ+zTPZUdy3Zs3CbRSdce7+6OoyIgFllg8a20wsTDEpuGf2yvhIl9W6+Pkc2rElAxgG
+ M5efugb/cW9EPGDpYUQjvic1dEuayM0tZepPKMbaEIpwTGCEkCwDtoMGvzJUMDS6GWr8CATEj6ESa
+ MmYcEricJgZrlJheyMpNQt+4sT0Atl5ivee3jT1isFKiaIG6XLf825yeWo/Ab6vUrX+XPVI59GRx3
+ kI6IUBtg==;
+Received: from [2001:4bb8:191:f9ce:91e3:dc54:365:7d33] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mqFMk-006YBt-T7; Thu, 25 Nov 2021 14:04:47 +0000
+Date: Thu, 25 Nov 2021 15:04:46 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 5.16
+Message-ID: <YZ+X/qGC6/w3bp2c@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20211104071332.28952-2-liruozhu@huawei.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.169.46.19]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemm600011.china.huawei.com (7.193.23.229)
-X-CFilter-Loop: Reflected
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211124_192016_734088_DF251EC1 
-X-CRM114-Status: GOOD (  19.91  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,55 +64,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ping...
+The following changes since commit efcf5932230b9472cfdbe01c858726f29ac5ec7d:
 
-On 2021/11/4 15:13, Ruozhu Li wrote:
-> A crash happens when I try to disconnect a reconnecting ctrl:
->
-> 1) The network was cut off when the connection was just established,
-> scan work hang there waiting for some IOs complete.Those IOs were
-> retrying because we return BLK_STS_RESOURCE to blk in reconnecting.
->
-> 2) After a while, I tried to disconnect this connection.This procedure
-> also hung because it tried to obtain ctrl->scan_lock.It should be noted
-> that now we have switched the controller state to NVME_CTRL_DELETING.
->
-> 3) In nvme_check_ready(), we always return true when ctrl->state is
-> NVME_CTRL_DELETING, so those retrying IOs were issued to the bottom
-> device which was already freed.
->
-> To fix this, when ctrl->state is NVME_CTRL_DELETING, issue cmd to bottom
-> device only when queue state is live.If not, return host path error to blk.
->
-> Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
-> ---
->   drivers/nvme/host/core.c | 1 +
->   drivers/nvme/host/nvme.h | 2 +-
->   2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 838b5e2058be..752203ad7639 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -666,6 +666,7 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
->   		struct request *rq)
->   {
->   	if (ctrl->state != NVME_CTRL_DELETING_NOIO &&
-> +	    ctrl->state != NVME_CTRL_DELETING &&
->   	    ctrl->state != NVME_CTRL_DEAD &&
->   	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
->   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index b334af8aa264..9b095ee01364 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -709,7 +709,7 @@ static inline bool nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
->   		return true;
->   	if (ctrl->ops->flags & NVME_F_FABRICS &&
->   	    ctrl->state == NVME_CTRL_DELETING)
-> -		return true;
-> +		return queue_live;
->   	return __nvme_check_ready(ctrl, rq, queue_live);
->   }
->   int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+  block: avoid to touch unloaded module instance when opening bdev (2021-11-22 18:35:37 -0700)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-5.16-2021-11-25
+
+for you to fetch changes up to 95ec70a9f3f9133304a0295af58d4f05ed27661c:
+
+  nvmet: use IOCB_NOWAIT only if the filesystem supports it (2021-11-23 17:22:43 +0100)
+
+----------------------------------------------------------------
+nvme fixes for Linux 5.16
+
+ - add a NO APST quirk for a Kioxia device (Enzo Matsumiya)
+ - fix write zeroes pi (Klaus Jensen)
+ - various TCP transport fixes (Maurizio Lombardi and Varun Prakash)
+ - ignore invalid fast_io_fail_tmo values (Maurizio Lombardi)
+ - use IOCB_NOWAIT only if the filesystem supports it (Maurizio Lombardi)
+
+----------------------------------------------------------------
+Enzo Matsumiya (1):
+      nvme-pci: add NO APST quirk for Kioxia device
+
+Klaus Jensen (1):
+      nvme: fix write zeroes pi
+
+Maurizio Lombardi (6):
+      nvmet-tcp: fix a race condition between release_queue and io_work
+      nvmet-tcp: add an helper to free the cmd buffers
+      nvmet-tcp: fix memory leak when performing a controller reset
+      nvme-tcp: fix memory leak when freeing a queue
+      nvme-fabrics: ignore invalid fast_io_fail_tmo values
+      nvmet: use IOCB_NOWAIT only if the filesystem supports it
+
+Varun Prakash (2):
+      nvmet-tcp: fix incomplete data digest send
+      nvme-tcp: validate R2T PDU in nvme_tcp_handle_r2t()
+
+ drivers/nvme/host/core.c          | 29 +++++++++++++++++--
+ drivers/nvme/host/fabrics.c       |  3 ++
+ drivers/nvme/host/tcp.c           | 61 +++++++++++++++++++--------------------
+ drivers/nvme/target/io-cmd-file.c |  2 ++
+ drivers/nvme/target/tcp.c         | 44 ++++++++++++++++++++--------
+ 5 files changed, 93 insertions(+), 46 deletions(-)
 
