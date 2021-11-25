@@ -4,55 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0744C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Nov 2021 19:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CEF6C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Nov 2021 03:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9FDEfYcStv3OyBWwswlEReh0RezC/nV5IGGwjQwLCz0=; b=oyqC0P90If2RDfy6JD9iZIFrYF
-	09wAEeGAVCkf4p+uz0ImSnjYVjDD2tg5+mZHvpZJ+wkHcB+sJKmZIcBiW150sxNv3Ku+CKTk84XHZ
-	iZHuXevAqfTjqic7gYDV1l4MAPgkqPnstk0sFOLezv8o0++7WIoWeazdys1GhiffbNIk3ilsMYu3O
-	MtV9O5RipFbBy3meFCbbZb40S8IxyPOpYE+idaCKv1UUcIacBCJePhU0FrRbKIzs2HiVEx89TGY+9
-	Yvk2lcZfla5MZb0D5feFnrm7xdfCMRnRkBIG4BqLotK5L38+A6QtrSdv134MFOEuEEynKg2l6RtHv
-	KTLdYcAA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:To:From:
+	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rNXve4tMXrv35LXbcJk+UpP5girBnV8171M1iGJ8hj4=; b=Api94W9oT1RmnmPbhIappmhUGR
+	ZbN/sFBjoOBrRgIHHHUkcAhgAMYT71K6XvuLcMWjehtDuDN1mCS9FsHdxu7FPTH505MkC1Baug7ME
+	hwpzCJ3C5yrmvZSXEIifmKdQ4GsLBccmuk/LOK4KMoYDeXWMDcxxleh5schiDoHzm16Z/d+D3w4En
+	dWbTrJqeAu+wFwRZY5bjUtdKysdFTUn2tB9d7vzNE9C1tWbVw46aRorYlKHJLhn2yqlrwAHQxNxDb
+	jdqqMdzucJ1JD9uaaowXQqaygO00gigO+L4Pb6uIOfxFDQ5inme5ehBk766rz0WNVsINDF0mYPtFB
+	hmVLehpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mpyOH-005ivL-Mb; Wed, 24 Nov 2021 19:57:13 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1mq5J7-006JkR-0D; Thu, 25 Nov 2021 03:20:21 +0000
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mpyOE-005iux-Qq
- for linux-nvme@lists.infradead.org; Wed, 24 Nov 2021 19:57:12 +0000
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B1D260ED4;
- Wed, 24 Nov 2021 19:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637783829;
- bh=boWToD2/RQFeTXP+mmwO38bGgb8ZUKEipv4DMXr3InA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ty35Vjf6uFCzrrajbCp2F6Cn162hvjjiHGATEGTJvaBVT3rEBhb8vMfdoTWOOtZyj
- oJJ8Pf+6Docv4ycHcCGV4NRfr2bd2fUPY4zfa1MwK99TMgGGcdza739Oebm4tUtBp1
- 0ZxLTu924SQJZft4vnxN+Dc9yzhwYETh4kylTrHoD5/0Z4PGges7tKknhuyy2pkQie
- gswk/jJ5y6zDAIgXUcvsXc0+z1y5O0HuRq2oJu+y0sIH+yjMiWCGQXaoplFx0LAQ8b
- 0Ao4fKr4S+c04GhARLAqcZU71Y+CBX4KsOdf317ffjE0KORPk4QBnG/UjRUQFBulpF
- 9cJKKOkaFDodQ==
-Date: Wed, 24 Nov 2021 11:57:06 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Max Gurtovoy <mgurtovoy@nvidia.com>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: disable namespaces with unsupported metadata
-Message-ID: <20211124195706.GB3576243@dhcp-10-100-145-180.wdc.com>
-References: <20211123174554.3574990-1-kbusch@kernel.org>
- <20211124184757.GA22791@lst.de>
+ id 1mq5J2-006Jj3-Et
+ for linux-nvme@lists.infradead.org; Thu, 25 Nov 2021 03:20:18 +0000
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4J03615DLlzbj3k
+ for <linux-nvme@lists.infradead.org>; Thu, 25 Nov 2021 11:20:09 +0800 (CST)
+Received: from kwepemm600011.china.huawei.com (7.193.23.229) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 25 Nov 2021 11:20:12 +0800
+Received: from [10.169.46.19] (10.169.46.19) by kwepemm600011.china.huawei.com
+ (7.193.23.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 25 Nov
+ 2021 11:20:11 +0800
+Subject: Re: [PATCH 1/1] nvme: fix use after free when disconnect a
+ reconnecting ctrl
+From: liruozhu <liruozhu@huawei.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
+References: <20211104071332.28952-1-liruozhu@huawei.com>
+ <20211104071332.28952-2-liruozhu@huawei.com>
+Message-ID: <932cec36-fe0b-7739-9551-7492ff656d46@huawei.com>
+Date: Thu, 25 Nov 2021 11:20:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211124184757.GA22791@lst.de>
+In-Reply-To: <20211104071332.28952-2-liruozhu@huawei.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.169.46.19]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600011.china.huawei.com (7.193.23.229)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211124_115710_937974_3357863E 
-X-CRM114-Status: GOOD (  19.42  )
+X-CRM114-CacheID: sfid-20211124_192016_734088_DF251EC1 
+X-CRM114-Status: GOOD (  19.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,38 +72,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 24, 2021 at 07:47:57PM +0100, Christoph Hellwig wrote:
-> On Tue, Nov 23, 2021 at 09:45:54AM -0800, Keith Busch wrote:
-> > The only fabrics target that supports metadata is RDMA and usable only
-> > if it is 8B per block, and formatted for protection information. If an
-> > rdma target were to export a namespace with a different format (ex:
-> > 4k+64B), the driver will not be able to submit a valid command for that
-> > format.
-> > 
-> > Suppress exporting these namespaces as read/writeable to the block
-> > stack.
-> 
-> Where do we disable the namepsace?  We only do not set the metadata
-> supported flag here, don't we?
+Ping...
 
-Without the flag set, a namespace with metadata gets to be 0 capacity.
-That will make it unusable through the block stack r/w path, at least.
- 
-> > +		/*
-> > +		 * Currently rdma is the only fabrics nvme host that supports
-> > +		 * metadata integrity segments, but will not use the metadata
-> > +		 * payload if it doesn't satisfy 'nvme_ns_has_pi()'.
-> 
-> s/fabric nvme host/transport/
-> 
-> > Since the
-> > +		 * initiator is not able to form requests that satisify the
-> > +		 * format, do not support the namespace if the metadata does
-> > +		 * not satisfy that requirement.
-> > +		 */
-> 
-> I can't really parse this sentence.  Also initiator doesn't make much
-> sense in a NVMe context.
-
-I'll reword this.
+On 2021/11/4 15:13, Ruozhu Li wrote:
+> A crash happens when I try to disconnect a reconnecting ctrl:
+>
+> 1) The network was cut off when the connection was just established,
+> scan work hang there waiting for some IOs complete.Those IOs were
+> retrying because we return BLK_STS_RESOURCE to blk in reconnecting.
+>
+> 2) After a while, I tried to disconnect this connection.This procedure
+> also hung because it tried to obtain ctrl->scan_lock.It should be noted
+> that now we have switched the controller state to NVME_CTRL_DELETING.
+>
+> 3) In nvme_check_ready(), we always return true when ctrl->state is
+> NVME_CTRL_DELETING, so those retrying IOs were issued to the bottom
+> device which was already freed.
+>
+> To fix this, when ctrl->state is NVME_CTRL_DELETING, issue cmd to bottom
+> device only when queue state is live.If not, return host path error to blk.
+>
+> Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
+> ---
+>   drivers/nvme/host/core.c | 1 +
+>   drivers/nvme/host/nvme.h | 2 +-
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 838b5e2058be..752203ad7639 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -666,6 +666,7 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
+>   		struct request *rq)
+>   {
+>   	if (ctrl->state != NVME_CTRL_DELETING_NOIO &&
+> +	    ctrl->state != NVME_CTRL_DELETING &&
+>   	    ctrl->state != NVME_CTRL_DEAD &&
+>   	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+>   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index b334af8aa264..9b095ee01364 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -709,7 +709,7 @@ static inline bool nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   		return true;
+>   	if (ctrl->ops->flags & NVME_F_FABRICS &&
+>   	    ctrl->state == NVME_CTRL_DELETING)
+> -		return true;
+> +		return queue_live;
+>   	return __nvme_check_ready(ctrl, rq, queue_live);
+>   }
+>   int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
 
