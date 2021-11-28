@@ -4,64 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C7B7C433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Nov 2021 13:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADBBAC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Nov 2021 13:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=o8Bf6GPzFxY0B63rUkRseuL05M0mWiJrwqMGxl7yi9Q=; b=lmTijZI/I5FhUhUuE+XWPF4M7a
-	sEAef4oqK9v9PNF4VGUJN+LFTBH9IaKjPpz5qpklrToOJfqfqMt7FEFhOoklLZabYB9SZXd8LUyVw
-	O60fCIIp3AtjlyRGNZX7ufb4iPrjd16OGup5XeGQgO9iTNlF0KMrn/j1uzu1BMrev4bHPPIhZ7Q4h
-	oS8b4TxpFUugkKsW039obrd0DIQRQH7szcaxc4kBi6koMo/Wj/RN4qRC2LqFpvyLTS9N3pn83MBhC
-	0GK9vPfDsUoiPsFbbFrnl07dr3UxdBaTBe3BQ6PDZZJ/zE/IejiQlZQL8GDjAsrW7j+DMDIzr63aH
-	s5oQCzLg==;
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nCE19fGrcU9HRqfzrHosUulq2z9AJaSHYhdRwcuWwAA=; b=a8j4EMuxq5ub/WXwer4YZ1S9u+
+	0ZMTatv/PaHdavfNn0P4EJhk8THLM0rYlbUSjXBfazcci2DWQbkPuUPNpCcJ5tSiMUyNVCkuzHHa9
+	88o+M+BsNw3fBUtLS2HPbCpGk5Qvz65BgHMT2aSzDO3c5GhE7bcVw1d2cHoguAh7uIE7hRpvVT6Rc
+	vDqriV4lFm7AkkcScaN1uIRDEeBKDRm7Lvovh6PNSmuoGR7YG3RLkACMn3Krvhg30bak7nkg1aEf7
+	01v9VB6n4d3yQ6K6efFQDWnmE33vUXZ3OK2cQyZnp6DHufhL5Q/3f9EGUsqAIIk4DHCOYZjkjAjpB
+	TtfU8NTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrJpm-00Fl9g-07; Sun, 28 Nov 2021 13:03:10 +0000
-Received: from mail-wr1-f47.google.com ([209.85.221.47])
+	id 1mrKMM-00Frei-0E; Sun, 28 Nov 2021 13:36:50 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrJpi-00Fl8u-QI
- for linux-nvme@lists.infradead.org; Sun, 28 Nov 2021 13:03:08 +0000
-Received: by mail-wr1-f47.google.com with SMTP id d9so9490992wrw.4
- for <linux-nvme@lists.infradead.org>; Sun, 28 Nov 2021 05:03:06 -0800 (PST)
+ id 1mrKMI-00Fre1-TG
+ for linux-nvme@lists.infradead.org; Sun, 28 Nov 2021 13:36:48 +0000
+Received: by mail-wm1-f47.google.com with SMTP id
+ o19-20020a1c7513000000b0033a93202467so10415542wmc.2
+ for <linux-nvme@lists.infradead.org>; Sun, 28 Nov 2021 05:36:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=o8Bf6GPzFxY0B63rUkRseuL05M0mWiJrwqMGxl7yi9Q=;
- b=kw0SsfsFMEf4Bfgc8eRHh42BAA4oMU46V6s2yYfWmFkedrZjAcSXMneNW++IlhHMww
- M+H12lJqzAs/tFL4sn5emsmBipbQT5HNgJFwwX3nIgH+UePvXK8PpaA3dAKpmmdBUHwr
- jdgQ1CZNiMFcBmGydoYjEbLoKAmofc3iKso8EJG8tFH2IN9YbcLXsrLncf0OXNNDxYPm
- tJoTfU2vsSZcl0IcJefhCg5rg+W6T/ZycA9276RTzS2YVcchssauaqKvRE6fnq7lbq4p
- EgA85+luxpf1xatHV2LFj48rkznXIdSTpM987LmBPcVAovda9OcoFTWBnoaRxhGnsfKU
- cg4g==
-X-Gm-Message-State: AOAM533GNplQZmfSSfLB8wAXkQrqNsyHaYobv2PdSZE5ThK+iip0Jk1u
- F+JLR84NYqk9e6DMu+4dcX+kIdF4xG8=
-X-Google-Smtp-Source: ABdhPJzboehj6DjbeRJGhi4RmQgZFzZEJFFNkbYEGURrluOBSbf2EwMJ0IdzP0GndXjH2Ja/yCnrwQ==
-X-Received: by 2002:adf:d22e:: with SMTP id k14mr27205528wrh.446.1638104584786; 
- Sun, 28 Nov 2021 05:03:04 -0800 (PST)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net.
+ bh=nCE19fGrcU9HRqfzrHosUulq2z9AJaSHYhdRwcuWwAA=;
+ b=n6rVX2HSrLLQI/M4gnWB8H/iSqnEOvf6my9gHGQpckgZunuSOqMHTPCsCTSSVPTsm9
+ 9+dJnVWu3J8rVl+uqmSmfszoR98Dqmg+lhA3MBpdTaWuJQqwWxpNQbzwbMIk6PZ3SMs9
+ DX602ALN7syUjj2PuzESNKvjqMVxJuQu8yt4RyorARNAH2clIcWuW+uL97h0EOKcyELR
+ Dkf6NzZZ9Q8zmyVjg3RqCrr7JOYAHtLf2UVW93I1AE8Nsy+z2Acv3z2uNzs9ayti7o6T
+ Th5B1aURY8yCZQOi0MyefyqfthwFRMY/mVg/mrEldUvkNV5T1UrGanzcv8QBYTkhE/y1
+ Mpxw==
+X-Gm-Message-State: AOAM533LTNeTPdYJ/BsJx8tNSqJ9ILM1bXIUQsrfkwQm02hvJgF6UBxK
+ 29AxieOjOujKyYNwxlsUYUxv3e3ML8M=
+X-Google-Smtp-Source: ABdhPJxKyE1sO0E0UwPaez9wGFPKaGR01T5jxdVSleV3cXddZxBzaJK6zCMvu+gQpCBxMUwrxnbl9A==
+X-Received: by 2002:a1c:4d15:: with SMTP id o21mr28903216wmh.171.1638106604709; 
+ Sun, 28 Nov 2021 05:36:44 -0800 (PST)
+Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id o9sm10962049wrs.4.2021.11.28.05.03.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Nov 2021 05:03:04 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id c6sm21948732wmq.46.2021.11.28.05.36.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Nov 2021 05:36:44 -0800 (PST)
+Subject: Re: [PATCH 09/10] nvme/042: test bi-directional authentication
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
+References: <20211123074940.113390-1-hare@suse.de>
+ <20211123074940.113390-10-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH libnvme v2] fabrics: fix endless loop in connect-all for
- NVME_NQN_CURR
-Date: Sun, 28 Nov 2021 15:03:03 +0200
-Message-Id: <20211128130303.490972-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.30.2
+Message-ID: <ffe973a1-1856-e2e7-9695-cb2ce532de3b@grimberg.me>
+Date: Sun, 28 Nov 2021 15:36:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211123074940.113390-10-hare@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211128_050306_878266_81BED82B 
-X-CRM114-Status: GOOD (  11.50  )
+X-CRM114-CacheID: sfid-20211128_053646_980147_33C2C97F 
+X-CRM114-Status: GOOD (  18.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,39 +83,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For a discovery log page entry that indicates the discovery controller
-that returned it (i.e. itself), we need to set the controller as
-discovered (because we got the discovery log page by connecting to it).
 
-Without this connect-all goes in an endless loop keep connecting and
-retrieving the log page from the same discovery subsystem port.
 
-Fixes: 06a8f001d314 ("tree,fabrics: detect discovery loops")
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
-Changes from v1:
-- add break as we don't need the discovery ctrl setting
+On 11/23/21 9:49 AM, Hannes Reinecke wrote:
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   tests/nvme/042     | 107 +++++++++++++++++++++++++++++++++++++++++++++
+>   tests/nvme/042.out |   8 ++++
+>   2 files changed, 115 insertions(+)
+>   create mode 100644 tests/nvme/042
+>   create mode 100644 tests/nvme/042.out
+> 
+> diff --git a/tests/nvme/042 b/tests/nvme/042
+> new file mode 100644
+> index 0000000..f3954b4
+> --- /dev/null
+> +++ b/tests/nvme/042
+> @@ -0,0 +1,107 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
+> +#
+> +# Test bi-directional authentication
+> +
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="Test bi-directional authentication"
+> +QUICK=1
+> +
+> +requires() {
+> +	_nvme_requires
+> +	_have_modules loop
+> +	_require_nvme_trtype_is_fabrics
+> +}
+> +
+> +
+> +test() {
+> +	local port
+> +	local subsys="blktests-subsystem-1"
+> +	local hostid="$(uuidgen)"
+> +	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
+> +	local scratch="/tmp/blktest-ns1.img"
+> +	local hostkey
+> +	local ctrlkey
+> +	local ctrldev
+> +
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	hostkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
+> +	if [ $? -ne 0 ] ; then
+> +		echo "nvme gen-dhchap-key command missing"
+> +		return 1
+> +	fi
+> +
+> +	ctrlkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
+> +	if [ $? -ne 0 ] ; then
+> +		echo "nvme gen-dhchap-key command missing"
+> +		return 1
+> +	fi
+> +
+> +	_setup_nvmet
+> +
+> +	truncate -s 512M "${scratch}"
+> +
+> +	port="$(_create_nvmet_port "${nvme_trtype}")"
+> +
+> +	_create_nvmet_subsystem "${subsys}" "${scratch}"
+> +	_add_nvmet_subsys_to_port "${port}" "${subsys}"
+> +	_create_nvmet_host "${subsys}" "${hostnqn}" "${hostkey}" "${ctrlkey}"
+> +
+> +	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
+> +
+> +	# Step 1: Connect with host authentication only
+> +	echo "Test host authentication"
+> +	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
+> +			     "${def_traddr}" "${def_trsvcid}" \
+> +			     "${hostnqn}" "${hostid}" \
+> +			     "${hostkey}"
+> +
+> +	ctrldev=$(_find_nvme_dev "${subsys}")
+> +	if [ -z "$ctrldev" ] ; then
+> +		echo "nvme controller not found"
+> +	fi
+> +
+> +	_nvme_disconnect_subsys "${subsys}"
+> +
+> +	# Step 2: Connect with host authentication
+> +	# and invalid ctrl authentication
+> +	echo "Test host authentication and invalid ctrl authentication"
+> +	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
+> +			     "${def_traddr}" "${def_trsvcid}" \
+> +			     "${hostnqn}" "${hostid}" \
+> +			     "${hostkey}" "${hostkey}"
+> +	ctrldev=$(_find_nvme_dev "${subsys}1")
+> +	if [ -n "${ctrldev}" ] ; then
+> +		echo "nvme controller found!"
+> +		_nvme_disconnect_subsys "${ctrldev}"
+> +	fi
 
- src/nvme/fabrics.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
-index 686a5641aa9c..9207296ba957 100644
---- a/src/nvme/fabrics.c
-+++ b/src/nvme/fabrics.c
-@@ -657,8 +657,10 @@ nvme_ctrl_t nvmf_connect_disc_entry(nvme_host_t h,
- 	}
- 
- 	switch (e->subtype) {
--	case NVME_NQN_DISC:
- 	case NVME_NQN_CURR:
-+		nvme_ctrl_set_discovered(c, true);
-+		break;
-+	case NVME_NQN_DISC:
- 		if (discover)
- 			*discover = true;
- 		nvme_ctrl_set_discovery_ctrl(c, true);
--- 
-2.30.2
-
+This test case has a weird behavior. Why isn't _nvme_connect_subsys
+failing?
 
