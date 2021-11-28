@@ -4,76 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69B68C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Nov 2021 12:40:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C7B8C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Nov 2021 00:11:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5WcWZFhOByDkZ2pfDN8pbu4aVIIlyns15aJ8lakV6u8=; b=V5uQhy0C5I10BFji/5+bXKjSjS
-	MITqEhwX+A/BHS9tHJqG8c+mTZxcXk9Ny6xlDZ/RaKBoRapPCaKVEnIz62GKxrpnN+yMqtIVc6o3F
-	3PTlbmSTRSyqQWQM2L5qrSvVcqlE9Dgy1H3gko9IkVlYStY5ayLcvYifg7Z1fkHND3PdEDEdX1cEG
-	pjk43sbD+Vj229Gb94E4PGJOiZ9o8Fvwn5fh9HhTzzY43Dx1YEN05wfygDRNExQzRNTduMMMvEeow
-	aQavlaKJW7niWs/hWxu7+kOa6MYrlIV6g8KzXf7CuWLYe+PneLGYruiv1lsFHAjBl8xS0be93UMpe
-	3MjTJ8Hg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	MIME-Version:References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=maM97s3eFQlA/M/G3Jihob/eazYq2PwLut4O6wEcl54=; b=C1TEv9Zo0pDclXgKOCrpBOC1lU
+	p7lsitpwU+zdXNHa0f7Z/f4ZDiDl71Mqg3YVwHfwCgFOmAqmevdcz4xjEXW4XB5Bo8n9lds3DNs1C
+	51+kDLGJ63hwFdXmYgIvRCihfAQrgI3rWGefUkOL1JhO7fXyLwgLRWMyddB7q2dd1WZTIMrzCwJO/
+	K/pJPxGZzv1PZzWE+V2myFeYGF4ahM2pXQmskBHvPZJUF040SiKwTR7p09e7DiFj/Al+RaWjrerGJ
+	o27/EDZ+MzcBDj14iBn8BYKjY5u5S0ELywy0DwvW/0FmcJu1JKpy9Fvb+Pt4XUxrsk9KHRycdW+1N
+	nf2tO6rA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mqx00-00DcuI-IT; Sat, 27 Nov 2021 12:40:12 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1mr7nC-00Efug-3u; Sun, 28 Nov 2021 00:11:42 +0000
+Received: from mailbackend.panix.com ([166.84.1.89])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mqwzw-00Dct5-Mn
- for linux-nvme@lists.infradead.org; Sat, 27 Nov 2021 12:40:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638016805;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=5WcWZFhOByDkZ2pfDN8pbu4aVIIlyns15aJ8lakV6u8=;
- b=OkKZz0vanJ1MHypsyLBTUgLKxXURwBZDP+oSfLkS2odT2Oa3KIf/ZNDXK53ajXII1vVsGd
- 2MWfuz8j8KJQiOHacx04eycm8cvnRc8/kfr/uCwEySJPdRorRdKEE+WQU6A/Sc9sM5UPRb
- sS8KYICGJCMCCokz927KY7sZwmdnlGU=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-243-yy9v9GXmOGSuoggKUlI0zA-1; Sat, 27 Nov 2021 07:40:03 -0500
-X-MC-Unique: yy9v9GXmOGSuoggKUlI0zA-1
-Received: by mail-yb1-f200.google.com with SMTP id
- l28-20020a25b31c000000b005c27dd4987bso14539420ybj.18
- for <linux-nvme@lists.infradead.org>; Sat, 27 Nov 2021 04:40:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=5WcWZFhOByDkZ2pfDN8pbu4aVIIlyns15aJ8lakV6u8=;
- b=ZLFcreSZ9y6QCTDSmci8MuE8TosrbJYpHRXaql27zus4JA2kQN7g7Ya//HwRBpPxer
- Mm5UJ+FULR2v+WXQuVQtAVTNutGla7LjCITyJBVS4QdJfFAKVmC3MIBJxotgzgAPSIQG
- nw6SksDjLpl1x4lOQKXHPsiI+/vW2H2RsHmPTl4j22wrlM9Fj+D470+IoEl+ZdC2kdAu
- uNSXf1KsJ8MsANXeD9m+MJyPDa34TFpJNYBbxTk1Ag1NzqMFyecfvl21UOHG2sHRUKmN
- kt4eyzG0v9UTXn1wox9cLyumlvW669iGF8L0EFwetpuClnaQVbC9TxeAuTfATVOFp0Dj
- NAMA==
-X-Gm-Message-State: AOAM530zerboYInH/SNflVmgSgF+K3UghzS2Qxh9cj5yvWAvna6M3UVL
- 1UO10tYJc+WqU4k4WkZBCRwLutkh2M1ZHtS34kkOE1ynDtk7nElFbTsi/FRe9Lp6LAvFg9bLX1i
- ooSco9vBNuPSpVvfjpzNmiGHVlc1JGVGVSKtAqoPdBp4=
-X-Received: by 2002:a25:8746:: with SMTP id e6mr24854647ybn.138.1638016803085; 
- Sat, 27 Nov 2021 04:40:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw5zRVdWNlvHRCOe+6F7jt7hFdRCpl2hfosUZ7VHdTl3kq8irSTA+eJNAl6UDBaF3UBXiQO2odDkMyBRaecxtU=
-X-Received: by 2002:a25:8746:: with SMTP id e6mr24854609ybn.138.1638016802696; 
- Sat, 27 Nov 2021 04:40:02 -0800 (PST)
+ id 1mr7n9-00EfuI-6F
+ for linux-nvme@lists.infradead.org; Sun, 28 Nov 2021 00:11:40 +0000
+Received: from xps-7390.lan (mobile-166-172-187-190.mycingular.net
+ [166.172.187.190])
+ by mailbackend.panix.com (Postfix) with ESMTPSA id 4J1pn21bDvz3rvq;
+ Sat, 27 Nov 2021 19:11:34 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
+ t=1638058295; bh=54ypOB+ijgfXMIzAJ3Y0gyBZ73m6bLpMirz7eYhg7Zw=;
+ h=Date:From:Reply-To:To:cc:Subject:In-Reply-To:References;
+ b=RO/d+G0ZjwEhnybrmtseZs4rGg4ih6PNn2ORJl6olZDHHDZeVY4XrkB5PuIQsJRQT
+ /CBkkcqNI9d4KcEgltil+OO6NhblXO1crj4UtUN9pr7u8RH/ESo4dJOwEB8HEbyIqX
+ xKO8ta54U/AsaAF5DSC7rUQ0V4XextNQxIAZxHqc=
+Date: Sat, 27 Nov 2021 16:11:31 -0800 (PST)
+From: "Kenneth R. Crudup" <kenny@panix.com>
+To: Jens Axboe <axboe@kernel.dk>
+cc: linux-bcache@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
+ "Kenneth R. Crudup" <kenny@panix.com>
+Subject: Re: Write I/O queue hangup at random on recent Linus' kernels
+In-Reply-To: <a4d728c2-703d-66be-bffd-3bfde0fddf41@kernel.dk>
+Message-ID: <b549b4ce-4156-eaab-a146-1fa52f51b642@panix.com>
+References: <b3ba57a7-d363-9c17-c4be-9dbe86875@panix.com>
+ <b9c2681f-e63a-4d3b-913d-d8a75e2c2ea0@kernel.dk>
+ <be6a783-97db-c3bf-b16f-e8c62b14755d@panix.com>
+ <17206ea6-506d-b1de-09e8-c935ff308bd6@kernel.dk>
+ <903be817-4118-f34e-1b35-a0108045590f@kernel.dk>
+ <986e942b-d430-783b-5b1c-4525d4a94e48@panix.com>
+ <ddc41b84-c414-006a-0840-250281caf1e5@kernel.dk>
+ <1ff86d55-f39d-f88b-b8d-b6dfbd2f1b19@panix.com>
+ <a4d728c2-703d-66be-bffd-3bfde0fddf41@kernel.dk>
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sat, 27 Nov 2021 20:39:51 +0800
-Message-ID: <CAHj4cs_i-94okB1yu2d8gEbn_We=7qJfqG9Ev0K9qSgsGJSkBQ@mail.gmail.com>
-Subject: [regression] blktests nvme/002 nvme/016 nvme/017 failed from v5.16-rc1
-To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211127_044008_859538_34A318C4 
-X-CRM114-Status: UNSURE (   7.36  )
+X-CRM114-CacheID: sfid-20211127_161139_417349_719104A0 
+X-CRM114-Status: UNSURE (   3.84  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -86,81 +71,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: "Kenneth R. Crudup" <kenny@panix.com>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
-blktests[2] failed from v5.16-rc1, and the bisecting showed it was
-introduced from [1], pls check it.
 
-[1]
-2953b30b1d9feb1bc555682e64e6479d197b9231 is the first bad commit
-commit 2953b30b1d9feb1bc555682e64e6479d197b9231
-Author: Hannes Reinecke <hare@suse.de>
-Date:   Mon Oct 18 17:21:38 2021 +0200
+On Fri, 26 Nov 2021, Jens Axboe wrote:
 
-    nvmet: register discovery subsystem as 'current'
+>>> That said, I'm pretty confident in the fix,
 
-    Register the discovery subsystem as the 'current' discovery subsystem,
-    and add a new discovery log page entry for it.
+Moot point kinda, as I see the fix in Linus' master, but yeah, it's working here.
 
-    Signed-off-by: Hannes Reinecke <hare@suse.de>
-    Signed-off-by: Christoph Hellwig <hch@lst.de>
+	-Kenny
 
- drivers/nvme/target/core.c      |  1 +
- drivers/nvme/target/discovery.c | 17 +++++++++++------
- 2 files changed, 12 insertions(+), 6 deletions(-)
-
-[2]
-# ./check nvme/002 nvme/016 nvme/017
-nvme/002 (create many subsystems and test discovery)         [failed]
-    runtime  2.092s  ...  12.200s
-    --- tests/nvme/002.out 2021-11-27 00:28:12.066040369 -0500
-    +++ /root/blktests/results/nodev/nvme/002.out.bad 2021-11-27
-07:31:13.452891961 -0500
-    @@ -1,3003 +1,3006 @@
-     Running nvme/002
-    -Discovery Log Number of Records 1000, Generation counter X
-    +Discovery Log Number of Records 1001, Generation counter X
-     =====Discovery Log Entry 0======
-     trtype:  loop
-    -subnqn:  blktests-subsystem-0
-    +subnqn:  nqn.2014-08.org.nvmexpress.discovery
-    ...
-    (Run 'diff -u tests/nvme/002.out
-/root/blktests/results/nodev/nvme/002.out.bad' to see the entire diff)
-nvme/016 (create/delete many NVMeOF block device-backed ns and test
-discovery) [failed]
-    runtime  7.444s  ...  7.894s
-    --- tests/nvme/016.out 2021-11-27 00:28:12.069040481 -0500
-    +++ /root/blktests/results/nodev/nvme/016.out.bad 2021-11-27
-07:31:21.446186124 -0500
-    @@ -1,6 +1,9 @@
-     Running nvme/016
-    -Discovery Log Number of Records 1, Generation counter X
-    +Discovery Log Number of Records 2, Generation counter X
-     =====Discovery Log Entry 0======
-     trtype:  loop
-    +subnqn:  nqn.2014-08.org.nvmexpress.discovery
-    +=====Discovery Log Entry 1======
-    ...
-    (Run 'diff -u tests/nvme/016.out
-/root/blktests/results/nodev/nvme/016.out.bad' to see the entire diff)
-nvme/017 (create/delete many file-ns and test discovery)     [failed]
-    runtime    ...  7.578s
-    --- tests/nvme/017.out 2021-11-27 00:28:12.069040481 -0500
-    +++ /root/blktests/results/nodev/nvme/017.out.bad 2021-11-27
-07:31:29.103467922 -0500
-    @@ -1,6 +1,9 @@
-     Running nvme/017
-    -Discovery Log Number of Records 1, Generation counter X
-    +Discovery Log Number of Records 2, Generation counter X
-     =====Discovery Log Entry 0======
-     trtype:  loop
-    +subnqn:  nqn.2014-08.org.nvmexpress.discovery
-    +=====Discovery Log Entry 1======
-    ...
-    (Run 'diff -u tests/nvme/017.out
-/root/blktests/results/nodev/nvme/017.out.bad' to see the entire diff)
-
+-- 
+Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange County CA
 
