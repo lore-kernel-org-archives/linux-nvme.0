@@ -4,71 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADBBAC433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Nov 2021 13:36:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 250F1C433FE
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Nov 2021 14:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nCE19fGrcU9HRqfzrHosUulq2z9AJaSHYhdRwcuWwAA=; b=a8j4EMuxq5ub/WXwer4YZ1S9u+
-	0ZMTatv/PaHdavfNn0P4EJhk8THLM0rYlbUSjXBfazcci2DWQbkPuUPNpCcJ5tSiMUyNVCkuzHHa9
-	88o+M+BsNw3fBUtLS2HPbCpGk5Qvz65BgHMT2aSzDO3c5GhE7bcVw1d2cHoguAh7uIE7hRpvVT6Rc
-	vDqriV4lFm7AkkcScaN1uIRDEeBKDRm7Lvovh6PNSmuoGR7YG3RLkACMn3Krvhg30bak7nkg1aEf7
-	01v9VB6n4d3yQ6K6efFQDWnmE33vUXZ3OK2cQyZnp6DHufhL5Q/3f9EGUsqAIIk4DHCOYZjkjAjpB
-	TtfU8NTw==;
+	bh=Txps8BV5KXXLE5Z8Dj4HtwZJIjHx8LsUHB2vb03furM=; b=bEiV8sg83KgF1uoZIvXaQnLuGS
+	Le6F1qlGn99Itb73m48QC64u1MyxEvdevTYd+qkj8E26jIGq+xcQX7TrQLdp/uoKYwlGS6qRPBCSj
+	XQRw/hA/qmK8V0M39lpd5VtXS2nWIU7+j7UFo5pU5NxafdaYQqKtCqZ5WD5kS8oNCnFDPqVROQTjA
+	kpotK7Q2Bu7XfSCUd/cv+yy4TAnQ/dxdqBCUpHCK5SZNJufW3owSKF2ZGvahZar41nLsO/dj31fPS
+	ViDbYlRIMoZh/3Skx/1Ma1NcN89R9PMKjmsQuhTsn0cR0sxsEEOoPFcWPiFD6ANmW1rpCDD/Pus0Q
+	pcJaHzQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrKMM-00Frei-0E; Sun, 28 Nov 2021 13:36:50 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1mrLVt-00FzsH-1W; Sun, 28 Nov 2021 14:50:45 +0000
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrKMI-00Fre1-TG
- for linux-nvme@lists.infradead.org; Sun, 28 Nov 2021 13:36:48 +0000
-Received: by mail-wm1-f47.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so10415542wmc.2
- for <linux-nvme@lists.infradead.org>; Sun, 28 Nov 2021 05:36:46 -0800 (PST)
+ id 1mrLVp-00FzrW-Tj
+ for linux-nvme@lists.infradead.org; Sun, 28 Nov 2021 14:50:43 +0000
+Received: by mail-io1-xd35.google.com with SMTP id 14so17709015ioe.2
+ for <linux-nvme@lists.infradead.org>; Sun, 28 Nov 2021 06:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Txps8BV5KXXLE5Z8Dj4HtwZJIjHx8LsUHB2vb03furM=;
+ b=RiTzv1xSgdvwqnqWp1SXVPrTRBpb6DAg2TnKPceezDniBL2S1NlsonFMXDz+45YHO1
+ BFIMKqdBc445J8nJfMwWjBLKzbxvlekQBNG+/tLTBdUs9dOXF8l06CLOeehBcYDkSjFg
+ lPNfFvxzd7Uhkq6B67VDg0SJSb3gZ94qDT+srk+nHBI8z5oGgs5f+Th6ZGOCdv9DUqCQ
+ E3p2Fu8+sIqRXqw/bSOGqX7vi4/JKRGEw1kLcDvUbcVRoBLDvU5us2mBfCOHTa6Q+L6F
+ tF9CY4KfFjx5LR/uTlm1vqtnZTSmuzl40A2UTPxF9XmouhSBeqVajze+KY76eljOjjCI
+ mTbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nCE19fGrcU9HRqfzrHosUulq2z9AJaSHYhdRwcuWwAA=;
- b=n6rVX2HSrLLQI/M4gnWB8H/iSqnEOvf6my9gHGQpckgZunuSOqMHTPCsCTSSVPTsm9
- 9+dJnVWu3J8rVl+uqmSmfszoR98Dqmg+lhA3MBpdTaWuJQqwWxpNQbzwbMIk6PZ3SMs9
- DX602ALN7syUjj2PuzESNKvjqMVxJuQu8yt4RyorARNAH2clIcWuW+uL97h0EOKcyELR
- Dkf6NzZZ9Q8zmyVjg3RqCrr7JOYAHtLf2UVW93I1AE8Nsy+z2Acv3z2uNzs9ayti7o6T
- Th5B1aURY8yCZQOi0MyefyqfthwFRMY/mVg/mrEldUvkNV5T1UrGanzcv8QBYTkhE/y1
- Mpxw==
-X-Gm-Message-State: AOAM533LTNeTPdYJ/BsJx8tNSqJ9ILM1bXIUQsrfkwQm02hvJgF6UBxK
- 29AxieOjOujKyYNwxlsUYUxv3e3ML8M=
-X-Google-Smtp-Source: ABdhPJxKyE1sO0E0UwPaez9wGFPKaGR01T5jxdVSleV3cXddZxBzaJK6zCMvu+gQpCBxMUwrxnbl9A==
-X-Received: by 2002:a1c:4d15:: with SMTP id o21mr28903216wmh.171.1638106604709; 
- Sun, 28 Nov 2021 05:36:44 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id c6sm21948732wmq.46.2021.11.28.05.36.43
+ bh=Txps8BV5KXXLE5Z8Dj4HtwZJIjHx8LsUHB2vb03furM=;
+ b=x25i+nmgCE3nXE7zUH+wHEyeQof+gr/oZCaJyZ6SzAqCRZU09bWAuh8HzeJuuaUL5E
+ HhJNNi7MP4AG9O/5+FDlWeqXLEqzu6PboWDYkp+Hmi50ArKUegoh7VzKJVspgl2UTvRH
+ YkZjoG78C6XAhCoVaehEg1T+e7Pf5P6L9CR0qDFXg61YnhAFLpMr1zvTK1qZ5sO55WN0
+ w4JGcEa8eol80CdG2KddlIDKTvJB6B16qlpV/CGUk2JaPDWDuVf+2tXZpN+7lsf8irpg
+ Ucq/0eEVYVKERZ8eUx4QeGLNZMnI8q3xHasi1RZvoacOwchKm9zKO8mVBtJs1BMTDnMq
+ FUGA==
+X-Gm-Message-State: AOAM532zrFGyItogOoVi/1YQRxu/Op1WGohXyTP1OK7R+dRvmn8OGq3N
+ A1JWjY1rq3zEBl2CBDiFpsOmRw==
+X-Google-Smtp-Source: ABdhPJyLSvA0K16M7WTbsvdBpW4pLzudrSbFlFJc6kW9I+0NBLSERL16NBvWVxYaC6PS327/5+okjw==
+X-Received: by 2002:a02:9609:: with SMTP id c9mr62298537jai.118.1638111040447; 
+ Sun, 28 Nov 2021 06:50:40 -0800 (PST)
+Received: from [192.168.1.116] ([66.219.217.159])
+ by smtp.gmail.com with ESMTPSA id s9sm6817343iow.48.2021.11.28.06.50.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Nov 2021 05:36:44 -0800 (PST)
-Subject: Re: [PATCH 09/10] nvme/042: test bi-directional authentication
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- Omar Sandoval <osandov@fb.com>, linux-nvme@lists.infradead.org
-References: <20211123074940.113390-1-hare@suse.de>
- <20211123074940.113390-10-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <ffe973a1-1856-e2e7-9695-cb2ce532de3b@grimberg.me>
-Date: Sun, 28 Nov 2021 15:36:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Sun, 28 Nov 2021 06:50:39 -0800 (PST)
+Subject: Re: Write I/O queue hangup at random on recent Linus' kernels
+To: "Kenneth R. Crudup" <kenny@panix.com>
+Cc: linux-bcache@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+References: <b3ba57a7-d363-9c17-c4be-9dbe86875@panix.com>
+ <b9c2681f-e63a-4d3b-913d-d8a75e2c2ea0@kernel.dk>
+ <be6a783-97db-c3bf-b16f-e8c62b14755d@panix.com>
+ <17206ea6-506d-b1de-09e8-c935ff308bd6@kernel.dk>
+ <903be817-4118-f34e-1b35-a0108045590f@kernel.dk>
+ <986e942b-d430-783b-5b1c-4525d4a94e48@panix.com>
+ <ddc41b84-c414-006a-0840-250281caf1e5@kernel.dk>
+ <1ff86d55-f39d-f88b-b8d-b6dfbd2f1b19@panix.com>
+ <a4d728c2-703d-66be-bffd-3bfde0fddf41@kernel.dk>
+ <b549b4ce-4156-eaab-a146-1fa52f51b642@panix.com>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <838c86fa-bb3d-6794-64fd-35b81c62bbb6@kernel.dk>
+Date: Sun, 28 Nov 2021 07:50:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20211123074940.113390-10-hare@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <b549b4ce-4156-eaab-a146-1fa52f51b642@panix.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211128_053646_980147_33C2C97F 
-X-CRM114-Status: GOOD (  18.28  )
+X-CRM114-CacheID: sfid-20211128_065042_057648_C8214D6B 
+X-CRM114-Status: UNSURE (   9.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,104 +102,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 11/23/21 9:49 AM, Hannes Reinecke wrote:
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   tests/nvme/042     | 107 +++++++++++++++++++++++++++++++++++++++++++++
->   tests/nvme/042.out |   8 ++++
->   2 files changed, 115 insertions(+)
->   create mode 100644 tests/nvme/042
->   create mode 100644 tests/nvme/042.out
+On 11/27/21 5:11 PM, Kenneth R. Crudup wrote:
 > 
-> diff --git a/tests/nvme/042 b/tests/nvme/042
-> new file mode 100644
-> index 0000000..f3954b4
-> --- /dev/null
-> +++ b/tests/nvme/042
-> @@ -0,0 +1,107 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
-> +#
-> +# Test bi-directional authentication
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="Test bi-directional authentication"
-> +QUICK=1
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_have_modules loop
-> +	_require_nvme_trtype_is_fabrics
-> +}
-> +
-> +
-> +test() {
-> +	local port
-> +	local subsys="blktests-subsystem-1"
-> +	local hostid="$(uuidgen)"
-> +	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-> +	local scratch="/tmp/blktest-ns1.img"
-> +	local hostkey
-> +	local ctrlkey
-> +	local ctrldev
-> +
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	hostkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
-> +	if [ $? -ne 0 ] ; then
-> +		echo "nvme gen-dhchap-key command missing"
-> +		return 1
-> +	fi
-> +
-> +	ctrlkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
-> +	if [ $? -ne 0 ] ; then
-> +		echo "nvme gen-dhchap-key command missing"
-> +		return 1
-> +	fi
-> +
-> +	_setup_nvmet
-> +
-> +	truncate -s 512M "${scratch}"
-> +
-> +	port="$(_create_nvmet_port "${nvme_trtype}")"
-> +
-> +	_create_nvmet_subsystem "${subsys}" "${scratch}"
-> +	_add_nvmet_subsys_to_port "${port}" "${subsys}"
-> +	_create_nvmet_host "${subsys}" "${hostnqn}" "${hostkey}" "${ctrlkey}"
-> +
-> +	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
-> +
-> +	# Step 1: Connect with host authentication only
-> +	echo "Test host authentication"
-> +	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
-> +			     "${def_traddr}" "${def_trsvcid}" \
-> +			     "${hostnqn}" "${hostid}" \
-> +			     "${hostkey}"
-> +
-> +	ctrldev=$(_find_nvme_dev "${subsys}")
-> +	if [ -z "$ctrldev" ] ; then
-> +		echo "nvme controller not found"
-> +	fi
-> +
-> +	_nvme_disconnect_subsys "${subsys}"
-> +
-> +	# Step 2: Connect with host authentication
-> +	# and invalid ctrl authentication
-> +	echo "Test host authentication and invalid ctrl authentication"
-> +	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
-> +			     "${def_traddr}" "${def_trsvcid}" \
-> +			     "${hostnqn}" "${hostid}" \
-> +			     "${hostkey}" "${hostkey}"
-> +	ctrldev=$(_find_nvme_dev "${subsys}1")
-> +	if [ -n "${ctrldev}" ] ; then
-> +		echo "nvme controller found!"
-> +		_nvme_disconnect_subsys "${ctrldev}"
-> +	fi
+> On Fri, 26 Nov 2021, Jens Axboe wrote:
+> 
+>>>> That said, I'm pretty confident in the fix,
+> 
+> Moot point kinda, as I see the fix in Linus' master, but yeah, it's
+> working here.
 
-This test case has a weird behavior. Why isn't _nvme_connect_subsys
-failing?
+Thanks for testing! I had a high level of confidence in that fix, and
+wanted to flush it out before -rc3. But testing is always appreciated,
+and thanks for the initial report as well.
+
+-- 
+Jens Axboe
+
 
