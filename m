@@ -4,78 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DADCC433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Nov 2021 13:09:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81029C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Nov 2021 16:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jsk6SyRSsTfqfjpICPSerEh5Cbyd40I5poC6DaH97xI=; b=W19bpO1t9b4+cu3SF03Ybw0xoD
-	gpwGaMvBbYK12dSt4y/rZ0H9qGKcCfz3YUHx3ueGFUlXP7GALrlXWwILJ4fATGrylx/WPkCBwbHcS
-	XwGMGTzYMo0CEQigiGveWm357HQM33JIaXtuHSjUFaUnj076WkIHih3c/jKzLM9m6xvBcDLnTD/8Y
-	zZH4xowHvH3+/yZs/Esar0tc1EDkRQA0/qDaplCqW+LogeTXpwRGgSQ4179HibCosBcpGEHAM9DF7
-	bGHghsCJoJTP+6VE2P+wwg9++tvYOVGgLop7fY+n2O/kUu0yltea4kNcf2loGk6eeceFHUs1zeR66
-	OBZwOQow==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=zo6yyrOztiDlHQocXaG+jq3KbVYP7HzvFv9IO6Bj/vI=; b=ovm816tz9BDkaQhtWpWG5j2/X6
+	V4qgsS0pi6dlsKD9zJTF5sASTUNCGpnL6BBUDmJdZWRidkM20v5nTrh6hNl3Frt0ZOE9yxCWLtc0U
+	6iiAECg9UMIj6QCH1ZvXz4+msImFHgjX7MzDCYnRlZIgB65m5bS26wT4Lgv2CEXo5YIW1bBn/D5y5
+	hFtHh2G/uGDdGw5bN4BAxcicXz55fbNciEopbMFbjliRNQbMK6w+gO8aSDIT2XoUvkxyIe2CXoJN5
+	ZkBO0WZ7sioe2JwiJEJbpnJiPp9Khc45XdgEAhAJuCUnmKDei/wLNRnwm3mRFhzaduUyp1TurQ/p2
+	kKamGLbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrgPc-000nrS-GX; Mon, 29 Nov 2021 13:09:40 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mrjBX-001O8i-GY; Mon, 29 Nov 2021 16:07:19 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrgPZ-000nq0-9W
- for linux-nvme@lists.infradead.org; Mon, 29 Nov 2021 13:09:39 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ id 1mrjBU-001O82-VY
+ for linux-nvme@lists.infradead.org; Mon, 29 Nov 2021 16:07:18 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 055911FCA1
- for <linux-nvme@lists.infradead.org>; Mon, 29 Nov 2021 13:09:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638191374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jsk6SyRSsTfqfjpICPSerEh5Cbyd40I5poC6DaH97xI=;
- b=uYmmOvyhmol+guQr31x6xNfyli2voyK/6ZamtcoW0qPJZ8ihJx2cJJHH7L79FIiMOA6jNQ
- J5DTgJR9pN1+5qq9hkaN/a3bMkYBARhB3CiiqjgzmEevhrQssSsoXsLONu4STgveVBsEjL
- ZMPjWa2dsWuG4k5yOFeIXaR/aW8wBUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638191374;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jsk6SyRSsTfqfjpICPSerEh5Cbyd40I5poC6DaH97xI=;
- b=TkKw9AgjofH3i3J7ztNfEcITTCHQSBU56Wfmaka8adqh2mBtONq3WQlmap2knk4Do1cYce
- qOdxqYgHEcjWyNAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CBF4B13ABC
- for <linux-nvme@lists.infradead.org>; Mon, 29 Nov 2021 13:09:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Zd6MKQ3RpGF+SgAAMHmgww
- (envelope-from <hare@suse.de>)
- for <linux-nvme@lists.infradead.org>; Mon, 29 Nov 2021 13:09:33 +0000
-Subject: Re: [PATCH libnvme v2] fabrics: fix endless loop in connect-all for
- NVME_NQN_CURR
-To: linux-nvme@lists.infradead.org
-References: <20211128130303.490972-1-sagi@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <f36c1d47-f0bc-7d29-18b4-4643b093c6cf@suse.de>
-Date: Mon, 29 Nov 2021 14:09:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F40C2615AA;
+ Mon, 29 Nov 2021 16:07:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC44C56749;
+ Mon, 29 Nov 2021 16:07:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638202034;
+ bh=Lr2g2GvA4BF3kCJvaRNKTU/t5xOxfN6NnJ8oCYgRaII=;
+ h=From:To:Cc:Subject:Date:From;
+ b=rCb7ZMxU2GEWWpZmQfSDmr8A+et/1gdrEtY5KJscZK+bU/E8JZ1T4p/zb1PYoqnVD
+ 8DCzj1WQDXzNnxc4zB5grD9AgRCBSKRzZ69wMuTPjQEIHaQJ59i3QEQDpdNBchdhl0
+ ZY2bAM3S+pygqh6qfyhjC8OGuMdTpWWqt4+XIK9mt+OGO3b4IeWAEbmtppFh7YHzrX
+ iCTzJPupF3dk6v5WXgc0IleL0E3sUbt3QoHklf+fH+ibwIcv2v+D77rklfcUTQoDtx
+ 0hAsBsm1NQPfh30YPB1f3Fi4/7+ApWJygjwjh6PIqiT3KZZwMxopzijB5y6b1TQ82H
+ zK+C2Xj7O/Fag==
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCHv2] nvme: disable namespaces with unsupported metadata
+Date: Mon, 29 Nov 2021 08:07:12 -0800
+Message-Id: <20211129160712.3596738-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <20211128130303.490972-1-sagi@grimberg.me>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211129_050937_560110_FF934AF8 
-X-CRM114-Status: GOOD (  22.01  )
+X-CRM114-CacheID: sfid-20211129_080717_099082_CE8F5AF3 
+X-CRM114-Status: GOOD (  13.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,43 +70,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/28/21 2:03 PM, Sagi Grimberg wrote:
-> For a discovery log page entry that indicates the discovery controller
-> that returned it (i.e. itself), we need to set the controller as
-> discovered (because we got the discovery log page by connecting to it).
-> 
-> Without this connect-all goes in an endless loop keep connecting and
-> retrieving the log page from the same discovery subsystem port.
-> 
-> Fixes: 06a8f001d314 ("tree,fabrics: detect discovery loops")
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
-> Changes from v1:
-> - add break as we don't need the discovery ctrl setting
-> 
->   src/nvme/fabrics.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
-> index 686a5641aa9c..9207296ba957 100644
-> --- a/src/nvme/fabrics.c
-> +++ b/src/nvme/fabrics.c
-> @@ -657,8 +657,10 @@ nvme_ctrl_t nvmf_connect_disc_entry(nvme_host_t h,
->   	}
->   
->   	switch (e->subtype) {
-> -	case NVME_NQN_DISC:
->   	case NVME_NQN_CURR:
-> +		nvme_ctrl_set_discovered(c, true);
-> +		break;
-> +	case NVME_NQN_DISC:
->   		if (discover)
->   			*discover = true;
->   		nvme_ctrl_set_discovery_ctrl(c, true);
-> 
-Merged with https://github.com/linux-nvme/libnvme
+The only fabrics target that supports metadata is RDMA and usable only
+if it is 8B per block, and formatted for protection information. If an
+rdma target were to export a namespace with a different format (ex:
+4k+64B), the driver will not be able to submit valid read/write commands
+for that namespace.
 
-Cheers,
+Suppress setting the metadata feature in the namespace so that the
+gendisk capacity will be set to 0. This will prevent read/write access.
 
-Hannes
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v1->v2: changelog and comment updates
+
+ drivers/nvme/host/core.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4b5de8f5435a..47a941207058 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1740,7 +1740,18 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		 */
+ 		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
+ 			return -EINVAL;
+-		if (ctrl->max_integrity_segments)
++
++		/*
++		 * The current fabrics transport drivers support namespace
++		 * metadata formats only if nvme_ns_has_pi() returns true.
++		 * Suppress setting the feature for all other formats so the
++		 * namespace will have a 0 capacity and not be usable through
++		 * the block stack.
++		 *
++		 * Note, this check will need to be modified if any drivers
++		 * gain the ability to use other metadata formats.
++		 */
++		if (ctrl->max_integrity_segments && nvme_ns_has_pi(ns))
+ 			ns->features |=
+ 				(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
+ 	} else {
+-- 
+2.25.4
+
 
