@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAE46C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 07:38:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CCE4C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 07:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+bkZ+oTSXTZDY84lJmh+NUQelyukHuT6Jz7jbXrpA0M=; b=L8YfSg6sgITVWJ8JrQJed+uc3b
-	m16lwIZTnJh7Rp3S9+KL2P6qwXufL93cAgydFpAfGBktwITZu+wBPH7GMhw4RntUH/vOu/7c0zleS
-	MwC6OFET0h0mFkGpuHG1kGBoBS9V4YUcIZ4WePpKgONLBbO3jCBb/Joo1hX2vhXCfyBQ3pyBqhBxw
-	deE/4lAEGjIupET0e3H50KP2uRfZ7LX3+XhIkaYuqAQPKbpPE8JSw0+6+NV50KiZFCLd4153zMiqN
-	iVqSihpi6qb4oafTQ1D4cg9/NOaY1Bh+upxOCS/7wyHDV/KkB31aEPrN0oiYfo1aMrNoA4O5FENNE
-	W2cDdCsg==;
+	bh=qP5lgzlSfPS1WcUPtQFjVSSj/qUXqQzGqLQNL0G+rkE=; b=3zWt6hEvLZgdZpxs87RnjNxEHJ
+	4v2H5Weh+vwVnNTQgiGN6BD4s7LATdRZe5OBt4c0paTF/yy2W0UL/4V4QsyqDYD6AAW0xfV+UbXES
+	OpGQD4uTP5gUKAGV/fyWhzI01yqq6FNwLss7CJY6r0BuJeHWv2Buo0UybuQAHqGHoHdwsGIvx0w3E
+	hyZHmbguhTCbGpqlAtZX7DNJLTY6BOkwk7vxVh+n6NsOtZvabWF7LzJ8RwD3uoTz2XokbqiNQT6Jg
+	rEc8/P1f7tQlkpdTytCZdDgKtJcfVCgjzHXDJ3axZq+e8r5mO1alr3jwI97FxPfPTgUqIyk3JL+15
+	syBlFYnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mrxj1-003v8W-CS; Tue, 30 Nov 2021 07:38:51 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1mrxjH-003vDk-2s; Tue, 30 Nov 2021 07:39:07 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mrxil-003v3k-UI
- for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 07:38:37 +0000
+ id 1mrxiy-003v76-A9
+ for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 07:38:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1638257915;
+ s=mimecast20190719; t=1638257927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+bkZ+oTSXTZDY84lJmh+NUQelyukHuT6Jz7jbXrpA0M=;
- b=Iwa2H7k14Jl8/qYg3oyMBL97dEkd8CWLEnSoNPq56sLklSIo7IbZEw/OOA6f5MTBi9XlH4
- CvTm74t2jCo4OUn/Q4tN8Jp1KjK3/oPL0r63zN2vYuQgsNrpwUq7Ln5mB4Dsy/FlLNRPAj
- Y1mc1BilfhyfPRudmtdTcexUnK79Nmo=
+ bh=qP5lgzlSfPS1WcUPtQFjVSSj/qUXqQzGqLQNL0G+rkE=;
+ b=TjiUOSZ6NA38hNh/Z8Y3sE5KMANSqPTorAIrc4+E2SzSfCM2LOidrPWwhQJMSvqvMAQIRf
+ bWW7Xw/R5m0KwPPlmehoPs/sac7d3s7QcWi51Wyr810PyS1UKqozWKVsZjujtxoGpGGQ/Z
+ D6/BDlXjE/zhN6jPtP0lb/xO8qyUWvQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-399-xiKcwCS7O-OLh_irlKFMeg-1; Tue, 30 Nov 2021 02:38:30 -0500
-X-MC-Unique: xiKcwCS7O-OLh_irlKFMeg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-464-QyGI1VKwPbepzAfNy_X2bg-1; Tue, 30 Nov 2021 02:38:46 -0500
+X-MC-Unique: QyGI1VKwPbepzAfNy_X2bg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C51291006AA7;
- Tue, 30 Nov 2021 07:38:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1F2580DDFE;
+ Tue, 30 Nov 2021 07:38:44 +0000 (UTC)
 Received: from localhost (ovpn-8-25.pek2.redhat.com [10.72.8.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 431A719724;
- Tue, 30 Nov 2021 07:38:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C935E5D6BA;
+ Tue, 30 Nov 2021 07:38:43 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  "Martin K . Petersen" <martin.petersen@oracle.com>
 Cc: Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
  Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 3/5] blk-mq: add helper of blk_mq_shared_quiesce_wait()
-Date: Tue, 30 Nov 2021 15:37:50 +0800
-Message-Id: <20211130073752.3005936-4-ming.lei@redhat.com>
+Subject: [PATCH V2 5/5] scsi: use blk-mq quiesce APIs to implement
+ scsi_host_block
+Date: Tue, 30 Nov 2021 15:37:52 +0800
+Message-Id: <20211130073752.3005936-6-ming.lei@redhat.com>
 In-Reply-To: <20211130073752.3005936-1-ming.lei@redhat.com>
 References: <20211130073752.3005936-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211129_233836_098857_3332076C 
-X-CRM114-Status: GOOD (  13.86  )
+X-CRM114-CacheID: sfid-20211129_233848_456158_D80D741C 
+X-CRM114-Status: GOOD (  14.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,39 +81,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add helper of blk_mq_shared_quiesce_wait() for supporting to quiesce
-queues in parallel, then we can just wait once if global quiesce wait
-is allowed.
+scsi_host_block() calls synchronize_rcu() directly to wait for
+quiesce done, this way is ugly since it exposes blk-mq quiesce's
+implementation details.
+
+Instead apply blk_mq_wait_quiesce_done() and
+blk_mq_shared_quiesce_wait() for scsi_host_block().
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- include/linux/blk-mq.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/scsi/scsi_lib.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 42fe97adb807..6f3ccd604d72 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -788,6 +788,19 @@ static inline bool blk_mq_add_to_batch(struct request *req,
- 	return true;
- }
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 5e8b5ecb3245..d93bfc08bc1a 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -2952,15 +2952,15 @@ scsi_host_block(struct Scsi_Host *shost)
+ 		}
+ 	}
  
-+/*
-+ * If the queue has allocated & used srcu to quiesce queue, quiesce wait is
-+ * done via the synchronize_srcu(q->rcu), otherwise it can be done via
-+ * shared synchronize_rcu() from other request queues in same host wide.
-+ *
-+ * This helper can help us to support quiescing queue in parallel, so just
-+ * one quiesce wait is enough if shared quiesce wait is allowed.
-+ */
-+static inline bool blk_mq_shared_quiesce_wait(struct request_queue *q)
-+{
-+	return !blk_queue_has_srcu(q);
-+}
-+
- void blk_mq_requeue_request(struct request *rq, bool kick_requeue_list);
- void blk_mq_kick_requeue_list(struct request_queue *q);
- void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
+-	/*
+-	 * SCSI never enables blk-mq's BLK_MQ_F_BLOCKING flag so
+-	 * calling synchronize_rcu() once is enough.
+-	 */
+-	WARN_ON_ONCE(shost->tag_set.flags & BLK_MQ_F_BLOCKING);
+-
+-	if (!ret)
+-		synchronize_rcu();
++	if (!ret) {
++		shost_for_each_device(sdev, shost) {
++			struct request_queue *q = sdev->request_queue;
+ 
++			blk_mq_wait_quiesce_done(q);
++			if (blk_mq_shared_quiesce_wait(q))
++				break;
++		}
++	}
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(scsi_host_block);
 -- 
 2.31.1
 
