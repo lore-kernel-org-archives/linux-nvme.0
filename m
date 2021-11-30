@@ -4,69 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7F3AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 14:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C88A9C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 14:49:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:References:
-	In-reply-to:Content-transfer-encoding:Content-type:MIME-Version:Subject:From:
-	cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BZYi9ht2xy65JyC43IPolVUMbyaxhCW/7gh9Gp9ztQE=; b=atDzUsXXhYQkhF+4oMLE1SQnEu
-	/fFNrf7b57C+El1a74Ek16Owo3R6FW6yZhm1s1QQk4emtfyn1PnrY0jQjq2XZ8zLuQNOkHMNt5AKr
-	hNNV//SsJSR15fsj/caD28mvoVM/gD9FpJXDWQ6kj0BD179D0fOjwZuMJ9bVtQJxVYV7ZjDYPsnkv
-	y9ulXZNYuwlngoF2uR650UXTVhop0H0Q0LkCl72YKwQjY33R8CpmNhwHfbubYf8x+mKrnT26QJdVi
-	+bRfPnIUpxRk2Io4Eujw18RHLNs1rDOnZgRpPw6xrC1vqjzOKmajEo0p+gIjxc9dGoalRk6iI296s
-	cpwXBwwg==;
+	bh=0kQKOE3A6om3j/fAXurxkFIcIEh120mLScao4tVXWVo=; b=eMbfj6wTJlsa3Q4Yo+DXr+EryZ
+	/299APg9SsEzdpJ81NAWvXLUS+XkBEEoLV/IRzk0Y0JyJFEQgM/WitYt0BTbV2VPfKN2Uemx8LUyp
+	q362Frx3ol79PNap46ZAaFjJToYVSwfvCJ3muPMC/N0W3MUDHtNNVIqXgQABQySfNViuRiksNZVu2
+	rIkiT9rIx4JIFpaH0xa5iCVJtS4JCX/iSs/MPHl0D1cIQpG1XpswFR2ThSeyu6Oyrydj5Raunm+Et
+	JnWiJpqp35MDfwogBQLJyBZCL+BXC/DEP3tZZmT+yZ5ex54d/GgZVTL7wC+xU5GhWrepUPgTTcR2x
+	xVI5UL5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ms4P1-005fMV-18; Tue, 30 Nov 2021 14:46:39 +0000
-Received: from phobos.denx.de ([85.214.62.61])
+	id 1ms4RM-005gFB-HI; Tue, 30 Nov 2021 14:49:04 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms4Ow-005fLR-I0
- for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:46:36 +0000
-Received: from janitor.denx.de (unknown [62.91.23.180])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: noc@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 48F3780934
- for <linux-nvme@lists.infradead.org>; Tue, 30 Nov 2021 15:46:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1638283591;
- bh=BZYi9ht2xy65JyC43IPolVUMbyaxhCW/7gh9Gp9ztQE=;
- h=To:cc:From:Subject:In-reply-to:References:Date:From;
- b=GNoFB6LYCzJk67puZ34YgP0GzMEsxMhk/KY5AjDS0CotVlfCu4Eu4JdMWtQZwjY4h
- WxuOOAKoARYScACMJ/yBmSBv1upv7va/zcoqsN7Ybms4N/flq1yVLZNYr3zjxscK7k
- uOtzHGZg89PXXrIUBEOYJ/xQche+e6DT+7kq6BRHii3muXAd1GeWRzu62LyZE2XBea
- s3yr+zQFAhXTYJfFaA8mfa6j3IN0rlT91N31UtTDTVetMxnSBhQOlQibvMPHkgohno
- AKlO9uTMBrvYoWCj/p9qSFZfQMX+/HcGhO9Q2WI32tFMAdo7QKYybRPqph/n1JrmR5
- /rZh8ilCjaTNw==
-Received: by janitor.denx.de (Postfix, from userid 108)
- id B8987A0254; Tue, 30 Nov 2021 15:46:30 +0100 (CET)
-Received: from gemini.denx.de (gemini.denx.de [10.4.0.2])
- by janitor.denx.de (Postfix) with ESMTPS id 8D5B6A00AA;
- Tue, 30 Nov 2021 15:46:25 +0100 (CET)
-Received: from gemini.denx.de (localhost [IPv6:::1])
- by gemini.denx.de (Postfix) with ESMTP id 253191E0BCB;
- Tue, 30 Nov 2021 15:46:25 +0100 (CET)
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-cc: linux-raid@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-accelerators@lists.ozlabs.org, linux-nvme@lists.infradead.org
-From: Wolfgang Denk <wd@denx.de>
-Subject: Re: Using aGPU for RAID calculations (proprietary GRAID SupremeRAID)
+ id 1ms4RF-005gAs-Gn
+ for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:49:00 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id B8E2BCE1A3B;
+ Tue, 30 Nov 2021 14:48:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 029A5C53FD3;
+ Tue, 30 Nov 2021 14:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638283733;
+ bh=A+dUwODXJX9yZUhCZEJM+KQsIhUhtwPPnqKJN2KlFCE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=jHCf40IR8a101NCN/c4Z2yh/mqSxEqj2uaJHKhybqe9QBd/E7JcDtQxvnf+u7w/ZZ
+ y6HD6gAWB5hd8EK2/5eOeONKBbN9yfhdHqBGCqhSjtL+MnC55IXQu5JfowvQPHTqvu
+ O+T/ocQatvP2IfmPS4cuLF1wkz81sTgbzuZZ2oi3ipU2S1Ott1zXNCW/yVENY2PjQc
+ i6EWy6aV7/3ZQI2VAbWX/o+qkah/igVQXKOlxCqDy7XJaGYE6wvWsmBll8HhLpCfxo
+ rwbk8rT67rJIoBVq64FoExOf4gmGQbho/DVaOJXBKvpPDunGfCdtGqeIrJyW0v72Tx
+ BbgNqiAHvKLhw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Maurizio Lombardi <mlombard@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, John Meneghini <jmeneghi@redhat.com>,
+ Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
+ kch@nvidia.com, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.15 40/68] nvmet-tcp: fix a race condition between
+ release_queue and io_work
+Date: Tue, 30 Nov 2021 09:46:36 -0500
+Message-Id: <20211130144707.944580-40-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211130144707.944580-1-sashal@kernel.org>
+References: <20211130144707.944580-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8bit
-In-reply-to: <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de>
-References: <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de>
-Comments: In-reply-to Paul Menzel <pmenzel@molgen.mpg.de>
- message dated "Tue, 30 Nov 2021 12:58:10 +0100."
-Date: Tue, 30 Nov 2021 15:46:25 +0100
-Message-ID: <3846571.1638283585@gemini.denx.de>
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211130_064634_787199_BD127112 
-X-CRM114-Status: GOOD (  22.77  )
+X-CRM114-CacheID: sfid-20211130_064857_796199_C3E74DF4 
+X-CRM114-Status: GOOD (  13.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,38 +77,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear Paul,
+From: Maurizio Lombardi <mlombard@redhat.com>
 
-In message <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de> you wrote:
-> 
-> I read about GRAID SupremeRAID [1], which seems to be an Nvidia T1000 
-> card and software to use the card for RAID calculations.
+[ Upstream commit a208fc56721775987c1b86e20d86d7e0d017c0b2 ]
 
-I doubt this is an efficient way.
+If the initiator executes a reset controller operation while
+performing I/O, the target kernel will crash because of a race condition
+between release_queue and io_work;
+nvmet_tcp_uninit_data_in_cmds() may be executed while io_work
+is running, calling flush_work() was not sufficient to
+prevent this because io_work could requeue itself.
 
-The (IMHO) most efficient solution I have seen so far was the AMCC
-PPC440SPe Power Architecture processors.  These we able to calculate
-the needed parity information on the fly in the DMA controller while
-writing the data to disk.
+Fix this bug by using cancel_work_sync() to prevent io_work
+from requeuing itself and set rcv_state to NVMET_TCP_RECV_ERR to
+make sure we don't receive any more data from the socket.
 
-> Does the Linux kernel already have an API to offload calculations to 
-> accelerator cards, so it’s basically plug and play (with AMD graphics 
-> cards for example using HSA/KFD)? Entropy sources, like the ChaosKey 
-> [3], work like that. If not, would the implementation go under `lib/raid6`?
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: John Meneghini <jmeneghi@redhat.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/target/tcp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-We implemented Linux driver support for adma/async_tx/raid6 for this
-hardware, but that was a long time ago (2008/2009), and I doubt this
-has been tested recently.  But at least some code is still in
-mainline, see for example arch/powerpc/platforms/44x/ppc440spe_dma_engines.c
-
-
-Best regards,
-
-Wolfgang Denk
-
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 84c387e4bf431..18f36256095f6 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1437,7 +1437,9 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	mutex_unlock(&nvmet_tcp_queue_mutex);
+ 
+ 	nvmet_tcp_restore_socket_callbacks(queue);
+-	flush_work(&queue->io_work);
++	cancel_work_sync(&queue->io_work);
++	/* stop accepting incoming data */
++	queue->rcv_state = NVMET_TCP_RECV_ERR;
+ 
+ 	nvmet_tcp_uninit_data_in_cmds(queue);
+ 	nvmet_sq_destroy(&queue->nvme_sq);
 -- 
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-Another megabytes the dust.
+2.33.0
+
 
