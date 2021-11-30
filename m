@@ -4,65 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2C3CC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 15:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D6DDC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 15:48:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EVLw9gT5Xccr6DFN64DtCTFj+ylN0C3A82rSdd0dz8Y=; b=35sZRT0x98D0Mgbo8AAGywp38x
-	YBpbxu2J2XcvPEAcPmANuaYCcEPH+rbXHdgE9zGia7iu+mOHdHoOt4ZsbshaPArY8QXSToKzemteq
-	3AdCZ83LVwoEhTLME5BqxXzrwWd97d0hmX3z99NSI2CcsXRI24w+T+OKyQHXgTFQOCotNFkGX6KUt
-	i8MxVNTFS2PuF+QBAuDgDTELMg4E8M3ESTrq0mUZ844rchy3NiRHGrx7Ji44FNUiCoeGQuDBraeLm
-	bcjkDN87mhMEfNGTdlhd1VCUfy+cpzNfvIJ49s3m8Tgxvmz91dMD/SBE70Y85LJdyLvsoyZYDddhn
-	Ae5M3dIQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Yem1BuocKOhMVeqzyfrh2xHWUe/qu8v7SAxDnEJ+uaI=; b=47Z2HjecKuBu55fmE1lTkEnQ8t
+	iwCikbkgFvJ6PYkSFwsCfofS/3seBAh6fjd1uW8kcnLXA11XSrOueKFijlnjj3I9phYm4GRzN9Tve
+	hjv+7GQiKC6+zbgDU0YQ8pqphv2zNV60T6UJZk+VgWh3er3a60CpOrdaVwIgKPnKMQ253Z1T/bfbZ
+	ghU1jHUFKh3xipCWA05GCB77e9hvouBPlGuTLURyYIDsYdt7dUEqrG/qqZBm2Ea78gx4VlhyekX31
+	NVRC9GPrIIxzfFXChaDdMLqxzi7QOfv5CcJoe3uAFvE908kdLsvVef4roA+Vai4paNARvEe+UCcGv
+	me0Wjo+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ms4tR-005qPk-TW; Tue, 30 Nov 2021 15:18:05 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1ms5MS-005zej-2E; Tue, 30 Nov 2021 15:48:04 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms4Uo-005hyj-Np
- for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:52:40 +0000
+ id 1ms5MO-005zdo-OV
+ for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 15:48:02 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 58FD1B81A61;
- Tue, 30 Nov 2021 14:52:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F74C8D183;
- Tue, 30 Nov 2021 14:52:34 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id E41D3CE1A47;
+ Tue, 30 Nov 2021 15:47:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCE6C53FC7;
+ Tue, 30 Nov 2021 15:47:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638283955;
- bh=2lNfN6gqBj+HB82ICjyKZBy0cFJR3rHodqFLvvA1Ux4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gX5eViLx2EWvd7+rOOzbfyr4PLSiMYUMvAOqel7MoUJmm1hTmOxYPlksRKF9Z0mRP
- HS38TkQkoNgSG5qsf/rPZfQYrP+ok/W/XNnrhgIwLgH42V/Bg9xCGON92V//fy/cFZ
- un725ncK4Y6RKb26VfFTc0MKpYy5VwqDL9RqEJIGRDWZpxE+oJ1bn9hDNEKKAuod23
- zuIH57Itr1wKZc4nMIYMC3sc4+0bv5XNMaWi1KTBUKYtXoZJy+7dhzmabBZuRvWLgo
- cSFhNgaNbPxQkYpNQh4msPjMKnfBCstpyLqVux1PDNQ0YHUokpb5HCdBoe4rBR0Umt
- HRB5/GV0NBkQQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Klaus Jensen <k.jensen@samsung.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
- kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 21/25] nvme: fix write zeroes pi
-Date: Tue, 30 Nov 2021 09:51:51 -0500
-Message-Id: <20211130145156.946083-21-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211130145156.946083-1-sashal@kernel.org>
-References: <20211130145156.946083-1-sashal@kernel.org>
+ s=k20201202; t=1638287277;
+ bh=ht1w0Zxz/2n1bifQGvJqnd2/yqA1jDA28G0XH75K4fs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cxyq76XGheE0psrKTWB/ikTksRmK2Ysik36of6t7Wtq8yMabfKT4tj3cKULpXU6cg
+ FCiUrCm+Od2E1G71M+X8wnb+Kc3INGhzCQX9rpO7oXH/IJGcv8goXBWLTxEz8/kqm+
+ mxmExAQ4kXuIlUEVZ5hPafxzTqn05fMffocZULgnBuTx6h8cd21A9k6Fhowtf/HTEQ
+ Sc2vcc1FtrfrtSCZ6LjMvORgA6NFUJfBvxGzckTdkz5ifN2rqOPlT7CWCUsnVjVqX2
+ 4e1ZaNLEanWh7P2fhT6gUYFrujGwvf5IrbysNqgbxiJWso68tAaPerZ69T7aEqIu/p
+ xzHUj+p0yBEMQ==
+Date: Tue, 30 Nov 2021 07:47:54 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Dongliang Mu <mudongliangabcd@gmail.com>
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] driver: nvme: fix missing error code
+Message-ID: <20211130154754.GA3627665@dhcp-10-100-145-180.wdc.com>
+References: <20211130135015.1818325-1-mudongliangabcd@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211130135015.1818325-1-mudongliangabcd@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211130_065238_997248_C079212E 
-X-CRM114-Status: GOOD (  14.95  )
+X-CRM114-CacheID: sfid-20211130_074800_993583_F1D1D477 
+X-CRM114-Status: GOOD (  20.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,53 +72,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Tue, Nov 30, 2021 at 09:50:14PM +0800, Dongliang Mu wrote:
+> Smatch reports:
+> 
+> drivers/nvme/host/multipath.c:865
+> nvme_mpath_init_identify() warn: missing error code 'error'
+> 
+> In one error handling path of nvme_mpath_init_identify(Line 865), error
+> is not initialized as an errno.
+> 
+> Fix this by assigning error to -EINVAL.
 
-[ Upstream commit 00b33cf3da726757aef636365bb52e9536434e9a ]
+Nak, the code is correct as-is. Returning a negetive error will abort
+the initialization process. We don't need ANA support in order to manage
+this controller, so failing a controller for an optional condition
+isn't helpful.
 
-Write Zeroes sets PRACT when block integrity is enabled (as it should),
-but neglects to also set the reftag which is expected by reads. This
-causes protection errors on reads.
-
-Fix this by setting the reftag for type 1 and 2 (for type 3, reads will
-not check the reftag).
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/core.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5fa48d36954ce..45f89a1ebfa69 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -694,10 +694,19 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
- 		cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
- 	cmnd->write_zeroes.length =
- 		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
--	if (nvme_ns_has_pi(ns))
-+
-+	if (nvme_ns_has_pi(ns)) {
- 		cmnd->write_zeroes.control = cpu_to_le16(NVME_RW_PRINFO_PRACT);
--	else
--		cmnd->write_zeroes.control = 0;
-+
-+		switch (ns->pi_type) {
-+		case NVME_NS_DPS_PI_TYPE1:
-+		case NVME_NS_DPS_PI_TYPE2:
-+			cmnd->write_zeroes.reftag =
-+				cpu_to_le32(t10_pi_ref_tag(req));
-+			break;
-+		}
-+	}
-+
- 	return BLK_STS_OK;
- }
+The other parts of this function returning negetive errors should be
+fixed to return 0, though.
  
--- 
-2.33.0
-
+> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> ---
+>  drivers/nvme/host/multipath.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 7f2071f2460c..2cbeb6d6b064 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -862,6 +862,7 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>  			"ANA log page size (%zd) larger than MDTS (%zd).\n",
+>  			ana_log_size, max_transfer_size);
+>  		dev_err(ctrl->device, "disabling ANA support.\n");
+> +		error = -EINVAL;
+>  		goto out_uninit;
+>  	}
+>  	if (ana_log_size > ctrl->ana_log_size) {
+> -- 
+> 2.25.1
+> 
 
