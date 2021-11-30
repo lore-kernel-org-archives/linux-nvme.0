@@ -4,50 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E62FC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 11:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D983C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 13:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eSAZNwrioyWP+UR9yyaMFD7JpZ37HjCWD71pct7eL0s=; b=fZ8Lj/B03/4Ln8jWoQuTxkoRux
-	gqT+iNifJZ9imsQ3k/xpirUHBxCqJIsx8A9PSTtS2au2tr3va1VN3kXWd3S4o0g9Kj81QZyHnMPyu
-	ApPK2UZ1LLweONdKwBiL3jpeh8RJjeuV0XFM8f7KeVsrBhzHF529AZKUHYH4DP8jjV8xGXli/BUcC
-	58Y9t+4grtfWL7kZQY3I3cm5tjfUFWrxzkh4nBhHhi3+muLrbmcI6ctURc8maMredicBqmentZquQ
-	5TK4UKGSv10w/9B65adiATnsJK4mFvD27OQBCJlqiRlCy+3YcovFI1KTd/Hmr2CDfor5dHIJTSPPj
-	ftw7HTmA==;
+	bh=xmm+qnNre9RCCUNMLh0oisBpzWW72+UVqMfsZCWkkvk=; b=D5Ag1zc8NfusFTuP1XrdBBIWBL
+	xHCq0zzg9sZb4y8LMsm+I/QG3MSBKvFPUi8seWwfXLO9cVpgv50oqYGF+Bzjjz4UfQMOEYHz3o1oR
+	vKixRSm6S4SyVkQ6J8Sutkw/1t+NORZGacnyr3AwjTTNpwd4tRaer1qs83usDtrI0Q3TwAdCjUbE0
+	tzEEtDLQzflDzkes2P/4tg29EP1TPVn3IK1gQUW0uLfRWbzjgLdTBpjcrGLSDlDFGsIlR4OhYy12I
+	pm1FkMRHxdZTvnCuyXJd0aNSQkwMj06UDSbB6iBsrGGZNvXx2bm74F/avciH/YDRagqMIBJc7y2Sp
+	7ZheCeTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ms1mG-004ySw-Ot; Tue, 30 Nov 2021 11:58:28 +0000
-Received: from mx3.molgen.mpg.de ([141.14.17.11] helo=mx1.molgen.mpg.de)
+	id 1ms3Wr-005Q0O-Lh; Tue, 30 Nov 2021 13:50:41 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms1mD-004yPD-7I
- for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 11:58:27 +0000
-Received: from [192.168.0.2] (ip5f5aeac2.dynamic.kabel-deutschland.de
- [95.90.234.194])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 1C59D61E5FE00;
- Tue, 30 Nov 2021 12:58:11 +0100 (CET)
-Message-ID: <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de>
-Date: Tue, 30 Nov 2021 12:58:10 +0100
+ id 1ms3Wh-005PyV-3n
+ for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 13:50:33 +0000
+Received: by mail-pl1-x635.google.com with SMTP id z6so14986441plk.6
+ for <linux-nvme@lists.infradead.org>; Tue, 30 Nov 2021 05:50:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xmm+qnNre9RCCUNMLh0oisBpzWW72+UVqMfsZCWkkvk=;
+ b=JwEoHDCS7McWDh59e+41QLHoBblGaZQar8L/KpMc19mb9Yr0kLCTaKxfAwHR48EkPY
+ 2Zw3t5E/0LqsqC3nQIVoGDT6p7W+iQMkQzK2i6rGJfq+C3SyBKyW44fJ+ZlOFyTCGoS2
+ nvUTf5Kw5xJgouGm1Ggm4irhZRtQCDnxhDa02eepTSX/HbtClF00yfA5e7GD9xaOQRPc
+ 3Ay73XeXIpNZxGFJ2JyPdgCLm/Qt3uv55KlMWIno1hyf9/xGsAQnTTSAHs8zj7UKi9Am
+ nQY0miRHH2G1Kc/qY+fxnnmZ/2nSmeQbJewuiT9NS0U9OaYktxRGvv50uuhXDT6O90YX
+ Ej7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xmm+qnNre9RCCUNMLh0oisBpzWW72+UVqMfsZCWkkvk=;
+ b=phiqrD4Zs6r/bl6ilfK2x9ZU5t8CZqSSebuw/2JTxzmWfbdU3rw0fabJ+XzR9Uvb7g
+ 3tr1930UsSKfP6J3Z1p2ob/X1XNiQ6BKbB1IjkSBvMN8Lp+F0scaUSSreI4qvNF4YDA/
+ eOPO1Zl3bgRwP8uU+WzfTrAsTgbiEjCOdComg05tOiDwZg92i8vujR1VxltmPcSfybZm
+ MDN5XSjuYKdi5yL99EYihb5aWFuI5bENgnQsfTs2MFHdt1g4w1W+ItheaCsQbVV51Slm
+ R6X9mTPIkNQAhI2EfOfLoYsU0IlfNJWNHRRmklKsNMdx9hLJR7i07SSh1f/gaxj+N246
+ PYrQ==
+X-Gm-Message-State: AOAM531I+ubwxaxohMj3SzAJuA+UZBoumrWRBYoUEfdVrXgYiyphednK
+ qksR/qHXj6FWJsST7cMbDoY=
+X-Google-Smtp-Source: ABdhPJx1rjxkJUxTUQRvDwmfb/HBlnFEuxSFucy6W/13/FspMgq3VNTYJCFfuZT6XZNaDVP+V6FQ+g==
+X-Received: by 2002:a17:90b:4f4c:: with SMTP id
+ pj12mr6246540pjb.218.1638280229735; 
+ Tue, 30 Nov 2021 05:50:29 -0800 (PST)
+Received: from localhost.localdomain ([94.177.118.4])
+ by smtp.gmail.com with ESMTPSA id v25sm20992925pfg.175.2021.11.30.05.50.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 05:50:29 -0800 (PST)
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Dongliang Mu <mudongliangabcd@gmail.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] driver: nvme: fix missing error code
+Date: Tue, 30 Nov 2021 21:50:14 +0800
+Message-Id: <20211130135015.1818325-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-To: linux-raid@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-accelerators@lists.ozlabs.org, 
- linux-nvme@lists.infradead.org
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Subject: Using aGPU for RAID calculations (proprietary GRAID SupremeRAID)
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211130_035825_465298_6E439859 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20211130_055031_209382_7CB9034B 
+X-CRM114-Status: GOOD (  11.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,41 +86,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Smatch reports:
 
-Dear Linux folks,
+drivers/nvme/host/multipath.c:865
+nvme_mpath_init_identify() warn: missing error code 'error'
 
+In one error handling path of nvme_mpath_init_identify(Line 865), error
+is not initialized as an errno.
 
-I read about GRAID SupremeRAID [1], which seems to be an Nvidia T1000 
-card and software to use the card for RAID calculations.
+Fix this by assigning error to -EINVAL.
 
-> GRAID SupremeRAID works by installing a virtual NVMe controller onto
-> the operating system and integrating a PCIe device into the system
-> equipped with a high-performance AI processor to handle all RAID
-> operations of the virtual NVMe controller
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/nvme/host/multipath.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-According to the review *GRAID SupremeRAID SR-1000 Review* [2] it 
-performs quite well. I couldn’t find any driver files online.
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 7f2071f2460c..2cbeb6d6b064 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -862,6 +862,7 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 			"ANA log page size (%zd) larger than MDTS (%zd).\n",
+ 			ana_log_size, max_transfer_size);
+ 		dev_err(ctrl->device, "disabling ANA support.\n");
++		error = -EINVAL;
+ 		goto out_uninit;
+ 	}
+ 	if (ana_log_size > ctrl->ana_log_size) {
+-- 
+2.25.1
 
-Now I am wondering, why a graphics card seems to help so much. What 
-operations are there, modern CPUs cannot keep up with?
-
-If GPUs are that much better, are people already working on a FLOSS 
-solution for the Linux kernel, so people can “just” plug in a graphics 
-card to increase the speed?
-
-Does the Linux kernel already have an API to offload calculations to 
-accelerator cards, so it’s basically plug and play (with AMD graphics 
-cards for example using HSA/KFD)? Entropy sources, like the ChaosKey 
-[3], work like that. If not, would the implementation go under `lib/raid6`?
-
-
-Kind regards,
-
-Paul
-
-
-[1]: 
-https://www.graidtech.com/post/graid-reveals-the-next-generation-of-enterprise-data-protection-nvme-ssds
-[2]: https://www.storagereview.com/review/graid-supremeraid-sr-1000-review
-[3]: https://altusmetrum.org/ChaosKey/
 
