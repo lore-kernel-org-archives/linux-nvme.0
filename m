@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 855DDC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 15:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2C3CC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 15:18:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZSIw8AdV7bnfviiNLqRunZgI0yOg51sWNx3TO3BRe74=; b=boUVECWTUdsAgAzGMdCTjAsrSp
-	wNOvamH225/kpShuUCBzPwJtWcOnkiYiWq3x/dLy2iaKnn06fEixLlMY68y9CDDNE3UTvecoRhh2C
-	ZrMAZxQQG/kThLkmO63lZFMC4w9CQrJfpV1hieIgyW58aNpJ+3wMg32uQembM7JLhQMQ0g8plb38j
-	zE1I5SiWds4C/B2k6Ze+8TRfYDAlYSMVZRVuSvVDO+sCa8GHEjAM/OL7wETTvHwOqBwKzmyVb0J9V
-	TBL8ZGDnhasJSRVZRt7BKv9QpnHDhjUdnZAuHIAOJmV3L4gedyBqoY8Wm4x6SuhFYBL0kkEfOIghO
-	ZZW5eYVQ==;
+	bh=EVLw9gT5Xccr6DFN64DtCTFj+ylN0C3A82rSdd0dz8Y=; b=35sZRT0x98D0Mgbo8AAGywp38x
+	YBpbxu2J2XcvPEAcPmANuaYCcEPH+rbXHdgE9zGia7iu+mOHdHoOt4ZsbshaPArY8QXSToKzemteq
+	3AdCZ83LVwoEhTLME5BqxXzrwWd97d0hmX3z99NSI2CcsXRI24w+T+OKyQHXgTFQOCotNFkGX6KUt
+	i8MxVNTFS2PuF+QBAuDgDTELMg4E8M3ESTrq0mUZ844rchy3NiRHGrx7Ji44FNUiCoeGQuDBraeLm
+	bcjkDN87mhMEfNGTdlhd1VCUfy+cpzNfvIJ49s3m8Tgxvmz91dMD/SBE70Y85LJdyLvsoyZYDddhn
+	Ae5M3dIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ms4sv-005qGj-2V; Tue, 30 Nov 2021 15:17:33 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1ms4tR-005qPk-TW; Tue, 30 Nov 2021 15:18:05 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms4Ul-005hx5-LN
- for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:52:37 +0000
+ id 1ms4Uo-005hyj-Np
+ for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:52:40 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 45CE9B81A4F;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 58FD1B81A61;
+ Tue, 30 Nov 2021 14:52:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F74C8D183;
  Tue, 30 Nov 2021 14:52:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07FC5C8D188;
- Tue, 30 Nov 2021 14:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638283954;
- bh=otRf7DSe9U5QDSY7crYhRRCxFCnRmBu+ownlSsOmhuQ=;
+ s=k20201202; t=1638283955;
+ bh=2lNfN6gqBj+HB82ICjyKZBy0cFJR3rHodqFLvvA1Ux4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TU7TKYt6AfQkkGEicWZfy3CWF1GoRpymHNQ/l5AqyPYr11E5QsUoJnVNebMoS5+0E
- II/1gqNHOyKg2/9zveURBqTXz9cY5tKku3kSm6SA5bEy5fooUgwNQ04ah6+yXJYSOK
- kxXlp5zxYfhoxpIdtsRq9FMio6P2bwcTmuPG0F4j6iw3Z0buhZsvAs+8SpN7OtWUH4
- Y/isqIbHlaTVImecmxQOUURoRHOwv6yEnCb0nhvjsqIaS6myu0HpIfQRMhPUX/C4CG
- 8HgGynedvbLpsIKXZ8cJsw9IuKe4LpIcaAQJ39vTW8GRQ5RZNmnLJfrPB4na9rW6Cl
- AX5wSpPYa8uaA==
+ b=gX5eViLx2EWvd7+rOOzbfyr4PLSiMYUMvAOqel7MoUJmm1hTmOxYPlksRKF9Z0mRP
+ HS38TkQkoNgSG5qsf/rPZfQYrP+ok/W/XNnrhgIwLgH42V/Bg9xCGON92V//fy/cFZ
+ un725ncK4Y6RKb26VfFTc0MKpYy5VwqDL9RqEJIGRDWZpxE+oJ1bn9hDNEKKAuod23
+ zuIH57Itr1wKZc4nMIYMC3sc4+0bv5XNMaWi1KTBUKYtXoZJy+7dhzmabBZuRvWLgo
+ cSFhNgaNbPxQkYpNQh4msPjMKnfBCstpyLqVux1PDNQ0YHUokpb5HCdBoe4rBR0Umt
+ HRB5/GV0NBkQQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Enzo Matsumiya <ematsumiya@suse.de>, Christoph Hellwig <hch@lst.de>,
- Sasha Levin <sashal@kernel.org>, kbusch@kernel.org, axboe@fb.com,
- sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 20/25] nvme-pci: add NO APST quirk for Kioxia
- device
-Date: Tue, 30 Nov 2021 09:51:50 -0500
-Message-Id: <20211130145156.946083-20-sashal@kernel.org>
+Cc: Klaus Jensen <k.jensen@samsung.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
+ kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 21/25] nvme: fix write zeroes pi
+Date: Tue, 30 Nov 2021 09:51:51 -0500
+Message-Id: <20211130145156.946083-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211130145156.946083-1-sashal@kernel.org>
 References: <20211130145156.946083-1-sashal@kernel.org>
@@ -60,8 +61,8 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211130_065235_906712_62D2BD7D 
-X-CRM114-Status: GOOD (  14.97  )
+X-CRM114-CacheID: sfid-20211130_065238_997248_C079212E 
+X-CRM114-Status: GOOD (  14.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,51 +77,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Enzo Matsumiya <ematsumiya@suse.de>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-[ Upstream commit 5a6254d55e2a9f7919ead8580d7aa0c7a382b26a ]
+[ Upstream commit 00b33cf3da726757aef636365bb52e9536434e9a ]
 
-This particular Kioxia device times out and aborts I/O during any load,
-but it's more easily observable with discards (fstrim).
+Write Zeroes sets PRACT when block integrity is enabled (as it should),
+but neglects to also set the reftag which is expected by reads. This
+causes protection errors on reads.
 
-The device gets to a state that is also not possible to use
-"nvme set-feature" to disable APST.
-Booting with nvme_core.default_ps_max_latency=0 solves the issue.
+Fix this by setting the reftag for type 1 and 2 (for type 3, reads will
+not check the reftag).
 
-We had a dozen or so of these devices behaving this same way in
-customer environments.
-
-Signed-off-by: Enzo Matsumiya <ematsumiya@suse.de>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/nvme/host/core.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a5b5a2305791d..5fa48d36954ce 100644
+index 5fa48d36954ce..45f89a1ebfa69 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2453,6 +2453,20 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
- 		.vid = 0x14a4,
- 		.fr = "22301111",
- 		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
-+	},
-+	{
-+		/*
-+		 * This Kioxia CD6-V Series / HPE PE8030 device times out and
-+		 * aborts I/O during any load, but more easily reproducible
-+		 * with discards (fstrim).
-+		 *
-+		 * The device is left in a state where it is also not possible
-+		 * to use "nvme set-feature" to disable APST, but booting with
-+		 * nvme_core.default_ps_max_latency=0 works.
-+		 */
-+		.vid = 0x1e0f,
-+		.mn = "KCD6XVUL6T40",
-+		.quirks = NVME_QUIRK_NO_APST,
- 	}
- };
+@@ -694,10 +694,19 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
+ 		cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
+ 	cmnd->write_zeroes.length =
+ 		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
+-	if (nvme_ns_has_pi(ns))
++
++	if (nvme_ns_has_pi(ns)) {
+ 		cmnd->write_zeroes.control = cpu_to_le16(NVME_RW_PRINFO_PRACT);
+-	else
+-		cmnd->write_zeroes.control = 0;
++
++		switch (ns->pi_type) {
++		case NVME_NS_DPS_PI_TYPE1:
++		case NVME_NS_DPS_PI_TYPE2:
++			cmnd->write_zeroes.reftag =
++				cpu_to_le32(t10_pi_ref_tag(req));
++			break;
++		}
++	}
++
+ 	return BLK_STS_OK;
+ }
  
 -- 
 2.33.0
