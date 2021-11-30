@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47CC8C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 14:49:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7494DC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 14:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5G7H1sc6qK1T6xVw4eSbljSFc/XEykRPArWUwxgEeKE=; b=MzSc9Trc2YQJBwil5QSUXCFHvZ
-	RZVpBjldbHPIPwKR02mghw8KYF2DeZIMTcn1EWNqGQqQW+JunapISpMXs/94evjPlaN/qmk5RqXuE
-	Wds8ebeSzv2vNgxXjqlaejvEg/RJ7CJn8IP0y7Kv9bFQBE2gbzUrA3raIG9ghszmBiW2VTtONMrla
-	i8Yz42QltUx+9gF5q5j3ahuykmKDIFhr55u5wOBxV/ZAwkmknvd5nncUSaBAr3FBnK5YzgUFwx8zw
-	QnSRXoKmO9ILxd4mfgo2uU1QrGMTzOdt5PoeM5W3al9X72Nua+4M/jUrCc0B40znmso7+rqKnZvl6
-	ipR8/siA==;
+	bh=DZNPw9YumUIoPsgYFV27vCNoT+ROD45bnf0Nsw25R/Q=; b=tm3047tEkHlpDmeUMv+8H5UtWM
+	3p7LN2RhkRxy32rsNvua5pmYU3blYDqOTnabAycLno3+3y4LVEDf3A+aQPIo7Kgu4hka1mLiugnyU
+	S6VRMmTQK1zyALweDmeS7XlVsvrkAdDonRagoKr0GHzvftmKY275CN7wgLrv61f8uxS3dxNL94a3l
+	2bR88SNo9UeLotTCCl1PJlVxQDgGgVgSdbQ1gdqCjgNS9TwJ7qc6twYrfJnXgHYAwNa3tC5lus7Rg
+	C/gilE8kqhzMJg0GRo0xdDyg/G3PUEnrP2VtmXoYGgIGvF6Tnc8bM9Fg3u9vjVA3b4R/o3OB00HiT
+	dfHx1iiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ms4Rl-005gWm-Jq; Tue, 30 Nov 2021 14:49:29 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1ms4SM-005gqL-Pt; Tue, 30 Nov 2021 14:50:06 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms4RF-005gAp-34
+ id 1ms4RG-005gBu-ID
  for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:49:00 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C1E14B817FA;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 38302B81A2A;
+ Tue, 30 Nov 2021 14:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E942DC53FD2;
  Tue, 30 Nov 2021 14:48:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68415C53FD1;
- Tue, 30 Nov 2021 14:48:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638283735;
- bh=IGj8oNcj1GOKAcY82z+nicBO12BRUez9IwNwAVF24Dk=;
+ s=k20201202; t=1638283736;
+ bh=GvhueYt+SCekSCF1JsdL8Kt4Hd/djiouHtIFM5n5YM8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=T7vPBzOUBjLco+0v9j4NIKpEUxAIRFaU86jXIHoPbKWbh5NmWKkpJX3EuCTqpWipL
- r/8KlGS9zu/jm03N9+OT2Ciun0ifQA7jUYIvk0z7Z/WmMIKDz5LHwfg2fyLFZ1405V
- OQ1YouCPSzAW2kJehhhwzIhcIJHcQxB8oiGQq4PgpY9OKeJ5B8NNH/WQN4yZTjzdqH
- wLlxHjrL4Wfo10mEqi3OTaIt4/0a8lSsN6VJjwlT5BaNSKZeb/40sTK/0tVSnTz8G4
- pRTL00TYUWL8Bvuguis6EWUXLxtMCckUl6rKNh0+4UcokmOMPpbMoqYbBIfLL2N4OD
- 69h7GoqQP/N8A==
+ b=TsdoSiUPIjTRO60bsesEgd/Z35fcqTM/aNcBsY/EkqobA9EoIGG4mqMAVs11eXt6Z
+ vDfi8gtOmPwrnrxLn0kVtxVmGaU2RpOBUv+Z08H69sr3WDMG/eR3/DDMh6iUEaCMsS
+ 7URBJyTlQd+wmwmPvIo0uJ56/zI0cigdnBdK7tbXxtFLyEQG2sz6U9lcx7G6ex28QO
+ fciv6qGh8BANmKpImCvIJN7PQyE+Vumw/QEwT+8tVvyriSN7exmbYTCneLFv8ar/Ne
+ Li+svO4oa+oR76wEmqIMAiJJC9mbCFYh2vkKC16nlr/u+rz9upO1OSd78W7u0QS0FZ
+ gBYmU8Zq9VIYw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,10 +49,10 @@ Cc: Maurizio Lombardi <mlombard@redhat.com>, Keith Busch <kbusch@kernel.org>,
  Sagi Grimberg <sagi@grimberg.me>, John Meneghini <jmeneghi@redhat.com>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  kch@nvidia.com, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 41/68] nvmet-tcp: add an helper to free the cmd
- buffers
-Date: Tue, 30 Nov 2021 09:46:37 -0500
-Message-Id: <20211130144707.944580-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 42/68] nvmet-tcp: fix memory leak when performing
+ a controller reset
+Date: Tue, 30 Nov 2021 09:46:38 -0500
+Message-Id: <20211130144707.944580-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211130144707.944580-1-sashal@kernel.org>
 References: <20211130144707.944580-1-sashal@kernel.org>
@@ -61,8 +61,8 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211130_064857_467849_DB290DFF 
-X-CRM114-Status: GOOD (  16.96  )
+X-CRM114-CacheID: sfid-20211130_064858_790533_3A8C94A5 
+X-CRM114-Status: GOOD (  15.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,13 +79,14 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Maurizio Lombardi <mlombard@redhat.com>
 
-[ Upstream commit 69b85e1f1d1d1e49601ec3e85d2031188657cca2 ]
+[ Upstream commit af21250bb503a02e705b461886321e394b300524 ]
 
-Makes the code easier to read and to debug.
+If a reset controller is executed while the initiator
+is performing some I/O the driver may leak the memory allocated
+for the commands' iovec.
 
-Sets the freed pointers to NULL, it will be useful
-when destroying the queues to understand if the commands'
-buffers have been released already or not.
+Make sure that nvmet_tcp_uninit_data_in_cmds() releases
+all the memory.
 
 Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
@@ -94,90 +95,25 @@ Reviewed-by: John Meneghini <jmeneghi@redhat.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/tcp.c | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ drivers/nvme/target/tcp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 18f36256095f6..786b1440a9af4 100644
+index 786b1440a9af4..605aa2a8ca536 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -166,6 +166,8 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd);
+@@ -1427,7 +1427,10 @@ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
  
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -297,6 +299,16 @@ static int nvmet_tcp_check_ddgst(struct nvmet_tcp_queue *queue, void *pdu)
- 	return 0;
- }
- 
-+static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd)
-+{
-+	WARN_ON(unlikely(cmd->nr_mapped > 0));
+ 	for (i = 0; i < queue->nr_cmds; i++, cmd++) {
+ 		if (nvmet_tcp_need_data_in(cmd))
+-			nvmet_tcp_finish_cmd(cmd);
++			nvmet_req_uninit(&cmd->req);
 +
-+	kfree(cmd->iov);
-+	sgl_free(cmd->req.sg);
-+	cmd->iov = NULL;
-+	cmd->req.sg = NULL;
-+}
-+
- static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- {
- 	struct scatterlist *sg;
-@@ -306,6 +318,8 @@ static void nvmet_tcp_unmap_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- 
- 	for (i = 0; i < cmd->nr_mapped; i++)
- 		kunmap(sg_page(&sg[i]));
-+
-+	cmd->nr_mapped = 0;
- }
- 
- static void nvmet_tcp_map_pdu_iovec(struct nvmet_tcp_cmd *cmd)
-@@ -387,7 +401,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
- 
- 	return 0;
- err:
--	sgl_free(cmd->req.sg);
-+	nvmet_tcp_free_cmd_buffers(cmd);
- 	return NVME_SC_INTERNAL;
- }
- 
-@@ -632,10 +646,8 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- 		}
++		nvmet_tcp_unmap_pdu_iovec(cmd);
++		nvmet_tcp_free_cmd_buffers(cmd);
  	}
  
--	if (queue->nvme_sq.sqhd_disabled) {
--		kfree(cmd->iov);
--		sgl_free(cmd->req.sg);
--	}
-+	if (queue->nvme_sq.sqhd_disabled)
-+		nvmet_tcp_free_cmd_buffers(cmd);
- 
- 	return 1;
- 
-@@ -664,8 +676,7 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
- 	if (left)
- 		return -EAGAIN;
- 
--	kfree(cmd->iov);
--	sgl_free(cmd->req.sg);
-+	nvmet_tcp_free_cmd_buffers(cmd);
- 	cmd->queue->snd_cmd = NULL;
- 	nvmet_tcp_put_cmd(cmd);
- 	return 1;
-@@ -1406,8 +1417,7 @@ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
- {
- 	nvmet_req_uninit(&cmd->req);
- 	nvmet_tcp_unmap_pdu_iovec(cmd);
--	kfree(cmd->iov);
--	sgl_free(cmd->req.sg);
-+	nvmet_tcp_free_cmd_buffers(cmd);
- }
- 
- static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
+ 	if (!queue->nr_cmds && nvmet_tcp_need_data_in(&queue->connect)) {
 -- 
 2.33.0
 
