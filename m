@@ -4,59 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F406C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 14:43:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7F3AC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Nov 2021 14:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w+dti7cgxvn9VOUYEOhW1/hoG+9ku8YX8yhYgxiYq0M=; b=zWxdZMeKCyNHhiDvKJHC1tibpj
-	1S3lgJqZS5KHyALpYEbtk1+1/jSWTH3h8ltCN8QwV2gcU0PlL4i3EIMDh91JvyjXAO5JZzh+Iw3wG
-	BWsFpAsMazZl/rAeybegAYej2cYPAyVgVjjiL1WKBr55nL7EQcbUbDE2Hm0VqpWb0g5DIhNmPjuhk
-	/OW3bfRM6z/UEh+qN8er9Y6OGaDQLBNlnuypEHXJ0RFm7xTYlkYe8HKi/16MBjTJNAuNxQbNyi7G9
-	CSKEGTIFejNBJKsBkkUwpvJr6B+jhIjjqOZ7TmyCSR1wx1txu4LQvcWoNiUdCHX9/E/iR6UadKDUr
-	1LHHlHqg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:References:
+	In-reply-to:Content-transfer-encoding:Content-type:MIME-Version:Subject:From:
+	cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BZYi9ht2xy65JyC43IPolVUMbyaxhCW/7gh9Gp9ztQE=; b=atDzUsXXhYQkhF+4oMLE1SQnEu
+	/fFNrf7b57C+El1a74Ek16Owo3R6FW6yZhm1s1QQk4emtfyn1PnrY0jQjq2XZ8zLuQNOkHMNt5AKr
+	hNNV//SsJSR15fsj/caD28mvoVM/gD9FpJXDWQ6kj0BD179D0fOjwZuMJ9bVtQJxVYV7ZjDYPsnkv
+	y9ulXZNYuwlngoF2uR650UXTVhop0H0Q0LkCl72YKwQjY33R8CpmNhwHfbubYf8x+mKrnT26QJdVi
+	+bRfPnIUpxRk2Io4Eujw18RHLNs1rDOnZgRpPw6xrC1vqjzOKmajEo0p+gIjxc9dGoalRk6iI296s
+	cpwXBwwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ms4Lh-005eva-Hs; Tue, 30 Nov 2021 14:43:13 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1ms4P1-005fMV-18; Tue, 30 Nov 2021 14:46:39 +0000
+Received: from phobos.denx.de ([85.214.62.61])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ms4Le-005ev0-5c
- for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:43:12 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="223454870"
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; d="scan'208";a="223454870"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 06:42:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; d="scan'208";a="595449490"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 30 Nov 2021 06:42:53 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1ms4LM-000DQw-DF; Tue, 30 Nov 2021 14:42:52 +0000
-Date: Tue, 30 Nov 2021 22:42:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH V2 1/5] blk-mq: remove hctx_lock and hctx_unlock
-Message-ID: <202111302217.rEsBycwv-lkp@intel.com>
-References: <20211130073752.3005936-2-ming.lei@redhat.com>
+ id 1ms4Ow-005fLR-I0
+ for linux-nvme@lists.infradead.org; Tue, 30 Nov 2021 14:46:36 +0000
+Received: from janitor.denx.de (unknown [62.91.23.180])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: noc@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 48F3780934
+ for <linux-nvme@lists.infradead.org>; Tue, 30 Nov 2021 15:46:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1638283591;
+ bh=BZYi9ht2xy65JyC43IPolVUMbyaxhCW/7gh9Gp9ztQE=;
+ h=To:cc:From:Subject:In-reply-to:References:Date:From;
+ b=GNoFB6LYCzJk67puZ34YgP0GzMEsxMhk/KY5AjDS0CotVlfCu4Eu4JdMWtQZwjY4h
+ WxuOOAKoARYScACMJ/yBmSBv1upv7va/zcoqsN7Ybms4N/flq1yVLZNYr3zjxscK7k
+ uOtzHGZg89PXXrIUBEOYJ/xQche+e6DT+7kq6BRHii3muXAd1GeWRzu62LyZE2XBea
+ s3yr+zQFAhXTYJfFaA8mfa6j3IN0rlT91N31UtTDTVetMxnSBhQOlQibvMPHkgohno
+ AKlO9uTMBrvYoWCj/p9qSFZfQMX+/HcGhO9Q2WI32tFMAdo7QKYybRPqph/n1JrmR5
+ /rZh8ilCjaTNw==
+Received: by janitor.denx.de (Postfix, from userid 108)
+ id B8987A0254; Tue, 30 Nov 2021 15:46:30 +0100 (CET)
+Received: from gemini.denx.de (gemini.denx.de [10.4.0.2])
+ by janitor.denx.de (Postfix) with ESMTPS id 8D5B6A00AA;
+ Tue, 30 Nov 2021 15:46:25 +0100 (CET)
+Received: from gemini.denx.de (localhost [IPv6:::1])
+ by gemini.denx.de (Postfix) with ESMTP id 253191E0BCB;
+ Tue, 30 Nov 2021 15:46:25 +0100 (CET)
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+cc: linux-raid@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-accelerators@lists.ozlabs.org, linux-nvme@lists.infradead.org
+From: Wolfgang Denk <wd@denx.de>
+Subject: Re: Using aGPU for RAID calculations (proprietary GRAID SupremeRAID)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211130073752.3005936-2-ming.lei@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8bit
+In-reply-to: <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de>
+References: <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de>
+Comments: In-reply-to Paul Menzel <pmenzel@molgen.mpg.de>
+ message dated "Tue, 30 Nov 2021 12:58:10 +0100."
+Date: Tue, 30 Nov 2021 15:46:25 +0100
+Message-ID: <3846571.1638283585@gemini.denx.de>
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211130_064310_297483_3941C6C4 
-X-CRM114-Status: GOOD (  20.26  )
+X-CRM114-CacheID: sfid-20211130_064634_787199_BD127112 
+X-CRM114-Status: GOOD (  22.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,119 +81,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Ming,
+Dear Paul,
 
-Thank you for the patch! Perhaps something to improve:
+In message <ccdbb0d7-d043-d41f-508b-4a464ffa5fe9@molgen.mpg.de> you wrote:
+> 
+> I read about GRAID SupremeRAID [1], which seems to be an Nvidia T1000 
+> card and software to use the card for RAID calculations.
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on mkp-scsi/for-next v5.16-rc3 next-20211130]
-[cannot apply to linux-nvme/for-next hch-configfs/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+I doubt this is an efficient way.
 
-url:    https://github.com/0day-ci/linux/commits/Ming-Lei/blk-mq-quiesce-improvement/20211130-154015
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-config: hexagon-randconfig-r045-20211129 (https://download.01.org/0day-ci/archive/20211130/202111302217.rEsBycwv-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 25eb7fa01d7ebbe67648ea03841cda55b4239ab2)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/4575a8b36e3a56fa87b1f77e0064fc2ec36ebb7c
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Ming-Lei/blk-mq-quiesce-improvement/20211130-154015
-        git checkout 4575a8b36e3a56fa87b1f77e0064fc2ec36ebb7c
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+The (IMHO) most efficient solution I have seen so far was the AMCC
+PPC440SPe Power Architecture processors.  These we able to calculate
+the needed parity information on the fly in the DMA controller while
+writing the data to disk.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> Does the Linux kernel already have an API to offload calculations to 
+> accelerator cards, so it’s basically plug and play (with AMD graphics 
+> cards for example using HSA/KFD)? Entropy sources, like the ChaosKey 
+> [3], work like that. If not, would the implementation go under `lib/raid6`?
 
-All warnings (new ones prefixed by >>):
-
->> block/blk-mq.c:2482:2: warning: '(' and '{' tokens introducing statement expression appear in different macro expansion contexts [-Wcompound-token-split-by-macro]
-           blk_mq_run_dispatch_ops(hctx,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1079:3: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                   ^
-   block/blk-mq.c:2483:3: note: '{' token is here
-                   {
-                   ^
-   block/blk-mq.c:1079:4: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                    ^~~~~~~~~~~~
->> block/blk-mq.c:2489:3: warning: '}' and ')' tokens terminating statement expression appear in different macro expansion contexts [-Wcompound-token-split-by-macro]
-                   }
-                   ^
-   block/blk-mq.c:1079:4: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                    ^~~~~~~~~~~~
-   block/blk-mq.c:2482:2: note: ')' token is here
-           blk_mq_run_dispatch_ops(hctx,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1079:16: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                                ^
->> block/blk-mq.c:2482:2: warning: '(' and '{' tokens introducing statement expression appear in different macro expansion contexts [-Wcompound-token-split-by-macro]
-           blk_mq_run_dispatch_ops(hctx,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1086:3: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                   ^
-   block/blk-mq.c:2483:3: note: '{' token is here
-                   {
-                   ^
-   block/blk-mq.c:1086:4: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                    ^~~~~~~~~~~~
->> block/blk-mq.c:2489:3: warning: '}' and ')' tokens terminating statement expression appear in different macro expansion contexts [-Wcompound-token-split-by-macro]
-                   }
-                   ^
-   block/blk-mq.c:1086:4: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                    ^~~~~~~~~~~~
-   block/blk-mq.c:2482:2: note: ')' token is here
-           blk_mq_run_dispatch_ops(hctx,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq.c:1086:16: note: expanded from macro 'blk_mq_run_dispatch_ops'
-                   (dispatch_ops);                                 \
-                                ^
-   4 warnings generated.
+We implemented Linux driver support for adma/async_tx/raid6 for this
+hardware, but that was a long time ago (2008/2009), and I doubt this
+has been tested recently.  But at least some code is still in
+mainline, see for example arch/powerpc/platforms/44x/ppc440spe_dma_engines.c
 
 
-vim +2482 block/blk-mq.c
+Best regards,
 
-  2466	
-  2467	/**
-  2468	 * blk_mq_try_issue_directly - Try to send a request directly to device driver.
-  2469	 * @hctx: Pointer of the associated hardware queue.
-  2470	 * @rq: Pointer to request to be sent.
-  2471	 *
-  2472	 * If the device has enough resources to accept a new request now, send the
-  2473	 * request directly to device driver. Else, insert at hctx->dispatch queue, so
-  2474	 * we can try send it another time in the future. Requests inserted at this
-  2475	 * queue have higher priority.
-  2476	 */
-  2477	static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
-  2478			struct request *rq)
-  2479	{
-  2480		blk_status_t ret;
-  2481	
-> 2482		blk_mq_run_dispatch_ops(hctx,
-  2483			{
-  2484			ret = __blk_mq_try_issue_directly(hctx, rq, false, true);
-  2485			if (ret == BLK_STS_RESOURCE || ret == BLK_STS_DEV_RESOURCE)
-  2486				blk_mq_request_bypass_insert(rq, false, true);
-  2487			else if (ret != BLK_STS_OK)
-  2488				blk_mq_end_request(rq, ret);
-> 2489			}
-  2490		);
-  2491	}
-  2492	
+Wolfgang Denk
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+Another megabytes the dust.
 
