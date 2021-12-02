@@ -4,54 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD07DC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Dec 2021 15:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 939ACC43217
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Dec 2021 15:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	MIME-Version:References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tOUM2c8oIE9WqQF/Nyc4uF4G/OlouLbYQyoBkYPVrq4=; b=dAmTgdHengS4eydDVdTmJKZWK7
-	APQatgQ4QpKazL3YJTIksRcfTJbvORzn2owOSppVRxUiYb72cBIqWIxOvaulLkDYiB5kuPHE28ymy
-	3MXK5nG1O4m16dRTUCq5/+llka6BGxZEKsr6Cv2q1EzDwrE7ljyk/aAN5HEeMChbw0nXMVUfWjJH0
-	+7/6eO+G/8TiSuKzHTuvfNmk6lYrM15RJ0xEtAZTVgpvj2U8Oxy1kQENed/Sxi6ey0QXbhA+yqRNG
-	7pZSjkrT1OKNfmXGhef1aF/z5w5yHmt2bJUYlE5tIEsB316RLA0/8fd9mykI2KJ/zS7ELzYmHLDtz
-	bqOrI/Zw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3jrv8XXfzAYeFjpUwXdrOdb6w3FpaD0XbnQueuej7IU=; b=POkV97ys/HhI1hPLdv1evy9vuf
+	zg7BD1ExyyLfMHHf6UXA1P55tkcLaIIQ391aZRMRpQ7NR/iJ1CFfdHplvKQDuRXTeB82cMwo2DvGe
+	YiY+If3ICGnUJWv9XqqNq5++1dq4ntq5xwiij+PXWpeYxPMN6h+NQ+ulj4VK4+3OFU5wZIgqvtF9V
+	KLwFfvnuRiXkFRPhNVe79ti4UGZjIecJNAC8AYsG31+Kfo1KDIx1abgOQVgvt+12JKvHhafR95TxO
+	EzxgS96AHv515aTcTLreiutGQk96TnR1sgFqD1/E4DpImtdsyI8uX7b1/E/VX4QjbTcNCamgqLqKh
+	uD7huuvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1msnlw-00CiMi-F1; Thu, 02 Dec 2021 15:13:20 +0000
-Received: from mailbackend.panix.com ([166.84.1.89])
+	id 1msnwV-00CjSU-JT; Thu, 02 Dec 2021 15:24:15 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1msnlt-00CiLQ-LO
- for linux-nvme@lists.infradead.org; Thu, 02 Dec 2021 15:13:19 +0000
-Received: from xps-7390.lan (50-233-66-25-static.hfc.comcastbusiness.net
- [50.233.66.25])
- by mailbackend.panix.com (Postfix) with ESMTPSA id 4J4fbX4wgSzRyK;
- Thu,  2 Dec 2021 10:13:12 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
- t=1638457993; bh=toNejAxkj+yP8ltzlp9a3STqZnD7jU0oVwaijQEJlZU=;
- h=Date:From:Reply-To:To:cc:Subject:In-Reply-To:References;
- b=iQWI9zs4cbEE27OPkZUNGunlqbBji7LPHblAro+/jkZcNX24HasiX5UC30tsS+Ese
- pPZ502MW72NrVzRpV70RpLot5KWFaFQS5/mSzJ3Rv12dJPF/NtSLrrtAyySPvjJTJU
- HL0nQA00QggMvQiD4jwuQqwy6YAByTPWSR92+T7c=
-Date: Thu, 2 Dec 2021 07:13:11 -0800 (PST)
-From: "Kenneth R. Crudup" <kenny@panix.com>
-To: Jens Axboe <axboe@kernel.dk>
-cc: linux-bcache@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-nvme@lists.infradead.org, 
- "Kenneth R. Crudup" <kenny@panix.com>, shinichiro.kawasaki@wdc.com
-Subject: Re: Write I/O queue hangup at random on recent Linus' kernels
-In-Reply-To: <be6a783-97db-c3bf-b16f-e8c62b14755d@panix.com>
-Message-ID: <4429eed8-b9b9-6943-f76-6ea38d695248@panix.com>
-References: <b3ba57a7-d363-9c17-c4be-9dbe86875@panix.com>
- <b9c2681f-e63a-4d3b-913d-d8a75e2c2ea0@kernel.dk>
- <be6a783-97db-c3bf-b16f-e8c62b14755d@panix.com>
+ id 1msnwR-00CjPC-NP
+ for linux-nvme@lists.infradead.org; Thu, 02 Dec 2021 15:24:13 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 9A9B71FDFC;
+ Thu,  2 Dec 2021 15:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638458648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3jrv8XXfzAYeFjpUwXdrOdb6w3FpaD0XbnQueuej7IU=;
+ b=UigLECO3ezIGusjqzcpDNd788/GNTSui1hfE3raDsejYUyCXQdSl/k8e59SxZzioy9zank
+ 0paZFZ5q6pL5DcRZHfY0Y74rq+3AJ7Ai13bCt4cX9ribk9knDR/3IhXnxkD7iV0DLn8wai
+ m+poG4fo0R/5eWdMIlnUdeLe2VcU0u8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638458648;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3jrv8XXfzAYeFjpUwXdrOdb6w3FpaD0XbnQueuej7IU=;
+ b=3uPFjB+ZL9MGblVoMQMimn8eAlw2F1Ae6st+d0T4PTYk8bdHdQpHHratiSE/US26+wQ6xV
+ j2dtxavVV59MqSAg==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id DFFF1A3B8A;
+ Thu,  2 Dec 2021 15:24:07 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 1B6C55191DE8; Thu,  2 Dec 2021 16:24:07 +0100 (CET)
+From: Hannes Reinecke <hare@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org,
+ Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv8 00/12] nvme: In-band authentication support
+Date: Thu,  2 Dec 2021 16:23:46 +0100
+Message-Id: <20211202152358.60116-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211202_071317_813552_5D234810 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20211202_072411_959283_AC584036 
+X-CRM114-Status: GOOD (  18.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,50 +72,133 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: "Kenneth R. Crudup" <kenny@panix.com>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi all,
 
-On Thu, 25 Nov 2021, Kenneth R. Crudup wrote:
+recent updates to the NVMe spec have added definitions for in-band
+authentication, and seeing that it provides some real benefit
+especially for NVMe-TCP here's an attempt to implement it.
 
-> > echo 0 > /sys/block/nvme0n1/queue/wbt_lat_usec
-> > and that will disable writeback throttling on that device.
+The ffdhe implementation given here is preliminary; there is a
+patchset from Nicolai Stange to implement FFDHE as a 'real'
+crypto algorithm, and also implements ephemeral keys for in-kernel DH.
+Once that is merged I'll be updating this patchset.
 
-> It's been about 48 hours and haven't seen the issue since doing this.
+Also note that this is just for in-band authentication. Secure
+concatenation (ie starting TLS with the negotiated parameters) is not
+implemented; one would need to update the kernel TLS implementation
+for this, which at this time is beyond scope.
 
-I'm now back to running Linus' master (which includes your fix for this, and
-I'm not disabling WBT any longer).
+The nvme-cli support has already been merged; please use the latest
+nvme-cli git repository to build the most recent version.
 
-We may still have issues, it appears. Everything was going OK until yesterday,
-when I had an SD-Card with an image of an SSD with a dm volume group on it,
-that I'd had mounted as a loopback image and activated (... was that clear)?
+A copy of this patchset can be found at
+git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
+branch auth.v8
 
-While I'm not seeing any kernel messages related to my NVMe (root) device, I'm
-also seeing the same UI issues as before- the KDE toolbar is unresponsive, and
-I don't have full interaction with my desktop UI (i.e., can't click on the
-bottom button bar to switch to the active window). I'm pretty sure this is a
-symptom of another I/O problem, however.
+As usual, comments and reviews are welcome.
 
-I tried to unfreeze it by:
+Changes to v7:
+- Space out hash list and dhgroup list in nvme negotiate data
+  to be conformant with the spec
+- Update sequence number handling to start with a random value and
+  ignore '0' as mandated by the spec
+- Update nvme_auth_generate_key to return the key as suggested by Sagi
+- Add nvmet_parse_fabrics_io_cmd() as suggested by hch
 
-  $ echo 0 | sudo tee -a /sys/block/mmcblk0/queue/wbt_lat_usec /sys/block/loop?/queue/wbt_lat_usec
+Changes to v6:
+- Use 'u8' for DH group id and hash id
+- Use 'struct nvme_dhchap_key'
+- Rename variables to drop 'DHCHAP'
+- Include reviews from Chaitanya
 
-... and a couple of seconds after that, it looked as if some queued-up toolbar
-actions spit out (but was then unresponsive), so I'd tried this to see if it
-would tell me if I had any throttled/stalled IOs:
+Changes to v5:
+- Unify nvme_auth_generate_key()
+- Unify nvme_auth_extract_key()
+- Fixed bug where re-authentication with wrong controller key would not fail
+- Include reviews from Sagi
 
-  $ egrep -r . $(sudo find /sys/block/*/ -name inflight )
+Changes to v4:
+- Validate against blktest suite
+- Fixup base64 decoding
+- Transform secret with correct hmac algorithm
 
-... but they were all zeros.
+Changes to v3:
+- Renamed parameter to 'dhchap_ctrl_key'
+- Fixed bi-directional authentication
+- Included reviews from Sagi
+- Fixed base64 algorithm for transport encoding
 
-Does this make sense? Your patch seemed to be block-device-agnostic, but is there
-a chance there's a similar path in the "dm" that also needs to be fixed?
+Changes to v2:
+- Dropped non-standard algorithms
+- Reworked base64 based on fs/crypto/fname.c
+- Fixup crash with no keys
 
-Thanks,
+Changes to the original submission:
+- Included reviews from Vladislav
+- Included reviews from Sagi
+- Implemented re-authentication support
+- Fixed up key handling
 
-	-Kenny
+Hannes Reinecke (12):
+  crypto: add crypto_has_shash()
+  crypto: add crypto_has_kpp()
+  crypto/ffdhe: Finite Field DH Ephemeral Parameters
+  lib/base64: RFC4648-compliant base64 encoding
+  nvme: add definitions for NVMe In-Band authentication
+  nvme-fabrics: decode 'authentication required' connect error
+  nvme: Implement In-Band authentication
+  nvme-auth: Diffie-Hellman key exchange support
+  nvmet: parse fabrics commands on io queues
+  nvmet: Implement basic In-Band Authentication
+  nvmet-auth: Diffie-Hellman key exchange support
+  nvmet-auth: expire authentication sessions
+
+ crypto/Kconfig                         |    8 +
+ crypto/Makefile                        |    1 +
+ crypto/ffdhe_helper.c                  |  880 +++++++++++++
+ crypto/kpp.c                           |    6 +
+ crypto/shash.c                         |    6 +
+ drivers/nvme/host/Kconfig              |   12 +
+ drivers/nvme/host/Makefile             |    1 +
+ drivers/nvme/host/auth.c               | 1569 ++++++++++++++++++++++++
+ drivers/nvme/host/auth.h               |   42 +
+ drivers/nvme/host/core.c               |  141 ++-
+ drivers/nvme/host/fabrics.c            |   83 +-
+ drivers/nvme/host/fabrics.h            |    7 +
+ drivers/nvme/host/nvme.h               |   31 +
+ drivers/nvme/host/rdma.c               |    1 +
+ drivers/nvme/host/tcp.c                |    1 +
+ drivers/nvme/host/trace.c              |   32 +
+ drivers/nvme/target/Kconfig            |   13 +
+ drivers/nvme/target/Makefile           |    1 +
+ drivers/nvme/target/admin-cmd.c        |    6 +-
+ drivers/nvme/target/auth.c             |  523 ++++++++
+ drivers/nvme/target/configfs.c         |  138 ++-
+ drivers/nvme/target/core.c             |   15 +
+ drivers/nvme/target/fabrics-cmd-auth.c |  534 ++++++++
+ drivers/nvme/target/fabrics-cmd.c      |   55 +-
+ drivers/nvme/target/nvmet.h            |   75 +-
+ include/crypto/ffdhe.h                 |   24 +
+ include/crypto/hash.h                  |    2 +
+ include/crypto/kpp.h                   |    2 +
+ include/linux/base64.h                 |   16 +
+ include/linux/nvme.h                   |  188 ++-
+ lib/Makefile                           |    2 +-
+ lib/base64.c                           |  103 ++
+ 32 files changed, 4503 insertions(+), 15 deletions(-)
+ create mode 100644 crypto/ffdhe_helper.c
+ create mode 100644 drivers/nvme/host/auth.c
+ create mode 100644 drivers/nvme/host/auth.h
+ create mode 100644 drivers/nvme/target/auth.c
+ create mode 100644 drivers/nvme/target/fabrics-cmd-auth.c
+ create mode 100644 include/crypto/ffdhe.h
+ create mode 100644 include/linux/base64.h
+ create mode 100644 lib/base64.c
 
 -- 
-Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange County CA
+2.29.2
+
 
