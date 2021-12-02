@@ -4,56 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 086CDC433FE
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Dec 2021 15:40:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8191FC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Dec 2021 17:55:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	MIME-Version:References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sed5bGIMCTL3LpI6X189AK7dXYzeAgUY3H56SGTGkAg=; b=G679E6EGAOLQJQA5P/VrERkL0b
-	bZYI7yrRK5rVZX5OQJv0/9NAb0ZvfSzPEpJuz+R83ifIcFeIkuC7pM8Amg7nvZiMgiIYcxf8xBOzi
-	dpaowCT1V3jegqVYXSlprk1qRvQyB3m1ogM3Ch9th2D4TGAFeofKUhgPp6G90J6LRxHF9/klU19yB
-	l/h1HtzDS88ZE6SYB0zdaakjXeJmGTzmjkIoBGUTozuOa7LskSxvmKIdVqM+O44uP2nykTvJlNF/S
-	ghPRnQ0Q+O3uvGMzjRfeWUlYC/iWWkD3j9G+vJLt2XBIb2ag/7xmQc2Z7+1roCIeygVBLq8MHPfBY
-	XqXsQi+g==;
+	bh=tX4BW8tO3yiuoufmISoaWGALW7upQj1MEMhts7JInbA=; b=kpxQC9CEvWwcM42SGlwvP8dgPi
+	Azd9hTENJgSaLgr3zxKGX0sqH6UG+KVT8BC5FCUsYMk9qLbtlZcfrnuwkpQ/XkYiHLSn9Rj0qzhw8
+	FyiHFqWTVIIFqYDcWJBRjFf996zNDK9mRwIL7UFaLxxsvDBVjLn25VDvRJqapq3qLfSyVCIYXSmkp
+	H3d8fgKDpOnpXHBgIwYcCVr6Jb7hw6wWkoV0CIZ9/xCTTNGzHf2gYdXc4ad8ui3hmb0JVUMaDj6ff
+	KkCNLOMPtebfJRjv7mrDK0PwDflu6YGLidER4plUVdec3q9tNPH7Q5OruViqHkZDKhQXBtnhN4vPv
+	O1t3r2Ew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1msoCY-00Co4U-Am; Thu, 02 Dec 2021 15:40:50 +0000
-Received: from mailbackend.panix.com ([166.84.1.89])
+	id 1msqJA-00DDCi-48; Thu, 02 Dec 2021 17:55:48 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mso9I-00CnAy-QC
- for linux-nvme@lists.infradead.org; Thu, 02 Dec 2021 15:37:30 +0000
-Received: from xps-7390.lan (50-233-66-25-static.hfc.comcastbusiness.net
- [50.233.66.25])
- by mailbackend.panix.com (Postfix) with ESMTPSA id 4J4g7W0QqVz2jCv;
- Thu,  2 Dec 2021 10:37:26 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
- t=1638459447; bh=dbKm0N0V3+vmx7loDcn20Anbh9JDyOpiRkOKnYCaoPo=;
- h=Date:From:Reply-To:To:cc:Subject:In-Reply-To:References;
- b=A7kKY5Je6s5F+dwDSFtlTMCWbUVWbq9JEsNVRFpg6ZFGq6fmQ1UUeLeXnMbRDBhsn
- BtdVL5OPgxJ0b3FT8zipfDsiS5pO5uhkVwXWUeevTkneiIemJaYBXpyzJ1kqRR0PI7
- /e7O8ej/mv7oXZUrp+gru9VOcZ3QJYW+ge2XFneY=
-Date: Thu, 2 Dec 2021 07:37:26 -0800 (PST)
-From: "Kenneth R. Crudup" <kenny@panix.com>
-To: Jens Axboe <axboe@kernel.dk>
-cc: linux-bcache@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-nvme@lists.infradead.org, 
- shinichiro.kawasaki@wdc.com
-Subject: Re: Write I/O queue hangup at random on recent Linus' kernels
-In-Reply-To: <4429eed8-b9b9-6943-f76-6ea38d695248@panix.com>
-Message-ID: <a2eb227a-a4dc-e4e7-d3ea-567778bfc9c0@panix.com>
-References: <b3ba57a7-d363-9c17-c4be-9dbe86875@panix.com>
- <b9c2681f-e63a-4d3b-913d-d8a75e2c2ea0@kernel.dk>
- <be6a783-97db-c3bf-b16f-e8c62b14755d@panix.com>
- <4429eed8-b9b9-6943-f76-6ea38d695248@panix.com>
+ id 1msqJ7-00DDC1-P1
+ for linux-nvme@lists.infradead.org; Thu, 02 Dec 2021 17:55:47 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E8024B82432;
+ Thu,  2 Dec 2021 17:55:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BE5C00446;
+ Thu,  2 Dec 2021 17:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638467742;
+ bh=sdj0UvhBCfKVf0u/SdHPJuC64O6tsVkXn7OzWimaLzE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pVDPKhQjoQ+3xSuzopBIn53m45pKfNejP9gSc4SfM6eooYnBZ8jEKfiLY0BYwqEKw
+ vcjqkoIJWFO7H6QFHGLsxqS/q1+aUI4EF//d3PShtRJLVZPqQVTeXkfBOOq4122zpR
+ bO+6CyH/61JCPKNbweOuJY/97DFrps1po8tQ4sYG9WZFGjDXf8z0Iotj8o8RYeNJEE
+ 0EHP0ZCtdFhOpKaezXUOnQoTD2vbAaVYbBKLhDZQALB3s570uT0p8ryFrCYzjikvt8
+ POx6Cm/0oqftjQ+evjx7NWUjY0S7OT7SqrydAix/2wegAkvCi4FiG/hf12StDCVGM8
+ cwL57tSfmVmyw==
+Date: Thu, 2 Dec 2021 09:55:39 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: caojun <caojun@uniontech.com>
+Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] add Intel 760p/Pro 7600p nvme disk
+Message-ID: <20211202175539.GC3836713@dhcp-10-100-145-180.wdc.com>
+References: <20211202030230.17507-1-caojun@uniontech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211202030230.17507-1-caojun@uniontech.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211202_073728_958473_2DAAC2CA 
-X-CRM114-Status: UNSURE (   4.68  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211202_095546_136898_40C6BDDF 
+X-CRM114-Status: GOOD (  19.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,61 +68,82 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: "Kenneth R. Crudup" <kenny@panix.com>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, Dec 02, 2021 at 11:02:30AM +0800, caojun wrote:
+> Signed-off-by: caojun <caojun@uniontech.com>
 
-On Thu, 2 Dec 2021, Kenneth R. Crudup wrote:
+What is the purpose of this patch? All of this code already exists from
+3 years ago.
 
->   $ egrep -r . $(sudo find /sys/block/*/ -name inflight )
->
-> ... but they were all zeros.
-
-... and similarly:
-
-----
-$ sudo egrep -r . $(sudo find /sys/kernel/debug/block/ -name inflight)
-/sys/kernel/debug/block/mmcblk0/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/mmcblk0/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/mmcblk0/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/sda/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/sda/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/sda/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/nvme0n1/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/nvme0n1/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/nvme0n1/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop7/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop7/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop7/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop6/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop6/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop6/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop5/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop5/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop5/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop4/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop4/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop4/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop3/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop3/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop3/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop2/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop2/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop2/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop1/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop1/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop1/rqos/wbt/inflight:2: inflight 0
-/sys/kernel/debug/block/loop0/rqos/wbt/inflight:0: inflight 0
-/sys/kernel/debug/block/loop0/rqos/wbt/inflight:1: inflight 0
-/sys/kernel/debug/block/loop0/rqos/wbt/inflight:2: inflight 0
-----
-
-(... but just now, I got a delayed popup from my UI, which then went back to
-being unresponsive again)
-
-	-Kenny
-
--- 
-Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange County CA
+> ---
+>  drivers/nvme/host/core.c | 16 +++++++++-------
+>  drivers/nvme/host/nvme.h |  5 +++++
+>  drivers/nvme/host/pci.c  |  2 ++
+>  3 files changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e64310f22..8e0dbfb6a 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2155,14 +2155,16 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+>  	size_t nqnlen;
+>  	int off;
+>  
+> -	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+> -	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+> -		strncpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
+> -		return;
+> -	}
+> +	if(!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
+> +		nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+> +		if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+> +			strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
+> +			return;
+> +		}
+>  
+> -	if (ctrl->vs >= NVME_VS(1, 2, 1))
+> -		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
+> +		if (ctrl->vs >= NVME_VS(1, 2, 1))
+> +			dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
+> +	}
+>  
+>  	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
+>  	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 276975506..5f5a91518 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -90,6 +90,11 @@ enum nvme_quirks {
+>  	 * Set MEDIUM priority on SQ creation
+>  	 */
+>  	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
+> +
+> +	/*
+> +	 * Ignore device provided subnqn.
+> +	 */
+> +	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
+>  };
+>  
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d7cf3202c..fcac05528 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2713,6 +2713,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>  	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+>  		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+>  				NVME_QUIRK_MEDIUM_PRIO_SQ },
+> +	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
+> +		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+>  	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+>  		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+>  	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+> -- 
+> 2.20.1
+> 
+> 
+> 
+> 
 
