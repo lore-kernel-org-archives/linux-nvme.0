@@ -4,37 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E8ABC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Dec 2021 07:40:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66DB3C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Dec 2021 07:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=chmrmGnE9hkGaC0+CM5+OKTy7P4tk4m1kYI9Tg5TMFw=; b=MW6dVE0V18g4+q3Q2d7O5xPkWb
-	zXEreFCbcxjUUMVUs8y+T3qd/t8b1b/bzesfQWgbayUS357KpnBLxE3lTAEJgRJxU7YickhlJhlph
-	QcJl7r268YxPGNSRXaa5UQo8TgwBDfz++1yAG/m3JzRokplxjxYaqeQE+oWG1zkWXAx+rQipTe3yB
-	LFRJcqU5zBEaxt5egkK6mcLqnuaI0uibwjOIFOe3z+xsQQUTwvItXy58RMxszHAk9MSRZtdAjKdjx
-	VYQ4dWxAPZaxk0iUrj9/PCMOmBVoxQ4mjwG8BhX9Tr0LdESmUWnMSW1SDkPbWn+VGDCrw8EYZgvlC
-	T18i3fzQ==;
+	bh=Ryl3FB2+rMtshZqU1y7VxuFlvkRIoSU+N97JyOUAj2s=; b=zw3iUEmDyaa31ghnO/S6QdwVJT
+	JyiQP0ZGlUAflJGvLYxBitru8CH7Bfo6TQYcxd/lXhxnU/qjxaRUEGSADTzC+nzUtGFBVAGqh9TdB
+	iiinOJJ5OUgIMGowHv3ni9IYLtU5+Zc+3zXIPS/7xBH4F/wGjZ8YC+KYeb4N9uzgGjLGbe8b+W5tJ
+	NnrA7bacUuj+ANyycZ7G3TrsuNq7OoSWc0L3PuSR7VTdYD4UGa812sjo9FOSKlPd4o4qR/FYZte3S
+	l1B78USFjlsMfcS7v8UM0QZpA/ssWGvsalbZpdgMsjR0BtP1j5BFWECbBpQs21IoyXnFB6zDzOyn+
+	CTx/rUnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mu8bw-002md7-BD; Mon, 06 Dec 2021 07:40:32 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1mu8bu-002mcu-NE; Mon, 06 Dec 2021 07:40:30 +0000
-Date: Sun, 5 Dec 2021 23:40:30 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 4/4] nvme: add support for mq_ops->queue_rqs()
-Message-ID: <Ya2+buqfKSFHWVvu@infradead.org>
-References: <20211203214544.343460-1-axboe@kernel.dk>
- <20211203214544.343460-5-axboe@kernel.dk>
+	id 1mu8ow-002oDt-1c; Mon, 06 Dec 2021 07:53:58 +0000
+Received: from verein.lst.de ([213.95.11.211])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mu8os-002oCP-Sy
+ for linux-nvme@lists.infradead.org; Mon, 06 Dec 2021 07:53:56 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 546EE68AA6; Mon,  6 Dec 2021 08:53:47 +0100 (CET)
+Date: Mon, 6 Dec 2021 08:53:47 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Hou Tao <houtao1@huawei.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Jens Axboe <axboe@fb.com>, jiangtao62@huawei.com
+Subject: Re: [PATCH] nvme-multipath: zeroing ana_log_size as well after
+ free ana_log_buf
+Message-ID: <20211206075347.GA10917@lst.de>
+References: <20211203114715.1936811-1-houtao1@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211203214544.343460-5-axboe@kernel.dk>
+In-Reply-To: <20211203114715.1936811-1-houtao1@huawei.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20211205_235355_120772_81813D48 
+X-CRM114-Status: UNSURE (   8.74  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -49,19 +60,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 03, 2021 at 02:45:44PM -0700, Jens Axboe wrote:
-> This enables the block layer to send us a full plug list of requests
-> that need submitting. The block layer guarantees that they all belong
-> to the same queue, but we do have to check the hardware queue mapping
-> for each request.
-> 
-> If errors are encountered, leave them in the passed in list. Then the
-> block layer will handle them individually.
-> 
-> This is good for about a 4% improvement in peak performance, taking us
-> from 9.6M to 10M IOPS/core.
+>  	if (ana_log_size > ctrl->ana_log_size) {
+>  		nvme_mpath_stop(ctrl);
+> -		kfree(ctrl->ana_log_buf);
+> +		nvme_mpath_uninit(ctrl);
 
-This looks pretty similar to my proposed cleanups (which is nice), but
-back then you mentioned the cleaner version was much slower.  Do you
-know what brought the speed back in this version?
+This hunk looks unrelated.
 
