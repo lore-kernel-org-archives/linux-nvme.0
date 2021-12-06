@@ -4,59 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B0DDC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Dec 2021 09:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDD9EC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Dec 2021 13:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+p5rJk+NPvtgdZGqp2mY9BsNO8UwiIiXXFNVBztxEs0=; b=1m+v0EiUOjL+tVZvm8sucDRR3I
-	+rOR/soETJ0EOPo4/ZF9ekwb8JFDXWWmjFmcle2lZf11t1EnJpcndfMeIAHb88ZpkrjITFWZjdFYd
-	XUQO4CKs+WSegtkPe2XFabJIobDsAvGOMYUlIhbwYdMBpQwolu+YcO+nlyEdXRS+p3mT7r7/NpL+Q
-	idnD+cQrpAD+TufJIH3WBcIqKyFvfoWCuoWP2T2TNg8BnZKBSWbTuVeRbi9387XqpSKkoJylqg2JA
-	R3L7FfQv7frJAgfOvs8LFZDhdUUaZyIVawI09BLiGrzut8zxzRdchDzpjhXA2VKBu7oWI65ZrMEBM
-	NCluK0Nw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=drUCP0u2x3MDc5AsNUgqbjYS+31dqIY8f9IoxOx6DY8=; b=3ktsJzP7dCLMWR/5YSkjdixgt3
+	uJhPzq2gjZDCZn9rWW/ppow1OO14ks+cbKaS6D0TZ8EzlV9ImPGDL22pVVvG7qrADG+QpEs8wBQ23
+	jzxm+09rCiQ8FfEnw6pyqP+tNAwmKXKNVDPEqINRy71SCFwPVcjyr58POjLq6ZQvf3I0KJuhJEx0j
+	0JfsHJuiQvb9vUwTRr1ZhBa0kllKddbKJGHZmzdoYCI70pPYKkWbBqt9Jlnu3fxetU9QavoxO74qM
+	meJPsbtW4vxm+jgPOTuE/wOg5qWvGsvbnO+pzMB5A6brc0wAC5OMytqn4BOSRkaQs/lTlaT9A5Io1
+	hugXgHkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1muAWs-003CBf-CL; Mon, 06 Dec 2021 09:43:26 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1muEGX-0043b0-Mf; Mon, 06 Dec 2021 13:42:49 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1muAWp-003CBF-RD
- for linux-nvme@lists.infradead.org; Mon, 06 Dec 2021 09:43:25 +0000
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J6z4h2pCnzcbm5;
- Mon,  6 Dec 2021 17:43:00 +0800 (CST)
-Received: from [10.174.176.117] (10.174.176.117) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 6 Dec 2021 17:43:10 +0800
-Subject: Re: [PATCH] nvme-multipath: zeroing ana_log_size as well after free
- ana_log_buf
-To: Christoph Hellwig <hch@lst.de>
-CC: <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, Sagi
- Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@fb.com>,
- <jiangtao62@huawei.com>
-References: <20211203114715.1936811-1-houtao1@huawei.com>
- <20211206075347.GA10917@lst.de>
-From: Hou Tao <houtao1@huawei.com>
-Message-ID: <16960197-643f-1e3b-65d4-913cee871cf2@huawei.com>
-Date: Mon, 6 Dec 2021 17:43:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ id 1muEGV-0043aN-FC
+ for linux-nvme@lists.infradead.org; Mon, 06 Dec 2021 13:42:48 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 149601FD34;
+ Mon,  6 Dec 2021 13:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638798162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=drUCP0u2x3MDc5AsNUgqbjYS+31dqIY8f9IoxOx6DY8=;
+ b=gcKvEcexga3e1pPQcB6nfvS4wvYVwCrwwstOs+9EGoJjArLeYeHzM5N14FDJ673txJijFe
+ LBL5dHuJa+0uSZl9Smt1Ct91rSJjXbu1iXiQ9YZUga69bRUSqhm89x++nYVhCKlUZpiKiq
+ ADMbAt/w/8Kg40HNdduKogoE9ZJuarY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638798162;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=drUCP0u2x3MDc5AsNUgqbjYS+31dqIY8f9IoxOx6DY8=;
+ b=K7BzCCCBwqm8CuvXAk6rDaEfLhYFrEN9hBz23gKne5dvxI+LVi1O5dfdptZ+jhT1/ep8ff
+ PWa/whase8cMhuAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0535813BB9;
+ Mon,  6 Dec 2021 13:42:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Crg+AVITrmG0JQAAMHmgww
+ (envelope-from <dwagner@suse.de>); Mon, 06 Dec 2021 13:42:42 +0000
+Date: Mon, 6 Dec 2021 14:42:41 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme: Add sibling to list after full initialization
+Message-ID: <20211206134241.icrqtztqlzbwumtn@carbon.lan>
+References: <20211111132135.19216-1-dwagner@suse.de>
+ <YZfakf32dXVFhK5E@infradead.org>
+ <a7f48220-8c50-3388-dd40-4f51081ec6ec@grimberg.me>
+ <YZyDGRhyjYJu+9jK@infradead.org>
+ <064b3972-dab4-c31b-b5c9-b0d9b1475ebe@grimberg.me>
+ <YZ0UFxo/LV5V8laX@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20211206075347.GA10917@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.176.117]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500025.china.huawei.com (7.185.36.35)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZ0UFxo/LV5V8laX@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211206_014324_108514_FE29DEB5 
-X-CRM114-Status: UNSURE (   6.61  )
+X-CRM114-CacheID: sfid-20211206_054247_702764_2D13540C 
+X-CRM114-Status: UNSURE (   8.29  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -72,17 +90,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+> I'll drop it for now then.
 
-On 12/6/2021 3:53 PM, Christoph Hellwig wrote:
->>  	if (ana_log_size > ctrl->ana_log_size) {
->>  		nvme_mpath_stop(ctrl);
->> -		kfree(ctrl->ana_log_buf);
->> +		nvme_mpath_uninit(ctrl);
-> This hunk looks unrelated.
-It will be related if the value of ana_log_size is reduced again, so you mean
-the reduction is impossible ?
+Thanks, the patch is not necessary due to do the changes from
+5f432cceb3e9 ("nvme: use blk_mq_alloc_disk").
 
-> .
-
+Next time I'll make sure I mark the newest version of the patch as
+invalid if such a discussion happens on a previous version.
 
