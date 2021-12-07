@@ -4,54 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A81D7C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Dec 2021 20:08:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FB0FC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Dec 2021 12:47:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=p6rVr0CTvLDXvjm0HzAKNrtn+BMBrIekRAiQ/mTucG8=; b=RqO55Noj1BSDsurMTmUztrXNfv
-	JTp/AmhjvdBv/yov+6fCN5EAbwRzvVE3wjwBIeCnS9xsCOC3jyYr2HTW5lb0GCqG0MDOJjKwvWLlF
-	0q7MOWXqBsLiI3Lnd/wf9ssowIV7uEMVAYqqGRb5d+IX4TjkJGIc/+/7unfKe5250mH8S0Aszs6uz
-	Bu3kr9EaWkf6HErxAHp/KOk6/eXugkaDXZRtxLiBfFL3hdSLxOOzK8rIy7Y25/1XnRTRREFr8p4+C
-	8+MBnV5AHGtZPWz1YW/c3w9aqYdrxWBKoD+QisbXFdLOndUsmbVj24vqN5T4mmxMaSGi856GqVvfp
-	MPbDqZrg==;
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:CC:To:From:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lzhiuOj5tM8poYs1UWpaBuoXnO0L+BWxm3O4Tn86ZTI=; b=UGqEDwKhABgU/jJtDPdGgosSuV
+	6G54JfB+iA9eIsFpMBsK0j1AYqCDcSozql2shUevBZq10LbAzLRz8X36xYneooaHzs4MkBHED8eYb
+	ewpvKCtTXG3ZO8AxYummUYE03WjOo0AS8ZYDqLgfqVzvDtd6uy4i7BxAJbnGcx60Ny1wHFnLZ61JF
+	PEGu5hoRCgChOl62uBZd8hQzSRajWyaP+EcCm4D0oTvif+BkdtIxvz+si6A7H6sc7VYGYOLEM/sd2
+	44PDlMLwkQMV01TLTQ+DRxC0y+jhrz2ktWOHPo/ICOAfyJQ+lQS8l8l62AI0A6pEaQ/dSjAWAcwVs
+	rd/9W74g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1muKHm-005bnw-2i; Mon, 06 Dec 2021 20:08:30 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1muZsE-008VwD-FA; Tue, 07 Dec 2021 12:47:10 +0000
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1muKHi-005bmD-AL
- for linux-nvme@lists.infradead.org; Mon, 06 Dec 2021 20:08:28 +0000
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="237339304"
-X-IronPort-AV: E=Sophos;i="5.87,292,1631602800"; d="scan'208";a="237339304"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2021 12:08:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,292,1631602800"; d="scan'208";a="679117821"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 06 Dec 2021 12:08:18 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1muKHZ-000Lfh-CA; Mon, 06 Dec 2021 20:08:17 +0000
-Date: Tue, 07 Dec 2021 04:07:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.16] BUILD SUCCESS
- 793fcab83f38661e22e6f7c682dfba6fd0d97bb2
-Message-ID: <61ae6d87.O5mnbFMAli0Ini62%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1muZqT-008VEf-FF
+ for linux-nvme@lists.infradead.org; Tue, 07 Dec 2021 12:45:23 +0000
+Received: from kwepemi100005.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J7g4G3jr1zcbbx
+ for <linux-nvme@lists.infradead.org>; Tue,  7 Dec 2021 20:45:02 +0800 (CST)
+Received: from kwepemm600011.china.huawei.com (7.193.23.229) by
+ kwepemi100005.china.huawei.com (7.221.188.155) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 7 Dec 2021 20:45:14 +0800
+Received: from [10.169.46.19] (10.169.46.19) by kwepemm600011.china.huawei.com
+ (7.193.23.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 7 Dec
+ 2021 20:45:13 +0800
+Subject: Re: [PATCH 1/1] nvme: fix use after free when disconnect a
+ reconnecting ctrl
+From: liruozhu <liruozhu@huawei.com>
+To: <hch@lst.de>
+CC: <linux-nvme@lists.infradead.org>
+References: <20211104071332.28952-1-liruozhu@huawei.com>
+ <20211104071332.28952-2-liruozhu@huawei.com>
+Message-ID: <9db489fc-ecdd-e1d7-cce1-78d47dfb44fb@huawei.com>
+Date: Tue, 7 Dec 2021 20:45:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.0.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20211104071332.28952-2-liruozhu@huawei.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.169.46.19]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemm600011.china.huawei.com (7.193.23.229)
+X-CFilter-Loop: Reflected
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211206_120826_445188_B76D9DF3 
-X-CRM114-Status: UNSURE (   5.65  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211207_044521_744413_B03397C7 
+X-CRM114-Status: GOOD (  20.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,170 +73,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.16
-branch HEAD: 793fcab83f38661e22e6f7c682dfba6fd0d97bb2  nvme: report write pointer for a full zone as zone start + zone len
+On 2021/11/4 15:13, Ruozhu Li wrote:
 
-elapsed time: 728m
+> A crash happens when I try to disconnect a reconnecting ctrl:
+>
+> 1) The network was cut off when the connection was just established,
+> scan work hang there waiting for some IOs complete.Those IOs were
+> retrying because we return BLK_STS_RESOURCE to blk in reconnecting.
+>
+> 2) After a while, I tried to disconnect this connection.This procedure
+> also hung because it tried to obtain ctrl->scan_lock.It should be noted
+> that now we have switched the controller state to NVME_CTRL_DELETING.
+>
+> 3) In nvme_check_ready(), we always return true when ctrl->state is
+> NVME_CTRL_DELETING, so those retrying IOs were issued to the bottom
+> device which was already freed.
+>
+> To fix this, when ctrl->state is NVME_CTRL_DELETING, issue cmd to bottom
+> device only when queue state is live.If not, return host path error to blk.
+>
+> Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
+> ---
+>   drivers/nvme/host/core.c | 1 +
+>   drivers/nvme/host/nvme.h | 2 +-
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 838b5e2058be..752203ad7639 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -666,6 +666,7 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
+>   		struct request *rq)
+>   {
+>   	if (ctrl->state != NVME_CTRL_DELETING_NOIO &&
+> +	    ctrl->state != NVME_CTRL_DELETING &&
+>   	    ctrl->state != NVME_CTRL_DEAD &&
+>   	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+>   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index b334af8aa264..9b095ee01364 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -709,7 +709,7 @@ static inline bool nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   		return true;
+>   	if (ctrl->ops->flags & NVME_F_FABRICS &&
+>   	    ctrl->state == NVME_CTRL_DELETING)
+> -		return true;
+> +		return queue_live;
+>   	return __nvme_check_ready(ctrl, rq, queue_live);
+>   }
+>   int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
 
-configs tested: 146
-configs skipped: 3
+Hi Christoph,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+friendly ping...
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20211206
-sh                          r7780mp_defconfig
-powerpc                     tqm5200_defconfig
-powerpc                     asp8347_defconfig
-arm                            xcep_defconfig
-sh                           se7750_defconfig
-powerpc                      chrp32_defconfig
-sh                          urquell_defconfig
-sh                           se7751_defconfig
-um                             i386_defconfig
-mips                            gpr_defconfig
-arm                         socfpga_defconfig
-arm                       aspeed_g5_defconfig
-sh                         microdev_defconfig
-arm                         lpc32xx_defconfig
-arm                     eseries_pxa_defconfig
-arm                         bcm2835_defconfig
-m68k                        m5307c3_defconfig
-arm                           sama5_defconfig
-sh                              ul2_defconfig
-powerpc                         ps3_defconfig
-sh                        edosk7760_defconfig
-arm                        keystone_defconfig
-ia64                      gensparse_defconfig
-arm                            mps2_defconfig
-arm                         mv78xx0_defconfig
-openrisc                 simple_smp_defconfig
-arm                          simpad_defconfig
-powerpc                     ppa8548_defconfig
-arm                            zeus_defconfig
-sh                               alldefconfig
-arm                         vf610m4_defconfig
-arm                      integrator_defconfig
-arm                        multi_v7_defconfig
-h8300                     edosk2674_defconfig
-sh                            titan_defconfig
-sh                   secureedge5410_defconfig
-powerpc                       ppc64_defconfig
-m68k                          multi_defconfig
-sh                          polaris_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                      mgcoge_defconfig
-arm                         s3c6400_defconfig
-sh                           se7721_defconfig
-arm                         shannon_defconfig
-mips                           mtx1_defconfig
-sh                          r7785rp_defconfig
-arm                           corgi_defconfig
-sh                   sh7724_generic_defconfig
-powerpc               mpc834x_itxgp_defconfig
-h8300                    h8300h-sim_defconfig
-openrisc                  or1klitex_defconfig
-powerpc                      ep88xc_defconfig
-powerpc                      pasemi_defconfig
-powerpc                 mpc8560_ads_defconfig
-mips                        qi_lb60_defconfig
-arm                         axm55xx_defconfig
-arm                         lubbock_defconfig
-sh                           sh2007_defconfig
-powerpc                     tqm8560_defconfig
-microblaze                      mmu_defconfig
-arm                  randconfig-c002-20211206
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allmodconfig
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a016-20211206
-x86_64               randconfig-a011-20211206
-x86_64               randconfig-a013-20211206
-x86_64               randconfig-a014-20211206
-x86_64               randconfig-a012-20211206
-x86_64               randconfig-a015-20211206
-i386                 randconfig-a016-20211206
-i386                 randconfig-a013-20211206
-i386                 randconfig-a011-20211206
-i386                 randconfig-a014-20211206
-i386                 randconfig-a012-20211206
-i386                 randconfig-a015-20211206
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
+thanks,
+Ruozhu
 
-clang tested configs:
-x86_64               randconfig-c007-20211206
-arm                  randconfig-c002-20211206
-riscv                randconfig-c006-20211206
-mips                 randconfig-c004-20211206
-i386                 randconfig-c001-20211206
-powerpc              randconfig-c003-20211206
-s390                 randconfig-c005-20211206
-x86_64               randconfig-a006-20211206
-x86_64               randconfig-a005-20211206
-x86_64               randconfig-a001-20211206
-x86_64               randconfig-a002-20211206
-x86_64               randconfig-a004-20211206
-x86_64               randconfig-a003-20211206
-i386                 randconfig-a001-20211206
-i386                 randconfig-a005-20211206
-i386                 randconfig-a002-20211206
-i386                 randconfig-a003-20211206
-i386                 randconfig-a006-20211206
-i386                 randconfig-a004-20211206
-hexagon              randconfig-r045-20211206
-hexagon              randconfig-r041-20211206
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
