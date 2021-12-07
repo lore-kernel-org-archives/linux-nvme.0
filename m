@@ -4,49 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3F51C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Dec 2021 17:18:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 778AEC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Dec 2021 17:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XADu5DCksB1wRtNG6NN5cTwqEy/PYIrZpRETxYRU0+0=; b=hcbyG3OCTZ08TLHxY5hazCxiK+
-	hUQlJiOdE3hKS5c8XPq7sDhHiIvxSQQpzKslhh1mXsXI6dhSqI/0R9CWHpgaa0g6UEZ+febmpWphB
-	+x4jsrZbnPHlLDwWrrdVT1zntCnLsbCNvGt/2Ys2LMzWndDhxgNWhOkVTiI+aj3sJc9N3VmDXQrEY
-	HJmvOtlWwLu95BCkERGeLkuFUtcgqLi1T+5TK/zRpS7LJlZkGfwMhrlGofJfiQco1fe+hwYC8FW2b
-	SOoe/yaOHu9NkJmBdGzfc6+oXPO2GVLA2gBZOMzK7sFLphFoN48LlLXVfxD/cLAuo1e42cVvjNfn6
-	ExWvcbDQ==;
+	bh=Ma181nMi04246giqstgKAPOwL2WXmaojP0F8tcdGeHo=; b=crSh22wyddua9J2vjqjf1P4wh2
+	/Yl/gLtKdFpQ7xIKVP6T9eVPJj/AcSWmOTaNZLCMLEOT/PR0t7F7olI+KYaQcqV/Fiz/0VYJfKhKp
+	jhGXUHQu3RE6oX5XDdTel51zMLzRJQEkDIGSZY7PtWpRQPj9c7svqBOY5wNHF0uLGhD/L2eGnf1Tp
+	H82NX+lVQtuzjQHS5t46u7DLkjc4+ZNV+36jXEQ6savp5yaWcLf7/UXgP5meWzXYi1T0QUboO9WbZ
+	LTZ/4uMkpMeaXBlYFLKcE5J5OxTvC19RXprhurYQqm8VITvROw89EYRZ9xuv5drFVOm46Qz26kSBF
+	UKRRreWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mue6z-009X2n-3I; Tue, 07 Dec 2021 17:18:41 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1mueBq-009Xbk-Ox; Tue, 07 Dec 2021 17:23:42 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mue6w-009X2I-59
- for linux-nvme@lists.infradead.org; Tue, 07 Dec 2021 17:18:39 +0000
+ id 1mueBq-009Xar-2g
+ for linux-nvme@bombadil.infradead.org; Tue, 07 Dec 2021 17:23:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Ma181nMi04246giqstgKAPOwL2WXmaojP0F8tcdGeHo=; b=ggt3y6kwiBoOAEYFeXlsplnu50
+ eZtbwThRaDVZ62ASwy01WjjV3yqblL85DPS4RLIIx0LDBbI928dy5H4Lr8yUfv+asz61jfmQ7A6rO
+ H+syY1Hia0tl0LzDRv8jATpRSi1ThpYHwJHX3kjqhuyc49cvvK+a7YgTA3bX59elwsco/W+PN4+9a
+ e/yNSJmd7WVxt+UxjhMnI3mtcrygWoyE6nt2wvgKsKJrVXHQIwsTpsJGoOzuadXgt7sf3f+O46wnU
+ 2QOrxE79shcT3yPvfxLP0VADWA7kQMyf9OrGYYrGo4Re4KFKSa9ZDJicX+RpJRUizsj/6nFC/OjgH
+ 6tbgldvQ==;
+Received: from verein.lst.de ([213.95.11.211])
+ by casper.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mueBi-007aRG-Uk
+ for linux-nvme@lists.infradead.org; Tue, 07 Dec 2021 17:23:37 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5269468AFE; Tue,  7 Dec 2021 18:18:30 +0100 (CET)
-Date: Tue, 7 Dec 2021 18:18:29 +0100
+ id 73C1368AFE; Tue,  7 Dec 2021 18:23:26 +0100 (CET)
+Date: Tue, 7 Dec 2021 18:23:26 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Hou Tao <houtao1@huawei.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Jens Axboe <axboe@fb.com>, jiangtao62@huawei.com
-Subject: Re: [PATCH] nvme-multipath: zeroing ana_log_size as well after
- free ana_log_buf
-Message-ID: <20211207171829.GA2923@lst.de>
-References: <20211203114715.1936811-1-houtao1@huawei.com>
- <20211206075347.GA10917@lst.de>
- <16960197-643f-1e3b-65d4-913cee871cf2@huawei.com>
+To: liruozhu <liruozhu@huawei.com>
+Cc: hch@lst.de, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/1] nvme: fix use after free when disconnect a
+ reconnecting ctrl
+Message-ID: <20211207172326.GA3193@lst.de>
+References: <20211104071332.28952-1-liruozhu@huawei.com>
+ <20211104071332.28952-2-liruozhu@huawei.com>
+ <9db489fc-ecdd-e1d7-cce1-78d47dfb44fb@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <16960197-643f-1e3b-65d4-913cee871cf2@huawei.com>
+In-Reply-To: <9db489fc-ecdd-e1d7-cce1-78d47dfb44fb@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211207_091838_369410_52A583EF 
-X-CRM114-Status: GOOD (  15.32  )
+X-CRM114-CacheID: sfid-20211207_172335_758337_4A7B810A 
+X-CRM114-Status: UNSURE (   5.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,18 +74,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 06, 2021 at 05:43:10PM +0800, Hou Tao wrote:
-> Hi,
-> 
-> On 12/6/2021 3:53 PM, Christoph Hellwig wrote:
-> >>  	if (ana_log_size > ctrl->ana_log_size) {
-> >>  		nvme_mpath_stop(ctrl);
-> >> -		kfree(ctrl->ana_log_buf);
-> >> +		nvme_mpath_uninit(ctrl);
-> > This hunk looks unrelated.
-> It will be related if the value of ana_log_size is reduced again, so you mean
-> the reduction is impossible ?
-
-Ok, I see the intent now and will apply it with an updated changelog
-to make that more clear.
+Sorry, the original mail somehow never made it to my inbox.
+I've picked it up from the list and applied the patch.
 
