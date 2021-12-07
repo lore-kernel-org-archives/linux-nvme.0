@@ -4,64 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF4C3C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Dec 2021 13:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3F51C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Dec 2021 17:18:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UKN9r+cmbQb0IRkq21ipfbEsnSPBQABGnbdsMMouX2g=; b=tYMDuA+JhZ5b0ST/mfR+hezdhD
-	jatjtr1SW6dL/HM/7koCLPzPiObgsuh52m49qvM9Ky7S/Q2fpFNs5XRRLGB3Ntk7npIcjR+1CSwj1
-	vE1YHb1iAnhofWJRMyAk8m3cHak1QovXK4zppCNMtbe1afJHtJDbtwGueBOT6+VZHSOclsqrAI9E+
-	BQ1zy8U8j8l6JL3uPUaq94SDPz9gOngLiZ/jqQlj8jyGZlHyogqd3jq5cLEY1MDAn/fTEvBlPZC5Z
-	Ewv9HkQMUT/D6yZF5GtVCRQ3TA+QrM+u73cII37easCTelfU8oi/ZJO1bE74JHDK4p0s7GiOc4upY
-	cj314jqw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XADu5DCksB1wRtNG6NN5cTwqEy/PYIrZpRETxYRU0+0=; b=hcbyG3OCTZ08TLHxY5hazCxiK+
+	hUQlJiOdE3hKS5c8XPq7sDhHiIvxSQQpzKslhh1mXsXI6dhSqI/0R9CWHpgaa0g6UEZ+febmpWphB
+	+x4jsrZbnPHlLDwWrrdVT1zntCnLsbCNvGt/2Ys2LMzWndDhxgNWhOkVTiI+aj3sJc9N3VmDXQrEY
+	HJmvOtlWwLu95BCkERGeLkuFUtcgqLi1T+5TK/zRpS7LJlZkGfwMhrlGofJfiQco1fe+hwYC8FW2b
+	SOoe/yaOHu9NkJmBdGzfc6+oXPO2GVLA2gBZOMzK7sFLphFoN48LlLXVfxD/cLAuo1e42cVvjNfn6
+	ExWvcbDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1muawu-008myM-De; Tue, 07 Dec 2021 13:56:04 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mue6z-009X2n-3I; Tue, 07 Dec 2021 17:18:41 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1muawr-008mwp-2T
- for linux-nvme@lists.infradead.org; Tue, 07 Dec 2021 13:56:03 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 7F15B1FDFE;
- Tue,  7 Dec 2021 13:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638885357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=UKN9r+cmbQb0IRkq21ipfbEsnSPBQABGnbdsMMouX2g=;
- b=YU9ECsCsC0LhYggsJsDbciVawmGEOT4c92G3aePctS9PbcJGoR+kmPnniJ4q2+oLEJLTeX
- sADtn3Mr5Z5eP6KBWDzARx0HTxGqAqLfq5coxdJDm5nlMfcxo4JRAsSZrUfKYa1df/tF35
- 2y/qn05CJ/3X+EUjGoJ5McsFbuVGGTI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638885357;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=UKN9r+cmbQb0IRkq21ipfbEsnSPBQABGnbdsMMouX2g=;
- b=KHoDVHdasQQjsbuwPeaWD4UW1ldZoLyc5cBsp1Xo+wGtLRiqDnpno63vLj5Gw7h8y4Na9+
- z3mAPw1BQM97gfCw==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 88B56A3B81;
- Tue,  7 Dec 2021 13:55:56 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 73CD65191ED0; Tue,  7 Dec 2021 14:55:56 +0100 (CET)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, Martin Belanger <martin.belanger@dell.com>,
- Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv2] nvme: print out valid arguments when reading from
- /dev/nvme-fabrics
-Date: Tue,  7 Dec 2021 14:55:49 +0100
-Message-Id: <20211207135549.100950-1-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
+ id 1mue6w-009X2I-59
+ for linux-nvme@lists.infradead.org; Tue, 07 Dec 2021 17:18:39 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 5269468AFE; Tue,  7 Dec 2021 18:18:30 +0100 (CET)
+Date: Tue, 7 Dec 2021 18:18:29 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Hou Tao <houtao1@huawei.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Jens Axboe <axboe@fb.com>, jiangtao62@huawei.com
+Subject: Re: [PATCH] nvme-multipath: zeroing ana_log_size as well after
+ free ana_log_buf
+Message-ID: <20211207171829.GA2923@lst.de>
+References: <20211203114715.1936811-1-houtao1@huawei.com>
+ <20211206075347.GA10917@lst.de>
+ <16960197-643f-1e3b-65d4-913cee871cf2@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <16960197-643f-1e3b-65d4-913cee871cf2@huawei.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211207_055601_304118_DCAF5B67 
-X-CRM114-Status: GOOD (  13.69  )
+X-CRM114-CacheID: sfid-20211207_091838_369410_52A583EF 
+X-CRM114-Status: GOOD (  15.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,61 +61,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently applications have a hard time figuring out which
-nvme-over-fabrics arguments are supported for any given kernel;
-the ioctl will return an error code on failure, and the application
-has to guess whether this was due to an invalid argument or due
-to a connection or controller error.
-With this patch applications can read a list of supported
-arguments by simply reading from /dev/nvme-fabrics, allowing
-them to validate the connection string.
+On Mon, Dec 06, 2021 at 05:43:10PM +0800, Hou Tao wrote:
+> Hi,
+> 
+> On 12/6/2021 3:53 PM, Christoph Hellwig wrote:
+> >>  	if (ana_log_size > ctrl->ana_log_size) {
+> >>  		nvme_mpath_stop(ctrl);
+> >> -		kfree(ctrl->ana_log_buf);
+> >> +		nvme_mpath_uninit(ctrl);
+> > This hunk looks unrelated.
+> It will be related if the value of ana_log_size is reduced again, so you mean
+> the reduction is impossible ?
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/fabrics.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 282d54117e0a..7ae041e2b3fb 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -1069,6 +1069,26 @@ static ssize_t nvmf_dev_write(struct file *file, const char __user *ubuf,
- 	return ret ? ret : count;
- }
- 
-+static void __nvmf_concat_opt_tokens(struct seq_file *seq_file)
-+{
-+	const struct match_token *tok;
-+	int idx;
-+
-+	/*
-+	 * Add dummy entries for instance and cntlid to
-+	 * signal an invalid/non-existing controller
-+	 */
-+	seq_puts(seq_file, "instance=-1,cntlid=-1");
-+	for (idx = 0; idx < ARRAY_SIZE(opt_tokens); idx++) {
-+		tok = &opt_tokens[idx];
-+		if (tok->token == NVMF_OPT_ERR)
-+			continue;
-+		seq_puts(seq_file, ",");
-+		seq_puts(seq_file, tok->pattern);
-+	}
-+	seq_puts(seq_file, "\n");
-+}
-+
- static int nvmf_dev_show(struct seq_file *seq_file, void *private)
- {
- 	struct nvme_ctrl *ctrl;
-@@ -1077,7 +1097,7 @@ static int nvmf_dev_show(struct seq_file *seq_file, void *private)
- 	mutex_lock(&nvmf_dev_mutex);
- 	ctrl = seq_file->private;
- 	if (!ctrl) {
--		ret = -EINVAL;
-+		__nvmf_concat_opt_tokens(seq_file);
- 		goto out_unlock;
- 	}
- 
--- 
-2.29.2
-
+Ok, I see the intent now and will apply it with an updated changelog
+to make that more clear.
 
