@@ -4,81 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39794C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Dec 2021 12:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07630C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Dec 2021 13:14:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fj3GdK+8LWUMW5B6Z1iKwYCcHXg1XtvaxaHBYc5uJOA=; b=Gtt7BaOK7n2TpzuhthAB4P49Fo
-	+Y0FZHgsd1gQGH8akJgFbJ1lk6oGgrhD4d9RVjj61ohmaxzofFSiMiqmUKWIaP/36bbpDQqQqiXs7
-	1uouOIqxqSGMWRLiopZ/SndsZ1IEmMPEN2agOBZBLny4FNOG1vICJA0WPvhA3MTCFilvb4Kvisz11
-	3BOxtMIgiFJyc7hzK3bQpmq8uz8/jH0rDzzZk2cn8tWLc8Jg3rrivtUvf+a43Ud9VQrSZSUt2yLYV
-	UK+E62kpIIUt6q9hjVqkf4Hj/JXfpj8FuENRopBlvz4IYvraUctPdLZgAg6IGerRbCFAQzMg+Ow+l
-	kmAY2T4w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ULPdLWOQUIz0D7jBVp2Wr2aB9greKXfQrujJlCYqGYQ=; b=T/W1i5zj/OHR8f0pzL/xZzvkup
+	9nBFlhRKVS9h6bnx1gG+hf5TqNyI/uuQm64n5fLeuLJxSweQZIzQQN8WAiA9PXhqulmam132Ko6Jg
+	aqm/BC9rf1y1sdU581mUjHXBpMbBaFiYLpD/MqRhIoSOb9SQ45qbHi4d7b/lBtrk5+EYd9iHqr0gZ
+	A+/HZwiIOX7MbI2UCzdrQpklMGwr7SHYhEnPdIfrlUKBICUtq4XjMUm++RdFHZ5xe/4HKrg9clqwn
+	vJnAIXrQfpJpExmJb6hTW2KNCKxB8MukkHLJep5FiVWvYGeg2GV5L26BDClkEIHDsmYh6GFXXz9/n
+	0OeKHLvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mvefh-001mQm-GI; Fri, 10 Dec 2021 12:06:41 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1mvfje-001vIA-O4; Fri, 10 Dec 2021 13:14:50 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mvefe-001mQ4-33
- for linux-nvme@lists.infradead.org; Fri, 10 Dec 2021 12:06:40 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 916CC1F387
- for <linux-nvme@lists.infradead.org>; Fri, 10 Dec 2021 12:06:34 +0000 (UTC)
+ id 1mvfjb-001vHO-3U
+ for linux-nvme@lists.infradead.org; Fri, 10 Dec 2021 13:14:48 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id C1706210F8;
+ Fri, 10 Dec 2021 13:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639137994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fj3GdK+8LWUMW5B6Z1iKwYCcHXg1XtvaxaHBYc5uJOA=;
- b=IHcK1HgrKbc591Z3fC8HyCCRR/r9AX5IJNn4v+uDXujjkjE2mX/jWdiktxwYJtgIOO2uVK
- 8cnm/TLKVDa6vuBywXvsOcVue+nEXYOUaAzcQA8enoBBNz6kd5xJcJrv02pzFs42I2qN3J
- mj3KPopmzGcOzu2KZAkzx2t4dgrtaqg=
+ t=1639142085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=ULPdLWOQUIz0D7jBVp2Wr2aB9greKXfQrujJlCYqGYQ=;
+ b=Ahftnc9Mrn1M/n4jeqhCM7lKMZfiIezw/1i+HS71LDi3EG0AWIm5Hf0YGcb5P0N94yO1Ho
+ OGz/S2sJFKI9C1aUxZfInUyiTtnhrD+UbNcb+E525N9eFVkZjK0WkgmlIrYGkeTwwLzvT5
+ 56AimRsD1xaR0WmxRImQW/RrZGwClDA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639137994;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fj3GdK+8LWUMW5B6Z1iKwYCcHXg1XtvaxaHBYc5uJOA=;
- b=robA9/Q457kguAyUHtBVxvhen5o0C2YfJNgPbbUg0Ls66h5no0rbt4P60tLYaEFFoIy4/F
- gI9smG0TzAVkhRBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7CAE713E02
- for <linux-nvme@lists.infradead.org>; Fri, 10 Dec 2021 12:06:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XiIOHspCs2EUfgAAMHmgww
- (envelope-from <hare@suse.de>)
- for <linux-nvme@lists.infradead.org>; Fri, 10 Dec 2021 12:06:34 +0000
-Subject: Re: [PATCH 09/10] nvme/042: test bi-directional authentication
-To: linux-nvme@lists.infradead.org
-References: <20211123074940.113390-1-hare@suse.de>
- <20211123074940.113390-10-hare@suse.de>
- <ffe973a1-1856-e2e7-9695-cb2ce532de3b@grimberg.me>
- <ebae81ae-94d8-6044-1492-cc856a476290@suse.de>
- <17b0e7fa-317a-fbd5-6a04-2a76e3c7f88c@grimberg.me>
+ s=susede2_ed25519; t=1639142085;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=ULPdLWOQUIz0D7jBVp2Wr2aB9greKXfQrujJlCYqGYQ=;
+ b=KSi2YZLXlthNzJ6eAzG18cD3XkznHl2OQCsIwKfvQBdKgUigQomZooWUcym9F83F902Ja/
+ RFHz/+NPJDr6+7BQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 951B3A3B94;
+ Fri, 10 Dec 2021 13:14:45 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 82EBC51920BF; Fri, 10 Dec 2021 14:14:45 +0100 (CET)
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <068a4335-74c8-e7e6-85e0-fed888f4e3fd@suse.de>
-Date: Fri, 10 Dec 2021 13:06:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme: add 'iopolicy' module parameter
+Date: Fri, 10 Dec 2021 14:14:44 +0100
+Message-Id: <20211210131444.120946-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <17b0e7fa-317a-fbd5-6a04-2a76e3c7f88c@grimberg.me>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211210_040638_324343_2119C751 
-X-CRM114-Status: GOOD (  16.79  )
+X-CRM114-CacheID: sfid-20211210_051447_325072_7A7A032F 
+X-CRM114-Status: GOOD (  13.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,134 +74,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/8/21 2:09 PM, Sagi Grimberg wrote:
-> 
-> 
-> On 11/28/21 7:34 PM, Hannes Reinecke wrote:
->> On 11/28/21 2:36 PM, Sagi Grimberg wrote:
->>>
->>>
->>> On 11/23/21 9:49 AM, Hannes Reinecke wrote:
->>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>>> ---
->>>>   tests/nvme/042     | 107
->>>> +++++++++++++++++++++++++++++++++++++++++++++
->>>>   tests/nvme/042.out |   8 ++++
->>>>   2 files changed, 115 insertions(+)
->>>>   create mode 100644 tests/nvme/042
->>>>   create mode 100644 tests/nvme/042.out
->>>>
->>>> diff --git a/tests/nvme/042 b/tests/nvme/042
->>>> new file mode 100644
->>>> index 0000000..f3954b4
->>>> --- /dev/null
->>>> +++ b/tests/nvme/042
->>>> @@ -0,0 +1,107 @@
->>>> +#!/bin/bash
->>>> +# SPDX-License-Identifier: GPL-3.0+
->>>> +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
->>>> +#
->>>> +# Test bi-directional authentication
->>>> +
->>>> +. tests/nvme/rc
->>>> +
->>>> +DESCRIPTION="Test bi-directional authentication"
->>>> +QUICK=1
->>>> +
->>>> +requires() {
->>>> +    _nvme_requires
->>>> +    _have_modules loop
->>>> +    _require_nvme_trtype_is_fabrics
->>>> +}
->>>> +
->>>> +
->>>> +test() {
->>>> +    local port
->>>> +    local subsys="blktests-subsystem-1"
->>>> +    local hostid="$(uuidgen)"
->>>> +    local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
->>>> +    local scratch="/tmp/blktest-ns1.img"
->>>> +    local hostkey
->>>> +    local ctrlkey
->>>> +    local ctrldev
->>>> +
->>>> +    echo "Running ${TEST_NAME}"
->>>> +
->>>> +    hostkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
->>>> +    if [ $? -ne 0 ] ; then
->>>> +        echo "nvme gen-dhchap-key command missing"
->>>> +        return 1
->>>> +    fi
->>>> +
->>>> +    ctrlkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
->>>> +    if [ $? -ne 0 ] ; then
->>>> +        echo "nvme gen-dhchap-key command missing"
->>>> +        return 1
->>>> +    fi
->>>> +
->>>> +    _setup_nvmet
->>>> +
->>>> +    truncate -s 512M "${scratch}"
->>>> +
->>>> +    port="$(_create_nvmet_port "${nvme_trtype}")"
->>>> +
->>>> +    _create_nvmet_subsystem "${subsys}" "${scratch}"
->>>> +    _add_nvmet_subsys_to_port "${port}" "${subsys}"
->>>> +    _create_nvmet_host "${subsys}" "${hostnqn}" "${hostkey}"
->>>> "${ctrlkey}"
->>>> +
->>>> +    _set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
->>>> +
->>>> +    # Step 1: Connect with host authentication only
->>>> +    echo "Test host authentication"
->>>> +    _nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
->>>> +                 "${def_traddr}" "${def_trsvcid}" \
->>>> +                 "${hostnqn}" "${hostid}" \
->>>> +                 "${hostkey}"
->>>> +
->>>> +    ctrldev=$(_find_nvme_dev "${subsys}")
->>>> +    if [ -z "$ctrldev" ] ; then
->>>> +        echo "nvme controller not found"
->>>> +    fi
->>>> +
->>>> +    _nvme_disconnect_subsys "${subsys}"
->>>> +
->>>> +    # Step 2: Connect with host authentication
->>>> +    # and invalid ctrl authentication
->>>> +    echo "Test host authentication and invalid ctrl authentication"
->>>> +    _nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
->>>> +                 "${def_traddr}" "${def_trsvcid}" \
->>>> +                 "${hostnqn}" "${hostid}" \
->>>> +                 "${hostkey}" "${hostkey}"
->>>> +    ctrldev=$(_find_nvme_dev "${subsys}1")
->>>> +    if [ -n "${ctrldev}" ] ; then
->>>> +        echo "nvme controller found!"
->>>> +        _nvme_disconnect_subsys "${ctrldev}"
->>>> +    fi
->>>
->>> This test case has a weird behavior. Why isn't _nvme_connect_subsys
->>> failing?
->>
->> Oh, but it is.
->> The line 'nvme controller found' is not part of the .out file, hence
->> the test will fail.
->>
->> Call it an obscure feature of blktests :-)
->>
->> But yeah, I can make it more obvious that this is the failure case.
-> 
-> Hannes, my question is why isn't nvme connect not failing (i.e.
-> returning a non-zero status code)?
-> 
-I guess it does, but we're never actually checking the return value.
-Let me check.
+While the 'iopolicy' sysfs attribute can be set at runtime, most
+storage arrays prefer to use the 'round-robin' iopolicy per default.
+We can use udev rules to set this, but is getting rather unwieldy
+for rebranded arrays as we would have to update the udev rules
+anytime a new array shows up, leading to the same mess we currently
+have in multipathd for configuring the RDAC arrays.
 
-Cheers,
+Hence this patch adds a module parameter 'iopolicy' to allow the
+admin to switch the default, and to do away with the need for a
+udev rule here.
 
-Hannes
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c      |  4 +---
+ drivers/nvme/host/multipath.c | 10 ++++++++++
+ drivers/nvme/host/nvme.h      |  4 ++++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 58f5e8f454e2..282459a163e0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2782,9 +2782,7 @@ static struct nvme_subsystem *nvme_init_subsystem(struct nvme_ctrl *ctrl,
+ 		kfree(subsys);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+-#ifdef CONFIG_NVME_MULTIPATH
+-	subsys->iopolicy = NVME_IOPOLICY_NUMA;
+-#endif
++	nvme_mpath_default_iopolicy(subsys);
+ 
+ 	subsys->dev.class = nvme_subsys_class;
+ 	subsys->dev.release = nvme_release_subsystem;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 63367a717805..8f4eea978af7 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -13,6 +13,16 @@ module_param(multipath, bool, 0444);
+ MODULE_PARM_DESC(multipath,
+ 	"turn on native support for multiple controllers per subsystem");
+ 
++static int iopolicy = NVME_IOPOLICY_NUMA;
++module_param(iopolicy, int, 0444);
++MODULE_PARM_DESC(iopolicy,
++	"Default multipath I/O policy; 0 - NUMA (default), 1 - Round-robin");
++
++void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
++{
++	subsys->iopolicy = iopolicy;
++}
++
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys)
+ {
+ 	struct nvme_ns_head *h;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 6c786ea4185b..ac158b8e825d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -771,6 +771,7 @@ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
++void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys);
+ bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name, int *flags);
+ void nvme_failover_req(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+@@ -869,6 +870,9 @@ static inline void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys)
+ static inline void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+ {
+ }
++static inline void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
++{
++}
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+ int nvme_revalidate_zones(struct nvme_ns *ns);
 -- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+2.29.2
+
 
