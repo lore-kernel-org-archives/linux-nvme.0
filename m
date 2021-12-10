@@ -4,76 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC666C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Dec 2021 02:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C640FC433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Dec 2021 06:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1777qpxXy+ZqI8dbPbWtlD5bwoogfer6ZBV0Xkzt0Ts=; b=BrjDnSD6cyq7vamntAE1QIE+zM
-	YVfxJwS8WfijVo87fc/LOD7mv8ZMacnU1Kxoi9UQJcH6pZ83XD3yW4M+JPDhGTF79UAXFayY1f3PT
-	2VBSNxCz+UP/ujwNPVOc9NAWCq3AnSvUyaurOmfTyxMyLN0U9CCE8NYyPiO/mKoI0tjlIpOqGMPm/
-	JUAKYXVsper9V5FdF2yUzRrDzHEBfa3UnpDPNr6FnReXe0H3cZ5lOmUkY5rWOo17dtAi/UTelzUta
-	FtewYAb8KKhSD6uob/v5W9BjD87agonRaYu41L0fAtWfLBy4VnP3nHPH8AtEAd/TlXEVcdfk7jR60
-	FIaLxDuA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=y1GifFop1lI4anosO8Rh54/FVEpscbbAal1X0GxOX/E=; b=z3frlVci7x8Qt0Gpow27pez8T6
+	JxkO4kTBCdb+N9oKVhnxrTM/4qMlQjoKtiUDRqU5V1yN0QDvFk4BKzjWwtx5E9KsnPvJ2hqyN32FV
+	IY/REfkH4AR0R9Ka7hYWG3R/bf3CYsLtoo9n2RC9x4Lt/hR35SCajgbT/jNh14twBk9yqUodk1zXO
+	DA8gwtBx5UJTQYVLTURFC+MjLUrGm0O6EGHxGmSOPOPohulL1mebcPr7FB6BGEh4ujNeYPONeyl9H
+	e6CeaMxWSvssvw9Jffp/mAwZyCKAMVjbA+uZiALJg61EeCt+uI9260k5d+yA7r0yvnBD455D+et+E
+	jDU9XMUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mvVG3-000ePV-CO; Fri, 10 Dec 2021 02:03:35 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1mvZCJ-000rQs-Sm; Fri, 10 Dec 2021 06:15:59 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mvVFz-000eOc-OV
- for linux-nvme@lists.infradead.org; Fri, 10 Dec 2021 02:03:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639101808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1777qpxXy+ZqI8dbPbWtlD5bwoogfer6ZBV0Xkzt0Ts=;
- b=QslY57ktcMeAUkWz7LQJ4SLVQwTquc/e3LdfcVkwildlpG96ocne5GJfFY6ACfU6p3VGgf
- C5D+GQ1knKNDna6waTs3+jW/gunBKeDeSXWXhhvrltrWkdp7yvzjI7hqe5LphooWH3BYuX
- /btmAgxyO+p1BfYc1bAxVsku1rgsFAE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-ehU7CmpdOeaaqgsc8xHoqA-1; Thu, 09 Dec 2021 21:03:21 -0500
-X-MC-Unique: ehU7CmpdOeaaqgsc8xHoqA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 728AD1006AA0;
- Fri, 10 Dec 2021 02:03:19 +0000 (UTC)
-Received: from T590 (ovpn-8-20.pek2.redhat.com [10.72.8.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DF8260BF1;
- Fri, 10 Dec 2021 02:02:56 +0000 (UTC)
-Date: Fri, 10 Dec 2021 10:02:52 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 3/5] blk-mq: add helper of blk_mq_global_quiesce_wait()
-Message-ID: <YbK1TLTkHrut1FJ+@T590>
-References: <20211119021849.2259254-1-ming.lei@redhat.com>
- <20211119021849.2259254-4-ming.lei@redhat.com>
- <8f6b6452-9abb-fd89-0262-9fb9d00d42a5@grimberg.me>
- <YZuagPbZJ6CjiUNi@T590>
- <38b9661e-c5b8-ae18-f2ab-b30f9d3e7115@grimberg.me>
- <YZwzEBtFug6JEmMZ@T590>
- <a3ea006a-738b-af69-4dd5-f33444e3559d@grimberg.me>
- <YaWNZF3ZYWPQBSbk@T590>
- <4394200f-782b-5d75-4570-79a1f63110b1@grimberg.me>
+ id 1mvZCH-000rQe-Jh
+ for linux-nvme@bombadil.infradead.org; Fri, 10 Dec 2021 06:15:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=y1GifFop1lI4anosO8Rh54/FVEpscbbAal1X0GxOX/E=; b=f83fmZYOyCH+kyHIV84Z1CXEkB
+ PIr0SKo3YUtgfpikWRQpu+h5GDvHcdnVoucaHJntVyGySz0y7M8PYCI/uKUeSnyaMzsVGI2+UiJne
+ Adg3c8W2VuQ7dfkBi+uMAPNKjgV3dSl+NcKywLIorMmFosR5OA26B4JxwG4ZZde+OohviDqAPgnfw
+ dt8W/L3MyJJfxGSGeByUUqOuOdwlbo69Q/b1l3dneirHeuKtyvYHIj0R+FZHrlj44sgArIcKpAvk/
+ BecJT/r5x1EYnO23Q8Jyd8CbiK1U1aFlQSpg958h+fDItiVuAbKQ+MkNcfl1ULcAgnZgW1RT9AL/Z
+ nLP1n0og==;
+Received: from [2001:4bb8:180:a1c8:de14:d573:bcd:1136] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mvZCE-00A4qW-RU; Fri, 10 Dec 2021 06:15:55 +0000
+Date: Fri, 10 Dec 2021 07:15:53 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 5.16
+Message-ID: <YbLwmaLqilKEW0Q/@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4394200f-782b-5d75-4570-79a1f63110b1@grimberg.me>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211209_180331_916873_83A02F43 
-X-CRM114-Status: GOOD (  32.10  )
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,86 +64,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 08, 2021 at 02:49:25PM +0200, Sagi Grimberg wrote:
-> 
-> 
-> On 11/30/21 4:33 AM, Ming Lei wrote:
-> > On Tue, Nov 23, 2021 at 11:00:45AM +0200, Sagi Grimberg wrote:
-> > > 
-> > > > > > > > Add helper of blk_mq_global_quiesce_wait() for supporting to quiesce
-> > > > > > > > queues in parallel, then we can just wait once if global quiesce wait
-> > > > > > > > is allowed.
-> > > > > > > 
-> > > > > > > blk_mq_global_quiesce_wait() is a poor name... global is scope-less and
-> > > > > > > obviously it has a scope.
-> > > > > > 
-> > > > > > How about blk_mq_shared_quiesce_wait()? or any suggestion?
-> > > > > 
-> > > > > Shared between what?
-> > > > 
-> > > > All request queues in one host-wide, both scsi and nvme has such
-> > > > requirement.
-> > > > 
-> > > > > 
-> > > > > Maybe if the queue has a non-blocking tagset, it can have a "quiesced"
-> > > > > flag that is cleared in unquiesce? then the callers can just continue
-> > > > > to iterate but will only wait the rcu grace period once.
-> > > > 
-> > > > Yeah, that is what these patches try to implement.
-> > > 
-> > > I was suggesting to "hide" it in the interface.
-> > > Maybe something like:
-> > > --
-> > > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > > index 8799fa73ef34..627b631db1f9 100644
-> > > --- a/block/blk-mq.c
-> > > +++ b/block/blk-mq.c
-> > > @@ -263,14 +263,18 @@ void blk_mq_wait_quiesce_done(struct request_queue *q)
-> > >          unsigned int i;
-> > >          bool rcu = false;
-> > > 
-> > > +       if (!q->has_srcu && q->quiesced)
-> > > +               return;
-> > >          queue_for_each_hw_ctx(q, hctx, i) {
-> > >                  if (hctx->flags & BLK_MQ_F_BLOCKING)
-> > >                          synchronize_srcu(hctx->srcu);
-> > >                  else
-> > >                          rcu = true;
-> > >          }
-> > > -       if (rcu)
-> > > +       if (rcu) {
-> > >                  synchronize_rcu();
-> > > +               q->quiesced = true;
-> > > +       }
-> > >   }
-> > >   EXPORT_SYMBOL_GPL(blk_mq_wait_quiesce_done);
-> > > 
-> > > @@ -308,6 +312,7 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
-> > >          } else if (!--q->quiesce_depth) {
-> > >                  blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
-> > >                  run_queue = true;
-> > > +               q->quiesced = false;
-> > 
-> > Different request queues are passed to blk_mq_wait_quiesce_done() during
-> > the iteration, so marking 'quiesced' doesn't make any difference here.
-> 
-> I actually meant q->tag_set->quiesced, such that the flag will be
-> used in the tag_set reference. This way this sharing will be kept
-> hidden from the callers.
+The following changes since commit e3f9387aea67742b9d1f4de8e5bb2fd08a8a4584:
 
-That looks easy, but not true really from API viewpoint, q->tag_set has different
-lifetime which is covered by driver, not mention other request queues may touch
-q->tag_set->quiesced from other code path, so things will become much complicated,
-also what is the meaning of quiesced state for tagset wide?
+  loop: Use pr_warn_once() for loop_control_remove() warning (2021-11-29 06:44:45 -0700)
 
-Here I prefer to philosophy of 'Worse is better'[1], and simplicity over perfection
-by adding one simple helper of blk_mq_shared_quiesce_wait() for improving the case
-very easily.
+are available in the Git repository at:
 
-[1] ihttps://ipfs.fleek.co/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/Unix_philosophy.html
+  git://git.infradead.org/nvme.git tags/nvme-5.16-2021-12-10
 
+for you to fetch changes up to 30e32f300be6d0160fd1b3fc6d0f62917acd9be2:
 
-Thanks,
-Ming
+  nvmet-tcp: fix possible list corruption for unexpected command failure (2021-12-08 16:36:58 +0100)
 
+----------------------------------------------------------------
+nvme fixes for Linux 5.16
+
+ - set ana_log_size to 0 after freeing ana_log_buf (Hou Tao)
+ - show subsys nqn for duplicate cntlids (Keith Busch)
+ - disable namespace access for unsupported metadata (Keith Busch)
+ - report write pointer for a full zone as zone start + zone len
+   (Niklas Cassel)
+ - fix use after free when disconnecting a reconnecting ctrl
+   (Ruozhu Li)
+ - fix a list corruption in nvmet-tcp (Sagi Grimberg)
+
+----------------------------------------------------------------
+Hou Tao (1):
+      nvme-multipath: set ana_log_size to 0 after free ana_log_buf
+
+Keith Busch (2):
+      nvme: show subsys nqn for duplicate cntlids
+      nvme: disable namespace access for unsupported metadata
+
+Niklas Cassel (1):
+      nvme: report write pointer for a full zone as zone start + zone len
+
+Ruozhu Li (1):
+      nvme: fix use after free when disconnecting a reconnecting ctrl
+
+Sagi Grimberg (1):
+      nvmet-tcp: fix possible list corruption for unexpected command failure
+
+ drivers/nvme/host/core.c      | 23 ++++++++++++++++++-----
+ drivers/nvme/host/multipath.c |  3 ++-
+ drivers/nvme/host/nvme.h      |  2 +-
+ drivers/nvme/host/zns.c       |  5 ++++-
+ drivers/nvme/target/tcp.c     |  9 ++++++++-
+ 5 files changed, 33 insertions(+), 9 deletions(-)
 
