@@ -4,77 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B7A5C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Dec 2021 09:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22233C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 Dec 2021 09:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WHTBMchp3KBXczwZZpIAn+znCy/DsPxuUlwcS/DxvDk=; b=ulCFFq7vE541fKAIc/7kIqiTyO
-	srcA5i3J49UrxVToLtu3SA0FEHbpRDRAF6k0nnMr4tZY9iL5vetn07H/gPyILIehSG/LcIkTAgfcq
-	8XUKz7CaCiz4TlHmioedepil9add6/9M+2allSPPWef2j9m9mvWCd4OmFm6apAlwQvIXdeklQ8z0O
-	79Kqn+R8E+7zjZJyya5cDWNQmUYQY2O98QnoD6El1r4D4MeoKQ+rK15VMJdK2AzH975lMpY/GXE+s
-	naaE1uRGubzDAAs1SkRhn/hiAncvdurFhfUeE2Modq29k7xxGPgkwYuM+7QM+rO/OSKnwM5uPVefT
-	pSI0/hKA==;
+	bh=1Yhs3PgEfbHY9LK402CHAvGm87QQih+LFYBrNBKb7hQ=; b=Gue1ojdWVXy9YwTG497/rzQD6l
+	V2NTCmQonWO7zI4c8J3ewDtQTdkttUpkvdA70WmoHEd8nMAQse1S/bexMjSnDu/7oUNKsjjcNIFJb
+	kDwgmvhy/x7/mYKBuiNU0gAJqLFIOYJGyrP7WcLTDAhpp6H8ORG2v20rD7X0ltEXyBep+Nwswb/L4
+	i+9ltLshVm0/tw+Hja7yxWg9u5s/CIy7TTNevOixzW53LQMs+TjO9Kjls5n9WcEz5rmjNqXpDRxwf
+	TiblB+xZTU82IBjwCWjRCXV5WS4xCA9unBKnrEkSkbjPswqckhB3e60GqFpxOKh5XR+GunHgpfN6D
+	GM/V0Y/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mwLQX-006Flg-4T; Sun, 12 Dec 2021 09:45:53 +0000
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
+	id 1mwLWz-006GgT-PW; Sun, 12 Dec 2021 09:52:33 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mwLQU-006Fl1-Be
- for linux-nvme@lists.infradead.org; Sun, 12 Dec 2021 09:45:52 +0000
-Received: by mail-wm1-f52.google.com with SMTP id
- p3-20020a05600c1d8300b003334fab53afso12071986wms.3
- for <linux-nvme@lists.infradead.org>; Sun, 12 Dec 2021 01:45:49 -0800 (PST)
+ id 1mwLWw-006GfZ-1P
+ for linux-nvme@lists.infradead.org; Sun, 12 Dec 2021 09:52:31 +0000
+Received: by mail-wm1-f49.google.com with SMTP id p18so9901237wmq.5
+ for <linux-nvme@lists.infradead.org>; Sun, 12 Dec 2021 01:52:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WHTBMchp3KBXczwZZpIAn+znCy/DsPxuUlwcS/DxvDk=;
- b=p4X3ZrIUgYP5ZFt8Y0I55UBjuxWpD7KyfYTGOU3gTxk6FdT5I6470gq/DZVyYohNjR
- cVVr+nTKbEOTSBRD6LuDQM8Uzyg/8oWZNZ3oKDtZ63vrHiUI1uVQqPkMrrtJqr3Mj2Bl
- TUxRUuiRsfw1AFX5LJt9jlvsetv0MEXyyPafgqi/R4ZloOm5Sxr1VsGFN9hD3sAZU9NM
- iaRQK95dwjuq/hTYYluNFq6tx+RljbMg61zxa2p/qeFI4WQv+8AGTvWNNekexRxGHbs/
- SxeZD3nJEjDjSSEmlMGaEnMmfYAyniW1pll1ehUD6+MwiIIfEu+JH25LW6HuNLI+nf8J
- IwXA==
-X-Gm-Message-State: AOAM531PEok5/Fv6V4vEHZV6FJR1UQ9smTfP4YNPTtkES8pfe0T+/0tG
- jDP9yOvmnAAO50gk3ClNhZ8=
-X-Google-Smtp-Source: ABdhPJwTcf2pLOyJ1ubM4Y8aZce0OOmggNf36Gt19UoUVjrQumDADB1GEIBKSLdgIDanHjoVwgDmvw==
-X-Received: by 2002:a05:600c:378b:: with SMTP id
- o11mr29794895wmr.157.1639302348787; 
- Sun, 12 Dec 2021 01:45:48 -0800 (PST)
+ bh=1Yhs3PgEfbHY9LK402CHAvGm87QQih+LFYBrNBKb7hQ=;
+ b=V4KBQ8epGMbSpTNUYTy/rDoRoGbSwsLJ6XfZgxrMHNP8VymBRa/OTvFH14/MEN+Bwd
+ hfrMevw9OWpRxh0EA0kz0wmtI3JCION1I7i30y4QG5Bqt/5DuMjwS8SanucpdxwbRrTt
+ ij5/bl99frzAtrvcp0y9zv2Q5hozsMdUhhpFwUmOX79syX6Z4cAjikp9qO69uANacfYp
+ 7N0i4npb2whR9ej1aQ3fvBsDg7wHcec5YKyoVKmVRZNd8Y7PGakd8i+ArCfyCM3pUQr/
+ zYL8z8lq437aEZMd/etBTn2zhxNKTRasL+cFTmCfAVP+j46qMyA7FPppCsPEpqS+VwC8
+ 8mNQ==
+X-Gm-Message-State: AOAM533KI0Jj1ff5llkJEJ6pFmugecRSFLUZ6YhM6+io+jo4wAs2biIB
+ AUsXPsQ12vjfVq5569Zf/vI8/IC+Eq4=
+X-Google-Smtp-Source: ABdhPJxqMbdkjZPWCp4vW9hNMlO2Ec7DoLLYzeVfZOv4miAIAD65BuqyWVgrj6WsAUD49ZxWmzhfWQ==
+X-Received: by 2002:a1c:a9cc:: with SMTP id s195mr6267109wme.147.1639302748261; 
+ Sun, 12 Dec 2021 01:52:28 -0800 (PST)
 Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id r11sm7115126wrw.5.2021.12.12.01.45.47
+ by smtp.gmail.com with ESMTPSA id s8sm8108019wra.9.2021.12.12.01.52.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Dec 2021 01:45:48 -0800 (PST)
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- RDMA mailing list <linux-rdma@vger.kernel.org>
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
- <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
- <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
- <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
- <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
- <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
+ Sun, 12 Dec 2021 01:52:27 -0800 (PST)
+Subject: Re: [PATCH 1/1] nvme: Add verbose error logging
+To: Keith Busch <kbusch@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Alan Adamson <alan.adamson@oracle.com>, "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20211209173213.14249-1-alan.adamson@oracle.com>
+ <20211209173213.14249-2-alan.adamson@oracle.com>
+ <fc8f5858-3bea-675b-003f-b59059bd5e5a@nvidia.com>
+ <yq1mtl8qxc4.fsf@ca-mkp.ca.oracle.com>
+ <20211210165648.GB3856533@dhcp-10-100-145-180.wdc.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
-Date: Sun, 12 Dec 2021 11:45:47 +0200
+Message-ID: <6d23d067-9115-a295-1bcb-ad28679dc4a3@grimberg.me>
+Date: Sun, 12 Dec 2021 11:52:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
+In-Reply-To: <20211210165648.GB3856533@dhcp-10-100-145-180.wdc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211212_014550_802252_A80E7D64 
-X-CRM114-Status: GOOD (  20.25  )
+X-CRM114-CacheID: sfid-20211212_015230_121106_38E3B8C5 
+X-CRM114-Status: GOOD (  32.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,77 +89,68 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 12/11/21 5:01 AM, Yi Zhang wrote:
-> On Fri, Jun 25, 2021 at 12:14 AM Yi Zhang <yi.zhang@redhat.com> wrote:
+On 12/10/21 6:56 PM, Keith Busch wrote:
+> On Fri, Dec 10, 2021 at 10:54:45AM -0500, Martin K. Petersen wrote:
 >>
->> On Thu, Jun 24, 2021 at 5:32 AM Sagi Grimberg <sagi@grimberg.me> wrote:
->>>
->>>
->>>> Hello
->>>>
->>>> Gentle ping here, this issue still exists on latest 5.13-rc7
->>>>
->>>> # time nvme reset /dev/nvme0
->>>>
->>>> real 0m12.636s
->>>> user 0m0.002s
->>>> sys 0m0.005s
->>>> # time nvme reset /dev/nvme0
->>>>
->>>> real 0m12.641s
->>>> user 0m0.000s
->>>> sys 0m0.007s
->>>
->>> Strange that even normal resets take so long...
->>> What device are you using?
+>> Hi Chaitanya!
 >>
->> Hi Sagi
->>
->> Here is the device info:
->> Mellanox Technologies MT27700 Family [ConnectX-4]
->>
+>>> Although I always prefer descriptive error messages, I've not seen even
+>>> half of these errors in the field. This will :-
 >>>
->>>> # time nvme reset /dev/nvme0
->>>>
->>>> real 1m16.133s
->>>> user 0m0.000s
->>>> sys 0m0.007s
->>>
->>> There seems to be a spurious command timeout here, but maybe this
->>> is due to the fact that the queues take so long to connect and
->>> the target expires the keep-alive timer.
->>>
->>> Does this patch help?
+>>> 1. Increase the size of the driver code.
+>>> 2. Require constant patching of the driver code when spec is updated,
+>>>     I'm afraid this will turn into churn.
 >>
->> The issue still exists, let me know if you need more testing for it. :)
+>> Updating the corresponding list in SCSI hasn't been a big problem.
+>>
+>>> Also, we can easily track down the error in the NVMe spec from the
+>>> error code that driver is printing currently, is that not sufficient ?
+>>
+>> Only the block layer status is captured.
+>>
+>> In addition, customers are not really armed with the NVMe error decoder
+>> ring and are left with no explanation as to why an I/O failed. We have
+>> had good results in the field with the verbose SCSI error logging and
+>> that's why this patch was modeled to work the same way.
 > 
-> Hi Sagi
-> ping, this issue still can be reproduced on the latest
-> linux-block/for-next, do you have a chance to recheck it, thanks.
+> If they are not familiar with the decoder, does seeing something like
+> "Conflicting Attributes" really provide the user a better sense than
+> "0x280"? Either way, it sounds like they'd just open a bug with someone
+> who is familiar with the spec, in which case numeric codes should be
+> sufficient.
+> 
+> Are the existing nvme trace events not providing enough information? The
+> existing ones appear to have even greater detail than what this patch
+> provides. Or is there some other reason why the kernel log is preferred
+> over the event tracer for capturing these types of errors?
 
-Can you check if it happens with the below patch:
---
-diff --git a/drivers/nvme/target/fabrics-cmd.c 
-b/drivers/nvme/target/fabrics-cmd.c
-index f91a56180d3d..6e5aadfb07a0 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -191,6 +191,14 @@ static u16 nvmet_install_queue(struct nvmet_ctrl 
-*ctrl, struct nvmet_req *req)
-                 }
-         }
+Maybe the string info be added to the trace events? If so, we may
+need a verbosity level for the trace to record "only errors".
 
-+       /*
-+        * Controller establishment flow may take some time, and the 
-host may not
-+        * send us keep-alive during this period, hence reset the
-+        * traffic based keep-alive timer so we don't trigger a
-+        * controller teardown as a result of a keep-alive expiration.
-+        */
-+       ctrl->reset_tbkas = true;
-+
-         return 0;
+Although the one advantage for the log would be the first time error
+status (or for generally rare errors).
 
-  err:
---
+> On the patch itself:
+> 
+> I'm not sure having it be a new Kconfig option is a good idea since it
+> requires a recompile to enable/disable. Could this be toggled with a
+> static_key instead so we may disable/enable verbose logging at runtime?
+> 
+> The new "struct nvme_string_table" is a bit inefficient. Unknown errors
+> will scan the entire table, which will slow down our hot completion path
+> on any error. The codes are small and mostly sequential, so I think you
+> could create a sparse "static const char * const[]", then the "code"
+> becomes the index that can be looked up in constant time. The total
+> space of the array shouldn't be much different than the proposal.
+
+100% agree.
+
+> A significant amount of the new strings are specific to admin commands,
+> yet errors for admin commands skip the logging. Why define unreachable
+> strings? Or perhaps a better question: why skip logging admin errors?
+> 
+> IO errors can happen in large batches, so perhaps pr_err() should be
+> ratelimted.
+
+Agree.
 
