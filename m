@@ -4,73 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB1DBC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Dec 2021 09:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EB59C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Dec 2021 09:30:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kPOAFOHA1fVd7tp/9pTb38jX6/JX6EU/oEnxKTd8K5Y=; b=svS7vv/40JbLZHwdKmP0tQXqiw
-	V0fgO0fb2emwq6ysBstLizCup0yC1RM0D2+SoN08IMl5wh61C0NfnKzgAtyFysqo06Ir3gmWXHlSZ
-	dc6+74uHaDHV8FG7636I0lF4MJHBw7YdZKbNACRAbs4Vo0X3499j1jcwkHVySzSUNSg0s3gS1ZEGg
-	kHKi1XIK6tT3WQg45SU6I28OXxA3EzMY+J2U3qNzBuj3v0T0Do3z4VWR/fqYubCv6kpsdq6JNVEJx
-	iinwp5Ii+doRvn8b2Onx0PZ9IOuTG+y2UfpL51TJFQ30KkxVj4qUtPZO/Ki69rUBHZoW+IuGnGTFG
-	qCXajuGw==;
+	bh=WT65iHBGMUC3uCLCU6CxS+tWDYE2wAUYflFjY2xn8fU=; b=o+8YkQqo52jtibZGBtiDCvdBik
+	dNqOOERwwdUtaEHW5etlVyQTMfPWv2bYAc3KA41q1oxYHK+weI6T9B1zEg90lICoW0GvwoUL/t5p6
+	SoteL2dRNtsriwkcv8JhfKyg60Tg8jtNbAEYt9WvAcrz1GEs1Ph7eU0/C6Ol1BQQpNrXFZOc+2R4n
+	1f0GR302jLxNyAm1+BxyNxfjG/Yh8FPjYpAEzQ+3ow+fZrdF5jnGvpogcaKrxQjfrfy0/lb4z94aV
+	DgKV9nPawi0H3st8PFG/rs+dkhn3Ixd18C7bJDX2wObgjYTzpkLAt/GoHzUxC6bwSzLvluHygUuoT
+	8TE/9QOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mwhd6-008dGA-Kz; Mon, 13 Dec 2021 09:28:20 +0000
-Received: from mail-ed1-f45.google.com ([209.85.208.45])
+	id 1mwhfW-008e7m-Of; Mon, 13 Dec 2021 09:30:50 +0000
+Received: from mail-ed1-f53.google.com ([209.85.208.53])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mwhc1-008ctb-3R
- for linux-nvme@lists.infradead.org; Mon, 13 Dec 2021 09:27:14 +0000
-Received: by mail-ed1-f45.google.com with SMTP id x10so32494614edd.5
- for <linux-nvme@lists.infradead.org>; Mon, 13 Dec 2021 01:27:12 -0800 (PST)
+ id 1mwhdS-008dPY-I7
+ for linux-nvme@lists.infradead.org; Mon, 13 Dec 2021 09:28:48 +0000
+Received: by mail-ed1-f53.google.com with SMTP id o20so50288165eds.10
+ for <linux-nvme@lists.infradead.org>; Mon, 13 Dec 2021 01:28:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kPOAFOHA1fVd7tp/9pTb38jX6/JX6EU/oEnxKTd8K5Y=;
- b=Ghupbhv8nrQmOieG61zj7v2uIdJ5wXwP5m7e48EZPByS/GXbMaV6vwc4ku+D9D4jIn
- ZVwD3l6aUb2LyQ2j+WjRlZHhVQM5sO1I4Ia9RbkdAyaTrJhFKm8/T0Re+hIcRiSI6Pnl
- MhL790MkYWYcG3HLA3SB+MIQIS8DBRGmXTF4e5RZbAZMEGlADOTFHH4S7U0/6+VxHFg7
- MaAb2PaqgDt+BY7/avs4NGtxFKms+tH7wmWnJyImfxG55zX9DxPX7ypt6XDeTL++1eGq
- CukSKzPzw5bw47XlprVqL7zPaTagd+q5kPyq2BSdwrYb0w77jzqFtLbh5WrucM9s7vUT
- Ohjg==
-X-Gm-Message-State: AOAM533QVxuHngZ1v+Hu/ovz+odR6TCqVqOpnCiRBcACgg80HnTAHFf+
- +zLTKN66c2klJKWOE+rj1AjnfT/hMHI=
-X-Google-Smtp-Source: ABdhPJwlQ2clEsvbEFCt7CykB7m6Y7l3UkFDsEBmnAfW9j2HTZ9X5ZsdN75sBlR3Z74osscc+gjIdg==
-X-Received: by 2002:a05:6402:5244:: with SMTP id
- t4mr62705937edd.27.1639387630825; 
- Mon, 13 Dec 2021 01:27:10 -0800 (PST)
+ bh=WT65iHBGMUC3uCLCU6CxS+tWDYE2wAUYflFjY2xn8fU=;
+ b=vsP2RCWJYM3wnFXrjMpvkKFgJqCttb2t4xtaddtPp6vaQktS1ubClOGQJws0R5+x/N
+ SYP2I5V/aqy/sMLqKI8Invfyts6J6xVw14KvATZoEPSZu5PTxrIldGjK8A1lulxb78h9
+ cvncQyAOkT5qHZtLe1/OVAsLXItfgD+6pK8iOwoJlao0rgIxlu4U0HI2xE/dXJfLxXry
+ TGL2eB94TvpSpVibw6I2U68gXuuFjkrOyWEAIfqOAtdPD3JmhVgNMNhXgWqDFYnfEM3v
+ ebGZ06t4yBdoxcWdIJMAMIuU7IeeUpjasOCbQ2MseuNBwlZWYC6KmMqxYbEDk5Cmro8/
+ oLtQ==
+X-Gm-Message-State: AOAM532KUOrVrrwmvmwWWCHhi58/DZIQ2WZNiKKtGnIcbi7fcU57GhKx
+ Qn2Pt3+7YRMZt3cjdX7B7rsYD2c1Rzs=
+X-Google-Smtp-Source: ABdhPJxk+fSnJEBuLPVQ18hAxEmzYvbXF7s/e7m2H+WQxf3R/q16RHtihIK4zIr/l43qctn1zoqE8Q==
+X-Received: by 2002:a17:906:c113:: with SMTP id
+ do19mr332433ejc.386.1639387717187; 
+ Mon, 13 Dec 2021 01:28:37 -0800 (PST)
 Received: from [10.100.102.14] (85-250-228-224.bb.netvision.net.il.
  [85.250.228.224])
- by smtp.gmail.com with ESMTPSA id co10sm5847409edb.83.2021.12.13.01.27.09
+ by smtp.gmail.com with ESMTPSA id e26sm6121659edr.82.2021.12.13.01.28.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Dec 2021 01:27:10 -0800 (PST)
-Subject: Re: [PATCH 3/3] nvme: add KConfig options for debug features
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>
-References: <20211210112116.9299-1-chaitanyak@nvidia.com>
- <20211210112116.9299-4-chaitanyak@nvidia.com>
- <c467d85d-77da-fdff-53e9-938a7bf01763@grimberg.me>
- <492750cf-b031-5709-0836-c28e475c29fd@nvidia.com>
+ Mon, 13 Dec 2021 01:28:36 -0800 (PST)
+Subject: Re: [PATCH 1/1] nvme: Add verbose error logging
+To: "hch@lst.de" <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Alan Adamson <alan.adamson@oracle.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20211209173213.14249-1-alan.adamson@oracle.com>
+ <20211209173213.14249-2-alan.adamson@oracle.com>
+ <fc8f5858-3bea-675b-003f-b59059bd5e5a@nvidia.com>
+ <yq1mtl8qxc4.fsf@ca-mkp.ca.oracle.com>
+ <20211210165648.GB3856533@dhcp-10-100-145-180.wdc.com>
+ <20211213081217.GA21297@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <6a1d326e-ce96-ef9e-f09d-7ebdc9ef6084@grimberg.me>
-Date: Mon, 13 Dec 2021 11:27:09 +0200
+Message-ID: <d0ce19a8-1e1c-1842-873e-dbb5fda7fcac@grimberg.me>
+Date: Mon, 13 Dec 2021 11:28:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <492750cf-b031-5709-0836-c28e475c29fd@nvidia.com>
+In-Reply-To: <20211213081217.GA21297@lst.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211213_012713_191545_E72925E8 
-X-CRM114-Status: GOOD (  31.60  )
+X-CRM114-CacheID: sfid-20211213_012842_657422_E0D91FE0 
+X-CRM114-Status: GOOD (  16.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,88 +89,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> Add KConfig menu option to enable and disable gencounter debug
->>> feature that uses config NVME_DEBUG_USE_CID_GENCTR.
->>>
->>> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
->>> ---
->>>    drivers/nvme/host/Kconfig | 10 ++++++++++
->>>    1 file changed, 10 insertions(+)
->>>
->>> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
->>> index dc0450ca23a3..dfa2609b7006 100644
->>> --- a/drivers/nvme/host/Kconfig
->>> +++ b/drivers/nvme/host/Kconfig
->>> @@ -1,4 +1,14 @@
->>>    # SPDX-License-Identifier: GPL-2.0-only
->>> +menu "Debug (Enable driver debug features)"
->>> +config NVME_DEBUG_USE_CID_GENCTR
->>> +     bool "Enable command ID gen counter for spurious request
->>> completion"
->>> +     depends on NVME_CORE
->>> +     help
->>> +       The NVM Express driver will use generation counter
->>> +       when calculating the command id. This is needed to debug the
->>> +       spurious request completions coming from a buggy controller.
->>
->> This is not just to debug - it is also to protect against such a
->> controller. What is the purpose of this config option anyways?
->> The main distributions will (as they should) enable it anyways...
+> On Fri, Dec 10, 2021 at 08:56:48AM -0800, Keith Busch wrote:
+>> I'm not sure having it be a new Kconfig option is a good idea since it
+>> requires a recompile to enable/disable. Could this be toggled with a
+>> static_key instead so we may disable/enable verbose logging at runtime?
 > 
-> I can rewrite the text and rename it to "driver features".
+> We need to think about module size.  NVMe is not only used in big
+> enterprise setups but also in deeply embedded scenarious these days.
+> 
+> I'm also not really convince of the usefulness (but also not strictly
+> againt it), but if we support it it needs to be conditional.
 
-It is not a feature.
-
-> We are protecting against such a controller which is not stable
-> (buggy), i.e. it is doing things which it shouldn't be
-> doing at the first place.
-
-Yes, this is exactly what we are doing.
-
-> Consider a case if controller is not
-> buggy then it adds instructions in the fast path which are not
-> needed at all.
-
-We keep repeating this, if the controller assumes _anything_ on
-the command identifier then it _is_ buggy, period.
-
-Again, the fact that the controller is buggy is perfectly fine
-really, that's why we have quirks.
-
-What happened to your nvme-cli argument? that would make it
-specific to that controller.
-
-The host side cost is very cheap as shown before.
-
-> A controller(s) that is used in the production environment goes
-> through qualification process from vendors and from the consumers
-> to make sure they are stable, something like spurious completions
-> detection is a basic part of the qualification,
-
-I don't think that assuming that a production controller does not
-have any hidden bugs is a great practice, and controllers evolve during
-their production lifetime.
-
-> hence we should
-> allow user to configure genctr than forcing additional
-> instructions in the fast path and keep this pattern for future
-> such cases.
-
-I personally think that given that the worst-case option for such
-a bug is possible data-corruption then we should not make it optional,
-but I won't insist on it if others think otherwise.
-
-> Maybe I didn't understand, can you please explain what are the
-> benefits of having gen-counter where controller is stable?
-
-The benefit is that the host code does not "assume" anything
-about the controller.
-
-> I'll wait to send V2 if you can suggest any other way
-> (than kconfig something like module param, I'm not sure) so user
-> can configure genctr calculations, please let me know.
-
-As I said, the nvme-cli skip-genctr argument is perfectly valid in my
-mind.
+Agree, the submitted patch made it conditional though.
 
