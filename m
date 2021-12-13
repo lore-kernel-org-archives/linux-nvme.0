@@ -4,140 +4,170 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7602BC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Dec 2021 07:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BE61C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Dec 2021 07:37:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A2SNzW9EC06LJHakX6EuSQxDWatMOK+aA56nmS9QPhQ=; b=JQFPVBa937NyzMxflxUegaa/2A
-	1sft+NA7dB/QCDDNiPc50NHNLgoscRZsjKgj+aVjw9/SDVhSNlt5jUT3bvk0ST0LohPpDzpgW9p4S
-	Kxd+K+BTFYRMhtfOdXH3F+63wN6jSur2MEXdQ89F0GfBlQTh+wjflcX9BjxUpCv1fSrrjR47pRJ5J
-	OdLERu78cq5cg/TwXIBqJmkbZkxRIj4orx4KhtgdOV4uCmSOhZzB71BDKMwxszeNhOf5ldXfJuXl7
-	UhVIwMN9kvFCd5msnAODPz0kB7xCxLZ752Ez/L4VT/IBppCVi4EYilNrBwybc92X3S8XJiwxCrd6+
-	Ur08vFjQ==;
+	bh=4w/vshR1I5GGOjzDqTjQTQW+8sVauY7cgSlDmyileeE=; b=DgByC/J+zXwbWQ7d2a51CYg6go
+	Pa5tyD7p3JCCzCeVm6h3xsRY2VR1KoCB5w8CCr/dfNyfbhBFf72EVU9BE4PV6vmdmJQLeqkWTLchE
+	Bh1FXzgKMF8OAHAatCK3yVGSy9HCPbe0g4XZszdMR08bdLJ+qOYwwde5jcArLOAVaVMuaFDC74Kh3
+	tQmhmbySwzeGSSTZzTEuE0e3xhUMMpdKuZRsGywHbJqG9+lfZnjOfsHg8He1xeKTcEs0buidjTg9f
+	aIb6LC6aeKYJ9+f3D/OBoENQkYgrl2GZ5Suks4d7nUfILxZuhgvkVYaJG/+TKJnJYk6KV+lof66nR
+	j/YUUu2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mwfUp-00820e-CO; Mon, 13 Dec 2021 07:11:39 +0000
-Received: from mail-co1nam11on2056.outbound.protection.outlook.com
- ([40.107.220.56] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+	id 1mwftY-00879u-GF; Mon, 13 Dec 2021 07:37:12 +0000
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mwfUm-0081zb-H1
- for linux-nvme@lists.infradead.org; Mon, 13 Dec 2021 07:11:37 +0000
+ id 1mwftV-00877s-14
+ for linux-nvme@lists.infradead.org; Mon, 13 Dec 2021 07:37:10 +0000
+Received: from pps.filterd (m0170392.ppops.net [127.0.0.1])
+ by mx0a-00154904.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BD3mKNv005344;
+ Mon, 13 Dec 2021 02:36:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=4w/vshR1I5GGOjzDqTjQTQW+8sVauY7cgSlDmyileeE=;
+ b=XskkpjyULKhIZV5O/pORrtCbu5l8Lh7yL5P1CnYpGX/PC+rsrfS99qiY4wRkxq5b+0Dv
+ YRRJGvPLvhf0svGIoUHRk/6qzqL/Wo0GduD+0R+rvMkGxywWbSajwviZle1FooMzUY4o
+ qCWlJE4JKmeM0Eb9jsmP46bk8cq9R8QXMqzypbjI4MwR98fT1q1i9P4SjlamgpRaF1JP
+ nFY7lHusZ2x/Lgr3WLOwtR2pQngLzcL2y1PMDQQ35Uo8cCyrVnBByYKQhEMzVL4/m8KA
+ vOVaQqy5+mAVhg7vYfFjdPnpth6nnWQX81qKd1M2YoLvdoQ4pYmG/o5Ty9I6DwEB9z6t sA== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0a-00154904.pphosted.com (PPS) with ESMTPS id 3cwc0jtckk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Dec 2021 02:36:58 -0500
+Received: from pps.filterd (m0144102.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1BD7ZC2O010285; Mon, 13 Dec 2021 02:36:57 -0500
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
+ by mx0b-00154901.pphosted.com with ESMTP id 3cx19d8f5g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 13 Dec 2021 02:36:57 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bUstyVhZN4U4WPJhy2VnpHaOx/BcBrcb1FUNVpdLJ4YePETcUN4uC6LWO5FGja7jUmXZUnAuAhsx6THzhmsluH9YquexFPObjv2bgh0T14pRjnPxp7K5wzYqvILaroQKIEKFG21TojeHiol8vexi7btjMBB/xoE34ZL+vXStgtM9iKgwI5cMq5LaRrBRRsZxH/Fi/MtUD7ENJmAI27nQiJfIC3/6gN0Orir0AHu+R6rNJddtXDwJ0HBvqMlT7/uS/YQW9Oei+aSXeZp6GbAgVn4o22gA+YRjVG3LNUVIVkl/JgA4oWYanxcmnPDy5knNhjJvyFHqyNkpJjjrSqSlUA==
+ b=Tml9vBfLOzFhkD98hRlQp1t2fhy7ls4QA9MlVd9Tc+Si3wsXBqJkqJ8aRaK6XrRC0VFWF1zdVYL7gKyxIulB5vvR7VavYC6REmvWKS8k59f/K5u1rhk1fq5dcaEGs5V5i51n+jUOBXTs2tao//Ma9wLkKB06FFgJMwR6b5XCSRPlkkAP1LGeStr8hMJQvsI+Qp/7qWxHDtR9tcxEUUsvAcdiodxbW3J6Xb/yyRGo4CnwCHcwg22+6xl0iuGUvXRiTiUBkWF6GFl/Iqt+ANTtaDp44aYC+DsiGQJMe7IITysWPRy+F6VUIV/1TXNEQSMaiWQSZnmpSuANx4CZ7wkx6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A2SNzW9EC06LJHakX6EuSQxDWatMOK+aA56nmS9QPhQ=;
- b=hqHBCeXI5gw8Uc67oeHWG9xjAT8aNGAMeY+ejwiGuz39PhU8SzswuckTrrE2BBjuE2yFQHY5AQuM1eFzC77TZpZ+5H4kUULcCJYipvIWOu/20F6Io+YhjKRO4B3ZlhMkdUC/Ldp2K6+Vaz3U7pcPAGBOLkg4uhxAV/g8bN2u0fKZIt481LHhqFA4UEts7yBY2D6GpFj9QqGPWrO1QNNFRmkLbJZLm+yu5yHFyTIoetR+TfuVCNTM78ZaW8Pkfj2n05+CZk1g01NrDm7DtlfC7hhAxm2MFFXY1PuO8O+FcbWSxqdz9AlYOqfmHtzwSitc6fbapADDH/w0aPeZN9K05Q==
+ bh=4w/vshR1I5GGOjzDqTjQTQW+8sVauY7cgSlDmyileeE=;
+ b=m8/fJG/JHWJk2EWvjldr/QZqoiQNgWyN7Lr5bvYx+xlSN9ViROit+FcpAM5aBMmdtotLQmIv0o4VYbGvBri8WqYEO11owO9zj7nck8nubXgrXGDk7O8AGhdTiTlvJ51lfAa99ck4nW40ZNQOHGtsPq5I6LNRN95toOohQgsM46ZLzsEuRShcH5K7DcIT3Hp1gx8NKdB/lfUcRzo7YP+YneOuxr40BD4GXq4qDdHtCXcwEiYDSlzQ2Ek3ltYP2QGHDvX862aGJZ3pQkPSGWD6kNBJzPimnjkdwia7H0FCp6xzCV+eLH77e7Q02FcdF2UbeBqipsjWAfu7RsRCu+fB/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A2SNzW9EC06LJHakX6EuSQxDWatMOK+aA56nmS9QPhQ=;
- b=TUdxOAOyBZ490f8XU4NrSr+8qicJWPxfBhCuaEp2zb/gPJ/JWFqrmq3Et+geNNhIh0YPoB0A8YvrUAEBw28UIX8GoDJRAZGkb5XYwCSmyU2jkeaphT24uEUsWoLsf+XYAJHTeMciJsNFPHJ7P95j0V8aU4FjcBoEWgO45xIFTO6rfF/Fhzv8hmVJcT8W33X683UlHZkOdI6vazAvKxjp+gTnOfgWhuEu+m+Qok939lgWjY++l2jLg6OOq7qfHOOD4mM77ioq3uQ2oosmWJ3C0d0kXP93RqpbGqI6yd120MImAFcKSXCFV/9yeS76rr1dvI5m4EIZj8WRM8KErYGxeg==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MWHPR1201MB2559.namprd12.prod.outlook.com (2603:10b6:300:e0::23)
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+Received: from CO1PR19MB4885.namprd19.prod.outlook.com (2603:10b6:303:f5::17)
+ by CO1PR19MB5062.namprd19.prod.outlook.com (2603:10b6:303:f8::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Mon, 13 Dec
- 2021 07:11:33 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::6df1:639d:74ea:d39e]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::6df1:639d:74ea:d39e%7]) with mapi id 15.20.4778.017; Mon, 13 Dec 2021
- 07:11:33 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Hannes Reinecke <hare@suse.de>
-CC: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- Christoph Hellwig <hch@lst.de>, "linux-nvme@lists.infradead.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Mon, 13 Dec
+ 2021 07:36:55 +0000
+Received: from CO1PR19MB4885.namprd19.prod.outlook.com
+ ([fe80::5c6:d55a:df66:11de]) by CO1PR19MB4885.namprd19.prod.outlook.com
+ ([fe80::5c6:d55a:df66:11de%7]) with mapi id 15.20.4778.016; Mon, 13 Dec 2021
+ 07:36:55 +0000
+From: "Engel, Amit" <Amit.Engel@Dell.com>
+To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
  <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvme: add 'iopolicy' module parameter
-Thread-Topic: [PATCH] nvme: add 'iopolicy' module parameter
-Thread-Index: AQHX7cgs7e8QGCoIUUmmCY7IUfhLdKwwBcCA
-Date: Mon, 13 Dec 2021 07:11:33 +0000
-Message-ID: <d7b6075e-99b4-45fc-d71f-81d348ad59ab@nvidia.com>
-References: <20211210131444.120946-1-hare@suse.de>
-In-Reply-To: <20211210131444.120946-1-hare@suse.de>
+CC: "Anner, Ran" <Ran.Anner@dell.com>
+Subject: RE: nvme-tcp host potential bugs
+Thread-Topic: nvme-tcp host potential bugs
+Thread-Index: AdfrbBcS1P3+CjK7Tc++v2dp09EesQAu0j6AAPMmLTA=
+Date: Mon, 13 Dec 2021 07:36:55 +0000
+Message-ID: <CO1PR19MB488518C215ACFF0B53812FC0EE749@CO1PR19MB4885.namprd19.prod.outlook.com>
+References: <PH0PR19MB4889C321978DC541DD83A939EE6E9@PH0PR19MB4889.namprd19.prod.outlook.com>
+ <9f6e47bd-e604-790e-b6a1-13ed8fd111b1@grimberg.me>
+In-Reply-To: <9f6e47bd-e604-790e-b6a1-13ed8fd111b1@grimberg.me>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
+msip_labels: MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_Enabled=true;
+ MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_SetDate=2021-12-13T07:35:19Z; 
+ MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_Method=Privileged;
+ MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_Name=Public;
+ MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_ActionId=f4fc74d1-4311-472b-96b2-2bf6c914b1a1;
+ MSIP_Label_34759c52-a6db-4813-b00f-5ea20e29646d_ContentBits=0
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1a08bdf2-da72-4e1b-a24b-08d9be07cb60
-x-ms-traffictypediagnostic: MWHPR1201MB2559:EE_
-x-microsoft-antispam-prvs: <MWHPR1201MB255937E65F8B7F3F137B077AA3749@MWHPR1201MB2559.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-office365-filtering-correlation-id: ae95e445-c396-44a5-64cf-08d9be0b56bf
+x-ms-traffictypediagnostic: CO1PR19MB5062:EE_
+x-microsoft-antispam-prvs: <CO1PR19MB5062BF2DF742687A68CFF444EE749@CO1PR19MB5062.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vPbi4U8o17QZU1SCL2meX59Voo31Emv+hQn4pB89M9bcR16kP+JVR4EZvMhau1+rTOGYs297DjBWxO0y2k1qVKOVz1x0O93S1BKS/KdRdx5ZiB0nQ/Zh4qZFUcFZCcFNtn2stvA7erNPT91TRMIBQ1B1elBUCkBuYgabOHbjGzY6ij+x4dGk9JGSaO364w2VfYU9/SoqRqjmVZG/HAfjbPmqeIaJEQ2TDmBma2zQFn3SePiSHytcoAOMb80uVeJS9DFxLaN0luA75MWHti7k3+odDZSokkKCxld59qXT8qpJodBGRfQ+Cd2IlmBvG7k09Evi9kFCk5MPo00iCnHink3lHiGPAcFzGq3c+ZGXyFtpy6D72ewq9hGhA1itqreaePfGun7A91rjQzf4WXzbRhvqM9hAYFL1iLsomJC0yiIJuNrLrMFUM6/qtbkjUGP7OH7asTzPcbBToa9AW7ekmQkjSqRrWw4sX/b9ppSu/9gzi4/FLlR4czUD4pj00w4Qjruk63V77pSldaU149YPqcg36fMkMU7tc01syeWyqCdmZoUlfFuVRPRsPdEGBaonB7kgZ1HlfzEq8S7kcoOSUVFcKWlGFmfaKaKkolkzOKEgeBWHQghjpymQ7gOwMpuJgaXqtpDsj/xjYuofiFM67FbIZme8kz0Yns5GPh2Fb5QHhaUzmXWfBjIF2b+zt62bkB+hAI5EbdNFo5QCIazO+R7qX84eBNKaIqMg/iv57gKYeo8xlS82sjcxHodOiWSjK87pvnpgfCqh7Oy72k2kmg==
+x-microsoft-antispam-message-info: PD1Jst+CJxTPP17/s/ljNwMT9L/fIS/npiFSV0NNK2jsylFSugQ8nuXT45UDe3SXaYILRXNXcCp9U+6eQOofCpYX73RgQ45I9X6hwokD6uNLg+gcYtpbcHsfuRNuy+s4KvTXrxvGDwWQO0fDnnglmvYJ77vp1Wp9Y+kxAqJKH15sajbRf4yPcMRKZxWGZ2EkaGOh9HakEkQnzEBKMxdYuP5UFwWcxeMJRSrUEXWs/PXBnqm5HM43ukO9OyFR+KRYLbLJkKg0+aQRy2rC7Wi22MPO5jEEQH9PqXMILxwYwE+x5EMQGPINJelchUaU0F1wIV1wJ463gPWRaiMVAKw5uOlEbjISLY9rR07jRARD9edKW/Oi/9i9R71Vm92h38VXHkWJc5NdxYHUPs33iQvJy+DvEMugJSaHd8/bIMuVaLa6xewxRAuKWF8VdqAbeTX5D0DFJbcwQc4naRk3/XS+WPQtZfhRaDHGAMpAXr1J8tvgrwe8ZvQnv/JpOzxnntp66jq5tWPXE9g6G8UcrSYUs9uDvHrNl/LkPodhZV2EDXPRbIiUoa9mGf2PgjCwZ3t0IMcMnLokO9LPIe5Mye9kfk8vz2fbw/Ur8v3/BwCX1ELjKFTj+PuAlDhSp02inoF2jfNB15EILbK75bIqNzgquA55S7PVBDihQorYMIou4sWO4UsWk5+mXrwriCCJErylGGGjf3e94ehAkDKdyV2ETg==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(186003)(316002)(66446008)(64756008)(66556008)(54906003)(6916009)(38070700005)(31686004)(91956017)(66946007)(71200400001)(4744005)(4326008)(76116006)(83380400001)(8936002)(66476007)(5660300002)(53546011)(6506007)(6486002)(8676002)(508600001)(122000001)(36756003)(38100700002)(2906002)(86362001)(31696002)(6512007)(2616005)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:CO1PR19MB4885.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(2906002)(110136005)(38070700005)(5660300002)(508600001)(8936002)(82960400001)(122000001)(786003)(38100700002)(4326008)(33656002)(3480700007)(316002)(6506007)(71200400001)(7696005)(64756008)(66946007)(66476007)(8676002)(26005)(9686003)(53546011)(107886003)(66446008)(76116006)(186003)(52536014)(66556008)(55016003)(83380400001);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N2MzYlZiWnh3cnNyM0hSa3pUaG5YVmp3QlBhN1JubFlBR1E1aU1Zc3FEb0Ir?=
- =?utf-8?B?Tk9oMDQyUmVLenBpYmZ5RFJTc0J2eGxxaUtsblI0bkxNTUtJQUZUVzBtbkVH?=
- =?utf-8?B?MzFlYzg4Q0gzbUFLa0R3ZXRTUWZ1VDdqYmFCcWtRQjhDSVB0aE9UYXc5Znln?=
- =?utf-8?B?Ukt5NnJNSDBBYVd0UlVpMWVkdDA3YXFwR0k3Y2EvZEUwVGFobDBQVE4wSHVz?=
- =?utf-8?B?SXhVQmlRUVc1cFd6R1E0S1BtNFBNZnB3Rm5pajU3WGNmTHRkTjd4NC9OZ3hr?=
- =?utf-8?B?L1Z3R2tZY0grb2t1QklhSnFaN0dDZVZRemhyL21POTBDU3N3ckFsTnR0YzEw?=
- =?utf-8?B?WnBENGpSOE42YkNBbVJEd2d5by9PZDFKbHFhVGpVQUZkTnhybVlqalNnYkZY?=
- =?utf-8?B?MkVvNHJrS2ltOGFzaHJ1bkpwSnF4c2QzcndnMHFmaTh0cUxreUxoUEl1OENQ?=
- =?utf-8?B?dXJsZXF2NC90K0V5Q1JBTGtvakFBVEY3TWxhaUlwYzdBbXllU2FvNDVXZk9y?=
- =?utf-8?B?WDVzeitmNWtoUkxWdTh2NTJvS3c0NktuUW1WQnNrYUsrYzJUL0hsdU5aTEF2?=
- =?utf-8?B?Uk1jYjJ6TjVZR0RweE5EUkFLbHM0UEY0MjRnbVdlMTI0aGh0Vlh2ZlhRS2ty?=
- =?utf-8?B?MjR5aU1NWm85N0tOWWVFUEJxN0JOeEtsMytkdWhWdWJqRG5xTW8rcnZNWkM2?=
- =?utf-8?B?UGxLZDF5N016MkxvaEtpUWhkUHZsUjNoUGR6WWEvRDFiT0xnQVJ6d2xIcjJV?=
- =?utf-8?B?OW9pVHBPM3NkZUpFWHArcmZZM3JaNjRYOTFiZjVNNGtlbHNzNHJ4Z01pNnZl?=
- =?utf-8?B?dHBFZTBidGpFMjg5aFFDMkU3a3VSejZuK0tGUUd2WVU1a3hhRjJTNXhVb0pS?=
- =?utf-8?B?MUJsZ3kxQW92eGU3d29NSlAwTDR3NEZWMkV6c01RSkhFdDhGQXFvU3habURk?=
- =?utf-8?B?NEZlUS9UMk1LYVVtVWs5VFJIUi9wbFd3U0Nrc0lZQnBPdmxhVE51dXNMc1ZT?=
- =?utf-8?B?SzhmR0IyeE10SjZDUkl1MFFGdXRoOUxFVEhZdG1HUjZpYVZMdm1UWnZMM24x?=
- =?utf-8?B?dHNvcEplM1owYUYwclNYUzRFMVdtR2ZCVHhyVkNWS0J6ZzdBMm1rQzRUcW05?=
- =?utf-8?B?K2Y5M0RLU0ZwaDVUQkE0M3FWeklKMHMvK3d2MjNtcDVwd1dHNjlROExXb25I?=
- =?utf-8?B?WlJPQS9XQ2twemkvbU55NlM0eHZ2NTk5LzZwM3VNRHpyUHRpVkppdlhMQnNo?=
- =?utf-8?B?R25uVGh1VmZ2M0EzcnNzSGhsYUJ0bE1Kd0NHN0ZRMjZmVUZOQ21RdGJlV1dP?=
- =?utf-8?B?ako2aDRMWnNEVkllRWhEekx6YWF4dkJ1eFIvZmt5N09xRjhxZzdZMUxkZG9Z?=
- =?utf-8?B?N0hWMnF3N2dWZU1qcWk0eHNscFZBaVpuc1RIcnh0Q0QxWXg1eU1ZV1dsT25I?=
- =?utf-8?B?QnJsb3pGM3BFZ1NnbXpja1R6RjU5VmZaZ0tHVDA4eUFYdHovMWlEUklIdy9T?=
- =?utf-8?B?b0FjN1QwR3ZoME9UVi9Zd082dmptT244RnBrRFBjd1lyTnV4dWhrSkZiZFhj?=
- =?utf-8?B?dmNlTDlKUEErczJiMjgxcVp0cWZPZWgwaGZFOStpZ2o0VFpOckd0VlZwOVNL?=
- =?utf-8?B?UVo4eVVVYXQzVGFzTldEZEs2Qmo5TXpyeituUWd4OHo3dVBadXVkY1R1SUor?=
- =?utf-8?B?cHBpa3BqOTluQ0NmWm5yaDZwK1hCKzBiUW1CbURTTU5ndlY1YitZenloM2Fw?=
- =?utf-8?B?UmZQTEx3TlhkUnBhblpXSmR0ank1ZVJhTVY2UjhwMmF3UllQMFhZc0JoWHpY?=
- =?utf-8?B?T2tLOXlSL1dFUnFubXpqek1lWnlJTjVsODBLeVFOY1VWbHV0bytONXZTVDlO?=
- =?utf-8?B?N2toRjdScm9ycHRZWUZwZ3c1Z2lPWG1VMkFrWURPYUVKbHhCRVI3bnE0WWpW?=
- =?utf-8?B?NkVJWnpqS2szS0JVbXNzY25xdDZpekpjaFN1RXEvVXh2RC84WWdFd2lpNDJJ?=
- =?utf-8?B?NGZCQmF5Mjg1K0V5ei9BeXIvWW04bVlmTGNqWVBHdjVYcEpmZmdINml6ZVR2?=
- =?utf-8?B?NDZpUE4xSHQ3MUlUOVRvaXZTSkJqejBxRHF1Q3BhdktTK3VNWW1Kci8xaDln?=
- =?utf-8?B?YVgrVGlNZTYzclhXYlNMTkdjQTRxQzQxSEtkaFpUYnpWRlRBMktvblRXbm9o?=
- =?utf-8?Q?IjD/c7q4pB4LI0zfGPBA/OlLXm52Wglq3XFO5zK/hrNK?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <404F93092284E74E9252CA452EED2537@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Rh5VYQpj0dU6PBHLZDclvlEqI+NU+uMI6g14Fu423quC9lu07Ae0DTlaKqem?=
+ =?us-ascii?Q?q4A+rNXeTewSGKqH4DDfrC41RObynD6b287pi96ml3hmpvS/BWWH7XQSoQUj?=
+ =?us-ascii?Q?cEISP5xCRwrIO1LJmsTG7adWcnYHb/d5D8eG7xYL6VO2lF/cSJwhtU3IeiHJ?=
+ =?us-ascii?Q?OA0Z0YUPCOTJYF8g7WWUpxphyp+md32E6beMbX/A+TEUG64PzLoL5r7G/geu?=
+ =?us-ascii?Q?2tdJSJkTUdX5Va6x6k7vZYaaAqTe2gF/vvSOvhDKK09Yj/ZQIfa/8o52r10g?=
+ =?us-ascii?Q?Ib5GsVm1K/YjIVecCVapX50ankf7GgCaMokrfQpEH1OI3LoXkemGj83Iy7II?=
+ =?us-ascii?Q?harB6rscWP6VOsDLjOuTv9rWJ7deoKi0HVR6WligtV4ccqb2Zgrx3VVMvcu7?=
+ =?us-ascii?Q?TQ3EX3XCCldoqo5Ph4pG9tm4dpVE2hfDTu/Zncyi0kGVhHUWsZ58hvqe95IL?=
+ =?us-ascii?Q?M+B5ATiBDXSDWptrSfkHKPTNWADkBAx84ywEkpQ1ykmxL5LrvgI/w39qF9me?=
+ =?us-ascii?Q?H5c93tTifHDJZP0TfAqMpWJX7CQGYSRCsjvH0Q42KRB9hyN9FnIb3S1em8gS?=
+ =?us-ascii?Q?EFumh/s1Zxjhw+nxjRW5Md52MDlcStAG3xV7pTTm+qdM2+9El804XyCxTk94?=
+ =?us-ascii?Q?gKkkmKerrj6LhvAoCretbqFateYFMXChmZmiHYBPqdvzicVKspQnSzI14y0r?=
+ =?us-ascii?Q?+qTV/A3u1bHq9ZJrHJfaVUBlRaG00YCUj6SCcuxoNQf1xgF8ygEaPHZ2WpWK?=
+ =?us-ascii?Q?fD1rz+kIKK7GZ7tMI8TrlCDKaiNwAtynJnWQfnCf6PuCI9Q3WmkIjw77kNbw?=
+ =?us-ascii?Q?467obEoHIIyGXiMmUXb9qFxZnfrZqdldw2g4ZoVGuM6pCBdJn1qngKppc+Ft?=
+ =?us-ascii?Q?iWILt9OUJg7gEdz7Ai7s0wCVrpqRlmSv5wpygrwpWjvwy6YVqreujMJ+If9c?=
+ =?us-ascii?Q?kEUyS1oISwzHkLg71QRwYnDMJaXfBDMKCyrf2EXivDbiSI15EcWkVsDIgikY?=
+ =?us-ascii?Q?674QwMrw/8d/pbEkYUXnstcXJvi4iENBzE2qTm2tZGSutD06HBZYDbvDDMoy?=
+ =?us-ascii?Q?ZKUWWX7Ufz4wzVgVppz695d0p+bkJ+kn3ppN4Ci0JRYTKOv/YGX1d24z7ZRZ?=
+ =?us-ascii?Q?olhQYkdAlkTQrOyruPGKEaTZHqOgC9pUg4NKsy3FmZY1NS58h56eS9VoTWZh?=
+ =?us-ascii?Q?As/uMNRvNViA827hqBfRzk7vQyotRr61CfHng/Xyh0q57FIMMsiPEzbaxsnL?=
+ =?us-ascii?Q?FcdlY/2zvX1OAo/Ncu/yk+vaAx/vU52aUU/p8U690DmKLM8yEY2pFzz/1J5v?=
+ =?us-ascii?Q?752b7nulr5Dphr9DLkhkO2X1MHIbtpiMGzf7drmvmVseAh8vEUy+rwSqaief?=
+ =?us-ascii?Q?syhzvjMFDvGPgz5qctWT/k+9jfwQd4sA9rf7YUqGTZ1QKYjxy8vzCQeuhM68?=
+ =?us-ascii?Q?UjM0PGfaezIOi2Ai4GZD3N3yRJRSRoWYZNaLfAqlCDOLoRm3bBgJJcAirJ3V?=
+ =?us-ascii?Q?emfoOciYrhCh1qS6WHwRGbTIiPlCgNCuzv/+tGhxeSRg+3iYGTwvn0fcdqNZ?=
+ =?us-ascii?Q?BnrT8os87Hvj2LjDVphbXuviSkbid+rQPUsByRJCWHXbVxnb0vIFconiwuvt?=
+ =?us-ascii?Q?cQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-OriginatorOrg: Dell.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a08bdf2-da72-4e1b-a24b-08d9be07cb60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2021 07:11:33.4512 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR19MB4885.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae95e445-c396-44a5-64cf-08d9be0b56bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2021 07:36:55.8312 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zHqEWWPff5p28rXnjSRDxtvzUsyV9XECHuOxcHWGS+f3ZrliQ3d5d3QxrzV0boGUXh7XMP8R0ISMUw9z4pyL1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB2559
+X-MS-Exchange-CrossTenant-userprincipalname: /Tb43ns++8aWr8hjhcVf+yORJGFFntM55L5TFq6IkX5cWhtvpcU7LdpALQYRoIZu4KwjYENmb8aJHpP9Oi83Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR19MB5062
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
+ definitions=2021-12-13_02:2021-12-09,
+ 2021-12-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 malwarescore=0 bulkscore=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112130048
+X-Proofpoint-GUID: g3-5HYJnOGIR52ZQymdhMflxf42oDMrh
+X-Proofpoint-ORIG-GUID: g3-5HYJnOGIR52ZQymdhMflxf42oDMrh
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112130048
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211212_231136_598497_697C72A7 
-X-CRM114-Status: GOOD (  13.26  )
+X-CRM114-CacheID: sfid-20211212_233709_157621_58A811BA 
+X-CRM114-Status: GOOD (  28.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,17 +182,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTIvMTAvMjEgNToxNCBBTSwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOg0KPiBXaGlsZSB0aGUg
-J2lvcG9saWN5JyBzeXNmcyBhdHRyaWJ1dGUgY2FuIGJlIHNldCBhdCBydW50aW1lLCBtb3N0DQo+
-IHN0b3JhZ2UgYXJyYXlzIHByZWZlciB0byB1c2UgdGhlICdyb3VuZC1yb2JpbicgaW9wb2xpY3kg
-cGVyIGRlZmF1bHQuDQo+IFdlIGNhbiB1c2UgdWRldiBydWxlcyB0byBzZXQgdGhpcywgYnV0IGlz
-IGdldHRpbmcgcmF0aGVyIHVud2llbGR5DQo+IGZvciByZWJyYW5kZWQgYXJyYXlzIGFzIHdlIHdv
-dWxkIGhhdmUgdG8gdXBkYXRlIHRoZSB1ZGV2IHJ1bGVzDQo+IGFueXRpbWUgYSBuZXcgYXJyYXkg
-c2hvd3MgdXAsIGxlYWRpbmcgdG8gdGhlIHNhbWUgbWVzcyB3ZSBjdXJyZW50bHkNCj4gaGF2ZSBp
-biBtdWx0aXBhdGhkIGZvciBjb25maWd1cmluZyB0aGUgUkRBQyBhcnJheXMuDQo+IA0KPiBIZW5j
-ZSB0aGlzIHBhdGNoIGFkZHMgYSBtb2R1bGUgcGFyYW1ldGVyICdpb3BvbGljeScgdG8gYWxsb3cg
-dGhlDQo+IGFkbWluIHRvIHN3aXRjaCB0aGUgZGVmYXVsdCwgYW5kIHRvIGRvIGF3YXkgd2l0aCB0
-aGUgbmVlZCBmb3IgYQ0KPiB1ZGV2IHJ1bGUgaGVyZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhh
-bm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPg0KDQoNCkxvb2tzIGdvb2QuDQoNClJldmlld2Vk
-LWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQo=
+Hi Sagi,
+
+Regarding the first issue, you are right.
+we missed that ctrl->queues array allocation is capped by opts->nr_io_queue=
+s,
+
+However, we do believe that the second issue does exist:
+As part of create_ctrl
+queue_count =3D=3D nr_io_queues + 1 =3D=3D 49 (in our example 48 =3D num_on=
+line_cpus())
+
+As part of nvme_tcp_setup_ctrl,
+alloc_io_queues calls set_queue_count where nr_io_queues is set to 8 (in ou=
+r case, target ctrl supports up to 8 io queues)
+ctrl->queue_count =3D=3D 8 + 1
+
+Timeout occurs and reconnect:
+After reconnect, target ctrl is able to support up to 128 queues.
+alloc_io_queues set nr_io_queues to 48  and ctrl->queue_count =3D=3D 49
+
+after 8 iterations, start_io_queues  calls nvme_tcp_start_queue with qid 9
+nvmf_connect_io_queue is being called with qid 9
+__nvme_submit_sync_cmd is calling the block layer (blk_mq_alloc_request_hct=
+x) with qid 9 which returns with an error
+
+Thanks,
+Amit
+
+-----Original Message-----
+From: Sagi Grimberg <sagi@grimberg.me>=20
+Sent: Wednesday, December 8, 2021 1:33 PM
+To: Engel, Amit; linux-nvme@lists.infradead.org
+Cc: Anner, Ran
+Subject: Re: nvme-tcp host potential bugs
+
+
+[EXTERNAL EMAIL]=20
+
+
+> Hello Sagi,
+>=20
+> We would like to share and hear your inputs regarding 2 host nvme-tcp=20
+> issues that we have encountered in kernel version=20
+> 4.18.0-348.2.1.el8_5.x86_64
+>=20
+> First issue:
+> As part of nvme_tcp_create_ctrl, ctrl->queues is being allocated per=20
+> ctrl in size of queue_count Ctrl queue_count is being set as part of=20
+> nvme_tcp_alloc_io_queues per nr_io_queues
+
+ctrl->queues array is being allocated just once, in create_ctrl, and is
+capped by opts->nr_io_queues, and should never exceed this size.
+
+>=20
+> We see a potential issue in the following scenario:
+> A connection is being established with x I/O queues and ctrl->queues=20
+> is allocated to be of size x + 1
+
+This means that opts->nr_io_queues =3D=3D x
+
+> Assuming there is a reconnection (due to a timeout or any other=20
+> reason) The new connection is being established with y I/O queues=20
+> (where y > x)
+
+That should not be possible. It can be that the controller refused to accep=
+t all the queues that the host asked for, which means that user wants z que=
+ues, controller accepted the first go x queues and in the second go y queue=
+s where z <=3D y < x (according to your example).
+
+ctrl->queues size is z
+first round the host connected x of these queues, and in the second round t=
+he host connected y of the queues.
+
+>=20
+> In this case, ctrl->queues was previously allocated with queue_count x=20
+> + 1 But now queue_count is being updated to y + 1 As part of=20
+> nvme_tcp_alloc_queue, we have struct nvme_tcp_queue *queue =3D=20
+> &ctrl->queues[qid]; which might lead to access an out of range memory=20
+> location (When qid > x + 1]) again, ctrl->queues was allocated with=20
+> queue_count =3D=3D x + 1 and not y
+>=20
+> To prove the above theory, we added some debug prints when using x =3D=3D=
+ 8 and y =3D=3D 48:
+>=20
+> #creating 8 I/O queues, queue_count =3D=3D 9, queues points to=20
+> 00000000fd0a0f0f
+
+Yes, but what is the array size?
+
+> Nov 30 14:02:25 nc9127122.drm.lab.emc.com kernel: nvme nvme15:=20
+> creating 8 I/O queues. queues 00000000fd0a0f0f queue_count 9 Nov 30 14:02=
+:25 nc9127122.drm.lab.emc.com kernel: nvme nvme15: mapped 8/0/0 default/rea=
+d/poll queues.
+> Nov 30 14:02:25 nc9127122.drm.lab.emc.com kernel: nvme nvme15:=20
+> Successfully reconnected (1 attempt)
+>=20
+> #Timeout occurs that leads to reconnecting:
+> Nov 30 14:02:42 nc9127122.drm.lab.emc.com kernel: nvme nvme15: queue=20
+> 0: timeout request 0x0 type 4 Nov 30 14:02:42=20
+> nc9127122.drm.lab.emc.com kernel: nvme nvme15: starting error recovery=20
+> Nov 30 14:02:42 nc9127122.drm.lab.emc.com kernel: nvme nvme15: failed nvm=
+e_keep_alive_end_io error=3D10 Nov 30 14:02:42 nc9127122.drm.lab.emc.com ke=
+rnel: nvme nvme15: Reconnecting in 10 seconds...
+>=20
+> #Creating 48 I/O queues, queue_count =3D=3D 49, queues points again to=20
+> 00000000fd0a0f0f
+
+again, what is the array size?
+
+> Nov 30 14:02:52 nc9127122.drm.lab.emc.com kernel: nvme nvme15:=20
+> creating 48 I/O queues. queues 00000000fd0a0f0f queue_count 49
+>=20
+> Second issue:
+> With the same above example , where x <  y As part of the reconnection=20
+> process, nvme_tcp_configure_io_queues is being called In this=20
+> function, nvme_tcp_start_io_queues is being called with the new (y)=20
+> queue_count Which will lead to an error (when sending the IO connect=20
+> command to the block layer)
+
+But the host won't connect x queues, it will only connect y queues.
+Maybe I'm missing something?
+
+>=20
+> Thanks,
+> Amit
+>=20
+>=20
+> Internal Use - Confidential
+
+I'm assuming that this is not confidential as you are posting this to Linux=
+-nvme, so please drop this notice from your upstream mails.
 
