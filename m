@@ -4,75 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACD79C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Dec 2021 11:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0DAFC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Dec 2021 12:08:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uqDKFOjL518Rw0qKC8GdkHWPrKAV0v728uMbwXAqP9c=; b=L/ylB70a4a6WkkwV6NL3TAmF2q
-	MSpIyCIYIeyWgGf3VjaKDQAOpve9o3v+UqOXRwPGm9HeEaLP1V9nj5LsiGe3y+39t9gRm51A/UgpU
-	EvGORCfGb6R1HDpFOaF9Q2TPCgFsOyZ+NRBbAlXxpj7UJjd9346e85/HFntl+BbeogxUZ9oxTd8oR
-	+WVx6z7Rbr9KPUj+pZ1GZl5BY94SrMycVVZ2j/4MGgTgbteNfwPuhiCut1TuxaY57NQ9OjisiQw2n
-	L78hZ10Zdxh04zqVHu4ogn21INvfr68FoJHwHvP5p77VjvSCpSfWVHjQDxY0kp3vlo7uESeyWYKY1
-	URU61ePA==;
+	bh=J/EJo69hs4KveXL2+06kOMgg77WQ/zOO+nnN8vKDd6E=; b=RSNYZTSRwto3eW4A9EcgiC/0W+
+	q9+M0EXHKb0zKUbePd6HojYYLOL8rm/rLoOhasKYjYdxPVXW3TZg2Hs+mO2ujRLkeXANp/6fNVMDF
+	GrCptPzumwJ0JAZ8e3NQBMOXqFBR9VSXhQJuymXIbFRBSRfYX4d1bDg+vQfpD9ax3pToVMkqdE4EL
+	iAqljHpPByKi77+Vg1DQf94kZ8XnDpGQSMKhUfvvHPbk8P+uVKBYwref8kEWIYonK57Eev9I809dQ
+	8xwGranFlzZ8iPeWU78D/lG75zEpYMwmZta/KfkmIhLQWpxsL1KXnon5Gpoc3WW2wtxF9Brja05D0
+	IMdFTKZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mx5b8-00DcqN-8W; Tue, 14 Dec 2021 11:03:54 +0000
-Received: from mail-wr1-f43.google.com ([209.85.221.43])
+	id 1mx6bQ-00DqLW-7F; Tue, 14 Dec 2021 12:08:16 +0000
+Received: from mail-bn8nam11on2066.outbound.protection.outlook.com
+ ([40.107.236.66] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mx5b5-00Dco9-7F
- for linux-nvme@lists.infradead.org; Tue, 14 Dec 2021 11:03:52 +0000
-Received: by mail-wr1-f43.google.com with SMTP id j3so31762840wrp.1
- for <linux-nvme@lists.infradead.org>; Tue, 14 Dec 2021 03:03:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uqDKFOjL518Rw0qKC8GdkHWPrKAV0v728uMbwXAqP9c=;
- b=BaqizzYS3/d1LE0NxV71Cy7vchxNW8c4y9oJQNcqBsGFVT1eow28KG/zxX7u5JocOA
- i+saEFtJ0K6vKb+zhbozCzabd3A8iFLYHdKAXGVq4i//55dYwGSZ2BXOe++y7yovlGeX
- 7fl2E9NrjIKVNTXjwH49ERFYhDtYzDSDtafah7lgfH9J7lpx1mOymKVZ9kiNX8khmqcI
- fAGj8DsWO5QywOcTmbtIJhGww7uTG68eN2LJrl2gvcfrTLP5Y52W285AUFqjQf505hss
- GzTTu0xcAaNvRaSaqHeB3KGe0nMF5zcxIdrRhdAvf35ZW9ZjBkhH0ah8Tk2DpAs2xaT2
- 8v4A==
-X-Gm-Message-State: AOAM533O31DubXlRWWfRcShsig9HOq3P1zTCTA5ljbph4mb8L8meyus0
- DwPCylY7qGYbGqANt7kN+Qnao0D/sSU=
-X-Google-Smtp-Source: ABdhPJyK5zlCYMqJ2gky8Kq8alUxESDwo7D8zs2+Dgk2pSPENAGbGmoa8wwQf3LSOLwBMjoLQZnuFQ==
-X-Received: by 2002:a05:6000:cd:: with SMTP id
- q13mr5101348wrx.488.1639479829639; 
- Tue, 14 Dec 2021 03:03:49 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id i3sm12333153wro.117.2021.12.14.03.03.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 03:03:49 -0800 (PST)
-Subject: Re: [PATCH 3/3] nvme: add KConfig options for debug features
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>
-References: <20211210112116.9299-1-chaitanyak@nvidia.com>
- <20211210112116.9299-4-chaitanyak@nvidia.com>
- <c467d85d-77da-fdff-53e9-938a7bf01763@grimberg.me>
- <492750cf-b031-5709-0836-c28e475c29fd@nvidia.com>
- <6a1d326e-ce96-ef9e-f09d-7ebdc9ef6084@grimberg.me>
- <8dfd8447-426b-21e5-c988-43877fc851dd@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <916e5eeb-8cda-b369-f216-6f7edefebb7e@grimberg.me>
-Date: Tue, 14 Dec 2021 13:03:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1mx6UT-00Doec-Am
+ for linux-nvme@lists.infradead.org; Tue, 14 Dec 2021 12:01:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N1pq0XYbyVteQgYqj/N0aGsAbanguSKapVnqSaSqJQkyszA9TQnjl+wXhde1JdAZPIShM/Vyp4VYn5VRJsiAwaJycpEU5KkYjeY2b4XtnQfy/NctokjnOHaUB4moaSTztPNfjBX6kOd3FD0zIubxEQeoPsDCgDXY2xKoVLXpvktl1vWAh0XNyLwhWI0PKfIbJ4yDZYVNVL50p9c/7lq+W25bXwXPw3XnFdi6m4bDRMSUCMq1hWXjc949E5xQq0/SZWo5/kD/odCA42nKbTBEu8JAfa4yT+eTvAINqHqfxKnBKa8fYX6vshJ3fR2GDqGnrDXpYYYot4QSSruyX8TzBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J/EJo69hs4KveXL2+06kOMgg77WQ/zOO+nnN8vKDd6E=;
+ b=joORiklz0lEVPrsSg+medWLCPCKiC2J3j8NXxVBlwTLRXhYh9oeWrm2Y9f1fCfRpyIE85jtErVyHd4HDyE+m8+NSDMWMdSKaRkQK9524wVGmkmq5K7pdxl/byIZxQtqjYt8yYrwF0o3PqKy21oNSEZTKQWs1wzsvpRxevs9bg8JH4Nfcj35tQBnoBFgzRR+n/2/3YU4tFu3H8K/Pu1bVLQs++Tbc545F/gni+BOV0AjBiBw8s4wmRGg5EJ5FsvZPz9KTgvcmZQ+2RnzRC82C8kfxUkhW4nxLBNwlim5h8KAsNFKyzUXksCqUZmT5ot73FnsW5VKJy6lxEcbvGJNknA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 203.18.50.12) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J/EJo69hs4KveXL2+06kOMgg77WQ/zOO+nnN8vKDd6E=;
+ b=RMI2GFnqoDNQUJKH1zI77zkATHS9pyiSPRVXxFM75GY6qUOSziCX3MDeIUKB4RmrYdakVNEjcnLmVVtlCxo1gTH+VOzTcHkmOWFKgtOpSj+qhVCZHbKclokCS5d1alH5oxQGxSuVlZ0xYzPlwNJ14ETO0SvSToAfe6f+tXoTzlym2iTVKbvifvGtKBaNLp1xNfkpbMeBOLNG6rJpf+1qi9f4t/jQcXneJcdO0bbJPTuzpMVMEj4aN6TXQH+BNMFGMTeDtNYTrmHNV5fuC5RFKbSV5UzeM9zedoA8ZZ0+SU46ImAq314zI0eRTFAvFsNdFZWYneo8Ng4rAjKblkWA+Q==
+Received: from DM5PR08CA0031.namprd08.prod.outlook.com (2603:10b6:4:60::20) by
+ DM6PR12MB4402.namprd12.prod.outlook.com (2603:10b6:5:2a5::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4778.14; Tue, 14 Dec 2021 12:01:01 +0000
+Received: from DM6NAM11FT060.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:60:cafe::21) by DM5PR08CA0031.outlook.office365.com
+ (2603:10b6:4:60::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14 via Frontend
+ Transport; Tue, 14 Dec 2021 12:01:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.12)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 203.18.50.12 as permitted sender) receiver=protection.outlook.com;
+ client-ip=203.18.50.12; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (203.18.50.12) by
+ DM6NAM11FT060.mail.protection.outlook.com (10.13.173.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4778.13 via Frontend Transport; Tue, 14 Dec 2021 12:01:01 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by HKMAIL101.nvidia.com
+ (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 14 Dec
+ 2021 12:00:52 +0000
+Received: from [10.222.163.54] (172.20.187.5) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Tue, 14 Dec 2021
+ 04:00:48 -0800
+Message-ID: <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
+Date: Tue, 14 Dec 2021 14:00:45 +0200
 MIME-Version: 1.0
-In-Reply-To: <8dfd8447-426b-21e5-c988-43877fc851dd@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
 Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>, "Max
+ Gurtovoy" <maxg@mellanox.com>
+CC: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, "RDMA
+ mailing list" <linux-rdma@vger.kernel.org>
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
+ <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
+ <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
+ <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
+ <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
+ <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
+ <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
+ <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
+ <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
+ <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
+ <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.20.187.5]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8ba66a62-d31b-4379-5910-08d9bef965fb
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4402:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4402097F1D08BC19560DCE4ADE759@DM6PR12MB4402.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BS8pgS0yZpdXpd+SsOeQdkj/R+S7GDnf+5PpoZC4XmCwLZVbUmrJQZC9u9Xkr5aMp96BBJiL7cofcQv2Iy+OatWunzrEAziXSy4T5pqstkxwXw6QQpHQdwAE6dN8WscAQC1b9JA45PlwhRRr67TdgSskxQ+VOt9VlIKpiDnvD3vL8e6oUF6y2XJVLksq3XCPwSeitFWzGO9Tj+GL+uKcIQRqNN8p/PJCXQUSmXAwXa/+ZKFeHHYpSGX8L0Hp20VgjbWkM39BZzusLI3MS9NpEc6jvl3bdUcN1PNJsJYQXJBDNM/QQIwMbJ+cynj+8LgUNr1EdR55esaAP8/khBj0Rxns8ZhgHiPnkbsVK6y75QbqGy5FOFtW5CiFXlG+xFJwHH2E4+6iZaWo7p7E2ZwEy/7Wm6ZpCFES1f7wu5M4PWONPFbtqPDJ+F67HMIFf3W6FGj6BSpOetsvF1898Z5hgLtyzMOZ2Hjqgw9xx78GV4pCMLG686xR3CmxaimAU9QfcGcY8O0em3O3tpBHkukRLjSvoVP1QV5XJK2FszAmJNnm7TqSKhsmM+20X4vJAXr2x3OfmXntPpbFfibglRAiEizNGgB9DLy1v/hoBabDFuVbC8fFkKC5+uFa0AjqWCpRIkV6dJb8OVgyjLL827hvJvWK4reTfEkoFju9MbbUrb1IZZntvgGKiarFYrb3QoNx8Dl6BjSLQ7CEYI9BrA81SvaWOjEtcucC8EmIoQY2zzODUrgHx2Opa5K9r+q3fFkYTR+419f9ZwJWl72Pw6GNBIJvaHXN3tTLw6GlfaAfBCo5PBRYeLixaHtDYA/ALCOrAzmmII6jVzN1K47I6zOa7w==
+X-Forefront-Antispam-Report: CIP:203.18.50.12; CTRY:HK; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid01.nvidia.com; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(70206006)(70586007)(34020700004)(40460700001)(336012)(31696002)(36860700001)(2616005)(86362001)(426003)(110136005)(54906003)(5660300002)(8936002)(508600001)(36756003)(4326008)(8676002)(26005)(16576012)(7636003)(2906002)(316002)(356005)(53546011)(47076005)(16526019)(6666004)(31686004)(186003)(82310400004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 12:01:01.2210 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ba66a62-d31b-4379-5910-08d9bef965fb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.12];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT060.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4402
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211214_030351_295488_2283E143 
-X-CRM114-Status: GOOD (  39.84  )
+X-CRM114-CacheID: sfid-20211214_040105_450238_8ADAF8D0 
+X-CRM114-Status: UNSURE (   7.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,126 +142,56 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>>> Add KConfig menu option to enable and disable gencounter debug
->>>>> feature that uses config NVME_DEBUG_USE_CID_GENCTR.
->>>>>
->>>>> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
->>>>> ---
->>>>>     drivers/nvme/host/Kconfig | 10 ++++++++++
->>>>>     1 file changed, 10 insertions(+)
->>>>>
->>>>> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
->>>>> index dc0450ca23a3..dfa2609b7006 100644
->>>>> --- a/drivers/nvme/host/Kconfig
->>>>> +++ b/drivers/nvme/host/Kconfig
->>>>> @@ -1,4 +1,14 @@
->>>>>     # SPDX-License-Identifier: GPL-2.0-only
->>>>> +menu "Debug (Enable driver debug features)"
->>>>> +config NVME_DEBUG_USE_CID_GENCTR
->>>>> +     bool "Enable command ID gen counter for spurious request
->>>>> completion"
->>>>> +     depends on NVME_CORE
->>>>> +     help
->>>>> +       The NVM Express driver will use generation counter
->>>>> +       when calculating the command id. This is needed to debug the
->>>>> +       spurious request completions coming from a buggy controller.
+On 12/14/2021 12:39 PM, Sagi Grimberg wrote:
+>
+>>>> Hi Sagi
+>>>> It is still reproducible with the change, here is the log:
 >>>>
->>>> This is not just to debug - it is also to protect against such a
->>>> controller. What is the purpose of this config option anyways?
->>>> The main distributions will (as they should) enable it anyways...
+>>>> # time nvme reset /dev/nvme0
+>>>>
+>>>> real    0m12.973s
+>>>> user    0m0.000s
+>>>> sys     0m0.006s
+>>>> # time nvme reset /dev/nvme0
+>>>>
+>>>> real    1m15.606s
+>>>> user    0m0.000s
+>>>> sys     0m0.007s
 >>>
->>> I can rewrite the text and rename it to "driver features".
+>>> Does it speed up if you use less queues? (i.e. connect with -i 4) ?
+>> Yes, with -i 4, it has stablee 1.3s
+>> # time nvme reset /dev/nvme0
+>
+> So it appears that destroying a qp takes a long time on
+> IB for some reason...
+>
+>> real 0m1.225s
+>> user 0m0.000s
+>> sys 0m0.007s
 >>
->> It is not a feature.
-> 
-> that is what I thought, hence I kept it under debug.
+>>>
+>>>>
+>>>> # dmesg | grep nvme
+>>>> [  900.634877] nvme nvme0: resetting controller
+>>>> [  909.026958] nvme nvme0: creating 40 I/O queues.
+>>>> [  913.604297] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+>>>> [  917.600993] nvme nvme0: resetting controller
+>>>> [  988.562230] nvme nvme0: I/O 2 QID 0 timeout
+>>>> [  988.567607] nvme nvme0: Property Set error: 881, offset 0x14
+>>>> [  988.608181] nvme nvme0: creating 40 I/O queues.
+>>>> [  993.203495] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+>>>>
+>>>> BTW, this issue cannot be reproduced on my NVME/ROCE environment.
+>>>
+>>> Then I think that we need the rdma folks to help here...
+>
+> Max?
 
-It is not debug, I mean it can certainly be used for debug, but
-it is protecting against kernel-crash (or worse) with such controllers.
-The fact that a buggy controller can crash the kernel (or worse) has
-been raised on this list by users multiple times in the past.
+It took me 12s to reset a controller with 63 IO queues with 5.16-rc3+.
 
->>> We are protecting against such a controller which is not stable
->>> (buggy), i.e. it is doing things which it shouldn't be
->>> doing at the first place.
->>
->> Yes, this is exactly what we are doing.
->>
->>> Consider a case if controller is not
->>> buggy then it adds instructions in the fast path which are not
->>> needed at all.
->>
->> We keep repeating this, if the controller assumes _anything_ on
->> the command identifier then it _is_ buggy, period.
->>
-> 
-> Completely agree on this.
-> 
-> What I mean buggy in this context is not related to assuming anything
-> with command identifier population, it meant controller that is
-> causing spurious completions -> buggy. The controller that is not
-> able to process non-seq command ids and assumes anything is out of
-> picture for this patch-series (for that nvme-cli skip approach is
-> fine), see below.
-> 
->> Again, the fact that the controller is buggy is perfectly fine
->> really, that's why we have quirks.
->>
-> 
-> A controller which is suffering from spurious completions needs
-> gencounter to debug the issue, using quirk and masking gencounter
-> should be avoided in this case.
+Can you try repro with latest versions please ?
 
-Well of course, the quirk is for controllers that don't suffer
-from this but happen to break because the host is doing something
-unexpected with the command id (even though it is allowed to).
+Or give the exact scenario ?
 
-> 
->> What happened to your nvme-cli argument? that would make it
->> specific to that controller.
->>
-> 
-> That is completely different issue, the nvme-cli argument tries
-> to fix the issue with a controller that fails to process
-> non-sequntial command-id such as Apple ctrl and needs quirk.
-> 
-> This path-series has nothing to do with that issue.
-> This patch-series is only focused on keeping the fast path lean
-> and allowing user(s) to configure gencounter in the environment
-> where :-
-> 
-> 1. Controller is stable.
-> 2. Able to process the non-sequential command ids
->      (hence no quirk needed) and does not assume anything about the
->      command id population unlike Apple controller.
-> 3. Does not suffer from spurious completion problem.
-> 
-> For this controller, user can disable gencounter and keep the fast
-> path lean.
 
-I understand, although I'd argue that a vendor may tell a customer
-to disable that globally... That is not necessarily something we want
-to allow.
-
-> 
->> The host side cost is very cheap as shown before.
->>
->>> A controller(s) that is used in the production environment goes
->>> through qualification process from vendors and from the consumers
->>> to make sure they are stable, something like spurious completions
->>> detection is a basic part of the qualification,
->>
->> I don't think that assuming that a production controller does not
->> have any hidden bugs is a great practice, and controllers evolve during
->> their production lifetime.
->>
-> 
-> That is why we should keep it configurable and let user decide.
-
-OK, so this allows a user that is absolutely set on shaving few
-nano-seconds to sacrifice a level of protection against buggy
-controllers. Is this a real use-case?
-
-For that, I guess the config option is fine, but this at the very least
-needs to default to y.
 
