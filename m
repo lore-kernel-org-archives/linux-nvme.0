@@ -4,130 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38A7BC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Dec 2021 12:10:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EEE5C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Dec 2021 16:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6XkPgu2ybf/RRdpsLie7wXGuDupNdkWlBpLq3nP0/Ms=; b=FUDkBy23ZD3rXYPC/cfcmzoT6w
-	UEVax8W1d48/Ebg05KN6rmdTUAKfGHPzO1JV9dSQQWPflDaOpFFCOlmKyusNKhaFmLzVKmN8EmmX8
-	8whOA/9fJyjvC07iYQ85aZEFpumaAkHr/AbK4WTuU+ZPwzMuyOgPwF3TVZRWm3B6SDZJrb5oGx4XD
-	I/3FdMln7hvq8Rl+jg6eJPFn1M8aVsHB3ErXxtcqUHSp5zJ2ebjc+xWLAcUQ+W1odb040/rAmiBMW
-	B1wWnPmc7hiBZIlJRlVBvUuTPJnK5upVmLMbuOcTKVDZzmsvlRdkB2vmXsJF2ImRmtV9LC22I0VIK
-	T1wmblUA==;
+	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+S76o+lU5f8Y6L550JpPm+xHI7UPiFEDOIxOuBfHgB0=; b=tR+q1vfNczZ90Br/FaOgfdG1aa
+	Vu51Y9ejC9uOHdUqU5wZcY7QxaHzo68E5Gke/vR4gxFqUY2CxyJalz6VUFHZYu9aWU0qaCr1CC+IL
+	kAvPAGCdv/iJW+kedR02BCoXlRp4eo7wYL1CnrcUjt5BBMSGeK/jTnInR9nP2Pl8q756tXDml+x7s
+	0dbtEaL7FjqP1s153Kqb3ca3RLU6zNTtHLR5YY0cAfHDWFvtaTQKIPF7SPykL5klpS4n0V1uXR9KI
+	Rg05a7g8H+zxbjF+mHloOPpLMzaT5/4s1ZyS/HcTLTlzoiRvb/4R4GK99QSEaG/1nbJkjFzwGcwvd
+	3+TyRy/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxT7U-000kKm-Tb; Wed, 15 Dec 2021 12:10:52 +0000
-Received: from mail-bn8nam11on2063.outbound.protection.outlook.com
- ([40.107.236.63] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1mxXPF-001pPa-Ru; Wed, 15 Dec 2021 16:45:30 +0000
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mxT7N-000kGt-BM
- for linux-nvme@lists.infradead.org; Wed, 15 Dec 2021 12:10:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SlMbvBuir+x2oRBHJp2L8GjsKPkTAzAHrXdCDey2HpF6apcRpQtIhUJylG9V1H2c/Mu6MxgHpdZMgYd3TqOxdyGba6ZCqCmsThbFYhd3lE6zCsUx6VvOZzxyNkiJD7DnJWgcgIFJvMrNqwDazL7AhfftQ6dKi5GAKhe8RTHfEfhZn+sedxy3rhemYjA22o3a/BUNR/bfx6CGNneoNAgGG9gt8+FWtPKB7COdrsL5PFOZ3+KU13xBGocX3FVv562KCOxrPGaSwJDPeJUQkcZCxy95pu4VuyfDpBqYo5FBJ2cSUG8rMJcAKiEauR23oUoGCBsCPrh5N0nP3lid2CP9ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6XkPgu2ybf/RRdpsLie7wXGuDupNdkWlBpLq3nP0/Ms=;
- b=R30oFuO3qox2YuV5SneaRNr3jMI7L76KhqYbRyYfmHKGKNxem3atcvxy6D1FbtfJmRq3CO2G8zR2Jztzcob8GfvOw3b21GNmxxKDgoBJIitbETfn6ilHGsIKU3ts0tXI65Ugo75yC3Yi2WOH2R23KS101+JOjkGAze0hufVKRdHHRy4AcI+X8wQgwZ7SFZmf7BR5kenCx9Nvgt7A8BRMQrIWNSecZvFmctCt5zdTsZdTwXZ0Wl4WdLKZKFN1lcxe5jEAZ7mAKsU0oGK8vzPqjkvla8jf5/2rW8/pYn7+5yWlrn7JhCCpVfB3txDgTrA43Lyg5+62oyXlKhAt5f3yLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.14) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6XkPgu2ybf/RRdpsLie7wXGuDupNdkWlBpLq3nP0/Ms=;
- b=qTrzansY3VxisMrRHsSl/1uUHQRfeayXs8ZTXruMHbdA10ngvQib0mtM0PkYxyVE8H500px5zXHj0Vg+mh/jragb+q8XLUf5LAJsOp1ZzUDgSDLiQXF4tM5bv8fSxn8t6BQ/ZE+4JCUesPn7MzcpeE8660s62peR8FJh/9MlSnebLfQCKvqfGG6DIXrBc0GkKHPTtBDShb+pbK6M8spQrWe8qP8qGYtA5HT10cFhJnJ5czYv5AgTh/73dskulC3Hy9T81uMULJKN2qV2O0Q8ZFs/7Y25ydeCBEJBj6sr9ec3WjyOjiTA4iF7i4PjQzLa7eJOqhkkIBTbfVzTCJQ0Sg==
-Received: from BN6PR11CA0012.namprd11.prod.outlook.com (2603:10b6:405:2::22)
- by BY5PR12MB4068.namprd12.prod.outlook.com (2603:10b6:a03:203::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Wed, 15 Dec
- 2021 12:10:41 +0000
-Received: from BN8NAM11FT066.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:2:cafe::90) by BN6PR11CA0012.outlook.office365.com
- (2603:10b6:405:2::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14 via Frontend
- Transport; Wed, 15 Dec 2021 12:10:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.14)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.14 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.14; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (203.18.50.14) by
- BN8NAM11FT066.mail.protection.outlook.com (10.13.177.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 12:10:39 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by HKMAIL103.nvidia.com
- (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 15 Dec
- 2021 12:10:35 +0000
-Received: from [172.27.13.177] (172.20.187.6) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Wed, 15 Dec 2021
- 04:10:32 -0800
-Message-ID: <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
-Date: Wed, 15 Dec 2021 14:10:29 +0200
+ id 1mxX4r-001gpI-7U
+ for linux-nvme@lists.infradead.org; Wed, 15 Dec 2021 16:24:26 +0000
+Received: by mail-io1-xd2f.google.com with SMTP id z18so31057450iof.5
+ for <linux-nvme@lists.infradead.org>; Wed, 15 Dec 2021 08:24:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+S76o+lU5f8Y6L550JpPm+xHI7UPiFEDOIxOuBfHgB0=;
+ b=eeoTCD/lXC4ZHgBvmLhuznfU5045cTL3rZBg0aucp9SwMeHfDr4LaOd6y7iDeiZGUv
+ psVwuGV1538JFC9lVJJEFmIQVpQ/jWQko5AFv+GII/Vbr1DsSlG1QHMhnm1A7kpTa5ya
+ uSZsePJed0yFhPR1AfQopDFeU+iVtafKjDFcQ2ZlW89tBQT1C3CEadtFwtZwqM956aSE
+ tzzlzlq5OngmA+MEc0YZUfKnD6H6cwcy253tRlPjfxhUSxlpVy6RMeq8on+KbfM+gBj4
+ cgPhBTu6N+pMyxqy6RTEWqVGPIrBhAZxH2whW101yMpTYJx/KJe3Ktq3UWjfz0CbltrO
+ TEYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+S76o+lU5f8Y6L550JpPm+xHI7UPiFEDOIxOuBfHgB0=;
+ b=EWPA6zpLviWn/4/+wYRCSV+bPz86jw4D1XCeUOj4/hmboPa5Fz2IpJwSw7/qgC4Qvo
+ YqT7mUF+BdUqpdcsEybbUHxaSYXMpGFD5728jzWqM1qb7X6Jzht2iBAJFCO4eiD0hYSA
+ plZ5f+rr73TBEkSatTubGIJhiT1WOu/HcTde4lFd5ZgeDyZnOj89dOe6X0IHqxxhmr8f
+ pKhB+ksUaChSncMIsS1pkoxum9jjmLEzPWIgehu1ORXp+JhC6CPJBOrtW9HZrIZmTM9K
+ 0fqLcTPgjzUplRPkxEkMujrB/O7G6D+WLETDiXno5tb2ZpY+ueK1GxETfgKxTbGa1F+1
+ 4eUw==
+X-Gm-Message-State: AOAM530IMiJJaEMyI+8GrPLDJr7/UDnAut7qGULoxHdUBcYiQNG4dlWv
+ Vo2l0PsF23MbIGMxVYiZy4MhW/2JXW2ctg==
+X-Google-Smtp-Source: ABdhPJxFcatts9sLXYdkAle2BfEi6ILJixpQxLDbxTgbcDO9VpviBfTNuiW4VHa7ldCY9PKRGgFbmg==
+X-Received: by 2002:a05:6638:140d:: with SMTP id
+ k13mr5935052jad.37.1639585463015; 
+ Wed, 15 Dec 2021 08:24:23 -0800 (PST)
+Received: from x1.localdomain ([207.135.234.126])
+ by smtp.gmail.com with ESMTPSA id g1sm1153170ild.52.2021.12.15.08.24.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 08:24:22 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCHSET v3 0/4] Add support for list issue
+Date: Wed, 15 Dec 2021 09:24:17 -0700
+Message-Id: <20211215162421.14896-1-axboe@kernel.dk>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
-Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>
-CC: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>, "open
- list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- RDMA mailing list <linux-rdma@vger.kernel.org>
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
- <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
- <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
- <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
- <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
- <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
- <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
- <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
- <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
- <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
- <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
- <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
- <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fc9b338d-68ee-4c10-d6ca-08d9bfc3e94f
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4068:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4068FA985C46058AA0415A86DE769@BY5PR12MB4068.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 89PoNkBHaN3jfVbn9/KEj/Pyh3jaLvOzL63bLOlQTHhY3hp5sWrAICVEdPqGs+ZY0JxiEHQ4hy0aGPGUaOJJnRnm/EGFYE2+8JFui3ljsF3Id+JRmBWNYGJNTpToYdGtQ6kRJDpt70dTy4DtJkMJg4udlvLXYn6Gp9s+lSeWGApceg7f7XBob6TXaBgZ6M57M3jnZsBYjYotPrkO3St3kZFHpHDK9e7YKh8D2A8PfO5R2OumXatFC888bZSzQt3q3pNe/KP+TLwrQyV17TXQcoud4EXN3wlarkOiZtAYzeng+jY/VSgkka2WRrFZ7vcb1Rgnk2BcAe6BQ3Aqa54QCXeUem05SZ7SGVbjb4K+GV7/CJljs4w8vh1AookAtXZXaVegh/9oWqY+k/5fPcnnnczJtrTpOBVidXJB9jqqEG0NpF3Cspy7SDi9vmFmsqCoopdHP02rUCFNKBvQhz4hY8zP3Ul43MNU4gQRM1A1Zht1fHu93R0BIht3KjElHnH/xA2m4uDvFoeC04BCW4b11Q494y4toq1TsFt7QL8z0KLzxq8pxDEjv7f0l6njJgRwF5/2LcJj7DgwcCLfWJBRiaovSzMuV7smUJpZPPVPtwr6SMTfsAXl+nIaq9xq6PrRlP+ejd9faV1YCovvTqLjd5QuZszQXozotlJuLy0UI3gfeD5nZcsdNmihAk6I/wUG2VVHw0eZLtLqL3N+i/m0xsm2UTzlR2Y8LMSM1JtQ6eJCTyNADfQjOqshN0ZQfx1E2cI9+EmJJ8yrcJTN6rIHrRCE6+qgqmIuvF7el6Pl1r13BjyIHYP4Zlt6jQ6uDUlX2QAaE5zV/EB9IKGiqNVjTQ==
-X-Forefront-Antispam-Report: CIP:203.18.50.14; CTRY:HK; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(508600001)(54906003)(8676002)(5660300002)(6666004)(86362001)(8936002)(36756003)(7636003)(356005)(47076005)(4326008)(34020700004)(36860700001)(53546011)(70206006)(70586007)(2616005)(186003)(31686004)(16526019)(26005)(31696002)(16576012)(316002)(82310400004)(426003)(6916009)(40460700001)(2906002)(336012)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 12:10:39.8487 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc9b338d-68ee-4c10-d6ca-08d9bfc3e94f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.14];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT066.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4068
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211215_041045_453267_D9BDB4C5 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20211215_082425_330276_C9257FF7 
+X-CRM114-Status: UNSURE (   7.10  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,66 +86,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
-On 12/15/2021 3:15 AM, Yi Zhang wrote:
-> On Tue, Dec 14, 2021 at 8:01 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
->>
->> On 12/14/2021 12:39 PM, Sagi Grimberg wrote:
->>>>>> Hi Sagi
->>>>>> It is still reproducible with the change, here is the log:
->>>>>>
->>>>>> # time nvme reset /dev/nvme0
->>>>>>
->>>>>> real    0m12.973s
->>>>>> user    0m0.000s
->>>>>> sys     0m0.006s
->>>>>> # time nvme reset /dev/nvme0
->>>>>>
->>>>>> real    1m15.606s
->>>>>> user    0m0.000s
->>>>>> sys     0m0.007s
->>>>> Does it speed up if you use less queues? (i.e. connect with -i 4) ?
->>>> Yes, with -i 4, it has stablee 1.3s
->>>> # time nvme reset /dev/nvme0
->>> So it appears that destroying a qp takes a long time on
->>> IB for some reason...
->>>
->>>> real 0m1.225s
->>>> user 0m0.000s
->>>> sys 0m0.007s
->>>>
->>>>>> # dmesg | grep nvme
->>>>>> [  900.634877] nvme nvme0: resetting controller
->>>>>> [  909.026958] nvme nvme0: creating 40 I/O queues.
->>>>>> [  913.604297] nvme nvme0: mapped 40/0/0 default/read/poll queues.
->>>>>> [  917.600993] nvme nvme0: resetting controller
->>>>>> [  988.562230] nvme nvme0: I/O 2 QID 0 timeout
->>>>>> [  988.567607] nvme nvme0: Property Set error: 881, offset 0x14
->>>>>> [  988.608181] nvme nvme0: creating 40 I/O queues.
->>>>>> [  993.203495] nvme nvme0: mapped 40/0/0 default/read/poll queues.
->>>>>>
->>>>>> BTW, this issue cannot be reproduced on my NVME/ROCE environment.
->>>>> Then I think that we need the rdma folks to help here...
->>> Max?
->> It took me 12s to reset a controller with 63 IO queues with 5.16-rc3+.
->>
->> Can you try repro with latest versions please ?
->>
->> Or give the exact scenario ?
-> Yeah, both target and client are using Mellanox Technologies MT27700
-> Family [ConnectX-4], could you try stress "nvme reset /dev/nvme0", the
-> first time reset will take 12s, and it always can be reproduced at the
-> second reset operation.
+With the support in 5.16-rc1 for allocating and completing batches of
+IO, the one missing piece is passing down a list of requests for issue.
+Drivers can take advantage of this by defining an mq_ops->queue_rqs()
+hook.
 
-I created a target with 1 namespace backed by null_blk and connected to 
-it from the same server in loopback rdma connection using the ConnectX-4 
-adapter.
+This implements it for NVMe, allowing copy of multiple commands in one
+swoop.
 
-I run a loop with the "nvme reset" command and it took me 4-5 secs to 
-reset each time..
+This is good for around a 500K IOPS/core improvement in my testing,
+which is around a 5-6% improvement in efficiency.
+
+No changes since v3 outside of a comment addition.
+
+Changes since v2:
+- Add comment on why shared tags are currently bypassed
+- Add reviewed-by's
+
+-- 
+Jens Axboe
 
 
->
->>
->
 
