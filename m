@@ -4,81 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFC1EC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8136EC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ISUEGCwICVsEHOwPsDIbK2BPUlO/kNJBCKdJ2+towZE=; b=dB/ExS1RH5HTrj/VHR/0mYcFpj
-	PUy7ROpQbEiITzq/gYkWWoyk0mHpvSMyQBs1zInt8WXW4MQoUtjfwp+nUM2UTQ3S7gkyDM5JEWe6H
-	ND/4k692z8JkfnJ+wkm2/DcRVHYT5A7pdTKmLlgl5F1gIy07WbWnugAR8WEUcqaYjNn+VUcRvMH6y
-	5YJqc5lrBzPJHRoCcHjrjZ7bZr8tImHhDmQQuLlw1lRuBQNaIWbhMzS6HYUm5qTAaUygi+Z9qeQhg
-	RlFnWSznv9ru+KUdClp4M1GL5TixinVYccgIE0r7mnH/HT+LE/f+ruil0eFwmZ7txnNEn9s0GbXTY
-	/KDvkK2g==;
+	bh=b9T7lUgEmRg8+nKkprDGKdCFmqRa0ugSHibCC5wg/d0=; b=FQwyqI9J+b4Qui6O3gapRYkGTO
+	XwkHwiH59+M4/WlSKVCZvw8jPmRrmjSxcXiqrtRQlSjESRzH7j5xxCawo7A2xMWU4wKt+KR4L2dWw
+	r8fwC0hu8IJwBFYlJXM1EpokMGSyPBh3Uyd2/uJuinvxuPHsCJjrnzpU191vDMiNZwfcgbPWqaD0g
+	JPXpadD/zpDp+4fB5/QZI76ZKsar6n3Pf72OsVLwUK1Z9g2hCp6CT2ko+2hOYq5Et9UwZnjEQzLbr
+	ktc6/VzwO6jwiYQ7voJxaRdltVg6kxog9kUpLK3dVskAaNsjbN5Fy9vldrmgmdJYc+M93aPem0gzf
+	5nWKm13g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxttf-006ij7-HH; Thu, 16 Dec 2021 16:46:23 +0000
-Received: from mail-bn8nam12on2046.outbound.protection.outlook.com
- ([40.107.237.46] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1mxtw4-006jO4-14; Thu, 16 Dec 2021 16:48:52 +0000
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mxtiz-006eR7-8w
- for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:35:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kHOo5BHf+GlTG1WLqqe3FXU0I22KNEJ8BCOF30Jf8dY/iKnnKsNU4qHOSwv+DTiVIsHxd9mWTQ4YyYHFM9o6kH33BJ+HXsC4ni3LVAvDXQTpIq1B/rCLnPhzWvF4GkSyjpfMPoPlxHR3qFBW6V+cca+xDGyhVVQxnCVZiCl3gCrigPN9Dhtdvp+It45xGHir5mE2EmVgStKC1tfUkhf23avyKpNwbhmcFQ3ttAstaPyaqkf4m/sxB1fKGV4Lj4hZfeTNOITnsnyXiZS3miuh8BXwb6fqH4JnlyRY8B0KsB1lgwmSRse/BQzGFw8VEsgGx7A1xVx+APprRzIsLYAiew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ISUEGCwICVsEHOwPsDIbK2BPUlO/kNJBCKdJ2+towZE=;
- b=b909zEnQbN74NyrLfg42mMISZcw5enllJ4EJfLSTE+pby7IgN6ohZE71KsVBFoQ666ahpodWzaqS3xaf7w75v9/v16kvXdm/G8OTOizoCdNDJJSveMAl1HnMTmiX18dXx3uF1zGyYF7PpIdChATqnh/wpnI1ksCvmCAnC/ZLQboKzwvXOSHCbLVGx3HE4wYHasUDKTMq3qrrc35M5jl1Mc1SHTi9TQiKcwUACm3EZcjFlax/tYg7322BthZCspUFMcemDqOjPOPeCP/JEJHWVMC9H9f+MZBUCAd/HszseAOHzGhRekVq40i4DHJNMctz+Gj6uXtydHr/pSMKXQyRpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ISUEGCwICVsEHOwPsDIbK2BPUlO/kNJBCKdJ2+towZE=;
- b=J7QuJ7UwvZqBwps4BJarNCdZa6IvxPBvZ+Lgp/ZBgz6InzO7Xq8GoXx31rQkuNdUj8a+3gLWJ2QVPsws5R7O2pikhuvBSNz6b6Zi58YdMeTc/MNI1Bb9qZpylpZzw/u8NYVVnGbAqbAokBdiKq9XcINEDsRVdFfTjdXY/PtA0d2AW/57n8a1eg0PJXXTr/Lsc4NwK5hkhx9d6C51y45KI3Pw9Rz3t6MjnjTSs+Hp6qkNUJhsPABkunaJ0nYh4JJOckCo3ZmxIjTm0TzWW9UXBFGxr1dMMMqQnqhtDh+YSIT8kZekzzDreIQBo6yF75cXAKiv8HLILrRLR6rM28uFRg==
-Received: from BN7PR02CA0003.namprd02.prod.outlook.com (2603:10b6:408:20::16)
- by DM6PR12MB5007.namprd12.prod.outlook.com (2603:10b6:5:20d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Thu, 16 Dec
- 2021 16:35:18 +0000
-Received: from BN8NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:20:cafe::69) by BN7PR02CA0003.outlook.office365.com
- (2603:10b6:408:20::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.14 via Frontend
- Transport; Thu, 16 Dec 2021 16:35:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT009.mail.protection.outlook.com (10.13.176.65) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4801.14 via Frontend Transport; Thu, 16 Dec 2021 16:35:17 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Thu, 16 Dec 2021 16:34:45 +0000
-Received: from [172.27.15.177] (172.20.187.6) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Thu, 16 Dec 2021
- 08:34:43 -0800
-Message-ID: <3474493a-a04d-528c-7565-f75db5205074@nvidia.com>
-Date: Thu, 16 Dec 2021 18:34:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
+ id 1mxtkM-006epY-Oo
+ for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:36:48 +0000
+Received: by mail-io1-xd2c.google.com with SMTP id q72so35898872iod.12
+ for <linux-nvme@lists.infradead.org>; Thu, 16 Dec 2021 08:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=b9T7lUgEmRg8+nKkprDGKdCFmqRa0ugSHibCC5wg/d0=;
+ b=NuDxJljCQzFklFAt1GApD87HLgvKPVWj2aOL2lZ3r/BhenK5lRaVACDPYHcAuOGI5O
+ WpC0Urp7F2Mvm9hYt5t5hzJtElIlYCP3d6sO6Yu4q/6qQ0E/9cPaMfVYwGrydPpgrvXc
+ ZzTSa+fMyCTL3pSuk45evrIwyuKN4c/AOpjkC1hPB8Nyw6cqgCxwU2bMyKtxMYthZDOm
+ ZqhD8EAB+q+MvIupBSqFMDNM65bVqKJ2dD4bPQ4okkBew/LQGUHwPhv1r7JVYNIudIGV
+ 2PRJ6YwxxKawYjVZoLUL+eGkPrpTEcEhFMV7U+5EHOalksROyHK7c9AKWtKFL1Q4DRPe
+ 3hmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=b9T7lUgEmRg8+nKkprDGKdCFmqRa0ugSHibCC5wg/d0=;
+ b=Q4QVal+GB04nEgvLghvyoy8dq0bg+gISK/6cSNQxP/SzzJyIOVNcSGJlMZUz8sNGoi
+ CxAFm6lXA20DHkS7ZjGRbaokxPsTYOyVUqGZtnCWIEBrrP8NstyeSdy9QR0HE539l53V
+ mf4X2AL7fD3KUjW6RJtR4gsET4HTcLBNdKUA/OAKkmHcXahQWZCPZ9M6KAQ56tm1v+fO
+ Fng5iDoXs7js0FvXPmro5J8Ot39LgY4eqKWLBhkG/fMgmJifQd9YMGdoR0nHe8yNx1nC
+ DujzrLRdu44F11Hu+0kjoYtNO30TJ9LxFN8uSUbosyuJOiD8B9keXwqHiA/8RlYYnanM
+ ESSA==
+X-Gm-Message-State: AOAM530uxp2N46VKmmyLcDTpivgIAafPE4X9lLfbmN2CPCeGbnmnebAS
+ Lizbop0WLg/QHxcee5aXwOj84R7zcATGKw==
+X-Google-Smtp-Source: ABdhPJw+a+kvqQsGgvqylyFyCSbie+OIKk6QS8+SwhW/C2jjCa/pVMJCU96pgMuNnPWcwikjm+77AQ==
+X-Received: by 2002:a5d:8999:: with SMTP id m25mr9624676iol.185.1639672605785; 
+ Thu, 16 Dec 2021 08:36:45 -0800 (PST)
+Received: from [192.168.1.30] ([207.135.234.126])
+ by smtp.gmail.com with ESMTPSA id x8sm3443506ill.20.2021.12.16.08.36.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 08:36:45 -0800 (PST)
 Subject: Re: [PATCH 4/4] nvme: add support for mq_ops->queue_rqs()
-Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>
-CC: <io-uring@vger.kernel.org>, <linux-nvme@lists.infradead.org>, "Hannes
- Reinecke" <hare@suse.de>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@infradead.org>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
 References: <20211215162421.14896-1-axboe@kernel.dk>
  <20211215162421.14896-5-axboe@kernel.dk> <YbsB/W/1Uwok4i0u@infradead.org>
  <2adafc43-3860-d9f0-9cb5-ca3bf9a27109@nvidia.com>
@@ -87,40 +71,20 @@ References: <20211215162421.14896-1-axboe@kernel.dk>
  <5f249c03-5cb2-9978-cd2c-669c0594d1c0@kernel.dk>
  <d1613b7f-342d-08ad-d655-a6afb89e1847@nvidia.com>
  <a159220b-6e0c-6ee9-f8e2-c6dc9f6dfaed@kernel.dk>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <a159220b-6e0c-6ee9-f8e2-c6dc9f6dfaed@kernel.dk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <3474493a-a04d-528c-7565-f75db5205074@nvidia.com>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <87e3a197-e8f7-d8d6-85b6-ce05bf1f35cd@kernel.dk>
+Date: Thu, 16 Dec 2021 09:36:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <3474493a-a04d-528c-7565-f75db5205074@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 862be719-16c6-4433-facf-08d9c0b20b84
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5007:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB500700DA402E000C47DF9910DE779@DM6PR12MB5007.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: irSGNZ2jOYVEbigzjGVcPQCoq09bySa20XStDDZ0GBFXpqH+a4cy+pxU47utRNi5dRN1R6937kucIueyVLQ5U/XJBWzkTdCo140XNFT6l5m4BNDpIjmDgn7eqTO8F0uzDs+K0d3uoQnHSgBW46l1mIkiUmTGVR8K+Bv9UyvSNfj9usSkt30D/dHtO8a9CO7ddjLqlyzeWGnT7GVZawkXBltsEV+1sBdsY3OadnYYE+Lb497KPfMSN0CbYClwmbqg4+QwL8dCtcburlInAUNRVaHBjr/o5rnPN+e1H1UUy7ucdmTnrfO0xYb0QxnZu8JdizKtVvvqpW4vc9HiJavBttQuGDql7xMS0fjF/JkRcWI2OM5fpyUM/g8qrYgFOAyeGF9xxngUl2zuLZ1A+JPLdG/3vNXPM7M/jmECLdUsVSqHldcM0cAHDzLo5MJCIKmqJp9aBeakCZJck3qXHlGnKbnUSBz81tCMjgZ5kq6zbzRjBE81eOugTcXARVf6UBRCQhsHkPuw//dc0m9UdkyWqkIuyu883K2unrZxiDbkJqauMpscX/n5xFYjTW1wVIaRLX2zNpYoA/GQvZI04xO9fmzfgQPXsdjslOgV+jtu4wgFXRmYHxYgZDrXZmZeVIaf2FP+G2XueV9xz5nNYwYkc7+gK80MxuaFK7LR/rJEI9ae6db9h+ovMPKUoZlTDDxQQ8Lg9/ooD+/lXHc62HJcgldxNU85ujnMK1iyM3Vu+6sA4Nd75azgL4bamdy8vhIb1jBTGBx5LmjZbXEp4jglY4BCTDs3l+stQvqeIv9BMY+Pg+x53enrcUwcb0Q9MsZ6xnlidRRfV3svdZVkzPpaPnc1NXv9USCPdzt4Zy7c0gE=
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(40470700001)(16526019)(53546011)(2616005)(110136005)(82310400004)(316002)(83380400001)(426003)(4326008)(2906002)(86362001)(31686004)(40460700001)(508600001)(36860700001)(8676002)(36756003)(356005)(26005)(31696002)(70586007)(70206006)(34020700004)(16576012)(5660300002)(47076005)(336012)(8936002)(81166007)(54906003)(186003)(36900700001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 16:35:17.7112 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 862be719-16c6-4433-facf-08d9c0b20b84
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5007
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211216_083521_443597_7B6B0F9A 
-X-CRM114-Status: GOOD (  27.32  )
+X-CRM114-CacheID: sfid-20211216_083646_854887_C4E4472A 
+X-CRM114-Status: GOOD (  28.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,90 +99,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 12/16/2021 6:25 PM, Jens Axboe wrote:
-> On 12/16/21 9:19 AM, Max Gurtovoy wrote:
->> On 12/16/2021 6:05 PM, Jens Axboe wrote:
->>> On 12/16/21 9:00 AM, Max Gurtovoy wrote:
->>>> On 12/16/2021 5:48 PM, Jens Axboe wrote:
->>>>> On 12/16/21 6:06 AM, Max Gurtovoy wrote:
->>>>>> On 12/16/2021 11:08 AM, Christoph Hellwig wrote:
->>>>>>> On Wed, Dec 15, 2021 at 09:24:21AM -0700, Jens Axboe wrote:
->>>>>>>> +	spin_lock(&nvmeq->sq_lock);
->>>>>>>> +	while (!rq_list_empty(*rqlist)) {
->>>>>>>> +		struct request *req = rq_list_pop(rqlist);
->>>>>>>> +		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->>>>>>>> +
->>>>>>>> +		memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
->>>>>>>> +				absolute_pointer(&iod->cmd), sizeof(iod->cmd));
->>>>>>>> +		if (++nvmeq->sq_tail == nvmeq->q_depth)
->>>>>>>> +			nvmeq->sq_tail = 0;
->>>>>>> So this doesn't even use the new helper added in patch 2?  I think this
->>>>>>> should call nvme_sq_copy_cmd().
->>>>>> I also noticed that.
+On 12/16/21 9:34 AM, Max Gurtovoy wrote:
+> 
+> On 12/16/2021 6:25 PM, Jens Axboe wrote:
+>> On 12/16/21 9:19 AM, Max Gurtovoy wrote:
+>>> On 12/16/2021 6:05 PM, Jens Axboe wrote:
+>>>> On 12/16/21 9:00 AM, Max Gurtovoy wrote:
+>>>>> On 12/16/2021 5:48 PM, Jens Axboe wrote:
+>>>>>> On 12/16/21 6:06 AM, Max Gurtovoy wrote:
+>>>>>>> On 12/16/2021 11:08 AM, Christoph Hellwig wrote:
+>>>>>>>> On Wed, Dec 15, 2021 at 09:24:21AM -0700, Jens Axboe wrote:
+>>>>>>>>> +	spin_lock(&nvmeq->sq_lock);
+>>>>>>>>> +	while (!rq_list_empty(*rqlist)) {
+>>>>>>>>> +		struct request *req = rq_list_pop(rqlist);
+>>>>>>>>> +		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>>>>>>>>> +
+>>>>>>>>> +		memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
+>>>>>>>>> +				absolute_pointer(&iod->cmd), sizeof(iod->cmd));
+>>>>>>>>> +		if (++nvmeq->sq_tail == nvmeq->q_depth)
+>>>>>>>>> +			nvmeq->sq_tail = 0;
+>>>>>>>> So this doesn't even use the new helper added in patch 2?  I think this
+>>>>>>>> should call nvme_sq_copy_cmd().
+>>>>>>> I also noticed that.
+>>>>>>>
+>>>>>>> So need to decide if to open code it or use the helper function.
+>>>>>>>
+>>>>>>> Inline helper sounds reasonable if you have 3 places that will use it.
+>>>>>> Yes agree, that's been my stance too :-)
 >>>>>>
->>>>>> So need to decide if to open code it or use the helper function.
->>>>>>
->>>>>> Inline helper sounds reasonable if you have 3 places that will use it.
->>>>> Yes agree, that's been my stance too :-)
+>>>>>>>> The rest looks identical to the incremental patch I posted, so I guess
+>>>>>>>> the performance degration measured on the first try was a measurement
+>>>>>>>> error?
+>>>>>>> giving 1 dbr for a batch of N commands sounds good idea. Also for RDMA host.
+>>>>>>>
+>>>>>>> But how do you moderate it ? what is the batch_sz <--> time_to_wait
+>>>>>>> algorithm ?
+>>>>>> The batching is naturally limited at BLK_MAX_REQUEST_COUNT, which is 32
+>>>>>> in total. I do agree that if we ever made it much larger, then we might
+>>>>>> want to cap it differently. But 32 seems like a pretty reasonable number
+>>>>>> to get enough gain from the batching done in various areas, while still
+>>>>>> not making it so large that we have a potential latency issue. That
+>>>>>> batch count is already used consistently for other items too (like tag
+>>>>>> allocation), so it's not specific to just this one case.
+>>>>> I'm saying that the you can wait to the batch_max_count too long and it
+>>>>> won't be efficient from latency POV.
 >>>>>
->>>>>>> The rest looks identical to the incremental patch I posted, so I guess
->>>>>>> the performance degration measured on the first try was a measurement
->>>>>>> error?
->>>>>> giving 1 dbr for a batch of N commands sounds good idea. Also for RDMA host.
->>>>>>
->>>>>> But how do you moderate it ? what is the batch_sz <--> time_to_wait
->>>>>> algorithm ?
->>>>> The batching is naturally limited at BLK_MAX_REQUEST_COUNT, which is 32
->>>>> in total. I do agree that if we ever made it much larger, then we might
->>>>> want to cap it differently. But 32 seems like a pretty reasonable number
->>>>> to get enough gain from the batching done in various areas, while still
->>>>> not making it so large that we have a potential latency issue. That
->>>>> batch count is already used consistently for other items too (like tag
->>>>> allocation), so it's not specific to just this one case.
->>>> I'm saying that the you can wait to the batch_max_count too long and it
->>>> won't be efficient from latency POV.
+>>>>> So it's better to limit the block layar to wait for the first to come: x
+>>>>> usecs or batch_max_count before issue queue_rqs.
+>>>> There's no waiting specifically for this, it's just based on the plug.
+>>>> We just won't do more than 32 in that plug. This is really just an
+>>>> artifact of the plugging, and if that should be limited based on "max of
+>>>> 32 or xx time", then that should be done there.
 >>>>
->>>> So it's better to limit the block layar to wait for the first to come: x
->>>> usecs or batch_max_count before issue queue_rqs.
->>> There's no waiting specifically for this, it's just based on the plug.
->>> We just won't do more than 32 in that plug. This is really just an
->>> artifact of the plugging, and if that should be limited based on "max of
->>> 32 or xx time", then that should be done there.
+>>>> But in general I think it's saner and enough to just limit the total
+>>>> size. If we spend more than xx usec building up the plug list, we're
+>>>> doing something horribly wrong. That really should not happen with 32
+>>>> requests, and we'll never eg wait on requests if we're out of tags. That
+>>>> will result in a plug flush to begin with.
+>>> I'm not aware of the plug. I hope to get to it soon.
 >>>
->>> But in general I think it's saner and enough to just limit the total
->>> size. If we spend more than xx usec building up the plug list, we're
->>> doing something horribly wrong. That really should not happen with 32
->>> requests, and we'll never eg wait on requests if we're out of tags. That
->>> will result in a plug flush to begin with.
->> I'm not aware of the plug. I hope to get to it soon.
->>
->> My concern is if the user application submitted only 28 requests and
->> then you'll wait forever ? or for very long time.
->>
->> I guess not, but I'm asking how do you know how to batch and when to
->> stop in case 32 commands won't arrive anytime soon.
-> The plug is in the stack of the task, so that condition can never
-> happen. If the application originally asks for 32 but then only submits
-> 28, then once that last one is submitted the plug is flushed and
-> requests are issued.
+>>> My concern is if the user application submitted only 28 requests and
+>>> then you'll wait forever ? or for very long time.
+>>>
+>>> I guess not, but I'm asking how do you know how to batch and when to
+>>> stop in case 32 commands won't arrive anytime soon.
+>> The plug is in the stack of the task, so that condition can never
+>> happen. If the application originally asks for 32 but then only submits
+>> 28, then once that last one is submitted the plug is flushed and
+>> requests are issued.
+> 
+> So if I'm running fio with --iodepth=28 what will plug do ? send batches 
+> of 28 ? or 1 by 1 ?
 
-So if I'm running fio with --iodepth=28 what will plug do ? send batches 
-of 28 ? or 1 by 1 ?
+--iodepth just controls the overall depth, the batch submit count
+dictates what happens further down. If you run queue depth 28 and submit
+one at the time, then you'll get one at the time further down too. Hence
+the batching is directly driven by what the application is already
+doing.
 
->>>> Also, This batch is per HW queue or SW queue or the entire request queue ?
->>> It's per submitter, so whatever the submitter ends up queueing IO
->>> against. In general it'll be per-queue.
->> struct request_queue ?
->>
->> I think the best is to batch per struct blk_mq_hw_ctx.
->>
->> I see that you check this in the nvme_pci driver but shouldn't it go to
->> the block layer ?
-> That's not how plugging works. In general, unless your task bounces
-> around, then it'll be a single queue and a single hw queue as well.
-> Adding code to specifically check the mappings and flush at that point
-> would be a net loss, rather than just deal with it if it happens for
-> some cases.
->
+
+-- 
+Jens Axboe
+
 
