@@ -4,100 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEB98C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFC1EC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C7ArIo8h9UoMuRriGPBMYknw6EihK0lWHm8P8wXkcbI=; b=ax1oRvsiEJfNB/LFHj0NpTut49
-	GAV+zdLGvojwy7QaeoSISYL+vJ+nfpzE+fBcJHHjO/HoQhd49FCFJnXgrTpKBLEQkws1V7Ta5VjCY
-	K8Bsato4y0AkOk4BvLWebAwZi5WDqfPoJ+0lpm6pXF2pjzDmIiTBEVGIP5C1RDYiYTVo5mFB+t6mc
-	WfRYPLSGtLfTlUiS/cuvVEGM49Ji7Ei6T8EAigECiBPEaiiT0vZltOWOi62k08l+FNF9S7FTOf3/V
-	+0n87oUSENvL4wz9B+YsKS5qT5Buof3sPi0OmlxhVGycAmbzJqMrZwA/BIG931xM0rz07AGwbewSB
-	47Veq4qw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ISUEGCwICVsEHOwPsDIbK2BPUlO/kNJBCKdJ2+towZE=; b=dB/ExS1RH5HTrj/VHR/0mYcFpj
+	PUy7ROpQbEiITzq/gYkWWoyk0mHpvSMyQBs1zInt8WXW4MQoUtjfwp+nUM2UTQ3S7gkyDM5JEWe6H
+	ND/4k692z8JkfnJ+wkm2/DcRVHYT5A7pdTKmLlgl5F1gIy07WbWnugAR8WEUcqaYjNn+VUcRvMH6y
+	5YJqc5lrBzPJHRoCcHjrjZ7bZr8tImHhDmQQuLlw1lRuBQNaIWbhMzS6HYUm5qTAaUygi+Z9qeQhg
+	RlFnWSznv9ru+KUdClp4M1GL5TixinVYccgIE0r7mnH/HT+LE/f+ruil0eFwmZ7txnNEn9s0GbXTY
+	/KDvkK2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxtrk-006iE3-JW; Thu, 16 Dec 2021 16:44:24 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1mxttf-006ij7-HH; Thu, 16 Dec 2021 16:46:23 +0000
+Received: from mail-bn8nam12on2046.outbound.protection.outlook.com
+ ([40.107.237.46] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mxtgI-006dUO-Qx
- for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:32:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639672353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C7ArIo8h9UoMuRriGPBMYknw6EihK0lWHm8P8wXkcbI=;
- b=BM2XAYNTgEyumrP8nK1R3FHJFLLwuBjvg+s/xYOgd5yHoI43dZmu2WvWwNvDUSUhJYfRym
- lto5yZqAZdv+qHYhFDvduFwzT79+4Zj0mxUhvMOM3Ljr4X0Rr/MBKIqUHewyJHnpsnLkIj
- qujdV50ikoq10V1cDAlWvKhp20x7rCI=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-xYbElAT2Owyxfx1NMlFxOQ-1; Thu, 16 Dec 2021 11:32:32 -0500
-X-MC-Unique: xYbElAT2Owyxfx1NMlFxOQ-1
-Received: by mail-pl1-f197.google.com with SMTP id
- k9-20020a170902c40900b001421e921ccaso8152736plk.22
- for <linux-nvme@lists.infradead.org>; Thu, 16 Dec 2021 08:32:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C7ArIo8h9UoMuRriGPBMYknw6EihK0lWHm8P8wXkcbI=;
- b=ggxqiQWgkoxh93RsQ8oLFqX11iKnmG/2KDxDgROMlGlKtZ1lRcV85dM5BOwsyv8VBM
- yLd8YNRcuoIOVQTLP6UGxBaw4pdRsVaAGNMSRGDUUn/wALtLt2dX8o9ym+8jcQuSkKQs
- g9EckK09jApZDsN2oCecrt8KTROUGzFzDQGqI55efDLN2t4wPU0CykjdXO86LxO82Wgh
- jzgpx61lHLa3Sq930v6eaEieuaYkZ2jS3A5UL4e78cvf17RJG8y46aUvMEe7rXz2vmNI
- RwFfDr+5UkgCtXjaVp3HhnWkpF4lsFrghrNCbidZOTiVrNRnYgxlOd4tE3TDoEK0bscv
- KWYw==
-X-Gm-Message-State: AOAM533r2Le7oJMsI7g8sQB1qADRUGM8tML7flHmclmTaFMlbdH0Tt+s
- IUTV5dEx5gFWr65e9tsTV39DxRuep14oSPWjQ4lgrzHgLqXTN8zFw2IWqZJN9o0GX/nqhhjMg0z
- 7RpB8YkaANK83ki29rIAS8KUEblCOWitHpUrv/8opwts=
-X-Received: by 2002:a17:902:9b98:b0:148:ae04:9c78 with SMTP id
- y24-20020a1709029b9800b00148ae049c78mr7458769plp.88.1639672351114; 
- Thu, 16 Dec 2021 08:32:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxjMWOR+5VbDN2r+R/4Bl4r8LyNK9McDW1Qxcc+7MnSB67QEuS7c7r/O8U/gzM7UmRZLKwOrex6Cz5z1af1wvE=
-X-Received: by 2002:a17:902:9b98:b0:148:ae04:9c78 with SMTP id
- y24-20020a1709029b9800b00148ae049c78mr7458750plp.88.1639672350782; Thu, 16
- Dec 2021 08:32:30 -0800 (PST)
+ id 1mxtiz-006eR7-8w
+ for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:35:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kHOo5BHf+GlTG1WLqqe3FXU0I22KNEJ8BCOF30Jf8dY/iKnnKsNU4qHOSwv+DTiVIsHxd9mWTQ4YyYHFM9o6kH33BJ+HXsC4ni3LVAvDXQTpIq1B/rCLnPhzWvF4GkSyjpfMPoPlxHR3qFBW6V+cca+xDGyhVVQxnCVZiCl3gCrigPN9Dhtdvp+It45xGHir5mE2EmVgStKC1tfUkhf23avyKpNwbhmcFQ3ttAstaPyaqkf4m/sxB1fKGV4Lj4hZfeTNOITnsnyXiZS3miuh8BXwb6fqH4JnlyRY8B0KsB1lgwmSRse/BQzGFw8VEsgGx7A1xVx+APprRzIsLYAiew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ISUEGCwICVsEHOwPsDIbK2BPUlO/kNJBCKdJ2+towZE=;
+ b=b909zEnQbN74NyrLfg42mMISZcw5enllJ4EJfLSTE+pby7IgN6ohZE71KsVBFoQ666ahpodWzaqS3xaf7w75v9/v16kvXdm/G8OTOizoCdNDJJSveMAl1HnMTmiX18dXx3uF1zGyYF7PpIdChATqnh/wpnI1ksCvmCAnC/ZLQboKzwvXOSHCbLVGx3HE4wYHasUDKTMq3qrrc35M5jl1Mc1SHTi9TQiKcwUACm3EZcjFlax/tYg7322BthZCspUFMcemDqOjPOPeCP/JEJHWVMC9H9f+MZBUCAd/HszseAOHzGhRekVq40i4DHJNMctz+Gj6uXtydHr/pSMKXQyRpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ISUEGCwICVsEHOwPsDIbK2BPUlO/kNJBCKdJ2+towZE=;
+ b=J7QuJ7UwvZqBwps4BJarNCdZa6IvxPBvZ+Lgp/ZBgz6InzO7Xq8GoXx31rQkuNdUj8a+3gLWJ2QVPsws5R7O2pikhuvBSNz6b6Zi58YdMeTc/MNI1Bb9qZpylpZzw/u8NYVVnGbAqbAokBdiKq9XcINEDsRVdFfTjdXY/PtA0d2AW/57n8a1eg0PJXXTr/Lsc4NwK5hkhx9d6C51y45KI3Pw9Rz3t6MjnjTSs+Hp6qkNUJhsPABkunaJ0nYh4JJOckCo3ZmxIjTm0TzWW9UXBFGxr1dMMMqQnqhtDh+YSIT8kZekzzDreIQBo6yF75cXAKiv8HLILrRLR6rM28uFRg==
+Received: from BN7PR02CA0003.namprd02.prod.outlook.com (2603:10b6:408:20::16)
+ by DM6PR12MB5007.namprd12.prod.outlook.com (2603:10b6:5:20d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Thu, 16 Dec
+ 2021 16:35:18 +0000
+Received: from BN8NAM11FT009.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:20:cafe::69) by BN7PR02CA0003.outlook.office365.com
+ (2603:10b6:408:20::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.14 via Frontend
+ Transport; Thu, 16 Dec 2021 16:35:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ BN8NAM11FT009.mail.protection.outlook.com (10.13.176.65) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4801.14 via Frontend Transport; Thu, 16 Dec 2021 16:35:17 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Thu, 16 Dec 2021 16:34:45 +0000
+Received: from [172.27.15.177] (172.20.187.6) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Thu, 16 Dec 2021
+ 08:34:43 -0800
+Message-ID: <3474493a-a04d-528c-7565-f75db5205074@nvidia.com>
+Date: Thu, 16 Dec 2021 18:34:40 +0200
 MIME-Version: 1.0
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
- <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
- <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
- <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
- <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
- <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
- <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
- <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
- <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
- <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
- <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
- <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
- <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
- <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
- <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
- <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
-In-Reply-To: <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 17 Dec 2021 00:32:15 +0800
-Message-ID: <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
- RDMA mailing list <linux-rdma@vger.kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH 4/4] nvme: add support for mq_ops->queue_rqs()
+Content-Language: en-US
+To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>
+CC: <io-uring@vger.kernel.org>, <linux-nvme@lists.infradead.org>, "Hannes
+ Reinecke" <hare@suse.de>
+References: <20211215162421.14896-1-axboe@kernel.dk>
+ <20211215162421.14896-5-axboe@kernel.dk> <YbsB/W/1Uwok4i0u@infradead.org>
+ <2adafc43-3860-d9f0-9cb5-ca3bf9a27109@nvidia.com>
+ <06ab52e6-47b7-6010-524c-45bb73fbfabc@kernel.dk>
+ <9b4202b4-192a-6611-922e-0b837e2b97c3@nvidia.com>
+ <5f249c03-5cb2-9978-cd2c-669c0594d1c0@kernel.dk>
+ <d1613b7f-342d-08ad-d655-a6afb89e1847@nvidia.com>
+ <a159220b-6e0c-6ee9-f8e2-c6dc9f6dfaed@kernel.dk>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <a159220b-6e0c-6ee9-f8e2-c6dc9f6dfaed@kernel.dk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 862be719-16c6-4433-facf-08d9c0b20b84
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5007:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB500700DA402E000C47DF9910DE779@DM6PR12MB5007.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: irSGNZ2jOYVEbigzjGVcPQCoq09bySa20XStDDZ0GBFXpqH+a4cy+pxU47utRNi5dRN1R6937kucIueyVLQ5U/XJBWzkTdCo140XNFT6l5m4BNDpIjmDgn7eqTO8F0uzDs+K0d3uoQnHSgBW46l1mIkiUmTGVR8K+Bv9UyvSNfj9usSkt30D/dHtO8a9CO7ddjLqlyzeWGnT7GVZawkXBltsEV+1sBdsY3OadnYYE+Lb497KPfMSN0CbYClwmbqg4+QwL8dCtcburlInAUNRVaHBjr/o5rnPN+e1H1UUy7ucdmTnrfO0xYb0QxnZu8JdizKtVvvqpW4vc9HiJavBttQuGDql7xMS0fjF/JkRcWI2OM5fpyUM/g8qrYgFOAyeGF9xxngUl2zuLZ1A+JPLdG/3vNXPM7M/jmECLdUsVSqHldcM0cAHDzLo5MJCIKmqJp9aBeakCZJck3qXHlGnKbnUSBz81tCMjgZ5kq6zbzRjBE81eOugTcXARVf6UBRCQhsHkPuw//dc0m9UdkyWqkIuyu883K2unrZxiDbkJqauMpscX/n5xFYjTW1wVIaRLX2zNpYoA/GQvZI04xO9fmzfgQPXsdjslOgV+jtu4wgFXRmYHxYgZDrXZmZeVIaf2FP+G2XueV9xz5nNYwYkc7+gK80MxuaFK7LR/rJEI9ae6db9h+ovMPKUoZlTDDxQQ8Lg9/ooD+/lXHc62HJcgldxNU85ujnMK1iyM3Vu+6sA4Nd75azgL4bamdy8vhIb1jBTGBx5LmjZbXEp4jglY4BCTDs3l+stQvqeIv9BMY+Pg+x53enrcUwcb0Q9MsZ6xnlidRRfV3svdZVkzPpaPnc1NXv9USCPdzt4Zy7c0gE=
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(16526019)(53546011)(2616005)(110136005)(82310400004)(316002)(83380400001)(426003)(4326008)(2906002)(86362001)(31686004)(40460700001)(508600001)(36860700001)(8676002)(36756003)(356005)(26005)(31696002)(70586007)(70206006)(34020700004)(16576012)(5660300002)(47076005)(336012)(8936002)(81166007)(54906003)(186003)(36900700001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 16:35:17.7112 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 862be719-16c6-4433-facf-08d9c0b20b84
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT009.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5007
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211216_083235_013572_7CAFB097 
-X-CRM114-Status: GOOD (  30.83  )
+X-CRM114-CacheID: sfid-20211216_083521_443597_7B6B0F9A 
+X-CRM114-Status: GOOD (  27.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,208 +135,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 16, 2021 at 9:21 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+
+On 12/16/2021 6:25 PM, Jens Axboe wrote:
+> On 12/16/21 9:19 AM, Max Gurtovoy wrote:
+>> On 12/16/2021 6:05 PM, Jens Axboe wrote:
+>>> On 12/16/21 9:00 AM, Max Gurtovoy wrote:
+>>>> On 12/16/2021 5:48 PM, Jens Axboe wrote:
+>>>>> On 12/16/21 6:06 AM, Max Gurtovoy wrote:
+>>>>>> On 12/16/2021 11:08 AM, Christoph Hellwig wrote:
+>>>>>>> On Wed, Dec 15, 2021 at 09:24:21AM -0700, Jens Axboe wrote:
+>>>>>>>> +	spin_lock(&nvmeq->sq_lock);
+>>>>>>>> +	while (!rq_list_empty(*rqlist)) {
+>>>>>>>> +		struct request *req = rq_list_pop(rqlist);
+>>>>>>>> +		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>>>>>>>> +
+>>>>>>>> +		memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
+>>>>>>>> +				absolute_pointer(&iod->cmd), sizeof(iod->cmd));
+>>>>>>>> +		if (++nvmeq->sq_tail == nvmeq->q_depth)
+>>>>>>>> +			nvmeq->sq_tail = 0;
+>>>>>>> So this doesn't even use the new helper added in patch 2?  I think this
+>>>>>>> should call nvme_sq_copy_cmd().
+>>>>>> I also noticed that.
+>>>>>>
+>>>>>> So need to decide if to open code it or use the helper function.
+>>>>>>
+>>>>>> Inline helper sounds reasonable if you have 3 places that will use it.
+>>>>> Yes agree, that's been my stance too :-)
+>>>>>
+>>>>>>> The rest looks identical to the incremental patch I posted, so I guess
+>>>>>>> the performance degration measured on the first try was a measurement
+>>>>>>> error?
+>>>>>> giving 1 dbr for a batch of N commands sounds good idea. Also for RDMA host.
+>>>>>>
+>>>>>> But how do you moderate it ? what is the batch_sz <--> time_to_wait
+>>>>>> algorithm ?
+>>>>> The batching is naturally limited at BLK_MAX_REQUEST_COUNT, which is 32
+>>>>> in total. I do agree that if we ever made it much larger, then we might
+>>>>> want to cap it differently. But 32 seems like a pretty reasonable number
+>>>>> to get enough gain from the batching done in various areas, while still
+>>>>> not making it so large that we have a potential latency issue. That
+>>>>> batch count is already used consistently for other items too (like tag
+>>>>> allocation), so it's not specific to just this one case.
+>>>> I'm saying that the you can wait to the batch_max_count too long and it
+>>>> won't be efficient from latency POV.
+>>>>
+>>>> So it's better to limit the block layar to wait for the first to come: x
+>>>> usecs or batch_max_count before issue queue_rqs.
+>>> There's no waiting specifically for this, it's just based on the plug.
+>>> We just won't do more than 32 in that plug. This is really just an
+>>> artifact of the plugging, and if that should be limited based on "max of
+>>> 32 or xx time", then that should be done there.
+>>>
+>>> But in general I think it's saner and enough to just limit the total
+>>> size. If we spend more than xx usec building up the plug list, we're
+>>> doing something horribly wrong. That really should not happen with 32
+>>> requests, and we'll never eg wait on requests if we're out of tags. That
+>>> will result in a plug flush to begin with.
+>> I'm not aware of the plug. I hope to get to it soon.
+>>
+>> My concern is if the user application submitted only 28 requests and
+>> then you'll wait forever ? or for very long time.
+>>
+>> I guess not, but I'm asking how do you know how to batch and when to
+>> stop in case 32 commands won't arrive anytime soon.
+> The plug is in the stack of the task, so that condition can never
+> happen. If the application originally asks for 32 but then only submits
+> 28, then once that last one is submitted the plug is flushed and
+> requests are issued.
+
+So if I'm running fio with --iodepth=28 what will plug do ? send batches 
+of 28 ? or 1 by 1 ?
+
+>>>> Also, This batch is per HW queue or SW queue or the entire request queue ?
+>>> It's per submitter, so whatever the submitter ends up queueing IO
+>>> against. In general it'll be per-queue.
+>> struct request_queue ?
+>>
+>> I think the best is to batch per struct blk_mq_hw_ctx.
+>>
+>> I see that you check this in the nvme_pci driver but shouldn't it go to
+>> the block layer ?
+> That's not how plugging works. In general, unless your task bounces
+> around, then it'll be a single queue and a single hw queue as well.
+> Adding code to specifically check the mappings and flush at that point
+> would be a net loss, rather than just deal with it if it happens for
+> some cases.
 >
->
-> On 12/16/2021 4:18 AM, Yi Zhang wrote:
-> > On Wed, Dec 15, 2021 at 8:10 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
-> >>
-> >> On 12/15/2021 3:15 AM, Yi Zhang wrote:
-> >>> On Tue, Dec 14, 2021 at 8:01 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
-> >>>> On 12/14/2021 12:39 PM, Sagi Grimberg wrote:
-> >>>>>>>> Hi Sagi
-> >>>>>>>> It is still reproducible with the change, here is the log:
-> >>>>>>>>
-> >>>>>>>> # time nvme reset /dev/nvme0
-> >>>>>>>>
-> >>>>>>>> real    0m12.973s
-> >>>>>>>> user    0m0.000s
-> >>>>>>>> sys     0m0.006s
-> >>>>>>>> # time nvme reset /dev/nvme0
-> >>>>>>>>
-> >>>>>>>> real    1m15.606s
-> >>>>>>>> user    0m0.000s
-> >>>>>>>> sys     0m0.007s
-> >>>>>>> Does it speed up if you use less queues? (i.e. connect with -i 4) ?
-> >>>>>> Yes, with -i 4, it has stablee 1.3s
-> >>>>>> # time nvme reset /dev/nvme0
-> >>>>> So it appears that destroying a qp takes a long time on
-> >>>>> IB for some reason...
-> >>>>>
-> >>>>>> real 0m1.225s
-> >>>>>> user 0m0.000s
-> >>>>>> sys 0m0.007s
-> >>>>>>
-> >>>>>>>> # dmesg | grep nvme
-> >>>>>>>> [  900.634877] nvme nvme0: resetting controller
-> >>>>>>>> [  909.026958] nvme nvme0: creating 40 I/O queues.
-> >>>>>>>> [  913.604297] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-> >>>>>>>> [  917.600993] nvme nvme0: resetting controller
-> >>>>>>>> [  988.562230] nvme nvme0: I/O 2 QID 0 timeout
-> >>>>>>>> [  988.567607] nvme nvme0: Property Set error: 881, offset 0x14
-> >>>>>>>> [  988.608181] nvme nvme0: creating 40 I/O queues.
-> >>>>>>>> [  993.203495] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-> >>>>>>>>
-> >>>>>>>> BTW, this issue cannot be reproduced on my NVME/ROCE environment.
-> >>>>>>> Then I think that we need the rdma folks to help here...
-> >>>>> Max?
-> >>>> It took me 12s to reset a controller with 63 IO queues with 5.16-rc3+.
-> >>>>
-> >>>> Can you try repro with latest versions please ?
-> >>>>
-> >>>> Or give the exact scenario ?
-> >>> Yeah, both target and client are using Mellanox Technologies MT27700
-> >>> Family [ConnectX-4], could you try stress "nvme reset /dev/nvme0", the
-> >>> first time reset will take 12s, and it always can be reproduced at the
-> >>> second reset operation.
-> >> I created a target with 1 namespace backed by null_blk and connected to
-> >> it from the same server in loopback rdma connection using the ConnectX-4
-> >> adapter.
-> > Could you share your loop.json file so I can try it on my environment?
->
-> {
->    "hosts": [],
->    "ports": [
->      {
->        "addr": {
->          "adrfam": "ipv4",
->          "traddr": "<ip>",
->          "treq": "not specified",
->          "trsvcid": "4420",
->          "trtype": "rdma"
->        },
->        "portid": 1,
->        "referrals": [],
->        "subsystems": [
->          "testsubsystem_0"
->        ]
->      }
->    ],
->    "subsystems": [
->      {
->        "allowed_hosts": [],
->        "attr": {
->          "allow_any_host": "1",
->          "cntlid_max": "65519",
->          "cntlid_min": "1",
->          "model": "Linux",
->          "serial": "3d83c78b76623f1d",
->          "version": "1.3"
->        },
->        "namespaces": [
->          {
->            "device": {
->              "nguid": "5b722b05-e9b6-542d-ba80-62010b57775d",
->              "path": "/dev/nullb0",
->              "uuid": "26ffc8ce-73b4-321d-9685-7d7a9872c460"
->            },
->            "enable": 1,
->            "nsid": 1
->          }
->        ],
->        "nqn": "testsubsystem_0"
->      }
->    ]
-> }
-
-Thanks, I reproduced it with your json file on one server with
-loopback rdma connection:
-# time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testsubsystem_0
-
-real 0m4.557s
-user 0m0.000s
-sys 0m0.005s
-# time nvme reset /dev/nvme0
-
-real 0m13.176s
-user 0m0.000s
-sys 0m0.007s
-# time nvme reset /dev/nvme0
-
-real 1m16.577s
-user 0m0.002s
-sys 0m0.005s
-# time nvme disconnect -n testsubsystem_0
-
-NQN:testsubsystem_0 disconnected 1 controller(s)
-
-real 1m11.541s
-user 0m0.000s
-sys 0m0.187s
-
-#dmesg
-[96600.362827] nvmet: creating nvm controller 1 for subsystem
-testsubsystem_0 for NQN
-nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
-[96600.363038] nvme nvme0: creating 40 I/O queues.
-[96604.905514] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[96604.909161] nvme nvme0: new ctrl: NQN "testsubsystem_0", addr
-172.31.0.202:4420
-[96614.270825] nvme nvme0: Removing ctrl: NQN "testsubsystem_0"
-[96659.268006] nvmet: creating nvm controller 1 for subsystem
-testsubsystem_0 for NQN
-nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
-[96659.268215] nvme nvme0: creating 40 I/O queues.
-[96663.801929] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[96663.805589] nvme nvme0: new ctrl: NQN "testsubsystem_0", addr
-172.31.0.202:4420
-[96673.130986] nvme nvme0: resetting controller
-[96681.761992] nvmet: creating nvm controller 1 for subsystem
-testsubsystem_0 for NQN
-nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
-[96681.762133] nvme nvme0: creating 40 I/O queues.
-[96686.302544] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[96688.850272] nvme nvme0: resetting controller
-[96697.336217] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
-[96697.361231] nvmet: ctrl 1 fatal error occurred!
-[96760.824363] nvme nvme0: I/O 25 QID 0 timeout
-[96760.847531] nvme nvme0: Property Set error: 881, offset 0x14
-[96760.885731] nvmet: creating nvm controller 1 for subsystem
-testsubsystem_0 for NQN
-nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
-[96760.885879] nvme nvme0: creating 40 I/O queues.
-[96765.423099] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[96808.112730] nvme nvme0: Removing ctrl: NQN "testsubsystem_0"
-[96816.632485] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
-[96816.657537] nvmet: ctrl 1 fatal error occurred!
-[96879.608632] nvme nvme0: I/O 12 QID 0 timeout
-[96879.632104] nvme nvme0: Property Set error: 881, offset 0x14>
->
-> >
-> > And can you try it with two servers that both have CX-4? This should
-> > be easier to reproduce it.
->
-> I did this experiment. I have only a setup with 12 cores so I created 12
-> nvmf queues.
->
-> The reset took 4 seconds. The test did 100 loops of "nvme reset".
->
-> I saw that you also complained on the disconnect flow so I assume the
-> root cause is the same.
-
-Yeah, I think so
-
->
-> My disconnect took 2 seconds.
->
-> My FW version is 12.28.2006.
-
-Yeah, mine is same with yours.
-# cat /sys/devices/pci0000\:00/0000\:00\:02.0/0000\:04\:00.0/infiniband/mlx5_0/fw_ver
-12.28.2006
-
-
->
-> >> I run a loop with the "nvme reset" command and it took me 4-5 secs to
-> >> reset each time..
-> >>
-> >>
-> >
->
-
-
--- 
-Best Regards,
-  Yi Zhang
-
 
