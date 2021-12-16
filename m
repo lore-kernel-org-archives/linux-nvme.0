@@ -4,81 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74CA1C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Dec 2021 20:27:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAF04C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 02:18:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LYn1ZC4DeuBKxM0V2BD7F1TKYsmbDE4nEOted6fGKI0=; b=EE0jawXYStimQUCf9akcC1unic
-	Wd3Fu+LR/K41Oh/JkkBP0th/UrgFyvq75qH0MvNvrmyegh806jgB0t8F86/aqYO9T35Xb+JtYTOf9
-	UH0UJFbhohzqiIZiaq3yb1vVJcLeSJF5Ku0SqXfre282baATSPJF0mcduzL7jLLU3S6kxkIZ3a1UM
-	rLQtCicwguqtIaURYkeKq+XsqcrJ8VpzplbrdBYQOlql31yYqtrxkmYoTamprDBDxjXhLtmwrHmVJ
-	cFXyS/KIXw+0qFlwDuSoRO/dG5PnfrdJb+IuQniBKI1FxYzBsC2g3dbQ/a3RghZpX3oySmRZ8DD/K
-	N92fj/Aw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TJEqaZnwaqHIDBttaQK32cmu4xFKEuoEEBTEJJb0tbo=; b=WsBLOFEiHrMQPZ9PGC3rWH/LKp
+	r3St1xgoApwzuz5lEoxF7cGLcHg663zK5suLTSjjTiBHv9XF0FX/K3GalXOpoADgD/NQkbtHqyhKp
+	ldVugKfkoOXFF1t+UtD9MnZAogm0rAJRIhikGvn3f7KX+FRP3pa4e/4hO6Md/6OdFD2W4nEFFQuZa
+	yFvgASYMEShjNFpMGlou92lf5SSVbfA+ul4UBWp0lYnYC1aEIkfxpaOry5kizwfD1atxMOXR/8Tvq
+	uRTt4ZuO+xO4Yx040goIPkBIOrHhsbrbDrEGodgCOPe+cSWBZdzay7IaXMW63Dkylb/F5o+lJLxN6
+	sy725S4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxarp-002cEC-CU; Wed, 15 Dec 2021 20:27:13 +0000
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
+	id 1mxgLz-003Iaw-MA; Thu, 16 Dec 2021 02:18:43 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mxarm-002cBw-0D
- for linux-nvme@lists.infradead.org; Wed, 15 Dec 2021 20:27:11 +0000
-Received: by mail-il1-x131.google.com with SMTP id l5so20297736ilv.7
- for <linux-nvme@lists.infradead.org>; Wed, 15 Dec 2021 12:27:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LYn1ZC4DeuBKxM0V2BD7F1TKYsmbDE4nEOted6fGKI0=;
- b=se+oAFPIed6TNd0+XV9t2qZzZ80RJl8fuRbEqnYd0TaUu09Ie1k/fHYEpH4MW/1Rbe
- oNEBBZcfySoXb/Q1bq2LaacVcb9KgoRIHsDl4yoO03POJLU7Fx/JJJvuz1Df1PRtsB3P
- CgOG+mHa1UK/BmvfCAVsWWYE6BWJkwzMtcYWEbjRW99aSE8axodOyvaXSbsOaXhOS870
- EB0PgrAsF7j86zFD8Qrql46YS4LsL3yVzJwtGhk04gMSh9Zu0Nvcuooqp7SZYAN4gGle
- dv7HThoMfhUWvyoqQEu9KVabscD95IW3lK9zETG8sdQryQcP882B26S/Q94Va3wbyrAQ
- z30Q==
+ id 1mxgLw-003IaI-Pb
+ for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 02:18:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639621117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TJEqaZnwaqHIDBttaQK32cmu4xFKEuoEEBTEJJb0tbo=;
+ b=WdEClvA9DPcWQ2lovfkgrqz+Pv0HzO3LnejOrR/K0DKpMxE+fKCzHV1guqYB6FDSpEKzj8
+ IytxKuJ6+hKI1yaTpsUELwJM1n5Cy5QNMPd7Ep5pxbcnZiPT+XTFr5SP2dfB3eeQFpDX9B
+ /J1ht1xk0Vay8IvN9gajK+aZ+drU5pk=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-225-aEQ7q9UZP3WjCQ4gXYpmGw-1; Wed, 15 Dec 2021 21:18:36 -0500
+X-MC-Unique: aEQ7q9UZP3WjCQ4gXYpmGw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ w5-20020a17090a380500b001b112521410so1319976pjb.8
+ for <linux-nvme@lists.infradead.org>; Wed, 15 Dec 2021 18:18:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LYn1ZC4DeuBKxM0V2BD7F1TKYsmbDE4nEOted6fGKI0=;
- b=LwKUDTVYIyIF1a0a73nrGsFcejl5tPMGha5TCPhjJVDF9GpOcqKq1VIIVitSTMWVUG
- aitO0aKtpzECYJpPOoYZPXUySZTCuhr5o6jtuIEa0WNTFIfYROBriMUKBxJPIPdAlsHb
- bIGB43AszUTCgPZl9tp1i4If3mRxq58BuipMLIANPSRN5xpNR1uCOksM6+Il0HoozVBP
- xJdgIpECQmwW5uFz2017obSJGFjeFAy2xxvAsuP5x0Vp2pv/uiZxpLaUyFwZQbcHkEkP
- 3s4UrVU6uDu8nERdGsDe+8QeXkuZRtEguQYswI3fwoqq17O4fNAWOchtR7wMqL3r6FNM
- 2M6A==
-X-Gm-Message-State: AOAM530mKs5enwaoGwVUi+hoqQVp4lOggf6/ZsHy9uzB/1lD8bLJNRWp
- xas5Z3oImjbAEewV1AdTChg+vOuIptmkpA==
-X-Google-Smtp-Source: ABdhPJwL0sALDY0MBYeyDEG7RYyYRKxrVtN1yVtKOAk3BO7u9LJ/x6SYjPmmzOyFScZhQGgNR/lquw==
-X-Received: by 2002:a92:d992:: with SMTP id r18mr7350460iln.224.1639600028666; 
- Wed, 15 Dec 2021 12:27:08 -0800 (PST)
-Received: from [192.168.1.30] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id r14sm1575628ill.70.2021.12.15.12.27.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 12:27:08 -0800 (PST)
-Subject: Re: [PATCH 4/4] nvme: add support for mq_ops->queue_rqs()
-To: Keith Busch <kbusch@kernel.org>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-References: <20211215162421.14896-1-axboe@kernel.dk>
- <20211215162421.14896-5-axboe@kernel.dk>
- <20211215172947.GB4164278@dhcp-10-100-145-180.wdc.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <ac9c7c9f-0b7f-12ea-38bb-b3b9279c8baf@kernel.dk>
-Date: Wed, 15 Dec 2021 13:27:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TJEqaZnwaqHIDBttaQK32cmu4xFKEuoEEBTEJJb0tbo=;
+ b=bKwcMEpG9hWXerKCN3B9rNH43jqVyZtsu8VVYW6qkdT+lEjDfUHHzGEyncThZamRnS
+ ejmJP9Qp+PeQCnOuQtDgZg6AEsiyKpK4ECMV78mZb9qKvF6pju2i1wtH/wq9VEWVCXa+
+ JVlWEw6w4eCN1wPmHbvF3IjjqQBdy4hUVcSqUh9qVPO4S1z9Yk3Bu4nukH4CysHs4AgT
+ 5gVZsBUsZj6u19uDPqHXJ/sMs+m+JB+zbQ1UWFXORLiwtFev3alg7TzOWDhFxRtDUIrt
+ /JHPiEUkmszOEyKOlUAZQRTj8wNPBdXDb4hjLhslBTkydsnM8PBq1FKEtGeHcqphGUCs
+ Aj8g==
+X-Gm-Message-State: AOAM533xviu+CxJL76NDHlBJUcNYtn+ZMB3IURwhU/aAl9aXzJGex/iX
+ +Ny1rrpHX11wMrHDikXS53Gxs8TtnTv43aqfQsx1zv28n2l0mSlNfCAn7U2m6ThTCQ54/vrIcRo
+ uVYp0Q68GhQNB9Ft1ORtvKP2TY0Q6kCTAzgXkqtLPfpM=
+X-Received: by 2002:a63:d811:: with SMTP id b17mr10022726pgh.562.1639621115489; 
+ Wed, 15 Dec 2021 18:18:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTVTrHKuXk9QF8yS4tD1ghF4iafol+pBJGEpf7dAgfVW8fm3L4m5qCHScVjeqrtQbMWWL1MoQ23XhWUQr1tZM=
+X-Received: by 2002:a63:d811:: with SMTP id b17mr10022704pgh.562.1639621115230; 
+ Wed, 15 Dec 2021 18:18:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211215172947.GB4164278@dhcp-10-100-145-180.wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
+ <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
+ <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
+ <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
+ <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
+ <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
+ <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
+ <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
+ <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
+ <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
+ <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
+ <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
+ <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
+ <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
+In-Reply-To: <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 16 Dec 2021 10:18:23 +0800
+Message-ID: <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>, 
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+ RDMA mailing list <linux-rdma@vger.kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211215_122710_083112_0088B82F 
-X-CRM114-Status: GOOD (  26.91  )
+X-CRM114-CacheID: sfid-20211215_181840_949803_5A54A19C 
+X-CRM114-Status: GOOD (  22.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,51 +108,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/15/21 10:29 AM, Keith Busch wrote:
-> On Wed, Dec 15, 2021 at 09:24:21AM -0700, Jens Axboe wrote:
->> +static bool nvme_prep_rq_batch(struct nvme_queue *nvmeq, struct request *req)
->> +{
->> +	/*
->> +	 * We should not need to do this, but we're still using this to
->> +	 * ensure we can drain requests on a dying queue.
->> +	 */
->> +	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
->> +		return false;
-> 
-> The patch looks good:
-> 
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
+On Wed, Dec 15, 2021 at 8:10 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>
+>
+> On 12/15/2021 3:15 AM, Yi Zhang wrote:
+> > On Tue, Dec 14, 2021 at 8:01 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+> >>
+> >> On 12/14/2021 12:39 PM, Sagi Grimberg wrote:
+> >>>>>> Hi Sagi
+> >>>>>> It is still reproducible with the change, here is the log:
+> >>>>>>
+> >>>>>> # time nvme reset /dev/nvme0
+> >>>>>>
+> >>>>>> real    0m12.973s
+> >>>>>> user    0m0.000s
+> >>>>>> sys     0m0.006s
+> >>>>>> # time nvme reset /dev/nvme0
+> >>>>>>
+> >>>>>> real    1m15.606s
+> >>>>>> user    0m0.000s
+> >>>>>> sys     0m0.007s
+> >>>>> Does it speed up if you use less queues? (i.e. connect with -i 4) ?
+> >>>> Yes, with -i 4, it has stablee 1.3s
+> >>>> # time nvme reset /dev/nvme0
+> >>> So it appears that destroying a qp takes a long time on
+> >>> IB for some reason...
+> >>>
+> >>>> real 0m1.225s
+> >>>> user 0m0.000s
+> >>>> sys 0m0.007s
+> >>>>
+> >>>>>> # dmesg | grep nvme
+> >>>>>> [  900.634877] nvme nvme0: resetting controller
+> >>>>>> [  909.026958] nvme nvme0: creating 40 I/O queues.
+> >>>>>> [  913.604297] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+> >>>>>> [  917.600993] nvme nvme0: resetting controller
+> >>>>>> [  988.562230] nvme nvme0: I/O 2 QID 0 timeout
+> >>>>>> [  988.567607] nvme nvme0: Property Set error: 881, offset 0x14
+> >>>>>> [  988.608181] nvme nvme0: creating 40 I/O queues.
+> >>>>>> [  993.203495] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+> >>>>>>
+> >>>>>> BTW, this issue cannot be reproduced on my NVME/ROCE environment.
+> >>>>> Then I think that we need the rdma folks to help here...
+> >>> Max?
+> >> It took me 12s to reset a controller with 63 IO queues with 5.16-rc3+.
+> >>
+> >> Can you try repro with latest versions please ?
+> >>
+> >> Or give the exact scenario ?
+> > Yeah, both target and client are using Mellanox Technologies MT27700
+> > Family [ConnectX-4], could you try stress "nvme reset /dev/nvme0", the
+> > first time reset will take 12s, and it always can be reproduced at the
+> > second reset operation.
+>
+> I created a target with 1 namespace backed by null_blk and connected to
+> it from the same server in loopback rdma connection using the ConnectX-4
+> adapter.
 
-Thanks Keith!
+Could you share your loop.json file so I can try it on my environment?
 
-> Now a side comment on the above snippet:
-> 
-> I was going to mention in v2 that you shouldn't need to do this for each
-> request since the queue enabling/disabling only happens while quiesced,
-> so the state doesn't change once you start a batch. But I realized
-> multiple hctx's can be in a single batch, so we have to check each of
-> them instead of just once. :(
-> 
-> I tried to remove this check entirely ("We should not need to do this",
-> after all), but that's not looking readily possible without just
-> creating an equivalent check in blk-mq: we can't end a particular
-> request in failure without draining whatever list it may be linked
-> within, and we don't know what list it's in when iterating allocated
-> hctx tags.
-> 
-> Do you happen to have any thoughts on how we could remove this check?
-> The API I was thinking of is something like "blk_mq_hctx_dead()" in
-> order to fail pending requests on that hctx without sending them to the
-> low-level driver so that it wouldn't need these kinds of per-IO checks.
+And can you try it with two servers that both have CX-4? This should
+be easier to reproduce it.
 
-That's a good question, and something I thought about as well while
-doing the change. The req based test following it is a bit annoying as
-well, but probably harder to get rid of. I didn't pursue this one in
-particular, as the single test_bit() is pretty cheap.
+>
+> I run a loop with the "nvme reset" command and it took me 4-5 secs to
+> reset each time..
+>
+>
+> >
+> >>
+> >
+>
 
-Care to take a stab at doing a blk_mq_hctx_dead() addition?
 
 -- 
-Jens Axboe
+Best Regards,
+  Yi Zhang
 
 
