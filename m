@@ -4,74 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AC7EC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:05:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC15EC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:05:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=tL3o525SSbhSebgjQfZMQ7uigsMTO2fDpoEDGUF4HUE=; b=XAbhYCVWDXT5wFU3b/ANBV+d+1
-	ZFxB/9Io/eKZCOQuMp7YYsyz5zkjnpZVnNZ1mmXlBE5XwTTmIN/iflUwY5O6ljqz0f8GbpV03pcOk
-	aMvs2aQ0onnuk3l6oQ0nheY4nQqs06+UF1UHZCNy/RW9bL4BsJOrGwBiPRLarks9TQmlPjilO0uly
-	OPVhZYPf1BhrM+tsbuc9Vw575QHASeLtax8UDs0/sGqcSP17ITjUTnAJ/5is96LE7O2nGerdiCAeA
-	d6QxCyzkbLDsFemRX5h9PWLVC5aFrjfFCuOBaxCYGoYG0PnIvPAfGV7Wv+zNxHjdsceScWz9KjN5N
-	Pr7AQXXw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mrsB3UCm4bmi73wguDQBqQCr2m0pev3vraLfK00rcq4=; b=WrsLGFCRKEopF7Bn3a12eJ24Yb
+	EtwtSlVo7G8ZhEbqjpfEumF+XRV7Th83CrZIvE8VZiWfYCm/Rv1bHplYDArOpnpewiZK+IUmo8MN4
+	pglhqXihIX1Pf1g0oPCH806QhIWpcFO+xcL3BuDMmO6t+lM5BSFHwutHLplJqwzN4heVVzubWNEEP
+	FosQnGH3cpe5HL0MYSbrB08ywBchEzvWeKY9zubBdXhQ2JKPOA2IYBnq1ZzZPq/k/aJYxXbN8j2xf
+	uoSNrWcMjRYgXVCEzRoy8Tok2JU1fZWK7HfulpP9WZ/XKhBYF+yqLwS8Mqxlb8C6T9xe9OFhBP3n+
+	bKoMugOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxtGK-006TPE-2f; Thu, 16 Dec 2021 16:05:44 +0000
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34])
+	id 1mxtGV-006TUR-KL; Thu, 16 Dec 2021 16:05:55 +0000
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mxtGH-006TND-7D
- for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:05:42 +0000
-Received: by mail-io1-xd34.google.com with SMTP id k21so35765917ioh.4
- for <linux-nvme@lists.infradead.org>; Thu, 16 Dec 2021 08:05:40 -0800 (PST)
+ id 1mxtGJ-006TOS-5F
+ for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:05:44 +0000
+Received: by mail-io1-xd2c.google.com with SMTP id 14so35653178ioe.2
+ for <linux-nvme@lists.infradead.org>; Thu, 16 Dec 2021 08:05:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tL3o525SSbhSebgjQfZMQ7uigsMTO2fDpoEDGUF4HUE=;
- b=0LEQNGb1bTHq9e+hYsc3l+U2okJ0k4nHCnm1dhpKeonjqY5/ZM5neoakgeOcnU8rMt
- pqd/Xs3gl8OfNB5zpWbbHRemeoSAhzx4OjzZC9/nUuQ5hNpz9f5iBm0955pOnS1isizS
- JAip0m3naR8v4h1fESL4IKpKKycnMHxyPGjlktYqX9o1oKPQgvGE6+BklJ58NVHSreeu
- pIxhC+CTNkzBhAgy0G4S4qMsOTW6SLnoF3binn+Y5vangPa3tr2JNByLyvb6RJlZUOSc
- Q6M4wLWZjHPSPDI/FLUA7mI2SPGwGpULFNf82V7VdpjkSXl9392Ow7vVukUVOmKvpL0U
- /eNw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mrsB3UCm4bmi73wguDQBqQCr2m0pev3vraLfK00rcq4=;
+ b=NASmxMQXOzlzQl2P97eko9egq2Ee1UYORkMMfIMKOdwKqjMhjXLDTv/9JYPlKBgGCr
+ oYeCIdjtUfNRkeKpro/j7f8I9AC7YQ0f6tSQUYAppLrQW5NSx2adWPwop+FeVVvPMwZf
+ hMX8tXRXS3IJ8x86apPVybcmoWRw1Z2knYpIGBBBQUXUrDGaRZx5bl1rSsx0h2pZQEFB
+ STbDmk7bPjwm2NWSA2mf6VHl2AUdvkGw+UN6veCxGHs8D5dUpLXg+hs6p8WvgR+vSz5j
+ JJLipSh854HDnsQdrDVbPWzmviIyo/gLLA4+x4MDcBYeHq/0Ij1UZ6uSDBO0o9/DHqpd
+ UdDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tL3o525SSbhSebgjQfZMQ7uigsMTO2fDpoEDGUF4HUE=;
- b=chCiI6p5f0E3XGSwW+SVCB3LoaCKd40NH4xCosrP9G12KjqCNrBh55NCC/qJ21+r+r
- L4ycioL35rM9dT+uNv+6rEgJlIDCSZIyu97mdgKpJXWil+kBJSY6tn43EOISXr0P+wM0
- /gptUjG0JjxHYzldYp30Trr9SjaDKlMONriitd5UjLAiMV75LEqbLvUgVAtGE1Pdqjb1
- +MhX3UqgUmkIEVEQCK3Re3Kj9OBVb5a3vR7ZWZOTBJoCRbdvAaPDWXkx3+nOT/FtWY7p
- xUaHmSw8KfgLXECv3ZsPTaAaqmlExu9j9xHKCu9g+lIkzSfYn5TJcKiEmmxlK1t7PH9a
- 9pIw==
-X-Gm-Message-State: AOAM531o6r2ZnQFTrt0EUdBRijVvLrPnai0OHAR8KiTUejm+/7Fo4jF/
- nSR2MILLgWPRKHv6DkiIkbsxBQ==
-X-Google-Smtp-Source: ABdhPJyX8QJ18MhgVKKInSNZnCJnXEn3TufvHX3LuCasO/H2/ZZH4vXTozIHee1wM/MvTcWLkJaRoA==
-X-Received: by 2002:a05:6638:3381:: with SMTP id
- h1mr10264337jav.176.1639670740358; 
- Thu, 16 Dec 2021 08:05:40 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mrsB3UCm4bmi73wguDQBqQCr2m0pev3vraLfK00rcq4=;
+ b=shHxLn1aRky+KGJl+/eqcB2GcpjYFjxkcJhPAtM1HK3/WF7cNBdhfTbIfmtQBNVc5o
+ ilnCwMixI8MzQcTGqjIHcIvbpwih2Vmm2Lwt7MQolWwx4JP++uAmIlDsN7CO8KWFVhPP
+ SrysaFzjG1eM9H6HdhEk6qx8od1/uNLQd1ZCO8mxpO8t8mc1TqCTFP0zO1nNtFy2Hbmf
+ QUV/RthWS3e912GEfat9NEnJalzKbASpEaLKX9AG/TjGx3DUlfD2KNJYf8jWgVGo3LiU
+ LG7FL2i05rzdm9VD1V/Q/nZg4jJr3wkqD4eyU6/tgWvNNZpVArJGP9jVW5VY2u7poO3/
+ wLhw==
+X-Gm-Message-State: AOAM532+0yVq5JKVno/K2NROeabnqleQvbmSk7a0gBhfkyooE8tpeYOR
+ NX5m3b+lNoPLJ1zij2nq0TydOA==
+X-Google-Smtp-Source: ABdhPJzr/bFJjYd6Il7Y+kIQ7ggNza0pgizMOaeK51YYrulffnpxoSLrnypU+JIpE8iPqtsuB2JQEQ==
+X-Received: by 2002:a05:6638:4089:: with SMTP id
+ m9mr9928722jam.187.1639670742320; 
+ Thu, 16 Dec 2021 08:05:42 -0800 (PST)
 Received: from x1.localdomain ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id s9sm3237155ild.14.2021.12.16.08.05.39
+ by smtp.gmail.com with ESMTPSA id s9sm3237155ild.14.2021.12.16.08.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 08:05:39 -0800 (PST)
+ Thu, 16 Dec 2021 08:05:41 -0800 (PST)
 From: Jens Axboe <axboe@kernel.dk>
 To: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Subject: [PATCHSET v4 0/4] Add support for list issue
-Date: Thu, 16 Dec 2021 09:05:33 -0700
-Message-Id: <20211216160537.73236-1-axboe@kernel.dk>
+Cc: Jens Axboe <axboe@kernel.dk>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Hannes Reinecke <hare@suse.de>, Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: [PATCH 2/4] nvme: split command copy into a helper
+Date: Thu, 16 Dec 2021 09:05:35 -0700
+Message-Id: <20211216160537.73236-3-axboe@kernel.dk>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211216160537.73236-1-axboe@kernel.dk>
+References: <20211216160537.73236-1-axboe@kernel.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211216_080541_284216_4CA8FF2C 
-X-CRM114-Status: UNSURE (   7.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20211216_080543_227228_6E3D279F 
+X-CRM114-Status: GOOD (  11.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,26 +89,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With the support in 5.16-rc1 for allocating and completing batches of
-IO, the one missing piece is passing down a list of requests for issue.
-Drivers can take advantage of this by defining an mq_ops->queue_rqs()
-hook.
+We'll need it for batched submit as well.
 
-This implements it for NVMe, allowing copy of multiple commands in one
-swoop.
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+---
+ drivers/nvme/host/pci.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-This is good for around a 500K IOPS/core improvement in my testing,
-which is around a 5-6% improvement in efficiency.
-
-Note to Christoph - I kept the copy helper, since it's used in 3
-spots and I _think_ you ended up being fine with that...
-
-Changes since v3:
-- Use nvme_sq_copy_cmd() in nvme_submit_cmds()
-- Add reviewed-by's
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8637538f3fd5..09ea21f75439 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -500,6 +500,15 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+ 	nvmeq->last_sq_tail = nvmeq->sq_tail;
+ }
+ 
++static inline void nvme_sq_copy_cmd(struct nvme_queue *nvmeq,
++				    struct nvme_command *cmd)
++{
++	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes), cmd,
++		sizeof(*cmd));
++	if (++nvmeq->sq_tail == nvmeq->q_depth)
++		nvmeq->sq_tail = 0;
++}
++
+ /**
+  * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
+  * @nvmeq: The queue to use
+@@ -510,10 +519,7 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
+ 			    bool write_sq)
+ {
+ 	spin_lock(&nvmeq->sq_lock);
+-	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
+-	       cmd, sizeof(*cmd));
+-	if (++nvmeq->sq_tail == nvmeq->q_depth)
+-		nvmeq->sq_tail = 0;
++	nvme_sq_copy_cmd(nvmeq, cmd);
+ 	nvme_write_sq_db(nvmeq, write_sq);
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
 -- 
-Jens Axboe
-
+2.34.1
 
 
