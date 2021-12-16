@@ -4,42 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 241FFC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:42:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEB98C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Dec 2021 16:44:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xnWEXOZkKkaJSMhIpKZJuUl3Fw7AOQgr8GUGiornnME=; b=kLSv8kxM4C1wPl45gR9aChvEo7
-	tqRjszpUGNQeD6b9IqmLrXrb3vT0Z3D7VWhE+RvLz3pOjcgvIoGaavtelvo01cF/OHTwAEOuvEu65
-	5hv/FHVc35AAtz84AHaYOMznra1rZXY2DS5Luy9gd0J6oWxva+fksjPQJK/phLSo0LXqeSc47ehdN
-	anwdt4IOg7SJUr6L+/qvHv7pJSztdAGvv39etm+6vEL/A+O4hgOWhClzpUNSBwM//4TlBF+XL8sb8
-	j195dTJbklUhR5cVFz1l1tjRbY3hLADbP+NgXo3+/Sn4S8q8h+AQGaOty474Y6JxD894ZNgJYTuWb
-	tNB7KHpg==;
+	bh=C7ArIo8h9UoMuRriGPBMYknw6EihK0lWHm8P8wXkcbI=; b=ax1oRvsiEJfNB/LFHj0NpTut49
+	GAV+zdLGvojwy7QaeoSISYL+vJ+nfpzE+fBcJHHjO/HoQhd49FCFJnXgrTpKBLEQkws1V7Ta5VjCY
+	K8Bsato4y0AkOk4BvLWebAwZi5WDqfPoJ+0lpm6pXF2pjzDmIiTBEVGIP5C1RDYiYTVo5mFB+t6mc
+	WfRYPLSGtLfTlUiS/cuvVEGM49Ji7Ei6T8EAigECiBPEaiiT0vZltOWOi62k08l+FNF9S7FTOf3/V
+	+0n87oUSENvL4wz9B+YsKS5qT5Buof3sPi0OmlxhVGycAmbzJqMrZwA/BIG931xM0rz07AGwbewSB
+	47Veq4qw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mxtqH-006hpa-BV; Thu, 16 Dec 2021 16:42:53 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1mxtei-006d71-GL; Thu, 16 Dec 2021 16:30:56 +0000
-Date: Thu, 16 Dec 2021 08:30:56 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@infradead.org>, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 4/4] nvme: add support for mq_ops->queue_rqs()
-Message-ID: <YbtpwAP5HJSKAjh8@infradead.org>
-References: <20211215162421.14896-1-axboe@kernel.dk>
- <20211215162421.14896-5-axboe@kernel.dk>
- <YbsB/W/1Uwok4i0u@infradead.org>
- <83aa4715-7bf8-4ed1-6945-3910cb13f233@kernel.dk>
- <YbtmPjisO5RIAnby@infradead.org>
- <db771bc2-4d7a-ee1c-aff7-f8e37dc964d5@kernel.dk>
+	id 1mxtrk-006iE3-JW; Thu, 16 Dec 2021 16:44:24 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mxtgI-006dUO-Qx
+ for linux-nvme@lists.infradead.org; Thu, 16 Dec 2021 16:32:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639672353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C7ArIo8h9UoMuRriGPBMYknw6EihK0lWHm8P8wXkcbI=;
+ b=BM2XAYNTgEyumrP8nK1R3FHJFLLwuBjvg+s/xYOgd5yHoI43dZmu2WvWwNvDUSUhJYfRym
+ lto5yZqAZdv+qHYhFDvduFwzT79+4Zj0mxUhvMOM3Ljr4X0Rr/MBKIqUHewyJHnpsnLkIj
+ qujdV50ikoq10V1cDAlWvKhp20x7rCI=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-167-xYbElAT2Owyxfx1NMlFxOQ-1; Thu, 16 Dec 2021 11:32:32 -0500
+X-MC-Unique: xYbElAT2Owyxfx1NMlFxOQ-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ k9-20020a170902c40900b001421e921ccaso8152736plk.22
+ for <linux-nvme@lists.infradead.org>; Thu, 16 Dec 2021 08:32:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C7ArIo8h9UoMuRriGPBMYknw6EihK0lWHm8P8wXkcbI=;
+ b=ggxqiQWgkoxh93RsQ8oLFqX11iKnmG/2KDxDgROMlGlKtZ1lRcV85dM5BOwsyv8VBM
+ yLd8YNRcuoIOVQTLP6UGxBaw4pdRsVaAGNMSRGDUUn/wALtLt2dX8o9ym+8jcQuSkKQs
+ g9EckK09jApZDsN2oCecrt8KTROUGzFzDQGqI55efDLN2t4wPU0CykjdXO86LxO82Wgh
+ jzgpx61lHLa3Sq930v6eaEieuaYkZ2jS3A5UL4e78cvf17RJG8y46aUvMEe7rXz2vmNI
+ RwFfDr+5UkgCtXjaVp3HhnWkpF4lsFrghrNCbidZOTiVrNRnYgxlOd4tE3TDoEK0bscv
+ KWYw==
+X-Gm-Message-State: AOAM533r2Le7oJMsI7g8sQB1qADRUGM8tML7flHmclmTaFMlbdH0Tt+s
+ IUTV5dEx5gFWr65e9tsTV39DxRuep14oSPWjQ4lgrzHgLqXTN8zFw2IWqZJN9o0GX/nqhhjMg0z
+ 7RpB8YkaANK83ki29rIAS8KUEblCOWitHpUrv/8opwts=
+X-Received: by 2002:a17:902:9b98:b0:148:ae04:9c78 with SMTP id
+ y24-20020a1709029b9800b00148ae049c78mr7458769plp.88.1639672351114; 
+ Thu, 16 Dec 2021 08:32:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjMWOR+5VbDN2r+R/4Bl4r8LyNK9McDW1Qxcc+7MnSB67QEuS7c7r/O8U/gzM7UmRZLKwOrex6Cz5z1af1wvE=
+X-Received: by 2002:a17:902:9b98:b0:148:ae04:9c78 with SMTP id
+ y24-20020a1709029b9800b00148ae049c78mr7458750plp.88.1639672350782; Thu, 16
+ Dec 2021 08:32:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db771bc2-4d7a-ee1c-aff7-f8e37dc964d5@kernel.dk>
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
+ <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
+ <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
+ <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
+ <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
+ <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
+ <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
+ <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
+ <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
+ <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
+ <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
+ <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
+ <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
+ <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
+ <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
+ <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
+In-Reply-To: <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Fri, 17 Dec 2021 00:32:15 +0800
+Message-ID: <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>, 
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+ RDMA mailing list <linux-rdma@vger.kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20211216_083235_013572_7CAFB097 
+X-CRM114-Status: GOOD (  30.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -54,8 +112,208 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 16, 2021 at 09:27:18AM -0700, Jens Axboe wrote:
-> OK, I misunderstood which one you referred to then. So this incremental,
+On Thu, Dec 16, 2021 at 9:21 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>
+>
+> On 12/16/2021 4:18 AM, Yi Zhang wrote:
+> > On Wed, Dec 15, 2021 at 8:10 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+> >>
+> >> On 12/15/2021 3:15 AM, Yi Zhang wrote:
+> >>> On Tue, Dec 14, 2021 at 8:01 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+> >>>> On 12/14/2021 12:39 PM, Sagi Grimberg wrote:
+> >>>>>>>> Hi Sagi
+> >>>>>>>> It is still reproducible with the change, here is the log:
+> >>>>>>>>
+> >>>>>>>> # time nvme reset /dev/nvme0
+> >>>>>>>>
+> >>>>>>>> real    0m12.973s
+> >>>>>>>> user    0m0.000s
+> >>>>>>>> sys     0m0.006s
+> >>>>>>>> # time nvme reset /dev/nvme0
+> >>>>>>>>
+> >>>>>>>> real    1m15.606s
+> >>>>>>>> user    0m0.000s
+> >>>>>>>> sys     0m0.007s
+> >>>>>>> Does it speed up if you use less queues? (i.e. connect with -i 4) ?
+> >>>>>> Yes, with -i 4, it has stablee 1.3s
+> >>>>>> # time nvme reset /dev/nvme0
+> >>>>> So it appears that destroying a qp takes a long time on
+> >>>>> IB for some reason...
+> >>>>>
+> >>>>>> real 0m1.225s
+> >>>>>> user 0m0.000s
+> >>>>>> sys 0m0.007s
+> >>>>>>
+> >>>>>>>> # dmesg | grep nvme
+> >>>>>>>> [  900.634877] nvme nvme0: resetting controller
+> >>>>>>>> [  909.026958] nvme nvme0: creating 40 I/O queues.
+> >>>>>>>> [  913.604297] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+> >>>>>>>> [  917.600993] nvme nvme0: resetting controller
+> >>>>>>>> [  988.562230] nvme nvme0: I/O 2 QID 0 timeout
+> >>>>>>>> [  988.567607] nvme nvme0: Property Set error: 881, offset 0x14
+> >>>>>>>> [  988.608181] nvme nvme0: creating 40 I/O queues.
+> >>>>>>>> [  993.203495] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+> >>>>>>>>
+> >>>>>>>> BTW, this issue cannot be reproduced on my NVME/ROCE environment.
+> >>>>>>> Then I think that we need the rdma folks to help here...
+> >>>>> Max?
+> >>>> It took me 12s to reset a controller with 63 IO queues with 5.16-rc3+.
+> >>>>
+> >>>> Can you try repro with latest versions please ?
+> >>>>
+> >>>> Or give the exact scenario ?
+> >>> Yeah, both target and client are using Mellanox Technologies MT27700
+> >>> Family [ConnectX-4], could you try stress "nvme reset /dev/nvme0", the
+> >>> first time reset will take 12s, and it always can be reproduced at the
+> >>> second reset operation.
+> >> I created a target with 1 namespace backed by null_blk and connected to
+> >> it from the same server in loopback rdma connection using the ConnectX-4
+> >> adapter.
+> > Could you share your loop.json file so I can try it on my environment?
+>
+> {
+>    "hosts": [],
+>    "ports": [
+>      {
+>        "addr": {
+>          "adrfam": "ipv4",
+>          "traddr": "<ip>",
+>          "treq": "not specified",
+>          "trsvcid": "4420",
+>          "trtype": "rdma"
+>        },
+>        "portid": 1,
+>        "referrals": [],
+>        "subsystems": [
+>          "testsubsystem_0"
+>        ]
+>      }
+>    ],
+>    "subsystems": [
+>      {
+>        "allowed_hosts": [],
+>        "attr": {
+>          "allow_any_host": "1",
+>          "cntlid_max": "65519",
+>          "cntlid_min": "1",
+>          "model": "Linux",
+>          "serial": "3d83c78b76623f1d",
+>          "version": "1.3"
+>        },
+>        "namespaces": [
+>          {
+>            "device": {
+>              "nguid": "5b722b05-e9b6-542d-ba80-62010b57775d",
+>              "path": "/dev/nullb0",
+>              "uuid": "26ffc8ce-73b4-321d-9685-7d7a9872c460"
+>            },
+>            "enable": 1,
+>            "nsid": 1
+>          }
+>        ],
+>        "nqn": "testsubsystem_0"
+>      }
+>    ]
+> }
 
-Yes, that's the preferred version.
+Thanks, I reproduced it with your json file on one server with
+loopback rdma connection:
+# time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testsubsystem_0
+
+real 0m4.557s
+user 0m0.000s
+sys 0m0.005s
+# time nvme reset /dev/nvme0
+
+real 0m13.176s
+user 0m0.000s
+sys 0m0.007s
+# time nvme reset /dev/nvme0
+
+real 1m16.577s
+user 0m0.002s
+sys 0m0.005s
+# time nvme disconnect -n testsubsystem_0
+
+NQN:testsubsystem_0 disconnected 1 controller(s)
+
+real 1m11.541s
+user 0m0.000s
+sys 0m0.187s
+
+#dmesg
+[96600.362827] nvmet: creating nvm controller 1 for subsystem
+testsubsystem_0 for NQN
+nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
+[96600.363038] nvme nvme0: creating 40 I/O queues.
+[96604.905514] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+[96604.909161] nvme nvme0: new ctrl: NQN "testsubsystem_0", addr
+172.31.0.202:4420
+[96614.270825] nvme nvme0: Removing ctrl: NQN "testsubsystem_0"
+[96659.268006] nvmet: creating nvm controller 1 for subsystem
+testsubsystem_0 for NQN
+nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
+[96659.268215] nvme nvme0: creating 40 I/O queues.
+[96663.801929] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+[96663.805589] nvme nvme0: new ctrl: NQN "testsubsystem_0", addr
+172.31.0.202:4420
+[96673.130986] nvme nvme0: resetting controller
+[96681.761992] nvmet: creating nvm controller 1 for subsystem
+testsubsystem_0 for NQN
+nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
+[96681.762133] nvme nvme0: creating 40 I/O queues.
+[96686.302544] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+[96688.850272] nvme nvme0: resetting controller
+[96697.336217] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
+[96697.361231] nvmet: ctrl 1 fatal error occurred!
+[96760.824363] nvme nvme0: I/O 25 QID 0 timeout
+[96760.847531] nvme nvme0: Property Set error: 881, offset 0x14
+[96760.885731] nvmet: creating nvm controller 1 for subsystem
+testsubsystem_0 for NQN
+nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0056-4d10-8030-b7c04f393432.
+[96760.885879] nvme nvme0: creating 40 I/O queues.
+[96765.423099] nvme nvme0: mapped 40/0/0 default/read/poll queues.
+[96808.112730] nvme nvme0: Removing ctrl: NQN "testsubsystem_0"
+[96816.632485] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
+[96816.657537] nvmet: ctrl 1 fatal error occurred!
+[96879.608632] nvme nvme0: I/O 12 QID 0 timeout
+[96879.632104] nvme nvme0: Property Set error: 881, offset 0x14>
+>
+> >
+> > And can you try it with two servers that both have CX-4? This should
+> > be easier to reproduce it.
+>
+> I did this experiment. I have only a setup with 12 cores so I created 12
+> nvmf queues.
+>
+> The reset took 4 seconds. The test did 100 loops of "nvme reset".
+>
+> I saw that you also complained on the disconnect flow so I assume the
+> root cause is the same.
+
+Yeah, I think so
+
+>
+> My disconnect took 2 seconds.
+>
+> My FW version is 12.28.2006.
+
+Yeah, mine is same with yours.
+# cat /sys/devices/pci0000\:00/0000\:00\:02.0/0000\:04\:00.0/infiniband/mlx5_0/fw_ver
+12.28.2006
+
+
+>
+> >> I run a loop with the "nvme reset" command and it took me 4-5 secs to
+> >> reset each time..
+> >>
+> >>
+> >
+>
+
+
+-- 
+Best Regards,
+  Yi Zhang
+
 
