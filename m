@@ -4,68 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C055C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Dec 2021 10:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4863FC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Dec 2021 12:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jhsyoByAVA9jgjM1ODX5pbzUwqdsbWrw0+nap4LJv2g=; b=oCYm6oUMw/CIhdkQL8omnYPETS
-	BrwKOvoyRrJvkgFjJbutIM719vxVX6aCXiWIjnW4UeZZk7HiUNPTSbcF3YjsVzHNTymUh8lDfMfkE
-	p7O/tUSEno0vyBdcZe3GRLfuRUs5p9JG9VqHZNX6XQ8B83i3H+0p5aPRpfhgwGFhITTkTSFzbVw21
-	B9LbGygp9gsKR48Er6McoiZAsvBKlJHCPio4iPXr1VixBCbqXqzyurnZdDgh5Cn88kNs5wvxgw15t
-	ZRrHY1oY353DbGU1cM8kQaDhAg0k0bcpIcJccgMA21I7Ko42jr99n3e/feri9jTJoiiuQyrSae/tn
-	8WFWoQqg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=1Grl/DHA3IMW7tvgxprXGyQliHtwbFMHg7MlY30ACHY=; b=bXKTX67QM+EAEN+LLSVn2ouW3E
+	EYaE8qu3qg1LqRKiyVZYZC201vouoDhIWEDXigzpL0iqL6hRHC0N7iZ2y9xze5OPrEM0E6NkAJxBD
+	HDFaXHQqTT4rTPZPXdgIs63ee40lp1PKZQjksI5TltDMC0Z66P4niIgSrdw+sRZwXzIhz/nKs2q6L
+	/6pDZp6I06e7yvSO7t0w3snZ5cfQgEkunLv83Exz9kip38/QzyNgylKTqHLZtMbACnrj1W6NpsbPk
+	hg501DtZsn9NgvBSAxY+clrbuRnLPbzD0Mj4PeUZa0u7AtKWbaNp093WKPL3eTxrwh2YEcdaNe/rQ
+	lss4nweA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mzG7n-001heD-Ae; Mon, 20 Dec 2021 10:42:35 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1mzI8z-002OLx-E3; Mon, 20 Dec 2021 12:51:57 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mzG7l-001hdc-2b
- for linux-nvme@lists.infradead.org; Mon, 20 Dec 2021 10:42:34 +0000
-Received: by mail-wr1-f51.google.com with SMTP id r17so18788255wrc.3
- for <linux-nvme@lists.infradead.org>; Mon, 20 Dec 2021 02:42:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jhsyoByAVA9jgjM1ODX5pbzUwqdsbWrw0+nap4LJv2g=;
- b=4jSTjKOfTdVN7UraJkMnnrZWcvIuLW27/ydMPSEubKgDIN11nTQd3RIhXMq7AgJVj5
- mp7HKbCRFtVlW/irVOhanOvcAq1+n5duyQApyTIaa99SdTMKe6zWHL2Rguxk7NWkirsd
- AOT58QZRxzflVlmKv55LCTQVzgQJpuLJZlgXYLXQxYdbRXCnd/JHDooR6fg9zyL1ZB9t
- nTlHNkWil9HHLwbv8Yctm3xCZO8OtKeJzuQ3P3XUGPywM6Dh2U1h5ZNHUyUzVsQqj4/z
- 4RQwHNcRYCJGljbnnku3xAtyWDBtvjvZX7FECH8Ndgsp6Y1KnI3Hp7OYGg0G0rwcLI9J
- PnWA==
-X-Gm-Message-State: AOAM531CuVyc+JpUfh08GqCGB7P8OO/TPZ0giqUkKykVE/v/ze54uQIa
- wSV/KC9i8GfrplC7Lx4mAv5hqu7qHTk=
-X-Google-Smtp-Source: ABdhPJyiJeWyVHjDzln8vUs0x5ki40tnAbhPQK4wBJNY2dE6lk78VHm6r6w+oNFQEA2qzMdOmTL4BQ==
-X-Received: by 2002:a5d:60ce:: with SMTP id x14mr12168559wrt.149.1639996950623; 
- Mon, 20 Dec 2021 02:42:30 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id p13sm3451763wms.41.2021.12.20.02.42.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 02:42:30 -0800 (PST)
-Subject: Re: [PATCH] nvme-tcp: memset scatterlist before sg_init_marker it
-To: Jackie Liu <liu.yun@linux.dev>, hch@lst.de
-Cc: axboe@fb.com, linux-nvme@lists.infradead.org
-References: <20211220025439.3995260-1-liu.yun@linux.dev>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <6db03c18-c40e-cf2d-aad4-464f9928bc42@grimberg.me>
-Date: Mon, 20 Dec 2021 12:42:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1mzI8s-002OL5-I1
+ for linux-nvme@lists.infradead.org; Mon, 20 Dec 2021 12:51:52 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 9959B1F395;
+ Mon, 20 Dec 2021 12:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1640004708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=1Grl/DHA3IMW7tvgxprXGyQliHtwbFMHg7MlY30ACHY=;
+ b=ExLa9ciY21OPsVgd/Cezgt1N94oVLu8d8W6avdXLLOJ8kihOV+KVIP9E4HyR/wu2Vo9JKi
+ mmj08KZH4PO0V9PuNYUlGjlNH6QAgaVA/jMNpBbDs1kXVjrXShhlNp/ZavbKGYB4rEC8i2
+ 5/moB2i51PTYYvmN7ZBDFhD2QY2IAKo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1640004708;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=1Grl/DHA3IMW7tvgxprXGyQliHtwbFMHg7MlY30ACHY=;
+ b=S5koRnbJcrTdito5mWCUmsTZfh91iMarOPNG4QQSNS6eSC23iHNFNX8pIAEBe6gGbaDVpq
+ OM9imh0zkcrAFWAw==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 66A70A3B87;
+ Mon, 20 Dec 2021 12:51:47 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 904495192247; Mon, 20 Dec 2021 13:51:47 +0100 (CET)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv4] nvme: add 'iopolicy' module parameter
+Date: Mon, 20 Dec 2021 13:51:45 +0100
+Message-Id: <20211220125145.38146-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20211220025439.3995260-1-liu.yun@linux.dev>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211220_024233_148758_E61FE685 
-X-CRM114-Status: GOOD (  19.75  )
+X-CRM114-CacheID: sfid-20211220_045150_766883_F901FBFA 
+X-CRM114-Status: GOOD (  15.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,54 +74,121 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+While the 'iopolicy' sysfs attribute can be set at runtime, most
+storage arrays prefer to use the 'round-robin' iopolicy per default.
+We can use udev rules to set this, but is getting rather unwieldy
+for rebranded arrays as we would have to update the udev rules
+anytime a new array shows up, leading to the same mess we currently
+have in multipathd for configuring the RDAC arrays.
 
-On 12/20/21 4:54 AM, Jackie Liu wrote:
-> From: Jackie Liu <liuyun01@kylinos.cn>
-> 
-> sg_init_marker's sg need initialized, otherwise report:
-> 
-> [...]
-> In file included from ../include/linux/dma-mapping.h:10,
->                   from ../include/linux/skbuff.h:31,
->                   from ../include/net/net_namespace.h:39,
->                   from ../include/linux/netdevice.h:37,
->                   from ../include/net/sock.h:46,
->                   from ../drivers/nvme/host/tcp.c:12:
-> ../drivers/nvme/host/tcp.c: In function ‘nvme_tcp_ddgst_update’:
-> ../include/linux/scatterlist.h:214:16: error: ‘sg.page_link’ is used uninitialized in this function [-Werror=uninitialized]
->    214 |  sg->page_link |= SG_END;
->        |                ^~
-> cc1: all warnings being treated as errors
-> make[4]: *** [../scripts/Makefile.build:287: drivers/nvme/host/tcp.o] Error 1
-> make[3]: *** [../scripts/Makefile.build:549: drivers/nvme/host] Error 2
-> make[2]: *** [../scripts/Makefile.build:549: drivers/nvme] Error 2
-> make[2]: *** Waiting for unfinished jobs....
-> [...]
+Hence this patch adds a module parameter 'iopolicy' to allow the
+admin to switch the default, and to do away with the need for a
+udev rule here.
 
-This needs:
-Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c      |  4 +---
+ drivers/nvme/host/multipath.c | 41 ++++++++++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h      |  4 ++++
+ 3 files changed, 41 insertions(+), 8 deletions(-)
 
-> 
-> Reported-by: k2ci <kernel-bot@kylinos.cn>
-> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
-> ---
->   drivers/nvme/host/tcp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 4ceb28675fdf..8fd8cbe23683 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -348,7 +348,7 @@ static inline void nvme_tcp_ddgst_update(struct ahash_request *hash,
->   {
->   	struct scatterlist sg;
->   
-> -	sg_init_marker(&sg, 1);
-> +	sg_init_table(&sg, 1);
->   	sg_set_page(&sg, page, len, off);
->   	ahash_request_set_crypt(hash, &sg, NULL, len);
->   	crypto_ahash_update(hash);
-> 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 44c375a1edbb..be404004c235 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2747,9 +2747,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 		return -EINVAL;
+ 	}
+ 	subsys->awupf = le16_to_cpu(id->awupf);
+-#ifdef CONFIG_NVME_MULTIPATH
+-	subsys->iopolicy = NVME_IOPOLICY_NUMA;
+-#endif
++	nvme_mpath_default_iopolicy(subsys);
+ 
+ 	subsys->dev.class = nvme_subsys_class;
+ 	subsys->dev.release = nvme_release_subsystem;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 7f2071f2460c..892bd5dcb46b 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -13,6 +13,42 @@ module_param(multipath, bool, 0444);
+ MODULE_PARM_DESC(multipath,
+ 	"turn on native support for multiple controllers per subsystem");
+ 
++static const char *nvme_iopolicy_names[] = {
++	[NVME_IOPOLICY_NUMA]	= "numa",
++	[NVME_IOPOLICY_RR]	= "round-robin",
++};
++
++static int iopolicy = NVME_IOPOLICY_NUMA;
++
++static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
++{
++	if (!val)
++		return -EINVAL;
++	if (!strncmp(val, "numa", 4))
++		iopolicy = NVME_IOPOLICY_NUMA;
++	else if (!strncmp(val, "round-robin", 11))
++		iopolicy = NVME_IOPOLICY_RR;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
++{
++	return sprintf(buf, "%s\n", nvme_iopolicy_names[iopolicy]);
++}
++
++module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
++	&iopolicy, 0644);
++MODULE_PARM_DESC(iopolicy,
++	"Default multipath I/O policy; 'numa' (default) or 'round-robin'");
++
++void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
++{
++	subsys->iopolicy = iopolicy;
++}
++
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys)
+ {
+ 	struct nvme_ns_head *h;
+@@ -706,11 +742,6 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
+ 	struct device_attribute subsys_attr_##_name =	\
+ 		__ATTR(_name, _mode, _show, _store)
+ 
+-static const char *nvme_iopolicy_names[] = {
+-	[NVME_IOPOLICY_NUMA]	= "numa",
+-	[NVME_IOPOLICY_RR]	= "round-robin",
+-};
+-
+ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a54096ba0552..fe224016418e 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -767,6 +767,7 @@ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ void nvme_mpath_unfreeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys);
+ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
++void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys);
+ bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name, int *flags);
+ void nvme_failover_req(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+@@ -864,6 +865,9 @@ static inline void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys)
+ static inline void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+ {
+ }
++static inline void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
++{
++}
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+ int nvme_revalidate_zones(struct nvme_ns *ns);
+-- 
+2.29.2
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
