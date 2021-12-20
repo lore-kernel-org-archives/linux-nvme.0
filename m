@@ -4,79 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 085E8C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Dec 2021 13:22:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30D62C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Dec 2021 14:19:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AI+saO6QVAOqn7QaqHqy3BYE/mMXq7dVIByCyV1Tk3E=; b=TMxnOiD4mL+53PvQ0aeKW5Vqhm
-	vdTrmlF6w91CIdiiuotOiFWf2J0Nkp1EMmCsA7Xzfut8oHWG66Eujd6gZknE8nh/qI5hhMt1Oci32
-	Ilh0afP47fh3AXw2zZeEf6MOZZA+1fAw8xpiKxH9GRoBQAJ2wHGPr3W0F0bHoYz/dAOhjFFbs9k1C
-	XE68jkoE9xibm8N8YkHqilTwo4fNWWCAJInulh4a5BHaPRAl+4GBoLKh8oOQE+bozrWAzUAxATsaY
-	VfL1FvK/Wn7lGiG5+qwuRvpKlus1ghZOjfw4al57eflY6hyYkIrxuwegZ9XAOPvM9cJLXx8mLsmT+
-	LCQToFMA==;
+	bh=mGrT0TMbemsqGlEP8fwaVyoJZtXS0CyxzliSlJyLTuw=; b=HXKe+dOAwiRr361snvFrdJSI90
+	uf73RTZ5z64Be+XKuiE+H4JBty423dZiAoEvU4aNUDQPeyFVCDRuXvSHoA1Oy4c2gA3ZgCwk7pDGI
+	0t0GLwx/UkfP1xnTJwfh0vXCV274FRNJwqxSkqoHBnu3L0t1Ukc6V5mEQB+qcZDYfnCRwLjtgUI5Z
+	6Ywi4a10qJHQKPiRn691s6LJgTttedzP1eMK2qw53PiQvJIvDwTe+D87MGFxLmuhDzAqKDtp1DEOp
+	F0cGsqsafPeP6diW707sI6GqoSYYLvOzmPvSPcRv050qVuMmcNH7AVCsu2H6Y0XVpYd4AR+n1FSTq
+	eH+n5vRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mzIco-002WIb-7y; Mon, 20 Dec 2021 13:22:46 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mzJVN-002klj-Ij; Mon, 20 Dec 2021 14:19:09 +0000
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mzIcl-002WHt-DK
- for linux-nvme@lists.infradead.org; Mon, 20 Dec 2021 13:22:44 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7BB40212B5;
- Mon, 20 Dec 2021 13:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1640006561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AI+saO6QVAOqn7QaqHqy3BYE/mMXq7dVIByCyV1Tk3E=;
- b=OIir11YLvIF+lH8cg9qJHCN8CWRkTHJRJL1Sl4Xt/DJwt9Umzlm6XZ3jKaZKxwfuUyIV6q
- Cb0ahUMoJg6cRrzxN8F6bB9yh58kGpgt/p9TiVaGz99catn3EWNzcLFjzM0ow+3X3sQGga
- XIvJbGeTzePj7tKkizbtm3ZHEGSKk24=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1640006561;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AI+saO6QVAOqn7QaqHqy3BYE/mMXq7dVIByCyV1Tk3E=;
- b=Rtu2iBiarUc1V8oK91Q7smmdc3T2ikfXdtYjbODfq0FyFXxOkE4YZQRZHnqxNG5laqXk9F
- BI4LRUqOztiu10BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6163313CA1;
- Mon, 20 Dec 2021 13:22:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CfcpFqGDwGEaegAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 20 Dec 2021 13:22:41 +0000
-Subject: Re: [PATCH] nvme-cli: nvmf-connect@.service: Remove matching from
- default syntax
-To: Martin Wilck <mwilck@suse.com>, James Smart <jsmart2021@gmail.com>,
- linux-nvme@lists.infradead.org
-References: <20211217193232.29034-1-jsmart2021@gmail.com>
- <b7bf62931bd6d45128595646a7eb637a89d216aa.camel@suse.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <a5750368-e74c-6f48-126d-5ec26cea0d86@suse.de>
-Date: Mon, 20 Dec 2021 14:22:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ id 1mzJVI-002kjW-6f
+ for linux-nvme@lists.infradead.org; Mon, 20 Dec 2021 14:19:06 +0000
+Received: by mail-io1-xd33.google.com with SMTP id y16so13440610ioc.8
+ for <linux-nvme@lists.infradead.org>; Mon, 20 Dec 2021 06:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mGrT0TMbemsqGlEP8fwaVyoJZtXS0CyxzliSlJyLTuw=;
+ b=uYIoLh72flE6+kw+DPZrRHHmpnUsTNobQx1EW5FRC9zg1WHXRQJW9B0lQsRpPzje2E
+ ETNChHHtXYgubUM04L7eybvy+JW1t83sKq5fWN9E/a/FhzwR/StzfsfmeIBrYvbDR0OQ
+ +wdGseklcpCALtsUNBvvSnKAZohIKQQMygm4nYGDjTwZp6dpoiVGMIYKQ+OOinY2EszG
+ Fr9qE2eA30rW4nSN6WKZQnBz0DkjDPF34UXPtRenSf/ApMduYOyMYUU7LCP/fok2wtHS
+ 6JdnZ0+Is6oWELae/xPJeFxu5aLcoQIW5AGLRRueJQGEyBV+fPN/Jy3iLyxOSK1sNM9q
+ Buyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mGrT0TMbemsqGlEP8fwaVyoJZtXS0CyxzliSlJyLTuw=;
+ b=ho0EvOv/JvVOgAFzguciCyfNPHarzymrh8ej/SFgWkwRLOUM1qKRO5PswyrkFX8xeM
+ FXXndpftEFe3IrO9tBx8GyqQgWoeNfR3PP1Le1N915Ew/GVOPhmtHbQckiKsgrSsawWv
+ krQelNYOSM0oskTPiAlluVvfmepuNLJMbFt0IrTtdrTLJnOPYRrvuqbEHcNhlh8l1OvX
+ oIu/nzSmMZT4Ko8fp38RIGdt8GjbXyyEcTtkAKtyIVzIh1j6kD71NBqdgcQVbT5v2Gvd
+ t2HBy5wTFpPUQpAFwf6fYbui49NnfvfW7IGz1Rlj07i5+r6MiM5nWkkFlDMXU5rMFsHd
+ rCBA==
+X-Gm-Message-State: AOAM530IcFtcYNSdwN8BZyJW+eSKa9dCzgTOOCMwSIZHXB/gME+B1+sj
+ vcKTYq8WYBQdRnf4PjNyx/8kdw==
+X-Google-Smtp-Source: ABdhPJztYbgHfd5vMmFG4L3Xj8tWJQ299v3ZFMwlzYkb2aaPPCaz1UK9x7zZ4oaXyzaGEaFkfIO5CA==
+X-Received: by 2002:a6b:2cc1:: with SMTP id s184mr8168922ios.63.1640009942704; 
+ Mon, 20 Dec 2021 06:19:02 -0800 (PST)
+Received: from [192.168.1.116] ([66.219.217.159])
+ by smtp.gmail.com with ESMTPSA id n10sm10890658ilk.58.2021.12.20.06.19.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 06:19:02 -0800 (PST)
+Subject: Re: [PATCH 4/4] nvme: add support for mq_ops->queue_rqs()
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@infradead.org>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>, Oren Duer <oren@nvidia.com>
+References: <20211215162421.14896-1-axboe@kernel.dk>
+ <20211215162421.14896-5-axboe@kernel.dk> <YbsB/W/1Uwok4i0u@infradead.org>
+ <2adafc43-3860-d9f0-9cb5-ca3bf9a27109@nvidia.com>
+ <06ab52e6-47b7-6010-524c-45bb73fbfabc@kernel.dk>
+ <9b4202b4-192a-6611-922e-0b837e2b97c3@nvidia.com>
+ <5f249c03-5cb2-9978-cd2c-669c0594d1c0@kernel.dk>
+ <d1613b7f-342d-08ad-d655-a6afb89e1847@nvidia.com>
+ <a159220b-6e0c-6ee9-f8e2-c6dc9f6dfaed@kernel.dk>
+ <3474493a-a04d-528c-7565-f75db5205074@nvidia.com>
+ <87e3a197-e8f7-d8d6-85b6-ce05bf1f35cd@kernel.dk>
+ <5ee0e257-651a-ec44-7ca3-479438a737fb@nvidia.com>
+ <e3974442-3b3f-0419-519c-7360057c4603@kernel.dk>
+ <01f9ce91-d998-c823-f2f2-de457625021e@nvidia.com>
+ <573bbe72-d232-6063-dd34-2e12d8374594@kernel.dk>
+ <4fbf2936-8e4c-9c04-e5a9-10eae387b562@nvidia.com>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <6ca82929-7e70-be15-dcbb-1e68a02dd933@kernel.dk>
+Date: Mon, 20 Dec 2021 07:19:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b7bf62931bd6d45128595646a7eb637a89d216aa.camel@suse.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
+In-Reply-To: <4fbf2936-8e4c-9c04-e5a9-10eae387b562@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211220_052243_626995_E30D22A2 
-X-CRM114-Status: GOOD (  24.25  )
+X-CRM114-CacheID: sfid-20211220_061904_280184_61CBCEA8 
+X-CRM114-Status: GOOD (  37.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,57 +105,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/17/21 9:43 PM, Martin Wilck wrote:
-> On Fri, 2021-12-17 at 11:32 -0800, James Smart wrote:
->> commit 53aab69a0add added the "--matching" argument to the systemd
->> connect script that issues connect-all to a discovery controller.
->> When
->> this argument is used, only discovery log entries whose target port
->> traddr's match the traddr of the discovery controller will be
->> connected
->> to.  This eliminates the ability to do referrals by the discovery
->> controller.
+On 12/20/21 3:11 AM, Max Gurtovoy wrote:
+> 
+> On 12/19/2021 4:48 PM, Jens Axboe wrote:
+>> On 12/19/21 5:14 AM, Max Gurtovoy wrote:
+>>> On 12/16/2021 7:16 PM, Jens Axboe wrote:
+>>>> On 12/16/21 9:57 AM, Max Gurtovoy wrote:
+>>>>> On 12/16/2021 6:36 PM, Jens Axboe wrote:
+>>>>>> On 12/16/21 9:34 AM, Max Gurtovoy wrote:
+>>>>>>> On 12/16/2021 6:25 PM, Jens Axboe wrote:
+>>>>>>>> On 12/16/21 9:19 AM, Max Gurtovoy wrote:
+>>>>>>>>> On 12/16/2021 6:05 PM, Jens Axboe wrote:
+>>>>>>>>>> On 12/16/21 9:00 AM, Max Gurtovoy wrote:
+>>>>>>>>>>> On 12/16/2021 5:48 PM, Jens Axboe wrote:
+>>>>>>>>>>>> On 12/16/21 6:06 AM, Max Gurtovoy wrote:
+>>>>>>>>>>>>> On 12/16/2021 11:08 AM, Christoph Hellwig wrote:
+>>>>>>>>>>>>>> On Wed, Dec 15, 2021 at 09:24:21AM -0700, Jens Axboe wrote:
+>>>>>>>>>>>>>>> +	spin_lock(&nvmeq->sq_lock);
+>>>>>>>>>>>>>>> +	while (!rq_list_empty(*rqlist)) {
+>>>>>>>>>>>>>>> +		struct request *req = rq_list_pop(rqlist);
+>>>>>>>>>>>>>>> +		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +		memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
+>>>>>>>>>>>>>>> +				absolute_pointer(&iod->cmd), sizeof(iod->cmd));
+>>>>>>>>>>>>>>> +		if (++nvmeq->sq_tail == nvmeq->q_depth)
+>>>>>>>>>>>>>>> +			nvmeq->sq_tail = 0;
+>>>>>>>>>>>>>> So this doesn't even use the new helper added in patch 2?  I think this
+>>>>>>>>>>>>>> should call nvme_sq_copy_cmd().
+>>>>>>>>>>>>> I also noticed that.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> So need to decide if to open code it or use the helper function.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Inline helper sounds reasonable if you have 3 places that will use it.
+>>>>>>>>>>>> Yes agree, that's been my stance too :-)
+>>>>>>>>>>>>
+>>>>>>>>>>>>>> The rest looks identical to the incremental patch I posted, so I guess
+>>>>>>>>>>>>>> the performance degration measured on the first try was a measurement
+>>>>>>>>>>>>>> error?
+>>>>>>>>>>>>> giving 1 dbr for a batch of N commands sounds good idea. Also for RDMA host.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> But how do you moderate it ? what is the batch_sz <--> time_to_wait
+>>>>>>>>>>>>> algorithm ?
+>>>>>>>>>>>> The batching is naturally limited at BLK_MAX_REQUEST_COUNT, which is 32
+>>>>>>>>>>>> in total. I do agree that if we ever made it much larger, then we might
+>>>>>>>>>>>> want to cap it differently. But 32 seems like a pretty reasonable number
+>>>>>>>>>>>> to get enough gain from the batching done in various areas, while still
+>>>>>>>>>>>> not making it so large that we have a potential latency issue. That
+>>>>>>>>>>>> batch count is already used consistently for other items too (like tag
+>>>>>>>>>>>> allocation), so it's not specific to just this one case.
+>>>>>>>>>>> I'm saying that the you can wait to the batch_max_count too long and it
+>>>>>>>>>>> won't be efficient from latency POV.
+>>>>>>>>>>>
+>>>>>>>>>>> So it's better to limit the block layar to wait for the first to come: x
+>>>>>>>>>>> usecs or batch_max_count before issue queue_rqs.
+>>>>>>>>>> There's no waiting specifically for this, it's just based on the plug.
+>>>>>>>>>> We just won't do more than 32 in that plug. This is really just an
+>>>>>>>>>> artifact of the plugging, and if that should be limited based on "max of
+>>>>>>>>>> 32 or xx time", then that should be done there.
+>>>>>>>>>>
+>>>>>>>>>> But in general I think it's saner and enough to just limit the total
+>>>>>>>>>> size. If we spend more than xx usec building up the plug list, we're
+>>>>>>>>>> doing something horribly wrong. That really should not happen with 32
+>>>>>>>>>> requests, and we'll never eg wait on requests if we're out of tags. That
+>>>>>>>>>> will result in a plug flush to begin with.
+>>>>>>>>> I'm not aware of the plug. I hope to get to it soon.
+>>>>>>>>>
+>>>>>>>>> My concern is if the user application submitted only 28 requests and
+>>>>>>>>> then you'll wait forever ? or for very long time.
+>>>>>>>>>
+>>>>>>>>> I guess not, but I'm asking how do you know how to batch and when to
+>>>>>>>>> stop in case 32 commands won't arrive anytime soon.
+>>>>>>>> The plug is in the stack of the task, so that condition can never
+>>>>>>>> happen. If the application originally asks for 32 but then only submits
+>>>>>>>> 28, then once that last one is submitted the plug is flushed and
+>>>>>>>> requests are issued.
+>>>>>>> So if I'm running fio with --iodepth=28 what will plug do ? send batches
+>>>>>>> of 28 ? or 1 by 1 ?
+>>>>>> --iodepth just controls the overall depth, the batch submit count
+>>>>>> dictates what happens further down. If you run queue depth 28 and submit
+>>>>>> one at the time, then you'll get one at the time further down too. Hence
+>>>>>> the batching is directly driven by what the application is already
+>>>>>> doing.
+>>>>> I see. Thanks for the explanation.
+>>>>>
+>>>>> So it works only for io_uring based applications ?
+>>>> It's only enabled for io_uring right now, but it's generically available
+>>>> for anyone that wants to use it... Would be trivial to do for aio, and
+>>>> other spots that currently use blk_start_plug() and has an idea of how
+>>>> many IOs will be submitted
+>>> Can you please share an example application (or is it fio patches) that
+>>> can submit batches ? The same that was used to test this patchset is
+>>> fine too.
+>>>
+>>> I would like to test it with our NVMe SNAP controllers and also to
+>>> develop NVMe/RDMA queue_rqs code and test the perf with it.
+>> You should just be able to use iodepth_batch with fio. For my peak
+>> testing, I use t/io_uring from the fio repo. By default, it'll run QD of
+>> and do batches of 32 for complete and submit. You can just run:
 >>
->> Revert the commit so that the "--matching" argument is not default
->> behavior.
+>> t/io_uring <dev or file>
+>>
+>> maybe adding -p0 for IRQ driven rather than polled IO.
 > 
-> Hm, I guess you have to do revert this if it breaks referrals.
+> I used your block/for-next branch and implemented queue_rqs in NVMe/RDMA 
+> but it was never called using the t/io_uring test nor fio with 
+> iodepth_batch=32 flag with io_uring engine.
 > 
-> The intention of my patch was not to suppress referrals. Unless I'm
-> mistaken, a referral is a log page entry that lists another discovery
-> controller, on which then another discovery is carried out. The "--
-> matching" parameter was intended to ignore log page entries listing
-> ordinary (non-discovery) subsystems on if their traddr didn't match the
-> discovery controller's traddr.
+> Any idea what might be the issue ?
 > 
-But this does assume that each I/O controller will share the port the 
-discovery controller.
-Which is not mandated by the spec (even if most arrays currently 
-implement it that way), and it's certainly not true for TPAR 8010 CDCs.
+> I installed fio from sources..
 
-So this is not the right way of approaching this 'problem'.
+The two main restrictions right now are a scheduler and shared tags, are
+you using any of those?
 
-> I still think connecting to those entries is wrong more often than not.
-> In the environment I was testing in back then, IIRC there were 4
-> discovery controllers, each listing every subsystem on every
-> controller. The host would try to connect to every subsystem 4 times,
-> resulting in error messages 3 out of 4 times. With --matching, these
-> errors could be avoided.
-> 
-This issue is a direct result of the NVMe spec not putting any 
-restriction on what the discovery log pages can contain.
-They might even contain entries not reachable from the current host port.
-
-So again, the concept of 'matching' ports is wrong, and should be 
-replaced by a concept of 'reachable' ports.
-We can easily figure that out for FC, and it should be doable for TCP, too.
-
-Cheers,
-
-Hannes
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+Jens Axboe
+
 
