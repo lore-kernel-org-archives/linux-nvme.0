@@ -4,81 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 341BBC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Dec 2021 20:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24CB2C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Dec 2021 02:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qNXUg0IfQbj19mJiT1+n91vqkuVNfQmpeeYXgjIoWiA=; b=zs8CwitWuq+gR0tUHBQYcPWBUu
-	bbiRT2LUYYWq3qAnRAVihxfNCibF9pPA+klizxAnHT9PS+QKMOWfCdwSn1OHtlT5mbQpSfIWradd/
-	t24AQ3uwXBu3S46ToBT+WrDvShqBefOVJCtbI/HUjU4Ng+xY0JCT6aoKDpR3vySnOXS7GgkRyHxQR
-	71LC5wN5Yo4gSR7Gg46sGVKdcvXSocZNWvLSs5zEmdOEE5xfdrZtdngUMvxTTlrR4srVIRRE6o3Be
-	06OyJPOM/QuCJF7XOSDjS3nmj2vxiKbDgEKu2l3CIo7AhWJ0jAIhjLfHdYE6a/zZx0h40AWYSQDZM
-	GJnXyumQ==;
+	bh=lxZ3y46Zzqi42oELo2sbv5mkNnzILaZBKfOldBs6qM0=; b=wi6n9MkoUsVvJHiKuFPzpkMrou
+	THNzWh92Rrn/aBOqidtEg/fVra+YPpy0V1rMGz3vgu3GJ7NMS+pXESfJ5q6dREffGaEKPmLJFb9CG
+	EUOCJg+e4XgfsWruC0NaIgNHYn5wTj8ZU91LYExInrM0poPmDQoQCUc+IpCqeQrYlJ7dMitrAQhcA
+	tDxgs0YyEhhovlXNF5eY4R4OqKrk4mUn0EcwzyQCjwhiRrdDr6GfjiC4CA3b+ZW0AtocB8w1COc2j
+	RiC57Wr79RtWHRa15GRltXb7sPB2VXDforZZVMJftN3DFQFM47gljLd6Gb2amhyADvDu5at6UpRuT
+	FYQ6gC3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mzPYx-004Kvg-Pl; Mon, 20 Dec 2021 20:47:15 +0000
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+	id 1mzVKE-005JTh-09; Tue, 21 Dec 2021 02:56:26 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mzPYu-004Kuz-Jj
- for linux-nvme@lists.infradead.org; Mon, 20 Dec 2021 20:47:14 +0000
-Received: by mail-io1-xd30.google.com with SMTP id x10so14994727ioj.9
- for <linux-nvme@lists.infradead.org>; Mon, 20 Dec 2021 12:47:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qNXUg0IfQbj19mJiT1+n91vqkuVNfQmpeeYXgjIoWiA=;
- b=w7rz2QalTZB629dgoN1DCNPMZeaLyDBc70YfmObjXHYrSvSeH02ssDRIZt/9WRraCL
- 14JaZDn4ScDIBOa9b7vu1WITbPA9h1BpH70BDscZl8L/zjG7q7EhoebiViFg4SVd/cAo
- yoisOyWyXm05fYAxx6DOBJDOCzJyCMuVX3Km50hFLG6hBVHLrRE9Ru/iMiCLvhorDuDf
- gjYbkl7YyLukCETWpsSfEeSaH3xVcOxpYRKAglP8pNhv2rJAkwUgJe/EgtLC/FlO9foU
- B8GaxwBYu8Iqvls6xCGduF3NWIzeP/7K6D6h2MiZwSjtKcJDncHJFUpExqXsmX3sbadL
- +Gtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qNXUg0IfQbj19mJiT1+n91vqkuVNfQmpeeYXgjIoWiA=;
- b=lG4dinGLc5SlBcBASTKH3JmAlO3rLTb9Ev/tHiUf9pAdF1oGT/ruvPh/aec3cpUa6c
- /9yxUJbQE/FldRia6WByJYIPI6vTK/OKJ1qA7ujy6XurpBoe5PCuflqqnMrid7TwuYuG
- xykv5UdgjX4QUH2h3CL0VmzDO6bCEOVZxUKO+4i8c5e3JVPPOAy7Bf0FvOvIhkYGqqZH
- 0nYshU96XR1JAvQD3h+sTi32NOA9h8AhaiTpFgdfiRUGnhfzoKTX48K2VhIzRraLhawH
- FaA6fnDdBLOvsGl2zQtDiIe0l46Leoru6RJLSpJHSW+4PP6bwV2EFG6m3FgcAwRd1TYb
- uihA==
-X-Gm-Message-State: AOAM532Z0VxXOsqq7jAiyLskWbrZwRspyelbzVyoHfcC/NuC95TZ8jtE
- nT1t6YaFuNnuEfl7yL8kivjyri4PxYCY2Q==
-X-Google-Smtp-Source: ABdhPJyE3gxmyTH3C6HTFpoq34rinqH8Nwm8ha+8iEhXJvQo75/ye4EHGtAFJ0oE5xZZQlTlWGudzw==
-X-Received: by 2002:a05:6638:130f:: with SMTP id
- r15mr4039264jad.184.1640033230746; 
- Mon, 20 Dec 2021 12:47:10 -0800 (PST)
-Received: from [192.168.1.30] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id x11sm9679477iop.55.2021.12.20.12.47.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 12:47:10 -0800 (PST)
-Subject: Re: [PATCH 1/4] block: add mq_ops->queue_rqs hook
-To: Keith Busch <kbusch@kernel.org>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20211215162421.14896-1-axboe@kernel.dk>
- <20211215162421.14896-2-axboe@kernel.dk>
- <20211220203649.GA4170598@dhcp-10-100-145-180.wdc.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <61c5c2b7-422a-fad6-cbc0-5d8278759bae@kernel.dk>
-Date: Mon, 20 Dec 2021 13:47:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1mzVKA-005JPo-4K
+ for linux-nvme@lists.infradead.org; Tue, 21 Dec 2021 02:56:24 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20211221025615epoutp01f1619afeff7ff03ecce351eeb0dda06d~CpaywllRG1841718417epoutp01I
+ for <linux-nvme@lists.infradead.org>; Tue, 21 Dec 2021 02:56:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20211221025615epoutp01f1619afeff7ff03ecce351eeb0dda06d~CpaywllRG1841718417epoutp01I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1640055375;
+ bh=lxZ3y46Zzqi42oELo2sbv5mkNnzILaZBKfOldBs6qM0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oVh0DdxsB36sAHAGqqsrnaFBm5GSqJ+/CYtwSFtv+NobcQrIk045yynrnQZMpYz/x
+ qeLajGKNnDRV5rn/VqI9Cn2Nc7kvH9javOq6xgSwuLC/3bLn6Oy0Cf/HGOYZEiMd1x
+ wTJeWJ/BELBUCRi8r8nVvDWm/MITakiqsKXe/IPw=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20211221025614epcas5p1efa0134e18e9b2f8bf039c2d82ab4931~CpayPW6G61825618256epcas5p1V;
+ Tue, 21 Dec 2021 02:56:14 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4JJ1LL6Lm7z4x9Q9; Tue, 21 Dec
+ 2021 02:56:10 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 4B.D1.46822.84241C16; Tue, 21 Dec 2021 11:56:08 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e~CfIqTXAx22775527755epcas5p2B;
+ Mon, 20 Dec 2021 14:22:28 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20211220142228epsmtrp1bc48eb49aa183de9078ecce0162bab08~CfIqSnczN2445924459epsmtrp1U;
+ Mon, 20 Dec 2021 14:22:28 +0000 (GMT)
+X-AuditID: b6c32a4a-dfbff7000000b6e6-57-61c142489b41
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 24.65.08738.4A190C16; Mon, 20 Dec 2021 23:22:28 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20211220142227epsmtip1fb486648edb179508517924532dd8f9c~CfIolz2kX0637406374epsmtip1q;
+ Mon, 20 Dec 2021 14:22:26 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, javier@javigon.com,
+ anuj20.g@samsung.com, joshiiitr@gmail.com, pankydev8@gmail.com
+Subject: [RFC 01/13] io_uring: add infra for uring_cmd completion in
+ submitter-task
+Date: Mon, 20 Dec 2021 19:47:22 +0530
+Message-Id: <20211220141734.12206-2-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211220141734.12206-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20211220203649.GA4170598@dhcp-10-100-145-180.wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFJsWRmVeSWpSXmKPExsWy7bCmhq6H08FEg68bOCyaJvxltlh9t5/N
+ YuXqo0wW71rPsVh0nr7AZHH+7WEmi0mHrjFa7L2lbTF/2VN2izU3n7I4cHnsnHWX3aN5wR0W
+ j8tnSz02repk89i8pN5j980GNo++LasYPT5vkgvgiMq2yUhNTEktUkjNS85PycxLt1XyDo53
+ jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAG6UEmhLDGnFCgUkFhcrKRvZ1OUX1qSqpCRX1xi
+ q5RakJJTYFKgV5yYW1yal66Xl1piZWhgYGQKVJiQnbH7pVrBBZGKP7/XszYwbhPsYuTkkBAw
+ kTj3sZO9i5GLQ0hgN6PE6h8nGCGcT4wSOy/chcp8ZpSY0DCLHaZlxa6FTBCJXYwSV/Z8YIOr
+ ujlpM1A/BwebgKbEhcmlIA0iAtESF55fYwOxmQU6gMZ224LYwgKhEr+nvQeLswioSrS9vsYK
+ YvMKWEhcO30Hapm8xMxL38FsTgFLicOzl7FB1AhKnJz5hAViprxE89bZzCA3SAj0ckgsWPWL
+ EaLZReLL8xWsELawxKvjW6CGSkm87G+Dsoslft05CtUMdNz1hpksEAl7iYt7/jKBPMMM9Mz6
+ XfoQYVmJqafWMUEs5pPo/f2ECSLOK7FjHoytKHFv0lOoveISD2csYQUZIyHgIXH2iAUkrHoY
+ JRpuLWabwKgwC8k/s5D8Mwth8wJG5lWMkqkFxbnpqcWmBUZ5qeXwSE7Oz93ECE60Wl47GB8+
+ +KB3iJGJg/EQowQHs5II75bZ+xOFeFMSK6tSi/Lji0pzUosPMZoCA3wis5Rocj4w1eeVxBua
+ WBqYmJmZmVgamxkqifOeTt+QKCSQnliSmp2aWpBaBNPHxMEp1cAkuOy8wORzkxcWbjfe2mNU
+ I7s679CWL9suOfW5Jib0dYfVOC48p8MaqGxfZOfKyvdKbYtn8JmvUVv6Mj4dvKL01MbnhcZM
+ BZsN21fo88j9n2gQvnTrhiXq1iYt63rqfkTxvOJkFU23Dv5Z3nR7Y3lhCzdbYue8/09iJKQe
+ cDhP6/vhyekTYxjLtuSCidKcv2vuTmyZdMf+7TyuT1tPN3CnHV4lbTfXJ6NZ9sTcqgPrfTbx
+ MfmZbPMqPz3RY+m+k09Ely/s/MFsbLjr9NwNX9yz0yeVZj/an5cj3MZufK5w7UWJnTpckWc8
+ evp/T0lPWXTp6IE0NebMiXnr19bld9Vut3nxav2SDkbvpbq8Vw8osRRnJBpqMRcVJwIAL7/F
+ pz0EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPLMWRmVeSWpSXmKPExsWy7bCSnO6SiQcSDbZ91LNomvCX2WL13X42
+ i5WrjzJZvGs9x2LRefoCk8X5t4eZLCYdusZosfeWtsX8ZU/ZLdbcfMriwOWxc9Zddo/mBXdY
+ PC6fLfXYtKqTzWPzknqP3Tcb2Dz6tqxi9Pi8SS6AI4rLJiU1J7MstUjfLoErY/dLtYILIhV/
+ fq9nbWDcJtjFyMkhIWAisWLXQiYQW0hgB6PE/1sVEHFxieZrP9ghbGGJlf+es0PUfGSUODYt
+ t4uRg4NNQFPiwuRSkLCIQKzEh1/HgMZwcTALTGKU2ND/AKxeWCBYYvvub2wgNouAqkTb62us
+ IDavgIXEtdN3oObLS8y89B3M5hSwlDg8exkbxC4LiRMfvrBA1AtKnJz5BMxmBqpv3jqbeQKj
+ wCwkqVlIUgsYmVYxSqYWFOem5xYbFhjlpZbrFSfmFpfmpesl5+duYgTHgZbWDsY9qz7oHWJk
+ 4mA8xCjBwawkwrtl9v5EId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqemFqQW
+ wWSZODilGpjqmHVfnwrz3N5w58rRJWFTqo1tmMTNnteU3f9+oTvMd+3aZVcX5TFe/KO/Pm2n
+ w+eQknN3/V47zXn15PTtDSUn1h+Wia5k8y7US7/pu3KZuXBG+qPZ5xha2Ps0Z8fvttVYK3dh
+ wpzSbK3feipn5+u39lydv/vht83C++XfxL7jaf/yvdUov6bt7d01eZ/SE/7Md3CYEOqzw9Jc
+ 3irqgdtWOQe5vw/vWbeop9TVONffr3oU5yzKpMR0iO+P2U3z95OjecKkdm57JMb36v1MR7GP
+ PmlnS6YHaQQFMbeJ3ZHN1JU/vPZ+vl/L7UdMx3lm16kJ/z3Iv0W5qdLp6A2+vy7b8798Cdxj
+ Y+fcWqzftUWJpTgj0VCLuag4EQBVSk2G8gIAAA==
+X-CMS-MailID: 20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e
+References: <20211220141734.12206-1-joshi.k@samsung.com>
+ <CGME20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211220_124712_706550_6C925C6B 
-X-CRM114-Status: GOOD (  18.88  )
+X-CRM114-CacheID: sfid-20211220_185622_538319_3BFBB172 
+X-CRM114-Status: GOOD (  18.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,32 +137,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/20/21 1:36 PM, Keith Busch wrote:
-> On Wed, Dec 15, 2021 at 09:24:18AM -0700, Jens Axboe wrote:
->> +		/*
->> +		 * Peek first request and see if we have a ->queue_rqs() hook.
->> +		 * If we do, we can dispatch the whole plug list in one go. We
->> +		 * already know at this point that all requests belong to the
->> +		 * same queue, caller must ensure that's the case.
->> +		 *
->> +		 * Since we pass off the full list to the driver at this point,
->> +		 * we do not increment the active request count for the queue.
->> +		 * Bypass shared tags for now because of that.
->> +		 */
->> +		if (q->mq_ops->queue_rqs &&
->> +		    !(rq->mq_hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED)) {
->> +			blk_mq_run_dispatch_ops(q,
->> +				q->mq_ops->queue_rqs(&plug->mq_list));
-> 
-> I think we still need to verify the queue isn't quiesced within
-> blk_mq_run_dispatch_ops()'s rcu protected area, prior to calling
-> .queue_rqs(). Something like below. Or is this supposed to be the
-> low-level drivers responsibility now?
+Completion of a uring_cmd ioctl may involve referencing certain
+ioctl-specific fields, requiring original submitter context.
+Export an API that driver can use for this purpose.
+The API facilitates reusing task-work infra of io_uring, while driver
+gets to implement cmd-specific handling in a callback.
 
-Yes, that seems very reasonable, and I'd much rather do that than punt it
-to the driver. Care to send it as a real patch?
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+ fs/io_uring.c            | 16 ++++++++++++++++
+ include/linux/io_uring.h |  8 ++++++++
+ 2 files changed, 24 insertions(+)
 
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index e96ed3d0385e..246f1085404d 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -2450,6 +2450,22 @@ static void io_req_task_submit(struct io_kiocb *req, bool *locked)
+ 		io_req_complete_failed(req, -EFAULT);
+ }
+ 
++static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
++{
++	req->uring_cmd.driver_cb(&req->uring_cmd);
++}
++
++void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
++			void (*driver_cb)(struct io_uring_cmd *))
++{
++	struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
++
++	req->uring_cmd.driver_cb = driver_cb;
++	req->io_task_work.func = io_uring_cmd_work;
++	io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOLL));
++}
++EXPORT_SYMBOL_GPL(io_uring_cmd_complete_in_task);
++
+ static void io_req_task_queue_fail(struct io_kiocb *req, int ret)
+ {
+ 	req->result = ret;
+diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+index 64e788b39a86..f4b4990a3b62 100644
+--- a/include/linux/io_uring.h
++++ b/include/linux/io_uring.h
+@@ -14,11 +14,15 @@ struct io_uring_cmd {
+ 	__u16		op;
+ 	__u16		unused;
+ 	__u32		len;
++	/* used if driver requires update in task context*/
++	void (*driver_cb)(struct io_uring_cmd *cmd);
+ 	__u64		pdu[5];	/* 40 bytes available inline for free use */
+ };
+ 
+ #if defined(CONFIG_IO_URING)
+ void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret);
++void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
++			void (*driver_cb)(struct io_uring_cmd *));
+ struct sock *io_uring_get_socket(struct file *file);
+ void __io_uring_cancel(bool cancel_all);
+ void __io_uring_free(struct task_struct *tsk);
+@@ -42,6 +46,10 @@ static inline void io_uring_free(struct task_struct *tsk)
+ static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret)
+ {
+ }
++static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
++			void (*driver_cb)(struct io_uring_cmd *))
++{
++}
+ static inline struct sock *io_uring_get_socket(struct file *file)
+ {
+ 	return NULL;
 -- 
-Jens Axboe
+2.25.1
 
 
