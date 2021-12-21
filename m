@@ -4,86 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46C95C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Dec 2021 06:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5A1AC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Dec 2021 07:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mKstoHJVTIw83fYZgbjpZQNKfAMuH8FQXoKzValTw3g=; b=DKbR9yLlRgCNaEGocFZ02IxDB5
-	BioL6OwurxCN73xYwMRoTLvVt1fiFQFBTvQHAncD6NlUIiOKYoBex0NmLKUWI9HJxkQH7X2nlkU2n
-	4HjNo7UEiL7hV4EL/IWrnECLlStWO/c6gvGo6AnEPx7S6vBp2DOvuth8hjgDM/PoNITNmGnmA+HMQ
-	IzUmk8IXlCu0FOlqQf/ruuKJ1kNRloj8cJqy7ZgHEJD3xL3EgXP85DAyfq+vbF26wrQeeedFzkYmR
-	N1VBdLHxfzdsqsxrK8RR1q9aQJHP8pmrU/wIRRY1F27QfRkJ3yFSWcsHT7MtxEJIKSfMFeQc4BN+n
-	u9qOLzsQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=L6jpM+wFPKBwVijim86lwT+Pd4crHPAT6RHn9+gT8Mc=; b=ax8BxZZUFlefe6WiQ/usI4Um6/
+	H6eV3jABsMsJduXjb4gIYSUtewiQ3Wphwxvku5z0eEU11PYUMxJwpVPSX1RCrX9tvj5Jc9riaIbjg
+	z8/K8x6RvuJu7cmEaKjIVt6ElLl71GJMym0nh5c+FCLWpYZLuFWlXATQA7vmY6BcYkQcjZ53wyNuh
+	izo0xq9myfxCygU8Hi5SMj3MoHv6Gwiu727GmArP0X3/Havocx/LxPUMdOA8SE3FeD8G9zGRFT8P4
+	CYx80UxkT/hIMFpCNa5PAE7FvADAhHmKdQePns0mp3GkndRndkV4H46EglUcDucanjmsLqd4DN2O7
+	+6xPoNdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mzvV2-009NnE-R4; Wed, 22 Dec 2021 06:53:20 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1mzwI4-009XAW-Nh; Wed, 22 Dec 2021 07:44:00 +0000
+Received: from usmailhost21.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mzvV0-009NmC-3j
- for linux-nvme@lists.infradead.org; Wed, 22 Dec 2021 06:53:19 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B9A56210E0;
- Wed, 22 Dec 2021 06:53:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1640155994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mKstoHJVTIw83fYZgbjpZQNKfAMuH8FQXoKzValTw3g=;
- b=YzX9nPkeFHIckc8hpG9qtu36zOJLCcI15N3FMUe5stMGExykKfGm08J6+0XtuTZmbCZqmA
- Twx7ea3CxIYKjXPaQAO75Q3ugpgc4jlfmuvVmZlT/cEuXoyuP6rc8bFcSrn7aWdyLKOG4D
- NS104rDQ4i0BTjPpY+1Y3cAynLpt6r0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1640155994;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mKstoHJVTIw83fYZgbjpZQNKfAMuH8FQXoKzValTw3g=;
- b=IDjsGy4/4o1KWsQwyhUX0mjESF9NRYzKIQhn4SPohpSJiGcVfr3Q8Np6d4ALtCACIp4H5M
- R5vy47ghZlmBpyDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 904AD13CD4;
- Wed, 22 Dec 2021 06:53:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id y0SAG1rLwmFGHAAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 22 Dec 2021 06:53:14 +0000
-Subject: Re: [PATCHv8 00/12] nvme: In-band authentication support
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Herbert Xu <herbert@gondor.apana.org.au>, Niolai Stange <nstange@suse.com>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
- linux-crypto@vger.kernel.org
-References: <20211202152358.60116-1-hare@suse.de>
- <20211213080853.GA21223@lst.de>
- <9853d36a-036c-7f2b-5fb4-b3fb4bae473f@suse.de>
- <4328e4f0-9674-9362-4ed5-89ec7edba4a2@grimberg.me>
- <56f1ce1c-2272-bed2-fd6b-642854b612bb@suse.de>
- <483836f5-f850-6eac-8c38-3f03db3189ab@grimberg.me>
- <0c4613ff-ba30-c812-a6e9-1954d77b1d1b@suse.de>
- <ad9af172-4b7b-4206-feab-8ab54ba7cfe5@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <e2ccd5bf-c13f-8660-c4c0-31a1053846ed@suse.de>
-Date: Wed, 22 Dec 2021 07:53:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <ad9af172-4b7b-4206-feab-8ab54ba7cfe5@grimberg.me>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ id 1mzmUq-008WvT-IY
+ for linux-nvme@lists.infradead.org; Tue, 21 Dec 2021 21:16:34 +0000
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Tue, 21 Dec 2021 13:16:27 -0800
+Received: from SJSMAIL01.us.kioxia.com ([fe80::4822:8b9:76de:8b6]) by
+ SJSMAIL01.us.kioxia.com ([fe80::4822:8b9:76de:8b6%3]) with mapi id
+ 15.01.2176.014; Tue, 21 Dec 2021 13:16:27 -0800
+From: Clay Mayers <Clay.Mayers@kioxia.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+CC: "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "javier@javigon.com"
+ <javier@javigon.com>, "anuj20.g@samsung.com" <anuj20.g@samsung.com>,
+ "joshiiitr@gmail.com" <joshiiitr@gmail.com>, "pankydev8@gmail.com"
+ <pankydev8@gmail.com>
+Subject: RE: [RFC 02/13] nvme: wire-up support for async-passthru on
+Thread-Topic: [RFC 02/13] nvme: wire-up support for async-passthru on
+Thread-Index: Adf2q4Y1jNlE3svCRZSHuwnlq+XxWA==
+Date: Tue, 21 Dec 2021 21:16:27 +0000
+Message-ID: <2da62822fd56414d9893b89e160ed05c@kioxia.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.90.53.183]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211221_225318_346620_431CC019 
-X-CRM114-Status: GOOD (  17.88  )
+X-CRM114-CacheID: sfid-20211221_131632_623245_53B6C12E 
+X-CRM114-Status: GOOD (  12.02  )
+X-Mailman-Approved-At: Tue, 21 Dec 2021 23:43:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,48 +74,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/21/21 9:55 PM, Sagi Grimberg wrote:
-> 
->>>>>> Question is how to continue from here; I can easily rebase my 
->>>>>> patchset
->>>>>> and send it relative to Nicolais patches. But then we'll be bound to
->>>>>> the acceptance of those patches, so I'm not quite sure if that's the
->>>>>> best way to proceed.
->>>>>
->>>>> Don't know if we have a choice here... What is the alternative you are
->>>>> proposing?
->>>>
->>>> That's the thing, I don't really have a good alternative, either.
->>>> It's just that I have so no idea about the crypto subsystem, and
->>>> consequently wouldn't know how long we need to wait...
->>>>
->>>> But yeah, Nicolais patchset is far superior to my attempts, so I'd be
->>>> happy to ditch my preliminary attempts there.
->>>
->>> Can we get a sense from the crypto folks to the state of Nicolais
->>> patchset?
->>
->> According to Nicolai things look good, rules seem to be that it'll be
->> accepted if it has positive reviews (which it has) and no-one objected
->> (which no-one did).
->> Other than that one would have to ask the maintainer.
->> Herbert?
-> 
-> Any updates on this?
+Message-ID: <20211220141734.12206-3-joshi.k@samsung.com>
 
-Sigh.
+On 12/20/21 19:47:23 +0530, Kanchan Joshi wrote:
+> Introduce handlers for fops->async_cmd(), implementing async passthru on
+> char device (including the multipath one).
+> The handlers supports NVME_IOCTL_IO64_CMD.
+>
+I commented on these two issues below in more detail at
+https://github.com/joshkan/nvme-uring-pt/issues
 
-Herbert suggested reworking the patch, and make ffdhe a separate 
-algorithm (instead of having enums to specify the values for the 
-existing DH algorithm).
-Discussion is ongoing :-(
+> +static void nvme_setup_uring_cmd_data(struct request *rq,
+> +		struct io_uring_cmd *ioucmd, void *meta,
+> +		void __user *meta_buffer, u32 meta_len, bool write) {
+> +	struct nvme_uring_cmd *cmd =3D nvme_uring_cmd(ioucmd);
+> +
+> +	/* to free bio on completion, as req->bio will be null at that time */
+> +	cmd->bio =3D rq->bio;
+> +	/* meta update is required only for read requests */
+> +	if (meta && !write) {
+> +		cmd->meta =3D meta;
+> +		cmd->meta_buffer =3D meta_buffer;
+> +		cmd->meta_len =3D meta_len;
+> +	} else {
+> +		cmd->meta =3D NULL;
+I believe that not saving meta in cmd->meta will leak it when it's a write.=
+=20
+But nvme_pt_task_cb also needs to change to copy to user when
+cmd->meta_buffer is set instead of cmd->meta.
 
-Cheers,
+> +
+> +int nvme_ns_chr_async_cmd(struct io_uring_cmd *ioucmd,
+> +		enum io_uring_cmd_flags flags)
+> +{
+> +	struct nvme_ns *ns =3D container_of(file_inode(ioucmd->file)->i_cdev,
+> +			struct nvme_ns, cdev);
+> +
+> +	return nvme_ns_async_ioctl(ns, ioucmd); }
+> +
+The uring cmd flags are not being passed to nvme_ns_async_ioctl - what if
+IO_URING_F_NONBLOCK Is set?  When it is, I think the nvme_alloc_request()
+call in nvme_submit_user_cmd() needs to pass in BLK_MQ_REQ_NOWAIT as
+the flags parameter or move to another thread.  Our proto-type does the for=
+mer
+requiring user mode to retry on -EWOULDBLOCK and -EBUSY.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+--
+Clay Mayers
 
