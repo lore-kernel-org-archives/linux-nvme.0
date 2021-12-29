@@ -4,62 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C04BBC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Dec 2021 15:53:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF625C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Dec 2021 17:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Q9bH3xpYfiMnv3bMUqyetJzt0d9Hx0SwUfvkjDcfmNc=; b=kJ3MzRMwcF/pd05AEwRHOf0e9e
-	vuRyyOyLzVY+CZ3kefOmEIj1vGBjaZYlF+rBkmpuipi0/nAB0xEEY3X1AOD3/BUM2p0ngaj5Ly9D9
-	A4FqvPUmEFJ6NX5lRHzM2pdZsBFswCL++vu+BuyiRdjNvzfhNOnKagzGr83NNnVjC27QLwvLmu+6s
-	GmwLyfy25zIXz3mZFVwv1549O00RNiHoD0DfQld0c1Ha/zfoCo3FRzezHp9oVK55Pa28r/Ubuu0gE
-	C+3CJL9sGrTiKlwGnUfsn8UctXtAzoMg3cWAfVP0NcJ83HB+1OctEpY9lWZXq7YUmKGExFRC/qmtT
-	mWPL6ehw==;
+	bh=0hnaJET3hwZ2jGvK632Sz8P5rXvQJFDNFzu4B3INbiE=; b=S7RUr6lF9+bgLtegqgZVaTBu1Q
+	EjIbP0HHi0WjdrhuD7hWIXcRGYbWeFsQG+TtrtLCg6dAyAro5EVslXdCWZh195sljfnrcZdd6yvJD
+	HyOymZzEdGuBMrJWgS7ywxslb51CGfSJNuioD7uDo08f8zrNxGsTeGYH9t8h4HfhPgZkX2pyAk+nV
+	to68wkmgXf091X62JIyFfAEbPauSYpxtYB9pJEDdRZaBzP22JBSeK67OCo70slfn/fLONWZjjsiSU
+	h8XZJFWIYJSeIlYYDS6bbxWffNcA7JTM0ppMs1iRnD0IxXw6bMI+Xz5T6zxU7pACbbIHYrgunSso7
+	3jSUR2Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n2bGJ-0034ow-C8; Wed, 29 Dec 2021 15:53:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n2bGG-0034nn-0O
- for linux-nvme@lists.infradead.org; Wed, 29 Dec 2021 15:53:09 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 0499D1F37F;
- Wed, 29 Dec 2021 15:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1640793184; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Q9bH3xpYfiMnv3bMUqyetJzt0d9Hx0SwUfvkjDcfmNc=;
- b=qOHeBhZN6xB1pBkw8jOzkxpoYHnwyp4nMwFMo2TeSM/5r09+qm1Sm+UYu2ciQKYAW+GIsT
- y4lP9k+0ADgm3sfOf7w6X1dTUXcV9T621JmuBkorn/CAUqFPh6UYAxgNbP5D2tPeiLCzDv
- Ca+8guhPimc+iureuztEQFD9mcbU40Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1640793184;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Q9bH3xpYfiMnv3bMUqyetJzt0d9Hx0SwUfvkjDcfmNc=;
- b=zk4xbQP3+RHdhuIpTvHVtWx65SOqJBA2FxW5AeNNVKnwTIbxik1SSOxbK/0NVnbpWKQl4j
- HHhRoUIs3JT9P5AQ==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 00E7DA3B85;
- Wed, 29 Dec 2021 15:53:04 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 17828)
- id E79405192579; Wed, 29 Dec 2021 16:53:03 +0100 (CET)
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH] nvmet: add support reading with offset from ANA log
-Date: Wed, 29 Dec 2021 16:53:02 +0100
-Message-Id: <20211229155302.16789-1-dwagner@suse.de>
-X-Mailer: git-send-email 2.29.2
+	id 1n2cPf-003Az5-Gj; Wed, 29 Dec 2021 17:06:55 +0000
+Received: from [2001:4bb8:188:43d3:df02:51d9:650c:3c4d] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1n2cPd-003Ayt-MG; Wed, 29 Dec 2021 17:06:54 +0000
+Date: Wed, 29 Dec 2021 18:06:51 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme updates for Linux 5.17
+Message-ID: <YcyVq0hj1dPtRiGp@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211229_075308_244902_8CF7570D 
-X-CRM114-Status: GOOD (  14.33  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,100 +48,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support to read with offsets from ANA log buffer.
 
-The controller claims to support extended data for the Get Log Page
-command (including extended Number of Dwords and Log Page Offset 2
-fields):
+The following changes since commit 3427f2b2c533d97bcc57b4237c2af21a8bd2cdbc:
 
-lpa     : 0x7
-  [2:2] : 0x1   Extended data for Get Log Page Supported
-  [1:1] : 0x1   Command Effects Log Page Supported
-  [0:0] : 0x1   SMART/Health Log Page per NS Supported
+  block: remove the rsxx driver (2021-12-16 10:57:04 -0700)
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/target/admin-cmd.c | 37 +++++++++++++++++++--------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+are available in the Git repository at:
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 6fb24746de06..7c8806f477e2 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -263,35 +263,40 @@ static u32 nvmet_format_ana_group(struct nvmet_req *req, u32 grpid,
- 	desc->nnsids = cpu_to_le32(count);
- 	desc->chgcnt = cpu_to_le64(nvmet_ana_chgcnt);
- 	desc->state = req->port->ana_state[grpid];
--	memset(desc->rsvd17, 0, sizeof(desc->rsvd17));
- 	return struct_size(desc, nsids, count);
- }
- 
- static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- {
--	struct nvme_ana_rsp_hdr hdr = { 0, };
-+	struct nvme_ana_rsp_hdr *hdr;
- 	struct nvme_ana_group_desc *desc;
--	size_t offset = sizeof(struct nvme_ana_rsp_hdr); /* start beyond hdr */
-+	u64 offset = nvmet_get_log_page_offset(req->cmd);
- 	size_t len;
-+	void *buffer;
- 	u32 grpid;
- 	u16 ngrps = 0;
- 	u16 status;
- 
-+	if (offset & 0x3) {
-+		req->error_loc =
-+			offsetof(struct nvme_get_log_page_command, lpo);
-+		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		goto out;
-+	}
-+
- 	status = NVME_SC_INTERNAL;
--	desc = kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
--		       GFP_KERNEL);
--	if (!desc)
-+	len = sizeof(*hdr) + struct_size(desc, nsids, NVMET_MAX_NAMESPACES);
-+	buffer = kzalloc(len, GFP_KERNEL);
-+	if (!buffer)
- 		goto out;
-+	hdr = buffer;
-+	desc = buffer + sizeof(*hdr);
- 
- 	down_read(&nvmet_ana_sem);
- 	for (grpid = 1; grpid <= NVMET_MAX_ANAGRPS; grpid++) {
- 		if (!nvmet_ana_group_enabled[grpid])
- 			continue;
--		len = nvmet_format_ana_group(req, grpid, desc);
--		status = nvmet_copy_to_sgl(req, offset, desc, len);
--		if (status)
--			break;
--		offset += len;
-+		nvmet_format_ana_group(req, grpid, desc);
- 		ngrps++;
- 	}
- 	for ( ; grpid <= NVMET_MAX_ANAGRPS; grpid++) {
-@@ -299,15 +304,15 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- 			ngrps++;
- 	}
- 
--	hdr.chgcnt = cpu_to_le64(nvmet_ana_chgcnt);
--	hdr.ngrps = cpu_to_le16(ngrps);
-+	hdr->chgcnt = cpu_to_le64(nvmet_ana_chgcnt);
-+	hdr->ngrps = cpu_to_le16(ngrps);
- 	nvmet_clear_aen_bit(req, NVME_AEN_BIT_ANA_CHANGE);
- 	up_read(&nvmet_ana_sem);
- 
--	kfree(desc);
-+	status = nvmet_copy_to_sgl(req, 0, buffer + offset,
-+				   nvmet_get_log_page_len(req->cmd));
- 
--	/* copy the header last once we know the number of groups */
--	status = nvmet_copy_to_sgl(req, 0, &hdr, sizeof(hdr));
-+	kfree(buffer);
- out:
- 	nvmet_req_complete(req, status);
- }
--- 
-2.29.2
+  git://git.infradead.org/nvme.git tags/nvme-5.17-2021-12-29
 
+for you to fetch changes up to e3d347943919f35ccdeed8d2cc62e8c6c12b36cd:
+
+  nvme: add 'iopolicy' module parameter (2021-12-23 11:22:46 +0100)
+
+----------------------------------------------------------------
+nvme updates for Linux 5.17
+
+ - increment request genctr on completion (Keith Busch, Geliang Tang)
+ - add a 'iopolicy' module parameter (Hannes Reinecke)
+ - print out valid arguments when reading from /dev/nvme-fabrics
+   (Hannes Reinecke)
+
+----------------------------------------------------------------
+Geliang Tang (1):
+      nvme: drop unused variable ctrl in nvme_setup_cmd
+
+Hannes Reinecke (2):
+      nvme-fabrics: print out valid arguments when reading from /dev/nvme-fabrics
+      nvme: add 'iopolicy' module parameter
+
+Keith Busch (1):
+      nvme: increment request genctr on completion
+
+ drivers/nvme/host/core.c      |  7 +------
+ drivers/nvme/host/fabrics.c   | 22 +++++++++++++++++++++-
+ drivers/nvme/host/multipath.c | 41 ++++++++++++++++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h      |  8 ++++++++
+ 4 files changed, 66 insertions(+), 12 deletions(-)
 
