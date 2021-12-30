@@ -4,61 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E0CEC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Dec 2021 21:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78FD8C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Dec 2021 08:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SP2s7QRDddmeUbWTVYHSbc4iRGCfuw880G7b3WDMikE=; b=EdyU4gYI0xPnnw+GU4aGmjb400
-	e0cALruJ7b90ZWG6JqRJUzkNIZUlmGz2vks0LUNX9VgNooMV75pqSA5KtRVADOoieKPQe/Ngnt7+x
-	706/S7cEhdZ1mRq+LodtJaTolBea39o33/RlsFL0v3FmyreJKcX1EScn9fOWLStFXtYHZWEZdro6a
-	yDAMNH8Bw3XS5WfdvLAGxqL7hVJvb+2hLOTc+i/1kGxfNWvKuchq6RBpHVXn1Jdk9Q2xqLy/T6ozr
-	MpU/BbZMJOEydhbBTvD+59rPOLe2mKSa6WH1MM7vfYKYx0u87J64gxTYUtaixnbV1iEbWqVlBCzf3
-	E1Ztvgvw==;
+	bh=Lb7kM4YAisHWG/xpOq2BUblqPQsH2mfIVfpAb4VIglk=; b=KmquCSdcZpP/aXCYtQTZtoK6OS
+	8dxDNxqkyzOx7cmOig8Z10nH1HtLKbASHqtksb4ZNDEpX2ij2XvviWF154n0/E3YFYxynaTq+388t
+	5HhnrnyGAEsu7C1EeKtJuONm8OyeqZ2Ai41hlzWSA6fJ8KlDWaUk7U5Ilp2zF/dalM4OuZi00ugf8
+	6HEpUKQ22sM/LrMFnS6ImSIXHvIrfb09iXY296+Xh8rgMyFCD9jRgZ745gzkxglFkHn0IAt56crWV
+	5Ndq7DY4wlqbB4pHgpRx9ekzeP7/bb+/dYg/Vkn1OyFg2qEoy3u95iw8km1OMg3FAygFbbT74mKR9
+	cwSf6SRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n2g7w-003Qs2-MO; Wed, 29 Dec 2021 21:04:52 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1n2qQ6-003zJT-Ae; Thu, 30 Dec 2021 08:04:18 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n2g7t-003QrS-LG
- for linux-nvme@lists.infradead.org; Wed, 29 Dec 2021 21:04:50 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2495A61567;
- Wed, 29 Dec 2021 21:04:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12D62C36AEA;
- Wed, 29 Dec 2021 21:04:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640811888;
- bh=r9TaRkAh5hG/EzMILebC2Z/n/BSaJcBZ14iqrqRBHCc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IP9av2Nazsft5ApIm/F8qrRYVkpZMI1Sh5u16nxXneV+CWV240UbQLough77stmTj
- +uEGQ2BJJfc8GRJ/Pf66X0iVrC9OnGfT1mYBVZG95b65WDq+506Or06quxeqrrt+JV
- 3ol+gqfXpz7oQdjcKfRJN/Xl8x3iPnGkTEVC5GshhyrA5SjxOzyKhjLT19CRnBz4XJ
- dW9NNEA+oUUJTkuqOdSRF0Kz7zSnS8GRCf8qdb9+nU7J5RgYNOm4xOJRTCgK+j1dVo
- a+d3ii/dTQg+kcsN8kCfTyNWpxDWx4yOn6dTAEYXpPXJryPlByDYk8CeU66//6jzLQ
- /zsyKU8hQqtjg==
-Date: Wed, 29 Dec 2021 13:04:46 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- axboe@kernel.dk, sagi@grimberg.me
+ id 1n2qG2-003vJi-I8
+ for linux-nvme@lists.infradead.org; Thu, 30 Dec 2021 07:53:56 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 715A768AFE; Thu, 30 Dec 2021 08:53:48 +0100 (CET)
+Date: Thu, 30 Dec 2021 08:53:48 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, axboe@kernel.dk, sagi@grimberg.me
 Subject: Re: [PATCHv2 3/3] nvme-pci: fix queue_rqs list splitting
-Message-ID: <20211229210446.GC2493133@dhcp-10-100-145-180.wdc.com>
+Message-ID: <20211230075348.GA5073@lst.de>
 References: <20211227164138.2488066-1-kbusch@kernel.org>
- <20211227164138.2488066-3-kbusch@kernel.org>
- <20211229174602.GC28058@lst.de>
+ <20211227164138.2488066-3-kbusch@kernel.org> <20211229174602.GC28058@lst.de>
+ <20211229210446.GC2493133@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211229174602.GC28058@lst.de>
+In-Reply-To: <20211229210446.GC2493133@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20211229_130449_760269_9C3ADA24 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20211229_235354_794152_2627AF22 
+X-CRM114-Status: GOOD (  16.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,31 +59,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 29, 2021 at 06:46:02PM +0100, Christoph Hellwig wrote:
-> > +			rq_list_move(rqlist, &requeue_list, req, prev, next);
-> > +
-> > +			req = prev;
-> > +			if (!req)
-> > +				continue;
+On Wed, Dec 29, 2021 at 01:04:46PM -0800, Keith Busch wrote:
+> On Wed, Dec 29, 2021 at 06:46:02PM +0100, Christoph Hellwig wrote:
+> > > +			rq_list_move(rqlist, &requeue_list, req, prev, next);
+> > > +
+> > > +			req = prev;
+> > > +			if (!req)
+> > > +				continue;
+> > 
+> > Shouldn't this be a break?
 > 
-> Shouldn't this be a break?
-
-The condition just means we're at the beginning of the rqlist. There may
-be more requests to consider, so we have to continue.
-
-Or are you saying any failed prep should just abandon the batched
-sequence? If so, we would need to concat the return list with the rest
-of rqlist before breaking.
- 
-> > +			*rqlist = next;
-> > +			prev = NULL;
-> > +		} else
-> > +			prev = req;
-> > +	}
+> The condition just means we're at the beginning of the rqlist. There may
+> be more requests to consider, so we have to continue.
 > 
-> I wonder if a restart label here would be a little cleaner, something
-> like:
+> Or are you saying any failed prep should just abandon the batched
+> sequence? If so, we would need to concat the return list with the rest
+> of rqlist before breaking.
 
-I applied your suggestion to give it a look, and I agree. Will use that
-for the next version.
+No, I misunderstood the check,
 
