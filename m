@@ -4,122 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F843C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jan 2022 12:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FB31C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jan 2022 18:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x/7M9FGTvpcyNRsgwn6N873hzGiSTMBzsHveuE3FhgE=; b=3I8cB3o14XwsJ6QyHqqf5A2Hni
-	grk0SH3AbeMEjQaehnh5HvfnS8il8EmkklX7ywuvwxh3O8KopVgG3Pz8o+nHw1/1RLM0xLp/D6EWY
-	UwQweHB9I8o75uNa1ywV5qL3oqFA5BRknpNZ4RLUoOFxj6BHcr21utvyiIqEhGXwBVb82q20jcjp3
-	XbTNb4btAt4GZF1ZwXel6SRouQlzha6Fh+5eb8m9TgKIjYzfuLK0n/mfEA7OXzkVHFy8e8QrSKLuk
-	rXEvpLB8z/IJH4svqWo30iD6pwCgCowrnK5ABcNiAVDo2mmgAh8xTxIBiy0UwdA6RrsQielMb9kOU
-	6B0tmN+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0kjW5pVkfh84bY4Oh4jTDHMHG+GXIkNDfWA8Z3gscv0=; b=s5oB0eNBT11MtLQfX3f5N+LKZ9
+	pEpPoeb7v8pRSAVnhlHQF3gNT4icoXzTYPBQ3NhDNWHIG+t8uhs0wRhEJx29YKbN9/l2HyKuLCKw+
+	BVE7p9xrewwjltfNW+CjGR1fWdRrOZphwVZW7+FJlsaNg7fPDXcXwtJT9+MkakzEaYVeMzdrvGUPR
+	G8vnZYHDPP1hFdKAf4g81WrDMru4zbpiA18zgGBXw8heR5kmSmAQmbTwmdy+XoWMek1jfFXSyomvI
+	/ncAXX7IuvoIiwm0sVtD/8FcyTsyVlH0sW/MQp6Bh84RseJ61CShuIrVg9IJYqYzaMkKEQZtgDFLA
+	+YEcUSoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n4iyz-00BRoD-Ia; Tue, 04 Jan 2022 12:32:05 +0000
-Received: from mail-mw2nam10on2060.outbound.protection.outlook.com
- ([40.107.94.60] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1n4oOa-00CSgg-Do; Tue, 04 Jan 2022 18:18:52 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n4iyw-00BRnn-Jy
- for linux-nvme@lists.infradead.org; Tue, 04 Jan 2022 12:32:04 +0000
+ id 1n4oOS-00CSgF-O1
+ for linux-nvme@lists.infradead.org; Tue, 04 Jan 2022 18:18:46 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 204GJAdx032284; 
+ Tue, 4 Jan 2022 18:18:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=0kjW5pVkfh84bY4Oh4jTDHMHG+GXIkNDfWA8Z3gscv0=;
+ b=xvEtVThisXH9NiTas2AAH+c0WDQTxTGZ+DR73Kgnc0h3wYfWyLBIhk6W7r4QknBP+B12
+ cjYUqmnOdskd/ykdEfhw9WG0u69PNGpIv3QE4s64SmWRvybkaHCXQtkyb7Cp8Z/OPQDg
+ KXHRHvgbwvJWBU94gqgULUpiiBO7B24P851LdESeQtGMcuGTqaldVbiFpAoLrwMTgFJO
+ 4NNG6PiP5E5wuZa/a9cE0Th0EV7F2ftO2EkayXKW0DC27s9TEdJC1F5aJxoucBnuzijV
+ qNJDh17YKuHtGhfUJyWvjb6hcHGuCTer42Lihe6qLvsaR/2ktmSsFbRsLXHmOJOMvFau oA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dc8q7t6p5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 04 Jan 2022 18:18:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 204IFFpd068588;
+ Tue, 4 Jan 2022 18:18:29 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+ by userp3020.oracle.com with ESMTP id 3dagdnxvaw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 04 Jan 2022 18:18:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dVsu1cvtxiR5yr8lnCkziIAU1RRac7CiVm76XdjImh0qBkG3SIf6UrowwLkmHHl4YubN6O42kyxnJFIYnopXJd4C/szIvx7rkzGK4sRdN/rR61eo/DN3TT8nTpbamopXEG8L02/1JENHOEJ8mq0IBhTYZvTGjfXbmR59Kfst4hv7qRDIfGSISLJJJZIkTD9ht1iaqUCTCzmnbh7rkXvWgqpVw02iSWzwBc/K2+1qQseXMVxQrzjVZIjl1DmBTVsvBxtmh8xc9Vdv/rwCrRd6EJUkbC5Pta43oLT/qEODI20su2Ir/FvXtq4BhdLK7cIyST1G4ipkXqU99b1kD4at0w==
+ b=mD+yPVXh2qw7hMRxg0QG83jxXenC0lGKxHl+xC1j4yXqQQwPeMl/4d+dGWQsSSVGccS9+qjYK6lEW6aLP8JoOZhkun/4fBGObDoD6qVjCS5Suvuw7+QC5mfgVFVry1Vh9bu3m5hFhapt+eRYgeRR/KqBSoZP9HCtutggUBLqa0K3+E2v3UYwZ+SMRhBgiiYIZOk1FJj87RoXHLzRUfZ/vWAobOysO2iWWlQzO8V6sE5kVfa9yhPBw+BEf1XXZfxgQWl1sQOZGlK+DGNa0yuPji7BDLPs02QKVaCfzz1G4wlTsXjzfRjuz1WrzF51TR+Io41OLKitX5275vWJhF19XQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x/7M9FGTvpcyNRsgwn6N873hzGiSTMBzsHveuE3FhgE=;
- b=MRLq2A4XwvoqDCmuNrsx5UpkmGjjNHQrbUQljDirceR7BAn4ows8/bZmeeloldZ6gD8WCDm7lJwB5WsE1IZHjBrM7QYqzip9O5vgx+6GPsbJIHOl+0B682buphRFrGcZhvIoJA6mPOP4yiPMyMMvBvJ+YiyiLV6o4yZg/TADx1tkwMvWv2lx7PcwxMUYv7ROuwOTAv1fh1Tao0YSwF8EI2cqEotJE+qrwqgk6r+ioGoeYkyIcqV19rTTuHpV3JSdIqHToTphtBpzccvicTsFsMBcs48aKkdeB/bYovMj4C/hGTem+S4s5aV5z1O7rGNJFli8wMmZfdTAvm4DgXzMow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=0kjW5pVkfh84bY4Oh4jTDHMHG+GXIkNDfWA8Z3gscv0=;
+ b=XhV+mrtYwd6gMgRAXoQwIASL6wmvJeHVF5IR3oNQeALD46bnOVjDtAmgZMX+eFHyBj+aY3NNkBlucrHK9R7HB6XoQ6IMQfEnYvURz8qf6UMuxXAUHpeblM8tH0UH+flhs4IC5pt1bR8KxgR4U4LjVrV5b4iAegjGUoQS1Z/yX9oKPVAHHvfkfizVbgGO8zU25eLOcn6vtOwewoI//DnPhA5TEJEKCAtdETgrlFOofFQfdCDBU8EwdtD9lxOMXqoIh8IkOspx2kYK10OL3qV6BFx2GMgPrBsu57hSrxeXsZZOcRtXWaC7PZng8ac6jKCoLgkYFkWvLveca+8jGuHqlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x/7M9FGTvpcyNRsgwn6N873hzGiSTMBzsHveuE3FhgE=;
- b=tYoMJ9MPZmjEeZg2yYiYjeE0CV0VMqcdxz7fERTa3GzYg22FKo0Xv4mpvDj6U7tRuUgpqoxCpkf0CYcpcOrD8Tfp2ZKHIE/JAubixHQkBWKj07Mis/iyLiudJHcsEpjrMHQlbRSldhgh0YHUe2rSLYZ+hUC7yuhTdl3cNUi5PYK3i9M2BGepmVWe9cuga2y7AK3avOMF/bAw8xIBlxcsFEIlMJgqe6oJ7Ppo39R4M/7NcdOe50gSffd54vAtR/yMaP59QIL3fFGdF5nmzrMWnxTuUkl1jABCUqgWc3PP/HL67jO75PC8JKTpOdLLDAn8QFjREWnyfqAg9d+AtF5oqg==
-Received: from MW4PR03CA0175.namprd03.prod.outlook.com (2603:10b6:303:8d::30)
- by CH2PR12MB5561.namprd12.prod.outlook.com (2603:10b6:610:69::16)
+ bh=0kjW5pVkfh84bY4Oh4jTDHMHG+GXIkNDfWA8Z3gscv0=;
+ b=D5aKvtvk2jJy/sGup0CX937MbyjRi8KbuPOVLHL8QdBNHCm01mibfzCYLm+GQxQjKBtH84b3DiViQmHJrco24nb3o9LecRtTz5qvBgtY8yhlNffZWT0KE3A4QS3tzlCQyOoXa/39MM5xq3D9aapmKblpD040hxUGo/vW+s+W41k=
+Received: from SJ0PR10MB4815.namprd10.prod.outlook.com (2603:10b6:a03:2da::17)
+ by BYAPR10MB3656.namprd10.prod.outlook.com (2603:10b6:a03:11e::29)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.13; Tue, 4 Jan
- 2022 12:16:04 +0000
-Received: from CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8d:cafe::d) by MW4PR03CA0175.outlook.office365.com
- (2603:10b6:303:8d::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15 via Frontend
- Transport; Tue, 4 Jan 2022 12:16:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.234) by
- CO1NAM11FT065.mail.protection.outlook.com (10.13.174.62) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4844.14 via Frontend Transport; Tue, 4 Jan 2022 12:16:04 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Tue, 4 Jan 2022 12:16:03 +0000
-Received: from [172.27.1.130] (172.20.187.5) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Tue, 4 Jan 2022
- 04:16:00 -0800
-Message-ID: <ac74ac4c-15f3-997e-ecd2-5e704a5b4573@nvidia.com>
-Date: Tue, 4 Jan 2022 14:15:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCHv2 1/3] block: introduce rq_list_for_each_safe macro
-Content-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.14; Tue, 4 Jan
+ 2022 18:18:27 +0000
+Received: from SJ0PR10MB4815.namprd10.prod.outlook.com
+ ([fe80::d89d:7380:8d67:aee0]) by SJ0PR10MB4815.namprd10.prod.outlook.com
+ ([fe80::d89d:7380:8d67:aee0%5]) with mapi id 15.20.4844.016; Tue, 4 Jan 2022
+ 18:18:27 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
 To: Keith Busch <kbusch@kernel.org>
-CC: Christoph Hellwig <hch@lst.de>, <linux-nvme@lists.infradead.org>,
- <linux-block@vger.kernel.org>, <axboe@kernel.dk>, <sagi@grimberg.me>
-References: <20211227164138.2488066-1-kbusch@kernel.org>
- <20211229173902.GA28058@lst.de>
- <20211229205738.GA2493133@dhcp-10-100-145-180.wdc.com>
- <99b389d6-b18b-7c3b-decb-66c4563dd37b@nvidia.com>
- <20211230153018.GD2493133@dhcp-10-100-145-180.wdc.com>
- <2ed68ef8-5393-80ae-1caa-c00d108aec8c@nvidia.com>
- <20220103181552.GA2498980@dhcp-10-100-145-180.wdc.com>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20220103181552.GA2498980@dhcp-10-100-145-180.wdc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 52678014-dfd1-4651-cf96-08d9cf7bfac8
-X-MS-TrafficTypeDiagnostic: CH2PR12MB5561:EE_
-X-Microsoft-Antispam-PRVS: <CH2PR12MB556133E09444FC15CE9FF511DE4A9@CH2PR12MB5561.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HxqsF7biSVvjMQ78gqf8OIuyfCpNT9BMT60sCLIESJipm0cq2Q9kqZ0jjPWzqR6tiCdEmQQt735h0++ImIN3VqLxWJiKBX1IF5hUc/1RT4tW3J3EKz27Jd+3lauaQOOvsRueIpqzYpxS6bykEK/n1zvggyjEZKS8hWL9YZr1eDbyO3TN/cNdfr6tA40Pe8jr6rxZdYmvVQrldnimdHVUVqFbCyqQH/5pGQ12PCxuelOwSW2uM8MnhrNKkEY5mwlek2RZ0nUen4x0X5h7i4FCmxGG991xjSuLeFW2s5NQz9XxuvYeF7MC1cRCSbibDAylENYGQltCx/6fbU2JV9RRUNSuhh7mBSP6eQSls4GKz5/3HX4dsLRdD+pjkustzIn1Fu8TRKyXgddDwysptwzAQLeIxoN3GbSEKWomehMw+OQ7u+IyWI7I2/JNt0ajiSs727A6unfE1QA+XN0h/wqxvJw6V7D+eZFRTuqs50nQRbgnkvvb0AGuOmd+op7M4WtwOkjVZyKLs5oHD5oDTEdS6tjAcipGPh65cZD1H0vQ12Znq+phZamVbQjS3UQ/+K5uHTtwb8wczMoNPdnrrtXFGYa+4wuC5OpTrpmlhSfcgwrUW6vrs7YJ90axzGQ5/E/lfLiaLP11aZ8ilL7vzBdbRyVvhxgM3YdXEehIblEC8CDN0oYbZHnp2VtuzbFJzlOXSzNufYU46PM0oz2z3SqWOe1EVNDo4cviFNSTX8sv/rAcoX5L0oQna912NbxY/gEafr7JW4pyhaoGuoEogJq16PhivXBY7E8PS0hmxsR4+fVJwSyLjOpifO8OZH/+DFN3ktibFBghWBXYLqYwe8jgcQ==
-X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(4636009)(40470700002)(36840700001)(46966006)(186003)(16526019)(26005)(54906003)(356005)(82310400004)(2906002)(336012)(6916009)(53546011)(5660300002)(426003)(2616005)(40460700001)(81166007)(31686004)(47076005)(8676002)(31696002)(36756003)(86362001)(508600001)(70586007)(70206006)(4326008)(316002)(83380400001)(8936002)(16576012)(36860700001)(43740500002)(36900700001);
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH V2 1/1] nvme: Add verbose error logging
+Thread-Topic: [PATCH V2 1/1] nvme: Add verbose error logging
+Thread-Index: AQHX+Egn8yeQpLGizE+cuDdhywaQP6xGhyQAgAy3OgA=
+Date: Tue, 4 Jan 2022 18:18:27 +0000
+Message-ID: <18CFFBBB-81A4-4F0D-9F94-B543F2D83BD8@oracle.com>
+References: <20211223215726.71096-1-alan.adamson@oracle.com>
+ <20211223215726.71096-2-alan.adamson@oracle.com>
+ <20211227160732.GB2207198@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <20211227160732.GB2207198@dhcp-10-100-145-180.wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 643ae8ca-0828-4b25-5ecb-08d9cfae9a6b
+x-ms-traffictypediagnostic: BYAPR10MB3656:EE_
+x-microsoft-antispam-prvs: <BYAPR10MB3656DBEEE3D8737953ED8B23F44A9@BYAPR10MB3656.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0qPraccHist8V6fZH0Y9UFF+Ysm6ilwm0trp4i+E90RN641HCj+KvQ4wntXkFePflBI7cLEa3WnQerc06hzyAWcL8ERHx21gpcdbqivD89luSjtBQLi3/8uFR4HRIrW+t8hTABNvD1tHldDUOVLJP9Ks6A5woncK38P6pniVmXcfCRrb6uhP8sFqF2ullmzhtZAjuxlA0nQnGQ/+OFQyilnYeuU8MNkesOClxHzT4qXJS/p7yEpoFknTMSwE+CPr4rfuSyNEdNG3N/+P62niSRsyplqU95mmNeH19ytz86lxE/i8TSD5U6s5AtoEx9QCZ6JVIX22ff23rRRC3TxEUBU5u12uSw0hMcAqU1N86hEmog89C6t6Kb7/hsv828KdW5dNuz9b7EqtwWLGNPJOBNugws3rojxW9vDsX9oZQ0zw5o23P4Q844nOsvpbEA/PzUmGCOpJbODIP8pu/FmKkhUl2kXjEvV836xVBu9a1QvvK4tIZEnsD20297Wrr8taQUJKrnQmY45adcfMJk7wR3hPKg+PJFvwsQdPZ+uZ+QQa5fyfKTIze7rZO4/6ogyd2hnipO83Fx/1RBxQ8W1Y1nZgzQSc4crspwP1xgG/VfrQMQYfv4tUBVDJYmnMk+76NHKL9HXpkuH6nyRKEY7+5nebvbEi0Uext0aQXW77hufFkmhAH0ICkaY/ULFPB58VlRdJz0eZnxtOqQFzIjSAazsl0wgCw78B+ZYfMfkXkWM=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR10MB4815.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(64756008)(6512007)(66556008)(508600001)(76116006)(122000001)(66476007)(54906003)(71200400001)(186003)(8676002)(6916009)(66446008)(33656002)(6486002)(2616005)(91956017)(316002)(66946007)(83380400001)(8936002)(2906002)(6506007)(53546011)(44832011)(38070700005)(38100700002)(5660300002)(4326008)(86362001)(36756003)(45980500001);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2022 12:16:04.3933 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52678014-dfd1-4651-cf96-08d9cf7bfac8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5561
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RDBVWmdDR2VmOE9hQlBEN1ZvNWFCRlVrZGxTam50QkpaaXlHdDcyMkFjYk5F?=
+ =?utf-8?B?ZnRkb0xJRVVORzhMYnMvc255ajJUbkpCdXdxTU1IdGlTQlJycjNZbVZrQ1Rk?=
+ =?utf-8?B?eER1Ni9DUjBHVmw0RndKWmdacFBZQTdFMU9YWlpTbnArMy9sbWhGamFPY3Zm?=
+ =?utf-8?B?TldxTm9CODZERVk5dFZuZDk5SWliSVJQOENhMUwvY3kvZnBXampKREZSaDRn?=
+ =?utf-8?B?M3RSOFBoYTdBaFVnYi9FSU9xMm8yVE1BVWh3a1p0TzU4ZWhmQUI5OFc1VkpY?=
+ =?utf-8?B?OUhCSGxpZXIxNkE0U1RiNGtOWEdMbDROa1dvcFQ2cnNKTFk3M0JkRFNQY1c0?=
+ =?utf-8?B?QWZIUWltRll2dytEZnZhMkk0NGZ5NEQ5MXNpckNuekFpT2hic0Q3S3QzNW1u?=
+ =?utf-8?B?NGZLT2J4WUZCQ3dZUlRYQUtFMU5BVWFWcFM0Zlk0cEZxV2lDcXV3WWlqOW5Y?=
+ =?utf-8?B?YkVLZzd3VmtaMFh1MG9YRHFrYmlsTjFTTmEyTnl0Z0dhbDBmVmgwMlVCUzBS?=
+ =?utf-8?B?em0zcHFiK3VYRFd1b2JMbUdnZHdheGtDS2VrMTBrekovMVJra3ExaFBITGZE?=
+ =?utf-8?B?Nlc5Q0dJUTZVcDNzUFpjZFJyZUVSWS9kYUNEM3J6Sk9TT1Z4S2U1Qm9Da01N?=
+ =?utf-8?B?cElXYllZZnNZNCtsRmZFVE54MU4xcEZGYjdVdWFLd2t1dHBkR1R1SGFHc0Zm?=
+ =?utf-8?B?SkRNY1Z5b3NDck9kZVBmZnVETW1sekpqN0ZiWjVNQm9Dd0FjcWE1NlZ0cldJ?=
+ =?utf-8?B?MncrNW1nVnY1N21QR3AvRGtXaXcyelZGNk9lOGxLTXJVV1FGSHRMQlhWZzVm?=
+ =?utf-8?B?QXRrWFhJMWZnZzJUWWhXYzhYd1BYMHVoZDNTeEdIcU5jb0IwcHovK0I4UWRs?=
+ =?utf-8?B?K2RmMm5CbHloTVBFWSsvL25tczBNZ253T1Y4S1RVVGJHaXBVWnNHZExGVjBV?=
+ =?utf-8?B?MmpodU0yUlRzeXU5d2dqdVB0TVlCVHdhNTh6d0lndWhiYk1PVi8waEcwYkov?=
+ =?utf-8?B?ZlluY1FZL2xGVDNMNDI0Z2hMUThqdEVWR2VZNDFGZXVPUlJ6MmVRNlR5RWtx?=
+ =?utf-8?B?N081Qzh5ZmlYMkd1OFVhYnBLN0xHajdmUnJlQXVxdENiMmh0RVJyckxyOUcy?=
+ =?utf-8?B?TXdIVkIwckZSYUhXNkhlS2JlZkJrWG4raDlKUEpyQThzT0VvZVdNK0lKL3Iv?=
+ =?utf-8?B?cVczQ3BuNzVCMGdCZlNrUHphanNjaDRQYzFFUFNHamRnQlVCdDFEUGFYNith?=
+ =?utf-8?B?eFdiaVVKK0E0L1Qrc2NrQU84QkkxMGhEelExNTJYU1Q3ZGFuTHlhU0VRL1hp?=
+ =?utf-8?B?N0VKVEQ4SjcvMkhkRC9GcUgrbE5LV0Vrd1c4akhiMVc2UmlIQnJNdXlXS2xJ?=
+ =?utf-8?B?WG9XNm44VFNsT2k4ZWR0dWdlck1HK3ZBUS93NWdzMk50Mk9KVERvb09IZmhj?=
+ =?utf-8?B?bWs0ZEpqSmprSS9idTgwUVhxR2JLYjN0Y2FRQVVmaFFKbzh5a2tIRlJLanZC?=
+ =?utf-8?B?bTBvWkgxd0JWTlJ0ZWM4NTJnTWJ0UkRlTnp3cWdJdWJOc0NhdFNIN3psY2xM?=
+ =?utf-8?B?N0NFbElYTzliLzd6ZVpteVNPZFZmQXc3blhiMWU1WS9qYTJ2c09kc3VwWUs5?=
+ =?utf-8?B?STlZV3puSGhyTFh6RmUrYk5uTm10ZEk0U2hKTVBPNzM0b3RqZE5tOFlnMXpY?=
+ =?utf-8?B?SDVBTDRFR3lJWW1mM3pWbENxb1YwOHh6ZVVxOTgvTlMrdFVNWHR1TEN0ekEx?=
+ =?utf-8?B?OVI0MHdjUW50VE5MVExWUitmbUtmRjNQQVlib0t1dS8xRUtKOS9SUzFPUW9r?=
+ =?utf-8?B?Q0ptc2pIQkJZb1A3Z0V6d0dxcmNUQmxTdkQ2dDVKYzJxMkNLT3BkVzFpcXRz?=
+ =?utf-8?B?bmc2ZG1iaGJmeXI1ZUpZN0V4blpFbko0V3hRQmw3Qkw4VE1JVzgxWkRIb2Qv?=
+ =?utf-8?B?eTh3T3FNVkpDTElncDVtbHJnK0pHanhFTFpZZUhuanpUWUNXMFVTUkI5VHVQ?=
+ =?utf-8?B?aVEzY2NvM1VVbGtkNnViOW1wRVlsblRGbmltQlhkQUtub01LRVdTelplTVJD?=
+ =?utf-8?B?ZWtURGdBbllpei95SitrYVhrY3IvTnRMa3NWV1RJbmR0RjZxSzR0OTExQk9l?=
+ =?utf-8?B?aVQweTZoZ1FJS09IUmxQS1VXV2l5RUUyR295a0tETU5BSER6SEh5cEc2REVF?=
+ =?utf-8?B?OXFyM2VoclVjNGljWk5kbUlhazVVcHNLYTBTTThrNFVMNjZPeDhYWklMN1VO?=
+ =?utf-8?B?c2UvRC9RYy9wWHI0YXFrN1c0anRBPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B9187DF02BB7AB46853D5EA9A26CCC41@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4815.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 643ae8ca-0828-4b25-5ecb-08d9cfae9a6b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2022 18:18:27.0373 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kTog2tjZvnpr432teOebZLjis2BDqqzOeqiQcNxNHXprgkUR3snVGqSAKdZiYuCq4kMbGHKFkv9EvyHWhfqC3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3656
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10217
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0 spamscore=0
+ mlxscore=0 phishscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201040121
+X-Proofpoint-GUID: ASDxlWuR8-lMcYbv8RtKdITTwSWTpOpS
+X-Proofpoint-ORIG-GUID: ASDxlWuR8-lMcYbv8RtKdITTwSWTpOpS
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220104_043202_678760_41A1E7BE 
-X-CRM114-Status: GOOD (  27.26  )
+X-CRM114-CacheID: sfid-20220104_101844_815090_05EA3108 
+X-CRM114-Status: GOOD (  23.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,180 +183,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 1/3/2022 8:15 PM, Keith Busch wrote:
-> On Mon, Jan 03, 2022 at 05:23:08PM +0200, Max Gurtovoy wrote:
->> On 12/30/2021 5:30 PM, Keith Busch wrote:
->>> I think it just may work if we export blk_mq_get_driver_tag().
->> do you have a suggestion for the NVMe/PCI driver ?
-> The following tests fine with my multi-namespace setups. I have real
-> hardware with namespace management capabilities, but qemu can also
-> easily emulate it too for anyone who doesn't have one.
->
-> ---
-> diff --git a/block/blk-mq-tag.h b/block/blk-mq-tag.h
-> index 5668e28be0b7..84f2e73d0c7c 100644
-> --- a/block/blk-mq-tag.h
-> +++ b/block/blk-mq-tag.h
-> @@ -41,12 +41,6 @@ static inline struct sbq_wait_state *bt_wait_ptr(struct sbitmap_queue *bt,
->   	return sbq_wait_ptr(bt, &hctx->wait_index);
->   }
->   
-> -enum {
-> -	BLK_MQ_NO_TAG		= -1U,
-> -	BLK_MQ_TAG_MIN		= 1,
-> -	BLK_MQ_TAG_MAX		= BLK_MQ_NO_TAG - 1,
-> -};
-> -
->   extern bool __blk_mq_tag_busy(struct blk_mq_hw_ctx *);
->   extern void __blk_mq_tag_idle(struct blk_mq_hw_ctx *);
->   
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 0d7c9d3e0329..b4540723077a 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -1589,6 +1589,7 @@ bool __blk_mq_get_driver_tag(struct blk_mq_hw_ctx *hctx, struct request *rq)
->   	hctx->tags->rqs[rq->tag] = rq;
->   	return true;
->   }
-> +EXPORT_SYMBOL_GPL(__blk_mq_get_driver_tag);
->   
->   static int blk_mq_dispatch_wake(wait_queue_entry_t *wait, unsigned mode,
->   				int flags, void *key)
-> @@ -2582,11 +2583,10 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
->   		 * same queue, caller must ensure that's the case.
->   		 *
->   		 * Since we pass off the full list to the driver at this point,
-> -		 * we do not increment the active request count for the queue.
-> -		 * Bypass shared tags for now because of that.
-> +		 * we are counting on the driver to increment the active
-> +		 * request count for the queue.
->   		 */
-> -		if (q->mq_ops->queue_rqs &&
-> -		    !(rq->mq_hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED)) {
-> +		if (q->mq_ops->queue_rqs) {
->   			blk_mq_run_dispatch_ops(q,
->   				__blk_mq_flush_plug_list(q, plug));
->   			if (rq_list_empty(plug->mq_list))
-> diff --git a/block/blk-mq.h b/block/blk-mq.h
-> index 948791ea2a3e..0f37ae906901 100644
-> --- a/block/blk-mq.h
-> +++ b/block/blk-mq.h
-> @@ -268,21 +268,6 @@ static inline void blk_mq_put_driver_tag(struct request *rq)
->   	__blk_mq_put_driver_tag(rq->mq_hctx, rq);
->   }
->   
-> -bool __blk_mq_get_driver_tag(struct blk_mq_hw_ctx *hctx, struct request *rq);
-> -
-> -static inline bool blk_mq_get_driver_tag(struct request *rq)
-> -{
-> -	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
-> -
-> -	if (rq->tag != BLK_MQ_NO_TAG &&
-> -	    !(hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED)) {
-> -		hctx->tags->rqs[rq->tag] = rq;
-> -		return true;
-> -	}
-> -
-> -	return __blk_mq_get_driver_tag(hctx, rq);
-> -}
-> -
->   static inline void blk_mq_clear_mq_map(struct blk_mq_queue_map *qmap)
->   {
->   	int cpu;
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 50deb8b69c40..f50483475c12 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -992,8 +992,9 @@ static bool nvme_prep_rq_batch(struct nvme_queue *nvmeq, struct request *req)
->   		return false;
->   	if (unlikely(!nvme_check_ready(&nvmeq->dev->ctrl, req, true)))
->   		return false;
-> +	if (!blk_mq_get_driver_tag(req))
-> +		return false;
->   
-> -	req->mq_hctx->tags->rqs[req->tag] = req;
->   	return nvme_prep_rq(nvmeq->dev, req) == BLK_STS_OK;
->   }
->   
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index 550996cf419c..8fb544a35330 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -1072,6 +1072,27 @@ static inline int blk_rq_map_sg(struct request_queue *q, struct request *rq,
->   }
->   void blk_dump_rq_flags(struct request *, char *);
->   
-> +enum {
-> +	BLK_MQ_NO_TAG		= -1U,
-> +	BLK_MQ_TAG_MIN		= 1,
-> +	BLK_MQ_TAG_MAX		= BLK_MQ_NO_TAG - 1,
-> +};
-> +
-> +bool __blk_mq_get_driver_tag(struct blk_mq_hw_ctx *hctx, struct request *rq);
-> +
-> +static inline bool blk_mq_get_driver_tag(struct request *rq)
-> +{
-> +	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
-> +
-> +	if (rq->tag != BLK_MQ_NO_TAG &&
-> +	    !(hctx->flags & BLK_MQ_F_TAG_QUEUE_SHARED)) {
-> +		hctx->tags->rqs[rq->tag] = rq;
-> +		return true;
-> +	}
-> +
-> +	return __blk_mq_get_driver_tag(hctx, rq);
-> +}
-> +
->   #ifdef CONFIG_BLK_DEV_ZONED
->   static inline unsigned int blk_rq_zone_no(struct request *rq)
->   {
-> --
-
-This patch worked for me with 2 namespaces for NVMe PCI.
-
-I'll check it later on with my RDMA queue_rqs patches as well. There we 
-have also a tagset sharing with the connect_q (and not only with 
-multiple namespaces).
-
-But the connect_q is using a reserved tags only (for the connect commands).
-
-I saw some strange things that I couldn't understand:
-
-1. running randread fio with libaio ioengine didn't call nvme_queue_rqs 
-- expected
-
-*2. running randwrite fio with libaio ioengine did call nvme_queue_rqs - 
-Not expected !!*
-
-*3. running randread fio with io_uring ioengine (and --iodepth_batch=32) 
-didn't call nvme_queue_rqs - Not expected !!*
-
-4. running randwrite fio with io_uring ioengine (and --iodepth_batch=32) 
-did call nvme_queue_rqs - expected
-
-5. *running randread fio with io_uring ioengine (and --iodepth_batch=32 
---runtime=30) didn't finish after 30 seconds and stuck for 300 seconds 
-(fio jobs required "kill -9 fio" to remove refcounts from nvme_core)   - 
-Not expected !!*
-
-*debug pring: fio: job 'task_nvme0n1' (state=5) hasn't exited in 300 
-seconds, it appears to be stuck. Doing forceful exit of this job.
-*
-
-*6. ***running randwrite fio with io_uring ioengine (and  
---iodepth_batch=32 --runtime=30) didn't finish after 30 seconds and 
-stuck for 300 seconds (fio jobs required "kill -9 fio" to remove 
-refcounts from nvme_core)   - Not expected !!**
-
-***debug pring: fio: job 'task_nvme0n1' (state=5) hasn't exited in 300 
-seconds, it appears to be stuck. Doing forceful exit of this job.***
-
-
-any idea what could cause these unexpected scenarios ? at least 
-unexpected for me :)
-
-
-******
-
+DQoNCj4gT24gRGVjIDI3LCAyMDIxLCBhdCA4OjA3IEFNLCBLZWl0aCBCdXNjaCA8a2J1c2NoQGtl
+cm5lbC5vcmc+IHdyb3RlOg0KPiANCj4gT24gVGh1LCBEZWMgMjMsIDIwMjEgYXQgMDE6NTc6MjZQ
+TSAtMDgwMCwgQWxhbiBBZGFtc29uIHdyb3RlOg0KPj4gKw0KPj4gK3N0YXRpYyBjb25zdCBjaGFy
+ICogY29uc3QgbnZtZV9lcnJvcnNbXSA9IHsNCj4+ICsJIlN1Y2Nlc3MiLA0KPj4gKwkiSW52YWxp
+ZCBDb21tYW5kIE9wY29kZSIsDQo+PiArCSJJbnZhbGlkIEZpZWxkIGluIENvbW1hbmQiLA0KPj4g
+KwkiQ29tbWFuZCBJRCBDb25mbGljdCIsDQo+PiArCSJEYXRhIFRyYW5zZmVyIEVycm9yIiwNCj4+
+ICsJIkNvbW1hbmRzIEFib3J0ZWQgZHVlIHRvIFBvd2VyIExvc3MgTm90aWZpY2F0aW9uIiwNCj4+
+ICsJIkludGVybmFsIEVycm9yIiwNCj4+ICsJIkNvbW1hbmQgQWJvcnQgUmVxdWVzdGVkIiwNCj4+
+ICsJIkNvbW1hbmQgQWJvcnRlZCBkdWUgdG8gU1EgRGVsZXRpb24iLA0KPj4gKwkiQ29tbWFuZCBB
+Ym9ydGVkIGR1ZSB0byBGYWlsZWQgRnVzZWQgQ29tbWFuZCIsDQo+PiArCSJDb21tYW5kIEFib3J0
+ZWQgZHVlIHRvIE1pc3NpbmcgRnVzZWQgQ29tbWFuZCIsDQo+PiArCSJJbnZhbGlkIE5hbWVzcGFj
+ZSBvciBGb3JtYXQiLA0KPj4gKwkiQ29tbWFuZCBTZXF1ZW5jZSBFcnJvciIsDQo+PiArCSJJbnZh
+bGlkIFNHTCBTZWdtZW50IERlc2NyaXB0b3IiLA0KPj4gKwkiSW52YWxpZCBOdW1iZXIgb2YgU0dM
+IERlc2NyaXB0b3JzIiwNCj4+ICsJIkRhdGEgU0dMIExlbmd0aCBJbnZhbGlkIiwNCj4+ICsJIk1l
+dGFkYXRhIFNHTCBMZW5ndGggSW52YWxpZCIsDQo+PiArCSJTR0wgRGVzY3JpcHRvciBUeXBlIElu
+dmFsaWQiLA0KPj4gKwkiSW52YWxpZCBVc2Ugb2YgQ29udHJvbGxlciBNZW1vcnkgQnVmZmVyIiwN
+Cj4+ICsJIlBSUCBPZmZzZXQgSW52YWxpZCIsDQo+PiArCSJBdG9taWMgV3JpdGUgVW5pdCBFeGNl
+ZWRlZCIsDQo+PiArCSJPcGVyYXRpb24gRGVuaWVkIiwNCj4+ICsJIlNHTCBPZmZzZXQgSW52YWxp
+ZCIsDQo+PiArCSJSZXNlcnZlZCIsDQo+PiArCSJIb3N0IElkZW50aWZpZXIgSW5jb25zaXN0ZW50
+IEZvcm1hdCIsDQo+PiArCSJLZWVwIEFsaXZlIFRpbWVvdXQgRXhwaXJlZCIsDQo+PiArCSJLZWVw
+IEFsaXZlIFRpbWVvdXQgSW52YWxpZCIsDQo+PiArCSJDb21tYW5kIEFib3J0ZWQgZHVlIHRvIFBy
+ZWVtcHQgYW5kIEFib3J0IiwNCj4+ICsJIlNhbml0aXplIEZhaWxlZCIsDQo+PiArCSJTYW5pdGl6
+ZSBJbiBQcm9ncmVzcyIsDQo+PiArCSJTR0wgRGF0YSBCbG9jayBHcmFudWxhcml0eSBJbnZhbGlk
+IiwNCj4+ICsJIkNvbW1hbmQgTm90IFN1cHBvcnRlZCBmb3IgUXVldWUgaW4gQ01CIiwNCj4+ICsJ
+Ik5hbWVzcGFjZSBpcyBXcml0ZSBQcm90ZWN0ZWQiLA0KPj4gKwkiQ29tbWFuZCBJbnRlcnJ1cHRl
+ZCIsDQo+PiArCSJUcmFuc2llbnQgVHJhbnNwb3J0IEVycm9yIiwNCj4+ICsJTlVMTCwgTlVMTCwg
+TlVMTCwgTlVMTCwgTlVMTCwgTlVMTCwgTlVMTCwgTlVMTCwgTlVMTCwNCj4gDQo+IFRyYWNraW5n
+IHRoZXNlIE5VTEwncyBpcyBnb2luZyB0byBiZSBwcm9ibGVtYXRpYyBhbmQgZXJyb3IgcHJvbmUu
+DQoNCkkgZG9u4oCZdCBkaXNhZ3JlZSwgZGVmaW5pdGVseSB3YXNu4oCZdCBmdW4gcHV0dGluZyB0
+aGVtIGluIHRoZXJlOikNCg0KSWYgd2UgZG9u4oCZdCBkZWZpbmUgdGhlIE5VTExzLCB3aGF0IGhh
+cHBlbnMgaWYgdGhlIGhhcmR3YXJlIHJlc3BvbmRzIHdpdGggYSB1bmRlZmluZWQgZXJyb3Igc3Rh
+dHVzPyANCldlIHdpbGwgYXR0ZW1wdCB0byBsb2cgYSB1bmRlZmluZWQvbm9uLXN0cmluZy4NCg0K
+QWxhbg0KDQo+IA0KPiBJIHJlY29tbWVuZCBpbmRleGluZyB0aGUgc3RyaW5ncyBhcyB5b3UgZGVm
+aW5lIHRoZW0uIEZvciBleGFtcGxlOg0KPiANCj4gc3RhdGljIGNvbnN0IGNoYXIgKiBjb25zdCBu
+dm1lX2Vycm9yc1tdID0gew0KPiAJW05WTUVfU0NfU1VDQ0VTU10gPSAiU3VjY2VzcyIsDQo+IAlb
+TlZNRV9TQ19JTlZBTElEX09QQ09ERV0gPSAiSW52YWxpZCBDb21tYW5kIE9wY29kZSIsDQo+IA0K
+PiBldGMuLi4NCj4gDQo+IFRoZW4geW91IGRvbid0IG5lZWQgdG8gYm90aGVyIHRyYWNraW5nIHRo
+ZSB1bmRlZmluZWQgaW5kZXhlcyBvciBtYWtpbmcNCj4gc3VyZSBldmVyeXRoaW5nIGlzIGluIG9y
+ZGVyLg0KDQo=
 
