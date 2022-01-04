@@ -4,63 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22AE0C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jan 2022 18:48:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F7B2C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jan 2022 19:38:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ebm/5MPCyWPNoFZD3Qyo0HuR68Tl1qJJ4yymaEAbIwc=; b=zx6qfqonq2BUK6gIygc9hAOyUm
-	qcl31/1sfsml5pQkMoisYJNEUBl+i2WNY+KlI/MfTJbMs2cvMqo1CrpN+Au6fLGetdkzRC02ut6Ub
-	GE96LfbNniaGpLHQc1V+0WnnuTtexmFM6/r6KYpZUBt+iVzdyA5z0/tkpaVUKHC8/rICK04K/87cz
-	XVRSgKl0iJ3a2/yt1qe3i6GnxgErvX1Af4lHSQ/gjKSkiHnNNgLdYWe2tfPP2ElEZbq3LurVl9W2I
-	c8Nn1Lqfv/QSsIQCXZveSzihTD/Enp3pX9iAvAfGGY4PxXeOkTWp8OR/qfuOdsiCoROlam+VUasp9
-	O0s/Cppw==;
+	bh=GEgHs9/XshsmCw6ypDFwhGu5V1z7c2kPPrleEC+clkQ=; b=OR7vyENvM5tZStUbXkSvWTG2I1
+	lLFh2Mk3MRf/qWF3frBayhINKNeMvz9ljhLKUkIISkBrgUkgqVH42x83YwB7bcrzjI6VcXoy+J8rL
+	x/racA4DwEiA0NdSioXmBGkncBv7BVvrVufnaeT/ODmVbuTbirvkXsz+yCPw1JiMAhGtCzccZTzc/
+	tolEnLPGrMOkdiSFq9bua7j2p5dkKXy/zk4y3xuIbDxB4vZVIOux6kbPbfiaI06dZ5OQRbrWM0RkI
+	xIKd6I/Joci4tRvhmXYvBTedgglx4BByKEh4C4o7nb7rUSCAuXsXSvbccEukYZGBMZ6G+/zVoBZtf
+	RPEhqdIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n4oqz-00CXya-S5; Tue, 04 Jan 2022 18:48:13 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1n4pdO-00CcmC-K6; Tue, 04 Jan 2022 19:38:14 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n4oqw-00CXxV-Lj
- for linux-nvme@lists.infradead.org; Tue, 04 Jan 2022 18:48:12 +0000
+ id 1n4pdM-00CclX-3Y
+ for linux-nvme@lists.infradead.org; Tue, 04 Jan 2022 19:38:13 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B0780B81785;
- Tue,  4 Jan 2022 18:48:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1CCC36AEB;
- Tue,  4 Jan 2022 18:48:07 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C54CBB817DB;
+ Tue,  4 Jan 2022 19:38:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39842C36AEB;
+ Tue,  4 Jan 2022 19:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641322087;
- bh=mRV2RX6mbu5jwju1FWJMf5I5Sv34UAOO1+OQd6mmZoE=;
+ s=k20201202; t=1641325089;
+ bh=GNO4q4NOMMXmg1I/+DnzUx7VR3DII6+mf0X90mMaZLg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kua0Pvm8EU/KdZUSuU9MeigSzlqgE3hfOc/YZGIkFb8vr4WxMHnAk90rQtmqTFFfq
- /H2fNQZ6oimjNRoe0aKyECVZX0bJMCre0zPKPwyA3IKrHbHtk8FvmB35/cSHcYmbE7
- rSBn64dHrODApe4s9iwWmlwZCc/gKr3tIzzXeFZaxjiQQQ+qK0bA9MTTw+hlyE7siF
- REMPJJG1Goj0hGrguJ9hpX2+oMvL1ZCd2z2jPrv0U7QPsYs2u6FxjejoJDxwngqWAa
- zkfu73jzWCm20PdJpOz1sJDbw7unakOw6QFPnoYwa0bHbN9TBbANmXGo/6BTsP+KZp
- cQ3Z/b85CF2Cg==
-Date: Tue, 4 Jan 2022 10:48:05 -0800
+ b=cNADZbtAFEPXQ6kzRzbu3/fEV0tuIO43S86Brcpgt3AZTSeyeiS4wekBH//eIyFQr
+ 65w1V//5Aw8mqlvh2M3OzdWf4MmjXfLDEfCgidPvVQMPs+45l0cSjd5IkmtAFnBlwh
+ tbKVvX62b3ihJ6/LyXrjoD+DK1O/GnOts38EQ++JO4//3cjK6SPWEsKU0/RwVZmuuk
+ MTMXPX5YbRrHOqX6w3H3NtRi/BSEy+Ju5DCKTsw8WOuJEVexNK3A02dm3Sq1pkM1eK
+ i5dBmfjH5FT+vAjqqETRF5OALz0SE7rzUk7R74744B3XL1k1WSr923fj+lV4yuzjku
+ I8g5o4G5S0qqw==
+Date: Tue, 4 Jan 2022 11:38:07 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH V2 1/1] nvme: Add verbose error logging
-Message-ID: <20220104184805.GA2666557@dhcp-10-100-145-180.wdc.com>
-References: <20211223215726.71096-1-alan.adamson@oracle.com>
- <20211223215726.71096-2-alan.adamson@oracle.com>
- <20211227160732.GB2207198@dhcp-10-100-145-180.wdc.com>
- <18CFFBBB-81A4-4F0D-9F94-B543F2D83BD8@oracle.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ axboe@kernel.dk, sagi@grimberg.me
+Subject: Re: [PATCHv2 3/3] nvme-pci: fix queue_rqs list splitting
+Message-ID: <20220104193807.GB2666557@dhcp-10-100-145-180.wdc.com>
+References: <20211227164138.2488066-1-kbusch@kernel.org>
+ <20211227164138.2488066-3-kbusch@kernel.org>
+ <20211229174602.GC28058@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <18CFFBBB-81A4-4F0D-9F94-B543F2D83BD8@oracle.com>
+In-Reply-To: <20211229174602.GC28058@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220104_104810_904928_631CAC8A 
-X-CRM114-Status: GOOD (  17.34  )
+X-CRM114-CacheID: sfid-20220104_113812_314851_A526C0E5 
+X-CRM114-Status: GOOD (  18.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,56 +73,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 04, 2022 at 06:18:27PM +0000, Alan Adamson wrote:
-> > On Dec 27, 2021, at 8:07 AM, Keith Busch <kbusch@kernel.org> wrote:
-> > 
-> > On Thu, Dec 23, 2021 at 01:57:26PM -0800, Alan Adamson wrote:
-> >> +
-> >> +static const char * const nvme_errors[] = {
-> >> +	"Success",
-> >> +	"Invalid Command Opcode",
-> >> +	"Invalid Field in Command",
-> >> +	"Command ID Conflict",
-> >> +	"Data Transfer Error",
-> >> +	"Commands Aborted due to Power Loss Notification",
-> >> +	"Internal Error",
-> >> +	"Command Abort Requested",
-> >> +	"Command Aborted due to SQ Deletion",
-> >> +	"Command Aborted due to Failed Fused Command",
-> >> +	"Command Aborted due to Missing Fused Command",
-> >> +	"Invalid Namespace or Format",
-> >> +	"Command Sequence Error",
-> >> +	"Invalid SGL Segment Descriptor",
-> >> +	"Invalid Number of SGL Descriptors",
-> >> +	"Data SGL Length Invalid",
-> >> +	"Metadata SGL Length Invalid",
-> >> +	"SGL Descriptor Type Invalid",
-> >> +	"Invalid Use of Controller Memory Buffer",
-> >> +	"PRP Offset Invalid",
-> >> +	"Atomic Write Unit Exceeded",
-> >> +	"Operation Denied",
-> >> +	"SGL Offset Invalid",
-> >> +	"Reserved",
-> >> +	"Host Identifier Inconsistent Format",
-> >> +	"Keep Alive Timeout Expired",
-> >> +	"Keep Alive Timeout Invalid",
-> >> +	"Command Aborted due to Preempt and Abort",
-> >> +	"Sanitize Failed",
-> >> +	"Sanitize In Progress",
-> >> +	"SGL Data Block Granularity Invalid",
-> >> +	"Command Not Supported for Queue in CMB",
-> >> +	"Namespace is Write Protected",
-> >> +	"Command Interrupted",
-> >> +	"Transient Transport Error",
-> >> +	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-> > 
-> > Tracking these NULL's is going to be problematic and error prone.
-> 
-> I don’t disagree, definitely wasn’t fun putting them in there:)
-> 
-> If we don’t define the NULLs, what happens if the hardware responds with a undefined error status? 
-> We will attempt to log a undefined/non-string.
+On Wed, Dec 29, 2021 at 06:46:02PM +0100, Christoph Hellwig wrote:
+> I wonder if a restart label here would be a little cleaner, something
+> like:
 
-Every index not defined below the maximum defined index is automatically
-initialized to NULL.
+On second thought, this requires another check that the *rqlist is not
+NULL before 'goto restart' since the safe iterator dereferences it. I'm
+not sure this is cleaner than the original anymore.
+ 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 992ee314e91ba..29b433fd12bdd 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -999,9 +999,11 @@ static bool nvme_prep_rq_batch(struct nvme_queue *nvmeq, struct request *req)
+>  
+>  static void nvme_queue_rqs(struct request **rqlist)
+>  {
+> -	struct request *req, *next, *prev = NULL;
+> +	struct request *req, *next, *prev;
+>  	struct request *requeue_list = NULL;
+>  
+> +restart:
+> +	prev = NULL;
+>  	rq_list_for_each_safe(rqlist, req, next) {
+>  		struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+>  
+> @@ -1009,9 +1011,9 @@ static void nvme_queue_rqs(struct request **rqlist)
+>  			/* detach 'req' and add to remainder list */
+>  			rq_list_move(rqlist, &requeue_list, req, prev, next);
+>  
+> +			if (!prev)
+> +				break;
+>  			req = prev;
+> -			if (!req)
+> -				continue;
+>  		}
+>  
+>  		if (!next || req->mq_hctx != next->mq_hctx) {
+> @@ -1019,9 +1021,9 @@ static void nvme_queue_rqs(struct request **rqlist)
+>  			req->rq_next = NULL;
+>  			nvme_submit_cmds(nvmeq, rqlist);
+>  			*rqlist = next;
+> -			prev = NULL;
+> -		} else
+> -			prev = req;
+> +			goto restart;
+> +		}
+> +		prev = req;
+>  	}
+>  
+>  	*rqlist = requeue_list;
 
