@@ -4,76 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5A08C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jan 2022 19:26:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE1DBC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jan 2022 00:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FzsUXswUhqYEQy8OwcCNbzuC03X79npbhOLwmH4zQ3A=; b=pxl7nm51JEpQXpRRxDHAMOX5KN
-	UWTMmwLt3maUV6lfZTp9fSEwAPa3Q//AZPgTQK8TTyCHWDONjd73dFwfgWuxcwhu9V8SLyjMF4b+f
-	Tz4hCoz9DVmpBS2x2jzBpkqCSEExE/XLoIgSyl7BOYVwRqtjsgl87P3sZMEnQHUfXgV3NYNJJ6k0q
-	a/cG62p+dEaL9ow/AF5sjLtltgOi/JRn/GGuK/DRKZdSXHrm6wgMOIwrZlkAwyXdtUXi4P5nYot48
-	aoEhhwANe0yxu1n9pTgPj7L6HpYXnWhI/EeWlgpJw4orBE2ubC6MnmsTZTlnhJ8lZ09KI1Z3/xjiw
-	Y0F7tLFA==;
+	bh=Xd/zzcY0SvCAKYFGCavbLme1V0VcAHZaS1RZsxBRqRw=; b=FQkZK5u+cm4fsoO5amUJr+m/jU
+	Sixfo5kwlMpZ3Be4eZH8re8r27BX2s7FtrM8KD+5MIDI9yYMv4ztyGocH4wMkmQsCTrB0lYIko+pw
+	13TtT6wrUwlPzHUhjMCicRDoT7vPVhGCTdIqslDGd0It8PXMK1hb9WMaAtnbRDBiiA0J+lvTi2lb0
+	xF80CGYnl5bavK+UMY/l/b2hKJiKtDiQErml7XDzRCAsnrCS18kYd9hIAtdOW0giWstCm4i2Opo97
+	iaABHp38xfhrL0oR4S7zgYlqw6c2VjXkZCAq/Q+v40PfNngd17zdMESdRCl4TwBj7Xj8039SC96sc
+	VB8Y+Iqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n5Bv8-00Fgkz-CA; Wed, 05 Jan 2022 19:26:02 +0000
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
+	id 1n5GaU-00G4MG-AV; Thu, 06 Jan 2022 00:25:02 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n5Bv4-00FgkA-Up
- for linux-nvme@lists.infradead.org; Wed, 05 Jan 2022 19:26:00 +0000
-Received: by mail-il1-x131.google.com with SMTP id 9so316211ill.9
- for <linux-nvme@lists.infradead.org>; Wed, 05 Jan 2022 11:25:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:in-reply-to:references:subject:message-id:date
- :mime-version:content-transfer-encoding;
- bh=FzsUXswUhqYEQy8OwcCNbzuC03X79npbhOLwmH4zQ3A=;
- b=MW+peUHy5fzJsFssPXxnKJiwyp9ejGHC7+Aq98zxLT5QgDr1LmMjpU8nMb2OKQbyUJ
- h9il/hvvIVVdPU0rBkbk65NjXNM40l6ONc8bq+g1DeyRfqGMVU+oI+ZZPFaH3JVUJrBi
- UG96OgsszW8hF0sf3r2yqHd88CJVCQ6beT/+i08OPbkh65KHfK9XaKqnr3oIL9215we5
- qJzpFzsrbV0I3CceBb0lWFqv0YK3GEzLYHvvejN9Iv7sJALcqi61l+bp1JIhy+0O3fTU
- obizZB4vthNmn32aL7oD6b9m3LSUa2JRnrSzRm0axlOqsfM4nKizoOAf9VxKhAEWL0YN
- iX7w==
+ id 1n5GaR-00G4La-8d
+ for linux-nvme@lists.infradead.org; Thu, 06 Jan 2022 00:25:00 +0000
+Received: by mail-wr1-f52.google.com with SMTP id l10so1481949wrh.7
+ for <linux-nvme@lists.infradead.org>; Wed, 05 Jan 2022 16:24:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
- :message-id:date:mime-version:content-transfer-encoding;
- bh=FzsUXswUhqYEQy8OwcCNbzuC03X79npbhOLwmH4zQ3A=;
- b=yGzp/2s/yCVcM71SeGe4EHFLiVFtUkbBr14lc0OdiCudPr3iRoimdGpdC3v5yYaEZJ
- 0C4Rh/MnhvlaYPlygPkNPpRDFIfK9h3vtJXU1OlQCdb1IPaFGB3/dMQKsQ9GN+Uvg5tM
- R1x/NQOp85WUXfpGAERFDMlTVFXqppUqLcH3VHUwu48KJD+AlI6czyM5j/QwKkbWigLP
- uCvjRU/tlNBWzlf4mEoNEqSGtKKN8Rbd9ka6R4AFusrQeq7bA78hpNOVxCilhKPBHp28
- aJn68XnxoN6DJbY8PXd6mjhUe2BQcdvb/2DJIzbT9SoHavc0CiNWxnz10HbJv7mOqE+0
- 6aXw==
-X-Gm-Message-State: AOAM531a4b2UtF/gWBj/wGJGP1Pwkb0D4ABOfjLYcyntsRywj47wzCOz
- rpfy+vu3BVkJLBi/WGxUKcignBH94JCfUg==
-X-Google-Smtp-Source: ABdhPJzDzyQ7qTti+zHMYNt5vw3nCHOdkI1/nZogYf1PCsUV4AYLBR7Y5fcY6gi4n8JeeUho3P5h1Q==
-X-Received: by 2002:a05:6e02:1c27:: with SMTP id
- m7mr26446900ilh.114.1641410756794; 
- Wed, 05 Jan 2022 11:25:56 -0800 (PST)
-Received: from x1.localdomain ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id s6sm26159317ild.5.2022.01.05.11.25.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 11:25:56 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- linux-block@vger.kernel.org
-Cc: sagi@grimberg.me, hch@lst.de, mgurtovoy@nvidia.com
-In-Reply-To: <20220105170518.3181469-1-kbusch@kernel.org>
-References: <20220105170518.3181469-1-kbusch@kernel.org>
-Subject: Re: [PATCHv3 0/4] queue_rqs error handling
-Message-Id: <164141075584.313116.2242148358924227236.b4-ty@kernel.dk>
-Date: Wed, 05 Jan 2022 12:25:55 -0700
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xd/zzcY0SvCAKYFGCavbLme1V0VcAHZaS1RZsxBRqRw=;
+ b=47j1iY+hlTD93vwSRWy0a05VpE1UcydbCurf3NoO7u8uV/QUCOg5fd2vhP1eAXubc8
+ xHrlqRvamssZ4+e0A53nvHR/VC6P+KjACrx7bksLaktMyl8huyKWEp69SrKJbEgqYvay
+ qQ2+iOzEWT8bnY4QLqqYZOcbsI1sL2/orXMFamoRtEoTeouChLtvXF2iALZqPU+ptiSi
+ SnzKEGLSBG3S0eiNbIlMPy8/3BtpjCYDrbGahmjYNR/JC0gcDbtqdYD7gdxS1pV6M5/F
+ qdWhSMSs9YNytFL1YlLO8f5G5ZNbedvftrUti36ju0zyJxLlTSNuyoXqGKtNReFUgxoC
+ n4+w==
+X-Gm-Message-State: AOAM530S66HVQKJrCnxBPMvcu0b5o79sgWAA+sSRChA3rfgfZy1j+Niy
+ D+PImuqX8hRUDQXD7QFlSWbuuvkRgKI=
+X-Google-Smtp-Source: ABdhPJwIXmBSCfSAq3o3Q1o9PH37mCc6pSo385DKFA0Ufb3l3X6iKCFTvxeR7MQJdCbX9yVgDPDJ0Q==
+X-Received: by 2002:adf:f442:: with SMTP id f2mr372142wrp.59.1641428696922;
+ Wed, 05 Jan 2022 16:24:56 -0800 (PST)
+Received: from [10.100.102.14] (85.65.254.236.dynamic.barak-online.net.
+ [85.65.254.236])
+ by smtp.gmail.com with ESMTPSA id l19sm123226wme.33.2022.01.05.16.24.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 16:24:56 -0800 (PST)
+Subject: Re: nvme-tcp: io queue shutdown ordering
+To: Jonathan Nicklin <jnicklin@blockbridge.com>, linux-nvme@lists.infradead.org
+References: <CAHex0crxy=3c-OouRWLXhvBMZjhgDsg-7wcyGrPE0R8ymPTEYg@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <3fb8de5a-6277-29ca-56bf-a78cd1394406@grimberg.me>
+Date: Thu, 6 Jan 2022 02:24:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHex0crxy=3c-OouRWLXhvBMZjhgDsg-7wcyGrPE0R8ymPTEYg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220105_112559_065037_43859A9D 
-X-CRM114-Status: GOOD (  10.99  )
+X-CRM114-CacheID: sfid-20220105_162459_347504_C04B95AD 
+X-CRM114-Status: GOOD (  19.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,33 +79,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 5 Jan 2022 09:05:14 -0800, Keith Busch wrote:
-> The only real change since v2 is a prep patch that relocates the rq list
-> macros to blk-mq.h since that's where 'struct request' is defined.
+
+> When disconnecting an nvme-tcp device using nvme cli (i.e., nvme
+> disconnect), nvme_tcp_teardown_ctrl() destroys I/O queues before
+> issuing the shutdown notification on the admin queue.
+
+Yes, same for rdma, and also pci.
+
+> According to the fabrics spec version 1.1a section 1.5.2, an
+> association is terminated if an NVMe Transport connection is lost
+> between the host and controller for any I/O Queue when the host or
+> controller does not support individual I/O Queue deletion.
+
+The connection lost implies that the controller (or host) is not
+reachable I think. disconnecting a controller is an explicit
+operation triggered, and an orderly shutdown done (or at least
+attempted). But none the less, the association is being terminated.
+
+The message in the paragraph that you are referring to was designed
+to articulate that there is no mode where the controller will continue
+to function and accept I/O with a subset of the queues available which 
+requires logic for I/O failover within queues of a controller ala iscsi
+erl=2. Instead the spec says something like "if a connectivity issue was
+detected on any of the queues, just terminate the entire association".
+
+An orderly teardown/disconnection does not qualify as a connection loss.
+
+> The initiator in mainline does not advertise support for I/O queue
+> deletion in the fabrics connect attributes (i.e., bit 3). Therefore,
+> termination of the association in response to connection loss of an
+> I/O queue should terminate the admin queue connection. This could
+> result in an inability to process the shutdown notification, causing a
+> disconnect request to hang until a timeout occurs.
 > 
-> Patch 3 removes the 'next' parameter since it is trivially obtainable
-> via 'rq->rq_next' anyway.
-> 
-> Otherwise, the series is the same as v2 and tested with lots of random
-> error injection in the prep path. The same errors would have lost
-> requests in the current driver, but is successful with this series.
-> 
-> [...]
+> Is this possibly a bug or my misunderstanding of the spec?
 
-Applied, thanks!
-
-[1/4] block: move rq_list macros to blk-mq.h
-      commit: edce22e19bfa86efa2522d041d6367f2f099e8ed
-[2/4] block: introduce rq_list_for_each_safe macro
-      commit: 3764fd05e1f89530e2ee5cbff0b638f2b1141b90
-[3/4] block: introduce rq_list_move
-      commit: d2528be7a8b09af9796a270debd14101a72bb552
-[4/4] nvme-pci: fix queue_rqs list splitting
-      commit: 6bfec7992ec79b63fb07330ae97f3fb43120aa37
-
-Best regards,
--- 
-Jens Axboe
-
-
+The spec does not say anything about making sure that no I/O is sent
+when the association is terminated, it actually says that its up to
+the host implementation (see the shutdown section 4.6, which is probably
+more relevant to the orderly shutdown you are describing).
 
