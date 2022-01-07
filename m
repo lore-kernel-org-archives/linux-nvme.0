@@ -4,75 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36202C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jan 2022 02:23:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA6DCC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jan 2022 02:23:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dFifp4IhOFibmidbxdWOtwDyLOsL6LxbTa27pTNK8Nk=; b=Te70wANnFey6Lh2q1BjEMAnk5c
-	I38q25m00B6EpJmaWeC0vax2fh8UJF0ZVFh5FlD+x5phgVR+gOzeMbMPBZwMrrN6Q35WoR6X0P+r0
-	hbXAqJncWwe/toTqNWEdjLMUMurXzGFk/aC6zwgbwTBaEV7FxntOBv5JaxtS+uxu0108lDTC72dbF
-	krWIUPX3LnG8nyQaJ8Ck7M815JuCU76RyCovCIRFkol/8Lvb7nAxMTm3aceyOW0VbTb/D3s9Bl/LF
-	jLjIaniNcm0steS8LmkPZvk4NL31S/Jt6UTR/C4fTqbmBC7lBCSbxRxvM43zWKnB0cW4hifnhVsIV
-	Emka6A5Q==;
+	bh=4WQ/8JHSUHdcC60H26iiWsvlZ6gMDmzCg30bgw7CA0o=; b=yukRKRMfFyZ9FZy/eJWhXwrKEC
+	J3ypjlxYdk9RWfEyPIc/RxZNj76xKqQGbcY1cj4Rx9LqlgSEBfvmZ3UPpSEK1W9OnFbXAugeLFb3l
+	PdfBBEKRaxWfpvjGzRMaaZG+cm3QlJPAbnOkQH0eFFsrLZKyn7e/svs2InBVguSojnLI1OBPr5NvG
+	3FNtwThzOU+Tzb1W1GJ2UKoNEp1jbD/bFDMrAJcEijYdMNwdWZC8TFRCJol/WTzu91BZm5/iNaOh9
+	P/QdflT5ls5N8CzzdR33b6I2gKD+sLZpvdz0dtYmALigLMicfAPvN10qmRFstDM35Sq+IX35vIgtG
+	mhS8U3IA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n5euX-001vZK-J4; Fri, 07 Jan 2022 02:23:21 +0000
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
+	id 1n5euu-001vg3-3a; Fri, 07 Jan 2022 02:23:44 +0000
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n5euR-001vY3-5b
- for linux-nvme@lists.infradead.org; Fri, 07 Jan 2022 02:23:16 +0000
-Received: by mail-qv1-xf2f.google.com with SMTP id hu2so4182655qvb.8
- for <linux-nvme@lists.infradead.org>; Thu, 06 Jan 2022 18:23:13 -0800 (PST)
+ id 1n5euq-001veE-Un
+ for linux-nvme@lists.infradead.org; Fri, 07 Jan 2022 02:23:42 +0000
+Received: by mail-pg1-x530.google.com with SMTP id f5so4177167pgk.12
+ for <linux-nvme@lists.infradead.org>; Thu, 06 Jan 2022 18:23:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dFifp4IhOFibmidbxdWOtwDyLOsL6LxbTa27pTNK8Nk=;
- b=pPyr/dIuKq4QiCp1BtRqwAxXMqf7zUjwgKGFiN7eXE/emsKEpDtIPdUXicWnetHw1n
- bo700UQrZGPRbWMxhGJw2HezQiy2om+ZkPe5TEM2tsY9bIIzvxiMaUqKCkv1Td2YdZfw
- hEVOl+XLVnGybqZjvpWk3mdDx/JxLfl/Xnx9ytXO87F1sJ3ZCPKDThROcBX9qvGiqv+x
- 6P1H4jckjJXIuwO+UiQtvMjDyTnmwwWphMvgAk8+lsiXRXwDDmrT7ZJ5xoRz2s9oQCJi
- 2XwUrlMfsdp/ge6pD50UdBK22Edh3MLBZBo0rBGACVl4Mq4j634+5erffDYO+moW/ijT
- s6uQ==
+ bh=4WQ/8JHSUHdcC60H26iiWsvlZ6gMDmzCg30bgw7CA0o=;
+ b=FL4sc2NxYvM7CVA0ejjbQITIST/Lwlef9buy0Gi1qxucnL+bBNxx9HtfQ5A7zUyeIS
+ 4SdEFiy9roL/i3Nu+kpbXkViLRtnlkVsk0TfkNNlMW1Wxiqan/VWs4LdKg5KknAbC/5P
+ cglaoA3R+Vkl/XM3HR0O6vwHTyDJXCSZDhtBtwX+R5OQjJeQfq1oHgZdCpXX3tmclTIv
+ Q/dK6fuWF6NWY34EAo3GJ1AacIXX7IfIi7xie7kTycTkDYA1BCppojRR+wobKtxAfjOh
+ OEEIXaNjCGP4QsyfEgoXTdrYc2UjbO3PXgowPe7zHwk4PqLZWB9NMEOeVQ7pSXCAHCEg
+ oZSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dFifp4IhOFibmidbxdWOtwDyLOsL6LxbTa27pTNK8Nk=;
- b=ieYdUE+E4WASlk2svAIFD5xghOLkJNn8x/YonCed/MxkdatzuOpu4jdQdFBTkk2/yF
- lrwQERI9VHys1zZFmRUzfn5MJK9kL3cM/uXnItTZjeTAcslHx8h/0HBZQIywLEaKIcf2
- UhTu+09IDsor7zUbkN9N2eubyOtrdlibqh1ZaSaYOEtCinrHH0UxReR7ndpHI1qx4oY9
- SU/dKXJr2e7MVU+VyOX0F6KuXQcYGIukMwXy3wLXK690B1Q/kwgqSq7YQ+J2nrD5GP+T
- XP7IY2befD1Wl61vSP392WhsSUwax++PRrDG79x9PFFWgxAljWeFrpIoZBlRIr2colYb
- gQxg==
-X-Gm-Message-State: AOAM5330SZ78DcVmydOJtGmXIUfdSM3tVJohlDiKRo5P6fvujMftMGpM
- qLo4/2sCTpnYaS6eGERtRdY=
-X-Google-Smtp-Source: ABdhPJx05b+2PR+Ea1MqSU7lA8zHdT3RQG2PnuCl2Ds80cRnsOvNuPrbeYoAwMY0rtlBMg7w7n4BUw==
-X-Received: by 2002:a05:6214:21ce:: with SMTP id
- d14mr56783406qvh.73.1641522193157; 
- Thu, 06 Jan 2022 18:23:13 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id h3sm2619617qko.78.2022.01.06.18.23.10
+ bh=4WQ/8JHSUHdcC60H26iiWsvlZ6gMDmzCg30bgw7CA0o=;
+ b=kroLb554A0jXfxqxrdOOJHo/e43rYxHQVODQbZdPI3Io1pBeAqbg67p9R8KsFFa5gY
+ ikTB4ljAdP8NLt70h8UN+hRh3hnoo3jEg5y0Ble/LAMdyGli7dO7U2GfBsN4NpsfGCzv
+ /4Qsjtcgae+amDoijUXCdTT5aMhf5s6BwgRSQl7HgVjSXLdMqmviw9veWWm5mai91WnX
+ UPM1GRAy0EkV4LaMTuxoyLt8G8VplXgEjut6RafVOn9wJO5eTpEilTBPuMacp2vTqRSr
+ 5TNkrwUQPCsRvmdcL0+Gm36yAQcoWtaw2uMWUCDMweOnMtHgyHNRGl/bx55F/RuB2kor
+ xSUg==
+X-Gm-Message-State: AOAM533ayijLi3mKfx60/0M2EVATI56Nm2EuJjsIBoGCxVb3nV5QPxCG
+ ByoRKnIcJMYtZznwGEDz0wMDNXaObp9OMA==
+X-Google-Smtp-Source: ABdhPJw6bDSKRP5ew33JRHzIyIA8jawuyjfDgVbtuw55FeuP83NGxhrNbRGDiATaOoID+LN51S0NDQ==
+X-Received: by 2002:a63:8c1c:: with SMTP id m28mr50519636pgd.594.1641522218829; 
+ Thu, 06 Jan 2022 18:23:38 -0800 (PST)
+Received: from localhost.localdomain ([94.177.118.38])
+ by smtp.googlemail.com with ESMTPSA id h4sm6439769pjk.2.2022.01.06.18.23.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 18:23:12 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: deng.changcheng@zte.com.cn
-To: kbusch@kernel.org
-Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] nvme-fabrics: remove unneeded variable
-Date: Fri,  7 Jan 2022 02:23:06 +0000
-Message-Id: <20220107022306.622222-1-deng.changcheng@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Thu, 06 Jan 2022 18:23:38 -0800 (PST)
+From: Qinghua Jin <qhjin.dev@gmail.com>
+To: 
+Cc: qhjin_dev@163.com, Qinghua Jin <qhjin.dev@gmail.com>,
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-fc: fix typo
+Date: Fri,  7 Jan 2022 10:22:58 +0800
+Message-Id: <20220107022258.396058-1-qhjin.dev@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220106_182315_249371_80EE0181 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20220106_182341_049766_0051BA44 
+X-CRM114-Status: GOOD (  10.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,38 +85,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Changcheng Deng <deng.changcheng@zte.com.cn>
+subsytem -> subsystem
 
-Remove unneeded variable used to store return value.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+Signed-off-by: Qinghua Jin <qhjin.dev@gmail.com>
 ---
- drivers/nvme/host/fabrics.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/nvme-fc-driver.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 7ae041e2b3fb..f79a66d4e22c 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -1092,7 +1092,6 @@ static void __nvmf_concat_opt_tokens(struct seq_file *seq_file)
- static int nvmf_dev_show(struct seq_file *seq_file, void *private)
- {
- 	struct nvme_ctrl *ctrl;
--	int ret = 0;
- 
- 	mutex_lock(&nvmf_dev_mutex);
- 	ctrl = seq_file->private;
-@@ -1106,7 +1105,7 @@ static int nvmf_dev_show(struct seq_file *seq_file, void *private)
- 
- out_unlock:
- 	mutex_unlock(&nvmf_dev_mutex);
--	return ret;
-+	return 0;
- }
- 
- static int nvmf_dev_open(struct inode *inode, struct file *file)
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index cb909edb76c4..5358a5facdee 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -721,7 +721,7 @@ enum {
+  *
+  * Fields with static values for the port. Initialized by the
+  * port_info struct supplied to the registration call.
+- * @port_num:  NVME-FC transport subsytem port number
++ * @port_num:  NVME-FC transport subsystem port number
+  * @node_name: FC WWNN for the port
+  * @port_name: FC WWPN for the port
+  * @private:   pointer to memory allocated alongside the local port
 -- 
-2.25.1
+2.30.2
 
 
