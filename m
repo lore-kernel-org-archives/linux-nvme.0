@@ -4,71 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38C62C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jan 2022 08:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A90DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jan 2022 11:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WwJVaRzRUx6SGgX8lu+qCB0YWwBAJIWWY6asI7yKKVs=; b=Gt21Wh+IXPlPE9yi3G2xrxmd9s
-	buxVbjTINqxkxOhnAnSkpgPiTHbRtjEJwSbA1HknSL7fiOmP+AULD3Y+M4S8bhrO4jInol4Xi1b46
-	r/LMtKvRnhI86zqynHloOtxJyhswmWlCtLOH3+aB3ap09rAH2Fb59QVOlaJfr/Ad0BwUsj2egkCIa
-	7wYaeBU9vOq0ueia7BhWS+9w/u4i9ZmNOwkXzXl4gNrkEggrLqZWQ2eMp9m0VB3pxeIQ6sXSodm3u
-	CWnTH0Fw9AGuI538AQv5I3e3aX1DcGcbiKDXjq/cptMN3xDkaqS+cOEjgFa9ZnqdlYUtEgA8VcgPZ
-	RWgGOXtg==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZknF5RuzrNIfY2NEiU+L+AiU/Sxt2xaumobJgpTribY=; b=dAUQp6rk8VuLRuYDfys40d5mo4
+	7Z84hpfxn1BSH/sq+roJj7ihCo5EfbdbqxoWVUsMQu+QpOnP/PHatg+CaF9tgnvNgJfva8UroSe7i
+	1ZJZEs8czgtWb/mfwOYlQBH5IKDwdEFQAtSThpyusAhYRtNLmLUL5Wlp6RKEzQoTQbBy5uAfY4rd8
+	mQrbXhhPafU+t/ksXticlYWaM+/gTWUGQ5ih8JS4+QO4hk43e2Eoi8J7d8XeuR4FX67F73TEaFAGR
+	Oye9CouBNYvucrem/kfhzynsujRocLCAWlreYgAX9gusoF4+VUYMHK0JROntVd8IYrVqQVCL9pTjw
+	qP0cGz+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n7Z9d-001a7g-5D; Wed, 12 Jan 2022 08:38:49 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1n7c0E-002KDv-Bj; Wed, 12 Jan 2022 11:41:18 +0000
+Received: from mail-mw2nam10on20601.outbound.protection.outlook.com
+ ([2a01:111:f400:7e89::601]
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n7Z9a-001a6J-4t
- for linux-nvme@lists.infradead.org; Wed, 12 Jan 2022 08:38:47 +0000
-Received: by mail-wr1-f42.google.com with SMTP id l25so2721715wrb.13
- for <linux-nvme@lists.infradead.org>; Wed, 12 Jan 2022 00:38:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WwJVaRzRUx6SGgX8lu+qCB0YWwBAJIWWY6asI7yKKVs=;
- b=hETorpGJUTAQOKeezyv5UMfAsLRFRPsnhuciqMD4ffMFQKqS8bEkeXsYtxqN2O787f
- pmfW+nseLikWn1b4DDWN+GcfpdAqj0TAxjGcDrE0IL/4ji+ZD1C14v9ipiGIr9OCyoDT
- 15QV1EZ45nZ4pxc5zMtxuAV57/9eTQ6TOM4SJoe40yfGgDwc2NQ4MOTB6sHtrGGSUKo7
- pkqnmIhz9vmqoI0IiQREUdIgXhJ1R/xxgdqUu9HVjpPNx9eEfLLrFj6ved2fyB2rWAmt
- dFCvja6+dPaRm7SuG00mGr3tUZUsaddPk0BgwGmip9EES5rZ6W8pel1MrxAafBMexE05
- QfJg==
-X-Gm-Message-State: AOAM531uT6moyF/fIR2KvzjcIGFi+9HwjXmkUutcOuI4g5UliOzqUfR7
- terVDauQe3ORQe8Pq1kk3iQ=
-X-Google-Smtp-Source: ABdhPJzjW88riDW5DvYGR9CcW3afhgqtMYHD2kCRbRPbENxLz7A8MxmmABHg2Bh2xOzgpvEpsv10sg==
-X-Received: by 2002:a05:6000:188f:: with SMTP id
- a15mr7123464wri.153.1641976723596; 
- Wed, 12 Jan 2022 00:38:43 -0800 (PST)
-Received: from [192.168.64.123] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id k33sm3680879wms.21.2022.01.12.00.38.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 00:38:43 -0800 (PST)
-Subject: Re: [PATCH blktests 0/3] tetss/nvme: fix nvme disc changes
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Cc: osandov@fb.com, Chaitanya Kulkarni <kch@nvidia.com>
-References: <20220112060614.73015-1-chaitanyak@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <dabc21d2-6431-67e0-8ce5-62c74c76bc99@grimberg.me>
-Date: Wed, 12 Jan 2022 10:38:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1n7c0B-002KDE-CW
+ for linux-nvme@lists.infradead.org; Wed, 12 Jan 2022 11:41:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S9s3qYdY/HyEdgrYTierBhgse+MqcPthFl/9/WuAjeEUFNUysfdQFF2QKcIbug0ACMlBLQuxd9Eh58mPOQwGiH/uYXPxAllfphZeBnd9J4vyShElikFn1slIwgNWejmZSDBBUpKnOBjS/2ipP8i9buKzAUc6fU4mkqqg8LsRN2ABzqZdImkpTqh0o/J/v0oYexq8GPs6bsse2+R/uWTE5hs7r7GfWRK7arTnivCBsVjusxKgKUvaQ6pV1Ut9lhH8fRaBzIr91i1AisNAGAMhpVHSgaTpC7vzU+yKUGhWrwOdcx0eUo/lPdzxrvvAb50DvRn5loZ0phBgsO7a7R0tng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZknF5RuzrNIfY2NEiU+L+AiU/Sxt2xaumobJgpTribY=;
+ b=QMf0H4nmypqcFaDn+ZdnNp0Wcb386lVHcBolqg/0Fqksxsh5TQbe1mCZv6VaKgntE316pkU76RB39MesDtClE9uRgjWIC/DbeQdlTKgxtRp+xzouvMhavRtssgtOExBD/qQThlHq0/nIN4kdkxoJrvm83S6fXw8/yXFKDM32Rp6cI2kSde8DjvekH4QiLaVEWDCTw+EufNcdFxnULNDswL2/iRAA0QarjIM2FWtf30m9XmfAWVpQw2XkRgWk6m5PutEMCiuFyqpesFHRnOziGQ8yGBvx7hX0ZLJLj+ZFTEqDR9tlkrvKyR2JTiq+TCelHL3h3PVTl7imAf75epPAqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZknF5RuzrNIfY2NEiU+L+AiU/Sxt2xaumobJgpTribY=;
+ b=NrdJUiMOwRlPemRgYYf2AydEII+khEJlwsW/eGkpGYEM8+kQl0aCxCOXtK3Jx8r03v601Mm7rYNHyYPZHrsh+/PjfZB64nqko07cXwXTNgAM+/IixehCXQZhmlavK9p/r+vgVvcNrQEfCykpiGkFn/Dh9czUJoB0EQSvOE/1tezz3NBfYR0RI82Ubw+TijDc+tuk4dOX5fg8gtYAyDGgtoCygmXBFLYR54eBg+WfSWkbo4lI5qkMpRObp1Exvo4aj5hKelL2ZdzErDuVRKftsKLWEbvWmkYy4u2LFiUFknMx5tcg2lCIsYzYLn1B6lRyq6F0G14VKTiuiYVoRtV1BA==
+Received: from DM3PR14CA0130.namprd14.prod.outlook.com (2603:10b6:0:53::14) by
+ BY5PR12MB4308.namprd12.prod.outlook.com (2603:10b6:a03:20a::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4888.9; Wed, 12 Jan 2022 11:41:12 +0000
+Received: from DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:0:53:cafe::9f) by DM3PR14CA0130.outlook.office365.com
+ (2603:10b6:0:53::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.10 via Frontend
+ Transport; Wed, 12 Jan 2022 11:41:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ DM6NAM11FT057.mail.protection.outlook.com (10.13.172.252) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4888.9 via Frontend Transport; Wed, 12 Jan 2022 11:41:11 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Wed, 12 Jan 2022 11:41:10 +0000
+Received: from [172.27.12.140] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Wed, 12 Jan 2022
+ 03:41:09 -0800
+Message-ID: <ee28429b-27a3-6921-a2c3-face671d1f63@nvidia.com>
+Date: Wed, 12 Jan 2022 13:41:06 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220112060614.73015-1-chaitanyak@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 3/5] nvme-fabrics: use unsigned int type
 Content-Language: en-US
+To: <linux-nvme@lists.infradead.org>
+References: <20220112062101.90102-1-chaitanyak@nvidia.com>
+ <20220112062101.90102-4-chaitanyak@nvidia.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <20220112062101.90102-4-chaitanyak@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5e4b3b9a-5601-4259-8116-08d9d5c06eac
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4308:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB4308BE94B92E7CDD4C22D0BFDE529@BY5PR12MB4308.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4YIyHarAMcIvV4bkW9iG1TwECAXRxRVVh4yLGv017Yta8AnJ2LGdGRYU8WbVTiTnsl9Kx/91PIKUPsRiVDt2DKm1gs/oqL2JJCI7hoCgmOyPIeO/vGNw1XlFglN7nZj2JEhLWZx5C2SN2YiowcElnlbvsQIsotP42YuTJe9HNDxdLtOmcPxX1ezdPKYvv6VwMaS9e98R/+VRF1eRSQ3jKB4g5AglHIoDRQpYGKDE7LW7hYHbTnM7fh9B3jjzQHdFE4c3bZqjvkZFTfbBBOlGjMJFdZyeBBepiYp4n7FLNL/4bWvhE86mxahqbVzrxbzD5IrLRWXwRCcSFasDQyilq0of2XcKjAnJzGNmCua1E1CMI3egZz6H7JOERnkCeLFHMBRlrJQnEb2AgRua3ZxooNpge6cW0CnRObO5J+itSzyoVPIFexy8p3Ip1c1edtZY+MVWwXgv6V7zZkqtIJRUurqH+5dsN/ry3h19TPKuZmtFuqMlXhixKpyFS9AjB+8InRUCu/T4BAR3z6eR3fIVViU1J5KiR/26EiMO49BuHy733xBh+vAhBTNHJY69H9w8m9AHYAfMNSUJNofzjg4c99ZGtuFDLGrzAKes/TWeDlcRUJ6dGIEbcok94qyx3HAmMzcAXgmo3d3EWeIU1tbnMHJLLcPpgD1THlDQQ475mlFUJsbWBlU7MPpLWfnCiDi14sA1C7spBUrtrIlGZ74uLYsxZLqHxtZTqGRRGULJhNJQ5AEZ1XPccHXnMzmepBjtD76UOiRSY0C1oXXw7EnNOcY/cEd9G2qw4add4mcOQ6DNnNX0xDh1csGxOI4bGXGzpkkkEvvppyzliLAyZCj4oQ==
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(4636009)(36840700001)(40470700002)(46966006)(47076005)(70586007)(86362001)(70206006)(40460700001)(186003)(26005)(82310400004)(81166007)(53546011)(316002)(31686004)(36860700001)(6916009)(36756003)(336012)(8936002)(8676002)(426003)(2906002)(31696002)(83380400001)(16526019)(2616005)(356005)(508600001)(16576012)(5660300002)(6666004)(43740500002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 11:41:11.5465 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e4b3b9a-5601-4259-8116-08d9d5c06eac
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4308
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220112_003846_223634_34039EB7 
-X-CRM114-Status: UNSURE (   9.36  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220112_034115_484806_7F45653E 
+X-CRM114-Status: GOOD (  15.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,9 +128,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-What is preventing this to break again?
 
-Can we modify the tests to not rely on a consistent
-output here. Perhaps just search/match the expected nvm subsystems
-in the log page?
+On 1/12/2022 8:20 AM, Chaitanya Kulkarni wrote:
+> From: Chaitanya Kulkarni <kch@nvidia.com>
+>
+> Loop variable i will never have a negative value, so use
+> unsigned int type instaed of int.
+>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>   drivers/nvme/host/fabrics.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index d38a630ce3dc..90b3474ea276 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -872,7 +872,7 @@ static int nvmf_check_required_opts(struct nvmf_ctrl_options *opts,
+>   		unsigned int required_opts)
+>   {
+>   	if ((opts->mask & required_opts) != required_opts) {
+> -		int i;
+> +		unsigned int i;
+>   
+>   		for (i = 0; i < ARRAY_SIZE(opt_tokens); i++) {
+>   			if ((opt_tokens[i].token & required_opts) &&
+
+I'm not against this but this means that we should replace the entire 
+kernel that uses int inside a for loop.
+
+If we decide to go with this approach - patch 3/5 and 4/5 should be 
+squashed.
+
+
 
