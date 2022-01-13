@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3360FC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jan 2022 16:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80895C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jan 2022 16:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EIizC0oADjccfZDZYGHNvmamuQK2rgFmQbwFJPTJhRE=; b=HszLXmx4FjTvymc9X6Cme9gNYz
-	ber5LaK5GCxhB6U9YXvMFZMpl15s6aDNFUB8EiRuajvtLWZjiNhMgloSVeAj09LcTiX7TWkt9AZ4U
-	GjvlJqVwqzPYdM4LLRmB0ycL0LyEI0uEKIx6M3fBA/4Xwk+CUZIL7gfUr38hh5wH8OfvU3g2VPmHv
-	CqKfehtrpGY0b6KD1hK/ywrJJ0HYLkksFgRxsOUwhlnS/kD2OTQhLFZiR8i1HQocioOoYCBnA9lfr
-	Zn4NjBm+nvGY5lD+xUNKY66sRvq28ce6ZIYhketlefIk2kL2rB2RBs1nVg0v+ZmL/Ry+9vmpzRZhG
-	X4AUSn5Q==;
+	bh=hgoFditSQKgNnt981HkB3zsyAWEq05Mo66KpI0MGXLA=; b=0gsp++DJ9ky+owVGK6DfHhH3s/
+	aDdogTnRWe1kw5rF8EhOz9fOlroTnXq4YBmIyDaPJqOfVHA3srVtxTAI1RiAJS1Iaoxzenp431Lld
+	Lbquxa6JUfI6G83yO3F338X2JN09SMmHB6PqF258Q9/Uqm5ARRtTVBJk8i3N/zkUm22e6B/cLi6J8
+	CesZ0kTDuQLQs7tb347VWNyiV1eEkIpecZm6Xc3A98Awf3udSc9TJlZGWoJ7z0dPGPYuk0tbpMBfi
+	grFzA5QWXs/IckMSBFgDqJnp60O44JgAtHcwEpSBTURSdWG8L4PFZTRiQ0T7GVP1uSMN9b14sAcQY
+	azaP2eUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n82lx-006Xdn-SK; Thu, 13 Jan 2022 16:16:21 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1n82qK-006Yzp-EX; Thu, 13 Jan 2022 16:20:52 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n82lu-006XcN-7x
- for linux-nvme@lists.infradead.org; Thu, 13 Jan 2022 16:16:19 +0000
+ id 1n82qH-006YyN-Pi
+ for linux-nvme@lists.infradead.org; Thu, 13 Jan 2022 16:20:51 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ABAA561ADD;
- Thu, 13 Jan 2022 16:16:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA7AC36AEB;
- Thu, 13 Jan 2022 16:16:16 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6C39CB82306;
+ Thu, 13 Jan 2022 16:20:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58F0C36AEB;
+ Thu, 13 Jan 2022 16:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642090577;
- bh=f4RAl0sDMj6T36Dk3Gy0xhmQBdxNZ1uToc88x00Z5+g=;
+ s=k20201202; t=1642090847;
+ bh=tiAhnscHwbLWOtnBm+DXRH/redKBi6T3uOmLyMNRuwE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ONu9CB8s0kXwJwe45EwgTHR3YSFddZdWo5tKceKVjcGJSOJDZ0E0pwNbynccOH7To
- 8OLvm89hMdhpYN8eeB2YT8X3CINVQUxhzy9uZFleNsCTS5t/50uwryf0btfhU2kGH5
- 6A4y6ojp9650LcFyp9lT+Evj7Tfetl0JJpX81oUP2K6VJDMog6D7X91agxKs/OdtGe
- MuDUYXuKX3yz87oHHxtAYn8Pd+SuR9QihK3v3cHMkOL17MpetFsb5OSo/fH1A2YGLV
- n0laYu9xY2+YfiJzmPdE8Bq58oHLrgDka+efCXEbz6kZOvE6S8MsCREwqTN4ftw5XX
- dcPn0II+BnWHg==
-Date: Thu, 13 Jan 2022 08:16:14 -0800
+ b=Zx5Es3408C+xW9g2SsJ7GSgHMTk2faVtXfvdNnJL0ncUkCnDUH2qj4B564tHUw0dc
+ TtpN01jfqDLQFaWd1HR12dzheD3jRDbKm5NNKOae5tzhwZIKW27KeIwelyUV9N7JP5
+ iS8uZ5i3u6Ij/qRlr+6cjBiTdSujRG2FVG9A3cC7MM7JXcHxjkM5KfYIvfZgv284cI
+ /go17EmgPvP2hvh8oxsuF+bt6r7UhaS+0sfuONFudwM5nzLMh4Akr7XW/9odALPafR
+ dPFKmVrzGg/GQGEfJRVwaUQP0Q7PEJqzPZ1HBRibxacEo45O1hwwlkbBgdJ3Fr9Zis
+ t3A3tq7ysV7CA==
+Date: Thu, 13 Jan 2022 08:20:44 -0800
 From: Keith Busch <kbusch@kernel.org>
 To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
  Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH 2/5] nvme-fabrics: remove unnecessary braces for case
-Message-ID: <20220113161614.GC3230285@dhcp-10-100-145-180.wdc.com>
+Subject: Re: [PATCH 3/5] nvme-fabrics: use unsigned int type
+Message-ID: <20220113162044.GD3230285@dhcp-10-100-145-180.wdc.com>
 References: <20220112062101.90102-1-chaitanyak@nvidia.com>
- <20220112062101.90102-3-chaitanyak@nvidia.com>
+ <20220112062101.90102-4-chaitanyak@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220112062101.90102-3-chaitanyak@nvidia.com>
+In-Reply-To: <20220112062101.90102-4-chaitanyak@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220113_081618_355200_2EA665A1 
-X-CRM114-Status: UNSURE (   9.16  )
+X-CRM114-CacheID: sfid-20220113_082050_013243_1F24E5BF 
+X-CRM114-Status: UNSURE (   9.01  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,15 +73,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 11, 2022 at 10:20:58PM -0800, Chaitanya Kulkarni wrote:
+On Tue, Jan 11, 2022 at 10:20:59PM -0800, Chaitanya Kulkarni wrote:
 > From: Chaitanya Kulkarni <kch@nvidia.com>
 > 
-> Braces are not required for enum value NVME_SC_CONNECT_INVALID_PARAM
-> when used on the switch-case statement, remove the braces.
+> Loop variable i will never have a negative value, so use
+> unsigned int type instaed of int.
 > 
 > Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 
-Looks good.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Just IMO, I do not particularly care for this kind of change. The driver
+and kernel use 'int i' for loop control in so many places. Granted,
+'unsigned i' is also used too...
 
