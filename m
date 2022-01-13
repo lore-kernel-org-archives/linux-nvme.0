@@ -4,73 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60C35C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jan 2022 22:06:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8B92C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jan 2022 06:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DoxA/HZ6Hqtl2AG7gqghNwbzIr4xoTtN3O39GeX/hkU=; b=dY8tVh8tfUsxTKi/2O+ephTrJn
-	9lrEmNCvOE4i3dsmdNZGlO3zEtroEN36/gByb4cDNj+XZnIkU6Rk7FyLqFBKNyDtvuTHevrWCpavD
-	u/oPois0EiVLk74Vljo9L5SkpjNHQZk2hGJhHKALU8Wf/yjiaifMAvDamFj1Bi9TjYEU2zIe17GLT
-	fMckmxMUDrX/b3iI9lTiQwaHJ5e9Oola3Qhl1y0JJw+VPOPxyqH4sbZtYgaIY1i9kMxHlFa/3DcNk
-	rbz2tEcUI+GI7rl0aLHmn1qsM84ge3CwxBl3NaFs5qI1L4ZxIFc9BdjC31G7qjuxq3XT0/Kc20Hg/
-	MCJyCdhA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z/d7ON8aStCCPS5HD+SrrIVpBpxi2CdKa+GaDG4iK0o=; b=V+ejPc3bc4mpXRNLlbYlOxa/Ss
+	OqZEGQbEertC953gB1ki7O2hDvlC31hTxwvvUHxcz2m4SK/dgLS9WyWy4nMaoSROZ/rALGOKZyV3Q
+	vHoALMCWkxWl/tXojtxMA6xPIAxrCZ34kiYKcKbDej9R2eTLauml2zpCPXYvw13Kjyj5KTC57bTrj
+	MNX8UPDOc3eLL89KH/9MvhUDpWcr3Eh3y47Psy1JhjXTuUopxu37KEYbyBzTW5AKg29R92hof2gqJ
+	gofO/g8eLhV8Yuk+3D88Kl1WZ3L7OVRQl6HL55v9UPmQFPjmv8TMKxAhSL1o8+hjoKHG/zrjzzd3/
+	/KZtFvAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n7llB-003uFs-4H; Wed, 12 Jan 2022 22:06:25 +0000
-Received: from mail-ed1-f47.google.com ([209.85.208.47])
+	id 1n7tld-004pig-Uq; Thu, 13 Jan 2022 06:39:25 +0000
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n7ll4-003uFD-QW
- for linux-nvme@lists.infradead.org; Wed, 12 Jan 2022 22:06:20 +0000
-Received: by mail-ed1-f47.google.com with SMTP id q25so15581787edb.2
- for <linux-nvme@lists.infradead.org>; Wed, 12 Jan 2022 14:06:18 -0800 (PST)
+ id 1n7tlb-004phw-Oz
+ for linux-nvme@lists.infradead.org; Thu, 13 Jan 2022 06:39:25 +0000
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id CECE13F1A4
+ for <linux-nvme@lists.infradead.org>; Thu, 13 Jan 2022 06:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1642055954;
+ bh=Z/d7ON8aStCCPS5HD+SrrIVpBpxi2CdKa+GaDG4iK0o=;
+ h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+ To:Cc:Content-Type;
+ b=Unf3GggJb9/z+ZWX4zMCO3vyZ88JE0j7Tj1rgYF7XhjtSx/SgoAYre4OGmrUHr4JF
+ 09L7VgSs1lxZV3sFTrL46b2PlqAxzn8pYUOuYr851gZKFB7Y1LtoF1b8LogpTOLZtH
+ EZoV+ROAb+mogLwMnTnNyd9jnqhcc9KN24XXIQuegrJLT4he5xbsrUb4vYvbTeHbcL
+ iJvWa6osQwYBKYR8bW97+D1YNoj6WNXNeYWaIqhnEAqs7+x1LBDNchZv7olsx02rnr
+ yULzQZeyw19N7DDpdko9/GqgoQ98pQEDeIukiTQi7tqhz8mzlkvRQxBphZkOoebToS
+ gsZRB19xujorw==
+Received: by mail-oo1-f70.google.com with SMTP id
+ v30-20020a4a9761000000b002daad3afaf6so3407112ooi.18
+ for <linux-nvme@lists.infradead.org>; Wed, 12 Jan 2022 22:39:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DoxA/HZ6Hqtl2AG7gqghNwbzIr4xoTtN3O39GeX/hkU=;
- b=4FCLa4cNoTFQj+bA4daA3cDBCChJY+EjgR0BZS0sNLYEwNfR1l7NPWuudZHDIAE83+
- o1l095GTNfHQQbqh/eHO4k5BUJU5WUFD2ulZ5A6Zz1A9U3bXH4hd9kjHB3DGiORBbcr1
- c/R26BiVo8M3B2omwq3bEnPVWKBtZS4XS/G1Ihdb7XIx1g4ltNFnO5RcI480Zxaf2mkt
- 1bUL/bXW05ZJlQOK6ON9xJ1AVjZ90gTiUL/PEsQ+oTodahiTHGJPgUZOz06u3ICJ8GtI
- JJF7GvtUtSxH0HBJqI6Io1F4/EfBVGzup43sWgTt6EKLnenzEuCav6RZtE1YHgwoxZOa
- DiKg==
-X-Gm-Message-State: AOAM533Af6GCVbQ9/7IrumonkLCrb7Gjp2qVxWnvVXHsxV83Lym7cmwZ
- MXFcl+vdeSXduamKM5VdiAI=
-X-Google-Smtp-Source: ABdhPJzNvVHaMEZO4bfIHWaYzPSAgNqefBClGfMoKJKHzAsOwmddGfQBNigAG4UszpMf80ZPWJ6EUQ==
-X-Received: by 2002:a17:906:1145:: with SMTP id
- i5mr1296525eja.317.1642025176807; 
- Wed, 12 Jan 2022 14:06:16 -0800 (PST)
-Received: from [10.100.102.14] (85.65.254.89.dynamic.barak-online.net.
- [85.65.254.89])
- by smtp.gmail.com with ESMTPSA id w3sm384642edd.63.2022.01.12.14.06.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 14:06:16 -0800 (PST)
-Subject: Re: [PATCH blktests 0/3] tetss/nvme: fix nvme disc changes
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "osandov@fb.com" <osandov@fb.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-References: <20220112060614.73015-1-chaitanyak@nvidia.com>
- <dabc21d2-6431-67e0-8ce5-62c74c76bc99@grimberg.me>
- <0dfab539-c85b-68da-0a2e-3765d7d3903e@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <29ec2611-ad72-051d-7725-5d07fda70c04@grimberg.me>
-Date: Thu, 13 Jan 2022 00:06:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z/d7ON8aStCCPS5HD+SrrIVpBpxi2CdKa+GaDG4iK0o=;
+ b=AjuBEq8V9+vMrjh5hfveUD/GoAyplQjCkN+Q2re17mXc3iYkDLHpnTaF6uTvQpnV39
+ /0mCHJaIu9C00diRcaEVMs2jAoM2IFHw0Xan9XMwE8a8qTcCntRrB4S56YNKiBw5FuUR
+ JTJMm1+OrUyRzAZkxdHTjcwf/eRnoo7LT+J/JCxkHJZMU7AjMDdQr8piStMFv4UVEEAs
+ FpkGpRBugXvDQ1HydceAvE3mt3vf8NwFb25DKM6rX+ebMMSX75nsz4BSe4M4wiEU7Yrt
+ IKV+mqVUKdASt4FsrgNtWPj/m9JmY42DKartx9VQV/dEs8w2KfXHv8whmPQsAqajYeRW
+ 5Big==
+X-Gm-Message-State: AOAM5307cD3YgfOM3heRxL/GPnF6vnwIciURPxVYJkLJIFqqzkWdpvu6
+ GinvCnFvTRub2sWcqXRRaqTukbqhSAp+AJwLDzwhel3BngwcKCQGy8/8nTkt4wIk8uSCMbD9Qkc
+ UemHsCvvjwhk+FR4XIjnlGAOV8EmPoiLWBJxap+FHZDYsKjklNawD3SdAdkZM
+X-Received: by 2002:a4a:ba90:: with SMTP id d16mr2034224oop.80.1642055953617; 
+ Wed, 12 Jan 2022 22:39:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzEMpazgYUKs+xSD8KDd1iXrFDQ8M0eRXsEmPqcnb56gtzNC3Fy7zUJntyN9v+/auUMk2mULVsKUj/6+1novVI=
+X-Received: by 2002:a4a:ba90:: with SMTP id d16mr2034216oop.80.1642055953371; 
+ Wed, 12 Jan 2022 22:39:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0dfab539-c85b-68da-0a2e-3765d7d3903e@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20220112013154.1210480-1-kai.heng.feng@canonical.com>
+ <20220112071659.GA4502@lst.de>
+ <CAAd53p4+WjhPM6VKZOZKQ4WcgNWjR7Eh_7Kjs1HZ_wiKov6Ctw@mail.gmail.com>
+ <20220112140304.GA27446@lst.de>
+In-Reply-To: <20220112140304.GA27446@lst.de>
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date: Thu, 13 Jan 2022 14:39:02 +0800
+Message-ID: <CAAd53p5Qo3+-sXMLLPxe3ckY4ySxRvaLZkv=0zgKc=EVun9uYg@mail.gmail.com>
+Subject: Re: [PATCH] nvme: Mark external NVMe devices as removable
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me, 
+ Rajat Jain <rajatja@google.com>, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220112_140618_898131_35D0E0D1 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20220112_223923_992053_61D29682 
+X-CRM114-Status: GOOD (  10.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,29 +97,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Jan 12, 2022 at 10:03 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Wed, Jan 12, 2022 at 08:50:33PM +0800, Kai-Heng Feng wrote:
+> > USB thumb drives also use this flag, so I am not sure why it's not
+> > applicable to NVMe?
+>
+> They shouldn't report this flag and might need fixing.
 
-> Sagi,
-> 
-> On 1/12/22 12:38 AM, Sagi Grimberg wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> What is preventing this to break again?
->>
->> Can we modify the tests to not rely on a consistent
->> output here. Perhaps just search/match the expected nvm subsystems
->> in the log page?
-> 
-> Do we expect to change the output of the log page again ?
+So what should we do? Introduce a different flag but with identical
+usage for external USB and NVMe storages?
 
-Yes, I don't expect that we will lock down the discovery output
-in both the target and nvme-cli.
-
-> It is important to match the disc subsysnqn i.e.
-> "nqn.2014-08.org.nvmexpress.discovery" and gencounter,
-> only matching the nvm subsystems not going to get us good
-> coverage.
-
-I'm just saying that it is not sustainable. Nothing prevents
-anyone from changing the log page again.
+Kai-Heng
 
