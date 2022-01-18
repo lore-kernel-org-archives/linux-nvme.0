@@ -4,56 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59620C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jan 2022 17:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91340C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jan 2022 19:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M34A5q5JiWsbPBGMt2fo+ig3z7zEp/yGGSewzGIqu5o=; b=ZWpGKb1wAQnU2UqEdIteIoB2Nf
-	iytbue0ZVIiNBmw7HwGpTNjFtBAXNbLrYb6CaT7qsBKB5LI6FZg76KURZULayG/kOI2yVuOiKj4ne
-	VEq5IPZ+MPL2JX+2RP8cVd8QxjTpraavlSryM/ReDyJBi/djdm8cPoozZCYlI3MrMjg5zLZEl6+qq
-	wVyz+rHrEHYEqO8InfE0NBynNbB9L4yphF3Mz1Lb5tYoLMMXzXIAVeWxRIZzypvey8aul0T9/M54O
-	tdUVPSRYiYGVjths7e0ZfWdq3O0S/BaaTX+SIyRgzzWW599a/w6cHEldHDX52wfJHiNdcn+JLXkes
-	MtoX3Yew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ti6VlsDE8lzK29QYADNG1FxoDNtLKt9IJl9F+i1UmvE=; b=vqCHFLJcocvLL7JtMkKx9Cr5vC
+	uLpJlVnddz86x/KlJyj2I747BHpXyxN4mtfqUAl6DWDemDb/E8CB5S9Gmh+UBYA/922BBoUPzq7iP
+	gyRvotBV7Og/3NARMjleQSGFoB2pXsir0DXd6vgE3T286XrxzLF+HuJCpb4V7XXx4S9PwUDfwx8q5
+	tutvos64M1/q5QDIqHaO1u+VxNCTHMhqA3ehy/gR7mitzCglNt9dlh7OQ913dVaHUMoPRX7n0AhOM
+	60yCQlinLKqpYoMqyvK4Hu+15CygMSG60hgNYMDXESVL948YtwZ+1d++dPzB64f/KTh9fLHjkb4Ow
+	jyDaq9nQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n9rrA-002Ll2-Cc; Tue, 18 Jan 2022 17:01:16 +0000
-Received: from mx3.molgen.mpg.de ([141.14.17.11] helo=mx1.molgen.mpg.de)
+	id 1n9uFU-002lT4-FM; Tue, 18 Jan 2022 19:34:32 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n9rr6-002Lii-8Q
- for linux-nvme@lists.infradead.org; Tue, 18 Jan 2022 17:01:14 +0000
-Received: from [192.168.0.2] (ip5f5aecd1.dynamic.kabel-deutschland.de
- [95.90.236.209])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 1154261EA1BE6;
- Tue, 18 Jan 2022 18:01:07 +0100 (CET)
-Message-ID: <fd1c1767-0029-58d2-3878-5bc1a85b8e2c@molgen.mpg.de>
-Date: Tue, 18 Jan 2022 18:01:06 +0100
+ id 1n9uFQ-002lSQ-RX
+ for linux-nvme@lists.infradead.org; Tue, 18 Jan 2022 19:34:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642534465;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=ti6VlsDE8lzK29QYADNG1FxoDNtLKt9IJl9F+i1UmvE=;
+ b=Zi0pgRCw24IBORTQhfjFVWpZfQ5IdTpcY73suosMxY7REosmpRs+nWiLl4LZKUkFcxO3H2
+ j/wt2uCc+NbglJJojo+OhEFaPZVik8DbRyJdEJ8oKy1uSf5cz7jKPYLUS4ikSjoKFpIgor
+ lOrQXV18HgZ0uzxRYqYFGrB/9CGlSP8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489-m877JEjcNACiXXgVjtMV6A-1; Tue, 18 Jan 2022 13:36:34 -0500
+X-MC-Unique: m877JEjcNACiXXgVjtMV6A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o193-20020a1ca5ca000000b0034d78423625so1156971wme.3
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Jan 2022 10:36:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=ti6VlsDE8lzK29QYADNG1FxoDNtLKt9IJl9F+i1UmvE=;
+ b=WFMsn24y2NyQvkjC0v6/4gN+JLsDK4GeONQMsotZoU7GrogZlGy2AembKk0ld28+CU
+ K4b6vXR7dPozcaBYec4z3ZlCBmI3kkNyH5+AeLUSReHDjfpWgOwgzvniF+xAXCpccR58
+ 2vtTOY1ifC1M5EyeEd2+keQdb19iF+lN5JPFkIR6HGl/Ks4nGIsaM1Kr4rWUj19JnOKd
+ +F8N8fxvRauddPvwwzj+/ZekRLHISubuoOBqVICd4YVq5OiHA0ztK6Lh24/lqM6/yQR3
+ Pi8jsjXEhkqh0p62N6EIc33DbzSHZzm8EOt2gb83Tkuwffm6WbcizeKyYgsCHfZrUSze
+ MPjQ==
+X-Gm-Message-State: AOAM533aYjdr8yxxtYgQ62QwKXT/h6d90ZRFWfQDv1X+wu5tvYHquWDh
+ xdQF4fBosIRo4WXBH4/dkwF7lLpilO1+2Xf4QlqXcJcEa2qqAMo32hH253VCVamrvRV2oEMbGQR
+ TJCAocoH+9U7VKZQhLTIZSxo7IrX7VnYjXcdOTjEgYDM=
+X-Received: by 2002:a7b:c1cc:: with SMTP id a12mr25688459wmj.35.1642530992856; 
+ Tue, 18 Jan 2022 10:36:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwSwdJrvd1qLt9UctsfpwHeclqv3Q9e1TKWMk+vAWQ+UJnw/tzkf4F3fqWJWlG18M3BqED344WKJBPrWk3oRXA=
+X-Received: by 2002:a7b:c1cc:: with SMTP id a12mr25688440wmj.35.1642530992545; 
+ Tue, 18 Jan 2022 10:36:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: nvme: IO_PAGE_FAULT logged with Intel SSDPEKKF512G8
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-References: <366b1545-fdea-3423-10a7-308ca2bef746@molgen.mpg.de>
- <20220118165325.GA3301052@dhcp-10-100-145-180.wdc.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220118165325.GA3301052@dhcp-10-100-145-180.wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Chris Leech <cleech@redhat.com>
+Date: Tue, 18 Jan 2022 10:36:21 -0800
+Message-ID: <CAPnfmXLsLwUKU_OdELsxy9gkR+21yTHFst0KUqb-c6Zd7OyB_A@mail.gmail.com>
+Subject: ncme-tcp: io_work NULL pointer when racing with queue stop
+To: linux-nvme@lists.infradead.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cleech@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220118_090112_499663_B076CFCF 
-X-CRM114-Status: GOOD (  14.29  )
+X-CRM114-CacheID: sfid-20220118_113429_007532_02F6D0BE 
+X-CRM114-Status: GOOD (  15.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,135 +87,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear Keith,
+Hi,
 
+I'm looking at a reported NULL pointer fault with controller reset
+testing under load, and it appears that the nvme_tcp_stop_queue
+sequence is racing against scheduled io_work.  The fault occurs when
+kernel_sendpage is called from the workqueue context and hits a NULL
+sock->ops pointer, which is cleared by kernel_sock_shutdown before the
+call to cancel_work_sync.
 
-Thank you for your quick response.
+[ 4353.145377] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
+[ 4353.151921] RIP: 0010:kernel_sendpage+0x11/0xc0
+[ 4353.157005] Code: ff ff ff 31 db e9 70 ff ff ff be ff ff ff ff e9
+49 ff ff ff 0f 1f 44 00 00 0f 1f 44 00 00 55 48 89 fd 48 83 ec 18 48
+8b 47 20 <4c> 8b 88 a0 00 00 00 4d 85 c9 74 3b 48 8b 7e 08 48 8d 47 ff
+83 e7
+[ 4353.177985] RSP: 0000:ffffb5870a7b7d68 EFLAGS: 00010292
+[ 4353.189185] RAX: 0000000000000000 RBX: 0000000080000000 RCX: 0000000000000048
+[ 4353.189196] RDX: 0000000000000000 RSI: ffffdffa25000000 RDI: ffff981b45de3400
+[ 4353.189199] RBP: ffff981b45de3400 R08: 00000000000000c0 R09: ffff98182073b0ec
+[ 4353.189202] R10: 000000000000000c R11: 000000000000000c R12: ffff9817c4885e38
+[ 4353.226418] R13: 0000000000000048 R14: ffff9817d0018000 R15: 0000000000000000
+[ 4353.234393] FS:  0000000000000000(0000) GS:ffff981b2fa00000(0000)
+knlGS:0000000000000000
+[ 4353.243442] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 4353.249871] CR2: 00000000000000a0 CR3: 00000001307ce004 CR4: 00000000003706f0
+[ 4353.257850] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 4353.265824] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 4353.273798] Call Trace:
+[ 4353.276554]  nvme_tcp_try_send_cmd_pdu+0xf4/0x250 [nvme_tcp]
+[ 4353.282901]  ? tcp_rcv_space_adjust+0x1d/0x1c0
+[ 4353.287888]  nvme_tcp_try_send+0x15a/0x330 [nvme_tcp]
+[ 4353.293553]  ? release_sock+0x43/0x90
+[ 4353.297666]  ? nvme_tcp_try_recv+0x73/0xa0 [nvme_tcp]
+[ 4353.303334]  nvme_tcp_io_work+0x37/0x90 [nvme_tcp]
+[ 4353.308723]  process_one_work+0x1e3/0x3b0
+[ 4353.313237]  worker_thread+0x50/0x3b0
+[ 4353.317335]  ? rescuer_thread+0x370/0x370
+[ 4353.321813]  kthread+0x149/0x170
+[ 4353.325440]  ? set_kthread_struct+0x40/0x40
+[ 4353.330128]  ret_from_fork+0x22/0x30
 
+It would seem easy enough to cancel the io_work before
+kernel_sock_shutdown, but I think that still leaves an opportunity for
+it to be rescheduled.  The TCP callbacks do all appear to be protected
+by the sk_callback_lock and checks against sk_user_data, so it may be
+possible to restore those first?  I'm not sure on the best way to
+safely shut down the socket in this case.
 
-Am 18.01.22 um 17:53 schrieb Keith Busch:
-> On Tue, Jan 18, 2022 at 03:32:45PM +0100, Paul Menzel wrote:
->> On a Dell OptiPlex 5055 with an Intel SSDPEKKF512G8, Linux 5.10.82 reported
->> an IO_PAGE_FAULT error. This is the first and only time this has happened.
->>
->>      $ dmesg --level=err
->>      [    4.194306] nvme 0000:01:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000c address=0xffffc080 flags=0x0050]
->>      [    4.206970] nvme 0000:01:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000c address=0xffffc000 flags=0x0050]
->>      [    7.327820] kfd kfd: VERDE  not supported in kfd
->>      $ lspci -nn -s 01:00.0
->>      01:00.0 Non-Volatile memory controller [0108]: Intel Corporation SSD Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
-> 
-> I think it's a bug with the iommu implementation.
+I'll try and get some testing on this change, but wanted to get this
+on the list and see what other suggestions you might have.
 
-That would surprise me, but I am adding Jörg and Suravee to the 
-recipient list. Last time, I saw an IO_PAGE_FAULT, it was a bug in the 
-amdgpu driver.
+Thanks!
+Chris Leech
 
-> If it causes problems, you can typically work around it with kernel
-> parameter "iommu=soft".
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 4ceb28675fdf..d9e1f875f80d 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1567,9 +1567,9 @@ static void nvme_tcp_restore_sock_calls(struct
+nvme_tcp_queue *queue)
 
-I have not noticed any problems yet.
+ static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
+ {
+-       kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+        nvme_tcp_restore_sock_calls(queue);
+        cancel_work_sync(&queue->io_work);
++       kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+ }
 
-
-Kind regards,
-
-Paul
-
-
-PS: No idea, if useful, but I include the content of `/proc/iomem`:
-
-$ sudo more /proc/iomem
-00000000-00000fff : Reserved
-00001000-00087fff : System RAM
-00088000-00088fff : Reserved
-00089000-0009efff : System RAM
-0009f000-000bffff : Reserved
-   000a0000-000bffff : PCI Bus 0000:00
-000c0000-000c3fff : PCI Bus 0000:00
-000c4000-000c7fff : PCI Bus 0000:00
-000c8000-000cbfff : PCI Bus 0000:00
-000cc000-000cffff : PCI Bus 0000:00
-000d0000-000d3fff : PCI Bus 0000:00
-000d4000-000d7fff : PCI Bus 0000:00
-000d8000-000dbfff : PCI Bus 0000:00
-000dc000-000dffff : PCI Bus 0000:00
-000e0000-000e3fff : PCI Bus 0000:00
-000e4000-000e7fff : PCI Bus 0000:00
-000e8000-000ebfff : PCI Bus 0000:00
-000ec000-000effff : PCI Bus 0000:00
-000f0000-000fffff : System ROM
-00100000-09cfffff : System RAM
-   05000000-05e03316 : Kernel code
-   06000000-063a8fff : Kernel rodata
-   06400000-06762eff : Kernel data
-   06d31000-06ffffff : Kernel bss
-09d00000-09e6ffff : Reserved
-09e70000-7afb5fff : System RAM
-7afb6000-7afb6fff : Reserved
-7afb7000-7afbbfff : System RAM
-7afbc000-7afbcfff : Reserved
-7afbd000-dadbefff : System RAM
-dadbf000-dafbefff : Unknown E820 type
-dafbf000-dcfbefff : Reserved
-dcfbf000-defbefff : ACPI Non-volatile Storage
-defbf000-deffefff : ACPI Tables
-defff000-deffffff : System RAM
-df000000-dfffffff : Reserved
-e0000000-f7ffffff : PCI Bus 0000:00
-   e0000000-efffffff : PCI Bus 0000:06
-     e0000000-efffffff : 0000:06:00.0
-   f0000000-f00fffff : PCI Bus 0000:02
-     f0000000-f00fffff : PCI Bus 0000:03
-       f0000000-f00fffff : PCI Bus 0000:04
-         f0000000-f000ffff : 0000:04:00.0
-           f0000000-f000ffff : tg3
-         f0010000-f001ffff : 0000:04:00.0
-           f0010000-f001ffff : tg3
-         f0020000-f002ffff : 0000:04:00.0
-           f0020000-f002ffff : tg3
-   f0100000-f01fffff : PCI Bus 0000:08
-     f0100000-f0107fff : 0000:08:00.3
-       f0100000-f0107fff : ICH HD audio
-     f0108000-f0108fff : 0000:08:00.2
-       f0108000-f0108fff : ahci
-   f0200000-f04fffff : PCI Bus 0000:07
-     f0200000-f02fffff : 0000:07:00.3
-       f0200000-f02fffff : xhci-hcd
-     f0300000-f03fffff : 0000:07:00.2
-     f0400000-f0401fff : 0000:07:00.2
-   f0500000-f05fffff : PCI Bus 0000:06
-     f0500000-f053ffff : 0000:06:00.0
-     f0540000-f0543fff : 0000:06:00.1
-       f0540000-f0543fff : ICH HD audio
-     f0560000-f057ffff : 0000:06:00.0
-   f0600000-f06fffff : PCI Bus 0000:02
-     f0600000-f061ffff : 0000:02:00.1
-       f0600000-f061ffff : ahci
-     f0620000-f0627fff : 0000:02:00.0
-       f0620000-f0627fff : xhci-hcd
-     f0680000-f06fffff : 0000:02:00.1
-   f0700000-f07fffff : PCI Bus 0000:01
-     f0700000-f0703fff : 0000:01:00.0
-       f0700000-f0703fff : nvme
-f8000000-fbffffff : PCI MMCONFIG 0000 [bus 00-3f]
-   f8000000-fbffffff : Reserved
-fc000000-feafffff : PCI Bus 0000:00
-   fc000000-fc07ffff : amd_iommu
-   fdf00000-fdffffff : pnp 00:00
-fec00000-fec00fff : Reserved
-   fec00000-fec003ff : IOAPIC 0
-fec01000-fec013ff : IOAPIC 1
-fec10000-fec10fff : Reserved
-fec30000-fec30fff : AMDIF030:00
-fed00000-fed003ff : HPET 0
-   fed00000-fed003ff : PNP0103:00
-fed40000-fed44fff : MSFT0101:00
-fed80000-fed80fff : Reserved
-fed81500-fed818ff : AMDI0030:00
-fee00000-fee00fff : Local APIC
-   fee00000-fee00fff : pnp 00:00
-ff000000-ffffffff : Reserved
-   ff000000-ffffffff : pnp 00:03
-100000000-81effffff : System RAM
-81f000000-81fffffff : RAM buffer
 
