@@ -4,60 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A91E0C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jan 2022 16:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59620C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jan 2022 17:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ai3Lm0Urgf8Bdoy1C/dgI1kGNQEXtzDX/c2T964G0TM=; b=dP6XYAtMrxdgBE4J/dTcDwrvEQ
-	mBw6GokE/CpL9sXDuMu2Pf1rgIZaa+BZwP/XBjIT3Df9hiMUSD7mS87EgMUkj+iVSiJjWyXBejukO
-	0+zPD83eIoF7P4lVVAAxtgQpUGDJ1TCxHSgO4rzsypZSwB5fK9chwUlAONr8HR4USrrx6C+LkpZ4D
-	KiHQthlIo0NW7Dn2MLlK28tKxOhlA8ayx5eb5nEOXm3iyrWJkorc6Jw79mLH+XeuBAd7UU/TZF+5D
-	QVxjGy7f7OKd/7qZd6aswKo14gQl0z3gumtIvOkr8Uk2Bm/aEDFkrKfqHOwW/c4VTpHaAQPqzono2
-	76DvCL8Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M34A5q5JiWsbPBGMt2fo+ig3z7zEp/yGGSewzGIqu5o=; b=ZWpGKb1wAQnU2UqEdIteIoB2Nf
+	iytbue0ZVIiNBmw7HwGpTNjFtBAXNbLrYb6CaT7qsBKB5LI6FZg76KURZULayG/kOI2yVuOiKj4ne
+	VEq5IPZ+MPL2JX+2RP8cVd8QxjTpraavlSryM/ReDyJBi/djdm8cPoozZCYlI3MrMjg5zLZEl6+qq
+	wVyz+rHrEHYEqO8InfE0NBynNbB9L4yphF3Mz1Lb5tYoLMMXzXIAVeWxRIZzypvey8aul0T9/M54O
+	tdUVPSRYiYGVjths7e0ZfWdq3O0S/BaaTX+SIyRgzzWW599a/w6cHEldHDX52wfJHiNdcn+JLXkes
+	MtoX3Yew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n9rji-002IsA-LN; Tue, 18 Jan 2022 16:53:34 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1n9rrA-002Ll2-Cc; Tue, 18 Jan 2022 17:01:16 +0000
+Received: from mx3.molgen.mpg.de ([141.14.17.11] helo=mx1.molgen.mpg.de)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n9rjf-002Iqd-Go
- for linux-nvme@lists.infradead.org; Tue, 18 Jan 2022 16:53:32 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A1DE6B81238;
- Tue, 18 Jan 2022 16:53:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC88C340E0;
- Tue, 18 Jan 2022 16:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642524808;
- bh=hj6cgF8nqJUDMXfSevCsDKP3HTwnEamooJYkoM7Kvns=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cI/3+ELb1BO7XjuTEVngbV/xxNGYbpZJOS87HYLo3jL/W9zr4VIkXF/j+dr1KzeB5
- Y6UJE6RbT6KBGFSFyXF/JJY84pQf8y6RngMXN8PO6Kta7EOw2X0u+K6tkYlObhXBFs
- 25A/VWJUZMDedKwIZ8u3svG5O3LJfq/iZzvu0O6LYipOlmnQFchv4wVNM3B/41XCA7
- +oj7aRU332K+PadAKKj6JaKugkbGvhJRGj59KBKNN1URwG5XXGWUz2iP/7lighYZOv
- FzLzYvS+fpKVMoTsQ5EoIp75D5NEm8XvSCkQwXTwvNwOQPndKrCzBKm1zlIlkMmmS7
- IEsRPgff81FBA==
-Date: Tue, 18 Jan 2022 08:53:25 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
+ id 1n9rr6-002Lii-8Q
+ for linux-nvme@lists.infradead.org; Tue, 18 Jan 2022 17:01:14 +0000
+Received: from [192.168.0.2] (ip5f5aecd1.dynamic.kabel-deutschland.de
+ [95.90.236.209])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested) (Authenticated sender: pmenzel)
+ by mx.molgen.mpg.de (Postfix) with ESMTPSA id 1154261EA1BE6;
+ Tue, 18 Jan 2022 18:01:07 +0100 (CET)
+Message-ID: <fd1c1767-0029-58d2-3878-5bc1a85b8e2c@molgen.mpg.de>
+Date: Tue, 18 Jan 2022 18:01:06 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: nvme: IO_PAGE_FAULT logged with Intel SSDPEKKF512G8
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
  Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: nvme: IO_PAGE_FAULT logged with Intel SSDPEKKF512G8
-Message-ID: <20220118165325.GA3301052@dhcp-10-100-145-180.wdc.com>
+ iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 References: <366b1545-fdea-3423-10a7-308ca2bef746@molgen.mpg.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <366b1545-fdea-3423-10a7-308ca2bef746@molgen.mpg.de>
+ <20220118165325.GA3301052@dhcp-10-100-145-180.wdc.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20220118165325.GA3301052@dhcp-10-100-145-180.wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220118_085331_729413_2F1FD74F 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20220118_090112_499663_B076CFCF 
+X-CRM114-Status: GOOD (  14.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,17 +68,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 18, 2022 at 03:32:45PM +0100, Paul Menzel wrote:
-> On a Dell OptiPlex 5055 with an Intel SSDPEKKF512G8, Linux 5.10.82 reported
-> an IO_PAGE_FAULT error. This is the first and only time this has happened.
-> 
->     $ dmesg --level=err
->     [    4.194306] nvme 0000:01:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000c address=0xffffc080 flags=0x0050]
->     [    4.206970] nvme 0000:01:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000c address=0xffffc000 flags=0x0050]
->     [    7.327820] kfd kfd: VERDE  not supported in kfd
->     $ lspci -nn -s 01:00.0
->     01:00.0 Non-Volatile memory controller [0108]: Intel Corporation SSD Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
+Dear Keith,
 
-I think it's a bug with the iommu implementation. If it causes problems,
-you can typically work around it with kernel parameter "iommu=soft".
+
+Thank you for your quick response.
+
+
+Am 18.01.22 um 17:53 schrieb Keith Busch:
+> On Tue, Jan 18, 2022 at 03:32:45PM +0100, Paul Menzel wrote:
+>> On a Dell OptiPlex 5055 with an Intel SSDPEKKF512G8, Linux 5.10.82 reported
+>> an IO_PAGE_FAULT error. This is the first and only time this has happened.
+>>
+>>      $ dmesg --level=err
+>>      [    4.194306] nvme 0000:01:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000c address=0xffffc080 flags=0x0050]
+>>      [    4.206970] nvme 0000:01:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x000c address=0xffffc000 flags=0x0050]
+>>      [    7.327820] kfd kfd: VERDE  not supported in kfd
+>>      $ lspci -nn -s 01:00.0
+>>      01:00.0 Non-Volatile memory controller [0108]: Intel Corporation SSD Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
+> 
+> I think it's a bug with the iommu implementation.
+
+That would surprise me, but I am adding Jörg and Suravee to the 
+recipient list. Last time, I saw an IO_PAGE_FAULT, it was a bug in the 
+amdgpu driver.
+
+> If it causes problems, you can typically work around it with kernel
+> parameter "iommu=soft".
+
+I have not noticed any problems yet.
+
+
+Kind regards,
+
+Paul
+
+
+PS: No idea, if useful, but I include the content of `/proc/iomem`:
+
+$ sudo more /proc/iomem
+00000000-00000fff : Reserved
+00001000-00087fff : System RAM
+00088000-00088fff : Reserved
+00089000-0009efff : System RAM
+0009f000-000bffff : Reserved
+   000a0000-000bffff : PCI Bus 0000:00
+000c0000-000c3fff : PCI Bus 0000:00
+000c4000-000c7fff : PCI Bus 0000:00
+000c8000-000cbfff : PCI Bus 0000:00
+000cc000-000cffff : PCI Bus 0000:00
+000d0000-000d3fff : PCI Bus 0000:00
+000d4000-000d7fff : PCI Bus 0000:00
+000d8000-000dbfff : PCI Bus 0000:00
+000dc000-000dffff : PCI Bus 0000:00
+000e0000-000e3fff : PCI Bus 0000:00
+000e4000-000e7fff : PCI Bus 0000:00
+000e8000-000ebfff : PCI Bus 0000:00
+000ec000-000effff : PCI Bus 0000:00
+000f0000-000fffff : System ROM
+00100000-09cfffff : System RAM
+   05000000-05e03316 : Kernel code
+   06000000-063a8fff : Kernel rodata
+   06400000-06762eff : Kernel data
+   06d31000-06ffffff : Kernel bss
+09d00000-09e6ffff : Reserved
+09e70000-7afb5fff : System RAM
+7afb6000-7afb6fff : Reserved
+7afb7000-7afbbfff : System RAM
+7afbc000-7afbcfff : Reserved
+7afbd000-dadbefff : System RAM
+dadbf000-dafbefff : Unknown E820 type
+dafbf000-dcfbefff : Reserved
+dcfbf000-defbefff : ACPI Non-volatile Storage
+defbf000-deffefff : ACPI Tables
+defff000-deffffff : System RAM
+df000000-dfffffff : Reserved
+e0000000-f7ffffff : PCI Bus 0000:00
+   e0000000-efffffff : PCI Bus 0000:06
+     e0000000-efffffff : 0000:06:00.0
+   f0000000-f00fffff : PCI Bus 0000:02
+     f0000000-f00fffff : PCI Bus 0000:03
+       f0000000-f00fffff : PCI Bus 0000:04
+         f0000000-f000ffff : 0000:04:00.0
+           f0000000-f000ffff : tg3
+         f0010000-f001ffff : 0000:04:00.0
+           f0010000-f001ffff : tg3
+         f0020000-f002ffff : 0000:04:00.0
+           f0020000-f002ffff : tg3
+   f0100000-f01fffff : PCI Bus 0000:08
+     f0100000-f0107fff : 0000:08:00.3
+       f0100000-f0107fff : ICH HD audio
+     f0108000-f0108fff : 0000:08:00.2
+       f0108000-f0108fff : ahci
+   f0200000-f04fffff : PCI Bus 0000:07
+     f0200000-f02fffff : 0000:07:00.3
+       f0200000-f02fffff : xhci-hcd
+     f0300000-f03fffff : 0000:07:00.2
+     f0400000-f0401fff : 0000:07:00.2
+   f0500000-f05fffff : PCI Bus 0000:06
+     f0500000-f053ffff : 0000:06:00.0
+     f0540000-f0543fff : 0000:06:00.1
+       f0540000-f0543fff : ICH HD audio
+     f0560000-f057ffff : 0000:06:00.0
+   f0600000-f06fffff : PCI Bus 0000:02
+     f0600000-f061ffff : 0000:02:00.1
+       f0600000-f061ffff : ahci
+     f0620000-f0627fff : 0000:02:00.0
+       f0620000-f0627fff : xhci-hcd
+     f0680000-f06fffff : 0000:02:00.1
+   f0700000-f07fffff : PCI Bus 0000:01
+     f0700000-f0703fff : 0000:01:00.0
+       f0700000-f0703fff : nvme
+f8000000-fbffffff : PCI MMCONFIG 0000 [bus 00-3f]
+   f8000000-fbffffff : Reserved
+fc000000-feafffff : PCI Bus 0000:00
+   fc000000-fc07ffff : amd_iommu
+   fdf00000-fdffffff : pnp 00:00
+fec00000-fec00fff : Reserved
+   fec00000-fec003ff : IOAPIC 0
+fec01000-fec013ff : IOAPIC 1
+fec10000-fec10fff : Reserved
+fec30000-fec30fff : AMDIF030:00
+fed00000-fed003ff : HPET 0
+   fed00000-fed003ff : PNP0103:00
+fed40000-fed44fff : MSFT0101:00
+fed80000-fed80fff : Reserved
+fed81500-fed818ff : AMDI0030:00
+fee00000-fee00fff : Local APIC
+   fee00000-fee00fff : pnp 00:00
+ff000000-ffffffff : Reserved
+   ff000000-ffffffff : pnp 00:03
+100000000-81effffff : System RAM
+81f000000-81fffffff : RAM buffer
 
