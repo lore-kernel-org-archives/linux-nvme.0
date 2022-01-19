@@ -4,73 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50656C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jan 2022 08:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E3F6C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jan 2022 11:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jF52pYol0qAZdWQZoTiL4TjZos6XMQuq5ERMQ5x1utk=; b=q6+9p9ZEPPRjTlbjAltbJPL3Yn
-	GAdx4Ahe0ZlSnci/rkbsOvbkbZzhng1LL4PZOIaR7TI8AP6CE0vc/HK7JFMfoDGtRI1/gApjkfHJz
-	9woKwU748944b6YjFYo/DCxpLe8dLbkRkwX3ZT793Dninje53TIIfPxP94HsJQi6P93Zd/4LgkX1g
-	gdPM057fpBY0hl5PKzK+jLG/gkWQ5t8E8Oe9AGXoZCdLvvtrUeyqaU8zmeQW4JpZiRqqIaS9Cx5z2
-	DEIeWEP+xYFugf6Q/boO9t2JuRM1uHNKMe+KyjTiPJWlWshfpFKJOOQc1JYK9jQRWYN7wmh3wUl//
-	ULXvDaQA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=v4axeg+ESBTvBgQ0GcEaPe9YP/WOPrunf7224+7KR04=; b=2ZKJjK18eY5l3UOqyoltJ8p/U9
+	IDtgjBkVXeatkGSbeY8GAEWJQ5+l7v0ni96eKQFZGuK4r/mNGOaGH4aAd9Kmgz2sNnESu729+8TMm
+	E9b7tQvuGFWhScwQK5sPfr18nN8zH/vlS7nZINBIZo+3MYnXNmr2FX24Sox1x84DLgbKJ8jzGuykZ
+	sSGEa10W3TtHfFUCmzjJ1q2kl4YcE2ibQ3m/CGphxvRnUD0cc/vquQ9he1C7HLKLRqlcHuLCi7wND
+	eU1mmBjWW6fViZySDQmbxwi+cPa1MWcj9RgnIgJWNbeKrwYwfzTzV4RrDG27w8JwTFw7HiumPuxuC
+	VsuVLeHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nA6o2-004QJy-CK; Wed, 19 Jan 2022 08:59:02 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nA94s-0058js-Ok; Wed, 19 Jan 2022 11:24:34 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nA6nz-004QHp-Gg
- for linux-nvme@lists.infradead.org; Wed, 19 Jan 2022 08:59:00 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EDFEB212C5;
- Wed, 19 Jan 2022 08:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642582735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jF52pYol0qAZdWQZoTiL4TjZos6XMQuq5ERMQ5x1utk=;
- b=JjN8XM0wGu5mpo4fKhP1FtVuvMKA8FYME4A7zyzUFjDCHRMghptmuTdYGDAKpGT67gX6Ab
- WjAXPlZfEp/xaZXVuGrwWwixiOGd67TaPOxWE/bcnq5kX7TJr0YEXJokmHDxsFTajvuZug
- DYMdbqX4RcGyCF0bCt1cGyM1zbJ0B6Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642582735;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jF52pYol0qAZdWQZoTiL4TjZos6XMQuq5ERMQ5x1utk=;
- b=Z0og6kZHg2ncH0ZmI+tkIFOL4xZ6jSAJvYJESA4+KS02BH+l310kOPDBNSprmYjGPsjsd7
- Cydki7NJBdhaMJBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D602613B28;
- Wed, 19 Jan 2022 08:58:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id i4YoM8/S52HZFQAAMHmgww
- (envelope-from <dwagner@suse.de>); Wed, 19 Jan 2022 08:58:55 +0000
-Date: Wed, 19 Jan 2022 09:58:55 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH v2] nvmet: add support reading with offset from ANA log
-Message-ID: <20220119085855.d534ecll44x5bvoa@carbon.lan>
-References: <20220110140539.25521-1-dwagner@suse.de>
- <a6d52d42-1036-e036-e2b0-8f6aebe8ca2e@nvidia.com>
+ id 1nA94n-0058it-1b
+ for linux-nvme@lists.infradead.org; Wed, 19 Jan 2022 11:24:30 +0000
+Received: by mail-wm1-f49.google.com with SMTP id p18so4738951wmg.4
+ for <linux-nvme@lists.infradead.org>; Wed, 19 Jan 2022 03:24:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=v4axeg+ESBTvBgQ0GcEaPe9YP/WOPrunf7224+7KR04=;
+ b=mZnq2fRQKSf3O2h/Y3zEECbGwIyxLnl8ivpnBO7J8iu/myvTyIBIq9EBSJYsKoSigD
+ 8NfsNY6U7yQXJXRtov6Gzhh37JWSsmNb5oDDUBLLCZZiURnTPtz9EP2p9nVmgEk/JlLw
+ W9XnU4odO35XeDcImBDSgaXZMr3ptShupA/cEe/knoFj2gXySPfpLSdZ0xF5HriD8QTQ
+ 7qPeMArAE6/l/0qkBcu/aEARNY/nm4m44xGy5spA1ILGLXn2DMmbMbIdjLAbIYCiQt3L
+ HEfrr9EYnUoqZheelxrVckZhAN37a57gyMOwh0xaM/j8O96C/Y93CcOBvpr/R6Mdpkxs
+ ZXTA==
+X-Gm-Message-State: AOAM532IppbhkGchjAovMWi7YFEIhB1DWdFipDMClmtu04Qv4VE5/dnm
+ wYX1UX8+XqiBw8/RupvV8Qk=
+X-Google-Smtp-Source: ABdhPJwHl9Nh58+mbgGtlZlXqFp6WzZvLLc1NcQOYo/5lWRkVTS6umA+EB2fCIiRHk+8sFzCrE56Zg==
+X-Received: by 2002:a05:6000:91:: with SMTP id
+ m17mr27063739wrx.533.1642591465326; 
+ Wed, 19 Jan 2022 03:24:25 -0800 (PST)
+Received: from [10.100.102.14] (46-117-118-170.bb.netvision.net.il.
+ [46.117.118.170])
+ by smtp.gmail.com with ESMTPSA id z17sm19338895wrh.87.2022.01.19.03.24.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 03:24:24 -0800 (PST)
+Subject: Re: [PATCH 5/5] nvme-fabrics: set ret to -ENODEV for error case
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Keith Busch <kbusch@kernel.org>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>
+References: <20220112062101.90102-1-chaitanyak@nvidia.com>
+ <20220112062101.90102-6-chaitanyak@nvidia.com>
+ <20220113162840.GE3230285@dhcp-10-100-145-180.wdc.com>
+ <09ae3d37-d22a-af44-9ea8-5d6f95c70ede@nvidia.com>
+ <e90fda23-5438-c250-b530-30590867217d@grimberg.me>
+ <b9d23021-05c8-0f34-e1b4-86e6a81ea80c@nvidia.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <d0ccb295-14a5-f2fb-f015-4a91bbb8f4b9@grimberg.me>
+Date: Wed, 19 Jan 2022 13:24:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a6d52d42-1036-e036-e2b0-8f6aebe8ca2e@nvidia.com>
+In-Reply-To: <b9d23021-05c8-0f34-e1b4-86e6a81ea80c@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220119_005859_740282_0CD2D3A1 
-X-CRM114-Status: GOOD (  15.44  )
+X-CRM114-CacheID: sfid-20220119_032429_127052_91958B7A 
+X-CRM114-Status: GOOD (  17.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,61 +87,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Chaitanya,
 
-On Wed, Jan 19, 2022 at 07:43:07AM +0000, Chaitanya Kulkarni wrote:
-> I'm not against having this code but do you really have
-> a client side usecase for this one that you can please
-> explain ?
->
-> Existing code should work fine to read the log pages and I've
-> not received any complaints so far ..
+>>>> I missed the discussion on this. Doesn't the __nvmf_concat_opt_tokens()
+>>>> already return parameters that indicate to the caller that no controller
+>>>> was found?
+>>>>
+>>>
+>>> The function I found in the repo returns nothing, is that the one you
+>>> are referring to ?
+>>>
+>>> static void __nvmf_concat_opt_tokens(struct seq_file *seq_file)
+>>
+>> This is the path that Hannes added for userspace to detect kernel
+>> capabilities. So probably its not appropriate to return an error
+>> here, but rather take care of the original warning instead.
+> 
+> When I look at the code it looks unconventional to not return
+> error when controller not found case, why is it not appropriate
+> to return error can you please explain ?
+> 
+> Can we add a meaningful comment to avoid future such patches.
 
-All started with this call trace:
-
-nvme nvme17: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 100.102.252.12:8009
-nvme: page allocation failure: order:7, mode:0x40cc0(GFP_KERNEL|__GFP_COMP), nodemask=(null),cpuset=/,mems_allowed=0-1
-CPU: 1 PID: 96790 Comm: nvme Kdump: loaded Tainted: G           OE  X    5.3.18-59.27-default #1 SLE15-SP3
-Call Trace:
- dump_stack+0x66/0x8b
- warn_alloc+0x10b/0x190
- ? __alloc_pages_direct_compact+0x15e/0x170
- __alloc_pages_slowpath+0xcea/0xd20
- __alloc_pages_nodemask+0x2cb/0x320
- kmalloc_order+0x18/0x70
- kmalloc_order_trace+0x1d/0xa0
- __kmalloc+0x257/0x2b0
- nvme_mpath_init_identify+0xe5/0x190 [nvme_core]
- ? blk_queue_write_cache+0x30/0x60
- nvme_init_ctrl_finish+0x340/0xde0 [nvme_core]
- ? blk_mq_run_hw_queue+0x77/0x100
- nvme_tcp_setup_ctrl+0x396/0x680 [nvme_tcp]
- nvme_tcp_create_ctrl+0x31e/0x3c7 [nvme_tcp]
- nvmf_dev_write+0xb04/0xd70 [nvme_fabrics]
- ? common_file_perm+0x64/0x190
- ? vfs_write+0xad/0x1b0
- vfs_write+0xad/0x1b0
- ksys_write+0xa1/0xe0
- do_syscall_64+0x5b/0x1e0
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x7fb44848bc30
-
-The target says it support 49 ANA Group Descriptors and 65536
-namespaces. The current code in Linux is allocating an ANA buffer large
-enough to read the complete ANA log in one operation.
-
-With the above numbers the buffer is
-
-  16 + 16 * 49 + 65365 * 4 = 262260 bytes
-
-large, ca 64.028 4k pages. This means when allocating the buffer, the
-smallest bucket to allocated from is the 128kB (2^7).
-
-So my idea was to limit the ana log buffer and read the it in chunks if
-needed.
-
-Anyway, I started with replicating the situation and found out that the
-target code does not support reads with offsets hence this patch.
-
-Daniel
+That is how Hannes proposed to read capabilities from the kernel
+in terms of valid connection string arguments. Read /dev/nvme-fabrics
+without a controller.
 
