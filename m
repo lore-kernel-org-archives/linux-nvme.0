@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2ECA8C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 11:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 071F6C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 11:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kYSY5CHYNIA9hN8QVlij2GnIqK59IRJkhItz3wdmKVE=; b=PD82rnTOrXnrXiMLccdmlxJSme
-	Sjz4ogcl9gqyz6SDDppRqLSMZXRH+huUTfhyfnshMnwZ/TNF9or/K528tU/ngOXGpVsrL5emxqy41
-	RHALJsmmc9WTrberP+c64cLOOkLFtXpeDoTuUbuRYA0kyjWJsyq9ysuTvnyXZt/hTjpw/8IScG1py
-	ehPjZYYPDNLVYmw2XzLF8UlaBB2J38AHetEdbRTmux6N39EM4IEf8EMS+EjMe/c3zlZVHji6furGz
-	FH+CnTxHRiH8wrY+aut5G3X6oceDF4iuxklQW1VNJBUuxw58DPtEYHZUt8VG64ohEF4MFJflC1SR4
-	Bjlhz7Sw==;
+	bh=CpLLy27V5MbHuoHqIYVsmv/vaXJTkt3tPuaNGjzjjso=; b=eXhdhEidiH4eYsIsjYZM4H9K7E
+	b77JIbZQeef0VXsmBzIcDlk7nBlNznZM+vi7Vlvh25p1NP2fKo5ZDzX1E897uVTGmq06YPzdhv+Ho
+	vROGOyYubI2kUl/9TQXOHZingj6SOvrlEHXqU0uMFB/4H1K1ffXymUejPdSz4T97bySNa6kcOFk20
+	Y0HfAQz4ZhWc0nIFX2DW+nGooMF/skeaNv6vKUGnxRnDSZ7kOw3AekWkdL4/eAY1J9Kv5rgVwb+tq
+	g/OmFDAfawMPgJGsdGZ+xm1qMpReSCgI1wIK6GrPCKozM0bgsPwCMWeT+NHXNu4srNZBX5e8VpFjH
+	Deky81rQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBEJ2-00H9wN-0I; Sat, 22 Jan 2022 11:11:40 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nBEJF-00H9ya-MA; Sat, 22 Jan 2022 11:11:53 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nBEIy-00H9vS-0v
- for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 11:11:37 +0000
+ id 1nBEJD-00H9xk-Df
+ for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 11:11:52 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642849895;
+ s=mimecast20190719; t=1642849910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kYSY5CHYNIA9hN8QVlij2GnIqK59IRJkhItz3wdmKVE=;
- b=ZoTRaxH982hOWIA1zzDPBz/1GM7mc4XUg1hIwQdbpOdJWVccJf0Yq4foFppNGs8TvAkK+T
- wB5zSpDAVH4outb+nJuPl8VXmfe1Z6Hgbjfx+S36Ti70hTkfltzEYFVwpqdK+/Z2wa69KH
- 0Gp1cski3LFNkSBWjplGEZEZKwwFKPc=
+ bh=CpLLy27V5MbHuoHqIYVsmv/vaXJTkt3tPuaNGjzjjso=;
+ b=JiTnhb+qVvP03sVLwHuxEdOgfLeiP0bDoV3jGhjyWdljx38uPNgtTKG+AqW3JEzhHyhBUd
+ GqkTgVXw2xK8HwNN+WtizwR/EB0Ve6mi0vcdVEReYBT9dQYm54T4nIE+1GqxKkwcGinhK7
+ xwN089B9d383Eg8HYb/rjvnqw2T6nyk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-jpdpLSJKOjeU72gf5C5rmA-1; Sat, 22 Jan 2022 06:11:29 -0500
-X-MC-Unique: jpdpLSJKOjeU72gf5C5rmA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-164-covyJr92MAS458TWqOBzTw-1; Sat, 22 Jan 2022 06:11:49 -0500
+X-MC-Unique: covyJr92MAS458TWqOBzTw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B9191083F60;
- Sat, 22 Jan 2022 11:11:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD8B7814245;
+ Sat, 22 Jan 2022 11:11:47 +0000 (UTC)
 Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC64E7316D;
- Sat, 22 Jan 2022 11:11:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B167E6F116;
+ Sat, 22 Jan 2022 11:11:31 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  "Martin K . Petersen" <martin.petersen@oracle.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-scsi@vger.kernel.org, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 01/13] block: declare blkcg_[init|exit]_queue in private
- header
-Date: Sat, 22 Jan 2022 19:10:42 +0800
-Message-Id: <20220122111054.1126146-2-ming.lei@redhat.com>
+Subject: [PATCH V2 02/13] block: move initialization of q->blkg_list into
+ blkcg_init_queue
+Date: Sat, 22 Jan 2022 19:10:43 +0800
+Message-Id: <20220122111054.1126146-3-ming.lei@redhat.com>
 In-Reply-To: <20220122111054.1126146-1-ming.lei@redhat.com>
 References: <20220122111054.1126146-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220122_031136_161567_13B72DD2 
-X-CRM114-Status: GOOD (  13.38  )
+X-CRM114-CacheID: sfid-20220122_031151_562407_180D5931 
+X-CRM114-Status: GOOD (  12.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,56 +80,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Both two functions are used by block core code only, so move the
-declaration into private header of block layer.
+q->blkg_list is only used by blkcg code, so move it into
+blkcg_init_queue.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- block/blk.h                | 8 ++++++++
- include/linux/blk-cgroup.h | 4 ----
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ block/blk-cgroup.c | 2 ++
+ block/blk-core.c   | 3 ---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk.h b/block/blk.h
-index 8bd43b3ad33d..7b0f12260ae6 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -406,6 +406,14 @@ extern int blk_iolatency_init(struct request_queue *q);
- static inline int blk_iolatency_init(struct request_queue *q) { return 0; }
- #endif
+diff --git a/block/blk-cgroup.c b/block/blk-cgroup.c
+index 650f7e27989f..498753e2bb73 100644
+--- a/block/blk-cgroup.c
++++ b/block/blk-cgroup.c
+@@ -1176,6 +1176,8 @@ int blkcg_init_queue(struct request_queue *q)
+ 	bool preloaded;
+ 	int ret;
  
-+#ifdef CONFIG_BLK_CGROUP
-+int blkcg_init_queue(struct request_queue *q);
-+void blkcg_exit_queue(struct request_queue *q);
-+#else
-+static inline int blkcg_init_queue(struct request_queue *q) { return 0; }
-+static inline void blkcg_exit_queue(struct request_queue *q) { }
-+#endif
++	INIT_LIST_HEAD(&q->blkg_list);
 +
- struct bio *blk_next_bio(struct bio *bio, unsigned int nr_pages, gfp_t gfp);
+ 	new_blkg = blkg_alloc(&blkcg_root, q, GFP_KERNEL);
+ 	if (!new_blkg)
+ 		return -ENOMEM;
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 97f8bc8d3a79..2a400fa8cabd 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -475,9 +475,6 @@ struct request_queue *blk_alloc_queue(int node_id, bool alloc_srcu)
+ 	timer_setup(&q->timeout, blk_rq_timed_out_timer, 0);
+ 	INIT_WORK(&q->timeout_work, blk_timeout_work);
+ 	INIT_LIST_HEAD(&q->icq_list);
+-#ifdef CONFIG_BLK_CGROUP
+-	INIT_LIST_HEAD(&q->blkg_list);
+-#endif
  
- #ifdef CONFIG_BLK_DEV_ZONED
-diff --git a/include/linux/blk-cgroup.h b/include/linux/blk-cgroup.h
-index b4de2010fba5..d9dcd18d77f4 100644
---- a/include/linux/blk-cgroup.h
-+++ b/include/linux/blk-cgroup.h
-@@ -182,8 +182,6 @@ extern bool blkcg_debug_stats;
+ 	kobject_init(&q->kobj, &blk_queue_ktype);
  
- struct blkcg_gq *blkg_lookup_slowpath(struct blkcg *blkcg,
- 				      struct request_queue *q, bool update_hint);
--int blkcg_init_queue(struct request_queue *q);
--void blkcg_exit_queue(struct request_queue *q);
- 
- /* Blkio controller policy registration */
- int blkcg_policy_register(struct blkcg_policy *pol);
-@@ -637,8 +635,6 @@ static inline void blkcg_schedule_throttle(struct request_queue *q, bool use_mem
- static inline struct blkcg_gq *blkg_lookup(struct blkcg *blkcg, void *key) { return NULL; }
- static inline struct blkcg_gq *blk_queue_root_blkg(struct request_queue *q)
- { return NULL; }
--static inline int blkcg_init_queue(struct request_queue *q) { return 0; }
--static inline void blkcg_exit_queue(struct request_queue *q) { }
- static inline int blkcg_policy_register(struct blkcg_policy *pol) { return 0; }
- static inline void blkcg_policy_unregister(struct blkcg_policy *pol) { }
- static inline int blkcg_activate_policy(struct request_queue *q,
 -- 
 2.31.1
 
