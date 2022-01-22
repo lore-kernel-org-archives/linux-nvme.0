@@ -4,61 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C99CCC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jan 2022 21:09:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3A31C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 03:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OXAm1qEiIkYNaPU2i0B3YKih+9jiO+IlXNTpahNVR8w=; b=zMSLdFOZ4lk3o01N3AJoXTbt8T
-	qe7rTGB5T4f/R3yx7LSnjhgOQgzfVF5t4FvBuTp3UWpQ7juM+LJkOWjkdf+zKS85Vsl7ua94v3aRk
-	yiLt/nuHLnpPmO+khqFFLx9QNX9abaqMORkxx9rjrWXZIwndpOCGztR3qtM72hpVAJa6ndvWQ7+wW
-	IhYnMyVeRsVzIYpjlqbuKjLfL085ZlJXewn3XLUi5XFVPhWvjtd7jpy7ZiUP7WolsZLIPa+dZHm2e
-	BPetLSdrwxcRoM6WDucrI2q+EREfzMwCWr47S/SRzAgUaaQn1iI/wXY+6B07CKMYVHpUNjqAhI/lb
-	T5s7a2Dw==;
+	bh=GY3cfd8KPa5DpnrPEf2atuPbupkPpQtqAklYWRarK+I=; b=XiGlFIh5NxehowXED/2fIwT3q2
+	QafbSmagjLjBuCQEBW8P6Oymr1oTRqD/WlBJwQ86o9mMMGx7LopOlkVU+hPAg40v9BRYghLZyYJU0
+	3fgL7LfwSRqIgc0mW+yd9PvRqxudyZjyRTJkMI5ot9QB75EaCW0NMh2FSvScnwYsMzeqNWdxOC2Vf
+	hBJKWsYPjeq/BpKEshUguzpU4WiiD3nqwKJl56CYOge0NHnJuNQIIonCPrLEwopZBlzHM6/QSXhrE
+	z9YqV+cTxzB2Cgd+/RyuRiD67FoLDJY3rVHR6U7ZFOwIYUlc/IvcGQ3Y4U4I6C54RYgAkROzDPcWR
+	hiVUAEuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nB19x-00G5A2-0J; Fri, 21 Jan 2022 21:09:25 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1nB6v2-00GRGT-8J; Sat, 22 Jan 2022 03:18:24 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nB19j-00G597-1h
- for linux-nvme@lists.infradead.org; Fri, 21 Jan 2022 21:09:12 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 19BCBB8116D;
- Fri, 21 Jan 2022 21:09:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D19CC340E1;
- Fri, 21 Jan 2022 21:09:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642799347;
- bh=R9IH1HO9BhkurxhbfZ/tA3xkofYRaHlskaeE4j+DY68=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ebzQK3QhDgT/T2L/u8OlnNiGo3KbbTl6h5ztLuRo1EU0Nh4K9UOFn3pXR7raSTmaG
- zE3L4EdP2ms0NyP6lev85hl9EIsezgehE/pUfqaLG0gXcC3+/2A+SjmPIbGa2sP1pk
- bKGXZgtEWFaXVNC7112ut1J7kKrMo+Himt6b7mB9SFooC4k09b7wEelxbAQZ5aEyqE
- JWLhRSyRXJUhUT8f3B/Ze08E0f7ZogB7WGNplgY5cWZndUY8Li3DPefIfG7mpRHxRj
- KIP+WqjvZelxRCAkMN0e4ih4MMKnYbIwrlgRxeOztyM+sQ8S9ENjbX7yPWI81WI/RV
- rafEKwoAeV3lA==
-Date: Fri, 21 Jan 2022 13:09:05 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Len Brown <lenb@kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- m.heingbecker@googlemail.com, linux-nvme <linux-nvme@lists.infradead.org>
-Subject: Re: [Bug] nvme blocks PC10 since v5.15 - bisected
-Message-ID: <20220121210905.GA1114868@dhcp-10-100-145-180.wdc.com>
-References: <CAJZ5v0hvvYedSn5u-i7sjpoEHU4P65t7i1b2pVn=S1q0nHWgqQ@mail.gmail.com>
+ id 1nB6uz-00GRG9-0d
+ for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 03:18:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642821500; x=1674357500;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XVbcynuBp7YPpn7VkTXTU3PKbJA8Lw5NE5fezak49kc=;
+ b=L5lMaCGcRyOepeAorMgZyKFNZjlSHzgj/H+7+KhaUCVrncaGqQCcYfLg
+ IGb73eGo2zXjqw7ZJn79bEuyk/AtM75BSRxXtSfroEf6gc1m9u5dr7DHf
+ zFd+/Ahrhfvf9UEqNxyTStgLNrlJVjCcq7vFynY/R5aGmS74liEkcq2Bg
+ hHGcTB5z3KdHY1NxCE4wLg8w7dy0Ra6Is6qmQ4LF+FZx5i0yKLZehebse
+ BODXEQtg1RwknVwPrFyPfFlellkUbm5x9a02QMZX+/0JM3dPHEGdEXCgj
+ sn2itd/4L7u3wWP8url/ZagmnSz6sdCT65WQ9VAufMlyN9ue6TcMEor8O A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10234"; a="244608368"
+X-IronPort-AV: E=Sophos;i="5.88,307,1635231600"; d="scan'208";a="244608368"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2022 19:18:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,307,1635231600"; d="scan'208";a="694844988"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 21 Jan 2022 19:18:15 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nB6us-000FxN-Dy; Sat, 22 Jan 2022 03:18:14 +0000
+Date: Sat, 22 Jan 2022 11:17:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-fabrics: fix returnvar.cocci warnings
+Message-ID: <20220122031737.GA31599@fba2a898af35>
+References: <202201221116.hWZkKqts-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0hvvYedSn5u-i7sjpoEHU4P65t7i1b2pVn=S1q0nHWgqQ@mail.gmail.com>
+In-Reply-To: <202201221116.hWZkKqts-lkp@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220121_130911_261547_ACAEEB79 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20220121_191821_125491_2B7B7D2F 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,40 +81,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 21, 2022 at 08:00:49PM +0100, Rafael J. Wysocki wrote:
-> Hi Keith,
-> 
-> It is reported that the following commit
-> 
-> commit e5ad96f388b765fe6b52f64f37e910c0ba4f3de7
-> Author: Keith Busch <kbusch@kernel.org>
-> Date:   Tue Jul 27 09:40:44 2021 -0700
-> 
->    nvme-pci: disable hmb on idle suspend
-> 
->    An idle suspend may or may not disable host memory access from devices
->    placed in low power mode. Either way, it should always be safe to
->    disable the host memory buffer prior to entering the low power mode, and
->    this should also always be faster than a full device shutdown.
-> 
->    Signed-off-by: Keith Busch <kbusch@kernel.org>
->    Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
->    Signed-off-by: Christoph Hellwig <hch@lst.de>
-> 
-> is the source of a serious power regression occurring since 5.15
-> (please see https://bugzilla.kernel.org/show_bug.cgi?id=215467).
-> 
-> After this commit, the SoC on the affected system cannot enter
-> C-states deeper than PC2 while suspended to idle which basically
-> defeats the purpose of suspending.
-> 
-> What may be happening is that nvme_disable_prepare_reset() that is not
-> called any more in the ndev->nr_host_mem_descs case somehow causes the
-> LTR of the device to change to "no requirement" which allows deeper
-> C-states to be entered.
-> 
-> Can you have a look at this, please?
+From: kernel test robot <lkp@intel.com>
 
-I thought platforms that wanted full device shutdown  behaviour would
-always set acpi_storage_d3. Is that not happening here?
+drivers/nvme/host/fabrics.c:1095:5-8: Unneeded variable: "ret". Return "0" on line 1109
+
+
+ Remove unneeded variable used to store return value.
+
+Generated by: scripts/coccinelle/misc/returnvar.cocci
+
+Fixes: f18ee3d98815 ("nvme-fabrics: print out valid arguments when reading from /dev/nvme-fabrics")
+CC: Hannes Reinecke <hare@suse.de>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9b57f458985742bd1c585f4c7f36d04634ce1143
+commit: f18ee3d988157ebcadc9b7e5fd34811938f50223 nvme-fabrics: print out valid arguments when reading from /dev/nvme-fabrics
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 weeks ago
+
+ fabrics.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -1092,7 +1092,6 @@ static void __nvmf_concat_opt_tokens(str
+ static int nvmf_dev_show(struct seq_file *seq_file, void *private)
+ {
+ 	struct nvme_ctrl *ctrl;
+-	int ret = 0;
+ 
+ 	mutex_lock(&nvmf_dev_mutex);
+ 	ctrl = seq_file->private;
+@@ -1106,7 +1105,7 @@ static int nvmf_dev_show(struct seq_file
+ 
+ out_unlock:
+ 	mutex_unlock(&nvmf_dev_mutex);
+-	return ret;
++	return 0;
+ }
+ 
+ static int nvmf_dev_open(struct inode *inode, struct file *file)
 
