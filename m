@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18844C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 11:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3BE0C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 11:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tqhve7JJhbDQBptqG2AcZsgYpgBMvqtn5u69ofC0wkI=; b=MlymYCChkbDBOcaToL4v3IoC3V
-	ZRRAOHBscwiqZtP2sPWCj6UrPoFhx9cry6LG+WXDoBFtQy9lTD0nqaBOSBo+pQAJexe/57o1TkjZB
-	Qk5hfyyRO10e1ehwuShrDcSuq/pw6VbVzANAOqwQjd9nJoPpy3QZ8Fkz5js2kL8w2mHytrLyUhiny
-	lk6i0vAqKX0OO4obKtSMA2r9PgIxRPX3T9muUqbXNG5HJm8CtuLeLztaSj3WDJfFqaWMT3QGpw7v8
-	39GwG+4xKWb7Ibmcb7VG9Dk9+ppXDXay8jwbXwdhYNaTU/B1QAxlaRLB4IKM02YV/ut3fz/oZRIhX
-	woEoOEbw==;
+	bh=+uWC3JQ3E8TC4lMrDyZZGJvPEZT304AfqmguiNRJ6m4=; b=bSggcnmz4GTRIqulQPFiEBtw6G
+	lFNAdM2RG24uf3cFz/yc85c8sBVoamNE5WX59MEwqzPpGpTElOps7431aHwqd4s/Q2kzl9QydcO7t
+	fHBJDPFy+HM3aWBdBkCr82IUbdTrYISqhO6yLW1YvVkhVRLg+0Q7fWHaHLKRTbZFzgq12cpq81VxS
+	sOeNg910wMb/ykUY+hpGFO3JfUi9JCYEYCqwUuNfyuiEfHosC05fov2HkPnw0+LYvuq1IoGow1LuD
+	vkGOO2Mo7ddVFT3fO4stVa8fqRmoqRgQu5jugLF3iRTR7EYo4IwUQePcsssNrxkRKJIkJDIRF1boU
+	wtEvVJxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBEMC-00HAvX-NR; Sat, 22 Jan 2022 11:14:56 +0000
+	id 1nBEN0-00HB9s-MW; Sat, 22 Jan 2022 11:15:46 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nBEK3-00HAG4-PQ
- for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 11:12:45 +0000
+ id 1nBEK8-00HAHi-5f
+ for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 11:12:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642849962;
+ s=mimecast20190719; t=1642849967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tqhve7JJhbDQBptqG2AcZsgYpgBMvqtn5u69ofC0wkI=;
- b=bXGbQOKD3SR8ls0dBsqB2uKDCTx1It9Z2diHO7DR4m3y0xHjLfWb9ezDCZqmSAoWkPi7PF
- kldGOmXFch5QnFvj6uBvUAY3PCMpYxdwg14E9TkPF2FEaAhXaAb+CAnzBgtdT4xqWl6kgJ
- YYRRxNUfROEQXNEowY4SVuUA3W9SPTQ=
+ bh=+uWC3JQ3E8TC4lMrDyZZGJvPEZT304AfqmguiNRJ6m4=;
+ b=SDG0Y/YEe4VoHevEBgigioJU8mARZ49OXQUMVExR4DSuwbQYtQo4r+KJVno8IFLseWLZvi
+ LbAjPkl1UnhdrQzlnhZnSe9HJQK+txS21dv0a3dYmk4lTgj2S1RkvUo+7HgpNDhw3BOZId
+ XcEpfC3TvID2NyNMtQU4B4/lfRyS2qY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-9Rq3Ax0EPSiVOhMzJ1MIAA-1; Sat, 22 Jan 2022 06:12:39 -0500
-X-MC-Unique: 9Rq3Ax0EPSiVOhMzJ1MIAA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-21-BTUij3deM8WgvB4okf_wWQ-1; Sat, 22 Jan 2022 06:12:43 -0500
+X-MC-Unique: BTUij3deM8WgvB4okf_wWQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5501918397B3;
- Sat, 22 Jan 2022 11:12:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1303218397A7;
+ Sat, 22 Jan 2022 11:12:42 +0000 (UTC)
 Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B1481081300;
- Sat, 22 Jan 2022 11:12:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40DE27B9DC;
+ Sat, 22 Jan 2022 11:12:40 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  "Martin K . Petersen" <martin.petersen@oracle.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-scsi@vger.kernel.org, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 10/13] block: add helper of disk_release_queue for release
- queue data for disk
-Date: Sat, 22 Jan 2022 19:10:51 +0800
-Message-Id: <20220122111054.1126146-11-ming.lei@redhat.com>
+Subject: [PATCH V2 11/13] block: move blk_exit_queue into disk_release
+Date: Sat, 22 Jan 2022 19:10:52 +0800
+Message-Id: <20220122111054.1126146-12-ming.lei@redhat.com>
 In-Reply-To: <20220122111054.1126146-1-ming.lei@redhat.com>
 References: <20220122111054.1126146-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220122_031243_958407_21AAC9AB 
-X-CRM114-Status: GOOD (  14.53  )
+X-CRM114-CacheID: sfid-20220122_031248_383110_52F95960 
+X-CRM114-Status: GOOD (  21.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,59 +79,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add one helper of disk_release_queue for releasing queue data for disk.
+There can't be FS IO in disk_release(), so move blk_exit_queue() there.
+
+We still need to freeze queue here since request is freed after bio is
+ended, meantime passthrough request relies on scheduler tags too, but
+either q->q_usage_counter is in atomic mode, such as scsi, or it has
+been drained already, such as most of other drivers, so the added queue
+freeze is pretty fast, and RCU grace period isn't supposed to be
+involved.
+
+disk can be released before or after queue is cleaned up, and we have to
+free scheduler request pool before blk_cleanup_queue returns, meantime
+the request pool has to be freed before exiting the scheduler. So move
+scheduler pool freeing into both the two functions.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- block/genhd.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ block/blk-mq.c    |  3 +++
+ block/blk-sysfs.c | 16 ----------------
+ block/genhd.c     | 39 ++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 41 insertions(+), 17 deletions(-)
 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index d51b0aa2e4e4..72ae9955cf27 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3101,6 +3101,9 @@ void blk_mq_free_rqs(struct blk_mq_tag_set *set, struct blk_mq_tags *tags,
+ 	struct blk_mq_tags *drv_tags;
+ 	struct page *page;
+ 
++	if (list_empty(&tags->page_list))
++		return;
++
+ 	if (blk_mq_is_shared_tags(set->flags))
+ 		drv_tags = set->shared_tags;
+ 	else
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 5f14fd333182..e0f29b56e8e2 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -739,20 +739,6 @@ static void blk_free_queue_rcu(struct rcu_head *rcu_head)
+ 	kmem_cache_free(blk_get_queue_kmem_cache(blk_queue_has_srcu(q)), q);
+ }
+ 
+-/* Unconfigure the I/O scheduler and dissociate from the cgroup controller. */
+-static void blk_exit_queue(struct request_queue *q)
+-{
+-	/*
+-	 * Since the I/O scheduler exit code may access cgroup information,
+-	 * perform I/O scheduler exit before disassociating from the block
+-	 * cgroup controller.
+-	 */
+-	if (q->elevator) {
+-		ioc_clear_queue(q);
+-		elevator_exit(q);
+-	}
+-}
+-
+ /**
+  * blk_release_queue - releases all allocated resources of the request_queue
+  * @kobj: pointer to a kobject, whose container is a request_queue
+@@ -786,8 +772,6 @@ static void blk_release_queue(struct kobject *kobj)
+ 		blk_stat_remove_callback(q, q->poll_cb);
+ 	blk_stat_free_callback(q->poll_cb);
+ 
+-	blk_exit_queue(q);
+-
+ 	blk_free_queue_stats(q->stats);
+ 	kfree(q->poll_stat);
+ 
 diff --git a/block/genhd.c b/block/genhd.c
-index 5bd7bcd6246e..a86027619683 100644
+index a86027619683..f1aef5d13afa 100644
 --- a/block/genhd.c
 +++ b/block/genhd.c
-@@ -1085,6 +1085,20 @@ static const struct attribute_group *disk_attr_groups[] = {
+@@ -1085,11 +1085,48 @@ static const struct attribute_group *disk_attr_groups[] = {
  	NULL
  };
  
-+static void disk_release_queue(struct gendisk *disk)
++/* Unconfigure the I/O scheduler and dissociate from the cgroup controller. */
++static void blk_exit_queue(struct request_queue *q)
 +{
-+	struct request_queue *q = disk->queue;
-+
-+	blk_mq_cancel_work_sync(q);
-+
 +	/*
-+	 * Remove all references to @q from the block cgroup controller before
-+	 * restoring @q->queue_lock to avoid that restoring this pointer causes
-+	 * e.g. blkcg_print_blkgs() to crash.
++	 * Since the I/O scheduler exit code may access cgroup information,
++	 * perform I/O scheduler exit before disassociating from the block
++	 * cgroup controller.
 +	 */
-+	blkcg_exit_queue(q);
++	if (q->elevator) {
++		ioc_clear_queue(q);
++
++		mutex_lock(&q->sysfs_lock);
++		blk_mq_sched_free_rqs(q);
++		elevator_exit(q);
++		mutex_unlock(&q->sysfs_lock);
++	}
 +}
 +
- /**
-  * disk_release - releases all allocated resources of the gendisk
-  * @dev: the device representing this disk
-@@ -1106,19 +1120,12 @@ static void disk_release(struct device *dev)
- 	might_sleep();
- 	WARN_ON_ONCE(disk_live(disk));
+ static void disk_release_queue(struct gendisk *disk)
+ {
+ 	struct request_queue *q = disk->queue;
  
--	blk_mq_cancel_work_sync(disk->queue);
-+	disk_release_queue(disk);
+-	blk_mq_cancel_work_sync(q);
++	if (queue_is_mq(q)) {
++		blk_mq_cancel_work_sync(q);
++
++		/*
++		 * All FS bios have been done, however FS request may not
++		 * be freed yet since we end bio before freeing request,
++		 * meantime passthrough request replies on scheduler tags,
++		 * so queue needs to be frozen here.
++		 *
++		 * Most of drivers release disk after blk_cleanup_queue()
++		 * returns, and SCSI may release disk before calling
++		 * blk_cleanup_queue, but request queue has been in atomic
++		 * mode already, see scsi_disk_release(), so the following
++		 * queue freeze is pretty fast, and RCU grace period isn't
++		 * supposed to be involved.
++		 */
++		blk_mq_freeze_queue(q);
++		blk_exit_queue(q);
++		__blk_mq_unfreeze_queue(q, true);
++	}
  
- 	disk_release_events(disk);
- 	kfree(disk->random);
- 	xa_destroy(&disk->part_tbl);
- 
--	/*
--	 * Remove all references to @q from the block cgroup controller before
--	 * restoring @q->queue_lock to avoid that restoring this pointer causes
--	 * e.g. blkcg_print_blkgs() to crash.
--	 */
--	blkcg_exit_queue(disk->queue);
--
- 	disk->queue->disk = NULL;
- 	blk_put_queue(disk->queue);
- 	iput(disk->part0->bd_inode);	/* frees the disk */
+ 	/*
+ 	 * Remove all references to @q from the block cgroup controller before
 -- 
 2.31.1
 
