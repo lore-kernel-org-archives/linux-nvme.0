@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C7A7C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 11:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2F36C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 11:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pZXy6AjZjPC6H/SXIyE5VyyrzC96iMDRLk5+OuIek/c=; b=euPiIOC6eCGJWXb112363yNBM5
-	es+vAkVpl+iUvyDRdD4WC2sp8Bu10oGVsgAlhF0V95SEw8kw6s329dvhTr5tq7QpRroRt2S4RLJEp
-	ufGz1zBYGSEnzYrTqTGPiWsnDKWlmIQmeSSYzsaITwdfySf/epdUe955LY9Vw5u+OjKnWdBjvQaYW
-	PDGXbZj1qk5yiBMZlxA+5gYFXJIvHshrkBRbDDjouHg1j9ryOYp0jugWfxOhfs9zZ7SBt72g9e+8y
-	UNar3hGfRY2Plf6T++P7drCBELs86oXoaA2+ECV6/PeURR1sKkhGKcotcV0Ektq8IQHHwyllEEEmM
-	Iu4Ar+fg==;
+	bh=iWDZhCx4WfOjbjkCKSgQjjsWcEnBKzFq0pmqP92OyGQ=; b=S/HupM/nv7m9swdy9Ima2uRjS+
+	f+mI8PFtOTBAhjRUxqDUt6O6e/OL48qlxI7LdMq8JWyzV4BHy7YfnmbJuUQW14kW0jUrpjsVQQLKS
+	k2755MEiJCaRQw48J9WUfY0TV4bBeB6u6nYGhoTC0ur26I7IjD/071st+KfEySNixewqcynwVWPE5
+	0GhR/BuIeXQJ//Blrc8wTa8a+mAwaBQcGjElNvoW2xSkZYWr6TYOX0kezUF0/waRDGScG3wQ/3HuE
+	9N3lNJIbecxeb9drLzzpLjH4s0RF6DathVPX7NcTrLqW/DnfY3yN9wKPS87NxTfQprlodirlNZD/j
+	sBBFTgDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBEKg-00HAUR-28; Sat, 22 Jan 2022 11:13:22 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nBEL5-00HAc4-VI; Sat, 22 Jan 2022 11:13:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nBEJh-00HA87-Ek
- for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 11:12:22 +0000
+ id 1nBEJn-00HA9k-AK
+ for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 11:12:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642849940;
+ s=mimecast20190719; t=1642849946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pZXy6AjZjPC6H/SXIyE5VyyrzC96iMDRLk5+OuIek/c=;
- b=Q5LSABOojcG7kNLxrUXDsn/LOoFdHAnJzsb9spt2IQo3ATVJmbN0ZbfIJ3xRFA70NfM0ZK
- 2v9EaIzhqE3YzI1/6p5f9zHVVLcojLzusCuEqCSAmwTJZgEvi86ADSWNpE5U4zPs2+stKW
- kuauCRZK1z1fIXKAOhdm8jNjU3oGb34=
+ bh=iWDZhCx4WfOjbjkCKSgQjjsWcEnBKzFq0pmqP92OyGQ=;
+ b=CQ02tPt6eUA/8QlQf33tT/t5jeLgqsIPAkLGRNVxaSfOZR/JnpyTSG/pkwphdYKp4n9ywD
+ kqVLBmJUA9vdhXD9VKPCwRTR1VefdQWgRoBatoSGC+u3T3fLy2amGBgMao/b0vGp6FCq/F
+ qGBiTIc3Vau7TiC3l5nTRqn6JXCbklk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-VMuyXiscMfyyuedqexKhUA-1; Sat, 22 Jan 2022 06:12:15 -0500
-X-MC-Unique: VMuyXiscMfyyuedqexKhUA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-657-0Qe6dymAMrSf663s74Rv1A-1; Sat, 22 Jan 2022 06:12:22 -0500
+X-MC-Unique: 0Qe6dymAMrSf663s74Rv1A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFBEF2F47;
- Sat, 22 Jan 2022 11:12:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71A0D1006AA3;
+ Sat, 22 Jan 2022 11:12:21 +0000 (UTC)
 Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC14D7B9DC;
- Sat, 22 Jan 2022 11:12:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC90770D3D;
+ Sat, 22 Jan 2022 11:12:17 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  "Martin K . Petersen" <martin.petersen@oracle.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-scsi@vger.kernel.org, Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 07/13] block: move q_usage_counter release into
- blk_queue_release
-Date: Sat, 22 Jan 2022 19:10:48 +0800
-Message-Id: <20220122111054.1126146-8-ming.lei@redhat.com>
+Subject: [PATCH V2 08/13] block: export __blk_mq_unfreeze_queue
+Date: Sat, 22 Jan 2022 19:10:49 +0800
+Message-Id: <20220122111054.1126146-9-ming.lei@redhat.com>
 In-Reply-To: <20220122111054.1126146-1-ming.lei@redhat.com>
 References: <20220122111054.1126146-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220122_031221_596830_E42103EE 
-X-CRM114-Status: GOOD (  13.44  )
+X-CRM114-CacheID: sfid-20220122_031227_462080_04E0442D 
+X-CRM114-Status: GOOD (  18.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,44 +79,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-After blk_cleanup_queue() returns, disk may not be released yet, so
-probably bio may still be submitted and ->q_usage_counter may be
-touched, so far this way seems safe, but not good from API's viewpoint.
+blk_mq_unfreeze_queue() is used by scsi when releasing disk, so not
+necessary to unfreeze into percpu mode, then the following
+blk_cleanup_queue doesn't need to freeze queue from percpu mode, and
+the implied RCU grace period may be avoided.
 
-Move the release ofq_usage_counter into blk_queue_release().
+Meantime move clearing QUEUE_FLAG_INIT_DONE into this API, so that
+when one disk is added, ->q_usage_counter can be switched to percpu
+mode again.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- block/blk-core.c  | 2 --
- block/blk-sysfs.c | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/blk-mq.c         | 10 +++++++++-
+ block/blk.h            |  1 -
+ block/genhd.c          |  1 -
+ include/linux/blk-mq.h |  1 +
+ 4 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index d9477191b303..bcb4d982cd80 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -341,8 +341,6 @@ void blk_cleanup_queue(struct request_queue *q)
- 		blk_mq_sched_free_rqs(q);
- 	mutex_unlock(&q->sysfs_lock);
- 
--	percpu_ref_exit(&q->q_usage_counter);
--
- 	/* @q is and will stay empty, shutdown and put */
- 	blk_put_queue(q);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 66cc701921c1..d51b0aa2e4e4 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -215,11 +215,18 @@ void blk_mq_freeze_queue(struct request_queue *q)
  }
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 6f326b44fb00..5f14fd333182 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -780,6 +780,8 @@ static void blk_release_queue(struct kobject *kobj)
+ EXPORT_SYMBOL_GPL(blk_mq_freeze_queue);
  
- 	might_sleep();
++/*
++ * When 'force_atomic' is passed as true, this API is supposed to be
++ * called only in case that disk is removed or released.
++ */
+ void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic)
+ {
+ 	mutex_lock(&q->mq_freeze_lock);
+-	if (force_atomic)
++	if (force_atomic) {
++		/* When new disk is added, switch to percpu mode */
++		blk_queue_flag_clear(QUEUE_FLAG_INIT_DONE, q);
+ 		q->q_usage_counter.data->force_atomic = true;
++	}
+ 	q->mq_freeze_depth--;
+ 	WARN_ON_ONCE(q->mq_freeze_depth < 0);
+ 	if (!q->mq_freeze_depth) {
+@@ -228,6 +235,7 @@ void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic)
+ 	}
+ 	mutex_unlock(&q->mq_freeze_lock);
+ }
++EXPORT_SYMBOL_GPL(__blk_mq_unfreeze_queue);
  
-+	percpu_ref_exit(&q->q_usage_counter);
-+
- 	if (q->poll_stat)
- 		blk_stat_remove_callback(q, q->poll_cb);
- 	blk_stat_free_callback(q->poll_cb);
+ void blk_mq_unfreeze_queue(struct request_queue *q)
+ {
+diff --git a/block/blk.h b/block/blk.h
+index 7b0f12260ae6..a038e25d8637 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -43,7 +43,6 @@ struct blk_flush_queue *blk_alloc_flush_queue(int node, int cmd_size,
+ void blk_free_flush_queue(struct blk_flush_queue *q);
+ 
+ void blk_freeze_queue(struct request_queue *q);
+-void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
+ void blk_queue_start_drain(struct request_queue *q);
+ int __bio_queue_enter(struct request_queue *q, struct bio *bio);
+ bool submit_bio_checks(struct bio *bio);
+diff --git a/block/genhd.c b/block/genhd.c
+index b9b0db168ce1..5bd7bcd6246e 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -628,7 +628,6 @@ void del_gendisk(struct gendisk *disk)
+ 	/*
+ 	 * Allow using passthrough request again after the queue is torn down.
+ 	 */
+-	blk_queue_flag_clear(QUEUE_FLAG_INIT_DONE, q);
+ 	__blk_mq_unfreeze_queue(q, true);
+ 
+ }
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index d2ad2ed11723..1645159d10f3 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -869,6 +869,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ void blk_mq_tagset_wait_completed_request(struct blk_mq_tag_set *tagset);
+ void blk_mq_freeze_queue(struct request_queue *q);
+ void blk_mq_unfreeze_queue(struct request_queue *q);
++void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
+ void blk_freeze_queue_start(struct request_queue *q);
+ void blk_mq_freeze_queue_wait(struct request_queue *q);
+ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
 -- 
 2.31.1
 
