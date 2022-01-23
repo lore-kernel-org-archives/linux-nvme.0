@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85B6BC433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Jan 2022 09:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD965C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Jan 2022 09:18:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
 	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=KJnBk2zoBEOC3aLNS0KmhvxOxc
-	sB26LPqUfg0UY9PqkieEWLVusIadQZsbCpbhodyEbG2BWJWs6JMU6Y83NxHI2jbudJrbrfNlF2And
-	fuRQ/IA4SYh0bz38p/CKku1mRrcXUD5LkNFChsjQcThjbFwKb7mappGFNmE9Gz6mJkfABIfDtmErY
-	MAPpEA7+yQbtny6O7p0QLa2alUqNKIVB9xXiSLkCvKrwLoVrkxVfXtmL6GtatJXEYIvNJmeTZKzr1
-	i4+Hd/Wsof63jYYeuwx+KliXpR2n9sk/CISpPtDlGPq8C9PY6F6gEFbLZo7e6glUOI3+ykv8HIM/H
-	6iGppYVA==;
+	bh=r73NySj9/8nCcgCFp8uXDnwcvio3YoBmRC1yq9rL+cA=; b=ZhNxk4PKUoB+60bMFOrdFjJe/5
+	MtEqY0VdyKZu+MW6HC8BWEuCqWER/K7kLh456FkZOjrK28Pryfq/tSOhmxih4s+uytEOeCSdku6yY
+	4bp0EilXI+jrHtbw8pqwaSDbwk7bZayJY0rf6shTgL3XaD1DEsfdta+JwZz/dkNBc17hzUtqPbAPg
+	2j+UVwe3RHLPZmIXIHW+VpreNdmJ8CnwhuZ92gtr4l0Nctu7n7fBbcJ/efX38c/nE8O81b/mv/0VH
+	VwmZ1i//BmWYtKzeh9vtznoZgVHoc63WKidMTdu0VDxwxFjXGyPNGRKs/hFKw9BidDYXLOKQ721TZ
+	kLVZI89w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBYzj-000VcW-2q; Sun, 23 Jan 2022 09:17:07 +0000
-Received: from mail-ed1-f47.google.com ([209.85.208.47])
+	id 1nBZ1I-000VzE-H9; Sun, 23 Jan 2022 09:18:44 +0000
+Received: from mail-ed1-f45.google.com ([209.85.208.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nBYzg-000Vb2-FK
- for linux-nvme@lists.infradead.org; Sun, 23 Jan 2022 09:17:05 +0000
-Received: by mail-ed1-f47.google.com with SMTP id m4so50623796edb.10
- for <linux-nvme@lists.infradead.org>; Sun, 23 Jan 2022 01:17:04 -0800 (PST)
+ id 1nBZ1G-000Vye-8h
+ for linux-nvme@lists.infradead.org; Sun, 23 Jan 2022 09:18:43 +0000
+Received: by mail-ed1-f45.google.com with SMTP id l5so33793489edv.3
+ for <linux-nvme@lists.infradead.org>; Sun, 23 Jan 2022 01:18:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=B/F6RfU13EATfUgkNcUItGY/C6i93LTAE4r4HVoIZsVBfdv+TIe6i7BdL2DQABY3tF
- sSWqjX/u7Hv50mfeZ4KicsgvbWFxUClSM3wbjyU4v1ajbDsyYeQr0a3ocZHJZI4+skP7
- LzULEvrHibDc9idA6OQh5fZg9fh746jeUr1qLv8CCpsCFOzjeD1V3HLlfQDaa5W2eJti
- DpKEHsAL/g5C1cMdOWz420Y14abh/zSairVHs6lQRmX7tABwD6MrmldzTkbpOrokLeAf
- x/agnOtBgJqceXaJSTcGBDxqwu9klMTks9gmmxo4vbbDTmtk19sgitQGi/6gyYPhcr9l
- Ql3A==
-X-Gm-Message-State: AOAM531f2LQZ5VaDea1QTWXT+Cg0rss59xH2+aMnr5L7LJq2qlDsP5wX
- brfByoOWoGbekyvMAM+91SE=
-X-Google-Smtp-Source: ABdhPJxqppWNQYd9o/0hUwCRfotxjSI+Q7POozaSIC8z07G0ofHU6TMx7/C1kj7OHJxGghGNn5DdkQ==
-X-Received: by 2002:a05:6402:3546:: with SMTP id
- f6mr11118946edd.398.1642929423044; 
- Sun, 23 Jan 2022 01:17:03 -0800 (PST)
+ bh=r73NySj9/8nCcgCFp8uXDnwcvio3YoBmRC1yq9rL+cA=;
+ b=HIgoesBSX1lDUOPIrf3/WxzrrtXKSOM82NRlBTH/c0OEjjTPK+/9MXyvRTWQubMo34
+ 3rukS8EiJskgFhkP4Z7xpUGwY1+EytIyFRUpi+LzoTuKbSfUqlpRESo62xD0cUL5P2Ba
+ rZ9RyDSlBGzZpX73Wb7x3OuoSW0lccJgLwU8j7V1iv7LzUGN4d9d2tnHksEBzc8KwO5h
+ l4xNn3KPZREJPqKOpkJOi3ZEfFFMSjviSeBIIlD3oQwuungUmzS4YOL8pKgi7Ow+wv72
+ EHd4DE2YaFsZb0cS58VbmBurgwdi4n8nF019gaDTBgLO+OqAQBRy4SLNtDt4Ioeiapa9
+ 1ALw==
+X-Gm-Message-State: AOAM530iQvoTnQSjFBleJ7tg0lw6StPKQOOpeU9Vp4WDNV3M7VkE9j52
+ YRMvxXV2sj/WD5SKy77FPeM=
+X-Google-Smtp-Source: ABdhPJxc3L3NwP+jOgmLgmZgMxDGMTB+vRA/suyimW+H4HwGnMB9F6e7KDz661oq6OBBCMZ0HF+l0Q==
+X-Received: by 2002:a05:6402:6ce:: with SMTP id
+ n14mr4514432edy.262.1642929520791; 
+ Sun, 23 Jan 2022 01:18:40 -0800 (PST)
 Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
  [46.117.116.119])
- by smtp.gmail.com with ESMTPSA id h1sm4661014edz.64.2022.01.23.01.17.02
+ by smtp.gmail.com with ESMTPSA id f2sm3628063eja.78.2022.01.23.01.18.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Jan 2022 01:17:02 -0800 (PST)
-Subject: Re: [PATCH] nvme-core: remove unnecessary function parameter
+ Sun, 23 Jan 2022 01:18:40 -0800 (PST)
+Subject: Re: [PATCH 1/3] nvmet: add helper to set ns->blkshift value
 To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, linux-nvme@lists.infradead.org
 Cc: hch@lst.de, kbusch@kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
-References: <20220122050539.6726-1-chaitanyak@nvidia.com>
+References: <20220119072038.3942-1-chaitanyak@nvidia.com>
+ <20220119072038.3942-2-chaitanyak@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <eac7dd03-cb79-14a7-30d2-3c5da44a9d4e@grimberg.me>
-Date: Sun, 23 Jan 2022 11:17:04 +0200
+Message-ID: <ac69fed5-c1ff-d36c-d88d-e466de3dfcb2@grimberg.me>
+Date: Sun, 23 Jan 2022 11:18:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220122050539.6726-1-chaitanyak@nvidia.com>
+In-Reply-To: <20220119072038.3942-2-chaitanyak@nvidia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220123_011704_541196_6A6B4E01 
-X-CRM114-Status: UNSURE (   7.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220123_011842_344299_E96F2997 
+X-CRM114-Status: GOOD (  12.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,5 +82,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+>   void nvmet_file_ns_disable(struct nvmet_ns *ns)
+>   {
+>   	if (ns->file) {
+> @@ -57,17 +67,14 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>   		return ret;
+>   	}
+>   
+> +	ret = nvmet_file_ns_set_blkshift(ns);
+> +	if (ret)
+> +		return ret;
+> +
+>   	ret = nvmet_file_ns_revalidate(ns);
+>   	if (ret)
+>   		goto err;
+>   
+> -	/*
+> -	 * i_blkbits can be greater than the universally accepted upper bound,
+> -	 * so make sure we export a sane namespace lba_shift.
+> -	 */
+> -	ns->blksize_shift = min_t(u8,
+> -			file_inode(ns->file)->i_blkbits, 12);
+> -
+
+Any particular reason for the change in location?
 
