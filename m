@@ -4,41 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CD68C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jan 2022 16:58:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 865FDC433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Jan 2022 09:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=HtayikW5806N2ZsRNH55GABH6e83jhj6O/uaONZ0s4s=; b=pP7XVQTK4/nBCPncAzNx9TuTqZ
-	KVtQ4zcttJmlmzbZMtpGSyK/ZdZELOXC+xzvB7+gs5Pf10rD08MRqseA/eCIcB6gYw9JSLC2XjW3C
-	X3q2d10gkF8ZdvUayLzBB6wxb0J6/7L5BYRkX4w2Wib3Ci86tfoeaufR3yRng6+MwfLY50IcDnstj
-	jq9fX2ZVO/7pz+HsEruwf/SYq+hMkeQ2Ftpke4tBvHpQdtR7b5v6cTWPpUeBkh0eP1pSPvYdMkU29
-	E1fLFfJFbJFDEza/B/2ow6XZToaEpcIbJ+8qzeEIEOC2vMJjD7lrCGIXNKrPBlQngMUEZ66Qcia07
-	n9zUZFTQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=kpB5lOVlCMTarD4g/bWpBOdEMC
+	y2YBnZ34nvbWsEbNmrI/apcU4rOLw3x2sH6952nqjix+wM1vburChcpVb+4+vaUnZBUIyaxZV22mE
+	CGG1GYdTOmo8HKtvD7zvsiGYr+Ya9wytqlDSS86vmIBm85cl4AvqpU6I9DfoZ4zgSKyGecQ1rK+09
+	d1IGyFcXEuaE3V+9BD11WCPlqSmujJq1pH9XOsTDCf8XFSuchTJmP5AYuUsxZ6+fzvk8YJXCfM2E1
+	F3R0Nsl7BWTnTuyV7f6RgURW/8gbIOFUsIth1yjE8ERTxLDrhh6YQth0aUmtm9jwRF3/49qgfSbCb
+	E10hxUOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBJia-00HVD2-Gl; Sat, 22 Jan 2022 16:58:24 +0000
-Received: from stargate.chelsio.com ([12.32.117.8])
+	id 1nBYz8-000VVi-Af; Sun, 23 Jan 2022 09:16:30 +0000
+Received: from mail-ed1-f44.google.com ([209.85.208.44])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nBJiX-00HVCW-BF
- for linux-nvme@lists.infradead.org; Sat, 22 Jan 2022 16:58:23 +0000
-Received: from fcoe-test11.asicdesigners.com
- (fcoe-test11.blr.asicdesigners.com [10.193.185.180])
- by stargate.chelsio.com (8.14.7/8.14.7) with ESMTP id 20MGvusk016596;
- Sat, 22 Jan 2022 08:57:56 -0800
-From: Varun Prakash <varun@chelsio.com>
-To: sagi@grimberg.me, hch@lst.de, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, varun@chelsio.com
-Subject: [PATCH v4] nvme-tcp: send H2CData PDUs based on MAXH2CDATA
-Date: Sat, 22 Jan 2022 22:27:44 +0530
-Message-Id: <1642870664-3401-1-git-send-email-varun@chelsio.com>
-X-Mailer: git-send-email 2.0.2
+ id 1nBYyt-000VUz-Kr
+ for linux-nvme@lists.infradead.org; Sun, 23 Jan 2022 09:16:16 +0000
+Received: by mail-ed1-f44.google.com with SMTP id b13so51054881edn.0
+ for <linux-nvme@lists.infradead.org>; Sun, 23 Jan 2022 01:16:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=RcSH/viTRQBIe3NRXisA+eI/1eqKQDBcmuHSBMO5tAWcJXQznjoRjWvAZ8k1Z3cx4g
+ YdniHtMNhxcP3TjAYUXaWOQ5cLFYTkIk7thbrhAHNys79mVo33dl5uyAwe/slM4EgVTa
+ Qnmk8nO7X+/EHzr7mJ/W2mxgloQzr0o8/UgwdtEu9F9IkWH6QJMqtPO+cQDGVaoEPSv+
+ Yj1ahfbpXkViQjGq5rR2grEwZKmIxoOT771TEO8IFmFcjTaCBiv968Y7P9e2STVuC6Oh
+ ZwKlZtFWqW+/AX6X4UGGkSyCAK5cxoVNHvmw8Cbkrkzuxz9WMSlUZQko8ssLFGDYdRy2
+ GoSQ==
+X-Gm-Message-State: AOAM5306p2/AGGNlrCEjBX4G6n6ILYYmFepNZFYtm/ouDnGVLJEeyeFm
+ 4+e4G9Lxtu/nfxfHQoGn5Rwj+vw6USM=
+X-Google-Smtp-Source: ABdhPJzzsqPdenfU06WfEC0zKY1jdZ+no/zSE4ctDKikaTnrM/XGYcVKMnlcdjHoVFQGEuWnXFp8zA==
+X-Received: by 2002:a05:6402:2994:: with SMTP id
+ eq20mr11061122edb.281.1642929373230; 
+ Sun, 23 Jan 2022 01:16:13 -0800 (PST)
+Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
+ [46.117.116.119])
+ by smtp.gmail.com with ESMTPSA id gh14sm3581094ejb.38.2022.01.23.01.16.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Jan 2022 01:16:12 -0800 (PST)
+Subject: Re: [PATCH v4] nvme-tcp: send H2CData PDUs based on MAXH2CDATA
+To: Varun Prakash <varun@chelsio.com>, hch@lst.de, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org
+References: <1642870664-3401-1-git-send-email-varun@chelsio.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <23ddf451-2540-86c2-c403-2614477c130f@grimberg.me>
+Date: Sun, 23 Jan 2022 11:16:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <1642870664-3401-1-git-send-email-varun@chelsio.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220122_085821_431074_A9CEAB94 
-X-CRM114-Status: GOOD (  16.68  )
+X-CRM114-CacheID: sfid-20220123_011615_721130_1B6CCBE9 
+X-CRM114-Status: UNSURE (   7.54  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -53,235 +82,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As per NVMe/TCP specification (revision 1.0a, section 3.6.2.3)
-Maximum Host to Controller Data length (MAXH2CDATA): Specifies the
-maximum number of PDU-Data bytes per H2CData PDU in bytes. This value
-is a multiple of dwords and should be no less than 4,096.
-
-Current code sets H2CData PDU data_length to r2t_length,
-it does not check MAXH2CDATA value. Fix this by setting H2CData PDU
-data_length to min(req->h2cdata_left, queue->maxh2cdata).
-
-Also validate MAXH2CDATA value returned by target in ICResp PDU,
-if it is not a multiple of dword or if it is less than 4096 return
--EINVAL from nvme_tcp_init_connection().
-
-Signed-off-by: Varun Prakash <varun@chelsio.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
-
-v4:
-- removed MSG_SENDPAGE_NOTLAST flag in sock_no_sendpage() case
-
-v3:
-- added h2cdata_left, h2cdata_offset
-- removed unnecessary local variables from nvme_tcp_try_send_data_pdu()
-
-v2:
-- removed nvme_tcp_update_h2c_data_pdu()
-- used sock_no_sendpage() instead of kernel_sendmsg()
-
- drivers/nvme/host/tcp.c  | 63 +++++++++++++++++++++++++++++++++++++-----------
- include/linux/nvme-tcp.h |  1 +
- 2 files changed, 50 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 4ceb286..c0fff72 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -44,6 +44,8 @@ struct nvme_tcp_request {
- 	u32			data_len;
- 	u32			pdu_len;
- 	u32			pdu_sent;
-+	u32			h2cdata_left;
-+	u32			h2cdata_offset;
- 	u16			ttag;
- 	__le16			status;
- 	struct list_head	entry;
-@@ -95,6 +97,7 @@ struct nvme_tcp_queue {
- 	struct nvme_tcp_request *request;
- 
- 	int			queue_size;
-+	u32			maxh2cdata;
- 	size_t			cmnd_capsule_len;
- 	struct nvme_tcp_ctrl	*ctrl;
- 	unsigned long		flags;
-@@ -572,23 +575,26 @@ static int nvme_tcp_handle_comp(struct nvme_tcp_queue *queue,
- 	return ret;
- }
- 
--static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
--		struct nvme_tcp_r2t_pdu *pdu)
-+static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_data_pdu *data = req->pdu;
- 	struct nvme_tcp_queue *queue = req->queue;
- 	struct request *rq = blk_mq_rq_from_pdu(req);
-+	u32 h2cdata_sent = req->pdu_len;
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 	u8 ddgst = nvme_tcp_ddgst_len(queue);
- 
- 	req->state = NVME_TCP_SEND_H2C_PDU;
- 	req->offset = 0;
--	req->pdu_len = le32_to_cpu(pdu->r2t_length);
-+	req->pdu_len = min(req->h2cdata_left, queue->maxh2cdata);
- 	req->pdu_sent = 0;
-+	req->h2cdata_left -= req->pdu_len;
-+	req->h2cdata_offset += h2cdata_sent;
- 
- 	memset(data, 0, sizeof(*data));
- 	data->hdr.type = nvme_tcp_h2c_data;
--	data->hdr.flags = NVME_TCP_F_DATA_LAST;
-+	if (!req->h2cdata_left)
-+		data->hdr.flags = NVME_TCP_F_DATA_LAST;
- 	if (queue->hdr_digest)
- 		data->hdr.flags |= NVME_TCP_F_HDGST;
- 	if (queue->data_digest)
-@@ -597,9 +603,9 @@ static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
- 	data->hdr.pdo = data->hdr.hlen + hdgst;
- 	data->hdr.plen =
- 		cpu_to_le32(data->hdr.hlen + hdgst + req->pdu_len + ddgst);
--	data->ttag = pdu->ttag;
-+	data->ttag = req->ttag;
- 	data->command_id = nvme_cid(rq);
--	data->data_offset = pdu->r2t_offset;
-+	data->data_offset = cpu_to_le32(req->h2cdata_offset);
- 	data->data_length = cpu_to_le32(req->pdu_len);
- }
- 
-@@ -609,6 +615,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	struct nvme_tcp_request *req;
- 	struct request *rq;
- 	u32 r2t_length = le32_to_cpu(pdu->r2t_length);
-+	u32 r2t_offset = le32_to_cpu(pdu->r2t_offset);
- 
- 	rq = nvme_find_rq(nvme_tcp_tagset(queue), pdu->command_id);
- 	if (!rq) {
-@@ -633,14 +640,19 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 		return -EPROTO;
- 	}
- 
--	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
-+	if (unlikely(r2t_offset < req->data_sent)) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"req %d unexpected r2t offset %u (expected %zu)\n",
--			rq->tag, le32_to_cpu(pdu->r2t_offset), req->data_sent);
-+			rq->tag, r2t_offset, req->data_sent);
- 		return -EPROTO;
- 	}
- 
--	nvme_tcp_setup_h2c_data_pdu(req, pdu);
-+	req->pdu_len = 0;
-+	req->h2cdata_left = r2t_length;
-+	req->h2cdata_offset = r2t_offset;
-+	req->ttag = pdu->ttag;
-+
-+	nvme_tcp_setup_h2c_data_pdu(req);
- 	nvme_tcp_queue_request(req, false, true);
- 
- 	return 0;
-@@ -920,6 +932,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	int req_data_len = req->data_len;
-+	u32 h2cdata_left = req->h2cdata_left;
- 
- 	while (true) {
- 		struct page *page = nvme_tcp_req_cur_page(req);
-@@ -964,7 +977,10 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- 				req->state = NVME_TCP_SEND_DDGST;
- 				req->offset = 0;
- 			} else {
--				nvme_tcp_done_send_req(queue);
-+				if (h2cdata_left)
-+					nvme_tcp_setup_h2c_data_pdu(req);
-+				else
-+					nvme_tcp_done_send_req(queue);
- 			}
- 			return 1;
- 		}
-@@ -1022,9 +1038,14 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
- 	if (queue->hdr_digest && !req->offset)
- 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
- 
--	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
--			offset_in_page(pdu) + req->offset, len,
--			MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+	if (!req->h2cdata_left)
-+		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-+				offset_in_page(pdu) + req->offset, len,
-+				MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+	else
-+		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
-+				offset_in_page(pdu) + req->offset, len,
-+				MSG_DONTWAIT | MSG_MORE);
- 	if (unlikely(ret <= 0))
- 		return ret;
- 
-@@ -1044,6 +1065,7 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	size_t offset = req->offset;
-+	u32 h2cdata_left = req->h2cdata_left;
- 	int ret;
- 	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
- 	struct kvec iov = {
-@@ -1061,7 +1083,10 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
- 		return ret;
- 
- 	if (offset + ret == NVME_TCP_DIGEST_LENGTH) {
--		nvme_tcp_done_send_req(queue);
-+		if (h2cdata_left)
-+			nvme_tcp_setup_h2c_data_pdu(req);
-+		else
-+			nvme_tcp_done_send_req(queue);
- 		return 1;
- 	}
- 
-@@ -1253,6 +1278,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	struct msghdr msg = {};
- 	struct kvec iov;
- 	bool ctrl_hdgst, ctrl_ddgst;
-+	u32 maxh2cdata;
- 	int ret;
- 
- 	icreq = kzalloc(sizeof(*icreq), GFP_KERNEL);
-@@ -1336,6 +1362,14 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 		goto free_icresp;
- 	}
- 
-+	maxh2cdata = le32_to_cpu(icresp->maxdata);
-+	if ((maxh2cdata % 4) || (maxh2cdata < NVME_TCP_MIN_MAXH2CDATA)) {
-+		pr_err("queue %d: invalid maxh2cdata returned %u\n",
-+		       nvme_tcp_queue_id(queue), maxh2cdata);
-+		goto free_icresp;
-+	}
-+	queue->maxh2cdata = maxh2cdata;
-+
- 	ret = 0;
- free_icresp:
- 	kfree(icresp);
-@@ -2320,6 +2354,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	req->data_sent = 0;
- 	req->pdu_len = 0;
- 	req->pdu_sent = 0;
-+	req->h2cdata_left = 0;
- 	req->data_len = blk_rq_nr_phys_segments(rq) ?
- 				blk_rq_payload_bytes(rq) : 0;
- 	req->curr_bio = rq->bio;
-diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-index 959e0bd..7547015 100644
---- a/include/linux/nvme-tcp.h
-+++ b/include/linux/nvme-tcp.h
-@@ -12,6 +12,7 @@
- #define NVME_TCP_DISC_PORT	8009
- #define NVME_TCP_ADMIN_CCSZ	SZ_8K
- #define NVME_TCP_DIGEST_LENGTH	4
-+#define NVME_TCP_MIN_MAXH2CDATA 4096
- 
- enum nvme_tcp_pfv {
- 	NVME_TCP_PFV_1_0 = 0x0,
--- 
-2.0.2
-
 
