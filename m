@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B4B2C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jan 2022 23:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF697C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jan 2022 23:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=roW5J7iac8fftPWGb47ZXrc4wN3kazKOO4vYqBt3HH8=; b=eURJtuknoSXqrBM3ODdakmi8zK
-	mAHfDrmOFqP1lcmGN7HNM/cA+i8+j8b6KUYJNa33BAS8xj9d/7LwE/jJts5q4kwLznZ/10f8xfwL/
-	uGmh6V/LMqLHl5jgBBeoeSc54gydqEq193kjmQWijyrslGmhthrDOviQheLu0NThUfWHpAc56eVlQ
-	ffbSbH8J0cvQ4sixnMJ/VKGr7cpa+3OHAiv76Te3j5sV9jWYev6bUi73p/nZTpfX1kFqGPZx03t+J
-	ruQJ80+e0/6xxkbi2t+ArGVxPTOx4l3XfczXxxhxr0wd+XuI8aUyOZExhdKj2z5D8BMW68azfvPpC
-	p8PWdGfw==;
+	bh=IlNQPGOZpWmo+k7nBEmHz0ohqpEuOKZGrpMVc+NcfrY=; b=cv+di34fWmc5OV4c8Zs8ZLNHC5
+	DydbXWtVbJvpYK+wenoOK1HQBGaW3VUrBcO2jBqur8xallmxYF7S9ja5S+y6QNPRvBHAa8Wdx3BsM
+	1ajqWpFHUbCtziskmx63ifKa+sdA39dMqvw6AY/G14VMLeW9GHHNnQGRKqPLiBMAeUhGf1ZQ7fsBf
+	VdAw0fmKPvXFYgerH1AdgOgzsKmPkGcYM+Rc7LgXA+c2rbsXNXlOWYC1lt45pzxyOMq08MVZUkLR6
+	9HqICl+2weVEpOnREqLS81YU+dsHfalT4+gzyYnXhy0fkgNbxqjs4thsCSQfZ6IBG7FVyjzCRxwOf
+	3IIrtFBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nC8fM-005ZM2-4F; Mon, 24 Jan 2022 23:22:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nC8kl-005aX0-O5; Mon, 24 Jan 2022 23:28:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nC8fJ-005ZKp-D9
- for linux-nvme@lists.infradead.org; Mon, 24 Jan 2022 23:22:26 +0000
+ id 1nC8kj-005aWZ-La
+ for linux-nvme@lists.infradead.org; Mon, 24 Jan 2022 23:28:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643066544;
+ s=mimecast20190719; t=1643066880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=roW5J7iac8fftPWGb47ZXrc4wN3kazKOO4vYqBt3HH8=;
- b=WZpSgbHQJvcU9Gmq6qdzUiKoE91YiK/Lq82soHr+MyMo6RkiNX2ZRk+0JLAoDU2nINofaC
- gQJSpMAISxuCOLQzA2EHJmSMU7MkkgkxQGLZzSPg19hosfSbsVIPuZAQh7FAcT4NSoeLVr
- 9+JNrKtl5AC+DriNTiObYWuLQuHH19U=
+ bh=IlNQPGOZpWmo+k7nBEmHz0ohqpEuOKZGrpMVc+NcfrY=;
+ b=NjzQMGVz6hWLo9y1ebl5mppwuZ+b/sRo0D/Zgkwmlzr80WW12xzWzyyqVx2XKhUCppfPR3
+ Gt0SVlJBmRCFFJYFxygMRVsywtWadAc4mTtQHlsIR8lDuwJUCDy0TJXZlfkWzwMkCzjgN+
+ Qe1I6/h7KjJnqPEanTfcpgsiLWCHyvY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-LxYTban4Na-bPjpDFcffpg-1; Mon, 24 Jan 2022 18:22:18 -0500
-X-MC-Unique: LxYTban4Na-bPjpDFcffpg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-385-S8mqnyQoPgqAjdxJr3dxPQ-1; Mon, 24 Jan 2022 18:27:57 -0500
+X-MC-Unique: S8mqnyQoPgqAjdxJr3dxPQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AE4F1006AA8;
- Mon, 24 Jan 2022 23:22:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03D271006AA6;
+ Mon, 24 Jan 2022 23:27:56 +0000 (UTC)
 Received: from T590 (ovpn-8-21.pek2.redhat.com [10.72.8.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 442025ED55;
- Mon, 24 Jan 2022 23:21:59 +0000 (UTC)
-Date: Tue, 25 Jan 2022 07:21:55 +0800
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E2AC5DB95;
+ Mon, 24 Jan 2022 23:27:42 +0000 (UTC)
+Date: Tue, 25 Jan 2022 07:27:37 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH V2 09/13] scsi: force unfreezing queue into atomic mode
-Message-ID: <Ye80kxTBojm6GN8k@T590>
+ linux-scsi@vger.kernel.org
+Subject: Re: [PATCH V2 10/13] block: add helper of disk_release_queue for
+ release queue data for disk
+Message-ID: <Ye816Xu9gPU7Q8Ug@T590>
 References: <20220122111054.1126146-1-ming.lei@redhat.com>
- <20220122111054.1126146-10-ming.lei@redhat.com>
- <20220124131516.GH27269@lst.de>
+ <20220122111054.1126146-11-ming.lei@redhat.com>
+ <20220124131624.GI27269@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220124131516.GH27269@lst.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20220124131624.GI27269@lst.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220124_152225_541040_C2EC35E9 
-X-CRM114-Status: GOOD (  26.45  )
+X-CRM114-CacheID: sfid-20220124_152801_807765_0F9E4011 
+X-CRM114-Status: GOOD (  17.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,37 +83,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 24, 2022 at 02:15:16PM +0100, Christoph Hellwig wrote:
-> On Sat, Jan 22, 2022 at 07:10:50PM +0800, Ming Lei wrote:
-> > In scsi_disk_release() request queue is frozen for clearing
-> > disk->private_data, and there can't be any FS IO issued to
-> > this queue, and only private passthrough request will be handled, so
-> > force unfreezing queue into atomic mode.
-> > 
-> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > ---
-> >  drivers/scsi/sd.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-> > index 0e73c3f2f381..27f04c860f00 100644
-> > --- a/drivers/scsi/sd.c
-> > +++ b/drivers/scsi/sd.c
-> > @@ -3670,7 +3670,7 @@ static void scsi_disk_release(struct device *dev)
-> >  	 * in case multiple processes open a /dev/sd... node concurrently.
-> >  	 */
-> >  	blk_mq_freeze_queue(q);
-> > -	blk_mq_unfreeze_queue(q);
-> > +	__blk_mq_unfreeze_queue(q, true);
+On Mon, Jan 24, 2022 at 02:16:24PM +0100, Christoph Hellwig wrote:
+> On Sat, Jan 22, 2022 at 07:10:51PM +0800, Ming Lei wrote:
+> > Add one helper of disk_release_queue for releasing queue data for disk.
 > 
-> I think the right thing here is to drop the freeze/unfreeze pair.
-> Now that del_gendisk properly freezes the queue, we don't need this
-> protection as the issue that Bart fixed with it can't happen any more.
+> Please explain what "queue data for disk" is, and why this helper is
 
-As you see, the last patch removes freeze/unfreeze pair in del_gendisk(),
-which looks not very useful: it can't drain IO on bio based driver, and
-del_gendisk() is supposed to provide consistent behavior for both request
-and bio based driver.
+Here it means elevator, blk-cgroup and rq qos, all actually serve FS
+IOs, maybe it should be changed to FS IOs.
+
+> useful.  Right now it seems to just move a few things around without a
+> rationale or explanation of why it is safe.
+
+This patch just moves two function calls into the helper, and there
+doesn't have functional change, so no need rationale and explanation.
 
 
 Thanks,
