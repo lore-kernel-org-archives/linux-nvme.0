@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFA25C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jan 2022 16:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B708DC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jan 2022 16:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bbsy2l2gDcU9ylfwIvRKLYcFJRGe2PrPemnWWscrohU=; b=4WxCeI4xTUMp2AYpLCDTeEzYmE
-	wPd1UsHkfoZm7mioHDaR/Lz5uGGRDdPZlWD3Gi2tOn3WQKQ/V/AA7M68tGyPb0CYxOjRwhaWGlNUz
-	7RljCrsbuGv4pfQhYclL5q8/ExWgdB6FJ2fa10EQgbcApdsGhOV+pPWpMMGO80a1rmoHW1Ryo805T
-	1wZwprVeymqt3+SNuoTp4kLn8hpr322hlzqp7u2EEXPAGbGpY8sJnU/BmZvFTdsfrPGj0I0PMAB/h
-	Ds2PT+oewzMYpO9JIJC2lS/ssdGMWcG9lOaXOK3Z6dR9mToU9gz33YB5I7YOzoI0uhp5RanrSuzF6
-	PYkPaMvw==;
+	bh=hqplgV+J5mPDOLnrZiEYb+iTM3L3jP6tK9feNncQ79U=; b=olOFGSLLEkxHMGfTsYX47kwoWo
+	xjHaBRRwJ40spWwLVkspGZPadwE81CjIBEIrTzkpFu2UJFdb9N/TMtSaRXapQGIBR8SyZGwvd+qKz
+	lU5qI6cUTVUfWbBS9p+0xvnAc2lqArw7lYsWfSKCzU1vIf08IViGHZ7meGJBnPxJUs/paS//ltflQ
+	N6kHk9hqE2Kf4KxwHBSkp0cH9WXK583a9IzGv3rEYjuJ94na4vbFt/3/JZy508YTPtqVwmEgK1C5N
+	yj0ZU4czUCdFRXeoYlgaJNo6KE20t3GMRXC+odIEhKMIRgPII14QEp22zZR9SVfKR9fCVz/BoiL++
+	dwv1ZJZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nC1nc-003tXM-C3; Mon, 24 Jan 2022 16:02:32 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1nC1nr-003tcI-Ga; Mon, 24 Jan 2022 16:02:47 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nC1mN-003t1Y-Jj
+ id 1nC1mO-003t2b-AV
  for linux-nvme@lists.infradead.org; Mon, 24 Jan 2022 16:01:18 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 50578B81104;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C2245614D0;
+ Mon, 24 Jan 2022 16:01:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB300C340EA;
  Mon, 24 Jan 2022 16:01:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62795C340E8;
- Mon, 24 Jan 2022 16:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643040073;
- bh=22yFSDgTU+mAw4FqKAIxVS2myUtOCkZICQ7PgQBG7b4=;
+ s=k20201202; t=1643040075;
+ bh=Dr/AbgMshBvgbnKnIxBZYt5s22uup9MW9WKG9rVi0DQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i1WXV0O2XSsW0CwTyyAyeWBM68UIlmxXR1gkEPUJqCzmNyEpR9blY/T+MwK1FS4pE
- u9DxkXziwIh0a0ZOl7MMgkYzlwo23FTmVnt2kAZUXyleNmxaWfE0yoskFn1ay8M/2E
- Bddc/sfqMMqTUOx7bzwj4c/YR/06NWXjj8iY3j+o6cvGkPvP6tkAJtE3BX5YDwNHx5
- ALEIeNx5xpyuZd+dmgilAQ3W+CNuBzeDFi21vupA4AlZbxSjjDprAXv2NrC0Q7U6Iw
- i49dD1NnhvluVy+g7QKiLkkn1RXsEe3I8S2/ZLpZUqleC3irRjvLcMJD2ifBNNCZVf
- teFY3Vc20SuRg==
+ b=Jjp+UU5GWsTxEwKbReWanq7e2Qzr/rknQ/Z586rdT8n72u4VEueEvt2eJ3HUF4dbn
+ EKHGWx2nRD9LSgC5mF9JOdTMrJjHXUbPiqZDhIPHiFZiDrK5aJpRj3lzr8WjNPe7co
+ D3AR9stfSS2LHMuAl0X30BmZgAiSG3v7Xk7RuCTNhhWXUZB09cykPN1og4I2PmGK/F
+ T4alnaJTLJwUxB1uUswbHfvl2ZvXJyrvrmeUQJ68Yvu7xzBuKz1kfz4v3BhcCuIBXU
+ K88iG/CjIoaTP+5jx4vluYbYmA7tYPI5bf+6lVceM2oLROdTlej4JrEcohCR+r+BRZ
+ yUQU6oeOCrRmg==
 From: Keith Busch <kbusch@kernel.org>
 To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org
 Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, colyli@suse.de,
  arnd@arndb.de, Keith Busch <kbusch@kernel.org>
-Subject: [RFC 3/7] lib: add rocksoft model crc64
-Date: Mon, 24 Jan 2022 08:01:03 -0800
-Message-Id: <20220124160107.1683901-4-kbusch@kernel.org>
+Subject: [RFC 6/7] block: add pi for nvme enhanced integrity
+Date: Mon, 24 Jan 2022 08:01:06 -0800
+Message-Id: <20220124160107.1683901-7-kbusch@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20220124160107.1683901-1-kbusch@kernel.org>
 References: <20220124160107.1683901-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220124_080115_972363_39EA0524 
-X-CRM114-Status: GOOD (  19.72  )
+X-CRM114-CacheID: sfid-20220124_080116_506643_4CF37643 
+X-CRM114-Status: GOOD (  19.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,201 +72,272 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVM Express specification extended data integrity fields to 64 bits
-using the Rocksoft^TM parameters. Add the poly (0xad93d23594c93659) to
-the crc64 table generation, and provide a library routine implementing
-the algorithm.
+The NVMe specification defines larger data integrity formats beyond the
+t10 tuple. Add support for the specification defined CRC64 formats,
+assuming the reference tag does not need to be split with the "storage
+tag".
 
-Since this model reflects inputs and outputs, a helper table and
-function are added to reverse bits of 8 and 64 bit values.
-
-Cc: Coly Li <colyli@suse.de>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/linux/crc64.h |  2 ++
- lib/crc64.c           | 79 +++++++++++++++++++++++++++++++++++++++++++
- lib/gen_crc64table.c  | 33 ++++++++++++------
- 3 files changed, 103 insertions(+), 11 deletions(-)
+ block/Kconfig          |   1 +
+ block/t10-pi.c         | 194 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/t10-pi.h |  20 +++++
+ 3 files changed, 215 insertions(+)
 
-diff --git a/include/linux/crc64.h b/include/linux/crc64.h
-index c756e65a1b58..9f2f20216503 100644
---- a/include/linux/crc64.h
-+++ b/include/linux/crc64.h
-@@ -8,4 +8,6 @@
- #include <linux/types.h>
+diff --git a/block/Kconfig b/block/Kconfig
+index d5d4197b7ed2..78eca050dff7 100644
+--- a/block/Kconfig
++++ b/block/Kconfig
+@@ -63,6 +63,7 @@ config BLK_DEV_INTEGRITY_T10
+ 	tristate
+ 	depends on BLK_DEV_INTEGRITY
+ 	select CRC_T10DIF
++	select CRC64
  
- u64 __pure crc64_be(u64 crc, const void *p, size_t len);
-+u64 __pure crc64_rocksoft(u64 crc, const void *p, size_t len);
-+
- #endif /* _LINUX_CRC64_H */
-diff --git a/lib/crc64.c b/lib/crc64.c
-index 9f852a89ee2a..963283d1e682 100644
---- a/lib/crc64.c
-+++ b/lib/crc64.c
-@@ -22,6 +22,13 @@
-  * x^24 + x^23 + x^22 + x^21 + x^19 + x^17 + x^13 + x^12 + x^10 + x^9 +
-  * x^7 + x^4 + x + 1
-  *
-+ * crc64rocksoft[256] table is from the Rocksoft specification polynomial
-+ * defined as,
-+ *
-+ * x^64 + x^63 + x^61 + x^59 + x^58 + x^56 + x^55 + x^52 + x^49 + x^48 + x^47 +
-+ * x^46 + x^44 + x^41 + x^37 + x^36 + x^34 + x^32 + x^31 + x^28 + x^26 + x^23 +
-+ * x^22 + x^19 + x^16 + x^13 + x^12 + x^10 + x^9 + x^6 + x^4 + x^3 + 1
-+ *
-  * Copyright 2018 SUSE Linux.
-  *   Author: Coly Li <colyli@suse.de>
-  */
-@@ -55,3 +62,75 @@ u64 __pure crc64_be(u64 crc, const void *p, size_t len)
- 	return crc;
- }
- EXPORT_SYMBOL_GPL(crc64_be);
-+
-+static u64 bit_reverse(u64 val)
+ config BLK_DEV_ZONED
+ 	bool "Zoned block device support"
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index 758a76518854..7bfefe970bc5 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -7,8 +7,10 @@
+ #include <linux/t10-pi.h>
+ #include <linux/blk-integrity.h>
+ #include <linux/crc-t10dif.h>
++#include <linux/crc64.h>
+ #include <linux/module.h>
+ #include <net/checksum.h>
++#include <asm/unaligned.h>
+ 
+ typedef __be16 (csum_fn) (void *, unsigned int);
+ 
+@@ -278,4 +280,196 @@ const struct blk_integrity_profile t10_pi_type3_ip = {
+ };
+ EXPORT_SYMBOL(t10_pi_type3_ip);
+ 
++static __be64 nvme_pi_crc64(void *data, unsigned int len)
 +{
-+	unsigned long *v, *r;
-+	u64 new_val = 0;
-+	int i;
-+
-+	v = (unsigned long *)&val;
-+	r = (unsigned long *)&new_val;
-+
-+	for_each_set_bit(i, v, 64)
-+		set_bit(63 - i, r);
-+
-+	return new_val;
++	return cpu_to_be64(crc64_rocksoft(~0ULL, data, len));
 +}
 +
-+/*
-+ * quick lookup table with values reversing the bits of the index
-+ */
-+static const u8 reverse[256] = {
-+	0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0,
-+	0x30, 0xB0, 0x70, 0xF0, 0x08, 0x88, 0x48, 0xC8, 0x28, 0xA8, 0x68, 0xE8,
-+	0x18, 0x98, 0x58, 0xD8, 0x38, 0xB8, 0x78, 0xF8, 0x04, 0x84, 0x44, 0xC4,
-+	0x24, 0xA4, 0x64, 0xE4, 0x14, 0x94, 0x54, 0xD4, 0x34, 0xB4, 0x74, 0xF4,
-+	0x0C, 0x8C, 0x4C, 0xCC, 0x2C, 0xAC, 0x6C, 0xEC, 0x1C, 0x9C, 0x5C, 0xDC,
-+	0x3C, 0xBC, 0x7C, 0xFC, 0x02, 0x82, 0x42, 0xC2, 0x22, 0xA2, 0x62, 0xE2,
-+	0x12, 0x92, 0x52, 0xD2, 0x32, 0xB2, 0x72, 0xF2, 0x0A, 0x8A, 0x4A, 0xCA,
-+	0x2A, 0xAA, 0x6A, 0xEA, 0x1A, 0x9A, 0x5A, 0xDA, 0x3A, 0xBA, 0x7A, 0xFA,
-+	0x06, 0x86, 0x46, 0xC6, 0x26, 0xA6, 0x66, 0xE6, 0x16, 0x96, 0x56, 0xD6,
-+	0x36, 0xB6, 0x76, 0xF6, 0x0E, 0x8E, 0x4E, 0xCE, 0x2E, 0xAE, 0x6E, 0xEE,
-+	0x1E, 0x9E, 0x5E, 0xDE, 0x3E, 0xBE, 0x7E, 0xFE, 0x01, 0x81, 0x41, 0xC1,
-+	0x21, 0xA1, 0x61, 0xE1, 0x11, 0x91, 0x51, 0xD1, 0x31, 0xB1, 0x71, 0xF1,
-+	0x09, 0x89, 0x49, 0xC9, 0x29, 0xA9, 0x69, 0xE9, 0x19, 0x99, 0x59, 0xD9,
-+	0x39, 0xB9, 0x79, 0xF9, 0x05, 0x85, 0x45, 0xC5, 0x25, 0xA5, 0x65, 0xE5,
-+	0x15, 0x95, 0x55, 0xD5, 0x35, 0xB5, 0x75, 0xF5, 0x0D, 0x8D, 0x4D, 0xCD,
-+	0x2D, 0xAD, 0x6D, 0xED, 0x1D, 0x9D, 0x5D, 0xDD, 0x3D, 0xBD, 0x7D, 0xFD,
-+	0x03, 0x83, 0x43, 0xC3, 0x23, 0xA3, 0x63, 0xE3, 0x13, 0x93, 0x53, 0xD3,
-+	0x33, 0xB3, 0x73, 0xF3, 0x0B, 0x8B, 0x4B, 0xCB, 0x2B, 0xAB, 0x6B, 0xEB,
-+	0x1B, 0x9B, 0x5B, 0xDB, 0x3B, 0xBB, 0x7B, 0xFB, 0x07, 0x87, 0x47, 0xC7,
-+	0x27, 0xA7, 0x67, 0xE7, 0x17, 0x97, 0x57, 0xD7, 0x37, 0xB7, 0x77, 0xF7,
-+	0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF,
-+	0x3F, 0xBF, 0x7F, 0xFF
-+};
-+
-+/**
-+ * crc64_rocksoft - Calculate bitwise Rocksoft CRC64
-+ * @crc: seed value for computation. (u64)~0 for a new CRC calculation, or the
-+ * 	 previous crc64 value if computing incrementally.
-+ * @p: pointer to buffer over which CRC64 is run
-+ * @len: length of buffer @p
-+ *
-+ * The Rocksoft 64-bit CRC model parameters:
-+ * 	Initial value: 0xFFFFFFFFFFFFFFFF
-+ * 	Reflected Input: True
-+ * 	Reflected Output: True
-+ * 	Xor Final: 0xFFFFFFFFFFFFFFFF
-+ */
-+u64 __pure crc64_rocksoft(u64 crc, const void *p, size_t len)
++static blk_status_t nvme_crc64_generate(struct blk_integrity_iter *iter,
++					enum t10_dif_type type)
 +{
-+	size_t i, t;
++	unsigned int i;
 +
-+	const unsigned char *_p = p;
++	for (i = 0 ; i < iter->data_size ; i += iter->interval) {
++		struct nvme_crc64_pi_tuple *pi = iter->prot_buf;
 +
-+	for (i = 0; i < len; i++) {
-+		u8 tmp = reverse[*_p++];
-+		t = ((crc >> 56) ^ tmp) & 0xFF;
-+		crc = crc64rocksofttable[t] ^ (crc << 8);
++		pi->guard_tag = nvme_pi_crc64(iter->data_buf, iter->interval);
++		pi->app_tag = 0;
++
++		if (type == T10_PI_TYPE1_PROTECTION)
++			put_unaligned_be48(iter->seed, pi->ref_tag);
++		else
++			put_unaligned_be48(0ULL, pi->ref_tag);
++
++		iter->data_buf += iter->interval;
++		iter->prot_buf += iter->tuple_size;
++		iter->seed++;
 +	}
 +
-+	return bit_reverse(crc) ^ (u64)~0;
++	return BLK_STS_OK;
 +}
-+EXPORT_SYMBOL_GPL(crc64_rocksoft);
-diff --git a/lib/gen_crc64table.c b/lib/gen_crc64table.c
-index 094b43aef8db..f1fceddb78ff 100644
---- a/lib/gen_crc64table.c
-+++ b/lib/gen_crc64table.c
-@@ -17,10 +17,12 @@
- #include <stdio.h>
- 
- #define CRC64_ECMA182_POLY 0x42F0E1EBA9EA3693ULL
-+#define CRC64_ROCKSOFT_POLY 0xAD93D23594C93659ULL
- 
- static uint64_t crc64_table[256] = {0};
-+static uint64_t crc64_rocksoft_table[256] = {0};
- 
--static void generate_crc64_table(void)
-+static void generate_crc64_table(uint64_t table[256], uint64_t poly)
- {
- 	uint64_t i, j, c, crc;
- 
-@@ -30,26 +32,22 @@ static void generate_crc64_table(void)
- 
- 		for (j = 0; j < 8; j++) {
- 			if ((crc ^ c) & 0x8000000000000000ULL)
--				crc = (crc << 1) ^ CRC64_ECMA182_POLY;
-+				crc = (crc << 1) ^ poly;
- 			else
- 				crc <<= 1;
- 			c <<= 1;
- 		}
- 
--		crc64_table[i] = crc;
-+		table[i] = crc;
- 	}
- }
- 
--static void print_crc64_table(void)
-+static void output_table(uint64_t table[256])
- {
- 	int i;
- 
--	printf("/* this file is generated - do not edit */\n\n");
--	printf("#include <linux/types.h>\n");
--	printf("#include <linux/cache.h>\n\n");
--	printf("static const u64 ____cacheline_aligned crc64table[256] = {\n");
- 	for (i = 0; i < 256; i++) {
--		printf("\t0x%016" PRIx64 "ULL", crc64_table[i]);
-+		printf("\t0x%016" PRIx64 "ULL", table[i]);
- 		if (i & 0x1)
- 			printf(",\n");
- 		else
-@@ -58,9 +56,22 @@ static void print_crc64_table(void)
- 	printf("};\n");
- }
- 
-+static void print_crc64_tables(void)
++
++static bool nvme_crc64_ref_escape(u8 *ref_tag)
 +{
-+	printf("/* this file is generated - do not edit */\n\n");
-+	printf("#include <linux/types.h>\n");
-+	printf("#include <linux/cache.h>\n\n");
-+	printf("static const u64 ____cacheline_aligned crc64table[256] = {\n");
-+	output_table(crc64_table);
++	static u8 ref_escape[6] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 +
-+	printf("\nstatic const u64 ____cacheline_aligned crc64rocksofttable[256] = {\n");
-+	output_table(crc64_rocksoft_table);
++	return memcmp(ref_tag, ref_escape, sizeof(ref_escape)) == 0;
 +}
 +
- int main(int argc, char *argv[])
- {
--	generate_crc64_table();
--	print_crc64_table();
-+	generate_crc64_table(crc64_table, CRC64_ECMA182_POLY);
-+	generate_crc64_table(crc64_rocksoft_table, CRC64_ROCKSOFT_POLY);
-+	print_crc64_tables();
- 	return 0;
- }
++static blk_status_t nvme_crc64_verify(struct blk_integrity_iter *iter,
++				      enum t10_dif_type type)
++{
++	unsigned int i;
++
++	for (i = 0; i < iter->data_size; i += iter->interval) {
++		struct nvme_crc64_pi_tuple *pi = iter->prot_buf;
++		u64 ref, seed;
++		__be64 csum;
++
++		if (type == T10_PI_TYPE1_PROTECTION) {
++			if (pi->app_tag == T10_PI_APP_ESCAPE)
++				goto next;
++
++			ref = get_unaligned_be48(pi->ref_tag);
++			seed = iter->seed & 0xffffffffffffull;
++			if (ref != seed) {
++				pr_err("%s: ref tag error at location %llu (rcvd %llu)\n",
++					iter->disk_name, seed, ref);
++				return BLK_STS_PROTECTION;
++			}
++		} else if (type == T10_PI_TYPE3_PROTECTION) {
++			if (pi->app_tag == T10_PI_APP_ESCAPE &&
++			    nvme_crc64_ref_escape(pi->ref_tag))
++				goto next;
++		}
++
++		csum = nvme_pi_crc64(iter->data_buf, iter->interval);
++		if (pi->guard_tag != csum) {
++			pr_err("%s: guard tag error at sector %llu " \
++			       "(rcvd %016llx, want %016llx)\n",
++				iter->disk_name, (unsigned long long)iter->seed,
++				be64_to_cpu(pi->guard_tag), be64_to_cpu(csum));
++			return BLK_STS_PROTECTION;
++		}
++
++next:
++		iter->data_buf += iter->interval;
++		iter->prot_buf += iter->tuple_size;
++		iter->seed++;
++	}
++
++	return BLK_STS_OK;
++}
++
++static blk_status_t nvme_pi_type1_verify_crc(struct blk_integrity_iter *iter)
++{
++	return nvme_crc64_verify(iter, T10_PI_TYPE1_PROTECTION);
++}
++
++static blk_status_t nvme_pi_type1_generate_crc(struct blk_integrity_iter *iter)
++{
++	return nvme_crc64_generate(iter, T10_PI_TYPE1_PROTECTION);
++}
++
++static void nvme_pi_type1_prepare(struct request *rq)
++{
++	const int tuple_sz = rq->q->integrity.tuple_size;
++	u64 ref_tag = nvme_pi_extended_ref_tag(rq);
++	struct bio *bio;
++
++	__rq_for_each_bio(bio, rq) {
++		struct bio_integrity_payload *bip = bio_integrity(bio);
++		u64 virt = bip_get_seed(bip) & 0xffffffffffffull;
++		struct bio_vec iv;
++		struct bvec_iter iter;
++
++		/* Already remapped? */
++		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
++			break;
++
++		bip_for_each_vec(iv, bip, iter) {
++			unsigned int j;
++			void *p;
++
++			p = bvec_kmap_local(&iv);
++			for (j = 0; j < iv.bv_len; j += tuple_sz) {
++				struct nvme_crc64_pi_tuple *pi = p;
++				u64 ref = get_unaligned_be48(pi->ref_tag);
++
++				if (ref == virt)
++					put_unaligned_be48(ref_tag, pi->ref_tag);
++				virt++;
++				ref_tag++;
++				p += tuple_sz;
++			}
++			kunmap_local(p);
++		}
++
++		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
++	}
++}
++
++static void nvme_pi_type1_complete(struct request *rq, unsigned int nr_bytes)
++{
++	unsigned intervals = nr_bytes >> rq->q->integrity.interval_exp;
++	const int tuple_sz = rq->q->integrity.tuple_size;
++	u64 ref_tag = nvme_pi_extended_ref_tag(rq);
++	struct bio *bio;
++
++	__rq_for_each_bio(bio, rq) {
++		struct bio_integrity_payload *bip = bio_integrity(bio);
++		u64 virt = bip_get_seed(bip) & 0xffffffffffffull;
++		struct bio_vec iv;
++		struct bvec_iter iter;
++
++		bip_for_each_vec(iv, bip, iter) {
++			unsigned int j;
++			void *p;
++
++			p = bvec_kmap_local(&iv);
++			for (j = 0; j < iv.bv_len && intervals; j += tuple_sz) {
++				struct nvme_crc64_pi_tuple *pi = p;
++				u64 ref = get_unaligned_be48(pi->ref_tag);
++
++				if (ref == ref_tag)
++					put_unaligned_be48(virt, pi->ref_tag);
++				virt++;
++				ref_tag++;
++				intervals--;
++				p += tuple_sz;
++			}
++			kunmap_local(p);
++		}
++	}
++}
++
++static blk_status_t nvme_pi_type3_verify_crc(struct blk_integrity_iter *iter)
++{
++	return nvme_crc64_verify(iter, T10_PI_TYPE3_PROTECTION);
++}
++
++static blk_status_t nvme_pi_type3_generate_crc(struct blk_integrity_iter *iter)
++{
++	return nvme_crc64_generate(iter, T10_PI_TYPE3_PROTECTION);
++}
++
++const struct blk_integrity_profile nvme_pi_type1_crc64 = {
++	.name			= "NVME-DIF-TYPE1-CRC64",
++	.generate_fn		= nvme_pi_type1_generate_crc,
++	.verify_fn		= nvme_pi_type1_verify_crc,
++	.prepare_fn		= nvme_pi_type1_prepare,
++	.complete_fn		= nvme_pi_type1_complete,
++};
++EXPORT_SYMBOL(nvme_pi_type1_crc64);
++
++const struct blk_integrity_profile nvme_pi_type3_crc64 = {
++	.name			= "NVME-DIF-TYPE3-CRC64",
++	.generate_fn		= nvme_pi_type3_generate_crc,
++	.verify_fn		= nvme_pi_type3_verify_crc,
++	.prepare_fn		= t10_pi_type3_prepare,
++	.complete_fn		= t10_pi_type3_complete,
++};
++EXPORT_SYMBOL(nvme_pi_type3_crc64);
++
++MODULE_LICENSE("GPL");
+ MODULE_LICENSE("GPL");
+diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
+index c635c2e014e3..86bc8713ca09 100644
+--- a/include/linux/t10-pi.h
++++ b/include/linux/t10-pi.h
+@@ -53,4 +53,24 @@ extern const struct blk_integrity_profile t10_pi_type1_ip;
+ extern const struct blk_integrity_profile t10_pi_type3_crc;
+ extern const struct blk_integrity_profile t10_pi_type3_ip;
+ 
++struct nvme_crc64_pi_tuple {
++	__be64 guard_tag;
++	__be16 app_tag;
++	__u8   ref_tag[6];
++};
++
++static inline u64 nvme_pi_extended_ref_tag(struct request *rq)
++{
++	unsigned int shift = ilog2(queue_logical_block_size(rq->q));
++
++#ifdef CONFIG_BLK_DEV_INTEGRITY
++	if (rq->q->integrity.interval_exp)
++		shift = rq->q->integrity.interval_exp;
++#endif
++	return blk_rq_pos(rq) >> (shift - SECTOR_SHIFT) & 0xffffffffffffull;
++}
++
++extern const struct blk_integrity_profile nvme_pi_type1_crc64;
++extern const struct blk_integrity_profile nvme_pi_type3_crc64;
++
+ #endif
 -- 
 2.25.4
 
