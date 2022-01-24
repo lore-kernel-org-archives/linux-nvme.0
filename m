@@ -4,74 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EC8AC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jan 2022 19:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E932C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jan 2022 19:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GLaZfB9I2LW9NeKFD2WW2Oku6S9Lctym5AUPyw4r0EY=; b=EbjeKalmWRjqygWsnOby0Zrfsb
-	wUT9XaL+f8fM7ddN5PieW9OnaES03gvceyK05M2fXpaa6rNo63hVzeyxNH9hxln5Sha0mXWL8Qwh7
-	8DF08Q2nuhwS65bkxwAGf017OirYOOrvsB6NQ5yyxE6wmaSouf0O4ZJSthMsuKu1IAD5R42Ulm63p
-	WBokZaCActApLxXgU0AFoX/Jyg97SJuJo3OkL9GVatF5L5fAUuAZMtNL4yMUxjSQ2MN0FJHK4Mwtf
-	89Z49MGIDet7seYzM1M3NxqJv7vdkGSc5JItiGIBlUib4Ub/7ZRXdaWejrY/kTRKp8v4OtMIZFAlN
-	JrI2x5hg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3POVyV8aRjFUAlpXTuOJtmruQs7mHFmgOGoO6QAnIms=; b=twB4Lmf/ycfBxCS84AIAdXP/gZ
+	KwFpUi92ehHKe5IenQBmQVfNjEeY6le6OeNoEyc5rSrzLi33Voxte11MNIBEcZrXpMtza77Dq0ie+
+	847KkVKsXkJVHt/3kzn7sDGMjk64c4C0qzDe3AABGd7Y26Cez0CNzB1CnxUB8eVUsZIUogiIVClbt
+	Nb2W3NY2JSJ0V2J2slK2QQjNzFzRgbbiG5WscPfKdd8p5lYJYuKKcmdQ0LM30YXWrPnJxY2Zo/Mtr
+	ARVnczqzQK4dpVhyK6jmqN8pcM3UdJeqQxYH2ZSRBmoq+fv2H8O8ht5tl2F6SsMdpSkXmjthFmnSA
+	j3Zl1fxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nC4lR-004nXz-CF; Mon, 24 Jan 2022 19:12:29 +0000
-Received: from mail-pf1-f175.google.com ([209.85.210.175])
+	id 1nC4pf-004pXW-Dd; Mon, 24 Jan 2022 19:16:51 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nC48f-004X3B-0A
- for linux-nvme@lists.infradead.org; Mon, 24 Jan 2022 18:32:26 +0000
-Received: by mail-pf1-f175.google.com with SMTP id y27so12690615pfa.0
- for <linux-nvme@lists.infradead.org>; Mon, 24 Jan 2022 10:32:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GLaZfB9I2LW9NeKFD2WW2Oku6S9Lctym5AUPyw4r0EY=;
- b=43iydJ9N+EvO+wW8Q1KiKdLSpo2wv+uWhXfnTO8ZNfAhwq+ft51UnrmyfpbaZps1ws
- QAzQTvyz9QTNU5Z/sCVn8ET0KohKmxhO44flsVAuizQf3qe+Z2G/6DThRuvDaECTgeid
- 0rGX8c2Sdg8XNuVK6yGWAC67+78kI2ocX76upf0HCZG3xzlRFj9cSMHGm0xKXNx1ivrp
- T6YdGwUExqvhe0wnqnnmAwFb0Mnh8r37W4sDNpQxI6sfsoWn9xEMt/X4XaLtlQM3hwkX
- R94e+Il2nsZiz7TlR5vIH2UgaujXutvomjJjVpZQ3Ih1+/7mRxaD7MxRQgCk9NOrsnuO
- HdFg==
-X-Gm-Message-State: AOAM533c3eNFwzQSbJ0FUZLIgI5Wa9jw77JkTNL1kJosqgp56+3gM2uZ
- dZORsco8LQesBCK+dbANoD0=
-X-Google-Smtp-Source: ABdhPJzA51riiYOrypw+qulVvPjMNxUCWtPJGWOxpGCXrMtb9yuuv88+rFUnia/iPBRRB6INTPErIQ==
-X-Received: by 2002:a63:205:: with SMTP id 5mr12627815pgc.379.1643049142834;
- Mon, 24 Jan 2022 10:32:22 -0800 (PST)
-Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd?
- ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
- by smtp.gmail.com with ESMTPSA id l21sm16939528pfu.120.2022.01.24.10.32.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 10:32:21 -0800 (PST)
-Message-ID: <db0d9760-9cff-e85b-ca2a-003c297322d1@acm.org>
-Date: Mon, 24 Jan 2022 10:32:19 -0800
+ id 1nC4S0-004dxS-NV
+ for linux-nvme@lists.infradead.org; Mon, 24 Jan 2022 18:52:26 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20OI4oJ1022850; 
+ Mon, 24 Jan 2022 18:52:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=3POVyV8aRjFUAlpXTuOJtmruQs7mHFmgOGoO6QAnIms=;
+ b=KC9Rb1Q9peoCzZ/6O351KD9XuwncsZKMLM5ypBJCKFzAeM6YLODcPeypascXyoFWpzI4
+ HD15lJpM6skl56dwse7oR3O9zVrvbzaEB8k0aazgGgvwCqdMpvFw8U8Q/QRrH3k8J9np
+ zO4VfWOko4SJ4/jTJMwz0AbAUW4PTFEg24e3izjqNx6y8iqfUATxcAP0Hn4Fk3OjJqqW
+ tpuI/ihDDAkFoiwDTYR6yV/lYzeiOfNk9QrBuOoAXb29ep3zEwWLYFwspqUQE6iKRVNU
+ 0vaP15u5/DCyD5xNreoarDdGEl2XLPDXgxu4j0Rfp8j3fhzm3sykZ7fpi6OFOGpomj1O 2w== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dsvmj952y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Jan 2022 18:52:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20OIkNaK071347;
+ Mon, 24 Jan 2022 18:52:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by userp3020.oracle.com with ESMTP id 3drbcm5arx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Jan 2022 18:52:15 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 20OIqF3Y098320;
+ Mon, 24 Jan 2022 18:52:15 GMT
+Received: from dhcp-10-159-240-182.vpn.oracle.com
+ (dhcp-10-159-240-182.vpn.oracle.com [10.159.240.182])
+ by userp3020.oracle.com with ESMTP id 3drbcm5ar1-1;
+ Mon, 24 Jan 2022 18:52:15 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-nvme@lists.infradead.org
+Cc: alan.adamson@oracle.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
+Subject: [PATCH V4 0/1] nvme: Add verbose error logging
+Date: Mon, 24 Jan 2022 10:51:43 -0800
+Message-Id: <20220124185144.53810-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH V2 02/13] block: move initialization of q->blkg_list into
- blkcg_init_queue
-Content-Language: en-US
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org
-References: <20220122111054.1126146-1-ming.lei@redhat.com>
- <20220122111054.1126146-3-ming.lei@redhat.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20220122111054.1126146-3-ming.lei@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: Es9ttUY2-SzGFWCVUxEEDxZVHD6llzS2
+X-Proofpoint-ORIG-GUID: Es9ttUY2-SzGFWCVUxEEDxZVHD6llzS2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220124_103225_100549_7371BF76 
-X-CRM114-Status: UNSURE (   8.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220124_105224_940637_20F941B2 
+X-CRM114-Status: GOOD (  18.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,13 +83,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/22/22 03:10, Ming Lei wrote:
-> q->blkg_list is only used by blkcg code, so move it into
-> blkcg_init_queue.
+V4:
+- Adding logging for admin commands.
+- Display NVMe Command Opcode value rather than generic block opcode.
+- Various other nits.
 
-Should Tejun be Cc-ed for this patch?
+V3:
+- Don't populate nvme_errors[] array with NULL strings. 
 
-Anyway:
+V2:
+- Change nvme_errors[] to a sparse array where the status is used as an index into the array.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+- Change pr_err() to pr_err_ratelimited().
+
+- By enabling CONFIG_NVME_VERBOSE_ERRORS, the verbose status error is displayed.  If it is not
+enabled, then a message will still be displayed, but without the verbose status.
+
+- Remove call to nvme_error_status() when determining whether to call nvme_error_log().  Speeds
+up the fast path just a bit.
+
+
+This patch improves logging for NVMe errors.  Currently, we only get a
+a vague idea as to why commands fail since only the block layer status
+is captured on error. This patch allows us to see why a command was failed
+by the controller. This is very useful when debugging problems in the field.
+
+An example of an improved logged error:
+
+[  183.333734] nvme0n1: Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
+
+[  227.767945] nvme0: Activate Firmware(0x10), Invalid Field in Command (sct 0x0 / sc 0x2) DNR
+
+
+Alan Adamson (1):
+  nvme: Add verbose error logging
+
+ drivers/nvme/host/Kconfig  |   8 ++
+ drivers/nvme/host/Makefile |   2 +-
+ drivers/nvme/host/core.c   |   3 +
+ drivers/nvme/host/errors.c | 230 +++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h   |   2 +
+ include/linux/nvme.h       |   1 +
+ 6 files changed, 245 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/nvme/host/errors.c
+
+-- 
+2.27.0
+
 
