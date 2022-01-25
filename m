@@ -4,71 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C349BC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 10:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84D18C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 15:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4pXNSxPto98OdZZiDLjM/oP0IXydeu58DooMIJaLSeM=; b=hjvN3BDvpxTzZWON0EtAW14w2Z
-	Gzpv9SNJ7zN5Pg6U+N0Jt0BJdSOm+17Sk3QgddieL9rB4X56c42tEvV8KNlKRU6vvxHq2cRzqRz/j
-	/RtTRKg2VMHcAoWmG4elbUSIqEdUJTwftBV7r/02hHtQEbSoFimH0khwIefYZeuIdGbgw0ahuEgFV
-	wLO+1V/jfbP2DuLlIaZ1bluCRzv0h93h7EK2NWUzd+uL8mUhEth91NQVZiSEYrSecHO5l+Lk0YKGK
-	YuCN3DXK6UkSfW3YczhkkEG/FHjCP+/8NsJF1lQgMBcW+/KNY11sMlWX4dFUz6pvzWJdWFdtUTzVg
-	91n70Y9g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=svqTAfavA43kue7EACsKBIgH8T86m32qEJ3P4vNJk2c=; b=1ezE+vFqXN54WHaUV9MoBV6iFs
+	b6Y+QdxcAbbMZSvw/iv5uTzlKxJjX/pgEtkmrUkTWDkna4SdWmcfNdEeqfl1zN1fpAG+pXgWWS8Wi
+	kzVSCiw4YPIiQzsXdFQRfx06nR8KEy0H3XqpPaPcaRiGw4mQp7ZgZEW1nYjrqZ0iJZDypTOyZjemE
+	sY+cvnY5ej81GQnn+vle1f17oMtT2MnGXIbz2ZL4PYHBgzgfQi5jDQA6aTR9LYDr7z3/aSzh3FKc5
+	m7i9lfa6QvIXUw+6ks9HYAo/EkBSC3mejr1QK1ykFRbYfouFdwb3lvXAPtidNK3TyomNeO883+GRL
+	GJNk+SUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCIfc-007LlN-Ng; Tue, 25 Jan 2022 10:03:24 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1nCNJF-008EX3-6t; Tue, 25 Jan 2022 15:00:37 +0000
+Received: from mail-mw2nam10olkn2079.outbound.protection.outlook.com
+ ([40.92.42.79] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nCIf1-007LcY-6r
- for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 10:02:50 +0000
-Received: by mail-wm1-f45.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so1204172wms.3
- for <linux-nvme@lists.infradead.org>; Tue, 25 Jan 2022 02:02:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4pXNSxPto98OdZZiDLjM/oP0IXydeu58DooMIJaLSeM=;
- b=jOhxiPrUZ2ivxOmhAzVtoxXh53r4ayAQ5vsT8BkWbigTbEcqE2i1l+XyUyVYJzRGmL
- rlszWs2YFGgQKVyeuyRP5zmSsQ+z0UEKcWHNnKPOl14TSEp1uAoxXAZcAQJy5Tw/MjZ4
- DqBRtuK0gB9blXZM6ZdCo6YVJBRJ63TwYf7iyL1NuNTVgcmfHc79qB20B3+yjECCWCxx
- hT6n9mL/bJ7kESsnld8B3+FCfHVzGOeYUS9qRqxkf9sad77QtBoVuJzDlwqNcHhJmrzg
- ycBPlpDIwfQ0TZ5UJq6UepxrtAgU4Y6dSneipOh71+rg9H0x2egRe+/wiCBxeH9NiFY6
- GHqw==
-X-Gm-Message-State: AOAM533EakhBfGndLCio5M4R7JlaHT012/OqUI8Sp+VAus/oizQvDJ6/
- ywkKsvorEPB6DuZTw0OWskg=
-X-Google-Smtp-Source: ABdhPJxTJbvkXehcm78SouasAJrS5EsSOk2IIIKlRYlyjjz9fk8Nit/EQudm/WChlyvBp/hzq+D9ng==
-X-Received: by 2002:a05:600c:2299:: with SMTP id
- 25mr2238081wmf.52.1643104965026; 
- Tue, 25 Jan 2022 02:02:45 -0800 (PST)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id d200sm85187wmd.28.2022.01.25.02.02.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 02:02:44 -0800 (PST)
-Message-ID: <bd45587b-9e6b-8637-a511-7d4269597d51@grimberg.me>
-Date: Tue, 25 Jan 2022 12:02:43 +0200
+ id 1nCNIy-008EVu-OW
+ for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 15:00:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C+Xbu6iv4ZMqyL8+xgDt3jK2qj7K0JwfE4NOckegnpSGXhxL+JVgSJWV65NdO9rmjeohwCS14xDYZd1Ir69QeUtou/WvGIf/Veq3OldhuHT1Q8MTSNqU/gBKaKNeoB1PRSFU1jqhAzNG777p/SZ9yNT9L3PfYu5lALmTKQzJHW3X+K2pcqUWn/t/kaneYopkERz4HNSeRwnEv4IeehkLeV6W0RTHJr2W8DIzA8QKz0yRQq/j36/DfaBhmP17jRCCuBRklLpsO353fxdRmRYUbhsNCx+3VKILNo8hGLaMuw451ATKPzGXleXfsQ6+WMHwNLru6Revy7VUVa2T8s1VCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=svqTAfavA43kue7EACsKBIgH8T86m32qEJ3P4vNJk2c=;
+ b=ar3D+w2YXCyIOdnBJNmJ0qc58SHn41ynwH38Q1EUqEwoRtYIcj3QvOMAcQbhVsg1gVxOYiSSQw4hy/euhGcPecD0S+Fk1aVN23jALv7oq9aW2qXpljfuKk5OqdotcIxqWGquqFa4Pco4s+hT5wWnLSeqYnsJMXdFsqtGJjJDI+uOIFxVQ9RMZyP9DJEVMNi8tmo2Wk4gsn8jwvLCcal1dPG2tEQp6xNnyTTS6gbxSSnBl6HlUjzYAXGkyNCP1YLw3G8+dgtdC75ylSoTmFcrdJP3MTu+DghhyBZPV11vrweZyku0gv7nxofeSIUywF6KL8cD5SWYHPOMPUVJFZjYwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=svqTAfavA43kue7EACsKBIgH8T86m32qEJ3P4vNJk2c=;
+ b=V8XJ3tQfAuHeXcwgQVuyA0nggqULIJQrkU09GDc2UOXeIha+mpst5mRq9TovMkTWXenZ0ljwzTFtUIVtSFDnB8rD2n/aKzn3Z9BXcnNIWMpona/IHr77gDD4k9sdGcWca+A+Wk1eL7Va76j96eUYiJtljbw86T0+Jo52Tyfj5ZBmPPaTQzaUsNWxAormE/l12Dqxu8ALRPW1WvsNco2NS4Titrb2Ged0/AQk0HjuWhWxZgw3YAx88Rppthay8p3t/Wd+iObNIRHJaS4IDelEg+Sck271qVwKxOZbHUHrOOCPPyfGI0aPmcDnWdaoFA9s+Nwk2Z3wZ5AeE8t5sW1b3g==
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
+ by MN2PR13MB2590.namprd13.prod.outlook.com (2603:10b6:208:ea::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.8; Tue, 25 Jan
+ 2022 15:00:12 +0000
+Received: from BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::8078:8a78:bc1d:43f1]) by BL0PR13MB4291.namprd13.prod.outlook.com
+ ([fe80::8078:8a78:bc1d:43f1%4]) with mapi id 15.20.4930.015; Tue, 25 Jan 2022
+ 15:00:12 +0000
+From: Martin Belanger <nitram_67@hotmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hare@suse.de, axboe@fb.com, hch@lst.de,
+ sagi@grimberg.me, Martin Belanger <martin.belanger@dell.com>
+Subject: [PATCH 0/4] nvme-fabrics: add support for TP8010
+Date: Tue, 25 Jan 2022 09:59:52 -0500
+Message-ID: <BL0PR13MB4291A64C165DCB6AC710A1989C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [NT3IeIkWOt52BtF3i52DHeV+2q+UR4VY]
+X-ClientProxiedBy: SA0PR11CA0170.namprd11.prod.outlook.com
+ (2603:10b6:806:1bb::25) To BL0PR13MB4291.namprd13.prod.outlook.com
+ (2603:10b6:208:8e::12)
+X-Microsoft-Original-Message-ID: <20220125145956.14746-1-nitram_67@hotmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH V4 1/1] nvme: Add verbose error logging
-Content-Language: en-US
-To: Alan Adamson <alan.adamson@oracle.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de
-References: <20220124185144.53810-1-alan.adamson@oracle.com>
- <20220124185144.53810-2-alan.adamson@oracle.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220124185144.53810-2-alan.adamson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3abded08-effe-4ebc-6511-08d9e01362e5
+X-MS-TrafficTypeDiagnostic: MN2PR13MB2590:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GWzeXYRGbALLP2gpQMYcUkN1GiTyBwP4BBllKTsAqMJeSBlqLTgEu6YY+CZCeT6mtPYq7TxrFVhVLphgKxIVhpv/kFNhgZVLvazroVr5CrWLZ4eqTylfVYuINUWFvDF69ljvmFA5640gIg384ZiCVkLJjGIiuQRDdGdPjPo0kZDGeP8I9btgQn+pywNwHzo8TiQiPabOAG+aIDixsmz/VcDpanwOgZLZN8Rm7MX3SWn+V0cxmhek9OrsYqozyBC0unNW/zteFzE9LIDIYKCb7i+cGVGexAe8p6280CQOjKPUCWArjXRookYH2YpahEmxooAtXegJHZOIOV/MdPkR5KdqavYtiqNN7/801FTXGPC0ERl5ex0ZtDFtPBQi/M2e4CN/1bT/pQgbaY9b0+r3MjKXoYxEzHhNVZoWCo6L1cTX04oktna2kanK5ZIaMBgcWGUTPVlkAXq6KCaG87DqgKXI9H03as88CMF3DYRyEOxqkSmCuEolbZhB1V6r7HU0HmT0caGgWrWWXhi0y4b1L2Nq3adjqIevRRkrsfStcjWFSmyitSache450Tkh6G9E
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Gp7qtKx+PGXsXmGuya4oiJun2w2+vk2wUd9tcwblFUJcRnlLLsaj3L1XphAb?=
+ =?us-ascii?Q?s23PyfrMAXWI6GCOxK94rwlM9nh7+dYbdzmfCrikzG4u9iKM96XdOb6QZRyW?=
+ =?us-ascii?Q?6Fyq/8gXgjP3PhaFzlU8psHf3tkheHrVs0zvzJpBsqezfzXAm+banqM1SAhN?=
+ =?us-ascii?Q?9H97h0+ZI+oc5W6M03j6/2d7UkfZVvBFL8YedFaUidacslE2Rmk8Rp6XE0Lc?=
+ =?us-ascii?Q?QLK8SJ2niUWQzJSMYEuZUIg2AxlT7lG2Qn2VZ5ExjcglNNHF+d4T2LNveIHA?=
+ =?us-ascii?Q?V1AFs65vSn4v9V++CKa/CC5g01HAraSMUErkIJ60+bUVMHXL1LIja4ZdLMEK?=
+ =?us-ascii?Q?zBNo4WTDPba33S7EjfwVmoo9Ko7BnFK8gqXX37Q2ikoLogwsEXdSCGMBVc2N?=
+ =?us-ascii?Q?DpRCMKnpQUKBvO1sQqb5rfB5LMqwprmtRbcCguq4wumUPGanSu25BQAPG5ea?=
+ =?us-ascii?Q?hTsQAZJLxZ7reKxXGclC90HWqldRWrzgwu2RYh5FLXc225FgIshGJrtiqy82?=
+ =?us-ascii?Q?q7tBifzjGuRM/3C5/R8hphuZO1LbfldgN67gCs6DWXOfhf97LPVSw+rU50cD?=
+ =?us-ascii?Q?NvpyKJRaYCNi2DStj+5yk55FJUmagprYqyW0AryCH3fxU97oZTESvPoMWYNv?=
+ =?us-ascii?Q?tt9LNslrtsseJcoDKP7EU/SZ4u+bWfF9Eu2KQ9C6o4Y5qYPSN/XTBFfn2rJU?=
+ =?us-ascii?Q?aKJUp1O/5qrPa3FFVM05SESU0DjiQk7qtC5Ml7Moog+il9Ahl1b7gYrJBrFX?=
+ =?us-ascii?Q?hxceAozWT7w+2lcEQCsqVjE8ehlVz4neP0pG1CV/oTKrFE1lQQDjzhW9CZLk?=
+ =?us-ascii?Q?wxbjAZ7jk2uKNEpy/tAUuQrP1IbxYANgE7ppFWPcEO4swP9HrjVjPxHaR3aQ?=
+ =?us-ascii?Q?U/NdscT5ZD4JFkO3ej4tgKxK8yIcJ8NL4mLF+Ga8QIMs8A8XC4LtugED0m0a?=
+ =?us-ascii?Q?/1zhHnJ15bEefut3udZaXQ=3D=3D?=
+X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3abded08-effe-4ebc-6511-08d9e01362e5
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 15:00:12.1274 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB2590
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220125_020247_374986_F91659A8 
-X-CRM114-Status: GOOD (  31.73  )
+X-CRM114-CacheID: sfid-20220125_070020_972908_5E07D3B5 
+X-CRM114-Status: UNSURE (   9.84  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,366 +116,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Martin Belanger <martin.belanger@dell.com>
 
+TP8010 defines the Central Discovery Controller (CDC). To tell a CDC
+apart from a DDC (Direct Discovery Controller), the Identify response
+now carries a Discovery Controller Type (dctype) attribute.
 
-On 1/24/22 20:51, Alan Adamson wrote:
-> Improves logging of NVMe errors.  If NVME_VERBOSE_ERRORS is configured,
-> a verbose description of the error is logged, otherwise only status codes/bits
-> is logged.
-> 
-> Verbose logging examples:
-> [  183.333734] nvme0n1: Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
-> 
-> [  227.767945] nvme0: Activate Firmware(0x10), Invalid Field in Command (sct 0x0 / sc 0x2) DNR
-> 
-> Non-verbose logging examples:
-> [   41.280509] nvme0n1: I/O Cmd(0x2) @ LBA 0, 1 blocks, I/O Error (sct 0x2 / sc 0x81) DNR
-> 
-> [   77.249153] nvme0: Admin Cmd(0x10), I/O Error (sct 0x0 / sc 0x2) DNR
-> 
-> Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
-> Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
-> Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-> ---
->   drivers/nvme/host/Kconfig  |   8 ++
->   drivers/nvme/host/Makefile |   2 +-
->   drivers/nvme/host/core.c   |   3 +
->   drivers/nvme/host/errors.c | 230 +++++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h   |   2 +
->   include/linux/nvme.h       |   1 +
->   6 files changed, 245 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/nvme/host/errors.c
-> 
-> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-> index dc0450ca23a3..d6d056963c06 100644
-> --- a/drivers/nvme/host/Kconfig
-> +++ b/drivers/nvme/host/Kconfig
-> @@ -24,6 +24,14 @@ config NVME_MULTIPATH
->   	   /dev/nvmeXnY device will show up for each NVMe namespace,
->   	   even if it is accessible through multiple controllers.
->   
-> +config NVME_VERBOSE_ERRORS
-> +	bool "NVMe verbose error reporting"
-> +	depends on NVME_CORE
-> +	help
-> +	   This option enables verbose reporting for NVMe errors. The
-> +	   error translation table will grow the kernel image size by
-> +	   about 4 KB.
-> +
->   config NVME_HWMON
->   	bool "NVMe hardware monitoring"
->   	depends on (NVME_CORE=y && HWMON=y) || (NVME_CORE=m && HWMON)
-> diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-> index dfaacd472e5d..ea3d702feb51 100644
-> --- a/drivers/nvme/host/Makefile
-> +++ b/drivers/nvme/host/Makefile
-> @@ -9,7 +9,7 @@ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
->   obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
->   obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
->   
-> -nvme-core-y				:= core.o ioctl.o
-> +nvme-core-y				:= core.o ioctl.o errors.o
->   nvme-core-$(CONFIG_TRACING)		+= trace.o
->   nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
->   nvme-core-$(CONFIG_BLK_DEV_ZONED)	+= zns.o
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 5e0bfda04bd7..ca5d36fcf4f8 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -354,6 +354,9 @@ void nvme_complete_rq(struct request *req)
->   
->   	switch (nvme_decide_disposition(req)) {
->   	case COMPLETE:
-> +		if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
-> +			nvme_error_log(req);
-> +
->   		nvme_end_req(req);
->   		return;
->   	case RETRY:
-> diff --git a/drivers/nvme/host/errors.c b/drivers/nvme/host/errors.c
-> new file mode 100644
-> index 000000000000..446831fc32ea
-> --- /dev/null
-> +++ b/drivers/nvme/host/errors.c
-> @@ -0,0 +1,230 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * NVM Express device driver verbose errors
-> + * Copyright (c) 2021, Oracle and/or its affiliates
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + */
-> +
-> +#include <linux/blkdev.h>
-> +#include "nvme.h"
-> +
-> +struct nvme_string_table {
-> +	unsigned int code;
-> +	const unsigned char *string;
-> +};
-> +
-> +#ifdef CONFIG_NVME_VERBOSE_ERRORS
-> +static const struct nvme_string_table nvme_ops[] = {
-> +	{ nvme_cmd_flush,		"Flush" },
-> +	{ nvme_cmd_write,		"Write" },
-> +	{ nvme_cmd_read,		"Read" },
-> +	{ nvme_cmd_write_uncor,		"Write Uncorrectable" },
-> +	{ nvme_cmd_compare,		"Compare" },
-> +	{ nvme_cmd_write_zeroes,	"Write Zeros" },
-> +	{ nvme_cmd_dsm,			"Deallocate (DSM)" },
-> +	{ nvme_cmd_verify,		"Verify" },
-> +	{ nvme_cmd_resv_register,	"Reservation Register" },
-> +	{ nvme_cmd_resv_report,		"Reservation Report" },
-> +	{ nvme_cmd_resv_acquire,	"Reservation Acquire" },
-> +	{ nvme_cmd_resv_release,	"Reservation Release" },
-> +	{ nvme_cmd_zone_mgmt_send,	"Zone Management Send" },
-> +	{ nvme_cmd_zone_mgmt_recv,	"Zone Management Receive" },
-> +	{ nvme_cmd_zone_append,		"Zone Management Append" },
-> +};
-> +
-> +static const struct nvme_string_table nvme_admin_ops[] = {
-> +	{ nvme_admin_delete_sq,		"Delete SQ" },
-> +	{ nvme_admin_create_sq,		"Create SQ" },
-> +	{ nvme_admin_get_log_page,	"Get Log Page" },
-> +	{ nvme_admin_delete_cq,		"Delete CQ" },
-> +	{ nvme_admin_create_cq,		"Create CQ" },
-> +	{ nvme_admin_identify,		"Identify" },
-> +	{ nvme_admin_abort_cmd,		"Abort Command" },
-> +	{ nvme_admin_set_features,	"Set Features" },
-> +	{ nvme_admin_get_features,	"Get Features" },
-> +	{ nvme_admin_async_event,	"Async Event" },
-> +	{ nvme_admin_ns_mgmt,		"Namespace Management" },
-> +	{ nvme_admin_activate_fw,	"Activate Firmware" },
-> +	{ nvme_admin_download_fw,	"Download Firmware" },
-> +	{ nvme_admin_dev_self_test,	"Device Self Test" },
-> +	{ nvme_admin_ns_attach,		"Namespace Attach" },
-> +	{ nvme_admin_keep_alive,	"Keep Alive" },
-> +	{ nvme_admin_directive_send,	"Directive Send" },
-> +	{ nvme_admin_directive_recv,	"Directive Receive" },
-> +	{ nvme_admin_virtual_mgmt,	"Virtual Management" },
-> +	{ nvme_admin_nvme_mi_send,	"NVMe Send MI" },
-> +	{ nvme_admin_nvme_mi_recv,	"NVMe Receive MI" },
-> +	{ nvme_admin_dbbuf,		"Doorbell Buffer Config" },
-> +	{ nvme_admin_format_nvm,	"Format NVM" },
-> +	{ nvme_admin_security_send,	"Security Send" },
-> +	{ nvme_admin_security_recv,	"Security Receive" },
-> +	{ nvme_admin_sanitize_nvm,	"Sanitize NVM" },
-> +	{ nvme_admin_get_lba_status,	"Get LBA Status" },
-> +};
-> +
-> +static const char * const nvme_errors[] = {
-> +	[NVME_SC_SUCCESS] = "Success",
+TP8010 also defines a new Discovery Information Management (DIM) PDU
+which is used to perform explicit registration with CDCs and DDCs.
+This new PDU carries extra information such as the Entity Name (ENAME),
+the Entity Version (EVER), the Symbolic Name, etc.
 
-Given that you have success here, maybe a better name for the array
-is nvme_statuses.
+This set of patches adds support for TP8010 by exposing the dctype
+through the sysfs. It also adds the following two new configuration
+parameters:
 
-> +	[NVME_SC_INVALID_OPCODE] = "Invalid Command Opcode",
-> +	[NVME_SC_INVALID_FIELD] = "Invalid Field in Command",
-> +	[NVME_SC_CMDID_CONFLICT] = "Command ID Conflict",
-> +	[NVME_SC_DATA_XFER_ERROR] = "Data Transfer Error",
-> +	[NVME_SC_POWER_LOSS] = "Commands Aborted due to Power Loss Notification",
-> +	[NVME_SC_INTERNAL] = "Internal Error",
-> +	[NVME_SC_ABORT_REQ] = "Command Abort Requested",
-> +	[NVME_SC_ABORT_QUEUE] = "Command Aborted due to SQ Deletion",
-> +	[NVME_SC_FUSED_FAIL] = "Command Aborted due to Failed Fused Command",
-> +	[NVME_SC_FUSED_MISSING] = "Command Aborted due to Missing Fused Command",
-> +	[NVME_SC_INVALID_NS] = "Invalid Namespace or Format",
-> +	[NVME_SC_CMD_SEQ_ERROR] = "Command Sequence Error",
-> +	[NVME_SC_SGL_INVALID_LAST] = "Invalid SGL Segment Descriptor",
-> +	[NVME_SC_SGL_INVALID_COUNT] = "Invalid Number of SGL Descriptors",
-> +	[NVME_SC_SGL_INVALID_DATA] = "Data SGL Length Invalid",
-> +	[NVME_SC_SGL_INVALID_METADATA] = "Metadata SGL Length Invalid",
-> +	[NVME_SC_SGL_INVALID_TYPE] = "SGL Descriptor Type Invalid",
-> +	[NVME_SC_CMB_INVALID_USE] = "Invalid Use of Controller Memory Buffer",
-> +	[NVME_SC_PRP_INVALID_OFFSET] = "PRP Offset Invalid",
-> +	[NVME_SC_ATOMIC_WU_EXCEEDED] = "Atomic Write Unit Exceeded",
-> +	[NVME_SC_OP_DENIED] = "Operation Denied",
-> +	[NVME_SC_SGL_INVALID_OFFSET] = "SGL Offset Invalid",
-> +	[NVME_SC_RESERVED] = "Reserved",
-> +	[NVME_SC_HOST_ID_INCONSIST] = "Host Identifier Inconsistent Format",
-> +	[NVME_SC_KA_TIMEOUT_EXPIRED] = "Keep Alive Timeout Expired",
-> +	[NVME_SC_KA_TIMEOUT_INVALID] = "Keep Alive Timeout Invalid",
-> +	[NVME_SC_ABORTED_PREEMPT_ABORT] = "Command Aborted due to Preempt and Abort",
-> +	[NVME_SC_SANITIZE_FAILED] = "Sanitize Failed",
-> +	[NVME_SC_SANITIZE_IN_PROGRESS] = "Sanitize In Progress",
-> +	[NVME_SC_SGL_INVALID_GRANULARITY] = "SGL Data Block Granularity Invalid",
-> +	[NVME_SC_CMD_NOT_SUP_CMB_QUEUE] = "Command Not Supported for Queue in CMB",
-> +	[NVME_SC_NS_WRITE_PROTECTED] = "Namespace is Write Protected",
-> +	[NVME_SC_CMD_INTERRUPTED] = "Command Interrupted",
-> +	[NVME_SC_TRANSIENT_TR_ERR] = "Transient Transport Error",
-> +	[NVME_SC_INVALID_IO_CMD_SET] = "Invalid IO Command Set",
-> +	[NVME_SC_LBA_RANGE] = "LBA Out of Range",
-> +	[NVME_SC_CAP_EXCEEDED] = "Capacity Exceeded",
-> +	[NVME_SC_NS_NOT_READY] = "Namespace Not Ready",
-> +	[NVME_SC_RESERVATION_CONFLICT] = "Reservation Conflict",
-> +	[NVME_SC_FORMAT_IN_PROGRESS] = "Format In Progress",
-> +	[NVME_SC_CQ_INVALID] = "Completion Queue Invalid",
-> +	[NVME_SC_QID_INVALID] = "Invalid Queue Identifier",
-> +	[NVME_SC_QUEUE_SIZE] = "Invalid Queue Size",
-> +	[NVME_SC_ABORT_LIMIT] = "Abort Command Limit Exceeded",
-> +	[NVME_SC_ABORT_MISSING] = "Reserved", /* XXX */
-> +	[NVME_SC_ASYNC_LIMIT] = "Asynchronous Event Request Limit Exceeded",
-> +	[NVME_SC_FIRMWARE_SLOT] = "Invalid Firmware Slot",
-> +	[NVME_SC_FIRMWARE_IMAGE] = "Invalid Firmware Image",
-> +	[NVME_SC_INVALID_VECTOR] = "Invalid Interrupt Vector",
-> +	[NVME_SC_INVALID_LOG_PAGE] = "Invalid Log Page",
-> +	[NVME_SC_INVALID_FORMAT] = "Invalid Format",
-> +	[NVME_SC_FW_NEEDS_CONV_RESET] = "Firmware Activation Requires Conventional Reset",
-> +	[NVME_SC_INVALID_QUEUE] = "Invalid Queue Deletion",
-> +	[NVME_SC_FEATURE_NOT_SAVEABLE] = "Feature Identifier Not Saveable",
-> +	[NVME_SC_FEATURE_NOT_CHANGEABLE] = "Feature Not Changeable",
-> +	[NVME_SC_FEATURE_NOT_PER_NS] = "Feature Not Namespace Specific",
-> +	[NVME_SC_FW_NEEDS_SUBSYS_RESET] = "Firmware Activation Requires NVM Subsystem Reset",
-> +	[NVME_SC_FW_NEEDS_RESET] = "Firmware Activation Requires Reset",
-> +	[NVME_SC_FW_NEEDS_MAX_TIME] = "Firmware Activation Requires Maximum Time Violation",
-> +	[NVME_SC_FW_ACTIVATE_PROHIBITED] = "Firmware Activation Prohibited",
-> +	[NVME_SC_OVERLAPPING_RANGE] = "Overlapping Range",
-> +	[NVME_SC_NS_INSUFFICIENT_CAP] = "Namespace Insufficient Capacity",
-> +	[NVME_SC_NS_ID_UNAVAILABLE] = "Namespace Identifier Unavailable",
-> +	[NVME_SC_NS_ALREADY_ATTACHED] = "Namespace Already Attached",
-> +	[NVME_SC_NS_IS_PRIVATE] = "Namespace Is Private",
-> +	[NVME_SC_NS_NOT_ATTACHED] = "Namespace Not Attached",
-> +	[NVME_SC_THIN_PROV_NOT_SUPP] = "Thin Provisioning Not Supported",
-> +	[NVME_SC_CTRL_LIST_INVALID] = "Controller List Invalid",
-> +	[NVME_SC_SELT_TEST_IN_PROGRESS] = "Device Self-test In Progress",
-> +	[NVME_SC_BP_WRITE_PROHIBITED] = "Boot Partition Write Prohibited",
-> +	[NVME_SC_CTRL_ID_INVALID] = "Invalid Controller Identifier",
-> +	[NVME_SC_SEC_CTRL_STATE_INVALID] = "Invalid Secondary Controller State",
-> +	[NVME_SC_CTRL_RES_NUM_INVALID] = "Invalid Number of Controller Resources",
-> +	[NVME_SC_RES_ID_INVALID] = "Invalid Resource Identifier",
-> +	[NVME_SC_PMR_SAN_PROHIBITED] = "Sanitize Prohibited",
-> +	[NVME_SC_ANA_GROUP_ID_INVALID] = "ANA Group Identifier Invalid",
-> +	[NVME_SC_ANA_ATTACH_FAILED] = "ANA Attach Failed",
-> +	[NVME_SC_BAD_ATTRIBUTES] = "Conflicting Attributes",
-> +	[NVME_SC_INVALID_PI] = "Invalid Protection Information",
-> +	[NVME_SC_READ_ONLY] = "Attempted Write to Read Only Range",
-> +	[NVME_SC_ONCS_NOT_SUPPORTED] = "ONCS Not Supported",
-> +	[NVME_SC_ZONE_BOUNDARY_ERROR] = "Zoned Boundary Error",
-> +	[NVME_SC_ZONE_FULL] = "Zone Is Full",
-> +	[NVME_SC_ZONE_READ_ONLY] = "Zone Is Read Only",
-> +	[NVME_SC_ZONE_OFFLINE] = "Zone Is Offline",
-> +	[NVME_SC_ZONE_INVALID_WRITE] = "Zone Invalid Write",
-> +	[NVME_SC_ZONE_TOO_MANY_ACTIVE] = "Too Many Active Zones",
-> +	[NVME_SC_ZONE_TOO_MANY_OPEN] = "Too Many Open Zones",
-> +	[NVME_SC_ZONE_INVALID_TRANSITION] = "Invalid Zone State Transition",
-> +	[NVME_SC_WRITE_FAULT] = "Write Fault",
-> +	[NVME_SC_READ_ERROR] = "Unrecovered Read Error",
-> +	[NVME_SC_GUARD_CHECK] = "End-to-end Guard Check Error",
-> +	[NVME_SC_APPTAG_CHECK] = "End-to-end Application Tag Check Error",
-> +	[NVME_SC_REFTAG_CHECK] = "End-to-end Reference Tag Check Error",
-> +	[NVME_SC_COMPARE_FAILED] = "Compare Failure",
-> +	[NVME_SC_ACCESS_DENIED] = "Access Denied",
-> +	[NVME_SC_UNWRITTEN_BLOCK] = "Deallocated or Unwritten Logical Block",
-> +	[NVME_SC_ANA_PERSISTENT_LOSS] = "Asymmetric Access Persistent Loss",
-> +	[NVME_SC_ANA_INACCESSIBLE] = "Asymmetric Access Inaccessible",
-> +	[NVME_SC_ANA_TRANSITION] = "Asymmetric Access Transition",
-> +	[NVME_SC_HOST_PATH_ERROR] = "Host Pathing Error",
-> +};
-> +#endif /* CONFIG_NVME_VERBOSE_ERRORS */
-> +
-> +void nvme_error_log(struct request *req)
-> +{
-> +	struct nvme_ns *ns = req->q->queuedata;
-> +	struct nvme_request *nr = nvme_req(req);
-> +	const unsigned char *op_str  = "I/O Cmd";
-> +	const unsigned char *admin_op_str  = "Admin Cmd";
-> +	const unsigned char *err_str = NULL;
-> +#ifdef CONFIG_NVME_VERBOSE_ERRORS
-> +	const struct nvme_string_table *entry;
-> +	unsigned int i;
-> +
-> +	if ((nr->status & 0x7ff) <= ARRAY_SIZE(nvme_errors))
-> +		err_str = nvme_errors[nr->status & 0x7ff];
+1) "register" - This is used to tell the kernel that the user
+wants to perform explicit registration using the DIM PDU. Without
+this, the driver will operate as it did before.
 
-Maybe we need:
-	if ((nr->status & 0x7ff) <= ARRAY_SIZE(nvme_errors) &&
-	    nvme_errors[nr->status & 0x7ff] != NULL)
-		err_str = nvme_errors[nr->status & 0x7ff];
-	else
-		err_str = "Unknown"
+2) "hostsymname" - This is used to specify an optional Symbolic Name.
 
-btw, shouldn't the index check be "<" and not "<=" ?
-We are looking to see if this is a valid entry don't we?
-Array of size 1000 should only accept access to entries 0-999...
+Martin Belanger (4):
+  nvme-fabrics: add discovery controller type
+  nvme: add host symbolic name
+  nvme-fabrics: add tp8010 support
+  nvme-fabrics: add explicit deregistration on disconnect.
 
-> +#endif
-> +	if (err_str == NULL)
-> +		err_str =  "I/O Error";
-> +
-> +	if (ns) {
-> +#ifdef CONFIG_NVME_VERBOSE_ERRORS
-> +		for (i = 0, entry = nvme_ops ; i < ARRAY_SIZE(nvme_ops) ; i++)
-> +			if (entry[i].code == nr->cmd->common.opcode)
-> +				op_str = entry[i].string;
+ drivers/nvme/host/core.c    |  17 +++
+ drivers/nvme/host/fabrics.c | 181 +++++++++++++++++++++++-
+ drivers/nvme/host/fabrics.h |  11 ++
+ drivers/nvme/host/nvme.h    |   2 +
+ drivers/nvme/host/tcp.c     |  61 +++++++-
+ include/linux/nvme.h        | 267 ++++++++++++++++++++++++++++++++++--
+ 6 files changed, 524 insertions(+), 15 deletions(-)
 
-Same here, the loop looks redundant to me:
-		if (nr->cmd->common.opcode <= ARRAY_SIZE(nvme_ops) &&
-		    nvme_ops[nr->cmd->common.opcode] != NULL)
-			op_str = nvme_ops[nr->cmd->common.opcode].string;
-		else
-			op_str = "Unknown"
+-- 
+2.34.1
 
-> +#endif
-> +		pr_err_ratelimited("%s: %s(0x%x) @ LBA %llu, %llu blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
-> +		       ns->disk ? ns->disk->disk_name : "?",
-> +		       op_str,
-> +		       nr->cmd->common.opcode,
-> +		       (unsigned long long)nvme_sect_to_lba(ns, blk_rq_pos(req)),
-> +		       (unsigned long long)blk_rq_bytes(req) >> ns->lba_shift,
-> +		       err_str,
-> +		       nr->status >> 8 & 7, /* Status Code Type */
-> +		       nr->status & 0xff,    /* Status Code */
-> +		       nr->status & NVME_SC_MORE ? "MORE " : "",
-> +		       nr->status & NVME_SC_DNR  ? "DNR "  : "");
-> +	} else {
-> +#ifdef CONFIG_NVME_VERBOSE_ERRORS
-> +		for (i = 0, entry = nvme_admin_ops ; i < ARRAY_SIZE(nvme_admin_ops) ; i++)
-> +			if (entry[i].code == nr->cmd->common.opcode)
-> +				admin_op_str = entry[i].string;
-
-Same practice here.
-
-> +#endif
-> +		pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%s\n",
-> +		       dev_name(nr->ctrl->device),
-> +		       admin_op_str,
-> +		       nr->cmd->common.opcode,
-> +		       err_str,
-> +		       nr->status >> 8 & 7,	/* Status Code Type */
-> +		       nr->status & 0xff,	/* Status Code */
-> +		       nr->status & NVME_SC_MORE ? "MORE " : "",
-> +		       nr->status & NVME_SC_DNR  ? "DNR "  : "");
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_error_log);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index a162f6c6da6e..3216156b71b2 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -930,4 +930,6 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
->   	return (ctrl->ctrl_config & NVME_CC_CSS_MASK) == NVME_CC_CSS_CSI;
->   }
->   
-> +extern void nvme_error_log(struct request *req);
-> +
->   #endif /* _NVME_H */
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 855dd9b3e84b..1f946e5bf7c1 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -1636,6 +1636,7 @@ enum {
->   	NVME_SC_HOST_ABORTED_CMD	= 0x371,
->   
->   	NVME_SC_CRD			= 0x1800,
-> +	NVME_SC_MORE			= 0x2000,
->   	NVME_SC_DNR			= 0x4000,
->   };
->   
 
