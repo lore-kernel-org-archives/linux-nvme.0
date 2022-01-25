@@ -4,54 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 177AFC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 09:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D89BEC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 09:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JAEkA4FCBmQ7T7M+WVau75EdqeDf4MEEr9hE2/l61BA=; b=pV9L1JtLYrpUREPx1fcpRIr7Oj
-	dskZjncuUk/Xbr8zxtdTLOCY28bQH9g92JHR+bE7tlvlEIerInfMRYkaPVtEFwwvG3ha4kyTS8760
-	Np2yPYwj8BZHq0FWmZDcdb/bb1tpAXpEiOFW9fj7js1NvEyKswCK+Sg+nVkfJRZEvMekoAc0qkKWl
-	QxxUkzZD60tl2QgavY/tAnm7ZSFPHpjNUJ7teCv9T5XhYdQRuOhZZe2fW6vd4VUT9iOzHZ3Tmrx94
-	fCnjbw6VVXVMIi+jAHumg7hnfD6OzqgAKnnrgXtNyPNbWEX8m+t4O6laFfeJKTMd8dO+zOGHjzyE1
-	kqQON7TA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xIYDHT/wi2RbZuBVptrIISb//TVLfsExKGTY/EiU5iA=; b=D/tF+evjyENK2PahSieb+W/EzI
+	hBR6FW3dNdy0LDlG/FJfYuW7onUf0jGiSjI/RO8dI8xGaMuMDoJ0yBGvy1BMlUkMv6SD1AkHcL6DJ
+	xASFC9KmaILEn91CCSVuWEbXa2cQM0FrkX8TPDq0s9aI4PIWPRrn66BAuZ2MnA2XC9jRmZ3RDEnu3
+	PSQQYZE/ZKQ+dLVaq1KR9k/IjXnGykdP+OVLOrV2ozyij7oh5Q8ITwyzDTqvLwO00jYVc6gPKtFnI
+	YYMCnUNe0mLswgXTnNb+qKYnbZfskdOnTptHpRlgtQTTo9sl/irpFV6XcZHfoOMcDCQkPvcXFS4nk
+	2BCONu4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCHxx-0074gK-Ob; Tue, 25 Jan 2022 09:18:17 +0000
-Received: from mail.belongsenergy.pl ([185.45.112.191])
+	id 1nCIA9-007AGD-Vw; Tue, 25 Jan 2022 09:30:54 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nCHli-006yeC-Gr
- for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 09:05:40 +0000
-Received: by mail.belongsenergy.pl (Postfix, from userid 1001)
- id 9CA6D2665D; Tue, 25 Jan 2022 09:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=belongsenergy.pl;
- s=mail; t=1643101522;
- bh=JAEkA4FCBmQ7T7M+WVau75EdqeDf4MEEr9hE2/l61BA=;
- h=Date:From:To:Subject:From;
- b=lbMLB4V4+cpmWNfLaSviskk5MrcY52waOnNxwzjhLT6o3Wrq3H5pzs9mr7YZERBOr
- 30B9VKbfHMIrWNa3acOw4Rv25aNKlr0cl5QdnZebDC65zrq+0Kuz0ySYEVSckA9qF4
- q9UNCXkd9qWh2iKlMTJFlB9GAqT5T1En6iz4UhKTXL3V3OTXfwJEdl6709oQqJxQgf
- 3Spzr2O8Qv6tvJ2kvmKfzUIkdXwrxSHzhnqncrMVe/ZLuSBkwcXZTOeDnPBqLT7m72
- sdfoMTlfbNZ/iZ24zSilAdkT1tdJ8TB7b0KKvuXfQmKbMNcKP7Mtsjy1ZBHK6mwBaq
- SJs8iZRhEIEeQ==
-Received: by mail.belongsenergy.pl for <linux-nvme@lists.infradead.org>;
- Tue, 25 Jan 2022 09:05:20 GMT
-Message-ID: <20220125074500-0.1.7.26m.0.ta64wj8og2@belongsenergy.pl>
-Date: Tue, 25 Jan 2022 09:05:20 GMT
-From: "Maciej Nitycz" <maciej.nitycz@belongsenergy.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.belongsenergy.pl
+ id 1nCHpy-0070zc-3T
+ for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 09:10:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643101800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xIYDHT/wi2RbZuBVptrIISb//TVLfsExKGTY/EiU5iA=;
+ b=f3ujSgXHvQXKMS0tjr+UorXcm+VIAnMCRustvfrmat3jbrkI0aC8h9lTXR3YQvwOyZkmv2
+ owOcBb5addlUv4WSZQhrl6wcyL/Ji0vU30CccBj1pjaneSRWU7V20bCxTv4WkeodzKDHNE
+ /sY39Zo5t9iWOdflwO76vDkXlFGRSZo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-_N3xcEKzNiyevSWK1dOi3g-1; Tue, 25 Jan 2022 04:09:57 -0500
+X-MC-Unique: _N3xcEKzNiyevSWK1dOi3g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 494E52F25;
+ Tue, 25 Jan 2022 09:09:56 +0000 (UTC)
+Received: from T590 (ovpn-8-22.pek2.redhat.com [10.72.8.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01EEE1F2E7;
+ Tue, 25 Jan 2022 09:09:47 +0000 (UTC)
+Date: Tue, 25 Jan 2022 17:09:42 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org
+Subject: Re: [PATCH V2 05/13] block: only account passthrough IO from userspace
+Message-ID: <Ye++VmBkg0I8Lq8+@T590>
+References: <20220122111054.1126146-1-ming.lei@redhat.com>
+ <20220122111054.1126146-6-ming.lei@redhat.com>
+ <20220124130555.GD27269@lst.de> <Ye8xleeYZfmwA3D7@T590>
+ <20220125061634.GA26495@lst.de> <20220125071906.GA27674@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220125071906.GA27674@lst.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220125_010538_803073_F11D59D5 
-X-CRM114-Status: UNSURE (   2.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220125_011002_277588_75470536 
+X-CRM114-Status: GOOD (  18.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,18 +83,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,
+On Tue, Jan 25, 2022 at 08:19:06AM +0100, Christoph Hellwig wrote:
+> On Tue, Jan 25, 2022 at 07:16:34AM +0100, Christoph Hellwig wrote:
+> > So why not key off accouning off "rq->bio && rq->bio->bi_bdev"
+> > and remove the need for the flag and the second half of the assignment
+> > above?  That is much less error probe and removes code size.
+> 
+> Something like this, lightly tested:
+> 
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
-
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
-
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+Follows another simple way by accounting all request with bio attached,
+except for requests with kernel buffer.
 
 
-Pozdrawiam,
-Maciej Nitycz
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 4526adde0156..1210b51c62ae 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -630,6 +630,8 @@ int blk_rq_map_kern(struct request_queue *q, struct request *rq, void *kbuf,
+ 	struct bio *bio;
+ 	int ret;
+ 
++	rq->rq_flags &= ~RQF_IO_STAT;
++
+ 	if (len > (queue_max_hw_sectors(q) << 9))
+ 		return -EINVAL;
+ 	if (!len || !kbuf)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 72ae9955cf27..eac589d2c340 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -903,7 +903,7 @@ static void __blk_account_io_start(struct request *rq)
+ 	/* passthrough requests can hold bios that do not have ->bi_bdev set */
+ 	if (rq->bio && rq->bio->bi_bdev)
+ 		rq->part = rq->bio->bi_bdev;
+-	else if (rq->q->disk)
++	else if (rq->q->disk && rq->bio)
+ 		rq->part = rq->q->disk->part0;
+ 
+ 	part_stat_lock();
+
+
+Thanks,
+Ming
+
 
