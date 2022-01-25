@@ -4,69 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55A46C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 16:19:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13C9BC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 22:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iSdun2irPKtKrKsOegGB+RSB68szwX/DaPrpol+U0Us=; b=QPZuKyFwh9E3Fpj4lbq7zblxbw
-	MZEb9whcdx6ZWlOFx7MgNa4i+GTYunHtYbd96lhGBTBt951VPPSl556LGlogQ0i/wBo9AbP2750rM
-	Km17Hk3dZwxy5cJJFXorTHM1AsW1kUA5qCWfJjpMIpKccbbGbpMFu9KlarT7LmvKeTDkSsWBrathb
-	MXdIl0P6BWQT9AsOgSLews0IQfptRXAj6OrAIOwaOm7uMsQUN75qOQQXsE79fcB/3DQOHkQs9WRVU
-	qgrO/chAeHm4K6ds0NURTZnxAHL4sSgV5Q/2leVZgKw2/TTzS1bC/zFu7kCVAsKd+yFGmTF3zrKUn
-	HJPUdGgA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DaaUGCArWoJ13enar8ZLJWX1P69BgDpg9YRakjeDVMM=; b=cWlXnvEe/PmZH4pU+O1kKpTdQ5
+	Zj3AcoKWtHHkZ59zZfO0yjpNkfbTf+U6HxPzFLtcY6EfvHSGDVuQnPPrpCJcrQPOo03y58gFPZjOs
+	7arA6Zyt4paEWaK6BcI4U4ZqriLllMHrCE4vCKxHztzFgRPOcH12BcpfUpMhTOh6SSGEf7hb099dh
+	sNv6AGJye6ZBg6fURh00ZexPMmjIkcIzwQsZFC1Ar8QlL7+IGnAGiWqHA+mw1Co36F3M3PPPLb2e5
+	Z/pzWOfYKJJ6CIe+mez30HBHbYURcSUA9/vLIP/Jb5WgsIdrvWaFzAK0EQyepbJyNZPJoOOT4lgUf
+	nbmHRjng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCOXi-008diz-CF; Tue, 25 Jan 2022 16:19:38 +0000
-Received: from mga11.intel.com ([192.55.52.93])
+	id 1nCUi4-009fUQ-AP; Tue, 25 Jan 2022 22:54:44 +0000
+Received: from mail-ed1-f41.google.com ([209.85.208.41])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nCOSu-008blB-Bl
- for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 16:14:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643127280; x=1674663280;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ZhVMjcdlxj873VdA6sEVIlWL3XJpbJPYkvwqeD4zZWU=;
- b=M+DprX0Yznw+rxJklgwJGaAMXvZSU5y/LrFgwz3Bq8HtGTVxP3pnAS/q
- rTJNcldciUi8V3qoXGZs8Hw4qYpnvG1F2DnTdv0KPHm0P5gPaQqjR1/OT
- tpqTm3FFva80CUTKAFx3so6hJ8bS2mePDCzk9m+/qXoHh8z1AYVjhMJ7f
- FJhsqxMGMd6+TkpJlRVchLBgFI/U5gwFQ5vdaiRjAalrhM2THwc45ZsD3
- vtdkZeyD4UivM3TVZQGI5lZXpfCU6/QNwk+w5LWJo7gn9AovFAXvPIYTJ
- cfPfEGTR6t/yxGuy9H8A9UvVnRtR1ZgdWFXo6RXN4I9PbUvfpHA6WDF9W A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="243937626"
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="243937626"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 08:13:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="495043769"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 25 Jan 2022 08:13:05 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nCORN-000K85-Aq; Tue, 25 Jan 2022 16:13:05 +0000
-Date: Wed, 26 Jan 2022 00:12:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-fabrics: fix returnvar.cocci warnings
-Message-ID: <20220125161210.GA42603@d3bbc358300d>
-References: <202201260046.otELTDdH-lkp@intel.com>
+ id 1nCUi0-009fTf-MJ
+ for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 22:54:42 +0000
+Received: by mail-ed1-f41.google.com with SMTP id p7so542835edc.12
+ for <linux-nvme@lists.infradead.org>; Tue, 25 Jan 2022 14:54:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DaaUGCArWoJ13enar8ZLJWX1P69BgDpg9YRakjeDVMM=;
+ b=JNvtsudY3I7ZgsTorppGQINLKSVakUHxr7IIpgxzDh7BqkcGWr0tw0qhAp8DVbufCy
+ FavA/2nkqlqWnDH668RYeOLNt0DFeaMYrOMcxgcvctiCQIEuQDixnVOkV2khDYdTrKEM
+ llH/cQkrPmAYsSj43KC0wXsaZ10eotA9oVwxzPmZAf8m0KGy9EfdhyjMtZks69McjUup
+ RW7cXHE6J2+0vn+YGPML3H72WnkN7yXxcl8UIIreHxYiwg6XiqIwcwySavhbZo1lYYj7
+ G/fT7km0jYT+ryL+HKoRFC1yZ/ZugHBBp0w53Y6zMAKOGIPcpjwHJ3Rwx0Jibp1BcXex
+ UlBw==
+X-Gm-Message-State: AOAM532QcWCbMpU10YyL19lAWESL4/iIo8h82v2y9aVHAVL2Zt8gi8et
+ LYuwi4gbp+7M42xJY7RmCfhHoHMoo0Y=
+X-Google-Smtp-Source: ABdhPJxZOU3sKG870yIGKCnFUaX5kfOzLmAltU4gtjnT34GQr7Dhbx0hdzyJna1pwlIEvAdvJpnYpA==
+X-Received: by 2002:a05:6402:235a:: with SMTP id
+ r26mr13425061eda.406.1643151278307; 
+ Tue, 25 Jan 2022 14:54:38 -0800 (PST)
+Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
+ [46.117.116.119])
+ by smtp.gmail.com with ESMTPSA id i18sm6689087ejr.117.2022.01.25.14.54.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 14:54:37 -0800 (PST)
+Message-ID: <1e95d514-7846-4a41-6b7a-9955fa903a52@grimberg.me>
+Date: Wed, 26 Jan 2022 00:54:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202201260046.otELTDdH-lkp@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH V4 1/1] nvme: Add verbose error logging
+Content-Language: en-US
+To: Alan Adamson <alan.adamson@oracle.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
+References: <20220124185144.53810-1-alan.adamson@oracle.com>
+ <20220124185144.53810-2-alan.adamson@oracle.com>
+ <bd45587b-9e6b-8637-a511-7d4269597d51@grimberg.me>
+ <BB566CE6-19C1-472F-978B-564A2EC4C4EC@oracle.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <BB566CE6-19C1-472F-978B-564A2EC4C4EC@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220125_081440_495720_6E78D201 
-X-CRM114-Status: GOOD (  15.21  )
+X-CRM114-CacheID: sfid-20220125_145440_756946_98D43FC0 
+X-CRM114-Status: GOOD (  13.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,47 +85,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: kernel test robot <lkp@intel.com>
 
-drivers/nvme/host/fabrics.c:1095:5-8: Unneeded variable: "ret". Return "0" on line 1109
+> +#endif
+> + if (err_str == NULL)
+> + err_str =  "I/O Error";
+> +
+> + if (ns) {
+> +#ifdef CONFIG_NVME_VERBOSE_ERRORS
+> + for (i = 0, entry = nvme_ops ; i < ARRAY_SIZE(nvme_ops) ; i++)
+> + if (entry[i].code == nr->cmd->common.opcode)
+> + op_str = entry[i].string;
+> 
+> Same here, the loop looks redundant to me:
+> if (nr->cmd->common.opcode <= ARRAY_SIZE(nvme_ops) &&
+>     nvme_ops[nr->cmd->common.opcode] != NULL)
+> op_str = nvme_ops[nr->cmd->common.opcode].string;
+> else
+> op_str = "Unknown"
+> 
+> 
+> Currently the nvme_ops and nvme_admin_ops arrays are not built by index so I need to walk the array to find the
+> appropriate opcode/name.  Are you asking to change these arrays to be build by index?
+> 
+> static const char * const nvme_admin_ops[] = {
+>          [nvme_admin_delete_sq] = "Delete SQ",
+>          [nvme_admin_create_sq] = "Create SQ",
+>          [nvme_admin_get_log_page] = "Get Log Page”,
+> 
+> Rather than:
+> 
+> static const struct nvme_string_table nvme_admin_ops[] = {
+>          { nvme_admin_delete_sq,         "Delete SQ" },
+>          { nvme_admin_create_sq,         "Create SQ" },
+>          { nvme_admin_get_log_page,      "Get Log Page" },
 
-
- Remove unneeded variable used to store return value.
-
-Generated by: scripts/coccinelle/misc/returnvar.cocci
-
-Fixes: f18ee3d98815 ("nvme-fabrics: print out valid arguments when reading from /dev/nvme-fabrics")
-CC: Hannes Reinecke <hare@suse.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a08b41ab9e2e468647f78eb17c28e29b93006394
-commit: f18ee3d988157ebcadc9b7e5fd34811938f50223 nvme-fabrics: print out valid arguments when reading from /dev/nvme-fabrics
-:::::: branch date: 10 hours ago
-:::::: commit date: 5 weeks ago
-
- fabrics.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -1092,7 +1092,6 @@ static void __nvmf_concat_opt_tokens(str
- static int nvmf_dev_show(struct seq_file *seq_file, void *private)
- {
- 	struct nvme_ctrl *ctrl;
--	int ret = 0;
- 
- 	mutex_lock(&nvmf_dev_mutex);
- 	ctrl = seq_file->private;
-@@ -1106,7 +1105,7 @@ static int nvmf_dev_show(struct seq_file
- 
- out_unlock:
- 	mutex_unlock(&nvmf_dev_mutex);
--	return ret;
-+	return 0;
- }
- 
- static int nvmf_dev_open(struct inode *inode, struct file *file)
+Yes, is that a problem?
 
