@@ -4,105 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39272C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 15:00:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7040DC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jan 2022 15:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oDv+oF75RVNxbmwcxTT24YHQfaxGy9jobEwIakEFbaw=; b=LUUDcHhsxrVFfJxt0kOObZB02u
-	wewJm45Itg+1La1pV5yFObfdVmYmwVzFXhpLKCDRVIXzSpvYMDDPrZGxJL82ziyBW7b+ZCIkozO5H
-	DFu/WA8MH+EH2SHlsK8zxEzYfCsxhrkYtGupytl6xWqgFa1EUMZMCQYOTNN9RADQWV/6UEQBorjak
-	wrxUcczgsop7QTxqcx30KA7P3h6YEkR62ewP06F3sK2kIrqYfmWJPWEMw9tA9sjapdTiRlM+pmMEe
-	4emdpWju7fPWb3oTYLge1ic4bTVXsG0btZY9jBrr3XH+ALXTmhZTXvC5tGhI7MtOh+MkuCVw7Hvw+
-	rS8vYdzA==;
+	bh=I0gtULyhSrSgMNbUq1d/XblN/mRHI9XkeJN6eFSEU8Q=; b=zeE3qrKOi4zFfInLTp8nkbQvfG
+	/iVhviiwST+u0uAwgk6G0l7eMZJ9gebCTBCoQjGgKCqDW5GDhF3rpfXV/sZz8slE2bdJG/54fymIR
+	NE866wyslWU4Vm7NdTdYHIdxCRqmibfa5AHfpvJpnBQ0+3n2/jR192zQxEndCAzbi7rq1eBbhfeJG
+	sBr/zVDwvWxNDRpowQ3/7y/YAjm8VsNPLHcuIL/Fl8MsR/8IzdZeyqmG6N7DiIMi/m5c3BQubRVAn
+	SDzMLP44S1R4+vg99+1v1AO/CYkiJ/F7Lz1D26tkkH1n8bObysLkwQpQVeMQLkIVRYwaC/fyRhxPA
+	1Es38spw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCNJU-008Ef2-GM; Tue, 25 Jan 2022 15:00:52 +0000
+	id 1nCNKQ-008Eli-GD; Tue, 25 Jan 2022 15:01:50 +0000
 Received: from mail-mw2nam10olkn2079.outbound.protection.outlook.com
  ([40.92.42.79] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nCNJ0-008EVu-AF
- for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 15:00:23 +0000
+ id 1nCNJ1-008EVu-Qc
+ for linux-nvme@lists.infradead.org; Tue, 25 Jan 2022 15:00:25 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l4q5oHgR3g147Qo2k8WufkyxNU+zAgGgP9GoetWy/eZczOoMBVT41T0Xei6E1F/a67TJ0AbA2ASVxSnJJz1j2GSpXPaywp+w2oN6amgZfuvnZb0GkykwSgUIMwV66DFvZtj37y0tx9S1gfqNWPVbrXMNJHmXidLanBd7MllxAt9csnQu34+7Gzys+uA9jrRz5+F8vol9Dn3PTme9tJnrBs3QhI5tlzDHcWeXMKB7jWUkjlUTfeYJ5YavfPnWCuz475monoXBJznBKUxZWmOrw6hjw0wdDzy1exIqU5NAWaTqjQ8NuY45OoVcbUHCSz5L63ziCzo+K7D3JS71EkYUpA==
+ b=llYxGhwS+T7ko/DDUzH7N5a4KBKk2uQ38B52QdaomSs9BbM0MJhtAdGWZQ8J6R9ZFtfhW4Dp08Qyz4VsXsUwHHv6P4tIy+fi7YYAz+XPA3bCqu9N3fFqCr909uuDCvvI21/R78WroEuMNqCwafBm38uVywi3i8aCBFlnBakg8GyACL58RSnrKJdUAEcsFNSOyj1HgMvKEJzm5zhUOFDpntnyjNpVi0g+UszX4uguHsQAZu8cVnY9I1DbtPhNLd9xaK09gUdyIkYlR97KBB+KuLM654zFPonqokXpq2zj2Xojzws9g8IcQdUGqY33UU4a03SZo1baNqZIgNf+/D/Uug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oDv+oF75RVNxbmwcxTT24YHQfaxGy9jobEwIakEFbaw=;
- b=EJR0WrFtVrHVnRY+tn1ddZNSJ3Knab6OaelAJulE9mR06BHHFZZT1cLteO9iSq8Jr3Y0hPiOxXmyltkt5UFni8m99eENBT6sLNRp15nzlFHvMR5FoBhfxfp66SMz24DUMjssHkdK767ox6QRdJiMIT35JDnYh9rzq2SIlMke0i5nXS2SiTG0Mxi5Z8pXEXkioDv3VrLBjBFTfMA/qrhEe/vaPDl//YfrrzpwwoLm1d82dHGN5Ymo/Pave3gvER81Q5QBNX+q6brZ57AGU5vT6rJSWHZ5VsrVhJcvxlzQa2MCJ+FwlJlZT/BTMJ4rVpNr6GaVfdQt2HNJ8acEy60Mgw==
+ bh=I0gtULyhSrSgMNbUq1d/XblN/mRHI9XkeJN6eFSEU8Q=;
+ b=ktzJiW8HFdrOKUegZImHviFQJdxNvY7f2W3F00m+3Yj29PbO98jlj5Uac8xNdXJC7xGc3MYOu13uc+Q4bFvfqtlqqzOCwMVh+xMZje2LotlpfV8R0nI9y1F5qlRxw3lYCfhhWc6Ln9St6OL5YSv4nvZRNB7kb+KFEI3KFi57LyUtLA8x0sytuQ69821OTAYSfp6eMa818BLmTOdHL0HTp7a/hMBmMjdc4nwCdLMAM4OHELSgQ6I9I6sMN3nIhmz2VQV/6DQytceVtBVSl4hwTgaBRbzexC1pfQkG8IViWE8ajWqyp1wLoIWaGsXnS4eM/cznN736yAvCkBCpfYj7hQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oDv+oF75RVNxbmwcxTT24YHQfaxGy9jobEwIakEFbaw=;
- b=Y+Ipga21Crfg26rhORlyGHdoVc2o0oS8qTx/wKCGXxwnYLL7rQKFjOdZxT6hJblOP3JwGKK2epedHwz0f0tPPTJRq4y1Y0VYXKdf4S3mc2SNhgV5NJZVXZFteIxjjMfHxXITAvtIiuVIIq70n/gFvCnikdn/uTbJW5OXHb0iHM5EHTr86ElGRLDUeKmAX6cV1jTyHY9HeNnrAqO7xCAXexlfW3nUqTDAzNQ0u7NzpSQBcVF6Lbshmvfipd2RVnyJinaZxQBdh32xJHmcj26S2W//fom3/AhEzo5fOOvQofTUII6TCsTUGAkAaIOk6a8Py3URSK+f4iMhJd4m1mEjMg==
+ bh=I0gtULyhSrSgMNbUq1d/XblN/mRHI9XkeJN6eFSEU8Q=;
+ b=oML+D7qoSOv1uNAg6uG2M5nCLC4+mOJBAyvhabwRwYO4jc88ugcmMFSiOCDqleuFjX00pxVHSslSM4JzHI/7hvZAvtjCWxWKxQ2pMEeFCkHngNN4D432GkQm9GqS4xm7qSrkUu9urBAvk4r3Fzc32jRrY5i1fdLwsKaZlacIg+9DyGtMLQIQox7nfP/af5wrSKrvJkZzy2gIf0b6AIzoOKM9IG3gGfRS3brPfmD0whkfHdjIHLMsQei/ulJb0sEXz9X3L+IPFs1eqe+9R/Yb7215FWBeY6cZmPSXDsMjUyeP5JPIvuISeq0nBzY7hOtSOnzm+p/gu7ftsuaF8egAtg==
 Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
  by MN2PR13MB2590.namprd13.prod.outlook.com (2603:10b6:208:ea::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.8; Tue, 25 Jan
- 2022 15:00:18 +0000
+ 2022 15:00:22 +0000
 Received: from BL0PR13MB4291.namprd13.prod.outlook.com
  ([fe80::8078:8a78:bc1d:43f1]) by BL0PR13MB4291.namprd13.prod.outlook.com
  ([fe80::8078:8a78:bc1d:43f1%4]) with mapi id 15.20.4930.015; Tue, 25 Jan 2022
- 15:00:18 +0000
+ 15:00:22 +0000
 From: Martin Belanger <nitram_67@hotmail.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, hare@suse.de, axboe@fb.com, hch@lst.de,
  sagi@grimberg.me, Martin Belanger <martin.belanger@dell.com>
-Subject: [PATCH 1/4] nvme-fabrics: add discovery controller type
-Date: Tue, 25 Jan 2022 09:59:53 -0500
-Message-ID: <BL0PR13MB4291022C56E35D6F93500AF79C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
+Subject: [PATCH 2/4] nvme: add host symbolic name
+Date: Tue, 25 Jan 2022 09:59:54 -0500
+Message-ID: <BL0PR13MB429181ED6E81FAC7DDB801E89C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220125145956.14746-1-nitram_67@hotmail.com>
 References: <20220125145956.14746-1-nitram_67@hotmail.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [BSmv5m4ZXL4Oz+tPL4RQbefI1IacbZYv]
+X-TMN: [/422GbsaFOEzNVKfLEA4/zeJHSeKpydj]
 X-ClientProxiedBy: SA0PR11CA0170.namprd11.prod.outlook.com
  (2603:10b6:806:1bb::25) To BL0PR13MB4291.namprd13.prod.outlook.com
  (2603:10b6:208:8e::12)
-X-Microsoft-Original-Message-ID: <20220125145956.14746-2-nitram_67@hotmail.com>
+X-Microsoft-Original-Message-ID: <20220125145956.14746-3-nitram_67@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 90b3f953-31f7-423e-b00a-08d9e01366ce
+X-MS-Office365-Filtering-Correlation-Id: e338c9e2-3c87-4325-c47d-08d9e0136935
 X-MS-TrafficTypeDiagnostic: MN2PR13MB2590:EE_
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1GZawd6uVYp8ALUrZmgsFsKRtt6v3+rFsTkUOxatkcg2lwFnc9BlKJmpGjr89veF99ICiLcneHncUKWU1jxVWWMDqBYftwt4bWO+f5w5GGQz4NZWe/4Mkzn3P5hoMeuqS+3Ltpa+ycYP4v+6hWz77werbxRY/j4TK3td2CGtIc8MWs+HNnr1PHZC99rUp+CQRAYkqc8l8TXhanBy9MZCC9HcrxLCVG7YWG90kDmctWH0jcg0+Li0XOLdMB7+r5eP9OQHJoPQL5KKV9YbiXEfydIAlbxh62C7HCpg23KCjmUKSdg/8NBDY0e2rs6WRVBBxJIPHJnWbkbGwqOoLD84MhMtB+FRVHflUnLMLzK9eDYmFVP6j1lbHk3OhfPJcBdU3P5RHLPxyXk96xy9XxxfT9QxFuSl8noQ81bIvwDPuyysD+HKh/xC1O5QAnkgreWCAaZ/kJ1RwTGCLX+jIA4YIHRifqKNqNQR04S+JocLB0VqOvu/hKA9AjDTr7jyzAdrspzkTB72Gl2RrgZkwRLa22DXMsV10SrgMJZVT9IOdpDzMUoJJZHhy+gKzmTWiSgI
+X-Microsoft-Antispam-Message-Info: lCWYb3yI5RgJQg3hyhp9UUAF3Wi7B7yooqTj3ubkqCgk2b6zUDV1R9jnz0kFHv282UdaZ6fJhUS09CdbYGdfWG/ds/qOMdZelHAaeXx528pSC9jJXR5lJHK+be+La8HPjzIKk3MyrZMdWSjYzaykww+E4dlRAXKkUONF3RfwCoxJH51v5bW99lCnymDdeXskvbeejlr/CvoIiMUJKPBFANTiXuUwOBNdArtg8NuVYCqGcNOUlVnQ0sLUC5gk/DtiS8NU474LI1H7hhH/Gr/rJ7NDLAn1Ekb5kSEnUSDdIumEttshEhMr7A2b9+GCV8MoSfEWmLpubk5n4uRRcUWIopmmTri0Ax176HPpATPJmc8xyON2wtB8B0Cb9gPeEPO+FjgxiMea14GcDol/nKngB9/R0TEQy/oHZGPAv8N2uQ9zeK9v9aS4vewqjkPfPQV7dn56VRe1ssyOpkumAJ8AByAuIWEcmdHt4joZNbMObx/SmUcYavALv+0uAZLEFNAEljwJilgYQL5uSIaHpU8n8b7jsqA2lJcwPRjXzyFVc9xuYwGltC4awj3bEl/s2pxq
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2v+8tbuvdLsAZ+jXFMU22/rvTlRnX2sPRnBbW1mpRhvhdmN9hwSjtUodtsXu?=
- =?us-ascii?Q?6pYwCZYvQGm9oKv1nUC3rhq7bOni4x1/alLOvoFEwRfkZ59oAbifu8wU0OkV?=
- =?us-ascii?Q?BVkiyRa9v1JHXH9weaq77FvQvHZ0Hw324e6h5nveExxVpCRrR1jKQSDf3M/l?=
- =?us-ascii?Q?ut8XbaLZoq8e/U+4dWfA+PiM9eYyq9C9VSAdB/4rBX56zio/Gt9ath/e+wLa?=
- =?us-ascii?Q?VoYVDJKU9BhHUE5hG0I9/bkZCxEJGK+y3JI39in26TeNAD16/oAtQqqKn6Ja?=
- =?us-ascii?Q?GJGWgPp1MjY3jGOADQ/9KS7BAxbj3CaiDP4UlQxcv0kGDTMV+WnryxYfZO8n?=
- =?us-ascii?Q?I8lF8v+t49ZbQztyKM/4WiLWLb8dDKC/7YApgL4lKeN62pP7mL2As9bCtZej?=
- =?us-ascii?Q?sg3UsGVMIUk31+3T0m2nOEpMwvyEfS2NR+41BvNQ3pznN3VhmPQianXQF3Pu?=
- =?us-ascii?Q?4iWRPHVcCGkphKCzE8Ip9AtkssPWdB2O02WAhlhHXUajmTYt3LanCK20QTQB?=
- =?us-ascii?Q?/NfPwG9dz2R5VBd+ewKLtiMn0N4cUe4cGermHKnk4I9TsnpdDXrrmISa5ijp?=
- =?us-ascii?Q?9+3tm9ULsCiqKHeZiYpaScGlUfULkxicDOXV0Ahyna9wAnj9HQEllMSrHYx3?=
- =?us-ascii?Q?dYoeVyc1nm15uIDEV1mS61zvjB/HKePZ9mB5+8rq1nEYPl0BGg9PY5RnDGIp?=
- =?us-ascii?Q?PswJOWiRbvqaY2C5++ihTpXSu9AHHAhBd1CoGNnQSbp1+m+3oK/GAjntlueL?=
- =?us-ascii?Q?JSCYHcPEaj4e0I3DIa4h1Wk8/kMJm+WRABOfE0gCh+9nJxGyVDro+Fp+dCft?=
- =?us-ascii?Q?sRlxdkZ1RsAQJaeGqGcXmAvBM34I6dNEa46dJABnEBzfVD88QuhuBKaNL6g8?=
- =?us-ascii?Q?CdBgtEVytlVh0hpfy7kTR1dro7fi4mRPGq20Lh97YNu2KqEBdUSTjFLPoKP/?=
- =?us-ascii?Q?3P/B8qGPqh+oxBadfXAC5Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1IEk+inFfW1AJqB3ynalFCOsIUffwVd3r021/XUMi6JXQS1AqZzXLM4j4vvy?=
+ =?us-ascii?Q?ywypLb6m1zJ2yVEmTTkMQ4O+neYr3Hi4Z7fs0lgTbF6i1JRIsBBdhSrHLCaS?=
+ =?us-ascii?Q?SN75krJXbjHgIK9DIDdzkPBOn+hqvN/iOcZzwS6JKtqvdw19AwS2AxvzXisE?=
+ =?us-ascii?Q?Y4tjPdhrA9Qs1bnx8SonbJIyLSUvqUjH7x8j80vyOYXHcq9BgK7rkSqm6exF?=
+ =?us-ascii?Q?buT4bi9bsxvi0+T5xzGVm1+PhsRDT8OkFrB1r6CkbeAjA6Ta1505h5I3dMfq?=
+ =?us-ascii?Q?UR25ZdAcf0hWTF+i7OTgecpYqcXphJGa/qDnLAqD+GL2E6vf9OsTaGLbC4+C?=
+ =?us-ascii?Q?J4aCle8J8jWdXWd/S1XVwoeAWnJZWbVdstPZKhY3LvxW7tGMiGWrVasCEcJf?=
+ =?us-ascii?Q?ZtWop8YJA9fBghAx0Eb6/ji9tPDXvNfaG2+REXOStu5st3Iq9Xz0u8BUtZbM?=
+ =?us-ascii?Q?44yGOJBVceBgEYmLL0pvwur0SAaPiwR0rvrBV17U2MBUg9unsIb7eG8kIGWU?=
+ =?us-ascii?Q?1GeFV9JursU8FwmGXQo2mHuAbHjezYgIUkl0VIxeif72byGOShqU7cu/9OnD?=
+ =?us-ascii?Q?wiD7/OygyZP3w0PoXBoiTL87zsJh8SSbBN13NvwpusA5rIeY3b0kzqePDuLn?=
+ =?us-ascii?Q?hIE6JcPzvLBW+ippfu8v83iSnUiHd4Gz5M9AQhkNzuYZ+kPBpRurTg6X/7Mq?=
+ =?us-ascii?Q?x8ayU45P89PDxIMCxffYPyAozbeEidSxh/XETGA1YCfaXaYUvx0Or0oSokBn?=
+ =?us-ascii?Q?+QXJfjsz4TygrXNPF7PUjihSfhoUTulZoYk3VxFXci2Bfi6L+mCZGRHvuBpu?=
+ =?us-ascii?Q?SeEtFm1YMuzt7UwRVAgr5++dSa8UMjhAwhIhv5P3S/FSig8tbker+KUxfM1p?=
+ =?us-ascii?Q?iP/lZA0zfRbybQ+Nng3l63h2sr8i/n5zlSnCiEiYBLMFMp++scMZVmEYJFwx?=
+ =?us-ascii?Q?G4hkEX3awOPezXPyBYP06Q=3D=3D?=
 X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90b3f953-31f7-423e-b00a-08d9e01366ce
+X-MS-Exchange-CrossTenant-Network-Message-Id: e338c9e2-3c87-4325-c47d-08d9e0136935
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 15:00:18.8769 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 15:00:22.5486 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB2590
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220125_070022_386373_D3B0368A 
-X-CRM114-Status: GOOD (  12.61  )
+X-CRM114-CacheID: sfid-20220125_070023_900375_D2A5FC0F 
+X-CRM114-Status: GOOD (  17.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,86 +119,148 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Belanger <martin.belanger@dell.com>
 
-TP8010 introduces the Central Discovery Controller (CDC). To
-differentiate between a CDC and a DDC (Direct DC), the identify
-response now carries a DCTYPE (Discovery Controller Type) field.
+TP8010 introduces the 'host symbolic name' as an optional
+parameter for explicit registration with a central discovery
+controller.
 
 Signed-off-by: Martin Belanger <martin.belanger@dell.com>
 ---
- drivers/nvme/host/core.c |  3 +++
- drivers/nvme/host/nvme.h |  2 ++
- include/linux/nvme.h     | 10 +++++++++-
- 3 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c    | 14 ++++++++++++++
+ drivers/nvme/host/fabrics.c | 17 +++++++++++++++--
+ drivers/nvme/host/fabrics.h |  2 ++
+ include/linux/nvme.h        |  2 ++
+ 4 files changed, 33 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4fc794d9c2f4..cd34b92e8e9d 100644
+index cd34b92e8e9d..cf5d9984f8f6 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2978,6 +2978,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->kas = le16_to_cpu(id->kas);
- 	ctrl->max_namespaces = le32_to_cpu(id->mnan);
- 	ctrl->ctratt = le32_to_cpu(id->ctratt);
-+	ctrl->dctype = id->dctype;
+@@ -3404,6 +3404,16 @@ static ssize_t nvme_sysfs_show_hostnqn(struct device *dev,
+ }
+ static DEVICE_ATTR(hostnqn, S_IRUGO, nvme_sysfs_show_hostnqn, NULL);
  
- 	if (id->rtd3e) {
- 		/* us -> s */
-@@ -3335,6 +3336,7 @@ nvme_show_int_function(numa_node);
- nvme_show_int_function(queue_count);
- nvme_show_int_function(sqsize);
- nvme_show_int_function(kato);
-+nvme_show_int_function(dctype);
- 
- static ssize_t nvme_sysfs_delete(struct device *dev,
- 				struct device_attribute *attr, const char *buf,
-@@ -3533,6 +3535,7 @@ static struct attribute *nvme_dev_attrs[] = {
++static ssize_t nvme_sysfs_show_hostsymname(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, "%s\n", ctrl->opts->host->symname);
++}
++static DEVICE_ATTR(hostsymname, S_IRUGO, nvme_sysfs_show_hostsymname, NULL);
++
+ static ssize_t nvme_sysfs_show_hostid(struct device *dev,
+ 					struct device_attribute *attr,
+ 					char *buf)
+@@ -3531,6 +3541,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_sqsize.attr,
+ 	&dev_attr_hostnqn.attr,
+ 	&dev_attr_hostid.attr,
++	&dev_attr_hostsymname.attr,
+ 	&dev_attr_ctrl_loss_tmo.attr,
  	&dev_attr_reconnect_delay.attr,
  	&dev_attr_fast_io_fail_tmo.attr,
- 	&dev_attr_kato.attr,
-+	&dev_attr_dctype.attr,
- 	NULL
- };
+@@ -3553,6 +3564,9 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		return 0;
+ 	if (a == &dev_attr_hostid.attr && !ctrl->opts)
+ 		return 0;
++	if (a == &dev_attr_hostsymname.attr &&
++	    (!ctrl->opts || (ctrl->opts->host->symname[0] == '\0')))
++		return 0;
+ 	if (a == &dev_attr_ctrl_loss_tmo.attr && !ctrl->opts)
+ 		return 0;
+ 	if (a == &dev_attr_reconnect_delay.attr && !ctrl->opts)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 7ae041e2b3fb..040a6cce6afa 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -540,6 +540,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
+ 	{ NVMF_OPT_HOST_IFACE,		"host_iface=%s"		},
+ 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
++	{ NVMF_OPT_SYMNAME,		"hostsymname=%s"	},
+ 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
+ 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
+ 	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
+@@ -556,7 +557,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		const char *buf)
+ {
+ 	substring_t args[MAX_OPT_ARGS];
+-	char *options, *o, *p;
++	char *options, *o, *p, *hostsymname = NULL;
+ 	int token, ret = 0;
+ 	size_t nqnlen  = 0;
+ 	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
+@@ -830,6 +831,13 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DISCOVERY:
+ 			opts->discovery_nqn = true;
+ 			break;
++		case NVMF_OPT_SYMNAME:
++			hostsymname = match_strdup(args);
++			if (!hostsymname) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -864,8 +872,13 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index fe224016418e..f8b60f7346fd 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -349,6 +349,8 @@ struct nvme_ctrl {
- 	unsigned long discard_page_busy;
+ 	uuid_copy(&opts->host->id, &hostid);
  
- 	struct nvme_fault_inject fault_inject;
++	if (hostsymname)
++		strncpy(opts->host->symname, hostsymname,
++			sizeof(opts->host->symname) - 1);
 +
-+	enum nvme_dctype dctype;
+ out:
+ 	kfree(options);
++	kfree(hostsymname);
+ 	return ret;
+ }
+ 
+@@ -957,7 +970,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+ 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
+-				 NVMF_OPT_FAIL_FAST_TMO)
++				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_SYMNAME)
+ 
+ static struct nvme_ctrl *
+ nvmf_create_ctrl(struct device *dev, const char *buf)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index c3203ff1c654..494e6dbe233a 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -38,6 +38,7 @@ struct nvmf_host {
+ 	struct list_head	list;
+ 	char			nqn[NVMF_NQN_SIZE];
+ 	uuid_t			id;
++	char			symname[NVMF_HOSTSYMNAME_SIZE+1];
  };
  
- enum nvme_iopolicy {
+ /**
+@@ -68,6 +69,7 @@ enum {
+ 	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
+ 	NVMF_OPT_HOST_IFACE	= 1 << 21,
+ 	NVMF_OPT_DISCOVERY	= 1 << 22,
++	NVMF_OPT_SYMNAME	= 1 << 23,
+ };
+ 
+ /**
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 855dd9b3e84b..82567d493c51 100644
+index 82567d493c51..3b47951342f4 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -240,6 +240,12 @@ enum nvme_ctrl_attr {
- 	NVME_CTRL_ATTR_TBKAS		= (1 << 6),
- };
+@@ -16,6 +16,8 @@
+ /* However the max length of a qualified name is another size */
+ #define NVMF_NQN_SIZE		223
  
-+enum nvme_dctype {
-+	NVME_DCTYPE_NOT_REPORTED = 0,
-+	NVME_DCTYPE_DDC = 1,
-+	NVME_DCTYPE_CDC = 2,
-+};
++#define NVMF_HOSTSYMNAME_SIZE	256
 +
- struct nvme_id_ctrl {
- 	__le16			vid;
- 	__le16			ssvid;
-@@ -320,7 +326,9 @@ struct nvme_id_ctrl {
- 	__le16			icdoff;
- 	__u8			ctrattr;
- 	__u8			msdbd;
--	__u8			rsvd1804[244];
-+	__le16			ofcs;
-+	__u8			dctype;
-+	__u8			rsvd1807[241];
- 	struct nvme_id_power_state	psd[32];
- 	__u8			vs[1024];
- };
+ #define NVMF_TRSVCID_SIZE	32
+ #define NVMF_TRADDR_SIZE	256
+ #define NVMF_TSAS_SIZE		256
 -- 
 2.34.1
 
