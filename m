@@ -4,61 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD6BBC2BA4C
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jan 2022 17:39:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1C53C28CF5
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jan 2022 17:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IhcrfvpLIRs241UejnUiCqWRKyMdYTy0K0D1XRxqQEs=; b=qr5XKieU7q9oQd8Vo4nqAD1kZ8
-	XaVRSXUlwBdCHJlkGOcpizyE84uWaTgVhXvocYEhUc0DStd8QCtFegrPrvAI3/A2o/7Iw5YVLj9oV
-	ajByfPoBCSkaguoqR2qX01syBRc057iyK4VBqA7RdqAtZSqDIyuExeoNEiZ4mmYADjPWjvAyR7tG5
-	Be2bgZ4XmJ0RNClyLWR9dNNPI1bz54WETxJbJUWS/mhEVN29PwE0/Jnh8C3xJcvVOwRjh35j37BE9
-	s0JGCtBQdJ5vBeK8RL+nM40H6lMeW1CzsvQ0XRI4NK6lOWXtGTQG3RBihX8J+kyCem4mcGl09420Q
-	mX5s8wQA==;
+	bh=5H4q/5wuZ/HSUBt98EJVk8mC0gGkByrAcb5hTvcl970=; b=hc/mEFZT+ymlR9EW+DUptX9Yj7
+	9t5DWHa7sWf8oarIMu3gXOiak3spClY4s/Kt/b5sxv0FKOPiTq2u3olZeOjIwxF4eW9ZYPiKHlcSp
+	NdZc3O2BAWGY+FatmAXTjInIf8xnf7/tfVZmj0BaTLmQeTbKpyLHC2UZ9ljp8DVmX6ZEiuoUggPC0
+	mcvx6UkX+CyYijUt+IpTnlHQNVbdpyoDsqoiCgNzcSs4oNC1LoPGUj5i1kDYmfgTZSrdtwhF/PZkR
+	3Ejp9hyLkT9ZCJnSScI2D9sN0/u0RoFXA8ecvUDv0HL5GJfhAwt/rWxrtZIZDInqelzRVqeDJCDMN
+	hqgAWGag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCmGu-00D4Kv-Ez; Wed, 26 Jan 2022 17:39:52 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nCmIO-00D4vb-C4; Wed, 26 Jan 2022 17:41:24 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nClzk-00Cxud-SY
- for linux-nvme@lists.infradead.org; Wed, 26 Jan 2022 17:22:10 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 16D9E61AD7;
- Wed, 26 Jan 2022 17:22:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C927C340E3;
- Wed, 26 Jan 2022 17:22:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1643217726;
- bh=IhcrfvpLIRs241UejnUiCqWRKyMdYTy0K0D1XRxqQEs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E3oCmDb+VhE4TqOV27cjjzuBgYZ5S4eDs7ya8SyflaGBc/rjh9BRgpLenIG6u6tCq
- UfS7w41l2nMx/nyoPvgF7KKt71fjEl8rXnv0Gz7B8WvZbT+uYq9vn/bghvFReD/Hez
- PpZ1H4YHmKecrWHWCGkwjK7Jh3XviX9QcWU6yPMf60PLxA+D3+djtSWeoF5Mmyqnvs
- mTUSqA78OFdh3L+O6NNdGi9IUGsPcB3OoFxqtsEtnT5zm/PDu1xr6KmtbCH1EKNc46
- QC4Lja22taQpIyWGqbVLlsLEn2mB3p4S2D48zHFzgGtpdIvFVFLmZpbIxmBweAX7NM
- jbCJwySSImERg==
-Date: Wed, 26 Jan 2022 09:22:04 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Pankaj Raghav <p.raghav@samsung.com>,
+ id 1nCm4C-00CzdS-Dm
+ for linux-nvme@lists.infradead.org; Wed, 26 Jan 2022 17:26:45 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 6B0B868AFE; Wed, 26 Jan 2022 18:26:38 +0100 (CET)
+Date: Wed, 26 Jan 2022 18:26:38 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <p.raghav@samsung.com>,
  Pankaj Raghav <pankydev8@gmail.com>, linux-nvme@lists.infradead.org
 Subject: Re: [PATCH] nvme: Use pci_iomap instead of ioremap
-Message-ID: <20220126172204.GE1885300@dhcp-10-100-145-180.wdc.com>
+Message-ID: <20220126172638.GA32649@lst.de>
 References: <CGME20220121143539eucas1p20202376f83b0b499143c18b1434ff000@eucas1p2.samsung.com>
  <20220121143533.164928-1-p.raghav@samsung.com>
  <20220126163306.GB31892@lst.de>
+ <20220126172204.GE1885300@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220126163306.GB31892@lst.de>
+In-Reply-To: <20220126172204.GE1885300@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220126_092209_026069_325AA6DF 
-X-CRM114-Status: GOOD (  13.72  )
+X-CRM114-CacheID: sfid-20220126_092644_656709_FEC7EF89 
+X-CRM114-Status: GOOD (  16.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,16 +60,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 26, 2022 at 05:33:06PM +0100, Christoph Hellwig wrote:
-> pci_iomap goes with the ioread/iowrite accessors which we absolutely
-> do not want in nvme.
+On Wed, Jan 26, 2022 at 09:22:04AM -0800, Keith Busch wrote:
+> On Wed, Jan 26, 2022 at 05:33:06PM +0100, Christoph Hellwig wrote:
+> > pci_iomap goes with the ioread/iowrite accessors which we absolutely
+> > do not want in nvme.
+> 
+> It looks like the action pci_iomap() uses is based on the
+> pci_resource_flags(), and should call the same "ioremap()" function we
+> currently use.
 
-It looks like the action pci_iomap() uses is based on the
-pci_resource_flags(), and should call the same "ioremap()" function we
-currently use.
-
-The one problem I see with this, though, is that pci_iomap() will
-automatically clamp the mapped length to the resource's length, which
-may be shorter than the potential doorbell registers that the driver
-thinks it's getting.
+Yes.  But the rule is: use ioremap when you use read*/write*, and use
+pci_iomap when using ioread/iowrite.  But they should never be mixed.
 
