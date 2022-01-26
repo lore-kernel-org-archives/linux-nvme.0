@@ -4,37 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0782C28CF5
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jan 2022 17:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30296C2BA4C
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jan 2022 17:13:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a3C1Ia2fPQvJ2jHdpSYVkre4n72E08491jrojoCfRv0=; b=dG0Lyakv5St+s+Mwl5AuNbPzjv
-	cdMntml11+lWsp0jzSWXv17bYg/nbQl/ffz+gpXm75it0Fg99A+c1eSa12A0vyHzRGByea4AaHzFN
-	r4ychvLJg5gkj4CjV9cIqh5aAusXUV0ZcqDHuJhGKd1q7ietA+3rM0lVKUFZ+Ep0vIo0n2KY27wU+
-	OcPfaHIwaN27ejbPStkjNAhFjtQdedJUMrO0/DnOt+f7mrq0SJmASlXkgYxKHD+nW/rCFysTrr9Yr
-	TzXW/zwIgw6tWjzy+If0amfetlxO11v9dXvS9C6PQEgStp6q8fyt7cfOT5X68GPWXoWjM41Mkvi3+
-	mxsJM9jg==;
+	bh=a3C1Ia2fPQvJ2jHdpSYVkre4n72E08491jrojoCfRv0=; b=V/fHOPxqt9U5m2eq1nYmf99YTq
+	G4tvQ6W/sZs6aBxrsOlWfvn0vGz89cmBO5b0x2smilppiW+2+5z/bmeDqqzLS7DdTfbIbEap4WcTr
+	20gm7wvhfhIjDyV6qU2ATw1GMuqu616WlwmmWowAKDy0RXTfYJzVH1ngYEkiqJLrhK5hoL35NL8aY
+	7PESGUlrzmpqBxgJosM6+PvpEWsBxaGBN49iIzqXvK33T5o6UQsoHjS6qPS963gibvTqqqgK4ZAhb
+	bpr/cvA2nxXKh0eivSzLd9ajivWaQDUNH2VXbqbT12Fn0nTCMZfx7l4rfPWoViWTZXGT8JGSwJErC
+	7HIEeP9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nClqr-00Culi-SQ; Wed, 26 Jan 2022 17:12:57 +0000
+	id 1nClri-00Cv4G-TT; Wed, 26 Jan 2022 17:13:50 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nCkwO-00CZ37-Hf; Wed, 26 Jan 2022 16:14:36 +0000
-Date: Wed, 26 Jan 2022 08:14:36 -0800
+ Hat Linux)) id 1nCkwa-00CZ7N-Fp; Wed, 26 Jan 2022 16:14:48 +0000
+Date: Wed, 26 Jan 2022 08:14:48 -0800
 From: Christoph Hellwig <hch@infradead.org>
-To: Qinghua Jin <qhjin.dev@gmail.com>
-Cc: qhjin_dev@163.com, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-fc: fix typo
-Message-ID: <YfFzbKAc/jQosCWa@infradead.org>
-References: <20220107022258.396058-1-qhjin.dev@gmail.com>
+To: cgel.zte@gmail.com
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH] nvme-fabrics: remove unneeded variable
+Message-ID: <YfFzeD98sHVMCkha@infradead.org>
+References: <20220107022306.622222-1-deng.changcheng@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220107022258.396058-1-qhjin.dev@gmail.com>
+In-Reply-To: <20220107022306.622222-1-deng.changcheng@zte.com.cn>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
