@@ -4,121 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33E29C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jan 2022 09:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AEF92C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jan 2022 09:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y+mWWUq5KrIW95w80LpiEX3FY+7449CWTNZyCE1ubCk=; b=AqFegQ6L5mOvmFWT5l5HTc2R28
-	cohSbitEcJn8IOuKkz3KbxbFdj/nKnXD370pmcZiAtCNYhFN5zAea9xKFIcoAilIDA4g1W+8/HO9t
-	0P5tCDhy1XtmpY4h12k6Jjti3ENVjMhOxVtHSgt0vg8gXJDQYBHreqn83zgYBHJQOjDLEoZeOOaof
-	/fC/myOc/2nSRLbdDfONcHh0AdY6h3YCkL5uZbZkuVGYftA7UG6JsQWGubzmk/sPu2AksFZZC9Ksk
-	WDuenWdGMDMVUyl8PY2LHHm1aBSjYtrPmuUODqKuf3l/SFgg5cvBWKXgHaHlwpmg2YB+cKZRGh41P
-	UO/XDBCA==;
+	bh=wH9R+c2CFEFLzoUlcITd9YsuhL2kra+kI2fpeLVdjNo=; b=qxZ3yXhZJ9mfE6psgRmilbDI8c
+	YczyWpbQ6iDuBlboXgEXLoE0AaqMfOLLi9cmsdhrD1dpRu1C4gMGOXV1dKWh+9NZbLwZhL95feNym
+	IAvivqrxU9rd3UvibRIGnrAME20XrE03ljTG1oMSUw3UuIdLfDhgIDP1uQFeWfshuMYQzfN2+B8yh
+	EG+FUkik811h/v+RcyFwZ7qAyADOvTslCihPEgzCnx/kyUrsbQ0BfTihKzCLGIoaSnpIndCmD6FPk
+	DjEq3tGNg2tY0qz7TaJdNM2sea9Qv9X08Ku16ZkZtBFV559C72GsRaWVtEaL88N+Zt3BvgQT94okl
+	Uzfg01XA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nD0nM-00EosF-2v; Thu, 27 Jan 2022 09:10:20 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1nD0tq-00EqP9-J3; Thu, 27 Jan 2022 09:17:02 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nD0n6-00Eona-94
- for linux-nvme@lists.infradead.org; Thu, 27 Jan 2022 09:10:06 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20220127090958epoutp01f2d5eac3eb2295766eaf72acea41f976~OFYqJjzaA2387223872epoutp01t
- for <linux-nvme@lists.infradead.org>; Thu, 27 Jan 2022 09:09:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20220127090958epoutp01f2d5eac3eb2295766eaf72acea41f976~OFYqJjzaA2387223872epoutp01t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1643274598;
- bh=Y+mWWUq5KrIW95w80LpiEX3FY+7449CWTNZyCE1ubCk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jpZuhEP5rXZgAYVno84DaBPK4gwDjy1U6iT81KCg3PoW1EZ8oJD3NDNgZFf6DfLLF
- Edy6J8pPy+J0zoquunykWoqYsXWnLRixBizzrHB6ag/qhC6w3/K69t/7VneTgzNmrG
- nATX1ggz7WX9/5lxq2uFTpeacIF4YolXF+71NBrk=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20220127090958epcas5p22a29fe390f28a73902c7dd8e5ed0d0ee~OFYp1au9g1368313683epcas5p2K;
- Thu, 27 Jan 2022 09:09:58 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4JkvtR374Kz4x9QV; Thu, 27 Jan
- 2022 09:09:51 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 40.81.46822.48F52F16; Thu, 27 Jan 2022 18:01:56 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20220127083035epcas5p3e3760849513fb7939757f4e6678405a0~OE2RZ22Lz0624606246epcas5p3V;
- Thu, 27 Jan 2022 08:30:35 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220127083035epsmtrp29b6f9a511985f6d578fafc10a2f97212~OE2RY0-GU2535825358epsmtrp29;
- Thu, 27 Jan 2022 08:30:35 +0000 (GMT)
-X-AuditID: b6c32a4a-de5ff7000000b6e6-f8-61f25f84ff05
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 76.85.29871.B2852F16; Thu, 27 Jan 2022 17:30:35 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220127083034epsmtip2a5684ee8ff480064e7093359d8634df9~OE2QcrSXg2260922609epsmtip2o;
- Thu, 27 Jan 2022 08:30:34 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- joshiiitr@gmail.com
-Subject: [PATCH 2/2] nvme: add vectored-io support for user passthru
-Date: Thu, 27 Jan 2022 13:55:36 +0530
-Message-Id: <20220127082536.7243-3-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220127082536.7243-1-joshi.k@samsung.com>
+ id 1nD0tn-00EqNX-4g
+ for linux-nvme@lists.infradead.org; Thu, 27 Jan 2022 09:17:00 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 065D91F76E;
+ Thu, 27 Jan 2022 09:16:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643275016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wH9R+c2CFEFLzoUlcITd9YsuhL2kra+kI2fpeLVdjNo=;
+ b=O/r9ThjHhNGqzmTPm14ofB3YNfmVJsRhLmPC0ao23wJzpbMKO5MBDuEJa2M3b5gODN3/+Q
+ QD29j5SkG3LL+fKkq4ugMmNM/uGdpwYOB5+N9qX2ySvLC52DM2bFijekz7KHMPQXXzetTK
+ Ovk7FWC9aW17UrARyABjxJqWNoUz1OU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643275016;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wH9R+c2CFEFLzoUlcITd9YsuhL2kra+kI2fpeLVdjNo=;
+ b=/ukXG5ZPUBvjYb/QwTvRDIhvcrUCKz48et4LNVmsxPMc5XAZiptPBbbLwwo6X6r/PBct0h
+ Qp32j0S1cNlnn4AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E10E713CFB;
+ Thu, 27 Jan 2022 09:16:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 1ucKNgdj8mFLGwAAMHmgww
+ (envelope-from <hare@suse.de>); Thu, 27 Jan 2022 09:16:55 +0000
+Message-ID: <b680e4d4-4375-4b49-b3b5-dde8d0e7f097@suse.de>
+Date: Thu, 27 Jan 2022 10:16:51 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/4] nvme-fabrics: add discovery controller type
+Content-Language: en-US
+To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ Martin Belanger <martin.belanger@dell.com>
+References: <20220125145956.14746-1-nitram_67@hotmail.com>
+ <BL0PR13MB4291022C56E35D6F93500AF79C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <BL0PR13MB4291022C56E35D6F93500AF79C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmk+LIzCtJLcpLzFFi42LZdlhTQ7cl/lOiwfwluhar7/azWaxcfZTJ
- 4vzbw0wWkw5dY7TYe0vbYv6yp+wObB47Z91l97h8ttRj06pONo/NS+o9dt9sYPP4vEkugC0q
- 2yYjNTEltUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6AYlhbLE
- nFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFJgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnZG
- w8yXjAUtAhVfV+1ibWBs4u1i5OSQEDCROHryIHsXIxeHkMBuRomZF66wQDifGCVO/18M5Xxj
- lDjYv4YFpqVn7neolr2MEptXT4ByPjNK/D44G8jh4GAT0JS4MLkUxBQRMJK4/TYGpJdZIEzi
- UM8UsDnCAi4Sna/ngVWzCKhKXLyqDRLmFTCXOPb8GCvEKnmJmZdAVnFycApYSLy68pAVokZQ
- 4uTMJywQI+UlmrfOZoaof8QusfKlNoTtIrFt5nQ2CFtY4tXxLewQtpTE53d7oeLFEr/uHGUG
- uV5CoINR4nrDTKgf7SUu7vnLBHIbM9An63fpQ4RlJaaeWscEsZdPovf3EyaIOK/EjnkwtqLE
- vUlPoe4Xl3g4YwmU7SHxe0k/NDy7GSVuzH/HOIFRYRaSf2Yh+WcWwuoFjMyrGCVTC4pz01OL
- TQuM8lLL4XGcnJ+7iRGcKrW8djA+fPBB7xAjEwfjIUYJDmYlEV4hrY+JQrwpiZVVqUX58UWl
- OanFhxhNgeE9kVlKNDkfmKzzSuINTSwNTMzMzEwsjc0MlcR5T6dvSBQSSE8sSc1OTS1ILYLp
- Y+LglGpgUrogG7DiUfX2M/8uvPWNsi5wyr75euq2ldIsP/68W8NwfdnJGdVFvlufCt/elLSr
- texyfkOge7HanDyJQ94Fayp8hSdOuHzqYse66NdxvxP4tUOUes2TDM1lrrQ/b7l7dn6Ys9Ye
- 811PfqR+T5nywnxSUvHTf6tqZ/E/vC892ayfOb5lwz6j+aLzdviwJ3J5v9EzeZmzJzB67dfb
- B+8Uhh7bdVv/gON1G6/f6xn6a18wdV1S6LvmJbFmic7ldSlHOh4d3e2rdcpe46l/WPIzl808
- IbvzOJIlfQxqTBKfHJp16crRBpW0XH+JW0bfWDyiviR6hCj9T8vOM58ow/Ve8qdDXvuDx0nL
- ZNwFF5VuVmIpzkg01GIuKk4EAG2ywxQeBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrELMWRmVeSWpSXmKPExsWy7bCSvK52xKdEgz37NS1W3+1ns1i5+iiT
- xfm3h5ksJh26xmix95a2xfxlT9kd2Dx2zrrL7nH5bKnHplWdbB6bl9R77L7ZwObxeZNcAFsU
- l01Kak5mWWqRvl0CV0bDzJeMBS0CFV9X7WJtYGzi7WLk5JAQMJHomfudvYuRi0NIYDejxJQt
- h9ggEuISzdd+sEPYwhIr/z2HKvrIKLH46B7WLkYODjYBTYkLk0tBakQEzCQWLJjHAmIzC0RI
- HNqwiQnEFhZwkeh8PY8dpJxFQFXi4lVtkDCvgLnEsefHWCHGy0vMvPQdbBWngIXEqysPweJC
- QDUXfl1jh6gXlDg58wnUeHmJ5q2zmScwCsxCkpqFJLWAkWkVo2RqQXFuem6xYYFhXmq5XnFi
- bnFpXrpecn7uJkZwMGtp7mDcvuqD3iFGJg7GQ4wSHMxKIrxCWh8ThXhTEiurUovy44tKc1KL
- DzFKc7AoifNe6DoZLySQnliSmp2aWpBaBJNl4uCUamBinrxH6UzykrqH33Z85YyJ3XNngeyJ
- J7xcUuWilqIGDD25euritn7tapwV6/O1dBYd237n+P5nsrp3VXisv0WHP7kU2yx92MKkxbnV
- P/rLArkPEo+b3r8I1vJTufLm8KVSpRjTyK/621bJ15l9PJLU98K1YzpvbkDOP6XXFkVmd9Y8
- ee22fG3dh1VPNgQXvgi6cX7miiDu5CCNq+khv1w76lPXvfQNW1CndHChldUPqVc1vcw2Op/7
- zsT4hOi213ttZWfP97zyhbnioZ/p2u83epY6HFoScuFW8+fCbudrrz6EfDL3nTy9UHH96olW
- 7DdePjj86LO9f1LA+ZWLd6Szngpvn/Tj8Uc7wyK3FjslluKMREMt5qLiRAAcp0Ge1QIAAA==
-X-CMS-MailID: 20220127083035epcas5p3e3760849513fb7939757f4e6678405a0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220127083035epcas5p3e3760849513fb7939757f4e6678405a0
-References: <20220127082536.7243-1-joshi.k@samsung.com>
- <CGME20220127083035epcas5p3e3760849513fb7939757f4e6678405a0@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_011004_849496_9861F04F 
-X-CRM114-Status: GOOD (  19.59  )
+X-CRM114-CacheID: sfid-20220127_011659_393317_85A6B558 
+X-CRM114-Status: GOOD (  18.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,70 +91,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-wire up support for passthru that takes an array of buffers (using
-iovec). Enable it for NVME_IOCTL_IO64_CMD; same ioctl code to be used
-with following differences -
+On 1/25/22 15:59, Martin Belanger wrote:
+> From: Martin Belanger <martin.belanger@dell.com>
+> 
+> TP8010 introduces the Central Discovery Controller (CDC). To
+> differentiate between a CDC and a DDC (Direct DC), the identify
+> response now carries a DCTYPE (Discovery Controller Type) field.
+> 
+> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+> ---
+>   drivers/nvme/host/core.c |  3 +++
+>   drivers/nvme/host/nvme.h |  2 ++
+>   include/linux/nvme.h     | 10 +++++++++-
+>   3 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 4fc794d9c2f4..cd34b92e8e9d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2978,6 +2978,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+>   	ctrl->kas = le16_to_cpu(id->kas);
+>   	ctrl->max_namespaces = le32_to_cpu(id->mnan);
+>   	ctrl->ctratt = le32_to_cpu(id->ctratt);
+> +	ctrl->dctype = id->dctype;
+>   
+>   	if (id->rtd3e) {
+>   		/* us -> s */
+> @@ -3335,6 +3336,7 @@ nvme_show_int_function(numa_node);
+>   nvme_show_int_function(queue_count);
+>   nvme_show_int_function(sqsize);
+>   nvme_show_int_function(kato);
+> +nvme_show_int_function(dctype);
+>   
+>   static ssize_t nvme_sysfs_delete(struct device *dev,
+>   				struct device_attribute *attr, const char *buf,
+> @@ -3533,6 +3535,7 @@ static struct attribute *nvme_dev_attrs[] = {
+>   	&dev_attr_reconnect_delay.attr,
+>   	&dev_attr_fast_io_fail_tmo.attr,
+>   	&dev_attr_kato.attr,
+> +	&dev_attr_dctype.attr,
+>   	NULL
+>   };
+>   
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index fe224016418e..f8b60f7346fd 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -349,6 +349,8 @@ struct nvme_ctrl {
+>   	unsigned long discard_page_busy;
+>   
+>   	struct nvme_fault_inject fault_inject;
+> +
+> +	enum nvme_dctype dctype;
+>   };
+>   
+>   enum nvme_iopolicy {
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 855dd9b3e84b..82567d493c51 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -240,6 +240,12 @@ enum nvme_ctrl_attr {
+>   	NVME_CTRL_ATTR_TBKAS		= (1 << 6),
+>   };
+>   
+> +enum nvme_dctype {
+> +	NVME_DCTYPE_NOT_REPORTED = 0,
+> +	NVME_DCTYPE_DDC = 1,
+> +	NVME_DCTYPE_CDC = 2,
+> +};
+> +
+>   struct nvme_id_ctrl {
+>   	__le16			vid;
+>   	__le16			ssvid;
+> @@ -320,7 +326,9 @@ struct nvme_id_ctrl {
+>   	__le16			icdoff;
+>   	__u8			ctrattr;
+>   	__u8			msdbd;
+> -	__u8			rsvd1804[244];
+> +	__le16			ofcs;
+> +	__u8			dctype;
+> +	__u8			rsvd1807[241];
+>   	struct nvme_id_power_state	psd[32];
+>   	__u8			vs[1024];
+>   };
 
-1. NVME_IOVEC to be set as cmd.flags
-2. cmd.addr, base addr of user iovec array
-3. cmd.data_len, count of iovec array elements
+Please decode the fields for the sysfs attribute; 'cdc' is far easier to 
+understand than '2'.
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/ioctl.c       | 9 ++++++---
- include/uapi/linux/nvme_ioctl.h | 4 ++++
- 2 files changed, 10 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 22314962842d..3a896443e110 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -65,6 +65,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	struct bio *bio = NULL;
- 	void *meta = NULL;
- 	int ret;
-+	u8 cmd_flags = cmd->common.flags;
- 
- 	req = nvme_alloc_request(q, cmd, 0);
- 	if (IS_ERR(req))
-@@ -75,7 +76,11 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	nvme_req(req)->flags |= NVME_REQ_USERCMD;
- 
- 	if (ubuffer && bufflen) {
--		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
-+		if (!(cmd_flags & NVME_IOVEC))
-+			ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
-+				GFP_KERNEL);
-+		else
-+			ret = blk_rq_map_user_vec(q, req, NULL, ubuffer, bufflen,
- 				GFP_KERNEL);
- 		if (ret)
- 			goto out;
-@@ -246,8 +251,6 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		return -EACCES;
- 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
- 		return -EFAULT;
--	if (cmd.flags)
--		return -EINVAL;
- 	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
- 		return -EINVAL;
- 
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index d99b5a772698..d4999e3930f8 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -9,6 +9,10 @@
- 
- #include <linux/types.h>
- 
-+enum nvme_ioc_flags {
-+	NVME_IOVEC	= 1 << 0 /* vectored io */
-+};
-+
- struct nvme_user_io {
- 	__u8	opcode;
- 	__u8	flags;
+Hannes
 -- 
-2.25.1
-
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
