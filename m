@@ -4,76 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6784DC5DF62
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jan 2022 19:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AC4DC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jan 2022 07:02:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/b9yrYylsR3IXw2MBkgKmnslMTaks1EUQq+pWFo3vMU=; b=ZPhUfA8FavZKKsUkodN1PkPVm8
-	An0viqCng0VsvNMwgsLqL17FkIwoIJcK5Ub3VDqJIZy7msgs+SflGZqxHlJPGUsVD+Rdpq7fEgkjY
-	ZPc8ExoyTgR0XklcAjDiUa/CkMUbOj4UDS5e0nN0zDT1KmpJWpQEOwC4CYv4iAKygSHFYY3IQX19m
-	5J9aMTZ2cl1+SudCwufY2Jc4t5pnzK8cs6UBvfHMTFAuzJuT75kT8GXxnpRNf/K8XNt6MQd2Xy1Qg
-	G7v6Hs0+ILt+uql/d+DwfNgv7XAx66aEH9GUXtaNaoB4pHle+GF5YcZbKUU+wvf/0o9abC0CU2Ej6
-	ZVMQA6ig==;
+	bh=bpPsD37XPM8/yrehFzMQ+3XK5ZJqPqShsMtY7Xkz0cE=; b=YEwPx1VqkvrC9rNC69l0hBLfPe
+	7kZ8TQgbUDQkmpHht0SvhnW2zG+3P4ZMx8DhR7SSvhyKsSKi8elpFtZnyjPdA/HcWUwYvgHjXvF7H
+	Ayrqf3YBbKHB/GsidpvlwVnZdIJr94hrdQmZZdwj8XKedagGFk0YLTQOp3dtIqjN1e4g6gyexnGwu
+	pBA28eDbHPFlEv+wtUnN2wmU86qtiG9OFOfI7q/CGy+a6o/sTSmU1q3Rooo1xYZ0c5aI+/GOebnjC
+	Rgxv098SVhOaG87+8mGhnrmfpTORtW4i6bUWRh6omU7mrAMz5T43iDH9u0fgSn7CcoxfN4xjltOIL
+	SIri+Gnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCoNg-00DPtm-0L; Wed, 26 Jan 2022 19:55:00 +0000
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
+	id 1nCyo0-00EbFy-5c; Thu, 27 Jan 2022 07:02:52 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nCoNc-00DPs1-QT
- for linux-nvme@lists.infradead.org; Wed, 26 Jan 2022 19:54:58 +0000
-Received: by mail-qv1-xf2f.google.com with SMTP id s6so801412qvv.11
- for <linux-nvme@lists.infradead.org>; Wed, 26 Jan 2022 11:54:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=toxicpanda-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :content-transfer-encoding;
- bh=/b9yrYylsR3IXw2MBkgKmnslMTaks1EUQq+pWFo3vMU=;
- b=jIM+Tc+JfN7AxN6yCV944hevmEwbziOmVrsSDKFKhxcK5czEdfwuGa1+JKEm5p153D
- slLmda6m/yCZO8ZIHlLZl6IqweIwHdlxDpwmS9sacFA2fhuXmFY8LEFoX+85O/+Bx4OE
- iGciw+hNYyVKtUVlJOaV2lZ+sKD0MAsMcI/LQl+lQZdZ70jf6CnR8vIw7OtQFvUwfrZJ
- lhlzFUgt9mOyvy8aEn4Oyx65EgV/2T/N1fYGTTkn2R2iHkCpwr0QXQR7i6xi6krzpt4Q
- B7QgV0Cbl2yPbyxMuyZmyWX6EsCRk/5btemPGasR9kB/RKqdVkmYF45VVp+Q7EiGvBjs
- T3MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=/b9yrYylsR3IXw2MBkgKmnslMTaks1EUQq+pWFo3vMU=;
- b=GlJI9zQYBXaWpIsdPaL55ykvYT5nbGEGlOywvT76ck032Y2sWOT6wkhmKDig1tvyKq
- ShdtznmQl+MIiQ/XEg0eRVhmhfZMYjnm9kiswbmJaaxcd/jxtQBPIFhq0qIkqVv8h5xD
- TTpeM97lM/s/bhBjxsdizsldDSG6lEFbn5r+Qh876Ljh1aY+wtrOPXC4zvmNEdQiDHPa
- ONUDtQOzgZh3Evw4ujwgrkTqrO9FAUlSiJ6pzOJAO9FOhk/pwk8g6jD7I9fLA6Ld0Fky
- caBVQlXV72JXmtIgtr4sNoTxYfHtEBQnMZ9engfvIwLdHljh/uqQ+ZTrj/iRqwvv8p/k
- qJRw==
-X-Gm-Message-State: AOAM533NbDFeK8LLie7X9yFHwCQSpKZXogzd2tiK9yO4oHd4EnkizzvQ
- bCYsdnLdvwyYPfg0rkSptJ3VSg==
-X-Google-Smtp-Source: ABdhPJzDiy8lWJPalTqmHodK4vLPsn5OI+iOGQeHou4Hn9uAp27KEpv7ql8yuu4Af0KUxh9Hg0NE3g==
-X-Received: by 2002:a05:6214:e45:: with SMTP id o5mr364368qvc.10.1643226894754; 
- Wed, 26 Jan 2022 11:54:54 -0800 (PST)
-Received: from localhost (cpe-174-109-172-136.nc.res.rr.com. [174.109.172.136])
- by smtp.gmail.com with ESMTPSA id bs33sm148633qkb.103.2022.01.26.11.54.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jan 2022 11:54:54 -0800 (PST)
-Date: Wed, 26 Jan 2022 14:54:53 -0500
-From: Josef Bacik <josef@toxicpanda.com>
-To: lsf-pc@lists.linuxfoundation.org
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: LSF/MM/BPF: 2022: Call for Proposals
-Message-ID: <YfGnDRM/Pe4jzbSr@localhost.localdomain>
+ id 1nCynx-00EbFc-3l
+ for linux-nvme@lists.infradead.org; Thu, 27 Jan 2022 07:02:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643266969; x=1674802969;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1arZuCXlQk7TClBMjMCVQiGcifAOHswNeSyP1nGC7hM=;
+ b=QCDHyBApjFL0lB3q4IdpPu6x+FTdzLE6lmeJNi4zp2mljuWA1Iw5rIi/
+ eE2LGZ9/Kgmdxo5SUwWs5+wrq74xIRQPdoUDWM0oGO8twq8VagmJtra7T
+ 1K88pV2D5mvkfuTzrzV4uhRuuA4jV0twBGFy3xkkYjl3sxTeAffcJXmd+
+ 3szaX6AB6DpuEgavb3KOQkhmHl3nJwv9ZlSrmElY7L7TSX1Wn4lsg9YXO
+ kzmeN0y8CuZ1eJhmgN3XVBXcAr6WsHtghXLQtdUpUAZgskFMreUo/fYUL
+ CCI4+hZTl9qDU7oFl+Grtm8t3pfoL45SsJ6CKmL3Hutr1WC66ULfK99Jp g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="333124189"
+X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="333124189"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 23:02:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; d="scan'208";a="480181703"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 26 Jan 2022 23:02:46 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nCynt-000MGJ-DN; Thu, 27 Jan 2022 07:02:45 +0000
+Date: Thu, 27 Jan 2022 15:02:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.17] BUILD SUCCESS
+ e27e21811c8556556896c4f0ce4fd44400f586d6
+Message-ID: <61f24387.9IfDGOKhGgKqQIx2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220126_115456_937316_0DD4915C 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20220126_230249_219930_43B68C81 
+X-CRM114-Status: UNSURE (   6.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,109 +78,191 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The annual Linux Storage, Filesystem, Memory Management, and BPF
-(LSF/MM/BPF) Summit for 2022 will be held from May 2 to May 4 at The
-Margaritaville Resort Palm Springs in Palm Springs, California.
-LSF/MM/BPF is an invitation-only technical workshop to map out
-improvements to the Linux storage, filesystem, BPF, and memory
-management subsystems that will make their way into the mainline kernel
-within the coming years.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.17
+branch HEAD: e27e21811c8556556896c4f0ce4fd44400f586d6  nvme-core: remove unnecessary function parameter
 
-COVID is at the front of our minds as we attempt to put together the
-best and safest conference we can arrange.  The logistics of how to hold
-an in person event will change and evolve as we get closer to the actual
-date, but rest assured we will do everything recommended by public
-health officials.
+elapsed time: 725m
 
-LSF/MM/BPF 2022 will be a three day, stand-alone conference with four
-subsystem-specific tracks, cross-track discussions, as well as BoF and
-hacking sessions.
+configs tested: 165
+configs skipped: 3
 
-On behalf of the committee I am issuing a call for agenda proposals
-that are suitable for cross-track discussion as well as technical
-subjects for the breakout sessions.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-If advance notice is required for visa applications then please point
-that out in your proposal or request to attend, and submit the topic as
-soon as possible.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                          randconfig-c001
+i386                 randconfig-c001-20220124
+m68k                         apollo_defconfig
+arc                    vdk_hs38_smp_defconfig
+mips                  decstation_64_defconfig
+sh                         ecovec24_defconfig
+m68k                            q40_defconfig
+powerpc                 linkstation_defconfig
+arm                         s3c6400_defconfig
+m68k                           sun3_defconfig
+arm                        oxnas_v6_defconfig
+m68k                          multi_defconfig
+sparc                            allyesconfig
+powerpc                       ppc64_defconfig
+m68k                        stmark2_defconfig
+xtensa                  nommu_kc705_defconfig
+mips                         rt305x_defconfig
+arm                            zeus_defconfig
+nios2                         10m50_defconfig
+xtensa                              defconfig
+sh                ecovec24-romimage_defconfig
+mips                       capcella_defconfig
+arm                          pxa910_defconfig
+arm                          simpad_defconfig
+m68k                          hp300_defconfig
+nds32                               defconfig
+m68k                       m5249evb_defconfig
+arm                             rpc_defconfig
+mips                        bcm47xx_defconfig
+xtensa                  audio_kc705_defconfig
+mips                         cobalt_defconfig
+powerpc                      makalu_defconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                      mgcoge_defconfig
+arm                        keystone_defconfig
+mips                           ip32_defconfig
+arm                         lubbock_defconfig
+arm                          pxa3xx_defconfig
+powerpc                      pasemi_defconfig
+m68k                       m5208evb_defconfig
+mips                             allmodconfig
+sparc64                          alldefconfig
+sh                            migor_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                    xip_kc705_defconfig
+sh                        apsh4ad0a_defconfig
+arm                           corgi_defconfig
+powerpc                  iss476-smp_defconfig
+arm                  randconfig-c002-20220124
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a002-20220124
+x86_64               randconfig-a003-20220124
+x86_64               randconfig-a001-20220124
+x86_64               randconfig-a004-20220124
+x86_64               randconfig-a005-20220124
+x86_64               randconfig-a006-20220124
+i386                 randconfig-a002-20220124
+i386                 randconfig-a005-20220124
+i386                 randconfig-a003-20220124
+i386                 randconfig-a004-20220124
+i386                 randconfig-a001-20220124
+i386                 randconfig-a006-20220124
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+riscv                randconfig-r042-20220125
+arc                  randconfig-r043-20220125
+arc                  randconfig-r043-20220124
+s390                 randconfig-r044-20220125
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
 
-This years instructions are similar to our previous attempts.  We're
-asking that you please let us know you want to be invited by March 1,
-2022.  We realize that travel is an ever changing target, but it helps
-us get an idea of possible attendance numbers.  Clearly things can and
-will change, so consider the request to attend deadline more about
-planning and less about concrete plans.
+clang tested configs:
+arm                  randconfig-c002-20220124
+riscv                randconfig-c006-20220124
+i386                 randconfig-c001-20220124
+powerpc              randconfig-c003-20220124
+mips                 randconfig-c004-20220124
+x86_64               randconfig-c007-20220124
+arm                          imote2_defconfig
+mips                         tb0219_defconfig
+mips                          malta_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                    socrates_defconfig
+powerpc                      obs600_defconfig
+arm                            mmp2_defconfig
+mips                   sb1250_swarm_defconfig
+mips                     loongson2k_defconfig
+arm                        neponset_defconfig
+powerpc                     kmeter1_defconfig
+arm                           omap1_defconfig
+powerpc                     skiroot_defconfig
+i386                             allyesconfig
+powerpc                      walnut_defconfig
+powerpc                        fsp2_defconfig
+powerpc                      katmai_defconfig
+riscv                          rv32_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64               randconfig-a011-20220124
+x86_64               randconfig-a013-20220124
+x86_64               randconfig-a015-20220124
+x86_64               randconfig-a016-20220124
+x86_64               randconfig-a014-20220124
+x86_64               randconfig-a012-20220124
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                 randconfig-a011-20220124
+i386                 randconfig-a016-20220124
+i386                 randconfig-a013-20220124
+i386                 randconfig-a014-20220124
+i386                 randconfig-a015-20220124
+i386                 randconfig-a012-20220124
+riscv                randconfig-r042-20220126
+riscv                randconfig-r042-20220124
+hexagon              randconfig-r045-20220124
+hexagon              randconfig-r045-20220126
+hexagon              randconfig-r041-20220124
+hexagon              randconfig-r041-20220126
+hexagon              randconfig-r045-20220125
+hexagon              randconfig-r041-20220125
 
-1) Fill out the following Google form to request attendance and
-suggest any topics
-
-	https://forms.gle/uD5tbZYGpaRXPnE19
-
-In previous years we have accidentally missed people's attendance
-requests because they either didn't cc lsf-pc@ or we simply missed them
-in the flurry of emails we get.  Our community is large and our
-volunteers are busy, filling this out will help us make sure we don't
-miss anybody.
-
-2) Proposals for agenda topics should still be sent to the following
-lists to allow for discussion among your peers.  This will help us
-figure out which topics are important for the agenda.
-
-        lsf-pc@lists.linux-foundation.org
-
-and CC the mailing lists that are relevant for the topic in question:
-
-        FS:     linux-fsdevel@vger.kernel.org
-        MM:     linux-mm@kvack.org
-        Block:  linux-block@vger.kernel.org
-        ATA:    linux-ide@vger.kernel.org
-        SCSI:   linux-scsi@vger.kernel.org
-        NVMe:   linux-nvme@lists.infradead.org
-        BPF:    bpf@vger.kernel.org
-
-Please tag your proposal with [LSF/MM/BPF TOPIC] to make it easier to
-track. In addition, please make sure to start a new thread for each
-topic rather than following up to an existing one. Agenda topics and
-attendees will be selected by the program committee, but the final
-agenda will be formed by consensus of the attendees on the day.
-
-We will try to cap attendance at around 25-30 per track to facilitate
-discussions although the final numbers will depend on the room sizes
-at the venue.
-
-For discussion leaders, slides and visualizations are encouraged to
-outline the subject matter and focus the discussions. Please refrain
-from lengthy presentations and talks; the sessions are supposed to be
-interactive, inclusive discussions.
-
-There will be no recording or audio bridge. However, we expect that
-written minutes will be published as we did in previous years:
-
-2019: https://lwn.net/Articles/lsfmm2019/
-
-2018: https://lwn.net/Articles/lsfmm2018/
-
-2017: https://lwn.net/Articles/lsfmm2017/
-
-2016: https://lwn.net/Articles/lsfmm2016/
-
-2015: https://lwn.net/Articles/lsfmm2015/
-
-2014: http://lwn.net/Articles/LSFMM2014/
-
-3) If you have feedback on last year's meeting that we can use to
-improve this year's, please also send that to:
-
-        lsf-pc@lists.linux-foundation.org
-
-Thank you on behalf of the program committee:
-
-        Josef Bacik (Filesystems)
-        Amir Goldstein (Filesystems)
-        Martin K. Petersen (Storage)
-        Omar Sandoval (Storage)
-        Michal Hocko (MM)
-        Dan Williams (MM)
-        Alexei Starovoitov (BPF)
-        Daniel Borkmann (BPF)
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
