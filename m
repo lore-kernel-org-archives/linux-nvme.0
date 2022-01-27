@@ -4,77 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2E1BC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jan 2022 13:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B91A6C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jan 2022 13:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YAvabDKiy/IOq+tNORf8Ky3O1ISck19RzEYUA9eAKIQ=; b=Bl8cG1yQqErKm3C1cVeyfieZTv
-	7e+vbIx37M2jF62q/tgO6GlfckMqz0q0MG4/7LZ5YpVI2uKmYJCZzpVD2xl4ZU3/9O5YJycY91PA5
-	vlbCYph/O3v9o3tCstRIKDGYRLnOcVx1qm29vPOjpiqPbOBgrB4Uzs2gPyFJAvFMfpOERRdFdd+AI
-	AZdVXORVLxbDYzQyST4LjBflyn207v+JoOF8x+IK8wORs5JJo/OMK/Sg8/bA7j1yOVgUbu/IfzkKg
-	k9VvpTi/egyacjwaRtmkIn4lQTcLs52exqxCs25gzgUKHLiHCwXc4G//ye8j0Mts/qjBcSobPTvkm
-	2Y0fNwhQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=izIQfBLeUv+B+Nkh8bKitiytMbw4Bc26QIVbjradyaI=; b=lR6DD2AxqL+u01q93HyWWCLcpO
+	Y6wjO5dCWLbAKTuG9xq1rPywwH9FpcrtbNrex+h6s+i35XM+Ckhs/yj+OWSEVpp/uxxwV2Mo/IrPy
+	qWq9f4k2Yr7ay+7gKDsDKUrWW+Xu9tVFaYjooBelA/oZepWnzC7Ym2vTgz6/9lJU1ML0gKq9utNif
+	iR3kBsREvFEelgNv3KydHoTIFFEZZ6wPH/7qRMOZLTKrqDJeQQjIssNFu7R3OzL4rvDqOMK7db8zW
+	8Nvz1WyD0ZN1r2mwcIEr3kZGCltaF6XrlVWUy02doPxc+WdIzQKhgt6RBwju6NCvSfQx2WXQMXw6A
+	5xJUtVCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nD4TI-00FoxP-Aa; Thu, 27 Jan 2022 13:05:52 +0000
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+	id 1nD4ZY-00FqPH-0W; Thu, 27 Jan 2022 13:12:20 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nD4TG-00Fow5-58
- for linux-nvme@lists.infradead.org; Thu, 27 Jan 2022 13:05:51 +0000
-Received: by mail-pl1-x636.google.com with SMTP id x11so2426087plg.6
- for <linux-nvme@lists.infradead.org>; Thu, 27 Jan 2022 05:05:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YAvabDKiy/IOq+tNORf8Ky3O1ISck19RzEYUA9eAKIQ=;
- b=g/hFiPCc8RFLsEjhhtRjCcx2vGN8zYVWT9S/1sdO14X6so0hUQZqHCyQZuJfuBEPzA
- UT3JfWn3l99awvTiybM3F2i5eZVLH6pctJqJ3keCIrFjVst89kNFdKQZ9cXqSGe0QhFQ
- 6ZmaRrGqzTPCBCtBDjIyGFxxt72MMxyrrzOyrstXGLC9zLAlC1h2tcod4u7WGAXGJtQj
- uOzQDmgDF5+auOABzTDx+4vD5Tt3JS6RRzU6x0TioMBz0lxmpURPRrJ6ZW2KOOBI0WU4
- MX9uhpNOsEMGcNQrlK51LmLO1QHSVJbIJ5o5C5JgNT1U1I8iCPs7BlAnpAYaR1yz58fN
- xYKA==
+ id 1nD4ZP-00FqNC-Hr
+ for linux-nvme@lists.infradead.org; Thu, 27 Jan 2022 13:12:14 +0000
+Received: by mail-wr1-f53.google.com with SMTP id h21so4656115wrb.8
+ for <linux-nvme@lists.infradead.org>; Thu, 27 Jan 2022 05:12:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YAvabDKiy/IOq+tNORf8Ky3O1ISck19RzEYUA9eAKIQ=;
- b=UFDsS0YyD486XwVN9oUl25EmpLY3d+6n2Lqq9pGp5nKzdxinJz/l3VkVvTmx/3zTSC
- UgAaadpq/dgzvBqLxRCIwI4b9ptdSCeNct44ZA000stbCsnlxxg74svnP5jNlil6lTcr
- p0lM3u0zMajAUL8o5T09shPeb7CZZG4+5zoR5vgmssetI2oDI1etUTjoxkxJz3vIrakp
- jeRs3cLQ/M3+kdJe6VWGZGIn1IHCRiA7OJJu9vFHnHPMQP0D/vukEQtlXQH9WI78KK8L
- RVs0vzN5/yoIKymWzLqvbMDvG5cI4mwJni1ncAOOpbncvbrAR66OAeG304IpwqOuwL5a
- fR9g==
-X-Gm-Message-State: AOAM532ZLeKjkg3vQz6klmyVF+krh3KWWF9saaS6l6bA5Vm4L8kK+fkS
- kxyiDfy4Jr7hB8BM+YsfxXI=
-X-Google-Smtp-Source: ABdhPJz5mf/XYBMviEo7nzNv/zu76bfGBYRz+uXYVP6cf2ycU+TIoBUSvXKieTwhBg70VojSq85z/g==
-X-Received: by 2002:a17:90b:33c9:: with SMTP id
- lk9mr13750657pjb.41.1643288747435; 
- Thu, 27 Jan 2022 05:05:47 -0800 (PST)
-Received: from localhost ([182.65.162.251])
- by smtp.gmail.com with ESMTPSA id nv13sm6578735pjb.18.2022.01.27.05.05.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jan 2022 05:05:44 -0800 (PST)
-Date: Thu, 27 Jan 2022 18:35:41 +0530
-From: Pankaj Raghav <pankydev8@gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Pankaj Raghav <p.raghav@samsung.com>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: Use pci_iomap instead of ioremap
-Message-ID: <20220127130541.qxb6vk5lhoaa4ivl@quentin>
-References: <CGME20220121143539eucas1p20202376f83b0b499143c18b1434ff000@eucas1p2.samsung.com>
- <20220121143533.164928-1-p.raghav@samsung.com>
- <20220126163306.GB31892@lst.de>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=izIQfBLeUv+B+Nkh8bKitiytMbw4Bc26QIVbjradyaI=;
+ b=tum4AWyCXpP5+ib6JVHHziR2f7WLLowSEfomNIa8YxMODQ4HDwxqbDinv+bXjokmJj
+ G4OifHJ86JHTkTWI6LQGOJCYouOiSZpbPFCKAY5ZlLUpW8AcKDVAu0DpJiJz9TkwYN4b
+ WLrhZNb39koAPRuntfv8z5nk2nm8OoEUglZyrhAzyCajM8qGTmnrN+QqX+KjP/Amuk6w
+ lH94bIlySmC5aUPNtKD/UmO3JP5WSRPaJSTa5Ada/K0/uE9KN3EcIPgVMQ86rS4lUVMb
+ L6a+OU/GhbbLz1urbSJLRLKCr50P/qY0urd2uSXjwgEjv1zWhHlWpens91tySe3ejRPr
+ 80Ug==
+X-Gm-Message-State: AOAM533k6hAdTN70TZeyFphDo1HQOWfPqbhqpwr3OIh4WIk+9NQHtetI
+ iD8re+NYP4UgTh2hHzx/DXaz2BHWo2E=
+X-Google-Smtp-Source: ABdhPJxxUJcJCliTm/xltHAZtRIWJY8oEAm2Ym2ivtxXFxEx0lAabDU6aP3zCX3IY3ee/cBsPmCq4Q==
+X-Received: by 2002:a5d:524e:: with SMTP id k14mr2948157wrc.294.1643289127765; 
+ Thu, 27 Jan 2022 05:12:07 -0800 (PST)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id v5sm5632881wmh.19.2022.01.27.05.12.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Jan 2022 05:12:07 -0800 (PST)
+Message-ID: <92c36bc0-9489-ebc1-3176-fb215ccc8646@grimberg.me>
+Date: Thu, 27 Jan 2022 15:12:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220126163306.GB31892@lst.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 3/4] nvme-fabrics: add tp8010 support
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Martin Belanger <nitram_67@hotmail.com>,
+ linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de,
+ Martin Belanger <martin.belanger@dell.com>
+References: <20220125145956.14746-1-nitram_67@hotmail.com>
+ <BL0PR13MB4291A94BED970C6599BBC6679C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
+ <1ee5410f-3af6-8ca7-a860-e3fc1bc49a0e@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <1ee5410f-3af6-8ca7-a860-e3fc1bc49a0e@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_050550_227918_CED3D6A8 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20220127_051211_668444_33058C2B 
+X-CRM114-Status: GOOD (  28.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,12 +84,684 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 26, 2022 at 05:33:06PM +0100, Christoph Hellwig wrote:
-> pci_iomap goes with the ioread/iowrite accessors which we absolutely
-> do not want in nvme.
-Is it because of ioread/iowrite has a conditional check everytime we do
-a read/write with IO_COND? Or is there any other reason?
 
---
-Pankaj
+
+On 1/27/22 11:30, Hannes Reinecke wrote:
+> On 1/25/22 15:59, Martin Belanger wrote:
+>> From: Martin Belanger <martin.belanger@dell.com>
+>>
+>> TP8010 introduces Central Discovery Controllers (CDC) and the
+>> Discovery Information Management (DIM) PDU, which is used to
+>> perform explicit registration with Discovery Controllers.
+>>
+>> This patch defines the DIM PDU and adds logic to perform explicit
+>> registration with DCs when registration has been requested by the
+>> user.
+>>
+>> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+>> ---
+>>   drivers/nvme/host/fabrics.c | 164 +++++++++++++++++++++++
+>>   drivers/nvme/host/fabrics.h |   9 ++
+>>   drivers/nvme/host/tcp.c     |  51 +++++++-
+>>   include/linux/nvme.h        | 255 ++++++++++++++++++++++++++++++++++--
+>>   4 files changed, 467 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>> index 040a6cce6afa..e6fc2f85b670 100644
+>> --- a/drivers/nvme/host/fabrics.c
+>> +++ b/drivers/nvme/host/fabrics.c
+>> @@ -10,6 +10,7 @@
+>>   #include <linux/mutex.h>
+>>   #include <linux/parser.h>
+>>   #include <linux/seq_file.h>
+>> +#include <linux/utsname.h>
+>>   #include "nvme.h"
+>>   #include "fabrics.h"
+>> @@ -526,6 +527,165 @@ static struct nvmf_transport_ops 
+>> *nvmf_lookup_transport(
+>>       return NULL;
+>>   }
+>> +/**
+>> + * nvmf_get_tel() - Calculate the amount of memory needed for a 
+>> Discovery
+>> + * Information Entry. Each Entry must contain at a minimum an Extended
+>> + * Attribute for the HostID. The Entry may optionally contain an 
+>> Extended
+>> + * Attribute for the Symbolic Name.
+>> + *
+>> + * @hostsymname - Symbolic name (may be NULL)
+>> + *
+>> + * Return Total Entry Length
+>> + */
+>> +static u32 nvmf_get_tel(const char *hostsymname)
+>> +{
+>> +    u32 tel = SIZEOF_EXT_DIE_WO_EXAT;
+>> +    u16 len;
+>> +
+>> +    /* Host ID is mandatory */
+>> +    tel += exat_size(sizeof(uuid_t));
+>> +
+>> +    /* Symbolic name is optional */
+>> +    len = hostsymname ? strlen(hostsymname) : 0;
+>> +    if (len)
+>> +        tel += exat_size(len);
+>> +
+>> +    return tel;
+>> +}
+>> +
+>> +/**
+>> + * nvmf_fill_die() - Fill the Discovery Information Entry pointed to by
+>> + *                   @die.
+>> + *
+>> + * @die - Pointer to Discovery Information Entry to be filled
+>> + * @tel - Length of the DIE
+>> + * @trtype - Transport type
+>> + * @adrfam - Address family
+>> + * @reg_addr - Address to register. Setting this to an empty string 
+>> tells
+>> + *       the DC to infer address from the source address of the socket.
+>> + * @nqn - Host NQN
+>> + * @hostid - Host ID
+>> + * @hostsymname - Host symbolic name
+>> + * @tsas - Transport Specific Address Subtype for the address being
+>> + *       registered.
+>> + */
+>> +static void nvmf_fill_die(struct nvmf_ext_die  *die,
+>> +              u32                   tel,
+>> +              u8                    trtype,
+>> +              u8                    adrfam,
+>> +              const char           *reg_addr,
+>> +              struct nvmf_host     *host,
+>> +              union nvmf_tsas      *tsas)
+>> +{
+>> +    u16 numexat = 0;
+>> +    size_t symname_len;
+>> +    struct nvmf_ext_attr *exat;
+>> +
+>> +    die->tel = cpu_to_le32(tel);
+>> +    die->trtype = trtype;
+>> +    die->adrfam = adrfam;
+>> +
+>> +    strncpy(die->nqn, host->nqn, sizeof(die->nqn));
+>> +    strncpy(die->traddr, reg_addr, sizeof(die->traddr));
+>> +    memcpy(&die->tsas, tsas, sizeof(die->tsas));
+>> +
+>> +    /* Extended Attribute for the HostID (mandatory) */
+>> +    numexat++;
+>> +    exat = &die->exat;
+>> +    exat->type = cpu_to_le16(NVME_EXATTYPE_HOSTID);
+>> +    exat->len  = cpu_to_le16(exat_len(sizeof(host->id)));
+>> +    uuid_copy((uuid_t *)exat->val, &host->id);
+>> +
+>> +    /* Extended Attribute for the Symbolic Name (optional) */
+>> +    symname_len = strlen(host->symname);
+>> +    if (symname_len) {
+>> +        u16 exatlen = exat_len(symname_len);
+>> +
+>> +        numexat++;
+>> +        exat = exat_ptr_next(exat);
+>> +        exat->type = cpu_to_le16(NVME_EXATTYPE_SYMNAME);
+>> +        exat->len  = cpu_to_le16(exatlen);
+>> +        memcpy(exat->val, host->symname, symname_len);
+>> +        /* Per Base specs, ASCII strings must be padded with spaces */
+>> +        memset(&exat->val[symname_len], ' ', exatlen - symname_len);
+>> +    }
+>> +
+>> +    die->numexat = cpu_to_le16(numexat);
+>> +}
+>> +
+>> +/**
+>> + * nvmf_disc_info_mgmt() - Perform explicit registration, 
+>> deregistration,
+>> + * or registration-update (specified by @tas) by sending a Discovery
+>> + * Information Management (DIM) command to the Discovery Controller 
+>> (DC).
+>> + *
+>> + * @ctrl: Host NVMe controller instance maintaining the admin queue 
+>> used to
+>> + *      submit the DIM command to the DC.
+>> + * @tas: Task field of the Command Dword 10 (cdw10). Indicates 
+>> whether to
+>> + *     perform a Registration, Deregistration, or Registration-update.
+>> + * @trtype: Transport type (e.g. NVMF_TRTYPE_TCP)
+>> + * @adrfam: Address family (e.g. NVMF_ADDR_FAMILY_IP6)
+>> + * @reg_addr - Address to register. Setting this to an empty string 
+>> tells
+>> + *       the DC to infer address from the source address of the socket.
+>> + * @tsas - Transport Specific Address Subtype for the address being
+>> + *       registered.
+>> + *
+>> + * Return:   0: success,
+>> + *         > 0: NVMe error status code,
+>> + *         < 0: Linux errno error code
+>> + */
+>> +int nvmf_disc_info_mgmt(struct nvme_ctrl *ctrl,
+>> +            enum nvmf_dim_tas tas,
+>> +            u8                trtype,
+>> +            u8                adrfam,
+>> +            const char       *reg_addr,
+>> +            union nvmf_tsas  *tsas)
+>> +{
+>> +    int                   ret;
+>> +    u32                   tdl;  /* Total Data Length */
+>> +    u32                   tel;  /* Total Entry Length */
+>> +    struct nvmf_dim_data *dim;  /* Discovery Information Management */
+>> +    struct nvmf_ext_die  *die;  /* Discovery Information Entry */
+>> +    struct nvme_command   cmd = {};
+>> +    union nvme_result     result;
+>> +
+>> +    /* Register 1 Discovery Information Entry (DIE) of size TEL */
+>> +    tel = nvmf_get_tel(ctrl->opts->host->symname);
+>> +    tdl = SIZEOF_DIM_WO_DIE + tel;
+>> +
+>> +    dim = kzalloc(tdl, GFP_KERNEL);
+>> +    if (!dim)
+>> +        return -ENOMEM;
+>> +
+>> +    cmd.dim.opcode = nvme_admin_dim;
+>> +    cmd.dim.cdw10  = cpu_to_le32(tas);
+>> +
+>> +    dim->tdl    = cpu_to_le32(tdl);
+>> +    dim->nument = cpu_to_le64(1);    /* only 1 DIE to register */
+>> +    dim->entfmt = cpu_to_le16(NVME_ENTFMT_EXTENDED);
+>> +    dim->etype  = cpu_to_le16(NVME_REGISTRATION_HOST);
+>> +    dim->ektype = cpu_to_le16(0x5F); /* must be 0x5F per specs */
+>> +
+>> +    strncpy(dim->eid, ctrl->opts->host->nqn, sizeof(dim->eid));
+>> +    strncpy(dim->ename, utsname()->nodename, sizeof(dim->ename));
+>> +    strncpy(dim->ever, utsname()->release, sizeof(dim->ever));
+>> +
+>> +    die = &dim->die.extended;
+>> +    nvmf_fill_die(die, tel, trtype, adrfam, reg_addr,
+>> +              ctrl->opts->host, tsas);
+>> +
+>> +    ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &result,
+>> +                     dim, tdl, 0, NVME_QID_ANY, 1, 0);
+>> +    if (unlikely(ret)) {
+>> +        dev_err(ctrl->device, "DIM error Result:0x%04X Status:0x%04X\n",
+>> +           le32_to_cpu(result.u32), ret);
+>> +    }
+>> +
+>> +    kfree(dim);
+>> +
+>> +    return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(nvmf_disc_info_mgmt);
+>> +
+>>   static const match_table_t opt_tokens = {
+>>       { NVMF_OPT_TRANSPORT,        "transport=%s"        },
+>>       { NVMF_OPT_TRADDR,        "traddr=%s"        },
+>> @@ -550,6 +710,7 @@ static const match_table_t opt_tokens = {
+>>       { NVMF_OPT_TOS,            "tos=%d"        },
+>>       { NVMF_OPT_FAIL_FAST_TMO,    "fast_io_fail_tmo=%d"    },
+>>       { NVMF_OPT_DISCOVERY,        "discovery"        },
+>> +    { NVMF_OPT_REGISTER,        "register"        },
+>>       { NVMF_OPT_ERR,            NULL            }
+>>   };
+>> @@ -831,6 +992,9 @@ static int nvmf_parse_options(struct 
+>> nvmf_ctrl_options *opts,
+>>           case NVMF_OPT_DISCOVERY:
+>>               opts->discovery_nqn = true;
+>>               break;
+>> +        case NVMF_OPT_REGISTER:
+>> +            opts->explicit_registration = true;
+>> +            break;
+>>           case NVMF_OPT_SYMNAME:
+>>               hostsymname = match_strdup(args);
+>>               if (!hostsymname) {
+>> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+>> index 494e6dbe233a..77f5768f8ff4 100644
+>> --- a/drivers/nvme/host/fabrics.h
+>> +++ b/drivers/nvme/host/fabrics.h
+>> @@ -70,6 +70,7 @@ enum {
+>>       NVMF_OPT_HOST_IFACE    = 1 << 21,
+>>       NVMF_OPT_DISCOVERY    = 1 << 22,
+>>       NVMF_OPT_SYMNAME    = 1 << 23,
+>> +    NVMF_OPT_REGISTER    = 1 << 24,
+>>   };
+>>   /**
+>> @@ -106,6 +107,7 @@ enum {
+>>    * @nr_poll_queues: number of queues for polling I/O
+>>    * @tos: type of service
+>>    * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
+>> + * @explicit_registration: Explicit Registration with DC using the 
+>> DIM PDU
+>>    */
+>>   struct nvmf_ctrl_options {
+>>       unsigned        mask;
+>> @@ -130,6 +132,7 @@ struct nvmf_ctrl_options {
+>>       unsigned int        nr_poll_queues;
+>>       int            tos;
+>>       int            fast_io_fail_tmo;
+>> +    bool            explicit_registration;
+>>   };
+>>   /*
+>> @@ -200,5 +203,11 @@ int nvmf_get_address(struct nvme_ctrl *ctrl, char 
+>> *buf, int size);
+>>   bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
+>>   bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
+>>           struct nvmf_ctrl_options *opts);
+>> +int nvmf_disc_info_mgmt(struct nvme_ctrl *ctrl,
+>> +            enum nvmf_dim_tas tas,
+>> +            u8                trtype,
+>> +            u8                adrfam,
+>> +            const char       *reg_addr,
+>> +            union nvmf_tsas  *tsas);
+>>   #endif /* _NVME_FABRICS_H */
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 4ceb28675fdf..970b7df574a4 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -1993,6 +1993,40 @@ static void nvme_tcp_reconnect_or_remove(struct 
+>> nvme_ctrl *ctrl)
+>>       }
+>>   }
+>> +/**
+>> + * nvme_get_adrfam() - Get address family for the address we're 
+>> registering
+>> + * with the DC. We retrieve this info from the socket itself. If we 
+>> can't
+>> + * get the source address from the socket, then we'll infer the address
+>> + * family from the address of the DC since the DC address has the same
+>> + * address family.
+>> + *
+>> + * @ctrl: Host NVMe controller instance maintaining the admin queue 
+>> used to
+>> + *      submit the DIM command to the DC.
+>> + *
+>> + * Return: The address family of the source address associated with the
+>> + * socket connected to the DC.
+>> + */
+>> +static u8 nvme_get_adrfam(struct nvme_ctrl *ctrl)
+>> +{
+>> +    u8                       adrfam = NVMF_ADDR_FAMILY_IP4;
+>> +    struct sockaddr_storage  sas;
+>> +    struct sockaddr         *sa = (struct sockaddr *)&sas;
+>> +    struct nvme_tcp_queue   *queue = &to_tcp_ctrl(ctrl)->queues[0];
+>> +
+>> +    if (kernel_getsockname(queue->sock, sa) == 0) {
+>> +        if (sa->sa_family == AF_INET6)
+>> +            adrfam = NVMF_ADDR_FAMILY_IP6;
+>> +    } else {
+>> +        unsigned char buf[sizeof(struct in6_addr)];
+>> +
+>> +        if (in6_pton(ctrl->opts->traddr,
+>> +                 strlen(ctrl->opts->traddr), buf, -1, NULL) > 0)
+>> +            adrfam = NVMF_ADDR_FAMILY_IP6;
+>> +    }
+>> +
+>> +    return adrfam;
+>> +}
+>> +
+>>   static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+>>   {
+>>       struct nvmf_ctrl_options *opts = ctrl->opts;
+>> @@ -2045,6 +2079,20 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl 
+>> *ctrl, bool new)
+>>           goto destroy_io;
+>>       }
+>> +    if (ctrl->opts->explicit_registration &&
+>> ++        ((ctrl->dctype == NVME_DCTYPE_DDC) ||
+>> +         (ctrl->dctype == NVME_DCTYPE_CDC))) {
+>> +        /* We're registering our source address with the DC. To do
+>> +         * that, we can simply send an empty string. This tells the DC
+>> +         * to retrieve the source address from the socket and use that
+>> +         * as the registration address.
+>> +         */
+>> +        union nvmf_tsas tsas = {.tcp.sectype = NVMF_TCP_SECTYPE_NONE};
+>> +
+>> +        nvmf_disc_info_mgmt(ctrl, NVME_TAS_REGISTER, NVMF_TRTYPE_TCP,
+>> +                    nvme_get_adrfam(ctrl), "", &tsas);
+>> +    }
+>> +
+>>       nvme_start_ctrl(ctrl);
+>>       return 0;
+>> @@ -2613,7 +2661,8 @@ static struct nvmf_transport_ops 
+>> nvme_tcp_transport = {
+>>                 NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+>>                 NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+>>                 NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
+>> -              NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE,
+>> +              NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE |
+>> +              NVMF_OPT_REGISTER,
+>>       .create_ctrl    = nvme_tcp_create_ctrl,
+>>   };
+>> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+>> index 3b47951342f4..891615876cfa 100644
+>> --- a/include/linux/nvme.h
+>> +++ b/include/linux/nvme.h
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/types.h>
+>>   #include <linux/uuid.h>
+>> +#include <linux/kernel.h>
+>>   /* NQN names in commands fields specified one size */
+>>   #define NVMF_NQN_FIELD_LEN    256
+>> @@ -102,6 +103,16 @@ enum {
+>>       NVMF_RDMA_CMS_RDMA_CM    = 1, /* Sockets based endpoint 
+>> addressing */
+>>   };
+>> +/**
+>> + * enum -
+>> + * @NVMF_TCP_SECTYPE_NONE: No Security
+>> + * @NVMF_TCP_SECTYPE_TLS:  Transport Layer Security
+>> + */
+>> +enum {
+>> +    NVMF_TCP_SECTYPE_NONE    = 0,
+>> +    NVMF_TCP_SECTYPE_TLS    = 1,
+>> +};
+>> +
+>>   #define NVME_AQ_DEPTH        32
+>>   #define NVME_NR_AEN_COMMANDS    1
+>>   #define NVME_AQ_BLK_MQ_DEPTH    (NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
+>> @@ -1036,6 +1047,7 @@ enum nvme_admin_opcode {
+>>       nvme_admin_sanitize_nvm        = 0x84,
+>>       nvme_admin_get_lba_status    = 0x86,
+>>       nvme_admin_vendor_start        = 0xC0,
+>> +    nvme_admin_dim            = 0x21,
+>>   };
+>>   #define nvme_admin_opcode_name(opcode)    { opcode, #opcode }
+>> @@ -1316,6 +1328,29 @@ struct nvmf_common_command {
+>>       __u8    ts[24];
+>>   };
+>> +/**
+>> + * union nvmf_tsas - Transport Specific Address Subtype
+>> + * @qptype:  Queue Pair Service Type (NVMF_RDMA_QPTYPE_CONNECTED, 
+>> NVMF_RDMA_QPTYPE_DATAGRAM)
+>> + * @prtype:  Provider Type (see enum  nvme_rdma_prtype)
+>> + * @cma:     Connection Management Service (NVMF_RDMA_CMS_RDMA_CM)
+>> + * @pkey:    Partition Key
+>> + * @sectype: Security Type (NVMF_TCP_SECTYPE_NONE, NVMF_TCP_SECTYPE_TLS)
+>> + */
+>> +union nvmf_tsas {
+>> +    char        common[NVMF_TSAS_SIZE];
+>> +    struct rdma {
+>> +        __u8    qptype;
+>> +        __u8    prtype;
+>> +        __u8    cms;
+>> +        __u8    rsvd3[5];
+>> +        __u16    pkey;
+>> +        __u8    rsvd10[246];
+>> +    } rdma;
+>> +    struct tcp {
+>> +        __u8    sectype;
+>> +    } tcp;
+>> +};
+>> +
+>>   /*
+>>    * The legal cntlid range a NVMe Target will provide.
+>>    * Note that cntlid of value 0 is considered illegal in the fabrics 
+>> world.
+>> @@ -1349,17 +1384,7 @@ struct nvmf_disc_rsp_page_entry {
+>>       __u8        resv64[192];
+>>       char        subnqn[NVMF_NQN_FIELD_LEN];
+>>       char        traddr[NVMF_TRADDR_SIZE];
+>> -    union tsas {
+>> -        char        common[NVMF_TSAS_SIZE];
+>> -        struct rdma {
+>> -            __u8    qptype;
+>> -            __u8    prtype;
+>> -            __u8    cms;
+>> -            __u8    resv3[5];
+>> -            __u16    pkey;
+>> -            __u8    resv10[246];
+>> -        } rdma;
+>> -    } tsas;
+>> +    union nvmf_tsas tsas;
+>>   };
+>>   /* Discovery log page header */
+>> @@ -1447,6 +1472,213 @@ struct streams_directive_params {
+>>       __u8    rsvd2[6];
+>>   };
+>> +/**
+>> + * Discovery Information Management (DIM) command. This is sent by a
+>> + * host to the Central Discovery Controller (CDC) to perform
+>> + * explicit registration.
+>> + */
+>> +enum nvmf_dim_tas {
+>> +    NVME_TAS_REGISTER   = 0x00,
+>> +    NVME_TAS_DEREGISTER = 0x01,
+>> +    NVME_TAS_UPDATE     = 0x02,
+>> +};
+>> +
+>> +struct nvmf_dim_command {
+>> +    __u8                  opcode;     /* nvme_admin_dim */
+>> +    __u8                  flags;
+>> +    __u16                 command_id;
+>> +    __le32                nsid;
+>> +    __u64                 rsvd2[2];
+>> +    union nvme_data_ptr   dptr;
+>> +    __le32                cdw10;      /* enum nvmf_dim_tas */
+>> +    __le32                cdw11;
+>> +    __le32                cdw12;
+>> +    __le32                cdw13;
+>> +    __le32                cdw14;
+>> +    __le32                cdw15;
+>> +};
+>> +
+>> +#define NVMF_ENAME_LEN    256
+>> +#define NVMF_EVER_LEN     64
+>> +
+>> +enum nvmf_dim_entfmt {
+>> +    NVME_ENTFMT_BASIC    = 0x01,
+>> +    NVME_ENTFMT_EXTENDED = 0x02,
+>> +};
+>> +
+>> +enum nvmf_dim_etype {
+>> +    NVME_REGISTRATION_HOST = 0x01,
+>> +    NVME_REGISTRATION_DDC  = 0x02,
+>> +    NVME_REGISTRATION_CDC  = 0x03,
+>> +};
+>> +
+>> +enum nvmf_exattype {
+>> +    NVME_EXATTYPE_HOSTID   = 0x01, /* Host Identifier */
+>> +    NVME_EXATTYPE_SYMNAME  = 0x02, /* Symbolic Name */
+>> +};
+>> +
+>> +/**
+>> + * struct nvmf_ext_attr - Extended Attribute (EXAT)
+>> + *
+>> + *       Bytes       Description
+>> + * @type 01:00       Extended Attribute Type (EXATTYPE) - enum 
+>> nvmf_exattype
+>> + * @len  03:02       Extended Attribute Length (EXATLEN)
+>> + * @val  (EXATLEN-1) Extended Attribute Value (EXATVAL) - size allocated
+>> + *       +4:04       for array must be a multiple of 4 bytes
+>> + */
+>> +struct nvmf_ext_attr {
+>> +    __le16            type;
+>> +    __le16            len;
+>> +    __u8            val[];
+>> +};
+>> +#define SIZEOF_EXT_EXAT_WO_VAL offsetof(struct nvmf_ext_attr, val)
+>> +
+>> +/**
+>> + * struct nvmf_ext_die - Extended Discovery Information Entry (DIE)
+>> + *
+>> + *            Bytes           Description
+>> + * @trtype    00              Transport Type (enum nvme_trtype)
+>> + * @adrfam    01              Address Family (enum nvmf_addr_familiy)
+>> + * @subtype   02              Subsystem Type (enum nvme_subsys_type)
+>> + * @treq      03              Transport Requirements (enum nvmf_treq)
+>> + * @portid    05:04           Port ID
+>> + * @cntlid    07:06           Controller ID
+>> + * @asqsz     09:08           Admin Max SQ Size
+>> + *            31:10           Reserved
+>> + * @trsvcid   63:32           Transport Service Identifier
+>> + *            255:64          Reserved
+>> + * @nqn       511:256         NVM Qualified Name
+>> + * @traddr    767:512         Transport Address
+>> + * @tsas      1023:768        Transport Specific Address Subtype
+>> + * @tel       1027:1024       Total Entry Length
+>> + * @numexat   1029:1028       Number of Extended Attributes
+>> + *            1031:1030       Reserved
+>> + * @exat[0]   ((EXATLEN-1)+   Extented Attributes 0 (see @numexat)
+>> + *            4)+1032:1032    Cannot access as an array because each 
+>> EXAT
+>> + *                            entry has an undetermined size.
+>> + * @exat[N]   TEL-1:TEL-      Extented Attributes N (w/ N = NUMEXAT-1)
+>> + *            (EXATLEN+4)
+>> + */
+>> +struct nvmf_ext_die {
+>> +    __u8            trtype;
+>> +    __u8            adrfam;
+>> +    __u8            subtype;
+>> +    __u8            treq;
+>> +    __le16            portid;
+>> +    __le16            cntlid;
+>> +    __le16            asqsz;
+>> +    __u8            resv10[22];
+>> +    char            trsvcid[NVMF_TRSVCID_SIZE];
+>> +    __u8            resv64[192];
+>> +    char            nqn[NVMF_NQN_FIELD_LEN];
+>> +    char            traddr[NVMF_TRADDR_SIZE];
+>> +    union nvmf_tsas        tsas;
+>> +    __le32            tel;
+>> +    __le16            numexat;
+>> +    __u16            resv1030;
+>> +    struct nvmf_ext_attr    exat;
+>> +};
+>> +#define SIZEOF_EXT_DIE_WO_EXAT offsetof(struct nvmf_ext_die, exat)
+>> +
+>> +/**
+>> + * union nvmf_die - Discovery Information Entry (DIE)
+>> + *
+>> + * Depending on the ENTFMT specified in the DIM, DIEs can be entered 
+>> with
+>> + * the Basic or Extended formats. For Basic format, each entry has a 
+>> fixed
+>> + * length. Therefore, the "basic" field defined below can be accessed 
+>> as a
+>> + * C array. For the Extended format, however, each entry is of variable
+>> + * length (TEL). Therefore, the "extended" field defined below cannot be
+>> + * accessed as a C array. Instead, the "extended" field is akin to a
+>> + * linked-list, where one can "walk" through the list. To move to the 
+>> next
+>> + * entry, one simply adds the current entry's length (TEL) to the "walk"
+>> + * pointer. The number of entries in the list is specified by NUMENT.
+>> + * Although extended entries are of a variable lengths (TEL), TEL is
+>> + * always a multiple of 4 bytes.
+>> + */
+>> +union nvmf_die {
+>> +    struct nvmf_disc_rsp_page_entry    basic[0];
+>> +    struct nvmf_ext_die        extended;
+>> +};
+>> +
+>> +/**
+>> + * struct nvmf_dim_data - Discovery Information Management (DIM) - Data
+>> + *
+>> + *            Bytes       Description
+>> + * @tdl       03:00       Total Data Length
+>> + *            07:04       Reserved
+>> + * @nument    15:08       Number of entries
+>> + * @entfmt    17:16       Entry Format (enum nvmf_dim_entfmt)
+>> + * @etype     19:18       Entity Type (enum nvmf_dim_etype)
+>> + * @portlcL   20          Port Local
+>> + *            21          Reserved
+>> + * @ektype    23:22       Entry Key Type
+>> + * @eid       279:24      Entity Identifier (e.g. Host NQN)
+>> + * @ename     535:280     Entity Name (e.g. hostname)
+>> + * @ever      599:536     Entity Version (e.g. OS Name/Version)
+>> + *            1023:600    Reserved
+>> + * @die       TDL-1:1024  Discovery Information Entry (see @nument 
+>> above)
+>> + */
+>> +struct nvmf_dim_data {
+>> +    __le32            tdl;
+>> +    __u32            rsvd4;
+>> +    __le64            nument;
+>> +    __le16            entfmt;
+>> +    __le16            etype;
+>> +    __u8            portlcl;
+>> +    __u8            rsvd21;
+>> +    __le16            ektype;
+>> +    char            eid[NVMF_NQN_FIELD_LEN];
+>> +    char            ename[NVMF_ENAME_LEN];
+>> +    char            ever[NVMF_EVER_LEN];
+>> +    __u8            rsvd600[424];
+>> +    union nvmf_die        die;
+>> +};
+>> +#define SIZEOF_DIM_WO_DIE offsetof(struct nvmf_dim_data, die)
+>> +
+>> +/**
+>> + * exat_len() - Return the size in bytes, rounded to a multiple of 4 
+>> ((i.e.
+>> + *         size of u32), of the buffer needed to hold the exat value of
+>> + *         size @val_len.
+>> + */
+>> +static inline u16 exat_len(size_t val_len)
+>> +{
+>> +    return (u16)round_up(val_len, sizeof(u32));
+>> +}
+>> +
+>> +/**
+>> + * exat_size - return the size of the "struct nvmf_ext_attr"
+>> + *   needed to hold a value of size @val_len.
+>> + *
+>> + * @val_len: This is the length of the data to be copied to the "val"
+>> + *         field of a "struct nvmf_ext_attr".
+>> + *
+>> + * @return The size in bytes, rounded to a multiple of 4 (i.e. size of
+>> + *         u32), of the "struct nvmf_ext_attr" required to hold a 
+>> string of
+>> + *         length @val_len.
+>> + */
+>> +static inline u16 exat_size(size_t val_len)
+>> +{
+>> +    return (u16)(SIZEOF_EXT_EXAT_WO_VAL + exat_len(val_len));
+>> +}
+>> +
+>> +/**
+>> + * exat_ptr_next - Increment @p to the next element in the array. 
+>> Extended
+>> + *   attributes are saved to an array of "struct nvmf_ext_attr" where 
+>> each
+>> + *   element of the array is of variable size. In order to move to 
+>> the next
+>> + *   element in the array one must increment the pointer to the current
+>> + *   element (@p) by the size of the current element.
+>> + *
+>> + * @p: Pointer to an element of an array of "struct nvmf_ext_attr".
+>> + *
+>> + * @return Pointer to the next element in the array.
+>> + */
+>> +static inline struct nvmf_ext_attr *exat_ptr_next(struct 
+>> nvmf_ext_attr *p)
+>> +{
+>> +    return (struct nvmf_ext_attr *)
+>> +        ((uintptr_t)p + (ptrdiff_t)exat_size(le16_to_cpu(p->len)));
+>> +}
+>> +
+>> +
+>>   struct nvme_command {
+>>       union {
+>>           struct nvme_common_command common;
+>> @@ -1470,6 +1702,7 @@ struct nvme_command {
+>>           struct nvmf_property_get_command prop_get;
+>>           struct nvme_dbbuf dbbuf;
+>>           struct nvme_directive_cmd directive;
+>> +        struct nvmf_dim_command dim;
+>>       };
+>>   };
+> I'd rather like to have the TLS bits in a separate patch; they are not 
+> strictly related to this issue.
+> 
+> And I have a rather general issue with this: Is it required to issue an 
+> explicit registration directly after sending the 'connect' command?
+> IE do we need to have it as part of the 'connect' routine?
+> 
+> Thing is, the linux 'connect' routine is doing several things in one go
+> (like establishing a transport association for the admin queue, send the 
+> 'connect' command for the admin queue, create transport associations for 
+> I/O queues and send 'connect' commands on all I/O queues, _and_ possibly 
+> do authentication, too).
+> If we now start overloading it with yet more functionality it becomes 
+> extremely hard to cleanup after an error, and that doesn't even mention 
+> the non-existing error reporting to userspace.
+> 
+> Wouldn't it make more sense to delegate explicit registration to 
+> userspace (ie libnvme/nvme-cli), and leave the kernel out of it?
+
+It would. There is no reason what-so-ever to place all this register
+stuff needs to live in the kernel. We have a way to passthru commands so
+it can and should move to userspace.
 
