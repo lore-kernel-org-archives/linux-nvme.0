@@ -4,143 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31748C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 20:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13A7FC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 21:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w/0vTRlHUQEp+0DDyJjHJ6+/n6TE+u21y+XXF1J2XN8=; b=l6Q2WLmcrhlF+3br6eHv/XM1D3
-	u9KYIshF4IND3ZZ3bwoLbDBMMaRWIRz/4eQYO66i2+vC82/1lAf4TjTQ20giZEtXV0AuKCYiD3UtQ
-	+zO9CgsuIUgxagIVPhdIBVNpcHYL6KodgtlAyy2RYLvM4GnNaOjtDKzABVJlYrz6Fnub+wDtn+cRC
-	wH7MkgWbwHA/zMg720d5L7+NnhFZ7+LMa23/CMLJqqEy1UviYcJAD67XVvZKHDT+VPDcCuFuDt2TT
-	Hh13G0flr5xQxPxH/a0jdZsttWaEh/lP3D9P5tc8fyWul1r7GRYwHtk96kf5Nu9eX9FC02NapI+BQ
-	5mSZBhVA==;
+	bh=AXp+e/8ZlpcQN5FQo7iwO9NTQnG+9sMluTZb2M+MXrc=; b=siFbceJdNAQe6ALIc1TEqioNVz
+	VH/9GHZD9TKQYJqXqm4ZXHHyfF0WfM8hcz/wH9LQVMocX6vsfcJNDAW31iCV8E1ciL7nt7GEj6LpG
+	BNXIOSo8Lp+putPNwSCZsfX1KdwTd2vCeeWNINevGqbJSGluflJ3cAhnPuOlhwFl2Pl0F8Qa4O3UB
+	Tq+6w+czPJ6sLUiRpRla4i3+LfwqhadKFDxT0fYvGdcAsHShD/5zrf1GEYYZGrA5JmItOEAMWuR8w
+	1ThRV8LjOaz35njQRGr0EcgtAxhkkZBoBtqij/2hviXBvl8jGp7upkhCsZsV/sjAjdpxppvof8t+Q
+	R+JsjNBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDXPn-003Sbu-Ff; Fri, 28 Jan 2022 20:00:11 +0000
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+	id 1nDZ7l-003bVf-MS; Fri, 28 Jan 2022 21:49:41 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDXPj-003SXq-Bt
- for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 20:00:09 +0000
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20220128195958usoutp02c0e46ba47e68ca09cf1b84efe722349d~Oh5d5bkbw0963609636usoutp02e;
- Fri, 28 Jan 2022 19:59:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20220128195958usoutp02c0e46ba47e68ca09cf1b84efe722349d~Oh5d5bkbw0963609636usoutp02e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1643399998;
- bh=w/0vTRlHUQEp+0DDyJjHJ6+/n6TE+u21y+XXF1J2XN8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=Dq/uuWM0gQ/a/t2oZagyN/6egi23cKRJncCYxpbIhrUTrVgOFra4J4SpvBQwlFVXk
- GIoDtE2F0VtsvYDP4VQlqHMBCCR5CTE0oie/E/Zsr2bo7VsvEFkysgPJG/sNVeYJAD
- NHbuubK1s8tB+rQXDc+7e4EreoieLc0x37IOz6+A=
-Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
- [203.254.195.112]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220128195958uscas1p274d56b7f5a807ecb3d259126017ce3ce~Oh5dupTS50535205352uscas1p2Y;
- Fri, 28 Jan 2022 19:59:58 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
- ussmges3new.samsung.com (USCPEMTA) with SMTP id CF.D2.09687.E3B44F16; Fri,
- 28 Jan 2022 14:59:58 -0500 (EST)
-Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
- [203.254.195.92]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220128195957uscas1p1ce366917e0e2702ea61957a5221ae739~Oh5dP7WPA0942509425uscas1p1A;
- Fri, 28 Jan 2022 19:59:57 +0000 (GMT)
-X-AuditID: cbfec370-9c5ff700000025d7-0e-61f44b3e1725
-Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id FB.F1.09657.D3B44F16; Fri,
- 28 Jan 2022 14:59:57 -0500 (EST)
-Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
- SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2242.4; Fri, 28 Jan 2022 11:59:47 -0800
-Received: from SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36]) by
- SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36%3]) with mapi id
- 15.01.2242.008; Fri, 28 Jan 2022 11:59:47 -0800
-From: Adam Manzanares <a.manzanares@samsung.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
- "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>, "Bart
- Van Assche" <bvanassche@acm.org>, "martin.petersen@oracle.com >> Martin K.
- Petersen" <martin.petersen@oracle.com>, "roland@purestorage.com"
- <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
- "Hannes Reinecke" <hare@suse.de>, "kbus >> Keith Busch" <kbusch@kernel.org>,
- "Christoph Hellwig" <hch@lst.de>, "Frederick.Knight@netapp.com"
- <Frederick.Knight@netapp.com>, "zach.brown@ni.com" <zach.brown@ni.com>,
- "osandov@fb.com" <osandov@fb.com>, "lsf-pc@lists.linux-foundation.org"
- <lsf-pc@lists.linux-foundation.org>, "djwong@kernel.org"
- <djwong@kernel.org>, "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
- "tytso@mit.edu" <tytso@mit.edu>, "jack@suse.com" <jack@suse.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Thread-Topic: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Thread-Index: AQHYE018isCsN3oz40OdcqzMcXhV7qx5YsQA
-Date: Fri, 28 Jan 2022 19:59:47 +0000
-Message-ID: <20220128195956.GA287797@bgt-140510-bm01>
-In-Reply-To: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-x-exchange-save: DSA
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <795CC14C0A3B064B8E80D872868A1CF5@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+ id 1nDZ7i-003bUM-7g
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 21:49:39 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 21FE21F385;
+ Fri, 28 Jan 2022 21:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643406576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AXp+e/8ZlpcQN5FQo7iwO9NTQnG+9sMluTZb2M+MXrc=;
+ b=s5gfm0vyKaAQz07A1aEi950h7NwrFEFlvrz6NYyBlTxYJe0o2Dvpuy57hpsor3EJOxrwJq
+ 7QMftfQfTK79khc5kVTDtf6ownhv0LXQvR197BgZ10x0JKHLUkaSbXBCIPh2OPZLrgG9gw
+ NSl+/Y/uTC1590aV50gxq4AOk5wO52o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643406576;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AXp+e/8ZlpcQN5FQo7iwO9NTQnG+9sMluTZb2M+MXrc=;
+ b=i3IiUAoJkGNt6l4nxE9m8UaYZfgd51MGuRbivP3P4ipFae0XOFXp5LisCnCJzvYnsO2nSW
+ 4Yx5LZFeJJ+WRQDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9ADE813AA1;
+ Fri, 28 Jan 2022 21:49:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OgBGI+9k9GF9cAAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 28 Jan 2022 21:49:35 +0000
+Message-ID: <37587400-076b-059f-f163-fd90babde443@suse.de>
+Date: Fri, 28 Jan 2022 22:49:33 +0100
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHd+69vb10K7l0nZzCErJumG248pAt5w9lyFy8g6m4sGxxEdfN
- O+gGlbTiNhcyNgUVRR4jK9YYBBloQXQ8yqtllseqKPIoBeyGCwNFIAKtAhZZme2tCf99vuf7
- /Z3f9ySHwkV6MoBSKA+wKqU8RUoKCP2fC71vRcU9kodZ215AVaN5JPp13omjOdM4DxXmFfOR
- ZcIXGWfP8FDf458wNF67iiFDWSGGLlZ1YWiy8jxAK2PhqLB9CCCjLQQZjNcJVFJxl49ODDeR
- qG3GiKNKswtDBcesGLqlXSFRxx0rgapWEMo66eSj6T8SoyWMZTCOKTg8y2csPelMre44ydSV
- /8j8MlIJmNbbmSTz880unCl2PCKZ4ZuNGJN7eJZk7HdtBKMfy+Uzc21WkrlcbyWYuhs/xIt2
- CzbtY1MUB1lVaNTnguSHphaQ1rn1O2ujHmSC+k05gKIgHQlnmgJzgIAS0RcBPFtWBDiRhcHx
- gU7wLFRq2smdXwIwW2fBOWEHsM9xlODEVQDzXPVPHR+KpMPgE/PvHhbTMmi1jfDdIZwu8IE1
- mgaP8SL9AWy6koe5V4jpWFg+GMHlI+ClhRzCzQQdDA1FLcDNQvptuNy97GEfOgrOzpXw3Azo
- dXCpuxpzM077Q9tEiYch7QfLzhhwjtdBV8sYyfEr8J+lKT7HYliz9IDkZjfAc60OL0fB3u4s
- 750hsKJ0Buc6+MHrpycIblYCTRdGPI+HdIMA/q1v9C7YCpuPrXo5EGqqLd6QDsCixWw+J+oA
- LF7uw/JBsHZNc+2aJto1TbRrmmjXNDkHeDrgn65Wpyax6o1K9luZWp6qTlcmyb7cn1oLnn7t
- G66OtCZgs9ll7QCjQDuAFC4VC4trHXKRcJ/8+0Osav9eVXoKq24HgRQh9RdWKK7IRXSS/AD7
- DcumsapnLkb5BGRikuN73ghnpf9V+w5f2NYlapDglEa5YXQqf3vQ7dbJr4Ot52M/emxxxiVG
- bm6sdn2RH69q7Dy947JfasZnmo3kzMHi0r3P9atrol9/Qlp3Pd8BbTt8yxNwekhT5UwezEgI
- zNtiHn9AB+le+xd0+cYyh3wKgvUnHHMRZ4cysjLEL13TRE6tf8doejgQeurD3xZPdYdN58bw
- Epaz+wXrc9sFhvzJ1JCTZr7t43v37t9/d1Ec88lXzfidoMSp5vmBeaHBvmXPNUlP9MtmxvZ+
- b0D4rluKT0MpyWbBkXjjUcXo6m6ntlCsl84eQZPkyHvKqxKX0T7BvLotJaa/p2taFhS68JeU
- UCfLw9/EVWr5/295zJ5JBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWS2cA0SdfW+0uiwex2NYvVd/vZLKZ9+Mls
- 8f7gY1aLSf0z2C0uP+Gz2PtuNqvFhR+NTBaPN/1nstizaBKTxcrVR5ksni9fzGjx56GhxaRD
- 1xgt9t7Sttiz9ySLxfxlT9ktuq/vYLPY93ovs8Xy4/+YLCZ2XGWyODfrD5vF4XtXWSxW/7Gw
- aO35yW7xan+cg6TH5SveHhOb37F7XD5b6rFpVSebx+Yl9R6Tbyxn9Nh9s4HNo+nMUWaPGZ++
- sHlcP7OdyaO3+R2bx8ent1g8tj3sZfd4v+8qm8f6LVdZPDafrg4QiuKySUnNySxLLdK3S+DK
- +HxwF2PBEZeKq9u3MTYwbrHpYuTgkBAwkVh40L+LkZNDSGA1o8Tu0/VdjFxA9kdGid87zzBB
- OAcYJXq2NjKCVLEJGEj8Pr6RGcQWEdCTuHrrBjtIEbPARE6Jt73rmUASwgKeEjs29DOBbBAR
- 8JJYcsUIot5IYu3XLhYQm0VAVWLPlF1gM3kFTCV+nfrFCLFsIqPE6a8/2EESnAJ2Eu/ez2cF
- sRkFxCS+n1oDNp9ZQFzi1pP5YLaEgIDEkj3nmSFsUYmXj/+xQtiKEve/v2SHsEUk1n1/ywbR
- qyOxYPcnKNtO4vypVqiZ2hLLFr5mhjhIUOLkzCcsEL2SEgdX3GCZwCg5C8nqWUhGzUIyahaS
- UbOQjFrAyLqKUby0uDg3vaLYOC+1XK84Mbe4NC9dLzk/dxMjMAme/nc4ZgfjvVsf9Q4xMnEw
- HmKU4GBWEuGdselTohBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFej9iJ8UIC6YklqdmpqQWpRTBZ
- Jg5OqQamzbtmbjb/7VsZYqqxfc0LrpMO2/VMntxYx8hXnrmr4OmCeA+Gp1P8HvAU72DtOLdQ
- 7mx9vUhDSMOqDMvFJ9seuuzq+fZk8d3331SnysxYv9drtXHOm3KWh5yaPdqnuuc7n8k7+7HF
- vMLXamXj2mcn0uTWBXhOl1jyOF16Q8Xn+KxYria7gg3Tv9drfoiyuL/PflrKjd9G0nkL09Pq
- /FXeTTnaclDD5oj6IdnJrPM7duYXfuX+714fr5jc6fAi5Ps7vw08vEF7ZJQX7jmUPfH+Ko8X
- gv92+PIonJrkpyb0OTrj+5Uds79JHOUVXsB/tj58S3aC1zxXfS1HgfmrHYTkYp/4X7jYvkwn
- wo8pR+aiEktxRqKhFnNRcSIAbkztBfEDAAA=
-X-CMS-MailID: 20220128195957uscas1p1ce366917e0e2702ea61957a5221ae739
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20220127071544uscas1p2f70f4d2509f3ebd574b7ed746d3fa551
-References: <CGME20220127071544uscas1p2f70f4d2509f3ebd574b7ed746d3fa551@uscas1p2.samsung.com>
- <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 3/4] nvme-fabrics: add tp8010 support
+Content-Language: en-US
+To: "Belanger, Martin" <Martin.Belanger@dell.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Martin Belanger <nitram_67@hotmail.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>
+References: <20220125145956.14746-1-nitram_67@hotmail.com>
+ <BL0PR13MB4291A94BED970C6599BBC6679C5F9@BL0PR13MB4291.namprd13.prod.outlook.com>
+ <1ee5410f-3af6-8ca7-a860-e3fc1bc49a0e@suse.de>
+ <92c36bc0-9489-ebc1-3176-fb215ccc8646@grimberg.me>
+ <SJ0PR19MB45446D366BC530A5EE66339FF2219@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ <12b4824b-f704-fe25-5511-012dfcdaf514@grimberg.me>
+ <SJ0PR19MB4544136C4622118DBCEBFFA1F2229@SJ0PR19MB4544.namprd19.prod.outlook.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <SJ0PR19MB4544136C4622118DBCEBFFA1F2229@SJ0PR19MB4544.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220128_120007_646902_8F933A60 
-X-CRM114-Status: GOOD (  32.31  )
+X-CRM114-CacheID: sfid-20220128_134938_466230_F307DF43 
+X-CRM114-Status: GOOD (  27.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,175 +98,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 27, 2022 at 07:14:13AM +0000, Chaitanya Kulkarni wrote:
-> Hi,
->=20
-> * Background :-
-> -----------------------------------------------------------------------
->=20
-> Copy offload is a feature that allows file-systems or storage devices
-> to be instructed to copy files/logical blocks without requiring
-> involvement of the local CPU.
->=20
-> With reference to the RISC-V summit keynote [1] single threaded
-> performance is limiting due to Denard scaling and multi-threaded
-> performance is slowing down due Moore's law limitations. With the rise
-> of SNIA Computation Technical Storage Working Group (TWG) [2],
-> offloading computations to the device or over the fabrics is becoming
-> popular as there are several solutions available [2]. One of the common
-> operation which is popular in the kernel and is not merged yet is Copy
-> offload over the fabrics or on to the device.
->=20
-> * Problem :-
-> -----------------------------------------------------------------------
->=20
-> The original work which is done by Martin is present here [3]. The
-> latest work which is posted by Mikulas [4] is not merged yet. These two
-> approaches are totally different from each other. Several storage
-> vendors discourage mixing copy offload requests with regular READ/WRITE
-> I/O. Also, the fact that the operation fails if a copy request ever
-> needs to be split as it traverses the stack it has the unfortunate
-> side-effect of preventing copy offload from working in pretty much
-> every common deployment configuration out there.
->=20
-> * Current state of the work :-
-> -----------------------------------------------------------------------
->=20
-> With [3] being hard to handle arbitrary DM/MD stacking without
-> splitting the command in two, one for copying IN and one for copying
-> OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
-> candidate. Also, with [4] there is an unresolved problem with the
-> two-command approach about how to handle changes to the DM layout
-> between an IN and OUT operations.
->=20
-> We have conducted a call with interested people late last year since=20
-> lack of LSFMMM and we would like to share the details with broader
-> community members.
+On 1/28/22 18:55, Belanger, Martin wrote:
+>>>>> Wouldn't it make more sense to delegate explicit registration to
+>>>>> userspace (ie libnvme/nvme-cli), and leave the kernel out of it?
+>>>>
+>>>> It would. There is no reason what-so-ever to place all this register
+>>>> stuff needs to live in the kernel. We have a way to passthru commands
+>>>> so it can and should move to userspace.
+>>>
+>>> I wish it could be delegated to a user-space app, and in fact that was
+>>> my original design.
+>>>
+>>> Unfortunately, while testing I realized that the kernel can
+>>> autonomously reconnect and user-space apps are completely unaware of it.
+>>>
+>>> For example, let's say the network goes down momentarily. The kernel
+>>> then tries to reconnect. Once it successfully reconnects it doesn't
+>>> tell anyone about it.
+>>
+>> Then add a uevent on the controller device-node. From there you should
+>> trap it and do what you need (exactly like how discovery log change events
+>> are handled).
+>>
+>> BTW, I also don't understand why the host needs this reregistration on
+>> reconnect, but that is besides the point.
+> 
+> The fact is that when connectivity is lost and restored, we don’t
+> know whether changes have occurred on the host (e.g. maybe the
+> symbolic name was changed while connectivity was lost, etc.)
+> and thus registration must be reapplied every time the host reconnects
+> to make sure there is no stale information at the discovery controller.
+> 
+>>
+>>> But let's say the kernel does send a signal to user-space on a reconnect.
+>>> What if there is no user-space app to receive this signal? I'm
+>>> thinking of the case where one uses nvme-cli to set up persistent
+>>> connections to discovery controllers.  In that case there is no app to
+>>> send the explicit registration on a re-connect.
+>>
+>> This argument does not justify adding functionality in the kernel that doesn't
+>> belong there. If we were to follow this argument we would be placing
+>> everything in the kernel. If someone wants this functionality, he/she needs
+>> to use the tools required for it to work.
+> 
+> Ok, Hannes, Sagi, Christoph, et al. I got the message loud and clear.
+> Explicit Registration does not belong in the kernel. And, as you suggested,
+> the kernel needs to send a uevent when it loses connectivity and
+> another uevent when connectivity is restored. This will allow userspace
+> applications know when to reapply registration (if needed).
+> 
+> I'm not a uevent expert (at least how to send uevents from the kernel).
+>  From what I read, there's only a limited set of uevents defined (i.e. add,
+> remove, move, online, offline). The nvme driver already uses the
+> uevents "add"  and "remove" when nvme devices are "created" and
+> "deleted" respectively . We also have  the "change" event that is used
+> when there's a change in the Log Pages. May I suggest that we use the
+> "offline" and "online" events when connectivity is "lost" and "restored"
+> respectively? Please let me know.
+> 
 
-Was on that call and I am interested in joining this discussion.
+I guess we already have that; cf commit f6f09c15a767 ("nvme: generate 
+uevent once a multipath namespace is operational again").
 
->=20
-> * Why Linux Kernel Storage System needs Copy Offload support now ?
-> -----------------------------------------------------------------------
->=20
-> With the rise of the SNIA Computational Storage TWG and solutions [2],
-> existing SCSI XCopy support in the protocol, recent advancement in the
-> Linux Kernel File System for Zoned devices (Zonefs [5]), Peer to Peer
-> DMA support in the Linux Kernel mainly for NVMe devices [7] and
-> eventually NVMe Devices and subsystem (NVMe PCIe/NVMeOF) will benefit
-> from Copy offload operation.
->=20
-> With this background we have significant number of use-cases which are
-> strong candidates waiting for outstanding Linux Kernel Block Layer Copy
-> Offload support, so that Linux Kernel Storage subsystem can to address
-> previously mentioned problems [1] and allow efficient offloading of the
-> data related operations. (Such as move/copy etc.)
->=20
-> For reference following is the list of the use-cases/candidates waiting
-> for Copy Offload support :-
->=20
-> 1. SCSI-attached storage arrays.
-> 2. Stacking drivers supporting XCopy DM/MD.
-> 3. Computational Storage solutions.
-> 7. File systems :- Local, NFS and Zonefs.
-> 4. Block devices :- Distributed, local, and Zoned devices.
-> 5. Peer to Peer DMA support solutions.
-> 6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
->=20
-> * What we will discuss in the proposed session ?
-> -----------------------------------------------------------------------
->=20
-> I'd like to propose a session to go over this topic to understand :-
->=20
-> 1. What are the blockers for Copy Offload implementation ?
-> 2. Discussion about having a file system interface.
-> 3. Discussion about having right system call for user-space.
-> 4. What is the right way to move this work forward ?
-> 5. How can we help to contribute and move this work forward ?
->=20
-> * Required Participants :-
-> -----------------------------------------------------------------------
->=20
-> I'd like to invite file system, block layer, and device drivers
-> developers to:-
->=20
-> 1. Share their opinion on the topic.
-> 2. Share their experience and any other issues with [4].
-> 3. Uncover additional details that are missing from this proposal.
->=20
-> Required attendees :-
->=20
-> Martin K. Petersen
-> Jens Axboe
-> Christoph Hellwig
-> Bart Van Assche
-> Zach Brown
-> Roland Dreier
-> Ric Wheeler
-> Trond Myklebust
-> Mike Snitzer
-> Keith Busch
-> Sagi Grimberg
-> Hannes Reinecke
-> Frederick Knight
-> Mikulas Patocka
-> Keith Busch
->=20
-> -ck
->=20
-> [1]https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D39=
-33d1bc-66a8e8f3-39325af3-0cc47a30d446-55df181e6aabd8e8&q=3D1&e=3Dc880f1d4-0=
-275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fcontent.riscv.org*2Fwp-content=
-*2Fuploads*2F2018*2F12*2FA-New-Golden-Age-for-Computer-Architecture-History=
--Challenges-and-Opportunities-David-Patterson-.pdf__;JSUlJSUlJSU!!EwVzqGoTK=
-Bqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4ehiLybkoGuMxLiIvcuYlijJGJWlXVggCI=
-71vV3$=20
-> [2] https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3De=
-9dc0639-b6473f76-e9dd8d76-0cc47a30d446-03d65bc9ad20d215&q=3D1&e=3Dc880f1d4-=
-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fwww.snia.org*2Fcomputational_=
-_;JSUlJQ!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4ehiLybkoGuMxLi=
-IvcuYlijJGJWlXVggLInnHhS$=20
-> https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D13eb4=
-7ed-4c707ea2-13eacca2-0cc47a30d446-3d06014a33154497&q=3D1&e=3Dc880f1d4-0275=
--4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fwww.napatech.com*2Fsupport*2Freso=
-urces*2Fsolution-descriptions*2Fnapatech-smartnic-solution-for-hardware-off=
-load*2F__;JSUlJSUlJSU!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4e=
-hiLybkoGuMxLiIvcuYlijJGJWlXVggJJSlhVh$=20
->        https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=
-=3D8ba72fbf-d43c16f0-8ba6a4f0-0cc47a30d446-359457fd63a1a13d&q=3D1&e=3Dc880f=
-1d4-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fwww.eideticom.com*2Fprodu=
-cts.html__;JSUlJQ!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4ehiLy=
-bkoGuMxLiIvcuYlijJGJWlXVggGCerEbv$=20
-> https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D75b96=
-fa9-2a2256e6-75b8e4e6-0cc47a30d446-0403b00d6ff1bab8&q=3D1&e=3Dc880f1d4-0275=
--4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fwww.xilinx.com*2Fapplications*2Fd=
-ata-center*2Fcomputational-storage.html__;JSUlJSUl!!EwVzqGoTKBqv-0DWAJBm!Bh=
-tIUewpIpaTRbAVe6VvjiRs-431N4ehiLybkoGuMxLiIvcuYlijJGJWlXVggK0Hp6vG$=20
-> [3] git://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git xcopy
-> [4] https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D3=
-a49563e-65d26f71-3a48dd71-0cc47a30d446-3cecc3d55115742b&q=3D1&e=3Dc880f1d4-=
-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fwww.spinics.net*2Flists*2Flin=
-ux-block*2Fmsg00599.html__;JSUlJSUl!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe=
-6VvjiRs-431N4ehiLybkoGuMxLiIvcuYlijJGJWlXVggPvo936U$=20
-> [5] https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D9=
-10e6991-ce9550de-910fe2de-0cc47a30d446-c412c0c3c4c51c2b&q=3D1&e=3Dc880f1d4-=
-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Flwn.net*2FArticles*2F793585*2=
-F__;JSUlJSUl!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4ehiLybkoGu=
-MxLiIvcuYlijJGJWlXVggIprHJMJ$=20
-> [6] https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D0=
-ab886e2-5523bfad-0ab90dad-0cc47a30d446-df0ae4acca6d59f2&q=3D1&e=3Dc880f1d4-=
-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fnvmexpress.org*2Fnew-nvmetm-s=
-pecification-defines-zoned-__;JSUlJQ!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAV=
-e6VvjiRs-431N4ehiLybkoGuMxLiIvcuYlijJGJWlXVggB4MUwfa$=20
-> namespaces-zns-as-go-to-industry-technology/
-> [7] https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D4=
-4a1a51b-1b3a9c54-44a02e54-0cc47a30d446-8577b144c92493eb&q=3D1&e=3Dc880f1d4-=
-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fgithub.com*2Fsbates130272*2Fl=
-inux-p2pmem__;JSUlJSU!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4e=
-hiLybkoGuMxLiIvcuYlijJGJWlXVggEa99Fso$=20
-> [8] https://urldefense.com/v3/__https://protect2.fireeye.com/v1/url?k=3D0=
-745845d-58debd12-07440f12-0cc47a30d446-53178030a251a9d8&q=3D1&e=3Dc880f1d4-=
-0275-4c86-ba38-205de0f24f69&u=3Dhttps*3A*2F*2Fkernel.dk*2Fio_uring.pdf__;JS=
-UlJQ!!EwVzqGoTKBqv-0DWAJBm!BhtIUewpIpaTRbAVe6VvjiRs-431N4ehiLybkoGuMxLiIvcu=
-YlijJGJWlXVggJUxR2B3$ =
+When multipath is activated (and I guess that will be for nvme-tcp) you 
+will receive a 'change' uevent whenever a path gets reinstated.
+
+So that will be the time when an explicit registration will need to be 
+reapplied.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
