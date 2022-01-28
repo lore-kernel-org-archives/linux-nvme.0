@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F6C8C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5134EC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:41:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l3AgzlVFISW/9ucMB3Q/AoBaOHeVal7cwU+QcbWrG+0=; b=gXSsGrpPJSh+uFeOz92CbEZQpX
-	TZ3IbaXxtyYNzZdJCzVeQ/yS6hHLqbH/61F/IFzSYbkb0+D771MlWEwR77jEjcDCvObKAOGHHe2aG
-	Vw6IObpR6p01/DdwIYPJW8XXGVlRCEsdx0tEqnf87W/ul5nxAfDg3Taj/1cbMf8WK2gTVGUnxJVfy
-	maEq3Ta7up07ZKriVdVngWEPVWKi0V3jdNu4CUw5y02/JTM4AwNsjbPhEJz9gHBeabRVUUFyE6vzX
-	ofybwemZMLJff2g/Cn26u0MAqL7R3m70ICGU92U/dzAX0ttl09l/JKXwa08KmbsOz5ab8NJg8IK8s
-	jy6ZA3fA==;
+	bh=YF+tFaHkg5cUqirL/bZSIqfFWw9UNFd41dtgFgGRixo=; b=G+JL3AZeYoAI7bMzQeofQAXpuY
+	WZRTEKLDBS8pGdZUVG81Nvq9EJ08/qcnMrsMB7eM3bh8lfQ7ZmlMY3K0G6tVaaOjkTkUsEehq8hhD
+	1DD5KE1QvBLukq3TuNNkPVq7Has7CGj8BzI2tOSP0xrlAOwZ0pe7bFtvEh8vhj3GxwHypavz0arYa
+	tzDtzRuvYUbKX8KavoZ1rLIJhY6xmUqHVjrVCzYy96m57fbUEJXGs7g9yNxVO0StPkZDavqHbqHbS
+	I14MnoOWcTvMAJdttLab/Uy+ZAT/OdAx3EGj4gJ8FEPo5hZg1BoWD2e/r6TPlAGp2LK5q9lvGaDJ/
+	jSMniVcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDFIh-00HVqZ-M1; Fri, 28 Jan 2022 00:39:39 +0000
+	id 1nDFKm-00HWB4-I4; Fri, 28 Jan 2022 00:41:48 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDF63-00HS5v-2T
- for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:40 +0000
+ id 1nDF63-00HS5t-9N
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=l3AgzlVFISW/9ucMB3Q/AoBaOHeVal7cwU+QcbWrG+0=; b=GHKRyVjtVmbSOmEi2k8PR+Md59
- Kpz13qxphM7mdsMjmKSbaRcW0nzpUU20WsV1rOF1sA1CTsKNYE/r7ke6A8E0qUApKCKl+OHU3IJ4m
- PzKjL1nt/5lt7BQslZNPQ1gDmvxNnuMfunw4UfU7Xg1u/Rv/I3U947R9VknuNUH6pkUJssCPBCnEu
- xnOOgMTPCvAvpXzoChdfkBXahu6Zbykb2wsKeTSmudeQ+Yl64E9ciK6PfXxZNEYTWIMbAQCYtmjth
- hqunlqfxUc4cQCx+UeY3Pf/0pF9k+NdMgSpWLJfTOsl7OtuJebfiX1DbjBB5kjFF+tG1T839oylVO
- pXUyCMKw==;
+ bh=YF+tFaHkg5cUqirL/bZSIqfFWw9UNFd41dtgFgGRixo=; b=GNd2ovXaYfT4BSta3Z5NMwqhh8
+ csryim3gluAjras3z5p36hM6G0N09HwPD2rF3dR2DRlJgtCrsK0kKUXEymF0HvgEdo2WCUQ4mHOkV
+ KLQ6ROa/3DtauBHOBEIK9Llvudy6cQbheCk42dRYSeedq1yKQuUcYgynftDp8Zf5Jo8IRRngxqnSH
+ bQ+/UMtoo0T9GDimp7PbaBoli3sJdx8RHQKlnQOThAMXQX4srV6EL+eZGlikyp/Kcw0csVinKlvjf
+ GK0c6mMDsIw5YdrdhuYvUwaS7ExirDnRDA1ig9/X2wNRbGVJozznHYOICl09Zd6gdvcDbJBWAEqJV
+ MT0c1AJw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5t-005OcV-Gh; Thu, 27 Jan 2022 17:26:26 -0700
+ id 1nDF5s-005OcX-LP; Thu, 27 Jan 2022 17:26:25 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5o-0001cx-Bg; Thu, 27 Jan 2022 17:26:20 -0700
+ id 1nDF5p-0001d9-1W; Thu, 27 Jan 2022 17:26:21 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -62,9 +62,9 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@nvidia.com>
-Date: Thu, 27 Jan 2022 17:26:04 -0700
-Message-Id: <20220128002614.6136-15-logang@deltatee.com>
+ Logan Gunthorpe <logang@deltatee.com>
+Date: Thu, 27 Jan 2022 17:26:07 -0700
+Message-Id: <20220128002614.6136-18-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
 References: <20220128002614.6136-1-logang@deltatee.com>
@@ -79,15 +79,16 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
- ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
- rcampbell@nvidia.com, jgg@nvidia.com
+ ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
+ logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v5 14/24] RDMA/rw: drop pci_p2pdma_[un]map_sg()
+Subject: [PATCH v5 17/24] iov_iter: introduce
+ iov_iter_get_pages_[alloc_]flags()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_162635_477490_3EC7B0C0 
-X-CRM114-Status: GOOD (  11.43  )
+X-CRM114-CacheID: sfid-20220127_162635_557774_314F5767 
+X-CRM114-Status: GOOD (  12.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,119 +103,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
-is no longer necessary and may be dropped. This means the
-rdma_rw_[un]map_sg() helpers are no longer necessary. Remove it all.
+Add iov_iter_get_pages_flags() and iov_iter_get_pages_alloc_flags()
+which take a flags argument that is passed to get_user_pages_fast().
+
+This is so that FOLL_PCI_P2PDMA can be passed when appropriate.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/infiniband/core/rw.c | 45 ++++++++----------------------------
- 1 file changed, 9 insertions(+), 36 deletions(-)
+ include/linux/uio.h |  6 ++++++
+ lib/iov_iter.c      | 25 +++++++++++++++++++------
+ 2 files changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-index 5a3bd41b331c..d4517b68d1ca 100644
---- a/drivers/infiniband/core/rw.c
-+++ b/drivers/infiniband/core/rw.c
-@@ -273,33 +273,6 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	return 1;
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index 1198a2bfc9bf..22cf1db3a6c5 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -232,8 +232,14 @@ void iov_iter_pipe(struct iov_iter *i, unsigned int direction, struct pipe_inode
+ void iov_iter_discard(struct iov_iter *i, unsigned int direction, size_t count);
+ void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
+ 		     loff_t start, size_t count);
++ssize_t iov_iter_get_pages_flags(struct iov_iter *i, struct page **pages,
++		size_t maxsize, unsigned maxpages, size_t *start,
++		unsigned int gup_flags);
+ ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
+ 			size_t maxsize, unsigned maxpages, size_t *start);
++ssize_t iov_iter_get_pages_alloc_flags(struct iov_iter *i,
++		struct page ***pages, size_t maxsize, size_t *start,
++		unsigned int gup_flags);
+ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i, struct page ***pages,
+ 			size_t maxsize, size_t *start);
+ int iov_iter_npages(const struct iov_iter *i, int maxpages);
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index b0e0acdf96c1..9eeea74f85a7 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1513,9 +1513,9 @@ static struct page *first_bvec_segment(const struct iov_iter *i,
+ 	return page;
  }
  
--static void rdma_rw_unmap_sg(struct ib_device *dev, struct scatterlist *sg,
--			     u32 sg_cnt, enum dma_data_direction dir)
--{
--	if (is_pci_p2pdma_page(sg_page(sg)))
--		pci_p2pdma_unmap_sg(dev->dma_device, sg, sg_cnt, dir);
--	else
--		ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
--}
--
--static int rdma_rw_map_sgtable(struct ib_device *dev, struct sg_table *sgt,
--			       enum dma_data_direction dir)
--{
--	int nents;
--
--	if (is_pci_p2pdma_page(sg_page(sgt->sgl))) {
--		if (WARN_ON_ONCE(ib_uses_virt_dma(dev)))
--			return 0;
--		nents = pci_p2pdma_map_sg(dev->dma_device, sgt->sgl,
--					  sgt->orig_nents, dir);
--		if (!nents)
--			return -EIO;
--		sgt->nents = nents;
--		return 0;
--	}
--	return ib_dma_map_sgtable_attrs(dev, sgt, dir, 0);
--}
--
- /**
-  * rdma_rw_ctx_init - initialize a RDMA READ/WRITE context
-  * @ctx:	context to initialize
-@@ -326,7 +299,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
- 	};
- 	int ret;
+-ssize_t iov_iter_get_pages(struct iov_iter *i,
++ssize_t iov_iter_get_pages_flags(struct iov_iter *i,
+ 		   struct page **pages, size_t maxsize, unsigned maxpages,
+-		   size_t *start)
++		   size_t *start, unsigned int gup_flags)
+ {
+ 	size_t len;
+ 	int n, res;
+@@ -1526,7 +1526,6 @@ ssize_t iov_iter_get_pages(struct iov_iter *i,
+ 		return 0;
  
--	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
-+	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
- 	if (ret)
- 		return ret;
- 	sg_cnt = sgt.nents;
-@@ -365,7 +338,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
- 	return ret;
+ 	if (likely(iter_is_iovec(i))) {
+-		unsigned int gup_flags = 0;
+ 		unsigned long addr;
  
- out_unmap_sg:
--	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
-+	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
- 	return ret;
+ 		if (iov_iter_rw(i) != WRITE)
+@@ -1556,6 +1555,13 @@ ssize_t iov_iter_get_pages(struct iov_iter *i,
+ 		return iter_xarray_get_pages(i, pages, maxsize, maxpages, start);
+ 	return -EFAULT;
  }
- EXPORT_SYMBOL(rdma_rw_ctx_init);
-@@ -413,12 +386,12 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 		return -EINVAL;
- 	}
++EXPORT_SYMBOL_GPL(iov_iter_get_pages_flags);
++
++ssize_t iov_iter_get_pages(struct iov_iter *i, struct page **pages,
++			   size_t maxsize, unsigned maxpages, size_t *start)
++{
++	return iov_iter_get_pages_flags(i, pages, maxsize, maxpages, start, 0);
++}
+ EXPORT_SYMBOL(iov_iter_get_pages);
  
--	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
-+	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
- 	if (ret)
- 		return ret;
- 
- 	if (prot_sg_cnt) {
--		ret = rdma_rw_map_sgtable(dev, &prot_sgt, dir);
-+		ret = ib_dma_map_sgtable_attrs(dev, &prot_sgt, dir, 0);
- 		if (ret)
- 			goto out_unmap_sg;
- 	}
-@@ -485,9 +458,9 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	kfree(ctx->reg);
- out_unmap_prot_sg:
- 	if (prot_sgt.nents)
--		rdma_rw_unmap_sg(dev, prot_sgt.sgl, prot_sgt.orig_nents, dir);
-+		ib_dma_unmap_sgtable_attrs(dev, &prot_sgt, dir, 0);
- out_unmap_sg:
--	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
-+	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
- 	return ret;
+ static struct page **get_pages_array(size_t n)
+@@ -1638,9 +1644,9 @@ static ssize_t iter_xarray_get_pages_alloc(struct iov_iter *i,
+ 	return actual;
  }
- EXPORT_SYMBOL(rdma_rw_ctx_signature_init);
-@@ -620,7 +593,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 		break;
- 	}
  
--	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+-ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
++ssize_t iov_iter_get_pages_alloc_flags(struct iov_iter *i,
+ 		   struct page ***pages, size_t maxsize,
+-		   size_t *start)
++		   size_t *start, unsigned int gup_flags)
+ {
+ 	struct page **p;
+ 	size_t len;
+@@ -1652,7 +1658,6 @@ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
+ 		return 0;
+ 
+ 	if (likely(iter_is_iovec(i))) {
+-		unsigned int gup_flags = 0;
+ 		unsigned long addr;
+ 
+ 		if (iov_iter_rw(i) != WRITE)
+@@ -1665,6 +1670,7 @@ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
+ 		p = get_pages_array(n);
+ 		if (!p)
+ 			return -ENOMEM;
++
+ 		res = get_user_pages_fast(addr, n, gup_flags, p);
+ 		if (unlikely(res <= 0)) {
+ 			kvfree(p);
+@@ -1692,6 +1698,13 @@ ssize_t iov_iter_get_pages_alloc(struct iov_iter *i,
+ 		return iter_xarray_get_pages_alloc(i, pages, maxsize, start);
+ 	return -EFAULT;
  }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy);
++EXPORT_SYMBOL_GPL(iov_iter_get_pages_alloc_flags);
++
++ssize_t iov_iter_get_pages_alloc(struct iov_iter *i, struct page ***pages,
++				 size_t maxsize, size_t *start)
++{
++	return iov_iter_get_pages_alloc_flags(i, pages, maxsize, start, 0);
++}
+ EXPORT_SYMBOL(iov_iter_get_pages_alloc);
  
-@@ -648,8 +621,8 @@ void rdma_rw_ctx_destroy_signature(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 	kfree(ctx->reg);
- 
- 	if (prot_sg_cnt)
--		rdma_rw_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
--	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+		ib_dma_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
- }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy_signature);
- 
+ size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum,
 -- 
 2.30.2
 
