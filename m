@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2A00C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:45:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38DE7C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lVFs012FiYfAIteDPcswFBDVkI4GWpBL3gjXvYfdIeM=; b=CHubnReG2rmqp44Q8cjeJr9GoU
-	SAoyI4xh0YsDOB35mkk22YsH9SHlpDhf/AslwQhFt9OayPz0uyabEMFCQBorP+lk4CuuXIUacXUHS
-	TjqSKQffjEIrZM6YDakv24mbB3KLrnhbwg6P3X7YcXYix9RqVvzGGaD56va6uiP3Z+l2aSX0/PKGi
-	wEOoZbH9eRt5fDbf2jTAl18TxPyQmiMH9UcgXuqhYLzpI/hHx6xLs5Ia/zeTinDwow4x2ECq8M7p+
-	OM91kllvGn5kmadgMasNQBzQk62agWUn8jWfuRUknMVBFJdN3G5m6XPF+9cIzdst6QI6Uvop6H4pu
-	IQCcYPqA==;
+	bh=06xrVvtoAjmIinAQk61eUYk8K5xu+g+hinoJXPXmfIY=; b=WyBIp1G9MpWwbTBpWZWVopXsyU
+	+PdTbjzzV5RUgX6ptulCo8KH3idR3BQGFx9lnXg7MmvvwQZcs8yfye4M5LI7u15rs30isBUy5M2wc
+	mhxtnVAgJU9LxUqfL6sL/JXAM0eapZkaDr71VSpAJ8w/C02pmubU63Qpq8Opw3/NWqEix5XxmNlBG
+	RH4Z/KQR8kMUeb/vb5uOWyYePzDFabA4gTAiVx6mINTmtlvI+wkaEGJJfQfbT9edxh9wm6Nf0y2Hi
+	Y3n6WZQ3YqEf/FFo7VX15BBBjYFUq7N+gXc7XonFuCbOYq1lgiGLAr7qMP37W8/tt9SGhtSUne0I6
+	9TBvwi9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDFOT-00HWtC-S1; Fri, 28 Jan 2022 00:45:38 +0000
+	id 1nDFQR-00HXAW-Gw; Fri, 28 Jan 2022 00:47:39 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDF63-00HS5z-DK
- for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:42 +0000
+ id 1nDF63-00HS6G-Dt
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=lVFs012FiYfAIteDPcswFBDVkI4GWpBL3gjXvYfdIeM=; b=FjLyPEO07VIEgdk1M1VHg4N/Lw
- TiuHtSuS8jaAFifUe0IoNiB+0FF8DOWx6dkN/cNU8hNzU4r5utojED5jH+50Km0hrjnzDl6gtCHnO
- LZC4XIFiTY8O3bwJMdZud/U0XQcXnotiqL7RmeFLKoKE6yo6fskQml7+4vY4gFGNSxzT6tnMyJwFt
- qiUtcGd7ed4gkX6193Aa1nJwX1BqZKHJ3SipaYK+EvHqe7aeZGDcO5TmqV3CQc11P8Q7fAfNwcRQu
- NiE+0B6xXbsbWls/loZxm0fCYPoPfaMdlDvtVBEewdYOmAkL7x5rk0p0T114v0/4w+SUuBcM7BMCT
- IPQDBXXg==;
+ bh=06xrVvtoAjmIinAQk61eUYk8K5xu+g+hinoJXPXmfIY=; b=OfzXlltJMxq3gS2+grdKIdu4qj
+ pNrW4b+9M5LpdqTxnk1XYOcDzd5sgEQAjsyP2AMJ90RwWXPlUE0qwyvBvkFe/uwG24thUIFowHlWz
+ AgwDoi5KSSjGXB+pFolbCqFgldtLxrIfDDXdZh+GY0lTgBK/AH6nSD5Euur1kyMGDNNQkjW6YPZ+y
+ qtvw6xepTrb2L4huQSSyb/3moKvDDRsD4oGQalhPJZgXyviy1FReSq3qj6fVDQqRBB1JYGOGZoM+n
+ wLZrhunhed8GYxvvt+5L1BFHkUlwcfmZKpM1FBe9/DodXasZIyyXlHjkT8id4sGEdzYjg14sWtmnj
+ +OgqnvBQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5u-005Oca-UW; Thu, 27 Jan 2022 17:26:27 -0700
+ id 1nDF5s-005OcZ-JQ; Thu, 27 Jan 2022 17:26:25 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5n-0001cd-Ek; Thu, 27 Jan 2022 17:26:19 -0700
+ id 1nDF5p-0001dD-7X; Thu, 27 Jan 2022 17:26:21 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -62,9 +62,9 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@nvidia.com>
-Date: Thu, 27 Jan 2022 17:25:59 -0700
-Message-Id: <20220128002614.6136-10-logang@deltatee.com>
+ Logan Gunthorpe <logang@deltatee.com>
+Date: Thu, 27 Jan 2022 17:26:08 -0700
+Message-Id: <20220128002614.6136-19-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
 References: <20220128002614.6136-1-logang@deltatee.com>
@@ -79,16 +79,15 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
- ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
- rcampbell@nvidia.com, jgg@nvidia.com
+ ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
+ logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v5 09/24] dma-mapping: add flags to dma_map_ops to indicate
- PCI P2PDMA support
+Subject: [PATCH v5 18/24] block: add check when merging zone device pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_162635_637930_89F0C8F5 
-X-CRM114-Status: GOOD (  15.27  )
+X-CRM114-CacheID: sfid-20220127_162635_603397_823C3E2D 
+X-CRM114-Status: GOOD (  13.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,93 +102,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a flags member to the dma_map_ops structure with one flag to
-indicate support for PCI P2PDMA.
+Consecutive zone device pages should not be merged into the same sgl
+or bvec segment with other types of pages or if they belong to different
+pgmaps. Otherwise getting the pgmap of a given segment is not possible
+without scanning the entire segment. This helper returns true either if
+both pages are not zone device pages or both pages are zone device
+pages with the same pgmap.
 
-Also, add a helper to check if a device supports PCI P2PDMA.
+Add a helper to determine if zone device pages are mergeable and use
+this helper in page_is_mergeable().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- include/linux/dma-map-ops.h | 10 ++++++++++
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/mapping.c        | 18 ++++++++++++++++++
- 3 files changed, 33 insertions(+)
+ block/bio.c        |  2 ++
+ include/linux/mm.h | 23 +++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 752f91e5eb5d..4d4161d58ce0 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -11,7 +11,17 @@
+diff --git a/block/bio.c b/block/bio.c
+index 4312a8085396..055fcf159461 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -806,6 +806,8 @@ static inline bool page_is_mergeable(const struct bio_vec *bv,
+ 		return false;
+ 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
+ 		return false;
++	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
++		return false;
  
- struct cma;
- 
+ 	*same_page = ((vec_end_addr & PAGE_MASK) == page_addr);
+ 	if (*same_page)
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 24f44230dcbf..4a8e8cddd910 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1080,6 +1080,24 @@ static inline bool is_zone_device_page(const struct page *page)
+ {
+ 	return page_zonenum(page) == ZONE_DEVICE;
+ }
++
 +/*
-+ * Values for struct dma_map_ops.flags:
-+ *
-+ * DMA_F_PCI_P2PDMA_SUPPORTED: Indicates the dma_map_ops implementation can
-+ * handle PCI P2PDMA pages in the map_sg/unmap_sg operation.
++ * Consecutive zone device pages should not be merged into the same sgl
++ * or bvec segment with other types of pages or if they belong to different
++ * pgmaps. Otherwise getting the pgmap of a given segment is not possible
++ * without scanning the entire segment. This helper returns true either if
++ * both pages are not zone device pages or both pages are zone device pages
++ * with the same pgmap.
 + */
-+#define DMA_F_PCI_P2PDMA_SUPPORTED     (1 << 0)
-+
- struct dma_map_ops {
-+	unsigned int flags;
-+
- 	void *(*alloc)(struct device *dev, size_t size,
- 			dma_addr_t *dma_handle, gfp_t gfp,
- 			unsigned long attrs);
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index dca2b1355bb1..f7c61b2b4b5e 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -140,6 +140,7 @@ int dma_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
- 		unsigned long attrs);
- bool dma_can_mmap(struct device *dev);
- int dma_supported(struct device *dev, u64 mask);
-+bool dma_pci_p2pdma_supported(struct device *dev);
- int dma_set_mask(struct device *dev, u64 mask);
- int dma_set_coherent_mask(struct device *dev, u64 mask);
- u64 dma_get_required_mask(struct device *dev);
-@@ -250,6 +251,10 @@ static inline int dma_supported(struct device *dev, u64 mask)
- {
- 	return 0;
- }
-+static inline bool dma_pci_p2pdma_supported(struct device *dev)
++static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
++						     const struct page *b)
 +{
-+	return false;
-+}
- static inline int dma_set_mask(struct device *dev, u64 mask)
- {
- 	return -EIO;
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index c056a1468189..74858326ef94 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -724,6 +724,24 @@ int dma_supported(struct device *dev, u64 mask)
- }
- EXPORT_SYMBOL(dma_supported);
- 
-+bool dma_pci_p2pdma_supported(struct device *dev)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+
-+	/* if ops is not set, dma direct will be used which supports P2PDMA */
-+	if (!ops)
++	if (is_zone_device_page(a) != is_zone_device_page(b))
++		return false;
++	if (!is_zone_device_page(a))
 +		return true;
-+
-+	/*
-+	 * Note: dma_ops_bypass is not checked here because P2PDMA should
-+	 * not be used with dma mapping ops that do not have support even
-+	 * if the specific device is bypassing them.
-+	 */
-+
-+	return ops->flags & DMA_F_PCI_P2PDMA_SUPPORTED;
++	return a->pgmap == b->pgmap;
 +}
-+EXPORT_SYMBOL_GPL(dma_pci_p2pdma_supported);
-+
- #ifdef CONFIG_ARCH_HAS_DMA_SET_MASK
- void arch_dma_set_mask(struct device *dev, u64 mask);
+ extern void memmap_init_zone_device(struct zone *, unsigned long,
+ 				    unsigned long, struct dev_pagemap *);
  #else
+@@ -1087,6 +1105,11 @@ static inline bool is_zone_device_page(const struct page *page)
+ {
+ 	return false;
+ }
++static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
++						     const struct page *b)
++{
++	return true;
++}
+ #endif
+ 
+ static inline bool is_zone_movable_page(const struct page *page)
 -- 
 2.30.2
 
