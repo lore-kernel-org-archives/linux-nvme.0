@@ -4,80 +4,155 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B457EC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 17:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E49BC433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 17:16:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n/1472KZU3nAC1w1yUJXTLLSRgqFxdu3HYz3RKoFZQk=; b=2PwDlCXqyOcwyLJY6oth+iHuRW
-	sDTig85KvwGi9wY1lF4omkoG+FB55RM5pwT4PEa/AQvCwcMM5giR8mofgPcdZDDETphOB4jzpByyp
-	Lu9LeW8+EYucLD5+T4XYBghEWXzxQtoE1plBfk0S7DESAgDWH8cXBYZDHN5KDH9pLPCjXPrFVtFZ8
-	W3BLK4Me1nzCGkd5tkteUG28oDN+5eIFOVuSvzD1HYUkwP5P1knH1rWoQksuiZVqsdzI+3I1rK8Hu
-	8ILl6/M2U1LTRkRHzGR8is7M26c3ws+NvX0mvnjb9/MXXudsTXDtZGzvTcJY6pT3yG9g/PNxSsNvD
-	+SITediw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ThMIoxBIpFCsk3k46ZXw3MaMygYjjWz9oTdTk2bgIXQ=; b=DlsgGhbHAN38AwS/JwX4vOzPX7
+	PP+22a1OsNgHdVvSiF295Dh5yoOKJqJHf2GziLxFchg9rzKHQRwg/qcwiZNpcBgeTx6BnpGpkjqiB
+	so1RS9dg3ZXjXtJE3wWnLmq9/mat7U90JZBiEUQ+NEK2SFoMe2qVAxFBbgDsSM8BbqOw7gvedhzXf
+	I+sTjXR2ME8mPRJw3SOTItiGWT+szvJoF7IKvkKXP1PUqrZbtz4WOHpjlWB1ndCxRVF074BtqY+Zq
+	Jks6v/LOSu/idlCIIgBDPYt1UjnxZgRsN1EOA7M02c87lC5YkbYCD13IbGj6WeQQGGEAi2/6CrmqU
+	jipceSBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDUhd-0038Tx-AP; Fri, 28 Jan 2022 17:06:25 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nDUrW-003AMW-Dr; Fri, 28 Jan 2022 17:16:38 +0000
+Received: from mail-co1nam11on2085.outbound.protection.outlook.com
+ ([40.107.220.85] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDUha-0038SI-BN
- for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 17:06:23 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EBB6B210E6;
- Fri, 28 Jan 2022 17:06:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643389580; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n/1472KZU3nAC1w1yUJXTLLSRgqFxdu3HYz3RKoFZQk=;
- b=Cdm+ypEBhkbghnnsm9wFi79uCSkOrv92sXWLoT0MEDj4V3weyKo5M5uwXuqw+FTWWhZ7YP
- zyMUu7ExCWzUkEqEG01bHVgFS7hQ2fZZodqXiebbo6AwIB16OGARgxlD7o39huj2XGh7yR
- AQb8Y+Bq5k19QkYe7ia4UY8hK3ioGBc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643389580;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n/1472KZU3nAC1w1yUJXTLLSRgqFxdu3HYz3RKoFZQk=;
- b=uaNamDerDMGoBt4kQ2qPMjGW7y6KNn7FMsSwOweCPFPej4xYY6IBAHPNu6khTw1BoFKyGA
- 7LnqfQttrAdmixAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2D4213A4A;
- Fri, 28 Jan 2022 17:06:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iocnJ4wi9GGffgAAMHmgww
- (envelope-from <hare@suse.de>); Fri, 28 Jan 2022 17:06:20 +0000
-Message-ID: <e3cdb1c4-dbdc-abf9-8a7b-d272960ae382@suse.de>
-Date: Fri, 28 Jan 2022 18:06:19 +0100
-MIME-Version: 1.0
+ id 1nDUrT-003AKR-EM
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 17:16:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bd7cQNVdPeXCroNlCkipeI9AyGqeJL6GX6IgMadxDwYHyOQGVayCynqqn+fB4x5KLX3L7xRv/7iv9YDp0jhE4mdIeDZKtBAgsqN8IdorX8QDamlfeJkOMXhNMKl4WZTgj/XY8IUvJT3h9a95My13vD7oVu1g5ODRND7FQbI5AAKcJkQhJ1qMNVmvQXMZFxbgC6f/ppM++9tajp2sO6W4IkhWPSmBMZaZBkfrLTf9peuh40nFgCWezaxZcR/XYbJQrCA/MwHQ5XDMHPVkKF8iE8LRf4gUYEF7BIRAD7APMHoX9T3k8n5GfEC04Q6K4AIr9WUF06cju35HF1cEZHwodg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ThMIoxBIpFCsk3k46ZXw3MaMygYjjWz9oTdTk2bgIXQ=;
+ b=h1U6GGv0YQOj4GsjYPcs+5GxXKeqM0RTVhkuaYgn5apbdWoemzjAfCNdPZ7LzOs2g8QXUUtHMMXS3cIH/yr6tccxIEMKIw6T1EU9D7gLrIFuGuJg/InmS0eMo2XBM9t1rEz0s6evn3xT9jWns/ZoSIn9Ue2D2XG8CqJrhHakp9JvYFSafL8Zt0QuhGhh6tcJCbf9NTzDf+MgTOTGIoYomm+hxBq1vclerivd+94xu0yhyJ9YpAwkw1OUCPv2A9Mn33QSoXoLw2bk19bRg4pt9m9/QQVD+CJXk8gk4tTw0zo4VyG+fe673RHfmi0CRx2U/EhUTXCR/mwhVsouO2Z/cw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ThMIoxBIpFCsk3k46ZXw3MaMygYjjWz9oTdTk2bgIXQ=;
+ b=XERiqU9B2NHWdHLez85VLII/8alK0h9xsGLcF9f3PDcz5BRq7LCuFbi+JVc6o50Q+BkJ2X6XQVdWWvNUqUVJpthLM5b8d8qlcYXeztrpaNDE2B8KLrSDHLZ8c5m42BBf1FkeRoLej4TQDvDsjVgswUX0aO3/1H48dAwqR9U79+1Z5Sz6LDbcD/OL7fga0kyTpKNSF1qLLsuuCwsOiLkRENjJQyUHQaaHZLPkp53H3v4h+ZN5wB5cBWREKBSrUuBNFsE4Z0V65IjbgTecgi/VRUXbWrBANbn/tv1NeNvgosivvLaiRWR49+NeS1BZoo0QUumTG4mdLMiP/SwO13jQNg==
+Received: from BL0PR12MB5539.namprd12.prod.outlook.com (2603:10b6:208:1c3::15)
+ by BYAPR12MB2950.namprd12.prod.outlook.com (2603:10b6:a03:131::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.17; Fri, 28 Jan
+ 2022 17:16:31 +0000
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4344.namprd12.prod.outlook.com (2603:10b6:208:26e::11)
+ by BL0PR12MB5539.namprd12.prod.outlook.com (2603:10b6:208:1c3::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.17; Fri, 28 Jan
+ 2022 17:16:30 +0000
+Received: from MN2PR12MB4344.namprd12.prod.outlook.com
+ ([fe80::6872:c444:d3b5:7b2e]) by MN2PR12MB4344.namprd12.prod.outlook.com
+ ([fe80::6872:c444:d3b5:7b2e%7]) with mapi id 15.20.4930.019; Fri, 28 Jan 2022
+ 17:16:30 +0000
+Message-ID: <90168b70-cd15-9eb8-b782-9200b174a046@nvidia.com>
+Date: Fri, 28 Jan 2022 09:16:25 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC] nvme: Do not reject dynamic controller cntlid
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 02/24] mm: remove extra ZONE_DEVICE struct page refcount
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220127133648.8201-1-dwagner@suse.de>
- <20220127171758.GB2266713@dhcp-10-100-145-180.wdc.com>
- <20220128103137.zugnrh2bbhkqpaoz@carbon.lan>
- <20220128123638.unxd5fzoctit6lpi@carbon.lan>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220128123638.unxd5fzoctit6lpi@carbon.lan>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Logan Gunthorpe <logang@deltatee.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
+ Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Alex Sierra <alex.sierra@amd.com>
+References: <20220128002614.6136-1-logang@deltatee.com>
+ <20220128002614.6136-3-logang@deltatee.com> <20220128142138.GU8034@ziepe.ca>
+From: Ralph Campbell <rcampbell@nvidia.com>
+In-Reply-To: <20220128142138.GU8034@ziepe.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0077.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::22) To MN2PR12MB4344.namprd12.prod.outlook.com
+ (2603:10b6:208:26e::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b75e764c-c983-46fb-7578-08d9e281ecd5
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5539:EE_|BYAPR12MB2950:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB5539D986383FCB391251D5A3C2229@BL0PR12MB5539.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /dBBp9t7r7eqganCAa6zHGtXK6rkXzq7pRgZCSUdFVi89XBCy9FbxhNjGtVq4iPslm38+qw4tUBji8SgU8py1XcQ8VkwA9AJ/VUTURQLWKKHI4d/U/vjJhH8bFBKtBS520TmkwaG4VVy9orZvsgCI1Spuy4lwYUXDwOc+qUnIdjHCLk7FYq/V9MK0uYteiWlVGGoap4V2ESNQoezKMpeX3K0dbF4gFMdG9+bf5stssEaNxFPFKUXF3qC9+jqGxrv0+mBdV8vJfHL9m1y9zjVVNAvd56DXB3HY6J0xdfotzH2S0f9cvv0GqH0YOmG/hftKiHXsx7AeC5drxzkJ22uKBEe5xtKlMHJ2iRhG1DK65fbqP7JLxfst8XnvlVe0GYyHv6JIBeGs/qP53YYQv8LC5/vAMaQhna9Lp2gZW4OaLJ86XYKf7zZLxXx4jXJk4GvAV8ojQH/ncB1bv4nNIv85GrV8LfeJzPCkhMAzM+I4gabqOYSR0gSbhm0vC8H2zh9maihPqP8QotYwgd0ujCYusYzL7+eH57on4hax3j2JlaM3jAQJ2XwZA4ys+ADZF5HyJ+kZleNCq8alw24EpqvEo0YpXPrsF2iPPG2fsDB/CPyJXS/eybjOspnr4tQd4ySzmMi1bv3v3xi3wgGoKEhAjITwW5gLsWd9J46FoXhNv6LoAz1cHUrlYaZhGZrIcnf6roTLKep4AhGcj24aqgXh2FMsmQS1m9smBAlqhvUaTs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5539.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(508600001)(86362001)(2906002)(110136005)(54906003)(316002)(5660300002)(7416002)(38100700002)(66476007)(66556008)(66946007)(8676002)(8936002)(4326008)(83380400001)(6666004)(6512007)(6506007)(53546011)(36756003)(31696002)(6486002)(31686004)(186003)(2616005)(45980500001)(43740500002)(20210929001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3JZRmpUekN1SkJsWmh1SnhXcmlVZU1BSFVmbVdGYk9nQW9lSDIxaFhJQzh1?=
+ =?utf-8?B?ZDRCd1BKSE5UdlQ5N0J6UXVGakhHRVY2RnRrNEY4UG5vOFltd0cwcGJkSFY3?=
+ =?utf-8?B?N2xCdjErajZqdmZZVExUMFhJQkFjU3JCMXBPZy9mdmRjQVcxMFdFVzRoeitI?=
+ =?utf-8?B?cDYwekVSL0FxZXZVQWI2a2FOZUZxRmtRRnJTUit0NWpoaHY2N2Y1N0U4d1Nh?=
+ =?utf-8?B?b2d1WHlZam9MSHdmY1ZHMzc3STN5YUVlM1Nmbm9MSjN6b29TR3pub0VtVkNJ?=
+ =?utf-8?B?d1F5Y0pBdXNMVzZQUmtuR29RL2Q2bjFLOGM4T2FMT1ljdjcrMVFFc1hMejJQ?=
+ =?utf-8?B?L1V5bTRzYzRaU3ZybnFPVUlidTVBZVNOZnJSZHcweGs2QUhpcVdQR1VETDVx?=
+ =?utf-8?B?TWJHaitucmRLNG1zZTZQMTFhdU84NkRpZkVQR291MExqUzYrOUlCTWxGY2oz?=
+ =?utf-8?B?TmxNS0h0SWxlS2tuNUxhNUhXUHkzVEVVcXdJbUNsVzJXQkkzcTBOc29uYWZo?=
+ =?utf-8?B?ZzE3WVlMcUNPWlJ2bWJ1OUIzeFQ4WXMyS2NSekExazBLaXBBMmdGRVE3dW4r?=
+ =?utf-8?B?bHB2MEFWaU5PbkJYYmwzRGhnbW45N2kySVZkdldFRW8vU2VzOW50TEtVRmNH?=
+ =?utf-8?B?SG9RRWY0ZWxtSE5Tdk44Sm9pM0U2b1pVS09nZ0pseGZZU016eFhJaWlhc3BH?=
+ =?utf-8?B?aUpPUzllM1VYdDlmSjc2aG9HaUlucm96UG9ONHlLWTl2WVd5dzF5RWF4V1d6?=
+ =?utf-8?B?b1RYQ2ozZjF0UlZrcVZ5YjNIYlJNMUx4R1dBSGtKTWtlQklabnMvNnpaZGxy?=
+ =?utf-8?B?SXk3Ty8vWHdPNFNHRlpDUDNZdWdpUzRqUFNCVHJCUytMeUFGR1dvbmtldnV5?=
+ =?utf-8?B?aUlKOXhFV1MrQnJnZ1pZSzVEbFpvL3BOekhRTm1MMDFTL3M2TXlVSUp4WmlL?=
+ =?utf-8?B?K2lERURWWnlKVDVkQm9TaS9HbzMzK1VQSlVUZWxUR2NQRXAwWXVLa3ZOTGxS?=
+ =?utf-8?B?NEJpNzczQXFDM0hiUFVrRjVGaTdVOUJ0NHp6ckJ1NXRzRHV0b3NtMTNPd0lW?=
+ =?utf-8?B?c3diczczWVltSnJ5L2UxNS9yVUxoWCtKa2pMNEl2QTJPTDlMTUNCZ0JiT1hv?=
+ =?utf-8?B?RjBiL3JJdENQZFNKcFozWDhtaXl5d2FnU1dyWWpWbE9tcVQvS0kyWCtTUlFm?=
+ =?utf-8?B?Y2pUNVp5L0xKeE1CeGVaTUhKa3BhZnhSOFFvYUw5SS9kQ3lJcEd5TG9WVzgw?=
+ =?utf-8?B?d05rV1hkUFVkdkE0dWQvNGZmeHhKNDEwVWRUenRkYUZheFVGUXZzQ3RDTGNB?=
+ =?utf-8?B?QUZ5M0VlTTB3dktBL2JqV3JZZ0FWREttZXFlbEdJQjNXSWZCSFVTWlpJcVBG?=
+ =?utf-8?B?WnRxbWQvNi9sQkdSNTlZbXRGNFYzenFjUGR4R2ZDYmQzeGQ2WGdPRE1YeEJk?=
+ =?utf-8?B?eTh4WnFQM1RsU3pocmt5a2czRC9ocThLcmlsaldndTNyTC9nZkJTM0pvVmQw?=
+ =?utf-8?B?eGJ2SWVIT3RMMklvdVlmMWxXblBMcU1WWkFkS0NCNGV1YkNBYmtRampzb0NC?=
+ =?utf-8?B?WkdybSs4MFI5Mkc3WG4xaEtMQk15bjhvSkcycWk2NmR2N1NxNGF2dnF3S2Jx?=
+ =?utf-8?B?UDAzM3Uvd0g4NkFvMnNQTHFwSnJPa3gxUDV1eUxyVTNqMUw3ZWZ6MUN0M3FR?=
+ =?utf-8?B?TEVCaWhUVThLU3BZUEgzaktDVlI2cHFwQStUZVZmRmxXWi9MNzhyRUxlOFdr?=
+ =?utf-8?B?MzlIQkF2RUxXQkdtQ3gvZTdqL3NBZE5KOHdjWjJQbEFxUVJtZmJNS1htQk5x?=
+ =?utf-8?B?ZGcvTEVTN3dWN2t2cHJnL01ydDNiYjNBZjhEdkoxZXhzbkdoSE16V2dWYnB6?=
+ =?utf-8?B?WTQrUnk4WjhlNkY0cHJRTTRvdFhiOEVDZXVIQ1FGMHZ6ZVo0MHlxSDg1cnJx?=
+ =?utf-8?B?aGM3NUJ0TjF0MnNMU093ZXl1V01DZndLUml0RUJjWGFqNDRhZUdSdXh5Zldj?=
+ =?utf-8?B?ZUpCZHpDajEzV0dHZU9MSllqUEVsY1BwMWVXa2JEektOUHhsK2lSRTYycGtV?=
+ =?utf-8?B?Wis3MFl2T2xRc0o5SHQ5WFcrK3Nxay9KT0prN1hhN1FDazVpZGVyMVhETlBJ?=
+ =?utf-8?B?U1pZWFF6MEF2NXRBVU9rcXZSVmVlMERFWS9ZQm5FbGFnTXNidjZoN1RuYU0r?=
+ =?utf-8?Q?/NoMsm6ZYVQocYU67mMHe2TVeSspbdBCNkqHBrJVVm9W?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b75e764c-c983-46fb-7578-08d9e281ecd5
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4344.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2022 17:16:30.6080 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /0ORELQUP2BWBpddF6v2cC7japJs4HBnI7DadcYUFGuob8Q2OkYgMWqWqxwE3+KyVPYKZ/uw9uF1+oXDNysGRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2950
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220128_090622_558799_DF6128DA 
-X-CRM114-Status: GOOD (  14.19  )
+X-CRM114-CacheID: sfid-20220128_091635_543003_9C82CD33 
+X-CRM114-Status: GOOD (  16.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,40 +167,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/28/22 13:36, Daniel Wagner wrote:
-> On Fri, Jan 28, 2022 at 11:31:37AM +0100, Daniel Wagner wrote:
->> On Thu, Jan 27, 2022 at 09:17:58AM -0800, Keith Busch wrote:
->>>> +static inline bool nvme_ctrl_dynamic(struct nvme_ctrl *ctrl)
->>>> +{
->>>> +	return ctrl->cntlid == 0xffff;
->>>> +}
->>>
->>> It's probably safe to assume 0xffff is dynamic, but spec suggests we
->>> check ID_CTRL.FCATT bit 0.
+
+On 1/28/22 06:21, Jason Gunthorpe wrote:
+> On Thu, Jan 27, 2022 at 05:25:52PM -0700, Logan Gunthorpe wrote:
+>> From: Ralph Campbell <rcampbell@nvidia.com>
 >>
->> Okay, but this one is only defined for fabrics. I haven't found anything
->> so far which is equivalent to FCATT bit 0 for memory based transport.
-> 
-> Never mind. After discussing it with Hannes it turns out there is no
-> problem here. I didn't understand the spec correctly (it's difficult to
-> get an exact answer) on this topic.
-> 
-Weasely wording in the spec again.
-It talks at great length on controller IDs for fabrics, which values are 
-allowed and which not, and how one should do dynamic controller ids _on 
-fabrics_, but is strangely silent for memory-based (ie PCI) transports.
-There, apparently, 0xFFFF _is_ a valid controller id, and the only 
-restriction is that the controller ID must be unique.
-And even that is never stated directly, but must be inferred from the 
-various command payload descriptions.
-Guess it's a topic for the fmds call.
+>> ZONE_DEVICE struct pages have an extra reference count that complicates the
+>> code for put_page() and several places in the kernel that need to check the
+>> reference count to see that a page is not being used (gup, compaction,
+>> migration, etc.). Clean up the code so the reference count doesn't need to
+>> be treated specially for ZONE_DEVICE.
+>>
+>> [logang: dropped no longer used section from mm.h including
+>>   page_is_devmap_managed, rebased on v5.17-rc1 (possibly poorly)]
+>> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>   arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
+>>   fs/dax.c                               |  4 +-
+>>   include/linux/dax.h                    |  2 +-
+>>   include/linux/memremap.h               |  7 +--
+>>   include/linux/mm.h                     | 44 ----------------
+>>   lib/test_hmm.c                         |  2 +-
+>>   mm/internal.h                          |  8 +++
+>>   mm/memcontrol.c                        |  6 +--
+>>   mm/memremap.c                          | 70 +++++++-------------------
+>>   mm/migrate.c                           |  5 --
+>>   mm/page_alloc.c                        |  3 ++
+>>   mm/swap.c                              | 45 ++---------------
+>>   13 files changed, 46 insertions(+), 154 deletions(-)
+> This patch still can't be applied until the FSDAX issues are solved,
+> right? See my remarks the last time it was posted..
+>
+> Jason
 
-Cheers,
+That is my understanding too.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
