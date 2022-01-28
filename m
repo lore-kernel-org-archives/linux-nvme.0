@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AEBCC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CBEAC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:32:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f6Gceh5S5jL/nBaUJCDzdn+tmuAbFKWfwLoFX7deOH8=; b=gWE8JaGW3DtSM7BBHXwHbeAfwW
-	fRznnJkz+uaRLhtUx2+44YVG04rOWOKcaRwwMmJBMGE1ZJc5by/Gmb1c3K/owBoxmvz2tD2S36YiP
-	WQOdG00lbRc9bZPLKT4OIJgQRVTxVMKJdlE9y6Y4m1OIxXffQrsLByMLRmo8t3uvVM74+oE05xMcy
-	olIIX3Dh8CUr6nPiCoZgDNwx31KpO//E/KSQq54Uaf5g+0+yrLjIAfobVidDmO8GTWa0jItjuEw5l
-	RTirUP80sbf06K+UYqNr/Wuis1YzrH8dZxSOgQSFt1HHsg1cQs02C92Iq51UVVSFjpzf+IiEiaFOF
-	cYtj2dEg==;
+	bh=SthFkrlch6Gbtf7JBQRiLJWdMmfUwEHz21EJfjIo+fM=; b=PUvRgBOE5ANI12NtIcm9CofVf+
+	GMuizxAXf1LqRmG5ctm7Aic0EJfPJHjDqTWgKPm2/32XMyfj+7UzQ97K9NZtkF9sdVUV0OsQYh9zi
+	zAWHe14r8RVJ7Q4X86+f+DOXx7xAC7u8T1Ej1U43zJZu/h7RPleYps1ZKmbo0yIO+t47jE4QLpepV
+	6CJmiYRZh2cdyVLs0ncN97IO/FnK7pm+8X+kAQvD5Uqi0x4zfwVX5o+WmJsZpkskAnnZzT5pRch7J
+	2gCoXA7sh14aUDGWOCEV2z763rnG7D6700HWBv/p9GIj9IrTp9G1sES6L4bFQYxVHX3AbztSK8Ffi
+	CeGBztzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDFAk-00HU1P-M3; Fri, 28 Jan 2022 00:31:26 +0000
+	id 1nDFBi-00HUKL-Ib; Fri, 28 Jan 2022 00:32:26 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDF62-00HS5r-SG
- for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:37 +0000
+ id 1nDF63-00HS62-06
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=f6Gceh5S5jL/nBaUJCDzdn+tmuAbFKWfwLoFX7deOH8=; b=titcmnMGmGT6rJBuUoaxsU3FRv
- fhU9hatq+5bu8PuY1JxWWSy0DyHNJoJfbNg5UKzxTAf1nXRCVaZyimOoF9Lgvce1Z5kjdXoNEGpx+
- RAiD7KwkuPazykuSDNcM7rEyD2ZAh4kEjpFz2jgXtnYe0j+N+E4l15cY1wMHugqfUAjEho91h6xXE
- dI8ctOdivU2niYrip3XS8jwbsdQBKak2n/A9z/YC32RWvd+CIOKsJJIjon/alW1KThIecaZH5VHGp
- Xf2+ddYB0UF82Dst8XOw73KuEaG31MOSgyzEeKV9XSNlGKM3l9I3qIulrLze8U1X6oENJe0l/yr4N
- hTwcqvVw==;
+ bh=SthFkrlch6Gbtf7JBQRiLJWdMmfUwEHz21EJfjIo+fM=; b=lVrUYYfTM6XGioXpaDhU8TWgMB
+ vgyWwjfvd+30vJr+Otba/J2QVHspa3Wu4+iov+2m7rQKOg5weIdMqzazQUbzDHYz/fRPbobbTjO5b
+ UNyFiauFRkM9u2G++t+v4M1vLtkmowFWMS9373R6QZsbG3PhE5YTIr3/j4GDVPVe3OLyDlBMdmJqN
+ mFzzocv2QiaF5iml93QU7vLdFzdslWKLSEW57Lr82qElnNWvYeCTRV0ZIo+wIg2pZ9fvKyNQPfiOM
+ XaVP54CtEyu7JavZqVHJGtJIBrobriUCTzscqeKhItJJolN6bghr2ERmQE1rWPH+JQMp6U7Sa+gRR
+ IfM3RwOQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5u-005OcY-3f; Thu, 27 Jan 2022 17:26:27 -0700
+ id 1nDF5t-005OcZ-MY; Thu, 27 Jan 2022 17:26:26 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5n-0001cl-QN; Thu, 27 Jan 2022 17:26:19 -0700
+ id 1nDF5o-0001ct-6H; Thu, 27 Jan 2022 17:26:20 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -62,9 +62,10 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Chaitanya Kulkarni <kch@nvidia.com>
-Date: Thu, 27 Jan 2022 17:26:01 -0700
-Message-Id: <20220128002614.6136-12-logang@deltatee.com>
+ Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>
+Date: Thu, 27 Jan 2022 17:26:03 -0700
+Message-Id: <20220128002614.6136-14-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
 References: <20220128002614.6136-1-logang@deltatee.com>
@@ -80,15 +81,14 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
  ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
- rcampbell@nvidia.com, kch@nvidia.com
+ rcampbell@nvidia.com, jgg@nvidia.com, mgurtovoy@nvidia.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v5 11/24] nvme-pci: check DMA ops when indicating support for
- PCI P2PDMA
+Subject: [PATCH v5 13/24] RDMA/core: introduce ib_dma_pci_p2p_dma_supported()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_162635_058854_3F531C90 
-X-CRM114-Status: GOOD (  13.48  )
+X-CRM114-CacheID: sfid-20220127_162635_199342_576AED32 
+X-CRM114-Status: GOOD (  14.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,83 +103,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a supports_pci_p2pdma() operation in nvme_ctrl_ops to
-replace the fixed NVME_F_PCI_P2PDMA flag such that the dma_map_ops
-flags can be checked for PCI P2PDMA support.
+Introduce the helper function ib_dma_pci_p2p_dma_supported() to check
+if a given ib_device can be used in P2PDMA transfers. This ensures
+the ib_device is not using virt_dma and also that the underlying
+dma_device supports P2PDMA.
+
+Use the new helper in nvme-rdma to replace the existing check for
+ib_uses_virt_dma(). Adding the dma_pci_p2pdma_supported() check allows
+switching away from pci_p2pdma_[un]map_sg().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/core.c |  3 ++-
- drivers/nvme/host/nvme.h |  2 +-
- drivers/nvme/host/pci.c  | 11 +++++++++--
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ drivers/nvme/target/rdma.c |  2 +-
+ include/rdma/ib_verbs.h    | 11 +++++++++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5e0bfda04bd7..ecb01984b55d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3850,7 +3850,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 1deb4043e242..22519739a874 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -415,7 +415,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+ 	if (ib_dma_mapping_error(ndev->device, r->send_sge.addr))
+ 		goto out_free_rsp;
  
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
--	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
-+	if (ctrl->ops->supports_pci_p2pdma &&
-+	    ctrl->ops->supports_pci_p2pdma(ctrl))
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
- 
- 	ns->ctrl = ctrl;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a162f6c6da6e..97efc6d0b146 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -486,7 +486,6 @@ struct nvme_ctrl_ops {
- 	unsigned int flags;
- #define NVME_F_FABRICS			(1 << 0)
- #define NVME_F_METADATA_SUPPORTED	(1 << 1)
--#define NVME_F_PCI_P2PDMA		(1 << 2)
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-@@ -494,6 +493,7 @@ struct nvme_ctrl_ops {
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
-+	bool (*supports_pci_p2pdma)(struct nvme_ctrl *ctrl);
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d8585df2c2fd..35e9b1e13d9f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2965,17 +2965,24 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 	return snprintf(buf, size, "%s\n", dev_name(&pdev->dev));
+-	if (!ib_uses_virt_dma(ndev->device))
++	if (ib_dma_pci_p2p_dma_supported(ndev->device))
+ 		r->req.p2p_client = &ndev->device->dev;
+ 	r->send_sge.length = sizeof(*r->req.cqe);
+ 	r->send_sge.lkey = ndev->pd->local_dma_lkey;
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 69d883f7fb41..79609ab73014 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -4003,6 +4003,17 @@ static inline bool ib_uses_virt_dma(struct ib_device *dev)
+ 	return IS_ENABLED(CONFIG_INFINIBAND_VIRT_DMA) && !dev->dma_device;
  }
  
-+static bool nvme_pci_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
++/*
++ * Check if a IB device's underlying DMA mapping supports P2PDMA transfers.
++ */
++static inline bool ib_dma_pci_p2p_dma_supported(struct ib_device *dev)
 +{
-+	struct nvme_dev *dev = to_nvme_dev(ctrl);
++	if (ib_uses_virt_dma(dev))
++		return false;
 +
-+	return dma_pci_p2pdma_supported(dev->dev);
++	return dma_pci_p2pdma_supported(dev->dma_device);
 +}
 +
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
--	.flags			= NVME_F_METADATA_SUPPORTED |
--				  NVME_F_PCI_P2PDMA,
-+	.flags			= NVME_F_METADATA_SUPPORTED,
- 	.reg_read32		= nvme_pci_reg_read32,
- 	.reg_write32		= nvme_pci_reg_write32,
- 	.reg_read64		= nvme_pci_reg_read64,
- 	.free_ctrl		= nvme_pci_free_ctrl,
- 	.submit_async_event	= nvme_pci_submit_async_event,
- 	.get_address		= nvme_pci_get_address,
-+	.supports_pci_p2pdma	= nvme_pci_supports_pci_p2pdma,
- };
- 
- static int nvme_dev_map(struct nvme_dev *dev)
+ /**
+  * ib_dma_mapping_error - check a DMA addr for error
+  * @dev: The device for which the dma_addr was created
 -- 
 2.30.2
 
