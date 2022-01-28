@@ -4,71 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77F98C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jan 2022 23:05:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2036DC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:26:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gqiujn8xuf98pvBM9WYFznxWvid6DTs8aK3cm2gjEbU=; b=ua+PHv76HrjwBCwFe/DqTbzdas
-	SiFVw6+iwxxt9YC9r/shUaKBts5DIaw+fZvcbQrNVBcCyf5Wn1d1hKHZnzLvyUVJ/vwxPoaJ/2skQ
-	aAgANaR/dsDarQFzPQz1u7OdlY3wLg/r5qVZaf5XwvDXASxp9MUqtnYobl9hVQ3TdEQAaiWtL8zbc
-	3HIcVh81wVjQRD66EeI3Qkdbl1utswuMG2KYDBg1SF1twqJmXEatLzZNYutiAJxxU8y9uP5XppL0A
-	fuApN7MyqjieT9KlP9t3v1gpjF5JVpVvXTNzn3iP3de6GKjYEb6wf6DBKYhQYj+1nbRsuIXcNk7Er
-	pWvre0DQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HHTYT5k3QiiDV6LMv4vKtzyhJ9FCFmq5gXJCns7NBlU=; b=SEIuSUcqIiPRwkOrcTcnzpTWA7
+	R0fPd3Z6hLbHJgOJLec3jAbCu+N9GQfoyk71MJex2DN2aHGlEnz/6xdGXNfanCNg7ChqbF30b4P6d
+	KGAcLBnDOhR+2QPPNmwcMBXoDVK584Pb/VFVzW73Z6ph81Ramxink3hZfCx86THHY/SSu//vrwwPu
+	ZA6ZSDjyBa7xsINTECaiBOY6errBTFkAEg7su4pDLI2bhrn6ObHhu/i09W85WNG7ScSb74dqzqWk7
+	2ik5BYmc9XBAI16XgJXz2mstDJvQOgcASbn78HFd71zoz8QCHMmasAVCFVM5z/s0jYwLPsss2sOSA
+	Wt5+aaqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDDpa-00HG4A-MN; Thu, 27 Jan 2022 23:05:30 +0000
-Received: from mail-ed1-f47.google.com ([209.85.208.47])
+	id 1nDF5y-00HS00-7J; Fri, 28 Jan 2022 00:26:30 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDDpX-00HG3o-9l
- for linux-nvme@lists.infradead.org; Thu, 27 Jan 2022 23:05:28 +0000
-Received: by mail-ed1-f47.google.com with SMTP id b13so6054331edn.0
- for <linux-nvme@lists.infradead.org>; Thu, 27 Jan 2022 15:05:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=gqiujn8xuf98pvBM9WYFznxWvid6DTs8aK3cm2gjEbU=;
- b=WhTLBCSvTaviONat8ZuUIsVXLvDR7mSY2PPH6E/V4ScFHa+K8awc7oFiX9cNfSAHzj
- MtEM9vRlbPW3ySgVWVaI+VfyjinmPpOYFrbuHRMc3MLcHsbp9ekV4z1zVgnnrfSXqMBy
- 9FGMothVNRSt300KcE3s/OETzO8yPmQl5klbt7kBd21prqh9UIxzQP9eYTsSGr0+CxXI
- 3qRDrQg4ZVHfaykGyhz7hV7gjhgXcOj+E9vHmX7p/n5VXiA0MYrOohhaDQhTTtGcy9pv
- rjzzedHlwF6bzabQmArmv7Ldtau5cgcT7VsKGOTV/aHSCsq23OnjHx+AFpHHqhQfXEOF
- N4Rw==
-X-Gm-Message-State: AOAM530czVsMF5sHBTrM5Fcoz6QfjkF8/IJV9j8gMm0XZERj17guyhHL
- 0aholDiT41+kWV5X3pHVBSXvdEbyWww=
-X-Google-Smtp-Source: ABdhPJzYBPxX3sFz4QuDJH8otMZR7O7GeBNM+CmSwrdv5yn1dVWigwmvbAsXA3Ce9m32wVVg6dZc5A==
-X-Received: by 2002:aa7:d687:: with SMTP id d7mr5583006edr.222.1643324722580; 
- Thu, 27 Jan 2022 15:05:22 -0800 (PST)
-Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
- [46.117.116.119])
- by smtp.gmail.com with ESMTPSA id o18sm9174227ejb.111.2022.01.27.15.05.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jan 2022 15:05:22 -0800 (PST)
-Message-ID: <d33f5615-0e40-2e6e-76a1-b9450fa9ec6c@grimberg.me>
-Date: Fri, 28 Jan 2022 01:05:21 +0200
+ id 1nDF5u-00HRvs-NO
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Cc:To:From:content-disposition;
+ bh=HHTYT5k3QiiDV6LMv4vKtzyhJ9FCFmq5gXJCns7NBlU=; b=nH+QGcWcTfLDJqbFBTkackrqrG
+ IP6cWyAeLl9RuOzP5vD7BPyQU58XFn47tuDx4R7Thwosc+4soLlQVecHvAgk4qyxAjLmiqxSW3I5g
+ SqIvy9WWdkwSYLgfzKnqG+dBpmOVLy4K6320JbcNr95+oWJo7UZV/NITfylMgQ8/RTfCcifnSfZBX
+ r41I8tSoanWnwJpvJUpUw/NlhzAT4jhPRHUIZoBCgMZi//CDOJpWdTYlF2dkrkYW2sa/+iJk+Oy+2
+ a2caIhrPLspGcwjE+BtlAnMEszIzOsYbKM+4zKJzw5grV9y8OoAAbzhfGXuxs5Cs9EpHAAqLDRLRB
+ NXs+TrNA==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1nDF5p-005Oca-Lc; Thu, 27 Jan 2022 17:26:22 -0700
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
+ 4.94.2) (envelope-from <gunthorp@deltatee.com>)
+ id 1nDF5m-0001cL-MP; Thu, 27 Jan 2022 17:26:18 -0700
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Date: Thu, 27 Jan 2022 17:25:54 -0700
+Message-Id: <20220128002614.6136-5-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
+References: <20220128002614.6136-1-logang@deltatee.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: ncme-tcp: io_work NULL pointer when racing with queue stop
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Chris Leech <cleech@redhat.com>
-Cc: linux-nvme@lists.infradead.org
-References: <CAPnfmXLsLwUKU_OdELsxy9gkR+21yTHFst0KUqb-c6Zd7OyB_A@mail.gmail.com>
- <0617b76f-6335-5dbf-9f9e-ba5151651e5b@grimberg.me>
- <CAPnfmXKEeTrQ2KH-UwM1V-vkAqk6KVxu9iZ5n2EpisJmY5eVkw@mail.gmail.com>
- <0ff519b9-9248-1f88-7117-ace764e18f64@grimberg.me>
-In-Reply-To: <0ff519b9-9248-1f88-7117-ace764e18f64@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
+ jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com,
+ willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
+ dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
+ andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
+ ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
+ ckulkarnilinux@gmail.com, logang@deltatee.com, bhelgaas@google.com,
+ jhubbard@nvidia.com, rcampbell@nvidia.com, kch@nvidia.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v5 04/24] PCI/P2PDMA: Attempt to set map_type if it has not
+ been set
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_150527_376580_D05D5DC7 
-X-CRM114-Status: GOOD (  24.97  )
+X-CRM114-CacheID: sfid-20220127_162626_813030_7D20A06A 
+X-CRM114-Status: GOOD (  13.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,83 +104,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Attempt to find the mapping type for P2PDMA pages on the first
+DMA map attempt if it has not been done ahead of time.
 
->> Thank you for the following detailed description. I'm going to go back
->> to my crash report and take another look at this one.
-> 
-> No worries Chris, perhaps I can assist.
-> 
-> Is the dmesg log prior to the BUG available? Does it tell us anything
-> to what was going on leading to this?
-> 
-> Any more information about the test case? (load + controller reset)
-> Is the reset in a loop? Any more info about the load?
-> Any other 'interference' during the test?
-> How reproducible is this?
-> Is this Linux nvmet as the controller?
-> How many queues does the controller have? (it will help me understand
-> how easy it is to reproduce on a vm setup)
+Previously, the mapping type was expected to be calculated ahead of
+time, but if pages are to come from userspace then there's no
+way to ensure the path was checked ahead of time.
 
-I took another look at the code and I think I see how io_work maybe
-triggered after a socket was released. The issue might be
-.submit_async_event callback from the core.
+This change will calculate the mapping type if it hasn't pre-calculated
+so it is no longer invalid to call pci_p2pdma_map_sg() before the mapping
+type is calculated, so drop the WARN_ON when that is he case.
 
-When we start a reset, the first thing we do is stop the pending
-work elements that may trigger io by calling nvme_stop_ctrl, and
-then we continue to teardown the I/O queues and then the admin
-queue (in nvme_tcp_teardown_ctrl).
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/pci/p2pdma.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-So the sequence is:
-         nvme_stop_ctrl(ctrl);
-         nvme_tcp_teardown_ctrl(ctrl, false);
-
-However, there is a possibility, after nvme_stop_ctrl but before
-we teardown the admin queue, that the controller sends a AEN
-and is processed by the host, which includes automatically
-submitting another AER which in turn is calling the driver with
-.submit_async_event (instead of the normal .queue_rq as AERs don't have
-timeouts).
-
-In nvme_tcp_submit_async_event we do not check the controller or
-queue state and see that it is ready to accept a new submission like
-we do in .queue_rq, so we blindly prepare the AER cmd queue it and
-schedules io_work, but at this point I don't see what guarantees that
-the queue (e.g. the socket) is not released.
-
-Unless I'm missing something, this flow will trigger a use-after-free
-when io_work will attempt to access the socket.
-
-I see we also don't flush the async_event_work in the error recovery
-flow which we probably should so we can avoid such a race.
-
-I think that the below patch should address the issue:
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 96725c3f1e77..bf380ca0e0d1 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2097,6 +2097,7 @@ static void nvme_tcp_error_recovery_work(struct 
-work_struct *work)
-
-         nvme_auth_stop(ctrl);
-         nvme_stop_keep_alive(ctrl);
-+       flush_work(&ctrl->async_event_work);
-         nvme_tcp_teardown_io_queues(ctrl, false);
-         /* unquiesce to fail fast pending requests */
-         nvme_start_queues(ctrl);
-@@ -2212,6 +2213,10 @@ static void nvme_tcp_submit_async_event(struct 
-nvme_ctrl *arg)
-         struct nvme_tcp_cmd_pdu *pdu = ctrl->async_req.pdu;
-         struct nvme_command *cmd = &pdu->cmd;
-         u8 hdgst = nvme_tcp_hdgst_len(queue);
-+       bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 1015274bd2fe..bb8900ce073a 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -848,6 +848,7 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 	struct pci_dev *provider = to_p2p_pgmap(pgmap)->provider;
+ 	struct pci_dev *client;
+ 	struct pci_p2pdma *p2pdma;
++	int dist;
+ 
+ 	if (!provider->p2pdma)
+ 		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+@@ -864,6 +865,10 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 		type = xa_to_value(xa_load(&p2pdma->map_types,
+ 					   map_types_idx(client)));
+ 	rcu_read_unlock();
 +
-+       if (ctrl->ctrl.state != NVME_CTRL_LIVE || !queue_ready)
-+               return;
++	if (type == PCI_P2PDMA_MAP_UNKNOWN)
++		return calc_map_type_and_dist(provider, client, &dist, true);
++
+ 	return type;
+ }
+ 
+@@ -906,7 +911,7 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+ 		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
+ 	default:
+-		WARN_ON_ONCE(1);
++		/* Mapping is not Supported */
+ 		return 0;
+ 	}
+ }
+-- 
+2.30.2
 
-         memset(pdu, 0, sizeof(*pdu));
-         pdu->hdr.type = nvme_tcp_cmd;
---
-
-Chris, can you take this for some testing?
 
