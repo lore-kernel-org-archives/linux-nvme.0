@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9248C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F6C8C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jan 2022 00:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9y7uxxCijIQhRgYYWdLYi/EHC9No4LME+9YvR+dIhu0=; b=DnlHXck7XiS8IKkip0DyKihWQ5
-	QhjuvY7KGVFxd+wXsuXNhUNnEfXxTwflPO3a4+4KvNHnQPm9vZgZnTCnxe54CPSaupJnsoqSllbW8
-	tCfE9SkNFvSK2AVQdmzaW/SbjkSxWNK4itVBl15avBb73/qvBto6RpUDrIrKuk80SRjpdujl1Zlgt
-	SVTjJcHsWPYqU7B4zlhSG1ReoIJckfRxnkKsZ7BfDRxXd9Ul4swdgoy7o/aVqNZqwjG03NMo/5liv
-	jevetGTViknnwYF4O458TBs71IRHPYRea5jw73Lj4VlbnDHyt67vw0eo4559VMAJD+BCjK21ECxzn
-	72CXccfw==;
+	bh=l3AgzlVFISW/9ucMB3Q/AoBaOHeVal7cwU+QcbWrG+0=; b=gXSsGrpPJSh+uFeOz92CbEZQpX
+	TZ3IbaXxtyYNzZdJCzVeQ/yS6hHLqbH/61F/IFzSYbkb0+D771MlWEwR77jEjcDCvObKAOGHHe2aG
+	Vw6IObpR6p01/DdwIYPJW8XXGVlRCEsdx0tEqnf87W/ul5nxAfDg3Taj/1cbMf8WK2gTVGUnxJVfy
+	maEq3Ta7up07ZKriVdVngWEPVWKi0V3jdNu4CUw5y02/JTM4AwNsjbPhEJz9gHBeabRVUUFyE6vzX
+	ofybwemZMLJff2g/Cn26u0MAqL7R3m70ICGU92U/dzAX0ttl09l/JKXwa08KmbsOz5ab8NJg8IK8s
+	jy6ZA3fA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nDFGk-00HVRU-EW; Fri, 28 Jan 2022 00:37:38 +0000
+	id 1nDFIh-00HVqZ-M1; Fri, 28 Jan 2022 00:39:39 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nDF62-00HS5u-SP
- for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:39 +0000
+ id 1nDF63-00HS5v-2T
+ for linux-nvme@lists.infradead.org; Fri, 28 Jan 2022 00:26:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=9y7uxxCijIQhRgYYWdLYi/EHC9No4LME+9YvR+dIhu0=; b=l4d3EpTtcxL3EaodXSNshKzMis
- 1/jQH/RITkY0nTE3stsu/LrD8K8tHp5sBnCU4mUgyGT2sccFE9pG+vOSGhS2KQPG9z4RWATIO//8o
- 7Wii1JtGU5ngbOHFd+Ug+xwKAa767JeAdM9RRtkkBgdq5Qp1nsV4zhTumRTg+ZmuDXJFqi7VAU8ge
- 0M4tD1wbs1NmBbQ4Y5wufnnmwq7NwOABY7OOiKuVwr2f8JFg1Y0Zt2GyhZouLVvYzcaEHa8YIFQ8g
- HBJp1H7DxAZwwhQ9WbP6mDyRl30Jkciv8xdaY6XSsOozDBMNYVVORQRpeptIiUeDHoVy0GM40wX8z
- ZWJkcFhg==;
+ bh=l3AgzlVFISW/9ucMB3Q/AoBaOHeVal7cwU+QcbWrG+0=; b=GHKRyVjtVmbSOmEi2k8PR+Md59
+ Kpz13qxphM7mdsMjmKSbaRcW0nzpUU20WsV1rOF1sA1CTsKNYE/r7ke6A8E0qUApKCKl+OHU3IJ4m
+ PzKjL1nt/5lt7BQslZNPQ1gDmvxNnuMfunw4UfU7Xg1u/Rv/I3U947R9VknuNUH6pkUJssCPBCnEu
+ xnOOgMTPCvAvpXzoChdfkBXahu6Zbykb2wsKeTSmudeQ+Yl64E9ciK6PfXxZNEYTWIMbAQCYtmjth
+ hqunlqfxUc4cQCx+UeY3Pf/0pF9k+NdMgSpWLJfTOsl7OtuJebfiX1DbjBB5kjFF+tG1T839oylVO
+ pXUyCMKw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5v-005OcY-KP; Thu, 27 Jan 2022 17:26:28 -0700
+ id 1nDF5t-005OcV-Gh; Thu, 27 Jan 2022 17:26:26 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1nDF5m-0001cR-UW; Thu, 27 Jan 2022 17:26:18 -0700
+ id 1nDF5o-0001cx-Bg; Thu, 27 Jan 2022 17:26:20 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -62,9 +62,9 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Bjorn Helgaas <bhelgaas@google.com>
-Date: Thu, 27 Jan 2022 17:25:56 -0700
-Message-Id: <20220128002614.6136-7-logang@deltatee.com>
+ Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@nvidia.com>
+Date: Thu, 27 Jan 2022 17:26:04 -0700
+Message-Id: <20220128002614.6136-15-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220128002614.6136-1-logang@deltatee.com>
 References: <20220128002614.6136-1-logang@deltatee.com>
@@ -79,16 +79,15 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
- ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
- logang@deltatee.com, bhelgaas@google.com
+ ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
+ rcampbell@nvidia.com, jgg@nvidia.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v5 06/24] PCI/P2PDMA: Introduce helpers for dma_map_sg
- implementations
+Subject: [PATCH v5 14/24] RDMA/rw: drop pci_p2pdma_[un]map_sg()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220127_162635_075515_142C7AAA 
-X-CRM114-Status: GOOD (  19.72  )
+X-CRM114-CacheID: sfid-20220127_162635_477490_3EC7B0C0 
+X-CRM114-Status: GOOD (  11.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,145 +102,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add pci_p2pdma_map_segment() as a helper for simple dma_map_sg()
-implementations. It takes an scatterlist segment that must point to a
-pci_p2pdma struct page and will map it if the mapping requires a bus
-address.
-
-The return value indicates whether the mapping required a bus address
-or whether the caller still needs to map the segment normally. If the
-segment should not be mapped, -EREMOTEIO is returned.
-
-This helper uses a state structure to track the changes to the
-pgmap across calls and avoid needing to lookup into the xarray for
-every page.
-
-Also add pci_p2pdma_map_bus_segment() which is useful for IOMMU
-dma_map_sg() implementations where the sg segment containing the page
-differs from the sg segment containing the DMA address.
-
-Prototypes for these helpers are added to dma-map-ops.h as they are only
-useful to dma map implementations and don't need to pollute the public
-pci-p2pdma header.
+dma_map_sg() now supports the use of P2PDMA pages so pci_p2pdma_map_sg()
+is no longer necessary and may be dropped. This means the
+rdma_rw_[un]map_sg() helpers are no longer necessary. Remove it all.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/pci/p2pdma.c        | 59 +++++++++++++++++++++++++++++++++++++
- include/linux/dma-map-ops.h | 21 +++++++++++++
- 2 files changed, 80 insertions(+)
+ drivers/infiniband/core/rw.c | 45 ++++++++----------------------------
+ 1 file changed, 9 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 751d682e66ae..2b2cf00664e7 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -945,6 +945,65 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
+index 5a3bd41b331c..d4517b68d1ca 100644
+--- a/drivers/infiniband/core/rw.c
++++ b/drivers/infiniband/core/rw.c
+@@ -273,33 +273,6 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	return 1;
  }
- EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
  
-+/**
-+ * pci_p2pdma_map_segment - map an sg segment determining the mapping type
-+ * @state: State structure that should be declared outside of the for_each_sg()
-+ *	loop and initialized to zero.
-+ * @dev: DMA device that's doing the mapping operation
-+ * @sg: scatterlist segment to map
-+ *
-+ * This is a helper to be used by non-IOMMU dma_map_sg() implementations where
-+ * the sg segment is the same for the page_link and the dma_address.
-+ *
-+ * Attempt to map a single segment in an SGL with the PCI bus address.
-+ * The segment must point to a PCI P2PDMA page and thus must be
-+ * wrapped in a is_pci_p2pdma_page(sg_page(sg)) check.
-+ *
-+ * Returns the type of mapping used and maps the page if the type is
-+ * PCI_P2PDMA_MAP_BUS_ADDR.
-+ */
-+enum pci_p2pdma_map_type
-+pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-+		       struct scatterlist *sg)
-+{
-+	if (state->pgmap != sg_page(sg)->pgmap) {
-+		state->pgmap = sg_page(sg)->pgmap;
-+		state->map = pci_p2pdma_map_type(state->pgmap, dev);
-+		state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
-+	}
-+
-+	if (state->map == PCI_P2PDMA_MAP_BUS_ADDR) {
-+		sg->dma_address = sg_phys(sg) + state->bus_off;
-+		sg_dma_len(sg) = sg->length;
-+		sg_dma_mark_bus_address(sg);
-+	}
-+
-+	return state->map;
-+}
-+
-+/**
-+ * pci_p2pdma_map_bus_segment - map an sg segment pre determined to
-+ *	be mapped with PCI_P2PDMA_MAP_BUS_ADDR
-+ * @pg_sg: scatterlist segment with the page to map
-+ * @dma_sg: scatterlist segment to assign a DMA address to
-+ *
-+ * This is a helper for iommu dma_map_sg() implementations when the
-+ * segment for the DMA address differs from the segment containing the
-+ * source page.
-+ *
-+ * pci_p2pdma_map_type() must have already been called on the pg_sg and
-+ * returned PCI_P2PDMA_MAP_BUS_ADDR.
-+ */
-+void pci_p2pdma_map_bus_segment(struct scatterlist *pg_sg,
-+				struct scatterlist *dma_sg)
-+{
-+	struct pci_p2pdma_pagemap *pgmap = to_p2p_pgmap(sg_page(pg_sg)->pgmap);
-+
-+	dma_sg->dma_address = sg_phys(pg_sg) + pgmap->bus_offset;
-+	sg_dma_len(dma_sg) = pg_sg->length;
-+	sg_dma_mark_bus_address(dma_sg);
-+}
-+
+-static void rdma_rw_unmap_sg(struct ib_device *dev, struct scatterlist *sg,
+-			     u32 sg_cnt, enum dma_data_direction dir)
+-{
+-	if (is_pci_p2pdma_page(sg_page(sg)))
+-		pci_p2pdma_unmap_sg(dev->dma_device, sg, sg_cnt, dir);
+-	else
+-		ib_dma_unmap_sg(dev, sg, sg_cnt, dir);
+-}
+-
+-static int rdma_rw_map_sgtable(struct ib_device *dev, struct sg_table *sgt,
+-			       enum dma_data_direction dir)
+-{
+-	int nents;
+-
+-	if (is_pci_p2pdma_page(sg_page(sgt->sgl))) {
+-		if (WARN_ON_ONCE(ib_uses_virt_dma(dev)))
+-			return 0;
+-		nents = pci_p2pdma_map_sg(dev->dma_device, sgt->sgl,
+-					  sgt->orig_nents, dir);
+-		if (!nents)
+-			return -EIO;
+-		sgt->nents = nents;
+-		return 0;
+-	}
+-	return ib_dma_map_sgtable_attrs(dev, sgt, dir, 0);
+-}
+-
  /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-  *		to enable p2pdma
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index d693a0e33bac..752f91e5eb5d 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -413,15 +413,36 @@ enum pci_p2pdma_map_type {
- 	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
- };
+  * rdma_rw_ctx_init - initialize a RDMA READ/WRITE context
+  * @ctx:	context to initialize
+@@ -326,7 +299,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
+ 	};
+ 	int ret;
  
-+struct pci_p2pdma_map_state {
-+	struct dev_pagemap *pgmap;
-+	int map;
-+	u64 bus_off;
-+};
-+
- #ifdef CONFIG_PCI_P2PDMA
- enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
- 					     struct device *dev);
-+enum pci_p2pdma_map_type
-+pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-+		       struct scatterlist *sg);
-+void pci_p2pdma_map_bus_segment(struct scatterlist *pg_sg,
-+				struct scatterlist *dma_sg);
- #else /* CONFIG_PCI_P2PDMA */
- static inline enum pci_p2pdma_map_type
- pci_p2pdma_map_type(struct dev_pagemap *pgmap, struct device *dev)
- {
- 	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
+-	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
++	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
+ 	if (ret)
+ 		return ret;
+ 	sg_cnt = sgt.nents;
+@@ -365,7 +338,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u32 port_num,
+ 	return ret;
+ 
+ out_unmap_sg:
+-	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
++	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
+ 	return ret;
  }
-+static inline enum pci_p2pdma_map_type
-+pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
-+		       struct scatterlist *sg)
-+{
-+	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+}
-+static inline void pci_p2pdma_map_bus_segment(struct scatterlist *pg_sg,
-+					      struct scatterlist *dma_sg)
-+{
-+}
- #endif /* CONFIG_PCI_P2PDMA */
+ EXPORT_SYMBOL(rdma_rw_ctx_init);
+@@ -413,12 +386,12 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 		return -EINVAL;
+ 	}
  
- #endif /* _LINUX_DMA_MAP_OPS_H */
+-	ret = rdma_rw_map_sgtable(dev, &sgt, dir);
++	ret = ib_dma_map_sgtable_attrs(dev, &sgt, dir, 0);
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (prot_sg_cnt) {
+-		ret = rdma_rw_map_sgtable(dev, &prot_sgt, dir);
++		ret = ib_dma_map_sgtable_attrs(dev, &prot_sgt, dir, 0);
+ 		if (ret)
+ 			goto out_unmap_sg;
+ 	}
+@@ -485,9 +458,9 @@ int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	kfree(ctx->reg);
+ out_unmap_prot_sg:
+ 	if (prot_sgt.nents)
+-		rdma_rw_unmap_sg(dev, prot_sgt.sgl, prot_sgt.orig_nents, dir);
++		ib_dma_unmap_sgtable_attrs(dev, &prot_sgt, dir, 0);
+ out_unmap_sg:
+-	rdma_rw_unmap_sg(dev, sgt.sgl, sgt.orig_nents, dir);
++	ib_dma_unmap_sgtable_attrs(dev, &sgt, dir, 0);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_signature_init);
+@@ -620,7 +593,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 		break;
+ 	}
+ 
+-	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy);
+ 
+@@ -648,8 +621,8 @@ void rdma_rw_ctx_destroy_signature(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
+ 	kfree(ctx->reg);
+ 
+ 	if (prot_sg_cnt)
+-		rdma_rw_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
+-	rdma_rw_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++		ib_dma_unmap_sg(qp->pd->device, prot_sg, prot_sg_cnt, dir);
++	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy_signature);
+ 
 -- 
 2.30.2
 
