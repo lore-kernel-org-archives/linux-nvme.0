@@ -4,75 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C970DC433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Jan 2022 08:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CB4DC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Jan 2022 09:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gwjXkd8SP9whgU/XfZ3Wy3o95L/x8ZmhCCX+9uPwOZE=; b=XzHh2dBKRgDzgYt5Jkp7VUwL97
-	OILP0ddcVjyzeke8oWAmkWWxZcP3TpDAYGBbMJ4zzi4ayiEj8pBvtBD5MviVXonubyy4l6aEcFhIA
-	1hbE+juZHaDLOLOGtah0cGueOOxtGlJd/p4Xh9u9BvvJj+SFTfAwTCquHMyAK/Nrz6HTZgcpJ4QgM
-	KpEfTV52t/bEY10Ewl2F9qmKo+jp29s4IVl/E2GN0uxSs54tkxfUCbXRfbXZnVbblQZaiMSuv2qkN
-	8ry7E6Kk2PxD1f/gQvY6I8Fc973Y6gAoywVPeXHivpL4vrWWKovxQ5GcQp288li/dXZdHc4Tv8Mk+
-	K285f1Vw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MNr0rMQMz9zwkgx1o/kKG3az4M+iSYsqLlSaalfpRL8=; b=ebIBtFfH31lhRbUv51kTC7hlIJ
+	T76yGYdqsfNpRdiWiW/EzclWWwr0Gxk9iyDCrZPMfRvZc1EB4qoW2G0CL2kfBYSDuAVcmqdOekXs5
+	+udP6NaYg0YsrUZFxTijDqlDRxXrfwu7c3xhoYbtVydrY3+JpkMLZSM7vTvK1gfCQ3XZs5rGNervY
+	hdsAY1s0wd5xTImM/+K8eD6GDcvLgUidxKrLxfRux0I8vJLmm0Tno7FXkth5BTTdZrmqaS3UgaMj/
+	/2T//xNaJtJDHcx8uJaA7i1uZao6oSmhcRQKN+B95EFrPWgTy7zYoEn0n6x8XZEjrNzRMX08orIlI
+	EhYMdFtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nE5s1-006Anv-Ir; Sun, 30 Jan 2022 08:47:37 +0000
-Received: from mail-wr1-f47.google.com ([209.85.221.47])
+	id 1nE6Ol-006DEY-6J; Sun, 30 Jan 2022 09:21:27 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nE5ry-006AnL-Em
- for linux-nvme@lists.infradead.org; Sun, 30 Jan 2022 08:47:35 +0000
-Received: by mail-wr1-f47.google.com with SMTP id f17so19512498wrx.1
- for <linux-nvme@lists.infradead.org>; Sun, 30 Jan 2022 00:47:34 -0800 (PST)
+ id 1nE6Oh-006DCw-GY
+ for linux-nvme@lists.infradead.org; Sun, 30 Jan 2022 09:21:24 +0000
+Received: by mail-wm1-f54.google.com with SMTP id
+ bg21-20020a05600c3c9500b0035283e7a012so2304312wmb.0
+ for <linux-nvme@lists.infradead.org>; Sun, 30 Jan 2022 01:21:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=gwjXkd8SP9whgU/XfZ3Wy3o95L/x8ZmhCCX+9uPwOZE=;
- b=6bRkPV35+kkLVpvQvpfGOqb+p47DQbiZ/hXcHm0/Pj1xU/9JU0/Si6VJSB1ZssNh9x
- JTf0r+AhPP/oVQxDZ50Z/L+YlzlDFqmrfuGXUvF953VP6xI/0BT60sWtlPcmsHFzhP5r
- f6udr/ZStV/f8HuXbs+4NPxCAyTFOkq+aocO6msjTzLtWuH4ANEtm1vRcKOs9X6PiuRK
- 4jKDhRmlDZDCy/4HzwOMfjFtJcnD/RSDdNi06HJG2HdAfAUyIizvdOACr8JcofXkW7pk
- ChzB5w9ypRdH8Yr0feYBMtfj6nDAD52gvsnm1n6kllJNsWoKBEAkF3kz7HjFGw8NYDG5
- PyLQ==
-X-Gm-Message-State: AOAM531YpsUujkE9VpAMYvLIxtwmRa/Cl+6VkSSiA2pq0xExA1oaxJXK
- 9pM0uxKfOCme9o2PEQI7FNj0RdOXkwU=
-X-Google-Smtp-Source: ABdhPJzLR9dX+u6vRaEnQ/eCY5aiX+C3S1X7sQFjUmSztlDCWKw7jwh8YnOR1kP5qyhYIATqWfFZcA==
-X-Received: by 2002:a05:6000:178d:: with SMTP id
- e13mr12785296wrg.183.1643532452896; 
- Sun, 30 Jan 2022 00:47:32 -0800 (PST)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ bh=MNr0rMQMz9zwkgx1o/kKG3az4M+iSYsqLlSaalfpRL8=;
+ b=nF6+WF7XeloIXqrVAfgoJARvqw/t+HkEqNTKPEBBhvW4odTdIJzgL4uoJCsu5hJ6v/
+ JARK0VKmMetcXZkdaCiWQbfMpA+JCBAaS6SfSsZcpG0FhSqL6MqFH5LYWYhqSqW1KZgm
+ noOMxLSC61DeGMJR4iyQl6AZfacvupUBT4nWHWRvXBnLFWn/Bx/JXoFThpnIN4x7p1qW
+ +e4EE4XVcrdCHTL7ZnsLIk9tMr+ZbIQHmccuun/mszwfhxYFxQGLfJPr/qbsnQBgvsZg
+ 7R3sr1iYGabXk0uTkVrPrkyUnJST3HLRp92/T9F2Vea9KDNHLduX+wjpTIbbdaFCTLYW
+ yuwA==
+X-Gm-Message-State: AOAM531eF4IWaFjWEuc/4MXNjDZ+B/1FF3nM4aiaWr6JeyPHZp0gxgnw
+ cQU42TUzLKrZTCnpUM/2dTthDK28JK4=
+X-Google-Smtp-Source: ABdhPJxzwR1GwQXVv4hE5pr/48kAc7H4hb8CUygtE8C4faTR4zSJLWiiz/mwyNP3XdNzEwFtYx//tg==
+X-Received: by 2002:a05:600c:2e02:: with SMTP id
+ o2mr13733643wmf.34.1643534481561; 
+ Sun, 30 Jan 2022 01:21:21 -0800 (PST)
+Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
- by smtp.gmail.com with ESMTPSA id p2sm6035746wmc.33.2022.01.30.00.47.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jan 2022 00:47:32 -0800 (PST)
-Message-ID: <47898a48-ee1c-ac28-62f8-85b205a16a5f@grimberg.me>
-Date: Sun, 30 Jan 2022 10:47:31 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: ncme-tcp: io_work NULL pointer when racing with queue stop
-Content-Language: en-US
-To: Chris Leech <cleech@redhat.com>
-Cc: linux-nvme@lists.infradead.org
-References: <CAPnfmXLsLwUKU_OdELsxy9gkR+21yTHFst0KUqb-c6Zd7OyB_A@mail.gmail.com>
- <0617b76f-6335-5dbf-9f9e-ba5151651e5b@grimberg.me>
- <CAPnfmXKEeTrQ2KH-UwM1V-vkAqk6KVxu9iZ5n2EpisJmY5eVkw@mail.gmail.com>
- <0ff519b9-9248-1f88-7117-ace764e18f64@grimberg.me>
- <d33f5615-0e40-2e6e-76a1-b9450fa9ec6c@grimberg.me>
- <CAPnfmXJceXFDAUXND--8UiUJeyzL-8NUAdgYcws=CodEEOF6Zg@mail.gmail.com>
- <CAPnfmXJjaueZeHb0eANu_78n9dby82crquuxVWwiOD_P5gEY5w@mail.gmail.com>
+ by smtp.gmail.com with ESMTPSA id o15sm6861452wms.9.2022.01.30.01.21.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Jan 2022 01:21:21 -0800 (PST)
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAPnfmXJjaueZeHb0eANu_78n9dby82crquuxVWwiOD_P5gEY5w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Chris Leech <cleech@redhat.com>
+Subject: [PATCH 0/4] nvme-[tcp|rdma] fix for possible use-after-free
+Date: Sun, 30 Jan 2022 11:21:15 +0200
+Message-Id: <20220130092119.595854-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220130_004734_533464_9B63695F 
-X-CRM114-Status: UNSURE (   6.84  )
+X-CRM114-CacheID: sfid-20220130_012123_578115_F6514AA1 
+X-CRM114-Status: UNSURE (   9.14  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,14 +78,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+A few use-after-free reports were seen in the wild with nvme-tcp when testing
+ctrl reset and error recovery under load. Analysis shows that the exact same
+use-after-free can happen with nvme-rdma as well. This patch series addresses
+these issues for both.
 
-> This completed a day of automated testing without any failures.
-> 
-> Tested-by: Chris Leech <cleech@redhat.com>
+Sagi Grimberg (4):
+  nvme-tcp: fix a possible use-after-free in controller reset during
+    load
+  nvme-tcp: fix possible use-after-free in transport error_recovery work
+  nvme-rdma: fix a possible use-after-free in controller reset during
+    load
+  nvme-rdma: fix possible use-after-free in transport error_recovery
+    work
 
-Nice, I take it that the driver did not survive this test
-before?
+ drivers/nvme/host/rdma.c | 5 +++++
+ drivers/nvme/host/tcp.c  | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-btw, nvme-rdma needs the exact same fix. Will send a
-small patchset for it.
+-- 
+2.30.2
+
 
