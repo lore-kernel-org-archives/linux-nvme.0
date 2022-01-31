@@ -4,90 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 542AFC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jan 2022 19:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A149C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jan 2022 19:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:Cc:To:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JfiBWAhkX1yHT92Ca969hKJaoVoe9ZEugeTA+o2gzlk=; b=YYAPr29EOLLi+k
-	38/bRSEAbzUERlwnvTsAUHtBvuRuX1IOt/84gDwcRwFg+0NpJyqx60p+iFXT5W0p6Ze8kq69egv9A
-	CUSVDHDEmmsEzpFVo0Gpq6UJNnvrrm+ctH/nF0eIDEveZdlW1ps9eoNvY/cF0A14HyS/a5l8TH1jh
-	bh3BUJ8nFlQt3nh36czD/yEYzRHk3bMxtLQVFYXvOJf6Zq4bVxuX04v6eh5gsQy1IjJAVGK0BNJO6
-	Vb8+nV+oHJvSdNMMZCaTAQo0o3KYuB6T7/oIzMu8f1ulAZ+TfbxNnoWMNGwkByihQbQPtJZ5+u8Wt
-	yJnWytYzjj1lp6CS0qMA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ba+ZTTm9dUGfaeSvRk+qlfqj/OlYP9s6XSq9bd25RTY=; b=s5cPy0pgh9B8VFYajLQMxPGTgD
+	Kx2B2W9PJYtlSEfpjvjU8KqlquynmEkP9I0xoBpGUOJ8Zshw5Xlus1qt7AwdYk1WagUtODmBL6nkl
+	2FQNIxfcK1aDmP6hNs8XjVUkMtOvan8GbH4TEt+JLwGBZgi2MV3V2HtDQvmR5jwP+CcwpWOG88WDD
+	Y+W9hbGzSJtTJmULT0d8np22Pr4D2UwVnlPuquVUkdND5aeFbuVNv7xBKTY4qKV7fjtqQyoCNQsX4
+	1oLHPHn/RqeGqJ67egMM5c3Lppecz+2XNntj/VSqC4YwslT25W2fbPvCEvtTaOZs66jNh3I9oYi9V
+	pVAL/Z7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nEbv5-00ATm4-S3; Mon, 31 Jan 2022 19:00:55 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1nEby9-00AUMe-2R; Mon, 31 Jan 2022 19:04:05 +0000
+Received: from mail-pf1-f172.google.com ([209.85.210.172])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nEbv2-00ATl0-9r
- for linux-nvme@lists.infradead.org; Mon, 31 Jan 2022 19:00:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=JfiBWAhkX1yHT92Ca969hKJaoVoe9ZEugeTA+o2gzlk=; b=l8gfX2giRWGgLu5RJY5tnXex3G
- naOg0DFHyGRH+WLiZNH6sHyFr4bWsG1rAvdlZ1fmScq1SMfZDFIEnUYH8VczuVNJAw9nbR2ZHg/oq
- yJTHQQQl/ejTUOl5M+8lgqwY+8MnixFCjR2Spi6TJ1qAU3tOAr6Zvchw6CRPXgL437qt1wS6Z172Y
- dkvB2bUHt9IHazdxNJlQRzlYq1Zun08wMxYQTlew19LVw6U3nB3ecjgtyBQp29pl1CavUC8RSaymJ
- GqmzMSm6w+nK1bSbSduZGxfQ/6O6c76ZYO2FoIihh1jEypL8oHnl8n01OJnsZT5sASWHH3nFELW0W
- Q3IdSFGw==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <logang@deltatee.com>)
- id 1nEbuV-008jbJ-R5; Mon, 31 Jan 2022 12:00:20 -0700
-To: Jonathan Derrick <jonathan.derrick@linux.dev>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Ralph Campbell <rcampbell@nvidia.com>
-References: <20220128002614.6136-1-logang@deltatee.com>
- <c725798d-48da-2993-cc48-0ec0b314455f@linux.dev>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <08564685-e027-30b2-2c6e-9faf1d95dc7a@deltatee.com>
-Date: Mon, 31 Jan 2022 12:00:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ id 1nEby5-00AULA-Rn
+ for linux-nvme@lists.infradead.org; Mon, 31 Jan 2022 19:04:03 +0000
+Received: by mail-pf1-f172.google.com with SMTP id i17so13638894pfq.13
+ for <linux-nvme@lists.infradead.org>; Mon, 31 Jan 2022 11:04:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ba+ZTTm9dUGfaeSvRk+qlfqj/OlYP9s6XSq9bd25RTY=;
+ b=SADkF5wLQhEAwoGzhWgnb8852Us1GZjWVi/TJ6uOERSfp9u25YWU9lXrgg3NakKN1k
+ B9EVhynNWH6fXwmF4Gjlt902SO3mpzeRTFkNTfN8b7TcgyAw/8TQtn73PCJlji7rDhcx
+ 0gPT6ZmiD9Bt+eErdYZMclkSF4HWr1nIv+oH1H2Gwnv7tTS1VRjMrm2G10zOSBLcEZTU
+ JPFNB3Qf6lLyfSRUVORfHfmfEOYP0QN3YU6LZmfF0ffQoby4TYuHS2ihEfaCHkClnjmp
+ rhV3ZNjtFKZQHip4SOLmwGXAUrcFmicxVCSYy6pQqDCWo2n/LxmtxnJx41rxhL3b6ufE
+ cL4A==
+X-Gm-Message-State: AOAM533zkcdajUU9+z9ilXk+VkBpvaJBE2uV4uqusJlMYxe+M8+dILVX
+ sqK8dqQwBJPD5t9j06nZ3+k=
+X-Google-Smtp-Source: ABdhPJzQA22tXEk8X4OPms7oAF0wKkcs2v8eBD4LAyDqrpj0MnwPbwFxejGQ4ckny7zBvb+xVPqt/g==
+X-Received: by 2002:a63:343:: with SMTP id 64mr17733875pgd.463.1643655839828; 
+ Mon, 31 Jan 2022 11:03:59 -0800 (PST)
+Received: from [192.168.51.110] (c-73-241-217-19.hsd1.ca.comcast.net.
+ [73.241.217.19])
+ by smtp.gmail.com with ESMTPSA id e30sm5686912pge.34.2022.01.31.11.03.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jan 2022 11:03:58 -0800 (PST)
+Message-ID: <59a907b6-596b-402c-b619-b0f5b6013dff@acm.org>
+Date: Mon, 31 Jan 2022 11:03:55 -0800
 MIME-Version: 1.0
-In-Reply-To: <c725798d-48da-2993-cc48-0ec0b314455f@linux.dev>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Content-Language: en-US
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
+ "martin.petersen@oracle.com >> Martin K. Petersen"
+ <martin.petersen@oracle.com>, "roland@purestorage.com"
+ <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, "kbus >> Keith Busch" <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "djwong@kernel.org" <djwong@kernel.org>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
+ "dsterba@suse.com" <dsterba@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+ "jack@suse.com" <jack@suse.com>
+References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: rcampbell@nvidia.com, ckulkarnilinux@gmail.com,
- martin.oliveira@eideticom.com, robin.murphy@arm.com, ira.weiny@intel.com,
- helgaas@kernel.org, jianxin.xiong@intel.com, dave.hansen@linux.intel.com,
- jason@jlekstrand.net, dave.b.minturn@intel.com, andrzej.jakowski@intel.com,
- daniel.vetter@ffwll.ch, willy@infradead.org, ddutile@redhat.com,
- jhubbard@nvidia.com, christian.koenig@amd.com, jgg@ziepe.ca,
- dan.j.williams@intel.com, hch@lst.de, sbates@raithlin.com,
- iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- jonathan.derrick@linux.dev
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v5 00/24] Userspace P2PDMA with O_DIRECT NVMe devices
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220131_110052_356033_924F7B4B 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20220131_110401_959943_53B782A6 
+X-CRM114-Status: UNSURE (   7.70  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,28 +98,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 1/26/22 23:14, Chaitanya Kulkarni wrote:
+> [1]https://content.riscv.org/wp-content/uploads/2018/12/A-New-Golden-Age-for-Computer-Architecture-History-Challenges-and-Opportunities-David-Patterson-.pdf
+> [2] https://www.snia.org/computational
+> https://www.napatech.com/support/resources/solution-descriptions/napatech-smartnic-solution-for-hardware-offload/
+>         https://www.eideticom.com/products.html
+> https://www.xilinx.com/applications/data-center/computational-storage.html
+> [3] git://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git xcopy
+> [4] https://www.spinics.net/lists/linux-block/msg00599.html
+> [5] https://lwn.net/Articles/793585/
+> [6] https://nvmexpress.org/new-nvmetm-specification-defines-zoned-
+> namespaces-zns-as-go-to-industry-technology/
+> [7] https://github.com/sbates130272/linux-p2pmem
+> [8] https://kernel.dk/io_uring.pdf
 
+Please consider adding the following link to the above list:
+https://github.com/bvanassche/linux-kernel-copy-offload
 
-On 2022-01-31 11:56 a.m., Jonathan Derrick wrote:
->> This is relatively straightforward, however the one significant
->> problem is that, presently, pci_p2pdma_map_sg() requires a homogeneous
->> SGL with all P2PDMA pages or all regular pages. Enhancing GUP to
->> support enforcing this rule would require a huge hack that I don't
->> expect would be all that pallatable. So patches 3 to 16 add
->> support for P2PDMA pages to dma_map_sg[table]() to the dma-direct
->> and dma-iommu implementations. Thus systems without an IOMMU plus
->> Intel and AMD IOMMUs are supported. (Other IOMMU implementations would
->> then be unsupported, notably ARM and PowerPC but support would be added
->> when they convert to dma-iommu).
-> Am I understanding that an IO may use a mix of p2pdma and system pages?
-> Would that cause inconsistent latencies?
+Thanks,
 
-Yes, that certainly would be a possibility. People developing
-applications that do such mixing would have to weight that issue if
-latency is something they care about.
-
-But it's counter productive and causes other difficulties for the kernel
-to enforce only homogenous IO.
-
-Logan
+Bart.
 
