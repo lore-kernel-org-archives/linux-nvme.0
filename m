@@ -4,72 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70B13C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 12:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3666C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 12:54:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VALN+nS+xO+mE4KVPw/Q6/DKUt1CY4LVmRwFRUh+FIg=; b=s+U5MyoQYs2SvVW5njYFI0WTgX
-	5xG1QFpIgwXWTaDxrHC1BJ2HPWSy3wkl6e9O84/UNdNFiVJ+WowDt7ysKFZkSwBIaV4Kf8SMDuorZ
-	fPdfjKh9UgO/312YFgSr1qTqQBclSfXbYjlDK507dmE6l1l3zgeGFgmINOfFg2UCgUPNLfcjEnh0P
-	3e6a/2iHy94VQFnavylkVxaqwkZxauVEfp+g/MCBYqt1Hf2sSRORgzVTH6DNguSqLO6nmoS8nWy4s
-	K4tW/4v9b5m6CB1VAUc2Dr5FRrGeX7adA9cz/phjWTO7jO0W//c14SsAtNAiTDwM47TnbY3Q9D4i0
-	1Ne3OFqg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=H6dFyOO49Ui+f7RUWksXFpkOOVwnIUDL/r7ujptZ/9c=; b=pQeGh7UktB88bkmc0cMQ/AM5zz
+	hl2fA7Hony1ViPOwWDloGQTrd9RUA5bc3dJQfQjO+wKjP0h2suWpt12X/svMV96EBYqbiwuGXt2iO
+	0Q+XsgV2wMgcV0rxOfxvRCBbHafvnLfIv89/sR/1ccVsjoC4BtwGRTJsSbboSrWbDZuBdUahotrI2
+	kMDE/deYM/TZ1poKNCgzejrWnWgcBdXq5Sqr6dWHY7fnHqPmW//VuZqI05QsGHbuHJbfqaHn62pAZ
+	MgeAwHydfXv+0hjEGG1tdVwbqa7YHS05HqjfcIKQJYOl0wCaUviZnD2+DNfJYl/Ve3bhxftcHbc8k
+	TwufcFtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nEsOL-00C68r-NG; Tue, 01 Feb 2022 12:36:13 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1nEsg1-00C7fH-JQ; Tue, 01 Feb 2022 12:54:29 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nEsOF-00C67v-34
- for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 12:36:08 +0000
-Received: by mail-wm1-f42.google.com with SMTP id
- l129-20020a1c2587000000b0035394fedf14so1743795wml.5
- for <linux-nvme@lists.infradead.org>; Tue, 01 Feb 2022 04:36:06 -0800 (PST)
+ id 1nEsfy-00C7e6-O1
+ for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 12:54:27 +0000
+Received: by mail-wr1-f49.google.com with SMTP id e2so31925154wra.2
+ for <linux-nvme@lists.infradead.org>; Tue, 01 Feb 2022 04:54:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=VALN+nS+xO+mE4KVPw/Q6/DKUt1CY4LVmRwFRUh+FIg=;
- b=mBcAGMljxOmMb1AHsw12u9iVc+tg3ZCNYn2ABD583qu1De/rDnzow+y4Yt0nnqzdWt
- zoIqcctRldC/JqYzOvPdcVPa2Axln6/726xYFlJVhm4xgqYVsPtiFRD3mC9C7aFtUnTZ
- A5+ZejeTWPoUyhtyocmVPaek0FjYI27shr2fdUC52i7htLMCJff9fVuaRyGIFWfkUe7f
- 00JARXBJeBbwW1AoWieEQkXyyUkBixMKemZSQNFXmZ5O1PcK974djUj/cH2we8PJTERj
- qGtbhyZ2Hxt/tCOLbMF1dNbVnr4Hch/sA+YTC9kxrujrRHGQCgrEvWyngKZhdxo8wuJC
- 4/Qg==
-X-Gm-Message-State: AOAM531nfHoI+3V5GbCUnQI2AstqnnBZvjmJ2+wAdqS1Nmdpqiy0rqJU
- hUNw7NL12bFNz4UXBkv9Txg=
-X-Google-Smtp-Source: ABdhPJyiDIhIFqIZKBYNMyUdDwUI9T18EejtfkBDb24L+jmKZTZgd78zctbcgvy0lrjlfnrEqjBw6w==
-X-Received: by 2002:a7b:cf2e:: with SMTP id m14mr1617980wmg.26.1643718965036; 
- Tue, 01 Feb 2022 04:36:05 -0800 (PST)
-Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
+ bh=H6dFyOO49Ui+f7RUWksXFpkOOVwnIUDL/r7ujptZ/9c=;
+ b=heURQk/oRsbAWzBwct+oO2wsmZSgvNuZfaTAEo7lmAzvB9oVQ/VN78Du1tXyNR2xyg
+ ikSGxUN0oZsCLiVj2R9Ry9MaR1ag77m6w6Q6dqL29ZNQAjlZbepA7ixPJdY75AX17vTW
+ 9EAS139/2CiGs8wnkk7vZ5YxAKurNyAcC3kDWJI07DpCDLo9FJ6wj+eVMdnGihf1PluE
+ mI11PBpVoEMzM8ms90kxY65coTjjXJbgbCI8DnAso69ad+4A/eW/Txc1UdosIykMppwM
+ zBP/b7nbBPxWjcjrD4DDLIj1wtGuQW16Ug9iLcrbQpOPAVtAhsIW3B/iGIYy7UFiyAdc
+ 1lKw==
+X-Gm-Message-State: AOAM530t0//sejh/ghxUf6rlJV5BH606gLkhelX48GuCrCC44zE1tYYn
+ upuxTbtYyhoqg3WTd4YyXxbBAF4WntU=
+X-Google-Smtp-Source: ABdhPJzLXfnPoydXgACH6er6JKupvgvaKWo8DWpI9iu94tB+a7BiSWOjhpTNrLnQcnWed0LJ/CO1QQ==
+X-Received: by 2002:a5d:4406:: with SMTP id z6mr21494663wrq.544.1643720063849; 
+ Tue, 01 Feb 2022 04:54:23 -0800 (PST)
+Received: from localhost.localdomain (46-117-116-119.bb.netvision.net.il.
  [46.117.116.119])
- by smtp.gmail.com with ESMTPSA id m2sm2109837wmq.35.2022.02.01.04.36.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Feb 2022 04:36:04 -0800 (PST)
-Message-ID: <654808ec-81e9-0205-779b-7502ee6c5b0a@grimberg.me>
-Date: Tue, 1 Feb 2022 14:36:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/4] nvme-tcp: fix a possible use-after-free in controller
- reset during load
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Chris Leech <cleech@redhat.com>
-References: <20220130092119.595854-1-sagi@grimberg.me>
- <20220130092119.595854-2-sagi@grimberg.me> <20220201080335.GB29518@lst.de>
+ by smtp.gmail.com with ESMTPSA id x4sm14993878wrp.13.2022.02.01.04.54.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Feb 2022 04:54:23 -0800 (PST)
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220201080335.GB29518@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Chris Leech <cleech@redhat.com>
+Subject: [PATCH v2 0/3] nvme-[tcp|rdma] fix for possible use-after-free
+Date: Tue,  1 Feb 2022 14:54:18 +0200
+Message-Id: <20220201125421.177942-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220201_043607_166754_7F09606F 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20220201_045426_822882_DEEED2F0 
+X-CRM114-Status: GOOD (  13.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,44 +75,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+A few use-after-free reports were seen in the wild with nvme-tcp when testing
+ctrl reset and error recovery under load. Analysis shows that the exact same
+use-after-free can happen with nvme-rdma as well. This patch series addresses
+these issues for both.
 
->>   	struct nvme_tcp_cmd_pdu *pdu = ctrl->async_req.pdu;
->>   	struct nvme_command *cmd = &pdu->cmd;
->>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
->> +	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
->> +
->> +	if (ctrl->ctrl.state != NVME_CTRL_LIVE || !queue_ready)
-> 
-> Why do we need the local variable?
+Changes from v1:
+- Move ctrl->state check from driver(s) .submit_async_event to core
+  nvme_async_event_work (so need a single patch, not one per driver).
+- omit queue state from the check - it is redundant, the ctrl state
+  check is sufficient
 
-I can remove the local variable, didn't want to have a multiline
-if condition.
+Sagi Grimberg (3):
+  nvme: fix a possible use-after-free in controller reset during load
+  nvme-tcp: fix possible use-after-free in transport error_recovery work
+  nvme-rdma: fix possible use-after-free in transport error_recovery
+    work
 
-> Also what prevents the controller or queue state to change just after
-> this check?
+ drivers/nvme/host/core.c | 2 ++
+ drivers/nvme/host/rdma.c | 1 +
+ drivers/nvme/host/tcp.c  | 1 +
+ 3 files changed, 4 insertions(+)
 
-The driver will make sure to flush ctrl->async_event_work _after_
-changing the controller state (it is flushed in nvme_stop_ctrl).
-Only after that it will continue to free the admin queue. So if
-this check passed, it is safe to submit the aer command.
+-- 
+2.30.2
 
-I think that the ctrl->state check should be sufficient. In fact, I
-think we can move it to the core instead of doing it in the drivers:
---
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd18861f77c0..d60a6e65ff75 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4251,6 +4251,8 @@ static void nvme_async_event_work(struct 
-work_struct *work)
-                 container_of(work, struct nvme_ctrl, async_event_work);
-
-         nvme_aen_uevent(ctrl);
-+       if (ctrl->state != NVME_CTRL_LIVE)
-+               return;
-         ctrl->ops->submit_async_event(ctrl);
-  }
---
-
-I'll send a revised patch.
 
