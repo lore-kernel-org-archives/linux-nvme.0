@@ -4,116 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D07ECC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 17:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E660C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 18:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ieuhn9jTRuKKvMn7RFxaUUxSM/q9MYDOjyYB5ppbKic=; b=hIf7AaeGid4xT9hAxtaaX6U03m
-	M2u5tpcC1j82oiQdw9s2qUs6xChN0t6XmWTHhvX+7GD06LUUKDOfCJ6faf32gUcSEzvzNakyLeAlr
-	9H5N0yK4qQvPW+Q0pinYVhIs6FIbCZ5GQptXs/gl55ssJf9rlh+BlBZu2cNK5OLtah8wT4S+xFlub
-	oWGC5jngp90zGmmC3xIYtn2Q3oh2DJa4YNgrCSuv5LXGh3ehT9kRvLf0E/lL+yDJrCmEhm6g9CUcp
-	Nx4O5HzkhJ5Ar3GMCOkABpyJu1WiPh6jrA1YN3MYBHRLSEjq/pRB9g9wkl10Y58/B19UKnvbRG4U/
-	HzIMKBMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=//kog2s09td3mH9/Rkgjf+3auO0U/6/qyxFnJYJIMUo=; b=2i7tE+/OozTV+CBDT0u5ZbPXoT
+	8AJJ145FNRnowlYLv8+bHL3xss+5hBqfSlee8kJCQ4r6+NjbUv4/eBmg2dxZ4Qyk7CIyCtK7Q7TTT
+	mSXzUotBcTKaQIy7LAbN4oFLGJap8HwYOdlPujAZ6QxP5hbFOPnHwi960MXWXPSpyxRBM4LHTLn2K
+	1cJJCeWY+1v5zFSJMMaHU4ZqzrSVW7LeoY0Umm9A/ZFfgQJMbzJLvsqrKaovGcWSCROjHcKwDw5un
+	KxevE7lOZ4HKc9dtZyXVzeBaegeN+xY4niF2urjrf9/lZxXPDOkMWpp80fUsJEUV9liNDqI/M2YwH
+	zcNKh7/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nExI3-00DG22-0i; Tue, 01 Feb 2022 17:50:03 +0000
-Received: from mail-dm6nam12on2083.outbound.protection.outlook.com
- ([40.107.243.83] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1nExyH-00DMZB-QQ; Tue, 01 Feb 2022 18:33:41 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nExI0-00DG0D-HY
- for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 17:50:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HZaIdczmEgebPX00P9zeq72gTIhp3SNylCqMhml+CbYK0Qazqi+l5BYIHPUYugdtSk6hJH2M8QeCXxq63QoajjYYaZjBcUnV59oRdPot8abICpHasnhpalgSAbrAOqb/B3bOa8w7sN6bZWcCQwngnQ4agUGPIk98WWngvwX4JvBKC7BM5bR1nVde5bI9NQ8wKswAAWKLiCcYTAYH9ZqItHVXHXpA4+wpD8BKYjOKM08mZi1edNIWGsU0PQb31Bu4CT3wk/NJZRMzHhXyCfO8CN2azMjDXZbTrqU1BpZMFsPc53LoeANbIB8BhwB8/40WSNmiS3W8FDnhqj+N3FWYNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ieuhn9jTRuKKvMn7RFxaUUxSM/q9MYDOjyYB5ppbKic=;
- b=UdPRNrAuG4bDQWrA2oUKc55eiQKAoc36U2LBXawu83zjv7XDXgn5Nh4bUiYt/PC+WbrkaZrUi319ZLz2ATo5BKJ7JvIDCilc+DtPws/QSwA3hkfMjj55TjTFZy2CNiC+MilZLRy5euC1+AswfuCc9CnPhyyAJKubopli0EH8LX+bUdj6/rK3218d0sia6WLVW7spdwUB1Smeh19SX7vFzx16I7oVpBR44sXs2aiqK+q+0KXM6wfk0TRWLDnvM6o1MoAc9uUvDTmrmz7LrPLOR+BXeteF2eH9SEz7b4g+/QEhJzdGwqFSV8l0zh1Ft0OXL7AWvui1YU1KTL8lSlT18A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ieuhn9jTRuKKvMn7RFxaUUxSM/q9MYDOjyYB5ppbKic=;
- b=TkRH5pAkZ5QIi65zX/RejBVI4WoyeFdoHKaA3kbd0ouBILuHVPBRw4dOTYig/a7EV4V4lVrsKLpmgW3S3kfbnhc//fGrGQnPu030leLiVwceQg8nnhYG24vTPBP8ZmEj/v8lLFrL627ZEkOTwaVBSmgHkikFoHG/ILo0xWFRjTlUFg1n2IP8Vt09oXnqGiuVxTKv+iweCbxwUEgcCt584GNT1y/cJSe5Xqdjn5rIJu6Xj6DXT4SVs1pukJQizEX6cfyGSVjoZBRHcOE0nEM5e3efGeB/darwwOsvLkWA+84ZJaVKbtmUW9ULpWSKTAG78Q+qYfLPyxWExmoFtpgdKw==
-Received: from MWHPR22CA0033.namprd22.prod.outlook.com (2603:10b6:300:69::19)
- by BYAPR12MB3559.namprd12.prod.outlook.com (2603:10b6:a03:d9::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.17; Tue, 1 Feb
- 2022 17:49:51 +0000
-Received: from CO1NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:69:cafe::7e) by MWHPR22CA0033.outlook.office365.com
- (2603:10b6:300:69::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.22 via Frontend
- Transport; Tue, 1 Feb 2022 17:49:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- CO1NAM11FT039.mail.protection.outlook.com (10.13.174.110) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4930.15 via Frontend Transport; Tue, 1 Feb 2022 17:49:50 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Tue, 1 Feb 2022 17:49:50 +0000
-Received: from [10.25.79.72] (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Tue, 1 Feb 2022
- 09:49:47 -0800
-Message-ID: <cb05d4e8-381d-b624-b867-d42e424cb341@nvidia.com>
-Date: Tue, 1 Feb 2022 23:19:45 +0530
+ id 1nExyD-00DMXB-Op
+ for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 18:33:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643740415;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=//kog2s09td3mH9/Rkgjf+3auO0U/6/qyxFnJYJIMUo=;
+ b=aXXNP4GM4X+dOVF54aG6rEdDzDlSLdDDg9Xa2tYPWpeBwteOdcEf2CsDGm/zQjEL7V166E
+ +YdTlIUnfRx2GbcXt30eCAqPelfc0Z6Sil7A8bMG7ysLmD35Goh7ohgACOSTL/9dFhc1+K
+ lPa6zOEGUwFyQN59HkRPCpzoMmkjjfw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-0hEBCDwdMPmLt4hplaJ1vA-1; Tue, 01 Feb 2022 13:33:32 -0500
+X-MC-Unique: 0hEBCDwdMPmLt4hplaJ1vA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDF811927820;
+ Tue,  1 Feb 2022 18:33:20 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com
+ (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2752234D41;
+ Tue,  1 Feb 2022 18:33:13 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+ by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
+ 211IXCsI019523; Tue, 1 Feb 2022 13:33:12 -0500
+Received: from localhost (mpatocka@localhost)
+ by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
+ id 211IXCnq019519; Tue, 1 Feb 2022 13:33:12 -0500
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
+ owned process doing -bs
+Date: Tue, 1 Feb 2022 13:33:12 -0500 (EST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To: =?ISO-8859-15?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
+cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Jens Axboe <axboe@kernel.dk>,
+ "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
+ Bart Van Assche <bvanassche@acm.org>,
+ "martin.petersen@oracle.com >> Martin K. Petersen"
+ <martin.petersen@oracle.com>, 
+ "roland@purestorage.com" <roland@purestorage.com>,
+ Hannes Reinecke <hare@suse.de>,
+ "kbus @imap.gmail.com>> Keith Busch" <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "djwong@kernel.org" <djwong@kernel.org>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>,
+ "clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
+ "tytso@mit.edu" <tytso@mit.edu>, "jack@suse.com" <jack@suse.com>,
+ Kanchan Joshi <joshi.k@samsung.com>
+Subject: [RFC PATCH 2/3] nvme: add copy offload support
+In-Reply-To: <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
+Message-ID: <alpine.LRH.2.02.2202011332330.22481@file01.intranet.prod.int.rdu2.redhat.com>
+References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+ <20220201102122.4okwj2gipjbvuyux@mpHalley-2>
+ <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] nvme/pci: default to simple suspend
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <sagi@grimberg.me>, Rafael Wysocki
- <rafael.j.wysocki@intel.com>
-References: <20220201165006.3074615-1-kbusch@kernel.org>
-From: Vidya Sagar <vidyas@nvidia.com>
-In-Reply-To: <20220201165006.3074615-1-kbusch@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 29a54aa2-1694-420f-e263-08d9e5ab3f0f
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3559:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB355921417A1BEDBF9557D359B8269@BYAPR12MB3559.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CSpIwSxZ6cb26T7Kw2gj5R1ljzKml9Z1fEc7DoF0raVytq2+GaPTIWLgRmj9CGsZuJEgcx4HMWn2gnqH1645xq0Om1gsXAeFSUzRArqJxqs/VAoSWFQdwqbl2WJf78SqdOapf0i9iOVKqSIwF0TuY8sR35RQ8e3AjvMEIrEmyjs8rbX8N3nZpj1IEQlr4IgokIVuxth6MBnO40TZ1ILORPXNQqAe9ZlFEwALOmB6bdqYNsDJUnX5uTdcCk/LEgS8hyDj7P/NHB/3/4iZdNg1hGu8+xvVC+7KuwkqzEpx0YJQMeHfenVkkUaylr2ncMVKwrwxL0Ak0eNYELPtaNnOE513l1krUmLzd8Qn681ZhxxZYzQxPxTcwxpftQpDoRrlwtk9eUWXQrdZ2inVe0u+Ir0cG/YnzA26h74NIP+MeaYxAHHnymnTMnw9dMdX2FSgBio3maZ7h0b/mJcKFd113ho0H9DIAA5L8UhyAX6rAUjFcTWwnVEpB/47/9wncxPNfk1V2qMS31mJdduUQ/+DnCrV8c7OCouhuea0ahUtmx8hqKZo0s2Xc/V1xUQqx9eiVYFpB0OSchNaGhFMiZwGoj+13hcbNP9u3CFoAtUM33tPtI94T334ia4iPEVy8qgJT2L5XY+l6b21hfBiE6yM1t+toLMySognIIkHtlm1Ke4ic3uz4aqEAZKiqfYPeq/u4ShXOGAeaAD9JaUxlXdc39f9AzivpJwXO2f5PvBqziXEVy54x7iqif/h9fLifsff2y7iLUnMNOilvBI2pH9yWRwkeTXmg8zBLhE8GE+i+g3QemHV1WAFRmnHF2fxdtxZcBJ8+GMf0CFgHhJBq/nkyg==
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(336012)(47076005)(86362001)(40460700003)(54906003)(83380400001)(53546011)(31686004)(426003)(5660300002)(110136005)(36756003)(31696002)(2906002)(508600001)(36860700001)(81166007)(15650500001)(316002)(8936002)(16526019)(966005)(186003)(8676002)(2616005)(82310400004)(4326008)(70206006)(356005)(70586007)(26005)(16576012)(43740500002)(36900700001)(20210929001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2022 17:49:50.8716 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29a54aa2-1694-420f-e263-08d9e5ab3f0f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT039.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3559
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220201_095000_646379_EA7DEB3F 
-X-CRM114-Status: GOOD (  18.17  )
+X-CRM114-CacheID: sfid-20220201_103338_026838_03D06755 
+X-CRM114-Status: GOOD (  25.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,58 +111,314 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Tested-by: Vidya Sagar <vidyas@nvidia.com>
+This patch adds copy offload support to the nvme host driver.
 
-Tested on Tegra194 platform with a Phison E12 NVMe drive.
+The function nvme_setup_read_token stores namespace and location in the
+token and the function nvme_setup_write_token retrieves information from
+the token and submits the copy command to the device.
 
-On 2/1/2022 10:20 PM, Keith Busch wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> There is no complete set of attributes a driver can check to know if
-> nvme power management is the correct thing to do in a runtime suspend
-> situation. Every attempt so far to optimize idle power consumption and
-> resume latency for a particular platform just leads to regressions
-> elsewhere.
-> 
-> Default to the simple shutdown since it is the historically safest
-> option, and provide a user parameter to override it if the user knows
-> it's safe to use for their platform.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=215467
-> Cc: Rafael Wysocki <rafael.j.wysocki@intel.com>
-> Cc: Vidya Sagar <vidyas@nvidia.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->   drivers/nvme/host/pci.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index d8585df2c2fd..7e25cdef09a2 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -103,6 +103,10 @@ static bool noacpi;
->   module_param(noacpi, bool, 0444);
->   MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
-> 
-> +static bool pwr_mgmt;
-> +module_param(pwr_mgmt, bool, 0444);
-> +MODULE_PARM_DESC(pwr_mgmt, "use nvme power management for runtime suspend");
-> +
->   struct nvme_dev;
->   struct nvme_queue;
-> 
-> @@ -3094,7 +3098,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->                  dev_info(&pdev->dev,
->                           "platform quirk: setting simple suspend\n");
->                  quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
-> -       }
-> +       } else if (!pwr_mgmt)
-> +               quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
-> 
->          /*
->           * Double check that our mempool alloc size will cover the biggest
-> --
-> 2.25.4
-> 
+Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+
+---
+ drivers/nvme/host/core.c   |   94 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/fc.c     |    5 ++
+ drivers/nvme/host/nvme.h   |    1 
+ drivers/nvme/host/pci.c    |    5 ++
+ drivers/nvme/host/rdma.c   |    5 ++
+ drivers/nvme/host/tcp.c    |    5 ++
+ drivers/nvme/target/loop.c |    5 ++
+ include/linux/nvme.h       |   33 +++++++++++++++
+ 8 files changed, 153 insertions(+)
+
+Index: linux-2.6/drivers/nvme/host/core.c
+===================================================================
+--- linux-2.6.orig/drivers/nvme/host/core.c	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/host/core.c	2022-02-01 18:34:19.000000000 +0100
+@@ -975,6 +975,85 @@ static inline blk_status_t nvme_setup_rw
+ 	return 0;
+ }
+ 
++struct nvme_copy_token {
++	char subsys[4];
++	struct nvme_ns *ns;
++	u64 src_sector;
++	u64 sectors;
++};
++
++static inline blk_status_t nvme_setup_read_token(struct nvme_ns *ns, struct request *req)
++{
++	struct bio *bio = req->bio;
++	struct nvme_copy_token *token = page_to_virt(bio->bi_io_vec[0].bv_page) + bio->bi_io_vec[0].bv_offset;
++	memcpy(token->subsys, "nvme", 4);
++	token->ns = ns;
++	token->src_sector = bio->bi_iter.bi_sector;
++	token->sectors = bio->bi_iter.bi_size >> 9;
++	return 0;
++}
++
++static inline blk_status_t nvme_setup_write_token(struct nvme_ns *ns,
++		struct request *req, struct nvme_command *cmnd)
++{
++	sector_t src_sector, dst_sector, n_sectors;
++	u64 src_lba, dst_lba, n_lba;
++
++	unsigned n_descriptors, i;
++	struct nvme_copy_desc *descriptors;
++
++	struct bio *bio = req->bio;
++	struct nvme_copy_token *token = page_to_virt(bio->bi_io_vec[0].bv_page) + bio->bi_io_vec[0].bv_offset;
++	if (unlikely(memcmp(token->subsys, "nvme", 4)))
++		return BLK_STS_NOTSUPP;
++	if (unlikely(token->ns != ns))
++		return BLK_STS_NOTSUPP;
++
++	src_sector = token->src_sector;
++	dst_sector = bio->bi_iter.bi_sector;
++	n_sectors = token->sectors;
++	if (WARN_ON(n_sectors != bio->bi_iter.bi_size >> 9))
++		return BLK_STS_NOTSUPP;
++
++	src_lba = nvme_sect_to_lba(ns, src_sector);
++	dst_lba = nvme_sect_to_lba(ns, dst_sector);
++	n_lba = nvme_sect_to_lba(ns, n_sectors);
++
++	if (unlikely(nvme_lba_to_sect(ns, src_lba) != src_sector) ||
++	    unlikely(nvme_lba_to_sect(ns, dst_lba) != dst_sector) ||
++	    unlikely(nvme_lba_to_sect(ns, n_lba) != n_sectors))
++		return BLK_STS_NOTSUPP;
++
++	if (WARN_ON(!n_lba))
++		return BLK_STS_NOTSUPP;
++
++	n_descriptors = (n_lba + 0xffff) / 0x10000;
++	descriptors = kzalloc(n_descriptors * sizeof(struct nvme_copy_desc), GFP_ATOMIC | __GFP_NOWARN);
++	if (unlikely(!descriptors))
++		return BLK_STS_RESOURCE;
++
++	memset(cmnd, 0, sizeof(*cmnd));
++	cmnd->copy.opcode = nvme_cmd_copy;
++	cmnd->copy.nsid = cpu_to_le32(ns->head->ns_id);
++	cmnd->copy.sdlba = cpu_to_le64(dst_lba);
++	cmnd->copy.length = n_descriptors - 1;
++
++	for (i = 0; i < n_descriptors; i++) {
++		u64 this_step = min(n_lba, (u64)0x10000);
++		descriptors[i].slba = cpu_to_le64(src_lba);
++		descriptors[i].length = cpu_to_le16(this_step - 1);
++		src_lba += this_step;
++		n_lba -= this_step;
++	}
++
++	req->special_vec.bv_page = virt_to_page(descriptors);
++	req->special_vec.bv_offset = offset_in_page(descriptors);
++	req->special_vec.bv_len = n_descriptors * sizeof(struct nvme_copy_desc);
++	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
++
++	return 0;
++}
++
+ void nvme_cleanup_cmd(struct request *req)
+ {
+ 	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
+@@ -1032,6 +1111,12 @@ blk_status_t nvme_setup_cmd(struct nvme_
+ 	case REQ_OP_ZONE_APPEND:
+ 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
+ 		break;
++	case REQ_OP_COPY_READ_TOKEN:
++		ret = nvme_setup_read_token(ns, req);
++		break;
++	case REQ_OP_COPY_WRITE_TOKEN:
++		ret = nvme_setup_write_token(ns, req, cmd);
++		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
+ 		return BLK_STS_IOERR;
+@@ -1865,6 +1950,8 @@ static void nvme_update_disk_info(struct
+ 	blk_queue_max_write_zeroes_sectors(disk->queue,
+ 					   ns->ctrl->max_zeroes_sectors);
+ 
++	blk_queue_max_copy_sectors(disk->queue, ns->ctrl->max_copy_sectors);
++
+ 	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO) ||
+ 		test_bit(NVME_NS_FORCE_RO, &ns->flags));
+ }
+@@ -2891,6 +2978,12 @@ static int nvme_init_non_mdts_limits(str
+ 	else
+ 		ctrl->max_zeroes_sectors = 0;
+ 
++	if (ctrl->oncs & NVME_CTRL_ONCS_COPY) {
++		ctrl->max_copy_sectors = 1U << 24;
++	} else {
++		ctrl->max_copy_sectors = 0;
++	}
++
+ 	if (nvme_ctrl_limited_cns(ctrl))
+ 		return 0;
+ 
+@@ -4716,6 +4809,7 @@ static inline void _nvme_check_size(void
+ {
+ 	BUILD_BUG_ON(sizeof(struct nvme_common_command) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_rw_command) != 64);
++	BUILD_BUG_ON(sizeof(struct nvme_copy_command) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_identify) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_features) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_download_firmware) != 64);
+Index: linux-2.6/drivers/nvme/host/nvme.h
+===================================================================
+--- linux-2.6.orig/drivers/nvme/host/nvme.h	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/host/nvme.h	2022-02-01 18:34:19.000000000 +0100
+@@ -277,6 +277,7 @@ struct nvme_ctrl {
+ #ifdef CONFIG_BLK_DEV_ZONED
+ 	u32 max_zone_append;
+ #endif
++	u32 max_copy_sectors;
+ 	u16 crdt[3];
+ 	u16 oncs;
+ 	u16 oacs;
+Index: linux-2.6/include/linux/nvme.h
+===================================================================
+--- linux-2.6.orig/include/linux/nvme.h	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/include/linux/nvme.h	2022-02-01 18:34:19.000000000 +0100
+@@ -335,6 +335,8 @@ enum {
+ 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
+ 	NVME_CTRL_ONCS_RESERVATIONS		= 1 << 5,
+ 	NVME_CTRL_ONCS_TIMESTAMP		= 1 << 6,
++	NVME_CTRL_ONCS_VERIFY			= 1 << 7,
++	NVME_CTRL_ONCS_COPY			= 1 << 8,
+ 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
+ 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
+ 	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+@@ -704,6 +706,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_report	= 0x0e,
+ 	nvme_cmd_resv_acquire	= 0x11,
+ 	nvme_cmd_resv_release	= 0x15,
++	nvme_cmd_copy		= 0x19,
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
+@@ -872,6 +875,35 @@ enum {
+ 	NVME_RW_DTYPE_STREAMS		= 1 << 4,
+ };
+ 
++struct nvme_copy_command {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__le32			nsid;
++	__u64			rsvd2;
++	__le64			metadata;
++	union nvme_data_ptr	dptr;
++	__le64			sdlba;
++	__u8			length;
++	__u8			control2;
++	__le16			control;
++	__le32			dspec;
++	__le32			reftag;
++	__le16			apptag;
++	__le16			appmask;
++};
++
++struct nvme_copy_desc {
++	__u64			rsvd;
++	__le64			slba;
++	__le16			length;
++	__u16			rsvd2;
++	__u32			rsvd3;
++	__le32			reftag;
++	__le16			apptag;
++	__le16			appmask;
++};
++
+ struct nvme_dsm_cmd {
+ 	__u8			opcode;
+ 	__u8			flags;
+@@ -1441,6 +1473,7 @@ struct nvme_command {
+ 	union {
+ 		struct nvme_common_command common;
+ 		struct nvme_rw_command rw;
++		struct nvme_copy_command copy;
+ 		struct nvme_identify identify;
+ 		struct nvme_features features;
+ 		struct nvme_create_cq create_cq;
+Index: linux-2.6/drivers/nvme/host/pci.c
+===================================================================
+--- linux-2.6.orig/drivers/nvme/host/pci.c	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/host/pci.c	2022-02-01 18:34:19.000000000 +0100
+@@ -949,6 +949,11 @@ static blk_status_t nvme_queue_rq(struct
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	blk_status_t ret;
+ 
++	if (unlikely((req->cmd_flags & REQ_OP_MASK) == REQ_OP_COPY_READ_TOKEN)) {
++		blk_mq_end_request(req, BLK_STS_OK);
++		return BLK_STS_OK;
++	}
++
+ 	/*
+ 	 * We should not need to do this, but we're still using this to
+ 	 * ensure we can drain requests on a dying queue.
+Index: linux-2.6/drivers/nvme/host/fc.c
+===================================================================
+--- linux-2.6.orig/drivers/nvme/host/fc.c	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/host/fc.c	2022-02-01 18:34:19.000000000 +0100
+@@ -2780,6 +2780,11 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *h
+ 	u32 data_len;
+ 	blk_status_t ret;
+ 
++	if (unlikely((rq->cmd_flags & REQ_OP_MASK) == REQ_OP_COPY_READ_TOKEN)) {
++		blk_mq_end_request(rq, BLK_STS_OK);
++		return BLK_STS_OK;
++	}
++
+ 	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
+ 	    !nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+ 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+Index: linux-2.6/drivers/nvme/host/rdma.c
+===================================================================
+--- linux-2.6.orig/drivers/nvme/host/rdma.c	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/host/rdma.c	2022-02-01 18:34:19.000000000 +0100
+@@ -2048,6 +2048,11 @@ static blk_status_t nvme_rdma_queue_rq(s
+ 	blk_status_t ret;
+ 	int err;
+ 
++	if (unlikely((rq->cmd_flags & REQ_OP_MASK) == REQ_OP_COPY_READ_TOKEN)) {
++		blk_mq_end_request(rq, BLK_STS_OK);
++		return BLK_STS_OK;
++	}
++
+ 	WARN_ON_ONCE(rq->tag < 0);
+ 
+ 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+Index: linux-2.6/drivers/nvme/host/tcp.c
+===================================================================
+--- linux-2.6.orig/drivers/nvme/host/tcp.c	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/host/tcp.c	2022-02-01 18:34:19.000000000 +0100
+@@ -2372,6 +2372,11 @@ static blk_status_t nvme_tcp_queue_rq(st
+ 	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
+ 	blk_status_t ret;
+ 
++	if (unlikely((rq->cmd_flags & REQ_OP_MASK) == REQ_OP_COPY_READ_TOKEN)) {
++		blk_mq_end_request(rq, BLK_STS_OK);
++		return BLK_STS_OK;
++	}
++
+ 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+ 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+ 
+Index: linux-2.6/drivers/nvme/target/loop.c
+===================================================================
+--- linux-2.6.orig/drivers/nvme/target/loop.c	2022-02-01 18:34:19.000000000 +0100
++++ linux-2.6/drivers/nvme/target/loop.c	2022-02-01 18:34:19.000000000 +0100
+@@ -138,6 +138,11 @@ static blk_status_t nvme_loop_queue_rq(s
+ 	bool queue_ready = test_bit(NVME_LOOP_Q_LIVE, &queue->flags);
+ 	blk_status_t ret;
+ 
++	if (unlikely((req->cmd_flags & REQ_OP_MASK) == REQ_OP_COPY_READ_TOKEN)) {
++		blk_mq_end_request(req, BLK_STS_OK);
++		return BLK_STS_OK;
++	}
++
+ 	if (!nvme_check_ready(&queue->ctrl->ctrl, req, queue_ready))
+ 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, req);
+ 
+
 
