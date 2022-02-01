@@ -4,96 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B35AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 10:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70B13C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 12:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eIOyvFawBB1yczxqwT9GD1wEUXr2GprPDkj97BLOhM8=; b=jQz+rhseAHkzvgMwT/0FX6OwUI
-	W8OXib/1WzoQHhWVrt7iCGfKJRHmD04Ig6kM7++xc4CD29NVG0pW/dwGF/nitG/crNdQ96qUYIffa
-	QaUAzDlmr6NfVg3i+wRzlz9q6995gMsdc4Fr/pSZ+bamg3uPVwjF+HQJ2XwJ7S8p3RDPQkH9jyOXN
-	c98ozIwlwpeVjQ1VXT3t7olUMnKIKL3FqHOIX1Hu/BGRSoNqIIZufwTfmY+zpPaGXhqqCbikyeR31
-	G3SckxETJzCOPYcYAq8eAWuzr6zR0Fv8K021AZC90deT0qAz/uqwHV5uGvsxjcX7wdFqAa3E/svJ+
-	BPsxLgUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VALN+nS+xO+mE4KVPw/Q6/DKUt1CY4LVmRwFRUh+FIg=; b=s+U5MyoQYs2SvVW5njYFI0WTgX
+	5xG1QFpIgwXWTaDxrHC1BJ2HPWSy3wkl6e9O84/UNdNFiVJ+WowDt7ysKFZkSwBIaV4Kf8SMDuorZ
+	fPdfjKh9UgO/312YFgSr1qTqQBclSfXbYjlDK507dmE6l1l3zgeGFgmINOfFg2UCgUPNLfcjEnh0P
+	3e6a/2iHy94VQFnavylkVxaqwkZxauVEfp+g/MCBYqt1Hf2sSRORgzVTH6DNguSqLO6nmoS8nWy4s
+	K4tW/4v9b5m6CB1VAUc2Dr5FRrGeX7adA9cz/phjWTO7jO0W//c14SsAtNAiTDwM47TnbY3Q9D4i0
+	1Ne3OFqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nEqHw-00Bj3N-S8; Tue, 01 Feb 2022 10:21:28 +0000
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+	id 1nEsOL-00C68r-NG; Tue, 01 Feb 2022 12:36:13 +0000
+Received: from mail-wm1-f42.google.com ([209.85.128.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nEqHt-00Bj2F-Qw
- for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 10:21:27 +0000
-Received: by mail-ej1-x62d.google.com with SMTP id s5so52371227ejx.2
- for <linux-nvme@lists.infradead.org>; Tue, 01 Feb 2022 02:21:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=eIOyvFawBB1yczxqwT9GD1wEUXr2GprPDkj97BLOhM8=;
- b=pJgqMkadljh7RQEG1OifyORi8FTJ4yvtTfhp3Fv0W8KUnRAFhPQ4ydhJvfbXum++fP
- 3t7f7doYblsNgo7oMDTiOlmZxcYOiY37CgCvg8/RYn8T+Po8tgv7lvxp9CBGdStWf3sq
- WwtEU3TOLf/MOIjXnUbZGNWUc0SaOZUQaiLRhguRevht8Ac2tVvAoukw0t2U0+1QzAhu
- BEo/9KKub7Q2qd+N8AHo5ghjz9HneRcptN27Xs5gNExbv0R+eQ++gXKpGeAVamTqzYf9
- GzqAZGpYgMj5ryA1ScCFdqG68fiEHF0J+CN6knWH805XRJi4UYxN58axR+bPXe0b2yhC
- lyGA==
+ id 1nEsOF-00C67v-34
+ for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 12:36:08 +0000
+Received: by mail-wm1-f42.google.com with SMTP id
+ l129-20020a1c2587000000b0035394fedf14so1743795wml.5
+ for <linux-nvme@lists.infradead.org>; Tue, 01 Feb 2022 04:36:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eIOyvFawBB1yczxqwT9GD1wEUXr2GprPDkj97BLOhM8=;
- b=OZcrLdncqtJbTl8E39hw5uV/RcZHnWa7PtcvA7Jt6zzn7eel3KfvoxZOO8ie+WYzdH
- aL1BKUSVSW3ALSn/wcCXnl4mt/xxcvezLvKv/G0SL4CuC/E9RcIUREvoznbQ+9ut2GIN
- hXhD8Wu0kSIEqk/8xH2X2BOik6YdgLvkEskFWIBWkruXUXwZtfdc8DpBSYv5DAMOx8rB
- EHlLmWPEqE93y3MYnPkztUQNyQlMb8FiD7KTI7X/28NgzvC555hB5ge8FO8zm8l7yaWl
- f4ZcVaa/QoL9D6CKXgcPiNbWwd4CA28QYKrxFQQAGi4pXu4qECcw7dErsQ+d3achGuUb
- O7jw==
-X-Gm-Message-State: AOAM530NcBzuk+a8reqMvb+HL5NWo9PgpIdR/uPEQbVytNLSv0+O9D2n
- xnsiFIiuX3xAsGXbKgq0jWUATg==
-X-Google-Smtp-Source: ABdhPJx58nqEvb1Npa2CsMHZtPsUoqQzJ41tgdoNFsHrDBZEqyc2NUJcMe6tBJmOhT19Yval8hSzoA==
-X-Received: by 2002:a17:907:7f1a:: with SMTP id
- qf26mr14491120ejc.20.1643710883991; 
- Tue, 01 Feb 2022 02:21:23 -0800 (PST)
-Received: from localhost (5.186.121.195.cgn.fibianet.dk. [5.186.121.195])
- by smtp.gmail.com with ESMTPSA id w24sm11634557edu.97.2022.02.01.02.21.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Feb 2022 02:21:23 -0800 (PST)
-Date: Tue, 1 Feb 2022 11:21:22 +0100
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Jens Axboe <axboe@kernel.dk>,
- "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
- Bart Van Assche <bvanassche@acm.org>,
- "martin.petersen@oracle.com >> Martin K. Petersen"
- <martin.petersen@oracle.com>, 
- "roland@purestorage.com" <roland@purestorage.com>,
- "mpatocka@redhat.com" <mpatocka@redhat.com>,
- Hannes Reinecke <hare@suse.de>, "kbus >> Keith Busch" <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>,
- "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
- "tytso@mit.edu" <tytso@mit.edu>, "jack@suse.com" <jack@suse.com>,
- Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20220201102122.4okwj2gipjbvuyux@mpHalley-2>
-References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VALN+nS+xO+mE4KVPw/Q6/DKUt1CY4LVmRwFRUh+FIg=;
+ b=mBcAGMljxOmMb1AHsw12u9iVc+tg3ZCNYn2ABD583qu1De/rDnzow+y4Yt0nnqzdWt
+ zoIqcctRldC/JqYzOvPdcVPa2Axln6/726xYFlJVhm4xgqYVsPtiFRD3mC9C7aFtUnTZ
+ A5+ZejeTWPoUyhtyocmVPaek0FjYI27shr2fdUC52i7htLMCJff9fVuaRyGIFWfkUe7f
+ 00JARXBJeBbwW1AoWieEQkXyyUkBixMKemZSQNFXmZ5O1PcK974djUj/cH2we8PJTERj
+ qGtbhyZ2Hxt/tCOLbMF1dNbVnr4Hch/sA+YTC9kxrujrRHGQCgrEvWyngKZhdxo8wuJC
+ 4/Qg==
+X-Gm-Message-State: AOAM531nfHoI+3V5GbCUnQI2AstqnnBZvjmJ2+wAdqS1Nmdpqiy0rqJU
+ hUNw7NL12bFNz4UXBkv9Txg=
+X-Google-Smtp-Source: ABdhPJyiDIhIFqIZKBYNMyUdDwUI9T18EejtfkBDb24L+jmKZTZgd78zctbcgvy0lrjlfnrEqjBw6w==
+X-Received: by 2002:a7b:cf2e:: with SMTP id m14mr1617980wmg.26.1643718965036; 
+ Tue, 01 Feb 2022 04:36:05 -0800 (PST)
+Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
+ [46.117.116.119])
+ by smtp.gmail.com with ESMTPSA id m2sm2109837wmq.35.2022.02.01.04.36.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Feb 2022 04:36:04 -0800 (PST)
+Message-ID: <654808ec-81e9-0205-779b-7502ee6c5b0a@grimberg.me>
+Date: Tue, 1 Feb 2022 14:36:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/4] nvme-tcp: fix a possible use-after-free in controller
+ reset during load
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Chris Leech <cleech@redhat.com>
+References: <20220130092119.595854-1-sagi@grimberg.me>
+ <20220130092119.595854-2-sagi@grimberg.me> <20220201080335.GB29518@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220201080335.GB29518@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220201_022125_960799_D4C9C9FB 
-X-CRM114-Status: GOOD (  17.62  )
+X-CRM114-CacheID: sfid-20220201_043607_166754_7F09606F 
+X-CRM114-Status: GOOD (  16.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,59 +84,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 27.01.2022 07:14, Chaitanya Kulkarni wrote:
->Hi,
->
->* Background :-
->-----------------------------------------------------------------------
->
->Copy offload is a feature that allows file-systems or storage devices
->to be instructed to copy files/logical blocks without requiring
->involvement of the local CPU.
->
->With reference to the RISC-V summit keynote [1] single threaded
->performance is limiting due to Denard scaling and multi-threaded
->performance is slowing down due Moore's law limitations. With the rise
->of SNIA Computation Technical Storage Working Group (TWG) [2],
->offloading computations to the device or over the fabrics is becoming
->popular as there are several solutions available [2]. One of the common
->operation which is popular in the kernel and is not merged yet is Copy
->offload over the fabrics or on to the device.
->
->* Problem :-
->-----------------------------------------------------------------------
->
->The original work which is done by Martin is present here [3]. The
->latest work which is posted by Mikulas [4] is not merged yet. These two
->approaches are totally different from each other. Several storage
->vendors discourage mixing copy offload requests with regular READ/WRITE
->I/O. Also, the fact that the operation fails if a copy request ever
->needs to be split as it traverses the stack it has the unfortunate
->side-effect of preventing copy offload from working in pretty much
->every common deployment configuration out there.
->
->* Current state of the work :-
->-----------------------------------------------------------------------
->
->With [3] being hard to handle arbitrary DM/MD stacking without
->splitting the command in two, one for copying IN and one for copying
->OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
->candidate. Also, with [4] there is an unresolved problem with the
->two-command approach about how to handle changes to the DM layout
->between an IN and OUT operations.
->
->We have conducted a call with interested people late last year since
->lack of LSFMMM and we would like to share the details with broader
->community members.
 
-Chaitanya,
+>>   	struct nvme_tcp_cmd_pdu *pdu = ctrl->async_req.pdu;
+>>   	struct nvme_command *cmd = &pdu->cmd;
+>>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>> +	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
+>> +
+>> +	if (ctrl->ctrl.state != NVME_CTRL_LIVE || !queue_ready)
+> 
+> Why do we need the local variable?
 
-I would also like to join the F2F conversation as a follow up of the
-virtual one last year. We will have a first version of the patches
-posted in the next few weeks. This will hopefully serve as a good first
-step.
+I can remove the local variable, didn't want to have a multiline
+if condition.
 
-Adding Kanchan to thread too.
+> Also what prevents the controller or queue state to change just after
+> this check?
 
-Javier
+The driver will make sure to flush ctrl->async_event_work _after_
+changing the controller state (it is flushed in nvme_stop_ctrl).
+Only after that it will continue to free the admin queue. So if
+this check passed, it is safe to submit the aer command.
+
+I think that the ctrl->state check should be sufficient. In fact, I
+think we can move it to the core instead of doing it in the drivers:
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dd18861f77c0..d60a6e65ff75 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4251,6 +4251,8 @@ static void nvme_async_event_work(struct 
+work_struct *work)
+                 container_of(work, struct nvme_ctrl, async_event_work);
+
+         nvme_aen_uevent(ctrl);
++       if (ctrl->state != NVME_CTRL_LIVE)
++               return;
+         ctrl->ops->submit_async_event(ctrl);
+  }
+--
+
+I'll send a revised patch.
 
