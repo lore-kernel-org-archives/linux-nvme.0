@@ -4,84 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64399C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 19:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92E17C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Feb 2022 20:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V6LHo6un10Hww5UkITIYZqx0hJ95mxjwPuv4ZEQNJOo=; b=FB6XGsuSDRuvnzDe/HrTAVZSh8
-	w9hWxc/p15YmXgdowm8n+OHvw6TPMMVNgEmj/2N0I8GWGVp/ECl6KnVDEmnw2P79g63IVLoeX/JXc
-	1QDrSJ9rgDAPHDWAFvkaZh3ErworSmuW6UvpF0u49OqXicy3t7wmfNB8WUM9eh+1MlSupG62HipC5
-	Qg3kTglJ6k6sQfygXY8j4ogfT/60e0TEa0emJ1XoDalblequfVubmEPMs+Lr59lBrPf78ozhZP+0Y
-	lfscMSDO4URNiwKABCf7aQT06WkEun+UvsyMeFueZSAoUmYNONs234uZRhEJ4zy+txQY+3h2XDINc
-	byBIFPzg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FjGXGyT9cU0n88J7maIkJMH0XpBuCFLksmeoO/eBSow=; b=DevChiWApLJixfelw8HHi0sj+w
+	sOq7uE3yywqOB07c3aIZuYCJEvDe4c5nbcI7IJNEFXi7PnKDdNP3z4kNN3JSaXWh+jo004gniU3dp
+	ooS+fyeR628m8PpvH/GUmLcHBc7L2NNjtxCNUaU8wTYh4mZNLYaNHZNJ0Ded2po9q7QPXuKC7tg4G
+	hM32mVYW2I7xRuXdaQwrRsDn+TOhC02jGS2NUeOAm2ceGREIn9rCUTe5orPJ76SvgSXmoJcMKzDWu
+	pqjJG5IOzZTEBD32a5LA9LlIFoJ4HszpmxuwKJYq6UF+y1rnhjWlkeKPWAfj8oC2Df9jZxctLK6Zu
+	C+TENC6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nEynF-00DXft-3i; Tue, 01 Feb 2022 19:26:21 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nF0A4-00DgPt-Bw; Tue, 01 Feb 2022 20:54:00 +0000
+Received: from out1.migadu.com ([2001:41d0:2:863f::])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nEynB-00DXej-Rr
- for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 19:26:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643743576;
+ id 1nF0A0-00DgKe-Lm
+ for linux-nvme@lists.infradead.org; Tue, 01 Feb 2022 20:53:58 +0000
+Message-ID: <6c939012-8d68-fbb5-50c6-3fe757a31b48@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1643748831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V6LHo6un10Hww5UkITIYZqx0hJ95mxjwPuv4ZEQNJOo=;
- b=dYtVQIwWn4wlVyacLRuZbiwUkk21jpRpRETCjo/fwYHQcUh6n9uTV7DmEepW+jpppkKuzw
- PXg7KRGlE4xyYuRRNskW5l7foKswYvdyH32tAep9XSdkxrZqgZs7+UibS1IebKh5zUOtkO
- 1kmz9xt8rtvl5hdW2V9LhUz2YbBAIyg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-M3lC_SoeOUSu4g4fX1B8yw-1; Tue, 01 Feb 2022 14:26:13 -0500
-X-MC-Unique: M3lC_SoeOUSu4g4fX1B8yw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06EAD1091DA0;
- Tue,  1 Feb 2022 19:26:12 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73DEA5D6BA;
- Tue,  1 Feb 2022 19:25:59 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 211JPwaE023932; Tue, 1 Feb 2022 14:25:58 -0500
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 211JPwim023928; Tue, 1 Feb 2022 14:25:58 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Tue, 1 Feb 2022 14:25:58 -0500 (EST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Bart Van Assche <bvanassche@acm.org>
-cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [RFC PATCH 2/3] nvme: add copy offload support
-In-Reply-To: <1380d0e4-032d-133b-4ebb-f10d85e39800@acm.org>
-Message-ID: <alpine.LRH.2.02.2202011421320.21843@file01.intranet.prod.int.rdu2.redhat.com>
-References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
- <20220201102122.4okwj2gipjbvuyux@mpHalley-2>
- <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2202011332330.22481@file01.intranet.prod.int.rdu2.redhat.com>
- <1380d0e4-032d-133b-4ebb-f10d85e39800@acm.org>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ bh=FjGXGyT9cU0n88J7maIkJMH0XpBuCFLksmeoO/eBSow=;
+ b=QTVQqbWi2zRhOrtcUNxVvD5Rr3ibsGYLNahCRh6KCqybWlqpWImikBdcTwRBGh/fr30CNv
+ QCTUATONgqLyqdkR0WxFdVuliEmbtGno10MNUBqi36vEqnMWRyfJ0Okw9E5DXNzvNVS5pg
+ NxQV4d29alWIb4bQl861vP8Q04uHK0A=
+Date: Tue, 1 Feb 2022 13:53:45 -0700
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Subject: Re: [PATCH v5 08/24] dma-direct: support PCI P2PDMA pages in
+ dma-direct map_sg
+Content-Language: en-US
+To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
+ Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
+ Minturn Dave B <dave.b.minturn@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
+ Martin Oliveira <martin.oliveira@eideticom.com>,
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ Ralph Campbell <rcampbell@nvidia.com>
+References: <20220128002614.6136-1-logang@deltatee.com>
+ <20220128002614.6136-9-logang@deltatee.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Jonathan Derrick <jonathan.derrick@linux.dev>
+In-Reply-To: <20220128002614.6136-9-logang@deltatee.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220201_112617_999426_A8683A6A 
-X-CRM114-Status: GOOD (  14.38  )
+X-CRM114-CacheID: sfid-20220201_125357_138804_E22E55DF 
+X-CRM114-Status: GOOD (  30.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,28 +88,134 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On Tue, 1 Feb 2022, Bart Van Assche wrote:
-
-> On 2/1/22 10:33, Mikulas Patocka wrote:
-> > +static inline blk_status_t nvme_setup_read_token(struct nvme_ns *ns, struct
-> > request *req)
-> > +{
-> > +	struct bio *bio = req->bio;
-> > +	struct nvme_copy_token *token =
-> > page_to_virt(bio->bi_io_vec[0].bv_page) + bio->bi_io_vec[0].bv_offset;
+On 1/27/2022 5:25 PM, Logan Gunthorpe wrote:
+> Add PCI P2PDMA support for dma_direct_map_sg() so that it can map
+> PCI P2PDMA pages directly without a hack in the callers. This allows
+> for heterogeneous SGLs that contain both P2PDMA and regular pages.
 > 
-> Hmm ... shouldn't this function use bvec_kmap_local() instead of
-> page_to_virt()?
+> A P2PDMA page may have three possible outcomes when being mapped:
+>    1) If the data path between the two devices doesn't go through the
+>       root port, then it should be mapped with a PCI bus address
+>    2) If the data path goes through the host bridge, it should be mapped
+>       normally, as though it were a CPU physical address
+>    3) It is not possible for the two devices to communicate and thus
+>       the mapping operation should fail (and it will return -EREMOTEIO).
 > 
-> Thanks,
+> SGL segments that contain PCI bus addresses are marked with
+> sg_dma_mark_pci_p2pdma() and are ignored when unmapped.
 > 
-> Bart.
+> P2PDMA mappings are also failed if swiotlb needs to be used on the
+> mapping.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> ---
+>   kernel/dma/direct.c | 43 +++++++++++++++++++++++++++++++++++++------
+>   kernel/dma/direct.h |  7 ++++++-
+>   2 files changed, 43 insertions(+), 7 deletions(-)
+> 
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 50f48e9e4598..975df5f3aaf9 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -461,29 +461,60 @@ void dma_direct_sync_sg_for_cpu(struct device *dev,
+>   		arch_sync_dma_for_cpu_all();
+>   }
+>   
+> +/*
+> + * Unmaps segments, except for ones marked as pci_p2pdma which do not
+> + * require any further action as they contain a bus address.
+> + */
+>   void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
+>   		int nents, enum dma_data_direction dir, unsigned long attrs)
+>   {
+>   	struct scatterlist *sg;
+>   	int i;
+>   
+> -	for_each_sg(sgl, sg, nents, i)
+> -		dma_direct_unmap_page(dev, sg->dma_address, sg_dma_len(sg), dir,
+> -			     attrs);
+> +	for_each_sg(sgl,  sg, nents, i) {
+> +		if (sg_is_dma_bus_address(sg))
+> +			sg_dma_unmark_bus_address(sg);
+> +		else
+> +			dma_direct_unmap_page(dev, sg->dma_address,
+> +					      sg_dma_len(sg), dir, attrs);
+> +	}
+>   }
+>   #endif
+>   
+>   int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+>   		enum dma_data_direction dir, unsigned long attrs)
+>   {
+> -	int i;
+> +	struct pci_p2pdma_map_state p2pdma_state = {};
+> +	enum pci_p2pdma_map_type map;
+>   	struct scatterlist *sg;
+> +	int i, ret;
+>   
+>   	for_each_sg(sgl, sg, nents, i) {
+> +		if (is_pci_p2pdma_page(sg_page(sg))) {
+> +			map = pci_p2pdma_map_segment(&p2pdma_state, dev, sg);
+> +			switch (map) {
+> +			case PCI_P2PDMA_MAP_BUS_ADDR:
+> +				continue;
+> +			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +				/*
+> +				 * Any P2P mapping that traverses the PCI
+> +				 * host bridge must be mapped with CPU physical
+> +				 * address and not PCI bus addresses. This is
+> +				 * done with dma_direct_map_page() below.
+> +				 */
+> +				break;
+> +			default:
+> +				ret = -EREMOTEIO;
+> +				goto out_unmap;
+> +			}
+> +		}
+I'm a little confused about this code. Would there be a case where the mapping needs
+to be checked for each sg in the list? And if some sg in the sgl can be mapped
+differently, would we want to continue checking the rest of the sg in the sgl instead
+of breaking out of the loop completely?
 
-.bv_page is allocated only in blkdev_issue_copy with alloc_page. So, 
-page_to_virt works.
-
-But you are right that bvec_kmap_local may be nicer.
-
-Mikulas
-
+> +
+>   		sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
+>   				sg->offset, sg->length, dir, attrs);
+> -		if (sg->dma_address == DMA_MAPPING_ERROR)
+> +		if (sg->dma_address == DMA_MAPPING_ERROR) {
+> +			ret = -EIO;
+>   			goto out_unmap;
+> +		}
+>   		sg_dma_len(sg) = sg->length;
+>   	}
+>   
+> @@ -491,7 +522,7 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+>   
+>   out_unmap:
+>   	dma_direct_unmap_sg(dev, sgl, i, dir, attrs | DMA_ATTR_SKIP_CPU_SYNC);
+> -	return -EIO;
+> +	return ret;
+>   }
+>   
+>   dma_addr_t dma_direct_map_resource(struct device *dev, phys_addr_t paddr,
+> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+> index 4632b0f4f72e..a33152d79069 100644
+> --- a/kernel/dma/direct.h
+> +++ b/kernel/dma/direct.h
+> @@ -87,10 +87,15 @@ static inline dma_addr_t dma_direct_map_page(struct device *dev,
+>   	phys_addr_t phys = page_to_phys(page) + offset;
+>   	dma_addr_t dma_addr = phys_to_dma(dev, phys);
+>   
+> -	if (is_swiotlb_force_bounce(dev))
+> +	if (is_swiotlb_force_bounce(dev)) {
+> +		if (is_pci_p2pdma_page(page))
+> +			return DMA_MAPPING_ERROR;
+>   		return swiotlb_map(dev, phys, size, dir, attrs);
+> +	}
+>   
+>   	if (unlikely(!dma_capable(dev, dma_addr, size, true))) {
+> +		if (is_pci_p2pdma_page(page))
+> +			return DMA_MAPPING_ERROR;
+>   		if (swiotlb_force != SWIOTLB_NO_FORCE)
+>   			return swiotlb_map(dev, phys, size, dir, attrs);
+>   
 
