@@ -4,74 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D009C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 03:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49525C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 05:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uyEDTT7UWcx0aQYR+EyAeRErzTRFuEJTWicokIyg/X8=; b=EOvwpBy+NcVHeEEss9dZQigaJH
-	SO3OA7Pho+VmwkyZ8+1TmJXBdFdYeNq9X9sre0v66aOwC2QSjjbcpbY5u6pKJ6Sd7h7D0SwR/5kcJ
-	HrVpErm8ivZyCrHkGDhF9YGyBzc6Qv8bYU4E8VDbFm+QGuC9qCSuXxHE2tpgC3oAOJUPtjLbkj9M/
-	4Ib12RuRPJ6bRskZqN2w+A/RunKy0tjE7CLxYYjpKjp3Tl5oJGMBdCZZbRPTeRoyEDHjbj1CAs0WG
-	APEoywLzqh6LK72jl5LrbbZFmMc4dHWGKLa73WyQT7h3iyLQUWKeuldHtPnkTtnvgEX1YJEL3oqdD
-	hTtBNjUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=5V57cS9BxKfulTP7Ztma6csBIbEaR1UeGUMfSIpuxOw=; b=eN+jX2b6l1p3EXrrEX9JKg0zCt
+	3MhBNtaEKdRRpd7g5e/76mhvdImLFuR8ygFpAwA3baN8CInfTXpAJfKeasYJCRNHXbog6Pwu0wRUY
+	W4Gd9cVI+F77goenzASEDe9OSP0JFRCMMNOdZ5+qfUPvbTp2L4+GfdSmpCrue9Pcq3wQPL0st74KJ
+	G6Pxz9/XVza3r+3GfoX4J4jBV4VIRGtcIf7EAOpA9qAtAffpe/csr04irWZsu84n1AxItNNwQ+8kP
+	BgOLvHtQyT+qP/zodj8qLpuuCmk162nFRMr+c4t+UjE/An3RG1tfDBC5mrUWYRcghfs7K9OZMUyb2
+	NAV8ioig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFSzP-00HVqK-BK; Thu, 03 Feb 2022 03:40:55 +0000
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+	id 1nFUHf-00Ha4I-Oz; Thu, 03 Feb 2022 05:03:51 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFSzM-00HVpo-LA
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 03:40:54 +0000
-Received: by mail-lf1-x130.google.com with SMTP id n8so3217887lfq.4
- for <linux-nvme@lists.infradead.org>; Wed, 02 Feb 2022 19:40:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uyEDTT7UWcx0aQYR+EyAeRErzTRFuEJTWicokIyg/X8=;
- b=Cp35ItJkrFPCC1+ZfrNG4XN0hg6G4Yoy2CzfSRy2FWJCu4ia08qfUbOlOIeGcSjDK5
- yVYxu3JN/E8ii1sk5h/UmG3QBO085GTVOSo6/DdsGFUwfV0KpwW4Gz8jTQsDVfSIRP7A
- ClHkgzujvx8Gsi9gIufTJA9oaCJJafzXlHOkWX8L8PE2dwpNi6WRoO9fNiJRKoMssL35
- pJqvekbdwqSOkUfPGsu07XLlvEDoeNyuLMZTexRwkfUHKX64IVjLsu/BWWQG4bDHnjhP
- QLxwOaDWplkfF1MbfLZAxJlfeYWictcUCYDrgmug8bjBMXQNSHp6gVQKiX6eqoaCx8Xh
- Z3Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uyEDTT7UWcx0aQYR+EyAeRErzTRFuEJTWicokIyg/X8=;
- b=MmQsoH8Ry8gS1XHxqOkn4hR+7RRwIq3bAMIMB9eyuo3b0ivgLlJRtDxzlSK9ygfH6e
- 088uruHzrivjNdeZeC7xsGQZpI3G/3mMpVA2CDAgngxUVd1d5OJW5O6s8Ac8I5d4urFw
- tSNoMWYysFybRqTqP7cX8jgZU5ZFJ/pa3g6oELI3ZgWB+17eUN3qAvZe1H9hz297whTI
- E4Zox7QD0WbQ0s5zLAkl9uAbhggtmSvfhhfKTjMSCngfkGBOx0y+ThJ6eAPpeHo+0ukv
- MfJaO0VDAnaQSZ2q4ZWLwvaIgizMw0mLS/Cr+tgpknaZAWlELbej02Gu3EhFX1nKlioB
- Sc1w==
-X-Gm-Message-State: AOAM530xj0kQ955+J8qhRE4O17R0SaTc2TcuaeitTNaHxxnuJcxPqItF
- PI+14EWInVzlCbbJFSsIVsckyQc0GhQoaEkY5c8=
-X-Google-Smtp-Source: ABdhPJzPg+zSnT0SKrtipmoLp2+mt0UbTrXwpd0OYsdp8nW2Rksld9GezBee71wcQB0o2Ra72WaOst/UsAeYF0J+Cn8=
-X-Received: by 2002:a19:ae04:: with SMTP id f4mr24353648lfc.667.1643859649878; 
- Wed, 02 Feb 2022 19:40:49 -0800 (PST)
+ id 1nFUHb-00Ha3x-4a
+ for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 05:03:49 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20220203050343epoutp01d200a2c8ff7e04a72a0c1e4e6ff24f41~QLipC01BM1801818018epoutp01Z
+ for <linux-nvme@lists.infradead.org>; Thu,  3 Feb 2022 05:03:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20220203050343epoutp01d200a2c8ff7e04a72a0c1e4e6ff24f41~QLipC01BM1801818018epoutp01Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1643864623;
+ bh=5V57cS9BxKfulTP7Ztma6csBIbEaR1UeGUMfSIpuxOw=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=TVM2t5SMrJkQRFzFUWBDefsxmtmv/7d6LM4WV5MizZwxOQY0bEPw1ZTyee88IS+x2
+ ul9XwFNhXpzJmT5pN12BiFO+awNzE3FfJDIVJOVfufp3EzEWG7EuzFd10R5uUZvhsl
+ ObRSxUiPDfPOfQbqFmxZ48aJnshUieuv9HzQiwzc=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220203050342epcas5p24b179676bbc72a81ec827057efe3808c~QLioxYTxf3129831298epcas5p2D;
+ Thu,  3 Feb 2022 05:03:42 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4Jq652732bz4x9Q9; Thu,  3 Feb
+ 2022 05:03:34 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ DF.C5.05590.5226BF16; Thu,  3 Feb 2022 14:03:33 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220202103751epcas5p4914ecb890c2977eebe711ed7296940ba~P8dGeNnKv1455314553epcas5p4Z;
+ Wed,  2 Feb 2022 10:37:51 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220202103751epsmtrp1cdb79879ecb184e4f16727258ad2f9e9~P8dGdgF_c3210632106epsmtrp1a;
+ Wed,  2 Feb 2022 10:37:51 +0000 (GMT)
+X-AuditID: b6c32a4b-739ff700000015d6-b4-61fb62254826
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 70.30.29871.FFE5AF16; Wed,  2 Feb 2022 19:37:51 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220202103750epsmtip10c5fe4ce9353651f142da62d0f3095ef~P8dFfBsZH2181821818epsmtip1t;
+ Wed,  2 Feb 2022 10:37:50 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org, joshiiitr@gmail.com
+Subject: [PATCH v3] nvme: add vectored-io support for user-passthru
+Date: Wed,  2 Feb 2022 16:02:52 +0530
+Message-Id: <20220202103252.2103-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <3a066f81-a53d-4d39-5efb-bd957443e7e2@suse.de>
- <C4E94EAA-7452-4D69-9C06-E5AD5B7A1F14@oracle.com>
-In-Reply-To: <C4E94EAA-7452-4D69-9C06-E5AD5B7A1F14@oracle.com>
-From: Steve French <smfrench@gmail.com>
-Date: Wed, 2 Feb 2022 21:40:39 -0600
-Message-ID: <CAH2r5msVxenATfo+7iu7kjsQXXXT0dq2jp2JSxrY5Qm2PEde5w@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC][LSF/MM/BPF ATTEND] TLS handshake for in-kernel
- consumers
-To: Chuck Lever III <chuck.lever@oracle.com>
-Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
- Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
- CIFS <linux-cifs@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPKsWRmVeSWpSXmKPExsWy7bCmuq5q0u9Eg9v7FS1W3+1ns1i5+iiT
+ xfm3h5ksJh26xmjx9OosJov5y56yO7B57Jx1l93j8tlSj02rOtk8Ni+p99h9s4HNo7f5HVsA
+ W1S2TUZqYkpqkUJqXnJ+SmZeuq2Sd3C8c7ypmYGhrqGlhbmSQl5ibqqtkotPgK5bZg7QFUoK
+ ZYk5pUChgMTiYiV9O5ui/NKSVIWM/OISW6XUgpScApMCveLE3OLSvHS9vNQSK0MDAyNToMKE
+ 7Iwp3/ewFbzXrdj7Pr2B8YRqFyMnh4SAicT5DydYuxi5OIQEdjNKvN62iRnC+cQoce36AxaQ
+ KiGBb4wSEz9UwnT0zDwMVbSXUWLT7v9sEM5noI5FN4AyHBxsApoSFyaXgjSICDhJTH98DmwQ
+ s4C5xLq7n8BsYQFniW3n17KAlLMIqEp8aBACCfMCldy8cJgNYpe8xMxL39kh4oISJ2c+gRoj
+ L9G8dTbYDRICp9glFpzawgzR4CLx72YXVLOwxKvjW9ghbCmJl/1tUHaxxK87R6GaOxglrjfM
+ ZIFI2Etc3POXCeQgZqD71+/ShwjLSkw9tY4JYjGfRO/vJ0wQcV6JHfNgbEWJe5OeskLY4hIP
+ ZyxhBRkjIeAhsWlBOSQMYyVWv+lmmcAoPwvJO7OQvDMLYfECRuZVjJKpBcW56anFpgXGeanl
+ 8FhNzs/dxAhOiVreOxgfPfigd4iRiYPxEKMEB7OSCO/ehd8ThXhTEiurUovy44tKc1KLDzGa
+ AoN4IrOUaHI+MCnnlcQbmlgamJiZmZlYGpsZKonznkrfkCgkkJ5YkpqdmlqQWgTTx8TBKdXA
+ ZMojXVai+7zL8WqE38Ib1qdf22648tb92xVTm2arzS0sL843Nd5ojMs9OtlYoDW6RktQta+u
+ gaknv+ZiU6fKn5abb1+ceDJvyZb/N9qbuu58t6/te6z967ZNd0G2mW5zxqKZOe0zIkriAppb
+ X9Sf7giRCfmpwFzz0SDjuOm1oAvczI+yD58KdNbcwyYwO7LS5Vi+XXlkonBX4y1p49aKGY4q
+ IpoT31nNTHm4YM100eW5QaIrph5kthILf38ieuGegvhfLMu+3j1e3K1kWFin7/No93/XpBuH
+ pE4EHN8kztfxRti7mF3G8Od2Jd95/Afz1YPl08WPz/Pa6805qYj1hNnF9f2lfX6e99z/vlNi
+ Kc5INNRiLipOBACsN3LWEgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJLMWRmVeSWpSXmKPExsWy7bCSnO7/uF+JBu/+KVqsvtvPZrFy9VEm
+ i/NvDzNZTDp0jdHi6dVZTBbzlz1ld2Dz2DnrLrvH5bOlHptWdbJ5bF5S77H7ZgObR2/zO7YA
+ tigum5TUnMyy1CJ9uwSujCnf97AVvNet2Ps+vYHxhGoXIyeHhICJRM/Mw8wgtpDAbkaJ20t5
+ IOLiEs3XfrBD2MISK/89B7K5gGo+Mkp8WXONrYuRg4NNQFPiwuRSkBoRAQ+Jlu8bmEHCzAKW
+ Eh/uGIKEhQWcJbadX8sCEmYRUJX40CAEEuYVMJe4eeEwG8R0eYmZl76zQ8QFJU7OfMICYjMD
+ xZu3zmaewMg3C0lqFpLUAkamVYySqQXFuem5xYYFhnmp5XrFibnFpXnpesn5uZsYwaGppbmD
+ cfuqD3qHGJk4GA8xSnAwK4nw7l34PVGINyWxsiq1KD++qDQntfgQozQHi5I474Wuk/FCAumJ
+ JanZqakFqUUwWSYOTqkGprpzb5KCKk690CpQusN+hjORfdbr0ibppnOr1zlsMLpWe6J/w8UH
+ DenJ65e9ahNd5tPCWpl94teEIgtF/Xs/t+6tn1dz4nTk56Vm9veLtU3mGavcXVq7tTvjWsQO
+ p/PGM6+mvJLgkombkT5dMiUmefePj6nvO5dydEnNkXDMncjGu8nGMfHPinY1z1kms3jEjL4k
+ HzuXb7BBID2jZkVLe8Hjr+4/L6SaHTmd+G6tCc9xia4mrpw5W1nE5mhXJUmkhO+MuO7S73xY
+ aVaH6Z45axTrTt1S8+957CMQs/fDQk/bm+L5yw5w7f8e+09t0cTXQfPZ/Fed+B+Tb3V108wF
+ 27k/5e7cxbE+KbZ6Xe6RKiWW4oxEQy3mouJEAEE9LYu8AgAA
+X-CMS-MailID: 20220202103751epcas5p4914ecb890c2977eebe711ed7296940ba
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220202103751epcas5p4914ecb890c2977eebe711ed7296940ba
+References: <CGME20220202103751epcas5p4914ecb890c2977eebe711ed7296940ba@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220202_194052_755534_27FE36A6 
-X-CRM114-Status: GOOD (  42.73  )
+X-CRM114-CacheID: sfid-20220202_210347_570788_8C2B17BB 
+X-CRM114-Status: GOOD (  24.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,124 +130,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is an interesting question - and got me thinking about whether
-also could be helpful to the critical question we have been asked
-about multiple times for SMB, about how to get QUIC in the kernel (see
-the various Storage Developer Conference presentations etc), while
-putting as much as possible of the session establishment in userspace
-accessed via upcalls.
+wire up support for passthru that takes an array of buffers (using
+iovec).
+Exposed via a new ioctl NVME_IOCTL_IO64_CMD_VEC for which -
 
-I don't mind discussing this in detail at LSF (or at SambaXP a few
-weeks after LSF), and since there are some SMB servers that support
-QUIC already we could probably do at least some prototyping if there
-is overlap between these two efforts.
+1. cmd.addr is base address of user iovec array
+2. cmd.vec_cnt is count of iovec array elements
 
-On Wed, Feb 2, 2022 at 10:04 AM Chuck Lever III <chuck.lever@oracle.com> wrote:
->
-> [ ... adding NFS and CIFS ... ]
->
-> > On Feb 2, 2022, at 9:12 AM, Hannes Reinecke <hare@suse.de> wrote:
-> >
-> > Hi all,
-> >
-> > nvme-over-tcp has the option to utilize TLS for encrypted traffic, but due to the internal design of the nvme-over-fabrics stack we cannot initiate the TLS connection from userspace (as the current in-kernel TLS implementation is designed).
-> >
-> > This leaves us with two options:
-> > 1) Put TLS handshake into the kernel (which will be quite some
-> >  discussion as it's arguably a userspace configuration)
-> > 2) Pass an in-kernel socket to userspace and have a userspace
-> >  application to run the TLS handshake.
-> >
-> > None of these options are quiet clear cut, as we will be have to put
-> > quite some complexity into the kernel to do full TLS handshake (if we
-> > were to go with option 1) or will have to design a mechanism to pass
-> > an in-kernel socket to userspace as we don't do that currently (if we were going with option 2).
-> >
-> > We have been discussing some ideas on how to implement option 2 (together with Chuck Lever and the NFS crowd), but so far haven't been able to come up with a decent design.
-> >
-> > So I would like to discuss with interested parties on how TLS handshake could be facilitated, and what would be the best design options here.
->
-> IMO we are a bit farther along than Hannes suggests, and I had
-> the impression that we have already agreed on a "decent design"
-> (see Ben Coddington's earlier post).
->
-> We currently have several prototypes we can discuss, and there
-> are some important issues on the table.
->
-> First, from the start we have recognized that we have a range
-> of potential in-kernel TLS consumers. To name a few: NVMe/TLS,
-> RPC-with-TLS (for in-transit NFS encryption), CIFS/SMB, and,
-> when it arrives, the QUICv1 transport. We don't intend to
-> build something that works for only one of these, thus it
-> will not be based on existing security infrastructure like
-> rpc.gssd.
->
-> Second, we believe in-kernel consumers will hitch onto the
-> existing kTLS infrastructure to handle payload encryption and
-> decryption. This transparently enables both software-based
-> and offload, and in the latter case, we hope for quite
-> reasonable performance.
->
-> As Hannes said, the missing piece is support for the TLS
-> handshake protocol to boot strap each TLS session.
->
-> The security community has demanded that we stick with user
-> space handshake implementations because they view the TLS
-> handshake as complex and a broad attack surface. I question
-> those assumptions, but even so...
->
-> We will need to have in-kernel handshake to support NFSROOT
-> and NVMe/TLS with a root filesystem, which are requirements
-> for the storage community.
->
-> We have an in-kernel prototype based on Tempesta's TLSv1.2
-> offload in the works. See the "topic-rpc-with-tls" branch:
->
->  https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
->
-> We also have three promising user space upcall implementations
-> that are helping us with architectural choices. The main issue
-> here is how to set the correct peer authentication parameters
-> for each handshake. As Ben said, key rings can play a critical
-> part (as might netlink, but perhaps that can be avoided). We
-> are sensitive to containerization requirements as well.
->
-> One (not-yet-working) user space prototype is published in
-> the "topic-rpc-with-tls-upcall" branch in the repo above.
->
->
-> > The proposed configd would be an option, but then we don't have that, either :-)
-> >
-> > Required attendees:
-> >
-> > Chuck Lever
-> > James Bottomley
-> > Sagi Grimberg
-> > Keith Busch
-> > Christoph Hellwig
-> > David Howells
->
-> Anyone from the CIFS team? Enzo? How about Dave Miller?
->
-> Actually I think we need to have security and network folks
-> at the table. LSF/MM might not be the right venue for a
-> full-scale discussion of alternatives. We have been waiting
-> for an opportunity to bring this to a broad community event
-> such as Plumbers but the pandemic has interfered.
->
-> However, I am happy to discuss alternative upcall mechanisms,
-> new requirements, and anything related to securing an
-> in-kernel handshake against remote attack.
->
-> --
-> Chuck Lever
->
->
->
+This patch does not include vectored-variant for admin-commands as most
+of them are light on buffers and likely to have low invocation frequency.
 
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+---
 
+Changes since v2:
+- remove wrappers (hch)
+- update commit message (hch)
+
+Changes since v1:
+- added new ioctl rather than reusing NVME_IOCTL_IO64_CMD (hch)
+- dropped block-layer helper and open-coded in nvme instead (hch)
+
+ drivers/nvme/host/ioctl.c       | 36 ++++++++++++++++++++++++---------
+ include/uapi/linux/nvme_ioctl.h |  6 +++++-
+ 2 files changed, 32 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 22314962842d..80ea4bd95be6 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -56,7 +56,7 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+ static int nvme_submit_user_cmd(struct request_queue *q,
+ 		struct nvme_command *cmd, void __user *ubuffer,
+ 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+-		u32 meta_seed, u64 *result, unsigned timeout)
++		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
+ {
+ 	bool write = nvme_is_write(cmd);
+ 	struct nvme_ns *ns = q->queuedata;
+@@ -75,8 +75,22 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	nvme_req(req)->flags |= NVME_REQ_USERCMD;
+ 
+ 	if (ubuffer && bufflen) {
+-		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
++		if (!vec)
++			ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
+ 				GFP_KERNEL);
++		else {
++			struct iovec fast_iov[UIO_FASTIOV];
++			struct iovec *iov = fast_iov;
++			struct iov_iter iter;
++
++			ret = import_iovec(rq_data_dir(req), ubuffer, bufflen,
++					UIO_FASTIOV, &iov, &iter);
++			if (ret < 0)
++				goto out;
++			ret = blk_rq_map_user_iov(q, req, NULL, &iter,
++					GFP_KERNEL);
++			kfree(iov);
++		}
+ 		if (ret)
+ 			goto out;
+ 		bio = req->bio;
+@@ -170,7 +184,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 
+ 	return nvme_submit_user_cmd(ns->queue, &c,
+ 			nvme_to_user_ptr(io.addr), length,
+-			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
++			metadata, meta_len, lower_32_bits(io.slba), NULL, 0,
++			false);
+ }
+ 
+ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
+@@ -224,7 +239,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+ 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
+ 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
+-			0, &result, timeout);
++			0, &result, timeout, false);
+ 
+ 	if (status >= 0) {
+ 		if (put_user(result, &ucmd->result))
+@@ -235,7 +250,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ }
+ 
+ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-			struct nvme_passthru_cmd64 __user *ucmd)
++			struct nvme_passthru_cmd64 __user *ucmd, bool vec)
+ {
+ 	struct nvme_passthru_cmd64 cmd;
+ 	struct nvme_command c;
+@@ -270,7 +285,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+ 			nvme_to_user_ptr(cmd.addr), cmd.data_len,
+ 			nvme_to_user_ptr(cmd.metadata), cmd.metadata_len,
+-			0, &cmd.result, timeout);
++			0, &cmd.result, timeout, vec);
+ 
+ 	if (status >= 0) {
+ 		if (put_user(cmd.result, &ucmd->result))
+@@ -278,6 +293,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	}
+ 
+ 	return status;
++
+ }
+ 
+ static bool is_ctrl_ioctl(unsigned int cmd)
+@@ -296,7 +312,7 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
+ 	case NVME_IOCTL_ADMIN_CMD:
+ 		return nvme_user_cmd(ctrl, NULL, argp);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp);
++		return nvme_user_cmd64(ctrl, NULL, argp, false);
+ 	default:
+ 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
+ 	}
+@@ -340,7 +356,9 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, argp);
+ 	case NVME_IOCTL_IO64_CMD:
+-		return nvme_user_cmd64(ns->ctrl, ns, argp);
++		return nvme_user_cmd64(ns->ctrl, ns, argp, false);
++	case NVME_IOCTL_IO64_CMD_VEC:
++		return nvme_user_cmd64(ns->ctrl, ns, argp, true);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -480,7 +498,7 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 	case NVME_IOCTL_ADMIN_CMD:
+ 		return nvme_user_cmd(ctrl, NULL, argp);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp);
++		return nvme_user_cmd64(ctrl, NULL, argp, false);
+ 	case NVME_IOCTL_IO_CMD:
+ 		return nvme_dev_user_cmd(ctrl, argp);
+ 	case NVME_IOCTL_RESET:
+diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
+index d99b5a772698..b2e43185e3b5 100644
+--- a/include/uapi/linux/nvme_ioctl.h
++++ b/include/uapi/linux/nvme_ioctl.h
+@@ -55,7 +55,10 @@ struct nvme_passthru_cmd64 {
+ 	__u64	metadata;
+ 	__u64	addr;
+ 	__u32	metadata_len;
+-	__u32	data_len;
++	union {
++		__u32	data_len; /* for non-vectored io */
++		__u32	vec_cnt; /* for vectored io */
++	};
+ 	__u32	cdw10;
+ 	__u32	cdw11;
+ 	__u32	cdw12;
+@@ -78,5 +81,6 @@ struct nvme_passthru_cmd64 {
+ #define NVME_IOCTL_RESCAN	_IO('N', 0x46)
+ #define NVME_IOCTL_ADMIN64_CMD	_IOWR('N', 0x47, struct nvme_passthru_cmd64)
+ #define NVME_IOCTL_IO64_CMD	_IOWR('N', 0x48, struct nvme_passthru_cmd64)
++#define NVME_IOCTL_IO64_CMD_VEC	_IOWR('N', 0x49, struct nvme_passthru_cmd64)
+ 
+ #endif /* _UAPI_LINUX_NVME_IOCTL_H */
 -- 
-Thanks,
+2.25.1
 
-Steve
 
