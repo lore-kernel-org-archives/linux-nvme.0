@@ -4,74 +4,158 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A7E2C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 00:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6866FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 04:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NefOXIdSYS5P6+QRtMearH62yy5KaapjKPL0tJkPB8w=; b=Itlv4KvaIGOIczlVVJbUrc0s1b
-	6aseqaxn+54ABQ/DtgSqmLZyo7lXUeCfRBVZ0Cz7VBV0D1ieO4FAgg+77BRv1hVyJPCTs+wBL2oGL
-	zr3nBZA92ecBAreGyDTWym+yuwaJkZ8JEeAt5HKEU3OjSX5H53b3P4ZjzfBVLTBjRm6UueL6A3U9c
-	2yBHWueyZpDdeg712OQIkyXLM/I3ebKY9mf6GxRHht/swwx8OSAe6ATm+a1w2rxtrd6KW7FXg50ga
-	tbDbgX+p7xUETlXKt+6qtH8VSVfdbnA9aWdPg6fCqdKim0l/jh0rTw+Qgkrw63rcWfFATwVVs0v3H
-	+FHnfqZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	In-Reply-To:Date:References:Message-ID:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LvMb35MgKck5nXaBBV/tuI/EauNttrrxNedVfk3s+bk=; b=FtaL/brropRicxbuf2Tz+NOJyI
+	Lq2PqetVrukOU0aLa63ozETkv410wZ+siZhZvWoYGS4R04EBHufKnkTrl/dEQ+WPLSyDxnNWivAWC
+	daNI3h88MY2Q7US2NDhTJ+NGvszcwJUC0mZ7XyGTfgoH5+ik2PX8q8MeGl/PzaYMtb4GIHau2VcEc
+	LKs8JlTsZbTXhpRxjvJHK1+Q1UR5ZhAOkoMEKuMEMv4r+bgf4TxdxVw6+9dB+qZlKvcFinTtJyDk1
+	FRH0YSqC2JUinlUML0s90NSh5d+mj7TIZWBEeL33yFSf93c0kvG0wn8rGRjCsVZqID9ktmJ/6x2mu
+	ia/xb2tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nF3sE-00DuWS-5H; Wed, 02 Feb 2022 00:51:50 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1nF7NA-00E8Cv-Ly; Wed, 02 Feb 2022 04:36:00 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nF3s1-00DuUc-Nb
- for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 00:51:40 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2120L0q7026575; 
- Wed, 2 Feb 2022 00:51:23 GMT
+ id 1nF7N8-00E8CA-1K
+ for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 04:35:59 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2120ULgT005139; 
+ Wed, 2 Feb 2022 04:35:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2021-07-09;
- bh=NefOXIdSYS5P6+QRtMearH62yy5KaapjKPL0tJkPB8w=;
- b=qWQrSJ1xtzrspwikaFJfDy7pP2NOiYj7MhDSm7JMyqeayGaZyjOG+QqGYlH5y+aw/mao
- TuebUBD56P7IgJw7nuTDsG6twXakX4y9+RwNMun/Fa8z95l7I28zLDZ7hJlhRkAVamP5
- xtLaxgYBHhZHuEmqI2yt36IbiUTmqcSXye1IQfA0Dh2/jdx45hSV35PZGIascVdJ08kb
- BYTpAOf4s/274yEKwcd9Xi58wnTnwUKE2HK9DT325h9l3ucVa9pG2FtB343JAUSj2D+Q
- XgyMRIIic6fiHsNSKJTdfjZtVa7wXD5ky72mZVcE+65fmmdS7wROxbWd2qAxqH9Y9zo/ xg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dxj9vcnwc-1
+ h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=LvMb35MgKck5nXaBBV/tuI/EauNttrrxNedVfk3s+bk=;
+ b=mycyVqmAH8rocMbJ7SXckz8+QA22r+iXSBhjekjocaitsDUUH1mmz3R0cdVehvovqwaL
+ +s4OS7aCWJv5X+yWMnx46a7rfI2gEGoVZDmv6DCE9j5xXq6PCJl+Ag4lexejeAarB6xc
+ 33nzXUUVI4EyaAmYKPG9UY0Zie0f7L558CqKr4188+mfxYJjZep9FacDcliiL/CdCwFc
+ dW2znrzWPKzzoCWpAFu2yNzrSr/6zp4w/gBswhXkalLUvQEH7L97KJwwcuQYtWXGa+qW
+ 1ejkuR3aYryFxoYCRrSTFnxrzETLpkNtk1S5RzczLkRJ7sUh9ocFOGvH/F4hvYswR5Dy ig== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dxjac4tr6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 02 Feb 2022 00:51:23 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2120ZdvP188970;
- Wed, 2 Feb 2022 00:51:22 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by userp3030.oracle.com with ESMTP id 3dvtq1fryx-1
+ Wed, 02 Feb 2022 04:35:43 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2124Vj41104551;
+ Wed, 2 Feb 2022 04:35:40 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+ by aserp3030.oracle.com with ESMTP id 3dvumgm0a1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 02 Feb 2022 00:51:22 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 2120pKxp039406;
- Wed, 2 Feb 2022 00:51:21 GMT
-Received: from dhcp-10-65-137-115.vpn.oracle.com
- (dhcp-10-65-137-115.vpn.oracle.com [10.65.137.115])
- by userp3030.oracle.com with ESMTP id 3dvtq1fry9-2;
- Wed, 02 Feb 2022 00:51:21 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-nvme@lists.infradead.org
-Cc: alan.adamson@oracle.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
-Subject: [PATCH V6 1/1] nvme: Add verbose error logging
-Date: Tue,  1 Feb 2022 16:50:50 -0800
-Message-Id: <20220202005050.69289-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20220202005050.69289-1-alan.adamson@oracle.com>
-References: <20220202005050.69289-1-alan.adamson@oracle.com>
+ Wed, 02 Feb 2022 04:35:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GJGsGFWxHuvbocMuIaM+rA2YgiqDWFh/YrXW/gF3p+ExWeUZTS89ns7NH9aO5ETPr0zAZY35YiXobZH82YBrojjznh+nphnGpF6vfQqDVmwVlTxxPv1DzQ0gZ7Jd/Bm2CHyFw0jVwP9YMOu059O/PfDpmK0MyQ+1dpk2SfFHNrt0saj9b9YfinhFFPSRUZz9Wi78ftaM7S7YExK1KUAJfDGHAaWdKsuL/bae4yjrBVZL2s0K1/HMb6kGVB1aWTfCnP0WcMg8owhf2LwQnh336ZiwfrrPdqsRKokqC6HFUiMAutycmlt4kA/DZgsHYnubkWNDDMxXleY0NMooipML7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LvMb35MgKck5nXaBBV/tuI/EauNttrrxNedVfk3s+bk=;
+ b=SItH/usbKS5A64L2UqcDOxHrFu4ZYFONspi98QLP82pl8muSikQvexy6g6gQwR3kx9mhD8FPxvV3FpDMGh3ja93JOaHYxoJr3hAmefbMSVoYXvI7EKhgPIpz5x2hjC3fe0YKoNTjKgKpM22PsEDNK0QpmAdX7t/LbbPe2cQTPXzHBPrTeegWAXNnSbVPJPxyiGgeZLNntFmZ1Z1S5cb6M22PAbCLIOi6ZD7l44NsnNC7oFC7C5/c52r0sTlctzlDQfoB3dlLqLifXxPY9VP3ogHADoAg3k2ZMkKdscB06iwEne3qeWNhD6A0Ag4pI6xA0XLR/5DepYrOJVrhJ6c+lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LvMb35MgKck5nXaBBV/tuI/EauNttrrxNedVfk3s+bk=;
+ b=qCh20y50wjCdAgoE6H9os6H6e1ZpkPQdmIo1Gw9DQOG9qI6johZcDwNl6eWRxo0mbqHwAJdIjpCAEj3nnHjAQO8ixwLJEbPpjBs1E1KXd6sFNxtqd98JeXpFL4eaF4mtpnHiAG7xXcUwdWZTfaLUd7danRsbUE8FtVPohFWmpQk=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by DM6PR10MB3882.namprd10.prod.outlook.com (2603:10b6:5:1d0::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.17; Wed, 2 Feb
+ 2022 04:35:37 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::1caa:b242:d255:65f3]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::1caa:b242:d255:65f3%9]) with mapi id 15.20.4930.022; Wed, 2 Feb 2022
+ 04:35:37 +0000
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
+ martin.petersen@oracle.com, colyli@suse.de
+Subject: Re: [PATCHv2 6/7] block: add pi for nvme enhanced integrity
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq11r0l6gd7.fsf@ca-mkp.ca.oracle.com>
+References: <20220201190128.3075065-1-kbusch@kernel.org>
+ <20220201190128.3075065-7-kbusch@kernel.org>
+Date: Tue, 01 Feb 2022 23:35:35 -0500
+In-Reply-To: <20220201190128.3075065-7-kbusch@kernel.org> (Keith Busch's
+ message of "Tue, 1 Feb 2022 11:01:27 -0800")
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0230.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::25) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: pBXDGhRR1byZJ7Vx8BM7GPdWb2FYCYvI
-X-Proofpoint-GUID: pBXDGhRR1byZJ7Vx8BM7GPdWb2FYCYvI
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ce1f9f0d-afe5-4022-79eb-08d9e60575e2
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3882:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR10MB38821609403E65E673A14B198E279@DM6PR10MB3882.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G4abHSiTKkqU1B3XYL0HZnSS57Rn8qzeux4By1dDFxMtheCJln2KF1l7Sd+OZ37q3mazUVBD4YoKx8hk4r7tArPj+VJE9TXfcAmPZaLA6gGPuJtQU508hD/rC/TzJOsAXF8wtXHgLbLY4cM2+iSdoHOUkZBszz54aQYEFhrndkaiTR+ecgCP+2SdASvRRzeGyaXs5ZjR5x7gbuFxCQI9qbD4/8HAbQ1oZscgT5Ey0OkBiDW8BJ6gKqaGpzYKJaJg9/JHPKHZth/MS28E0/ES1nRds5OVGgdmjWOit6MwmGFzKpK0q1s632BSCyXt4lT2cjCVkK5KhnyrLYuMpWZYofrFZ8R1Orl2Pf+qskPdXx1hec6oboSvwc21H4pMUfwPr/u30G4Efn79g4RlluKrFOIzu5+4ozTlxoaS6hXyCW2QolyB+fKLYNGq+9JG+oxwHlRC1/OOwWJy5Hpgpll4X3pgJu1gVl8OAOg8DjbuX2fYlwodS5f8DGOs6rJM6PO7PnPYLuyLpbuUkCYiUc85Qu1m90d3psbVjVJ/ODpmVUFOtPS6YgMe14RWXL1GIaHwEfpmyKZukTsu4wBychHr6RbpAwACTWPP/kpcqTssp0uwsMh6aVpGj5ITrCe495C5+GLS+r2A7CArlmHqvKIKhqoyE3nOO43lbO8tQ1I3votW27Yk742YG3X1cYx7ywAKWMMCqjgCIvWbTBDSsap8Uw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(38350700002)(186003)(26005)(6486002)(508600001)(38100700002)(6506007)(86362001)(6512007)(52116002)(5660300002)(36916002)(83380400001)(316002)(66946007)(8676002)(4326008)(8936002)(66476007)(66556008)(6916009)(2906002)(4744005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nxOP4jKeKVRmJ+6qXDLd9Vr3q8ixnQ9Ezkm0AEdyAAigXDzVJy43JkB9jBQC?=
+ =?us-ascii?Q?0Gy03emkQU5jJP0CL/qn12r1TWlH/+4RmAR0gb661aRkmZ6bezfrW44q+N3k?=
+ =?us-ascii?Q?byY9KSZMpf9mf65WUIOsaVL5u+hMyeDXCyadI9rOADriF9eyS/i734l1LBvq?=
+ =?us-ascii?Q?oQt8e2WPsbG7BylJ5HkyaZbSUGs9nYkkvX1JnjBIPPyB6VckJW2SrmBmov7M?=
+ =?us-ascii?Q?/Wb587Vwq7k7UxLu+ZF8FswEIU8EMHC8c+ZO2nWkL3nASVDpx0Oycwxlm8Af?=
+ =?us-ascii?Q?aKca2tpy5+sqsDYyP9ILfak+fd9GLjrT0IvQJ5wzd5lsiXKGpPM1cKsTfOwS?=
+ =?us-ascii?Q?+7Y1JEpeApf5b/J8dXtAr0plOWtuLscAW7sWjo8u52veRD/p7dFmCufvjLU3?=
+ =?us-ascii?Q?4O8hWFkh0NpmkNRLeXjiwpWpMIG0rEy41vzCNNTN1OpK+z1CKM6RVYmWlMVo?=
+ =?us-ascii?Q?Hs1s7/H5Ab/SpE+hJ3ztWkKS6fZrl5piR7hZFuIac1pMRvMw9nlp6ym1SPEm?=
+ =?us-ascii?Q?76vDyjmi0E2z/NMXlQJWM4FMcKSg9kTlDBe6YWBvwDhF1Gbalpw9lkV8CVaJ?=
+ =?us-ascii?Q?/vkC4KAaswpx9bk++OrhHL/DXwzxO8PrJGsBtRPZK9D/GJWMImG/R3wWENYj?=
+ =?us-ascii?Q?SQfjRFgystPL0fnB6ftUOBVFBSvaQRqBLpKY247vXLDs5nzbaIORnG9HYW5f?=
+ =?us-ascii?Q?MrVFYXfiWzuUuWoocnWV5YZYQA++Avh8es/4JMgmFRJ28jETZl8d/mXk5DLl?=
+ =?us-ascii?Q?nijli8dlvdvGtBgGQA7Z64LNHQpHOeaerE5nfmp3di72R9Z6+nh4PAk+Qn0m?=
+ =?us-ascii?Q?2eoMowVfTnZPA4tWs7N1/BoMbEr9LTbakjTe3WvDfjQQRCNYRarCi/RGrBJN?=
+ =?us-ascii?Q?AeHJPPll1jPaaXbgW9nq62vq5CdWHSfKi2XWcAzIijRQH2Bfwsh3jzkJCE2o?=
+ =?us-ascii?Q?bNQ84pQXjnZJ+4VPy0Q+AuKBz8TKK8QtLsQOynC8jH/DEWqTUru7LAOhyPMT?=
+ =?us-ascii?Q?IoE6GxK2blMqPiRQ4aLP6G1b/ko63HdpO4goltGukTTMFgz0saR3AdvrEEDB?=
+ =?us-ascii?Q?etrbENCIkL2KkXBxqYiHiZjhCw7b2ZJBspL3IukvDzVJjUNqpHdpxW2OcZqA?=
+ =?us-ascii?Q?rX2d6Kqpf+RZhCJ/okx2h4+WtWzQL4ke7ss8gcSnrm/1DeSgyftWzNvA6NP3?=
+ =?us-ascii?Q?btplzMUCHeeODGPwWvC5cHZf5k1REtIWvKC2936JYbTzvEN8KSQ6/QGLGf6G?=
+ =?us-ascii?Q?0ph7n5Cgq+cRJ0f5m9dYim4Hg3s3cYMEETbMjewL7swN+1z8I+gIHofxZXIR?=
+ =?us-ascii?Q?wapZQmyOZo2td3xIqWecsPM2K+eyHInXguHZPeSRV+L38EHd++Pw/tDuTKgf?=
+ =?us-ascii?Q?uSRgYiHcsHICDy0xr5J4NuA2VBWypcTEUom9h5ixufXTnNuAxtj0ll3MBZs2?=
+ =?us-ascii?Q?SQr9cvoOHmXYkwKsntGOaNuoiT/wQ3et0NwZFI8Mjb4cdOEzjOfLFryj2eMw?=
+ =?us-ascii?Q?m7ZA/W5a27gpri6z4iAjGEJxYuRAaG/aLogtvUcNh1X246Gg6oage6e9+XUm?=
+ =?us-ascii?Q?595rsqS5+MYdl3MCMJUlHX+RWu9dq91gSkFByPCTuamEYfFtc9DKHpzaQzu3?=
+ =?us-ascii?Q?P5G+gMAEH082X+zhyDkr7dzrDAsRXWj16vbFIl4mJkugUR4vqsKJpGRkzhoq?=
+ =?us-ascii?Q?qugQ9Q=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce1f9f0d-afe5-4022-79eb-08d9e60575e2
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 04:35:37.8200 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RNkTnpiHzs+30lRaVNOIOiIwNmtq3DVVvWGxEUhPzuAqWbOwbVnavrjj3sUKBGzf0632wmqWlxU9TBelIp1HmGGxu+oMs2+thePHGkpkPxU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3882
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10245
+ signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 phishscore=0
+ mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=894 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202020020
+X-Proofpoint-GUID: yQ-8ZMI2NV_JcW5fj8sfoy0LPbnGddGM
+X-Proofpoint-ORIG-GUID: yQ-8ZMI2NV_JcW5fj8sfoy0LPbnGddGM
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220201_165137_992566_02A08A53 
-X-CRM114-Status: GOOD (  24.80  )
+X-CRM114-CacheID: sfid-20220201_203558_135429_2594BE35 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,386 +170,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Improves logging of NVMe errors.  If NVME_VERBOSE_ERRORS is configured,
-a verbose description of the error is logged, otherwise only status codes/bits
-is logged.
 
-Verbose logging examples:
-[  183.333734] nvme0n1: Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR
+Keith,
 
-[  227.767945] nvme0: Activate Firmware(0x10), Invalid Field in Command (sct 0x0 / sc 0x2) DNR
+This all looks pretty good to me. Only nit I have is:
 
-Non-verbose logging examples:
-[   41.280509] nvme0n1: I/O Cmd(0x2) @ LBA 0, 1 blocks, I/O Error (sct 0x2 / sc 0x81) DNR
+> +static blk_status_t nvme_pi_type1_verify_crc(struct blk_integrity_iter *iter)
+> +{
+> +	return nvme_crc64_verify(iter, T10_PI_TYPE1_PROTECTION);
+> +}
+> +
+> +static blk_status_t nvme_pi_type1_generate_crc(struct blk_integrity_iter *iter)
+> +{
+> +	return nvme_crc64_generate(iter, T10_PI_TYPE1_PROTECTION);
+> +}
 
-[   77.249153] nvme0: Admin Cmd(0x10), I/O Error (sct 0x0 / sc 0x2) DNR
+Since we will definitely need to support the CRC32C variants, the
+nvme_pi_type1_ prefix is a bit too generic. Wish we had gone with Type 4
+and 5 like I originally proposed in SCSI. Not a big fan of this "almost
+exactly like T10 Type 1 except for all these differences" situation that
+NVMe ended up with.
 
-Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/Kconfig  |   8 ++
- drivers/nvme/host/Makefile |   2 +-
- drivers/nvme/host/core.c   |  41 ++++++++
- drivers/nvme/host/errors.c | 206 +++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h   |  20 ++++
- include/linux/nvme.h       |   1 +
- 6 files changed, 277 insertions(+), 1 deletion(-)
- create mode 100644 drivers/nvme/host/errors.c
+Anyway. So I think the NVMe-specific format helpers need to at the very
+least capture that they are for the CRC64 case.
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index dc0450ca23a3..d6d056963c06 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -24,6 +24,14 @@ config NVME_MULTIPATH
- 	   /dev/nvmeXnY device will show up for each NVMe namespace,
- 	   even if it is accessible through multiple controllers.
- 
-+config NVME_VERBOSE_ERRORS
-+	bool "NVMe verbose error reporting"
-+	depends on NVME_CORE
-+	help
-+	   This option enables verbose reporting for NVMe errors. The
-+	   error translation table will grow the kernel image size by
-+	   about 4 KB.
-+
- config NVME_HWMON
- 	bool "NVMe hardware monitoring"
- 	depends on (NVME_CORE=y && HWMON=y) || (NVME_CORE=m && HWMON)
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index dfaacd472e5d..ea3d702feb51 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -9,7 +9,7 @@ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
- obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
- obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
- 
--nvme-core-y				:= core.o ioctl.o
-+nvme-core-y				:= core.o ioctl.o errors.o
- nvme-core-$(CONFIG_TRACING)		+= trace.o
- nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
- nvme-core-$(CONFIG_BLK_DEV_ZONED)	+= zns.o
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5e0bfda04bd7..7f9bfb25e315 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -354,6 +354,9 @@ void nvme_complete_rq(struct request *req)
- 
- 	switch (nvme_decide_disposition(req)) {
- 	case COMPLETE:
-+		if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
-+			nvme_log_error(req);
-+
- 		nvme_end_req(req);
- 		return;
- 	case RETRY:
-@@ -388,6 +391,44 @@ blk_status_t nvme_host_path_error(struct request *req)
- }
- EXPORT_SYMBOL_GPL(nvme_host_path_error);
- 
-+void nvme_log_error(struct request *req)
-+{
-+	struct nvme_ns *ns = req->q->queuedata;
-+	struct nvme_request *nr = nvme_req(req);
-+	const unsigned char *op_str  = "I/O Cmd";
-+	const unsigned char *admin_op_str  = "Admin Cmd";
-+	const unsigned char *err_str = NULL;
-+
-+	err_str = nvme_get_error_status_str(nr->status);
-+
-+	if (ns) {
-+		op_str = nvme_get_opcode_str(nr->cmd->common.opcode);
-+
-+		pr_err_ratelimited("%s: %s(0x%x) @ LBA %llu, %llu blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
-+		       ns->disk ? ns->disk->disk_name : "?",
-+		       op_str,
-+		       nr->cmd->common.opcode,
-+		       (unsigned long long)nvme_sect_to_lba(ns, blk_rq_pos(req)),
-+		       (unsigned long long)blk_rq_bytes(req) >> ns->lba_shift,
-+		       err_str,
-+		       nr->status >> 8 & 7, /* Status Code Type */
-+		       nr->status & 0xff,    /* Status Code */
-+		       nr->status & NVME_SC_MORE ? "MORE " : "",
-+		       nr->status & NVME_SC_DNR  ? "DNR "  : "");
-+	} else {
-+		admin_op_str = nvme_get_admin_opcode_str(nr->cmd->common.opcode);
-+		pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%s\n",
-+		       dev_name(nr->ctrl->device),
-+		       admin_op_str,
-+		       nr->cmd->common.opcode,
-+		       err_str,
-+		       nr->status >> 8 & 7,	/* Status Code Type */
-+		       nr->status & 0xff,	/* Status Code */
-+		       nr->status & NVME_SC_MORE ? "MORE " : "",
-+		       nr->status & NVME_SC_DNR  ? "DNR "  : "");
-+	}
-+}
-+
- bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- {
- 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-diff --git a/drivers/nvme/host/errors.c b/drivers/nvme/host/errors.c
-new file mode 100644
-index 000000000000..42585ed1c77f
---- /dev/null
-+++ b/drivers/nvme/host/errors.c
-@@ -0,0 +1,206 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * NVM Express device driver verbose errors
-+ * Copyright (c) 2022, Oracle and/or its affiliates
-+ */
-+
-+#include <linux/blkdev.h>
-+#include "nvme.h"
-+
-+#ifdef CONFIG_NVME_VERBOSE_ERRORS
-+static const char * const nvme_ops[] = {
-+	[nvme_cmd_flush] = "Flush",
-+	[nvme_cmd_write] = "Write",
-+	[nvme_cmd_read] = "Read",
-+	[nvme_cmd_write_uncor] = "Write Uncorrectable",
-+	[nvme_cmd_compare] = "Compare",
-+	[nvme_cmd_write_zeroes] = "Write Zeros",
-+	[nvme_cmd_dsm] = "Dataset Management",
-+	[nvme_cmd_verify] = "Verify",
-+	[nvme_cmd_resv_register] = "Reservation Register",
-+	[nvme_cmd_resv_report] = "Reservation Report",
-+	[nvme_cmd_resv_acquire] = "Reservation Acquire",
-+	[nvme_cmd_resv_release] = "Reservation Release",
-+	[nvme_cmd_zone_mgmt_send] = "Zone Management Send",
-+	[nvme_cmd_zone_mgmt_recv] = "Zone Management Receive",
-+	[nvme_cmd_zone_append] = "Zone Management Append",
-+};
-+
-+static const char * const nvme_admin_ops[] = {
-+	[nvme_admin_delete_sq] = "Delete SQ",
-+	[nvme_admin_create_sq] = "Create SQ",
-+	[nvme_admin_get_log_page] = "Get Log Page",
-+	[nvme_admin_delete_cq] = "Delete CQ",
-+	[nvme_admin_create_cq] = "Create CQ",
-+	[nvme_admin_identify] = "Identify",
-+	[nvme_admin_abort_cmd] = "Abort Command",
-+	[nvme_admin_set_features] = "Set Features",
-+	[nvme_admin_get_features] = "Get Features",
-+	[nvme_admin_async_event] = "Async Event",
-+	[nvme_admin_ns_mgmt] = "Namespace Management",
-+	[nvme_admin_activate_fw] = "Activate Firmware",
-+	[nvme_admin_download_fw] = "Download Firmware",
-+	[nvme_admin_dev_self_test] = "Device Self Test",
-+	[nvme_admin_ns_attach] = "Namespace Attach",
-+	[nvme_admin_keep_alive] = "Keep Alive",
-+	[nvme_admin_directive_send] = "Directive Send",
-+	[nvme_admin_directive_recv] = "Directive Receive",
-+	[nvme_admin_virtual_mgmt] = "Virtual Management",
-+	[nvme_admin_nvme_mi_send] = "NVMe Send MI",
-+	[nvme_admin_nvme_mi_recv] = "NVMe Receive MI",
-+	[nvme_admin_dbbuf] = "Doorbell Buffer Config",
-+	[nvme_admin_format_nvm] = "Format NVM",
-+	[nvme_admin_security_send] = "Security Send",
-+	[nvme_admin_security_recv] = "Security Receive",
-+	[nvme_admin_sanitize_nvm] = "Sanitize NVM",
-+	[nvme_admin_get_lba_status] = "Get LBA Status",
-+};
-+
-+static const char * const nvme_statuses[] = {
-+	[NVME_SC_SUCCESS] = "Success",
-+	[NVME_SC_INVALID_OPCODE] = "Invalid Command Opcode",
-+	[NVME_SC_INVALID_FIELD] = "Invalid Field in Command",
-+	[NVME_SC_CMDID_CONFLICT] = "Command ID Conflict",
-+	[NVME_SC_DATA_XFER_ERROR] = "Data Transfer Error",
-+	[NVME_SC_POWER_LOSS] = "Commands Aborted due to Power Loss Notification",
-+	[NVME_SC_INTERNAL] = "Internal Error",
-+	[NVME_SC_ABORT_REQ] = "Command Abort Requested",
-+	[NVME_SC_ABORT_QUEUE] = "Command Aborted due to SQ Deletion",
-+	[NVME_SC_FUSED_FAIL] = "Command Aborted due to Failed Fused Command",
-+	[NVME_SC_FUSED_MISSING] = "Command Aborted due to Missing Fused Command",
-+	[NVME_SC_INVALID_NS] = "Invalid Namespace or Format",
-+	[NVME_SC_CMD_SEQ_ERROR] = "Command Sequence Error",
-+	[NVME_SC_SGL_INVALID_LAST] = "Invalid SGL Segment Descriptor",
-+	[NVME_SC_SGL_INVALID_COUNT] = "Invalid Number of SGL Descriptors",
-+	[NVME_SC_SGL_INVALID_DATA] = "Data SGL Length Invalid",
-+	[NVME_SC_SGL_INVALID_METADATA] = "Metadata SGL Length Invalid",
-+	[NVME_SC_SGL_INVALID_TYPE] = "SGL Descriptor Type Invalid",
-+	[NVME_SC_CMB_INVALID_USE] = "Invalid Use of Controller Memory Buffer",
-+	[NVME_SC_PRP_INVALID_OFFSET] = "PRP Offset Invalid",
-+	[NVME_SC_ATOMIC_WU_EXCEEDED] = "Atomic Write Unit Exceeded",
-+	[NVME_SC_OP_DENIED] = "Operation Denied",
-+	[NVME_SC_SGL_INVALID_OFFSET] = "SGL Offset Invalid",
-+	[NVME_SC_RESERVED] = "Reserved",
-+	[NVME_SC_HOST_ID_INCONSIST] = "Host Identifier Inconsistent Format",
-+	[NVME_SC_KA_TIMEOUT_EXPIRED] = "Keep Alive Timeout Expired",
-+	[NVME_SC_KA_TIMEOUT_INVALID] = "Keep Alive Timeout Invalid",
-+	[NVME_SC_ABORTED_PREEMPT_ABORT] = "Command Aborted due to Preempt and Abort",
-+	[NVME_SC_SANITIZE_FAILED] = "Sanitize Failed",
-+	[NVME_SC_SANITIZE_IN_PROGRESS] = "Sanitize In Progress",
-+	[NVME_SC_SGL_INVALID_GRANULARITY] = "SGL Data Block Granularity Invalid",
-+	[NVME_SC_CMD_NOT_SUP_CMB_QUEUE] = "Command Not Supported for Queue in CMB",
-+	[NVME_SC_NS_WRITE_PROTECTED] = "Namespace is Write Protected",
-+	[NVME_SC_CMD_INTERRUPTED] = "Command Interrupted",
-+	[NVME_SC_TRANSIENT_TR_ERR] = "Transient Transport Error",
-+	[NVME_SC_INVALID_IO_CMD_SET] = "Invalid IO Command Set",
-+	[NVME_SC_LBA_RANGE] = "LBA Out of Range",
-+	[NVME_SC_CAP_EXCEEDED] = "Capacity Exceeded",
-+	[NVME_SC_NS_NOT_READY] = "Namespace Not Ready",
-+	[NVME_SC_RESERVATION_CONFLICT] = "Reservation Conflict",
-+	[NVME_SC_FORMAT_IN_PROGRESS] = "Format In Progress",
-+	[NVME_SC_CQ_INVALID] = "Completion Queue Invalid",
-+	[NVME_SC_QID_INVALID] = "Invalid Queue Identifier",
-+	[NVME_SC_QUEUE_SIZE] = "Invalid Queue Size",
-+	[NVME_SC_ABORT_LIMIT] = "Abort Command Limit Exceeded",
-+	[NVME_SC_ABORT_MISSING] = "Reserved", /* XXX */
-+	[NVME_SC_ASYNC_LIMIT] = "Asynchronous Event Request Limit Exceeded",
-+	[NVME_SC_FIRMWARE_SLOT] = "Invalid Firmware Slot",
-+	[NVME_SC_FIRMWARE_IMAGE] = "Invalid Firmware Image",
-+	[NVME_SC_INVALID_VECTOR] = "Invalid Interrupt Vector",
-+	[NVME_SC_INVALID_LOG_PAGE] = "Invalid Log Page",
-+	[NVME_SC_INVALID_FORMAT] = "Invalid Format",
-+	[NVME_SC_FW_NEEDS_CONV_RESET] = "Firmware Activation Requires Conventional Reset",
-+	[NVME_SC_INVALID_QUEUE] = "Invalid Queue Deletion",
-+	[NVME_SC_FEATURE_NOT_SAVEABLE] = "Feature Identifier Not Saveable",
-+	[NVME_SC_FEATURE_NOT_CHANGEABLE] = "Feature Not Changeable",
-+	[NVME_SC_FEATURE_NOT_PER_NS] = "Feature Not Namespace Specific",
-+	[NVME_SC_FW_NEEDS_SUBSYS_RESET] = "Firmware Activation Requires NVM Subsystem Reset",
-+	[NVME_SC_FW_NEEDS_RESET] = "Firmware Activation Requires Reset",
-+	[NVME_SC_FW_NEEDS_MAX_TIME] = "Firmware Activation Requires Maximum Time Violation",
-+	[NVME_SC_FW_ACTIVATE_PROHIBITED] = "Firmware Activation Prohibited",
-+	[NVME_SC_OVERLAPPING_RANGE] = "Overlapping Range",
-+	[NVME_SC_NS_INSUFFICIENT_CAP] = "Namespace Insufficient Capacity",
-+	[NVME_SC_NS_ID_UNAVAILABLE] = "Namespace Identifier Unavailable",
-+	[NVME_SC_NS_ALREADY_ATTACHED] = "Namespace Already Attached",
-+	[NVME_SC_NS_IS_PRIVATE] = "Namespace Is Private",
-+	[NVME_SC_NS_NOT_ATTACHED] = "Namespace Not Attached",
-+	[NVME_SC_THIN_PROV_NOT_SUPP] = "Thin Provisioning Not Supported",
-+	[NVME_SC_CTRL_LIST_INVALID] = "Controller List Invalid",
-+	[NVME_SC_SELT_TEST_IN_PROGRESS] = "Device Self-test In Progress",
-+	[NVME_SC_BP_WRITE_PROHIBITED] = "Boot Partition Write Prohibited",
-+	[NVME_SC_CTRL_ID_INVALID] = "Invalid Controller Identifier",
-+	[NVME_SC_SEC_CTRL_STATE_INVALID] = "Invalid Secondary Controller State",
-+	[NVME_SC_CTRL_RES_NUM_INVALID] = "Invalid Number of Controller Resources",
-+	[NVME_SC_RES_ID_INVALID] = "Invalid Resource Identifier",
-+	[NVME_SC_PMR_SAN_PROHIBITED] = "Sanitize Prohibited",
-+	[NVME_SC_ANA_GROUP_ID_INVALID] = "ANA Group Identifier Invalid",
-+	[NVME_SC_ANA_ATTACH_FAILED] = "ANA Attach Failed",
-+	[NVME_SC_BAD_ATTRIBUTES] = "Conflicting Attributes",
-+	[NVME_SC_INVALID_PI] = "Invalid Protection Information",
-+	[NVME_SC_READ_ONLY] = "Attempted Write to Read Only Range",
-+	[NVME_SC_ONCS_NOT_SUPPORTED] = "ONCS Not Supported",
-+	[NVME_SC_ZONE_BOUNDARY_ERROR] = "Zoned Boundary Error",
-+	[NVME_SC_ZONE_FULL] = "Zone Is Full",
-+	[NVME_SC_ZONE_READ_ONLY] = "Zone Is Read Only",
-+	[NVME_SC_ZONE_OFFLINE] = "Zone Is Offline",
-+	[NVME_SC_ZONE_INVALID_WRITE] = "Zone Invalid Write",
-+	[NVME_SC_ZONE_TOO_MANY_ACTIVE] = "Too Many Active Zones",
-+	[NVME_SC_ZONE_TOO_MANY_OPEN] = "Too Many Open Zones",
-+	[NVME_SC_ZONE_INVALID_TRANSITION] = "Invalid Zone State Transition",
-+	[NVME_SC_WRITE_FAULT] = "Write Fault",
-+	[NVME_SC_READ_ERROR] = "Unrecovered Read Error",
-+	[NVME_SC_GUARD_CHECK] = "End-to-end Guard Check Error",
-+	[NVME_SC_APPTAG_CHECK] = "End-to-end Application Tag Check Error",
-+	[NVME_SC_REFTAG_CHECK] = "End-to-end Reference Tag Check Error",
-+	[NVME_SC_COMPARE_FAILED] = "Compare Failure",
-+	[NVME_SC_ACCESS_DENIED] = "Access Denied",
-+	[NVME_SC_UNWRITTEN_BLOCK] = "Deallocated or Unwritten Logical Block",
-+	[NVME_SC_ANA_PERSISTENT_LOSS] = "Asymmetric Access Persistent Loss",
-+	[NVME_SC_ANA_INACCESSIBLE] = "Asymmetric Access Inaccessible",
-+	[NVME_SC_ANA_TRANSITION] = "Asymmetric Access Transition",
-+	[NVME_SC_HOST_PATH_ERROR] = "Host Pathing Error",
-+};
-+
-+const unsigned char *nvme_get_error_status_str(u16 status)
-+{
-+	const unsigned char *err_str;
-+
-+	if ((status & 0x7ff) < ARRAY_SIZE(nvme_statuses) &&
-+	    nvme_statuses[status & 0x7ff] != NULL)
-+		err_str = nvme_statuses[status & 0x7ff];
-+	else
-+		err_str = "Unknown";
-+
-+	return err_str;
-+}
-+EXPORT_SYMBOL_GPL(nvme_get_error_status_str);
-+
-+const unsigned char *nvme_get_opcode_str(u8 opcode)
-+{
-+	const unsigned char *op_str;
-+
-+	if (opcode < ARRAY_SIZE(nvme_ops) &&
-+	    nvme_ops[opcode] != NULL)
-+		op_str = nvme_ops[opcode];
-+	else
-+		op_str = "Unknown";
-+
-+	return op_str;
-+}
-+EXPORT_SYMBOL_GPL(nvme_get_opcode_str);
-+
-+const unsigned char *nvme_get_admin_opcode_str(u8 opcode)
-+{
-+	const unsigned char *admin_op_str;
-+
-+	if (opcode < ARRAY_SIZE(nvme_admin_ops) &&
-+	    nvme_admin_ops[opcode] != NULL)
-+		admin_op_str = nvme_admin_ops[opcode];
-+	else
-+		admin_op_str = "Unknown";
-+
-+	return admin_op_str;
-+
-+}
-+EXPORT_SYMBOL_GPL(nvme_get_admin_opcode_str);
-+#endif /* CONFIG_NVME_VERBOSE_ERRORS */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a162f6c6da6e..4b1310d2f23a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -659,6 +659,7 @@ static __always_inline void nvme_complete_batch(struct io_comp_batch *iob,
- 	blk_mq_end_request_batch(iob);
- }
- 
-+void nvme_log_error(struct request *req);
- blk_status_t nvme_host_path_error(struct request *req);
- bool nvme_cancel_request(struct request *req, void *data, bool reserved);
- void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
-@@ -930,4 +931,23 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
- 	return (ctrl->ctrl_config & NVME_CC_CSS_MASK) == NVME_CC_CSS_CSI;
- }
- 
-+#ifdef CONFIG_NVME_VERBOSE_ERRORS
-+const unsigned char *nvme_get_error_status_str(u16 status);
-+const unsigned char *nvme_get_opcode_str(u8 opcode);
-+const unsigned char *nvme_get_admin_opcode_str(u8 opcode);
-+#else /* CONFIG_NVME_VERBOSE_ERRORS */
-+static inline char *nvme_get_error_status_str(u16 status)
-+{
-+	return "I/O Error";
-+}
-+static inline char *nvme_get_opcode_str(u8 opcode)
-+{
-+	return "I/O Cmd";
-+}
-+static inline char *nvme_get_admin_opcode_str(u8 opcode)
-+{
-+	return "Admin Cmd";
-+}
-+#endif /* CONFIG_NVME_VERBOSE_ERRORS */
-+
- #endif /* _NVME_H */
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 855dd9b3e84b..1f946e5bf7c1 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1636,6 +1636,7 @@ enum {
- 	NVME_SC_HOST_ABORTED_CMD	= 0x371,
- 
- 	NVME_SC_CRD			= 0x1800,
-+	NVME_SC_MORE			= 0x2000,
- 	NVME_SC_DNR			= 0x4000,
- };
- 
+Other than that it looks OK.
+
 -- 
-2.27.0
-
+Martin K. Petersen	Oracle Linux Engineering
 
