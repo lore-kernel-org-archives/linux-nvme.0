@@ -4,77 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 251B7C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 14:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9000DC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 14:49:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:Cc:From:To:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+RcZpPqtnfLAwgIFAjYhXtgjx/0Wde9g5JtAXXXQ3Hk=; b=QJRRJ+dGrnQIucWktLG2j64v0o
-	S42MWOtZU3PYXAWakq9DJsPRX+NyLr0OfCLPhyn6itJcIHWXMCLOr58grX7J0kdApyTUFZsLWye2Y
-	MsFIUxbxrNR4EM3c31hm9kE7pr8ycbwDqhx/Vyhi9p1FgOI/9UyDKIza3FLgKQQBn4R5p0pkSX32S
-	I7Cg6HUq0QmcduMRCnXA1Ps7puk14g3BQYTnZ7A1mtavsHHp2uj2bR3yQ4KqtFbDq7R63HhOSbB5s
-	fN6Pwdml5kvEgKstITJuLd9FfUd3SEARat5EBKHwzIcVfY7f+DpNKlWHaaNJJcYKKdzahGsBjX2G0
-	ZBPywS+g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VGlmPh+lpFCFUzwkF/NTnSbC4pQ69+yQaOHVbCiVAdo=; b=pRHJ7AP1e3v35XH/0fkHw1O+7w
+	MYcjPuZK50UXCdrmnPC3SUFaBtf7WUhdp9VdCGouTzKwPFxIO6/2IQ0KQ5VOwGNYkrYpWJIRJsQBZ
+	Jei7yzONOLzK7FeYK7+HWom31+Dr5Fv4f3qgrBv4OJDV+tw8ERo0cgbcZUY8qBkqk3Dl/mT1EkH24
+	0i2IGPYa+jTOb1Iow5Hh1EDTAhqzvt9lRYOs3YCYCbzJE1cf+nI4bVVEhj/rXYkViA63xPsFcVG8P
+	PRzlTLq9ho8izB9NV1jkkeHxytgSOe8YkTlaDElbsey6OOshwskEXUluGaIqSntjd3c6sORNfmm67
+	alLLVaZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFGXo-00Fen0-So; Wed, 02 Feb 2022 14:23:37 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nFGwg-00FnXr-Jn; Wed, 02 Feb 2022 14:49:18 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFGMf-00FZzZ-Lu
- for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 14:12:07 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ id 1nFGwc-00FnWa-SM
+ for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 14:49:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1643813352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VGlmPh+lpFCFUzwkF/NTnSbC4pQ69+yQaOHVbCiVAdo=;
+ b=KaIsT/RFs1Ytp0qOqkvzkCVmA0ahXzxL5EtjT+Vqk1CyOKsFlk01PAdQbcebTlhwkgo1T8
+ KcTCGSlOUhh8LIgIn1nByWbmCiOrGMetLiaE4HDq7hievdBGAP0+ddomW7jDI+atwEdx81
+ oE/qFu//kVGyua49TfCLeGoP84OfwtA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-w-xX1KEaMoiBIYAFgBKfgA-1; Wed, 02 Feb 2022 09:47:36 -0500
+X-MC-Unique: w-xX1KEaMoiBIYAFgBKfgA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 392351F397;
- Wed,  2 Feb 2022 14:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643811124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+RcZpPqtnfLAwgIFAjYhXtgjx/0Wde9g5JtAXXXQ3Hk=;
- b=IoEmeC7b6SCa2pEE4x4Dcr5x3ja8fY7Iqi+JIo1sSpTPS9vz1jOYEZfrgpFXp6/Q2PP9bG
- EPo2LhvuC2c+jfaRIFc10W1Xuk2tVMkfXQEqszO9RIQ8vdszRnsmWfVKgfthMuG51OAxdv
- kXNtBvBnJ8Ky7zs95rRLzHyvl7UZ+w4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643811124;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+RcZpPqtnfLAwgIFAjYhXtgjx/0Wde9g5JtAXXXQ3Hk=;
- b=Ji9+WRMhtXbsUd8Nw/4DI0m71QiyLu0cugknNcqTwZpD2vPhslTP08V1vm03RHgLG0L6Ni
- TX9Morl3HlHdH3Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C5F613BBC;
- Wed,  2 Feb 2022 14:12:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +glHCjSR+mGGYgAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 02 Feb 2022 14:12:04 +0000
-Message-ID: <3a066f81-a53d-4d39-5efb-bd957443e7e2@suse.de>
-Date: Wed, 2 Feb 2022 15:12:03 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C363318B9ECC;
+ Wed,  2 Feb 2022 14:47:34 +0000 (UTC)
+Received: from [172.16.176.1] (ovpn-64-2.rdu2.redhat.com [10.10.64.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10C83747B3;
+ Wed,  2 Feb 2022 14:47:33 +0000 (UTC)
+From: "Benjamin Coddington" <bcodding@redhat.com>
+To: "Hannes Reinecke" <hare@suse.de>
+Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ "Chuck Lever III" <chuck.lever@oracle.com>
+Subject: Re: [LSF/MM/BPF TOPIC] [LSF/MM/BPF ATTEND] TLS handshake for
+ in-kernel consumers
+Date: Wed, 02 Feb 2022 09:47:32 -0500
+Message-ID: <1AF72276-E808-48E5-9824-6355129E58BE@redhat.com>
+In-Reply-To: <3a066f81-a53d-4d39-5efb-bd957443e7e2@suse.de>
+References: <3a066f81-a53d-4d39-5efb-bd957443e7e2@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-From: Hannes Reinecke <hare@suse.de>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chuck Lever III <chuck.lever@oracle.com>
-Subject: [LSF/MM/BPF TOPIC][LSF/MM/BPF ATTEND] TLS handshake for in-kernel
- consumers
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220202_061205_910437_92BB0E52 
-X-CRM114-Status: GOOD (  12.31  )
+X-CRM114-CacheID: sfid-20220202_064915_245626_63C1D1EB 
+X-CRM114-Status: GOOD (  25.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,50 +79,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On 2 Feb 2022, at 9:12, Hannes Reinecke wrote:
 
-nvme-over-tcp has the option to utilize TLS for encrypted traffic, but 
-due to the internal design of the nvme-over-fabrics stack we cannot 
-initiate the TLS connection from userspace (as the current in-kernel TLS 
-implementation is designed).
+> Hi all,
+>
+> nvme-over-tcp has the option to utilize TLS for encrypted traffic, but 
+> due to the internal design of the nvme-over-fabrics stack we cannot 
+> initiate the TLS connection from userspace (as the current in-kernel 
+> TLS implementation is designed).
+>
+> This leaves us with two options:
+> 1) Put TLS handshake into the kernel (which will be quite some
+>   discussion as it's arguably a userspace configuration)
+> 2) Pass an in-kernel socket to userspace and have a userspace
+>   application to run the TLS handshake.
+>
+> None of these options are quiet clear cut, as we will be have to put
+> quite some complexity into the kernel to do full TLS handshake (if we
+> were to go with option 1) or will have to design a mechanism to pass
+> an in-kernel socket to userspace as we don't do that currently (if we 
+> were going with option 2).
+>
+> We have been discussing some ideas on how to implement option 2 
+> (together with Chuck Lever and the NFS crowd), but so far haven't been 
+> able to come up with a decent design.
+>
+> So I would like to discuss with interested parties on how TLS 
+> handshake could be facilitated, and what would be the best design 
+> options here.
+>
+> The proposed configd would be an option, but then we don't have that, 
+> either :-)
+>
+> Required attendees:
+>
+> Chuck Lever
+> James Bottomley
+> Sagi Grimberg
+> Keith Busch
+> Christoph Hellwig
+> David Howells
 
-This leaves us with two options:
-1) Put TLS handshake into the kernel (which will be quite some
-   discussion as it's arguably a userspace configuration)
-2) Pass an in-kernel socket to userspace and have a userspace
-   application to run the TLS handshake.
+I'm interested in this as well, and have gone down quite a rabbit-hole 
+of
+experimental implementation for NFS.  I've found the keys API to be 
+useful
+to implement a tls_session keytype that allows kernel subsystems to 
+request
+that userspace do the heavy lifting of establishing a TLS session and
+installing the kTLS bits on the socket by passing an existing socket fd 
+to
+userspace.
 
-None of these options are quiet clear cut, as we will be have to put
-quite some complexity into the kernel to do full TLS handshake (if we
-were to go with option 1) or will have to design a mechanism to pass
-an in-kernel socket to userspace as we don't do that currently (if we 
-were going with option 2).
+However, something more persistent than call_usermode_helper is needed,
+since userspace helpers may not be able to be looked up from a 
+filesystem
+when establishing or re-keying (or doing a number of other things) on a 
+TLS
+session for NFS or NVMe-over-tcp.
 
-We have been discussing some ideas on how to implement option 2 
-(together with Chuck Lever and the NFS crowd), but so far haven't been 
-able to come up with a decent design.
+I've got a rough idea to create a thing called a "keyagent" which would 
+be
+an alternative to using call_usermode_helper to service request-key.
+Keyagents would be persistent processes in userspace themselves 
+represented
+by keys, and if a keyagent key is linked into a process' keyrings and
+matches the requested type it is consulted to service request-key and 
+update
+for those keys.
 
-So I would like to discuss with interested parties on how TLS handshake 
-could be facilitated, and what would be the best design options here.
+Ben
 
-The proposed configd would be an option, but then we don't have that, 
-either :-)
-
-Required attendees:
-
-Chuck Lever
-James Bottomley
-Sagi Grimberg
-Keith Busch
-Christoph Hellwig
-David Howells
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
