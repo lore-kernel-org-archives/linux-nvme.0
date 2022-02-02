@@ -4,94 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B95CC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 08:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09300C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 09:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bP/Cb29IH3aYrBioPBqWo3Wm+2fW+zC2bc9XLXLbfCY=; b=QeZWOA2kAvf1o0rd71/p5xqMB8
-	va4wpVZc9FhcC9/1e/nSloy5svUMETbt4nNK7w3NXAXqTvkB/0SQQx1Ha0fxQU/DN4TACk7ce2Qku
-	0Z9PK+dCcpTH6sL9k1n5iQLZsj7WT5POtyKJ3PVgH0gaeOSBjMVuTcssGWT5GHUbJygXqTBUA1l+Q
-	H0q2edwD0xLLEuZIVip96l5QWxvzr7fG1c12toyrQEggPLkDRgJo7PXhz6bTnZsujsF76CPIYn0RN
-	3YWyLWXx6HhGlQhsjSGNy1s8pfx5n7szS0FPoBzNTMBdzWgNPJEwf63L2anTfieZekVHN4fxH8BnF
-	jzKXnO6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0sc7xbx2n6/jigbaBeOi4FbL41CQGO5RApAu30mz7DY=; b=hiF7n48pFQbtUDLAsKYQt38SyZ
+	j2du+/J60Fw+A5mETQDIb9GRPpcQVDXa6CCrBGCCylttB0HAasCp7RXFfvnWVmnwOG2tPtrdQcKHg
+	Y840my6dR+ftwq6gUlkdCSHSrA+uFAQWSV70WBkaBfVM2yZBp0jXwrENQhEG1UhMmfdJA26HpHn5T
+	uvqdSvjbnzRtUQ3LkioT3Ee9iO1FreBvYhoLbtCMllXwpNmbAPajYOhx7v/7+5yX9sbkMRbiB5yud
+	qRG+WcNHf3espRPI5KWllbzCzyiLI2e91wV8tBFt6pS7c/Tn3gzh/kwXgove0Ryl02WlZjnt6Ks3Z
+	CLTx6aSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFB82-00EcLR-7v; Wed, 02 Feb 2022 08:36:38 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nFBZv-00EgpS-1J; Wed, 02 Feb 2022 09:05:27 +0000
+Received: from mail-mw2nam08on2065.outbound.protection.outlook.com
+ ([40.107.101.65] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFB7y-00EcJA-9W
- for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 08:36:36 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 41C7921126;
- Wed,  2 Feb 2022 08:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643790990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bP/Cb29IH3aYrBioPBqWo3Wm+2fW+zC2bc9XLXLbfCY=;
- b=xPHTkSGAwUstazl4gRo0ONFgHzfdBkywt4OEalRiFBmwJlcZi+S0NnUZlv9SR3J4yBSzNi
- MpfEY+WbLw4TNAyam9sjCf9RpZcySdQU4T2rqf4p71Rt93bKkCX+L+myA2/0givGjjTzJt
- VycQ1PXwOjTrmySOpvNU3TELmwrq44E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643790990;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bP/Cb29IH3aYrBioPBqWo3Wm+2fW+zC2bc9XLXLbfCY=;
- b=mQe3+ATRUhIavRA5nuQyjOVgpYhNoXVcXU4IsqB/mco2/e73nP8ODSYseePs5iZT3lz4cH
- Buam5KDTjHukhsCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 172FB13DE1;
- Wed,  2 Feb 2022 08:36:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yAXlBI5C+mG5KQAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 02 Feb 2022 08:36:30 +0000
-Message-ID: <4e79411d-3009-a376-6ecb-bb10100f9cee@suse.de>
-Date: Wed, 2 Feb 2022 09:36:29 +0100
+ id 1nFBZq-00EgmE-1K
+ for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 09:05:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oq8Wi6I2COgtYg1xRdIZHlShWu6oy2fL4VG7fQoIXh034nOlLImKappw5D5yd5VB0n/Ku6BOMuBGRuh3ulH3B0VFis4jFXkxFODG9U7NfIgBCpBibckjyXyO7sJ8frjBHzxvDqRmpIQD/cy2KFTiI/m5/DrhslTLP4dIW5Uhuy6MixHSHtBFCzMEJNCRIeo+tv4e5WOQtkDAh8GkQJTm7U5z9Zux+9yMPp1jtwxzF/o+DktXhs+MViWT+HyBM1SlFAetp6kdguOOzBys0JjFAux43KHjcLV1OoDIII0TK01usEJ8DK2Hdo8k8KNj0jbuIQhTAPGU2z3akuPj7n7fsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0sc7xbx2n6/jigbaBeOi4FbL41CQGO5RApAu30mz7DY=;
+ b=MUmwqgm8Wb9gL/GKCpVjYkFMVD4a0YAfuhD59wtmoGtNAybNurYzNCfrwoEG33o7LGtLjy0ng6CZq0SiJ5fDxFpu+/iYooiK+PyUv5CKBP+T+1m0fDvukzkEVwOHY/v6Cfx3gllFdfSd01dukqxIx6Suf0LUAGNRHrCLOMyGccG6PHaCzaCfKJdEuTcVxpopp8eqlxumGDorqCxUycj7yAOnL5buPirzW6qkiAh6bRrskdmM+kAI2mvnb8WS9nlbqme23PBQHLKCwA/4dBqIyJ2tQYKrkBH49IXSgC5+fYUHArQRInrUhzNMt3/0Y64Jpbp7Lq56zi9MUeg60g++xA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0sc7xbx2n6/jigbaBeOi4FbL41CQGO5RApAu30mz7DY=;
+ b=mRmKwImEE5mXJ5uXty7mK+SH5rETjAPEL/2WeX8sCBreIbkzMvsTZgKW8xK2vDTWxhIPc7tB3x2YjQrCBZa/9dPMsZeJz7co+cUo8itHGj2vMjGq5ROI+eYlHPd1aK9GsHCYNGn8NvdHUux/slMUMmAxZbcKm6kWCqe14p7Z1pR24zeGRJ2ovyDkPsg1oPNYrMtRiV6cnqbsjAf/cwYkrvgF3oLHfiv7zUIno1gSJiPuUQrRx33RkXhDFGBOyp6D3lGBsgwegSExZ7Efaa+4s1hUwuyJG1R1Ue1yJth4pYpamiIZavsJGZ0wl2IrT0c7IGicbyzZajwB7Bv+OrqDkg==
+Received: from DM5PR16CA0037.namprd16.prod.outlook.com (2603:10b6:4:15::23) by
+ BY5PR12MB4068.namprd12.prod.outlook.com (2603:10b6:a03:203::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Wed, 2 Feb
+ 2022 09:05:19 +0000
+Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:15:cafe::40) by DM5PR16CA0037.outlook.office365.com
+ (2603:10b6:4:15::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.22 via Frontend
+ Transport; Wed, 2 Feb 2022 09:05:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.236) by
+ DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4951.12 via Frontend Transport; Wed, 2 Feb 2022 09:05:18 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Wed, 2 Feb 2022 09:05:11 +0000
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Wed, 2 Feb 2022
+ 01:05:10 -0800
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <kbusch@kernel.org>, <sagi@grimberg.me>, Chaitanya Kulkarni
+ <kch@nvidia.com>
+Subject: [PATCH V3 1/2] nvmet: use i_size_read() to set size for file-ns
+Date: Wed, 2 Feb 2022 01:04:44 -0800
+Message-ID: <20220202090445.43615-2-chaitanyak@nvidia.com>
+X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20220202090445.43615-1-chaitanyak@nvidia.com>
+References: <20220202090445.43615-1-chaitanyak@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/4] nvme-fabrics: add tp8010 support
-Content-Language: en-US
-To: "Belanger, Martin" <Martin.Belanger@dell.com>,
- Sagi Grimberg <sagi@grimberg.me>, Martin Belanger <nitram_67@hotmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>
-References: <20220125145956.14746-1-nitram_67@hotmail.com>
- <1ee5410f-3af6-8ca7-a860-e3fc1bc49a0e@suse.de>
- <92c36bc0-9489-ebc1-3176-fb215ccc8646@grimberg.me>
- <SJ0PR19MB45446D366BC530A5EE66339FF2219@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <12b4824b-f704-fe25-5511-012dfcdaf514@grimberg.me>
- <SJ0PR19MB4544136C4622118DBCEBFFA1F2229@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <37587400-076b-059f-f163-fd90babde443@suse.de>
- <SJ0PR19MB45440F98F8693F571669C012F2229@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <8527332c-3126-1297-f161-f2cb818a3061@suse.de>
- <SJ0PR19MB4544DE97C58FDCDA5930985CF2239@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <e4c48b97-8f79-a373-96ea-13286632624b@suse.de>
- <13c327cf-8f04-e005-298f-0e43bb39b89e@grimberg.me>
- <SJ0PR19MB4544E634C5B347F231783B20F2259@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <9c5e4cff-2a5e-c1d2-34ed-ac7918c3991b@grimberg.me>
- <SJ0PR19MB4544AC1F430E3B025FE8D0C5F2259@SJ0PR19MB4544.namprd19.prod.outlook.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <SJ0PR19MB4544AC1F430E3B025FE8D0C5F2259@SJ0PR19MB4544.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: efdb36fb-b511-4d0d-3711-08d9e62b2270
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4068:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB40688FF26FDA2D47071501E3A3279@BY5PR12MB4068.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Mu0xaJiwUa/z5sP8shSxjHopBdVgm7YqD8lO5P+oY62LQxA9WNIC7sUUi6sR69WXZsjQBOu27ThsJIQP9e5thBMJqve778/+gSTP50VqUmUVZRVEstHa83W41R8QSKk5jIi7s3CtCiaqAqFbaMrTjpuZcQHdF/UfPHEt6BvnRONuvxAhyy2uksg/9LOMVWtk1kpLsydx0v69+FATLhC7KZg7VYBFr+m/fJ7h8O6MoChxrCcCdBobMQiojGBlM1Q1cY5NXd1QxUWNMb4SGlhdhkWPyWMxm1dk/WrEc/rHpNcgpLmgWcdy99yAjgomvlvkFL4C7jz0OM+/kXkqwrBvJD1xaLEBZKa1EEk6j0SajF2gJnGd2Ufy/SjPTdB6QvF77INPNYniXBW2MUcKriNACDrjt3hrm/sKO9IufMvaoGN5zbLqKKNuysar1mnQxe++ZT64K0yok+NCbUMisz3kC/NRCDiKRR86hV06QL+/CsbPtyiIHTc41O53o0jEUQkkRVnk8F1Yvat1oJSIrAzboGJjU4CFJI9aXARFw9v36Dlz+fBJKr4pLTKcq34giH322PRLx+oDsTJGqHrd9pSNtwH4pbFtdZFoG6sSD+HUgOs2J+E03XyJVviLoGy5kXPc4WKmWtSsBFkD2b88y+DT9mVqVzqSn0ZO55X7kyEAr+cs3FbBIZ+R8auoN8L7w+eB5KEm5Ozg1EqCPCR5loV0aA==
+X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(86362001)(2906002)(2616005)(81166007)(356005)(47076005)(426003)(36756003)(1076003)(336012)(40460700003)(107886003)(5660300002)(70206006)(6666004)(4326008)(70586007)(316002)(8936002)(7696005)(36860700001)(508600001)(8676002)(82310400004)(26005)(54906003)(83380400001)(16526019)(6916009)(186003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2022 09:05:18.4147 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: efdb36fb-b511-4d0d-3711-08d9e62b2270
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4068
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220202_003634_561364_75B5B8B4 
-X-CRM114-Status: GOOD (  15.96  )
+X-CRM114-CacheID: sfid-20220202_010522_309634_6D8470E2 
+X-CRM114-Status: GOOD (  13.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,41 +126,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/31/22 17:16, Belanger, Martin wrote:
-> 
->>> Hi Sagi. Thanks for the code snippet. I just had a question about your
->> comment.
->>>
->>> You say that you don’t see any point to send an event on the
->>> disconnect because it is async.  I don’t quite understand that part.
->>> For example, I've observed that when connectivity is lost the kernel
->>> will try to connect every
->>> 10 sec. And it will keep trying to connect 60 times (i.e. 10 min)
->>> before giving up. Wouldn't sending an "offline" event when
->>> connectivity is lost give user space apps a heads up that the nvme device
->> may not respond.
->>
->> Why does userspace need it?
->>
->> When the host will disconnect it will send event asynchronously, so
->> userspace cannot reliably do anything before the host disconnects.
->> Other than that I don't understand what would userspace do with "offline -
->> I/O is going to fail"...
-> 
-> I was just asking for completeness. Some apps may use it.
-> 
-We had a similar discussion during udev development; originally we had 
-KOBJ_ONLINE and KOBJ_OFFLINE uevents
-Turned out that the KOBJ_OFFLINE events were quite pointless (as Sagi 
-indicated), and hence we settled on a single KOBJ_CHANGE event which 
-typically is sent when a device/system gets back online.
+From: Chaitanya Kulkarni <kch@nvidia.com>
 
-Cheers,
+Instead of calling vfs_getattr() use i_size_read() to read the size of
+file so we can read the size of not only file type but also block type
+with one call. This is needed to implement buffered_io support for the
+NVMeOF block device backend.
 
-Hannes
+We also change return type of function nvmet_file_ns_revalidate() from
+int to void, since this function does not return any meaning value.
+
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/nvme/target/io-cmd-file.c | 17 ++++-------------
+ drivers/nvme/target/nvmet.h       |  2 +-
+ 2 files changed, 5 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 6be6e59d273b..6485dc8eb974 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -14,16 +14,9 @@
+ #define NVMET_MAX_MPOOL_BVEC		16
+ #define NVMET_MIN_MPOOL_OBJ		16
+ 
+-int nvmet_file_ns_revalidate(struct nvmet_ns *ns)
++void nvmet_file_ns_revalidate(struct nvmet_ns *ns)
+ {
+-	struct kstat stat;
+-	int ret;
+-
+-	ret = vfs_getattr(&ns->file->f_path, &stat, STATX_SIZE,
+-			  AT_STATX_FORCE_SYNC);
+-	if (!ret)
+-		ns->size = stat.size;
+-	return ret;
++	ns->size = i_size_read(ns->file->f_mapping->host);
+ }
+ 
+ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+@@ -43,7 +36,7 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ {
+ 	int flags = O_RDWR | O_LARGEFILE;
+-	int ret;
++	int ret = 0;
+ 
+ 	if (!ns->buffered_io)
+ 		flags |= O_DIRECT;
+@@ -57,9 +50,7 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		return ret;
+ 	}
+ 
+-	ret = nvmet_file_ns_revalidate(ns);
+-	if (ret)
+-		goto err;
++	nvmet_file_ns_revalidate(ns);
+ 
+ 	/*
+ 	 * i_blkbits can be greater than the universally accepted upper bound,
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index af193423c10b..69637bf8f8e1 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -541,7 +541,7 @@ u16 nvmet_bdev_flush(struct nvmet_req *req);
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
+ void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
+-int nvmet_file_ns_revalidate(struct nvmet_ns *ns);
++void nvmet_file_ns_revalidate(struct nvmet_ns *ns);
+ void nvmet_ns_revalidate(struct nvmet_ns *ns);
+ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts);
+ 
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+2.29.0
+
 
