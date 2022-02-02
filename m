@@ -4,81 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A58A6C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 13:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C623C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Feb 2022 13:19:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pepWXB5DvgjMJGEOiNQEx9XrtwsT7XquutmoNVWSlU4=; b=rO+gLgs7pAB4Y/7uGme+/dbIWG
-	GV+Rxjq53Ad8EEbhBgGfm5GDxAsWcsx1h1qi73r7u3LQ2HaESfhivtNif7llAoJgYnFTJqf3hA2Oy
-	11KCCsppfP7kyd9BFKtg1UrtcxG2OaNcv0RfLkcz7dz6sfmuC2Y9b1BrxIAG5pplSl9Q957ril7Gd
-	AQwsZhMrp4Ogm9SnWulhnmVBllcYZNd6qDovabT6cP5Dw9UC+U7tv9ORUGknXuyvPvA8dWbU1faqM
-	XJx1yRICT0umNClbr5vY1lilwIjvLmf8YY6oDzsyqlVgQlBI8vIJ7iz2ciXoMgOOb9Q9puOjEnH1O
-	66s7EvfQ==;
+	bh=ulFfKXoRq8QJukyKpX0WjkN9+vmh3h2i2KxS5J3haRQ=; b=jWKe2zy5s0NI7uJ3miG7UvISC2
+	K70niN3KFxELG+ZbmdPBcRw8xv2tELsotxlBmOhF6xK6xhn+VRbQrB9yTsSZL/Huqr2Et3kWEm/F2
+	ImUW/m0vSSMkSihQhemuTmZAZ8JgEQMmpzFrO4TKHY1BE3EED3k+BiXpujEnelle8S7KPzqqLPBfW
+	z+XlFQLN6LOu81iAU8i6TykpHtCXudulE5YGgPpGoCSrEkVTmYYmyCtBD0WkCGnzZdHKofR67EKcS
+	ktEj2YiugzJEIOGmQaRtUF1l3euIiHFEkjyWXxIrqkBBbQGPYmbfDA67BqpZLKfON3V5oBiHJbXg5
+	KS9XgFrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFFTb-00FJZx-7H; Wed, 02 Feb 2022 13:15:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nFFXm-00FKgF-QH; Wed, 02 Feb 2022 13:19:30 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFFTY-00FJYa-Ks
- for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 13:15:10 +0000
+ id 1nFFXj-00FKeo-Fv
+ for linux-nvme@lists.infradead.org; Wed, 02 Feb 2022 13:19:28 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 69C191F3A8;
- Wed,  2 Feb 2022 13:15:07 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 34DEB212B5;
+ Wed,  2 Feb 2022 13:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643807707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1643807966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pepWXB5DvgjMJGEOiNQEx9XrtwsT7XquutmoNVWSlU4=;
- b=rLvqpqtnCiYNIil5Go7svLeylAIK/EEsiClAPmvdv4ttCXiLfYnicBjtG/cnDOlDfOoRyq
- qhB995y++QwMg5Li89skyZD/Yc2RDkshYC/Mkjct8LGK/0zXRTjCGw53IpouRZamrWXK8J
- uhezZb3ePVwOWaoJG4Eg6l7DCwWeogo=
+ bh=ulFfKXoRq8QJukyKpX0WjkN9+vmh3h2i2KxS5J3haRQ=;
+ b=DGEwghLPcWpzoCyyuOkZszuDl1Q8nqded/8dPqG8Q4YU7UWvuMuws+oda0lX7DvFwZ+65W
+ XLmqjEpMg3A4TrGv93zlxgQ+Qy09zlx1ClX33wXVIJnWV+LhMQb61MKYsIUi4IlLy2c44/
+ lsHCp3gnEtoVC69tYvIoR77t/2E1jZw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643807707;
+ s=susede2_ed25519; t=1643807966;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pepWXB5DvgjMJGEOiNQEx9XrtwsT7XquutmoNVWSlU4=;
- b=VDrw+YadqVUsdwACF7urbi3ndmOhUBvTEabGX1G+gvq1l75Q+bA8vCqac7k+0k+NMTefJ8
- 2C0zZB7ce9NEF1BQ==
+ bh=ulFfKXoRq8QJukyKpX0WjkN9+vmh3h2i2KxS5J3haRQ=;
+ b=MK6+KnaE5ttkGnMgjHwh7+EWvFddHB6ebwBy9l80HtxfBniDhBKSGdFapKAUgiUVemN/AT
+ 0MJWjC+AmEHj1gCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55DC213E48;
- Wed,  2 Feb 2022 13:15:07 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 23CC913E48;
+ Wed,  2 Feb 2022 13:19:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id h92FFNuD+mHuQAAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 02 Feb 2022 13:15:07 +0000
-Message-ID: <5bc42a39-9c6a-bf63-9470-ab9e44fa1c68@suse.de>
-Date: Wed, 2 Feb 2022 14:15:06 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id GJBXCN6E+mFeQwAAMHmgww
+ (envelope-from <hare@suse.de>); Wed, 02 Feb 2022 13:19:26 +0000
+Message-ID: <7a8e472b-8534-957e-6c32-49d3b919f382@suse.de>
+Date: Wed, 2 Feb 2022 14:19:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCHv2 5/7] asm-generic: introduce be48 unaligned accessors
+Subject: Re: [PATCHv2 6/7] block: add pi for nvme enhanced integrity
 Content-Language: en-US
 To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, colyli@suse.de,
- Arnd Bergmann <arnd@arndb.de>
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, colyli@suse.de
 References: <20220201190128.3075065-1-kbusch@kernel.org>
- <20220201190128.3075065-6-kbusch@kernel.org>
+ <20220201190128.3075065-7-kbusch@kernel.org>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220201190128.3075065-6-kbusch@kernel.org>
+In-Reply-To: <20220201190128.3075065-7-kbusch@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220202_051508_876159_6CB3703D 
-X-CRM114-Status: UNSURE (   9.45  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220202_051927_704389_F02142E0 
+X-CRM114-Status: GOOD (  11.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,18 +92,19 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2/1/22 20:01, Keith Busch wrote:
-> The NVMe protocol extended the data integrity fields with unaligned
-> 48-bit reference tags. Provide some helper accessors in
-> preparation for these.
+> The NVMe specification defines larger data integrity formats beyond the
+> t10 tuple. Add support for the specification defined CRC64 formats,
+> assuming the reference tag does not need to be split with the "storage
+> tag".
 > 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 > ---
->   include/asm-generic/unaligned.h | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
+>   block/Kconfig          |   1 +
+>   block/t10-pi.c         | 194 +++++++++++++++++++++++++++++++++++++++++
+>   include/linux/t10-pi.h |  20 +++++
+>   3 files changed, 215 insertions(+)
 > 
-Hehe.
-
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
