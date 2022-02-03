@@ -4,145 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6E88C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 13:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3BF8C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 13:33:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Af68/HzxY2LzCLdCfEsk/0WoaRFhEvqm/pGhbOiph1s=; b=gAbK5E+sD3BGhgNwDWAXS/jUSe
-	xQno4KP5xShkqM9cRkcINyuZH7F3go9ULvRiFzztgzycZLEme54S0cYcKzCgZwB6e++aHdwG35nVp
-	+xU5BKHnL/kNP3JKts9o3b9LHuuazb34eilgdd7hafIMFWxyAw3zvFWUZncdFSaDkWuhCvb0HRnJy
-	e+JXPMTRiUKSl0RmM0h5paeWsstdhMQkedqo7kRiLx1b6vjcYlPq+/2hXMFs2i4cqjizPhqQst3GC
-	yuWkAqnLd2wz8Sb82kiOL7eTM4t5WQF2UfWqJNM9ZEbGflFiuNWd/FQbxHy1VWI4yUUGguMI7Sq2H
-	8sSZDgwA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RsbpR8SQ05FCq3e2UtjkV5ConR/pdlO8UD8eN5RnerI=; b=q4mru5k1V2LqlU1yNY6VB3lPF+
+	OKvGZk7R1rGDyCJsm2szdbCe2+bzLxav26m9gGrmkMCn41FlR8luvP/khvMbdV6XoGW7vaC3jjfFB
+	3pWG6DfowcorblfoWrMoRSiCxYZqE8AsWhUH8SSVcmxoFuwTlMlGugs2Nkq0tgXtc5P7btscsckgh
+	Cgjq7SA4JZxVj7zyiwpkXqNWyWFV8yY7FYU1DVsCBwnlQfYhJxnfUWzxsKZE/YEn5ZW+HYvGJ/Rd6
+	JjrmO0bnyGzoKLgcniTzTT9XbrhHIIPGZCk8/J0PLoP7Ykp0Ohk4jjQOqdL7jaajwm72U/hnObeW+
+	BDCfRNRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFc3Z-001P8z-EP; Thu, 03 Feb 2022 13:21:49 +0000
-Received: from mail-bn8nam12on20617.outbound.protection.outlook.com
- ([2a01:111:f400:fe5b::617]
- helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1nFcEY-001ROY-1e; Thu, 03 Feb 2022 13:33:10 +0000
+Received: from mail-wr1-f41.google.com ([209.85.221.41])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFc3P-001P74-8Y
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 13:21:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=foo5xb9hGyWWoEk+XNqSG4tf6amXG0vfnbNxWsQkMv2eORH6BV1MwSeLTkZFS8lN1UF33WtIFeymaulo5iSd3YpKCLpfeLChWtsHF1PZhMTqX7QPU96k59axy6lvOPaBoZaV2zoSBKasjoeVYf/SjE6tncnxZ8MpYe0kJtZPk8qb+3+5wqQnDmAcsjeMKpG6i2HmhYrvnJywSMH9hKNLB1lbrrj59lMa19+IF8H5l6LfvGisRZifWy8Q2JTwr/tyolY5ng70tDP40ab2If7ekukLO9R7dlQ0wU6IlIxBTSVjA1o5BUmpeFMPpRtcMKxCMRGPDLBLdmWATXFF8DhYog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Af68/HzxY2LzCLdCfEsk/0WoaRFhEvqm/pGhbOiph1s=;
- b=ag5RJYwxzFAn1wKJr/AvieObMH87y+LKeEXJ5IwO2MyoWV7tz+efBy+DARGxiVWctzC/MzSVNZMaw8w/LuXbpmNDPzCOzazJH6OCVfZrx5Jgy9BtM1EUi+n10BTLRQG5QfjHpqNrZ8xr6HdFGpnJVdAFhLi2aqRp9q0d0PzA3+krXWKEloFFLK8a19hkQ/hSyQVkzU84IdTgsuIUIXIZYlFcL2dgA9PQ0UBvC0EFsBANjHu3/ROpd6B0BjacZkzsbvvJ/UsM7Vpra4pssVMg7OqKqpyQOOR8tBbOBn534DYy9Fl8joSaN4MlneL1zXN6xsz9iQkFFZTzHPvzLn0VcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Af68/HzxY2LzCLdCfEsk/0WoaRFhEvqm/pGhbOiph1s=;
- b=cznMhnci1qiCsFO2GePYRSRcC7agOOWRmnocVgS8hhFZ2YbJeMqNtdgLhvi1c6YjNQ+PD6+yLzNO06ukHkJmojuIFC/0oBZAMVhCScwQGaWNdn+ugZ3omuroqb3/OMdBfRh9eqF3FVvjMWzyEKg3NjChaUuhhsV2R9ugVX9DlzdhO2g2XS7L4ACZEMslOaRNHJqqLekWY6JH4tvrI0TN/mXZi4w3dL16wUSZ1l0FpFa1QLLhVNkzVhtrYHE43dRSS9ld/2ym6sionMi/wNJaiyxfv21mWBAH1HTMdG7Hrzp0xkT7Pn49s9xllmUkv8tYQ2dORD+uw+DpPj2PtyTNjg==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CY4PR12MB1702.namprd12.prod.outlook.com (2603:10b6:903:11f::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Thu, 3 Feb
- 2022 13:21:36 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::846c:d3cd:5a30:c35]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::846c:d3cd:5a30:c35%5]) with mapi id 15.20.4951.014; Thu, 3 Feb 2022
- 13:21:35 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Martin Belanger <nitram_67@hotmail.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "hare@suse.de" <hare@suse.de>,
- "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me"
- <sagi@grimberg.me>, "stuart_hayes@dell.com" <stuart_hayes@dell.com>,
- "charles_rose@dell.com" <charles_rose@dell.com>, Martin Belanger
- <martin.belanger@dell.com>
+ id 1nFcEU-001RMg-O0
+ for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 13:33:08 +0000
+Received: by mail-wr1-f41.google.com with SMTP id k18so5049077wrg.11
+ for <linux-nvme@lists.infradead.org>; Thu, 03 Feb 2022 05:33:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RsbpR8SQ05FCq3e2UtjkV5ConR/pdlO8UD8eN5RnerI=;
+ b=eR65BF/H1/p9OkmO1vyJDWYR+hHXQC+e8Cfx0NP4/MOgYTyAlUWDT5fy/JjEKe/Vvb
+ y0HBzjEJQEHvnYplR4mWIyjLfasgkkTU1sMUNBHCnzCaoZft/75VwZD0oG151W0/3vrE
+ sOeSE+5S1dN0fg8pjOyTsoIibsU62FH2YiXndQ1gWMYuSPo1MH5yt0yNxLrmXconzvCw
+ cptvLNGcyUCI51tt7NUpY3JZT6xf4x9zXEqx1gXsBUr+1SyHjQO7dEIRboPJWQAxFSpt
+ hnNLnDVYqgK2F70wAY/W0frT/wLGj6TEx3p293aDeZRXKNPfnGLGMWbhYDQcw2dP2tkM
+ BegA==
+X-Gm-Message-State: AOAM530NQCmE4aNrS0bFz7rcbUmry+IYU2G6ln5blQaZwDFB5FepYqK5
+ 0c/jNgiThjd/iql94IGCxvg=
+X-Google-Smtp-Source: ABdhPJy//fAWTyDQ2ie2y8AvjpOG1XJoyhnH13OVBbkCcapFkJh15Nsq5BEzF7zbEpgWdrF5JXGjuw==
+X-Received: by 2002:a5d:448b:: with SMTP id j11mr8561754wrq.172.1643895184691; 
+ Thu, 03 Feb 2022 05:33:04 -0800 (PST)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id n10sm7217513wmr.25.2022.02.03.05.33.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Feb 2022 05:33:03 -0800 (PST)
+Message-ID: <ea56c568-9cbe-3087-21b0-81023ead927f@grimberg.me>
+Date: Thu, 3 Feb 2022 15:33:01 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH 2/2] nvme: Expose cntrltype and dctype through sysfs.
-Thread-Topic: [PATCH 2/2] nvme: Expose cntrltype and dctype through sysfs.
-Thread-Index: AQHYGH0rKR6woBpeMkavuzSGK9jMn6yB0PSA
-Date: Thu, 3 Feb 2022 13:21:35 +0000
-Message-ID: <efe3f3fb-b415-f75a-3ec9-671276cef1e3@nvidia.com>
+Content-Language: en-US
+To: "Belanger, Martin" <Martin.Belanger@dell.com>,
+ Hannes Reinecke <hare@suse.de>, Martin Belanger <nitram_67@hotmail.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "Hayes, Stuart" <Stuart.Hayes@dell.com>,
+ "Rose, Charles" <Charles.Rose@dell.com>
 References: <20220202213451.33599-1-nitram_67@hotmail.com>
  <BL0PR13MB4291C612318AC862FDDEB7719C279@BL0PR13MB4291.namprd13.prod.outlook.com>
-In-Reply-To: <BL0PR13MB4291C612318AC862FDDEB7719C279@BL0PR13MB4291.namprd13.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6f8acc89-49d4-46dc-f260-08d9e7181a6c
-x-ms-traffictypediagnostic: CY4PR12MB1702:EE_
-x-microsoft-antispam-prvs: <CY4PR12MB17024FA3BE319FC3132A708AA3289@CY4PR12MB1702.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qbm/47SlJgkIfRLmYoRHDkm1WycaEg4k6Vh6J50Ht6r5DSwfIt8OgB2vlh3IzVWLZsJHrgaH3XoTmbOZ7kmGUF8wWgmMQ+k1SaZ43m3L0yZiiivmYVkhXIMbED96EP86HhG8iX72X3DAYcIUQjXo0g24MymtQH5EDTbF0iyTf0YBuJUjGk0z/xi2WYF0Oqx/g6KIhj+/ClzpKTEihINmYEKIdyX+XR6FJNYL7THCPm/0ASzv9Idif7ZOjTU/UiaZcl8SwrGqLZA3jFG5rXi+fULX1L5U+/QaS+VlDOnl5XHDqog4cx+C2SdHbfhudbMmusiS0pcuQ0tnzFPFQnBTXeoNWFbJlabUJGjUJS/2TI9hftyn8WfUQKpWhQG/BB3k/MM69tOqB0UrNUsbriioWR1K+KG1YycLjpftOlj+vNqA1n3piv5DKjJSNHzMTlUc7yvizMgnZHfqs4aQOAWHb15Ro1AjijOdT5JS3wkjJRrieB9n7jeS1KSN6F943UH8zPMgYjyro8kriQw4oMhxFCu1hKV8WhJs38/Sza3mb3eBz7GlyiOyBStjpCd/XIdoCTzj45perhywhr2ZA0zffpVcLo/6cKY6LKw2WtN3ZpmaA2wYmaou6IMVvYVgvkTPW+rn5anNfkXxKlNm/jab6Zeht4Jgow8EvJdKxfUT5Z5Q6PRcrn6FuQcXZ0ZJFiTv8rmX+4nMWC9arZK977fEg4AmJQ2H7STyg4+AYQWiV+F+CKNirJH0YIRbDY+7nBEvxnFURSSeq75+YGZM5rKo5Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6486002)(64756008)(7416002)(5660300002)(76116006)(66946007)(91956017)(36756003)(8936002)(8676002)(2906002)(66446008)(66476007)(66556008)(31686004)(6506007)(6512007)(53546011)(508600001)(316002)(4326008)(110136005)(54906003)(2616005)(83380400001)(186003)(122000001)(38070700005)(86362001)(38100700002)(71200400001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a0hKTlZGKzNWdkhpTHNqZ0NBT1RoYWdMUXgyQzBCTGZ2bnhvYUZ4M3U2c0Vs?=
- =?utf-8?B?dUs3TmxSZGNpQ0FKckV0VnkrWUZXRHJPN3B1djVmMWwzRjdyTHdFYkFxczhF?=
- =?utf-8?B?dnREb09QbUFsWHFOK1ZLM1hNOUF2Zmxvclg4MTM4MmFvQ21EV0Yzb09Na0NZ?=
- =?utf-8?B?WmRuazUzaEdCTFRpSy83TlkvQmpZVUNzODJyVUJCY1dqTlkrNVMvQTlMQ1h2?=
- =?utf-8?B?Zzg4ZjUvK1VYTDc1WGo3TTZkVlRPOVlaeURWRFBMSStWbmFEUDloWi9oUHZN?=
- =?utf-8?B?KzgxVG1JdTRWdEtnaHlEb21ld040d2MwVEF3YW9qQ3BDZkgzQkR4YTRtK0FJ?=
- =?utf-8?B?VXF6d0dPM0h2eE15N2JJZFV0UmVIeDJsSHVHSTFlZ1dCMGRvUGdXQUMvRnN1?=
- =?utf-8?B?Ykw3RDZ3aUgwZkViai84L2UxY0daNU5EaEF3T091M2w3K1orRnlQNDNHY3lH?=
- =?utf-8?B?ZWpJcVNWN1o1UzN5MDRxRGg1aWRPZDB4Wk03bkZSVXhoSE85U2IwaWY2L1Fm?=
- =?utf-8?B?S3BLZzhMTi9ZR0ZENVowWlF4bG0zUTI2STcxbWtOQ1VjSzlZMHZFWklObjJ4?=
- =?utf-8?B?OXVDSkRaenozWGVETHl0RldUR0FHL3lTZHNjVnU1cCtyZElGUFlSb3U3QmlI?=
- =?utf-8?B?MzBXaHRvU05rYmRMY2lUSU8xdHdaQ2J5MG82RjZQYzF5WkxDQmNEU0xSazNw?=
- =?utf-8?B?QU5VMWRkd1lqaW1qMmYyZDZVK1crdVA5ZWFGaXBQZ21JK2JTbzR6MVZsYTJm?=
- =?utf-8?B?N0JYTExsMmxQT2x6NkVzTHpURHE0Ym4rdm1JbW5mbkpDNUg5cDEwVTZGT3VS?=
- =?utf-8?B?dDhvajJjWGNtcVc2ZlIxQTFqb1l1ajhOWUIyeThjQzc4Q0x3VnhlOXRRTndF?=
- =?utf-8?B?R2wyTzlaVUNLZ01GNmJMR0ErUDdZR3NacTRSY1hVaFVLa1RLUjF4V0c4WjZs?=
- =?utf-8?B?RlBlN3lIOE0wRUlEUXVwbEt1SVFodEsrVExGQjljL3M3cEVhSmEzN0tIalZ3?=
- =?utf-8?B?UWtJTVIrNnIzOEtNaGtnaGlXNFE1N1J4Z2kzUWtMRzA3TklWTTVUM0liYVo1?=
- =?utf-8?B?emUrQ01NQk5yRy96L1hiTms2cFp5WU44bXVjYkRXRjVHdmRkdUJWblFyTnRF?=
- =?utf-8?B?ZGZMcGluSUJUOE5WOXZjNHVLOG0rNjZaRTBON2pvQnZrclQwMkQ1Y2NhNlpE?=
- =?utf-8?B?NWdZVWp1R1hQQlBoYVBNZnpnd085UkV0bG1YQkNGZ09jU0c0RjNLbmZFNXlP?=
- =?utf-8?B?ekdZL0xSOW5QY2pXbzlJQnJxU3VndlZMeURXRGVWaVFFaVJYL2puemRJSkFF?=
- =?utf-8?B?UitjTjZVQ0dwVkFTbFNYZFk3WkNnUnRQejdtb1RNczVLaTllMWNmSkZSbnlk?=
- =?utf-8?B?R0VkUEZraHIxR2VIYkE4U2VaOXFIbndMemtCZzdIWWxNdS9lcG4xdjdCaXFL?=
- =?utf-8?B?OVMwNHVmUVhnRUljaWVnTWtzZE5ybmFEdXVFMzhDNHVuSUpFSFg0SEh4Yk5M?=
- =?utf-8?B?Sm9XcC9PUEh1THJBSHNyOHNQN1NtaVdYT0NCR3ArZG1xVCtmbVh4Q2NGdkFP?=
- =?utf-8?B?VU9RY2pXSWVJWmU2Z29vRDR1MTZCVlN1QmQ0VFl4bGdOTkFZdkZuK0ZPZER6?=
- =?utf-8?B?ZVFKZnd1RW9yWXVsZjJ6dVpjN2NlMWYvRUtVZ1lUZ0pJcWdhVVJmM3hkd3c5?=
- =?utf-8?B?YzNxYUl5d0d4L2xYbE42bjNyMGpaZi9Va3I2ajJ5dUJrMFR0NWY4dTVrWTJE?=
- =?utf-8?B?bTJuU2pYOEptVUhEbG9yblU0TE83U3dreDlQRFQrMDFZT0szV09WZ3FUd0tK?=
- =?utf-8?B?Y1FwM2ozTmh3UFJDN1JUQzNEYk1CZThmTTFtMG1TdUZaWmZWdkVWK1lwdzNW?=
- =?utf-8?B?V3l3Smd1RWdSakp5eGRhTERqeVVCUU1ISkNUaERjaFN3NXZRc1ZxeW9ZbWc2?=
- =?utf-8?B?TDFnNXFOektkanlzV2lEMDNqTzgzNWtldUJ2dml0b25pODFFZHc0cWdqb05h?=
- =?utf-8?B?NGdPcVUrdlROVTI0NUVoNTdBb0V4SC9PdDMyQi8rS3VNaDc1bmp3Wm1TeVN1?=
- =?utf-8?B?RDQzcFAyeUZFS1BpWkkrNjFqVlFIVmpvTUhvL3VycTRCdEFCc0lFSlNyaG1Y?=
- =?utf-8?B?bFpGRnA3eUdFNGpkZ3ZlblpSWjFxVDhtVExjdm5NVVdsRERPYlBLWktWOXhl?=
- =?utf-8?B?YlpzVzhPZis4aCtCNlRhTk0xUnY0eEk0bzM2bXJqUWwzOFd1bWQrUHN0aEw1?=
- =?utf-8?B?M1FZYXowbHMzTU1FYlJTbTNOV3JnPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <334E8AE8C823C4419542F9413E2F94FD@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f8acc89-49d4-46dc-f260-08d9e7181a6c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2022 13:21:35.7121 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QPON7QN04ls5J7V3ffJwMn1vqVaKo5gN6W7IVULEbZF0WQbXPxaBIg2kmq+xRK2FEn+qwTwc73sLHeRvTIo/Rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1702
+ <49b2d58e-80b4-94f2-77ef-c2d1ec19e581@suse.de>
+ <BLAPR19MB45318B8797176BF97BAB0A30F2289@BLAPR19MB4531.namprd19.prod.outlook.com>
+ <68451fbe-ff4c-a89c-36d7-1b5829fab825@suse.de>
+ <SJ0PR19MB4544B435D22B0F19E2B7CEBAF2289@SJ0PR19MB4544.namprd19.prod.outlook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <SJ0PR19MB4544B435D22B0F19E2B7CEBAF2289@SJ0PR19MB4544.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220203_052139_485497_824FFD40 
-X-CRM114-Status: GOOD (  26.57  )
+X-CRM114-CacheID: sfid-20220203_053306_836092_EFCFD3A5 
+X-CRM114-Status: GOOD (  22.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,117 +89,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yLzIyIDEzOjM0LCBNYXJ0aW4gQmVsYW5nZXIgd3JvdGU6DQo+IEZyb206IE1hcnRpbiBC
-ZWxhbmdlciA8bWFydGluLmJlbGFuZ2VyQGRlbGwuY29tPg0KPiANCj4gVFA4MDEwIGludHJvZHVj
-ZXMgdGhlIERpc2NvdmVyeSBDb250cm9sbGVyIFR5cGUgKGRjdHlwZSkNCj4gYXR0cmlidXRlLiBU
-aGUgZGN0eXBlIGlzIHJldHVybmVkIGluIHRoZSByZXNwb25zZSB0byB0aGUNCj4gSWRlbnRpZnkg
-Y29tbWFuZC4gVGhpcyBwYXRjaCBleHBvc2VzIHRoZSBkY3R5cGUgdGhyb3VnaA0KPiB0aGUgc3lz
-ZnMuIFNpbmNlIHRoZSBkY3R5cGUgZGVwZW5kcyBvbiB0aGUgQ29udHJvbGxlcg0KPiBUeXBlIChj
-bnRybHR5cGUpLCBhbm90aGVyIGF0dHJpYnV0ZSBvZiB0aGUgSWRlbnRpZnkNCj4gcmVzcG9uc2Us
-IHRoZSBwYXRjaCBhbHNvIGV4cG9zZXMgdGhlIGNudHJsdHlwZSBhcyB3ZWxsLg0KPiANCg0KYWJv
-dmUgY2FuIGJlIHJlIGFsaWduZWQgdG8gNzIgY2hhciBwZXIgbGluZSA6LQ0KDQpUUDgwMTAgaW50
-cm9kdWNlcyB0aGUgRGlzY292ZXJ5IENvbnRyb2xsZXIgVHlwZSAoZGN0eXBlKSBhdHRyaWJ1dGUu
-IFRoZQ0KZGN0eXBlIGlzIHJldHVybmVkIGluIHRoZSByZXNwb25zZSB0byB0aGUgSWRlbnRpZnkg
-Y29tbWFuZC4gVGhpcyBwYXRjaA0KZXhwb3NlcyB0aGUgZGN0eXBlIHRocm91Z2ggdGhlIHN5c2Zz
-LiBTaW5jZSB0aGUgZGN0eXBlIGRlcGVuZHMgb24gdGhlDQpDb250cm9sbGVyIFR5cGUgKGNudHJs
-dHlwZSksIGFub3RoZXIgYXR0cmlidXRlIG9mIHRoZSBJZGVudGlmeSByZXNwb25zZSwNCnRoZSBw
-YXRjaCBhbHNvIGV4cG9zZXMgdGhlIGNudHJsdHlwZSBhcyB3ZWxsLg0KDQoNCj4gU2lnbmVkLW9m
-Zi1ieTogTWFydGluIEJlbGFuZ2VyIDxtYXJ0aW4uYmVsYW5nZXJAZGVsbC5jb20+DQo+IC0tLQ0K
-PiAgIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyB8IDM1ICsrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrDQo+ICAgZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIHwgIDMgKysrDQo+ICAg
-aW5jbHVkZS9saW51eC9udm1lLmggICAgIHwgMTAgKysrKysrKysrLQ0KPiAgIDMgZmlsZXMgY2hh
-bmdlZCwgNDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYw0KPiBp
-bmRleCA4NzJjMzg5ZGM2ZDMuLmM2NWQ0NGZiNjVjNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9u
-dm1lL2hvc3QvY29yZS5jDQo+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYw0KPiBAQCAt
-Mjk5Miw2ICsyOTkyLDkgQEAgc3RhdGljIGludCBudm1lX2luaXRfaWRlbnRpZnkoc3RydWN0IG52
-bWVfY3RybCAqY3RybCkNCj4gICAJY3RybC0+bWF4X25hbWVzcGFjZXMgPSBsZTMyX3RvX2NwdShp
-ZC0+bW5hbik7DQo+ICAgCWN0cmwtPmN0cmF0dCA9IGxlMzJfdG9fY3B1KGlkLT5jdHJhdHQpOw0K
-PiAgIA0KPiArCWN0cmwtPmNudHJsdHlwZSA9IGlkLT5jbnRybHR5cGU7DQo+ICsJY3RybC0+ZGN0
-eXBlID0gaWQtPmRjdHlwZTsNCj4gKw0KPiAgIAlpZiAoaWQtPnJ0ZDNlKSB7DQo+ICAgCQkvKiB1
-cyAtPiBzICovDQo+ICAgCQl1MzIgdHJhbnNpdGlvbl90aW1lID0gbGUzMl90b19jcHUoaWQtPnJ0
-ZDNlKSAvIFVTRUNfUEVSX1NFQzsNCj4gQEAgLTM1MjUsNiArMzUyOCwzNCBAQCBzdGF0aWMgc3Np
-emVfdCBudm1lX2N0cmxfZmFzdF9pb19mYWlsX3Rtb19zdG9yZShzdHJ1Y3QgZGV2aWNlICpkZXYs
-DQo+ICAgc3RhdGljIERFVklDRV9BVFRSKGZhc3RfaW9fZmFpbF90bW8sIFNfSVJVR08gfCBTX0lX
-VVNSLA0KPiAgIAludm1lX2N0cmxfZmFzdF9pb19mYWlsX3Rtb19zaG93LCBudm1lX2N0cmxfZmFz
-dF9pb19mYWlsX3Rtb19zdG9yZSk7DQo+ICAgDQo+ICtzdGF0aWMgc3NpemVfdCBudm1lX2N0cmxf
-Y250cmx0eXBlX3Nob3coc3RydWN0IGRldmljZSAqZGV2LA0KPiArCQkJCSAgICAgc3RydWN0IGRl
-dmljZV9hdHRyaWJ1dGUgKmF0dHIsIGNoYXIgKmJ1ZikNCj4gK3sNCj4gKwlzdHJ1Y3QgbnZtZV9j
-dHJsICpjdHJsID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ICsNCj4gKwlzd2l0Y2ggKGN0cmwt
-PmNudHJsdHlwZSkgew0KPiArCWNhc2UgTlZNRV9DVFJMX0lPOglyZXR1cm4gc3lzZnNfZW1pdChi
-dWYsICJpb1xuIik7DQo+ICsJY2FzZSBOVk1FX0NUUkxfRElTQzoJcmV0dXJuIHN5c2ZzX2VtaXQo
-YnVmLCAiZGlzY1xuIik7DQo+ICsJY2FzZSBOVk1FX0NUUkxfQURNSU46CXJldHVybiBzeXNmc19l
-bWl0KGJ1ZiwgImFkbWluXG4iKTsNCj4gKwlkZWZhdWx0OgkJcmV0dXJuIHN5c2ZzX2VtaXQoYnVm
-LCAicmVzZXJ2ZWRcbiIpOw0KDQpwbGVhc2Uga2VlcCB0aGUgcmV0dXJuIG9uIG5ldyBsaW5lIC4u
-Lg0KDQo+ICsJfQ0KPiArfQ0KDQp3aXRoIG5ld2xpbmUgYWRkZWQgdG8gdGhlIHN3aXRjaCBmb3Ig
-ZWFjaCBuZXcgY2FzZSB3ZSB3aWxsIGJlIGFkZGluZyBuZXcgDQpjYXNlIHN0YXRlbWVudCBhbmQg
-YSBzeXNmc19lbWl0KCkgY2FsbCwgZm9sbG93aW5nIHN0eWxlIGF2b2lkcyBjdXJyZW50IA0KYW5k
-IGZ1dHVyZSByZXBldGF0aW9ucyBvZiBjYXNlIC4uLiBzeXNmc19lbWl0KCkgY2FsbHMgYW5kIGJy
-aW5ncyBkb3duIHRvIA0Kb25seSB0d28gY2FsbHMgaW5jbHVkaW5nIGFueSBmdXR1cmUgY3RybCB0
-eXBlIHZhbHVlICgyIGxpbmVzIGZvciBlYWNoIA0KbmV3IHZhbHVlIHBmIGN0cmx0eXBlIHZzIDEg
-bGluZSBpbiB0aGUgYXJyYXkgb2Ygc3RyaW5nIDotDQoNCnN0YXRpYyBzc2l6ZV90IG52bWVfY3Ry
-bF9jbnRybHR5cGVfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICphdHRyLCANCmNoYXIg
-KmJ1ZikNCnsNCiAgICAgICAgIGNvbnN0IGNoYXIgKnR5cGVbXSA9IHsNCiAgICAgICAgICAgICBb
-TlZNRV9DVFJMX0lPXSwgImlvXG4iLA0KICAgICAgICAgICAgIFtOVk1FX0NUUkxfRElTQ10sICJk
-aXNjXG4iLA0KICAgICAgICAgICAgIFtOVk1FX0NUUkxfQURNSU5dLCAiYWRtaW5cbiIsDQogICAg
-ICAgICB9Ow0KDQogICAgICAgICBpZiAoY3RybC0+Y250cmx0eXBlID4gTlZNRV9DVFJMX0FETUlO
-IHx8ICF0eXBlW2N0cmwtPmN0cmx0eXBlXSkNCiAgICAgICAgICAgICByZXR1cm4gc3lzZnNfZW1p
-dChidWYsICJyZXNlcnZlZFxuIik7DQoNCiAgICAgICAgIHJldHVybiBzeXNmc19lbWl0KGJ1Ziwg
-dHlwZVtjdHJsLT5jdHJsdHlwZV0pOw0KfQ0KDQoNCg0KDQo+ICtzdGF0aWMgREVWSUNFX0FUVFIo
-Y250cmx0eXBlLCBTX0lSVUdPLCBudm1lX2N0cmxfY250cmx0eXBlX3Nob3csIE5VTEwpOw0KPiAr
-DQo+ICtzdGF0aWMgc3NpemVfdCBudm1lX2N0cmxfZGN0eXBlX3Nob3coc3RydWN0IGRldmljZSAq
-ZGV2LA0KPiArCQkJCSAgICAgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsIGNoYXIgKmJ1
-ZikNCj4gK3sNCj4gKwlzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsID0gZGV2X2dldF9kcnZkYXRhKGRl
-dik7DQo+ICsNCj4gKwlzd2l0Y2ggKGN0cmwtPmRjdHlwZSkgew0KPiArCWNhc2UgTlZNRV9EQ1RZ
-UEVfTk9UX1JFUE9SVEVEOglyZXR1cm4gc3lzZnNfZW1pdChidWYsICJuclxuIik7DQo+ICsJY2Fz
-ZSBOVk1FX0RDVFlQRV9EREM6CQlyZXR1cm4gc3lzZnNfZW1pdChidWYsICJkZGNcbiIpOw0KPiAr
-CWNhc2UgTlZNRV9EQ1RZUEVfQ0RDOgkJcmV0dXJuIHN5c2ZzX2VtaXQoYnVmLCAiY2RjXG4iKTsN
-Cj4gKwlkZWZhdWx0OgkJCXJldHVybiBzeXNmc19lbWl0KGJ1ZiwgInJlc2VydmVkXG4iKTsNCj4g
-Kwl9DQo+ICt9DQoNCnNhbWUgY29tbWVudCBhcyBhYm92ZSB0byB1c2UgYXJyYXkgb2Ygc3RyaW5n
-IHVubGVzcyB0aGVyZSBpcyBhbnkgcmVhc29uDQp3ZSBzaG91bGQgcmVwZWF0IHRoZSBzeXNmc19l
-bWl0KCkgY2FsbHMuDQoNCj4gK3N0YXRpYyBERVZJQ0VfQVRUUihkY3R5cGUsIFNfSVJVR08sIG52
-bWVfY3RybF9kY3R5cGVfc2hvdywgTlVMTCk7DQo+ICsNCj4gICBzdGF0aWMgc3RydWN0IGF0dHJp
-YnV0ZSAqbnZtZV9kZXZfYXR0cnNbXSA9IHsNCj4gICAJJmRldl9hdHRyX3Jlc2V0X2NvbnRyb2xs
-ZXIuYXR0ciwNCj4gICAJJmRldl9hdHRyX3Jlc2Nhbl9jb250cm9sbGVyLmF0dHIsDQo+IEBAIC0z
-NTQ2LDYgKzM1NzcsOCBAQCBzdGF0aWMgc3RydWN0IGF0dHJpYnV0ZSAqbnZtZV9kZXZfYXR0cnNb
-XSA9IHsNCj4gICAJJmRldl9hdHRyX3JlY29ubmVjdF9kZWxheS5hdHRyLA0KPiAgIAkmZGV2X2F0
-dHJfZmFzdF9pb19mYWlsX3Rtby5hdHRyLA0KPiAgIAkmZGV2X2F0dHJfa2F0by5hdHRyLA0KPiAr
-CSZkZXZfYXR0cl9jbnRybHR5cGUuYXR0ciwNCj4gKwkmZGV2X2F0dHJfZGN0eXBlLmF0dHIsDQo+
-ICAgCU5VTEwNCj4gICB9Ow0KPiAgIA0KPiBAQCAtMzU2OSw2ICszNjAyLDggQEAgc3RhdGljIHVt
-b2RlX3QgbnZtZV9kZXZfYXR0cnNfYXJlX3Zpc2libGUoc3RydWN0IGtvYmplY3QgKmtvYmosDQo+
-ICAgCQlyZXR1cm4gMDsNCj4gICAJaWYgKGEgPT0gJmRldl9hdHRyX2Zhc3RfaW9fZmFpbF90bW8u
-YXR0ciAmJiAhY3RybC0+b3B0cykNCj4gICAJCXJldHVybiAwOw0KPiArCWlmIChhID09ICZkZXZf
-YXR0cl9kY3R5cGUuYXR0ciAmJiBjdHJsLT5jbnRybHR5cGUgPT0gTlZNRV9DVFJMX0RJU0MpDQo+
-ICsJCXJldHVybiAwOw0KPiAgIA0KPiAgIAlyZXR1cm4gYS0+bW9kZTsNCj4gICB9DQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9udm1lLmggYi9kcml2ZXJzL252bWUvaG9zdC9udm1l
-LmgNCj4gaW5kZXggYTE2MmY2YzZkYTZlLi5lMzA2MjZjMDA3OTEgMTAwNjQ0DQo+IC0tLSBhL2Ry
-aXZlcnMvbnZtZS9ob3N0L252bWUuaA0KPiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgN
-Cj4gQEAgLTM0OSw2ICszNDksOSBAQCBzdHJ1Y3QgbnZtZV9jdHJsIHsNCj4gICAJdW5zaWduZWQg
-bG9uZyBkaXNjYXJkX3BhZ2VfYnVzeTsNCj4gICANCj4gICAJc3RydWN0IG52bWVfZmF1bHRfaW5q
-ZWN0IGZhdWx0X2luamVjdDsNCj4gKw0KPiArCWVudW0gbnZtZV9jdHJsX3R5cGUgY250cmx0eXBl
-Ow0KPiArCWVudW0gbnZtZV9kY3R5cGUgZGN0eXBlOw0KPiAgIH07DQo+ICAgDQo+ICAgZW51bSBu
-dm1lX2lvcG9saWN5IHsNCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbnZtZS5oIGIvaW5j
-bHVkZS9saW51eC9udm1lLmgNCj4gaW5kZXggODU1ZGQ5YjNlODRiLi5hZjE0OTRkODNhNTIgMTAw
-NjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvbnZtZS5oDQo+ICsrKyBiL2luY2x1ZGUvbGludXgv
-bnZtZS5oDQo+IEBAIC00Myw2ICs0MywxMiBAQCBlbnVtIG5hbWVfY3RybF90eXBlIHsNCj4gICAJ
-TlZNRV9DVFJMX0FETUlOCT0gMywJCS8qIEFkbWluaXN0cmF0aXZlIGNvbnRyb2xsZXIgKi8NCj4g
-ICB9Ow0KPiAgIA0KPiArZW51bSBudm1lX2RjdHlwZSB7DQo+ICsJTlZNRV9EQ1RZUEVfTk9UX1JF
-UE9SVEVEID0gMCwNCj4gKwlOVk1FX0RDVFlQRV9EREMgPSAxLAkJLyogRGlyZWN0IERpc2NvdmVy
-eSBDb250cm9sbGVyICovDQo+ICsJTlZNRV9EQ1RZUEVfQ0RDID0gMiwJCS8qIENlbnRyYWwgRGlz
-Y292ZXJ5IENvbnRyb2xsZXIgKi8NCj4gK307DQo+ICsNCg0KY29uc2lkZXIgZm9sbHdpbmcgd2l0
-aCBhbGlnbmVkIGluaXRpYWwgdmFsdWVzIHRoYXQgYWxzbyBtYXRjaGVzIHdoYXQNCndlIGhhdmUg
-aW4gdGhlIGluY2x1ZGUvbGludXgvbnZtZS5oIGZvciBlbnVtcyBpbml0aWFsaXphdGlvbiA6LQ0K
-ZW51bSBudm1lX2RjdHlwZSB7DQogICAgICAgICBOVk1FX0RDVFlQRV9OT1RfUkVQT1JURUQgICAg
-ICAgID0gMCwNCiAgICAgICAgIE5WTUVfRENUWVBFX0REQyAgICAgICAgICAgICAgICAgPSAxLCAv
-KiBEaXJlY3QgRGlzY292ZXJ5IA0KQ29udHJvbGxlciAqLw0KICAgICAgICAgTlZNRV9EQ1RZUEVf
-Q0RDICAgICAgICAgICAgICAgICA9IDIsIC8qIENlbnRyYWwgRGlzY292ZXJ5IA0KQ29udHJvbGxl
-ciAqLw0KfTsNCg0KPiAgIC8qIEFkZHJlc3MgRmFtaWx5IGNvZGVzIGZvciBEaXNjb3ZlcnkgTG9n
-IFBhZ2UgZW50cnkgQURSRkFNIGZpZWxkICovDQo+ICAgZW51bSB7DQo+ICAgCU5WTUZfQUREUl9G
-QU1JTFlfUENJCT0gMCwJLyogUENJZSAqLw0KPiBAQCAtMzIwLDcgKzMyNiw5IEBAIHN0cnVjdCBu
-dm1lX2lkX2N0cmwgew0KPiAgIAlfX2xlMTYJCQlpY2RvZmY7DQo+ICAgCV9fdTgJCQljdHJhdHRy
-Ow0KPiAgIAlfX3U4CQkJbXNkYmQ7DQo+IC0JX191OAkJCXJzdmQxODA0WzI0NF07DQo+ICsJX191
-OAkJCXJzdmQxODA0WzJdOw0KPiArCV9fdTgJCQlkY3R5cGU7DQo+ICsJX191OAkJCXJzdmQxODA3
-WzI0MV07DQo+ICAgCXN0cnVjdCBudm1lX2lkX3Bvd2VyX3N0YXRlCXBzZFszMl07DQo+ICAgCV9f
-dTgJCQl2c1sxMDI0XTsNCj4gICB9Ow0KPiANCg==
+
+>>>>> From: Martin Belanger <martin.belanger@dell.com>
+>>>>>
+>>>>> TP8010 introduces the Discovery Controller Type (dctype) attribute.
+>>>>> The dctype is returned in the response to the Identify command. This
+>>>>> patch exposes the dctype through the sysfs. Since the dctype depends
+>>>>> on the Controller Type (cntrltype), another attribute of the
+>>>>> Identify response, the patch also exposes the cntrltype as well.
+>>>>>
+>>>>> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+>>>>> ---
+>>>>>     drivers/nvme/host/core.c | 35
+>>>> +++++++++++++++++++++++++++++++++++
+>>>>>     drivers/nvme/host/nvme.h |  3 +++
+>>>>>     include/linux/nvme.h     | 10 +++++++++-
+>>>>>     3 files changed, 47 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>>> index
+>>>>> 872c389dc6d3..c65d44fb65c4 100644
+>>>>> --- a/drivers/nvme/host/core.c
+>>>>> +++ b/drivers/nvme/host/core.c
+>>>>> @@ -2992,6 +2992,9 @@ static int nvme_init_identify(struct nvme_ctrl
+>>>> *ctrl)
+>>>>>     	ctrl->max_namespaces = le32_to_cpu(id->mnan);
+>>>>>     	ctrl->ctratt = le32_to_cpu(id->ctratt);
+>>>>>
+>>>>> +	ctrl->cntrltype = id->cntrltype;
+>>>>> +	ctrl->dctype = id->dctype;
+>>>>> +
+>>>>>     	if (id->rtd3e) {
+>>>>>     		/* us -> s */
+>>>>>     		u32 transition_time = le32_to_cpu(id->rtd3e) /
+>>>> USEC_PER_SEC; @@
+>>>>> -3525,6 +3528,34 @@ static ssize_t
+>>>> nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
+>>>>>     static DEVICE_ATTR(fast_io_fail_tmo, S_IRUGO | S_IWUSR,
+>>>>>     	nvme_ctrl_fast_io_fail_tmo_show,
+>>>> nvme_ctrl_fast_io_fail_tmo_store);
+>>>>>
+>>>>> +static ssize_t nvme_ctrl_cntrltype_show(struct device *dev,
+>>>>> +				     struct device_attribute *attr, char *buf) {
+>>>>> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>>>>> +
+>>>>> +	switch (ctrl->cntrltype) {
+>>>>> +	case NVME_CTRL_IO:	return sysfs_emit(buf, "io\n");
+>>>>> +	case NVME_CTRL_DISC:	return sysfs_emit(buf, "disc\n");
+>>>>
+>>>> 'discovery', please. 'disc' is misleading here.
+>>>>
+>>>>> +	case NVME_CTRL_ADMIN:	return sysfs_emit(buf, "admin\n");
+>>>>> +	default:		return sysfs_emit(buf, "reserved\n");
+>>>>> +	}
+>>>>> +}
+>>>>> +static DEVICE_ATTR(cntrltype, S_IRUGO, nvme_ctrl_cntrltype_show,
+>>>>> +NULL);
+>>>>> +
+>>>>> +static ssize_t nvme_ctrl_dctype_show(struct device *dev,
+>>>>> +				     struct device_attribute *attr, char *buf) {
+>>>>> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>>>>> +
+>>>>> +	switch (ctrl->dctype) {
+>>>>> +	case NVME_DCTYPE_NOT_REPORTED:	return sysfs_emit(buf,
+>>>> "nr\n");
+>>>>
+>>>> Please use 'none' here; 'nr' is ambiguous ('Number'?)
+>>>
+>>> Thanks for the review. I will apply the changes.
+>>>
+>>> Question: Since this was part of a set of patches, do I need to
+>>> resubmit the whole set or can I just resubmit this one patch?
+>>>
+>> Whole series, please. And gather up the reviews when resubmitting.
+>>
+>>> Also, Sagi mentioned that the dctype should only be exposed for
+>>> Discovery Controllers, which makes sense. However, I found that when
+>>> nvme_dev_attrs_are_visible() is invoked the ctrl object is not fully
+>>> configured yet (i.e. the controller is not yet identified).
+>>> Is there any other way to determine the controller type prior to
+>>> receiving the response to the Identify command?
+>>>
+>> Nope, unfortunately.
+>>
+>> But maybe we can lump both attributes together in to a single ctrltype; then
+>> we would have 'io', 'admin', 'discovery', 'discovery-cdc', and 'discovery-ddc'.
+>>
+>> Hmm?
+> 
+> I like that. I shall combine them into a single attribute.
+
+I don't think this is a good approach.
+
+There is already an interface to update sysfs groups, so in theory
+this should do the trick:
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c11cd3a814fd..d86828cf7720 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3115,6 +3115,11 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+                         return ret;
+         }
+
++       ret = sysfs_update_groups(&ctrl->device->kobj, 
+ctrl->device->groups);
++       if (ret)
++               return ret;
++
++
+         ctrl->identified = true;
+
+         return 0;
+--
+
+But probably we want add a nicer interface like
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c11cd3a814fd..8fb94cb15fb0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3115,6 +3115,11 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+                         return ret;
+         }
+
++       ret = device_update_groups(&ctrl->device);
++       if (ret)
++               return ret;
++
++
+         ctrl->identified = true;
+
+         return 0;
+--
+
+Where device_update_groups would be something like:
+--
+int device_update_groups(struct device *dev)
+{
+         struct class *class = dev->class;
+         const struct device_type *type = dev->type;
+         int error;
+
+         if (class) {
+                 error = device_update_groups(dev, class->dev_groups);
+                 if (error)
+                         return error;
+         }
+
+         if (type) {
+                 error = device_update_groups(dev, type->groups);
+                 if (error)
+                         goto err_remove_class_groups;
+         }
+
+         error = device_update_groups(dev, dev->groups);
+         if (error)
+                 goto err_remove_type_groups;
+}
+EXPORT_SYMBOL_GPL(device_update_groups);
+--
 
