@@ -4,109 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54F54C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 21:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4FF2C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 21:19:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z44ADW6e7xTpu7oLktxjLYgq6NA2RaEU6yHsndWzJn4=; b=wXiI804svb6DkSMNgifrPqiPIw
-	nNA3+Bjj75UgGdoxJcA7MggUnrbdxvWPM9cro1oj+0OOIWPfxWuxiPXB4EZ7bOD6KodmCJAqcyeTC
-	LiAEzMBWypNUnGq6OQ2rPsF6h3IuKyORmn/Y2a7sG0xTtT5ZD6uFlPtBb4UG8bFrMSjNxnxn2MkAl
-	cVmBIGDBCt7JgSFIp0JdfIg2/XGMdkNfdzQ6I2M1SC7iQQE7XpZtzKhVPfr3HSRvS16KWwVqFDb2s
-	DDDPgMYBr7OvRC4p13pXEpOzOOwyQsTQIOp9N+u7pD++vWuimZEwmROYPvQjvXEyJlHM4Onp6fMcb
-	Nhxqhcrw==;
+	bh=v8KvQttFevL5r5KRufff604Qze0CTIPmrwKvnJrkZf4=; b=4B6RNF8HDEtqhbDtqJ+3f4bA59
+	G6ntkBxovfu0O0sqndlWrrhWNnEpR0mS30/afawW5qzkbc/Zx6RZ+VmEMg/8dLk8Wxy0R7FXYPgd6
+	L84NU5OnNsCiTCKW7dkqprWEwzd6Am5kzr+8rZ1uUVUOskg9aNbpGuG+86rrHayDbSZxh55mbRKXh
+	t/+3X2Yr2XU4a4rTnZ0BzWkpU2E5xifqqb1xgttbfM+eh3QnzujRVrKN5FFtq25n5uuvVEAh9U/ri
+	78VwEtllLC4lfywkJlBkV3EfEkHIddYMj/wdqXaPRZ5tjb16TlS2JhiozQwk9jKvFuCGixRc5TpXw
+	kVDuXEcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFjV8-002umD-Nb; Thu, 03 Feb 2022 21:18:46 +0000
-Received: from mail-mw2nam08olkn2080b.outbound.protection.outlook.com
- ([2a01:111:f400:7e8c::80b]
- helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1nFjVJ-002uo7-7L; Thu, 03 Feb 2022 21:18:57 +0000
+Received: from mail-bn8nam12olkn2077.outbound.protection.outlook.com
+ ([40.92.21.77] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFjUu-002ujK-Dd
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 21:18:33 +0000
+ id 1nFjUx-002uk9-8I
+ for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 21:18:36 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fUEhzn57geh878WCaVFuiDUIFLUvnsAAeZ3miSODCmHcFp3vTzrBjxrp+x1n7IKPLqSmqCEGEyOiSnG2Ns8hsqEJDj2hdNITlaXVzsuHaEVKFFCE2GnovvsvgqPctcIwqrVSSj8hS/60umE9TKwUaXxqCHF+6wAN7N2usNnqW93hEKjjSdmTLwVAv+fGlufzUA9I8QuZb+rmunaxUC6ahjh+4CsRxy6XT2efa+xTsdCBS41O5M4bII1+oJUuIV1VXktZOUCET7haJGKJ/N/ut2QtgLB3HoRMIUzWBOx9KQlPNVfSfy27Mv18iA0/WtfYvjaBGF0CgaE/rHk4CW8jmg==
+ b=gp8MRZTDYwFVaxHXYbekm1eAlPpEFDJiXMXzrH0Zw1TipFRxOd+be8m8fxF4VMbjLUV4ygDsftUk9/LkIvSDgcd7Cy81VxMiTj2sQ1NDrBEcF/I2z09y7726ZqZwbIlLIV4XLQPMAebrB+oaD9MUrzSbGXXqoJwL+yfxk2+TVUodFzBFIJhnc84AqbvFKQMlK21qXlcWd+rkgNEhCkxw34xwuU9uI8AK0f1amuOWOZkDnnuGhENkNj4y/k7Gr2/NBth9CfMFu0pTsFoXEvJ11JhFacFl+G4d9iZPAIGKaJwVetWIeJVEsDLQ4NOT4QcVgphyEo7exdRUeq1j5FLftA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z44ADW6e7xTpu7oLktxjLYgq6NA2RaEU6yHsndWzJn4=;
- b=U1yVwtjVMWKhfrxKdtKsqpg1G4An+SXlG8WmEOmm4uFvkyUHtQFNUGdExwUnYrWrwcPBqRYKl4eF1Whn/xn7dMrG3Ubs9haZqCsB37f9cgijvR5xKSntkJMJXZlT0yZaX+gzAO9Kr/4jD5OyUNXuM0vnC57rxIhPPEGtIb3tz07/tf8nxCggeuG6Jd8I2c5GBBN590maDQyQrzOP3DuZOhvyftSLGooTHf8QmAcxpidIpZLNux6cfD5QJkycZGRp1owwpntB3AOLK2zkQK1DSUlD+pXjXqa5t0kOVVk+OPst5/JCGbNW/KCEA7ID2QXQ9d2v4KarJ8WMYTtIJZLM7Q==
+ bh=v8KvQttFevL5r5KRufff604Qze0CTIPmrwKvnJrkZf4=;
+ b=gFhIntzFBNTp5A1ggleRE8sMAXIt7fyrJ3RTcPW+HlBo+m/b9t/uve034hNcXpm9BKqKcYNTV7+BLGvygGUWSZJBYeetXXWdEimeO0fEL+ERJwddpI4I790IsV6BNFo2lrlOfEmg8dQz+vlt+BH0gcuYjAuu8eQ+lYn8n8fryBqFbJe1qGHxPTNRwfW4XpU7XYWwlWar2kezI5FmjVAKbmIk1aihLqi0fKM6zHc1F7g6u8nvFesGPngZWzIcZ7Bl2bnw/XF5QH4BWlKxmpElGHVp2CaDbcHEz52p/ElyTREdlV8NciBhoAEsXLaGdluNB+zI+HL1N3YbvGTHHrpc/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z44ADW6e7xTpu7oLktxjLYgq6NA2RaEU6yHsndWzJn4=;
- b=Qb5paajAyzZ6admoJW3eDH5S8cIIbALrIX7RRlqHHhHBUk5PC71cjPvD6vzrr7cTASZqtgfiDskxralia++BFY1YVjLw2N4oc/oeZ4Mn38KvEcfHfmBFya8W3NqNsHrd3TLa8A3o5dnmSLGW0EUCPyWjVvulWEJ3Iczv1ocg8tSeKP59S4UFIqAPqS8ah6cdOG7NtzPCOuh+j361/aA42SMM4jg6m4ZRnuvPMZNj9ZPEJF3jeaoKHmVWjlVYJzvcNdTgk3yCi7wwmTsu1Ex6R6CuZtyuGAYOki4WGe7c6jRtyodbPmI4pvFVAYalaoBxI5yma9/DRbKYEZZYxJRiAQ==
+ bh=v8KvQttFevL5r5KRufff604Qze0CTIPmrwKvnJrkZf4=;
+ b=YMItKtcbKJEm/NjKqnqQ5GvzZM8pzVdpLpIdAMMID32tsVj5obFPUM7xHdMdPamOVr4TPGccWpGh5D4moW70R6ifz/02zPikvrcbiwuPEepvwhdfcJ+aI1koft5uWs/Erdv5QmO9/QfVDh223K/iL4X/iIfmH6GI7uDW3aMP9xi0KKbCEacN3oknVhx1e7RhgCnhkM23jUZCGQ3q8fW6XiYGYDpWLoXK/q1M9l87EtKVSLfmJh3f6AGk1LvHG43BiLxXifNBSVXDr6k7fjfsWpZQjhNIEllA3lIQiFGLy0Wwwprcj/NtQUImuyHxYLu1D3C4V/OPBmbogXCLl61SXQ==
 Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
- by MW4PR13MB5410.namprd13.prod.outlook.com (2603:10b6:303:180::7)
+ by BN7PR13MB2500.namprd13.prod.outlook.com (2603:10b6:406:b4::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.6; Thu, 3 Feb
- 2022 21:18:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.5; Thu, 3 Feb
+ 2022 21:18:32 +0000
 Received: from BL0PR13MB4291.namprd13.prod.outlook.com
  ([fe80::7c29:86b7:2695:b71e]) by BL0PR13MB4291.namprd13.prod.outlook.com
  ([fe80::7c29:86b7:2695:b71e%4]) with mapi id 15.20.4951.012; Thu, 3 Feb 2022
- 21:18:29 +0000
+ 21:18:32 +0000
 From: Martin Belanger <nitram_67@hotmail.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, hare@suse.de, axboe@fb.com, hch@lst.de,
  sagi@grimberg.me, gregkh@linuxfoundation.org, rafael@kernel.org,
  charles_rose@dell.com, stuart_hayes@dell.com,
- Martin Belanger <martin.belanger@dell.com>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCHv2 1/3] nvme: send uevent on connection up
-Date: Thu,  3 Feb 2022 16:17:46 -0500
-Message-ID: <BL0PR13MB429126376C597E0C3999F6999C289@BL0PR13MB4291.namprd13.prod.outlook.com>
+ Martin Belanger <martin.belanger@dell.com>
+Subject: [PATCHv2 2/3] nvme: Add device_update_groups()
+Date: Thu,  3 Feb 2022 16:17:47 -0500
+Message-ID: <BL0PR13MB42916EA4483338B4BD37BA3E9C289@BL0PR13MB4291.namprd13.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220203211748.27542-1-nitram_67@hotmail.com>
 References: <20220203211748.27542-1-nitram_67@hotmail.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [kK4GWYFFdBiCz+S9Vq1YDoH6ZB+K0QwZ]
+X-TMN: [W5Je0RDqkMc7N9+nuOQMn2zqGKn0Td6p]
 X-ClientProxiedBy: SA9PR13CA0143.namprd13.prod.outlook.com
  (2603:10b6:806:27::28) To BL0PR13MB4291.namprd13.prod.outlook.com
  (2603:10b6:208:8e::12)
-X-Microsoft-Original-Message-ID: <20220203211748.27542-2-nitram_67@hotmail.com>
+X-Microsoft-Original-Message-ID: <20220203211748.27542-3-nitram_67@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c41cf5f8-9927-4cf3-8b97-08d9e75ab90d
-X-MS-TrafficTypeDiagnostic: MW4PR13MB5410:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8e04a21-2d90-4cfc-1ac7-08d9e75abb2d
+X-MS-TrafficTypeDiagnostic: BN7PR13MB2500:EE_
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VJV/gRu4gqylsgTHA6DcmYrgjG/WzpJek5ClEss6ONEkYxLs3Glle2t0wTZs4USUYwAt0Eu7lkMY+VPFtEdILfs5r1J1hxmH2gfJfO3R7OS+prmVUc0DKC4v52tH3cZKr5yLVD5n/PzgN5QSgHVAMRZUu/gHDTv2fchqazuM8bgTlwdBUjx7vcl28dMsE3OHpSe83SkTVkzg84QbhwuXYm/FE9hVXC50EJjegfl/sJYRHA8Ia8ncLnnbbCCaplcUhxm9le/HV7QyNzDa+fsTg+eQ+oxZwyYctUwxGfMH+C9JMiLseWF8aW1thuCGKHrZHs2EaEqgn7QGNlS4wNTRb5P81pv3/p6zzfn3dgHlXdbGcJ2eHEKNXVNpOgZgpm+e4Pc++nEz7kIcbomFshsHffZItAC3HfRDPnvyn73a7ZDEXUrZontaY07hF5jO5KhHWN84Uil97pvLSo2/CJQ22jFkyL/cK/VH9LZO18vnyp88ezP6LMaPYmyRGIAs0tvJ/Z6HKhTjO5wq9V+stcl0k5oDzkV8mJuVV2A7wuJCBDIms5MMLV6x/PwW5aEJ8Tfjm38FmE1HJjfddhPwASC1ag==
+X-Microsoft-Antispam-Message-Info: vDb+V7m7UgMtmlP87Y3UK8nQZXigFBOsecA9dly1EEixsWGpMjF1yHRLqvaIYPdXyfsXm+hms3P/bHb6oh7jFeSPP+Qj7oo7lWdCia5xouosHaoeH9X/jCXd2hKdEKpOULdijP2wyXIR/HxZsgE5IrDa1k8tQulcjxlBftA8+dAQRgOgeXL40eaxstM0n8EEhcDjImXfMXJ0TitXhTEsikY9CIx3PlcuZZafKkasiJAvxEVcphyCcJ2fZyHV9F9Zloc8uu5OTdbKhJ0jZDTNNaGFE/nZBjVKSGR6MA1bh9w4IcyNvHnNA1VgcLSzXynUMhsKpQXWxktwBM/IiGenCMseyVNXhTMQg+aUyel9wVg+nIW/l3o7TNyk3v5sQS+O8jDdU9tL3wakzwgJbmxmiPDTb5rr6+xvqRHsS87U6nHGf4haAQgxlrRmXKfsYJgHVb77XYqWp8v4LjSxGjzh5ylwPfUDtjIYuIcSLH33o6Bdcm10yHrMrK0k//f09riMyw9lvx5kthvUgulCP5yCKOcytdPPi49/fdxGScKOcQ6RpctFSlbC8FtixeOOpFAxn6ZqZfrabfmn+0EcwWux6A==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ng4GJh5USyst3FLIuElWZYR230/1PfRiG1cgxfK743ItkWSkq2kenCkh/EMl?=
- =?us-ascii?Q?EUQhD71gaaqVdftA4qHiEnwa8hqyiKFPCBb2ZrQhQt6aX+l1dYOEeUyGN725?=
- =?us-ascii?Q?F8OMBCjt1Ian+Y5jKzdkvaGWH5moe9AO2f1xqtZj6J1t2djcaV6AzBbfcu9k?=
- =?us-ascii?Q?2rdS5xhJ8dB7TBhLF1uqjYEAXIliG+w8p2/jgFS2ifIKwh4XX8OpAO7vKdVK?=
- =?us-ascii?Q?yn9rmkEdtBdKPGHBE7XAxMhLb/4ZRCSQvF/EA4rDyJRlpFldWqUL9qf6JIOP?=
- =?us-ascii?Q?iGgUAhq3bN7lhKcNJVoFE5Aneklw1Vee0vZ4XKfoc+BvLBjeKdl+8DZm89xH?=
- =?us-ascii?Q?YjvmlCs1goY0Do5TpVu6tmWEUiepRVWl7VSedzZzexUdRE2KXw+QoUMiIFgp?=
- =?us-ascii?Q?sYYxV78Uln++Pu+951pBkQboEAEUKPMU12YmJt7GfmJXBt+pc3fsec8wmiKW?=
- =?us-ascii?Q?iTCUwDENElqg+LX0PZl0kc6E3Q1OI4acBKS3k02GHh8Y5ICVqxYrmtNyu7mE?=
- =?us-ascii?Q?JfkDxRNj/8SprX2Rd425oqbQC5A3ByYwi13v+lnWQAsX7Bk+odSDM54F3qv+?=
- =?us-ascii?Q?ZUYD3q0vMpBh7hrDJTgz/qAD+9/Fvo/AgJCwsgHdd0nu5fUJVzo2wZ9uYnaV?=
- =?us-ascii?Q?O1E8RVJLOiV3kWwzl+JUXbDPfvPnUJOC8rLaC/8C6Vu215qKBbNdP8ceTmFV?=
- =?us-ascii?Q?S9O9pzrLkuJ9gs4ziajOypUBzcEG2jLQ0iFynBYMNF3u9Ax1CzT+yQnLP2Dv?=
- =?us-ascii?Q?mo2cdbHxxM39c87ftrJa8nPNLMv0cbCnuWy12rQjs+DoviLC+dm3QsflVLRP?=
- =?us-ascii?Q?WrgH6CG1FaaPcQeIwKbjcFujYnkN/lkGmq9c88zPLhGSOKaljovw8/zrjm6x?=
- =?us-ascii?Q?tzxL/qt49PVx6ngUz6JO8foK5tzEIMjPkCNLEz/76DnhDm/trglYi1WJ3w2L?=
- =?us-ascii?Q?Qj7v8HMbOVpOkSjWjLQ4TA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wN2lKky1Z40yylhgVjnlXCLC92YUssxAHZQfuLhua6REFSmhNIe8mdNeX+MT?=
+ =?us-ascii?Q?rl5kwUo+hiKNBFXplzCZ3PF4n1/4xdSgwiX9ATLQ+qAX9l+jYhJo3O3Zj37r?=
+ =?us-ascii?Q?EgEoUzEybLDfSfXOZVrfcaV/RG5FeTZqAZIrDo4BjlpMyxLXkJdAoanudsV0?=
+ =?us-ascii?Q?MoB1dsl5gV0mI0gpY24qw3VxTvHAeNGOYDmgWP4uIQxHpf1rPhNQS0XUDuHU?=
+ =?us-ascii?Q?/asME4ANVJCUXZEdg8pvyGZyRHTxxCbGNwiJKTIzlY4hSkhdQv6HKCMTnVaB?=
+ =?us-ascii?Q?Obx5VWR2uuuPVPChM1J1PQ4Q/rJRfa+hhOhBUp9+bfxzBAxNBnBqpuKHFx3f?=
+ =?us-ascii?Q?v9rlSgK3nqfT5rwbdvfMA8Kmp8IIVsb51x231fT+01iw/N8KJ2juh8GlRcUs?=
+ =?us-ascii?Q?weaIRaUCJAgA8Q6+tQwdtZE+JN3i4gz4mQymJgc9qFDiEQCYjUGj+YaXbzdb?=
+ =?us-ascii?Q?YNlgFmJeCs2/ODtBvPaC8r+w81awqaRg2Bqg4qPZ1oW5MMGjVsJheO7cedcc?=
+ =?us-ascii?Q?32rt5eXKgtyY17j1o4Uvd1iXN1DOMZnE4tUbRALuazD4wQ8hZRHVXp6FOWt/?=
+ =?us-ascii?Q?L896pnTFLgivbYHkVPUWKk5txRmogbWCFmVFc/K5rRBTlRHXfhVtzA9Rhx0k?=
+ =?us-ascii?Q?QRwKG4U4gyJbBA90BziPwc0ucEi+EvexqoxfI8IbfhwttJlS+MmqiB8X6Q62?=
+ =?us-ascii?Q?x1X/i0yX5PuErQcjRorTSGY8gVNZ3GQeg10wZDMAYxOEkl1o2yajTSYn2TMn?=
+ =?us-ascii?Q?dStWgSI8Ih02zdiH04mVdy0uHyFuOTYvOzTyh9AS4l6nMJBGLMfjwM8j6BXP?=
+ =?us-ascii?Q?smRKD1hOaNROtOilPHrsgirr3AfkOa2UEbJBzlBlBMG+Eydh/78q9G7AvndA?=
+ =?us-ascii?Q?Gze8ny5qXj/LRXrua90y3nJNl68YhFQHwpezCczXa3L9CmOn9KXgZsqLQWHt?=
+ =?us-ascii?Q?RgMeuRaob2cwjvYRs+ogKQ=3D=3D?=
 X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: c41cf5f8-9927-4cf3-8b97-08d9e75ab90d
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8e04a21-2d90-4cfc-1ac7-08d9e75abb2d
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 21:18:29.3631 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 21:18:32.8784 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR13MB5410
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR13MB2500
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220203_131832_490105_3B8D401B 
-X-CRM114-Status: GOOD (  12.11  )
+X-CRM114-CacheID: sfid-20220203_131835_323392_4A598FA8 
+X-CRM114-Status: GOOD (  11.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,53 +121,66 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Belanger <martin.belanger@dell.com>
 
-When connectivity with a controller is lost, the driver will keep
-trying to reconnect once every 10 sec. When connection is restored,
-user-space apps need to be informed so that they can take proper
-action. For example, TP8010 introduces the DIM PDU, which is used to
-register with a discovery controller (DC). The DIM PDU is sent from
-user-space.  The DIM PDU must be sent every time a connection is
-established with a DC. Therefore, the kernel must tell user-space apps
-when connection is restored so that registration can happen.
-
-The uevent sent is a "change" uevent with environmental data
-set to: "NVME_EVENT=connected".
+This is used to update the sysfs groups after device objects are fully
+initialized.
 
 Signed-off-by: Martin Belanger <martin.belanger@dell.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/nvme/host/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/base/core.c    | 28 ++++++++++++++++++++++++++++
+ include/linux/device.h |  1 +
+ 2 files changed, 29 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd18861f77c0..b5e452aa3c0e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4229,6 +4229,13 @@ static int nvme_class_uevent(struct device *dev, struct kobj_uevent_env *env)
- 	return ret;
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 3d6430eb0c6a..0b5f6d5d2459 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -4473,6 +4473,34 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
  }
+ EXPORT_SYMBOL_GPL(device_change_owner);
  
-+static void nvme_change_uevent(struct nvme_ctrl *ctrl, char *envdata)
++/**
++ * device_update_groups - update the sysfs groups
++ * @dev: device.
++ *
++ * Returns 0 on success or error code on failure.
++ */
++int device_update_groups(struct device *dev)
 +{
-+	char *envp[2] = { envdata, NULL };
++	struct class *class = dev->class;
++	const struct device_type *type = dev->type;
++	int error;
 +
-+	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
++	if (class) {
++		error = sysfs_update_groups(&dev->kobj, class->dev_groups);
++		if (error)
++			return error;
++	}
++
++	if (type) {
++		error = sysfs_update_groups(&dev->kobj, type->groups);
++		if (error)
++			return error;
++	}
++
++	return sysfs_update_groups(&dev->kobj, dev->groups);
 +}
++EXPORT_SYMBOL_GPL(device_update_groups);
 +
- static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
- {
- 	char *envp[2] = { NULL, NULL };
-@@ -4396,6 +4403,8 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 		nvme_queue_scan(ctrl);
- 		nvme_start_queues(ctrl);
- 	}
-+
-+	nvme_change_uevent(ctrl, "NVME_EVENT=connected");
- }
- EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
+ /**
+  * device_shutdown - call ->shutdown() on each device to shutdown.
+  */
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 93459724dcde..a623790173ce 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -841,6 +841,7 @@ int device_rename(struct device *dev, const char *new_name);
+ int device_move(struct device *dev, struct device *new_parent,
+ 		enum dpm_order dpm_order);
+ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid);
++int device_update_groups(struct device *dev);
+ const char *device_get_devnode(struct device *dev, umode_t *mode, kuid_t *uid,
+ 			       kgid_t *gid, const char **tmp);
+ int device_is_dependent(struct device *dev, void *target);
 -- 
 2.34.1
 
