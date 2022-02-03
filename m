@@ -4,107 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4FF2C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 21:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBCBCC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 21:19:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v8KvQttFevL5r5KRufff604Qze0CTIPmrwKvnJrkZf4=; b=4B6RNF8HDEtqhbDtqJ+3f4bA59
-	G6ntkBxovfu0O0sqndlWrrhWNnEpR0mS30/afawW5qzkbc/Zx6RZ+VmEMg/8dLk8Wxy0R7FXYPgd6
-	L84NU5OnNsCiTCKW7dkqprWEwzd6Am5kzr+8rZ1uUVUOskg9aNbpGuG+86rrHayDbSZxh55mbRKXh
-	t/+3X2Yr2XU4a4rTnZ0BzWkpU2E5xifqqb1xgttbfM+eh3QnzujRVrKN5FFtq25n5uuvVEAh9U/ri
-	78VwEtllLC4lfywkJlBkV3EfEkHIddYMj/wdqXaPRZ5tjb16TlS2JhiozQwk9jKvFuCGixRc5TpXw
-	kVDuXEcA==;
+	bh=lGtQxjO0qGL6ZJkgI5jxEX6JKkiEJc7TvqDkMwFbpgI=; b=C1gelpOjBjgWWyve9c7tcG6AWh
+	8yifvDd3Wu3bNBWsnHlbfZeps1oyXW2m/zaSQNUAnC/Ijb3l/FA9c5ODXLNkuzNxnt1j4Go+wA91f
+	ApihkkK+qnOByL5wRV2ii3zHo3fEwAXNrfW3OCWasG2j+FqV6YbIWqgagriVCH882CPuXGYUigQ+c
+	kQunVIY4yig0nfXsUbr5ZtWwgH3A8lptLYpNmbaMhYzP6wZqL3SP0qlumq9mQSgqs9ABDUaoC2MUd
+	OBm1c5WkS0/ZJuLIZHeiRlmQWl6LQi7jkdBeSc/ornYw9ivRtqsh7Yjd9zV2XMBbBMWibDyQaEPHq
+	Vho/bSAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFjVJ-002uo7-7L; Thu, 03 Feb 2022 21:18:57 +0000
-Received: from mail-bn8nam12olkn2077.outbound.protection.outlook.com
- ([40.92.21.77] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1nFjVV-002urz-69; Thu, 03 Feb 2022 21:19:09 +0000
+Received: from mail-bn8nam12olkn2062.outbound.protection.outlook.com
+ ([40.92.21.62] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFjUx-002uk9-8I
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 21:18:36 +0000
+ id 1nFjV0-002ulB-Pb
+ for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 21:18:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gp8MRZTDYwFVaxHXYbekm1eAlPpEFDJiXMXzrH0Zw1TipFRxOd+be8m8fxF4VMbjLUV4ygDsftUk9/LkIvSDgcd7Cy81VxMiTj2sQ1NDrBEcF/I2z09y7726ZqZwbIlLIV4XLQPMAebrB+oaD9MUrzSbGXXqoJwL+yfxk2+TVUodFzBFIJhnc84AqbvFKQMlK21qXlcWd+rkgNEhCkxw34xwuU9uI8AK0f1amuOWOZkDnnuGhENkNj4y/k7Gr2/NBth9CfMFu0pTsFoXEvJ11JhFacFl+G4d9iZPAIGKaJwVetWIeJVEsDLQ4NOT4QcVgphyEo7exdRUeq1j5FLftA==
+ b=Lr1I8DL3nl4Nribq4NPS4rDFx7Qj6vXESiXN2Gjv+fTd7JlPQqsbgesf9lJL/xlvAO+Mt2+5+7DYMa8nvNOYcanJjupM5kFowgryfS/ttG5ZS8x23pzhmBB784J/Xj513CSVRbz3Y/qnNewyVxBzk4ejQKr330GT3xhdw+39hqNzSTxO9eUsOc0R1UXCezn0HsUjGc6aE7LT8jvq2vII80jf3M2YnvATlymmH/WmtwU9ZP4PZcHBmXdbW9Gs1HY9oBPtko2Y+GfnTK2pR/J7qTDjQjExLZ5+drA4w5dn9hLaRZ9MtYz1SGilnse3BtSDBTUaeT7pQ1XmO6YEIFMadQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v8KvQttFevL5r5KRufff604Qze0CTIPmrwKvnJrkZf4=;
- b=gFhIntzFBNTp5A1ggleRE8sMAXIt7fyrJ3RTcPW+HlBo+m/b9t/uve034hNcXpm9BKqKcYNTV7+BLGvygGUWSZJBYeetXXWdEimeO0fEL+ERJwddpI4I790IsV6BNFo2lrlOfEmg8dQz+vlt+BH0gcuYjAuu8eQ+lYn8n8fryBqFbJe1qGHxPTNRwfW4XpU7XYWwlWar2kezI5FmjVAKbmIk1aihLqi0fKM6zHc1F7g6u8nvFesGPngZWzIcZ7Bl2bnw/XF5QH4BWlKxmpElGHVp2CaDbcHEz52p/ElyTREdlV8NciBhoAEsXLaGdluNB+zI+HL1N3YbvGTHHrpc/Q==
+ bh=lGtQxjO0qGL6ZJkgI5jxEX6JKkiEJc7TvqDkMwFbpgI=;
+ b=Pw5EB5hzFIr+dTyr5jrqt7WVSCnU6awd63jZ2FTU8Tx2BsyfZ/LHgNvGXF12VHOHA4m27D60t/lVxdOwCFj8m4xx+u05BS7iVj/X+V4kwQCogT1bcCCw8MKev1TAORv1w6awG5lm31G5rtn0olpuzc4L59bbE1xHcDg2Ut869ICsBlhMiSzP1PjFxAYYf6+PpX2J9m8v1d6Stses31oniX/MTWIrbtarz1Cv1cS5ZezVeyIJO8YsuVt6ne8gyu5fCTdh/6a+tE7PXEGsdL1sdRSc7HS8ZLuIFg27I0B3dssTR67DyTEyNbRl58nA0GivL4+a7EZVwp0DeXDnSMR2mg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v8KvQttFevL5r5KRufff604Qze0CTIPmrwKvnJrkZf4=;
- b=YMItKtcbKJEm/NjKqnqQ5GvzZM8pzVdpLpIdAMMID32tsVj5obFPUM7xHdMdPamOVr4TPGccWpGh5D4moW70R6ifz/02zPikvrcbiwuPEepvwhdfcJ+aI1koft5uWs/Erdv5QmO9/QfVDh223K/iL4X/iIfmH6GI7uDW3aMP9xi0KKbCEacN3oknVhx1e7RhgCnhkM23jUZCGQ3q8fW6XiYGYDpWLoXK/q1M9l87EtKVSLfmJh3f6AGk1LvHG43BiLxXifNBSVXDr6k7fjfsWpZQjhNIEllA3lIQiFGLy0Wwwprcj/NtQUImuyHxYLu1D3C4V/OPBmbogXCLl61SXQ==
+ bh=lGtQxjO0qGL6ZJkgI5jxEX6JKkiEJc7TvqDkMwFbpgI=;
+ b=vQdgCJVlLl989rVS2K81Pofn7CEL2sTuNosUDjzth09BEpKSoX9MPe5gTK0I4DlihL9WMGT0zUW+K4JPRAPqw43Oo9Q6t5bNUaDBSoUGa43EF45QiMZ5As+sRCuakuH9z7iEZeJyo6HUjS3SIOcVAngIaWl/4yayucUigd/QDAdauVdQCBp5/wzeGHO70TGkHy3rO1CllOazQK7CLo90So8YcvUKxCzcUESNzLKDxOXATfENFuk1X2tTyFLoN/qjbe2GAiZMr7MkO1DXTqWFyrsn6n2OW6JFuamLBXklk3jemDgwXRU9/Y20aUI2d+w7G7KvPH6t2IdLc1gTKS9vrA==
 Received: from BL0PR13MB4291.namprd13.prod.outlook.com (2603:10b6:208:8e::12)
  by BN7PR13MB2500.namprd13.prod.outlook.com (2603:10b6:406:b4::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.5; Thu, 3 Feb
- 2022 21:18:32 +0000
+ 2022 21:18:36 +0000
 Received: from BL0PR13MB4291.namprd13.prod.outlook.com
  ([fe80::7c29:86b7:2695:b71e]) by BL0PR13MB4291.namprd13.prod.outlook.com
  ([fe80::7c29:86b7:2695:b71e%4]) with mapi id 15.20.4951.012; Thu, 3 Feb 2022
- 21:18:32 +0000
+ 21:18:36 +0000
 From: Martin Belanger <nitram_67@hotmail.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, hare@suse.de, axboe@fb.com, hch@lst.de,
  sagi@grimberg.me, gregkh@linuxfoundation.org, rafael@kernel.org,
  charles_rose@dell.com, stuart_hayes@dell.com,
  Martin Belanger <martin.belanger@dell.com>
-Subject: [PATCHv2 2/3] nvme: Add device_update_groups()
-Date: Thu,  3 Feb 2022 16:17:47 -0500
-Message-ID: <BL0PR13MB42916EA4483338B4BD37BA3E9C289@BL0PR13MB4291.namprd13.prod.outlook.com>
+Subject: [PATCHv2 3/3] nvme: Expose cntrltype and dctype through sysfs
+Date: Thu,  3 Feb 2022 16:17:48 -0500
+Message-ID: <BL0PR13MB429136A542739D745DE3AB679C289@BL0PR13MB4291.namprd13.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220203211748.27542-1-nitram_67@hotmail.com>
 References: <20220203211748.27542-1-nitram_67@hotmail.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [W5Je0RDqkMc7N9+nuOQMn2zqGKn0Td6p]
+X-TMN: [NJ447Bhmp09f6E12mmvWsgZdIAJ0Jt/K]
 X-ClientProxiedBy: SA9PR13CA0143.namprd13.prod.outlook.com
  (2603:10b6:806:27::28) To BL0PR13MB4291.namprd13.prod.outlook.com
  (2603:10b6:208:8e::12)
-X-Microsoft-Original-Message-ID: <20220203211748.27542-3-nitram_67@hotmail.com>
+X-Microsoft-Original-Message-ID: <20220203211748.27542-4-nitram_67@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8e04a21-2d90-4cfc-1ac7-08d9e75abb2d
+X-MS-Office365-Filtering-Correlation-Id: 3c71d09a-1b65-45c0-9960-08d9e75abd1a
 X-MS-TrafficTypeDiagnostic: BN7PR13MB2500:EE_
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vDb+V7m7UgMtmlP87Y3UK8nQZXigFBOsecA9dly1EEixsWGpMjF1yHRLqvaIYPdXyfsXm+hms3P/bHb6oh7jFeSPP+Qj7oo7lWdCia5xouosHaoeH9X/jCXd2hKdEKpOULdijP2wyXIR/HxZsgE5IrDa1k8tQulcjxlBftA8+dAQRgOgeXL40eaxstM0n8EEhcDjImXfMXJ0TitXhTEsikY9CIx3PlcuZZafKkasiJAvxEVcphyCcJ2fZyHV9F9Zloc8uu5OTdbKhJ0jZDTNNaGFE/nZBjVKSGR6MA1bh9w4IcyNvHnNA1VgcLSzXynUMhsKpQXWxktwBM/IiGenCMseyVNXhTMQg+aUyel9wVg+nIW/l3o7TNyk3v5sQS+O8jDdU9tL3wakzwgJbmxmiPDTb5rr6+xvqRHsS87U6nHGf4haAQgxlrRmXKfsYJgHVb77XYqWp8v4LjSxGjzh5ylwPfUDtjIYuIcSLH33o6Bdcm10yHrMrK0k//f09riMyw9lvx5kthvUgulCP5yCKOcytdPPi49/fdxGScKOcQ6RpctFSlbC8FtixeOOpFAxn6ZqZfrabfmn+0EcwWux6A==
+X-Microsoft-Antispam-Message-Info: 6V8M6SLQlbwn9VHSXJNW26/N389Xv+Gp5UahJH/eBtzBEOuCKwupQsHyzMFAuCpItxDdebQTwPtMBZSM/XJs0U9f4KiDLST6IelvO/eNMT1XpoZ95xEvk4eBCXo2nuxsMnpLIrOVzvnfS4gytQcGV7aJmudH2yYLQmfmSiNtAIjPgP5WHtjhNPgHtOvPMnSxqfz0MzFop/j89yqk7sCONx0mmXlnhHvRlI/umRf0iO4Dh0IyVdLzxJ3SjeET7ZZOQDeVEVNAMPBqfSlfzWpx+d1fvikVEmKgdz1zFThKfeYWfjf3QWCsmwYNzC5b6kNI9EmEg2PKPXc7ZQFijmgOeU75CEzw1+2m5TuMFdOOJQ0jVdG8bkmS6dCpHnvtsNT6OeB935SMadQjbaPIUqNHyNyf3v0X0vt2L2zRn6h+9NtdTZrtTvXgyLfxygNah0JumZ/XKGW8lWIx4dTWeDDLbH7WWDkNzGGJMCVBQDl1sJMQ6rnhgKSRgGcFVlnxOaYPCCOI6TofZbShu6opM69CQJMvHbJYGtiuko3TVsa4evAxDJt5oGhs7fAx8H8ODafr0HHdw+1PAfGZuRe4PHId/Q==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wN2lKky1Z40yylhgVjnlXCLC92YUssxAHZQfuLhua6REFSmhNIe8mdNeX+MT?=
- =?us-ascii?Q?rl5kwUo+hiKNBFXplzCZ3PF4n1/4xdSgwiX9ATLQ+qAX9l+jYhJo3O3Zj37r?=
- =?us-ascii?Q?EgEoUzEybLDfSfXOZVrfcaV/RG5FeTZqAZIrDo4BjlpMyxLXkJdAoanudsV0?=
- =?us-ascii?Q?MoB1dsl5gV0mI0gpY24qw3VxTvHAeNGOYDmgWP4uIQxHpf1rPhNQS0XUDuHU?=
- =?us-ascii?Q?/asME4ANVJCUXZEdg8pvyGZyRHTxxCbGNwiJKTIzlY4hSkhdQv6HKCMTnVaB?=
- =?us-ascii?Q?Obx5VWR2uuuPVPChM1J1PQ4Q/rJRfa+hhOhBUp9+bfxzBAxNBnBqpuKHFx3f?=
- =?us-ascii?Q?v9rlSgK3nqfT5rwbdvfMA8Kmp8IIVsb51x231fT+01iw/N8KJ2juh8GlRcUs?=
- =?us-ascii?Q?weaIRaUCJAgA8Q6+tQwdtZE+JN3i4gz4mQymJgc9qFDiEQCYjUGj+YaXbzdb?=
- =?us-ascii?Q?YNlgFmJeCs2/ODtBvPaC8r+w81awqaRg2Bqg4qPZ1oW5MMGjVsJheO7cedcc?=
- =?us-ascii?Q?32rt5eXKgtyY17j1o4Uvd1iXN1DOMZnE4tUbRALuazD4wQ8hZRHVXp6FOWt/?=
- =?us-ascii?Q?L896pnTFLgivbYHkVPUWKk5txRmogbWCFmVFc/K5rRBTlRHXfhVtzA9Rhx0k?=
- =?us-ascii?Q?QRwKG4U4gyJbBA90BziPwc0ucEi+EvexqoxfI8IbfhwttJlS+MmqiB8X6Q62?=
- =?us-ascii?Q?x1X/i0yX5PuErQcjRorTSGY8gVNZ3GQeg10wZDMAYxOEkl1o2yajTSYn2TMn?=
- =?us-ascii?Q?dStWgSI8Ih02zdiH04mVdy0uHyFuOTYvOzTyh9AS4l6nMJBGLMfjwM8j6BXP?=
- =?us-ascii?Q?smRKD1hOaNROtOilPHrsgirr3AfkOa2UEbJBzlBlBMG+Eydh/78q9G7AvndA?=
- =?us-ascii?Q?Gze8ny5qXj/LRXrua90y3nJNl68YhFQHwpezCczXa3L9CmOn9KXgZsqLQWHt?=
- =?us-ascii?Q?RgMeuRaob2cwjvYRs+ogKQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZJmMaQuJK5gKoWeJz2BhCYvgoQ6+XQkRUv71gLkpa5bdliWVhfQmzKrmhiL/?=
+ =?us-ascii?Q?jhHr+cs4+aR8HJSL3LRMiNtJSryqWMlAyjMatUO3JkYpuJjgEqO4RPA2awLt?=
+ =?us-ascii?Q?GhmHK9uISLyEnAf1bszRrpK4NklH8Qw3OA0a/vCP1IWs+Twdaf+UoMvkz2aB?=
+ =?us-ascii?Q?SxOon3+RMsSwCVHWogg+xjnhJmvaa2CJXbikZM6D9sJKZf1nDWJJEWXpFL8n?=
+ =?us-ascii?Q?xlFUfZXzztaDiFlRPUMGQ6hdgo2Sbq/exdMOYj10GgbMfLbJ49GkXuMUeX0y?=
+ =?us-ascii?Q?hctsjykhfpI1TPDgfGND3pJKPWQjJ1ccavA7EU7NBZJK6EQpFfpap/bPzeIO?=
+ =?us-ascii?Q?PAxhOaznvf2DqQjBRHjTBL1n/PgwDIGCgSiZA12OrUYH3bS2MmXgpD7n6+cy?=
+ =?us-ascii?Q?GVkCz5DldvJh3Bu2JAjQu7J9ns0cGhCRefmsCXglb4grf/8svayGR5XJafCA?=
+ =?us-ascii?Q?rJpSTqM2JeCjmWD0FFSlvWeByKkewpaK4QX6rQroDxq5QTac5qjpgXRZe7bZ?=
+ =?us-ascii?Q?eiz6bdNb9WNgTr/Ir5e+o1D9ESd66FsbwzxfAN+86vZN24FRBTWUzJBClePY?=
+ =?us-ascii?Q?g8WXLVJfykEkfRsw0QjZI8QGVBiv0x2S1kzlsOYMQKgC8Ws7OAOUwDrQd1Tv?=
+ =?us-ascii?Q?goHTiBTlS++Ce9IoaC7sefRb/o/CSSPE/uAloifcc4x0LFebvWPRfsnDHp15?=
+ =?us-ascii?Q?ZyrH+ZXQiVMZcwk6Y9rHwYxTYH2qZrSAt/sEbi6tqfCTtBcyNQymKaozF6O+?=
+ =?us-ascii?Q?HFoHBTGSu12ltO59/6dkeisub5R2O+fOeCHoAiz5j6k5b+zFFjESJ9Umyoqf?=
+ =?us-ascii?Q?VtK13I3N99xHNM4m76xMCY09S8lEAuWySlJto/RKgDqp9l29UzdqwYFs3gEZ?=
+ =?us-ascii?Q?6l0mmFX+cU2RI/U1QpoutMCPfixtZBswdME0eZuklHvoD9nu4Yxrk3xCV8hH?=
+ =?us-ascii?Q?9w1VMrpxrbf3Jx+bvzfBTA=3D=3D?=
 X-OriginatorOrg: sct-15-20-4778-2-msonline-outlook-da780.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8e04a21-2d90-4cfc-1ac7-08d9e75abb2d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c71d09a-1b65-45c0-9960-08d9e75abd1a
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR13MB4291.namprd13.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 21:18:32.8784 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 21:18:36.2376 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR13MB2500
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220203_131835_323392_4A598FA8 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20220203_131838_861997_6715795F 
+X-CRM114-Status: GOOD (  17.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,66 +121,146 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Martin Belanger <martin.belanger@dell.com>
 
-This is used to update the sysfs groups after device objects are fully
-initialized.
+TP8010 introduces the Discovery Controller Type attribute (dctype).
+The dctype is returned in the response to the Identify command. This
+patch exposes the dctype through the sysfs. Since the dctype depends on
+the Controller Type (cntrltype), another attribute of the Identify
+response, the patch also exposes the cntrltype as well. The dctype will
+only be displayed for discovery controllers.
 
 Signed-off-by: Martin Belanger <martin.belanger@dell.com>
 ---
- drivers/base/core.c    | 28 ++++++++++++++++++++++++++++
- include/linux/device.h |  1 +
- 2 files changed, 29 insertions(+)
+ drivers/nvme/host/core.c | 45 ++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  3 +++
+ include/linux/nvme.h     | 10 ++++++++-
+ 3 files changed, 57 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 3d6430eb0c6a..0b5f6d5d2459 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4473,6 +4473,34 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
- }
- EXPORT_SYMBOL_GPL(device_change_owner);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b5e452aa3c0e..4e3db5ec3924 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2990,6 +2990,9 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->max_namespaces = le32_to_cpu(id->mnan);
+ 	ctrl->ctratt = le32_to_cpu(id->ctratt);
  
-+/**
-+ * device_update_groups - update the sysfs groups
-+ * @dev: device.
-+ *
-+ * Returns 0 on success or error code on failure.
-+ */
-+int device_update_groups(struct device *dev)
++	ctrl->cntrltype = id->cntrltype;
++	ctrl->dctype = id->dctype;
++
+ 	if (id->rtd3e) {
+ 		/* us -> s */
+ 		u32 transition_time = le32_to_cpu(id->rtd3e) / USEC_PER_SEC;
+@@ -3115,6 +3118,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 			return ret;
+ 	}
+ 
++	ret = device_update_groups(ctrl->device);
++	if (ret)
++		return ret;
++
+ 	ctrl->identified = true;
+ 
+ 	return 0;
+@@ -3523,6 +3530,40 @@ static ssize_t nvme_ctrl_fast_io_fail_tmo_store(struct device *dev,
+ static DEVICE_ATTR(fast_io_fail_tmo, S_IRUGO | S_IWUSR,
+ 	nvme_ctrl_fast_io_fail_tmo_show, nvme_ctrl_fast_io_fail_tmo_store);
+ 
++static ssize_t nvme_ctrl_cntrltype_show(struct device *dev,
++				     struct device_attribute *attr, char *buf)
 +{
-+	struct class *class = dev->class;
-+	const struct device_type *type = dev->type;
-+	int error;
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	const char *type[] = {
++		[NVME_CTRL_IO] = "io\n",
++		[NVME_CTRL_DISC] = "discovery\n",
++		[NVME_CTRL_ADMIN] = "admin\n",
++	};
 +
-+	if (class) {
-+		error = sysfs_update_groups(&dev->kobj, class->dev_groups);
-+		if (error)
-+			return error;
-+	}
++	if (ctrl->cntrltype > NVME_CTRL_ADMIN || !type[ctrl->cntrltype])
++		return sysfs_emit(buf, "reserved\n");
 +
-+	if (type) {
-+		error = sysfs_update_groups(&dev->kobj, type->groups);
-+		if (error)
-+			return error;
-+	}
-+
-+	return sysfs_update_groups(&dev->kobj, dev->groups);
++	return sysfs_emit(buf, type[ctrl->cntrltype]);
 +}
-+EXPORT_SYMBOL_GPL(device_update_groups);
++static DEVICE_ATTR(cntrltype, S_IRUGO, nvme_ctrl_cntrltype_show, NULL);
 +
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 93459724dcde..a623790173ce 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -841,6 +841,7 @@ int device_rename(struct device *dev, const char *new_name);
- int device_move(struct device *dev, struct device *new_parent,
- 		enum dpm_order dpm_order);
- int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid);
-+int device_update_groups(struct device *dev);
- const char *device_get_devnode(struct device *dev, umode_t *mode, kuid_t *uid,
- 			       kgid_t *gid, const char **tmp);
- int device_is_dependent(struct device *dev, void *target);
++static ssize_t nvme_ctrl_dctype_show(struct device *dev,
++				     struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	const char *type[] = {
++		[NVME_DCTYPE_NOT_REPORTED] = "none\n",
++		[NVME_DCTYPE_DDC] = "ddc\n",
++		[NVME_DCTYPE_CDC] = "cdc\n",
++	};
++
++	if (ctrl->dctype > NVME_DCTYPE_CDC || !type[ctrl->dctype])
++		return sysfs_emit(buf, "reserved\n");
++
++	return sysfs_emit(buf, type[ctrl->dctype]);
++}
++static DEVICE_ATTR(dctype, S_IRUGO, nvme_ctrl_dctype_show, NULL);
++
+ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_reset_controller.attr,
+ 	&dev_attr_rescan_controller.attr,
+@@ -3544,6 +3585,8 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_reconnect_delay.attr,
+ 	&dev_attr_fast_io_fail_tmo.attr,
+ 	&dev_attr_kato.attr,
++	&dev_attr_cntrltype.attr,
++	&dev_attr_dctype.attr,
+ 	NULL
+ };
+ 
+@@ -3567,6 +3610,8 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		return 0;
+ 	if (a == &dev_attr_fast_io_fail_tmo.attr && !ctrl->opts)
+ 		return 0;
++	if (a == &dev_attr_dctype.attr && ctrl->cntrltype != NVME_CTRL_DISC)
++		return 0;
+ 
+ 	return a->mode;
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a162f6c6da6e..e30626c00791 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -349,6 +349,9 @@ struct nvme_ctrl {
+ 	unsigned long discard_page_busy;
+ 
+ 	struct nvme_fault_inject fault_inject;
++
++	enum nvme_ctrl_type cntrltype;
++	enum nvme_dctype dctype;
+ };
+ 
+ enum nvme_iopolicy {
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 855dd9b3e84b..21e92e97ca88 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -43,6 +43,12 @@ enum nvme_ctrl_type {
+ 	NVME_CTRL_ADMIN	= 3,		/* Administrative controller */
+ };
+ 
++enum nvme_dctype {
++	NVME_DCTYPE_NOT_REPORTED	= 0,
++	NVME_DCTYPE_DDC			= 1, /* Direct Discovery Controller */
++	NVME_DCTYPE_CDC			= 2, /* Central Discovery Controller */
++};
++
+ /* Address Family codes for Discovery Log Page entry ADRFAM field */
+ enum {
+ 	NVMF_ADDR_FAMILY_PCI	= 0,	/* PCIe */
+@@ -320,7 +326,9 @@ struct nvme_id_ctrl {
+ 	__le16			icdoff;
+ 	__u8			ctrattr;
+ 	__u8			msdbd;
+-	__u8			rsvd1804[244];
++	__u8			rsvd1804[2];
++	__u8			dctype;
++	__u8			rsvd1807[241];
+ 	struct nvme_id_power_state	psd[32];
+ 	__u8			vs[1024];
+ };
 -- 
 2.34.1
 
