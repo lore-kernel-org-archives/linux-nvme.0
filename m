@@ -4,80 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0353C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 19:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4388C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 19:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KMyvXxqCDb6LDE7y3iumEmVuNT5U4aq7Dap4O63m+bI=; b=1QMTn141dPbeWWffyfL1QUpnr3
-	2la3WJ4qKy6LjG8iKZdhX2p4aSgv/sv1zap+d3UIeaxAuXwDbF7u5nMBc5VfdFuduOPeQTbMNkiSC
-	MkR/MxQhka1mT5uuPNG97u7nrAJ5TbRMlxy1q63ViyGKKsv6782eKZ+If+ozSJL1tIY/tfPW7xN/T
-	FDWgzm+ZCO5WpxzuM2Y6khtE/jisREsHVDlPKtCLOvHKTk7P0YZElnw4xBR6aIQmaOboumYT7FSlH
-	i8VUSYQAoa9w1ebR8/pbSFHYCtByxhn33ZOA921L/kn/6TPabzvJveUiw6DD+91Elb4fPHNZD5oz5
-	frxBswEw==;
+	bh=NxXAtsm8WfSGYQvRdY3AIGGyAZybptGkBG5uun0fVrs=; b=kGU7uo/jyUswNbzEDdYAwAxMYR
+	x0k+fNsGlealhqquKMx/Y4m8bLvDITmkhliNL2A50GWn0RU7jA82gJKuyvXuK/ZAat+mT/uia1h9s
+	QNmnlgd4uY5k8aWSD9/9tEEc+aJ1Bx6IIx0V/7kVjQVsJkKcIBt/5gsd6w4tgi4pjzdx5xxqgkMfi
+	R262kPERShblXftKZxpsR7YFi2XKbou6TF5NZNYgWwCNElhTdEogJoqADswHy8sEc4TPzGG+l3X6W
+	nu32lWrPWX2EI70PPZeSGFiWeb93q7DQeq63d7FJl8NnUVaq3wa4nXkni/wElS4NyN9XVI0nENh0k
+	Edngp/jA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFhwI-002c2w-2o; Thu, 03 Feb 2022 19:38:42 +0000
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
+	id 1nFi42-002dG5-65; Thu, 03 Feb 2022 19:46:42 +0000
+Received: from mail-wr1-f41.google.com ([209.85.221.41])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFhwE-002c0l-IE
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 19:38:40 +0000
-Received: by mail-io1-xd36.google.com with SMTP id p63so4580243iod.11
- for <linux-nvme@lists.infradead.org>; Thu, 03 Feb 2022 11:38:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KMyvXxqCDb6LDE7y3iumEmVuNT5U4aq7Dap4O63m+bI=;
- b=qXz0rS8NcYokjoLP9Ksn6b1Hl1UVTBZaVHrJZ/PkYB88MuVq1hiYtw2qHxOD73i0UU
- LZAIz6CSg/6FWHKseg91LFs9a3sWBsNjneTIV1ka2N2sTPotIZ37b52mPC1ufUe1MEeT
- QajGSxOwVsAP7PJ0z+VV3CDgduVozaWIpch9fRM0DF/8aHk9jawswO7iBt1bOcGdhgNA
- HZnB+Lv1KGi6eRTrH4AbiKjc9S9uk3nsuqljwoji6y0Xht8TDqSIrK8UzfyiaR/VXq1s
- Ut4UWgfHahOtIi5XwM1S6HOmYBqXu+8qN1NIWYlHX0QWj5Nanpja2FG2w8zun3vi5Tzy
- 9SEQ==
+ id 1nFi40-002dFc-1i
+ for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 19:46:41 +0000
+Received: by mail-wr1-f41.google.com with SMTP id v13so7049761wrv.10
+ for <linux-nvme@lists.infradead.org>; Thu, 03 Feb 2022 11:46:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=KMyvXxqCDb6LDE7y3iumEmVuNT5U4aq7Dap4O63m+bI=;
- b=iZgXs3WBzGX0X4VIQOi10I8jrbCLuV6zfoYgIv/G2F+7D1gGfCWIqUiSbA1gHD/rsI
- K28quuF0j0I7IKovXAT22MTjo1m00dtQX6Ut31xOarnh76W5u9CrCkYpcThvhCXJdyqf
- SaZexDgsJBbopLjmiom2IJ5so2cei6ZYjU29SnVlZ7aqwZ9BYovMdgd8D4o+ZQGG2ptT
- u6ehbDJD3gLE9V8Eue4PU8S0Jy9KpaukMH2BRotY05k26YTkNxWXBsfOSggx6ckXzQza
- kUW9GcqJEqUuV6f0/e4JRW/lHB3y+ubCE0TI/WjUxnDDp3cJmm2CjsquqS//P18Wwv8i
- kLhA==
-X-Gm-Message-State: AOAM532wBLP3H01e2JdQChQTLak7DWSBOs1qpGDirngfSIr4NH7kOYOa
- 0wKLrDgxGJ5dVaVznkgJHIzNNwz5Yq2O+Q==
-X-Google-Smtp-Source: ABdhPJzH56mqARnyv2gDESVGncDRHuJg9OxnfaW41W3OT+nVoAKMFr3MHvb0IEmtLf2ouXK/3GcGRQ==
-X-Received: by 2002:a05:6638:2105:: with SMTP id
- n5mr3761688jaj.266.1643917116406; 
- Thu, 03 Feb 2022 11:38:36 -0800 (PST)
-Received: from [192.168.1.30] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id d2sm5229241ilg.43.2022.02.03.11.38.35
+ bh=NxXAtsm8WfSGYQvRdY3AIGGyAZybptGkBG5uun0fVrs=;
+ b=kT0r9xCnp+zArBxW/o4VoFYdoxOKAYLUGZDEjFjQCbM8fc+Y41zFkYeoYMOTFgHlzt
+ cdkzyP7gTDWq+GRF8Kx0JhvtgJL3Bu2BReisp87XHz1F9EyPC6vxkUQAjbVtxNRsW8hH
+ R91YXeuHPA3rLJcvqq6HCPdJfISFeiV6SKhx3SYkvCYByZmsB0uvdsukG9HNTsHJ1YkY
+ 9q88/jkyVZ0K5wp3KE6R7GE8MAyjDw7Yb8Nda6CWOu3Lsb1/Q33bsUZSab9vUy6BZuK9
+ axQ4S0HRnvuzRQdhOfmCWo8VugKSQk7tecvUNGtKDQVLx1JwNcy/raOgN1nbSazEsMyo
+ 1CHA==
+X-Gm-Message-State: AOAM533t35FVSet8p3YNVaCFFCNqQ9yisUzWKvCkbQKRGNazitpkJVyo
+ d8MJP4l+BkywPBrlChnurGY=
+X-Google-Smtp-Source: ABdhPJz7yGofDtBOD4VZkGloxj/KdbRFfPCfrsyTUAWOKonLQJk20F5jHq42AwP9f2i5LESDGIlabw==
+X-Received: by 2002:a5d:59a3:: with SMTP id p3mr31518470wrr.378.1643917598248; 
+ Thu, 03 Feb 2022 11:46:38 -0800 (PST)
+Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
+ [46.117.116.119])
+ by smtp.gmail.com with ESMTPSA id v8sm7550647wmd.44.2022.02.03.11.46.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Feb 2022 11:38:36 -0800 (PST)
-Subject: Re: [GIT PULL] nvme fixes for Linux 5.17
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YfwukSSzRWJE2Jy2@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <26d483ec-e397-822b-343e-3f7e9f09927f@kernel.dk>
-Date: Thu, 3 Feb 2022 12:38:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thu, 03 Feb 2022 11:46:37 -0800 (PST)
+Message-ID: <d312d330-e273-fef1-abf4-371a6f224487@grimberg.me>
+Date: Thu, 3 Feb 2022 21:46:36 +0200
 MIME-Version: 1.0
-In-Reply-To: <YfwukSSzRWJE2Jy2@infradead.org>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/2] nvme: Expose cntrltype and dctype through sysfs.
 Content-Language: en-US
+To: "Belanger, Martin" <Martin.Belanger@dell.com>,
+ Hannes Reinecke <hare@suse.de>, Martin Belanger <nitram_67@hotmail.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "Hayes, Stuart" <Stuart.Hayes@dell.com>,
+ "Rose, Charles" <Charles.Rose@dell.com>
+References: <20220202213451.33599-1-nitram_67@hotmail.com>
+ <BL0PR13MB4291C612318AC862FDDEB7719C279@BL0PR13MB4291.namprd13.prod.outlook.com>
+ <49b2d58e-80b4-94f2-77ef-c2d1ec19e581@suse.de>
+ <BLAPR19MB45318B8797176BF97BAB0A30F2289@BLAPR19MB4531.namprd19.prod.outlook.com>
+ <68451fbe-ff4c-a89c-36d7-1b5829fab825@suse.de>
+ <SJ0PR19MB4544B435D22B0F19E2B7CEBAF2289@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ <ea56c568-9cbe-3087-21b0-81023ead927f@grimberg.me>
+ <SJ0PR19MB4544CF86ADD8F3771CA9E4BEF2289@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ <d0fb3f06-a35e-c8f1-ae5d-b6871c913bcd@grimberg.me>
+ <SJ0PR19MB45447A22F305FFD65477164CF2289@SJ0PR19MB4544.namprd19.prod.outlook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <SJ0PR19MB45447A22F305FFD65477164CF2289@SJ0PR19MB4544.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220203_113838_614401_96DE948C 
-X-CRM114-Status: GOOD (  16.96  )
+X-CRM114-CacheID: sfid-20220203_114640_127155_2CF1D595 
+X-CRM114-Status: GOOD (  15.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,43 +93,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/3/22 12:35 PM, Christoph Hellwig wrote:
-> The following changes since commit b879f915bc48a18d4f4462729192435bb0f17052:
-> 
->   dm: properly fix redundant bio-based IO accounting (2022-01-28 12:28:15 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-5.17-2022-02-03
-> 
-> for you to fetch changes up to 6a51abdeb259a56d95f13cc67e3a0838bcda0377:
-> 
->   nvme-fabrics: fix state check in nvmf_ctlr_matches_baseopts() (2022-02-03 07:30:57 +0100)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 5.17
-> 
->  - fix a use-after-free in rdm and tcp controller reset (Sagi Grimberg)
->  - fix the state check in nvmf_ctlr_matches_baseopts (Uday Shankar)
-> 
-> ----------------------------------------------------------------
-> Sagi Grimberg (3):
->       nvme: fix a possible use-after-free in controller reset during load
->       nvme-tcp: fix possible use-after-free in transport error_recovery work
->       nvme-rdma: fix possible use-after-free in transport error_recovery work
-> 
-> Uday Shankar (1):
->       nvme-fabrics: fix state check in nvmf_ctlr_matches_baseopts()
-> 
->  drivers/nvme/host/core.c    | 9 ++++++++-
->  drivers/nvme/host/fabrics.h | 1 +
->  drivers/nvme/host/rdma.c    | 1 +
->  drivers/nvme/host/tcp.c     | 1 +
->  4 files changed, 11 insertions(+), 1 deletion(-)
 
-Pulled, thanks.
+>>> Sagi, would you add this function to drivers/base/core.c?
+>>> Martin
+>>
+>> Yes. This would need some more eyeballs though, maybe this should be
+>> extended to device_update_attrs?
+> 
+> Is the linux-nvme repo even the right place to submit this change?
+> This is a core kernel file and not just the nvme module.
+> 
+> Submitting this change will probably delay what I'm trying
+> to release by weeks. Is it OK if I just submit the small change
+> and leave this bigger change to someone that has more
+> experience with the kernel?
 
--- 
-Jens Axboe
+I don't think it will take a long time we still have time for 5.18 which
+is where this is headed anyways.
 
+I suggest to send a new patchset, make sure to cc Greg-kh and rafael
+(see MAINTAINERS file) and let's see what feedback comes.
 
