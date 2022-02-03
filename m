@@ -4,144 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67375C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 00:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D009C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Feb 2022 03:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c/H87e7hpxsXXZlGsqtGdZ730IlOCdfdPC8I899PpPo=; b=BeKLPjJvg+efvhHDsNM4WJ6QW1
-	n8pkWaDn3L+HloOE2euJ8spm6CaDzbpqPJgJ43nNgC/TRdKb+kD6Gbw8RieEGJEeVmY9+GmtnzfIg
-	TZbu5u3gtgVaqLPRfwDzfjQK0dkjbC8s18UdUQVlc78rMvRSJBCTRbyG5CltTAEwA26I+5QxnfRIX
-	DUYOWOvcGV1RcQBYDd0Gzyt0mJxHmtMyLAd5k8EraPwsUmL3jtVgx5k9qyiknjKpGfwAdPuLS74tW
-	QDdkH15KOFSlNchmaReNWpe8G3IjFiptsv9ZBuzwY13z0LaMwoXW/7lV/42ZqNiziYa5UEp9QOQWG
-	IPhTSr1Q==;
+	bh=uyEDTT7UWcx0aQYR+EyAeRErzTRFuEJTWicokIyg/X8=; b=EOvwpBy+NcVHeEEss9dZQigaJH
+	SO3OA7Pho+VmwkyZ8+1TmJXBdFdYeNq9X9sre0v66aOwC2QSjjbcpbY5u6pKJ6Sd7h7D0SwR/5kcJ
+	HrVpErm8ivZyCrHkGDhF9YGyBzc6Qv8bYU4E8VDbFm+QGuC9qCSuXxHE2tpgC3oAOJUPtjLbkj9M/
+	4Ib12RuRPJ6bRskZqN2w+A/RunKy0tjE7CLxYYjpKjp3Tl5oJGMBdCZZbRPTeRoyEDHjbj1CAs0WG
+	APEoywLzqh6LK72jl5LrbbZFmMc4dHWGKLa73WyQT7h3iyLQUWKeuldHtPnkTtnvgEX1YJEL3oqdD
+	hTtBNjUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFPvy-00H9kr-NM; Thu, 03 Feb 2022 00:25:10 +0000
-Received: from mail-dm6nam12on2040.outbound.protection.outlook.com
- ([40.107.243.40] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1nFSzP-00HVqK-BK; Thu, 03 Feb 2022 03:40:55 +0000
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFPvw-00H9jQ-Dm
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 00:25:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=grIxTSKnQMufEYPzP+fWmMX8WQp+xscboHqqhmM6YAYgVsvqF5J56D32Rl2AwpP/jY4cGmWUipGeQI51kW3h23gKHgTF39lZ9ELmQApZYMW+GOtUKvJPra8feq3cAgQznm47VXygsVu8OX8wCad1nnD9enHNidPVEEuyh6nMTxufDj4wKxO04AXS6iGqH7rioF470ohDVvYo2CaW7YPjFWFNbVgAsu+N7HlElqrl2docznLGfHBzCAW0R2ldJUaxiqRxmYPZQQJtVBGRDtUppPTyUrLxx1AwtZIgjJsQOupuq8bf/6W3QZSmqEKMNb9B+AsMVim5jmHDH+1SsJbj8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c/H87e7hpxsXXZlGsqtGdZ730IlOCdfdPC8I899PpPo=;
- b=lgiKLPC/GSFWpq1nT8SraVOGT2/rxg7NiigN4KSjq5T9Ijy5YoL9Xh4JPumaZLdK2uE5AIr59qCp0l5K1lrg9pq7mjDZ5IWpMEwALzNZxLSB9tOBIumdyUCE37NFD4cjMnS3wmiryFNS5LG46y4MDtsZZ5y+PVunbRK9+CRdKf+UDFXucLHLEEKQUKfG9uzwJqbhVtZj2HYh0PmPVAIjD09xWBTgNMDeRFj1ItGa/ZYzz/U9LqRuPv66mdHGSoU8on0X6V3BiWl7NFD/aeuX2u2PMLoyKo9TxRAPuSHBTwyAJ1tucJfSgqq/rfzkWYZ9d4c5rkgi9hhJmhcrlBrOLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c/H87e7hpxsXXZlGsqtGdZ730IlOCdfdPC8I899PpPo=;
- b=kOpVJvV9WymMBIfvRofo+32eP7m4/moEXt5rKA9jAVwR2WGDnTPlZMPWFNIGzJvg2z6tXJ3/p1/emK8vpp/NKyNZacL2HUf6bEslFh7d3TFqCU39bFY4sT0g17FGv4DYCYAAagNcldUmMiu/LroZ61ZO6tzZ9ItBLArcj/orIqvANVZ7d0babu9WX1GUWha0RfGXh95g/JqYr5KFGnbzbfLPe/G/UWtpF7cXLG4xyokAm+Tiu9THhJZ+FlJWExiOP2YfE+1fqqV7HLt7o+kpFlVqlZf9XzanmbGgzHu4mS9w6qEQMvWTbNNvsTdq/iel/ObF6a0IHqrtTNaSzdgs+A==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CH2PR12MB3765.namprd12.prod.outlook.com (2603:10b6:610:25::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Thu, 3 Feb
- 2022 00:25:02 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::846c:d3cd:5a30:c35]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::846c:d3cd:5a30:c35%4]) with mapi id 15.20.4930.022; Thu, 3 Feb 2022
- 00:25:02 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chuck
- Lever III <chuck.lever@oracle.com>
+ id 1nFSzM-00HVpo-LA
+ for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 03:40:54 +0000
+Received: by mail-lf1-x130.google.com with SMTP id n8so3217887lfq.4
+ for <linux-nvme@lists.infradead.org>; Wed, 02 Feb 2022 19:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uyEDTT7UWcx0aQYR+EyAeRErzTRFuEJTWicokIyg/X8=;
+ b=Cp35ItJkrFPCC1+ZfrNG4XN0hg6G4Yoy2CzfSRy2FWJCu4ia08qfUbOlOIeGcSjDK5
+ yVYxu3JN/E8ii1sk5h/UmG3QBO085GTVOSo6/DdsGFUwfV0KpwW4Gz8jTQsDVfSIRP7A
+ ClHkgzujvx8Gsi9gIufTJA9oaCJJafzXlHOkWX8L8PE2dwpNi6WRoO9fNiJRKoMssL35
+ pJqvekbdwqSOkUfPGsu07XLlvEDoeNyuLMZTexRwkfUHKX64IVjLsu/BWWQG4bDHnjhP
+ QLxwOaDWplkfF1MbfLZAxJlfeYWictcUCYDrgmug8bjBMXQNSHp6gVQKiX6eqoaCx8Xh
+ Z3Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uyEDTT7UWcx0aQYR+EyAeRErzTRFuEJTWicokIyg/X8=;
+ b=MmQsoH8Ry8gS1XHxqOkn4hR+7RRwIq3bAMIMB9eyuo3b0ivgLlJRtDxzlSK9ygfH6e
+ 088uruHzrivjNdeZeC7xsGQZpI3G/3mMpVA2CDAgngxUVd1d5OJW5O6s8Ac8I5d4urFw
+ tSNoMWYysFybRqTqP7cX8jgZU5ZFJ/pa3g6oELI3ZgWB+17eUN3qAvZe1H9hz297whTI
+ E4Zox7QD0WbQ0s5zLAkl9uAbhggtmSvfhhfKTjMSCngfkGBOx0y+ThJ6eAPpeHo+0ukv
+ MfJaO0VDAnaQSZ2q4ZWLwvaIgizMw0mLS/Cr+tgpknaZAWlELbej02Gu3EhFX1nKlioB
+ Sc1w==
+X-Gm-Message-State: AOAM530xj0kQ955+J8qhRE4O17R0SaTc2TcuaeitTNaHxxnuJcxPqItF
+ PI+14EWInVzlCbbJFSsIVsckyQc0GhQoaEkY5c8=
+X-Google-Smtp-Source: ABdhPJzPg+zSnT0SKrtipmoLp2+mt0UbTrXwpd0OYsdp8nW2Rksld9GezBee71wcQB0o2Ra72WaOst/UsAeYF0J+Cn8=
+X-Received: by 2002:a19:ae04:: with SMTP id f4mr24353648lfc.667.1643859649878; 
+ Wed, 02 Feb 2022 19:40:49 -0800 (PST)
+MIME-Version: 1.0
+References: <3a066f81-a53d-4d39-5efb-bd957443e7e2@suse.de>
+ <C4E94EAA-7452-4D69-9C06-E5AD5B7A1F14@oracle.com>
+In-Reply-To: <C4E94EAA-7452-4D69-9C06-E5AD5B7A1F14@oracle.com>
+From: Steve French <smfrench@gmail.com>
+Date: Wed, 2 Feb 2022 21:40:39 -0600
+Message-ID: <CAH2r5msVxenATfo+7iu7kjsQXXXT0dq2jp2JSxrY5Qm2PEde5w@mail.gmail.com>
 Subject: Re: [LSF/MM/BPF TOPIC][LSF/MM/BPF ATTEND] TLS handshake for in-kernel
  consumers
-Thread-Topic: [LSF/MM/BPF TOPIC][LSF/MM/BPF ATTEND] TLS handshake for
- in-kernel consumers
-Thread-Index: AQHYGD7dr/MpUlMoGUeGOVN3qgAeSKyAvowAgAA57gA=
-Date: Thu, 3 Feb 2022 00:25:02 +0000
-Message-ID: <0ef97873-5926-2940-9d66-3c180b39bc01@nvidia.com>
-References: <3a066f81-a53d-4d39-5efb-bd957443e7e2@suse.de>
- <2640b631-f8ac-ab4b-5ff1-884972f25334@grimberg.me>
-In-Reply-To: <2640b631-f8ac-ab4b-5ff1-884972f25334@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0c8f90fd-7b05-40d7-9437-08d9e6ab9eb7
-x-ms-traffictypediagnostic: CH2PR12MB3765:EE_
-x-microsoft-antispam-prvs: <CH2PR12MB376585068DDB99E32B3710D1A3289@CH2PR12MB3765.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vOYOt1gVVm3rHI31+z9zJipJWKUpzBeCS12wbdtX+ApqbXXBQ3/1/vS3BKMbVee1yLFlOVtI8Zt2ZuR9czXB1bDWYfiVGPwTs1wQ0YyrbUCw2KTU0x4e+NHyHKMFqQhPzZvI4TipDe6aDK1tKEtTgKVC/dMNlPZYUJjzth/JRQGIWMeosxbSMTYVmhgf0YCSEBd9+112IZDmXkvvHEj8bJKXhAXfQHVSQy+6qp5u2PHOc9J2Y1qTS+sAK8jgPRNTe/cFpmzY5ZAIJ4KynRdUrPG8jtO7mgfzM1B5WJh5U3E0z017lliQ/731j+Bb9GXEB8hBtmvrCqmGAHYHeILJ+judQwVml9iodUQbiTlo8WCunHpge2sH67LHOJWXugoR1evZgRZzFPaxd6BgHPhYKdjQfcg1g9GZv1UpPapdao2WEak4dCsYz1FKl9uTQeaov5DQ2e/llsCjwu33afZvcVLf4u6gSHHqbE1WAYn9ql7dAPNO8R6yW4rDIlLzVX5HHOzf6RLWvfgmXs8hILjY7kVdRvBK4v3iyy5dvRkmIGQyW23YCNP8Q7hCe54kZSl5pLXXHRVyvPLMP5eBZWGfeL0rrLDi+9kEqmI0z6Ea/pxhTND0OVlR13wXHXIrB7DRAq6idyLFhBCp6ToCr3xpaotdbMWdzJyd2kxQqUL3PXPNMZw15q19sjqHXUTektBl8/f53/j3mII4UZUSCGm59mwB4NBJ7D0EwU1aOH9lRB9PDgckLGlVjCPQgx/ovz7sO4fP0jy7NidAJ8LE3YJ5kA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(4326008)(66556008)(8676002)(8936002)(31696002)(2906002)(86362001)(38100700002)(122000001)(66476007)(66446008)(66946007)(38070700005)(64756008)(54906003)(6506007)(316002)(76116006)(91956017)(508600001)(6486002)(110136005)(36756003)(4744005)(31686004)(6512007)(186003)(5660300002)(2616005)(71200400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SjFYY2JjWTgwdkh1ekFQRzlQKytzdXFvOGVKSHZ2U1FscGUyRmJrT3hwWGJo?=
- =?utf-8?B?TnFmQmJmeWdYRk0ySUhURlhWNGN1N2k0MEFRc3NQY0NVejNFNVg4UHZTeDdW?=
- =?utf-8?B?cXZFa1R6bjd5ZzJROTBldFdrVktXQTFjVVowdldMTDN3M3RJWU0xOUhsRVBD?=
- =?utf-8?B?dmR4YkxoMjNGbXplMDlrQTVsRkNMNWFCVGl1VXliY1dGdUtTWlFCREZTWngy?=
- =?utf-8?B?cGZ6RnZXWEphRFlIc2w4cHREZ3NlanJjTTRpa1BuSkJvTm1DSk5oaG5KcU1L?=
- =?utf-8?B?Vm1yME5mYm90d3huM0poUC9JQ1FVMjlVaGhqVnMvV2lFUTI3NitvVWVJUzQ0?=
- =?utf-8?B?d1VFVmFPSkhOdVZGVUc2STJIdkdBckFvb0lsZ1BUTUZ6MXFuSDVoRTlaSkRp?=
- =?utf-8?B?eFczVEdDQmlwaTRVcEhTUTBQQlErWUtHRUFLN29kR2FZbEk4OXE4cDR3b1Uz?=
- =?utf-8?B?cS9lYWxLS2NNQXE3dnBBa211c3hjUi9RU2tSdTY3MTFYMm4yL21SVXQ1UG4r?=
- =?utf-8?B?NnhnTWNxOW1ZaFI4VCtUSE5DT1l4NVRpcFdoclFpbWZyMnh4NDFTWHZ3dWg1?=
- =?utf-8?B?cEp5SkdnQTZqNG5ScklNcFI5U0NSeTRxYVprRTEzdHdNaU1LZU83LzhMVXhT?=
- =?utf-8?B?b0NwWXpxUUlmZzFPUnE4eWl0WEhRU0MrRUdoWFFzOVVpMzd1U1lGNWpxek9D?=
- =?utf-8?B?cUtXcFdVQjI3U092NjMyZk41bW8vNzN3aWtjMHE1YjlpU0EvODhQTXZTVDhE?=
- =?utf-8?B?bUJkUnFScFNrN0hMRU1zUlNCWnVjVEcwVDdUcGVDZkJiZnNCV3BhNVJqOEhk?=
- =?utf-8?B?cHd5OXhzNXdEZjR2ajl2VWx6cXdEOWEvSEZFTVBWQmxEcjR6dXRjbDJmbjg3?=
- =?utf-8?B?N3B5UWZDY2w1ZjVSVk8rZU81Zk93NUNaNjZUOFZteCtIa1NOWVVFeFB4dnQy?=
- =?utf-8?B?NFlIY2JPMTdDRnBXTVBMZ2xIaXFKVitPOUpyZXpqcjZVdlkrblpGUE52Nm5s?=
- =?utf-8?B?dVExTFdGbGVCUitnTW1ROEY0dGpuQjkxMzk0L2crMEkybTBQcmhvamE2WG16?=
- =?utf-8?B?SVgvRGR5RExCRWVBeUhYWGNlYlg3TWt4L0xBMGFtam8vSjRJNi9pZndVd0Fy?=
- =?utf-8?B?Q3Vrb0l3S2lzRXFLVjZUSmR1VTFpTGJTS3llbGdueWlZb3VvRktCb3ovRzNJ?=
- =?utf-8?B?Tzc4TjQ3eVZIamt1Zit1Y0pHaTN6eHRIa2FWRFhsenUxRVVOVlV1SDZObExy?=
- =?utf-8?B?eXpRUk5MNlJZc21yVlZVQXRDK0E4RUJmSkNUdWZXZ0VYUmx3dCtIc3M4RnRl?=
- =?utf-8?B?N05IWXMxU0NZQ3B3cWg4V3M1bk43dU5wRHVJb2Zxa080dlo3TVZhMldBUFQ3?=
- =?utf-8?B?WXNlRWlrenY5ZDlzWjZmamdzZWlVK1RuR1NINy94ZkJDM3IweEJaeXhYZ2RV?=
- =?utf-8?B?RzN2NTc5TXhuRG5oY2RESHdiVnRhL0hET214K3p4aTZFT3M4THBUekxCTTBD?=
- =?utf-8?B?bzNUbzBHSGJYYkZDZEkwY3VLVkRVT2lNZVoyMEswOWJDZWlOMFl2bVEwMjBP?=
- =?utf-8?B?NCtNSFFTSG55NE5WL0t6K0NJbDB3VFE2UU9CNllaMDQvYnV3ZmovQ3Y3cGFi?=
- =?utf-8?B?Vm9MaGlKT3FyOUlyNVVPYzlkTjlpSnF4cFdGcFhlNGIweG5lSTRtd0xJY24v?=
- =?utf-8?B?MWsyanE1UTdqbEkzUVA2U2VJYVp2YlNBUHI4bTBBY2ZCNFd2a09lL0tIVUk4?=
- =?utf-8?B?QVp0V3JFUWUvRmcyN3NSWGxnNFZwZm5weXZNT1dPZVl1SUx6UUdHTnJLR1dQ?=
- =?utf-8?B?clV4cVpwTVNuc3RGdTU1MnZqQjZXeHJZRGtCM0pRemF3TDZTRVdjQjlnUVQ5?=
- =?utf-8?B?eFUyVXR0RWtSU2xhandZMk5heWxYVHBoNWZodjZoWVQ3elo2VGs0SWpDZGNa?=
- =?utf-8?B?dFVBRHp6RExyR1docHY0Ujd4Q3VnbXBGQVdBdUVSUmZZcU0rRE9iSk1pYnZE?=
- =?utf-8?B?cHhqVXZocFI2RWlmekFpRThYTFRsRG5hQUVWanNOTUlNWDBxV2VVQWticHJo?=
- =?utf-8?B?WGVWYVRnMkx1ZWlkWDV2WHZCcjQxRnV4MUcyQVBEeXVmaWFuTkFJNkl5bnhJ?=
- =?utf-8?B?a25XL1dCdW95WE5QTjVDcWd3OXMvWldUZUhNRXFIQTVObndXYVVvdDBwcERX?=
- =?utf-8?Q?p43kFqC8ZltFXaSqD8f9gZWZnmC7k4X5rKM3EU2jtRzZ?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <00FE9E25439E854EBF7301A28F1B3289@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c8f90fd-7b05-40d7-9437-08d9e6ab9eb7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2022 00:25:02.5169 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VAO20ALbdYZL0mAxTh3zJzMEpEOolu/AhxaB/DZxJaFcLHSNRrcBzuE0YlJbvmwtvyahG6MswYohcPixxHmXoQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3765
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+ Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+ CIFS <linux-cifs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220202_162508_475839_EFBF212E 
-X-CRM114-Status: GOOD (  11.49  )
+X-CRM114-CacheID: sfid-20220202_194052_755534_27FE36A6 
+X-CRM114-Status: GOOD (  42.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,14 +86,124 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-DQo+PiBUaGUgcHJvcG9zZWQgY29uZmlnZCB3b3VsZCBiZSBhbiBvcHRpb24sIGJ1dCB0aGVuIHdl
-IGRvbid0IGhhdmUgdGhhdCwgDQo+PiBlaXRoZXIgOi0pDQo+Pg0KPj4gUmVxdWlyZWQgYXR0ZW5k
-ZWVzOg0KPj4NCj4+IENodWNrIExldmVyDQo+PiBKYW1lcyBCb3R0b21sZXkNCj4+IFNhZ2kgR3Jp
-bWJlcmcNCj4gDQo+IEknZCBiZSBpbnRlcmVzdGVkIHRvIGRpc2N1c3MgdGhpcy4NCj4gDQo+IE9u
-ZSBvdGhlciBpdGVtIHdpdGggVExTIGJlc2lkZXMgdGhlIGhhbmRzaGFrZSBwYXJ0IGlzIHRoYXQN
-Cj4gbmZzL2NpZnMvbnZtZS10Y3AgYXJlIGFsbCB0Y3AgdWxwcyBsaWtlIHRscyBpdHNlbGYsIHdo
-aWNoIGF0DQo+IHRoZSBjdXJyZW50bHkgY2Fubm90IGJlIHN0YWNrZWQgSUlSQyAoYWxsIHVzZSBz
-ayBjYWxsYmFja3MsDQo+IGluY2x1ZGluZyB0bHMpLg0KPiANCj4gSXMgYW55b25lIGxvb2tpbmcg
-aW50byBlbmFibGluZyBzdGFja2luZyB0Y3AgdWxwcyBvbiB0b3Agb2YgdGxzPw0KDQpJJ20gaW50
-ZXJlc3RlZCBpbiBhdHRlbmRpbmcgdGhpcyB0b3BpYy4NCg0KLWNrDQoNCg==
+This is an interesting question - and got me thinking about whether
+also could be helpful to the critical question we have been asked
+about multiple times for SMB, about how to get QUIC in the kernel (see
+the various Storage Developer Conference presentations etc), while
+putting as much as possible of the session establishment in userspace
+accessed via upcalls.
+
+I don't mind discussing this in detail at LSF (or at SambaXP a few
+weeks after LSF), and since there are some SMB servers that support
+QUIC already we could probably do at least some prototyping if there
+is overlap between these two efforts.
+
+On Wed, Feb 2, 2022 at 10:04 AM Chuck Lever III <chuck.lever@oracle.com> wrote:
+>
+> [ ... adding NFS and CIFS ... ]
+>
+> > On Feb 2, 2022, at 9:12 AM, Hannes Reinecke <hare@suse.de> wrote:
+> >
+> > Hi all,
+> >
+> > nvme-over-tcp has the option to utilize TLS for encrypted traffic, but due to the internal design of the nvme-over-fabrics stack we cannot initiate the TLS connection from userspace (as the current in-kernel TLS implementation is designed).
+> >
+> > This leaves us with two options:
+> > 1) Put TLS handshake into the kernel (which will be quite some
+> >  discussion as it's arguably a userspace configuration)
+> > 2) Pass an in-kernel socket to userspace and have a userspace
+> >  application to run the TLS handshake.
+> >
+> > None of these options are quiet clear cut, as we will be have to put
+> > quite some complexity into the kernel to do full TLS handshake (if we
+> > were to go with option 1) or will have to design a mechanism to pass
+> > an in-kernel socket to userspace as we don't do that currently (if we were going with option 2).
+> >
+> > We have been discussing some ideas on how to implement option 2 (together with Chuck Lever and the NFS crowd), but so far haven't been able to come up with a decent design.
+> >
+> > So I would like to discuss with interested parties on how TLS handshake could be facilitated, and what would be the best design options here.
+>
+> IMO we are a bit farther along than Hannes suggests, and I had
+> the impression that we have already agreed on a "decent design"
+> (see Ben Coddington's earlier post).
+>
+> We currently have several prototypes we can discuss, and there
+> are some important issues on the table.
+>
+> First, from the start we have recognized that we have a range
+> of potential in-kernel TLS consumers. To name a few: NVMe/TLS,
+> RPC-with-TLS (for in-transit NFS encryption), CIFS/SMB, and,
+> when it arrives, the QUICv1 transport. We don't intend to
+> build something that works for only one of these, thus it
+> will not be based on existing security infrastructure like
+> rpc.gssd.
+>
+> Second, we believe in-kernel consumers will hitch onto the
+> existing kTLS infrastructure to handle payload encryption and
+> decryption. This transparently enables both software-based
+> and offload, and in the latter case, we hope for quite
+> reasonable performance.
+>
+> As Hannes said, the missing piece is support for the TLS
+> handshake protocol to boot strap each TLS session.
+>
+> The security community has demanded that we stick with user
+> space handshake implementations because they view the TLS
+> handshake as complex and a broad attack surface. I question
+> those assumptions, but even so...
+>
+> We will need to have in-kernel handshake to support NFSROOT
+> and NVMe/TLS with a root filesystem, which are requirements
+> for the storage community.
+>
+> We have an in-kernel prototype based on Tempesta's TLSv1.2
+> offload in the works. See the "topic-rpc-with-tls" branch:
+>
+>  https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
+>
+> We also have three promising user space upcall implementations
+> that are helping us with architectural choices. The main issue
+> here is how to set the correct peer authentication parameters
+> for each handshake. As Ben said, key rings can play a critical
+> part (as might netlink, but perhaps that can be avoided). We
+> are sensitive to containerization requirements as well.
+>
+> One (not-yet-working) user space prototype is published in
+> the "topic-rpc-with-tls-upcall" branch in the repo above.
+>
+>
+> > The proposed configd would be an option, but then we don't have that, either :-)
+> >
+> > Required attendees:
+> >
+> > Chuck Lever
+> > James Bottomley
+> > Sagi Grimberg
+> > Keith Busch
+> > Christoph Hellwig
+> > David Howells
+>
+> Anyone from the CIFS team? Enzo? How about Dave Miller?
+>
+> Actually I think we need to have security and network folks
+> at the table. LSF/MM might not be the right venue for a
+> full-scale discussion of alternatives. We have been waiting
+> for an opportunity to bring this to a broad community event
+> such as Plumbers but the pandemic has interfered.
+>
+> However, I am happy to discuss alternative upcall mechanisms,
+> new requirements, and anything related to securing an
+> in-kernel handshake against remote attack.
+>
+> --
+> Chuck Lever
+>
+>
+>
+
+
+-- 
+Thanks,
+
+Steve
 
