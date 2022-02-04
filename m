@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A17FC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 12:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBE39C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 12:20:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UcEd/N8S1l2AEKiHKDZAr2MPdIh2dEQzMofhohNhsCM=; b=SONr1ow1fiMqH1gDOsTNDZYsbR
-	i+nrXh0P2HNFM+wXLDlKzRsljX4K1UYjj08Gq3LTeB4HwYJeOzZenNCHWqSIsHCtoifknrK88q50Y
-	7dpc1hWEnje4L5sta0lPePMudvhP3jh2RfmJr4s4kD2NndlqhM8P4z5zxXdhk3HQMj0kxNSR6o/kD
-	OfDVKYCEchNG4+vp2xfGmNZRI6erRm2YwBp7YOxFTAkrlG8x8d01gQ6rkhKMnOYmpJz6wiYfDMNdd
-	RKfL0uKy2TrRgpZvHEXJaBv9+LUNOwIu+1e5cu4uJUR4ry+SsS6XA7Ruu+rzT1fnBS6dvMGQhSo24
-	9kFbx3Jg==;
+	bh=Q18rv5UylGOVZaTd2naG7DcMD3WkST5vwcKPjoM7nIg=; b=Gxo9w++EGxfx1l873OrgiP0Dim
+	8CBu4SiK2AQULKE3QYyoInk+GcRHFxDFSBUiyfFesGEaiWRAqTtyW8PS7Ani4a2l0WF/wH13eiKzD
+	y+ELY7Gtktk0SdhJ5hbwjln3G1rhyqB2qhwri15lbkxyUmYzMus8RvWWPR3m7tiSiMWzYRFlA/GXO
+	WG8yMof+JH8cyu94Ez814HVS6js4X73QsmobCr+/vyGMjHHcQrnLifrTbL/QCJx0jSlCAigYaU0Wv
+	wtGT1LCKn8xiaPUX8Du4m8q1qt/hXs0Gh0Cw6XdSefg4SC4XIxmeL5tEsJrnTn4PYyrj/ouloxM4E
+	zvr0MNNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFxZR-004F1h-0t; Fri, 04 Feb 2022 12:20:09 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nFxaA-004FK2-QU; Fri, 04 Feb 2022 12:20:55 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFxZM-004Ezk-KL
- for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 12:20:06 +0000
+ id 1nFxa6-004FI0-2L
+ for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 12:20:51 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 24CB421122;
- Fri,  4 Feb 2022 12:20:03 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A9A541F382;
+ Fri,  4 Feb 2022 12:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1643977203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1643977248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UcEd/N8S1l2AEKiHKDZAr2MPdIh2dEQzMofhohNhsCM=;
- b=UO4RRIR1tMZNrD1rvIPJj/UGuT38pDrRsrIV+6bw02c9kNvCubfJx5wYZInMwQFOfziObJ
- gGkOB/K4DRt0fHJIp96evbuOPEdcR1nRkuSTxVJEhhPra3fGGUj794kWhxMOJeyEpq1cI2
- kr2zNzxP+ETvN+SuYoBWsrwX7jStr8A=
+ bh=Q18rv5UylGOVZaTd2naG7DcMD3WkST5vwcKPjoM7nIg=;
+ b=w9kc3shiT0/CPLoivHAwPLarLOZRhwSNbkBADghj6AzzmX1pe51HBsA4aFGZNzI+FaRHT7
+ ARm7eWKLTxpoeX3laIOQcQIcqNI3eFmPf4jcv/757BpLnK+YrmrCECUEq9U/YoWEFa3uyU
+ 37JKW00UJ4GaGa5E9kX71R6+5r80r1A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1643977203;
+ s=susede2_ed25519; t=1643977248;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UcEd/N8S1l2AEKiHKDZAr2MPdIh2dEQzMofhohNhsCM=;
- b=sJJKMgeKWLJuRq36Epd2vNrLhcNPL/exC+/FqZeKL7M8jRmu9O2VKW9PVZq2l0bzAMk9G3
- KGsfsrK7Zw+9smDg==
+ bh=Q18rv5UylGOVZaTd2naG7DcMD3WkST5vwcKPjoM7nIg=;
+ b=IECto/EjsEf4Ud1pZ7UV7/ybkppwCbOUK11R6K6s8TF3ZMjYZJYLIRaKzP4b4NFkVBKylS
+ /mwYeEo68ma+c7BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1307D13A96;
- Fri,  4 Feb 2022 12:20:03 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 99B0613A96;
+ Fri,  4 Feb 2022 12:20:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kwuAA/MZ/WGDUAAAMHmgww
- (envelope-from <hare@suse.de>); Fri, 04 Feb 2022 12:20:03 +0000
-Message-ID: <ebb86cfb-1728-db8e-4043-fe1d7f99e97a@suse.de>
-Date: Fri, 4 Feb 2022 13:20:02 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id bjQdIiAa/WHVUAAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 04 Feb 2022 12:20:48 +0000
+Message-ID: <5cdc4808-fd0c-ebb1-ba22-5ea4abcd660d@suse.de>
+Date: Fri, 4 Feb 2022 13:20:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 1/3] nvme: fix a possible use-after-free in controller
- reset during load
+Subject: Re: [PATCH v2 2/3] nvme-tcp: fix possible use-after-free in transport
+ error_recovery work
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
  Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 Cc: Chris Leech <cleech@redhat.com>
 References: <20220201125421.177942-1-sagi@grimberg.me>
- <20220201125421.177942-2-sagi@grimberg.me>
+ <20220201125421.177942-3-sagi@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220201125421.177942-2-sagi@grimberg.me>
+In-Reply-To: <20220201125421.177942-3-sagi@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220204_042004_857518_8FB526A7 
-X-CRM114-Status: GOOD (  22.24  )
+X-CRM114-CacheID: sfid-20220204_042050_308736_8E5419B9 
+X-CRM114-Status: GOOD (  17.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,49 +93,33 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2/1/22 13:54, Sagi Grimberg wrote:
-> Unlike .queue_rq, in .submit_async_event drivers may not check the ctrl
-> readiness for AER submission. This may lead to a use-after-free
-> condition that was observed with nvme-tcp.
+> While nvme_tcp_submit_async_event_work is checking the ctrl and queue
+> state before preparing the AER command and scheduling io_work, in order
+> to fully prevent a race where this check is not reliable the error
+> recovery work must flush async_event_work before continuing to destroy
+> the admin queue after setting the ctrl state to RESETTING such that
+> there is no race .submit_async_event and the error recovery handler
+> itself changing the ctrl state.
 > 
-> The race condition may happen in the following scenario:
-> 1. driver executes its reset_ctrl_work
-> 2. -> nvme_stop_ctrl - flushes ctrl async_event_work
-> 3. ctrl sends AEN which is received by the host, which in turn
->     schedules AEN handling
-> 4. teardown admin queue (which releases the queue socket)
-> 5. AEN processed, submits another AER, calling the driver to submit
-> 6. driver attempts to send the cmd
-> ==> use-after-free
-> 
-> In order to fix that, add ctrl state check to validate the ctrl
-> is actually able to accept the AER submission.
-> 
-> This addresses the above race in controller resets because the driver
-> during teardown should:
-> 1. change ctrl state to RESETTING
-> 2. flush async_event_work (as well as other async work elements)
-> 
-> So after 1,2, any other AER command will find the
-> ctrl state to be RESETTING and bail out without submitting the AER.
-> 
+> Tested-by: Chris Leech <cleech@redhat.com>
 > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   drivers/nvme/host/tcp.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index dd18861f77c0..c11cd3a814fd 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4251,6 +4251,8 @@ static void nvme_async_event_work(struct work_struct *work)
->   		container_of(work, struct nvme_ctrl, async_event_work);
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 4ceb28675fdf..01e24b5703db 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2096,6 +2096,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
 >   
->   	nvme_aen_uevent(ctrl);
-> +	if (ctrl->state != NVME_CTRL_LIVE)
-> +		return;
->   	ctrl->ops->submit_async_event(ctrl);
->   }
->   
+>   	nvme_stop_keep_alive(ctrl);
+> +	flush_work(&ctrl->async_event_work);
+>   	nvme_tcp_teardown_io_queues(ctrl, false);
+>   	/* unquiesce to fail fast pending requests */
+>   	nvme_start_queues(ctrl);
+
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
