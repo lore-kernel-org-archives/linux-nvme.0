@@ -4,80 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F909C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 16:03:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 727EEC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 19:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XjiTz7mXDOHiGAQbahHjKneaooqlEcoZjPNDRyJUiI4=; b=wAOSsBoyXcaJE24t+nIgV7ZSAF
-	ezAon6Vd90etb7FuXPb/Tnp39/TKbuUAsOsA6WZ2MtoFped7pZqIv3wNF/An8D5rhzA3GTbP+H2dn
-	/+SizHlZ61dtad3cB/wOMw7f3Wk5tqOiOVb2PC3MzpGoI74RTgJg3Dpyz6INUHAPrsZjR2XYlliW4
-	hsZpZkTCxceXcX9RwFuYrLe7rMJx6H6e0G3Mk0KKiCrTuwv1EcWU0X8W47hmolgU2wxwj65YAeDkN
-	XKYI9CKBvBd3uhMKZcdKM8jMJC8ntNkz6pu0BlGZi92AeyoDeE4Omnj49etb1+dMvGTqxhH/3Byn9
-	6LqkFV+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ow88Lu4aUs6K7UkGLeI5Z43Nbv5HpcgNARMLv9ghlkU=; b=VgdxNRpK54qLUG3/J6SXj59mLi
+	MHIfR4DMtFPBG7qj085YDBDQUyfm1LJfaZt4/LCtxzAS1s0nNdl4XNfxWR3NAHDTa+iCHIYeyXzkF
+	5a3h0bZdDXyiGqG2u55otbKUxWVs8PmCvDtmmFN32NoWOggT+tAfSddlLr54SeeoeCHbFBBeFcefI
+	Bd+WFirQgqFHqAvcZkOoLtYtW/QsDw2eBkUQ3J7OlXXmMV2bGfad8+XsLhf0Tu1U2ysSUGzJvJKPW
+	1mrWW7gaNtNAbxkaxZHIec2vDunWHPHWSmNnLmBu0LXnnj65aH1S6C3r4xSiz+uPV7cBk9Ch3JgoH
+	tak2vGSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nG13J-004sY8-9n; Fri, 04 Feb 2022 16:03:13 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nG4TC-005JaI-H0; Fri, 04 Feb 2022 19:42:10 +0000
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nG11u-004s1h-CP
- for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 16:01:48 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 9C75E68AA6; Fri,  4 Feb 2022 17:01:40 +0100 (CET)
-Date: Fri, 4 Feb 2022 17:01:40 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>,
+ id 1nG4T9-005JZA-R9
+ for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 19:42:09 +0000
+Received: by mail-lf1-x129.google.com with SMTP id z4so14651372lft.3
+ for <linux-nvme@lists.infradead.org>; Fri, 04 Feb 2022 11:42:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ow88Lu4aUs6K7UkGLeI5Z43Nbv5HpcgNARMLv9ghlkU=;
+ b=TpFi/w8V+E7pbO9sIvLpXZCpdWezLN3gUSIfpae0rAfXunnHQoI1jO+McdOkoyyvry
+ rpUeXbR2S4FMUcIK2ROcUGKWUUt29F/xn7gfPQugn7xPgfsgy2RjXGSLTqvEFqxQizUs
+ UemRWsnEtkd4NE/9MnMJJY+2kzZrILdV0UEahM7z9pM9c2PBRwlaavtJq04TKtp2RKMi
+ SfNZHW788cW54l6at6TZuezDjBfN360XlNenjVWgmSNXGdnmUCR4lwh/F+hZxzOJfoTa
+ zTYtOv5OsrlN8LnEyXtPgrSrhoEO0tFX8dw7kzuvq0hNgelyDruS6BhYPwSZgM8gE7FG
+ /67g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ow88Lu4aUs6K7UkGLeI5Z43Nbv5HpcgNARMLv9ghlkU=;
+ b=uz/dgtCVYYmZnOFlRDejhDfUdia8ALvEmsMSbnJENidf2RdJt45TGhhrhTnHp/KE1d
+ Ns5YxPn14oYllugChK+LKQtnpSArLoD/yv8Xwk6g76DhO/B5d4tIqnbUFv++QuJRJ8mk
+ zhK7+ySYflBVgBAT9R7tKiB28Nx8iXs4C4fE6qQTvRArv1gFnR982IvmTcKPQTZcwkqH
+ XaLSRRYw0MWvbyL8Jx7zE5UcCQ5BMvw+iwCgoyK/fxUBTeZX9tdUd3tNteV31OYh0BBi
+ z4wGxwi64uAwYjaCny9rcEGagNWTlIvFsrZ1LzLlJrNsBPUSUyRKTyQMKzJKZdezbajW
+ 0Iag==
+X-Gm-Message-State: AOAM530RXw+lBoqhmgKdx9pjHoJxWG4cCkbU3jr9XoV/n/gnjIfQHXKa
+ VuBqyPvTYnZZej5dkZw+LpLZyxVYfv3wm1SYr4I=
+X-Google-Smtp-Source: ABdhPJyHIm2s/AwXxjYIOHGmKgAxztwbsh5UaTIz/wUfKedoZaCqO6GHsMXWPEigismScFC9Hc7Iu0UaLWeROhbCTFw=
+X-Received: by 2002:ac2:4853:: with SMTP id 19mr346407lfy.563.1644003723415;
+ Fri, 04 Feb 2022 11:42:03 -0800 (PST)
+MIME-Version: 1.0
+References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+ <20220201102122.4okwj2gipjbvuyux@mpHalley-2>
+ <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
+In-Reply-To: <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
+From: Nitesh Shetty <nitheshshetty@gmail.com>
+Date: Sat, 5 Feb 2022 01:11:51 +0530
+Message-ID: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] NVMe copy offload patches
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Jens Axboe <axboe@kernel.dk>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>, 
  "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
- Bart Van Assche <bvanassche@acm.org>,
+ Bart Van Assche <bvanassche@acm.org>, 
  "martin.petersen@oracle.com >> Martin K. Petersen"
  <martin.petersen@oracle.com>, 
  "roland@purestorage.com" <roland@purestorage.com>,
- Christoph Hellwig <hch@lst.de>,
+ Hannes Reinecke <hare@suse.de>, 
+ "kbus @imap.gmail.com>> Keith Busch" <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, 
  "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, 
+ "osandov@fb.com" <osandov@fb.com>, 
  "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
+ "djwong@kernel.org" <djwong@kernel.org>, 
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
+ "dsterba@suse.com" <dsterba@suse.com>, 
  "tytso@mit.edu" <tytso@mit.edu>, "jack@suse.com" <jack@suse.com>,
- Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [RFC PATCH 3/3] nvme: add the "debug" host driver
-Message-ID: <20220204160140.GA6817@lst.de>
-References: <20220203153843.szbd4n65ru4fx5hx@garbanzo>
- <CGME20220203165248uscas1p1f0459e548743e6be26d13d3ed8aa4902@uscas1p1.samsung.com>
- <20220203165238.GA142129@dhcp-10-100-145-180.wdc.com>
- <20220203195155.GB249665@bgt-140510-bm01>
- <863d85e3-9a93-4d8c-cf04-88090eb4cc02@nvidia.com>
- <2bbed027-b9a1-e5db-3a3d-90c40af49e09@opensource.wdc.com>
- <9d5d0b50-2936-eac3-12d3-a309389e03bf@nvidia.com>
- <20220204082445.hczdiy2uhxfi3x2g@ArmHalley.local>
- <4d5410a5-93c3-d73c-6aeb-2c1c7f940963@nvidia.com>
- <befa49b3-7606-a3ce-24f7-e184e3df41a3@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <befa49b3-7606-a3ce-24f7-e184e3df41a3@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+ Kanchan Joshi <joshi.k@samsung.com>, 
+ arnav.dawn@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220204_080146_591310_2F88B6F0 
-X-CRM114-Status: GOOD (  19.73  )
-X-Mailman-Approved-At: Fri, 04 Feb 2022 08:03:11 -0800
+X-CRM114-CacheID: sfid-20220204_114207_902920_C0368851 
+X-CRM114-Status: GOOD (  17.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,26 +107,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 04, 2022 at 03:15:02PM +0100, Hannes Reinecke wrote:
->> ZNS kernel code testing is also done on QEMU, I've also fixed
->> bugs in the ZNS kernel code which are discovered on QEMU and I've not
->> seen any issues with that. Given that simple copy feature is way smaller
->> than ZNS it will less likely to suffer from slowness and etc (listed
->> above) in QEMU.
->>
->> my point is if we allow one, we will be opening floodgates and we need
->> to be careful not to bloat the code unless it is _absolutely
->> necessary_ which I don't think it is based on the simple copy
->> specification.
->>
+On Wed, Feb 2, 2022 at 12:23 PM Mikulas Patocka <mpatocka@redhat.com> wrote=
+:
 >
-> I do have a slightly different view on the nvme target code; it should 
-> provide the necessary means to test the nvme host code.
-> And simple copy is on of these features, especially as it will operate as 
-> an exploiter of the new functionality.
+> Hi
+>
+> Here I'm submitting the first version of NVMe copy offload patches as a
+> request for comment. They use the token-based approach as we discussed on
+> the phone call.
+>
+> The first patch adds generic copy offload support to the block layer - it
+> adds two new bio types (REQ_OP_COPY_READ_TOKEN and
+> REQ_OP_COPY_WRITE_TOKEN) and a new ioctl BLKCOPY and a kernel function
+> blkdev_issue_copy.
+>
+> The second patch adds copy offload support to the NVMe subsystem.
+>
+> The third patch implements a "nvme-debug" driver - it is similar to
+> "scsi-debug", it simulates a nvme host controller, it keeps data in memor=
+y
+> and it supports copy offload according to NVMe Command Set Specification
+> 1.0a. (there are no hardware or software implementations supporting copy
+> offload so far, so I implemented it in nvme-debug)
+>
+> TODO:
+> * implement copy offload in device mapper linear target
+> * implement copy offload in software NVMe target driver
 
-Well, in general I'd like to have every useful feature supported in
-nvmet, because it serves both testing and production.  If a feature
-isn't all that useful (and there are lots of those in nvme these days)
-we don't need to support in nvmet, but probably neither in the host code.
+We had a series that adds these two elements
+https://github.com/nitesh-shetty/linux_copy_offload/tree/main/v1
+
+Overall series supports =E2=80=93
+1.    Multi-source/destination interface(yes, it does add complexity
+but GC use-case needs it)
+2.    Copy-emulation at block-layer
+3.    Dm-linear and dm-kcopyd support (for cases not requiring split)
+4.    Nvmet support (for block and file backend)
+
+These patches definitely need more feedback. If links are hard to read,
+we can send another RFC instead. But before that it would be great to have =
+your
+inputs on the path forward.
+But before that it would be great to have your inputs on the path forward.
+
+PS: The payload-scheme in your series is particularly interesting and
+simplifying plumbing, so you might notice that above patches borrow that
+
+> * make it possible to complete REQ_OP_COPY_WRITE_TOKEN bios asynchronousl=
+y
+Patch[0] support asynchronous copy write,if multi dst/src payload is sent.
+
+[0] https://github.com/nitesh-shetty/linux_copy_offload/blob/main/v1/0003-b=
+lock-Add-copy-offload-support-infrastructure.patch
+
+-- Nitesh
 
