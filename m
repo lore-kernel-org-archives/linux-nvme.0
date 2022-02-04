@@ -4,85 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BE2DC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 12:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A17FC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 12:20:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ug0j2D3hPaBD8ARb0/WmIlQ1wD9LKsRfGtTL8Fytta4=; b=rPX4zH642W317Oh5lO1nulFmH9
-	4u5aYfxfOL2rMJE9d9WoGP17n0ea+bs17bCTXjVswEmEOR/bfaZafRUmPir9C3hE0wvnioHzlCPgV
-	uBWtvo/5ww2WtOuWfNHkBAqO+ajuWs3UAIQo5fXyi5HiaKt5BegN/6lSHnFTEqY3pdQCVXvaCedRs
-	FkdlXO1haR+XMkazlEyMk396SJW04fie6Pg4ezp5xHYxDvpLvZ+jkPnHWmaA8Wmjth6oKL/rtbpUa
-	/VGFuHvBLL4OurdqdInJUcvkswVIHSkwIFa2nvbkq7xQLuXMwJcAkxZvRH2EHTa7CJ1nzOgocuiNx
-	tzIxRqSw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UcEd/N8S1l2AEKiHKDZAr2MPdIh2dEQzMofhohNhsCM=; b=SONr1ow1fiMqH1gDOsTNDZYsbR
+	i+nrXh0P2HNFM+wXLDlKzRsljX4K1UYjj08Gq3LTeB4HwYJeOzZenNCHWqSIsHCtoifknrK88q50Y
+	7dpc1hWEnje4L5sta0lPePMudvhP3jh2RfmJr4s4kD2NndlqhM8P4z5zxXdhk3HQMj0kxNSR6o/kD
+	OfDVKYCEchNG4+vp2xfGmNZRI6erRm2YwBp7YOxFTAkrlG8x8d01gQ6rkhKMnOYmpJz6wiYfDMNdd
+	RKfL0uKy2TrRgpZvHEXJaBv9+LUNOwIu+1e5cu4uJUR4ry+SsS6XA7Ruu+rzT1fnBS6dvMGQhSo24
+	9kFbx3Jg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFxP4-004BVd-VA; Fri, 04 Feb 2022 12:09:27 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nFxZR-004F1h-0t; Fri, 04 Feb 2022 12:20:09 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFxP2-004BUL-0C
- for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 12:09:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1643976562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ug0j2D3hPaBD8ARb0/WmIlQ1wD9LKsRfGtTL8Fytta4=;
- b=Zv3nSStOBy40Sf8K1haWbl3jgElR6ZrUyx9koXzovBKxIVyOvUszVI3/6AJ28s2yhF9Mks
- 1sZiogyul/PHxVCnDJeDj1dYE80WXYPmS2wLX1yajVg5RZHtGeL0k0zxmigaiHtnaCr/2f
- gQSTudL6F/z0UY7qY+VgGgZ8D6zQJDI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-F7yHxsWwMP2s-ecdrp4ehg-1; Fri, 04 Feb 2022 07:09:19 -0500
-X-MC-Unique: F7yHxsWwMP2s-ecdrp4ehg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1nFxZM-004Ezk-KL
+ for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 12:20:06 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B182B8145E0;
- Fri,  4 Feb 2022 12:09:17 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 914F178A9E;
- Fri,  4 Feb 2022 12:09:09 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 214C99wH019986; Fri, 4 Feb 2022 07:09:09 -0500
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 214C97pr019978; Fri, 4 Feb 2022 07:09:07 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Fri, 4 Feb 2022 07:09:07 -0500 (EST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>
-cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [RFC PATCH 1/3] block: add copy offload support
-In-Reply-To: <a2ec9086-72d2-4a4e-c4fa-fe53bf5ba092@acm.org>
-Message-ID: <alpine.LRH.2.02.2202040657060.19134@file01.intranet.prod.int.rdu2.redhat.com>
-References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
- <20220201102122.4okwj2gipjbvuyux@mpHalley-2>
- <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
- <alpine.LRH.2.02.2202011331570.22481@file01.intranet.prod.int.rdu2.redhat.com>
- <efd2e976-4d2d-178e-890d-9bde1a89c47f@acm.org>
- <alpine.LRH.2.02.2202031310530.28604@file01.intranet.prod.int.rdu2.redhat.com>
- <a2ec9086-72d2-4a4e-c4fa-fe53bf5ba092@acm.org>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 24CB421122;
+ Fri,  4 Feb 2022 12:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643977203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UcEd/N8S1l2AEKiHKDZAr2MPdIh2dEQzMofhohNhsCM=;
+ b=UO4RRIR1tMZNrD1rvIPJj/UGuT38pDrRsrIV+6bw02c9kNvCubfJx5wYZInMwQFOfziObJ
+ gGkOB/K4DRt0fHJIp96evbuOPEdcR1nRkuSTxVJEhhPra3fGGUj794kWhxMOJeyEpq1cI2
+ kr2zNzxP+ETvN+SuYoBWsrwX7jStr8A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643977203;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UcEd/N8S1l2AEKiHKDZAr2MPdIh2dEQzMofhohNhsCM=;
+ b=sJJKMgeKWLJuRq36Epd2vNrLhcNPL/exC+/FqZeKL7M8jRmu9O2VKW9PVZq2l0bzAMk9G3
+ KGsfsrK7Zw+9smDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1307D13A96;
+ Fri,  4 Feb 2022 12:20:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kwuAA/MZ/WGDUAAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 04 Feb 2022 12:20:03 +0000
+Message-ID: <ebb86cfb-1728-db8e-4043-fe1d7f99e97a@suse.de>
+Date: Fri, 4 Feb 2022 13:20:02 +0100
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 1/3] nvme: fix a possible use-after-free in controller
+ reset during load
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: Chris Leech <cleech@redhat.com>
+References: <20220201125421.177942-1-sagi@grimberg.me>
+ <20220201125421.177942-2-sagi@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220201125421.177942-2-sagi@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220204_040924_140859_846CD02C 
-X-CRM114-Status: GOOD (  22.09  )
+X-CRM114-CacheID: sfid-20220204_042004_857518_8FB526A7 
+X-CRM114-Status: GOOD (  22.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,57 +92,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On Thu, 3 Feb 2022, Bart Van Assche wrote:
-
-> On 2/3/22 10:50, Mikulas Patocka wrote:
-> > On Tue, 1 Feb 2022, Bart Van Assche wrote:
-> > > On 2/1/22 10:32, Mikulas Patocka wrote:
-> > > >    /**
-> > > > + * blk_queue_max_copy_sectors - set maximum copy offload sectors for
-> > > > the
-> > > > queue
-> > > > + * @q:  the request queue for the device
-> > > > + * @size:  the maximum copy offload sectors
-> > > > + */
-> > > > +void blk_queue_max_copy_sectors(struct request_queue *q, unsigned int
-> > > > size)
-> > > > +{
-> > > > +	q->limits.max_copy_sectors = size;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(blk_queue_max_copy_sectors);
-> > > 
-> > > Please either change the unit of 'size' into bytes or change its type into
-> > > sector_t.
-> > 
-> > blk_queue_chunk_sectors, blk_queue_max_discard_sectors,
-> > blk_queue_max_write_same_sectors, blk_queue_max_write_zeroes_sectors,
-> > blk_queue_max_zone_append_sectors also have the unit of sectors and the
-> > argument is "unsigned int". Should blk_queue_max_copy_sectors be
-> > different?
+On 2/1/22 13:54, Sagi Grimberg wrote:
+> Unlike .queue_rq, in .submit_async_event drivers may not check the ctrl
+> readiness for AER submission. This may lead to a use-after-free
+> condition that was observed with nvme-tcp.
 > 
-> As far as I know using the type sector_t for variables that represent a number
-> of sectors is a widely followed convention:
+> The race condition may happen in the following scenario:
+> 1. driver executes its reset_ctrl_work
+> 2. -> nvme_stop_ctrl - flushes ctrl async_event_work
+> 3. ctrl sends AEN which is received by the host, which in turn
+>     schedules AEN handling
+> 4. teardown admin queue (which releases the queue socket)
+> 5. AEN processed, submits another AER, calling the driver to submit
+> 6. driver attempts to send the cmd
+> ==> use-after-free
 > 
-> $ git grep -w sector_t | wc -l
-> 2575
+> In order to fix that, add ctrl state check to validate the ctrl
+> is actually able to accept the AER submission.
 > 
-> I would appreciate it if that convention would be used consistently, even if
-> that means modifying existing code.
+> This addresses the above race in controller resets because the driver
+> during teardown should:
+> 1. change ctrl state to RESETTING
+> 2. flush async_event_work (as well as other async work elements)
 > 
-> Thanks,
+> So after 1,2, any other AER command will find the
+> ctrl state to be RESETTING and bail out without submitting the AER.
 > 
-> Bart.
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>   drivers/nvme/host/core.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index dd18861f77c0..c11cd3a814fd 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4251,6 +4251,8 @@ static void nvme_async_event_work(struct work_struct *work)
+>   		container_of(work, struct nvme_ctrl, async_event_work);
+>   
+>   	nvme_aen_uevent(ctrl);
+> +	if (ctrl->state != NVME_CTRL_LIVE)
+> +		return;
+>   	ctrl->ops->submit_async_event(ctrl);
+>   }
+>   
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Changing the sector limit variables in struct queue_limits from unsigned 
-int to sector_t would increase the size of the structure and its cache 
-footprint.
+Cheers,
 
-And we can't send bios larger than 4GiB anyway because bi_size is 32-bit.
-
-Jens, what do you think about it? Should the sectors limits be sector_t?
-
-Mikulas
-
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
