@@ -4,65 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79DE3C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 14:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D14E0C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 14:15:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zKEj55arNHtpLs16mohAZWaHkJzeY/Fv1Bx3DbPZSAU=; b=Na1NcIY56h5Rc7PSjuMA2dKxn6
-	4mYkz0Wb0UIKyYg+dhQvV9Bd2ERRenhjUbKqwdfZzF8+u0/iAaPgjnMw3sxBtiTAnlL5p2KWrX4o+
-	mufNgwPmNCIGbIDFttm5lHfpXAkhPUpQv998G8NGB3H3mObsWV8kmUD8DiqPFde3cZbMFFEaG1ioI
-	yFT7YZTmTj/TedD5Oo5FYAy7EsvuuY1QImGQz5yFTtu6zXyap7PwC0wIMdQefzk4XVHrGuErNyLgD
-	vIiFQlcAfCUDQPppiiF/+9V+H0f9SCEwfQ1zGEN6RXn8FK1SS7EQHLgaomeBk+yVLjjjmXzNQIlCx
-	+YQONXmQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=x7Xef+LHLUOFJjJq2zLv1fwP3izEqk/6tFjtKVXKieo=; b=AzdhKXZR9WHcwRMx6Ov2Q2kJqK
+	G9zD4kNi5rAXg5MD+J1rUaPXhfm6rZG9v4Yf/9xkVvPkcqLMIY5UjOEomwKETiCAgJBg19J2jpdB/
+	Al+whAFZ5QSMiX+11v6hrzLACa6y7Exut7WyBhLuJVKMc5+axxEhKZjjlX63HyQlSu2h6yQpCTSdq
+	N2gQPohcvqjTE7KC6oWc/dWq730zufx8QnzJnrSrDRnf48n4RFrzgwx0vMDMnUDNqGFAKEqyi1cuh
+	8L9Dco2nHHzx0gyhcPrSji9odBOKziIr294D/kHEG5/TBMPGYNeLpIw24bPos37TE1tgTqbV5vGdy
+	kKUvZW9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFzEf-004Vr5-46; Fri, 04 Feb 2022 14:06:49 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nFzMp-004X9N-J2; Fri, 04 Feb 2022 14:15:15 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFzEb-004VpV-FW
- for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 14:06:47 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1nFzMn-004X74-1G
+ for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 14:15:14 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 50BEA60ADC;
- Fri,  4 Feb 2022 14:06:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C453C004E1;
- Fri,  4 Feb 2022 14:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1643983603;
- bh=8l1Yss4IJiGe8wTPkWwtsIB9Xbq4Z5TINK8Xt8hy2OY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=etZB+ilvr8sBBn+mWnxYGosw0QGxzDOtaVfSJ99VDnPC/Do4dOyVfZ7kTFDP9YFYx
- ECgM465lCzUI9rZV3qETSq99JElk6YDC8vz8FWp6E0G3sPAQEPmhdYYynmumVDqZuO
- xNgC1Pi6kEgkcAH5r0CfAyAoeIv3bzNc5NxK/ZMI=
-Date: Fri, 4 Feb 2022 15:05:31 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Belanger, Martin" <Martin.Belanger@dell.com>
-Cc: Martin Belanger <nitram_67@hotmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "hare@suse.de" <hare@suse.de>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "rafael@kernel.org" <rafael@kernel.org>,
- "Rose, Charles" <Charles.Rose@dell.com>,
- "Hayes, Stuart" <Stuart.Hayes@dell.com>
-Subject: Re: [PATCHv2 3/3] nvme: Expose cntrltype and dctype through sysfs
-Message-ID: <Yf0yq3wXzvkPf5Wa@kroah.com>
-References: <20220203211748.27542-1-nitram_67@hotmail.com>
- <BL0PR13MB429136A542739D745DE3AB679C289@BL0PR13MB4291.namprd13.prod.outlook.com>
- <YfzZmxPrtXwavoRZ@kroah.com>
- <SJ0PR19MB4544F6472AE13C8634E9AB9BF2299@SJ0PR19MB4544.namprd19.prod.outlook.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 07F2D1F38F;
+ Fri,  4 Feb 2022 14:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1643984103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x7Xef+LHLUOFJjJq2zLv1fwP3izEqk/6tFjtKVXKieo=;
+ b=d7Njk3prV8hRniilXg/s9deMKAnPYFs5GdS70Bmm+70rRO+ce6K48fI4rpFMhZZ6lDtbxb
+ ZJKCKTjLIvqpo41/2xP6jQUrmQnWomfOOWz4nxZh4VEpa5JMi3hKS9x1ufRYkQxx1KYF8R
+ X2KfxyuIlFXKhCENQvezESv5XTR/EC0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1643984103;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x7Xef+LHLUOFJjJq2zLv1fwP3izEqk/6tFjtKVXKieo=;
+ b=+An9ufe0fv2coZRexo04U1M024Rg6ufMB1+/yhsOF1ytaTXPzfgX8IJsWFnIOkqEihajpN
+ BnNcKVaccT4T6SDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B8AFF13AE2;
+ Fri,  4 Feb 2022 14:15:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WXHDLOY0/WFfCQAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 04 Feb 2022 14:15:02 +0000
+Message-ID: <befa49b3-7606-a3ce-24f7-e184e3df41a3@suse.de>
+Date: Fri, 4 Feb 2022 15:15:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ0PR19MB4544F6472AE13C8634E9AB9BF2299@SJ0PR19MB4544.namprd19.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>
+Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
+ Bart Van Assche <bvanassche@acm.org>,
+ "martin.petersen@oracle.com >> Martin K. Petersen"
+ <martin.petersen@oracle.com>, "roland@purestorage.com"
+ <roland@purestorage.com>, Christoph Hellwig <hch@lst.de>,
+ "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
+ "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "djwong@kernel.org" <djwong@kernel.org>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
+ "dsterba@suse.com" <dsterba@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+ "jack@suse.com" <jack@suse.com>, Kanchan Joshi <joshi.k@samsung.com>
+References: <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
+ <alpine.LRH.2.02.2202011333160.22481@file01.intranet.prod.int.rdu2.redhat.com>
+ <270f30df-f14c-b9e4-253f-bff047d32ff0@nvidia.com>
+ <20220203153843.szbd4n65ru4fx5hx@garbanzo>
+ <CGME20220203165248uscas1p1f0459e548743e6be26d13d3ed8aa4902@uscas1p1.samsung.com>
+ <20220203165238.GA142129@dhcp-10-100-145-180.wdc.com>
+ <20220203195155.GB249665@bgt-140510-bm01>
+ <863d85e3-9a93-4d8c-cf04-88090eb4cc02@nvidia.com>
+ <2bbed027-b9a1-e5db-3a3d-90c40af49e09@opensource.wdc.com>
+ <9d5d0b50-2936-eac3-12d3-a309389e03bf@nvidia.com>
+ <20220204082445.hczdiy2uhxfi3x2g@ArmHalley.local>
+ <4d5410a5-93c3-d73c-6aeb-2c1c7f940963@nvidia.com>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [RFC PATCH 3/3] nvme: add the "debug" host driver
+In-Reply-To: <4d5410a5-93c3-d73c-6aeb-2c1c7f940963@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220204_060645_646621_88AB8BCB 
-X-CRM114-Status: GOOD (  39.45  )
+X-CRM114-CacheID: sfid-20220204_061513_256403_88E2BA49 
+X-CRM114-Status: GOOD (  23.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,86 +120,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 04, 2022 at 01:51:27PM +0000, Belanger, Martin wrote:
-> > On Thu, Feb 03, 2022 at 04:17:48PM -0500, Martin Belanger wrote:
-> > > From: Martin Belanger <martin.belanger@dell.com>
-> > >
-> > > TP8010 introduces the Discovery Controller Type attribute (dctype).
-> > > The dctype is returned in the response to the Identify command. This
-> > > patch exposes the dctype through the sysfs. Since the dctype depends
-> > > on the Controller Type (cntrltype), another attribute of the Identify
-> > > response, the patch also exposes the cntrltype as well. The dctype
-> > > will only be displayed for discovery controllers.
-> > >
-> > > Signed-off-by: Martin Belanger <martin.belanger@dell.com>
-> > > ---
-> > >  drivers/nvme/host/core.c | 45
-> > > ++++++++++++++++++++++++++++++++++++++++
-> > >  drivers/nvme/host/nvme.h |  3 +++
-> > >  include/linux/nvme.h     | 10 ++++++++-
-> > >  3 files changed, 57 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c index
-> > > b5e452aa3c0e..4e3db5ec3924 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -2990,6 +2990,9 @@ static int nvme_init_identify(struct nvme_ctrl
-> > *ctrl)
-> > >  	ctrl->max_namespaces = le32_to_cpu(id->mnan);
-> > >  	ctrl->ctratt = le32_to_cpu(id->ctratt);
-> > >
-> > > +	ctrl->cntrltype = id->cntrltype;
-> > > +	ctrl->dctype = id->dctype;
-> > > +
-> > >  	if (id->rtd3e) {
-> > >  		/* us -> s */
-> > >  		u32 transition_time = le32_to_cpu(id->rtd3e) /
-> > USEC_PER_SEC; @@
-> > > -3115,6 +3118,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
-> > >  			return ret;
-> > >  	}
-> > >
-> > > +	ret = device_update_groups(ctrl->device);
-> > > +	if (ret)
-> > > +		return ret;
-> > 
-> > Why is this needed here?  How did the class or type just change?  That should
-> > never change over the lifespan of a device.  If it does, you need to tear down
-> > the old device and create a new one as something really wrong just
-> > happened.
+On 2/4/22 10:58, Chaitanya Kulkarni wrote:
+> On 2/4/22 12:24 AM, Javier González wrote:
+[ .. ]
+>> For a software-only solution, we have experimented with something
+>> similar to the nvme-debug code tha Mikulas is proposing. Adam pointed to
+>> the nvme-loop target as an alternative and this seems to work pretty
+>> nicely. I do not believe there should be many changes to support copy
+>> offload using this.
+>>
 > 
-> Hi Greg,
-> I need to expose 2 nvme attributes through the sysfs. There is the controller type (cntrltype), which can take the values "io", "discovery", "admin", and "reserved". And there is the Discovery Controller Type (dctype), which takes the values "none", "ddc", "cdc", and "reserved". Note that the dctype is only meaningful for Discovery Controllers (i.e. cntrltype=discovery).
+> If QEMU is so incompetent then we need to add every big feature into
+> the NVMeOF test target so that we can test it better ? is that what
+> you are proposing ? since if we implement one feature, it will be
+> hard to nack any new features that ppl will come up with
+> same rationale "with QEMU being slow and hard to test race
+> conditions etc .."
+> 
 
-/me handes you some '\n' characters...
+How would you use qemu for bare-metal testing?
 
-That's fine, this should not have anything to do with the groups
-associated with a device as this type is known at creation, right?
+> and if that is the case why we don't have ZNS NVMeOF target
+> memory backed emulation ? Isn't that a bigger and more
+> complicated feature than Simple Copy where controller states
+> are involved with AENs ?
+> 
+> ZNS kernel code testing is also done on QEMU, I've also fixed
+> bugs in the ZNS kernel code which are discovered on QEMU and I've not
+> seen any issues with that. Given that simple copy feature is way smaller
+> than ZNS it will less likely to suffer from slowness and etc (listed
+> above) in QEMU.
+> 
+> my point is if we allow one, we will be opening floodgates and we need
+> to be careful not to bloat the code unless it is _absolutely
+> necessary_ which I don't think it is based on the simple copy
+> specification.
+> 
 
-> In my first iteration of this patch, I plainly exposed both attributes for all types of controllers. However, Sagi asked me to only expose the dctype if we're dealing with a Discovery Controller. Unfortunately, both cntrltype and dctype are not known at object creation. This means that when the is_visible method (i.e. nvme_dev_attrs_are_visible) is called, it is still not known whether dctype should be exposed. The value s for cntrltype and dctype are only known after a connection has been established with the controller and we have completed the Identify command.
+I do have a slightly different view on the nvme target code; it should 
+provide the necessary means to test the nvme host code.
+And simple copy is on of these features, especially as it will operate 
+as an exploiter of the new functionality.
 
-How can this not be known at creation?  Why not figure it out first
-before you create the device?  Why not wait?
+Cheers,
 
-> Hannes suggested that we combine both attributes into a single one that would take the values: "io", "discovery-none", "discovery-ddc", "discovery-cdc", "discovery-reserved", and "admin". But Sagi did not like this proposal and instead proposed the changes that you see here. Basically, we want to be able to re-execute the is_visible() method after we have identified the controller so that we can determine whether the dctype should be exposed.
-
-Nope, that's not how the driver model works and you break all userspace
-tools by doing this as it only scans the list of attributes when the
-device is created and announced to userspace.
-
-By changing the files and types and such afterward no one ever notices
-and so userspace is "blind" to the change unless you want it to
-constantly walk all of sysfs all the time to find this out (hint, you
-don't want that...)
-
-So there's a reason you are being forced to add a driver-core change
-like this, because it's not something you should do :)
-
-> So now I'm in a bit of a pickle. Sagi suggested this current patch set, but from what you're saying this is not a good approach. If you could suggest a solution that would satisfy all parties, I would greatly appreciate it.
-
-Wait to create the device when you know the device type.
-
-thanks,
-
-greg k-h
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
