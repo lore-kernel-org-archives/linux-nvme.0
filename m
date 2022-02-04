@@ -4,154 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA44DC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 06:26:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA1E8C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Feb 2022 06:28:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P8iFln1vTh31HniSBbBfkrPb5ufwoscktLN/SPSvqtU=; b=rFBw1cpkir2NgwRKyj7Bbr7OqF
-	+mBHL9leJFemMtHfSv/anomRao6io6qm/RVoKDk34cmmiroi5nVtpnOPK23bYdDsaKhVSEL3GfVih
-	Z7liixeSf8lG8G8XLE7hBv5jb3Sj1TIjSdGcvYWWF7nNL7R5cXi+OAXR3Jt/QNXzVeCaa+S5UIsQv
-	i8G+GXyfC7ckUU/BUkl+LOjZmlCSmSocoEa6+jto1J9T4bulE3p8I1y86eovXtMo+Ssrif1CeaJFu
-	4no1m832ypcFMtbA/hf3D7dFNwtaAsU5yLfrksENtYNPDZT6nWcLdcHtbEWbrzR6M6BDT9pk2zjRA
-	oNsexjHQ==;
+	bh=ua9S9bU/3TptPR3lXDO7yStG0OHE6EAOXXuEol5OsOs=; b=Y7XuWcsYrs6HW/YgM3oJ6lQWg6
+	1/lRk/v/yvpQ5Q9EaMaVldxTBatnekZk+wFuEfYYk0d8tw4oB+Y5UAeQDO0c4y6PxbqYSgBdVH9eT
+	GD1hfw+erqvvSA26rnzg4Sn7ztslwG6YF1X/OGbJdXiQG12bH0FQkV7jkrjKwjgBmjFNnNKU6Xex5
+	w8CvACMeHCr4hMsAaUfnBdyRw08mBrmk2DNcvQVpaj/Et3TPHnmfoxSgt9uIDs3QZjIkO2IZcI73/
+	8YzMuWGnc3yt0cm46tn+zULrSfPKmi/khG8sNUk25p05A5fy5TZTc9vyVJIXxngbXkEgLM8FMVDZE
+	FQdo0Mqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nFs3O-003Z6Q-35; Fri, 04 Feb 2022 06:26:42 +0000
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+	id 1nFs5O-003ZMe-V8; Fri, 04 Feb 2022 06:28:47 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nFkyv-0033Sq-1z
- for linux-nvme@lists.infradead.org; Thu, 03 Feb 2022 22:53:38 +0000
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20220203225335usoutp0262d19d5493a26b0a4c1ffc024bdcfd37~QaIwmwB3Q1807918079usoutp02E;
- Thu,  3 Feb 2022 22:53:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20220203225335usoutp0262d19d5493a26b0a4c1ffc024bdcfd37~QaIwmwB3Q1807918079usoutp02E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1643928815;
- bh=P8iFln1vTh31HniSBbBfkrPb5ufwoscktLN/SPSvqtU=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=kBoDDV7N3IWTsJg18SoFSKrC1dKOSdhiESaQXs19kU9Og0dHecHqXM4gFpEYQTVF2
- Uy33O2mEp3wp3jYch8aG5fa6UH1xMESpvkFj3S0h1fQTHqCscCBELkG9ww3WJoCqgw
- Cqf0fn035dp1fxRTFHM5MR/eVOPgC5CjRiyECkbI=
-Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
- [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220203225334uscas1p1549c0f1a4417c55925d56f53cbff11c6~QaIwb8ss40411504115uscas1p10;
- Thu,  3 Feb 2022 22:53:34 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges2new.samsung.com (USCPEMTA) with SMTP id DC.33.10104.EEC5CF16; Thu, 
- 3 Feb 2022 17:53:34 -0500 (EST)
-Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
- [203.254.195.92]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220203225334uscas1p2cb08fa69376935551d792df32e67acdc~QaIwHlPgw1507515075uscas1p2L;
- Thu,  3 Feb 2022 22:53:34 +0000 (GMT)
-X-AuditID: cbfec36f-315ff70000002778-d5-61fc5ceecc28
-Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id CF.C7.09657.EEC5CF16; Thu, 
- 3 Feb 2022 17:53:34 -0500 (EST)
-Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
- SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2242.4; Thu, 3 Feb 2022 14:52:43 -0800
-Received: from SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36]) by
- SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36%3]) with mapi id
- 15.01.2242.008; Thu, 3 Feb 2022 14:52:43 -0800
-From: Adam Manzanares <a.manzanares@samsung.com>
-To: Mikulas Patocka <mpatocka@redhat.com>, "joshi.k@samsung.com"
- <joshi.k@samsung.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Vincent Fu <vincent.fu@samsung.com>,
- =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>, Chaitanya Kulkarni
- <chaitanyak@nvidia.com>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ id 1nFs5L-003ZL5-OF
+ for linux-nvme@lists.infradead.org; Fri, 04 Feb 2022 06:28:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1643956122; x=1675492122;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=XY7HM1Ns7hm2Ldhsemh6j5ncCcWBc54JkxLeU7W/o3w=;
+ b=ZSqkZl7Q8HWgh3y0kfFFFaeg+SGyZmsZdjWatROsQO2INBGpH4GO2K+O
+ VS9ll+ga+CFW006bGYzemxg8Inxa/SUSeiQdkF+ZSCdy5tujE9zEVU2pB
+ oFsFixvuE/LxPo/cKBQ8W4nwjkYzAlKz/0lWfRg73mdV+Bq/PegkiJs6K
+ +HENFys88/WZjwRiZpUrZiDOXm6RQVZ5CwFbOerGynoEnuUpq1Q8aCCDM
+ ibhSgsv2fHr+DFPrYTYNKLA/6/F+swknL0digClZ/LFJ1SrXAwVKpN5JD
+ c1u4dPdWZbFUulksqA7MJoPjkUFWW+9Xvji7HfZhLOgzGFSkTa5aD7PUY g==;
+X-IronPort-AV: E=Sophos;i="5.88,341,1635177600"; d="scan'208";a="196957607"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Feb 2022 14:28:40 +0800
+IronPort-SDR: T8Mp5X2EuQi+Gygnxrcig+47G3yGposTd8/3q4eAcTIIL7cu8XJTOJC0svmgBrkmyhraPZ8D6A
+ QM59betgcPrlXRgmaynNVpFycPuVwNuRPDpkydQg5PVMXvW4JOzPkE7jqO/kp4ecznSHw04u9F
+ 63nEw1toezGyGIdjtxIeVDdTC4QOsQI6dc5m/fAJWYw/Tbs3hVuCK/Yb02/F4mmCRrU/IedzP5
+ 8StDNGfF+pHhjIVXRJOvyEUzUoVpcN3Fx1MZVl9t6ntHzl94dbxFeefc+mYg35kuZkIwa+suKa
+ koWENh2nt3Dk91cICScuvDcv
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 22:01:47 -0800
+IronPort-SDR: dqLtQThXfA0+Dote9HMSPtr7AFpRGEwwkkn16Y08mBkeUTapBCbHhKv5DFy8PBmdxMp0n6wlUo
+ psJiyMgXNGujBS+1MdJ1dy5F5YPg2a/rrBw+UbEHC3fpuakmR+8NlPmhb0FHcL6EohJxrCAJ1n
+ XNaqn4OrTJ/vykkWFt97kIISXOnrruwNxccnnIyDFN9GmCM8huz721TvGQRp2eLLffkB9nsNeY
+ 1aKNafEzE/eyd4v67za5WLrCeYYuzM7AVBe+tFDed+0PpT3HjyQONDyFVSzjPTq8oHBySw5+99
+ UWs=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 22:28:41 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jqlwm4xLzz1VSjC
+ for <linux-nvme@lists.infradead.org>; Thu,  3 Feb 2022 22:28:40 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1643956119; x=1646548120; bh=XY7HM1Ns7hm2Ldhsemh6j5ncCcWBc54JkxL
+ eU7W/o3w=; b=Vy1JQI4M/p1RM6pYjkGTdHayEVDerzZzeQKwGTfze/XnWDZgKtC
+ 452KAtRCJmmt2/PoJYUSFE5uhvagAB3Aq1Fktw/41WmPj8t5pXf1u0eCtiVdkYqj
+ 101uSyKbmZmftoezDdZsx8NMUv2/vmFsInUBB/0WSQbmeVoYYQ5A4gIGMf0IckqC
+ 4kAcyV9l8+HvrKY/u5XCSrb2iOQhmd++vpkqueu5mnX/ad80yJuRsm3HZ3dA9vXV
+ aH3mjv/PXZ2R3eiDFD/wY6bfvhEKTK1baWpKRVPShwdOOm725/z3JLVgHG4+2+Qw
+ VDs6oFM1RR6Yb3d/5JyVazRxgVSzUUtx8QQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026)
+ with ESMTP id 4ErRxGx3EHO6 for <linux-nvme@lists.infradead.org>;
+ Thu,  3 Feb 2022 22:28:39 -0800 (PST)
+Received: from [10.225.163.63] (unknown [10.225.163.63])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jqlwf4v8pz1Rwrw;
+ Thu,  3 Feb 2022 22:28:34 -0800 (PST)
+Message-ID: <2bbed027-b9a1-e5db-3a3d-90c40af49e09@opensource.wdc.com>
+Date: Fri, 4 Feb 2022 15:28:33 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 3/3] nvme: add the "debug" host driver
+Content-Language: en-US
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Adam Manzanares <a.manzanares@samsung.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>,
  linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
- "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>, "Bart
- Van Assche" <bvanassche@acm.org>, "martin.petersen@oracle.com >> Martin K.
- Petersen" <martin.petersen@oracle.com>, "roland@purestorage.com"
+ "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
+ Bart Van Assche <bvanassche@acm.org>,
+ "martin.petersen@oracle.com >> Martin K. Petersen"
+ <martin.petersen@oracle.com>, "roland@purestorage.com"
  <roland@purestorage.com>, Hannes Reinecke <hare@suse.de>,
+ Christoph Hellwig <hch@lst.de>,
  "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
  "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
  "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "djwong@kernel.org" <djwong@kernel.org>, "josef@toxicpanda.com"
- <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>, "dsterba@suse.com"
- <dsterba@suse.com>, "tytso@mit.edu" <tytso@mit.edu>, "jack@suse.com"
- <jack@suse.com>, Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [RFC PATCH 3/3] nvme: add the "debug" host driver
-Thread-Topic: [RFC PATCH 3/3] nvme: add the "debug" host driver
-Thread-Index: AQHYF5o0LMwUDmubDUu2kNRmd7lMHKyAS6yAgAI7QoCAAAKFAIAAN5GAgAAXUoCAACBXAA==
-Date: Thu, 3 Feb 2022 22:52:43 +0000
-Message-ID: <20220203225336.GA255651@bgt-140510-bm01>
-In-Reply-To: <alpine.LRH.2.02.2202031532410.12071@file01.intranet.prod.int.rdu2.redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-x-exchange-save: DSA
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <F9A50E2F9923F248A4158F3A5B0B3FDC@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xbdRTH+d1e7r3UMC8dwk+qWSRuJrJ1g4zltwXR6BJvNEsWwWl0zl7h
- jvGeLWyiRpnNCA8ZFIGVIo8ij61sA8scz46U7iHrRkoqa61DhgMU2MpjSnl0IOV2Sf/7nN/5
- npPPSX6UQGQgQqjEtAxOlsamhBJC/MqN/wZ2OA672F3KqQjUPFxEoPLZJQGaMTzwRSVFKhJZ
- xjYhvaPSF5kXT2HogW4NQz11JRg633wdQ383/QRQnsmMIddoOCrpuwuQ3h6GevT9OKppHCdR
- gbWDQFen9QLUdHMVQ7bicYCUuUMYGlC7CGT8cwhHzS6ETn+/RKKp3iNviBnLb+8ySoWDZBS1
- 93DGcieT0WnzCKat/lvmB1sTYLp/zyaY725fFzCq+X8Jxnq7HWMKFQ6CmRu348yV0UKSmbk6
- RDAtl4fwg5s/EkbFcymJJzjZzmip8FiraoI83rbpC2NFbDY480w+8KMgvRuWrozgbhbR5wEc
- UezLB8J1Po1Bw6km8mno1p12gm9cBPDeTAPJF7MAVmobfPmiF0BdTvXGLoLeBVdu/ixwcyD9
- IVxeegjcIQHdIoTKkuH1BkVtpqOhZukdPvM6nDfWefKH4NzgAuZmnH4ZmgbqN9796UiYm79M
- uNmP/hguducCNwM6CDpvXdjIC+hgaB+rwXjtAFhX2SPgOQiudo0SPL8ER5yTntMC4SXnI4Kf
- lUBbWamHo+G1ajXOcxhs1Ex7HAJgf8UYzs8+Dw3nbLj7Lkh3CuHQ2VrP0v0wt2DCw2J49oLF
- E9ICWLqQQ/JFG4CqZTNWDLaqvczVXiZqLxO1l4nay6QW+GpBcKZcnprAySPSuJMSOZsqz0xL
- kMSlp+rA+i83rRrTO4DVPifpAxgF+gCkBKGB/snlK6zIP57N+pKTpX8qy0zh5H1ATOGhwf6N
- ia2siE5gM7hkjjvOyZ52McovJBuLjQlSpTum11RvTz58K8llLeNqtAWRP65JfYzF1+5HxQ1C
- S75ov2vn3b+6qt5/MrzyR1GcdSqpxejaF/h1PR6y5x9D1x770Vi5Jexx9GDZJ7LX4j+LujSc
- bE/Ip2K3Sqdnm1UHzL0VzrYAaaTm8Ij4m3bJ0kJDmOIxrqnISjxJdt04GBH3XusrJoe4aU05
- Mdm57YhOvmgu7f+qKJmazPklcuJo2a9odvuhKkP2cLh6PrWq27L38z6Ge1F/ZvdzSWqyfHt1
- TENKkoR9MtjSmfwo5uKJFY3UxzbvvJ9h2jLT8ewLfuIcbUDClvbqrBBHuKuQ/cB67nLmYljv
- mz5ReTu27Q3F5cfY8FcFMjn7P9xzj6VUBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHOffe3l66lF0e2qMsbkPnomydjRseE8bcHzN3YxnLNGoUcVe5
- gY6HpOWhhggbSqDTYnEQLDgfENhgQSkIhmdoNaQUHFJLa6c4B1XbanlsrrYgTGiX9L/P73e+
- j3OSQ+FhDt5qSpqZzcky2fQoUkBIC7Hy912J8+wmzZM1qOl+GYkqpz04muqf4KHysio+Mk6G
- oB5XNQ+NvPgeQxOaRQx1Xy7H0K9NNzH0uKEWoFLDCIbmH0pQuXYMoB5rNOru0RPoQr2Nj340
- XydRr7MHRw0DCxiynLEBpCoxYeiWep5EunETgZrmETp5ysNHjr6kbZGM8U48oypy8Zmii/cI
- xjicw2gaS0mmta6AOWtpAEzX3UKS+WHoJs5Uzf5DMuahDow5XeQimRmblWDaH57mM1O9JpK5
- 0mYivg7fK4hN5tKluZzsg7hvBalXqx7xs1pDjujO7SwEytcUIJiC9IdwcLiDVAABFUY3Adg4
- ovQP0wDerXHyfEMfgPano2DJQtKb4NxAC77EEfQe6PU8BUsinL4igMNazysHRYXTcfCS5wuf
- 5hM4q7vs1++CM7f/xZaYoNdBw6265b2Q/giWKLz+ZgsBHSfmlkXB9D74oqtkuRjQK6F78Lfl
- PU6LoHXyAuZ7Aw3run/HfbwC2icWeD5+Gz5w2/k+joDN7mekzyuGloqf/BwHb/ysJnwcDesv
- Of0XCoX6c5OEz7sK9v9iIc6AVeqAanVAlDogSh0QpQ6Iugh4jUCUI5dnpByRb87k8sRyNkOe
- k5kiPnQ4QwNefUfDgi7xOhi3zoi1AKOAFkAKj4oQplXOsWHCZPboMU52+IAsJ52Ta0EkRUSJ
- hMx+1YEwOoXN5tI4LouT/X+KUcGrCzGJQLrrTlW+yptvt2DiLt1W8bir5USxM9m++JL3+sag
- HddWCvftOJorquWfjxQFrSh451nIaGS95Bi2ffdiHF7T2XbyjVMP4iscurJiRXOf+3mewBi7
- Jzyk4qDnU7P3c5HdEbP9+Ft2c/ys8hvbQedC22dK6XjzVJKhseDjG2uPC6uzi3NDzR36BCKo
- c0uo/X5a6mgpZw3+S1KqbMkzTT3WxE8btf2sXihOfw89iWXa16zbOxB9L2tg7Or5GPfm9Rm1
- I7xHb24ZJFs3PH9Xsk1m0Fd+t9aWwM9W4kFbE7xj1VlDiV+9PFQXS+ljFAl/sI6df7f3bvgz
- SZXP3a6hvuyMIuSprGQjLpOz/wEQteiU/QMAAA==
-X-CMS-MailID: 20220203225334uscas1p2cb08fa69376935551d792df32e67acdc
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20220201183359uscas1p2d7e48dc4cafed3df60c304a06f2323cd
+ "djwong@kernel.org" <djwong@kernel.org>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
+ "dsterba@suse.com" <dsterba@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+ "jack@suse.com" <jack@suse.com>, Kanchan Joshi <joshi.k@samsung.com>
 References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
  <20220201102122.4okwj2gipjbvuyux@mpHalley-2>
  <alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com>
- <CGME20220201183359uscas1p2d7e48dc4cafed3df60c304a06f2323cd@uscas1p2.samsung.com>
  <alpine.LRH.2.02.2202011333160.22481@file01.intranet.prod.int.rdu2.redhat.com>
- <20220202060154.GA120951@bgt-140510-bm01>
- <20220203160633.rdwovqoxlbr3nu5u@garbanzo> <20220203161534.GA15366@lst.de>
- <YfwuQxS79wl8l/a0@bombadil.infradead.org>
- <alpine.LRH.2.02.2202031532410.12071@file01.intranet.prod.int.rdu2.redhat.com>
+ <270f30df-f14c-b9e4-253f-bff047d32ff0@nvidia.com>
+ <20220203153843.szbd4n65ru4fx5hx@garbanzo>
+ <CGME20220203165248uscas1p1f0459e548743e6be26d13d3ed8aa4902@uscas1p1.samsung.com>
+ <20220203165238.GA142129@dhcp-10-100-145-180.wdc.com>
+ <20220203195155.GB249665@bgt-140510-bm01>
+ <863d85e3-9a93-4d8c-cf04-88090eb4cc02@nvidia.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <863d85e3-9a93-4d8c-cf04-88090eb4cc02@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220203_145337_433478_A19F110F 
-X-CRM114-Status: GOOD (  30.32  )
-X-Mailman-Approved-At: Thu, 03 Feb 2022 22:26:40 -0800
+X-CRM114-CacheID: sfid-20220203_222843_847664_5C706254 
+X-CRM114-Status: GOOD (  20.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,54 +147,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 03, 2022 at 03:57:55PM -0500, Mikulas Patocka wrote:
->=20
->=20
-> On Thu, 3 Feb 2022, Luis Chamberlain wrote:
->=20
-> > On Thu, Feb 03, 2022 at 05:15:34PM +0100, Christoph Hellwig wrote:
-> > > On Thu, Feb 03, 2022 at 08:06:33AM -0800, Luis Chamberlain wrote:
-> > > > On Wed, Feb 02, 2022 at 06:01:13AM +0000, Adam Manzanares wrote:
-> > > > > BTW I think having the target code be able to implement simple co=
-py without=20
-> > > > > moving data over the fabric would be a great way of showing off t=
-he command.
-> > > >=20
-> > > > Do you mean this should be implemented instead as a fabrics backend
-> > > > instead because fabrics already instantiates and creates a virtual
-> > > > nvme device? And so this would mean less code?
-> > >=20
-> > > It would be a lot less code.  In fact I don't think we need any new c=
-ode
-> > > at all.  Just using nvme-loop on top of null_blk or brd should be all
-> > > that is needed.
-> >=20
-> > Mikulas,
-> >=20
-> > That begs the question why add this instead of using null_blk with
-> > nvme-loop?
-> >=20
-> >   Luis
->=20
-> I think that nvme-debug (the patch 3) doesn't have to be added to the=20
-> kernel.
->=20
-> Nvme-debug was an old student project that was canceled. I used it becaus=
-e=20
-> it was very easy to add copy offload functionality to it - adding this=20
-> capability took just one function with 43 lines of code (nvme_debug_copy)=
-.
->
+On 2/4/22 12:12, Chaitanya Kulkarni wrote:
+> 
+>>>> One can instantiate scsi devices with qemu by using fake scsi devices,
+>>>> but one can also just use scsi_debug to do the same. I see both efforts
+>>>> as desirable, so long as someone mantains this.
+>>>>
+> 
+> Why do you think both efforts are desirable ?
 
-BTW Kanchan's group has looked at adding copy offload support to the target=
-.
-I'll let him respond on the timing of upstreaming, I'm under the assumption
-that it is also a relatively small patch to the target code.
+When testing code using the functionality, it is far easier to get said
+functionality doing a simple "modprobe" rather than having to setup a
+VM. C.f. running blktests or fstests.
 
-> I don't know if someone is interested in continuing the development of=20
-> nvme-debug. If yes, I can continue the development, if not, we can just=20
-> drop it.
->=20
-> Mikulas
-> =
+So personally, I also think it would be great to have a kernel-based
+emulation of copy offload. And that should be very easy to implement
+with the fabric code. Then loopback onto a nullblk device and you get a
+quick and easy to setup copy-offload device that can even be of the ZNS
+variant if you want since nullblk supports zones.
+
+> 
+> NVMe ZNS QEMU implementation proved to be perfect and works just
+> fine for testing, copy offload is not an exception.
+> 
+>>>> For instance, blktests uses scsi_debug for simplicity.
+>>>>
+>>>> In the end you decide what you want to use.
+>>>
+>>> Can we use the nvme-loop target instead?
+>>
+>> I am advocating for this approach as well. It presentas a virtual nvme
+>> controller already.
+>>
+> 
+> It does that assuming underlying block device such as null_blk or
+> QEMU implementation supports required features not to bloat the the
+> NVMeOF target.
+> 
+> -ck
+> 
+> 
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
