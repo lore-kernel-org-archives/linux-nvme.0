@@ -4,67 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19EDCC433EF
-	for <linux-nvme@archiver.kernel.org>; Sun,  6 Feb 2022 12:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9224AC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun,  6 Feb 2022 13:08:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=phAEtt3rvtrDSiX5zfRC9b5TUDPSnFql1yj7iif1O18=; b=VqzAUGJGUWz4goJ95bW5naXi6P
-	Muqi21zpPKE/uvCdOoy5Tyad+WArq7kD8NL7sa6+ERE2OBeydmDRhsdv3sFFXIDa+8zCK5H3EAUe+
-	Hms8/Jxfwj8HsgwCXqdcvCXj+vAkI6xBuZczUXpIHe5qL0QTuOxfAeTPYsQE+mGnS334loEnhtXk2
-	OyMkdVvEczOCniFErZiRD9gNjTrzn2nDjT3HV4oCrVtHjREIy3GN9m7eOuJAv5HvaZ4HzRFWOVT+r
-	aIdgLSZ/QgTrksyG8qQ7wDF3cLPHnqMh6DxX5NEsan5JvRjoxzxqM28Nuh7937i36q0qV1kwR8nsU
-	9YWKUCqA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kKGjpAQVpy4yStD/Tmb+3xjugdXyt8rULKPwkSzj+pk=; b=oHg0rBFMWnFIRcsJzbclp0nnK6
+	4yDuMbdEA+LfPF3sbrUefi92M0J+ovQ+6+9wPamDOyWlAAj7dZLDeC9LcpVUOeilXKghlZfVP58gN
+	u1976jxS9rTBwf4VI0kBaopdSxSTk1UrNvLILDBQQKRE+FS2Lff8RLV8dY1vDJOFwdCh+JerYw/7V
+	0ns2FoK4ZM6TPyJMLs0qPrKVIzZW0G5XGm0dguGODSUdNnQSWPm89qdHVsxNFDl7VP7if5GSfAy0o
+	HUXnvHO8M8zr9WgYF6GwYGcFBjTqf3h1kMPW9zJvyxfZlrbWwXnkiOKPAVkdRDrrrOGb0XQFFjjHq
+	qaRN5iUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nGgFQ-00898q-MD; Sun, 06 Feb 2022 12:02:28 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nGhHZ-008Cna-FG; Sun, 06 Feb 2022 13:08:45 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nGgFO-00898M-7V
- for linux-nvme@lists.infradead.org; Sun, 06 Feb 2022 12:02:27 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1nGhHR-008Clo-VK
+ for linux-nvme@lists.infradead.org; Sun, 06 Feb 2022 13:08:39 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C049D60F79;
- Sun,  6 Feb 2022 12:02:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EAD9C340E9;
- Sun,  6 Feb 2022 12:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1644148945;
- bh=ebd8zUR/cSqbmFOsR0WViGFu/uUmc84I/3p/dYOE4ic=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VAmc2hwJxFfJ+HGbJbf4n4phLFnVv7HQhLtqvshT3L6W6jva4ABBMGxwhjTcMt2Yu
- FbeHowsVNpHVkLL9HBiXFZ4U2oIBf1+fBqzXsvZF56H4fQH+/LhspcxzggKQJPliZj
- LHClxWLa3VjL+ob82M+ImKo4fqtQWaqWi8qGnEfs=
-Date: Sun, 6 Feb 2022 13:02:22 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: "Belanger, Martin" <Martin.Belanger@dell.com>,
- Martin Belanger <nitram_67@hotmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "hare@suse.de" <hare@suse.de>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "rafael@kernel.org" <rafael@kernel.org>,
- "Rose, Charles" <Charles.Rose@dell.com>,
- "Hayes, Stuart" <Stuart.Hayes@dell.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5C6A21F386;
+ Sun,  6 Feb 2022 13:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644152914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kKGjpAQVpy4yStD/Tmb+3xjugdXyt8rULKPwkSzj+pk=;
+ b=oY5aLASfYGspRJ6oQNtH4t49Wut1GwzQEqmFhKhLX7AiHAk5iqO9DUudtMQVmwvQkoaFu1
+ 90tMte0BIL2+uRU7qvfpt+gs/k/0LD+Q84/4Mjn+iYkdYQ6Nj7lSfUan7LsEQpIVex2lXQ
+ /tKF4ItPpa2cpzS6EFXt27w6fsYAXwU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644152914;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kKGjpAQVpy4yStD/Tmb+3xjugdXyt8rULKPwkSzj+pk=;
+ b=JQC//vky479Iii1/dAmbFCOaD0W72eN0ib18xY7AFLO6/80Js+5v0s/klr5BcAcPYk5Pd0
+ p7KoBH/3uoWrnOAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D184C139EF;
+ Sun,  6 Feb 2022 13:08:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 9pYPMFHI/2FwPwAAMHmgww
+ (envelope-from <hare@suse.de>); Sun, 06 Feb 2022 13:08:33 +0000
+Message-ID: <17c95ce8-49f2-da6f-ff6c-71dfbb57cb66@suse.de>
+Date: Sun, 6 Feb 2022 14:08:32 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
 Subject: Re: [PATCHv2 3/3] nvme: Expose cntrltype and dctype through sysfs
-Message-ID: <Yf+4zhofzutXLVih@kroah.com>
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Greg KH <gregkh@linuxfoundation.org>,
+ Martin Belanger <nitram_67@hotmail.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com,
+ hch@lst.de, rafael@kernel.org, charles_rose@dell.com, stuart_hayes@dell.com,
+ Martin Belanger <martin.belanger@dell.com>
 References: <20220203211748.27542-1-nitram_67@hotmail.com>
  <BL0PR13MB429136A542739D745DE3AB679C289@BL0PR13MB4291.namprd13.prod.outlook.com>
  <YfzZmxPrtXwavoRZ@kroah.com>
- <SJ0PR19MB4544F6472AE13C8634E9AB9BF2299@SJ0PR19MB4544.namprd19.prod.outlook.com>
- <Yf0yq3wXzvkPf5Wa@kroah.com>
- <b10f199e-83eb-7088-f9ea-44057b59b6cc@grimberg.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b10f199e-83eb-7088-f9ea-44057b59b6cc@grimberg.me>
+ <93a3faf5-2e97-cd27-63ae-ea37293d5e54@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <93a3faf5-2e97-cd27-63ae-ea37293d5e54@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220206_040226_372570_49E885CD 
-X-CRM114-Status: GOOD (  34.38  )
+X-CRM114-CacheID: sfid-20220206_050838_209073_1BCFF737 
+X-CRM114-Status: GOOD (  21.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,57 +95,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Feb 06, 2022 at 11:09:40AM +0200, Sagi Grimberg wrote:
+On 2/6/22 09:54, Sagi Grimberg wrote:
+> Hey Greg,
 > 
-> > > Hannes suggested that we combine both attributes into a single one that would take the values: "io", "discovery-none", "discovery-ddc", "discovery-cdc", "discovery-reserved", and "admin". But Sagi did not like this proposal and instead proposed the changes that you see here. Basically, we want to be able to re-execute the is_visible() method after we have identified the controller so that we can determine whether the dctype should be exposed.
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index b5e452aa3c0e..4e3db5ec3924 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -2990,6 +2990,9 @@ static int nvme_init_identify(struct nvme_ctrl 
+>>> *ctrl)
+>>>       ctrl->max_namespaces = le32_to_cpu(id->mnan);
+>>>       ctrl->ctratt = le32_to_cpu(id->ctratt);
+>>> +    ctrl->cntrltype = id->cntrltype;
+>>> +    ctrl->dctype = id->dctype;
+>>> +
+>>>       if (id->rtd3e) {
+>>>           /* us -> s */
+>>>           u32 transition_time = le32_to_cpu(id->rtd3e) / USEC_PER_SEC;
+>>> @@ -3115,6 +3118,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+>>>               return ret;
+>>>       }
+>>> +    ret = device_update_groups(ctrl->device);
+>>> +    if (ret)
+>>> +        return ret;
+>>
+>> Why is this needed here?  How did the class or type just change?  That
+>> should never change over the lifespan of a device.  If it does, you need
+>> to tear down the old device and create a new one as something really
+>> wrong just happened.
 > 
-> Just to note that the same fundamental issue exists in both approaches,
-> having the "combined" string change after the controller is identified
-> is equivalent to having the separated attribute appear after the device
-> is initialized.
+> The class and type do not change. The fundamental need here is to update
+> visible attributes of the device.
 > 
-> > Nope, that's not how the driver model works and you break all userspace
-> > tools by doing this as it only scans the list of attributes when the
-> > device is created and announced to userspace.
-> > 
-> > By changing the files and types and such afterward no one ever notices
-> > and so userspace is "blind" to the change unless you want it to
-> > constantly walk all of sysfs all the time to find this out (hint, you
-> > don't want that...)
+> In nvme, we create the device node with its sysfs attributes and next
+> comes a process where we interrogate it for capabilities/personality.
+> In this example, the attributes cntrltype and dctype are learned from
+> the device identification, and the desire is that dctype will only be
+> visible for specific cntrltype (i.e. cntrltype is I/O controllers vs.
+> discovery controllers and dctype is the discovery controller type).
 > 
-> The idea was to add a separate udev announcement that would tell
-> userspace that these attributes are stable (it actually serves
-> a different purpose, but it does come after that point).
-
-like KOBJECT_CHANGE is there for?
-
-> > So there's a reason you are being forced to add a driver-core change
-> > like this, because it's not something you should do :)
+> So perhaps a more narrowed interface to update attributes
+> visibility of the controller would be more appropriate instead?
 > 
-> I do agree that its a bit backwards to do this update. But the device
-> even today is not fully usable when it is created, so we know no
-> userspace program relies on the creation announcement.
-> 
-> > > So now I'm in a bit of a pickle. Sagi suggested this current patch set, but from what you're saying this is not a good approach. If you could suggest a solution that would satisfy all parties, I would greatly appreciate it.
-> > 
-> > Wait to create the device when you know the device type.
-> 
-> The initial proposal was to defer the device creation to after the
-> device is fully initialized. That though is a heavier lift because the
-> device initialization is something that happens on every reset or
-> reconnection after connectivity loss,
+> Something like:
+> -- 
+>      ret = device_update_visibility(ctrl->device->groups);
+> -- 
 
-That's fine, what's wrong with tearing it all down and bringing it back
-up then?  That's what the hardware just did, don't fake things out by
-not conveying the same stuff to userspace.
+I guess it can be even simpler; to my reading the prime objection is 
+that we change attributes (and attribute visibility) without informing 
+userspace that we did so, thus udev and the device configuration driven 
+by uevents won't work as expected.
 
-> so if we move the device creation there we have to now check if this
-> is the first time we are doing this or not, and also error recovery
-> becomes more opinionated...
+Which means that everything should be okay if we issue an KOBJ_CHANGE 
+uevent after we modify the visibility of attributes, no?
 
-I still think you should not create anything until you know what it is.
+Cheers,
 
-thanks,
-
-greg k-h
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
