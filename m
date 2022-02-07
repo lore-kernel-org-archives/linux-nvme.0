@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54789C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 15:04:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D972C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 15:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:To:From:References:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NI59/bJCELJsOUJziWbBWYISl94A+1R4371SSlsyR60=; b=WIaQ63oPFi6oZthV1qfiLS3t1B
-	U4YRIhOhSOKoA++HRB8U17dzBJI+0aAGf8FsUiHjEB5d5DcwvQpCtlXpL4WNJ2szyTXBNTjvJvybc
-	LZmAWnHWZXkeJs/nkQBZnh9QgD4BMpxvbyOvhZOj9XrJd10Ut29C7KDzNiSKq2zUcCUt40XzMoUNa
-	BO+DJ/pXp0pbDw4DZ4uKGLD2L+wIa68Y84+rYnmuqnJ3auyWoDPJQ2dJrnjmStp4NtC3O6F9LG/r9
-	xoC1hUa4dVbU2RWLpdtaZQmesYLTNg4+KO1c8nGo3jiN8ZxXCmU3u27vBCimUMlTOaec+6fgJIgUL
-	zmYISf0Q==;
+	bh=DPcNcVYmy1qkxlz/nwuSebxNlLnIY3NSQF/CAZ8aV5c=; b=UESmapyVY0GXVeOOI7mHsZLSG0
+	l88+x1CuUZcJ+JXVxOBTa+91/NyEkwkqoZ5sXEiytR4tKk/V+aY/7CIM+zDzQRcYzwzw/yq5ntxkX
+	m35hsH4Xlv6H66chNKPiDAnKxy0HDc8IMtgyhcPC6bdyasEkCU0UvfU716Bg6IFqmZxrZrcN1otnj
+	WsHMwfA1E4KwNcW417iyVc6SbrCz/2Yp7Xza2ObaEWIhegD/7ylBwrp2QWQKPvhi26pKfTRIWuJfU
+	mDtCKWyo+EUHLyE8cto/hBPwvOOdHrcKRq3mxjgovneuIBffD5CwCZzQIkr/9rNh6hmr/6uGmhNLz
+	2mukplGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nH5Yz-00Ac4K-M0; Mon, 07 Feb 2022 15:04:21 +0000
-Received: from forward500o.mail.yandex.net ([37.140.190.195])
+	id 1nH5ZJ-00Ac9U-BW; Mon, 07 Feb 2022 15:04:41 +0000
+Received: from forward500j.mail.yandex.net ([5.45.198.250])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nH5Yu-00Ac0m-9n
- for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 15:04:20 +0000
-Received: from iva8-4db386e07e2e.qloud-c.yandex.net
- (iva8-4db386e07e2e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:951e:0:640:4db3:86e0])
- by forward500o.mail.yandex.net (Yandex) with ESMTP id 19ABD9414C0
- for <linux-nvme@lists.infradead.org>; Mon,  7 Feb 2022 18:04:09 +0300 (MSK)
-Received: from iva8-a4a480c9f089.qloud-c.yandex.net
- (iva8-a4a480c9f089.qloud-c.yandex.net [2a02:6b8:c0c:da5:0:640:a4a4:80c9])
- by iva8-4db386e07e2e.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- btLVWLhL7Q-48cWhquo; Mon, 07 Feb 2022 18:04:09 +0300
+ id 1nH5Yv-00Ac1U-4X
+ for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 15:04:22 +0000
+Received: from myt5-c010fd526357.qloud-c.yandex.net
+ (myt5-c010fd526357.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:10ae:0:640:c010:fd52])
+ by forward500j.mail.yandex.net (Yandex) with ESMTP id 08A536CB6B10
+ for <linux-nvme@lists.infradead.org>; Mon,  7 Feb 2022 18:04:13 +0300 (MSK)
+Received: from myt6-016ca1315a73.qloud-c.yandex.net
+ (myt6-016ca1315a73.qloud-c.yandex.net [2a02:6b8:c12:4e0e:0:640:16c:a131])
+ by myt5-c010fd526357.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ f2jDNARUP6-4Cd0aTre; Mon, 07 Feb 2022 18:04:12 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
- t=1644246249; bh=NI59/bJCELJsOUJziWbBWYISl94A+1R4371SSlsyR60=;
+ t=1644246252; bh=DPcNcVYmy1qkxlz/nwuSebxNlLnIY3NSQF/CAZ8aV5c=;
  h=In-Reply-To:From:Subject:References:Date:Message-ID:To;
- b=Rj7w0AXFMDeX5bTaEbkFGDWtMMYWva0k9BpDLAg6z2ybVtQB/M+P5kbyhC+361p5N
- G7z5n8Qb6lspackMpNVIR+sAwODhDfN5yfIIfPuoIpkaHnqNb8g2N8YpliYlWsK0/R
- 5YOhbpS1qB6Lkhxkn+AmtoAWoj5eRv32aR7RVnAU=
-Authentication-Results: iva8-4db386e07e2e.qloud-c.yandex.net;
+ b=AwCmamHOrmp9SBE0iMTTkK2+o6ONKnhvzdPMQF8G6DDWangbVozC/YPYAoUPuLsuQ
+ iPpdzM/ch+9/FqTNu3w1N29fWPY5+4ika+2Hr06RNfbb8iIBkerlThgohqx9XQQYty
+ NmkXvM1Qi887hxG0e3CnBLK4d5XhLYemfgcVjFaQ=
+Authentication-Results: myt5-c010fd526357.qloud-c.yandex.net;
  dkim=pass header.i=@yandex.ru
-Received: by iva8-a4a480c9f089.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id z93WT9x8wc-48ISpP5g; Mon, 07 Feb 2022 18:04:08 +0300
+Received: by myt6-016ca1315a73.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id v56tokhmj8-4CI4Q1gA; Mon, 07 Feb 2022 18:04:12 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 2
-Message-ID: <1d08f5b3-1740-32bc-8d92-6ec476e0fd7a@yandex.ru>
-Date: Mon, 7 Feb 2022 18:04:08 +0300
+Message-ID: <02375891-2f92-c3d9-8a55-019b84c14c1c@yandex.ru>
+Date: Mon, 7 Feb 2022 18:04:12 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
@@ -56,15 +56,15 @@ Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
  "change" state
 Content-Language: en-US
 References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
- <b800341f-b8f2-741b-1405-4dfcf888199e@suse.de>
+ <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
 From: Alex Talker <alextalker@yandex.ru>
 To: linux-nvme <linux-nvme@lists.infradead.org>
-In-Reply-To: <b800341f-b8f2-741b-1405-4dfcf888199e@suse.de>
+In-Reply-To: <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220207_070416_928330_040224DC 
-X-CRM114-Status: GOOD (  54.50  )
+X-CRM114-CacheID: sfid-20220207_070417_629653_D52CECD1 
+X-CRM114-Status: GOOD (  56.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,113 +79,121 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks for the quick reply!
+ > I'm not exactly sure what you are trying to do, but it sounds
+ > wrong... ANA groups are supposed to be a logical unit that expresses
+ > controllers access state to the associated namespaces that belong to
+ > the group.
 
- > That's actually a misinterpretation. The above sentence refers to a
- > device reporting to be in ANA 'change', ie after reading the ANA log
- > and detecting that a given namespace is in a group whose ANA status
- > is 'change'.
+I do agree that my setup might seem odd but I doubt it contradicts your 
+statement much,
+since each group would represent state of namespaces belonging to it,
+the difference is just that instate of having a complex(or should I say 
+one depending on installation/deployment)
+relationship between a namespace and an ANA group, I opted for the 
+balancing act between flexibility of assigning state for a namespace
+and having a constant set of ANA groups on each system.
+In my view, it is rather often situation when one namespace has troubles 
+while others aren't and thus it better be unavailable on all ports at once,
+rather than when certain port needs to deny access to certain namespaces 
+for, say, maintenance issues.
 
-Thus if I understand you correctly, you agree on behavior that the 
-timer(ANATT)
-shouldn't be started upon seeing an empty ANA Group (in "change" state)
-but rather when at least one namespace belongs to a group in such state?
+ > That is an abuse of ANA groups IMO. But OK...
 
- > In your case it might be feasible to not report 'change' at all, but
- > rather do an direct transition from one group to the other. If it's
- > just a single namespace the transition should be atomic, and hence
- > there won't be any synchronisation issues which might warrant a
- > 'change' state.
+I do not disagree but so seems to do the standard.
+But let me try to explain my perspective in possibly more familiar 
+analogy to you.
+As you probably aware, with ALUA in SCSI, via Target Port Groups 
+mechanism, one can with zero worry specify certain LUN (ALUA) state on a 
+set of targets(at least in SCST implementation).
+I ain't sure about certain limitations but I think it's quite easy to 
+keep up with 1 LUN = 1 group ratio for flexible control.
+However, as I highlighter in earlier message, in nvmet implementation 
+there's allowed only 128 ANA Groups, while (each!) subsystem may keep up 
+to 1024 namespaces.
+Thus, if I had no issue of say assigning a group per each 
+namespace(assuming that NSIDs are globally unique on my target), this is 
+currently not the case,
+so I'm trying my best of out in these restrictions, while keeping ANA 
+Group setup as straightforward, as possible.
+One may argue that I shall dump everything into one ANA Group but it 
+will contradict my expectations of High Availability of namespaces that 
+are still (mostly?) working while others aren't.
+One also may argue that it's rare to have in production greater number 
+of namespaces than 128 in total but I still would prefer to go for 
+support of 1024 anyway.
+Hope I cleared that one out, do feel free to correct me if I have a flaw 
+somewhere.
 
-While it might be possible, I think that sometimes "change" state might 
-work as a sort of "I/O barrier"
-when some changes on underlying block device might be in progress,
-and in that case determining final state might not be that easy prior to 
-the operation end.
-Please, do feel free to correct me if that's an inappropriate usage!
-I'm still interested to hear tho more details on what synchronization 
-issues might arise as you mentioned?
+ > This state is not a permanent state, it is transient by definition,
+ > which is why the host is treating it as such.
+ >
+ > The host is expecting the controller to send another ANA AEN that
+ > notifies the new state within ANATT (i.e. stateA -> change ->
+ > stateB).
 
- > Well, it certainly is an odd one, but should be doable. But note,
- > there had been some fixes to the ANA group ID handling; most recently
- > commit 79f528afa939 ("nvme-multipath: fix ANA state updates when a
- > namespace is not present"). So do ensure to have the latest fixes to
- > get the 'best' possible user-experience.
+As mentioned by Hannes, and I agree, state is indeed transient but only 
+in relation to a namespace,
+so I find it to be zero issue of having a group in change state with 0 
+namespaces as its members.
+I understand that it would be nice and dandy to change state of multiple 
+namespaces at once(if one can take time to configure such dependency 
+between them),
+but I at the moment opt for simpler but flexible solution, maybe at the 
+cost of greater number of ANA log changes in worst-case scenario.
+Thus, the cycle "namespace in state A" => "namespace in state of change" 
+=> "namespace in state B" is still preserved, tho with different 
+methods(change of a group rather than a state of the group).
 
-Well, i do agree that my approach is a tiny bit outstanding since I 
-catch such bugs
-but I checked the nvme.git on this platform and the code my setup has 
-issues with is still there.
-The commit you mentioned as I understood is made in regard to some race 
-condition or alike,
-which is by the way abstractly speaking might as well be an infinite 
-loop if something goes awry
-but I hope I won't ever met such an issue in production.
+ > That is simply removing support for multipathing altogether.
 
- > Typically it's the NVMe controller port which holds the ANA state;
- > for most implementation I'm aware of you have one or more (physical)
- > NVMe controller ports, which hosts the interfaces etc. They connect
- > to the actual storage, and failover is done by switching I/O between
- > those controller ports. Hence the ANA state is really property of
- > the controller port in those implementations.
+You're not wrong on that one, tho, no offense, in certain configurations 
+or certain initiators that's a way to go.
+Especially when it might be a matter of changing one implementation to 
+another(i.e. old good dm-multipath).
+I mainly mentioned this because it fixes the issue on some 
+kernels(including mainline/LTS) while not on others,
+which is why I think it's important that misinterpretation of the 
+standard will be accounted for on the mainstream code
+since I can't possibly patch every single thing that lives on back-ports 
+for it(I personally look at CentOS world rn),
+while it might be the end user of my target setups.
+My territory is mainly the target and this is not the issue I can fix on 
+my side.
+Besides, handling of my case differs from standard way anyway right now.
 
-So, in short, each port has just one group and all namespaces belong to it,
-and thus all resources on the port change state at once?
-I can agree that this is quite a simple setup in its own right too 
-however I'm thinking more in dimension of
-"what if one namespace becomes unavailable, how to efficiently change 
-only its state without having an over-complicated ANA Group configuration?"
-to be in foot with High Availability concept.
-Of course I might have personalized ANA Group setup for each 
-installation/deployment but I preferred to start with something simple 
-yet flexible,
-since standard doesn't exactly opposes an idea that change of ANA Group 
-involves possible change of the ANA state for a namespace too.
+ > I'm still don't fully understand what you are trying to do, but
+ > creating a transient ANA group for a change state sounds backwards to
+ > me.
 
- > The ANATT value is useful if you have an implementation which takes
- > some time to facilitate the switch-over. As there is always a chance
- > of the switch-over going wrong the ANATT serves as an upper boundary
- > after which an ANA state of 'change' can be considered stale, and a
- > re-read is in order. So for the linux implementation it's a bit
- > moot; one would have to present a use-case where changing the ANATT
- > value would make a difference.
+As I stated, I'm just trying to work with present limitations, which I 
+suppose were chosen with regard to performance or something.
 
-I can't think much of any particular example at this moment but from my 
-personal experience,
-working with custom storage solutions on some operations might take 
-quite a while,
-and even standard gives an example with ANATT=30 which I think some kind 
-of "magical constant"
-from SCSI world where it needs to be customized from initiator's side in 
-order for things to hang out a little more.
-On this regard, I'm more thinking from the perspective of giving an 
-administrator ability to customize the value if a need arises,
-since I haven't had an idea of such value existing prior to catching my 
-(in silly way triggered) error.
-For example, I think some operations on DRBD devices might take quite 
-reasonable amount of time,
-and while we may argue on how useful DRBD in this setup anyway, I 
-mentioned it purely for example purposes.
-I'm sure eventually, possibly especially with releases of NVMe HDDs on 
-the market,
-real use-cases might be more often and I find implementing the 
-customization prior to that quite useful.
+ > Could be... We'll need to see patches.
+
+On that regard, I have seen plenty of git-related mails around here,
+so would it be possible to publish patches as a few commits based on 
+mainline or infradead git repo on GitHub or something?
+Or is it mandatory to go, no offense, the old-fashioned way of sending 
+patch files as attachments or text?
+I just 99.9% work with git and the former will be easier for me.
 
 Best regards,
 Alex
 
-On 07.02.2022 12:46, Hannes Reinecke wrote:
- > On 2/6/22 14:59, Alex Talker wrote:
+On 07.02.2022 14:07, Sagi Grimberg wrote:
+ >
+ >
+ > On 2/6/22 15:59, Alex Talker wrote:
  >> Recently I noticed a peculiar error after connecting from the host
  >> (CentOS 8 Stream at the time, more on that below) via TCP(unlikely
  >> matters) to the NVMe target subsystem shared using nvmet module:
  >>
  >>> ... nvme nvme1: ANATT timeout, resetting controller. nvme nvme1:
- >>> creating 8 I/O queues. nvme nvme1: mapped 8/0/0
- >>> default/read/poll queues. ... nvme nvme1: ANATT timeout,
- >>> resetting controller. ...(and it continues like that over and
- >>> over and over again, on some configuration even getting worse
- >>> with greater iterations of reconnect)
+ >>> creating 8 I/O queues. nvme nvme1: mapped 8/0/0 default/read/poll
+ >>> queues. ... nvme nvme1: ANATT timeout, resetting controller.
+ >>> ...(and it continues like that over and over and over again, on
+ >>> some configuration even getting worse with greater iterations of
+ >>> reconnect)
  >>
  >> I discovered that this behavior is caused by code in
  >> drivers/nvme/host/multipath.c, in particular when function
@@ -207,23 +215,44 @@ On 07.02.2022 12:46, Hannes Reinecke wrote:
  >> example for maintenance reasons, I find it particularly useful to
  >> utilize ANA Groups to change the state of a certain namespace,
  >> since it is more likely that block device might enter unusable
- >> state or be a part of some transitioning process. Thus, the
- >> simplest scheme for me on each port is to assign few ANA Groups,
- >> one per each possible ANA state, and change ANA Group on a
+ >> state or be a part of some transitioning process.
+ >
+ > I'm not exactly sure what you are trying to do, but it sounds
+ > wrong... ANA groups are supposed to be a logical unit that expresses
+ > controllers access state to the associated namespaces that belong to
+ > the group.
+ >
+ >> Thus, the simplest scheme for me on each port is to assign few ANA
+ >> Groups, one per each possible ANA state, and change ANA Group on a
  >> namespace rather than changing state of the group the namespace
- >> belongs to at the moment. And here's the catch.
+ >> belongs to at the moment.
+ >
+ > That is an abuse of ANA groups IMO. But OK...
+ >
+ >> And here's the catch.
  >>
  >> If one creates a subsystem(no namespaces needed) on a port,
  >> connects to it and then sets state of ANA Group #1 to "change", the
  >> issue introduced in the beginning would be reproduced practically
- >> on many major distros and even upstream code without and issue, tho
- >> sometimes it can be mitigated by disabling the "native
+ >> on many major distros and even upstream code without and issue,
+ >
+ > This state is not a permanent state, it is transient by definition,
+ > which is why the host is treating it as such.
+ >
+ > The host is expecting the controller to send another ANA AEN that
+ > notifies the new state within ANATT (i.e. stateA -> change ->
+ > stateB).
+ >
+ >> tho sometimes it can be mitigated by disabling the "native
  >> multipath"(when /sys/module/nvme_core/parameters/multipath set to
  >> N) but sometimes that's not the case which is why this issue quite
- >> annoying for my setup. I just checked it on 5.15.16 from
- >> Manjaro(basically Arch Linux) and ELRepo's kernel-ml and
- >> kernel-lt(basically vanilla versions of the mainline and LTS
- >> kernels respectively for CentOSs).
+ >> annoying for my setup.
+ >
+ > That is simply removing support for multipathing altogether.
+ >
+ >> I just checked it on 5.15.16 from Manjaro(basically Arch Linux) and
+ >> ELRepo's kernel-ml and kernel-lt(basically vanilla versions of the
+ >> mainline and LTS kernels respectively for CentOSs).
  >>
  >> The standard tells that:
  >>
@@ -237,21 +266,15 @@ On 07.02.2022 12:46, Hannes Reinecke wrote:
  >>
  >> So on one hand I think my setup might be questionable(I might
  >> allocate ANAGRPID for "change" only in times of actual transitions,
- >> while that might over-complicate usage of the module), on the other
- >> I think it happens to be a misinterpretation of the standard and
- >> might need some additional clarification.
+ >> while that might over-complicate usage of the module),
+ >
+ > I'm still don't fully understand what you are trying to do, but
+ > creating a transient ANA group for a change state sounds backwards to
+ > me.
+ >
+ >> on the other I think it happens to be a misinterpretation of the
+ >> standard and might need some additional clarification.
  >>
- > That's actually a misinterpretation. The above sentence refers to a
- > device reporting to be in ANA 'change', ie after reading the ANA log
- > and detecting that a given namespace is in a group whose ANA status
- > is 'change'.
- >
- > In your case it might be feasible to not report 'change' at all, but
- > rather do an direct transition from one group to the other. If it's
- > just a single namespace the transition should be atomic, and hence
- > there won't be any synchronisation issues which might warrant a
- > 'change' state.
- >
  >> That's why I decided to compose this message first prior to
  >> proposing any patches.
  >>
@@ -260,39 +283,28 @@ On 07.02.2022 12:46, Hannes Reinecke wrote:
  >> transition time differs depending on block devices being in-use
  >> underneath namespaces, it might be viable to allow end-user to
  >> change this value via configfs.
- >>
+ >
+ > How would you expose it via configfs? ana groups may be shared via
+ > different ports IIRC. You would need to prevent conflicting
+ > settings...
+ >
  >> Considering everything I wrote, I'd like to hear opinions on the
  >> following issues: 1. Whether my utilization of ANA Groups is viable
  >> approach?
  >
- > Well, it certainly is an odd one, but should be doable. But note,
- > there had been some fixes to the ANA group ID handling; most recently
- > commit 79f528afa939 ("nvme-multipath: fix ANA state updates when a
- > namespace is not present"). So do ensure to have the latest fixes to
- > get the 'best' possible user-experience.
+ > I don't think so, but I don't know if I understood what you are
+ > trying to do.
  >
  >> 2. Which ANA Group assignment schemes utilized in production, from
  >> your experience?
  >
- > Typically it's the NVMe controller port which holds the ANA state;
- > for most implementation I'm aware of you have one or more (physical)
- > NVMe controller ports, which hosts the interfaces etc. They connect
- > to the actual storage, and failover is done by switching I/O between
- > those controller ports. Hence the ANA state is really property of
- > the controller port in those implementations.
+ > ANA groups will usually relate, a ANA group will be used for what it
+ > is supposed to. A group of zero or more namespaces where each
+ > controller may have different access state to it (or the namespaces
+ > assigned to it).
  >
  >> 3. Whether changing ANATT value change should be allowed via
  >> configfs(in particular, on per-subsystem level I think)?
- >>
- > The ANATT value is useful if you have an implementation which takes
- > some time to facilitate the switch-over. As there is always a chance
- > of the switch-over going wrong the ANATT serves as an upper boundary
- > after which an ANA state of 'change' can be considered stale, and a
- > re-read is in order. So for the linux implementation it's a bit
- > moot; one would have to present a use-case where changing the ANATT
- > value would make a difference.
  >
- > Cheers,
- >
- > Hannes
+ > Could be... We'll need to see patches.
 
