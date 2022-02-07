@@ -4,79 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FB9FC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 09:23:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2769C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 09:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YvVjMjD8TdSLd/OuNNLzMStyqlFHw/hyM/7ntihUFUg=; b=FLnoiZOYEfCrIwuTsvxbxZR+96
-	h5YXL1eFpX5LGmIW8yPnA6R0VtpMioVYHqEv/GO6x35+opKVfzir3fwwop4RxQVUJ+OduaUy5+fl9
-	ML+ZMQREtWXWdTysjX3rVZ7bjpUK2vOZRiGqcuBoIfea3nbN2JMGH+S1BNI1t5M9qMKPrvCqzOef7
-	VZqSWumijQMm2T92nRmhqk6DAoeZScDPTWrWfqs/d6zNmudPuYr6CdBWXJbE1MhuJUOIK6UsKQC1m
-	6MKfNGrJFtaAS+t2y7uz6SckCRPIZZ9+43LpQzRankZow06xlKH2vQdga1Jsfr/VnkzQoXBp7i5tS
-	7Vo7BKWw==;
+	Content-Type:In-Reply-To:Subject:From:References:To:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=df8sxcLTXgR03V+plT/A1KonDjmoTHxtiA6bzdG/I1M=; b=1nwmMUYlCLo1RtDkvTuD2fKkuw
+	Bwb/sV3jGJeK/4syf/ho+NjaMAjQ7G8sCnV5WVrx+3W3348dHMOffHwOvLuRzlfR+EuxzAjl9ZqOa
+	QerYqmwJwrO1gG1xrpafstfdvZsxFxtIAQ0oz45k/v56iRZkeEMrLQLqOx4RrD/DD6J300rdAdZ9L
+	WQHdpME9/OPwmZZAcw3aFTiQ7OPTsJkmitGmwJDZivtGGNYYT65XTb2LSazlCffQyUViMnNk1CQ+A
+	ZP7hPC4L6Xr/3/PZ2sexmQ1vRSmZE+lGYYUmFJ+9SQ4xEdEg0c1hDAvkNZsDwLXkqF0uSO64cRaU5
+	B0pSbLsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nH0F1-009XeQ-VA; Mon, 07 Feb 2022 09:23:23 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nH0b8-009cVx-Hl; Mon, 07 Feb 2022 09:46:14 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nH0Es-009Xdi-LM
- for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 09:23:16 +0000
+ id 1nH0b4-009cUN-Sj
+ for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 09:46:12 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BB5A81F37F;
- Mon,  7 Feb 2022 09:23:12 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EE8D0210F9;
+ Mon,  7 Feb 2022 09:46:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644225792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1644227168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YvVjMjD8TdSLd/OuNNLzMStyqlFHw/hyM/7ntihUFUg=;
- b=bF0PSB1A+Euo2H+rTwuwVFqlagyv9/r4IDrWF9Pa8pGpyuQH29zpMmg2q5P3GEFUcyGr+K
- quJ8/f05vtsitRBOo5uy+ghoepabe+Evs7R208Z0JWbofROkc8rGax0OSXrrZgV7+lHaFX
- x/rWB/DINLlLdNE0egoZeLvdr88IW4w=
+ bh=df8sxcLTXgR03V+plT/A1KonDjmoTHxtiA6bzdG/I1M=;
+ b=QZVWwURL8XTg/RIF3K3hhTX7vqmq9pvGrK8j7Zi+vQYRMMh+29gnB1BHSgV0UU64ILQp5s
+ zGT//VLxrbFgGSdgYQARZ3hyKBniQJgl6FMoDSSYkQ+RFNOoCcLaLEuiv/GZUoNiwA7daN
+ VImWx3oF43WRo/ETHLCAIGTKpfRD5wo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644225792;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ s=susede2_ed25519; t=1644227168;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YvVjMjD8TdSLd/OuNNLzMStyqlFHw/hyM/7ntihUFUg=;
- b=BCjaOnEFmI8Q+Pb2rYMGhoT1Y8caU6wUuqpE3OP7dUSyUiUoCjzoP923RpoI73cDxvKs+t
- hbRLI3mG0uYOkbAQ==
+ bh=df8sxcLTXgR03V+plT/A1KonDjmoTHxtiA6bzdG/I1M=;
+ b=kYfSIArbglClxwSDzsKnzQiRGEdyVsum3EAvJ+JWi/DLXLfzsEIpvBrIF4NGbxffQqNKZ9
+ w7Anosh80QkscQBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB42F13B53;
- Mon,  7 Feb 2022 09:23:12 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E435D13B2D;
+ Mon,  7 Feb 2022 09:46:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jnxoKQDlAGLPGQAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 07 Feb 2022 09:23:12 +0000
-Message-ID: <c607c7b4-dba6-32fc-1b71-42bcdd2ef133@suse.de>
-Date: Mon, 7 Feb 2022 10:23:11 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id 7P9YN2DqAGK+JQAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 07 Feb 2022 09:46:08 +0000
+Message-ID: <b800341f-b8f2-741b-1405-4dfcf888199e@suse.de>
+Date: Mon, 7 Feb 2022 10:46:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] nvme-tcp: fix bogus request completion when failing to
- send AER
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Anton Eidelman <anton@lightbitslabs.com>
-References: <20220206224013.771411-1-sagi@grimberg.me>
+To: Alex Talker <alextalker@yandex.ru>,
+ linux-nvme <linux-nvme@lists.infradead.org>
+References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220206224013.771411-1-sagi@grimberg.me>
+Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
+ "change" state
+In-Reply-To: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220207_012314_871782_3BDB3A50 
-X-CRM114-Status: GOOD (  19.19  )
+X-CRM114-CacheID: sfid-20220207_014611_105749_49FB07B1 
+X-CRM114-Status: GOOD (  45.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,40 +90,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/6/22 23:40, Sagi Grimberg wrote:
-> AER is not backed by a real request, hence we should not incorrectly
-> assume that when failing to send a nvme command, it is a normal request
-> but rather check if this is an aer and if so complete the aer (similar
-> to the normal completion path).
+On 2/6/22 14:59, Alex Talker wrote:
+> Recently I noticed a peculiar error after connecting from the host
+> (CentOS 8 Stream at the time, more on that below)
+> via TCP(unlikely matters) to the NVMe target subsystem shared using 
+> nvmet module:
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> ---
->   drivers/nvme/host/tcp.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
+>  > ...
+>  > nvme nvme1: ANATT timeout, resetting controller.
+>  > nvme nvme1: creating 8 I/O queues.
+>  > nvme nvme1: mapped 8/0/0 default/read/poll queues.
+>  > ...
+>  > nvme nvme1: ANATT timeout, resetting controller.
+>  > ...(and it continues like that over and over and over again, on some 
+> configuration even getting worse with greater iterations of reconnect)
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 01e24b5703db..1096a0b0a268 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -913,7 +913,15 @@ static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
->   
->   static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
->   {
-> -	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_HOST_PATH_ERROR);
-> +	if (nvme_tcp_async_req(req)) {
-> +		union nvme_result res = {};
-> +
-> +		nvme_complete_async_event(&req->queue->ctrl->ctrl,
-> +			NVME_SC_HOST_PATH_ERROR, &res);
-> +	} else {
-> +		nvme_tcp_end_request(blk_mq_rq_from_pdu(req),
-> +				NVME_SC_HOST_PATH_ERROR);
-> +	}
->   }
->   
->   static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> I discovered that this behavior is caused by code in 
+> drivers/nvme/host/multipath.c,
+> in particular when function nvme_update_ana_state increments value of 
+> variable nr_change_groups whenever any ANA Group is in "change",
+> indifference of whether any namespace belongs to the group or not.
+> Now, after figuring out that ANATT stands for ANA Transition Time and 
+> reading some more of the NVMe 2.0 standards, I understood that the 
+> problem caused by how I managed to utilize ANA Groups.
+> 
+> As far as I remember, permitted number of ANA Groups in nvmet module is 
+> 128, while maximum number of namespaces is 1024(8 times more).
+> Thus, mapping 1 namespace to 1 ANA Group works only up to a point.
+> It is nice to have some logically-related namespaces belong to the same 
+> ANA Group,
+> and the final scheme of how namespaces belong to ANA groups is often 
+> vendor-specific
+> (or rather lies in decision domain of the end user of target-related 
+> stuff),
+> However, rather than changing state of a namespace on specific port, for 
+> example for maintenance reasons,
+> I find it particularly useful to utilize ANA Groups to change the state 
+> of a certain namespace, since it is more likely that block device might 
+> enter unusable state or be a part of some transitioning process.
+> Thus, the simplest scheme for me on each port is to assign few ANA 
+> Groups, one per each possible ANA state, and change ANA Group on a 
+> namespace rather than changing state of the group the namespace belongs 
+> to at the moment.
+> And here's the catch.
+> 
+> If one creates a subsystem(no namespaces needed) on a port, connects to 
+> it and then sets state of ANA Group #1 to "change", the issue introduced 
+> in the beginning would be reproduced practically on many major distros 
+> and even upstream code without and issue,
+> tho sometimes it can be mitigated by disabling the "native 
+> multipath"(when /sys/module/nvme_core/parameters/multipath set to N) but 
+> sometimes that's not the case which is why this issue quite annoying for 
+> my setup.
+> I just checked it on 5.15.16 from Manjaro(basically Arch Linux) and 
+> ELRepo's kernel-ml and kernel-lt(basically vanilla versions of the 
+> mainline and LTS kernels respectively for CentOSs).
+> 
+> The standard tells that:
+> 
+>  > An ANA Group may contain zero or more namespaces
+> 
+> which makes perfect sense, since one has to create a group prior to 
+> assigning it to a namespace, and then:
+> 
+>  > While ANA Change state is reported by a controller for the namespace, 
+> the host should: ...(part regarding ANATT)
+> 
+> So on one hand I think my setup might be questionable(I might allocate 
+> ANAGRPID for "change" only in times of actual transitions, while that 
+> might over-complicate usage of the module),
+> on the other I think it happens to be a misinterpretation of the 
+> standard and might need some additional clarification.
+> 
+That's actually a misinterpretation.
+The above sentence refers to a device reporting to be in ANA 'change', 
+ie after reading the ANA log and detecting that a given namespace is in 
+a group whose ANA status is 'change'.
+
+In your case it might be feasible to not report 'change' at all, but 
+rather do an direct transition from one group to the other.
+If it's just a single namespace the transition should be atomic, and 
+hence there won't be any synchronisation issues which might warrant a 
+'change' state.
+
+> That's why I decided to compose this message first prior to proposing 
+> any patches.
+> 
+> Also, while digging the code, I noticed that ANATT at the moment 
+> presented by a random constant(of 10 seconds), and since often 
+> transition time differs depending on block devices being in-use 
+> underneath namespaces,
+> it might be viable to allow end-user to change this value via configfs.
+> 
+> Considering everything I wrote, I'd like to hear opinions on the 
+> following issues:
+> 1. Whether my utilization of ANA Groups is viable approach?
+
+Well, it certainly is an odd one, but should be doable.
+But note, there had been some fixes to the ANA group ID handling;
+most recently commit 79f528afa939 ("nvme-multipath: fix ANA state 
+updates when a namespace is not present").
+So do ensure to have the latest fixes to get the 'best' possible 
+user-experience.
+
+> 2. Which ANA Group assignment schemes utilized in production, from your 
+> experience?
+
+Typically it's the NVMe controller port which holds the ANA state; for 
+most implementation I'm aware of you have one or more (physical) NVMe 
+controller ports, which hosts the interfaces etc.
+They connect to the actual storage, and failover is done by switching 
+I/O between those controller ports.
+Hence the ANA state is really property of the controller port in those 
+implementations.
+
+> 3. Whether changing ANATT value change should be allowed via configfs(in 
+> particular, on per-subsystem level I think)?
+> 
+The ANATT value is useful if you have an implementation which takes some 
+time to facilitate the switch-over. As there is always a chance of the 
+switch-over going wrong the ANATT serves as an upper boundary after 
+which an ANA state of 'change' can be considered stale, and a re-read is 
+in order.
+So for the linux implementation it's a bit moot; one would have to 
+present a use-case where changing the ANATT value would make a difference.
 
 Cheers,
 
