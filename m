@@ -4,60 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67CABC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 22:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2945C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 23:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=axZx035AwC/X+tf9xUouu1aukUb/9w7CmDaOdbPCYIs=; b=aIjlOE2On5bq3UoSMfUOAU3pss
-	kbQAWDJZf4PTX3ObV48RRqCWBPvOc9XWJ+o+5lHaoP498afjii5wIv4Hj6z/IDa4IXiBjhpRTE2eh
-	oJ8r4vS8Dc8Soctt3nkFdBqAcfg4m7uTQV1rfDzCpVDd7HNFL7t5iqsN6SKRssx26EhpcsZw3w850
-	7pDGBSuMzMBlgTTqkIgbYYbBp9cuxaWM5IcXl1mhsQ8HGb9HwEveJ0kmHkuuO7S9vopSPgD92b6Pf
-	BfZJ4rIHDeN0if4FJJtpntIaWQQ6bMUHp7rdIXrELbWdPeEVZiCdFx8YxmfjB7jiXp31UpXORVsfG
-	Kt54bXTw==;
+	bh=qaqjn7JcDvWzbO9MBpbsHxCX4xaUTgakD9lGWauCCMw=; b=EWDIA1JJQVIWYXPBi82fmy4YEr
+	SFqIuOL27jXo/CTFonFGhfTpWv0YNWNGyc5IhiDzg8DfUr2z3lBGa9G2IiLWmJWSIYEokbvTAfsE0
+	HgYHWD4/ZiNm6oKrkmuNqQnwIg553XxzT9PZy5b8C531fj70mSm3hZXBBtGtXpVeVpMLpTV5L1X7m
+	zceklKyC57Vg9POU2Q9JwV+GFSsR8Bvy+X4L8EVmOv6c0MXvmaohKcFNAJLTze5vqoN1Qcu8dxgV5
+	n0JtNtNADa1OBtxHW7V+V08stOKDhfJz1qBV27wBdlRfZBDj5iC1I16G9s/b6O3Gd+XDZLeI7Ny9m
+	XQI2MEhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nHClu-00BshD-6C; Mon, 07 Feb 2022 22:46:10 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1nHDPY-00By2J-P4; Mon, 07 Feb 2022 23:27:08 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nHClq-00BsgO-92
- for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 22:46:08 +0000
+ id 1nHDPU-00By1e-Jo
+ for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 23:27:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644273966; x=1675809966;
+ t=1644276424; x=1675812424;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=+RZs6m6XmXFfDz+prziCj0X34VKiLQqJEtyqa6G3y5Y=;
- b=ViT/usLZt1YVH4kZh5Rrp//qW3c2jc42uO6+vjQro4Y4S75pW/mK7X7C
- 8EvCi0TEnwSfNtA2kWNO6fJHGkSUoiCnWMAaAPf5fOF3lPubgF2l21II5
- cfFkEc/eyfGd9g8k2hyyk6VAWus3/j82YNjfHLhltt89JmjAgZy52rYRU
- 4RPtbdtwJ5ZfNXidNpkQz3McDurTVf9k6IJym0aEmrqjIXPtRnUj7bAGT
- YHCXCnIdFxCy6ZdmrkGTXSrYvoIE/MVgLV0+4Z21Dl/0e/EODLzMHczM2
- tu8LzUlrGsF1B4AjQHD+WAGwiBJcEgCF9SYbek6Oli/5Mg0C+FzNF/yxO g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="312121741"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="312121741"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2022 14:46:05 -0800
+ bh=IwunybhnixPrrYpo9YKYsqV3BW8fxMDBh8jQBLZjjnA=;
+ b=P6bkNCRkyTocikyPQ+74ZBhC4ys22Im9GEzbrdbTeyXlieTuPwDhMc7C
+ a4I+rcQjanMvPo/YMXv/7X8XJswa462rt3TOE8RUMwaaQfFfyMCSJEU0E
+ GTpKRSBK22SB6QI/eOSnmmr55KDOiJQZEMVhjI/sXRxUikyLEPyg+AOof
+ 60zjRq7QKcj0r/35cDUUZ0qoapwQ1LzDsvJrtbxA8a0bBZjxDJfMItXo4
+ 6CLJWDcLOhnNyHGFF2s0GstdK8OLMopbv5hogImHhflFyLK1ku3a0VnSD
+ 3X3ZOkiNyS4fKVUSP8LX+baeUV6M9ET+qNaD8CuT7GDN+qoap5N77U5MF A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="229478400"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="229478400"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2022 15:27:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="677911526"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; d="scan'208";a="481746035"
 Received: from lkp-server01.sh.intel.com (HELO 9dd77a123018) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 07 Feb 2022 14:45:57 -0800
+ by orsmga003.jf.intel.com with ESMTP; 07 Feb 2022 15:27:00 -0800
 Received: from kbuild by 9dd77a123018 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1nHClh-00013p-3V; Mon, 07 Feb 2022 22:45:57 +0000
-Date: Tue, 8 Feb 2022 06:45:20 +0800
+ id 1nHDPP-00015f-CT; Mon, 07 Feb 2022 23:26:59 +0000
+Date: Tue, 8 Feb 2022 07:26:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nitesh Shetty <nj.shetty@samsung.com>, mpatocka@redhat.com
-Cc: kbuild-all@lists.01.org, javier@javigon.com, chaitanyak@nvidia.com,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- dm-devel@redhat.com, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, msnitzer@redhat.com
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, javier@javigon.com,
+ chaitanyak@nvidia.com, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ axboe@kernel.dk, msnitzer@redhat.com
 Subject: Re: [PATCH v2 03/10] block: Add copy offload support infrastructure
-Message-ID: <202202080650.48C9Ps00-lkp@intel.com>
+Message-ID: <202202080735.lyaEe5Bq-lkp@intel.com>
 References: <20220207141348.4235-4-nj.shetty@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -65,8 +66,8 @@ Content-Disposition: inline
 In-Reply-To: <20220207141348.4235-4-nj.shetty@samsung.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220207_144606_393049_70FDFB2F 
-X-CRM114-Status: GOOD (  16.76  )
+X-CRM114-CacheID: sfid-20220207_152704_709258_99D58FE9 
+X-CRM114-Status: GOOD (  17.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,8 +94,8 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-bio_map_kern-non-static/20220207-231407
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-config: nios2-randconfig-r001-20220207 (https://download.01.org/0day-ci/archive/20220208/202202080650.48C9Ps00-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+config: hexagon-randconfig-r045-20220207 (https://download.01.org/0day-ci/archive/20220208/202202080735.lyaEe5Bq-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0d8850ae2cae85d49bea6ae0799fa41c7202c05c)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -104,16 +105,21 @@ reproduce (this is a W=1 build):
         git checkout 12a9801a7301f1a1e2ea355c5a4438dab17894cf
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> block/blk-lib.c:185:5: warning: no previous prototype for 'blk_copy_offload' [-Wmissing-prototypes]
-     185 | int blk_copy_offload(struct block_device *src_bdev, int nr_srcs,
-         |     ^~~~~~~~~~~~~~~~
+>> block/blk-lib.c:185:5: warning: no previous prototype for function 'blk_copy_offload' [-Wmissing-prototypes]
+   int blk_copy_offload(struct block_device *src_bdev, int nr_srcs,
+       ^
+   block/blk-lib.c:185:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int blk_copy_offload(struct block_device *src_bdev, int nr_srcs,
+   ^
+   static 
+   1 warning generated.
 
 
 vim +/blk_copy_offload +185 block/blk-lib.c
