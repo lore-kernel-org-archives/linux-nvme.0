@@ -4,138 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 681B6C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 14:29:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54789C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 15:04:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tBQFE3WFiAD3SmmzsrY7l8JP3Ohwj7KJRxzPt0V4dY0=; b=ALqG8zLLZgeDxt+0dK4ehNAWhx
-	3ckwn9+cIQupKDECATxTRGIKVfKUc0fquOOh8HEcEAewVb4Wx7BlE/xB68ClIkEtsYO0v6V7mEaY2
-	XrXrjmgqyo8Z/Jw9QjgnSh7n1SG9xRMeQ44GqxPqeMMR9b0FjniaAIu7D1b5HXZjxMLlAlcP9eIyj
-	ZHKNot0KTIikkiRI4wbwiQvo+fGFOERSw8KcWL7JGTVcEPRrCBYxyZrxp45jbI/eTnZ3vy0jaC2An
-	RhGJ1xLl8DaMYO2Xu+nKgaUbyf3kgn/5s1fQYUJameyNf8XeMRhpRje7SpiStysjCoUBG2ltvuXGe
-	2HMRpHWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:To:From:References:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NI59/bJCELJsOUJziWbBWYISl94A+1R4371SSlsyR60=; b=WIaQ63oPFi6oZthV1qfiLS3t1B
+	U4YRIhOhSOKoA++HRB8U17dzBJI+0aAGf8FsUiHjEB5d5DcwvQpCtlXpL4WNJ2szyTXBNTjvJvybc
+	LZmAWnHWZXkeJs/nkQBZnh9QgD4BMpxvbyOvhZOj9XrJd10Ut29C7KDzNiSKq2zUcCUt40XzMoUNa
+	BO+DJ/pXp0pbDw4DZ4uKGLD2L+wIa68Y84+rYnmuqnJ3auyWoDPJQ2dJrnjmStp4NtC3O6F9LG/r9
+	xoC1hUa4dVbU2RWLpdtaZQmesYLTNg4+KO1c8nGo3jiN8ZxXCmU3u27vBCimUMlTOaec+6fgJIgUL
+	zmYISf0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nH51U-00ATe6-Va; Mon, 07 Feb 2022 14:29:45 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1nH5Yz-00Ac4K-M0; Mon, 07 Feb 2022 15:04:21 +0000
+Received: from forward500o.mail.yandex.net ([37.140.190.195])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nH4vJ-00AS6x-TY
- for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 14:23:23 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220207142319epoutp022e2aad6efb19693a8d190abd257a9f3d~RhwZGmYlw0727207272epoutp02B
- for <linux-nvme@lists.infradead.org>; Mon,  7 Feb 2022 14:23:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220207142319epoutp022e2aad6efb19693a8d190abd257a9f3d~RhwZGmYlw0727207272epoutp02B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1644243800;
- bh=tBQFE3WFiAD3SmmzsrY7l8JP3Ohwj7KJRxzPt0V4dY0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M7fdvdbDAeSLOTOn5lJo7G26jLGvmLveJSWCa5dPrdKyBuT4hk7M2ozYNCttNGRhb
- Ywuo6aLJT+oFBH95b7u61iYMdHJp0njdq2kXaeQ0/Dq6Ueh01GGBWk40vGtq0cFMlW
- q166qfF/qieAc0l07Wa5YsEptzFKqSDg2iXKK5FI=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20220207142318epcas5p3b1123df79785323b248f178f11e8fe55~RhwXwSDWL2018020180epcas5p3N;
- Mon,  7 Feb 2022 14:23:18 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.174]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4JspJw2XFbz4x9Pt; Mon,  7 Feb
- 2022 14:23:12 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 4E.5F.06423.05B21026; Mon,  7 Feb 2022 23:23:12 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220207141958epcas5p25f1cd06726217696d13c2dfbea010565~Rhtdfm5sO3248332483epcas5p2p;
- Mon,  7 Feb 2022 14:19:58 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220207141958epsmtrp1221a394489b65997528cfb37ddda6c9f~RhtdecjlP0764707647epsmtrp1_;
- Mon,  7 Feb 2022 14:19:58 +0000 (GMT)
-X-AuditID: b6c32a49-b13ff70000001917-62-62012b50a9d0
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- F5.04.29871.E8A21026; Mon,  7 Feb 2022 23:19:58 +0900 (KST)
-Received: from test-zns.sa.corp.samsungelectronics.net (unknown
- [107.110.206.5]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220207141954epsmtip18bd4227bed3f9bd9d383b66dee449b51~RhtZkitwJ0282702827epsmtip1W;
- Mon,  7 Feb 2022 14:19:54 +0000 (GMT)
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: mpatocka@redhat.com
-Cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
- martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
- kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
- zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
- djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com,
- nj.shetty@samsung.com, SelvaKumar S <selvakuma.s1@samsung.com>
-Subject: [PATCH v2 10/10] dm kcopyd: use copy offload support
-Date: Mon,  7 Feb 2022 19:43:48 +0530
-Message-Id: <20220207141348.4235-11-nj.shetty@samsung.com>
-X-Mailer: git-send-email 2.30.0-rc0
-In-Reply-To: <20220207141348.4235-1-nj.shetty@samsung.com>
+ id 1nH5Yu-00Ac0m-9n
+ for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 15:04:20 +0000
+Received: from iva8-4db386e07e2e.qloud-c.yandex.net
+ (iva8-4db386e07e2e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:951e:0:640:4db3:86e0])
+ by forward500o.mail.yandex.net (Yandex) with ESMTP id 19ABD9414C0
+ for <linux-nvme@lists.infradead.org>; Mon,  7 Feb 2022 18:04:09 +0300 (MSK)
+Received: from iva8-a4a480c9f089.qloud-c.yandex.net
+ (iva8-a4a480c9f089.qloud-c.yandex.net [2a02:6b8:c0c:da5:0:640:a4a4:80c9])
+ by iva8-4db386e07e2e.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ btLVWLhL7Q-48cWhquo; Mon, 07 Feb 2022 18:04:09 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1644246249; bh=NI59/bJCELJsOUJziWbBWYISl94A+1R4371SSlsyR60=;
+ h=In-Reply-To:From:Subject:References:Date:Message-ID:To;
+ b=Rj7w0AXFMDeX5bTaEbkFGDWtMMYWva0k9BpDLAg6z2ybVtQB/M+P5kbyhC+361p5N
+ G7z5n8Qb6lspackMpNVIR+sAwODhDfN5yfIIfPuoIpkaHnqNb8g2N8YpliYlWsK0/R
+ 5YOhbpS1qB6Lkhxkn+AmtoAWoj5eRv32aR7RVnAU=
+Authentication-Results: iva8-4db386e07e2e.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex.ru
+Received: by iva8-a4a480c9f089.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id z93WT9x8wc-48ISpP5g; Mon, 07 Feb 2022 18:04:08 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Message-ID: <1d08f5b3-1740-32bc-8d92-6ec476e0fd7a@yandex.ru>
+Date: Mon, 7 Feb 2022 18:04:08 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TezBcZxTvd+/u3ZVW5gapj6lks5rpiEdsw/oYtDORzE01HU07ydS0lVvu
- YKzdzS6JdkIslVS8qXcHbTo1qEfFK8mipBhWY9XbEBZ5kAQh9WgkuuvS5r/f+Z3fOb9zzjcf
- Hzep4Vnyg6VhjEJKS4TELk7dbRsbex9b8JXjwBSJ1CPLXFQ2nkKgrMV1HC20THNRekoOD/XN
- 7EaN8/lcpF1TYWi6ehND6p/SMVRS1oahB8XXAIrXaDG0oROhts0nBEpvHQSocdQWqRs7Oajw
- l3s8lDDUQKCmR404Ku54iaG07wYwdCdvg0B1zwtxdPvuAAeVbSD0aK2TQHGJ6zw01/zl+/uo
- vn5vKi12nkfFFo1xqL4/w6nq0niCuv7zJSpjuBhQt0aiCSqmuw2ncpaeEdRQdz1GJcXOE9TT
- e6Mcqk6XxKMWmgYIKrmmFPiY+Ya4BzF0AKMQMFJ/WUCwNNBD6P2J31E/Z7GjyF7kilyEAikd
- yngIvT70sT8eLNFfSig4T0vC9ZQPrVQKD3u6K2ThYYwgSKYM8xAy8gCJ3EnuoKRDleHSQAcp
- E+YmcnR811kvPBsSVKOb4sgHBBEVPV1YNFiwvAqM+JB0glWDMRwDNiFvAViwhK6CXXq8BGDi
- +gSPDVYAvBKjAzsV95eu4GyiEcDk6REuG8RhcKqnVp/h8wnSFmo2+YYCM9IcbmjrgEGDkz9w
- oWp9dsvPlPSAyyrWm0MehLX1NwkDNibdYG1LCY91s4Y/6lq4Bmyk51c2sjisZg/szJ3Zwji5
- H8bW5m9NBMlRIxitTuQYhoCkF6xPdWH7mMK5jprtnpZwNuUyj9UnALjWPYGxQQ6AsamxBKt6
- D/aqX2CGRjhpAytvHmZpK5jZVYGxxrth0vMZjOWNYUPBDraGv1YWbbexgIOrqm1MwYX8YoK9
- Vj+ALyYWualAkPfKQnmvLJT3v3URwEuBBSNXhgYySme5SMpc+O+Z/WWh1WDr+xw60QDGJxcd
- WgHGB60A8nGhmfFbCZu0iXEA/fU3jELmpwiXMMpW4Ky/eBpuuddfpv9/0jA/kZOro5NYLHZy
- PSIWCc2NNYFVtAkZSIcxIQwjZxQ7dRjfyDIaK3PSzmqfulcllHz8u4yvTm4fPfeahLSK/MIz
- e7a8/PvfOkwrnG/M+WosNInHn7kltNzRXXf0PW9k+0ev6tjSX9p5sdm+/eq/j0pTPaZS1jLP
- 9NS8sfRBXEXHQY9vmyUrHz38J+ltuwtW86vmRx6/E3WO+jTabvn1a+Tn4S6TDyNOUyvrvDOV
- b/IjNAfMJh0K2q1s5i9etutd87ybyX055r45vAccsI4szD25GinMPtt9LLu4y6s94/GoxraQ
- mC6PuqQ1cTklLymK59o+6Y+qlDadGq8uKBKTMapASxu/5ppI79OekdV5OblRey+uD8cXLH7W
- lOUwlPHgZJbg/thaCZ2t4t3oFXKUQbToEK5Q0v8CGEaU48cEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUhTexjH+Z1zdnYcTI7T2C/tWqwMMjLXy/VHZNd/qqMFRcHCoJeVB5dN
- XZtmL9zr3Lil00xXSL6EZaU5qcy3rXSmq2Gm6WjOrKvB0hy0nNUikpa7zRH034fn8/0+zz8P
- hQvcRCR1LCuHVWZJ5SKSR3Q8FkWvKY0FR+JNjxahrldeDmqauEiiio9zOJrtneQg/cUrXGSf
- CkVmTzUH2b4VYGiyxY+hrjo9hhqbrBhyNdwAqGjAhiGfU4ys/hkS6S2jAJlfr0Zd5n4C1da/
- 46LilyYSdbvNOGrom8dQeaEDQ0NVPhJ1fK/F0eM3DgI1+RByf+sn0b8lc1z0/tHBpGjGPrKD
- Kdd6uIz22jjB2J/nMi2GIpJpvZnPXBprAEznKzXJaAatOHPl8xeSeTloxJgLWg/JfHr3mmA6
- nBe4zGy3g2RK2wxgd8R+3uY0Vn7sJKtcu+UwT9bmfEsoHMtO3R1+hqnBbKQOhFCQ3gCnP5/H
- dYBHCehOAN+Pt4GgWAzrfzzBgxwOG+dd3GBIi8FbBV5SByiKpFfDAT8VyETQQuizdYBABqct
- HDg/9GGhHE4nQm+BhggwQcfAduNDMsB8ehNs723kBg8sh9edvZwAh/ycf/VVEMFjagDVQ7c5
- wUIY7K+cWliE00uhtr0aLwN01W+q6jd1DWAGsJhVqDLTM1VihTiLzYtTSTNVuVnpcUezM1vA
- wj/ErjIBo+FjnAVgFLAASOGiCP6SYr9UwE+Tnj7DKrMPKXPlrMoCoihCJOTbdP2HBHS6NIc9
- zrIKVvnLYlRIpBoryXceSPFQN/4aMX61uu3liQ6NZgpMG+JD8/SVvLKeIn5MjjpMQ5z06tZH
- fxL/12z+4/atmV3//LBIzPzE5hUbPfmpb8aqm0z3WsnNldRKoXfprr+NL5IlksGteOp36YCk
- e3T0KX01Qd63l6Dck7Q+zy+oqHa5ClNQxtlllrHd6gJad27t8FSCXSiPcuW2Z9eHuR6eUkzf
- mS+xb7nsll0+Uvds3dXQndt7tm14m9GTPFBz+LoxJuPPUn+57ETciPC+eaK2T1zXJdl+aVVC
- 89kht3mCWmSzPv2ShHempiU7IofjZa17sNOF2Qll+2po04HmiQdzxZKo8fCSlJkkEaGSScWx
- uFIl/R8pW8O7fgMAAA==
-X-CMS-MailID: 20220207141958epcas5p25f1cd06726217696d13c2dfbea010565
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220207141958epcas5p25f1cd06726217696d13c2dfbea010565
-References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
- <20220207141348.4235-1-nj.shetty@samsung.com>
- <CGME20220207141958epcas5p25f1cd06726217696d13c2dfbea010565@epcas5p2.samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
+ "change" state
+Content-Language: en-US
+References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
+ <b800341f-b8f2-741b-1405-4dfcf888199e@suse.de>
+From: Alex Talker <alextalker@yandex.ru>
+To: linux-nvme <linux-nvme@lists.infradead.org>
+In-Reply-To: <b800341f-b8f2-741b-1405-4dfcf888199e@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220207_062322_333599_E0B44035 
-X-CRM114-Status: GOOD (  22.26  )
-X-Mailman-Approved-At: Mon, 07 Feb 2022 06:27:11 -0800
+X-CRM114-CacheID: sfid-20220207_070416_928330_040224DC 
+X-CRM114-Status: GOOD (  54.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,132 +79,220 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: SelvaKumar S <selvakuma.s1@samsung.com>
+Thanks for the quick reply!
 
-Introduce copy_jobs to use copy-offload, if supported by underlying devices
-otherwise fall back to existing method.
+ > That's actually a misinterpretation. The above sentence refers to a
+ > device reporting to be in ANA 'change', ie after reading the ANA log
+ > and detecting that a given namespace is in a group whose ANA status
+ > is 'change'.
 
-run_copy_jobs() calls block layer copy offload API, if both source and
-destination request queue are same and support copy offload.
-On successful completion, destination regions copied count is made zero,
-failed regions are processed via existing method.
+Thus if I understand you correctly, you agree on behavior that the 
+timer(ANATT)
+shouldn't be started upon seeing an empty ANA Group (in "change" state)
+but rather when at least one namespace belongs to a group in such state?
 
-Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
----
- drivers/md/dm-kcopyd.c | 57 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 51 insertions(+), 6 deletions(-)
+ > In your case it might be feasible to not report 'change' at all, but
+ > rather do an direct transition from one group to the other. If it's
+ > just a single namespace the transition should be atomic, and hence
+ > there won't be any synchronisation issues which might warrant a
+ > 'change' state.
 
-diff --git a/drivers/md/dm-kcopyd.c b/drivers/md/dm-kcopyd.c
-index 37b03ab7e5c9..64f17cc7b069 100644
---- a/drivers/md/dm-kcopyd.c
-+++ b/drivers/md/dm-kcopyd.c
-@@ -74,18 +74,20 @@ struct dm_kcopyd_client {
- 	atomic_t nr_jobs;
- 
- /*
-- * We maintain four lists of jobs:
-+ * We maintain five lists of jobs:
-  *
-- * i)   jobs waiting for pages
-- * ii)  jobs that have pages, and are waiting for the io to be issued.
-- * iii) jobs that don't need to do any IO and just run a callback
-- * iv) jobs that have completed.
-+ * i)	jobs waiting to try copy offload
-+ * ii)   jobs waiting for pages
-+ * iii)  jobs that have pages, and are waiting for the io to be issued.
-+ * iv) jobs that don't need to do any IO and just run a callback
-+ * v) jobs that have completed.
-  *
-- * All four of these are protected by job_lock.
-+ * All five of these are protected by job_lock.
-  */
- 	spinlock_t job_lock;
- 	struct list_head callback_jobs;
- 	struct list_head complete_jobs;
-+	struct list_head copy_jobs;
- 	struct list_head io_jobs;
- 	struct list_head pages_jobs;
- };
-@@ -579,6 +581,44 @@ static int run_io_job(struct kcopyd_job *job)
- 	return r;
- }
- 
-+static int run_copy_job(struct kcopyd_job *job)
-+{
-+	int r, i, count = 0;
-+	unsigned long flags = 0;
-+	struct range_entry range;
-+
-+	struct request_queue *src_q, *dest_q;
-+
-+	for (i = 0; i < job->num_dests; i++) {
-+		range.dst = job->dests[i].sector << SECTOR_SHIFT;
-+		range.src = job->source.sector << SECTOR_SHIFT;
-+		range.len = job->source.count << SECTOR_SHIFT;
-+
-+		src_q = bdev_get_queue(job->source.bdev);
-+		dest_q = bdev_get_queue(job->dests[i].bdev);
-+
-+		if (src_q != dest_q && !src_q->limits.copy_offload)
-+			break;
-+
-+		r = blkdev_issue_copy(job->source.bdev, 1, &range,
-+			job->dests[i].bdev, GFP_KERNEL, flags);
-+		if (r)
-+			break;
-+
-+		job->dests[i].count = 0;
-+		count++;
-+	}
-+
-+	if (count == job->num_dests) {
-+		push(&job->kc->complete_jobs, job);
-+	} else {
-+		push(&job->kc->pages_jobs, job);
-+		r = 0;
-+	}
-+
-+	return r;
-+}
-+
- static int run_pages_job(struct kcopyd_job *job)
- {
- 	int r;
-@@ -659,6 +699,7 @@ static void do_work(struct work_struct *work)
- 	spin_unlock_irq(&kc->job_lock);
- 
- 	blk_start_plug(&plug);
-+	process_jobs(&kc->copy_jobs, kc, run_copy_job);
- 	process_jobs(&kc->complete_jobs, kc, run_complete_job);
- 	process_jobs(&kc->pages_jobs, kc, run_pages_job);
- 	process_jobs(&kc->io_jobs, kc, run_io_job);
-@@ -676,6 +717,8 @@ static void dispatch_job(struct kcopyd_job *job)
- 	atomic_inc(&kc->nr_jobs);
- 	if (unlikely(!job->source.count))
- 		push(&kc->callback_jobs, job);
-+	else if (job->source.bdev->bd_disk == job->dests[0].bdev->bd_disk)
-+		push(&kc->copy_jobs, job);
- 	else if (job->pages == &zero_page_list)
- 		push(&kc->io_jobs, job);
- 	else
-@@ -916,6 +959,7 @@ struct dm_kcopyd_client *dm_kcopyd_client_create(struct dm_kcopyd_throttle *thro
- 	spin_lock_init(&kc->job_lock);
- 	INIT_LIST_HEAD(&kc->callback_jobs);
- 	INIT_LIST_HEAD(&kc->complete_jobs);
-+	INIT_LIST_HEAD(&kc->copy_jobs);
- 	INIT_LIST_HEAD(&kc->io_jobs);
- 	INIT_LIST_HEAD(&kc->pages_jobs);
- 	kc->throttle = throttle;
-@@ -971,6 +1015,7 @@ void dm_kcopyd_client_destroy(struct dm_kcopyd_client *kc)
- 
- 	BUG_ON(!list_empty(&kc->callback_jobs));
- 	BUG_ON(!list_empty(&kc->complete_jobs));
-+	WARN_ON(!list_empty(&kc->copy_jobs));
- 	BUG_ON(!list_empty(&kc->io_jobs));
- 	BUG_ON(!list_empty(&kc->pages_jobs));
- 	destroy_workqueue(kc->kcopyd_wq);
--- 
-2.30.0-rc0
+While it might be possible, I think that sometimes "change" state might 
+work as a sort of "I/O barrier"
+when some changes on underlying block device might be in progress,
+and in that case determining final state might not be that easy prior to 
+the operation end.
+Please, do feel free to correct me if that's an inappropriate usage!
+I'm still interested to hear tho more details on what synchronization 
+issues might arise as you mentioned?
 
+ > Well, it certainly is an odd one, but should be doable. But note,
+ > there had been some fixes to the ANA group ID handling; most recently
+ > commit 79f528afa939 ("nvme-multipath: fix ANA state updates when a
+ > namespace is not present"). So do ensure to have the latest fixes to
+ > get the 'best' possible user-experience.
+
+Well, i do agree that my approach is a tiny bit outstanding since I 
+catch such bugs
+but I checked the nvme.git on this platform and the code my setup has 
+issues with is still there.
+The commit you mentioned as I understood is made in regard to some race 
+condition or alike,
+which is by the way abstractly speaking might as well be an infinite 
+loop if something goes awry
+but I hope I won't ever met such an issue in production.
+
+ > Typically it's the NVMe controller port which holds the ANA state;
+ > for most implementation I'm aware of you have one or more (physical)
+ > NVMe controller ports, which hosts the interfaces etc. They connect
+ > to the actual storage, and failover is done by switching I/O between
+ > those controller ports. Hence the ANA state is really property of
+ > the controller port in those implementations.
+
+So, in short, each port has just one group and all namespaces belong to it,
+and thus all resources on the port change state at once?
+I can agree that this is quite a simple setup in its own right too 
+however I'm thinking more in dimension of
+"what if one namespace becomes unavailable, how to efficiently change 
+only its state without having an over-complicated ANA Group configuration?"
+to be in foot with High Availability concept.
+Of course I might have personalized ANA Group setup for each 
+installation/deployment but I preferred to start with something simple 
+yet flexible,
+since standard doesn't exactly opposes an idea that change of ANA Group 
+involves possible change of the ANA state for a namespace too.
+
+ > The ANATT value is useful if you have an implementation which takes
+ > some time to facilitate the switch-over. As there is always a chance
+ > of the switch-over going wrong the ANATT serves as an upper boundary
+ > after which an ANA state of 'change' can be considered stale, and a
+ > re-read is in order. So for the linux implementation it's a bit
+ > moot; one would have to present a use-case where changing the ANATT
+ > value would make a difference.
+
+I can't think much of any particular example at this moment but from my 
+personal experience,
+working with custom storage solutions on some operations might take 
+quite a while,
+and even standard gives an example with ANATT=30 which I think some kind 
+of "magical constant"
+from SCSI world where it needs to be customized from initiator's side in 
+order for things to hang out a little more.
+On this regard, I'm more thinking from the perspective of giving an 
+administrator ability to customize the value if a need arises,
+since I haven't had an idea of such value existing prior to catching my 
+(in silly way triggered) error.
+For example, I think some operations on DRBD devices might take quite 
+reasonable amount of time,
+and while we may argue on how useful DRBD in this setup anyway, I 
+mentioned it purely for example purposes.
+I'm sure eventually, possibly especially with releases of NVMe HDDs on 
+the market,
+real use-cases might be more often and I find implementing the 
+customization prior to that quite useful.
+
+Best regards,
+Alex
+
+On 07.02.2022 12:46, Hannes Reinecke wrote:
+ > On 2/6/22 14:59, Alex Talker wrote:
+ >> Recently I noticed a peculiar error after connecting from the host
+ >> (CentOS 8 Stream at the time, more on that below) via TCP(unlikely
+ >> matters) to the NVMe target subsystem shared using nvmet module:
+ >>
+ >>> ... nvme nvme1: ANATT timeout, resetting controller. nvme nvme1:
+ >>> creating 8 I/O queues. nvme nvme1: mapped 8/0/0
+ >>> default/read/poll queues. ... nvme nvme1: ANATT timeout,
+ >>> resetting controller. ...(and it continues like that over and
+ >>> over and over again, on some configuration even getting worse
+ >>> with greater iterations of reconnect)
+ >>
+ >> I discovered that this behavior is caused by code in
+ >> drivers/nvme/host/multipath.c, in particular when function
+ >> nvme_update_ana_state increments value of variable nr_change_groups
+ >> whenever any ANA Group is in "change", indifference of whether any
+ >> namespace belongs to the group or not. Now, after figuring out that
+ >> ANATT stands for ANA Transition Time and reading some more of the
+ >> NVMe 2.0 standards, I understood that the problem caused by how I
+ >> managed to utilize ANA Groups.
+ >>
+ >> As far as I remember, permitted number of ANA Groups in nvmet
+ >> module is 128, while maximum number of namespaces is 1024(8 times
+ >> more). Thus, mapping 1 namespace to 1 ANA Group works only up to a
+ >> point. It is nice to have some logically-related namespaces belong
+ >> to the same ANA Group, and the final scheme of how namespaces
+ >> belong to ANA groups is often vendor-specific (or rather lies in
+ >> decision domain of the end user of target-related stuff), However,
+ >> rather than changing state of a namespace on specific port, for
+ >> example for maintenance reasons, I find it particularly useful to
+ >> utilize ANA Groups to change the state of a certain namespace,
+ >> since it is more likely that block device might enter unusable
+ >> state or be a part of some transitioning process. Thus, the
+ >> simplest scheme for me on each port is to assign few ANA Groups,
+ >> one per each possible ANA state, and change ANA Group on a
+ >> namespace rather than changing state of the group the namespace
+ >> belongs to at the moment. And here's the catch.
+ >>
+ >> If one creates a subsystem(no namespaces needed) on a port,
+ >> connects to it and then sets state of ANA Group #1 to "change", the
+ >> issue introduced in the beginning would be reproduced practically
+ >> on many major distros and even upstream code without and issue, tho
+ >> sometimes it can be mitigated by disabling the "native
+ >> multipath"(when /sys/module/nvme_core/parameters/multipath set to
+ >> N) but sometimes that's not the case which is why this issue quite
+ >> annoying for my setup. I just checked it on 5.15.16 from
+ >> Manjaro(basically Arch Linux) and ELRepo's kernel-ml and
+ >> kernel-lt(basically vanilla versions of the mainline and LTS
+ >> kernels respectively for CentOSs).
+ >>
+ >> The standard tells that:
+ >>
+ >>> An ANA Group may contain zero or more namespaces
+ >>
+ >> which makes perfect sense, since one has to create a group prior to
+ >> assigning it to a namespace, and then:
+ >>
+ >>> While ANA Change state is reported by a controller for the
+ >>> namespace, the host should: ...(part regarding ANATT)
+ >>
+ >> So on one hand I think my setup might be questionable(I might
+ >> allocate ANAGRPID for "change" only in times of actual transitions,
+ >> while that might over-complicate usage of the module), on the other
+ >> I think it happens to be a misinterpretation of the standard and
+ >> might need some additional clarification.
+ >>
+ > That's actually a misinterpretation. The above sentence refers to a
+ > device reporting to be in ANA 'change', ie after reading the ANA log
+ > and detecting that a given namespace is in a group whose ANA status
+ > is 'change'.
+ >
+ > In your case it might be feasible to not report 'change' at all, but
+ > rather do an direct transition from one group to the other. If it's
+ > just a single namespace the transition should be atomic, and hence
+ > there won't be any synchronisation issues which might warrant a
+ > 'change' state.
+ >
+ >> That's why I decided to compose this message first prior to
+ >> proposing any patches.
+ >>
+ >> Also, while digging the code, I noticed that ANATT at the moment
+ >> presented by a random constant(of 10 seconds), and since often
+ >> transition time differs depending on block devices being in-use
+ >> underneath namespaces, it might be viable to allow end-user to
+ >> change this value via configfs.
+ >>
+ >> Considering everything I wrote, I'd like to hear opinions on the
+ >> following issues: 1. Whether my utilization of ANA Groups is viable
+ >> approach?
+ >
+ > Well, it certainly is an odd one, but should be doable. But note,
+ > there had been some fixes to the ANA group ID handling; most recently
+ > commit 79f528afa939 ("nvme-multipath: fix ANA state updates when a
+ > namespace is not present"). So do ensure to have the latest fixes to
+ > get the 'best' possible user-experience.
+ >
+ >> 2. Which ANA Group assignment schemes utilized in production, from
+ >> your experience?
+ >
+ > Typically it's the NVMe controller port which holds the ANA state;
+ > for most implementation I'm aware of you have one or more (physical)
+ > NVMe controller ports, which hosts the interfaces etc. They connect
+ > to the actual storage, and failover is done by switching I/O between
+ > those controller ports. Hence the ANA state is really property of
+ > the controller port in those implementations.
+ >
+ >> 3. Whether changing ANATT value change should be allowed via
+ >> configfs(in particular, on per-subsystem level I think)?
+ >>
+ > The ANATT value is useful if you have an implementation which takes
+ > some time to facilitate the switch-over. As there is always a chance
+ > of the switch-over going wrong the ANATT serves as an upper boundary
+ > after which an ANA state of 'change' can be considered stale, and a
+ > re-read is in order. So for the linux implementation it's a bit
+ > moot; one would have to present a use-case where changing the ANATT
+ > value would make a difference.
+ >
+ > Cheers,
+ >
+ > Hannes
 
