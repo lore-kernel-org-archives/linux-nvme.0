@@ -4,85 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 328B6C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 10:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DC13C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Feb 2022 11:07:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H/A6g4q5wX9FPq/iPkChx0DcndBL8m1J1RaDIQAqdgA=; b=FMvLJ2qhaBi1sTkCujM5hI2gs/
-	HHaEVBcf/8bAwTQW+k6c85IzEYYleBMT6qM8WpMM1GJAmEPPmDh5toWCa2GMt8p2UJNkEhS4gR4Nc
-	yrpadfDsVgkEnaDq9El4aLrg3GxZlq6Y+B1oezOstfjEF0BBeOvXBMnnBbdJFoXSUGTI1iPw7kdHB
-	hHwFzxvbd0fw8cx+hDDuZ2+oafCh6i/mXlQxCDwtaavq2Ge8PtNDxAiussL9b/qFlReivTfjJZVy5
-	9vfWktiOqriZKhY2rx1aLsYN1G/QasA+rlr3wh6eY6Env97nxhMKvxlKzRTPfNX0Dsxybe6aY6jWC
-	Nq+tXx+Q==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3rioTBymiH/CLKfgZ6jGkOtiMVIaZHwxVT6yfVG4KW8=; b=cJU8asmDlb53ibxZPlG4SkC5jj
+	erSWoXsz47z2HeqwBULJIscaNIWUpz97WrOVqGYoJi83V2Ydp6PuNdmY4VYDyUPHAhUl0zo53ss75
+	+Ped5PZvdV9bU+Yot4z8iMajChssYizVPG84fe9pplo3k2yHecTxcjxnWKyGwSp9mqqwTflnzEdyQ
+	H59ryuWdvq5FPIhYMXFWZv0sRJAeEFjiNJsni58OKi7khSlZZkFaZegSu4Oyk0nKK/O6cUJxQ1UYQ
+	30xFDL9EOQn+M0tqFW/ZB9UupOuIFzJ6HkQPjTIg0oEIVbVsuqCMt4QBAkQSkDVoiN+fuIezic1Wz
+	lMdjwy7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nH1X2-009rxS-Ix; Mon, 07 Feb 2022 10:46:04 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nH1rt-009wIp-D1; Mon, 07 Feb 2022 11:07:37 +0000
+Received: from mail-wr1-f54.google.com ([209.85.221.54])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nH1Wx-009rwH-A0
- for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 10:46:01 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 04D37210E6;
- Mon,  7 Feb 2022 10:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644230756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H/A6g4q5wX9FPq/iPkChx0DcndBL8m1J1RaDIQAqdgA=;
- b=IDyj5XKM5yuLYff3rASEV70DXQju7YYUpSSIVgOtw+/uNmuZy+2F6kro7M23//P4zY0jd1
- NYMCpdIwanKhyY8eSyZ8bZeOlq911YkWXfDvdM5OS0Py9FiKgbGtzSCpbJCqv4az/Jkp2J
- 3X9kcad57THLdmJuLGs5Cn8ih0z9qgI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644230756;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H/A6g4q5wX9FPq/iPkChx0DcndBL8m1J1RaDIQAqdgA=;
- b=XXjJ0TI1gcuFsZ4vftzaqKuyrxYN+U1YvYnrNhEyAqjjaRYcJq+lI2DK/ByVKIqPpKBb3v
- y9pWIAzPK8IxN1Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 42E3213B53;
- Mon,  7 Feb 2022 10:45:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 1Eq0DmP4AGJsRwAAMHmgww
- (envelope-from <ddiss@suse.de>); Mon, 07 Feb 2022 10:45:55 +0000
-Date: Mon, 7 Feb 2022 11:45:54 +0100
-From: David Disseldorp <ddiss@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Jens Axboe <axboe@kernel.dk>,
- "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
- <lsf-pc@lists.linux-foundation.org>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "clm@fb.com" <clm@fb.com>, "dsterba@suse.com" <dsterba@suse.com>,
- "tytso@mit.edu" <tytso@mit.edu>, "jack@suse.com" <jack@suse.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Message-ID: <20220207114554.7a739042@suse.de>
-In-Reply-To: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
-References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+ id 1nH1rq-009wHX-Kd
+ for linux-nvme@lists.infradead.org; Mon, 07 Feb 2022 11:07:36 +0000
+Received: by mail-wr1-f54.google.com with SMTP id u23so249446wru.6
+ for <linux-nvme@lists.infradead.org>; Mon, 07 Feb 2022 03:07:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3rioTBymiH/CLKfgZ6jGkOtiMVIaZHwxVT6yfVG4KW8=;
+ b=ZVhTOmulHHUXXHDXBb0v8UGEAreACG2wRBYOFYZ7w41kuN84uTbeWvEZkH/kOfimwI
+ BpCnJmHv49oGon+WE8ZR6wg2CDyP28VkYSHAirllzVUKdw0fBpmOEpX5+c/GHbEXWyIP
+ DB3wOjFV0X5sKbfpTqBGoPw/8xAx4EUOJX3EFhb+uZ3Y/CfdvXuFTh6NZ4Wlx9SG4WHh
+ P6ssP7VFcCZNbWtrlEBC5x+JykvaD0WdWNytGNCYXwi7ELTtdxsDpeWT6RB5pcp37V0M
+ rgMiUrJmdCTA/Oi2GpmvSj6sm+l4z45GC5IOFoC1AhgZnmplrhKG9mJNZwVWQ8dSHwDR
+ sH5w==
+X-Gm-Message-State: AOAM533jF6vMKlqFq4tVre9oIZKapLobuHmKHZnXVEI/GG2fFZLEh7ky
+ Vj8kJUxljW0hQxN9U5YIhPxHIluU2pg=
+X-Google-Smtp-Source: ABdhPJz4Zl6cBq8WCsv4BPUJHirFdzcz+RRLqqNNvv7o0nNSCwjISaZZQOoV4J9pdRcJLZqweO0T9g==
+X-Received: by 2002:a5d:62c1:: with SMTP id o1mr3415201wrv.262.1644232051980; 
+ Mon, 07 Feb 2022 03:07:31 -0800 (PST)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id h6sm17643950wmq.26.2022.02.07.03.07.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Feb 2022 03:07:31 -0800 (PST)
+Message-ID: <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
+Date: Mon, 7 Feb 2022 13:07:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
+ "change" state
+Content-Language: en-US
+To: Alex Talker <alextalker@yandex.ru>,
+ linux-nvme <linux-nvme@lists.infradead.org>
+References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220207_024559_561337_C32144D6 
-X-CRM114-Status: GOOD (  29.82  )
+X-CRM114-CacheID: sfid-20220207_030734_723629_59C59EDE 
+X-CRM114-Status: GOOD (  43.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,103 +81,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 27 Jan 2022 07:14:13 +0000, Chaitanya Kulkarni wrote:
 
-> Hi,
-> 
-> * Background :-
-> -----------------------------------------------------------------------
-> 
-> Copy offload is a feature that allows file-systems or storage devices
-> to be instructed to copy files/logical blocks without requiring
-> involvement of the local CPU.
-> 
-> With reference to the RISC-V summit keynote [1] single threaded
-> performance is limiting due to Denard scaling and multi-threaded
-> performance is slowing down due Moore's law limitations. With the rise
-> of SNIA Computation Technical Storage Working Group (TWG) [2],
-> offloading computations to the device or over the fabrics is becoming
-> popular as there are several solutions available [2]. One of the common
-> operation which is popular in the kernel and is not merged yet is Copy
-> offload over the fabrics or on to the device.
-> 
-> * Problem :-
-> -----------------------------------------------------------------------
-> 
-> The original work which is done by Martin is present here [3]. The
-> latest work which is posted by Mikulas [4] is not merged yet. These two
-> approaches are totally different from each other. Several storage
-> vendors discourage mixing copy offload requests with regular READ/WRITE
-> I/O. Also, the fact that the operation fails if a copy request ever
-> needs to be split as it traverses the stack it has the unfortunate
-> side-effect of preventing copy offload from working in pretty much
-> every common deployment configuration out there.
-> 
-> * Current state of the work :-
-> -----------------------------------------------------------------------
-> 
-> With [3] being hard to handle arbitrary DM/MD stacking without
-> splitting the command in two, one for copying IN and one for copying
-> OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
-> candidate. Also, with [4] there is an unresolved problem with the
-> two-command approach about how to handle changes to the DM layout
-> between an IN and OUT operations.
-> 
-> We have conducted a call with interested people late last year since 
-> lack of LSFMMM and we would like to share the details with broader
-> community members.
-> 
-> * Why Linux Kernel Storage System needs Copy Offload support now ?
-> -----------------------------------------------------------------------
-> 
-> With the rise of the SNIA Computational Storage TWG and solutions [2],
-> existing SCSI XCopy support in the protocol, recent advancement in the
-> Linux Kernel File System for Zoned devices (Zonefs [5]), Peer to Peer
-> DMA support in the Linux Kernel mainly for NVMe devices [7] and
-> eventually NVMe Devices and subsystem (NVMe PCIe/NVMeOF) will benefit
-> from Copy offload operation.
-> 
-> With this background we have significant number of use-cases which are
-> strong candidates waiting for outstanding Linux Kernel Block Layer Copy
-> Offload support, so that Linux Kernel Storage subsystem can to address
-> previously mentioned problems [1] and allow efficient offloading of the
-> data related operations. (Such as move/copy etc.)
-> 
-> For reference following is the list of the use-cases/candidates waiting
-> for Copy Offload support :-
-> 
-> 1. SCSI-attached storage arrays.
-> 2. Stacking drivers supporting XCopy DM/MD.
-> 3. Computational Storage solutions.
-> 7. File systems :- Local, NFS and Zonefs.
-> 4. Block devices :- Distributed, local, and Zoned devices.
-> 5. Peer to Peer DMA support solutions.
-> 6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
-> 
-> * What we will discuss in the proposed session ?
-> -----------------------------------------------------------------------
-> 
-> I'd like to propose a session to go over this topic to understand :-
-> 
-> 1. What are the blockers for Copy Offload implementation ?
-> 2. Discussion about having a file system interface.
-> 3. Discussion about having right system call for user-space.
-> 4. What is the right way to move this work forward ?
-> 5. How can we help to contribute and move this work forward ?
-> 
-> * Required Participants :-
-> -----------------------------------------------------------------------
-> 
-> I'd like to invite file system, block layer, and device drivers
-> developers to:-
-> 
-> 1. Share their opinion on the topic.
-> 2. Share their experience and any other issues with [4].
-> 3. Uncover additional details that are missing from this proposal.
 
-I'd like to attend this discussion. I've worked on the LIO XCOPY
-implementation in drivers/target/target_core_xcopy.c and added Samba's
-FSCTL_SRV_COPYCHUNK/FSCTL_DUPLICATE_EXTENTS_TO_FILE support.
+On 2/6/22 15:59, Alex Talker wrote:
+> Recently I noticed a peculiar error after connecting from the host
+> (CentOS 8 Stream at the time, more on that below)
+> via TCP(unlikely matters) to the NVMe target subsystem shared using 
+> nvmet module:
+> 
+>  > ...
+>  > nvme nvme1: ANATT timeout, resetting controller.
+>  > nvme nvme1: creating 8 I/O queues.
+>  > nvme nvme1: mapped 8/0/0 default/read/poll queues.
+>  > ...
+>  > nvme nvme1: ANATT timeout, resetting controller.
+>  > ...(and it continues like that over and over and over again, on some 
+> configuration even getting worse with greater iterations of reconnect)
+> 
+> I discovered that this behavior is caused by code in 
+> drivers/nvme/host/multipath.c,
+> in particular when function nvme_update_ana_state increments value of 
+> variable nr_change_groups whenever any ANA Group is in "change",
+> indifference of whether any namespace belongs to the group or not.
+> Now, after figuring out that ANATT stands for ANA Transition Time and 
+> reading some more of the NVMe 2.0 standards, I understood that the 
+> problem caused by how I managed to utilize ANA Groups.
+> 
+> As far as I remember, permitted number of ANA Groups in nvmet module is 
+> 128, while maximum number of namespaces is 1024(8 times more).
+> Thus, mapping 1 namespace to 1 ANA Group works only up to a point.
+> It is nice to have some logically-related namespaces belong to the same 
+> ANA Group,
+> and the final scheme of how namespaces belong to ANA groups is often 
+> vendor-specific
+> (or rather lies in decision domain of the end user of target-related 
+> stuff),
+> However, rather than changing state of a namespace on specific port, for 
+> example for maintenance reasons,
+> I find it particularly useful to utilize ANA Groups to change the state 
+> of a certain namespace, since it is more likely that block device might 
+> enter unusable state or be a part of some transitioning process.
 
-Cheers, David
+I'm not exactly sure what you are trying to do, but it sounds wrong...
+ANA groups are supposed to be a logical unit that expresses controllers
+access state to the associated namespaces that belong to the group.
+
+> Thus, the simplest scheme for me on each port is to assign few ANA 
+> Groups, one per each possible ANA state, and change ANA Group on a 
+> namespace rather than changing state of the group the namespace belongs 
+> to at the moment.
+
+That is an abuse of ANA groups IMO. But OK...
+
+> And here's the catch.
+> 
+> If one creates a subsystem(no namespaces needed) on a port, connects to 
+> it and then sets state of ANA Group #1 to "change", the issue introduced 
+> in the beginning would be reproduced practically on many major distros 
+> and even upstream code without and issue,
+
+This state is not a permanent state, it is transient by definition,
+which is why the host is treating it as such.
+
+The host is expecting the controller to send another ANA AEN that
+notifies the new state within ANATT (i.e. stateA -> change -> stateB).
+
+> tho sometimes it can be mitigated by disabling the "native 
+> multipath"(when /sys/module/nvme_core/parameters/multipath set to N) but 
+> sometimes that's not the case which is why this issue quite annoying for 
+> my setup.
+
+That is simply removing support for multipathing altogether.
+
+> I just checked it on 5.15.16 from Manjaro(basically Arch Linux) and 
+> ELRepo's kernel-ml and kernel-lt(basically vanilla versions of the 
+> mainline and LTS kernels respectively for CentOSs).
+> 
+> The standard tells that:
+> 
+>  > An ANA Group may contain zero or more namespaces
+> 
+> which makes perfect sense, since one has to create a group prior to 
+> assigning it to a namespace, and then:
+> 
+>  > While ANA Change state is reported by a controller for the namespace, 
+> the host should: ...(part regarding ANATT)
+> 
+> So on one hand I think my setup might be questionable(I might allocate 
+> ANAGRPID for "change" only in times of actual transitions, while that 
+> might over-complicate usage of the module),
+
+I'm still don't fully understand what you are trying to do, but creating
+a transient ANA group for a change state sounds backwards to me.
+
+> on the other I think it happens to be a misinterpretation of the 
+> standard and might need some additional clarification.
+> 
+> That's why I decided to compose this message first prior to proposing 
+> any patches.
+> 
+> Also, while digging the code, I noticed that ANATT at the moment 
+> presented by a random constant(of 10 seconds), and since often 
+> transition time differs depending on block devices being in-use 
+> underneath namespaces,
+> it might be viable to allow end-user to change this value via configfs.
+
+How would you expose it via configfs? ana groups may be shared via
+different ports IIRC. You would need to prevent conflicting settings...
+
+> Considering everything I wrote, I'd like to hear opinions on the 
+> following issues:
+> 1. Whether my utilization of ANA Groups is viable approach?
+
+I don't think so, but I don't know if I understood what you are trying
+to do.
+
+> 2. Which ANA Group assignment schemes utilized in production, from your 
+> experience?
+
+ANA groups will usually relate, a ANA group will be used for what it is
+supposed to. A group of zero or more namespaces where each controller
+may have different access state to it (or the namespaces assigned to
+it).
+
+> 3. Whether changing ANATT value change should be allowed via configfs(in 
+> particular, on per-subsystem level I think)?
+
+Could be... We'll need to see patches.
 
