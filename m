@@ -4,80 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 379C6C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Feb 2022 06:41:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61134C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Feb 2022 07:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NMV1y2jGFP95970/YB/hGNoW7JjSz01pv3Q5tRwBLmY=; b=bu/0izGrJLGcPeWq3izG86I1Bl
-	2IeWiUptVPCfz5r1j+xMePfdWc+03s985UnSqWGL4+VnRNR4oUXgkMy0FcQ7dn7kue8O8fObTfZZt
-	cZQRWUXTFs9ZZOD9H2WEgg1mKQQD6WXlGxm1NknkrrrKC96YETWLuRO4Ll/0HYly5Jz0AoGaYRmnj
-	U3ofF5UFWTToEdAqA8W92XvWlVVUtlhSiHbXTGMaGGAahUaeFX0Rtwfk40YDqfFQ/QG030wJZO3Id
-	zhulhf4qSaJMRm2PkXGPrAgQmhhMfmhWPAEiflFX72gfv7Dy+6YbVdYjsyQcf3CmkfY3n0PGMSAUn
-	5j+CwBSA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=x5j/j6JHqBhV0YBpBhQsmkWvXY2j88KFvqwyTe/YRz8=; b=HNfed2e6sEDMhAUsnYDbeo6dvI
+	Khhp3a78ZrmbpJYRXCaygDJsVFfTQLktPu4Zb+vuesCVqPt+dmXZY1Myeor+m5g5iTKFbpJle2d/O
+	YTwAsoM0E9xHH7Yh7ocoSkSLLQKNBMjHnXLtQTWzSNTk7IVwg/0tvHkZ/2BwvarxlNUXJmYDjyJ9n
+	RuH3r1b5wyJ3VZyRogiI1c3JuHryj79evvn0GRam+NDhGa6pdWSoHt2PfXtGhzPqRzMgxmBNz18GF
+	XDc4asuLfnhA5tW3RXlrOGCmZP/OZjcunMkSUdFb5z2d2rf1ZSqUy+Hk4bEwBXde6lz1N7owglOtS
+	wuWNx/BA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nHgfq-00GNRm-Ho; Wed, 09 Feb 2022 06:41:54 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nHhig-00GWlh-KJ; Wed, 09 Feb 2022 07:48:54 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nHgfn-00GNQr-N6
- for linux-nvme@lists.infradead.org; Wed, 09 Feb 2022 06:41:53 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 15C162110A;
- Wed,  9 Feb 2022 06:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1644388908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NMV1y2jGFP95970/YB/hGNoW7JjSz01pv3Q5tRwBLmY=;
- b=PdLrgpu+XpVAVANQousglBnyF3r77BE0yBflmEi7++N0DSfD/2NV2v6pCvvk12Foi+EgZM
- vh+fNTVjWHQ16YnD9P+3czsNIYGmmwnFIN88joSc2cX6p88Yl7Pu3hStwdCV3i68iLJS+i
- af3wdCBtH4IG/2DwgKfNnvMAszdd0cM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1644388908;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NMV1y2jGFP95970/YB/hGNoW7JjSz01pv3Q5tRwBLmY=;
- b=0SyUtkQrSi9xM0/4lKFcjahj8JyDmmJzP/JzvCI2sS2i9NqNLnsD5q7HtGQBzOBQ4l3kZr
- X+/v3sjb4gv6J/Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6DE9E13487;
- Wed,  9 Feb 2022 06:41:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id c7NTEitiA2I5dgAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 09 Feb 2022 06:41:47 +0000
-Message-ID: <ca877685-646b-e076-1110-d5d94d852899@suse.de>
-Date: Wed, 9 Feb 2022 07:40:58 +0100
+ id 1nHhid-00GWlN-Bt
+ for linux-nvme@lists.infradead.org; Wed, 09 Feb 2022 07:48:52 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 1C71668AFE; Wed,  9 Feb 2022 08:48:46 +0100 (CET)
+Date: Wed, 9 Feb 2022 08:48:45 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me, Rafael Wysocki <rafael.j.wysocki@intel.com>,
+ Vidya Sagar <vidyas@nvidia.com>
+Subject: Re: [PATCH] nvme/pci: default to simple suspend
+Message-ID: <20220209074845.GA9540@lst.de>
+References: <20220201165006.3074615-1-kbusch@kernel.org>
+ <20220202075502.GA18474@lst.de>
+ <20220202160334.GB3077632@dhcp-10-100-145-180.wdc.com>
+ <20220204071012.GA28638@lst.de>
+ <20220207160655.GB635727@dhcp-10-100-145-180.wdc.com>
+ <20220208143751.GA25260@lst.de>
+ <20220208171421.GA1168214@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCHv3 2/2] nvme: Expose cntrltype and dctype through sysfs
-Content-Language: en-US
-To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
- stuart_hayes@dell.com, charles_rose@dell.com,
- Martin Belanger <martin.belanger@dell.com>
-References: <20220208193346.22580-1-nitram_67@hotmail.com>
- <BL0PR13MB4291B3A6C98BA5EB5ACD8A129C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <BL0PR13MB4291B3A6C98BA5EB5ACD8A129C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208171421.GA1168214@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220208_224151_946954_F21170E1 
-X-CRM114-Status: GOOD (  19.24  )
+X-CRM114-CacheID: sfid-20220208_234851_601748_C50268A3 
+X-CRM114-Status: GOOD (  15.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,44 +64,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/8/22 20:33, Martin Belanger wrote:
-> From: Martin Belanger <martin.belanger@dell.com>
+On Tue, Feb 08, 2022 at 09:14:21AM -0800, Keith Busch wrote:
+> > I don't think this will work, as most older platforms just won't have
+> > that attribute at all, and non-ACPI platforms most certainly won't have
+> > it.  We'll need more quirks in the core PCI/PM code like we did for the
+> > AMD mobile platforms.
 > 
-> TP8010 introduces the Discovery Controller Type attribute (dctype).
-> The dctype is returned in the response to the Identify command. This
-> patch exposes the dctype through the sysfs. Since the dctype depends on
-> the Controller Type (cntrltype), another attribute of the Identify
-> response, the patch also exposes the cntrltype as well. The dctype will
-> only be displayed for discovery controllers.
+>  old platform + old kernel -> simple suspend
 > 
-> A note about the naming of this attribute:
-> Although TP8010 calls this attribute the Discovery Controller Type,
-> note that the dctype is now part of the response to the Identify
-> command for all controller types. I/O, Discovery, and Admin controllers
-> all share the same Identify response PDU structure. Non-discovery
-> controllers as well as pre-TP8010 discovery controllers will continue
-> to set this field to 0 (which has always been the default for reserved
-> bytes). Per TP8010, the value 0 now means "Discovery controller type is
-> not reported" instead of "Reserved". One could argue that this
-> definition is correct even for non-discovery controllers, and by
-> extension, exposing it in the sysfs for non-discovery controllers is
-> appropriate.
+>  old platform + new kernel -> nvme pm
 > 
-> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
-> ---
->   drivers/nvme/host/core.c | 39 +++++++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h |  3 +++
->   include/linux/nvme.h     | 10 +++++++++-
->   3 files changed, 51 insertions(+), 1 deletion(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> This inevitably introduced regressions. Why should we need to quirk old
+> platforms for a feature that didn't even exist when they were made?
+> Shouldn't the quirk be the other way around?
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+Because they are broken?  If we do get a suspend request that does not
+explicitly asks for the device do be disabled we need to be able to rely
+on that.  Where we is not just nvme, but any driver.
 
