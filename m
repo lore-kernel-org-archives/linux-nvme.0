@@ -4,110 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4729BC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Feb 2022 08:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FEFCC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Feb 2022 10:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UMsmTIOvaSaZei9DHmzBuD5lpfBwzHRI4GY0hRu8ycU=; b=4c/5InHZI9T0Sub3JiGTtHonZW
-	GonZ7zuho/C+NQ/9hxvEh2+rsrC8DvRo9+WCsO5898zR8eQxVSRtaBXiNEqHT/ckGD8iKpi5ddrEt
-	dLI65W7cKG7pV9Ta6OduJdmNbd7nGp0QuHdPpHvQGrOgW1wFiIwiJYNKn5KErdF1U+VroruryHHRM
-	gQcqYJaGL0LNb5SQTQqUSerQ1Pn8AtYg5qjmMWNxarXJFfckHJAVbQcGnFaE9Ug4gVbzwI47ofyWy
-	XgvK8hvYy3jZH7e5F7vvaZKERnuxFqzFyttu53jWF9lOomdh+8JeMR1lZIEN6Q2tI/3e1nOfhCS/c
-	a3uwK/7w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xz1oJ2eauM6E2SlW3H62ZnXt2LbVkrsLkClSGMzxM5I=; b=q8y0haKXoSTGuW8QiSIc15umAM
+	fsTo+FqMjhylKZbnmybx9bbK7dCVxmhgL270mkDWwzxhxcHAfpJoAid44Y8pfDsidYZmeYGWuZ43E
+	Me8ary3W2PpwMF6F37WbRiib5NX87jBNte5oEjY7TzDqXmIWyyOxeH2VE6uQqT3ZwCJJAUA2NVGrM
+	lniXr5aH7AUks1HGvW2m2a/15Nql47w1chIx9QGedE5PxJ1H/uKr2zKRNbDIwAJH6m8vbO/ZxWGgi
+	b1zFb3TNB2IV1CZdt/9EyAUF56OgDmrxMKYckAvhFPLUpg9lyDgbCt2PHrdtneVFsW0PJ74GCl68x
+	fmu+HmXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nHild-00Gl7e-Ms; Wed, 09 Feb 2022 08:56:02 +0000
-Received: from mail-bn8nam11on2040.outbound.protection.outlook.com
- ([40.107.236.40] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1nHkHS-00HHXQ-BZ; Wed, 09 Feb 2022 10:32:58 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nHika-00GkTn-If
- for linux-nvme@lists.infradead.org; Wed, 09 Feb 2022 08:54:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AJWAV7k9TV8JqZwToSW6TVFimu2dnomEys6USYbTSQe9RZ7xnnflAAoMKZfh1XTs1SWuT0/7FbAxXrC3tnAdrZWLLL1AmjABit0eaQgX1jIUZ/1Vfdj3sMLg4RY4esuqjFKQRe+VQHEjlcI4C0erAX8HvHUxN0vk3fIjhU3tu/sRHuSWIEUGzcLDW3gsX2mkJRbg+BpefTjPlq3UKOrm0iHTjLedfoJOTZU/CJLmYkTIc8SgV6F0tg0IxCiNn3WJAxx3823qSUaDLSTe/2fBwkNjJH/aM8PLCZ/C11k2EqZpbYvk0nN/VJdaIMFPHUafMVSEgMCjl4J3nzu+19hTdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UMsmTIOvaSaZei9DHmzBuD5lpfBwzHRI4GY0hRu8ycU=;
- b=VetaRlBT+HkI9tuNDx3DKtvN8zsWdKZ63VIRcu0dr0tiM1/RKC51TBoKcvCG1XoY48RiDiyaiCvt6+YpyMqC3afh+N9GzpM9zDRua0MtDclbG8QzSUqtq5admyVVDdtYWV8ERkRGin2DW2k0LoZfriywkViT2Qy2KFoWxcRjBvGNE2nJarPnfjaKorBlgm9LGCTC4IUuenVpDtHQXQYwq17W/JgW/KOHx07ARhEcSNKeeB31BE4YBMyQCMlX0CE/buAF+tm4jNdsVgXzHdEuLDRc4RSqJIupNM5sY1k5yX+49oU3umah/FhR6PJ+zKppZ/OLR9XUn9PmxJQYQHYB6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UMsmTIOvaSaZei9DHmzBuD5lpfBwzHRI4GY0hRu8ycU=;
- b=ewKexWVim6IIuR231LI/JsKMxmGpDXd9aJmQLv0c3AFRSppnyIy/oJCauz82wWu0M1lLQpQQY8Riyw06gQbY1ZcE8f2si9HQe9AQFnP2YmHJ9o0lvwPJ1niFAMwQGh0Z+mCSodSQB7cP0cfNUhKEAyJMjtv+SgAT5W704cMxiRUmSmYFSygvEexgy6Klle/f1/zqfdNRu4UaNYK91YnJUrkKF4G1x7wZ6H9eP0zZ+n2cZuuSmU15Eeq5MFuaQJYbQMeB4VNjnoncdCT2wKdwSMoWLKZBEVv/xZ+HUEJZb3QQgB7QmtsShT08swlJYsb036VkYiWpTQCNajquguGPfg==
-Received: from BN8PR04CA0013.namprd04.prod.outlook.com (2603:10b6:408:70::26)
- by CH2PR12MB4101.namprd12.prod.outlook.com (2603:10b6:610:a8::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Wed, 9 Feb
- 2022 08:54:53 +0000
-Received: from BN8NAM11FT012.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:70:cafe::40) by BN8PR04CA0013.outlook.office365.com
- (2603:10b6:408:70::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
- Transport; Wed, 9 Feb 2022 08:54:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT012.mail.protection.outlook.com (10.13.177.55) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4975.11 via Frontend Transport; Wed, 9 Feb 2022 08:54:52 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Wed, 9 Feb 2022 08:54:52 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Wed, 9 Feb 2022
- 00:54:51 -0800
-Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server id 15.2.986.9 via Frontend
- Transport; Wed, 9 Feb 2022 00:54:50 -0800
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <hch@lst.de>
-CC: <oren@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH 1/1] nvme-rdma: add helpers for mapping/unmapping request
-Date: Wed, 9 Feb 2022 10:54:49 +0200
-Message-ID: <20220209085449.40773-1-mgurtovoy@nvidia.com>
-X-Mailer: git-send-email 2.18.1
+ id 1nHkHL-00HHSp-AG
+ for linux-nvme@lists.infradead.org; Wed, 09 Feb 2022 10:32:54 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220209103243epoutp0454ce5ceb8cdf8645018d948a3c50979e~SF5na386p0494104941epoutp040
+ for <linux-nvme@lists.infradead.org>; Wed,  9 Feb 2022 10:32:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220209103243epoutp0454ce5ceb8cdf8645018d948a3c50979e~SF5na386p0494104941epoutp040
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1644402763;
+ bh=xz1oJ2eauM6E2SlW3H62ZnXt2LbVkrsLkClSGMzxM5I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gJKUwqnhVh4I4eEzb5kLFjE5G7409xfvvGeKt+qACGvieoEoO33v4KfuM0giIpBep
+ DUdJIWHvG8GD1ux0WMT12F46d4uu7OlfaWAUkoLSFw36mrtBgLftQCMaPOJO951k8G
+ TUZtHoLhynEAcr8Q4trqEPbDcjzbI330oWtC5Gh8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220209103242epcas5p1b9d14dff4a692785d11aee0bb2235a63~SF5meCRJc1717917179epcas5p1M;
+ Wed,  9 Feb 2022 10:32:42 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.174]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4Jtx5x45Sxz4x9Pt; Wed,  9 Feb
+ 2022 10:32:37 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 89.B1.06423.14893026; Wed,  9 Feb 2022 19:32:33 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220209102707epcas5p182e25eda8e43b51419436058022171fe~SF0uFk1Oc0483404834epcas5p1n;
+ Wed,  9 Feb 2022 10:27:07 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220209102707epsmtrp2ddfbd25c2e7ca3b3aeb4800bc8d7bd91~SF0uEGeGg1548515485epsmtrp29;
+ Wed,  9 Feb 2022 10:27:07 +0000 (GMT)
+X-AuditID: b6c32a49-b13ff70000001917-ad-6203984151ea
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 2C.7E.29871.AF693026; Wed,  9 Feb 2022 19:27:06 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20220209102702epsmtip28e2eb23f59a89efd5a93ca6a27d2a2cf~SF0qDrTpU0625906259epsmtip2R;
+ Wed,  9 Feb 2022 10:27:02 +0000 (GMT)
+Date: Wed, 9 Feb 2022 15:52:08 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: mpatocka@redhat.com, javier@javigon.com, chaitanyak@nvidia.com,
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dm-devel@redhat.com, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, axboe@kernel.dk, msnitzer@redhat.com,
+ bvanassche@acm.org, martin.petersen@oracle.com, hare@suse.de,
+ kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com, osandov@fb.com,
+ djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
+ tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com,
+ SelvaKumar S <selvakuma.s1@samsung.com>
+Subject: Re: [PATCH v2 03/10] block: Add copy offload support infrastructure
+Message-ID: <20220209102208.GB7698@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f1fc62d1-0044-4d71-65cd-08d9eba9d682
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4101:EE_
-X-Microsoft-Antispam-PRVS: <CH2PR12MB410185C2257453112EB208EBDE2E9@CH2PR12MB4101.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:639;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /0TqBY2oZOFMzg2tFjSw5L6ZOEX35TQ6AYxz6cObIKXfHACSS0k2ryOR0WarWYzYw04Yyk8DdBL7kxLFuJWhqJRQuX7G78NcFZdOEfww44H6MoraGYQZNDmtZ1MVXhEgG+5CUMKbotrmhlspmwg+zObWkHMdWuYXt9hK+PEX0+krUvfxjpPqRPJDUVdF8uRqkOG49hVfXR/L8bQFP7Ee2QJlejYxDhFcMvR5Ia+o1GKXiuLzt42/q14etGKVDEhvmd0xzFK6SnsOrORgHxe1d6EGdONi/+2FDN5Hmyfcylxr78fi+4woQm82BU8TAQYUN1M1CiI3ekQo4YIH+/M3ajQxURLU+hoOSmDrkDHjGHOmogFdYdC+cbgjCQmGSl8YrPWcNT/XJOFEQpV7I2HXK+9G6efqLh5Cp7BG5YV6+cK4+mfUIRLsilCGEG5FkL70jszZBpKHH7DZhc8jnfYn5NJoPq2uNsJVWfzh/0UBRMnw2r6aXYbsUzdOBvE6nUl7ygGfQoxSxNoKE8odQ3Lkdl+y4dCF+uV/jWiWMRf8fw6OXcDkocY+DDytYwzIJCEXm06Cp5mhKD1rIOwYmcdxGQs6YykIXFGQmZBfXbcycw3ZbRwn6T1EXr46eS8NAjcQeFjjZhH20zgIdCbLJEP/9a/fz3uj0O4cjDK1NKHpnT5+y0uUNYUORx6ggnIswKF1NuoY4+idDbnWEnPW2zymnQ==
-X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(86362001)(8936002)(4326008)(8676002)(508600001)(70586007)(70206006)(40460700003)(54906003)(110136005)(316002)(107886003)(36860700001)(5660300002)(82310400004)(26005)(2616005)(186003)(1076003)(2906002)(83380400001)(426003)(47076005)(336012)(356005)(36756003)(81166007)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 08:54:52.8631 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1fc62d1-0044-4d71-65cd-08d9eba9d682
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT012.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4101
+In-Reply-To: <2e976611-6ba1-f986-91ce-d7f59fe4dd47@opensource.wdc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BUdRTHuQ/u3nVCb4D1A6aJWahxldcW4A8SNEK8jsxIOo5OY+AFLm92
+ t92lzGoENxQBQTZrF4hlFYEBJAgIkUdDCG48RR6mvMwAeRQokMYKSQsXGv/7nDPf7znnd878
+ SMy8kmdNRooVrEzMxAiITXj1TaHQ8X0NFuwyonaC9fcXTGHJcDoBv3tiwODjX0ZNoSpdw4NL
+ nbcx2Du2GTbMZpvC7sUEFI5WrKCw/ooKhUUlLSicKMxD4Pn2bhQuPxTBlpUZAqqa7iKwYWAH
+ rG9oxWFuwTgPpvxWQ8BC/QsUZiT1o7Ara5mAN0f6cfjnYisBE1MNvD02dG/fATpDOcujlboh
+ nO7tjKMris8TdOXV03Td/XiCPtPRgtGa+b8J+oJylqBvJD4wpefGB3D68c/9BJ1WVYzQZVX9
+ OF3Z/kWA+UfRuyJYJpSV2bLiEElopDjcS3DgcNAHQW7uLiJHkQfcKbAVM7Gsl8DXP8DRLzLG
+ uBuB7adMTJwxFcDI5QJn710ySZyCtY2QyBVeAlYaGiN1lTrJmVh5nDjcScwqPEUuLu+4GYUn
+ oiPy+5pxaZb05E8zg0Q8ojyajPBJQLmCiW96TZORTaQ5VYeAy+UVBBfMI2DkUTfCBc8QcGlq
+ Gtuw6PMK1i0NCFClzq9bHiHgTmYasarCKXuQWVBtdJAkQe0A7SvkatqScgMzqYn4qh6j2nAw
+ mbZaiU9aUP6gXV261sGMcgCTS2qC41dBa+YYvsp8yg9M5y7wVnkrZQcaq/UoN9EAH2hzpRz7
+ gpQ/OD2gLMC0vorHsTVYmG1YGxRQKQhY7HiAcoEGAcqLSoJT7QZ36v9dq4pREUCdU4Vw+TfA
+ t20/rOc3gwtLY+udzUCNdoPtwLUy3XodK3D3n4R1psGzuSsYt6JGFNQnFOAXkTezXnpd1kv9
+ OHYAurp5Isu4PYyyAYUvSA6FoKzWWYeYFiNWrFQeG87K3aQiMfvZ/zcPkcRWIGu/Z/v+GmT4
+ 9ydOTQhKIk0IIDGBpVnbaSzY3CyU+fwUK5MEyeJiWHkT4ma8VgZmvTVEYvx+YkWQyNXDxdXd
+ 3d3V4113keB1s/bwcsacCmcUbDTLSlnZhg8l+dbxKDW8bX/Y0Jf7coSD3sI5bdSTeGbCSUIk
+ J93zvsEL053p+erQoGFb37Glc/zvPa2H4UGXt1Ovv2VXmv/cLyr1+PG/tHvzGLOd6irhrYx0
+ h8sWB5tPldYe0x/9pFb/ymutV00CJVbaShPHIZvlj6XBWOCe90pJw76uLYNke0M29JsaPemX
+ 5sP6Zdvv/nV0MqfZt3Fcnmt7CdPY0SbTUcUq6dStnl5hpY/h64WS5mb72BTD2SPlZ08EBVjc
+ ru6xIk18+n29yzrnuxTa5w+h5TU+c+96UmB8xVx4bJSVr60/nYJqzz3tSM/HU3UfqhZ+VGs8
+ D4metsYfCaO2TDsvVRUVKQ8LcHkEI9qOyeTMf/YooGnGBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRmVeSWpSXmKPExsWy7bCSvO6vacxJBnfmmlrsufmZ1WL13X42
+ i2kffjJbvD/4mNViUv8MdovfZ88zW1x+wmex991sVosLPxqZLB5v+s9ksWfRJCaLlauPMlk8
+ X76Y0aLz9AUmiz8PDS2O/n/LZjHp0DVGi723tC327D3JYjF/2VN2i+7rO9gslh//x2QxseMq
+ k8W5WX/YLA7fu8pi8frHSTaL1p6f7A7SHpeveHtMbH7H7tG84A6Lx+WzpR6bVnWyeWxeUu+x
+ +2YDm0fTmaPMHjM+fWHz6G1+x+axs/U+q8fHp7dYPN7vu8rm0bdlFaPH+i1XWTw2n64OEIri
+ sklJzcksSy3St0vgypgxKa/gVm7F4oMvmRoY74R0MXJySAiYSBxfvIy1i5GLQ0hgN6PE1jkL
+ 2SESkhLL/h5hhrCFJVb+e84OUfSEUeLx0VesIAkWARWJmcu2ARVxcLAJaEuc/s8BEhYRMJV4
+ 29PKAlLPLHCKReLcwt9g9cICPhKnp68FG8oroCPx4vd0NoihB5gkNvf8ZYdICEqcnPmEBcRm
+ FtCSuPHvJRPIAmYBaYnl/8AWcAq4Sbya/xmsXFRAWeLAtuNMExgFZyHpnoWkexZC9wJG5lWM
+ kqkFxbnpucWGBYZ5qeV6xYm5xaV56XrJ+bmbGMHJQktzB+P2VR/0DjEycTAeYpTgYFYS4T1V
+ z5wkxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA9N8Fy3V
+ /w++qn7x/bmStYLZyKXzQdoqyWiRxv7LS1+lqTn2XVDe9Shbwv+KgPWKKdaq+wVFJkxadWJ2
+ 15FVx6wS1vxxFT3BVOvgczZAYOHFZ6xKJ7fsnPg3xkf237y+hd43V0UUV4kfbZ4lk/Blbmvn
+ JC5mllKNi+6H2RVYgjxKLB0ZZ91bvThhk3Tg8871WxrDsxOLNniuk3/+2SItuedLVNN5+1iz
+ 7a9/Oa56WuwjlS3qqffC5b2Wx825+1zM+w/uXa9rabxG8opk+R/pa66nPVtFtB8xpn1/ypW+
+ 0nSBotrVr39ffBB5OnXzn+hvSnwZGV2fhfYFWqzgqeK2/KhitaTUivegW9WhgP0sE5VYijMS
+ DbWYi4oTAetEuTmFAwAA
+X-CMS-MailID: 20220209102707epcas5p182e25eda8e43b51419436058022171fe
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----whw7GLWDXQn0DNT5QbpmV5iNJmL06zVCQqLt8G63uv36fYb2=_5f708_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220207141918epcas5p4f9badc0c3f3f0913f091c850d2d3bd81
+References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
+ <20220207141348.4235-1-nj.shetty@samsung.com>
+ <CGME20220207141918epcas5p4f9badc0c3f3f0913f091c850d2d3bd81@epcas5p4.samsung.com>
+ <20220207141348.4235-4-nj.shetty@samsung.com>
+ <2e976611-6ba1-f986-91ce-d7f59fe4dd47@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220209_005456_676042_0EC453C6 
-X-CRM114-Status: GOOD (  14.00  )
+X-CRM114-CacheID: sfid-20220209_023251_832261_BC5B0706 
+X-CRM114-Status: GOOD (  40.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,216 +150,454 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce nvme_rdma_dma_map_req/nvme_rdma_dma_unmap_req helper functions
-to improve code readability and ease on the error flow.
+------whw7GLWDXQn0DNT5QbpmV5iNJmL06zVCQqLt8G63uv36fYb2=_5f708_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Reviewed-by: Israel Rukshin <israelr@nvidia.com>
-Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
- drivers/nvme/host/rdma.c | 148 ++++++++++++++++++++++-----------------
- 1 file changed, 84 insertions(+), 64 deletions(-)
+O Tue, Feb 08, 2022 at 04:21:19PM +0900, Damien Le Moal wrote:
+> On 2/7/22 23:13, Nitesh Shetty wrote:
+> > Introduce blkdev_issue_copy which supports source and destination bdevs,
+> > and a array of (source, destination and copy length) tuples.
+> 
+> s/a/an
+>
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 9c55e4be8a39..993e3a076a41 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1283,37 +1283,6 @@ static int nvme_rdma_inv_rkey(struct nvme_rdma_queue *queue,
- 	return ib_post_send(queue->qp, &wr, NULL);
- }
- 
--static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
--		struct request *rq)
--{
--	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
--	struct nvme_rdma_device *dev = queue->device;
--	struct ib_device *ibdev = dev->dev;
--	struct list_head *pool = &queue->qp->rdma_mrs;
--
--	if (!blk_rq_nr_phys_segments(rq))
--		return;
--
--	if (blk_integrity_rq(rq)) {
--		ib_dma_unmap_sg(ibdev, req->metadata_sgl->sg_table.sgl,
--				req->metadata_sgl->nents, rq_dma_dir(rq));
--		sg_free_table_chained(&req->metadata_sgl->sg_table,
--				      NVME_INLINE_METADATA_SG_CNT);
--	}
--
--	if (req->use_sig_mr)
--		pool = &queue->qp->sig_mrs;
--
--	if (req->mr) {
--		ib_mr_pool_put(queue->qp, pool, req->mr);
--		req->mr = NULL;
--	}
--
--	ib_dma_unmap_sg(ibdev, req->data_sgl.sg_table.sgl, req->data_sgl.nents,
--			rq_dma_dir(rq));
--	sg_free_table_chained(&req->data_sgl.sg_table, NVME_INLINE_SG_CNT);
--}
--
- static int nvme_rdma_set_sg_null(struct nvme_command *c)
- {
- 	struct nvme_keyed_sgl_desc *sg = &c->common.dptr.ksgl;
-@@ -1522,22 +1491,27 @@ static int nvme_rdma_map_sg_pi(struct nvme_rdma_queue *queue,
- 	return -EINVAL;
- }
- 
--static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
--		struct request *rq, struct nvme_command *c)
-+static void nvme_rdma_dma_unmap_req(struct ib_device *ibdev, struct request *rq)
- {
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
--	struct nvme_rdma_device *dev = queue->device;
--	struct ib_device *ibdev = dev->dev;
--	int pi_count = 0;
--	int count, ret;
- 
--	req->num_sge = 1;
--	refcount_set(&req->ref, 2); /* send and recv completions */
-+	if (blk_integrity_rq(rq)) {
-+		ib_dma_unmap_sg(ibdev, req->metadata_sgl->sg_table.sgl,
-+				req->metadata_sgl->nents, rq_dma_dir(rq));
-+		sg_free_table_chained(&req->metadata_sgl->sg_table,
-+				      NVME_INLINE_METADATA_SG_CNT);
-+	}
- 
--	c->common.flags |= NVME_CMD_SGL_METABUF;
-+	ib_dma_unmap_sg(ibdev, req->data_sgl.sg_table.sgl, req->data_sgl.nents,
-+			rq_dma_dir(rq));
-+	sg_free_table_chained(&req->data_sgl.sg_table, NVME_INLINE_SG_CNT);
-+}
- 
--	if (!blk_rq_nr_phys_segments(rq))
--		return nvme_rdma_set_sg_null(c);
-+static int nvme_rdma_dma_map_req(struct ib_device *ibdev, struct request *rq,
-+		int *count, int *pi_count)
-+{
-+	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-+	int ret;
- 
- 	req->data_sgl.sg_table.sgl = (struct scatterlist *)(req + 1);
- 	ret = sg_alloc_table_chained(&req->data_sgl.sg_table,
-@@ -1549,9 +1523,9 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
- 	req->data_sgl.nents = blk_rq_map_sg(rq->q, rq,
- 					    req->data_sgl.sg_table.sgl);
- 
--	count = ib_dma_map_sg(ibdev, req->data_sgl.sg_table.sgl,
--			      req->data_sgl.nents, rq_dma_dir(rq));
--	if (unlikely(count <= 0)) {
-+	*count = ib_dma_map_sg(ibdev, req->data_sgl.sg_table.sgl,
-+			       req->data_sgl.nents, rq_dma_dir(rq));
-+	if (unlikely(*count <= 0)) {
- 		ret = -EIO;
- 		goto out_free_table;
- 	}
-@@ -1570,16 +1544,73 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
- 
- 		req->metadata_sgl->nents = blk_rq_map_integrity_sg(rq->q,
- 				rq->bio, req->metadata_sgl->sg_table.sgl);
--		pi_count = ib_dma_map_sg(ibdev,
--					 req->metadata_sgl->sg_table.sgl,
--					 req->metadata_sgl->nents,
--					 rq_dma_dir(rq));
--		if (unlikely(pi_count <= 0)) {
-+		*pi_count = ib_dma_map_sg(ibdev,
-+					  req->metadata_sgl->sg_table.sgl,
-+					  req->metadata_sgl->nents,
-+					  rq_dma_dir(rq));
-+		if (unlikely(*pi_count <= 0)) {
- 			ret = -EIO;
- 			goto out_free_pi_table;
- 		}
- 	}
- 
-+	return 0;
-+
-+out_free_pi_table:
-+	sg_free_table_chained(&req->metadata_sgl->sg_table,
-+			      NVME_INLINE_METADATA_SG_CNT);
-+out_unmap_sg:
-+	ib_dma_unmap_sg(ibdev, req->data_sgl.sg_table.sgl, req->data_sgl.nents,
-+			rq_dma_dir(rq));
-+out_free_table:
-+	sg_free_table_chained(&req->data_sgl.sg_table, NVME_INLINE_SG_CNT);
-+	return ret;
-+}
-+
-+static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
-+		struct request *rq)
-+{
-+	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_rdma_device *dev = queue->device;
-+	struct ib_device *ibdev = dev->dev;
-+	struct list_head *pool = &queue->qp->rdma_mrs;
-+
-+	if (!blk_rq_nr_phys_segments(rq))
-+		return;
-+
-+	if (req->use_sig_mr)
-+		pool = &queue->qp->sig_mrs;
-+
-+	if (req->mr) {
-+		ib_mr_pool_put(queue->qp, pool, req->mr);
-+		req->mr = NULL;
-+	}
-+
-+	nvme_rdma_dma_unmap_req(ibdev, rq);
-+}
-+
-+
-+static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
-+		struct request *rq, struct nvme_command *c)
-+{
-+	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_rdma_device *dev = queue->device;
-+	struct ib_device *ibdev = dev->dev;
-+	int pi_count = 0;
-+	int count, ret;
-+
-+	req->num_sge = 1;
-+	refcount_set(&req->ref, 2); /* send and recv completions */
-+
-+	c->common.flags |= NVME_CMD_SGL_METABUF;
-+
-+	if (!blk_rq_nr_phys_segments(rq))
-+		return nvme_rdma_set_sg_null(c);
-+
-+	ret = nvme_rdma_dma_map_req(ibdev, rq, &count, &pi_count);
-+	if (unlikely(ret))
-+		return ret;
-+
- 	if (req->use_sig_mr) {
- 		ret = nvme_rdma_map_sg_pi(queue, req, c, count, pi_count);
- 		goto out;
-@@ -1603,23 +1634,12 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
- 	ret = nvme_rdma_map_sg_fr(queue, req, c, count);
- out:
- 	if (unlikely(ret))
--		goto out_unmap_pi_sg;
-+		goto out_dma_unmap_req;
- 
- 	return 0;
- 
--out_unmap_pi_sg:
--	if (blk_integrity_rq(rq))
--		ib_dma_unmap_sg(ibdev, req->metadata_sgl->sg_table.sgl,
--				req->metadata_sgl->nents, rq_dma_dir(rq));
--out_free_pi_table:
--	if (blk_integrity_rq(rq))
--		sg_free_table_chained(&req->metadata_sgl->sg_table,
--				      NVME_INLINE_METADATA_SG_CNT);
--out_unmap_sg:
--	ib_dma_unmap_sg(ibdev, req->data_sgl.sg_table.sgl, req->data_sgl.nents,
--			rq_dma_dir(rq));
--out_free_table:
--	sg_free_table_chained(&req->data_sgl.sg_table, NVME_INLINE_SG_CNT);
-+out_dma_unmap_req:
-+	nvme_rdma_dma_unmap_req(ibdev, rq);
- 	return ret;
- }
- 
--- 
-2.18.1
+acked
 
+> > Introduce REQ_COP copy offload operation flag. Create a read-write
+> 
+> REQ_COPY ?
+>
+
+acked
+
+> > bio pair with a token as payload and submitted to the device in order.
+> > the read request populates token with source specific information which
+> > is then passed with write request.
+> > Ths design is courtsey Mikulas Patocka<mpatocka@>'s token based copy
+> 
+> s/Ths design is courtsey/This design is courtesy of
+>
+
+acked
+
+> > 
+> > Larger copy operation may be divided if necessary by looking at device
+> > limits.
+> 
+> may or will ?
+> by looking at -> depending on the ?
+> 
+
+Larger copy will be divided, based on max_copy_sectors,max_copy_range_sector
+limits. Will add in next series.
+
+> > 
+> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> > Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+> > Signed-off-by: Arnav Dawn <arnav.dawn@samsung.com>
+> > ---
+> >  block/blk-lib.c           | 216 ++++++++++++++++++++++++++++++++++++++
+> >  block/blk-settings.c      |   2 +
+> >  block/blk.h               |   2 +
+> >  include/linux/blk_types.h |  20 ++++
+> >  include/linux/blkdev.h    |   3 +
+> >  include/uapi/linux/fs.h   |  14 +++
+> >  6 files changed, 257 insertions(+)
+> > 
+> > diff --git a/block/blk-lib.c b/block/blk-lib.c
+> > index 1b8ced45e4e5..3ae2c27b566e 100644
+> > --- a/block/blk-lib.c
+> > +++ b/block/blk-lib.c
+> > @@ -135,6 +135,222 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+> >  }
+> >  EXPORT_SYMBOL(blkdev_issue_discard);
+> >  
+> > +/*
+> > + * Wait on and process all in-flight BIOs.  This must only be called once
+> > + * all bios have been issued so that the refcount can only decrease.
+> > + * This just waits for all bios to make it through bio_copy_end_io. IO
+> > + * errors are propagated through cio->io_error.
+> > + */
+> > +static int cio_await_completion(struct cio *cio)
+> > +{
+> > +	int ret = 0;
+> > +
+> > +	while (atomic_read(&cio->refcount)) {
+> > +		cio->waiter = current;
+> > +		__set_current_state(TASK_UNINTERRUPTIBLE);
+> > +		blk_io_schedule();
+> > +		/* wake up sets us TASK_RUNNING */
+> > +		cio->waiter = NULL;
+> > +		ret = cio->io_err;
+> 
+> Why is this in the loop ?
+>
+
+agree.
+
+> > +	}
+> > +	kvfree(cio);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void bio_copy_end_io(struct bio *bio)
+> > +{
+> > +	struct copy_ctx *ctx = bio->bi_private;
+> > +	struct cio *cio = ctx->cio;
+> > +	sector_t clen;
+> > +	int ri = ctx->range_idx;
+> > +
+> > +	if (bio->bi_status) {
+> > +		cio->io_err = bio->bi_status;
+> > +		clen = (bio->bi_iter.bi_sector - ctx->start_sec) << SECTOR_SHIFT;
+> > +		cio->rlist[ri].comp_len = min_t(sector_t, clen, cio->rlist[ri].comp_len);
+> > +	}
+> > +	__free_page(bio->bi_io_vec[0].bv_page);
+> > +	kfree(ctx);
+> > +	bio_put(bio);
+> > +
+> > +	if (atomic_dec_and_test(&cio->refcount) && cio->waiter)
+> > +		wake_up_process(cio->waiter);
+> 
+> This looks racy: the cio->waiter test and wakeup are not atomic.
+
+agreed, will remove atomic for refcount and add if check and wakeup in locks
+in next version.
+
+> > +}
+> > +
+> > +/*
+> > + * blk_copy_offload	- Use device's native copy offload feature
+> > + * Go through user provide payload, prepare new payload based on device's copy offload limits.
+> > + */
+> > +int blk_copy_offload(struct block_device *src_bdev, int nr_srcs,
+> > +		struct range_entry *rlist, struct block_device *dst_bdev, gfp_t gfp_mask)
+> > +{
+> > +	struct request_queue *sq = bdev_get_queue(src_bdev);
+> > +	struct request_queue *dq = bdev_get_queue(dst_bdev);
+> > +	struct bio *read_bio, *write_bio;
+> > +	struct copy_ctx *ctx;
+> > +	struct cio *cio;
+> > +	struct page *token;
+> > +	sector_t src_blk, copy_len, dst_blk;
+> > +	sector_t remaining, max_copy_len = LONG_MAX;
+> > +	int ri = 0, ret = 0;
+> > +
+> > +	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
+> > +	if (!cio)
+> > +		return -ENOMEM;
+> > +	atomic_set(&cio->refcount, 0);
+> > +	cio->rlist = rlist;
+> > +
+> > +	max_copy_len = min3(max_copy_len, (sector_t)sq->limits.max_copy_sectors,
+> > +			(sector_t)dq->limits.max_copy_sectors);
+> 
+> sq->limits.max_copy_sectors is already by definition smaller than
+> LONG_MAX, so there is no need for the min3 here.
+>
+
+acked
+
+> > +	max_copy_len = min3(max_copy_len, (sector_t)sq->limits.max_copy_range_sectors,
+> > +			(sector_t)dq->limits.max_copy_range_sectors) << SECTOR_SHIFT;> +
+> > +	for (ri = 0; ri < nr_srcs; ri++) {
+> > +		cio->rlist[ri].comp_len = rlist[ri].len;
+> > +		for (remaining = rlist[ri].len, src_blk = rlist[ri].src, dst_blk = rlist[ri].dst;
+> > +			remaining > 0;
+> > +			remaining -= copy_len, src_blk += copy_len, dst_blk += copy_len) {
+> 
+> This is unreadable.
+> 
+
+Sure, I will simplify the loops in next version.
+
+> > +			copy_len = min(remaining, max_copy_len);
+> > +
+> > +			token = alloc_page(gfp_mask);
+> > +			if (unlikely(!token)) {
+> > +				ret = -ENOMEM;
+> > +				goto err_token;
+> > +			}
+> > +
+> > +			read_bio = bio_alloc(src_bdev, 1, REQ_OP_READ | REQ_COPY | REQ_NOMERGE,
+> > +					gfp_mask);
+> > +			if (!read_bio) {
+> > +				ret = -ENOMEM;
+> > +				goto err_read_bio;
+> > +			}
+> > +			read_bio->bi_iter.bi_sector = src_blk >> SECTOR_SHIFT;
+> > +			read_bio->bi_iter.bi_size = copy_len;
+> > +			__bio_add_page(read_bio, token, PAGE_SIZE, 0);
+> > +			ret = submit_bio_wait(read_bio);
+> > +			if (ret) {
+> > +				bio_put(read_bio);
+> > +				goto err_read_bio;
+> > +			}
+> > +			bio_put(read_bio);
+> > +			ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
+> > +			if (!ctx) {
+> > +				ret = -ENOMEM;
+> > +				goto err_read_bio;
+> > +			}
+> 
+> This should be done before the read.
+>
+
+acked.
+
+> > +			ctx->cio = cio;
+> > +			ctx->range_idx = ri;
+> > +			ctx->start_sec = rlist[ri].src;
+> > +
+> > +			write_bio = bio_alloc(dst_bdev, 1, REQ_OP_WRITE | REQ_COPY | REQ_NOMERGE,
+> > +					gfp_mask);
+> > +			if (!write_bio) {
+> > +				ret = -ENOMEM;
+> > +				goto err_read_bio;
+> > +			}
+> > +
+> > +			write_bio->bi_iter.bi_sector = dst_blk >> SECTOR_SHIFT;
+> > +			write_bio->bi_iter.bi_size = copy_len;
+> > +			__bio_add_page(write_bio, token, PAGE_SIZE, 0);
+> > +			write_bio->bi_end_io = bio_copy_end_io;
+> > +			write_bio->bi_private = ctx;
+> > +			atomic_inc(&cio->refcount);
+> > +			submit_bio(write_bio);
+> > +		}
+> > +	}
+> > +
+> > +	/* Wait for completion of all IO's*/
+> > +	return cio_await_completion(cio);
+> > +
+> > +err_read_bio:
+> > +	__free_page(token);
+> > +err_token:
+> > +	rlist[ri].comp_len = min_t(sector_t, rlist[ri].comp_len, (rlist[ri].len - remaining));
+> > +
+> > +	cio->io_err = ret;
+> > +	return cio_await_completion(cio);
+> > +}
+> > +
+> > +static inline int blk_copy_sanity_check(struct block_device *src_bdev,
+> > +		struct block_device *dst_bdev, struct range_entry *rlist, int nr)
+> > +{
+> > +	unsigned int align_mask = max(
+> > +			bdev_logical_block_size(dst_bdev), bdev_logical_block_size(src_bdev)) - 1;
+> > +	sector_t len = 0;
+> > +	int i;
+> > +
+> > +	for (i = 0; i < nr; i++) {
+> > +		if (rlist[i].len)
+> > +			len += rlist[i].len;
+> > +		else
+> > +			return -EINVAL;
+> > +		if ((rlist[i].dst & align_mask) || (rlist[i].src & align_mask) ||
+> > +				(rlist[i].len & align_mask))
+> > +			return -EINVAL;
+> > +		rlist[i].comp_len = 0;
+> > +	}
+> > +
+> > +	if (!len && len >= MAX_COPY_TOTAL_LENGTH)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static inline bool blk_check_copy_offload(struct request_queue *src_q,
+> > +		struct request_queue *dest_q)
+> > +{
+> > +	if (dest_q->limits.copy_offload == BLK_COPY_OFFLOAD &&
+> > +			src_q->limits.copy_offload == BLK_COPY_OFFLOAD)
+> > +		return true;
+> > +
+> > +	return false;
+> > +}
+> > +
+> > +/*
+> > + * blkdev_issue_copy - queue a copy
+> > + * @src_bdev:	source block device
+> > + * @nr_srcs:	number of source ranges to copy
+> > + * @src_rlist:	array of source ranges
+> > + * @dest_bdev:	destination block device
+> > + * @gfp_mask:   memory allocation flags (for bio_alloc)
+> > + * @flags:	BLKDEV_COPY_* flags to control behaviour
+> > + *
+> > + * Description:
+> > + *	Copy source ranges from source block device to destination block device.
+> > + *	length of a source range cannot be zero.
+> > + */
+> > +int blkdev_issue_copy(struct block_device *src_bdev, int nr,
+> > +		struct range_entry *rlist, struct block_device *dest_bdev,
+> > +		gfp_t gfp_mask, int flags)
+> > +{
+> > +	struct request_queue *src_q = bdev_get_queue(src_bdev);
+> > +	struct request_queue *dest_q = bdev_get_queue(dest_bdev);
+> > +	int ret = -EINVAL;
+> > +
+> > +	if (!src_q || !dest_q)
+> > +		return -ENXIO;
+> > +
+> > +	if (!nr)
+> > +		return -EINVAL;
+> > +
+> > +	if (nr >= MAX_COPY_NR_RANGE)
+> > +		return -EINVAL;
+> > +
+> > +	if (bdev_read_only(dest_bdev))
+> > +		return -EPERM;
+> > +
+> > +	ret = blk_copy_sanity_check(src_bdev, dest_bdev, rlist, nr);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (blk_check_copy_offload(src_q, dest_q))
+> > +		ret = blk_copy_offload(src_bdev, nr, rlist, dest_bdev, gfp_mask);
+> > +
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL(blkdev_issue_copy);
+> > +
+> >  /**
+> >   * __blkdev_issue_write_same - generate number of bios with same page
+> >   * @bdev:	target blockdev
+> > diff --git a/block/blk-settings.c b/block/blk-settings.c
+> > index 818454552cf8..4c8d48b8af25 100644
+> > --- a/block/blk-settings.c
+> > +++ b/block/blk-settings.c
+> > @@ -545,6 +545,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+> >  	t->max_segment_size = min_not_zero(t->max_segment_size,
+> >  					   b->max_segment_size);
+> >  
+> > +	t->max_copy_sectors = min_not_zero(t->max_copy_sectors, b->max_copy_sectors);
+> 
+> Why min_not_zero ? If one of the underlying drive does not support copy
+> offload, you cannot report that the top drive does.
+>
+
+agreed. Will update in next series.
+
+> > +
+> >  	t->misaligned |= b->misaligned;
+> >  
+> >  	alignment = queue_limit_alignment_offset(b, start);
+> > diff --git a/block/blk.h b/block/blk.h
+> > index abb663a2a147..94d2b055750b 100644
+> > --- a/block/blk.h
+> > +++ b/block/blk.h
+> > @@ -292,6 +292,8 @@ static inline bool blk_may_split(struct request_queue *q, struct bio *bio)
+> >  		break;
+> >  	}
+> >  
+> > +	if (unlikely(op_is_copy(bio->bi_opf)))
+> > +		return false;
+> >  	/*
+> >  	 * All drivers must accept single-segments bios that are <= PAGE_SIZE.
+> >  	 * This is a quick and dirty check that relies on the fact that
+> > diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> > index 5561e58d158a..0a3fee8ad61c 100644
+> > --- a/include/linux/blk_types.h
+> > +++ b/include/linux/blk_types.h
+> > @@ -418,6 +418,7 @@ enum req_flag_bits {
+> >  	/* for driver use */
+> >  	__REQ_DRV,
+> >  	__REQ_SWAP,		/* swapping request. */
+> > +	__REQ_COPY,		/* copy request*/
+> >  	__REQ_NR_BITS,		/* stops here */
+> >  };
+> >  
+> > @@ -442,6 +443,7 @@ enum req_flag_bits {
+> >  
+> >  #define REQ_DRV			(1ULL << __REQ_DRV)
+> >  #define REQ_SWAP		(1ULL << __REQ_SWAP)
+> > +#define REQ_COPY		(1ULL << __REQ_COPY)
+> >  
+> >  #define REQ_FAILFAST_MASK \
+> >  	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
+> > @@ -498,6 +500,11 @@ static inline bool op_is_discard(unsigned int op)
+> >  	return (op & REQ_OP_MASK) == REQ_OP_DISCARD;
+> >  }
+> >  
+> > +static inline bool op_is_copy(unsigned int op)
+> > +{
+> > +	return (op & REQ_COPY);
+> > +}
+> > +
+> >  /*
+> >   * Check if a bio or request operation is a zone management operation, with
+> >   * the exception of REQ_OP_ZONE_RESET_ALL which is treated as a special case
+> > @@ -532,4 +539,17 @@ struct blk_rq_stat {
+> >  	u64 batch;
+> >  };
+> >  
+> > +struct cio {
+> > +	atomic_t refcount;
+> > +	blk_status_t io_err;
+> > +	struct range_entry *rlist;
+> > +	struct task_struct *waiter;     /* waiting task (NULL if none) */
+> > +};
+> > +
+> > +struct copy_ctx {
+> > +	int range_idx;
+> > +	sector_t start_sec;
+> > +	struct cio *cio;
+> > +};
+> > +
+> >  #endif /* __LINUX_BLK_TYPES_H */
+> > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> > index f63ae50f1de3..15597488040c 100644
+> > --- a/include/linux/blkdev.h
+> > +++ b/include/linux/blkdev.h
+> > @@ -1120,6 +1120,9 @@ extern int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+> >  		struct bio **biop);
+> >  struct bio *bio_map_kern(struct request_queue *q, void *data, unsigned int len,
+> >  		gfp_t gfp_mask);
+> > +int blkdev_issue_copy(struct block_device *src_bdev, int nr_srcs,
+> > +		struct range_entry *src_rlist, struct block_device *dest_bdev,
+> > +		gfp_t gfp_mask, int flags);
+> >  
+> >  #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
+> >  #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes */
+> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > index bdf7b404b3e7..55bca8f6e8ed 100644
+> > --- a/include/uapi/linux/fs.h
+> > +++ b/include/uapi/linux/fs.h
+> > @@ -64,6 +64,20 @@ struct fstrim_range {
+> >  	__u64 minlen;
+> >  };
+> >  
+> > +/* Maximum no of entries supported */
+> > +#define MAX_COPY_NR_RANGE	(1 << 12)
+> > +
+> > +/* maximum total copy length */
+> > +#define MAX_COPY_TOTAL_LENGTH	(1 << 21)
+> > +
+> > +/* Source range entry for copy */
+> > +struct range_entry {
+> > +	__u64 src;
+> > +	__u64 dst;
+> > +	__u64 len;
+> > +	__u64 comp_len;
+> > +};
+> > +
+> >  /* extent-same (dedupe) ioctls; these MUST match the btrfs ioctl definitions */
+> >  #define FILE_DEDUPE_RANGE_SAME		0
+> >  #define FILE_DEDUPE_RANGE_DIFFERS	1
+> 
+> 
+> -- 
+> Damien Le Moal
+> Western Digital Research
+>
+
+ -- 
+Thank you
+Nitesh
+
+------whw7GLWDXQn0DNT5QbpmV5iNJmL06zVCQqLt8G63uv36fYb2=_5f708_
+Content-Type: text/plain; charset="utf-8"
+
+
+------whw7GLWDXQn0DNT5QbpmV5iNJmL06zVCQqLt8G63uv36fYb2=_5f708_--
 
