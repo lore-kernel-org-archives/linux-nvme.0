@@ -4,79 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFDB6C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Feb 2022 13:57:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA14DC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Feb 2022 14:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qVzYl3RlPID/1J9EWvCP0Ca8Qcit/GaDc2G90eYSD+Y=; b=YY5ylUF8QEqZGPkYAm7rpJi7+G
-	B9WgFpI6/4y55pYNF+0VScbB/I6or70pmiG+viRYgWrJml4ZSHCHAzeJd9ge5TvPtyv4kENxCCEfP
-	fgVTspR6zKvq4gDXciiIV+6UmSQp/fyO/NRMGGvu1bljoVlEncgSh5LcX1lxVP7glzWdeiWzJMuJ9
-	ju/g184nUvJW0pvywc0UCcVG/aq9zx8afhT+OGqA0a77Dq68jEg0L+6YHwBsfDFvnych6PbLq8lul
-	8Sznv/o5I0l9vz1Bys2JEAuokRGtbGgsCzEBY+T0cPPPZYJSDEnZFFImzRVwcD7GncppYcgzLlPZh
-	H/e127qw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=J89NmbsltTIUWRi67SrsyAxUlHplDI9cjXCb8El47TM=; b=5FibXrEzkp1bVWXyPbTFKItpCj
+	+z7UW/JfobNdHJcsuEtcx9LBTgglkOqQXbKZ6PCwaKaA6Xxg/SU86XCofhRb0MeswWCHsZJY96jTw
+	+Uyph7MoGN/etxuEoQy8nKRzGrZov0cZwFafjl4THfzyAu6gkPIvFEmY9WgNHsff2zNIgLqrMcCsb
+	MLe5EBzz6f5ikIqT/+oHvXpm1ckKMiDOEgep4Kj7KM4sqC8AM8TFukXD82/PTtws/+5QgFRoG+ASM
+	Wo6VO3kSspOoK54o5ytngM39SyIJPYB7SgGe0HdD4c5X37TyQrxrH/CY9U/BY5abH8JJX6sNggYmb
+	KbWuXZGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nI9wk-003zQr-Kh; Thu, 10 Feb 2022 13:57:18 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1nIAsG-00495z-TY; Thu, 10 Feb 2022 14:56:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nI9wh-003zOk-3s
- for linux-nvme@lists.infradead.org; Thu, 10 Feb 2022 13:57:17 +0000
-Received: by mail-pf1-x431.google.com with SMTP id d187so10339468pfa.10
- for <linux-nvme@lists.infradead.org>; Thu, 10 Feb 2022 05:57:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qVzYl3RlPID/1J9EWvCP0Ca8Qcit/GaDc2G90eYSD+Y=;
- b=LKl4z5JRyaO+PUQiRs9JHd7OdFbbp52Lv8apqasXRv4aStNfB+l4IFQQVUlXc28apu
- uh9mhThuVQTf3LXVfbdwp3kjdP2leon4kcPp1St8klcjimLjOwz14ITEGliL/dygvA+v
- KrhDCsvRuDYMHL765CS/jHpsU/FCvpZiRQidxahdxxqdY4sWTSLUzB0RvTRcLTjkEJqD
- TGs4vUkfS8JHQwp1/wNIR0enaaLEKxTSUmqYYAUJmQrl3AU6bC6wZjdcxDYW7+r2FC6A
- 66e9wgUCfNaHEYIXOyXBuV0oj8SpS3CZzh7iUyIFPaK7uA2zVr9iYVnRzqnjvkk+l1tw
- nY8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qVzYl3RlPID/1J9EWvCP0Ca8Qcit/GaDc2G90eYSD+Y=;
- b=m10fJ4NFR8G1+2myLEhlvJZz5G+8fZ/B1z2AWg9BZfLerYWAHPe3gBEmEP+CvWfegq
- QCo+q85nBKcWor3Xt4agc4tNj4w0lWpObxEIC1VbWKj8MH9URzE+iFiad8QT4/t+979U
- FaulxX9xAA0xHx5ZBeAWarIIxKCKhbKwX2sZerPd6S4SyMb4xD3GCA5SJpTG9YHb3GzD
- 8aw7zDuoUGlBYGoTA10Xeoh2IQemsy+JHguddOG6P71Th34Th0yOltB5aflQnE5v015z
- TMSM40kxKvNVsyjrrXMwDXoNc0YZx7M99PJBfbZezS/Fq6neloBCeBnb5/7QcsgN02UX
- /+mA==
-X-Gm-Message-State: AOAM530lVWu+8wdUwcwDRa/SCkiKzGgKtawjb4jUmyRNOWwZ2y6CmXcu
- QGfaglLQgn0Ks6sGBNVXyo4FUaR4TvQGbA==
-X-Google-Smtp-Source: ABdhPJw1FKxiTUNd0OpgPlNdACQm6dz2Y0aIO/DgWrV1QOf113ghOARQTDstU8K9fNFH7D7b1ObIsw==
-X-Received: by 2002:a65:4c43:: with SMTP id l3mr6228379pgr.494.1644501432971; 
- Thu, 10 Feb 2022 05:57:12 -0800 (PST)
-Received: from [192.168.1.116] ([198.8.77.157])
- by smtp.gmail.com with ESMTPSA id o9sm20902431pfw.86.2022.02.10.05.57.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 05:57:12 -0800 (PST)
-Subject: Re: [GIT PULL] nvme fixes for Linux 5.17
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <YgTB0csAbKyI5WvN@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <d165d411-4499-12aa-fb59-05ff1e2faaa2@kernel.dk>
-Date: Thu, 10 Feb 2022 06:57:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1nIAsD-004959-KW
+ for linux-nvme@lists.infradead.org; Thu, 10 Feb 2022 14:56:43 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B463661AFD;
+ Thu, 10 Feb 2022 14:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4478AC004E1;
+ Thu, 10 Feb 2022 14:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644504999;
+ bh=I+gIcY+KfvtSU0JaeIJ0CIXiLVlwL3aHah5tuIc7NZA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q8QRs2XqQFepijiM7/NN1q2GqcdaCOx416RHZWlgBNP9kkNC9vEbHUUgI0LXcyLAT
+ ef8do+sIhS8il5uGw0UCTP43qbim0qRfur0OOVWovLXZXJ+JQUm93z1VjtGSrtIIIH
+ DGlA86q+MbRwXZPEM1d+BNVXsrdjgHa+fLhGo+fS68a7IyX3fw8MMFgDoV3nZV0hmN
+ pPPOtZPizgdOpaisXrnkgGYP3+OvxIeQpP63cSGP1rtDOZl5gYNyxW8PRc2lND7t6X
+ JRdMb/sjjfv4U01wYFtU8zxldgzAvvubYxI5PCi79ZHPvj6ttBHTQkCsshcO/Dh8Mh
+ 9oeiw1mOjGAqg==
+Date: Thu, 10 Feb 2022 06:56:35 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Len Brown <lenb@kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ m.heingbecker@googlemail.com, linux-nvme <linux-nvme@lists.infradead.org>
+Subject: Re: [Bug] nvme blocks PC10 since v5.15 - bisected
+Message-ID: <20220210145635.GA1617879@dhcp-10-100-145-180.wdc.com>
+References: <CAJZ5v0hvvYedSn5u-i7sjpoEHU4P65t7i1b2pVn=S1q0nHWgqQ@mail.gmail.com>
+ <20220121210905.GA1114868@dhcp-10-100-145-180.wdc.com>
+ <CAJZ5v0gybg+Wk+008UBFnm2WqrxowOarhst9Eh+91BN823mqNA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YgTB0csAbKyI5WvN@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0gybg+Wk+008UBFnm2WqrxowOarhst9Eh+91BN823mqNA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220210_055715_184654_D8635AAD 
-X-CRM114-Status: GOOD (  10.39  )
+X-CRM114-CacheID: sfid-20220210_065641_753138_8A407219 
+X-CRM114-Status: GOOD (  28.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,18 +75,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/10/22 12:42 AM, Christoph Hellwig wrote:
-> The following changes since commit b13e0c71856817fca67159b11abac350e41289f5:
+On Thu, Jan 27, 2022 at 08:02:07PM +0100, Rafael J. Wysocki wrote:
+> On Fri, Jan 21, 2022 at 10:09 PM Keith Busch <kbusch@kernel.org> wrote:
+> >
+> > On Fri, Jan 21, 2022 at 08:00:49PM +0100, Rafael J. Wysocki wrote:
+> > > Hi Keith,
+> > >
+> > > It is reported that the following commit
+> > >
+> > > commit e5ad96f388b765fe6b52f64f37e910c0ba4f3de7
+> > > Author: Keith Busch <kbusch@kernel.org>
+> > > Date:   Tue Jul 27 09:40:44 2021 -0700
+> > >
+> > >    nvme-pci: disable hmb on idle suspend
+> > >
+> > >    An idle suspend may or may not disable host memory access from devices
+> > >    placed in low power mode. Either way, it should always be safe to
+> > >    disable the host memory buffer prior to entering the low power mode, and
+> > >    this should also always be faster than a full device shutdown.
+> > >
+> > >    Signed-off-by: Keith Busch <kbusch@kernel.org>
+> > >    Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> > >    Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > >
+> > > is the source of a serious power regression occurring since 5.15
+> > > (please see https://bugzilla.kernel.org/show_bug.cgi?id=215467).
+> > >
+> > > After this commit, the SoC on the affected system cannot enter
+> > > C-states deeper than PC2 while suspended to idle which basically
+> > > defeats the purpose of suspending.
+> > >
+> > > What may be happening is that nvme_disable_prepare_reset() that is not
+> > > called any more in the ndev->nr_host_mem_descs case somehow causes the
+> > > LTR of the device to change to "no requirement" which allows deeper
+> > > C-states to be entered.
+> > >
+> > > Can you have a look at this, please?
+> >
+> > I thought platforms that wanted full device shutdown  behaviour would
+> > always set acpi_storage_d3. Is that not happening here?
 > 
->   block: bio-integrity: Advance seed correctly for larger interval sizes (2022-02-03 21:09:24 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-5.17-2022-02-10
+> Evidently, it isn't.
 
-Pulled, thanks.
-
--- 
-Jens Axboe
-
+Apparently it works fine when you disable VMD, so sounds like the
+acpi_storage_d3 is set, but we fail to find the correct acpi companion
+device when it's in a VMD domain.
 
