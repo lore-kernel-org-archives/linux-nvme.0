@@ -4,75 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C64CC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Feb 2022 22:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5592EC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Feb 2022 23:59:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dqHpYTRHZGMah/N5IZbiKNt6sU5W73cjUR2JOzJZ12I=; b=S6LAF9ABW7S8vPYGs+skBxowri
-	yvaUxnBrQHbIeGUQznZgSWKmwDnM3uTpHHlQ48YshKL2QLP/kLnr4iY0HzL2PCh5KkBtbvj6orS0k
-	tA4SnZKaO+O/5Y3w+TnwTkrVHZnUUL5sOGgsi8vF0ytBPdTYDARx64LaLjgRcQzSZ3rPGUwp4XV4g
-	ODd53Vs1o9etpzoicPOGknV6GkQLGJjIBcaLyHWopyBXrwhfktp6lfD48Ii+KAtuCLtZN/dF9U1Hz
-	u6tDlr3fVcpGFs3+WSL/JJ/gMjZl/dMus1pbqYvySJJeRAC0D//yaBVKXBuuoEYwjsxituf9d+PU7
-	WqQvknWw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dEy36uerVyeFznADueM5sIDLvrBlxunsFvauXBfW+hs=; b=y7DrwqNG4CkHxToU39UKRIa0gH
+	febLjZcBPvSC23opW90hgR6m8b9Z7J/5725Zipep0iY1W6Ql5MPYUYmLpJHHej8Qgs2uAI6fxm634
+	jeLbEGo0WzEs7hY3vhkMxbRGdkXmESSgGuJNF93uNNXzT+yjS24+bRwXsl2SQAu+uJY2h5Yw9A3Iz
+	octtQqHOvbC8feWV7YuK6Jslrq97nulwZDqvivRlHKXdnOV+INkrkZ4lPKhP7J/ZinGrtuX0fErBK
+	xm5HvJ+ycXLdcuobKhGX15F2W0ui0MHRk5OAwVmI35V8r3i9YnxswIVRmH03JkVuzQ6KRVj36eLkK
+	aj9fqJqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nIHro-0051zw-GX; Thu, 10 Feb 2022 22:24:44 +0000
-Received: from mail-ed1-f44.google.com ([209.85.208.44])
+	id 1nIJL3-005F3Q-UC; Thu, 10 Feb 2022 23:59:02 +0000
+Received: from mail-mw2nam12on2061d.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::61d]
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nIHrl-0051zb-9W
- for linux-nvme@lists.infradead.org; Thu, 10 Feb 2022 22:24:42 +0000
-Received: by mail-ed1-f44.google.com with SMTP id y17so11493353edd.10
- for <linux-nvme@lists.infradead.org>; Thu, 10 Feb 2022 14:24:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dqHpYTRHZGMah/N5IZbiKNt6sU5W73cjUR2JOzJZ12I=;
- b=E5qbrI1YTmHf0jG6995aV6JShWk35z0wuLjDj8CB/uy/h5YjHmyL/p3sDCQio6h8jf
- nchqUohpREQypy7W4x45N11/kI62RXIr3D1bGmNCnK1CBSPIem9vIhPoaW0Hafn6e3Jx
- FjgW/Y0RsKr01UfzRjgRIlo7kXN8YdD4OW/vQPVKDZNncqkn0NkNFL+V2MaqF449zqE6
- G2Vzr87UwzMYnQCwwXuVRhF9BlDUVrh7AZvC4t3o2oLpozRc62xz4hK3y9DQlfq5C42B
- +/geTbMPMKqnMBMnt5VXkvojc0ycoS1Ygz4X94ETJ74pfbl1TJ1xF8nOIWOUV7vqcn8A
- 7J2g==
-X-Gm-Message-State: AOAM530+RiKyCcMcvjVloAmkEP5UuNdJcE7IVzY8v5KH3SHG01KhUhkv
- +SHhvadjunO4j8HTSayTpyg=
-X-Google-Smtp-Source: ABdhPJwP2JIUaDxOduTd7f2mC9hoR2s5lsVcwxk0fjCrAGyybhMCj8f/tKrdJ/gvFyF1rhy+Jp4qtA==
-X-Received: by 2002:a05:6402:d0d:: with SMTP id
- eb13mr10416413edb.83.1644531879028; 
- Thu, 10 Feb 2022 14:24:39 -0800 (PST)
-Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
- [46.117.116.119])
- by smtp.gmail.com with ESMTPSA id n24sm4357535ejb.23.2022.02.10.14.24.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 14:24:38 -0800 (PST)
-Message-ID: <fd8600bd-aa73-82f7-3ca7-ed7f766f1568@grimberg.me>
-Date: Fri, 11 Feb 2022 00:24:36 +0200
+ id 1nIJL1-005F2J-DN
+ for linux-nvme@lists.infradead.org; Thu, 10 Feb 2022 23:59:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ayCW0zz9P3G+6GTpmLmIsAbW0/OE2/WjXYkARsmL1TW58GvRIaS8uGk2INhKAJgro3lVYpJXVMNDMrwQlHoxUeOxSg4dr2sdZ+zORhjcqv56Q/Me3HAAYS6S32kgS66tqA3Hevl79zTMeLS1mSxKIi8iiH3A8WirXuHw70mdWYQBCfglITQ2X213CDLpB9LMBcfjUuIWNSMfD+kXBlk/WgJBdM4LQPGZuPbZvLUHFBNTno5Rd8B6D1fckwUhzALRoAH9H08djLCp4IH5aJqwvx+ab/4nvXwE27nH6RyLc892GmMawHRA6h9utE6hZcCnviwuwYaZr+CB+QSeG6PlgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dEy36uerVyeFznADueM5sIDLvrBlxunsFvauXBfW+hs=;
+ b=B2Ekxrf5vk2Zsa706r6L9rQWu1CMtE3ncmmVW7YXB3I80O+g9/yJ/YlmDsIxBlGgyDrIW8fT3sctoBLjZjHj8Cnqv7AIFIs8Uem0BYjn2rO/XSEg5B6xTx498rZpxZ3SZu3iwvpbeDKNqdEyMlMCp9MvXwO8Hakx1fb2XFBip/XBIJUs2VkZUopdTtay4HuN8py/A0yEBsXnWd4uw9ZokIvhv28NGeW9p5UXuovmN2K/d0cmspwSOnMXriO00hDG4sgkEaB8XZSIWzkrLWzJ7NKNWJLGgUlml9jspOqyUNr1yZ2kAanAu+7NykIS+Q7A3etHGaQkpTSATh6+rYoVqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=eideticcom.onmicrosoft.com; s=selector2-eideticcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dEy36uerVyeFznADueM5sIDLvrBlxunsFvauXBfW+hs=;
+ b=nwl6c7VERNSt6gyJtl+DCX7IF6IqzJoWUGC43AKwc/Jt37s7cmuDkwFn2JgD6tNzwRpcXXyrJ94wHFkZpiqm0H/YdxI4zQyG/uvOVsahtuZ7s30ZK+UIcXnzYKfWJ2S4nT2ls8GHDxvDBVIqPmAKV69im+/npBLNpYXzQMu+hd8=
+Received: from MW3PR19MB4250.namprd19.prod.outlook.com (2603:10b6:303:46::16)
+ by MN2PR19MB4031.namprd19.prod.outlook.com (2603:10b6:208:1e0::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14; Thu, 10 Feb
+ 2022 23:58:53 +0000
+Received: from MW3PR19MB4250.namprd19.prod.outlook.com
+ ([fe80::f4fc:46a4:6bbd:b07f]) by MW3PR19MB4250.namprd19.prod.outlook.com
+ ([fe80::f4fc:46a4:6bbd:b07f%4]) with mapi id 15.20.4975.011; Thu, 10 Feb 2022
+ 23:58:53 +0000
+From: Martin Oliveira <Martin.Oliveira@eideticom.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, Kelly Ursenbach
+ <Kelly.Ursenbach@eideticom.com>, Logan Gunthorpe
+ <Logan.Gunthorpe@eideticom.com>, "Lee, Jason" <jasonlee@lanl.gov>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+Subject: Re: Error when running fio against nvme-of rdma target (mlx5 driver)
+Thread-Topic: Error when running fio against nvme-of rdma target (mlx5 driver)
+Thread-Index: AQHYHRbxB1j8kCqLyE+mphWtfDRQH6yK53wAgAKPR70=
+Date: Thu, 10 Feb 2022 23:58:52 +0000
+Message-ID: <MW3PR19MB4250DFC4E2AEB8184299A4BBE42F9@MW3PR19MB4250.namprd19.prod.outlook.com>
+References: <MW3PR19MB42505C41C2BA3F425A5CB606E42D9@MW3PR19MB4250.namprd19.prod.outlook.com>
+ <62fd851d-564e-e2f3-1a40-b594810d9f01@nvidia.com>
+In-Reply-To: <62fd851d-564e-e2f3-1a40-b594810d9f01@nvidia.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=eideticom.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 841921dc-c8ad-4f08-879f-08d9ecf14a7a
+x-ms-traffictypediagnostic: MN2PR19MB4031:EE_
+x-microsoft-antispam-prvs: <MN2PR19MB4031A6AD322DC310D24B69DBE42F9@MN2PR19MB4031.namprd19.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2582;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: epl/jFSn8mQcH3cBO4vc7nXFRPgmQtkikHdR5A2T2Srtr3kNpKezMLwpMD2TJG8ag+lKcriCBjZaXDZerWTd6MY6bKguZ3TItHesPS/H4neeDn0StQjEY6V7c9w7gxpAl1mBnbf+kqAo2i26PdsMHoEfroSz6J+3dSb3sey4Hxk8GJdHQ+C1V9yT68CeHDpof3omy+eqD/vkfBf31zYu5cWK6IIKKsT3mvSyIUFmSv+urZxoVq2brSEGBKsXVABXYbmvCgFuMQtV3D+10yo4L16lflSyMnyEh8c+UlLrDONfJ3BtWw9XGKWhH+Oqeg1l+k/Naed8DcGRD9y5i/YCeuGnvde0Jur3O7Fme202Eyr53B/jZdEWC8+VQCKpBuzk/Z9HrsUyk2FMHyLqNtdYoZltf+XR+O+y2WCETD9LVzl62rJC+BfTBlwJdWNqZtCLgiUUMMSrJMWYGE/VWgKs8Kz0B3f7zW5p4ZhRNJRkIr9b1By6V5Rv75/FoKF8ByCVS9YfO9Ce1bOv1NZNgkOdvWNyCU9wNNL2He07csSj39xDbeOqYQ2nOTNO2NQXGnFTCmhi19dn6+m6tOlKWz+z0/uJ3PcSbEJlm3Q+DOIeZpWKdzdt1+GnURSaS2h1Rhl/ewfFsDQk3MruQL1jYFEPk/b4kS3+3qzLcDCfXaOR1MM/orIy+jYjQQxu1KtDvf6wojCfheoCaSO1SVTIKqb42g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR19MB4250.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(39830400003)(136003)(346002)(376002)(366004)(396003)(66556008)(316002)(83380400001)(66946007)(6916009)(4326008)(8676002)(66476007)(76116006)(64756008)(54906003)(66446008)(6506007)(26005)(186003)(33656002)(8936002)(38100700002)(122000001)(508600001)(5660300002)(4744005)(9686003)(2906002)(38070700005)(52536014)(55016003)(71200400001)(53546011)(7696005)(86362001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?mMT6kDXCmNUaSLHLFebxpOb2nzYjfBZ+a0y6sjoZp+eZpQPGlKTKVBEyRH?=
+ =?iso-8859-1?Q?JzxwdElXXOxNI1eZClt0fuhMF5KuDtuxbViHjeDwQ8PMLoEvJ2Iq5w0wJM?=
+ =?iso-8859-1?Q?MvAVKEbA13nVvUXuJpijI3nY4gZQ5d/wmBZ0U+mPU29izBSdhm90adG8yY?=
+ =?iso-8859-1?Q?7VpzycnH0einwLS17qAS9Iq0RaBDtzOpjAj7cs9v2qvNzDxdWKNOlcNXHc?=
+ =?iso-8859-1?Q?sbadiEyH9ud8jEB6rKVj312wGJWZcgAY7DgwLEuz97m9JoaAieiYW1TkZY?=
+ =?iso-8859-1?Q?ycNDzbONRgWdT9QCmjTUnT6Xq+hNKD/Aa3WWAZnYfJtq0mX3X6TqHH/2s+?=
+ =?iso-8859-1?Q?5F+YDoEPh12+CgoGjHxKvaLyys/djeX7rQs0ACSmvCQBpOy54jYSncu75/?=
+ =?iso-8859-1?Q?cTaDmZ8y8qk+lfQ4T+H+t18cpZZ+Inc9ySx0Zus9DhBKiUYCnNHfLMJA7r?=
+ =?iso-8859-1?Q?JMWoIaNquikP2Pi+Cvpyj7FchZ81jPvEmxCxUvbj5bFv6nAkh9/AManTuQ?=
+ =?iso-8859-1?Q?2z8s+Run+dvyNdzMgSm3BKH+2Yn4zArC1CZ+vUAEwCpIiZM+iC4Cyl+13j?=
+ =?iso-8859-1?Q?ueTB2cd5CHBCZXedAj9RCfD8IPl+1UVCLoAhm05lGj3UKW9wHuh6HA+y1W?=
+ =?iso-8859-1?Q?Yj+RELDQBHCf0uJNwTTkCRrD+RorNovySZFA1K6uRibT3hwwpx4L1GX7Vt?=
+ =?iso-8859-1?Q?5PqHN1NM9aZ3nhWuYxWmSVy9C2DnUroSXNXdS8V9WfQiT9VW0ZWGSmVyaV?=
+ =?iso-8859-1?Q?sSABD65uW5rinHvHf1/9PWxHK0TGb6T5kJ4MMqPJSHA6uIU5/zgnIXGKtz?=
+ =?iso-8859-1?Q?RtsX7Q3igUXoa7E49hfPCFRjoxq1XLV46bmqwD6kZWmhLY+XVXO45LQ4f7?=
+ =?iso-8859-1?Q?rOqlhbDGl4JSQ6vmHwNPvljNNpMgvparHw4gi0lekA2RbokzUX/h/QAxuN?=
+ =?iso-8859-1?Q?Razmyf81nCgZH5OGQEFOa7rxii5L5/kV6HqzuRl9H9jPfaw/coVuHwQyc+?=
+ =?iso-8859-1?Q?RJUfBx7D79N33V4oWjqESYQYQvyeymt6PR/fCw3DvhvVB2KdKPrFFcyuhH?=
+ =?iso-8859-1?Q?E0ywTZChc9j98Q7FMB1fff48aAA1F0Bi1x1A8/BeFqzKShwiDnL/c2ZxNq?=
+ =?iso-8859-1?Q?anHzcysYkhhz46j6rJ3yw73+qKkAgci1VT/bVLmpV9bXkLde1pC08erIge?=
+ =?iso-8859-1?Q?LXdwfH2hj/gceC74zx80/VIHXacC+nQ+4SFW7IcSanb9Qz9uKHkdabPwsS?=
+ =?iso-8859-1?Q?fsOW5+H9nqCRigr9+QxkOO+zqRBdn/SQxDZJMuySSQgq0yVkhIXD3A7BDz?=
+ =?iso-8859-1?Q?53AWL3SOUidz3vwOhZ0dW06LAtYlALl+QmiEk948x5nEhA6h/WoBR6tmAl?=
+ =?iso-8859-1?Q?LlhTm7TLeQUHjkwkLiX12cCcsVTqZnQY6AhBWW6dKh4FesE4LdMWYBc/HR?=
+ =?iso-8859-1?Q?fb1T4ARoEse9BXaXljlxRY8ttT4KWV2R+X+hwf0vqPoNhDgZOzlmAfMeZ/?=
+ =?iso-8859-1?Q?hYVAkCdw94ByMEm2BF++JpA41FrB1f7YEfKUgT5wkUEWY/FZPIz/3C5P4l?=
+ =?iso-8859-1?Q?QcXFnI63tf+1Lbr/6f3ACRmMckZ7z3kLj3jacV7CmvraaBEuEMG8B+yOwE?=
+ =?iso-8859-1?Q?BB2XMLeSj+y+CW7StYBC/kiqZn3jLQ0vK+SvPbVNiBwZNHdjgfIdzuh7xe?=
+ =?iso-8859-1?Q?AA1Html3dmLRw0xKcNKtS5Vfsi/SMnlMX8GOVtfRHvIWdai6Qb8A5LC766?=
+ =?iso-8859-1?Q?yHgA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
- "change" state
-Content-Language: en-US
-To: Alex Talker <alextalker@yandex.ru>,
- linux-nvme <linux-nvme@lists.infradead.org>,
- "Knight, Frederick" <Frederick.Knight@netapp.com>
-References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
- <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
- <02375891-2f92-c3d9-8a55-019b84c14c1c@yandex.ru>
- <205b91c3-4da1-744d-3d06-ccfdf2b93cff@grimberg.me>
- <5b5cfff7-6c07-0cb1-491a-0fa3d13c2cbd@yandex.ru>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <5b5cfff7-6c07-0cb1-491a-0fa3d13c2cbd@yandex.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: eideticom.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR19MB4250.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 841921dc-c8ad-4f08-879f-08d9ecf14a7a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2022 23:58:52.8734 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3490cd4b-0360-4377-abb1-15f8c5af8fc2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CRO5b+9NaJ8xMqBMxwEd427+iZipdOf+gJpUY8ukKkkWAAlSQLiFQOgPKglebZk5vEa10NGMLdjpB1C2d2Pg0yklYH4le7StyU8yuv9YbO8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB4031
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220210_142441_387469_E9AE3A5F 
-X-CRM114-Status: GOOD (  18.07  )
+X-CRM114-CacheID: sfid-20220210_155859_485699_F013AB1F 
+X-CRM114-Status: GOOD (  10.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,49 +145,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->  > Can you please stop top-posting, its difficult to follow this
->  > copy-pasting-top-posting chain that you are generating..
-> 
-> My bad, I just had a hard time taming my mail client in all this 
-> plain-text mode requirements.
-> Also, I was a bit confused on how to handle branching-off replies :)
-> 
-> 
-> In short, my opinion, after consulting with NVMe base specification 2.0b 
-> stating is that:
-> 
-> a) (8.1.2, page 340) "Namespaces that are members of the same ANA Group 
-> perform identical asymmetric namespace accessstate transitions.
-> The ANA Group maintains the same asymmetric namespace access state for 
-> allnamespaces that are members of thatANA Group
-> [...]The method for assigning namespacesto ANA Groups is outside the 
-> scope ofthisspecification."
-> b) (8.1.2, page 340) "An ANA Group may contain zero or more 
-> namespaces[...]The mapping of namespaces,[...] to ANA Groups is vendor
-> specific."
-> c) (Figure 280, page 270) "ANAGRPID[...]
-> If the value in this field changes and Asymmetric Namespace Access 
-> ChangeNotices are supported and enabled,
-> then the controller shall issue an AsymmetricNamespace Access Change 
-> Notice."
-> d) (8.1.3.5, page 343) "While ANA Change state is reported by a 
-> controller for the namespace, the host should:[...part about ANATT...]"
-> 
-> Thus I see it that ANATT-based timer should be started only upon 
-> condition that a namespace belongs to a group in this state
-> but change of relation between a namespace and it's ANA state can occur 
-> either because ANA Group state has changes(and this would affect all of 
-> the group members)
-> or when ANAGRPID is changed(and this, if the new group's ANA state 
-> differs from the old one, affects only one namespace at a time).
->  From that, I find it is logical to no-op on the empty ANA Groups in 
-> "change" state since I don't see the standard explicitly disallowing 
-> that behavior in any way whatsoever.
-
-Sorry, at least I and the original implementer (Christoph) disagree with
-your interpretation. Not to say that we are both wrong.
-
-Adding Fred for some more clarity here.
-
+On 2/9/22 1:41 AM, Chaitanya Kulkarni wrote:=0A=
+> On 2/8/22 6:50 PM, Martin Oliveira wrote:=0A=
+> > Hello,=0A=
+> >=0A=
+> > We have been hitting an error when running IO over our nvme-of setup, u=
+sing the mlx5 driver and we are wondering if anyone has seen anything simil=
+ar/has any suggestions.=0A=
+> >=0A=
+> > Both initiator and target are AMD EPYC 7502 machines connected over RDM=
+A using a Mellanox MT28908. Target has 12 NVMe SSDs which are exposed as a =
+single NVMe fabrics device, one physical SSD per namespace.=0A=
+> >=0A=
+> =0A=
+> Thanks for reporting this, if you can bisect the problem on your setup=0A=
+> it will help others to help you better.=0A=
+> =0A=
+> -ck=0A=
+=0A=
+Hi Chaitanya,=0A=
+=0A=
+I went back to a kernel as old as 4.15 and the problem was still there, so =
+I don't know of a good commit to start from.=0A=
+=0A=
+I also learned that I can reproduce this with as little as 3 cards and I up=
+dated the firmware on the Mellanox cards to the latest version.=0A=
+=0A=
+I'd be happy to try any tests if someone has any suggestions.=0A=
+=0A=
+Thanks,=0A=
+Martin=
 
