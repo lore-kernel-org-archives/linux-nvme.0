@@ -4,45 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D87DC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Feb 2022 18:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0C9EC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Feb 2022 18:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7VPSUCwf1glTvWgXMy0dSvUDX8AhY1pgybwCv3J1G5Q=; b=RNzV+OLcUlZg3QXmTOZNFuHBGq
-	F1hhXa1Q+dxQLaX/hPZVWGbUwVoI+UPnrcCdYkYGFhOrF7Z5XBmwYM574XLWm5X0XVGWRb+Pfn2gt
-	JXiexeEXJItDPYFiWa+aknV+di/EgD9fMeDPLWhFWRTSRyrbJg6iZl4Ka0TSyYcyW2nRDiJ/FArCQ
-	N8ukjG8SESeXhBtzXWJv+L7/1f4QZ0j/0Gcbwe4oSG4Ogu5RCn2t2CiTk+iAd4ShbRxvBz6NdnGmg
-	43a4iCXWUYuNT3mzrLEiZ7ATibSB9ivHzPYfFYwTvSNya441XNClUOmcauHxJjfIb6RKV9NHlDDPP
-	ycKCZ0Iw==;
+	bh=O4wMENGS2QYIOyT7HJ7ahvJadkvAVpXGCRk6n975CKY=; b=rV8L1wR06Z3sBmEDVPQEb67Srq
+	lX1MBqRyZiCvXOgbDBIPmP6ybx8gILeq8Xo0eRlxGxUSdMeAySMFwhNHPSP1edHBxNOFyBrFxbGqF
+	CcoiXYiqPt7ekcZfcs4ktoi8f+Cj29ZztIAK5xiDEfZFHLCsH8FspFM9X8mUyLZaapS3xzR9Pj+IZ
+	ztb8EHsA2loW7BVWB22JtXiEnHXEYZMnUDajGaGIUroZScZ6bzafTNu+39pO6kXqcYKkeNIDeTwJn
+	aZnRzG5fXlLfNWpaCcqTt4kIdYiEZbXT53bIbpBfQWKxyhqBUoUcYSFHbK2dn0mpXZR9eEAjcavJx
+	QBoKgXyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nIE5E-004bVU-9w; Thu, 10 Feb 2022 18:22:20 +0000
+	id 1nIE7M-004bkv-1C; Thu, 10 Feb 2022 18:24:32 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nIE5A-004bVB-FK
- for linux-nvme@lists.infradead.org; Thu, 10 Feb 2022 18:22:17 +0000
+ id 1nIE7K-004bkW-2F
+ for linux-nvme@lists.infradead.org; Thu, 10 Feb 2022 18:24:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 3742468AFE; Thu, 10 Feb 2022 19:22:12 +0100 (CET)
-Date: Thu, 10 Feb 2022 19:22:12 +0100
+ id 1A9E968BEB; Thu, 10 Feb 2022 19:24:24 +0100 (CET)
+Date: Thu, 10 Feb 2022 19:24:23 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] nvme-pci: simple suspend quirk for vmd devices
-Message-ID: <20220210182212.GA16171@lst.de>
-References: <20220210152233.1657933-1-kbusch@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Len Brown <lenb@kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ m.heingbecker@googlemail.com, linux-nvme <linux-nvme@lists.infradead.org>,
+ Nirmal Patel <nirmal.patel@linux.intel.com>,
+ Jonathan Derrick <jonathan.derrick@linux.dev>
+Subject: Re: [Bug] nvme blocks PC10 since v5.15 - bisected
+Message-ID: <20220210182423.GB16171@lst.de>
+References: <CAJZ5v0hvvYedSn5u-i7sjpoEHU4P65t7i1b2pVn=S1q0nHWgqQ@mail.gmail.com>
+ <20220121210905.GA1114868@dhcp-10-100-145-180.wdc.com>
+ <CAJZ5v0gybg+Wk+008UBFnm2WqrxowOarhst9Eh+91BN823mqNA@mail.gmail.com>
+ <20220210145635.GA1617879@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220210152233.1657933-1-kbusch@kernel.org>
+In-Reply-To: <20220210145635.GA1617879@dhcp-10-100-145-180.wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220210_102216_679302_C35749DF 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20220210_102430_271544_CF54D01F 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,14 +65,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 10, 2022 at 07:22:33AM -0800, Keith Busch wrote:
-> +	} else if (pci_domain_nr(pdev->bus) > 0xffff) {
-> +		/*
-> +		 * ACPI device properties are not reliable within VMD domains,
-> +		 * so assume the worst.
-> +		 */
-> +		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
+On Thu, Feb 10, 2022 at 06:56:35AM -0800, Keith Busch wrote:
+> Apparently it works fine when you disable VMD, so sounds like the
+> acpi_storage_d3 is set, but we fail to find the correct acpi companion
+> device when it's in a VMD domain.
 
-We'll need to communicate that from th vmd layer instead of hacking
-a check like this into NVMe..
+I guess the acpi_storage_d3 is set on the VMD device and we need
+to propagate that down the entire bus hanging off it.
+
+Which kinda makes sense in the twisted world where vmd was invented,
+given that vmd is Intel's evil plot so that only their Windows driver
+can bind to these devices, so the property also needs to be set on
+the vmd device.
+
+Nirmal and Jonathan, can you help to sort this mess out?
 
