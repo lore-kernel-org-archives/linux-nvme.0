@@ -4,165 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61161C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Feb 2022 17:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 508C6C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Feb 2022 20:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OSs5t5d8XjNuYHz81yiSiCzc0oNLWoe3QxrEZKe+R00=; b=lGbwt7qX8CddudkzY/qNmN/Qn1
-	mvFGtCHi7CzaeoRKFsS+7HqZXGPDbERdL5tQ5WnAc+UycUT1tBalCioJmSORHdUa6C6o06l9Jpjye
-	5IBPivp7kPhIj70+oOIBlNGkUEjtMTQKY0P2IUxkJIaxQO1Oehk+gycXxWlPz5jUFai/LC5QJ2QdX
-	sfibuynLrSps1wZy+sFjpiwraAksnLzflGIkArPvY1ZPG18RkIbQYzdC4UdplAx+jrtN9suPel4qZ
-	qR5TGAbLoZO/X2f/nceXwDJoCY0o5WQBaYL21bqv4nLxpbrwDNbRq8+wL3TNRj2gLaAQ1vipLYd7W
-	7LEANrkA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mL8bRhkwqSBRRuxo/j3BaTxoye3B3YL/t/KtIP5l4Ug=; b=Ga3ZYgygH/ZIKC15xheVc/3G8H
+	VwVe1UnpRtLqdXxQyRscyi3MgcY++m/7wG3RPaoHfT+G3GRBazq0PHoq/Tv0Vvu8o99AKhtQVRFEO
+	vGRBgRn/PKX9x9OXPx7UY7kPGzMljsm/iT7Ow+5i5n1fiYl3sZEU34I4M0DBZ+dgS03yzekQwh1c2
+	2n9uUcCm4mT2FUzSgmnk2iiqDKLPscJ/WZngUlL0DhM1JM6VgZT7dfjJjvOgs++6p0qJkTV7AvETw
+	Z5heVez9M9ghfHn+A2WKMJCM+zxr8pIYVLVqGtjvUrfm4PJ/AOB56ScNsu05Gs4TaW1b97M2N41ud
+	Oh8yhO+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nIZmq-008G5D-Pn; Fri, 11 Feb 2022 17:32:48 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1nIcvg-008k2X-2t; Fri, 11 Feb 2022 20:54:08 +0000
+Received: from forward501o.mail.yandex.net ([37.140.190.203])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nIZmn-008G4g-KY
- for linux-nvme@lists.infradead.org; Fri, 11 Feb 2022 17:32:46 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21BGtUGG011225; 
- Fri, 11 Feb 2022 17:32:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=OSs5t5d8XjNuYHz81yiSiCzc0oNLWoe3QxrEZKe+R00=;
- b=JyQGEJ850mM9btOF/L24Cnht6dI9bOLWqewYRd3tC79c6GllGBPEjcFqIyks/zKxV0Qg
- 4c1UAQUcvaYjP1qOoseOQL1irt5w9CcrGMYTXojtUkoh0a05l2yxmlf0fmSQfMrXgNsV
- UixSxyphQrP1AzNg2qfn+7I1Ak2DGKUHZ9ocu83leTXUv7cAbkmaZTVlAj1gG7VP3QLM
- CyQcX+BxwW1RQWYVQnFA8ZG/ZvBFJVp50U2jdtvdHkpu1pk3HHCwURUtnjCk5cK2aU4U
- kQrrSyx62IKsx+QDCa1V9uFNPvNrcIUulnSmpLtJjWXYT3EzCj9clAKSLjOqTvVcAwEg SQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e5njr116b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Feb 2022 17:32:40 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21BH6GJJ196455;
- Fri, 11 Feb 2022 17:32:39 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
- by aserp3030.oracle.com with ESMTP id 3e51rvpkpb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Feb 2022 17:32:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UTDBUXGu7fIpo7jFRfTXb2QBNTrvkui8TIpA3R3d0gZw50NnGN9SHYxAtDwX2AKlE7jkVjbId1KeMaPxSxQQ99s4sZSGocI/n/M+6tGyCqeQYbjTMV7v3pl0uuTY4opnVltKEtGhUL6T5rY3dEQUA0dE7bT/o7EpIkjXRF6HG2jCsIIXdUrykNBGIYZLbXrySgOoFz3Whqe0Xxl42L16jmIwg+x+AOmBUiTgQssn1ZnaFMg4eey0e27HNkjFoxIX/u4dP5NmFiAWQSFU0BLG1MyXWhPpMVclhkpYMRVTZa6n1QRLmOMK9E8UFPK4nD246cwNUk11e9smRN/LU6JUkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OSs5t5d8XjNuYHz81yiSiCzc0oNLWoe3QxrEZKe+R00=;
- b=PgCWhNSeO6qf39VXQaGAH4T28I722+3C4mo9HjdQevWO1YeAXG8TBI5n75pueLP0C9YqCNR+z+67bOMWPnn+0ORHM8dE36VU+rgPwgHXrvElcvCsZQnccQ3DdBmpLyx2EAhpYf3xQ9i+aCUcGwT0cfyc3rSuxAe1XAOFtcYV7PMxwnT9Hb2gHSXjP69LPdimpQ83DvCKlwdYrdtjAMjxMLkXNTMIMl7BCPJBuyq/8x5jzlJb/jKUcri+0+BJBBQNFMEc1ulVhct1CK70wGIKO7W1HwRWKrVRC9t30suGb5kEP8MNruwidtX8JnDB+t3uiSkT2mLi1/hCk6+mssC6aA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OSs5t5d8XjNuYHz81yiSiCzc0oNLWoe3QxrEZKe+R00=;
- b=JHsQJWILXdJeJDMDaniy3OQRe9r9AoJk9fr4wWnEdoGNQMu3/zSGpC6QEjAt3BBc8i+cE1ND5wvKkqMnDZcgstDW4SijB3SdwVP6P4HGlZXWFJ0diUEfoQ8PhBY+6/2MAkspYdw94HS8Px9lAAe6iGLWI/IWYlcNKEtRkiACrXw=
-Received: from SJ0PR10MB4815.namprd10.prod.outlook.com (2603:10b6:a03:2da::17)
- by CH2PR10MB3896.namprd10.prod.outlook.com (2603:10b6:610:a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Fri, 11 Feb
- 2022 17:32:34 +0000
-Received: from SJ0PR10MB4815.namprd10.prod.outlook.com
- ([fe80::4048:6aa0:455d:7844]) by SJ0PR10MB4815.namprd10.prod.outlook.com
- ([fe80::4048:6aa0:455d:7844%6]) with mapi id 15.20.4951.019; Fri, 11 Feb 2022
- 17:32:33 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "sagi@grimberg.me"
- <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Martin Petersen
- <martin.petersen@oracle.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH V7 1/1] nvme-core: Add verbose error logging
-Thread-Topic: [PATCH V7 1/1] nvme-core: Add verbose error logging
-Thread-Index: AQHYGNXIryfsuicW8keFZ7WPQbsvWqyK4igAgAPG4IA=
-Date: Fri, 11 Feb 2022 17:32:33 +0000
-Message-ID: <05D84E6D-5340-4163-BC17-DDEACC3EECA5@oracle.com>
-References: <20220203081153.162956-1-chaitanyak@nvidia.com>
- <20220203081153.162956-2-chaitanyak@nvidia.com>
- <20220209075158.GA9647@lst.de>
-In-Reply-To: <20220209075158.GA9647@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d0b27ad9-4016-48bb-5156-08d9ed847d17
-x-ms-traffictypediagnostic: CH2PR10MB3896:EE_
-x-microsoft-antispam-prvs: <CH2PR10MB3896791453D5423B7A2D4A1FF4309@CH2PR10MB3896.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kGRfEXmZxmzLnWEpsF7Q6U2ONSNt+9O6d2jA4FOLaSTFIrGNs1bAr44FaCqWM6eSpbkXWn1lsGK7TYHF34lsuxybcPD5dVau/nwErKDGLWQeBTmQdFyUxsM69DDjBhrgu3NJaj4p19yF9Hid6K3dL3un20SIU5Ks1AgIv2TXsauczugx3AYcWg4GeS5OeJ/6nUyy2CL9gxgDecUXTFms9EbpCPl+e6kUJRx1CYRgdGkIMRyhMRATutNqlU1EkmdcKtOXMvcONIJbD+iWlqyhmFQMg6+K61sWSdS73FVgFMglp/K+BKZDjVWeUETQq3gyEAfaOiyLPNeo/dlvBSvK3vzohBdecMZIUMaRYhZkjydvyajbIVylLpn2dqvutJb3ZwSKae/8aIKeuzFOYJPUfU6HpDBGwtvqksA299VtEZawYXClDfOFNw1noTl5xD9miS/W6hsmqoVXlsL/v7gnPRl+ps3AF9MzIMTKwpbc7y4N4PWO1L9KvGOAyilbI9qyP4JVGhzhUpoiLLRWEZiNgbFA0eEWNFUyDTneXJONzX8U7GzJc2WYLzTm47CvKy9P+cU8a4OzNOmAvWdGsSfTmvGsAppICC8Elo0sS3cSHLljvXl/ZdrFwptMLYS38Wph64F/SxO8LgPb4nlBPzeik6WZWh6YPIrK+hdKJGfylm5kofLZS7FjQGwHLhkAYJlCjwP+liCOshpVKpOkftFKxXthEKxDXxz0YHIwMb9q/Gs=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR10MB4815.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(558084003)(508600001)(107886003)(2616005)(33656002)(53546011)(36756003)(71200400001)(6506007)(6486002)(316002)(6916009)(86362001)(44832011)(5660300002)(8936002)(76116006)(91956017)(122000001)(38100700002)(54906003)(186003)(6512007)(64756008)(4326008)(8676002)(2906002)(38070700005)(66556008)(66946007)(66476007)(66446008)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?U1RAj2jUyiVZ0Y5EsDbgW695f1zQWGqn2bPqxfUaZUjTOzvl29M7dj1DbK44?=
- =?us-ascii?Q?Z6OcFeQVbEdYyzXmTRhXvdobCm4vWOb+zwEUDseAwdlSK2AUIEjfjfldxkYl?=
- =?us-ascii?Q?9C+ZY0DzqdrQLQ9fvoEdU0p7m4gYvM0f9YZNd5e3lohyX9+JSn+G7NgCNcBt?=
- =?us-ascii?Q?EP3XFzAP3tCpgG3MW7nfyHpby2XkltM0SEj/rnCqhweKZzZ2K1ze3p0ZenGT?=
- =?us-ascii?Q?qqIOJG/Rzh7sSTJGOVnBxkTmXuwW0tZhtPztoJ6FluFKT93AbnyF23ddYgrC?=
- =?us-ascii?Q?gnzyYs8wC5o+fJ0HLR60ofgjZZDR56qY281yK/MWnwWtbflfUqd2qxBQGo5K?=
- =?us-ascii?Q?mW4bGucxayEOnpYYAD04+tmeim7ZHyK3gZiaJpXBctiz7U7gS1tyqXOKpMcQ?=
- =?us-ascii?Q?Jbg/6TzNzj4NDMrs9S/IdUw8dGahi7GVjmNSBzxV/iUcUrXTT3/EUdqmbjBN?=
- =?us-ascii?Q?QA6MqnuB7T7HW3I9UCMq5ark2YjpSN1RNfbno31tFFd8rN45U9B6Nr5wqmM9?=
- =?us-ascii?Q?0UZw+GtjMTmCx/Rn9ehqRYUiY1bqC7H1MTE6ZO2qqE9gZh7VJ1Sv6A0Wd6Ue?=
- =?us-ascii?Q?UFXyLbp6L0EJzhq/iSHE3JgxrLRNyLRMWypMIDyGfzczDeRaTlw3mmQdOAQP?=
- =?us-ascii?Q?zcovfoNxQ/bb5O59pDmodmTLRLpaFVIYP+hPmeov1KlEAUQuUhG2v9wQQsbG?=
- =?us-ascii?Q?TJ7VSd3wXIGT2C7xUNy7YwxGsjUfXnlO7PyG6FfgPu8/oWNcBU6ZL/y4/IMi?=
- =?us-ascii?Q?HaptxVZZvwKetVgz3aJZad1YDmFmJBoacE41AlgzZC03NjY5Qc2C+JNueqWR?=
- =?us-ascii?Q?4/NDAphty4vt0+yeLyGDFm9O5JGhaYF+XdlZ3hOZejZypTrpCMtshJGzyfWU?=
- =?us-ascii?Q?bruOumR9Z9cjMNYhyPpHPADgAwaMCLqXyCeTvXpQwekvFbDjBJkM2gMqM+t+?=
- =?us-ascii?Q?oMXgZ/UtEqC5ao87HbgByfIx/W5xmFTHGIfsJk0j40Q2qbRBe2ce9u8ZgiIM?=
- =?us-ascii?Q?+TOVLAq2BmOYdVThpF8cOrmRYViNkLTTz6/qGOLQQ9NHxPummIx9XLaHmREn?=
- =?us-ascii?Q?ZKL1LHPF5Kra98nJWOIzhdkm2R/MhKqNFLE6Ctf+CSgNJBNEaH/c5tjcEq/o?=
- =?us-ascii?Q?Zy4xktV3K2nTTbbKfXdsVup8lMVd2ERpOALFffSLC7jBVJvsX+LaYxRQ3vrS?=
- =?us-ascii?Q?K3zPaf0xZbvrRzAEmcWIApYGuxdCUdsnYJmJgwiGkidQuizQgfHaT6LbzFt/?=
- =?us-ascii?Q?ElNUXv6unGgxwPz+xhJ97fvusZuIIbZb3GE4tVoZpUGcxqQ0855h0uMYO5CP?=
- =?us-ascii?Q?F7ho/jUc/do4o8J3kgqhbxRymzZl4XCAt0AV+4g+fSwV2uT5UhfiHJ7GjjZW?=
- =?us-ascii?Q?sTQFs5Hxdl7JO4B5Yt2z+4d0heUCo5BHPN+btNLFVsmof+0AM4l572GyEhEt?=
- =?us-ascii?Q?Y2/jE36WSDnuBnjIJcNsD32S/GWXSdUus0wiQBY1Z+Tl2xSweUNPpL5zrw3B?=
- =?us-ascii?Q?RVsrwdQmGuNsSeFWe6CPfOcgU3AN2r7GDgihWDIxiO8+1rTdmn3MIsr9dDIj?=
- =?us-ascii?Q?XDdxz/FbOY5QpTff0qMmk/HAmyLIjUv5z7bTF3y8uDRZAU6wCn5Q/aNv1mGR?=
- =?us-ascii?Q?SPegwWhqzMVk4YAmFR5s20IivJL20/2n5WyD/mTk1svtoT+ZTtZLYAJ5FPkJ?=
- =?us-ascii?Q?lfDkDQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <397C60C115798D41B006A1FB50F8126D@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ id 1nIcva-008jzm-LI
+ for linux-nvme@lists.infradead.org; Fri, 11 Feb 2022 20:54:06 +0000
+Received: from sas1-892da86383b1.qloud-c.yandex.net
+ (sas1-892da86383b1.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:78a8:0:640:892d:a863])
+ by forward501o.mail.yandex.net (Yandex) with ESMTP id 638A345C40AE;
+ Fri, 11 Feb 2022 23:53:50 +0300 (MSK)
+Received: from sas2-e7f6fb703652.qloud-c.yandex.net
+ (sas2-e7f6fb703652.qloud-c.yandex.net [2a02:6b8:c14:4fa6:0:640:e7f6:fb70])
+ by sas1-892da86383b1.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ xE9hpD4QM8-rneSvr1k; Fri, 11 Feb 2022 23:53:50 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1644612830; bh=mL8bRhkwqSBRRuxo/j3BaTxoye3B3YL/t/KtIP5l4Ug=;
+ h=In-Reply-To:From:Subject:References:Date:Message-ID:To;
+ b=lSBjPPWd+bFjrVXqoMTKC2CaxlrBwENL3pbMO3AbzfR7g4no+7J7NhJ/jL0sUutzx
+ grR7SZEVlTPoL4l7ITNZiHq0uM0yRx83aDnfASbDsHfHaCCsZCXnIFAC4gs/7Immon
+ VYh7VIUJ+L/0DhMxy/pPiDUjaxDlX0zazn4FgxQQ=
+Authentication-Results: sas1-892da86383b1.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex.ru
+Received: by sas2-e7f6fb703652.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id bU8TD6l1e7-rnHCdG2l; Fri, 11 Feb 2022 23:53:49 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <87d794b4-11d1-39a8-dba4-330b7c6e6f7b@yandex.ru>
+Date: Fri, 11 Feb 2022 23:53:48 +0300
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4815.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0b27ad9-4016-48bb-5156-08d9ed847d17
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2022 17:32:33.9157 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vf9MXaaEm7LifrDZdxhhtdsVSwFdLiRIj+T6cyW4fyvt4DPcgDIGfptKqSSNRdWCok0fGSEvWIbnYf3TM7Q2HA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB3896
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10255
- signatures=673431
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=847
- phishscore=0
- suspectscore=0 adultscore=0 malwarescore=0 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202110093
-X-Proofpoint-GUID: 9SsRx3Ou1osFejGuDBPgJwHRMPzOrTLr
-X-Proofpoint-ORIG-GUID: 9SsRx3Ou1osFejGuDBPgJwHRMPzOrTLr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
+ "change" state
+Content-Language: en-US
+To: "Knight, Frederick" <Frederick.Knight@netapp.com>,
+ linux-nvme <linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>
+References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
+ <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
+ <02375891-2f92-c3d9-8a55-019b84c14c1c@yandex.ru>
+ <205b91c3-4da1-744d-3d06-ccfdf2b93cff@grimberg.me>
+ <5b5cfff7-6c07-0cb1-491a-0fa3d13c2cbd@yandex.ru>
+ <fd8600bd-aa73-82f7-3ca7-ed7f766f1568@grimberg.me>
+ <DM8PR06MB770480F38397C8FE8D4D0F22F1309@DM8PR06MB7704.namprd06.prod.outlook.com>
+ <3de626e3-4d03-50a8-9bd2-c974227add02@yandex.ru>
+ <DM8PR06MB77041FFF43B5E6C1CB9C2982F1309@DM8PR06MB7704.namprd06.prod.outlook.com>
+From: Alex Talker <alextalker@yandex.ru>
+In-Reply-To: <DM8PR06MB77041FFF43B5E6C1CB9C2982F1309@DM8PR06MB7704.namprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220211_093245_711619_222A9443 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20220211_125403_291614_5753126B 
+X-CRM114-Status: GOOD (  55.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -177,11 +87,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Yes it does.
+Thanks for taking time to give the advance explanation! Now...
+
+ > [FK> ] I'm not sure I understand that. Access state is always based
+ > on the port, and ANA is totally about different access states on
+ > different ports. If it was always the same on every port, then it
+ > would be symmetric and there would be no need for ANA. The point of
+ > the ANAGRPID is so the host can use a change of state reported for
+ > one namespace to also recognize that an equivalent change has also
+ > occurred for all other namespaces that have the same ANAGRPID.
+
+I just meant that my setup is a little bit dumb.
+In all previous messages I was talking in context of only one 
+node("installation") but it's actually more cluster-like configuration 
+on bigger picture.
+Thus it is often (in my experience) when one namespace(i.e. underlying 
+block device) needs separate attention at given while other aren't,
+and ports rather disappear as a whole(for example due to broken cable) 
+rather than part of the namespaces just unavailable on one of them.
+Hence why I opted for such group configuration.
+I do understand that the standard aims for more flexible path and it's 
+okay, that's just too advanced for my application of this functionality.
+One can also assume that namespace's NSID is global on such system for, 
+again, pure simplicity.
+And I do set NGUID to same value between nodes(when it's possible to 
+have shared block device, present on all of them), so it's all fine and 
+dandy in that part.
+
+ > [FK> ] It would be fine for a host to track each NSID individually,
+ > but they are unique only to a single NVM subsystem (if your host is
+ > connected to an NVM subsystem from vendor 1, and also to an NVM
+ > subsystem from vendor 2, then an NSID on the first subsystem is a
+ > DIFFERENT namespace than the same NSID on the other NVM subsystem).
+ > Dispersed namespaces are a different topic for a different thread.
+ > And how a host does groupings of namespaces and how the ANAGRPID is
+ > defined in the spec are independent.
+
+The last statement precisely explains all the rest, since again, it's 
+just my own setup and my own choice how to map things,
+so as I highlighted above, in my case equal NGUID would likely yield 
+equal NSID between different subsystems
+(which might be setup in order to give different set of resources to 
+different hosts, since list of allowed hosts is set in their plane in 
+nvmet implementation).
+I probably should had written a clearer explanation prior, sorry for the 
+distraction.
 
 
-> On Feb 8, 2022, at 11:51 PM, Christoph Hellwig <hch@lst.de> wrote:
->=20
-> Alan, does this good for your with the author line fixed up?
+ > Right now if a namespace changes its ANAGRPID, there is 1 AEN
+ > required - for the ANA Log page contents changed (the NAMESPACE data
+ > changed AEN is prohibited for this case). But, if the ANA changes in
+ > the log page cause any groups to enter CHANGE state, then all
+ > namespaces in that ANA Group are in the CHANGE state - not just the 1
+ > namespace for which the ANAGRPID value changed. So storage that can
+ > instantaneously change the ANAGRPID, the change is just about
+ > inventory. But, for storage that takes time to move things around,
+ > the whole "source" ANA group may enter CHANGE state (AEN), so the one
+ > NSID can be removed (maybe another AEN), then the "destination" ANA
+ > group enters CHANGE state (maybe another AEN), the "source" ANA group
+ > can go out of CHANGE state (maybe another AEN), the "destination" ANA
+ > group has the NSID added (maybe another AEN), and that "destination"
+ > ANA group can go out of CHANGE state (maybe another AEN) - that means
+ > stopping all commands to all the namespaces in both groups at some
+ > point during that "move" process. How many changes happen (vs. how
+ > many steps are combined), and how many AENs happen depends on how
+ > long it takes, how many steps are merged vs. independent, and how the
+ > host responds during that process. But no matter how it progresses,
+ > that process is ugly, and something we wanted to optimize (via
+ > TP4108). We hoped to create a way to optimize that transition.
+
+So, did I got right, that it is advised to put ANA groups in "change" 
+state when changing ANAGRPID(in sense of namespace attribute)?
+Or did I completely lost the plot?
+In any case, I sincerely hope that whatever is going on in this document 
+I definitely have no access to reach, it's for the best!
+I suppose I do get the basics of ANA groups tho(in regard that state 
+changes for all group members at once) but thanks for the explanation 
+anyway.
+
+ > As for a group with zero attached namespaces - a host that uses RGO=0
+ > will not get any state information about that group (it will simply
+ > NOT be returned in the log page). If however, the host uses RGO=1,
+ > then the host gets back a list of all groups and their states (and
+ > there aren't ANY NSID values returned at all); meaning, there is no
+ > way to determine from that data alone if there are any attached
+ > namespaces or not. The point of RGO=1 is to be able to update the
+ > state of the groups without having to parse all the NSID information
+ > (just so it can be ignored).
+
+Now I once again learned something new! So I get that RGO is an 
+optimization, which is nice.
+However, the piece of code I'm having problems with in this 
+implementation(nvmet.ko) seems to opt for RGO=0
+but I'm not completely sure. I did this conclusion based on the fact 
+that nnsids is checked
+withing a function I'm trying to patch (nvme_update_ana_state) and it 
+clearly comes from the log.
+Someone with more familiarity with the code base might give an idea 
+whether RGO=1 is the case or it depends.
+
+ > SO, what should happen for an ANA GROUP that has no namespaces when
+ > that group enters CHANGE state. I don't see why it should be any
+ > different than any other group. I'm not convinced a group with 0
+ > namespaces is allowed to have any different behavior than a group
+ > with 1 namespace attached. No group should remain in the CHANGE state
+ > any longer than the ANATT timer value. However, when I read section
+ > 8.10.4 Host ANA Change Notice operation (NVMe Base Spec 2.0), all the
+ > recovery actions are described in the context of sending commands to
+ > a namespace in the ANA Group, or the retries of commands being sent
+ > to a namespace in the ANA Group. Obviously, that will never happen
+ > for an ANA Group with no namespaces. EVEN the worst case scenario
+ > says: "If the ANATT time interval expires, then the host should use a
+ > different controller for sending commands to the namespaces in that
+ > ANA Group." It's still about commands sent to namespaces. NOWHERE
+ > does that text suggest a reset. If an ANATT timeout occurs - it says
+ > pick a different path for sending commands to the namespaces in that
+ > group (which is obviously a no-op when the group has no namespaces).
+
+Why exactly the ANATT timer's function (nvme_anatt_timeout) opts for 
+reset is unclear to me from the commit description to be honest.
+The rest is my observation too.
+
+
+> So if the timer is not started (because  there are 0 namespaces
+ > attached) - and a namespace does come along (added to an ANA group
+ > that is still in the CHANGE state), would the timer start when the
+ > first command is sent to that namespace (and it fails with the
+ > Asymmetric Access Transition)? That seems fine.
+
+This is precisely what I'm aiming at with my patch in-progress, in this 
+thread I just wanted to discuss its sanity prior to publishing,
+the situation why I have the problem in the first place and to get other 
+ideas on the way.
+I'll double check but as far as I remember it worked fine with the patch.
+So, just to be sure, you do agree then with my proposal that there's no 
+point to start the timer prior to when at least one namespace becomes a 
+member of such a group?
+
+Much appreciated for your overall knowledge!
+
+
+Best regards,
+Alex
 
 
