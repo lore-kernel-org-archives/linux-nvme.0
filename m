@@ -4,74 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63EF6C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Feb 2022 09:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4D4FC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Feb 2022 10:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9h7yYkYclc9Qn1cRn5ZgyrK0tbRbxTrz4KYJ5WyCOvU=; b=XIVub/GMdhYfmIGEpg3p7R88x0
-	ZPJsPLa5Ii83DTCv0KkKCzHunPONIrIRoPk7YrIQ8Bp06z9JLS6OJxrDsoyf9bNNgkIH6dhWbnAwv
-	3EPKYs6xJUOL2TZiEzAG12/jkT6XCQBhaCC2JXQonRsqYjRApAopDB3TBI3i6tsHJyCzPo6PNNy3y
-	/AcMv8JD2cdoj3cR7jDBRnYri8/HMeKccT964URV/Uf7g9Dl/eY7jFl9nrkVWtPV44soBBYueNd+X
-	PkBqhvM/JkVm53KHkHGhgejqlRxGT5v33EmgkO9z8XVcnyRB4uIFiMzJTpehVxzbFOdWQx9x3tAlx
-	EaHwkM7w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o/HCOktaQheYuQP6gSAYtOZx4T4bt2l35H+0gO5eWMc=; b=ucnOj8gQ9mVfESda8fSBYnjrb2
+	0RocV3kox6rBUz6wqV4AWrPrygDdbMR72pYMbzr6c21qBLzgsQRq55gzOwxEHd0sn7E+vzFRf8/Qb
+	sOdVe2QuJoSBKlLthP1V7pyywtg8pRNSN/N7WYutCUftZTcddFjYufbiubp8JmaiHdKzmNRyORB+t
+	cKDsoQEsG/6NJ21QkCc77x37NTAYnIk5HX+VIdocpZlUFpf8wvaVETMN+rLXsS1EvONUKWC0i8Oq7
+	SwWhDU0+w9U30lpT2ctZa45ZdmYGkuUgqNhuNe/cmNUJ76pM7ar8rMh2V3/GvhSZeLesiR5Vuhf2N
+	EfKAk/YQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nIS7g-006KIk-0H; Fri, 11 Feb 2022 09:21:48 +0000
-Received: from forward500o.mail.yandex.net ([37.140.190.195])
+	id 1nITJm-006bkA-VP; Fri, 11 Feb 2022 10:38:23 +0000
+Received: from mail-dm6nam10on20624.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::624]
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nIS7b-006KIJ-0c
- for linux-nvme@lists.infradead.org; Fri, 11 Feb 2022 09:21:46 +0000
-Received: from sas1-a42983ef201b.qloud-c.yandex.net
- (sas1-a42983ef201b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:b681:0:640:a429:83ef])
- by forward500o.mail.yandex.net (Yandex) with ESMTP id ECD48941E61;
- Fri, 11 Feb 2022 12:21:37 +0300 (MSK)
-Received: from sas8-b61c542d7279.qloud-c.yandex.net
- (sas8-b61c542d7279.qloud-c.yandex.net [2a02:6b8:c1b:2912:0:640:b61c:542d])
- by sas1-a42983ef201b.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- T9M6ts7wkN-Lbcmg3Ln; Fri, 11 Feb 2022 12:21:37 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
- t=1644571297; bh=9h7yYkYclc9Qn1cRn5ZgyrK0tbRbxTrz4KYJ5WyCOvU=;
- h=In-Reply-To:From:Subject:References:Date:Message-ID:To;
- b=wAG4mz7IOjJQxmYut1S7GVz6ki8PGFL6WOqHWndCCd/gEbPNJ3x+wL45QGafBo5Hd
- bi09I1YJDhbQmz0FyuOJnWCfEPuuRzDClfmPPR8UpUSBN4dHxi0U+PN7GOZrUGYeez
- uJp/QjGivfjpe7xifTRHncrFG9TofV2tEk6f1jb4=
-Authentication-Results: sas1-a42983ef201b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex.ru
-Received: by sas8-b61c542d7279.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id nlR9KlKRxc-LaHqax6p; Fri, 11 Feb 2022 12:21:36 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <3de626e3-4d03-50a8-9bd2-c974227add02@yandex.ru>
-Date: Fri, 11 Feb 2022 12:21:36 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
- "change" state
+ id 1nITJk-006bj5-NO
+ for linux-nvme@lists.infradead.org; Fri, 11 Feb 2022 10:38:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iCM5sXGhsl9/Lh0C2sCEQ+bLq77aofG2muzFMpHAUTyaUrQpQXpeahTECUumolsHN8fow4hHVqIzFDcL6XeRSQaBDc2tZtmx90zMFTSSBhKGO6OUv9iAMX0DOfHI0gaQsDvDdy/vuRQkN7wvW77Ng62bujX6ha+a1wRR5Y6Edyh9nK0U0bgj3bAME0Vk8Sz6SLs4h1s4iKUB59MAl1bdYWvT64tsX1gcnx+0mSVVSoHG+BMYKekreUVPzSDPN+2Ncrplxgsk8jz3sYBg1osItd5yhoMHTQaOV0MfHh6Gx7gC/tqHHYWqn/65as9Gd4PVIOk/4ITqVr5B4N7kvFY+XA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o/HCOktaQheYuQP6gSAYtOZx4T4bt2l35H+0gO5eWMc=;
+ b=YyesdTEUp0/NAlWlIeFqc5CgUNO7wkLzxaoRTLVdnkwJjlqjgRP9Tw1uVWHZlPUPy9cfsuQhzPsYwOlnZ3M8Wcd/QXkvyn5mG51Y1cazTt71ROiN95YkFcYD6Dj49CNHNfOVoLGbTG3+i1w638EhkMekA5wQe5JoLbku6P+LLn2TBlGlh37/T/CtL5cwH5+GBBhBQZVxNoSgtaBOOSH2ljZcDGjdZx2ifH9TjG7E/iVy9ERqAkAtfdXCiRV1GY20UD1rkFgH6ctyjtJmfJbn31Cj1baAVQWnF9CDxul9dbChoxKWo2EnHuNV9UJeja5hjjSJ0Ee1c2SL5pzRsZ7eXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o/HCOktaQheYuQP6gSAYtOZx4T4bt2l35H+0gO5eWMc=;
+ b=gaWsNlEUuu7IBw/ZoZFCKV1w2T3FllslTVuzEnq0AwiRPijZmNDE/24J5SS9+aenMcl2v3k/qUU3urMoz6OPkj6mlsxY4QXCDTI6TN+YtvvXAKczAiORwF/ThwootPzMtUkGEWsC6sq5h3MQ+Ek2kSL+YZ6UlICNr6Eqcr/x2S5c7rEoWN+uVomjRCajHqI9ntCCjHrp2QQPV3Q3tvPqh3apUPTxKwbaBvTf26klWYQU7mpE6vsOAdaDpjywh6LDGt2edqZ/wlzEi06Tb0hNJLlRqBCYlmlojQUwcFQrZE/HbpkKWZX6QLUKXIof/NEGBHw0nC9MtS0YOl17rr+iiQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MWHPR1201MB0111.namprd12.prod.outlook.com (2603:10b6:301:55::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.12; Fri, 11 Feb
+ 2022 10:38:18 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::846c:d3cd:5a30:c35]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::846c:d3cd:5a30:c35%5]) with mapi id 15.20.4951.019; Fri, 11 Feb 2022
+ 10:38:17 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Gopal Tiwari <gtiwari@redhat.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: Warning traces for WQ_MEM_RECLAIM
+Thread-Topic: Warning traces for WQ_MEM_RECLAIM
+Thread-Index: AQHYHv5PS+XdWecOEkaN/GUPTqNiD6yOKPiA
+Date: Fri, 11 Feb 2022 10:38:17 +0000
+Message-ID: <be11d8a3-995a-b434-3152-3c0b6de9503a@nvidia.com>
+References: <CAE-9DvtdE6AA9F5zjFqTwZWtoPZJ45o_rx_oce=3smDjh4E24Q@mail.gmail.com>
+In-Reply-To: <CAE-9DvtdE6AA9F5zjFqTwZWtoPZJ45o_rx_oce=3smDjh4E24Q@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: linux-nvme <linux-nvme@lists.infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>,
- "Knight, Frederick" <Frederick.Knight@netapp.com>
-References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
- <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
- <02375891-2f92-c3d9-8a55-019b84c14c1c@yandex.ru>
- <205b91c3-4da1-744d-3d06-ccfdf2b93cff@grimberg.me>
- <5b5cfff7-6c07-0cb1-491a-0fa3d13c2cbd@yandex.ru>
- <fd8600bd-aa73-82f7-3ca7-ed7f766f1568@grimberg.me>
- <DM8PR06MB770480F38397C8FE8D4D0F22F1309@DM8PR06MB7704.namprd06.prod.outlook.com>
-From: Alex Talker <alextalker@yandex.ru>
-In-Reply-To: <DM8PR06MB770480F38397C8FE8D4D0F22F1309@DM8PR06MB7704.namprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a05e9524-fa19-40cc-2be8-08d9ed4a9dc4
+x-ms-traffictypediagnostic: MWHPR1201MB0111:EE_
+x-microsoft-antispam-prvs: <MWHPR1201MB01113FEAF2D07ABFD871333FA3309@MWHPR1201MB0111.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ORWaJrNoqZL2PQgvKFnsKei2s69T55QQU3kO5kGF/CrVGTAhl22XrGFpt/7BuLKssc1Fx0LMYXBy8936ndCIE2cagg/BN0a4Ad+Fgc73U2VUC8AvW5furQk/NSfk0pWEY7VUoJjLrHdo3OOyCyI7ruRy4hLE7RzjQXb3vyx4cBidx33VXZqGdwXymOXwy/jb3CEmUDk6B+nBEAeXhPlEUoCtN3zdcjWB/TDqr37htYx7rTP2MNCWHxD7997p+rlsrPU4afxIny892uanUIA1Win/DErXNvZGJCMCc2LD513F4pL/TIdrYzwl8cAOqwb24vZ6hyT4HNcaY+Zb5k2D2gDjtSmeP3yoUiPV3amJzwbT0UOm5tSeg5bISXPv0V4KfFBJevmNry8LZvJtaFNX8kCql4tfcGujPPxgLap4NIcBC9+vqqVaxwOsU/LCh2nq8CXENtDg0iLS0wMzNIwibXHmopG9v5JOUz17dq8+76Cc3viujJLgp0AJs3dNx/fqAtW/zsNRpIpyPP5xacB19mUdf6RZFc+Pba0r69BUZlNx1GsQLhlt9mV6ZYndbz3sUdLKy4IrII1LFc38YcaOEKX3oKRT3hUixNuHQ3HGp6HPKLUELRfXftAyVXTgp7nQ9CTm40iJNJ5G/Jtb+lr6GdSJ6d6lLreYbZ0+YN3N8cFIfNB8NCYZinCkDgsMNb6xGeo64o8NYcgVPL9k/XhitfJJLNqpO+UkhSpxxt0a07zQxQLPxg02aOGWhXsRamYUqVwSg1lDT3bJFefdbBwM2g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(36756003)(316002)(6512007)(4744005)(38070700005)(83380400001)(6506007)(86362001)(31686004)(508600001)(31696002)(6486002)(2906002)(122000001)(66446008)(186003)(2616005)(8676002)(71200400001)(110136005)(38100700002)(66946007)(91956017)(76116006)(8936002)(64756008)(66556008)(66476007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QkZKWmhUU1pVN1dqejdON1JIbi9uNG1SRWc0Ymw4RW96NnV1ZkZrQmNHMWVh?=
+ =?utf-8?B?Ykx0L1V5RGFld0VQZ2RYS1F4VklvQXZ5c3pQYy9pcmVjUEZ2LytUcWxFY3ls?=
+ =?utf-8?B?WDFpMTVNWXJGb1hESDN1OThVTzdvc3dFVkViUlhtV0hCcm8yYzhCUCtmSnd5?=
+ =?utf-8?B?MXNOeDg1a1ZZRm9adnM0eTlCWjRQR0F5ZG1TZXFkTm5Sek0zSTE0THhSMEJy?=
+ =?utf-8?B?bjlNQ0lCRC91YXZIcG1DNzF0K2ZMY0RmS1cvRDZCTWp2QjBKTE5vbUduMXRw?=
+ =?utf-8?B?dHhIWVp5RGR6dTZqa1JwVTB0ZUdzR3kwVTc2S1FubXhsNFMzK2J4c1k5WlUx?=
+ =?utf-8?B?TDhhM1dxK0JseWkwdzZYSzBicUdEbU93LzFscFRjeW1weUZRa3RvV1lBTkgv?=
+ =?utf-8?B?ZUtyQXFHY2xRRjczdXRuME1MWlZac0JrUUtESGZ0eTFQK3hwRnRUNmFkaExr?=
+ =?utf-8?B?OXFGRElsRjBTYVJIcWkvNkRrelFWSmZ1RU5IUlFFc2RZWEVkTkR5ZkNzNnBT?=
+ =?utf-8?B?ZTBudXlZS1ZqZ2dwaHZob25BcERBTlYvb2s2SUphMGJJSUYyU2lPd1ZBODBj?=
+ =?utf-8?B?OHBKZjQ0Zm1hWTRhbnRKYmlGN0RkWVM3WTNIMlJPSW90U1krdWVweFZxRVhL?=
+ =?utf-8?B?dGFxZXp6a05VYXFsZUwrTEliRTE1MFQ0SWk5YzQrazlGY2lMM3RKNGNJbk5T?=
+ =?utf-8?B?K0ozQ2pYa0plSWYxbiswdlFXZ1ArZVJIclV4Q21LeUhOTW9MRjRWNzNRQ052?=
+ =?utf-8?B?MCtrK2hnaXByTTRtWWlKL3VEM215QmJlZ1BETDdaMXpYZk9uZG5HMEd0N1ln?=
+ =?utf-8?B?akJPQWNRSDBBWm1NYXRYaG8wY3hEYy9sRytxWUJjQTNwb1o3bFRlRUE1QUgv?=
+ =?utf-8?B?blM2aXZrSVZoSVRQMWJGVHIwSlRMaEIwY0lCekxrYmc4eHNWcnhUZXZpcDl5?=
+ =?utf-8?B?VGlSQjNDVEtwVDIxa3Vvc2lrNE9oWkdmci9JU3NUOHI3MmZFb3Axa2FJLyt3?=
+ =?utf-8?B?eitnZTJDTlJITXozOHlPd0VLUE1yNVhsWHp0L0tVdnI1U3QyMDZnemJBRC9Y?=
+ =?utf-8?B?SXlvSlpNZjVYSk5JbU1ZNURPY3N2UngrU2dyWVNxbUdIbDdEemduUkpDd3Bw?=
+ =?utf-8?B?a1JRT2hiY0UwUno5VkNuY1BXZFJiOGxvajdpamJFbUJ1ZjhRRFBqOWhVaHF0?=
+ =?utf-8?B?ZzIrM044S0I1TUxSSkE5eFFhd0lta3FEMzl5dU9mNi9QZ1BJOVlBcnZMZlRt?=
+ =?utf-8?B?VTNPR0cwaFF6eHJBc3p6ZmRUWUpOUXVublVNK2JVM3JuQi9sUFV5cThVTzh5?=
+ =?utf-8?B?L1pJdWtVNjlKL2hsTjhLdjdVeUpIcE1zWTVydXJnZkdwWHA0bkNTZTcxMFNL?=
+ =?utf-8?B?TDJDb0tzL1RETDh0TGNQRUp0RzdQRnZCdDdLdk1XQk5TY0pmcnNPanFjbk9X?=
+ =?utf-8?B?OU40WHNLRHdIRy9FWlFXU3l4eGJUTXZPQ1cxSXNFVTNOaSttSVZVUzgzaW50?=
+ =?utf-8?B?SUp4SlZycFB5UEU3Y1k0K3ZBQ1Q4KzBLcXZibDhCWWRVcXkwVk9abWIyeFhR?=
+ =?utf-8?B?ZXMweFF3MVgxSURQbEJNTHR5TmJjeDZTYkxncS82VEJWeFpGbEpmQ0tHS3pm?=
+ =?utf-8?B?SWJXcDRPU2JBenlDRDhRcHYzT2xJazlMZlpZRjRVbjBVamlDTkJrOGRESDBX?=
+ =?utf-8?B?ZURHdVZTU3dvMWRacm9JVnZHek1Ib1J2cUNDUGhRamxNYTEvOTlGY0s2SUFo?=
+ =?utf-8?B?ZzZPOG1FSW1XRHArRGMyWWJSRTFFNlFWRktITCtzY0czZ2FlYk9Mb01zRlJy?=
+ =?utf-8?B?NHd0OWFFKy9DU2tIQ3c1alFEMDlCUzVqa1RYelp5VlJKOGdJMHNmd2lJM2xL?=
+ =?utf-8?B?ak0zcmVjcVI1RDRyaWY0Nk55RTFTTU5uUFh0SHB4NDQ4ZnpsaVhKRTFyVGwy?=
+ =?utf-8?B?Z1JIZklzWHRyUk5EdXJNYng3dk9UQ1VHcVZtdVNQVDJjRHNpdmRudm1Pc1hs?=
+ =?utf-8?B?MFo2Ujh0SDlGb3ZQSXZISVJFUzd6Z1JzS0pYY3pvckgvaE5HbmhZcVdKQTgv?=
+ =?utf-8?B?ZjduL1RDS0QwVVNGcDUrMkFNYkREenZrS1M3REtvY0l6alg0ZWlQU1pKVWpI?=
+ =?utf-8?B?TmxVUXNKalhaK3FsTE9McEhHK0tmY2VIT3UzWVdsUDZmWmlpWXVBbDRncXNB?=
+ =?utf-8?Q?GGYi85tRQKoJr4FwDzYXNydHx6iCXNRLObWFuD5twLt/?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F98E971AE0494B4CA01D9188AC284232@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a05e9524-fa19-40cc-2be8-08d9ed4a9dc4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2022 10:38:17.8784 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pOu/WQvBmZgRDGIZzQb0q0cjTid+ObzduT9bfU6x7BtPTuDglFX5FFl477jr8GncC/AyhEhuCegXxfpQbWu3JQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220211_012143_640998_D3374F41 
-X-CRM114-Status: GOOD (  29.86  )
+X-CRM114-CacheID: sfid-20220211_023820_801078_E5794B77 
+X-CRM114-Status: GOOD (  10.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,86 +150,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
- > [FK> ] I think I'm missing a bunch of context here. What is the
- > original question? I take a stab at some assumptions: What is an
- > empty ANA group? That is an ANA Group with NO NSIDs associated with
- > that group. Meaning the "Number of NSID Values" field is cleared to
- > '0h' in the ANA Group Descriptor. That descriptor can be used to
- > update some host internal state information related to that ANA
- > group, but it has no impact on any I/O because there can be no I/O
- > (since there are no NSID values). So I'm not sure where that is
- > going (because RGO=1 also can return ANA Groups that have state, but
- > no attached namespaces (it's a way to get group state without any
- > NSID inventory requirements)).
-
-That's exactly right, "nnsids=0" case. I/O is not a problem for such a 
-group, for sure.
-I suppose the main argument we're having here is that when such a group 
-has a "change" ANA state,
-the host("nvme-core" module) starts a timer for ANATT which upon 
-expiration resets the controller.
-Now, I do not disagree that having such a group is "ugly" but rather 
-argue that ANATT-related functionality could be only invoked for 
-"nnsids>0" case,
-since only then there's a relation between "change" state and a 
-namespace via "ANAGRPID".
-
-My approach for assigning ANA groups to namespaces involves and idea 
-that on one node(i.e. "system") casually a namespace has the same state 
-on every port,
-since it's more likely that access state of the namespace would change, 
-rather than what's it accessed through (the port),
-so I simply pre-allocate 5 ANA groups per 5 possible at the moment ANA 
-states on each port and then change "ANAGRPID" of a namespace to 
-transition it from one state to another.
-While it is perfectly possible as highlighter earlier to transition 
-bypassing "change" state,
-it is still preferable in my opinion in situations when the final state 
-is not known "a priori",
-and thus works as a graceful guard from host's I/O. This is why I opt to 
-pre-allocate one for this state too,
-however on modern versions of popular distributions that causes the 
-reset issue described before,
-which might have undetermined impact on my I/O in progress.
-
-Thus, I find starting the ANATT timer redundant when "nnsids=0".
-I think the only users such a change might affect if someone uses this 
-as a dirty hack to reset controller on host(when that would be helpful 
-tho?).
-Otherwise, I have prepared & checked on the mainline a simple(+2 lines, 
--2 lines) patch that fixes this behavior,
-so I might sent it if it's preferable to have this discussion around an 
-actual change.
-
- > Now this treads into the TP 4108 space. There is currently no way to
- > report anything that impacts "only one namespace at a time". ANY
- > report of a change (AEN) for any namespace is always reporting a
- > state change for the entire group that contains the namespace where
- > the event occurred. That is the WHOLE POINT of ANA Groups. AND,
- > that is the whole point of TP4108 - to address that kind of situation
- > (where a change impacts only 1 namespace). Until TP4108 address this
- > situation, a single namespace changing the ANAGRPID is ugly. Maybe
- > we should get to work on that TP.
-
-I ain't no member of a committee or something(unfortunately), so I have 
-no idea what TP 4108 is about or where to find it.
-But my main message on this passage was not in a sense how little data 
-would be exchanged between target & hosts but rather for how many namespace
-relation between them and associated with them ANA state would change, 
-as to highlight the contrast between changing ANA state of a group and 
-changing ANAGRPID of a namespace.
-Again, I do not disagree that it's ugly but on the matter why I can't 
-just go an assign each namespace(assuming NSID is global on my target 
-system rather than one of the subsystems)
-a separate ANA Group due to 8 times difference between allowed number of 
-the first and the latter, I proposed to parametrize that in previous 
-message but got no reply in that regard unfortunately.
-
-Hope that more or less cleared things out.
-
-Thanks for your time!
-
-Best regards,
-Alex
-
+DQo+IERvIHlvdSB0aGluay9zdWdnZXN0IHRoYXQgbnZtZS1jb3JlIHNob3VsZCBhbHNvIGRvIHRo
+ZSBzYW1lIHRvIHN0b3Agc3VjaCANCj4gd2FybmluZ3MgPy4gTGV0IG1lIGtub3cgaWYgeW91IGFn
+cmVlIHdpdGggcmVtb3ZpbmcgdGhlIGZsYWcuIEkgY2FuIHNlbmQgDQo+IGEgcGF0Y2ggb3IgYW55
+IG90aGVyIHN1Z2dlc3Rpb24gd291bGQgYmUgaGVscGZ1bC4NCj4gDQoNCklzIHJlbW92aW5nIHRo
+ZSBmbGFnIGdvaW5nIHRvIGZpeGVzIHRoZSBpc3N1ZSA/DQoNCldoYXQgYXJlIHRoZSBvdGhlciBp
+bXBsaWNhdGlvbnMgb2YgcmVtb3ZpbmcgZmxhZ3MgPw0KDQoNCj4gIMKgIMKgVGhhbmtzDQo+ICDC
+oCDCoEdvcGFsDQoNCg==
 
