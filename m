@@ -4,133 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8B76C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Feb 2022 12:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE350C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Feb 2022 13:17:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VQsX46HRP+hwsuLDPRH2jF6cbmut89huVS4KXIX8g9g=; b=hUjOP18e3/xlO/7iQKiknyYvIE
-	uW44Iz3gMDBZH9czAw6QN8Wws3GaZANJ1Nz9x7EqlG5v8VJHV4/6XLgXr+Lc6ZRNA2mnjQuifJpOn
-	ChKdr5eDl7N5FB9BzHiFR+eonW32X6wmWZpaBkfuEHKUzG0bqrvPyH+/F5E/jVSWy4HXL56CyxP3P
-	3/ROHhOQNcyySt4iffOXkCObFUTSCzgb7XLDQ77mt6pHoZ+/eMypVE8PtKG+vJYFvu00ttgQsnm9r
-	XUFRnqoMjqEZbDwFGMBGo16YOB1mBk/sjIB542+BCmd4GwOb/Sco1GmJtOCd+63YCCsO84qDmmC+I
-	ZVwSuAwQ==;
+	Content-Type:In-Reply-To:Subject:From:References:To:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2W3jXde9AK8jQYLgLG82+wVWF6MufyAXlry9SmwpNjY=; b=WW/6JOT9+EyvJHK54NZAJAHlHr
+	M750VOcu3zn8/bU2PwjWx+gfEmr/6cs8NtqvH3a6/FnTY6vc9UOm+1EeTlunFOgR9PB52VS0Xruqk
+	Sf57cY2eHieunbiuK9YvFSu3v8/2G/ERuveDdOCRs3FXzU9RPUSZRa3Iuh7yjRtyq8sYIHM35o0Xr
+	N/TE8rhSupIK53uR9iSrYNqdhjXxDdENEjDe1lw/oVJiBI7t8+oeJY5kzzF2GZmMqkJeGur45MdH1
+	CuODcdBdfE2cx/PG+HpdXo8hwwD3GTCtCiIVOuOhVX9t1eLsVNwf6OMAVALcizAMSlFTzy6+DYcTi
+	O/OGnn8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJao8-00FFvI-5S; Mon, 14 Feb 2022 12:50:20 +0000
-Received: from mail-bn8nam08on20631.outbound.protection.outlook.com
- ([2a01:111:f400:7e8d::631]
- helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+	id 1nJbE5-00FP3d-PA; Mon, 14 Feb 2022 13:17:09 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJaSY-00F8E5-29
- for linux-nvme@lists.infradead.org; Mon, 14 Feb 2022 12:28:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bwwFrl4SjLGeVTSIQkLyD2HAOYuOChjkwloi8WTVAYrA0hqE4f1yP/R28OU176F6qx/GaLJiIr4sMrtV379xfaQAGXWrKI3HYErwT5Dgo9yzyUuRdYRJExGCeucehTVmxvaZ9fXkcI7SFHdQBnRHyq4mIQKhi2nvTOKV5q14nkyXGbnnXk9X2sl30RmU8Keom/e0bjgAsUVA5BhNUUgyFBbODEetbgp+Ax23BI065y+egYy0bBlh26u+EIk8bV7BVnZi0rsN/GMGjzPMaikFfAloNRfkPHgB5jQtg6jK9FI/NAEWnAPlCMGCjWVUpw5IRag/uDKvf4fe49S2yH2F7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VQsX46HRP+hwsuLDPRH2jF6cbmut89huVS4KXIX8g9g=;
- b=hvOwLxxdXo3B9eGroOuUOXOB4xuqbvdVAgYBrbxF5igfJw76kkcYv1f67lSQAjRT6P6NcEQrHH2CTPo7/OPSWK5i7nkgok5vHW8rR7w12oiuJlBKTyM/goWPdRjI1LNvDHRWXnQsABislI9XS96TVqNvo90P7GbXNAWPlpuZyYz23p7oNcldMtKN60BIxaUxZ77TfQ8KYIfXURvOjowGuG7ZuZtagkJ3xRpIWAcSNUyrj9whX8PuioaitClZmDDOdDKfdaqY/OmRzvp8P1/dIeZseVrkuxLFmzuU8mJ6dFaSL0ms9trzu0KdEmMO7IrajDWaLxUjV3ok0HmIZJYWIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQsX46HRP+hwsuLDPRH2jF6cbmut89huVS4KXIX8g9g=;
- b=HUfvgEsGDcGzSo7hlClAsa92S7U5mod8MdS3G4QOvd9yHetBWcMHvxnIB+t/bibbYk79x2xTW+8o2mfUKKHODlc6yf4gbXN7JZpPekmrppmbHuBHbJfWHpGSzhJKWumUcZRFwldM0d3/D7GQj+ffDipMZKgi+pc3lwez3RKJj06bvMcYXtAPtNFG5jtBH5ikYetvOCc4h4p74dgy9xX0ywc9PKRQEEZeCbx3zT3KJG6VRF0psVrQWt6z7OPfHWpiXfzvse7kRVl5sdxsu2Elw649bJfCIh/HqKu2rrMG8+E/grmf4wrRTZmIGzAitS6OQEO0gpWyWCPNyhCHBnNvVw==
-Received: from MW4PR03CA0146.namprd03.prod.outlook.com (2603:10b6:303:8c::31)
- by CH0PR12MB5122.namprd12.prod.outlook.com (2603:10b6:610:bd::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.15; Mon, 14 Feb
- 2022 12:12:03 +0000
-Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8c:cafe::e4) by MW4PR03CA0146.outlook.office365.com
- (2603:10b6:303:8c::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.13 via Frontend
- Transport; Mon, 14 Feb 2022 12:12:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.236) by
- CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4975.11 via Frontend Transport; Mon, 14 Feb 2022 12:12:02 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
- (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Mon, 14 Feb 2022 12:12:01 +0000
-Received: from [172.27.14.120] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Mon, 14 Feb 2022
- 04:11:59 -0800
-Message-ID: <bdb675e4-1de8-400b-9d43-9f0c18147dc4@nvidia.com>
-Date: Mon, 14 Feb 2022 14:11:56 +0200
+ id 1nJbE1-00FP1m-CI
+ for linux-nvme@lists.infradead.org; Mon, 14 Feb 2022 13:17:08 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0ECCD1F38A;
+ Mon, 14 Feb 2022 13:16:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1644844616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2W3jXde9AK8jQYLgLG82+wVWF6MufyAXlry9SmwpNjY=;
+ b=z/D3rT7F+zzhL1ih6BIBBo1jTVowj1TmFxPDoS+4JnJsfHtijRv7301D6QAYzr1Y4m81YG
+ EcXpFN0vO+098e+mki1Vx1sPAgw5M0L/S34hXzfx0pkpb5BCXWeZU1HOkjOrAET3OyaLdf
+ fpoIyBbehcIDnlrBYyU0CtpdsyqFF7k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1644844616;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2W3jXde9AK8jQYLgLG82+wVWF6MufyAXlry9SmwpNjY=;
+ b=KPFTY2FPIm9MJI9S8S7qHwhLAqCZOhkQXzS3yGw+LJFhyItRJ+Kt6uIInD073zmHYAJeG9
+ o230xcVB1l01OXCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F27B413B2B;
+ Mon, 14 Feb 2022 13:16:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id T5myOkdWCmImIQAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 14 Feb 2022 13:16:55 +0000
+Message-ID: <4cd1f9c1-e31a-2a41-1f96-ba54103cc3a2@suse.de>
+Date: Mon, 14 Feb 2022 14:16:55 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>
-CC: Haakon Bugge <haakon.bugge@oracle.com>, Max Gurtovoy <maxg@mellanox.com>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, "OFED
- mailing list" <linux-rdma@vger.kernel.org>
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
- <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
- <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
- <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
- <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
- <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
- <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
- <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
- <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
- <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
- <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
- <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
- <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
- <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
- <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Alex Talker <alextalker@yandex.ru>,
+ linux-nvme <linux-nvme@lists.infradead.org>, Sagi Grimberg
+ <sagi@grimberg.me>, "Knight, Frederick" <Frederick.Knight@netapp.com>
+References: <3fec0f6d-508c-c783-1779-a00e43fa2821@yandex.ru>
+ <9a765265-0200-0eea-872f-780c4dbb69b8@grimberg.me>
+ <02375891-2f92-c3d9-8a55-019b84c14c1c@yandex.ru>
+ <205b91c3-4da1-744d-3d06-ccfdf2b93cff@grimberg.me>
+ <5b5cfff7-6c07-0cb1-491a-0fa3d13c2cbd@yandex.ru>
+ <fd8600bd-aa73-82f7-3ca7-ed7f766f1568@grimberg.me>
+ <DM8PR06MB770480F38397C8FE8D4D0F22F1309@DM8PR06MB7704.namprd06.prod.outlook.com>
+ <3de626e3-4d03-50a8-9bd2-c974227add02@yandex.ru>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: NVMe over Fabrics host: behavior on presence of ANA Group in
+ "change" state
+In-Reply-To: <3de626e3-4d03-50a8-9bd2-c974227add02@yandex.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c0278a76-b4c8-4a98-cf31-08d9efb3357d
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5122:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR12MB5122CDF79970469FD8FDB1B0DE339@CH0PR12MB5122.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UfFU8xqQD24ZAM3pF37TiIH+54vZ2opUBWsX7lF6/lNaP50ssT1mnEfbp5gbYJgyykq+2DQlBZhGF/5pq0uR/uwlz91FMihmrRnE2LeeOx0S6wmDH2wiX8xvSpwGm2ATw9PpxE9nEh+wthVg+0QtibYunanDTA3Yya3UVMTJFzdAvR6nT9NnpluBjokaBbnEcjYFtscStQeeenNmpOGf//IJB81yKQz6op/LVoSfblE7ysz/NoPHKZHSrgUYS3mwyZRUhBDzdErlpgj6lov/ADpBt7SlCtkw5SwznFntweOA+T40uRephDmGq0Qq33K7s81ZiRUVVspnABNYmDI1ebIb3BRBgcjGZ5LeYPzEDeljpsNUKNB+YsSyp0KHHDHLzW1TqGYHZH+Uhfi9WX34IZmUaUYKUdOB4gvDHmo63UA8Lg+vzA0UZJ6U/irzn0Lwqz1Va5gXLAe1LqJtxr5GmiXn8zJ7GMwkpOfcDlkMETJzpX3cIsDa3tqXhGexexfKE+JPoCNMclg8hsHittjKyfZa8zDzx0x95hcUiLSgSJJVN90AVzfGdxWFx5OLYh912VAy8+6LtsbovWkBHDo5zYNydTfN4FQQvdvnnUMtQfFjA1Jo/Lzsf6E2juMa8CMsXe/rNB61arfRXuWSgCl3x1EulJImuOwNkm+wzfa0+v/U3SRIidDyEc9S/R1dJXla0ZCVwcH13uNpLCMNatZmFjWWq0w9ROtDD8+jghnKJn7OhOXYHFE7S2WfDvlU878y
-X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(356005)(26005)(186003)(36860700001)(53546011)(81166007)(6666004)(2616005)(16526019)(83380400001)(47076005)(82310400004)(426003)(336012)(70586007)(31696002)(5660300002)(2906002)(8936002)(86362001)(36756003)(40460700003)(31686004)(54906003)(508600001)(110136005)(16576012)(8676002)(4326008)(316002)(70206006)(43740500002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 12:12:02.4007 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0278a76-b4c8-4a98-cf31-08d9efb3357d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5122
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220214_042802_127213_93E4D294 
-X-CRM114-Status: GOOD (  15.03  )
+X-CRM114-CacheID: sfid-20220214_051705_591861_0E7D7323 
+X-CRM114-Status: GOOD (  24.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,69 +98,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2/11/22 10:21, Alex Talker wrote:
+>  > [FK> ] I think I'm missing a bunch of context here. What is the
+>  > original question? I take a stab at some assumptions: What is an
+>  > empty ANA group? That is an ANA Group with NO NSIDs associated with
+>  > that group. Meaning the "Number of NSID Values" field is cleared to
+>  > '0h' in the ANA Group Descriptor. That descriptor can be used to
+>  > update some host internal state information related to that ANA
+>  > group, but it has no impact on any I/O because there can be no I/O
+>  > (since there are no NSID values). So I'm not sure where that is
+>  > going (because RGO=1 also can return ANA Groups that have state, but
+>  > no attached namespaces (it's a way to get group state without any
+>  > NSID inventory requirements)).
+> 
+> That's exactly right, "nnsids=0" case. I/O is not a problem for such a 
+> group, for sure.
+> I suppose the main argument we're having here is that when such a group 
+> has a "change" ANA state, the host("nvme-core" module) starts a timer
+> for ANATT which upon expiration resets the controller.
+> Now, I do not disagree that having such a group is "ugly" but rather 
+> argue that ANATT-related functionality could be only invoked for 
+> "nnsids>0" case, since only then there's a relation between "change"
+> state and a namespace via "ANAGRPID".
+> 
+Ah. So now I get where you are coming from.
 
-On 2/14/2022 1:32 PM, Sagi Grimberg wrote:
->
->> Hi Sagi/Max
->> Here are more findings with the bisect:
->>
->> The time for reset operation changed from 3s[1] to 12s[2] after
->> commit[3], and after commit[4], the reset operation timeout at the
->> second reset[5], let me know if you need any testing for it, thanks.
->
-> Does this at least eliminate the timeout?
-> -- 
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index a162f6c6da6e..60e415078893 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -25,7 +25,7 @@ extern unsigned int nvme_io_timeout;
->  extern unsigned int admin_timeout;
->  #define NVME_ADMIN_TIMEOUT     (admin_timeout * HZ)
->
-> -#define NVME_DEFAULT_KATO      5
-> +#define NVME_DEFAULT_KATO      10
->
->  #ifdef CONFIG_ARCH_NO_SG_CHAIN
->  #define  NVME_INLINE_SG_CNT  0
-> -- 
->
-or for the initial test you can use --keep-alive-tmo=<10 or 15> flag in 
-the connect command
+The problem seems to be around a static ANA group with status 'change'.
+The whole idea behind the 'change' ANA status (and ANA groups in 
+general) was that ANA groups could _change_ the ANA status, and such a 
+change would affect all namespaces in that group.
+ From that angle having a 'change' state makes sense, as one could use 
+them to signal "hey, I'm busy transitioning to another state" to the host.
 
->>
->> [1]
->> # time nvme reset /dev/nvme0
->>
->> real 0m3.049s
->> user 0m0.000s
->> sys 0m0.006s
->> [2]
->> # time nvme reset /dev/nvme0
->>
->> real 0m12.498s
->> user 0m0.000s
->> sys 0m0.006s
->> [3]
->> commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc (HEAD)
->> Author: Max Gurtovoy <maxg@mellanox.com>
->> Date:   Tue May 19 17:05:56 2020 +0300
->>
->>      nvme-rdma: add metadata/T10-PI support
->>
->> [4]
->> commit a70b81bd4d9d2d6c05cfe6ef2a10bccc2e04357a (HEAD)
->> Author: Hannes Reinecke <hare@suse.de>
->> Date:   Fri Apr 16 13:46:20 2021 +0200
->>
->>      nvme: sanitize KATO setting-
->
-> This change effectively changed the keep-alive timeout
-> from 15 to 5 and modified the host to send keepalives every
-> 2.5 seconds instead of 5.
->
-> I guess that in combination that now it takes longer to
-> create and delete rdma resources (either qps or mrs)
-> it starts to timeout in setups where there are a lot of
-> queues.
+But when using _static_ ANA groups the whole concept become shaky.
+While it's perfectly okay to have static ANA groups with 'normal' states 
+(ie excluding the 'change' state), things become iffy if you have a 
+static 'change' state.
+Thing is, having a 'change' state indicates to the host that a 
+controller will need time to transition between states. And this 
+transitioning out of necessity will always be between 'normal' ANA 
+states (ie excluding the 'change' state).
+The spec doesn't allow the controller to specify "I need time to 
+transition _to_ the 'change' state"; the transition to and from 'change' 
+is always assumed to be atomic.
+(Because the 'change' state is used to signal precisely that condition.)
+
+Exec summary: having static ANA groups is okay, having a static ANA 
+group in 'change' state questionable and not something I would recommend.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
