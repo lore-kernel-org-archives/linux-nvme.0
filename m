@@ -4,105 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7EC7C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Feb 2022 10:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8117BC433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Feb 2022 10:47:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I2qt3+FoK96nE1glGYDfvHEmytroL36t21/ibFTNEps=; b=YbqymZZTiVaMPAvGewaE25dQon
-	wr4/JMzBIAndWAi4JtTMKh55qNtDzYVnpRFMAcI9htG3i0avQ/ELo7pwP8W9y8gxKwXX2wrGMx2g2
-	zDuXEbsQu3kYgqsa7tJKC5YD6c9jR0kWqpP/q+A5UDL/sESuk2EhXM8+aGeC0lfdmFH8f5NosOxts
-	C6rZamXu1rrtXjMKH9+QrQwiSvm7U26uJRPSxz7pWwtuOIaCURUGQVoHSzAYNAR/SNq5rz0mHCkdQ
-	HF7e76ggC7t1IiyuBISbqxnK6BuoLrf9MOhshElWHUIj6xOJ9EqWLHeg45eINwHigdRQ258MAG07H
-	2SnF5hAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=gsQ7L8rQ+j7uFSbvBR+XBVMOjuIRXFeibMuQAS5P3I4=; b=RfhiDf/STrTQRYfNo9jO9eDRSB
+	ML1+DDEwEAND6c1WTQ9oqR+JvfaGNbhGzDc2W+aM685zszrKLbP9Br44IEWHwsa+5C/FixW6zwjX/
+	ynXEjUv5IFleJxNUIQjEnkc0i6r6yCo93PHDGn7eA406FYHg+kRzQt/2IrndNmXzoxluh0eiTab4e
+	laJ2fW6HSTGlLTxtLVSYjpaAhUTuBasu0eulqIEsxv+ZGnAt3mDy5iRabOMQ2WRwaEmZJBSvOSxkI
+	1Ej0COj3jyC3UxOMXvKpyuGEC3raho1ijWvU8cq58H88vRIzjrK1PGD6xNnPiIBwuG2z8zcKdnpY+
+	O6ZBgTbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJYo9-00EZrS-Bq; Mon, 14 Feb 2022 10:42:13 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nJYsz-00EbGm-Ni; Mon, 14 Feb 2022 10:47:14 +0000
+Received: from mail-db3eur04on060e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0c::60e]
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJXxe-00EKQs-Qm
- for linux-nvme@lists.infradead.org; Mon, 14 Feb 2022 09:48:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644832076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I2qt3+FoK96nE1glGYDfvHEmytroL36t21/ibFTNEps=;
- b=I3tCx2NzDNA1q6vIs7LOkp2j0mXmFAeGrU/xHQ5uRLC68yPNEZ7NsSULKabC5ywni1SsF4
- dkwcLxbrSo9W43cYZUTK3hMfF86ckJRiISjxKNhkwZF71SOD5RCjNMj6upl2uc0vK0htis
- JR7aKpD+0U+s5lYgjWcPDT7kn63t+RQ=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-116-1NI1PpLPOTWx_6-IDl76Kw-1; Mon, 14 Feb 2022 04:47:54 -0500
-X-MC-Unique: 1NI1PpLPOTWx_6-IDl76Kw-1
-Received: by mail-pj1-f70.google.com with SMTP id
- ay10-20020a17090b030a00b001b8a4029ba0so13825253pjb.5
- for <linux-nvme@lists.infradead.org>; Mon, 14 Feb 2022 01:47:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I2qt3+FoK96nE1glGYDfvHEmytroL36t21/ibFTNEps=;
- b=6Fw9I/O+hV4tliCHYQ6t/DoGxYlA9KGpWkkEg1Jucvj5ug5KiCpgiczECvyB9w2Gya
- v63PADeEiHNJGGjcokZu3l1NwSlu9dnIKDh5A1byf8/0x7Stt0yUz/OdA6sn7CdAs0MD
- 7wzmSWfyGWcMTPjhOzykkqX1a9lMegPMhB+NHnJS/IEST0QoDuuVYIYGr1pRuLRrkxcb
- 7/OzaPE5gVmQ4YGyt2YyY8KbIcEse+4QLm7dXRJu7vZm+EwQZCL0X+KIvWDO8RGAgIsx
- pJE5MfXZAZRcKRM5w4+B+aHAafQs/6VS1S5LNpbW7C3051q4q5n+4bSLNHmmFIj+u6NX
- H2Kw==
-X-Gm-Message-State: AOAM530zC59+xWdhcIqiyIGMt8+ktUilkc+QXOnBHBDZ4qHbALvo07XS
- 3YBGrv64oHz5Cq4ViaAHVbD5+7UXPPUiiD4MJQWph+EnJcZ16aGBJeMUIcPZqjYevE3U665BDAw
- rjYp7OTIv9jkNnHTm0RNQqe0uq9JNSfy1bONzo7TVGMk=
-X-Received: by 2002:a17:90b:4c8e:: with SMTP id
- my14mr303755pjb.71.1644832073355; 
- Mon, 14 Feb 2022 01:47:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwQupS/3/0kv1fHvOOXQWpZzGEaHDzvb3gSL3UfrXE+v/ScWqXHLMS34+5bhifcaRICK6lLTkW+L/Vg/M6cE5Q=
-X-Received: by 2002:a17:90b:4c8e:: with SMTP id
- my14mr303737pjb.71.1644832073109; 
- Mon, 14 Feb 2022 01:47:53 -0800 (PST)
+ id 1nJY0p-00ELJI-6L
+ for linux-nvme@lists.infradead.org; Mon, 14 Feb 2022 09:51:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LQhrK68ikLxBZuSMAwhuCcI9r34kChWj574fpyNm1axrIFEOIXpqw/6Yav4SX213GXJ/kIIk5qnnaRaGoqsXOtJigIBXaXuUWeSEmuWHYOQwj8DzQ7y+eVEq74AtHcg2aLU4PbuQcGX/Da+/Ab/gywNri2byiJkb6NXx64avUz5wI98Ot4eBu4Dwyxvt1Sj0gbHRppwvaG8aZGXgMzidUngYSuel9BSENRn6ab72FR1Rebe6KVkscakLmbAVgxhlT1qtiUIMBr6wHX9jTq2MdNJbiqY5z5dJl1zs5bFfMbc2e9+veopgcsnCzW+xjPXlbGc5AnndBFIcbht+y1XhXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gsQ7L8rQ+j7uFSbvBR+XBVMOjuIRXFeibMuQAS5P3I4=;
+ b=bxAmt2zchBVvfMVs/VB4j+bIZ4VNcFIWhBdLp405grPHfox4JieOkqxwaBsMc3jt9TGtveIXaSoXREmLXI0onbZsO03HSIXxnKHeLvheTzZAC3A52BDrJ4EtJK1WmG/uTpmn7Cu3524PHz54hSpuDJst3KTfAGI8DfR8k91Du0xG/fGoef6zieGmi9Tp3xaMhiIC9nqcDpI6Q8XSW52B1eixBxkIIuHsZX2vHbaK6yuCzMDKKRuBSNx4lfIVfBdLM1aO2vRTK8zdWJiP1l39ducFVfvu0lHvQb3zZG39hGOHJi4F9Z6HAx2xTxCs48/TxQ6db2UZDf42fi75ILjRHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ipetronik.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gsQ7L8rQ+j7uFSbvBR+XBVMOjuIRXFeibMuQAS5P3I4=;
+ b=GxqKGLT6ddfR0b6EzkEExPkOdJpQgUVcGXaEx88wKLLhl9bmrwRz0S363QB7SU9iuHpHXR9KjprogTi4OfoirJTC5pqcbECIEvss0Rxuz3g3WAlWhz6M5iPXekEjEVuKeHxswPaO2ZhV+TF59rX6Rg6jaklOtlH1LO15/J0pztPTgdY9x4+wFbZvdtKkv0dzpCVo0oUUqXzY68K2B1qahguB5K8Ru+qNhTDmpK/eVNKpV8GO5cttfV9Yu2QjkCVi1redF3xqxM741daA3X90Z82fqPHsjN2P8QIoE9FdOUJ15RWZ4pWfT6rSksOXgqGkSFUESXcbc2F1LrKx2WNuSA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ipetronik.com;
+Received: from AM9P193MB1572.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:307::12)
+ by PAXP193MB1933.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:1c8::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.12; Mon, 14 Feb
+ 2022 09:51:09 +0000
+Received: from AM9P193MB1572.EURP193.PROD.OUTLOOK.COM
+ ([fe80::f127:41d:4d91:9dc0]) by AM9P193MB1572.EURP193.PROD.OUTLOOK.COM
+ ([fe80::f127:41d:4d91:9dc0%7]) with mapi id 15.20.4975.019; Mon, 14 Feb 2022
+ 09:51:09 +0000
+Date: Mon, 14 Feb 2022 10:51:07 +0100
+From: Markus =?utf-8?Q?Bl=C3=B6chl?= <markus.bloechl@ipetronik.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stefan Roese <sr@denx.de>
+Subject: [RFC PATCH] nvme: prevent hang on surprise removal of NVMe disk
+Message-ID: <20220214095107.3t5en5a3tosaeoo6@ipetronik.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS8P189CA0013.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:31f::22) To AM9P193MB1572.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:307::12)
 MIME-Version: 1.0
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <3c86dc88-97d9-5a71-20e1-a90279f47db5@grimberg.me>
- <CAHj4cs_3eLZd=vxRRrnBU2W4H38mqttcy0ZdSw6uw4KvbJWgeQ@mail.gmail.com>
- <CAHj4cs_VZ7C7ciKy-q51a+Gc=uce0GDKRHNmUdoGOd7KSvURpA@mail.gmail.com>
- <84208be5-a7a9-5261-398c-fa9bda3efbe3@grimberg.me>
- <CAHj4cs8dgNNE5qcX3Y4ykuTYU8z_kea6=q64Pn_2vsdodgOJZQ@mail.gmail.com>
- <CAHj4cs-aDo7DufnKazyKuZVR-1AWr5FK1LDsN=Do=CVUJ2pH3g@mail.gmail.com>
- <9f115198-bafc-be4e-1c90-06444b8a37f6@grimberg.me>
- <CAHj4cs8wBwDGhhtEPodyBdR-sCqJLYhwLhNHuPDm+KCan0hwWg@mail.gmail.com>
- <42ccd095-b552-32f7-96b0-d34d46f7c83e@grimberg.me>
- <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
- <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
- <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
- <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
- <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
- <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
- <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
- <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
- <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
- <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
- <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
-In-Reply-To: <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Mon, 14 Feb 2022 17:47:40 +0800
-Message-ID: <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Haakon Bugge <haakon.bugge@oracle.com>, Max Gurtovoy <maxg@mellanox.com>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
- OFED mailing list <linux-rdma@vger.kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e2d5602a-d433-455c-8c2d-08d9ef9f86b8
+X-MS-TrafficTypeDiagnostic: PAXP193MB1933:EE_
+X-Microsoft-Antispam-PRVS: <PAXP193MB19332AEC9E0DF7B8452ED7FA92339@PAXP193MB1933.EURP193.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZtwbfTg+BHk4anzJV88Pzd+jtxvYsg14hLiSqTJHZA+LOmLvxSmTxCnmOscLOIPd07Wep0CwFZ4tpsB4epn9f1fM+v+SqkFp7DXIJBnjuECBOpEVhaBA/EQTOdx4sGA0/idooFfY+mNedmzN34tHFrLx0SDjIt9NSyMAKk9oklsuc9ZvytNV74bi9VcFivFvpcLomlyY3MD6HezOLMZWqJYDMnDcX1ur68tHNhboLXVjOz/XwnfQHEn9zmZxX76DUEhQx3axj8M+Tr2IFnIaFY19tyuyrRCSCBKYIAeUfY8sRyUkItc8CBH2ZT7hbyVWp6/1v8IqeRAx0UlJX+oCV+PP7Hdx/IaPqL/bzB/ZK+kOwPo1Xli9W9bloxfqengxTBYGJFZ47dHnVJxK4DYOLloZNT5pQuRZ74BrSU7u/s5xLp7lw8Fq6l42zwLIULD3vq14LyYVZDjTBa2yv0yr7fBGn31e97l9iFhX5nRG8AxLaerhyVswkZjdtSiWx/wz24t9AsNwrfwBKlXws4C+ZujOhVsxQMNGKP57zNYnhVJHSObMyAGGmwv+7CxJ26J1MRLO0zbyNxkiqg+E3rz/lhx3t40HR2WV111fpjJYHrZUkYOu4HcK9HvdyYco0HBO2KmGJvkOjdR1sO4n34Cykg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9P193MB1572.EURP193.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(83380400001)(8936002)(5660300002)(6506007)(2906002)(1076003)(186003)(36756003)(2616005)(66574015)(66946007)(54906003)(110136005)(508600001)(6486002)(6512007)(38100700002)(316002)(86362001)(8676002)(4326008)(66556008)(52116002)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ck1vbjA5bDMxaWxUVmFOZEd4UENhN3JRRTdNbjErVzJLdDdrNzE5eU9LMEpm?=
+ =?utf-8?B?UWhVZWxIb0Z3MG9yaU8yY2laeEd3ZTdiQVJNQm9YVjNCLzdZeFVRdGJwM0ZW?=
+ =?utf-8?B?bkx6UjNRZGJnOGUzRFhBVjBReFdZUmxZcEpWMFVNcDRFRG5FTzdOSGZLdWJG?=
+ =?utf-8?B?cHp2SDRkT2p2Wnc5dEVUOUczQUpBSnJzTm9pQXFnUUVkM2Z6Z3ljWlVzbjZ5?=
+ =?utf-8?B?SVhNOTN1VkZPZm13djhCK1RRMGZtWmFNeEFsdExwSEJQSEdndUV3eDJNTk9p?=
+ =?utf-8?B?ZWdIVzZ1UkpoaWE0S05sdjJUZEVVVU9tNlplVjUyL0kvYTVDamJmWTZycUJV?=
+ =?utf-8?B?WUJxRXI5czYxU2UzaFkxdG5lUEJZL1JQcEtIN3lWM1puR2hjd1l5ZWF6NnE2?=
+ =?utf-8?B?RlRzZk9rUGRHZkF0L1dMOUp2Q0htM3ZmTUtaWmNjN3VJd0NFMmIvaTNua0E4?=
+ =?utf-8?B?RHpqaHVDOGNELzZIZThuZXdRY1pzS0RjMi8zZmhQL2FxQVNBNUJibjZlQUI0?=
+ =?utf-8?B?WXZ0NG56cXNGMHlVWTErYURHMXB5ZSsvNXdkNGZvUlZ6M0dydW9UMmFsbTY5?=
+ =?utf-8?B?S0NxdzVDWHpLdWkrRmVxNmxyT0c3STNULy9vd2Z5QTc2OHArczY0Nkh3OWdk?=
+ =?utf-8?B?Z2t5RXk1cFVFZjVhRjJlYzJzSzk5MDUyUi9ORjdmL3lqbHVYZk9mbjB6VlR4?=
+ =?utf-8?B?T2VUUGwzM0tYWnlWWExOWnhMcXdES2lzeUtaMmxJM0dXZENDY3ZWV0sxQWQw?=
+ =?utf-8?B?eWc2ZHdTU1pwczlQTU9WeFJ6ditML2krN3JFTllleVNJLzNBdDJLb0JBSmxC?=
+ =?utf-8?B?b2o0aHJyY2IrVkt1NFVqTVdQSldTYzMzLzl4dms1Qmg5alQ5ZWY5NysyaUE4?=
+ =?utf-8?B?UVBaUExaNDZqYm5VMm51dzRnM2grYXJNekllZVdMZ1dDQWdBb1dVbHpuV01h?=
+ =?utf-8?B?WXZaS1BkM2gyUzA4RzhVT0I2TXRBZXVDdk51VzJZOUNtR0pkbkhuNklESU03?=
+ =?utf-8?B?ajZ2cHI2NUxGd0hZOXloWk9yeDdFa1FMS0V3MDlXZng1UmxFY0thRUQwNUVE?=
+ =?utf-8?B?bFdSb0FaMHorVzgveGRzTERpUlo4QW5VdkdNSmhuOTZybjY3dlRJUzJNSVRR?=
+ =?utf-8?B?RnZIVUpTYld2bW5ISC80Y2NNc2l4TzF3Qmd3M2lRSTE1cVlKNm00b3QyUGFv?=
+ =?utf-8?B?UmZMc0ZKOVpUcUtkTDkxOXdoQnQ5MTZ3RHdVd3dZR3NqZlkwSVZ2VzBPVWIv?=
+ =?utf-8?B?T2lSS1dWUmU5c2J2TktWQW1naXJJTGd1YWFMMk1nWXdBTWhBVUxZTUtZK0Nm?=
+ =?utf-8?B?QWE4amtob0Y5ZWdkTU80d00xR1k1bXI5MmY3M3ZzYlhIbXRoOGRORkk3WjBt?=
+ =?utf-8?B?d2xFR2VJQWRaTkZUWHBTN2hBZmVqVllTd0dWVHRpcG5TWStha0FvMW1YSEdz?=
+ =?utf-8?B?UWtHelRwblJnYm1nL05zeHZaZkViNUdHMDl6NVMzQVdmdVJ1aGtXbkQrYW9B?=
+ =?utf-8?B?Ri9WNGt4RGZMNVljQmhVLzd4WVpmdkpKeHdCYVQ3WWxaVWtUZDRiTDk5NHZm?=
+ =?utf-8?B?UFhnMnl3bmFGaVdVRW5hQ0FHMnZtbU80aDJpVFRTZmV2V2NXVkwrd0lQMUY4?=
+ =?utf-8?B?ZmhnY1NPdGRiVCtQUGk4cHExOER3eCt3L1U4VHdQY2ZDa3MwblMvcXRKNFV6?=
+ =?utf-8?B?TTI1RXdmSW1ySFhkWW16V2JmVXUrakE4cVFkNXZNeUZXOWJnZTlvUEtaT2lD?=
+ =?utf-8?B?OWVNaUljcDEwRFlueTlia202SUpHRHZzb1ZXY09QeFRMQzBTSkJrRk10QW5E?=
+ =?utf-8?B?dVgrbWxUS2xBZncrZzBRdnY0VTlBVktIMi9KS25YSkdJaytRNnZTMXBvak5r?=
+ =?utf-8?B?RFpuNlE4NHl1VExCTEU1S0p6NDgySVM5OE1pTHNLelNPYWVyNkE5dzBIS0xP?=
+ =?utf-8?B?eGxrWmpiSmpMNkplZkhLVkhZcWdyenJ4UURRejhlOGwwd3BVQ1BGM3dmclZN?=
+ =?utf-8?B?TmU5Q21URVBCZng4MDJWT1dSZ0ZJT241ZW1oNERkbWZCY2tqUTQwTWVwMjZW?=
+ =?utf-8?B?dUx6MnVmY0szRlJkL0c5Q0x1UzZhT1YyenptUlBVOWZOcWJnRG41QlZ4VWdX?=
+ =?utf-8?B?b1JWMGhpbHpzd0puclJpUlpGQlNhcHV2S0ZlcGcrMk9WeDh5UzBDWC9lUDlY?=
+ =?utf-8?B?dk1RdmJvVmNLTUFSRE5Zd3RqYkttRjcxM2J4VWpveEx0SEd6MGVmTDN4aytm?=
+ =?utf-8?B?cmZKNzIxWUt5QkJzUUVUUFZhM3JFRFRCLzZSaTVjNTA1WitncGVtVDhhZk5T?=
+ =?utf-8?B?YUVCUEh5TGN5dzV5Mmppd0JCUXRkUTlkK2VKa2M3VmZVZmZlbkUwQT09?=
+X-OriginatorOrg: ipetronik.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2d5602a-d433-455c-8c2d-08d9ef9f86b8
+X-MS-Exchange-CrossTenant-AuthSource: AM9P193MB1572.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 09:51:09.1215 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 982fe058-7d80-4936-bdfa-9bed4f9ae127
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M9z+Lb2VDXu5Q/XRBcf2uF0dvAq/mK5x7Ei8cLJt2xxxky/moWsR3gR6YAIg+eFKOrjGlfoUCzKrA3kaU07Md3woYz5gahBPcqVofcIf0zg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB1933
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220214_014759_012568_1740DC8A 
-X-CRM114-Status: UNSURE (   7.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220214_015115_532174_2A36086A 
+X-CRM114-Status: GOOD (  10.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,61 +147,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Sagi/Max
-Here are more findings with the bisect:
+After the surprise removal of a mounted NVMe disk the pciehp task
+reliably hangs forever with a trace similar to this one:
 
-The time for reset operation changed from 3s[1] to 12s[2] after
-commit[3], and after commit[4], the reset operation timeout at the
-second reset[5], let me know if you need any testing for it, thanks.
+ INFO: task irq/43-pciehp:64 blocked for more than 120 seconds.
+ Call Trace:
+  <TASK>
+  __bio_queue_enter
+  blk_mq_submit_bio
+  submit_bio_noacct
+  submit_bio_wait
+  blkdev_issue_flush
+  ext4_sync_fs
+  sync_filesystem
+  fsync_bdev
+  delete_partition
+  blk_drop_partitions
+  del_gendisk
+  nvme_ns_remove
+  nvme_remove_namespaces
+  nvme_remove
+  pci_device_remove
+  __device_release_driver
+  device_release_driver
+  pci_stop_bus_device
+  pci_stop_and_remove_bus_device
+  pciehp_unconfigure_device
+  pciehp_disable_slot
+  pciehp_handle_presence_or_link_change
+  pciehp_ist
+  </TASK>
 
-[1]
-# time nvme reset /dev/nvme0
+I observed this with 5.15.5 from debian bullseye-backports and confirmed
+with 5.17.0-rc3 but previous kernels may be affected as well.
 
-real 0m3.049s
-user 0m0.000s
-sys 0m0.006s
-[2]
-# time nvme reset /dev/nvme0
+I read that del_gendisk() prevents any new I/O only after
+flushing and dropping all partitions.
+But in case of a surprise removal any new blocking I/O must be prevented
+first. I assume that nvme_set_queue_dying() is supposed to do that.
+Is there any other mechanism in place which should achieve this?
 
-real 0m12.498s
-user 0m0.000s
-sys 0m0.006s
-[3]
-commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc (HEAD)
-Author: Max Gurtovoy <maxg@mellanox.com>
-Date:   Tue May 19 17:05:56 2020 +0300
+Unfortunately I am not very familiar with the blk_mq infrastructure so
+any comments and suggestions are very welcome.
 
-    nvme-rdma: add metadata/T10-PI support
+Best regards,
 
-[4]
-commit a70b81bd4d9d2d6c05cfe6ef2a10bccc2e04357a (HEAD)
-Author: Hannes Reinecke <hare@suse.de>
-Date:   Fri Apr 16 13:46:20 2021 +0200
+Markus
 
-    nvme: sanitize KATO setting-
 
-[5]
-# time nvme reset /dev/nvme0
+Signed-off-by: Markus Blöchl <markus.bloechl@ipetronik.com>
+---
+ drivers/nvme/host/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-real 0m12.628s
-user 0m0.000s
-sys 0m0.006s
-# time nvme reset /dev/nvme0
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 961a5f8a44d2..0654cbe9b80e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4573,6 +4573,8 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ 	if (test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+ 		return;
+ 
++	set_bit(GD_DEAD, &ns->disk->state);
++
+ 	blk_set_queue_dying(ns->queue);
+ 	nvme_start_ns_queue(ns);
+ 
 
-real 1m15.617s
-user 0m0.000s
-sys 0m0.006s
-#dmesg
-[ 1866.068377] nvme nvme0: creating 40 I/O queues.
-[ 1870.367851] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[ 1870.370949] nvme nvme0: new ctrl: NQN "testnqn", addr 172.31.0.202:4420
-[ 1930.981494] nvme nvme0: resetting controller
-[ 1939.316131] nvme nvme0: creating 40 I/O queues.
-[ 1943.605427] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[ 1953.708327] nvme nvme0: resetting controller
-[ 2024.985591] nvme nvme0: I/O 7 QID 0 timeout
-[ 2024.990979] nvme nvme0: Property Set error: 881, offset 0x14
-[ 2025.031069] nvme nvme0: creating 40 I/O queues.
-[ 2029.321798] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-
+base-commit: f1baf68e1383f6ed93eb9cff2866d46562607a43
+-- 
+2.35.1
 
