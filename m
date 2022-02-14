@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9600C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Feb 2022 09:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65A01C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Feb 2022 09:24:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HZ+V7/fRPe3ui4JFtdLwuaB7uMhPYODLGW0sD52NKtA=; b=10T7DPcdBzNStiU6m6BhaDQCFL
-	wKyH6kNxpQXaLke5MxIErYU6IKJLuKjomKkwyueXQtDppeBNkhIgzui8dhi60sKrVdllCU4qwNcC0
-	7YuN2933Q+wbHi9+c54QSlbs9L4fjueKgrb1JiATI6QbblE4JW51KRRaYNjPR0CrBnU2QV6abDjoK
-	KP6p1N0iLR1KoL+BgDa1RYnS5OWsMXduWapK4PVyxMpByZsb0CK37A9MPL/gbPoL7QTCyhOKlGAnw
-	IYdHzOUFiE4zPWqeTt9nEKbEnigoBlJ7Ay/BiqLsR5TFFchE7b1SNSA+vSdFbR9s+xT90ZnrOmnCp
-	q9AKirtw==;
+	bh=nDJWR3QAlOeDWB2C3Wc7QnxTFmRKXkzhr2RX0LXVxDg=; b=v/E61NbNPS+aWsrGkFYUjJnQVc
+	Ca5OEsPyGtliXWCYrw7tK6wR8j+E8VzsSrmLOpr8vb2N7EMpeokivt6dQxs8mxWbUcT3aUfHiVH3p
+	GMK8Q2q6ymXWrmqhtgfFsEnFjYYoU+/NkzY8yeGFxRwPi+Qqamf6BEkyRnhR8HWhovSoopXHk74x9
+	GCSTEBb1nWMkOA1yXr6Xv9rfzWSsdMP9P+eporSdJyIvm3lGg6pYHJkJRTbUi02wEjhcFeJiZXPSz
+	/o7BhjuKzvBA1EqAA9DRNrJtVhL8H5Gx1VFCcX/HBeCpjRenuWflJQWX7rbAwn+Za0T0ePpOxdnZl
+	OwW2lKDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nJXYl-00EDaR-4M; Mon, 14 Feb 2022 09:22:15 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1nJXah-00EDuK-43; Mon, 14 Feb 2022 09:24:15 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJXKe-00EAKX-P1
- for linux-nvme@lists.infradead.org; Mon, 14 Feb 2022 09:07:42 +0000
-Received: by mail-wr1-f42.google.com with SMTP id k1so25632724wrd.8
- for <linux-nvme@lists.infradead.org>; Mon, 14 Feb 2022 01:07:40 -0800 (PST)
+ id 1nJXKf-00EAKp-SO
+ for linux-nvme@lists.infradead.org; Mon, 14 Feb 2022 09:07:43 +0000
+Received: by mail-wr1-f50.google.com with SMTP id v12so25692231wrv.2
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Feb 2022 01:07:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HZ+V7/fRPe3ui4JFtdLwuaB7uMhPYODLGW0sD52NKtA=;
- b=zAykRTpzonss6EWZLYlL7nZeONwa7hc3MnebYjD6SWzv6twXfLa0T92CTyNp7i2ZDx
- TjPa8YfGvg907/DQYNo8l+tqUOp1rHIlRtZDY7D6Pw2wK85UBKtvUhwbX5QSaOIZ+1bE
- 36T4Xh/qWdCsru26I+PZofHaX3hb82ndubvGKiVbuyqBWJmRwWVNdZXgmSQW0h3iv8/u
- W+yXReYrhfheOBubvTGJvc+ktizCntK7avp/ZXdhEemseGeK2aXVMba6CC9O7F4okCdA
- Ou5cAiLZm9qiZ/Sy5LVjsPDP1m7X0LijuYuyBxBJbnqyIAd600htzZ4tcnDtDPiaWJLd
- cj6Q==
-X-Gm-Message-State: AOAM5309nzE+EpeumhPI7doS1D2AXLGSEVb7fhKNYLYSoNyYt+afYy+B
- Uc/Gs4zpB52GLZD7+fHH5V2jTjtYYH4=
-X-Google-Smtp-Source: ABdhPJz41paBubngauSQdXEModuNcqpxjuYXvleRIjyLKCpE8xPRMCmLggVVz+/Fb3nMMRSkZmcPqg==
-X-Received: by 2002:a5d:5850:: with SMTP id i16mr10357815wrf.519.1644829658838; 
- Mon, 14 Feb 2022 01:07:38 -0800 (PST)
+ bh=nDJWR3QAlOeDWB2C3Wc7QnxTFmRKXkzhr2RX0LXVxDg=;
+ b=XAjan9f3YwsDxET2NzJ2G8g0NSjtEwPKrtoIMPoL3NZ0xh/ZoSgXNcU/W2hbhKOdFk
+ IFVOrcdvfqfYoJVMlGBDAEXqAwTp9Nc54ty6wh9nQ7vI76oLyldje2u0Fw0ng2rCuG2c
+ wvuZu+Uw83PgdMBORTiqktvP2/2x9f9SwVNFeOGdJVykMyjda9YLxYzSi2zRF4QIopqI
+ D8GrcTIagByLxQEv5filsGMIYS4ccKqtKR4v93PYhl3t/xgrTZCV2mX7pGsxjiUIgQuc
+ HhwwRJaQPdS0FWdA9efDBUJtwbmYlpumEiZJJosM05Vk7mXIAOf/22uz+7o1Vw4FqFLm
+ mwXQ==
+X-Gm-Message-State: AOAM530IW4RTAMlsMicdqHQGI42se0D0b8OXiPRUrFAP4kRqP926kKo9
+ Uk+XFE225tm7LeNHCxJ8yEfWjg2HbHs=
+X-Google-Smtp-Source: ABdhPJwVhiEPafk8KK/BMgtcm4HStaj4zHfTlOlhd9KShYtIUTIOmSZa0n531uSjSzOaiXxb6+MouQ==
+X-Received: by 2002:a5d:6cc3:: with SMTP id c3mr10795722wrc.284.1644829659664; 
+ Mon, 14 Feb 2022 01:07:39 -0800 (PST)
 Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90])
  by smtp.gmail.com with ESMTPSA id h4sm34595498wre.0.2022.02.14.01.07.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 01:07:38 -0800 (PST)
+ Mon, 14 Feb 2022 01:07:39 -0800 (PST)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>,
  Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: [PATCH 5/7] nvmet-fc: replace ida_simple[get|remove] with the simler
- ida_[alloc|free]
-Date: Mon, 14 Feb 2022 11:07:30 +0200
-Message-Id: <20220214090732.479193-6-sagi@grimberg.me>
+Subject: [PATCH 6/7] nvmet-rdma: replace ida_simple[get|remove] with the
+ simler ida_[alloc|free]
+Date: Mon, 14 Feb 2022 11:07:31 +0200
+Message-Id: <20220214090732.479193-7-sagi@grimberg.me>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220214090732.479193-1-sagi@grimberg.me>
 References: <20220214090732.479193-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220214_010740_852473_6C9C5528 
-X-CRM114-Status: GOOD (  12.29  )
+X-CRM114-CacheID: sfid-20220214_010741_956045_16A593E3 
+X-CRM114-Status: GOOD (  12.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,67 +82,40 @@ ida_simple_[get|remove] are wrappers anyways.
 
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/fc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/target/rdma.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 22b5108168a6..cb013516784c 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1115,7 +1115,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- 	if (!assoc)
- 		return NULL;
- 
--	idx = ida_simple_get(&tgtport->assoc_cnt, 0, 0, GFP_KERNEL);
-+	idx = ida_alloc(&tgtport->assoc_cnt, GFP_KERNEL);
- 	if (idx < 0)
- 		goto out_free_assoc;
- 
-@@ -1157,7 +1157,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- out_put:
- 	nvmet_fc_tgtport_put(tgtport);
- out_ida:
--	ida_simple_remove(&tgtport->assoc_cnt, idx);
-+	ida_free(&tgtport->assoc_cnt, idx);
- out_free_assoc:
- 	kfree(assoc);
- 	return NULL;
-@@ -1183,7 +1183,7 @@ nvmet_fc_target_assoc_free(struct kref *ref)
- 	/* if pending Rcv Disconnect Association LS, send rsp now */
- 	if (oldls)
- 		nvmet_fc_xmt_ls_rsp(tgtport, oldls);
--	ida_simple_remove(&tgtport->assoc_cnt, assoc->a_id);
-+	ida_free(&tgtport->assoc_cnt, assoc->a_id);
- 	dev_info(tgtport->dev,
- 		"{%d:%d} Association freed\n",
- 		tgtport->fc_target_port.port_num, assoc->a_id);
-@@ -1383,7 +1383,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 		goto out_regtgt_failed;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 1deb4043e242..00656754e331 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1356,7 +1356,7 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
+ 				!queue->host_qid);
  	}
+ 	nvmet_rdma_free_rsps(queue);
+-	ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
++	ida_free(&nvmet_rdma_queue_ida, queue->idx);
+ 	kfree(queue);
+ }
  
--	idx = ida_simple_get(&nvmet_fc_tgtport_cnt, 0, 0, GFP_KERNEL);
-+	idx = ida_alloc(&nvmet_fc_tgtport_cnt, GFP_KERNEL);
- 	if (idx < 0) {
- 		ret = -ENOSPC;
- 		goto out_fail_kfree;
-@@ -1433,7 +1433,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- out_free_newrec:
- 	put_device(dev);
- out_ida_put:
--	ida_simple_remove(&nvmet_fc_tgtport_cnt, idx);
-+	ida_free(&nvmet_fc_tgtport_cnt, idx);
- out_fail_kfree:
- 	kfree(newrec);
- out_regtgt_failed:
-@@ -1460,7 +1460,7 @@ nvmet_fc_free_tgtport(struct kref *ref)
- 	/* let the LLDD know we've finished tearing it down */
- 	tgtport->ops->targetport_delete(&tgtport->fc_target_port);
+@@ -1459,7 +1459,7 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ 	spin_lock_init(&queue->rsps_lock);
+ 	INIT_LIST_HEAD(&queue->queue_list);
  
--	ida_simple_remove(&nvmet_fc_tgtport_cnt,
-+	ida_free(&nvmet_fc_tgtport_cnt,
- 			tgtport->fc_target_port.port_num);
- 
- 	ida_destroy(&tgtport->assoc_cnt);
+-	queue->idx = ida_simple_get(&nvmet_rdma_queue_ida, 0, 0, GFP_KERNEL);
++	queue->idx = ida_alloc(&nvmet_rdma_queue_ida, GFP_KERNEL);
+ 	if (queue->idx < 0) {
+ 		ret = NVME_RDMA_CM_NO_RSC;
+ 		goto out_destroy_sq;
+@@ -1510,7 +1510,7 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ out_free_responses:
+ 	nvmet_rdma_free_rsps(queue);
+ out_ida_remove:
+-	ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
++	ida_free(&nvmet_rdma_queue_ida, queue->idx);
+ out_destroy_sq:
+ 	nvmet_sq_destroy(&queue->nvme_sq);
+ out_free_queue:
 -- 
 2.30.2
 
