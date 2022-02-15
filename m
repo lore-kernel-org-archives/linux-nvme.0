@@ -4,52 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92E4AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Feb 2022 18:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 965DEC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Feb 2022 18:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6biFt4HB8pzwrPPto0vC1YeEsbVIVy6n7qB6i4uONWk=; b=IesCzoaHXe9WenuJNw3ixIWIoG
-	2/yZwhicoqBBMAIJYhSMWqeGHF1lm/2+tjE5uLNLE6ejfiPf16P0WXpRyXtWHshjAB9/p9h28kqeJ
-	dkVlj84qswai36hB49eb0TRMI9FEE67UZU+y3siI/3mL1R7PvWyrSYqQpj+IFFAJZK+6BWsLnI+GR
-	nfk0/1k94gtOH8V5rKPsCMZC5psHzjVUjEySgUPJPzXtYoIFV5iLPPVtNFnD8FLEsT9NXZV9ffrWZ
-	e8QtOzNNGKvOG7DQGVkO035taQvIbUUpbQeNZbODTwV9VPOcNMlQ0DmLnewOu8HfbEhQy/1QiY56X
-	nTz5euig==;
+	bh=fNXXSrPoGPJEDjqcbNsdzREIzKgOpDhpYBDle/OA5bY=; b=KRAOctejb5Ot7uTuo+zix2gTaX
+	hqbSj1pIu0nyKUHBzbhlImyQjrMb2o3yhZ3imTiVckBwsOdtwTvyRqdmLMcJqZqIxDzGw9nFGAVeU
+	dxNkKpikuyDnrk3DgoGfLr7D4Fs39v7yNyHjOW1Zp9Ph8vW9joPuciVjjQkkKTemVSY+wmKpre/CB
+	4XTDzAEI58/2DiK562XxLjs6aOehq4eW806ZzpyfZf7c8blQm3lDUSsP0PXaViYEa1LFESGaCzS0C
+	cUnbU74xbiRSPmGt7J6ttMtcT2BaKoEMO2UDoLRhiMSdY9a4uROwhICDUENTVEgMGMqu6ZTDJkryr
+	rS+hvzDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nK2mS-00488m-CG; Tue, 15 Feb 2022 18:42:28 +0000
+	id 1nK2r7-0049E7-G9; Tue, 15 Feb 2022 18:47:17 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nK2mP-004881-7m
- for linux-nvme@lists.infradead.org; Tue, 15 Feb 2022 18:42:26 +0000
+ id 1nK2qy-00498b-I3
+ for linux-nvme@lists.infradead.org; Tue, 15 Feb 2022 18:47:09 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id BCD8468AA6; Tue, 15 Feb 2022 19:42:21 +0100 (CET)
-Date: Tue, 15 Feb 2022 19:42:21 +0100
+ id 7931068AA6; Tue, 15 Feb 2022 19:47:04 +0100 (CET)
+Date: Tue, 15 Feb 2022 19:47:04 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH 0/7] nvme: cleanup ida_simple_[get|remove]
-Message-ID: <20220215184221.GA24543@lst.de>
-References: <20220214090732.479193-1-sagi@grimberg.me>
- <c6d8ce0b-7d75-7d6e-ecc7-e505de85aa4e@nvidia.com>
- <02763496-0104-4616-ef57-117eb741b82e@grimberg.me>
- <fd7fe925-370d-b369-97ce-119b852248c9@nvidia.com>
- <705ce6ee-3c1a-c4a0-1662-2f0794b1a6fe@grimberg.me>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Markus =?iso-8859-1?Q?Bl=F6chl?= <markus.bloechl@ipetronik.com>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stefan Roese <sr@denx.de>
+Subject: Re: [RFC PATCH] nvme: prevent hang on surprise removal of NVMe disk
+Message-ID: <20220215184704.GB24543@lst.de>
+References: <20220214095107.3t5en5a3tosaeoo6@ipetronik.com>
+ <20220215152240.GB1663897@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <705ce6ee-3c1a-c4a0-1662-2f0794b1a6fe@grimberg.me>
+In-Reply-To: <20220215152240.GB1663897@dhcp-10-100-145-180.wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220215_104225_446187_0C8B7DF6 
-X-CRM114-Status: GOOD (  11.72  )
+X-CRM114-CacheID: sfid-20220215_104708_769651_57CA8395 
+X-CRM114-Status: GOOD (  15.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,12 +61,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 14, 2022 at 12:59:49PM +0200, Sagi Grimberg wrote:
->> I did cc you, here is the link, somehow it takes a while to appear
->> on the mailing list than it appears in my mail box :-
->
-> Yea, got it, just a tad late...
+On Tue, Feb 15, 2022 at 07:22:40AM -0800, Keith Busch wrote:
+> I can't actually tell if not checking the DYING flag check was
+> intentional or not, since the comments in blk_queue_start_drain() say
+> otherwise.
+> 
+> Christoph, do you know the intention here? Should __bio_queue_enter()
+> check the queue DYING flag, or do you prefer drivers explicity set the
+> disk state like this? It looks to me the queue flags should be checked
+> since that's already tied to the freeze wait_queue_head_t.
 
-So which of the two versions should we go with?  Either one will need
-reviews :)
+It was intentional but maybe not fully thought out.  Do you remember why
+we're doing the manual setting of the dying flag instead of just calling
+del_gendisk early on in nvme?  Because calling del_gendisk is supposed
+to be all that a tree needs to do.
 
