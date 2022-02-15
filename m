@@ -4,48 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C32FC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Feb 2022 19:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C352BC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Feb 2022 19:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nl4o5RxNNbIt1Z6dWO7pSY8Wjf8IseaJQhEsbr35n2E=; b=0WzXF3t4f4fjS2gLWf8jWfRmgR
-	EMKJcZG8qjlLQrnZ1hqUC8XhjNTtlM3795AEarRko7w+n3ICwbdy5BfVlphDz3yiHGp0iyexBniaZ
-	bQYiU3B+SjCj+GmtkoMKMKMUQVB/gvPhaDZKJvT4ZWxE36xbuX8VRgSh3vBaoCj7SifsCJ0XusAoL
-	lbHQSL4I4373pkB9i93wxFpJ3LTJNvunaFuVPhNA5OpBlma2inDrd3Ms2cGHRMxCS17hRhGSDCfj7
-	+YvpN4mHJQbXi+kopBf+H1UM6fuhMnixHf8SSFLoYevslJ26uYQF9rujJfG1gisNk6drMCk4tVnSU
-	svSK0FiA==;
+	bh=2bSNrqO7/WGg8hIQSfI/CGjqrlG+4hqnru7W7uClStc=; b=SVoQi1XWc3m9TLdBHDaxSh+lEi
+	k5qN8jxgVdoGEskYm0NgHnKk4jQCMDgLL6JyOTPbl0rTAc2h/U9u/kYC7XLOCHv+dFwuSF/36t502
+	kE00UFkxjUuf1YAFkVdLgaZp0gDLu7BOMl37m7O2TyxHyrX+BIctJz0XNMurE0abzIFKuSyWNzGEN
+	7uHlAv772a805xfZHNuIpYNvGnAC6T25/67aiwC6ocrajSE4gKVUub84RBrE+u0/rUd3OHgVOnJhv
+	BO1oYDASoipibtNnJsLmteLySnWlSJhZShau+gycGWBOlzaG/TiW429OEUVKZ5zXSd3o4yHctrWcV
+	Vf5hZdkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nK3KU-004GVz-3r; Tue, 15 Feb 2022 19:17:38 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nK3Tv-004JdI-Gv; Tue, 15 Feb 2022 19:27:23 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nK3KR-004GU9-0b
- for linux-nvme@lists.infradead.org; Tue, 15 Feb 2022 19:17:36 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id F2F2268AA6; Tue, 15 Feb 2022 20:17:31 +0100 (CET)
-Date: Tue, 15 Feb 2022 20:17:31 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Markus =?iso-8859-1?Q?Bl=F6chl?= <markus.bloechl@ipetronik.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stefan Roese <sr@denx.de>
-Subject: Re: [RFC PATCH] nvme: prevent hang on surprise removal of NVMe disk
-Message-ID: <20220215191731.GB25076@lst.de>
-References: <20220214095107.3t5en5a3tosaeoo6@ipetronik.com>
+ id 1nK3Tt-004JcY-5A
+ for linux-nvme@lists.infradead.org; Tue, 15 Feb 2022 19:27:22 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A7B0261799;
+ Tue, 15 Feb 2022 19:27:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A744AC340EB;
+ Tue, 15 Feb 2022 19:27:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644953240;
+ bh=3ek3jEFahVX0usozZBlxXhcQ4Z1DNdCwUuF+jaDSRLM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nIcdfeQQCt0Y4773txzUtGqi3VvYoVCVgFWAjStAtfYu4jtDXOtHJrF3DQJ4OUn90
+ S1YDGmvBYvRX0o1DgwnzEE+RN6idVe+KspjeAI2Rjrzo8AXPZAwtYfp2zeSZoW9Skd
+ oBR5005VIVSN/HJmQi8sBI4XzLJ4msUsbkxysb+Q+JU2OsMBr2jJgej6dk3doRQfkL
+ +rYHOksMXn2+oznaP0VXIcKJylBMI9gsXl9LAYvflGPnqpUOP3G8/krcykUQ7GUz2C
+ fwRM0zWsl/2LUM2VH5CchH3O11qCGxZIBEOoYxws+aCGi6h0D+bljU+7C9eDiSQbcL
+ QB3fVhv05DoKw==
+Date: Tue, 15 Feb 2022 11:27:17 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH 0/7] nvme: cleanup ida_simple_[get|remove]
+Message-ID: <20220215192717.GC1934598@dhcp-10-100-145-180.wdc.com>
+References: <20220214090732.479193-1-sagi@grimberg.me>
+ <c6d8ce0b-7d75-7d6e-ecc7-e505de85aa4e@nvidia.com>
+ <02763496-0104-4616-ef57-117eb741b82e@grimberg.me>
+ <fd7fe925-370d-b369-97ce-119b852248c9@nvidia.com>
+ <705ce6ee-3c1a-c4a0-1662-2f0794b1a6fe@grimberg.me>
+ <20220215184221.GA24543@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220214095107.3t5en5a3tosaeoo6@ipetronik.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20220215184221.GA24543@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220215_111735_250238_139396D7 
-X-CRM114-Status: GOOD (  12.21  )
+X-CRM114-CacheID: sfid-20220215_112721_259396_34767D0D 
+X-CRM114-Status: GOOD (  15.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,13 +78,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 14, 2022 at 10:51:07AM +0100, Markus Blöchl wrote:
-> After the surprise removal of a mounted NVMe disk the pciehp task
-> reliably hangs forever with a trace similar to this one:
+On Tue, Feb 15, 2022 at 07:42:21PM +0100, Christoph Hellwig wrote:
+> On Mon, Feb 14, 2022 at 12:59:49PM +0200, Sagi Grimberg wrote:
+> >> I did cc you, here is the link, somehow it takes a while to appear
+> >> on the mailing list than it appears in my mail box :-
+> >
+> > Yea, got it, just a tad late...
+> 
+> So which of the two versions should we go with?  Either one will need
+> reviews :)
 
-Do you have a specific reproducer? At least with doing a
+With the exception of 1/7 that sneaked in Sagi's set, the patches are
+identical (including the file ordering despite no dependency!), and both
+look fine to me. Sagi's was posted first by a slim margin, so I guess
+use that one unless you prefer Chaitanya's changelogs.
 
-echo 1 > /sys/.../remove
-
-while running fsx on a file system I can't actually reproduce it.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
