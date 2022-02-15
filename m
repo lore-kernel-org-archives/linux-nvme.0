@@ -4,58 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FBE8C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Feb 2022 16:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58839C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Feb 2022 16:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=og/Ct2QWBY5AtdonvNUKN8lZhwb7jCOsRzP2yu3cDPs=; b=DrfQ+t6zQkSVJWFjqIZ54Y0QQ9
-	QPzK+I8f5Z8buXhokEx+bIwnLTQTR1KTZX67t2LI3oqrpEA6rsATPx0Y2CFKc6KmymutexeaI6BcJ
-	HeLJj1m+KhT+Po32wMy8wqsrv41bmc1nhRzPhqPVBv+CO6jN1BigqG3kh6GxoSj6fyJvqlaLmjjv3
-	RsB45KbRFN+NwDl0/gaQVMpU+hRH3Lv32ra/TSYzV+E6zH1ArOx0NWJs3DnJvMfcogzw7Aas25l7C
-	Hx9QhNIu1fu+CCn2PDbT3TAO3ikcAKbIt3mn2yxAICC6h9fm87fUbKKnq50woC5Y/0BUzGawZYjgE
-	8tse03mA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FnXQKYtEeAcpLcpO9qk/QCkyOjMgi4O8VmqwVdYO+50=; b=lh4/wjWOAEh+dne76naGZaogJP
+	rh04wT4pzOIHGfuHXV6zbHFosxQc4mgQmNbDf0HAjQRcSpdFOdwlu4bjnnlK8F2zpbf6uVC2Nqot4
+	2qZchiSx4QUMshMEtx/K/uX41UQTiCSAjRyrNeYIONGT7/0yBB64lEwVdPvqxsK/ZzTwu+QyvYKMH
+	W4qywn8F6TPQCMAxpA2nzoIoIH6q+cwrsTxtdetU/0/KeS+SQFBrFCizvqH6Gg7frnw/f6uGrd1dK
+	EXgxFTkqaJBvZiNrmpIuwmSsiV0H2AVmKsJD2PZpYIXjXSNa0Srz798DR41Mi+KQVPeIERevbmMd0
+	z0wb2Dqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nK0GT-003WY0-1m; Tue, 15 Feb 2022 16:01:17 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nK0Hv-003XHG-8d; Tue, 15 Feb 2022 16:02:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nJztJ-003LCW-NQ
- for linux-nvme@lists.infradead.org; Tue, 15 Feb 2022 15:37:27 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1nJzxX-003NGE-EY
+ for linux-nvme@lists.infradead.org; Tue, 15 Feb 2022 15:41:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644939700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FnXQKYtEeAcpLcpO9qk/QCkyOjMgi4O8VmqwVdYO+50=;
+ b=D/kZOem9OFhLJHTmtvmn83IDjziNwjOyz5Kgixpz9GpsXLMyhniR9xtiY7vQvc9jS3DHtX
+ ZVYXipDQddDzFUAxFSaD5v7bhmidtPHRtsqdnWhoyAT2UdcTf9W56qdEe92qD4ZGmP1Vof
+ jdz0msZha1sWxmKEpjv33Y0AYVIl6k8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-I-DDe7z3MYW4sQ_mS_xO_w-1; Tue, 15 Feb 2022 10:41:37 -0500
+X-MC-Unique: I-DDe7z3MYW4sQ_mS_xO_w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2701161694;
- Tue, 15 Feb 2022 15:37:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E4CC340ED;
- Tue, 15 Feb 2022 15:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644939440;
- bh=i2xSXFG6LVaf+fT/X3b4DH34J4VBpJKMOyJDnY+S3W4=;
- h=From:To:Cc:Subject:Date:From;
- b=jsqLzFyzopKHXIudfLE/b4aWOsAzgVG6n0SNeeTKj80/Sze72VjnFvBfPKbV7ij3H
- rDGIyCiNUuQNA25zt0D8JWxB8c23GgJIB5DBSjC6tw/U+wloD8kKLypPeMIo29mm2N
- FdTe13RAdeLEaki4zCnzV+OvpCdDT5+9BQ60Gw3kelK6AozmDSnEk82rPwlByJhrvc
- PL/bkwNrBLyNaO3LwJZdnyb8gi1IQu7Ox0I2PUjRwGpRDKfTu+IBTHZFydJCFiGbUu
- q3FuM9Ra6IAoebQ9hWuPj7UvGo+j21iNxmbob8jOHWSxCHGUZbaYf5l0EAHcmMYDkD
- kvxsJuFkDj8iQ==
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: remove nssa from struct nvme_ctrl
-Date: Tue, 15 Feb 2022 07:37:19 -0800
-Message-Id: <20220215153719.1934484-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.25.4
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C611802924;
+ Tue, 15 Feb 2022 15:41:35 +0000 (UTC)
+Received: from [10.22.32.107] (unknown [10.22.32.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA587744F;
+ Tue, 15 Feb 2022 15:41:34 +0000 (UTC)
+Message-ID: <b2b4556c-5d6f-9dcd-5a45-9dd160e7b1c0@redhat.com>
+Date: Tue, 15 Feb 2022 10:41:33 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCHv3 1/2] nvme: send uevent on connection up
+To: Martin Belanger <nitram_67@hotmail.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hare@suse.de, axboe@fb.com, hch@lst.de,
+ sagi@grimberg.me, stuart_hayes@dell.com, charles_rose@dell.com,
+ Martin Belanger <martin.belanger@dell.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+References: <20220208193346.22580-1-nitram_67@hotmail.com>
+ <BL0PR13MB4291421C8BC621EEA559A88D9C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <BL0PR13MB4291421C8BC621EEA559A88D9C2D9@BL0PR13MB4291.namprd13.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmeneghi@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220215_073721_860354_902B9659 
-X-CRM114-Status: GOOD (  15.29  )
+X-CRM114-CacheID: sfid-20220215_074143_615008_989E1613 
+X-CRM114-Status: GOOD (  21.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,62 +90,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The reported number of streams is not used outside the function that
-gets it, so no need to stash it in the controller structure. Use a local
-variable instead.
+On 2/8/22 14:33, Martin Belanger wrote:
+> From: Martin Belanger <martin.belanger@dell.com>
+> 
+> When connectivity with a controller is lost, the driver will keep
+> trying to reconnect once every 10 sec. When connection is restored,
+> user-space apps need to be informed so that they can take proper
+> action. For example, TP8010 introduces the DIM PDU, which is used to
+> register with a discovery controller (DC). The DIM PDU is sent from
+> user-space.  The DIM PDU must be sent every time a connection is
+> established with a DC. Therefore, the kernel must tell user-space apps
+> when connection is restored so that registration can happen.
+> 
+> The uevent sent is a "change" uevent with environmental data
+> set to: "NVME_EVENT=connected".
+> 
+> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>   drivers/nvme/host/core.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index dd18861f77c0..b5e452aa3c0e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4229,6 +4229,13 @@ static int nvme_class_uevent(struct device *dev, struct kobj_uevent_env *env)
+>   	return ret;
+>   }
+>   
+> +static void nvme_change_uevent(struct nvme_ctrl *ctrl, char *envdata)
+> +{
+> +	char *envp[2] = { envdata, NULL };
+> +
+> +	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
+> +}
+> +
+>   static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+>   {
+>   	char *envp[2] = { NULL, NULL };
+> @@ -4396,6 +4403,8 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+>   		nvme_queue_scan(ctrl);
+>   		nvme_start_queues(ctrl);
+>   	}
+> +
+> +	nvme_change_uevent(ctrl, "NVME_EVENT=connected");
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_start_ctrl);
+>   
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 9 +++++----
- drivers/nvme/host/nvme.h | 1 -
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fda837ce67ce..7d5e8b6f7d46 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -758,6 +758,7 @@ static int nvme_get_stream_params(struct nvme_ctrl *ctrl,
- static int nvme_configure_directives(struct nvme_ctrl *ctrl)
- {
- 	struct streams_directive_params s;
-+	u16 nssa;
- 	int ret;
- 
- 	if (!(ctrl->oacs & NVME_CTRL_OACS_DIRECTIVES))
-@@ -773,16 +774,16 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
- 	if (ret)
- 		goto out_disable_stream;
- 
--	ctrl->nssa = le16_to_cpu(s.nssa);
--	if (ctrl->nssa < BLK_MAX_WRITE_HINTS - 1) {
-+	nssa = le16_to_cpu(s.nssa);
-+	if (nssa < BLK_MAX_WRITE_HINTS - 1) {
- 		dev_info(ctrl->device, "too few streams (%u) available\n",
--					ctrl->nssa);
-+					nssa);
- 		/* this condition is not an error: streams are optional */
- 		ret = 0;
- 		goto out_disable_stream;
- 	}
- 
--	ctrl->nr_streams = min_t(u16, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
-+	ctrl->nr_streams = min_t(u16, nssa, BLK_MAX_WRITE_HINTS - 1);
- 	dev_info(ctrl->device, "Using %u streams\n", ctrl->nr_streams);
- 	return 0;
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a162f6c6da6e..69796f96dc8c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -280,7 +280,6 @@ struct nvme_ctrl {
- 	u16 crdt[3];
- 	u16 oncs;
- 	u16 oacs;
--	u16 nssa;
- 	u16 nr_streams;
- 	u16 sqsize;
- 	u32 max_namespaces;
--- 
-2.25.4
+Reviewed-by: John Meneghini <jmeneghi@redhat.com>
 
 
