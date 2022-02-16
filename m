@@ -4,83 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7C59C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 11:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0868CC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 12:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L9+Yeu3hCssm1DnX2Utx6ifmH+5dNqbEfg/BNDzwuCA=; b=HpbMafHPQ3ZshhiDPNfbP+W7qn
-	NpKAg9koLp6mKTDQaY9L5Qz74QzZWyjju9PyYjAPHNr3VwmXJHrx5C9GRSCMgdOj8rNwEIO7TA/kN
-	C0CAc4zSMx0eYFXsz+q2G951uPA16gOc6/7b9CsFJ4imCABKox+oR3ZRd8cgxlXGxMG6XtV6qQB7q
-	MzadAYnuepRDXmJTF3VzP9tYGA2bA4QQ4WjpObffyZmNl9XxUTEUPHlgatH1eEvLzBvyuDxOcobUz
-	zy3xkXxtKKJWk51acK/iP8aYS4NZUco0vP7d2IBZRNhIPtY5Y4R9vaXYNb7LRwgIA3+8FAGx1z+Q0
-	zhgQ+Uiw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Q+RpnxgQYsABHzLXlYYtzivoXu90cGIoZb6pLh2bx7E=; b=VOolrbJCrc1ThNO7BdovDmQMDN
+	OXylO3V+44zu18sZ65CVNC1hnzfQL7JKYW7x+FXdqlhxDfcS9YVhUNgO/Si75wNOC0h2p6kzuXfF9
+	kAtivRNuzkoOBOUwyOygvONGC9WrO2FL3o1u3SQ58/JSrwxB2CfPODdhgxn51eYUUMjI7XAC1IxU8
+	rv+ENJpE2svd1SZxlVw+Q0kDcTWsVZhIhhZ6g0xEOYD+TJ/4hr2vrc/jdPvT1gHRudWNwY9GtcQA/
+	O3hJlsJfU/b8Hl6U4TZUsb+GcvKz6WEULqbZHkrhlXLzvBkYEDcsOGyuU0IQ6uCtpIYBV0GIMc+84
+	mpCRFzbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKIY8-006jNh-8q; Wed, 16 Feb 2022 11:32:44 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nKJhG-006z5O-AP; Wed, 16 Feb 2022 12:46:14 +0000
+Received: from mail-yb1-f170.google.com ([209.85.219.170])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKIY3-006jIv-D4
- for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 11:32:41 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0E1A51F383;
- Wed, 16 Feb 2022 11:32:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645011158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L9+Yeu3hCssm1DnX2Utx6ifmH+5dNqbEfg/BNDzwuCA=;
- b=f1mvO8mWa3qxAfrnnn6xUDrWm874NLgzMvkb2j0LcnYdJi4/euhFVy6ZATEMSUG63cQnuM
- 4KbxJZT/ji3a9Xqj76fnc5fWmm+4KnRYQgsMsFZ34hpF/DFyPksP4mXeBxNTHn/F9fT9Xh
- XnmkwuEjt+lQwP6wAuXcm6yO27lKoCI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645011158;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L9+Yeu3hCssm1DnX2Utx6ifmH+5dNqbEfg/BNDzwuCA=;
- b=LpPtYjywAl6GtaWQhWHeHae1Khkxa4osg1FlKgLj5P+SMNBNI86w1+TTeuvkjI1GHfteN6
- 3Ey5pPGoItBljaCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E3D0D13AF3;
- Wed, 16 Feb 2022 11:32:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id D9hXN9XgDGIcMQAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 16 Feb 2022 11:32:37 +0000
-Message-ID: <ccca97fb-0dab-0a8f-d2ac-247ba160288d@suse.de>
-Date: Wed, 16 Feb 2022 12:32:37 +0100
+ id 1nKJhD-006z48-Ht
+ for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 12:46:13 +0000
+Received: by mail-yb1-f170.google.com with SMTP id p5so5542713ybd.13
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Feb 2022 04:46:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q+RpnxgQYsABHzLXlYYtzivoXu90cGIoZb6pLh2bx7E=;
+ b=V+77qGND0wGpFT8VkuTlzsYymtb4eHY8m3VTZc42ehUAWE0HwfFfRnbyJxjoGtCwGh
+ aNY04AmEMqPeKjhrsJPSnsY1SWkoycUtimVOun7meN30fBkPYgIMuPJgtZ1/qqj7F9Rm
+ E941Pj8gAOoKwJb3UzDdy2W4s5fNL2IcTV5kmCr0DOUPffoF1mRxMJO2da0blxI4uhfx
+ bLOfDsTgPdQGS7vsapG1HarAiLGStie0YUs1d5qiTAWPOCNLEBzwpqgkllQfzKat6AqV
+ AXMxctGT/N2+UfOcYuyeDXrU0ttlRC1fWlGKl+cEy6V3VectXgGKcVIgTJ9FxlxX+Ll6
+ WiMw==
+X-Gm-Message-State: AOAM5319/zL7KAVMuju7lTsotYlVFnRyH+2VN6D+g9eWvJJVcZclWJgd
+ HMC1KyNcs5HpyBjV7PdwyuHw29rI33+wzwHwDEA=
+X-Google-Smtp-Source: ABdhPJyu3SGqfc3m5JmfkgPAjKHdhId1Ymd1Jaz4/vn89KjGMtW9NxebArqD+lrpBaFRf/Fb0+RGyX9wRDnz0nubHe8=
+X-Received: by 2002:a05:6902:1370:b0:61d:fc48:6df5 with SMTP id
+ bt16-20020a056902137000b0061dfc486df5mr1847440ybb.272.1645015570228; Wed, 16
+ Feb 2022 04:46:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: =?UTF-8?Q?Markus_Bl=c3=b6chl?= <Markus.Bloechl@ipetronik.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stefan Roese <sr@denx.de>
-References: <20220214095107.3t5en5a3tosaeoo6@ipetronik.com>
- <20220215191731.GB25076@lst.de>
- <20220216111841.jaunxn6blouzjleg@ipetronik.com>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [RFC PATCH] nvme: prevent hang on surprise removal of NVMe disk
-In-Reply-To: <20220216111841.jaunxn6blouzjleg@ipetronik.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220210152233.1657933-1-kbusch@kernel.org>
+ <20220216084313.GA11360@lst.de>
+In-Reply-To: <20220216084313.GA11360@lst.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 16 Feb 2022 13:45:57 +0100
+Message-ID: <CAJZ5v0jt7St9by2gHsEPBU_-i80q_Wgsty=5XrSj0QoT0sEKng@mail.gmail.com>
+Subject: Re: [PATCH] nvme-pci: simple suspend quirk for vmd devices
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ linux-nvme <linux-nvme@lists.infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, m.heingbecker@googlemail.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_033239_640719_66DC078D 
-X-CRM114-Status: GOOD (  17.35  )
+X-CRM114-CacheID: sfid-20220216_044611_614707_9C108190 
+X-CRM114-Status: GOOD (  21.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,40 +74,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/16/22 12:18, Markus Blöchl wrote:
-> On Tue, Feb 15, 2022 at 08:17:31PM +0100, Christoph Hellwig wrote:
->> On Mon, Feb 14, 2022 at 10:51:07AM +0100, Markus Blöchl wrote:
->>> After the surprise removal of a mounted NVMe disk the pciehp task
->>> reliably hangs forever with a trace similar to this one:
->>
->> Do you have a specific reproducer? At least with doing a
->>
->> echo 1 > /sys/.../remove
->>
->> while running fsx on a file system I can't actually reproduce it.
-> 
-> We built our own enclosures with a custom connector to plug the disks.
-> 
-> So an external enclosure for thunderbolt is probably very similar.
-> (or just ripping an unscrewed NVMe out of the M.2 ...)
-> 
-> But as already suggested, qemu might also be very useful here as it also
-> allows us to test multiple namespaces and multipath I/O, if you/someone
-> wants to check those too (hotplug with multipath I/O really scares me).
-> 
-Nothing to be scared of.
-I've tested this extensively in the run up to commit 5396fdac56d8 
-("nvme: fix refcounting imbalance when all paths are down") which,
-incidentally, is something you need if you want to test things.
+On Wed, Feb 16, 2022 at 9:43 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Thu, Feb 10, 2022 at 07:22:33AM -0800, Keith Busch wrote:
+> > Bug reports from users tell us platfroms with vmd enabled regressed
+> > power when using nvme power management on s2idle. We can't get the
+> > StorageD3Enable property on such devices so the driver used the wrong
+> > suspend method. Add a simple suspend quirk for the domain since that is
+> > the safest option.
+> >
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=215467
+> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+>
+> Rafael, can you try this on the affected platform?
+> (not for merge as-is)
 
-Let me see if I can dig up the testbed.
+I can't really do that myself (no access to the system in question),
+but I've just asked the original reporter (CCed) to do it.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+>
+> diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
+> index 9e1e6b8d88763..49f4e54da919d 100644
+> --- a/arch/x86/pci/common.c
+> +++ b/arch/x86/pci/common.c
+> @@ -723,4 +723,5 @@ struct pci_dev *pci_real_dma_dev(struct pci_dev *dev)
+>
+>         return dev;
+>  }
+> +EXPORT_SYMBOL_GPL(pci_real_dma_dev);
+>  #endif
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6a99ed6809158..6edc8c514cbc8 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3086,7 +3086,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>
+>         quirks |= check_vendor_combination_bug(pdev);
+>
+> -       if (!noacpi && acpi_storage_d3(&pdev->dev)) {
+> +       if (!noacpi && acpi_storage_d3(&pci_real_dma_dev(pdev)->dev)) {
+>                 /*
+>                  * Some systems use a bios work around to ask for D3 on
+>                  * platforms that support kernel managed suspend.
 
