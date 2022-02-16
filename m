@@ -4,74 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3282C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 16:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B08BC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 17:09:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wljECwOVGGlrm20XVbopXludY2oCOk9cN7qd31vUzRQ=; b=WzpNpAkDg/F3tjQlvRnH85KpTe
-	rnkwmVhvuX6bOdOFclOTj2eRLWHl0B02916X53UsMMU2i71uDkqYWJ7oxApzfCQgZ548Q8TfL0k7Z
-	QUNCaVD5F6tWkuTZA88bQd8g5uxNAWsWboBH5vebZkGVe9WTkq4ZfES5Fdr0sBqbQjF8v5Fd+4TRO
-	6FNUNm8GsMiHFB/a9G/J1oTwcg+5mZIbXkIY4QsJM31WLRT/7TLdVzumdRblivSfhPPlSv1h5NxmS
-	jORuRSLtfmNHOSFike6m4DFOdz44Z7vQ5d0WgfG5orP45N6vz/nnAaUNtz8K4KqgsT2Ml2s5UhUiH
-	FeyQsOcA==;
+	bh=NsOm8I3wVhp67mq5XTWLwjXLvNKUdsLy76RamT1AKWw=; b=WfRNvvPWe3JdIDZX5Lg+sGmn/v
+	gFNOEFPVjk7m2tHDsYrww4Et/2nSIw1kpboMf0egWCG51uYJjaf6SWCFu9xaxMmXAABQpeZAt2Ptu
+	cDvw/jYeSDO6Qn1gorS+NdSV6AWtl4FWrmbBR7voJQdKo/u5AX1xK30ANsACDUtpoHPXWU43lRThH
+	r3Ob58CtE9vg7i3sl+wRD+RXLEiLFCEhLJkkoGa3OW7rtAh1KyGF9EJDN5oEXvzrxS2SMhz4Hti2H
+	hX+6ei0OyVpztBm/l7+Xm8yclyrGszywqnkkE7hM8rqypND5JSttX4QCe+S6FDSkEN7V3uRXSToQe
+	ms3U3VDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKNWv-007mzJ-Es; Wed, 16 Feb 2022 16:51:49 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nKNnz-007r6C-JF; Wed, 16 Feb 2022 17:09:27 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKNWo-007mwn-RR
- for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 16:51:44 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 58B651FD32;
- Wed, 16 Feb 2022 16:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1645030301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wljECwOVGGlrm20XVbopXludY2oCOk9cN7qd31vUzRQ=;
- b=JA4V+gednpIbA9roM72P6l3asrTF33Y+ZYb95cgbRilBoBVlE6J6lrJgjtgOqHZyQoWxK3
- qCGklgKKNPd1mNWH10BPHApPcA+FmkvD8iPYzXMqEXNVV0jwtOXCXpxVXdQUzX7nb7REnk
- eln6g39EOba0xGqHvlWyI3f1CXSBQR4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1645030301;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wljECwOVGGlrm20XVbopXludY2oCOk9cN7qd31vUzRQ=;
- b=T4uQ3u3xeBQXBrEnAgsFmfhV7cpv62czfUro7PscDt07+A848sMmTJhX7ySqjd2xaE9Nc0
- M4cg6e3DcTQZyLCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3D7E013B35;
- Wed, 16 Feb 2022 16:51:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bs4BD50rDWKVWwAAMHmgww
- (envelope-from <dwagner@suse.de>); Wed, 16 Feb 2022 16:51:41 +0000
-Date: Wed, 16 Feb 2022 17:51:40 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, sagi@grimberg.me, joshi.k@samsung.com,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/2] nvme: don't return an error from
- nvme_configure_metadata
-Message-ID: <20220216165140.jho4ejao4phyg2hz@carbon.lan>
-References: <20220216141220.4162670-1-hch@lst.de>
+ id 1nKNnw-007r5T-Kt
+ for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 17:09:26 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id F00A868B05; Wed, 16 Feb 2022 18:09:19 +0100 (CET)
+Date: Wed, 16 Feb 2022 18:09:19 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Markus =?iso-8859-1?Q?Bl=F6chl?= <Markus.Bloechl@ipetronik.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 1/2] block: fix surprise removal for drivers calling
+ blk_set_queue_dying
+Message-ID: <20220216170919.GA20782@lst.de>
+References: <20220216150901.4166235-1-hch@lst.de>
+ <20220216154950.q3uit4ucl6xupvhe@ipetronik.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220216141220.4162670-1-hch@lst.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220216154950.q3uit4ucl6xupvhe@ipetronik.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_085143_068920_C90999C9 
-X-CRM114-Status: GOOD (  10.23  )
+X-CRM114-CacheID: sfid-20220216_090924_861871_54BB589E 
+X-CRM114-Status: GOOD (  21.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,12 +60,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 16, 2022 at 03:12:19PM +0100, Christoph Hellwig wrote:
-> When a fabrics controller claims to support an invalidate metadata
-> configuration we already warn and disable metadata support.  No need to
-> also return an error during revalidation.
+On Wed, Feb 16, 2022 at 04:49:50PM +0100, Markus Blöchl wrote:
+> > -	blk_queue_flag_set(QUEUE_FLAG_DYING, q);
+> > -	blk_queue_start_drain(q);
+> > +	set_bit(GD_DEAD, &disk->state);
+> > +	blk_queue_start_drain(disk->queue);
+> >  }
+> > -EXPORT_SYMBOL_GPL(blk_set_queue_dying);
+> > +EXPORT_SYMBOL_GPL(blk_mark_disk_dead);
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> I might have missed something here, but assuming I am a driver which
+> employs multiple different queues, some with a disk attached to them,
+> some without (Is that possible? The admin queue e.g.?)
+> and I just lost my connection and want to notify everything below me
+> that their connection is dead.
+> Would I really want to kill disk queues differently from non-disk
+> queues?
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Yes.  Things like the admin queue in nvme are under full control of
+the driver.  While the "disk" queues just get I/O from the file system
+and thus need to be cut off.
+
+> How is the admin queue killed? Is it even?
+
+It isn't.  We just stop submitting to it.
+
+> > --- a/drivers/block/mtip32xx/mtip32xx.c
+> > +++ b/drivers/block/mtip32xx/mtip32xx.c
+> > @@ -4112,7 +4112,7 @@ static void mtip_pci_remove(struct pci_dev *pdev)
+> >  			"Completion workers still active!\n");
+> >  	}
+> >  
+> > -	blk_set_queue_dying(dd->queue);
+> > +	blk_mark_disk_dead(dd->disk);
+> 
+> This driver is weird, I did find are reliably hint that dd->disk always
+> exists here. At least mtip_block_remove() has an extra check for that.
+
+The driver is a bit of a mess indeed, but the disk and queue will be
+non-NULL if ->probe returns successfully so this is fine.  It is more
+that some of the checks are not required.
+
+> It also only set QUEUE_FLAG_DEAD if it detects a surprise removal and
+> not QUEUE_FLAG_DYING.
+
+Yes, this driver will need further work.
 
