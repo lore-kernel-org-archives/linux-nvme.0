@@ -4,86 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC98BC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 13:33:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB9EFC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 13:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ugIJWQk3SMKfMsohcYmO1QoDdMHhYRu0T2WPYwlO3u4=; b=z4FuJuJALVbKL7I44XkqvFRaxE
-	6VRHVlv9QOTLATPCWgTRUDSNFXrBmhJ3oVAdNfKEevkI2+3PykMOuqSEqV8Ihj0nKpuWHU157+03Y
-	d9YMF3JvEwnaTpumMI0xYKrLbO0xpDmxALMXbOy6zhkn6yg+AGs6m00zB2Q6FWRZXOKHk+l59Fde5
-	7sPRgvJrzyxKs4Yf5dqJBTqpdwEtcyixc8LmjeuK1WuAfoaKI/LrU6wzWed1tR3ppHfjapyGMsZmM
-	Q+bXoKi5i0HhvCerIwevEjl5JTTwQhMfeULSYl6ueoCeeOaSTNbi+o8hDTkYMLdJzsmc4j4EMtkAb
-	ukqIJVkQ==;
+	bh=azRO6atsKDpTz2PAJa9G+0pSCGer7lSD00DHb22a6a0=; b=UJNMrPGOmdxw+Y9fFm/ZWj5tC8
+	2l0KvY2+k8Ou73E/Zs30QhwxOH+9t3gnvqy8PgpAdQve4V6Yrxc3XfreuOeiM5TZPUxs1RP5lqzKy
+	syvgaPGaDZhf7+Nb/N4iVrIyzlbFxLqHhWQ26AhmditBfj51v3n7NHvENuudVkhdfO82l4NSTIQfF
+	dv+lR6dhXMb9INfC/a8rmS5E8/q2MN/CxAvEt15SNiaxb/+l/FSYoUuyQ6jlK/I6n9qtKpDeax5Tj
+	mmIuQ5yttFzy2ryozcSgP0JKXcPqofOggk4ULslQCkuomGF+Phup5eNsOr2b5vvNAUXglaNFfAE6w
+	inUQuIdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKKQW-007Cj8-Sw; Wed, 16 Feb 2022 13:33:00 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nKKQo-007CqU-OB; Wed, 16 Feb 2022 13:33:18 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKKQU-007ChZ-7G
- for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 13:32:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645018375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ugIJWQk3SMKfMsohcYmO1QoDdMHhYRu0T2WPYwlO3u4=;
- b=a3DHbiTdZW7GiFXM5hJHNepjGqZ4Q4+ahc7Sw7r0/V2w70Fig8KDonqwTRk9bqN3o8PgD4
- 5WlN8KSAx92vKj3WzFay6/muM4s/5mqyuK5epoPVm2e11s4G5pDA3o8XR34UYm9nSeUdIY
- yTNC83mFfot0g2Ev+7eK6wgcpLht3zA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-z8ORJ7cSMN6lryLeURn9Xg-1; Wed, 16 Feb 2022 08:32:54 -0500
-X-MC-Unique: z8ORJ7cSMN6lryLeURn9Xg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDDB4814246;
- Wed, 16 Feb 2022 13:32:50 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFDB32AA93;
- Wed, 16 Feb 2022 13:32:47 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 21GDWli7022921; Wed, 16 Feb 2022 08:32:47 -0500
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 21GDWjiY022917; Wed, 16 Feb 2022 08:32:46 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Wed, 16 Feb 2022 08:32:45 -0500 (EST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Nitesh Shetty <nj.shetty@samsung.com>
-cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
- martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
- kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
- zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
- djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com
-Subject: Re: [PATCH v2 05/10] block: add emulation for copy
-In-Reply-To: <20220207141348.4235-6-nj.shetty@samsung.com>
-Message-ID: <alpine.LRH.2.02.2202160830150.22021@file01.intranet.prod.int.rdu2.redhat.com>
-References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
- <20220207141348.4235-1-nj.shetty@samsung.com>
- <CGME20220207141930epcas5p2bcbff65f78ad1dede64648d73ddb3770@epcas5p2.samsung.com>
- <20220207141348.4235-6-nj.shetty@samsung.com>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ id 1nKKQl-007Cox-DH
+ for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 13:33:17 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 6C73468B05; Wed, 16 Feb 2022 14:33:11 +0100 (CET)
+Date: Wed, 16 Feb 2022 14:33:11 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Markus =?iso-8859-1?Q?Bl=F6chl?= <Markus.Bloechl@ipetronik.com>
+Cc: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stefan Roese <sr@denx.de>
+Subject: Re: [RFC PATCH] nvme: prevent hang on surprise removal of NVMe disk
+Message-ID: <20220216133311.GA16154@lst.de>
+References: <20220214095107.3t5en5a3tosaeoo6@ipetronik.com>
+ <20220215201738.GA26945@lst.de>
+ <20220216125937.d6brzu7labgywxcg@ipetronik.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220216125937.d6brzu7labgywxcg@ipetronik.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_053258_356627_AE86967D 
-X-CRM114-Status: GOOD (  15.39  )
+X-CRM114-CacheID: sfid-20220216_053315_774037_569932EB 
+X-CRM114-Status: GOOD (  14.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,33 +62,152 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+I'd do something like this, which gets us a properly documented
+interface (the del_gendisk change will be split into a separate
+patch):
 
-
-On Mon, 7 Feb 2022, Nitesh Shetty wrote:
-
-> +				goto retry;
-> +			return PTR_ERR(bio);
-> +		}
-> +
-> +		bio->bi_iter.bi_sector = sector >> SECTOR_SHIFT;
-> +		bio->bi_opf = op;
-> +		bio_set_dev(bio, bdev);
-> @@ -346,6 +463,8 @@ int blkdev_issue_copy(struct block_device *src_bdev, int nr,
->  
->  	if (blk_check_copy_offload(src_q, dest_q))
->  		ret = blk_copy_offload(src_bdev, nr, rlist, dest_bdev, gfp_mask);
-> +	else
-> +		ret = blk_copy_emulate(src_bdev, nr, rlist, dest_bdev, gfp_mask);
->  
->  	return ret;
->  }
-
-The emulation is not reliable because a device mapper device may be 
-reconfigured and it may lose the copy capability between the calls to 
-blk_check_copy_offload and blk_copy_offload.
-
-You should call blk_copy_emulate if blk_copy_offload returns an error.
-
-Mikulas
-
+diff --git a/block/blk-core.c b/block/blk-core.c
+index d93e3bb9a769b..15d5c5ba5bbe5 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -284,12 +284,19 @@ void blk_queue_start_drain(struct request_queue *q)
+ 	wake_up_all(&q->mq_freeze_wq);
+ }
+ 
+-void blk_set_queue_dying(struct request_queue *q)
++/**
++ * blk_set_disk_dead - mark a disk as dead
++ * @disk: disk to mark as dead
++ *
++ * Mark as disk as dead (e.g. surprise removed) and don't accept any new I/O
++ * to this disk.
++ */
++void blk_mark_disk_dead(struct gendisk *disk)
+ {
+-	blk_queue_flag_set(QUEUE_FLAG_DYING, q);
+-	blk_queue_start_drain(q);
++	set_bit(GD_DEAD, &disk->state);
++	blk_queue_start_drain(disk->queue);
+ }
+-EXPORT_SYMBOL_GPL(blk_set_queue_dying);
++EXPORT_SYMBOL_GPL(blk_mark_disk_dead);
+ 
+ /**
+  * blk_cleanup_queue - shutdown a request queue
+@@ -308,7 +315,8 @@ void blk_cleanup_queue(struct request_queue *q)
+ 	WARN_ON_ONCE(blk_queue_registered(q));
+ 
+ 	/* mark @q DYING, no new request or merges will be allowed afterwards */
+-	blk_set_queue_dying(q);
++	blk_queue_flag_set(QUEUE_FLAG_DYING, q);
++	blk_queue_start_drain(q);
+ 
+ 	blk_queue_flag_set(QUEUE_FLAG_NOMERGES, q);
+ 	blk_queue_flag_set(QUEUE_FLAG_NOXMERGES, q);
+diff --git a/block/genhd.c b/block/genhd.c
+index 626c8406f21a6..35e49b7f1112a 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -584,7 +584,8 @@ void del_gendisk(struct gendisk *disk)
+ 	blk_drop_partitions(disk);
+ 	mutex_unlock(&disk->open_mutex);
+ 
+-	fsync_bdev(disk->part0);
++	if (!test_bit(GD_DEAD, &disk->state))
++		fsync_bdev(disk->part0);
+ 	__invalidate_device(disk->part0, true);
+ 
+ 	/*
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index e6005c2323281..2b588b62cbbb2 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -4112,7 +4112,7 @@ static void mtip_pci_remove(struct pci_dev *pdev)
+ 			"Completion workers still active!\n");
+ 	}
+ 
+-	blk_set_queue_dying(dd->queue);
++	blk_mark_disk_dead(dd->disk);
+ 	set_bit(MTIP_DDF_REMOVE_PENDING_BIT, &dd->dd_flag);
+ 
+ 	/* Clean up the block layer. */
+diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+index 4203cdab8abfd..b844432bad20b 100644
+--- a/drivers/block/rbd.c
++++ b/drivers/block/rbd.c
+@@ -7185,7 +7185,7 @@ static ssize_t do_rbd_remove(struct bus_type *bus,
+ 		 * IO to complete/fail.
+ 		 */
+ 		blk_mq_freeze_queue(rbd_dev->disk->queue);
+-		blk_set_queue_dying(rbd_dev->disk->queue);
++		blk_mark_disk_dead(rbd_dev->disk);
+ 	}
+ 
+ 	del_gendisk(rbd_dev->disk);
+diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+index ccd0dd0c6b83c..ca71a0585333f 100644
+--- a/drivers/block/xen-blkfront.c
++++ b/drivers/block/xen-blkfront.c
+@@ -2126,7 +2126,7 @@ static void blkfront_closing(struct blkfront_info *info)
+ 
+ 	/* No more blkif_request(). */
+ 	blk_mq_stop_hw_queues(info->rq);
+-	blk_set_queue_dying(info->rq);
++	blk_mark_disk_dead(info->gd);
+ 	set_capacity(info->gd, 0);
+ 
+ 	for_each_rinfo(info, rinfo, i) {
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index dcbd6d201619d..997ace47bbd54 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -2077,7 +2077,7 @@ static void __dm_destroy(struct mapped_device *md, bool wait)
+ 	set_bit(DMF_FREEING, &md->flags);
+ 	spin_unlock(&_minor_lock);
+ 
+-	blk_set_queue_dying(md->queue);
++	blk_mark_disk_dead(md->disk);
+ 
+ 	/*
+ 	 * Take suspend_lock so that presuspend and postsuspend methods
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 79005ea1a33e3..469f23186159c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4574,7 +4574,7 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ 	if (test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+ 		return;
+ 
+-	blk_set_queue_dying(ns->queue);
++	blk_mark_disk_dead(ns->disk);
+ 	nvme_start_ns_queue(ns);
+ 
+ 	set_capacity_and_notify(ns->disk, 0);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f8bf6606eb2fc..ff775235534cf 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -848,7 +848,7 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ {
+ 	if (!head->disk)
+ 		return;
+-	blk_set_queue_dying(head->disk->queue);
++	blk_mark_disk_dead(head->disk);
+ 	/* make sure all pending bios are cleaned up */
+ 	kblockd_schedule_work(&head->requeue_work);
+ 	flush_work(&head->requeue_work);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index f35aea98bc351..16b47035e4b06 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -748,7 +748,8 @@ extern bool blk_queue_can_use_dma_map_merging(struct request_queue *q,
+ 
+ bool __must_check blk_get_queue(struct request_queue *);
+ extern void blk_put_queue(struct request_queue *);
+-extern void blk_set_queue_dying(struct request_queue *);
++
++void blk_mark_disk_dead(struct gendisk *disk);
+ 
+ #ifdef CONFIG_BLOCK
+ /*
 
