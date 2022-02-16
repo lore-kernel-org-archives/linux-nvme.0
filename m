@@ -4,86 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6E81C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 13:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 444ACC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 14:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K5DTI//Qha4u3Kat+ZKKMYxR5CxUYu7QEiiyD50iVw8=; b=wq0YkJ2bKblTf/8N2EAuVVh2ma
-	HyiARrVNPxZaM2IVnTUE0Yk3+uirLc+Ysiap+0dWmP1QZCVg2UPQCDNQzYzrRGbCmYA12GVb9hpCP
-	bxiNah/aM5t5jC7CI5TT9dZPTFehR1rnUUeZ8DtiGnJaYBmOmbunrVBWu8ag3NEWLww4zMCKkcv+W
-	nyFhSexsFI0/HhTurHUyk6IHqdE3upytLw6e/LuOfIJFwW9l9wfN/7BugDlq4cyGxKLzL6zzJJMfk
-	an0cyYW1ttpOffyFvUT7WU6ORFlFiyoddNjDHxV+l6IQyazH2q8tqqqjl1KXpVG8KsAVlxDjmaW6B
-	8cjCCEjw==;
+	bh=WMEC9up1pdSgVmN96DpXU82nWhWLDUUDZ0jRF4j3ubI=; b=0TkyX3KKnsji7EPjTzK7HNlOWn
+	wGQmhRd50KKWSwLnb+nElwLolBHb0v6XcMIDDUUNg2478vMB6BHCphGqb792JQqHlUTYXdrhfuHHf
+	UJbY9xFvDndVMBRnYBPStr4pEBGU6izSKC7tSmAnRmCLybxz692PahA8U/0cS7655w+VXgX2pBVvK
+	U22ZDuyGlAoowcP/ADIyz0B2F2qjE9Qxuz9hFBixJxqAX4ivzLJ8UFuosyB1qLvvdBVqF9x/1YJN+
+	cEntdARD3k1GvJkyxTQYOQlnz9QKkvp/CHcNubaRj6KZjPFPxVFrP6cmDnwnvMTPUBQKWPT2fErjc
+	lAouD5LA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKKiP-007GpA-9z; Wed, 16 Feb 2022 13:51:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nKKuV-007IEv-FM; Wed, 16 Feb 2022 14:03:59 +0000
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKKiL-007GoK-QA
- for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 13:51:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645019484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K5DTI//Qha4u3Kat+ZKKMYxR5CxUYu7QEiiyD50iVw8=;
- b=ak8Iy2Rry0FOHay2wdkFLxBxpPwKSQsmD8Jv42EXrM6VUVaNiqVVjh7azj3Llkbzm7WN+u
- fw1IOHCJlZ+R4QNicyvfQsbHY+ZOGxTJsnto+5Rbq0EV9+ehwjRhA8IixHpnUbcvn7f3om
- TJQovY9AoA0L/UaP4Jl3sR/7oCEGMIM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-kBhArUV3NEOq_YS-Pwd6oA-1; Wed, 16 Feb 2022 08:51:21 -0500
-X-MC-Unique: kBhArUV3NEOq_YS-Pwd6oA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAF6B1898291;
- Wed, 16 Feb 2022 13:51:17 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23DD17C127;
- Wed, 16 Feb 2022 13:51:08 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 21GDp8ZA023716; Wed, 16 Feb 2022 08:51:08 -0500
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 21GDp8bV023712; Wed, 16 Feb 2022 08:51:08 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Wed, 16 Feb 2022 08:51:08 -0500 (EST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Nitesh Shetty <nj.shetty@samsung.com>
-cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
- martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
- kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
- zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
- djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com
-Subject: Re: [PATCH v2 08/10] dm: Add support for copy offload.
-In-Reply-To: <20220207141348.4235-9-nj.shetty@samsung.com>
-Message-ID: <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
-References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
- <20220207141348.4235-1-nj.shetty@samsung.com>
- <CGME20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b@epcas5p4.samsung.com>
- <20220207141348.4235-9-nj.shetty@samsung.com>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ id 1nKKuL-007IEG-Fr
+ for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 14:03:54 +0000
+Received: by mail-pg1-x52f.google.com with SMTP id z4so2216861pgh.12
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Feb 2022 06:03:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WMEC9up1pdSgVmN96DpXU82nWhWLDUUDZ0jRF4j3ubI=;
+ b=aqnwqX5OGX53yCw3v5VIeAFDRQdA9y/6hmRfAWyNc2cfpAzSzfNpzFK4JWGajaAVQL
+ bsTdC3EwCErJHGFBd3jp7jG4n3Mem/xm3HjU7hNsNztkT2rTH/CqWApEEx684cG1oTu8
+ drMTuQVJSFcjzfaNkzY2k/5j4V759xZ0M4FEStzur8BDH0e+LSkHGd/u8VHTITgC7uBi
+ nCCvBC/nXkfQbgtYLEM+1h6MdwXViOI9gCTsEHRs5Z6GH/mycIgG5R5lJ2umSphCoQYY
+ d42AyaFH7eoZrXhWCaLLpr5OS2zb5iLuzZbbLI9sN+/qFQAMOWGcZcqXYVk6zpE16srv
+ Ve9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WMEC9up1pdSgVmN96DpXU82nWhWLDUUDZ0jRF4j3ubI=;
+ b=a+h6VurCuMuKB65cpMiZCYuMB4ZdJjWt8DSogzKZ8x/W7zcrOi+vsYQ3oQQrKJc/uP
+ 2yqewXBcwnJA2jpXXk/IV4Za2reZwCRnimm52tpTR5ia2Uxl71W783yofX4nwmqdoOEB
+ ie7ljCOdjqozyH9aH2ePQl+cGBQV0LJf8+crKiGLB+3u/bz11ZHFW0TRYIBFoyCckVzQ
+ IDK5lg8U/HA1NEbAk+ohgdvTaPnrAZJ+w18rp+pUTknFB1E0AXCDa9LoTEC+GUS/aTAd
+ 386V7wpRpEyyEiq++aFH99xp9+quqFvdsYVJohV8P1k0oMm1Sk+8y5jIYp5Xopx4VwG6
+ HKGw==
+X-Gm-Message-State: AOAM532dalfFYFZZf/YugK5srEZI+P1B4ast1n7cgs7dl6ZVeVjzp/pB
+ n26J8rx6SyMeYF4CzMGPdu4R1vF02oZfdnKZiBM=
+X-Google-Smtp-Source: ABdhPJyjJGz+efLP9+ky1xac0SP8AV4nTxMoEPCXhVkOi+QAIFKiXyoRT7U8Dl9sTcZlVuhx1D5iA4Kn6pPWVaCD1Q0=
+X-Received: by 2002:a63:91c9:0:b0:34d:f43b:61e9 with SMTP id
+ l192-20020a6391c9000000b0034df43b61e9mr2474254pge.155.1645020226293; Wed, 16
+ Feb 2022 06:03:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <CGME20220216061807epcas5p1a349815c50db8f3539c30e2dd569232f@epcas5p1.samsung.com>
+ <20220216061305.45360-1-joshi.k@samsung.com> <20220216081148.GA10851@lst.de>
+ <CA+1E3r+3ra2sr3hHx4b2QEq-tsQ6sfLp+hVvPz0a+Q_8G84QKg@mail.gmail.com>
+ <20220216125731.6juezl4kshv7ovbp@carbon.lan> <20220216132056.GA15649@lst.de>
+In-Reply-To: <20220216132056.GA15649@lst.de>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Wed, 16 Feb 2022 19:33:20 +0530
+Message-ID: <CA+1E3rJbE8+T4SWQcwZZyXmEDUm88dFWudSJtcvE3vOtrkOU9w@mail.gmail.com>
+Subject: Re: [PATCH] nvme-multipath: fix multipath path scan
+To: Christoph Hellwig <hch@lst.de>
+Cc: Daniel Wagner <dwagner@suse.de>, Kanchan Joshi <joshi.k@samsung.com>, 
+ Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
+ Sagi Grimberg <sagi@grimberg.me>, 
+ linux-nvme@lists.infradead.org, Adam Manzanares <a.manzanares@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_055125_943117_500DE6FF 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20220216_060349_571463_986C4298 
+X-CRM114-Status: GOOD (  14.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,27 +86,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Feb 16, 2022 at 6:50 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Wed, Feb 16, 2022 at 01:57:31PM +0100, Daniel Wagner wrote:
+> > > In nvme_update_zone_info, but nvme_configure_metadata is also possible.
+> > > Moved setting the flag before both these.
+> >
+> > But the NS is not ready at this point. nvme_update_disk_info() needs run
+> > before the NS can be marked as ready. Commit message e7d65803e2bb
+> > ("nvme-multipath: revalidate paths during rescan") explains why.
+>
+> Yeah.  So the only error return from nvme_configure_metadata is a can not
+> happen case which doesn't really need the error return.  So we only
+> need to check nvme_update_zone_info and can set the ns life for the
+> -ENODEV case there.  Something like the patch below:
 
+It looks good to me. Can add a tested-by too if you are planning to send it?
 
-On Mon, 7 Feb 2022, Nitesh Shetty wrote:
-
-> Before enabling copy for dm target, check if underlaying devices and
-> dm target support copy. Avoid split happening inside dm target.
-> Fail early if the request needs split, currently spliting copy
-> request is not supported
-> 
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-
-If a dm device is reconfigured, you must invalidate all the copy tokens 
-that are in flight, otherwise they would copy stale data.
-
-I suggest that you create a global variable "atomic64_t dm_changed".
-In nvme_setup_copy_read you copy this variable to the token.
-In nvme_setup_copy_write you compare the variable with the value in the 
-token and fail if there is mismatch.
-In dm.c:__bind you increase the variable, so that all the tokens will be 
-invalidated if a dm table is changed.
-
-Mikulas
-
+Thanks,
+-- 
+Kanchan
 
