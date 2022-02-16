@@ -4,47 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62B30C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 08:02:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3261DC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Feb 2022 08:02:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IznW8wrmCBZkD5BwAGQiSM8eU+KwdXLI6muGuQ/WvVM=; b=HaOaldaSiUcBePtRo56cdwpREy
-	78BigVKkmdJCLF5uyRT4pFamv/2fomp6MAwf+lrNysYD1zI5QAgTUFffhFG/vwpEaZOz4mPZYLA0R
-	21jtQwMajlx3Was2th8/mkaoVoUkS/LXp/+nHrXkoN+ctHRDnl48x5VHRIP0JidvmIMW3JlIVujFh
-	uNvGg8iEuTQp4VIF0yPJBytbn0FHidutyKMbl5tTSrhlx8ZBaaDUSVFvw81xKauRoMVj3v4boQNb5
-	YU9du6LyiKKsfrMSXueC7MiwFsLwWfBkL1fWkdgAafhha0TSewsW/oPVnE8kV0AzcO81LokUFq8c+
-	NvDWaUdw==;
+	bh=IznW8wrmCBZkD5BwAGQiSM8eU+KwdXLI6muGuQ/WvVM=; b=YrY6FTBujN8obGp6/uWkAAe9Zb
+	l2OOEIdcNPeXNJH30Ppnilcv1Hbslo5syM1jbfYeNtgGyqbbJpMnc+VyoEwMwFotxW84k58rFtirc
+	jw8b6CAH7S4f3VGNie8a83NFg4iPxJHwuSbT1sOkJ/sjoEYFEori2hcB4oaLmfR2wB9ZCAzuwnD8F
+	eDFUE12EA4DWvPLyo5JIlzEFG8fvWKKCqlpu9UNv+Sr9shup11UL9eiiPto2wHpu+JpFZWb4qf9zo
+	QKH9TMHXy+2tSj9qGkQWIoxVJZ2Oi8HtIUbaQUaUCVKmUkBzs4ZSXcliB2g/gQ2c7azN7/quyWRon
+	QyTObezQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKFGQ-005yur-94; Wed, 16 Feb 2022 08:02:14 +0000
+	id 1nKFGe-005yzH-I9; Wed, 16 Feb 2022 08:02:28 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKFGN-005ytj-4w
- for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 08:02:12 +0000
+ id 1nKFGb-005yxx-Op
+ for linux-nvme@lists.infradead.org; Wed, 16 Feb 2022 08:02:27 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 6937268B05; Wed, 16 Feb 2022 09:02:08 +0100 (CET)
-Date: Wed, 16 Feb 2022 09:02:08 +0100
+ id 1EB0768B05; Wed, 16 Feb 2022 09:02:23 +0100 (CET)
+Date: Wed, 16 Feb 2022 09:02:22 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk,
- linux-nvme@lists.infradead.org, kch@nvidia.com, sagi@grimberg.me,
- joshiiitr@gmail.com
-Subject: Re: [PATCH v4] nvme: add vectored-io support for user-passthru
-Message-ID: <20220216080208.GD10554@lst.de>
-References: <CGME20220210054304epcas5p14aa9d83205f74b2e4942ed9b4e43fc23@epcas5p1.samsung.com>
- <20220210053755.451855-1-joshi.k@samsung.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH] nvme: add a helper to initialize connect_q
+Message-ID: <20220216080222.GE10554@lst.de>
+References: <20220210191236.8786-1-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220210053755.451855-1-joshi.k@samsung.com>
+In-Reply-To: <20220210191236.8786-1-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_000211_363489_162D4803 
-X-CRM114-Status: UNSURE (   7.92  )
+X-CRM114-CacheID: sfid-20220216_000225_963175_85363DEE 
+X-CRM114-Status: UNSURE (   8.08  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
