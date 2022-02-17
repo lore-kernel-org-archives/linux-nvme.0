@@ -4,115 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27B01C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Feb 2022 02:36:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8778FC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Feb 2022 02:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rcv7jUPQBiWFlRJ2FzCb1fO3m+Ps+A68Gwakk9rP03o=; b=SzEAXb666Mv2T+r0VNOU1Ih6iA
-	8lVN8+lzYx4CmqBsIoVpSRMZAHc7uWDPLLXlWpwnhMGS2ksET1mSl+IFZ7JKg+8QnT7cEAYTbeAYp
-	5xIdnD8y4ruY1yfiYWLWkpYXrEIe5Xnh5iegZ4ou9UMQkAAlR+OG1tk3Sf85lTfm5R+tSNtiY9OPo
-	gGaxeQy9a6J1vCPX1IYt2sVQxffKo7jmP0EVxN/+Nc7gzExRwdAsJGyLjjGkIS6TrCw7zacCHQVSI
-	RhVXKn1uuZesfymLlg937NvWNrBQrK00EzV3ilDmjQOEqAoTuYLN20ci4QzArFaeop4VZeA8Cu+Qd
-	Uie28Juw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=haUOimLJoYbvZx+diRziOgufwuVxQmOkqLncWF1+/Lk=; b=LkwwmE621qsJtRRw4VsnsZPtOi
+	JmztkYKlqV3QqW+riDf/xnC5bP1IdU/Al2MWFyUkyXeVekLY2H24db+G92HxtNUKXJATdk4XLZVAc
+	K58lr1Ptk8TpmcBjADLAiarMqRScXLmBOvqKRGpcDKgtWcr6QLYfD9REgRlitJ5kdFnn5ShQMWFvJ
+	iqqMU1z6HWDluc8Mq1tsgRzS5Hm5Se0WlRORbWJK3SV/dEwaBOC7z0i+bYkbafyaqimjqIl/rAtVg
+	4nwSHV0uhJxTTyZhjxTi0Q/ow3Pw/W1naIr2St9o74ZC0nzc/ZLlGPXzfdXH4n+bELTI69GNCh7s5
+	Q5TtgdhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKWf4-008l5L-9u; Thu, 17 Feb 2022 02:36:50 +0000
-Received: from mail-mw2nam12on20600.outbound.protection.outlook.com
- ([2a01:111:f400:fe5a::600]
+	id 1nKWkN-008ljf-5m; Thu, 17 Feb 2022 02:42:19 +0000
+Received: from mail-mw2nam12on2062a.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::62a]
  helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKWf1-008l4w-Lo
- for linux-nvme@lists.infradead.org; Thu, 17 Feb 2022 02:36:49 +0000
+ id 1nKWkJ-008liz-Lw
+ for linux-nvme@lists.infradead.org; Thu, 17 Feb 2022 02:42:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELUjjyxcV2CHins+SN+MjkzSGtqnTsPAmyoC12utmaCcGP5r40DMbsWOjFh034KkXGQvjSkRGfjdJNwyqZekKz+UCGAnrl6TzmMOuV9lbVv8RW3G4rXEcT9QjjjOiQ/Y6z1iGS+PUrZwv55AI0EWZtEg5HBvxYR7MPKPVhazapMYveSeAEz3tyEzxu8BPo+mSBX4OXBAgNJTxL//sVylQn+FN8A9R+JnOYFvlR0WltKSTxi62by/axoDCQxghKGuXtuKYnlLXGON1bUSM9pX2Eh+IEquAKVgy3H/3fDD3+jONoNpMtuKiO3u2CmULsU2WPPyGoJAYEfuZzQC12gLyQ==
+ b=NZ69nXZQNXfsi9YX2N0HSo1FUvuMdxTap/ln+w5qY8PQA3myZWJwVENjQ9XXmQNK6SODBhkyFUlb2cn0DvOWUiHLUy9et7LDzJwFCEveSzzsmFfHWMYGPmJ1UAceKYPoUywKQcSgIoOtfymclBnfuM7vGNWEgTG3XCqxALh0uCDTxWjDSI1fhsFodxcFOE7FeNyjALlRpVA3a1psosxeJmsVBm9iykV8QDhgU4zKvuazNpIzlJC2R+7L+GD4X6QjtEJxepF79ZflfoILXmwN1IrwRaHHRrCkA3/EbC2hMolXtq42r1DLmtuUw5w3/hNaYEPFyBPTRXCa+UMsqWpIpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rcv7jUPQBiWFlRJ2FzCb1fO3m+Ps+A68Gwakk9rP03o=;
- b=DyTg7xEHO1yuTGvode5gWdUNzo/rMArRsylktA55Gp3Ms1nLTcZkp6rQNz1y9ymxzTU19nc7diFl/Zh6F7vIeqibXMpj/wOH/Zdzk3Ds0wMA48sLeGYqJ/WAMPsqJBt+iZH/wn7cTrWrgUTP4lDVCYzs0lmHXXgezd6hP1NUH2NsgA/kHMi2vNk/p8kgrBpBe3LadEY4lQ+uwf7wU5kQ3fEJd96f1Oa1A9OnlX/hWV3z7fbFqgHgle0y+WmJEIYVwPiHoJG/ADNrou2z5iaul1GRejNfWS+Ib/3aTIDoLws4Iw+pUlhYJAfNYRPYusD/kViZCTknhfhDeXPU5ALCEA==
+ bh=haUOimLJoYbvZx+diRziOgufwuVxQmOkqLncWF1+/Lk=;
+ b=Yop+wR55AW3n4qpIHyVE72ackXIwT55n1YjXM3y5SbfYegrCi7EsuBRDs/YZ71RefTdd4j1e7XErQZT9Fkh9074Io0nSzpTFKo5AWPeDESOHy6eF3MU/miima1XEmhmS/qWshetRh8Td3fIYQnCIQF5iIrVBHpjTBxqkqjZi5PLOfy4SiluRyHnvQ+Q/F0Cq8kllsELn4KXOUASGPKGsUvSGQQD06vDF557ZxHBEjHOU9eF6VCbX3U0QwV3z7GP44Ij9jOPWSgxYcgwyGi9wBte2B+hfkzEug06A1BM53JMmxHRwNRvtSdDCi9FsQKZ/iiSOT/KQw4FL9gU9bKkR+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=codeaurora.org smtp.mailfrom=nvidia.com;
+ 12.22.5.234) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rcv7jUPQBiWFlRJ2FzCb1fO3m+Ps+A68Gwakk9rP03o=;
- b=F7F1j7Vrmd/x+CMN0zMyIZKY/HFXz3XsnYYdBXW+SpTozKkqRLgByL76vqQQXl1mzLVg/6UIEU9+YwxHl1bcPbxM5bIXWzLGYA+irNog3MLWoWOnHSnLTVKODQg8Ik2NC+jaCk9UNzjB5RtH85hFmOw4HvJioqGIubiHLEzK2t/QNNjGODdSNlwd8iq9tJ3a9x6Hwg+e1VZcUeBEqX6zAuRt36UoYEMIZUYOcGzKoDngdHDbaBiL8Z9iMukWeLAbOzeCqrdW4K+DsL/AuGQuWxzgh1ax1owiY6rzYVbO+NYO759OHgvXlph37B9wLu1D9JSQ65SPbHSdUgfDhIA/IA==
-Received: from BN6PR1701CA0022.namprd17.prod.outlook.com
- (2603:10b6:405:15::32) by CY4PR12MB1798.namprd12.prod.outlook.com
- (2603:10b6:903:11a::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Thu, 17 Feb
- 2022 02:36:43 +0000
-Received: from BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:15:cafe::ea) by BN6PR1701CA0022.outlook.office365.com
- (2603:10b6:405:15::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.19 via Frontend
- Transport; Thu, 17 Feb 2022 02:36:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ bh=haUOimLJoYbvZx+diRziOgufwuVxQmOkqLncWF1+/Lk=;
+ b=YzxL8zhbficvih+dlkwBzEbIpX61d8CgEWJVheA09mJW4f3ppVf37hnmA9rAqjjYvi9Kr/tzPJVnqkaIjMKqYFdJJ+i8V86iAlg0EDiBvXDQFAvgy9qxqhPh3TWEk7X7S3S+yihV2SwWGi4C0ITmGItSl4oeR6L/zHZa4OWgp+QSI9EyCRgK4E0e7CObQHDbnQTM3klbDQE1RtnQYAVsrnR63DJiRSBmtwYEImKZN4J4A0YmiUZH6SvkuEJBbZjkdrIJ97ildlpkRdu4BoshJ/GOWg2rrS77FJ0CFOaCwLYkHIxLf+U3jvhCleCNZbejyoEumdLleV7P8O+JMDLtPQ==
+Received: from DM6PR08CA0009.namprd08.prod.outlook.com (2603:10b6:5:80::22) by
+ BYAPR12MB4693.namprd12.prod.outlook.com (2603:10b6:a03:98::27) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.16; Thu, 17 Feb 2022 02:42:11 +0000
+Received: from DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:80:cafe::5c) by DM6PR08CA0009.outlook.office365.com
+ (2603:10b6:5:80::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17 via Frontend
+ Transport; Thu, 17 Feb 2022 02:42:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT054.mail.protection.outlook.com (10.13.177.102) with Microsoft SMTP
+ 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.234; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.234) by
+ DM6NAM11FT056.mail.protection.outlook.com (10.13.173.99) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4995.15 via Frontend Transport; Thu, 17 Feb 2022 02:36:42 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Thu, 17 Feb 2022 02:36:41 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.4975.11 via Frontend Transport; Thu, 17 Feb 2022 02:42:11 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
+ (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Thu, 17 Feb 2022 02:42:10 +0000
+Received: from [10.25.73.191] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Wed, 16 Feb 2022
- 18:36:41 -0800
-Received: from vidyas-desktop.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server id 15.2.986.9 via Frontend
- Transport; Wed, 16 Feb 2022 18:36:38 -0800
-From: Vidya Sagar <vidyas@nvidia.com>
-To: <kbusch@kernel.org>, <axboe@fb.com>, <hch@lst.de>, <sagi@grimberg.me>,
- <nitirawa@codeaurora.org>
-CC: <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
- <linux-nvme@lists.infradead.org>, Vidya Sagar <vidyas@nvidia.com>
-Subject: [PATCH] nvme/pci: Add QUICK_SIMPLE_SUSPEND for Tegra platforms
-Date: Thu, 17 Feb 2022 08:06:35 +0530
-Message-ID: <20220217023635.8963-1-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+ 18:42:06 -0800
+Message-ID: <2e8683db-256c-5c04-bb0c-d634760620b0@nvidia.com>
+Date: Thu, 17 Feb 2022 08:12:04 +0530
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3] nvme/pci: Add quick suspend quirk for Sc7280 Platform
+Content-Language: en-US
+To: "Nitin Rawat (QUIC)" <quic_nitirawa@quicinc.com>, Christoph Hellwig
+ <hch@infradead.org>, Keith Busch <kbusch@kernel.org>, "rjw@rjwysocki.net"
+ <rjw@rjwysocki.net>
+CC: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sajida Bhanu
+ (Temp) (QUIC)" <quic_c_sbhanu@quicinc.com>
+References: <1644526408-10834-1-git-send-email-quic_nitirawa@quicinc.com>
+ <YgYAs7R/1G2Y2kpz@infradead.org>
+ <9b291987cf914f119788c42b32a08a12@quicinc.com>
+ <fe6f99c47e2546429311d090999cd9df@quicinc.com>
+From: Vidya Sagar <vidyas@nvidia.com>
+In-Reply-To: <fe6f99c47e2546429311d090999cd9df@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 490f0ce1-2512-4625-cba3-08d9f1be551f
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1798:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB1798F461319FD9B77C8E7A2FB8369@CY4PR12MB1798.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Office365-Filtering-Correlation-Id: 14e3d7ca-cfb1-49a0-a840-08d9f1bf193f
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4693:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB4693A3196F6C44D8A9011FE4B8369@BYAPR12MB4693.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TXNdh+ZzJkKh/Hq3oSllsNxeOFS73DAtq6S7Dc/os5t3oMkuCiTztrQ9w5N2RJcxjbhNl+5cWnWN1veS/8Hm5Sh+j+OW/GasJ2zBJ7YiW2h+OGIXc6rmClECvECeV4Oi1yFKuRNad/nJK8yE5+btKcYNbm9mJOYp4O49a1Dd3sCKdCQVF7LTypVnuKpc6uc46lmOM4LmWNUeD2IKBUfHkxxtgj/08vF1YKr1J5piLaqj/hm0FS5JH+SUWmuo9BMp4MdgZee7Pi3r1ztUcoAT6WBWOB8ZS4fQ1wPsI/F4+bDvyq3+gGz+/oY8sRrnceGtSomIeI6mKIUDAbkib6KeHnXpQzP6KJjRVh8MIohak+EgIPvXT+Af5t/gVQbOjXPWAHqcQrq0TRCvIh8onP4ZSsZ8tL2LOPjOvcB7qV+QQQHf0jQegBOJA8muo3cah0MIJVmCfp7lujN1IDdT1LzOQoJCoZn9caZKJlq/5uQMeR+g3nPz3FiL22a0lxI6MCrGMWP2ngSHadIyZj9iJ2VTxANnqEmTJrL25KM9h7WoB81OXwmeSb1KQtVppf0nhHNZWGNfGTvUBfffOUydOD3GKZPRnBO8u0/v/yIAA+6NfF6U84nJpEqFPFcG6fsAP+rb5HhTYLEQme1Gw1UWJZf6dENiPYkhNTXbJjW16TyP1n+HLSiGW08jgE3NspEaEbxJKz5/Na38ht7t/3ORX8ghWQ==
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+X-Microsoft-Antispam-Message-Info: OdFbHpbieW8LL6L5+d7IzFP4PmIaa4PpN4NjtzXhOmoBcybITr8bLkQQoToKL991nwMVk9/1xoL2P/lF0xPrvjWaZo/woL6fN0PNFprk9iAzCzMAyjDHTqF3w0aT0yCSb6p6efdrfxhdWovc1sCxTjtjgtBmElkmfAz3VsQGV6+zpy7/3UWSqi5u/bgzknQXouVAs8vwJ0zR6iarKadG6TPKMQkHOUJ39z9uYkj1kSlXfMjfmkCtBuP+0NNK/iNwgDWKxtwf7ymKFE1IdWinQRvZ/ecqRr8j3otxHkVjiMKVNLd1SlRV8pTv+7/ygKq4afUb5U7dXD9J1ZEW51ZERez6qjq34gnuAA5ove+nMXxKzynUT0rVaINExLoUiXVQF6zN92xwNZvsQiOLdFgrNuq7kQkOv99tiBWDdAOW0eGMHO338gwpi1dgL5QweX4Rek1jwyiEeiqhpatN29CJWPpSwFnfVe+L6QTaH/iNxvtH+mYBcw8yYcO4nnAlbCYfH/o8QtPTGqjnzP4PxT5hY/FBEcNfaKrg8b/7I7lKraNUrVLg8Afx8YUr3W1KEJlVU9llWFmq+9ZQNZ/n/b0zJeueKUjMFPs3LtU0HVGpaIDisl/0LjxRcqXiiFI+1shvLByCw7FVtva8sOOS/MEV+DOPQEiWm/hc8vQTSPO6T2gNjfokXvWpneaCDVekxBxIdfKjB3R8dZ4MD5kVpm5ZL+9lByfUM1AyDsmv3ROmSJFJRtiidp5sqAu/DdA+O9iEAsTpb4lWyLtUHIOlYD04rzhYjQkFj9kS7j/CFBw28CuhcnRec8S+d8vcqhTk+55lSkOZO12tTYliQoBE95J+JDh4lZsmy8/zBF33iNpkT8Ls8kej+BUDhL4CDyzWlGJp
+X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(36860700001)(2906002)(70206006)(8676002)(8936002)(70586007)(86362001)(81166007)(4326008)(426003)(36756003)(508600001)(83380400001)(6666004)(40460700003)(356005)(47076005)(5660300002)(7696005)(82310400004)(107886003)(1076003)(54906003)(110136005)(26005)(336012)(186003)(316002)(2616005)(36900700001);
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(70206006)(86362001)(15650500001)(36860700001)(81166007)(70586007)(5660300002)(508600001)(36756003)(356005)(53546011)(336012)(26005)(186003)(426003)(16526019)(31686004)(83380400001)(8936002)(966005)(2616005)(82310400004)(31696002)(316002)(4326008)(8676002)(54906003)(40460700003)(16576012)(47076005)(2906002)(110136005)(36900700001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 02:36:42.2144 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 490f0ce1-2512-4625-cba3-08d9f1be551f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 02:42:11.3191 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14e3d7ca-cfb1-49a0-a840-08d9f1bf193f
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT056.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1798
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB4693
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220216_183647_909199_536BFA82 
-X-CRM114-Status: UNSURE (   9.09  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220216_184215_755146_195D1D0B 
+X-CRM114-Status: GOOD (  16.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,42 +136,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All Tegra platforms remove power to the endpoint devices, hence, enable
-the simple suspend path to avoid issues during resume.
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
- drivers/nvme/host/pci.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ab15bc72710d..f5c5be81d948 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3035,6 +3035,22 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 			return NVME_QUIRK_SIMPLE_SUSPEND;
- 	}
- 
-+	if (of_machine_is_compatible("nvidia,tegra20") ||
-+	    of_machine_is_compatible("nvidia,tegra30") ||
-+	    of_machine_is_compatible("nvidia,tegra114") ||
-+	    of_machine_is_compatible("nvidia,tegra124") ||
-+	    of_machine_is_compatible("nvidia,tegra210") ||
-+	    of_machine_is_compatible("nvidia,tegra186") ||
-+	    of_machine_is_compatible("nvidia,tegra194") ||
-+	    of_machine_is_compatible("nvidia,tegra234")) {
-+		/*
-+		 * Append quick simple suspend quirk for Tegra platforms
-+		 * so that the simple suspend path is executed for these
-+		 * platforms to avoid any resume failure.
-+		 */
-+		return NVME_QUIRK_SIMPLE_SUSPEND;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.17.1
+On 2/16/2022 9:39 PM, Nitin Rawat (QUIC) wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> Hi Christoph/Keith/Rafael
+> 
+> Since we are giving control to PCIe (NVMe power rails control), it can vary from platform to platform.
+> More over, PCIe driver doesn't control these power rails directly from PCIe driver, they tie nvme supply with one of the pcie supply and control them together.
+> So i think it would be better to either have quirk based on platform or always setting simple suspend and platform which needs full suspend can update it through some means.
+Agree with this comment.
+I pushed a similar patch for Tegra platforms @ 
+https://lore.kernel.org/linux-nvme/20220217023635.8963-1-vidyas@nvidia.com/T/#u
 
+- Vidya Sagar
+> 
+> Based on below link, Looks like this can be across platform ...vidya also mention similar concern for tegra platform.
+> https://lore.kernel.org/lkml/20220209202639.GB1616420@dhcp-10-100-145-180.wdc.com/T/#md10b0108b3ccbb1254fe0ad8dbb6e98044a8820b
+> 
+> Please let me know your opinions.
+> 
+> Thanks,
+> Nitin
+> -----Original Message-----
+> From: Christoph Hellwig <hch@infradead.org>
+> Sent: Friday, February 11, 2022 11:53 AM
+> To: Nitin Rawat (QUIC) <quic_nitirawa@quicinc.com>
+> Cc: Keith Busch <kbusch@kernel.org>; Jens Axboe <axboe@fb.com>; Sagi Grimberg <sagi@grimberg.me>; linux-nvme@lists.infradead.org; linux-kernel@vger.kernel.org; Sajida Bhanu (Temp) (QUIC) <quic_c_sbhanu@quicinc.com>
+> Subject: Re: [PATCH v3] nvme/pci: Add quick suspend quirk for Sc7280 Platform
+> 
+> On Fri, Feb 11, 2022 at 02:23:28AM +0530, Nitin Rawat wrote:
+>> Enable quick suspend quirks for Sc7280 platform, where power to nvme
+>> device is removed during suspend-resume process. This is done to avoid
+>> the failure dring resume.
+> 
+> You need to sort this out in the PCI and PM layers.  The broken platform will also affect all other PCIe drivers and not just nvme.
+> 
 
