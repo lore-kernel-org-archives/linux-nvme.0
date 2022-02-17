@@ -4,86 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5767C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Feb 2022 14:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC9D8C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Feb 2022 15:40:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hWNk4us8op0b+wJiLg7HIDjnopxPEpD5VgycDmXyYzA=; b=qycrHfQ4YJpGYG5p3FiomQaLz6
-	aT1ttBzbpDwIvP+u9/XPOJnCIUP5KIC25VJjis+DUVAj2wi5XkahsdcMTHU2MKs1JE9y7Rhh6TysR
-	hAw4YeKTZTqXJlVurh2Mh+9PdW45gdIRHBzgnGd0MeNumBxqlh0M5UqZ0bNpQfcCAByPFrrmddpGd
-	IC5yZMLV8hpUA/fZw28dP7MhQ3PiZkCaIVtbqL9VBC0POvCDXqeD7dmizf+y4lHJjZBWQhcn+qBB+
-	tf/TO29J1ce7eqWzfNdHjibC+3zRrJPpm21+xAGrM3HYwKePCPdcH9OYNC2SxLiu4FPyHDiHOv+p9
-	gAGfNSUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TE8n2qHv14fuB3CwoM4G4MqgZMfIJ3HjzCk+Yfyt5N8=; b=SZt0c2qvuypF7cZyVJyjP9xw8E
+	AWSh8jf4j9KKHN8ZECkeNcC77okWN8budZr2HZzSzzeOwXpcdIZ2hzCtmNt+rxPNDRit+5AuAX1Aw
+	B/4P1rrszhCbF/aDmEyzcQHW/PPX0mggOcOO4x29HKqmFrNeoh9RMfAVOQPihMSlkMg6J+qrWm0FU
+	JMJDuh8YdRueM8W+GWtWvHPWNW+oqWBalIBVlbTYSksZGOjdoUgJHmt1byyG3VSyY+TzooW8SKHP7
+	Pv64jmiMfXQTFUNn0E3R6wcv/UnbiTZGyRXUkXE1WVpZ2mBeQtEdDujns7bTdBsMYpoYSwyu9IcMt
+	hpCu8S+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKiA8-00B9PU-Kz; Thu, 17 Feb 2022 14:53:40 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1nKisy-00BIJT-A4; Thu, 17 Feb 2022 15:40:00 +0000
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKiA5-00B9ON-9G
- for linux-nvme@lists.infradead.org; Thu, 17 Feb 2022 14:53:38 +0000
-Received: by mail-pg1-x531.google.com with SMTP id 27so8527pgk.10
- for <linux-nvme@lists.infradead.org>; Thu, 17 Feb 2022 06:53:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hWNk4us8op0b+wJiLg7HIDjnopxPEpD5VgycDmXyYzA=;
- b=0CArP/gwlQRvcpiaXCGErcBTurFuCrJ2cas60eHKzs6UH1KGNOFVAG3Fhf9ohu8LQx
- LM3ioGDDZtvpc3dReOMoF6Fh00kJa0wFtWEuC1Tyf/V+C3iy63P8BhWQdb59c0WEeZIP
- So15CzC4qKzVM6Jc+7imzy49BKxzNSrj8S8dWZbu4n6ck7Hr13qmB/wX3WbAD5aJ1UUq
- /Um/Kw36eg/OZqGHbar22/To5tsRod0ai0dyh6KDAj4GuG2CmXEhEKZPGQ4oIEVKxdgP
- WtY0h97QM8hJeRidzM2GXWyjwWXmWhdKeMAqYeKfLrFdwhHphKwpOKELe3WzDoKeJw5/
- gRTA==
+ id 1nKisv-00BIGj-GG
+ for linux-nvme@lists.infradead.org; Thu, 17 Feb 2022 15:39:59 +0000
+Received: by mail-pf1-x434.google.com with SMTP id p8so1415033pfh.8
+ for <linux-nvme@lists.infradead.org>; Thu, 17 Feb 2022 07:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TE8n2qHv14fuB3CwoM4G4MqgZMfIJ3HjzCk+Yfyt5N8=;
+ b=qMt5VtEERrppHzkcA843sKlSXVkDWwJVCc8xr8+WeAWWtHU+r71qgQBRYbX1ux5DHL
+ NTb7U6GXDPSHTmip7AfIy5Ko8VL/n2wYZkfTF+oblRqdZyRfvEJN8zeIrsT+U1xUpvfJ
+ riVOgdNN8btUUwTA2klq9U/ssBcB0UxtckmqrZ9tEwGNj1BJ21gr/PO2oSD17bvd5xTR
+ WaPxX9eN4glrpIkVpONkOkPCdwiqP9MsrN3kghCci+eV1jQZ8IyRz1YxvinGdbLTKvYS
+ g0yJtFpgUiwqm4F4jDITroCd2gmObqxz7e5DqX7MyAaS2lksK8rHnhn45TfDiH1mcbj+
+ z0hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hWNk4us8op0b+wJiLg7HIDjnopxPEpD5VgycDmXyYzA=;
- b=D7wwKrWRMSNYrngjq0+i3rccIUZrO7Ug+CxYrDHAI+lYk2FyEIbJWCJAw6GTSjWY0Z
- MZimk7p6sXrrbgY3n+Ly+28x/Q/Lt7P5W8lX/W84+dlIf7VXp911ga62//HxXaE8MibQ
- KkH66ScAiNX6YfVXvB4gBOy4bnjCqOW9gkympGlx3OFv8LAoKU9DlZ7s5jo+VddU9zIX
- /fU3kzuvpcE9h0igKwIrAdzR5TBVtqDMWuJm4qGyiaHDnUU+BYVrgrnpylzaJMBS7YO4
- ogbyduXM0xyZSq4n6Ze3O0odRir7WkvTvzj+Wnp6qtF0kVl6qLmRnaICAqqSdUl5GYTq
- wtJg==
-X-Gm-Message-State: AOAM532xEgUS7+AbRL7A4dyxvf7v3Ny+ZdqLGbJELmEzavZSiF1EGoSj
- RfVY9L+g9PjnkWIdVmUNhNVe/A==
-X-Google-Smtp-Source: ABdhPJxW7afmkKFjzfcCg0HmJf5RhvRYLphPv08F70x0dWvJm45BTosHGiOgq3k6MuwoCP5HHJNC1w==
-X-Received: by 2002:a65:6e93:0:b0:362:da8d:88d5 with SMTP id
- bm19-20020a656e93000000b00362da8d88d5mr2703141pgb.194.1645109615299; 
- Thu, 17 Feb 2022 06:53:35 -0800 (PST)
-Received: from [192.168.1.100] ([198.8.77.157])
- by smtp.gmail.com with ESMTPSA id s5sm8651284pgo.37.2022.02.17.06.53.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 06:53:34 -0800 (PST)
-Message-ID: <43426c0e-8c50-9288-05cf-7bc1f71c239b@kernel.dk>
-Date: Thu, 17 Feb 2022 07:53:32 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TE8n2qHv14fuB3CwoM4G4MqgZMfIJ3HjzCk+Yfyt5N8=;
+ b=W3ADsA3vFzZDsrrvbwqcnEklENXHrByuPmddsGmTbdtfKR6+bJzgSgv04oDwS5Gj5x
+ L4n2WENqXnFOstB+THioYOiYv422GZFBpZDSJ5nVMPqmZ30bn+rEThyg4vtb7cbfOtHl
+ o8KbyA7aaX6gmqtunLMdKo6PtZRF0X/3aqjXAISYIvmm5JAEPS3CS7nnToEQ2CDgA38W
+ oym9wqddxsS0V36tmUUXWYPS9yYwTx6G5SKD3GbPqsEQfdORx8Q951FIBu+OigWqoohe
+ Ha3cyEUK1I+XkpmfgIjdd1jTY68i1K4j8FZztkgtiXuAFb+qI6NE1p08uqWkVcGYvwlY
+ uNcg==
+X-Gm-Message-State: AOAM531MuSYLaSaM8VvOOyED4Q7bdsZYt38fLMXk6eNY1WWclM5M+DRw
+ tjhg1B2TegYttV0BNu5H3b2HGDqjB3EB9Vasq7k=
+X-Google-Smtp-Source: ABdhPJzPHsLcfwtzgYqMUfCU52gOXoVikjFPcVCnRLCbbJ9C8FYtQSZ8LnF5dDCB8RmVXuGNHrzFCDcOFwUhqIC04Qk=
+X-Received: by 2002:a05:6a00:a8b:b0:4cd:6030:4df3 with SMTP id
+ b11-20020a056a000a8b00b004cd60304df3mr3442934pfl.40.1645112395768; Thu, 17
+ Feb 2022 07:39:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH V2 04/13] block/wbt: fix negative inflight counter when
- remove scsi device
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Ming Lei <ming.lei@redhat.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, Laibin Qiu <qiulaibin@huawei.com>,
- Ming Lei <ming.lei@rehdat.com>
-References: <20220122111054.1126146-1-ming.lei@redhat.com>
- <20220122111054.1126146-5-ming.lei@redhat.com> <20220217074502.GA1333@lst.de>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20220217074502.GA1333@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20211220141734.12206-1-joshi.k@samsung.com>
+ <CGME20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e@epcas5p2.samsung.com>
+ <20211220141734.12206-2-joshi.k@samsung.com>
+ <Yg2vP7lo3hGLGakx@bombadil.infradead.org>
+In-Reply-To: <Yg2vP7lo3hGLGakx@bombadil.infradead.org>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Thu, 17 Feb 2022 21:09:30 +0530
+Message-ID: <CA+1E3rLpKp0h2x7CoFPXwsYOc4ZYg_sqQQ+ed8cJhq77ESOAjg@mail.gmail.com>
+Subject: Re: [RFC 01/13] io_uring: add infra for uring_cmd completion in
+ submitter-task
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, io-uring@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, 
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
+ Anuj Gupta <anuj20.g@samsung.com>, Pankaj Raghav <pankydev8@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_065337_453571_9E7F13F0 
-X-CRM114-Status: UNSURE (   8.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220217_073957_582965_4422183F 
+X-CRM114-Status: GOOD (  27.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,12 +89,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/17/22 12:45 AM, Christoph Hellwig wrote:
-> Jens, can you pick this up for the block-5.17 tree?
+On Thu, Feb 17, 2022 at 7:43 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Mon, Dec 20, 2021 at 07:47:22PM +0530, Kanchan Joshi wrote:
+> > Completion of a uring_cmd ioctl may involve referencing certain
+> > ioctl-specific fields, requiring original submitter context.
+> > Export an API that driver can use for this purpose.
+> > The API facilitates reusing task-work infra of io_uring, while driver
+> > gets to implement cmd-specific handling in a callback.
+> >
+> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> > Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> > ---
+> >  fs/io_uring.c            | 16 ++++++++++++++++
+> >  include/linux/io_uring.h |  8 ++++++++
+> >  2 files changed, 24 insertions(+)
+> >
+> > diff --git a/fs/io_uring.c b/fs/io_uring.c
+> > index e96ed3d0385e..246f1085404d 100644
+> > --- a/fs/io_uring.c
+> > +++ b/fs/io_uring.c
+> > @@ -2450,6 +2450,22 @@ static void io_req_task_submit(struct io_kiocb *req, bool *locked)
+> >               io_req_complete_failed(req, -EFAULT);
+> >  }
+> >
+> > +static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
+> > +{
+> > +     req->uring_cmd.driver_cb(&req->uring_cmd);
+>
+> If the callback memory area is gone, boom.
 
-Done
+Why will the memory area be gone?
+Module removal is protected because try_module_get is done anyway when
+the namespace was opened.
 
--- 
-Jens Axboe
+> > +}
+> > +
+> > +void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+> > +                     void (*driver_cb)(struct io_uring_cmd *))
+>
+> Adding kdoc style comment for this would be nice. Please document
+> the context that is allowed.
 
+Sure, for all kdoc style comments. Will add that in the next version.
+
+> > +{
+> > +     struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
+> > +
+> > +     req->uring_cmd.driver_cb = driver_cb;
+> > +     req->io_task_work.func = io_uring_cmd_work;
+> > +     io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOLL));
+>
+> This can schedules, and so the callback may go fishing in the meantime.
+
+io_req_task_work_add is safe to be called in atomic context.
+FWIW, io_uring uses this for regular (i.e. direct block) io completion too.
+
+> > +}
+> > +EXPORT_SYMBOL_GPL(io_uring_cmd_complete_in_task);
+> > +
+> >  static void io_req_task_queue_fail(struct io_kiocb *req, int ret)
+> >  {
+> >       req->result = ret;
+> > diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+> > index 64e788b39a86..f4b4990a3b62 100644
+> > --- a/include/linux/io_uring.h
+> > +++ b/include/linux/io_uring.h
+> > @@ -14,11 +14,15 @@ struct io_uring_cmd {
+> >       __u16           op;
+> >       __u16           unused;
+> >       __u32           len;
+> > +     /* used if driver requires update in task context*/
+>
+> By using kdoc above youcan remove this comment.
+>
+> > +     void (*driver_cb)(struct io_uring_cmd *cmd);
+>
+> So we'd need a struct module here I think if we're going to
+> defer this into memory which can be removed.
+>
+Same as the previous module-removal comment.Do we really need that?
+
+Thanks,
+--
 
