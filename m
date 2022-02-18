@@ -4,145 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04AF3C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Feb 2022 05:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CA3CC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Feb 2022 17:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qK0Db7DE4FPkYkFTizqzCYGIigvy1nkNn6Hr9Lykvoc=; b=Y1dmKuPWz91Lcsn49H254S50IA
-	rHiBpAcX+Qwn4Q1+xzGUM9LjSvcfTqlt4LGJNbQsmUvgWWsB+sWQcBUJcrO6nF/dLpZSBcgmjJYFX
-	2pKHlCkMydloWyC3o+VZXPPvas0FI0e1eU3sfN4vLF47VJix/qcxueur6ngPsWTGbW/vVKQHESyAV
-	EoTSX2IzzsrEzeuWv5JVWFexxWaubghy1AIqwiObfXZWiVSQwPuAmPxrSvaTCW5fnNyogOCDSRBld
-	ljDFoVbTmVW6+XBUz6zqcBVeinFB+vsuGFoLUsAl8ePyQQRqSi4Yv5ZE2v5NGN+iw5WpkqEjjaTzY
-	LaWO5nZQ==;
+	bh=KSli5rCrJB0W3FEtPi/UFqHqSyfkR/GxEvw8Vsf0wq0=; b=D1rwSb49x9WErDskJoaTa0IVs+
+	mTMwbE85p9yAYrk7TAcLt2CwWbnw2UB6li7rSjNFrZIIoVZl0twBRLBlSXY9EuZypPivQ6FIVhGhq
+	V/HKW01vLb6CQve3JP2O2cJE1Z1ZrKoVBSrhMCsiLTQYYq9nVYlwm66VsJ/LdZSZlSagi/QNPfZXo
+	xjy+J+WExYwVFYctTyOJxZ+hS9vqdK5MWYD3DywXePOy1bzdmGrk7sxeBZXeWLQ9Oolt+ut+Am+dw
+	zvaUtmWiV14n+S3s+rQlkEv5KVVaBQEp50Hc6Jckk+9vXOI6sJFmWLQ1yO4zpWLWFiKPfDei34TdB
+	jR+fVZgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nKvtg-00Cxg8-Et; Fri, 18 Feb 2022 05:33:36 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1nL7GZ-00FQ5c-3T; Fri, 18 Feb 2022 17:41:59 +0000
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nKvO5-00Cu1T-JN
- for linux-nvme@lists.infradead.org; Fri, 18 Feb 2022 05:00:59 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20220218050052epoutp03d91cfa16b6fa4a5938cf3c95b83c923c~UyLb-sZkN1838918389epoutp03_;
- Fri, 18 Feb 2022 05:00:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20220218050052epoutp03d91cfa16b6fa4a5938cf3c95b83c923c~UyLb-sZkN1838918389epoutp03_
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1645160452;
- bh=qK0Db7DE4FPkYkFTizqzCYGIigvy1nkNn6Hr9Lykvoc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gOtFxKEQVPkzhX30rY5YgMnbj5s/xh7CiVZTaDACsNpphU8HeO5VxX9LNWxhgH+2o
- I4X1EYctLQqIfI8zqzDxBf+EXro33sPKB5nQq8Qc3gTC5YOeG5i8QYxP4XPuataa/x
- Uynud4WA7A5EfX8UUOQAZxhYJ8CSHbwSrNJqfbT0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20220218050051epcas5p1364c8f46134da12ab9f98c6e135615f5~UyLbWQtpz0935609356epcas5p15;
- Fri, 18 Feb 2022 05:00:51 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4K0KJr1m5Dz4x9Q8; Fri, 18 Feb
- 2022 05:00:44 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 3C.F7.05590.BF72F026; Fri, 18 Feb 2022 14:00:43 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220217130401epcas5p1c671c22f1b3d8ff7c662763f0cdb9bb5~UlIATE4D-3210232102epcas5p1K;
- Thu, 17 Feb 2022 13:04:01 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220217130401epsmtrp23758e5a1d5a2620ddbd620ec4d9c6a90~UlIARikU73066630666epsmtrp2C;
- Thu, 17 Feb 2022 13:04:01 +0000 (GMT)
-X-AuditID: b6c32a4b-739ff700000015d6-59-620f27fb9e31
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 9E.BD.08738.1C74E026; Thu, 17 Feb 2022 22:04:01 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220217130356epsmtip28c51f7f8d8b35afe7c013782e59c1ca4~UlH7t34aT1085610856epsmtip2R;
- Thu, 17 Feb 2022 13:03:56 +0000 (GMT)
-Date: Thu, 17 Feb 2022 18:29:01 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: hch@lst.de, javier@javigon.com, chaitanyak@nvidia.com,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- dm-devel@redhat.com, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, axboe@kernel.dk, msnitzer@redhat.com,
- bvanassche@acm.org, martin.petersen@oracle.com, hare@suse.de,
- kbusch@kernel.org, Frederick.Knight@netapp.com, osandov@fb.com,
- lsf-pc@lists.linux-foundation.org, djwong@kernel.org, josef@toxicpanda.com,
- clm@fb.com, dsterba@suse.com, tytso@mit.edu, jack@suse.com,
- joshi.k@samsung.com, arnav.dawn@samsung.com, nitheshshetty@gmail.com,
- SelvaKumar S <selvakuma.s1@samsung.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, James
- Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 02/10] block: Introduce queue limits for copy-offload
- support
-Message-ID: <20220217125901.GA3781@test-zns>
+ id 1nL7GT-00FQ4M-5K
+ for linux-nvme@lists.infradead.org; Fri, 18 Feb 2022 17:41:54 +0000
+Received: by mail-pj1-x1034.google.com with SMTP id
+ q11-20020a17090a304b00b001b94d25eaecso9170227pjl.4
+ for <linux-nvme@lists.infradead.org>; Fri, 18 Feb 2022 09:41:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KSli5rCrJB0W3FEtPi/UFqHqSyfkR/GxEvw8Vsf0wq0=;
+ b=KIFNCgz5A3jkvjPREYY404JrN5BdDM7HCekAcSiFxZ9BZq+0X5ARFpw0Ae9G4RKvFD
+ ZlbXBXjVATg72xZh0JWKmI9RJizkhYNxJwKrQgC++IqYMx9vYdaX8ID1rT16hY4aM9G8
+ KtIvM3F+89hPvzaT7nv/ZbBswkpFEmp5rE5mvYO4IzWleJv4cYE4tAlo7WGIHmv2FY0l
+ fgFjVQ0x1WWNEREZnMufZ3Ku4rzKSRFytC6mN0ktm2IKVuW364SGP/09CYQmGsNTOCu0
+ SSxuHdlEOkFyiOx9T/edLiRPOkaFC15T1g2AL4s/MtZAk8GdMp/U65AHk12myhbpFGkQ
+ r+Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KSli5rCrJB0W3FEtPi/UFqHqSyfkR/GxEvw8Vsf0wq0=;
+ b=C0PYLgq+CxQAMI/NYcecS9SEXtSAQD2F4EiKWMpbEESF/ELhGNRa7RjDZpHWsMcc1I
+ CY12TpgP0OI4KmRh9qkO72tJAbUENvKJN78qY2WVBTvAylfiCb+W7n8cbeE5h3k53dbH
+ eBRLOMzGYc9WQh2V+49YZLPrZIZr/5ixedhBRPZAwFq5xjyRcA2Cm1vO3YMJsKSTI5XU
+ JaqAoeJJt6LIhOLu09IBjRQX6H97NxBB74vVmBOb25Zha3q8BtZGBR1W2UUlRduk7rrp
+ vYMUuHjHo0765NiyOjwdPGC0/ZRHS4xD9cMHNux5mI7dcR0A6VNssA5vEBTCcS0AOhyO
+ X0zQ==
+X-Gm-Message-State: AOAM532UyBdQYEvmEiJ0ZfTmZqGdq4OWgTx6SMDk0bBeydcxARgoGmd4
+ gQDDnm0T/Kvl5OxME9nC4vuZ31ykpjirAfB7/mg=
+X-Google-Smtp-Source: ABdhPJzMHCKthZOO2Ql1mmgaOUdLWEnOAXoAJjDZ2Ed1STB6HaeTHcYgODUuzLKdUsC1c5XVubuD3v/f1pkkVeNuHqc=
+X-Received: by 2002:a17:902:cf0e:b0:14f:8a60:475c with SMTP id
+ i14-20020a170902cf0e00b0014f8a60475cmr221751plg.146.1645206110764; Fri, 18
+ Feb 2022 09:41:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220217090700.b7n33vbkx5s4qbfq@garbanzo>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BTRxTG3ZvkJtAGrwFhhYmmYWxEXglCWCpYx1p7W+wIQ1tHWwevcAsM
- kGTysK11FEQ6Gh4CFguxYGo7BdHyKlrkJSCY4SUoBUEEoTxkCgKCKChKEwJt//vtN9939uye
- ORwGr5Ntz4mQqWmljIoS4pbMazedRK4vRasPiRcTeaig8RYDVXTPsNDl3jM4Ojc1z0CTNYMs
- lHYmg43ah6xQ5cR5Fmqbi8XQYPEihioupmHo0uV6DD3K+Rmg8p+eYOh0UxuGFgYkqH7xMY7S
- ajsBGu7QYajyvjOqqGxgovayH3F04ddhNkq4V4qjqrFKBsoxvMZQV8owQLd1CzgqHYoF6GZf
- BxPlj00y0dhcA46+K5oFKD5xno1aXxlY2x3J9j/9Sd3DFpxMjZtgk9d1vWyyta+IScbpHzDJ
- 9hYNWZx3Gid//+U4ebYrB5Dl3TE4eaK5nkFmTD/FyaS4CZx8MnyfSU5WdeABtvsjfcNpKpRW
- CmhZiDw0QhbmJ/QPCn4v2EsqlrhKfJC3UCCjomk/4c7dAa67IqKMnygUHKaiNEYpgFKphO7b
- fJVyjZoWhMtVaj8hrQiNUngq3FRUtEojC3OT0ep3JGKxh5fReDAyPLa0i6WYl36dmyuKAQMu
- WmDBgYQnLGtux7TAksMjygGsKTnBMh+mAUwZHWKbXDxiBsDY+K0riZFzXcumMmOiu5BtPowA
- mPXi0VKCSWyEj7XFRheHgxPOsGmRY5JtiE2wKiUJMzGDmMVh6u39Jos18Rlsq95okrmEC0w4
- 1coy8xrYkDnENLEF4Q0vzOmXeC3hCKuvGZa6hkSmJXxW1QNMdSCxE/b0K8x9WsO/DSVsM9vD
- mYlK3OxPAHCu+eFyOAPAuJQ43Ox6F96peIWZCjGIcJiWKTHLfJjemL/csxVMejmEmXUuLM1e
- YUd4pUC/XGYd7Hweu8wkNLSP4ub/GQdwNruOkQI26P73ON1/1+mWrnCB+vJp3Cw7wJzXHDM6
- wYIydz1g5YF1tEIVHUarvBRbZPRX/047RB5dDJYWbLN/Kfirf8qtFmAcUAsghyG04U7VcA/x
- uKHUN0dopTxYqYmiVbXAyzipVIb92hC5cUNl6mCJp4/YUyqVevpskUqEdtzGsEKKR4RRajqS
- phW0ciWHcSzsYzAHOUMXZLshN8l2MOb5bqtsjy+aHAzrA6n4T3yo+sQHQRcTUA+6Uey4V5v8
- VpDdVkrcm2+b47tNfooe44ssQjfta5G6p2YSvgenkoOqpCibVfqtI8RffPl+wXgg2Pub93HF
- gFPwQmHWScK6rqQ/dp6trY7u2CVL/jSR5ydade8pP/7OpZqrJ9UOoyU5zw4fE+h7q2yyk99c
- nZXhXEsdW1M7uP2uRvuh2vUqNXj3ut/nctLJ/sCemFseuG4wqUCXLg4+u35iqC49u+vtP66c
- 1+0I4H8kEhzt49/oXdUTaKn6QYNxM/OU+yaOWB/4+IM3+NQeN2LmqJ3vCFkYOf590ZjYVshU
- hVOSzQylivoHaFGXcekEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTdxTH87v39vZSU70Udb9qmFsVMMXhYEzO2Nh8BW9i2EhmjNscWuUO
- HBRYCwImizw2JwUGQyVSZVQhNmK2hfpYhZa0ddAhryqipYgLQjXa8dxkEAtshS3zv2/O9/M5
- 55/DkJIzglXMobRMXpWmSJXRIuraDdma16w7lh54fbY3EH662UqCqe8PAVwaKKOhcnyGhDHr
- kAAqyk4LoWd4KZhHzwjAMZ1PwJBhngDT+QoCLl5qIeCxvhZB07kJAoraHQR4B8OhZX6Ehgrb
- XQTuXi0BZlcomMxtFPQ0nqWh5oJbCMX3jDQ0e8wk6O1zBDjL3Qi6tF4ajMP5CG486KXgR88Y
- BZ7pNhqONTxD8HXJjBC6Z+2CzWu5njs7Oe1vnTT3XeGokLuuHRBy3Q8aKK5Qd5/iejqzOEN9
- Ec1drjvKnXDqEdfUl0dzBR0tJHd68k+aKy0cpbkJt4vixpp76fiVH4veSeRTDx3mVRvf3S9K
- vmstEGYYI3MmS2oEeahRrkF+DGYj8aNKp0CDRIyENSJ8snZSuFhI8YXZX8jFHIAvzj0WLkLD
- CFssEwsFxQbhEY3hH5thaDYUt88zvvFydj1uLi8lfDzJPqdxQ7WV9DEB7G7ssAT5GDG7ARcf
- 7/738O8Ie+2d9GLhj9uqhilfJlk5ds49IXwuya7G+rmF/X5sFK6Z1i0gK9i12HLNTpQjf+0L
- tvYFW/u/rUNkPZLyGWplklIdnhGRxmeHqRVKdVZaUtjBdKUBLfyPXG5EpvrxMBsiGGRDmCFl
- y8XjVvEBiThRkXuEV6XvU2Wl8mobWs1QspfEDk3bPgmbpMjkU3g+g1f91xKM36o84lxK/hNl
- wrcrX9WnTyXXuY4/fTOFehTctbu0f2f/kuxcictRUOTwblsz9srllCF3wlbviabnsRtGt3UW
- Sb98pgs5teuWq/HkN+uKq0gzGbFpy9tv1YKl6haeGahcEhP11GNadzS+qvUvSegXtz9ICEne
- DpaOwIaHgVNXdB1xnzZvvBI7G3A1Zj9Xqv9c53ffHt1yJDImOI79eZnhs9hl328aTAwZeLn+
- vS0a6UfVhfKuuDvXSzyi1K/WO+h4zp/8xBrlX5YZXIanf90hzK0jm+Jvtr5RfXvPZoPn/IcH
- D2fuehjdbuH3KM72B72/IsJzT2rL7hsk8qci9v6wFeVEu0Yo57EcGaVOVoTLSZVa8TfrqJgv
- rgMAAA==
-X-CMS-MailID: 20220217130401epcas5p1c671c22f1b3d8ff7c662763f0cdb9bb5
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----8TtN9ZnHmYbjupaEpeShJ04PQlBV3ZvePY_ZWnFgjSBPeLtG=_8e144_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220214080605epcas5p16868dae515a6355cf9fecf22df4f3c3d
-References: <20220214080002.18381-1-nj.shetty@samsung.com>
- <CGME20220214080605epcas5p16868dae515a6355cf9fecf22df4f3c3d@epcas5p1.samsung.com>
- <20220214080002.18381-3-nj.shetty@samsung.com>
- <20220217090700.b7n33vbkx5s4qbfq@garbanzo>
+References: <20211220141734.12206-1-joshi.k@samsung.com>
+ <CGME20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e@epcas5p2.samsung.com>
+ <20211220141734.12206-2-joshi.k@samsung.com>
+ <Yg2vP7lo3hGLGakx@bombadil.infradead.org>
+ <CA+1E3rLpKp0h2x7CoFPXwsYOc4ZYg_sqQQ+ed8cJhq77ESOAjg@mail.gmail.com>
+ <b11ede2b-b737-f99a-7b31-20d6b4eccb42@kernel.dk>
+ <Yg6MVe2Qpy92CsNF@bombadil.infradead.org>
+In-Reply-To: <Yg6MVe2Qpy92CsNF@bombadil.infradead.org>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Fri, 18 Feb 2022 23:11:25 +0530
+Message-ID: <CA+1E3r+41WZRR_AOodvQnVbRo3+fG=sLT4LJpSjgd2SsJCNuow@mail.gmail.com>
+Subject: Re: [RFC 01/13] io_uring: add infra for uring_cmd completion in
+ submitter-task
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Kanchan Joshi <joshi.k@samsung.com>,
+ io-uring@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
+ Anuj Gupta <anuj20.g@samsung.com>, Pankaj Raghav <pankydev8@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220217_210058_057493_0BCEBD91 
-X-CRM114-Status: GOOD (  33.98  )
-X-Mailman-Approved-At: Thu, 17 Feb 2022 21:33:16 -0800
+X-CRM114-CacheID: sfid-20220218_094153_250910_25DE0918 
+X-CRM114-Status: GOOD (  28.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,196 +93,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------8TtN9ZnHmYbjupaEpeShJ04PQlBV3ZvePY_ZWnFgjSBPeLtG=_8e144_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
- Thu, Feb 17, 2022 at 01:07:00AM -0800, Luis Chamberlain wrote:
-> The subject says limits for copy-offload...
-> 
-> On Mon, Feb 14, 2022 at 01:29:52PM +0530, Nitesh Shetty wrote:
-> > Add device limits as sysfs entries,
-> >         - copy_offload (RW)
-> >         - copy_max_bytes (RW)
-> >         - copy_max_hw_bytes (RO)
-> >         - copy_max_range_bytes (RW)
-> >         - copy_max_range_hw_bytes (RO)
-> >         - copy_max_nr_ranges (RW)
-> >         - copy_max_nr_ranges_hw (RO)
-> 
-> Some of these seem like generic... and also I see a few more max_hw ones
-> not listed above...
+On Thu, Feb 17, 2022 at 11:26 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
 >
-queue_limits and sysfs entries are differently named.
-All sysfs entries start with copy_* prefix. Also it makes easy to lookup
-all copy sysfs.
-For queue limits naming, I tried to following existing queue limit
-convention (like discard).
-
-> > --- a/block/blk-settings.c
-> > +++ b/block/blk-settings.c
-> > +/**
-> > + * blk_queue_max_copy_sectors - set max sectors for a single copy payload
-> > + * @q:  the request queue for the device
-> > + * @max_copy_sectors: maximum number of sectors to copy
-> > + **/
-> > +void blk_queue_max_copy_sectors(struct request_queue *q,
-> > +		unsigned int max_copy_sectors)
-> > +{
-> > +	q->limits.max_hw_copy_sectors = max_copy_sectors;
-> > +	q->limits.max_copy_sectors = max_copy_sectors;
-> > +}
-> > +EXPORT_SYMBOL(blk_queue_max_copy_sectors);
-> 
-> Please use EXPORT_SYMBOL_GPL() for all new things.
-> 
-acked.
-
-> Why is this setting both? The documentation does't seem to say.
-> What's the point?
+> On Thu, Feb 17, 2022 at 08:50:59AM -0700, Jens Axboe wrote:
+> > On 2/17/22 8:39 AM, Kanchan Joshi wrote:
+> > > On Thu, Feb 17, 2022 at 7:43 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> > >>
+> > >> On Mon, Dec 20, 2021 at 07:47:22PM +0530, Kanchan Joshi wrote:
+> > >>> Completion of a uring_cmd ioctl may involve referencing certain
+> > >>> ioctl-specific fields, requiring original submitter context.
+> > >>> Export an API that driver can use for this purpose.
+> > >>> The API facilitates reusing task-work infra of io_uring, while driver
+> > >>> gets to implement cmd-specific handling in a callback.
+> > >>>
+> > >>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> > >>> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> > >>> ---
+> > >>>  fs/io_uring.c            | 16 ++++++++++++++++
+> > >>>  include/linux/io_uring.h |  8 ++++++++
+> > >>>  2 files changed, 24 insertions(+)
+> > >>>
+> > >>> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> > >>> index e96ed3d0385e..246f1085404d 100644
+> > >>> --- a/fs/io_uring.c
+> > >>> +++ b/fs/io_uring.c
+> > >>> @@ -2450,6 +2450,22 @@ static void io_req_task_submit(struct io_kiocb *req, bool *locked)
+> > >>>               io_req_complete_failed(req, -EFAULT);
+> > >>>  }
+> > >>>
+> > >>> +static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
+> > >>> +{
+> > >>> +     req->uring_cmd.driver_cb(&req->uring_cmd);
+> > >>
+> > >> If the callback memory area is gone, boom.
+> > >
+> > > Why will the memory area be gone?
+> > > Module removal is protected because try_module_get is done anyway when
+> > > the namespace was opened.
+> >
+> > And the req isn't going away before it's completed.
 >
-
-This function is used only by driver, while intializing request queue.
-I will put this as part of description next time.
-
-> > +
-> > +/**
-> > + * blk_queue_max_copy_range_sectors - set max sectors for a single range, in a copy payload
-> > + * @q:  the request queue for the device
-> > + * @max_copy_range_sectors: maximum number of sectors to copy in a single range
-> > + **/
-> > +void blk_queue_max_copy_range_sectors(struct request_queue *q,
-> > +		unsigned int max_copy_range_sectors)
-> > +{
-> > +	q->limits.max_hw_copy_range_sectors = max_copy_range_sectors;
-> > +	q->limits.max_copy_range_sectors = max_copy_range_sectors;
-> > +}
-> > +EXPORT_SYMBOL(blk_queue_max_copy_range_sectors);
-> 
-> Same here.
-> 
-> > +/**
-> > + * blk_queue_max_copy_nr_ranges - set max number of ranges, in a copy payload
-> > + * @q:  the request queue for the device
-> > + * @max_copy_nr_ranges: maximum number of ranges
-> > + **/
-> > +void blk_queue_max_copy_nr_ranges(struct request_queue *q,
-> > +		unsigned int max_copy_nr_ranges)
-> > +{
-> > +	q->limits.max_hw_copy_nr_ranges = max_copy_nr_ranges;
-> > +	q->limits.max_copy_nr_ranges = max_copy_nr_ranges;
-> > +}
-> > +EXPORT_SYMBOL(blk_queue_max_copy_nr_ranges);
-> 
-> Same.
-> 
-> > +
-> >  /**
-> >   * blk_queue_max_write_same_sectors - set max sectors for a single write same
-> >   * @q:  the request queue for the device
-> > @@ -541,6 +592,14 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
-> >  	t->max_segment_size = min_not_zero(t->max_segment_size,
-> >  					   b->max_segment_size);
-> >  
-> > +	t->max_copy_sectors = min(t->max_copy_sectors, b->max_copy_sectors);
-> > +	t->max_hw_copy_sectors = min(t->max_hw_copy_sectors, b->max_hw_copy_sectors);
-> > +	t->max_copy_range_sectors = min(t->max_copy_range_sectors, b->max_copy_range_sectors);
-> > +	t->max_hw_copy_range_sectors = min(t->max_hw_copy_range_sectors,
-> > +						b->max_hw_copy_range_sectors);
-> > +	t->max_copy_nr_ranges = min(t->max_copy_nr_ranges, b->max_copy_nr_ranges);
-> > +	t->max_hw_copy_nr_ranges = min(t->max_hw_copy_nr_ranges, b->max_hw_copy_nr_ranges);
-> > +
-> >  	t->misaligned |= b->misaligned;
-> >  
-> >  	alignment = queue_limit_alignment_offset(b, start);
-> > diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-> > index 9f32882ceb2f..9ddd07f142d9 100644
-> > --- a/block/blk-sysfs.c
-> > +++ b/block/blk-sysfs.c
-> > @@ -212,6 +212,129 @@ static ssize_t queue_discard_zeroes_data_show(struct request_queue *q, char *pag
-> >  	return queue_var_show(0, page);
-> >  }
-> >  
-> > +static ssize_t queue_copy_offload_show(struct request_queue *q, char *page)
-> > +{
-> > +	return queue_var_show(blk_queue_copy(q), page);
-> > +}
-> > +
-> > +static ssize_t queue_copy_offload_store(struct request_queue *q,
-> > +				       const char *page, size_t count)
-> > +{
-> > +	unsigned long copy_offload;
-> > +	ssize_t ret = queue_var_store(&copy_offload, page, count);
-> > +
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	if (copy_offload && !q->limits.max_hw_copy_sectors)
-> > +		return -EINVAL;
-> 
-> 
-> If the kernel schedules, copy_offload may still be true and
-> max_hw_copy_sectors may be set to 0. Is that an issue?
+> Groovy, it would be nice to add a little /* comment */ to just remind
+> the reader?
 >
-
-This check ensures that, we dont enable offload if device doesnt support
-offload. I feel it shouldn't be an issue.
-
-> > +
-> > +	if (copy_offload)
-> > +		blk_queue_flag_set(QUEUE_FLAG_COPY, q);
-> > +	else
-> > +		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
-> 
-> The flag may be set but the queue flag could be set. Is that an issue?
-> 
-> > @@ -597,6 +720,14 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
-> >  QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
-> >  QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
-> >  
-> > +QUEUE_RW_ENTRY(queue_copy_offload, "copy_offload");
-> > +QUEUE_RO_ENTRY(queue_copy_max_hw, "copy_max_hw_bytes");
-> > +QUEUE_RW_ENTRY(queue_copy_max, "copy_max_bytes");
-> > +QUEUE_RO_ENTRY(queue_copy_range_max_hw, "copy_max_range_hw_bytes");
-> > +QUEUE_RW_ENTRY(queue_copy_range_max, "copy_max_range_bytes");
-> > +QUEUE_RO_ENTRY(queue_copy_nr_ranges_max_hw, "copy_max_nr_ranges_hw");
-> > +QUEUE_RW_ENTRY(queue_copy_nr_ranges_max, "copy_max_nr_ranges");
-> 
-> Seems like you need to update Documentation/ABI/stable/sysfs-block.
+> > >>> +{
+> > >>> +     struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
+> > >>> +
+> > >>> +     req->uring_cmd.driver_cb = driver_cb;
+> > >>> +     req->io_task_work.func = io_uring_cmd_work;
+> > >>> +     io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOLL));
+> > >>
+> > >> This can schedules, and so the callback may go fishing in the meantime.
+> > >
+> > > io_req_task_work_add is safe to be called in atomic context. FWIW,
+> > > io_uring uses this for regular (i.e. direct block) io completion too.
+> >
+> > Correct, it doesn't schedule and is safe from irq context as long as the
+> > task is pinned (which it is, via the req itself).
 >
+> Great, a kdoc explaining the routine and that it can be called from
+> atomic context and the rationale would be very useful to users. And ..
+> so the callback *must* be safe in atomic context too or can it sleep?
 
-acked. 
-
-> > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> > index efed3820cbf7..792e6d556589 100644
-> > --- a/include/linux/blkdev.h
-> > +++ b/include/linux/blkdev.h
-> > @@ -254,6 +254,13 @@ struct queue_limits {
-> >  	unsigned int		discard_alignment;
-> >  	unsigned int		zone_write_granularity;
-> >  
-> > +	unsigned long		max_hw_copy_sectors;
-> > +	unsigned long		max_copy_sectors;
-> > +	unsigned int		max_hw_copy_range_sectors;
-> > +	unsigned int		max_copy_range_sectors;
-> > +	unsigned short		max_hw_copy_nr_ranges;
-> > +	unsigned short		max_copy_nr_ranges;
-> 
-> Before limits start growing more.. I wonder if we should just
-> stuff hw offload stuff to its own struct within queue_limits.
-> 
-> Christoph?
-> 
->   Luis
->
-Yeah, would like to know community opinion on this.
-
-
--- Nitesh
-
-------8TtN9ZnHmYbjupaEpeShJ04PQlBV3ZvePY_ZWnFgjSBPeLtG=_8e144_
-Content-Type: text/plain; charset="utf-8"
-
-
-------8TtN9ZnHmYbjupaEpeShJ04PQlBV3ZvePY_ZWnFgjSBPeLtG=_8e144_--
+Callback will be invoked in task/process context. Allowing much more
+to do than we can in atomic context, including sleep if necessary.
 
