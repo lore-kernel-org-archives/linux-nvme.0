@@ -4,81 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CA3CC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Feb 2022 17:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49C22C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Feb 2022 12:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KSli5rCrJB0W3FEtPi/UFqHqSyfkR/GxEvw8Vsf0wq0=; b=D1rwSb49x9WErDskJoaTa0IVs+
-	mTMwbE85p9yAYrk7TAcLt2CwWbnw2UB6li7rSjNFrZIIoVZl0twBRLBlSXY9EuZypPivQ6FIVhGhq
-	V/HKW01vLb6CQve3JP2O2cJE1Z1ZrKoVBSrhMCsiLTQYYq9nVYlwm66VsJ/LdZSZlSagi/QNPfZXo
-	xjy+J+WExYwVFYctTyOJxZ+hS9vqdK5MWYD3DywXePOy1bzdmGrk7sxeBZXeWLQ9Oolt+ut+Am+dw
-	zvaUtmWiV14n+S3s+rQlkEv5KVVaBQEp50Hc6Jckk+9vXOI6sJFmWLQ1yO4zpWLWFiKPfDei34TdB
-	jR+fVZgw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=gtS9EQMTZ5QMxnTyQJHQTIfhNX
+	Eve+RC83sL7sd9oIDNR70zjIi2H9fRqBpPgDtzjvkGPC2Vn385sCBfpTsEY8SJefublswfVdR3Unw
+	RGuumumVuSSrIG3dj1rGwzp6DjHfBhAwwsIH7yQR2hC6dLIAzdydegLIA4dK6C+oYxjASi5+zT5N6
+	OTtvQTYJ8nmgdH9NUlBpsqNmhMswqIF+j1WveQ6BbyPjLbUeoa+mhWnol4vgUbH0BMW9YvqjPwVby
+	8UzYHNkQNI/OJHNPwUT93Y+u4ZKZGLDWlSR3c4SArf8kc04j81rd5Lvh2ZfHfP9Ois1/QvFxdQXHh
+	LhaKXGmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nL7GZ-00FQ5c-3T; Fri, 18 Feb 2022 17:41:59 +0000
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+	id 1nLljl-001Lyg-Ag; Sun, 20 Feb 2022 12:54:49 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nL7GT-00FQ4M-5K
- for linux-nvme@lists.infradead.org; Fri, 18 Feb 2022 17:41:54 +0000
-Received: by mail-pj1-x1034.google.com with SMTP id
- q11-20020a17090a304b00b001b94d25eaecso9170227pjl.4
- for <linux-nvme@lists.infradead.org>; Fri, 18 Feb 2022 09:41:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KSli5rCrJB0W3FEtPi/UFqHqSyfkR/GxEvw8Vsf0wq0=;
- b=KIFNCgz5A3jkvjPREYY404JrN5BdDM7HCekAcSiFxZ9BZq+0X5ARFpw0Ae9G4RKvFD
- ZlbXBXjVATg72xZh0JWKmI9RJizkhYNxJwKrQgC++IqYMx9vYdaX8ID1rT16hY4aM9G8
- KtIvM3F+89hPvzaT7nv/ZbBswkpFEmp5rE5mvYO4IzWleJv4cYE4tAlo7WGIHmv2FY0l
- fgFjVQ0x1WWNEREZnMufZ3Ku4rzKSRFytC6mN0ktm2IKVuW364SGP/09CYQmGsNTOCu0
- SSxuHdlEOkFyiOx9T/edLiRPOkaFC15T1g2AL4s/MtZAk8GdMp/U65AHk12myhbpFGkQ
- r+Zg==
+ id 1nLljY-001Ly1-LS
+ for linux-nvme@lists.infradead.org; Sun, 20 Feb 2022 12:54:38 +0000
+Received: by mail-wm1-f51.google.com with SMTP id
+ l123-20020a1c2581000000b0037b9d960079so11814959wml.0
+ for <linux-nvme@lists.infradead.org>; Sun, 20 Feb 2022 04:54:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KSli5rCrJB0W3FEtPi/UFqHqSyfkR/GxEvw8Vsf0wq0=;
- b=C0PYLgq+CxQAMI/NYcecS9SEXtSAQD2F4EiKWMpbEESF/ELhGNRa7RjDZpHWsMcc1I
- CY12TpgP0OI4KmRh9qkO72tJAbUENvKJN78qY2WVBTvAylfiCb+W7n8cbeE5h3k53dbH
- eBRLOMzGYc9WQh2V+49YZLPrZIZr/5ixedhBRPZAwFq5xjyRcA2Cm1vO3YMJsKSTI5XU
- JaqAoeJJt6LIhOLu09IBjRQX6H97NxBB74vVmBOb25Zha3q8BtZGBR1W2UUlRduk7rrp
- vYMUuHjHo0765NiyOjwdPGC0/ZRHS4xD9cMHNux5mI7dcR0A6VNssA5vEBTCcS0AOhyO
- X0zQ==
-X-Gm-Message-State: AOAM532UyBdQYEvmEiJ0ZfTmZqGdq4OWgTx6SMDk0bBeydcxARgoGmd4
- gQDDnm0T/Kvl5OxME9nC4vuZ31ykpjirAfB7/mg=
-X-Google-Smtp-Source: ABdhPJzMHCKthZOO2Ql1mmgaOUdLWEnOAXoAJjDZ2Ed1STB6HaeTHcYgODUuzLKdUsC1c5XVubuD3v/f1pkkVeNuHqc=
-X-Received: by 2002:a17:902:cf0e:b0:14f:8a60:475c with SMTP id
- i14-20020a170902cf0e00b0014f8a60475cmr221751plg.146.1645206110764; Fri, 18
- Feb 2022 09:41:50 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=4QqOEWi3tvLdO8qId1A5oG0Y4spGMN+585wQmApCI4Yuy5m01FaSN07FM/1J2bgd+J
+ 07dnQkvec1hTOKHXyBWhoAaUhuht696uaNB8RIAzCs8g9eTt3WscYtnwu7m51KZ9WS88
+ th+w0Qv5XcnZO1iH6oOyas7vYNOK/Lvq9jEDKzny8tRbFoVcyDTtSuxe3JiRMky9MCG/
+ 91TXcFqUMcV0jqCuyNK00AHuvj5gGZRrCQ7/5dByNLLDERJarh8mtTaQy9C9gU64dJiW
+ dRRXxsYPtrDfhm9yb1BEzO4y2BW3217UCiZBDrVejfIjzyMqPIKG7pNFpqfku29wF8Qy
+ 9M0w==
+X-Gm-Message-State: AOAM533i4y7pczkVTnlg3BNQZX3swquMHfkwalcjc4dcmNcG96jccouQ
+ pPd4+4F1HcO0+eqjfotqoWY=
+X-Google-Smtp-Source: ABdhPJwesN4qZXYPRahXmELCsDeaf3rKfGEZHZhnNHEFK0/FYIo0ldgsNgd7qLel09lUWac82aDRlg==
+X-Received: by 2002:a1c:6a03:0:b0:37b:dda6:4259 with SMTP id
+ f3-20020a1c6a03000000b0037bdda64259mr17968622wmc.20.1645361674485; 
+ Sun, 20 Feb 2022 04:54:34 -0800 (PST)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90])
+ by smtp.gmail.com with ESMTPSA id n15sm21058438wri.80.2022.02.20.04.54.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 20 Feb 2022 04:54:33 -0800 (PST)
+Message-ID: <639070a3-ce83-9e59-7aa0-bb2f62d1d608@grimberg.me>
+Date: Sun, 20 Feb 2022 14:54:32 +0200
 MIME-Version: 1.0
-References: <20211220141734.12206-1-joshi.k@samsung.com>
- <CGME20211220142228epcas5p2978d92d38f2015148d5f72913d6dbc3e@epcas5p2.samsung.com>
- <20211220141734.12206-2-joshi.k@samsung.com>
- <Yg2vP7lo3hGLGakx@bombadil.infradead.org>
- <CA+1E3rLpKp0h2x7CoFPXwsYOc4ZYg_sqQQ+ed8cJhq77ESOAjg@mail.gmail.com>
- <b11ede2b-b737-f99a-7b31-20d6b4eccb42@kernel.dk>
- <Yg6MVe2Qpy92CsNF@bombadil.infradead.org>
-In-Reply-To: <Yg6MVe2Qpy92CsNF@bombadil.infradead.org>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Fri, 18 Feb 2022 23:11:25 +0530
-Message-ID: <CA+1E3r+41WZRR_AOodvQnVbRo3+fG=sLT4LJpSjgd2SsJCNuow@mail.gmail.com>
-Subject: Re: [RFC 01/13] io_uring: add infra for uring_cmd completion in
- submitter-task
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Kanchan Joshi <joshi.k@samsung.com>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Anuj Gupta <anuj20.g@samsung.com>, Pankaj Raghav <pankydev8@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] nvme: don't return an error from
+ nvme_configure_metadata
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org
+Cc: dwagner@suse.de, joshi.k@samsung.com, linux-nvme@lists.infradead.org
+References: <20220216141220.4162670-1-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220216141220.4162670-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220218_094153_250910_25DE0918 
-X-CRM114-Status: GOOD (  28.11  )
+X-CRM114-CacheID: sfid-20220220_045436_732166_99B44696 
+X-CRM114-Status: UNSURE (   6.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,68 +84,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 17, 2022 at 11:26 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Thu, Feb 17, 2022 at 08:50:59AM -0700, Jens Axboe wrote:
-> > On 2/17/22 8:39 AM, Kanchan Joshi wrote:
-> > > On Thu, Feb 17, 2022 at 7:43 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > >>
-> > >> On Mon, Dec 20, 2021 at 07:47:22PM +0530, Kanchan Joshi wrote:
-> > >>> Completion of a uring_cmd ioctl may involve referencing certain
-> > >>> ioctl-specific fields, requiring original submitter context.
-> > >>> Export an API that driver can use for this purpose.
-> > >>> The API facilitates reusing task-work infra of io_uring, while driver
-> > >>> gets to implement cmd-specific handling in a callback.
-> > >>>
-> > >>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> > >>> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> > >>> ---
-> > >>>  fs/io_uring.c            | 16 ++++++++++++++++
-> > >>>  include/linux/io_uring.h |  8 ++++++++
-> > >>>  2 files changed, 24 insertions(+)
-> > >>>
-> > >>> diff --git a/fs/io_uring.c b/fs/io_uring.c
-> > >>> index e96ed3d0385e..246f1085404d 100644
-> > >>> --- a/fs/io_uring.c
-> > >>> +++ b/fs/io_uring.c
-> > >>> @@ -2450,6 +2450,22 @@ static void io_req_task_submit(struct io_kiocb *req, bool *locked)
-> > >>>               io_req_complete_failed(req, -EFAULT);
-> > >>>  }
-> > >>>
-> > >>> +static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
-> > >>> +{
-> > >>> +     req->uring_cmd.driver_cb(&req->uring_cmd);
-> > >>
-> > >> If the callback memory area is gone, boom.
-> > >
-> > > Why will the memory area be gone?
-> > > Module removal is protected because try_module_get is done anyway when
-> > > the namespace was opened.
-> >
-> > And the req isn't going away before it's completed.
->
-> Groovy, it would be nice to add a little /* comment */ to just remind
-> the reader?
->
-> > >>> +{
-> > >>> +     struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
-> > >>> +
-> > >>> +     req->uring_cmd.driver_cb = driver_cb;
-> > >>> +     req->io_task_work.func = io_uring_cmd_work;
-> > >>> +     io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOLL));
-> > >>
-> > >> This can schedules, and so the callback may go fishing in the meantime.
-> > >
-> > > io_req_task_work_add is safe to be called in atomic context. FWIW,
-> > > io_uring uses this for regular (i.e. direct block) io completion too.
-> >
-> > Correct, it doesn't schedule and is safe from irq context as long as the
-> > task is pinned (which it is, via the req itself).
->
-> Great, a kdoc explaining the routine and that it can be called from
-> atomic context and the rationale would be very useful to users. And ..
-> so the callback *must* be safe in atomic context too or can it sleep?
-
-Callback will be invoked in task/process context. Allowing much more
-to do than we can in atomic context, including sleep if necessary.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
