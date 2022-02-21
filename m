@@ -4,80 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 528A9C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Feb 2022 06:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FF96C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Feb 2022 10:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lzpzupneu+PyOELCBCeklYDAebOUBMWynAwABT94OUI=; b=FsEXQYwOukpKDJkZODGLyKvs0K
-	lGhKhLJDo+Z5vk2XkK0GM4Xhl0tzCQrviLENxpv4xHzpjOBw5XIeWIh3IDnf0DRJopA6/FQTO4+lF
-	aoNwV5V+krPzFBQDKwLxol2TQknQJgPBd5M7W7GL2MsKF/y2EgwOz8vEnBlPosMiPlF00uGS5pUCF
-	MBj1rFMDgcE/mlOTFWP2r2hL268eSkYl2h2W8T9Fs6OcZ6JoCYHG4dU4x+XUE3A0npRZM0IekJa1Y
-	PMy2clqQBILYKNguOv2WgzHK7oSp4cH/YuqE9aPD0mLHyZB5xFGkh8gHh5446zMfAu/0Ptiz7YGc0
-	DosOvNNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yq/VFWoQHCTmo0AS/1tH7bEiaRHml5LeaqXeugP1G5A=; b=lwaaD3o6/ikbNIxiDgknivmH3I
+	SkoNRFTB0jtWREv2RYa6Zfdodg/bcXzSayJJqlSfRrgzEpfIszhPTB8jScv8CJyJyd0+//3UubgWY
+	kf1msD8EoMGAA3fhWLEKvToLL+B07jnToRsfiVPOZbhICbvMoFfJHZmtm2/au0BOk+h9m04p2aZGq
+	wSTY2juCk0Ca7MoULFDxI4P1GC3jFLf+9+fS2CiMo/93oT+C/9ux6189ZnIoCpnDyOQ4jN5JdMNyh
+	9x+PWobBMHQjRBXXvYFgsSsZ4BInkWfQw3qjjy94kYetO7BhL2Hk1boEd9T6usO56ZoqUrWY+mgrC
+	CGPKw65w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nM20x-003duw-4C; Mon, 21 Feb 2022 06:17:39 +0000
+	id 1nM69q-0053Cl-TK; Mon, 21 Feb 2022 10:43:06 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nM20P-003ddQ-5p
- for linux-nvme@lists.infradead.org; Mon, 21 Feb 2022 06:17:07 +0000
+ id 1nM5V3-004jp0-Mi
+ for linux-nvme@lists.infradead.org; Mon, 21 Feb 2022 10:00:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645424224;
+ s=mimecast20190719; t=1645437653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type;
- bh=lzpzupneu+PyOELCBCeklYDAebOUBMWynAwABT94OUI=;
- b=JQFbp4Vlet+0mxvJESnif/Jd1ZF5IUGGYzdd3tO9UIIem8afGTxnXFgB5uT1yPG+neIr0W
- FTsab7Mx5Tdipd6aO2Fn5y8S3edi5rC6NHY98f6d44y7hZWRb215upx9X2dDfYlQ51DC5k
- IxLFHRwm9QBqTV3AIe9XjeKprpS5NXY=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yq/VFWoQHCTmo0AS/1tH7bEiaRHml5LeaqXeugP1G5A=;
+ b=DSg51hvF1ZMw5zXtHY0wnSpv5kePcFKpFY4ibU3YF4vV2iZ2MthXGDvbToNcRj3k+kts13
+ UkApBRlrzCuIEyDGxEe2cyXFNviipyeB05LsmmzNNfKQ83dZM1cfBbYMOqyQG/4SDdTAQn
+ GeLCTajnkHJsflNzytr9urcq0941kY8=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-GcaHybAMPTC32EaIPXys2A-1; Mon, 21 Feb 2022 01:17:00 -0500
-X-MC-Unique: GcaHybAMPTC32EaIPXys2A-1
-Received: by mail-pl1-f199.google.com with SMTP id
- v14-20020a170902e8ce00b0014b48e8e498so4137006plg.2
- for <linux-nvme@lists.infradead.org>; Sun, 20 Feb 2022 22:17:00 -0800 (PST)
+ us-mta-295-Qpyu-VXiPWSb-cUnUiv9Tg-1; Mon, 21 Feb 2022 05:00:51 -0500
+X-MC-Unique: Qpyu-VXiPWSb-cUnUiv9Tg-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ 62-20020a621541000000b004f110fdb1aeso1860468pfv.13
+ for <linux-nvme@lists.infradead.org>; Mon, 21 Feb 2022 02:00:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=lzpzupneu+PyOELCBCeklYDAebOUBMWynAwABT94OUI=;
- b=QIDSCMZqL8MRM2V1vSbTrzPk+2tQAlckgZUT0GO9OU0/uTUQFBcD8lSahX3EkU4Bnv
- rmkscvTfOJZ67Dy0ngKA5X7u2LemaIfLkopdOO7873TYKhzD2LcNgpi7eokn/dlgKtqp
- ASTsZZYOAXMceqsjnvFWwOjQfhw8chG+JLNRs8AEf9ciCZtdoq/zp81Qk2Z6ayLUtDJi
- HqLu05Im6cCzFgR4wmFVe42XD2ENMz+0/5Vtsg0C7mdbO5ifdK4gmeJZTDGlYqAAnHw2
- mp6ycCJAgnxz0dWN7izi5aZaYGVcMn5NpNjAxbUxVofVpznXPBR8pIjJoPRo2wHbzawJ
- KCaw==
-X-Gm-Message-State: AOAM530haE/KhBruCdyCnXrzglUJCdj5w3F46s/BThxIBKGALDGYYQtd
- cgpELSYwRSUDnY2YlRVeAd0PiXEQqXFHD70/UILhpMcyBiG0Pwe2M3j4kTM6qF+BoSR1OTl49YM
- +cj2q9qERkb2VExEaFLLFMr63wsQoF7fTuMASs0VD8tM=
-X-Received: by 2002:a63:f555:0:b0:373:9ad0:ca08 with SMTP id
- e21-20020a63f555000000b003739ad0ca08mr14960391pgk.315.1645424219211; 
- Sun, 20 Feb 2022 22:16:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyelIYMPR79BUIxK5ggcO9hePSQ6Fgqi5EfynIbREZ31uaILJh6wdhAPdga4Awn8LtLpDSoKTAuGXhzNMhbuyU=
-X-Received: by 2002:a63:f555:0:b0:373:9ad0:ca08 with SMTP id
- e21-20020a63f555000000b003739ad0ca08mr14960379pgk.315.1645424218939; Sun, 20
- Feb 2022 22:16:58 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yq/VFWoQHCTmo0AS/1tH7bEiaRHml5LeaqXeugP1G5A=;
+ b=R76QLj0uYJT8BqUhSARjemYB5acarRRr1WrgtzKVM1HHKoOWg7cOSq2r4n/huO6Gru
+ ujuE6vlXCzGgDU7vm01A+YalQgo3QfF1ioyorHuP9gU0oTbz9upIPKMHj69bXKksxWje
+ /stY7+TvSlDm81pQyAkrBTVT2A/6fuJC4hfXM/FlDwwvKasGqqwhHsypla1K1TV6IHeb
+ z0krh4hPq8UwszBjUsN93tcKs6HpTWc6v2KASwNcLt4T7pkOkAKQq7b6/D4q7MODEYbm
+ WPzyrS/hYc3/eO5wcC9fvmjSUVZgQ9KHrwGVbGaOToBeGNWOx1xQGYMNKwM4tHH1Pewq
+ syOg==
+X-Gm-Message-State: AOAM531DYkPsJJ97DGwhgaIwaQtjwZW3iY/YikQMcHi9b/8/c5oMhOoe
+ LVIG6yBLXgMxYEcBVirajjyzsc2gcjkMzoURoShpql0h94ER/kugnrMrdavltgTbaY5W1icjIXM
+ hqEb2vVsQZjWjPumOrgr99uvZYC8MjFhmawMOP0dBwLA=
+X-Received: by 2002:a65:6246:0:b0:363:396a:a00f with SMTP id
+ q6-20020a656246000000b00363396aa00fmr15347275pgv.28.1645437650678; 
+ Mon, 21 Feb 2022 02:00:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwkLo4UfMKQcebDvyXtITkMIXLAOXsJukx4NbH4EG7ATLniHaXkyNwNpk8T/dZ0Cl7DPZezmLWlUFUMY2CxX14=
+X-Received: by 2002:a65:6246:0:b0:363:396a:a00f with SMTP id
+ q6-20020a656246000000b00363396aa00fmr15347259pgv.28.1645437650403; Mon, 21
+ Feb 2022 02:00:50 -0800 (PST)
 MIME-Version: 1.0
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <CAHj4cs9EazUmtbjPKp5TXO4kRPcSShiYbhmsHwfh7SOTQAeoyw@mail.gmail.com>
+ <c6d43a10-44bc-e73a-8836-d75367df049b@grimberg.me>
+ <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
+ <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
+ <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
+ <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
+ <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
+ <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
+ <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
+ <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
+ <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
+ <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
+ <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
+ <bdb675e4-1de8-400b-9d43-9f0c18147dc4@nvidia.com>
+ <CAHj4cs_C=pCz41hg1AnQcEZPBRK78WTUq8HE3n_28t56iN1FuA@mail.gmail.com>
+ <fe9842f1-e5c7-7569-426e-9029662bb4f3@nvidia.com>
+In-Reply-To: <fe9842f1-e5c7-7569-426e-9029662bb4f3@nvidia.com>
 From: Yi Zhang <yi.zhang@redhat.com>
-Date: Mon, 21 Feb 2022 14:16:47 +0800
-Message-ID: <CAHj4cs_=1bFXGe+dqf0os0nvMwSnVtMJ3aZ12EAydcXGNSwo6w@mail.gmail.com>
-Subject: [bug report] NVMe/IB: WARNING at kernel/dma/debug.c:571
- add_dma_entry+0x36a/0x4c0 observed on host side after connect
-To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
- RDMA mailing list <linux-rdma@vger.kernel.org>
+Date: Mon, 21 Feb 2022 18:00:38 +0800
+Message-ID: <CAHj4cs8fNmj2Mn7Srs547ji51x7mQ8ZWKzFOuJaENe=vKpBJ-A@mail.gmail.com>
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Haakon Bugge <haakon.bugge@oracle.com>, 
+ Max Gurtovoy <maxg@mellanox.com>, 
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+ OFED mailing list <linux-rdma@vger.kernel.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220220_221705_354738_B48FD91C 
-X-CRM114-Status: UNSURE (   7.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220221_020057_879764_CF2D524F 
+X-CRM114-Status: GOOD (  32.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,113 +113,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
-The below WARNING was triggered on the host side after a connection on
-5.17.0-rc3, here is the full log, let me if you need any tests for it,
-thanks
+Hi Max
 
-HW:
-# lspci | grep -i mel
-04:00.0 Infiniband controller: Mellanox Technologies MT27700 Family [ConnectX-4]
-04:00.1 Infiniband controller: Mellanox Technologies MT27700 Family [ConnectX-4]
+The patch fixed the timeout issue when I use one non-debug kernel,
+but when I tested on debug kernel with your patches, the timeout still
+can be triggered with "nvme reset/nvme disconnect-all" operations.
 
-dmesg:
-[  507.229417] ------------[ cut here ]------------
-[  507.235233] DMA-API: mlx5_core 0000:04:00.0: cacheline tracking
-EEXIST, overlapping mappings aren't supported
-[  507.246475] WARNING: CPU: 10 PID: 855 at kernel/dma/debug.c:571
-add_dma_entry+0x36a/0x4c0
-[  507.255751] Modules linked in: nvme_rdma nvme_fabrics nvme_core
-8021q garp mrp bonding bridge stp llc rfkill rpcrdma sunrpc rdma_ucm
-ib_srpt ib_isert iscsi_target_mod target_core_mod ib_iser libiscsi
-ib_umad scsi_transport_iscsi rdma_cm ib_ipoib iw_cm ib_cm
-intel_rapl_msr intel_rapl_common sb_edac x86_pkg_temp_thermal
-intel_powerclamp coretemp kvm_intel kvm mlx5_ib iTCO_wdt
-iTCO_vendor_support irqbypass ib_uverbs crct10dif_pclmul crc32_pclmul
-ib_core ghash_clmulni_intel rapl intel_cstate intel_uncore pcspkr
-lpc_ich mei_me mxm_wmi ipmi_ssif mei ipmi_si ipmi_devintf
-ipmi_msghandler acpi_power_meter xfs libcrc32c mgag200 i2c_algo_bit
-drm_shmem_helper sd_mod drm_kms_helper t10_pi sg syscopyarea
-sysfillrect sysimgblt fb_sys_fops mlx5_core drm ahci mlxfw libahci
-crc32c_intel pci_hyperv_intf tls tg3 libata psample wmi dm_mirror
-dm_region_hash dm_log dm_mod
-[  507.341004] CPU: 10 PID: 855 Comm: kworker/u80:3 Tainted: G S
-         5.17.0-rc3.rc3.debug #3
-[  507.351351] Hardware name: Dell Inc. PowerEdge R430/03XKDV, BIOS
-2.9.1 12/07/2018
-[  507.361252] Workqueue: ib_addr process_one_req [ib_core]
-[  507.368756] RIP: 0010:add_dma_entry+0x36a/0x4c0
-[  507.375291] Code: 01 00 00 4c 8b 6d 50 4d 85 ed 0f 84 9d 00 00 00
-48 89 ef e8 18 e5 0e 01 48 89 c6 4c 89 ea 48 c7 c7 80 a0 8c 8d e8 a6
-d6 da 01 <0f> 0b 48 85 db 0f 85 20 c9 dc 01 8b 05 75 56 24 04 85 c0 0f
-85 c2
-[  507.399392] RSP: 0018:ffff8890b6aaf7a0 EFLAGS: 00010282
-[  507.406756] RAX: 0000000000000000 RBX: ffff8885d1d6e600 RCX: 0000000000000000
-[  507.416302] RDX: 0000000000000001 RSI: ffffffff8da92ac0 RDI: ffffffff90ff9880
-[  507.425860] RBP: ffff8882580640d0 R08: ffffed11854bfb39 R09: ffffed11854bfb39
-[  507.435450] R10: ffff888c2a5fd9c7 R11: ffffed11854bfb38 R12: 1ffff11216d55ef6
-[  507.445054] R13: ffff889086697b20 R14: 00000000ffffffef R15: 0000000000000202
-[  507.454683] FS:  0000000000000000(0000) GS:ffff888c2a400000(0000)
-knlGS:0000000000000000
-[  507.465423] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  507.473553] CR2: 00007f080b8fe000 CR3: 00000017fd62c001 CR4: 00000000001706e0
-[  507.483282] Call Trace:
-[  507.487748]  <TASK>
-[  507.491829]  ? dma_debug_init+0x130/0x130
-[  507.498064]  ? debug_dma_map_page+0x278/0x320
-[  507.504722]  dma_map_page_attrs+0x3bb/0xa90
-[  507.511191]  ? dma_need_sync+0x100/0x100
-[  507.517369]  ? kmem_cache_alloc_trace+0x13b/0x220
-[  507.524457]  nvme_rdma_create_queue_ib+0x8a6/0x12c0 [nvme_rdma]
-[  507.532949]  ? nvme_rdma_reconnect_ctrl_work+0x60/0x60 [nvme_rdma]
-[  507.541744]  ? rdma_restrack_add+0xfb/0x4a0 [ib_core]
-[  507.549302]  ? rcu_read_lock_sched_held+0xaf/0xe0
-[  507.556469]  nvme_rdma_cm_handler+0x71e/0xa20 [nvme_rdma]
-[  507.564436]  ? nvme_rdma_create_queue_ib+0x12c0/0x12c0 [nvme_rdma]
-[  507.573293]  ? lock_release+0x42f/0xc90
-[  507.579540]  ? lock_downgrade+0x6b0/0x6b0
-[  507.585978]  ? lock_is_held_type+0xd9/0x130
-[  507.592632]  ? rcu_read_lock_sched_held+0xaf/0xe0
-[  507.599879]  ? rcu_read_lock_bh_held+0xc0/0xc0
-[  507.606842]  ? lock_is_held_type+0xd9/0x130
-[  507.613510]  cma_cm_event_handler+0xf2/0x530 [rdma_cm]
-[  507.621292]  addr_handler+0x189/0x2a0 [rdma_cm]
-[  507.628405]  ? cma_work_handler+0x220/0x220 [rdma_cm]
-[  507.636179]  ? cma_work_handler+0x220/0x220 [rdma_cm]
-[  507.643834]  process_one_req+0xdd/0x590 [ib_core]
-[  507.651094]  process_one_work+0x97e/0x1700
-[  507.657607]  ? pwq_dec_nr_in_flight+0x270/0x270
-[  507.664571]  worker_thread+0x87/0xb30
-[  507.670501]  ? process_one_work+0x1700/0x1700
-[  507.677145]  kthread+0x29d/0x340
-[  507.682465]  ? kthread_complete_and_exit+0x20/0x20
-[  507.689503]  ret_from_fork+0x22/0x30
-[  507.695143]  </TASK>
-[  507.699133] irq event stamp: 473271
-[  507.704543] hardirqs last  enabled at (473281):
-[<ffffffff8b39a9b2>] __up_console_sem+0x52/0x60
-[  507.715840] hardirqs last disabled at (473290):
-[<ffffffff8b39a997>] __up_console_sem+0x37/0x60
-[  507.727102] softirqs last  enabled at (473218):
-[<ffffffff8d60064a>] __do_softirq+0x64a/0xa4c
-[  507.738185] softirqs last disabled at (473309):
-[<ffffffff8b21561e>] irq_exit_rcu+0x1ce/0x240
-[  507.749206] ---[ end trace 0000000000000000 ]---
-[  507.755780] DMA-API: Mapped at:
-[  507.760660]  debug_dma_map_page+0x86/0x320
-[  507.766603]  dma_map_page_attrs+0x3bb/0xa90
-[  507.772628]  nvme_rdma_create_queue_ib+0x8a6/0x12c0 [nvme_rdma]
-[  507.780613]  nvme_rdma_cm_handler+0x71e/0xa20 [nvme_rdma]
-[  507.788009]  cma_cm_event_handler+0xf2/0x530 [rdma_cm]
-[  508.648545] mlx5_ib0.8008: multicast join failed for
-ff12:401b:8008:0000:0000:0000:ffff:ffff, status -22
-[  509.655833] nvme nvme0: creating 40 I/O queues.
-[  509.672625] mlx5_ib0.8016: multicast join failed for
-ff12:401b:8016:0000:0000:0000:ffff:ffff, status -22
-[  511.267023] DMA-API: dma_debug_entry pool grown to 2162688 (3300%)
-[  520.572519] DMA-API: dma_debug_entry pool grown to 2228224 (3400%)
-[  523.451478] nvme nvme0: mapped 40/0/0 default/read/poll queues.
-[  523.631836] nvme nvme0: new ctrl: NQN "testnqn", addr 172.31.0.202:4420
+On Tue, Feb 15, 2022 at 10:31 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>
+> Thanks Yi Zhang.
+>
+> Few years ago I've sent some patches that were supposed to fix the KA
+> mechanism but eventually they weren't accepted.
+>
+> I haven't tested it since but maybe you can run some tests with it.
+>
+> The attached patches are partial and include only rdma transport for
+> your testing.
+>
+> If it work for you we can work on it again and argue for correctness.
+>
+> Please don't use the workaround we suggested earlier with these patches.
+>
+> -Max.
+>
+> On 2/15/2022 3:52 PM, Yi Zhang wrote:
+> > Hi Sagi/Max
+> >
+> > Changing the value to 10 or 15 fixed the timeout issue.
+> > And the reset operation still needs more than 12s on my environment, I
+> > also tried disabling the pi_enable, the reset operation will be back
+> > to 3s, so seems the added 9s was due to the PI enabled code path.
+> >
+> > On Mon, Feb 14, 2022 at 8:12 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+> >>
+> >> On 2/14/2022 1:32 PM, Sagi Grimberg wrote:
+> >>>> Hi Sagi/Max
+> >>>> Here are more findings with the bisect:
+> >>>>
+> >>>> The time for reset operation changed from 3s[1] to 12s[2] after
+> >>>> commit[3], and after commit[4], the reset operation timeout at the
+> >>>> second reset[5], let me know if you need any testing for it, thanks.
+> >>> Does this at least eliminate the timeout?
+> >>> --
+> >>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> >>> index a162f6c6da6e..60e415078893 100644
+> >>> --- a/drivers/nvme/host/nvme.h
+> >>> +++ b/drivers/nvme/host/nvme.h
+> >>> @@ -25,7 +25,7 @@ extern unsigned int nvme_io_timeout;
+> >>>   extern unsigned int admin_timeout;
+> >>>   #define NVME_ADMIN_TIMEOUT     (admin_timeout * HZ)
+> >>>
+> >>> -#define NVME_DEFAULT_KATO      5
+> >>> +#define NVME_DEFAULT_KATO      10
+> >>>
+> >>>   #ifdef CONFIG_ARCH_NO_SG_CHAIN
+> >>>   #define  NVME_INLINE_SG_CNT  0
+> >>> --
+> >>>
+> >> or for the initial test you can use --keep-alive-tmo=<10 or 15> flag in
+> >> the connect command
+> >>
+> >>>> [1]
+> >>>> # time nvme reset /dev/nvme0
+> >>>>
+> >>>> real 0m3.049s
+> >>>> user 0m0.000s
+> >>>> sys 0m0.006s
+> >>>> [2]
+> >>>> # time nvme reset /dev/nvme0
+> >>>>
+> >>>> real 0m12.498s
+> >>>> user 0m0.000s
+> >>>> sys 0m0.006s
+> >>>> [3]
+> >>>> commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc (HEAD)
+> >>>> Author: Max Gurtovoy <maxg@mellanox.com>
+> >>>> Date:   Tue May 19 17:05:56 2020 +0300
+> >>>>
+> >>>>       nvme-rdma: add metadata/T10-PI support
+> >>>>
+> >>>> [4]
+> >>>> commit a70b81bd4d9d2d6c05cfe6ef2a10bccc2e04357a (HEAD)
+> >>>> Author: Hannes Reinecke <hare@suse.de>
+> >>>> Date:   Fri Apr 16 13:46:20 2021 +0200
+> >>>>
+> >>>>       nvme: sanitize KATO setting-
+> >>> This change effectively changed the keep-alive timeout
+> >>> from 15 to 5 and modified the host to send keepalives every
+> >>> 2.5 seconds instead of 5.
+> >>>
+> >>> I guess that in combination that now it takes longer to
+> >>> create and delete rdma resources (either qps or mrs)
+> >>> it starts to timeout in setups where there are a lot of
+> >>> queues.
+> >
+
 
 
 -- 
