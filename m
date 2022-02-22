@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F9D7C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 16:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B573C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 16:39:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ORKwziF4GNUsKZlBwR9x/E/eRqOzTy2uYNS+VpjYwSs=; b=2aKxrvib863ivB+EL+9m9Fxy6L
-	6YKW/PMpfmUZKmdL9OsyxcJUXbDJExzVIsS8bas6VS0idIgdJfhb2zYzl0FpSMyqOpqxZj5id1hGV
-	f+i/158yvyb81d4FbkX88ZKOp02bp6tiuX4Ht67vyCGbzuAXNVf/Eg9Ynyr3DB0/ViUT6K6SJpUg9
-	cR7vSMhPqSB0/dmxIrMyBoMrElSQXc2A1lrCWQb+C70jvhfnYZ/WyOoVyqHaTRHE9WUTH4JwdtMHG
-	FhmLLAVjO8kqa9gSxS+ubHj/XHuBm9pw6JdmpyXX8kSJC/5rCHlIBJYKryn30hAJDiDQLZmeA5/c9
-	gTztQEsw==;
+	bh=sDdsSYOpa+T0Zo9MPGv2lqNqSyQYtwBwMirYr7rDwMU=; b=uNsXctErsmv/dn6bmOejSwZAp5
+	gvgYU5166F43GZeOVC4E0BzQmhwHvc5JGEGD58z1YWyaR0pXN2qJp058sXN3Ze1806bqgHdJwMQ0o
+	/Wc+i+aFt42LDHUiZ1Y4KrB2UmXAy0J3eJcVn/l0wmS0WCQAYpNfa9L1o+EmdqukNongOM3I7JPUH
+	XR4Mrxjy5T30qtmqHTb9GYJN9jP6VxqBFnvQwiPCEQaeuCKLutPgVBGw7qPCln5w0CYDT95ollov7
+	mS5vONCoeXWzKBZz88/b1T+rnfvz4dvkGbdtVUOlr+Zxb5rxhr3DjutcngIeaYHfen2l7vC2bGdrp
+	3lX22fvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMYB6-00AgiV-Oi; Tue, 22 Feb 2022 16:38:16 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1nMYCS-00AhF5-Tg; Tue, 22 Feb 2022 16:39:40 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMY5U-00Adsf-BI
- for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 16:32:31 +0000
+ id 1nMY5V-00Ado1-4j
+ for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 16:32:32 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C1E8BCE1798;
- Tue, 22 Feb 2022 16:32:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B39DC340F4;
- Tue, 22 Feb 2022 16:32:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 04C0560AD5;
+ Tue, 22 Feb 2022 16:32:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ABB8C340F7;
+ Tue, 22 Feb 2022 16:32:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645547544;
- bh=+gTC657SZ7HRL8KJMe+FqsdlN+UbmUKFnKMiHsvqQMU=;
+ s=k20201202; t=1645547548;
+ bh=MXr1CB+2f7zErIupWj8eUwsUkwH/Er5u48x/Z+MX6W8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Uzn30o09RieMV1OCvF4cjk8HMJuKah2+DUNnrklbHLGdJUd26+uLH5zdtdBAO64pa
- is76X1snwXQjKeM3jPILNzp44BmLQ4p2Ss6xACpuo8vQJoVPFA4DXYDw9xUQ33nb8q
- WHw7GAodN/6U3Q9oIWD3CG7v4s6WzH0DVj3b7GR/ul8pvjfJiUZDX6Er2LzkgbhcdW
- ANCtXi7diKPS3HjgtdtDAB5bCdNmkBCtIGzICpSFgPM0v9mxBU8LnI+DJNlQEql3v4
- lfwfDzBXth3q9lclJKiR+IMOVYoFnzO1iAgkVa0Pr2n8+YKSGUNxUogUyw5FBA+Ms0
- +IsjhSnUnymVg==
+ b=vQzTb9OGBSNmG2FcWL4qeqTAvUP09WA+5stlfQkmWSk6BYjgYFl3yHCw7lSzDeJU+
+ pJlA6qbubFgGpfunSZBx3mAlihcShIVhEiQEkS6xMdmkaMIU1MYaol5IhstLDgYv/j
+ 8JMEAJOIDRba5l0YlLKfqann0ktILJMu80tVxdQy6CmIjYXV2gvBO/XpcfxsTrtQm/
+ D6xviodDrvKvDu+GwV/wAwMxQphXCLqCayFEnHFaSsdgasyJ3G+mhARdbUIbu1Uu4D
+ Q8qpshB18c9cHwpvm24rXDxlyiW2HVQWffy/oLA61XhXL57KDmQgy9mGX1r5hzLOj6
+ lyuJPf1ixTrSw==
 From: Keith Busch <kbusch@kernel.org>
 To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-crypto@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org
 Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, colyli@suse.de,
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv3 05/10] lib: add rocksoft model crc64
-Date: Tue, 22 Feb 2022 08:31:39 -0800
-Message-Id: <20220222163144.1782447-6-kbusch@kernel.org>
+ Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv3 10/10] x86/crypto: add pclmul acceleration for crc64
+Date: Tue, 22 Feb 2022 08:31:44 -0800
+Message-Id: <20220222163144.1782447-11-kbusch@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20220222163144.1782447-1-kbusch@kernel.org>
 References: <20220222163144.1782447-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_083228_760020_66C85898 
-X-CRM114-Status: GOOD (  19.96  )
+X-CRM114-CacheID: sfid-20220222_083229_316409_9E4D5717 
+X-CRM114-Status: GOOD (  19.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,174 +72,404 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVM Express specification extended data integrity fields to 64 bits
-using the Rocksoft^TM parameters. Add the poly to the crc64 table
-generation, and provide a generic library routine implementing the
-algorithm.
+The crc64 table lookup method is inefficient, using a significant number
+of CPU cycles in the block stack per IO. If available on x86, use a
+PCLMULQDQ implementation to accelerate the calculation.
 
-The Rocksoft 64-bit CRC model parameters are as follows:
-    Poly: 0xAD93D23594C93659
-    Initial value: 0xFFFFFFFFFFFFFFFF
-    Reflected Input: True
-    Reflected Output: True
-    Xor Final: 0xFFFFFFFFFFFFFFFF
+The assembly from this patch was mostly generated by gcc from a C
+program using library functions provided by x86 intrinsics, and measures
+~20x faster than the table lookup.
 
-Since this model used reflected bits, the implementation generates the
-reflected table so the result is ordered consistently.
-
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/linux/crc64.h |  2 ++
- lib/crc64.c           | 26 ++++++++++++++++++++++
- lib/gen_crc64table.c  | 51 +++++++++++++++++++++++++++++++++----------
- 3 files changed, 68 insertions(+), 11 deletions(-)
+ arch/x86/crypto/Makefile                  |   3 +
+ arch/x86/crypto/crc64-rocksoft-pcl-asm.S  | 215 ++++++++++++++++++++++
+ arch/x86/crypto/crc64-rocksoft-pcl_glue.c | 117 ++++++++++++
+ crypto/Kconfig                            |  11 ++
+ 4 files changed, 346 insertions(+)
+ create mode 100644 arch/x86/crypto/crc64-rocksoft-pcl-asm.S
+ create mode 100644 arch/x86/crypto/crc64-rocksoft-pcl_glue.c
 
-diff --git a/include/linux/crc64.h b/include/linux/crc64.h
-index c756e65a1b58..9480f38cc7cf 100644
---- a/include/linux/crc64.h
-+++ b/include/linux/crc64.h
-@@ -8,4 +8,6 @@
- #include <linux/types.h>
+diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
+index c3af959648e6..036520c59f0e 100644
+--- a/arch/x86/crypto/Makefile
++++ b/arch/x86/crypto/Makefile
+@@ -79,6 +79,9 @@ crc32-pclmul-y := crc32-pclmul_asm.o crc32-pclmul_glue.o
+ obj-$(CONFIG_CRYPTO_CRCT10DIF_PCLMUL) += crct10dif-pclmul.o
+ crct10dif-pclmul-y := crct10dif-pcl-asm_64.o crct10dif-pclmul_glue.o
  
- u64 __pure crc64_be(u64 crc, const void *p, size_t len);
-+u64 __pure crc64_rocksoft_generic(u64 crc, const void *p, size_t len);
++obj-$(CONFIG_CRYPTO_CRC64_ROCKSOFT_PCLMUL) += crc64-rocksoft-pclmul.o
++crc64-rocksoft-pclmul-y := crc64-rocksoft-pcl-asm.o crc64-rocksoft-pcl_glue.o
 +
- #endif /* _LINUX_CRC64_H */
-diff --git a/lib/crc64.c b/lib/crc64.c
-index 9f852a89ee2a..80072fa007a9 100644
---- a/lib/crc64.c
-+++ b/lib/crc64.c
-@@ -22,6 +22,13 @@
-  * x^24 + x^23 + x^22 + x^21 + x^19 + x^17 + x^13 + x^12 + x^10 + x^9 +
-  * x^7 + x^4 + x + 1
-  *
-+ * crc64rocksoft[256] table is from the Rocksoft specification polynomial
-+ * defined as,
-+ *
-+ * x^64 + x^63 + x^61 + x^59 + x^58 + x^56 + x^55 + x^52 + x^49 + x^48 + x^47 +
-+ * x^46 + x^44 + x^41 + x^37 + x^36 + x^34 + x^32 + x^31 + x^28 + x^26 + x^23 +
-+ * x^22 + x^19 + x^16 + x^13 + x^12 + x^10 + x^9 + x^6 + x^4 + x^3 + 1
-+ *
-  * Copyright 2018 SUSE Linux.
-  *   Author: Coly Li <colyli@suse.de>
-  */
-@@ -55,3 +62,22 @@ u64 __pure crc64_be(u64 crc, const void *p, size_t len)
- 	return crc;
- }
- EXPORT_SYMBOL_GPL(crc64_be);
+ obj-$(CONFIG_CRYPTO_POLY1305_X86_64) += poly1305-x86_64.o
+ poly1305-x86_64-y := poly1305-x86_64-cryptogams.o poly1305_glue.o
+ targets += poly1305-x86_64-cryptogams.S
+diff --git a/arch/x86/crypto/crc64-rocksoft-pcl-asm.S b/arch/x86/crypto/crc64-rocksoft-pcl-asm.S
+new file mode 100644
+index 000000000000..e3b633a776a9
+--- /dev/null
++++ b/arch/x86/crypto/crc64-rocksoft-pcl-asm.S
+@@ -0,0 +1,215 @@
++########################################################################
++# Implement fast Rocksoft CRC-64 computation with SSE and PCLMULQDQ instructions
++#
 +
-+/**
-+ * crc64_rocksoft_generic - Calculate bitwise Rocksoft CRC64
-+ * @crc: seed value for computation. (u64)~0 for a new CRC calculation, or the
-+ * 	 previous crc64 value if computing incrementally.
-+ * @p: pointer to buffer over which CRC64 is run
-+ * @len: length of buffer @p
-+ */
-+u64 __pure crc64_rocksoft_generic(u64 crc, const void *p, size_t len)
++#include <linux/linkage.h>
++
++SYM_FUNC_START(crc_rocksoft_pcl)
++	leaq	(%rsi,%rdx), %rcx
++	movq	%rsi, %r10
++	andl	$15, %esi
++	movq	%rdi, %xmm3
++	leaq	15(%rcx), %rax
++	andq	$-16, %r10
++	pxor	%xmm1, %xmm1
++	andq	$-16, %rax
++	movdqa	%xmm1, %xmm5
++	movq	%rax, %r8
++	subq	%r10, %rax
++	subq	%rcx, %r8
++	movl	$16, %ecx
++	movq	%rax, %r11
++	movq	%rcx, %r9
++	sarq	$4, %r11
++	subq	%rsi, %r9
++	movdqu	shuffleMasks(%r9), %xmm4
++	movdqa	%xmm4, %xmm0
++	pblendvb	%xmm0, (%r10), %xmm5
++	cmpq	$16, %rax
++	je	.L12
++	movdqa	16(%r10), %xmm2
++	cmpq	$2, %r11
++	je	.L13
++	pcmpeqd	%xmm1, %xmm1
++	leaq	-16(%rsi,%rdx), %rdi
++	leaq	16(%r10), %r9
++	pxor	%xmm1, %xmm4
++	movdqa	%xmm3, %xmm1
++	pshufb	%xmm0, %xmm3
++	pshufb	%xmm4, %xmm1
++	movdqa	%xmm3, %xmm0
++	movdqa	.LC0(%rip), %xmm3
++	pxor	%xmm5, %xmm1
++	movdqa	%xmm1, %xmm4
++	pclmulqdq	$0, %xmm3, %xmm1
++	pclmulqdq	$17, %xmm3, %xmm4
++	pxor	%xmm4, %xmm1
++	pxor	%xmm1, %xmm0
++	cmpq	$31, %rdi
++	jbe	.L6
++	leaq	-32(%rdi), %rax
++	movq	%rax, %rsi
++	andq	$-16, %rax
++	leaq	32(%r10,%rax), %rcx
++	shrq	$4, %rsi
++	movq	%r9, %rax
++	.p2align 4,,10
++	.p2align 3
++.L7:
++	pxor	%xmm2, %xmm0
++	movq	%rax, %rdx
++	addq	$16, %rax
++	movdqa	%xmm0, %xmm1
++	pclmulqdq	$0, %xmm3, %xmm0
++	movdqa	16(%rdx), %xmm2
++	pclmulqdq	$17, %xmm3, %xmm1
++	pxor	%xmm1, %xmm0
++	cmpq	%rcx, %rax
++	jne	.L7
++	movq	%rsi, %rax
++	addq	$1, %rsi
++	negq	%rax
++	salq	$4, %rsi
++	salq	$4, %rax
++	addq	%rsi, %r9
++	leaq	-16(%rdi,%rax), %rdi
++.L6:
++	pxor	%xmm2, %xmm0
++	cmpq	$16, %rdi
++	je	.L9
++	movl	$16, %eax
++	pcmpeqd	%xmm2, %xmm2
++	movdqa	%xmm0, %xmm7
++	subq	%r8, %rax
++	movdqu	shuffleMasks(%rax), %xmm4
++	pxor	%xmm4, %xmm2
++	pshufb	%xmm4, %xmm0
++	movdqa	16(%r9), %xmm4
++	pshufb	%xmm2, %xmm7
++	pshufb	%xmm2, %xmm4
++	movdqa	%xmm7, %xmm1
++	movdqa	%xmm4, %xmm2
++	movdqa	%xmm7, %xmm4
++	pclmulqdq	$0, %xmm3, %xmm1
++	pclmulqdq	$17, %xmm3, %xmm4
++	por	%xmm2, %xmm0
++	pxor	%xmm4, %xmm1
++	pxor	%xmm1, %xmm0
++.L9:
++	movdqa	%xmm0, %xmm2
++	pclmulqdq	$16, %xmm3, %xmm0
++	psrldq	$8, %xmm2
++	pxor	%xmm2, %xmm0
++.L3:
++	movdqa	.LC1(%rip), %xmm2
++	movdqa	%xmm0, %xmm1
++	pclmulqdq	$0, %xmm2, %xmm1
++	movdqa	%xmm1, %xmm3
++	pclmulqdq	$16, %xmm2, %xmm1
++	pslldq	$8, %xmm3
++	pxor	%xmm3, %xmm1
++	pxor	%xmm1, %xmm0
++	pextrd	$3, %xmm0, %eax
++	salq	$32, %rax
++	movq	%rax, %rdx
++	pextrd	$2, %xmm0, %eax
++	orq	%rdx, %rax
++	notq	%rax
++	ret
++	.p2align 4,,10
++	.p2align 3
++.L13:
++	subq	%r8, %rcx
++	pcmpeqd	%xmm1, %xmm1
++	movdqu	shuffleMasks(%rcx), %xmm7
++	movdqa	%xmm7, %xmm6
++	pxor	%xmm1, %xmm6
++	cmpq	$7, %rdx
++	ja	.L5
++	movdqa	%xmm1, %xmm4
++	pshufb	%xmm7, %xmm5
++	movdqa	%xmm3, %xmm1
++	movdqu	shuffleMasks(%rdx), %xmm8
++	pshufb	%xmm6, %xmm2
++	pxor	%xmm8, %xmm4
++	pxor	%xmm5, %xmm2
++	pshufb	%xmm8, %xmm3
++	pshufb	%xmm4, %xmm1
++	movdqa	%xmm3, %xmm0
++	pxor	%xmm1, %xmm2
++	pslldq	$8, %xmm0
++	movdqa	%xmm2, %xmm3
++	pclmulqdq	$16, .LC0(%rip), %xmm2
++	psrldq	$8, %xmm3
++	pxor	%xmm3, %xmm0
++	pxor	%xmm2, %xmm0
++	jmp	.L3
++	.p2align 4,,10
++	.p2align 3
++.L12:
++	movdqu	shuffleMasks(%rdx), %xmm2
++	subq	%r8, %rcx
++	movdqa	%xmm3, %xmm6
++	pcmpeqd	%xmm4, %xmm4
++	movdqa	%xmm2, %xmm0
++	pshufb	%xmm2, %xmm3
++	movdqu	shuffleMasks(%rcx), %xmm2
++	pxor	%xmm4, %xmm0
++	pslldq	$8, %xmm3
++	pxor	%xmm4, %xmm2
++	pshufb	%xmm0, %xmm6
++	pshufb	%xmm2, %xmm5
++	movdqa	%xmm5, %xmm1
++	pxor	%xmm6, %xmm1
++	movdqa	%xmm1, %xmm0
++	pclmulqdq	$16, .LC0(%rip), %xmm1
++	psrldq	$8, %xmm0
++	pxor	%xmm3, %xmm0
++	pxor	%xmm1, %xmm0
++	jmp	.L3
++	.p2align 4,,10
++	.p2align 3
++.L5:
++	pxor	%xmm1, %xmm4
++	movdqa	%xmm3, %xmm1
++	pshufb	%xmm0, %xmm3
++	pshufb	%xmm4, %xmm1
++	pxor	%xmm3, %xmm2
++	movdqa	.LC0(%rip), %xmm3
++	pxor	%xmm5, %xmm1
++	pshufb	%xmm6, %xmm2
++	movdqa	%xmm1, %xmm5
++	pshufb	%xmm7, %xmm1
++	pshufb	%xmm6, %xmm5
++	pxor	%xmm2, %xmm1
++	movdqa	%xmm5, %xmm4
++	movdqa	%xmm5, %xmm0
++	pclmulqdq	$17, %xmm3, %xmm0
++	pclmulqdq	$0, %xmm3, %xmm4
++	pxor	%xmm0, %xmm4
++	pxor	%xmm4, %xmm1
++	movdqa	%xmm1, %xmm0
++	pclmulqdq	$16, %xmm3, %xmm1
++	psrldq	$8, %xmm0
++	pxor	%xmm1, %xmm0
++	jmp	.L3
++SYM_FUNC_END(crc_rocksoft_pcl)
++
++.section	.rodata
++.align 32
++.type	shuffleMasks, @object
++.size	shuffleMasks, 32
++shuffleMasks:
++	.string	""
++	.ascii	"\001\002\003\004\005\006\007\b\t\n\013\f\r\016\017\217\216\215"
++	.ascii	"\214\213\212\211\210\207\206\205\204\203\202\201\200"
++
++.section	.rodata.cst16,"aM",@progbits,16
++.align 16
++.LC0:
++	.quad	-1523270018343381984
++	.quad	2443614144669557164
++	.align 16
++.LC1:
++	.quad	2876949357237608311
++	.quad	3808117099328934763
+diff --git a/arch/x86/crypto/crc64-rocksoft-pcl_glue.c b/arch/x86/crypto/crc64-rocksoft-pcl_glue.c
+new file mode 100644
+index 000000000000..996780aa3d93
+--- /dev/null
++++ b/arch/x86/crypto/crc64-rocksoft-pcl_glue.c
+@@ -0,0 +1,117 @@
++#include <linux/types.h>
++#include <linux/module.h>
++#include <linux/crc64.h>
++#include <crypto/internal/hash.h>
++#include <crypto/internal/simd.h>
++#include <linux/init.h>
++#include <linux/string.h>
++#include <linux/kernel.h>
++#include <asm/cpufeatures.h>
++#include <asm/cpu_device_id.h>
++#include <asm/simd.h>
++
++asmlinkage u64 crc_rocksoft_pcl(u64 init_crc, const u8 *buf, size_t len);
++
++struct chksum_desc_ctx {
++	u64 crc;
++};
++
++static int chksum_init(struct shash_desc *desc)
 +{
-+	const unsigned char *_p = p;
-+	size_t i;
++	struct chksum_desc_ctx *ctx = shash_desc_ctx(desc);
 +
-+	for (i = 0; i < len; i++)
-+		crc = (crc >> 8) ^ crc64rocksofttable[(crc & 0xff) ^ *_p++];
++	ctx->crc = 0;
 +
-+	return crc ^ (u64)~0;
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(crc64_rocksoft_generic);
-diff --git a/lib/gen_crc64table.c b/lib/gen_crc64table.c
-index 094b43aef8db..55e222acd0b8 100644
---- a/lib/gen_crc64table.c
-+++ b/lib/gen_crc64table.c
-@@ -17,10 +17,30 @@
- #include <stdio.h>
- 
- #define CRC64_ECMA182_POLY 0x42F0E1EBA9EA3693ULL
-+#define CRC64_ROCKSOFT_POLY 0x9A6C9329AC4BC9B5ULL
- 
- static uint64_t crc64_table[256] = {0};
-+static uint64_t crc64_rocksoft_table[256] = {0};
- 
--static void generate_crc64_table(void)
-+static void generate_reflected_crc64_table(uint64_t table[256], uint64_t poly)
++
++static int chksum_update(struct shash_desc *desc, const u8 *data,
++			 unsigned int length)
 +{
-+	uint64_t i, j, c, crc;
++	struct chksum_desc_ctx *ctx = shash_desc_ctx(desc);
 +
-+	for (i = 0; i < 256; i++) {
-+		crc = 0ULL;
-+		c = i;
++	if (length >= 16 && crypto_simd_usable()) {
++		kernel_fpu_begin();
++		ctx->crc = crc_rocksoft_pcl(ctx->crc, data, length);
++		kernel_fpu_end();
++	} else
++		ctx->crc = crc64_rocksoft_generic(ctx->crc, data, length);
++	return 0;
++}
 +
-+		for (j = 0; j < 8; j++) {
-+			if ((crc ^ (c >> j)) & 1)
-+				crc = (crc >> 1) ^ poly;
-+			else
-+				crc >>= 1;
-+		}
-+		table[i] = crc;
++static int chksum_final(struct shash_desc *desc, u8 *out)
++{
++	struct chksum_desc_ctx *ctx = shash_desc_ctx(desc);
++
++	*(u64 *)out = ctx->crc;
++	return 0;
++}
++
++static int __chksum_finup(u64 crc, const u8 *data, unsigned int len, u8 *out)
++{
++	if (len >= 16 && crypto_simd_usable()) {
++		kernel_fpu_begin();
++		*(u64 *)out = crc_rocksoft_pcl(crc, data, len);
++		kernel_fpu_end();
++	} else
++		*(u64 *)out = crc64_rocksoft_generic(crc, data, len);
++	return 0;
++}
++
++static int chksum_finup(struct shash_desc *desc, const u8 *data,
++			unsigned int len, u8 *out)
++{
++	struct chksum_desc_ctx *ctx = shash_desc_ctx(desc);
++
++	return __chksum_finup(ctx->crc, data, len, out);
++}
++
++static int chksum_digest(struct shash_desc *desc, const u8 *data,
++			 unsigned int length, u8 *out)
++{
++	return __chksum_finup(0, data, length, out);
++}
++
++static struct shash_alg alg = {
++	.digestsize	= 	8,
++	.init		=	chksum_init,
++	.update		=	chksum_update,
++	.final		=	chksum_final,
++	.finup		=	chksum_finup,
++	.digest		=	chksum_digest,
++	.descsize	=	sizeof(struct chksum_desc_ctx),
++	.base		=	{
++		.cra_name		=	CRC64_ROCKSOFT_STRING,
++		.cra_driver_name	=	"crc64-rocksoft-pclmul",
++		.cra_priority		=	200,
++		.cra_blocksize		=	1,
++		.cra_module		=	THIS_MODULE,
 +	}
-+}
++};
 +
-+static void generate_crc64_table(uint64_t table[256], uint64_t poly)
- {
- 	uint64_t i, j, c, crc;
- 
-@@ -30,26 +50,22 @@ static void generate_crc64_table(void)
- 
- 		for (j = 0; j < 8; j++) {
- 			if ((crc ^ c) & 0x8000000000000000ULL)
--				crc = (crc << 1) ^ CRC64_ECMA182_POLY;
-+				crc = (crc << 1) ^ poly;
- 			else
- 				crc <<= 1;
- 			c <<= 1;
- 		}
- 
--		crc64_table[i] = crc;
-+		table[i] = crc;
- 	}
- }
- 
--static void print_crc64_table(void)
-+static void output_table(uint64_t table[256])
- {
- 	int i;
- 
--	printf("/* this file is generated - do not edit */\n\n");
--	printf("#include <linux/types.h>\n");
--	printf("#include <linux/cache.h>\n\n");
--	printf("static const u64 ____cacheline_aligned crc64table[256] = {\n");
- 	for (i = 0; i < 256; i++) {
--		printf("\t0x%016" PRIx64 "ULL", crc64_table[i]);
-+		printf("\t0x%016" PRIx64 "ULL", table[i]);
- 		if (i & 0x1)
- 			printf(",\n");
- 		else
-@@ -58,9 +74,22 @@ static void print_crc64_table(void)
- 	printf("};\n");
- }
- 
-+static void print_crc64_tables(void)
++static const struct x86_cpu_id crc64_rocksoft_cpu_id[] = {
++	X86_MATCH_FEATURE(X86_FEATURE_PCLMULQDQ, NULL),
++	{}
++};
++MODULE_DEVICE_TABLE(x86cpu, crc64_rocksoft_cpu_id);
++
++static int __init crc64_rocksoft_x86_mod_init(void)
 +{
-+	printf("/* this file is generated - do not edit */\n\n");
-+	printf("#include <linux/types.h>\n");
-+	printf("#include <linux/cache.h>\n\n");
-+	printf("static const u64 ____cacheline_aligned crc64table[256] = {\n");
-+	output_table(crc64_table);
++	if (!x86_match_cpu(crc64_rocksoft_cpu_id))
++		return -ENODEV;
 +
-+	printf("\nstatic const u64 ____cacheline_aligned crc64rocksofttable[256] = {\n");
-+	output_table(crc64_rocksoft_table);
++	return crypto_register_shash(&alg);
 +}
 +
- int main(int argc, char *argv[])
- {
--	generate_crc64_table();
--	print_crc64_table();
-+	generate_crc64_table(crc64_table, CRC64_ECMA182_POLY);
-+	generate_reflected_crc64_table(crc64_rocksoft_table, CRC64_ROCKSOFT_POLY);
-+	print_crc64_tables();
- 	return 0;
- }
++static void __exit crc64_rocksoft_x86_mod_fini(void)
++{
++	crypto_unregister_shash(&alg);
++}
++
++module_init(crc64_rocksoft_x86_mod_init);
++module_exit(crc64_rocksoft_x86_mod_fini);
++
++MODULE_AUTHOR("Keith Busch <kbusch@kernel.org>");
++MODULE_DESCRIPTION("Rocksoft CRC64 calculation accelerated with PCLMULQDQ.");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS_CRYPTO("crc64-rocksoft-pclmul");
+diff --git a/crypto/Kconfig b/crypto/Kconfig
+index e343147b9f8f..d8861138f117 100644
+--- a/crypto/Kconfig
++++ b/crypto/Kconfig
+@@ -744,6 +744,17 @@ config CRYPTO_CRC64_ROCKSOFT
+ 	  transform. This allows for faster crc64 transforms to be used
+ 	  if they are available.
+ 
++config CRYPTO_CRC64_ROCKSOFT_PCLMUL
++	tristate "Rocksoft model CRC64 PCLMULQDQ hardware acceleration"
++	depends on X86 && 64BIT && CRC64
++	select CRYPTO_HASH
++	help
++	  For x86_64 processors with SSE4.2 and PCLMULQDQ supported,
++	  CRC64 PCLMULQDQ computation can be hardware accelerated PCLMULQDQ
++	  instruction. This option will create 'crc64-rocksoft-pclmul'
++	  module, which is faster when computing crc64 checksum compared
++	  with the generic table implementation.
++
+ config CRYPTO_VPMSUM_TESTER
+ 	tristate "Powerpc64 vpmsum hardware acceleration tester"
+ 	depends on CRYPTO_CRCT10DIF_VPMSUM && CRYPTO_CRC32C_VPMSUM
 -- 
 2.25.4
 
