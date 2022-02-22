@@ -4,69 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA268C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 20:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C174C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 20:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Vh/zoanNjGok7qp3iUtP6dGmvmtixz9ZlAfsQnrbzBo=; b=EcwDBOBUm3JrVVlWI/qpxidoV7
-	jNiJgOOA5k+2eTcOfAMNi2yy2+1b0qcv4VUvfmLD5G5JaCcumEyH55rGxLkLUdFjnFeLA6HMZ/6St
-	jGymPqh3JqpsLl09FtaxB53JIV1rFCXPz0GjWgV0OXsjo0h67xmvvfu3B3NrAf5UhVWSy17apgyBJ
-	9h6WJjYeH1jtPzoFXTIDx0ycssJPwOM3PXBcJvQ0utii5dJlNvsaDubOxaectoPUDG+oL8KxUjsax
-	G7oATGg3CZ71TkNfgv3NGrlIOmgy4UEppKwvMrIu0CX2LypTKdpZL98b9Gd9bhHKwnqmiQnWqSq6J
-	/hCnFzPQ==;
+	bh=XpavuZdke+JIoZyh3o8ixlmbkC5qOTT27ltNo73OKuY=; b=y8UUm19/tWSFNjz/cIlULJYXOK
+	Z3moU5GcCR1YvHRi/fw3hVHiaB8JMDVEgCETc3OH2rfT2o9jjvGtKVJmHTcO2t3z/1nEd/3d7SFI0
+	hX90fraOmjl8uepdLPE+4MaTUFORYxzlN15jxF5okEwSbEwnN3AzT6R621qsVnCaJgYFOAdIyKF8g
+	8yxg8No+LLWJdL1ctdrTyQHDEVrJUyzS+t2wkPeS8rdh9n08Z2NunNkgdJWvu3HNoP3zSLKqDYqZB
+	54FESvBX/DUngKOAnCCqGtX8l4mlZAr3PeGaBqUT+3P+l2r35h/7s1bo0RoiaTXTZEKvkSjixctao
+	Vw6SbELQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMbQr-00BTHp-EA; Tue, 22 Feb 2022 20:06:45 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nMbTH-00BTau-MQ; Tue, 22 Feb 2022 20:09:15 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMbQo-00BTGW-Nx
- for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 20:06:44 +0000
+ id 1nMbTE-00BTZL-UY
+ for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 20:09:14 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4580B61667;
- Tue, 22 Feb 2022 20:06:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56812C340E8;
- Tue, 22 Feb 2022 20:06:41 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 96FE5B81C67;
+ Tue, 22 Feb 2022 20:09:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B59C340E8;
+ Tue, 22 Feb 2022 20:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645560401;
- bh=uI0Fg70JQsRjF8A280UxeWyrTx+BSIhEvWBXFTuCqvc=;
+ s=k20201202; t=1645560550;
+ bh=1RpeK2ezkeXvyqdfTt2Tyf6eIBlrvYVjmKs7rO0ojdo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oV94Lm4dBzwnapWO4YqkF1+FiDKUOgNPNsAaPRtqEp7aUERF9fx5An9GvUGCIbjdO
- ml75/8hKPJIpMkKR/BBixoM9MlWszX9BQJEKLvkbdOzd5Y/MFnIaVoZs8X+7cHzmIR
- KVog4RCIGsRxnnU5t+0SXRfTXag3ZmA4C7G2mVIhYTQtQpmD8Fi2lnPAPAjGORG1/H
- NXOsNZ6yLBw/2p5WTdH9a/+NLBV7UFhzavqHlsVPAk3ftgHAe79bNPhSvhWaqizg+P
- i+q/0tgKBideH8K1N+4kBi0MLYEDFCy0cUuJC5JX6ZbkLDR4FOp4iDlw0bKrCJ4VBZ
- EIzYowpTp8JVA==
-Date: Tue, 22 Feb 2022 12:06:39 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: David Laight <David.Laight@aculab.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- "colyli@suse.de" <colyli@suse.de>
-Subject: Re: [PATCHv3 10/10] x86/crypto: add pclmul acceleration for crc64
-Message-ID: <YhVCTzUOUHZnze4x@sol.localdomain>
+ b=kX1+BSiIzoCC7MPwCqygUVYJjYjCGP8r0uNbfIvHrEUClkW1piWFY0f6WZWt/CKnC
+ JMhyXgFkSIr4Wqa/2F+eN6U1ZhpPp8qhzTr4/djfi8ayJprxTYDMxvyXHbj37008Sp
+ CCiY+w24npvSlnH9uitpVrv76+EUJbJgG130TtVndHZCfTHUOQSMesvAH2Ipw5qw1z
+ wq3MxQKizauoTcEZtY0Q9ZhCOAkjDy/Wfd4XhtkRQH7yVPT6D/Qc0UnlFcsYpokyFW
+ ESFioc5kDB+DFV9dR1MblY51KCMUdRQ+vUUPzTu0Wi5TViO/O6bZ/mpLm1PlS5bkuq
+ yXu4fBMHR5igQ==
+Date: Tue, 22 Feb 2022 12:09:07 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-crypto@vger.kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
+ martin.petersen@oracle.com, colyli@suse.de
+Subject: Re: [PATCHv3 06/10] crypto: add rocksoft 64b crc framework
+Message-ID: <20220222200907.GA1782741@dhcp-10-100-145-180.wdc.com>
 References: <20220222163144.1782447-1-kbusch@kernel.org>
- <20220222163144.1782447-11-kbusch@kernel.org>
- <a7e806ed3c074534a24b74f827bcc914@AcuMS.aculab.com>
- <20220222171405.GA1782521@dhcp-10-100-145-180.wdc.com>
+ <20220222163144.1782447-7-kbusch@kernel.org>
+ <YhU+kuMhueXVQvxe@sol.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220222171405.GA1782521@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <YhU+kuMhueXVQvxe@sol.localdomain>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_120642_881348_E0B5B90E 
-X-CRM114-Status: GOOD (  26.39  )
+X-CRM114-CacheID: sfid-20220222_120913_141887_8FCB14CC 
+X-CRM114-Status: GOOD (  15.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,50 +75,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 22, 2022 at 09:14:05AM -0800, Keith Busch wrote:
-> On Tue, Feb 22, 2022 at 05:02:16PM +0000, David Laight wrote:
-> > From: Keith Busch
-> > > Sent: 22 February 2022 16:32
-> > > 
-> > > The crc64 table lookup method is inefficient, using a significant number
-> > > of CPU cycles in the block stack per IO. If available on x86, use a
-> > > PCLMULQDQ implementation to accelerate the calculation.
-> > > 
-> > > The assembly from this patch was mostly generated by gcc from a C
-> > > program using library functions provided by x86 intrinsics, and measures
-> > > ~20x faster than the table lookup.
-> > 
-> > I think I'd like to see the C code and compiler options used to
-> > generate the assembler as comments in the committed source file.
-> > Either that or reasonable comments in the assembler.
+On Tue, Feb 22, 2022 at 11:50:42AM -0800, Eric Biggers wrote:
+> On Tue, Feb 22, 2022 at 08:31:40AM -0800, Keith Busch wrote:
+> > +config CRYPTO_CRC64_ROCKSOFT
+> > +	tristate "Rocksoft Model CRC64 algorithm"
+> > +	depends on CRC64
+> > +	select CRYPTO_HASH
+> > +	help
+> > +	  Rocksoft Model CRC64 computation is being cast as a crypto
+> > +	  transform. This allows for faster crc64 transforms to be used
+> > +	  if they are available.
 > 
-> The C code, compiled as "gcc -O3 -msse4 -mpclmul -S", was adapted from
-> this found on the internet:
-> 
->   https://github.com/rawrunprotected/crc/blob/master/crc64.c
-> 
-> I just ported it to linux, changed the poly parameters and removed the
-> unnecessary stuff. 
->  
-> I'm okay with dropping this patch from the series for now since I don't
-> think I'm qualified to write it. :) I just needed something to test the
-> crytpo module registration.
+> The first sentence of this help text doesn't make sense.
 
-Is the license of that code compatible with the kernel's license?
-
-In any case, adding uncommented generated assembly isn't acceptable.  The most
-common convention for Linux kernel crypto is to use hand-written assembly that
-is properly commented.
-
-There is some precedent for using compiler intrinsics instead, e.g.
-crypto/aegis128-neon-inner.c.  (I'm not sure why they aren't used more often.)
-
-There are also some files where a Perl script generates the assembly code.
-(This is a bit ugly IMO, but it's what the author of much of OpenSSL's crypto
-assembly code does, and it was desired to reuse that code.)
-
-Anyway, those are the available options.  Checking in some uncommented generated
-assembly isn't one of them.
-
-- Eric
+Much of the this patch is a copy from the equivalent T10DIF option,
+which says the same as above. I meant to revist these help texts because
+they don't make sense to me either. I'll be sure to do that for the next
+version.
 
