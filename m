@@ -4,58 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0595C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 16:33:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFDE5C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 16:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qEhhK0KQ9QeAymMQvpNZmYCiJBNq1fd73RWnOy59JlA=; b=IXilvD7iZms+Fm8H7JoseojgPn
-	pmIdlLBiGEb9mcxXtwYNC/RuTrhWi2qSQwAAr9wv6IOl+Koyfh8FyssCRYy5roQkE6nuqRakep7ZQ
-	uYkcdJcqXrYLC+kIuXryEoaEHqWuleQWbDD8VRMW2h1MADe3wCKAP3fgCWxWNQxJ/VE0GysJb+fYc
-	4gjP4jd8Nq2PJxNULZ7lqK33wNMQ4VZNh/1xgzd71ULF/EqAFy5Us1Z0ulFkKPNyvTCVwZJWng4xf
-	1bSlPaURmNuTuMrkbegc5tnAk7twXtBccVtKXKzEK7B620jscTFctmYnS9MparI0m/GHE+ISQRJcX
-	ylZToWLg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=soEcvVlUiZe830oEa7YN9adcolCM5/tsmhK+wvMSF60=; b=KDAZWpVzGnf2t2W+66TM3gl2bl
+	XyrFxBXCD5L8wxnALOQiqvU/DQ/b60bHxseCoc7rwBJlQowUALF8RPFG9j5Yk4bmnslUn6zDSmVJ2
+	p4fxajYe0RLISdxDQWskvjU0fyE6KGDuqVzEQOf/V5gWQLbPlQZcTuWqhgFirI0buP1skhxNjA7yk
+	60FDP7ex6RaF+7X4Sgzy6qrjunR9+IjAkCLVc38lVzmlp0GzeA5KocVqhOoKN4xe6NT1OmBR/VgLO
+	ojQV5teDlAn5Ulxpxk0y7P1BtGjbqGSyU+TPKnhuRu8tC0PNb9Cchq7WgAuicPsDZy8vVGYYEnQN+
+	3Jo8s9xQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMY5x-00Ae5e-EL; Tue, 22 Feb 2022 16:32:57 +0000
+	id 1nMY75-00Aek5-AT; Tue, 22 Feb 2022 16:34:07 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMY5M-00AdmQ-HR
- for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 16:32:22 +0000
+ id 1nMY5O-00Ado1-7V
+ for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 16:32:25 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6F83760ACA;
- Tue, 22 Feb 2022 16:32:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9012BC340F5;
- Tue, 22 Feb 2022 16:32:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BA2A560AD5;
+ Tue, 22 Feb 2022 16:32:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72ABAC340FB;
+ Tue, 22 Feb 2022 16:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645547539;
- bh=GJp5srIWu1c79tiofwNLlNLZx6fG9DBOwi7z0tds3LI=;
- h=From:To:Cc:Subject:Date:From;
- b=XdA8/bxNpbpVX6QJl+I/qhRyqv6XOhDuEMTsHWEumj7DeyznddJGH/53kesCj5+K1
- l5bFGUXHsk9D7Ls0v6wkM/b/469AUrJmpD0FSDRE81CyfTqi0meX209dvMYqTwOcs4
- kjZ/AbLbmfWj9n5fycJOWsrBlFqcgyB7rCKVn+/vx85iqnmkgOgIp2D8j/QBLKKxep
- 7csetHDCTeThLrtJbfN725lc3epyEvIvq99XhPv3jZMD9eQanGBsQ421geAa1YHv+i
- jCyRK9FT6zBfcitT1n09gHoSmbfIDOqAozALpu63mZ05b7lOnC4ru5R4fTiJUlbsPY
- uWWoyp/8P36Hg==
+ s=k20201202; t=1645547541;
+ bh=UcJmaYKYSUedgav8DTnlV/x/GzgaonSprD2wkPg3Hq4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=pW31tNlM7vrf4Vja9RGa/oOYqzpEBdOuNydh7Ok1ffO63/zOdH2U0436X7xpoxH/8
+ 7s6I316cTMlOtl6fP7RXS+RVgFgxGG5E823yZS5kPKCn3awuLuwEbPgJZATptM5xXG
+ C0nlmBtQHPmAPwvKugvDIo7PJXkZs9TZj79n6IMUVDugAWJUmeT+WjvcP6V6njW8wD
+ AXeVPSmqv4Y8KdVJrjVsQ1jiYk1hDAi9OPnwhVH1TOrZKJnA1RaGGHU0DmHO3mVJls
+ vBARKxLPPxYkqEZ/tWPceK9rZ5KhnYxAB34eR5iEalccUIb/p7mWMMkyBxCKs8aqLy
+ kZ5NghPYeOjOg==
 From: Keith Busch <kbusch@kernel.org>
 To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-crypto@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org
 Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, colyli@suse.de,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv3 00/10] 64-bit data integrity field support
-Date: Tue, 22 Feb 2022 08:31:34 -0800
-Message-Id: <20220222163144.1782447-1-kbusch@kernel.org>
+ Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv3 02/10] nvme: allow integrity on extended metadata formats
+Date: Tue, 22 Feb 2022 08:31:36 -0800
+Message-Id: <20220222163144.1782447-3-kbusch@kernel.org>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20220222163144.1782447-1-kbusch@kernel.org>
+References: <20220222163144.1782447-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_083220_706958_6E4685A1 
-X-CRM114-Status: GOOD (  15.90  )
+X-CRM114-CacheID: sfid-20220222_083222_406593_38BDB983 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,85 +72,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVM Express protocol added enhancements to the data integrity field
-formats beyond the T10 defined protection information. A detailed
-description of the new formats can be found in the NVMe's NVM Command
-Set Specification, section 5.2, available at:
+The block integrity subsystem knows how to construct protection
+information buffers with metadata beyond the protection information
+fields. Remove the driver restriction.
 
-  https://nvmexpress.org/wp-content/uploads/NVM-Command-Set-Specification-1.0b-2021.12.18-Ratified.pdf
+Note, this can only work if the PI field appears first in the metadata,
+as the integrity subsystem doesn't calculate guard tags on preceding
+metadata.
 
-This series implements one possible new format: the CRC64 guard with
-48-bit reference tags. This does not add support for the variable
-"storage tag" field, or any potential hardware acceleration.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Changes since v2:
-
-  Introduced lower_48_bits() (Bart)
-
-  Added "64" suffix to crc names to distinguish from other crc
-  calculations (Martin)
-
-  Added module support to crypto library, and have the integrity
-  generate/verify use that instead of directly calling the generic table
-  lookup implementation. This is modeled after the t10 implementation.
-
-  Added an x86 pclmul accelerated crc64 calculation
-
-  Added speed tests to the test module so that the generic and library
-  function could be compared.
-
-  Bug fix in nvme to select the correct integrity profile.
-
-  Added reviews
-
-Note, I am not particularly well versed with x86 assembly, so I'm reasonably
-sure that the pcl implementation could be improved. It currently is
-about 20x faster than the generic implementation, but I believe it could
-be over 30x faster if done more efficiently.
-
-Keith Busch (10):
-  block: support pi with extended metadata
-  nvme: allow integrity on extended metadata formats
-  asm-generic: introduce be48 unaligned accessors
-  linux/kernel: introduce lower_48_bits macro
-  lib: add rocksoft model crc64
-  crypto: add rocksoft 64b crc guard tag framework
-  lib: add crc64 tests
-  block: add pi for nvme enhanced integrity
-  nvme: add support for enhanced metadata
-  x86/crypto: add pclmul acceleration for crc64
-
- arch/x86/crypto/Makefile                  |   3 +
- arch/x86/crypto/crc64-rocksoft-pcl-asm.S  | 215 ++++++++++++++++++++++
- arch/x86/crypto/crc64-rocksoft-pcl_glue.c | 117 ++++++++++++
- block/Kconfig                             |   1 +
- block/bio-integrity.c                     |   1 +
- block/t10-pi.c                            | 198 +++++++++++++++++++-
- crypto/Kconfig                            |  20 ++
- crypto/Makefile                           |   1 +
- crypto/crc64_rocksoft_generic.c           | 104 +++++++++++
- drivers/nvme/host/core.c                  | 175 ++++++++++++++----
- drivers/nvme/host/nvme.h                  |   4 +-
- include/asm-generic/unaligned.h           |  26 +++
- include/linux/blk-integrity.h             |   1 +
- include/linux/crc64.h                     |   7 +
- include/linux/kernel.h                    |   6 +
- include/linux/nvme.h                      |  53 +++++-
- include/linux/t10-pi.h                    |  20 ++
- lib/Kconfig                               |   9 +
- lib/Kconfig.debug                         |   4 +
- lib/Makefile                              |   2 +
- lib/crc64-rocksoft.c                      | 129 +++++++++++++
- lib/crc64.c                               |  26 +++
- lib/gen_crc64table.c                      |  51 +++--
- lib/test_crc64.c                          | 133 +++++++++++++
- 24 files changed, 1252 insertions(+), 54 deletions(-)
- create mode 100644 arch/x86/crypto/crc64-rocksoft-pcl-asm.S
- create mode 100644 arch/x86/crypto/crc64-rocksoft-pcl_glue.c
- create mode 100644 crypto/crc64_rocksoft_generic.c
- create mode 100644 lib/crc64-rocksoft.c
- create mode 100644 lib/test_crc64.c
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3b876dcab730..8132b1282082 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1760,12 +1760,9 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ {
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+ 
+-	/*
+-	 * The PI implementation requires the metadata size to be equal to the
+-	 * t10 pi tuple size.
+-	 */
+ 	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
+-	if (ns->ms == sizeof(struct t10_pi_tuple))
++	if (id->dps & NVME_NS_DPS_PI_FIRST ||
++	    ns->ms == sizeof(struct t10_pi_tuple))
+ 		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+ 	else
+ 		ns->pi_type = 0;
 -- 
 2.25.4
 
