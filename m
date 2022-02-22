@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B815EC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 16:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2EC9C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 16:36:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jMxHokezVtMklvKRbqRqZWELvGR0qdl5QXFvPYsg+JE=; b=GBsrlErQWpVHrTmgmTGbAPWOjf
-	9V5NIc9aNz3w+phydkkSi1GybNhh0ZMJShxSJxGvxjGfbbIZk8oakKp8ch8YhuYdmy6sfNFvXFl1Z
-	c3SFmmVWgUs9tp0r871jlDNClZwgwrW0hb8626u3aoDv9ewqDYYGojBgS4Idj1V3vdQPuLcttoP3j
-	03MVfSa8lJvJM3bDVH1x4INyEZvtr97Cn9wAYjWiXJHA0m41XMmY/Rh1mUWvNg80gnMi/XOPCjUe/
-	ziwOy+8G+T+imrSW48SmVp1pqkfiwNNDJNA/q+cnuY4Nn8OAy+/hYYdBXW6ItQ2ngPNmhLN6jglk5
-	n0dO6yag==;
+	bh=R/D2PK6+/cfWn+SCy45HN5KBWgHkNQFK3LmX+dzqRT4=; b=Ncv3TbU9tE8mrmmnqncvbvnNMZ
+	MqY9sagInr9p5IxUHBdRApravVKjlExHuVm0gGHR1kpdKwncsAJOeGaH3FOma2M2tlAlcuNTzeiSo
+	V9xsZeLCUFAuGDLkz26VtLEwUjm+6CSQsDZ6a8A+GPMgr2vro3szY0QAIWYyG65IC7ud37Noc7ob1
+	jS6vaJmlbf/2w6kjzX1Nha0eyTlPZXoQOvqqe1czcGa/WTK86K87cOsnGrJQ/iHGJAoUCgKUssyfU
+	mhv+rfaL+rkQF5s5lrnzlGhzRSUa2QgWMiHZ4Lk41uwRZiXUJqkVEZ3ljAwc/4FUlRZFsQhT15/7e
+	rdf6CaeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMY8S-00Afba-6q; Tue, 22 Feb 2022 16:35:32 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1nMY91-00Afr4-68; Tue, 22 Feb 2022 16:36:07 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMY5P-00Adod-EP
- for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 16:32:26 +0000
+ id 1nMY5P-00Adqa-RH
+ for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 16:32:27 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 9BF79CE1795;
- Tue, 22 Feb 2022 16:32:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B647C340FA;
- Tue, 22 Feb 2022 16:32:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 63EC760A54;
+ Tue, 22 Feb 2022 16:32:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 709A5C340F6;
+ Tue, 22 Feb 2022 16:32:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645547540;
- bh=uWKvcbndHUbVrYNRcixdhR5Elks38X+3GOL0tdfRPzw=;
+ s=k20201202; t=1645547543;
+ bh=r/bd83ebHmk3oq087sNFUNNVtBRYLznJSmRLMlpTbUw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ieNUGNnXSHNKaVr1+0n5C4OGbzjh8+RApiiRpmD9IWGLKqlKo+faMq77/wn0IOHzO
- 7tE/CuRKrnSlvV55q79nm9CRk3ecj1ECY/9MemIUOWBYdUmJUDThKQqAJWrwYdPVeU
- PI/urv8P3Hn+TztOQI1jTDMABmI2GddCcVHOw4vEUQd52J9jcysYlGBPKIGrHpxm2T
- SBpEX9aPVfCj08okWmiN9/18ISSV3zwTw3b4DBX/SH3ac6ppOKWXv+SDbDWCoGKMXg
- +89YtCMB/o6uVD72f6yIRvb/XGP4UXdOlteEiCLXzixHiDTkOhSExbS2w9wfm/vS04
- VGYH3orrCxn6A==
+ b=GCSf5tRNML33gIhC3sIrrGWNIgk5kvVblmBu4I3xUoYSfiBZQ7ehJCYaFMnjgfYrh
+ OEya2ydwEKX3H3fD0dwoZ6w+H+uVTnLvXdVh13m4ZYJeOwoVOR8FpM5mREFIghRXun
+ Hbo1Vj+fgL7RwAtA8rRkuMSwCelOJIR8YWHIIT259xvZllYv4OVf9/3czpEuPPVy05
+ LfWvNjQZxOLoyJOF48fW/B6VWOY4CLWhcn4SoZpbDixEkczclmp/n15F/B5+EtU2/C
+ QIy+oT0tinibuGXLKZUog8+xSn83qCPVsd+HVtOq+tDiYftWhlgYVwby4IeweuNnAO
+ rEhXiElbv4AFg==
 From: Keith Busch <kbusch@kernel.org>
 To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
  linux-crypto@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org
 Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, colyli@suse.de,
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv3 01/10] block: support pi with extended metadata
-Date: Tue, 22 Feb 2022 08:31:35 -0800
-Message-Id: <20220222163144.1782447-2-kbusch@kernel.org>
+ Keith Busch <kbusch@kernel.org>, Bart Van Assche <bvanassche@acm.org>
+Subject: [PATCHv3 04/10] linux/kernel: introduce lower_48_bits macro
+Date: Tue, 22 Feb 2022 08:31:38 -0800
+Message-Id: <20220222163144.1782447-5-kbusch@kernel.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20220222163144.1782447-1-kbusch@kernel.org>
 References: <20220222163144.1782447-1-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_083223_708102_89A08D84 
-X-CRM114-Status: GOOD (  12.45  )
+X-CRM114-CacheID: sfid-20220222_083223_943337_84D3D1C3 
+X-CRM114-Status: GOOD (  10.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,65 +72,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme spec allows protection information formats with metadata
-extending beyond the pi field. Use the actual size of the metadata field
-for incrementing the buffer.
+Recent data integrity field enhancements allow 48-bit reference tags.
+Introduce a helper macro since this will be a repeated operation.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Suggested-by: Bart Van Assche <bvanassche@acm.org>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/bio-integrity.c         | 1 +
- block/t10-pi.c                | 4 ++--
- include/linux/blk-integrity.h | 1 +
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ include/linux/kernel.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 6996e7bd66e9..32929c89ba8a 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -165,6 +165,7 @@ static blk_status_t bio_integrity_process(struct bio *bio,
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 33f47a996513..c1fa9fc2b5cd 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -63,6 +63,12 @@
+ }					\
+ )
  
- 	iter.disk_name = bio->bi_bdev->bd_disk->disk_name;
- 	iter.interval = 1 << bi->interval_exp;
-+	iter.tuple_size = bi->tuple_size;
- 	iter.seed = proc_iter->bi_sector;
- 	iter.prot_buf = bvec_virt(bip->bip_vec);
- 
-diff --git a/block/t10-pi.c b/block/t10-pi.c
-index 25a52a2a09a8..758a76518854 100644
---- a/block/t10-pi.c
-+++ b/block/t10-pi.c
-@@ -44,7 +44,7 @@ static blk_status_t t10_pi_generate(struct blk_integrity_iter *iter,
- 			pi->ref_tag = 0;
- 
- 		iter->data_buf += iter->interval;
--		iter->prot_buf += sizeof(struct t10_pi_tuple);
-+		iter->prot_buf += iter->tuple_size;
- 		iter->seed++;
- 	}
- 
-@@ -93,7 +93,7 @@ static blk_status_t t10_pi_verify(struct blk_integrity_iter *iter,
- 
- next:
- 		iter->data_buf += iter->interval;
--		iter->prot_buf += sizeof(struct t10_pi_tuple);
-+		iter->prot_buf += iter->tuple_size;
- 		iter->seed++;
- 	}
- 
-diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.h
-index 8a038ea0717e..378b2459efe2 100644
---- a/include/linux/blk-integrity.h
-+++ b/include/linux/blk-integrity.h
-@@ -19,6 +19,7 @@ struct blk_integrity_iter {
- 	sector_t		seed;
- 	unsigned int		data_size;
- 	unsigned short		interval;
-+	unsigned char		tuple_size;
- 	const char		*disk_name;
- };
- 
++/**
++ * lower_48_bits - return bits 0-47 of a number
++ * @n: the number we're accessing
++ */
++#define lower_48_bits(n) ((u64)((n) & 0xffffffffffffull))
++
+ /**
+  * upper_32_bits - return bits 32-63 of a number
+  * @n: the number we're accessing
 -- 
 2.25.4
 
