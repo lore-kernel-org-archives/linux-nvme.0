@@ -4,85 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65099C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Feb 2022 13:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EEDFC433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Feb 2022 08:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XV77O2+22zDtjFuEpVNaAxOO3yTDMtaxVMxo4p+73Ys=; b=MQUFRH3gLpgDce7Q6AOhLrzxL/
-	V6Xn/2a0k1LBtesMFoevcIX9dwg81CNjpUheR/dzCI/pqF0Tsh622oTtJN44MV5zLsTjTdVouacDt
-	FbLK3Xrq4T4P1MnneTPaR1lcl14dz6nc6+JhmW/5+N5vyEktOCBXAmC99LiTEJj44+DVnVnNvoyp0
-	gkuZ7BD3iymBUUelwVNxV4Rykcq0/e5WxaYJm9c78z175wSh/eumJQGhwzFeM5fCyr4n5s63z4f49
-	zY4/wdcHNsyX1AHCx/ZyTPlMiC6InQcTEDwpW93wqx2OU+ed0QpRZ4x49R6RwtUxI2ShI0aEqiE4U
-	3fRayfMA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LpjGE5tDX4C27tL4gevTiKfug/67pKaBAEmk8mxP8j4=; b=qkYyNkGHlX2puhMBm3ITEX7Ju4
+	YWrGWfXQlZsRGibCDr2doEim4y3l5sCSffVrAWiO70XByDzH+jbBUwKWnLMYkP4H9CWKTAVJoaPDe
+	eBAQ7gHGfOiafGGtbJhg12cR9GlIfwep+rA2Pjspd5RbjvznZW8ryTs2etEvUlUGTHtgtb4qN7GtA
+	YmAvvlJu01/2KUJtFFwD41jNyPLspgiIUV88wrtsDC0jXjyOVCkQQVPpLNZPpE9mA4ZN+IMx7WlHX
+	rGoc+aWJMcBUcAodC/368ZwVl6leLyPSlRcLWXC4eD8KB0f6XMoyCx0VpWi8+xd4DQfOgUVvp0vl9
+	87i/qNHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nM8i6-005u1X-Ms; Mon, 21 Feb 2022 13:26:38 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nMQwM-008cK1-30; Tue, 22 Feb 2022 08:54:34 +0000
+Received: from forward105o.mail.yandex.net ([37.140.190.183])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nM7wu-005grX-KQ
- for linux-nvme@lists.infradead.org; Mon, 21 Feb 2022 12:37:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645447069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XV77O2+22zDtjFuEpVNaAxOO3yTDMtaxVMxo4p+73Ys=;
- b=e46gEOUNjR+UvvsO6xsMCJj7IdeFpEBFv5AzoAW+SnFWYRcR6niHv5zPYiG3KBN5HcbIic
- uTAZ3ryfwRagmo9Sg8sCzLW/26wRUC9XiPaVunShBs4ny5MT5IMH5eNYvbEzQlxQKmYQuj
- TNnxJcThH7AprWrHqPF7TnQKZR5dDP0=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-mfFqo8WgPhmlI-V0X2aNfA-1; Mon, 21 Feb 2022 07:37:48 -0500
-X-MC-Unique: mfFqo8WgPhmlI-V0X2aNfA-1
-Received: by mail-pj1-f70.google.com with SMTP id
- q40-20020a17090a17ab00b001bafa89b70aso8253634pja.2
- for <linux-nvme@lists.infradead.org>; Mon, 21 Feb 2022 04:37:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XV77O2+22zDtjFuEpVNaAxOO3yTDMtaxVMxo4p+73Ys=;
- b=xIZAmpLNmiiXQ8VwqWiuKaAJnz/mPRarSZ34y05ZQ0bNBwj4PCPjnL3vx0dZD4IcPP
- imzsG+5b+3MD7fD9QQS/xoIT7QT4Y6hkHJ2FopHBETDlVHTMgDvh5bu2mli9mSqu0UJW
- 4k//+oXF+sv1DvEI2yo5J9yMj4rDDRAuNCaoqUMmoYNbjXAsGk/4D2+qHZvcJ4/7gsLP
- y+LKsvCD68hd0jgDLoUE5EV8AZ/d0VrBsewGKrXsI8MEVQbEAMYnuPnmebZrTW5QsRGh
- h/Ob37gbaK5aQftctnvv2TI5hsRrAMQHaRVNC/1j2o2ea5sb32F1db2ZS+lWgU9pGMWq
- 1TxQ==
-X-Gm-Message-State: AOAM531Fmfz1MQcdsGxjoZUA7hlwnHaFqG7mzZSzPnYiCwFSWC/JUAY/
- I3kBD9aqLXg1iZbh9RmJuE/5/mNw0XajlFAg07m4BMFHv7WfauSMTakjDztpqUDUsm2dJK4P/qX
- rLXey4MR05Np2lomV1N0kcMHHDmpIg1ewyDqCATzH+qU=
-X-Received: by 2002:a62:e90f:0:b0:4d1:7437:f0c2 with SMTP id
- j15-20020a62e90f000000b004d17437f0c2mr19953767pfh.5.1645447067046; 
- Mon, 21 Feb 2022 04:37:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzixRnA8+DunkkS5x+iGYLT96XMjkOmR40D3b+P+um2eJ4jwjynrDD/f05ZFc6Qi7y65d8ojFEcMoUM+/e+XlA=
-X-Received: by 2002:a62:e90f:0:b0:4d1:7437:f0c2 with SMTP id
- j15-20020a62e90f000000b004d17437f0c2mr19953743pfh.5.1645447066738; Mon, 21
- Feb 2022 04:37:46 -0800 (PST)
+ id 1nMQwH-008cHJ-Io
+ for linux-nvme@lists.infradead.org; Tue, 22 Feb 2022 08:54:32 +0000
+Received: from iva4-25ea1f41b2ae.qloud-c.yandex.net
+ (iva4-25ea1f41b2ae.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:89f:0:640:25ea:1f41])
+ by forward105o.mail.yandex.net (Yandex) with ESMTP id E3DC34C2E55
+ for <linux-nvme@lists.infradead.org>; Tue, 22 Feb 2022 11:54:20 +0300 (MSK)
+Received: from iva2-0a73a57cc944.qloud-c.yandex.net
+ (iva2-0a73a57cc944.qloud-c.yandex.net [2a02:6b8:c0c:6985:0:640:a73:a57c])
+ by iva4-25ea1f41b2ae.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ XTs56AyuAc-sKcGEFle; Tue, 22 Feb 2022 11:54:20 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
+ t=1645520060; bh=LpjGE5tDX4C27tL4gevTiKfug/67pKaBAEmk8mxP8j4=;
+ h=Date:Subject:To:From:Message-Id:Cc;
+ b=XtoPX5YlYFXH2Gr8lfZ8rtus3ZXQU8H0J6hPKAjY3a17ZzS9+6zUKYhWC+YSIOAeH
+ MTk5fiBrVCACD0dRjedLyg9u49joRsk60eowVt2DP1l/kgkgjwCziHmnYUfzCDa5yy
+ sDD49nwz4SH3uUTk2eB0uDH9w5OUmCyH5GXdX4kI=
+Authentication-Results: iva4-25ea1f41b2ae.qloud-c.yandex.net;
+ dkim=pass header.i=@ya.ru
+Received: by iva2-0a73a57cc944.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id UkMdXyyQn9-sKHCMF2m; Tue, 22 Feb 2022 11:54:20 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Aleksandr Dyadyushkin <alextalker@ya.ru>
+To: linux-nvme@lists.infradead.org
+Cc: Aleksandr Dyadyushkin <alextalker@yandex.ru>,
+ Aleksandr Dyadyushkin <alextalker@ya.ru>
+Subject: [PATCH] nvmet: parametrize maximum number of namespaces
+Date: Tue, 22 Feb 2022 11:54:15 +0300
+Message-Id: <20220222085415.292729-1-alextalker@ya.ru>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
-In-Reply-To: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Mon, 21 Feb 2022 20:37:35 +0800
-Message-ID: <CAHj4cs_LZoohRngyjz8GZCZfK+XOTT5-3ihxnwOVD2jwGEKygw@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
- nvme-rdma testing
-To: RDMA mailing list <linux-rdma@vger.kernel.org>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220221_043752_786168_D730A6C2 
-X-CRM114-Status: UNSURE (   9.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220222_005430_173477_63AAEB93 
+X-CRM114-Status: GOOD (  15.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,80 +74,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-add linux-nvme maillist
-On Mon, Feb 21, 2022 at 7:37 PM Yi Zhang <yi.zhang@redhat.com> wrote:
->
-> Hello
->
-> Below kmemleak triggered when I do nvme connect/reset/disconnect
-> operations on latest 5.17.0-rc5, pls check it.
->
-> # cat /sys/kernel/debug/kmemleak
-> unreferenced object 0xffff8883e398bc00 (size 192):
->   comm "nvme", pid 2632, jiffies 4295317772 (age 2951.476s)
->   hex dump (first 32 bytes):
->     80 50 84 a3 ff ff ff ff 70 d4 12 67 81 88 ff ff  .P......p..g....
->     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
->     [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
->     [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
->     [<00000000aade682c>] blk_alloc_queue+0x400/0x840
->     [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
->     [<00000000cbff6d39>] nvme_rdma_setup_ctrl+0x4ca/0x15f0 [nvme_rdma]
->     [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
->     [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
->     [<0000000031d8624b>] vfs_write+0x17e/0x9a0
->     [<00000000471d7945>] ksys_write+0xf1/0x1c0
->     [<00000000a963bc79>] do_syscall_64+0x3a/0x80
->     [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> unreferenced object 0xffff8883e398a700 (size 192):
->   comm "nvme", pid 2632, jiffies 4295317782 (age 2951.466s)
->   hex dump (first 32 bytes):
->     80 50 84 a3 ff ff ff ff 60 c8 12 67 81 88 ff ff  .P......`..g....
->     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
->     [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
->     [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
->     [<00000000aade682c>] blk_alloc_queue+0x400/0x840
->     [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
->     [<000000004f80b965>] nvme_rdma_setup_ctrl+0xf37/0x15f0 [nvme_rdma]
->     [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
->     [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
->     [<0000000031d8624b>] vfs_write+0x17e/0x9a0
->     [<00000000471d7945>] ksys_write+0xf1/0x1c0
->     [<00000000a963bc79>] do_syscall_64+0x3a/0x80
->     [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> unreferenced object 0xffff8894253d9d00 (size 192):
->   comm "nvme", pid 2632, jiffies 4295331915 (age 2937.333s)
->   hex dump (first 32 bytes):
->     80 50 84 a3 ff ff ff ff 80 e0 12 67 81 88 ff ff  .P.........g....
->     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
->     [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
->     [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
->     [<00000000aade682c>] blk_alloc_queue+0x400/0x840
->     [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
->     [<000000009f9abba5>] nvme_rdma_setup_ctrl.cold.70+0x5ee/0xb01 [nvme_rdma]
->     [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
->     [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
->     [<0000000031d8624b>] vfs_write+0x17e/0x9a0
->     [<00000000471d7945>] ksys_write+0xf1/0x1c0
->     [<00000000a963bc79>] do_syscall_64+0x3a/0x80
->     [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
->
->
->
-> --
-> Best Regards,
->   Yi Zhang
+From: Aleksandr Dyadyushkin <alextalker@yandex.ru>
 
+Allow the end user (i.e. the administrator) to set maximum number of
+namespaces (and thus NN and MNAN implicitly) via module loading-time
+parameter, without a need to modify and rebuild source code.
 
+Most of all this can be helpful for mock-up configurations and possibly
+really sparse NSID assignments.
 
+For backwards compatibility, default values are left as is.
+
+While permitted values are choosen as high as possible for the current
+code architecture and standard limitations, it is worth noting that
+allocations at 'nvmet_execute_get_log_page_ana' might yield a failure in
+runtime on systems with high parameter value and low free memory.
+
+Signed-off-by: Aleksandr Dyadyushkin <alextalker@ya.ru>
+---
+ drivers/nvme/target/admin-cmd.c |  6 +++---
+ drivers/nvme/target/core.c      | 28 +++++++++++++++++++++++++++-
+ drivers/nvme/target/nvmet.h     |  2 ++
+ 3 files changed, 32 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 6fb24746de06..940297233986 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -278,7 +278,7 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
+ 	u16 status;
+ 
+ 	status = NVME_SC_INTERNAL;
+-	desc = kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
++	desc = kmalloc(struct_size(desc, nsids, nvmet_max_namespaces),
+ 		       GFP_KERNEL);
+ 	if (!desc)
+ 		goto out;
+@@ -428,8 +428,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	/* no enforcement soft-limit for maxcmd - pick arbitrary high value */
+ 	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
+ 
+-	id->nn = cpu_to_le32(NVMET_MAX_NAMESPACES);
+-	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
++	id->nn = cpu_to_le32(nvmet_max_namespaces);
++	id->mnan = cpu_to_le32(nvmet_max_namespaces);
+ 	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
+ 			NVME_CTRL_ONCS_WRITE_ZEROES);
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 5119c687de68..1b925b40074d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -15,6 +15,32 @@
+ 
+ #include "nvmet.h"
+ 
++static int max_namespaces_set(const char *val, const struct kernel_param *kp);
++static const struct kernel_param_ops max_namespaces_ops = {
++	.set = max_namespaces_set,
++	.get = param_get_uint,
++};
++
++/* Account for 0h NSID */
++#define NVMET_NSID_MAX (NVME_NSID_ALL - 1)
++
++u32 nvmet_max_namespaces = NVMET_MAX_NAMESPACES;
++module_param_cb(max_namespaces, &max_namespaces_ops, &nvmet_max_namespaces, 0444);
++MODULE_PARM_DESC(max_namespaces, "Set maximum number of namespaces per subsystem (default: 1024)");
++
++static int max_namespaces_set(const char *val, const struct kernel_param *kp) {
++	int ret;
++	u32 n;
++
++	ret = kstrtouint(val, 10, &n);
++	if (ret != 0)
++		return -EINVAL;
++	if (n == 0 || n >= NVMET_NSID_MAX)
++		return -EINVAL;
++
++	return param_set_uint(val, kp);
++}
++
+ struct workqueue_struct *buffered_io_wq;
+ struct workqueue_struct *zbd_wq;
+ static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+@@ -562,7 +588,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 		goto out_unlock;
+ 
+ 	ret = -EMFILE;
+-	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
++	if (subsys->nr_namespaces == nvmet_max_namespaces)
+ 		goto out_unlock;
+ 
+ 	ret = nvmet_bdev_ns_enable(ns);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index af193423c10b..ed4873963cc3 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -506,6 +506,8 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+  */
+ #define NVMET_MAX_NAMESPACES	1024
+ 
++extern u32 nvmet_max_namespaces;
++
+ /*
+  * 0 is not a valid ANA group ID, so we start numbering at 1.
+  *
 -- 
-Best Regards,
-  Yi Zhang
+2.35.1
 
 
