@@ -4,53 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30A7CC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Feb 2022 08:44:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58776C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Feb 2022 10:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=; b=SDyk05eqitp7V/UaVsSh2nTv+j
-	DsSjKUeOjw4pO2ccAUogeFvJ8/I4cwxzzE9WV7YrwWRKKvNtfp0uENEd2S/SDJEKb3fQYpifyuo9h
-	fBiSzSTR0t6rqa19I+kRoQOsCLEMsqx8ltPqebRtoDD/GCZ+AgY2IzM0WQlXglAwC6xTMXnGnKxqz
-	Qhg2aFBk3bj45AyNu7rcknsy/nN/V2fW5zrCEeIms7IogXmIeOMlnIi69w1CHccx2WvjUkpqfwJqP
-	wdxyf5bYJ+z3qUBu1aqaV3r1DaB9gYDQZeUuWfNIvsXMRi84KYV+oAX+1RJZzFhdzrXPse4vaD7Ey
-	zpr+Fwuw==;
+	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DsRPkUWYIOGP5HltC36wpLF+8yoR/fScMRNacSzdBjg=; b=lQLA1825wpwC9vFsabd/djDcaO
+	nIeATbKCd9GkWpoJDEXOx1RLG6vEvEMNR09cjsyJF6+x3+dQ0OqjV9wAQuMppLVap9/5CU8T/Erkg
+	PtfHlW3f5n1pr8mK+FzuKupRaIl0TVL3q7M30MIObj3Rmlys54GQwAJcC0onuqmbyrm5DOst+zPqo
+	UN6rAiu4R5bsKjamEiy8jXnHYBebn3I3+ATkXJhjTMnOdl/oCqGKOmJn3FVB6sjj1pJDvZK4NtCSA
+	VAya9gAT+ZgNXWQEiFQW4/X7NA7/lwLvPMzAppTp/qtaIiohmFW2gyde9ee9NImgOdWnr1VOzHB5z
+	W/PalpSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMnFz-00DIdA-7L; Wed, 23 Feb 2022 08:44:19 +0000
-Received: from mail.olerise.pl ([46.183.184.59])
+	id 1nMoVX-00DbTx-QC; Wed, 23 Feb 2022 10:04:27 +0000
+Received: from mail-dm6nam12on20622.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::622]
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMnFv-00DIcC-Ol
- for linux-nvme@lists.infradead.org; Wed, 23 Feb 2022 08:44:17 +0000
-Received: by mail.olerise.pl (Postfix, from userid 1001)
- id F35F0440E2; Wed, 23 Feb 2022 09:41:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
- t=1645605733; bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=;
- h=Date:From:To:Subject:From;
- b=mDKajEfgUcTu2wmzh8w4MqQAHAt7Qet8TNhehf9htUQcY/8QM9y74DgNwDoaHC0RA
- B0XusMBjuLzrtmfWt7HmK5oN3LnflEeg3+mOwMtowbYjFd98H2OLXhSjCupYQdD9ef
- Vd7pTavvHE+zkSlvlzQiGrfqw/viPwHKIBRGFi3umAWvFAm1sHFraU+EJlxuysMOyo
- HLGvDRHwFZZ/vFKIQujWPBfTVw0g57f0ejHeGpfGGPDLxPfhaEfY9l/yaeZldiKR0s
- T/fb38sBzRNsJ3mZlJzbov3BnIuCsG/J3pmRWUcwQl74hXIBBuJBAfQIujmRlQbvbY
- 6hdiBCa6+n7NA==
-Received: by mail.olerise.pl for <linux-nvme@lists.infradead.org>;
- Wed, 23 Feb 2022 08:40:28 GMT
-Message-ID: <20220223084500-0.1.1x.fipa.0.7laqz708px@olerise.pl>
-Date: Wed, 23 Feb 2022 08:40:28 GMT
-From: =?UTF-8?Q?"Miko=C5=82aj_Rudzik"?= <mikolaj.rudzik@olerise.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.olerise.pl
+ id 1nMoVU-00DbRJ-Vr
+ for linux-nvme@lists.infradead.org; Wed, 23 Feb 2022 10:04:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M1vZnjbAY8PBxWh2Tao/K6N2CTurnwAAXKM39xWi+5Up211j0OsJR80t3ycv9HyaZlCNd7erB2/1ZcsRcoeI5x3W9f+lp959Yme2k57+Yzn/Axw0WGmpL/1j3gF/cHFRmjgI2nZ0hLmL47EFrfdNcwxBRV7tlTRH7ltiSSLK7L0wdErU6p5j8m19uhWwCXASvuFJV3F0HCh/biw/Q+MmRCEw6EkMauXuGRk2g+vM4vyRneEbdjbRp9SMwa/utBkULygFw22pK0C31zh5krtyjkF1qtviihxb+7jdf6byLMbuzT0yUViezpAeDc1ylS+58V1eN9tvtZ/BeQKroDXwlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DsRPkUWYIOGP5HltC36wpLF+8yoR/fScMRNacSzdBjg=;
+ b=kZuj3NPm/MaUiZX3CaHkvCM8LeUqBwBrhIib2wmonJ+qTr+tbkUzh/Tso2yFCImK07QUkbrm+vw7wdS3+CXAVdj65q22bwPDmBQm3XKJcsja5knjVHnjjDNggSckgYdW0Q21/R7NRhCDahGnaDtUbGu4sX0qOBdKzUcDn1w9k0kL8aC056m7yfLMZ02hwoF6TqjA7WiQotIa+0MUI6Ux0qKeuw0fDHNVwpb+A9HtJoVxOm+HqUKTb4jpVtqIzsz4g3FrCXeJlvDr3qFqEV7JjKw1EHvanciCUzAXvHJdyZMKZ9f+5rLujxlPeXv6tx5bY3iqxAB2iOhaO9VOVCjLrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.235) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DsRPkUWYIOGP5HltC36wpLF+8yoR/fScMRNacSzdBjg=;
+ b=gV45su14fw/qWJn5qmAmkMNVJ6rEHaoGK3az+LG0LGCmGm6ZkkdyACor3Kz38FMJOeeby9Js5F5xtgDu91ZGlv6BjnU2QAf1SinFCTwJHq0LXJxxQGAh7/3lj1W1oc7g5mtkj9hXfXXEfEb9QFbByWwJrOulsTmMCNuCFXX0fJTF/+W01WM3N6lI5Y/6c4n/NXoqBr7OLNq96OX++QCGdcXIEcBdyeMDCyXYoCYqqpIgGHUUuarfauIkCIkDMsdJx6XZ2isZfbO1BseR+4skqJDsxJUb5NYTwuieEaRtjuK0VEq5qZ/E3DcOfOYaz+X4TNle0NlysT4akoZ+A89Xjw==
+Received: from BN9PR03CA0083.namprd03.prod.outlook.com (2603:10b6:408:fc::28)
+ by SN6PR12MB2669.namprd12.prod.outlook.com (2603:10b6:805:70::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Wed, 23 Feb
+ 2022 10:04:20 +0000
+Received: from BN8NAM11FT021.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fc:cafe::90) by BN9PR03CA0083.outlook.office365.com
+ (2603:10b6:408:fc::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21 via Frontend
+ Transport; Wed, 23 Feb 2022 10:04:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.235) by
+ BN8NAM11FT021.mail.protection.outlook.com (10.13.177.114) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5017.22 via Frontend Transport; Wed, 23 Feb 2022 10:04:19 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Wed, 23 Feb 2022 10:04:18 +0000
+Received: from [172.27.25.101] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Wed, 23 Feb 2022
+ 02:04:15 -0800
+Message-ID: <6347079f-ec3b-c2e5-bb3b-43b539d6d3f1@nvidia.com>
+Date: Wed, 23 Feb 2022 12:04:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+Content-Language: en-US
+To: Yi Zhang <yi.zhang@redhat.com>
+CC: Sagi Grimberg <sagi@grimberg.me>, Haakon Bugge <haakon.bugge@oracle.com>, 
+ Max Gurtovoy <maxg@mellanox.com>, "open list:NVM EXPRESS DRIVER"
+ <linux-nvme@lists.infradead.org>, OFED mailing list
+ <linux-rdma@vger.kernel.org>
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <162ec7c5-9483-3f53-bd1c-502ff5ac9f87@nvidia.com>
+ <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
+ <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
+ <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
+ <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
+ <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
+ <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
+ <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
+ <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
+ <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
+ <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
+ <bdb675e4-1de8-400b-9d43-9f0c18147dc4@nvidia.com>
+ <CAHj4cs_C=pCz41hg1AnQcEZPBRK78WTUq8HE3n_28t56iN1FuA@mail.gmail.com>
+ <fe9842f1-e5c7-7569-426e-9029662bb4f3@nvidia.com>
+ <CAHj4cs8fNmj2Mn7Srs547ji51x7mQ8ZWKzFOuJaENe=vKpBJ-A@mail.gmail.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <CAHj4cs8fNmj2Mn7Srs547ji51x7mQ8ZWKzFOuJaENe=vKpBJ-A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f6c8325b-2016-4552-05e7-08d9f6b3dbdc
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2669:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR12MB26696DBADF578373EB1E8F7BDE3C9@SN6PR12MB2669.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 28wyA58pW6ENM5gFrAeQyrS9AG3Tp9/0B8qRI30l3zZLidd9xGaavHZHGrOpxPaMDrf7MJzQOgQI7HX0dT4K17od5VvHqXp+gwXNhSMGznA+Gezs+pmMXuW97yN6kAN4YxOfdEQIwEJTAlMGm5YbV13I8wSajPXUyj9n857RyAbmbd2RWcOWHtmXvBfKww0URTTekCL5C9CbehOxPjJMGn8Pi0d+NjRPlnlOKrm6wlIaTK7B5XlwcjVWicbI/HZc9S5agVDETPY7wW5utA/FTgWJvTyjfVjxx3UQzDThKJL2Zxd74qp2v81X3U2sGyOAGYAtVKfnFmW83bW1PVh8qkJ0ymQak6kf0j+lWT6taGhWNjOe0pNMtGRjGzZcMEVWfnVWtgWcy48/ouIEj2CpPO02M8MUUQ6k4ZR5xhnOQ5Nv3y8wyqbwIdmXH6pmhFzrXR3rUy6aQxuWlLwp6WYeV2IKNeD9viJzejKAKVHZrV99MZThaiUgfWdkt5dOTMtyOMXwkY0fbO1u2V9hXU1iuWl65zVrTl3a1H5X9eyDsl8mppJjjEVB0yPyCRGqXXPfmQHluu8/acb+HXwhpvD0QkPG5G/RV1iPeBAmecq+64GYp6cqcmhM7NU//YggorygYLRDAoFbe3CfeHBagMb0PIrVgPTVNWsalXmfFfptRydFLQeezF/+hXETGsHXPatL+1RwOQoo3PYH96shV6rJigN8omPvlzQjkY/D/V7cKzclqHUlvgA1S1mFHkdZ3GYU
+X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(4326008)(86362001)(356005)(81166007)(31686004)(31696002)(6666004)(36756003)(36860700001)(53546011)(83380400001)(70206006)(2906002)(26005)(336012)(70586007)(316002)(186003)(426003)(2616005)(508600001)(16576012)(6916009)(54906003)(82310400004)(5660300002)(47076005)(16526019)(8936002)(8676002)(40460700003)(43740500002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 10:04:19.5969 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6c8325b-2016-4552-05e7-08d9f6b3dbdc
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT021.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2669
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220223_004415_971928_3251A366 
-X-CRM114-Status: UNSURE (   2.95  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220223_020425_205792_BB53A66B 
+X-CRM114-Status: GOOD (  21.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,19 +145,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,
+Hi Yi Zhang,
 
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
+thanks for testing the patches.
 
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
+Can you provide more info on the time it took with both kernels ?
 
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
+The patches don't intend to decrease this time but re-start the KA in 
+early stage - as soon as we create the AQ.
 
+I guess we need to debug it offline.
 
-Pozdrawiam
-Miko=C5=82aj Rudzik
+On 2/21/2022 12:00 PM, Yi Zhang wrote:
+> Hi Max
+>
+> The patch fixed the timeout issue when I use one non-debug kernel,
+> but when I tested on debug kernel with your patches, the timeout still
+> can be triggered with "nvme reset/nvme disconnect-all" operations.
+>
+> On Tue, Feb 15, 2022 at 10:31 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>> Thanks Yi Zhang.
+>>
+>> Few years ago I've sent some patches that were supposed to fix the KA
+>> mechanism but eventually they weren't accepted.
+>>
+>> I haven't tested it since but maybe you can run some tests with it.
+>>
+>> The attached patches are partial and include only rdma transport for
+>> your testing.
+>>
+>> If it work for you we can work on it again and argue for correctness.
+>>
+>> Please don't use the workaround we suggested earlier with these patches.
+>>
+>> -Max.
+>>
+>> On 2/15/2022 3:52 PM, Yi Zhang wrote:
+>>> Hi Sagi/Max
+>>>
+>>> Changing the value to 10 or 15 fixed the timeout issue.
+>>> And the reset operation still needs more than 12s on my environment, I
+>>> also tried disabling the pi_enable, the reset operation will be back
+>>> to 3s, so seems the added 9s was due to the PI enabled code path.
+>>>
+>>> On Mon, Feb 14, 2022 at 8:12 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>>>> On 2/14/2022 1:32 PM, Sagi Grimberg wrote:
+>>>>>> Hi Sagi/Max
+>>>>>> Here are more findings with the bisect:
+>>>>>>
+>>>>>> The time for reset operation changed from 3s[1] to 12s[2] after
+>>>>>> commit[3], and after commit[4], the reset operation timeout at the
+>>>>>> second reset[5], let me know if you need any testing for it, thanks.
+>>>>> Does this at least eliminate the timeout?
+>>>>> --
+>>>>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>>>>> index a162f6c6da6e..60e415078893 100644
+>>>>> --- a/drivers/nvme/host/nvme.h
+>>>>> +++ b/drivers/nvme/host/nvme.h
+>>>>> @@ -25,7 +25,7 @@ extern unsigned int nvme_io_timeout;
+>>>>>    extern unsigned int admin_timeout;
+>>>>>    #define NVME_ADMIN_TIMEOUT     (admin_timeout * HZ)
+>>>>>
+>>>>> -#define NVME_DEFAULT_KATO      5
+>>>>> +#define NVME_DEFAULT_KATO      10
+>>>>>
+>>>>>    #ifdef CONFIG_ARCH_NO_SG_CHAIN
+>>>>>    #define  NVME_INLINE_SG_CNT  0
+>>>>> --
+>>>>>
+>>>> or for the initial test you can use --keep-alive-tmo=<10 or 15> flag in
+>>>> the connect command
+>>>>
+>>>>>> [1]
+>>>>>> # time nvme reset /dev/nvme0
+>>>>>>
+>>>>>> real 0m3.049s
+>>>>>> user 0m0.000s
+>>>>>> sys 0m0.006s
+>>>>>> [2]
+>>>>>> # time nvme reset /dev/nvme0
+>>>>>>
+>>>>>> real 0m12.498s
+>>>>>> user 0m0.000s
+>>>>>> sys 0m0.006s
+>>>>>> [3]
+>>>>>> commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc (HEAD)
+>>>>>> Author: Max Gurtovoy <maxg@mellanox.com>
+>>>>>> Date:   Tue May 19 17:05:56 2020 +0300
+>>>>>>
+>>>>>>        nvme-rdma: add metadata/T10-PI support
+>>>>>>
+>>>>>> [4]
+>>>>>> commit a70b81bd4d9d2d6c05cfe6ef2a10bccc2e04357a (HEAD)
+>>>>>> Author: Hannes Reinecke <hare@suse.de>
+>>>>>> Date:   Fri Apr 16 13:46:20 2021 +0200
+>>>>>>
+>>>>>>        nvme: sanitize KATO setting-
+>>>>> This change effectively changed the keep-alive timeout
+>>>>> from 15 to 5 and modified the host to send keepalives every
+>>>>> 2.5 seconds instead of 5.
+>>>>>
+>>>>> I guess that in combination that now it takes longer to
+>>>>> create and delete rdma resources (either qps or mrs)
+>>>>> it starts to timeout in setups where there are a lot of
+>>>>> queues.
+>
+>
 
