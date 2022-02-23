@@ -4,114 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A7FBC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Feb 2022 04:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E46DC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Feb 2022 05:41:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eJxo3g1K+sijJLVu9MH6fwbekHq+u5oFvD0l166GG3s=; b=QrtnrQlvHy00Z1jIhdoWA1xg8r
-	NhzbxwuBYmeX+5C9Yna0oUB4KzETeYuPn602jmpfQVJqHSVK5NLDXU0ffmgxYz7TQeUF2/wWd2a9J
-	82QioSklumiAo6aBfykupHRJwI6umir1YdLakk1taMzBrAjJxYeSVPSS0EtE8WlmOw/fykEuYIfBv
-	8eLyxAEBAO4ADq9UtN8mzHxayncXLIZ1Si+ZUO2I5D/C9KBr5uaUL7wg39XZepW5IIKsenN5ZSV9l
-	md/SUYdc1LST/PU/WTIlzivI7q/4C0hd6SCcRg5h/fyMdUdto/pRjCqzP6E4k0kLOOsvuYZ9/BeKB
-	0qJD7Kmw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Y1PulyMzox5z0FD9HqCh1aKG9SJy+oNk9MBgUdupkU4=; b=0pkkzn0aQzdSmCEOQCGfoNdq2O
+	HZ75LQG2FBIQ13O2hunxECjJuAnXrLAJY8URur5yWprLRFeV5AmC81XqnfMBLAdJ9uL3Dh3FgeeCo
+	tePHeJwAyFrhrE2dSFHvXkFyaf6SIHWPOcsKjsinEljEKEdwkLhij3rSwWrr26ngNWz4+/iwcE4tD
+	YuCc8ooWv8mJaj0NFLCGy7N3uTat7Gv9WGM1ZBvfYNnAbglSXNXYNBrPDEkHTwBQGrktpXTEV9eFz
+	aguTg3p95ch3/Vp+ksDuUZKVldYlbtSEqeznRJLiGpzRsuOI8PZynzAzfQl4HbvSxDPDCW6gMbqI4
+	GZ6inA8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMiov-00Cgu3-3C; Wed, 23 Feb 2022 04:00:05 +0000
-Received: from mail-dm6nam11on2060f.outbound.protection.outlook.com
- ([2a01:111:f400:7eaa::60f]
- helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1nMkPE-00CscH-3Z; Wed, 23 Feb 2022 05:41:40 +0000
+Received: from mga01.intel.com ([192.55.52.88])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMiiY-00Ce9J-RN
- for linux-nvme@lists.infradead.org; Wed, 23 Feb 2022 03:53:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C238M86ZZG35zpf88wU+dDXJF8xLehCWkCETwonM9I/gSB4nHWF0HFKmWRYvbdzg7crXh+NiXA5FdTlf/3Uunikl1zibfiyUO/mYbHX1fGoyqnOd2raPjmtXm62tw8xR0FsVriycCR5A2aXh3gAt4xDrOhyOhJejkLVKCuArCep4iM082phzwa9I1Giuciw4W7SqWPl2GSjYFTe9f9SN4dvqMRv3fHOZ5vD5mDIWSZNJPdKDuqW0QqIhEcghKBdTQPxddbEYb+w6SC8UU+vSbmeaDh47p6v9BsL1UxzLHNrux59Q1zfj77cZBX9VSwckfg7+UpuVlasI9jcqG4S3Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eJxo3g1K+sijJLVu9MH6fwbekHq+u5oFvD0l166GG3s=;
- b=f3fp0QM3CvS7b+GREb9wClOAnsblzMf4rAYR3w/eTnCEAREvDtg1BKGx8Bxz9fI7CCJcxLlPg3kbZwiHUZYchF6p5dgamlo28AjgWUZYq0csu7TMDw4MhYXSGZztRTHGVrvSpwjhAAAJRpnoOsZW6qAlec0ZagId0AeRUcEMQrEYHV4ckpCeZ6ltcbpxaXJr/jDy1JV37UQPfDM8+QFCnTk99t5RMVRi5oXiiB6Z302Wc2/CSqz/ltLZsmwL+D7iGK+qRoY8mUQsiBj41op+hnzW0ixLf5h/KtKZ3io3mSg0OnNkZIerLRoU4eUhRbOPve/deNAF3ws8Ls25Qpq8ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eJxo3g1K+sijJLVu9MH6fwbekHq+u5oFvD0l166GG3s=;
- b=ZN3iMZ0wT3uAET+RnNkoFv6LeVc4sZl5wxPFtzQjUw6q8BfHHULobPwgyuHFU08gvCzzPoK81BAEPVTf6MfQePt9y1BHYc5nBjjuUJxSp6Bl+r/I8ZAYUhq9gVcOUc7k9k8AesUn4g6Nh+/zrdK1PGVSVhuiBAIf1J26NlDMrSyfQeZMrSTmL6X0PSkRM3XMAPHMuERRyHnlk41eoC3af2+5UzYtFhYfk8zKOkCaDh9pFKKj9+XtLEmXuxxjAbl0B0qiEzYUy6Y9ZQPEQaxV9ahH4Q4FAFA/55By8S+EZihIDUv2WBkF/ib8hwdm5a5TTgvG+ZGVQ6Buk+F848mkTg==
-Received: from MWHPR13CA0043.namprd13.prod.outlook.com (2603:10b6:300:95::29)
- by DS7PR12MB5816.namprd12.prod.outlook.com (2603:10b6:8:78::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Wed, 23 Feb
- 2022 03:37:28 +0000
-Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:95:cafe::9d) by MWHPR13CA0043.outlook.office365.com
- (2603:10b6:300:95::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.9 via Frontend
- Transport; Wed, 23 Feb 2022 03:37:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5017.22 via Frontend Transport; Wed, 23 Feb 2022 03:37:27 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Wed, 23 Feb 2022 03:37:26 +0000
-Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Tue, 22 Feb 2022
- 19:37:25 -0800
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <sagi@grimberg.me>
-CC: <linux-nvme@lists.infradead.org>, <hch@lst.de>, Chaitanya Kulkarni
- <kch@nvidia.com>
-Subject: [PATCH 2/2] nvme-tcp: don't fold the line
-Date: Tue, 22 Feb 2022 19:36:57 -0800
-Message-ID: <20220223033657.208747-3-kch@nvidia.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20220223033657.208747-1-kch@nvidia.com>
-References: <20220223033657.208747-1-kch@nvidia.com>
+ id 1nMkPA-00Csbs-Mh
+ for linux-nvme@lists.infradead.org; Wed, 23 Feb 2022 05:41:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645594896; x=1677130896;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=fu/V031Af11GOwWGn+R7/1fDFOUkkY2aHPqixLzjgWY=;
+ b=ITIL+P6qm1IFUSv4fz0ezE+0mTK9DJbExJU6mhts0bQIxawkBiDm8w/0
+ 71murmI0YLhttOIm7gHnXyVX0Fmskwo3Fibd2EjWdJKZnPp8aHShFfEOm
+ oFOZVTB64R4ozbt9JNi+bqESC/GLZhj6fNUZvLa2tO4tF8dOonuRH/D1T
+ 47OTkh0b0Pd6o+8KErpHvZZGV7XxazCnG+UV1n4eExAzz95T160HVoZvV
+ 3OUuD6kBq1Y+yPB542nDJSTz1KDwvCGQF1iwKJIQY05DuIugLAvMyk6BN
+ sCcQnd8zjIZYPni7kfvafZJ7DVjNNlB+aSaJOJSZp2STri/as/G7vNluu A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="276506166"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="276506166"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2022 21:41:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="706903976"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 22 Feb 2022 21:41:18 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nMkOq-00011o-Hh; Wed, 23 Feb 2022 05:41:16 +0000
+Date: Wed, 23 Feb 2022 13:40:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.17] BUILD SUCCESS
+ d25c39a5c06006e69134187c8ea53bc4c7d66259
+Message-ID: <6215c8e2.I4w3JFHNWTu2gzHt%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e632db94-e508-4de2-aeeb-08d9f67dd025
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5816:EE_
-X-Microsoft-Antispam-PRVS: <DS7PR12MB5816CE001AAED9CDB1ABB0B5A33C9@DS7PR12MB5816.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R7GS6WK2vXzByMw5Hasb09ldK6yeyRngO4l68qTJ/IxgdDGKFzZh+JTfsr7xbAaVfT4DZA6QWFzNu2vhlBxlPG5VQdpttJoqVZkJLPOEKc9vNtWj+aJwpHCTlfUhzIh5RCMNkUbuB0WZkEACsRVLceWL7DA/jgsyBOAzd9wNGbmsVUK/JT2yVGE5IlWtIXdqSMDDDtvW6fq/7g7pCNe7hwipDweogaLhY5s88g+D7fAOFk3rYYpy50bIaepNGMugzXHJILTzF1f0u20JudPKDPviAMlFMVaPMAGVUTzWUurD3dylk28OFxIkzLuxKVdFPvRM/MOhuwW4WRie78PBIeSCv0qUD7w6uS0UOGYT9nnFk+VwR+5KXVvFekjdBXtx79RAyH/RLcgANCVsuiGuG9A4D6zvyiCOHI5JIjb6kBi8lUA5pG5urfXi3kJQOJUKX1B1xorWdOROsYVXtksofGOqbudBIGt5LndZIDVayvF8ZMDVMgv4aczhXSC9HdfxaoJgKaQ6DciMknv/P8+sBheBiGFij+ZRlT/Hc+rOUFgiLifIQ8TK6miVPWtF4g6W+fZ8Yo6MjUGy43Tbe5jDWxFpph0ldWsbLUfAcnU7rI9rqnnJ0tmVtz04P7wI711t7uo8tph9pzeXAl4c6XXsb8LhtxIC0E2ijq3CuzXFeF0/iUF0/Nua7egFSVhX6wjoy2ky9xl3lHsOvZAwEL/y4Q==
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(36860700001)(316002)(70586007)(8676002)(83380400001)(82310400004)(47076005)(40460700003)(4326008)(54906003)(6916009)(70206006)(36756003)(508600001)(356005)(81166007)(8936002)(2906002)(4744005)(7696005)(6666004)(107886003)(1076003)(186003)(16526019)(2616005)(5660300002)(426003)(26005)(336012)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 03:37:27.2017 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e632db94-e508-4de2-aeeb-08d9f67dd025
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5816
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220222_195330_918139_119C6770 
-X-CRM114-Status: UNSURE (   9.60  )
+X-CRM114-CacheID: sfid-20220222_214136_810985_F4F06540 
+X-CRM114-Status: UNSURE (   7.89  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -127,29 +78,148 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The call to nvme_tcp_alloc_queue() fits perfectly in one line without
-exceeding 80 char limit for the line.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.17
+branch HEAD: d25c39a5c06006e69134187c8ea53bc4c7d66259  nvme-tcp: send H2CData PDUs based on MAXH2CDATA
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+elapsed time: 729m
+
+configs tested: 126
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+i386                 randconfig-c001-20220221
+arc                      axs103_smp_defconfig
+arm                            lart_defconfig
+ia64                            zx1_defconfig
+arm                         nhk8815_defconfig
+powerpc                     sequoia_defconfig
+powerpc                         ps3_defconfig
+m68k                        m5307c3_defconfig
+mips                         db1xxx_defconfig
+sparc                               defconfig
+arm                          pxa910_defconfig
+m68k                       m5475evb_defconfig
+m68k                       m5275evb_defconfig
+arm                         assabet_defconfig
+m68k                             allyesconfig
+arc                     haps_hs_smp_defconfig
+arm                           stm32_defconfig
+mips                           ip32_defconfig
+m68k                       m5249evb_defconfig
+sparc                            alldefconfig
+um                                  defconfig
+arm                           sunxi_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                     redwood_defconfig
+alpha                               defconfig
+powerpc                      makalu_defconfig
+m68k                             alldefconfig
+powerpc                      ppc6xx_defconfig
+mips                            gpr_defconfig
+sh                          rsk7203_defconfig
+mips                         bigsur_defconfig
+arm                          badge4_defconfig
+arm                       multi_v4t_defconfig
+arm                  randconfig-c002-20220221
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                                defconfig
+m68k                             allmodconfig
+nds32                             allnoconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a003-20220221
+x86_64               randconfig-a002-20220221
+x86_64               randconfig-a005-20220221
+x86_64               randconfig-a006-20220221
+x86_64               randconfig-a001-20220221
+x86_64               randconfig-a004-20220221
+i386                 randconfig-a002-20220221
+i386                 randconfig-a001-20220221
+i386                 randconfig-a005-20220221
+i386                 randconfig-a003-20220221
+i386                 randconfig-a006-20220221
+i386                 randconfig-a004-20220221
+arc                  randconfig-r043-20220221
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+
+clang tested configs:
+arm                          imote2_defconfig
+mips                          ath79_defconfig
+mips                       lemote2f_defconfig
+mips                malta_qemu_32r6_defconfig
+arm                           omap1_defconfig
+arm                      pxa255-idp_defconfig
+arm                          pcm027_defconfig
+arm                            dove_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64               randconfig-a011-20220221
+x86_64               randconfig-a015-20220221
+x86_64               randconfig-a014-20220221
+x86_64               randconfig-a016-20220221
+x86_64               randconfig-a013-20220221
+x86_64               randconfig-a012-20220221
+i386                 randconfig-a016-20220221
+i386                 randconfig-a012-20220221
+i386                 randconfig-a015-20220221
+i386                 randconfig-a011-20220221
+i386                 randconfig-a014-20220221
+i386                 randconfig-a013-20220221
+hexagon              randconfig-r045-20220221
+hexagon              randconfig-r041-20220221
+riscv                randconfig-r042-20220221
+s390                 randconfig-r044-20220221
+
 ---
- drivers/nvme/host/tcp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index bb03ae5ef11f..babbc14a4b76 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1714,8 +1714,7 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- 	int i, ret;
- 
- 	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvme_tcp_alloc_queue(ctrl, i,
--				ctrl->sqsize + 1);
-+		ret = nvme_tcp_alloc_queue(ctrl, i, ctrl->sqsize + 1);
- 		if (ret)
- 			goto out_free_queues;
- 	}
--- 
-2.29.0
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
