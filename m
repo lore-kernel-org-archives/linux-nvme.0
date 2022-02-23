@@ -4,87 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4504C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Feb 2022 10:30:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88E19C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Feb 2022 10:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d+z/tj64j31nPU7P3+AdyRvXbl+BzXO/CxZqxssuHe4=; b=RiZB8VRMGHRrmgH34aCfnaTfAH
-	US8fE4J4rQER8ceaQJMYuB0rhC6KwUBF2qcufCryAQgdbvckBSovF52V6ZdS+ZtgUXFcWqCJhGwWh
-	1/BKIjbW+2mOvNmBkJS+/17DnyTipLCrkQsZG7mRfRp/xQYbBHwfQuwOtf0s2OAvDYje36/Xv97at
-	abmCX8YYAI/U7f2/c80IpWwRay5FOWhFYzxhQklLUWR4ujVxE2ND3RempU04UHeSRoi7yp1/hfnUb
-	bOr7WKVtrCTEae7Rdxo746kLlxa1lPaMoXeUVfgnjMLE3IuLWB17mn3DuCIiUsDuHjIdMubEWJ8DD
-	gE2Caphw==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=F0FRoP9r+wOPKO/6JdR3g8kbY8
+	sTHtK8vO84Cloh2eOJGOsrbCw+R6P5DEwornfF3vhsKV8nrPQpTqJj/60hsS/40yVjLnepIDpQ/pe
+	kC1XeCR9bKZFsHPutlxfyRc5tNYN2oUTyIhTPNNihoOfJ54uNAAgSVFwFvwIKFMJB53yTHzhY2cV2
+	3EgTUSIeNb2JvTktmVc4pzkXsKmzWCsT8Mj/U3Rr/LQUww0k5fLBMZDzf2uLv6C0N9usD2LfzJdPh
+	A7fCZau1g1RQ3ffU9k7bYytbd9LfL+gU3RyVLdTGbNE5PUCp7DZS4Mp+1REm0/BIVy+j/YvBDmVTh
+	gp5BBsfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nMov2-00Dfuq-9A; Wed, 23 Feb 2022 10:30:48 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1nMp39-00DhXg-2K; Wed, 23 Feb 2022 10:39:11 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nMouz-00DfuB-Ja
- for linux-nvme@lists.infradead.org; Wed, 23 Feb 2022 10:30:46 +0000
-Received: by mail-wm1-f45.google.com with SMTP id
- az26-20020a05600c601a00b0037c078db59cso3981310wmb.4
- for <linux-nvme@lists.infradead.org>; Wed, 23 Feb 2022 02:30:44 -0800 (PST)
+ id 1nMp35-00DhWV-So
+ for linux-nvme@lists.infradead.org; Wed, 23 Feb 2022 10:39:09 +0000
+Received: by mail-wm1-f46.google.com with SMTP id
+ y6-20020a7bc186000000b0037bdc5a531eso2328843wmi.0
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Feb 2022 02:39:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=d+z/tj64j31nPU7P3+AdyRvXbl+BzXO/CxZqxssuHe4=;
- b=IcoAgdlvF8LW/5TKEtoqUyLusHVWNifMH/oM/NU+/iwweG9lVBedgINjCeyvyShbnp
- gDBBNa52NmyJMzUAwmQuya0vE/6U6pHieRmsnMog1GJqkMVQby2oizExivshDQnjuVv3
- 99mtmRkrT6hjx2ioLr4CkfofSPWRB60gslas3yOvmLwJ8t3+lstvtjACGzLx/aM4+2T0
- gxJkgPS0Dn8Fvu7054G2L7j9UnWXAGIADrQCCMdETjTS3aPn8Dqb3J7rIcNWs0yXx+Iz
- ZNziDT7yFZf+XkMw/RX13vWBtdq2OZXoDmpb1Gn8PGKYX8mukk0CHtLBuQyLzpBZC51U
- dYdA==
-X-Gm-Message-State: AOAM530Anzv4Ky8BpgfCNKbUbxSkJH/IYDBpek3TfMqJ6/RPu1KxTfWP
- zvyvDlfjo+DWVCDi/AJgDUE=
-X-Google-Smtp-Source: ABdhPJwgRPPywPIzZRKBXDJLsLty7vXfYZga5/x2cjtzDLv5Qw2nUqaP1kQfwrbN6siZJpO3t9M+qQ==
-X-Received: by 2002:a7b:c04e:0:b0:380:ead9:254a with SMTP id
- u14-20020a7bc04e000000b00380ead9254amr2505870wmc.58.1645612242833; 
- Wed, 23 Feb 2022 02:30:42 -0800 (PST)
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=Mpntc5AQQyQTSiizywsMQpYFXiTslaJ27I5Kz3YcGYBT7dsxgM25Y0k4EUa96qcDRp
+ ZclywFS9Gm0SisxUie4JMtYri24ZA89MxkOJrprdscULMSfXUqdCTelqmlaGTn71Wbiq
+ ZBaECEIzIUUGTjpxeWl3MfqAil/fZZFjwJtD7R13LFA9HyZNLCrx17IlhQrtNZXzYW54
+ BH/n8V5ZU/+xyBZTl+Nv3A8QomFYruGgSClagE+shaR0BfN8Tn0gZJOnMPNDdNoUJ9Eb
+ YX6q/GVvStKhoIX7x3nHtyHDKXwIrhUg3zKdweS35zGzW4AcMjpu55CviUe2OM25KebQ
+ gNGA==
+X-Gm-Message-State: AOAM530ic1x1K5r2WtgfwkeQtT3KdRwbh7YVw89iwbNz7azMqfa4Fbvk
+ h2ESx+gSG+DdCFuQ8Bcf62A=
+X-Google-Smtp-Source: ABdhPJybeWPSy1eVc8/YowlMHnphgqFQ4/QwmtJz8UuW9ltgzOJQfRKj5hymTH8qmrS8BxV8khDaVg==
+X-Received: by 2002:a1c:f705:0:b0:37d:f2e5:d8ec with SMTP id
+ v5-20020a1cf705000000b0037df2e5d8ecmr7013831wmh.21.1645612745902; 
+ Wed, 23 Feb 2022 02:39:05 -0800 (PST)
 Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
- [46.117.116.119])
- by smtp.gmail.com with ESMTPSA id d14sm50347618wri.93.2022.02.23.02.30.41
+ [46.117.116.119]) by smtp.gmail.com with ESMTPSA id
+ f13-20020a05600c4e8d00b0037bc5ce6042sm7572357wmq.27.2022.02.23.02.39.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 02:30:42 -0800 (PST)
-Message-ID: <06a6c0ec-3d8b-75b0-7522-bfc10c3813e3@grimberg.me>
-Date: Wed, 23 Feb 2022 12:30:40 +0200
+ Wed, 23 Feb 2022 02:39:05 -0800 (PST)
+Message-ID: <040bd8d0-5caa-1826-e321-b460fd5ce99c@grimberg.me>
+Date: Wed, 23 Feb 2022 12:39:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+Subject: Re: [PATCH 1/2] nvme-tcp: don't initialize ret variable
 Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Yi Zhang <yi.zhang@redhat.com>
-Cc: Haakon Bugge <haakon.bugge@oracle.com>, Max Gurtovoy <maxg@mellanox.com>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- OFED mailing list <linux-rdma@vger.kernel.org>
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <CAHj4cs_kCorBjHcvamhZLBNXP2zWE0n_e-3wLwb-ERfpJWJxUA@mail.gmail.com>
- <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
- <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
- <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
- <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
- <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
- <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
- <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
- <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
- <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
- <bdb675e4-1de8-400b-9d43-9f0c18147dc4@nvidia.com>
- <CAHj4cs_C=pCz41hg1AnQcEZPBRK78WTUq8HE3n_28t56iN1FuA@mail.gmail.com>
- <fe9842f1-e5c7-7569-426e-9029662bb4f3@nvidia.com>
- <CAHj4cs8fNmj2Mn7Srs547ji51x7mQ8ZWKzFOuJaENe=vKpBJ-A@mail.gmail.com>
- <6347079f-ec3b-c2e5-bb3b-43b539d6d3f1@nvidia.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+References: <20220223033657.208747-1-kch@nvidia.com>
+ <20220223033657.208747-2-kch@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <6347079f-ec3b-c2e5-bb3b-43b539d6d3f1@nvidia.com>
+In-Reply-To: <20220223033657.208747-2-kch@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220223_023045_673474_66657255 
-X-CRM114-Status: UNSURE (   9.44  )
+X-CRM114-CacheID: sfid-20220223_023907_965589_A0BE3ADE 
+X-CRM114-Status: UNSURE (   6.12  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -100,19 +84,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Hi Yi Zhang,
-> 
-> thanks for testing the patches.
-> 
-> Can you provide more info on the time it took with both kernels ?
-> 
-> The patches don't intend to decrease this time but re-start the KA in 
-> early stage - as soon as we create the AQ.
-
-Still not sure why this addresses the problem, because every io queue
-connect should reset the keep alive timer in the target.
-
-But if at all, just move the keep alive start to nvme_init_ctrl_finish
-don't expose it to drivers...
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
