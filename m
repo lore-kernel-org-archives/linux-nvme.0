@@ -4,33 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBDA0C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Feb 2022 10:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B87DEC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Feb 2022 10:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mvXS8295GoEx5GrixerXfCMalWLv3SmJaD877uOicdk=; b=3KYskFxDQqkkczjjS8SJEjzdDc
-	T/EqvKDCVoHYxoWw5UDn5FKOzBcSWjSGNc8ZZpbiFv7tGChoPpDV+t1wkhecrvzWwxQFh0oyzKbmm
-	y4E86oCtEO0DY9bBzMz7wI626V/FzXQwGQ9ED5CekLA2LKVtUvdiJJXwKDHKMCSf5I2JJd/brxx8p
-	/1Y8MzzWsbRGF767yMHlOw1wf5b8Ig18bRE8Ei1EV/CzU47hkuxMnce/oO/tCQUs+xxOlNCbQYyzA
-	A12kVZAuB3MmbDS4oAk0vHGlXVKRGccuaNMKQxkVOIpst10KTf2+P/cvMQgCBm2P6WpJlVniH+e5g
-	o+DgQOcg==;
+	bh=rfUfWXiKQIsv1ncrlAZWfVflijDTXMu92+QfucjMQZU=; b=CBS9558/Eu7iVjb77jrC2DqNsN
+	tlSeksVfZ/ssg3Ksih+KoTJ2yE5lronIDjdYiRlJEXBK5u15Fx8iaHsYSn1cfDgupBDIRHGGw8WVe
+	BFWiwaje9RUd+RJjmXKHQszQ2u5fvS0gjCT2WVUrGJnQDRAZYlx9OWTtNqsaDfjTnCRKwbQunxs3G
+	20bvo7wNJo5hgwTPnWg4zMjKy2jtB05NJwU/SbJZqbUgVhnBrhUfvR6uSS8n/VZSsPn6HuIggDQkB
+	rwRNUJsoMQBi96CS4K/01FQRQ01r6CSfq4YbgeIttDHSrYp8bPQyhIkfdC+LwrXqlIKnUqkn6/Yxd
+	2fBOqWcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNBpy-000Ri5-Ra; Thu, 24 Feb 2022 10:59:06 +0000
+	id 1nNBq7-000Rke-GR; Thu, 24 Feb 2022 10:59:15 +0000
 Received: from [2001:4bb8:198:f8fc:e55d:3b08:349b:3812] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNBpp-000Rfb-Ny; Thu, 24 Feb 2022 10:58:58 +0000
+ id 1nNBps-000RgB-AP; Thu, 24 Feb 2022 10:59:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/3] nvme: cleanup __nvme_check_ids
-Date: Thu, 24 Feb 2022 11:58:50 +0100
-Message-Id: <20220224105852.862715-2-hch@lst.de>
+Subject: [PATCH 2/3] nvme: fix the IDs equality check
+Date: Thu, 24 Feb 2022 11:58:51 +0100
+Message-Id: <20220224105852.862715-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220224105852.862715-1-hch@lst.de>
 References: <20220224105852.862715-1-hch@lst.de>
@@ -50,47 +50,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Pass the actual nvme_ns_ids used for the comparism instead of the
-ns_head that isn't needed and use a more descriptive function name.
+In nvme_subsys_check_duplicate_ids we care if any of the IDs is the
+same, not just if all of them match.  This also requires not comparing
+the CSI, which is rather irrelevant here.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9cffc4770e737..076a03b801b7e 100644
+index 076a03b801b7e..ac4749f257439 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3673,16 +3673,15 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_subsystem *subsys,
- 	return NULL;
+@@ -1716,13 +1716,6 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
  }
  
--static int __nvme_check_ids(struct nvme_subsystem *subsys,
--		struct nvme_ns_head *new)
-+static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
-+		struct nvme_ns_ids *ids)
+-static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
+-{
+-	return !uuid_is_null(&ids->uuid) ||
+-		memchr_inv(ids->nguid, 0, sizeof(ids->nguid)) ||
+-		memchr_inv(ids->eui64, 0, sizeof(ids->eui64));
+-}
+-
+ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
  {
- 	struct nvme_ns_head *h;
- 
+ 	return uuid_equal(&a->uuid, &b->uuid) &&
+@@ -3681,7 +3674,14 @@ static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
  	lockdep_assert_held(&subsys->lock);
  
  	list_for_each_entry(h, &subsys->nsheads, entry) {
--		if (nvme_ns_ids_valid(&new->ids) &&
--		    nvme_ns_ids_equal(&new->ids, &h->ids))
-+		if (nvme_ns_ids_valid(ids) && nvme_ns_ids_equal(ids, &h->ids))
+-		if (nvme_ns_ids_valid(ids) && nvme_ns_ids_equal(ids, &h->ids))
++		if (!uuid_is_null(&ids->uuid) &&
++		    uuid_equal(&ids->uuid, &h->ids.uuid))
++			return -EINVAL;
++		if (memchr_inv(ids->nguid, 0, sizeof(ids->nguid)) &&
++		    memcmp(&ids->nguid, &h->ids.nguid, sizeof(ids->nguid)) == 0)
++			return -EINVAL;
++		if (memchr_inv(ids->eui64, 0, sizeof(ids->eui64)) &&
++		    memcmp(&ids->eui64, &h->ids.eui64, sizeof(ids->eui64)) == 0)
  			return -EINVAL;
  	}
  
-@@ -3781,7 +3780,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	head->ids = *ids;
- 	kref_init(&head->ref);
- 
--	ret = __nvme_check_ids(ctrl->subsys, head);
-+	ret = nvme_subsys_check_duplicate_ids(ctrl->subsys, &head->ids);
- 	if (ret) {
- 		dev_err(ctrl->device,
- 			"duplicate IDs for nsid %d\n", nsid);
 -- 
 2.30.2
 
