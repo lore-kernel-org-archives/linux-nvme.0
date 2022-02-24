@@ -4,138 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 983F6C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 03:45:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E7DCC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 05:59:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/UO9eDeRsnQ02mI7zvtYj8GHrR3f9M5BXxxiPQPbV80=; b=xGgqaXQe8MkUCdSZrFKYxD0GU8
-	UChiLpRmbMEAa7JxVZuPCckZz3N+MDZm+q0UgPjiEUZOwJ80ONojZtimjLx8UakKX3vrv3nVZAdFb
-	6uAtTh6H68/qe65rGFmROiZBhJHpqaZfXwBeU466nM/fweRctbq4XlmYB9lb53agWtv+rObQ/cLaE
-	jcVaJr2C6az4S8ND5JjcWxrAOJKWzjO8QYwjcyGdSkn+U/gXqNltqESIQ753kvnEYs1Cs3+MYl9k5
-	in16NsZtcgIPr8x7MtBzBUbnXUtU5ALADNVvRIeKRtyDleTNiu4X5pzZ/aD2b9lknUhDtiC3mq9PU
-	Ji7COGNQ==;
+	bh=70BW6FiDnVYnABWjiPvBtlxZq7Trrd1lyFdONgt3Kx8=; b=L8Ph4qyi1it7c3Xi64N0d5kTWe
+	Jqkg9kKXPvSCLYT7ar9JxvjEv+hcwE6SfmZhwFCDlNOQ7+9RiejobexVh9BmdAAbqIE8X6BZlrLW9
+	fTHphoN9h1Qfqk9uzxefmcv3/2AHqECdyReYlvQ+OsQhjbRtXSyJ1elR+XKCZqDJTVgh7y2hVXQhq
+	F3OvMcw9R5/3jCICE9MT8ajlHxl98xfw9XPAD0TsmD1d/8DRlRlD7A4dzOfXWvLyJX4PHlHW6y2lS
+	dexyNyp5SwwHNu2L1KmcXIktDwkwB0v2NOfNcojkfoSknZxuPebPMEcg3FFQGTFa9YvnWkSs9dQmY
+	wLCoxK3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNRXT-0038ry-6c; Fri, 25 Feb 2022 03:45:03 +0000
+	id 1nNTdo-003PSH-0l; Fri, 25 Feb 2022 05:59:44 +0000
 Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNRXP-0038ou-4E
- for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 03:45:00 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ id 1nNRWk-0038Ui-BK
+ for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 03:44:20 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
  by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20220225034456epoutp04a0dbebbfcb522b4cce98d54dad227e0a~W6qJBRVFX1070810708epoutp04H
- for <linux-nvme@lists.infradead.org>; Fri, 25 Feb 2022 03:44:56 +0000 (GMT)
+ 20220225034414epoutp0450718f72c78f874e0fb57b31c70ccadf~W6phiETuI0602606026epoutp04k;
+ Fri, 25 Feb 2022 03:44:14 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20220225034456epoutp04a0dbebbfcb522b4cce98d54dad227e0a~W6qJBRVFX1070810708epoutp04H
+ 20220225034414epoutp0450718f72c78f874e0fb57b31c70ccadf~W6phiETuI0602606026epoutp04k
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1645760696;
- bh=/UO9eDeRsnQ02mI7zvtYj8GHrR3f9M5BXxxiPQPbV80=;
+ s=mail20170921; t=1645760654;
+ bh=70BW6FiDnVYnABWjiPvBtlxZq7Trrd1lyFdONgt3Kx8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JefR7KCdoc8VYZ/gaDGHtpQ93aksxuZB3AltK9ZrzS4COccgFleZ2IgUqiU5g/XYZ
- llyjEm/q+BSxGEao4yH9oPfQU6vaOH72a4ytEYQwrlR8PlIrQZxQvZiMGZFBBhVwCt
- 4iLRXVnfztS7zF7tGnpVqfhKyKRzzcux+8UqDOn4=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20220225034455epcas5p26a20b70a651c5c4813b20d1e48f2ba38~W6qIW7Vke0148301483epcas5p2P;
- Fri, 25 Feb 2022 03:44:55 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4K4bJ31YBBz4x9Px; Fri, 25 Feb
- 2022 03:44:51 +0000 (GMT)
+ b=udWPccjToqcFRGko4Qp7cQZMEt3LOUUrtYsUSi0t60b/WxPxL8HmANioqmDydjdDZ
+ d7otW4RkgR3SSEIj3itTSj4Yi6IafVaPrVDCMDuXDdNDWh4KnDk20WBdNFp5ICs6hX
+ XCHYZBcixfEypFzYAksp/gSAKFqQPm5KhsddNyto=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220225034413epcas5p132b963987cc4f7a5cbd9fff0a657529f~W6pg8XAN51032610326epcas5p1o;
+ Fri, 25 Feb 2022 03:44:13 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.175]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4K4bH82KPqz4x9QG; Fri, 25 Feb
+ 2022 03:44:04 +0000 (GMT)
 Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 26.C9.06423.9A058126; Fri, 25 Feb 2022 12:44:41 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220224124713epcas5p17e353eef4fb4990f0442bc0614217227~WuaVbgzqc2876728767epcas5p15;
- Thu, 24 Feb 2022 12:47:13 +0000 (GMT)
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ DA.BC.05590.48058126; Fri, 25 Feb 2022 12:44:04 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220224120720epcas5p4437444a45856edbf828bf377207a6f06~Wt3gHzRD_2573725737epcas5p47;
+ Thu, 24 Feb 2022 12:07:20 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220224124713epsmtrp2ee80afa62db594176e0e55aba7521d29~WuaVZNiVv0741907419epsmtrp2H;
- Thu, 24 Feb 2022 12:47:13 +0000 (GMT)
-X-AuditID: b6c32a49-b13ff70000001917-22-621850a9e292
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220224120719epsmtrp1c47bedc43baaf8c001c483aca859fc23~Wt3gEQOmk0539305393epsmtrp1f;
+ Thu, 24 Feb 2022 12:07:19 +0000 (GMT)
+X-AuditID: b6c32a4b-723ff700000015d6-a5-621850842539
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
  epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- F7.83.29871.15E77126; Thu, 24 Feb 2022 21:47:13 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+ 28.30.29871.7F477126; Thu, 24 Feb 2022 21:07:19 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
  (KnoxPortal) with ESMTPA id
- 20220224124709epsmtip22be20cc572111b6fe3937746e483cc64~WuaR4KTdj1429314293epsmtip2W;
- Thu, 24 Feb 2022 12:47:09 +0000 (GMT)
-Date: Thu, 24 Feb 2022 18:12:13 +0530
+ 20220224120715epsmtip1faf192d135aed15d61e8c768642ca090~Wt3brgvle0640906409epsmtip1c;
+ Thu, 24 Feb 2022 12:07:15 +0000 (GMT)
+Date: Thu, 24 Feb 2022 17:32:18 +0530
 From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Mikulas Patocka <mpatocka@redhat.com>
-Cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
- martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
- kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
- zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
- djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com
-Subject: Re: [PATCH v2 08/10] dm: Add support for copy offload.
-Message-ID: <20220224124213.GD9117@test-zns>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: hch@lst.de, javier@javigon.com, chaitanyak@nvidia.com,
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dm-devel@redhat.com, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, axboe@kernel.dk, msnitzer@redhat.com,
+ bvanassche@acm.org, martin.petersen@oracle.com, hare@suse.de,
+ kbusch@kernel.org, Frederick.Knight@netapp.com, osandov@fb.com,
+ lsf-pc@lists.linux-foundation.org, djwong@kernel.org, josef@toxicpanda.com,
+ clm@fb.com, dsterba@suse.com, tytso@mit.edu, jack@suse.com,
+ joshi.k@samsung.com, arnav.dawn@samsung.com, nitheshshetty@gmail.com,
+ SelvaKumar S <selvakuma.s1@samsung.com>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, James
+ Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 02/10] block: Introduce queue limits for copy-offload
+ support
+Message-ID: <20220224120218.GA9117@test-zns>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
+In-Reply-To: <YhWGDUyQkUcE6itt@bombadil.infradead.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHPfe2txe2sgtCOHYwu+qcqBQqDw+LDBN0u5NJGCxjc3FY4IYS
- Stu0ZRvbxEIhCohIGbPAAsSBBJCJzPCuCo4wBAyMlzIfMECUlzwmg4iylpbF/z6/7/l+f+ec
- 38khcbtaDo+MlqkZpUwsFRDWrJqbLjtdy4JguPvFaifUdHeRjSruZxLop7kVHD1tHmUjXaae
- g3rHbJBhNp+NupcTMTRavYahpgs6DJVVtGJoovQXgFI7ujG0OiJCrWszBNK1DABkGNqNmgzt
- LFR4cZyD0gfrCHRtyoCj0raXGMo63Y+h23mrBLr5oJ+FKlYRSjmzwkGT17864ET39gXQWdpZ
- Dq0tuseie7vi6OryVIL+rfgknX2nFNCNdzUEndTZitP6hX8IerCzFqMztLMEPT8+xKJrRjI4
- 9NNr/QR99mo5CLI/GrNfwogjGSWfkUXII6NlUb6CgJAw/zAvb3eRq8gH7RPwZeJYxldw8OMg
- 1w+ipcb5CPhfi6VxRilIrFIJ3N7fr5THqRm+RK5S+woYRaRU4akQqsSxqjhZlFDGqN8Tubvv
- 9TIaj8dI9IX5hGLutW/L12ZZGjBslQasSEh5wtTkK3gasCbtqEYAl3MGOeZiAcD56ny2uVgC
- sGS6gL0ReZyYaHEZACzUbuQfAViZVIibXCzqHbhWWmZMkCRB7YYda6RJtqdc4J8/T693xakh
- FtQPjnBMC5spP5iyXLnu51J7YP7tfSaZS9nC9twxlomtqC9hT3bSOjtQ2+CNmjbM1AdSf1vB
- 56VduPl0B2HeTC3HzJvhZNtVC/Pg4qyBMAfSjRftfGhJ6wHUntMSZpcf7Gl6gZkYpySwPnfZ
- knaGObd+teg2MOP5GGbWubCuYIO3wUuXiyx9tsCBfxMtTMOugReWQfZjcPxSDXEObM175Xp5
- r+xn5j2wqHGByDNOA6fehKUvSTO6wMsNbkWAXQ62MApVbBSj8lKIZMw3/795hDy2Gqz/oF0f
- 1YH7w3PCFoCRoAVAEhfYc0dPOIbbcSPF8d8xSnmYMk7KqFqAl/G1snCeQ4Tc+AVl6jCRp4+7
- p7e3t6ePh7dI4MjtiKoS21FRYjUTwzAKRrmRw0grngb7vim44Nlhh5lNkpPVy4tdQ0fC39bU
- Vcyzy/x5xVd+rPyMHMvzCPV7qww4f5F67K+SUxUrtavRwY+SNSE2Hk47HlhnvhESmLYpfqq9
- JKZYZ5OZuzLhc+yH7fIbRw9P+iz87uoRv5iTIDTY3nOK1tpmR/g69JGC+ltVd6rCCkLttzZr
- Pm1IlYghKyPpyYdnNWqH84su+sejBzbxczo0oER++pTOOuW6UFAXKnJOiB14knyI07Dj4fmI
- pHcDhMfx4cDF7J1/uDS/nrwUFHgBtC/0HAmdomB6Pe32bODzib5pXa+ddPsJ5pOEejJ4SaFr
- 3uvfPXBmitcZ4jznODTtqq+05c8LWCqJWLQLV6rE/wGLOMDxygQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCIsWRmVeSWpSXmKPExsWy7bCSvG5gnXiSQcd3RYs9Nz+zWqy+289m
- Me3DT2aL9wcfs1pM6p/BbnH5CZ/F3nezWS0u/Ghksni86T+TxZ5Fk5gsVq4+ymTxfPliRovO
- 0xeYLP48NLQ4+v8tm8WkQ9cYLfbe0rbYs/cki8X8ZU/ZLbqv72Cz2Pd6L7PF8uP/mCwmdlxl
- sjg36w+bxeF7V1ksVv+xsGjt+clu8Wp/nIOMx+Ur3h4Tm9+xezQvuMPicflsqcemVZ1sHpuX
- 1HtMvrGc0WP3zQY2j6YzR5k9Znz6wuZx/cx2Jo/e5ndsHh+f3mLx2Pawl93j/b6rbB59W1Yx
- BohEcdmkpOZklqUW6dslcGWs77zAXLCBs+LWSssGxp3sXYycHBICJhIvGhvBbCGB3YwSUz7r
- Q8QlJZb9PcIMYQtLrPz3HKiGC6jmCaPEyXdPmEASLAKqEv+Xr2TtYuTgYBPQljj9nwMkLCKg
- KXFpzhtWkHpmgTssErv+PAMbJCxgL9H6Yy1YPa+AjsTsc+YQM68ySWzcPIMRpIZXQFDi5Mwn
- LCA2s4CWxI1/L5lA6pkFpCWW/wObzykQLXFxchNYiaiAssSBbceZJjAKzkLSPQtJ9yyE7gWM
- zKsYJVMLinPTc4sNCwzzUsv1ihNzi0vz0vWS83M3MYIThpbmDsbtqz7oHWJk4mA8xCjBwawk
- wmtaKJYkxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA1Nt
- Rhj70op5z0xtc6esmRqwSjwgbqXToigz7esFRfMLY3ddqhN4kfC4L+T/MkUjW5GwS4c5Td2X
- bqxtY6413Bx5a7WgwUvdb6sfM98L3dgUbn/g/YXXfAWT3kzKe35tu5+27S/d0zclvzi/Eg1R
- dji5VrU+2Nbc+4Fawv73pyVPu97awP/lYH0RA8vVD5uMM2ZVzD3/IqWnepOsWkeM7OnrMco8
- OjzhOfnHFzWmPrPzFFypedbRa2+l8eU/7309zA683Dqh64bofvlLi5fxfvKQiDPLtjHtrvvu
- al5VuvPVG69VEhOKgx+rars5FFfxT1566u+8t7q3C4y/TPZ/fPx84MM9s4KkHuxdyT5F0FyJ
- pTgj0VCLuag4EQCXTrmYhwMAAA==
-X-CMS-MailID: 20220224124713epcas5p17e353eef4fb4990f0442bc0614217227
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH97v39raw1V3x9bNGh1UYyLNS6g+i24yNuxOTsZDsD+PSXeEG
+ qqXt2uJrQdE6kgoEqNNBJYrbGAMXngsBSwkWWbW+YB0IBkFG60TCw9eEgHStFxb/+5zvOed3
+ zu+cHAEe1M8XCZRqA6tTMyoxGUg0dYSHRZ1KhvtiZ5uXoFrnHzhq7X/OQ5cfFJLo3NQMjiav
+ jvCQubCEj1zuJcg2cZ6HuqZPYGikwYuh1h/NGKq63Imhfyp/Ash66SmGTDe7MDQ3LEGd3nES
+ me29AHl6LBiy3Y9ArbYbBHJdKSPRxV88fJR3r5lEbWM2HFU65jHUV+QB6I5ljkTN7hMAdQz2
+ EKhmbJJAY9M3SJRb/xKg7/Jn+Ojuawfvkw20668k2jJ0m6SLjRN8usXygE/fHawnaGP5AEG7
+ bmfRDdUmkm78+Th9pq8S0Nb+HJI+easTp0uevSDpAuMEST/13CfoybYeMnnlngNbM1gmjdUF
+ s+pUTZpSnb5NnJSi2KGIl8VKoiQJaIs4WM1kstvE8t3JUTuVKt8QxcEHGVWWT0pm9HpxzEdb
+ dZosAxucodEbtolZbZpKK9VG65lMfZY6PVrNGhIlsbGb432BXx/ImG+y4lrXysPuahuRA8xL
+ T4MAAaSksK7jCe80CBQEUVYA82qn+X5HEPUMwHPuvZzjXwCdZV28xYznxm6cc9gArCgbJzjj
+ EYBT42Vv0gkqBE5MmX1RAgFJRcCbXoFfXk6FwbaiAszPOPWShMV39vhDllFfwq72EL8spCLh
+ QP9DHsdL4Y1SN+HnAEoGPeNm0s8rqA2wvcmBcf2UBsICO+RYDk/NmXCOl8Enjt/5HIvgaGEu
+ 398mpPIAnL41hHFGCYDGIiPJRX0Mu1tfLzSXAUtf5QNOXwvPOmsW9CWwYNa9UFkImy8s8gb4
+ W235wjurYe+rEwtMQ4frMckNqAWDDydziSLwgeWt31neqsdxJCy3PiMtvsHg1BpYOS/gMBzW
+ XokpB7xqsJrV6jPTWX28Nk7NHvp/4amazAbw5sY2JTWDvx9ORdsBJgB2AAW4eLlwJHvVviBh
+ GnPkKKvTKHRZKlZvB/G+XRXjohWpGt+Rqg0KiTQhViqTyaQJcTKJeJXQmV7HBFHpjIE9wLJa
+ VreYhwkCRDnY+euNmpCpGHjlqq39pOU49acpvfH2ZlE+KZcOdo72Do+qbN+PtPcqj1XsF2/s
+ Xpdm9U6UCszbVyQW79rpdn6z1vFrR1x5nf3IOzse1SSOVBe2HB5N2W06l/3uXJZhPQLVe0OH
+ u+4wqy9cP1vpbRl4D42/L4zLeVwBLl47+Fng+vpPncdeK+WENSpUGP5CgcJAoWg4VpmroN3u
+ ggRniTlAvKt2/0CusTgKfTv4hcTryeT31DVLPwzNvic6PCSvv3CoaN0PW8581f30qPx0/5rQ
+ iMgXlqEg1Uz93QpHTwqTNLbs0rGYjcdDXL2fK8+YrlVV9alno/d7+sLtU0eyj9I1M2JCn8FI
+ NuE6PfMfIi36juwEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNKsWRmVeSWpSXmKPExsWy7bCSnO73EvEkg88H9S3WnzrGbLHn5mdW
+ i9V3+9kspn34yWzx/uBjVotJ/TPYLS4/4bPY+242q8WFH41MFo83/Wey2LNoEpPFytVHmSye
+ L1/MaLF74Ucmi87TF5gs/jw0tDj6/y2bxaRD1xgtnl6dxWSx95a2xZ69J1ksLu+aw2Yxf9lT
+ dovu6zvYLPa93stssfz4PyaLGxOeMlqcm/WHzWLHk0ZGi8P3rrJYrHv9nsXi9Y+TbBZtG78y
+ WrT2/GS3OP/3OKuDssflK94es+6fZfOY2PyO3WPnrLvsHufvbWTxaF5wh8Xj8tlSj02rOtk8
+ Ni+p95h8Yzmjx+6bDWweTWeOMnvM+PSFzaO3+R2bx8ent1g83u+7yhYgFsVlk5Kak1mWWqRv
+ l8CV8XrtW7aCySIVL38uYWtgfM3XxcjJISFgIvG5+SJzFyMXh5DAbkaJizNbWSESkhLL/h5h
+ hrCFJVb+e84OUfSEUeLw/K+MIAkWAVWJdx8mARVxcLAJaEuc/s8BEhYR0JDYN6GXCaSeWeA3
+ m8TGuQfBaoQFwiQuHFAFqeEV0JG4c/MBK9RiJoltk7YyQyQEJU7OfMICYjMLaEnc+PeSCaSX
+ WUBaYvk/sPmcAmYST99OYgOxRQWUJQ5sO840gVFwFpLuWUi6ZyF0L2BkXsUomVpQnJueW2xY
+ YJiXWq5XnJhbXJqXrpecn7uJEZx+tDR3MG5f9UHvECMTB+MhRgkOZiURXtNCsSQh3pTEyqrU
+ ovz4otKc1OJDjNIcLErivBe6TsYLCaQnlqRmp6YWpBbBZJk4OKUamHwNn0S+lbMNubz+sfN1
+ 7XCuexHyIiFTThYsLfgxoXSFOf81m4SismdJ2a//3BbvW2xj0pyu1PpjbvIdU5cNRpkLmlL5
+ 7jx4Jn+x7/uRXumeosrdGntajJwM3a7Mm/u4kP3Jqhn7W6TkVfYK8qgqvIqZ2H7D5lBpC3ON
+ ZIvkxBQx7ZNKq2ZMEy33vcgVcLeh8Y0E+68zIXGtEVNTVFzUfeOVc6XLnU2lsrXlndd1bGNQ
+ cpNwMrvL/sNdZMWUro0dhlbZLBunbF5x+4vBmamLTCIvrXju4tpapuN7VyViG4Osd7f192Oh
+ jKxspa5rdM+EtC17Ge0r+FbpbfwmjVy7v9PFwgrfrvgScSfBMkiJpTgj0VCLuag4EQDIVSLd
+ rgMAAA==
+X-CMS-MailID: 20220224120720epcas5p4437444a45856edbf828bf377207a6f06
 X-Msg-Generator: CA
 Content-Type: multipart/mixed;
- boundary="----.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_"
+ boundary="----w44XasAgibz0dH83sqZUwD2VszzvD0Z8603isFAMQ6N2NX8f=_b23b0_"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b
-References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
- <20220207141348.4235-1-nj.shetty@samsung.com>
- <CGME20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b@epcas5p4.samsung.com>
- <20220207141348.4235-9-nj.shetty@samsung.com>
- <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
+X-CMS-RootMailID: 20220214080605epcas5p16868dae515a6355cf9fecf22df4f3c3d
+References: <20220214080002.18381-1-nj.shetty@samsung.com>
+ <CGME20220214080605epcas5p16868dae515a6355cf9fecf22df4f3c3d@epcas5p1.samsung.com>
+ <20220214080002.18381-3-nj.shetty@samsung.com>
+ <20220217090700.b7n33vbkx5s4qbfq@garbanzo> <20220217125901.GA3781@test-zns>
+ <YhWGDUyQkUcE6itt@bombadil.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220224_194459_530748_A2A3B6DF 
-X-CRM114-Status: GOOD (  20.74  )
+X-CRM114-CacheID: sfid-20220224_194418_748773_C167C7F3 
+X-CRM114-Status: GOOD (  30.05  )
+X-Mailman-Approved-At: Thu, 24 Feb 2022 21:59:41 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,45 +158,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_
+------w44XasAgibz0dH83sqZUwD2VszzvD0Z8603isFAMQ6N2NX8f=_b23b0_
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
 
-On Wed, Feb 16, 2022 at 08:51:08AM -0500, Mikulas Patocka wrote:
+On Tue, Feb 22, 2022 at 04:55:41PM -0800, Luis Chamberlain wrote:
+> On Thu, Feb 17, 2022 at 06:29:01PM +0530, Nitesh Shetty wrote:
+> >  Thu, Feb 17, 2022 at 01:07:00AM -0800, Luis Chamberlain wrote:
+> > > The subject says limits for copy-offload...
+> > > 
+> > > On Mon, Feb 14, 2022 at 01:29:52PM +0530, Nitesh Shetty wrote:
+> > > > Add device limits as sysfs entries,
+> > > >         - copy_offload (RW)
+> > > >         - copy_max_bytes (RW)
+> > > >         - copy_max_hw_bytes (RO)
+> > > >         - copy_max_range_bytes (RW)
+> > > >         - copy_max_range_hw_bytes (RO)
+> > > >         - copy_max_nr_ranges (RW)
+> > > >         - copy_max_nr_ranges_hw (RO)
+> > > 
+> > > Some of these seem like generic... and also I see a few more max_hw ones
+> > > not listed above...
+> > >
+> > queue_limits and sysfs entries are differently named.
+> > All sysfs entries start with copy_* prefix. Also it makes easy to lookup
+> > all copy sysfs.
+> > For queue limits naming, I tried to following existing queue limit
+> > convention (like discard).
 > 
-> 
-> On Mon, 7 Feb 2022, Nitesh Shetty wrote:
-> 
-> > Before enabling copy for dm target, check if underlaying devices and
-> > dm target support copy. Avoid split happening inside dm target.
-> > Fail early if the request needs split, currently spliting copy
-> > request is not supported
-> > 
-> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> 
-> If a dm device is reconfigured, you must invalidate all the copy tokens 
-> that are in flight, otherwise they would copy stale data.
-> 
-> I suggest that you create a global variable "atomic64_t dm_changed".
-> In nvme_setup_copy_read you copy this variable to the token.
-> In nvme_setup_copy_write you compare the variable with the value in the 
-> token and fail if there is mismatch.
-> In dm.c:__bind you increase the variable, so that all the tokens will be 
-> invalidated if a dm table is changed.
-> 
-> Mikulas
-> 
+> My point was that your subject seems to indicate the changes are just
+> for copy-offload, but you seem to be adding generic queue limits as
+> well. Is that correct? If so then perhaps the subject should be changed
+> or the patch split up.
 >
-Yes, you are right about the reconfiguration of dm device. But wouldn't having a
-single global counter(dm_changed), will invalidate for all in-flight copy IO's
-across all dm devices. Is my understanding correct?
+Yeah, queue limits indicates copy offload. I think will make more
+readable by adding copy_offload_* prefix.
 
---
-Nitesh Shetty
+> > > > +static ssize_t queue_copy_offload_store(struct request_queue *q,
+> > > > +				       const char *page, size_t count)
+> > > > +{
+> > > > +	unsigned long copy_offload;
+> > > > +	ssize_t ret = queue_var_store(&copy_offload, page, count);
+> > > > +
+> > > > +	if (ret < 0)
+> > > > +		return ret;
+> > > > +
+> > > > +	if (copy_offload && !q->limits.max_hw_copy_sectors)
+> > > > +		return -EINVAL;
+> > > 
+> > > 
+> > > If the kernel schedules, copy_offload may still be true and
+> > > max_hw_copy_sectors may be set to 0. Is that an issue?
+> > >
+> > 
+> > This check ensures that, we dont enable offload if device doesnt support
+> > offload. I feel it shouldn't be an issue.
+> 
+> My point was this:
+> 
+> CPU1                                       CPU2
+> Time
+> 1) if (copy_offload 
+> 2)    ---> preemption so it schedules      
+> 3)    ---> some other high priority task  Sets q->limits.max_hw_copy_sectors to 0
+> 4) && !q->limits.max_hw_copy_sectors)
+> 
+> Can something bad happen if we allow for this?
+> 
+> 
 
-------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_
+max_hw_copy_sectors is read only for user. And inside kernel, this is set
+only by driver at initialization.
+
+
+------w44XasAgibz0dH83sqZUwD2VszzvD0Z8603isFAMQ6N2NX8f=_b23b0_
 Content-Type: text/plain; charset="utf-8"
 
 
-------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_--
+------w44XasAgibz0dH83sqZUwD2VszzvD0Z8603isFAMQ6N2NX8f=_b23b0_--
 
