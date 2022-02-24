@@ -4,70 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B94A6C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Feb 2022 13:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55BC6C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Feb 2022 14:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gCF7EnF+3r3wNzYDzCRl1zaPJfcw7gN5Ls4qnXiZILs=; b=HJoGUKEX9rJPZqVEX48gGgwSFB
-	sMRovoiMBjgx7yYpmphjQ3EB0e20ItSxm2vBMYhq7XlIu3zVACdLU6DzxzMQDOuxAB9BK/xMaqPkd
-	JseUqTE6jsOBRqq07nM1R4r+XuHWCyDtaMIyNEkH1lYRnGfKV+vyT2Ufyop1uhzd8JTZavjnI54rU
-	tp2n7+jTKMyfURlRakcEm8JbwxaeUUikd/PBO3/kl4VLacNwFvouuECxG3P4I9io5zqUeBiVH8LP3
-	XYt7vTnMczeAuX+wBkjmO6K5V/+3lHLXUM4tFA0VlcL6IP04PcUJtf6CHRWVkjGX9BkSvvZI9oNKx
-	uA5+EF5w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sCiNyIsGOxqAa+8g0kd9PqEfF+2jVxczpLK8SIG1Tw4=; b=WPRpyRc1pYEQayOdQAI1h0h/TD
+	+rwku7I6EGKMqWyzf8HxtdmrhMpHTF6csfry8rJdNBRhfjQhP6ocANW5y6IGFFXhWGDQoJTcSY3Fp
+	gEV4qBj2PjP/74RW0B4XIes/CiGw8+rCq7t03eAzFuPf4qTF7RY4Ir9g5uC7OwJgF4ke0QQm+c4zn
+	f7elzGFrypmHjrQj22LO/saKJJV9YL3x1IJ3Dv2BdpJ//mwGkn5n+gIvh8ihpaBY8kp3fwm2vjAaS
+	j6Sd4UKTpq/0HKTAsBOawp1aEmVq1+4EoiXm+bjWeEgDMIkkn14ggoYb2H4y6iB+vmekZhOXpQCGW
+	a9+arR+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNEDw-000wHV-BA; Thu, 24 Feb 2022 13:32:00 +0000
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+	id 1nNEiW-0014HH-Su; Thu, 24 Feb 2022 14:03:36 +0000
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNEDs-000wEt-VM
- for linux-nvme@lists.infradead.org; Thu, 24 Feb 2022 13:31:58 +0000
-Received: by mail-pg1-x529.google.com with SMTP id 195so1747602pgc.6
- for <linux-nvme@lists.infradead.org>; Thu, 24 Feb 2022 05:31:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gCF7EnF+3r3wNzYDzCRl1zaPJfcw7gN5Ls4qnXiZILs=;
- b=JQZ4HCniBF6t9GPcb83t0YafMkL8i9GIRpIn5ivPUk0ZsCB+LsIUkula7lUFfheBUX
- wT2BPA1As7APqyUHR2PQNqmXPJAHtF1G3a4LZ3QfA5MO/u/iVeIHbjLINEUQu9rx4Zcz
- hyvJu54440t5ldYh+ox/g8Xss5dDkrXzAdPqSoMzUJf/yLm0YiIol3kzcoGr3uJlsUq8
- grpSE7hBl1IhGLOU7I8Bcsf1eUWDs8EiEBSwQTKcaOTMDAJt4Haz0fad+AYnximjvLmH
- G+ocxZAfCqFmnAYQufQ/jLLNmuu7zqPiLALxlt1v6F2rOypw3AHAeJFrAJRgytt7+N/0
- gU2Q==
+ id 1nNEiT-0014Fi-QB
+ for linux-nvme@lists.infradead.org; Thu, 24 Feb 2022 14:03:35 +0000
+Received: by mail-pg1-x52b.google.com with SMTP id o23so1788042pgk.13
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Feb 2022 06:03:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=sCiNyIsGOxqAa+8g0kd9PqEfF+2jVxczpLK8SIG1Tw4=;
+ b=vMJN5Hl2knWeVOSfwAjcnWQuH0oBr3rK7YpSbZYkcxyPIli93eNnFgorZMWm8NUK93
+ QoWx0qFY4JUtcjf7/+L1tor6C+LeEv0Srjbg2J7XMWkfPqrHaL6+Y6u/uLi4Glv1hG+W
+ x7Mn+1MiHbcSnKiog/r+nFdM8+fJNJAI825reF0kc4WVinQC3QUN6Jnh/FZvAeiyP7hS
+ nG7+YKFYQT8bQBm46v7NZmTi4jbANmO2jIP78GSuShM/jtbAfCTJdTcHBzmZ+DnarT07
+ JR5g9eSkvd7UigAlhpu3XQgjU6XjmuMcaOskihpRA//Bf/8tQK0vsmZusbrp+MUMuerU
+ uCzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gCF7EnF+3r3wNzYDzCRl1zaPJfcw7gN5Ls4qnXiZILs=;
- b=4/cbeuLfUYdlLjfuUaep/mpA8Q05kG/uIgCCSbkYXyz/pZMWa9vtyxxjXaVN8mt1l1
- KvL2L4ComT/DdjS4b3L7ko/omz7yowh0gQW3QE7fZLjKMJ5ir8wniP+PJWzAn+8tTsdv
- 4Qi5eXe6rd5+++Q0JLcaga0ND+xVbIM7ch9A+zA0G95DDpJs4jonWePptD3aehgrPkUN
- k50vOFoS6sXZP77Sc6nx0OmaRkxWCCV0zIApCCz3FA2p8FZG7NDIWny5PJ8eDMiIWCN8
- +6Moxe5KUbc0hvxa+sPRjYW8DrgS6O94GZrFmDT9mHWOdqtn28PaRofbPdHZ9FJtwN0z
- iqoQ==
-X-Gm-Message-State: AOAM532iVaGeU/uoCl5T4dHnMFUptNoGiwDV02cFYNs0e+lLwufItF4V
- 2lbQn2pIIeGunEPslZerKRU27xiMrRi+UEQfYIM+qWzN
-X-Google-Smtp-Source: ABdhPJwmbvvr5Gh+0w3rdEX/TcuAdBCs+19xHKxplE7WEOiTHBIyftOIMTYDqHG7Kl5AK/CYbj+5ctuD97dH3JHC3cg=
-X-Received: by 2002:a05:6a00:a8b:b0:4cd:6030:4df3 with SMTP id
- b11-20020a056a000a8b00b004cd60304df3mr2942928pfl.40.1645709515155; Thu, 24
- Feb 2022 05:31:55 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sCiNyIsGOxqAa+8g0kd9PqEfF+2jVxczpLK8SIG1Tw4=;
+ b=P7dmiTWnAf6ai2rqKbZpErWo817umckWZBfxvs8v7fj5hk2EVdP42xfgqRTYLshvuN
+ zeZuRg+2RaST3v1+3NIEzQ8dbng5BPiaMMWnaxR+MZKeAW4CMN5VkxAhdKVhnXbkO7JV
+ cY+Nb5HV+4OPYswXr1zTAnGGpWSakTTjxkD0I86vPUGwgzngMfRkjhxgTC8N7SVsSiBt
+ QHBOgE7mNZAGNDBnygmk8ZTIcSNnXRrEXV7hIxXFms+pfNIjuUpOxknzwQtT3+l2oHKV
+ ZOiFJqhdS0OF2Ztqtz5YoKZ1uyjnJBqlOheLPqHYNTETGbTS0tyoDYKDyJZEgczpi+vN
+ rRMw==
+X-Gm-Message-State: AOAM5330mhZNQpyga6QzpqnNIEDnR+z3i4fLnrKkW+FdjZ91gChmEXvU
+ K6P3VO1MFinilI2VSgvHQbSCmw==
+X-Google-Smtp-Source: ABdhPJz+ePxqdtPzoVNNFzIfNBpXfbeumQrkwTlau6nf8NoJJjy7oossvc42Y2IijnEM7zJ8TD4xIw==
+X-Received: by 2002:a05:6a00:1a04:b0:4e1:294:e1e5 with SMTP id
+ g4-20020a056a001a0400b004e10294e1e5mr2754361pfv.51.1645711411849; 
+ Thu, 24 Feb 2022 06:03:31 -0800 (PST)
+Received: from [192.168.4.155] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+ by smtp.gmail.com with ESMTPSA id h4sm3931052pfv.166.2022.02.24.06.03.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 06:03:31 -0800 (PST)
+Message-ID: <60b3efbe-a4f2-71ac-dd3e-54643849df17@kernel.dk>
+Date: Thu, 24 Feb 2022 07:03:30 -0700
 MIME-Version: 1.0
-References: <20220224105852.862715-1-hch@lst.de>
- <20220224105852.862715-2-hch@lst.de>
-In-Reply-To: <20220224105852.862715-2-hch@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 24 Feb 2022 19:01:30 +0530
-Message-ID: <CA+1E3rLtzaRuE2SW+vYR0MS3tJBODQ3RWpEqAjKH0pzUx5jLFA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] nvme: cleanup __nvme_check_ids
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [GIT PULL] nvme fixes for Linux 5.17
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <Yhc01AadzWuqPuAe@infradead.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Yhc01AadzWuqPuAe@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220224_053157_057885_46F75673 
-X-CRM114-Status: GOOD (  18.39  )
+X-CRM114-CacheID: sfid-20220224_060333_959474_EBB00328 
+X-CRM114-Status: UNSURE (   7.07  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,41 +93,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 24, 2022 at 4:33 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Pass the actual nvme_ns_ids used for the comparism instead of the
+On 2/24/22 12:33 AM, Christoph Hellwig wrote:
+>   git://git.infradead.org/nvme.git tags/nvme-5.17-2022-02-24
 
-s/comparism/comparison
+Pulled, thanks.
 
-> ns_head that isn't needed and use a more descriptive function name.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/nvme/host/core.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9cffc4770e737..076a03b801b7e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3673,16 +3673,15 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_subsystem *subsys,
->         return NULL;
->  }
->
-> -static int __nvme_check_ids(struct nvme_subsystem *subsys,
-> -               struct nvme_ns_head *new)
-> +static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
-> +               struct nvme_ns_ids *ids)
->  {
->         struct nvme_ns_head *h;
->
->         lockdep_assert_held(&subsys->lock);
->
->         list_for_each_entry(h, &subsys->nsheads, entry) {
-> -               if (nvme_ns_ids_valid(&new->ids) &&
-> -                   nvme_ns_ids_equal(&new->ids, &h->ids))
-> +               if (nvme_ns_ids_valid(ids) && nvme_ns_ids_equal(ids, &h->ids))
+-- 
+Jens Axboe
 
-Why the first check is inside the loop? Seems we can move this outside
-of the loop.
 
