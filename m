@@ -4,81 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D87E1C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 00:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 983F6C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 03:45:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9pDbdUv9vekYKMQY6X902Orh6k+1NkU2Uv7Kau9/j4M=; b=AGjU84/bcCiagdwZvPXacP9AaZ
-	j3TRB3cBtfrNxMypcwTSiDPFV/wgmnApcqgzB/YzySon77gO3JjXO1C7IGrbSC3qt8ndY3J3702Zd
-	6a/1ELarPRpYSFQJrha0wolvbga1y+rFG1/tC1MVUXwQOFVOdFRGpqP2J6JSMVLrW+f2gMZkm8aez
-	ZRKkVgC1i4dKKf6XNayFMWidkSlCm12S6DhEuCgi+WLhB+nYiKUVRLWLwJ3oWDthlg6fDb7R8dsun
-	4xbp7J7djInFtva8FrCw/emrpv/AOesmf8aGVYTEjZlwfRhTe9PQ5SLKrU1ZXt9f6bupcVyomGeBq
-	6Xvc9oxQ==;
+	bh=/UO9eDeRsnQ02mI7zvtYj8GHrR3f9M5BXxxiPQPbV80=; b=xGgqaXQe8MkUCdSZrFKYxD0GU8
+	UChiLpRmbMEAa7JxVZuPCckZz3N+MDZm+q0UgPjiEUZOwJ80ONojZtimjLx8UakKX3vrv3nVZAdFb
+	6uAtTh6H68/qe65rGFmROiZBhJHpqaZfXwBeU466nM/fweRctbq4XlmYB9lb53agWtv+rObQ/cLaE
+	jcVaJr2C6az4S8ND5JjcWxrAOJKWzjO8QYwjcyGdSkn+U/gXqNltqESIQ753kvnEYs1Cs3+MYl9k5
+	in16NsZtcgIPr8x7MtBzBUbnXUtU5ALADNVvRIeKRtyDleTNiu4X5pzZ/aD2b9lknUhDtiC3mq9PU
+	Ji7COGNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNOrC-002ouR-G5; Fri, 25 Feb 2022 00:53:14 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1nNRXT-0038ry-6c; Fri, 25 Feb 2022 03:45:03 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNOr9-002osZ-7V
- for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 00:53:12 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id a5so2498152pfv.9
- for <linux-nvme@lists.infradead.org>; Thu, 24 Feb 2022 16:53:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=purestorage.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9pDbdUv9vekYKMQY6X902Orh6k+1NkU2Uv7Kau9/j4M=;
- b=b62wu55YJd8b1Ay2Z7N+O4vo2txA9uz29rKx6wiMIOi/cxXnDzeomRxZXhDIbP1Ucw
- dOXuYK9BYpcNPPpwzC6fDvoNmHjjbaMRt/VO4lX57c7ZgnWhQFd/jjWYYISXvjef4Jqi
- YUK1OwdhcPJ5ifguCtXOBgx0/GKQljwCH5cHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9pDbdUv9vekYKMQY6X902Orh6k+1NkU2Uv7Kau9/j4M=;
- b=5LHakBiOelx1o/ZVxiXn4R+zdBmW7unMNlpW7mMfUJGriMpjawLPVTQih0aAJu+BuN
- SQwNg5o0gX5zoFGIS0DJqn+MDn9u78bJIXWBRGaAWT/AQYYh3/p5ZQjg7TbrG7dA8Kgq
- SxEY63HxSFpo0WyZrnzjgK8VCfcDw3pnEYJmKkfVQ3auFecY6S606HwxtWZczvihYRdP
- HCqXK+FAotSghajAwI6ar8uzFbh0V69molU23q76ofMs6yX16Y97sbUQTWNm+bd5U3OH
- q3m55vi8hAN9Ghh+mVDh+JL55tkS7IHxhMNT9qkRNIQ8JhWzmJqNv0tG+LpGwt+8Ax/8
- G1UA==
-X-Gm-Message-State: AOAM533nU63YGCQ81W48s9begvnRa1e7e5yzTezpuDUQFcFsQ2QRyQco
- JHI6jQ45gzuNo7xSbNBeiZ1JCA==
-X-Google-Smtp-Source: ABdhPJw2Is2RASiY5ZZss7E+BJ2bxM1SPbEsx2TZvOHmCK1sQ+Ue/u/RkG0Z8qYT20ioZGmnK8foEQ==
-X-Received: by 2002:a05:6a00:ac1:b0:4f1:29e4:b3a1 with SMTP id
- c1-20020a056a000ac100b004f129e4b3a1mr5344956pfl.63.1645750389834; 
- Thu, 24 Feb 2022 16:53:09 -0800 (PST)
-Received: from dev-randyj2.dev.purestorage.com ([192.30.188.252])
- by smtp.gmail.com with ESMTPSA id
- g12-20020a056a001a0c00b004e1307b249csm705531pfv.69.2022.02.24.16.53.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 16:53:09 -0800 (PST)
-Date: Thu, 24 Feb 2022 17:53:06 -0700
-From: Randy Jennings <randyj@purestorage.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org,
- Prabhath Sajeepa <psajeepa@purestorage.com>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Uday Shankar <ushankar@purestorage.com>
-Subject: Re: Native multipath across multiple subsystem NQNs
-Message-ID: <20220225005306.GA904231@dev-randyj2.dev.purestorage.com>
-References: <20220211220714.GA370236@dev-ushankar.dev.purestorage.com>
- <20220212063422.GA16561@lst.de>
- <20220212212221.GB1660900@dhcp-10-100-145-180.wdc.com>
- <20220214081252.GA18231@lst.de>
- <20220225001547.GA3454995@dev-ushankar.dev.purestorage.com>
+ id 1nNRXP-0038ou-4E
+ for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 03:45:00 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220225034456epoutp04a0dbebbfcb522b4cce98d54dad227e0a~W6qJBRVFX1070810708epoutp04H
+ for <linux-nvme@lists.infradead.org>; Fri, 25 Feb 2022 03:44:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220225034456epoutp04a0dbebbfcb522b4cce98d54dad227e0a~W6qJBRVFX1070810708epoutp04H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1645760696;
+ bh=/UO9eDeRsnQ02mI7zvtYj8GHrR3f9M5BXxxiPQPbV80=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=JefR7KCdoc8VYZ/gaDGHtpQ93aksxuZB3AltK9ZrzS4COccgFleZ2IgUqiU5g/XYZ
+ llyjEm/q+BSxGEao4yH9oPfQU6vaOH72a4ytEYQwrlR8PlIrQZxQvZiMGZFBBhVwCt
+ 4iLRXVnfztS7zF7tGnpVqfhKyKRzzcux+8UqDOn4=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220225034455epcas5p26a20b70a651c5c4813b20d1e48f2ba38~W6qIW7Vke0148301483epcas5p2P;
+ Fri, 25 Feb 2022 03:44:55 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4K4bJ31YBBz4x9Px; Fri, 25 Feb
+ 2022 03:44:51 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 26.C9.06423.9A058126; Fri, 25 Feb 2022 12:44:41 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220224124713epcas5p17e353eef4fb4990f0442bc0614217227~WuaVbgzqc2876728767epcas5p15;
+ Thu, 24 Feb 2022 12:47:13 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220224124713epsmtrp2ee80afa62db594176e0e55aba7521d29~WuaVZNiVv0741907419epsmtrp2H;
+ Thu, 24 Feb 2022 12:47:13 +0000 (GMT)
+X-AuditID: b6c32a49-b13ff70000001917-22-621850a9e292
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ F7.83.29871.15E77126; Thu, 24 Feb 2022 21:47:13 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20220224124709epsmtip22be20cc572111b6fe3937746e483cc64~WuaR4KTdj1429314293epsmtip2W;
+ Thu, 24 Feb 2022 12:47:09 +0000 (GMT)
+Date: Thu, 24 Feb 2022 18:12:13 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
+ martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
+ kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
+ zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
+ djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
+ tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com
+Subject: Re: [PATCH v2 08/10] dm: Add support for copy offload.
+Message-ID: <20220224124213.GD9117@test-zns>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220225001547.GA3454995@dev-ushankar.dev.purestorage.com>
+In-Reply-To: <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHPfe2txe2sgtCOHYwu+qcqBQqDw+LDBN0u5NJGCxjc3FY4IYS
+ Stu0ZRvbxEIhCohIGbPAAsSBBJCJzPCuCo4wBAyMlzIfMECUlzwmg4iylpbF/z6/7/l+f+ec
+ 38khcbtaDo+MlqkZpUwsFRDWrJqbLjtdy4JguPvFaifUdHeRjSruZxLop7kVHD1tHmUjXaae
+ g3rHbJBhNp+NupcTMTRavYahpgs6DJVVtGJoovQXgFI7ujG0OiJCrWszBNK1DABkGNqNmgzt
+ LFR4cZyD0gfrCHRtyoCj0raXGMo63Y+h23mrBLr5oJ+FKlYRSjmzwkGT17864ET39gXQWdpZ
+ Dq0tuseie7vi6OryVIL+rfgknX2nFNCNdzUEndTZitP6hX8IerCzFqMztLMEPT8+xKJrRjI4
+ 9NNr/QR99mo5CLI/GrNfwogjGSWfkUXII6NlUb6CgJAw/zAvb3eRq8gH7RPwZeJYxldw8OMg
+ 1w+ipcb5CPhfi6VxRilIrFIJ3N7fr5THqRm+RK5S+woYRaRU4akQqsSxqjhZlFDGqN8Tubvv
+ 9TIaj8dI9IX5hGLutW/L12ZZGjBslQasSEh5wtTkK3gasCbtqEYAl3MGOeZiAcD56ny2uVgC
+ sGS6gL0ReZyYaHEZACzUbuQfAViZVIibXCzqHbhWWmZMkCRB7YYda6RJtqdc4J8/T693xakh
+ FtQPjnBMC5spP5iyXLnu51J7YP7tfSaZS9nC9twxlomtqC9hT3bSOjtQ2+CNmjbM1AdSf1vB
+ 56VduPl0B2HeTC3HzJvhZNtVC/Pg4qyBMAfSjRftfGhJ6wHUntMSZpcf7Gl6gZkYpySwPnfZ
+ knaGObd+teg2MOP5GGbWubCuYIO3wUuXiyx9tsCBfxMtTMOugReWQfZjcPxSDXEObM175Xp5
+ r+xn5j2wqHGByDNOA6fehKUvSTO6wMsNbkWAXQ62MApVbBSj8lKIZMw3/795hDy2Gqz/oF0f
+ 1YH7w3PCFoCRoAVAEhfYc0dPOIbbcSPF8d8xSnmYMk7KqFqAl/G1snCeQ4Tc+AVl6jCRp4+7
+ p7e3t6ePh7dI4MjtiKoS21FRYjUTwzAKRrmRw0grngb7vim44Nlhh5lNkpPVy4tdQ0fC39bU
+ Vcyzy/x5xVd+rPyMHMvzCPV7qww4f5F67K+SUxUrtavRwY+SNSE2Hk47HlhnvhESmLYpfqq9
+ JKZYZ5OZuzLhc+yH7fIbRw9P+iz87uoRv5iTIDTY3nOK1tpmR/g69JGC+ltVd6rCCkLttzZr
+ Pm1IlYghKyPpyYdnNWqH84su+sejBzbxczo0oER++pTOOuW6UFAXKnJOiB14knyI07Dj4fmI
+ pHcDhMfx4cDF7J1/uDS/nrwUFHgBtC/0HAmdomB6Pe32bODzib5pXa+ddPsJ5pOEejJ4SaFr
+ 3uvfPXBmitcZ4jznODTtqq+05c8LWCqJWLQLV6rE/wGLOMDxygQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCIsWRmVeSWpSXmKPExsWy7bCSvG5gnXiSQcd3RYs9Nz+zWqy+289m
+ Me3DT2aL9wcfs1pM6p/BbnH5CZ/F3nezWS0u/Ghksni86T+TxZ5Fk5gsVq4+ymTxfPliRovO
+ 0xeYLP48NLQ4+v8tm8WkQ9cYLfbe0rbYs/cki8X8ZU/ZLbqv72Cz2Pd6L7PF8uP/mCwmdlxl
+ sjg36w+bxeF7V1ksVv+xsGjt+clu8Wp/nIOMx+Ur3h4Tm9+xezQvuMPicflsqcemVZ1sHpuX
+ 1HtMvrGc0WP3zQY2j6YzR5k9Znz6wuZx/cx2Jo/e5ndsHh+f3mLx2Pawl93j/b6rbB59W1Yx
+ BohEcdmkpOZklqUW6dslcGWs77zAXLCBs+LWSssGxp3sXYycHBICJhIvGhvBbCGB3YwSUz7r
+ Q8QlJZb9PcIMYQtLrPz3HKiGC6jmCaPEyXdPmEASLAKqEv+Xr2TtYuTgYBPQljj9nwMkLCKg
+ KXFpzhtWkHpmgTssErv+PAMbJCxgL9H6Yy1YPa+AjsTsc+YQM68ySWzcPIMRpIZXQFDi5Mwn
+ LCA2s4CWxI1/L5lA6pkFpCWW/wObzykQLXFxchNYiaiAssSBbceZJjAKzkLSPQtJ9yyE7gWM
+ zKsYJVMLinPTc4sNCwzzUsv1ihNzi0vz0vWS83M3MYIThpbmDsbtqz7oHWJk4mA8xCjBwawk
+ wmtaKJYkxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA1Nt
+ Rhj70op5z0xtc6esmRqwSjwgbqXToigz7esFRfMLY3ddqhN4kfC4L+T/MkUjW5GwS4c5Td2X
+ bqxtY6413Bx5a7WgwUvdb6sfM98L3dgUbn/g/YXXfAWT3kzKe35tu5+27S/d0zclvzi/Eg1R
+ dji5VrU+2Nbc+4Fawv73pyVPu97awP/lYH0RA8vVD5uMM2ZVzD3/IqWnepOsWkeM7OnrMco8
+ OjzhOfnHFzWmPrPzFFypedbRa2+l8eU/7309zA683Dqh64bofvlLi5fxfvKQiDPLtjHtrvvu
+ al5VuvPVG69VEhOKgx+rars5FFfxT1566u+8t7q3C4y/TPZ/fPx84MM9s4KkHuxdyT5F0FyJ
+ pTgj0VCLuag4EQCXTrmYhwMAAA==
+X-CMS-MailID: 20220224124713epcas5p17e353eef4fb4990f0442bc0614217227
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b
+References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
+ <20220207141348.4235-1-nj.shetty@samsung.com>
+ <CGME20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b@epcas5p4.samsung.com>
+ <20220207141348.4235-9-nj.shetty@samsung.com>
+ <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220224_165311_370365_293D2520 
-X-CRM114-Status: GOOD (  13.80  )
+X-CRM114-CacheID: sfid-20220224_194459_530748_A2A3B6DF 
+X-CRM114-Status: GOOD (  20.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,38 +150,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> The fact that NVMe with ANA required namespaces
-> to be be attached to the same subsystem is good and important.
-> TPE 4034 is retrograde and completely broken in this respect and should
-> have never been ratifier.  Please fix your storage system to export
-> virtual subsystems like everyone else and don't break the nice NVMe
-> architecture.
-Supposing we did implement virtual subsystems to handle exposing
-namespaces on multiple arrays.
+------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-In addition to other considerations, migrating a namespace with hot data
-from a different storage vendor array nondisruptive to client i/o would
-be difficult to do without having a namespace exist under multiple NQNs.
-One approach that has been used for SCSI is by multipathing to both
-targets & a proxy mirroring writes; on cut-over, the other path
-disconnects.  If the filehandle has to change, that is disruptive to the
-client software.
+On Wed, Feb 16, 2022 at 08:51:08AM -0500, Mikulas Patocka wrote:
+> 
+> 
+> On Mon, 7 Feb 2022, Nitesh Shetty wrote:
+> 
+> > Before enabling copy for dm target, check if underlaying devices and
+> > dm target support copy. Avoid split happening inside dm target.
+> > Fail early if the request needs split, currently spliting copy
+> > request is not supported
+> > 
+> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> 
+> If a dm device is reconfigured, you must invalidate all the copy tokens 
+> that are in flight, otherwise they would copy stale data.
+> 
+> I suggest that you create a global variable "atomic64_t dm_changed".
+> In nvme_setup_copy_read you copy this variable to the token.
+> In nvme_setup_copy_write you compare the variable with the value in the 
+> token and fail if there is mismatch.
+> In dm.c:__bind you increase the variable, so that all the tokens will be 
+> invalidated if a dm table is changed.
+> 
+> Mikulas
+> 
+>
+Yes, you are right about the reconfiguration of dm device. But wouldn't having a
+single global counter(dm_changed), will invalidate for all in-flight copy IO's
+across all dm devices. Is my understanding correct?
 
-Unifying different storage arrays behind the same NQN/virtual subsystem
-requires coordination of nvme ctrl_ids at least, and doing that between
-different storage vendor arrays is unlikely.  Having a mechanism to
-migrate between different JBOF devices non-disruptively would be helpful
-regardless of the source/destination vendors.  Such devices will
-probably not have the option of virtual subsystems.
+--
+Nitesh Shetty
 
-Additionally, the granularity at which NQNs/subsystems are exposed to
-hosts affects how many connections the host creates with the controller.
-Each connection has a cost in hardware & software.
+------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_
+Content-Type: text/plain; charset="utf-8"
 
-In other words, even with implementing virtual subsystems, we still have
-use for non-disruptively moving a namespace between subsystems.  How
-will this usecase be supported on Linux?
 
-Sincerely,
-Randy Jennings
+------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_b2668_--
 
