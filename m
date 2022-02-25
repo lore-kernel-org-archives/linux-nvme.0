@@ -4,54 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19B79C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 08:11:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CC17C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 09:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=; b=CpDRlarQGLHY4iDQTGLPqoy8WH
-	l8BK8QgAWvGk717A0fN0j0r0cvNoR09rUETlmm61Bxk6J8e4RlKFgq0j7fa29OjwR1f5z/UnOSSFg
-	x5kgMj8adOfXWP+9Ow5SFn0QmE5S4LzaPGTAknYT8xexEF6xJcX2Tcl/JZ+3Ltj/4grAKbVmWlIXj
-	9+izb+YvmL1I+EEBaUQTzsvtA7B7EpsHUlf01u3fAOqJFIKjU8MFMaIBTFmjRtS8FjPuxOEMn7SMP
-	D6gItTsQmdRVaV1f0QLszqCmvo3842qQURpTqWQqZW/HcvmypLLNFkR29NxLGsW1niqIYiWLJHXrL
-	kZLiIS0Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5x1l60kOJzalIbidbr6kbs5D9dFUyUJTKOBS5WSBmqI=; b=tg/g49edeN8W0PpdEMn+xhZm6V
+	9HROcxy9nuMyrHp72eaYeKQZCoZkudLAGb3DQO2DTi7ubKw3u1kWltcq+5tTquBc5u9iRVnSVKbS0
+	CZClEabsnNXSW9gqFxcHo86HZ/b7xRd2qd8VcaCI6M8LpgAOhswyBxlZRMWN+qq7YnJi6bvtrM9Cm
+	LJSRgRRiY8MvVhKIna7yhIINiEKL7VNFrvMwhr5QRWUlRvPN5rPnFL0OzQAoGJRQfQa9WpASSqyRo
+	VA6GoYK4zpTIEZzTkf8ZUyDaTehNNKIkOFjU/owHoWpJph53b6dOYykayAaJVS4jGjN7s/7w/s4QM
+	xn0tknrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNVhW-003rYY-9I; Fri, 25 Feb 2022 08:11:42 +0000
-Received: from mail.powerangels.com.pl ([45.86.209.159])
+	id 1nNWfJ-0045dY-0R; Fri, 25 Feb 2022 09:13:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNVQO-003isP-0p
- for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 07:54:02 +0000
-Received: by mail.powerangels.com.pl (Postfix, from userid 1001)
- id A1C0E8372B; Fri, 25 Feb 2022 02:45:29 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=powerangels.com.pl;
- s=mail; t=1645775182;
- bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
- h=Date:From:To:Subject:From;
- b=mTzGvhAQ96yqGsidV+yono6ltPXqaoiZTzwCMxS73kTpR6KphbXOwV4nN3X2D27M+
- Kdu9WH3cGJFH0DQveK/a8RKuRumGbDng+U8ngZjkn25Yo8L7aN506EHa5HJ5kxM6JI
- he4CMAaVMmRWsxsDDX4XHxFfBvnUSvPspFY10cr+z9gxYcpaHZEQASnScC+2c9jGpi
- Fa+rpaQkbCbLQRreH/TSkpDRrVBuFUTYqOHROOM2MSxSQSKQc5zYGxfcLSmoTV9awK
- t9YxKZ/J1AGQO7/0/EDUuAJPElDUjZ5kU9oWvLiUEfoMwphn+TEoKn+0kpPpz/jpl1
- pAGtAysKpuaEg==
-Received: by mail.powerangels.com.pl for <linux-nvme@lists.infradead.org>;
- Fri, 25 Feb 2022 07:45:21 GMT
-Message-ID: <20220225024500-0.1.j.20g0.0.hlqqmapigo@powerangels.com.pl>
-Date: Fri, 25 Feb 2022 07:45:21 GMT
-From: "Jakub Daroch" <jakub.daroch@powerangels.com.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.powerangels.com.pl
+ id 1nNWet-0045Ue-FU
+ for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 09:13:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645780380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5x1l60kOJzalIbidbr6kbs5D9dFUyUJTKOBS5WSBmqI=;
+ b=GkheSXLCi6H2+oJ6+QJsN8tRBH1dCbA3zdHJDXRz3ktIzOSp/J5sL+XT50pSw9HtOlyam2
+ 49CCbLlwrCVFvR4RwT2JNZWGaXe6o7BmsYKnztSa2Jx4aC4+EldmbQ0szA67Q6sVZQ4sv4
+ ACJzXXXpi7NULZIMz9CohGoj+qHf0jc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-TNa3oj-LMGKC9XopOpGK-Q-1; Fri, 25 Feb 2022 04:12:56 -0500
+X-MC-Unique: TNa3oj-LMGKC9XopOpGK-Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1E561854E27;
+ Fri, 25 Feb 2022 09:12:52 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com
+ (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D26B1006870;
+ Fri, 25 Feb 2022 09:12:33 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+ by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
+ 21P9CW8f021225; Fri, 25 Feb 2022 04:12:32 -0500
+Received: from localhost (mpatocka@localhost)
+ by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
+ id 21P9CVVN021221; Fri, 25 Feb 2022 04:12:31 -0500
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
+ owned process doing -bs
+Date: Fri, 25 Feb 2022 04:12:31 -0500 (EST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To: Nitesh Shetty <nj.shetty@samsung.com>
+cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
+ martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
+ kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
+ zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
+ djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
+ tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com
+Subject: Re: [PATCH v2 08/10] dm: Add support for copy offload.
+In-Reply-To: <20220224124213.GD9117@test-zns>
+Message-ID: <alpine.LRH.2.02.2202250410210.20694@file01.intranet.prod.int.rdu2.redhat.com>
+References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
+ <20220207141348.4235-1-nj.shetty@samsung.com>
+ <CGME20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b@epcas5p4.samsung.com>
+ <20220207141348.4235-9-nj.shetty@samsung.com>
+ <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
+ <20220224124213.GD9117@test-zns>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220224_235400_153373_4CA219A7 
-X-CRM114-Status: UNSURE (   2.23  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220225_011303_650049_447BA392 
+X-CRM114-Status: GOOD (  24.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,18 +100,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,
-
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
-
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
-
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
 
 
-Pozdrawiam,
-Jakub Daroch
+On Thu, 24 Feb 2022, Nitesh Shetty wrote:
+
+> On Wed, Feb 16, 2022 at 08:51:08AM -0500, Mikulas Patocka wrote:
+> > 
+> > 
+> > On Mon, 7 Feb 2022, Nitesh Shetty wrote:
+> > 
+> > > Before enabling copy for dm target, check if underlaying devices and
+> > > dm target support copy. Avoid split happening inside dm target.
+> > > Fail early if the request needs split, currently spliting copy
+> > > request is not supported
+> > > 
+> > > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> > 
+> > If a dm device is reconfigured, you must invalidate all the copy tokens 
+> > that are in flight, otherwise they would copy stale data.
+> > 
+> > I suggest that you create a global variable "atomic64_t dm_changed".
+> > In nvme_setup_copy_read you copy this variable to the token.
+> > In nvme_setup_copy_write you compare the variable with the value in the 
+> > token and fail if there is mismatch.
+> > In dm.c:__bind you increase the variable, so that all the tokens will be 
+> > invalidated if a dm table is changed.
+> > 
+> > Mikulas
+> > 
+> >
+> Yes, you are right about the reconfiguration of dm device. But wouldn't having a
+> single global counter(dm_changed), will invalidate for all in-flight copy IO's
+> across all dm devices. Is my understanding correct?
+> 
+> --
+> Nitesh Shetty
+
+Yes, changing it will invalidate all the copy IO's.
+
+But invalidating only IO's affected by the table reload would be hard to 
+achieve.
+
+Mikulas
+
 
