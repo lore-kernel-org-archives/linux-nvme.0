@@ -4,88 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CC17C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 09:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15057C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 12:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5x1l60kOJzalIbidbr6kbs5D9dFUyUJTKOBS5WSBmqI=; b=tg/g49edeN8W0PpdEMn+xhZm6V
-	9HROcxy9nuMyrHp72eaYeKQZCoZkudLAGb3DQO2DTi7ubKw3u1kWltcq+5tTquBc5u9iRVnSVKbS0
-	CZClEabsnNXSW9gqFxcHo86HZ/b7xRd2qd8VcaCI6M8LpgAOhswyBxlZRMWN+qq7YnJi6bvtrM9Cm
-	LJSRgRRiY8MvVhKIna7yhIINiEKL7VNFrvMwhr5QRWUlRvPN5rPnFL0OzQAoGJRQfQa9WpASSqyRo
-	VA6GoYK4zpTIEZzTkf8ZUyDaTehNNKIkOFjU/owHoWpJph53b6dOYykayAaJVS4jGjN7s/7w/s4QM
-	xn0tknrg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kheKSJR7ZObrBS0AH/9NiDGW+t/mS166QpvKgtSP8nw=; b=nhawP0k9dS8gMH/0qDvcXWybb7
+	44Qz94/KaEwafOMzI13VpACfvwJevaDBpQgeVoDlicStme8WLlfXTRnraiV4yzryX+yKGDOStAHGe
+	ThpWEnKLIy8so6Oaz9p9ZVGXlYdt9kT3NB8d7qIvNdZW8TEW5n5M/RigTtLNVYdls7pNwaJ6OFGtp
+	9sPmFeIQQ3ers+StI3W4iKKQRjimO5fbA3+PgebsfysdO2pAJLgqVmAB2EeBZ/2lD2/On3Oft9c7E
+	bkprSTVLyRPEt4YBDsWKpJZuTDlZSjxDdlV2laod1Z2OHixM1bh82mndMMCm3XFocO/65ngpqA4DV
+	13iUADyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNWfJ-0045dY-0R; Fri, 25 Feb 2022 09:13:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nNa55-004vUr-NK; Fri, 25 Feb 2022 12:52:19 +0000
+Received: from bedivere.hansenpartnership.com ([96.44.175.130])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNWet-0045Ue-FU
- for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 09:13:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645780380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5x1l60kOJzalIbidbr6kbs5D9dFUyUJTKOBS5WSBmqI=;
- b=GkheSXLCi6H2+oJ6+QJsN8tRBH1dCbA3zdHJDXRz3ktIzOSp/J5sL+XT50pSw9HtOlyam2
- 49CCbLlwrCVFvR4RwT2JNZWGaXe6o7BmsYKnztSa2Jx4aC4+EldmbQ0szA67Q6sVZQ4sv4
- ACJzXXXpi7NULZIMz9CohGoj+qHf0jc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-TNa3oj-LMGKC9XopOpGK-Q-1; Fri, 25 Feb 2022 04:12:56 -0500
-X-MC-Unique: TNa3oj-LMGKC9XopOpGK-Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1E561854E27;
- Fri, 25 Feb 2022 09:12:52 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D26B1006870;
- Fri, 25 Feb 2022 09:12:33 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 21P9CW8f021225; Fri, 25 Feb 2022 04:12:32 -0500
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 21P9CVVN021221; Fri, 25 Feb 2022 04:12:31 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Fri, 25 Feb 2022 04:12:31 -0500 (EST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Nitesh Shetty <nj.shetty@samsung.com>
-cc: javier@javigon.com, chaitanyak@nvidia.com, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- axboe@kernel.dk, msnitzer@redhat.com, bvanassche@acm.org,
- martin.petersen@oracle.com, roland@purestorage.com, hare@suse.de,
- kbusch@kernel.org, hch@lst.de, Frederick.Knight@netapp.com,
- zach.brown@ni.com, osandov@fb.com, lsf-pc@lists.linux-foundation.org,
- djwong@kernel.org, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- tytso@mit.edu, jack@suse.com, joshi.k@samsung.com, arnav.dawn@samsung.com
-Subject: Re: [PATCH v2 08/10] dm: Add support for copy offload.
-In-Reply-To: <20220224124213.GD9117@test-zns>
-Message-ID: <alpine.LRH.2.02.2202250410210.20694@file01.intranet.prod.int.rdu2.redhat.com>
-References: <CAOSviJ0HmT9iwdHdNtuZ8vHETCosRMpR33NcYGVWOV0ki3EYgw@mail.gmail.com>
- <20220207141348.4235-1-nj.shetty@samsung.com>
- <CGME20220207141948epcas5p4534f6bdc5a1e2e676d7d09c04f8b4a5b@epcas5p4.samsung.com>
- <20220207141348.4235-9-nj.shetty@samsung.com>
- <alpine.LRH.2.02.2202160845210.22021@file01.intranet.prod.int.rdu2.redhat.com>
- <20220224124213.GD9117@test-zns>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ id 1nNa52-004vSh-7S
+ for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 12:52:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1645793530;
+ bh=9lcoOLsGCXLhkybsvev0q1tU/jL3rCQ5FnCyxRe43og=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=Jd/SsLoPixrR02DgY9hWbozzLSPPbGTNJnOW7wDsw/ZrlZX9EduwaxRHuSJO5jDdl
+ 4GLz8WqWjsUHRFAecNL1seO6geNv2sb8+IbG0dcUyhS+YRqJSCrxsqZTT6t21hNJIg
+ qqBYTLJdur5M2gBEV30oIOLZPF68G7Cq+4w2vl4Y=
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id F1F4F1280D51;
+ Fri, 25 Feb 2022 07:52:10 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id usP77mWu0meA; Fri, 25 Feb 2022 07:52:10 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1645793530;
+ bh=9lcoOLsGCXLhkybsvev0q1tU/jL3rCQ5FnCyxRe43og=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=Jd/SsLoPixrR02DgY9hWbozzLSPPbGTNJnOW7wDsw/ZrlZX9EduwaxRHuSJO5jDdl
+ 4GLz8WqWjsUHRFAecNL1seO6geNv2sb8+IbG0dcUyhS+YRqJSCrxsqZTT6t21hNJIg
+ qqBYTLJdur5M2gBEV30oIOLZPF68G7Cq+4w2vl4Y=
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:5c4:4300:c551::527])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id E1D461280BA6;
+ Fri, 25 Feb 2022 07:52:09 -0500 (EST)
+Message-ID: <c97132f444ddb45dcbd4561df0a0c045dbcc2192.camel@HansenPartnership.com>
+Subject: Re: [REMINDER] LSF/MM/BPF: 2022: Call for Proposals
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Josef Bacik <josef@toxicpanda.com>, lsf-pc@lists.linuxfoundation.org
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, bpf@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Fri, 25 Feb 2022 07:52:08 -0500
+In-Reply-To: <YherWymi1E/hP/sS@localhost.localdomain>
+References: <YherWymi1E/hP/sS@localhost.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220225_011303_650049_447BA392 
-X-CRM114-Status: GOOD (  24.09  )
+X-CRM114-CacheID: sfid-20220225_045216_327777_B6E91068 
+X-CRM114-Status: GOOD (  10.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,47 +85,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On Thu, 24 Feb 2022, Nitesh Shetty wrote:
-
-> On Wed, Feb 16, 2022 at 08:51:08AM -0500, Mikulas Patocka wrote:
-> > 
-> > 
-> > On Mon, 7 Feb 2022, Nitesh Shetty wrote:
-> > 
-> > > Before enabling copy for dm target, check if underlaying devices and
-> > > dm target support copy. Avoid split happening inside dm target.
-> > > Fail early if the request needs split, currently spliting copy
-> > > request is not supported
-> > > 
-> > > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> > 
-> > If a dm device is reconfigured, you must invalidate all the copy tokens 
-> > that are in flight, otherwise they would copy stale data.
-> > 
-> > I suggest that you create a global variable "atomic64_t dm_changed".
-> > In nvme_setup_copy_read you copy this variable to the token.
-> > In nvme_setup_copy_write you compare the variable with the value in the 
-> > token and fail if there is mismatch.
-> > In dm.c:__bind you increase the variable, so that all the tokens will be 
-> > invalidated if a dm table is changed.
-> > 
-> > Mikulas
-> > 
-> >
-> Yes, you are right about the reconfiguration of dm device. But wouldn't having a
-> single global counter(dm_changed), will invalidate for all in-flight copy IO's
-> across all dm devices. Is my understanding correct?
+On Thu, 2022-02-24 at 10:59 -0500, Josef Bacik wrote:
+> A few updates
 > 
-> --
-> Nitesh Shetty
+> - The COVID related restrictions can be found here 
+> 
+> 	
+> https://events.linuxfoundation.org/lsfmm/attend/health-and-safety/
+> 
+> - We are working on a virtual component, however it will likely not
+> be interactive, likely just a live stream and then an IRC channel to
+> ask questions through.
 
-Yes, changing it will invalidate all the copy IO's.
+We've been experimenting with hybrid over at plumbers.  Our last
+experiment at LSS in Seattle managed to get us a successful interactive
+two way A/V stream for a live Q and A using Big Blue Button.  We
+collaborated with E3 on this (The standard LF A/V provider for OSS) so
+most likely they'll be who you have in Palm Springs.  We were planning
+to go for another trial at OSS in Austin, but if you'd like to be our
+Guinea Pig, we can put all our infrastructure at your disposal.
 
-But invalidating only IO's affected by the table reload would be hard to 
-achieve.
+Note, your hotel uplink may not support doing this for all four tracks:
+we estimate the uplink bandwidth requirement at around 10M per track
+dedicated, but we could try it on a single track.
 
-Mikulas
+Regards,
+
+James
+
 
 
