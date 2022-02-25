@@ -4,80 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FA13C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 00:16:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D87E1C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Feb 2022 00:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cG+VPd5votjZdbrqq10T9Vx//8p+9VoH0UM4Py5DK5s=; b=HqxsYxlGI3mSTTRs46CdNF//0s
-	aYiF8hvnZk30l40BIDwU4yDRtg6EJpn9Y+dJiMU8qYWl6O2pFeWlWjHRzYQTds7JR8TV8iICRMim+
-	2a6Fpa+QzEXTXOdOrm3vI4wmyj+KVUOIHIdo15UUU8aO1KEiF5T9RBkhPov9yakMk6mkL95A/agCM
-	02a/MuMvebAvEkUiA8IxelvgqgQV3H9tCJ8dFBA9uhS+wEgfaquBnohZ7pQfJOUw2infSkfajtIoE
-	AuejLrm6pkTQLCOLfhNkjmONlqQtU5ci3euZm3IBURJnACWMDaubI3nhX9rPynqBNCo0X0wDrGmhZ
-	nfewBkdQ==;
+	bh=9pDbdUv9vekYKMQY6X902Orh6k+1NkU2Uv7Kau9/j4M=; b=AGjU84/bcCiagdwZvPXacP9AaZ
+	j3TRB3cBtfrNxMypcwTSiDPFV/wgmnApcqgzB/YzySon77gO3JjXO1C7IGrbSC3qt8ndY3J3702Zd
+	6a/1ELarPRpYSFQJrha0wolvbga1y+rFG1/tC1MVUXwQOFVOdFRGpqP2J6JSMVLrW+f2gMZkm8aez
+	ZRKkVgC1i4dKKf6XNayFMWidkSlCm12S6DhEuCgi+WLhB+nYiKUVRLWLwJ3oWDthlg6fDb7R8dsun
+	4xbp7J7djInFtva8FrCw/emrpv/AOesmf8aGVYTEjZlwfRhTe9PQ5SLKrU1ZXt9f6bupcVyomGeBq
+	6Xvc9oxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nNOHA-002lyS-D0; Fri, 25 Feb 2022 00:16:00 +0000
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+	id 1nNOrC-002ouR-G5; Fri, 25 Feb 2022 00:53:14 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nNOH3-002ly5-43
- for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 00:15:54 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id y11so3278637pfa.6
- for <linux-nvme@lists.infradead.org>; Thu, 24 Feb 2022 16:15:51 -0800 (PST)
+ id 1nNOr9-002osZ-7V
+ for linux-nvme@lists.infradead.org; Fri, 25 Feb 2022 00:53:12 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id a5so2498152pfv.9
+ for <linux-nvme@lists.infradead.org>; Thu, 24 Feb 2022 16:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=purestorage.com; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=cG+VPd5votjZdbrqq10T9Vx//8p+9VoH0UM4Py5DK5s=;
- b=lUmWOyYQKukSvV+k3j3FYr0+Uq4+nawKdkJPlxqcvHKN/aGOa1G7J3fj2cxRmK/8n7
- ag3DJ6CrQEPcl5NrRQv1O2tLNonKs+tnbRlbikC2vExfqFLvSF/FSwk5HFCNwDkpEXjl
- MeyBuJYpSOKbL1wBpA4m/Xz9NiVF27Gz9cFkA=
+ bh=9pDbdUv9vekYKMQY6X902Orh6k+1NkU2Uv7Kau9/j4M=;
+ b=b62wu55YJd8b1Ay2Z7N+O4vo2txA9uz29rKx6wiMIOi/cxXnDzeomRxZXhDIbP1Ucw
+ dOXuYK9BYpcNPPpwzC6fDvoNmHjjbaMRt/VO4lX57c7ZgnWhQFd/jjWYYISXvjef4Jqi
+ YUK1OwdhcPJ5ifguCtXOBgx0/GKQljwCH5cHI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=cG+VPd5votjZdbrqq10T9Vx//8p+9VoH0UM4Py5DK5s=;
- b=UOmEY5RU4ItICPcvKn2Bz9eyS/9REciDNMgpDCg0qEvhqNDr0hHJGuYmgHLPxzz9k3
- h+Q7B1wWYWm4UI/94MXi3FwY+cXXDHppKeJlr+hEE7ysRDKbtayVTVeE091TkmKQs23B
- 4yJ1JcpdR0gMNsgvEmPdnolRQajylIzjY2wgt0AP5wZGfzJH+qo0vgEnzWpnRMeyBfa4
- HcyAicZkcvXWk8eE/eVOEKsHo0cCXoAGNfgWDGFNYAR4Qo/NgBpGbTVMWpAQOIwmFsbl
- bM3/dXtzT76sLBFPl4VL3iC1vgskFIFfvQjoJtwYUZgOqd68vwzd96vFsXvo5uWF2q4w
- aYRQ==
-X-Gm-Message-State: AOAM532KpNCNS2FwJ9zfU7gkQAuDiNKiAI/FpqgR+EORSLIf57QxWK0C
- yVxFTVDzwzuydjKJvX6BJZZWQQ==
-X-Google-Smtp-Source: ABdhPJwJBCyrWGjIMjRR5j7o4mCDlCLHhf4RLbT+WYUkVGDJJacw1fodWQYuyjbtCUYOYLtD99+eVw==
-X-Received: by 2002:a63:4509:0:b0:372:8235:b060 with SMTP id
- s9-20020a634509000000b003728235b060mr4075061pga.92.1645748151219; 
- Thu, 24 Feb 2022 16:15:51 -0800 (PST)
-Received: from dev-ushankar.dev.purestorage.com ([192.30.188.252])
+ bh=9pDbdUv9vekYKMQY6X902Orh6k+1NkU2Uv7Kau9/j4M=;
+ b=5LHakBiOelx1o/ZVxiXn4R+zdBmW7unMNlpW7mMfUJGriMpjawLPVTQih0aAJu+BuN
+ SQwNg5o0gX5zoFGIS0DJqn+MDn9u78bJIXWBRGaAWT/AQYYh3/p5ZQjg7TbrG7dA8Kgq
+ SxEY63HxSFpo0WyZrnzjgK8VCfcDw3pnEYJmKkfVQ3auFecY6S606HwxtWZczvihYRdP
+ HCqXK+FAotSghajAwI6ar8uzFbh0V69molU23q76ofMs6yX16Y97sbUQTWNm+bd5U3OH
+ q3m55vi8hAN9Ghh+mVDh+JL55tkS7IHxhMNT9qkRNIQ8JhWzmJqNv0tG+LpGwt+8Ax/8
+ G1UA==
+X-Gm-Message-State: AOAM533nU63YGCQ81W48s9begvnRa1e7e5yzTezpuDUQFcFsQ2QRyQco
+ JHI6jQ45gzuNo7xSbNBeiZ1JCA==
+X-Google-Smtp-Source: ABdhPJw2Is2RASiY5ZZss7E+BJ2bxM1SPbEsx2TZvOHmCK1sQ+Ue/u/RkG0Z8qYT20ioZGmnK8foEQ==
+X-Received: by 2002:a05:6a00:ac1:b0:4f1:29e4:b3a1 with SMTP id
+ c1-20020a056a000ac100b004f129e4b3a1mr5344956pfl.63.1645750389834; 
+ Thu, 24 Feb 2022 16:53:09 -0800 (PST)
+Received: from dev-randyj2.dev.purestorage.com ([192.30.188.252])
  by smtp.gmail.com with ESMTPSA id
- s22-20020a056a0008d600b004f0eaa735f2sm648329pfu.57.2022.02.24.16.15.49
+ g12-20020a056a001a0c00b004e1307b249csm705531pfv.69.2022.02.24.16.53.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 16:15:50 -0800 (PST)
-Date: Thu, 24 Feb 2022 17:15:47 -0700
-From: Uday Shankar <ushankar@purestorage.com>
+ Thu, 24 Feb 2022 16:53:09 -0800 (PST)
+Date: Thu, 24 Feb 2022 17:53:06 -0700
+From: Randy Jennings <randyj@purestorage.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org,
  Prabhath Sajeepa <psajeepa@purestorage.com>,
  Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Randy Jennings <randyj@purestorage.com>
+ Uday Shankar <ushankar@purestorage.com>
 Subject: Re: Native multipath across multiple subsystem NQNs
-Message-ID: <20220225001547.GA3454995@dev-ushankar.dev.purestorage.com>
+Message-ID: <20220225005306.GA904231@dev-randyj2.dev.purestorage.com>
 References: <20220211220714.GA370236@dev-ushankar.dev.purestorage.com>
  <20220212063422.GA16561@lst.de>
  <20220212212221.GB1660900@dhcp-10-100-145-180.wdc.com>
  <20220214081252.GA18231@lst.de>
+ <20220225001547.GA3454995@dev-ushankar.dev.purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220214081252.GA18231@lst.de>
+In-Reply-To: <20220225001547.GA3454995@dev-ushankar.dev.purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220224_161553_451521_663E284E 
-X-CRM114-Status: UNSURE (   5.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220224_165311_370365_293D2520 
+X-CRM114-Status: GOOD (  13.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,5 +93,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Pulling Randy into this thread.
+> The fact that NVMe with ANA required namespaces
+> to be be attached to the same subsystem is good and important.
+> TPE 4034 is retrograde and completely broken in this respect and should
+> have never been ratifier.  Please fix your storage system to export
+> virtual subsystems like everyone else and don't break the nice NVMe
+> architecture.
+Supposing we did implement virtual subsystems to handle exposing
+namespaces on multiple arrays.
+
+In addition to other considerations, migrating a namespace with hot data
+from a different storage vendor array nondisruptive to client i/o would
+be difficult to do without having a namespace exist under multiple NQNs.
+One approach that has been used for SCSI is by multipathing to both
+targets & a proxy mirroring writes; on cut-over, the other path
+disconnects.  If the filehandle has to change, that is disruptive to the
+client software.
+
+Unifying different storage arrays behind the same NQN/virtual subsystem
+requires coordination of nvme ctrl_ids at least, and doing that between
+different storage vendor arrays is unlikely.  Having a mechanism to
+migrate between different JBOF devices non-disruptively would be helpful
+regardless of the source/destination vendors.  Such devices will
+probably not have the option of virtual subsystems.
+
+Additionally, the granularity at which NQNs/subsystems are exposed to
+hosts affects how many connections the host creates with the controller.
+Each connection has a cost in hardware & software.
+
+In other words, even with implementing virtual subsystems, we still have
+use for non-disruptively moving a namespace between subsystems.  How
+will this usecase be supported on Linux?
+
+Sincerely,
+Randy Jennings
 
