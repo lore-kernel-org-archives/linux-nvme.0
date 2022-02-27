@@ -4,73 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC8E6C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Feb 2022 23:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82DFAC433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Feb 2022 23:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PAxWN/Fn2Mczw45wFLz8L+Vyy3ASNUMHSwWD9KKoHkQ=; b=a2rxvF6q/5S44YDJuwCnG0lOiO
-	Otv2xoRXAjQTaY/d7ot5vnNBvjWQiUnzLx4DYfWsbeGSHRTec6XHUcQ9k7+axGquWsV+6JEEXf3Be
-	DQbvajoj6t1VK5kP7tekC7HgjOnSrdc76gFfNTyvWSLfQ2ZVqpZgg4wpn/BUBdTTlHWwF+Oy1krV4
-	AvYKwOD2uBAaeTh0avw4usDvBGWBImNcFkIelw+cXtPOPaCslWS/cGda0xk7816E+ysRM+LRbJQWT
-	gjNfnTnbGj9X1cV/PXOCUMhx0skQDzuHKXO6ntRqNJFQr8PysooQeS8zF9ISEloLFjRi6A76B8Jvs
-	olBKbOMg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=CuV6bZm6+Tvp4Pdji59uVuBLNwa5+Q5hK3f1bpYPxOg=; b=cqOzqhtJipfG8fLJ1JSi8KKw54
+	2arjBhGpJdfiMWf1frZN1wxJDHlGJNaE99NoK9hyhD2FXZ0+FU3p4nBgI90OAAfSNgU2juwIT1kdS
+	BeKhkGIhX/O0S/AWpigNGuHZu9EvTNweAe0ZaMekI6CmpPhv2Clz7Ly6zW3WrThUDv5fdpBj66OWn
+	j8Xykq+9OWXFyAYs3tKm7zPP0ZL3qzo2Vau6uM6rof5YygFemhWIyapE28b9BWZF2HeqeQfV9cmli
+	Z0taMzMGp/X+z1e1nd2UYkfS3k4WTsTjyXaj042mDK2mMHSySbpMuQrKX2FSJs3Tlc28Jc2sM0l5Q
+	in8quyqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nOSrP-00AKm4-4M; Sun, 27 Feb 2022 23:21:51 +0000
-Received: from mail-pj1-f53.google.com ([209.85.216.53])
+	id 1nOTC5-00ALEb-RH; Sun, 27 Feb 2022 23:43:13 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nOSrM-00AKlm-2B
- for linux-nvme@lists.infradead.org; Sun, 27 Feb 2022 23:21:49 +0000
-Received: by mail-pj1-f53.google.com with SMTP id
- ev16-20020a17090aead000b001bc3835fea8so9816356pjb.0
- for <linux-nvme@lists.infradead.org>; Sun, 27 Feb 2022 15:21:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PAxWN/Fn2Mczw45wFLz8L+Vyy3ASNUMHSwWD9KKoHkQ=;
- b=hb0MT0VzXqCNtjpE9iJKpWmaQaleL6jFvHBWbfSdHnkD945vP+VS4aQorKQ3TSJUqS
- 6FkAAk9GGBT+17JGDY3jPq+qIVSWmFj9aSJoLCFKoUh5fOECj9INO2DSy64D8RmBa4ML
- 8AWpHeD91QAlXhNMonIQNXof+c639RxKTh5jQ5632GQvdp634EhhrJSyV15zLA5YasjA
- uDEk+voWOSmeQ70iV8mYN/56y+zd7Y0VaiSluZt1eNqeZ+5Sd5h/sXk0Z0W1ZeNmn169
- xFRmxaS/xbUznFXp3Id9GmIO+3KgrzjdC3GsCA/RB/SXodc9qrYp1vOPQiIYOyhIzKk9
- +qxQ==
-X-Gm-Message-State: AOAM533+Ed1w04ZZE4vf5IligJJszsc5weGF1Y3NAJzVyHARzP0CRokG
- 6JLlVWAL4eSXNzqLJjWra3Y=
-X-Google-Smtp-Source: ABdhPJx3hEjd67rMbJmf0135OrWhFWBYzB+s9qHiBPBu3CDQnOPnI0KAABf9pqTHWfY3++H0rAZCyw==
-X-Received: by 2002:a17:90a:f8c:b0:1bc:cf23:2319 with SMTP id
- 12-20020a17090a0f8c00b001bccf232319mr13931101pjz.67.1646004106456; 
- Sun, 27 Feb 2022 15:21:46 -0800 (PST)
-Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd?
- ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
- by smtp.gmail.com with ESMTPSA id
- b17-20020a637151000000b00372e85c81casm8489669pgn.77.2022.02.27.15.21.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 15:21:45 -0800 (PST)
-Message-ID: <bc4ae9f0-3028-3f27-157a-44a00632c214@acm.org>
-Date: Sun, 27 Feb 2022 15:21:44 -0800
+ id 1nOTC2-00ALEJ-Vu
+ for linux-nvme@lists.infradead.org; Sun, 27 Feb 2022 23:43:12 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4B1B3212BB;
+ Sun, 27 Feb 2022 23:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646005386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=CuV6bZm6+Tvp4Pdji59uVuBLNwa5+Q5hK3f1bpYPxOg=;
+ b=fBJrOfJ3EE9mBbUoIvXDE4Tk+DSSVjbjcPZ+uzH41Dcqcdlbmt0DOa9YnIt3v+Q6d9jtIE
+ UrBlgginZP6QBNKmeYLVR469Y9xO63Er3vb49RgLfJaS/T6geiDS9Ro8E0343LX+jElrn6
+ NT7kQTQeTdehi1q7RnisKmSg6AB2TKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646005386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=CuV6bZm6+Tvp4Pdji59uVuBLNwa5+Q5hK3f1bpYPxOg=;
+ b=k7itSJ4L86rBKq33/Q+EPVa4Rrg8O83+X9uEuc0pdG2LBFe/xJhiSq9CDi2s3yM/o3lyWo
+ /KfD0PAGky7hMiBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BFC4912FC5;
+ Sun, 27 Feb 2022 23:43:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Ze4gIIkMHGLrKQAAMHmgww
+ (envelope-from <ematsumiya@suse.de>); Sun, 27 Feb 2022 23:43:05 +0000
+From: Enzo Matsumiya <ematsumiya@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: Enzo Matsumiya <ematsumiya@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: trigger disk activity LED
+Date: Sun, 27 Feb 2022 20:42:58 -0300
+Message-Id: <20220227234258.24619-1-ematsumiya@suse.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [bug report] WARNING: possible circular locking at:
- rdma_destroy_id+0x17/0x20 [rdma_cm] triggered by blktests nvmeof-mp/002
-Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220227_152148_161520_67A7509B 
-X-CRM114-Status: UNSURE (   8.10  )
+X-CRM114-CacheID: sfid-20220227_154311_220194_0D833017 
+X-CRM114-Status: UNSURE (   9.48  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -86,14 +83,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/3/21 19:04, Yi Zhang wrote:
-> Below WARNING triggered by blktests nvmeof-mp/002, it can be
-> reproduced with the latest 5.16.0-rc3 and also exists on 5.12, pls
-> check it.
-> 
-> # use_siw=1 ./check nvmeof-mp/002
+Users can enable an LED to indicate I/O activity on NVMe PCIe devices:
 
-I can reproduce this issue with kernel v5.17.0-rc2.
+  # echo "disk-activity" > /sys/class/leds/<led>/trigger
 
-Bart.
+for the composite activity, or disk-{read,write} for individual
+activities/LEDs.
+
+Signed-off-by: Enzo Matsumiya <ematsumiya@suse.de>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6a99ed680915..3e49d5980beb 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -15,6 +15,7 @@
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
++#include <linux/leds.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+@@ -1037,6 +1038,8 @@ static __always_inline void nvme_pci_unmap_rq(struct request *req)
+ 			       rq_integrity_vec(req)->bv_len, rq_data_dir(req));
+ 	if (blk_rq_nr_phys_segments(req))
+ 		nvme_unmap_data(dev, req);
++
++	ledtrig_disk_activity(req_op(req) == REQ_OP_WRITE);
+ }
+ 
+ static void nvme_pci_complete_rq(struct request *req)
+-- 
+2.34.1
+
 
