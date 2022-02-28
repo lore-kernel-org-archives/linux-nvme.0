@@ -4,72 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9217C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Feb 2022 12:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A66CC433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Feb 2022 14:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Tue/MEpoQnseVbPHqoS/+AEdPX5iCnmkNUysitOxd5g=; b=fYsn/B8bMZSQQbPICvfSdSgoZz
-	OuwdtAUNIcIjz2yeY+0VMenJrKaoxH/1JINn7zWvwLWMj7GRn1IdLGY0rqWxFb9jzfenGe3T5HLFn
-	1IOq/GYcuQgRWsQJjbY9zIYClBqVJmBhmV7myXBto6vxOc/qP9y34m0zNkBFJjVu0H2+8bW8PS4Ic
-	yqObtEY8qfnuNSik84MtuQf+qKrP/HBHCBgCEmPaVwgFQYVD6ofOBd0dWm4rbbJlDABnnDBOqmTZz
-	x56o2TvmA+RQO+mJ2FiF5VnkMx+uxqBKrTuhvQO1IHFL/RIVpLk/qyAQH3GdDf74BUOlwB+8naUKP
-	rVeuh34w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FzjJyXn/bqOXd4ZYAkke0bU4g6qSzR3Mr9gnRy2DvTg=; b=3vDlpZKePPfUfT4+hYs5zlm8fS
+	VOpkHASlBvxRbgZPLm3psgjdCgtTgA3o3faH0ZS7GSCHCuAkMAVeSriGG7hjOegxRoQtPc3AAlppN
+	0M5jv06lquPAOdIczumjHKMmLujkIVDXaqVD1TFzmoPCvBW1B9jKGNAgShQHjK1Jr84ATdr+0J4et
+	HNSvyPOczfqNhphsnUZL1JT/2caoivYXcJSIcSH7EyujLzcRSW3Cz6YdqeCXVIhua08QkdJkYJF/e
+	x9YTmp7gPwy1EZvIZXS5xgFHo7iZ/ytvo7E8sC5AqGqw2QQ5n27CFgpxNDN3jUwkysWF1qsfRMXnJ
+	40AzJ6gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nOfbg-00COCE-NK; Mon, 28 Feb 2022 12:58:29 +0000
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+	id 1nOgmc-00CoBm-CG; Mon, 28 Feb 2022 14:13:50 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nOfLq-00CHsQ-4i
- for linux-nvme@lists.infradead.org; Mon, 28 Feb 2022 12:42:07 +0000
-Received: by mail-pg1-x530.google.com with SMTP id w37so11254206pga.7
- for <linux-nvme@lists.infradead.org>; Mon, 28 Feb 2022 04:42:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tue/MEpoQnseVbPHqoS/+AEdPX5iCnmkNUysitOxd5g=;
- b=ayaEgpOlQIW5dDLzYatY92hKs3CaXDazF0V0nmEmr7D4YsOb4+bilcout+1wUkvgaQ
- +sOZhhwXRacrngeC7NdnqOQQCMGlhQvVjyhQWr3Yk+wXAjFAy/QRmILsgJ3QHp1IAcVF
- xNlgUj5aVxEX5Uu/V4+b55kLPhQ05nuN98UJZiY7zM1QUESdmA90Xyi8whVYNz557tY0
- 9/c+uORfbnjsdQo3JQuWQZ4aAXWMDntzxJwpSVziGAL22/VtFfzR2TdlGlOmsxjMB2K0
- 9BMv20AzqH3+3KYz8n8HsjNBzhgUPoc6GEcZQfRBvFvv6RlO2LJW1noMQhdte5QAVJ7G
- 1Otw==
+ id 1nOgYJ-00CjIO-0e
+ for linux-nvme@lists.infradead.org; Mon, 28 Feb 2022 13:59:04 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id o23so11402562pgk.13
+ for <linux-nvme@lists.infradead.org>; Mon, 28 Feb 2022 05:59:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=FzjJyXn/bqOXd4ZYAkke0bU4g6qSzR3Mr9gnRy2DvTg=;
+ b=emMjftZwGqnvQ1Csf6dPnjraA5SYoxWJ4upPlVDyELTS1MxrD52sQOVyQQfZHHud9E
+ n4PiZrOVHuD1p30t04u/zokGLZu2h9LHxx06ku9OYQHMky9qrusGrUMoG+0r7qF7dDxQ
+ xvjzoabzSEE01OIot3iNZ2TId9Tc7TmAMm8j4Dnu+EAIg9EnGg1mgrv+ZiCA5xHXoS8l
+ yBkiyjAG9xlxqSDQ/g/I1eEGDJ3N8fQ0fS2Ism64Kf1sIv0Duiwy2zAHnzBr3TU7gei8
+ O9bA0FehEHNomNs22oJW4kYYQ6Wu7+tQSBrBRU/s55JtsxcErBW2udeVpERkYth/+Gdu
+ HmoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tue/MEpoQnseVbPHqoS/+AEdPX5iCnmkNUysitOxd5g=;
- b=2SEBzddd0ZzCJUmz1Vg88QS0idR3AGPnkuc/+iSXy39sy2G5YsANh944wiL3ik5zZi
- bSp8QKGV3zGMeJs/ruAA7chhf8hQrVgDL9J17t4Ukdb+F8uKpjTx11T7ZBc0TomKUKKv
- eWUZjlQqTSaPWJrFfMok6fzRcl7rFPDIclo8LUgle7YO3FpHMUDujqIMZjHcedytXI7e
- HpmKHYpjBoP/aporcDodqe3DjTwW5spUyqa9T3W/TPP4uLrQHtKj7YhIG1T5Vili7S1u
- yyH/MSRo9pcKsxTy5wWo+B9/YEZsjz9WvogRNgvMh/CEy4ZRdpPWw8ppZVV4Tfm62Dar
- pDxw==
-X-Gm-Message-State: AOAM532Xs/0AJC394kc2qhrCaxPUbzXF0/tGg7u5PViEjn0lZKWp65pa
- T5QCwpOI03DJFMTMM3GNXXFBc1TtGRuiZoKdm28=
-X-Google-Smtp-Source: ABdhPJzHRJ+rbm9mlAfE07v6tNBe3WBtjSRSp8+azUG0vEVJdjXCrCh9Ot0bAl2buYaDieFG8vKSdhwuDVJ2vSBkoAc=
-X-Received: by 2002:a63:d018:0:b0:374:a3c1:dfed with SMTP id
- z24-20020a63d018000000b00374a3c1dfedmr17212226pgf.155.1646052124650; Mon, 28
- Feb 2022 04:42:04 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FzjJyXn/bqOXd4ZYAkke0bU4g6qSzR3Mr9gnRy2DvTg=;
+ b=cqBcj2QD3JyqOA8/1u2OxjuzG1F7QmPa8sjDOGrvYctn6U4umlrflpQfSHRYczeD4Y
+ 8j0Qao8YFyimdfhk1QE+hqsv1stsW3OrIWOfInNM7gE6JiW139BSPRdR3xRvmdFDxKxh
+ z3b4owWwBvX5xE8vmDD5Wa5Rj0ulRQlHpU6wcGKwj933CwFr6rzyhbcy+kdkKob44yIA
+ T7pYGYNUPvcbhzy0VD83mKTm5VeL9ElTHvmogTCtqt6haEzo/tMfq+D1jp80v4N1EJ5b
+ BCgQzjJfo0INLvmPePZM4iPmnK11EWNAK0n/lcRgFU4ahah70Oypp7eZyVJJfzogp/5N
+ oynA==
+X-Gm-Message-State: AOAM531dt5HELDNcgXKP8KyFRMVjWqVKCQiKyN8tiGKoeVdjp2MAKGGq
+ 3e94sDaxKq9kvSW9RLZE7kAyVA==
+X-Google-Smtp-Source: ABdhPJzClDcESKk8VbFJpCZhSD/v69impDvOr5RcvpSjNZ/GD5HaNMYGmPul8QPhtciskytT/yiiXw==
+X-Received: by 2002:a05:6a00:1692:b0:4df:c6b0:2f02 with SMTP id
+ k18-20020a056a00169200b004dfc6b02f02mr21648679pfc.50.1646056741739; 
+ Mon, 28 Feb 2022 05:59:01 -0800 (PST)
+Received: from [192.168.1.100] ([198.8.77.157])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020a056a00174800b004f26d3f5b03sm14287785pfc.39.2022.02.28.05.59.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 05:59:01 -0800 (PST)
+Message-ID: <36cfd242-6bb0-0af6-0faf-946c79baa378@kernel.dk>
+Date: Mon, 28 Feb 2022 06:58:59 -0700
 MIME-Version: 1.0
-References: <CGME20220210054304epcas5p14aa9d83205f74b2e4942ed9b4e43fc23@epcas5p1.samsung.com>
- <20220210053755.451855-1-joshi.k@samsung.com> <20220228114830.GA10899@lst.de>
-In-Reply-To: <20220228114830.GA10899@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Mon, 28 Feb 2022 18:11:39 +0530
-Message-ID: <CA+1E3rLQBxN3y-F+KVe9MhdgQD9+XGGacnGQ6F8h_hAQHsj3dQ@mail.gmail.com>
-Subject: Re: [PATCH v4] nvme: add vectored-io support for user-passthru
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, 
- linux-nvme@lists.infradead.org, kch@nvidia.com, 
- Sagi Grimberg <sagi@grimberg.me>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] nvme-pci: trigger disk activity LED
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Enzo Matsumiya <ematsumiya@suse.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-kernel@vger.kernel.org
+References: <20220227234258.24619-1-ematsumiya@suse.de>
+ <20220228092215.GA8549@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220228092215.GA8549@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220228_044206_239485_1D049657 
-X-CRM114-Status: GOOD (  12.69  )
+X-CRM114-CacheID: sfid-20220228_055903_123384_300B933D 
+X-CRM114-Status: GOOD (  10.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,26 +95,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 28, 2022 at 5:18 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Btw, I noticed this is not wired up for the /dev/ngX character device.
-> Can you send a follow on patch for that?
+On 2/28/22 2:22 AM, Christoph Hellwig wrote:
+> I don't think we should add code to the absolutel fast path for
+> blinkenlights.
 
-Err, do you see that it is not working? I actually tested it over both
-block and char.
-My test utility did write-vectored to /dev/nvme0n1 followed by
-read-vectored from /dev/ng0n1, and did data-comparison. It passed.
+Agree. It'd be a lot better to put the cost on the led trigger
+side, and not need anything in the fast path for block devices.
+Monitor disk stats, or something like that.
 
-Code wise, the handler for NVME_IOCTL_IO64_CMD_VEC is added insided
-nvme_ns_ioctl().
-- for non-multipath char node:
-nvme_ns_chr_ioctl -> __nvme_ioctl -> nvme_ns_ioctl
-- for multipath char node:
- nvme_ns_head_chr_ioctl -> nvme_ns_ioctl
-
-Please let me know how I can produce the failure that you see.
-
-Thanks,
 -- 
-Joshi
+Jens Axboe
+
 
