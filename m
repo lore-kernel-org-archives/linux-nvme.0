@@ -4,117 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CA99C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Feb 2022 10:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D4DEC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Feb 2022 12:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=DE++bbV4PufN2NIHg235o161XQxS+vRZfeqB10jhsNw=; b=NnlzFzE6HUKW8/kmlOBYSM4nmh
-	D8F8Qj8QCGjuH5xonXjFo2OQyN4mEja9C5+SOMSVAYOBQUjIZMAwN5+tcNn2uQWCnn9Arfs5xXRas
-	FZfsKzeegS596f3c5kSngUo6eDVDOz5MQMWyNIO8Hx/3PbovOC7URbC83l8d2c3mHftpxv0P8kj0P
-	0KW2Krb4gTukpcHyAZXGXm211azjQPgQx1MbPCtiRwZM/ZYnoAIB0s6z7gBE6NOcDIe2xTUmRtCLX
-	PsYehk8r1rdJ21JjZgcMV4ebyJWYBJe9CdvJxaV6ltyevIo+2CToLDmlGNQsnmUAQcfyp/c3fpJZL
-	OD3XFLew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2K7nJRX81/HSPT8LGvluKHeErBqUoTabB6ivMKCFUfg=; b=sKvU3B4r1fUN4UNHMrgP0OYro/
+	aXQtLuk0WE0n3KiWhR4EEjpNFCGsAKGsxrRaD78/WmE01dVlr32G68SJL5zCl1Fv6ro0H6iQfa6Ub
+	kWjBON0fI10WgtR+tNx0wmyLpm437ibBwMGjA8thtg7mK+Xo9QBfHbxo5mrcWJpc1JMKxXZQbzq+7
+	NYx45WZ3iFjk8iYBa0W3VWGmciRQBZuII4pKowHGiwc4RLBVrL+1Nj3LGvHEWTr4YKq6RzWzSgA2A
+	yTvOzhibMSqgy2gLxFJ7NMnWQtss8cNhnIyjpbJ/r+wwXoR48KipdQlHyLxis+7jaEhQraOlyyOIP
+	5eXjyPtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nOdKr-00BVHo-2X; Mon, 28 Feb 2022 10:32:57 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1nOf4w-00CB8M-Di; Mon, 28 Feb 2022 12:24:38 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nOdKk-00BVG2-6A
- for linux-nvme@lists.infradead.org; Mon, 28 Feb 2022 10:32:52 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20220228103246epoutp03df2a669450fdf085933883a121559a0f~X7KFVKqC10359803598epoutp03g
- for <linux-nvme@lists.infradead.org>; Mon, 28 Feb 2022 10:32:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20220228103246epoutp03df2a669450fdf085933883a121559a0f~X7KFVKqC10359803598epoutp03g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1646044366;
- bh=DE++bbV4PufN2NIHg235o161XQxS+vRZfeqB10jhsNw=;
- h=From:To:Cc:Subject:Date:References:From;
- b=RHgaB+8ZsYemWPm3xOW/Xg7L++uIrfQRqVovehx0keIzAPXGo5Q50yY72ilqw9r1X
- HoMfDVv5Pjbn9RjamuzeW2lTe53AZd4NVaK6UkDlAHM9InwEqqHUkkWo3MDOnrGZwI
- sbIxtwFNaah014jqshf4kEkxr+YzVRdHYBllTVqU=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20220228103246epcas5p3324c9cbf011223743aec17deb83f08ae~X7KE_5dU31936119361epcas5p39;
- Mon, 28 Feb 2022 10:32:46 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4K6cC21Ml4z4x9Py; Mon, 28 Feb
- 2022 10:32:30 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- E7.EE.06423.2B4AC126; Mon, 28 Feb 2022 19:32:18 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220228093018epcas5p137f53cb05ce95fed2ac173b8fddf2eee~X6TjJzanh0828708287epcas5p1I;
- Mon, 28 Feb 2022 09:30:18 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220228093018epsmtrp1681e2f421ca4701532dc338344b9057b~X6TjJPCIn2992429924epsmtrp1s;
- Mon, 28 Feb 2022 09:30:18 +0000 (GMT)
-X-AuditID: b6c32a49-b01ff70000001917-c2-621ca4b218d8
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 0B.9F.29871.A269C126; Mon, 28 Feb 2022 18:30:18 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220228093018epsmtip1e46703c128df219e77d356741925eb31~X6Tiamwkm1259012590epsmtip1P;
- Mon, 28 Feb 2022 09:30:17 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: lsf-pc@lists.linux-foundation.org
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-Subject: [LSF/MM/BPF TOPIC] Towards more useful nvme passthrough
-Date: Mon, 28 Feb 2022 14:55:11 +0530
-Message-Id: <20220228092511.458285-1-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
+ id 1nOeW2-00Bz1U-N9
+ for linux-nvme@lists.infradead.org; Mon, 28 Feb 2022 11:48:36 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id CCCDF68AFE; Mon, 28 Feb 2022 12:48:30 +0100 (CET)
+Date: Mon, 28 Feb 2022 12:48:30 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk,
+ linux-nvme@lists.infradead.org, kch@nvidia.com, sagi@grimberg.me,
+ joshiiitr@gmail.com
+Subject: Re: [PATCH v4] nvme: add vectored-io support for user-passthru
+Message-ID: <20220228114830.GA10899@lst.de>
+References: <CGME20220210054304epcas5p14aa9d83205f74b2e4942ed9b4e43fc23@epcas5p1.samsung.com>
+ <20220210053755.451855-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEKsWRmVeSWpSXmKPExsWy7bCmhu6mJTJJBo/OsFvsvaVtMX/ZU3aL
- fa/3Mjswe2xeUu8x+cZyRo/Pm+QCmKOybTJSE1NSixRS85LzUzLz0m2VvIPjneNNzQwMdQ0t
- LcyVFPISc1NtlVx8AnTdMnOA1igplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1JyCkwK
- 9IoTc4tL89L18lJLrAwNDIxMgQoTsjOuzZjJWvBDoWJjy122BsYO6S5GTg4JAROJ86+2s4PY
- QgK7GSW+71DqYuQCsj8xSiw9vYMFwvnGKNEybT8bTMeRdy/YIBJ7GSU2/jjCCuF8ZpRo/nyf
- qYuRg4NNQFPiwuRSkAYRAVWJv+uPsIDYzAL2Ekcal4MNEhZwkJi4og9sNQtQzbMJn8FsXgFL
- iXP7fkItk5eYeek7VFxQ4uTMJ1Bz5CWat85mhqhZxy7RdyoEwnaRWPdjFwuELSzx6vgWdghb
- SuJlfxuUXSzx685RZpCbJQQ6GCWuN8yEarCXuLjnL9j9zED3r9+lDxGWlZh6ah0TxF4+id7f
- T5gg4rwSO+bB2IoS9yY9ZYWwxSUezlgCZXtIfP+3ghESvLESWx9+ZJnAKD8LyTuzkLwzC2Hz
- AkbmVYySqQXFuempxaYFhnmp5fB4Tc7P3cQITmxanjsY7z74oHeIkYmD8RCjBAezkggvO6tk
- khBvSmJlVWpRfnxRaU5q8SFGU2AYT2SWEk3OB6bWvJJ4QxNLAxMzMzMTS2MzQyVx3tPpGxKF
- BNITS1KzU1MLUotg+pg4OKUamAInhOq5arW+f35G30YsLqGIh8v4ZXzhw8/C89dcuPte9Fmp
- z7yKjo2TAm92p5+/vHdZWlgP87p7c6dHPDjQtfnXpBspKj+zN73R5JupLSvAbfx6Q9EdU42n
- sj96+EK3sxRUz45YIrj/tspUV46jedppr9hCd21clzODbZN4zPYcRokbM74rLnySMU3LRTvm
- y9pXyhdtj6v33U471rrh9tH+wn1LJlfe2cC4fjn3HN2Pk3++2y812fFJ9cNje+uChP9xVK0w
- 9Q3qCj1w4v6cn3c+BIcF82fsmR0Uz3bsva7441//7+V89r/JVK09I0GJdffX/Ga//JW1E5Ze
- C2A2Ei3jfFf9qyRKt3yWn+oZq1lKLMUZiYZazEXFiQBapGO79QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCLMWRmVeSWpSXmKPExsWy7bCSnK7WNJkkg58rjSz23tK2mL/sKbvF
- vtd7mR2YPTYvqfeYfGM5o8fnTXIBzFFcNimpOZllqUX6dglcGddmzGQt+KFQsbHlLlsDY4d0
- FyMnh4SAicSRdy/Yuhi5OIQEdjNK7J+7jx0iIS7RfO0HlC0ssfLfc3aIoo+MEuv3rAFyODjY
- BDQlLkwuBakREVCV+Lv+CAuIzSzgKLHs2AxmEFtYwEFi4oo+sDksQDXPJnwGs3kFLCXO7fvJ
- BjFfXmLmpe9QcUGJkzOfsICMZxZQl1g/TwhipLxE89bZzBMY+WchqZqFUDULSdUCRuZVjJKp
- BcW56bnFhgWGeanlesWJucWleel6yfm5mxjBAamluYNx+6oPeocYmTgYDzFKcDArifCys0om
- CfGmJFZWpRblxxeV5qQWH2KU5mBREue90HUyXkggPbEkNTs1tSC1CCbLxMEp1cB0RfZNDzt7
- dDRbcOO8/M4uwZMXWJIut3JNMfAPab0h9tKz7PytnI/9zn85WD8WWHQpxbbbvgm8ey6rlEVm
- QwLPxDPFsbXm6WsW/Q9blnLlv476yhkSEXzJVat8/64+dtj4U0MNu/rkPVL2t2t220puSnra
- 1f15knSvpdLBC1zzWY9pevQJee5YP7fnQedBv5OPTiSZTlUV+26Q+vGQ45o564tZf6+Y0/7r
- x4YyBuHlx9WXpDtNjlhnc/K3R4aS/aN6T7/lxfIfBVnm9X2bY7HivbvZVeO6uA/BInee8DTN
- eG1kcXrlqpDdV9Z9eiKXkGRRcFTp9O7QvO4FgsGTuh0TbZ/rfBFYYxSn9zDktbYSS3FGoqEW
- c1FxIgApM1tStwIAAA==
-X-CMS-MailID: 20220228093018epcas5p137f53cb05ce95fed2ac173b8fddf2eee
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220228093018epcas5p137f53cb05ce95fed2ac173b8fddf2eee
-References: <CGME20220228093018epcas5p137f53cb05ce95fed2ac173b8fddf2eee@epcas5p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220210053755.451855-1-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220228_023250_678446_A8E0CBA9 
-X-CRM114-Status: GOOD (  22.00  )
+X-CRM114-CacheID: sfid-20220228_034834_951406_9A1AA9C7 
+X-CRM114-Status: UNSURE (   9.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,93 +60,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Background & Objective:
------------------------
-New storage interfaces/features, especially in NVMe, are emerging
-fast. NVMe now has 3 command sets (NVM, ZNS and KV), and this is only
-going to grow further (e.g. computational storage). Many of these new
-commands do not fit well in the existing block abstraction and/or
-syscalls. Be it somewhat specialized operation, or even a new way of
-doing classical read/write (e.g. zone-append, copy command) - it takes
-a good deal of consensus/time for a new device interface to climb the
-ladders of kernel abstractions and become available for user-space
-consumption. This presents challenges for early adopters of tech, and
-leads to kernel-bypass at times.
-
-Passthrough interface cuts through the abstractions and allows
-applications to use any arbitrary nvme-command readily, similar to
-kernel-bypass solutions. But passthrough does not scale as it travels
-via sync ioctl interface, which is particularly painful for
-fast/parallel NVMe storage.
-
-Objective is to revamp the existing passthru interface and turn it
-into something that applications can readily use to play with
-new/emerging features of NVMe.
-
-Current state of work:
-----------------------
-1. Block-interface is subject to compatibility of course. But now nvme
-exposes a generic char interface (/dev/ng) as well which is not
-subject to conditions [1]. When passthru is combined with this generic
-char interface, applications get a sure-fire way to operate
-nvme-device for any current/future command-set. This settles the
-availability problem.
-
-2. For scalability problem, we are discussing this new facility
-“uring-cmd” that Jens proposed in io_uring [2]. This enables using
-io_uring for any arbitrary command (ioctl, fsctl etc.) exposed by the
-underlying component (driver, FS etc.).
-
-3. I have posted patches combining nvme-passthru with uring-cmd [3].
-This new uring-passthru path enables a bunch of capabilities – async
-transport, fixed-buffer, async-polling, bio-cache etc. This scales well.
-512b randread KIOPS comparing uring-passthru-over-char (/dev/ng0n1) to
-uring-over-block (/dev/nvme0n1)
-
-QD    uring    pt    uring-poll    pt-poll
-8      538     589      831         902
-64     967     1131     1351        1378
-256    1043    1230     1376        1429
-
-Discussion points:
-------------------
-I'd like a propose a session to go over:
-
-- What are the issues in having the above work (uring-cmd and new nvme
-passthru) merged?
-
-- What would be other useful things to add in nvme-passthru. For
-example- lack of vectored-io for passthru was one such missing piece.
-That is covered from nvme 5.18 onwards [4]. But are there other things
-that user-space would need before it starts treating this path as a
-good alternative to kernel-bypass?
-
-- Despite the numbers above, nvme passthru has more room for
-efficiency e.g. unlike regular io, we do copy_to_user to fetch
-command, and put_user to return the result. Eliminating some of this
-may require new ioctl. There may be other opinions on what else needs
-overhaul in this path.
-
-- What would be a good way to upstream the tests? Nvme-cli may not be
-very useful. Should it be similar to fio’s sg ioengine. But
-unlike sg, here we are combining ng with io_uring, and one would want
-to retain all the tunables of io_uring (register/fixed buffers/sqpoll
-etc.)
-
-- All the above is for 2.0 passthru which essentially forms a direct
-path between io_uring and nvme. And io_uring and nvme programming
-model share many similarities. For 3.0 passthru, would it be crazy to
-think of trimming the path further by eliminating the block-layer and
-doing stuff without “struct request”. There is some interest in
-developing user-space block device [5] and FS anyway.
-
-[1] https://lore.kernel.org/linux-nvme/20210421074504.57750-1-minwoo.im.dev@gmail.com/
-[2] https://lore.kernel.org/linux-nvme/20210317221027.366780-1-axboe@kernel.dk/
-[3] https://lore.kernel.org/linux-nvme/20211220141734.12206-1-joshi.k@samsung.com/
-[4] https://lore.kernel.org/linux-nvme/20220216080208.GD10554@lst.de/
-[5] https://lore.kernel.org/linux-block/87tucsf0sr.fsf@collabora.com/
-
--- 
-2.25.1
-
+Btw, I noticed this is not wired up for the /dev/ngX character device.
+Can you send a follow on patch for that?
 
