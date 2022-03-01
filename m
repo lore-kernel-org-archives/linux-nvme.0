@@ -4,64 +4,156 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CB8DC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Mar 2022 20:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92365C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Mar 2022 21:32:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VNi5iVtqGoSE+cgM+mZ7ExATSEnDBEHk/TK3pAdwbCo=; b=XxnZMf1WcYJzHKJgjJ/0Uxffr/
-	SSe+u0/G8dWISnzi1eA92veDxlxYLRGZfU5SXeiebBzFsgtzBFQ9F7hb0FqEFUIyJo1Pgg8kYrBMl
-	PFXYhK8DSlL3epma2cC3Ef+EcjmJmBhn4M/TD7r03IMzsV1TMavlRgyjcdIh+6pGq4bwHzUiyOho2
-	RaNy+8MkRcH9o8OmYKRrRurn2P9PODU7Gpbh0dX88x2ASYzbKj00fPUJoSvBa3GH5puuleSGDIXrf
-	pu0+GtFgGK2/QK7IvbboLfTtkv3x0zyIHdCJwKnlE79c27s5SM4dXWtGFDDLLmHyKug2odLByViUf
-	lQCUvbOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Gxna+QEGvm7zxNn+2griGcXH0GR7upyiEOrOalDWd/Y=; b=vQL9pGj8eiaqqXP0Rn3XhY9qXV
+	Gxc2q2+vMssQOtED/ampN8zEU9GTqRJr6Lbn1wwW+sS8FLLIZmtnym+s2tFJoHrqzL6OvGULxAk++
+	dOYo9j56O9IOv6A3vKQ9ChFYUy2v58p8trVXpVTH4nwbfXsQLp6NNih/IlnzoG0nn3N7mOc9aDTpx
+	gyH9n/FQnpvUYO90YFXTdGO7Yjxkw5+boWGAzBolhmNchTGHQ9Xo60GNjzZLsayv+1CRkmmaOi6yg
+	hKQRlnUCS5Rr6MOphRnzWABZYQ6FflQC+j0DyhHQnCI6oG0OtsGavhNe30fwzV74ulLiSwVwb7vGh
+	qjaSe8Tg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nP8uA-000OWl-CW; Tue, 01 Mar 2022 20:15:30 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nPA6h-000dkO-9C; Tue, 01 Mar 2022 21:32:31 +0000
+Received: from mail-dm6nam10on20616.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::616]
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nP8u7-000OU4-14
- for linux-nvme@lists.infradead.org; Tue, 01 Mar 2022 20:15:28 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 900BF61727;
- Tue,  1 Mar 2022 20:15:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2D59C340F1;
- Tue,  1 Mar 2022 20:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646165726;
- bh=f8CaatFsI32+3T89lm3gzamkH66//Ji/Aflwp1AAQzw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ajuaUMsGyw8gFghCsdXhsUit2WWgz5sHSmDOBD+plymBuCUzpE4y7DQhNGEAQA2ry
- XXjoM9YBISxGMRE+KwoBCY58Uk1tKrkKr3E4GNYLCfP9BKG6WMfDQeU1Kzy4qF0iVL
- vTYptnlkAKDaqcnlvB3vB198Mxyd8bFZjLfmxcF3lcRFPhcoywJkCCcc5UZMYrrlPR
- Ef7t4/froguOZsxnLcWRloh6SX/JxV2+P9YWi53UTwb0FfgMFSVz9luICJQeqyclYT
- y4L1moONFKs9p284yI+tbJyTS8+WKqzrQ/GqUVu2iLxBGzts95J26BGXN4OzZIiOXt
- /i8ePVJTq3Vew==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Varun Prakash <varun@chelsio.com>, Sagi Grimberg <sagi@grimberg.me>,
- Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
- kbusch@kernel.org, axboe@fb.com, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.16 17/28] nvme-tcp: send H2CData PDUs based on
- MAXH2CDATA
-Date: Tue,  1 Mar 2022 15:13:22 -0500
-Message-Id: <20220301201344.18191-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220301201344.18191-1-sashal@kernel.org>
-References: <20220301201344.18191-1-sashal@kernel.org>
+ id 1nPA6e-000djH-8Q
+ for linux-nvme@lists.infradead.org; Tue, 01 Mar 2022 21:32:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZQdNqgd7bT1aylZcIpE0tonwOZkiwy4Sv15K5+itEV13W/Sf3zQb5j1eWGBTIuCuKZmngVcrPNsDEKCV+eCyfuUIeGdHxIjgYl/nt/GN/Ce1HgcsFjtoK2QkZjejbPS/dCu0kDvfWqSVt5eRuMK2sXt2L6ndDCN0RzwnLOkmW+i5M33d2ecV1lY23pReFuBDTOnDmxzX5ioMHSmSkT97kC2YvTiBmGUG2FccrcVEecpPdtdBzG9pBhrBReAzJT0asqTRclkAUY0e8Ki7JTYbcHSjVrENdoISeGm1F+kNuTHcbtQwLMecsQMKj59N6JJyI+gu+vp4jwaVpkmbTK9F7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gxna+QEGvm7zxNn+2griGcXH0GR7upyiEOrOalDWd/Y=;
+ b=iG2+CL4xh3XYyQxeqbSyz8hXWAh1UdXzZKxt0rl6qoch/c5NFczYAs2pEc8pjnC8bDujGwhWsbAnYS7Bb1lvczhyAuvemjPVjwOg++sdTBWcvVbfTfdGdK+Izy7lnig3mXS8xqHYxkQhCx6VdQ74dC7EP0OFiHaWDsNMO6TlaETG+xD9UqFGsEBSzPodMrbuGi0wShEtQVlFc1Z83LvH1QMZm1bR3VBNvdo378rLBh+55PqhAYBMn8D1RwkG9MapsoY6y0c3YBOcG61ux2ZH/8gH5DyRhU2a/ipt1+V60ccQRT2ag4DAHWQ1wvz2+iwVrKDQyD9drfFbLEqS+MP8uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gxna+QEGvm7zxNn+2griGcXH0GR7upyiEOrOalDWd/Y=;
+ b=mwNsIw7NjW4whs8k/y9rcBlsS38ozRAGOD/kY1c4XWuSl6VTPtp69PyCqS75JchMnN7cyjMNNjaNiyOw3F8FQHIrRIymHWmV/ts6i1HMu20sOj5+ceBhs2PAZm/7gZ2hIH6btXBzPKJDVQKPSr2Bbv7uF0M2wh+c95PZJTofwO5h9Y6GkK+0KTSi3jsVIXp9/FCyWhWrcg1w8eIBfs43w/lIDGNS7a6PRg2nyRXI3SHLVllMuuczl7bXkzm5M7kkwVZkM3T5mMo1woW7ADP0lvMaLLQIthyYrU35b/7WGnij9HFbxCSH1f113U0Uiy8oZ1jFtzNw+5kOJw3syz7H0A==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by BY5PR12MB4004.namprd12.prod.outlook.com (2603:10b6:a03:1a8::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.23; Tue, 1 Mar
+ 2022 21:32:24 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::204b:bbcb:d388:64a2]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::204b:bbcb:d388:64a2%4]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 21:32:24 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Nikos Tsironis <ntsironis@arrikto.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, linux-fsdevel
+ <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>, Bart Van
+ Assche <bvanassche@acm.org>, "martin.petersen@oracle.com >> Martin K.
+ Petersen" <martin.petersen@oracle.com>, "roland@purestorage.com"
+ <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>, Hannes
+ Reinecke <hare@suse.de>, "kbus >> Keith Busch" <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, "Frederick.Knight@netapp.com"
+ <Frederick.Knight@netapp.com>, "zach.brown@ni.com" <zach.brown@ni.com>,
+ "osandov@fb.com" <osandov@fb.com>, "lsf-pc@lists.linux-foundation.org"
+ <lsf-pc@lists.linux-foundation.org>, "djwong@kernel.org" <djwong@kernel.org>, 
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
+ "dsterba@suse.com" <dsterba@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+ "jack@suse.com" <jack@suse.com>
+Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Thread-Topic: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+Thread-Index: AQHYE018isCsN3oz40OdcqzMcXhV7qyq/niAgABCmoA=
+Date: Tue, 1 Mar 2022 21:32:23 +0000
+Message-ID: <c4124f39-1ee9-8f34-e731-42315fee15f9@nvidia.com>
+References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+ <012723a9-2e9c-c638-4944-fa560e1b0df0@arrikto.com>
+In-Reply-To: <012723a9-2e9c-c638-4944-fa560e1b0df0@arrikto.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 37baab8b-4896-4731-219b-08d9fbcaf9bc
+x-ms-traffictypediagnostic: BY5PR12MB4004:EE_
+x-microsoft-antispam-prvs: <BY5PR12MB4004D10A74BF2873548166FBA3029@BY5PR12MB4004.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OSmh5dTniSqppY+lYZSLLrCcWm4SUUc4Snj3vTHYQNmnrFqal8NJZn0kEHsmFnawsmyhfzVg7qHJeXcWDBwQaTmIzn/Aqs1e0sG1uiRztnFdz35Svp0PfwurKnNfqlIXJBkuqZs3tj+Z0+Sa3ZUR31/uZZJZIl4uvBfCU0AGGrLLyksGpm6unyuVioZP+J3crQE5tDMH6jW1LYWBW3/2KwKYIzG6I2Zk1aY9lc77YpHVwDiSgoXm93laj+gBiGdXjdKjvOjx4cDqX6shhy45O6UBEA4YyYQjBBmRPrh4apMajFkW4IwQu/CFdjl55yHMi0YXtNuer2EM35NBPyMBk1qpohktrujNAlzPp0w0jNiS8eO7Z9aHfgYsjHM9d3aMCJQlZZo84llLyev8CvZmJnfUe0RzGwSbonzwa75WFoGtJJ4winBOM2u6ARhZEEYuNfusAzRciLD4ef94o8r2wwXT2y6PcUwa00drs7iRcynWRLJQ9gXeDOm76hu65u/WMHkaJO0dCzH/vy5aiP/SIGcC1jROEJJwiuE9RNExKzCi/gNwROEgsa0RVlXRPIGwXxvSOcRJFhm6SygSzneiVzpDdRfDe51QwyiQHCkBMh7Kg0hg/DiAigS3/PflrIzsQijxjCN7q2EzDUcsu7GR+4AziAzE1cpoRFJ3pqWWGtzpmQtYwl72IgXkY79ntVCFf2FooORZxbQ0hgmhhYWuJeghZQJdGhO/bUOxyHvZvD1bRkTWowbWqes8NUhfEA4Dt1pKrUX8f4ex/v/LN7x3eJLdLAG1M6xWfB+bXC6BxIFwmP6+55jdG+16tcq+PyRhVo8Bs1u7JCPn+/zj0Xq6SssGA50AfWbraGMS7Dq1ZBs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66556008)(8676002)(66446008)(91956017)(508600001)(4326008)(76116006)(66946007)(83380400001)(31686004)(6486002)(66476007)(31696002)(966005)(86362001)(64756008)(71200400001)(36756003)(6506007)(38070700005)(6916009)(8936002)(38100700002)(7416002)(6512007)(316002)(5660300002)(186003)(122000001)(2906002)(54906003)(2616005)(4744005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aXZyaGpyWHRYQld2MkowVHpTVnNVMVRYbWNHNENSUzFhQkU5azNSQ0Rxc0lY?=
+ =?utf-8?B?R01tOHVXOSsyYXJWa1ZnT3V5VnNhTUFvN3R1S1kzQTEreW5Ya0JQREpsTVdh?=
+ =?utf-8?B?UTdOTDNYaXdHMjhZcXNkQUlDZHZYdWNTVnRycDl2NjNLQTg2Q2dwNkJKNzBx?=
+ =?utf-8?B?TExvaTl6Y2xZeWdESlV6WTE3ZEhrSW5KZFdiSkR3T0IydDZDQ25JT3NNVGhp?=
+ =?utf-8?B?ZEJpRVpLOEZxVlBUZlV1VlphcWtoN0UvNzk2cHlWVkdFN0t3MzV0em9nd05Q?=
+ =?utf-8?B?YUdYTXZKWFNvUW0zV2FVQ2FYZXdIa2RXeGUreERCS0ZDU2NjYkMwMjE1clAr?=
+ =?utf-8?B?MjVlT2ZDQVEyR00yVDFoYk5VNDlYZzE2S3dUUU5OMHpWYkZENTZseUcxeTF6?=
+ =?utf-8?B?UU0vSzdGYzFUQ1M1OG1SQzRqL1pnR2h3andWeGZRbngrckxjR1U2Q2pCWm5u?=
+ =?utf-8?B?TlBNK1cxNDV4K2VlSWY5c0hOZkprZTFZMUhpeXo0ZVdjYVQwTGJWVlo0YTls?=
+ =?utf-8?B?WjNNNE03cFNzazNacWZ4NkVuWU1QM3ZLNGUrUERINXIxd0ZQS0tBbFJIcEsw?=
+ =?utf-8?B?RW5Memg0eGREL1ZBVUZhN0VpNFhRR3lycmhtR3NweUZyVUhRZ2tyOTZxVHFt?=
+ =?utf-8?B?QXNqaWJ4TG83SnJ0V2x6SWNqMGRTalg3VHZVWHVyVVFneWFLZjgreGxHVXpo?=
+ =?utf-8?B?T1o0U1YrakFDSTRRTVU1bk81WUdiTXNCdWxrdm5DdG11ZVoyRmhSYVoyMzhw?=
+ =?utf-8?B?WUhZYmkwZUZwNWYxM1dXdjltOTNsbHNCVnZGZVRUTU9WcVdNSkNhK29salFt?=
+ =?utf-8?B?VDNCS21VaSs0akhUeThjdmE3SXYzYm1GdnpRNDNPanpSOHdiSHpTbkxib0VL?=
+ =?utf-8?B?OXNudzlaekUwSGRaLytuTkRRamRGL3BXTDdzN0s2bExwTUhHbTFRc3RIQ1Fq?=
+ =?utf-8?B?OGpjRG10K0hCbUlUSXFOeUZpQUhHYlI2YUdmVFVrVkVqZTE2enIza2x3djdI?=
+ =?utf-8?B?dDl4VzdSR1ZoaWdPUnlQSythK3ZCQjA2WU9WbGJuVnlFZGI0Y29xRExsM1hK?=
+ =?utf-8?B?MzB0N3BoR2o1Yk55bWxpV0RGTlE4b1dYcXBSd3JMRlFvSFhpczdPSTVvbHhG?=
+ =?utf-8?B?MDBvZkNab1g2bGovRURYVVNMd3BxeFJRY3o4UFJJZWo0aWw2aXNveE9NWHZW?=
+ =?utf-8?B?U3VQM3Awbmk5TXFtR3U2eDQ3eTdOdWI3NENwQnlyME0yRzRJdWZpNGgzemZQ?=
+ =?utf-8?B?V0NUMlArVm9XNXB6enFvMTUyUlFpeTdIZHFRSHlmc3JUMm5HWE9uU3h3cGpv?=
+ =?utf-8?B?Vm5JVmZERE1oc2poc3Zoc1o5WEV0VTRBSzNEK3JnVEhIZDVxN0RIeHNuZ3VE?=
+ =?utf-8?B?RXphUmRVUEF4Sk5hbUdpT3ZuVE4xSFBSeFJWODlvRGp0UXVNMzNXaHl5MFk2?=
+ =?utf-8?B?YWxhUlNpTHhTa2MwQ0YvSngremp5NTFpbHhyeEZxNnFvL0lTdkRCc2M1S0Js?=
+ =?utf-8?B?YWdWQlJFdUVxT2JUcTh2K1ZmUUF2QXlDVytTbi90dldyckZLdzN3Zjcrem1F?=
+ =?utf-8?B?Z2tSaWRaekZpMGhwWE8wUVViVXdSam8yNVk1Vys1TllFeE45VnVKdGNDZE5Y?=
+ =?utf-8?B?dDhQYzJxa295SHRCQk1xbGoxZFFTcWtMUEt0UmROQjFpT2ROMnM4bDZ0SFZp?=
+ =?utf-8?B?L1BmL2tqZFJoemFacCtmVTNKY29jMHpyRlQ0STNOeloyaGlHTGdUZEFYSGtS?=
+ =?utf-8?B?QkF0a3VDOGp3QVFIU0dYTzEyZlZTcVRMbEF1ZGVaRFdiV3NsZkV4c2ZneHIx?=
+ =?utf-8?B?amxoaHBuZDloWVowcmJGWktkYjg2ZlJLWnJGcm9tdG1hY3lQclNxSjl5OVpo?=
+ =?utf-8?B?UXBnQ3ZueW5ubUlIYjBMT1JqTG5YclFsUHJIVGswcG10UElCUUh0cHRGM1k3?=
+ =?utf-8?B?U1h2UkJBOFRHcUZicGgwT3JvemtDeEhzcFlWWXhCbUtCR2JGOTQyaVV3MGND?=
+ =?utf-8?B?TjZPb1g1YkpaaHVPNGVCR2Z6c2Z2YStGRU5abDdOWXd1b1dsNmdqQ1FSUU5h?=
+ =?utf-8?B?QzlHcDNRU09KbTdvOFVTZ0RDS0VFVW9wQ1VMVUtuVnIwWW93SWZ4TFlhVlcv?=
+ =?utf-8?B?b3ZaaHA5NTI4eGVxdFZiWDhpWXlwRDZuVUl3dUlkQUZMTGRrMGNPclAwZ0Zm?=
+ =?utf-8?B?UEc2RVVGbFVydDcrSERONVQrNWlFVmdpV2tUa2FrSHcrVmlINXd0SWdvaERR?=
+ =?utf-8?B?RVdaMEUyQlV4ZVUrOURVNXZXU2JRPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CC1DF588438CED4A8978B55CB0182DD7@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37baab8b-4896-4731-219b-08d9fbcaf9bc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2022 21:32:23.9582 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: n3On+ANL+yTNETdFXgNpa9SL98C8eSKQ3qEnWRvARiVFMqSPxOYWzVbFXr5OBRt/XPpFTgGVjdDDKysSM8OoYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4004
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220301_121527_197163_8110A273 
-X-CRM114-Status: GOOD (  20.95  )
+X-CRM114-CacheID: sfid-20220301_133228_380028_ECFAAA45 
+X-CRM114-Status: GOOD (  12.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,229 +168,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Varun Prakash <varun@chelsio.com>
-
-[ Upstream commit c2700d2886a87f83f31e0a301de1d2350b52c79b ]
-
-As per NVMe/TCP specification (revision 1.0a, section 3.6.2.3)
-Maximum Host to Controller Data length (MAXH2CDATA): Specifies the
-maximum number of PDU-Data bytes per H2CData PDU in bytes. This value
-is a multiple of dwords and should be no less than 4,096.
-
-Current code sets H2CData PDU data_length to r2t_length,
-it does not check MAXH2CDATA value. Fix this by setting H2CData PDU
-data_length to min(req->h2cdata_left, queue->maxh2cdata).
-
-Also validate MAXH2CDATA value returned by target in ICResp PDU,
-if it is not a multiple of dword or if it is less than 4096 return
--EINVAL from nvme_tcp_init_connection().
-
-Signed-off-by: Varun Prakash <varun@chelsio.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/tcp.c  | 63 +++++++++++++++++++++++++++++++---------
- include/linux/nvme-tcp.h |  1 +
- 2 files changed, 50 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 891a36d02e7c7..65e00c64a588b 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -44,6 +44,8 @@ struct nvme_tcp_request {
- 	u32			data_len;
- 	u32			pdu_len;
- 	u32			pdu_sent;
-+	u32			h2cdata_left;
-+	u32			h2cdata_offset;
- 	u16			ttag;
- 	__le16			status;
- 	struct list_head	entry;
-@@ -95,6 +97,7 @@ struct nvme_tcp_queue {
- 	struct nvme_tcp_request *request;
- 
- 	int			queue_size;
-+	u32			maxh2cdata;
- 	size_t			cmnd_capsule_len;
- 	struct nvme_tcp_ctrl	*ctrl;
- 	unsigned long		flags;
-@@ -572,23 +575,26 @@ static int nvme_tcp_handle_comp(struct nvme_tcp_queue *queue,
- 	return ret;
- }
- 
--static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
--		struct nvme_tcp_r2t_pdu *pdu)
-+static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_data_pdu *data = req->pdu;
- 	struct nvme_tcp_queue *queue = req->queue;
- 	struct request *rq = blk_mq_rq_from_pdu(req);
-+	u32 h2cdata_sent = req->pdu_len;
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 	u8 ddgst = nvme_tcp_ddgst_len(queue);
- 
- 	req->state = NVME_TCP_SEND_H2C_PDU;
- 	req->offset = 0;
--	req->pdu_len = le32_to_cpu(pdu->r2t_length);
-+	req->pdu_len = min(req->h2cdata_left, queue->maxh2cdata);
- 	req->pdu_sent = 0;
-+	req->h2cdata_left -= req->pdu_len;
-+	req->h2cdata_offset += h2cdata_sent;
- 
- 	memset(data, 0, sizeof(*data));
- 	data->hdr.type = nvme_tcp_h2c_data;
--	data->hdr.flags = NVME_TCP_F_DATA_LAST;
-+	if (!req->h2cdata_left)
-+		data->hdr.flags = NVME_TCP_F_DATA_LAST;
- 	if (queue->hdr_digest)
- 		data->hdr.flags |= NVME_TCP_F_HDGST;
- 	if (queue->data_digest)
-@@ -597,9 +603,9 @@ static void nvme_tcp_setup_h2c_data_pdu(struct nvme_tcp_request *req,
- 	data->hdr.pdo = data->hdr.hlen + hdgst;
- 	data->hdr.plen =
- 		cpu_to_le32(data->hdr.hlen + hdgst + req->pdu_len + ddgst);
--	data->ttag = pdu->ttag;
-+	data->ttag = req->ttag;
- 	data->command_id = nvme_cid(rq);
--	data->data_offset = pdu->r2t_offset;
-+	data->data_offset = cpu_to_le32(req->h2cdata_offset);
- 	data->data_length = cpu_to_le32(req->pdu_len);
- }
- 
-@@ -609,6 +615,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	struct nvme_tcp_request *req;
- 	struct request *rq;
- 	u32 r2t_length = le32_to_cpu(pdu->r2t_length);
-+	u32 r2t_offset = le32_to_cpu(pdu->r2t_offset);
- 
- 	rq = nvme_find_rq(nvme_tcp_tagset(queue), pdu->command_id);
- 	if (!rq) {
-@@ -633,14 +640,19 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 		return -EPROTO;
- 	}
- 
--	if (unlikely(le32_to_cpu(pdu->r2t_offset) < req->data_sent)) {
-+	if (unlikely(r2t_offset < req->data_sent)) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"req %d unexpected r2t offset %u (expected %zu)\n",
--			rq->tag, le32_to_cpu(pdu->r2t_offset), req->data_sent);
-+			rq->tag, r2t_offset, req->data_sent);
- 		return -EPROTO;
- 	}
- 
--	nvme_tcp_setup_h2c_data_pdu(req, pdu);
-+	req->pdu_len = 0;
-+	req->h2cdata_left = r2t_length;
-+	req->h2cdata_offset = r2t_offset;
-+	req->ttag = pdu->ttag;
-+
-+	nvme_tcp_setup_h2c_data_pdu(req);
- 	nvme_tcp_queue_request(req, false, true);
- 
- 	return 0;
-@@ -928,6 +940,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	int req_data_len = req->data_len;
-+	u32 h2cdata_left = req->h2cdata_left;
- 
- 	while (true) {
- 		struct page *page = nvme_tcp_req_cur_page(req);
-@@ -972,7 +985,10 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- 				req->state = NVME_TCP_SEND_DDGST;
- 				req->offset = 0;
- 			} else {
--				nvme_tcp_done_send_req(queue);
-+				if (h2cdata_left)
-+					nvme_tcp_setup_h2c_data_pdu(req);
-+				else
-+					nvme_tcp_done_send_req(queue);
- 			}
- 			return 1;
- 		}
-@@ -1030,9 +1046,14 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
- 	if (queue->hdr_digest && !req->offset)
- 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
- 
--	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
--			offset_in_page(pdu) + req->offset, len,
--			MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+	if (!req->h2cdata_left)
-+		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-+				offset_in_page(pdu) + req->offset, len,
-+				MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+	else
-+		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
-+				offset_in_page(pdu) + req->offset, len,
-+				MSG_DONTWAIT | MSG_MORE);
- 	if (unlikely(ret <= 0))
- 		return ret;
- 
-@@ -1052,6 +1073,7 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	size_t offset = req->offset;
-+	u32 h2cdata_left = req->h2cdata_left;
- 	int ret;
- 	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
- 	struct kvec iov = {
-@@ -1069,7 +1091,10 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
- 		return ret;
- 
- 	if (offset + ret == NVME_TCP_DIGEST_LENGTH) {
--		nvme_tcp_done_send_req(queue);
-+		if (h2cdata_left)
-+			nvme_tcp_setup_h2c_data_pdu(req);
-+		else
-+			nvme_tcp_done_send_req(queue);
- 		return 1;
- 	}
- 
-@@ -1261,6 +1286,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	struct msghdr msg = {};
- 	struct kvec iov;
- 	bool ctrl_hdgst, ctrl_ddgst;
-+	u32 maxh2cdata;
- 	int ret;
- 
- 	icreq = kzalloc(sizeof(*icreq), GFP_KERNEL);
-@@ -1344,6 +1370,14 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 		goto free_icresp;
- 	}
- 
-+	maxh2cdata = le32_to_cpu(icresp->maxdata);
-+	if ((maxh2cdata % 4) || (maxh2cdata < NVME_TCP_MIN_MAXH2CDATA)) {
-+		pr_err("queue %d: invalid maxh2cdata returned %u\n",
-+		       nvme_tcp_queue_id(queue), maxh2cdata);
-+		goto free_icresp;
-+	}
-+	queue->maxh2cdata = maxh2cdata;
-+
- 	ret = 0;
- free_icresp:
- 	kfree(icresp);
-@@ -2329,6 +2363,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	req->data_sent = 0;
- 	req->pdu_len = 0;
- 	req->pdu_sent = 0;
-+	req->h2cdata_left = 0;
- 	req->data_len = blk_rq_nr_phys_segments(rq) ?
- 				blk_rq_payload_bytes(rq) : 0;
- 	req->curr_bio = rq->bio;
-diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-index 959e0bd9a913e..75470159a194d 100644
---- a/include/linux/nvme-tcp.h
-+++ b/include/linux/nvme-tcp.h
-@@ -12,6 +12,7 @@
- #define NVME_TCP_DISC_PORT	8009
- #define NVME_TCP_ADMIN_CCSZ	SZ_8K
- #define NVME_TCP_DIGEST_LENGTH	4
-+#define NVME_TCP_MIN_MAXH2CDATA 4096
- 
- enum nvme_tcp_pfv {
- 	NVME_TCP_PFV_1_0 = 0x0,
--- 
-2.34.1
-
+Tmlrb3MsDQoNCj4+IFs4XSBodHRwczovL2tlcm5lbC5kay9pb191cmluZy5wZGYNCj4gDQo+IEkg
+d291bGQgbGlrZSB0byBwYXJ0aWNpcGF0ZSBpbiB0aGUgZGlzY3Vzc2lvbiB0b28uDQo+IA0KPiBU
+aGUgZG0tY2xvbmUgdGFyZ2V0IHdvdWxkIGFsc28gYmVuZWZpdCBmcm9tIGNvcHkgb2ZmbG9hZCwg
+YXMgaXQgaGVhdmlseQ0KPiBlbXBsb3lzIGRtLWtjb3B5ZC4gSSBoYXZlIGJlZW4gZXhwbG9yaW5n
+IHJlZGVzaWduaW5nIGtjb3B5ZCBpbiBvcmRlciB0bw0KPiBhY2hpZXZlIGluY3JlYXNlZCBJT1BT
+IGluIGRtLWNsb25lIGFuZCBkbS1zbmFwc2hvdCBmb3Igc21hbGwgY29waWVzIG92ZXINCj4gTlZN
+ZSBkZXZpY2VzLCBidXQgY29weSBvZmZsb2FkIHNvdW5kcyBldmVuIG1vcmUgcHJvbWlzaW5nLCBl
+c3BlY2lhbGx5DQo+IGZvciBsYXJnZXIgY29waWVzIGhhcHBlbmluZyBpbiB0aGUgYmFja2dyb3Vu
+ZCAoYXMgaXMgdGhlIGNhc2Ugd2l0aA0KPiBkbS1jbG9uZSdzIGJhY2tncm91bmQgaHlkcmF0aW9u
+KS4NCj4gDQo+IFRoYW5rcywNCj4gTmlrb3MNCg0KSWYgeW91IGNhbiBkb2N1bWVudCB5b3VyIGZp
+bmRpbmdzIGhlcmUgaXQgd2lsbCBiZSBncmVhdCBmb3IgbWUgdG8NCmFkZCBpdCB0byB0aGUgYWdl
+bmRhLg0KDQotY2sNCg0KDQo=
 
