@@ -4,98 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A9B7C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Mar 2022 17:34:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ABDAC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Mar 2022 19:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Cc:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HRcRFvy++Q3Piv5ZfPltHWqWAbRAyHKwh36CLVMrb1I=; b=YCEZS6/dEKGNI7NrPRb4qdK5x4
-	zk4qX1xMljoetG8l98ZSouzD+x+xMHPpK3DG3sMyPhe7c8UZH8ueH2NxlJxAoJvt7ZzN48Zir+AGJ
-	6fVzO9DfJc0nl04u/9Hd8++Dm39yKHl3PPKszsgNOP3AzBDYa/ydoZCEoBkUAFaYza1/L9+3kT3M7
-	nEsN8oan1UvbkyAJk1GcDX6jO+ymwQBcBL5jYpHPhymHXMZVNU8bqrfN5XerxNNU/hoaGPz4w6pFb
-	+vQMpp6D/paQdnzN19QoiZJ+y82pNvs3s3oHnmv0osnC9rQNLFfdC9FizmPWRMus7Tx1opdrZ+3hN
-	vz1dZoWw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
+	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wDlDth5ggx5pO89R2vL++L0cFqfRLT6z6Xp4oLlAKks=; b=ZAjTxIFO4SM5Si3312H6BYbC2m
+	iBd1nDAGgJ0n80gW1IoTUumFE1/KG7A/x5noZwEBwBx80fP68xBbN3U52TfAQRLlq9K9QyLzHa6iE
+	DS5ytpINdsp/7v18Kn6Wa22KX+piPAaQEXShEOGC9/RqE4oOjlXgygMiNolvNLk9cARWjKcQqVkSN
+	OrXhk0nFy0qBpZYSOB8GeFIHtCQvgqmXfMb/OJphZNRCKjMgjQLFVF+OOpLMz6hy87Tg7cM7/KsZd
+	MA4X6zCCMzEy93XiruNBTwGvXhZmWyQiilN2IbNW/5SHCJ9Gm6LsDIyNhFWQLWPREe8y7rFcitFJQ
+	iv5b4XRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nP6O5-0004iG-49; Tue, 01 Mar 2022 17:34:13 +0000
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+	id 1nP83E-000H2f-9C; Tue, 01 Mar 2022 19:20:48 +0000
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nP6O1-0004hQ-Nl
- for linux-nvme@lists.infradead.org; Tue, 01 Mar 2022 17:34:12 +0000
-Received: by mail-wr1-x429.google.com with SMTP id n14so21640330wrq.7
- for <linux-nvme@lists.infradead.org>; Tue, 01 Mar 2022 09:34:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arrikto-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:cc:in-reply-to:content-transfer-encoding;
- bh=HRcRFvy++Q3Piv5ZfPltHWqWAbRAyHKwh36CLVMrb1I=;
- b=HL2I3v37Av+6sAAhm/KydOCOeccWwSHARXzsBuC8BvBy9ppJyE+Om3QO8sfAXF8o6X
- Vyu1gTQzSWQ/Qk2Wb73+iZUbGTeikXFPB0ydHYKlHZ8iCMmElRsvnqiK5UxxLcr+mFE1
- mBfJrK98OAqqAPwXWYAR+p9uByZluzlHuqCPEZKqd+oIocC77Q68/VSdchXbTSSLw6Um
- DKlWYDjuoO9glGjBf/gSLCZ2OJlb6I4OyT591FXiLxPP9TVSHHcqqjpIrzp+2WFLSSpM
- lPkxOjLCBQOwfTZfprgSKJxRLzmY3Z45gWR4656p2gz6oB9ECQoc9JYoqmxlWOEmpC0/
- 2oDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:cc:in-reply-to
- :content-transfer-encoding;
- bh=HRcRFvy++Q3Piv5ZfPltHWqWAbRAyHKwh36CLVMrb1I=;
- b=U8M0LQl9aq4tPj5MKFx0ktLoLob8eKb8X6bZd9aqnJgXuvsPxnUG7etJke+Xs5KJxm
- EV1tboYfthGsLaRxjNhZFQAnBn/jie2zYtWmpgypLJEUygKXPmx6iUjOwWBMPBNlWcN8
- EbQyGyQTGnogF41zBzTWLGWJWpeq3Vz/hTpfpXgS5udO2am1cg7m9eS5ucB9C7ZdTCI5
- vgTHcVhqglyTvGdl+J9qs1REScrjoTOtnaQhvGbkEgL5CW1M0mVTbxMs66UpruWqXzHx
- kYRawgGcAkWwNDvpzhNhk4HVC5aEolcCVEJcObxBpENTot2t8p+iTtjTlRafkJOG9opn
- I2Tg==
-X-Gm-Message-State: AOAM530znnIPgltbz1kcjZnXMGD2SX8LFI4hKA6GCaXcrBCV4p7irBbo
- fXRNe/HvjMzGKs6EWvLE308A3Q==
-X-Google-Smtp-Source: ABdhPJz1KWOXWra6qqnrHTp/mlPHD+rOsVc+YUyeNDnkKNREvDPGkc0KCPIzIBLmoNUkcLneybWLcQ==
-X-Received: by 2002:a5d:544d:0:b0:1ee:880d:3391 with SMTP id
- w13-20020a5d544d000000b001ee880d3391mr19032471wrv.72.1646156045618; 
- Tue, 01 Mar 2022 09:34:05 -0800 (PST)
-Received: from [172.16.10.50] (193.92.178.96.dsl.dyn.forthnet.gr.
- [193.92.178.96]) by smtp.gmail.com with ESMTPSA id
- c15-20020a5d4ccf000000b001ed9e66781fsm14522344wrt.13.2022.03.01.09.34.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 09:34:04 -0800 (PST)
-Message-ID: <012723a9-2e9c-c638-4944-fa560e1b0df0@arrikto.com>
-Date: Tue, 1 Mar 2022 19:34:01 +0200
-MIME-Version: 1.0
+ id 1nP83A-000H08-Sf
+ for linux-nvme@lists.infradead.org; Tue, 01 Mar 2022 19:20:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1646162440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wDlDth5ggx5pO89R2vL++L0cFqfRLT6z6Xp4oLlAKks=;
+ b=JP7pmIgmosS/7Gbvif9HAJRnUOd+oLXiAFLug0UMrs0dvSLj2OAJKKJH0w9iiVHqbtiFmt
+ KW4NehaIcdiD3XAHnaL3CHD5S7cpd3m+xDWOnEtEU01k3oGxFHfMSRwOoMctkYhjHvqaJB
+ rtgUBLuAI2Lx+ocmLuB5+J2o6Hel2ro=
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04lp2052.outbound.protection.outlook.com [104.47.14.52]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-10-_heMHfKsO_2hueyfxZQnTg-1; Tue, 01 Mar 2022 20:20:39 +0100
+X-MC-Unique: _heMHfKsO_2hueyfxZQnTg-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PXBoKQZvorCYe4X6dzyzPaqEP9UldNJEomq9mgLiUbus8iEgQT/O/nGwbzS1Hu+xvMcb+VPqOqDkSgY2av7Fl2/fBM4+v0xXzCLjouAurHD8hHqH8U004poXfKn20slnmjkT8Au8uDjbN1ukBnGsCBHWYfR8YIUikrRlnb4OB2pS7RG0dRFN3NvVN59wNdYsqJuS+27RZmpn94u9DRd2pBdBk0dZNW4lO1fgTdn5ORkAVCcM1yjEoQVow5Dy7vLdmmaIc49Wy5dBmRqI/BQL+dRuo0QX9oMYkqjclUWw/X46JnTe+ND5xbjwGzVX5wAYrb3Mq4C/CWqs5b7+9iTG8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wDlDth5ggx5pO89R2vL++L0cFqfRLT6z6Xp4oLlAKks=;
+ b=nzxsptVqS6QKm9p+L0gZ1TRtgZ4HG1mQVREZqv+Wv3otM8iIfo4Epup0zO+GD6rI9p6YprRt3CjBhk6iNtLL/QPkewpdUn+R7OE9UpOVT5HQds1izqoh4wrhachLVv0W1Bl50wyhvFI50KjG+t/TXtf2OxJjIBqLvfm8CPeCVWFrqMn8ZrwNT6Yps+o0mlOSDHtkW9NtCvEqsBBmm5Ov9iuH8I0z4im3wjq7n697HXHbglTdzZcouMDIWYIk5GuNEH1C02zUD9DbinffBbX00p7/dKdhxlzDkfgkHj+VVqeBJbmSHIdzbchrdj2g0Bta51spVQyziujsa2yGOrCbXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from AM5PR04MB3089.eurprd04.prod.outlook.com (2603:10a6:206:b::28)
+ by DB7PR04MB4859.eurprd04.prod.outlook.com (2603:10a6:10:18::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Tue, 1 Mar
+ 2022 19:20:38 +0000
+Received: from AM5PR04MB3089.eurprd04.prod.outlook.com
+ ([fe80::38e8:ef44:f684:9eed]) by AM5PR04MB3089.eurprd04.prod.outlook.com
+ ([fe80::38e8:ef44:f684:9eed%6]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 19:20:38 +0000
+Message-ID: <ab4cb09f-cecb-0c1c-36e7-07db2556bc61@suse.com>
+Date: Tue, 1 Mar 2022 11:20:33 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
+ Thunderbird/91.4.0
+Subject: Re: [LSF/MM/BPF TOPIC] network storage transports managed within a
+ container
 Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-References: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
-From: Nikos Tsironis <ntsironis@arrikto.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
- "msnitzer@redhat.com >> msnitzer@redhat.com" <msnitzer@redhat.com>,
- Bart Van Assche <bvanassche@acm.org>,
- "martin.petersen@oracle.com >> Martin K. Petersen"
- <martin.petersen@oracle.com>, "roland@purestorage.com"
- <roland@purestorage.com>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
- Hannes Reinecke <hare@suse.de>, "kbus >> Keith Busch" <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>,
- "Frederick.Knight@netapp.com" <Frederick.Knight@netapp.com>,
- "zach.brown@ni.com" <zach.brown@ni.com>, "osandov@fb.com" <osandov@fb.com>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>, "clm@fb.com" <clm@fb.com>,
- "dsterba@suse.com" <dsterba@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
- "jack@suse.com" <jack@suse.com>
-In-Reply-To: <f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com>
+To: Chris Leech <cleech@redhat.com>, lsf-pc@lists.linux-foundation.org,
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <1cc5dd40-47e5-0756-db22-42e4e86468c5@redhat.com>
+From: Lee Duncan <lduncan@suse.com>
+In-Reply-To: <1cc5dd40-47e5-0756-db22-42e4e86468c5@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6P195CA0010.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:209:81::23) To AM5PR04MB3089.eurprd04.prod.outlook.com
+ (2603:10a6:206:b::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b7904734-a982-49b8-fc91-08d9fbb89135
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4859:EE_
+X-Microsoft-Antispam-PRVS: <DB7PR04MB48598FA91535D700B986B2DFDA029@DB7PR04MB4859.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5ef6hccKG5b3gIWZxClbRYPt1o1jZ+SpTkoO9TAXRufojJeHRjdN+Nb26auVuoR3A4yF42hVkZVG2WJp58uHZCiZ82nqFBS5UArXE+HhQH/5IdvDdvEdVgr1xegpb+i+DvvfxKIHKEoaAlnoB7fJpyXfAbFAasOpAMCkQUYqqhIXZNd/2HqyIErTOltPVF92kw0wk7qWar6wUgROlyQPpmQG1QzoUqcqiXeo3JrtTVMCgN5G6Q2hPR6VKAHw0MZZnXkJqEOe/5NV5IT2OSd1RVxORql37AL1I3lPb4lHWYVoRWtglJQsVRLyLJMjL28hX0UvtZNUF7AATr1zmhlD8VNnMafmJWjk88jaf/y4mQ5sQmmHvCHZBOmEJRJhqYSJ9sLJxShENzQyBnHuVitpTBusCpvcrfSdX2ZVckXGZpq97jpAMGQmYAcS70EjPJeQHzXvFpGScUyKETqRKmDT5FUe9yHXbG3rTSYoaFplFdQ8+cv2CANJ1Wr4OTmFeO71aB+OOsJcHTjeZd+HUcN9D2HzdM+S0y7wCjcUKOnQGD++/Orn0ed+kZoEzhkuX5PA1eNzcMWZ004y6qEnLWOaO/hHhikJK9JQT4QrHJDoR03Rt2d86tYoPCbNqVKUupgogaVW2Uh0f2LeuFHbAuL9Ur2LcCf2YVYLCYEHLpNlYxTFxuBVIMND9PX3f0lH2pyh33qknOA7V6YpwM6pZg+dOszvw0xKz31DFb78H85dMYjchwabWMp8W6GcZ36enKGb0UhDkoryrooTq6l50od3c0C5ElVp3ZEeCAI7RSd7ZnerMJHWXu5MVe+CTDON9sPbC7oNjs/7hvaWtO4auoD2aCyUfiW5zakI/ctaO5HPhXI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM5PR04MB3089.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(8936002)(5660300002)(186003)(26005)(66476007)(66556008)(66946007)(6486002)(36756003)(966005)(31686004)(508600001)(6506007)(6666004)(53546011)(38100700002)(316002)(8676002)(2906002)(6512007)(83380400001)(86362001)(31696002)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnhzQ0tzOFdyR0l6bkljUzBBREV4aTM4ZHhDaUFTYmFlNHh1dEE3SWtmTlR3?=
+ =?utf-8?B?VFhRNjJkR3JqZy9OanNDRkorOVQ0VnJ6UEtkdzYwRHBaOVRGNER3ZU9TMC82?=
+ =?utf-8?B?bllaL05lREh3cFZuYUVGMk11cWNjNW1CbmFZUWpwOFU4UGx0MXhBWnpaR0pv?=
+ =?utf-8?B?MElxZzd0V05JeXRXS3BOM3NTR3ZqdU9DVDFxMzhYdXJEcVRXSVJnQkxYTFJz?=
+ =?utf-8?B?YXZ1Vk9hOUIyeFZnOUhGMUFBNnplNkFKSThTWEQyc24zL0FZRnFDb3Zra2tM?=
+ =?utf-8?B?UkJWL0RXYnNrV3c2cytZVGVyK2t6YUdSaVlxSklWTEJvNk5nU0NaWlRaeHNl?=
+ =?utf-8?B?STBsRmwyVGliWDZPWnVKcXdWQkJsSE5OUlV2Z0VQNFcvMytDQjRUeDRoSTRV?=
+ =?utf-8?B?bWRGUC9TMnNsejlMaDA4QWhmT21KMCtKZzllZytSQmo3Y2RZa2U3MUJrMFlH?=
+ =?utf-8?B?RmJXdW5EQXI4NHg4aEYzblZCY0VkcXh0b1d4MU1uTE1LMEwxRFBxSC9acERI?=
+ =?utf-8?B?d2RoL0dyZFYwdnlPTmRkUWUzRktPOG1waUN5UXN1UHF1RmoxV0ZYRSs5dC80?=
+ =?utf-8?B?N1RJZitDNkxFdmZ5MEtGaTZzMlFBbHJGcFN2OS96QWNXaVZBdzBHZlpFM1R4?=
+ =?utf-8?B?MVVQZzhvSUNkN0lqNFE5eE1JTC9EazNROGtldndtM1pXczhkS3hFSmNPYkpv?=
+ =?utf-8?B?WFBpUDU3ckFzMzNPOTluNVprUDUvUmsyT01ZL0RWdlY2eHZTaFVGNmVZS1BM?=
+ =?utf-8?B?VHVDeWlMSUxRdlh2bWdUdHBiNzZyM0QyaFFsQU1abnAydWVXRHJQdXhxTFp1?=
+ =?utf-8?B?V3dyZEJGcXRuUm5aQS9lblQvcFl2NytxY1FMdmFIR1YrdCtucGJDNzZuNTRP?=
+ =?utf-8?B?Q2F4QW83WXlkNHVnVEdidlkvanh1Z3FwaS9hSzdIVDFxWTRJWktsd3hYNytt?=
+ =?utf-8?B?Q1hhbUtIemU1a3pVL21BUTVJV3lXRFJFcUp6SWtZMDVVaXJCUzY2MGJJNUZS?=
+ =?utf-8?B?RVpZYmdqS2lRaU9HR3dCZXFxVE8yMEZZUUVyaTB1R2w5WWptVktHdnNPaE1l?=
+ =?utf-8?B?d2RReDgyais3WkdmeGR6UHZmTkpVdlZPWHZPbGNvUDdvbldSUmUvMWVibWpJ?=
+ =?utf-8?B?VjFzUFhaMjI4c2h0elVrWGZxcnBoSHVWUHZQSGpESVdDS1FsVWpuRGtWV0ti?=
+ =?utf-8?B?dmxCbVNWdzlEN1BwRVE1Nnd1WWJ5aElHallVY0lIUnRnUEFRNWZURXBENVI4?=
+ =?utf-8?B?QSsrc0cvcWFUR3BqZ3NRU09nTE56NkJGWEd0S3N2RnE0V1B4VEpKNzNmWGgr?=
+ =?utf-8?B?TkpUcWRuNFhheUdnU3gxN1pqNFFjQjBXQ1FqRnF0cEQ5NTlySEswRDdFejdx?=
+ =?utf-8?B?ZHlxUEw3cVgwNGY3dEFnZ1pvVXlVcmpuNW9XbStteHZzeXR1Y1Y1aVZ0L0E2?=
+ =?utf-8?B?RzRjazI4anYzdC9oUVd6aUFFM1k0R1c2amt0Mi9EUGlkVnRZb2FkYnNCaEdi?=
+ =?utf-8?B?bWlLR2pBS3p0dVdrMHhKTGo3QUlodXNORStvMVcxNFZIMWdPUTBhM2M2Q0sr?=
+ =?utf-8?B?aVkxc2dQOXVMSEZqZEJyRktDZ01kZ2wydWJ1MHQzeDNFU1NUenA2N0xwak9w?=
+ =?utf-8?B?MkZJMHZMOFBZK1VOS1I3bUE5djBncFk2SytwR0ExcEF4V2Z5TWxKY3ptaFVa?=
+ =?utf-8?B?ODNsclpsZzVvVHhhYklEbExWcFlRcjVLNTVlbXh0RzBKTnZyb1BtdkYrNktW?=
+ =?utf-8?B?bk9qc0FoWVdPOXR6bk15WTduVjlUZkplYzNYMU92aHJzTnpFamVhTkFCbFJW?=
+ =?utf-8?B?elF0V0VsUWdFQWJKNXBiRUo2aXFYdW5pSEZDa1pTT1cyeUhMaERzNFUzU0px?=
+ =?utf-8?B?bnhUVitVYXhIaU5ZN0JFU1hoMWRzTjA0Z3c3UUJDeDlRUEljZ0dHeEo4bnIr?=
+ =?utf-8?B?cmVWWGw2N1llZ3BuQmx0dDFyTzQ3L1NiMFU4eEtER3RPMFFmbG5KQzhEbDVN?=
+ =?utf-8?B?aHJLU0FLeEhpN21XN0pOTngvYUw2NWFJcVpEY1JMUDRPNzU2OWRkbXE2RHds?=
+ =?utf-8?B?OUFNNTIvYnlQSjZZVnFzSXZOVSs4ZjM1T0UxWDlWeElBeHBXZ0JvNTJsSTFS?=
+ =?utf-8?B?UUVTZEk5SEpCN09jNmppcFFueFhBa2NTT1JoWUk2aldQZ0lRMERhMFVUUW00?=
+ =?utf-8?Q?Yg2A9lr/ZcftKTYmkaa0FLM=3D?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7904734-a982-49b8-fc91-08d9fbb89135
+X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3089.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 19:20:38.0611 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5hLem63UTrMG/KncfjX7TWDZm8cmLy3TNHxLr2uONYJAspI7WCheVKOv/NXdYQjzEyPuy5yU7XP4aw5xeAYUpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4859
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220301_093409_864721_3DE9BB95 
-X-CRM114-Status: GOOD (  33.22  )
+X-CRM114-CacheID: sfid-20220301_112045_100898_04432289 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,141 +157,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/27/22 09:14, Chaitanya Kulkarni wrote:
-> Hi,
+On 2/28/22 18:04, Chris Leech wrote:
+> There are various challenges when users start trying to manage SAN
+> attachments from within a container, and how we deal with network
+> namespaces.  I think it would be worth a discussion around what can be
+> agreed on as desired behavior, and what it means to attach block
+> devices from a containerized environment.
 > 
-> * Background :-
-> -----------------------------------------------------------------------
+> iSCSI has a number of issues here with the kernel to iscsid
+> interfaces, netlink and sysfs, which are largely fixable without
+> needing to break anything.  But for kernel maintained network
+> connections, there's an issue of interacting with namespace lifetimes
+> without a process.
 > 
-> Copy offload is a feature that allows file-systems or storage devices
-> to be instructed to copy files/logical blocks without requiring
-> involvement of the local CPU.
+> NVMe/TCP has avoided complex user-space control planes, but when I
+> checked subsystem connection occurred within the active namespace of
+> nvme-cli, but afterwords all fabrics subsystems were visible,
+> controllable, and disconnectable from any namespace.
 > 
-> With reference to the RISC-V summit keynote [1] single threaded
-> performance is limiting due to Denard scaling and multi-threaded
-> performance is slowing down due Moore's law limitations. With the rise
-> of SNIA Computation Technical Storage Working Group (TWG) [2],
-> offloading computations to the device or over the fabrics is becoming
-> popular as there are several solutions available [2]. One of the common
-> operation which is popular in the kernel and is not merged yet is Copy
-> offload over the fabrics or on to the device.
 > 
-> * Problem :-
-> -----------------------------------------------------------------------
+> Lee Duncan had submitted a proposal to discuss this for iSCSI last
+> year [1], partially based on some older work I did that never
+> completed [2] (I need to update that code)
 > 
-> The original work which is done by Martin is present here [3]. The
-> latest work which is posted by Mikulas [4] is not merged yet. These two
-> approaches are totally different from each other. Several storage
-> vendors discourage mixing copy offload requests with regular READ/WRITE
-> I/O. Also, the fact that the operation fails if a copy request ever
-> needs to be split as it traverses the stack it has the unfortunate
-> side-effect of preventing copy offload from working in pretty much
-> every common deployment configuration out there.
+> [1]
+> https://lore.kernel.org/linux-scsi/e9f0297a-a914-ba83-f706-5a2d508c666b@suse.com/
 > 
-> * Current state of the work :-
-> -----------------------------------------------------------------------
+> [2] https://github.com/cleech/linux/commits/iscsi-netns-old-wip
 > 
-> With [3] being hard to handle arbitrary DM/MD stacking without
-> splitting the command in two, one for copying IN and one for copying
-> OUT. Which is then demonstrated by the [4] why [3] it is not a suitable
-> candidate. Also, with [4] there is an unresolved problem with the
-> two-command approach about how to handle changes to the DM layout
-> between an IN and OUT operations.
+> - Chris Leech
 > 
-> We have conducted a call with interested people late last year since
-> lack of LSFMMM and we would like to share the details with broader
-> community members.
-> 
-> * Why Linux Kernel Storage System needs Copy Offload support now ?
-> -----------------------------------------------------------------------
-> 
-> With the rise of the SNIA Computational Storage TWG and solutions [2],
-> existing SCSI XCopy support in the protocol, recent advancement in the
-> Linux Kernel File System for Zoned devices (Zonefs [5]), Peer to Peer
-> DMA support in the Linux Kernel mainly for NVMe devices [7] and
-> eventually NVMe Devices and subsystem (NVMe PCIe/NVMeOF) will benefit
-> from Copy offload operation.
-> 
-> With this background we have significant number of use-cases which are
-> strong candidates waiting for outstanding Linux Kernel Block Layer Copy
-> Offload support, so that Linux Kernel Storage subsystem can to address
-> previously mentioned problems [1] and allow efficient offloading of the
-> data related operations. (Such as move/copy etc.)
-> 
-> For reference following is the list of the use-cases/candidates waiting
-> for Copy Offload support :-
-> 
-> 1. SCSI-attached storage arrays.
-> 2. Stacking drivers supporting XCopy DM/MD.
-> 3. Computational Storage solutions.
-> 7. File systems :- Local, NFS and Zonefs.
-> 4. Block devices :- Distributed, local, and Zoned devices.
-> 5. Peer to Peer DMA support solutions.
-> 6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
-> 
-> * What we will discuss in the proposed session ?
-> -----------------------------------------------------------------------
-> 
-> I'd like to propose a session to go over this topic to understand :-
-> 
-> 1. What are the blockers for Copy Offload implementation ?
-> 2. Discussion about having a file system interface.
-> 3. Discussion about having right system call for user-space.
-> 4. What is the right way to move this work forward ?
-> 5. How can we help to contribute and move this work forward ?
-> 
-> * Required Participants :-
-> -----------------------------------------------------------------------
-> 
-> I'd like to invite file system, block layer, and device drivers
-> developers to:-
-> 
-> 1. Share their opinion on the topic.
-> 2. Share their experience and any other issues with [4].
-> 3. Uncover additional details that are missing from this proposal.
-> 
-> Required attendees :-
-> 
-> Martin K. Petersen
-> Jens Axboe
-> Christoph Hellwig
-> Bart Van Assche
-> Zach Brown
-> Roland Dreier
-> Ric Wheeler
-> Trond Myklebust
-> Mike Snitzer
-> Keith Busch
-> Sagi Grimberg
-> Hannes Reinecke
-> Frederick Knight
-> Mikulas Patocka
-> Keith Busch
-> 
-> -ck
-> 
-> [1]https://content.riscv.org/wp-content/uploads/2018/12/A-New-Golden-Age-for-Computer-Architecture-History-Challenges-and-Opportunities-David-Patterson-.pdf
-> [2] https://www.snia.org/computational
-> https://www.napatech.com/support/resources/solution-descriptions/napatech-smartnic-solution-for-hardware-offload/
->         https://www.eideticom.com/products.html
-> https://www.xilinx.com/applications/data-center/computational-storage.html
-> [3] git://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git xcopy
-> [4] https://www.spinics.net/lists/linux-block/msg00599.html
-> [5] https://lwn.net/Articles/793585/
-> [6] https://nvmexpress.org/new-nvmetm-specification-defines-zoned-
-> namespaces-zns-as-go-to-industry-technology/
-> [7] https://github.com/sbates130272/linux-p2pmem
-> [8] https://kernel.dk/io_uring.pdf
 
-I would like to participate in the discussion too.
+I would certainly be interested in attending this.
 
-The dm-clone target would also benefit from copy offload, as it heavily
-employs dm-kcopyd. I have been exploring redesigning kcopyd in order to
-achieve increased IOPS in dm-clone and dm-snapshot for small copies over
-NVMe devices, but copy offload sounds even more promising, especially
-for larger copies happening in the background (as is the case with
-dm-clone's background hydration).
+-- 
+Lee Duncan
 
-Thanks,
-Nikos
 
