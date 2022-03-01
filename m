@@ -4,92 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 321B7C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Mar 2022 02:04:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7FD7C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Mar 2022 02:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JaCUSD2vTqwOwKJJzKBOPbfZizxvexTnRKWpUjmtfyU=; b=i6l8jGjdpirW/yWX5s4jEdAW84
-	zLyffcey0tw37qcsq5LYEoxQf8kufWjKpKWZqeZ5r72buE3sSkDV7H3SxGrdzIpwItdplaI6tyvO1
-	NJsiNrdMGHQsvt9lvu6qKseXrQ+6i/LSn058IeJFlZKecc2iLNRD5IoUFSj2c/XroszRUPoxV7aPP
-	p4NHarcQTsmCGMVWBFURT7gLihSanoqM15G0NEh0l7MiOyTRFcKUcM+m4C5GZH9jQkImUS74zk8dQ
-	i1wJu2vptEm7ujJDhLqxZVSjTEZB8tp+3mcb1GEETGIRBDMZiUWvc61yTaGKme80un5ZZqWCUVn7C
-	oP48Ex8g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Yc6RkM7dET2GEF5HE6kN7w25tS+W6RqK1ZAj6tQOyQM=; b=wnSI7d1cs4DN2AjjnCH65otW+E
+	GpGN+gaaGkp3CnLT2zIxNDQedtR+VxzppEurSO8le6lQzorhN+8S8KZ52KrlH8Ik9G1CRgFvVsoo3
+	NXoScth/Glfc1w1ONKFqyd/y9W0liVz3a+y/TCrBRLaGLC0dveiDjelylVm+jqGyd39t6HcTSL7Q4
+	9sXY7EbbioZEtQIKbmo7SVgrT36U1T1o5N+ejJAHT/KEfB9cB+i0Apwcef7NW988aBMGBbvW+NEq8
+	MZcYb403AJN6QaHPOYDPioB7hiOm5ICU18POp9czpNyadCI1Y4i6rdEKZoW3QfCE53YKw1bnCpOPG
+	zTn+Uyrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nOrs5-00Efvr-HT; Tue, 01 Mar 2022 02:04:13 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nOsQQ-00EiGR-Pp; Tue, 01 Mar 2022 02:39:42 +0000
+Received: from mail-mw2nam12on20626.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::626]
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nOrs1-00EftP-IG
- for linux-nvme@lists.infradead.org; Tue, 01 Mar 2022 02:04:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646100246;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JaCUSD2vTqwOwKJJzKBOPbfZizxvexTnRKWpUjmtfyU=;
- b=Kf938szk2uK4x1Eag+FbAngOp7BAUOaoTO/OBWeDCq0IO52mddDZHg4ehYxGJ5gLDg7rdL
- ZS2Dc4h+eKqXUT5UGo3T+SaCdLYaohgUrUVjdb2vfw99WeTSH1bW8mBF0uOBBGvVVXT4uJ
- tY9fYX5PYpoGqPWzypm5TaaFwQKmBZA=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-8eDQoPcqOOW0Xg8lCRIHKw-1; Mon, 28 Feb 2022 21:04:03 -0500
-X-MC-Unique: 8eDQoPcqOOW0Xg8lCRIHKw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- x26-20020ac84a1a000000b002ddcbd9e933so6235759qtq.11
- for <linux-nvme@lists.infradead.org>; Mon, 28 Feb 2022 18:04:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:from:subject:cc:content-transfer-encoding;
- bh=JaCUSD2vTqwOwKJJzKBOPbfZizxvexTnRKWpUjmtfyU=;
- b=g1v/7fBMh/rmwCk6rNitqj2GSO1aADksfEz6+H0kLutMCDY01DLwU1OiAXnI6YQmsD
- 6nImgDpgmXNEbKgyj5lPiaMwSyLq0WaN7zcd9Rg+PvdpQOtcjpijJ5w43Zwa/Ngbspj7
- 7W9hf4i8fgRO9yjkpYRS3rJuuFEXhEMcsF2oOY4lW8kEpQZoosxGwYHH6DZoXOzAX3+s
- ASQJXMWk/Zey1q3vNXm+++ktBFoBi8hCfhifpEjL1FrN1++FMXfA0nY4EukZxzxosXUN
- Og6j/xe5XFFk0FQCNHDMDw7MDk6Os4z7aG9CdBqtxeYf8ZJXDj0c2bhCR7bkAOQgk7sq
- TEsA==
-X-Gm-Message-State: AOAM530FadVpGPWhsJ9G8vsEi46o6MTyAl7yxB99V7gWlLeJwYJ/8ybD
- 74TAkqQKazOF0MsO+Pgm9z1jpPfV6y4H8wpY1T7KNZQjP2nAFGu5S2b3/GgqwizzVSs1ZHUUIEk
- EUUbfFGiAzuT8bZ5voM2Eu8oh2Qs=
-X-Received: by 2002:ac8:59d6:0:b0:2dd:226:9d7d with SMTP id
- f22-20020ac859d6000000b002dd02269d7dmr18466322qtf.372.1646100243314; 
- Mon, 28 Feb 2022 18:04:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+IUB2hr74QXPnDooszKG62xt16/KuAcFHfGM+WDSG9L0tFQNkmqb18SPuQtwasI3eVUfGCg==
-X-Received: by 2002:ac8:59d6:0:b0:2dd:226:9d7d with SMTP id
- f22-20020ac859d6000000b002dd02269d7dmr18466308qtf.372.1646100243047; 
- Mon, 28 Feb 2022 18:04:03 -0800 (PST)
-Received: from [192.168.0.14] (97-120-59-83.ptld.qwest.net. [97.120.59.83])
- by smtp.gmail.com with ESMTPSA id
- o24-20020a05620a15d800b00648a9cf86e7sm5779355qkm.33.2022.02.28.18.04.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 18:04:02 -0800 (PST)
-Message-ID: <1cc5dd40-47e5-0756-db22-42e4e86468c5@redhat.com>
-Date: Mon, 28 Feb 2022 18:04:00 -0800
+ id 1nOsQN-00EiFX-5o
+ for linux-nvme@lists.infradead.org; Tue, 01 Mar 2022 02:39:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CPf7Dsvi9BltGVzgNGGRBNB4zxLkt+NtG/f/1bz4kHZANrL0vRJIhqRNlYpF9cw+UiutBz5B0oUFZ2Ih6gxKJ7zayq/wDuqy/phELI1tmsHy1+HHy1e0AEvUxrH3rxeaPQYKq9sNO4+Cjki30o0GN/eG5SsGsdl59cR3c/JYg5EAZ6YnMvWpDAdZ+9vnl6X5eN7c+17a6/4VgNGI/4bFbQCBOx2K/6xndkDWGHiQl5ssrE5rviz62bTmmMvnpSHeV4MsbLJKYjTY0NhoB7WgOoQTZBwSPUJndrvTDc9OGUy8ZcuwdFuXtggUl4GWzcN3I0Ht0rbSGAXnvd/cAT8/Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yc6RkM7dET2GEF5HE6kN7w25tS+W6RqK1ZAj6tQOyQM=;
+ b=cuVwwUlmV/QJZMLccJgMwdKvCdrsY0ogJtwF/2dni0JI49DABQ+jlYWtKrnofW+DuKrFRPFFVPQHZJGmy+jz0xSnElhT6PlJMkrnpL/DoHrEqduLdcojy6oOz7nGCEBPHCGQi+CfTPLDzEQ6JNJ+uABAYS+JRcoG0MO9E0Se/6LuzgdFWqiZEs6fvXwN6NKSXH+Vt03A776OFJAuv+Zh3xO6ndDmo5OQYC+n46viXa8t4FA1Dv5hXh4lBhcDD65kAshxpm4Y3C6LDs4qclQmN+EdYvZFLFBOoZKqIlYGnoKm29MRhWKj8UpuYQXJJkhqxTFj12L1KjgUkhyHeFCx+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.234) smtp.rcpttodomain=kernel.dk smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yc6RkM7dET2GEF5HE6kN7w25tS+W6RqK1ZAj6tQOyQM=;
+ b=Iqu2pURxXAR8/3JG5gMG+tMFZWHD7rnzeHuvxFxiqaURptSoaPCuz/m8WcR1hokvgCycCzIC/35/58dXYWYNVBf5XvMHZ/fTYTtpAkObGUX22rLnPr6fEK54Apxf5ZN4Geq/repNtcMPJdIlrdjQpcEG+CjRFlHnLHt1H2sItvbnhLhHxTkTfttqWdj54TUoErLsLxPPXPYiW6mrBmpIeSqyIDSKOe10n+Msgi2XQ/SkJaC0KL+TAk3OKSO+dkI6QlIO7Jz7RGCgMpzljB6aGTfkQsBkGFZc38zlLUjcW+ww0oBNb3ZtNQ/6E1ZA/49tib9E03c45jbQNsGizH54yg==
+Received: from BN0PR02CA0028.namprd02.prod.outlook.com (2603:10b6:408:e4::33)
+ by PH0PR12MB5465.namprd12.prod.outlook.com (2603:10b6:510:ec::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Tue, 1 Mar
+ 2022 02:23:35 +0000
+Received: from BN8NAM11FT059.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e4:cafe::91) by BN0PR02CA0028.outlook.office365.com
+ (2603:10b6:408:e4::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21 via Frontend
+ Transport; Tue, 1 Mar 2022 02:23:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.234; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.234) by
+ BN8NAM11FT059.mail.protection.outlook.com (10.13.177.120) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5017.22 via Frontend Transport; Tue, 1 Mar 2022 02:23:34 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
+ (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Tue, 1 Mar 2022 02:23:33 +0000
+Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Mon, 28 Feb 2022
+ 18:23:32 -0800
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <damien.lemoal@wdc.com>, <axboe@kernel.dk>, <hch@lst.de>,
+ <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 1/1] block: move sector bio member into blk_next_bio()
+Date: Mon, 28 Feb 2022 18:23:10 -0800
+Message-ID: <20220301022310.8579-2-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20220301022310.8579-1-kch@nvidia.com>
+References: <20220301022310.8579-1-kch@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-To: lsf-pc@lists.linux-foundation.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-From: Chris Leech <cleech@redhat.com>
-Subject: [LSF/MM/BPF TOPIC] network storage transports managed within a
- container
-Cc: Lee Duncan <lduncan@suse.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cleech@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d3b47e39-80b1-4473-4770-08d9fb2a7c69
+X-MS-TrafficTypeDiagnostic: PH0PR12MB5465:EE_
+X-Microsoft-Antispam-PRVS: <PH0PR12MB54652BCD7FADA1CE06E934A2A3029@PH0PR12MB5465.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1hZz095LtJo2j01sfRjC1WVjnoIWGEVmBeV/+ciTagSyh45ewGcAaJlMCDzUeyJRnJIq0t7ncxWeIzkBn87j0SP7kiVt4deJlPpzoV7fsTvYxAPylUh4+7XapP/+slrrF34a8xeIh9SwCSj2imJIlP6tO7kF62/anrtqN1dOm9kXH+4h44ZiwvRpPmHfsYfeSrMJKNgx3RHWs0Cu6U2ugoGuAILMACpYvk96ov3fAysIrORlX4uYzL3y4M/dSlmJenoaKLMlbFgfOoA8ju5MINJr51Lp17bj3lJOAqgTUxS3Z08vJLnmCPKYg4vKqET1mla+8K1HjtHF2IeGCHeX7m7rbIGk9CeEybmf9XKfww9Rv7AEJjAg45af1C0r5RxaEGo40gd7Yfgj5JQZoyyFoeXKNEJsZ40/LqEiiYEkCgASTx4RiMUEKLuAA97iPXs8nqBrzQ4Oh6jWcQjX+rJWQS4/WhScrNqraqlOxX3r9qBBznVfvrbw0sjTUMgNA33kMQ8ZwJEcXF14T1nhFWsA0Q00tsekvq4lvv0gW2toOs8vr/fN/pZKfvP8vZTRwJ45kotXDECULCmiOidJHaFTSOr5k8No1IJVQHYV7C6IepPmRLODntfvUtVfGkHXoukevrTn0Fi3pwmF2FyR4KDNTVLvm/nh08WtHJyRuQdPXs9XRCfH1faXuH3uSKCpr801nVcnpneRCV8vsrFYLoL4GqANWGakVk5JfStd4A1zF0U=
+X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(54906003)(107886003)(110136005)(6666004)(7696005)(83380400001)(16526019)(2616005)(26005)(1076003)(426003)(82310400004)(47076005)(36860700001)(5660300002)(186003)(316002)(336012)(8936002)(40460700003)(508600001)(2906002)(356005)(36756003)(4326008)(70206006)(70586007)(81166007)(8676002)(2101003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 02:23:34.2389 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3b47e39-80b1-4473-4770-08d9fb2a7c69
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT059.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5465
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220228_180409_851042_50E01FD4 
-X-CRM114-Status: UNSURE (   8.24  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220228_183939_282594_85552159 
+X-CRM114-Status: GOOD (  14.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,33 +126,178 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There are various challenges when users start trying to manage SAN
-attachments from within a container, and how we deal with network
-namespaces.  I think it would be worth a discussion around what can be
-agreed on as desired behavior, and what it means to attach block
-devices from a containerized environment.
+blk_next_bio() is the central function which allocates bios for
+e.g. discard, write-same, write-zeroes, zone-mgmt and initializes
+common members of bios to avoid code duplication. The initialization of
+sector bio member is duplicated in disacrd, write-same, write-zeores,
+and NVMeOF Target zns backend etc.
 
-iSCSI has a number of issues here with the kernel to iscsid
-interfaces, netlink and sysfs, which are largely fixable without
-needing to break anything.  But for kernel maintained network
-connections, there's an issue of interacting with namespace lifetimes
-without a process.
+The callers of the blk_next_bio() __blkdev_issue_discard(),
+__blkdev_issue_write_same(), __blkdev_issue_write_zeroes(),
+__blkdev_issue_zero_pages(), blkdev_zone_reset_all_emulated(),
+blkdev_zone_mgmt() and nvmet_bdev_zone_mgmt_emulated_all() initialize
+bio->bi_iter.bi_sector after the call to blk_next_bio(), so we can
+safely move newly returned bio's sector initialization into the
+blk_next_bio().
 
-NVMe/TCP has avoided complex user-space control planes, but when I
-checked subsystem connection occurred within the active namespace of
-nvme-cli, but afterwords all fabrics subsystems were visible,
-controllable, and disconnectable from any namespace.
+Move sector member to the blk_next_bio() just like we have moved other
+members to blk_next_bio().
 
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ block/bio.c               |  5 ++++-
+ block/blk-lib.c           | 20 +++++++++-----------
+ block/blk-zoned.c         |  9 ++++-----
+ drivers/nvme/target/zns.c |  3 +--
+ include/linux/bio.h       |  3 ++-
+ 5 files changed, 20 insertions(+), 20 deletions(-)
 
-Lee Duncan had submitted a proposal to discuss this for iSCSI last
-year [1], partially based on some older work I did that never
-completed [2] (I need to update that code)
-
-[1]
-https://lore.kernel.org/linux-scsi/e9f0297a-a914-ba83-f706-5a2d508c666b@suse.com/
-
-[2] https://github.com/cleech/linux/commits/iscsi-netns-old-wip
-
-- Chris Leech
+diff --git a/block/bio.c b/block/bio.c
+index b15f5466ce08..0a68091685ee 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -353,7 +353,8 @@ void bio_chain(struct bio *bio, struct bio *parent)
+ EXPORT_SYMBOL(bio_chain);
+ 
+ struct bio *blk_next_bio(struct bio *bio, struct block_device *bdev,
+-		unsigned int nr_pages, unsigned int opf, gfp_t gfp)
++			 sector_t sect, unsigned int nr_pages,
++			 unsigned int opf, gfp_t gfp)
+ {
+ 	struct bio *new = bio_alloc(bdev, nr_pages, opf, gfp);
+ 
+@@ -362,6 +363,8 @@ struct bio *blk_next_bio(struct bio *bio, struct block_device *bdev,
+ 		submit_bio(bio);
+ 	}
+ 
++	new->bi_iter.bi_sector = sect;
++
+ 	return new;
+ }
+ EXPORT_SYMBOL_GPL(blk_next_bio);
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index fc6ea52e7482..3407b1afc079 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -79,8 +79,7 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+ 
+ 		WARN_ON_ONCE((req_sects << 9) > UINT_MAX);
+ 
+-		bio = blk_next_bio(bio, bdev, 0, op, gfp_mask);
+-		bio->bi_iter.bi_sector = sector;
++		bio = blk_next_bio(bio, bdev, sector, 0, op, gfp_mask);
+ 		bio->bi_iter.bi_size = req_sects << 9;
+ 		sector += req_sects;
+ 		nr_sects -= req_sects;
+@@ -167,8 +166,8 @@ static int __blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
+ 	max_write_same_sectors = bio_allowed_max_sectors(q);
+ 
+ 	while (nr_sects) {
+-		bio = blk_next_bio(bio, bdev, 1, REQ_OP_WRITE_SAME, gfp_mask);
+-		bio->bi_iter.bi_sector = sector;
++		bio = blk_next_bio(bio, bdev, sector, 1, REQ_OP_WRITE_SAME,
++				   gfp_mask);
+ 		bio->bi_vcnt = 1;
+ 		bio->bi_io_vec->bv_page = page;
+ 		bio->bi_io_vec->bv_offset = 0;
+@@ -224,6 +223,8 @@ static int __blkdev_issue_write_zeroes(struct block_device *bdev,
+ 		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
+ 		struct bio **biop, unsigned flags)
+ {
++	unsigned int opf = flags & BLKDEV_ZERO_NOUNMAP ? REQ_NOUNMAP : 0;
++	unsigned int op = REQ_OP_WRITE_ZEROES;
+ 	struct bio *bio = *biop;
+ 	unsigned int max_write_zeroes_sectors;
+ 
+@@ -237,10 +238,7 @@ static int __blkdev_issue_write_zeroes(struct block_device *bdev,
+ 		return -EOPNOTSUPP;
+ 
+ 	while (nr_sects) {
+-		bio = blk_next_bio(bio, bdev, 0, REQ_OP_WRITE_ZEROES, gfp_mask);
+-		bio->bi_iter.bi_sector = sector;
+-		if (flags & BLKDEV_ZERO_NOUNMAP)
+-			bio->bi_opf |= REQ_NOUNMAP;
++		bio = blk_next_bio(bio, bdev, sector, 0, op | opf, gfp_mask);
+ 
+ 		if (nr_sects > max_write_zeroes_sectors) {
+ 			bio->bi_iter.bi_size = max_write_zeroes_sectors << 9;
+@@ -274,6 +272,7 @@ static int __blkdev_issue_zero_pages(struct block_device *bdev,
+ 		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
+ 		struct bio **biop)
+ {
++	unsigned int nr_pages = __blkdev_sectors_to_bio_pages(nr_sects);
+ 	struct bio *bio = *biop;
+ 	int bi_size = 0;
+ 	unsigned int sz;
+@@ -282,9 +281,8 @@ static int __blkdev_issue_zero_pages(struct block_device *bdev,
+ 		return -EPERM;
+ 
+ 	while (nr_sects != 0) {
+-		bio = blk_next_bio(bio, bdev, __blkdev_sectors_to_bio_pages(nr_sects),
+-				   REQ_OP_WRITE, gfp_mask);
+-		bio->bi_iter.bi_sector = sector;
++		bio = blk_next_bio(bio, bdev, sector, nr_pages, REQ_OP_WRITE,
++				   gfp_mask);
+ 
+ 		while (nr_sects != 0) {
+ 			sz = min((sector_t) PAGE_SIZE, nr_sects << 9);
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 602bef54c813..0a8680df3f1c 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -215,9 +215,8 @@ static int blkdev_zone_reset_all_emulated(struct block_device *bdev,
+ 			continue;
+ 		}
+ 
+-		bio = blk_next_bio(bio, bdev, 0, REQ_OP_ZONE_RESET | REQ_SYNC,
+-				   gfp_mask);
+-		bio->bi_iter.bi_sector = sector;
++		bio = blk_next_bio(bio, bdev, sector, 0,
++				   REQ_OP_ZONE_RESET | REQ_SYNC, gfp_mask);
+ 		sector += zone_sectors;
+ 
+ 		/* This may take a while, so be nice to others */
+@@ -302,8 +301,8 @@ int blkdev_zone_mgmt(struct block_device *bdev, enum req_opf op,
+ 	}
+ 
+ 	while (sector < end_sector) {
+-		bio = blk_next_bio(bio, bdev, 0, op | REQ_SYNC, gfp_mask);
+-		bio->bi_iter.bi_sector = sector;
++		bio = blk_next_bio(bio, bdev, sector, 0, op | REQ_SYNC,
++				   gfp_mask);
+ 		sector += zone_sectors;
+ 
+ 		/* This may take a while, so be nice to others */
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 3e421217a7ad..cb4ba3f3a95e 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -412,10 +412,9 @@ static u16 nvmet_bdev_zone_mgmt_emulate_all(struct nvmet_req *req)
+ 
+ 	while (sector < get_capacity(bdev->bd_disk)) {
+ 		if (test_bit(blk_queue_zone_no(q, sector), d.zbitmap)) {
+-			bio = blk_next_bio(bio, bdev, 0,
++			bio = blk_next_bio(bio, bdev, sector, 0,
+ 				zsa_req_op(req->cmd->zms.zsa) | REQ_SYNC,
+ 				GFP_KERNEL);
+-			bio->bi_iter.bi_sector = sector;
+ 			/* This may take a while, so be nice to others */
+ 			cond_resched();
+ 		}
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 7523aba4ddf7..c34fd40c8867 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -788,6 +788,7 @@ static inline void bio_set_polled(struct bio *bio, struct kiocb *kiocb)
+ }
+ 
+ struct bio *blk_next_bio(struct bio *bio, struct block_device *bdev,
+-		unsigned int nr_pages, unsigned int opf, gfp_t gfp);
++			 sector_t sect, unsigned int nr_pages,
++			 unsigned int opf, gfp_t gfp);
+ 
+ #endif /* __LINUX_BIO_H */
+-- 
+2.29.0
 
 
