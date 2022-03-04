@@ -4,78 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E99BC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Mar 2022 20:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D54CC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Mar 2022 21:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MzIVLFYgbIHKi0WfmGy/b7PPLkLPtlBjK1VwtmfcCaA=; b=4UkdrIAg+gWARqHAPQPrqPrmZy
-	IhrAxJ16I1Wig8jTBHlB/DRrXgOw0s8YaeuZoBIBMqj8hlkHmRVwBs1Gs/OfLXKyo+FkL7CRCRvP8
-	yL+aK622e/aGslBnyY4P+HTHpI66FKMReSl7b8V240QMqJIEOY/Xe/+WvnukIBhs8mPN28YzVXjC6
-	+SAGJStceA0Idat2c3t6TFMDpp6DZUCfYkHrrFBt04H7sG2Y6JkwDk6X/kblcAvjqaQw51f2BDIne
-	U8Ws9rzrkc0bsb1NKmkGyqKgJLnLwjueBs4P7VJNfyYSRQDr4WyLxJF4wEDQ5ehCs0mp5II29Q2Dg
-	9i6lU+5g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SOZh7mllByD0dsvSsQzAyd5iVpR524yiebHl9rW46T0=; b=GCOoh9bKYK0EcNSbSnWlQ204Vk
+	nxKqmsaDLsbWomPjEaZCHFAqF3dYvh3+tSaB8zl6gOppCY2yaoh1iJLruBW0r3VP8OD/aCqbNwD8Z
+	S6pdSa+p49tzxp2vtGLY9PK2CamHvmJ3IJ0zHzSklZZAA6DBtFRqwcjLFXlenFA117L+9SmmGClpW
+	/HDKXLEr0u36dhKFRxOKAFp/ZBTDRu0AF0IYZbsfxLVCTOamd4HbmAn26nvIbRvQTzk59YoD0JMcb
+	Zt+H/kn3ajlEBqsYnD6NSDEC3oyU2mgqrAYrx19fsVP9hP8nZw6OyV78SzpDpfkM/X8CLxJFH9w0D
+	DOM7a/qQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nQEPO-00BwAr-0Q; Fri, 04 Mar 2022 20:20:14 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1nQFDR-00C5YU-At; Fri, 04 Mar 2022 21:11:57 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nQEPL-00Bw9c-97
- for linux-nvme@lists.infradead.org; Fri, 04 Mar 2022 20:20:12 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id v4so8252727pjh.2
- for <linux-nvme@lists.infradead.org>; Fri, 04 Mar 2022 12:20:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:in-reply-to:references:subject:message-id:date
- :mime-version:content-transfer-encoding;
- bh=MzIVLFYgbIHKi0WfmGy/b7PPLkLPtlBjK1VwtmfcCaA=;
- b=2xgKttVdE+/3e73yVrW7xAHaDB3kKqtj49qJHIQnLCF0m/Opwy1KSuE9in16hG+ho5
- 4pncR48ceZqaBfGLvTX53Sn2ScC1bZ6IsUHeELUi3rPOasHA0Xq8YIAJ4WOEq7PMYR5x
- OZcZaSdaQeFi70GWxawnI2Qy0xZE4Ltqs0zEZeMIBBIFT31oDwKMNHfE7Hfd4iFuqtU1
- QIlBlYTLi0Q++xOVL4tXESTdjUyZPOUAvjuufrwIQ6DKdOVG9Q6xK7pOCnZmRPvD5ifH
- /KkHUjNb5CadrWEaCLx4pT8+ljYKkchUVh3UvokT/F0ByHWSmvTVXZ3rLMg5LGBADHpa
- dk9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
- :message-id:date:mime-version:content-transfer-encoding;
- bh=MzIVLFYgbIHKi0WfmGy/b7PPLkLPtlBjK1VwtmfcCaA=;
- b=dQKDIe9dr0G86Ib1csDiPiyjIZlFBdQcZkk96P1tZhW8paKG5e3N90z8srF7GOrlMf
- DkNPLuieDJMq4Tm7UsvAQ1nkYNCl5S13HQ/qmzXL0SEyuSf8M4Fee+xlkcmz6Ab0QYnJ
- xY4XCsIIomn0dihwIfEDhs+5xMTGgmRtyP5IZnKpqMbYYVY4g1fT38+ytOWPoQTtk62N
- bWh6EJ0ksf40HL8Nt2MSQs7jIHZDiTte+x1VJ/6gP5jwdxYHJSramW7FrLxBpcXRBIxS
- 0Dp4AWx7aDZrjwuDVBTlu2MyxrppjYHogsZZwJxgxqwqTYs23AcMy70AkOk67qemITlg
- rhkg==
-X-Gm-Message-State: AOAM530a9+itAVv9FbelvIXDu7tqtOf5dSiPFQYhYysm6S0NzJCRdsg1
- L1EaTUQxMVwICnUjwgPyg20EYA==
-X-Google-Smtp-Source: ABdhPJxzNrjaHLQHQLD/BhExavFf9aVSlD7kGy6+cUzSlMmSh60/B/1lked5Soafp5AjkDLXFnEiCg==
-X-Received: by 2002:a17:902:7404:b0:151:c3f9:e43a with SMTP id
- g4-20020a170902740400b00151c3f9e43amr105492pll.12.1646425210378; 
- Fri, 04 Mar 2022 12:20:10 -0800 (PST)
-Received: from [127.0.1.1] ([2600:380:777a:c32a:5fa9:a654:f35:71f6])
- by smtp.gmail.com with ESMTPSA id
- mu9-20020a17090b388900b001bef86b7d92sm8488608pjb.24.2022.03.04.12.20.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 12:20:09 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-nvme@lists.infradead.org, sagi@grimberg.me, kbusch@kernel.org,
- linux-raid@vger.kernel.org, song@kernel.org
-In-Reply-To: <20220304175556.407719-1-hch@lst.de>
-References: <20220304175556.407719-1-hch@lst.de>
-Subject: Re: [PATCH 1/2] nvme: remove support or stream based temperature hint
-Message-Id: <164642520857.251407.3488369238595834309.b4-ty@kernel.dk>
-Date: Fri, 04 Mar 2022 13:20:08 -0700
+ id 1nQFDN-00C5Xt-Jb
+ for linux-nvme@lists.infradead.org; Fri, 04 Mar 2022 21:11:55 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2A709B82B7D;
+ Fri,  4 Mar 2022 21:11:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86076C340E9;
+ Fri,  4 Mar 2022 21:11:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646428310;
+ bh=4Mc8VwnnTISw7h3v5rPiGJZSdJre1u5EXkwdeSlhzXo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=irBXa0ZPIDJUVFBzhlRFpHYyz8UwIWdenC+JrCpY6mvZSLBD0tjyJCbZH2T4i+jvW
+ x2Zs63FdkeYjOWH8LekzvT9HDd/1O3ZkrZuBrrDlFjXgTMPtVb988xTh5a2lbSfO+x
+ Msi7hVhq3Wz4336XkuAGOn170CwO6LfA7VbNjLQ2EGHX1unvTEh+WByVYxrgRmWXlm
+ VDjevmzm53+1F3h81ZgES7rzjdEhBAAOyT84ItlcyIJ5LxbHjzdKHZ0zAGIWG63nqK
+ sYsZkLCMnV5Hk3Irp2Z3dvyDAe+nQEVIy0nBffxxSHy/fGXZqBmqxoTIJoW+2q7Ayh
+ s1kSeCiW04jiA==
+Date: Fri, 4 Mar 2022 13:11:48 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Varun Prakash <varun@chelsio.com>, hch@lst.de, Ran.Anner@dell.com,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v4] nvme-tcp: send H2CData PDUs based on MAXH2CDATA
+Message-ID: <20220304211148.GB3256926@dhcp-10-100-145-180.wdc.com>
+References: <1642870664-3401-1-git-send-email-varun@chelsio.com>
+ <23ddf451-2540-86c2-c403-2614477c130f@grimberg.me>
+ <98f61e6a-5bc2-788a-a0e0-557001adcf51@grimberg.me>
+ <337cec23-c9ee-1cfb-89fc-e6aec649623c@grimberg.me>
+ <20220301225601.GA2366101@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220301225601.GA2366101@dhcp-10-100-145-180.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220304_122011_342710_DC7F935C 
-X-CRM114-Status: GOOD (  10.89  )
+X-CRM114-CacheID: sfid-20220304_131153_978264_38581678 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,24 +76,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 4 Mar 2022 18:55:55 +0100, Christoph Hellwig wrote:
-> This support was added for RocksDB, but RocksDB ended up not using it.
-> At the same time drives on the open marked (vs those build for OEMs
-> for non-Linux support) that actually support streams are extremly
-> rare.  Don't bloat the nvme driver for it.
-> 
-> 
+Correction from the testing side, the below error was introduced
+sometime after the most recent 5.15 stable and current 5.17-rc6. It has
+nothing to do with this patch. I've requested a bisect to identify the
+actual commit, and will report back any findings.
 
-Applied, thanks!
-
-[1/2] nvme: remove support or stream based temperature hint
-      commit: 86cc47f6c199a71fdb28fe781174d9974ee14304
-[2/2] block: remove the per-bio/request write hint
-      commit: 6928b8f7eafaec1f0ea318fec71b537a165e552b
-
-Best regards,
--- 
-Jens Axboe
-
-
+> [Tue Mar  1 13:13:19 2022] nvme nvme0: Removing ctrl: NQN "nqn.2015-09.co=
+m.wdc:nvme.1"
+> [Tue Mar  1 13:13:19 2022] ------------[ cut here ]------------
+> [Tue Mar  1 13:13:19 2022] WARNING: CPU: 5 PID: 41414 at kernel/rcu/srcut=
+ree.c:373 cleanup_srcu_struct+0xe8/0xf0
+> [Tue Mar  1 13:13:19 2022] Modules linked in: nvme_tcp(OE) nvme_rdma nvme=
+_fabrics nvme nvme_core ib_umad rdma_ucm rdma_cm iw_cm ib_cm snd_seq_dummy =
+snd_hrtimer snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_dev=
+ice snd_timer snd soundcore cmac nls_utf8 cifs cifs_arc4 cifs_md4 fscache n=
+etfs cuse ipmi_ssif binfmt_misc nls_iso8859_1 intel_rapl_msr intel_rapl_com=
+mon sb_edac x86_pkg_temp_thermal intel_powerclamp coretemp drm_vram_helper =
+crct10dif_pclmul ghash_clmulni_intel drm_ttm_helper aesni_intel ttm crypto_=
+simd drm_kms_helper cryptd cec rc_core fb_sys_fops rapl syscopyarea sysfill=
+rect joydev input_leds sysimgblt intel_cstate efi_pstore mei_me ioatdma mei=
+ acpi_ipmi ipmi_si acpi_power_meter acpi_pad mac_hid sch_fq_codel ipmi_devi=
+ntf ipmi_msghandler msr parport_pc ppdev lp parport drm ip_tables x_tables =
+autofs4 mlx5_ib ib_uverbs ib_core hid_generic usbhid hid mlx5_core crc32_pc=
+lmul igb mlxfw psample i2c_i801 i2c_algo_bit ahci i2c_smbus lpc_ich xhci_pc=
+i dca tls libahci xhci_pci_renesas
+> [Tue Mar  1 13:13:19 2022]  pci_hyperv_intf wmi
+> [Tue Mar  1 13:13:19 2022] CPU: 5 PID: 41414 Comm: nvme Tainted: G       =
+    OE     5.17.0-051700rc4-generic #202202132130
+> [Tue Mar  1 13:13:19 2022] Hardware name: Supermicro SYS-5018R-WR/X10SRW-=
+F, BIOS 2.0a 08/02/2016
+> [Tue Mar  1 13:13:19 2022] RIP: 0010:cleanup_srcu_struct+0xe8/0xf0
+> [Tue Mar  1 13:13:19 2022] Code: ff 84 c0 0f 85 f9 45 b0 00 49 8b bd f0 c=
+3 00 00 e8 cd 37 17 00 49 c7 85 f0 c3 00 00 00 00 00 00 5b 41 5c 41 5d 5d c=
+3 0f 0b c3 <0f> 0b eb b5 0f 0b 66 90 0f 1f 44 00 00 48 8b 7f 28 f0 ff 8f 40=
+ c4
+> [Tue Mar  1 13:13:19 2022] RSP: 0018:ffff97844b7cfac8 EFLAGS: 00010202
+> [Tue Mar  1 13:13:19 2022] RAX: 0000000000000001 RBX: ffff888575920080 RC=
+X: 0000000000000010
+> [Tue Mar  1 13:13:19 2022] RDX: 0000000000000010 RSI: 0000000000000000 RD=
+I: 0000000000000010
+> [Tue Mar  1 13:13:19 2022] RBP: ffff97844b7cfae0 R08: 0000000000000000 R0=
+9: 0000000000000000
+> [Tue Mar  1 13:13:19 2022] R10: 0000000000000010 R11: 0000000000000000 R1=
+2: ffff888575920000
+> [Tue Mar  1 13:13:19 2022] R13: ffff888575920578 R14: 0000000000000000 R1=
+5: ffff888512eecfc0
+> [Tue Mar  1 13:13:19 2022] FS:  00007f010e45c740(0000) GS:ffff888c5fb4000=
+0(0000) knlGS:0000000000000000
+> [Tue Mar  1 13:13:19 2022] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050=
+033
+> [Tue Mar  1 13:13:19 2022] CR2: 00007ffe64848e98 CR3: 00000002765f4002 CR=
+4: 00000000003706e0
+> [Tue Mar  1 13:13:19 2022] DR0: 0000000000000000 DR1: 0000000000000000 DR=
+2: 0000000000000000
+> [Tue Mar  1 13:13:19 2022] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR=
+7: 0000000000000400
+> [Tue Mar  1 13:13:19 2022] Call Trace:
+> [Tue Mar  1 13:13:19 2022]  <TASK>
+> [Tue Mar  1 13:13:19 2022]  blk_release_queue+0x10d/0x110
+> [Tue Mar  1 13:13:19 2022]  kobject_cleanup+0x41/0x140
+> [Tue Mar  1 13:13:19 2022]  kobject_put+0x53/0x70
+> [Tue Mar  1 13:13:19 2022]  blk_put_queue+0x12/0x20
+> [Tue Mar  1 13:13:19 2022]  disk_release+0x63/0x80
+> [Tue Mar  1 13:13:19 2022]  device_release+0x3b/0xa0
+> [Tue Mar  1 13:13:19 2022]  kobject_cleanup+0x41/0x140
+> [Tue Mar  1 13:13:19 2022]  kobject_put+0x53/0x70
+> [Tue Mar  1 13:13:19 2022]  put_device+0x13/0x20
+> [Tue Mar  1 13:13:19 2022]  put_disk+0x1b/0x20
+> [Tue Mar  1 13:13:19 2022]  nvme_free_ns+0x28/0x160 [nvme_core]
+> [Tue Mar  1 13:13:19 2022]  nvme_ns_remove+0x124/0x1b0 [nvme_core]
+> [Tue Mar  1 13:13:19 2022]  nvme_remove_namespaces+0xb0/0xf0 [nvme_core]
+> [Tue Mar  1 13:13:19 2022]  nvme_do_delete_ctrl+0x5d/0x7a [nvme_core]
+> [Tue Mar  1 13:13:19 2022]  nvme_sysfs_delete.cold+0x8/0xd [nvme_core]
+> [Tue Mar  1 13:13:19 2022]  dev_attr_store+0x17/0x30
+> [Tue Mar  1 13:13:19 2022]  sysfs_kf_write+0x3e/0x50
+> [Tue Mar  1 13:13:19 2022]  kernfs_fop_write_iter+0x137/0x1c0
+> [Tue Mar  1 13:13:19 2022]  new_sync_write+0x117/0x1a0
+> [Tue Mar  1 13:13:19 2022]  ? get_kcore_size+0xf0/0xf0
+> [Tue Mar  1 13:13:19 2022]  vfs_write+0x1f3/0x290
+> [Tue Mar  1 13:13:19 2022]  ksys_write+0x67/0xe0
+> [Tue Mar  1 13:13:19 2022]  __x64_sys_write+0x19/0x20
+> [Tue Mar  1 13:13:19 2022]  do_syscall_64+0x5c/0xc0
+> [Tue Mar  1 13:13:19 2022]  ? do_sys_openat2+0x87/0x160
+> [Tue Mar  1 13:13:19 2022]  ? exit_to_user_mode_prepare+0x37/0xb0
+> [Tue Mar  1 13:13:19 2022]  ? syscall_exit_to_user_mode+0x27/0x50
+> [Tue Mar  1 13:13:19 2022]  ? do_syscall_64+0x69/0xc0
+> [Tue Mar  1 13:13:19 2022]  ? exit_to_user_mode_prepare+0x37/0xb0
+> [Tue Mar  1 13:13:19 2022]  ? irqentry_exit_to_user_mode+0x9/0x20
+> [Tue Mar  1 13:13:19 2022]  ? irqentry_exit+0x33/0x40
+> [Tue Mar  1 13:13:19 2022]  ? exc_page_fault+0x89/0x180
+> [Tue Mar  1 13:13:19 2022]  ? asm_exc_page_fault+0x8/0x30
+> [Tue Mar  1 13:13:19 2022]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> [Tue Mar  1 13:13:19 2022] RIP: 0033:0x7f010e577a37
+> [Tue Mar  1 13:13:19 2022] Code: 0f 00 f7 d8 64 89 02 48 c7 c0 ff ff ff f=
+f eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 0=
+0 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74=
+ 24
+> [Tue Mar  1 13:13:19 2022] RSP: 002b:00007ffdd3c13538 EFLAGS: 00000246 OR=
+IG_RAX: 0000000000000001
+> [Tue Mar  1 13:13:19 2022] RAX: ffffffffffffffda RBX: 0000000000000037 RC=
+X: 00007f010e577a37
+> [Tue Mar  1 13:13:19 2022] RDX: 0000000000000001 RSI: 0000557cd45d4e8e RD=
+I: 0000000000000003
+> [Tue Mar  1 13:13:19 2022] RBP: 0000000000000003 R08: 0000557cd5dcd4a0 R0=
+9: 0000557cd5dcd510
+> [Tue Mar  1 13:13:19 2022] R10: 0000000000000000 R11: 0000000000000246 R1=
+2: 0000557cd5dcd510
+> [Tue Mar  1 13:13:19 2022] R13: 0000557cd45ed060 R14: 0000000000000000 R1=
+5: 0000000000000003
+> [Tue Mar  1 13:13:19 2022]  </TASK>
+> [Tue Mar  1 13:13:19 2022] ---[ end trace 0000000000000000 ]---
 
