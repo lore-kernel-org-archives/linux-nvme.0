@@ -4,71 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89C26C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Mar 2022 07:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC1B7C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Mar 2022 09:42:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fgi9VGCyuCGHuvtzqHswhzO/NiosivG4T4eHllRpiis=; b=vQCyMHDpePaCyiaKUxFRBrFurs
-	C5BCq4BI01YWCTEzDNKBuM0j8vsBXp5S/WvizMhgvQ3rLWpGGb3kWw25HCooGaUbx8y2gzSd7aEuL
-	cO3t6LK0LqYkyGVOo1SdCq93jW9SGvKERIIwB0N/6PJ3RDajYjYqmoDt6qvQ4+wNhdtK1Vbp8EXxB
-	uqvK2NWIW/Zomu4RUDBKScMd2/03yuRAChtBJmkfqLRowO0lxlWx5C8c0N6xtLOcSt5SeOeSalW7N
-	IBEVPaaCR/bR56aorzMgNPoe+2mbX/E0a36CugTwlN/5oEwWu8TuUjNugotApI0JgAXcAWW0eRasC
-	4vf8beJA==;
+	bh=Kmx43Ddl0V0s/jGYBMGBzQ8O8an4rlGsd1/ZWDxPVOo=; b=hskJvwzCX9IgXc8vszQRlhA4W+
+	E6MlHaI7jCIKNc0a9X9enhRsolS1ZjOfAhV5F9iGCB5Ub0u1xksTZwK/fTD3nTX2ooqWdQ0Xwg5d7
+	9tcff9lik1Ou4dyAz5b2LOW3WHNL+SJk9ANl03Q5/v/NlhXRNrAlenCGrJoH/ItFUVzc6UhCyyOHP
+	KFLE/sJDxZA9iOV4W/1u5Vv5eW1RYwjkuQIKq3V7rTZJtElTqQlSskvm0gBWZoPD/aUG1P3PYBhFs
+	vj77Y13PRKocm/TQYElYaXBZFU16ueDAeDCbFlQXkEquT0z7WljZzjptu0PxBqmXYD97OMgG4lRRO
+	44q/m0ag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nQ2lA-008rXs-E1; Fri, 04 Mar 2022 07:53:56 +0000
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151])
+	id 1nQ4Rc-009MDG-46; Fri, 04 Mar 2022 09:41:52 +0000
+Received: from smtprz15.163.net ([106.3.154.248] helo=smtp.tom.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nQ2l7-008rVj-My
- for linux-nvme@lists.infradead.org; Fri, 04 Mar 2022 07:53:55 +0000
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-89-FYvCFpCMOBqyNx07Jia5EQ-1; Fri, 04 Mar 2022 07:53:46 +0000
-X-MC-Unique: FYvCFpCMOBqyNx07Jia5EQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Fri, 4 Mar 2022 07:53:44 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Fri, 4 Mar 2022 07:53:44 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Keith Busch' <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-crypto@vger.kernel.org"
- <linux-crypto@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-CC: "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>, Hannes Reinecke
- <hare@suse.de>
-Subject: RE: [PATCHv4 5/8] lib: add rocksoft model crc64
-Thread-Topic: [PATCHv4 5/8] lib: add rocksoft model crc64
-Thread-Index: AQHYLzsrMRdzY3NFeE6gsrcF0wQhN6yu0OzA
-Date: Fri, 4 Mar 2022 07:53:44 +0000
-Message-ID: <30e059eca211460780442e2ded092722@AcuMS.aculab.com>
-References: <20220303201312.3255347-1-kbusch@kernel.org>
- <20220303201312.3255347-6-kbusch@kernel.org>
-In-Reply-To: <20220303201312.3255347-6-kbusch@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ id 1nQ4FN-009Hut-SU
+ for linux-nvme@lists.infradead.org; Fri, 04 Mar 2022 09:29:16 +0000
+Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
+ by freemail02.tom.com (Postfix) with ESMTP id 1D60CB00D67
+ for <linux-nvme@lists.infradead.org>; Fri,  4 Mar 2022 17:29:08 +0800 (CST)
+Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
+ by my-app02 (TOM SMTP Server) with SMTP ID -2075682662
+ for <linux-nvme@lists.infradead.org>;
+ Fri, 04 Mar 2022 17:29:08 +0800 (CST)
+Received: from antispam1.tom.com (unknown [172.25.16.55])
+ by freemail02.tom.com (Postfix) with ESMTP id DDDD8B00D74
+ for <linux-nvme@lists.infradead.org>; Fri,  4 Mar 2022 17:29:07 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
+ t=1646386147; bh=Bc9KMhlTFc+L9nse97ukML/8OVbdVvQqv3GytP/pNFw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Q6wrtlGGgrEDhBoSDzQoakAlagmOq/v5pTKFPh5tHw7xZRPBxrllwZJ8QW5i4wl0T
+ wNe9zIv3Uv1i0ndI0Mw1bMurF0xcLR7tYheO6LHdSwDavcMhJ2yYQU5m/JFOi4N0GE
+ gQGJQ2hejHm6lm+1YZIxS+iXNGs0QsJEM5Xdj8gs=
+Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
+ by antispam1.tom.com (Postfix) with ESMTP id AC1F9D4159B
+ for <linux-nvme@lists.infradead.org>; Fri,  4 Mar 2022 17:29:07 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
+Received: from antispam1.tom.com ([127.0.0.1])
+ by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id N2qo1v300psK for <linux-nvme@lists.infradead.org>;
+ Fri,  4 Mar 2022 17:29:05 +0800 (CST)
+Received: from localhost.localdomain (unknown [39.144.44.23])
+ by antispam1.tom.com (Postfix) with ESMTPA id 1D5B9D41530;
+ Fri,  4 Mar 2022 17:29:04 +0800 (CST)
+From: Mingbao Sun <sunmingbao@tom.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: sunmingbao@tom.com, tyler.sun@dell.com, ping.gan@dell.com,
+ yanxiu.cai@dell.com, libin.zhang@dell.com, ao.sun@dell.com
+Subject: [PATCH 1/2] nvmet-tcp: support specifying the congestion-control
+Date: Fri,  4 Mar 2022 17:27:53 +0800
+Message-Id: <20220304092754.2721-2-sunmingbao@tom.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20220304092754.2721-1-sunmingbao@tom.com>
+References: <20220304092754.2721-1-sunmingbao@tom.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220303_235354_053236_9DC0D098 
-X-CRM114-Status: GOOD (  15.81  )
+X-CRM114-CacheID: sfid-20220304_012914_499305_D056A4BC 
+X-CRM114-Status: GOOD (  19.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,91 +84,197 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch
-> Sent: 03 March 2022 20:13
->=20
-> The NVM Express specification extended data integrity fields to 64 bits
-> using the Rocksoft parameters. Add the poly to the crc64 table
-> generation, and provide a generic library routine implementing the
-> algorithm.
->=20
-> The Rocksoft 64-bit CRC model parameters are as follows:
->     Poly: 0xAD93D23594C93659
->     Initial value: 0xFFFFFFFFFFFFFFFF
->     Reflected Input: True
->     Reflected Output: True
->     Xor Final: 0xFFFFFFFFFFFFFFFF
->=20
-> Since this model used reflected bits, the implementation generates the
-> reflected table so the result is ordered consistently.
+From: Mingbao Sun <tyler.sun@dell.com>
 
-Since the data is processed least significant bit first the
-table must be setup slightly differently.
+congestion-control could have a noticeable impaction on the
+performance of TCP-based communications. This is of course true
+to NVMe_over_TCP.
 
-...
-> + * crc64rocksoft[256] table is from the Rocksoft specification polynomia=
-l
-> + * defined as,
-> + *
-> + * x^64 + x^63 + x^61 + x^59 + x^58 + x^56 + x^55 + x^52 + x^49 + x^48 +=
- x^47 +
-> + * x^46 + x^44 + x^41 + x^37 + x^36 + x^34 + x^32 + x^31 + x^28 + x^26 +=
- x^23 +
-> + * x^22 + x^19 + x^16 + x^13 + x^12 + x^10 + x^9 + x^6 + x^4 + x^3 + 1
+Different congestion-controls (e.g., cubic, dctcp) are suitable for
+different scenarios. Proper adoption of congestion control would benefit
+the performance. On the contrary, the performance could be destroyed.
 
-Which matches the Poly: 0xAD93D23594C93659 above.
+Though we can specify the congestion-control of NVMe_over_TCP via
+writing '/proc/sys/net/ipv4/tcp_congestion_control', but this also
+changes the congestion-control of all the future TCP sockets that
+have not been explicitly assigned the congestion-control, thus bringing
+potential impaction on their performance.
 
-...
-> +#define CRC64_ROCKSOFT_POLY 0x9A6C9329AC4BC9B5ULL
+So it makes sense to make NVMe_over_TCP support specifying the
+congestion-control. And this commit addresses the target side.
 
-But that value is clearly different.
+Implementation approach:
+the following new file entry was created for user to specify the
+congestion-control of each nvmet port.
+'/sys/kernel/config/nvmet/ports/X/tcp_congestion'
+Then later in nvmet_tcp_add_port, the specified congestion-control
+would be applied to the listening socket of the nvmet port.
 
-You really ought to add a comment that each byte of the constant
-has to be bit reversed from the polynomial coefficients.
+Signed-off-by: Mingbao Sun <tyler.sun@dell.com>
+---
+ drivers/nvme/target/configfs.c | 52 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h    |  1 +
+ drivers/nvme/target/tcp.c      | 27 ++++++++++++++++++
+ 3 files changed, 80 insertions(+)
 
-> -static void generate_crc64_table(void)
-> +static void generate_reflected_crc64_table(uint64_t table[256], uint64_t=
- poly)
-> +{
-> +=09uint64_t i, j, c, crc;
-> +
-> +=09for (i =3D 0; i < 256; i++) {
-> +=09=09crc =3D 0ULL;
-> +=09=09c =3D i;
-> +
-> +=09=09for (j =3D 0; j < 8; j++) {
-> +=09=09=09if ((crc ^ (c >> j)) & 1)
-> +=09=09=09=09crc =3D (crc >> 1) ^ poly;
-> +=09=09=09else
-> +=09=09=09=09crc >>=3D 1;
-> +=09=09}
-> +=09=09table[i] =3D crc;
-> +=09}
-> +}
-
-That can be speeded up by using the identity:
-=09table[x ^ y] =3D=3D table[x] ^ table[y]
-
-something like:
-=09crc =3D poly;  /* actually crc(1) */
-=09table[0] =3D 0;
-=09table[1] =3D crc;
-=09for (i =3D 2; i < 8; i++) [
-=09=09crc =3D crc & 1 ? (crc >> 1) ^ poly : crc >> 1;
-=09=09for (j =3D 0; j < 1u << i; j++)
-=09=09=09table[j + (1i << i)] =3D table[j] ^ crc;
-=09}
-
-I think the same code can be used for a normal MSB first crc
-provided both the polynomial and crc(1) are passed in.
-
-OTOH initialisation speed may not matter.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 091a0ca16361..fcf01f2b8045 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -11,6 +11,7 @@
+ #include <linux/ctype.h>
+ #include <linux/pci.h>
+ #include <linux/pci-p2pdma.h>
++#include <net/tcp.h>
+ 
+ #include "nvmet.h"
+ 
+@@ -222,6 +223,55 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_, addr_trsvcid);
+ 
++static ssize_t nvmet_tcp_congestion_show(struct config_item *item,
++		char *page)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++
++	return snprintf(page, PAGE_SIZE, "%s\n",
++			port->tcp_congestion ? port->tcp_congestion : "");
++}
++
++static ssize_t nvmet_tcp_congestion_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	int len;
++	bool ecn_ca;
++	u32 key;
++
++	len = strcspn(page, "\n");
++	if (!len)
++		return -EINVAL;
++
++	if (len >= TCP_CA_NAME_MAX) {
++		pr_err("name of TCP congestion control can not exceed %d bytes.\n",
++		       TCP_CA_NAME_MAX);
++		return -EINVAL;
++	}
++
++	if (nvmet_is_port_enabled(port, __func__))
++		return -EACCES;
++
++	kfree(port->tcp_congestion);
++	port->tcp_congestion = kmemdup_nul(page, len, GFP_KERNEL);
++	if (!port->tcp_congestion)
++		return -ENOMEM;
++
++	key = tcp_ca_get_key_by_name(NULL, port->tcp_congestion, &ecn_ca);
++	if (key == TCP_CA_UNSPEC) {
++		pr_err("congestion control %s not found.\n",
++		       port->tcp_congestion);
++		kfree(port->tcp_congestion);
++		port->tcp_congestion = NULL;
++		return -EINVAL;
++	}
++
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_, tcp_congestion);
++
+ static ssize_t nvmet_param_inline_data_size_show(struct config_item *item,
+ 		char *page)
+ {
+@@ -1597,6 +1647,7 @@ static void nvmet_port_release(struct config_item *item)
+ 	list_del(&port->global_entry);
+ 
+ 	kfree(port->ana_state);
++	kfree(port->tcp_congestion);
+ 	kfree(port);
+ }
+ 
+@@ -1605,6 +1656,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
+ 	&nvmet_attr_addr_treq,
+ 	&nvmet_attr_addr_traddr,
+ 	&nvmet_attr_addr_trsvcid,
++	&nvmet_attr_tcp_congestion,
+ 	&nvmet_attr_addr_trtype,
+ 	&nvmet_attr_param_inline_data_size,
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 69637bf8f8e1..76a57c4c3456 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -145,6 +145,7 @@ struct nvmet_port {
+ 	struct config_group		ana_groups_group;
+ 	struct nvmet_ana_group		ana_default_group;
+ 	enum nvme_ana_state		*ana_state;
++	const char			*tcp_congestion;
+ 	void				*priv;
+ 	bool				enabled;
+ 	int				inline_data_size;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 83ca577f72be..3b72e782c901 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1657,8 +1657,10 @@ static void nvmet_tcp_accept_work(struct work_struct *w)
+ 	struct nvmet_tcp_port *port =
+ 		container_of(w, struct nvmet_tcp_port, accept_work);
+ 	struct socket *newsock;
++	struct inet_connection_sock *icsk, *icsk_new;
+ 	int ret;
+ 
++	icsk = inet_csk(port->sock->sk);
+ 	while (true) {
+ 		ret = kernel_accept(port->sock, &newsock, O_NONBLOCK);
+ 		if (ret < 0) {
+@@ -1666,6 +1668,16 @@ static void nvmet_tcp_accept_work(struct work_struct *w)
+ 				pr_warn("failed to accept err=%d\n", ret);
+ 			return;
+ 		}
++
++		if (port->nport->tcp_congestion) {
++			icsk_new = inet_csk(newsock->sk);
++			if (icsk_new->icsk_ca_ops != icsk->icsk_ca_ops) {
++				pr_warn("congestion abnormal: expected %s, actual %s.\n",
++					icsk->icsk_ca_ops->name,
++					icsk_new->icsk_ca_ops->name);
++			}
++		}
++
+ 		ret = nvmet_tcp_alloc_queue(port, newsock);
+ 		if (ret) {
+ 			pr_err("failed to allocate queue\n");
+@@ -1693,6 +1705,8 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ {
+ 	struct nvmet_tcp_port *port;
+ 	__kernel_sa_family_t af;
++	char ca_name[TCP_CA_NAME_MAX];
++	sockptr_t optval;
+ 	int ret;
+ 
+ 	port = kzalloc(sizeof(*port), GFP_KERNEL);
+@@ -1741,6 +1755,19 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 	if (so_priority > 0)
+ 		sock_set_priority(port->sock->sk, so_priority);
+ 
++	if (nport->tcp_congestion) {
++		strncpy(ca_name, nport->tcp_congestion, TCP_CA_NAME_MAX-1);
++		optval = KERNEL_SOCKPTR(ca_name);
++		ret = sock_common_setsockopt(port->sock, IPPROTO_TCP,
++					     TCP_CONGESTION, optval,
++					     strlen(ca_name));
++		if (ret) {
++			pr_err("failed to set port socket's congestion to %s: %d\n",
++			       ca_name, ret);
++			goto err_sock;
++		}
++	}
++
+ 	ret = kernel_bind(port->sock, (struct sockaddr *)&port->addr,
+ 			sizeof(port->addr));
+ 	if (ret) {
+-- 
+2.26.2
 
 
