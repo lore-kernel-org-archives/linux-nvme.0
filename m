@@ -4,85 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3619FC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Mar 2022 19:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40D19C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Mar 2022 19:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cD1ZoJibPx8a6ZYW0ir6GwlMwbk0v99dWXm7GlqXJtc=; b=4juG8T8mm66MYSoFlE8jSfTxZp
-	0Qe50uyLIQABAgAOeYd94n9+VLqMtJTVzDPZ+Gmk8n0XzX6RdLSFVVtQGJn8b4Zc9N0gGP61/yNFZ
-	UmWbR59ZwRq2FfC7AKsdIjBvbZd82oPhPc+7Rv8PzMbdi1nuGYuWzRsinTcheOfLiwPRMoSQ66HCu
-	sFfFPEHQIbVkfE+02NJSgjRNpyXuiaI0rEy7E53WWBElMJncwkTlG+lYp2l9oOkzcXBVP5dzXitm6
-	HQs8mXl5bQ1jOVPuXlFJsBPW7oFLxbvPfIBB6c4Bd5W4eeEZn0rzJdr3WOHARLHur+ijaTbabFjg1
-	Tfr9WgUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z0wUEO4kVWENooODa+WJepHIvAwejgm/gl13tWmbcUE=; b=EHAyICbadcVt/Ot8fd4KqlAv1Y
+	rScYuB8LqJ9lml0WQAUOFnR3jwKz6JZcIiEKhFel0FFDTOtS+HSalBvqyxe+y44/gU8e+9wRYv1Lj
+	5yVnWsnmYO8zPfTzaw6oLItbCDmW7MYMVs9SBwlKI6DLAoWjsFkWO8c1xS6A7RkRIm2GEZTpMydMg
+	k8QDhGoZ1Heqy/0Teb/0daKDN9tJJ2ZVzPHbOCz+ghVdQPkyetFXTnFMzR7GtVIW0OLTSgy6H2nlk
+	oBteN6b0CpX4bsi1M0cBKRReTiTYryK/yZHhCe4MRE4U28o2Hfpnr1kTcaSdXCWy73GYQPfJKodRC
+	EP799RZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nQDXT-00BjYy-9K; Fri, 04 Mar 2022 19:24:31 +0000
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+	id 1nQDhO-00Bklw-L8; Fri, 04 Mar 2022 19:34:46 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nQDXQ-00BjYT-3h
- for linux-nvme@lists.infradead.org; Fri, 04 Mar 2022 19:24:29 +0000
-Received: by mail-pj1-x1036.google.com with SMTP id
- mr24-20020a17090b239800b001bf0a375440so6028145pjb.4
- for <linux-nvme@lists.infradead.org>; Fri, 04 Mar 2022 11:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cD1ZoJibPx8a6ZYW0ir6GwlMwbk0v99dWXm7GlqXJtc=;
- b=yzTBVOHnh2/lw1WEi4Ftyjn9MmKcO9GR999iIl8QDIZ8f473bfhyN+JaqsqzCf6i8+
- KfnqV8aXwP3PhTehm3xjxJL0WmXoo80zbuwPhuaD00i9czLxTl8fFoQmI6ceYGlJB3JU
- uuI51gvQCE0Q916NvdJ4VvdTe8ukIxYdkEG2gUrn7dr94mWE+WPc6+k6Xiz64DyxZFyQ
- 20ui0jlVJi8XEJpnblrxChpqSRsV9XHvbxv8F7PpND2WsXtGXeL4CJtb4oszPVY8TSaR
- 4nJdXt7Q1nL3y0Iy+yZTxfMtychsLFmirQVMdDLaNAuJMadAednHVU0vTGCUWqK2H2BX
- NMcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cD1ZoJibPx8a6ZYW0ir6GwlMwbk0v99dWXm7GlqXJtc=;
- b=V6PY/vkUJSpMpW/1KYBak2p9ljAaJmOYLatqYNXTryks5LuxBHErt75mE8bxKOP6QT
- yVt13B2MN+1urnLPV6FaXz5XOPDlIlAWDxIRWD+HS1NH6Dq9L6e0sNSWtfeZkgA8KBVD
- pklvROyfhb5aIKYF4D7nIeus2kNuxvWs/pRJGQMLU/oJbtAXGMg13FJavTWocssj7vgE
- uOr3oAlS7sf/S/5tlnlhdrN27r1kI3psWJT/g3PQ/YkTOD99UciHG8loXtFi3rBqaF0J
- JE7ytsUCFvKK6/Sr+Juo9MiLIUU0fBEv0J2kOaQL0s7gmGTP0F5klCZxbIWRGqgxFYlV
- pC6Q==
-X-Gm-Message-State: AOAM531DBfjEKx+V+wzh7aw11sK4ntCx8nlG7NFfDeYq4YOgFxiKRFb0
- VcRO3yfQv//2E/ERjPcPCWTM6bnsnNiu3g==
-X-Google-Smtp-Source: ABdhPJxaPNpPdHGtkzBqxR/AbybSNjglxB1qWnG9jsxe0tCA2gjxU9n2s98hohxcBA0drNnu+IBOcw==
-X-Received: by 2002:a17:90b:3802:b0:1be:f687:7875 with SMTP id
- mq2-20020a17090b380200b001bef6877875mr161792pjb.109.1646421866217; 
- Fri, 04 Mar 2022 11:24:26 -0800 (PST)
-Received: from [192.168.1.100] ([198.8.77.157])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a056a00088900b004e03b051040sm6813168pfj.112.2022.03.04.11.24.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 11:24:25 -0800 (PST)
-Message-ID: <62cc1a9e-6259-d409-1bcb-11c760b0c691@kernel.dk>
-Date: Fri, 4 Mar 2022 12:24:24 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 2/2] block: remove the per-bio/request write hint
-Content-Language: en-US
+ id 1nQDhL-00Bkkz-AI
+ for linux-nvme@lists.infradead.org; Fri, 04 Mar 2022 19:34:44 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D36EB619C4;
+ Fri,  4 Mar 2022 19:34:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BADC340E9;
+ Fri,  4 Mar 2022 19:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646422482;
+ bh=nd2/3a4bfzST5ALw5Y8hQGVZfc4S2TZKpWT8b71rPp4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z7wp/FCwTTd2m1BAAR7vCpAG9vwx9PGz9UzbFd1PkImVy9MPDHh0sMCEGrwv46nTz
+ mztVdpOSAa6BXG9ah+AlbZuh0dHCBhY8DEDZQSAae2M2VzQ+4UB7Pp7StXvoByovKW
+ xV7g07LsQnKbSOFPNvsrgT2RsBKJG96tAFLBsNhQFo4RJbapEWKu86tK4ByyOGdRdO
+ nvZDuu095RRK2ZawuGULjdUqdViPzucfbXLgCGQ7SRMmWSdbB4uIhbWvJvQG8UcGTn
+ khiCmAr5lAFPj0BgHXNo283X0Er9oDdiSJPJmJEZ9NW6GE2qFW3YYNWWqQ2+f7utlY
+ gdLXojztzHI6A==
+Date: Fri, 4 Mar 2022 11:34:39 -0800
+From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: sagi@grimberg.me, kbusch@kernel.org, song@kernel.org,
+Cc: axboe@kernel.dk, sagi@grimberg.me, song@kernel.org,
  linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvme: remove support or stream based temperature hint
+Message-ID: <20220304193439.GA3256926@dhcp-10-100-145-180.wdc.com>
 References: <20220304175556.407719-1-hch@lst.de>
- <20220304175556.407719-2-hch@lst.de>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20220304175556.407719-2-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220304175556.407719-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220304_112428_249504_EA70E3D1 
-X-CRM114-Status: UNSURE (   9.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220304_113443_420313_7D5D0851 
+X-CRM114-Status: GOOD (  14.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,13 +72,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/4/22 10:55 AM, Christoph Hellwig wrote:
-> With the NVMe support for this gone, there are no consumers of these hints
-> left, so remove them.
+On Fri, Mar 04, 2022 at 06:55:55PM +0100, Christoph Hellwig wrote:
+> -	ctrl->nssa = le16_to_cpu(s.nssa);
+> -	if (ctrl->nssa < BLK_MAX_WRITE_HINTS - 1) {
+> -		dev_info(ctrl->device, "too few streams (%u) available\n",
+> -					ctrl->nssa);
+> -		goto out_disable_stream;
+> -	}
 
-Looks good to me, didn't find any missed spots.
+Just fyi, looks like the patch was built against an older version of the
+driver, so it doesn't apply cleanly to nvme-5.18 at the above part.
 
--- 
-Jens Axboe
+Also please consider folding the following in this patch since it removes all
+nr_streams use:
 
+---
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 587d92df118b..1bed663322ee 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -280,7 +280,6 @@ struct nvme_ctrl {
+ 	u16 crdt[3];
+ 	u16 oncs;
+ 	u16 oacs;
+-	u16 nr_streams;
+ 	u16 sqsize;
+ 	u32 max_namespaces;
+ 	atomic_t abort_limit;
+--
 
