@@ -4,76 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2242FC433F5
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Mar 2022 07:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99904C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Mar 2022 21:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ojwLotZqL1XX/lurv8bY4W0jgyvpAjo30XtbPM1k+zo=; b=NHUeH7NJba105pXTT4zrHmnk7I
-	f1HhfJv9S/aekoTMIybKVK7szTgGY16txTDQnxAuaRDYwkPTMyGzsyfsbEMJg/pUGKfaNpjQ7rru1
-	hV0qFVYOdzwNTvsWTK4ZsmfkRpRDfU/WRz6hBLWIlUBGAH8MAR0rpiuYe/eu9OkVVZsdmVRbyAXR6
-	fQOUgJ2nu55A18IVtdA88+w7lFlmAsdwwgsU5cinwbgYTqssJDjgTSc9P8ydk7CxUkamAUmp42yuH
-	9MuWRyXc6Mdup51eStZvu6dJDMJbA9Om+JBF7fY7kHXg1D3TyGl1DfVynDQainihV4bnpCvbleVkk
-	dVjy1DEA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3RDDzFFcsVFqDTU6+6tljJIJguIScfrlilO76gWIj1g=; b=cuRf/mkDZc4ezIx1qF7UuDYtvc
+	HxkxfbcNMECHgjwXI1b8iKYe149fxqHQgAYmDFjK0/oa0uihKQO40Br54tFV36/XcFEAsAm+Jp5kU
+	nFdejHbM3225LyEc+a9AOJlCV7NPwVPD0K70K1CB4If43vNA2XkqwkumUyG5K2d/6N5Pq2iiLd6P6
+	1ihBqysLCczxByuPUiCvDJwRcbWlI1e4oTeiyGaC1+4IbnvuTqijrzKq7s43IoWR4eLy9lOjoZOoP
+	FZDr+oys2cSVeubxM13I+tm968HbhrjwrifmQvUup4qcPA3Wu6XXZ7qnMtDEFDiixqVJ0aelwtFcG
+	aSv2XOLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nQOXY-00CskH-6V; Sat, 05 Mar 2022 07:09:20 +0000
-Received: from smtprz14.163.net ([106.3.154.247] helo=smtp.tom.com)
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nQOXU-00CsjL-TT
- for linux-nvme@lists.infradead.org; Sat, 05 Mar 2022 07:09:19 +0000
-Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
- by freemail02.tom.com (Postfix) with ESMTP id 9C7E2B00CC4
- for <linux-nvme@lists.infradead.org>; Sat,  5 Mar 2022 15:09:13 +0800 (CST)
-Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
- by my-app02 (TOM SMTP Server) with SMTP ID 1575308660
- for <linux-nvme@lists.infradead.org>;
- Sat, 05 Mar 2022 15:09:13 +0800 (CST)
-Received: from antispam1.tom.com (unknown [172.25.16.55])
- by freemail02.tom.com (Postfix) with ESMTP id 8CBE4B00CC2
- for <linux-nvme@lists.infradead.org>; Sat,  5 Mar 2022 15:09:11 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
- t=1646464153; bh=eNSZNCIQvJX3BIsPSVxmvt3kCFvgkMDpfMtpQFtvFKk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MSuUsI3uWf0AtRseaOViOhhCSlQvi0Aopj+QQKGFcdh+zcl+30hSDQ5/3f1+ONiuq
- dP3dNZBPMnvx8GsERgLrjZIS+fPuqyQwog/2soieSChu7O3BOxXP3HLlfs7D7D45Mk
- XbCRl8Emnbw27rJRP3C80h3xXJeIrn2lrkuSliX0=
-Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
- by antispam1.tom.com (Postfix) with ESMTP id 9C01AD41598
- for <linux-nvme@lists.infradead.org>; Sat,  5 Mar 2022 15:09:11 +0800 (CST)
-X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
-Received: from antispam1.tom.com ([127.0.0.1])
- by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id M-Xyti8L8kPN for <linux-nvme@lists.infradead.org>;
- Sat,  5 Mar 2022 15:09:08 +0800 (CST)
-Received: from localhost (unknown [101.93.196.13])
- by antispam1.tom.com (Postfix) with ESMTPA id 0F053D41550;
- Sat,  5 Mar 2022 15:09:06 +0800 (CST)
-Date: Sat, 5 Mar 2022 15:09:15 +0800
-From: Mingbao Sun <sunmingbao@tom.com>
+	id 1nQc9A-00DsN6-KU; Sat, 05 Mar 2022 21:41:04 +0000
+Received: from mail104.syd.optusnet.com.au ([211.29.132.246])
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nQc96-00DsMN-Qr
+ for linux-nvme@lists.infradead.org; Sat, 05 Mar 2022 21:41:02 +0000
+Received: from dread.disaster.area (pa49-186-17-0.pa.vic.optusnet.com.au
+ [49.186.17.0])
+ by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 91F0F53071C;
+ Sun,  6 Mar 2022 08:40:57 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+ (envelope-from <david@fromorbit.com>)
+ id 1nQc92-001xlk-2s; Sun, 06 Mar 2022 08:40:56 +1100
+Date: Sun, 6 Mar 2022 08:40:56 +1100
+From: Dave Chinner <david@fromorbit.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi
- Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
- libin.zhang@dell.com, ao.sun@dell.com
-Subject: Re: [PATCH 2/2] nvme-tcp: support specifying the congestion-control
-Message-ID: <20220305150915.00006b44@tom.com>
-In-Reply-To: <20220304162032.GA12250@lst.de>
-References: <20220304092754.2721-1-sunmingbao@tom.com>
- <20220304092754.2721-3-sunmingbao@tom.com>
- <20220304162032.GA12250@lst.de>
-Organization: DELL
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+Cc: axboe@kernel.dk, sagi@grimberg.me, kbusch@kernel.org, song@kernel.org,
+ linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] block: remove the per-bio/request write hint
+Message-ID: <20220305214056.GO3927073@dread.disaster.area>
+References: <20220304175556.407719-1-hch@lst.de>
+ <20220304175556.407719-2-hch@lst.de>
+ <20220304221255.GL3927073@dread.disaster.area>
+ <20220305051929.GA24696@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220305051929.GA24696@lst.de>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=deDjYVbe c=1 sm=1 tr=0 ts=6223d8ea
+ a=+dVDrTVfsjPpH/ci3UuFng==:117 a=+dVDrTVfsjPpH/ci3UuFng==:17
+ a=kj9zAlcOel0A:10 a=o8Y5sQTvuykA:10 a=7-415B0cAAAA:8
+ a=PBs3jEgWuutBivueVwoA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220304_230917_582649_53E6F708 
-X-CRM114-Status: GOOD (  14.30  )
+X-CRM114-CacheID: sfid-20220305_134101_061684_79FD0E5B 
+X-CRM114-Status: GOOD (  19.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,50 +70,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 4 Mar 2022 17:20:32 +0100
-Christoph Hellwig <hch@lst.de> wrote:
-
-> I'll let the NVMe/TCP maintainer comment on the actual functionality,
-> but:
+On Sat, Mar 05, 2022 at 06:19:29AM +0100, Christoph Hellwig wrote:
+> On Sat, Mar 05, 2022 at 09:12:55AM +1100, Dave Chinner wrote:
+> > AFAICT, all the filesystem/IO path passthrough plumbing for hints is
+> > now gone, and no hardware will ever receive hints.  Doesn't this
+> > mean that file_write_hint(), file->f_write_hint and iocb->ki_hint
+> > are now completely unused, too?
 > 
-> > +			p = match_strdup(args);
-> > +			if (!p) {
-> > +				ret = -ENOMEM;
-> > +				goto out;
-> > +			}
-> > +
-> > +			key = tcp_ca_get_key_by_name(NULL, p,
-> > &ecn_ca);
-> > +			if (key == TCP_CA_UNSPEC) {
-> > +				pr_err("congestion control %s not
-> > found.\n",
-> > +				       p);
-> > +				ret = -EINVAL;
-> > +				kfree(p);
-> > +				goto out;
-> > +			}  
+> No, for the reason tha you state below.  f2fs still uses it.
+
+My point is that f2fs uses i_write_hint, not f_write_hint or
+ki_hint. IOWs, nothing in the IO path use the iocb or file write
+hints anymore because they only ever got used to set the hint for
+bios. It's now unused information.
+
+According to the io_uring ppl, setup of unnecessary fields in the
+iocb has a measurable cost and they've done work to minimise it in
+the past. So if these fields are not actually used by anyone in the
+IO path, why should we still pay the cost calling
+ki_hint_validate(file_write_hint(file)) when setting up an iocb?
+
+> > AFAICT, this patch leaves just the f2fs allocator usage of
+> > inode->i_rw_hint to select a segment to allocate from as the
+> > remaining consumer of this entire plumbing and user API. Is that
+> > used by applications anywhere, or can that be removed and so the
+> > rest of the infrastructure get removed and the fcntl()s no-op'd or
+> > -EOPNOTSUPP?
 > 
-> We can't just call networking code from nvme-fabrics.ko
+> I was told it is used quite heavily in android.
 
-Well, actually I did have thought whether the calling of network API
-here is proper. Since I did find that there is no call to APIs of
-PCI/RDMA/TCP in fabrics.c.
+So it's primarily used by out of tree code? And that after this
+patch, there's really no way to test that this API does anything
+useful at all?
 
-But I hope the following could make a defense for it:
+Cheers,
 
-Anyway, we need to validate the tcp_congestion passed in from
-user-space, right?
-And it's reasonable to validate it via network API, right?
-
-The role of nvmf_parse_options is similar to that of
-drivers/nvme/target/configfs.c from the target side.
-And both of them can not avoid handling specific options of the
-sub-classes (e.g., NVMF_OPT_HDR_DIGEST, NVMF_OPT_TOS, NVMF_OPT_KATO).
-
-Given the fact that the configfs.c already contains some RDMA-specific
-code and has the calls to PCI-specific APIs pci_p2pdma_enable_store and
-pci_p2pdma_enable_show, so I added the calling of network APIs in
-configfs.c for the validation of tcp_congestion specified by the user.
-
-So I feel this is also acceptable for nvme-fabrics.ko.
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
