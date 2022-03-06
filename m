@@ -4,77 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71220C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Mar 2022 23:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95DB3C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun,  6 Mar 2022 17:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fTFM0BLrFEzuVT+NEbfUfqIis6Wa5g9+pZvF27yAoQo=; b=uhNUFhxYn5YCVKPC58MI/GqGjX
-	PM9UHgNwn0lBTsRm3kT0Z8GcbzRirs5Cm4uCJ9kdF35ix2tkZUir5HQyM2YCdIfTCZDQ3OBNTTtDI
-	wtXVgFzXd0XVnqq6NaBLsg9Glt8Gga/Afuna+nVfyUcEDHTzSBacNExmxQ3QpOIfBzmo08cIP0RK6
-	W0NgZvMoVsnm5pypi6ElQcpDNItKkVaMdFmaYfWaAieMc2f2GZc18vxtssWezArbNgCIhZiuBBvTu
-	OxJj3DbWimXZHCrEdCNbOcaAIRhrSmjOoQ6acPS9wbErSL5knV27Ha1zXeYMMRfoRPFJJ6Ggont+g
-	QdtrZxCw==;
+	bh=fxcCv+x1enWDahxdqxWnpZzQVrhBKNa2OQIkL1qCENI=; b=xqqCYv/gqYoyPeQ7D2YRSpstbt
+	IH/MFTNe9fEWuIGO18gSbOb6QGgvV9MaxX4fsPjOgzImCXt+xpcdnTBCbZNqG23FzxAmYZLUIBh1h
+	skxWYhKQ2POtRH7m20PHQ6Ee9Vv8MFAnCjkeq7ReXT/I+GoAWvPuibYYV70DCwsa6pB/ODV/tau64
+	nJnM7aHdB1w0l/i4dwv/N6xEakO02fty+fgbESbvsgVNvq/G6znlYwq+d9Cnnp2A8qR9kjR6Y9scM
+	md5aDq8eYGMIFfaxKpcXbIsWDxVO7VPZvhNvSTUfU5ogXCoZXECM7/TdXbAFnhDvewDkMQOxPqHGK
+	1czuJRVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nQeFY-00Dz0g-NA; Sat, 05 Mar 2022 23:55:48 +0000
-Received: from mail-pg1-f171.google.com ([209.85.215.171])
+	id 1nQuQK-00F1pa-1j; Sun, 06 Mar 2022 17:12:00 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nQeFV-00Dyzk-Df
- for linux-nvme@lists.infradead.org; Sat, 05 Mar 2022 23:55:46 +0000
-Received: by mail-pg1-f171.google.com with SMTP id c1so10501786pgk.11
- for <linux-nvme@lists.infradead.org>; Sat, 05 Mar 2022 15:55:44 -0800 (PST)
+ id 1nQuQA-00F1oF-O6
+ for linux-nvme@lists.infradead.org; Sun, 06 Mar 2022 17:11:52 +0000
+Received: by mail-pf1-x433.google.com with SMTP id e15so10231575pfv.11
+ for <linux-nvme@lists.infradead.org>; Sun, 06 Mar 2022 09:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fxcCv+x1enWDahxdqxWnpZzQVrhBKNa2OQIkL1qCENI=;
+ b=eB8u4hZSp7IzMCTfziZOjl5sRWIDTZmkFYf8nKcNix5lfJh87Nc3GHNuIJ6SWLyok/
+ odw1PcW3xWk4Nfz4F6LEK7zkrN3VxhJ3smQHLmxAd5HZCdrshjR3HeeqBcJhGbdbN5TL
+ cj+nrolpfcg8enoZ6aASIeYflheIAhR3o/LE5sXf0bAQtMy8bDNT4HO3engxgD5i8LWz
+ jv5VtmedqHYzJ3BbcltxDhVQ4LT5tCJS4j+HGVugu57SALqOJ1FMbuw7PIqGvhx6v2mR
+ 4k6JFWpM8C0Q7sS6PmxV0Svp0U6o+uGW7+sQOYLPMs3B/jvVIuF+51E+Bk46OdCDuK0Q
+ y1sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fTFM0BLrFEzuVT+NEbfUfqIis6Wa5g9+pZvF27yAoQo=;
- b=6/s4Bci6ssbjiSyolH4VWOSVlyDCbs5lrbiOqj7B87TxhhmCn+3COQTL0KddZlFwmU
- gpUKbCMNzU4XSrT4bwrr8hSAOeSAoO6mY4HUKpvdH/6IgCoiZmGN391GxJQHDCmprEVz
- OYiCmmo1fuCvGXsCXjKy51as97+ubVe4C962S3QAeJaffuHWBsfeGRDGCk7hhxIN9Sml
- codkCiia9LR/X4fIODCS2sp05Lt8ZbJ9PRfTcr1UtSCowxi7t1qEBWuQAoCWx6MV/U2I
- 6RAC/iaADELKFa5o9ZkfBizeyL2cIQETxe2sgQj2elI4GhY9bLaSuZULqWqG+hW15DoH
- UZSg==
-X-Gm-Message-State: AOAM530z8APPmWdwV8I94WRG/D68/tmeKhC2lJqiDHpumcFrvrlVVauq
- iSo2o396s9GINVLlyoGQc6E=
-X-Google-Smtp-Source: ABdhPJz5VvA3U2fLc1z+mBiMQ4u+RZgL1KkG+Po1/Fl96HJUah2jzC5KKpI11NFwskc9qjJ1fhfUsQ==
-X-Received: by 2002:a62:cdc3:0:b0:4e0:e439:ed2d with SMTP id
- o186-20020a62cdc3000000b004e0e439ed2dmr5770274pfg.39.1646524543626; 
- Sat, 05 Mar 2022 15:55:43 -0800 (PST)
-Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd?
- ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
+ bh=fxcCv+x1enWDahxdqxWnpZzQVrhBKNa2OQIkL1qCENI=;
+ b=erJPw6S74UFlSDGoxT6FFAMaFAZsuiFl7oXptRomVfl2nrP4LkxnS76cmXzBfgPDzK
+ hOrkChJh0GbQJ6pKHwXPQtHfC9dheR4Jv1teqYt1nmpP4CWJDnXh6akj6HPnJwxi/qYe
+ XGgn01y6SaMSt9Ln/6CGSDY3lyKLllFJ+LeTxZwbr2iZAv+A08UgAsDRDXkzrNaeMHl/
+ 4ovq2iQFP69OjlIKlAPmwMCausnYTJ16GswTk+dztHkiDILjeGtPJ48/msZ7G4UU8P4H
+ 3bg+0mT4WNV/gJD/RKtXJdvLMTgDU/FbeAHdXlccbFwN/o7cQy7C5ef27A6EYZLA7qiJ
+ x7nA==
+X-Gm-Message-State: AOAM533rdy/z0f/rUYe/NMtqiDA4hjPSqBahk8/tmgRf7GQynS+8Jhsj
+ 93NBvuXqFeoxq+jiASl76EZZWg==
+X-Google-Smtp-Source: ABdhPJxWc8Qb/xZyPyqF7cWiGAyTFX0lWQzeaEwnT9nQBp2BRDVUR0VvkBxhkfNBD5w97JBXjn2vSQ==
+X-Received: by 2002:a05:6a00:a0c:b0:4f6:661e:8dda with SMTP id
+ p12-20020a056a000a0c00b004f6661e8ddamr8869238pfh.66.1646586709291; 
+ Sun, 06 Mar 2022 09:11:49 -0800 (PST)
+Received: from [192.168.1.100] ([198.8.77.157])
  by smtp.gmail.com with ESMTPSA id
- h2-20020a056a00218200b004f6519ce666sm10984217pfi.170.2022.03.05.15.55.41
+ p10-20020a056a0026ca00b004e17b1da847sm12696723pfw.167.2022.03.06.09.11.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Mar 2022 15:55:43 -0800 (PST)
-Message-ID: <535ff59f-cde0-caf4-6e47-a0f2db03261e@acm.org>
-Date: Sat, 5 Mar 2022 15:55:41 -0800
+ Sun, 06 Mar 2022 09:11:48 -0800 (PST)
+Message-ID: <2241127c-c600-529a-ae41-30cbcc6b281d@kernel.dk>
+Date: Sun, 6 Mar 2022 10:11:46 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
 Subject: Re: [PATCH 2/2] block: remove the per-bio/request write hint
 Content-Language: en-US
 To: Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, sagi@grimberg.me, kbusch@kernel.org, song@kernel.org,
+Cc: sagi@grimberg.me, kbusch@kernel.org, song@kernel.org,
  linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- Jaegeuk Kim <jaegeuk@kernel.org>
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
 References: <20220304175556.407719-1-hch@lst.de>
  <20220304175556.407719-2-hch@lst.de>
  <20220304221255.GL3927073@dread.disaster.area>
  <20220305051929.GA24696@lst.de>
  <20220305214056.GO3927073@dread.disaster.area>
-From: Bart Van Assche <bvanassche@acm.org>
+From: Jens Axboe <axboe@kernel.dk>
 In-Reply-To: <20220305214056.GO3927073@dread.disaster.area>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220305_155545_501129_DF1E8617 
-X-CRM114-Status: GOOD (  15.69  )
+X-CRM114-CacheID: sfid-20220306_091150_880173_39D394D1 
+X-CRM114-Status: GOOD (  26.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,29 +98,229 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/5/22 13:40, Dave Chinner wrote:
+On 3/5/22 2:40 PM, Dave Chinner wrote:
 > On Sat, Mar 05, 2022 at 06:19:29AM +0100, Christoph Hellwig wrote:
 >> On Sat, Mar 05, 2022 at 09:12:55AM +1100, Dave Chinner wrote:
->>> AFAICT, this patch leaves just the f2fs allocator usage of
->>> inode->i_rw_hint to select a segment to allocate from as the
->>> remaining consumer of this entire plumbing and user API. Is that
->>> used by applications anywhere, or can that be removed and so the
->>> rest of the infrastructure get removed and the fcntl()s no-op'd or
->>> -EOPNOTSUPP?
+>>> AFAICT, all the filesystem/IO path passthrough plumbing for hints is
+>>> now gone, and no hardware will ever receive hints.  Doesn't this
+>>> mean that file_write_hint(), file->f_write_hint and iocb->ki_hint
+>>> are now completely unused, too?
 >>
->> I was told it is used quite heavily in android.
+>> No, for the reason tha you state below.  f2fs still uses it.
 > 
-> So it's primarily used by out of tree code? And that after this
-> patch, there's really no way to test that this API does anything
-> useful at all?
+> My point is that f2fs uses i_write_hint, not f_write_hint or
+> ki_hint. IOWs, nothing in the IO path use the iocb or file write
+> hints anymore because they only ever got used to set the hint for
+> bios. It's now unused information.
+> 
+> According to the io_uring ppl, setup of unnecessary fields in the
+> iocb has a measurable cost and they've done work to minimise it in
+> the past. So if these fields are not actually used by anyone in the
+> IO path, why should we still pay the cost calling
+> ki_hint_validate(file_write_hint(file)) when setting up an iocb?
 
-Hi Dave,
+Yes, I think we should kill it. If we retain the inode hint, the f2fs
+doesn't need a any changes. And it should be safe to make the per-file
+fcntl hints return EINVAL, which they would on older kernels anyway.
+Untested, but something like the below.
 
-Android kernel developers follow the "upstream first" policy for core kernel 
-code (this means all kernel code other than kernel drivers that implement 
-support for the phone SoC). As a result, the Android 13 F2FS implementation is 
-very close to the upstream F2FS code. So the statement above about "out of tree 
-code" is not correct.
 
-Bart.
+diff --git a/fs/aio.c b/fs/aio.c
+index 4ceba13a7db0..eb0948bb74f1 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -1478,7 +1478,6 @@ static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb)
+ 	req->ki_flags = iocb_flags(req->ki_filp);
+ 	if (iocb->aio_flags & IOCB_FLAG_RESFD)
+ 		req->ki_flags |= IOCB_EVENTFD;
+-	req->ki_hint = ki_hint_validate(file_write_hint(req->ki_filp));
+ 	if (iocb->aio_flags & IOCB_FLAG_IOPRIO) {
+ 		/*
+ 		 * If the IOCB_FLAG_IOPRIO flag of aio_flags is set, then
+diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
+index 753986ea1583..bc7c7a7d9260 100644
+--- a/fs/cachefiles/io.c
++++ b/fs/cachefiles/io.c
+@@ -138,7 +138,6 @@ static int cachefiles_read(struct netfs_cache_resources *cres,
+ 	ki->iocb.ki_filp	= file;
+ 	ki->iocb.ki_pos		= start_pos + skipped;
+ 	ki->iocb.ki_flags	= IOCB_DIRECT;
+-	ki->iocb.ki_hint	= ki_hint_validate(file_write_hint(file));
+ 	ki->iocb.ki_ioprio	= get_current_ioprio();
+ 	ki->skipped		= skipped;
+ 	ki->object		= object;
+@@ -313,7 +312,6 @@ static int cachefiles_write(struct netfs_cache_resources *cres,
+ 	ki->iocb.ki_filp	= file;
+ 	ki->iocb.ki_pos		= start_pos;
+ 	ki->iocb.ki_flags	= IOCB_DIRECT | IOCB_WRITE;
+-	ki->iocb.ki_hint	= ki_hint_validate(file_write_hint(file));
+ 	ki->iocb.ki_ioprio	= get_current_ioprio();
+ 	ki->object		= object;
+ 	ki->inval_counter	= cres->inval_counter;
+diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
+index 3c98ef6af97d..45076c01a2ba 100644
+--- a/fs/f2fs/file.c
++++ b/fs/f2fs/file.c
+@@ -4479,10 +4479,8 @@ static ssize_t f2fs_dio_write_iter(struct kiocb *iocb, struct iov_iter *from,
+ 	struct f2fs_inode_info *fi = F2FS_I(inode);
+ 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+ 	const bool do_opu = f2fs_lfs_mode(sbi);
+-	const int whint_mode = F2FS_OPTION(sbi).whint_mode;
+ 	const loff_t pos = iocb->ki_pos;
+ 	const ssize_t count = iov_iter_count(from);
+-	const enum rw_hint hint = iocb->ki_hint;
+ 	unsigned int dio_flags;
+ 	struct iomap_dio *dio;
+ 	ssize_t ret;
+@@ -4515,8 +4513,6 @@ static ssize_t f2fs_dio_write_iter(struct kiocb *iocb, struct iov_iter *from,
+ 		if (do_opu)
+ 			down_read(&fi->i_gc_rwsem[READ]);
+ 	}
+-	if (whint_mode == WHINT_MODE_OFF)
+-		iocb->ki_hint = WRITE_LIFE_NOT_SET;
+ 
+ 	/*
+ 	 * We have to use __iomap_dio_rw() and iomap_dio_complete() instead of
+@@ -4539,8 +4535,6 @@ static ssize_t f2fs_dio_write_iter(struct kiocb *iocb, struct iov_iter *from,
+ 		ret = iomap_dio_complete(dio);
+ 	}
+ 
+-	if (whint_mode == WHINT_MODE_OFF)
+-		iocb->ki_hint = hint;
+ 	if (do_opu)
+ 		up_read(&fi->i_gc_rwsem[READ]);
+ 	up_read(&fi->i_gc_rwsem[WRITE]);
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 9c6c6a3e2de5..e26444e977e1 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -292,21 +292,8 @@ static long fcntl_rw_hint(struct file *file, unsigned int cmd,
+ 
+ 	switch (cmd) {
+ 	case F_GET_FILE_RW_HINT:
+-		h = file_write_hint(file);
+-		if (copy_to_user(argp, &h, sizeof(*argp)))
+-			return -EFAULT;
+-		return 0;
+ 	case F_SET_FILE_RW_HINT:
+-		if (copy_from_user(&h, argp, sizeof(h)))
+-			return -EFAULT;
+-		hint = (enum rw_hint) h;
+-		if (!rw_hint_valid(hint))
+-			return -EINVAL;
+-
+-		spin_lock(&file->f_lock);
+-		file->f_write_hint = hint;
+-		spin_unlock(&file->f_lock);
+-		return 0;
++		return -EINVAL;
+ 	case F_GET_RW_HINT:
+ 		h = inode->i_write_hint;
+ 		if (copy_to_user(argp, &h, sizeof(*argp)))
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 23e7f93d3956..02400fd00501 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -3790,7 +3790,6 @@ static int io_write_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+ {
+ 	if (unlikely(!(req->file->f_mode & FMODE_WRITE)))
+ 		return -EBADF;
+-	req->rw.kiocb.ki_hint = ki_hint_validate(file_write_hint(req->file));
+ 	return io_prep_rw(req, sqe);
+ }
+ 
+diff --git a/fs/open.c b/fs/open.c
+index 9ff2f621b760..1315253e0247 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -835,7 +835,6 @@ static int do_dentry_open(struct file *f,
+ 	     likely(f->f_op->write || f->f_op->write_iter))
+ 		f->f_mode |= FMODE_CAN_WRITE;
+ 
+-	f->f_write_hint = WRITE_LIFE_NOT_SET;
+ 	f->f_flags &= ~(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC);
+ 
+ 	file_ra_state_init(&f->f_ra, f->f_mapping->host->i_mapping);
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index e2d892b201b0..a1fc3b41cd82 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -327,7 +327,6 @@ struct kiocb {
+ 	void (*ki_complete)(struct kiocb *iocb, long ret);
+ 	void			*private;
+ 	int			ki_flags;
+-	u16			ki_hint;
+ 	u16			ki_ioprio; /* See linux/ioprio.h */
+ 	struct wait_page_queue	*ki_waitq; /* for async buffered IO */
+ 	randomized_struct_fields_end
+@@ -967,7 +966,6 @@ struct file {
+ 	 * Must not be taken from IRQ context.
+ 	 */
+ 	spinlock_t		f_lock;
+-	enum rw_hint		f_write_hint;
+ 	atomic_long_t		f_count;
+ 	unsigned int 		f_flags;
+ 	fmode_t			f_mode;
+@@ -2215,31 +2213,13 @@ static inline bool HAS_UNMAPPED_ID(struct user_namespace *mnt_userns,
+ 	       !gid_valid(i_gid_into_mnt(mnt_userns, inode));
+ }
+ 
+-static inline enum rw_hint file_write_hint(struct file *file)
+-{
+-	if (file->f_write_hint != WRITE_LIFE_NOT_SET)
+-		return file->f_write_hint;
+-
+-	return file_inode(file)->i_write_hint;
+-}
+-
+ static inline int iocb_flags(struct file *file);
+ 
+-static inline u16 ki_hint_validate(enum rw_hint hint)
+-{
+-	typeof(((struct kiocb *)0)->ki_hint) max_hint = -1;
+-
+-	if (hint <= max_hint)
+-		return hint;
+-	return 0;
+-}
+-
+ static inline void init_sync_kiocb(struct kiocb *kiocb, struct file *filp)
+ {
+ 	*kiocb = (struct kiocb) {
+ 		.ki_filp = filp,
+ 		.ki_flags = iocb_flags(filp),
+-		.ki_hint = ki_hint_validate(file_write_hint(filp)),
+ 		.ki_ioprio = get_current_ioprio(),
+ 	};
+ }
+@@ -2250,7 +2230,6 @@ static inline void kiocb_clone(struct kiocb *kiocb, struct kiocb *kiocb_src,
+ 	*kiocb = (struct kiocb) {
+ 		.ki_filp = filp,
+ 		.ki_flags = kiocb_src->ki_flags,
+-		.ki_hint = kiocb_src->ki_hint,
+ 		.ki_ioprio = kiocb_src->ki_ioprio,
+ 		.ki_pos = kiocb_src->ki_pos,
+ 	};
+diff --git a/include/trace/events/f2fs.h b/include/trace/events/f2fs.h
+index f701bb23f83c..1779e133cea0 100644
+--- a/include/trace/events/f2fs.h
++++ b/include/trace/events/f2fs.h
+@@ -956,12 +956,11 @@ TRACE_EVENT(f2fs_direct_IO_enter,
+ 		__entry->rw	= rw;
+ 	),
+ 
+-	TP_printk("dev = (%d,%d), ino = %lu pos = %lld len = %lu ki_flags = %x ki_hint = %x ki_ioprio = %x rw = %d",
++	TP_printk("dev = (%d,%d), ino = %lu pos = %lld len = %lu ki_flags = %x ki_ioprio = %x rw = %d",
+ 		show_dev_ino(__entry),
+ 		__entry->iocb->ki_pos,
+ 		__entry->len,
+ 		__entry->iocb->ki_flags,
+-		__entry->iocb->ki_hint,
+ 		__entry->iocb->ki_ioprio,
+ 		__entry->rw)
+ );
+
+-- 
+Jens Axboe
+
 
