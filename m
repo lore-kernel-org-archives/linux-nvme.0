@@ -4,86 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DBAAC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Mar 2022 22:59:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0968C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Mar 2022 23:00:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rzoZYAsHrVdv98Xt1yQ3c/yb77T1PgQBlk+j4+YdQqs=; b=bnwJONuxRcBpLt056BFW3ceucO
-	MruyZ5e4+RPOprHO01n2b7RQKjXMQDSyvokoelxtl9Td6Qe1SIAe9UpE2GRwq+IQkM98X3z4f43rI
-	JQoaOzom1OJQ0IcUwmab3VdHjJbG3L5YnReRgXysj5u356pWAMAxeg0lGNHlh+Zu87GymFxs7NeJI
-	RGemT+ldBHdPexedh5FezoDyI+8DYPeusdbcsW+JuiqsCtKpm2Oyv+oQ9FOwzBUrP8Yf6WyWSRVDj
-	UacvJ8Es31IiKDVA220oIIGoacHSVGj/KOEKKgJotbP4AgimLUnDdHqWgohg0+sakKdHxzFHh2ysx
-	G4lM7/Ag==;
+	bh=0iyIJpxUAsVQAYtRTj87nql69NVcnr2jQ13y2LwkLlw=; b=DP7p28pR+qpalWP3l0CJSjV3jV
+	3SspgyYVcoxmIS0N+1rvTgSkKzzRe6QlxhJ+F1c8JMxp3kE9vA0fYTSsiEyd6L5lynBI9sSJDub6W
+	F/v444gWIT9H+LZcmHa9eiiJ7zsJGntPNtdqWqL+jKLWkfAEUOAkuW0UMzhfBD1kmu8VmBNPJgia1
+	DX3En72N+lGzJttF2aW52NI1L7GFKKb+mq9wgLKc1tXdQOqyaFwVz50Os58azVsXMCBoxaCXtLHO5
+	FJRqDxQut6dOiTbroQUZsrhaknKmkDiJ0nZD++6R7wIvaRud8LZ95UVsO+iWYA0YyUJ7YP83BEsA2
+	rEs/uVLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRiny-006T8x-69; Tue, 08 Mar 2022 22:59:46 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nRip0-006TOM-Iz; Tue, 08 Mar 2022 23:00:50 +0000
+Received: from mail-dm6nam11on20630.outbound.protection.outlook.com
+ ([2a01:111:f400:7eaa::630]
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRinu-006T7d-QW
- for linux-nvme@lists.infradead.org; Tue, 08 Mar 2022 22:59:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646780379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rzoZYAsHrVdv98Xt1yQ3c/yb77T1PgQBlk+j4+YdQqs=;
- b=BgevHF636apLMi7QL11UeY2QE3aLMUC6mTUK3GwB+LdIt1msL+rA7QMakelQ7tGEKNQyhw
- 27A9sl65tnNiqMG1aper7Qt950x8boxl1bJXITCFU9/a3msA3TzjZXX3k4d1mI2VkRKQkk
- uQYM1aMXi8dROMWejUU2Vc6ZW3+NhQA=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-lHSLWdD5PbeQA9q4xtVmNQ-1; Tue, 08 Mar 2022 17:59:38 -0500
-X-MC-Unique: lHSLWdD5PbeQA9q4xtVmNQ-1
-Received: by mail-pg1-f200.google.com with SMTP id
- j5-20020a63e745000000b00378c359fac3so238284pgk.2
- for <linux-nvme@lists.infradead.org>; Tue, 08 Mar 2022 14:59:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rzoZYAsHrVdv98Xt1yQ3c/yb77T1PgQBlk+j4+YdQqs=;
- b=aS8XM4179pETLisyZbuUuPcc/FKlKsTc61zVP2HCnTbQh74wq0R82y49SbcSZ4vHDl
- WNPnQZ400t1E/M5WBQ2Sj0i0ynE9yacQGUsAdtvJQrB1BOh2eV0wkyOzCXoBC66KreY/
- Tb8ebW/+qHhwakNxfOHP7OHp89i3vAh53Gcm5PH/Azu5IPPVQFspq3curWOF4aoe5HVr
- z+kH0WKDq0+Q++O/6zTLjMj0B4/gN9yxVX4O5/zk/P4a6F5hvAXJEoOpKUvtszLL9xfe
- mxj40NaqQBBI+CsmuW7d8VqcdV1XSHh1rH8Z/xl0Ay/+o1oeUJZFK/DsQBb6yw/U2ceU
- 7gNg==
-X-Gm-Message-State: AOAM531x5RS1n/B2hw0bSYig3uNA0GdDCI2MQj705K6HXz+NfGKAMjSD
- /t2F7FKkvA83WBbS/6W3YgU8d95/+eLVqF4k8LvHn1pVTxQZ/k7ACn4hoy574CmdViMvZdXl3hM
- g4TL/hdVfXxugmD7YeF2s0TXE+bhBK6sGk+fwyitjs1A=
-X-Received: by 2002:a17:902:ce86:b0:151:a78b:44fe with SMTP id
- f6-20020a170902ce8600b00151a78b44femr19284460plg.159.1646780376974; 
- Tue, 08 Mar 2022 14:59:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxaJw+Dfu3e7uZzkDDFjsyYEDS9HCRwvl6GxiQmrUkZUYPtyT+OK0JFJRX4YT9rNCsDqEuKLjXcwDJmw3s+apI=
-X-Received: by 2002:a17:902:ce86:b0:151:a78b:44fe with SMTP id
- f6-20020a170902ce8600b00151a78b44femr19284437plg.159.1646780376664; Tue, 08
- Mar 2022 14:59:36 -0800 (PST)
+ id 1nRiox-006TM5-Iu
+ for linux-nvme@lists.infradead.org; Tue, 08 Mar 2022 23:00:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KD3G4xkvT+El/+kYa4xgDLFbMaxwX22sNMjIqLp2FBlr+ghQ/6wAIRDNKoN23+QpMsYfpOTPpvDgdLm7ZH7TqpqhfGzfzc2yK87ujwAzXd6FhZgJ6myErkWiuftEbLXonERw4hlAu3OfTWRi2PkWO6SyCmk9ZApcNotW/XqjtsYx04SVnL85P3Edfo1F3y7St3sH8KY2yY1AJTSCOMizB2qB47ktoyQnCFtmItGgasjz2saD26Cf0Wq/xfX6EE0ZVMgxZGbGVql2dcG5vj/ddoiIqi2NmVfiGdEZCYm+AIkLfq+yOQDhvQgXoqPhynVE2FHE5dIVKye2+kvVvuLK3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0iyIJpxUAsVQAYtRTj87nql69NVcnr2jQ13y2LwkLlw=;
+ b=mvkYNYqoDeRZWyryXZHMFwtpJN7HoTwpiNZOHdpJcBwLO/si3fSFga6PfUkFPcRDJl52IxYYIIL1197mmtRn9/O1EK182w052jEpxCQqZIS0UC/fuLPjSB/W2L7knZumG9SMXOI8Gan/cOe/+nji/63ISidG4bO+4iZMBTAUI0zSjtBi3l/cuvt5mK2yLKbBnJO3m/wBt70/2RHwpCem9o6m6yuPApnEVyAXeXg3Yt9Qq7hdKTSjDRiv7t3Jcfmq2FKSTD7VEMad6fmi6I7tL5mr+T7gmwYzO1O9xJT05gZp9LixWy/rlhG6qnnRZXqEq7G8aksDDjYlz8PwEpIT0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0iyIJpxUAsVQAYtRTj87nql69NVcnr2jQ13y2LwkLlw=;
+ b=FnFUAgcyztFD1byPn/kBRugc8rhzLZzjUe/0exGnuQkP//CDrqsuSCbGidcJF9Ivf2qY9PtvVfDS1GTpHJbeFq18tO2+aziMZovnbbYEoVMf9JIyYKmow0DboZt/HxqilfOutPEz+TcoFJqEiZENTCMniacrOkn6ZFVJDEn7I7kvzQetF23bhMfJX1E1guT9slHiiqgL/Np74K4y+4QYweHf0HR2Jt8L3yZEDIlzADBMSenjIRhEiNL65Qw1tOyr2sSFx1sGrwR+sy3G+VWLu2dwBKHat/AGR8k/cjS+6Y/+rjVBcbQ1zpcrURJXYDi0eFnpdHqHI1My3FV5jZYkSw==
+Received: from BN9PR03CA0506.namprd03.prod.outlook.com (2603:10b6:408:130::31)
+ by DM6PR12MB4732.namprd12.prod.outlook.com (2603:10b6:5:32::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.19; Tue, 8 Mar
+ 2022 23:00:43 +0000
+Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:130:cafe::d4) by BN9PR03CA0506.outlook.office365.com
+ (2603:10b6:408:130::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
+ Transport; Tue, 8 Mar 2022 23:00:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5038.14 via Frontend Transport; Tue, 8 Mar 2022 23:00:43 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Tue, 8 Mar 2022 23:00:42 +0000
+Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.9; Tue, 8 Mar 2022
+ 15:00:41 -0800
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 1/3] nvmet-fc: fix compilation warning for register
+Date: Tue, 8 Mar 2022 15:00:20 -0800
+Message-ID: <20220308230022.8863-2-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20220308230022.8863-1-kch@nvidia.com>
+References: <20220308230022.8863-1-kch@nvidia.com>
 MIME-Version: 1.0
-References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
- <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
-In-Reply-To: <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Wed, 9 Mar 2022 06:59:24 +0800
-Message-ID: <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
- nvme-rdma testing
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: RDMA mailing list <linux-rdma@vger.kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 917971a6-3e54-4d5a-5287-08da01577937
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4732:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB47327F3030E7A0FD2338B9B4A3099@DM6PR12MB4732.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pxLJ658J1YoPmwGslyIkuamvvq1Ckb2Oky5uVXX2DwWsryMXs4hyT+AeWFO3mTDWNLdCEbd7Xdp8WOZZ6i6ruRzynuhpipLSUuYllg+jWS/OigKtB+slXIp7FJP9c4Z6KTjBoRWiqhCOUjpVndDjmMw0u2PMLEFOVsSvWLhVHuATvMIZH4AcgizZlJbOKvnPY5Od9JXa7OQCRkPiu5ZHWqJ4+OHm4IAjF5I7z3vk09VnR8V1VKFfN9O//joP0R/MwQE+5ylcntTLZNIFj/GQ0uSgFwQaIvW5oUSNvuP1tnGp8Oens4xXjbsqNdJjpP8bBnkCN/d/H92ltuKmnBm7Y4AzC9D23h7mJ+Cpa7e6zKEHD4zI71bwoFPMGqk5baTbGq8tmgEFQ0x0vRTwTTYxdISkRpeTc/A5AKnAVhA35TXXxi3Y5grOESmP6lSELN18OtdOCgh88nO/df5rTrIsSEMxnHQcuDRvvy1/csmyHMmWRVS5CH0Gaj+RCI9fydHelrHJMbCQf3w+J06zA1Dt1J1FFL49Utregbv88vIdBaKQ6EhL7nhdykNQ3nU5IdmW8oAQvDlIzg4LMlSuPRxKNpP7wC9XEFr+UtG9oyZ/CtAWoNl1/9LNiN7PhEog1CO18VsukPOpzbTzrtKreD9oRsyJDKeKMsBbbkqfilU0xJtB3mQ0q3kg1p7vqwsd6nCQZk7IUoGhlVZASmigZL/afA==
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(47076005)(2906002)(36756003)(6916009)(54906003)(508600001)(426003)(336012)(70206006)(70586007)(5660300002)(4744005)(107886003)(2616005)(316002)(40460700003)(6666004)(83380400001)(82310400004)(7696005)(81166007)(186003)(16526019)(26005)(36860700001)(8936002)(8676002)(4326008)(356005)(1076003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2022 23:00:43.2079 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 917971a6-3e54-4d5a-5287-08da01577937
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4732
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220308_145942_982690_C822B5EB 
-X-CRM114-Status: GOOD (  14.92  )
+X-CRM114-CacheID: sfid-20220308_150047_682596_FD93945F 
+X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,107 +125,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 8, 2022 at 11:51 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
->
-> Hi Yi Zhang,
->
-> Please send the commands to repro.
->
-> I run the following with no success to repro:
->
-> for i in `seq 100`; do echo $i &&  cat /sys/kernel/debug/kmemleak &&
-> echo clear > /sys/kernel/debug/kmemleak && nvme reset /dev/nvme2 &&
-> sleep 5 && echo scan > /sys/kernel/debug/kmemleak ; done
+This fixes following compilation warning :-
 
-Hi Max
-Sorry, I should add more details when I report it.
-The kmemleak observed when I was reproducing the "nvme reset" timeout
-issue we discussed before[1], and the cmd I used are[2]
+drivers/nvme/target/fc.c:1365: warning: expecting prototype for nvme_fc_register_targetport(). Prototype was for nvmet_fc_register_targetport() instead
 
-[1]
-https://lore.kernel.org/linux-nvme/CAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5vwU0w@mail.gmail.com/T/#m5e6dcc434fc1925b18047c348226cfbc48ffbd14
-[2]
-# nvme connect to target
-# nvme reset /dev/nvme0
-# nvme disconnect-all
-# sleep 10
-# echo scan > /sys/kernel/debug/kmemleak
-# sleep 60
-# cat /sys/kernel/debug/kmemleak
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/nvme/target/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
->
-> -Max.
->
-> On 2/21/2022 1:37 PM, Yi Zhang wrote:
-> > Hello
-> >
-> > Below kmemleak triggered when I do nvme connect/reset/disconnect
-> > operations on latest 5.17.0-rc5, pls check it.
-> >
-> > # cat /sys/kernel/debug/kmemleak
-> > unreferenced object 0xffff8883e398bc00 (size 192):
-> >    comm "nvme", pid 2632, jiffies 4295317772 (age 2951.476s)
-> >    hex dump (first 32 bytes):
-> >      80 50 84 a3 ff ff ff ff 70 d4 12 67 81 88 ff ff  .P......p..g....
-> >      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >    backtrace:
-> >      [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
-> >      [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
-> >      [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
-> >      [<00000000aade682c>] blk_alloc_queue+0x400/0x840
-> >      [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
-> >      [<00000000cbff6d39>] nvme_rdma_setup_ctrl+0x4ca/0x15f0 [nvme_rdma]
-> >      [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
-> >      [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >      [<0000000031d8624b>] vfs_write+0x17e/0x9a0
-> >      [<00000000471d7945>] ksys_write+0xf1/0x1c0
-> >      [<00000000a963bc79>] do_syscall_64+0x3a/0x80
-> >      [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > unreferenced object 0xffff8883e398a700 (size 192):
-> >    comm "nvme", pid 2632, jiffies 4295317782 (age 2951.466s)
-> >    hex dump (first 32 bytes):
-> >      80 50 84 a3 ff ff ff ff 60 c8 12 67 81 88 ff ff  .P......`..g....
-> >      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >    backtrace:
-> >      [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
-> >      [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
-> >      [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
-> >      [<00000000aade682c>] blk_alloc_queue+0x400/0x840
-> >      [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
-> >      [<000000004f80b965>] nvme_rdma_setup_ctrl+0xf37/0x15f0 [nvme_rdma]
-> >      [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
-> >      [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >      [<0000000031d8624b>] vfs_write+0x17e/0x9a0
-> >      [<00000000471d7945>] ksys_write+0xf1/0x1c0
-> >      [<00000000a963bc79>] do_syscall_64+0x3a/0x80
-> >      [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > unreferenced object 0xffff8894253d9d00 (size 192):
-> >    comm "nvme", pid 2632, jiffies 4295331915 (age 2937.333s)
-> >    hex dump (first 32 bytes):
-> >      80 50 84 a3 ff ff ff ff 80 e0 12 67 81 88 ff ff  .P.........g....
-> >      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >    backtrace:
-> >      [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
-> >      [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
-> >      [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
-> >      [<00000000aade682c>] blk_alloc_queue+0x400/0x840
-> >      [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
-> >      [<000000009f9abba5>] nvme_rdma_setup_ctrl.cold.70+0x5ee/0xb01 [nvme_rdma]
-> >      [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
-> >      [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >      [<0000000031d8624b>] vfs_write+0x17e/0x9a0
-> >      [<00000000471d7945>] ksys_write+0xf1/0x1c0
-> >      [<00000000a963bc79>] do_syscall_64+0x3a/0x80
-> >      [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> >
-> >
-> >
->
-
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index cb013516784c..56c2bdfd8e3b 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1341,7 +1341,7 @@ nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtport *tgtport)
+ }
+ 
+ /**
+- * nvme_fc_register_targetport - transport entry point called by an
++ * nvmet_fc_register_targetport - transport entry point called by an
+  *                              LLDD to register the existence of a local
+  *                              NVME subystem FC port.
+  * @pinfo:     pointer to information about the port to be registered
 -- 
-Best Regards,
-  Yi Zhang
+2.29.0
 
 
