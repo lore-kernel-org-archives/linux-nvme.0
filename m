@@ -4,76 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFCC8C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Mar 2022 07:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37C58C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Mar 2022 08:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aSYS5gGDQjxcymHRmr07eGqtvZY7RC+pIxnwG173VDY=; b=UGEMJnv0Hew/+QrVfWz1lA4agL
-	we2h7oC2wnCDREBJIvy4CXptVWC7L3ZneDRiKbdlZ/VCOVedasw5sytxmtoinMzUhKWb52cjyv84i
-	3vO38gRyYfxArrDSA12Ri3YdYx8UbN4LUwRsFNl23kEX/AZ6Jn2YO77Cmk/v62tJ8Osq8/AeZbPY7
-	odh6+mSFUK/uPhotg3cX/4chBhEgxgRl+etrW5uKto0dufshSQ/FJFREsY6H14dU94ZvH8Ww6s/m/
-	viWYb6WBxdoE7ADVmbnniJKFPz92PFOOPTWwup1LF51GDhlp8EyLu9edfF6FoswIRoRNfu4zgJyfl
-	ODgUk1rQ==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rqcEvVJQSOmVvt10Vd77A7h4EQ3zL1XaGAodpexDxk8=; b=IMDnkGSElvQatfHcZ9RP6CVU33
+	f43qD7atvrgAgrSrgS1iTUxBNcECiI/5PhLB2almNYIyLbPXcposeEf+pugSC0jrgDxPzVtCBM7n/
+	2DRzNp/NQg9BqH5UJnxXsbhkq/Fn7AR71nxwGghiuCwTBMnkOhM2l3f49K+KsUxP+pR43GNwvH/KB
+	GWUHYtTjwdLqW9bVCTjRcwyfbJmLMTpyC0C7t4b0/Q//ld7ipfTA+qi01ct+RQqRu2VeSYmV2n+in
+	DUEgFmtRk7eNPPCm8tBSWuiIRd6mxpvz+zmQtlHD/49q1jB4b9btLQkbl86IyiLcHoxRmV6a8Yi8H
+	T1hzsJjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRUjP-0038Be-QK; Tue, 08 Mar 2022 07:58:07 +0000
-Received: from smtprz14.163.net ([106.3.154.247] helo=smtp.tom.com)
+	id 1nRVET-003GZz-NL; Tue, 08 Mar 2022 08:30:13 +0000
+Received: from mail.twelvesign.pl ([89.221.214.137])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRUjM-00388y-VC
- for linux-nvme@lists.infradead.org; Tue, 08 Mar 2022 07:58:07 +0000
-Received: from my-app01.tom.com (my-app01.tom.com [127.0.0.1])
- by freemail01.tom.com (Postfix) with ESMTP id D5CEC1E8C1EC
- for <linux-nvme@lists.infradead.org>; Tue,  8 Mar 2022 15:57:58 +0800 (CST)
-Received: from my-app01.tom.com (HELO smtp.tom.com) ([127.0.0.1])
- by my-app01 (TOM SMTP Server) with SMTP ID -382177656
- for <linux-nvme@lists.infradead.org>;
- Tue, 08 Mar 2022 15:57:58 +0800 (CST)
-Received: from antispam3.tom.com (unknown [172.25.16.54])
- by freemail01.tom.com (Postfix) with ESMTP id CA01B1E8C1E9
- for <linux-nvme@lists.infradead.org>; Tue,  8 Mar 2022 15:57:57 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
- t=1646726278; bh=VE2APZ2EUOPto3xCBpDlYUdKULx5+IcuTAJTyrhmCSY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gj5i1CIn33pvAtjiI7PGRju3F/FT7LKjibE7E8hhJ6gGhMozDM7LMnh+dISkXG05A
- r+46TRZ4nX9WHje5PvfW3wS0nXRQ+uCAJVaoVLv8QMj03MFLxVeoV5IfUa8svgi0lM
- y/Vhw9A9nEf1KGzbU6q/KzPeAUHqyA242IiwcRM4=
-Received: from antispam3.tom.com (antispam3.tom.com [127.0.0.1])
- by antispam3.tom.com (Postfix) with ESMTP id 3C3B39C1C1C
- for <linux-nvme@lists.infradead.org>; Tue,  8 Mar 2022 15:57:57 +0800 (CST)
-X-Virus-Scanned: Debian amavisd-new at antispam3.tom.com
-Received: from antispam3.tom.com ([127.0.0.1])
- by antispam3.tom.com (antispam3.tom.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 89eiVeu1VSZz for <linux-nvme@lists.infradead.org>;
- Tue,  8 Mar 2022 15:57:56 +0800 (CST)
-Received: from localhost (unknown [223.104.210.22])
- by antispam3.tom.com (Postfix) with ESMTPA id 4B4899C0839;
- Tue,  8 Mar 2022 15:57:55 +0800 (CST)
-Date: Tue, 8 Mar 2022 15:57:54 +0800
-From: Mingbao Sun <sunmingbao@tom.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi
- Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
- libin.zhang@dell.com, ao.sun@dell.com
-Subject: Re: [PATCH 2/2] nvme-tcp: support specifying the congestion-control
-Message-ID: <20220308155754.000029bb@tom.com>
-In-Reply-To: <20220308071227.GB24575@lst.de>
-References: <20220304092754.2721-1-sunmingbao@tom.com>
- <20220304092754.2721-3-sunmingbao@tom.com>
- <20220304162032.GA12250@lst.de> <20220305150915.00006b44@tom.com>
- <20220308071227.GB24575@lst.de>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+ id 1nRVEH-003GM7-OT
+ for linux-nvme@lists.infradead.org; Tue, 08 Mar 2022 08:30:03 +0000
+Received: by mail.twelvesign.pl (Postfix, from userid 1002)
+ id AE1C8357B7; Tue,  8 Mar 2022 09:29:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=twelvesign.pl;
+ s=mail; t=1646728175;
+ bh=rqcEvVJQSOmVvt10Vd77A7h4EQ3zL1XaGAodpexDxk8=;
+ h=Date:From:To:Subject:From;
+ b=ZrsKA1qqyKe1ic03t1/Bi6lm5Hg8xHCwt/8SipWhaDaO/5ePswpO7V++djNna76fD
+ +zbXJdoTrR+8hmozNvxRnJ7TeodtsfVDH96gp0o9Zu7Zi1ptBTNVo+8sriPezyCi4b
+ ig9pBvUlBTvFSN3b2Vo7oJgysG2IRSBEMWWalL1Xx3FJKKzU4C2sSoHNaN5Pz9DHzx
+ FAufMaD9I0P4hhuaJw3icA0kBy7jKiCXT1Kepe8y0QTJ0k5sDh0Vx4jvmcDJeKL4EE
+ njFZ9AkrjHa3Lv9nZ1jqt9HEhbM4yOUqR+0xW+hTqtOoeqTsLA2+IHI8MYkKC6OPx2
+ vEkSBirAQfCIw==
+Received: by mail.twelvesign.pl for <linux-nvme@lists.infradead.org>;
+ Tue,  8 Mar 2022 08:29:05 GMT
+Message-ID: <20220308083000-0.1.w.1v5y.0.ronh4w6q70@twelvesign.pl>
+Date: Tue,  8 Mar 2022 08:29:05 GMT
+From: "Damian Kraska" <damian.kraska@twelvesign.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.twelvesign.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220307_235805_412419_D2F41F87 
-X-CRM114-Status: GOOD (  21.45  )
+X-CRM114-CacheID: sfid-20220308_003002_004111_2C5BB7D4 
+X-CRM114-Status: UNSURE (   2.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,52 +66,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 8 Mar 2022 08:12:27 +0100
-Christoph Hellwig <hch@lst.de> wrote:
+Dzie=C5=84 dobry,
 
-> On Sat, Mar 05, 2022 at 03:09:15PM +0800, Mingbao Sun wrote:
-> > Well, actually I did have thought whether the calling of network API
-> > here is proper. Since I did find that there is no call to APIs of
-> > PCI/RDMA/TCP in fabrics.c.  
-> 
-> Yes - for a good reason.  Without networking support your patch won't
-> even compile (both the host and target side).
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-accept.
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-Will remove the calls to networking APIs in the next version.
-With investigation, I found the tcp_congestion could also get checked
-later within sock_common_setsockopt in nvme_tcp_alloc_queue.
-And this brings no difference to the command 'nvme connect'.
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-> 
-> > But I hope the following could make a defense for it:
-> > 
-> > Anyway, we need to validate the tcp_congestion passed in from
-> > user-space, right?  
-> 
-> Do we?  It seems like no one else really calls this routine to verify
-> things.  In fact it has no modular users at all in the current tree.
 
-OK. Got it.
-
-> 
-> > The role of nvmf_parse_options is similar to that of
-> > drivers/nvme/target/configfs.c from the target side.
-> > And both of them can not avoid handling specific options of the
-> > sub-classes (e.g., NVMF_OPT_HDR_DIGEST, NVMF_OPT_TOS, NVMF_OPT_KATO).  
-> 
-> NVMF_OPT_KATO is completely generic, but yes, there other two are
-> transport specific.  None of them calls out into other modules
-> that would need dependecies, though.
-
-Yeah, NVMF_OPT_KATO is generic. Sorry for the mistake.
-
-> 
-> I'm also a little concerned that no other in kernel user like iSCSI,
-> NBD or NFS has any code like this.
-
-Well, at least I could first remove the calls to networking APIs on the
-host side. And it brings no downside.
-
+Pozdrawiam,
+Damian Kraska
 
