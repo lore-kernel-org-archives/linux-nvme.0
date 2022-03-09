@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E50FCC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 18:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBE3BC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 18:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IznW8wrmCBZkD5BwAGQiSM8eU+KwdXLI6muGuQ/WvVM=; b=iY6BNWmvAj/HeBaEiEZqElrJaD
-	JYqpwyrfxbsuZ+mk86d6IVFjlKqEn9PawT2FAf8r3MLCaP5tuRxnTMSQmwzZLpLdoWV7V60pnyq2R
-	kKTpylVad+66oI/ofxgxSl/Y47ZW/QJr0d6IfunPzCcLslwpPNowOdM+LjfDjkoN9KsnrIMG/tbqy
-	3uV7ZZurQtd6Nd6htd6IsCYGmaouYwPlVkhgHQ74n7Kxms9odJ4e+Uw/1yLTB5alwL1NEa9zlTigf
-	ELEG0y0oY1kWiBz9okL1iG6VuHI6uFx+UC1j57kSTQFYoWWjY0mB2kLlh6lGK7n1JAe0s3PwFvyhH
-	SJYTtFSg==;
+	bh=IznW8wrmCBZkD5BwAGQiSM8eU+KwdXLI6muGuQ/WvVM=; b=DYLYH+L4AhrtZ9/JVWPnhZBona
+	l8yAvA4MzaCu5qSp3iEpkEcn87STXrhx4xtDIYjAogthh+GvQKQ4hoigFRdQDhp8znt23S1pMMqZR
+	YbT9Uv8JcVFF7OQN79YSEc9pbo1KVWVSk3k8qjtLDczNCFAZuq7gUJ3UsoUs534YAEuaqsLQ2K9MT
+	7Xdmy4MlDRYrLOHS0m4fEbHcZLJX2Yrac2oJjYeZRbgJayb3XcWC1oV5yvM3m45kD7SI+g17zhezH
+	vPfTQrePmt2tg6htU/gVF2iquzypDgawBki2VFFvzXs4COCnw+Tz9o3ALYeWWD4vLmMax+vtW55cv
+	KRSQc4XA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nS11z-00A4wY-5Q; Wed, 09 Mar 2022 18:27:27 +0000
+	id 1nS12M-00A57k-Lq; Wed, 09 Mar 2022 18:27:50 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nS11x-00A4vr-VQ; Wed, 09 Mar 2022 18:27:25 +0000
-Date: Wed, 9 Mar 2022 10:27:25 -0800
+ Hat Linux)) id 1nS127-00A505-Bb; Wed, 09 Mar 2022 18:27:35 +0000
+Date: Wed, 9 Mar 2022 10:27:35 -0800
 From: Christoph Hellwig <hch@infradead.org>
-To: Chris Leech <cleech@redhat.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/1] nvme-tcp: lockdep: annotate in-kernel sockets
-Message-ID: <YijxjZivd9VxHcF2@infradead.org>
-References: <20220216022249.2856536-1-cleech@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvme-multipath: use vmalloc for ANA log buffer
+Message-ID: <Yijxlw8bShC1Z83H@infradead.org>
+References: <20220309132900.1171-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220216022249.2856536-1-cleech@redhat.com>
+In-Reply-To: <20220309132900.1171-1-dwagner@suse.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
