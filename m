@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDAFEC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 03:40:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7096FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 03:44:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dJ6OoVnjd34/gbahnpsOEbdjnOs8G3jKSEza3D8AMO4=; b=Z+dtxBe3eBQxVWlZ1vluoxMd3k
-	uSs7ZPx0LDVTKN+4FgbmYg9B4rfae7PWAcFvKvBKczzM3kFdf4FY5Rkx9SpOMM9lkdNlRrQaXyoD5
-	BG2xN0IKaptpDci3ySggw3MmkhfFsWT5JI27pndD8q6XjS+UuRfD2d+YniJh0cNPeXeNK1Hg4UuZ/
-	ZwHHFBL+tYA3I8Ag5A408QbVKStINgJ0R6CGtP77Qcphgj9tSRyQsPjFI8/zNJd3Lg6EoiP2MJl2o
-	wZVZMnaOwnk7ILVeZyf1vs0JCnDioDqrA7Im43D4RvahJ1jHC/VZJZxUoNNmTSPipp8T+VZwwWRJp
-	ILI09sfQ==;
+	bh=2jkbQLcDnVJxV0Z62XhPYhy/xvpgWpeOalEWvDr7n/0=; b=Z9tWy8g/W9DmmWZETwYd2ot+Br
+	/DgLkuFb5q9jkJIPUUjN3Kw5AmqfmQ5jAVnBzMGHrMsiJyB9lBJO8Re94Yf40utVrf0nGL4xFpAU7
+	o8SU94p+8ipk3/p3Hyn0DqmkYENu6Rt9itGJ7Hb9Xj/xp2j370YgytGKD9/FdQwb22V+LhAk9v0ZF
+	SjhbngC78jzxkpbb07dBZrXUrQoCIS4GCqOqcpldVxXlvywqH80c8xeSGNbpflvkkJdo2/aphwcbO
+	BeR8YkCby5DskAXKjnmVyy7S2F1V+vwirL4Qih4fB5n3XRtWZINcZ5sErx4uj8LasMy1JdORrFdX5
+	35KWEyrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRnBT-0078h9-J7; Wed, 09 Mar 2022 03:40:19 +0000
+	id 1nRnFj-007A69-6s; Wed, 09 Mar 2022 03:44:43 +0000
 Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRnBQ-0078eh-AS
- for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 03:40:17 +0000
+ id 1nRnFf-007A4n-E2
+ for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 03:44:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1646797215; x=1678333215;
+ t=1646797478; x=1678333478;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=xmF1sDRZPr3tQorEJq8JDYSDk9Aby1WDJLV6SHWhrzU=;
- b=PPY2xmritdbzo2f8Ym4TWSJi1hoULntQSpidZjTUXzTP77SNH3+JBj8V
- vQIj1YACNGzGC9/V52j2jwFEaopWPqAVZ3Rg3UvCEkERA0m9XUguktYw/
- LzURq8ZNZBGGbIF+6efDDl+INEyCrqKn9nIyunTmmh2fTIUU1vVgMxCII
- Ia3y5daRL6ER/Cyz7XvE/1sBf96ceql3YL0JI4QEgy/Z/Vf/4bLrRCj4G
- CZs5BYzzHqe2o94/Jxt8Z3+ir6BQyXlBd48D14MQGSXmbYEYcbzLfjdCe
- anYGupRNKSDSunuXzSvIWkX4Q1SW/8hCvuUB1Ux0gbyuonNI3ap2Ldvch A==;
-X-IronPort-AV: E=Sophos;i="5.90,166,1643644800"; d="scan'208";a="199667072"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 09 Mar 2022 11:40:13 +0800
-IronPort-SDR: iiEsTnv+L5gOxNzz3CueB6tunNA06j6DfogLPQPwgTORZ1OBjJ3Wi0TWkb1mj10AnhxCCX6Kr6
- CPXmGl5DWd8cLIndaHNY6S10OWGfXwlo7Jxip6DLnsftC83AICiaqytN3kCRXJdbOOOsMvy8Tz
- rplEIm0d9HlrgjmXxmBPHYnQVgBkcaREjUObY2rKkj6rWG9HRsIMkiDvsEpOtDSoPbIuQb934X
- +NUNpvQcE39WADLnGKEOAdn4ijaOJ6NMcN81+oPIPjssIiIXBiQSBS1wp61Z70Ha8L5YSEjwaV
- j1demWkcvdPvybkSw4aQcmrb
+ bh=Cix+ZQn+HfYI1JZBoqYQ0IX5sNeZqeJolFM7SyZjKtA=;
+ b=rzmSYnbWDtryY5ZJek0PZ/KwftZR/M8EJWzjGSrxtQBSIl9cboXxYimf
+ n1eV6BjLOCJkBfd5Uq3D+pR4mpK4VHoP35/1Dx+6FKsrm8MoqrHhQF6K0
+ P57UUTg/MGELMv4JtnkR6dtcmiSlliJpYaRi+CqHaeyvWSVHNi7nQOEB1
+ gHiVjdfimx1b5C5WgaFXJbc9PvDI1OjBtQU6uhrN18cgpzGTyP4k3rwHx
+ BvX1aWhjmjcYNGcOEv68bawehFHZVIkfUTEN18Xeh9xfvGOPEcCpKeFyp
+ pL3l+FAvxxFNdZC6i1mE2yv6rzq1R7jj6wIKqND3uuSi9Advb4Q/1zWEu A==;
+X-IronPort-AV: E=Sophos;i="5.90,166,1643644800"; d="scan'208";a="199667340"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Mar 2022 11:44:38 +0800
+IronPort-SDR: +0OajQxHvBwW3VDkapd2F0+u0mhmrcLkFnVYRxm6KTaVT9P4OitcWon8FpxuarCbJsn0575j7f
+ tK8OwXlEE1a+N++G57z4B+ee8c7nLFcEFOjRxuVkUexlCGlKyg4b6zR4HHWypu6pfnTYFddYPM
+ PN7URqYzLKmuro88jJdDR9JFxDJgs0hDtDY3PglshlkDdyIJQDRpibPG06PxD595cbIdZHosuF
+ b5SsZk9uccekTm9UUq03U1UMqH6IYNYwX8M3ZmCFt82/pn3D6+yfaUO6/DyrXMEXbYiiNwlFBF
+ 0Qbn4H6PRjuYH/IcB27+YFAd
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 19:12:30 -0800
-IronPort-SDR: q8Cg5Sa+hCiZn4JtoXa1ifMnyeJaNc3xrQDvLSfEh5zJkMi+JRMktmiZh8Kqoftg7xpQ8qTJMC
- ym5UbMDEUsGFk7l3aLoOm42yOX5+2AIBGQZCNHAAdggGBGWQtVczelNdRUmcmenH+Jl+3ppDIn
- z96zq8Vf5WbJw8TTedmAMTIeR62bcfpgRNA8U0Uc3UYlyipppO1WTk0WEZhrLSgbbKBh9ox27W
- dtGqAXgKumjIvnRzpm60SUdd/Jf/sMjtixGEKHDDHCXa8xsiAkPDTV/6/PCx+vglAqXQRN9f2M
- aSI=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2022 19:15:54 -0800
+IronPort-SDR: CxsOirfQbKXKylVC0kuSmzaznjzf4tqGPNLzQUxRoZxOOEzFM/MxR0Mj3LFHeRAigZCT7uY5TK
+ Ri5tkkoLuWS2SRHUdXyYMYans/fkcugo3vI5kRqPCZ5VRzPdyDs4Ixvi21mmWk5ttoGEsDpCqU
+ Z+7flvFPMM8L5ewhOldXTF8UgnqeP7MyQunH/+PqMEwGmwx56GkRxGYPkW7FOvsFcK2AkHdkPb
+ JJmqTDeAwHQl8JezQAbp0UXrU+3jpphs5CBnVpVmM14kMk5h/LbFNebdlaV+cYM9jTozxEGLuA
+ yZY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 19:40:14 -0800
+ 08 Mar 2022 19:44:39 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KCyd93YXvz1SVp5
- for <linux-nvme@lists.infradead.org>; Tue,  8 Mar 2022 19:40:13 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KCykG310Qz1SVp3
+ for <linux-nvme@lists.infradead.org>; Tue,  8 Mar 2022 19:44:38 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
@@ -68,24 +68,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :in-reply-to:organization:from:references:to:content-language
  :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1646797212; x=1649389213; bh=xmF1sDRZPr3tQorEJq8JDYSDk9Aby1WDJLV
- 6SHWhrzU=; b=ClFvo+wN+z3SrEssyAGUs8cpcXKConw23LtPlvCLuOO9nA0UHl/
- fH6yLtb9sFVlla9nWli7KjZF6Kosh9xUuZLA5Odzl6ip/OM21X6HeO7Z+FD7Aj4+
- Va9uy/mOfsF9KbT8aBV3svg47xbeFrWYTNALVEBDIyUYawi/DrA+r8IwkWFuvSHO
- LMppjXrJFMmpps4LAklQBKqumJGaRlM2roeCP91/S6237iJxvDz5gbxS/LfqnLQQ
- 9bhMQPSkELKFiLHVcRbOj/AhTDIHD1ydudYKSThOwAbRlRpk5JVtyfYU9dqpCwRT
- LVxcElNXwgkAB3JNpZ/PEtIjZaHYWzxWaPA==
+ 1646797477; x=1649389478; bh=Cix+ZQn+HfYI1JZBoqYQ0IX5sNeZqeJolFM
+ 7SyZjKtA=; b=mObchIuXkiqWIlWO8v0uyQ/V7SPyVQX5BpMrQ8ymJs9emec9wT4
+ ByGtV2BS08JRE7gVALFPDJr4LZnt9teCndJIJFrbaWvagx4wWIuKQ/KOcqp6rxfb
+ TMrn30NNq5buWo6hu61q9F8U8HXiqN28DspqIB6C9VThtQNX2oc2nvT0t9Hxcy4b
+ XmE5h0+Bl3XTUISLEZ/rrGPBxysknJQYur3kFbQINuu00c/L88vXl0SVSee/Vbpk
+ NlwHMPXiW7d8GO3QnF3bhx8A71rTAadHDrl0628So0lpq5f6DWd1Ry/3V7pDlr0g
+ dOY/oKPTZSvI7MpR2h4mfwiEruceMIBvX+g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
  port 10026)
- with ESMTP id KGWuyDvzN6OO for <linux-nvme@lists.infradead.org>;
- Tue,  8 Mar 2022 19:40:12 -0800 (PST)
+ with ESMTP id Ymp4KUDhKRbv for <linux-nvme@lists.infradead.org>;
+ Tue,  8 Mar 2022 19:44:37 -0800 (PST)
 Received: from [10.225.163.91] (unknown [10.225.163.91])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KCyd56ytNz1Rvlx;
- Tue,  8 Mar 2022 19:40:09 -0800 (PST)
-Message-ID: <645d8224-df64-a057-cb9c-82c6cb8b2d5b@opensource.wdc.com>
-Date: Wed, 9 Mar 2022 12:40:08 +0900
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KCykC1htcz1Rvlx;
+ Tue,  8 Mar 2022 19:44:35 -0800 (PST)
+Message-ID: <06580b24-426c-77ef-a338-e5e97f5ebee1@opensource.wdc.com>
+Date: Wed, 9 Mar 2022 12:44:33 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -110,8 +110,8 @@ In-Reply-To: <20220308165349.231320-2-p.raghav@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220308_194016_446030_B48368AC 
-X-CRM114-Status: GOOD (  19.81  )
+X-CRM114-CacheID: sfid-20220308_194439_553809_0EFDA297 
+X-CRM114-Status: GOOD (  20.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,6 +151,12 @@ On 3/9/22 01:53, Pankaj Raghav wrote:
 > -		status = -ENODEV;
 > -		goto free_data;
 > -	}
+
+Doing this will allow a non power of 2 zone sized device to be seen by
+the block layer. This will break functions such as blkdev_nr_zones() but
+this patch is not changing this functions, and other using bit shift
+calculations.
+
 >  
 >  	blk_queue_set_zoned(ns->disk, BLK_ZONED_HM);
 >  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
@@ -160,9 +166,6 @@ On 3/9/22 01:53, Pankaj Raghav wrote:
 >  	nr_zones = min_t(unsigned int, nr_zones,
 > -			 get_capacity(ns->disk) >> ilog2(ns->zsze));
 > +			 get_capacity(ns->disk) / ns->zsze);
-
-This will not compile on 32-bits arch. This needs to use div64_u64().
-
 >  
 >  	bufsize = sizeof(struct nvme_zone_report) +
 >  		nr_zones * sizeof(struct nvme_zone_descriptor);
