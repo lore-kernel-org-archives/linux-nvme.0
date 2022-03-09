@@ -4,128 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA7F6C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 04:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4C6CC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 04:57:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R+5MFabA9b+sam2wOPtEv1/EIjHnzZeKhYisnvKky8g=; b=VIyH4qEyWGhZS+nSjjj0F3LDyY
-	0IubLS3Fa3w9LlEj0pGNwUAbD3vqPmQGrngY6w6gAk5rSRD1IenChOi4F5g50+iBkqajoxK51CLdK
-	m+rs1uAlZDMkcs5XLMFNU+Zx4JKHuzuig9n64VJ4Uzxuameg+y436OYPWGlm+xQqZAr6VfSa54QTI
-	a1IRk5TCb6EDd3GnGHq7dvm77kRqug3o7Kix/b46zJkF+2H1QtVbleF80xGw03n9VjVglAhC64C5i
-	Fb9pkozkgg+7fxUcRjglTGnLPzBEM+9CPVY2NKNKasBOEK6bednNCdSJqkAUkfF2/BoVmGRiMNqJ8
-	94/580yw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MkSUiNg1i3YWsux9cdDEAr4mGJu08GzuRFpQc4iG0b4=; b=M75mSgKNtbR7JDC9GdFJW/I9s+
+	fXB4vFlTcuvcOO+kUTklCNSv/MsNsNURRjp39cEn/KnZ1cFhHlYrrkbSBKzdU0Z8auwwQYDfZKli7
+	ZoNy1fstBYfsB0z7jS6EQ7vTV/84ZtrRnW5pOiU/OPuTpdZBdPGTUuJRktJxrNZiHMxy+/6NS5z2H
+	QYUidF4jBa3tvLUKn8aJBFdB4tW/VT/k5DntNMhXvL9FXjXy2eGXuIszaqLFSzBiVEwZR88x8Ru4k
+	9nNj1Q7BamlMwmPSleNgTQ7vvp25SpRYjki5tR0pWYAHvQRGu4QMv09dFmXcBwnMTYVnSWyigjDYU
+	HGP8zTYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRnrQ-007HaU-Uy; Wed, 09 Mar 2022 04:23:40 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1nRoNt-007JoD-5j; Wed, 09 Mar 2022 04:57:13 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRnrM-007HYG-MM
- for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 04:23:39 +0000
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20220309042328epoutp044b8fb2f8297484c54d248ecc4eb0573d~am7NsOW3k2347523475epoutp04d
- for <linux-nvme@lists.infradead.org>; Wed,  9 Mar 2022 04:23:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20220309042328epoutp044b8fb2f8297484c54d248ecc4eb0573d~am7NsOW3k2347523475epoutp04d
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1646799808;
- bh=R+5MFabA9b+sam2wOPtEv1/EIjHnzZeKhYisnvKky8g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s+M1BRzR+OpRQSvmxo/1OjaCszVUm0rHdxjMyHErL3QPX1J2Gk769eUHPebHIbBcV
- WexNuS/vCXUC14I4zhNPWs6uXJY1KFPIhcZ47fuy2mLwNRXIayoXTvqASVCFmfY83J
- mZ1In9oq5O8jxr4QRW/KdGfVSEVDuOxIpK4WyQM8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220309042327epcas1p2e2702303bee5d532b775a7ac167275c1~am7MaRUe62900029000epcas1p2T;
- Wed,  9 Mar 2022 04:23:27 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.38.248]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4KCzb11WpFz4x9Q3; Wed,  9 Mar
- 2022 04:23:25 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- C1.22.28648.DBB28226; Wed,  9 Mar 2022 13:23:25 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220309042324epcas1p111312e20f4429dc3a17172458284a923~am7JxI2_D2642326423epcas1p1k;
- Wed,  9 Mar 2022 04:23:24 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220309042324epsmtrp2c0e49ce98be7c4a571daa01cf2f7ab5f~am7JwJC_c2497624976epsmtrp2C;
- Wed,  9 Mar 2022 04:23:24 +0000 (GMT)
-X-AuditID: b6c32a39-ff1ff70000006fe8-c2-62282bbd690a
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 74.92.29871.CBB28226; Wed,  9 Mar 2022 13:23:24 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.253.98.109]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220309042324epsmtip2f332f5ca779a6d3f69bae5aa09ef2c40~am7JhWGXh2495824958epsmtip2Z;
- Wed,  9 Mar 2022 04:23:24 +0000 (GMT)
-From: Manjong Lee <mj0123.lee@samsung.com>
-To: david@fromorbit.com
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
- sagi@grimberg.me, song@kernel.org, seunghwan.hyun@samsung.com,
- sookwan7.kim@samsung.com, nanich.lee@samsung.com, woosung2.lee@samsung.com,
- yt0928.kim@samsung.com, junho89.kim@samsung.com, jisoo2146.oh@samsung.com
-Subject: Re: [PATCH 2/2] block: remove the per-bio/request write hint.
-Date: Wed,  9 Mar 2022 22:31:19 +0900
-Message-Id: <20220309133119.6915-1-mj0123.lee@samsung.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220306231727.GP3927073@dread.disaster.area>
+ id 1nRoNq-007JnS-Ay
+ for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 04:57:11 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3EF59B81EF6;
+ Wed,  9 Mar 2022 04:57:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CEF1C340E8;
+ Wed,  9 Mar 2022 04:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646801826;
+ bh=L5U8vsPaENDSyYguGNWyibqEz/g1fEThZqDRlD+omU4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pWqNKdghmGYn2ranoR14iRRFdhzL3REWYIJfUMbCtpzxEmL0R8ShO5qZ460ScxaeI
+ lTHZX3VENrcohgn2dce8zXtkMVx/HeZewkyBTT2nYEXxSgJJOaZZ1rAO9FzaRS3BcI
+ LOX8ZlMYzgOmNFXtp14w8xCHy0hbTe3mUVVGsm5P5WcqjasuE4NRjOR30jRD3RnzIh
+ g/QEu2c9QWgY1g8kunf+A26B83h4e4SaxPthZC/tjJUvvd4R42tFuBvLbj8qncFI+M
+ 6p6w9hCIsy+tKtQCDaWXkNMEjoaiBdWHayHzOPDbiM+k+ygYIwfwPrtO0F/ZOvYQEz
+ /rD0NMmOvrPOA==
+Date: Tue, 8 Mar 2022 20:57:04 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Vasily Gorbik <gor@linux.ibm.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-kernel@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
+ martin.petersen@oracle.com
+Subject: Re: [PATCHv4 6/8] crypto: add rocksoft 64b crc guard tag framework
+Message-ID: <YigzoKRJ1EHFRZY9@sol.localdomain>
+References: <20220303201312.3255347-1-kbusch@kernel.org>
+ <20220303201312.3255347-7-kbusch@kernel.org>
+ <your-ad-here.call-01646770901-ext-3299@work.hours>
+ <20220308202747.GA3502158@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKJsWRmVeSWpSXmKPExsWy7bCmru5ebY0kg8XvWC1W3+1ns9hy7B6j
- xcrVR5ksep40sVp8fVhsMenQNUaLvbe0LfbsPcliMX/ZU3aL9vm7GC2u3T/DbrHu9XsWi3Mn
- P7FaHF/+l81i3mMHi1M7JjNbrN/7k81B0OPUIgmP8/c2snhcPlvqsWlVJ5vH5iX1HrtvNrB5
- 9G1ZxejxeZNcAEdUtk1GamJKapFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKL
- T4CuW2YO0AdKCmWJOaVAoYDE4mIlfTubovzSklSFjPziElul1IKUnAKzAr3ixNzi0rx0vbzU
- EitDAwMjU6DChOyMiyunsBSc4K24cpWrgfEpVxcjJ4eEgInEw3kbmbsYuTiEBHYwSiz5cJ8V
- wvnEKPHg5HomCOcbo8TLZUcZYVruLj/EDpHYyyix+9dfqJbPjBLzTs5iBaliE9CSWP7sAjuI
- LSIgLnGvrResiFmgi1ni8u5uli5GDg5hATeJE4v8QWpYBFQlOntusIHYvAJWEi13f7BBbJOX
- OLXsIBOIzSlgLTFt/TNWiBpBiZMzn7CA2MxANc1bZ4M9ISFwgkOife9vJohmF4kVU5awQ9jC
- Eq+Ob4GypSQ+v9sLtaBYYsutyWD3SAhUSPR2xUKEjSU+ff7MCBJmFtCUWL9LHyKsKLHz91xG
- iLV8Eu++9rBCdPJKdLQJQZSoSOxu/ga36M2rA4wQJR4SZ485QkKqj1Hi2/23jBMYFWYheWYW
- kmdmISxewMi8ilEstaA4Nz212LDAFB6/yfm5mxjB6VnLcgfj9Lcf9A4xMnEwHmKU4GBWEuG9
- f14lSYg3JbGyKrUoP76oNCe1+BCjKTCoJzJLiSbnAzNEXkm8oYmlgYmZkYmFsaWxmZI476pp
- pxOFBNITS1KzU1MLUotg+pg4OKUamFZaCW8PWsDeFJnhUmR875LkuQdWcS1vr+++GO60yyY8
- 0Z6xPU/IwHzSh3IV/7d3K7bt+xpydPX8djXDkn478/6mHF2ZRz8WmiRJsqgFOZvxd226qvb2
- p1TiofUfJjJof9Hf9v18usW9bz/Sa33t+Z4r/ZH51/njEr/jGY6NMcq/9MI1eupytZ46f3R5
- tFD69302uxD+bRacekfjDorGWl/fuKH+wbype7Y6cOcu5+IoW/DzO8e6UkXBo0d5dl0037Wr
- 5t+sHF2jyd0hNawfdN65Wx9aXmu754RZ0RP1Y3v9ebUPvdNQXHelurbyCpeJjaHrSybPcJ5I
- 5xOsB6JknSU+33fN91c8lZxx6LCwEktxRqKhFnNRcSIAEcYqGlgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgkeLIzCtJLcpLzFFi42LZdlhJXnePtkaSwZRNIhar7/azWWw5do/R
- YuXqo0wWPU+aWC2+Piy2mHToGqPF3lvaFnv2nmSxmL/sKbtF+/xdjBbX7p9ht1j3+j2LxbmT
- n1gtji//y2Yx77GDxakdk5kt1u/9yeYg6HFqkYTH+XsbWTwuny312LSqk81j85J6j903G9g8
- +rasYvT4vEkugCOKyyYlNSezLLVI3y6BK+PiyiksBSd4K65c5WpgfMrVxcjJISFgInF3+SH2
- LkYuDiGB3YwS86++YoVISEnMW9vA1sXIAWQLSxw+XAxR85FR4sP5dkaQGjYBLYnlzy6wg9gi
- AuIS99p6WUGKmAXmMUvMWT6RBaRZWMBN4sQif5AaFgFVic6eG2wgNq+AlUTL3R9sELvkJU4t
- O8gEYnMKWEtMW/8M7AYhoJrOE+eYIeoFJU7OfMICYjMD1Tdvnc08gVFgFpLULCSpBYxMqxgl
- UwuKc9Nziw0LDPNSy/WKE3OLS/PS9ZLzczcxgiNJS3MH4/ZVH/QOMTJxMB5ilOBgVhLhvX9e
- JUmINyWxsiq1KD++qDQntfgQozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGJuX9D/0d
- s6bdPntEzXbbMb+ZeyL+ZckWbkwvDTo+YZN0nbDPjAzBDYuKH/voBeYdlosy+eIXpfZV78ez
- 2M40Xv0/+87v0zJ8m/y64EPz/Ufl1k4XvHOlNmaeO6UdfHjZvRuS/vG7lzh2BK3KDzv244fb
- X4PpkjtXZ39RmZE45UN/jc5D7ZNbbr/ZHaPz8e+8wP2HGg98m/NixkTWzK8TdZr0bC/utY21
- qlY2Tzphv+bqq23Ms7LOzntw6ty/sOoDwkIatkdWp97KFU+qnrXYkt33+BuJGVuee/XLHJ9V
- Pu3iu/r0CuHFCjcdzH0Wfc5RbrY4q9MreyFOvd55od3a4p7ER/vEu9rEkiY8Tn7ySFiJpTgj
- 0VCLuag4EQAjGlMpEwMAAA==
-X-CMS-MailID: 20220309042324epcas1p111312e20f4429dc3a17172458284a923
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220309042324epcas1p111312e20f4429dc3a17172458284a923
-References: <20220306231727.GP3927073@dread.disaster.area>
- <CGME20220309042324epcas1p111312e20f4429dc3a17172458284a923@epcas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220308202747.GA3502158@dhcp-10-100-145-180.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220308_202337_078472_99BC5129 
-X-CRM114-Status: GOOD (  23.72  )
+X-CRM114-CacheID: sfid-20220308_205710_568767_C3F2C50F 
+X-CRM114-Status: GOOD (  16.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,49 +76,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->On Sun, ddMar 06, 2022 at 11:06:12AM -0700, Jens Axboe wrote:
->> On 3/6/22 11:01 AM, Christoph Hellwig wrote:
->> > On Sun, Mar 06, 2022 at 10:11:46AM -0700, Jens Axboe wrote:
->> >> Yes, I think we should kill it. If we retain the inode hint, the f2fs
->> >> doesn't need a any changes. And it should be safe to make the per-file
->> >> fcntl hints return EINVAL, which they would on older kernels anyway.
->> >> Untested, but something like the below.
->> > 
->> > I've sent this off to the testing farm this morning, but EINVAL might
->> > be even better:
->> > 
->> > http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/more-hint-removal
->
->Yup, I like that.
->
->> I do think EINVAL is better, as it just tells the app it's not available
->> like we would've done before. With just doing zeroes, that might break
->> applications that set-and-verify. Of course there's also the risk of
->> that since we retain inode hints (so they work), but fail file hints.
->> That's a lesser risk though, and we only know of the inode hints being
->> used.
->
->Agreed, I think EINVAL would be better here - jsut make it behave
->like it would on a kernel that never supported this functionality in
->the first place. Seems simpler to me for user applications if we do
->that.
->
->Cheers,
->
->Dave.
->-- 
->Dave Chinner
->david@fromorbit.com
->
+On Tue, Mar 08, 2022 at 12:27:47PM -0800, Keith Busch wrote:
+> On Tue, Mar 08, 2022 at 09:21:41PM +0100, Vasily Gorbik wrote:
+> > On Thu, Mar 03, 2022 at 12:13:10PM -0800, Keith Busch wrote:
+> > > Hardware specific features may be able to calculate a crc64, so provide
+> > > a framework for drivers to register their implementation. If nothing is
+> > > registered, fallback to the generic table lookup implementation. The
+> > > implementation is modeled after the crct10dif equivalent.
+> > 
+> > Hi Keith,
+> > 
+> > this is failing on big-endian systems. I get the following on s390:
+> 
+> Oh, I see the put_unaligned_le64() in chksum_final() was not the correct
+> action. I'll send an update, thank you for the report.
 
-Currently, UFS device also supports hot/cold data separation 
-and uses existing write_hint code.
+Or you could make the digests in your test vectors have have a consistent byte
+order, probably little endian.  That's how "shash" algorithms in the crypto API
+normally work, including crc32 and crc32c; they produce bytes as output.  I see
+that crct10dif violates that convention, and I assume you copied it from there.
+I'm not sure you should do that; crct10dif might be more of a one-off quirk.
 
-In other words, the function is also being used in storage other than NVMe,
-and if it is removed, it is thought that there will be an operation problem.
-
-If the code is removed, I am worried about how other devices
-that use the function.
-
-Is there a good alternative?
+- Eric
 
