@@ -4,63 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5C38C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 00:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F0C7C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 01:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bgKmKFWjWbSru9vDxGmVshFZEb7MXJwfHyUsQcUeEmY=; b=o+2XLQzCw2RRNgE8VbpEAXyoNs
-	x+W0wwbnhoMYzIKChQt1PSFFSKNWo2Wr4VuzHODlHVvhB1e0TLL9uy6HTZ4qr79RzgYir+zaBsJAl
-	iT4wqx4vy6Z1p8MoFfAFxxctzQUqXahkBMFwlDM8mhvNNXJKXb2DdMhVJzZyZXGZegc6KVLtB6CU5
-	nVBihTnnibC57BlYhBYzd0YAkAP6FTVN5apXj7GXjU1zjwxNAEYXI2jzhjZWXWMlZchlBI/YF5yvG
-	wzKpF6T74xNrSHulTdfhzDWyz/sIFjW6uIIpQpSARgMlM3dsjYKYy3nCiNTjFP4D1n9ScvyUP6zkL
-	XlKWcDXA==;
+	bh=fOinsnqh7tuFe1AXLtD6a4GjowO8MZZ5tBv/OgSQsfY=; b=GWvCpHSI3KINHXIVAFTfX0Vszh
+	5T3eHrqwp3voMHmz2Nkwb/Fm5HHs2C0hqhwUTUgO8bmJJUC5SLrmZnxQM28VTAMQuEwUZwKUTTbls
+	VY/mgBMkiYhlTQcXJBLRxlSZ4XasHOgNH6/SsDoLPUdtnNS7Bjz3fSlm7yuKQvXU+wASDFGK0L858
+	G1B0MSWupgpAa8byHKaSxQKajaPXr/bjqyINTwS5FJ2OzbvdT+QY7eathyKGw6xEIPypn2ywPwXuG
+	kPAmLH56uX4QfutBQsDEqUEPgRAtNNk2Z1wpad80XQHBqJLBFo60U6gcJSUq46diZHGTJKbOSl8s+
+	5x6G2E8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRkMD-006kcR-NX; Wed, 09 Mar 2022 00:39:13 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1nRkjH-006m8b-4Z; Wed, 09 Mar 2022 01:03:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRkMA-006kbk-95
- for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 00:39:11 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1nRkjE-006m7E-Az
+ for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 01:03:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646787779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fOinsnqh7tuFe1AXLtD6a4GjowO8MZZ5tBv/OgSQsfY=;
+ b=L0X1iGSbZj+dVqE6mMtunqLvf+PGYvZICxBdLUdAOvfNOcxzPpzVu977UGKdMJI63Wmd8d
+ 3FzShBvHTEacydRhARWhq+vAjqOGfYUQd+CE/0II1s4X4XRdFtlKPnLAoW+oczyt3R9eB0
+ dDVFfLvU3hH3vKf+6ycpTn0zDvQcp8M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-83-IZ2xRyylNjOyVAgujDYaRA-1; Tue, 08 Mar 2022 20:02:56 -0500
+X-MC-Unique: IZ2xRyylNjOyVAgujDYaRA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 95037B81E02;
- Wed,  9 Mar 2022 00:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7FF9C340EB;
- Wed,  9 Mar 2022 00:39:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646786347;
- bh=22syWfaYqD9PH598FPb7GlzaKli4j5cTtLvkcFkuOYc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ooLSfg8wGnM+kRhhFeNlRtOGEWP8DdpOXcztVdaswCpdBRvuFcMvM+ibLGMyd+QzV
- E2Alxtoxc1G0kUGQiMRR+zF7P4LJ5dye7Wo5IiyLZ+ceqOFPprzuGcPfgXho2VatYu
- JV30qYFFxKUO1S9MNMMCoRkWm8U2a3i70NvehUCLvSsXQW3LHn2jxRKddXNK1sN0zE
- pi9orfvzgwuSzMck35SV8DProAY1ySTDQP4akocptue9rOPWw9UKDFtwv0sRn5MEQN
- ePoCjVv9qwy13AVwNGeOYcMZiatRwVIA2ZUsKx1c4TwF0/Vt4r/sWDx9nL4Zabp3oj
- NIz7JpiY1ePrw==
-Date: Tue, 8 Mar 2022 16:39:04 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F306180A088;
+ Wed,  9 Mar 2022 01:02:55 +0000 (UTC)
+Received: from T590 (ovpn-8-34.pek2.redhat.com [10.72.8.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B98AA60C05;
+ Wed,  9 Mar 2022 01:02:46 +0000 (UTC)
+Date: Wed, 9 Mar 2022 09:02:42 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
 Cc: Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org,
  axboe@fb.com, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Ming Lei <minlei@redhat.com>
+ Sagi Grimberg <sagi@grimberg.me>, Ming Lei <minlei@redhat.com>,
+ linux-kernel@vger.kernel.org
 Subject: Re: nvme-host: disk corruptions when issuing IDENTIFY commands via
  ioctl()
-Message-ID: <20220309003904.GA3948780@dhcp-10-100-145-180.wdc.com>
+Message-ID: <Yif8svaBscrL9WZk@T590>
 References: <CAFL455n1WaRxZuqCeQGWt1MVDnK8uUytUsAUVEUV9-LLQYv9gQ@mail.gmail.com>
  <20220308195238.GC3501708@dhcp-10-100-145-180.wdc.com>
  <YifyZ9MoUws/7esK@T590>
+ <20220309003904.GA3948780@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YifyZ9MoUws/7esK@T590>
+In-Reply-To: <20220309003904.GA3948780@dhcp-10-100-145-180.wdc.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220308_163910_507573_C9AD6381 
-X-CRM114-Status: GOOD (  10.29  )
+X-CRM114-CacheID: sfid-20220308_170300_482766_F89AFCA7 
+X-CRM114-Status: GOOD (  15.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,14 +84,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 09, 2022 at 08:18:47AM +0800, Ming Lei wrote:
-> Given NVMe spec states that data length of IDENTIFY command should be
-> 4096bytes, and PRP list can't be used. 
+On Tue, Mar 08, 2022 at 04:39:04PM -0800, Keith Busch wrote:
+> On Wed, Mar 09, 2022 at 08:18:47AM +0800, Ming Lei wrote:
+> > Given NVMe spec states that data length of IDENTIFY command should be
+> > 4096bytes, and PRP list can't be used. 
+> > 
+> > So looks nvme driver need to validate the command before submitting to
+> > hardware, otherwise any buggy application can break FS or memory easily.
 > 
-> So looks nvme driver need to validate the command before submitting to
-> hardware, otherwise any buggy application can break FS or memory easily.
+> No way. The driver does not police the user passthrough interface for
+> these kinds of things.
 
-No way. The driver does not police the user passthrough interface for
-these kinds of things. It couldn't ever be complete or future proof if
-it did.
+So you trust application to provide correct data always?
+
+From user viewpoint, this defect provides one easy hole to break FS or
+memory, it is one serious issue, IMO. The FS/memory corruption can
+be reproduced easily even in VM.
+
+> It couldn't ever be complete or future proof if
+> it did.
+
+But the spec states clearly the data length of IDENTIFY command is 4096
+and PRP list can't be used, so why do you think it isn't complete or
+future proof to validate data length of IDENTIFY in nvme driver?
+
+
+
+Thanks, 
+Ming
+
 
