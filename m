@@ -4,138 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 554EAC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 13:35:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D1DDC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Mar 2022 13:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=MOSRaIxNyC6CI9cICiCk1xaINheM8UiY5voih+W/W4Y=; b=keoEdlVhPoGBLd
-	hjkIo5XOyFAqN/+LygtBVReOyalozM8QVUjs3jpNbJHlMvy3Jy2pTQrjpZtmpcB/DTlFR6bDtawAc
-	ovvOHfu7RzzDHsHmnXNOJF/GmShXrVwO+9tO8KrHm4sd05flNkj1f6kimJmxEI8Q1ZPqZCoCLta7q
-	gCSDSeQQXQCk0ApT842J8eWgIKB9eaZVLdsPs24eSJNsN/+LC0SK9sMyT62Y9o6JIxgnOCYyeHfnu
-	Wdq5Si+ASIBOzq0cczO6/ZQX0Vr+uEz4gKKqaCdc38fjLwobprDq4MxUw+mlgj2IUzyLp5UF5GA7a
-	bb5jk5HDI3/9U6jaJhQQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9ROCPIy4h5kbqyEHwIyK4fiG1uB8nmf8wgt+C9RIOU0=; b=rmaECJKdQI+nPQapzuP/Oo3RPY
+	Rds15tH8DHvNfdjW/60oX8VcWgniFFeyQCJLt47LpABx+j493bOFxlbK0kS3O1F2MmPQKE0jZUy4Y
+	v5fPQwU9TTZ7CCxxMZD5rGoMLnVOG4e04Fq2IqphQpEJfPtGP3dx39RA4f8fQyYXSuJD/uP3W4eb+
+	LbCQd+ctW1UOauuIbJLAkbt61VX45OAQEpICMwBHpXGwSDQvrl0tHXSX+4/9gt7/Tfpyta4M/3YCO
+	Pvhsv6QwvFb3t80DRU0LC+M+Vod3JR7XznIT9Sp5gkOYKhnnGxHfNviL+ydx5QN+Rm3a76U9MyweE
+	tHvBUzOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nRwTP-008moI-IW; Wed, 09 Mar 2022 13:35:27 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nRwTM-008mn6-Cx
- for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 13:35:26 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220309133521euoutp02b1664e41e22e146bfe59b453872e8575~audEOD2oe1854318543euoutp02g
- for <linux-nvme@lists.infradead.org>; Wed,  9 Mar 2022 13:35:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220309133521euoutp02b1664e41e22e146bfe59b453872e8575~audEOD2oe1854318543euoutp02g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1646832921;
- bh=MOSRaIxNyC6CI9cICiCk1xaINheM8UiY5voih+W/W4Y=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=dbIoek1kfOzpswDZvFj3FZdYuV+815lp+IQQg4MHHroGzoF3aYp/V55EojDzldApL
- /OjFdqgt1KrgEzKk7n1fHYz6jAAzJnoBA4nB9Z7crF9FcnakkXcP/4zh56OcHzG4L/
- Iprn7eNgGyonevK1vtUgXerEcQ7yOQVj5E75wbEI=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220309133520eucas1p13405dad298a4241a36811212c217ee60~audDvoEHk2920429204eucas1p1M;
- Wed,  9 Mar 2022 13:35:20 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 32.C6.09887.81DA8226; Wed,  9
- Mar 2022 13:35:20 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220309133520eucas1p22d90a2003c4a3d2d16d4d6672e8fcb23~audDHSDQ11723517235eucas1p2P;
- Wed,  9 Mar 2022 13:35:20 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220309133520eusmtrp1b2428a7e0ea37f46d1c87d3a06744855~audDGLZ8Z1636516365eusmtrp1P;
- Wed,  9 Mar 2022 13:35:20 +0000 (GMT)
-X-AuditID: cbfec7f4-45bff7000000269f-f0-6228ad189912
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id E5.AA.09404.71DA8226; Wed,  9
- Mar 2022 13:35:20 +0000 (GMT)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220309133519eusmtip1ee003e23dc854adaa68d0c110270d746~audC9IVpt0959709597eusmtip1G;
- Wed,  9 Mar 2022 13:35:19 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.212) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 9 Mar 2022 13:35:14 +0000
-Message-ID: <df8dfb02-15d2-bfb4-df41-cde6fe850092@samsung.com>
-Date: Wed, 9 Mar 2022 14:35:13 +0100
+	id 1nRwZx-008nbd-CT; Wed, 09 Mar 2022 13:42:13 +0000
+Received: from smtprz02.163.net ([106.3.154.235] helo=smtp.tom.com)
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nRwZu-008nZc-4j
+ for linux-nvme@lists.infradead.org; Wed, 09 Mar 2022 13:42:12 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by vip-app02.163.net (Postfix) with ESMTP id 5F6AD44010D
+ for <linux-nvme@lists.infradead.org>; Wed,  9 Mar 2022 21:42:07 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1646833327; bh=vRJReDG4bqq0lBu9NwhCT/7EchP5ZD/U7FLT0SyLwVA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V3pk7M4xrkzvXbEEIDiIw5NQR3Yoe8Q0MPuIZ5OcoIkvqpnzGzSr1byVnb2ixJgp6
+ V97Rnc0VA7U92mThyjvFZB6DRbA8AgrKq2J8wRJNzRM/7QOFKuspHugYHwhPwvLXdA
+ ZH84/Vfpfnn2NV6M3C3YU5mF9csQCfZqaFhhooDA=
+Received: from localhost (HELO smtp.tom.com) ([127.0.0.1])
+ by localhost (TOM SMTP Server) with SMTP ID -371399624
+ for <linux-nvme@lists.infradead.org>;
+ Wed, 09 Mar 2022 21:42:07 +0800 (CST)
+Received: from antispamvip.163.net (unknown [172.25.16.71])
+ by vip-app02.163.net (Postfix) with ESMTP id 5B16B4400F0
+ for <linux-nvme@lists.infradead.org>; Wed,  9 Mar 2022 21:42:05 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1646833327; bh=vRJReDG4bqq0lBu9NwhCT/7EchP5ZD/U7FLT0SyLwVA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V3pk7M4xrkzvXbEEIDiIw5NQR3Yoe8Q0MPuIZ5OcoIkvqpnzGzSr1byVnb2ixJgp6
+ V97Rnc0VA7U92mThyjvFZB6DRbA8AgrKq2J8wRJNzRM/7QOFKuspHugYHwhPwvLXdA
+ ZH84/Vfpfnn2NV6M3C3YU5mF9csQCfZqaFhhooDA=
+Received: from antispamvip.163.net (antispamvip.163.net [127.0.0.1])
+ by antispamvip.163.net (Postfix) with ESMTP id 9E7BB1541564
+ for <linux-nvme@lists.infradead.org>; Wed,  9 Mar 2022 21:42:05 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
+Received: from antispamvip.163.net ([127.0.0.1])
+ by antispamvip.163.net (antispamvip.163.net [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id TYlw1Ru3gj-F for <linux-nvme@lists.infradead.org>;
+ Wed,  9 Mar 2022 21:42:03 +0800 (CST)
+Received: from localhost (unknown [223.104.211.98])
+ by antispamvip.163.net (Postfix) with ESMTPA id E129815414D2;
+ Wed,  9 Mar 2022 21:42:00 +0800 (CST)
+Date: Wed, 9 Mar 2022 21:41:59 +0800
+From: Mingbao Sun <sunmingbao@tom.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
+ libin.zhang@dell.com, ao.sun@dell.com
+Subject: Re: [PATCH v2 2/2] nvme-tcp: support specifying the congestion-control
+Message-ID: <20220309212852.00007828@tom.com>
+In-Reply-To: <20220309153136.000048e1@tom.com>
+References: <20220308151606.2563-1-sunmingbao@tom.com>
+ <20220309061442.GA31316@lst.de> <20220309153136.000048e1@tom.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/6] nvme: zns: Allow ZNS drives that have
- non-power_of_2 zone size
-Content-Language: en-US
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, Luis Chamberlain
- <mcgrof@kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
- =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier.gonz@samsung.com>, kanchan Joshi
- <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch
- <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
- <sagi@grimberg.me>, =?UTF-8?Q?Matias_Bj=c3=b8rling?=
- <matias.bjorling@wdc.com>, <jiangbo.365@bytedance.com>
-CC: Pankaj Raghav <pankydev8@gmail.com>, Kanchan Joshi
- <joshiiitr@gmail.com>, <linux-block@vger.kernel.org>,
- <linux-nvme@lists.infradead.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <06580b24-426c-77ef-a338-e5e97f5ebee1@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.212]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHKsWRmVeSWpSXmKPExsWy7djP87oSazWSDHo3a1msvtvPZvH77Hlm
- i5WrjzJZ9Bz4wGJx/u1hJotJh64xWuy9pW0xf9lTdosJbV+ZLW5MeMposebmUxaLda/fszjw
- ePw7sYbNY+esu+we5+9tZPG4fLbUY9OqTjaPzUvqPXbfbADKtd5n9fi8Sc6j/UA3UwBXFJdN
- SmpOZllqkb5dAlfGk88tzAWnuSs2vlvB1MC4jLOLkZNDQsBE4sqM14xdjFwcQgIrGCXmPemD
- cr4wSjyY+oINwvnMKLFz6Ut2mJa9TX9YIRLLGSWOdl1khKv6+GMjG0iVkMAuRokV9+tBbF4B
- O4mtJzaygNgsAioS6y+sZIWIC0qcnPkELC4qECHx8shfJhBbWCBSYvraPcwgNrOAuMStJ/OZ
- QBaICJxjlrjYMZkVIjGRUaJzl3kXIwcHm4CWRGMn2HWcAm4SM55/hOrVlGjd/psdwpaX2P52
- DjNIuYSAssTr9TYQz9RKrD12hh1kvITAKU6JTbc72CASLhJLzm+G+lhY4tXxLVC2jMTpyT0s
- EA39jBJTW/4wQTgzGCV6Dm9mgthgLdF3JgfCdJS4edAMwuSTuPFWEOIcPolJ26YzT2BUnYUU
- ErOQfDwLyQezkHywgJFlFaN4amlxbnpqsVFearlecWJucWleul5yfu4mRmCSO/3v+JcdjMtf
- fdQ7xMjEwXiIUYKDWUmEtylUI0mINyWxsiq1KD++qDQntfgQozQHi5I4b3LmhkQhgfTEktTs
- 1NSC1CKYLBMHp1QD05qTv/5Pm3Pac9/1WfVhop6iX84cNvZzr95Zka40p+dAq7Nv0kb2uduT
- F2YKlZ1i64n5Of1T3OEMM+1Dk5IdtuyQf5jRNN1a5/jHq/dVWpoc9ml83NugnRa3Yua2NQor
- nnOlmUlYcXGbGl9X1ZRTe/jx6OGJE//dXhCzhfH3ZbZHE2WDO9+0dwSUsSv7cuyMdl22WPJS
- 1TaFvI0vcvhDr9Q3nbTWtXu3KnR/uV7jufhpeXMfVvtc3Si2N/zfcmX9nA8dh3w076t+Tygy
- +58+WWCLy2FL3yV259csWcXg/fmWfyv3Qp4pv3ZemX7yr00I05Jd6YdLKvJ3nVRKdU/dYMx8
- dsee3iV2LRsXrpb+aazEUpyRaKjFXFScCAC6qQI14QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42I5/e/4XV2JtRpJBpMvMFqsvtvPZvH77Hlm
- i5WrjzJZ9Bz4wGJx/u1hJotJh64xWuy9pW0xf9lTdosJbV+ZLW5MeMposebmUxaLda/fszjw
- ePw7sYbNY+esu+we5+9tZPG4fLbUY9OqTjaPzUvqPXbfbADKtd5n9fi8Sc6j/UA3UwBXlJ5N
- UX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7Gk88tzAWn
- uSs2vlvB1MC4jLOLkZNDQsBEYm/TH9YuRi4OIYGljBJzHp9ggkjISHy68pEdwhaW+HOtiw2i
- 6COjxNSJ2xghnF2MEuf3r2IFqeIVsJPYemIjC4jNIqAisf7CSqi4oMTJmU/A4qICERJty6Yw
- dzFycAgLRErMuukFEmYWEJe49WQ+E8hMEYFzzBIXOyaDncQs0M8osWTKD6j7fjNKfNu0gwWk
- m01AS6KxE+w8TgE3iRnPPzJDTNKUaN3+mx3ClpfY/nYO2DIJAWWJ1+ttIL6plXh1fzfjBEbR
- WUjOm4XkjllIJs1CMmkBI8sqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwOSw7djPLTsYV776
- qHeIkYmD8RCjBAezkghvU6hGkhBvSmJlVWpRfnxRaU5q8SFGU2AYTWSWEk3OB6anvJJ4QzMD
- U0MTM0sDU0szYyVxXs+CjkQhgfTEktTs1NSC1CKYPiYOTqkGJqMZv2v2R+2MySt6Xcnlq9hX
- uP+41IIgU66joaue7/H+JFIju0DvxsLmuk0u+u3Tj3aue33O5fjcIpGtgqJHDPIOOT28MJ/Z
- La3HuEStSdYpbiVfYW2/x9wrsyUkAhmKWzfdPMS7NV3zQeEtoX88R7JPV7zNTojavKn6moR9
- VJXaYv+XKlaxs6ZGW3L/UDM1DNlo1TT7Tuq+uXw8Wnmx1jZfZ+97VBWuuF7n9msliaoKU5U1
- wTFL334z/bOPb8nCR2YTI3bLc7L7PE5co37oo9fmk64zHCffDZjwNsHI4P42zZ87KjdmvVrz
- 1rvDMOUH/7au9Zv+LnfJPhcZ2zNNWmal6BGWc8H3uxceEC7jV2Ipzkg01GIuKk4EAOk4SeCX
- AwAA
-X-CMS-MailID: 20220309133520eucas1p22d90a2003c4a3d2d16d4d6672e8fcb23
-X-Msg-Generator: CA
-X-RootMTR: 20220308165421eucas1p20575444f59702cd5478cb35fce8b72cd
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220308165421eucas1p20575444f59702cd5478cb35fce8b72cd
-References: <20220308165349.231320-1-p.raghav@samsung.com>
- <CGME20220308165421eucas1p20575444f59702cd5478cb35fce8b72cd@eucas1p2.samsung.com>
- <20220308165349.231320-2-p.raghav@samsung.com>
- <06580b24-426c-77ef-a338-e5e97f5ebee1@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220309_053524_753514_7835B767 
-X-CRM114-Status: GOOD (  17.61  )
+X-CRM114-CacheID: sfid-20220309_054210_592868_FDD06815 
+X-CRM114-Status: GOOD (  15.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,41 +93,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, 9 Mar 2022 15:32:33 +0800
+Mingbao Sun <sunmingbao@tom.com> wrote:
 
+> > > @@ -1447,6 +1449,21 @@ static int nvme_tcp_alloc_queue(struct nvme_ct=
+rl *nctrl,
+> > >  	if (nctrl->opts->tos >=3D 0)
+> > >  		ip_sock_set_tos(queue->sock->sk, nctrl->opts->tos);
+> > > =20
+> > > +	if (nctrl->opts->mask & NVMF_OPT_TCP_CONGESTION) {
+> > > +		strncpy(ca_name, nctrl->opts->tcp_congestion,
+> > > +			TCP_CA_NAME_MAX-1);
+> > > +		optval =3D KERNEL_SOCKPTR(ca_name);
+> > > +		ret =3D sock_common_setsockopt(queue->sock, IPPROTO_TCP,
+> > > +					     TCP_CONGESTION, optval,
+> > > +					     strlen(ca_name));   =20
+> >=20
+> > This needs to use kernel_setsockopt.  I also can see absolutely no
+> > need for the optval local variable, and I also don't really see why
+> > we need ca_name either - if we need to limit the length and terminate
+> > it (but why?) that can be done during option parsing. =20
 
-On 2022-03-09 04:44, Damien Le Moal wrote:
-> On 3/9/22 01:53, Pankaj Raghav wrote:
->>  
->>  	ns->zsze = nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze));
->> -	if (!is_power_of_2(ns->zsze)) {
->> -		dev_warn(ns->ctrl->device,
->> -			"invalid zone size:%llu for namespace:%u\n",
->> -			ns->zsze, ns->head->ns_id);
->> -		status = -ENODEV;
->> -		goto free_data;
->> -	}
-> 
-> Doing this will allow a non power of 2 zone sized device to be seen by
-> the block layer. This will break functions such as blkdev_nr_zones() but
-> this patch is not changing this functions, and other using bit shift
-> calculations.
-> The goal of this patchset was to emulate a po2 zone size for a npo2 device to the
-block layer. If you see the `npo2_zone_setup` callback in the NVMe driver (patch 4/6),
-we do the following:
-```
-+   ns->zsze_po2 = 1 << get_count_order_long(ns->zsze);
-+   capacity = nr_zones * ns->zsze_po2;
-+   set_capacity_and_notify(ns->disk, capacity);
-```
-So we adapt the capacity of the disk based on the po2 zone size. The chunk sectors
-are also set to this new po2 zone size. Therefore, all the block layer functions will
-continue to work as the block layer sees the zone size of the device to be ns->zsze_po2 and
-not the actual device zone size which is ns->zsze.
+Regards to the replacement of 'sock_common_setsockopt'.
 
-Changing the functions such blkdev_nr_zones that uses po2 calculation will/should be dealt separately
-if decide to relax the po2 constraint in the block layer.
+Per the story of the deletion of 'kernel_setsockopt',=20
+users of this API should switch to small functions that
+implement setting a sockopt directly.
 
--- 
-Regards,
-Pankaj
+So I tried with 'tcp_set_congestion_control'.
+But then I found this symbol is not exported yet.
+Then I applied =E2=80=98EXPORT_SYMBOL_GPL(tcp_set_congestion_control);=E2=
+=80=99
+in my local source, and it works well in the testing.
+
+Then what should I do with this?
+
 
