@@ -4,77 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42B5DC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 10:06:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D14C6C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 11:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g1v6ovUNSf+kFskR5R+v2NInQ6xsMS01QhfDEC1m/98=; b=dqtskNtjlVseoMlvDqe+87vlev
-	lDitGPOoRz4OEmi87CJmFho4EmPdK83z0yVVTXHID2txcEe1lmHPgfrlLTroA92Egm7Y9lJaoFiYu
-	nrAyuryUgPaz845K4Lc20XKTesZj03LRVV9CXpXJlovIMzyGAoRPUOpOfYmFz6YPCGxgj2E5V4Fv1
-	Q/61wWCZvj1eGTGFIcJmTOlIl6x9BolT+B3zT4B3Ed9eGsq/AeOsVDkoOEYJmQ9Ct9sj9SKzxKm4F
-	K2cW6PTeEvgMaxGkT3K7m0DU6ru40LiyIggoDgI2j4luc+7E1Q+tQaAGOrpVWRFy4OaJgJtM+ICtb
-	cPYljOPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iHNjL9avEQ3GbSezJI9Z9sjpWskBgOA73Vmh3aoxwSg=; b=DSX+eHGYAaPC6JzP/iviZifgc8
+	ucsLgMI/6ZPAGoEt/zZZY/V4vfDF8MAqWrppky5pJgXEVQRzeCzTrsUEEAfUG54SgPA1peevF+Ete
+	0JZoVUD7vdulm8uVATcUPOV5FrvwsgIzu0yp6qUwanHOCV2qaPENl0UbWDRemNk85kH0sTn3Brm5E
+	mtrJA0+xIfUXrA0IMcknYwsPeeP+UFDiawkf932w9lyaiE7/NudCuSz/oP+4yuGaILV53S4aweqOP
+	XUvxaHJZi8tnI89bIAkxDllQy5s2SAedmmIdgk+RVh3vtjwwIHOnn8IOHC1GtoiixIiRHhi3eSlKR
+	7mNP46iw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSFgL-00CHzY-0b; Thu, 10 Mar 2022 10:06:05 +0000
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSFfk-00CHkV-Td
- for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 10:05:30 +0000
-Received: by mail-lf1-x132.google.com with SMTP id w27so8514849lfa.5
- for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 02:05:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g1v6ovUNSf+kFskR5R+v2NInQ6xsMS01QhfDEC1m/98=;
- b=ns33X3mSvUp/dV4LlGedMNO7aMi7dLjkJEUK4S+oJGMyRCgCRbpIY/bN1lKR7coIXt
- fgnlmrPnvIUWbzXLZXsahgLPJJhWkeuczEbUHP5ElqKexNzJYP0gAxHjGPJX/CqPQ8QH
- kpmjVHzhjJ7tMioIgTAfkNZ4h0efJFIsYgBVKYRvA4/s8c3a3BH+AEJgU8qpbf+bbY2g
- uXSUBVqregysJ4ss/HApTFtigwZZsAH+zVvVgLhTS54BwnE+AcGY/PjPVE3mFH+r28D8
- p/MNit5koONLvhhlYyCG0wohubRoqL2ukmTOS7AqUs+r4XjBh3AtK8PrI0HUlMBfQFsM
- zNaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g1v6ovUNSf+kFskR5R+v2NInQ6xsMS01QhfDEC1m/98=;
- b=IRHtx61aacBE3jOmSws+NKv9GnsYp6+2YTnjbP9bOYFy3YseRnTIVe46sqw2yuSSdp
- fT1sUo+N7syP4ScGNB6YpkqksRo6uUIUhSvsj6JMKcJQv4VqRN4rO6MAJWSaRFUl/Ehm
- LRmxsZaVSMX+PGoknA9Z510DcjERrYBX+bZE1smNqkQypZRZnAGM7hbwzN5S9un6clJF
- fJLCKIBtw2/UtCuHKEVkFXyQ2/5QAGtdpDVxo+jkCQCcu7K3pMI1ndykcXeQQSOgFVbk
- nm8VUXhtHGtQi4ZjIfMCWNcRcNT5/2GB83VeTsjf7hNfVom/XnPpCMRw5w9hgOKFCJi4
- ILgA==
-X-Gm-Message-State: AOAM530RQsF+qHEf98+ZwgxSjrQz9zfOREQx4Haz9dBhO/hQx4kYvN5t
- PRoIiEV1KX4gdAc7DIcJtmAV4uW+Rj+LlnuTYqY=
-X-Google-Smtp-Source: ABdhPJwDzqA1hnug0wbCxuMMC9bwFUJgrX7k50AuAyOlBBQCCbHd+EQ98+xL/K6bjR+dxXF673VzxbFS2cGid0d5Jgc=
-X-Received: by 2002:a05:6512:2208:b0:448:5c7a:6dd9 with SMTP id
- h8-20020a056512220800b004485c7a6dd9mr2577551lfu.334.1646906726687; Thu, 10
- Mar 2022 02:05:26 -0800 (PST)
-MIME-Version: 1.0
-References: <CGME20220308152651epcas5p1ebd2dc7fa01db43dd587c228a3695696@epcas5p1.samsung.com>
- <20220308152105.309618-1-joshi.k@samsung.com> <20220310082926.GA26614@lst.de>
-In-Reply-To: <20220310082926.GA26614@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 10 Mar 2022 15:35:02 +0530
-Message-ID: <CA+1E3rJ17F0Rz5UKUnW-LPkWDfPHXG5aeq-ocgNxHfGrxYtAuw@mail.gmail.com>
-Subject: Re: [PATCH 00/17] io_uring passthru over nvme
+	id 1nSGdD-00CZV2-VH; Thu, 10 Mar 2022 11:06:56 +0000
+Received: from smtprz02.163.net ([106.3.154.235] helo=smtp.tom.com)
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSGdA-00CZQi-KE
+ for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 11:06:54 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by vip-app02.163.net (Postfix) with ESMTP id CB254440136
+ for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 19:06:42 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1646910402; bh=vdMbham87nueBroCLlJ2VhqRb0D2htyLRWWtWLeBjLA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=rGCtqyfrn2WC+gKb2sFHJ+OaDuCebkUOqazPEdXEeMu6MsZg8nXdsGEhne8yI4DGR
+ IBrjtzHTUdsB6WXP5I1plgISCNZZIibP1iHjqlEsuyJIo2hOme6JkmYDqvNq57DDcc
+ 0IG7DX/HhjcfP/u1xrFAxCnVV6LyydeDqUQCCjC0=
+Received: from localhost (HELO smtp.tom.com) ([127.0.0.1])
+ by localhost (TOM SMTP Server) with SMTP ID 1993725042
+ for <linux-nvme@lists.infradead.org>;
+ Thu, 10 Mar 2022 19:06:42 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1646910402; bh=vdMbham87nueBroCLlJ2VhqRb0D2htyLRWWtWLeBjLA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=rGCtqyfrn2WC+gKb2sFHJ+OaDuCebkUOqazPEdXEeMu6MsZg8nXdsGEhne8yI4DGR
+ IBrjtzHTUdsB6WXP5I1plgISCNZZIibP1iHjqlEsuyJIo2hOme6JkmYDqvNq57DDcc
+ 0IG7DX/HhjcfP/u1xrFAxCnVV6LyydeDqUQCCjC0=
+Received: from localhost (unknown [101.93.196.13])
+ by antispamvip.163.net (Postfix) with ESMTPA id 3E67B154153A;
+ Thu, 10 Mar 2022 19:06:37 +0800 (CST)
+Date: Thu, 10 Mar 2022 19:06:36 +0800
+From: Mingbao Sun <sunmingbao@tom.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
- Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav <pankydev8@gmail.com>, 
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
+ libin.zhang@dell.com, ao.sun@dell.com
+Subject: Re: [PATCH v2 1/2] nvmet-tcp: support specifying the
+ congestion-control
+Message-ID: <20220310190636.00001695@tom.com>
+In-Reply-To: <20220310083811.GA26953@lst.de>
+References: <20220309053711.2561-1-sunmingbao@tom.com>
+ <20220309061541.GB31316@lst.de> <20220309175203.00006ee2@tom.com>
+ <20220310083811.GA26953@lst.de>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_020529_014385_2B02404D 
-X-CRM114-Status: GOOD (  10.65  )
+X-CRM114-CacheID: sfid-20220310_030652_909137_1C643A7D 
+X-CRM114-Status: GOOD (  23.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,21 +84,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 10, 2022 at 1:59 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> What branch is this against?
-Sorry I missed that in the cover.
-Two options -
-(a) https://git.kernel.dk/cgit/linux-block/log/?h=io_uring-big-sqe
-first patch ("128 byte sqe support") is already there.
-(b) for-next (linux-block), series will fit on top of commit 9e9d83faa
-("io_uring: Remove unneeded test in io_run_task_work_sig")
+On Thu, 10 Mar 2022 09:38:11 +0100
+Christoph Hellwig <hch@lst.de> wrote:
 
-> Do you have a git tree available?
-Not at the moment.
+> On Wed, Mar 09, 2022 at 05:52:03PM +0800, Mingbao Sun wrote:
+> > On Wed, 9 Mar 2022 07:15:41 +0100
+> > Christoph Hellwig <hch@lst.de> wrote:
+> >  =20
+> > > On Wed, Mar 09, 2022 at 01:37:11PM +0800, Mingbao Sun wrote: =20
+> > > > +		if (port->nport->tcp_congestion) {
+> > > > +			icsk_new =3D inet_csk(newsock->sk);
+> > > > +			if (icsk_new->icsk_ca_ops !=3D icsk->icsk_ca_ops) {
+> > > > +				pr_warn("congestion abnormal: expected %s, actual %s.\n",
+> > > > +					icsk->icsk_ca_ops->name,
+> > > > +					icsk_new->icsk_ca_ops->name);
+> > > > +			}
+> > > > +		}   =20
+> > >=20
+> > > What is the point of having this code? =20
+> >=20
+> > Well, this could happen in certain circumstances.
+> > Take the result from my test as an example:
+> >=20
+> >     - The congestion of the listening socket of the target was set to
+> >       =E2=80=98dctcp=E2=80=99.
+> >=20
+> >     - But the congestion of the socket of the host side was set to
+> >       =E2=80=98cubic=E2=80=99.
+> >=20
+> >     - Then the congestion of the socket of the new connection at the
+> >       target side would automatically be altered to =E2=80=98dctcp-reno=
+=E2=80=99.
+> >=20
+> > In case tcp_congestion was explicitly set for the target, it can be
+> > supposed that the user attaches great importance to performance.
+> > So we=E2=80=99d better make the users aware that the system is not work=
+ing
+> > in the way they expect.  =20
+>=20
+> A warning message really seems very severe for a condition like this.
+> Maybe the better interface is a way to figure out which congestion
+> control algorithm is in use by reading a sysfs file.
 
-@Jens: Please see if it is possible to move patches to your
-io_uring-big-sqe branch (and maybe rename that to big-sqe-pt.v1).
+Well, a target could have a great number of TCP sockets.
 
-Thanks.
+I feel it=E2=80=99s not proper to create a sysfs entry for each socket.
+And for those sockets that do not have the exception of
+congestion-control, it=E2=80=99s merely a waste of resources.
+
+Also, since these sockets generate and die dynamically, the info
+exported via fs may even do not have the opportunity to be seen by
+the user.
+
+Anyway, if you insist that the checking and warning here is not proper,
+I can remove it.=20
 
