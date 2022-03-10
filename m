@@ -4,65 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 903E2C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 12:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CF31C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 12:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5+S/19T7z8CqGJz5OOOtlJzN3mZfdNMJ1w7/PO7Phfo=; b=P37myGWhvisOO0HlCt1sfV/Q35
-	6I/OGjDq3EBX0HiH2D+oHzbxPUGiKehaEje1x+Q9Mj7Z4ZcvfmXhxONgc3Z+skTjpcIlm0PjnY81s
-	ovFYVBAnlaakQUQLd+LyB328rIVcu2xiFbQQWsBSjhJvfzHa4h5uEgSTEb8NN/wxo/I3//NEfAyx0
-	W14koQJTQKmvnqeUdVoLTWBRWEbqXUdmXhhjKEoZfZAaF8Pvs36n9ZQZ8RQc+Zjv29WtBFm/cPIB1
-	4dO4E8c56+JvHIrcDqIhUlRkDuklIi//GTt9hSCuph5IItmImN8mva7FaRaVJu1BoJhtuFWO379Kb
-	pItVFtKg==;
+	bh=DAtfKJxhTlUfLfh7FDdHLWXEZv3s/cYhD3RWZTonYVc=; b=NVw3izF6n/wWitrfRfgznAxCmh
+	ddT7GEoFfr3cCcUhJZTC3jlwwyg5cNF2hnxkac5Y/3Smd4yhMB7uwKDoSznpnPsuvnnO5Q/pOBZxx
+	h34L+PfTlwL/z2IM55gscOEUtYfQ46bGDj/eNh2jh6LC0ITWSwEQk5cOh+2iwyB4RP0I5+3G4Qqgw
+	azFOdEoKDXdP09K7VOzitxvJ+4Ccml7SCXxbWXVfaYfnddFyrxFQc7w9kwAPuHZkVXW0DkxpT1Sbq
+	QO0mi2TtgTb3xvBS6wRp7/fM2M7DONrMG2L/0WDOmsqOxZADdjC/TK+bXzpT+qUvEuNFbUOE832wo
+	ZezzPe0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSHrI-00CmFH-FR; Thu, 10 Mar 2022 12:25:32 +0000
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236])
+	id 1nSI5t-00CooQ-R4; Thu, 10 Mar 2022 12:40:37 +0000
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSHrF-00CmER-PH
- for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 12:25:31 +0000
-Received: by mail-lj1-x236.google.com with SMTP id 25so7444196ljv.10
- for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 04:25:29 -0800 (PST)
+ id 1nSI5r-00Con2-3Y
+ for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 12:40:36 +0000
+Received: by mail-lj1-x22a.google.com with SMTP id v28so7485656ljv.9
+ for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 04:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5+S/19T7z8CqGJz5OOOtlJzN3mZfdNMJ1w7/PO7Phfo=;
- b=nk+hj7MWuNgvAdNzdtNd0A6lvaKaHdkrpdRyvFi/F2c/bBXMOB8M701YRllaDH9Wvx
- +Tb+/eUbI+ukdykKaWWDDrgKeuoEUjq/eZ9SEcevo2tfDRht4CVXcDEGBnYf+TuIXmSj
- eyzKE/PcjKx2SuqxKqHK6AGpoKLtjonkXc7NjULd2qCWbOywtgdWla2nasjfcJG+xcJ3
- m2tzOh4XC1zi4YO/fe4NJ4kPU3al8dOJN/ylDqRMbXwRCNF0NVTNz3O6UN/nrNWYeF5J
- yhIrolM2pNKobaZ7OyNw/RxpvHQNLPecNi5i9embbAU3QhZ+aLLum+4etw/AO6NBS6qf
- 48nQ==
+ :cc; bh=DAtfKJxhTlUfLfh7FDdHLWXEZv3s/cYhD3RWZTonYVc=;
+ b=CNx5wp3+3lfwtIyoCM9pRl1cXVqdYbE6/d4Op9YI4mLz2vYcAduj4xLyqq95HxWX8Y
+ /UqkC3O3uouwq15gtsKUA6ISPm+F1W/NRnQEkLSibFQOOlM9Ou0pWViE0PSFvdm+i6hE
+ cVbSFHOo87qTdoL+ls2yBlZrEyEryORUwE8MY9mVRruJmSXBKW5MO0pjMPclHlgbe35v
+ vv73luUALWmVAxQhjuYyrg1o3+DZ5JaBwo7pgQE7XuCtVhXNxaEdVMhp+gJpOh3jpDla
+ hYADDMd0nJAtdtyPxuB/9RzMmIl5x5EZmsyiZDBHc7/PTZkR5jNUByZbxz54s09DOrJC
+ evqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5+S/19T7z8CqGJz5OOOtlJzN3mZfdNMJ1w7/PO7Phfo=;
- b=RJrIf78ksDz0SCMwuLgbX14a5g5Ob/aSsIuUzdkBoSjduEFTCCzUNJZ7MO7qWDUSn+
- 5pljP9UQYc9r0pH2FwclV5CcGP3HytjcgczP55kLeao4mTMrtG5q/FpOgX6pdLcULWi6
- wpYNhI0BpC6Z4N/NB7zmoqL3DBlnFNG1RPf6CQc8fXDVo8l0NhC/W2ZCeYQjkpgYV0T4
- tfjroDLsRvTRZyN/x8sRxuMbOKIB7xgJ3vKV0uMumaSPpAAs6dLTUZK/GDL8JX3HfhR/
- Ukchq7Qge9jeFZdvoHnMNvWnGH0hSo9Neb3EFWMv/WGcdoUFtoLisfTcWkjFU935Q8MP
- AvRA==
-X-Gm-Message-State: AOAM5308yba9ftyeJZLqErtysoszo+jQVRaPdqO7MB1DCWV/Bs5WWKiX
- Qud/+lPylsuwgBB/Gvy/oilDXhJt/n13p+0hW64=
-X-Google-Smtp-Source: ABdhPJzsG6bp2WM29pnDrFfkLztteUacWjOolraWs5IwAxOIBsy7dmQHWUuyglX9BAPiJLNIBiwnRBUE+lYZxUkRT4w=
-X-Received: by 2002:a05:651c:b07:b0:247:e06d:8943 with SMTP id
- b7-20020a05651c0b0700b00247e06d8943mr2736349ljr.426.1646915127520; Thu, 10
- Mar 2022 04:25:27 -0800 (PST)
+ bh=DAtfKJxhTlUfLfh7FDdHLWXEZv3s/cYhD3RWZTonYVc=;
+ b=gs0TH2aierbtJDT7qr0StUOr/xWKSu9R5fJlwkD8MmsQpj3/8OO/0HhU9FIlYE6TIV
+ mFVtXQzigNvupNC4J1IOw/WHz6i7e60Uc5uiD5IS/V+3lwu4EPWICfzMIJ3lny22XH7w
+ eqiKMS394fXZ+qVnf+LgkMP91u621AOa9R1FfvYNgbSjcyqn7CFPA7S6Lqy8oPfwDcI9
+ 3p910UxJS4midKBugBiFWqgM7cRS/aKvVHtAxJSMpPyGVTldTM8l/sE+iBeH24MZxdJl
+ F1ZdSEfHD+tgGaBqUvFFx5itXd4gqK8+RM0UhjfNkE2E+pm6kiC1UPjdfLmB/vxem/Ps
+ HSpA==
+X-Gm-Message-State: AOAM532CflO9WyW67runJ0YMqPpHWGrV+D8Bbi8eGNrZO3oKFeglrRh3
+ 5YICDZpvYkCDSFsXqWN+zKScxNlGQSLqmg0JDQc=
+X-Google-Smtp-Source: ABdhPJyOXMDOJXEweNjgQ/Heimakq+LFmrhTTQqxKwAXvx1dEWUO11jTrEOo7xbbSHGosGfV5AfpN6e8NUahPBFVAbw=
+X-Received: by 2002:a2e:3004:0:b0:223:c126:5d1a with SMTP id
+ w4-20020a2e3004000000b00223c1265d1amr2931647ljw.408.1646916033166; Thu, 10
+ Mar 2022 04:40:33 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152716epcas5p3d38d2372c184259f1a10c969f7e4396f@epcas5p3.samsung.com>
- <20220308152105.309618-12-joshi.k@samsung.com> <20220310083503.GE26614@lst.de>
-In-Reply-To: <20220310083503.GE26614@lst.de>
+ <CGME20220308152714epcas5p4c5a0d16512fd7054c9a713ee28ede492@epcas5p4.samsung.com>
+ <20220308152105.309618-11-joshi.k@samsung.com> <20220310083400.GD26614@lst.de>
+In-Reply-To: <20220310083400.GD26614@lst.de>
 From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 10 Mar 2022 17:55:02 +0530
-Message-ID: <CA+1E3rLF7D4jThUPZYbxpXs9LLdQ7Ek=Qy+rXZE=xgwBcLoaWQ@mail.gmail.com>
-Subject: Re: [PATCH 11/17] block: factor out helper for bio allocation from
- cache
+Date: Thu, 10 Mar 2022 18:10:08 +0530
+Message-ID: <CA+1E3rJMSc33tkpXUdnftSuxE5yZ8kXpAi+czSNhM74gQgk_Ag@mail.gmail.com>
+Subject: Re: [PATCH 10/17] block: wire-up support for plugging
 To: Christoph Hellwig <hch@lst.de>
 Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
  Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
@@ -75,8 +74,8 @@ Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Anuj Gupta <anuj20.g@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_042529_855698_D3315B3B 
-X-CRM114-Status: GOOD (  10.85  )
+X-CRM114-CacheID: sfid-20220310_044035_174085_D884AE03 
+X-CRM114-Status: GOOD (  11.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,21 +90,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 10, 2022 at 2:05 PM Christoph Hellwig <hch@lst.de> wrote:
+On Thu, Mar 10, 2022 at 2:04 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> On Tue, Mar 08, 2022 at 08:50:59PM +0530, Kanchan Joshi wrote:
-> > +struct bio *bio_alloc_kiocb(struct kiocb *kiocb, unsigned short nr_vecs,
-> > +                         struct bio_set *bs)
-> > +{
-> > +     if (!(kiocb->ki_flags & IOCB_ALLOC_CACHE))
-> > +             return bio_alloc_bioset(GFP_KERNEL, nr_vecs, bs);
-> > +
-> > +     return bio_from_cache(nr_vecs, bs);
-> > +}
-> >  EXPORT_SYMBOL_GPL(bio_alloc_kiocb);
+> On Tue, Mar 08, 2022 at 08:50:58PM +0530, Kanchan Joshi wrote:
+> > From: Jens Axboe <axboe@kernel.dk>
+> >
+> > Add support to use plugging if it is enabled, else use default path.
 >
-> If we go down this route we might want to just kill the bio_alloc_kiocb
-> wrapper.
+> The subject and this comment don't really explain what is done, and
+> also don't mention at all why it is done.
 
-Fine, will kill that in v2.
+Missed out, will fix up. But plugging gave a very good hike to IOPS.
+Especially while comparing this with io-uring's block-io path that
+keeps .plug enabled. Patch 9 (that enables .plug for uring-cmd) and
+this goes hand in hand.
 
