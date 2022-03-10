@@ -4,78 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99302C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 12:52:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C06CFC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 12:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dSUA1ehXKOf68uhxMiCAiN4dZDcBQJbhxv26JeNbsGs=; b=O3kWAXzTtWKkk6S6174ZT4a/ON
-	1WR8qcawPgqtyjP3PnWJMyq95vTwTC1dBBy9DXX27RCxk+1FT5xxIwQ2U5B0diK8sFeG3ID4w9g8d
-	8br2rOOCFplSi3RS1fudE/S9YBDh5xhWALSWzSo3XXQKb3yA1fky9rM7Nz5fHUchpAa8Rs4txpMlI
-	kFb0TPqXSjt8nkRWtL86MXCqOB/lVXyZwm38RvWhNSpcgD231Wqmtx2tIZOPTHnv9xEf1Y9Z87T3b
-	VmOmm8UMsJEz6DZGLU4raLcAJ5nPn/29gFvUta+xMAWhLa3Umo3U3jpWpVyi2K7QykS0L0wP4T9Rg
-	RP+TKJog==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=B12bKFP82KugN9uZqFvyUBQMSWOVuw1xLzbqBwtOjwA=; b=cU8MMQXAJR+7u+KX//fqqUDMMa
+	JD/j4QRMdlSMu501+ljK2HB/hjq+fGYRQKM2n06rFsnKRVqCzUSGRtvaqtHBAEvBiyKZuN5zRIrAN
+	a71lPykDJbv3SGPBtTRK3THqJdfhQPSF6qDt1s29KIrC3GMxxJ3u7vNFQDUoOtAN7NWSHqAtTuKMk
+	/G4eLc8Awvb3lC+7UBi9yTgKOsBeKmURZ5631ZziMB81vKjk4cuSTl/gOLV+pb4XLig/QHXIBqX7j
+	WGeYPb+F0BRmPUL1P6+z9E/HuS0d31GvWRLI7ANkh5lfxlLbWOmwHIv6kAuRnYrXEZoXv1J1hJw6A
+	tUKTh4dQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSIH5-00CqAN-I2; Thu, 10 Mar 2022 12:52:11 +0000
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+	id 1nSIL9-00Cqim-SL; Thu, 10 Mar 2022 12:56:23 +0000
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSIH2-00Cq8a-K5
- for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 12:52:10 +0000
-Received: by mail-ed1-x52d.google.com with SMTP id c25so4681806edj.13
- for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 04:52:08 -0800 (PST)
+ id 1nSIL7-00CqiI-AN
+ for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 12:56:22 +0000
+Received: by mail-ej1-x62c.google.com with SMTP id kt27so11997113ejb.0
+ for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 04:56:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dSUA1ehXKOf68uhxMiCAiN4dZDcBQJbhxv26JeNbsGs=;
- b=cR/lQS+HHh8+mEFEFSvmzAkeziOAz6FLXcFliEqCLbhB6vdDPj2i+bilTqExHAWaYL
- I3jGpTaFC3uiKLGtrKMGWu/lxOcehq5brL4TdHxPKzYwryTCjQw31vkCNemClId24xF3
- vr8tqG2lsHsjZORGp/1hYim404YC7ZS36c+LKyhU+uP66cMoBFT14jTg5ZbRK29eQiE+
- 5k1FBRZW4KCp3yTRGZw6WQj2wQOS5z6zwvNDqBTzcpn8t7SmaC4NKywKtrzAaqYrvwIC
- dEKcGdkuuB2GG5zKFcHg48AgEDlzx5m7qHPkCkEnbYqTw4RepB7nfbN588cIRCmwSf94
- jFdA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=B12bKFP82KugN9uZqFvyUBQMSWOVuw1xLzbqBwtOjwA=;
+ b=CKjOpapeq4nkxo/2JGrvf9qLObTeY/AhSLUH7gvvSsQepN466vImBZ304U4JSExDmL
+ wRHP3XZ7tHOMyqIlxiPbXkdVaxyAndykI2+F4mANu4cMrVNdy8tVR2/9CnXoNKba0sWX
+ OkiDZAlev1ZeUUs1SbEqd9lLviQPdgcLy7CxLvB+aq/6zO4SWc/q+vLj9N83D92dCCfd
+ JNHRw5rJqsrnLNNS982b00FSCRbBs4HwQOKQcWZ3f+FVH16mggBC5H5+813pVu7Ifdeu
+ nfeRyxG6iGMv37+/jhaRvMrIIuUkh01g86MZlRk2XEjH6jP+D99Fw/L/f7v1W157Dm5A
+ gS0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dSUA1ehXKOf68uhxMiCAiN4dZDcBQJbhxv26JeNbsGs=;
- b=Y9IlnrswezjpWQeLhG8rRZYH8BXjCXOISdDfQo9OOOtvL1XWvd1V9Xnj9v5271MG+t
- v77rQwz6ewNlqV1S8CMomouNSxLI3NkeWNwwOxCV0jJK/sriUVVZG65cNXp3/Zr4tLrf
- +FeLcqsH5zPcfXLtse5J883ficnzcpiadiA54PpKgcvEAtd0L545/ikYMzp1Es+upC7m
- 2yN+fdE5VixfpUtu/tUMMV8sPi5oaKp6I0hFtwuFan02D88C0WwXSWMYX5Dr3dvhsuM3
- susgF8L9CAvA/17VhNdEq5AzLb+notvTFfJc9SwTNMPoP1ukv9h2S/YWhacIFHZUhYiz
- spKQ==
-X-Gm-Message-State: AOAM532EW97mBsPPgozC5DnIYGhfKDM/HRRD14wXTJnp5WVl3PT3CLBN
- XK/VXp8CoXC/f4VWNODFUvd/hQtMjHqtdA==
-X-Google-Smtp-Source: ABdhPJwjyhdNYCRnWbd63NSo76zRD56HUhXTPnXvm5shgoD3KnBfC8GCDX0IAVCuYonnHoWqrECgkA==
-X-Received: by 2002:aa7:cb18:0:b0:413:3a7a:b5d6 with SMTP id
- s24-20020aa7cb18000000b004133a7ab5d6mr4147826edt.254.1646916727141; 
- Thu, 10 Mar 2022 04:52:07 -0800 (PST)
-Received: from nlaptop.localdomain
- (ptr-dtfv0poj8u7zblqwbt6.18120a2.ip6.access.telenet.be.
- [2a02:1811:cc83:eef0:f2b6:6987:9238:41ca])
+ bh=B12bKFP82KugN9uZqFvyUBQMSWOVuw1xLzbqBwtOjwA=;
+ b=J8a7XvEkAAkEdEB1LRv9CSFnBQOk3uq/rPpx7VZUzkMx9SmIS5Ilb8ZtmJv2hfwVeb
+ +6iqgp3UXVcxJ4sCJ4UtEnFxT20GuInAGM70nn/aNJQt7pIhlBPnqrIUp0rW1Gt/swWy
+ IVL2K95OGKMg88ruizAqcWGBJ/tQC+ULl3j+IHpAoNLNzp25N1tQN0JnFMJjntz1AkzP
+ omd2g4HiAW0PgCNJLVaLB6TJm2EGJJA+FEYua5aIdAO2U5Po3tgkhSWpk8Oy9ikCTk5T
+ ZpNNahK7wdVefMwNPP6ZRmNbpNSkc4j1ghfsGIDoc8esAcMMeaiBZKzV0L0XFQlu8DSQ
+ eX+Q==
+X-Gm-Message-State: AOAM533GrmCXRSMi8KviW3IHV10rxH/0CYJ893ox4koZ8rpAEJFoKYI9
+ 6Ifo6Y1DlyRvxzbTFQd1OJJ6gR6FBB6v2Q==
+X-Google-Smtp-Source: ABdhPJzAYyD4SI6F23GFHxO4Mh/3Lz+yfd1+bZybdEO0OTTfVpk+rrOzZG+AtpSUkh31rGc397MVHA==
+X-Received: by 2002:a17:907:9910:b0:6d5:acd6:8d02 with SMTP id
+ ka16-20020a170907991000b006d5acd68d02mr4100811ejc.173.1646916979373; 
+ Thu, 10 Mar 2022 04:56:19 -0800 (PST)
+Received: from ?IPV6:2a02:1811:cc83:eef0:7bf1:a0f8:a9aa:ac98?
+ (ptr-dtfv0pmq82wc9dcpm6w.18120a2.ip6.access.telenet.be.
+ [2a02:1811:cc83:eef0:7bf1:a0f8:a9aa:ac98])
  by smtp.gmail.com with ESMTPSA id
- x12-20020a50d9cc000000b0040f70fe78f3sm2071722edj.36.2022.03.10.04.52.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:52:06 -0800 (PST)
-From: Niels Dossche <dossche.niels@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Bart Van Assche <bvanassche@acm.org>,
- Niels Dossche <dossche.niels@gmail.com>
-Subject: [PATCH v3] nvmet: add missing lock around nvmet_ns_changed in
- nvmet_ns_revalidate
-Date: Thu, 10 Mar 2022 13:51:31 +0100
-Message-Id: <20220310125130.16786-1-dossche.niels@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ u19-20020a17090617d300b006cea86ca384sm1783287eje.40.2022.03.10.04.56.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Mar 2022 04:56:18 -0800 (PST)
+Message-ID: <2af5e88a-0c03-757f-5977-ac27c3953c48@gmail.com>
+Date: Thu, 10 Mar 2022 13:56:17 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] nvmet: add missing locks around nvmet_ns_revalidate
+Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+References: <20220309203449.63125-1-dossche.niels@gmail.com>
+ <dd679ebd-dba9-219b-20c4-21f0270138da@acm.org>
+ <09c807d0-1aaa-b5c0-65cb-05700059e5d0@gmail.com>
+ <283f07fe-cfc8-cecc-311f-ca7603e5118e@acm.org>
+ <946ca1a5-4dbc-7b49-d234-1136815fe699@gmail.com>
+ <22878ead-454e-b680-8946-fcae188f7576@acm.org>
+From: Niels Dossche <dossche.niels@gmail.com>
+In-Reply-To: <22878ead-454e-b680-8946-fcae188f7576@acm.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_045208_683642_DF5F3E3C 
-X-CRM114-Status: GOOD (  17.65  )
+X-CRM114-CacheID: sfid-20220310_045621_392660_1471FE2B 
+X-CRM114-Status: GOOD (  21.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,129 +99,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_ns_changed states via lockdep that the ns->subsys->lock must be
-held. The only caller of nvmet_ns_changed which does not acquire that
-lock is nvmet_ns_revalidate. nvmet_ns_revalidate has 3 callers, of which
-2 do not acquire that lock: nvmet_execute_identify_cns_cs_ns and
-nvmet_execute_identify_ns. The other caller
-nvmet_ns_revalidate_size_store does acquire the lock. Add a parameter to
-nvmet_ns_revalidate to indicate whether the lock was already taken or
-not, and thus whether the function still needs to take a lock when
-calling nvmet_ns_changed.
+On 10/03/2022 06:10, Bart Van Assche wrote:
+> On 3/9/22 16:24, Niels Dossche wrote:
+>> The main focus of the analyzer is not on lockdep assertions actually.
+>> It works roughly in the following way:
+>> 1) The analyzer searches for *_lock and *_unlock calls in order to know which fields are locks.
+>> 2) It searches wrappers for those lock and unlock calls (e.g. task_lock locks task_struct->alloc_lock)
+>> 3) It determines which field accesses of the same struct type occur guarded by a lock (e.g. A->field guarded by A->lock). This is used to (try to) determine which fields need to be locked by which lock.
+>> 4) It searches for violations by counting for each field access how many paths are guarded by the lock and how many are not. If the count of unguarded is way smaller than the count of guarded, then it is reported as a possible violation.
+>>
+>> The analysis works interprocedurally. It also uses Multi-Layer Type Analysis of K. Lu et al. in order to improve the global call graph with respect to indirect calls.
+> 
+> That sounds interesting but does that algorithm also cover initialization and cleanup code for which it is guaranteed that only a single thread accesses the data?
+> 
 
-The alternative solution is to let nvmet_ns_revalidate return a bool
-which indicates whether nvmet_ns_changed needs to be called and let the
-callers handle the locking responsibility. This however places the
-responsibility with its callers and causes more duplicate code and
-potential to forget to check the return value.
+This is indeed a problem with the algorithm. I already did some work to introduce heuristics which can detect initialization and cleanup functions in order to reduce the false positive rate. Currently the false positive rate is a little high, but I have plans to improve that.
 
-Both of those identify functions are called from a common function
-nvmet_execute_identify, which itself is called indirectly via the
-req->execute function pointer.
+>> The lockdep part of the analyzer is not more powerful than the clang assertions. To be honest, I'm not sure that it can be easily integrated into Clang itself. The analyzer currently uses LLVM bitcode files as an input.
+> 
+> This is not a big deal. I was asking about clang integration because it is more convenient to run a single tool (compiler) than two tools (compiler + static analyzer). As you may know the Linux kernel supports the __acquires(), __releases() and __must_hold() annotations that are recognized by the sparse static analyzer (https://sparse.docs.kernel.org/en/latest/). The clang annotations however are more powerful than the sparse annotations. Additionally, it seems to me that the popularity of 'sparse' is declining a bit.
+> 
+> Bart.
+> 
 
-This issue was found using a static type-based analyser and manually
-verified.
+Oh yeah, a single tool would indeed be very convenient! Maybe this is something I can look into for the future.
 
-Signed-off-by: Niels Dossche <dossche.niels@gmail.com>
----
-
-Changes in v3:
- - improve commit description
- - do the locking locally
-
-Changes in v2:
- - added sentence about how the issue was found.
- - added missing &
-
- drivers/nvme/target/admin-cmd.c | 2 +-
- drivers/nvme/target/configfs.c  | 2 +-
- drivers/nvme/target/core.c      | 9 +++++++--
- drivers/nvme/target/nvmet.h     | 2 +-
- drivers/nvme/target/zns.c       | 3 ++-
- 5 files changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 6fb24746de06..efa462374783 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -511,7 +511,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 		goto done;
- 	}
- 
--	nvmet_ns_revalidate(req->ns);
-+	nvmet_ns_revalidate(req->ns, true);
- 
- 	/*
- 	 * nuse = ncap = nsze isn't always true, but we have no way to find
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 091a0ca16361..a803cd66dc4b 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -586,7 +586,7 @@ static ssize_t nvmet_ns_revalidate_size_store(struct config_item *item,
- 		mutex_unlock(&ns->subsys->lock);
- 		return -EINVAL;
- 	}
--	nvmet_ns_revalidate(ns);
-+	nvmet_ns_revalidate(ns, false);
- 	mutex_unlock(&ns->subsys->lock);
- 	return count;
- }
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 5119c687de68..0ceef97e4093 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -531,7 +531,7 @@ static void nvmet_p2pmem_ns_add_p2p(struct nvmet_ctrl *ctrl,
- 		ns->nsid);
- }
- 
--void nvmet_ns_revalidate(struct nvmet_ns *ns)
-+void nvmet_ns_revalidate(struct nvmet_ns *ns, bool should_acquire_lock)
- {
- 	loff_t oldsize = ns->size;
- 
-@@ -540,8 +540,13 @@ void nvmet_ns_revalidate(struct nvmet_ns *ns)
- 	else
- 		nvmet_file_ns_revalidate(ns);
- 
--	if (oldsize != ns->size)
-+	if (oldsize != ns->size) {
-+		if (should_acquire_lock)
-+			mutex_lock(&ns->subsys->lock);
- 		nvmet_ns_changed(ns->subsys, ns->nsid);
-+		if (should_acquire_lock)
-+			mutex_unlock(&ns->subsys->lock);
-+	}
- }
- 
- int nvmet_ns_enable(struct nvmet_ns *ns)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index af193423c10b..e4f20fe95613 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -542,7 +542,7 @@ u16 nvmet_file_flush(struct nvmet_req *req);
- void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
- void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
- int nvmet_file_ns_revalidate(struct nvmet_ns *ns);
--void nvmet_ns_revalidate(struct nvmet_ns *ns);
-+void nvmet_ns_revalidate(struct nvmet_ns *ns, bool should_acquire_lock);
- u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts);
- 
- bool nvmet_bdev_zns_enable(struct nvmet_ns *ns);
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 46bc30fe85d2..1987358bc855 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -123,7 +123,8 @@ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req)
- 		goto done;
- 	}
- 
--	nvmet_ns_revalidate(req->ns);
-+	nvmet_ns_revalidate(req->ns, true);
-+
- 	zsze = (bdev_zone_sectors(req->ns->bdev) << 9) >>
- 					req->ns->blksize_shift;
- 	id_zns->lbafe[0].zsze = cpu_to_le64(zsze);
--- 
-2.35.1
-
+Thanks
+Niels
 
