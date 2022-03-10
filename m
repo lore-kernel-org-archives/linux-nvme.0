@@ -4,91 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12047C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 15:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73757C433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 15:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dRNE1Q3UHcAv6Ct12abpAnXUsUnbwAcbxOzLZWSk128=; b=IDpb26X80xYFUegK3Wtasx814b
-	0631MmucD9Z263mmW/sLP3QlPves8pw709rUBozHuk7wlSKHB37mRYRIPgPXXzNjsxV8OICrUEdFV
-	gpdwe0OEncWbBLOUtqgkLj9zGU2NrUMsGuZfI4oE946KqocZLAiul3FBvBxuxqsi4cROe8RdZ1rwm
-	yyAaTxE73p2KmqYDk5QGU+pDed98k6WKRaY2E1oFVXYxAzbR2gy5IPimXfwHtpxJGEMf7kkWI2xMR
-	wx+CSNdvqoP6armGT5OS342HQPXdqIqWBinlENhJJND2vI4mrX3TmsiC6h66/iaVk4ER6wallk8x9
-	4co/SSYQ==;
+	bh=mf049VZjowR2a5uBgLHHJO5FyGZRrYYN1BAbvTkbs2c=; b=oZL2zXkf1HMGfM9PKVV8hXmsX+
+	jTeEIodSuyg6zpT1jkgvOfrqGwjSsDMkT1s6JU/Nml0HP/2RgIqcVvRlmkr4iiOdJycI4IYOHSw9t
+	VoRmjh4JcVxw3HQvFIe3lV3orCXUgrHPr3k8GUBUe4jmXXqktVThtMEISWXhmNebI1sExgsz2S0yX
+	wXzrROziDGSR60AK90UtH9Nt/kuS2vcERqwVqJXCKh8LOmqruagtswtdjizoPrWIFtkq3o287cdZd
+	QwZ+uV9YR0JfewO69wwLkS1GPWTwvPAcJ8zuEQUS5q9BLexre6g7IC12q33TVYxYlY8gkOZZ1xi6d
+	hnIRt/rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSKWn-00DJLB-Lc; Thu, 10 Mar 2022 15:16:33 +0000
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+	id 1nSKtc-00DNJq-9k; Thu, 10 Mar 2022 15:40:08 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSKWl-00DJKY-0W
- for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 15:16:32 +0000
-Received: by mail-wr1-x42b.google.com with SMTP id r10so8526254wrp.3
- for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 07:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=dRNE1Q3UHcAv6Ct12abpAnXUsUnbwAcbxOzLZWSk128=;
- b=j9fj+0YOsW71ldzLgCBoUAGcbVKjFIK6ZRvCAMZRypA/XSyKwDDMydzdGnTXQtDQHm
- ixEaVK1IyqfaAPq1O6W67jzIO0cFZcmjT6I1DcPxOwvehTFhaw2+Xi2K3NsROy8CjG7W
- qmJ/MmZ43pez3z9Aan/E/w+zMs/qFZ7qKcwpI2d4FWIbg9gjhlTNh0RHndjlsjnyXshr
- PgSaPiYkq+PkTdPGfsTobMqrKnrQ9ky53l/8IHw3KXwaMm6Gz+GWGUHZ6IeqdoOgid69
- TJKWYxq+BFtGjhvCFNLAulrVzMrmTjHwgPgIEGLAQbEEDBRhJ+MiK+p+I+k63ofbzHEA
- W9CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=dRNE1Q3UHcAv6Ct12abpAnXUsUnbwAcbxOzLZWSk128=;
- b=mcp+f3dceB68W6qjPqC711/hzISDHiofdloQykrbP6qjalqW/C4o6jp1mq0yIUksq5
- QfOndWFK7IUMIxU59vByAYyBUlNeEFi/IYseqrGHW+3s5Gv3gMQm3eMDRo5jb5f0ElwZ
- 9oBQQAkBqcDCMiR2YU8Lx8fAx/Cf7brg8/TALL9kWkQbTKS76ojejDYuNSGOOthhk/Pc
- 7/cS5qtS0MSDrJPoHsLZ5y0cWsrsB7bCSt4GoFsOEONGzo6yKWXPRaXCRGSPc9dMGsty
- FjO0Fzy9+3+fcdOVVrH8C+kLKTylIME64b65I+dEfdE+YRuRF4eRDVRlzZZP/zyoQNTW
- ngFQ==
-X-Gm-Message-State: AOAM532JECGAQhmIXEoT4DjWpcUVlbcjTVLIJ9lANrevGwIITzCNhgWU
- VXg7499OXqO3LowEtJjUseeIfQ==
-X-Google-Smtp-Source: ABdhPJzUi+LPZUiXwebXV78bx1zgz6gydw/BcJqlaUAKuEgMiIAzEW/wR7qbM0cLhgpzF1q28AZJ5Q==
-X-Received: by 2002:a05:6000:188e:b0:1f1:f8f0:f75a with SMTP id
- a14-20020a056000188e00b001f1f8f0f75amr3772099wri.682.1646925389123; 
- Thu, 10 Mar 2022 07:16:29 -0800 (PST)
-Received: from localhost (5.186.121.195.cgn.fibianet.dk. [5.186.121.195])
- by smtp.gmail.com with ESMTPSA id
- g5-20020a5d64e5000000b00203914f5313sm818592wri.114.2022.03.10.07.16.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 07:16:28 -0800 (PST)
-Date: Thu, 10 Mar 2022 16:16:28 +0100
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Matias =?utf-8?B?QmrDuHJsaW5n?= <Matias.Bjorling@wdc.com>,
- Pankaj Raghav <p.raghav@samsung.com>, Christoph Hellwig <hch@lst.de>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>,
- "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>,
- kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Sagi Grimberg <sagi@grimberg.me>, Pankaj Raghav <pankydev8@gmail.com>,
- Kanchan Joshi <joshiiitr@gmail.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
-Message-ID: <20220310151628.awfihyvsjc7hawnz@ArmHalley.local>
-References: <BYAPR04MB4968FA68FA8B670163EEC1EFF10B9@BYAPR04MB4968.namprd04.prod.outlook.com>
- <C2710A6C-340D-4BFC-A8DB-28D456095468@javigon.com>
- <BYAPR04MB49684A8C6FEDA0B999ABCBB2F10B9@BYAPR04MB4968.namprd04.prod.outlook.com>
- <20220310150730.GA329710@dhcp-10-100-145-180.wdc.com>
+ id 1nSKtY-00DNIi-W0
+ for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 15:40:06 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9C263B826BB;
+ Thu, 10 Mar 2022 15:40:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0164C340F4;
+ Thu, 10 Mar 2022 15:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1646926802;
+ bh=cahBW4asS7o8MJX61wLf9y+Vbrl7xpiX2UzUluQj068=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bV6P7OEKz9RqdRT5K1aiRe0ithJo1T4P2oAHJa/2szOqFfjjMr+IV+Wu54dzoRCHb
+ Ol5TE6ygAHhNT8vCpk7kQqrPbdNbiF2P7JexDmKAhy/G81s7PgGyGdVcbQYqmjFSBQ
+ m3I8G2j6F/95D1/4f7dUCcJ3zk85IrsH6I76tfVJms6vNuPSePkjF1YSNK7E3twKnM
+ JcBmhkrL4VZu07r/8y+n+csGTnLd/fmMOEzMIZkDXpnWEo5ckiuHibMRN2s0qD4hGG
+ /3JXwueNtGLsJqCh5r+zplsUxmvr8GIOwusVHyIeTa8IcrEGy4m9X7Fa8/wIKOT4M8
+ tmy7HfBg2SiMQ==
+Date: Thu, 10 Mar 2022 07:39:59 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Vasily Gorbik <gor@linux.ibm.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-kernel@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
+ martin.petersen@oracle.com, Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: [PATCHv4 6/8] crypto: add rocksoft 64b crc guard tag framework
+Message-ID: <20220310153959.GB329710@dhcp-10-100-145-180.wdc.com>
+References: <20220303201312.3255347-1-kbusch@kernel.org>
+ <20220303201312.3255347-7-kbusch@kernel.org>
+ <your-ad-here.call-01646770901-ext-3299@work.hours>
+ <20220308202747.GA3502158@dhcp-10-100-145-180.wdc.com>
+ <YigzoKRJ1EHFRZY9@sol.localdomain>
+ <20220309193126.GA3950874@dhcp-10-100-145-180.wdc.com>
+ <YikEs7RNgPXTQolv@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220310150730.GA329710@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <YikEs7RNgPXTQolv@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_071631_078121_AC0F469D 
-X-CRM114-Status: GOOD (  22.47  )
+X-CRM114-CacheID: sfid-20220310_074005_361058_90824783 
+X-CRM114-Status: GOOD (  15.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,46 +80,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10.03.2022 07:07, Keith Busch wrote:
->On Thu, Mar 10, 2022 at 02:58:07PM +0000, Matias BjÃ¸rling wrote:
->>  >> Yes, these drives are intended for Linux users that would use the
->> > >> zoned block device. Append is supported but holes in the LBA space
->> > >> (due to diff in zone cap and zone size) is still a problem for these users.
->> > >
->> > > With respect to the specific users, what does it break specifically? What are
->> > key features are they missing when there's holes?
->> >
->> > What we hear is that it breaks existing mapping in applications, where the
->> > address space is seen as contiguous; with holes it needs to account for the
->> > unmapped space. This affects performance and and CPU due to unnecessary
->> > splits. This is for both reads and writes.
->> >
->> > For more details, I guess they will have to jump in and share the parts that
->> > they consider is proper to share in the mailing list.
->> >
->> > I guess we will have more conversations around this as we push the block
->> > layer changes after this series.
->>
->> Ok, so I hear that one issue is I/O splits - If I assume that reads
->> are sequential, zone cap/size between 100MiB and 1GiB, then my gut
->> feeling would tell me its less CPU intensive to split every 100MiB to
->> 1GiB of reads, than it would be to not have power of 2 zones due to
->> the extra per io calculations.
->
->Don't you need to split anyway when spanning two zones to avoid the zone
->boundary error?
+On Wed, Mar 09, 2022 at 07:49:07PM +0000, Eric Biggers wrote:
+> The issue is that every other "shash" algorithm besides crct10dif, including
+> crc32 and crc32c, follow the convention of treating the digest as bytes.  Doing
+> otherwise is unusual for the crypto API.  So I have a slight preference for
+> treating it as bytes.  Perhaps see what Herbert Xu (maintainer of the crypto
+> API, Cc'ed) recommends?
 
-If you have size = capacity then you can do a cross-zone read. This is
-only a problem when we have gaps.
+I'm okay either way, they're both simple enough. Here is an update atop
+this series to match the other shash conventions if this is preferred
+over my previous fix:
 
->Maybe this is a silly idea, but it would be a trivial device-mapper
->to remap the gaps out of the lba range.
-
-One thing we have considered is that as we remove the PO2 constraint
-from the block layer is that devices exposing PO2 zone sizes are able to
-do the emulation the other way around to support things like this.
-
-A device mapper is also a fine place to put this, but it seems like a
-very simple task. Is it worth all the boilerplate code for the device
-mapper only for this?
+---
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index 914d8cddd43a..f9eb45571bc7 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -282,7 +282,7 @@ EXPORT_SYMBOL(t10_pi_type3_ip);
+ 
+ static __be64 ext_pi_crc64(void *data, unsigned int len)
+ {
+-	return cpu_to_be64(crc64_rocksoft(data, len));
++	return cpu_to_be64(le64_to_cpu(crc64_rocksoft(data, len)));
+ }
+ 
+ static blk_status_t ext_pi_crc64_generate(struct blk_integrity_iter *iter,
+diff --git a/crypto/testmgr.h b/crypto/testmgr.h
+index f1a22794c404..f9e5f601c657 100644
+--- a/crypto/testmgr.h
++++ b/crypto/testmgr.h
+@@ -3686,11 +3686,11 @@ static const struct hash_testvec crc64_rocksoft_tv_template[] = {
+ 	{
+ 		.plaintext	= zeroes,
+ 		.psize		= 4096,
+-		.digest		= (u8 *)(u64[]){ 0x6482d367eb22b64eull },
++		.digest		= "\x4e\xb6\x22\xeb\x67\xd3\x82\x64",
+ 	}, {
+ 		.plaintext	= ones,
+ 		.psize		= 4096,
+-		.digest		= (u8 *)(u64[]){ 0xc0ddba7302eca3acull },
++		.digest		= "\xac\xa3\xec\x02\x73\xba\xdd\xc0",
+ 	}
+ };
+ 
+diff --git a/include/linux/crc64.h b/include/linux/crc64.h
+index e044c60d1e61..5319f9a9fc19 100644
+--- a/include/linux/crc64.h
++++ b/include/linux/crc64.h
+@@ -12,7 +12,7 @@
+ u64 __pure crc64_be(u64 crc, const void *p, size_t len);
+ u64 __pure crc64_rocksoft_generic(u64 crc, const void *p, size_t len);
+ 
+-u64 crc64_rocksoft(const unsigned char *buffer, size_t len);
+-u64 crc64_rocksoft_update(u64 crc, const unsigned char *buffer, size_t len);
++__le64 crc64_rocksoft(const unsigned char *buffer, size_t len);
++__le64 crc64_rocksoft_update(u64 crc, const unsigned char *buffer, size_t len);
+ 
+ #endif /* _LINUX_CRC64_H */
+diff --git a/lib/crc64-rocksoft.c b/lib/crc64-rocksoft.c
+index fc9ae0da5df7..215acb79a15d 100644
+--- a/lib/crc64-rocksoft.c
++++ b/lib/crc64-rocksoft.c
+@@ -54,16 +54,16 @@ static struct notifier_block crc64_rocksoft_nb = {
+ 	.notifier_call = crc64_rocksoft_notify,
+ };
+ 
+-u64 crc64_rocksoft_update(u64 crc, const unsigned char *buffer, size_t len)
++__le64 crc64_rocksoft_update(u64 crc, const unsigned char *buffer, size_t len)
+ {
+ 	struct {
+ 		struct shash_desc shash;
+-		u64 crc;
++		__le64 crc;
+ 	} desc;
+ 	int err;
+ 
+ 	if (static_branch_unlikely(&crc64_rocksoft_fallback))
+-		return crc64_rocksoft_generic(crc, buffer, len);
++		return cpu_to_le64(crc64_rocksoft_generic(crc, buffer, len));
+ 
+ 	rcu_read_lock();
+ 	desc.shash.tfm = rcu_dereference(crc64_rocksoft_tfm);
+@@ -77,7 +77,7 @@ u64 crc64_rocksoft_update(u64 crc, const unsigned char *buffer, size_t len)
+ }
+ EXPORT_SYMBOL_GPL(crc64_rocksoft_update);
+ 
+-u64 crc64_rocksoft(const unsigned char *buffer, size_t len)
++__le64 crc64_rocksoft(const unsigned char *buffer, size_t len)
+ {
+ 	return crc64_rocksoft_update(0, buffer, len);
+ }
+--
 
