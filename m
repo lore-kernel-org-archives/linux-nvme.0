@@ -4,78 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2630EC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 11:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA553C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 12:08:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2HCgTW6tUM7DEFamof1h4tm/dHfLYbO8BtWVBOKqMwU=; b=oIGVZNi8E0o/KFAhQ0o6xT6OSu
-	708y/t8b2dIOKgysBGij+1PIw4f/5B1HHEh57FES5Jgvyvtpt5Ne5Wwc7nswVhl2uU/GqBZ4dj5xg
-	0+cmixfho259/BslFhjJUi691VcpnrSTsTBumgFuUgXm85nzGFDjXROVc3Hu36J1Ptimu7WYJjGt7
-	8hsgXUxECqY2rqND4IDCqO4a8s64hBCavAQOcMDjK4ocl6msRcpDaBf1Gwt6fA2MMz6UAmEJ4Xe7K
-	sfPvaUdzlw1sAzq1AiRLom7xJTEXSX4UP78yfXhmftpN8XLJNBM5frX66WuDhoqEehUOkji7vugMO
-	Pp5wOyGA==;
+	bh=tj2sa6Wv0SA/5GquKDVUu0wArnUFsHDIZuWYCoIF1BA=; b=UxrWR5U16oinBNC5Zem1UPCaOd
+	MlEE+OoXlpuxdsqji3+7UZPNG98LC1Hx2ad6EoUN+Hs4iYQNMzKjAKipdKpL9Vt8I6LrB3vtObo6D
+	6r2Sb6dz6Ozh0XAGRbWg6c1uKjzeBjDPwUZji9UuryQxfnlUGejtFi+Nup7tLT+3NpHoQQfpLCVB3
+	y9x32otehDpTgbdFgUJfCxf1zQ0423LACgUNAWmA6UjOPbYJQhvGGam1yfJo+e4jRohrn1D9Z3i14
+	jqOj5Jw9IZSGoL3DGbYM7QVGqEgsims3rRoqLlTBcgAF5hmRkjvRHvv4jEqLGAOSglRrwVAw5hoV9
+	HKnZTj+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSHJb-00ChTD-7e; Thu, 10 Mar 2022 11:50:43 +0000
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
+	id 1nSHam-00CkAZ-Fl; Thu, 10 Mar 2022 12:08:28 +0000
+Received: from mail-bn8nam08on20608.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8d::608]
+ helo=NAM04-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSHJY-00ChRo-BN
- for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 11:50:42 +0000
-Received: by mail-lf1-x136.google.com with SMTP id bu29so9055452lfb.0
- for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 03:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2HCgTW6tUM7DEFamof1h4tm/dHfLYbO8BtWVBOKqMwU=;
- b=qjSfnZolpLXexD4ysKMJx7z2iy7RSLmEydG1gUF0kZ6pnev5NF4zCn/mc2ym6OXH1h
- zrDf2WEDTBODUV9dGZHLbkh0nxcrk6skioLy2gvwGhzkOSdfJGfUYaYgl5q+tZfQSezQ
- nNktgy9uE0lrm09glMwhuHw4gb+bLrj3va6vCteSorTizOgxZ0rmHJ3HWAvpE5nIAu0C
- 8M2Md7Bx3eDT8XXKDZE3zoSpTgsmKEu7HqFAMLWc3YXI48Gu1qtXKAXCJDnuPALg1Itz
- lygCOlnVNb5jSPmbgPIOAkIGVnIx6ZhAeClUQP99iLzaEAbeeJYGd+fpQg63IPK7JasX
- jdMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2HCgTW6tUM7DEFamof1h4tm/dHfLYbO8BtWVBOKqMwU=;
- b=elHB4N8/Jidlpp0KKKMjB0zVOMNh0x+hRYaQaVZZqMHHiQR+JPWIsTqo7tQKsbY0V1
- xlDPTYTU5SY6NXPMkGBLrCmoU2Um52Qjb6uME39pYGfaGmz7HZ+aKSd20K8JyAPHwZUn
- Ph2jFCBO1kukE2lB+tBunykF6lx99ZDpL13zC/EqFq/aCE+U/C6WlWF0cL3ZcMazd9B3
- 8qUR77feyWDMtIlBWtxqaq9iA4A69nizyMRxdKre2hzOyeYZpsLIQMKLd7aXQj/ueRY/
- QlqSMwGh8Z1ssfL+j7KbjHLaI8IlnJfMoVaD7Cy8WRWPwvqIIBLPI/jb1w8zsCClKUMP
- LFsw==
-X-Gm-Message-State: AOAM531zOoDo7EcInCwkJIIUfr2Rr2KQzq08XaezTsM1qwDCP0zB+3LQ
- udD4zOkeMtKlcoeTbVqKsbEHg/OAQCoT9Zqt1Rk=
-X-Google-Smtp-Source: ABdhPJyjVMSSENplit9xn7OPOjyV+zTxySFK+J9bgJ4QXkoieP+kCGLzFuJAzf/aP0M1vQ3ynfDAfGm0lc6zuCTIu+Y=
-X-Received: by 2002:a05:6512:16a8:b0:448:6188:f8a8 with SMTP id
- bu40-20020a05651216a800b004486188f8a8mr1835823lfb.650.1646913038539; Thu, 10
- Mar 2022 03:50:38 -0800 (PST)
+ id 1nSHaj-00Ck9n-Mz
+ for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 12:08:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DdfdmRsnonWhHBuKPmtnfbJ/1H7cwftdCvDWdNVzGOh6+v666kpM3k+q7tDAdYU9wAVyl6wdhNTWSwP6XY5mV+DL1JDTBWfhLWV3VDPFNt0YitpseygEMo+Ta8N0J4MNNAF+l81gEGeVkJWbeyVMusDuvbWOyk4Ildkb3EmfZCXJe2Weqdht1penPOTTBS2lOS7WpElo89LU+4buwDifKUf1w70DdPhIevWCD5T1hgrsoeiqK+nM9OH0NxpbS16autE95auQEam3hqVwNOLU6RW/+Wn+kRGCMoc3hSUTTi1bSFV0sv9CPrVohTJX63moqBRSEKCBq/r+P0glq26kTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tj2sa6Wv0SA/5GquKDVUu0wArnUFsHDIZuWYCoIF1BA=;
+ b=n65tH2iCwk5GfUWWCbDALzL6dd4nVMVirXwrBCklNsoyB6crh4suJyDvPKWOOXo9rb4xs+rqcfJeU5jvdrw3lKYVzrAOjqzlI5tg1ioYaHs0UqwH/nwq60ZPilTYuJWWnfw/cBsWdjQYJgFuEy+3sAfcSGuJ1k6rFai43zQwnbui+2AEtwkNZh/+dLLI/IhGD+OFALK2p8aR6JOP3YiE647rhdNaSBB19+b2UHU+GiY55FsxKNn5n8Y+2yaS91VjZPy9Bjc3yuSkSrviFKSJSYkQ0xKI83641REegtdEo8hJgc7qHGe7HAXIXtDHnGvIQ5Zjv4UrubOGRCQlLouaDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tj2sa6Wv0SA/5GquKDVUu0wArnUFsHDIZuWYCoIF1BA=;
+ b=eeprnYz+7+Ofts6RJton80BCcJF4mKCyJ1nVGPV85KdIqCWUPfIPVU3LJR+BdKgFtmzBYAJkmv4DzAINHfil1/AaWl33jr0WdJRBcj+SfeT6sVD21ASXFdWzP7SnQYnWA+krBtfXQA+LuXNRyuMyPLU3Kb/jqWuy4l0hGRm2bvgEVwSGpeGOUyxqPN13Vn2O3ekhta0RD9p+D4RvH6azT8pp8dnPSgjMPjjC2BPbbsqGUScj3JV77V1+zTgWkdLNe5JztbmYtxmGoOpkenvQAfGQoarS4Wn7PwA23qw5APbrFkMA1G3GlZJadYu4bHVvL1Xwawcqz/G42tmQ4hrYrA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21; Thu, 10 Mar
+ 2022 11:52:22 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::f037:e2a1:f108:125a]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::f037:e2a1:f108:125a%8]) with mapi id 15.20.5038.029; Thu, 10 Mar 2022
+ 11:52:22 +0000
+Message-ID: <bbb103d5-7622-dc88-07b8-1edc684d2f82@nvidia.com>
+Date: Thu, 10 Mar 2022 13:52:15 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
+ nvme-rdma testing
+Content-Language: en-US
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: RDMA mailing list <linux-rdma@vger.kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ Nitzan Carmi <nitzanc@nvidia.com>, Israel Rukshin <israelr@nvidia.com>
+References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
+ <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
+ <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR0502CA0055.eurprd05.prod.outlook.com
+ (2603:10a6:20b:56::32) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152729epcas5p17e82d59c68076eb46b5ef658619d65e3@epcas5p1.samsung.com>
- <20220308152105.309618-18-joshi.k@samsung.com> <20220310083652.GF26614@lst.de>
-In-Reply-To: <20220310083652.GF26614@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 10 Mar 2022 17:20:13 +0530
-Message-ID: <CA+1E3rLaQstG8LWUyJrbK5Qz+AnNpOnAyoK-7H5foFm67BJeFA@mail.gmail.com>
-Subject: Re: [PATCH 17/17] nvme: enable non-inline passthru commands
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
- Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav <pankydev8@gmail.com>, 
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 57b7285f-69aa-4b74-4b07-08da028c6fe4
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2782:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR12MB278223684917EC45B7BA3D97DE0B9@SN6PR12MB2782.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DO+dARJcrexEAyPF3ZqF4Xsl9IiDR/cLEG7umBUAIjvwCQDV6pNL5wCFCbFlWLHRwaPePZQ1tCJDm5e00Wu+gWwNW/0KcpJyWnx02Tj6+0gd9ecIq1Kv0sM+glTZ2YUmoppD06ZomINAuQWHzngdkoJnkruWd8+ODBQZ2uph89zlarj5IvPfVT9RsPXfKNJSxMkx1djYen9BXSqNffIBkK/6mqMe6CALd/00pan6PTLvFoRFds9tl3yNZvH8Qw0/3af1lTxTaKb0XKgls7wGbDwU6JtULBhsxeVGg2pqWpipSfQL7WkSTlZiUdtN/WQ19utThPanNE4kT6N9dSZiuCRR/wBqtzSqP1BLjx1EmeOlUp43VGvdnpDXaCKHoHed3tNsVgmvSUYpJur3DfiWcA77kzBdN7k+xUDkO3JubRmCmnh5oNOvnN7feJxqxfOUReF65cQnMWVQ2xe5ORNpkUzFjBPtwyN7MvCSC+DHkLt1vZlZ/jSYLesx73Sk3mA3ZWg0PXRQBMh7sXChZrVMtBl8AikXxM11VJZRL6UIqy6PXT4aZPyfSMS3RiloM2hOxAKnscSbFL2PJLUjXhLO9QzLG94ab6EAYVqTHfZ2g7K8mvYZMM3pEtAuhgzLNCKmryYR9uHl5Wfp59S91nirPzZCHZfq+gWvsnlbl2SdrcHll2J9jC/afk8okd6aSAyQ4ELFGTk3122MJVLgGvlInfT4vA9o4H6FvOki8E/vwDwVRpc92+fEE5iY7MOXQPYtwRWANdKWbFcXLVK/sDYYZYemKAiNglALUaBqG22jBeBJR0qrc72luT1DBp7y856FAxjPMBA3cArOja8etikp0Js3xIFGS6bo/gIYZTqGCSQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5040.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2616005)(53546011)(6512007)(186003)(66556008)(6666004)(6486002)(2906002)(31686004)(6506007)(36756003)(107886003)(45080400002)(26005)(5660300002)(31696002)(8936002)(66946007)(54906003)(508600001)(316002)(86362001)(66476007)(6916009)(966005)(4326008)(38100700002)(8676002)(43740500002)(45980500001)(505234007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3lLcWtoRDc1RTJXaTlEcDNETVczRjZCUlNOWlFYMndZaEpKN0VZTXFjSjdx?=
+ =?utf-8?B?WjdMOVVhMzdxcUJmdFMyOFc0dlpwNTFESHNWRFNIU0RXeloxQTUxMjVndGUy?=
+ =?utf-8?B?bzJoMUJ2NXJiaEZLYzYzRmpwSmJIUk1tNW1Xb1gveXlqcTRFNnNMbFlta1FC?=
+ =?utf-8?B?MGxvZWI5R3B0Wlk1ai83elYxdVV2MEU4UXo5S284d0IwZ2xTWW93MXJ1Y2I4?=
+ =?utf-8?B?Yy9ncUFPQ2xOU3BiVmE3R0dWZ2RPWnhSZ0hML1FDL2tHK1ZwL2lnQTJzRndx?=
+ =?utf-8?B?Wm9IcXhxUWx6NC9JejBBd3Z4V3FRMngyMWVSNzRPd2pxdkNpbDMrT1RHbU5Y?=
+ =?utf-8?B?T0lIZVpSaXBEb3lVQVB4dVJ1azM3N0E2ZzVxUnpqa2wzd20zR25sRUlsaUR6?=
+ =?utf-8?B?aXhrb2RPSFBiM2tHcXZjSVQrRUVlTS93dWtSMWNZcDRJT25RT0NaMGZ4eXFX?=
+ =?utf-8?B?cFhiQ1ZBT2dSM1JPeE9ldXQ2WHFpckViVytXQzE0bUNmZlJwYjk2bkhiQUVJ?=
+ =?utf-8?B?dm1pRkw0b2tESitja0VmS1dRSzhHTldMTDdmK2w3dWVNUVBxVzFYaUJ3ZE5Q?=
+ =?utf-8?B?R0UrUVoyOEYrOVFVYlhWMmJPK0RVcnZMWEZJVWRZUmIyRDl6T1NGZ0N3b2ND?=
+ =?utf-8?B?N2lyY3hkYkozai9najFzMlk1cXlxU0kyVjhIbC9HcmRFS01oLzJreVI5YWVY?=
+ =?utf-8?B?aWRMcTNVenpnZXZCelBOWllMU05ZbGIzeHpFN3BlZ2tTeVA1eS9RcW9iY1pL?=
+ =?utf-8?B?M1RBSEVKSWRPQzZXZTNldWVBcFdaWm1ES1VmYUlTOUZ1RjdmQXBYY2xSUDEv?=
+ =?utf-8?B?WnhQTFNSNFlycVV5LzgzUkVNOHh1Q1A3N0xUVUdRK1l0WExLT1R1dHc0N1BC?=
+ =?utf-8?B?bUgvVDdHRnNGd0FnUmdrNHZtbFg4TE01QzBKZURnK1owVW9pM1VESHVIbS90?=
+ =?utf-8?B?VkFSVWRHT1RWTEhhYlFPSXg4NmVxQ21LRkIzOTVJd0RjT1dtcXEyUEhFOUpU?=
+ =?utf-8?B?S3BOM3Nwckx6cXVydzVtaGc2djhJYkVoZGFqaUhEQ0EydndQZ09vMDB1eUY3?=
+ =?utf-8?B?M0hrTXhtVkFXTTVMUDI4RG1zWTZRVUpXVkEvZHAxdGpTNkoxYUV4VlBtUDY4?=
+ =?utf-8?B?UitPNHBSbHVLdnovR0VVZ1Z1d0dXR2R6SVhDOEhpeXAvRGd0Z1g3ZkR0bFZF?=
+ =?utf-8?B?MDB3QU12cXBoMlZ3SHZONjdyVVpmRUliaE85WVhZeWV2cTdJTDF1U0xmSEE2?=
+ =?utf-8?B?Rzl3dzV1cHJHNlZQQjhFNVNlMFJFSmIrRFVHS2tkSjN4V3ZUSnNJaGRnNnJi?=
+ =?utf-8?B?ZExXSUhFUFYxOVNpaXlEQzhEQ0RRdGMwZkorV1poY2E1L0hwZ1N3dElGaWtm?=
+ =?utf-8?B?SXVTdVhYRVNmSGRQQ05vMkxQV0sxeVY4SGZxQmNkZWY5VFdKa001MjkwOG5P?=
+ =?utf-8?B?OHFVN2R2aTNhaUp0RllmVEx5cGl3Z0RmRXg5WERLejA3U3JFckFGdkVwY3Y3?=
+ =?utf-8?B?Ulc1UURFekt5S0dmcVhEbzZHTkRNbzhzNmhDeElPUkZCYTgvY0VYbC8zdHZI?=
+ =?utf-8?B?aWdVL3IvOHJOK241S0lBN2dFRXQ3SlZjdVowWWg2YjBGQUw3OTZlQVhhVlB4?=
+ =?utf-8?B?ZjAwUzRFeFVWWUVqUTNJdC8zSnJpbTY5YXFxL0NvaG9VelpXU1d5eW41ZzJ0?=
+ =?utf-8?B?S09zVWV6NDQ0Z1V2WXVaZ2lXeWswelM5bHUzeWp1Zk1FTmtyenBPbU5NY2lD?=
+ =?utf-8?B?WDBpRE5uOFRBUWhyUUlvWU1XcG1rQ0tGRE5odkJydFNYZ3VPQ3FUYzA2b0I4?=
+ =?utf-8?B?SGsra2lNTnMrMXVzLyt2RW56aXhnVURFZm0xQ0M2MzYwOHBRWjlodnNodHV6?=
+ =?utf-8?B?RVlwTDdJV0tISXV4VEpnOFlYbG0wZUxkeHA2cTlETG5JN05jZVMwSWZJUE5K?=
+ =?utf-8?B?UDRsV3ZGak5uZ1g3dFB0d1FTSTdGd1pYUlFGWVJUUmc2MUlHOFlGUGI3NHFZ?=
+ =?utf-8?B?VEdFZ1JNdkJ3PT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57b7285f-69aa-4b74-4b07-08da028c6fe4
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 11:52:22.4755 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /je+3scOQTCS3Gtj4Y9wamJ4ZZ7D09HuB8xyybjO4VXa5bqBo1RJh72M/2aBV5xwMf2gWNIxBQoJQS3RYKKUtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2782
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_035040_440091_62BD66B5 
-X-CRM114-Status: GOOD (  18.90  )
+X-CRM114-CacheID: sfid-20220310_040825_768811_5C759DE8 
+X-CRM114-Status: GOOD (  14.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,85 +150,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 10, 2022 at 2:06 PM Christoph Hellwig <hch@lst.de> wrote:
+
+On 3/9/2022 12:59 AM, Yi Zhang wrote:
+> On Tue, Mar 8, 2022 at 11:51 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+>> Hi Yi Zhang,
+>>
+>> Please send the commands to repro.
+>>
+>> I run the following with no success to repro:
+>>
+>> for i in `seq 100`; do echo $i &&  cat /sys/kernel/debug/kmemleak &&
+>> echo clear > /sys/kernel/debug/kmemleak && nvme reset /dev/nvme2 &&
+>> sleep 5 && echo scan > /sys/kernel/debug/kmemleak ; done
+> Hi Max
+> Sorry, I should add more details when I report it.
+> The kmemleak observed when I was reproducing the "nvme reset" timeout
+> issue we discussed before[1], and the cmd I used are[2]
 >
-> On Tue, Mar 08, 2022 at 08:51:05PM +0530, Kanchan Joshi wrote:
-> > From: Anuj Gupta <anuj20.g@samsung.com>
-> >
-> > On submission,just fetch the commmand from userspace pointer and reuse
-> > everything else. On completion, update the result field inside the
-> > passthru command.
+> [1]
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-nvme%2FCAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5vwU0w%40mail.gmail.com%2FT%2F%23m5e6dcc434fc1925b18047c348226cfbc48ffbd14&amp;data=04%7C01%7Cmgurtovoy%40nvidia.com%7C8cef8eb496e84d35f52308da01575419%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637823771831899724%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=kjMvRAWlBe1ym3FDQO1rdZ9%2FwtKQpscvXRG48aTt3L0%3D&amp;reserved=0
+> [2]
+> # nvme connect to target
+> # nvme reset /dev/nvme0
+> # nvme disconnect-all
+> # sleep 10
+> # echo scan > /sys/kernel/debug/kmemleak
+> # sleep 60
+> # cat /sys/kernel/debug/kmemleak
 >
-> What is that supposed to mean?  What is the reason to do it.  Remember
-> to always document the why in commit logs.
+Thanks I was able to repro it with the above commands.
 
-I covered some of it in patch 6, but yes I need to expand the
-reasoning here. Felt that retrospectively too.
-So there are two ways/modes of submitting commands:
+Still not clear where is the leak is, but I do see some non-symmetric 
+code in the error flows that we need to fix. Plus the keep-alive timing 
+movement.
 
-Mode 1: inline into sqe. This is the default way when passthru command
-is placed inside a big sqe which has 80 bytes of space.
-The only problem is - passthru command has this 'result' field
-(structure below for quick reference) which is statically embedded and
-not a pointer (like addr and metadata field).
+It will take some time for me to debug this.
 
-struct nvme_passthru_cmd64 {
-__u8 opcode;
-__u8 flags;
-__u16 rsvd1;
-__u32 nsid;
-__u32 cdw2;
-__u32 cdw3;
-__u64 metadata;
-__u64 addr;
-__u32 metadata_len;
-__u32 data_len;
-__u32 cdw10;
-__u32 cdw11;
-__u32 cdw12;
-__u32 cdw13;
-__u32 cdw14;
-__u32 cdw15;
-__u32 timeout_ms;
-__u32   rsvd2;
-__u64 result;
-};
-In sync ioctl, we always update this result field by doing put_user on
-completion.
-For async ioctl, since command is inside the the sqe, its lifetime is
-only upto submission. SQE may get reused post submission, leaving no
-way to update the "result" field on completion. Had this field been a
-pointer, we could have saved this on submission and updated on
-completion. But that would require redesigning this structure and
-adding newer ioctl in nvme.
+Can you repro it with tcp transport as well ?
 
-Coming back, even though sync-ioctl alway updates this result to
-user-space, only a few nvme io commands (e.g. zone-append, copy,
-zone-mgmt-send) can return this additional result (spec-wise).
-Therefore in nvme, when we are dealing with inline-sqe commands from
-io_uring, we never attempt to update the result. And since we don't
-update the result, we limit support to only read/write passthru
-commands. And fail any other command during submission itself (Patch
-2).
+maybe add some debug prints to catch the exact flow it happens ?
 
-Mode 2: Non-inline/indirect (pointer of command into sqe) submission.
-User-space places a pointer of passthru command, and a flag in
-io_uring saying that this is not inline.
-For this, in nvme (this patch) we always update the 'result' on
-completion and therefore can support all passthru commands.
-
-Hope this makes the reasoning clear?
-Plumbing wise, non-inline support does not create churn (almost all
-the infra of inline-command handling is reused). Extra is
-copy_from_user , and put_user.
-
-> > +static inline bool is_inline_rw(struct io_uring_cmd *ioucmd, struct nvme_command *cmd)
+>> -Max.
+>>
+>> On 2/21/2022 1:37 PM, Yi Zhang wrote:
+>>> Hello
+>>>
+>>> Below kmemleak triggered when I do nvme connect/reset/disconnect
+>>> operations on latest 5.17.0-rc5, pls check it.
+>>>
+>>> # cat /sys/kernel/debug/kmemleak
+>>> unreferenced object 0xffff8883e398bc00 (size 192):
+>>>     comm "nvme", pid 2632, jiffies 4295317772 (age 2951.476s)
+>>>     hex dump (first 32 bytes):
+>>>       80 50 84 a3 ff ff ff ff 70 d4 12 67 81 88 ff ff  .P......p..g....
+>>>       01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>     backtrace:
+>>>       [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
+>>>       [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
+>>>       [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
+>>>       [<00000000aade682c>] blk_alloc_queue+0x400/0x840
+>>>       [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
+>>>       [<00000000cbff6d39>] nvme_rdma_setup_ctrl+0x4ca/0x15f0 [nvme_rdma]
+>>>       [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
+>>>       [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
+>>>       [<0000000031d8624b>] vfs_write+0x17e/0x9a0
+>>>       [<00000000471d7945>] ksys_write+0xf1/0x1c0
+>>>       [<00000000a963bc79>] do_syscall_64+0x3a/0x80
+>>>       [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>> unreferenced object 0xffff8883e398a700 (size 192):
+>>>     comm "nvme", pid 2632, jiffies 4295317782 (age 2951.466s)
+>>>     hex dump (first 32 bytes):
+>>>       80 50 84 a3 ff ff ff ff 60 c8 12 67 81 88 ff ff  .P......`..g....
+>>>       01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>     backtrace:
+>>>       [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
+>>>       [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
+>>>       [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
+>>>       [<00000000aade682c>] blk_alloc_queue+0x400/0x840
+>>>       [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
+>>>       [<000000004f80b965>] nvme_rdma_setup_ctrl+0xf37/0x15f0 [nvme_rdma]
+>>>       [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
+>>>       [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
+>>>       [<0000000031d8624b>] vfs_write+0x17e/0x9a0
+>>>       [<00000000471d7945>] ksys_write+0xf1/0x1c0
+>>>       [<00000000a963bc79>] do_syscall_64+0x3a/0x80
+>>>       [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>> unreferenced object 0xffff8894253d9d00 (size 192):
+>>>     comm "nvme", pid 2632, jiffies 4295331915 (age 2937.333s)
+>>>     hex dump (first 32 bytes):
+>>>       80 50 84 a3 ff ff ff ff 80 e0 12 67 81 88 ff ff  .P.........g....
+>>>       01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>     backtrace:
+>>>       [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
+>>>       [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
+>>>       [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
+>>>       [<00000000aade682c>] blk_alloc_queue+0x400/0x840
+>>>       [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
+>>>       [<000000009f9abba5>] nvme_rdma_setup_ctrl.cold.70+0x5ee/0xb01 [nvme_rdma]
+>>>       [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rdma]
+>>>       [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
+>>>       [<0000000031d8624b>] vfs_write+0x17e/0x9a0
+>>>       [<00000000471d7945>] ksys_write+0xf1/0x1c0
+>>>       [<00000000a963bc79>] do_syscall_64+0x3a/0x80
+>>>       [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>>
+>>>
+>>>
 >
-> Overly long line.
-
-Under 100, but sure, can fold it under 80.
-
-
--- 
-Kanchan
 
