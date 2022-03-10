@@ -4,80 +4,179 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B7C4C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 18:43:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D0BEC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Mar 2022 18:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f2tYdizKTIshWFThjBTeAJGUpF74jo5FnvbdsKAlPgg=; b=rAf1zpj8+c0NRnT8Uytu16Rrcw
-	PLj3wh6p/lJsZxqXOzZCeXAAq55Hy74UId7Ty5CQ8KQBJt0+9Hwt3g59uTOfcqpL8bt6CHRXjXJGn
-	rAXYPWWEB/12h2rn7mKHRDHBEZi01X9CrtEnIGuaHRvNlesDyuPXVr1EuiJxozs9hZE6jHNd6BoBi
-	rEvKAZrHwG+4Sgsj9NptAOvELG+bPdo0UVHMfio2+3f06BBSwpGRJk2eSn87kwllH4U39TMXECU4Y
-	34mVvV4YfphClvIHIr2OvzNC8jAfPUtLJw1XBEu2M52Qo2gjrGhUltcoyKo1Zbo+GhQCmN0Wgc56n
-	cCHmTC5g==;
+	bh=OclXDHDom+4KKGHFdjH2Vu5qOj4PjSLtfjAwkRfOUaM=; b=IhZi6UudJY7J9ge7VBDSQ5Z6Ol
+	B5N11rFf4YdTF9bwUUjRfn3vn8otYSwVBRUit+xaZcxzelghr2bZJAV3DGlxTZaADqmkSPhQpWvGp
+	smOW+LsGodPFk+zxfVteQg1dmeaeIpb5OUnYlTff9xrA9JLIRGfFqN8kmTfZ3Bif7gBBj9T+XCiea
+	yjd8dm2B5ddlW7F967Bzjb9d1nO/422dSCf1X6r3J1wvwoxeLsCUZoG7/2ze03W6TWBJytmSZeEwD
+	nhCyv6zbc90Xq4Pga+399sX2yL7hVQW6dPsnOKT3hBk6TUM/WpnpUGU7NKpI8SveGET5QljrdZuTW
+	H08JaLoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSNlS-00DjoM-HX; Thu, 10 Mar 2022 18:43:54 +0000
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e])
+	id 1nSNsA-00Dkj9-CT; Thu, 10 Mar 2022 18:50:50 +0000
+Received: from mx0a-003b2802.pphosted.com ([205.220.168.83])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSNlP-00Djmw-L4
- for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 18:43:53 +0000
-Received: by mail-lj1-x22e.google.com with SMTP id u3so9096519ljd.0
- for <linux-nvme@lists.infradead.org>; Thu, 10 Mar 2022 10:43:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f2tYdizKTIshWFThjBTeAJGUpF74jo5FnvbdsKAlPgg=;
- b=L+NAx3DQW/kLZvssrOMcN20V+NDmLBkLyZ7yh4g09+9QiiNtUZZrTYVFbgyuJwgRa0
- npVQz+VlciSI4GFCb5GeQs1B67E4W4gQWwcHLKvG/i0BH3YJ+E1kTSKHlU0Rh2G8ve8O
- bwwzm0UVfMCfPzvN22b9mEBjHMCE3t6IgTCCu1XzJszdmF0YJsK4INNTpjOx5G5eHOEE
- Lpi1zSGNmgPo3EyAqProc37ugId5l3l+RcRz8AgVLPdfMJ0iyy72qqUPhp5ARp9q+X5A
- W1RZMimkPG7xwcQpRyzGjMrlPJoOP573x1t+jxsFAl80LDq7uV+YhJjLY0STZFoO90MH
- qzsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f2tYdizKTIshWFThjBTeAJGUpF74jo5FnvbdsKAlPgg=;
- b=ovViii55KGErh48c13iQ7JHlC3lEIvRL+rg3D/snTL2u2jLb7Lt5jfT8wWccrpi6B9
- xWk85wBnSSReAZ3JnwB8Q/IAuGrxhvqDwyYLYU66X4BggBM+metyQC1Wv8QU7q6kI2Xw
- qHChotowT2uuZ6e3U1c6RUXo81MAnOEG9i/SpkfCdkriaA87MZsxMD0ocaWnQ9Zl7xtk
- G/pXDk7YGRp2k0v/IpUNpn/E08P0fLWkbchvm1O6Y+F77KuqC7rnwzHXenF3V5WnGVGh
- 83rfrtU1smxZwheg5G/VBrXmKBLEsjrmR9VtR7Zz23zTc2oM5+mU0t9+nMU0VZicH/9S
- Utag==
-X-Gm-Message-State: AOAM532ropCLw7pNK9o9aC3krxRVE5OJpJQpaLgEDBiMcU/28gYEg6m5
- n27suAaCpNB3DjjTzHo2mxAD3W3NEM0mlyGwamo=
-X-Google-Smtp-Source: ABdhPJzQL58I6OV6Ntzjf1Sx72ym4uZ1I9t+0tr8hmh2IxxfBECQKSnK2+rNZtDoJC83aKh8L8hI7BYJ/Rb/x0njv+8=
-X-Received: by 2002:a2e:8403:0:b0:248:31d:3e35 with SMTP id
- z3-20020a2e8403000000b00248031d3e35mr3682631ljg.445.1646937828736; Thu, 10
- Mar 2022 10:43:48 -0800 (PST)
+ id 1nSNs7-00Dkii-FR
+ for linux-nvme@lists.infradead.org; Thu, 10 Mar 2022 18:50:48 +0000
+Received: from pps.filterd (m0278968.ppops.net [127.0.0.1])
+ by mx0a-003b2802.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22AGtqD7000650;
+ Thu, 10 Mar 2022 11:50:24 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=OclXDHDom+4KKGHFdjH2Vu5qOj4PjSLtfjAwkRfOUaM=;
+ b=Tyu6jMWNlzBYUARNGFfdjOLrQjskYby3GBDPrwR3lIUGIL5/FPGxF+T8laEDiXiaSaOm
+ uFAlwIg3aqigavo/mjVAqRksDg/t0NaFCTsTtDEYB8552lDqPZI3hD9znxKGXMoEt8FA
+ A67rAeOeB/OcWsJIZpvG+b4UBpXcimM1StRuDv5ScfD4q1CuM/l6kLvndNQKuESEIWjl
+ Qeq9JB3lLhupIGx+gZpuS7XVTn3QpCpuvRiIypoUYyXT3ccg12QwG83uJ1hAK/vJuCk6
+ 7JvE8OYCmN8CIGDS+1Xy8BgDN9ToGTKa338gDZfK9Vh20fEGFWfWBGmaw0f9V+3ebdZJ Fw== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
+ by mx0a-003b2802.pphosted.com (PPS) with ESMTPS id 3em4gtw9dn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Mar 2022 11:50:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Aee0XopuNts8lpM9uGz/mNHTTDQXQ2v+L49oSe5qN1q0g0G10Y+sVZWuBdy4KUcpkplT8EHqdIzW+1BYvrYXYAd5Q1KyM8eZ/S20qRvhuA9gBerln+/QxkOjBFr3fMZ0u+k4sGyk+7HfVHkrSPv1JsFjVaYQCEw5pSkqLlx3TaoxZYke976+aMto9tNR29kGcK0T1UCJ7yuRBRtGMRuPLWV3Xwf1g97o3bbupJJzWiLTW2hHYIgDQpdxG4GQ67OR4CLFfN64iyuOi93g9Vgcq1SUj3RB7NfykdA2VgW1fsYl+oMKXCLbGU/EdsjmbrHfxo89TVm64l4MtKdK8QjbKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OclXDHDom+4KKGHFdjH2Vu5qOj4PjSLtfjAwkRfOUaM=;
+ b=RCuEd1OJiEMabTnCEP5kKnjKHwsBt6qtbtyy7OvcjgdxqQOATlfj8ZZYPzowNS+aXoBo/hhfCjQ1OYdFBGDuhfSY5YhmRKVV9tsOegGg6X2sQ9Cge+tXATXSXJIfv5TR73rRa6QJMJNGPTytxYaqHzLv8FoocjSIKWcGgtuY1onTuVTOsRBrW7YHX2Px03+oMq63RPKd8LUbnrRu0/305Bea6GFbee5D8RYncc6BY1qrDQLtxF9MZ6cLht/nOvMWBBYeqs50gjza0c5ysW6HiiBc3wdck3PWGWPFFdKIV14fcm/lZ4dVzyjmcFBjZaMPIfyj0ilI9jKZ25xxj+wZFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=micron.com; dmarc=pass action=none header.from=micron.com;
+ dkim=pass header.d=micron.com; arc=none
+Received: from CO3PR08MB7975.namprd08.prod.outlook.com (2603:10b6:303:166::10)
+ by BYAPR08MB4118.namprd08.prod.outlook.com (2603:10b6:a02:8b::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.17; Thu, 10 Mar
+ 2022 18:50:19 +0000
+Received: from CO3PR08MB7975.namprd08.prod.outlook.com
+ ([fe80::106d:1c1:99ae:45ac]) by CO3PR08MB7975.namprd08.prod.outlook.com
+ ([fe80::106d:1c1:99ae:45ac%9]) with mapi id 15.20.5061.022; Thu, 10 Mar 2022
+ 18:50:19 +0000
+From: "Luca Porzio (lporzio)" <lporzio@micron.com>
+To: Jens Axboe <axboe@kernel.dk>, Manjong Lee <mj0123.lee@samsung.com>,
+ "david@fromorbit.com" <david@fromorbit.com>
+CC: "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "song@kernel.org" <song@kernel.org>,
+ "seunghwan.hyun@samsung.com" <seunghwan.hyun@samsung.com>,
+ "sookwan7.kim@samsung.com" <sookwan7.kim@samsung.com>,
+ "nanich.lee@samsung.com" <nanich.lee@samsung.com>,
+ "woosung2.lee@samsung.com" <woosung2.lee@samsung.com>,
+ "yt0928.kim@samsung.com" <yt0928.kim@samsung.com>,
+ "junho89.kim@samsung.com" <junho89.kim@samsung.com>,
+ "jisoo2146.oh@samsung.com" <jisoo2146.oh@samsung.com>
+Subject: RE: [EXT] Re: [PATCH 2/2] block: remove the per-bio/request write
+ hint.
+Thread-Topic: [EXT] Re: [PATCH 2/2] block: remove the per-bio/request write
+ hint.
+Thread-Index: AQHYM213hUiroX0Mx0m03tMAg0KZ2Ky4fWtAgAAMswCAAG2fIA==
+Date: Thu, 10 Mar 2022 18:50:19 +0000
+Message-ID: <CO3PR08MB797562AAE72BC201EB951C6CDC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
+References: <20220306231727.GP3927073@dread.disaster.area>
+ <CGME20220309042324epcas1p111312e20f4429dc3a17172458284a923@epcas1p1.samsung.com>
+ <20220309133119.6915-1-mj0123.lee@samsung.com>
+ <CO3PR08MB797524ACBF04B861D48AF612DC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
+ <e98948ae-1709-32ef-e1e4-063be38609b1@kernel.dk>
+In-Reply-To: <e98948ae-1709-32ef-e1e4-063be38609b1@kernel.dk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Enabled=true;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_SetDate=2022-03-10T18:47:30Z; 
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Method=Standard;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Name=Confidential;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_SiteId=f38a5ecd-2813-4862-b11b-ac1d563c806f;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_ActionId=5d265308-374a-4d05-8a82-38ef0dda547f;
+ MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_ContentBits=3
+msip_label_37874100-6000-43b6-a204-2d77792600b9_enabled: true
+msip_label_37874100-6000-43b6-a204-2d77792600b9_setdate: 2022-03-10T18:50:17Z
+msip_label_37874100-6000-43b6-a204-2d77792600b9_method: Standard
+msip_label_37874100-6000-43b6-a204-2d77792600b9_name: Confidential
+msip_label_37874100-6000-43b6-a204-2d77792600b9_siteid: f38a5ecd-2813-4862-b11b-ac1d563c806f
+msip_label_37874100-6000-43b6-a204-2d77792600b9_actionid: d74a97b2-1106-45ea-9185-c9d2cb64d54c
+msip_label_37874100-6000-43b6-a204-2d77792600b9_contentbits: 0
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e0ce6601-a90a-486e-22e1-08da02c6d31e
+x-ms-traffictypediagnostic: BYAPR08MB4118:EE_
+x-microsoft-antispam-prvs: <BYAPR08MB41185C4503EF1BB89022925EDC0B9@BYAPR08MB4118.namprd08.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 50IzP16Of0klu4wmKsJENmqkH8vtk7TXrVCbP9KizTdT2c1xbmVaY+bCiLtnubAp4rw70FanM0DL7dTPXZGFpEGQYF50bBkRxn6JvUUAvTr+fw0oIVTCET4RDgV+spPl8f1BT3rVfOJfYAZRajjbrIKj8HLFRVBC7b1S8iUujgBiLPU9BckqpYtNlrqbU1IJ00lJnbMIL1fFT+7M8V6Rrh0AZVnkH+1QQgzgwIyacYJxK3YD8vlztsogwlzPZByqHoPQ2b01XoEfne4sW/KA9Hn0z4OF9Pvo/OWEKayiJT36jMmDZLCoIsWsut9rHOe8RqQayxgreHs3UpmUR347fLRvGWVtfrMfQcb6F4SjSh8Vbl93FP9mpvOSnMgUF3OG8BAosMkDIDzBBkfj6H0r3QpwQA7q8Tb4cOkpWoP21oW34W9KWBZ59+LwQZwhCTghZzVb8Q4oGeOPPdDddeWupVAPf3b/Uk4KR2WLm9oqHnEMfyrOtdll7eMDwPgxEJbfMCPRx6H6lOP1TI/7McdgSKdOgKtSc/1wpKygCUJEW6VIeKWbYGoEX71klyxukvr/1b2hh4rp3a03VNOqp+SYZDx2RJnc61BUCsye0TCj0pcq/7YrzPdFa85ywcZeB/HcPNGPBvDsT3FhOUwNG0kpW1G5sNdtntM62h9ZspT/onzhBYNvPJOjj1jkZsTXK++v8fRgp2DxbtPZiGVBxTRNNQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO3PR08MB7975.namprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(33656002)(52536014)(38100700002)(38070700005)(8936002)(86362001)(122000001)(76116006)(71200400001)(66946007)(66446008)(66476007)(66556008)(64756008)(9686003)(55016003)(7696005)(6506007)(4326008)(8676002)(110136005)(54906003)(2906002)(508600001)(316002)(26005)(186003)(7416002)(4744005)(5660300002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K1NxV2M2dFhQR3JNMTczcTRSck44aFlrN01NZlR1MnJLZVBXb2Z2ekRFNjhZ?=
+ =?utf-8?B?QktTempUZ2U4WHFqNVNIb3lvYlRQbG1YRmlEZjhKUUFIamkxV2xuRU1WcTVo?=
+ =?utf-8?B?eFJVVXVQSXVyanUxcU1uR1ZhTmN6YjJ2Nk53Qm1kaHhwQ3RjNS9keWRCTWhl?=
+ =?utf-8?B?c3puYUsrTjZWYjJSKzI5aDRLNjhVRWw0ZTF0UFV2WmFvODlRYzYzdXBxNmFL?=
+ =?utf-8?B?RlA1VnFmbmpKYVc3SEk3MEg1aVVnTU05WWFFK2pyYmR3K0NzbXN6WWdta1ZS?=
+ =?utf-8?B?SkNKYm5SSDFRNFNBOWszQlhJR29XdWt6VUluMEE1aWhQYXlrQW1CQUM3bU4y?=
+ =?utf-8?B?TzhKZ1hqTlZVdnNyS1k3enpDQjlZQ3J3U0hFOS9CM1M2V0RudWhCOXN4dEdH?=
+ =?utf-8?B?Y2cwQVBlNEJ5N0h1N3h3UEJhZlc0clRIRGZQTUMyR0QxYmFkbnZsWkpwVWdV?=
+ =?utf-8?B?d2ZYSlJOTDBhVDVaQk1FYzFvTGgxTzRyOThaQjgyYXo2dHV5UmZJZlFNT2pV?=
+ =?utf-8?B?Q1AydFVFT05RWVNGM2hMSlM0RlRNUzVSTXNNeS9kbW9mQTN0Y3FJMURHTHBL?=
+ =?utf-8?B?ZU5oTkdPbFY5by9pSXRjRysxQmw1SHg4U1h1cDNsei96ZDJ0TTY4TEFLVkcw?=
+ =?utf-8?B?bThYeUpWK21aZkZGUXp1bGZ4RCtFSGpmdlR4SStrYlFIQmxaNEE2QkExa3li?=
+ =?utf-8?B?MjY2cGhvYUVNRGNaZHRYMEp4OVB2bis4V2JFaVVJb2NadVpXMTZYTTNWNVgy?=
+ =?utf-8?B?cE9xNnNFdElWbjRqSVU3aFdhbVYwZzF1dk5WTjcxM0lXUlVuMGMrS2FHQ3Mr?=
+ =?utf-8?B?eWZHMGhjV210NlM5T29yQ25pTVZ2TExsUlFFcUpZeXJhQU4zOHpRLzVrZDBH?=
+ =?utf-8?B?VkxPb3FrWmt6NlUvamhmTXdnZlE5SWJMUnFOR08xYVdndE1lbE5ESTVQRXAz?=
+ =?utf-8?B?anpTN1FXOWJkL1RwK1RHZjJEVzlmUlRLakpMWEFLdzNBdkNCRkxqb1Y3bUhU?=
+ =?utf-8?B?M2o2OXZ3dVc2cm1aRG5nTGZZc3ZqMUxBUVl4VUZqanNXaXpRbVVBN1J1d2Rr?=
+ =?utf-8?B?OTFxOU9Pa1JiNU5kN2pxdG53Wlp5alVhcUZjaGl6S0svYmE3RG9hdiswbW0y?=
+ =?utf-8?B?UHRZS0p4ZDk3Y0llbnB6SDE3SVF0ZFdJWkpsZjdnbGhoUmpuL0ZhY3plSXQ5?=
+ =?utf-8?B?QWRWTTdMUE1iYUU1dmZpRE16MERINmhZYVE2Uk5JdXJkNThRclhZbDhsUHUw?=
+ =?utf-8?B?TnhTNUgzNEFzTHZvWjhQbFdGdDYrdDUrU0hjOWVYU0s4cEZnTzdyMVl2OWtr?=
+ =?utf-8?B?aktDa0NqS2tXckp4dU9USHhzRkNsTFJPRXBsYUEyZE13UlVQc2VGZXcrL1Rh?=
+ =?utf-8?B?R011Ry91cDh5S2xuZ2Nudnl5OWk4LzFhQkI4cUVQRjk3ekJQcHQ1UUQreGVE?=
+ =?utf-8?B?SS9Bb2srVzBKRTVkckFZM0ExZE9NOGZSWDBZSDY0aHV5cm9OZE1peFUvKzFV?=
+ =?utf-8?B?ZVNZSUxmUTNKcWk0OGNzaE1tbkt3QlA4ODFCN1V4RzFwVmRzWk8yT2FWbzhM?=
+ =?utf-8?B?c0ZCdUprcnNBRE1lNm8vaVBIWVJPNmpsbm9Ta1AxM0xhai9uZkh3bnk1dGY0?=
+ =?utf-8?B?M2h5cm8xRzFDZHVVVTBCcWlyMFpRb2hlOUFMTFZ6NmFYTFd0QjNwbGNwZDNL?=
+ =?utf-8?B?RTFmeTlRUnRwU3IxV3RQUGF2STRLcnNiZlFvbEgwYUs4dm5raDY5bkxuR1J5?=
+ =?utf-8?B?dS9sUUxmM2xEY0U5czdramVuQXNqV1poNm4rT1czRXArakRuSWc5T29TQjR0?=
+ =?utf-8?B?YXNEaXppbWdtZ0gra2JqOFY0Rkg2cnNDVVh5Zk1IR3ZXcTYvRU50WG5tN1FP?=
+ =?utf-8?B?VU9vZjZzcXRsM05OTXJKeFN3TnA2UFB1d1JDaFJNNjl4d3ZnN0gwenluWkZ2?=
+ =?utf-8?B?ZUxDd2dJRndVeDhYQUVvZDlTb0F5enlSSUxEcG1iRzlucFBNajdHWnBMZjNJ?=
+ =?utf-8?B?bXc4Y051bTlMRkVFV1Y4M1VpTlE5M25GSzVtZTAxYnpFVlpvTFJkUkJTaDd0?=
+ =?utf-8?B?aWtISVRCQlF3T1BudEJqamUvUzFsQ1NmUTZqKzlRNElWS2hNTldQZjZLMnhH?=
+ =?utf-8?B?SHFRZkNoSUxXVDNtTSthajRZejg3T2RGM282UGd6VEp2UWVvSlNwamRGMEh6?=
+ =?utf-8?Q?OC21HmXw+aMiUvwvsAbZn00=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152729epcas5p17e82d59c68076eb46b5ef658619d65e3@epcas5p1.samsung.com>
- <20220308152105.309618-18-joshi.k@samsung.com> <20220310083652.GF26614@lst.de>
- <CA+1E3rLaQstG8LWUyJrbK5Qz+AnNpOnAyoK-7H5foFm67BJeFA@mail.gmail.com>
- <20220310141945.GA890@lst.de>
-In-Reply-To: <20220310141945.GA890@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Fri, 11 Mar 2022 00:13:24 +0530
-Message-ID: <CA+1E3rL3Q2noHW-cD20SZyo9EqbzjF54F6TgZoUMMuZGkhkqnw@mail.gmail.com>
-Subject: Re: [PATCH 17/17] nvme: enable non-inline passthru commands
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
- Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav <pankydev8@gmail.com>, 
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO3PR08MB7975.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0ce6601-a90a-486e-22e1-08da02c6d31e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2022 18:50:19.4625 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wvXyJaCLZtUeKH5Ripo6LturgWZWKfVrOYbuSORXfKSG3B8llbixYFbn0XXvVYgHk9uuU4u6pGIvSGK1K8gpLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR08MB4118
+X-Proofpoint-GUID: 3xRAsGvLScDhF71bS2OAZALGs-YybvqL
+X-Proofpoint-ORIG-GUID: 3xRAsGvLScDhF71bS2OAZALGs-YybvqL
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220310_104351_712851_A4DEB0C4 
-X-CRM114-Status: GOOD (  25.79  )
+X-CRM114-CacheID: sfid-20220310_105047_569666_3F5AC8A2 
+X-CRM114-Status: GOOD (  16.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,71 +191,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 10, 2022 at 7:49 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Mar 10, 2022 at 05:20:13PM +0530, Kanchan Joshi wrote:
-> > In sync ioctl, we always update this result field by doing put_user on
-> > completion.
-> > For async ioctl, since command is inside the the sqe, its lifetime is
-> > only upto submission. SQE may get reused post submission, leaving no
-> > way to update the "result" field on completion. Had this field been a
-> > pointer, we could have saved this on submission and updated on
-> > completion. But that would require redesigning this structure and
-> > adding newer ioctl in nvme.
->
-> Why would it required adding an ioctl to nvme?  The whole io_uring
-> async_cmd infrastructure is completely independent from ioctls.
-
-io_uring is sure not peeking into ioctl and its command-structure but
-offering the facility to use its sqe to store that ioctl-command
-inline.
-Problem is, the inline facility does not go very well with this
-particular nvme-passthru ioctl (NVME_IOCTL_IO64_CMD).
-And that's because this ioctl requires additional "__u64 result;" to
-be updated within "struct nvme_passthru_cmd64".
-To update that during completion, we need, at the least, the result
-field to be a pointer "__u64 result_ptr" inside the struct
-nvme_passthru_cmd64.
-Do you see that is possible without adding a new passthru ioctl in nvme?
-
-> > Coming back, even though sync-ioctl alway updates this result to
-> > user-space, only a few nvme io commands (e.g. zone-append, copy,
-> > zone-mgmt-send) can return this additional result (spec-wise).
-> > Therefore in nvme, when we are dealing with inline-sqe commands from
-> > io_uring, we never attempt to update the result. And since we don't
-> > update the result, we limit support to only read/write passthru
-> > commands. And fail any other command during submission itself (Patch
-> > 2).
->
-> Yikes.  That is outright horrible.  passthrough needs to be command
-> agnostic and future proof to any newly added nvme command.
-
-This patch (along with patch 16) does exactly that. Makes it
-command-agnostic and future-proof. All nvme-commands will work with
-it.
-Just that application needs to pass the pointer of ioctl-command and
-not place it inline inside the sqe.
-
-Overall, I think at io_uring infra level both submission makes sense:
-big-sqe based inline submission (more efficient for <= 80 bytes) and
-normal-sqe based non-inline/indirect submissions.
-At nvme-level, we have to pick (depending on ioctl in hand). Currently
-we are playing with both and constructing a sort of fast-path (for all
-commands) and another faster-path (only for read/write commands).
-Should we (at nvme-level) rather opt out and use only indirect
-(because it works for all commands) or must we build a way to enable
-inline-one for all commands?
-
-> > > Overly long line.
-> >
-> > Under 100, but sure, can fold it under 80.
->
-> You can only use 100 sparingly if it makes the code more readable.  Which
-> I know is fuzzy, and in practice never does.  Certainly not in nvme and
-> block code.
-
-Clears up, thanks.
-
--- 
-Kanchan
+TWljcm9uIENvbmZpZGVudGlhbA0KDQo+IA0KPiBZb3UgZG8gYm90aCByZWFsaXplIHRoYXQgdGhp
+cyBpcyBqdXN0IHRoZSBmaWxlIHNwZWNpZmljIGhpbnQ/IElub2RlIGJhc2VkIGhpbnRzDQo+IHdp
+bGwgc3RpbGwgd29yayBmaW5lIGZvciBVRlMuDQo+IA0KPiAtLQ0KPiBKZW5zIEF4Ym9lDQoNCkpl
+bnMsDQoNClRoYW5rcyBmb3IgdGhpcyByZXBseS4NCg0KVGhpcyB3aG9sZSBwYXRjaCBzZXJpZXMg
+cmVtb3ZlcyBzdXBwb3J0IGZvciBwZXItYmlvIHdyaXRlX2hpbnQuIA0KV2l0aG91dCBiaW8gd3Jp
+dGVfaGludCwgRjJGUyB3b24ndCBiZSBhYmxlIHRvIGNhc2NhZGUgSG90L1dhcm0vQ29sZCANCmlu
+Zm9ybWF0aW9uIHRvIFNDU0kgLyBVRlMgZHJpdmVyLg0KDQpUaGlzIGlzIG15IGN1cnJlbnQgdW5k
+ZXJzdGFuZGluZy4gSSBtaWdodCBiZSB3cm9uZyBidXQgSSBkb24ndCB0aGluayB3ZSANCkFyZSBj
+b25jZXJuZWQgd2l0aCBpbm9kZSBoaW50IChhcyB3ZWxsIGFzIGZpbGUgaGludHMpLg0KDQpUaGFu
+a3MsDQogIEx1Y2ENCg0KDQpNaWNyb24gQ29uZmlkZW50aWFsDQo=
 
