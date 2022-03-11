@@ -4,28 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24432C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 21:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 163BAC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 21:31:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h3izCrrB93CBYwtoMxE0Bi7jHqe4dGvNIGbN9crwFws=; b=Isz+3LfNb70OPO7kEXJS4klh8W
-	yWI4tNZ2ojCMsBpiFF5cImuom8rNRHpn1VgNAfx6sEEjD17i73k6mrrU84z2ghrZ8z5HN1OJ3Zv37
-	LjKhGvWIEJXIutQu9vMEkvjrm5W7ZIWzfCrC5S2pYNNkxMSv8+tynydCurPbhyou6NNDZkAMqVctj
-	QZjz63wzvzEIA+39elh1o6dBnDgHWbYYdA7EIeli2c8v3TuHBVjXUs2iu82hj/2UXD7UZzcf6tkqr
-	ovXMG9I+fbnFJTk2avhs1x2lBBovA7EtI9sgjsncUBW8K4ABCLKhafqfE6iVvjU8hDcbTCHpuqdDc
-	3vY3h9XQ==;
+	bh=R6SrLsiZNR7I2d24mmXxAcEAkf9sreW64GXvKPxhXEY=; b=PISUXmDVioU6Ltn7KopfLk3uLV
+	TkEYRrtvZFIjssDQXsPUMLAdhZP3DDGwJ9PR+KQoSTEr8oRRmvcs1NKWr4JgDoY0VqgXL6cx0f8Yc
+	bjQHm3BpZy3SkzNO2LWglre0TiQwlY8OgGK5B8qLIm4B5Na5bKaLFEMz+EUWGtd5dtKdzXtTcV58n
+	pG8oZ/HGahO+eBk2zvZfJ02+IuE/Kr6M/qcpHl7x1ILd/gIfHPC8w4i7eugsR5iqhr8ytZIviO7rp
+	SGxHAOQDtCLxeuiZxF4Rd7YLptYYGIfEFBK9bmd7biFKhsMJ95/B51gFEIrb3BwUgE8B9Kg5ABXbj
+	4m8cNevw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSmSz-000IBe-CI; Fri, 11 Mar 2022 21:06:29 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1nSmR9-000HGX-64; Fri, 11 Mar 2022 21:04:35 +0000
-Date: Fri, 11 Mar 2022 13:04:35 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
+	id 1nSmqr-000LUe-OY; Fri, 11 Mar 2022 21:31:09 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSmqo-000LTv-LZ
+ for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 21:31:07 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 272CC61FB5;
+ Fri, 11 Mar 2022 21:31:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8779EC340E9;
+ Fri, 11 Mar 2022 21:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647034265;
+ bh=hYel3HbpvLen6sZ3euben+avywStvvz0gp95k3KsGBk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qpUuCWrCbsGl/LITMp1atVWBazFlnkYOWtEbc3DsKA1++oysWd5hGW3/PXkhS7ZY0
+ CpKdqSlg9/3iwHmT0vTqdf7tXpplB6NPuoqnlDf8nLqRs5QF7ojqd6R+WYXC3lqoqc
+ TkgSoYtCNLGAEeCZNv7aT1hg3sUKBpD6CposEQkRKdJFNFi1rk8W1XLZDUJDbXEWw0
+ BwS26apkIj8l9pqKb6G+ElCEk6ELp9mDMA7eaon6rTbtOEAtF487QSpoMXGg1PUZb0
+ 2LZFD93Sf/Fg6pzvjLjbh9eyCdXfgZO4lASBKSBA04rjA5MgjKTLYqfrC7Fr35lzB4
+ O8jwE1TKTUznw==
+Date: Fri, 11 Mar 2022 13:31:02 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <p.raghav@samsung.com>,
  Adam Manzanares <a.manzanares@samsung.com>,
  Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
@@ -37,7 +56,7 @@ Cc: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <p.raghav@samsung.com>,
  linux-nvme@lists.infradead.org,
  Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
-Message-ID: <Yiu5YzxU/PjxLiUL@bombadil.infradead.org>
+Message-ID: <20220311213102.GA2309@dhcp-10-100-145-180.wdc.com>
 References: <CGME20220308165414eucas1p106df0bd6a901931215cfab81660a4564@eucas1p1.samsung.com>
  <20220308165349.231320-1-p.raghav@samsung.com>
  <20220310094725.GA28499@lst.de>
@@ -45,10 +64,14 @@ References: <CGME20220308165414eucas1p106df0bd6a901931215cfab81660a4564@eucas1p1
  <20220310144449.GA1695@lst.de>
  <Yiuu2h38owO9ioIW@bombadil.infradead.org>
  <20220311205135.GA413653@dhcp-10-100-145-180.wdc.com>
+ <Yiu5YzxU/PjxLiUL@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220311205135.GA413653@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <Yiu5YzxU/PjxLiUL@bombadil.infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220311_133106_773233_C8EF8D43 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,33 +86,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 11, 2022 at 12:51:35PM -0800, Keith Busch wrote:
-> On Fri, Mar 11, 2022 at 12:19:38PM -0800, Luis Chamberlain wrote:
-> > NAND has no PO2 requirement. The emulation effort was only done to help
-> > add support for !PO2 devices because there is no alternative. If we
-> > however are ready instead to go down the avenue of removing those
-> > restrictions well let's go there then instead. If that's not even
-> > something we are willing to consider I'd really like folks who stand
-> > behind the PO2 requirement to stick their necks out and clearly say that
-> > their hw/fw teams are happy to deal with this requirement forever on ZNS.
+On Fri, Mar 11, 2022 at 01:04:35PM -0800, Luis Chamberlain wrote:
+> On Fri, Mar 11, 2022 at 12:51:35PM -0800, Keith Busch wrote:
 > 
-> Regardless of the merits of the current OS requirement, it's a trivial
-> matter for firmware to round up their reported zone size to the next
-> power of 2. This does not create a significant burden on their part, as
-> far as I know.
+> > I'm starting to like the previous idea of creating an unholey
+> > device-mapper for such users...
+> 
+> Won't that restrict nvme with chunk size crap. For instance later if we
+> want much larger block sizes.
 
-Sure sure.. fw can do crap like that too...
-
-> And po2 does not even seem to be the real problem here. The holes seem
-> to be what's causing a concern, which you have even without po2 zones.
-
-Exactly.
-
-> I'm starting to like the previous idea of creating an unholey
-> device-mapper for such users...
-
-Won't that restrict nvme with chunk size crap. For instance later if we
-want much larger block sizes.
-
-  Luis
+I'm not sure I understand. The chunk_size has nothing to do with the
+block size. And while nvme is a user of this in some circumstances, it
+can't be used concurrently with ZNS because the block layer appropriates
+the field for the zone size.
 
