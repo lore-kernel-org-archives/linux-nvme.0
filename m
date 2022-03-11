@@ -4,163 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5DD3C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 09:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CA6EC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 10:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q5wvnU47cNNRPU3V481aLVb+rtloYqTGJfrugq6vR+o=; b=1v9UaWNDiTnQo4bR4OlmG69E1U
-	6e4d64Xyl6eLQDPXZGbYVsPmhXEqjyLry7hgqqpIc/cAbCNJm2Dvx+ariYYYvX73Y3+J9GwTRne4o
-	RESy9GAX8BrD4qIu2FzcXzyExS1ZwCmKuLeei2znnSECbUTNSetlQjKtJOVSCqBgrpuyLz0JoUUzg
-	IkcngEDZ5dBS+j3dYAnAx/haXH0J1ZGTPv6zz0js/RHZKZnQRViU4pBcU/ZJ2/Ew7sEzXrbEN7R7b
-	6vpBuXxvtSQ5os2TS4FprfZ985emzQp+TCMSi/6FXkg+rtyj+SwZzL8BNhUtgqETnBgfyhaAzZcrO
-	rnAWTTPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=SEKI2PhkodDRFAXWlUOkX5Z0g6mXKSzC4yPCVkXzMRo=; b=ic0w07M2AAB8ZOk24ERrUrBIRz
+	LTGJ1o5IJJK/a/uxhyXWjc8ZLO+L3bSXnAMh6AYUMVcgtF2J5ZFx6QpYcdLOw3hc3cgJ0VHBrCoMI
+	DrnR9JS0igdz4IUm4nrObI6Q3qVYdvKQrH0ls5cbqJT7D4swPWtAhyrAelpR/qlmcH+W6LZVuU7yQ
+	4pLFFTvD2oN5oofqeyM0Sz+YuHeziEg5WbPXRblDCU+kPoOe5LpvXbqDheZcpza+FPse7w5MfsQbB
+	3C0olFIoOqI3cMlMdHLwLb9BDYHUh33vHrgJNU82TuH9Zn/vhMdKu8vRWNLVKvxho11Py+h2mQxQ3
+	yQTpm5Yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSbUY-00Fn3i-UQ; Fri, 11 Mar 2022 09:23:22 +0000
-Received: from mx0a-003b2802.pphosted.com ([205.220.168.83])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSbUX-00Fn3N-1Z
- for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 09:23:22 +0000
-Received: from pps.filterd (m0278966.ppops.net [127.0.0.1])
- by mx0a-003b2802.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22B3ehmJ005462;
- Fri, 11 Mar 2022 02:23:16 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Q5wvnU47cNNRPU3V481aLVb+rtloYqTGJfrugq6vR+o=;
- b=nM0np0dTNftXy/ileOy+1tDM3iuAytdfjOBjvLy4HiNXnAsktbePSe6fAbsoZqyK64r1
- ihnDyCj4DHExopWr5wAYsZUOxODrg/YOlTYbS4fFKOtzX69aZvGd7pW+ocm+Jrm8FEHg
- sl/jWcYfxd3waWCLGdv9YiCYLl4lv30hwtK2uISDtr6MQuD97hNjOVDQ28/LTlt2+j68
- 2BfLnw1cOOo/zzGS1ZgV+dA4DO0MP4sEJmnGftKSbNqU7qvfb320KHaaLP8wurXrvqr9
- xo1Awmy7LSY7Lr04cWey0MOYYlzjm3CCss+F/joe3tVefzgQdP/2hmCYHvHV7xE2CxEw 1w== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam08lp2172.outbound.protection.outlook.com [104.47.73.172])
- by mx0a-003b2802.pphosted.com (PPS) with ESMTPS id 3em5bgpx79-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 02:23:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DwNzg387IOqA+Alk8oJbjaBT/oaOdIwj3DEMsPxV4ukVUoDebvl/DH+5YApuFp5JcNk2lmAKACHUVq5VVDvYW09WKbMfzxptx4O3IHAcYkmRICk9V8Cg8tnIpJR2PdkilMn3NFfp7KCPoz1apLJh9zrEXuAGMXCP0IV0DL7+3jEVSWWClEpQpQL3IZxTeDMOqYAbq5nkewYRHpMfMkO+3rJqnWP8f76J3kJkwMNOkA1ddRa0oy2VSNJrkiCMXNLo6zK3Sk2jQd6AmvG/fxI2MKQQESS9aD0pTKMLiGHDvmSpoSOnUgewEYY5xIT3fwGxDOqf04YYT6U9d7iDnFc2Jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q5wvnU47cNNRPU3V481aLVb+rtloYqTGJfrugq6vR+o=;
- b=jbIkw+Y5MRu/VuDhdnYqFC+bZHTT4JzlyR3irqGrgiyu5Ag5IRlhBTYSkXZlzJLAP9DOctd/ZCgh7SPGpRgTCFjtXclzGbwvz662mipoVBQRzu70VPz0LeomOSibrwScLrHQ6ncq4lF1/oc90pw5/PAwd+mDQrPpb56GRj5iInr0I7XetxcyYrz2FeQNDMM/bLh/g8kXH/fkujfLVnZBxEFREat3x5MWWY6jnWKCuwBHY/YWY0GOxIftMKRwvoTIyUrHdBWAhvWMJ8LsJJj29pwuNar27C8w4Vxy1YbAoM8MIBYgjcAP1cuZx4gC7V8ChBkPBZ4CY7gSe3yusX+j1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=micron.com; dmarc=pass action=none header.from=micron.com;
- dkim=pass header.d=micron.com; arc=none
-Received: from CO3PR08MB7975.namprd08.prod.outlook.com (2603:10b6:303:166::10)
- by CY1PR0801MB2282.namprd08.prod.outlook.com
- (2a01:111:e400:c618::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Fri, 11 Mar
- 2022 09:23:13 +0000
-Received: from CO3PR08MB7975.namprd08.prod.outlook.com
- ([fe80::106d:1c1:99ae:45ac]) by CO3PR08MB7975.namprd08.prod.outlook.com
- ([fe80::106d:1c1:99ae:45ac%9]) with mapi id 15.20.5061.024; Fri, 11 Mar 2022
- 09:23:13 +0000
-From: "Luca Porzio (lporzio)" <lporzio@micron.com>
-To: Eric Biggers <ebiggers@kernel.org>
-CC: "hch@lst.de" <hch@lst.de>, Manjong Lee <mj0123.lee@samsung.com>,
- "david@fromorbit.com" <david@fromorbit.com>, "axboe@kernel.dk"
- <axboe@kernel.dk>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "song@kernel.org" <song@kernel.org>,
- "seunghwan.hyun@samsung.com" <seunghwan.hyun@samsung.com>,
- "sookwan7.kim@samsung.com" <sookwan7.kim@samsung.com>,
- "nanich.lee@samsung.com" <nanich.lee@samsung.com>,
- "woosung2.lee@samsung.com" <woosung2.lee@samsung.com>,
- "yt0928.kim@samsung.com" <yt0928.kim@samsung.com>,
- "junho89.kim@samsung.com" <junho89.kim@samsung.com>,
- "jisoo2146.oh@samsung.com" <jisoo2146.oh@samsung.com>
-Subject: RE: [EXT] Re: [PATCH 2/2] block: remove the per-bio/request write
- hint.
-Thread-Topic: [EXT] Re: [PATCH 2/2] block: remove the per-bio/request write
- hint.
-Thread-Index: AQHYM213hUiroX0Mx0m03tMAg0KZ2Ky4fWtAgAAwFACAAEsrEIAAq+gAgABHedA=
-Date: Fri, 11 Mar 2022 09:23:12 +0000
-Message-ID: <CO3PR08MB7975906A41E28FCBA0DAC41BDC0C9@CO3PR08MB7975.namprd08.prod.outlook.com>
-References: <20220306231727.GP3927073@dread.disaster.area>
- <CGME20220309042324epcas1p111312e20f4429dc3a17172458284a923@epcas1p1.samsung.com>
- <20220309133119.6915-1-mj0123.lee@samsung.com>
- <CO3PR08MB797524ACBF04B861D48AF612DC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
- <20220310142148.GA1069@lst.de>
- <CO3PR08MB7975AB3E282C7DA35A5B1CF0DC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
- <YirYvvIBW+XNGvxP@sol.localdomain>
-In-Reply-To: <YirYvvIBW+XNGvxP@sol.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_Enabled=true;
- MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_SetDate=2022-03-11T09:22:06Z; 
- MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_Method=Privileged;
- MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_Name=Public;
- MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_SiteId=f38a5ecd-2813-4862-b11b-ac1d563c806f;
- MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_ActionId=fbe66a85-b0fe-40f2-8775-25f085a93321;
- MSIP_Label_6fdea275-d6f3-438f-b8d8-013cab2023d3_ContentBits=0
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a9cb5e77-0b1c-40b8-c94d-08da0340c426
-x-ms-traffictypediagnostic: CY1PR0801MB2282:EE_
-x-microsoft-antispam-prvs: <CY1PR0801MB2282DD79B788004B7BF857EDDC0C9@CY1PR0801MB2282.namprd08.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ysp3x3xYVuV/gWNbbAR9qnGrVNi5nrhlr05KnNZ8zMPnqQIb4HXkJZmYvdbH498z1JRoKx0m9bwuOS5oH7Q0aUM8sUZgPc9neCwjWsys4kaNo5mPtit0yQUMw1gn7OrSvGWw7kkS8JQlpgRtrIvsmwmc90vlpSIAJAftVmb4tPl/hzYVdno7XQAznjCU3CvOHWbxwcbZdxIq790A82Rqg8SUSGQgaAPiD4La+YLcH0DrgnlSbK5q6PAlnXo1ogL1+amxR9skq6RZXJG+iSkQvWF1cyjgQESl9x8h7EPm0viKD3GAe6se4oJBE6W9y1ZbK6tvW3WtmJLJYzfVfdVQy2VDzLq3lO2VI7w0eN/cGz2Qho9icbjc4nVve73LDjyZLu8fMX4YTiPsrwRNSebTXHeepwVePTPY/XUAQTGMUG87RHPtWYjdqB9brWn1veiqlWBgZIez5vpaSfG6BjNOUUZ1SlIUagPy75OkI37HyI6Go/1A1aNwtsNBs+4g5hQGgEWZ20lPYHx2E30GwQeMbQOqNmvLjkM5c1cQINDoyAoLhTU+3fEjTLAorkYwrqFyGIW2N+XQCLViUhLmGcXVy4hMxuvFHB4EZz5VmW0mfoyczeN5kL+sf/RGFo3JI8BaQ/cB6TTD04iB5j7tXp95SGv0Sq1Pgk0xtjgIqK8BB3rOu5jSt7S2CmBxjsBXr9vHmI6tPIufTU+k9J7fFWVe4w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO3PR08MB7975.namprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8676002)(4326008)(33656002)(86362001)(76116006)(508600001)(66556008)(66446008)(66476007)(52536014)(7416002)(316002)(8936002)(5660300002)(64756008)(122000001)(66946007)(38100700002)(38070700005)(186003)(7696005)(6506007)(26005)(54906003)(4744005)(9686003)(71200400001)(6916009)(55016003)(2906002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PZx//c4u/Aj/sB8dHT4oFuKN2AiFgwGzHzhoLm7n5KFOvq2Jdvuh6BWnvFXL?=
- =?us-ascii?Q?iSYNR1Lv9AowL9+64ziIS5Yl/+LP9V4ZYaPYcnFJR41xgKO2ffdIXe3xIMzO?=
- =?us-ascii?Q?ow9dlmyKf3NvMZJwIfxcfsl6tWi9fpTI7VplvzqMA3O4zf7y4KQhF0Fn/xXS?=
- =?us-ascii?Q?9Ah9SulUl5W4qpyD/hpl3FdM1K7EWNy6k/5yZywh2kUeGs/5s2PelMXafpwQ?=
- =?us-ascii?Q?Lwj7dJC3vq8he5bVToRyWJxvtlznlEOaWe9DdAW4KaahCz/6nmRNn3vwDkhN?=
- =?us-ascii?Q?SpCh3sJ3jCVTbjn4DTAvkI1VOJ7bXXu5uwNfjwCxPfCwEWh2eSMB6TMFDaYc?=
- =?us-ascii?Q?zJTw+gzp7cjHwMjHH0IHshzASR9z8rIpWz9/4CLJ8AmH8KAKwPtUsEnj3EB9?=
- =?us-ascii?Q?BXicOsjDa1kHsoIHJHqmvqz+ranCIzS0mA8CVH4DivZQKHkWO2h4EYOI60Ul?=
- =?us-ascii?Q?ros0m/waDqha3xbcrDdi4+4lFgnUfbpo0vEyHhkwVMqNaf1HRCli4ntTOaNH?=
- =?us-ascii?Q?xgFwCGWoq66MamrACcoLEOtVxtc0g3YtyQzty83Va2E5t5Fmpy7DQhAM7+Zq?=
- =?us-ascii?Q?djAtI74Y9hL5jUNEa7oGWvfpwCTVTwdBUecluCeyU7oL5OX4XLP7n/WHqP7I?=
- =?us-ascii?Q?vRsY4UsqMhZgFvWWTqpHF1ASYRHJ70FWvsBLV9TQG3FQwCXba0kzHeHNcU2A?=
- =?us-ascii?Q?wnNqKhKbNS93aZgcAiAST470oZWw6ParcjCRlGf7JQeZf5wZee//wY7VSX/T?=
- =?us-ascii?Q?5wrsp5lD9+Z505xhIvIxiVNS4FTfmimmUMDh5qhO/lNIh4Sao6dzCjpL3dHj?=
- =?us-ascii?Q?rPxosN2PoB+vZV7W6UkJ4z/Jdc3VV9ZhZkcr6DHA7lej/yWXNFIxqeL3VDVt?=
- =?us-ascii?Q?BFVuYh7aKTnVj/Qon5a5gnRK3fmKJigydLFqD6N6Nd+94RnSlsJnNnDHTZ3s?=
- =?us-ascii?Q?Sgpx5ykY363ZovThBUacEIEthSi+YNnIu6+AD7YoWo8oRkk2vWBw8Gr9S+EQ?=
- =?us-ascii?Q?MoYqlwedJobXyBvGJ8aTGfO+H/9J6WJDdGkHs71HGCIljnRMaCTbIa+dorE/?=
- =?us-ascii?Q?vJ1cX2dRCFAcLkq5BKZzEmAOHaHftujSSZLEzcI9y1t5GqGpTm3/tuq0dl3J?=
- =?us-ascii?Q?zWH9qCI6fO/vfNcZ3OoDf81KvlhUgsEPPcmXjixugCvWwFcS28Snx6B7zNU8?=
- =?us-ascii?Q?CXyxxHLr2ONpqKsqjAQ3bk7sH8x+gxxlXx2hnEQcIS/X8M/LbvVoZZ0bTQgS?=
- =?us-ascii?Q?GQPkf4cYmUVZ0Ie+zE8C/qPNK52sLzzLBQt4X9dAFFSCPocwC3441MoMjH9O?=
- =?us-ascii?Q?KZPttfOULsm+yOtwsn6r1GIyJvwrsTaqg8xNs+F/bRPMr/kTcoaEM1fjCpgf?=
- =?us-ascii?Q?SdUBWdYZm2YpbLX7JLnClZpdweWoDaUkt2rxQrD8XtIb46CqPh2tQie3L6Kz?=
- =?us-ascii?Q?hqiYy0B+xYyeRlHDQQbu3hI8h2ZEGWXl?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	id 1nSccU-00G1jh-OP; Fri, 11 Mar 2022 10:35:38 +0000
+Received: from smtprz01.163.net ([106.3.154.234] helo=smtp.tom.com)
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSccQ-00G1fm-Iv
+ for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 10:35:37 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by vip-app02.163.net (Postfix) with ESMTP id 07C5F440174
+ for <linux-nvme@lists.infradead.org>; Fri, 11 Mar 2022 18:35:32 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1646994932; bh=R3j49KALSMnjuQeiVsymhqxJED/9xKOwSzuBBzckNSQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QO0EVADPJ5mFvA8UeB0V34xyUlisp93dZm+qOTIt7hokBK7A+9fqnHsZlziYK/Wp0
+ W5RbrCyqhzjPdLb+eLGQFOD/Z4d1qeoXasmSgTvXwvdjUtqA7zeEWWk9X9DSiO8HKY
+ DPg7L1k8fnXslzoNHbhaQLQsVRxGaeGxl3q/xc98=
+Received: from localhost (HELO smtp.tom.com) ([127.0.0.1])
+ by localhost (TOM SMTP Server) with SMTP ID 1306936709
+ for <linux-nvme@lists.infradead.org>;
+ Fri, 11 Mar 2022 18:35:32 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1646994932; bh=R3j49KALSMnjuQeiVsymhqxJED/9xKOwSzuBBzckNSQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QO0EVADPJ5mFvA8UeB0V34xyUlisp93dZm+qOTIt7hokBK7A+9fqnHsZlziYK/Wp0
+ W5RbrCyqhzjPdLb+eLGQFOD/Z4d1qeoXasmSgTvXwvdjUtqA7zeEWWk9X9DSiO8HKY
+ DPg7L1k8fnXslzoNHbhaQLQsVRxGaeGxl3q/xc98=
+Received: from localhost.localdomain (unknown [101.93.196.13])
+ by antispamvip.163.net (Postfix) with ESMTPA id 1DF371541564;
+ Fri, 11 Mar 2022 18:35:23 +0800 (CST)
+From: Mingbao Sun <sunmingbao@tom.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ netdev@vger.kernel.org
+Cc: sunmingbao@tom.com, tyler.sun@dell.com, ping.gan@dell.com,
+ yanxiu.cai@dell.com, libin.zhang@dell.com, ao.sun@dell.com
+Subject: [PATCH v2 1/3] tcp: export symbol tcp_set_congestion_control
+Date: Fri, 11 Mar 2022 18:34:12 +0800
+Message-Id: <20220311103414.8255-1-sunmingbao@tom.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: micron.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO3PR08MB7975.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9cb5e77-0b1c-40b8-c94d-08da0340c426
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2022 09:23:12.9075 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f38a5ecd-2813-4862-b11b-ac1d563c806f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nreBQUcm5XntFem8X4CSehHZXcp82e5anvKahzbSDHC7jptyvuaBujJFR58RRaigv9BnBlWFGz9YvDcdTFGGAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0801MB2282
-X-Proofpoint-GUID: fJBtJeweGgxYpCNH7zPgw-KBJoqAtZpx
-X-Proofpoint-ORIG-GUID: fJBtJeweGgxYpCNH7zPgw-KBJoqAtZpx
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220311_012321_111445_D2A4F616 
-X-CRM114-Status: GOOD (  16.46  )
+X-CRM114-CacheID: sfid-20220311_023535_015035_F5E6139B 
+X-CRM114-Status: GOOD (  13.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -175,28 +83,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->=20
-> On Thu, Mar 10, 2022 at 06:51:39PM +0000, Luca Porzio (lporzio) wrote:
-> >
-> > Micron Confidential
->=20
-> This is a public mailing list, so please do not use this header/footer.
+From: Mingbao Sun <tyler.sun@dell.com>
 
-Eric,
+congestion-control could have a noticeable impaction on the
+performance of TCP-based communications. This is of course true
+to NVMe/TCP in the kernel.
 
-I am sorry, sometimes it is hard for me to cope with all the company proxie=
-s/firewall.
-I'll try to make sure this won't happen in future.
+Different congestion-controls (e.g., cubic, dctcp) are suitable for
+different scenarios. Proper adoption of congestion control would
+benefit the performance. On the contrary, the performance could be
+destroyed.
 
->=20
-> > it is used across the (Android) ecosystem.
->=20
-> So why hasn't it been submitted upstream?
+So to gain excellent performance against different network
+environments, NVMe/TCP tends to support specifying the
+congestion-control.
 
-I'm not sure about this but I am open to fix this for future.
+This means NVMe/TCP (a kernel user) needs to set the congestion-control
+of its TCP sockets.
 
->=20
-> - Eric
+Since the kernel API 'kernel_setsockopt' was removed, and since the
+function ‘tcp_set_congestion_control’ is just the real underlying guy
+handling this job, so it makes sense to get it exported.
 
-Luca
+Signed-off-by: Mingbao Sun <tyler.sun@dell.com>
+---
+ net/ipv4/tcp_cong.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/net/ipv4/tcp_cong.c b/net/ipv4/tcp_cong.c
+index db5831e6c136..1d6a23e42f7d 100644
+--- a/net/ipv4/tcp_cong.c
++++ b/net/ipv4/tcp_cong.c
+@@ -344,10 +344,20 @@ int tcp_set_allowed_congestion_control(char *val)
+ 	return ret;
+ }
+ 
+-/* Change congestion control for socket. If load is false, then it is the
+- * responsibility of the caller to call tcp_init_congestion_control or
+- * tcp_reinit_congestion_control (if the current congestion control was
+- * already initialized.
++/**
++ * tcp_set_congestion_control - set a sock's congestion control
++ * @sk:            the sock.
++ * @name:          the desired congestion control.
++ * @load:          whether to load the required module in case not loaded.
++ * @cap_net_admin: indicating if the caller have the CAP_NET_ADMIN.
++ *
++ * Returns 0 or an error.
++ *
++ * Must be called on a locked sock.
++ *
++ * If load is false, then it is the responsibility of the caller to call
++ * tcp_init_congestion_control or tcp_reinit_congestion_control (if the
++ * current congestion control was already initialized).
+  */
+ int tcp_set_congestion_control(struct sock *sk, const char *name, bool load,
+ 			       bool cap_net_admin)
+@@ -383,6 +393,7 @@ int tcp_set_congestion_control(struct sock *sk, const char *name, bool load,
+ 	rcu_read_unlock();
+ 	return err;
+ }
++EXPORT_SYMBOL_GPL(tcp_set_congestion_control);
+ 
+ /* Slow start is used when congestion window is no greater than the slow start
+  * threshold. We base on RFC2581 and also handle stretch ACKs properly.
+-- 
+2.26.2
+
 
