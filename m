@@ -4,53 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECB9EC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 21:02:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B764BC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 21:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xrkMsT6XPANqLk5GgYC5BUODbPJFQSrD5uKd2h8hjI0=; b=oI/Yt2mzKAHGQXfYowVPxykT5W
-	2EEHvv0hxSMkOBPqPyalveLVV3x234fkGTZ5ZsDhQ0PxsBHKbxNZbMatvkVGeduBi6blzfV0WcU/5
-	mb0JpA9ZF+nSvIWkGq1tTyJaSRfOSreRey5QZyEGsgDNVlw9Cup8PcpTPpR0Ys1+ouu1oJTDKuLf5
-	m+IWK4eCo7aNUhDEzGCLzAsbwoOLiXMFdAQWLueK0/V+u1qc3eQGFlM3OjXhW9zm3XxdkeOzTrBkb
-	FLWmgRd4nqU/kHCVm6HzCafdXpv92p5x2NxYpzOSVo5JVNJ6Yq8E9mO1GQOnj1JRk7plwDCc7xXwO
-	kNmN7BAA==;
+	bh=Hz8SKz3vqNTHEdMarFDopqt0Y8Qo36VGxxJ8RjLX2d8=; b=ngphFG6BsBDVmLaxKr4/1OFSYG
+	H9sYn9FAROfG9kq9kes9lNEICN1QexvH7zqY+UQ7ux9acvSDndKGtHA+8IlfVjk7iohEXzf4//mj9
+	PVAsgtumx1zhPpmZzWT+AiEBm2plMBIYYIHgQxcvhRkLmpND3JM5hturyTnDe/jpTBo0opciGnY6t
+	82HgmhI/lFAEbeZ30Kg5F/xLlDgB0aW+1etHQK4aRquxHlSnc5Cezvry/Jo9FYU8OyCLUOgSZ2r+U
+	pNwG3dDbkFpvGBuRVVug2U6q34V1fNXUYWjazHW//vUbWhKKm8JLvwGXyWy2BvhbBfeWQF/lV+daM
+	Afrje4nA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSmOy-000GrX-1p; Fri, 11 Mar 2022 21:02:20 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1nSmOw-000GrH-B8; Fri, 11 Mar 2022 21:02:18 +0000
-Date: Fri, 11 Mar 2022 13:02:18 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
- Yonghong Song <yhs@fb.com>, John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>,
- linux-security-module@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
- kbusch@kernel.org, asml.silence@gmail.com, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- sbates@raithlin.com, logang@deltatee.com, pankydev8@gmail.com,
- javier@javigon.com, a.manzanares@samsung.com, joshiiitr@gmail.com,
- anuj20.g@samsung.com
-Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
- char-device.
-Message-ID: <Yiu42rLif7FSwrjP@bombadil.infradead.org>
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152702epcas5p1eb1880e024ac8b9531c85a82f31a4e78@epcas5p1.samsung.com>
- <20220308152105.309618-6-joshi.k@samsung.com>
- <YiuNZ7+KUjLtuYkr@bombadil.infradead.org>
- <CAHC9VhTnpO6LyaYWDTjJAy_ztGw+qqf-YS0W7S-djyZVnydVHg@mail.gmail.com>
+	id 1nSmQf-000H9N-Nk; Fri, 11 Mar 2022 21:04:05 +0000
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSmQd-000H91-Tx
+ for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 21:04:05 +0000
+Received: by mail-ej1-x62e.google.com with SMTP id qt6so21561044ejb.11
+ for <linux-nvme@lists.infradead.org>; Fri, 11 Mar 2022 13:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Hz8SKz3vqNTHEdMarFDopqt0Y8Qo36VGxxJ8RjLX2d8=;
+ b=QaVKUnd8Daq+++Zdr5clrEyleIJTvKQptUV48ylT4R0VvqyrGsnJN+fXTvCLm3TMoj
+ OqRn4LOcvddRKjCTxgU17nxYVD1T4n1ExcOc6LQFFblCynSat/PzeM9vg5LzdOmYr9Qh
+ cpEZvmXuzsUnya0p87l/7pJsjhMuw2ogULcDr+4TG8QI6DEre4whBEsfbmbUTzCWIJVn
+ +kFlk6h38BDtlDKaj+Nqfi1L8V13RXB416SSHvReKNmmyqbDlGaREXx5ikDpmDMHdfrN
+ hHQwI4GF/oyQEKGH4eD4xwvg6notXRNUMniKJ/n/bNopRNhZjpFIImTiBdMZgaIZBDJN
+ q1BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Hz8SKz3vqNTHEdMarFDopqt0Y8Qo36VGxxJ8RjLX2d8=;
+ b=O52/HnQ7f9m5vTLGuU9pUAWvEurOmYOgrOJwMXMTK91G6Vh2e+LTBMJo+nEr4qdhPo
+ WrItbaFrHlU8Uf6znbLV3E5Rx1n7jXluDN3EroI/jco6ygoGdXThuaSQpW7tcdjK8yqP
+ cATRT6weGT0LbYuMO62bNDZRYChSIwQ2m5jzcVNbKli0TWJcfhX1xxgUKaqXYu501zJk
+ naD0A2vda7c5ns+xpOCt3C1GYCEe0jJDMGvg+fAN2nGfDoqr2bdCNlRo2hq7kbaTvJbn
+ blvqodHjgcT2peFry9EM970DG6faVQ57UHgcGdT8E2f+0bk7njZoknhj3cCvz3j2F/J4
+ nctA==
+X-Gm-Message-State: AOAM532WfTDTG4g7q6X1+D5S7+W0kIxknkLmT4KjcyjJwb7I6uZ/u6g8
+ Nc8Vt1ppqBwOOmnEaarPwR01pxcTYIWtoAWaWPjS
+X-Google-Smtp-Source: ABdhPJyloP5d/fFdqrGGVZbmDAVrW+gXh4LPwR3nCX2OxQ0e7wBzX1fVCnVY1UhHJrTFlIE4WKNbHs0zz5AUFwnEYjU=
+X-Received: by 2002:a17:906:4443:b0:6cf:6a7d:5f9b with SMTP id
+ i3-20020a170906444300b006cf6a7d5f9bmr9966406ejp.12.1647032642056; Fri, 11 Mar
+ 2022 13:04:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhTnpO6LyaYWDTjJAy_ztGw+qqf-YS0W7S-djyZVnydVHg@mail.gmail.com>
+References: <20220308152105.309618-1-joshi.k@samsung.com>
+ <CGME20220308152658epcas5p3929bd1fcf75edc505fec71901158d1b5@epcas5p3.samsung.com>
+ <20220308152105.309618-4-joshi.k@samsung.com>
+ <YiqrE4K5TWeB7aLd@bombadil.infradead.org>
+ <e3bfd028-ece7-d969-f47c-1181b17ac919@kernel.dk>
+ <YiuC1fhEiRdo5bPd@bombadil.infradead.org>
+ <CAHC9VhSNMH8XAKa43kCR8fZj-B1ucCd3R6WXOo3B4z80Bw2Kkw@mail.gmail.com>
+ <Yiu3x/Fxt/b5rNWB@bombadil.infradead.org>
+In-Reply-To: <Yiu3x/Fxt/b5rNWB@bombadil.infradead.org>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 11 Mar 2022 16:03:51 -0500
+Message-ID: <CAHC9VhTzQZX=QCKOrk8NNaVZkOwSyRbf8iZZDCu0TFw+uEmwUw@mail.gmail.com>
+Subject: Re: [PATCH 03/17] io_uring: add infra and support for
+ IORING_OP_URING_CMD
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-security-module@vger.kernel.org, 
+ linux-audit@redhat.com, Kanchan Joshi <joshi.k@samsung.com>, jmorris@namei.org,
+ serge@hallyn.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+ kafai@fb.com, songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com, 
+ kpsingh@kernel.org, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com, 
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-block@vger.kernel.org, sbates@raithlin.com, logang@deltatee.com, 
+ pankydev8@gmail.com, javier@javigon.com, a.manzanares@samsung.com, 
+ joshiiitr@gmail.com, anuj20.g@samsung.com, selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220311_130403_991485_E1AAF8AA 
+X-CRM114-Status: GOOD (  15.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,59 +97,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 11, 2022 at 01:53:03PM -0500, Paul Moore wrote:
-> On Fri, Mar 11, 2022 at 12:56 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Tue, Mar 08, 2022 at 08:50:53PM +0530, Kanchan Joshi wrote:
-> > > diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> > > index 5c9cd9695519..1df270b47af5 100644
-> > > --- a/drivers/nvme/host/ioctl.c
-> > > +++ b/drivers/nvme/host/ioctl.c
-> > > @@ -369,6 +469,33 @@ long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> > >       return __nvme_ioctl(ns, cmd, (void __user *)arg);
-> > >  }
-> > >
-> > > +static int nvme_ns_async_ioctl(struct nvme_ns *ns, struct io_uring_cmd *ioucmd)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     BUILD_BUG_ON(sizeof(struct nvme_uring_cmd_pdu) > sizeof(ioucmd->pdu));
-> > > +
-> > > +     switch (ioucmd->cmd_op) {
-> > > +     case NVME_IOCTL_IO64_CMD:
-> > > +             ret = nvme_user_cmd64(ns->ctrl, ns, NULL, ioucmd);
-> > > +             break;
-> > > +     default:
-> > > +             ret = -ENOTTY;
-> > > +     }
-> > > +
-> > > +     if (ret >= 0)
-> > > +             ret = -EIOCBQUEUED;
-> > > +     return ret;
-> > > +}
-> >
-> > And here I think we'll need something like this:
-> 
-> If we can promise that we will have a LSM hook for all of the
-> file_operations::async_cmd implementations that are security relevant
-> we could skip the LSM passthrough hook at the io_uring layer.
+On Fri, Mar 11, 2022 at 3:57 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> On Fri, Mar 11, 2022 at 01:47:51PM -0500, Paul Moore wrote:
 
-There is no way to ensure this unless perhaps we cake that into
-the API somehow... Or have a registration system for setting the
-respctive file ops / LSM.
+...
 
-> It
-> would potentially make life easier in that we don't have to worry
-> about putting the passthrough op in the right context, but risks
-> missing a LSM hook control point (it will happen at some point and
-> *boom* CVE).
+> > Similar to what was discussed above with respect to auditing, I think
+> > we need to do some extra work here to make it easier for a LSM to put
+> > the IO request in the proper context.  We have io_uring_cmd::cmd_op
+> > via the @ioucmd parameter, which is good, but we need to be able to
+> > associate that with a driver to make sense of it.
+>
+> It may not always be a driver, it can be built-in stuff.
 
-Precicely my concern. So we either open code this and ask folks
-to do this or I think we do a registration and require both ops
-and the the LSM hook at registration.
+Good point, but I believe the argument still applies.  LSMs are going
+to need some way to put the cmd_op token in the proper context so that
+security policy can be properly enforced.
 
-I think this should be enough information to get Kanchan rolling
-on the LSM side.
-
-  Luis
+-- 
+paul-moore.com
 
