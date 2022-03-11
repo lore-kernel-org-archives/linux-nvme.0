@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B4E7C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 10:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9228C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 10:36:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0hizuiDmTg6E1AagrwaFLnkKHk/6wLkyIQFh2Yek68k=; b=lH3tBSXswIbNbD68rKjIG8LyjB
-	SOR2v2IYgOqT3kCO5fnJQYmKl0TIO0lPWQcFA3vJR95KBvXUWSjXvczfrEGerU6IpQrH3adi3BOhM
-	NO4yj49oZCEsFpabiIF/QIjAm/o8jeqOVzsinu5eGfPiknosSq7zVv4UssZVR7spfPoKKOIhAL/pD
-	xUaQ4Pt8s8jMqjNtQtvnddokGD2pOsln2XJxE7GAN6/07ZlzxBOQMwgIKIBcyPRArzkXzap2JyDgw
-	pRwYBHo37KqMLO0P2DqobgqS/sceTRtCFmbm24cDgPrTH6u58Fo68RDDKBPXRYewn//X9TxGQclWO
-	H22R9RJA==;
+	bh=Hlbrc+gNGeA7NIsFF6fh3b/M6dpxEz8OPM14i7pFNzw=; b=Y42UfiuXMD8SlfbLQ2S+pJ8f8+
+	BaBq+u1inERwDEvtgia9HqVI7Pva8X5TkiHTNg1Nqq46BbeavF+NbaxnSnVGdGnVoINL3EXP1kZ1D
+	ZrlPX4bNo79K8ragDCaVWL98aTS1IL9t9ENb7rh/wSRhDHevihUxR0PCNybW6YiWtt2yh63MaZp31
+	taFO5peC9iD9ui19107a0zYhTdC7lkuRACGVLnmV77ahpspkXhWbj2zIwEryRJh49BTE8wGTqQHQ3
+	W2DyW5yVB+w3YaBSaXD4Trzt7/IGdLzPyrhkQVl610mBAP3gCar2xaid4eliaOxxGbeHu873E7gUZ
+	wFnBIJKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSccl-00G1uv-Rh; Fri, 11 Mar 2022 10:35:55 +0000
-Received: from smtprz02.163.net ([106.3.154.235] helo=smtp.tom.com)
+	id 1nSccu-00G1z9-Jc; Fri, 11 Mar 2022 10:36:04 +0000
+Received: from smtprz01.163.net ([106.3.154.234] helo=smtp.tom.com)
  by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSccU-00G1i7-3n
- for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 10:35:40 +0000
+ id 1nSccY-00G1mo-Rl
+ for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 10:35:44 +0000
 Received: from localhost (localhost [127.0.0.1])
- by vip-app02.163.net (Postfix) with ESMTP id 41BB2440179
- for <linux-nvme@lists.infradead.org>; Fri, 11 Mar 2022 18:35:35 +0800 (CST)
+ by vip-app02.163.net (Postfix) with ESMTP id 28896440192
+ for <linux-nvme@lists.infradead.org>; Fri, 11 Mar 2022 18:35:42 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1646994935; bh=93JeBi/0/ADhIZMBBUs1HqDG4uLkWcGGpcH0lW56i4Q=;
+ t=1646994942; bh=F3vKEGSv90LjLhaBsvzJwFCV62L0vSG/lnPB+DbenZY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aQKynntHrs+TQClSMNr5YAJh1fgg8wk6b77ONBQPN81i7cuXBWZ9lOmag7DjDIWNS
- hBaBux2jPCfxgoIIvPRvOaKGNz9QZqS4XfQytZ/FBnejMoaMLs04RabOEl13yRix8j
- VxLYYJ71vfMrbOp5fmDWXxgSQKegy5MhBFslLMF4=
+ b=JN3viEXGYMdqsBb7GCEVZYHXnACBZGp2PWwLLDXY9ftDkuByr+gFlTrQQsF9vzNqf
+ p4iQv680G/+03MkmldVcFeRf6SkYM95cRXGkBiXHRbeo65yPBZmpqxMiL6HVfDF0Qn
+ mmrpDYYtB5ADBJ6teGmrE6XevGgqoEh9vTOiJCsE=
 Received: from localhost (HELO smtp.tom.com) ([127.0.0.1])
- by localhost (TOM SMTP Server) with SMTP ID 1624439450
+ by localhost (TOM SMTP Server) with SMTP ID 544870773
  for <linux-nvme@lists.infradead.org>;
- Fri, 11 Mar 2022 18:35:35 +0800 (CST)
+ Fri, 11 Mar 2022 18:35:42 +0800 (CST)
 X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1646994935; bh=93JeBi/0/ADhIZMBBUs1HqDG4uLkWcGGpcH0lW56i4Q=;
+ t=1646994942; bh=F3vKEGSv90LjLhaBsvzJwFCV62L0vSG/lnPB+DbenZY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aQKynntHrs+TQClSMNr5YAJh1fgg8wk6b77ONBQPN81i7cuXBWZ9lOmag7DjDIWNS
- hBaBux2jPCfxgoIIvPRvOaKGNz9QZqS4XfQytZ/FBnejMoaMLs04RabOEl13yRix8j
- VxLYYJ71vfMrbOp5fmDWXxgSQKegy5MhBFslLMF4=
+ b=JN3viEXGYMdqsBb7GCEVZYHXnACBZGp2PWwLLDXY9ftDkuByr+gFlTrQQsF9vzNqf
+ p4iQv680G/+03MkmldVcFeRf6SkYM95cRXGkBiXHRbeo65yPBZmpqxMiL6HVfDF0Qn
+ mmrpDYYtB5ADBJ6teGmrE6XevGgqoEh9vTOiJCsE=
 Received: from localhost.localdomain (unknown [101.93.196.13])
- by antispamvip.163.net (Postfix) with ESMTPA id 56B381541576;
- Fri, 11 Mar 2022 18:35:31 +0800 (CST)
+ by antispamvip.163.net (Postfix) with ESMTPA id EDA1C1541564;
+ Fri, 11 Mar 2022 18:35:37 +0800 (CST)
 From: Mingbao Sun <sunmingbao@tom.com>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
@@ -59,17 +59,17 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
  netdev@vger.kernel.org
 Cc: sunmingbao@tom.com, tyler.sun@dell.com, ping.gan@dell.com,
  yanxiu.cai@dell.com, libin.zhang@dell.com, ao.sun@dell.com
-Subject: [PATCH v2 2/3] nvme-tcp: support specifying the congestion-control
-Date: Fri, 11 Mar 2022 18:34:13 +0800
-Message-Id: <20220311103414.8255-2-sunmingbao@tom.com>
+Subject: [PATCH v2 3/3] nvmet-tcp: support specifying the congestion-control
+Date: Fri, 11 Mar 2022 18:34:14 +0800
+Message-Id: <20220311103414.8255-3-sunmingbao@tom.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20220311103414.8255-1-sunmingbao@tom.com>
 References: <20220311103414.8255-1-sunmingbao@tom.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220311_023538_418548_88AADD1D 
-X-CRM114-Status: GOOD (  20.22  )
+X-CRM114-CacheID: sfid-20220311_023543_144355_FA3257C9 
+X-CRM114-Status: GOOD (  18.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,127 +101,132 @@ have not been explicitly assigned the congestion-control, thus bringing
 potential impaction on their performance.
 
 So it makes sense to make NVMe_over_TCP support specifying the
-congestion-control. And this commit addresses the host side.
+congestion-control. And this commit addresses the target side.
 
 Implementation approach:
-a new option called 'tcp_congestion' was created in fabrics opt_tokens
-for 'nvme connect' command to passed in the congestion-control
-specified by the user.
-Then later in nvme_tcp_alloc_queue, the specified congestion-control
-would be applied to the relevant sockets of the host side.
+the following new file entry was created for user to specify the
+congestion-control of each nvmet port.
+'/sys/kernel/config/nvmet/ports/X/tcp_congestion'
+Then later in nvmet_tcp_add_port, the specified congestion-control
+would be applied to the listening socket of the nvmet port.
 
 Signed-off-by: Mingbao Sun <tyler.sun@dell.com>
 ---
- drivers/nvme/host/fabrics.c | 18 ++++++++++++++++++
- drivers/nvme/host/fabrics.h |  2 ++
- drivers/nvme/host/tcp.c     | 17 ++++++++++++++++-
- 3 files changed, 36 insertions(+), 1 deletion(-)
+ drivers/nvme/target/configfs.c | 42 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h    |  1 +
+ drivers/nvme/target/tcp.c      | 13 +++++++++++
+ 3 files changed, 56 insertions(+)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index ee79a6d639b4..ecd1ec4e473a 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -10,6 +10,7 @@
- #include <linux/mutex.h>
- #include <linux/parser.h>
- #include <linux/seq_file.h>
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 091a0ca16361..7b7d95f6f582 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -11,6 +11,7 @@
+ #include <linux/ctype.h>
+ #include <linux/pci.h>
+ #include <linux/pci-p2pdma.h>
 +#include <net/tcp.h>
- #include "nvme.h"
- #include "fabrics.h"
  
-@@ -548,6 +549,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
- 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
- 	{ NVMF_OPT_DISCOVERY,		"discovery"		},
-+	{ NVMF_OPT_TCP_CONGESTION,	"tcp_congestion=%s"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
+ #include "nvmet.h"
  
-@@ -829,6 +831,21 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_DISCOVERY:
- 			opts->discovery_nqn = true;
- 			break;
-+		case NVMF_OPT_TCP_CONGESTION:
-+			p = match_strdup(args);
-+			if (!p) {
-+				ret = -ENOMEM;
-+				goto out;
-+			}
-+			if (strlen(p) >= TCP_CA_NAME_MAX) {
-+				ret = -EINVAL;
-+				kfree(p);
-+				goto out;
-+			}
+@@ -222,6 +223,45 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_, addr_trsvcid);
+ 
++static ssize_t nvmet_tcp_congestion_show(struct config_item *item,
++		char *page)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
 +
-+			kfree(opts->tcp_congestion);
-+			opts->tcp_congestion = p;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -947,6 +964,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
- 	kfree(opts->subsysnqn);
- 	kfree(opts->host_traddr);
- 	kfree(opts->host_iface);
-+	kfree(opts->tcp_congestion);
- 	kfree(opts);
++	return snprintf(page, PAGE_SIZE, "%s\n",
++			port->tcp_congestion ? port->tcp_congestion : "");
++}
++
++static ssize_t nvmet_tcp_congestion_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	int len;
++	char *buf;
++
++	len = strcspn(page, "\n");
++	if (!len)
++		return -EINVAL;
++
++	if (nvmet_is_port_enabled(port, __func__))
++		return -EACCES;
++
++	buf = kmemdup_nul(page, len, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++	if (strlen(buf) >= TCP_CA_NAME_MAX) {
++		kfree(buf);
++		return -EINVAL;
++	}
++
++	kfree(port->tcp_congestion);
++	port->tcp_congestion = buf;
++
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_, tcp_congestion);
++
+ static ssize_t nvmet_param_inline_data_size_show(struct config_item *item,
+ 		char *page)
+ {
+@@ -1597,6 +1637,7 @@ static void nvmet_port_release(struct config_item *item)
+ 	list_del(&port->global_entry);
+ 
+ 	kfree(port->ana_state);
++	kfree(port->tcp_congestion);
+ 	kfree(port);
  }
- EXPORT_SYMBOL_GPL(nvmf_free_options);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index c3203ff1c654..25fdc169949d 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -68,6 +68,7 @@ enum {
- 	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
- 	NVMF_OPT_HOST_IFACE	= 1 << 21,
- 	NVMF_OPT_DISCOVERY	= 1 << 22,
-+	NVMF_OPT_TCP_CONGESTION	= 1 << 23,
- };
  
- /**
-@@ -117,6 +118,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_io_queues;
- 	unsigned int		reconnect_delay;
- 	bool			discovery_nqn;
-+	const char		*tcp_congestion;
- 	bool			duplicate_connect;
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 10fc45d95b86..8491f96a39e5 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1487,6 +1487,20 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	if (nctrl->opts->tos >= 0)
- 		ip_sock_set_tos(queue->sock->sk, nctrl->opts->tos);
+@@ -1605,6 +1646,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
+ 	&nvmet_attr_addr_treq,
+ 	&nvmet_attr_addr_traddr,
+ 	&nvmet_attr_addr_trsvcid,
++	&nvmet_attr_tcp_congestion,
+ 	&nvmet_attr_addr_trtype,
+ 	&nvmet_attr_param_inline_data_size,
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 69637bf8f8e1..76a57c4c3456 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -145,6 +145,7 @@ struct nvmet_port {
+ 	struct config_group		ana_groups_group;
+ 	struct nvmet_ana_group		ana_default_group;
+ 	enum nvme_ana_state		*ana_state;
++	const char			*tcp_congestion;
+ 	void				*priv;
+ 	bool				enabled;
+ 	int				inline_data_size;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 83ca577f72be..311383c6d7da 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1741,6 +1741,19 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 	if (so_priority > 0)
+ 		sock_set_priority(port->sock->sk, so_priority);
  
-+	if (nctrl->opts->mask & NVMF_OPT_TCP_CONGESTION) {
-+		lock_sock(queue->sock->sk);
-+		ret = tcp_set_congestion_control(queue->sock->sk,
-+						 nctrl->opts->tcp_congestion,
++	if (nport->tcp_congestion) {
++		lock_sock(port->sock->sk);
++		ret = tcp_set_congestion_control(port->sock->sk,
++						 nport->tcp_congestion,
 +						 true, true);
-+		release_sock(queue->sock->sk);
++		release_sock(port->sock->sk);
 +		if (ret) {
-+			dev_err(nctrl->device,
-+				"failed to set TCP congestion to %s: %d\n",
-+				nctrl->opts->tcp_congestion, ret);
++			pr_err("failed to set port socket's congestion to %s: %d\n",
++			       nport->tcp_congestion, ret);
 +			goto err_sock;
 +		}
 +	}
 +
- 	/* Set 10 seconds timeout for icresp recvmsg */
- 	queue->sock->sk->sk_rcvtimeo = 10 * HZ;
- 
-@@ -2650,7 +2664,8 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
- 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
- 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
- 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
--			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE,
-+			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE |
-+			  NVMF_OPT_TCP_CONGESTION,
- 	.create_ctrl	= nvme_tcp_create_ctrl,
- };
- 
+ 	ret = kernel_bind(port->sock, (struct sockaddr *)&port->addr,
+ 			sizeof(port->addr));
+ 	if (ret) {
 -- 
 2.26.2
 
