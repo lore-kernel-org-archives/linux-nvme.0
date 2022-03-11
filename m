@@ -4,53 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F849C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 00:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAB12C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 01:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yPaic9724hgJl0T3m1YjW9i3tNRmigXgOWKo9zDkfic=; b=0X+DnAzjP6nGRzUgEjRx7h/3TQ
-	FFS6HAYMpS1/uGMfVZ0HiXiPwot+YVxGiMJLeKC/Jdy3PL39weTwVw0vHN9BumfBYbLeSwUANcvWo
-	3Y3uOuCWYm/NLYRB4OVJ7ik9MTZQu3j/PhaHWZQhG8CVzjdSh3kXH1PMQ5o8wNV/noCIqAz8y1P87
-	HGgyBH7BhTjPS9qTT3ISTv7Yq2KtG5b2j2Yl9ToKlR5zfvLPktuX5qRKkOe70G+WOglU7jNbuy8u1
-	d0evpvdVypytcUc0IoM4/EcQMinxgfi4K6UXMNeyaIriHv10j2UKihO/WS8yRJBN46ZNDHnlxcDze
-	6fScG9RA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DXltL7m3CzUXbNkp4ozS1ToTqgFaW//Xl0aGwQ8uDMc=; b=Fas5PVgJFtK8xjIxAsAnGFQgGG
+	svrVRJ8V9ZD0ZLkUXFqcNv8THTEF8+9QsEQC5qecxpQuwRJ+M2/4vKHlfDSH9t8r/FnrIqd8+fCll
+	t4PMNCieXiEZ3Q2AsynT0FFpKcwuLw6pyhcsCbidHsDFEq7TsL8AtV239pDBwOfetLLZrZjrksRxy
+	9TerSnC8boptC77odljP85ca8Ywl3ZFKGw7lTpZm0qKFohdqpKgnE1Opz8JHlHO5XcioOX97q8Aww
+	yEci8TYyrsxkWaW6t5d/9R26OZ6W+QVlhd4BYzzdmd3+SMEyLFGnp/q1ejb5G9lQakcRK5tjEE77T
+	P3a8LUKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSTaL-00ESJX-AT; Fri, 11 Mar 2022 00:56:49 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1nSTaJ-00ESJP-TU; Fri, 11 Mar 2022 00:56:47 +0000
-Date: Thu, 10 Mar 2022 16:56:47 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Pankaj Raghav <p.raghav@samsung.com>,
- Adam Manzanares <a.manzanares@samsung.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
- kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,
- Matias =?iso-8859-1?Q?Bj=F8rling?= <matias.bjorling@wdc.com>,
- jiangbo.365@bytedance.com, Pankaj Raghav <pankydev8@gmail.com>,
- Kanchan Joshi <joshiiitr@gmail.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 4/6] nvme: zns: Add support for power_of_2 emulation to
- NVMe ZNS devices
-Message-ID: <YiqeT+lru+AmHeuK@bombadil.infradead.org>
-References: <20220308165349.231320-1-p.raghav@samsung.com>
- <CGME20220308165436eucas1p1b76f3cb5b4fa1f7d78b51a3b1b44d160@eucas1p1.samsung.com>
- <20220308165349.231320-5-p.raghav@samsung.com>
- <d13c40a5-3f87-fb2c-155e-dd64535067ac@opensource.wdc.com>
- <cf527b75-8fba-96ba-659d-fbb46fbe9de7@samsung.com>
- <bdb92eac-59ef-3ba1-16cb-31219e3a264b@opensource.wdc.com>
- <YiphB2Me63kD7T5t@bombadil.infradead.org>
- <b95a7400-8338-a696-5742-fcb8fc2693b0@opensource.wdc.com>
+	id 1nSThn-00ESxe-7z; Fri, 11 Mar 2022 01:04:31 +0000
+Received: from mga12.intel.com ([192.55.52.136])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSThk-00ESwf-63
+ for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 01:04:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646960668; x=1678496668;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sWzsD6j5xGbMtnk+hpGhoVVQJzOaYa6yFSSNk3EGspI=;
+ b=A9Q0d61ilps8G9mkSZHV5q/G54gpxXGG8EDYFN1GOpZP6sta1WXi+mG2
+ e1Zjhyh7F5327LqhqQ6iWKlGtCZc0LXWQUdYWXI7kCQkx0+rki7nS9KzK
+ jFvWDfVhIO88PJ7J2ZCQbeC9QTvVdPLUUyKTDQ2QWzfNkC0fuXheBGfQi
+ Opl8nnUtTp2wegE6MNcOoZYBVOC4mCTW8B5TaITM8xeLpIl8nf/K0NZsr
+ be2PUBIrxvc329Qd0l5aNBvmlsPIFTLhxDkAewqON66VVxT0LiVh1V7kq
+ S8cXjKMXjLvwck1FPBIscJs4/3GdkHXjKSEbIHQtd7Z4q9T3AVlrCIVJH A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="235411135"
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="235411135"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 17:02:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; d="scan'208";a="688908539"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2022 17:02:10 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nSTfV-0005as-VG; Fri, 11 Mar 2022 01:02:09 +0000
+Date: Fri, 11 Mar 2022 09:01:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.18] BUILD SUCCESS
+ 4669f60512aea5b91d412586db03564359d4757a
+Message-ID: <622a9f79.74eAP2EBP/G55Q7n%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b95a7400-8338-a696-5742-fcb8fc2693b0@opensource.wdc.com>
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220310_170428_286941_D11E8FFB 
+X-CRM114-Status: UNSURE (   7.37  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,25 +78,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 11, 2022 at 08:50:47AM +0900, Damien Le Moal wrote:
-> On 3/11/22 05:35, Luis Chamberlain wrote:
-> > On Thu, Mar 10, 2022 at 06:43:47AM +0900, Damien Le Moal wrote:
-> >> The indirect call using a function pointer makes the code obscure. And
-> >> the cost of that call is far greater and always present compared to the
-> >> CPU branch prediction which will luckily avoid most of the time taking
-> >> the wrong branch of an if.
-> > 
-> > The goal was to ensure no performance impact, and given a hot path
-> > was involved and we simply cannot microbench append as there is no
-> > way / API to do that, we can't be sure. But if you are certain that
-> > there is no perf impact, it would be wonderful to live without it.
-> 
-> Use zonefs. It uses zone append.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.18
+branch HEAD: 4669f60512aea5b91d412586db03564359d4757a  nvmet-rdma: fix kernel-doc warning for nvmet_rdma_device_removal
 
-That'd be a microbench on zonefs append, not raw append, and so I
-suspect a simple branch cannot make a difference and would get lost
-as noise. So I don't think a perf test is required here. Please
-let me know.
+elapsed time: 720m
 
-  Luis
+configs tested: 111
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm                              allmodconfig
+arm                              allyesconfig
+arm64                               defconfig
+arm64                            allyesconfig
+i386                          randconfig-c001
+sh                           se7343_defconfig
+h8300                       h8s-sim_defconfig
+mips                            gpr_defconfig
+powerpc                mpc7448_hpc2_defconfig
+xtensa                       common_defconfig
+arm                        realview_defconfig
+nios2                            alldefconfig
+parisc                generic-64bit_defconfig
+powerpc                       eiger_defconfig
+mips                         db1xxx_defconfig
+sh                               allmodconfig
+arm                         s3c6400_defconfig
+ia64                                defconfig
+arm                        keystone_defconfig
+sh                            shmin_defconfig
+h8300                    h8300h-sim_defconfig
+powerpc                     tqm8548_defconfig
+arm                  randconfig-c002-20220310
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+arc                                 defconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+parisc                              defconfig
+s390                                defconfig
+parisc64                            defconfig
+s390                             allmodconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                   debian-10.3-kselftests
+i386                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+x86_64                        randconfig-a002
+x86_64                        randconfig-a004
+x86_64                        randconfig-a006
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220310
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+riscv                    nommu_virt_defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+arm                    vt8500_v6_v7_defconfig
+arm                        multi_v5_defconfig
+powerpc                     tqm8540_defconfig
+mips                       lemote2f_defconfig
+arm                       mainstone_defconfig
+arm                      pxa255-idp_defconfig
+mips                           rs90_defconfig
+x86_64                           allyesconfig
+hexagon                          alldefconfig
+riscv                    nommu_virt_defconfig
+arm                     am200epdkit_defconfig
+x86_64                        randconfig-a001
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a016
+x86_64                        randconfig-a014
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+hexagon              randconfig-r041-20220310
+hexagon              randconfig-r045-20220310
+s390                 randconfig-r044-20220310
+riscv                randconfig-r042-20220310
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
