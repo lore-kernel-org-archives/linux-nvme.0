@@ -4,84 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31597C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 18:53:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5B43C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 20:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mhiJoyGK6i48A+CV44wvGM/sNOc2SA/ZHL0e71y9Ouw=; b=gMYJZ844AQm/2XHUpBdObuOD/S
-	4hAgaS8C6IYkKXn2zN9ezAoRHFJM3aDOuWYMHICdL8CGNTGDXFHs4smXRIXE181jQMLUcq+3k7ke+
-	tIwhZ11Fk/lpH3qHORdtMbfzCU4TRgXVoNdHzweKiyh7bMP79v3BebPxSj8vpBaXHRJKwfVVw1a+p
-	rLxikkXRJFClJQafsUujhRata8/NVDlJAw6Y5P487kQ2MQfOzkvRA8WXbeW0EYUC1SWrnIeMFXW5p
-	T2yug1/OQyGjcXk5NwGKbZtyepqg7TsNCkULu4NcmpxZwedcCc8Ijka10dhG6KPvIO/PIO96k2rO4
-	qBXfNPOQ==;
+	bh=wnCqx+/VTK/nVCf+yOkYO0xfxpD0CUcSDhQQ+Ptxl0A=; b=189SnRvI+rFatM83YqtYOF5c88
+	0IA9mJzxd/25+hXzwnsuBcHwv8AUL8xDmEmzznyVSD94/6VObOl+T1p1PF15gFXkVu/iiQoIOPOBe
+	0Lk04O+QpfSMhIxVnAeCTN2NyyLGHcIwO4Tyll09ZI0FpgdzjNCVLDe9TXgKeiUD+fewsY/buolFc
+	u2ACAfIZ+lLTBdmePUN0YD9kZ4HSkOgRvK9ZM7uuEbdeVXyxltVSmXzuUUjHZBlTBjXQ2fFVIigWP
+	PVAw7QOpa6BXCO2WHKJVisVr/iXufaV8LEd3A9YTsVeUv3Ak2SnZgSfUu7VB47yI5QPM0mJSLgODp
+	0mfkaTiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSkO8-00039M-Fs; Fri, 11 Mar 2022 18:53:20 +0000
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+	id 1nSlRL-0008x8-Cy; Fri, 11 Mar 2022 20:00:43 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSkO5-00038e-KC
- for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 18:53:18 +0000
-Received: by mail-ed1-x52f.google.com with SMTP id h13so11996975ede.5
- for <linux-nvme@lists.infradead.org>; Fri, 11 Mar 2022 10:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mhiJoyGK6i48A+CV44wvGM/sNOc2SA/ZHL0e71y9Ouw=;
- b=oxd6LAQKWQ5hKfBrALwTaY5UPGW3xSf9z0WFCbd/U2Y6H0HdsW/os1CmTDYsESly0w
- tqUHS7uXcBfX3xvTcS15ysDWNektRriLFjwr2sFQrEkwYcoMX8VEWNHfqqXCDF3yJGQv
- NydGiZKzqXKRAx3KfjS9uNw11cYYRQcS/FX2RoEVSsCkVCHpb3WSXmZ63bSDR5fQfyUL
- epYrOqC8w1p7y2RIEPMp8bx2BMtBa3Q61oUyL1IgQd6FtXH1elLFXVm9PyDdAGEDEe3z
- A/aZlLmcTeMQ4MaY52V9j7G8gOX5WZdDofYqd8HZfnGW0lzoThKe4Y+F5geLdfpjodDv
- 7Jrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mhiJoyGK6i48A+CV44wvGM/sNOc2SA/ZHL0e71y9Ouw=;
- b=Yh8SGYKlGqXrif20bmig31HGTqRkiPlyrjX0CeqVU3qTm5S0CPm4TavO792VeAx3ov
- 2clkfAhCdQ5XLztFpB3fkyOEqHzuNXoU4mnxzpLqWJHQ5MibUST1NUJnB2By69vdDxOf
- KpNAduBpCLwAYSgvYFIStqtfMizcLC6ipXB8zGqW46WPJWaiJQLlqqgLK/Xd4m0soDMP
- QGBspr/n7vifl2ohT7+HqJ/uvLVmFcUgyj2lmo5TaFcrXFQG908zDwvTvD1ssTYRHZ1l
- MDohm9fPYv6fQs4Oxwrj/dCF4VTfGEdGT2Sv/cBAH9TPc1GIf++1ctvPJ5951FOAwjmv
- 2XDw==
-X-Gm-Message-State: AOAM531FM25ue4KtJlm0WVA+5ZHamae2AQyiMN8UKhIic5DjICXCyLmk
- Sf0ngQolc0i3B217Rb1UaIA/ZSloKDNvRG5a/MlB
-X-Google-Smtp-Source: ABdhPJwxFS6emBP91ghOo78Xcf38HmQKuJ92uGWWAskNZTBSdMpqT2NKwaEKOmMFF9dvmety1PBkMMF2unwneHLaEzA=
-X-Received: by 2002:a05:6402:42d4:b0:412:c26b:789 with SMTP id
- i20-20020a05640242d400b00412c26b0789mr10168594edc.232.1647024794826; Fri, 11
- Mar 2022 10:53:14 -0800 (PST)
+ id 1nSlRI-0008vJ-BG
+ for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 20:00:41 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7F028B82CB5;
+ Fri, 11 Mar 2022 20:00:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B7BC340E9;
+ Fri, 11 Mar 2022 20:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647028837;
+ bh=TvxVgxvG902p5ANsA/iC3earRyw+vVTX1cKROKGiNFI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UgTXinLpIlSBzQqHijYtsJGrX9FB+JuMlSnN0mz7ExSXSdHSzcSiMu45bW+TkfDlb
+ +L8zp9ft0x73hdPxtx7QpRuSs+veNB9KWwmU6IolZLyqJE8R1YIgUC34gaLUuJ17w8
+ KpU8RQS8Sbh2gYyrCQZpXHfNQ3O4xfp/6J1IQZvcA1pq969ff3wPD8mRSq4Ogdo6ot
+ PsOEdfXx2bqJdGndBwKRak4jM5i1aXIf55GroeIXKTvRT+aL9GSxr7FSYnegEfIZfT
+ jGQERWV9+CKOAltuH5D9vVzKF8K+qNzEBC7aiK0HO+CZRnzv+9WOcGRoqdXQmh7+cx
+ jlKJwrqWy9rPw==
+Date: Fri, 11 Mar 2022 12:00:34 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Vasily Gorbik <gor@linux.ibm.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-kernel@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
+ martin.petersen@oracle.com, Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: [PATCHv4 6/8] crypto: add rocksoft 64b crc guard tag framework
+Message-ID: <20220311200034.GA413555@dhcp-10-100-145-180.wdc.com>
+References: <20220303201312.3255347-1-kbusch@kernel.org>
+ <20220303201312.3255347-7-kbusch@kernel.org>
+ <your-ad-here.call-01646770901-ext-3299@work.hours>
+ <20220308202747.GA3502158@dhcp-10-100-145-180.wdc.com>
+ <YigzoKRJ1EHFRZY9@sol.localdomain>
+ <20220309193126.GA3950874@dhcp-10-100-145-180.wdc.com>
+ <YikEs7RNgPXTQolv@gmail.com>
+ <20220310153959.GB329710@dhcp-10-100-145-180.wdc.com>
+ <YipFP8B8MxMxTVBR@gmail.com>
 MIME-Version: 1.0
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152702epcas5p1eb1880e024ac8b9531c85a82f31a4e78@epcas5p1.samsung.com>
- <20220308152105.309618-6-joshi.k@samsung.com>
- <YiuNZ7+KUjLtuYkr@bombadil.infradead.org>
-In-Reply-To: <YiuNZ7+KUjLtuYkr@bombadil.infradead.org>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 11 Mar 2022 13:53:03 -0500
-Message-ID: <CAHC9VhTnpO6LyaYWDTjJAy_ztGw+qqf-YS0W7S-djyZVnydVHg@mail.gmail.com>
-Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
- char-device.
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
- Yonghong Song <yhs@fb.com>, 
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
- linux-security-module@vger.kernel.org, axboe@kernel.dk, hch@lst.de, 
- kbusch@kernel.org, asml.silence@gmail.com, io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, pankydev8@gmail.com, 
- javier@javigon.com, a.manzanares@samsung.com, joshiiitr@gmail.com, 
- anuj20.g@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YipFP8B8MxMxTVBR@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220311_105317_689776_800D68F7 
-X-CRM114-Status: GOOD (  17.34  )
+X-CRM114-CacheID: sfid-20220311_120040_569319_BF9B707D 
+X-CRM114-Status: GOOD (  10.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,71 +81,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 11, 2022 at 12:56 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Tue, Mar 08, 2022 at 08:50:53PM +0530, Kanchan Joshi wrote:
-> > diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> > index 5c9cd9695519..1df270b47af5 100644
-> > --- a/drivers/nvme/host/ioctl.c
-> > +++ b/drivers/nvme/host/ioctl.c
-> > @@ -369,6 +469,33 @@ long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> >       return __nvme_ioctl(ns, cmd, (void __user *)arg);
-> >  }
-> >
-> > +static int nvme_ns_async_ioctl(struct nvme_ns *ns, struct io_uring_cmd *ioucmd)
-> > +{
-> > +     int ret;
-> > +
-> > +     BUILD_BUG_ON(sizeof(struct nvme_uring_cmd_pdu) > sizeof(ioucmd->pdu));
-> > +
-> > +     switch (ioucmd->cmd_op) {
-> > +     case NVME_IOCTL_IO64_CMD:
-> > +             ret = nvme_user_cmd64(ns->ctrl, ns, NULL, ioucmd);
-> > +             break;
-> > +     default:
-> > +             ret = -ENOTTY;
-> > +     }
-> > +
-> > +     if (ret >= 0)
-> > +             ret = -EIOCBQUEUED;
-> > +     return ret;
-> > +}
->
-> And here I think we'll need something like this:
+On Thu, Mar 10, 2022 at 06:36:47PM +0000, Eric Biggers wrote:
+> I think the lib functions should still use native endianness, like what crc32
+> does.
 
-If we can promise that we will have a LSM hook for all of the
-file_operations::async_cmd implementations that are security relevant
-we could skip the LSM passthrough hook at the io_uring layer.  It
-would potentially make life easier in that we don't have to worry
-about putting the passthrough op in the right context, but risks
-missing a LSM hook control point (it will happen at some point and
-*boom* CVE).
+Gotcha, then it should simply be this patch:
 
-> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> index ddb7e5864be6..83529adf130d 100644
-> --- a/drivers/nvme/host/ioctl.c
-> +++ b/drivers/nvme/host/ioctl.c
-> @@ -5,6 +5,7 @@
->   */
->  #include <linux/ptrace.h>      /* for force_successful_syscall_return */
->  #include <linux/nvme_ioctl.h>
-> +#include <linux/security.h>
->  #include "nvme.h"
->
->  /*
-> @@ -524,6 +525,11 @@ static int nvme_ns_async_ioctl(struct nvme_ns *ns, struct io_uring_cmd *ioucmd)
->
->         BUILD_BUG_ON(sizeof(struct nvme_uring_cmd_pdu) > sizeof(ioucmd->pdu));
->
-> +       ret = security_file_ioctl(ioucmd->file, ioucmd->cmd_op,
-> +                                 (unsigned long) ioucmd->cmd);
-> +       if (ret)
-> +               return ret;
-> +
->         switch (ioucmd->cmd_op) {
->         case NVME_IOCTL_IO64_CMD:
->                 ret = nvme_user_cmd64(ns->ctrl, ns, NULL, ioucmd);
-
--- 
-paul-moore.com
+---
+diff --git a/crypto/testmgr.h b/crypto/testmgr.h
+index f1a22794c404..f9e5f601c657 100644
+--- a/crypto/testmgr.h
++++ b/crypto/testmgr.h
+@@ -3686,11 +3686,11 @@ static const struct hash_testvec crc64_rocksoft_tv_template[] = {
+ 	{
+ 		.plaintext	= zeroes,
+ 		.psize		= 4096,
+-		.digest		= (u8 *)(u64[]){ 0x6482d367eb22b64eull },
++		.digest		= "\x4e\xb6\x22\xeb\x67\xd3\x82\x64",
+ 	}, {
+ 		.plaintext	= ones,
+ 		.psize		= 4096,
+-		.digest		= (u8 *)(u64[]){ 0xc0ddba7302eca3acull },
++		.digest		= "\xac\xa3\xec\x02\x73\xba\xdd\xc0",
+ 	}
+ };
+ 
+--
 
