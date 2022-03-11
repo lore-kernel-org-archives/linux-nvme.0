@@ -4,108 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 522F4C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 16:56:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83B2DC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Mar 2022 17:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q3smtxn9OiYv7rGeOsGWVx0uxe5V1xKcWP4ezknIoU4=; b=BBwBHHmWuVq0ZCBkPwBt9DzGeQ
-	Ts2/x8P8RJOF0oXhlDpk73pO37RhMPmfnoObbR2yAp8I6V6zoUS6+Lsy2k9MLRiV5uxXAy/Uw+d+A
-	BT/3MDh47N/U+JAINIxnk2j7ZxuaKMjaepuw9bkr/xiWvj4z+yI/x7OlfysTZHCzzxmiG2TdVCu43
-	ecOGDvY7hc1shWVK7URANSkc8LRm7Okav7oz6n9BK90hhtBXIAcJdBWqc2rXYv2v5nV1TpYEF8vN/
-	01KyjXfAzzWHhNyQpSldm9KUf8Gtu0zyqo95j4dhKLPTLRGjL/OFPccs9gf4ReyT/vil6VbZml6H2
-	JOXhBXZQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ir0s1se4x0bETqIpYVQGZ4KXE3aSi7t4vWQRES8qUTk=; b=viNxpozdXosa4MVVe3R5G56ulU
+	uV7BkF3kXqp6Lttw6VK0OkGgFzolGXCsXcMotGnfeduGGGO2fx57z+fBC10BhzMM/Ui2aWrXhd4Pm
+	F4x363GqMpOIXbPaZvdfFM7KM6yjYbz7RbmfC3DmP9VJom5qcleD+ZNFcc/4Sec2Aaf0vE0xqAB7m
+	iXxutHOqq0qV31kGNdm1LsfVztNDEVy9mOn3U0buI7/WEfIy5R3J5fRbex7eazGXHXP5ihgA6qzbN
+	FHzTEelCl8Pvd7P6Znus9kRhcYJkLk+ghOZbu24yFydn6NKvj6o8EcZmavsN0ZmsZdjHD3FzyHd5v
+	O/UE/alg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nSiYy-00HP47-1Y; Fri, 11 Mar 2022 16:56:24 +0000
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nSiYt-00HP2q-Vg
- for linux-nvme@lists.infradead.org; Fri, 11 Mar 2022 16:56:22 +0000
-Received: by mail-il1-x132.google.com with SMTP id h7so6386553ile.1
- for <linux-nvme@lists.infradead.org>; Fri, 11 Mar 2022 08:56:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Q3smtxn9OiYv7rGeOsGWVx0uxe5V1xKcWP4ezknIoU4=;
- b=HCodvsBkzMMBGI2QM0Zn0XFHi2i6oFcJsWh7QrHds/a9Y9dp3sSz3fX72F6ERSDXCi
- hReV46UvwdGSOkR/dABYO+YYhGFV5SHMGxHNouZRxdblZwciWAX6zy/0j8UaCNs+/lBO
- qwsIIGZ8el/4qmTcziJD/Dl1QIYFQG3IQQZNUtAmX6BkK5lQVzPJ40ARuKHrYohpyGOQ
- xwZ8dvkf7SMGw/TnOOPdMwfFKGTbrslHNwoNLkLpqWnOVKJWSp2lF/XEkzNHCuW6PL6g
- S+QjTBhPeTTHOuzbDcwrir4glEOOU56HYFRY12y7DiIU04IcmNHwr03e73HJ67WJfLsL
- AIsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Q3smtxn9OiYv7rGeOsGWVx0uxe5V1xKcWP4ezknIoU4=;
- b=MJIyWvSwdXjEL0g2Oyfgs2zTTBxCXDj4RDTvS13d/JNGCy1oSrIJdUtyZTCW6M1Dck
- GFQFGK/4hVflNgTp/XBAewI/dIwBbJ8j/mlrmyMhf9CE5XBLjTRw4IHILcz3eWrzWLd7
- c7LOOnEyW4exJxOD7BJUYxvros4S/eC8Oh2OOi8BiX278lERZsiecEYD1EIGEalSk2mM
- sw6F3MgeL8yVmlwdJXGhdlGNQJmKD/fdWu6tT6P9BocYfdF8mPL9E07JnkvZw8JGNG1e
- Sq2bUCXpJ0ayBFBUXkbOikrJL+f7zN451y3pDTYxwDJgin2nSdDm38BZJl7rXFBr8ODp
- sMlA==
-X-Gm-Message-State: AOAM5305OrdX8i1eKYOoeirkSrLoMT2TJw+579ZEZ8houeVdh8r7Od1t
- TdUg8IbFV09aSdMwYxHVW8Tv2A==
-X-Google-Smtp-Source: ABdhPJz3ImFD+/lzaSB2dcc+NoB91jMOO5GIRuspRE8WpmZxyqONPvuBTBBe3M2lMBgDJswtpoL9jQ==
-X-Received: by 2002:a05:6e02:1449:b0:2c2:ed4a:53b9 with SMTP id
- p9-20020a056e02144900b002c2ed4a53b9mr8106597ilo.165.1647017778009; 
- Fri, 11 Mar 2022 08:56:18 -0800 (PST)
-Received: from [192.168.1.172] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id
- h1-20020a056e02052100b002bdfcff2d98sm4558364ils.61.2022.03.11.08.56.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Mar 2022 08:56:17 -0800 (PST)
-Message-ID: <800fa121-5da2-e4c0-d756-991f007f0ad4@kernel.dk>
-Date: Fri, 11 Mar 2022 09:56:15 -0700
+	id 1nSio1-00HSLx-Rj; Fri, 11 Mar 2022 17:11:57 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+ (Red Hat Linux)) id 1nSint-00HSKY-LR; Fri, 11 Mar 2022 17:11:49 +0000
+Date: Fri, 11 Mar 2022 09:11:49 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>, Paul Moore <paul@paul-moore.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, jmorris@namei.org,
+ serge@hallyn.com, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
+ john.fastabend@gmail.com, kpsingh@kernel.org,
+ linux-security-module@vger.kernel.org, hch@lst.de,
+ kbusch@kernel.org, asml.silence@gmail.com, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ sbates@raithlin.com, logang@deltatee.com, pankydev8@gmail.com,
+ javier@javigon.com, a.manzanares@samsung.com, joshiiitr@gmail.com,
+ anuj20.g@samsung.com
+Subject: Re: [PATCH 03/17] io_uring: add infra and support for
+ IORING_OP_URING_CMD
+Message-ID: <YiuC1fhEiRdo5bPd@bombadil.infradead.org>
+References: <20220308152105.309618-1-joshi.k@samsung.com>
+ <CGME20220308152658epcas5p3929bd1fcf75edc505fec71901158d1b5@epcas5p3.samsung.com>
+ <20220308152105.309618-4-joshi.k@samsung.com>
+ <YiqrE4K5TWeB7aLd@bombadil.infradead.org>
+ <e3bfd028-ece7-d969-f47c-1181b17ac919@kernel.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [EXT] Re: [PATCH 2/2] block: remove the per-bio/request write
- hint.
-Content-Language: en-US
-To: Bart Van Assche <bvanassche@acm.org>,
- "Bean Huo (beanhuo)" <beanhuo@micron.com>,
- "Luca Porzio (lporzio)" <lporzio@micron.com>,
- Manjong Lee <mj0123.lee@samsung.com>,
- "david@fromorbit.com" <david@fromorbit.com>
-Cc: "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "song@kernel.org" <song@kernel.org>,
- "seunghwan.hyun@samsung.com" <seunghwan.hyun@samsung.com>,
- "sookwan7.kim@samsung.com" <sookwan7.kim@samsung.com>,
- "nanich.lee@samsung.com" <nanich.lee@samsung.com>,
- "woosung2.lee@samsung.com" <woosung2.lee@samsung.com>,
- "yt0928.kim@samsung.com" <yt0928.kim@samsung.com>,
- "junho89.kim@samsung.com" <junho89.kim@samsung.com>,
- "jisoo2146.oh@samsung.com" <jisoo2146.oh@samsung.com>,
- Jaegeuk Kim <jaegeuk@kernel.org>
-References: <20220306231727.GP3927073@dread.disaster.area>
- <CGME20220309042324epcas1p111312e20f4429dc3a17172458284a923@epcas1p1.samsung.com>
- <20220309133119.6915-1-mj0123.lee@samsung.com>
- <CO3PR08MB797524ACBF04B861D48AF612DC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
- <e98948ae-1709-32ef-e1e4-063be38609b1@kernel.dk>
- <CO3PR08MB797562AAE72BC201EB951C6CDC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
- <d477c7bf-f3a7-ccca-5472-f9cbb05b83c1@kernel.dk>
- <c27a5ec3-f683-d2a7-d5e7-fd54d2baa278@acm.org>
- <PH0PR08MB7889642784B2E1FC1799A828DB0B9@PH0PR08MB7889.namprd08.prod.outlook.com>
- <ef77ef36-df95-8658-ff54-7d8046f5d0e7@kernel.dk>
- <bf221ef4-f4d0-4431-02f3-ef3bea0e8cb2@acm.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <bf221ef4-f4d0-4431-02f3-ef3bea0e8cb2@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220311_085620_107937_D50E9591 
-X-CRM114-Status: GOOD (  28.48  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3bfd028-ece7-d969-f47c-1181b17ac919@kernel.dk>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,73 +62,152 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/11/22 9:45 AM, Bart Van Assche wrote:
-> On 3/10/22 14:10, Jens Axboe wrote:
->> On 3/10/22 2:52 PM, Bean Huo (beanhuo) wrote:
->>> Yes, in upstream linux and upstream android, there is no such code.
->>> But as we know, mobile customers have used bio->bi_write_hint in their
->>> products for years. And the group ID is set according to
->>> bio->bi_write_hint before passing the CDB to UFS.
->>>
->>>
->>>     lrbp = &hba->lrb[tag];
->>>                  WARN_ON(lrbp->cmd);
->>>               + if(cmd->cmnd[0] == WRITE_10)
->>>                +{
->>>                  +             cmd->cmnd[6] = (0x1f& cmd->request->bio->bi_write_hint);
->>>                +}
->>>                lrbp->cmd = cmd;
->>>                lrbp->sense_bufflen = UFS_SENSE_SIZE;
->>>                lrbp->sense_buffer = cmd->sense_buffer;
->>>
->>> I don't know why they don't push these changes to the community, maybe
->>> it's because changes across the file system and block layers are
->>> unacceptable to the block layer and FS. but for sure we should now
->>> warn them to push to the community as soon as possible.
->>
->> If the code isn't upstream, it's a bit late to start thinking about
->> that now. This feature has existed for 5 years at this point, and the
->> only consumer was NVMe. The upstream kernel cares only about what is
->> in-tree, as that is the only part we can modify and fix. We
->> change/modify internal kernel APIs all the time, which is how tech debt
->> is removed and the long term sanity of the project is maintained. This
->> in turn means that out-of-tree code will break, that's just a natural
->> side effect and something we can't do anything about.
->>
->> If at some point there's a desire to actually try and upstream this
->> support, then we'll be happy to review that patchset. Or you can
->> continue to stay out-of-tree and just patch in what you need. If you're
->> already modifying core code, then that shouldn't be a problem.
+On Thu, Mar 10, 2022 at 07:43:04PM -0700, Jens Axboe wrote:
+> On 3/10/22 6:51 PM, Luis Chamberlain wrote:
+> > On Tue, Mar 08, 2022 at 08:50:51PM +0530, Kanchan Joshi wrote:
+> >> From: Jens Axboe <axboe@kernel.dk>
+> >>
+> >> This is a file private kind of request. io_uring doesn't know what's
+> >> in this command type, it's for the file_operations->async_cmd()
+> >> handler to deal with.
+> >>
+> >> Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> >> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> >> ---
+> > 
+> > <-- snip -->
+> > 
+> >> +static int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
+> >> +{
+> >> +	struct file *file = req->file;
+> >> +	int ret;
+> >> +	struct io_uring_cmd *ioucmd = &req->uring_cmd;
+> >> +
+> >> +	ioucmd->flags |= issue_flags;
+> >> +	ret = file->f_op->async_cmd(ioucmd);
+> > 
+> > I think we're going to have to add a security_file_async_cmd() check
+> > before this call here. Because otherwise we're enabling to, for
+> > example, bypass security_file_ioctl() for example using the new
+> > iouring-cmd interface.
+> > 
+> > Or is this already thought out with the existing security_uring_*() stuff?
 > 
-> Hi Jens,
-> 
-> The "upstream first" policy applies to the Android kernel (see also
-> https://arstechnica.com/gadgets/2021/09/android-to-take-an-upstream-first-development-model-for-the-linux-kernel/).
-> If anyone requests inclusion in the Android kernel tree of a patch
-> that is not upstream, that request is rejected unless a very strong
-> reason can be provided why it should be included in the Android kernel
-> only instead of being sent upstream. It is not clear to me why the
-> patch Bean mentioned is not upstream nor in the upstream Android
-> kernel tree.
-> 
-> From a UFS vendor I received the feedback that the F2FS write hint
-> information helps to reduce write amplification significantly. If the
-> write hint information is retained in the upstream kernel I can help
-> with making sure that the UFS patch mentioned above is integrated in
-> the upstream Linux kernel.
+> Unless the request sets .audit_skip, it'll be included already in terms
+> of logging.
 
-I'm really not that interested at this point, and I don't want to gate
-removal or inclusion of code on some potential future event that may
-never happen.
+Neat.
 
-That doesn't mean that the work and process can't continue on the
-Android front, the only difference is what the baseline kernel looks
-like for the submitted patchset.
+> But I'd prefer not to lodge this in with ioctls, unless
+> we're going to be doing actual ioctls.
 
-Hence I do think we should go ahead as planned, and then we'll just
-revisit the topic if/when some actual code comes up.
+Oh sure, I have been an advocate to ensure folks don't conflate async_cmd
+with ioctl. However it *can* enable subsystems to enable ioctl
+passthrough, but each of those subsystems need to vet for this on their
+own terms. I'd hate to see / hear some LSM surprises later.
 
+> But definitely something to keep in mind and make sure that we're under
+> the right umbrella in terms of auditing and security.
+
+Paul, how about something like this for starters (and probably should
+be squashed into this series so its not a separate commit) ?
+
+From f3ddbe822374cc1c7002bd795c1ae486d370cbd1 Mon Sep 17 00:00:00 2001
+From: Luis Chamberlain <mcgrof@kernel.org>
+Date: Fri, 11 Mar 2022 08:55:50 -0800
+Subject: [PATCH] lsm,io_uring: add LSM hooks to for the new async_cmd file op
+
+io-uring is extending the struct file_operations to allow a new
+command which each subsystem can use to enable command passthrough.
+Add an LSM specific for the command passthrough which enables LSMs
+to inspect the command details.
+
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ fs/io_uring.c                 | 5 +++++
+ include/linux/lsm_hook_defs.h | 1 +
+ include/linux/lsm_hooks.h     | 3 +++
+ include/linux/security.h      | 5 +++++
+ security/security.c           | 4 ++++
+ 5 files changed, 18 insertions(+)
+
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 3f6eacc98e31..1c4e6b2cb61a 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -4190,6 +4190,11 @@ static int io_uring_cmd_prep(struct io_kiocb *req,
+ 	struct io_ring_ctx *ctx = req->ctx;
+ 	struct io_uring_cmd *ioucmd = &req->uring_cmd;
+ 	u32 ucmd_flags = READ_ONCE(sqe->uring_cmd_flags);
++	int ret;
++
++	ret = security_uring_async_cmd(ioucmd);
++	if (ret)
++		return ret;
+ 
+ 	if (!req->file->f_op->async_cmd)
+ 		return -EOPNOTSUPP;
+diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+index 819ec92dc2a8..4a20f8e6b295 100644
+--- a/include/linux/lsm_hook_defs.h
++++ b/include/linux/lsm_hook_defs.h
+@@ -404,4 +404,5 @@ LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
+ #ifdef CONFIG_IO_URING
+ LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+ LSM_HOOK(int, 0, uring_sqpoll, void)
++LSM_HOOK(int, 0, uring_async_cmd, struct io_uring_cmd *ioucmd)
+ #endif /* CONFIG_IO_URING */
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 3bf5c658bc44..21b18cf138c2 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -1569,6 +1569,9 @@
+  *      Check whether the current task is allowed to spawn a io_uring polling
+  *      thread (IORING_SETUP_SQPOLL).
+  *
++ * @uring_async_cmd:
++ *      Check whether the file_operations async_cmd is allowed to run.
++ *
+  */
+ union security_list_options {
+ 	#define LSM_HOOK(RET, DEFAULT, NAME, ...) RET (*NAME)(__VA_ARGS__);
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 6d72772182c8..4d7f72813d75 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -2041,6 +2041,7 @@ static inline int security_perf_event_write(struct perf_event *event)
+ #ifdef CONFIG_SECURITY
+ extern int security_uring_override_creds(const struct cred *new);
+ extern int security_uring_sqpoll(void);
++extern int security_uring_async_cmd(struct io_uring_cmd *ioucmd);
+ #else
+ static inline int security_uring_override_creds(const struct cred *new)
+ {
+@@ -2050,6 +2051,10 @@ static inline int security_uring_sqpoll(void)
+ {
+ 	return 0;
+ }
++static inline int security_uring_async_cmd(struct io_uring_cmd *ioucmd)
++{
++	return 0;
++}
+ #endif /* CONFIG_SECURITY */
+ #endif /* CONFIG_IO_URING */
+ 
+diff --git a/security/security.c b/security/security.c
+index 22261d79f333..ef96be2f953a 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -2640,4 +2640,8 @@ int security_uring_sqpoll(void)
+ {
+ 	return call_int_hook(uring_sqpoll, 0);
+ }
++int security_uring_async_cmd(struct io_uring_cmd *ioucmd)
++{
++	return call_int_hook(uring_async_cmd, 0, ioucmd);
++}
+ #endif /* CONFIG_IO_URING */
 -- 
-Jens Axboe
+2.34.1
 
 
