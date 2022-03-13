@@ -4,78 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 199E7C433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Mar 2022 05:10:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F1BBC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Mar 2022 11:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/2a/Y/9RxUg+RQvi15qObMdwkcPWgNkuVkFYsEACDhk=; b=HyxO8rH72+ROuc3Bx8rbEPyev2
-	eQsd4ykCs6mj4r7zLUsyeGijyVWNHkYhGkKFKIDy3sygZFFljCx9UhOZLrpTkgD2m7+YipUSltpB6
-	cUhMg2q7/Nl1kUHKvJiKoxEmDfgINdFoIXHHHns/O+MIszxWVQHeIf+reB0LzOzyaFW8DgRTCQTH4
-	MURBQju4aiZBv1eOKRQd3iJHRRl4cw+r7pQoIzbsquzO01L9y1ekH7XMraWzD40DM2O4WGBN2KYQh
-	tT5jjbHK/A4keyhmkOxItRZ49lG7yDD71hY7C27OMHLbhRrk9KVTma9TUjdQoDKIgXoTNsbYkmLDK
-	5kifE4Hg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5hpgio9pD8hulFoquYbcjRBj0pBDXvlxYZEsR0wPc6k=; b=5FeLvDI3bGbnqwnoEqIe34PmPW
+	OhYS6xdY4Fhk3cs87mXcDEPP64hhvKpew1UHW2nLhikOLWm6yHo2uB8G/b6x9phw+Le6NFmPx+Ykr
+	gX4NXOjksQCfRmuouInwo74hSQf9UPk1ZYgaCJQiPhFMpL2F8dvIeQD+Hrsp7xMSMrV2f09Qi+Szy
+	KeWO9Wewza79lWh3DPwRbZnxSR105Coex/kcM0MHtRyYd7YAmdeJt0VLiFqI7GM1Nn/knsHkxQcrL
+	RRkJlHhU8D2S9bvyFwjeLuohTShJDbxNPDREZ/+Dy8fb8H1fseYQcwxRWGelIf0GHalmY2wc0rokx
+	unWyd7BQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTGVH-002E2w-Fl; Sun, 13 Mar 2022 05:10:51 +0000
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
+	id 1nTMar-002hqw-7k; Sun, 13 Mar 2022 11:41:01 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTGVE-002E22-Ha
- for linux-nvme@lists.infradead.org; Sun, 13 Mar 2022 05:10:50 +0000
-Received: by mail-lf1-x12b.google.com with SMTP id n19so21692350lfh.8
- for <linux-nvme@lists.infradead.org>; Sat, 12 Mar 2022 21:10:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/2a/Y/9RxUg+RQvi15qObMdwkcPWgNkuVkFYsEACDhk=;
- b=dGMG4CGvo7ZEusw/Ld484ohSc3fYw9xqgxsiNBnbP8RjQymD23frQDRtA4TW3JRFVz
- jyAX5CFAD+gbxRCxqPKxnI0UAy07HAt1Y2vEaYJwOB5vjA3P4ANAdITS01kxTKXz8O2D
- +sSzFavIAAfwkUgBVvkMttK1YxbvW+aNqAj+6/2zqODavQLvBpF618r1pqPQcVPiHKqi
- RIH32k+3xmJ/nEgrsm7XoAGIn0j2XfYCxTMYQ5Dx+oqIfQJwENAOnkszZe1FHWBjeUR3
- JqVzOIVmSfHNscDmoynYYFTViaH43dYTwpWhDE1vVrSoNYbMx5rYUTbi9qjH/u9GzdZ9
- kMrg==
+ id 1nTMan-002hqa-Rg
+ for linux-nvme@lists.infradead.org; Sun, 13 Mar 2022 11:40:59 +0000
+Received: by mail-wr1-f44.google.com with SMTP id r10so19716968wrp.3
+ for <linux-nvme@lists.infradead.org>; Sun, 13 Mar 2022 04:40:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/2a/Y/9RxUg+RQvi15qObMdwkcPWgNkuVkFYsEACDhk=;
- b=NOhW1wQVN/0ROQ2GjbYTNnZ13LOfWzNJs/X2I+QXnj6Vur56k0oPvz5PytGvpKFqvy
- NSlz1EkLtCyZqw3EjpIHgGrfnTkhXkceryuaFu22Q/dBVzTd7/cqdtHI5ZVlcxOnnirl
- ldhb9kWixXHZYys997/6wIEqhWtM2p0JpLSe1XzMFt2y1Udcz1taSGQWUn60KrLMarnJ
- t3PwCkXsU2iHVHW/j7hHXeu+LUQDX/WIW7vxxT0hvQ5pk28jJF5d7BX/fM0fj6M1V3Dm
- n3VmlZdkBdzJDLj+4v5oeBLda/FQeTAhJXeS01EyRybMjwI7d8Pi9RduvLuBJloxUp/A
- qOyA==
-X-Gm-Message-State: AOAM531r7v7XQCKQglvH+Fx9cZkJTlcB8ZgRoGWcB/I0kWRjYtTe+ixv
- mq2kLALtdlODW2bhBgIrZZd53XFgefXLQ6ok+uw=
-X-Google-Smtp-Source: ABdhPJyU6aJ5LvlLIm1T0ym3uRSz5wd5N0P5WXOILbF4l1t4ugCeri+GG6bQDZpgXFpiYUZyRYDJV79MInjH6/VIu7A=
-X-Received: by 2002:a05:6512:3f99:b0:447:7fc0:8d3 with SMTP id
- x25-20020a0565123f9900b004477fc008d3mr10460588lfa.671.1647148245909; Sat, 12
- Mar 2022 21:10:45 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5hpgio9pD8hulFoquYbcjRBj0pBDXvlxYZEsR0wPc6k=;
+ b=Sp747K3w9VJL2ZwFnI+1vFapVpy4+HaB6QhvNPxejOXqES1khLIRB97o8fpW5FTc4u
+ YxGvpsHeS2UL4r5/s3eEztibu8FXq2mT0n5W39IT6TEWDcG9o0qFIgtw2FFFPqXsvSxh
+ q1yorFScZl4WUtSfKvE2LZ6eJmeWmtRC/yuI6jEB9SpAZuzkKzP4jaz1xyB6Py385htA
+ rLUE9ZygYr+LYfDigyVhoeXESCBnMKZO8cLZqq6R/ke+mAdUooIF6zlOwAAOCxkYH8Tg
+ vI+IF9BNMEdivW7sWo0PvYoqnl2vrJIxw9YIhDayIdfJg8jsirb1p7PMmfwvJbiv3auF
+ lT5g==
+X-Gm-Message-State: AOAM533xLSxnQSE3oNX/BGM+Jum3TUkh/Adzd0Q8betoFCtW2157ohLE
+ rqxxdMXex8V5LKd1hvd9AIc=
+X-Google-Smtp-Source: ABdhPJy1IlZerQti3MqLer/rw/mvsghVdBsTdaWqbe8Oz2N2hoosfT3mSJ7cYydWJ0YhpGxxMbxpDw==
+X-Received: by 2002:a05:6000:18ab:b0:203:731d:1ac1 with SMTP id
+ b11-20020a05600018ab00b00203731d1ac1mr13288082wri.411.1647171654840; 
+ Sun, 13 Mar 2022 04:40:54 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ l126-20020a1c2584000000b00387d4f35651sm15209301wml.10.2022.03.13.04.40.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Mar 2022 04:40:54 -0700 (PDT)
+Message-ID: <7121e4be-0e25-dd5f-9d29-0fb02cdbe8de@grimberg.me>
+Date: Sun, 13 Mar 2022 13:40:52 +0200
 MIME-Version: 1.0
-References: <CGME20220308152651epcas5p1ebd2dc7fa01db43dd587c228a3695696@epcas5p1.samsung.com>
- <20220308152105.309618-1-joshi.k@samsung.com> <20220310082926.GA26614@lst.de>
- <CA+1E3rJ17F0Rz5UKUnW-LPkWDfPHXG5aeq-ocgNxHfGrxYtAuw@mail.gmail.com>
- <Yit8LFAMK3t0nY/q@bombadil.infradead.org>
-In-Reply-To: <Yit8LFAMK3t0nY/q@bombadil.infradead.org>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Sun, 13 Mar 2022 10:40:20 +0530
-Message-ID: <CA+1E3rKgGgOQonGpjjwdAFc2FAXH5UkGKNXh0RqrBo9_=H6VSQ@mail.gmail.com>
-Subject: Re: [PATCH 00/17] io_uring passthru over nvme
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
- Jens Axboe <axboe@kernel.dk>, 
- Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav <pankydev8@gmail.com>, 
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Adam Manzanares <a.manzanares@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/3] nvme-tcp: support specifying the congestion-control
+Content-Language: en-US
+To: Mingbao Sun <sunmingbao@tom.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, David Ahern
+ <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ netdev@vger.kernel.org
+Cc: tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
+ libin.zhang@dell.com, ao.sun@dell.com
+References: <20220311103414.8255-1-sunmingbao@tom.com>
+ <20220311103414.8255-2-sunmingbao@tom.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220311103414.8255-2-sunmingbao@tom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220312_211048_611530_8A1AA36E 
-X-CRM114-Status: GOOD (  17.59  )
+X-CRM114-CacheID: sfid-20220313_044057_935956_7D32C31E 
+X-CRM114-Status: GOOD (  23.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,35 +90,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 11, 2022 at 10:13 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Thu, Mar 10, 2022 at 03:35:02PM +0530, Kanchan Joshi wrote:
-> > On Thu, Mar 10, 2022 at 1:59 PM Christoph Hellwig <hch@lst.de> wrote:
-> > >
-> > > What branch is this against?
-> > Sorry I missed that in the cover.
-> > Two options -
-> > (a) https://git.kernel.dk/cgit/linux-block/log/?h=io_uring-big-sqe
-> > first patch ("128 byte sqe support") is already there.
-> > (b) for-next (linux-block), series will fit on top of commit 9e9d83faa
-> > ("io_uring: Remove unneeded test in io_run_task_work_sig")
-> >
-> > > Do you have a git tree available?
-> > Not at the moment.
-> >
-> > @Jens: Please see if it is possible to move patches to your
-> > io_uring-big-sqe branch (and maybe rename that to big-sqe-pt.v1).
->
-> Since Jens might be busy, I've put up a tree with all this stuff:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20220311-io-uring-cmd
->
-> It is based on option (b) mentioned above, I took linux-block for-next
-> and reset the tree to commit "io_uring: Remove unneeded test in
-> io_run_task_work_sig" before applying the series.
 
-Thanks for putting this up.
+> From: Mingbao Sun <tyler.sun@dell.com>
 
--- 
-Joshi
+Hey Mingbao,
+
+> congestion-control could have a noticeable impaction on the
+> performance of TCP-based communications. This is of course true
+> to NVMe_over_TCP.
+> 
+> Different congestion-controls (e.g., cubic, dctcp) are suitable for
+> different scenarios. Proper adoption of congestion control would benefit
+> the performance. On the contrary, the performance could be destroyed.
+> 
+> Though we can specify the congestion-control of NVMe_over_TCP via
+> writing '/proc/sys/net/ipv4/tcp_congestion_control', but this also
+> changes the congestion-control of all the future TCP sockets that
+> have not been explicitly assigned the congestion-control, thus bringing
+> potential impaction on their performance.
+> 
+> So it makes sense to make NVMe_over_TCP support specifying the
+> congestion-control. And this commit addresses the host side.
+
+Thanks for this patchset.
+
+Generally, I'm not opposed to allow users to customize what they want
+to do, but in order to add something like this we need a few
+justifications.
+
+1. Can you please provide your measurements that support your claims?
+
+2. Can you please provide a real, existing use-case where this provides
+true, measureable value? And more specifically, please clarify how the
+use-case needs a local tuning for nvme-tcp that would not hold for
+other tcp streams that are running on the host (and vice-versa).
+
+3. There are quite a few of TCP tuning knobs that will affect how 
+nvme-tcp performs, just like any TCP application that running on Linux.
+However, Application level TCP tuning is not widespread at all, what
+makes nvme-tcp special to allow this, and why the TCP congestion is more
+important than other tuning knobs? I am not supportive of exporting
+all or some TCP level knobs as a local shadow for sysctl.
+
+Adding tunables, especially ones that are address niche use-cases in
+nature, can easily become a slippery slope for a set of rarely touched
+code and interface we are left stuck with for a long time...
+
+But while this feels a bit random to me, I'm not objecting to add this 
+to the driver. I just want to make sure that this is something that is
+a) really required and b) does not backfire on us nor the user.
+
+> Implementation approach:
+> a new option called 'tcp_congestion' was created in fabrics opt_tokens
+> for 'nvme connect' command to passed in the congestion-control
+> specified by the user.
+> Then later in nvme_tcp_alloc_queue, the specified congestion-control
+> would be applied to the relevant sockets of the host side.
+
+Specifically to the interface, I'm wandering if this is the right
+interface... The user is used to sysctl with the semantics that it
+provides, wouldn't it be better to expose the exact same interface
+just for nvme-tcp sockets?
+
+Something like sysctl nvme.tcp_congestion_control ?
 
