@@ -4,70 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4262EC433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Mar 2022 21:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B12EC433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Mar 2022 21:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SYCLyTrnyqRVpSi3ONMvSpLdZtLUdPrIJGS99QxfQd0=; b=q1ePyoIsz5aJE89JmXOo8D73X9
-	zWLeF6FNTEaf0V7CfEGWeVAEzBzm5ru9S1nyHSXQcLiWy0Ho0lJBFCeAiE5dRTMBMRWQCKDBTEkxU
-	7nf5U1nuvjC25xbhFTb2RX7FBMraTDZlywn7og6d43uEIyD3mulIceunle0lXDggf6xIhDCPoBMCW
-	GWWNLZK5V29AqRYjDIUJOFbwA6xLZtpTDYuWWKCs3K/8hehy0HCaC/10yrjzbOkd71HuZUs9OpCok
-	E8oDtQwBIsNxBMSkdRrP85Co2h7Z9i4C+JMwMe61pkl7WwKXSZu2sT93/LFgEPDB+fMYEdkWsNNvp
-	hjcA+i9g==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AeR7KcQKZR3NVhQn3wvthZAq+UYLkXB7yxvzjpPKOWA=; b=u+wSMpBluGbN2iZXrY3mCc2Hm7
+	tfYHx/c6Z2BnkzrrS6YYaIKzhFUd85KykQsQBRLFN6RLd1mnbwQzPeFFGRCb3aToKv1kym8JKuYsn
+	EU6eS6hNm5pjMWC0jdhEUZb12yfwVwJdGja3hv4ZhXeBwcrlEl1WqKQ7qcDfP/04PStZkA/2bFc+B
+	yzYcA6nzFXiQHJXb1q5ihMnxETnEdjT2DGE6GYUuevhs6EdGtsl77jJrUsjWWy4Mj6DooX2ma4rpA
+	9Vi7k1+F/9iUUV4XOrtS6ZYH2fZWhPlJz/C9lQxx5L9zvQnTrY1JgOpegeMDvbLc5t2hIDnjyvTte
+	2UAMKtEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTVit-003PVS-Oo; Sun, 13 Mar 2022 21:25:55 +0000
-Received: from mail-ej1-f44.google.com ([209.85.218.44])
+	id 1nTVlp-003Pdd-OQ; Sun, 13 Mar 2022 21:28:58 +0000
+Received: from mail-ej1-f45.google.com ([209.85.218.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTViq-003PV7-He
- for linux-nvme@lists.infradead.org; Sun, 13 Mar 2022 21:25:53 +0000
-Received: by mail-ej1-f44.google.com with SMTP id a8so29997757ejc.8
- for <linux-nvme@lists.infradead.org>; Sun, 13 Mar 2022 14:25:52 -0700 (PDT)
+ id 1nTVlm-003PdG-KW
+ for linux-nvme@lists.infradead.org; Sun, 13 Mar 2022 21:28:55 +0000
+Received: by mail-ej1-f45.google.com with SMTP id qa43so29844316ejc.12
+ for <linux-nvme@lists.infradead.org>; Sun, 13 Mar 2022 14:28:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=SYCLyTrnyqRVpSi3ONMvSpLdZtLUdPrIJGS99QxfQd0=;
- b=Myyahx0qxobMJDvaumrY8qxXFShN+3spHeN7IpGSvLbkpqMtrXf5jd562i6dEime+K
- 0U1oqSqeeuSvTTZoj1VYCe80ASp/cNdIiC8YVutXFDFdEiioLRAtcVw6sq7tDsr46f7u
- KSA5s+gMB80+Mcvhd3jeHdboKx+21KkJ51vrKuTqy+/5WcfTAj6jdvEAUSHb4iRMds02
- 3S4i57dpStoXKDKllmyoWbedqCS0/yhohJ32eAbdWwX+9ZGi/XOziL4zeIy90S1nl1C1
- L95SHdIpiYqB31jVIrE96v1MG61KaKtuWgTiB/SiJY4B77zJgFiATYNfmF2KlLwm4cUC
- CbtQ==
-X-Gm-Message-State: AOAM5316sJLCHXw/APbqfhkdtyxJUZ15F20yzjVKeSkhNTc/ROy64Ki5
- kEYCGFDavg7U1TVLRK75vtI=
-X-Google-Smtp-Source: ABdhPJy+91ZbE2Nh2Ff2OUbQJyCbSHDE1TQwYhvErnQbUFmj/Od3fEZSnIhNrmbjnH/gQ0PNS5i3fg==
-X-Received: by 2002:a17:906:30d1:b0:6cf:d160:d8e4 with SMTP id
- b17-20020a17090630d100b006cfd160d8e4mr16542818ejb.265.1647206750940; 
- Sun, 13 Mar 2022 14:25:50 -0700 (PDT)
+ bh=AeR7KcQKZR3NVhQn3wvthZAq+UYLkXB7yxvzjpPKOWA=;
+ b=P0WRwV9C6K3N5PUcze4zc96wyzNE2zWPFTnJrzBj9rlXsvIxoFTGpdiM4c88ST1wc3
+ Ayv3fBwIEM2RAMPM4T6nxaHJtOX5vcEZ121hGHtSfZse64uGE76ztXgCf8W53DlOkpZ4
+ 0/fIiPPpB81OZ/tHSyytDtSs2ZNQiVtyCALg1C72enOFtd1lRgZBcwZozEfXR7dgh+lX
+ SjkMcx9Vu3tD9cenMEkfOFTZE+xqRHnWENhUGFUVo+YH9LauubW270nYnxqm3d354ptm
+ jJ4i1NSvojcRS22EEIT4S/7OY3t7kUhV958Zjr9Fbo2+Q7I661Y2FMq0MiL7mLlqellu
+ PuTA==
+X-Gm-Message-State: AOAM533Yd7nAojiQ78gpsEK7kDM/BUFro22vDePHAVak9tDtLh8vI79R
+ fjofK4bvxE/K87am5aVmZEc=
+X-Google-Smtp-Source: ABdhPJy3zrL8Hixp6zhBqTyDRv9cDxCH6Wq47+UwLOiLElhmqAvQePMyidfvTwSxrt1vhtmAvIdGwA==
+X-Received: by 2002:a17:906:d54d:b0:6db:ab37:60d0 with SMTP id
+ cr13-20020a170906d54d00b006dbab3760d0mr9916035ejc.234.1647206933183; 
+ Sun, 13 Mar 2022 14:28:53 -0700 (PDT)
 Received: from [10.100.102.14] (46-117-116-119.bb.netvision.net.il.
  [46.117.116.119]) by smtp.gmail.com with ESMTPSA id
- w19-20020a05640234d300b00416baf4cdcasm5508066edc.48.2022.03.13.14.25.50
+ a1-20020aa7d901000000b00416217c99bcsm6794941edr.65.2022.03.13.14.28.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Mar 2022 14:25:50 -0700 (PDT)
-Message-ID: <2cc90ad6-6422-0ef0-005e-a1ec09caf894@grimberg.me>
-Date: Sun, 13 Mar 2022 23:25:48 +0200
+ Sun, 13 Mar 2022 14:28:52 -0700 (PDT)
+Message-ID: <16af7558-70ef-6ce2-bfcf-10a8f28dd749@grimberg.me>
+Date: Sun, 13 Mar 2022 23:28:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: Nvmet discovery implementation. Questions and a patch / proposal.
+Subject: Re: nvme-tcp: invalid h2cdata pdus in response to r2t
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Mark Ruijter <mruijter@primelogic.nl>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <1B761FBE-58C8-4A52-9747-42ED84A6D383@primelogic.nl>
- <5109f07b-b99d-5e3b-f5b3-410fbbbdfcd4@suse.de>
+To: Jonathan Nicklin <jnicklin@blockbridge.com>
+Cc: linux-nvme@lists.infradead.org
+References: <CAHex0coRbCPVnwVfeHYVxLHQp3HRd5V3aWZJ5uVwyyr-zk9=Sg@mail.gmail.com>
+ <d01b7cf5-e46c-0cf3-5e58-64547f84817e@grimberg.me>
+ <CAHex0crgDtzTcC1BMECvPsCUcdn_CtPeLLKQAtF2R=Yc=kELTA@mail.gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <5109f07b-b99d-5e3b-f5b3-410fbbbdfcd4@suse.de>
+In-Reply-To: <CAHex0crgDtzTcC1BMECvPsCUcdn_CtPeLLKQAtF2R=Yc=kELTA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220313_142552_617559_A9E4047C 
-X-CRM114-Status: GOOD (  23.73  )
+X-CRM114-CacheID: sfid-20220313_142854_712812_968F131D 
+X-CRM114-Status: UNSURE (   9.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,56 +86,14 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 3/1/22 09:05, Hannes Reinecke wrote:
-> On 2/28/22 17:39, Mark Ruijter wrote:
->>
->> The current discovery implementation only works after a subsystem has 
->> been created and has been linked to a port.
->> As a result, 'nvme discover' from an initiator will only show a 
->> discovery device after the first subsystem has
->> been exported.
->>
->> The patch that I propose adds these features:
->> A. Make discovery work immediately after the target port has been 
->> configured, without needing to configure
->>    subsystems first.
->> B. Move the discovery_nqn configuration option to the port instead of 
->> having the same configuration option
->>    duplicated in every subsystem.
->> C. Allow to enable and disable a target port without needing to unlink 
->> target subsystems.
->>
-> The current nvmet discovery implementation was designed to the original 
-> NVMe spec, where a discovery controller could only return informations 
-> about the attached subsystems.
-> But with the recent changes to the spec a discovery controller can now 
-> return information about itself (ie which port it's running on), and so
-> it does makes sense to have it enabled even with no subsystems attached.
+> Good news. The patch applies cleanly with offsets. And, I can confirm
+> that the host driver issues multiple data h2c pdus correctly. The
+> various combinations of digest options work as well.
 > 
-> But: the current implementation only has a _single_ discovery subsystem 
-> (nvmet_disc_subsys), which is shared across all configured subsystems.
-> And there's a filter when generating the discovery log page such that 
-> only the information for the current subsystem is returned (cf 
-> nvmet_execute_disc_get_log_page()).
-> So in effect each subsystem has its own discovery subsystem.
-> 
-> Moving the discovery nqn to the port will only confuse matters, as then 
-> it's quite unclear what will happen if you change the discovery 
-> subsystem nqn on a per-port basis; with the current design you would
-> change it for _all_ discovery subsystem ...
-> 
-> So if you want to do something like this, you'd need to change the 
-> implementation to have a discovery subsystem per port, and also change 
-> the logic in drivers/nvme/target/discovery.c such that the discovery
-> subsystems will return informations for _all_ configured subsystems.
-> 
-> It's actually something I wanted to do, too, as I didn't like the 
-> current implementation :-)
+> Of course, there are options for target implementations to avoid the
+> need to send r2ts, but in the interest of correctness and
+> interoperability, it seems valuable to fix this bug. Whether or not to
+> shepherd this through to other kernels is a different question...
 
-Why aren't we just creating the discovery subsystem as a static configfs
-subsystems and just link it to different ports?
-
-The port listener on first linkage is a different matter afaict, don't
-see a strong argument to make the port listener without any subsystems
-exported anyways... maybe if discovery log change event is being used...
+Did you happen to look if this patch was picked up by stable?
 
