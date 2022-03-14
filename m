@@ -4,56 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DC62C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 06:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70DAFC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 06:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WEiEqrKYRs3fSz3prNAWq9FwH6iEIRga+xKC1LvpndA=; b=qkIXvyvcOn9VgXp497zRejSlXY
-	M31Y8LMgGSjQDOinTIyIbRZISKjpdsS/pdfuDXEsco/avLK8V/WQPn1SQJDW1cZNz5T3TaCfOISAy
-	3a3eCn0a2wuB0/d9mkpE4gCw2zEO/WVhJeUW75whHq6Dttk9JkrsvXg/H46Yk4YrCDmG5UK+5qYim
-	jrJ7PH/bjhKhY2OlLjSxPJ/irnAN7Q1R+zokoupatMCGwU6du55V+g7/3u1g/gSI4VYzACggqpPCD
-	qJ87yfLDOGGnfetwMma5Q5D87oVJQrRKp/X7JUfqpcFg9ZtJqhizMHvzQ83Vx60sg2uzg8RGElIuU
-	kRK7PPnw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0IIs81W2FxeUevWdsCGWllIVGXXDkTFcUp7md2mozlg=; b=Ax4o33aEuuK8k4+Len1N8OyDjh
+	Jk8UtAbvfa92/9ApGcwMFPpCWa+vf8/VQ2ZYoclmooKwG8UMKHA+Qly9yCzYVLbS1vMQISBqE5ku9
+	885pzeDC7vdLlim6wHf3xZM/aZ5TExSz1VZB+gBmoeZQwpfwTyLhIzjFWN/3hE3niu85BVwzR8nMN
+	daHAv+4O3uHSJMAkZoi1l9WSsgtQb+eTr6flNyOkj2FrXd8wI+ci41Gq3cR/VbRwty+ESYAShEzJW
+	PMS6Sw7QpwUc6ifbmZ4oDYzfBb62b3ixBcjD/fEymjY2GAB2TXy4tXOkmAIwhUuGwKtPRljatkoj7
+	K2o9Cu0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTe5s-003vlf-PO; Mon, 14 Mar 2022 06:22:12 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nTebE-003zMd-VT; Mon, 14 Mar 2022 06:54:37 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTe5k-003vkS-Dg
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 06:22:05 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 5904468AFE; Mon, 14 Mar 2022 07:21:54 +0100 (CET)
-Date: Mon, 14 Mar 2022 07:21:53 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Pankaj Raghav <p.raghav@samsung.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Johannes Thumshirn <johannes.thumshirn@edc.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Jens Axboe <axboe@kernel.dk>, Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>,
- kanchan Joshi <joshi.k@samsung.com>, Pankaj Raghav <pankydev8@gmail.com>,
- Kanchan Joshi <joshiiitr@gmail.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: Fix zns drives without append support to export
- correct permissions
-Message-ID: <20220314062153.GA3007@lst.de>
-References: <CGME20220311201638eucas1p18b9c5ecb3442b5a53bba233591d34db0@eucas1p1.samsung.com>
- <20220311201608.275384-1-p.raghav@samsung.com>
- <1bbc81a0-19f0-433b-28c2-b22d28176e37@grimberg.me>
+ id 1nTebC-003zM4-2a
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 06:54:35 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3EAD01F37E;
+ Mon, 14 Mar 2022 06:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1647240869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0IIs81W2FxeUevWdsCGWllIVGXXDkTFcUp7md2mozlg=;
+ b=ZJvpx/7JuYqhVFrlHQXQrjK07+ZIDN9fdfuJ9zV4m9C10f4XsT9jvK3C6yuMPHaWoMvhTW
+ yui3Oybn02d7L2nIQ3qMiyz72zIZWMpVctqaOxt+bv/UuKJEVohBTRv43L7K9oWk9wsGqI
+ Jd2XK8u5Zdnqv0XiPFpWfcW/ozl8DzY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1647240869;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0IIs81W2FxeUevWdsCGWllIVGXXDkTFcUp7md2mozlg=;
+ b=6T2pD+JRAsWpPXPYUxJOWUkkMIx4gVlWXWK9NlNRpkgb5x1WtEr6dQVR2Osjkr9hXKKytf
+ oddnuAKkuRn6S6BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 050A613ADA;
+ Mon, 14 Mar 2022 06:54:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QARPO6TmLmLJMgAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 14 Mar 2022 06:54:28 +0000
+Message-ID: <e9b43c80-0eb7-99ae-55d5-aca9bf2a308b@suse.de>
+Date: Mon, 14 Mar 2022 07:54:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1bbc81a0-19f0-433b-28c2-b22d28176e37@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCHv8 00/12] nvme: In-band authentication support
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Niolai Stange <nstange@suse.com>
+Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org,
+ linux-crypto@vger.kernel.org
+References: <20211202152358.60116-1-hare@suse.de>
+ <20211213080853.GA21223@lst.de>
+ <9853d36a-036c-7f2b-5fb4-b3fb4bae473f@suse.de>
+ <4328e4f0-9674-9362-4ed5-89ec7edba4a2@grimberg.me>
+ <56f1ce1c-2272-bed2-fd6b-642854b612bb@suse.de>
+ <483836f5-f850-6eac-8c38-3f03db3189ab@grimberg.me>
+ <0c4613ff-ba30-c812-a6e9-1954d77b1d1b@suse.de>
+ <ad9af172-4b7b-4206-feab-8ab54ba7cfe5@grimberg.me>
+ <e2ccd5bf-c13f-8660-c4c0-31a1053846ed@suse.de>
+ <1d1522c6-7f6b-7023-9e66-a05ac5a5a0be@grimberg.me>
+ <ac3056fe-e5bb-92cb-2d4f-a86c04117e5d@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ac3056fe-e5bb-92cb-2d4f-a86c04117e5d@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220313_232204_649371_0D10C1A0 
-X-CRM114-Status: GOOD (  12.71  )
+X-CRM114-CacheID: sfid-20220313_235434_307995_C74F0805 
+X-CRM114-Status: GOOD (  12.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,12 +101,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 13, 2022 at 03:15:08PM +0200, Sagi Grimberg wrote:
-> There is a call just above this, why add another call?
+On 3/13/22 22:33, Sagi Grimberg wrote:
+> 
+>> Hannes and co,
+>>
+>> Do you know what is the state of this dependency? Or when should
+>> we expect to revisit this patch set?
+> 
+> Ping?
 
-NVME_NS_FORCE_RO is set in nvme_update_zone_info, which is called after
-nvme_update_disk_info.  I think the suggestion from Damien to move the
-set_disk_ro call out of nvme_update_disk_info and directly into
-nvme_update_ns_info so that it can be done later is the right thing to
-do here.
+Pondering what the next steps should be. Herbert Xu has merged Nicolais 
+patchset, so I _could_ submit the patches, but then I would need to base 
+it on Herberts cryptodev-2.6 branch.
+And without these patches my patchset won't compile.
+So no sure how to proceed; sending the patches relative to Herberts 
+tree? Waiting for the patches to appear upstream? Not sure what'll be 
+best...
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
