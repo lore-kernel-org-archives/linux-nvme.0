@@ -4,65 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA01EC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 14:24:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37F6DC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 14:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pw1MUBU3/q8Dej3/MKvwek7FWFhmXRwfIOJWUXS2MXI=; b=2bL4TI5vVVE5xGKFx2YuGoDrH6
-	CM0KcpmcFwMDPeKIFV3fBL04/qsQEjaQFAu/gJJaT5Heuehkw/+BMFn8SrfMV9UZQvX3Ta3o5Lkae
-	ATz6GlRhSdpPmTWoICpuiTmZLouPDDjIAeFi5BZHxIQKxAJ1aOr28XDbOF4RXmAVaaTC/beF6iTB0
-	2DFUeLTixs6Et9T/9u1fjia0XuQ0t1HZ9wa3uDL0tJKBEzyWkONL6L3OuLlkXfhGwzEjQfPWSDny/
-	Dhe+z3XJj0DqsQRy+UrFHHUW9CKlL9RfdIlFuFyygtUBj8QYTgqUtTPoCjS88DPnsZjqU7+xtZvma
-	oozP55dw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y8HXqoZS0yakVP1rRgpLH13VjxuiqLVz2udIjsoRQfM=; b=gfg8IJdSlZFW1V+AhahoNkvmQc
+	ZCirhkvpNOuUFzweA8nDPN/kOIWqy7wdX7Mr0FeTQcg2smR9pSEBTAMETyg3PGb/X2Xz5E3V4jMxB
+	DGN6NyiMQud1nw284T0qArabZZKBQDw3B0EoRmruuDwPm5Txh1uBYsuQa1/CCBzpH2u/VpsyBW3Nw
+	n5Gw1D5r7TNrQ6e2VXJqMUxaZdl4mbtVw9mouA63ibcBdhtbqdGoVlPkdD6XHQeQxwXeK7gPhNfjN
+	ucJ9Evd+9kWLAlPRRT1g/Am6ugVyG+s+esWkgA3+XZfK2S2ZOF47HFlBdaK35yo/u2xwu38bJJEyL
+	dJHVMxSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTlct-005fhT-Of; Mon, 14 Mar 2022 14:24:47 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1nTlmA-005h4o-VK; Mon, 14 Mar 2022 14:34:22 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTlco-005ffg-E0
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 14:24:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647267882; x=1678803882;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=0Fn/rtdY6z3i+splslh2Ush124x6+MmeaRJF5pJJ5tw=;
- b=VXM4EDREDdB3bQ78tqH9ox6S7SwI2exlJZTqh9Je/UUvhDpf/zaCVOE3
- Wi66gHa7mvePkmG5ondlEgjUrqp5RKwo/4KrTMGXllreUq/QoxFt/L01i
- zgxJCGs3K0d0/EJFP412Cp8huv27yI54x+iA+oSQVHJmF/JM7k2Hk5ddu
- 3OJdN88EApCkvAL0Q9nbyvrQLmok/WhLrGStRyKXt1ZkjSzIF12RiLxsy
- mKENl7BmeYJuF5CjqqJTPWgnogvtJCuzXqjCCGiYXjKOoQ6lWko1hXcxp
- 0jZhplO53IpG5WvzkqcfqE7mJ4Aw6ReicMFH/ZvjBWMzhc80Lvx3CA/yF Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="235986864"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="235986864"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 07:24:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="497628506"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 14 Mar 2022 07:24:39 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nTlcl-0009va-7H; Mon, 14 Mar 2022 14:24:39 +0000
-Date: Mon, 14 Mar 2022 22:23:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-5.18 11/12] ld.lld: error: undefined symbol:
- nvmet_get_feat_async_event
-Message-ID: <202203142235.GRM0KrZ4-lkp@intel.com>
+ id 1nTlm7-005h46-Vb
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 14:34:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647268458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y8HXqoZS0yakVP1rRgpLH13VjxuiqLVz2udIjsoRQfM=;
+ b=hKzWUxHBY1SHZ8PrWp9zuCtYZBHJo8JGQPelbFxlf52r9hkjL30yhjwGk3wrwP0ZQGFJgi
+ WevUq3ETcT3ayfMJ9tfcU5hf5JAQzlCohf6/BKS51I5K2PXvoqAXyPpx0V8KR0rlPmISuq
+ E4U2EpXknlWB2VPK4gzJl6hR8uLp5ZQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-536-YmGGBlXHNb-y4s2yNYNVQQ-1; Mon, 14 Mar 2022 10:34:12 -0400
+X-MC-Unique: YmGGBlXHNb-y4s2yNYNVQQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10280804186;
+ Mon, 14 Mar 2022 14:34:12 +0000 (UTC)
+Received: from T590 (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0208E404C309;
+ Mon, 14 Mar 2022 14:34:02 +0000 (UTC)
+Date: Mon, 14 Mar 2022 22:33:57 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, kbusch@kernel.org,
+ asml.silence@gmail.com, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ sbates@raithlin.com, logang@deltatee.com, pankydev8@gmail.com,
+ javier@javigon.com, mcgrof@kernel.org, a.manzanares@samsung.com,
+ joshiiitr@gmail.com, anuj20.g@samsung.com
+Subject: Re: [PATCH 09/17] io_uring: plug for async bypass
+Message-ID: <Yi9SVXAs8TlIcIkU@T590>
+References: <20220308152105.309618-1-joshi.k@samsung.com>
+ <CGME20220308152711epcas5p31de5d63f5de91fae94e61e5c857c0f13@epcas5p3.samsung.com>
+ <20220308152105.309618-10-joshi.k@samsung.com>
+ <20220310083303.GC26614@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220310083303.GC26614@lst.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220314_072442_534203_AF3E9419 
-X-CRM114-Status: GOOD (  10.29  )
+X-CRM114-CacheID: sfid-20220314_073420_117718_E578B6DF 
+X-CRM114-Status: GOOD (  12.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,33 +85,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-5.18
-head:   0ad57fcd030f0bda79a3b6c2fb8fc29b871d9538
-commit: 7d36f577e5a3f73768327ca237f444e59140e261 [11/12] nvmet: open code nvmet_get_feat_async_event()
-config: i386-randconfig-a016-20220314 (https://download.01.org/0day-ci/archive/20220314/202203142235.GRM0KrZ4-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 3e4950d7fa78ac83f33bbf1658e2f49a73719236)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add linux-nvme git://git.infradead.org/nvme.git
-        git fetch --no-tags linux-nvme nvme-5.18
-        git checkout 7d36f577e5a3f73768327ca237f444e59140e261
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+On Thu, Mar 10, 2022 at 09:33:03AM +0100, Christoph Hellwig wrote:
+> On Tue, Mar 08, 2022 at 08:50:57PM +0530, Kanchan Joshi wrote:
+> > From: Jens Axboe <axboe@kernel.dk>
+> > 
+> > Enable .plug for uring-cmd.
+> 
+> This should go into the patch adding the
+> IORING_OP_URING_CMD/IORING_OP_URING_CMD_FIXED.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Plug support for passthrough rq is added in the following patch, so
+this one may be put after patch 'block: wire-up support for plugging'.
 
-All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: nvmet_get_feat_async_event
-   >>> referenced by discovery.c:343 (drivers/nvme/target/discovery.c:343)
-   >>>               vmlinux.o:(nvmet_execute_disc_get_features)
-   >>> did you mean: nvmet_set_feat_async_event
-   >>> defined in: vmlinux.o
+Thanks,
+Ming
 
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
