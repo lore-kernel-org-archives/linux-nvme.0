@@ -4,55 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FABFC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 19:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A96CC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 19:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O8I9kM4lxKMvuadKy1n5LOwyKrbfUd0UbFzdS6hmdGQ=; b=p8j/ZZkx3Y+QDGiUCcScVvIfwh
-	GQmGrfyZ+FKCdr4OrZeRm1QhU4AdohI1QLDwaqPd0/5LuleSXRtfDaArEeWEnqxW9q1+SglPCRWts
-	jj4MQLByO5ah2Is7yeNtqiAvPfuBwxxfFbQ+4CR9x3b8qy4e9ENxjiz50iU6qEOgDjVKiKE88EsfO
-	g+VbnW2L563KKmujDE6BzXs6e8zaiL29tfRASQfOPQPeGgvzG8u8PbjfuBkWMJGg8XV7O8ctbwJzo
-	9sBq9IofGgVcDZw/8jXl9GGKt8WclWKzcUZbsdHzzZ6dDCCHXij865dydKUNfTSkBQBZpCsWkw2Ps
-	5ANwkgJg==;
+	bh=On3lskfefDO7Bl1q7PKJQXQAMhTxwnHGKT6na9XT9Wo=; b=4w94F0QiJQGis3up9YzxGiyN/e
+	g7uMFgtqnvFA7NFlX+S1YN7yg6HkirRMs8kbG74X2Px5sjNU952lJBRbHdliwrbfJzUb2kH2HUy2w
+	JxGwCQ7AJANr4o7lB+OJSSKvZErlaNfajh0JBoElkYUsKCpKHp4YvrkENWWtPfU7V9nJrUd6k5Tj/
+	Ez3LUnP1INy6HkfhcaAGgiXMaiKn2+Fqm3Vjr5pylvbBlzo5BCA/oi9YLdgC6yhWNaazEAkx9uni0
+	vaws3kcfhK+mBPWIqH00ac4/HvtR8YXj+X6dzcUHDoqvNqXIZFUVDwIzJ8Qq604KTgcZ/R8mSGllI
+	Ks1m3wVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTqYD-006c5c-Es; Mon, 14 Mar 2022 19:40:17 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1nTqY8-006c4l-MY; Mon, 14 Mar 2022 19:40:12 +0000
-Date: Mon, 14 Mar 2022 12:40:12 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Paul Moore <paul@paul-moore.com>,
- Kanchan Joshi <joshi.k@samsung.com>, jmorris@namei.org,
- serge@hallyn.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
- john.fastabend@gmail.com, kpsingh@kernel.org,
- linux-security-module@vger.kernel.org, hch@lst.de,
- kbusch@kernel.org, asml.silence@gmail.com, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- sbates@raithlin.com, logang@deltatee.com, pankydev8@gmail.com,
- javier@javigon.com, a.manzanares@samsung.com, joshiiitr@gmail.com,
- anuj20.g@samsung.com
-Subject: Re: [PATCH 03/17] io_uring: add infra and support for
- IORING_OP_URING_CMD
-Message-ID: <Yi+aHJHelflSjRMF@bombadil.infradead.org>
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152658epcas5p3929bd1fcf75edc505fec71901158d1b5@epcas5p3.samsung.com>
- <20220308152105.309618-4-joshi.k@samsung.com>
- <YiqrE4K5TWeB7aLd@bombadil.infradead.org>
- <e3bfd028-ece7-d969-f47c-1181b17ac919@kernel.dk>
- <YiuC1fhEiRdo5bPd@bombadil.infradead.org>
- <92938b01-1746-af70-b325-e098488d8cdf@schaufler-ca.com>
- <Yi9uIqu4MMJzglqC@bombadil.infradead.org>
- <8adf55db-7bab-f59d-d612-ed906b948d19@schaufler-ca.com>
+	id 1nTqiA-006eCt-3c; Mon, 14 Mar 2022 19:50:34 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nTqi6-006eAe-De
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 19:50:32 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 92967B80F9E;
+ Mon, 14 Mar 2022 19:50:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBBEC340EE;
+ Mon, 14 Mar 2022 19:50:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647287427;
+ bh=On3lskfefDO7Bl1q7PKJQXQAMhTxwnHGKT6na9XT9Wo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WFZcNWXFGZVA+2W7kyzs6SFdlrv3FyV/aJpjGOYQrp3rgQAHpkzRjFdMvwqDhPEVY
+ 8HccX0Lo2E1PNfiZQDUrzkEZYvszKgIDh+jEv4UlieiUh562ltwNsZ+yC+z+A/sAvG
+ VQMJafX4Ed9uPokPP2M97s8W6Z/uFiwrLEVIODiu9Lw4BvxBUz98r92nboGi0+u9DC
+ rsyoWTTLz4oO2dWRjOaZxGA3OhCqhH9OiqCZtdX0G5qpVM+atFaGbdz5ZlHsYog415
+ LYR+jbkEfGOWoZwkJxMlwjdHCgo0dnUlWfhid2a5xtgycNP4N1S4HQNjiP7N/dP0ey
+ hYnS7fa2QRuvg==
+Date: Mon, 14 Mar 2022 19:50:25 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Avi Shchislowski <Avi.Shchislowski@wdc.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+ "Bean Huo (beanhuo)" <beanhuo@micron.com>,
+ "Luca Porzio (lporzio)" <lporzio@micron.com>,
+ Manjong Lee <mj0123.lee@samsung.com>,
+ "david@fromorbit.com" <david@fromorbit.com>,
+ "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "song@kernel.org" <song@kernel.org>,
+ "seunghwan.hyun@samsung.com" <seunghwan.hyun@samsung.com>,
+ "sookwan7.kim@samsung.com" <sookwan7.kim@samsung.com>,
+ "nanich.lee@samsung.com" <nanich.lee@samsung.com>,
+ "woosung2.lee@samsung.com" <woosung2.lee@samsung.com>,
+ "yt0928.kim@samsung.com" <yt0928.kim@samsung.com>,
+ "junho89.kim@samsung.com" <junho89.kim@samsung.com>,
+ "jisoo2146.oh@samsung.com" <jisoo2146.oh@samsung.com>,
+ Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: Re: [PATCH 2/2] block: remove the per-bio/request write hint.
+Message-ID: <Yi+cgUXaSx+PN10B@gmail.com>
+References: <CO3PR08MB797524ACBF04B861D48AF612DC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
+ <e98948ae-1709-32ef-e1e4-063be38609b1@kernel.dk>
+ <CO3PR08MB797562AAE72BC201EB951C6CDC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
+ <d477c7bf-f3a7-ccca-5472-f9cbb05b83c1@kernel.dk>
+ <c27a5ec3-f683-d2a7-d5e7-fd54d2baa278@acm.org>
+ <PH0PR08MB7889642784B2E1FC1799A828DB0B9@PH0PR08MB7889.namprd08.prod.outlook.com>
+ <ef77ef36-df95-8658-ff54-7d8046f5d0e7@kernel.dk>
+ <bf221ef4-f4d0-4431-02f3-ef3bea0e8cb2@acm.org>
+ <800fa121-5da2-e4c0-d756-991f007f0ad4@kernel.dk>
+ <SN6PR04MB3872231050F8585FFC6824C59A0F9@SN6PR04MB3872.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8adf55db-7bab-f59d-d612-ed906b948d19@schaufler-ca.com>
+In-Reply-To: <SN6PR04MB3872231050F8585FFC6824C59A0F9@SN6PR04MB3872.namprd04.prod.outlook.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220314_125030_630936_E1E2F3FB 
+X-CRM114-Status: UNSURE (   9.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,180 +98,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 14, 2022 at 11:05:41AM -0700, Casey Schaufler wrote:
-> On 3/14/2022 9:32 AM, Luis Chamberlain wrote:
-> > On Mon, Mar 14, 2022 at 09:25:35AM -0700, Casey Schaufler wrote:
-> > > On 3/11/2022 9:11 AM, Luis Chamberlain wrote:
-> > > > On Thu, Mar 10, 2022 at 07:43:04PM -0700, Jens Axboe wrote:
-> > > > > On 3/10/22 6:51 PM, Luis Chamberlain wrote:
-> > > > > > On Tue, Mar 08, 2022 at 08:50:51PM +0530, Kanchan Joshi wrote:
-> > > > > > > From: Jens Axboe <axboe@kernel.dk>
-> > > > > > > 
-> > > > > > > This is a file private kind of request. io_uring doesn't know what's
-> > > > > > > in this command type, it's for the file_operations->async_cmd()
-> > > > > > > handler to deal with.
-> > > > > > > 
-> > > > > > > Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> > > > > > > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> > > > > > > ---
-> > > > > > <-- snip -->
-> > > > > > 
-> > > > > > > +static int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
-> > > > > > > +{
-> > > > > > > +	struct file *file = req->file;
-> > > > > > > +	int ret;
-> > > > > > > +	struct io_uring_cmd *ioucmd = &req->uring_cmd;
-> > > > > > > +
-> > > > > > > +	ioucmd->flags |= issue_flags;
-> > > > > > > +	ret = file->f_op->async_cmd(ioucmd);
-> > > > > > I think we're going to have to add a security_file_async_cmd() check
-> > > > > > before this call here. Because otherwise we're enabling to, for
-> > > > > > example, bypass security_file_ioctl() for example using the new
-> > > > > > iouring-cmd interface.
-> > > > > > 
-> > > > > > Or is this already thought out with the existing security_uring_*() stuff?
-> > > > > Unless the request sets .audit_skip, it'll be included already in terms
-> > > > > of logging.
-> > > > Neat.
-> > > > 
-> > > > > But I'd prefer not to lodge this in with ioctls, unless
-> > > > > we're going to be doing actual ioctls.
-> > > > Oh sure, I have been an advocate to ensure folks don't conflate async_cmd
-> > > > with ioctl. However it *can* enable subsystems to enable ioctl
-> > > > passthrough, but each of those subsystems need to vet for this on their
-> > > > own terms. I'd hate to see / hear some LSM surprises later.
-> > > > 
-> > > > > But definitely something to keep in mind and make sure that we're under
-> > > > > the right umbrella in terms of auditing and security.
-> > > > Paul, how about something like this for starters (and probably should
-> > > > be squashed into this series so its not a separate commit) ?
-> > > > 
-> > > > >From f3ddbe822374cc1c7002bd795c1ae486d370cbd1 Mon Sep 17 00:00:00 2001
-> > > > From: Luis Chamberlain <mcgrof@kernel.org>
-> > > > Date: Fri, 11 Mar 2022 08:55:50 -0800
-> > > > Subject: [PATCH] lsm,io_uring: add LSM hooks to for the new async_cmd file op
-> > > > 
-> > > > io-uring is extending the struct file_operations to allow a new
-> > > > command which each subsystem can use to enable command passthrough.
-> > > > Add an LSM specific for the command passthrough which enables LSMs
-> > > > to inspect the command details.
-> > > > 
-> > > > Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> > > > ---
-> > > >    fs/io_uring.c                 | 5 +++++
-> > > >    include/linux/lsm_hook_defs.h | 1 +
-> > > >    include/linux/lsm_hooks.h     | 3 +++
-> > > >    include/linux/security.h      | 5 +++++
-> > > >    security/security.c           | 4 ++++
-> > > >    5 files changed, 18 insertions(+)
-> > > > 
-> > > > diff --git a/fs/io_uring.c b/fs/io_uring.c
-> > > > index 3f6eacc98e31..1c4e6b2cb61a 100644
-> > > > --- a/fs/io_uring.c
-> > > > +++ b/fs/io_uring.c
-> > > > @@ -4190,6 +4190,11 @@ static int io_uring_cmd_prep(struct io_kiocb *req,
-> > > >    	struct io_ring_ctx *ctx = req->ctx;
-> > > >    	struct io_uring_cmd *ioucmd = &req->uring_cmd;
-> > > >    	u32 ucmd_flags = READ_ONCE(sqe->uring_cmd_flags);
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = security_uring_async_cmd(ioucmd);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > >    	if (!req->file->f_op->async_cmd)
-> > > >    		return -EOPNOTSUPP;
-> > > > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-> > > > index 819ec92dc2a8..4a20f8e6b295 100644
-> > > > --- a/include/linux/lsm_hook_defs.h
-> > > > +++ b/include/linux/lsm_hook_defs.h
-> > > > @@ -404,4 +404,5 @@ LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
-> > > >    #ifdef CONFIG_IO_URING
-> > > >    LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
-> > > >    LSM_HOOK(int, 0, uring_sqpoll, void)
-> > > > +LSM_HOOK(int, 0, uring_async_cmd, struct io_uring_cmd *ioucmd)
-> > > >    #endif /* CONFIG_IO_URING */
-> > > > diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-> > > > index 3bf5c658bc44..21b18cf138c2 100644
-> > > > --- a/include/linux/lsm_hooks.h
-> > > > +++ b/include/linux/lsm_hooks.h
-> > > > @@ -1569,6 +1569,9 @@
-> > > >     *      Check whether the current task is allowed to spawn a io_uring polling
-> > > >     *      thread (IORING_SETUP_SQPOLL).
-> > > >     *
-> > > > + * @uring_async_cmd:
-> > > > + *      Check whether the file_operations async_cmd is allowed to run.
-> > > > + *
-> > > >     */
-> > > >    union security_list_options {
-> > > >    	#define LSM_HOOK(RET, DEFAULT, NAME, ...) RET (*NAME)(__VA_ARGS__);
-> > > > diff --git a/include/linux/security.h b/include/linux/security.h
-> > > > index 6d72772182c8..4d7f72813d75 100644
-> > > > --- a/include/linux/security.h
-> > > > +++ b/include/linux/security.h
-> > > > @@ -2041,6 +2041,7 @@ static inline int security_perf_event_write(struct perf_event *event)
-> > > >    #ifdef CONFIG_SECURITY
-> > > >    extern int security_uring_override_creds(const struct cred *new);
-> > > >    extern int security_uring_sqpoll(void);
-> > > > +extern int security_uring_async_cmd(struct io_uring_cmd *ioucmd);
-> > > >    #else
-> > > >    static inline int security_uring_override_creds(const struct cred *new)
-> > > >    {
-> > > > @@ -2050,6 +2051,10 @@ static inline int security_uring_sqpoll(void)
-> > > >    {
-> > > >    	return 0;
-> > > >    }
-> > > > +static inline int security_uring_async_cmd(struct io_uring_cmd *ioucmd)
-> > > > +{
-> > > > +	return 0;
-> > > > +}
-> > > >    #endif /* CONFIG_SECURITY */
-> > > >    #endif /* CONFIG_IO_URING */
-> > > > diff --git a/security/security.c b/security/security.c
-> > > > index 22261d79f333..ef96be2f953a 100644
-> > > > --- a/security/security.c
-> > > > +++ b/security/security.c
-> > > > @@ -2640,4 +2640,8 @@ int security_uring_sqpoll(void)
-> > > >    {
-> > > >    	return call_int_hook(uring_sqpoll, 0);
-> > > >    }
-> > > > +int security_uring_async_cmd(struct io_uring_cmd *ioucmd)
-> > > > +{
-> > > > +	return call_int_hook(uring_async_cmd, 0, ioucmd);
-> > > I don't have a good understanding of what information is in ioucmd.
-> > > I am afraid that there may not be enough for a security module to
-> > > make appropriate decisions in all cases. I am especially concerned
-> > > about the modules that use path hooks, but based on the issues we've
-> > > always had with ioctl and the like I fear for all cases.
-> > As Paul pointed out, this particular LSM hook would not be needed if we can
-> > somehow ensure users of the cmd path use their respective LSMs there. It
-> > is not easy to force users to have the LSM hook to be used, one idea
-> > might be to have a registration mechanism which allows users to also
-> > specify the LSM hook, but these can vary in arguments, so perhaps then
-> > what is needed is the LSM type in enum form, and internally we have a
-> > mapping of these. That way we slowly itemize which cmds we *do* allow
-> > for, thus vetting at the same time a respective LSM hook. Thoughts?
-> 
-> tl;dr - Yuck.
-> 
-> I don't see how your registration mechanism would be easier than
-> getting "users of the cmd path" to use the LSM mechanism the way
-> everyone else does. What it would do is pass responsibility for
-> dealing with LSM to the io_uring core team.
+On Mon, Mar 14, 2022 at 07:40:42AM +0000, Avi Shchislowski wrote:
+>
+> We also supports Samsung & Micron approach
 
-Agreed, I was just trying to be proactive to help with the LSM stuff.
-But indeed, that path would be complicated and I agree probably not
-the most practical one.
+Great, so send some patches upstream to have it be supported properly.
 
-> Experience has shown
-> that dealing with the security issues after the fact is much
-> harder than doing it up front, even when developers wail about
-> the burden. Sure, LSM is an unpleasant interface/mechanism, but
-> so is locking, and no one gets away without addressing that.
-> My $0.02.
-
-So putting the onus on those file_operations which embrace async_cmd to
-take into account LSMs seems to be the way to go then, which seems to
-align with what Paul was suggesting.
-
-  Luis
+- Eric
 
