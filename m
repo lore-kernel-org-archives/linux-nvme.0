@@ -4,102 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0B61C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 09:18:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CA5CC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 09:21:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From
-	:Subject:Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+s7xWazCsiSQTevuQChhBWMZvqG2bPqG0Dby++5yyts=; b=aFMWsc4wSC2jom7Tpc3/Bkb2CQ
-	1svtNZIXjLfgOXN2D+KD4GWdF5zvLY80tZJbNNhQkKvzK0j0x/yZx+VCQ8SC0C5lRW1JOcWTCmmFY
-	SgrHb6e9naeZZscy6yn1cFnXUMzgLdt1GPqmre9WUuzJJKcFZjC6vONFF1WCkKpHLoK5Rk+et7Dwp
-	4EpeuA8HJc+gYGIjKB8qcS7CJGlgW9nWDjy8hvFnMIHbKSe6PxKlyKXE30Nha0aeMbJJqItqe0Aam
-	AElv/MfFOuVOGiwqJ2TMTOfZvOlHblltqcqZLegISus69yUUcGKm64RSzqEMjZvb/X+w+kw3em8w+
-	VOcke4Ww==;
+	bh=PgoIpCFV9nbO2K9pX6LtyH4pyLyEyHerXvs2IKGq8PE=; b=bOO0P6rlz22aTuVR/EA3meNAPO
+	Kn5zgMMWpD6dB3qOrfwfh5PmEvvkyEctgNP7yqf7SMDCpkwMsSYcNetbHdJZumspBpthFnRh1eGx6
+	ARn/o6YUblTODMnVJln6oJwjIekudCTCNNmZFmVpIZUwL9k7Qcryn4Ev1MzICXpXOfddJiMrxHAzl
+	OAQZjpUSxsqG+FhJTIC/piwWXvf5Vi61v3x9B1eW2q5M41TTxHlMzzjMOPjB3WO0K8ZNGDTa7IsQw
+	Nr3dcxC1nSOJA3w7/YjR4wGl8KxjskgbHgSdsyhcAgpcYTVPWUPZJJdH9q7Zek4CF8Bc1EsIjxOol
+	NScYPe5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTgq9-004lh2-9v; Mon, 14 Mar 2022 09:18:09 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1nTgtO-004m5v-Lf; Mon, 14 Mar 2022 09:21:30 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTgq4-004lgP-NL
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 09:18:06 +0000
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220314091800epoutp02913b097421df272d6f5a2d7731f12495~cNKzPpQK82441124411epoutp02V
- for <linux-nvme@lists.infradead.org>; Mon, 14 Mar 2022 09:18:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220314091800epoutp02913b097421df272d6f5a2d7731f12495~cNKzPpQK82441124411epoutp02V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1647249480;
- bh=+s7xWazCsiSQTevuQChhBWMZvqG2bPqG0Dby++5yyts=;
- h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
- b=RVh4/1bcfD288yD2rsk7hcvRjpsxVm14PVa8Hxy9mVOLr7e+dSck5a6q2GggCCAid
- MJYXzAIZYT9HrcsRspqDxLG3S5pXTa92hQ906wR3WJdeHcD85h2wInGiT4I1jUEIUG
- Iq1BCaM+vmZrOUdxPyAZCCbp4nQYlUSiCQWE1hM4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas2p4.samsung.com (KnoxPortal) with ESMTP id
- 20220314091759epcas2p4ce1c4bdba1e3d986043157de768e8ccc~cNKyMzBRa2477824778epcas2p4f;
- Mon, 14 Mar 2022 09:17:59 +0000 (GMT)
-Received: from epsmges2p3.samsung.com (unknown [182.195.36.102]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4KH9tX3zWZz4x9Q2; Mon, 14 Mar
- 2022 09:17:56 +0000 (GMT)
-X-AuditID: b6c32a47-831ff700000063c4-65-622f08441045
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
- epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- CD.94.25540.4480F226; Mon, 14 Mar 2022 18:17:56 +0900 (KST)
-Mime-Version: 1.0
-Subject: RE:(2) [PATCH] driver/nvme/host: Support duplicated nsid for the
- private
-From: Sungup Moon <sungup.moon@samsung.com>
-To: "hch@lst.de" <hch@lst.de>
-CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <20220314070808.GB3806@lst.de>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20220314091755epcms2p1c638716a47c2eae1a6069e2b73e5dc5d@epcms2p1>
-Date: Mon, 14 Mar 2022 18:17:55 +0900
-X-CMS-MailID: 20220314091755epcms2p1c638716a47c2eae1a6069e2b73e5dc5d
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphk+LIzCtJLcpLzFFi42LZdljTTNeFQz/JYNIqNov/e46xWaxcfZTJ
- YtKha4wWl3fNYbOYv+wpu8W61+9ZHNg8Jja/Y/c4f28ji8emVZ1sHpuX1HvsvtnA5vF5k1wA
- W1S2TUZqYkpqkUJqXnJ+SmZeuq2Sd3C8c7ypmYGhrqGlhbmSQl5ibqqtkotPgK5bZg7QFUoK
- ZYk5pUChgMTiYiV9O5ui/NKSVIWM/OISW6XUgpScAvMCveLE3OLSvHS9vNQSK0MDAyNToMKE
- 7IwTCz+yFrQIV0zaktXAeJG/i5GTQ0LAROL2zm0sXYxcHEICOxglHhy/xtbFyMHBKyAo8XeH
- MEiNsECwRN/U0ywgtpCAosTfZ32MEHFdiTX/pzCD2GwC2hL3zrxlAmkVEZCVuLKiHmQks8BP
- RonXLa/ZIHbxSsxof8oCYUtLbF++FWwOJ1Dv3/V/WSHiGhI/lvUyQ9iiEjdXv2WHsd8fm88I
- YYtItN47C1UjKPHg526ouKTErqfXoeL5Em2/F7GBHCEh0MEocf7hESaIhLnEn5fXwYbyCvhK
- tLacBzuIRUBV4vDVb1CHukhsuz8T7CBmoOOWLXzNDPIYs4CmxPpd+iCmhICyxJFbLBAVfBId
- h/+yw7y4Y94TqE2qEhcn9LDBvLtyXgPUmR4SpycuZp3AqDgLEdCzkOyahbBrASPzKkax1ILi
- 3PTUYqMCY3jUJufnbmIEJ0ct9x2MM95+0DvEyMTBeIhRgoNZSYTXaqlekhBvSmJlVWpRfnxR
- aU5q8SFGU6AvJzJLiSbnA9NzXkm8oYmlgYmZmaG5kamBuZI4r1fKhkQhgfTEktTs1NSC1CKY
- PiYOTqkGpu0TOJL2mqTx1GVciL17OtWgamGY7sdF+1Uazs1fsU/2ivf02RLtt7OnO/dO3biK
- /2Hpi9tPUjNSGxheXjy9bZdWTteDW492r+R4fGtS9O7Vcy39uBZNcb60/fNJ9cWrZVpTn8aX
- 2RiuSHVJFmDf5N1z5G9MQLx/xZ4c99l/pn9uvtfXt2bmpPBXgeKXVjPvCa1+dnHCocXrF83Z
- z/b1nXuL+IcMqdSjznk68+bVlwSs6uqan1Qd7RwRUfepvLyoWP+arcT6P8z86st2/tmX4jy1
- 6MNd6yh5+Zomjui4leU7pQ5nXL2z/URMfjrj9cTHM/jF/911m3JR9dzlo0/bd0kFpu0L5PfJ
- mWTXt1H12DslluKMREMt5qLiRADrkTzyFwQAAA==
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928
-References: <20220314070808.GB3806@lst.de>
- <20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p2>
- <CGME20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p1>
+ id 1nTgtL-004m50-Hp
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 09:21:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1647249687; x=1678785687;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Cd7FLoAa/6MbNTMK+2Yj2V4WVbLZ91RoXOCIOk7PSpc=;
+ b=EBVgqP6PI/9ntwKOBhMJpcxA0HcjO49Ph0oyBfnlXIwWYa9ncOR6SMgL
+ kTIRPXoEHINb+cdLGfHkiQQVocm5gQdBeVXiblXTO6hjp3WNjUAhCuTCV
+ mHtPkIoqlX5e8fNMjWaGY/tiU55SyVkLVYt4ySvEFCHcakxfVMYBfiKgO
+ Ic9uXqCeUnhEpa+hpgWV3YjTkfGbpFssxxZWJYi6bIiLhr0AqYM1BPgnT
+ BHS+5sQJds0sWT4wRh49NdrszjUO9JU3+D6XCDrDKoMld4tH91+wFO5Qp
+ Hj3oB/+E5z0LiocoBW8uf/o04pGR7wsFxGcGVs+KSsQrFLBLeKukR/vBV g==;
+X-IronPort-AV: E=Sophos;i="5.90,180,1643644800"; d="scan'208";a="299435630"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Mar 2022 17:21:25 +0800
+IronPort-SDR: aABAqvLxYQxMaEvQQktskpJuktFotUkgpjGgdiOnn6WLthEolJduCuyguFjB31HxHSzIeY9Cv+
+ 9yVFgfinRVEjjQA3s8F4a8APClLRk0/dIPPAwC4hjB7Yp/t5Tc/WO31j3fV0SbdlFYRoTzG8mr
+ LIxhb7U1xzBXtyTOoagDAq+ctDiP9eqjFvXaex4TroQVsuLKFt48C0nGBmUMe/gQK6Hcrp71it
+ ddAodsDrE5O0VLIz+chYIPRaf4e3l6tp9gsCT8rbDTak4vdRU4dGiyQjj87sSFSljP0CQwmLZe
+ 4ObhyN3LdaF5YOISFXC/18M4
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2022 01:52:33 -0700
+IronPort-SDR: vOijz1EjObigFqAbWPe7VWp/wtmWKFsl0+sRjtZ0tYblCHGyJnE5dlI4GUutFY9N3d1ipYPvnm
+ c7+fMb81eDVBsxq5DxrupeYdMbSrJErBlWuRIAQecD17sSW53rVQOJPSZnNlltgLtgm+Oxhw5v
+ S81G/UhUvzLXKXS4mwhkDlAhgBKhfMk/HOR8Tk3GHd1r7JJL4AcjMlgOBs9N7o/FxPThRkmtB/
+ jehvmUsKCwmuA7VDTXfUa53dA5+UmLgc4kGlt/tG4pMxirYmPyQHMphhoLrHDQiB8u1Igbdk3t
+ h/g=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2022 02:21:25 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KH9yX41dqz1SVp5
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Mar 2022 02:21:24 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1647249683; x=1649841684; bh=Cd7FLoAa/6MbNTMK+2Yj2V4WVbLZ91RoXOC
+ IOk7PSpc=; b=VCJpjAo1zour5yvaS91JMT22+/rx90tpFQ/L5y84lVTWmLXUDY8
+ ejV+luzKm80Ji3RqqeuM6gTwRFXVXlxyv5hW/P3p9nRWeNqrfgQ2Nks1moX3LPX2
+ s+AGAV4CRVYtsSmp3Ar05PQxM/tBTKq8SgGIONLo9LrhrxXMzeYOMPSFXOAZzbiQ
+ ls45u4xuxfjEz5CzKJXe/uVeKrlvOuEIf2OHp8dkEMjV3FPs7Q6XApMo9Pya93oJ
+ 7cRvV0jnPPkvZX07Oy3HB7aEtpNK8aQKbh4kw1dx+gdNjPJoiNhe+HS40Mtmk20B
+ KbN2OCbk8BYY4nkMWDihkx8he/u6bPUdOjA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026)
+ with ESMTP id RgQnPPL1eyO9 for <linux-nvme@lists.infradead.org>;
+ Mon, 14 Mar 2022 02:21:23 -0700 (PDT)
+Received: from [10.225.163.101] (unknown [10.225.163.101])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KH9yT2kjZz1Rvlx;
+ Mon, 14 Mar 2022 02:21:21 -0700 (PDT)
+Message-ID: <7c90bf68-b088-3d91-f24d-b90fe59ffc1d@opensource.wdc.com>
+Date: Mon, 14 Mar 2022 18:21:19 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] nvme: Fix zns drives without append support to export
+ correct permissions
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <p.raghav@samsung.com>
+Cc: =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier.gonz@samsung.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Johannes Thumshirn <johannes.thumshirn@edc.com>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, Jens Axboe
+ <axboe@kernel.dk>, Luis Chamberlain <mcgrof@kernel.org>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ kanchan Joshi <joshi.k@samsung.com>, Pankaj Raghav <pankydev8@gmail.com>,
+ Kanchan Joshi <joshiiitr@gmail.com>, linux-nvme@lists.infradead.org
+References: <CGME20220311201638eucas1p18b9c5ecb3442b5a53bba233591d34db0@eucas1p1.samsung.com>
+ <20220311201608.275384-1-p.raghav@samsung.com>
+ <07484796-d692-6247-427f-20d0e9ac6193@opensource.wdc.com>
+ <6929490b-5a73-5dd3-d5a4-afe9d3c9b347@samsung.com>
+ <20220314084449.GA5866@lst.de>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220314084449.GA5866@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220314_021805_214746_B4826FE8 
-X-CRM114-Status: GOOD (  27.87  )
+X-CRM114-CacheID: sfid-20220314_022127_764127_69D94041 
+X-CRM114-Status: GOOD (  15.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,60 +125,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sungup.moon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thank you for your reply,
+On 3/14/22 17:44, Christoph Hellwig wrote:
+> On Mon, Mar 14, 2022 at 09:36:35AM +0100, Pankaj Raghav wrote:
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 51c08f206cbf..cde33f2a3a5a 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -1855,8 +1855,7 @@ static void nvme_update_disk_info(struct gendisk
+>> *disk,
+>>  	blk_queue_max_write_zeroes_sectors(disk->queue,
+>>  					   ns->ctrl->max_zeroes_sectors);
+>>
+>> -	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO) ||
+>> -		test_bit(NVME_NS_FORCE_RO, &ns->flags));
+>> +	set_disk_ro(disk, (id->nsattr & NVME_NS_ATTR_RO));
+>>  }
+> 
+> This creates a race window during revalidation where the zone will be
+> set writable here only to be set read-only again a little later.
 
-> =20
-> On Mon, Mar 14, 2022 at 04:05:05PM +0900, Sungup Moon wrote:
-> > When the multi-controller, managed by a special admin command, has priv=
-ate
-> > namespace with same nsid, current linux driver raise =22Duplicate unsha=
-red
-> > namespace=22 error. But, NVMe Specification defines the NSID usage like=
- this:
-> >=20
-> > If Namespace Management, ANA Reporting, or NVM Sets are supported, the
-> > NSIDs shall be unique within the NVM subsystem. If the Namespace
-> > Management, ANA Reporting, and NVM Sets are not supported, then NSIDs:
-> > a) for shared namespace shall be unique; and
-> > b) for private namespace are not required to be unique.
-> > (reference: 6.1.6 NSID and Namespace Usage; NVM Express 1.4c spec)
-> >=20
-> > So, if a multi-controller, which is not managed by Namespace Management
-> > function, creates some private namespaces without ANA and NVM Sets, the
-> > duplicated NSID should be allowed because that is not a NVMe specificat=
-ion
-> > violation.
-> >=20
-> > But, current nvme driver checks only namespace is shared or not, so I
-> > propose following patch:
-> > 1. nvme_ctrl has unique_nsid field to identify that controller should
-> >    assign unique nsid.
-> > 2. nvme_init_ns_head function creates new nvme_ns_head instance not onl=
-y
-> >    head is null but controller's unique_nsid is false (no flagged
-> >    attribute) and namespace is not shared.
-> > 3. for creating bdev device file, nvme_mpath_set_disk_name will return
-> >    false when unique_nsid is false and namespace is not shared.
-> > 4. also, nvme_mpath_alloc_disk alto return 0 with same manner.
-> =20
-> From a very quick glance this looks good.  But please make sure you don't
-> spill over 80 charactes per line.
+Then the only good solution is to have the RO flag set before calling
+device_add_disk(), no ?
 
-I checked changes using =22scripts/checkpatch.pl --terse --file =7Bchanged =
-file=7D=22,
-but there is no warning on my changes. However I will recheck the spill-ove=
-r
-lines over 80 characters.
-
-> Also I think instead of adding the
-> unique_nsid field a little helper that checks the relevant flags might
-> be a l=D1=96ttle=20nicer.=20=20It=20is=20not=20checked=20in=20a=20fast=20=
-path=20anywere=20and=20the=0D=0A>=20checks=20are=20pretty=20trivial.=0D=0A>=
-=20=0D=0A=0D=0AThank=20you=20for=20your=20advise=21=20I=20will=20remove=20f=
-lag=20and=20add=20checking=20function=20for=0D=0Aunique=20nsid.=0D=0A=0D=0A=
-Thank=20you,=0D=0ASungup=20Moon
+-- 
+Damien Le Moal
+Western Digital Research
 
