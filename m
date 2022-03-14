@@ -4,56 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E67EEC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 07:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37715C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 07:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H+ZrdKEXKEGrT5jOhUGJAlN2MccDjHKg9oyR2nKfTgc=; b=XJ/fZKv5iLfYCBPXwXzPjje04Q
-	3RRaLKnfnMn4aDY/8BGzJrfvIvvkgbRRfqhEZUG/xZE/PpqJNBro/K+GSWgWpkMRdlhw+bWn+Zd1r
-	wa6pLhkfGzcUyjB/kA5U9gOT/UIbZcB4rJCb+T9k4hzz/JpuPk81BpWqlaJP+O2ddpGHGj3oKqeBq
-	E68991Wg+cjktj8QX3Aj0dDwLsmmxVLWsIIFvGmi5qqfp8I5YteEZy08NPrxyiwRlV+FwwpGrGQ60
-	jE8LSX95AS9MheCT66HVUeFa+vGrmhjTAmf+/WW1jDVgIdAkoOXV0msp+BPtNbEQzQiQ9pQdtRojH
-	IzwFMXXg==;
+	bh=RH9a3PZokZsY+5Q9uqZeONlwbNRuUU7dmsD1ZUlnpNg=; b=RXvUcAZ69X45/Om5yvvAChE8pl
+	pZA9GBuMyB9nPic5p5B3z+ncx+jG9mOX6TbJTZSZsDY3gFoConv2gb4DAZKGkwqglhWj12YxQZX+C
+	uVMYmgxytiu8emkZyTbBl8Sqn5C1YGw4PtVIB1DEwfOhyVi/pzDo1c30VBiZD2PRZdFAdMi+Uzk3K
+	tmW4Avg0D7NLEByNyB+Ur0D5UPwMylB+v5M/45+ZEGtD0psGt6x9GJHj1U1MK2dPLsRK/Lw9sXoKa
+	qmhh+A7kDuWBiF1Kzd4/z/YXRDW/j2YsdBLT2SaOuItGlduxnO9UeB8BEezeTqw/66u1F/B6dp0PU
+	EnuYOH1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTemG-00418I-Ng; Mon, 14 Mar 2022 07:06:00 +0000
+	id 1nTeoT-0041VY-1A; Mon, 14 Mar 2022 07:08:17 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTemD-00416z-BX
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 07:05:58 +0000
+ id 1nTeoP-0041UO-NF
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 07:08:15 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 3FB7F68B05; Mon, 14 Mar 2022 08:05:53 +0100 (CET)
-Date: Mon, 14 Mar 2022 08:05:52 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Niolai Stange <nstange@suse.com>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
-Subject: Re: [PATCHv8 00/12] nvme: In-band authentication support
-Message-ID: <20220314070552.GA3806@lst.de>
-References: <9853d36a-036c-7f2b-5fb4-b3fb4bae473f@suse.de>
- <4328e4f0-9674-9362-4ed5-89ec7edba4a2@grimberg.me>
- <56f1ce1c-2272-bed2-fd6b-642854b612bb@suse.de>
- <483836f5-f850-6eac-8c38-3f03db3189ab@grimberg.me>
- <0c4613ff-ba30-c812-a6e9-1954d77b1d1b@suse.de>
- <ad9af172-4b7b-4206-feab-8ab54ba7cfe5@grimberg.me>
- <e2ccd5bf-c13f-8660-c4c0-31a1053846ed@suse.de>
- <1d1522c6-7f6b-7023-9e66-a05ac5a5a0be@grimberg.me>
- <ac3056fe-e5bb-92cb-2d4f-a86c04117e5d@grimberg.me>
- <e9b43c80-0eb7-99ae-55d5-aca9bf2a308b@suse.de>
+ id 9DCF768AFE; Mon, 14 Mar 2022 08:08:08 +0100 (CET)
+Date: Mon, 14 Mar 2022 08:08:08 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Sungup Moon <sungup.moon@samsung.com>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] driver/nvme/host: Support duplicated nsid for the private
+Message-ID: <20220314070808.GB3806@lst.de>
+References: <CGME20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p2>
+ <20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e9b43c80-0eb7-99ae-55d5-aca9bf2a308b@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p2>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220314_000557_562490_AE62AF1A 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20220314_000813_932689_8B92CF89 
+X-CRM114-Status: GOOD (  16.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,14 +61,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 14, 2022 at 07:54:28AM +0100, Hannes Reinecke wrote:
-> Pondering what the next steps should be. Herbert Xu has merged Nicolais 
-> patchset, so I _could_ submit the patches, but then I would need to base it 
-> on Herberts cryptodev-2.6 branch.
-> And without these patches my patchset won't compile.
-> So no sure how to proceed; sending the patches relative to Herberts tree? 
-> Waiting for the patches to appear upstream? Not sure what'll be best...
+On Mon, Mar 14, 2022 at 04:05:05PM +0900, Sungup Moon wrote:
+> When the multi-controller, managed by a special admin command, has private
+> namespace with same nsid, current linux driver raise "Duplicate unshared
+> namespace" error. But, NVMe Specification defines the NSID usage like this:
+> 
+> If Namespace Management, ANA Reporting, or NVM Sets are supported, the
+> NSIDs shall be unique within the NVM subsystem. If the Namespace
+> Management, ANA Reporting, and NVM Sets are not supported, then NSIDs:
+> a) for shared namespace shall be unique; and
+> b) for private namespace are not required to be unique.
+> (reference: 6.1.6 NSID and Namespace Usage; NVM Express 1.4c spec)
+> 
+> So, if a multi-controller, which is not managed by Namespace Management
+> function, creates some private namespaces without ANA and NVM Sets, the
+> duplicated NSID should be allowed because that is not a NVMe specification
+> violation.
+> 
+> But, current nvme driver checks only namespace is shared or not, so I
+> propose following patch:
+> 1. nvme_ctrl has unique_nsid field to identify that controller should
+>    assign unique nsid.
+> 2. nvme_init_ns_head function creates new nvme_ns_head instance not only
+>    head is null but controller's unique_nsid is false (no flagged
+>    attribute) and namespace is not shared.
+> 3. for creating bdev device file, nvme_mpath_set_disk_name will return
+>    false when unique_nsid is false and namespace is not shared.
+> 4. also, nvme_mpath_alloc_disk alto return 0 with same manner.
 
-We're at 5.17-rc8, so hopefully they will in mainline for 5.18-rc1 in
-a few weeks. Let's wait until then to avoid complex tree dependencies.
+From a very quick glance this looks good.  But please make sure you don't
+spill over 80 charactes per line.  Also I think instead of adding the
+unique_nsid field a little helper that checks the relevant flags might
+be a lіttle nicer.  It is not checked in a fast path anywere and the
+checks are pretty trivial.
 
