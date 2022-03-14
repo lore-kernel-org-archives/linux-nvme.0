@@ -4,138 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 304D8C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 20:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D476CC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 21:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZpxuttbwKow/Z0kqApTGYaW7moCIuKJs+JGqfcJDvtQ=; b=lHxtkBO/oEcH6T6CbXfKOA/wwL
-	j4uv/LwSvAu2Fy5Gqji8owSKe/5tPb7nVZcfNnq4eWYnN0Q2KXeJIQ6GvQo1Fuc6KQCigAHnuQKzd
-	jUS0+a+L34li7ZbsBvotnS/ldU3gSRoEItlsvW92OxDB2Cl2fe9UjI4qZUdPestNSYuBLAulIxJ0J
-	/W4heCFNJVAw1fWiIlN9FdQDNAjVs7Bdho3b3iMJbQJ69qdpZBPEfaGhYWuKLdR3nFI9XcB+OXghX
-	3mL6dJ90Cso8775d2rzEckgZ3WLIG+j4Y9S/XC80CttovPI1uNw/e4YwFaJC4sXmBYtZIH5ySZUTb
-	hTvz4nPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=t1VO4GXYcK/3F39gMF1wBcvzj5V2kgq8J6MXFo3zz/8=; b=JxVl4WcnogCvtNiC2kBXA4k5Id
+	L1E89G5wAbvnvGnt7Ag9Px6/UzXgx6HuCbeZmBRALxAEWzQVW9OHDS9DQZwVJ1FNO3X/NT/HUlNlP
+	Mfbb0g/93s2oFuTD0ylLH+mow02CDOPsOSHL65gvVeCrVH7+smTkpsyemc9U4Exx5G/l3hp8QmIE3
+	W6iSpmmWw423tO5Awbm2Ka0r8AQx0LywNIvy3KBvssWifD38quOdSoFpe6RV7UFYVL0XHlB38JBQ1
+	ph9cd4Hg/U/ZPGkpP64mpEr1odZe9fPCktGh6yLK3E20Wj/+1e8sLKHblJCmMA21RISzFHxOkKrmr
+	l7h7TO+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTrL7-006nOy-Ag; Mon, 14 Mar 2022 20:30:49 +0000
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+	id 1nTsFR-006sdI-Sh; Mon, 14 Mar 2022 21:29:01 +0000
+Received: from mga04.intel.com ([192.55.52.120])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTrL2-006nNB-UB
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 20:30:47 +0000
-Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20220314203041usoutp02044e252abdab00f5251620273718f920~cWWIs1c5g0567605676usoutp02L;
- Mon, 14 Mar 2022 20:30:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20220314203041usoutp02044e252abdab00f5251620273718f920~cWWIs1c5g0567605676usoutp02L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1647289841;
- bh=ZpxuttbwKow/Z0kqApTGYaW7moCIuKJs+JGqfcJDvtQ=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=cMhawn4p7xPcV7tvp8/3rC8ccF9/eNxl8jwzCh/fQ7fn4vV/+0wyuobXYSPBuMOaw
- k4uSxqmvkS0o322iGOdg0LOXJPODZp7oZgjz5hP6MTm8/ld7rXOyz0Ghhp8fgZalp7
- OxsvNYQGPNGcvvNjZpEgHRI1RpBx4HdgCat41toU=
-Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
- [203.254.195.111]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220314203041uscas1p2e3ca25dd62ace0d3057b54c67d1228b7~cWWIitEQw0453604536uscas1p2Y;
- Mon, 14 Mar 2022 20:30:41 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges2new.samsung.com (USCPEMTA) with SMTP id 5A.08.10104.1F5AF226; Mon,
- 14 Mar 2022 16:30:41 -0400 (EDT)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220314203041uscas1p1ffe9fa1fd864780a38861498f940039e~cWWIK2bb41325113251uscas1p1r;
- Mon, 14 Mar 2022 20:30:41 +0000 (GMT)
-X-AuditID: cbfec36f-315ff70000002778-91-622fa5f1cb05
-Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 96.3C.10042.1F5AF226; Mon,
- 14 Mar 2022 16:30:41 -0400 (EDT)
-Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
- SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2242.4; Mon, 14 Mar 2022 13:30:40 -0700
-Received: from SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36]) by
- SSI-EX3.ssi.samsung.com ([fe80::8d80:5816:c578:8c36%3]) with mapi id
- 15.01.2242.008; Mon, 14 Mar 2022 13:30:40 -0700
-From: Adam Manzanares <a.manzanares@samsung.com>
-To: Kanchan Joshi <joshiiitr@gmail.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, "Keith
- Busch" <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "sbates@raithlin.com" <sbates@raithlin.com>, "logang@deltatee.com"
- <logang@deltatee.com>, Pankaj Raghav <pankydev8@gmail.com>,
- =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>, Anuj Gupta
- <anuj20.g@samsung.com>, "j.granados@samsung.com" <j.granados@samsung.com>,
- "j.devantier@samsung.com" <j.devantier@samsung.com>
-Subject: Re: [PATCH 00/17] io_uring passthru over nvme
-Thread-Topic: [PATCH 00/17] io_uring passthru over nvme
-Thread-Index: AQHYMwMGkOxasisH10Kgb51ozZAKiKy40f0AgAAatgCAAgGiAIAAcwUAgAAwNQCAAa5ZgIAClCMA
-Date: Mon, 14 Mar 2022 20:30:40 +0000
-Message-ID: <20220314203033.GA35883@bgt-140510-bm01>
-In-Reply-To: <CA+1E3rJNcqFT58eg1O+wDFyAkhCjHjnN6Hntms6jQxhLt1gtaQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <B82CD83EA2E6134F9A41A98416F976AE@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+ id 1nTsFO-006scz-PK
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 21:29:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647293338; x=1678829338;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vZzGuoeaD1srMsQclbKv0suhojLWmveURfOnYbE+BsE=;
+ b=Dn3xoX/5PXZUXQTcaAzXCSGyPrLi/SLBeR+/4rmvkXDLyWgDaYFn1yML
+ i7lEFt+NTHF5fZSZexVK05w1hZuygrfFHXLiSabwbBWNX3zUczsV4TORr
+ AkxlOwzGefzH9CXBM8HnJ3tvIlyYJi74dCRJHF3wuCDAh8JE+WcTPiZz4
+ 8cxmVommWF1blbYRbmKegKNy0Y5f6+SKiVfNqMFcRziLM2UEQz4rBoV1O
+ PdAtvxiGlISw7/URnPFUTnDQSG/AXffrl/tdrSuctGDKUdzfAfyxVnCP+
+ ouZTiL1aha4SIFjtRlleP3RbXbUdGs9ZWeuPTrLZ3mcmLPh6AJt87RvU3 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="254980148"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="254980148"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2022 14:28:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; d="scan'208";a="580272756"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by orsmga001.jf.intel.com with ESMTP; 14 Mar 2022 14:28:54 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nTsFJ-000AFB-Im; Mon, 14 Mar 2022 21:28:53 +0000
+Date: Tue, 15 Mar 2022 05:28:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.18] BUILD REGRESSION
+ 0ad57fcd030f0bda79a3b6c2fb8fc29b871d9538
+Message-ID: <622fb36f.IcDKTHS4r0igbu4s%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7djXc7ofl+onGUy5qWExZ9U2RovVd/vZ
- LFauPspk8a71HItF5+kLTBbn3x5msph06Bqjxd5b2hbzlz1lt1jSepzN4saEp4wWa24+ZbH4
- fGYeqwOvx7Orzxg9ds66y+7RvOAOi8fls6Uem1Z1snlsXlLvsftmA5vHtsUvWT0+b5IL4Izi
- sklJzcksSy3St0vgyjjefoSl4Ityxemjz1kaGP/JdDFyckgImEi8WTmBpYuRi0NIYCWjxJmf
- 71lAEkICrUwSHx/YwRTdeDWJDaJoLaPE7RdboTo+MkocWnqZGcI5wCjR/2A7K0gLm4CBxO/j
- G5lBbBEBdYkv6ycyghQxCzxllZjTc40NJCEsYCZx6nszO0SRucTvRRNYIewoiRVH1zKC2CwC
- qhI9XUfBBvEC3fF82xOw+zgFAiV6z68E62UUEJP4fmoNE4jNLCAucevJfCaIuwUlFs3ewwxh
- i0n82/WQDcJWlLj//SU7RL2exI2pU9ggbDuJhyvfskDY2hLLFr6G2isocXImxF4JAUmJgytu
- gL0vITCfU+LJhh5WiISLRMfC+1CLpSX+3l3GBFG0ilFiyrc2dghnM6PEjF8XoKqsJf51XmOf
- wKgyC8nls5BcNQvJVbOQXDULyVULGFlXMYqXFhfnpqcWG+WllusVJ+YWl+al6yXn525iBCbB
- 0/8O5+9gvH7ro94hRiYOxkOMEhzMSiK89RX6SUK8KYmVValF+fFFpTmpxYcYpTlYlMR5l2Vu
- SBQSSE8sSc1OTS1ILYLJMnFwSjUw6RW8KkhZf5R3YRX/JX85U9dF7SYcx6OfRHCILfwc+i3T
- 9vZf8//Lg0ttYv9ra/mtqDaMmvvPZjnj97Pls2wyJHdU3j/EkbKzWOGYToHirmlC7/V3rk6/
- 89Dq6iu/JtfeexJpOz8snL5u9brME6Xcf3tN93JVPos6uSYgRfnQjbJ7yd3h1yXb/5+r1Lz0
- YNayxQ+UF33fvbZgyvk+X7/DHZff+99m3fXU/KxSf5m/wMGOiRdPPZyr9dBmEa+Hw/3ZyaUH
- Lpz4z5Eckuf4d1turaF0e9WHuJIbjz37Goo/lhzZuWJa8O8rd+PzV2zOvzKL1fqtXKVryfub
- 0hXHHx1m3uciHmW+9kBodvyEH4/09imxFGckGmoxFxUnAgBj7WeV8QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNIsWRmVeSWpSXmKPExsWS2cA0SffjUv0kg2vPZS3mrNrGaLH6bj+b
- xcrVR5ks3rWeY7HoPH2ByeL828NMFpMOXWO02HtL22L+sqfsFktaj7NZ3JjwlNFizc2nLBaf
- z8xjdeD1eHb1GaPHzll32T2aF9xh8bh8ttRj06pONo/NS+o9dt9sYPPYtvglq8fnTXIBnFFc
- NimpOZllqUX6dglcGcfbj7AUfFGuOH30OUsD4z+ZLkZODgkBE4kbryaxdTFycQgJrGaUODDt
- NyuE85FRYuO1E1DOAUaJ/k/3mUBa2AQMJH4f38gMYosIqEt8WT+REaSIWeApq8ScnmtsIAlh
- ATOJU9+b2SGKzCV+L5rACmFHSaw4upYRxGYRUJXo6ToKNogX6I7n256wQGzbwyyx5OkDsCJO
- gUCJ3vMrwQYxCohJfD+1BuwKZgFxiVtP5jNBPCEgsWTPeWYIW1Ti5eN/rBC2osT97y/ZIer1
- JG5MncIGYdtJPFz5lgXC1pZYtvA11BGCEidnPmGB6JWUOLjiBssERolZSNbNQjJqFpJRs5CM
- moVk1AJG1lWM4qXFxbnpFcVGeanlesWJucWleel6yfm5mxiB6eP0v8PROxhv3/qod4iRiYPx
- EKMEB7OSCG99hX6SEG9KYmVValF+fFFpTmrxIUZpDhYlcd6XURPjhQTSE0tSs1NTC1KLYLJM
- HJxSDUzW+yPntc8rzup+3mlr2nrq4Ics6c0rDQ5v6nGX6orbkcf4tNn7zye7xyL7ZXgeT1zE
- lX9F71L4Hfevztf+z3nanlaml2Btl9x7y6qtODhU6EMgQxP/bDuv+OtHZ3x0//76hI5X0j0J
- 9ej9zV/lXf0DXLxNbi6J/77snqxWVsLlP7PzuWwm/jiVu2D2MXOPvr99sZpyYTpua0y8/fJ3
- hJ/4+00qJL+s8UipvpKvIuPRzwUrj75z0YvvTLtT27JRqiUj/VqL2yKXLcm9b88eKHNZJm7s
- kem6NjHpwpOKyxlyXFdnX/mz/lzEU+miNbahS9//5Ew5kXeHvZX9zf69B69rvTS5XjLnzf07
- Vpe5liixFGckGmoxFxUnAgCk4g55jgMAAA==
-X-CMS-MailID: 20220314203041uscas1p1ffe9fa1fd864780a38861498f940039e
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20220308152651epcas5p1ebd2dc7fa01db43dd587c228a3695696
-References: <CGME20220308152651epcas5p1ebd2dc7fa01db43dd587c228a3695696@epcas5p1.samsung.com>
- <20220308152105.309618-1-joshi.k@samsung.com>
- <20220310082926.GA26614@lst.de>
- <CA+1E3rJ17F0Rz5UKUnW-LPkWDfPHXG5aeq-ocgNxHfGrxYtAuw@mail.gmail.com>
- <Yit8LFAMK3t0nY/q@bombadil.infradead.org>
- <20220311233501.GA6435@bgt-140510-bm01>
- <20220312022732.GA10120@bgt-140510-bm01>
- <CA+1E3rJNcqFT58eg1O+wDFyAkhCjHjnN6Hntms6jQxhLt1gtaQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220314_133045_219963_1B0D3B96 
-X-CRM114-Status: GOOD (  38.70  )
+X-CRM114-CacheID: sfid-20220314_142858_926326_1F1ED44F 
+X-CRM114-Status: UNSURE (   7.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,111 +78,231 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 13, 2022 at 10:37:53AM +0530, Kanchan Joshi wrote:
-> On Sat, Mar 12, 2022 at 7:57 AM Adam Manzanares
-> <a.manzanares@samsung.com> wrote:
-> >
-> > On Fri, Mar 11, 2022 at 03:35:04PM -0800, Adam Manzanares wrote:
-> > > On Fri, Mar 11, 2022 at 08:43:24AM -0800, Luis Chamberlain wrote:
-> > > > On Thu, Mar 10, 2022 at 03:35:02PM +0530, Kanchan Joshi wrote:
-> > > > > On Thu, Mar 10, 2022 at 1:59 PM Christoph Hellwig <hch@lst.de> wr=
-ote:
-> > > > > >
-> > > > > > What branch is this against?
-> > > > > Sorry I missed that in the cover.
-> > > > > Two options -
-> > > > > (a) https://urldefense.com/v3/__https://protect2.fireeye.com/v1/u=
-rl?k=3D03500d22-5ccb341f-0351866d-0cc47a31309a-6f95e6932e414a1d&q=3D1&e=3D4=
-ca7b05e-2fe6-40d9-bbcf-a4ed687eca9f&u=3Dhttps*3A*2F*2Fgit.kernel.dk*2Fcgit*=
-2Flinux-block*2Flog*2F*3Fh*3Dio_uring-big-sqe__;JSUlJSUlJSUl!!EwVzqGoTKBqv-=
-0DWAJBm!FujuZ927K3fuIklgYjkWtodmdQnQyBqOw4Ge4M08DU_0oD5tPm0-wS2SZg0MDh8_2-U=
-9$
-> > > > > first patch ("128 byte sqe support") is already there.
-> > > > > (b) for-next (linux-block), series will fit on top of commit 9e9d=
-83faa
-> > > > > ("io_uring: Remove unneeded test in io_run_task_work_sig")
-> > > > >
-> > > > > > Do you have a git tree available?
-> > > > > Not at the moment.
-> > > > >
-> > > > > @Jens: Please see if it is possible to move patches to your
-> > > > > io_uring-big-sqe branch (and maybe rename that to big-sqe-pt.v1).
-> > > >
-> > > > Since Jens might be busy, I've put up a tree with all this stuff:
-> > > >
-> > > > https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/mcgrof/linux-next.git/log/?h=3D20220311-io-uring-cmd__;!!EwVzqGoTK=
-Bqv-0DWAJBm!FujuZ927K3fuIklgYjkWtodmdQnQyBqOw4Ge4M08DU_0oD5tPm0-wS2SZg0MDiT=
-F0Q7F$
-> > > >
-> > > > It is based on option (b) mentioned above, I took linux-block for-n=
-ext
-> > > > and reset the tree to commit "io_uring: Remove unneeded test in
-> > > > io_run_task_work_sig" before applying the series.
-> > >
-> > > FYI I can be involved in testing this and have added some colleagues =
-that can
-> > > help in this regard. We have been using some form of this work for se=
-veral
-> > > months now and haven't had any issues. That being said some simple te=
-sts I have
-> > > are not currently working with the above git tree :). I will work to =
-get this
-> > > resolved and post an update here.
-> >
-> > Sorry for the noise, I jumped up the stack too quickly with my tests. T=
-he
-> > "simple test" actually depends on several pieces of SW not related to t=
-he
-> > kernel.
->=20
-> Did you read the cover letter? It's not the same *user-interface* as
-> the previous series.
-> If you did not modify those out-of-kernel layers for the new
-> interface, you're bound to see what you saw.
-> If you did, please specify what the simple test was. I'll fix that in v2.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.18
+branch HEAD: 0ad57fcd030f0bda79a3b6c2fb8fc29b871d9538  nvmet: open code nvmet_get_feat_kato()
 
-I got a little ahead of myself. Looking forward to leveraging this work in =
-the=20
-near future ;)
+Error/Warning reports:
 
->=20
-> Otherwise, the throwaway remark "simple tests not working" - only
-> infers this series is untested. Nothing could be further from the
-> truth.
-> Rather this series is more robust than the previous one.
+https://lore.kernel.org/linux-nvme/202203142114.jASwxczN-lkp@intel.com
+https://lore.kernel.org/linux-nvme/202203142117.gVyaPma6-lkp@intel.com
+https://lore.kernel.org/linux-nvme/202203142144.HC6i8FxB-lkp@intel.com
+https://lore.kernel.org/llvm/202203142235.GRM0KrZ4-lkp@intel.com
 
-Excellent, to hear that this series is robust. My intent was not to claim
-this series was untested. It is clear I need to do more hw before making an=
-=20
-attempt to help with testing.
+Error/Warning:
 
->=20
-> Let me expand bit more on testing part that's already there in cover:
->=20
-> fio -iodepth=3D256 -rw=3Drandread -ioengine=3Dio_uring -bs=3D512 -numjobs=
-=3D1
-> -runtime=3D60 -group_reporting -iodepth_batch_submit=3D64
-> -iodepth_batch_complete_min=3D1 -iodepth_batch_complete_max=3D64
-> -fixedbufs=3D1 -hipri=3D1 -sqthread_poll=3D0 -filename=3D/dev/ng0n1
-> -name=3Dio_uring_256 -uring_cmd=3D1
->=20
-> When I reduce the above command-line to do single IO, I call that a simpl=
-e test.
-> Simple test that touches almost *everything* that patches build (i.e
-> async, fixed-buffer, plugging, fixed-buffer, bio-cache, polling).
-> And larger tests combine these knobs in various ways, QD ranging from
-> 1, 2, 4...upto 256; on general and perf-optimized kernel config; with
-> big-sqe and normal-sqe (pointer one). And all this is repeated on the
-> block interface (regular io) too, which covers the regression part.
-> Sure, I can add more tests for checking regression. But no, I don't
-> expect any simple test to fail. And that applies to Luis' tree as
-> well. Tried that too again.
+arc-elf-ld: discovery.c:(.text+0xe8): undefined reference to `nvmet_get_feat_async_event'
+arm-linux-gnueabi-ld: discovery.c:(.text+0x27a): undefined reference to `nvmet_get_feat_async_event'
+discovery.c:(.text+0x144): undefined reference to `nvmet_get_feat_kato'
+discovery.c:(.text+0x300): undefined reference to `nvmet_get_feat_kato'
+discovery.c:(.text+0xe8): undefined reference to `nvmet_get_feat_kato'
+ld.lld: error: undefined symbol: nvmet_get_feat_async_event
+nios2-linux-ld: discovery.c:(.text+0x154): undefined reference to `nvmet_get_feat_async_event'
 
-Looks like you have all of your based covered. Keep up the good work.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
->=20
->=20
-> --=20
-> Joshi=
+ERROR: modpost: "nvmet_get_feat_async_event" [drivers/nvme/target/nvmet.ko] undefined!
+ERROR: modpost: "nvmet_get_feat_kato" [drivers/nvme/target/nvmet.ko] undefined!
+aarch64-linux-ld: discovery.c:(.text+0x3ac): undefined reference to `nvmet_get_feat_async_event'
+arc-elf-ld: discovery.c:(.text+0x136): undefined reference to `nvmet_get_feat_async_event'
+arc-elf-ld: discovery.c:(.text+0xd4): undefined reference to `nvmet_get_feat_kato'
+arc-elf-ld: discovery.c:(.text+0xf8): undefined reference to `nvmet_get_feat_kato'
+discovery.c:(.text+0x1d4): undefined reference to `nvmet_get_feat_async_event'
+discovery.c:(.text+0x1f2): undefined reference to `nvmet_get_feat_kato'
+discovery.c:(.text+0x318): undefined reference to `nvmet_get_feat_async_event'
+discovery.c:(.text+0xf8): undefined reference to `nvmet_get_feat_kato'
+discovery.c:(.text.nvmet_execute_disc_get_features+0x9c): undefined reference to `nvmet_get_feat_kato'
+drivers/nvme/target/discovery.c:340: undefined reference to `nvmet_get_feat_kato'
+ia64-linux-ld: discovery.c:(.text+0x232): undefined reference to `nvmet_get_feat_async_event'
+ld.lld: error: undefined symbol: nvmet_get_feat_kato
+ld: drivers/nvme/target/discovery.c:343: undefined reference to `nvmet_get_feat_async_event'
+m68k-linux-ld: discovery.c:(.text+0x14c): undefined reference to `nvmet_get_feat_async_event'
+mips-linux-ld: discovery.c:(.text.nvmet_execute_disc_get_features+0xb4): undefined reference to `nvmet_get_feat_async_event'
+powerpc-linux-ld: discovery.c:(.text+0x1e8): undefined reference to `nvmet_get_feat_async_event'
+riscv64-linux-ld: discovery.c:(.text+0x230): undefined reference to `nvmet_get_feat_async_event'
+s390-linux-ld: discovery.c:(.text+0x13a): undefined reference to `nvmet_get_feat_async_event'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- arc-buildonly-randconfig-r001-20220314
+|   |-- arc-elf-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|   `-- arc-elf-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|-- arc-randconfig-r043-20220313
+|   |-- arc-elf-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|   |-- arc-elf-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|   `-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|-- arm-randconfig-c002-20220314
+|   `-- arm-linux-gnueabi-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- arm64-randconfig-r013-20220313
+|   `-- aarch64-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- i386-randconfig-a001-20220314
+|   |-- drivers-nvme-target-discovery.c:undefined-reference-to-nvmet_get_feat_kato
+|   `-- ld:drivers-nvme-target-discovery.c:undefined-reference-to-nvmet_get_feat_async_event
+|-- ia64-allyesconfig
+|   `-- ia64-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- m68k-allyesconfig
+|   `-- m68k-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- mips-allyesconfig
+|   |-- discovery.c:(.text.nvmet_execute_disc_get_features):undefined-reference-to-nvmet_get_feat_kato
+|   `-- mips-linux-ld:discovery.c:(.text.nvmet_execute_disc_get_features):undefined-reference-to-nvmet_get_feat_async_event
+|-- nios2-allyesconfig
+|   |-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|   `-- nios2-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- powerpc-randconfig-r033-20220314
+|   `-- powerpc-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- riscv-allyesconfig
+|   `-- riscv64-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|-- riscv-randconfig-r042-20220313
+|   |-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+|   `-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|-- s390-allyesconfig
+|   `-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|-- s390-randconfig-r044-20220313
+|   |-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_kato
+|   `-- s390-linux-ld:discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+`-- xtensa-allyesconfig
+    `-- discovery.c:(.text):undefined-reference-to-nvmet_get_feat_async_event
+
+clang_recent_errors
+|-- i386-randconfig-a013-20220314
+|   |-- ERROR:nvmet_get_feat_async_event-drivers-nvme-target-nvmet.ko-undefined
+|   `-- ERROR:nvmet_get_feat_kato-drivers-nvme-target-nvmet.ko-undefined
+|-- i386-randconfig-a016-20220314
+|   |-- ld.lld:error:undefined-symbol:nvmet_get_feat_async_event
+|   `-- ld.lld:error:undefined-symbol:nvmet_get_feat_kato
+`-- riscv-randconfig-r042-20220314
+    `-- ld.lld:error:undefined-symbol:nvmet_get_feat_async_event
+
+elapsed time: 726m
+
+configs tested: 119
+configs skipped: 3
+
+gcc tested configs:
+arm                                 defconfig
+arm                              allmodconfig
+arm                              allyesconfig
+arm64                               defconfig
+arm64                            allyesconfig
+i386                          randconfig-c001
+arm                           u8500_defconfig
+powerpc                 linkstation_defconfig
+powerpc                      bamboo_defconfig
+arc                            hsdk_defconfig
+riscv             nommu_k210_sdcard_defconfig
+arm                       omap2plus_defconfig
+powerpc                mpc7448_hpc2_defconfig
+arm                        spear6xx_defconfig
+powerpc                      mgcoge_defconfig
+sh                            hp6xx_defconfig
+arm                           corgi_defconfig
+powerpc                 mpc837x_mds_defconfig
+h8300                       h8s-sim_defconfig
+arm                  randconfig-c002-20220314
+arm                  randconfig-c002-20220313
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+csky                                defconfig
+alpha                               defconfig
+nds32                               defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+nds32                             allnoconfig
+nios2                               defconfig
+arc                              allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                   debian-10.3-kselftests
+i386                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a002-20220314
+x86_64               randconfig-a001-20220314
+x86_64               randconfig-a003-20220314
+x86_64               randconfig-a004-20220314
+x86_64               randconfig-a006-20220314
+x86_64               randconfig-a005-20220314
+i386                 randconfig-a001-20220314
+i386                 randconfig-a005-20220314
+i386                 randconfig-a002-20220314
+i386                 randconfig-a004-20220314
+i386                 randconfig-a006-20220314
+i386                 randconfig-a003-20220314
+arc                  randconfig-r043-20220313
+riscv                randconfig-r042-20220313
+arc                  randconfig-r043-20220314
+s390                 randconfig-r044-20220313
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+mips                     loongson2k_defconfig
+powerpc                      obs600_defconfig
+powerpc                      ppc64e_defconfig
+mips                      maltaaprp_defconfig
+arm                          imote2_defconfig
+powerpc                          allyesconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                     cu1000-neo_defconfig
+arm                           omap1_defconfig
+mips                          ath25_defconfig
+arm                         shannon_defconfig
+x86_64               randconfig-a011-20220314
+x86_64               randconfig-a013-20220314
+x86_64               randconfig-a012-20220314
+x86_64               randconfig-a015-20220314
+x86_64               randconfig-a016-20220314
+x86_64               randconfig-a014-20220314
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+i386                 randconfig-a012-20220314
+i386                 randconfig-a016-20220314
+i386                 randconfig-a011-20220314
+i386                 randconfig-a013-20220314
+i386                 randconfig-a014-20220314
+i386                 randconfig-a015-20220314
+hexagon              randconfig-r045-20220313
+hexagon              randconfig-r045-20220314
+hexagon              randconfig-r041-20220313
+hexagon              randconfig-r041-20220314
+riscv                randconfig-r042-20220314
+s390                 randconfig-r044-20220314
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
