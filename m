@@ -4,61 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FB2DC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 08:14:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C8B0C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 08:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hnWtxscawJ/CAHfHFc1KSSFLlsZLYl3yWejmUyS5cyo=; b=oSoVg3rZFpaSOrspr+p8GNnCcI
-	6J8j5POjEKGjUIRRwLTu5oCH4ajaDNK50xjhuc72MVKbIrOYci48LRO3BNMueqCS/7Tx0KXr77u4+
-	grHikucohKSqfRkyGWITZ5e1n5tT1nCxtsBDIAq7x8rOu/hU8vR0BJZIbdnr1PpKJZLAnHpjZVQ1Q
-	8f405dFN/37/V6Dvxs5EUkdKD6CE1k6LJycfZ4GS/Md+pJFHHDF6dczticIXFG+Z08LvxjPAxRt/K
-	1dOf31swA8ZWTJqg5FTzNB8E0NIRTnO8ZrWhYi3f1FEwV8NkqzqFbCs7s39gosY/hD2/x2UzGcXZN
-	fDNL4bvQ==;
+	bh=p6BbK8m5z5MGaZfsWnVk7dPS+sghDw6j3RtyupSWQJo=; b=ko3sCwJaKw+oxjMU5k2Itl2LRj
+	scBcjfxCN6Nsp4WLrN1VU2R0svB06OrMO8npNLMgCl15D15UHFvEaAUOd2sH4WWxu8i3dymTzvypP
+	FkhSyDbVvsiBXvhsT6y8zHqduB8WIoax3uLMIzw55qJbAZAgHBczi1GgQJtIgN1AqZLsVAJjWpq9y
+	tcm/CU7/hVBkG7sj+xkKdyPYu/dep0diWUh5s6NgJ7TWjovO9vlUwLI6TOxpkiPex9YDNwbsJ6WrI
+	1/Mv0yriQKbsFtgCtdVk+zSTtY9aWTHebWYB9eZg1Lj3q/icOH7xYISR6lIsITlPqZzPdPDh/SeZB
+	Yz7eA3yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTfqS-004Nb5-Cp; Mon, 14 Mar 2022 08:14:24 +0000
+	id 1nTfrq-004OJc-8S; Mon, 14 Mar 2022 08:15:50 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTfba-004GuP-Gy
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 07:59:03 +0000
+ id 1nTfcc-004HQ5-8L
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 08:00:07 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 929E468AFE; Mon, 14 Mar 2022 08:58:58 +0100 (CET)
-Date: Mon, 14 Mar 2022 08:58:58 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>,
- Keith Busch <kbusch@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>,
- Adam Manzanares <a.manzanares@samsung.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
- jiangbo.365@bytedance.com, kanchan Joshi <joshi.k@samsung.com>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Matias =?iso-8859-1?Q?Bj=F8rling?= <matias.bjorling@wdc.com>,
- Pankaj Raghav <pankydev8@gmail.com>,
- Kanchan Joshi <joshiiitr@gmail.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
-Message-ID: <20220314075858.GA4921@lst.de>
-References: <e02dfd21-31c6-95b6-1127-3f18c79116ee@samsung.com>
- <20220310144449.GA1695@lst.de> <Yiuu2h38owO9ioIW@bombadil.infradead.org>
- <20220311205135.GA413653@dhcp-10-100-145-180.wdc.com>
- <Yiu5YzxU/PjxLiUL@bombadil.infradead.org>
- <20220311213102.GA2309@dhcp-10-100-145-180.wdc.com>
- <YivMBj7+j/EZcMVV@bombadil.infradead.org>
- <bc0e53a9-f623-c69f-002e-d62e697a43d1@opensource.wdc.com>
- <20220314073537.GA4204@lst.de>
- <05a1fde2-12bd-1059-6177-2291307dbd8d@opensource.wdc.com>
+ id 47B1C68B05; Mon, 14 Mar 2022 09:00:03 +0100 (CET)
+Date: Mon, 14 Mar 2022 09:00:01 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Avi Shchislowski <Avi.Shchislowski@wdc.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+ "Bean Huo (beanhuo)" <beanhuo@micron.com>,
+ "Luca Porzio (lporzio)" <lporzio@micron.com>,
+ Manjong Lee <mj0123.lee@samsung.com>,
+ "david@fromorbit.com" <david@fromorbit.com>,
+ "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "song@kernel.org" <song@kernel.org>,
+ "seunghwan.hyun@samsung.com" <seunghwan.hyun@samsung.com>,
+ "sookwan7.kim@samsung.com" <sookwan7.kim@samsung.com>,
+ "nanich.lee@samsung.com" <nanich.lee@samsung.com>,
+ "woosung2.lee@samsung.com" <woosung2.lee@samsung.com>,
+ "yt0928.kim@samsung.com" <yt0928.kim@samsung.com>,
+ "junho89.kim@samsung.com" <junho89.kim@samsung.com>,
+ "jisoo2146.oh@samsung.com" <jisoo2146.oh@samsung.com>,
+ Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: Re: [EXT] Re: [PATCH 2/2] block: remove the per-bio/request write
+ hint.
+Message-ID: <20220314080001.GB4921@lst.de>
+References: <CO3PR08MB797524ACBF04B861D48AF612DC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
+ <e98948ae-1709-32ef-e1e4-063be38609b1@kernel.dk>
+ <CO3PR08MB797562AAE72BC201EB951C6CDC0B9@CO3PR08MB7975.namprd08.prod.outlook.com>
+ <d477c7bf-f3a7-ccca-5472-f9cbb05b83c1@kernel.dk>
+ <c27a5ec3-f683-d2a7-d5e7-fd54d2baa278@acm.org>
+ <PH0PR08MB7889642784B2E1FC1799A828DB0B9@PH0PR08MB7889.namprd08.prod.outlook.com>
+ <ef77ef36-df95-8658-ff54-7d8046f5d0e7@kernel.dk>
+ <bf221ef4-f4d0-4431-02f3-ef3bea0e8cb2@acm.org>
+ <800fa121-5da2-e4c0-d756-991f007f0ad4@kernel.dk>
+ <SN6PR04MB3872231050F8585FFC6824C59A0F9@SN6PR04MB3872.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <05a1fde2-12bd-1059-6177-2291307dbd8d@opensource.wdc.com>
+In-Reply-To: <SN6PR04MB3872231050F8585FFC6824C59A0F9@SN6PR04MB3872.namprd04.prod.outlook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220314_005902_760880_6B9C7818 
-X-CRM114-Status: GOOD (  11.03  )
+X-CRM114-CacheID: sfid-20220314_010006_485136_5CA8F6DE 
+X-CRM114-Status: UNSURE (   8.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,9 +85,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 14, 2022 at 04:45:12PM +0900, Damien Le Moal wrote:
-> Nope, this is currently not possible: DM requires the target zone size
-> to be the same as the underlying device zone size. So that would not work.
-
-Indeed.
+Which part of "the Linux kernel does not keep unused code around" is still
+not clear to you after explaining it three times in this thread?
 
