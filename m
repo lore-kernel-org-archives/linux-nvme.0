@@ -4,79 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCEB6C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 07:00:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F662C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Mar 2022 07:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VtfEIAjd48jETIJcQPnAL2DBpu6My/6zZfVyytCFvWM=; b=OLgW2YIZEYG+YZp1mE5Nu5wIPt
-	UJZgqKSEPqFvq06cBxXeudOvizBdbwRWDukkDOuBkxszn63TBz3+N3rvyNBqqGcslUkyU6zO37tD2
-	XZVwujvv2/KB5nDxvXSqndNmS5juDWH08OqFpzoR/lCBrenHXZVcgTGrhPPLruJtWlvqG4pHCgWDc
-	SKMDa5KKeB3iklPh/AsGxvd6jpH03720ZSHo5x9xhD/YHAjXaiF8DYzsA1+lHp4vtz9l8T47/l9/U
-	6pD5f6cZRTwuCn9jcIYz9846Jl6pf4HvM77B++wKCuzlJ0PApVqhuXZej3j/lYMp3vTCo43jgxSNA
-	nzlxIidQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Type:Content-Transfer-Encoding:Date:Message-ID:CC:To:From:Subject:
+	Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=u0/uygnsY6Fb/wLdxBu6vZllUrVndB9u0ZU8EsbdXi4=; b=Qy50XlUcvHbhX5sXnZG0bEc5Wh
+	FFHeD6I7eNmPpX0MnWRp6XfrrC+AqxK4zEAoDcYqeDltc5ryOzAqcwelCAPMhA/l4O5hP0xPXrKqG
+	AUA8lxDldU6/pofOlTBPhsP1XPlAWBVkqJPxOlGItbZZTADzQdVna83NKpcePd3dOSlFB2NEESR6A
+	mFrG+0N98w1kSx2IqxYc9lKT9G+qwD0snsV3zUjpnPALcnqeaYGzMasaqqcl6pohRUPPTJA1FQfEJ
+	RpDYbPktqHbTrgP7OCfSYh1Bq9nOKFZWDTYJD/O0Gjjj8kRUfn4d2OZBwippubZRDC8eJxf9wU/XY
+	mW51Wvew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nTegU-00406e-21; Mon, 14 Mar 2022 07:00:02 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nTem4-00415L-HN; Mon, 14 Mar 2022 07:05:48 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nTegQ-00405h-Qo
- for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 07:00:00 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 812C11F388;
- Mon, 14 Mar 2022 06:59:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647241197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VtfEIAjd48jETIJcQPnAL2DBpu6My/6zZfVyytCFvWM=;
- b=XpqR2YKviQNXFsz20voOVslCmwQSHv85o7Dqbt3DH1tksK1831DVpWXYnNwAXzDXhSG5iy
- 8KBxVK8n0R5ZIzjZlaXxN3Cij1IpOwUckPgk0XwMMasrSiHXKwMFjQtG1KnelIEvpQ5zgO
- NkJNHAAsCP4elfgnFNBSs8EMgt+ZeDY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647241197;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VtfEIAjd48jETIJcQPnAL2DBpu6My/6zZfVyytCFvWM=;
- b=GnQrLqzVRtvlb5KJBBuq3BWv0LJSsbdV4Vpkd3reAbPYeIUkidQrbcGVbwKA+bjOcbyaNo
- G2J2geIERsoCT6AQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 662F913ADA;
- Mon, 14 Mar 2022 06:59:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2AQUF+3nLmIsNAAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 14 Mar 2022 06:59:57 +0000
-Message-ID: <7e294198-b8ef-2d4f-944c-353792cc27d9@suse.de>
-Date: Mon, 14 Mar 2022 07:59:56 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: Nvmet discovery implementation. Questions and a patch / proposal.
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Mark Ruijter <mruijter@primelogic.nl>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <1B761FBE-58C8-4A52-9747-42ED84A6D383@primelogic.nl>
- <5109f07b-b99d-5e3b-f5b3-410fbbbdfcd4@suse.de>
- <2cc90ad6-6422-0ef0-005e-a1ec09caf894@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <2cc90ad6-6422-0ef0-005e-a1ec09caf894@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ id 1nTem1-00414f-5g
+ for linux-nvme@lists.infradead.org; Mon, 14 Mar 2022 07:05:47 +0000
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220314070541epoutp04e5ba1cabbdca92086ce770dcfd8ca0db~cLXRHlM3U2264622646epoutp04t
+ for <linux-nvme@lists.infradead.org>; Mon, 14 Mar 2022 07:05:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220314070541epoutp04e5ba1cabbdca92086ce770dcfd8ca0db~cLXRHlM3U2264622646epoutp04t
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1647241541;
+ bh=u0/uygnsY6Fb/wLdxBu6vZllUrVndB9u0ZU8EsbdXi4=;
+ h=Subject:Reply-To:From:To:CC:Date:References:From;
+ b=BavF8c01k3MTTtY7rwQctsYk/bbal59U2ln0omRYDWQWz8YXswjXhiH32iwrjpqHa
+ OzFqJH4dC23tzAWe/NIp/IUI5bPtoLO3IyZJmwv8zX3YIhrj9ORkJl/c+HMVdbNWMA
+ xhmPxqWBXfbWaYPz4zl132GZtfFYRh0ohZU6Kcr4=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas2p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220314070540epcas2p1d57e840428ea1bc5808c7d4461cc5c9e~cLXQ0wbgx2402724027epcas2p1x;
+ Mon, 14 Mar 2022 07:05:40 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.36.100]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4KH6xL0DrGz4x9Pr; Mon, 14 Mar
+ 2022 07:05:10 +0000 (GMT)
+X-AuditID: b6c32a46-be9ff70000023ea8-c2-622ee9211451
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+ epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 8A.36.16040.129EE226; Mon, 14 Mar 2022 16:05:05 +0900 (KST)
+Mime-Version: 1.0
+Subject: [PATCH] driver/nvme/host: Support duplicated nsid for the private
+From: Sungup Moon <sungup.moon@samsung.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Sungup Moon
+ <sungup.moon@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p2>
+Date: Mon, 14 Mar 2022 16:05:05 +0900
+X-CMS-MailID: 20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAJsWRmVeSWpSXmKPExsWy7bCmma7iS70kg6WTjCz+7znGZrFy9VEm
+ i0mHrjFaXN41h81i/rKn7BbrXr9nsbj76SWrA7vHxOZ37B7n721k8di0qpPNY/OSeo/dNxvY
+ PPq2rGL0+LxJLoA9KtsmIzUxJbVIITUvOT8lMy/dVsk7ON453tTMwFDX0NLCXEkhLzE31VbJ
+ xSdA1y0zB+geJYWyxJxSoFBAYnGxkr6dTVF+aUmqQkZ+cYmtUmpBSk6BeYFecWJucWleul5e
+ aomVoYGBkSlQYUJ2xosF+9kK9mpUXOhqYmpg/KvQxcjJISFgInF23wLGLkYuDiGBHYwSB/v2
+ MncxcnDwCghK/N0hDGIKC3hJLO22ACkXElCU+PusjxHEFhbQlVjzfwoziM0moC1x78xbJpAx
+ IgJ9jBJ938+zgjjMAusZJW5dWMYMsYxXYkb7UxYIW1pi+/KtjBC2hsSPZb1QNaISN1e/ZYex
+ 3x+bD1UjItF67yxUjaDEg5+7oeKSErueXoeK50u0/V7EBrJYQqCDUeL8wyNMEAlziT8vr4MN
+ 5RXwlbi+5wbYESwCqhLdS1qgBrlIXFkyC6yeWUBeYvvbOeCAYBbQlFi/Sx/ElBBQljhyiwWi
+ gk+i4/Bfdpi3dsx7ArVJVeLihB42mBdXzmuAmu4hcXriYlZIIAZKrNz5h3UCo8IsREjPQrJ3
+ FsLeBYzMqxjFUguKc9NTi40KjOCRm5yfu4kRnDS13HYwTnn7Qe8QIxMH4yFGCQ5mJRFeq6V6
+ SUK8KYmVValF+fFFpTmpxYcYTYE+nsgsJZqcD0zbeSXxhiaWBiZmZobmRqYG5krivF4pGxKF
+ BNITS1KzU1MLUotg+pg4OKUamLaYMq4xnH/2fvORxQe4xc8HdfIs+LV/feyT/Cn6OcY+PW6J
+ Z+eWmE0QUVrTJHx+UsWRq6yL2fpVRL9eY8vPDD7ffeWTvSPPYs3Vle/e3/PwnWeTOmXfmhO/
+ l56c2hg7vff+h6uSnHvKvjqedbe5/k3v5THu51rPIl91avNv41z5s0jyP0NRF8d9p74p6wp8
+ 5IKcOS0vs/9yiz0xWf1/8+TsRKlPbv4hCXempTC+Medcmrq9bUf5+kmZ5V0znDVfGUqW+trM
+ s51hs7jC1uJZ799HLCGC/zsyel7s7WuTrfAwePhOpblxhbZvHsuMDRstu92iJnN8ulyqOVHQ
+ t+qausqkWDNH44p85tLAV2f7lViKMxINtZiLihMBViGyGCMEAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928
+References: <CGME20220314070505epcms2p26dff1d529f4d8c208728e5fa5c5dd928@epcms2p2>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220313_235959_040783_B14C3B3B 
-X-CRM114-Status: GOOD (  25.06  )
+X-CRM114-CacheID: sfid-20220314_000545_601130_8777FC11 
+X-CRM114-Status: GOOD (  27.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,85 +107,131 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sungup.moon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/13/22 22:25, Sagi Grimberg wrote:
-> 
-> 
-> On 3/1/22 09:05, Hannes Reinecke wrote:
->> On 2/28/22 17:39, Mark Ruijter wrote:
->>>
->>> The current discovery implementation only works after a subsystem has 
->>> been created and has been linked to a port.
->>> As a result, 'nvme discover' from an initiator will only show a 
->>> discovery device after the first subsystem has
->>> been exported.
->>>
->>> The patch that I propose adds these features:
->>> A. Make discovery work immediately after the target port has been 
->>> configured, without needing to configure
->>>    subsystems first.
->>> B. Move the discovery_nqn configuration option to the port instead of 
->>> having the same configuration option
->>>    duplicated in every subsystem.
->>> C. Allow to enable and disable a target port without needing to 
->>> unlink target subsystems.
->>>
->> The current nvmet discovery implementation was designed to the 
->> original NVMe spec, where a discovery controller could only return 
->> informations about the attached subsystems.
->> But with the recent changes to the spec a discovery controller can now 
->> return information about itself (ie which port it's running on), and so
->> it does makes sense to have it enabled even with no subsystems attached.
->>
->> But: the current implementation only has a _single_ discovery 
->> subsystem (nvmet_disc_subsys), which is shared across all configured 
->> subsystems.
->> And there's a filter when generating the discovery log page such that 
->> only the information for the current subsystem is returned (cf 
->> nvmet_execute_disc_get_log_page()).
->> So in effect each subsystem has its own discovery subsystem.
->>
->> Moving the discovery nqn to the port will only confuse matters, as 
->> then it's quite unclear what will happen if you change the discovery 
->> subsystem nqn on a per-port basis; with the current design you would
->> change it for _all_ discovery subsystem ...
->>
->> So if you want to do something like this, you'd need to change the 
->> implementation to have a discovery subsystem per port, and also change 
->> the logic in drivers/nvme/target/discovery.c such that the discovery
->> subsystems will return informations for _all_ configured subsystems.
->>
->> It's actually something I wanted to do, too, as I didn't like the 
->> current implementation :-)
-> 
-> Why aren't we just creating the discovery subsystem as a static configfs
-> subsystems and just link it to different ports?
-> 
-We could be doing that, but that would imply a change in behaviour.
-Currently we have one distinct discovery controller per subsystem.
-Switching to a static configfs discovery subsystem would inevitably 
-result in a _single_ discovery subsystem for all configured subsystems.
-Not that I'm against it (quite the contrary), but it should be mentioned.
+When the multi-controller, managed by a special admin command, has private
+namespace with same nsid, current linux driver raise "Duplicate unshared
+namespace" error. But, NVMe Specification defines the NSID usage like this:
 
-> The port listener on first linkage is a different matter afaict, don't
-> see a strong argument to make the port listener without any subsystems
-> exported anyways... maybe if discovery log change event is being used...
+If Namespace Management, ANA Reporting, or NVM Sets are supported, the
+NSIDs shall be unique within the NVM subsystem. If the Namespace
+Management, ANA Reporting, and NVM Sets are not supported, then NSIDs:
+a) for shared namespace shall be unique; and
+b) for private namespace are not required to be unique.
+(reference: 6.1.6 NSID and Namespace Usage; NVM Express 1.4c spec)
 
-Actually, we can just leave the existing mechanism as-is; ports would 
-need to be linked explicitly to the discovery subsystem.
-Reasoning: Not every port needs to present a discovery subsystem, and we 
-might want to have ports which will _only_ present the discovery subsystem.
+So, if a multi-controller, which is not managed by Namespace Management
+function, creates some private namespaces without ANA and NVM Sets, the
+duplicated NSID should be allowed because that is not a NVMe specification
+violation.
 
-Hmm. Should be pretty easy to code ...
+But, current nvme driver checks only namespace is shared or not, so I
+propose following patch:
+1. nvme_ctrl has unique_nsid field to identify that controller should
+   assign unique nsid.
+2. nvme_init_ns_head function creates new nvme_ns_head instance not only
+   head is null but controller's unique_nsid is false (no flagged
+   attribute) and namespace is not shared.
+3. for creating bdev device file, nvme_mpath_set_disk_name will return
+   false when unique_nsid is false and namespace is not shared.
+4. also, nvme_mpath_alloc_disk alto return 0 with same manner.
 
-Cheers,
+Signed-off-by: Sungup Moon <sungup.moon@samsung.com>
+---
+ drivers/nvme/host/core.c      | 20 +++++++++++++++++++-
+ drivers/nvme/host/multipath.c |  5 +++--
+ drivers/nvme/host/nvme.h      |  1 +
+ include/linux/nvme.h          |  1 +
+ 4 files changed, 24 insertions(+), 3 deletions(-)
 
-Hannes
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 51c08f206cbf..f1807b0ca361 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2942,6 +2942,18 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		if (ret)
+ 			goto out_free;
+ 
++		/*
++		 * NSID should be unique on the following condition
++		 * 1. Namespace Management support; or
++		 * 2. ANA Reporting support; or
++		 * 3. NVM Set support; or
++		 * 4. Namespace is shared
++		 * Other case, private namespaces are not required to be unique.
++		 */
++		ctrl->unique_nsid = (ctrl->oacs & NVME_CTRL_OACS_NS_MNGT_SUPP) ||
++			(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA) ||
++			(ctrl->ctratt & NVME_CTRL_CTRATT_NVM_SETS);
++
+ 		/*
+ 		 * Check for quirks.  Quirk can depend on firmware version,
+ 		 * so, in principle, the set of quirks present can change
+@@ -3816,7 +3828,13 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	head = nvme_find_ns_head(ctrl->subsys, nsid);
+-	if (!head) {
++	if (!head || !(ctrl->unique_nsid || is_shared || head->shared)) {
++		/*
++		 * If the found ns head is null or both of ns are not shared without
++		 * the unique namespace condition (this means both namespace are
++		 * private namespaces and those can share the same nsid), allocate the
++		 * new head. Private namespace can reuse nsid with the others.
++		 */
+ 		ret = nvme_subsys_check_duplicate_ids(ctrl->subsys, ids);
+ 		if (ret) {
+ 			dev_err(ctrl->device,
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index ff775235534c..7fe91754fe69 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -88,7 +88,7 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+  */
+ bool nvme_mpath_set_disk_name(struct nvme_ns *ns, char *disk_name, int *flags)
+ {
+-	if (!multipath)
++	if (!multipath || !(ns->ctrl->unique_nsid || ns->head->shared))
+ 		return false;
+ 	if (!ns->head->disk) {
+ 		sprintf(disk_name, "nvme%dn%d", ns->ctrl->subsys->instance,
+@@ -507,7 +507,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	 * We also do this for private namespaces as the namespace sharing data could
+ 	 * change after a rescan.
+ 	 */
+-	if (!(ctrl->subsys->cmic & NVME_CTRL_CMIC_MULTI_CTRL) || !multipath)
++	if (!(ctrl->subsys->cmic & NVME_CTRL_CMIC_MULTI_CTRL) || !multipath ||
++	    !(ctrl->unique_nsid || head->shared))
+ 		return 0;
+ 
+ 	head->disk = blk_alloc_disk(ctrl->numa_node);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index e7ccdb119ede..8348c405c6d3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -297,6 +297,7 @@ struct nvme_ctrl {
+ 	unsigned int shutdown_timeout;
+ 	unsigned int kato;
+ 	bool subsystem;
++	bool unique_nsid;
+ 	unsigned long quirks;
+ 	struct nvme_id_power_state psd[32];
+ 	struct nvme_effects_log *effects;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 4f44f83817a9..f626a445d1a8 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -346,6 +346,7 @@ enum {
+ 	NVME_CTRL_ONCS_TIMESTAMP		= 1 << 6,
+ 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
+ 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
++	NVME_CTRL_OACS_NS_MNGT_SUPP		= 1 << 3,
+ 	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+ 	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 8,
+ 	NVME_CTRL_LPA_CMD_EFFECTS_LOG		= 1 << 1,
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+2.25.1
+
 
