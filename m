@@ -4,47 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC00AC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 15:40:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7493C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 15:43:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wAELwHnCVtSVQIPGjIKF/3/QbeA5MWbXq9/MX1DPpXg=; b=jtwEiVjTktJ4ki+/50a2eFKNoI
-	f3xx/CZtXYTYly7RRhCV4PBFbjXaMCbT8rXv6qRI/OZey3Bx+nR86mij/RyZBdkOagyVEWqXm2NYO
-	QJciW4+lqKUcKBV7jDxztC0aGlstihFvMe3SIesKI60ZcPpt5XT9KXsFXuV+4mXJXal6G9btUW3S5
-	iRWm6+pnQ6zYfzaDwBA+t5vUjxgdEf5hEcQOBowx431UbDQj2ld63hp+Gzlg3H4AGlq8A7nXZp04V
-	PEj0IRVdupCMGEqlPPQnlk8UGWqqXVPMwQJx1H8uRFTkF36N6ysE3OlZw1/9FM0c3xOHX9zyxlQV3
-	1y1lJD8A==;
+	bh=yG370f8XmLOCe49T4erppPYQMbZzcFachdDds7SQ018=; b=kpqmbCptK2gUywPEJUbBQfXDmi
+	PoocVm+tOG7zOBpNQSgv7jdbLD92KskgT3YTSBE5cQPUoBb9m7gajX6guBnB+lx/lOFC+Qu0I9l21
+	PilEHd8qRZuQrIJZsIsCX49oreRMkgSIy9vIR3XoDIYvgjIRnfGfC9n++mr4R/MNgXfsNEd8pAJRB
+	WFKCZZmMNnDmxymwKNh6VEIQaPn3nsX++DB1QQ8k8k4CA3ZqmV7Xo+EtRp4PkkU/l3JmfEtfjoIna
+	z/ZkAhjPoP4dkvDIY9CMX8rxeQxL2FpIYKwvtFtJAqwlgaXFDCja9/dtzr761i2sZGIRti1RMKGSF
+	jbxmv14g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU9I5-009kwJ-7O; Tue, 15 Mar 2022 15:40:53 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nU9Kh-009lHh-Fz; Tue, 15 Mar 2022 15:43:35 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU9I2-009kuk-3g
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 15:40:51 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 4814268AA6; Tue, 15 Mar 2022 16:40:43 +0100 (CET)
-Date: Tue, 15 Mar 2022 16:40:43 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: warn about shared namespaces without
- CONFIG_NVME_MULTIPATH
-Message-ID: <20220315154043.GA15386@lst.de>
-References: <20220315145141.2586124-1-hch@lst.de>
- <YjCvfMplVsxKk3yd@C02CK6Q3MD6M>
+ id 1nU9Ke-009lGK-Jk
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 15:43:33 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3C39DB81186;
+ Tue, 15 Mar 2022 15:43:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1668C340E8;
+ Tue, 15 Mar 2022 15:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647359010;
+ bh=yG370f8XmLOCe49T4erppPYQMbZzcFachdDds7SQ018=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HHvGGeSEeM54RWD1JA8ryrzDyd/t92HiCbFXBGOCr1bzeHr9SLgUjnBWH/BOPvHPk
+ ieWQUKm5PXL2q8wjRcjM0EdngzQi6p/SFVaRNKo4LuTqCB4lw0Eo3qvSJxVlqyr23h
+ Fc8QydtMpOC1oCQlC+1r+M2CWmZk6YKgaYnz2wPXLInzErhkdkoKAfLw3GqwKnZc5z
+ nKC+05t8T3E8xu8ufVUQQM8e9NFX57XUec+lTr7m5phlbnkohQKUNRDfqtBOXm8Ne4
+ oBc9KC0K5WIkey22qmDN5HQbJvDv8AzlBVgiDdc+N1Rea0YYelODZ+DIg09czlveSN
+ KZLf86dLEHNHg==
+Date: Tue, 15 Mar 2022 09:43:27 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: remove nvme_alloc_request and nvme_alloc_request_qid
+Message-ID: <YjC0H8eFhWK/VnQ5@C02CK6Q3MD6M>
+References: <20220315150222.2590959-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YjCvfMplVsxKk3yd@C02CK6Q3MD6M>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20220315150222.2590959-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_084050_355971_BDB653D4 
-X-CRM114-Status: GOOD (  18.09  )
+X-CRM114-CacheID: sfid-20220315_084332_830950_7C728FAF 
+X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,30 +70,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 15, 2022 at 09:23:40AM -0600, Keith Busch wrote:
-> On Tue, Mar 15, 2022 at 03:51:41PM +0100, Christoph Hellwig wrote:
-> > diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> > index 8fb89d0624fc5..e733c48de2e90 100644
-> > --- a/drivers/block/loop.c
-> > +++ b/drivers/block/loop.c
-> > @@ -2092,6 +2092,7 @@ static void loop_remove(struct loop_device *lo)
-> >  	del_gendisk(lo->lo_disk);
-> >  	blk_cleanup_disk(lo->lo_disk);
-> >  	blk_mq_free_tag_set(&lo->tag_set);
-> > +
-> >  	mutex_lock(&loop_ctl_mutex);
-> >  	idr_remove(&loop_index_idr, lo->lo_number);
-> >  	mutex_unlock(&loop_ctl_mutex);
-> 
-> This unrelated change sneaked into your patch. :)
+On Tue, Mar 15, 2022 at 04:02:22PM +0100, Christoph Hellwig wrote:
+> Just open code the allocation + initialization in the callers.
 
-Ooops.
+Looks good.
 
-> The recent release pattern suggests 5.20 will be the last of the 5.x tags
-> before seeing 6.0, but my understanding is that's at the discretion of Chief
-> Penguin. Unless you know already, perhaps warning with 5.21 is more clear that
-> removing this capability happens after 3 more releases.
-
-Sounds good to me - we are not in a crazy urge right now, but we
-need to settle this eventually.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
