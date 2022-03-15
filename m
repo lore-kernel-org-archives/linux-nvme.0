@@ -4,80 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4515BC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 08:45:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3164CC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 08:46:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S7RWVEY8nY4ugQXehM1e6I9FLrBw6o9A+onsuUC+XBw=; b=oBPTyW2aO0C0jzmKJDG/vMYXd2
-	YQDzDUx3xjUCKoU/pgWB9Mbo9uyqx2RMAUTlWsacjUHm6kq63/ryxEp1rhvlZDLIgv0+vIgBsH4G1
-	QF67LfCNyqh5+0t11ORJSnc9o5fype3YFWa0W4B0DCFHMlemOR0gop9S9iOMaIjzLxBw3D1X8tLih
-	k0cP40kgFyBeWAtHTu1a48Szv7dvuSKawzvSFFZ8Wc/8U8yRm46drQ/IYevRYpT6gcq8TGK6X1NvZ
-	wb8qe3Uw9EZS/I5HPquFj2o0N3Hdf217LESa+Npw+/rGshxrBopdNxb+KxzvMWfr8sGxmJ09b1yh8
-	qS+WjBbw==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=PY2ZT1d3rj0S94gtjxYijSo8YR
+	CuFBq318kyiiw2+wUhZoV7KQCoN8c+jl2eU4BooP+QaIcLmO8zKPFOfXqYxYhme6GSt2n+lqgW4aC
+	BJKDuoTQXCvPYhKl27U2xSQwfaZUfy7XIiXra5nIbBulFhN6S3WKZVGMK4aFgdknzMdbZp+8rSpXY
+	q5zpQGP3Xsjyw871Ib1c5TNbPKJ33ovKfx95lL/jUVr/I4rThii/vx3/mrz0iDQAINqtRtfLSm/xC
+	8nX1XqkHvTaX+Aoi/+5F2QIEheW2CtTQ927EVAfDiN0G0lKBtRNMHcbbIg/aZfsGJY2oMudhZqSa2
+	TilNk1tA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU2o7-008L6g-OY; Tue, 15 Mar 2022 08:45:31 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nU2oa-008LFu-4t; Tue, 15 Mar 2022 08:46:00 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU2o4-008L4p-91
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 08:45:29 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D1F711F37E;
- Tue, 15 Mar 2022 08:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647333923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S7RWVEY8nY4ugQXehM1e6I9FLrBw6o9A+onsuUC+XBw=;
- b=eiwrgQZEN+87CVfyeTMia71idVcjKjLlADdBjVO07jUldWgknsvVzISlGjiJbR0AhKt5au
- Hp3Nm4Jae2oB0KCcQI3UNRoZw8TrY1rSr0TPaLgFTF/r+UJEwJYPe6oZsVWWN1uUu93PzK
- AO14tVCByczAhY9vs6EeDGT0joUgr4U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647333923;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S7RWVEY8nY4ugQXehM1e6I9FLrBw6o9A+onsuUC+XBw=;
- b=BsT+SFWuHWHgmPBFiU4cZ6eyd4UxYJmUdOIqgZo8D6MieTSFH+ASzsqVKzEfCXuYFByM+q
- iXmJONMAyto2wiCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCD1013B4E;
- Tue, 15 Mar 2022 08:45:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id PuzVLCNSMGJYbAAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 15 Mar 2022 08:45:23 +0000
-Message-ID: <ccd90b4c-7517-fd04-fcac-f1274460af3c@suse.de>
-Date: Tue, 15 Mar 2022 09:45:23 +0100
+ id 1nU2oW-008LDv-SB
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 08:45:58 +0000
+Received: by mail-wm1-f54.google.com with SMTP id r7so219272wmq.2
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 01:45:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=AICq8BaU5V+QokC+mRXEkYtfLrQvdbtesvF+b5GEBt+ckOFwztRw6Y/5Z5+HA4fFN3
+ 0WIYqlD8xHl1/QgyA1kDE8HRRRkhBjXKkIy0LZW2OLhP47AChuSBta831dklZp7dMxMy
+ 2hAc+OEAJnhDe3JlaW1Qute9hKTjDj9kHgp01VZI7+SuFy+IFFuT2dQDmiR3fw0Ym7q7
+ yWosY5g58Kni3GOnLes3a3jS8Xg5VOy32VlNh2pmG+jQwOPHjq5efCx0Eokz9YXjenQ/
+ H+xSEqY6MwQ+uGdW5aIQ3ppxCfBIG9SGHBOLNu8xAZEh6PbUzuSBlsqJ7f0Tg6YjX9vx
+ XP3A==
+X-Gm-Message-State: AOAM530udOji2L+iNXB6/mql4/5NRaP0oDUyQtRtrsMUhtWNsejftMd7
+ iHPYAvtSDa5GJLQnTdAjHEU=
+X-Google-Smtp-Source: ABdhPJwoid/NDiPZ+5kAYu/ST940he5uhPnsFlQnxbPIfEdEHnf2L0lyFpD2/EN6ebSB5Xlncf5hxA==
+X-Received: by 2002:a05:600c:4ec7:b0:389:bf36:ce3a with SMTP id
+ g7-20020a05600c4ec700b00389bf36ce3amr2374920wmq.118.1647333955017; 
+ Tue, 15 Mar 2022 01:45:55 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ o12-20020adfa10c000000b001efb97fae48sm15756277wro.80.2022.03.15.01.45.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 01:45:54 -0700 (PDT)
+Message-ID: <797f7fcc-bea3-3fc2-19b5-bce03fc028b3@grimberg.me>
+Date: Tue, 15 Mar 2022 10:45:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/3] nvmet: do not allow to create a subsystem with the
- discovery NQN
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] nvmet: move the call to nvmet_ns_changed out of
+ nvmet_ns_revalidate
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org
-References: <20220314105333.56714-1-hare@suse.de>
- <20220314105333.56714-4-hare@suse.de> <20220315081013.GC3082@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220315081013.GC3082@lst.de>
+To: Christoph Hellwig <hch@lst.de>, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org, Niels Dossche <dossche.niels@gmail.com>
+References: <20220315071951.1903382-1-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20220315071951.1903382-1-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_014528_568285_A8D14177 
-X-CRM114-Status: GOOD (  14.76  )
+X-CRM114-CacheID: sfid-20220315_014556_962250_C5860835 
+X-CRM114-Status: UNSURE (   7.18  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,26 +83,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/15/22 09:10, Christoph Hellwig wrote:
-> On Mon, Mar 14, 2022 at 11:53:33AM +0100, Hannes Reinecke wrote:
->> configfs will only protect us against duplication of subsystem NQNs,
->> but discovery subsystems might have two NQNs, the standard discovery NQN
->> (which will be used as the configfs directory name), and the additional
->> unique subsystem NQN.
-> 
-> This is something that we should probably pick up as fix ASAP.  Can
-> you add a proper fixes tag and submit it stand-alone?
-
-Will need to rework the patch, as in its current form it relies on the 
-discovery subsystem to be exposed in configfs.
-But yes, can do.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
