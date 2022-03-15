@@ -4,67 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 859B0C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 11:09:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 873DDC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 11:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9i86V3EEKh3DEhgoReJtSA4wZZ8TKOEbNv6jNgKMKao=; b=Y9xgAL1hseGmni0GMGDUdq9Bq7
-	7UaP7swHMKDuhsnKrccqPfzXn5rXdhqKWsq6lT9vkhjqBcCqr9nUDkYoeVzAQU1iSpEK5ulSuW1IS
-	BHV/VE8HL7S0zONThKTeWY6krqrGB8zIe+2x5WPu9jWRDTqK69OdiVVCkdo+tFU1YuPXVvLa7s4E/
-	8Vxc44HyZCq1ZKu5icZWK8hdlkpUhluGcbYnIdOoHU13Dg3T7/bKHQevRDWsnLLasLKY34On4eLMM
-	Vtt9eedci7uORxfynpK9DDcFftjkMnI2iS33S7dzpENgpEoUSjyu/2kRP/gsEGKbKT3ASLiAZPLaJ
-	a2ACXqHg==;
+	bh=OmuX7s/e/VbG+QRsTX+4gHwPMk9vRHc/KVnlZ8Ipnm8=; b=LkwICqDtOgXspa2K4I6gNYhOAN
+	9CsuHEdL0owNRXruth2z6/p6xE80U9o19Cea/QnPR8IDcuXyTELdXStonYBEfDgwp9MWk7CgY5lTM
+	Fpu1QhGf8JdTE4wFTMQGnE0xQDcMEUgr5qIc9Qh5FirUs4E+KMC6S4j1iV77wlLnwyzpqQO8xAyqp
+	eJX6z19Rr8NW+QEPLtRfHPZeEVNzAw4A9tGtwoqgPxMljmNvR74wqwCcfM1TdVeHQRqwTdi52EXLv
+	/3VRc1iPfbiA5XM6diY/07yOc3y0pxXfgViswJeOU84z24nVRs0I1pq9s+GNr33RUssqLwQ7ZW6QZ
+	94lmfdMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU53U-008qhU-64; Tue, 15 Mar 2022 11:09:32 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nU59c-008rns-Ci; Tue, 15 Mar 2022 11:15:52 +0000
+Received: from mail-wm1-f42.google.com ([209.85.128.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU53R-008qgt-0y
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 11:09:30 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B9C381F397;
- Tue, 15 Mar 2022 11:09:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647342567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9i86V3EEKh3DEhgoReJtSA4wZZ8TKOEbNv6jNgKMKao=;
- b=sNzQCenyzLs5JZMXrQh5vOzy/7zPZPeNgQcVPj5hgzcDxjUhPB4FCpyhNAlXbFfQkQsOSd
- 33qpwmYJEPNv6LPAhTOgQ2Wg3Dg4OG1vyvc+7Cs0RcyogU4ziVVuEYLF9FVzz/eVQk30P1
- KHPUGcg6PPJA+zFyIk2gUbJZJJekNwc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647342567;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9i86V3EEKh3DEhgoReJtSA4wZZ8TKOEbNv6jNgKMKao=;
- b=r0FLHYA2WY9TB34efDtg1r4DFbDTSHB4r9qYJHOqSMxHXIEUWwFbqfVtK0b81e7613C2C8
- YBDLsnVjCUgZjqAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB32E13B4E;
- Tue, 15 Mar 2022 11:09:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id puiIKedzMGIzLwAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 15 Mar 2022 11:09:27 +0000
-Message-ID: <79067416-401e-7ee1-2de8-f67187aaecdb@suse.de>
-Date: Tue, 15 Mar 2022 12:09:26 +0100
+ id 1nU59Y-008rnD-PB
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 11:15:50 +0000
+Received: by mail-wm1-f42.google.com with SMTP id
+ v2-20020a7bcb42000000b0037b9d960079so1223010wmj.0
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 04:15:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OmuX7s/e/VbG+QRsTX+4gHwPMk9vRHc/KVnlZ8Ipnm8=;
+ b=WIrv6i+V/H62MgNCW95HtktrH+B9XOIvdVdhC70D35OyXaaJsxYj28j1CwGDoKsfp8
+ SUS3vA8SVQOODD2Htzw4Dv9R2W4UYM7zLt34fAMaInSWXdQHQ7lUoFjkguDDFUCCqOro
+ lcXGBPMLp6u40unlIFyROOVwKko8ApqMxtfbva4/LRKID48LdQW1MQr7tMNZAdZqYzyv
+ s/0L834d0M7cxzcCo2+v0OrzC95UmPZQu0l+4aPeKj6Zf24wQcYIwnBjZZfy8ABg7Wmw
+ G6sW48Wa0QsjnoxyIzPRq+XTwN52Jcd8yWxIhzk7yWY0PgehgNgbLyzIo26h2HAIZ5qd
+ f0kw==
+X-Gm-Message-State: AOAM531uhNUebPUQ98N7xC4gve30Ti8R5ltrv+sL7h290iTrVzN2LHBA
+ AGWn+oQT5qg0N9dQbk+Xx/U=
+X-Google-Smtp-Source: ABdhPJwBlFjfX0YKAMpGBIaeUdCMl7SIFVgk4TmrNLcw/9kCvaXi9LOnomtz9MpNby3vquc2MVwhkw==
+X-Received: by 2002:a7b:c1cb:0:b0:384:177d:871c with SMTP id
+ a11-20020a7bc1cb000000b00384177d871cmr2888377wmj.84.1647342946823; 
+ Tue, 15 Mar 2022 04:15:46 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ a8-20020a05600c068800b00389bdc8c8c2sm1865079wmn.12.2022.03.15.04.15.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 04:15:46 -0700 (PDT)
+Message-ID: <b0334223-367b-690b-3a41-55ccae21b47a@grimberg.me>
+Date: Tue, 15 Mar 2022 13:15:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/3] nvmet: expose discovery subsystem in sysfs
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
 References: <20220314105333.56714-1-hare@suse.de>
  <20220314105333.56714-2-hare@suse.de> <20220315080602.GA3082@lst.de>
@@ -72,14 +66,14 @@ References: <20220314105333.56714-1-hare@suse.de>
  <ec115fe9-2b3f-8f31-d3b8-b85686c2788a@suse.de> <20220315094950.GA5322@lst.de>
  <b2942a7f-0d23-46e3-5ab1-31cad3ee8011@suse.de>
  <dae0fa76-2b78-16f9-a7fa-f28c1412c317@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 1/3] nvmet: expose discovery subsystem in sysfs
-In-Reply-To: <dae0fa76-2b78-16f9-a7fa-f28c1412c317@grimberg.me>
+ <79067416-401e-7ee1-2de8-f67187aaecdb@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <79067416-401e-7ee1-2de8-f67187aaecdb@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_040929_386443_271525C9 
-X-CRM114-Status: GOOD (  34.62  )
+X-CRM114-CacheID: sfid-20220315_041548_855658_324A9BC4 
+X-CRM114-Status: GOOD (  21.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,125 +88,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/15/22 11:49, Sagi Grimberg wrote:
-> 
->>>> The core question really is: do we _want_ to expose the discovery 
->>>> subsystem
->>>> in configfs?
->>>
->>> Well, if you want a freely configurable one we kinda have to, right?
->>>
->>>> Unfortunately, exposing the discovery subsystem and trying to 
->>>> configure it
->>>> with configfs does _not_ match with the way discovery is implemented 
->>>> today.
->>>> While we currently only have a single discovery subsystem, it will only
->>>> ever return the subsystems visible from this particular port.
->>>
->>> Well.  The original Fabrics spec had this concept of that magic 
->>> discovery
->>> NQN, which implies that there is one subsystem (or many pretending to be
->>> one).  And that is what the implementation followed.  The varipus 
->>> 80?? TPs
->>> then made a complete mess off that.
->>>
->>>> Hence this rather simple approach, having the 'normal' discovery 
->>>> subsystem
->>>> exposed, and let the admin configure it accordingly.
->>>>
->>>> I can look at keeping the internal implementation, and only expose 
->>>> unique
->>>> discovery controller (ie those with a unique subsystem NQN).
->>>> That would remove the need to having the 'discovery_nqn' attribute, and
->>>> address Christophs concerns.
->>>
->>> I suspect if we want to support all the new mess from the FMDS group
->>> (and maybe we need to question the why a little more), then we should
->>> so something like:
->>>
->>>   (1) keep the existing global NQN-based discovery as-is.
->>>   (2) maybe add a per-port known to allow disabling it if people 
->>> really care
->>>   (3) allow creating additional discovery subsystems with non-default
->>>       NQNs that do not automatically get anything added to them and will
->>>       just be configured as needed through configfs
->>>
->> Yeah, that's the line I'm following.
+
+>>> The current problem we're having (on linux) is that we cannot 
+>>> identify discovery controllers. Each discovery controller has the 
+>>> same subsystem NQN, and hence that's not sufficient to identify the 
+>>> subsystem
+>>> Which resulted in linux to always create a new 'nvme_subsystem' 
+>>> instance when creating a new nvme discover controller.
 >>
->>> But maybe first we should take a step back and figure out what 
->>> supporting
->>> TPAR8013 even buys us?
+>> That is the case regardless of naming... there is no multipathing with
+>> discovery subsystems so there will be a subsystem for every discovery
+>> controller...
 >>
->> Properly supporting persistent discovery controllers.
+> Well, technically, no, but in practice there is, as one can easily 
+> specify more than one discovery port (to the same discovery subsystem).
+> And quite some target implementations do.
+> Discussion is probably moot anyway as multipathing would only affect 
+> I/O, which won't be done anyway.
+
+It is a moot discussion.
+
+>>> Problem now starts when you try to use persistent discovery 
+>>> controllers; it's quite easy to _create_ a persistent discovery 
+>>> controller, but less easy to _use_ an existing one; how would you 
+>>> know which one to pick?
 >>
->> The current problem we're having (on linux) is that we cannot identify 
->> discovery controllers. Each discovery controller has the same 
->> subsystem NQN, and hence that's not sufficient to identify the subsystem
->> Which resulted in linux to always create a new 'nvme_subsystem' 
->> instance when creating a new nvme discover controller.
+>> You are not supposed to "use" an existing one, the whole point of the
+>> persistent discovery controllers is that you don't need to worry about
+>> it. We already perfectly handle that with udev using the kernel of
+>> the uevent.
+>>
 > 
-> That is the case regardless of naming... there is no multipathing with
-> discovery subsystems so there will be a subsystem for every discovery
-> controller...
->
-Well, technically, no, but in practice there is, as one can easily 
-specify more than one discovery port (to the same discovery subsystem).
-And quite some target implementations do.
-Discussion is probably moot anyway as multipathing would only affect 
-I/O, which won't be done anyway.
+> And my point is that you _do_. Yes, udev does work, but only in so far 
+> AENs are involved.
 
->> Problem now starts when you try to use persistent discovery 
->> controllers; it's quite easy to _create_ a persistent discovery 
->> controller, but less easy to _use_ an existing one; how would you know 
->> which one to pick?
-> 
-> You are not supposed to "use" an existing one, the whole point of the
-> persistent discovery controllers is that you don't need to worry about
-> it. We already perfectly handle that with udev using the kernel of
-> the uevent.
-> 
+Why do you need persistent discovery controllers if you don't want the
+AEN?
 
-And my point is that you _do_. Yes, udev does work, but only in so far 
-AENs are involved. When you want to retrieve the discovery log manually 
-_and_ have existing persistent discovery controllers you'll need to know 
-which device to pick.
+> When you want to retrieve the discovery log manually 
+> _and_ have existing persistent discovery controllers you'll need to know 
+> which device to pick.
 
-Which is getting especially interesting if you have several different 
-subsystems to contend with.
+Please describe the use-case because I still don't understand.
+nvme-cli offers 'discover' that gives you the log page and 'connect-all'
+that connects to the subsystems it found in the log page.
 
->> More importantly, as linux will always create a new nvme_subsystem for 
->> each discovery controller you'll end up with several 'nvme_subsystem' 
->> instances which in fact all refer to the very same subsystem.
-> 
-> OK, still don't understand why that is a problem.
-> 
->> nvme-cli tries to work around that problem by requiring the user to 
->> specify the device name, but that requires quite some knowledge from 
->> the admin side, and making that work in a scripted fashion is a pain.
-> 
-> I am not aware at all on what scripting are you referring to. But udev
-> scripts are written already. Can you explain?
-> 
->> So with TPAR8013 we now _have_ distinct discovery subsystems, can 
->> create unique subsystem, won't have duplicate subsystems, and can 
->> automate nvme-cli to pick the correct existing persistent discovery 
->> controller even if the user does _not_ specify the device name.
-> 
-> And instead specify the subsysnqn? I am not aware of this reasoning you
-> are referring to at all, but I was probably absent from these
-> discussions... I thought that this TP was solely related to 8010 stuff
-> and also solves an issue that came up with the discovery subsystem and
-> the authentication TPs.
+Do you have foreign udev rules in addition to the ones supplied in
+nvme-cli? I am missing the problem statement that you are alluding to.
 
-True. authentication requires a unique NQN, and hence can't be used 
-without TP8013.
+> Which is getting especially interesting if you have several different 
+> subsystems to contend with.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+I still don't understand what you are describing.
 
