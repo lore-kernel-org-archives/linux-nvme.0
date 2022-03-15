@@ -4,78 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AC35C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 13:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3066FC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 13:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y2fvs7eM8OaHaxhSMO6sO31oZMM4z0ixYpjmyYfBMsw=; b=hpf+KrMcSTd5J6wwat0lrGfqxy
-	7gu/gfpDdFipViiDHk4mfcl4A/6o13pkA4tVP1BZPp5y2lVhu6PiEMEuWYacCwQ7m/ecctrtLAinX
-	wUbqvXbu1G+huiDvrhca2c3lwBl6344c+rFaekIsFDr6EgG81gZtwImw6Mahc4U+CCVV5uc6MEbrE
-	L4e102JQx6Tfvj09jyIQchUo2nI8Mm/Se/fsLqG81g+vgrjl1dc9DEYQKxkvvjCoKBydvWJ3fMypn
-	MABBeKsFHtG4kY/E+T7G1L4FFcnPgdCUVxUNeHvGyXXCs6HBAMY5dWaXbfAD+nDlGLLJ8/arszP+U
-	BIN5xAAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KdshR93Nhoyes2FUQEsrqe/ka5wjtTCfmc9HxxpJuUo=; b=09WPMDQkmolmUQ392ywF2JFKpa
+	8rQgnU2sR4tn7tybB7SR4hAITaok60RfEibNTq6ciFBX6Bz+TSVm4quNl+Vw2pJsjDp9pfhbjV7tH
+	qzmNClk+yL/DWQcib3w0z2YZ5Ck0G51MYPPJ2RC7d0VsYN4lbbAHg4leqRaUCTsCzkxHEfiuQhExt
+	wRNhDcvqXMmPBy2xkO+xpAj6n3dM2UlqTHKMtNSxv1pq5/kcijCddG/hIy8cZqdal5PQ/KOXkX7F2
+	dpGcCiFJbM8Qy+QIM8libpyOYeLDEOJfOr3lYd6tNb9UEF9JAD9zz2yu1L3KLHP/1hSkGfYwrlEZM
+	lFqzA6sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU7XW-009IhO-IZ; Tue, 15 Mar 2022 13:48:42 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1nU7bZ-009JY4-HB; Tue, 15 Mar 2022 13:52:53 +0000
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU7XT-009Ig9-Lg
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 13:48:40 +0000
-Received: by mail-wm1-f51.google.com with SMTP id
- r131-20020a1c4489000000b0038c2c33d8f3so72097wma.4
- for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 06:48:38 -0700 (PDT)
+ id 1nU7bU-009JVl-Bs
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 13:52:49 +0000
+Received: by mail-wm1-x335.google.com with SMTP id q20so11293318wmq.1
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 06:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=javigon-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=KdshR93Nhoyes2FUQEsrqe/ka5wjtTCfmc9HxxpJuUo=;
+ b=vipbPZ0CqNdXy0Ve0LL+7W05Rk9DaoBFYbdws8gHtB9I9xi2b2hfZcbnSIyeZWhkf6
+ +7yLbLmz6H+O+rIazdC7YTF0xjbpDjvgKdArEPRMSJBMQDK3RTu0oNRjF4qaMGBzTYGW
+ oRNKWdW77hS8nkyXyK4e5xMr5BqIR8+WdXZgLmVFJn7snYwu83JzIkmv7E+3IUTjsn5V
+ UAclxluy1sxS9bBK5K3Ws0pE1+/m/w5ifQ2cm+qiCPf7CAiLJwiQw1udn8qz4uegNCFx
+ oxJyvYP7AXmGN++rw19WRzZxipDg3h48fUCCES3JvOngz4lW4KicrCbYAaSn0rj3cUL5
+ mamg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=y2fvs7eM8OaHaxhSMO6sO31oZMM4z0ixYpjmyYfBMsw=;
- b=Zec8yc6w16O54HwUBqVM5gJELalgSBfqC0VIk4sD2xQHiXJkffjG0gw3mPK78yIi8w
- T4/By8P9YnSVWAC0JBgkbBUK9e9ZiiWbmp5UN/oSFIkJsVosCwT9WriE4I7E5g19fy7G
- hRqamP7/Na10//sY8WSwS9iWLLP4ObzDRduvjnV3SL/Am/as2BaiebsPojFJPNPrfb8x
- XbFMZvUARzIA6QUXwnPJCEQnKD1Ik6p7/Cywe9ntJb4vjW1x3l9c0T/p8JkOkxoVfcqR
- NHdEO3sG/vRHG7zKxcM1C6ktANovQKqEuj5TtFLM38xZvbWufTuj3RAw718KoijRUyxN
- g/Pw==
-X-Gm-Message-State: AOAM5310elBsE1wqukG2WobVkjt4NJy27HNNe16YRTzi+zZmyBkZS5Xd
- vAtHFdy716VPbJ1JIxFAtMw=
-X-Google-Smtp-Source: ABdhPJxEceduonR56v8iYVAgpReJATOL0h1TxRvmVwSR4MasQEp5K/pUrCF8+CGzPmgnZVdQnS92cA==
-X-Received: by 2002:a1c:2544:0:b0:381:18a:a46d with SMTP id
- l65-20020a1c2544000000b00381018aa46dmr3475293wml.26.1647352117690; 
- Tue, 15 Mar 2022 06:48:37 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- r17-20020a05600c35d100b00389f368cf1esm2512916wmq.40.2022.03.15.06.48.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 06:48:37 -0700 (PDT)
-Message-ID: <d6a26b94-b18e-5e42-adb6-4cc95a6ab0a2@grimberg.me>
-Date: Tue, 15 Mar 2022 15:48:36 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=KdshR93Nhoyes2FUQEsrqe/ka5wjtTCfmc9HxxpJuUo=;
+ b=IXFejWKdoFrr4p9mU9XfLer6xDuv6I/+xSTaUxgLha1f1K+7NJICdITAGlPlPYdu9/
+ 5TAcKQO2pfrRWKBAql+vGqAno8uE23Czs6w1nvIViFZ45Xj56demxk/9YdZ8KrozKZdT
+ uW9O2n+xQRpn8QgleiGkYp5kM6HgqrM7mf0WZEK8Z5ARRTRBKTy/z1Ks4fZ8eIA/35va
+ 2JAgkt09jN6b7ipuPMQohnZUMgir4gQp2lyqbrE8PnDFU8+9DSrjunFVoF9sgoujBiBS
+ Ew6dDWnbVu1k6JZgtOv8rMIvohPlaQuvUzwFDIPS78kUboR9h4fvbwR7BNeI27dDy1Gv
+ mlMw==
+X-Gm-Message-State: AOAM531YTMzamMTYcYDN1PB9wuiyhSoLT7rncK5ktJrRIJeBF2NbiiN6
+ Dxekbyz2PXyKDVOz+6AVmwxzqA==
+X-Google-Smtp-Source: ABdhPJz71VHfZp7McCWbA6R8ulBsi7JHktSjZWsfHY6SMEPVsLq1rLCl/vp//5kreHGLWvL96enSjQ==
+X-Received: by 2002:a1c:6a01:0:b0:37f:1b18:6b17 with SMTP id
+ f1-20020a1c6a01000000b0037f1b186b17mr3437244wmc.146.1647352366893; 
+ Tue, 15 Mar 2022 06:52:46 -0700 (PDT)
+Received: from localhost (5.186.121.195.cgn.fibianet.dk. [5.186.121.195])
+ by smtp.gmail.com with ESMTPSA id
+ h12-20020a5d548c000000b001f1f99e7792sm15419652wrv.111.2022.03.15.06.52.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Mar 2022 06:52:46 -0700 (PDT)
+Date: Tue, 15 Mar 2022 14:52:45 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Matias =?utf-8?B?QmrDuHJsaW5n?= <Matias.Bjorling@wdc.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Pankaj Raghav <p.raghav@samsung.com>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>,
+ kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, Pankaj Raghav <pankydev8@gmail.com>,
+ Kanchan Joshi <joshiiitr@gmail.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
+Message-ID: <20220315135245.eqf4tqngxxb7ymqa@unifi>
+References: <20220314073537.GA4204@lst.de>
+ <05a1fde2-12bd-1059-6177-2291307dbd8d@opensource.wdc.com>
+ <20220314104938.hv26bf5vah4x32c2@ArmHalley.local>
+ <BYAPR04MB49682B9263F21EE67070A4B1F10F9@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220314195551.sbwkksv33ylhlyx2@ArmHalley.local>
+ <BYAPR04MB49688BD817284E5C317DD5D8F1109@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220315130501.q7fjpqzutadadfu3@ArmHalley.localdomain>
+ <BYAPR04MB49689803ED6E1E32C49C6413F1109@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220315132611.g5ert4tzuxgi7qd5@unifi>
+ <20220315133052.GA12593@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/3] nvmet: expose discovery subsystem in sysfs
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
-References: <20220314105333.56714-1-hare@suse.de>
- <20220314105333.56714-2-hare@suse.de> <20220315080602.GA3082@lst.de>
- <f2fb9eea-8c9c-cb95-5380-2a10b6ce3f46@grimberg.me>
- <ec115fe9-2b3f-8f31-d3b8-b85686c2788a@suse.de> <20220315094950.GA5322@lst.de>
- <b2942a7f-0d23-46e3-5ab1-31cad3ee8011@suse.de>
- <dae0fa76-2b78-16f9-a7fa-f28c1412c317@grimberg.me>
- <79067416-401e-7ee1-2de8-f67187aaecdb@suse.de>
- <b0334223-367b-690b-3a41-55ccae21b47a@grimberg.me>
- <c44e33fb-b1b8-da7e-bc70-87a39a2b5bd8@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <c44e33fb-b1b8-da7e-bc70-87a39a2b5bd8@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220315133052.GA12593@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_064839_752657_CCEF5424 
-X-CRM114-Status: GOOD (  16.75  )
+X-CRM114-CacheID: sfid-20220315_065248_445084_4EAED907 
+X-CRM114-Status: GOOD (  22.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,30 +109,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> When you want to retrieve the discovery log manually _and_ have 
->>> existing persistent discovery controllers you'll need to know which 
->>> device to pick.
+On 15.03.2022 14:30, Christoph Hellwig wrote:
+>On Tue, Mar 15, 2022 at 02:26:11PM +0100, Javier González wrote:
+>> but we do not see a usage for ZNS in F2FS, as it is a mobile
+>> file-system. As other interfaces arrive, this work will become natural.
 >>
->> Please describe the use-case because I still don't understand.
->> nvme-cli offers 'discover' that gives you the log page and 'connect-all'
->> that connects to the subsystems it found in the log page.
+>> ZoneFS and butrfs are good targets for ZNS and these we can do. I would
+>> still do the work in phases to make sure we have enough early feedback
+>> from the community.
 >>
->> Do you have foreign udev rules in addition to the ones supplied in
->> nvme-cli? I am missing the problem statement that you are alluding to.
->>
-> 
-> No, not foreign rules; it's the manual call to 'nvme discover' which I 
-> try to simplify.
-> 
-> But you are right; unique discovery controllers are only important for 
-> authentication. Everything else is just to make the system 'nicer'.
+>> Since this thread has been very active, I will wait some time for
+>> Christoph and others to catch up before we start sending code.
+>
+>Can someone summarize where we stand?  Between the lack of quoting
+>from hell and overly long lines from corporate mail clients I've
+>mostly stopped reading this thread because it takes too much effort
+>actually extract the information.
 
-OK, thanks.
+Let me give it a try:
 
-> So leave it for now and I'll come back with a different set of patches, 
-> as I _still_ see a benefit in being able to configure the discovery 
-> response.
+  - PO2 emulation in NVMe is a no-go. Drop this.
 
-Sure
+  - The arguments against supporting PO2 are:
+      - It makes ZNS depart from a SMR assumption of PO2 zone sizes. This
+        can create confusion for users of both SMR and ZNS
+
+      - Existing applications assume PO2 zone sizes, and probably do
+        optimizations for these. These applications, if wanting to use
+        ZNS will have to change the calculations
+
+      - There is a fear for performance regressions.
+
+      - It adds more work to you and other maintainers
+
+  - The arguments in favour of PO2 are:
+      - Unmapped LBAs create holes that applications need to deal with.
+        This affects mapping and performance due to splits. Bo explained
+        this in a thread from Bytedance's perspective.  I explained in an
+        answer to Matias how we are not letting zones transition to
+        offline in order to simplify the host stack. Not sure if this is
+        something we want to bring to NVMe.
+
+      - As ZNS adds more features and other protocols add support for
+        zoned devices we will have more use-cases for the zoned block
+        device. We will have to deal with these fragmentation at some
+        point.
+
+      - This is used in production workloads in Linux hosts. I would
+        advocate for this not being off-tree as it will be a headache for
+        all in the future.
+
+  - If you agree that removing PO2 is an option, we can do the following:
+      - Remove the constraint in the block layer and add ZoneFS support
+        in a first patch.
+
+      - Add btrfs support in a later patch
+
+      - Make changes to tools once merged
+
+Hope I have collected all points of view in such a short format.
 
