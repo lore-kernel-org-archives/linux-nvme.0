@@ -4,72 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33252C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 10:47:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5831C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 10:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=L0zB6xiTLN7TUWW0GnFoc7P7DsjjNa+huYBviFNpk/k=; b=RXSedZrMuzLm53/RsP/Z5O/d5Z
-	5A5FMSbtLqqA3h3r8abmJMtkAvraayNP/A0J/prFLNym1GCht+B5B46tC5VGxJRY0OHMKd/zt9v4n
-	JMn83HwPaZwtdisw48HSgTUJva2HR/1d77+HC7W8OelZIJVubO6l3AOHogF5SH+Hwou5W/9vI62yi
-	W17zcHktxGXC0huyPFjT0qg1Sk4bQ46A5bXwzouNWvnaTz1RNTeR22thEknnxbvrO2yINZD9amP6B
-	2qz7EzMMFWYC4qi5fJWJzbF83Yc3vsmy9YzftAdVQuDeV8Vmuef6MadGUsFEKFCBeWXgzcqBf0/+n
-	794rVBSw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YrS80TM1wtKrfbtCcojFDQqGbJL4k9V5F+spAeaJ/po=; b=feWyCjdQVQAIuuuh3Xh6MZxoxe
+	h9pIb/m3vkhlyAORhMj7C7fJ6QO4UaebAxjlgg2kZDWNBUDzs7J5x7V88jrZspcDQlfGLavh+6MPU
+	T7J2RaZJcFnvrqmOxYvXbV0CY7BbMkvnpCmc5Ug2yp252KgzO/yrwjQwDUUevLCyKB3dzbXKDgBwY
+	sYfez+LEWqhvU178fqoMsm4scSOnDSJIZ81R+BMzVDGh7fHnSpJOVsSCJNIQ4biYEFErV4Zvyq+/u
+	SJuQgEA//jyAdQelbOuY8H7feWjmuqEr0c1ugJabiBvgGxvewVfVo/vPdUnj+j0EG/ezioaIvcw8C
+	1pRpwMpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU4hs-008lzI-JE; Tue, 15 Mar 2022 10:47:12 +0000
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+	id 1nU4kQ-008mr0-43; Tue, 15 Mar 2022 10:49:50 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU4hp-008ly9-NB
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 10:47:11 +0000
-Received: by mail-pf1-x42f.google.com with SMTP id s42so19017287pfg.0
- for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 03:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=L0zB6xiTLN7TUWW0GnFoc7P7DsjjNa+huYBviFNpk/k=;
- b=kurHOyncJijHKQ/3NU/w4TnCG4BMWG7pbxNOcYWuXQ/xXSBjk8A4LBzinXx6+nXYo8
- ddg5aBlyeH2nOKElyxrDjgcTu9bP5Uu9tFZ1sbRaIFmrLJtvQYtd9W8WJ97iLZ64r+nB
- WxSa+5pA6UakEfS4S8StqdQNAtzBK7VQtx8gp0pBDetC/cgD5BHm0tZx9yUgrUkvCVhL
- kr6symltjySqL7Cwfx6URza/fxWatbf50CmTo3HDDxE2a7Q6CY13J0T542TeVSThMAzF
- 3bUIpiSW5KL9MAIdFZkpjCi9fPQRtWiicn8HwyFBIoI0+wCIqngNm76PmSf2VdUhnK2W
- 1rFg==
+ id 1nU4kM-008mof-PM
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 10:49:48 +0000
+Received: by mail-wr1-f52.google.com with SMTP id r10so28327832wrp.3
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 03:49:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=L0zB6xiTLN7TUWW0GnFoc7P7DsjjNa+huYBviFNpk/k=;
- b=GJ7ropvcN13NH899UR8AZcog8RMUNDIksa6JzU/jY5bNDDyB1ZutUicdTM72NyPSpP
- LCSfOVyyzvZIlf7P6FYJLQvwIm0f5d8M+wH1TE5/yUYz1X8NRSbx/QDeiGb+WT1jHA/h
- XQu3J18DDkJcM/IaMnBRprxUtWoVwsHeDnxbKm3/zojgDK30yXxrPO24zEaErdHfHT2m
- gufyooPmTdml9psKQkcIlk0mTqXw2flEowtUdobyVLNbDJTDQqUfKSK0Le6ikVYU+cGb
- iEw1kstPOKkFd+5QsbxYAAc3k7JL1bixqGdTqGYw81H7EsxFDBX6SwUl5qYootn+2mFf
- Eyhw==
-X-Gm-Message-State: AOAM533/u2UXGJM9U1IHjc7oEnfXfXVg0+a16mHTfKrwz3jduqjl/A6m
- CUdbZK3BWwEYllz+E8+NH33wlQ==
-X-Google-Smtp-Source: ABdhPJxA2V6ApdodQ8a2vNaSyz81PLMVWnDWdh3IHXNxCSKTXOy7wpqb+nBs6S14gJeSDmqUCo2VtQ==
-X-Received: by 2002:a62:7793:0:b0:4f6:27a8:ae6d with SMTP id
- s141-20020a627793000000b004f627a8ae6dmr28183056pfc.65.1647341227975; 
- Tue, 15 Mar 2022 03:47:07 -0700 (PDT)
-Received: from localhost.localdomain (60-251-182-145.hinet-ip.hinet.net.
- [60.251.182.145]) by smtp.gmail.com with ESMTPSA id
- il7-20020a17090b164700b001bfc017a0adsm2740346pjb.37.2022.03.15.03.47.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 03:47:07 -0700 (PDT)
-From: Mark Hsieh <mark_hsieh@wistron.corp-partner.google.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de, axboe@fb.com,
- kbusch@kernel.org, Mark_Hsieh@wistron.com,
- Mark Hsieh <mark_hsieh@wistron.corp-partner.google.com>
-Subject: [PATCH] nvme-pci: disable write zeros support on specific SSDs
-Date: Tue, 15 Mar 2022 18:47:02 +0800
-Message-Id: <20220315104702.20798-1-mark_hsieh@wistron.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YrS80TM1wtKrfbtCcojFDQqGbJL4k9V5F+spAeaJ/po=;
+ b=ohtUh5rPwILTP++bHws/xXgKBJMBP265JXIWnOgyINzyfB4GX4NlxImeinPvFvZxxF
+ jksh/U9nk4tGGQQrRzGBm4CfKNTvoZwemtYAzGpdX16F0lYOyaNpzZNd+zK1gh6JH+14
+ /hB5xhQl4vAGMTnr6Dlzo5HLbKcOXQt1fDzFQWPE0p5a6n26i1LMfKDQl+xVcUFd+7pz
+ xbTQQggB2kVhP4wkSoZ4mWLkIC/dlQf+hbtqb6Q6qpywmc3Vtm3oqNQetfIsAaF7C/70
+ VOkbBxCOA21KF7RSveLV/GO/YOp4qmW716/k+R54hcWS9C0B1eIELJBe1h9wD8/Ldy0v
+ qszA==
+X-Gm-Message-State: AOAM5333ooPaRv7BG5YOYeOZg7qp5nifIyviX6bq1mgS55TbRbrag9RT
+ miuyj0EufVrCdGWe5+wEDW8=
+X-Google-Smtp-Source: ABdhPJzqGmRKpITUGNEhZR+2RCNST6cwQBK3WbQSynkIEBiSh7aUpLLfBlDI6epEL9BAMcsDUwT4gA==
+X-Received: by 2002:adf:dcd0:0:b0:1f0:4b41:3953 with SMTP id
+ x16-20020adfdcd0000000b001f04b413953mr19105288wrm.503.1647341385239; 
+ Tue, 15 Mar 2022 03:49:45 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ m16-20020a05600c3b1000b00389e93b173dsm2060689wms.44.2022.03.15.03.49.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 03:49:44 -0700 (PDT)
+Message-ID: <dae0fa76-2b78-16f9-a7fa-f28c1412c317@grimberg.me>
+Date: Tue, 15 Mar 2022 12:49:43 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/3] nvmet: expose discovery subsystem in sysfs
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+References: <20220314105333.56714-1-hare@suse.de>
+ <20220314105333.56714-2-hare@suse.de> <20220315080602.GA3082@lst.de>
+ <f2fb9eea-8c9c-cb95-5380-2a10b6ce3f46@grimberg.me>
+ <ec115fe9-2b3f-8f31-d3b8-b85686c2788a@suse.de> <20220315094950.GA5322@lst.de>
+ <b2942a7f-0d23-46e3-5ab1-31cad3ee8011@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <b2942a7f-0d23-46e3-5ab1-31cad3ee8011@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_034709_904466_AB93692A 
-X-CRM114-Status: GOOD (  10.44  )
+X-CRM114-CacheID: sfid-20220315_034946_853565_81F70792 
+X-CRM114-Status: GOOD (  30.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,33 +85,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Like commit 5611ec2b9814 ("nvme-pci: prevent SK hynix PC400 from using
-Write Zeroes command"), Micron has the same issue:
-[ 6305.633887] blk_update_request: operation not supported error, dev
-nvme0n1, sector 340812032 op 0x9:(WRITE_ZEROES) flags 0x0 phys_seg 0 prio class 0
 
-So also disable Write Zeroes command on Micron.
+>>> The core question really is: do we _want_ to expose the discovery 
+>>> subsystem
+>>> in configfs?
+>>
+>> Well, if you want a freely configurable one we kinda have to, right?
+>>
+>>> Unfortunately, exposing the discovery subsystem and trying to 
+>>> configure it
+>>> with configfs does _not_ match with the way discovery is implemented 
+>>> today.
+>>> While we currently only have a single discovery subsystem, it will only
+>>> ever return the subsystems visible from this particular port.
+>>
+>> Well.  The original Fabrics spec had this concept of that magic discovery
+>> NQN, which implies that there is one subsystem (or many pretending to be
+>> one).  And that is what the implementation followed.  The varipus 80?? 
+>> TPs
+>> then made a complete mess off that.
+>>
+>>> Hence this rather simple approach, having the 'normal' discovery 
+>>> subsystem
+>>> exposed, and let the admin configure it accordingly.
+>>>
+>>> I can look at keeping the internal implementation, and only expose 
+>>> unique
+>>> discovery controller (ie those with a unique subsystem NQN).
+>>> That would remove the need to having the 'discovery_nqn' attribute, and
+>>> address Christophs concerns.
+>>
+>> I suspect if we want to support all the new mess from the FMDS group
+>> (and maybe we need to question the why a little more), then we should
+>> so something like:
+>>
+>>   (1) keep the existing global NQN-based discovery as-is.
+>>   (2) maybe add a per-port known to allow disabling it if people 
+>> really care
+>>   (3) allow creating additional discovery subsystems with non-default
+>>       NQNs that do not automatically get anything added to them and will
+>>       just be configured as needed through configfs
+>>
+> Yeah, that's the line I'm following.
+> 
+>> But maybe first we should take a step back and figure out what supporting
+>> TPAR8013 even buys us?
+> 
+> Properly supporting persistent discovery controllers.
+> 
+> The current problem we're having (on linux) is that we cannot identify 
+> discovery controllers. Each discovery controller has the same subsystem 
+> NQN, and hence that's not sufficient to identify the subsystem
+> Which resulted in linux to always create a new 'nvme_subsystem' instance 
+> when creating a new nvme discover controller.
 
-Signed-off-by: Mark Hsieh <mark_hsieh@wistron.corp-partner.google.com>
-Change-Id: Ic6ebfe141702d1869490bbf210627055b5b4d80f
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+That is the case regardless of naming... there is no multipathing with
+discovery subsystems so there will be a subsystem for every discovery
+controller...
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a7a502a5b2b5..68745e1d7b6a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3245,6 +3245,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x2646, 0x500d),   /* Kingston OM3PDP3256B-AH 256G */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+	{ PCI_DEVICE(0x1344, 0x5411),   /* Micron 2450 MTFDKCD256TFK 256G */
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
--- 
-2.17.1
+> Problem now starts when you try to use persistent discovery controllers; 
+> it's quite easy to _create_ a persistent discovery controller, but less 
+> easy to _use_ an existing one; how would you know which one to pick?
 
+You are not supposed to "use" an existing one, the whole point of the
+persistent discovery controllers is that you don't need to worry about
+it. We already perfectly handle that with udev using the kernel of
+the uevent.
+
+> More importantly, as linux will always create a new nvme_subsystem for 
+> each discovery controller you'll end up with several 'nvme_subsystem' 
+> instances which in fact all refer to the very same subsystem.
+
+OK, still don't understand why that is a problem.
+
+> nvme-cli tries to work around that problem by requiring the user to 
+> specify the device name, but that requires quite some knowledge from the 
+> admin side, and making that work in a scripted fashion is a pain.
+
+I am not aware at all on what scripting are you referring to. But udev
+scripts are written already. Can you explain?
+
+> So with TPAR8013 we now _have_ distinct discovery subsystems, can create 
+> unique subsystem, won't have duplicate subsystems, and can automate 
+> nvme-cli to pick the correct existing persistent discovery controller 
+> even if the user does _not_ specify the device name.
+
+And instead specify the subsysnqn? I am not aware of this reasoning you
+are referring to at all, but I was probably absent from these
+discussions... I thought that this TP was solely related to 8010 stuff
+and also solves an issue that came up with the discovery subsystem and
+the authentication TPs.
 
