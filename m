@@ -4,81 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D83FC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 09:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15930C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 09:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5GjeOUkjo80DozStTtPXhVzQRQej4Y2nGzurYGhi8tM=; b=IWzBtcjqFELnSHBu2X4MIWL9kb
-	5Vt9fDvIfrc8nCkmYbRNvBHwl/xABw1wFkzci7M4YBSd/dnUfKRXje6qYm2+TGxN34cfWy8RCA49j
-	uOgf4QXyKN4aMl+YCLTGXo3dlvQ2wgFfqI8hI5fb6+sG4lAOKK3F7VBWea9IyWXboPKVSsJGVqhnI
-	6xF55WZrqZJijkS1UtAP/dZtn1YFFElATtv9KeH8VIzNibPJCcZ5fGSVIHWBnqPOx0ILDcTIqJB4F
-	SAtp1tXR6Oje1bXTu9RwIjPJEZPj2zUvEWddoBaU95tkB8/Ks0zLsgK8YUPR7Xm9xhBQX1mGmLmth
-	CBGgCl8Q==;
+	bh=30LSGMYMitX+GE/+pDy1BICKzQQv4AD9JutHG07ZJ2g=; b=QaKxiVuvzEFDHxRJCSVWWcawb/
+	H6Qcr8JVBa5D7bp1YDgIYj5Mz12CbE46PAm7v8CUsZ07Ty+oBQ/YB39BWwTcokWNuZlrBTWDHazeP
+	rClarlrnwglQZ9NqDu2TaOhN8XCzBDBmtKSb0KdCTFbBHrt+CTPE9XTCgzq3TItqLx2kcD1wwhYoM
+	qP0aX+dYoV8TIiyNbOXcSc5S52YLIB1zvF3a72sU0n0pQailRpwKyySq8nYepnbkh9EpxmUaMwkDd
+	vsQ71Vf8Fv6abzL7bjWKzCr+tM6FJuhwK0xyASWcNCtUQPkS2n6Wgy2TKdeAWVcdIe3SCkmHh60C8
+	PaEzyV8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU34g-008Pki-7g; Tue, 15 Mar 2022 09:02:38 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1nU38R-008QlM-Su; Tue, 15 Mar 2022 09:06:31 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU34d-008PjU-LF
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 09:02:37 +0000
-Received: by mail-wm1-f43.google.com with SMTP id r133so137243wma.5
- for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 02:02:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5GjeOUkjo80DozStTtPXhVzQRQej4Y2nGzurYGhi8tM=;
- b=NAIoFkjYFY0/T7nj5VyuxDfsJbrr87WMl1ZKktFn/lLOMr6bJGK1B85VpLoJCGax2F
- t/vqpLc+M/fXysC/uQmLW+wiXD2yuMYo7ydWnl/brxLArG1KOoNRr4h1HEIf/F0vIfmX
- ZSXILgbOmU5SJIhaxiiOYwjg0IcQj2AzTSeZTW6pz7FRhOtrpAAUuZKtXNNf8LFbEjlQ
- zECa17hZ63QkJRfXxiXqq5ZzWWZvc0eegoHpMPi1anTyGq9dD3LC/8EMyMwrIGKZj7IC
- nS/nWiqKvFiJicH+H4ssLuufASJ+B6tX8m9dMWO4n48lnUmm16lmdWr9Xki/Hv+VJ/Zq
- f0dQ==
-X-Gm-Message-State: AOAM531TJez41hawM3SGCzQ/tFnIQTlOJN4H4swGFE5MN3sVrqiMoBSe
- 40ZQ+hyDJ8SaYtiaqIw523M=
-X-Google-Smtp-Source: ABdhPJwWmkBm9T7IWXeFPmodjHRzLLkW+dwv0nCn/xwaXmyQoWXmh9laUOz1x8EayF3ghihBHG7gKA==
-X-Received: by 2002:a05:600c:1c02:b0:389:cf43:da63 with SMTP id
- j2-20020a05600c1c0200b00389cf43da63mr2336863wms.205.1647334953730; 
- Tue, 15 Mar 2022 02:02:33 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- bh19-20020a05600c3d1300b0038b481f357dsm1471479wmb.3.2022.03.15.02.02.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 02:02:33 -0700 (PDT)
-Message-ID: <8f45a761-5ecb-5911-1064-9625a285c93d@grimberg.me>
-Date: Tue, 15 Mar 2022 11:02:30 +0200
+ id 1nU38O-008Qk5-CU
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 09:06:29 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F2BC12190B;
+ Tue, 15 Mar 2022 09:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1647335186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=30LSGMYMitX+GE/+pDy1BICKzQQv4AD9JutHG07ZJ2g=;
+ b=kFgjj9vAci6MEwZk8gWZWC7Duy3odlNVJfpOvjvqoDxHrNwCxE81msJkoMJPS2og1WaqH2
+ GTAGb53nHQqUFHUEIMl0oPsyDtzDMkHFAp93MC+2sGSrL80PqBO/+tyxPu8VkOFVKnbvdb
+ qmYN/cBosM2h3YjbJEUx4CHmhqoSDt0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1647335186;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=30LSGMYMitX+GE/+pDy1BICKzQQv4AD9JutHG07ZJ2g=;
+ b=4RrRUP3CRdMNnSgqXHRGNQaWXOYp61WiUGTwSlVMKrL3HZ1WWXun56hqeE3O+Hw6sGeoIP
+ 7GkzINJYq8BRiaCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E5FCB13B4E;
+ Tue, 15 Mar 2022 09:06:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nb7pNxJXMGJGdgAAMHmgww
+ (envelope-from <hare@suse.de>); Tue, 15 Mar 2022 09:06:26 +0000
+Message-ID: <ec115fe9-2b3f-8f31-d3b8-b85686c2788a@suse.de>
+Date: Tue, 15 Mar 2022 10:06:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
- char-device.
+ Thunderbird/91.4.0
 Content-Language: en-US
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav
- <pankydev8@gmail.com>, =?UTF-8?Q?Javier_Gonz=c3=a1lez?=
- <javier@javigon.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152702epcas5p1eb1880e024ac8b9531c85a82f31a4e78@epcas5p1.samsung.com>
- <20220308152105.309618-6-joshi.k@samsung.com>
- <7a123895-1102-4b36-2d6e-1e00e978d03d@grimberg.me>
- <CA+1E3rK8wnABptQLQrEo8XRdsbua9t_88e3ZP-Ass3CnxHv+oA@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CA+1E3rK8wnABptQLQrEo8XRdsbua9t_88e3ZP-Ass3CnxHv+oA@mail.gmail.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+References: <20220314105333.56714-1-hare@suse.de>
+ <20220314105333.56714-2-hare@suse.de> <20220315080602.GA3082@lst.de>
+ <f2fb9eea-8c9c-cb95-5380-2a10b6ce3f46@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 1/3] nvmet: expose discovery subsystem in sysfs
+In-Reply-To: <f2fb9eea-8c9c-cb95-5380-2a10b6ce3f46@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_020235_728468_C4E699F4 
-X-CRM114-Status: GOOD (  17.14  )
+X-CRM114-CacheID: sfid-20220315_020628_598724_4D6C8C2E 
+X-CRM114-Status: GOOD (  13.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,45 +91,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> +int nvme_ns_head_chr_async_cmd(struct io_uring_cmd *ioucmd)
->>> +{
->>> +     struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
->>> +     struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
->>> +     int srcu_idx = srcu_read_lock(&head->srcu);
->>> +     struct nvme_ns *ns = nvme_find_path(head);
->>> +     int ret = -EWOULDBLOCK;
->>> +
->>> +     if (ns)
->>> +             ret = nvme_ns_async_ioctl(ns, ioucmd);
->>> +     srcu_read_unlock(&head->srcu, srcu_idx);
->>> +     return ret;
->>> +}
->>
->> No one cares that this has no multipathing capabilities what-so-ever?
->> despite being issued on the mpath device node?
->>
->> I know we are not doing multipathing for userspace today, but this
->> feels like an alternative I/O interface for nvme, seems a bit cripled
->> with zero multipathing capabilities...
+On 3/15/22 09:40, Sagi Grimberg wrote:
 > 
-> Multipathing is on the radar. Either in the first cut or in
-> subsequent. Thanks for bringing this up.
+>>> Expose the discovery subsystem in sysfs instead of having it as
+>>> an internal structure. This requires the admin to manually
+>>> enable the discovery subsystem by linking it to a port, but
+>>> this can be seen as a feature as it will allows us to expose
+>>> subsystems without discovery subsystems and discovery subsystems
+>>> with no I/O subsystems.
+>>
+>> ... and completely breaks any existing setup.
+> 
+> Yes, this needs to be backward compatible...
 
-Good to know...
+The core question really is: do we _want_ to expose the discovery 
+subsystem in configfs?
+(And this was actually why I prefixed this series with 'RFC').
 
-> So the char-node (/dev/ngX) will be exposed to the host if we enable
-> controller passthru on the target side. And then the host can send
-> commands using uring-passthru in the same way.
+Unfortunately, exposing the discovery subsystem and trying to configure 
+it with configfs does _not_ match with the way discovery is implemented 
+today. While we currently only have a single discovery subsystem, it 
+will only ever return the subsystems visible from this particular port.
+(So really, it's more like a discovery subsystem per port.)
+When using configfs we can link ports to the subsystem, but seeing that 
+we'll only ever have _one_ discovery subsystem we cannot restrict the 
+discovery log page contents to that specific port.
 
-Not sure I follow...
+Hence this rather simple approach, having the 'normal' discovery 
+subsystem exposed, and let the admin configure it accordingly.
 
-> May I know what are the other requirements here.
+But yes, this approach is not backward compatible, or, rather, backwards 
+compatible only after it has been configured accordingly.
 
-Again, not sure I follow... The fundamental capability is to
-requeue/failover I/O if there is no I/O capable path available...
+I can look at keeping the internal implementation, and only expose 
+unique discovery controller (ie those with a unique subsystem NQN).
+That would remove the need to having the 'discovery_nqn' attribute, and 
+address Christophs concerns.
 
-> Bit of a shame that I missed adding that in the LSF proposal, but it's
-> correctible.
+Hmm.
 
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
