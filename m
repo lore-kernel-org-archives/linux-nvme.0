@@ -4,71 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3164CC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 08:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC7CFC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 08:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=PY2ZT1d3rj0S94gtjxYijSo8YR
-	CuFBq318kyiiw2+wUhZoV7KQCoN8c+jl2eU4BooP+QaIcLmO8zKPFOfXqYxYhme6GSt2n+lqgW4aC
-	BJKDuoTQXCvPYhKl27U2xSQwfaZUfy7XIiXra5nIbBulFhN6S3WKZVGMK4aFgdknzMdbZp+8rSpXY
-	q5zpQGP3Xsjyw871Ib1c5TNbPKJ33ovKfx95lL/jUVr/I4rThii/vx3/mrz0iDQAINqtRtfLSm/xC
-	8nX1XqkHvTaX+Aoi/+5F2QIEheW2CtTQ927EVAfDiN0G0lKBtRNMHcbbIg/aZfsGJY2oMudhZqSa2
-	TilNk1tA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2MaRY3FhQHvwy+duMTt4bpFbWvl+JrvIe5naHSiNFjo=; b=hC9IzqE4bCqOvKXrCKa5Vf4BEl
+	bQY+AdeTV36Q6MaB29PIzSBO6tk28ONrqovKF4jzGAnZBuEr22/CYOJyBCUGzCq4ZTDIVbOfCcH7N
+	K0MXPgnJUFCuSjsV7GzQbLoFKCMb7iA3qaTfwG+8WnKEyqHm0S2IlfTKWUnWMWen8HChsqCN/VFyl
+	2W51nXGeF2k49Lrn2fkDYV25MYlnZDG+8NmgNvu5Q5NYpRVgrYDnKMDMFjyB6U+ZOreqoXJhnDHP0
+	EEj8ndmcZZwkaejOibV8CjPW+rQjSQJsi584xmlUs5Hr/pQ6DKIVa0/X+j5rPDvYY9qWy5Ic2H2UX
+	x+ec94IQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nU2oa-008LFu-4t; Tue, 15 Mar 2022 08:46:00 +0000
-Received: from mail-wm1-f54.google.com ([209.85.128.54])
+	id 1nU2or-008LNc-AO; Tue, 15 Mar 2022 08:46:17 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nU2oW-008LDv-SB
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 08:45:58 +0000
-Received: by mail-wm1-f54.google.com with SMTP id r7so219272wmq.2
- for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 01:45:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=AICq8BaU5V+QokC+mRXEkYtfLrQvdbtesvF+b5GEBt+ckOFwztRw6Y/5Z5+HA4fFN3
- 0WIYqlD8xHl1/QgyA1kDE8HRRRkhBjXKkIy0LZW2OLhP47AChuSBta831dklZp7dMxMy
- 2hAc+OEAJnhDe3JlaW1Qute9hKTjDj9kHgp01VZI7+SuFy+IFFuT2dQDmiR3fw0Ym7q7
- yWosY5g58Kni3GOnLes3a3jS8Xg5VOy32VlNh2pmG+jQwOPHjq5efCx0Eokz9YXjenQ/
- H+xSEqY6MwQ+uGdW5aIQ3ppxCfBIG9SGHBOLNu8xAZEh6PbUzuSBlsqJ7f0Tg6YjX9vx
- XP3A==
-X-Gm-Message-State: AOAM530udOji2L+iNXB6/mql4/5NRaP0oDUyQtRtrsMUhtWNsejftMd7
- iHPYAvtSDa5GJLQnTdAjHEU=
-X-Google-Smtp-Source: ABdhPJwoid/NDiPZ+5kAYu/ST940he5uhPnsFlQnxbPIfEdEHnf2L0lyFpD2/EN6ebSB5Xlncf5hxA==
-X-Received: by 2002:a05:600c:4ec7:b0:389:bf36:ce3a with SMTP id
- g7-20020a05600c4ec700b00389bf36ce3amr2374920wmq.118.1647333955017; 
- Tue, 15 Mar 2022 01:45:55 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- o12-20020adfa10c000000b001efb97fae48sm15756277wro.80.2022.03.15.01.45.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 01:45:54 -0700 (PDT)
-Message-ID: <797f7fcc-bea3-3fc2-19b5-bce03fc028b3@grimberg.me>
-Date: Tue, 15 Mar 2022 10:45:53 +0200
+ id 1nU2oo-008LLx-3y
+ for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 08:46:15 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 5183D68AA6; Tue, 15 Mar 2022 09:46:11 +0100 (CET)
+Date: Tue, 15 Mar 2022 09:46:11 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: "hch@lst.de" <hch@lst.de>, Sungup Moon <sungup.moon@samsung.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] driver/nvme/host: Support duplicated nsid for the
+ private ns
+Message-ID: <20220315084611.GA3961@lst.de>
+References: <CGME20220314110545epcms2p4a227eac7c4652445050e70ee2350635d@epcms2p4>
+ <20220314110545epcms2p4a227eac7c4652445050e70ee2350635d@epcms2p4>
+ <20220315071230.GA2069@lst.de> <20220315071926.GA2137@lst.de>
+ <a3051d85-c08e-a273-c7cc-2eb3e21df717@grimberg.me>
+ <20220315084035.GA3834@lst.de>
+ <6ac83f8b-01e6-5394-0570-023ac6b1a71d@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] nvmet: move the call to nvmet_ns_changed out of
- nvmet_ns_revalidate
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org, Niels Dossche <dossche.niels@gmail.com>
-References: <20220315071951.1903382-1-hch@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220315071951.1903382-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6ac83f8b-01e6-5394-0570-023ac6b1a71d@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_014556_962250_C5860835 
-X-CRM114-Status: UNSURE (   7.18  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220315_014614_357049_9F44807D 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +65,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Tue, Mar 15, 2022 at 10:42:56AM +0200, Sagi Grimberg wrote:
+>>>> +	 * We also do this for private namespaces as the namespace sharing flag
+>>>> +	 * could change after a rescan.
+>>>
+>>> What happens in this case? we now have non-unique shared namespaces?
+>>
+>> The non-uniqueue NSIDs can only happen for private namespaces.
+>
+> But what happens if this changes upon a rescan as you commented?
+
+Well, it can't change to shared as the nsids are non-unique.  If we
+want to be paranoid we could add a sanity check for that, but then
+again there are a bunch of other things where we could be more paranoid.
 
