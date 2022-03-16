@@ -4,132 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89A15C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 07:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3916FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 07:51:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0ch16WX5sxYc+WOht+eFe2RkcmpBFB4vfsqCaL2z36M=; b=FytgcfKaXWNy8lEz1bVxwcsBCk
-	F4/bIwnRh+5mTV5J6B/wZSk03+sRndB9ymXTr/4sVpKszKmnDCjFcQFM45KIBdroG3/TCkvU4Y8qs
-	O6f3y3SdfnziG0ejEIKjswhYzYjdbIcLSwMKfXltXvWsr37oEOxWvWIYqbGlgmU77oW3oRmYTJEZT
-	HEbMLlzvhqQVPEErv/jDe1ENPw7FDvkZgp0Oiiza1KNm1EC85SguTx3si5r/GUR17fjl0gd79KNgl
-	acDp0Dym4QRshcSCOEGGeAu2ENWauyoqc25qMI0LaVjz4QsOX1B4nCVaaAWMDoCqBb8BggqNppIZI
-	SsJBlfbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Aj55LV23IrQVnS1JIWgQjYe+OWRDGoTYduCmXbrohUQ=; b=PiPAW9OcKEH24ZEDYPIP3ctPkL
+	PPAHYLCme0SVnRWQJFnUAySGvUgxw+NuTT0IuNS/6GdkfJtU33asHF3Z6YO68gYKzooQ7HYMn9ZRF
+	TJ3bjDU15g/eFHlFeY0N+0aShvVbJ7cjqq+8SXtGS4HcUQWUCMy2awqcVPUdTZ14pQ8+9xCP/qUek
+	ilwYhayHWb0f9J/3XHuSeg9cyQHUqC+YojgJ7A9jSjvvSciSCpSH67ifT58ar4o+al6+koT4OVjo4
+	VcqRGZkm7LYQS21F/FN0wQivYA4AqlIwiBhQ9k1niXHVI2NcLX9Hb7B8LXurrHYbs22liq0RGsr04
+	baVNtHAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUOC2-00Bxkh-Kr; Wed, 16 Mar 2022 07:35:38 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1nUORj-00C1Hf-G9; Wed, 16 Mar 2022 07:51:51 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUOBq-00BxjI-3X
- for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 07:35:28 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20220316073520epoutp01f93da02e07c3c72d31f61171b9cdbca7~czDuwWJYZ0991809918epoutp01g
- for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 07:35:20 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20220316073520epoutp01f93da02e07c3c72d31f61171b9cdbca7~czDuwWJYZ0991809918epoutp01g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1647416120;
- bh=0ch16WX5sxYc+WOht+eFe2RkcmpBFB4vfsqCaL2z36M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=at5FIj/VsuPyPzHfOi83uqZ1+1jCSzwcdFhzTzVIVe8gDdycsTzBiaqwTcqM0T2by
- ZOG5ae/WafP4zKbNxl+cYhRif77u1vQPvV0KKFLJTFugJraSlk4XuCYG6GlBOzaOAn
- pTVHWbeodhWDl9FLnNNxM7hL24dO1Ft1QwwzJZTA=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20220316073519epcas5p2c43131a53bdc2868f6aa1e49d08cb7d5~czDuJqTFf2807628076epcas5p2q;
- Wed, 16 Mar 2022 07:35:19 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4KJMW06rT1z4x9QT; Wed, 16 Mar
- 2022 07:35:08 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 53.EC.05590.52391326; Wed, 16 Mar 2022 16:35:01 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20220316073230epcas5p47458b509510ee55be5bfa5152fad991b~czBQITy3w2400724007epcas5p4H;
- Wed, 16 Mar 2022 07:32:30 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220316073230epsmtrp1ac86bafccc6d7619a09cd86cb9e4f0cc~czBQHZRMF1062610626epsmtrp1P;
- Wed, 16 Mar 2022 07:32:30 +0000 (GMT)
-X-AuditID: b6c32a4b-739ff700000015d6-3b-62319325b78c
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- EF.92.03370.D8291326; Wed, 16 Mar 2022 16:32:30 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220316073227epsmtip267db15d1cd03c9e484f7eefb9176d97a~czBN9SbvN2834028340epsmtip2l;
- Wed, 16 Mar 2022 07:32:27 +0000 (GMT)
-Date: Wed, 16 Mar 2022 12:57:27 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com,
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, sbates@raithlin.com, logang@deltatee.com,
- pankydev8@gmail.com, javier@javigon.com, mcgrof@kernel.org,
- a.manzanares@samsung.com, joshiiitr@gmail.com, anuj20.g@samsung.com
-Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
- char-device.
-Message-ID: <20220316072727.GA2104@test-zns>
-MIME-Version: 1.0
-In-Reply-To: <20220315085410.GA4132@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxzeubctlyaFOwQ50mzAJWAAgXaW7sJgL4neqFmaGbbE4OACd0AK
- t01vO19jYyoLZeGhiLw7EBwOHDLoGnmYSRELIi+ZIEQZOCCDRUGZi3GBrOWWxf++3/f7vnO+
- 33lgqMeUyAfLYPWMjqUzCZFYYOkN3hkWWCJPlk3VepNlvf7kqeJ1lKxusgCy+WGRiPyxuQ8h
- n+QOC0jj4ChCjjzuRchz1glAXp8OJb//YcGFbMi1icj7xQuAvDK1ICDX7piE77tTi/cWAdVR
- +dCFOl37QECNDxmotiajiGpv+JrqmsoRUZb6JSFVaG4C1FrbmyrxYXVMOkOnMjo/hk3RpGaw
- abHEgUOJexIjlTJ5mDyKfJvwY+ksJpaIO6gK25uRaZ+B8PuCzjTYKRXNcUTEuzE6jUHP+KVr
- OH0swWhTM7UKbThHZ3EGNi2cZfTRcpnsrUi7MEmdPl3wFNE2Bhy7d3dWmAOuS/OBKwZxBXxR
- kIfmAzHmgXcB+LjrFsIXzwAc6VgV8MUagI+elLlsWcxnCoV8oxPAlpVWZ7EI4F/d/cChEuCB
- sDrvO/taGCbCg+FoicFBe+IEXFgeAg49ivcjsGbGhDga2/B4eCaX10vwXXAtj3LQEvx1OFAx
- L3BgVzwUlvSXow7shQfAGxbbZlSI/4bB+hflgE8XB1fMA86k2+CyzezEPnCp6Fsn5uDLB30o
- b84DcDKnQsA33oNj3eubgVA8A853/IHw/Buw9HaLk3eDBf/OO3kJvGbawv5w5tyCkMfecK68
- QegYBuIUbKiS8gd0EYGWGzWCYuBb+cpwla9sx+NoaFw9Jay021FcChs3MB4Gw6udEbVA2AR2
- MFouK43hIrW7Webo/zeeoslqA5tvPOTANfBodjXcChAMWAHEUMJTcufPiGQPSSp9/ASj0yTq
- DJkMZwWR9rs6i/p4pWjsn4TVJ8oVUTKFUqlURO1Wyglvye20VtoDT6P1jJphtIxuy4dgrj45
- iCK72X/4Z+ll1cmJm4mXTotMLnWqbq163OSVFLJHTC22NZYdTwj9bK6wzkgNWIZda0taG3w7
- 1xPcq6br8IlB03aLuD+/9PnS0av+MR9d3lDHvRx5zTOwPjmuK/ud7CsnZq09Naz16bMiTdRg
- Z0zKjm80x7rP7vNVTob3zKC/7tmlPr/T7fz+5U/d9x3h4i9xtoGVoM+t1R9/EHF3fv9PN1tY
- 23jUP0GquiKF+pbb3P1yzZftY7YKzYaqr3UoWgqnzMn5E78EySdHD3dc7En46sLfXrKAFWas
- 87m+vck3+xNEeCTwUEBpvHE60ASM281S0Yd7k8QH3UN/D9YzAScNVTkFhIBLp+UhqI6j/wP7
- 45vZbAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRmVeSWpSXmKPExsWy7bCSvG7fJMMkg8YGRovphxUtmib8ZbaY
- s2obo8Xqu/1sFitXH2WyeNd6jsWi8/QFJovzbw8zWUw6dI3RYu8tbYv5y56yWyxpPc5mcWPC
- U0aLNTefslh8PjOP1YHf49nVZ4weO2fdZfdoXnCHxePy2VKPTas62Tw2L6n32H2zgc1j2+KX
- rB59W1YxenzeJBfAFcVlk5Kak1mWWqRvl8CVMaFjOnvBNYWK01+fsjQwtkl2MXJySAiYSGxp
- 6WMFsYUEdjBKNCxkhoiLSzRf+8EOYQtLrPz3HMjmAqp5wijx9f4CsAYWAVWJOR3dTF2MHBxs
- ApoSFyaXgoRFBJQknr46ywhSzyxwikmiYds7sEHCAqESLa0Q9bwCOhKfOzwg9i5hkth+Sg/E
- 5hUQlDg58wkLiM0sYCYxb/NDZpByZgFpieX/OEDCnALaEpNPzAA7U1RAWeLAtuNMExgFZyHp
- noWkexZC9wJG5lWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMGRp6W1g3HPqg96hxiZ
- OBgPMUpwMCuJ8J55oZ8kxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQi
- mCwTB6dUA9OGKT8Uj2mfXL7s+ZNyoe3q983+bVQ8kFHzMmtLkkxPgfgW6bMRf6asSzSYLqIS
- 8yvnbRabaNC2KrECDdPCQO9vk3Rafj3y/JI8603zvhAjey+f1BXiXa+fJf59aV8U8dswVyBU
- MIyZzbF6L3/VaZN7Ct9y3uu//JjI09Az8cM3J0/RaskJOvFP2PetneHr9EdY8+b6kJxXzXWP
- isqMBBOiOmQijuiUqghfut0cn5e0+Yiz0qs5P7eu+vk2oy3o7J1DgVuTrdb41Cle2rh4wlGR
- r8cF8vfWr2I48ehj1s+fUYzWES+mnlJo32Dlv5jvpcoew9o7/sxnN0RJt/O0uqxwfXbjkfoC
- KZubWUGci5VYijMSDbWYi4oTAZrfQggrAwAA
-X-CMS-MailID: 20220316073230epcas5p47458b509510ee55be5bfa5152fad991b
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----7Im1L.vKorTl163deO4rxYDAHxkziUWsBhtki-3JrW1s26Hg=_11b0d6_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220308152702epcas5p1eb1880e024ac8b9531c85a82f31a4e78
-References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152702epcas5p1eb1880e024ac8b9531c85a82f31a4e78@epcas5p1.samsung.com>
- <20220308152105.309618-6-joshi.k@samsung.com>
- <20220311070148.GA17881@lst.de> <20220314162356.GA13902@test-zns>
- <20220315085410.GA4132@lst.de>
+ id 1nUORg-00C1G8-Cz
+ for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 07:51:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647417108; x=1678953108;
+ h=from:to:cc:subject:date:message-id;
+ bh=vKvbQwYgcjb2VBnqEZFgMX1Gx5eolCjtlW5mckiZ48U=;
+ b=LVlE0CZDKRte74/+XeePiQiGHyGYdBhdbMzCa2famxBYNPknMAjN1wFu
+ leBi9QOXCL6dcVXU05wzs7BY/W1Hb6Bqm/BgWOYFATOQ4uj+gB7rncbQo
+ sqh/sfkwmKJFmQg33rpFcu8Qn4jogUaTMdm1CS9Aukqb302fmSqNR7wNi
+ O5MFacpjduRcUxUwPqWJ8Vn+fDhFYG4vtcQDiNTYvQtHoFhEgL6K4ntwk
+ 0sVcOhsAd9whu0pVngmeDUUUQwHDY6izlA3ZvFm+36C5QgXyEhpp2thBL
+ cO1WXVHFOr55546rjOE4agEfunoIXYfuoF8URcpSX4DhWSlRV52JBBa08 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256706417"
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="256706417"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 00:51:46 -0700
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="557328291"
+Received: from basccgtest09.gar.corp.intel.com (HELO localhost.localdomain)
+ ([10.223.165.104])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 00:51:23 -0700
+From: monish.kumar.r@intel.com
+To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: abhijeet.rao@intel.com,
+	monish.kumar.r@intel.com
+Subject: [PATCH] Revert "Adding quirk changes for Samsung X5 device"
+Date: Wed, 16 Mar 2022 13:23:12 +0530
+Message-Id: <20220316075313.18853-1-monish.kumar.r@intel.com>
+X-Mailer: git-send-email 2.17.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220316_003526_539985_B188CD68 
-X-CRM114-Status: GOOD (  31.79  )
+X-CRM114-CacheID: sfid-20220316_005148_508619_127BB6B6 
+X-CRM114-Status: UNSURE (   8.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,110 +73,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------7Im1L.vKorTl163deO4rxYDAHxkziUWsBhtki-3JrW1s26Hg=_11b0d6_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+From: Monish Kumar R <monish.kumar.r@intel.com>
 
-On Tue, Mar 15, 2022 at 09:54:10AM +0100, Christoph Hellwig wrote:
->On Mon, Mar 14, 2022 at 09:53:56PM +0530, Kanchan Joshi wrote:
->>>> +struct nvme_uring_cmd_pdu {
->>>> +	u32 meta_len;
->>>> +	union {
->>>> +		struct bio *bio;
->>>> +		struct request *req;
->>>> +	};
->>>> +	void *meta; /* kernel-resident buffer */
->>>> +	void __user *meta_buffer;
->>>> +} __packed;
->>>
->>> Why is this marked __packed?
->> Did not like doing it, but had to.
->> If not packed, this takes 32 bytes of space. While driver-pdu in struct
->> io_uring_cmd can take max 30 bytes. Packing nvme-pdu brought it down to
->> 28 bytes, which fits and gives 2 bytes back.
->
->What if you move meta_len to the end?  Even if we need the __packed
->that will avoid all the unaligned access to pointers, which on some
->architectures will crash the kernel.
-ah, right. Will move that to the end.
+This reverts commit 1c1b18c97b441cb1a4eb9c6e95d9c357b687cdd0.
+---
+ drivers/nvme/host/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->> And on moving meta elements outside the driver, my worry is that it
->> reduces scope of uring-cmd infra and makes it nvme passthru specific.
->> At this point uring-cmd is still generic async ioctl/fsctl facility
->> which may find other users (than nvme-passthru) down the line. Organization
->> of fields within "struct io_uring_cmd" is around the rule
->> that a field is kept out (of 28 bytes pdu) only if is accessed by both
->> io_uring and driver.
->
->We have plenty of other interfaces of that kind.  Sockets are one case
->already, and regular read/write with protection information will be
->another one.  So having some core infrastrucure for "secondary data"
->seems very useful.
-So what is the picture that you have in mind for struct io_uring_cmd?
-Moving meta fields out makes it look like this - 
-
-@@ -28,7 +28,10 @@ struct io_uring_cmd {
-        u32             cmd_op;
-        u16             cmd_len;
-        u16             unused;
--       u8              pdu[28]; /* available inline for free use */
-+       void __user     *meta_buffer; /* nvme pt specific */
-+       u32             meta_len; /* nvme pt specific */
-+       u8              pdu[16]; /* available inline for free use */
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c01cb381c3ff..8bb184a7479c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3463,10 +3463,14 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_128_BYTES_SQES |
+ 				NVME_QUIRK_SHARED_TAGS |
+ 				NVME_QUIRK_SKIP_CID_GEN },
++<<<<<<< HEAD
+ 	{ PCI_DEVICE(0x144d, 0xa808), /* Samsung X5 */
+ 		.driver_data =  NVME_QUIRK_DELAY_BEFORE_CHK_RDY|
+ 				NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
++=======
 +
++>>>>>>> parent of 1c1b18c97b44... Adding quirk changes for Samsung X5 device
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ 0, }
  };
-And corresponding nvme 16 byte pdu - 
- struct nvme_uring_cmd_pdu {
--       u32 meta_len;
-        union {
-                struct bio *bio;
-                struct request *req;
-        };
-        void *meta; /* kernel-resident buffer */
--       void __user *meta_buffer;
- } __packed;
+-- 
+2.17.1
 
-I do not understand how this helps. Only the generic space (28 bytes)
-got reduced to 16 bytes.
-
->> I see, so there is room for adding some efficiency.
->> Hope it will be ok if I carry this out as a separate effort.
->> Since this is about touching blk_mq_complete_request at its heart, and
->> improving sync-direct-io, this does not seem best-fit and slow this
->> series down.
->
->I really rather to this properly.  Especially as the current effort
->adds new exported interfaces.
-
-Seems you are referring to io_uring_cmd_complete_in_task().
-
-We would still need to use/export that even if we somehow manage to move
-task-work trigger from nvme-function to blk_mq_complete_request.
-io_uring's task-work infra is more baked than raw task-work infra.
-It would not be good to repeat all that code elsewhere.
-I tried raw one in the first attempt, and Jens suggested to move to baked
-one. Here is the link that gave birth to this interface -
-https://lore.kernel.org/linux-nvme/6d847f4a-65a5-bc62-1d36-52e222e3d142@kernel.dk/
- 
-
->> Deferring by ipi or softirq never occured. Neither for block nor for
->> char. Softirq is obvious since I was not running against scsi (or nvme with
->> single queue). I could not spot whether this is really a overhead, at
->> least for nvme.
->
->This tends to kick in if you have less queues than cpu cores.  Quite
->command with either a high core cound or a not very high end nvme
->controller.
-I will check that.
-But swtiching (irq to task-work) is more generic and not about this series.
-Triggering task-work anyway happens for regular read/write
-completion too (in io_uring)...in the same return path involving
-blk_mq_complete_request. For passthru, we are just triggering this
-somewhat earlier in the completion path. 
-
-------7Im1L.vKorTl163deO4rxYDAHxkziUWsBhtki-3JrW1s26Hg=_11b0d6_
-Content-Type: text/plain; charset="utf-8"
-
-
-------7Im1L.vKorTl163deO4rxYDAHxkziUWsBhtki-3JrW1s26Hg=_11b0d6_--
 
