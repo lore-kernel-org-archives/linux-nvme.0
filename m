@@ -4,86 +4,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5416AC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 15:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBA1FC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 15:34:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6mPbq8Nin+hCrDYZQyK8NYroPhFts3KarKSwfAyzCbo=; b=Qzmkry6FZ3Fcdu4RHGqyENL8jA
-	fzaqIpnJTjjeuErh9+foPf+j8BHPmRwhOP/jhvxQSsVgQARk7q72kFnlqTGKkzV3DVdZkLa7x2ibD
-	QTUCEdl0Wsiw9teiazDRzOdbN7ZI0ksCR+sRe9bqREToStZKp/BC75gGecdrXEPsFKC+cCc7zHMJz
-	NsPm2AbJyAzZs16F2fk2vpibkATWh8qLPKSGTSYxwVWxhwTk215j2RQ/KhKIYYJfUyQb/EPHTgDTQ
-	5+a77ht82gx33IkcaDHcMYIdbJz+2zdZoKIv0TfLYyujGjZmMHwB4KFPGhmKSz/5W0D3S0DTmKU8d
-	tFZWMjlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=9iwmWrNImWAgwZmofl0cDNohud5FvxDmDnFu367AOrI=; b=XRWzxtqoXFURUE
+	/4d0EjgiJM+GSKWz8aBQ/0f+kYETWz6IJeHj1paytP75xe2wVNwVfhksli+TUo7XYUZeyK7LiXN2T
+	c8RpsnGaUbfqC01+N3QtOHfWGsFsA7HWfVjIZEP5RFI41kzkDXKwCq+szFLCtAXe1YvNf7cSTNK/I
+	fYhH37lTWLzRlWrwC3fAvGYd4vqxoRxVOk/OBWrcsS2n6FdoTdWwN/Q1b1gJxPU2lR2IPGAclv+2a
+	QI+A9M0B5SeYFiRzylVp/xW7WpE+ZJsR52Cu958upMKcaGETFEt9P/Ug81GKUxE6S5mNIXDvX6ki2
+	4/RfNSQx0dFZEKqqvrZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUVZC-00DXyr-SH; Wed, 16 Mar 2022 15:28:03 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1nUVfR-00Db2H-19; Wed, 16 Mar 2022 15:34:29 +0000
+Received: from mga14.intel.com ([192.55.52.115])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUVNl-00DTKj-Dw
- for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 15:16:15 +0000
-Received: by mail-wr1-f53.google.com with SMTP id j26so3469631wrb.1
- for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 08:16:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6mPbq8Nin+hCrDYZQyK8NYroPhFts3KarKSwfAyzCbo=;
- b=L30vLGVg4+B2i0lt1OCVt9Mx/cq9+m69RJKU8Ey7rJCNfqA0rf8GCd5hCIcp44L9wC
- pcfms+au2AnDz8nC37+SgMfZZZAv1VT4QkoB+bM4suhgDsxyihiFGEedshgq0eKjb63g
- XGT8PIj9vlZK8rgTb2iWsiUbEK7tF0/bbLEIpmpZyT7I81GchY5VuKDrZXMZM5wRxflb
- qXy1YkM2YaHos4smaaWdDLxr0aZJ3QY3Rr1ys+T7WlEX77VOKD1xW/dUJD8OsvKvxPy2
- WWFD2UgFaCd4GhhiVuP3vXxhWH8seywxSat4nScaQgs70+OGsvhUui+76d8VYgdAIXmi
- zRig==
-X-Gm-Message-State: AOAM530QJR3XcSQD7XuGVj7uY/8s4tjisWdV/SAfsR5BK538bxfucd6o
- oNDAtsUPRSbsFQ35lpTKSBY=
-X-Google-Smtp-Source: ABdhPJzrbmh3oAxcez9ERJTBYQ4x3husP7HNLIoMmO5otBPZvg7WqhINAEjqe2PGdpRicVYuj87bHA==
-X-Received: by 2002:a05:6000:381:b0:203:84bf:3faa with SMTP id
- u1-20020a056000038100b0020384bf3faamr367161wrf.324.1647443771358; 
- Wed, 16 Mar 2022 08:16:11 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- s2-20020a1cf202000000b0038977146b28sm1901897wmc.18.2022.03.16.08.16.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 08:16:10 -0700 (PDT)
-Message-ID: <6d8f4525-f663-18cc-8644-bfddd7d86bd0@grimberg.me>
-Date: Wed, 16 Mar 2022 17:16:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+ id 1nUOUu-00C2DD-Iw
+ for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 07:55:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1647417308; x=1678953308; h=from:to:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=aGPC/AzOgIBprJzGoTgLxNHWhOi4GhuR7UIFn/FijQI=;
+ b=jFf5GOf4BSRvjte0D+K0t4lb0lNsXYUteSBszPdrEXWavhNNtH1c1zN2
+ 6qW3sLixGd2C2vle901cTD6sbv/Vb20h1XU8uvC9ioD3dO7BZTAbd+xyr
+ db3yXHAZ3pdinKcndI8eKDNjsoPf5UaFi2NeoZhgdeB3vfMX55aoCcPs4
+ GDaXovuJFuMOG+StzLlTuJhNELRJPWpvlggFxtr3dgk0du2ErMoE2fquN
+ AMny04N7TKxGEPUDgRw5EBv5UGYEIl/TYduj9GndWsS4H3IlxLvVLgxK+
+ fTyhYxcl7Vu5VJHShOIR8BuxTqmquWN43MR89/AN32qLU6OpSrZTcOR/E w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256706952"
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="256706952"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2022 00:55:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="644563045"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by fmsmga002.fm.intel.com with ESMTP; 16 Mar 2022 00:55:07 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 16 Mar 2022 00:55:06 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 16 Mar 2022 00:55:06 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Wed, 16 Mar 2022 00:55:06 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.21; Wed, 16 Mar 2022 00:55:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lMaMPiJx1C+VVFbiDfdjvnsBiqjCnlhOlU6+qf0bDZ+B9ZWbdn4rGfW1XueWcmUFReH6fnh7dVkVPqbAyhQaF9fXvSr05Yy8CSEmeDOuSYSvh/PQYqraEpV6kBOL1/yOTYpGr926UA5K+JxfTLmdFHGKwDnkXxecHUWjmX9VAILSi6T29eo3+I84fTQgFhhD1llkytSxMXfF7KwfSxmFlSW6qjGpx095pCPq4tNjtm4kG1S0F9Wy+ZpJvA22n71R47kHRNNjFGUbuNAX/WnyC2gQEto9otwTPFAQuFtbpQZDcgUnjD+HtoeprlI0c3AVLZLPrQI6iT54SN7IBhLXCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9iwmWrNImWAgwZmofl0cDNohud5FvxDmDnFu367AOrI=;
+ b=evEeGmVFytS19MrEIxBaBfC4DDnGPgNulM6sN2zupDoIhwxAO7MQF7A2kc4z/aDN6K1AK726xBiIrosQggkpOc5XwNJHz2QCQQmXaOjr6Dsfadmdz+8kWxQdIYC1IYfA4o8kKHSIPvAm9f8Vux06hO6p8b3VdlMSsGh2lrH2HNMUD3t327JGd6ihTtDn+TkCn+8flNM/x1RylEhgVdwgjL+32VW8ZYewtkD5iyxa9AF9klLwz5dtkSRfAtwImq99qoFuDTUPrbuYu8/DRvnTk7OZFveNJh2vrHGc/UZDmWe2UhkAZ5X/1W4DKALfdcKPoyMJ4tdnBoyxtLCJRWqFSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA2PR11MB5115.namprd11.prod.outlook.com (2603:10b6:806:118::22)
+ by BN6PR11MB1620.namprd11.prod.outlook.com (2603:10b6:405:e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
+ 2022 07:55:04 +0000
+Received: from SA2PR11MB5115.namprd11.prod.outlook.com
+ ([fe80::e12a:51c3:128b:4cc1]) by SA2PR11MB5115.namprd11.prod.outlook.com
+ ([fe80::e12a:51c3:128b:4cc1%7]) with mapi id 15.20.5081.015; Wed, 16 Mar 2022
+ 07:55:04 +0000
+From: "R, Monish Kumar" <monish.kumar.r@intel.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: IGNORE  THIS EMAIL [PATCH] Revert "Adding quirk changes for
+ Samsung X5 device"
+Thread-Topic: IGNORE  THIS EMAIL [PATCH] Revert "Adding quirk changes for
+ Samsung X5 device"
+Thread-Index: Adg5Cu+7hRd2iR8qQ3a2VcYKdofwQg==
+Date: Wed, 16 Mar 2022 07:55:04 +0000
+Message-ID: <SA2PR11MB5115A5586E4D0538D8EC2394C3119@SA2PR11MB5115.namprd11.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- Max Gurtovoy <maxg@mellanox.com>
-Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- RDMA mailing list <linux-rdma@vger.kernel.org>
-References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
- <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
- <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
- <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
- <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
- <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
- <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
- <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
- <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
- <bdb675e4-1de8-400b-9d43-9f0c18147dc4@nvidia.com>
- <CAHj4cs_C=pCz41hg1AnQcEZPBRK78WTUq8HE3n_28t56iN1FuA@mail.gmail.com>
- <fe9842f1-e5c7-7569-426e-9029662bb4f3@nvidia.com>
- <CAHj4cs8fNmj2Mn7Srs547ji51x7mQ8ZWKzFOuJaENe=vKpBJ-A@mail.gmail.com>
- <6347079f-ec3b-c2e5-bb3b-43b539d6d3f1@nvidia.com>
- <CAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5vwU0w@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5vwU0w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.401.20
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 506be9f6-3921-4976-58fb-08da07224842
+x-ms-traffictypediagnostic: BN6PR11MB1620:EE_
+x-microsoft-antispam-prvs: <BN6PR11MB1620FDBF09E9F0BEE2014490C3119@BN6PR11MB1620.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OSjDZcombvARVJeWYM/ICVmctIT4g5I66zAq2lnCK4PvS5LbAp6mxSUwl1pCpz6BB2UUxvDpqT2N1C6SegRt6jqYZ1OTDv1goevfWDVTlY+4wkQP/KW/B1Kn3QxnDf3j1f4PozlAgCu7OkHBHFbG+oKP3f7mciKa2ZtL0X5yDDm+yZkne6qMsw99e4a2y9rhks51WQueJ7jQna8yd+KrFQz6P80GeET2J4KNBc2oy26UNhkRdDSUsxGw4dX8t1oncarBB7uiJOEYg6WlaUpQWk3GKBuHLDNp5uIrqXHjRm7nQBzeF/YbmzCMkwAgHi53lPjF9BOgm+UQLzJKGWgd+j+NpxzYho2jVKjUgP3yBmm2/Qhdt8xgo+pD9V9GZMlhIoPxtdbTI5DGsd6Ei4ypLZktUVtInA4Vmb7sXmvasS7eovr/NFCR8PJ2hWuHCCoZ64GHSivEDysbFXJvpGyBrlm+q+c4zX8G8zMCo8jUBAQvBh+LSNi+61Z6uG6cTq2PRAihECqAaIKshiWnVrYTAeiYYjpM5Ui26Hebe5r4N2Du0wIL3QQ6fYBhRM3tbg+/h5SYuz0d6Od4wEqfO9rBlK2i5sxPhHDqCn9ytk3MGgez3flgmyV+yGF/cI1c+qho+ldFPvBRPwbOmPp7yt9/t9/T6O/OQLUOkZzUBQOu6wE78pwzI4yQc87IU+gOycoLx8JUk3z2/sgaT62TSgs+tA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA2PR11MB5115.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(5660300002)(83380400001)(76116006)(66556008)(66476007)(66446008)(66946007)(38100700002)(64756008)(508600001)(53546011)(7696005)(6506007)(33656002)(9686003)(38070700005)(52536014)(26005)(186003)(8936002)(55016003)(110136005)(2906002)(122000001)(82960400001)(86362001)(316002)(71200400001)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oipCWAxoIuXGDwzQyDovMUqnditPBojE3ygGNlyx4e+OKK0dlLu1+z0Jcj+h?=
+ =?us-ascii?Q?ATtsiPGwnXKOxSJDQTwZcehyMWSuM4bwQisMkuIiVh+BIQPU4Z6o2duI+Vb/?=
+ =?us-ascii?Q?WAQ501BkRYKPc/+OxakoX5jj0f4RDJlHcmELkda+9k8oROzN3G8z+UME03gU?=
+ =?us-ascii?Q?8ErEGMkFn3QGBJStWztg8g5JsbkAQRtDi335FHO4Hu9p4yAhdPRdrGbXV+bg?=
+ =?us-ascii?Q?tSKfJ7T4vGStCsGhmv2jIow3UWC3F1weHdW60JWMwD/6Bm9wTwSvf742l8XL?=
+ =?us-ascii?Q?JgEvNi3sm4dseItWX+SDeI5vi97qZ3kdq3tFXq/5HxajlelBD6vhflfb+seI?=
+ =?us-ascii?Q?d+n7EfuNGhHqZgGSrg9yr3Kehiq9Zv6Vinv5xQVXozsOHPA5EwNunp+zQRDH?=
+ =?us-ascii?Q?Z66EVkPowkIJX64sOP3QI1jl3+dIHgXf/jjqmOUk3IznOwPhl5Z/7UpFzm2K?=
+ =?us-ascii?Q?ILIWbBe1aB6qnMZZdbHWkOXRjF+LaGGx7eorTeSYDmNw64OOVWUGsH8VHcXl?=
+ =?us-ascii?Q?YXxzMjm5bSC+2wD0UIefja5nCmnVKBLTjIc9oA9AkLCe45wRdP2PIzlR/Aix?=
+ =?us-ascii?Q?hpIitNR5EV62ows+KSft11Mv1IVskNCYXuZrlGbozRZ3KiSThqUriCMoQEud?=
+ =?us-ascii?Q?Zj7khwSAiZsO8e8g+zj8g6cRSkW9Wp+SIQK2HTFAFwk70bLxI8s+hRzOarqc?=
+ =?us-ascii?Q?I7ggUYkJ9AcS0oCfgHu4p97EjijCrrnSQ66lSXd5cXm7EZyRLTeu2JGL0KDw?=
+ =?us-ascii?Q?gs8lHH/VFlebUZYDwkt+kHLe+w5roy2A8IuT0NndCxIXIgAfcCdv5ojM9HvW?=
+ =?us-ascii?Q?XnoFvEjfYFcArUTCg+m7LamDSXrbU8OjDBVulMCPmzM5FDS/41x1cBeTt1Wm?=
+ =?us-ascii?Q?LSZ4eXolfi4yUvWXYufW+puV15UMY9Bzx8uYd97aeSehhvaUcaJ9V4bzzRX8?=
+ =?us-ascii?Q?8em1r3qoe0C3mH80l8g2/1x5CsSnZ3lye4L+23z91m5nxCBrzFFcJ1Pcq1mi?=
+ =?us-ascii?Q?+Y18ZfCc9J9i9OL6w/TTvIUjCQp3QlN2p9wG4DWExTYVLCdPKOyuK0/+pFkj?=
+ =?us-ascii?Q?hOFxW1y5foIegSEdP0fBCnvaFSHa2J51kQMaspVOCeQsQszTb7ISCePDZ7WW?=
+ =?us-ascii?Q?riswRV+f6oV7tzgf8gT3co2/W1WtaDFpeZuDW/fnsn+RUzU4dmbm6YYa9Ufx?=
+ =?us-ascii?Q?t5w3Frk4Mgnlobmx/DI81+4dpYGDDrlmLsxS9JpqR6/+KaktVmUhRig47WkW?=
+ =?us-ascii?Q?MPeZBfdcbeMPRUgdu5d1t6kA6SML16NMIL4Ni3+DnF5b/Qj/3S6v+/ij6eV0?=
+ =?us-ascii?Q?/OeqnRMIXYs4CvMNzEzpoTrtTDo00LpvULqI1ynQ/NUDCqXYVYs1v+LWr+RM?=
+ =?us-ascii?Q?FrGO/iy3LSNCm7DKrD8fjV32jbA6D9zPRwk3S4Cio/cZr90IGcFOSfpf8s0G?=
+ =?us-ascii?Q?qKhKslzl6ltFUHWpMpAD4TU9AkttHQe+wRqBd5J8Ifk3sOFzlyJcMA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5115.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 506be9f6-3921-4976-58fb-08da07224842
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2022 07:55:04.7999 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SdRGWlel46W3wfeCq1/1DjX4VKfUIyUlJwK1Em+dRD8J/SE9qlMe50QVZC9GR2WmSpJYaJ1VOUM5gNzMWzDw3Xzj7l7faYqv5mmUcg8x34c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1620
+X-OriginatorOrg: intel.com
+X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220316_081613_538923_517363F6 
-X-CRM114-Status: GOOD (  10.55  )
+X-CRM114-CacheID: sfid-20220316_005508_727259_3C2945C6 
+X-CRM114-Status: GOOD (  12.25  )
+X-Mailman-Approved-At: Wed, 16 Mar 2022 08:34:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,66 +171,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi All,=20
 
->> Hi Yi Zhang,
->>
->> thanks for testing the patches.
->>
->> Can you provide more info on the time it took with both kernels ?
-> 
-> Hi Max
-> Sorry for the late response, here are the test results/dmesg on
-> debug/non-debug kernel with your patch:
-> debug kernel: timeout
-> # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
-> real    0m16.956s
-> user    0m0.000s
-> sys     0m0.237s
-> # time nvme reset /dev/nvme0
-> real    1m33.623s
-> user    0m0.000s
-> sys     0m0.024s
-> # time nvme disconnect-all
-> real    1m26.640s
-> user    0m0.000s
-> sys     0m9.969s
-> 
-> host dmesg:
-> https://pastebin.com/8T3Lqtkn
-> target dmesg:
-> https://pastebin.com/KpFP7xG2
-> 
-> non-debug kernel: no timeout issue, but still 12s for reset, and 8s
-> for disconnect
-> host:
-> # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
-> 
-> real    0m4.579s
-> user    0m0.000s
-> sys     0m0.004s
-> # time nvme reset /dev/nvme0
-> 
-> real    0m12.778s
-> user    0m0.000s
-> sys     0m0.006s
-> # time nvme reset /dev/nvme0
-> 
-> real    0m12.793s
-> user    0m0.000s
-> sys     0m0.006s
-> # time nvme reset /dev/nvme0
-> 
-> real    0m12.808s
-> user    0m0.000s
-> sys     0m0.006s
-> # time nvme disconnect-all
-> 
-> real    0m8.348s
-> user    0m0.000s
-> sys     0m0.189s
+Please ignore this email.
+I will send another email with patch having subject nvme-pci: Add quirk cha=
+nges for Samsung X5 device.
 
-These are very long times for a non-debug kernel...
-Max, do you see the root cause for this?
+Regards,
+Monish Kumar R
 
-Yi, does this happen with rxe/siw as well?
+
+-----Original Message-----
+From: R, Monish Kumar <monish.kumar.r@intel.com>=20
+Sent: 16 March 2022 13:23
+To: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me; linux-nv=
+me@lists.infradead.org; linux-kernel@vger.kernel.org
+Cc: Rao, Abhijeet <abhijeet.rao@intel.com>; R, Monish Kumar <monish.kumar.r=
+@intel.com>
+Subject: [PATCH] Revert "Adding quirk changes for Samsung X5 device"
+
+From: Monish Kumar R <monish.kumar.r@intel.com>
+
+This reverts commit 1c1b18c97b441cb1a4eb9c6e95d9c357b687cdd0.
+---
+ drivers/nvme/host/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index c01cb3=
+81c3ff..8bb184a7479c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3463,10 +3463,14 @@ static const struct pci_device_id nvme_id_table[] =
+=3D {
+ 				NVME_QUIRK_128_BYTES_SQES |
+ 				NVME_QUIRK_SHARED_TAGS |
+ 				NVME_QUIRK_SKIP_CID_GEN },
++<<<<<<< HEAD
+ 	{ PCI_DEVICE(0x144d, 0xa808), /* Samsung X5 */
+ 		.driver_data =3D  NVME_QUIRK_DELAY_BEFORE_CHK_RDY|
+ 				NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
++=3D=3D=3D=3D=3D=3D=3D
++
++>>>>>>> parent of 1c1b18c97b44... Adding quirk changes for Samsung X5=20
++>>>>>>> device
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ 0, }
+ };
+--
+2.17.1
+
 
