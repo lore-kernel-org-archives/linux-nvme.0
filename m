@@ -4,138 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D450C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Mar 2022 22:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FE78C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 00:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qzVje+zbe1PHw1qVeXPBiK76dhkRtgOkJFky1g1Asgg=; b=o7Hul5juYHVYjoRQ7K7fxHbn0z
-	HUNXHPWJKJ9C6a4lNXZAgSBmkUQPGASomW66epd79V5O5o61n9E8zQt1KWn0fWr9bJt33d6fxsS4T
-	VQ1zXslYBAFo1/kzrVd2he2pHqQvLCvm4nGnFNp1ZdbC97bur7vy8zO7mgbINl6Ja2YurTrusKNOe
-	z9i7citbBl4+3zsZaiN0irVbBiBQaD1fQfoAaWlOCHI5ONkhsfNrWw/1AvKgNQL4ilrj9WyJI67nN
-	L9E1Kx2MH9IyPfHUtNMLNFGyH3ds6OWkkn3EQ+riNR6rzcHnmGJL8DoebgBO0gUoi381vAVjKfKkG
-	aPAnQoIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cY2zSS6SY31l7qOoS4GxN9w8wfcb+Vj7eGbXytsbn2U=; b=qXfcIdONRpIdq+pHuTuGE0qGKR
+	qQhcH54fC+KvcFhyFY9t2xycGxAjVmue5l0taL/St2Dio/ivqkW2iFqzvfL0+f35wyAoenOOpEYDV
+	7dyIVf1LSh6DOagPIWpD22gNJwdkE/s1MzevD/uxXQn6a+Gzln1r660Dcb0RHtYKMKZMlsfTUL6Sw
+	I2+vnMpRvWdVNi4yEglIJhJmNQKK5hng1+1AJXewH38emQe3kA3qT/Wn3JrQs6iNKAG8XvD2WwC7/
+	5nnOWNz+dDgu9QG5j4exqa3yOLPHaH7CVOvtfeV9e9q6p2Dl2L4jfWKzCcDPrY98o8bB6ajKbpTP5
+	HLg0Jx4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUFP0-00Akh4-SA; Tue, 15 Mar 2022 22:12:26 +0000
-Received: from mail-dm3nam07on20608.outbound.protection.outlook.com
- ([2a01:111:f400:7e83::608]
- helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+	id 1nUH5i-00Awzh-2N; Wed, 16 Mar 2022 00:00:38 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUFOy-00AkgV-R6
- for linux-nvme@lists.infradead.org; Tue, 15 Mar 2022 22:12:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LIinvm3kxnhFmsvoShNC72fU5EDp4Oyyu+Rhcq/t97yVG5jiIUCRcNzPW8alQjpKifw1oq6QEGOgMdy0ohvbsd2f09wYdIUOj1eXvhG2TJGjbrn2TnBQyNbnaw2xLzcRp3DbzGwWlDkJUDTxn6AI/JjNiLjGE8VONr8wAlcqx2J0YZUdsPMPz9CjsHuQ4Ph0jPboLM20dTdAo0POslx/ZXF8ZY6lazkRfVq2H4mtzzQCuIRfIATIc5EGN2mzZnQOOtgfBuGPhkswi0e+NdfU4GN5oGdHHTQqZ/ll6J4/mVVqonz0Rc19cLswmJVlFETVHCqxhf0g6Vw85Ho7J+6Qhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qzVje+zbe1PHw1qVeXPBiK76dhkRtgOkJFky1g1Asgg=;
- b=P6ZLq7zXvU2KszVgmRz7IwqsMXjpCJ+uk5qvfUMOZrV6rXYiDVfzwNutRqKEqOz6eubEiswEWG3RzSlwR8+eFqPQLxUa8lbdg+qwjzpcm44H34zE5x3+ioG4ppnZEPO0uwokzL8R2NvkAqhXrceRYGuPtUOLJ3Auwco+hqlzLmwBvQdwnEq1uPdbBJkDtlotBkqHa7zT9Z4crKA5pjItiGEHAcoWPTz+AUsmUvt8tMKp+tqhYQAUIHBTgv8hOtq3DiDW5YP21LKtuPlVrpZIuQmC6qHzzRHVlP85uUsvM1Mfs9AAGjFLe1zoVazhVbNCFVvhl8f3Ra9S0XGgKRQoDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qzVje+zbe1PHw1qVeXPBiK76dhkRtgOkJFky1g1Asgg=;
- b=PvN6huc1c+F3Ad4yxdUn7CiJz9FgcVRa/LzVQnF8KmrFWPv2R8BspA4K2FvAE5j0EaEib3nOQPwyNwVqMDuHiwCUUVDCPCIW0aWPBUvZMKwCkv5A46Gdsp/tkVdoGi0A0/3QVCnN21i9O1j62xFeq7XU1bIjdJm4J/q21eyLypiUVrmdRD/qI0+8kwGcFhQFakjDrucm2NAPCHinn0UIBprh21NH/YF1KknqhDPBBT85W8uX91FwWAW/l7WCqCgkQyUUjMD3pXfmAu+4C32oTf8MmYgE0pXHgG8Qx2RHVqxYAcenIWgQP4AOrotMGvy4UdDo/aXiBfDISDlRSM0cWA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by BN6PR12MB1188.namprd12.prod.outlook.com (2603:10b6:404:19::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Tue, 15 Mar
- 2022 21:56:28 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::204b:bbcb:d388:64a2]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::204b:bbcb:d388:64a2%4]) with mapi id 15.20.5061.026; Tue, 15 Mar 2022
- 21:56:27 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvme: remove nvme_alloc_request and nvme_alloc_request_qid
-Thread-Topic: [PATCH] nvme: remove nvme_alloc_request and
- nvme_alloc_request_qid
-Thread-Index: AQHYOH7V0qSX/I8NqEiFfsDUBFWD2azA/gyA
-Date: Tue, 15 Mar 2022 21:56:27 +0000
-Message-ID: <ce873c8c-e75a-bdec-5398-8df19302f4e6@nvidia.com>
-References: <20220315150222.2590959-1-hch@lst.de>
-In-Reply-To: <20220315150222.2590959-1-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: da9a5714-2552-4315-9709-08da06cea7f5
-x-ms-traffictypediagnostic: BN6PR12MB1188:EE_
-x-microsoft-antispam-prvs: <BN6PR12MB11887898A4B38E14EC0F423AA3109@BN6PR12MB1188.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: n04KVXtCXcQt+f/8Dti6bgp0ipF4kDjICRRugIcIeM2gU/KWF5Sa8+ki0vEnoW8EeK7f1FRe1lK0esNK9Tsg12Sp8fmvQKtDHKz/jMf7D7A9R4kVro47+98kMMpHkRVmhWWmdrKJIbDP0LakpZVHsomcbs+2l8qDXy7KCuEF1wdkADwVBwtveA3iSzIFC+WAQYwujwOiIi/CaC21oE/sN4ayD+e+GEFg2XrOUkFITtTphFKHaBoSg8f2jNCIxG/tb/l8+rjONkYY6r5obgDobfTjPoIL1e1cFegpT2Gt1GsC8vVV1M9+kwY6Xi1nXRHwkqk10lQo1jsjDY6xrsTRVwNJjtIKLeocyeWxu9rkCp4Hk2bQAOauFxEkLanA6/Xmamedzb2pUi/9hPaEb5p9Hw8tHCamyzVVG2gXYrjipsePghRmPWUP5O0z0KmYx39JoIFbdlFYnzd7yO55K8rF6NImELUyp7pS0QJyZYzf/0vhO+VKJ2FBq+ws8u4qpAU1eeUIhJRNzTHy6yrUSsFg+trOYEuNfKn5EZy1ITUV4/3TB+TEhLi67EAKRj9oh8I5GK/l1sNRDPvq6dj6quQPMERSVsY/V8f7nKo/y/tsxQP29S8X4piJLuVRy2wUND32jeOG+2/y5KtBkuXuHUsYpyIqSdFMcXXky2R+39t3GI8ZR3xDdfBXS8ZyGdKkumxbK/Zszyyai3Akdy2L7QhcdNdwY6y7K2omQNWAYKWKlGzdrodvf8ZYus89CsbKZx8gprjXYV3Rt8Q5Q2mVCTVv4g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(64756008)(66946007)(66556008)(76116006)(66476007)(4326008)(66446008)(6512007)(6506007)(186003)(8676002)(2616005)(86362001)(508600001)(31696002)(91956017)(38070700005)(53546011)(71200400001)(2906002)(36756003)(31686004)(6486002)(8936002)(5660300002)(558084003)(122000001)(38100700002)(110136005)(316002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R1EwMk9jV0FZN2VXQ0dlNG5YY0RFN2hJamx2cEZlUFBiaXlZdzlUUDBmcEJV?=
- =?utf-8?B?WjR3VC91eUx5dFN2MVhNb3FYandKdzY2clZmRmFYTUd5VW5oYUk5bjlja3NH?=
- =?utf-8?B?SndHREZ4UjJOUmQzVnYwdjdhVjhUT1p2V2ZNcGJwdVhlRkNUYlJoVUJVaUNj?=
- =?utf-8?B?TU8vbUhvRUo5T2RkRDRQcnBISWsxS0lpRzRsYWpOZXlFV2ltU2NURktEVkFE?=
- =?utf-8?B?S1hkU3lNb2pMM2FyTHFvMlBRQkZ0cHQ4NmluVE91bGNsNUZ6U2JCVmhhOHZa?=
- =?utf-8?B?MTRVRUdSQkhGSy8wbEpIZnhxc0JsS1R2ZTd0bFBZMWlHYUd5NzdKQUFyazdy?=
- =?utf-8?B?cEt2V0xCYW1KWFdjb2lDdStxenhsNkxQUWVSaTV3bE5FNW9sL2g0QmppMWxi?=
- =?utf-8?B?d3o0c0xrVldhRzgzZ2Q4QmE3dFBjNWJlWUdVSGpBK3JhVlgwTU1KN0xnSVVi?=
- =?utf-8?B?L3BhN3FtTHpXcU1adU4wbWE5eUVZSWR3NW92bjRlU2MvNndaMjQwamlCdFZ2?=
- =?utf-8?B?bkw3RmxlYTFMZFVCMjRYQjJlS2ZGYTliTjY1TUp4TXZFcUg0WTFIMk8vNVhS?=
- =?utf-8?B?STEwNW5YUlNLc0x4c1lTZ1M0cEV1YkI3cnBhR1FRbGlQMElUWC9EdDdmS0tL?=
- =?utf-8?B?ZHVxcXFzNUIyWmwzOGw2QUdkR0JvWmJQTTBNeXlkamt6UVh6QnNqb0VFQnFz?=
- =?utf-8?B?TTZMMTdJWGJQMFVFM2JxaExQUzRxQW1Td0RqWXI5bTFzc0hVZzNnQUVuSGZu?=
- =?utf-8?B?MENTenhIVjltbWRGZzBvTTlTZ0FlRVZSc3R2dFIycDJjeVFhVDFKOWZQdnpW?=
- =?utf-8?B?SlJERDJudkpCOWZKTFV5WGNLcEpKYjNBSlV4REorZnJhSVZLUVRsK0crOGJG?=
- =?utf-8?B?Nmk3R0ZsZzJKcFhHbnZZSGo2VmN6QmdGUDlkZllKb1JVR0dmaEN6bjdJWG04?=
- =?utf-8?B?TUtod1J3WFozcXJsUHd3OHVUTno3VFJVUitkbnoxamF0Y2JzazZaWjcvVWpa?=
- =?utf-8?B?SXp6eUpubTQ3dVNkVktnZ2xqanpNMThsMGpRZkp2ME0zYWU2Q2ROTk1Nb3JW?=
- =?utf-8?B?cUloRXgrWFdIOENHMWhtWnhRWVNQQWIvZURBWXp4MzR2VGpCU09pUWJQZmlG?=
- =?utf-8?B?d2dnRUJHSVA2Z3FHUU1BUTBkM29UeDBSakpTdWNaREN3bmVaQ3h6UlNiOVFk?=
- =?utf-8?B?Mmw2L2FLMmZXeHB4dU1pZmJJNXh2c2dLV2lPSnV3YzFCTVBHTThtc2xLSHpC?=
- =?utf-8?B?U1UwL3cvTi9iU3d0Y25EcCsxVG94YU9XM3BpQUVqUEhja3A2andkUUdRay9Y?=
- =?utf-8?B?TEwyOWlidzdRNktiZncxTGlybGY1NlBKanRRbWhDdVpGTTlab2tYV2NlU2Qw?=
- =?utf-8?B?dkdpb3pEd0UvcVpSNUVBUE1wcWpSZDBhbVZpUjdHY21xU2xhRWl0S3pCNDZQ?=
- =?utf-8?B?YnBtMFVYZTdWRk8wSzNFcE5UTnZGS2V4VkZSWnpyS3J2STN4bmhVbjRUVWQx?=
- =?utf-8?B?SXlQci8yTnA1Y2lnMGJVRG5vWHZ4RVl3RHVkKzFoajBOMnAyZFkvSHRXVTl6?=
- =?utf-8?B?QzZWZkZqdGJQL0xLUjRycjhlR0hJb1NEUUJOODRBYkdiMCtldkI2a1NXZVI5?=
- =?utf-8?B?clpMR1hiY2svdnNqdnA4RnNpUS9xRHZmT3p5OVRnTW1XczBJSXowSzl1ZXlp?=
- =?utf-8?B?SDVtMzd0MXgyZ2VLbFhkVHpNeW1FWW9xR2JKQ2JBbUFRZDFXVkpRMkw2WHBG?=
- =?utf-8?B?SnEvbFNnQVpGQnlhbFJkSGRncTVjTjg0bDg3QUIrSWtpTGtFUXMrcm5XaElM?=
- =?utf-8?B?MnZlVkhPYmljRUM0RTBnSU9lbG5IOXRCd3BONW5TbnBJZEZDRmxyU3Fyb2h1?=
- =?utf-8?B?VGxtTGpkTXZiaTA2U3dYZ1JZUER1dUxoV09hY285dlgrdXMvYjBHWU9LQzVl?=
- =?utf-8?B?djFkU2hzenVtVHVDaHVuMUVPNFdxZm1LcVhKYlQxR0Naano2cUwyVzFSL2Uy?=
- =?utf-8?B?dDZZMGhxeHFBVGJ4VVdoUWlCZjBJTm4rd0p5ZThxOWZjR0NjRVhxNUZqLzRH?=
- =?utf-8?Q?ODLTVp?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D54E3B3B1B4E5746AD2B832CDEC99389@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ id 1nUH5f-00AwyO-Qm
+ for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 00:00:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1647388836; x=1678924836;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=cY2zSS6SY31l7qOoS4GxN9w8wfcb+Vj7eGbXytsbn2U=;
+ b=H8ScupqtHyouJ9/Mar5hiqumrtD0+yyA497+OOBE/Tkx6+IZopG6tvd3
+ qp8hc5GB3fh6xFXpoLBoa3RgI+2KvkpJiQSpu0Nja2dDMYcZtHv1/SQi0
+ mVFtzNpBNyWkzBY5lKLfJYNadPsATNyuk11YdCIwLmi1JP01HxW1oln7e
+ 3nLdoXeEJbz3P+qygO5FdDzUdpvpeGSgCKpsx9dzLEFIjrDF8puSFl4yg
+ fYU5KvVr7BbX7fjJsSPP3QHWUZj0du0U+qkHapC8FjDZBDYU0sO+SfLAG
+ UObcDPG+pZuVuosFu2bxPpLtwq2mTmIg+wArwg9uTGRdzoeOJXfKOvBBn w==;
+X-IronPort-AV: E=Sophos;i="5.90,185,1643644800"; d="scan'208";a="196388082"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 16 Mar 2022 08:00:33 +0800
+IronPort-SDR: m5JuoAKwLbDCL7V3QkvkI2QfCVnq3YsbBgtErcNJ89nup6TPmrnvLcFWVhdkhM+BaTteUO+Rts
+ YQQbEGh5gyFVjF+yOQeZP9GGFwRU3MnWJN5b5PPIFlrOezOiQdKrm6Wtd99JKChJcUTop6ZNhU
+ qQdujg3OhM7dO8FaYxIiX4lVchza39baVhl1QOr31rEzJu6er0hH57q4V1o2IjA2jwLS0YpevV
+ 0ApBXRMa+dTT/pwcIiaVsF3c1RzzAUFs7UEk7QvCqEh1+ZWhq6PmENNMF29Ydb7fXrB3MIWcS+
+ SxK0DwnhOIa3PbDkRBiJxfty
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2022 16:31:39 -0700
+IronPort-SDR: ZcIqsHCwU2AqiFzr29PmRx0HSl4JdvONO2l8knVtoYSk1dNf/hS1P2Wp3jEJqDTGE3CKaU4L4o
+ l2GKI/paiaXcjThnqUh7dkjTeHyW8/L8vYrIcHguScNBQxwYW5LLjYijoSmN6wEk+sW0texrps
+ 7/3rcu+IfwFOO5U1Z6qdgiyhE7SlVWXuiMFxCzfL1pqBZUlmnHgWntERAQmTIzAI8ovtjkuFZ8
+ CCX2SZvH9QTQELBHplgo4GMZ45rnlDjQ9Jb3Ev/BBXcGBiXBp2mHBnRxJPDXVVYOPyeY/4FEix
+ 0GE=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2022 17:00:34 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KJ9QS3kKkz1SVp4
+ for <linux-nvme@lists.infradead.org>; Tue, 15 Mar 2022 17:00:32 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1647388831; x=1649980832; bh=cY2zSS6SY31l7qOoS4GxN9w8wfcb+Vj7eGb
+ Xytsbn2U=; b=FNJ2VS2y9+0vbf8V4oUOeQmu2B3zV+Sv24+C5188Rmpk6g3uZME
+ 2w+eHQKdRgHHQBeAICkrhh55XEAuPch65VLvmqUWEZU3nLVGW/9HXl6exa4JyVop
+ P98rhyYpBnAtLs55lA8aKofja7072ILSOFwYDMR0tMM3DNXKCS81C4+Z0P6nRBqg
+ PrjbmkFQtvZLOlwf92mGqStNEjkS5leq8Gh1LYilstIdkRpbvNf9s1JlKyT6dn7c
+ QAQlAMjkv0Bc1NYGYxYUSHB7ve8pZSExznaptA46XSbbC/NHOsufwk+qFkOYuNPq
+ q4Z4IfsneoR0u4Vf261/PYxnjWs0RoUH4tg==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026)
+ with ESMTP id VqoIOT9C2Z0i for <linux-nvme@lists.infradead.org>;
+ Tue, 15 Mar 2022 17:00:31 -0700 (PDT)
+Received: from [10.225.163.101] (unknown [10.225.163.101])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KJ9QN5kJyz1Rvlx;
+ Tue, 15 Mar 2022 17:00:28 -0700 (PDT)
+Message-ID: <fcb4f608-970c-56d3-fe3d-b344fab8baf7@opensource.wdc.com>
+Date: Wed, 16 Mar 2022 09:00:27 +0900
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da9a5714-2552-4315-9709-08da06cea7f5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2022 21:56:27.5703 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bj1+LMj6XZMgw70TMCm45yqk96oIqnRfA9Yy0GUbheMliO3BnYUC5Xc4yIqXoKMikZLsPOzAqNkjb5bSjijUOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1188
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
+Content-Language: en-US
+To: =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>,
+ =?UTF-8?Q?Matias_Bj=c3=b8rling?= <Matias.Bjorling@wdc.com>
+Cc: Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>,
+ kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, Pankaj Raghav <pankydev8@gmail.com>,
+ Kanchan Joshi <joshiiitr@gmail.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <Yiu5YzxU/PjxLiUL@bombadil.infradead.org>
+ <20220311213102.GA2309@dhcp-10-100-145-180.wdc.com>
+ <YivMBj7+j/EZcMVV@bombadil.infradead.org>
+ <bc0e53a9-f623-c69f-002e-d62e697a43d1@opensource.wdc.com>
+ <20220314073537.GA4204@lst.de>
+ <05a1fde2-12bd-1059-6177-2291307dbd8d@opensource.wdc.com>
+ <20220314104938.hv26bf5vah4x32c2@ArmHalley.local>
+ <BYAPR04MB49682B9263F21EE67070A4B1F10F9@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220314195551.sbwkksv33ylhlyx2@ArmHalley.local>
+ <BYAPR04MB49688BD817284E5C317DD5D8F1109@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220315130501.q7fjpqzutadadfu3@ArmHalley.localdomain>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220315130501.q7fjpqzutadadfu3@ArmHalley.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220315_151224_891561_C3096855 
-X-CRM114-Status: GOOD (  10.73  )
+X-CRM114-CacheID: sfid-20220315_170036_021740_6F3ED619 
+X-CRM114-Status: GOOD (  37.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,9 +135,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy8xNS8yMiAwODowMiwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IEp1c3Qgb3BlbiBj
-b2RlIHRoZSBhbGxvY2F0aW9uICsgaW5pdGlhbGl6YXRpb24gaW4gdGhlIGNhbGxlcnMuDQo+IA0K
-PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4NCj4gLS0tDQoN
-Cg0KTG9va3MgZ29vZC4NCg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52
-aWRpYS5jb20+DQoNCi1jaw0KDQoNCg==
+On 3/15/22 22:05, Javier Gonz=C3=A1lez wrote:
+>>> The main constraint for (1) PO2 is removed in the block layer, we
+>>> have (2) Linux hosts stating that unmapped LBAs are a problem,
+>>> and we have (3) HW supporting size=3Dcapacity.
+>>>=20
+>>> I would be happy to hear what else you would like to see for this
+>>> to be of use to the kernel community.
+>>=20
+>> (Added numbers to your paragraph above)
+>>=20
+>> 1. The sysfs chunksize attribute was "misused" to also represent
+>> zone size. What has changed is that RAID controllers now can use a
+>> NPO2 chunk size. This wasn't meant to naturally extend to zones,
+>> which as shown in the current posted patchset, is a lot more work.
+>=20
+> True. But this was the main constraint for PO2.
+
+And as I said, users asked for it.
+
+>> 2. Bo mentioned that the software already manages holes. It took a
+>> bit of time to get right, but now it works. Thus, the software in
+>> question is already capable of working with holes. Thus, fixing
+>> this, would present itself as a minor optimization overall. I'm not
+>> convinced the work to do this in the kernel is proportional to the
+>> change it'll make to the applications.
+>=20
+> I will let Bo response himself to this.
+>=20
+>> 3. I'm happy to hear that. However, I'll like to reiterate the
+>> point that the PO2 requirement have been known for years. That
+>> there's a drive doing NPO2 zones is great, but a decision was made
+>> by the SSD implementors to not support the Linux kernel given its
+>> current implementation.
+>=20
+> Zone devices has been supported for years in SMR, and I this is a
+> strong argument. However, ZNS is still very new and customers have
+> several requirements. I do not believe that a HDD stack should have
+> such an impact in NVMe.
+>=20
+> Also, we will see new interfaces adding support for zoned devices in
+> the future.
+>=20
+> We should think about the future and not the past.
+
+Backward compatibility ? We must not break userspace...
+
+>>=20
+>> All that said - if there are people willing to do the work and it
+>> doesn't have a negative impact on performance, code quality,
+>> maintenance complexity, etc. then there isn't anything saying
+>> support can't be added - but it does seem like it=E2=80=99s a lot of w=
+ork,
+>> for little overall benefits to applications and the host users.
+>=20
+> Exactly.
+>=20
+> Patches in the block layer are trivial. This is running in
+> production loads without issues. I have tried to highlight the
+> benefits in previous benefits and I believe you understand them.
+
+The block layer is not the issue here. We all understand that one is easy=
+.
+
+> Support for ZoneFS seems easy too. We have an early POC for btrfs and
+> it seems it can be done. We sign up for these 2.
+
+zonefs can trivially support non power of 2 zone sizes, but as zonefs
+creates a discrete view of the device capacity with its one file per
+zone interface, an application accesses to a zone are forcibly limited
+to that zone, as they should. With zonefs, pow2 and nonpow2 devices will
+show the *same* interface to the application. Non power of 2 zone size
+then have absolutely no benefits at all.
+
+> As for F2FS and dm-zoned, I do not think these are targets at the=20
+> moment. If this is the path we follow, these will bail out at mkfs
+> time.
+
+And what makes you think that this is acceptable ? What guarantees do
+you have that this will not be a problem for users out there ?
+
+
+
+--=20
+Damien Le Moal
+Western Digital Research
 
