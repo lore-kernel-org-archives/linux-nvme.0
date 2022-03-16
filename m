@@ -4,56 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 742D6C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 11:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0591BC433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 13:52:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2+MlSG+PCN1QrvqAqdI+V/FmSzwhtZltZpgLHvQd0pA=; b=DsBFIw5xaHX8Vvics1empx/AqD
-	yNe3U3+F/U4gIUOwrJ2F8VbfYUMY9GzvXz1iJyVu5ZraXTKkMgvlgobPwRqqs1vqtexHcG8jB2vRj
-	CaOKmQvICEf0bmasm5UlS32jJIWXgqJOTZv8hYPLhGnO1MKVATsNzZM2usvB4gsg6+j5J2KENH1lR
-	EoJzQxhSQd6057aqn3pYlEibvoyCKw8XI/Fb7ItywKSpaMimeyqWpNA8xvO1bYQpshYtGoaHghIHA
-	ssaLNHNYYoqYJeNrXMf6EBNozUUE44lp8URui+u6SnOnEJj13qrBxdjQLEEa05Gp/hk5M9H0qUFPC
-	uFNTV/YQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g2JpBcc/NKpDAPZChPw+W7kZSZTO1SHhUlKPE+wqy+c=; b=KhDkB3eCk8XTQ+rQcxSuRYNjcl
+	U1NkBUQK+AIZkhd5hc6ViVF+wvdHfcBD8R9soXPW+8rVeyZHALkQ0TLcjiuACkW9X8VdVhMzudtIN
+	br10brJwCKXblLzgpX8nzqw02yLQx8JtsRPl1eLfaA3gaqHumzn+Gdn4l4N8AUzOKklEzr0bLWKi7
+	t0Et+eoCF1fTlzlHsyMa10v2hmg/wmYW83KC4WXZ0/kvWOtfWlXYMN/ldDeKUpFdVZzaw8aolaMr9
+	Cz5cBHpaqhJR7JiSIC4diVPlesN60HZZq6tc4ZAHPzidG498kgpx3khFXPVN0av+4V5SaS2jxH9Yz
+	4YIyUpeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUSDS-00Cg2R-DM; Wed, 16 Mar 2022 11:53:22 +0000
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
+	id 1nUU58-00D6JP-Gz; Wed, 16 Mar 2022 13:52:54 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUSCF-00CfOG-J8
- for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 11:52:10 +0000
-Received: by mail-lj1-x235.google.com with SMTP id bn33so2771076ljb.6
- for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 04:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2+MlSG+PCN1QrvqAqdI+V/FmSzwhtZltZpgLHvQd0pA=;
- b=OAKcW8NA6yRBHIf3QblNXdLGjPWH635S3vjzYztlr0pdZxW0c/ANy635P52q0g0MNY
- Uf7MNzsx3YZ67ts6KGQlLvzN8H5iy4ltqcZfz+Lp3e/jRvLhj5+tx6x0hk1Bd7sq7POb
- Usx+nn3CkzPV01hfqNByV+Yi34xdJrI0CBLd3Nxyj5L+PWaE4RCbdGZV+ETES6yDLBt+
- GhEPaqExsi7y5fHHoVKDWpoy45AxXdJwKa/mf0a0DrjcyUseilG/Q+qDgmqEvxMCrwW4
- sIy706xfYgPvqY1nv+70xypy2zpNjsxMbTQkd3+EQuSRGRdd3ZRUjU6YO0ngy0ZJLJeB
- lBag==
+ id 1nUU54-00D6Id-Au
+ for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 13:52:52 +0000
+Received: by mail-wr1-f42.google.com with SMTP id u16so2076542wru.4
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 06:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2+MlSG+PCN1QrvqAqdI+V/FmSzwhtZltZpgLHvQd0pA=;
- b=W7Bx5feeF7e1l4xSf4kwlJv+v5K4MRtuDGG9RJw80MGBIOq1+wf2AN4lXrERr/tEpA
- YeTgeZnV4iEbPspdGQRk+panLHfgUSpV3VwXDMaM5bwLHBzdsp497NJgMvRHgqSyuZIN
- 52Dg+NoGK6Sv5D24AA4J7/H8FGJ8vI4nPqrv3gga3ZtKEeUP/XvDK+IfNWGZ93KO5mIf
- rys0rBISy8cqjgasAEqoH9ydV320ur96JiV/3mSM1dDDg8i5uJBrDnitNghk+V9wFwx9
- 3thtOtSApAtKpXyQeVDFCrwkggxRpBqIVAbEH8rRGeowLjlyFIzP8KX31TVzFpHqIQkk
- srpw==
-X-Gm-Message-State: AOAM531ORForbkFdbcT6H9EwzXk+AYZ8CsacDI6znPWxtpjvvD+VK04u
- LdshJLq9jwWyKB4EKVTH/DwDhdsBGOvRtVLqp3E=
-X-Google-Smtp-Source: ABdhPJxEP49r9yY0bwlO5aom4dubx0+xTR6k3FdpcyqkLKXjOmBJFreWsAbE30sIpImaY6vozz8Ganl72KbN7xCW06U=
-X-Received: by 2002:a2e:3004:0:b0:223:c126:5d1a with SMTP id
- w4-20020a2e3004000000b00223c1265d1amr20117180ljw.408.1647431524627; Wed, 16
- Mar 2022 04:52:04 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=g2JpBcc/NKpDAPZChPw+W7kZSZTO1SHhUlKPE+wqy+c=;
+ b=LZvuhwMwapB72jrAevbTaa6sdFkIAp4jsX01zmHCQvEEiPE/rZjGu6B+sB96sgLDuR
+ ntoQLg5gX8xA0NiW0ey1Sxbvsk3fXHLdbwISSVBt7gljT6mKXsz6qcTOa8rWBQ26XuJ7
+ iN6WvuNZiYOFgRm2V4Mazp9W+q5H6WEj3r63KteFUGWQ8RG3+sjLTXt0P51HqIRJtIT2
+ G8XYVkzQm5DL7SWhXjQ34oOvVInpmK/jm37/2siNjxbIZYISvs6bJ+b4QWE6xaiqCieR
+ 9xZeU2o/eQ/JRM7x1FXTwmNC8W2SnFapwqFUMcpc6/OeVlgMdNLhZgDVsK/xRr1O1+Wu
+ Falw==
+X-Gm-Message-State: AOAM532dFYmgHknb7vv+VHdw5KT07qjuIaJ1aQg/N25QXifvBx6PTQms
+ pmooSk9kf5yyhFj2BFi1N4s=
+X-Google-Smtp-Source: ABdhPJwLwWzFdFkbUnONXVDVXs/3GZdMiKVABbSaSYh1u911dOx3621EujfQC+sGuf1CeLp19Qm79A==
+X-Received: by 2002:a5d:55c5:0:b0:1f0:7672:637d with SMTP id
+ i5-20020a5d55c5000000b001f07672637dmr101416wrw.170.1647438768337; 
+ Wed, 16 Mar 2022 06:52:48 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ e10-20020a056000178a00b0020393321552sm1921536wrg.85.2022.03.16.06.52.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 06:52:47 -0700 (PDT)
+Message-ID: <3ed01280-5487-7206-a326-0cd110118b65@grimberg.me>
+Date: Wed, 16 Mar 2022 15:52:45 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
+ char-device.
+Content-Language: en-US
+To: Kanchan Joshi <joshiiitr@gmail.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav
+ <pankydev8@gmail.com>, =?UTF-8?Q?Javier_Gonz=c3=a1lez?=
+ <javier@javigon.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Adam Manzanares <a.manzanares@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
 References: <20220308152105.309618-1-joshi.k@samsung.com>
  <CGME20220308152702epcas5p1eb1880e024ac8b9531c85a82f31a4e78@epcas5p1.samsung.com>
  <20220308152105.309618-6-joshi.k@samsung.com>
@@ -62,27 +75,14 @@ References: <20220308152105.309618-1-joshi.k@samsung.com>
  <8f45a761-5ecb-5911-1064-9625a285c93d@grimberg.me>
  <20220316092153.GA4885@test-zns>
  <11f9e933-cfc8-2e3b-c815-c49a4b7db4ec@grimberg.me>
-In-Reply-To: <11f9e933-cfc8-2e3b-c815-c49a4b7db4ec@grimberg.me>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Wed, 16 Mar 2022 17:21:39 +0530
-Message-ID: <CA+1E3r+_DEw5ABPbLzSp9Gvg6L8XU-2HBoLK7kuXucLjr=+Ezw@mail.gmail.com>
-Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
- char-device.
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, 
- Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav <pankydev8@gmail.com>, 
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CA+1E3r+_DEw5ABPbLzSp9Gvg6L8XU-2HBoLK7kuXucLjr=+Ezw@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CA+1E3r+_DEw5ABPbLzSp9Gvg6L8XU-2HBoLK7kuXucLjr=+Ezw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220316_045207_657969_ED6524FC 
-X-CRM114-Status: GOOD (  28.08  )
+X-CRM114-CacheID: sfid-20220316_065250_428526_9728F452 
+X-CRM114-Status: GOOD (  12.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,68 +97,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> On 3/16/22 11:21, Kanchan Joshi wrote:
-> > On Tue, Mar 15, 2022 at 11:02:30AM +0200, Sagi Grimberg wrote:
-> >>
-> >>>>> +int nvme_ns_head_chr_async_cmd(struct io_uring_cmd *ioucmd)
-> >>>>> +{
-> >>>>> +     struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
-> >>>>> +     struct nvme_ns_head *head = container_of(cdev, struct
-> >>>>> nvme_ns_head, cdev);
-> >>>>> +     int srcu_idx = srcu_read_lock(&head->srcu);
-> >>>>> +     struct nvme_ns *ns = nvme_find_path(head);
-> >>>>> +     int ret = -EWOULDBLOCK;
-> >>>>> +
-> >>>>> +     if (ns)
-> >>>>> +             ret = nvme_ns_async_ioctl(ns, ioucmd);
-> >>>>> +     srcu_read_unlock(&head->srcu, srcu_idx);
-> >>>>> +     return ret;
-> >>>>> +}
-> >>>>
-> >>>> No one cares that this has no multipathing capabilities what-so-ever?
-> >>>> despite being issued on the mpath device node?
-> >>>>
-> >>>> I know we are not doing multipathing for userspace today, but this
-> >>>> feels like an alternative I/O interface for nvme, seems a bit cripled
-> >>>> with zero multipathing capabilities...
-> >>>
-> >>> Multipathing is on the radar. Either in the first cut or in
-> >>> subsequent. Thanks for bringing this up.
-> >>
-> >> Good to know...
-> >>
-> >>> So the char-node (/dev/ngX) will be exposed to the host if we enable
-> >>> controller passthru on the target side. And then the host can send
-> >>> commands using uring-passthru in the same way.
-> >>
-> >> Not sure I follow...
-> >
-> > Doing this on target side:
-> > echo -n /dev/nvme0 >
-> > /sys/kernel/config/nvmet/subsystems/testnqn/passthru/device_path
-> > echo 1 > /sys/kernel/config/nvmet/subsystems/testnqn/passthru/enable
->
-> Cool, what does that have to do with what I asked?
-Maybe nothing.
-This was rather about how to set up nvmeof if block-interface does not
-exist for the underlying nvme device.
 
-> >>> May I know what are the other requirements here.
-> >>
-> >> Again, not sure I follow... The fundamental capability is to
-> >> requeue/failover I/O if there is no I/O capable path available...
-> >
-> > That is covered I think, with nvme_find_path() at places including the
-> > one you highlighted above.
->
-> No it isn't. nvme_find_path is a simple function that retrieves an I/O
-> capable path which is not guaranteed to exist, it has nothing to do with
-> I/O requeue/failover.
+>>>>>> No one cares that this has no multipathing capabilities what-so-ever?
+>>>>>> despite being issued on the mpath device node?
+>>>>>>
+>>>>>> I know we are not doing multipathing for userspace today, but this
+>>>>>> feels like an alternative I/O interface for nvme, seems a bit cripled
+>>>>>> with zero multipathing capabilities...
 
-Got it, thanks. Passthrough (sync or async) just returns the failure
-to user-space if that fails.
-No attempt to retry/requeue as the block path does.
+[...]
 
--- 
-Kanchan
+> Got it, thanks. Passthrough (sync or async) just returns the failure
+> to user-space if that fails.
+> No attempt to retry/requeue as the block path does.
+
+I know, and that was my original question, no one cares that this
+interface completely lacks this capability? Maybe it is fine, but
+it is not a trivial assumption given that this is designed to be more
+than an interface to send admin/vs commands to the controller...
 
