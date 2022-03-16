@@ -4,159 +4,147 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBA1FC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 15:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1760FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 16:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:To:From:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=9iwmWrNImWAgwZmofl0cDNohud5FvxDmDnFu367AOrI=; b=XRWzxtqoXFURUE
-	/4d0EjgiJM+GSKWz8aBQ/0f+kYETWz6IJeHj1paytP75xe2wVNwVfhksli+TUo7XYUZeyK7LiXN2T
-	c8RpsnGaUbfqC01+N3QtOHfWGsFsA7HWfVjIZEP5RFI41kzkDXKwCq+szFLCtAXe1YvNf7cSTNK/I
-	fYhH37lTWLzRlWrwC3fAvGYd4vqxoRxVOk/OBWrcsS2n6FdoTdWwN/Q1b1gJxPU2lR2IPGAclv+2a
-	QI+A9M0B5SeYFiRzylVp/xW7WpE+ZJsR52Cu958upMKcaGETFEt9P/Ug81GKUxE6S5mNIXDvX6ki2
-	4/RfNSQx0dFZEKqqvrZg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=T+UtmiGdcgaLpZluJiSNB4ORUTJKW/THr8Hju3nQJ4Q=; b=MqPkrzyeSu9qiM
+	3YkkJ2MPBYLRcYbfK2z8bqnx3+zuyGtosIB8fAHEP1DAKRI+7jEf1G+B7JQWoJAr09jHOWGIkIWtP
+	ORJJb8fQUrVAMQ//Ab61JDagz1j0bPxkbCimtPSk0i/XlMuF8E77WXllsKEa5IoHoCiXLnHcqUv8T
+	avMUqf5WIInDfdCJtVOgRYXTCgPfk18FeH+tvrRKy0ztvV0j0VNZ69+FrcGoKRsV3RVhEnPtczPjz
+	pDX3fNjwMKSd2avW+t49AAU2WwQn1nh4llB1IoXlzaJYQC+1TSqR8VA8CYk5JB8UXrDMKfLOodb1/
+	6xE/fQhVC1/phZBG8AOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUVfR-00Db2H-19; Wed, 16 Mar 2022 15:34:29 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1nUWM1-00DlJq-Gv; Wed, 16 Mar 2022 16:18:29 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUOUu-00C2DD-Iw
- for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 07:55:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647417308; x=1678953308; h=from:to:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=aGPC/AzOgIBprJzGoTgLxNHWhOi4GhuR7UIFn/FijQI=;
- b=jFf5GOf4BSRvjte0D+K0t4lb0lNsXYUteSBszPdrEXWavhNNtH1c1zN2
- 6qW3sLixGd2C2vle901cTD6sbv/Vb20h1XU8uvC9ioD3dO7BZTAbd+xyr
- db3yXHAZ3pdinKcndI8eKDNjsoPf5UaFi2NeoZhgdeB3vfMX55aoCcPs4
- GDaXovuJFuMOG+StzLlTuJhNELRJPWpvlggFxtr3dgk0du2ErMoE2fquN
- AMny04N7TKxGEPUDgRw5EBv5UGYEIl/TYduj9GndWsS4H3IlxLvVLgxK+
- fTyhYxcl7Vu5VJHShOIR8BuxTqmquWN43MR89/AN32qLU6OpSrZTcOR/E w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256706952"
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="256706952"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2022 00:55:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; d="scan'208";a="644563045"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga002.fm.intel.com with ESMTP; 16 Mar 2022 00:55:07 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 00:55:06 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 00:55:06 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Wed, 16 Mar 2022 00:55:06 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Wed, 16 Mar 2022 00:55:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lMaMPiJx1C+VVFbiDfdjvnsBiqjCnlhOlU6+qf0bDZ+B9ZWbdn4rGfW1XueWcmUFReH6fnh7dVkVPqbAyhQaF9fXvSr05Yy8CSEmeDOuSYSvh/PQYqraEpV6kBOL1/yOTYpGr926UA5K+JxfTLmdFHGKwDnkXxecHUWjmX9VAILSi6T29eo3+I84fTQgFhhD1llkytSxMXfF7KwfSxmFlSW6qjGpx095pCPq4tNjtm4kG1S0F9Wy+ZpJvA22n71R47kHRNNjFGUbuNAX/WnyC2gQEto9otwTPFAQuFtbpQZDcgUnjD+HtoeprlI0c3AVLZLPrQI6iT54SN7IBhLXCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9iwmWrNImWAgwZmofl0cDNohud5FvxDmDnFu367AOrI=;
- b=evEeGmVFytS19MrEIxBaBfC4DDnGPgNulM6sN2zupDoIhwxAO7MQF7A2kc4z/aDN6K1AK726xBiIrosQggkpOc5XwNJHz2QCQQmXaOjr6Dsfadmdz+8kWxQdIYC1IYfA4o8kKHSIPvAm9f8Vux06hO6p8b3VdlMSsGh2lrH2HNMUD3t327JGd6ihTtDn+TkCn+8flNM/x1RylEhgVdwgjL+32VW8ZYewtkD5iyxa9AF9klLwz5dtkSRfAtwImq99qoFuDTUPrbuYu8/DRvnTk7OZFveNJh2vrHGc/UZDmWe2UhkAZ5X/1W4DKALfdcKPoyMJ4tdnBoyxtLCJRWqFSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SA2PR11MB5115.namprd11.prod.outlook.com (2603:10b6:806:118::22)
- by BN6PR11MB1620.namprd11.prod.outlook.com (2603:10b6:405:e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
- 2022 07:55:04 +0000
-Received: from SA2PR11MB5115.namprd11.prod.outlook.com
- ([fe80::e12a:51c3:128b:4cc1]) by SA2PR11MB5115.namprd11.prod.outlook.com
- ([fe80::e12a:51c3:128b:4cc1%7]) with mapi id 15.20.5081.015; Wed, 16 Mar 2022
- 07:55:04 +0000
-From: "R, Monish Kumar" <monish.kumar.r@intel.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: IGNORE  THIS EMAIL [PATCH] Revert "Adding quirk changes for
- Samsung X5 device"
-Thread-Topic: IGNORE  THIS EMAIL [PATCH] Revert "Adding quirk changes for
- Samsung X5 device"
-Thread-Index: Adg5Cu+7hRd2iR8qQ3a2VcYKdofwQg==
-Date: Wed, 16 Mar 2022 07:55:04 +0000
-Message-ID: <SA2PR11MB5115A5586E4D0538D8EC2394C3119@SA2PR11MB5115.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.401.20
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 506be9f6-3921-4976-58fb-08da07224842
-x-ms-traffictypediagnostic: BN6PR11MB1620:EE_
-x-microsoft-antispam-prvs: <BN6PR11MB1620FDBF09E9F0BEE2014490C3119@BN6PR11MB1620.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OSjDZcombvARVJeWYM/ICVmctIT4g5I66zAq2lnCK4PvS5LbAp6mxSUwl1pCpz6BB2UUxvDpqT2N1C6SegRt6jqYZ1OTDv1goevfWDVTlY+4wkQP/KW/B1Kn3QxnDf3j1f4PozlAgCu7OkHBHFbG+oKP3f7mciKa2ZtL0X5yDDm+yZkne6qMsw99e4a2y9rhks51WQueJ7jQna8yd+KrFQz6P80GeET2J4KNBc2oy26UNhkRdDSUsxGw4dX8t1oncarBB7uiJOEYg6WlaUpQWk3GKBuHLDNp5uIrqXHjRm7nQBzeF/YbmzCMkwAgHi53lPjF9BOgm+UQLzJKGWgd+j+NpxzYho2jVKjUgP3yBmm2/Qhdt8xgo+pD9V9GZMlhIoPxtdbTI5DGsd6Ei4ypLZktUVtInA4Vmb7sXmvasS7eovr/NFCR8PJ2hWuHCCoZ64GHSivEDysbFXJvpGyBrlm+q+c4zX8G8zMCo8jUBAQvBh+LSNi+61Z6uG6cTq2PRAihECqAaIKshiWnVrYTAeiYYjpM5Ui26Hebe5r4N2Du0wIL3QQ6fYBhRM3tbg+/h5SYuz0d6Od4wEqfO9rBlK2i5sxPhHDqCn9ytk3MGgez3flgmyV+yGF/cI1c+qho+ldFPvBRPwbOmPp7yt9/t9/T6O/OQLUOkZzUBQOu6wE78pwzI4yQc87IU+gOycoLx8JUk3z2/sgaT62TSgs+tA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR11MB5115.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(5660300002)(83380400001)(76116006)(66556008)(66476007)(66446008)(66946007)(38100700002)(64756008)(508600001)(53546011)(7696005)(6506007)(33656002)(9686003)(38070700005)(52536014)(26005)(186003)(8936002)(55016003)(110136005)(2906002)(122000001)(82960400001)(86362001)(316002)(71200400001)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oipCWAxoIuXGDwzQyDovMUqnditPBojE3ygGNlyx4e+OKK0dlLu1+z0Jcj+h?=
- =?us-ascii?Q?ATtsiPGwnXKOxSJDQTwZcehyMWSuM4bwQisMkuIiVh+BIQPU4Z6o2duI+Vb/?=
- =?us-ascii?Q?WAQ501BkRYKPc/+OxakoX5jj0f4RDJlHcmELkda+9k8oROzN3G8z+UME03gU?=
- =?us-ascii?Q?8ErEGMkFn3QGBJStWztg8g5JsbkAQRtDi335FHO4Hu9p4yAhdPRdrGbXV+bg?=
- =?us-ascii?Q?tSKfJ7T4vGStCsGhmv2jIow3UWC3F1weHdW60JWMwD/6Bm9wTwSvf742l8XL?=
- =?us-ascii?Q?JgEvNi3sm4dseItWX+SDeI5vi97qZ3kdq3tFXq/5HxajlelBD6vhflfb+seI?=
- =?us-ascii?Q?d+n7EfuNGhHqZgGSrg9yr3Kehiq9Zv6Vinv5xQVXozsOHPA5EwNunp+zQRDH?=
- =?us-ascii?Q?Z66EVkPowkIJX64sOP3QI1jl3+dIHgXf/jjqmOUk3IznOwPhl5Z/7UpFzm2K?=
- =?us-ascii?Q?ILIWbBe1aB6qnMZZdbHWkOXRjF+LaGGx7eorTeSYDmNw64OOVWUGsH8VHcXl?=
- =?us-ascii?Q?YXxzMjm5bSC+2wD0UIefja5nCmnVKBLTjIc9oA9AkLCe45wRdP2PIzlR/Aix?=
- =?us-ascii?Q?hpIitNR5EV62ows+KSft11Mv1IVskNCYXuZrlGbozRZ3KiSThqUriCMoQEud?=
- =?us-ascii?Q?Zj7khwSAiZsO8e8g+zj8g6cRSkW9Wp+SIQK2HTFAFwk70bLxI8s+hRzOarqc?=
- =?us-ascii?Q?I7ggUYkJ9AcS0oCfgHu4p97EjijCrrnSQ66lSXd5cXm7EZyRLTeu2JGL0KDw?=
- =?us-ascii?Q?gs8lHH/VFlebUZYDwkt+kHLe+w5roy2A8IuT0NndCxIXIgAfcCdv5ojM9HvW?=
- =?us-ascii?Q?XnoFvEjfYFcArUTCg+m7LamDSXrbU8OjDBVulMCPmzM5FDS/41x1cBeTt1Wm?=
- =?us-ascii?Q?LSZ4eXolfi4yUvWXYufW+puV15UMY9Bzx8uYd97aeSehhvaUcaJ9V4bzzRX8?=
- =?us-ascii?Q?8em1r3qoe0C3mH80l8g2/1x5CsSnZ3lye4L+23z91m5nxCBrzFFcJ1Pcq1mi?=
- =?us-ascii?Q?+Y18ZfCc9J9i9OL6w/TTvIUjCQp3QlN2p9wG4DWExTYVLCdPKOyuK0/+pFkj?=
- =?us-ascii?Q?hOFxW1y5foIegSEdP0fBCnvaFSHa2J51kQMaspVOCeQsQszTb7ISCePDZ7WW?=
- =?us-ascii?Q?riswRV+f6oV7tzgf8gT3co2/W1WtaDFpeZuDW/fnsn+RUzU4dmbm6YYa9Ufx?=
- =?us-ascii?Q?t5w3Frk4Mgnlobmx/DI81+4dpYGDDrlmLsxS9JpqR6/+KaktVmUhRig47WkW?=
- =?us-ascii?Q?MPeZBfdcbeMPRUgdu5d1t6kA6SML16NMIL4Ni3+DnF5b/Qj/3S6v+/ij6eV0?=
- =?us-ascii?Q?/OeqnRMIXYs4CvMNzEzpoTrtTDo00LpvULqI1ynQ/NUDCqXYVYs1v+LWr+RM?=
- =?us-ascii?Q?FrGO/iy3LSNCm7DKrD8fjV32jbA6D9zPRwk3S4Cio/cZr90IGcFOSfpf8s0G?=
- =?us-ascii?Q?qKhKslzl6ltFUHWpMpAD4TU9AkttHQe+wRqBd5J8Ifk3sOFzlyJcMA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ id 1nUWLx-00DlGw-FF
+ for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 16:18:27 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220316161821euoutp0294fa26a84575c4598d95206e0188a547~c6MYWBLcz1697916979euoutp02M
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 16:18:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220316161821euoutp0294fa26a84575c4598d95206e0188a547~c6MYWBLcz1697916979euoutp02M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1647447501;
+ bh=T+UtmiGdcgaLpZluJiSNB4ORUTJKW/THr8Hju3nQJ4Q=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=WVr5VeuzB2MhwcKWF7JJnYIB82BGUHI7FOuHW15SyU/hdl/9Rs8BQAfL3yNKNswX3
+ 6lfPaeyUFbopJm9n4+eWWKffCXsH2Hp8gRdLn4YsiYfGTrC7reCTtJpEZ999qiiP7a
+ ayNz3Brqfw3VxPKKwdH6ro/K1SlvBEiAV/gZ3m10=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220316161820eucas1p2b4d9deb72586f6ec190a7ef4d4b3d05d~c6MYCjyLg2046820468eucas1p2P;
+ Wed, 16 Mar 2022 16:18:20 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 1A.D6.09887.CCD02326; Wed, 16
+ Mar 2022 16:18:20 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220316161820eucas1p129b794d92db5a8dbc1f0f1ff668ab27e~c6MXjnFok1732017320eucas1p1L;
+ Wed, 16 Mar 2022 16:18:20 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220316161820eusmtrp2c52bba8a4eba6a3ec8a6825410254d1c~c6MXiJRVK1536615366eusmtrp2p;
+ Wed, 16 Mar 2022 16:18:20 +0000 (GMT)
+X-AuditID: cbfec7f4-471ff7000000269f-65-62320dcc3896
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 52.19.09404.CCD02326; Wed, 16
+ Mar 2022 16:18:20 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220316161820eusmtip11fd2c433926a321cafbdd0f1e7eeafbc~c6MXYXkhW0522805228eusmtip1V;
+ Wed, 16 Mar 2022 16:18:20 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.179) by CAMSVWEXC01.scsc.local
+ (106.1.227.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Mar
+ 2022 16:18:14 +0000
+Message-ID: <553f91df-d546-64a3-0c87-23b98aefc97e@samsung.com>
+Date: Wed, 16 Mar 2022 17:18:13 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5115.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 506be9f6-3921-4976-58fb-08da07224842
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2022 07:55:04.7999 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SdRGWlel46W3wfeCq1/1DjX4VKfUIyUlJwK1Em+dRD8J/SE9qlMe50QVZC9GR2WmSpJYaJ1VOUM5gNzMWzDw3Xzj7l7faYqv5mmUcg8x34c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1620
-X-OriginatorOrg: intel.com
-X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
+Content-Language: en-US
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>,
+ =?UTF-8?Q?Matias_Bj=c3=b8rling?= <Matias.Bjorling@wdc.com>
+CC: Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
+ "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>, kanchan Joshi
+ <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg
+ <sagi@grimberg.me>, Pankaj Raghav <pankydev8@gmail.com>, Kanchan Joshi
+ <joshiiitr@gmail.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <fcb4f608-970c-56d3-fe3d-b344fab8baf7@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.179]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (106.1.227.71) To
+ CAMSVWEXC01.scsc.local (106.1.227.71)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFKsWRmVeSWpSXmKPExsWy7djP87pneI2SDPY1G1isvtvPZvH77Hlm
+ i5WrjzJZdJ6+wGTRc+ADi8X5t4eZLCYdusZosfeWtsX8ZU/ZLSa0fWW2uDHhKaPFmptPWSzW
+ vX7P4sDr8e/EGjaPnbPusnucv7eRxaN5wR0Wj8tnSz02repk89i8pN5j980GoILW+6wenzfJ
+ ebQf6GYK4I7isklJzcksSy3St0vgylg7fydrQQtbxeqPSg2M11m6GDk5JARMJB5M/sjUxcjF
+ ISSwglFi75Jl7BDOF0aJ/7sfsEE4nxkleiYtYoJpmfHjEitEYjmjxMW7n5jhqu737oBy1jFK
+ /Jl8gxWkhVfATmLnjDdgNouAqkTDqutMEHFBiZMzn4BdIioQIfHyyF+wuLCAl0TH27XsIDaz
+ gLjErSfzwS4UEVjDKLGg8QfYbmaBbhaJGZ0rgNZxcLAJaEk0doI1cAq4Sfzf2swI0awp0br9
+ N9QgeYntb+cwQ/ygLNF59RETSKuEQLLEhplhICMlBK5xSrz51MoOUeMi8ffuTihbWOLV8S1Q
+ tozE/50QB0kI9DNKTG35A+XMAIbS4c1QU60l+s7kQDQ4Ssz4vJsFIswnceOtIMQ9fBKTtk1n
+ nsCoOgspLGYh+XkWkhdmIXlhASPLKkbx1NLi3PTUYqO81HK94sTc4tK8dL3k/NxNjMDkd/rf
+ 8S87GJe/+qh3iJGJg/EQowQHs5II75kX+klCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeZMzNyQK
+ CaQnlqRmp6YWpBbBZJk4OKUamLw7P0xuEY3NWnHQ7/8V/Z9tygVrpzQXCt9b0/bly/u/N9+w
+ BGxsUs7dfDXIY+NZpm3GjzinPeg6vmDNgmtCSV9br69tc2oTXJqsLvkgeMZF5fv3dO4azku6
+ 2vXinEy7t7hP0SE/L+8DTZvnb15/U8W3bnf0pF/af4Jyd4o/5f+c9fZUsNS5pRYc7PbH73/m
+ /3H34On9da2iX+PWil0843O3fXf5Im6n6P/XY+5wbdN2mN9YeGbezrTpCX2+0tNW3+LNyb/D
+ Gj7jT+/nb+U+CYnKBxJPyVZMnDv9eF559aE/J21S/4sqLRDrkhBee+dzk3dKxal5BQwhMSuN
+ Xp+svHjp0PSW7Fu338lKTZh66VKxEktxRqKhFnNRcSIARzNvu+0DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjleLIzCtJLcpLzFFi42I5/e/4Xd0zvEZJBttu81msvtvPZvH77Hlm
+ i5WrjzJZdJ6+wGTRc+ADi8X5t4eZLCYdusZosfeWtsX8ZU/ZLSa0fWW2uDHhKaPFmptPWSzW
+ vX7P4sDr8e/EGjaPnbPusnucv7eRxaN5wR0Wj8tnSz02repk89i8pN5j980GoILW+6wenzfJ
+ ebQf6GYK4I7SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3S
+ t0vQy1g7fydrQQtbxeqPSg2M11m6GDk5JARMJGb8uMTaxcjFISSwlFFi7cpGdoiEjMSnKx+h
+ bGGJP9e62CCKPjJKTDuzgwXCWccocWL5ITaQKl4BO4mdM96wgtgsAqoSDauuM0HEBSVOznwC
+ tk5UIEKibdkUZhBbWMBLouPtWrANzALiEreezGcCGSoisIZRYkHjD7CbmAW6WSRmdK5ghljX
+ wSbRuecB0DoODjYBLYnGTrBuTgE3if9bmxkhJmlKtG7/DTVVXmL72znMED8oS3RefcQE0ioh
+ kCzx91b4BEbRWUjum4XkjllIJs1CMmkBI8sqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwISx
+ 7djPLTsYV776qHeIkYmD8RCjBAezkgjvmRf6SUK8KYmVValF+fFFpTmpxYcYTYGBNJFZSjQ5
+ H5iy8kriDc0MTA1NzCwNTC3NjJXEeT0LOhKFBNITS1KzU1MLUotg+pg4OKUamJb4TLkt7Nw9
+ /aw0/5oftW9ZnnxZPiloWlB80/dauwTLf7rv1fdLzWbYYuVetkLNzkPyjNjEGDW+D//3z/WN
+ fpg0K+NIk7H9zTb7qcKugsdMos78Fp4U3+dx+uyWDAVF7cuxTO5XyzvlGms63mYUp0rETC/M
+ 6isof/3sf6Z0q17W0/0b/BjkSjI0E9cYi9zRctZ9PKutOHV+cvg1E/lJiq8L3T8ujRWs+xHT
+ Ilq1tK6mJNbA/3OUaGrHUf5ktktrfhm5Ht3S53SK8cFaleRIOZ5ZJ76fzDRekBe4Zk0T80q1
+ t/wzP8u2a635fUE7yOMSw6NrkSxGbZcr15oJcGp0nItyV5G3DayZwehvvlyJpTgj0VCLuag4
+ EQDwX1pRoQMAAA==
+X-CMS-MailID: 20220316161820eucas1p129b794d92db5a8dbc1f0f1ff668ab27e
+X-Msg-Generator: CA
+X-RootMTR: 20220316000043eucas1p230730e4215075e0881c690fffc6ad8aa
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220316000043eucas1p230730e4215075e0881c690fffc6ad8aa
+References: <Yiu5YzxU/PjxLiUL@bombadil.infradead.org>
+ <20220311213102.GA2309@dhcp-10-100-145-180.wdc.com>
+ <YivMBj7+j/EZcMVV@bombadil.infradead.org>
+ <bc0e53a9-f623-c69f-002e-d62e697a43d1@opensource.wdc.com>
+ <20220314073537.GA4204@lst.de>
+ <05a1fde2-12bd-1059-6177-2291307dbd8d@opensource.wdc.com>
+ <20220314104938.hv26bf5vah4x32c2@ArmHalley.local>
+ <BYAPR04MB49682B9263F21EE67070A4B1F10F9@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220314195551.sbwkksv33ylhlyx2@ArmHalley.local>
+ <BYAPR04MB49688BD817284E5C317DD5D8F1109@BYAPR04MB4968.namprd04.prod.outlook.com>
+ <20220315130501.q7fjpqzutadadfu3@ArmHalley.localdomain>
+ <CGME20220316000043eucas1p230730e4215075e0881c690fffc6ad8aa@eucas1p2.samsung.com>
+ <fcb4f608-970c-56d3-fe3d-b344fab8baf7@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220316_005508_727259_3C2945C6 
-X-CRM114-Status: GOOD (  12.25  )
-X-Mailman-Approved-At: Wed, 16 Mar 2022 08:34:27 -0700
+X-CRM114-CacheID: sfid-20220316_091825_890106_260C07F9 
+X-CRM114-Status: GOOD (  16.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -171,54 +159,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi All,=20
 
-Please ignore this email.
-I will send another email with patch having subject nvme-pci: Add quirk cha=
-nges for Samsung X5 device.
+Hi Damien,
 
+On 2022-03-16 01:00, Damien Le Moal wrote:
+>> As for F2FS and dm-zoned, I do not think these are targets at the 
+>> moment. If this is the path we follow, these will bail out at mkfs
+>> time.
+> 
+> And what makes you think that this is acceptable ? What guarantees do
+> you have that this will not be a problem for users out there ?
+> 
+As you know, the architecture of F2FS ATM requires PO2 segments,
+therefore, it might not be possible support nonPO2 ZNS drives.
+
+So we could continue supporting PO2 ZNS drives for F2FS and bail out if
+it is a Non PO2 ZNS drive during mkfs time (This is the current behavior
+as well). This way we are not really breaking any ZNS drives that have
+already been deployed for F2FS users.
+
+-- 
 Regards,
-Monish Kumar R
-
-
------Original Message-----
-From: R, Monish Kumar <monish.kumar.r@intel.com>=20
-Sent: 16 March 2022 13:23
-To: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me; linux-nv=
-me@lists.infradead.org; linux-kernel@vger.kernel.org
-Cc: Rao, Abhijeet <abhijeet.rao@intel.com>; R, Monish Kumar <monish.kumar.r=
-@intel.com>
-Subject: [PATCH] Revert "Adding quirk changes for Samsung X5 device"
-
-From: Monish Kumar R <monish.kumar.r@intel.com>
-
-This reverts commit 1c1b18c97b441cb1a4eb9c6e95d9c357b687cdd0.
----
- drivers/nvme/host/pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index c01cb3=
-81c3ff..8bb184a7479c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3463,10 +3463,14 @@ static const struct pci_device_id nvme_id_table[] =
-=3D {
- 				NVME_QUIRK_128_BYTES_SQES |
- 				NVME_QUIRK_SHARED_TAGS |
- 				NVME_QUIRK_SKIP_CID_GEN },
-+<<<<<<< HEAD
- 	{ PCI_DEVICE(0x144d, 0xa808), /* Samsung X5 */
- 		.driver_data =3D  NVME_QUIRK_DELAY_BEFORE_CHK_RDY|
- 				NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-+=3D=3D=3D=3D=3D=3D=3D
-+
-+>>>>>>> parent of 1c1b18c97b44... Adding quirk changes for Samsung X5=20
-+>>>>>>> device
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ 0, }
- };
---
-2.17.1
-
+Pankaj
 
