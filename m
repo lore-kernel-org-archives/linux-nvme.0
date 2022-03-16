@@ -4,72 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85064C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 14:36:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AA64C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Mar 2022 14:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eaff+ZDUoXqtqYBeMMWRXCXNeSj/5wDimU+/EYD5/Gk=; b=UXr2UQgWebE1sMzRh7Cs6SkGD+
-	KCFg9F1CBxI+Gi8sJ0cF1EfEcHneCC4t3kR9W1ftsH+D7rVVQqP4YKiV4KiMxFGjPYoeYznTr0LPQ
-	AoWy3pym5yKxvwEFg8I3bI/CHq5SGcMqYGG0MgAIU1HQXKIi01XtONMFUogk/fHkYj+GxeZC3+pdC
-	GRB8kB/pyTAu4Nz0/zskUf7kPyF/PZmvPFFWhXhgWGCch4+JzQBGzf0zv13eef6pTWBRzECwshOYz
-	PGmZ7Pk60WXJgLodhCte2omMA6jhHEKX/EiAw+6UBRWaYot6M2mveY8XxNbzLushq3iOUtZ0f/fhv
-	xMNWkeuQ==;
+	bh=bI4ZhjQL8dIuJvz21TfUD5JbGeAx7Qdq2Uugzf6XgB0=; b=PpAqJnFJKFwv5PlhoK6nOYDILA
+	7bwVmOz2FgrDd0vB355YrjP3zawZ6wlI5+NIUCzABTFGoXq3qEUhaC6MBeHLrMRvixDlJAl+eyBW+
+	gkXGZCNSkZsSg8Jymhk7kQHpOMcKtzzGdzvhZKmy+Rnwr9XVFNA/UQlq9TeEsI8UByvB0drnhWcAb
+	4yKMTQI6aGvozbneVKzm4xNltyhHZSk0x0DKUr8jdXOtDC9WiFbfcvR2mQx77Tzjf/TZil537xlm/
+	OLIuXkojJYcPoGcwRfUH667QkQhejKRgdBMhs8Xt3yx174IZgxJOHFQYqqIAcMXfOwKhimXqRSgDF
+	gs5mwv6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUUkp-00DHo7-BK; Wed, 16 Mar 2022 14:35:59 +0000
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
+	id 1nUUzL-00DKu8-LQ; Wed, 16 Mar 2022 14:50:59 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nUUkm-00DHnK-MC
- for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 14:35:58 +0000
-Received: by mail-io1-xd2b.google.com with SMTP id d62so2503354iog.13
- for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 07:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=eaff+ZDUoXqtqYBeMMWRXCXNeSj/5wDimU+/EYD5/Gk=;
- b=JThsvMwLIHIkGD1jdC/++Zj9xOlDlcjpnnA48h6EYeK4lmy7fjOLg99PtzOSpvprMC
- Xp0MVCYEn/cvEASmV8+QmHsLbXswKKiO8uwpl4Rm70ne1kWNpaNY5CYDZfZNvEQnrKQ3
- SViYIUUPuU2xyma9JdiZDqDjiuA/1ehgaVybZujWJna/wawr9Iu6+WhVqCq3c2SrijLi
- YQQ5etvqaKVc4jy/NVsz6B3bm2VZI+BXruhkLbHLpv4s2BsyoOgcdV8AIV/mjdWtS6Uo
- 39MSbH3/oZndxpT9q42TjzuMcR5HGSnScrbCtmWj0GvAakZJyjzINPU5AGdjWWCJTSho
- yKJQ==
+ id 1nUUzJ-00DKsv-87
+ for linux-nvme@lists.infradead.org; Wed, 16 Mar 2022 14:50:58 +0000
+Received: by mail-wr1-f48.google.com with SMTP id r10so3348088wrp.3
+ for <linux-nvme@lists.infradead.org>; Wed, 16 Mar 2022 07:50:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=eaff+ZDUoXqtqYBeMMWRXCXNeSj/5wDimU+/EYD5/Gk=;
- b=hDIFiJUH3Rud7t5wGnuag6VJGKhVdnNuMUzh+M3r3c5CZn7ciNM7PuwsBS9jrDoIOX
- MT91TwlpixPsZCkQMenXaEvBE+IyVEK/zwzplL70z4y4T+PgszFKYERTDaVnjoQsq8/0
- OnsgmAUCEe4FARMUflK/6RhRwNqJqmLAkJ8AoyXW/sIlDwfexSzrroFlYHIEOsfQL4A2
- kah8HpFFEYY7Z1nSTtnnvfSEa8RoxMy98vZoa0OhpW361VEufbzVqNaotwVA6H3yDoTA
- ofZ1My0VruKXIOGUXm1YDlu8BArUudvOVYJClRy9IFZ9mYND/iEWAIJPbowskPOWfOTR
- 63Bw==
-X-Gm-Message-State: AOAM532yTdFRYWOsRYxk0bF/58Ss6DWgEDXJCKEMgD5ZJaMfa/tyRr6f
- JJL6t5aBUOE6fF4XO4SdxDJ9AQ==
-X-Google-Smtp-Source: ABdhPJwQOXSKwhIW3xtIEqlzxJ3pNORPswTtyklm1l1o03V1DSh/93Z6RrmC6PwtXl3YEjBm/8ThUA==
-X-Received: by 2002:a02:6a60:0:b0:315:4758:1be1 with SMTP id
- m32-20020a026a60000000b0031547581be1mr26549262jaf.316.1647441355684; 
- Wed, 16 Mar 2022 07:35:55 -0700 (PDT)
-Received: from [192.168.1.172] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id
- i18-20020a056e02055200b002c7b2ac7ba2sm1220084ils.26.2022.03.16.07.35.54
+ bh=bI4ZhjQL8dIuJvz21TfUD5JbGeAx7Qdq2Uugzf6XgB0=;
+ b=IO/FWfRFhf6EIaA+8muyymmgovrpKgKtRkS9tIafiQ0n/T9S3gAW9Ax6ctKdmIoc6k
+ lkozpFNFfo0O+Kqi6FSdW7Mwj7zt2/SM7Y58aWDrAEpvAjEA1KdAP0HCSXfq6aary6Mo
+ eCToKYoXDv+yR3/r2HO4M4XRbOLqmVig9kWMl2HiqpN//jEbn46qQkihoTlOPKsAQ3oq
+ YgbZnaX0vlbT4KJGME6yQDJy8f6GcnsXNn6OtEPdWvPKHFOtbi2SqYjTh2BNv36+EocQ
+ wQRYaP94RPmD+lm5gCaj68M7aG5b+bhwDBkHlwKtl1Av5kfokiHc76LqLkPUyTkL7CW7
+ 5ZXA==
+X-Gm-Message-State: AOAM533B73klXsDqwMP0UhSt0MBs9hLda51q6srXRZ3hcLhkATC2yihD
+ 0z+laa9OqUxXbR4t75vJi8A=
+X-Google-Smtp-Source: ABdhPJzrRH5zBsn9fYkNcZjd08EnDBOCdVlS4Q3hFeb7W2Pq1bG2CpbUzWEW5D36WNgcL+UcKvbCng==
+X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
+ r11-20020a5d6c6b000000b001ea77eadde8mr271610wrz.690.1647442255234; 
+ Wed, 16 Mar 2022 07:50:55 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ r4-20020a05600c35c400b00389f368cf1esm513959wmq.40.2022.03.16.07.50.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 07:35:55 -0700 (PDT)
-Message-ID: <666deb0e-fa10-8a39-c1aa-cf3908b3795c@kernel.dk>
-Date: Wed, 16 Mar 2022 08:35:52 -0600
+ Wed, 16 Mar 2022 07:50:54 -0700 (PDT)
+Message-ID: <28b53100-9930-92d4-ba3b-f9c5e8773808@grimberg.me>
+Date: Wed, 16 Mar 2022 16:50:53 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH 05/17] nvme: wire-up support for async-passthru on
  char-device.
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Kanchan Joshi <joshiiitr@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>, Kanchan Joshi <joshiiitr@gmail.com>
 Cc: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
  io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -87,13 +76,14 @@ References: <20220308152105.309618-1-joshi.k@samsung.com>
  <11f9e933-cfc8-2e3b-c815-c49a4b7db4ec@grimberg.me>
  <CA+1E3r+_DEw5ABPbLzSp9Gvg6L8XU-2HBoLK7kuXucLjr=+Ezw@mail.gmail.com>
  <3ed01280-5487-7206-a326-0cd110118b65@grimberg.me>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <3ed01280-5487-7206-a326-0cd110118b65@grimberg.me>
-Content-Type: text/plain; charset=UTF-8
+ <666deb0e-fa10-8a39-c1aa-cf3908b3795c@kernel.dk>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <666deb0e-fa10-8a39-c1aa-cf3908b3795c@kernel.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220316_073556_805874_49E2F956 
-X-CRM114-Status: GOOD (  16.05  )
+X-CRM114-CacheID: sfid-20220316_075057_326295_A00CA9D0 
+X-CRM114-Status: GOOD (  17.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,32 +98,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/16/22 7:52 AM, Sagi Grimberg wrote:
-> 
->>>>>>> No one cares that this has no multipathing capabilities what-so-ever?
->>>>>>> despite being issued on the mpath device node?
->>>>>>>
->>>>>>> I know we are not doing multipathing for userspace today, but this
->>>>>>> feels like an alternative I/O interface for nvme, seems a bit cripled
->>>>>>> with zero multipathing capabilities...
-> 
-> [...]
-> 
->> Got it, thanks. Passthrough (sync or async) just returns the failure
->> to user-space if that fails.
->> No attempt to retry/requeue as the block path does.
-> 
-> I know, and that was my original question, no one cares that this
-> interface completely lacks this capability? Maybe it is fine, but
-> it is not a trivial assumption given that this is designed to be more
-> than an interface to send admin/vs commands to the controller...
 
-Most people don't really care about or use multipath, so it's not a
-primary goal. For passthrough, most of request types should hit the
-exact target, I would suggest that if someone cares about multipath for
-specific commands, that they be flagged as such.
+>> [...]
+>>
+>>> Got it, thanks. Passthrough (sync or async) just returns the failure
+>>> to user-space if that fails.
+>>> No attempt to retry/requeue as the block path does.
+>>
+>> I know, and that was my original question, no one cares that this
+>> interface completely lacks this capability? Maybe it is fine, but
+>> it is not a trivial assumption given that this is designed to be more
+>> than an interface to send admin/vs commands to the controller...
+> 
+> Most people don't really care about or use multipath, so it's not a
+> primary goal.
 
--- 
-Jens Axboe
+This statement is generally correct. However what application would be 
+interested in speaking raw nvme to a device and gaining performance that
+is even higher than the block layer (which is great to begin with)?
 
+First thing that comes to mind is a high-end storage array, where
+dual-ported drives are considered to be the standard. I could argue the
+same for a high-end oracle appliance or something like that... Although
+in a lot of cases, each nvme port will connect to a different host...
+
+What are the use-cases that need this interface that are the target
+here? Don't remember seeing this come up in the cover-letter or previous
+iterations...
+
+> For passthrough, most of request types should hit the
+> exact target, I would suggest that if someone cares about multipath for
+> specific commands, that they be flagged as such.
+What do you mean by "they be flagged as such"?
 
