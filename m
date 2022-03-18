@@ -4,78 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C74F2C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Mar 2022 08:10:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44424C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Mar 2022 17:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KxjqWFBERSi2oHdVFKiGE5cX6oF4ziBxopi3WrsJs8E=; b=TOLd32WHNEaAW+cC88ozJYK2nO
-	8jg/F20KvUnUwFMPEMNqKYdOjGLGQPk5jIw2VI8aYjyyx8CNIjB/GV30L2V0O5P4cQKvQldqo1qCG
-	5OYDUNZORnYUNuRPVyUKmS6oIp4Cm48bCABVT0dCaOHTtkv6Fq5yQnAcwbpym29/1nsZwEly+H/eB
-	98ELxRpS28qudTFJpb+0EMncUXDz2gzWK+gc+3crWh9pIzYGoMraF4OnYxEztv1BtWoYdb7jQUuXX
-	EAzAUo0BF8wG5IlMbCZ3V7O1GGTcoqr6WCHKm86ypNkBAvtuVqz3Rtd7r0VyqJfnSXEtcAgiyjSj6
-	KuJQMz8g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Nw8jHmlXzY5Mu3BhMe5bZ2h9BPqth4ykbFL0wurydVQ=; b=WBYrDP+3ad4vmQiFor+sLCZo3I
+	qmG1lacxDC3sTAKgnvqOx0FjUW0lAyIHR3Y6v9mFD70SF6QsdNSFgXyP+yKONOAhth39OMMRo0y4I
+	diEa+22S/di0POfMfHPE9G4V6h6GwvzuSGtomaRhpmy5lredT8u5JxIHzasQmHUQ8+BVrykbMLJhG
+	gnpqR4Nrh9cOlZA7pFaP5dqHEYl9SCgKzMOt27Vd7+WPQYnGQc3KnqJb+ao9I5ibKF07qOyKBiD3s
+	tHQvQ/ECT4ZQ+5yyLEcPpTcnWwG/MVFa1d8YA1AgV80yUEEHLoACxdAZeoIWwYyP5ZwSXbGfEd2Ph
+	TId7cf/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nV7ga-000kKD-HD; Fri, 18 Mar 2022 08:10:12 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nVGbB-002W5V-Cj; Fri, 18 Mar 2022 17:41:13 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nV7gX-000kI8-6U
- for linux-nvme@lists.infradead.org; Fri, 18 Mar 2022 08:10:10 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ id 1nVGb2-002W37-4c
+ for linux-nvme@lists.infradead.org; Fri, 18 Mar 2022 17:41:08 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D52D21F38E;
- Fri, 18 Mar 2022 08:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647591005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KxjqWFBERSi2oHdVFKiGE5cX6oF4ziBxopi3WrsJs8E=;
- b=qwK6/JOrQbT5hNYsx2jKgTJN8fxXDRiXDFh0YI2ZVbsM8Hc+gZDgSDD4trE3ld5Hhx1DV8
- Xpz6S4Ja4MqcKDmLq/OBhnlzOBxHYxiECZauZOtLNm1bmqhAs1zkTdfulOiZM8qBEMtSvm
- po1x/hAtr8f7bnYaPxmIg4jSihKwjUI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647591005;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KxjqWFBERSi2oHdVFKiGE5cX6oF4ziBxopi3WrsJs8E=;
- b=9RjMzJoyZC+rJXu+M9QQ4yKreh48VXdlxoGqPHYCyvPKoW31ocKSYtuFeZygrvtDu0r64X
- /Sx04GessjTsgEDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C834413BB5;
- Fri, 18 Mar 2022 08:10:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hCvXMF0+NGKmHwAAMHmgww
- (envelope-from <dwagner@suse.de>); Fri, 18 Mar 2022 08:10:05 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
-	kbusch@kernel.org
-Subject: Re: [PATCH nvme-cli] fabrics: keep the backward compatibility
-Date: Fri, 18 Mar 2022 09:10:02 +0100
-Message-Id: <164759099582.29639.407645274457065972.b4-ty@suse.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220318012408.24779-1-kch@nvidia.com>
-References: <20220318012408.24779-1-kch@nvidia.com>
+ by ams.source.kernel.org (Postfix) with ESMTPS id B5C6AB824EF;
+ Fri, 18 Mar 2022 17:40:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C420C340E8;
+ Fri, 18 Mar 2022 17:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1647625257;
+ bh=y1kSwAeyUIPDD0WUz6meKPi7vm54XPFekIW69rri3cY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HCL2ClCbITt12Y9eqokJetjwA0tRnCwNDm412G4Ql1rs+kWvAlzVKXsC8JYDGSL6N
+ U95VkEqvnmbPNsg70bQc3bXxthHOUgXO69AT6NvQY4n1qkVYJ9GG//g5fduPgexaPE
+ 0GZszFFZisqQiqD2OYD4MfVPlOx/c5HSdQS1g6vgGdX6g+HWh44YlOR81IrVV1mpVu
+ WIvlIaxL+7EE0zpw+10uHxyJxhabj6naed5nh4COB+flhrzzD/0ZxLE5Ceryx4Jyrh
+ vlVvBagxU0tJXKlRUdk78I8efZb7AM7NXI1xG8GhoEHVadnigj7Y9fV0kwk6Jynhgf
+ FReVWA2JgrjHw==
+Date: Fri, 18 Mar 2022 11:40:55 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH] nvmet: remove redundant assignment after left shift
+Message-ID: <YjTEJx2Uk2RN1+p5@C02CK6Q3MD6M>
+References: <20220318013014.90698-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220318013014.90698-1-colin.i.king@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220318_011009_435446_06B6D69B 
-X-CRM114-Status: UNSURE (   7.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220318_104104_366335_84E2F748 
+X-CRM114-Status: GOOD (  10.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,27 +73,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 17 Mar 2022 18:24:08 -0700, Chaitanya Kulkarni wrote:
-> Don't print the message while disconnecting it is breaking blktests,
-> see below without this patch :-
+On Fri, Mar 18, 2022 at 01:30:14AM +0000, Colin Ian King wrote:
+> The left shift is followed by a re-assignment back to cc_css,
+> the assignment is redundant. Fix this by replacing the <<=
+> operator with << instead.
 > 
-> nvme/005 (reset local loopback target)                       [failed]
->     runtime  6.799s  ...  6.814s
->     --- tests/nvme/005.out	2021-08-29 01:09:20.287901783 -0700
->     +++ /mnt/data/blktests/results/nodev/nvme/005.out.bad	2022-03-17 18:11:16.198191553 -0700
->     @@ -1,2 +1,3 @@
->      Running nvme/005
->     +Disconnected nvme1
->      Test complete
-> 
-> [...]
+> Cleans up clang scan build warning:
+> drivers/nvme/target/core.c:1124:10: warning: Although the value
+> stored to 'cc_css' is used in the enclosing expression, the
+> value is never actually read from 'cc_css' [deadcode.DeadStores]
 
-Applied, thanks!
+Looks good.
 
-[1/1] fabrics: keep the backward compatibility
-      commit: aeca69dcb807071545cee31d195c16fc6da23168
-
-Best regards,
--- 
-Daniel Wagner <dwagner@suse.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
