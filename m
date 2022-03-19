@@ -4,91 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D701C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Mar 2022 06:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEF46C433F5
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Mar 2022 07:29:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MgHqQLktkSEmFbrCodRv6+T7FFFapV0MhghNqFLZ9Sg=; b=GMqsQVOITCmqm9+wrOrjt22L5y
-	zuB117aW9G8qI7MQfHMu3CezyvsXTvlJowDfsMaoYlgJq404FE6A2NMZ7kI2b07UvPxd0NV8BzDwx
-	hUoX0+4XsGFRg6JDsb97VMKlRWukMUJD39a2xQR0IlOZkGWsGiqry7XVBGrC3/mW9Vira1lnP8CJf
-	IgcmelJMQFC1YiRcrDa/9tiN3xM04yWn+DC670E9sRA4YczjydmOLFgx93mirolc+c+Y1Lw6+RsoV
-	IDXn6c5Sco70HpaDtvqv5IbrgUYupI4KsnG+EHQ1SaS3RRn/Z5ecpQ0lJ0jvHVy2Vj/r/DgmMSN7+
-	rSII2Dxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MtnQkQQa4FWyZNWbj9JSTFrxAsO52s5iMepRv7LRB74=; b=gcuBVBZUpbXm3FMolB2swkiZwm
+	S5sbOpfTax7y5uBJEztQfMWDGOjV7V42rFC4YICFzgiXY8xt/GUeBa9WojZ2M+8TtjoHapsM9heh2
+	5OwYN2SsdOxLlUFBG7pBVUTCFZ6XhtwDNpgWuF/pxRZ01XX4GfYST+tAG/YFD1RGPQSmF5N2ZIkBM
+	z+IWxvfZymvuvkJKkjoQEkdnJssBgbb+pb/ziWb+CV91l8Rp5+h+BL0gs+cMjPWPLCxiFNszdv22Y
+	Z/dQSa83WDtnsNjypxcBEIBXHMs8OtWsZC4w8md1Gxj7B/C/YKJQyBAPdgQIizkdID/kOwtrQ/EEd
+	x2iGdnZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nVSzL-003LR9-CZ; Sat, 19 Mar 2022 06:54:59 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1nVTWo-003Nxl-OJ; Sat, 19 Mar 2022 07:29:34 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nVSzE-003LQY-3g
- for linux-nvme@lists.infradead.org; Sat, 19 Mar 2022 06:54:55 +0000
+ id 1nVTWi-003Nwi-K8
+ for linux-nvme@lists.infradead.org; Sat, 19 Mar 2022 07:29:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647672887;
+ s=mimecast20190719; t=1647674966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MgHqQLktkSEmFbrCodRv6+T7FFFapV0MhghNqFLZ9Sg=;
- b=L3iV0HCXO6YCadvuEogrsMEC1BR37ZVMV9Tsz0rKWAmCHPshbNBCPlDQgFysZ9DybEWxS7
- 4p61tvMj2+Pirz3/hxxmZGayE6NCnBaj6gDp6PP8Wmi9tFftQNQhiH0wfsp7x3T/f1a9tc
- XhsVn3dFIQ6UqDo0ERBaXEddyt/277c=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MtnQkQQa4FWyZNWbj9JSTFrxAsO52s5iMepRv7LRB74=;
+ b=FYp3Z0L4VHfIydqlH+9ftOMW875G+VwagRWj9rKy9UA9uLj+kYeWMoZJ9VuUJiC7T6i+Ze
+ kEEiHaHs8KDD3N6MCXkGP+Bi4HnwxuZwiVz4K//nSFMbnpSjphR8uSc6YE0AFzOKqSPtUw
+ X5llshnb8h4RbTSbnsGuFQSJIDSJR7A=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-sz6hh2OFMy2MTP7ni0pDaw-1; Sat, 19 Mar 2022 02:54:46 -0400
-X-MC-Unique: sz6hh2OFMy2MTP7ni0pDaw-1
-Received: by mail-pg1-f199.google.com with SMTP id
- x5-20020a637c05000000b003817f40e072so4421504pgc.17
- for <linux-nvme@lists.infradead.org>; Fri, 18 Mar 2022 23:54:45 -0700 (PDT)
+ us-mta-511-O37mIFAWM3uv6jP5lw-v7g-1; Sat, 19 Mar 2022 03:29:23 -0400
+X-MC-Unique: O37mIFAWM3uv6jP5lw-v7g-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ t12-20020a17090a448c00b001b9cbac9c43so6119287pjg.2
+ for <linux-nvme@lists.infradead.org>; Sat, 19 Mar 2022 00:29:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MgHqQLktkSEmFbrCodRv6+T7FFFapV0MhghNqFLZ9Sg=;
- b=AtfvmV+tfZp7lSLOEuNjAaqfWNaLw95cd5W1TSO9DEC2VctLOfyRmOQp1XPoa+BLHa
- IdWFS4xDSDVy2w0mCuT63FzbSNeeSBz/hn13phEPtujl9SMmebvgKgXXSgEkSf4+4jxe
- xOWVcLqMTsqpgZrGRJGgBpokUz8mIxoCS3NyqYcyG4m0iq6JCEEPNSfNwPcmUjUBuSCD
- 1snuYx3O35S82q4wemsHgjsyJb3YHVybSbf0VikZnocKK4vA5VkLy/L5MZQmnAO34EwT
- YB3ixvmYZ8Wii9Der5QgrVM0Rj0fLQ58K6TeawdGe3jolVARnKXqzdJ2AbMX/kJKwlMR
- e9sw==
-X-Gm-Message-State: AOAM533Hj/Cyr0OW8L5M4UG2WmP4JClWru+1AbJML2d6hZea/cpGKVlG
- 2l4V2EXZrzPY1eTyHsl6+8ssDt1CMp4J/KZogjfSeQxQm5tLqbQ5plbeFQif4AnFpTMtH7Mf487
- cuFrVcOg6khttzgmSqQVRdMb6SJypsWa6D8pQ11aLGcg=
-X-Received: by 2002:a05:6a00:18a3:b0:4f7:260b:2954 with SMTP id
- x35-20020a056a0018a300b004f7260b2954mr13458290pfh.33.1647672883574; 
- Fri, 18 Mar 2022 23:54:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLTocqal7C0HeEq4UKjHTjc7bAEgXua/jBaj1r+Muuk6BV88dNnvU9E0tgxjD3oGJ8Qn/8gj17+AzbHvfpVl4=
-X-Received: by 2002:a05:6a00:18a3:b0:4f7:260b:2954 with SMTP id
- x35-20020a056a0018a300b004f7260b2954mr13458263pfh.33.1647672882978; Fri, 18
- Mar 2022 23:54:42 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=MtnQkQQa4FWyZNWbj9JSTFrxAsO52s5iMepRv7LRB74=;
+ b=Cdpu36qFsKVO8a1lLaMjvZNlNO2Dlezabw/NjTKWJlL9cB9cj7OyS5kAFsroSOyyhE
+ +ZTmDnRLAUJ/bB5fClzpTUfmmo0iZ2uoCHz4247646acZmgLiS1okQB8y/c5KoTyYsDk
+ +wD8bEtMdv18LyMv5jWukZ2v7CpX2/pkQ+G2UZ9gF4jl7/urMsB0yDqLn7GSec7yjwbe
+ D2AXyAc2r30VO0HpZkTvEpqOk0tmWfcWQbmjaAWMggfO5aLcydLc4p1zvlcRIPoOGfGX
+ r13vdyPafK0xj8QdVkkaSU1vxFrbVOaruE7BTP6tscXLHBxla69pBWrKNxv1yx2QCr6P
+ 7mXg==
+X-Gm-Message-State: AOAM531Lhn6vtxcEqLRqUsA6w4Xkol8vbvX3Lh9sTKwpGQL5jvCzrW67
+ FvOPZyecbGx8dA57UKeUr+LMoMNrv6+aEf+UxxjXP+CcmzElKJfetoJJRWFUwdK5RjV5ecfQKMw
+ klTRU5YyucgUdi1IWDGv0r9X/QhZie/EU75tcUPJDROU=
+X-Received: by 2002:a17:90b:33cc:b0:1c6:6012:5647 with SMTP id
+ lk12-20020a17090b33cc00b001c660125647mr17714282pjb.165.1647674962736; 
+ Sat, 19 Mar 2022 00:29:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZBiajyKjPniL5vHn8R/XlXmGH8c65aXx12XtgM9iLtUtANOiWcGdnCRQ0iTevi4kj7fYK59f8qsckAchB6F8=
+X-Received: by 2002:a17:90b:33cc:b0:1c6:6012:5647 with SMTP id
+ lk12-20020a17090b33cc00b001c660125647mr17714271pjb.165.1647674962480; Sat, 19
+ Mar 2022 00:29:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
- <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
- <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
- <bbb103d5-7622-dc88-07b8-1edc684d2f82@nvidia.com>
-In-Reply-To: <bbb103d5-7622-dc88-07b8-1edc684d2f82@nvidia.com>
+References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
+ <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
+ <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
+ <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
+ <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
+ <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
+ <CAHj4cs-yt1+Lufqgwira-YbB6PHtJ=2JA_Vora_CfarzSzoFrA@mail.gmail.com>
+ <4BB6D957-6C18-4E58-A622-0880007ECD9F@oracle.com>
+ <CAHj4cs_ta5WR7j0qvHyr1tSCR-U7=svY5j8Hctd7YUMNcGXsaA@mail.gmail.com>
+ <a2fabeb3-5f19-11b6-8c00-a479e3759182@grimberg.me>
+ <bdb675e4-1de8-400b-9d43-9f0c18147dc4@nvidia.com>
+ <CAHj4cs_C=pCz41hg1AnQcEZPBRK78WTUq8HE3n_28t56iN1FuA@mail.gmail.com>
+ <fe9842f1-e5c7-7569-426e-9029662bb4f3@nvidia.com>
+ <CAHj4cs8fNmj2Mn7Srs547ji51x7mQ8ZWKzFOuJaENe=vKpBJ-A@mail.gmail.com>
+ <6347079f-ec3b-c2e5-bb3b-43b539d6d3f1@nvidia.com>
+ <CAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5vwU0w@mail.gmail.com>
+ <6d8f4525-f663-18cc-8644-bfddd7d86bd0@grimberg.me>
+In-Reply-To: <6d8f4525-f663-18cc-8644-bfddd7d86bd0@grimberg.me>
 From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sat, 19 Mar 2022 14:54:31 +0800
-Message-ID: <CAHj4cs_L=QHh4XeOJGfibfSJhhijS6s7RBNuLd_XetKT3hfjWQ@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
- nvme-rdma testing
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: RDMA mailing list <linux-rdma@vger.kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- Nitzan Carmi <nitzanc@nvidia.com>, Israel Rukshin <israelr@nvidia.com>
+Date: Sat, 19 Mar 2022 15:29:10 +0800
+Message-ID: <CAHj4cs_ff3TGnD2QJSzx3QJQKc1HkF=TJkh_MokqGK3n8NWyQQ@mail.gmail.com>
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Max Gurtovoy <maxg@mellanox.com>, 
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+ RDMA mailing list <linux-rdma@vger.kernel.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220318_235452_536644_8A312AF2 
-X-CRM114-Status: GOOD (  22.17  )
+X-CRM114-CacheID: sfid-20220319_002928_767866_519BB13B 
+X-CRM114-Status: GOOD (  15.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,199 +112,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 10, 2022 at 7:52 PM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+On Wed, Mar 16, 2022 at 11:16 PM Sagi Grimberg <sagi@grimberg.me> wrote:
 >
 >
-> On 3/9/2022 12:59 AM, Yi Zhang wrote:
-> > On Tue, Mar 8, 2022 at 11:51 PM Max Gurtovoy <mgurtovoy@nvidia.com> wro=
-te:
 > >> Hi Yi Zhang,
 > >>
-> >> Please send the commands to repro.
+> >> thanks for testing the patches.
 > >>
-> >> I run the following with no success to repro:
-> >>
-> >> for i in `seq 100`; do echo $i &&  cat /sys/kernel/debug/kmemleak &&
-> >> echo clear > /sys/kernel/debug/kmemleak && nvme reset /dev/nvme2 &&
-> >> sleep 5 && echo scan > /sys/kernel/debug/kmemleak ; done
+> >> Can you provide more info on the time it took with both kernels ?
+> >
 > > Hi Max
-> > Sorry, I should add more details when I report it.
-> > The kmemleak observed when I was reproducing the "nvme reset" timeout
-> > issue we discussed before[1], and the cmd I used are[2]
+> > Sorry for the late response, here are the test results/dmesg on
+> > debug/non-debug kernel with your patch:
+> > debug kernel: timeout
+> > # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
+> > real    0m16.956s
+> > user    0m0.000s
+> > sys     0m0.237s
+> > # time nvme reset /dev/nvme0
+> > real    1m33.623s
+> > user    0m0.000s
+> > sys     0m0.024s
+> > # time nvme disconnect-all
+> > real    1m26.640s
+> > user    0m0.000s
+> > sys     0m9.969s
 > >
-> > [1]
-> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flor=
-e.kernel.org%2Flinux-nvme%2FCAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5v=
-wU0w%40mail.gmail.com%2FT%2F%23m5e6dcc434fc1925b18047c348226cfbc48ffbd14&am=
-p;data=3D04%7C01%7Cmgurtovoy%40nvidia.com%7C8cef8eb496e84d35f52308da0157541=
-9%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637823771831899724%7CUnknown=
-%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6=
-Mn0%3D%7C3000&amp;sdata=3DkjMvRAWlBe1ym3FDQO1rdZ9%2FwtKQpscvXRG48aTt3L0%3D&=
-amp;reserved=3D0
-> > [2]
-> > # nvme connect to target
-> > # nvme reset /dev/nvme0
-> > # nvme disconnect-all
-> > # sleep 10
-> > # echo scan > /sys/kernel/debug/kmemleak
-> > # sleep 60
-> > # cat /sys/kernel/debug/kmemleak
+> > host dmesg:
+> > https://pastebin.com/8T3Lqtkn
+> > target dmesg:
+> > https://pastebin.com/KpFP7xG2
 > >
-> Thanks I was able to repro it with the above commands.
->
-> Still not clear where is the leak is, but I do see some non-symmetric
-> code in the error flows that we need to fix. Plus the keep-alive timing
-> movement.
->
-> It will take some time for me to debug this.
->
-> Can you repro it with tcp transport as well ?
-
-Yes, nvme/tcp also can reproduce it, here is the log:
-
-unreferenced object 0xffff8881675f7000 (size 192):
-  comm "nvme", pid 3711, jiffies 4296033311 (age 2272.976s)
-  hex dump (first 32 bytes):
-    20 59 04 92 ff ff ff ff 00 00 da 13 81 88 ff ff   Y..............
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000adbc7c81>] kmem_cache_alloc_trace+0x10e/0x220
-    [<00000000c04d85be>] blk_iolatency_init+0x4e/0x380
-    [<00000000897ffdaf>] blkcg_init_queue+0x12e/0x610
-    [<000000002653e58d>] blk_alloc_queue+0x400/0x840
-    [<00000000fcb99f3c>] blk_mq_init_queue_data+0x6a/0x100
-    [<00000000486936b6>] nvme_tcp_setup_ctrl+0x70c/0xbe0 [nvme_tcp]
-    [<000000000bb29b26>] nvme_tcp_create_ctrl+0x953/0xbb4 [nvme_tcp]
-    [<00000000ca3d4e54>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-    [<0000000056b79a25>] vfs_write+0x17e/0x9a0
-    [<00000000a5af6c18>] ksys_write+0xf1/0x1c0
-    [<00000000c035c128>] do_syscall_64+0x3a/0x80
-    [<000000000e5ea863>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-unreferenced object 0xffff8881675f7600 (size 192):
-  comm "nvme", pid 3711, jiffies 4296033320 (age 2272.967s)
-  hex dump (first 32 bytes):
-    20 59 04 92 ff ff ff ff 00 00 22 92 81 88 ff ff   Y........".....
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000adbc7c81>] kmem_cache_alloc_trace+0x10e/0x220
-    [<00000000c04d85be>] blk_iolatency_init+0x4e/0x380
-    [<00000000897ffdaf>] blkcg_init_queue+0x12e/0x610
-    [<000000002653e58d>] blk_alloc_queue+0x400/0x840
-    [<00000000fcb99f3c>] blk_mq_init_queue_data+0x6a/0x100
-    [<000000006ca5f9f6>] nvme_tcp_setup_ctrl+0x772/0xbe0 [nvme_tcp]
-    [<000000000bb29b26>] nvme_tcp_create_ctrl+0x953/0xbb4 [nvme_tcp]
-    [<00000000ca3d4e54>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-    [<0000000056b79a25>] vfs_write+0x17e/0x9a0
-    [<00000000a5af6c18>] ksys_write+0xf1/0x1c0
-    [<00000000c035c128>] do_syscall_64+0x3a/0x80
-    [<000000000e5ea863>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-unreferenced object 0xffff8891fb6a3600 (size 192):
-  comm "nvme", pid 3711, jiffies 4296033511 (age 2272.776s)
-  hex dump (first 32 bytes):
-    20 59 04 92 ff ff ff ff 00 00 5c 1d 81 88 ff ff   Y........\.....
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000adbc7c81>] kmem_cache_alloc_trace+0x10e/0x220
-    [<00000000c04d85be>] blk_iolatency_init+0x4e/0x380
-    [<00000000897ffdaf>] blkcg_init_queue+0x12e/0x610
-    [<000000002653e58d>] blk_alloc_queue+0x400/0x840
-    [<00000000fcb99f3c>] blk_mq_init_queue_data+0x6a/0x100
-    [<000000004a3bf20e>] nvme_tcp_setup_ctrl.cold.57+0x868/0xa5d [nvme_tcp]
-    [<000000000bb29b26>] nvme_tcp_create_ctrl+0x953/0xbb4 [nvme_tcp]
-    [<00000000ca3d4e54>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-    [<0000000056b79a25>] vfs_write+0x17e/0x9a0
-    [<00000000a5af6c18>] ksys_write+0xf1/0x1c0
-    [<00000000c035c128>] do_syscall_64+0x3a/0x80
-    [<000000000e5ea863>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-
-
->
-> maybe add some debug prints to catch the exact flow it happens ?
->
-> >> -Max.
-> >>
-> >> On 2/21/2022 1:37 PM, Yi Zhang wrote:
-> >>> Hello
-> >>>
-> >>> Below kmemleak triggered when I do nvme connect/reset/disconnect
-> >>> operations on latest 5.17.0-rc5, pls check it.
-> >>>
-> >>> # cat /sys/kernel/debug/kmemleak
-> >>> unreferenced object 0xffff8883e398bc00 (size 192):
-> >>>     comm "nvme", pid 2632, jiffies 4295317772 (age 2951.476s)
-> >>>     hex dump (first 32 bytes):
-> >>>       80 50 84 a3 ff ff ff ff 70 d4 12 67 81 88 ff ff  .P......p..g..=
-..
-> >>>       01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ..............=
-..
-> >>>     backtrace:
-> >>>       [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
-> >>>       [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
-> >>>       [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
-> >>>       [<00000000aade682c>] blk_alloc_queue+0x400/0x840
-> >>>       [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
-> >>>       [<00000000cbff6d39>] nvme_rdma_setup_ctrl+0x4ca/0x15f0 [nvme_rd=
-ma]
-> >>>       [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rd=
-ma]
-> >>>       [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >>>       [<0000000031d8624b>] vfs_write+0x17e/0x9a0
-> >>>       [<00000000471d7945>] ksys_write+0xf1/0x1c0
-> >>>       [<00000000a963bc79>] do_syscall_64+0x3a/0x80
-> >>>       [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> >>> unreferenced object 0xffff8883e398a700 (size 192):
-> >>>     comm "nvme", pid 2632, jiffies 4295317782 (age 2951.466s)
-> >>>     hex dump (first 32 bytes):
-> >>>       80 50 84 a3 ff ff ff ff 60 c8 12 67 81 88 ff ff  .P......`..g..=
-..
-> >>>       01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ..............=
-..
-> >>>     backtrace:
-> >>>       [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
-> >>>       [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
-> >>>       [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
-> >>>       [<00000000aade682c>] blk_alloc_queue+0x400/0x840
-> >>>       [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
-> >>>       [<000000004f80b965>] nvme_rdma_setup_ctrl+0xf37/0x15f0 [nvme_rd=
-ma]
-> >>>       [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rd=
-ma]
-> >>>       [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >>>       [<0000000031d8624b>] vfs_write+0x17e/0x9a0
-> >>>       [<00000000471d7945>] ksys_write+0xf1/0x1c0
-> >>>       [<00000000a963bc79>] do_syscall_64+0x3a/0x80
-> >>>       [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> >>> unreferenced object 0xffff8894253d9d00 (size 192):
-> >>>     comm "nvme", pid 2632, jiffies 4295331915 (age 2937.333s)
-> >>>     hex dump (first 32 bytes):
-> >>>       80 50 84 a3 ff ff ff ff 80 e0 12 67 81 88 ff ff  .P.........g..=
-..
-> >>>       01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ..............=
-..
-> >>>     backtrace:
-> >>>       [<00000000ecf84f29>] kmem_cache_alloc_trace+0x10e/0x220
-> >>>       [<0000000099bbcbaa>] blk_iolatency_init+0x4e/0x380
-> >>>       [<00000000e7a59176>] blkcg_init_queue+0x12e/0x610
-> >>>       [<00000000aade682c>] blk_alloc_queue+0x400/0x840
-> >>>       [<000000007ed43824>] blk_mq_init_queue_data+0x6a/0x100
-> >>>       [<000000009f9abba5>] nvme_rdma_setup_ctrl.cold.70+0x5ee/0xb01 [=
-nvme_rdma]
-> >>>       [<00000000a309d26c>] nvme_rdma_create_ctrl+0x7e5/0xa9f [nvme_rd=
-ma]
-> >>>       [<000000007d8b5cca>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >>>       [<0000000031d8624b>] vfs_write+0x17e/0x9a0
-> >>>       [<00000000471d7945>] ksys_write+0xf1/0x1c0
-> >>>       [<00000000a963bc79>] do_syscall_64+0x3a/0x80
-> >>>       [<0000000005154fc2>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> >>>
-> >>>
-> >>>
+> > non-debug kernel: no timeout issue, but still 12s for reset, and 8s
+> > for disconnect
+> > host:
+> > # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
 > >
+> > real    0m4.579s
+> > user    0m0.000s
+> > sys     0m0.004s
+> > # time nvme reset /dev/nvme0
+> >
+> > real    0m12.778s
+> > user    0m0.000s
+> > sys     0m0.006s
+> > # time nvme reset /dev/nvme0
+> >
+> > real    0m12.793s
+> > user    0m0.000s
+> > sys     0m0.006s
+> > # time nvme reset /dev/nvme0
+> >
+> > real    0m12.808s
+> > user    0m0.000s
+> > sys     0m0.006s
+> > # time nvme disconnect-all
+> >
+> > real    0m8.348s
+> > user    0m0.000s
+> > sys     0m0.189s
+>
+> These are very long times for a non-debug kernel...
+> Max, do you see the root cause for this?
+>
+> Yi, does this happen with rxe/siw as well?
+
+Hi Sagi
+
+rxe/siw will take less than 1s
+with rdma_rxe
+# time nvme reset /dev/nvme0
+real 0m0.094s
+user 0m0.000s
+sys 0m0.006s
+
+with siw
+# time nvme reset /dev/nvme0
+real 0m0.097s
+user 0m0.000s
+sys 0m0.006s
+
+This is only reproducible with mlx IB card, as I mentioned before, the
+reset operation time changed from 3s to 12s after the below commit,
+could you check this commit?
+
+commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc
+Author: Max Gurtovoy <maxg@mellanox.com>
+Date:   Tue May 19 17:05:56 2020 +0300
+
+    nvme-rdma: add metadata/T10-PI support
+
+
 >
 
 
---=20
+-- 
 Best Regards,
   Yi Zhang
 
