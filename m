@@ -4,69 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEF46C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Mar 2022 07:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0ADFC433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Mar 2022 10:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MtnQkQQa4FWyZNWbj9JSTFrxAsO52s5iMepRv7LRB74=; b=gcuBVBZUpbXm3FMolB2swkiZwm
-	S5sbOpfTax7y5uBJEztQfMWDGOjV7V42rFC4YICFzgiXY8xt/GUeBa9WojZ2M+8TtjoHapsM9heh2
-	5OwYN2SsdOxLlUFBG7pBVUTCFZ6XhtwDNpgWuF/pxRZ01XX4GfYST+tAG/YFD1RGPQSmF5N2ZIkBM
-	z+IWxvfZymvuvkJKkjoQEkdnJssBgbb+pb/ziWb+CV91l8Rp5+h+BL0gs+cMjPWPLCxiFNszdv22Y
-	Z/dQSa83WDtnsNjypxcBEIBXHMs8OtWsZC4w8md1Gxj7B/C/YKJQyBAPdgQIizkdID/kOwtrQ/EEd
-	x2iGdnZA==;
+	bh=A8tUg64Mt/W3xrbyI4GnqjnjDiV52m53EQc6uGe1UBw=; b=V0afxZKsAn3ycW+Mx7H3rUyWwx
+	Og0H6gwHeAMpjR59L1mooLUHb+YuaUDlpuxU3kFFAhZ0wMZBd11gA7JWUWfEJ18HSu7tIzOEBdxDe
+	56Mm2bpeAgcHB0XJ7Lp5PNrCSRQGK3v7uDvOJipdUzQtGyfCGdHc4RSGIwNHoCQk7/72nP6JXWYVu
+	I/frpNaF2svGT3Zu3ddAq2xurmLdmoaXVoJspbOAYw8VmjHnUBszd+QusxsGAzgaoqLHpS/GUhAMH
+	+68lhj4K9onXp1iEV6A5zoyse0nkGPqvEXdvVgFMGd7GWop9go0OumegQtxHC+k9AiCrwgnxDyfqV
+	WrJjpJEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nVTWo-003Nxl-OJ; Sat, 19 Mar 2022 07:29:34 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nVt9V-0055Q5-Rd; Sun, 20 Mar 2022 10:51:13 +0000
+Received: from mail-bn8nam12on2062e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::62e]
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nVTWi-003Nwi-K8
- for linux-nvme@lists.infradead.org; Sat, 19 Mar 2022 07:29:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647674966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MtnQkQQa4FWyZNWbj9JSTFrxAsO52s5iMepRv7LRB74=;
- b=FYp3Z0L4VHfIydqlH+9ftOMW875G+VwagRWj9rKy9UA9uLj+kYeWMoZJ9VuUJiC7T6i+Ze
- kEEiHaHs8KDD3N6MCXkGP+Bi4HnwxuZwiVz4K//nSFMbnpSjphR8uSc6YE0AFzOKqSPtUw
- X5llshnb8h4RbTSbnsGuFQSJIDSJR7A=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-O37mIFAWM3uv6jP5lw-v7g-1; Sat, 19 Mar 2022 03:29:23 -0400
-X-MC-Unique: O37mIFAWM3uv6jP5lw-v7g-1
-Received: by mail-pj1-f71.google.com with SMTP id
- t12-20020a17090a448c00b001b9cbac9c43so6119287pjg.2
- for <linux-nvme@lists.infradead.org>; Sat, 19 Mar 2022 00:29:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MtnQkQQa4FWyZNWbj9JSTFrxAsO52s5iMepRv7LRB74=;
- b=Cdpu36qFsKVO8a1lLaMjvZNlNO2Dlezabw/NjTKWJlL9cB9cj7OyS5kAFsroSOyyhE
- +ZTmDnRLAUJ/bB5fClzpTUfmmo0iZ2uoCHz4247646acZmgLiS1okQB8y/c5KoTyYsDk
- +wD8bEtMdv18LyMv5jWukZ2v7CpX2/pkQ+G2UZ9gF4jl7/urMsB0yDqLn7GSec7yjwbe
- D2AXyAc2r30VO0HpZkTvEpqOk0tmWfcWQbmjaAWMggfO5aLcydLc4p1zvlcRIPoOGfGX
- r13vdyPafK0xj8QdVkkaSU1vxFrbVOaruE7BTP6tscXLHBxla69pBWrKNxv1yx2QCr6P
- 7mXg==
-X-Gm-Message-State: AOAM531Lhn6vtxcEqLRqUsA6w4Xkol8vbvX3Lh9sTKwpGQL5jvCzrW67
- FvOPZyecbGx8dA57UKeUr+LMoMNrv6+aEf+UxxjXP+CcmzElKJfetoJJRWFUwdK5RjV5ecfQKMw
- klTRU5YyucgUdi1IWDGv0r9X/QhZie/EU75tcUPJDROU=
-X-Received: by 2002:a17:90b:33cc:b0:1c6:6012:5647 with SMTP id
- lk12-20020a17090b33cc00b001c660125647mr17714282pjb.165.1647674962736; 
- Sat, 19 Mar 2022 00:29:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZBiajyKjPniL5vHn8R/XlXmGH8c65aXx12XtgM9iLtUtANOiWcGdnCRQ0iTevi4kj7fYK59f8qsckAchB6F8=
-X-Received: by 2002:a17:90b:33cc:b0:1c6:6012:5647 with SMTP id
- lk12-20020a17090b33cc00b001c660125647mr17714271pjb.165.1647674962480; Sat, 19
- Mar 2022 00:29:22 -0700 (PDT)
-MIME-Version: 1.0
+ id 1nVt9N-0055Ou-SI
+ for linux-nvme@lists.infradead.org; Sun, 20 Mar 2022 10:51:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F0lOr5j3jBJ2qcIDnW1LZdJ9+aPDDdIv9xPm0VejT8PvHFHqeH05bWCrLqASaMh+owBOsNqh9U0ARtBushso1f7OtraDaQdElxM8lIXhhFwqy7u5u+wOXFq2oIESQvgKNbMmxZC1iJ9prD7p+cIh6K+w4/OiOA5r4v5B/XDDVmwVlKDiP3K9lnzGhmvvKKeJKKsAgR3d29cTW0c0ND2e6r7cDg+vv6hFxvV5L6MlSRL/kzGISVNNj9KKA4k0xve7yZ/8eODbbQMTMq6NG7QLYjRjDO2lLomXQ/U8CtCTlYKVB3+hCsDjeiKS3NQhu+WXxkm1xwMR4y4GuGekP6+Wsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A8tUg64Mt/W3xrbyI4GnqjnjDiV52m53EQc6uGe1UBw=;
+ b=RGsAiDqIjjO947cuGnTjaqrXna39uQebj6paVY5DyvxwcmFNlYNe5h6Kubb56Rr9crDAS/fPdCgjw7oTlksExJHAMZdxBIfVOzhd7B+tOqmkM74Uu1NfauPGufCIBgOyz3S8QzVkcQRVENfvCkEk4800YItxg4VUSVH6rDVXhi9gah9rbKaKq8okGfi+zCZRQZ85/93TYRmBNd4ytMeUN88Xaxr3MSKw0iL6EHUx3kHo9/kmEwrcRAD2iywRs9GRKatQR2fHt8gBLlg/IQXCjC/UE6u6KSSw7E8ejItl2SxEEJam1zSY+99bwpOhvosnUM0nU904NIbevooPmf7WZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A8tUg64Mt/W3xrbyI4GnqjnjDiV52m53EQc6uGe1UBw=;
+ b=iVE1cg+wpdnVELaDXTxscDxJ22eM2SmYDiURr7ABx/gFPNqgRK8PKXZYcZki8vnYmpxOQjpbIRDahOeAfbF5MsedcrrxFSWDrkklJSGm2Y2nrhZXwU0U2mXVsSg8639vx8cl4b/JgKeSwCXm17yOeLgrVm+UDL+R4hdHbGN2VOEc+HCfKW2X2VqeZ20GdNvDjNq1Kx1xjNrFK8TAV+kqiYcQlj5z/dW7Hgen28dnJRsmIPf8l1+a3Kg+87fwysHepbpxDdCGh+oUeNePldOOvHvqu6As9d6jXHMK2N33aTskaP7d/RB7j5y7/Ncuc9t6Dk7YXwt4mWQ62uuHemAg4g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by BN8PR12MB3617.namprd12.prod.outlook.com (2603:10b6:408:47::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Sun, 20 Mar
+ 2022 10:50:58 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::f037:e2a1:f108:125a]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::f037:e2a1:f108:125a%7]) with mapi id 15.20.5081.018; Sun, 20 Mar 2022
+ 10:50:58 +0000
+Message-ID: <3d3f7b64-1c74-d41c-4c60-055e9fa79080@nvidia.com>
+Date: Sun, 20 Mar 2022 12:50:50 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
+Content-Language: en-US
+To: Yi Zhang <yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Max Gurtovoy <maxg@mellanox.com>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ RDMA mailing list <linux-rdma@vger.kernel.org>
 References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
- <3292547e-2453-0320-c2e7-e17dbc20bbdd@nvidia.com>
- <CAHj4cs9QuANriWeLrhDvkahnNzHp-4WNFoxtWi2qGH9V0L3+Rw@mail.gmail.com>
  <fcad6dac-6d40-98d7-93e2-bfa307e8e101@nvidia.com>
  <CAHj4cs_WGP9q10d9GSzKQZi3uZCF+S8qW1sirWZWkkHuepgYgQ@mail.gmail.com>
  <2D31D2FB-BC4B-476A-9717-C02E84542DFA@oracle.com>
@@ -81,23 +78,75 @@ References: <CAHj4cs8cT23z+h2i+g6o3OQqEhWnHS88JO4jNoQo0Nww-sdkYg@mail.gmail.com>
  <6347079f-ec3b-c2e5-bb3b-43b539d6d3f1@nvidia.com>
  <CAHj4cs_ir917u7Up5PBfwWpZtnVLey69pXXNjFNAjbqQ5vwU0w@mail.gmail.com>
  <6d8f4525-f663-18cc-8644-bfddd7d86bd0@grimberg.me>
-In-Reply-To: <6d8f4525-f663-18cc-8644-bfddd7d86bd0@grimberg.me>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sat, 19 Mar 2022 15:29:10 +0800
-Message-ID: <CAHj4cs_ff3TGnD2QJSzx3QJQKc1HkF=TJkh_MokqGK3n8NWyQQ@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: reset_controller need more than 1min
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Max Gurtovoy <maxg@mellanox.com>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
- RDMA mailing list <linux-rdma@vger.kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+ <CAHj4cs_ff3TGnD2QJSzx3QJQKc1HkF=TJkh_MokqGK3n8NWyQQ@mail.gmail.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <CAHj4cs_ff3TGnD2QJSzx3QJQKc1HkF=TJkh_MokqGK3n8NWyQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS8PR04CA0156.eurprd04.prod.outlook.com
+ (2603:10a6:20b:331::11) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6e9904c2-c46e-4846-f033-08da0a5f841e
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3617:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB3617C07AE4C19D04DE83A207DE159@BN8PR12MB3617.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 28V68hYtthNjvNppGhb4qP8wpiRH3JtDHla2ACS83bAfju507R+L1j4LeP3QNXNw4HdnpXjiuxqjHDVKRwOpc//yfHyVcgPHAWect78Joqqf6tqrggzIgTP4ywMPbcfY4bboNYS2KcgQosv9QnicITWoT9WYJq5tIFcl754CNz9MU5HXSvz/2WeCDpXOWl+7OLPN51jLCdc3Crf9V9WLWRglDlu81DfAPwpBTtXz2dA0mq1mKfc+UBDYb3pLCTsrPvDG1/zpjdIwEHbVoILeQF36ktbo0KOOYrqNSbO44AI0mVidWBcej3k/hFSO4jgSTyQ23JT7HKosAJR8U+lcAxwfYBdsPysSDjk/dRv44NfshGEvD7U5Vno6U4L/DYgRxo1T4o89dtdpGmvQ+SI7wmNrSM23v97GXW0Jqhs6FlskwwZZ+6vzFrSWs5aUdPipmZpuY1ZdrWAOCKIbnN67QJe8j/ggmMkrgrUpwgaikB8ADRApMZquWoYL52kyQJoJ9D6vj4uEIRNmuPE0tNG2sbz23zxZaJMrcqJyFz8FY8PSG8JRwovaAgQZ2TzSbWDjwXsBt0+Mzc2PkUtnsecuBhRB7GcjI6UZQ1Ebc/Kl6ZU3QixJlVqxZ9VjfTBfN+noE8n+Seuj7jKa2luJ8MT+eqqD3M5/3JV2lUXpHfKtzzItNxA6ry/FwQj+9yVQFhXscVgJSbd+HHJYSePJNQG4MCjfpDK9oHJKIC7xivcxjgPi7nToZIgI0Ams/He/r6h335G1bZns2dxz3mIulB1kS5dpD9zfNRNTdqiUvUHT4QnvBLSxfpr08V0s/qAuncCY3CDLw+BDk6ZFBqk4GOWC5UhPIsQ0y7jE1HLaB9NjaI8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5040.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(186003)(26005)(31686004)(8676002)(110136005)(66476007)(66556008)(4326008)(66946007)(966005)(6486002)(54906003)(316002)(36756003)(86362001)(6666004)(2906002)(6512007)(2616005)(45080400002)(8936002)(31696002)(38100700002)(5660300002)(6506007)(53546011)(508600001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bitZQ3JFcHdJcVdIOXhlRkJKS2FuZGkvYkU0OUVtUE9QVlVPa1QreEcwSXht?=
+ =?utf-8?B?RGRJSVRIQzF5bEFPYVRxNHV5Wnc2Y1gxUUNuUlhXRTdTejZzVzJ1dWVITi81?=
+ =?utf-8?B?NWxNY1hPRGdYY1QxUWF0ZGVXMkNPMm5CZ3UvbHFkSnZzY3AyT2p1aFEvZzV4?=
+ =?utf-8?B?aHlmT3R0MG1vTUhOY21iNTdvMkhnTXVadjVwQ2tXK3hVYmEzb211ay9hOWc0?=
+ =?utf-8?B?MHUzSlE3L1ZlMmNBR3Y5cytDRzdid0ljTzRnVVNEdjRlM1FKc2JaZWtLM1Av?=
+ =?utf-8?B?cHNIRWZ6cFZ2MkEvVzNNdi9adGtKY2dHWEdJNy9DRXp6MGNOR0wzUnBsQ2NU?=
+ =?utf-8?B?NktFbzNWZDJsMnZUZThGcEFoRHJQNkk1Wk42TExGcklWRUZHRlJwVitHUkx1?=
+ =?utf-8?B?K0l5b0VaVVVXdGZMM2xFVzc1VTFaRCs4cTBzZU4zZjZpTHY2cHR4clpDZmhH?=
+ =?utf-8?B?VVNSUjBCL2JzeCswazVqZUhodHlLbERnU01FZThLK3ZEYmphdllTclRPeHRM?=
+ =?utf-8?B?ZElHTmJUVWREREpjTXlRM3BaVDJOVWxwMG5neThnZURBOGNocVdMUHV5SmZ6?=
+ =?utf-8?B?TzNKZlNoSXJpSU1US0NLNVA0NXNxQXpML0tvam1KRTVyL3dEUGd6UUVySEpx?=
+ =?utf-8?B?NVNTQThCQmFlblAzTElGeWRBR3JlWUtYbjJDZ1V5RlkvWFh3VGIxOWkreS9B?=
+ =?utf-8?B?MEQ1QmRhWGYzcGo5cnJxSHJURWMwY29LNXluWDdpZEorOW5SREV5clhKTlcw?=
+ =?utf-8?B?YTYzaVZvcDZQYi82b3pUdDdDckFmdmdwbTY3aDB4MG5MakhqZ0hMdEtQZFZ5?=
+ =?utf-8?B?QUxtR29tS09ybmsvTzNnWEovSTZSdnN2NGp1SGtNbDJUdWx4QUora1Y3Wldv?=
+ =?utf-8?B?RE9yOVdZd0FsM2wyWWQwUkV0WERDeWNrRWtYNGRLSlNxSmJneURnbElSU0Vq?=
+ =?utf-8?B?L0JPS0ZhcmEwZzRiT1dVek01ZUFkRzR1a0Y5UEpwOGlHdnIxRS9FVlZjdWJE?=
+ =?utf-8?B?V01NcW1UcUwzbG44ZDNyZmFyRlA3ZGoxZUU4cVhiYW5YSWtFcjdWTGFSb3NJ?=
+ =?utf-8?B?UkovczNaNkROZEIrZkVDL05iU1NUUmVtTjFRazhoVk1TcUFrL0tGWmxxZ1Bk?=
+ =?utf-8?B?dFZrc1YvMUhNbkF3QVFtUzl4RlpMOXZ4enJFTWlFNk9iT1RjK2VPdFRza3ZL?=
+ =?utf-8?B?Z21SenU1bUNQKzgzUi9CU3lObXV4SE5aU1oyVWRNMWNjU1llMUFNdmM2aG9T?=
+ =?utf-8?B?d0tOR3A5V2RIVDlLQlNGV1cvL3FRbGxSZmFlVW1mV1MySTN4OGRRUjZiSG9i?=
+ =?utf-8?B?UXZFc0RrUXZzUEI5L2srUnNWZ3NCcGZVa2lvUHhNWGNtSGZTVzljamViRU1T?=
+ =?utf-8?B?K0hLNEthakJYQkhNNmdadzdydjFvTUdiN0FuWFljRi9tT3p0Z1BUYUdsWnNq?=
+ =?utf-8?B?K3B6VVlkb3lCMU9xUkhnazc4QXcvTWRxdWFHMStUTHZhc0t4VjhGeUNaUU56?=
+ =?utf-8?B?aHp2b01aalp6YjZZbmR4OTRlbFRENXpMUnJUMnpXYU9ucklJM00zMlJ6YkFR?=
+ =?utf-8?B?cDZPZXBIMGhidEFEWm1LUlV2TXI0Vm5QMU5JTUNWL3YrdkYwVUg4aU0xN3dI?=
+ =?utf-8?B?MXVrQy80RlZVMFUxbks1UmVwck9mMGxTNEs1b0pCcW9POWRlRHBZeVhQcGRq?=
+ =?utf-8?B?M2Q3alBXQnlXM2hGYnN2bU5iMk1aUmVoTXpRdHkxYjhhNUdSK3VuN3FidzFV?=
+ =?utf-8?B?elFvWTNiYzhzS3pMeWM3M3FDWm1pZVVMcnd6Q21hSTNJaEV5VTBjMUE1ZW9F?=
+ =?utf-8?B?TWEwWHB5TDhuNmRHelA3YUdMNGxmd3RoRTZRZXAzVTdPOW1LdFdRQW9xQWN4?=
+ =?utf-8?B?ZjAwM3M0cHBvYWgzL2xJRnBkZUpGSDRzcGdqZCtnZ2Y2c2UwSkVVUGpRNkh5?=
+ =?utf-8?B?d2o3a3pxTG5WV3dIWjdIeTZTUXRNUTNXWjNHSUc1L1ZJcXVkSGpsOTVDd2dN?=
+ =?utf-8?B?VUI3d0RYMXNRPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e9904c2-c46e-4846-f033-08da0a5f841e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2022 10:50:58.7230 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xRDIdAcK5oxpGA4vfJibSLxYklWrPBuMFKCXJrqlu5RV4O7Jp04nr8I5et4e2dh4knz3clwyDzbn9xTetaep4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3617
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220319_002928_767866_519BB13B 
-X-CRM114-Status: GOOD (  15.42  )
+X-CRM114-CacheID: sfid-20220320_035106_160688_88516144 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,102 +161,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 16, 2022 at 11:16 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+
+On 3/19/2022 9:29 AM, Yi Zhang wrote:
+> On Wed, Mar 16, 2022 at 11:16 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+>>
+>>>> Hi Yi Zhang,
+>>>>
+>>>> thanks for testing the patches.
+>>>>
+>>>> Can you provide more info on the time it took with both kernels ?
+>>> Hi Max
+>>> Sorry for the late response, here are the test results/dmesg on
+>>> debug/non-debug kernel with your patch:
+>>> debug kernel: timeout
+>>> # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
+>>> real    0m16.956s
+>>> user    0m0.000s
+>>> sys     0m0.237s
+>>> # time nvme reset /dev/nvme0
+>>> real    1m33.623s
+>>> user    0m0.000s
+>>> sys     0m0.024s
+>>> # time nvme disconnect-all
+>>> real    1m26.640s
+>>> user    0m0.000s
+>>> sys     0m9.969s
+>>>
+>>> host dmesg:
+>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpastebin.com%2F8T3Lqtkn&amp;data=04%7C01%7Cmgurtovoy%40nvidia.com%7Cc89cc47d8acf4ef3256408da097a3305%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637832717692265478%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=qtZ8E6cvHlSu8LbUkBa0ehhguyQRfP%2B%2BC8BEonDNj9Y%3D&amp;reserved=0
+>>> target dmesg:
+>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpastebin.com%2FKpFP7xG2&amp;data=04%7C01%7Cmgurtovoy%40nvidia.com%7Cc89cc47d8acf4ef3256408da097a3305%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637832717692265478%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=DerGWqQmWm9C30FFGbb5AcU%2B%2BrBErKClXzFlqSJT7jw%3D&amp;reserved=0
+>>>
+>>> non-debug kernel: no timeout issue, but still 12s for reset, and 8s
+>>> for disconnect
+>>> host:
+>>> # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
+>>>
+>>> real    0m4.579s
+>>> user    0m0.000s
+>>> sys     0m0.004s
+>>> # time nvme reset /dev/nvme0
+>>>
+>>> real    0m12.778s
+>>> user    0m0.000s
+>>> sys     0m0.006s
+>>> # time nvme reset /dev/nvme0
+>>>
+>>> real    0m12.793s
+>>> user    0m0.000s
+>>> sys     0m0.006s
+>>> # time nvme reset /dev/nvme0
+>>>
+>>> real    0m12.808s
+>>> user    0m0.000s
+>>> sys     0m0.006s
+>>> # time nvme disconnect-all
+>>>
+>>> real    0m8.348s
+>>> user    0m0.000s
+>>> sys     0m0.189s
+>> These are very long times for a non-debug kernel...
+>> Max, do you see the root cause for this?
+>>
+>> Yi, does this happen with rxe/siw as well?
+> Hi Sagi
 >
+> rxe/siw will take less than 1s
+> with rdma_rxe
+> # time nvme reset /dev/nvme0
+> real 0m0.094s
+> user 0m0.000s
+> sys 0m0.006s
 >
-> >> Hi Yi Zhang,
-> >>
-> >> thanks for testing the patches.
-> >>
-> >> Can you provide more info on the time it took with both kernels ?
-> >
-> > Hi Max
-> > Sorry for the late response, here are the test results/dmesg on
-> > debug/non-debug kernel with your patch:
-> > debug kernel: timeout
-> > # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
-> > real    0m16.956s
-> > user    0m0.000s
-> > sys     0m0.237s
-> > # time nvme reset /dev/nvme0
-> > real    1m33.623s
-> > user    0m0.000s
-> > sys     0m0.024s
-> > # time nvme disconnect-all
-> > real    1m26.640s
-> > user    0m0.000s
-> > sys     0m9.969s
-> >
-> > host dmesg:
-> > https://pastebin.com/8T3Lqtkn
-> > target dmesg:
-> > https://pastebin.com/KpFP7xG2
-> >
-> > non-debug kernel: no timeout issue, but still 12s for reset, and 8s
-> > for disconnect
-> > host:
-> > # time nvme connect -t rdma -a 172.31.0.202 -s 4420 -n testnqn
-> >
-> > real    0m4.579s
-> > user    0m0.000s
-> > sys     0m0.004s
-> > # time nvme reset /dev/nvme0
-> >
-> > real    0m12.778s
-> > user    0m0.000s
-> > sys     0m0.006s
-> > # time nvme reset /dev/nvme0
-> >
-> > real    0m12.793s
-> > user    0m0.000s
-> > sys     0m0.006s
-> > # time nvme reset /dev/nvme0
-> >
-> > real    0m12.808s
-> > user    0m0.000s
-> > sys     0m0.006s
-> > # time nvme disconnect-all
-> >
-> > real    0m8.348s
-> > user    0m0.000s
-> > sys     0m0.189s
+> with siw
+> # time nvme reset /dev/nvme0
+> real 0m0.097s
+> user 0m0.000s
+> sys 0m0.006s
 >
-> These are very long times for a non-debug kernel...
-> Max, do you see the root cause for this?
+> This is only reproducible with mlx IB card, as I mentioned before, the
+> reset operation time changed from 3s to 12s after the below commit,
+> could you check this commit?
 >
-> Yi, does this happen with rxe/siw as well?
+> commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc
+> Author: Max Gurtovoy <maxg@mellanox.com>
+> Date:   Tue May 19 17:05:56 2020 +0300
+>
+>      nvme-rdma: add metadata/T10-PI support
+>
+I couldn't repro these long reset times.
 
-Hi Sagi
+Nevertheless, the above commit added T10-PI offloads.
 
-rxe/siw will take less than 1s
-with rdma_rxe
-# time nvme reset /dev/nvme0
-real 0m0.094s
-user 0m0.000s
-sys 0m0.006s
+In this commit, for supported devices we create extra resources in HW 
+(more memory keys per task).
 
-with siw
-# time nvme reset /dev/nvme0
-real 0m0.097s
-user 0m0.000s
-sys 0m0.006s
+I suggested doing this configuration as part of the "nvme connect" 
+command and save this resource allocation by default but during the 
+review I was asked to make it the default behavior.
 
-This is only reproducible with mlx IB card, as I mentioned before, the
-reset operation time changed from 3s to 12s after the below commit,
-could you check this commit?
+Sagi/Christoph,
 
-commit 5ec5d3bddc6b912b7de9e3eb6c1f2397faeca2bc
-Author: Max Gurtovoy <maxg@mellanox.com>
-Date:   Tue May 19 17:05:56 2020 +0300
-
-    nvme-rdma: add metadata/T10-PI support
-
+WDYT ? should we reconsider the "nvme connect --with_metadata" option ?
 
 >
-
-
--- 
-Best Regards,
-  Yi Zhang
-
 
