@@ -4,91 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EE80C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Mar 2022 02:07:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A126BC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Mar 2022 07:17:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ANFYFmuS8Tz+3eqS8fBUv9YrTs9SzhgRuqQIuCO0FkY=; b=dn0dgPnKlVMzSwIY57pmo0t27W
-	Y/Q2lYDe65T5boe3B/9ELHppMg60Or7Uud8WGwYwL+flWi6OozJVsGbyQa1AZPsWg8/cbbL2PhbFE
-	0NJY3DCz+KgA0ULG2slmYyeHgh9vjLRxhWy8kkmKbY/AKLm54pZACmQn8T6zxoxTgJZuFikO7pltx
-	GAQloBRxUy9riSIGnC++8Ai/mO5OJom3qcVdChwwUIRNCSK1/L6VMaU2tnFOOcjRbrTfB7q4AzbCr
-	z9qz3hoFNQPedT+bdPdHWB66ndAkDiB7hfE9a1cukRgtg/hI559Ny27CPIW2+QQMgFS59bBjsE9zv
-	v/Vu3/kg==;
+	bh=u1HAmlvZEqAYf19qNwDPZQe5/exj9MDV6Ur4PkiESRI=; b=0PRYn75WcQSKRxl72e7g3h+S18
+	8rcaqcfVQAAU37903XXPnqQmhtFOrgpMeqpV/dN13x3/1gfRkU8D+q2rDullFxOspvsRSpB9LB9hY
+	kbbkd6ulFPJIH/yzdFALXz8LyvFv6yI30Wv29iX9CGjAf4Nt25oMeNmOgcXAnQBrRKKnxe5lK7hRX
+	hGpefquwXAbdcg/WGUo8Ryi5Q8jmzw/DVurmtf5W4Xi+kSuncK0mnOthhINzUhzVMWFSfT+f2xrBu
+	xY95m4ygaWsZeYy1UfwQeNwGk7yZSoEbFcLEOm6BbWVDBz2thb4OeAbYwT6N+sSp7HYMD03rL2hZP
+	UolP9ttg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nW7S1-006ItP-3A; Mon, 21 Mar 2022 02:07:17 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nWCHt-006mXG-2I; Mon, 21 Mar 2022 07:17:09 +0000
+Received: from mail-bn8nam12on2061f.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::61f]
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nW7Rx-006Isq-AG
- for linux-nvme@lists.infradead.org; Mon, 21 Mar 2022 02:07:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647828430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ANFYFmuS8Tz+3eqS8fBUv9YrTs9SzhgRuqQIuCO0FkY=;
- b=VDa0E40Rch+jPYmtJMWE+XjMnh08cS6Aj8Ok8OM3C4Yczl/bwxB4psantUe3TspS3mlVAE
- 61QeVsRH95QplJHxCHz/q5K8gwdcos1ObSLEnRBhlyEsqPugb2iKmqfSQjWK4+EwMv4CXy
- FXFs8kNxYMk51jOJgP9rrqt533tASp0=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-443-XFZi8W5jOJWP9h7DNPmzlg-1; Sun, 20 Mar 2022 22:07:09 -0400
-X-MC-Unique: XFZi8W5jOJWP9h7DNPmzlg-1
-Received: by mail-pg1-f198.google.com with SMTP id
- z10-20020a634c0a000000b0036c5eb39076so6713374pga.18
- for <linux-nvme@lists.infradead.org>; Sun, 20 Mar 2022 19:07:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ANFYFmuS8Tz+3eqS8fBUv9YrTs9SzhgRuqQIuCO0FkY=;
- b=fbXqpFMxgeOjLK1bGF6n/xLfJkxFQFbEY1Po1/FofjQgFnlO0JAeozlZMaFWOKBt2N
- Ktbxr5pb9BgnwU9SvLFzTCxnT5En4RSd5bs22bz1KJUYbckTxfEsmqRT6HysTNH+S6Lh
- wpcb1VTg0cetlVLrTxOHxGsEz1IVilxukDn5N67nM565vDSJWbMODoLfZKf5pF0Qhru8
- PGsdGSw3obj6NEZRLVxnRNDnVicGtlr2g3S823evg6prQz8aNrW4g7lkhsrSLvGkkliE
- wU5FvgB3avMu3G6bOaja1p9x76p+c+QhhsJDFiZn9RjC0xwORWcC0FshL0lQCXYdKuAh
- Jn8w==
-X-Gm-Message-State: AOAM533piGKl5jHK7ZzhnAgaT3irS2L9KH2fSYMGd6n2jobMMoUP5AWe
- qwSDOrDVRmOeEnpimtsHXlclwzNEGLq/G4L+mYmSOV8tm9Rs1KuvDC3hCxhhYEvOyN4rb7zm+ye
- x8RMosoPXtYEr4PC03iPjidIW7EtZm556JG9OddhUxBc=
-X-Received: by 2002:a17:902:dacc:b0:151:c216:2772 with SMTP id
- q12-20020a170902dacc00b00151c2162772mr10503335plx.107.1647828428360; 
- Sun, 20 Mar 2022 19:07:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkhjAEU+UMEwJ7dYsZwFLT9b66aKKxjwImfm3T9DN+x36YxqYzWBc5VBaCbMrOqrcungbQisNKnQYo39GnRaA=
-X-Received: by 2002:a17:902:dacc:b0:151:c216:2772 with SMTP id
- q12-20020a170902dacc00b00151c2162772mr10503320plx.107.1647828428103; Sun, 20
- Mar 2022 19:07:08 -0700 (PDT)
+ id 1nWCHq-006mW3-M9
+ for linux-nvme@lists.infradead.org; Mon, 21 Mar 2022 07:17:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fBqf+EJK128Ox4vXBEQUv6mkbBhY2d4oQUoOY50J2vfjt/erstq2KWj74OAFGEs8vCzkmurkHHfFZRP3TEFyGcCnG4be90ubwsjxBN9+9EWcB4YLLndv4cEFBgnWu8JCmu4ZMgGHBzbkzGcXfEj6P3JyhEwylPfeZZ4EUAgXOpDwwayVSjakAEujNItpdohcPP5N3xkbf3dnSlmp/TDwk06HAwwxFZAuy8slArr7ybz5O1zughhY6EfWTzhv9RxK4+AFIM9ZG67FUWfr1ib1eq03MFwnp5MlIf5DQi3xARcMsAHYovobq12ZD8/ay6Kxw3sUPxOdJNblKp+eE/hVgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u1HAmlvZEqAYf19qNwDPZQe5/exj9MDV6Ur4PkiESRI=;
+ b=iXVLGjZj4xnKPM9ojF9qW24RhyZHLPl3vhrx3WNrWhRpqvDieZeM04+CJcSQxIMu1OPI64zAaa21bGNz/AwGxpMXZhsyjIC634VniDSHac2A9f5ND/eEs4Rb5ipymj8Ymz0qwejr/lT9EOUFWkPL/p5XpwU3OC5Civu7hYhT+vtzo8A9U0w0y6Onuqt02yZttGi2mfPEyLOUXK/dIfRPFqzLiTKwnpkoZ+CX3AAQcSSDPN85HtqNK/KQaw/0VStCDw3iuPqzjhzR28bJ+FGmQbfeKelU8agNGaJwZbRn0Ai0kQ45nMKG8J7+pqV82MEHB0ufpYzxhMCUGsFpBunnXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u1HAmlvZEqAYf19qNwDPZQe5/exj9MDV6Ur4PkiESRI=;
+ b=sDuDJ/YQXyBqqWMHKmPk+qsP4Qcec6NtP7dBN+DDoiB+fhdfpErx/p+mWzNEGYqVk4HwJhba0/2UyFS+4DjSc0LJXdOFXAyOOGT/Kh7+6n+t6mt6x1rebbCuK0ghVvDeCTFKQXSxLXlqdO541gKDQLMfctf6c9e0Jeu6Xh2PArSIibLDgAmc7Oq/6dgG2dznmZP1duETdTjIIAJb6BimBr7HR78Q9DdVH0n6cvQ1G+oBElexMQawund6VpQBwpw5bFWnu1qYGg+NKDRZamwo+m1s7Vo6p+moHAjZb5Wb8SnN51b4cr7stCdazzo+A/PMnP1IXXsV94PoBF5/eZ+vmg==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MWHPR12MB1725.namprd12.prod.outlook.com (2603:10b6:300:106::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.18; Mon, 21 Mar
+ 2022 07:17:02 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::204b:bbcb:d388:64a2]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::204b:bbcb:d388:64a2%4]) with mapi id 15.20.5081.023; Mon, 21 Mar 2022
+ 07:17:02 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+CC: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>, Sagi
+ Grimberg <sagi@grimberg.me>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "llvm@lists.linux.dev" <llvm@lists.linux.dev>
+Subject: Re: [PATCH] nvmet: remove redundant assignment after left shift
+Thread-Topic: [PATCH] nvmet: remove redundant assignment after left shift
+Thread-Index: AQHYOme6Koi6Bh5pvUi0R10GabR+9azJcoGA
+Date: Mon, 21 Mar 2022 07:17:02 +0000
+Message-ID: <2dc14dce-94cd-6ef6-bf6f-a06842d27fab@nvidia.com>
+References: <20220318013014.90698-1-colin.i.king@gmail.com>
+In-Reply-To: <20220318013014.90698-1-colin.i.king@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 563d901c-ca36-4eaf-eb2f-08da0b0acbca
+x-ms-traffictypediagnostic: MWHPR12MB1725:EE_
+x-microsoft-antispam-prvs: <MWHPR12MB172501E173FEDF790ECC8B36A3169@MWHPR12MB1725.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dfm7EWKmZ8ttj1CbKavVZzoliR6P3n1NVDB8Sk5ymtvWRbyendjL/k51/n0A5SNSNweIU3gj5+xvOOrdNKUZZ7OOBWBO4bvbcm1V+FMzonQ8s6TNVFYrBzfo4J8hW/Wi11GGcmm7S/BMVUOHnv0lAue8XMl/lmXPf1AOl9UvvU+oQhBCLHOfFhabQNYRbMpCbIrgGmcwEdSuW/wviXtlhoVbKG8X0HdUH8Ot9Hb5SwhSYj+DyDvfvRa/0I88JvBNgGRy2F0rMDd3HDOkQHRE4CLwzdDqbjrKgzf1xNszdWKTP70j6iCCWrNCScWW9vG928H2S97oUuG/cei00HqWvEBpHvFTUsxZ3sOp+4GALsHtpcentNDPR35fQVkThzbZLDezZB30oeeuOAFVdDrnij6+Q11CijpyqIbFTvaJRlEJjugUxpL8h34idwG/0Bwrk5BuE7J76JVguQu6IkeCDMoGhPYCC/ALB6uUJPWGRfj5/p6IC7yHU5S2rh9Nzy30eTMKDJQ2eDbHMEFb1qXc2N5vhSrSpeULmMw6bF2TJyHN/rV54vBvDFO45U70i7/ilZ5GnZVi0Zde165Dn8p6nAFsRKpNz6cYTVR2aPppSO5r+1h4qVZJc2xkg/Klcq3nB5jGeEV/ejskI2z1kDGZFRb1ZEJ2y8+GgOZjTOSbu5giu07nkR+FaAWv2K1NGpVcPXqWuZp3CQPbknEArXZAgY3mhqycckin8u+5RQv2bePG1GrGlMy4JtNWsFBQhGH6Nde1N/1Wf6b3wC2sv7FDow==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8936002)(4744005)(5660300002)(186003)(53546011)(6512007)(83380400001)(31686004)(36756003)(66446008)(66476007)(64756008)(66556008)(2906002)(66946007)(8676002)(91956017)(76116006)(4326008)(6506007)(86362001)(31696002)(122000001)(38070700005)(71200400001)(316002)(2616005)(508600001)(6486002)(6916009)(38100700002)(54906003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MUJpdUJQdG1tRE5IbWVKdlhuQ0xTMHE4Y2VzT0xPcjlaU3Y1VFBJQ281eXlJ?=
+ =?utf-8?B?UDA0Q0lJSlk1RWtXcXRsSTFiUDBmTExBcHdORE9ZTlBpaWpIY2N3amFxU1Av?=
+ =?utf-8?B?M0F2VXVoSzBiUUV4QVJGcndlQzhKN1d6SzltZ0hrM0szTnJJTzNhRERqOFRS?=
+ =?utf-8?B?SmtnVkFrWDJ0V2d5bmxhSElmbzBRaVJPM000YTVBbTZYT09laVBnMFljWEFo?=
+ =?utf-8?B?NWRIR3FSb1VJV2FFWXlkcGZrUlFVMW9GaEFVMU5BSE9Bd3BGZEhCRjAvUFVC?=
+ =?utf-8?B?UUdQVTJSWGw4WGdBdVVDSlFMOVJoR0xMZjdWKzlPRFlSUnFMTmN4Sk44aUdw?=
+ =?utf-8?B?eDlOcGpPb2VNaHZVYzA5YUZsOGp5NGs5K0VpRWZiTE5abjBVdG9LdnJFdlhY?=
+ =?utf-8?B?blVVODRrTVM2VkhhU0ZaeFNmL3NjTXAvWlZ1MFlqUWM3UDVSaDNyTTV1Nkhy?=
+ =?utf-8?B?WkpBYk1mUmJqU3YzMTlkZ1ZiU1FUZERLUUl3aDdCTzFmNjZUOWtjRWhRWmlU?=
+ =?utf-8?B?c3EyL3pEMy9QRGx5SUZIWGFLR2NVUkhpQ1lQYThrYzU4TGxUQnYybTkvZVUr?=
+ =?utf-8?B?bTdxNE5XZnFyaTNTL1VFeWpRVWd4cDVBekRMb2pGcFl6V3VDSDhaQlFPeVQz?=
+ =?utf-8?B?alY3YnVLVTJoWmx0RWUyQlRzeHpWRmFKTnVic0l3d1hWMXFMVWhUZnZOVUZ6?=
+ =?utf-8?B?NlFmY28yT0xBR3JhdS9lV1RzL1RGV1pKbVFXWGJBRHV3ZE54OWlqRjU1K2sr?=
+ =?utf-8?B?RTNvNkVjYmVRTERBNDBSZUt4Wnk5VktPTFc4NUR0QUErbWRlL09QTU13Zm1h?=
+ =?utf-8?B?UzNNeHo0eGFNYWdQM1dkMHhVYVY1QWkrSUJ3UFdpSGpqSkFsY2w4aGlmZFVz?=
+ =?utf-8?B?N3ZBTTlteGg5RHhiQ2ovRnNsTVp0NkRxSFBzR3lJaTFLckp1SXY1Zkl0QmpB?=
+ =?utf-8?B?WHRmVUFLUDhDL20zekxoYVVTdVJFNmJOdjNtRjZoUVlRZlJaMkEzVTJvQXln?=
+ =?utf-8?B?Y2RGakhkdEFnYy80ejhYMGpkQVNaR05qSStJMndZa0p2NkhTQnJZY1JLbHJm?=
+ =?utf-8?B?VWZFMU9zRzhEMUxLczhPc1dnWjFmSlo0OHIrZmtrOGNwYjJHUXlsOFVSUGtj?=
+ =?utf-8?B?WG4wWWsvaytuVWNtb2ptaXJjeUl2TVl2clZiQzdNYzVJdjBkTjk3dDkyZzlQ?=
+ =?utf-8?B?My9mS0dMZ1VMSVdybnBQeGtSMU5FZ0p1dk11anhmV2VTZVB5bDAxME9Oangz?=
+ =?utf-8?B?L2JTUHJBQXh0eTdDRTV2Qy9kY0NBaVFNUC8ydkFXTGx4Z0hlUk12SlJRWGVy?=
+ =?utf-8?B?ZjFWeEJyZTloY0VwNlJUSUlZbmkzSk1sQUl3MTVodEgxSDVhRnp0YlU2SWxW?=
+ =?utf-8?B?eXFISjhJNW0xNVBpODVUVGZ4OU1qMWhzT3VON3Z5M29HT1ZIY0lxbmdnM3NW?=
+ =?utf-8?B?ZlJPUFZHMTZLWjVSamIvUTllbk95d0ZQWGsvOWV0U3pSQTFVYnc3TTZUOGIz?=
+ =?utf-8?B?UVltejZQWmdXVjFqSEx0K3c0K0VLR3FlYzlFMUVhOCtxRTlLZDdSUUVDb0NM?=
+ =?utf-8?B?eWhaaytuTm5rd0N2RVdjeVozNkUyQzJlTzl2TUFlQjFkQnRKcDVsdm1hR3ZH?=
+ =?utf-8?B?bzBTaUliaTgvK2M4bVVESk0xUUtqTi83ZWVPRnl5Q3loMHc1U1p2R21wTzhr?=
+ =?utf-8?B?YUhlWG01R1hCdzZSNFlwUWtEaXh6M2IrajB5Z2k0ZHl2eWVQalZPblB0YkF3?=
+ =?utf-8?B?eFpxWUVQZXdDb0t2L1FQeVZUL0RPRGUwUE1pMWtJaWwyRTM1U0ZNQXBDNjZs?=
+ =?utf-8?B?SXpwd3NKcnFPc1JmVE1MNVV1Z0dIdVlHdzF6R08vSlB3alRROUpnZFlwM3d3?=
+ =?utf-8?B?QWpLb00wekhyY1d3ZnU0N2pmSUlkZHp4dWkyTjZheDZEUXdOSFBTdXF3ZFZO?=
+ =?utf-8?B?K2VxNmJvRmJ5STQ5ZlB6cm5tNHl6VmV6WTBYUTNmU25EdG1xU0JwQTRhWUJE?=
+ =?utf-8?B?WEt1Q2hnREQ5bzcrczBEeUxkRExKbVJwNXRoT25qSTRsZ1VoNDJ0UVZkUUVY?=
+ =?utf-8?Q?cmQpOL?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <812BFC05848F7241BC587FBD0A9F25CF@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
- <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
- <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
- <bbb103d5-7622-dc88-07b8-1edc684d2f82@nvidia.com>
- <CAHj4cs_L=QHh4XeOJGfibfSJhhijS6s7RBNuLd_XetKT3hfjWQ@mail.gmail.com>
- <9ba8bfae-2363-e331-83c7-317a9456da31@grimberg.me>
-In-Reply-To: <9ba8bfae-2363-e331-83c7-317a9456da31@grimberg.me>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Mon, 21 Mar 2022 10:06:56 +0800
-Message-ID: <CAHj4cs9cmOt=9++wuqJ1ehLPDJcaXJGyTKcHSjU-avWxr1CBrA@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
- nvme-rdma testing
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- Nitzan Carmi <nitzanc@nvidia.com>, Israel Rukshin <israelr@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 563d901c-ca36-4eaf-eb2f-08da0b0acbca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2022 07:17:02.2060 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1ynplhcH/Nm+XI7fFEpJKNsQO19kwagrrYq9x90IYYiCeaW9cNwd3j/Ti+I+l3SA5P5Hr0d8bkS6LAWHscSPnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1725
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220320_190713_552865_07169777 
-X-CRM114-Status: GOOD (  23.83  )
+X-CRM114-CacheID: sfid-20220321_001706_770207_5DA8CE5B 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,124 +152,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 20, 2022 at 9:00 PM Sagi Grimberg <sagi@grimberg.me> wrote:
->
->
-> >>> # nvme connect to target
-> >>> # nvme reset /dev/nvme0
-> >>> # nvme disconnect-all
-> >>> # sleep 10
-> >>> # echo scan > /sys/kernel/debug/kmemleak
-> >>> # sleep 60
-> >>> # cat /sys/kernel/debug/kmemleak
-> >>>
-> >> Thanks I was able to repro it with the above commands.
-> >>
-> >> Still not clear where is the leak is, but I do see some non-symmetric
-> >> code in the error flows that we need to fix. Plus the keep-alive timing
-> >> movement.
-> >>
-> >> It will take some time for me to debug this.
-> >>
-> >> Can you repro it with tcp transport as well ?
-> >
-> > Yes, nvme/tcp also can reproduce it, here is the log:
-> >
-> > unreferenced object 0xffff8881675f7000 (size 192):
-> >    comm "nvme", pid 3711, jiffies 4296033311 (age 2272.976s)
-> >    hex dump (first 32 bytes):
-> >      20 59 04 92 ff ff ff ff 00 00 da 13 81 88 ff ff   Y..............
-> >      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >    backtrace:
-> >      [<00000000adbc7c81>] kmem_cache_alloc_trace+0x10e/0x220
-> >      [<00000000c04d85be>] blk_iolatency_init+0x4e/0x380
-> >      [<00000000897ffdaf>] blkcg_init_queue+0x12e/0x610
-> >      [<000000002653e58d>] blk_alloc_queue+0x400/0x840
-> >      [<00000000fcb99f3c>] blk_mq_init_queue_data+0x6a/0x100
-> >      [<00000000486936b6>] nvme_tcp_setup_ctrl+0x70c/0xbe0 [nvme_tcp]
-> >      [<000000000bb29b26>] nvme_tcp_create_ctrl+0x953/0xbb4 [nvme_tcp]
-> >      [<00000000ca3d4e54>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >      [<0000000056b79a25>] vfs_write+0x17e/0x9a0
-> >      [<00000000a5af6c18>] ksys_write+0xf1/0x1c0
-> >      [<00000000c035c128>] do_syscall_64+0x3a/0x80
-> >      [<000000000e5ea863>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > unreferenced object 0xffff8881675f7600 (size 192):
-> >    comm "nvme", pid 3711, jiffies 4296033320 (age 2272.967s)
-> >    hex dump (first 32 bytes):
-> >      20 59 04 92 ff ff ff ff 00 00 22 92 81 88 ff ff   Y........".....
-> >      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >    backtrace:
-> >      [<00000000adbc7c81>] kmem_cache_alloc_trace+0x10e/0x220
-> >      [<00000000c04d85be>] blk_iolatency_init+0x4e/0x380
-> >      [<00000000897ffdaf>] blkcg_init_queue+0x12e/0x610
-> >      [<000000002653e58d>] blk_alloc_queue+0x400/0x840
-> >      [<00000000fcb99f3c>] blk_mq_init_queue_data+0x6a/0x100
-> >      [<000000006ca5f9f6>] nvme_tcp_setup_ctrl+0x772/0xbe0 [nvme_tcp]
-> >      [<000000000bb29b26>] nvme_tcp_create_ctrl+0x953/0xbb4 [nvme_tcp]
-> >      [<00000000ca3d4e54>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >      [<0000000056b79a25>] vfs_write+0x17e/0x9a0
-> >      [<00000000a5af6c18>] ksys_write+0xf1/0x1c0
-> >      [<00000000c035c128>] do_syscall_64+0x3a/0x80
-> >      [<000000000e5ea863>] entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > unreferenced object 0xffff8891fb6a3600 (size 192):
-> >    comm "nvme", pid 3711, jiffies 4296033511 (age 2272.776s)
-> >    hex dump (first 32 bytes):
-> >      20 59 04 92 ff ff ff ff 00 00 5c 1d 81 88 ff ff   Y........\.....
-> >      01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >    backtrace:
-> >      [<00000000adbc7c81>] kmem_cache_alloc_trace+0x10e/0x220
-> >      [<00000000c04d85be>] blk_iolatency_init+0x4e/0x380
-> >      [<00000000897ffdaf>] blkcg_init_queue+0x12e/0x610
-> >      [<000000002653e58d>] blk_alloc_queue+0x400/0x840
-> >      [<00000000fcb99f3c>] blk_mq_init_queue_data+0x6a/0x100
-> >      [<000000004a3bf20e>] nvme_tcp_setup_ctrl.cold.57+0x868/0xa5d [nvme_tcp]
-> >      [<000000000bb29b26>] nvme_tcp_create_ctrl+0x953/0xbb4 [nvme_tcp]
-> >      [<00000000ca3d4e54>] nvmf_dev_write+0x44e/0xa39 [nvme_fabrics]
-> >      [<0000000056b79a25>] vfs_write+0x17e/0x9a0
-> >      [<00000000a5af6c18>] ksys_write+0xf1/0x1c0
-> >      [<00000000c035c128>] do_syscall_64+0x3a/0x80
-> >      [<000000000e5ea863>] entry_SYSCALL_64_after_hwframe+0x44/0xae
->
-> Looks like there is some asymmetry on blk_iolatency. It is intialized
-> when allocating a request queue and exited when deleting a genhd. In
-> nvme we have request queues that will never have genhd that corresponds
-> to them (like the admin queue).
->
-> Does this patch eliminate the issue?
-
-Yes, the nvme/rdma nvme/tcp kmemleak fixed with the change.
-
-> --
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 94bf37f8e61d..6ccc02a41f25 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -323,6 +323,7 @@ void blk_cleanup_queue(struct request_queue *q)
->
->          blk_queue_flag_set(QUEUE_FLAG_DEAD, q);
->
-> +       rq_qos_exit(q);
->          blk_sync_queue(q);
->          if (queue_is_mq(q)) {
->                  blk_mq_cancel_work_sync(q);
-> diff --git a/block/genhd.c b/block/genhd.c
-> index 54f60ded2ee6..10ff0606c100 100644
-> --- a/block/genhd.c
-> +++ b/block/genhd.c
-> @@ -626,7 +626,6 @@ void del_gendisk(struct gendisk *disk)
->
->          blk_mq_freeze_queue_wait(q);
->
-> -       rq_qos_exit(q);
->          blk_sync_queue(q);
->          blk_flush_integrity();
->          /*
-> --
->
-
-
--- 
-Best Regards,
-  Yi Zhang
-
+T24gMy8xNy8yMiAxODozMCwgQ29saW4gSWFuIEtpbmcgd3JvdGU6DQo+IFRoZSBsZWZ0IHNoaWZ0
+IGlzIGZvbGxvd2VkIGJ5IGEgcmUtYXNzaWdubWVudCBiYWNrIHRvIGNjX2NzcywNCj4gdGhlIGFz
+c2lnbm1lbnQgaXMgcmVkdW5kYW50LiBGaXggdGhpcyBieSByZXBsYWNpbmcgdGhlIDw8PQ0KPiBv
+cGVyYXRvciB3aXRoIDw8IGluc3RlYWQuDQo+IA0KPiBDbGVhbnMgdXAgY2xhbmcgc2NhbiBidWls
+ZCB3YXJuaW5nOg0KPiBkcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYzoxMTI0OjEwOiB3YXJuaW5n
+OiBBbHRob3VnaCB0aGUgdmFsdWUNCj4gc3RvcmVkIHRvICdjY19jc3MnIGlzIHVzZWQgaW4gdGhl
+IGVuY2xvc2luZyBleHByZXNzaW9uLCB0aGUNCj4gdmFsdWUgaXMgbmV2ZXIgYWN0dWFsbHkgcmVh
+ZCBmcm9tICdjY19jc3MnIFtkZWFkY29kZS5EZWFkU3RvcmVzXQ0KPiANCj4gU2lnbmVkLW9mZi1i
+eTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmkua2luZ0BnbWFpbC5jb20+DQo+DQoNClRoYW5rcywg
+bG9va3MgZ29vZC4NCg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRp
+YS5jb20+DQoNCi1jaw0KDQoNCg==
 
