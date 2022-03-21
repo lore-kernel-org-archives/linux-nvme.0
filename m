@@ -4,92 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B41F3C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Mar 2022 16:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10120C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Mar 2022 16:53:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/pY3yz47Nuid96s8eNEwkYTyhd2x8Impr+YNOi7OK8g=; b=4WOFcUkNsew3u9yDlJ9360vOe8
-	uYWNYMYNq4wnZ9bcKBPM+PEGsYvRBxFvBw8p3gPhj2nWL9iLwhfm/W2cCMW2NWfsx0pa7IcMk/8b8
-	uui+/Psy76gm7i2sI8EsZhsWxlLSBREMs2eQqL9hZLgVHKy/5aM+5adkHHInXDPo2uurmTAtWNJSm
-	y4YuS4ZRMVIOox7q0zI6UWvffNoHEpPui1uo00OiYD1u6tNi/epsfHVHI6zLsRbSvJxUqmnpOfOwo
-	Gjl1Hb9SCiXBmB1SDfwwuEUNZriZZoWrUBw19AbsMl45iHAPsEz5Q0nPrOSYMfK3GCF8fyU8EGkqz
-	tSon6XVg==;
+	bh=Bi1/K+ioRkAobiuxJd52yJR2Pj8oZxB/CV+UGWW2RrE=; b=grTIomMACOdfp9Jt9wUWKzHCaq
+	WYsq803QigDGoVapuV8X61KC4frWQ687guppJvaMd/aKaUU/dDKoJ9HhC6FjJ1sJap061C2RmkBAp
+	lc48+RMDbscUreI/5t9+rZiLLzT3SYmWs7826FmtMu3YYvNF9SKjvxhq+zsGF/1nydxFBrIGQsoWj
+	1LZ7zBuUa5FBgE6HJQQStfgTQUQOYqyUH2XC4Befcgu4zoCtKFaNpU2xgLxPa80Te/2ZkZQBTTKm3
+	rrLUHPp9OWehINyNGr+ljXSjxPDt4meieiEEBTustztY4JMIYjSPMLMfenS60E+OVcL9N6Isyvxsr
+	0qWzgWtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWLH9-008ROa-8e; Mon, 21 Mar 2022 16:52:59 +0000
+	id 1nWLHs-008RjE-DR; Mon, 21 Mar 2022 16:53:44 +0000
 Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWLGD-008R4y-Lp; Mon, 21 Mar 2022 16:52:04 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 22F833200EAD;
- Mon, 21 Mar 2022 12:52:00 -0400 (EDT)
+ id 1nWLGH-008R6S-MU; Mon, 21 Mar 2022 16:52:06 +0000
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 2781B3201DDB;
+ Mon, 21 Mar 2022 12:52:04 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 21 Mar 2022 12:52:01 -0400
+ by compute4.internal (MEProxy); Mon, 21 Mar 2022 12:52:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=/pY3yz47Nuid96
- s8eNEwkYTyhd2x8Impr+YNOi7OK8g=; b=ESpAxG2myY5Dbc+afq6j+05WbyAt+0
- MrZ6+THFre7I2tBMBV3Nvgr6HhvrTaztmtsF8le7Gdv8Bp2AIqhXQroc/o0dKfp4
- 6UCv20df6zaE9Obt9QQKgh/zubYJnmx4dA9UWgiK0n6VX/vjAy+ni2+ke7/wNhdT
- wlfIxkfkFh7+RstRdhJyluZTX/BPGuVGvwZA7vxAUGvye2B6Nu7SAHnSWSRZkb8c
- Jdtn7mJBJkdsYEWmRpgm4i6/y7gzSFTXE3YsmlvmkEkZ6vuFEf/VdpFkPEL+HcrA
- OrJV3krJmZkWpJI1Gtm6D0vswGMqWY37pH+reKWz3CaITZ9t8UaGI4lw==
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=Bi1/K+ioRkAobi
+ uxJd52yJR2Pj8oZxB/CV+UGWW2RrE=; b=Ow/vF7bGd5mVcJpF0oAf+PfH97F+z1
+ QwRM+o61GqMDteHOun8EzV80CcuuHXOuIj6ogQx4Aunri+CA52KRQW2SutwJ6Yos
+ 5y8q4xBkfuCvREhw1ydrTQ4OxhmW0KYUms8gX8U27V0ALlR39zfLJtMsuXd8jWF5
+ IMmFwwOJeZ9a8YbLrOJ5l1CWkVidp5TEh6Fwy2tEH1CCWuD90ai9qyetl8qJSo3j
+ ZRQKTWQaDaUVwiUTZg6gnWESaYuijdqW02RHACEVvQRNfhW69Jj4bk7Hf7WJrD9X
+ IRJS6v558WbLL2eE2Y6d3esR8z/Uz648QB0ll6oW5VNFupcQifJ0Zmqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/pY3yz
- 47Nuid96s8eNEwkYTyhd2x8Impr+YNOi7OK8g=; b=D4JG78bsRw36sMeSUQHgoz
- VsjBjrGgwLeBSHk9onX1t6jc9poa8mnjFEW0PaOS/9V9nF91dPanB32WJwt/NuAJ
- 2/QJ78Ggiyd4Ng/jWIeoMPWCyLNA+UaeUzqyLi09/ahrjXww+4L9WYgm5H0REVAP
- hKhjkSoWc4RZwkuae+g1WL0RTsPcDuubO7GH6LrLWPsqEp8LhGSNW5lkjn4VBi9V
- ckebce0ViNaTMboZb+mhrTPLUF+VDHW/oXPC4SkMOD+SDHu/rrpdKQhQI7y4Wv8K
- rsv/fqDIMoh6RPVYE5M8W5Xg1dcgMvzAdSdGtwdZOeFM+xVL/eLY9/6hzjrivHYA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Bi1/K+
+ ioRkAobiuxJd52yJR2Pj8oZxB/CV+UGWW2RrE=; b=ZnfrVXH5KtTHqfz39jXMpW
+ lMWw6tWSctYFWbvrJo2h2FaN35zoQ0ndoNqmJkdojyPQScwX48WLxNl1ZLBGgafs
+ qpXVvWxrfd5rSUBmtxgQ/4Fij2E38I0lVbGZniwMv1WrxbeaukKuqRPzMhWUkwP2
+ Apk67LVkZXAJazuXavMaZ+w27ntL+5bRcEb0ENS9z1nVr0Q48NUDlTnIQENqIi75
+ hrESvgT1euHD18oUII9iauolhBG0XyP42ZwcmDh3bCUjhQGJT2kHl90NPhdZDUoi
+ xxYI6cnzURDZio4+dD1FHaK+CfexEAk7gzcFU+67hOc+hnPF0YEbV2qPhcusv2AA
  ==
-X-ME-Sender: <xms:L604YkOnyHPID1yP1OHkMsH1tkiUBGxq7dHrj3sFe_MIKYELr22rdg>
- <xme:L604Yq-FbybcMYaO0959FICmZjqymXvZE7dX2QoucL-7cFbBoo6QwEEndrJtA5VD2
- 5lDXlgueAmWj-M_7N8>
-X-ME-Received: <xmr:L604YrR9S4aDq59z1cfxW0qEO8IcUwGNYikHzXLxLLUNnjr6ClKUp8SYLzlJTWO8BIb4HkEuP8mZXtXTQcwPrhq6Aj8SL1U6SURJAVLMdtIKbJr91FP5R8iGRONUMGs>
+X-ME-Sender: <xms:M604YrdDegBaXgclkFsTltha5asPtsbrP2CC4EzUyJ9NsRm3-uF4pQ>
+ <xme:M604YhNbj3NIDngnTm0_JPcVSB4r3xAnkNzFENFarKMEKIHsyPDBKblz8EE1lyN95
+ h-4SiV1B6Enfp5sBRE>
+X-ME-Received: <xmr:M604YkgxwWbnap9TlOo_3W0J3mKF--s1Iqq3E2aZlVhaz77rrh_HMy0HHSbaVVbsmlE2cMjVFnvdOTAxA47FAEW68kkoGkMa8JuqcDtOihXjTsBy62rVren85j5wdos>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegfedgleehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcu
- rfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvg
- hrnhephfefffejvdekleeitdffiefhhfffveffieejteefhedutdfgffeftdejhedtteeh
- necuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
- uggvvh
-X-ME-Proxy: <xmx:L604Ysup5z-LM09s6itmwv1uJn3ixPnMMsQVZjvhJh-Ou2Vuv7Q3sA>
- <xmx:L604YsdxlyW__41-4VuTW-FC4OVpzef6PcHX99_rbdaTYncHGDgqCA>
- <xmx:L604Yg3YDgirCKlkC4XSzdO_FgKFpCyvVj3euXlDUNRdibAKkMOx8w>
- <xmx:L604Yi2fyOptG5HVc2jWlpAZKPkzyBn30ogXrlFmJ3YLL4wWXfgSNQ>
+ hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegoteeftdduqddtudculdduhedm
+ necujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnh
+ curfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthht
+ vghrnheptedvkeetleeuffffhfekteetffeggffgveehieelueefvddtueffveevlefhfe
+ ejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhv
+ vghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:M604Ys8XzHWaWlV5bJt2gw4JoBmI4xTXR9vSmMCPy1SG-7gu3H2qwg>
+ <xmx:M604YnvhYTa5J6oPgVrnQQPzXUHf7g6iPrc8e73NsTXiDqcdmzLSLQ>
+ <xmx:M604YrEfjCAGFGW6AYEJWnOrujaDFemEiaTXeK0A6gayJfFi846pwA>
+ <xmx:M604YgFVpWzUrJOBkbCjJXq_RaKkOtneGBCSnDeMj1vB2flUdhxvpQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Mar 2022 12:51:57 -0400 (EDT)
+ 21 Mar 2022 12:52:01 -0400 (EDT)
 From: Sven Peter <sven@svenpeter.dev>
-To: Rob Herring <robh+dt@kernel.org>
+To: 
 Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Arnd Bergmann <arnd@arndb.de>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: [PATCH 2/9] dt-bindings: soc: apple: Add ANS NVMe
-Date: Mon, 21 Mar 2022 17:50:42 +0100
-Message-Id: <20220321165049.35985-3-sven@svenpeter.dev>
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Marc Zyngier <maz@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [PATCH 3/9] soc: apple: Always include Makefile
+Date: Mon, 21 Mar 2022 17:50:43 +0100
+Message-Id: <20220321165049.35985-4-sven@svenpeter.dev>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20220321165049.35985-1-sven@svenpeter.dev>
 References: <20220321165049.35985-1-sven@svenpeter.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220321_095201_763461_D5A0BB79 
-X-CRM114-Status: GOOD (  12.61  )
+X-CRM114-CacheID: sfid-20220321_095205_789117_030158AE 
+X-CRM114-Status: GOOD (  10.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,96 +104,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Apple SoCs such as the M1 come with an embedded NVMe coprocessor called
-ANS2.
+We want to allow the code inside drivers/soc/apple to be compiled with
+COMPILE_TEST but this will currently result in linking errors because
+ARCH_APPLE is not set and make will never recurse into
+drivers/soc/apple.
+Let's just unconditionally recurse into apple/ since all drivers
+in there are guarded by config options anyways.
 
 Signed-off-by: Sven Peter <sven@svenpeter.dev>
 ---
- .../bindings/soc/apple/apple,nvme-ans.yaml    | 75 +++++++++++++++++++
- 1 file changed, 75 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
+ drivers/soc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
-new file mode 100644
-index 000000000000..e1f4c1c572aa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
-@@ -0,0 +1,75 @@
-+# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/soc/apple/apple,nvme-ans.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple ANS NVM Express host controller
-+
-+maintainers:
-+  - Sven Peter <sven@svenpeter.dev>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,t8103-nvme-ans2
-+          - apple,t6000-nvme-ans2
-+      - const: apple,nvme-ans2
-+
-+  reg:
-+    items:
-+      - description: NVMe and NVMMU registers
-+      - description: ANS2 co-processor control registers
-+
-+  reg-names:
-+    items:
-+      - const: nvme
-+      - const: ans
-+
-+  resets:
-+    maxItems: 1
-+
-+  power-domains: true
-+
-+  mboxes:
-+    maxItems: 1
-+    description: Mailbox of the ANS2 co-processor
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  apple,sart:
-+    maxItems: 1
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      Reference to the SART address filter.
-+
-+      The SART address filter is documented in apple,sart.yaml.
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - resets
-+  - mboxes
-+  - interrupts
-+  - apple,sart
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/apple-aic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    nvme@7bcc0000 {
-+      compatible = "apple,t8103-nvme-ans2", "apple,nvme-ans2";
-+      reg = <0x7bcc0000 0x40000>, <0x77400000 0x4000>;
-+      reg-names = "nvme", "ans";
-+      interrupts = <AIC_IRQ 590 IRQ_TYPE_LEVEL_HIGH>;
-+      mboxes = <&ans>;
-+      apple,sart = <&sart>;
-+      power-domains = <&ps_ans2>;
-+      resets = <&ps_ans2>;
-+     };
+diff --git a/drivers/soc/Makefile b/drivers/soc/Makefile
+index adb30c2d4fea..608f8ce8b600 100644
+--- a/drivers/soc/Makefile
++++ b/drivers/soc/Makefile
+@@ -4,7 +4,7 @@
+ #
+ 
+ obj-$(CONFIG_ARCH_ACTIONS)	+= actions/
+-obj-$(CONFIG_ARCH_APPLE)	+= apple/
++obj-y				+= apple/
+ obj-y				+= aspeed/
+ obj-$(CONFIG_ARCH_AT91)		+= atmel/
+ obj-y				+= bcm/
 -- 
 2.25.1
 
