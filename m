@@ -4,75 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65813C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Mar 2022 16:44:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91B49C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Mar 2022 16:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g7dEEp1UriTP8pBAQtGthVobCdmaNuOSuKhA8bLkaPE=; b=syHSlFy2XlhyJZzcsb+7HQVCBH
-	YPQXTI40Kc4ewnvUp0MoaBYOc93YVYuLBj3o5ImaNe+3bKFl4SKGymrbfAmyl1aHH4CL72nKWYNXA
-	K01XwX2pTk6euNExQp3zLEGMhbyCJnp1vO8+x9RotpbRw1JvBtWqOVjx3sS02fFhsWCRJwdGRk3ss
-	TdcYNGFbaAM5iA5jdBVqHdXS8ZOkt2DxCJv7igzTlDMNjDXW5eGxK2URSEh+9E0ccey2U6kWGMIVi
-	UcQT3xsDwx6Egv9FK3mlbLpjUxPp+Wf0Td4bO84NgPbruXYQFqw7nKntxPyBE2CkLIEwaM9uPc2vT
-	S0q2fMyA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9y3qY8wrWheTjTyFytvtK0+0Iv19bnWaSl3QfjKyhtE=; b=uZWTlLX4xNGDYWjN64H0NJAFcV
+	e/KJ0tdiIzyRG9m8eBGStWd4LBPsylazw502sULd97LJozWMyj/BuvaC5RVhRllbwCFat5VpZtolk
+	63YXRl2HfHnsl1v+rEG2wMXqvpaUkXk7ae1HaD2pXdKc4fYzzM4FbdehydR8Tmi312VxZXPMu+lTv
+	fCWbjIDTp0UR73FGyPk3aQC93oygRTLKvwluS2GKVfvZ9Ch3YMpHQgVvuXrfqCtGHgmJtNQD7bK6t
+	VMyEpWwHnCmBarzcl6BwYgjv4ofVbKm60nOzeZ83K18nTiJr3cVMjheCldTQBiqJOQdXc9IE1d7w6
+	eauxe+aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWL93-008QBv-Ux; Mon, 21 Mar 2022 16:44:38 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1nWLGZ-008RAx-DF; Mon, 21 Mar 2022 16:52:23 +0000
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWL90-008QBF-H6
- for linux-nvme@lists.infradead.org; Mon, 21 Mar 2022 16:44:36 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 9E712CE1A9A;
- Mon, 21 Mar 2022 16:44:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46DC2C340E8;
- Mon, 21 Mar 2022 16:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647881066;
- bh=heIQRclqnJOihkE3LB+L8qLurZ7/aTuI5/WEz1hUMVI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s0bO/OVcuUCBDRrQKsdCdbGzszR/JAhZlf359KKxswE6GX06QN+DfWodNC7AyWBCu
- NVVnC80RTUR7DKVugIS0dt1wPn/dPely1nLs6SwiM7WJ99HyD+x192J27Dfm6IcmZo
- YJwgVPTUT64GTitczpPQFNlXCCK5DAOnAiBnTboiRHPLhKhQ26Ot3XSiooctsSs5Ta
- 678ZdMecLsmdG1G+F1S3tiRz+sxBAf2E7JxnPsbys64HV5tBg6614qjGspYU3b+lPI
- Hmp93qTAGJk304SdhXLbMzllwyhhalL6Bee5lsuYXLCC+MruKEJ+6jBSgoO7dX6VhE
- zF2J65SPzczUw==
-Date: Mon, 21 Mar 2022 10:44:23 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Jonathan Derrick <jonathan.derrick@linux.dev>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Pankaj Raghav <p.raghav@samsung.com>,
- Adam Manzanares <a.manzanares@samsung.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
- jiangbo.365@bytedance.com, kanchan Joshi <joshi.k@samsung.com>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- Matias =?iso-8859-1?Q?Bj=F8rling?= <matias.bjorling@wdc.com>,
- Pankaj Raghav <pankydev8@gmail.com>,
- Kanchan Joshi <joshiiitr@gmail.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: Re: [PATCH 0/6] power_of_2 emulation support for NVMe ZNS devices
-Message-ID: <YjirZ88zbuDX5hT7@C02CK6Q3MD6M>
-References: <CGME20220308165414eucas1p106df0bd6a901931215cfab81660a4564@eucas1p1.samsung.com>
- <20220308165349.231320-1-p.raghav@samsung.com>
- <20220310094725.GA28499@lst.de>
- <e02dfd21-31c6-95b6-1127-3f18c79116ee@samsung.com>
- <20220310144449.GA1695@lst.de>
- <Yiuu2h38owO9ioIW@bombadil.infradead.org>
- <20220311205135.GA413653@dhcp-10-100-145-180.wdc.com>
- <a707d1c9-3af8-d573-6d71-e4b8168a7ced@linux.dev>
+ id 1nWLGD-008R48-CF; Mon, 21 Mar 2022 16:52:03 +0000
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 04C2D32004CE;
+ Mon, 21 Mar 2022 12:51:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 21 Mar 2022 12:51:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=9y3qY8wrWheTjT
+ yFytvtK0+0Iv19bnWaSl3QfjKyhtE=; b=ISBoBUMMt3OzLno+nSYoFli65K1ZSz
+ AbdaLKHSwbymZunFKAyQYGiQBTTbK0RTc7lxD7MEheSKcLRR51CX5p38FmvlJ+cj
+ hEj3/K/psPOfJ9IyFrIb8Bye44kElVoFb7I4nAP8k8/ESli4W6O4JKtSkjNan/lw
+ TVndVZXWyhZtnYMlOopvgqDBo316+XeE1ttHovZmT0TmBViK9XHx0aK8TV+Rb86g
+ Dbf5LYKwwQrpNsjcOYUclQrrJV+KC2RFe6RQlvdPPpK9EFQ66DAhpniEQ9Zz+d83
+ KeFx1FTUDzISoTOrthEYZzlSBIDc731uLWLrOS3g3QfJdEzjN1yKCohw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9y3qY8
+ wrWheTjTyFytvtK0+0Iv19bnWaSl3QfjKyhtE=; b=X2haQ2aO9+NkS8qcP9sWqk
+ FdHkclNHA73VxP5HDKLh0XdAICTW0TqDAC4+sfL2OhTmx8fEnXEZrvHaxgTy368P
+ LYO8a3+FPqg+5hbWZ7tITE7tMlXxFsVy6eHgObOJOr0ZlIVMbYRaZU2sDKDBfNGu
+ 2agmDFEeKIPLju6USst975OCpYi5dIWr1RreUkpasQMiqgPb1JciQhty2hEVGs0z
+ 759oUJ+kBEnJWKqZ57QP98uaNJX3slSS6PCYnZDfbJ4pEvCFqpJe0F4CivIjQDQ6
+ uJre0OpG+8bvUFDesCZcRxFAGnNw+Q+9Ii85Jw1hugPww34YJH3+BeABL95HAO7A
+ ==
+X-ME-Sender: <xms:K604YtKw3LNSvCW-p4QK8A4wxSyUcAxB5u1gcgdMmYhv2wutDFO0JA>
+ <xme:K604YpIRYkGR_tGGu-U4j7d354UtTzYjzMkeScTl-zamAceexg1B6QceuuZK6K509
+ mCBPDv3F8C80gVhsWU>
+X-ME-Received: <xmr:K604Ylv_gri0bH2MLg9pZA89456qZho5LtWdHZz9MONTSc92pAC00IjeBG4AhduUU8i9agHiGsZwYPtfL8ndGn_eP1kxWUiNwcVf027hs6DQiV-dTJLiiz3SUvDq1ns>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudegfedgleehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcu
+ rfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvg
+ hrnhephfefffejvdekleeitdffiefhhfffveffieejteefhedutdfgffeftdejhedtteeh
+ necuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
+ uggvvh
+X-ME-Proxy: <xmx:K604Yubn-ddi9FXPSqQwJaI04ArdpYP1RjMfYbHRza6cp71cjdBDFQ>
+ <xmx:K604YkYlDPR1e4ybUFR41YkFviNzrbWw5qbLqWhex6ln366RaFtrcA>
+ <xmx:K604YiBfF2RpT-OBkePv-njusnqzQ_lT49WvL8WV6gp7i1zg4CCmbA>
+ <xmx:K604YgSoBBN6cPNB8AJnCh9i95TLbs_nIV-lqTbhhjuIry0SxlVtAw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Mar 2022 12:51:53 -0400 (EDT)
+From: Sven Peter <sven@svenpeter.dev>
+To: Rob Herring <robh+dt@kernel.org>
+Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Arnd Bergmann <arnd@arndb.de>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: [PATCH 1/9] dt-bindings: soc: apple: Add Apple SART
+Date: Mon, 21 Mar 2022 17:50:41 +0100
+Message-Id: <20220321165049.35985-2-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20220321165049.35985-1-sven@svenpeter.dev>
+References: <20220321165049.35985-1-sven@svenpeter.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a707d1c9-3af8-d573-6d71-e4b8168a7ced@linux.dev>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220321_094434_956688_B98D4714 
-X-CRM114-Status: GOOD (  24.64  )
+X-CRM114-CacheID: sfid-20220321_095201_464660_0DF7612D 
+X-CRM114-Status: GOOD (  16.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,40 +104,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 21, 2022 at 10:21:36AM -0600, Jonathan Derrick wrote:
-> 
-> 
-> On 3/11/2022 1:51 PM, Keith Busch wrote:
-> > On Fri, Mar 11, 2022 at 12:19:38PM -0800, Luis Chamberlain wrote:
-> > > NAND has no PO2 requirement. The emulation effort was only done to help
-> > > add support for !PO2 devices because there is no alternative. If we
-> > > however are ready instead to go down the avenue of removing those
-> > > restrictions well let's go there then instead. If that's not even
-> > > something we are willing to consider I'd really like folks who stand
-> > > behind the PO2 requirement to stick their necks out and clearly say that
-> > > their hw/fw teams are happy to deal with this requirement forever on ZNS.
-> > 
-> > Regardless of the merits of the current OS requirement, it's a trivial
-> > matter for firmware to round up their reported zone size to the next
-> > power of 2. This does not create a significant burden on their part, as
-> > far as I know.
-> 
-> Sure wonder why !PO2 keeps coming up if it's so trivial to fix in firmware as you claim.
+Apple SoCs such as the M1 come with a simple DMA address filter called
+SART. Unlike a real IOMMU no pagetables can be configured but instead
+DMA transactions can be allowed for up to 16 paddr regions.
 
-The triviality to adjust alignment in firmware has nothing to do with
-some users' desire to not see gaps in LBA space.
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ .../bindings/soc/apple/apple,sart.yaml        | 52 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/apple/apple,sart.yaml
 
-> I actually find the hubris of the Linux community wrt the whole PO2 requirement
-> pretty exhausting.
->
-> Consider that some SSD manufacturers are having to rely on a NAND shortage and
-> existing ASIC architecture limitations that may define the sizes of their erase blocks
-> and write units. A !PO2 implementation in the Linux kernel would enable consumers
-> to be able to choose more options in the marketplace for their Linux ZNS application.
+diff --git a/Documentation/devicetree/bindings/soc/apple/apple,sart.yaml b/Documentation/devicetree/bindings/soc/apple/apple,sart.yaml
+new file mode 100644
+index 000000000000..d8177b3a3fba
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/apple/apple,sart.yaml
+@@ -0,0 +1,52 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/soc/apple/apple,sart.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple SART DMA address filter
++
++maintainers:
++  - Sven Peter <sven@svenpeter.dev>
++
++description:
++  Apple SART is a simple address filter for DMA transactions. Regions of
++  physical memory must be added to the SART's allow list before any
++  DMA can target these. Unlike a proper IOMMU no remapping can be done and
++  special support in the consumer driver is required since not all DMA
++  transactions of a single device are subject to SART filtering.
++
++  SART1 has first been used since at least the A11 (iPhone 8 and iPhone X)
++  and allows 36 bit of physical address space and filter entries with sizes
++  up to 24 bit.
++
++  SART2, first seen in A14 and M1, allows 36 bit of physical address space
++  and filter entry size up to 36 bit.
++
++  SART3, first seen in M1 Pro/Max, extends both the address space and filter
++  entry size to 42 bit.
++
++properties:
++  compatible:
++    enum:
++      - apple,t6000-sart
++      - apple,t8103-sart
++
++  reg:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    sart@7bc50000 {
++      compatible = "apple,t8103-sart";
++      reg = <0x7bc50000 0x4000>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cd0f68d4a34a..027c3b4ad61c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1774,6 +1774,7 @@ F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
+ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
+ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+ F:	Documentation/devicetree/bindings/power/apple*
++F:	Documentation/devicetree/bindings/soc/apple/*
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	arch/arm64/boot/dts/apple/
+ F:	drivers/i2c/busses/i2c-pasemi-core.c
+-- 
+2.25.1
 
-All zone block devices through the linux kernel use a common abstraction
-interface. Users expect you can swap out one zone device for another and all
-their previously used features will continue to work. That does not necessarily
-hold with relaxing the long existing zone alignment. Fragmenting uses harms
-adoption, so this discussion seems appropriate.
 
