@@ -4,95 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13E66C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Mar 2022 12:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42D7DC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Mar 2022 13:14:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PhveZTGN0h/vS9NmxXXstYNT18cOT72G9MSmwKlcb4E=; b=zIBm1h2L7UDmUGd1aXKCLW2yBs
-	1P2tpmBj5LQGNw7zVbjo9IQSMJbO8Ci/Bb4h9oQ+/73F6QI8Zdv3rKLDOKsQnYSKI5Gy5DXLJK/mE
-	DPNcfJ8TMNi5DGNQPbaUKVYsqsArbx2BAyRJ8gEs4fqDs6rJrh/sPYXyZPLtnAyFQXYVd0Oh/dFH6
-	VPg2UxHd8/wxkfkznLmf6YS4t8g77NjF4VAKp1lztvfUuTFDMDmn/O3w33PjiGWI3aelbK6oHB/LD
-	CFvevR241jikJkz4YAvOqfueG9GkWwvhHnlmcY+3kRaZFV8TEb5inewz42jT1TUDO0+erKB3pOx0l
-	N8Rn54fQ==;
+	bh=qfzy/+YaLGjYVsu4j9UKN33jzuaaWPeyvHUUPpmHGK0=; b=44aQlj0xQP82WVvQmOST4fJcYU
+	7J5NSdxA8G6G/NG/fE2rxEUZGvbsROLK6OlakbUSGZ5jhHa9+FLWyKJc9FvuZVAWzrIXC+wR+s9UF
+	SNHu0J9e+qVVS6Iz+XEny4B9XcKe05CCkum+keVLNBRpnn6ij3bhsvHQOwU5oe+mxLX0rqNV4rIDv
+	mj+wNa4RvYU3n3v8NiE9lrAe1MRuXWIEtkhM3RNxSY4d7b5ZLzKxYyoM0BVREebhomAeo4RBuBWtD
+	3foUXoMETA5pceU9AuROOI3t5UNSrYXXQqW50ewgYB5sHWiYxNTg/r0hrf+9KsSMO78jNi4l72WsD
+	/ajTMpEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWdxu-00B05C-IG; Tue, 22 Mar 2022 12:50:22 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nWeL4-00B2OM-Lk; Tue, 22 Mar 2022 13:14:18 +0000
+Received: from mout.kundenserver.de ([212.227.17.13])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWdxr-00B04I-Bj
- for linux-nvme@lists.infradead.org; Tue, 22 Mar 2022 12:50:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647953417;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PhveZTGN0h/vS9NmxXXstYNT18cOT72G9MSmwKlcb4E=;
- b=Og35q0Cao6Z5eFOC0J/16Jb+6eOK+2rVgLKnIdmZxlYlECs4Cgy0S85w4yafhNibZWSW1s
- 9PgrDD/cZd/N9rMuaA/Io8HlfnGwX/eL+SN5pKPCYqasH0xO6lWYklzw6RzX5XaarjZnCt
- DyxSUYjj2enWdzwwDv8n3w0jj7BB6ns=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-E6iRT3YCNi-fcv4Mu6hkFA-1; Tue, 22 Mar 2022 08:50:15 -0400
-X-MC-Unique: E6iRT3YCNi-fcv4Mu6hkFA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- m12-20020a17090a7f8c00b001c6d1ae1ef3so2912217pjl.7
- for <linux-nvme@lists.infradead.org>; Tue, 22 Mar 2022 05:50:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PhveZTGN0h/vS9NmxXXstYNT18cOT72G9MSmwKlcb4E=;
- b=NTlK4eVmaEw9qdD9qFHaGYeA+RlKKXR22w0YeTF4Fw3YgjS5qOcK8fF03/Q+XYPA9U
- 9mlF+5yjUHoSedBdvcXrUl9h+ix3PxsWyBStzBogqF5+tl4NNJ1QmApyh4soFCsWNA2D
- DxELr3jCYG2RPbDAwylVslFGYcDeVOs+3GufWBkDDjyeOMWjs3IB3loeWo3tGYpXUmZF
- upMvP9IhXVp7CnhfOxwj4453KZHheBZwrPGRfVEFw4h1Vfl8ezzy+CGM5bv+l5Y0/ALb
- eH3q8ZzjFEhVFJS4+9cKUvSZR3rSlg7j8cFgf/fw70jVlQv0P6TeI1A6Gz99fb3gboBK
- uJUQ==
-X-Gm-Message-State: AOAM530oDi9OKpmvPXTlUM0+vDuK5NYCJPkTKhrCXsi6ZIlR1SDoWvUY
- Ss5sThidzPvBsXmneDX7SrCTBtGujJtu6O02y4GAsl4VMZ2ScCXPkvlbYYs5f6pjKbEnTLeNSoD
- ulZlj2dqTdzS4XTGBzNWJz023561vZxCah0mBx5Rk8Co=
-X-Received: by 2002:aa7:8004:0:b0:4fa:c50c:1ffe with SMTP id
- j4-20020aa78004000000b004fac50c1ffemr35124pfi.40.1647953414907; 
- Tue, 22 Mar 2022 05:50:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLnFYgel0MDxcAclGPXOl7DEEjJFFlxPmtSZj49QkL/5VyFNSZKfptbYYBiUftRVxXIcHkZmsGbDYh9k+kBtQ=
-X-Received: by 2002:aa7:8004:0:b0:4fa:c50c:1ffe with SMTP id
- j4-20020aa78004000000b004fac50c1ffemr35100pfi.40.1647953414680; Tue, 22 Mar
- 2022 05:50:14 -0700 (PDT)
+ id 1nWeL1-00B2Nn-TE; Tue, 22 Mar 2022 13:14:17 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49]) by
+ mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MD9Kp-1nNbmP2BOr-00970J; Tue, 22 Mar 2022 14:14:12 +0100
+Received: by mail-wm1-f49.google.com with SMTP id
+ p12-20020a05600c430c00b0038cbdf52227so837511wme.2; 
+ Tue, 22 Mar 2022 06:14:09 -0700 (PDT)
+X-Gm-Message-State: AOAM532fjWDRjwUPCEzivzr2PS0LLwsp0RvwGtjvZTBaR22C8hjpwbeN
+ MbRuZUNON9zH1JnabgZurFXUzVNmKc7i4pwPt4k=
+X-Google-Smtp-Source: ABdhPJyHDWv/mDC8WwrAR2wIUWCLvYl74QCY8Bcoo4lV+G5Q4bMm4glI5YH/lSfsRyVIlxl4wVhx+pOkDz4xDrytxAc=
+X-Received: by 2002:a05:600c:4e11:b0:38c:bd19:e72c with SMTP id
+ b17-20020a05600c4e1100b0038cbd19e72cmr1599974wmq.174.1647954849655; Tue, 22
+ Mar 2022 06:14:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
- <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
- <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
- <bbb103d5-7622-dc88-07b8-1edc684d2f82@nvidia.com>
- <CAHj4cs_L=QHh4XeOJGfibfSJhhijS6s7RBNuLd_XetKT3hfjWQ@mail.gmail.com>
- <9ba8bfae-2363-e331-83c7-317a9456da31@grimberg.me>
- <CAHj4cs9cmOt=9++wuqJ1ehLPDJcaXJGyTKcHSjU-avWxr1CBrA@mail.gmail.com>
- <f5394785-aafa-784c-9ac0-b4abe19f65be@grimberg.me>
- <CAHj4cs_WQg752czaR4mtaZVPRW6ZqO16EAHZ10njRB+g+8gOOQ@mail.gmail.com>
- <CAFj5m9KD+AUn1nJ=XaqwuuWz4TQgZ+d8Uxq8n7j3adHvg8gR0A@mail.gmail.com>
-In-Reply-To: <CAFj5m9KD+AUn1nJ=XaqwuuWz4TQgZ+d8Uxq8n7j3adHvg8gR0A@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Tue, 22 Mar 2022 20:50:02 +0800
-Message-ID: <CAHj4cs8mHOvXdd5FTzGEYmHYn+ACrq=rHf4HfYm1c=+Ma24QEg@mail.gmail.com>
-Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
- nvme-rdma testing
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
- RDMA mailing list <linux-rdma@vger.kernel.org>, 
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- Nitzan Carmi <nitzanc@nvidia.com>, Israel Rukshin <israelr@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220321165049.35985-1-sven@svenpeter.dev>
+ <20220321165049.35985-6-sven@svenpeter.dev>
+In-Reply-To: <20220321165049.35985-6-sven@svenpeter.dev>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 22 Mar 2022 14:13:53 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2VgrWHerXTX4_wS8UU7fpN9-JZ5xESaWrr-WGYqGty=g@mail.gmail.com>
+Message-ID: <CAK8P3a2VgrWHerXTX4_wS8UU7fpN9-JZ5xESaWrr-WGYqGty=g@mail.gmail.com>
+Subject: Re: [PATCH 5/9] soc: apple: Add RTKit IPC library
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, 
+ Marc Zyngier <maz@kernel.org>, DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:pod3bt9j5g3uWnj8UMfhyvaQiCycy5Eibik5to3g4wbfD62Ibdc
+ O2a7NBxBmyQXjuhnXzkyqObStpVnj6TTh/oFJzo51j0GfYgXtyuCP6dQ0/BLEz94IrVgLS1
+ umW2QGPuwiuBjYsn0cx/M4mlUdRQJR0pdsY/V5EOt9Lw9tsW/5dDx1h+hNqzDE3NcZW1yXv
+ VkwXi7RegZy4pQ6B/J6dg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Zgd6k2pC7Kg=:XMg7x4qvZTC7zHvdy+8u7y
+ us/xbk2+9EtaC7I4zwKgeaSe1oTNe0wx63aPYV9G9TxWdqhzVPVMeqyIbnfUjSxndSl2wc4e2
+ k8S0MqDipDotCT2C1aZTK43xdHLzuHyIeeH1XiQGyCKgmW/iZaGRP+9RrTTrpexCXsfyyAw8d
+ B/rQzRUtL2NQrZ0AJyJelJJ92r255d5SEjPjuCVM5vmYvjZoAOn6WmPW2Bbt1GIDxX0h1/kqg
+ Vuri+6OUoW1oA20+N7MARJ/O4DsKssGC3KaBEtcZ2NbOOoKlQTutbIE81p5goK36KZjXZaCfG
+ UbtGKTIOBzlRioFsz5FeHfWTFodWoTorUlJfo/UpHrwbrBFc8KYItXA6NICEIrEMmVbZRsH5A
+ 2AL/ncWpGH40Kdip+HLM3ZW3LfnmMNScuJyGZBG0XqPaheoZOpnSVq/GjV9wNDlQWBrabwH6w
+ 17bSgNuoAFvb+PjWmmyplqVUMbDFEMptW1clEjN66Ez9IISZVkEi07ny7NRUZvyhThFOHGQsQ
+ hVGQU19S6xgHUZX52xcA9DUc/s6QUuYCilOUtZ/fcD2rK/Ew/YWG5GRKVgiluaGJIzcfsWBO9
+ xxr3wogWGxqX2mV+qJMQpqlawsFSl7HuEjVNs6yPlpc5h1lvdThKYkEA7yX5fK6d1wyeR+/nL
+ ubjpOxteyTt3HmP0Py5s1DfyESclmdkrV+CGAWQFhHfBtJrVJ+Ug7M2oBNvDEp7UeDa8ho05y
+ AMRbW8hrkxEUGPmbSyu9hQwWKx+qwwWqPdUr4biGnvbU6Br0jWpxOs7iXK/YwWqh4tFDo1wTU
+ uAS0e9b/w3u2IMf60QYTA+ub5hRYU8dkz0ZM9y6WMZEfNqGaiM=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220322_055019_494206_691FC9AC 
-X-CRM114-Status: GOOD (  26.77  )
+X-CRM114-CacheID: sfid-20220322_061416_260798_405287ED 
+X-CRM114-Status: GOOD (  27.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,68 +90,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 22, 2022 at 3:36 PM Ming Lei <ming.lei@redhat.com> wrote:
+On Mon, Mar 21, 2022 at 5:50 PM Sven Peter <sven@svenpeter.dev> wrote:
 >
-> On Tue, Mar 22, 2022 at 12:58 PM Yi Zhang <yi.zhang@redhat.com> wrote:
-> >
-> > On Mon, Mar 21, 2022 at 5:25 PM Sagi Grimberg <sagi@grimberg.me> wrote:
-> > >
-> > >
-> > > >>>>> # nvme connect to target
-> > > >>>>> # nvme reset /dev/nvme0
-> > > >>>>> # nvme disconnect-all
-> > > >>>>> # sleep 10
-> > > >>>>> # echo scan > /sys/kernel/debug/kmemleak
-> > > >>>>> # sleep 60
-> > > >>>>> # cat /sys/kernel/debug/kmemleak
-> > > >>>>>
-> > > >>>> Thanks I was able to repro it with the above commands.
-> > > >>>>
-> > > >>>> Still not clear where is the leak is, but I do see some non-symmetric
-> > > >>>> code in the error flows that we need to fix. Plus the keep-alive timing
-> > > >>>> movement.
-> > > >>>>
-> > > >>>> It will take some time for me to debug this.
-> > > >>>>
-> > > >>>> Can you repro it with tcp transport as well ?
-> > > >>>
-> > > >>> Yes, nvme/tcp also can reproduce it, here is the log:
-> > >
-> > > Looks like the offending commit was 8e141f9eb803 ("block: drain file
-> > > system I/O on del_gendisk") which moved the call-site for a reason.
-> > >
-> > > However rq_qos_exit() should be reentrant safe, so can you verify
-> > > that this change eliminates the issue as well?
-> >
-> > Yes, this change also fixed the kmemleak, thanks.
-> >
-> > > --
-> > > diff --git a/block/blk-core.c b/block/blk-core.c
-> > > index 94bf37f8e61d..6ccc02a41f25 100644
-> > > --- a/block/blk-core.c
-> > > +++ b/block/blk-core.c
-> > > @@ -323,6 +323,7 @@ void blk_cleanup_queue(struct request_queue *q)
-> > >
-> > >          blk_queue_flag_set(QUEUE_FLAG_DEAD, q);
-> > >
-> > > +       rq_qos_exit(q);
-> > >          blk_sync_queue(q);
-> > >          if (queue_is_mq(q)) {
-> > >                  blk_mq_cancel_work_sync(q);
+> Apple SoCs such as the M1 come with multiple embedded co-processors
+> running proprietary firmware. Communication with those is established
+> over a simple mailbox using the RTKit IPC protocol.
 >
-> BTW,  the similar fix has been merged to v5.17:
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
 
-Thanks Ming, confirmed the kmemleak was fixed on v5.17
+> +
+> +#define rtk_err(format, arg...) dev_err(rtk->dev, "RTKit: " format, ##arg)
+> +#define rtk_warn(format, arg...) dev_warn(rtk->dev, "RTKit: " format, ##arg)
+> +#define rtk_info(format, arg...) dev_info(rtk->dev, "RTKit: " format, ##arg)
+> +#define rtk_dbg(format, arg...) dev_dbg(rtk->dev, "RTKit: " format, ##arg)
 
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=daaca3522a8e67c46e39ef09c1d542e866f85f3b
->
-> Thanks,
->
+I generally don't like the custom printing macros, please just open-code
+the prints where they are used, that makes it easier for other kernel
+developers to see exactly what is being printed.
 
+> +enum { APPLE_RTKIT_WORK_MSG,
+> +       APPLE_RTKIT_WORK_REINIT,
+> +};
+> +
+> +enum { APPLE_RTKIT_PWR_STATE_OFF = 0x00,
+> +       APPLE_RTKIT_PWR_STATE_SLEEP = 0x01,
+> +       APPLE_RTKIT_PWR_STATE_GATED = 0x02,
+> +       APPLE_RTKIT_PWR_STATE_QUIESCED = 0x10,
+> +       APPLE_RTKIT_PWR_STATE_ON = 0x20,
+> +};
 
--- 
-Best Regards,
-  Yi Zhang
+This is an odd indentation style, I would insert a newline after the 'enum {'
 
+> +static int apple_rtkit_worker(void *data)
+> +{
+> +       struct apple_rtkit *rtk = data;
+> +       struct apple_rtkit_work work;
+> +
+> +       while (!kthread_should_stop()) {
+> +               wait_event_interruptible(rtk->wq,
+> +                                        kfifo_len(&rtk->work_fifo) > 0 ||
+> +                                                kthread_should_stop());
+> +
+> +               if (kthread_should_stop())
+> +                       break;
+> +
+> +               while (kfifo_out_spinlocked(&rtk->work_fifo, &work, 1,
+> +                                           &rtk->work_lock) == 1) {
+> +                       switch (work.type) {
+> +                       case APPLE_RTKIT_WORK_MSG:
+> +                               apple_rtkit_rx(rtk, &work.msg);
+> +                               break;
+> +                       case APPLE_RTKIT_WORK_REINIT:
+> +                               apple_rtkit_do_reinit(rtk);
+> +                               break;
+> +                       }
+> +               }
+
+It looks like you add quite a bit of complexity by using a custom
+worker thread implementation. Can you explain what this is
+needed for? Isn't this roughly the same thing that one would
+get more easily with create_singlethread_workqueue()?
+
+> +#if IS_ENABLED(CONFIG_APPLE_RTKIT)
+
+Instead of allowing the interface to be used without CONFIG_APPLE_RTKIT,
+I think it is sufficient to allow the driver itself to be built with
+CONFIG_COMPILE_TEST (as you already do), and then have
+drivers using it marked as 'depends on APPLE_RTKIT'
+unconditionally.
+
+> +/*
+> + * Initializes the internal state required to handle RTKit. This
+> + * should usually be called within _probe.
+> + *
+> + * @dev: Pointer to the device node this coprocessor is assocated with
+> + * @cookie: opaque cookie passed to all functions defined in rtkit_ops
+> + * @mbox_name: mailbox name used to communicate with the co-processor
+> + * @mbox_idx: mailbox index to be used if mbox_name is NULL
+> + * @ops: pointer to rtkit_ops to be used for this co-processor
+> + */
+> +struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+> +                                    const char *mbox_name, int mbox_idx,
+> +                                    const struct apple_rtkit_ops *ops);
+> +
+> +/*
+> + * Dev-res managed version of apple_rtkit_init.
+> + */
+> +struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
+> +                                         const char *mbox_name, int mbox_idx,
+> +                                         const struct apple_rtkit_ops *ops);
+
+Do we need to export both of these?
+
+         Arnd
 
