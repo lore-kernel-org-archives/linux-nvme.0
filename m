@@ -4,82 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5706BC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Mar 2022 12:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13E66C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Mar 2022 12:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=66C1Tt60lTc2dTAFcxf1X3iml+8FNPPGH0Qyxe2exkM=; b=bcOpdvZghwDsIgbRw47Q50rPI2
-	SD0e0Ml0BJCl9nV3BO9IPXoK6trY88mVaEYj2bkmXD0TkkfVRuiVEXmkKbPe08W3eJKmYAod8Tg48
-	MXJUC0DZTFwKWK1b8bKdrs63P/FSssV+GAxS1StKUtfRNHVZ8Hn4qCW7H98L+g55Jl74AGLjFnxBV
-	hGaiR7n9PyNOYbSqygNtIVNgk4b3pfTN9+Jr6yK3UHw/UpwTwo1pF86jqzab6xpIujvV/gCffcqwb
-	6i1sxULavfg5rGatBwrdoceKDRshYL1j4HH8h2HGycEByXojXQKyIsw4stZN3Iottgxl2EfdbmOqo
-	u4ewnm0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PhveZTGN0h/vS9NmxXXstYNT18cOT72G9MSmwKlcb4E=; b=zIBm1h2L7UDmUGd1aXKCLW2yBs
+	1P2tpmBj5LQGNw7zVbjo9IQSMJbO8Ci/Bb4h9oQ+/73F6QI8Zdv3rKLDOKsQnYSKI5Gy5DXLJK/mE
+	DPNcfJ8TMNi5DGNQPbaUKVYsqsArbx2BAyRJ8gEs4fqDs6rJrh/sPYXyZPLtnAyFQXYVd0Oh/dFH6
+	VPg2UxHd8/wxkfkznLmf6YS4t8g77NjF4VAKp1lztvfUuTFDMDmn/O3w33PjiGWI3aelbK6oHB/LD
+	CFvevR241jikJkz4YAvOqfueG9GkWwvhHnlmcY+3kRaZFV8TEb5inewz42jT1TUDO0+erKB3pOx0l
+	N8Rn54fQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWdsO-00AzT9-Ps; Tue, 22 Mar 2022 12:44:40 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nWdxu-00B05C-IG; Tue, 22 Mar 2022 12:50:22 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWdsL-00AzSc-B7
- for linux-nvme@lists.infradead.org; Tue, 22 Mar 2022 12:44:39 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1532B210F3;
- Tue, 22 Mar 2022 12:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1647953076; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ id 1nWdxr-00B04I-Bj
+ for linux-nvme@lists.infradead.org; Tue, 22 Mar 2022 12:50:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647953417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=66C1Tt60lTc2dTAFcxf1X3iml+8FNPPGH0Qyxe2exkM=;
- b=m4C/gOsMBBnj5U7SD+3qeaHORCCSvGe5MKOq3rdx+ohqp1dIMEcpZeiHrgZPmq2rZZKZMW
- lWIFdfioQq6AV2fUjcthrWLywR44oL8krxzFsA70211wfxZ9A1xtL6lDRw50BrmVL883QF
- DTmEFNm6Xz+sTLyuA3wI6xfijHxanlc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1647953076;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=66C1Tt60lTc2dTAFcxf1X3iml+8FNPPGH0Qyxe2exkM=;
- b=5O1rlcfNil8Ak4Qfk+aZgCzmVnyLAbw3Qbf7NveAxg+37znAA85TxmoprPREG1aViF7ve4
- z1ZHIF5V6qp5t7Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0465912FC5;
- Tue, 22 Mar 2022 12:44:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cODWALTEOWKecAAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 22 Mar 2022 12:44:36 +0000
-Message-ID: <d7689bfa-787c-8ece-1b87-d147ad5e3ed2@suse.de>
-Date: Tue, 22 Mar 2022 13:44:35 +0100
+ bh=PhveZTGN0h/vS9NmxXXstYNT18cOT72G9MSmwKlcb4E=;
+ b=Og35q0Cao6Z5eFOC0J/16Jb+6eOK+2rVgLKnIdmZxlYlECs4Cgy0S85w4yafhNibZWSW1s
+ 9PgrDD/cZd/N9rMuaA/Io8HlfnGwX/eL+SN5pKPCYqasH0xO6lWYklzw6RzX5XaarjZnCt
+ DyxSUYjj2enWdzwwDv8n3w0jj7BB6ns=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-573-E6iRT3YCNi-fcv4Mu6hkFA-1; Tue, 22 Mar 2022 08:50:15 -0400
+X-MC-Unique: E6iRT3YCNi-fcv4Mu6hkFA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ m12-20020a17090a7f8c00b001c6d1ae1ef3so2912217pjl.7
+ for <linux-nvme@lists.infradead.org>; Tue, 22 Mar 2022 05:50:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PhveZTGN0h/vS9NmxXXstYNT18cOT72G9MSmwKlcb4E=;
+ b=NTlK4eVmaEw9qdD9qFHaGYeA+RlKKXR22w0YeTF4Fw3YgjS5qOcK8fF03/Q+XYPA9U
+ 9mlF+5yjUHoSedBdvcXrUl9h+ix3PxsWyBStzBogqF5+tl4NNJ1QmApyh4soFCsWNA2D
+ DxELr3jCYG2RPbDAwylVslFGYcDeVOs+3GufWBkDDjyeOMWjs3IB3loeWo3tGYpXUmZF
+ upMvP9IhXVp7CnhfOxwj4453KZHheBZwrPGRfVEFw4h1Vfl8ezzy+CGM5bv+l5Y0/ALb
+ eH3q8ZzjFEhVFJS4+9cKUvSZR3rSlg7j8cFgf/fw70jVlQv0P6TeI1A6Gz99fb3gboBK
+ uJUQ==
+X-Gm-Message-State: AOAM530oDi9OKpmvPXTlUM0+vDuK5NYCJPkTKhrCXsi6ZIlR1SDoWvUY
+ Ss5sThidzPvBsXmneDX7SrCTBtGujJtu6O02y4GAsl4VMZ2ScCXPkvlbYYs5f6pjKbEnTLeNSoD
+ ulZlj2dqTdzS4XTGBzNWJz023561vZxCah0mBx5Rk8Co=
+X-Received: by 2002:aa7:8004:0:b0:4fa:c50c:1ffe with SMTP id
+ j4-20020aa78004000000b004fac50c1ffemr35124pfi.40.1647953414907; 
+ Tue, 22 Mar 2022 05:50:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLnFYgel0MDxcAclGPXOl7DEEjJFFlxPmtSZj49QkL/5VyFNSZKfptbYYBiUftRVxXIcHkZmsGbDYh9k+kBtQ=
+X-Received: by 2002:aa7:8004:0:b0:4fa:c50c:1ffe with SMTP id
+ j4-20020aa78004000000b004fac50c1ffemr35100pfi.40.1647953414680; Tue, 22 Mar
+ 2022 05:50:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <keith.busch@wdc.com>,
- linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
-References: <20211202152358.60116-1-hare@suse.de>
- <20211202152358.60116-8-hare@suse.de>
- <346e03e9-ece1-73f9-f7f4-c987055c5b9f@nvidia.com>
- <3382242d-7349-e6f9-9b3c-4a5162f630c0@suse.de>
- <4f320d3b-7ade-211c-e1ff-d4eb37fe540a@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 07/12] nvme: Implement In-Band authentication
-In-Reply-To: <4f320d3b-7ade-211c-e1ff-d4eb37fe540a@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAHj4cs8vnLXyddEJkV_1Dbmn7UaM4sLX=C1CN9tuA-5Mhczayw@mail.gmail.com>
+ <9d9abd33-51f2-5a8e-9df9-8ffe72e3a30b@nvidia.com>
+ <CAHj4cs_uViOtdMmFmJZ=htBXybjUP3uL3LnRR0C4PCnHWUM82A@mail.gmail.com>
+ <bbb103d5-7622-dc88-07b8-1edc684d2f82@nvidia.com>
+ <CAHj4cs_L=QHh4XeOJGfibfSJhhijS6s7RBNuLd_XetKT3hfjWQ@mail.gmail.com>
+ <9ba8bfae-2363-e331-83c7-317a9456da31@grimberg.me>
+ <CAHj4cs9cmOt=9++wuqJ1ehLPDJcaXJGyTKcHSjU-avWxr1CBrA@mail.gmail.com>
+ <f5394785-aafa-784c-9ac0-b4abe19f65be@grimberg.me>
+ <CAHj4cs_WQg752czaR4mtaZVPRW6ZqO16EAHZ10njRB+g+8gOOQ@mail.gmail.com>
+ <CAFj5m9KD+AUn1nJ=XaqwuuWz4TQgZ+d8Uxq8n7j3adHvg8gR0A@mail.gmail.com>
+In-Reply-To: <CAFj5m9KD+AUn1nJ=XaqwuuWz4TQgZ+d8Uxq8n7j3adHvg8gR0A@mail.gmail.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Tue, 22 Mar 2022 20:50:02 +0800
+Message-ID: <CAHj4cs8mHOvXdd5FTzGEYmHYn+ACrq=rHf4HfYm1c=+Ma24QEg@mail.gmail.com>
+Subject: Re: [bug report] NVMe/IB: kmemleak observed on 5.17.0-rc5 with
+ nvme-rdma testing
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
+ RDMA mailing list <linux-rdma@vger.kernel.org>, 
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ Nitzan Carmi <nitzanc@nvidia.com>, Israel Rukshin <israelr@nvidia.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yizhan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220322_054437_555578_E2712818 
-X-CRM114-Status: GOOD (  19.64  )
+X-CRM114-CacheID: sfid-20220322_055019_494206_691FC9AC 
+X-CRM114-Status: GOOD (  26.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,71 +107,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/22/22 13:21, Max Gurtovoy wrote:
-> 
-> On 3/22/2022 2:10 PM, Hannes Reinecke wrote:
->> On 3/22/22 12:40, Max Gurtovoy wrote:
->>> Hi Hannes,
->>>
->>> On 12/2/2021 5:23 PM, Hannes Reinecke wrote:
->>>> Implement NVMe-oF In-Band authentication according to NVMe TPAR 8006.
->>>> This patch adds two new fabric options 'dhchap_secret' to specify the
->>>> pre-shared key (in ASCII respresentation according to NVMe 2.0 section
->>>> 8.13.5.8 'Secret representation') and 'dhchap_ctrl_secret' to specify
->>>> the pre-shared controller key for bi-directional authentication of both
->>>> the host and the controller.
->>>> Re-authentication can be triggered by writing the PSK into the new
->>>> controller sysfs attribute 'dhchap_secret' or 'dhchap_ctrl_secret'.
->>>
->>> Can you please add to commit log an example of the process ?
->>>
->>>  From target configuration through the 'nvme connect' cmd.
->>>
->>>
->>
->> Please check:
->>
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fhreinecke%2Fblktests%2Ftree%2Fauth.v3&amp;data=04%7C01%7Cmgurtovoy%40nvidia.com%7C4e6a16198c834c87e2ac08da0bfd01fc%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637835478535167965%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=OgZkPCwDUIllRWfKF0SoC6osWJy3hqAZouME3KDnIGQ%3D&amp;reserved=0 
->>
->>
->> That contains the blktest scripts I'm using to validate the 
->> implementation.
->>
-> blktest is great but for features in this magnitude I think we need to 
-> add a simple usage example in the commit log or in the cover letter.
-> 
-> for someone that is not familiar with blktests, one should start reverse 
-> engineering 4000 LOC to use it.
-> 
+On Tue, Mar 22, 2022 at 3:36 PM Ming Lei <ming.lei@redhat.com> wrote:
+>
+> On Tue, Mar 22, 2022 at 12:58 PM Yi Zhang <yi.zhang@redhat.com> wrote:
+> >
+> > On Mon, Mar 21, 2022 at 5:25 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+> > >
+> > >
+> > > >>>>> # nvme connect to target
+> > > >>>>> # nvme reset /dev/nvme0
+> > > >>>>> # nvme disconnect-all
+> > > >>>>> # sleep 10
+> > > >>>>> # echo scan > /sys/kernel/debug/kmemleak
+> > > >>>>> # sleep 60
+> > > >>>>> # cat /sys/kernel/debug/kmemleak
+> > > >>>>>
+> > > >>>> Thanks I was able to repro it with the above commands.
+> > > >>>>
+> > > >>>> Still not clear where is the leak is, but I do see some non-symmetric
+> > > >>>> code in the error flows that we need to fix. Plus the keep-alive timing
+> > > >>>> movement.
+> > > >>>>
+> > > >>>> It will take some time for me to debug this.
+> > > >>>>
+> > > >>>> Can you repro it with tcp transport as well ?
+> > > >>>
+> > > >>> Yes, nvme/tcp also can reproduce it, here is the log:
+> > >
+> > > Looks like the offending commit was 8e141f9eb803 ("block: drain file
+> > > system I/O on del_gendisk") which moved the call-site for a reason.
+> > >
+> > > However rq_qos_exit() should be reentrant safe, so can you verify
+> > > that this change eliminates the issue as well?
+> >
+> > Yes, this change also fixed the kmemleak, thanks.
+> >
+> > > --
+> > > diff --git a/block/blk-core.c b/block/blk-core.c
+> > > index 94bf37f8e61d..6ccc02a41f25 100644
+> > > --- a/block/blk-core.c
+> > > +++ b/block/blk-core.c
+> > > @@ -323,6 +323,7 @@ void blk_cleanup_queue(struct request_queue *q)
+> > >
+> > >          blk_queue_flag_set(QUEUE_FLAG_DEAD, q);
+> > >
+> > > +       rq_qos_exit(q);
+> > >          blk_sync_queue(q);
+> > >          if (queue_is_mq(q)) {
+> > >                  blk_mq_cancel_work_sync(q);
+>
+> BTW,  the similar fix has been merged to v5.17:
 
-Right.
-Essentially it boils down to this:
+Thanks Ming, confirmed the kmemleak was fixed on v5.17
 
-nvme gen-dhchap-key > host_key.txt
-nvme gen-dhchap-key > target_key.txt
-mkdir /sys/kernel/config/nvmet/hosts/<hostnqn>
-cd /sys/kernel/config/nvmet/hosts/<hostnqn>
-cat host_key.txt > dhchap_key
-cat target_key.txt > dhchap_ctrl_key
-<link 'hostnqn' to the target subsystem>
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=daaca3522a8e67c46e39ef09c1d542e866f85f3b
+>
+> Thanks,
+>
 
-And then one the host you need to call
 
-'nvme connect ... --dhchap-key=$(cat host_key)'
-
-And things should work.
-
-But I can put a more detailed description in the commit log.
-
-Note, I'm waiting for Herbert Xu to merge his 'cryptodev' tree with 
-upstream; once that's done I'll be submitting these patches.
-
-Cheers,
-
-Hannes
 -- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Best Regards,
+  Yi Zhang
+
 
