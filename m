@@ -4,49 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FB57C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 15:34:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D899FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 16:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1Q3H81FvdLjR6wAVp3YwYXFIzKK8WM+vSItTdaSihKY=; b=38beTMVlFQ3jm+Ki1acItivVXC
-	m+TSlR4dmich0e8fQXxKpSS8NQTseMGdLRvWh8SDWLjDsjC62JqkOgv62hHpNtqKubWS/rTG+CagU
-	ZMCDFPnEBOz/3KhUgDS/PBguoyMFK8IA0Rly6+6ERqTQ0nvLFnmhm/waLuypPg47UMsDFPP5dMEOm
-	1gb2y8nu7az65Xfci3/WRXYaxbHK2T/zvN+luqZsKPwreHmEYNNIh7guJkOMbvGzhptiCrj72vvWQ
-	z1ycpiHZ42tHxi5QBjZSq0rf2Kx1IWEQ3nMy9Gy+tuADTgJkw8DpgQw5+JUfi/bKveZSNqByOBRAV
-	F+dZZ7Lw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jzwwovIUsP73C7zCVETKsU2PBWeO0ClIYanjeiuz1F4=; b=RhBhI0V+wzdZxHSWR2W0LCd/Zd
+	FG6bkzEmEm9zLSk3GZCa6qNkAQWPOMtT6gErX8Qn+ll9WpOys5slNtOjF3TjDbFgtiaFt3ezKyZAW
+	8Y9g4yuRrzAird0anf6dxBTPQvcnRkgZpqLm3BeqsFg34U+SY892i1xlp3ommXeCQp0LqnMHNtn4B
+	bHGEePuDOHSQNgMut3zQbNDXegzks25blQCgO7pf0e64KT7q2qkI3TsCFuPG22xd2hKG14K3M3ecW
+	poBjjUnhZTw/mvoTpJ7ntl4ZfAFJgi5znugIgBD6p3KY+AQh2UWM8EcHmXTwyW6nlfqlW/PhRblhS
+	+VZSLDkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nX30A-00E8Qg-8x; Wed, 23 Mar 2022 15:34:22 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nX3jG-00EEBu-If; Wed, 23 Mar 2022 16:20:58 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nX306-00E8Pg-Sn
- for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 15:34:20 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id A45C268B05; Wed, 23 Mar 2022 16:34:14 +0100 (CET)
-Date: Wed, 23 Mar 2022 16:34:14 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org,
- hch@lst.de, lengchao@huawei.com, dwagner@suse.de, hare@suse.de,
- mlombard@redhat.com, jmeneghi@redhat.com
-Subject: Re: [RFC PATCH] nvme: fix RCU hole that allowed for endless
- looping in multipath round robin
-Message-ID: <20220323153414.GA440@lst.de>
-References: <20220321224304.955072-1-cleech@redhat.com>
- <20220321224304.955072-4-cleech@redhat.com>
- <7d9771f2-d86c-25e5-5bee-504e33c5aae7@grimberg.me>
+ id 1nX3jD-00EEBB-SZ
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 16:20:57 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 01EB6210F3;
+ Wed, 23 Mar 2022 16:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648052451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jzwwovIUsP73C7zCVETKsU2PBWeO0ClIYanjeiuz1F4=;
+ b=NFHTkVAka57ORvTAqAmxS0fOuauLavqEHD9Ux4cEoYYzOO8cNy2DqDpRZjTC6c7mrwCcrM
+ V/GpBuCNOmUFiIC8P+UHZForH9U/xS7DW/IQupL6SqxnakeAYSTf3hXPnzTQMXRcFvx3ZH
+ mPCTBLXJHlHmvcZVweO9ZIj8WJllfHc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648052451;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jzwwovIUsP73C7zCVETKsU2PBWeO0ClIYanjeiuz1F4=;
+ b=O4NUBxzwxrImnIipejEqBSpSz4Xxb3s8sWnfqW0t+L2EiqEDBoewUe0pq807OmJks3e2LL
+ NnXHTjSyeDniTmDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E4BFA12FC5;
+ Wed, 23 Mar 2022 16:20:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Cgk3N+JIO2JjBAAAMHmgww
+ (envelope-from <hare@suse.de>); Wed, 23 Mar 2022 16:20:50 +0000
+Message-ID: <521666e9-9114-9c2d-c680-a52defb45f8a@suse.de>
+Date: Wed, 23 Mar 2022 17:20:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d9771f2-d86c-25e5-5bee-504e33c5aae7@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+From: Hannes Reinecke <hare@suse.de>
+Subject: [LSF/MM/BPF TOPIC] dispersed namespaces revisited
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_083419_127939_99127AD6 
-X-CRM114-Status: GOOD (  20.24  )
+X-CRM114-CacheID: sfid-20220323_092056_111292_1E3DD355 
+X-CRM114-Status: GOOD (  14.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,49 +85,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 23, 2022 at 04:54:26PM +0200, Sagi Grimberg wrote:
->
->
-> On 3/22/22 00:43, Chris Leech wrote:
->> Make nvme_ns_remove match the assumptions elsewhere.
->>
->> 1) !NVME_NS_READY needs to be srcu synchronized to make sure nothing is
->>     running in __nvme_find_path or nvme_round_robin_path that will
->>     re-assign this ns to current_path.
->>
->> 2) Any matching current_path entries need to be cleared before removing
->>     from the siblings list, to prevent calling nvme_round_robin_path with
->>     an "old" ns that's off list.
->>
->> 3) Finally the list_del_rcu can happen, and then synchronize again
->>     before releasing any reference counts.
->> ---
->>   drivers/nvme/host/core.c | 13 +++++++++----
->>   1 file changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index fd4720d37cc0..20778dc9224c 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -3917,6 +3917,15 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->>   	set_capacity(ns->disk, 0);
->>   	nvme_fault_inject_fini(&ns->fault_inject);
->>   +	/* ensure that !NVME_NS_READY is seen
->> +	 * to prevent this ns going back in current_path
->> +	 */
->> +	synchronize_srcu(&ns->head->srcu);
->> +
->> +	/* wait for concurrent submissions */
->> +	if (nvme_mpath_clear_current_path(ns))
->> +		synchronize_srcu(&ns->head->srcu);
->
-> Nothing prevents it from being reselected again.
-> This is what drove the placement of this after the
-> ns is removed from the head->list. But that was before
-> the selection looked into NVME_NS_READY flag...
->
-> This looks legit to me...
+Hi all,
 
-Yes, this looks pretty sensible.  I'm tempted to just queue it up
-for 5.18.
+there had been quite some discussion on various venues about dispersed 
+namespaces on NVMe and missing linux support.
+Especially since it looks as if the original specification will not be 
+implemented, yet vendors do view it as a crucial use-case.
+Which is already supported on other protocols like SCSI just fine, I 
+might add. Even on Linux.
+
+So I would like to have a discussion on where we stand, what the 
+proposals are, and what we can do from the linux side to support the use 
+case.
+
+To add a bit of background:
+Dispersed namespaces have been defined to support live migration of data 
+from one subsystem to another. General idea is that the same namespace 
+(as identified by the namespace identifier) might show up on different 
+subsystems.
+This is already working on SCSI, as dm multipathing will just look as 
+the VPD page identifcation and arrange devices based on that.
+For NVMe with native multipathing this currently does not work, as
+a) we're identifying namespaces with the numerical NSID
+and
+b) namespaces are attached to the subsystem, and can only be assembled 
+within that subsystem.
+
+Sure we can always switch back to device-mapper multipathing, but I 
+don't think that's a direction we want to go.
+(I certainly don't.)
+
+This discussion will be on how do we go from here; changing the spec 
+and/or the implementation is on the table.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
