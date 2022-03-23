@@ -4,72 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 942B4C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 14:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE185C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 14:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cvfO8yCrw9UQNR0Hs1Y6zpQpVFIG+6QXkkpxOqHXEHs=; b=kuYXVGGt3mNKyCSqjDjksDJgP2
-	s8brq5S41kZ4YR+CwlqWFlPgAhSfYy99h3AxW9JJLZgRk4B0sVHFu1ScW7w2lBDCeze9nOdq1SweI
-	is68opTNrtZ5kzQWpNwE4oUGra6Wi8vUTo5uiRrrTzrtoCEVE2uLg89Tf4O7csRott8vMVzD8CNPo
-	YT+K9sIDX6WIx5iWjFhOs5ErZfIZURbfHxrECG1GYlqBt7T7Ui7802JJbD/lh+Q9IkMfRjUosbQpe
-	V0LlCIZBPRLYrIIGjpqVeosORpOdxkSzkEiwCEnK/CtxihmUhGHKqvfA58x+BpR28phDU9OhtS/+c
-	2WEIwIiw==;
+	bh=dtqtWKzwvzkkAl/0bMMBYU9tOrtgUv77meRWu0a0WsY=; b=RnAvNkcIFod4vcTT0KzqnJ21vI
+	ytpy3tRodWfYVlQ41W55sSKMMWnPzMkLtXz2lByNY2Q3ZvZYsxvswBwiVqToNYFrStpe66T9aTjZb
+	OQjXyZEiZWUVP7zH/eTpUd2l3yF/8Vym8mcy80ghGH4elWsIjs7fqZ+4n+LQVlP17UmJUlR741cZF
+	0IvBQ9r2x1wLynvHBu8fc57j919J+HSYVj42zG3e+f4OSBtIzzjzaW4hq2dTgha363PX+ziy3No8t
+	Eb7WSb1uVJDbyUZSztpA2NMggVgVlpv9enT24uMRSBzgpWu4l4X/1ct/0SyBFj96AtEWLiK3SVaub
+	WWaX8slw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nX2Ne-00DyDV-LQ; Wed, 23 Mar 2022 14:54:34 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1nX2Oj-00DyKb-Mt; Wed, 23 Mar 2022 14:55:41 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nX2Nb-00DyD2-NM
- for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 14:54:33 +0000
-Received: by mail-wr1-f41.google.com with SMTP id u3so2516278wrg.3
- for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 07:54:30 -0700 (PDT)
+ id 1nX2Og-00DyKB-PV
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 14:55:39 +0000
+Received: by mail-wr1-f44.google.com with SMTP id m30so2528338wrb.1
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 07:55:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cvfO8yCrw9UQNR0Hs1Y6zpQpVFIG+6QXkkpxOqHXEHs=;
- b=OSn8Qo3lp4MwSbXBz6STsLRJHaAZBQw3OiVKZ65AxRExUTMkmQ+BxMVW2Gb5ro2qCm
- jOS781y6svFXghT0HvzvfY8OhcrmowG7XeAXPLHLe/bRv6eybX1LUsa4G4pSBpBqTKfp
- hxq4kxa8HaZx46z04kcYZ0oaByMZzppT2NMi1yJ/YXR7wV7Dyiz6Zqu8FYw+WY2/Kdey
- UwoIlUev9H1F/M7JjVjQ3pr/IdEa57fnNlHzzIBvWsPhyXm0lZPNQFrm6HED6GEAzizL
- edFy4pq7WAwVOftpoBFAKuTgDjB1AD76cmg62ZKdjD4zUbAcUKP64UfMmlbSBIvoefNE
- AN0g==
-X-Gm-Message-State: AOAM530K7bCKgnpOs3kqYEDbKeDD0kkxOJ9NS76inQpCL9YpGj610L8L
- gRU+wPG37sLhw4qXcIkyCcI=
-X-Google-Smtp-Source: ABdhPJwWaKZ03Nxe/lDSzYzKWJpMHO5kvY1XbrTkHwwpaIZm+EWBvIREEmoyFhQaEv3esxkCHkoQdg==
-X-Received: by 2002:a5d:64a2:0:b0:205:8ab3:4fdc with SMTP id
- m2-20020a5d64a2000000b002058ab34fdcmr191810wrp.168.1648047269051; 
- Wed, 23 Mar 2022 07:54:29 -0700 (PDT)
+ bh=dtqtWKzwvzkkAl/0bMMBYU9tOrtgUv77meRWu0a0WsY=;
+ b=5HHK2586ffR+mCM7PMgPCGDevpKBZlGFvpBT2W1OOND48n/1DF/2mOkZNYkOlKYhXL
+ fNtovKm9pcO0TpKs4JBG9zW8lCtuNmnNY5dGbDQctYYd5DanBG7q+sUEJ4CkM078L0Du
+ jORUdp9tHLd7st0zAWy6sAmjGH1jEAmyLUh3eyeUztrouJZprd2wLgzN7dCKYfvBuaid
+ PpQ5uBVipQHtsiB8itmpSif9YtnUXQ244v63TXcU3GFReBlpxsrKlnRUVCHsHIRSDH4o
+ 8eo8W6aXAcvcC3JN8U9JhN5OuQxv/0VjaKMDMu47JsWszVyO3wpsHYpDm5OFJoi1+diE
+ 3TKQ==
+X-Gm-Message-State: AOAM533tWpNv9VFe0wC/EhEbq75xOscFlPXpgCAVn0p2jHm3dHwD6uVk
+ rjbWsmKzbxDmQ2KQPZM5Y7c=
+X-Google-Smtp-Source: ABdhPJw9lW1+4IMyNAIKe3hf2140sqqm9vocyMvc+tgZxkwn1P3j/dUtSDMbj6UAmfEppCr0u+HnpQ==
+X-Received: by 2002:adf:fa87:0:b0:203:f28e:76c3 with SMTP id
+ h7-20020adffa87000000b00203f28e76c3mr144948wrr.579.1648047337245; 
+ Wed, 23 Mar 2022 07:55:37 -0700 (PDT)
 Received: from [10.100.102.14] (85.65.206.129.dynamic.barak-online.net.
  [85.65.206.129]) by smtp.gmail.com with ESMTPSA id
- g6-20020adfd1e6000000b0020581602ddfsm134921wrd.90.2022.03.23.07.54.27
+ e8-20020a056000178800b00203da3bb4d2sm114506wrg.41.2022.03.23.07.55.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 07:54:28 -0700 (PDT)
-Message-ID: <7d9771f2-d86c-25e5-5bee-504e33c5aae7@grimberg.me>
-Date: Wed, 23 Mar 2022 16:54:26 +0200
+ Wed, 23 Mar 2022 07:55:36 -0700 (PDT)
+Message-ID: <faa92ca7-5ede-f6dd-1ac6-857d88583487@grimberg.me>
+Date: Wed, 23 Mar 2022 16:55:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC PATCH] nvme: fix RCU hole that allowed for endless looping
- in multipath round robin
+Subject: Re: [PATCH v3 1/1] nvme/mpath: fix hang when disk goes live over
+ reconnect
 Content-Language: en-US
-To: Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org, hch@lst.de
-Cc: lengchao@huawei.com, dwagner@suse.de, hare@suse.de, mlombard@redhat.com,
- jmeneghi@redhat.com
-References: <20220321224304.955072-1-cleech@redhat.com>
- <20220321224304.955072-4-cleech@redhat.com>
+To: Anton Eidelman <anton.eidelman@gmail.com>,
+ linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com
+Cc: ushankar@purestorage.com, Anton Eidelman <anton@lightbitslabs.com>
+References: <20220323035551.1524128-2-anton@lightbitslabs.com>
+ <20220323144504.1557518-1-anton@lightbitslabs.com>
+ <20220323144504.1557518-2-anton@lightbitslabs.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220321224304.955072-4-cleech@redhat.com>
+In-Reply-To: <20220323144504.1557518-2-anton@lightbitslabs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_075431_795799_2C7FA843 
-X-CRM114-Status: GOOD (  19.14  )
+X-CRM114-CacheID: sfid-20220323_075538_858292_1AA08CC8 
+X-CRM114-Status: UNSURE (   6.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,46 +86,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+This looks good to me Anton,
 
-
-On 3/22/22 00:43, Chris Leech wrote:
-> Make nvme_ns_remove match the assumptions elsewhere.
-> 
-> 1) !NVME_NS_READY needs to be srcu synchronized to make sure nothing is
->     running in __nvme_find_path or nvme_round_robin_path that will
->     re-assign this ns to current_path.
-> 
-> 2) Any matching current_path entries need to be cleared before removing
->     from the siblings list, to prevent calling nvme_round_robin_path with
->     an "old" ns that's off list.
-> 
-> 3) Finally the list_del_rcu can happen, and then synchronize again
->     before releasing any reference counts.
-> ---
->   drivers/nvme/host/core.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index fd4720d37cc0..20778dc9224c 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3917,6 +3917,15 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->   	set_capacity(ns->disk, 0);
->   	nvme_fault_inject_fini(&ns->fault_inject);
->   
-> +	/* ensure that !NVME_NS_READY is seen
-> +	 * to prevent this ns going back in current_path
-> +	 */
-> +	synchronize_srcu(&ns->head->srcu);
-> +
-> +	/* wait for concurrent submissions */
-> +	if (nvme_mpath_clear_current_path(ns))
-> +		synchronize_srcu(&ns->head->srcu);
-
-Nothing prevents it from being reselected again.
-This is what drove the placement of this after the
-ns is removed from the head->list. But that was before
-the selection looked into NVME_NS_READY flag...
-
-This looks legit to me...
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
