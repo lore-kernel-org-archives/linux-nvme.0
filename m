@@ -4,66 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E381C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 23:29:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4025AC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 23:44:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qKY/jprfKQE50v/XoScsfmFhtBmTiu0OwwFGlV69ta0=; b=bKrOYphmW4+n+qrPh66Zpd6swj
-	PAjFqjkhF0S0LooU4qP/iv9gawFX2FW28G0As9hRyXleKM6ckRYXnmkf1I6GtQSjFwKrC2XjVIpfv
-	D/jkTMy8FVSpYJS9SebOjSOFIfQ/HOs1TzITJC4ZrCgGlWuJAGnAZ1ZRe81QLu8rT6K4BYoWxrWxf
-	9VwvpNo9rEsAGM2EJpDdSFfd+yd5/bzARPtb1O59jVm7GyVtCASTfTcTokmym17cmXtEwmzebLD4s
-	adYbOj3eyWuSjtQKkZX/6iCf814Ifetn0JvpT91rINJafranyZJnRfNi7kpRL/hDmAcgNIwmHmK2D
-	1dNjOLcw==;
+	bh=JSGcvwXEnegiQrJY4N1UDOeHJa8hA4CPn2pXvAlq9B8=; b=yk8dzQQTu+y85HFAvE3SSeYlAa
+	otkpKuNh8G6LhMJz+uFv8soXDYqpSaB+eA5407dwfu/ayRj/l2rHLJqKNcmsZf1+CBTQqnbVshtJN
+	cv89MFc3UwteMZ/IKOLuL5NI1Ir0XOlEKzK6Atz08aBvGcRwM8YdClsCELH72SXi6Ly31KtYU4pGB
+	KFOE6bX1fGNJQlZH4TnxDvQmCI+9J8adIIeE69BR6pmYe0xo30LL1Dypvddcc0VmIDn7BzuOrSUby
+	sWTgCvcgv9vJftvZfyovcWvNZ1jqfNsftC/gXlC3k+UsTt3j6LxzJX2yg0xwBU8kWvMoQd44NHUMK
+	yhRHeYqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nXAPy-00F2dJ-9N; Wed, 23 Mar 2022 23:29:30 +0000
-Received: from mga01.intel.com ([192.55.52.88])
+	id 1nXAeN-00F4pO-Sk; Wed, 23 Mar 2022 23:44:23 +0000
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nXAPu-00F2cy-KT
- for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 23:29:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648078166; x=1679614166;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=EOUR+MT2gMttY41QFuYZK8pIYgSC1+J2rDxc/1jWpdU=;
- b=hT2vFrSk/Pl0LwMQs9enuTisueL3PQA+0cJbV9Pe/NhBk8H9GpSpmeOw
- PuXTw++HTzNDr6Xo291fXysK+2SzpW4g4gSMfKPuZmY40vSU8w6YSJCBO
- kAmwYCa0NpSYW3aPzHk3imFubjS3NWkGy4gDCnqCFZ+lKJl3YEzj4HYHT
- agMUn9lbCNnJW/nTz26zRUzPzrdFtSAnCbH54+ZuSInVdq0h1h2eeUs92
- OmWH+N+M1kHfrAJxuamaoWB3LFJXAV/qoCXCOKEwGigkloxrnwwMGils3
- txOB/FxxtqMOztfIZpWqxZv04gtRTrUAcH7NCnJSKj9fJ7ALvbJt/Kq+h Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="283102167"
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; d="scan'208";a="283102167"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 16:29:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; d="scan'208";a="649641847"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 23 Mar 2022 16:29:21 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nXAPp-000KTS-0p; Wed, 23 Mar 2022 23:29:21 +0000
-Date: Thu, 24 Mar 2022 07:28:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anton Eidelman <anton.eidelman@gmail.com>
-Cc: kbuild-all@lists.01.org, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: [linux-nvme:nvme-5.18 6/6] ioctl.c:(.text+0xc2c): multiple
- definition of `nvme_mpath_update'; drivers/nvme/host/core.o:(.text+0x7a1c):
- first defined here
-Message-ID: <202203240704.Udc8etzD-lkp@intel.com>
+ id 1nXAeL-00F4oH-SU
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 23:44:23 +0000
+Received: by mail-wr1-x436.google.com with SMTP id d7so4308403wrb.7
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 16:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JSGcvwXEnegiQrJY4N1UDOeHJa8hA4CPn2pXvAlq9B8=;
+ b=igyGA/KEoLS+rChVLGH/K9lK21Bl9KvyAmyAoH8rq9WZngqifan46tY/Ljg+mZhLI1
+ qxhD7sdrxhbCt23ey9W44EZBgrHYGpneouFce0Nb2MDbgMF57IeW2Ux1kH+sBUBhXq/D
+ 4fysB0OecLDC+4WiKYMh8Y8FLNzOfs5tF0Y73y6jDNVYaXczNlfpeKj3nNAKp22GbiOp
+ 0SbQ/wOaBTmseWRBBwN6782iatwWxKfLiaXmoP3MGIsRH6cpNC+3JRCkIiQsYlUzWWNi
+ BjCwUvBdlP4debo0q9vehbzgg72fTL7ugDEOtFn2356mSCKq0hDvwTZMinyygo1gxV1Y
+ 16KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JSGcvwXEnegiQrJY4N1UDOeHJa8hA4CPn2pXvAlq9B8=;
+ b=oHjZ30BkjFLGI8ic+vFRNvvAZnQAhRM0Lt4iwWUKtJjMRr+wNXAU2oH7yEVeqFx5hR
+ nnQ/xNPW6U9bX5ZUe8i2m+kDOwiHccGCNkQyLd9L0f7OUKn0BkhAWDWSINSI0cMJ+St/
+ pD7JIAsKyzA1BUGsqnW6o1/rwOeGAXRY9S+OUSCVv2RSCU9A+CzqIpXazj7/MeE0YPYG
+ qaOC544mOWsKIwT3UZXeRU5WlLv+7CSkgvDYXb6yOrEBrZwUr/5VVi01EM9RQ7CLr4i3
+ UiYYZozRhQnMhYQFyOrZ2a+7WySGEZU4xChuWdDZc0iX6ulK/uwKQcIJSLkN1a8hBvOe
+ 7vBg==
+X-Gm-Message-State: AOAM530qxoZjuGX4B1pBgQn5DVzxmB6o4i1pOrvFiTkUsGQnL5tTAayE
+ qxB9N9swixC0qM6gIiX95jyqbiC2l+pAhg==
+X-Google-Smtp-Source: ABdhPJw/EaWek12aRV0TGe+coHZLWSJ+zlWtwbVMwjiCKJe4terzM5sIc2biZl7YT+A4qTOoic2Dvg==
+X-Received: by 2002:adf:efd2:0:b0:203:db42:c56c with SMTP id
+ i18-20020adfefd2000000b00203db42c56cmr2199583wrp.698.1648079058352; 
+ Wed, 23 Mar 2022 16:44:18 -0700 (PDT)
+Received: from localhost.localdomain (c-76-23-2-87.hsd1.ut.comcast.net.
+ [76.23.2.87]) by smtp.googlemail.com with ESMTPSA id
+ v10-20020a056000144a00b00203df06cf9bsm1049996wrx.106.2022.03.23.16.44.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 16:44:17 -0700 (PDT)
+From: Anton Eidelman <anton.eidelman@gmail.com>
+X-Google-Original-From: Anton Eidelman <anton@lightbitslabs.com>
+To: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
+ sagi@grimberg.me, axboe@fb.com
+Cc: Anton Eidelman <anton@lightbitslabs.com>, kernel test robot <lkp@intel.com>
+Subject: [PATCH] nvme: fix build error: nvme_mpath_update stub without static
+Date: Wed, 23 Mar 2022 17:43:55 -0600
+Message-Id: <20220323234355.1585346-1-anton@lightbitslabs.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_162926_715997_7906B89F 
-X-CRM114-Status: GOOD (  11.58  )
+X-CRM114-CacheID: sfid-20220323_164421_942483_A2285795 
+X-CRM114-Status: GOOD (  12.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,44 +87,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-5.18
-head:   d50c992edf10b95d2034097405c94fecfbe1ef7f
-commit: d50c992edf10b95d2034097405c94fecfbe1ef7f [6/6] nvme-multipath: fix hang when disk goes live over reconnect
-config: nios2-randconfig-r005-20220323 (https://download.01.org/0day-ci/archive/20220324/202203240704.Udc8etzD-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add linux-nvme git://git.infradead.org/nvme.git
-        git fetch --no-tags linux-nvme nvme-5.18
-        git checkout d50c992edf10b95d2034097405c94fecfbe1ef7f
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+Fix multiple definition of nvme_mpath_update() on
+builds with CONFIG_NVME_MULTIPATH disabled:
+the stub function is missing "static inline".
 
-If you fix the issue, kindly add following tag as appropriate
+Fixes: d50c992edf10 ("nvme-multipath: fix hang when disk goes live over reconnect")
+
 Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Anton Eidelman <anton@lightbitslabs.com>
+---
+ drivers/nvme/host/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/nvme/host/core.c:25:
->> drivers/nvme/host/nvme.h:856:6: warning: no previous prototype for 'nvme_mpath_update' [-Wmissing-prototypes]
-     856 | void nvme_mpath_update(struct nvme_ctrl *ctrl)
-         |      ^~~~~~~~~~~~~~~~~
---
-   nios2-linux-ld: drivers/nvme/host/ioctl.o: in function `nvme_mpath_update':
->> ioctl.c:(.text+0xc2c): multiple definition of `nvme_mpath_update'; drivers/nvme/host/core.o:(.text+0x7a1c): first defined here
-   nios2-linux-ld: drivers/nvme/host/constants.o: in function `nvme_mpath_update':
-   constants.c:(.text+0x0): multiple definition of `nvme_mpath_update'; drivers/nvme/host/core.o:(.text+0x7a1c): first defined here
-   nios2-linux-ld: drivers/nvme/host/hwmon.o: in function `nvme_mpath_update':
-   hwmon.c:(.text+0x3f8): multiple definition of `nvme_mpath_update'; drivers/nvme/host/core.o:(.text+0x7a1c): first defined here
---
-   In file included from drivers/nvme/target/loop.c:13:
->> drivers/nvme/target/../host/nvme.h:856:6: warning: no previous prototype for 'nvme_mpath_update' [-Wmissing-prototypes]
-     856 | void nvme_mpath_update(struct nvme_ctrl *ctrl)
-         |      ^~~~~~~~~~~~~~~~~
-
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 76f7a5f37379..8cf90c9ed667 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -853,7 +853,7 @@ static inline int nvme_mpath_init_identify(struct nvme_ctrl *ctrl,
+ "Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.\n");
+ 	return 0;
+ }
+-void nvme_mpath_update(struct nvme_ctrl *ctrl)
++static inline void nvme_mpath_update(struct nvme_ctrl *ctrl)
+ {
+ }
+ static inline void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
 
