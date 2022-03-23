@@ -4,75 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B677C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 11:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A48AC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 14:45:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8NQwjInQeHX4PNBQH9WRkcIExVlhXjtH5bBsP3hUUow=; b=4q7IhXqrZLsT7eanrwfb6+ArfI
-	7DtciLnJAUVrAxu1dXy0Io4dzfTAPcOffILycuQ4S6qrJtASrw6EicZ7OD5LNwXDiDKAnj1Urj9Wd
-	O09M8gDflNLdV5P20tsoZ2ACPpf9VDCoRUIK9jOsKjrwEu2XZFBItk4rQOBixRThGGVAmzpvaysBI
-	lEEERi0/3NASs1XEm1VpuisDiE6JS8vT+dad3QJQzRdhN3kJCRnx8By4aJrzRkofodAEblzKdsW7D
-	zPxL5ex4gWjg41Viqgt/UnqsaelnFmqILKnET3zb1XRMyVV1OAwwTiPgAe/8U0iPluIx1bxKretsv
-	8Dioxd6Q==;
+	bh=UpDioZ+oNzNrosl31pLofz9rJRbnSjmbpC+h4vNhzM8=; b=UMSZ84fktwI0KhqEncIvNRfp+r
+	V+B+3UsCsrcomJOUcbvxK7wuTuhDsgV5u5vH84YFF60zkniiZy+rL/wqhotKOsRxHQZ618K4n1tl6
+	jR1POXckGxWS76tLVWMhzxiVMD5kStACDBUoDcCoCL3tJMvsgBqm9S6Q4AXmkr7mfTGtnTB2Ao/rq
+	chgvZjk/sVRK+AHkC2cpNqEK+7XyLyIkpmcb7jKL1p8JLSRiXDhEd6nx/av5m0t64aiquKFpqvPBW
+	RO9EYI64rLkRPV2PS1JIQfxc8kNTRxcApoa8y0v7hGlqZITtJKSXJeMzHHUrvDAp2Er0LU3oknDAK
+	AtohbigQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWz2Y-00DRg6-N3; Wed, 23 Mar 2022 11:20:34 +0000
-Received: from mail-ej1-f50.google.com ([209.85.218.50])
+	id 1nX2F2-00DwiB-4V; Wed, 23 Mar 2022 14:45:40 +0000
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWz22-00DRRr-1E; Wed, 23 Mar 2022 11:20:03 +0000
-Received: by mail-ej1-f50.google.com with SMTP id p15so2139610ejc.7;
- Wed, 23 Mar 2022 04:20:01 -0700 (PDT)
+ id 1nX2Et-00Dwfs-Mo
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 14:45:33 +0000
+Received: by mail-wm1-x336.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so1052214wmb.3
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 07:45:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UpDioZ+oNzNrosl31pLofz9rJRbnSjmbpC+h4vNhzM8=;
+ b=Dn/Gx3CKGLXyXQeCmbcWoLYATcVMLXuaZM/ZNuzKS6neMHSUgvwk9hoIoxzKtURAya
+ wXYgCwvtYiOq4zx6H5sQSsmPvllkW3gy4Y+q2/fIJ8p8AtLUldtReCRhka6FLMFI72tb
+ EZes75paY3YdNxrdFPN/5Tag+3FkHj8+e0XM3D1/l17KNG+7FKKZRkdwqQzI1b35BMr6
+ WJSU/MTYkKniyfhD+t28u3KeH48UhgN2IZdTB/PIBxr7OcS97yMtAzllTADvKJjhsyTI
+ O2ydxAwPSMJwlc5VRfEIwqAzqZKw6rSS2JheT4KN9rWAEYjsD/fZHB7PZJhhRzubSUbp
+ Xb9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8NQwjInQeHX4PNBQH9WRkcIExVlhXjtH5bBsP3hUUow=;
- b=Hn+VBq2GxU5EG/wKCDOdybgyT2zPi1nq1IGKYj28ABGNPh2FySqGFWMox23XjkDxBt
- 37Q/2sQQSsn8JC/+pG4V8EbNTg26UDsLJNR9KwiQWazNDA8Oq7iEZ1omlCcqRs8lXW7S
- zw/CawH5CptmrGDU044jmwmg5Y94fZR9FMjlA3GXRHPTS1Ft3ubh4LsjXCqhxN2yDf5A
- mD7Fy48IKsrGX4ipvPSY12HtHfcC014EvE2n1QJeGC94J//d6Sks/Ua5nmqrvRZruQDA
- N+ANFTN+nTv2OkZaS90tpgc6ayxYYDK4/3rzU7brwHHHosARh7O0s9Ii5pIsut4JnzXq
- MfCw==
-X-Gm-Message-State: AOAM533mqpl+k3s5RiLLyE7N535Efjme9rhA5MakLs9fvIjFABuRLZoG
- p9YFm9AVUkXSz4OAp+YNRXY=
-X-Google-Smtp-Source: ABdhPJyggNgkzWof95iHK2BBBMKkQTe1ofpITUi/c6gBiK4dbd3/biJiEJrfNyHqAUzhektMkOESWg==
-X-Received: by 2002:a17:907:16ac:b0:6e0:1646:9121 with SMTP id
- hc44-20020a17090716ac00b006e016469121mr14215917ejc.194.1648034400203; 
- Wed, 23 Mar 2022 04:20:00 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.googlemail.com with ESMTPSA id
- q15-20020a1709060e4f00b006cdf4535cf2sm9582171eji.67.2022.03.23.04.19.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Mar 2022 04:19:59 -0700 (PDT)
-Message-ID: <5eed58a1-ee56-8aee-e73b-76b162d59873@kernel.org>
-Date: Wed, 23 Mar 2022 12:19:57 +0100
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UpDioZ+oNzNrosl31pLofz9rJRbnSjmbpC+h4vNhzM8=;
+ b=qvMbD/WC8uuvtAlvYDEIKXgOipjbWCMRxYkBkhDka5LDRKKIgvdx63oTJH/8JXNgEY
+ AHYizBN4K/E9WYT2B8n2HPLMYX9kdLX84RwJ8scljYjtk/K5S3e2Bn58JG2QkBmRbdVJ
+ iMsAFi09vUTejDJpVd7+3GQIEn1nbhoe6jGV8E+LJlAT8O83QkrlVHV8LOUrIun0abQz
+ Ede3Ntdtsz99O2z0ZYCvCzFDKvs3ltWH3m77tq9Q9aeMSWo4IKbvrdTIQmAPWXfvBRYG
+ YWqBnU91/SE9BIfVbzOtB8xDLGJc9VVThvrT45puYgWM4K4yFZYunId2PC7QBjjXCynB
+ 9UKw==
+X-Gm-Message-State: AOAM5338UkwAMmGWEseumNWXPnGpYMz1f92DhobKa/GA5gOVyvjT5COj
+ jz8UOQXJnqiRzob4TUWXt86EC6FAvZINyg==
+X-Google-Smtp-Source: ABdhPJzPTr5sMcoRAplmlTJ+5/2SbHFYX415MZOAT59Tfe889VSCVmtT3Dunvi5wvcqx8BiYMrJ7Gw==
+X-Received: by 2002:a05:600c:358f:b0:38c:c046:caef with SMTP id
+ p15-20020a05600c358f00b0038cc046caefmr5550256wmq.202.1648046726672; 
+ Wed, 23 Mar 2022 07:45:26 -0700 (PDT)
+Received: from localhost.localdomain (c-76-23-2-87.hsd1.ut.comcast.net.
+ [76.23.2.87]) by smtp.googlemail.com with ESMTPSA id
+ c12-20020a05600c0a4c00b00381141f4967sm132736wmq.35.2022.03.23.07.45.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Mar 2022 07:45:25 -0700 (PDT)
+From: Anton Eidelman <anton.eidelman@gmail.com>
+X-Google-Original-From: Anton Eidelman <anton@lightbitslabs.com>
+To: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
+ sagi@grimberg.me, axboe@fb.com
+Cc: ushankar@purestorage.com,
+	Anton Eidelman <anton@lightbitslabs.com>
+Subject: [PATCH v3 0/1] nvme/mpath: fix hang when disk goes live over reconnect
+Date: Wed, 23 Mar 2022 08:45:03 -0600
+Message-Id: <20220323144504.1557518-1-anton@lightbitslabs.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220323035551.1524128-2-anton@lightbitslabs.com>
+References: <20220323035551.1524128-2-anton@lightbitslabs.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/9] soc: apple: Add RTKit IPC library
-Content-Language: en-US
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Marc Zyngier <maz@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-6-sven@svenpeter.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20220321165049.35985-6-sven@svenpeter.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_042002_171138_7F1B3B15 
-X-CRM114-Status: GOOD (  13.39  )
+X-CRM114-CacheID: sfid-20220323_074531_802938_1B504DDF 
+X-CRM114-Status: UNSURE (   9.74  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,26 +92,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 21/03/2022 17:50, Sven Peter wrote:
-> Apple SoCs such as the M1 come with multiple embedded co-processors
-> running proprietary firmware. Communication with those is established
-> over a simple mailbox using the RTKit IPC protocol.
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  drivers/soc/apple/Kconfig          |  13 +
->  drivers/soc/apple/Makefile         |   3 +
->  drivers/soc/apple/rtkit-crashlog.c | 147 +++++
->  drivers/soc/apple/rtkit-internal.h |  76 +++
->  drivers/soc/apple/rtkit.c          | 842 +++++++++++++++++++++++++++++
->  include/linux/soc/apple/rtkit.h    | 203 +++++++
->  6 files changed, 1284 insertions(+)
+Fixed cosmetics.
+Added a comment in nvme_update_ns_ana_state()
+explaining the condition for nvme_mpath_set_live() call.
 
-Isn't this some implementation of a mailbox? If so, it should be in
-drivers/mailbox. Please don't put all stuff in soc/apple, that's not how
-Linux is organized. To drivers/soc usually we put drivers which do not
-fit regular subsystems.
+Anton Eidelman (1):
+  nvme/mpath: fix hang when disk goes live over reconnect
 
-Best regards,
-Krzysztof
+ drivers/nvme/host/core.c      |  1 +
+ drivers/nvme/host/multipath.c | 23 +++++++++++++++++++++--
+ drivers/nvme/host/nvme.h      |  4 ++++
+ 3 files changed, 26 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
+
 
