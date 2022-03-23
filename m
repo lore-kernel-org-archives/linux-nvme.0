@@ -4,83 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5B27C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 02:10:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 677ABC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 02:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+VhNzK/4rqz9BBZ+NUufmtY5hd4LqSi4mcImA5YtOoE=; b=jW/7lbTVfjg8Z7Rfpz9u2Q+X+A
-	l9qbIedJCgCI8C71mr/0fqrItJyvKTvdCx3urKUiXkXish9IWzx+T9+k84QkwlpxR334UgZdwDxlc
-	u8ZuGTkvLmSPFtdUR45hLAL/+P+okdI1yZetCWtiaFtGLiTrJsteI95bshERpLiZtp1v9RYZvFkyA
-	L7Kdwi97oUMeTGEEQHUSgCKrv+EHsy6o3quQECXQdENup9AcRAZQVTuimStoMBwk64YlQpaeAfuQ0
-	vGVEAO6bqSa8EQLzFkExv0jPs6goZqbDVO0hjeqSiVDe3mIzf3/UdLIPZWeY7aoz1KOBDrTWTDMpu
-	BtqToITA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eI61FWNjxNcvotxhTa64BG5fyhSEhuZwOn+ohZrc1yY=; b=BbcmtcCtEha4pnU5hHtE5kiLPN
+	h/Bg6eEsAUUbqM0vqre+VwRjYgMRKGvgRkDO3AoOiCxun6xuvzjr/nqh7yD1rb0SK75cBHJZJRI8y
+	oQR7n947ICgwNIRaNh7OfUFiVl0vq5hjjtmwddXPErpNXXTHzvggbQTZak6IdiOpPOsteMSGbqAss
+	57wyrululi4hGeJoScN/WT8Q46rDqg9XIdMdnpz120eBnzp6Oi5swqkFg8qEVZIKJpvFtr1iZTO7O
+	GeOAd5Ds5R2r1UH67AWQfeUOiwnJVqbeVPYYjPjR7nsJkKJ2JCV+g6sxX/YjOO8nUrFvnXQTet/ib
+	1MPS5cmQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWqSG-00Ccco-Or; Wed, 23 Mar 2022 02:10:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1nWqZR-00CdLI-LZ; Wed, 23 Mar 2022 02:17:57 +0000
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWqSD-00CcbO-FE
- for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 02:10:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648001427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+VhNzK/4rqz9BBZ+NUufmtY5hd4LqSi4mcImA5YtOoE=;
- b=SIs4b2gJhk7NzfItrC80ETjFGzNzUmzgIbCeNO3T41YuE+Q/YnG+ZnUZFRsv+QgPobdC2i
- WBH3TR5Jmz0JqtsdN2W9dyvFtvDl7q9CjF9sUHpRoPhwLnyr/sa7yd9cPlGWYQMVPJC7D/
- us8VKD1ArluzppHWGfkP9qYbKl6rA9o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-W-2kOXqDMXG8RgqKftdt1g-1; Tue, 22 Mar 2022 22:10:22 -0400
-X-MC-Unique: W-2kOXqDMXG8RgqKftdt1g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C58C1C05ABA;
- Wed, 23 Mar 2022 02:10:21 +0000 (UTC)
-Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E729DC202C5;
- Wed, 23 Mar 2022 02:10:11 +0000 (UTC)
-Date: Wed, 23 Mar 2022 10:10:06 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Kanchan Joshi <joshi.k@samsung.com>,
- Kanchan Joshi <joshiiitr@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
+ id 1nWqZO-00CdKM-08
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 02:17:55 +0000
+Received: by mail-pj1-x1036.google.com with SMTP id gb19so360771pjb.1
+ for <linux-nvme@lists.infradead.org>; Tue, 22 Mar 2022 19:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=eI61FWNjxNcvotxhTa64BG5fyhSEhuZwOn+ohZrc1yY=;
+ b=k/h5WsdCLzhFU8jtxU82HEPtB6IfaSlxfKST3cuVgAwxE7RbWtEC/WRhGlR4qif4+6
+ DzCiLrzDzVVK0DtpcO6+wC8OXBhB04beACK7zsWp+5a6ImcpZ9RikSOI4lyXtlILvy0N
+ 35oclVAPRwg+HB/yYntPrGdIDEmbEg81ihaEE9Wasmlt2u0fiv5uEym3POmJ2tzebH81
+ mD9QgeOPCGH4dgN/VHGtfRn+8qReXCBTtNRy/MoZzOOA1yECD/0Vm4OrNCvXjgUc0j7h
+ 9TBp1tR9XftXsvDTcVOOje80fDDR19xw0IuMs1PTgMyml8qygT+jv7X6b/OGQJ7b+XRq
+ 0fTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eI61FWNjxNcvotxhTa64BG5fyhSEhuZwOn+ohZrc1yY=;
+ b=lwpVI14B4hMEMIbmmWZvrTqYe6k07B3CcVkm48h9KZ9Ytci1ZM+b4DpjYqSy2c3juH
+ 93zLd65AsvSN6kSSNhdGvcB9/AIrKgWwcMfM21H7LskHD2blhsxyBkq9t6lFAQ4vP+Eu
+ DHXSMX4yw7JbEi00PO/LqF1lF2dXH4jAOKGvNn4ZcpH4jO+VdBaachvSu2AHbhvJoi3f
+ vmKnEYmoXKwpOpNVLW8JPAzMI0v6Q2o01abh6AYk5UJfMObVl5pDmD49/cwOXGLbWgnh
+ o3yW4NJZ/ieb8rlzuhOTzw4bjFO/24p7sHwRoFVYUDxaSviE5SvOxNBnCM/t5kazm1AF
+ 00tA==
+X-Gm-Message-State: AOAM531auTidylQk7DKmZ05IH8MohS5HGhdTDb6ts8Tmmq/T+C7CAy5C
+ BBg3Uu67nTyvtpx9gj8PLxEwuA==
+X-Google-Smtp-Source: ABdhPJxtpgQpvbh5V5/2fg02qSRoT2lKlieuvf0XA4fL90y0FXVYDPKsEYxGzFPH4mzGlClL2NkgQg==
+X-Received: by 2002:a17:902:d2ce:b0:154:2e33:5663 with SMTP id
+ n14-20020a170902d2ce00b001542e335663mr19559776plc.141.1648001873157; 
+ Tue, 22 Mar 2022 19:17:53 -0700 (PDT)
+Received: from [192.168.1.100] ([198.8.77.157])
+ by smtp.gmail.com with ESMTPSA id
+ y13-20020a63b50d000000b0038297275c00sm5579534pge.34.2022.03.22.19.17.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Mar 2022 19:17:52 -0700 (PDT)
+Message-ID: <b223b7bf-0688-5020-ca46-3616f2558aaf@kernel.dk>
+Date: Tue, 22 Mar 2022 20:17:50 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 10/17] block: wire-up support for plugging
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Kanchan Joshi <joshiiitr@gmail.com>, 
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- sbates@raithlin.com, logang@deltatee.com,
- Pankaj Raghav <pankydev8@gmail.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH 10/17] block: wire-up support for plugging
-Message-ID: <YjqBfpLVhJ3nZMur@T590>
+ sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav
+ <pankydev8@gmail.com>, =?UTF-8?Q?Javier_Gonz=c3=a1lez?=
+ <javier@javigon.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Adam Manzanares <a.manzanares@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
 References: <20220308152105.309618-1-joshi.k@samsung.com>
  <CGME20220308152714epcas5p4c5a0d16512fd7054c9a713ee28ede492@epcas5p4.samsung.com>
  <20220308152105.309618-11-joshi.k@samsung.com>
  <20220310083400.GD26614@lst.de>
  <CA+1E3rJMSc33tkpXUdnftSuxE5yZ8kXpAi+czSNhM74gQgk_Ag@mail.gmail.com>
  <Yi9T9UBIz/Qfciok@T590> <20220321070208.GA5107@test-zns>
- <Yjp3dMxs764WEz6N@T590>
- <c7ce0850-0286-ec6b-2d68-20226e7bae16@kernel.dk>
- <a1693c16-151e-60f0-ed8d-25e98dce57d4@kernel.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1693c16-151e-60f0-ed8d-25e98dce57d4@kernel.dk>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+ <Yjp3dMxs764WEz6N@T590> <c7ce0850-0286-ec6b-2d68-20226e7bae16@kernel.dk>
+ <a1693c16-151e-60f0-ed8d-25e98dce57d4@kernel.dk> <YjqBfpLVhJ3nZMur@T590>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <YjqBfpLVhJ3nZMur@T590>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220322_191029_593062_D8C6FF7C 
-X-CRM114-Status: GOOD (  26.38  )
+X-CRM114-CacheID: sfid-20220322_191754_076672_7821AC19 
+X-CRM114-Status: GOOD (  18.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,60 +106,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 22, 2022 at 07:58:25PM -0600, Jens Axboe wrote:
-> On 3/22/22 7:41 PM, Jens Axboe wrote:
-> > On 3/22/22 7:27 PM, Ming Lei wrote:
-> >> On Mon, Mar 21, 2022 at 12:32:08PM +0530, Kanchan Joshi wrote:
-> >>> On Mon, Mar 14, 2022 at 10:40:53PM +0800, Ming Lei wrote:
-> >>>> On Thu, Mar 10, 2022 at 06:10:08PM +0530, Kanchan Joshi wrote:
-> >>>>> On Thu, Mar 10, 2022 at 2:04 PM Christoph Hellwig <hch@lst.de> wrote:
-> >>>>>>
-> >>>>>> On Tue, Mar 08, 2022 at 08:50:58PM +0530, Kanchan Joshi wrote:
-> >>>>>>> From: Jens Axboe <axboe@kernel.dk>
-> >>>>>>>
-> >>>>>>> Add support to use plugging if it is enabled, else use default path.
-> >>>>>>
-> >>>>>> The subject and this comment don't really explain what is done, and
-> >>>>>> also don't mention at all why it is done.
-> >>>>>
-> >>>>> Missed out, will fix up. But plugging gave a very good hike to IOPS.
-> >>>>
-> >>>> But how does plugging improve IOPS here for passthrough request? Not
-> >>>> see plug->nr_ios is wired to data.nr_tags in blk_mq_alloc_request(),
-> >>>> which is called by nvme_submit_user_cmd().
-> >>>
-> >>> Yes, one tag at a time for each request, but none of the request gets
-> >>> dispatched and instead added to the plug. And when io_uring ends the
-> >>> plug, the whole batch gets dispatched via ->queue_rqs (otherwise it used
-> >>> to be via ->queue_rq, one request at a time).
-> >>>
-> >>> Only .plug impact looks like this on passthru-randread:
-> >>>
-> >>> KIOPS(depth_batch)  1_1    8_2    64_16    128_32
-> >>> Without plug        159    496     784      785
-> >>> With plug           159    525     991     1044
-> >>>
-> >>> Hope it does clarify.
-> >>
-> >> OK, thanks for your confirmation, then the improvement should be from
-> >> batch submission only.
-> >>
-> >> If cached request is enabled, I guess the number could be better.
-> > 
-> > Yes, my original test patch pre-dates being able to set a submit count,
-> > it would definitely help improve this case too. The current win is
-> > indeed just from being able to use ->queue_rqs() rather than single
-> > submit.
+On 3/22/22 8:10 PM, Ming Lei wrote:
+> On Tue, Mar 22, 2022 at 07:58:25PM -0600, Jens Axboe wrote:
+>> On 3/22/22 7:41 PM, Jens Axboe wrote:
+>>> On 3/22/22 7:27 PM, Ming Lei wrote:
+>>>> On Mon, Mar 21, 2022 at 12:32:08PM +0530, Kanchan Joshi wrote:
+>>>>> On Mon, Mar 14, 2022 at 10:40:53PM +0800, Ming Lei wrote:
+>>>>>> On Thu, Mar 10, 2022 at 06:10:08PM +0530, Kanchan Joshi wrote:
+>>>>>>> On Thu, Mar 10, 2022 at 2:04 PM Christoph Hellwig <hch@lst.de> wrote:
+>>>>>>>>
+>>>>>>>> On Tue, Mar 08, 2022 at 08:50:58PM +0530, Kanchan Joshi wrote:
+>>>>>>>>> From: Jens Axboe <axboe@kernel.dk>
+>>>>>>>>>
+>>>>>>>>> Add support to use plugging if it is enabled, else use default path.
+>>>>>>>>
+>>>>>>>> The subject and this comment don't really explain what is done, and
+>>>>>>>> also don't mention at all why it is done.
+>>>>>>>
+>>>>>>> Missed out, will fix up. But plugging gave a very good hike to IOPS.
+>>>>>>
+>>>>>> But how does plugging improve IOPS here for passthrough request? Not
+>>>>>> see plug->nr_ios is wired to data.nr_tags in blk_mq_alloc_request(),
+>>>>>> which is called by nvme_submit_user_cmd().
+>>>>>
+>>>>> Yes, one tag at a time for each request, but none of the request gets
+>>>>> dispatched and instead added to the plug. And when io_uring ends the
+>>>>> plug, the whole batch gets dispatched via ->queue_rqs (otherwise it used
+>>>>> to be via ->queue_rq, one request at a time).
+>>>>>
+>>>>> Only .plug impact looks like this on passthru-randread:
+>>>>>
+>>>>> KIOPS(depth_batch)  1_1    8_2    64_16    128_32
+>>>>> Without plug        159    496     784      785
+>>>>> With plug           159    525     991     1044
+>>>>>
+>>>>> Hope it does clarify.
+>>>>
+>>>> OK, thanks for your confirmation, then the improvement should be from
+>>>> batch submission only.
+>>>>
+>>>> If cached request is enabled, I guess the number could be better.
+>>>
+>>> Yes, my original test patch pre-dates being able to set a submit count,
+>>> it would definitely help improve this case too. The current win is
+>>> indeed just from being able to use ->queue_rqs() rather than single
+>>> submit.
+>>
+>> Actually that is already there through io_uring, nothing extra is
+>> needed.
 > 
-> Actually that is already there through io_uring, nothing extra is
-> needed.
+> I meant in this patchset that plug->nr_ios isn't wired to data.nr_tags in
+> blk_mq_alloc_request(), which is called by pt request allocation, so
+> looks cached request isn't enabled for pt commands?
 
-I meant in this patchset that plug->nr_ios isn't wired to data.nr_tags in
-blk_mq_alloc_request(), which is called by pt request allocation, so
-looks cached request isn't enabled for pt commands?
+My point is that it is, since submission is through io_uring which does
+exactly that.
 
-
-Thanks,
-Ming
+-- 
+Jens Axboe
 
 
