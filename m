@@ -4,59 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CD35C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Mar 2022 17:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94B5EC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 01:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p09z18MHQtmtgxHUiCsHloFQELrsLU0JKItv2cpiP4w=; b=mqFU2WADL2T7kEFxGepxtRQ051
-	WvEslKBtbgcE0LEi47So4XHQ3UQvKlLMXGeQrtxJxFQfks/8wEa9smv8Z8+0dYTKTH/eTyqit/W7x
-	UAT5QKnXSA5TDIKjvsqbhTgBKGD3pnWTZeasKHsAkTF8iyLiN27W/FV6iyayXf3a+uWeO9edsyNLt
-	PId53Ix+4Zvkps5AxrHLYbwfNxkpxbsfFqW0uE9b5FM3Q+gXiAL7K8lTOL/Ph+DbP9c/8je5SVucs
-	kkbp9gUiG6qKXT2pmLjnGgbrbQEuQNHH6ReJVTXIfJPdEs8zInjizNh2YJ8AcEiu6jOG3yOaKcBVJ
-	CKrNozTA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uv0x7IhJh6HUYVs80OeWrM0ewUxdezb68rDatc83fOk=; b=X+J87KXnlf8HTtlH7LQzlftpQ2
+	Du6DnIxUqYpR0xRwKQEjLTlTaF/w+Y1KFWZowVxM9JnB3f/ETNlKbErRamXjFhNc8kRValDM3Z/qd
+	Y03ofXjjF2wZeJ9k5g1KECJ3pHIeDhj7strLtTWGr2yiFH/hK9dL7r9OqPMY/sr+BIuIEkaoO5EnV
+	1MrcA1brfbiCxsYfSC2V+bRv7qW3Et2k9zhyZkFQC4H8b+jtJ5bQ7OMxi6UcEOWgGxCJEWPmltXNf
+	IWIF9wjBS/k2wT/r70FXTiJzVb1MhUIrxoX7Y0Ghfr23e0VpcIrB8BYbrkbI0380gxr+ztmaXB3nr
+	8wC8nazA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nWiVg-00Bl5K-7G; Tue, 22 Mar 2022 17:41:32 +0000
-Received: from foss.arm.com ([217.140.110.172])
- by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nWiVU-00Bl0a-Fo; Tue, 22 Mar 2022 17:41:22 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12D631042;
- Tue, 22 Mar 2022 10:41:18 -0700 (PDT)
-Received: from [10.57.43.230] (unknown [10.57.43.230])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE0043F66F;
- Tue, 22 Mar 2022 10:41:15 -0700 (PDT)
-Message-ID: <e9e589fe-8363-3f52-e9cd-08778485ad79@arm.com>
-Date: Tue, 22 Mar 2022 17:41:11 +0000
+	id 1nWpmx-00CZIP-7E; Wed, 23 Mar 2022 01:27:51 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nWpmu-00CZHV-2i
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 01:27:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647998865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uv0x7IhJh6HUYVs80OeWrM0ewUxdezb68rDatc83fOk=;
+ b=YpW6qXXV5yz6SnMskRPNMWw55hFnV2KVHG1fPZT7VNCH30bGJvg7FP3RyK1D5I0iHKioyF
+ dPMRePGLgaZIzhvHf4+nPomgeDRnaZ5gUT0czAOBtCcLJIjrAeDVKBku8sbPn8A+Vsm7BM
+ SvlliN+ukb7DHaRM0OVKscOwfCPs68E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-508-pGai4B4ePTaoBfBKVAlgbw-1; Tue, 22 Mar 2022 21:27:40 -0400
+X-MC-Unique: pGai4B4ePTaoBfBKVAlgbw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E99C85A5BE;
+ Wed, 23 Mar 2022 01:27:40 +0000 (UTC)
+Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E12497AD1;
+ Wed, 23 Mar 2022 01:27:22 +0000 (UTC)
+Date: Wed, 23 Mar 2022 09:27:16 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Kanchan Joshi <joshiiitr@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ sbates@raithlin.com, logang@deltatee.com,
+ Pankaj Raghav <pankydev8@gmail.com>,
+ Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>
+Subject: Re: [PATCH 10/17] block: wire-up support for plugging
+Message-ID: <Yjp3dMxs764WEz6N@T590>
+References: <20220308152105.309618-1-joshi.k@samsung.com>
+ <CGME20220308152714epcas5p4c5a0d16512fd7054c9a713ee28ede492@epcas5p4.samsung.com>
+ <20220308152105.309618-11-joshi.k@samsung.com>
+ <20220310083400.GD26614@lst.de>
+ <CA+1E3rJMSc33tkpXUdnftSuxE5yZ8kXpAi+czSNhM74gQgk_Ag@mail.gmail.com>
+ <Yi9T9UBIz/Qfciok@T590> <20220321070208.GA5107@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 5/9] soc: apple: Add RTKit IPC library
-Content-Language: en-GB
-To: Arnd Bergmann <arnd@arndb.de>, Sven Peter <sven@svenpeter.dev>
-Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Marc Zyngier <maz@kernel.org>, DTML <devicetree@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org
-References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-6-sven@svenpeter.dev>
- <CAK8P3a2VgrWHerXTX4_wS8UU7fpN9-JZ5xESaWrr-WGYqGty=g@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <CAK8P3a2VgrWHerXTX4_wS8UU7fpN9-JZ5xESaWrr-WGYqGty=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220321070208.GA5107@test-zns>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220322_104120_603998_692EDBEC 
-X-CRM114-Status: UNSURE (   8.44  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220322_182748_238195_A390FE7E 
+X-CRM114-Status: GOOD (  22.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,19 +91,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-03-22 13:13, Arnd Bergmann wrote:
->> +#define rtk_err(format, arg...) dev_err(rtk->dev, "RTKit: " format, ##arg)
->> +#define rtk_warn(format, arg...) dev_warn(rtk->dev, "RTKit: " format, ##arg)
->> +#define rtk_info(format, arg...) dev_info(rtk->dev, "RTKit: " format, ##arg)
->> +#define rtk_dbg(format, arg...) dev_dbg(rtk->dev, "RTKit: " format, ##arg)
+On Mon, Mar 21, 2022 at 12:32:08PM +0530, Kanchan Joshi wrote:
+> On Mon, Mar 14, 2022 at 10:40:53PM +0800, Ming Lei wrote:
+> > On Thu, Mar 10, 2022 at 06:10:08PM +0530, Kanchan Joshi wrote:
+> > > On Thu, Mar 10, 2022 at 2:04 PM Christoph Hellwig <hch@lst.de> wrote:
+> > > >
+> > > > On Tue, Mar 08, 2022 at 08:50:58PM +0530, Kanchan Joshi wrote:
+> > > > > From: Jens Axboe <axboe@kernel.dk>
+> > > > >
+> > > > > Add support to use plugging if it is enabled, else use default path.
+> > > >
+> > > > The subject and this comment don't really explain what is done, and
+> > > > also don't mention at all why it is done.
+> > > 
+> > > Missed out, will fix up. But plugging gave a very good hike to IOPS.
+> > 
+> > But how does plugging improve IOPS here for passthrough request? Not
+> > see plug->nr_ios is wired to data.nr_tags in blk_mq_alloc_request(),
+> > which is called by nvme_submit_user_cmd().
 > 
-> I generally don't like the custom printing macros, please just open-code
-> the prints where they are used, that makes it easier for other kernel
-> developers to see exactly what is being printed
+> Yes, one tag at a time for each request, but none of the request gets
+> dispatched and instead added to the plug. And when io_uring ends the
+> plug, the whole batch gets dispatched via ->queue_rqs (otherwise it used
+> to be via ->queue_rq, one request at a time).
+> 
+> Only .plug impact looks like this on passthru-randread:
+> 
+> KIOPS(depth_batch)  1_1    8_2    64_16    128_32
+> Without plug        159    496     784      785
+> With plug           159    525     991     1044
+> 
+> Hope it does clarify.
 
-More to the point, implicitly depending on having something named "rtk" 
-in scope is pretty much inexcusable, and the only thing left after 
-fixing that is what we have pr_fmt for ;)
+OK, thanks for your confirmation, then the improvement should be from
+batch submission only.
 
-Robin.
+If cached request is enabled, I guess the number could be better.
+
+
+Thanks,
+Ming
+
 
