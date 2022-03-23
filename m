@@ -4,65 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CA2BC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 16:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7315C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Mar 2022 16:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xx6Ve/1+Lp2J2zqFFljK9D1e1j3IZHddS3ulwux1K8o=; b=jB/2PvXC6lL7QaRAk+YYLVQOSq
-	pr3WUvsOwG5wAKjGE9OF9NIe7ubnVr+qoNgoquaQNfGugBooNd0P1ZP6vO89KEyrIRwlM94tyCdc+
-	IHO4RkPp1KdRu2r1Gip9hdHt9APIlT+BnrTEcfvQYJBMUjrrphnmevH4sZBCgEp/gsf+Gtcs1K08a
-	s9oESHzpYd82EGG4is46fLlPbMSxkbFE9R1oF6h3q+8CtfnUQBmHNS6hUFkGhePhbxqpdUVLjI0W9
-	z1+VV4X+HJKbBHRsPj82dqJr2rfcJLO5lE7GbYe9w+ty1qHOVVuaxOpTP2aeBQ38few9gLCsVyLxp
-	fTDszGvg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YNnHp5P4nEjX7nU1x/5Y1Dme2dErZ8E1NHIpLaf71HM=; b=1rZ5Gig62ASd+gfLPWvNn6PM6z
+	fKBuqjThBX91GgUC4ECNaevg6vdAwdj24qwPRa0loXN2EGv0I5kFct5fhH229lXnL0YSCAAJOdfuW
+	f/atlM7qASHXlPxRj1yz7vztX4AqVtxPPHsjHKcm5F+CwzvEh+/gAHbgOyh4tHpF5PLLyzrRvDgqO
+	EbK4n6cE/W5JNU7Ulc7RPzUstKQjPPvcjFmwwWdqlfS3FDE+0BdAl5PoBJiXYXyywK/lxcG1J0Jun
+	PX+NwgdH27EV7pG8wLCBUBfEUS7x18MgySdutYoENvl+toI12UjXKp0bPLU7qqZeH9CE0jW3I8fw2
+	HgXKCtGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nX3qH-00EFDy-Ez; Wed, 23 Mar 2022 16:28:13 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1nX3vE-00EGKO-34; Wed, 23 Mar 2022 16:33:20 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nX3qD-00EFCY-Lc
- for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 16:28:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648052889; x=1679588889;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=Msa++tQ4AK5Bp/+DsBQrMxGWGzUFUL6ooMHoafDYlfI=;
- b=m0cA86gq6gbGk/kP0IXAub12xPzYvz9mwgKo39W6lA64fMfD4+uhl+33
- UubvCjI7Jmy3kbc24u+GB5v5GGHGbaMvb2S6GOWc8jNJqypDbOyMIHGcw
- YPOMfGgEUwLZbltahaH7owFJk8cJls3FFiSqdLXwQ3WHQrluL6mo96Q99
- x9EEgUBiSDaPlO+r6AK297gA1dYGHlCeayqHlUHCQwVHE7lWSsHd3hNa0
- E1eddtUl7M3iX5cRTJRG5TwtZN6uXKXgp9rowdr5w/DdZA4CfxbJNjo7u
- AjQTMua/T9y7J5ce6Sm5wfJ+epY/K1mByP/DhN4Qr6F9xfaT2sjIJh4b2 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="245633253"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="245633253"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2022 09:21:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; d="scan'208";a="519421339"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 23 Mar 2022 09:21:35 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nX3jq-000KDJ-GO; Wed, 23 Mar 2022 16:21:34 +0000
-Date: Thu, 24 Mar 2022 00:20:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>
+ id 1nX3vB-00EGK0-BK
+ for linux-nvme@lists.infradead.org; Wed, 23 Mar 2022 16:33:18 +0000
+Received: by mail-wm1-f52.google.com with SMTP id
+ bi13-20020a05600c3d8d00b0038c2c33d8f3so5690461wmb.4
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 09:33:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YNnHp5P4nEjX7nU1x/5Y1Dme2dErZ8E1NHIpLaf71HM=;
+ b=QBwxxJzzBO9+tZIQD3XPmYjX62dkJB4CKgklIfESfFL0DkcRtq97rytO7qV/Q20FK/
+ ONT2fFwVmuVgs/w11RmsSADraXjmPKFvqPfbExBCRQNl1kKM+5r7z4GY9DKYoCpIeA3l
+ 2C8+VR9b/0+KY8SawPxKIrF0Y00Pyu2zECj4A5n87n1coXGsNuSn4lIgdDUXJfP13nFO
+ 6Jg44m54pC3m/b6ICr5ksJrhjobdFLZTwVynhEvs/ftblSVvU1+y+kq0s7dkoFbB0r1K
+ VYPl1kmAd9AoesVsCkLf40+vDbegKkGEtXKPbBIT6YRZOpT/6TkONxM0FOYMdHmuYRe6
+ +h9w==
+X-Gm-Message-State: AOAM530B2AXveHs9AkzNx5EctDd++O7YxTh8yW8Vx7hX9N8rVAyRcr3r
+ 4M8SsI8oMPNfvSNQyGsHdu8=
+X-Google-Smtp-Source: ABdhPJwdgQCQe4eZ9YnxVd1gOZjE1TDOGIwZLASWfvo2j6kIzd5FmUeKP+qrYClgi6YyTVhzla6ZfQ==
+X-Received: by 2002:a7b:ce84:0:b0:37c:52fe:a3ff with SMTP id
+ q4-20020a7bce84000000b0037c52fea3ffmr10026873wmj.48.1648053195267; 
+ Wed, 23 Mar 2022 09:33:15 -0700 (PDT)
+Received: from [10.100.102.14] (85.65.206.129.dynamic.barak-online.net.
+ [85.65.206.129]) by smtp.gmail.com with ESMTPSA id
+ p15-20020a05600c358f00b0038cc046cb2esm370133wmq.32.2022.03.23.09.33.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Mar 2022 09:33:14 -0700 (PDT)
+Message-ID: <9c747632-2cd0-3096-40d8-e3df40b95679@grimberg.me>
+Date: Wed, 23 Mar 2022 18:33:13 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [linux-nvme:nvme-5.18 4/5] ERROR: modpost: "nvmet_wq"
+ [drivers/nvme/target/nvmet-fc.ko] undefined!
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>
 Cc: kbuild-all@lists.01.org, linux-nvme@lists.infradead.org,
  Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [linux-nvme:nvme-5.18 4/5] ERROR: modpost: "nvmet_wq"
- [drivers/nvme/target/nvmet-fc.ko] undefined!
-Message-ID: <202203240012.gJehzedI-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <202203240012.gJehzedI-lkp@intel.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <202203240012.gJehzedI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_092809_800092_70383C79 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20220323_093317_424627_BB154932 
+X-CRM114-Status: GOOD (  13.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,28 +84,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-5.18
-head:   84db0c76f3bda283a82c0e883c8f3171048a30bf
-commit: ade7dda8539580e02c9004f124783f320924709b [4/5] nvmet: use a private workqueue instead of the system workqueue
-config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220324/202203240012.gJehzedI-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce (this is a W=1 build):
-        git remote add linux-nvme git://git.infradead.org/nvme.git
-        git fetch --no-tags linux-nvme nvme-5.18
-        git checkout ade7dda8539580e02c9004f124783f320924709b
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> tree:   git://git.infradead.org/nvme.git nvme-5.18
+> head:   84db0c76f3bda283a82c0e883c8f3171048a30bf
+> commit: ade7dda8539580e02c9004f124783f320924709b [4/5] nvmet: use a private workqueue instead of the system workqueue
+> config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220324/202203240012.gJehzedI-lkp@intel.com/config)
+> compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+> reproduce (this is a W=1 build):
+>          git remote add linux-nvme git://git.infradead.org/nvme.git
+>          git fetch --no-tags linux-nvme nvme-5.18
+>          git checkout ade7dda8539580e02c9004f124783f320924709b
+>          # save the config file to linux build tree
+>          mkdir build_dir
+>          make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+>>> ERROR: modpost: "nvmet_wq" [drivers/nvme/target/nvmet-fc.ko] undefined!
+>>> ERROR: modpost: "nvmet_wq" [drivers/nvme/target/nvme-loop.ko] undefined!
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Damn... patch slipped:
+--
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 18444eaf35ab..dbd528061857 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -18,6 +18,7 @@
+  struct workqueue_struct *buffered_io_wq;
+  struct workqueue_struct *zbd_wq;
+  struct workqueue_struct *nvmet_wq;
++EXPORT_SYMBOL_GPL(nvmet_wq);
+  static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+  static DEFINE_IDA(cntlid_ida);
+--
 
->> ERROR: modpost: "nvmet_wq" [drivers/nvme/target/nvmet-fc.ko] undefined!
->> ERROR: modpost: "nvmet_wq" [drivers/nvme/target/nvme-loop.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Christoph, can you fold it in or should I?
 
