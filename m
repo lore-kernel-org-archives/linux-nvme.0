@@ -4,33 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8563BC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Mar 2022 06:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0937C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Mar 2022 06:30:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nbX5wWmMqP85qGYRaS9ZM+S+SyOB6RllUnVo6h2Ql+Q=; b=eH1WKgKNM1KeiAxKwYRgdVk6k+
-	Q1XofDP7VWQJYuYW5cz4NecGcAXPUj92snyF2vmT6QBpmLY+TgbQdWE2H6lJWNCC2lxtEOdJS9NC7
-	4y/J6m57r1CGMsqyD99DIC8DIwfagkzSnzfTdN47081/Pl76BVOYed3DFbnuLCTSI/vg0vsJPpUUW
-	Npltnv5wac1XuvrLBVgaonzXIHQsANvCbnD4r8HMPBH2JYop5hvHGF1hqWe7JtK4lz2S1BEvP69a/
-	Zzyc6C8k8w4i+LpwI/8u1mf4KFsrxKmsqT1ao8ka2VZCshvZ+FCZeg4ev7PSdR5yfiexQJ7JBqxNX
-	8PRzf3sQ==;
+	bh=lSdhuvaPQ0exeYXsD2bqy2nUrbYwbO7JaHSOpW7TUyU=; b=MIXjTA6Fo3oU8KWsGGvfwRuxoA
+	/Rh9/dJyh1bO+aQYhXUM47JDt76cfmAynKXPq6LnlTWtVrSw0Nep+Miwurrsf2ffAwOjBF79+oOPL
+	fhfLyDC2XvfuPqSETVMHAHkqtwxzP6R1qfawwxAS+zQ87RdjDzlygaa59CgVym+EBSTRLDD4LCHCf
+	CmfF8XfFYCO0+wkuYMgMCczfxL9LxxD+plcoXhPbIKWW+NO3Q6s8cspiUHH87Wb+I5KEICr/5/pG7
+	lfqwP5Aa1pLn6BS50N5Fxk0ZVnnMgZDGJU3+llXSXl/D1USA4fY+o3UBiqC2tRYJSoG4SsyBdGOhF
+	Fwehf7/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nXGzE-00Fpwf-FQ; Thu, 24 Mar 2022 06:30:20 +0000
+	id 1nXGzi-00Fq5D-Ki; Thu, 24 Mar 2022 06:30:50 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nXGzB-00FpvK-B1
- for linux-nvme@lists.infradead.org; Thu, 24 Mar 2022 06:30:18 +0000
+ id 1nXGzg-00Fq48-1F
+ for linux-nvme@lists.infradead.org; Thu, 24 Mar 2022 06:30:49 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 20F6A68B05; Thu, 24 Mar 2022 07:30:11 +0100 (CET)
-Date: Thu, 24 Mar 2022 07:30:11 +0100
+ id 5129768B05; Thu, 24 Mar 2022 07:30:45 +0100 (CET)
+Date: Thu, 24 Mar 2022 07:30:45 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshiiitr@gmail.com>,
  Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
  Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
@@ -40,22 +40,22 @@ Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
  Luis Chamberlain <mcgrof@kernel.org>,
  Adam Manzanares <a.manzanares@samsung.com>,
  Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH 11/17] block: factor out helper for bio allocation from
- cache
-Message-ID: <20220324063011.GA12660@lst.de>
+Subject: Re: [PATCH 14/17] io_uring: add polling support for uring-cmd
+Message-ID: <20220324063045.GB12660@lst.de>
 References: <20220308152105.309618-1-joshi.k@samsung.com>
- <CGME20220308152716epcas5p3d38d2372c184259f1a10c969f7e4396f@epcas5p3.samsung.com>
- <20220308152105.309618-12-joshi.k@samsung.com>
- <20220310083503.GE26614@lst.de>
- <CA+1E3rLF7D4jThUPZYbxpXs9LLdQ7Ek=Qy+rXZE=xgwBcLoaWQ@mail.gmail.com>
+ <CGME20220308152723epcas5p34460b4af720e515317f88dbb78295f06@epcas5p3.samsung.com>
+ <20220308152105.309618-15-joshi.k@samsung.com>
+ <20220311065007.GC17728@lst.de>
+ <CA+1E3rKKCE53TJ9mJesK3UrPPa=Vqx6fxA+TAhj9v5hT452AuQ@mail.gmail.com>
+ <20220315085745.GE4132@lst.de> <20220316050905.GA28016@test-zns>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+1E3rLF7D4jThUPZYbxpXs9LLdQ7Ek=Qy+rXZE=xgwBcLoaWQ@mail.gmail.com>
+In-Reply-To: <20220316050905.GA28016@test-zns>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_233017_550167_AB5F1E2A 
-X-CRM114-Status: GOOD (  15.12  )
+X-CRM114-CacheID: sfid-20220323_233048_270972_51BB7DB8 
+X-CRM114-Status: GOOD (  11.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,28 +70,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 10, 2022 at 05:55:02PM +0530, Kanchan Joshi wrote:
-> On Thu, Mar 10, 2022 at 2:05 PM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Tue, Mar 08, 2022 at 08:50:59PM +0530, Kanchan Joshi wrote:
-> > > +struct bio *bio_alloc_kiocb(struct kiocb *kiocb, unsigned short nr_vecs,
-> > > +                         struct bio_set *bs)
-> > > +{
-> > > +     if (!(kiocb->ki_flags & IOCB_ALLOC_CACHE))
-> > > +             return bio_alloc_bioset(GFP_KERNEL, nr_vecs, bs);
-> > > +
-> > > +     return bio_from_cache(nr_vecs, bs);
-> > > +}
-> > >  EXPORT_SYMBOL_GPL(bio_alloc_kiocb);
-> >
-> > If we go down this route we might want to just kill the bio_alloc_kiocb
-> > wrapper.
-> 
-> Fine, will kill that in v2.
+On Wed, Mar 16, 2022 at 10:39:05AM +0530, Kanchan Joshi wrote:
+> So how about adding ->async_cmd_poll in file_operations (since this
+> corresponds to ->async_cmd)?
+> It will take struct io_uring_cmd pointer as parameter.
+> Both ->iopoll and ->async_cmd_poll will differ in what they accept (kiocb
+> vs io_uring_cmd). The provider may use bio_poll, or whatever else is the
+> implementation detail.
 
-As a headsup,  Mike Snitzer has been doing something similar in the
-
-"block/dm: use BIOSET_PERCPU_CACHE from bio_alloc_bioset"
-
-series.
+That does sound way better than the current version at least.
 
