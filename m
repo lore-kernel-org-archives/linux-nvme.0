@@ -4,78 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53D2DC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Mar 2022 00:39:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0709C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Mar 2022 00:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=44RShZxgn9paT7MjAHFRskXBhHC6HZN40UXAt/ajQ1Q=; b=xijztrWVwrbewyyVMQwby0OILx
-	40aR7OVJlzQQLKHwKbbEDU+RuPi+Xd4EXjfc+abUpSTpY3bQZKsLeA9AlyUzhDkMXZ53SAI0dbC2x
-	y6X8DTgfFs0DarZBhGq+j8BVLu1oImkwHvU4LdF3tCp81SCXEbVwsm6Q6GDNeSeouYCTKWG9ZTUhY
-	nvwyUjPtf6CKxUGDhJuKjGnwrNronwbXr0t28yB8K03zLM4QJB7wEvfb/vCaRA8YrIiyvjWaohfCN
-	S/H+ZC1ZWvNsfz7J+BdOmtST5xX/5oXw+GOp2J8p0tuSUFoIcBy9+14eFPqClLbsDu3PQR5JMsdH5
-	MiE4NSfg==;
+	bh=JSGcvwXEnegiQrJY4N1UDOeHJa8hA4CPn2pXvAlq9B8=; b=FYiIVqTrCY+Vq9t6N9IgAXqSL7
+	4nLtdzMdfS9yIemcmfG6AQp2Wvmp/aO2Y1xgbX9fJtukHdycmvD+4SMoJRoqkK7+TLaiakO0W/YbR
+	pWktZ2BfQ5WVkkcF2iuID1Uf41CIYN2vT6o24EF4Srbtjyppxus/kI1OZqBirvETbP6D1/wwJx0S2
+	+h4t70aeP1eM8Hmdr0iCFxzzJgGUJ2jICaFCS451imnCLjcAdS2grIP0+agx/wpGieujShf+ZNP3V
+	R6TO22EPGuSFM1JrP+TQ7e61C2cK9lTUIWt5ICDZfAIgT3m9FZ+C67gdEyOmOl3gARLdnPyDYfQf3
+	Q0FyT2Qw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nXBVg-00FDcI-Ou; Thu, 24 Mar 2022 00:39:28 +0000
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+	id 1nXBVm-00FDdA-4X; Thu, 24 Mar 2022 00:39:34 +0000
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nXBVe-00FDbs-57
- for linux-nvme@lists.infradead.org; Thu, 24 Mar 2022 00:39:27 +0000
-Received: by mail-wm1-x32e.google.com with SMTP id
- bi13-20020a05600c3d8d00b0038c2c33d8f3so6345665wmb.4
- for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 17:39:25 -0700 (PDT)
+ id 1nXBVi-00FDca-P3
+ for linux-nvme@lists.infradead.org; Thu, 24 Mar 2022 00:39:32 +0000
+Received: by mail-wm1-x32f.google.com with SMTP id h16so1883154wmd.0
+ for <linux-nvme@lists.infradead.org>; Wed, 23 Mar 2022 17:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=44RShZxgn9paT7MjAHFRskXBhHC6HZN40UXAt/ajQ1Q=;
- b=L7g9idyKW+GLYPE2Lp0kOYOAz11UiQJKwuHFe9m8wNGs/CLwvxsAwVrEzFa/gch7UH
- R9pXFR6Yd6mcI3OHhk8wm6izPa/6dvsfBNN4iW+AhO0FDuEfLU2EP797lPYoV6z+iQfV
- AEyrAzANEdH0E4DzzoGZW/QdjSOduhCPvJ/N6IZ2HippDpt5qvbU+/oWYqCz/au+oqW9
- Aq+LUJHxKTwzbAM/+QfrfEh1dVdajX0PhndiG/rLYarg0vpQKtU2tHPmGHy1iwd36NIK
- +DIsTM8y1pobYV0gVRhEV1Umq3QUn4wgF22M7FBFum1wcrStcbmy8ZFY2CNY4sR9hdTc
- H2pg==
+ bh=JSGcvwXEnegiQrJY4N1UDOeHJa8hA4CPn2pXvAlq9B8=;
+ b=VP+e/nfLnPCvnJ69uuVZM5DonNfvC3pbrcb0XzLkcWDACMeOdRh2jPNfi/bRThlqNP
+ 7dVl6fD7xebZ/24Vrj5w2dwPYOd2byvqOP2UqOxKslXk9p+WryGs18GXRohgDXet43kO
+ R5HJ+fZ7bEa3UTfnAYUcDK54VnSSuS71oRgmNmBzU+epW7NZxlSE8fK8zi9oBAi2rUai
+ bACoJVnorWiU6g6WRgYlNYBqwfgU5UTEgW0gzS7RAOUkg8MyQnemUkmT1/wPCrweSTJg
+ nYbY5FDMp2MTob4fHfNlCBr/pfdIt6C75wWWZFkJGJM7O2BctW0/rW7TY/2XD/g+dpFD
+ FZfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=44RShZxgn9paT7MjAHFRskXBhHC6HZN40UXAt/ajQ1Q=;
- b=GFasypq27cDwJOI1xFSNErSWdstBfllS3GQT5M5xkxQbMmeUxqdXGR5aY0oV3x6686
- ttT3sLj4nl7D5Eq2cqoT1LhA70YjW6kMyK/XRW1imMmMzJ1lsx4oa7h/NqKxXhR9m3h7
- a5vuRd9fJZwlQtvhIA1nntCCG8py0t8QrQO3Dg1ngJrIX3kKfqU8MS5Sc+nt/j5cYO3T
- XfQQyrrcm7+toL4cLo111c2QFDoqyc9lnff/4sjEnCTfm32cJ8gFvDmYPgfQdAw1sQVl
- lxV0PduydfhPxJ79eOGSlGpxS82CnhQMjHfVQRu/VGnZLNBOf0fnt68iqek2Ykow98Et
- UREw==
-X-Gm-Message-State: AOAM533zb//XSRL6/h1lShbRa+w3rOIoMaPWJWdPCCJ4NQnBPcswWCaq
- X27Y93nR24yfgrUwlr2bvSQM8CWL7BQe8A==
-X-Google-Smtp-Source: ABdhPJztJ5oSN8CtmD+c6FhO0Nkf3BG896gFtRGiLozTxnzRaA52RMlwfZeJTq1whx30PaOM1iDPgA==
-X-Received: by 2002:a05:600c:4ece:b0:38c:7938:d73c with SMTP id
- g14-20020a05600c4ece00b0038c7938d73cmr11953584wmq.165.1648082364488; 
- Wed, 23 Mar 2022 17:39:24 -0700 (PDT)
+ bh=JSGcvwXEnegiQrJY4N1UDOeHJa8hA4CPn2pXvAlq9B8=;
+ b=OPuu3u8R4dp7vV3912lKnatQcZkAwEm9VXI5vOxpW5cx0UsDG7LKxtBQLkp227wIRw
+ +u6syTawdIZnigye40dq6IR6T4MS3cYhY0mqkH/SgRICFynJAbqTKqEwqQaukryXEH9j
+ dlwWRdGo4gkuBylYm/AL8qU3raqHCRpVnzmD7V/toXQnd/PGrw5T8F3ilvuTEHb6kYvD
+ 4m7upw6tJRvg9RNTENfqvxXYWR/Ruqh7uKfrycq4G4P5SonXpt8+u0BwOUyD8FFJbWAz
+ pYAIlUUIsKhAba7pa4S/H/bltpnSrZV0u6O0czOOUJ3Vbi6W6A0Bq5RIlxKNwyH3iSSB
+ o+/Q==
+X-Gm-Message-State: AOAM533DGXU52asX2YM7vGlFdMguhBVKLzeVcMHBOuYVQWFJFhzN68Zq
+ BTN7MjkYb/0j//obd6cDyxqBvgJxu/rxTg==
+X-Google-Smtp-Source: ABdhPJxYhaddCPpGP/kP8TaIOOXx0Gk6ZG3xpghcMGdNvL2PHUTdYBfpBwVEDFAHXLvODGR3406Odw==
+X-Received: by 2002:a05:600c:3588:b0:38c:6d7f:6fd8 with SMTP id
+ p8-20020a05600c358800b0038c6d7f6fd8mr2386827wmq.25.1648082369097; 
+ Wed, 23 Mar 2022 17:39:29 -0700 (PDT)
 Received: from localhost.localdomain (c-76-23-2-87.hsd1.ut.comcast.net.
  [76.23.2.87]) by smtp.googlemail.com with ESMTPSA id
- n8-20020a5d5988000000b00203d5f1f3e4sm1187937wri.105.2022.03.23.17.39.17
+ n8-20020a5d5988000000b00203d5f1f3e4sm1187937wri.105.2022.03.23.17.39.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Mar 2022 17:39:24 -0700 (PDT)
+ Wed, 23 Mar 2022 17:39:28 -0700 (PDT)
 From: Anton Eidelman <anton.eidelman@gmail.com>
 X-Google-Original-From: Anton Eidelman <anton@lightbitslabs.com>
 To: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
  sagi@grimberg.me, axboe@fb.com
-Cc: Anton Eidelman <anton@lightbitslabs.com>
-Subject: [PATCH v3 0/2] Fix issues with nvme_mpath_update
-Date: Wed, 23 Mar 2022 18:38:58 -0600
-Message-Id: <20220324003900.1589124-1-anton@lightbitslabs.com>
+Cc: Anton Eidelman <anton@lightbitslabs.com>, kernel test robot <lkp@intel.com>
+Subject: [PATCH v3 1/2] nvme: fix build error: nvme_mpath_update stub without
+ static
+Date: Wed, 23 Mar 2022 18:38:59 -0600
+Message-Id: <20220324003900.1589124-2-anton@lightbitslabs.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220324003008.1588225-3-anton@lightbitslabs.com>
+In-Reply-To: <20220324003900.1589124-1-anton@lightbitslabs.com>
 References: <20220324003008.1588225-3-anton@lightbitslabs.com>
+ <20220324003900.1589124-1-anton@lightbitslabs.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_173926_215450_D55ED7EA 
-X-CRM114-Status: GOOD (  10.47  )
+X-CRM114-CacheID: sfid-20220323_173930_824148_5DD2E62D 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,24 +91,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-My recent commit d50c992edf10
-("nvme-multipath: fix hang when disk goes live over reconnect")
-introduced two issues:
-1) Build error with CONFIG_NVME_MULTIPATH=n
-   - missing "static inline" for the nvme_mpath_update() stub.
-2) Crash when CONFIG_NVME_MULTIPATH=y but
-   either multipath is off or the ctrl is not ANA-enabled.
+Fix multiple definition of nvme_mpath_update() on
+builds with CONFIG_NVME_MULTIPATH disabled:
+the stub function is missing "static inline".
 
-Fixing both - sorry for inconvenience.
+Fixes: d50c992edf10 ("nvme-multipath: fix hang when disk goes live over reconnect")
 
-Anton Eidelman (2):
-  nvme: fix build error: nvme_mpath_update stub without static
-  nvme/mpath: fix crash in nvme_mpath_update for non-ana ctrl
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Anton Eidelman <anton@lightbitslabs.com>
+---
+ drivers/nvme/host/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/nvme/host/multipath.c | 10 ++++++----
- drivers/nvme/host/nvme.h      |  2 +-
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 76f7a5f37379..8cf90c9ed667 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -853,7 +853,7 @@ static inline int nvme_mpath_init_identify(struct nvme_ctrl *ctrl,
+ "Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.\n");
+ 	return 0;
+ }
+-void nvme_mpath_update(struct nvme_ctrl *ctrl)
++static inline void nvme_mpath_update(struct nvme_ctrl *ctrl)
+ {
+ }
+ static inline void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
 -- 
 2.25.1
 
