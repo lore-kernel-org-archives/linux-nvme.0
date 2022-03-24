@@ -4,48 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83CC1C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Mar 2022 05:24:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E790AC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Mar 2022 05:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LnV+bbe8nKm5kw2RaNFok2C3mDpDUiwXqu9kxL8n8KY=; b=08a4WvrFtfzP0nAYSAyd76DGxj
-	LMynOaxkZiEeilJpEIKeIqIP4Opwa7lZY9u2rvUwNIbtBcupx93aoX9EoLseEFy8CaSqTkW5lJ6Ad
-	7vQpk814icRAOZh72T/Ij8GTmPCR8u2ILOpH1dpJmH2r5W8my4HaXSo+ZX5VrHZ0gWc6KUzU2jrB/
-	lepp3T0lytbdUdJNUoeBInxWWT1ITcoDn/am+i8fmdHKpdgxdrh6iNObQKDx8JtCHfn8XQ0x5k1oZ
-	1Lu9sKFXTzYcpuqhYybQtHG1oBw3UNrTsF0JRHoaJ5y0MUdS1WrXAcMZrdz2xe6BpYKIh7oZZp46+
-	O4ntkphg==;
+	bh=pltCZbKnihlOyCMttCpOKdTH1UNxNk/MCAs880Z33xQ=; b=aXGdNNe5hamVvAevPjhBKPsLqp
+	QDm+DHJeE1+fr3B1LYhPQsyscr6onKJAvxnt8W3Awdcsc5L1wSSrWXThl0oePtCBGXCVoTTPHn0a8
+	2/ZQNAng9NdbfAack/rxkdObUigmMf4BCcNhey9GudxxNrhBqNnxn4f23RgOz1eNHHeDp7Xz+kIDH
+	F2X2sg9liTZjYdr9QzlmeXmJ4YdbAOs3nLL9C2V3MtinLM2+ZkHLCAh0ApiNjWC6rRmDYXNk37I23
+	/7RkOJJV+bO1bjeIIocCEsbOYWefHg4PKVIoSSr0+uMtRt7K2DrNg0TA12bN9+47LqQmNPw3LXuAC
+	I4WDAgSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nXFxh-00Fcyk-IQ; Thu, 24 Mar 2022 05:24:41 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nXFxd-00Fcxw-KL
- for linux-nvme@lists.infradead.org; Thu, 24 Mar 2022 05:24:39 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 278D568B05; Thu, 24 Mar 2022 06:24:31 +0100 (CET)
-Date: Thu, 24 Mar 2022 06:24:30 +0100
-From: Christoph Hellwig <hch@lst.de>
+	id 1nXGF4-00FfSv-JU; Thu, 24 Mar 2022 05:42:38 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1nXGF2-00FfSX-QN; Thu, 24 Mar 2022 05:42:36 +0000
+Date: Wed, 23 Mar 2022 22:42:36 -0700
+From: Christoph Hellwig <hch@infradead.org>
 To: John Meneghini <jmeneghi@redhat.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
- hch@lst.de, kbusch@kernel.org, sagi@grimberg.me
-Subject: Re: [PATCH] Revert "nvme-multipath: fix hang when disk goes live
- over reconnect"
-Message-ID: <20220324052430.GA11718@lst.de>
-References: <20220324000620.4127-1-kch@nvidia.com>
- <a2e49e16-6e4e-9a70-b7b2-82bebfc2bc08@redhat.com>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@infradead.org>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [LSF/MM/BPF TOPIC] dispersed namespaces revisited
+Message-ID: <YjwEzJrIOprc6cfc@infradead.org>
+References: <521666e9-9114-9c2d-c680-a52defb45f8a@suse.de>
+ <YjtKYETOnoI6/x4E@infradead.org>
+ <da128051-4d15-1566-2876-5167a0c1d033@suse.de>
+ <4e1aaadb-0044-6367-e4a6-e3f159fa007c@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a2e49e16-6e4e-9a70-b7b2-82bebfc2bc08@redhat.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220323_222437_840851_82449CED 
-X-CRM114-Status: UNSURE (   7.86  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <4e1aaadb-0044-6367-e4a6-e3f159fa007c@redhat.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,5 +53,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-No need for a revert, I'll just drop it from the tree.
+On Wed, Mar 23, 2022 at 09:17:58PM -0400, John Meneghini wrote:
+> I agree with Christoph that the current conception of dispersed namespaces fundamentally breaks the NVMe storage object model.
+> 
+> However, there have been several ideas proffered at FMDS to fix this and I
+> think people are willing to make changes to TP-4034 to redress this problem.
+> 
+> I think this is a topic that needs to be discussed at LSF/MM or ALPSS.
+
+NVMeoF has been designed to support more than one "virtual" subsystem
+behind a single port, and thus use the subsystem as a lean per-tenant
+container including the ability to scale and migrate it over multiple
+pieces hardware.  And ANA and Domains have made that even easier.
+
+So really what we need here is a clear explanation of why this does
+not work for the people that scream loud, and why brekaing fundamental
+NVMe abstractions is the way to go.  This is the specific question I've
+asked since the TPAR was proposed but it has simply been ignored.  And
+no, dumb implementation with a lot of legacy baggage do not count.
+
+The array vendors need to do their homework first.
 
