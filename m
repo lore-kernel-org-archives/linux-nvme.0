@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C32A6C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 10:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABD7C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 10:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K0V6w17WI5lG2kGCW1DnWoMzGe5i/UbFZRH76BreOYI=; b=CzJWQ96XHg4WiPlaHTBr67hTfn
-	gwbt5KApQucotES7X0PtPdRZJKOWL44Sy8p/qpmIUbRb8FcIqzQ+J65V/oSgRpV0MChFTZwPxwmPA
-	/WfkO0VTIZqVB4AantdOJbMzQVLZ03jK06GoB3xBtThc7u+jreqK2PXTHQEro5uK+EQ8RN5w+G2sl
-	kp95Vbk93PuKdnbRkRA5+CilZ+UqgrdVV10E19pOkfCITPqDThhKGtYlBEWPtfcK25ni6YxW17C4i
-	SXWxPeVqUHSHldxJvmFux/3uKkVfyLfAiNc3ui+k7WuhC09xI03AnW1bX0NXS+68ACCXDRXQ6HPLH
-	+PFofadA==;
+	bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=; b=ZNvYQkCtfHARcic+RYQFayIAK4
+	fbtl2JumQXZqcWrxyj8v6ywJKIgk7gqnKbj8u8nnZoGH7uuBrHdufPAhLTKRRdLCdoh9HvzWdwbVV
+	p2vfK1ODC4V7VbbIdwQ7PO4W04Tcg3OPjs1vbLPGQ4NYu3gROK2eeW4p0O6BkiqtqNjDMGY2WZPBi
+	OteDeHzKlJStkHPmEHYSGElppSEqyJenpqFaphqzZHad31BOdow5yDV9P9Bw1l/CfEmzCxRzbI2bU
+	U6wgmDAZWTsI7QdQDl3BSCkK7Y83b6JnawvBolSwGGGcsA+yEwRhXqbNA4+zUW8Wt9FOm5aGUrYVr
+	FhjWoznw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nYmUF-0089PP-SX; Mon, 28 Mar 2022 10:20:35 +0000
+	id 1nYmUP-0089Sq-Eb; Mon, 28 Mar 2022 10:20:45 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nYmT6-0088wv-JE
+ id 1nYmT6-0088wu-JH
  for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 10:19:28 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 6067A1F390;
+ by smtp-out2.suse.de (Postfix) with ESMTP id 5BD8A1F38A;
  Mon, 28 Mar 2022 10:19:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1648462760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K0V6w17WI5lG2kGCW1DnWoMzGe5i/UbFZRH76BreOYI=;
- b=rBGNqoZM4c8twvILctwT5mKWbFeRd0WEpxeDawuXnvTPNnCPD3GZjNf8ZRL33jnoSR5/VX
- ngVA4H9OZO92+Kkx7oKVcnUUdXj1JGZNNN7zH8E6Ikc/sAw4mK5euCI8UUVAv1+QxuPbNU
- LrKqE9vuE6ix+y/Dh+r4LphWVLitvfQ=
+ bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=;
+ b=ct01pD9pvDrNc7Y05R5c9B3YMGbfE7WfhSOGP6gzkyQUYp8Cw241uQQL6Wu9MhDCktw9uM
+ IqHK5RVPeuCRKpeMvdNu3qmXQKjE8pCNh2KUwRkpSJGGSXSBV22pFz09bNKZTbtSaPBabE
+ zTHtZPDOAm4sCtYDILaBRWsKSwYlbIQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1648462760;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K0V6w17WI5lG2kGCW1DnWoMzGe5i/UbFZRH76BreOYI=;
- b=LNhv3VONn4A81xGR5HElj0rKYck1XwLvF4Iz+FFzUDiA4ldVO8UlYykqz8Af0obOJzCPgB
- 4iyEGY58HE3ad3DQ==
+ bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=;
+ b=TixUgsJ8MXtmLl/96Ksurj1upFuUlWQqdYAqBZyk/AuR06Xb5cR5LFEvCTC/FOeNPtg/qB
+ 6vjnssyJy6MRaCDA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 5B385A3B99;
+ by relay2.suse.de (Postfix) with ESMTP id 560F7A3B98;
  Mon, 28 Mar 2022 10:19:20 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 586C651939CD; Mon, 28 Mar 2022 12:19:20 +0200 (CEST)
+ id 52EB151939CB; Mon, 28 Mar 2022 12:19:20 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Omar Sandoval <osandov@fb.com>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
  Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 10/10] nvme/043: test re-authentication
-Date: Mon, 28 Mar 2022 12:18:55 +0200
-Message-Id: <20220328101855.73975-11-hare@suse.de>
+Subject: [PATCH 09/10] nvme/042: test bi-directional authentication
+Date: Mon, 28 Mar 2022 12:18:54 +0200
+Message-Id: <20220328101855.73975-10-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220328101855.73975-1-hare@suse.de>
 References: <20220328101855.73975-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220328_031924_809315_6DB84E42 
-X-CRM114-Status: GOOD (  13.36  )
+X-CRM114-CacheID: sfid-20220328_031924_822608_C43E4A80 
+X-CRM114-Status: GOOD (  13.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,34 +83,33 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- tests/nvme/043     | 136 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/043.out |  12 ++++
- 2 files changed, 148 insertions(+)
- create mode 100644 tests/nvme/043
- create mode 100644 tests/nvme/043.out
+ tests/nvme/042     | 107 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/042.out |   8 ++++
+ 2 files changed, 115 insertions(+)
+ create mode 100644 tests/nvme/042
+ create mode 100644 tests/nvme/042.out
 
-diff --git a/tests/nvme/043 b/tests/nvme/043
+diff --git a/tests/nvme/042 b/tests/nvme/042
 new file mode 100644
-index 0000000..c217ade
+index 0000000..f3954b4
 --- /dev/null
-+++ b/tests/nvme/043
-@@ -0,0 +1,136 @@
++++ b/tests/nvme/042
+@@ -0,0 +1,107 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
 +#
-+# Test re-authentication
++# Test bi-directional authentication
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="Test re-authentication"
++DESCRIPTION="Test bi-directional authentication"
 +QUICK=1
 +
 +requires() {
 +	_nvme_requires
 +	_have_modules loop
 +	_require_nvme_trtype_is_fabrics
-+	_require_nvme_cli_auth
 +}
 +
 +
@@ -150,68 +149,40 @@ index 0000000..c217ade
 +
 +	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
 +
++	# Step 1: Connect with host authentication only
++	echo "Test host authentication"
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
++			     "${def_traddr}" "${def_trsvcid}" \
++			     "${hostnqn}" "${hostid}" \
++			     "${hostkey}"
++
++	ctrldev=$(_find_nvme_dev "${subsys}")
++	if [ -z "$ctrldev" ] ; then
++		echo "nvme controller not found"
++	fi
++
++	_nvme_disconnect_subsys "${subsys}"
++
++	# Step 2: Connect with host authentication
++	# and invalid ctrl authentication
++	echo "Test host authentication and invalid ctrl authentication"
++	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
++			     "${def_traddr}" "${def_trsvcid}" \
++			     "${hostnqn}" "${hostid}" \
++			     "${hostkey}" "${hostkey}"
++	ctrldev=$(_find_nvme_dev "${subsys}1")
++	if [ -n "${ctrldev}" ] ; then
++		echo "nvme controller found!"
++		_nvme_disconnect_subsys "${ctrldev}"
++	fi
++
++	# Step 3: Connect with host authentication
++	# and valid ctrl authentication
++	echo "Test host authentication and valid ctrl authentication"
 +	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
 +			     "${def_traddr}" "${def_trsvcid}" \
 +			     "${hostnqn}" "${hostid}" \
 +			     "${hostkey}" "${ctrlkey}"
-+
-+	ctrldev=$(_find_nvme_dev "${subsys}")
-+	if [ -z "$ctrldev" ] ; then
-+		echo "nvme controller not found"
-+	fi
-+
-+	echo "Re-authenticate with original host key"
-+
-+	echo "${hostkey}" > /sys/class/nvme/${ctrldev}/dhchap_secret
-+
-+	echo "Renew host key on the controller"
-+
-+	new_hostkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
-+
-+	_set_nvmet_hostkey "${hostnqn}" "${new_hostkey}"
-+
-+	echo "Re-authenticate with new host key"
-+
-+	echo "${new_hostkey}" > /sys/class/nvme/${ctrldev}/dhchap_secret
-+
-+	ctrldev=$(_find_nvme_dev "${subsys}")
-+	if [ -z "$ctrldev" ] ; then
-+		echo "nvme controller not found"
-+	fi
-+
-+	echo "Renew ctrl key on the controller"
-+
-+	new_ctrlkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
-+
-+	_set_nvmet_ctrlkey "${hostnqn}" "${new_ctrlkey}"
-+
-+	echo "Re-authenticate with new ctrl key"
-+
-+	echo "${new_ctrlkey}" > /sys/class/nvme/${ctrldev}/dhchap_ctrl_secret
-+
-+	ctrldev=$(_find_nvme_dev "${subsys}")
-+	if [ -z "$ctrldev" ] ; then
-+		echo "nvme controller not found"
-+	fi
-+
-+	echo "Change DH group to ffdhe8192"
-+
-+	_set_nvmet_dhgroup "${hostnqn}" "ffdhe8192"
-+
-+	echo "Re-authenticate with changed DH group"
-+	echo "${new_hostkey}" > /sys/class/nvme/${ctrldev}/dhchap_secret
-+
-+	ctrldev=$(_find_nvme_dev "${subsys}")
-+	if [ -z "$ctrldev" ] ; then
-+		echo "nvme controller not found"
-+	fi
-+
-+	echo "Change hash to hmac(sha512)"
-+
-+	_set_nvmet_hash "${hostnqn}" "hmac(sha512)"
-+
-+	echo "Re-authenticate with changed hash"
-+	echo "${new_hostkey}" > /sys/class/nvme/${ctrldev}/dhchap_secret
 +
 +	ctrldev=$(_find_nvme_dev "${subsys}")
 +	if [ -z "$ctrldev" ] ; then
@@ -231,22 +202,18 @@ index 0000000..c217ade
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/043.out b/tests/nvme/043.out
+diff --git a/tests/nvme/042.out b/tests/nvme/042.out
 new file mode 100644
-index 0000000..a0c5022
+index 0000000..17a461b
 --- /dev/null
-+++ b/tests/nvme/043.out
-@@ -0,0 +1,12 @@
-+Running nvme/043
-+Re-authenticate with original host key
-+Renew host key on the controller
-+Re-authenticate with new host key
-+Renew ctrl key on the controller
-+Re-authenticate with new ctrl key
-+Change DH group to ffdhe8192
-+Re-authenticate with changed DH group
-+Change hash to hmac(sha512)
-+Re-authenticate with changed hash
++++ b/tests/nvme/042.out
+@@ -0,0 +1,8 @@
++Running nvme/042
++Test host authentication
++NQN:blktests-subsystem-1 disconnected 1 controller(s)
++Test host authentication and invalid ctrl authentication
++no controller found
++Test host authentication and valid ctrl authentication
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
