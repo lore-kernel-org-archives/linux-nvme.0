@@ -4,70 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1B90C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 08:09:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49E22C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 08:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vcLS963cGv+Mtu+8p7bT6vkEIoaLc16PGA9y7jcseXs=; b=Kn/pmBxt5xBKYMGTBUGaYyhWpd
-	BVjD3phXtWoiY3bGOrlrLSZtmcUiCQDpCxt622l4Jp4oWweb2Uxp0BJMTvF0GM6CF+2alF8JJYw4O
-	qELgv105fKrqZWAf49NI3aF/iW3dS9bgDme5AvHi4kU0jjRmAlQn4DI1mZPqv+nxJenKYkfnsI8iD
-	lgn/WjLWx0iixF8oXgcQFf6/QztrzZa3fN6gwAiGYfQ8C0S/RUaW8HxTVVHMXy9P0E9l5XIAhTib2
-	koQtVNwma0F9mtBqu0O8jLEV8TrprgZJtnBJ09j/601REAhq0LF2kZgbtcoCZCKowuAdUslKyMEB7
-	7WGKviEA==;
+	bh=AAAuURNawAsH0QKXiiZLAuprP6G+J1B6FaPWkAh+43M=; b=YWMqmWvPAO4hO8vIVxnzJxp6By
+	3eAnAWIU1xeFSbTi/cxsTwrXl/hzRclHdBTETh75A/zr+7cZhacG5WIiLY/bBWOzdAl4QMoCGE0KE
+	piTgG+IUK9KP2Cc48cQWW4xj03+LRYBv5sZqCUptRVK4BOsnXaG3OGT3cL2QPahBEN/4UhN1E6Kjc
+	N2HWPr44Se48H3Jdc/3fmzgIjpRdaO77SUNIvu3LcVV7FOZkeCN5otJDlE0WFZT7U0DghkmEPO7Zw
+	1SRXXv080LUMMmI1vAIQ0t2QP9LsOftROwbOcgIYKh9yGwuNt4fmNi80uvNC99KmLgd6YdxO0JFm0
+	JVal/F+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nYkRK-007jhj-D3; Mon, 28 Mar 2022 08:09:26 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nYkRQ-007jkv-Lw; Mon, 28 Mar 2022 08:09:32 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nYkQn-007jTX-N3
- for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 08:08:57 +0000
+ id 1nYkQn-007jTc-P1
+ for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 08:08:58 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id C4F531F381;
+ by smtp-out1.suse.de (Postfix) with ESMTP id D5AFB210EB;
  Mon, 28 Mar 2022 08:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1648454929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vcLS963cGv+Mtu+8p7bT6vkEIoaLc16PGA9y7jcseXs=;
- b=p5w1LmAQyfJmYKG2FYukjLTIPf8J6anCWjVM1x7nOdotUT8L3aiV9m4n5g4eUCHhZVrDkP
- Y11TdFEUVM48UpKYB931ewuAH8Gnq9bKkEopSgrnwfhofcIQtBKoXcppZ9VcWDxArPbzsZ
- B8Aq9ebmleXSuFB07khwQmr1fRalqDI=
+ bh=AAAuURNawAsH0QKXiiZLAuprP6G+J1B6FaPWkAh+43M=;
+ b=au9x7R+ZA/QHyEZKC+65/xLIiYv94jtChIuyOuqN0a3RlzB+9gQRytnKazr8wuYyZB1dPC
+ bmh4DH4W8td7LNX7scqbia7S1LML4cKObohhTMQh3w41lbaRhSM6zivdPVDbhkVf+T3tt+
+ ss75kCcx7j0vYGpttpgMC+k1+eu6mL4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1648454929;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vcLS963cGv+Mtu+8p7bT6vkEIoaLc16PGA9y7jcseXs=;
- b=vxIk8F4d/y2+uh6R69FIqjzvX2PJXRPpLvBBbi9rFmvAslHYN7YyGVSnCszuf9aHRx2e4R
- MajooF5IPGnlbcAA==
+ bh=AAAuURNawAsH0QKXiiZLAuprP6G+J1B6FaPWkAh+43M=;
+ b=gP4KHTTgAKfgvM8yU1aByHPkcV+ixJcURGGmQtk9ZsE+39n9HJxCdnHIFKPe9OhtCEO6m+
+ ToZcujBL1zbguaBA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id BD470A3B9F;
+ by relay2.suse.de (Postfix) with ESMTP id CFBF6A3BA5;
  Mon, 28 Mar 2022 08:08:49 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id B52D3519399E; Mon, 28 Mar 2022 10:08:49 +0200 (CEST)
+ id CC7AD51939A6; Mon, 28 Mar 2022 10:08:49 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
- Himanshu Madhani <himanshu.madhani@oracle.com>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 04/11] nvme: add definitions for NVMe In-Band authentication
-Date: Mon, 28 Mar 2022 10:08:29 +0200
-Message-Id: <20220328080836.72844-5-hare@suse.de>
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 08/11] nvmet: parse fabrics commands on io queues
+Date: Mon, 28 Mar 2022 10:08:33 +0200
+Message-Id: <20220328080836.72844-9-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220328080836.72844-1-hare@suse.de>
 References: <20220328080836.72844-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220328_010853_954368_7083BC5B 
-X-CRM114-Status: GOOD (  14.12  )
+X-CRM114-CacheID: sfid-20220328_010854_090007_EEDC2E12 
+X-CRM114-Status: GOOD (  13.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,260 +80,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add new definitions for NVMe In-band authentication as defined in
-the NVMe Base Specification v2.0.
+Some fabrics commands can be sent via io queues, so add a new
+function nvmet_parse_fabrics_io_cmd() and rename the existing
+nvmet_parse_fabrics_cmd() to nvmet_parse_fabrics_admin_cmd().
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- include/linux/nvme.h | 204 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 203 insertions(+), 1 deletion(-)
+ drivers/nvme/target/admin-cmd.c   |  2 +-
+ drivers/nvme/target/core.c        |  4 ++++
+ drivers/nvme/target/fabrics-cmd.c | 17 ++++++++++++++++-
+ drivers/nvme/target/nvmet.h       |  3 ++-
+ 4 files changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 9dbc3ef4daf7..b606de539b6e 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -19,6 +19,7 @@
- #define NVMF_TRSVCID_SIZE	32
- #define NVMF_TRADDR_SIZE	256
- #define NVMF_TSAS_SIZE		256
-+#define NVMF_AUTH_HASH_LEN	64
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 46d0dab686dd..450285fb0e0c 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1017,7 +1017,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 	u16 ret;
  
- #define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
+ 	if (nvme_is_fabrics(cmd))
+-		return nvmet_parse_fabrics_cmd(req);
++		return nvmet_parse_fabrics_admin_cmd(req);
+ 	if (nvmet_is_disc_subsys(nvmet_req_subsys(req)))
+ 		return nvmet_parse_discovery_cmd(req);
  
-@@ -1286,6 +1287,8 @@ enum nvmf_capsule_command {
- 	nvme_fabrics_type_property_set	= 0x00,
- 	nvme_fabrics_type_connect	= 0x01,
- 	nvme_fabrics_type_property_get	= 0x04,
-+	nvme_fabrics_type_auth_send	= 0x05,
-+	nvme_fabrics_type_auth_receive	= 0x06,
- };
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 64c2d2f3e25c..519a97345a1d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -862,8 +862,12 @@ static inline u16 nvmet_io_cmd_check_access(struct nvmet_req *req)
  
- #define nvme_fabrics_type_name(type)   { type, #type }
-@@ -1293,7 +1296,9 @@ enum nvmf_capsule_command {
- 	__print_symbolic(type,						\
- 		nvme_fabrics_type_name(nvme_fabrics_type_property_set),	\
- 		nvme_fabrics_type_name(nvme_fabrics_type_connect),	\
--		nvme_fabrics_type_name(nvme_fabrics_type_property_get))
-+		nvme_fabrics_type_name(nvme_fabrics_type_property_get), \
-+		nvme_fabrics_type_name(nvme_fabrics_type_auth_send),	\
-+		nvme_fabrics_type_name(nvme_fabrics_type_auth_receive))
+ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+ {
++	struct nvme_command *cmd = req->cmd;
+ 	u16 ret;
  
- /*
-  * If not fabrics command, fctype will be ignored.
-@@ -1423,6 +1428,200 @@ struct nvmf_property_get_command {
- 	__u8		resv4[16];
- };
++	if (nvme_is_fabrics(cmd))
++		return nvmet_parse_fabrics_io_cmd(req);
++
+ 	ret = nvmet_check_ctrl_status(req);
+ 	if (unlikely(ret))
+ 		return ret;
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 70fb587e9413..f23c28729908 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -82,7 +82,7 @@ static void nvmet_execute_prop_get(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
+ }
  
-+struct nvmf_auth_common_command {
-+	__u8		opcode;
-+	__u8		resv1;
-+	__u16		command_id;
-+	__u8		fctype;
-+	__u8		resv2[19];
-+	union nvme_data_ptr dptr;
-+	__u8		resv3;
-+	__u8		spsp0;
-+	__u8		spsp1;
-+	__u8		secp;
-+	__le32		al_tl;
-+	__u8		resv4[16];
-+};
+-u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req)
++u16 nvmet_parse_fabrics_admin_cmd(struct nvmet_req *req)
+ {
+ 	struct nvme_command *cmd = req->cmd;
+ 
+@@ -103,6 +103,21 @@ u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req)
+ 	return 0;
+ }
+ 
++u16 nvmet_parse_fabrics_io_cmd(struct nvmet_req *req)
++{
++	struct nvme_command *cmd = req->cmd;
 +
-+struct nvmf_auth_send_command {
-+	__u8		opcode;
-+	__u8		resv1;
-+	__u16		command_id;
-+	__u8		fctype;
-+	__u8		resv2[19];
-+	union nvme_data_ptr dptr;
-+	__u8		resv3;
-+	__u8		spsp0;
-+	__u8		spsp1;
-+	__u8		secp;
-+	__le32		tl;
-+	__u8		resv4[16];
-+};
++	switch (cmd->fabrics.fctype) {
++	default:
++		pr_debug("received unknown capsule type 0x%x\n",
++			cmd->fabrics.fctype);
++		req->error_loc = offsetof(struct nvmf_common_command, fctype);
++		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++	}
 +
-+struct nvmf_auth_receive_command {
-+	__u8		opcode;
-+	__u8		resv1;
-+	__u16		command_id;
-+	__u8		fctype;
-+	__u8		resv2[19];
-+	union nvme_data_ptr dptr;
-+	__u8		resv3;
-+	__u8		spsp0;
-+	__u8		spsp1;
-+	__u8		secp;
-+	__le32		al;
-+	__u8		resv4[16];
-+};
++	return 0;
++}
 +
-+/* Value for secp */
-+enum {
-+	NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER	= 0xe9,
-+};
-+
-+/* Defined value for auth_type */
-+enum {
-+	NVME_AUTH_COMMON_MESSAGES	= 0x00,
-+	NVME_AUTH_DHCHAP_MESSAGES	= 0x01,
-+};
-+
-+/* Defined messages for auth_id */
-+enum {
-+	NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE	= 0x00,
-+	NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE	= 0x01,
-+	NVME_AUTH_DHCHAP_MESSAGE_REPLY		= 0x02,
-+	NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1	= 0x03,
-+	NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2	= 0x04,
-+	NVME_AUTH_DHCHAP_MESSAGE_FAILURE2	= 0xf0,
-+	NVME_AUTH_DHCHAP_MESSAGE_FAILURE1	= 0xf1,
-+};
-+
-+struct nvmf_auth_dhchap_protocol_descriptor {
-+	__u8		authid;
-+	__u8		rsvd;
-+	__u8		halen;
-+	__u8		dhlen;
-+	__u8		idlist[60];
-+};
-+
-+enum {
-+	NVME_AUTH_DHCHAP_AUTH_ID	= 0x01,
-+};
-+
-+/* Defined hash functions for DH-HMAC-CHAP authentication */
-+enum {
-+	NVME_AUTH_HASH_SHA256	= 0x01,
-+	NVME_AUTH_HASH_SHA384	= 0x02,
-+	NVME_AUTH_HASH_SHA512	= 0x03,
-+	NVME_AUTH_HASH_INVALID	= 0xff,
-+};
-+
-+/* Defined Diffie-Hellman group identifiers for DH-HMAC-CHAP authentication */
-+enum {
-+	NVME_AUTH_DHGROUP_NULL		= 0x00,
-+	NVME_AUTH_DHGROUP_2048		= 0x01,
-+	NVME_AUTH_DHGROUP_3072		= 0x02,
-+	NVME_AUTH_DHGROUP_4096		= 0x03,
-+	NVME_AUTH_DHGROUP_6144		= 0x04,
-+	NVME_AUTH_DHGROUP_8192		= 0x05,
-+	NVME_AUTH_DHGROUP_INVALID	= 0xff,
-+};
-+
-+union nvmf_auth_protocol {
-+	struct nvmf_auth_dhchap_protocol_descriptor dhchap;
-+};
-+
-+struct nvmf_auth_dhchap_negotiate_data {
-+	__u8		auth_type;
-+	__u8		auth_id;
-+	__le16		rsvd;
-+	__le16		t_id;
-+	__u8		sc_c;
-+	__u8		napd;
-+	union nvmf_auth_protocol auth_protocol[];
-+};
-+
-+struct nvmf_auth_dhchap_challenge_data {
-+	__u8		auth_type;
-+	__u8		auth_id;
-+	__u16		rsvd1;
-+	__le16		t_id;
-+	__u8		hl;
-+	__u8		rsvd2;
-+	__u8		hashid;
-+	__u8		dhgid;
-+	__le16		dhvlen;
-+	__le32		seqnum;
-+	/* 'hl' bytes of challenge value */
-+	__u8		cval[];
-+	/* followed by 'dhvlen' bytes of DH value */
-+};
-+
-+struct nvmf_auth_dhchap_reply_data {
-+	__u8		auth_type;
-+	__u8		auth_id;
-+	__le16		rsvd1;
-+	__le16		t_id;
-+	__u8		hl;
-+	__u8		rsvd2;
-+	__u8		cvalid;
-+	__u8		rsvd3;
-+	__le16		dhvlen;
-+	__le32		seqnum;
-+	/* 'hl' bytes of response data */
-+	__u8		rval[];
-+	/* followed by 'hl' bytes of Challenge value */
-+	/* followed by 'dhvlen' bytes of DH value */
-+};
-+
-+enum {
-+	NVME_AUTH_DHCHAP_RESPONSE_VALID	= (1 << 0),
-+};
-+
-+struct nvmf_auth_dhchap_success1_data {
-+	__u8		auth_type;
-+	__u8		auth_id;
-+	__le16		rsvd1;
-+	__le16		t_id;
-+	__u8		hl;
-+	__u8		rsvd2;
-+	__u8		rvalid;
-+	__u8		rsvd3[7];
-+	/* 'hl' bytes of response value if 'rvalid' is set */
-+	__u8		rval[];
-+};
-+
-+struct nvmf_auth_dhchap_success2_data {
-+	__u8		auth_type;
-+	__u8		auth_id;
-+	__le16		rsvd1;
-+	__le16		t_id;
-+	__u8		rsvd2[10];
-+};
-+
-+struct nvmf_auth_dhchap_failure_data {
-+	__u8		auth_type;
-+	__u8		auth_id;
-+	__le16		rsvd1;
-+	__le16		t_id;
-+	__u8		rescode;
-+	__u8		rescode_exp;
-+};
-+
-+enum {
-+	NVME_AUTH_DHCHAP_FAILURE_REASON_FAILED	= 0x01,
-+};
-+
-+enum {
-+	NVME_AUTH_DHCHAP_FAILURE_FAILED			= 0x01,
-+	NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE		= 0x02,
-+	NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH	= 0x03,
-+	NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE		= 0x04,
-+	NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE	= 0x05,
-+	NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD	= 0x06,
-+	NVME_AUTH_DHCHAP_FAILURE_INCORRECT_MESSAGE	= 0x07,
-+};
-+
-+
- struct nvme_dbbuf {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -1466,6 +1665,9 @@ struct nvme_command {
- 		struct nvmf_connect_command connect;
- 		struct nvmf_property_set_command prop_set;
- 		struct nvmf_property_get_command prop_get;
-+		struct nvmf_auth_common_command auth_common;
-+		struct nvmf_auth_send_command auth_send;
-+		struct nvmf_auth_receive_command auth_receive;
- 		struct nvme_dbbuf dbbuf;
- 		struct nvme_directive_cmd directive;
- 	};
+ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ {
+ 	struct nvmf_connect_command *c = &req->cmd->connect;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index d910c6aad4b6..050a62ca431a 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -418,7 +418,8 @@ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_bdev_zns_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
+ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req);
+-u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req);
++u16 nvmet_parse_fabrics_admin_cmd(struct nvmet_req *req);
++u16 nvmet_parse_fabrics_io_cmd(struct nvmet_req *req);
+ 
+ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
 -- 
 2.29.2
 
