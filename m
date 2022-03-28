@@ -4,68 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49E22C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 08:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D23D1C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 08:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AAAuURNawAsH0QKXiiZLAuprP6G+J1B6FaPWkAh+43M=; b=YWMqmWvPAO4hO8vIVxnzJxp6By
-	3eAnAWIU1xeFSbTi/cxsTwrXl/hzRclHdBTETh75A/zr+7cZhacG5WIiLY/bBWOzdAl4QMoCGE0KE
-	piTgG+IUK9KP2Cc48cQWW4xj03+LRYBv5sZqCUptRVK4BOsnXaG3OGT3cL2QPahBEN/4UhN1E6Kjc
-	N2HWPr44Se48H3Jdc/3fmzgIjpRdaO77SUNIvu3LcVV7FOZkeCN5otJDlE0WFZT7U0DghkmEPO7Zw
-	1SRXXv080LUMMmI1vAIQ0t2QP9LsOftROwbOcgIYKh9yGwuNt4fmNi80uvNC99KmLgd6YdxO0JFm0
-	JVal/F+g==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bLu2vADd6RFrXul4kKolwUKg4GvEbA3af9PIwEFCd+g=; b=usodMEyzJATzOUpLpW2uE4Qpy2
+	kVPsV3ETQrt9PBcodUXRZWPI/mNSn0OqZK+s2pIIQCCub6l39zSkQfeLxlouyMNcDkaMfC/65pEqK
+	InyWr7ETxpLChOLFeSyI6aFp0VscVJEFMtSilHQXKZKKmuvT1MZP9mFoHnSWXINP6pG2V8ReVlsLY
+	OThNPWdDgw5yX6REan6T1Q5T19BnpiAtsTrzhy6NMM99z0VnDFhcNNGx1t3/+2OQqNCqyqGoD27Cf
+	XPcQVbK7kOVWYGja0QQrStcIh8lrRlGnLZtb0d1Nb/+udi3aqC/mUvKXMnxHSx/xjW9psyCayMKjj
+	zqHv88Fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nYkRQ-007jkv-Lw; Mon, 28 Mar 2022 08:09:32 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nYkRY-007jop-6x; Mon, 28 Mar 2022 08:09:40 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nYkQn-007jTc-P1
- for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 08:08:58 +0000
+ id 1nYkQn-007jTd-OY
+ for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 08:08:59 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id D5AFB210EB;
+ by smtp-out2.suse.de (Postfix) with ESMTP id BC27E1F37E;
  Mon, 28 Mar 2022 08:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1648454929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AAAuURNawAsH0QKXiiZLAuprP6G+J1B6FaPWkAh+43M=;
- b=au9x7R+ZA/QHyEZKC+65/xLIiYv94jtChIuyOuqN0a3RlzB+9gQRytnKazr8wuYyZB1dPC
- bmh4DH4W8td7LNX7scqbia7S1LML4cKObohhTMQh3w41lbaRhSM6zivdPVDbhkVf+T3tt+
- ss75kCcx7j0vYGpttpgMC+k1+eu6mL4=
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=bLu2vADd6RFrXul4kKolwUKg4GvEbA3af9PIwEFCd+g=;
+ b=h2crgll1gc9Zu3ahdHGjqOSJ/W0leWXIdiNKtwUs4sOJ4lj1g0enLchKEob+Oyg9FaXXlD
+ NTiUrhHjB9hplrEIEe3Raxi3rUQCSIu800Cd959vXQTOEgWPnv4TXwntiqMA8goiQ+Px4r
+ 2ByykQvV/sF+mfPQJNUwmBd3RXxqwmA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1648454929;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AAAuURNawAsH0QKXiiZLAuprP6G+J1B6FaPWkAh+43M=;
- b=gP4KHTTgAKfgvM8yU1aByHPkcV+ixJcURGGmQtk9ZsE+39n9HJxCdnHIFKPe9OhtCEO6m+
- ToZcujBL1zbguaBA==
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=bLu2vADd6RFrXul4kKolwUKg4GvEbA3af9PIwEFCd+g=;
+ b=GyUdwP0TWm+fBR1SthxuDVJJNIlMTkddylwVClyrTOdKFNllpBenRDnaZrzcrVUM5ZlKL4
+ 7VApMsff57mbGsDA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id CFBF6A3BA5;
+ by relay2.suse.de (Postfix) with ESMTP id B4780A3B9D;
  Mon, 28 Mar 2022 08:08:49 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id CC7AD51939A6; Mon, 28 Mar 2022 10:08:49 +0200 (CEST)
+ id A1C535193996; Mon, 28 Mar 2022 10:08:49 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 08/11] nvmet: parse fabrics commands on io queues
-Date: Mon, 28 Mar 2022 10:08:33 +0200
-Message-Id: <20220328080836.72844-9-hare@suse.de>
+Subject: [PATCHv10 00/11] nvme: In-band authentication support
+Date: Mon, 28 Mar 2022 10:08:25 +0200
+Message-Id: <20220328080836.72844-1-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220328080836.72844-1-hare@suse.de>
-References: <20220328080836.72844-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220328_010854_090007_EEDC2E12 
-X-CRM114-Status: GOOD (  13.51  )
+X-CRM114-CacheID: sfid-20220328_010854_097953_0BCC3BC4 
+X-CRM114-Status: GOOD (  17.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,97 +74,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Some fabrics commands can be sent via io queues, so add a new
-function nvmet_parse_fabrics_io_cmd() and rename the existing
-nvmet_parse_fabrics_cmd() to nvmet_parse_fabrics_admin_cmd().
+Hi all,
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/target/admin-cmd.c   |  2 +-
- drivers/nvme/target/core.c        |  4 ++++
- drivers/nvme/target/fabrics-cmd.c | 17 ++++++++++++++++-
- drivers/nvme/target/nvmet.h       |  3 ++-
- 4 files changed, 23 insertions(+), 3 deletions(-)
+recent updates to the NVMe spec have added definitions for in-band
+authentication, and seeing that it provides some real benefit
+especially for NVMe-TCP here's an attempt to implement it.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 46d0dab686dd..450285fb0e0c 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1017,7 +1017,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 	u16 ret;
- 
- 	if (nvme_is_fabrics(cmd))
--		return nvmet_parse_fabrics_cmd(req);
-+		return nvmet_parse_fabrics_admin_cmd(req);
- 	if (nvmet_is_disc_subsys(nvmet_req_subsys(req)))
- 		return nvmet_parse_discovery_cmd(req);
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 64c2d2f3e25c..519a97345a1d 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -862,8 +862,12 @@ static inline u16 nvmet_io_cmd_check_access(struct nvmet_req *req)
- 
- static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- {
-+	struct nvme_command *cmd = req->cmd;
- 	u16 ret;
- 
-+	if (nvme_is_fabrics(cmd))
-+		return nvmet_parse_fabrics_io_cmd(req);
-+
- 	ret = nvmet_check_ctrl_status(req);
- 	if (unlikely(ret))
- 		return ret;
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 70fb587e9413..f23c28729908 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -82,7 +82,7 @@ static void nvmet_execute_prop_get(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
- 
--u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req)
-+u16 nvmet_parse_fabrics_admin_cmd(struct nvmet_req *req)
- {
- 	struct nvme_command *cmd = req->cmd;
- 
-@@ -103,6 +103,21 @@ u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req)
- 	return 0;
- }
- 
-+u16 nvmet_parse_fabrics_io_cmd(struct nvmet_req *req)
-+{
-+	struct nvme_command *cmd = req->cmd;
-+
-+	switch (cmd->fabrics.fctype) {
-+	default:
-+		pr_debug("received unknown capsule type 0x%x\n",
-+			cmd->fabrics.fctype);
-+		req->error_loc = offsetof(struct nvmf_common_command, fctype);
-+		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-+	}
-+
-+	return 0;
-+}
-+
- static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- {
- 	struct nvmf_connect_command *c = &req->cmd->connect;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index d910c6aad4b6..050a62ca431a 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -418,7 +418,8 @@ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_bdev_zns_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
- u16 nvmet_parse_discovery_cmd(struct nvmet_req *req);
--u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req);
-+u16 nvmet_parse_fabrics_admin_cmd(struct nvmet_req *req);
-+u16 nvmet_parse_fabrics_io_cmd(struct nvmet_req *req);
- 
- bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
+Thanks to Nicolai Stange the crypto DH framework has been upgraded
+to provide us with a FFDHE implementation; I've updated the patchset
+to use the ephemeral key generation provided there.
+
+Note that this is just for in-band authentication. Secure
+concatenation (ie starting TLS with the negotiated parameters)
+requires a TLS handshake, which the in-kernel TLS implementation
+does not provide. This is being worked on with a different patchset,
+and subject to discussion at LSF..
+
+The nvme-cli support has already been merged; please use the latest
+nvme-cli git repository to build the most recent version.
+
+A copy of this patchset can be found at
+git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
+branch auth.v10
+
+It is being cut against the latest master branch from Linus.
+
+As usual, comments and reviews are welcome.
+
+Changes to v9:
+- Include review from Chaitanya
+- Use sparse array for dhgroup and hash lookup
+- Common function for auth_send and auth_receive
+
+Changes to v8:
+- Rebased to Nicolais crypto DH rework
+- Fixed oops on non-fabrics devices
+
+Changes to v7:
+- Space out hash list and dhgroup list in nvme negotiate data
+  to be conformant with the spec
+  - Update sequence number handling to start with a random value and
+    ignore '0' as mandated by the spec
+    - Update nvme_auth_generate_key to return the key as suggested by
+    Sagi
+    - Add nvmet_parse_fabrics_io_cmd() as suggested by hch
+
+Changes to v6:
+- Use 'u8' for DH group id and hash id
+- Use 'struct nvme_dhchap_key'
+- Rename variables to drop 'DHCHAP'
+- Include reviews from Chaitanya
+
+Changes to v5:
+- Unify nvme_auth_generate_key()
+- Unify nvme_auth_extract_key()
+- Fixed bug where re-authentication with wrong controller key would
+not fail
+- Include reviews from Sagi
+
+Changes to v4:
+- Validate against blktest suite
+- Fixup base64 decoding
+- Transform secret with correct hmac algorithm
+
+Changes to v3:
+- Renamed parameter to 'dhchap_ctrl_key'
+- Fixed bi-directional authentication
+- Included reviews from Sagi
+- Fixed base64 algorithm for transport encoding
+
+Changes to v2:
+- Dropped non-standard algorithms
+- Reworked base64 based on fs/crypto/fname.c
+- Fixup crash with no keys
+
+Changes to the original submission:
+- Included reviews from Vladislav
+- Included reviews from Sagi
+- Implemented re-authentication support
+- Fixed up key handling
+
+Hannes Reinecke (11):
+  crypto: add crypto_has_shash()
+  crypto: add crypto_has_kpp()
+  lib/base64: RFC4648-compliant base64 encoding
+  nvme: add definitions for NVMe In-Band authentication
+  nvme-fabrics: decode 'authentication required' connect error
+  nvme: Implement In-Band authentication
+  nvme-auth: Diffie-Hellman key exchange support
+  nvmet: parse fabrics commands on io queues
+  nvmet: Implement basic In-Band Authentication
+  nvmet-auth: Diffie-Hellman key exchange support
+  nvmet-auth: expire authentication sessions
+
+ crypto/kpp.c                           |    6 +
+ crypto/shash.c                         |    6 +
+ drivers/nvme/host/Kconfig              |   12 +
+ drivers/nvme/host/Makefile             |    1 +
+ drivers/nvme/host/auth.c               | 1457 ++++++++++++++++++++++++
+ drivers/nvme/host/auth.h               |   40 +
+ drivers/nvme/host/core.c               |  141 ++-
+ drivers/nvme/host/fabrics.c            |   83 +-
+ drivers/nvme/host/fabrics.h            |    7 +
+ drivers/nvme/host/nvme.h               |   31 +
+ drivers/nvme/host/rdma.c               |    1 +
+ drivers/nvme/host/tcp.c                |    1 +
+ drivers/nvme/host/trace.c              |   32 +
+ drivers/nvme/target/Kconfig            |   13 +
+ drivers/nvme/target/Makefile           |    1 +
+ drivers/nvme/target/admin-cmd.c        |    4 +-
+ drivers/nvme/target/auth.c             |  525 +++++++++
+ drivers/nvme/target/configfs.c         |  138 ++-
+ drivers/nvme/target/core.c             |   15 +
+ drivers/nvme/target/fabrics-cmd-auth.c |  534 +++++++++
+ drivers/nvme/target/fabrics-cmd.c      |   55 +-
+ drivers/nvme/target/nvmet.h            |   75 +-
+ include/crypto/hash.h                  |    2 +
+ include/crypto/kpp.h                   |    2 +
+ include/linux/base64.h                 |   16 +
+ include/linux/nvme.h                   |  204 +++-
+ lib/Makefile                           |    2 +-
+ lib/base64.c                           |  103 ++
+ 28 files changed, 3492 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/nvme/host/auth.c
+ create mode 100644 drivers/nvme/host/auth.h
+ create mode 100644 drivers/nvme/target/auth.c
+ create mode 100644 drivers/nvme/target/fabrics-cmd-auth.c
+ create mode 100644 include/linux/base64.h
+ create mode 100644 lib/base64.c
+
 -- 
 2.29.2
 
