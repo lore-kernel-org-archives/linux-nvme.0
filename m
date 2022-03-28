@@ -4,69 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABD7C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 10:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31860C433FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Mar 2022 11:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=; b=ZNvYQkCtfHARcic+RYQFayIAK4
-	fbtl2JumQXZqcWrxyj8v6ywJKIgk7gqnKbj8u8nnZoGH7uuBrHdufPAhLTKRRdLCdoh9HvzWdwbVV
-	p2vfK1ODC4V7VbbIdwQ7PO4W04Tcg3OPjs1vbLPGQ4NYu3gROK2eeW4p0O6BkiqtqNjDMGY2WZPBi
-	OteDeHzKlJStkHPmEHYSGElppSEqyJenpqFaphqzZHad31BOdow5yDV9P9Bw1l/CfEmzCxRzbI2bU
-	U6wgmDAZWTsI7QdQDl3BSCkK7Y83b6JnawvBolSwGGGcsA+yEwRhXqbNA4+zUW8Wt9FOm5aGUrYVr
-	FhjWoznw==;
+	bh=U5O6+h36cjSLToEH3MAu/WKAH43ti7eXmhptIkCRF0w=; b=LaqPsqYlXZ44yDcoX3ViLx8/0F
+	nM/MMxAXi5D8Hv28jI7dLJh+3F43ZDbgs4NZJeraA+6p3byZj3c/64IZfpRVnqais0kYXPSnHOfKQ
+	dTImDhGTETyGBx4tePzejRfmYPJS6OF/nyZlQZ9T39J6xYbBrq36l6pi8bIWv016FAnn4nHj5f4HE
+	eHfLlvUFuhbJ0m4ZRcEDROBwJam5s3ybENCzSteIJZEv5KeTg0r9cmBxjT6cDXMhcyeyJeQSpjIGL
+	jGJjiCd7crwUtM0qsMPKr3hYpSYxMHYu+mJuOyOjiJ8mJqaUoDMvajKS/MOuf0ZnhVQuFzBZnJJyX
+	XPFPyPow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nYmUP-0089Sq-Eb; Mon, 28 Mar 2022 10:20:45 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nYnPw-008LJE-Aq; Mon, 28 Mar 2022 11:20:12 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nYmT6-0088wu-JH
- for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 10:19:28 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 5BD8A1F38A;
- Mon, 28 Mar 2022 10:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1648462760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=;
- b=ct01pD9pvDrNc7Y05R5c9B3YMGbfE7WfhSOGP6gzkyQUYp8Cw241uQQL6Wu9MhDCktw9uM
- IqHK5RVPeuCRKpeMvdNu3qmXQKjE8pCNh2KUwRkpSJGGSXSBV22pFz09bNKZTbtSaPBabE
- zTHtZPDOAm4sCtYDILaBRWsKSwYlbIQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1648462760;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tqekc63nzHmrqj+sWBcGGlsveY5sBq7Ei7r42cLUVUs=;
- b=TixUgsJ8MXtmLl/96Ksurj1upFuUlWQqdYAqBZyk/AuR06Xb5cR5LFEvCTC/FOeNPtg/qB
- 6vjnssyJy6MRaCDA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 560F7A3B98;
- Mon, 28 Mar 2022 10:19:20 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 52EB151939CB; Mon, 28 Mar 2022 12:19:20 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Omar Sandoval <osandov@fb.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 09/10] nvme/042: test bi-directional authentication
-Date: Mon, 28 Mar 2022 12:18:54 +0200
-Message-Id: <20220328101855.73975-10-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220328101855.73975-1-hare@suse.de>
-References: <20220328101855.73975-1-hare@suse.de>
+ id 1nYnPs-008LI9-ST
+ for linux-nvme@lists.infradead.org; Mon, 28 Mar 2022 11:20:10 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 80FE5B81054;
+ Mon, 28 Mar 2022 11:20:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D421C36AE2;
+ Mon, 28 Mar 2022 11:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648466406;
+ bh=ZhdGQAmWHHMFrACJpTe69z62VUQvcrG8v0VNxiUGKOw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=EG/nBvUr8Y2aQs3YZYesQ+u6kZP7eJRXUY5LzgOJrQg+ABrsx5Bh/JHzZ6KabHwyi
+ 1cRrEuNnO3ihKzhyJdmvL+gVf/Kl06e5WBeaZEBi8gujeCQBPcwLXPdE5lqfvyjNka
+ bPkCOiyzLs9J9MFtALMGzTj8UhCntaLtBevIBK8nTlnZ88eWUZxuWppvIkFyubJJdW
+ JOOmVhj6IzEvz/dCLpEdo6J8r7bojklcK9+LI5jj4l8GhY16RT4GvK54qA8HG9rIbP
+ YqvJm/VObjMsNVitEll8rl//vEQezg20FEvkemhSW/aPJ2YqXEn2xOAiVZcKK6yYY7
+ 9rnjWjAmak4pw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Chris Leech <cleech@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Sasha Levin <sashal@kernel.org>, kbusch@kernel.org, axboe@fb.com,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.17 40/43] nvme-tcp: lockdep: annotate in-kernel
+ sockets
+Date: Mon, 28 Mar 2022 07:18:24 -0400
+Message-Id: <20220328111828.1554086-40-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220328111828.1554086-1-sashal@kernel.org>
+References: <20220328111828.1554086-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220328_031924_822608_C43E4A80 
-X-CRM114-Status: GOOD (  13.10  )
+X-CRM114-CacheID: sfid-20220328_042009_251756_2C1CBB40 
+X-CRM114-Status: GOOD (  15.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,142 +76,126 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- tests/nvme/042     | 107 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/042.out |   8 ++++
- 2 files changed, 115 insertions(+)
- create mode 100644 tests/nvme/042
- create mode 100644 tests/nvme/042.out
+From: Chris Leech <cleech@redhat.com>
 
-diff --git a/tests/nvme/042 b/tests/nvme/042
-new file mode 100644
-index 0000000..f3954b4
---- /dev/null
-+++ b/tests/nvme/042
-@@ -0,0 +1,107 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
-+#
-+# Test bi-directional authentication
+[ Upstream commit 841aee4d75f18fdfb53935080b03de0c65e9b92c ]
+
+Put NVMe/TCP sockets in their own class to avoid some lockdep warnings.
+Sockets created by nvme-tcp are not exposed to user-space, and will not
+trigger certain code paths that the general socket API exposes.
+
+Lockdep complains about a circular dependency between the socket and
+filesystem locks, because setsockopt can trigger a page fault with a
+socket lock held, but nvme-tcp sends requests on the socket while file
+system locks are held.
+
+  ======================================================
+  WARNING: possible circular locking dependency detected
+  5.15.0-rc3 #1 Not tainted
+  ------------------------------------------------------
+  fio/1496 is trying to acquire lock:
+  (sk_lock-AF_INET){+.+.}-{0:0}, at: tcp_sendpage+0x23/0x80
+
+  but task is already holding lock:
+  (&xfs_dir_ilock_class/5){+.+.}-{3:3}, at: xfs_ilock+0xcf/0x290 [xfs]
+
+  which lock already depends on the new lock.
+
+  other info that might help us debug this:
+
+  chain exists of:
+   sk_lock-AF_INET --> sb_internal --> &xfs_dir_ilock_class/5
+
+  Possible unsafe locking scenario:
+
+        CPU0                    CPU1
+        ----                    ----
+   lock(&xfs_dir_ilock_class/5);
+                                lock(sb_internal);
+                                lock(&xfs_dir_ilock_class/5);
+   lock(sk_lock-AF_INET);
+
+  *** DEADLOCK ***
+
+  6 locks held by fio/1496:
+   #0: (sb_writers#13){.+.+}-{0:0}, at: path_openat+0x9fc/0xa20
+   #1: (&inode->i_sb->s_type->i_mutex_dir_key){++++}-{3:3}, at: path_openat+0x296/0xa20
+   #2: (sb_internal){.+.+}-{0:0}, at: xfs_trans_alloc_icreate+0x41/0xd0 [xfs]
+   #3: (&xfs_dir_ilock_class/5){+.+.}-{3:3}, at: xfs_ilock+0xcf/0x290 [xfs]
+   #4: (hctx->srcu){....}-{0:0}, at: hctx_lock+0x51/0xd0
+   #5: (&queue->send_mutex){+.+.}-{3:3}, at: nvme_tcp_queue_rq+0x33e/0x380 [nvme_tcp]
+
+This annotation lets lockdep analyze nvme-tcp controlled sockets
+independently of what the user-space sockets API does.
+
+Link: https://lore.kernel.org/linux-nvme/CAHj4cs9MDYLJ+q+2_GXUK9HxFizv2pxUryUR0toX974M040z7g@mail.gmail.com/
+
+Signed-off-by: Chris Leech <cleech@redhat.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/tcp.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 65e00c64a588..d66e2de044e0 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -30,6 +30,44 @@ static int so_priority;
+ module_param(so_priority, int, 0644);
+ MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
+ 
++#ifdef CONFIG_DEBUG_LOCK_ALLOC
++/* lockdep can detect a circular dependency of the form
++ *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
++ * because dependencies are tracked for both nvme-tcp and user contexts. Using
++ * a separate class prevents lockdep from conflating nvme-tcp socket use with
++ * user-space socket API use.
++ */
++static struct lock_class_key nvme_tcp_sk_key[2];
++static struct lock_class_key nvme_tcp_slock_key[2];
 +
-+. tests/nvme/rc
++static void nvme_tcp_reclassify_socket(struct socket *sock)
++{
++	struct sock *sk = sock->sk;
 +
-+DESCRIPTION="Test bi-directional authentication"
-+QUICK=1
++	if (WARN_ON_ONCE(!sock_allow_reclassification(sk)))
++		return;
 +
-+requires() {
-+	_nvme_requires
-+	_have_modules loop
-+	_require_nvme_trtype_is_fabrics
++	switch (sk->sk_family) {
++	case AF_INET:
++		sock_lock_init_class_and_name(sk, "slock-AF_INET-NVME",
++					      &nvme_tcp_slock_key[0],
++					      "sk_lock-AF_INET-NVME",
++					      &nvme_tcp_sk_key[0]);
++		break;
++	case AF_INET6:
++		sock_lock_init_class_and_name(sk, "slock-AF_INET6-NVME",
++					      &nvme_tcp_slock_key[1],
++					      "sk_lock-AF_INET6-NVME",
++					      &nvme_tcp_sk_key[1]);
++		break;
++	default:
++		WARN_ON_ONCE(1);
++	}
 +}
++#else
++static void nvme_tcp_reclassify_socket(struct socket *sock) { }
++#endif
 +
+ enum nvme_tcp_send_state {
+ 	NVME_TCP_SEND_CMD_PDU = 0,
+ 	NVME_TCP_SEND_H2C_PDU,
+@@ -1469,6 +1507,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 		goto err_destroy_mutex;
+ 	}
+ 
++	nvme_tcp_reclassify_socket(queue->sock);
 +
-+test() {
-+	local port
-+	local subsys="blktests-subsystem-1"
-+	local hostid="$(uuidgen)"
-+	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	local scratch="/tmp/blktest-ns1.img"
-+	local hostkey
-+	local ctrlkey
-+	local ctrldev
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	hostkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
-+	if [ $? -ne 0 ] ; then
-+		echo "nvme gen-dhchap-key command missing"
-+		return 1
-+	fi
-+
-+	ctrlkey="$(nvme gen-dhchap-key -n ${subsys} 2> /dev/null)"
-+	if [ $? -ne 0 ] ; then
-+		echo "nvme gen-dhchap-key command missing"
-+		return 1
-+	fi
-+
-+	_setup_nvmet
-+
-+	truncate -s 512M "${scratch}"
-+
-+	port="$(_create_nvmet_port "${nvme_trtype}")"
-+
-+	_create_nvmet_subsystem "${subsys}" "${scratch}"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys}"
-+	_create_nvmet_host "${subsys}" "${hostnqn}" "${hostkey}" "${ctrlkey}"
-+
-+	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
-+
-+	# Step 1: Connect with host authentication only
-+	echo "Test host authentication"
-+	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
-+			     "${def_traddr}" "${def_trsvcid}" \
-+			     "${hostnqn}" "${hostid}" \
-+			     "${hostkey}"
-+
-+	ctrldev=$(_find_nvme_dev "${subsys}")
-+	if [ -z "$ctrldev" ] ; then
-+		echo "nvme controller not found"
-+	fi
-+
-+	_nvme_disconnect_subsys "${subsys}"
-+
-+	# Step 2: Connect with host authentication
-+	# and invalid ctrl authentication
-+	echo "Test host authentication and invalid ctrl authentication"
-+	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
-+			     "${def_traddr}" "${def_trsvcid}" \
-+			     "${hostnqn}" "${hostid}" \
-+			     "${hostkey}" "${hostkey}"
-+	ctrldev=$(_find_nvme_dev "${subsys}1")
-+	if [ -n "${ctrldev}" ] ; then
-+		echo "nvme controller found!"
-+		_nvme_disconnect_subsys "${ctrldev}"
-+	fi
-+
-+	# Step 3: Connect with host authentication
-+	# and valid ctrl authentication
-+	echo "Test host authentication and valid ctrl authentication"
-+	_nvme_connect_subsys "${nvme_trtype}" "${subsys}" \
-+			     "${def_traddr}" "${def_trsvcid}" \
-+			     "${hostnqn}" "${hostid}" \
-+			     "${hostkey}" "${ctrlkey}"
-+
-+	ctrldev=$(_find_nvme_dev "${subsys}")
-+	if [ -z "$ctrldev" ] ; then
-+		echo "nvme controller not found"
-+	fi
-+
-+	_nvme_disconnect_subsys "${subsys}"
-+
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys}"
-+	_remove_nvmet_subsystem "${subsys}"
-+
-+	_remove_nvmet_port "${port}"
-+
-+	_remove_nvmet_host "${hostnqn}"
-+
-+	rm ${scratch}
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/042.out b/tests/nvme/042.out
-new file mode 100644
-index 0000000..17a461b
---- /dev/null
-+++ b/tests/nvme/042.out
-@@ -0,0 +1,8 @@
-+Running nvme/042
-+Test host authentication
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test host authentication and invalid ctrl authentication
-+no controller found
-+Test host authentication and valid ctrl authentication
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test complete
+ 	/* Single syn retry */
+ 	tcp_sock_set_syncnt(queue->sock->sk, 1);
+ 
 -- 
-2.29.2
+2.34.1
 
 
