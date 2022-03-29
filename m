@@ -4,74 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A647AC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Mar 2022 00:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 382E5C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Mar 2022 02:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J4KWyw+cBk0gVXSu6o+Qb1G52uK0CGpmkgICaiSVqZs=; b=l6aVqm/sOyu+Fq+KWOaR3v/UFc
-	s7gFA9eHyJL0TYdm9ulJ9enASLrm3ZxuuiitIVUS/1Dmb9BT9VyHPbxpC+rMdnE8jj6Z2P2p8vkP+
-	ixmV0v7XcBN0K4tSoTIdc1ybIylpiuINhBFQOhHIApQPgrKdNT0VXWM5uIjsDGws8lfjkyvVU029z
-	p9kSfakv+azvDug8BCJiflJreQ35Zbv1xWsEeo0foRC9V/kP1ZFOFY6SLhtLKbiyGXmxTdQMGllmi
-	E2Nm9JXab4Vxx9EnkPuKC9pPDW2OjN0nyYdbqQQ21BHOK5rQ2vNQT2DRpvM0vlBu2W+1K1vLj7ByT
-	USKuF4FQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Zds00GOn8tHFSRvTLh6GQC0CKk9En23eaRKAd6OHkM8=; b=YykzEzbwdUJZQ3inx5f53sYlad
+	S58XGypWvFOf/+sQOFYYMTeHWayFfm6bfxmVUXOaHlKOj++G/K/jRaVYZKl86H7cm6eVp0lFl2XpU
+	es4OxGorLccDIjf5wqzcyMzZASXCHaMOq2LjVHWGqSjjXN3ufXKi6BFvP+JJ1/bao8zYg0VLJ1TyA
+	NpxR3NKcpXnuQARiuCreBTSqzULXjg6D03JeI0x+p12ZP9gEVXoThBVkOCI6q6ynckIYR39djDvCh
+	l/Bop7FnH+zDDZCQAEeFOTcFVhFP9xhFGazXnEyNlja+QMKF+u26JBFFtdQho7jqi7qbY/H0qup3y
+	Zb/v1D3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nYzaS-00AXfT-34; Tue, 29 Mar 2022 00:19:52 +0000
-Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nYzaO-00AXeF-Ml
- for linux-nvme@lists.infradead.org; Tue, 29 Mar 2022 00:19:50 +0000
-Received: by mail-qv1-xf32.google.com with SMTP id kc20so13231628qvb.3
- for <linux-nvme@lists.infradead.org>; Mon, 28 Mar 2022 17:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J4KWyw+cBk0gVXSu6o+Qb1G52uK0CGpmkgICaiSVqZs=;
- b=Qk858fVefCwfKCcCvuirzO8bJ3QEwDEAfm3XTiLYVS2FLCILT82FPyoy0htIbrMnjl
- mfN5YSilnRArHiQSunYS8crTFlFs9Ky4qPptKklEunn2UFJaTlj29f44qLFaZh1BzTst
- ecokfV7WxIKiWif0kiedmSTT8qvQVO7f8j5K8k/nOeivXtzyvtW5TSQ+qrAe3+fCp+Ei
- WqE5HEFKXIlgTunCPHBinajoalBYS4GzfB+fGUVTJCLSahTPb9i9/UiNo1sqNrdYpFz1
- Uh2rNQgCSUiNhrqGedcD3ySUd0hrtiPbRAAaf7mX8QunxNAJ5SyZLtYLtru67kVwxoRA
- 3ESw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J4KWyw+cBk0gVXSu6o+Qb1G52uK0CGpmkgICaiSVqZs=;
- b=RlU5dyZ5PT8ytohdrUOJT39kYeX+sgSwVRZ0pXgV1jY4RxpJA1Jkv+ifUAVvr3Cff1
- DzwWlKFStFl/L0EMgmWjewNU8v8JqXEFmQKgZznHXBLAn+7z8q+rjgG2erMENwSu3aj/
- vqw+JKr/NUM/w4r+S5UsZc2W43pa9H1tbGEarcQeSjdUNYzmf5hFdRd30JGOYNRhQGJz
- aV+do/3vGseVhCi7fio5jFkaIwRt2fIbV5V9MfP3+TLb49oQ7Rg+6qrgz8SxXDnHjIja
- MhXwull07Ymu61C9DIO3nRm0pl172w7NoK+OlkKZq+PknJIJzhYTirdGszwmID1ZCj4T
- OmXg==
-X-Gm-Message-State: AOAM530N7nBQqpQoIUpCLcH3hI3sfcAx6PAZcIjDQFXwKyiU/pi/cdo6
- CV8GYDBE1iTLefTPJxa6wxlJXd2c59yUhsg5m3o=
-X-Google-Smtp-Source: ABdhPJzY7Spohg7KN8yaF7RFjnYSwUWMIYI/+E9RRCjsD7lKw1zcdkgUYs4iRHD/pWxInEtfi4Kax4tFZCZdvAqSAkc=
-X-Received: by 2002:a05:6214:1043:b0:441:1a79:12a5 with SMTP id
- l3-20020a056214104300b004411a7912a5mr23595610qvr.42.1648513186553; Mon, 28
- Mar 2022 17:19:46 -0700 (PDT)
+	id 1nZ1uE-00AmFS-NY; Tue, 29 Mar 2022 02:48:26 +0000
+Received: from smtprz02.163.net ([106.3.154.235] helo=smtp.tom.com)
+ by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nZ1uA-00AmDX-Fi
+ for linux-nvme@lists.infradead.org; Tue, 29 Mar 2022 02:48:24 +0000
+Received: from localhost (localhost [127.0.0.1])
+ by vip-app02.163.net (Postfix) with ESMTP id 0F840440114
+ for <linux-nvme@lists.infradead.org>; Tue, 29 Mar 2022 10:48:13 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1648522093; bh=UxIN0gCQWDCPxHwAlV5GfBTdHsvgwdbGdcBxlAMphuU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=tldl+zM9wCHeoSbbbGREhe+8sTnhTcn8wFE4ZeUS+AlCVBKpTdibyHmQIzdvntJWm
+ MHSQsYTEnKPK9Fwqzws6ChlYDEjboiqEarPf6zbljnOgWk60GrkJf5Hr07YbMg/2h1
+ 4LSOaqdhF4vwSWvpjTxLWqdsLzyF43rulM2mjUfk=
+Received: from localhost (HELO smtp.tom.com) ([127.0.0.1])
+ by localhost (TOM SMTP Server) with SMTP ID 1818385158
+ for <linux-nvme@lists.infradead.org>;
+ Tue, 29 Mar 2022 10:48:13 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
+ t=1648522093; bh=UxIN0gCQWDCPxHwAlV5GfBTdHsvgwdbGdcBxlAMphuU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=tldl+zM9wCHeoSbbbGREhe+8sTnhTcn8wFE4ZeUS+AlCVBKpTdibyHmQIzdvntJWm
+ MHSQsYTEnKPK9Fwqzws6ChlYDEjboiqEarPf6zbljnOgWk60GrkJf5Hr07YbMg/2h1
+ 4LSOaqdhF4vwSWvpjTxLWqdsLzyF43rulM2mjUfk=
+Received: from localhost (unknown [101.93.196.13])
+ by antispamvip.163.net (Postfix) with ESMTPA id E79AA15411AE;
+ Tue, 29 Mar 2022 10:48:06 +0800 (CST)
+Date: Tue, 29 Mar 2022 10:48:06 +0800
+From: Mingbao Sun <sunmingbao@tom.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
+ Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Eric Dumazet
+ <edumazet@google.com>, "David S . Miller" <davem@davemloft.net>, Hideaki
+ YOSHIFUJI <yoshfuji@linux-ipv6.org>, David Ahern <dsahern@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+ tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
+ libin.zhang@dell.com, ao.sun@dell.com
+Subject: Re: [PATCH v2 2/3] nvme-tcp: support specifying the congestion-control
+Message-ID: <20220329104806.00000126@tom.com>
+In-Reply-To: <b7b5106a-9c0d-db49-00ab-234756955de8@grimberg.me>
+References: <20220311103414.8255-1-sunmingbao@tom.com>
+ <20220311103414.8255-2-sunmingbao@tom.com>
+ <7121e4be-0e25-dd5f-9d29-0fb02cdbe8de@grimberg.me>
+ <20220325201123.00002f28@tom.com>
+ <b7b5106a-9c0d-db49-00ab-234756955de8@grimberg.me>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20220328230008.3587975-1-tansuresh@google.com>
- <20220328230008.3587975-2-tansuresh@google.com>
-In-Reply-To: <20220328230008.3587975-2-tansuresh@google.com>
-From: "Oliver O'Halloran" <oohall@gmail.com>
-Date: Tue, 29 Mar 2022 11:19:35 +1100
-Message-ID: <CAOSf1CHnaKrSH0XwKMBuUmMAuc2q6MaHaZPqVoUia9MYqMjgGg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] driver core: Support asynchronous driver shutdown
-To: Tanjore Suresh <tansuresh@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Bjorn Helgaas <bhelgaas@google.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org, linux-pci <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220328_171948_780827_3D06A643 
-X-CRM114-Status: GOOD (  24.17  )
+X-CRM114-CacheID: sfid-20220328_194822_729631_CFA26A02 
+X-CRM114-Status: GOOD (  16.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,76 +88,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 29, 2022 at 10:35 AM Tanjore Suresh <tansuresh@google.com> wrote:
->
-> This changes the bus driver interface with additional entry points
-> to enable devices to implement asynchronous shutdown. The existing
-> synchronous interface to shutdown is unmodified and retained for
-> backward compatibility.
->
-> This changes the common device shutdown code to enable devices to
-> participate in asynchronous shutdown implementation.
+> As I said, TCP can be tuned in various ways, congestion being just one
+> of them. I'm sure you can find a workload where rmem/wmem will make
+> a difference.
 
-nice to see someone looking at improving the shutdown path
+agree.
+but the difference for the knob of rmem/wmem is:
+we could enlarge rmem/wmem for NVMe/TCP via sysctl,
+and it would not bring downside to any other sockets whose
+rmem/wmem are not explicitly specified.
 
-> Signed-off-by: Tanjore Suresh <tansuresh@google.com>
-> ---
->  drivers/base/core.c        | 39 +++++++++++++++++++++++++++++++++++++-
->  include/linux/device/bus.h | 10 ++++++++++
->  2 files changed, 48 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 3d6430eb0c6a..359e7067e8b8 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -4479,6 +4479,7 @@ EXPORT_SYMBOL_GPL(device_change_owner);
-> *snip*
+> In addition, based on my knowledge, application specific TCP level
+> tuning (like congestion) is not really a common thing to do. So why in
+> nvme-tcp?
+>=20
+> So to me at least, it is not clear why we should add it to the driver.
 
-This all seems a bit dangerous and I'm wondering what systems you've
-tested these changes with. I had a look at implementing something
-similar a few years ago and one case that always concerned me was
-embedded systems where the PCIe root complex also has a driver bound.
-Say you've got the following PCIe topology:
+As mentioned in the commit message, though we can specify the
+congestion-control of NVMe_over_TCP via sysctl or writing
+'/proc/sys/net/ipv4/tcp_congestion_control', but this also
+changes the congestion-control of all the future TCP sockets on
+the same host that have not been explicitly assigned the
+congestion-control, thus bringing potential impaction on their
+performance.
 
-00:00.0 - root port
-01:00.0 - nvme drive
+For example:
 
-With the current implementation of device_shutdown() we can guarantee
-that the child device (the nvme) is shut down before we start trying
-to shut down the parent device (the root complex) so there's no
-possibility of deadlocks and other dependency headaches. With this
-implementation of async shutdown we lose that guarantee and I'm not
-sure what the consequences are. Personally I was never able to
-convince myself it was safe, but maybe you're braver than I am :)
+A server in a data-center with the following 2 NICs:
 
-That all said, there's probably only a few kinds of device that will
-really want to implement async shutdown support so maybe you can
-restrict it to leaf devices and flip the ordering around to something
-like:
+    - NIC_fron-end, for interacting with clients through WAN
+      (high latency, ms-level)
 
-for_each_device(dev) {
-   if (can_async(dev) && has_no_children(dev))
-      start_async_shutdown(dev)
-}
-wait_for_all_async_shutdowns_to_finish()
+    - NIC_back-end, for interacting with NVMe/TCP target through LAN
+      (low latency, ECN-enabled, ideal for dctcp)
 
-// tear down the remaining system devices synchronously
-for_each_device(dev)
-   do_sync_shutdown(dev)
+This server interacts with clients (handling requests) via the fron-end
+network and accesses the NVMe/TCP storage via the back-end network.
+This is a normal use case, right?
 
->  /*
-> diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-> index a039ab809753..e261819601e9 100644
-> --- a/include/linux/device/bus.h
-> +++ b/include/linux/device/bus.h
-> @@ -93,6 +101,8 @@ struct bus_type {
->         void (*sync_state)(struct device *dev);
->         void (*remove)(struct device *dev);
->         void (*shutdown)(struct device *dev);
-> +       void (*shutdown_pre)(struct device *dev);
-> +       void (*shutdown_post)(struct device *dev);
+For the client devices, we can=E2=80=99t determine their congestion-control.
+But normally it=E2=80=99s cubic by default (per the CONFIG_DEFAULT_TCP_CONG=
+).
+So if we change the default congestion control on the server to dctcp
+on behalf of the NVMe/TCP traffic of the LAN side, it could at the
+same time change the congestion-control of the front-end sockets
+to dctcp while the congestion-control of the client-side is cubic.
+So this is an unexpected scenario.
 
-Call them shutdown_async_start() / shutdown_async_end() or something
-IMO. These names are not at all helpful and they're easy to mix up
-their role with the class based shutdown_pre / _post
+In addition, distributed storage products like the following also have
+the above problem:
+
+    - The product consists of a cluster of servers.
+
+    - Each server serves clients via its front-end NIC
+     (WAN, high latency).
+
+    - All servers interact with each other via NVMe/TCP via back-end NIC
+     (LAN, low latency, ECN-enabled, ideal for dctcp).
 
