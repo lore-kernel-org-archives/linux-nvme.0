@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 055C9C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Mar 2022 03:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27CA1C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Mar 2022 03:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zFfAP18MKL+sT4h1XpSKBB/J/aFAJtYrkkF7My/xn+E=; b=FhQUA+IlS9YWGCdOPtVipPX9zU
-	AURRCyRVlz53o0PBkkOVy+qcxwdNyRXOCmUOuhkeM4BmCmyF3Q9fzHM13Z6QpP4dbkSWzqR5Nsv91
-	0gP9AO5NmXdx69N42c14rn3CL5Q57TLF8HWgeRCINYIazVp74kvddbdpH2GNmk3xJqm5IeACDu0cC
-	T+8s/tCUYTfmyM14ClKxk0PqbvfzILcxziwpZA8NAn9Mz14lic8tIvkhlOrY+2LlakD8ZTKbl+BJ8
-	YHxpflvMnOL20qMAmyTud7fG/fgvxxmPEYE9i/nhRdYCU9ljTDbgI00OAnm8kUsElVLvLUE63NSqJ
-	r8Js0LZQ==;
+	bh=zFfAP18MKL+sT4h1XpSKBB/J/aFAJtYrkkF7My/xn+E=; b=0kDaGSGZom/13E3vGIPr0kVlZr
+	g/Fogn0m1qmvG3nPZTyyNNxWzKddUPZJw5P7z8uO9uMV7X24/ypbOU0trfMSo+mz1uaV8F2uDYMnv
+	Wvw8RQrYAMYIdbEAzegvPMCsnfrhkqCLtuOMdalwVdaXtRoKZ+pZdUmIvxZHRFNZdShrAfAOjQRkq
+	8ODPt4onKFJjrZ7iQUx8pFXcMUiQyhTGC4i+dtUOwkoLtqrNzlAj3KW8OtlfEJCrKTPm+8L8TFZa2
+	Q32mQl+pyeSTu2ZCDj3s1zitRibgrRURPulBWYeFASeHL434AvW/htkUapnfiJUPnaT+XnFMqI0s5
+	TNCC8Jhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nZlS7-000WrW-2E; Thu, 31 Mar 2022 03:26:27 +0000
+	id 1nZlqP-000ZUe-8C; Thu, 31 Mar 2022 03:51:33 +0000
 Received: from smtprz01.163.net ([106.3.154.234])
  by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nZlS1-000Wqs-UH
- for linux-nvme@lists.infradead.org; Thu, 31 Mar 2022 03:26:24 +0000
+ id 1nZlqK-000ZU1-NU
+ for linux-nvme@lists.infradead.org; Thu, 31 Mar 2022 03:51:31 +0000
 Received: from localhost (localhost [127.0.0.1])
- by vip-app02.163.net (Postfix) with ESMTP id C079D440117
- for <linux-nvme@lists.infradead.org>; Thu, 31 Mar 2022 11:26:19 +0800 (CST)
+ by vip-app02.163.net (Postfix) with ESMTP id 7EA4544010E
+ for <linux-nvme@lists.infradead.org>; Thu, 31 Mar 2022 11:51:27 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1648697179; bh=21CqgYe68EqtmuAUXMw5t7Y6CsanGtFEcTU3Jo5xixQ=;
+ t=1648698687; bh=21CqgYe68EqtmuAUXMw5t7Y6CsanGtFEcTU3Jo5xixQ=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=vmGe8eDSSC4A7UgWYEejv4W5WicbEobzSCZVE2A9OlBkJm9MExfDiF+j2F6vaVieX
- dxvWpoPs4nQpQN7rDt/VfShB5YBiCbnK3lzhsQBBb4zGAIzMZL19KwE32aPgzBoUvY
- rJcy6N+oR5UPyaf/xa5qI2auGIOZ4pjbMfBnFr3o=
+ b=331n1g+Wi/+9fhMvYV+FrMVCUhgM12eBWuBuzjD65ghIZx4y6Pp5hS9H9s4bx2cJv
+ 5tOrqvJmo81mWxx8USlwzKsIMl3f0TE4+UDXqcavHziak+epvVdkswu8MkgV68XBZB
+ 8XZltugDx1Y06diOVvsildRDYa4ktSpsOA3spp/4=
 Received: from localhost (HELO smtprz01.163.net) ([127.0.0.1])
- by localhost (TOM SMTP Server) with SMTP ID -12278709
+ by localhost (TOM SMTP Server) with SMTP ID 2048682669
  for <linux-nvme@lists.infradead.org>;
- Thu, 31 Mar 2022 11:26:19 +0800 (CST)
+ Thu, 31 Mar 2022 11:51:27 +0800 (CST)
 X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1648697179; bh=21CqgYe68EqtmuAUXMw5t7Y6CsanGtFEcTU3Jo5xixQ=;
+ t=1648698687; bh=21CqgYe68EqtmuAUXMw5t7Y6CsanGtFEcTU3Jo5xixQ=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=vmGe8eDSSC4A7UgWYEejv4W5WicbEobzSCZVE2A9OlBkJm9MExfDiF+j2F6vaVieX
- dxvWpoPs4nQpQN7rDt/VfShB5YBiCbnK3lzhsQBBb4zGAIzMZL19KwE32aPgzBoUvY
- rJcy6N+oR5UPyaf/xa5qI2auGIOZ4pjbMfBnFr3o=
+ b=331n1g+Wi/+9fhMvYV+FrMVCUhgM12eBWuBuzjD65ghIZx4y6Pp5hS9H9s4bx2cJv
+ 5tOrqvJmo81mWxx8USlwzKsIMl3f0TE4+UDXqcavHziak+epvVdkswu8MkgV68XBZB
+ 8XZltugDx1Y06diOVvsildRDYa4ktSpsOA3spp/4=
 Received: from localhost (unknown [101.93.196.13])
- by antispamvip.163.net (Postfix) with ESMTPA id 0C94D15411C6;
- Thu, 31 Mar 2022 11:26:14 +0800 (CST)
-Date: Thu, 31 Mar 2022 11:26:13 +0800
+ by antispamvip.163.net (Postfix) with ESMTPA id 9A0C8154269A;
+ Wed, 30 Mar 2022 15:57:39 +0800 (CST)
+Date: Wed, 30 Mar 2022 15:57:39 +0800
 From: Mingbao Sun <sunmingbao@tom.com>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
@@ -60,7 +60,7 @@ Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
  tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
  libin.zhang@dell.com, ao.sun@dell.com
 Subject: Re: [PATCH v2 2/3] nvme-tcp: support specifying the congestion-control
-Message-ID: <20220331112613.0000063e@tom.com>
+Message-ID: <20220330155739.00005a9d@tom.com>
 In-Reply-To: <15f24dcd-9a62-8bab-271c-baa9cc693d8d@grimberg.me>
 References: <20220311103414.8255-1-sunmingbao@tom.com>
  <20220311103414.8255-2-sunmingbao@tom.com>
@@ -74,8 +74,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220330_202622_677798_AD86EB1A 
-X-CRM114-Status: GOOD (  31.10  )
+X-CRM114-CacheID: sfid-20220330_205129_129746_12676796 
+X-CRM114-Status: GOOD (  30.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
