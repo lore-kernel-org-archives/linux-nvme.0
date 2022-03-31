@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9AA5C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Mar 2022 04:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B71DFC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Mar 2022 05:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zFfAP18MKL+sT4h1XpSKBB/J/aFAJtYrkkF7My/xn+E=; b=rsM6yxfwtr6uvhwAho9rExTiAy
-	zji1xa3yb6U1EUEh8jg21Ocub3J8zHBUnuxXpsdFoYL6akT3SR10LvUNxJauYjTjHt6GbIGjRp4tg
-	FxvLgcAcrjRtX7p75ppg2y20U84HA3tYB/RNaCrLAMguK6bwqNxYL6Zzs4czq45vZ0PY/BfJHSxmz
-	BdTuz/OHnGl+BjnXwQvkxxRJ0a1skGLrh8igOIwQjkUkruRA+o34R5E74RfelNy1l1Um3t56sX3WS
-	gNAYdC9xEQAt7r1sPycPTRcsfd/24lQWjwYSn9tvPxSqYXsgl5+uZQa7rIi3B9NVTqw+UoCikZQDU
-	rBDUQeKg==;
+	bh=R/GKA8fg0A1xmIXWtrQM8WHV2FCdOqYEpK5w1vjnWx4=; b=qLej7GPvD0oHMgzryz3ZYZc3wt
+	9cdWevEwSwEWir0eQ4t8g5KK1InKgz1Ld6Y9NW1Atc6aR8UaKj+qZTntPc960UNfALJjNMvHCYs9U
+	G93DS5fDqifCbDOKUGWYnSaX6/kOp6ImBLVgr6mmtyIT252qu531jULvr78+1GNL7lxKYeFWCZaiY
+	azemyRve3f/RNu2ul2XW1RNx/C4gtKrdPHhEkBKKSvAtdnkjb4Jd7SulNQiOHiydi7U9EVGgbXXbf
+	GtfkPoFwCZ9FThREd6shntB6SOCepGFOIY8quanMIYHlLWU8r9PrezNwALOs4PsfsqYDo0PPReSMe
+	XIgMOD5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nZm05-000a01-1M; Thu, 31 Mar 2022 04:01:33 +0000
+	id 1nZnRQ-000i3g-3s; Thu, 31 Mar 2022 05:33:52 +0000
 Received: from smtprz01.163.net ([106.3.154.234])
  by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nZm00-000Zzg-Nr
- for linux-nvme@lists.infradead.org; Thu, 31 Mar 2022 04:01:31 +0000
+ id 1nZnRL-000i2e-Pj
+ for linux-nvme@lists.infradead.org; Thu, 31 Mar 2022 05:33:50 +0000
 Received: from localhost (localhost [127.0.0.1])
- by vip-app02.163.net (Postfix) with ESMTP id 3B4B7440117
- for <linux-nvme@lists.infradead.org>; Thu, 31 Mar 2022 12:01:27 +0800 (CST)
+ by vip-app02.163.net (Postfix) with ESMTP id 5D1314400CD
+ for <linux-nvme@lists.infradead.org>; Thu, 31 Mar 2022 13:33:45 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1648699287; bh=21CqgYe68EqtmuAUXMw5t7Y6CsanGtFEcTU3Jo5xixQ=;
+ t=1648704825; bh=R/GKA8fg0A1xmIXWtrQM8WHV2FCdOqYEpK5w1vjnWx4=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=V5T6/CZ8iA3uITlo9fpHPU/G3BAcsBHkiI1BPFxQLWx3lzGfRrWxm2TrAMhtqIufw
- NPYcSjkXQuMOk11GPGbfo+fAIc5mMcqO/vf+W+i1VdZk7EAz8kxovkNR+PfmnA0yMp
- VGnhMxHzzeLo0dWKknZoi5XNtpHUZQjTXEdgVSsI=
+ b=Z1i2Flc+yAz6KboBjV1ub4vDF/bDmMNTM4Vq9UWMQNdc9vgUV6wSZ2V9++fVYcawI
+ KnZ98AxZKpb3glKi3jgD3zZlfAQvV8WnY4K0XN+TPV1XTPIgncRwZhSY3YWhhRDyRK
+ 6pHO+SOymmb8jJChobA7NQegYM2LC2Gx2u4Do644=
 Received: from localhost (HELO smtprz01.163.net) ([127.0.0.1])
- by localhost (TOM SMTP Server) with SMTP ID -485653273
+ by localhost (TOM SMTP Server) with SMTP ID 415619944
  for <linux-nvme@lists.infradead.org>;
- Thu, 31 Mar 2022 12:01:27 +0800 (CST)
+ Thu, 31 Mar 2022 13:33:45 +0800 (CST)
 X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1648699287; bh=21CqgYe68EqtmuAUXMw5t7Y6CsanGtFEcTU3Jo5xixQ=;
+ t=1648704825; bh=R/GKA8fg0A1xmIXWtrQM8WHV2FCdOqYEpK5w1vjnWx4=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=V5T6/CZ8iA3uITlo9fpHPU/G3BAcsBHkiI1BPFxQLWx3lzGfRrWxm2TrAMhtqIufw
- NPYcSjkXQuMOk11GPGbfo+fAIc5mMcqO/vf+W+i1VdZk7EAz8kxovkNR+PfmnA0yMp
- VGnhMxHzzeLo0dWKknZoi5XNtpHUZQjTXEdgVSsI=
+ b=Z1i2Flc+yAz6KboBjV1ub4vDF/bDmMNTM4Vq9UWMQNdc9vgUV6wSZ2V9++fVYcawI
+ KnZ98AxZKpb3glKi3jgD3zZlfAQvV8WnY4K0XN+TPV1XTPIgncRwZhSY3YWhhRDyRK
+ 6pHO+SOymmb8jJChobA7NQegYM2LC2Gx2u4Do644=
 Received: from localhost (unknown [101.93.196.13])
- by antispamvip.163.net (Postfix) with ESMTPA id BB2B61542837;
- Wed, 30 Mar 2022 18:27:48 +0800 (CST)
-Date: Wed, 30 Mar 2022 18:27:48 +0800
+ by antispamvip.163.net (Postfix) with ESMTPA id AAC541540B7C;
+ Thu, 31 Mar 2022 13:33:42 +0800 (CST)
+Date: Thu, 31 Mar 2022 13:33:41 +0800
 From: Mingbao Sun <sunmingbao@tom.com>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
@@ -60,7 +60,7 @@ Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
  tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
  libin.zhang@dell.com, ao.sun@dell.com
 Subject: Re: [PATCH v2 2/3] nvme-tcp: support specifying the congestion-control
-Message-ID: <20220330182748.00003901@tom.com>
+Message-ID: <20220331133341.00002f70@tom.com>
 In-Reply-To: <15f24dcd-9a62-8bab-271c-baa9cc693d8d@grimberg.me>
 References: <20220311103414.8255-1-sunmingbao@tom.com>
  <20220311103414.8255-2-sunmingbao@tom.com>
@@ -71,11 +71,12 @@ References: <20220311103414.8255-1-sunmingbao@tom.com>
  <15f24dcd-9a62-8bab-271c-baa9cc693d8d@grimberg.me>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220330_210129_202172_F947AB6C 
-X-CRM114-Status: GOOD (  30.83  )
+X-CRM114-CacheID: sfid-20220330_223348_248844_BAC6E873 
+X-CRM114-Status: UNSURE (   6.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,89 +91,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 29 Mar 2022 10:46:08 +0300
-Sagi Grimberg <sagi@grimberg.me> wrote:
-
-> >> As I said, TCP can be tuned in various ways, congestion being just one
-> >> of them. I'm sure you can find a workload where rmem/wmem will make
-> >> a difference. =20
-> >=20
-> > agree.
-> > but the difference for the knob of rmem/wmem is:
-> > we could enlarge rmem/wmem for NVMe/TCP via sysctl,
-> > and it would not bring downside to any other sockets whose
-> > rmem/wmem are not explicitly specified. =20
->=20
-> It can most certainly affect them, positively or negatively, depends
-> on the use-case.
-
-Agree.
-Your saying is rigorous.
-
-> >> In addition, based on my knowledge, application specific TCP level
-> >> tuning (like congestion) is not really a common thing to do. So why in
-> >> nvme-tcp?
-> >>
-> >> So to me at least, it is not clear why we should add it to the driver.=
- =20
-> >=20
-> > As mentioned in the commit message, though we can specify the
-> > congestion-control of NVMe_over_TCP via sysctl or writing
-> > '/proc/sys/net/ipv4/tcp_congestion_control', but this also
-> > changes the congestion-control of all the future TCP sockets on
-> > the same host that have not been explicitly assigned the
-> > congestion-control, thus bringing potential impaction on their
-> > performance.
-> >=20
-> > For example:
-> >=20
-> > A server in a data-center with the following 2 NICs:
-> >=20
-> >      - NIC_fron-end, for interacting with clients through WAN
-> >        (high latency, ms-level)
-> >=20
-> >      - NIC_back-end, for interacting with NVMe/TCP target through LAN
-> >        (low latency, ECN-enabled, ideal for dctcp)
-> >=20
-> > This server interacts with clients (handling requests) via the fron-end
-> > network and accesses the NVMe/TCP storage via the back-end network.
-> > This is a normal use case, right?
-> >=20
-> > For the client devices, we can=E2=80=99t determine their congestion-con=
-trol.
-> > But normally it=E2=80=99s cubic by default (per the CONFIG_DEFAULT_TCP_=
-CONG).
-> > So if we change the default congestion control on the server to dctcp
-> > on behalf of the NVMe/TCP traffic of the LAN side, it could at the
-> > same time change the congestion-control of the front-end sockets
-> > to dctcp while the congestion-control of the client-side is cubic.
-> > So this is an unexpected scenario.
-> >=20
-> > In addition, distributed storage products like the following also have
-> > the above problem:
-> >=20
-> >      - The product consists of a cluster of servers.
-> >=20
-> >      - Each server serves clients via its front-end NIC
-> >       (WAN, high latency).
-> >=20
-> >      - All servers interact with each other via NVMe/TCP via back-end N=
-IC
-> >       (LAN, low latency, ECN-enabled, ideal for dctcp). =20
->=20
-> Separate networks are still not application (nvme-tcp) specific and as
-> mentioned, we have a way to control that. IMO, this still does not
-> qualify as solid justification to add this to nvme-tcp.
->=20
-> What do others think?
-
-Well, per the fact that the approach (=E2=80=98ip route =E2=80=A6=E2=80=99)=
- proposed
-by Jakub could largely fit the per link requirement on
-congestion-control, so the usefulness of this patchset is really
-not so significant.
-
-So here I terminate all the threads of this patchset.
-
-At last, many thanks to all of you for reviewing this patchset.
+OOOPS, my mail service has got some issues.
+Sorry for the duplicated emails.
 
