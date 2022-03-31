@@ -4,79 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B71DFC433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Mar 2022 05:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4F42C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Mar 2022 12:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R/GKA8fg0A1xmIXWtrQM8WHV2FCdOqYEpK5w1vjnWx4=; b=qLej7GPvD0oHMgzryz3ZYZc3wt
-	9cdWevEwSwEWir0eQ4t8g5KK1InKgz1Ld6Y9NW1Atc6aR8UaKj+qZTntPc960UNfALJjNMvHCYs9U
-	G93DS5fDqifCbDOKUGWYnSaX6/kOp6ImBLVgr6mmtyIT252qu531jULvr78+1GNL7lxKYeFWCZaiY
-	azemyRve3f/RNu2ul2XW1RNx/C4gtKrdPHhEkBKKSvAtdnkjb4Jd7SulNQiOHiydi7U9EVGgbXXbf
-	GtfkPoFwCZ9FThREd6shntB6SOCepGFOIY8quanMIYHlLWU8r9PrezNwALOs4PsfsqYDo0PPReSMe
-	XIgMOD5A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qlVb8m4lD5nimCufr4J8BkEVVy0pSTB0wUKUXvGiKnQ=; b=kg7W8WWuq02OPOwMQu40h2a6OW
+	41B04BE1dkxeuAM7/0N59oJj5dGmS3zSd8p750lBirYdkM7gaPUp1/PP500O9FWt4x72J5FemzWRi
+	gckJtgRbqYXzi64G4qblKirIRKrCLNPA2e+rhfEMVBxiXg7GaTlLKq3jzFy5rK6mfxP5ugWYuZEfr
+	MRKBivQCJZVPs+VEITvcpfaf1C8J+46xz051tNbYKQBZ8Evnxi63Y1ldgt6okk9GQaYQMKziypPPy
+	gqY/QccfmzXokftTtvXDDtT5RQZ/HfEC9DfI0MP4cky7WIqZA8kITo60qafYoOE3h8ZHaMn9TYou5
+	yjIp0ZKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nZnRQ-000i3g-3s; Thu, 31 Mar 2022 05:33:52 +0000
-Received: from smtprz01.163.net ([106.3.154.234])
- by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nZnRL-000i2e-Pj
- for linux-nvme@lists.infradead.org; Thu, 31 Mar 2022 05:33:50 +0000
-Received: from localhost (localhost [127.0.0.1])
- by vip-app02.163.net (Postfix) with ESMTP id 5D1314400CD
- for <linux-nvme@lists.infradead.org>; Thu, 31 Mar 2022 13:33:45 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1648704825; bh=R/GKA8fg0A1xmIXWtrQM8WHV2FCdOqYEpK5w1vjnWx4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Z1i2Flc+yAz6KboBjV1ub4vDF/bDmMNTM4Vq9UWMQNdc9vgUV6wSZ2V9++fVYcawI
- KnZ98AxZKpb3glKi3jgD3zZlfAQvV8WnY4K0XN+TPV1XTPIgncRwZhSY3YWhhRDyRK
- 6pHO+SOymmb8jJChobA7NQegYM2LC2Gx2u4Do644=
-Received: from localhost (HELO smtprz01.163.net) ([127.0.0.1])
- by localhost (TOM SMTP Server) with SMTP ID 415619944
- for <linux-nvme@lists.infradead.org>;
- Thu, 31 Mar 2022 13:33:45 +0800 (CST)
-X-Virus-Scanned: Debian amavisd-new at mxtest.tom.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=mail;
- t=1648704825; bh=R/GKA8fg0A1xmIXWtrQM8WHV2FCdOqYEpK5w1vjnWx4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Z1i2Flc+yAz6KboBjV1ub4vDF/bDmMNTM4Vq9UWMQNdc9vgUV6wSZ2V9++fVYcawI
- KnZ98AxZKpb3glKi3jgD3zZlfAQvV8WnY4K0XN+TPV1XTPIgncRwZhSY3YWhhRDyRK
- 6pHO+SOymmb8jJChobA7NQegYM2LC2Gx2u4Do644=
-Received: from localhost (unknown [101.93.196.13])
- by antispamvip.163.net (Postfix) with ESMTPA id AAC541540B7C;
- Thu, 31 Mar 2022 13:33:42 +0800 (CST)
-Date: Thu, 31 Mar 2022 13:33:41 +0800
-From: Mingbao Sun <sunmingbao@tom.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph
- Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Eric Dumazet
- <edumazet@google.com>, "David S . Miller" <davem@davemloft.net>, Hideaki
- YOSHIFUJI <yoshfuji@linux-ipv6.org>, David Ahern <dsahern@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
- tyler.sun@dell.com, ping.gan@dell.com, yanxiu.cai@dell.com,
- libin.zhang@dell.com, ao.sun@dell.com
-Subject: Re: [PATCH v2 2/3] nvme-tcp: support specifying the congestion-control
-Message-ID: <20220331133341.00002f70@tom.com>
-In-Reply-To: <15f24dcd-9a62-8bab-271c-baa9cc693d8d@grimberg.me>
-References: <20220311103414.8255-1-sunmingbao@tom.com>
- <20220311103414.8255-2-sunmingbao@tom.com>
- <7121e4be-0e25-dd5f-9d29-0fb02cdbe8de@grimberg.me>
- <20220325201123.00002f28@tom.com>
- <b7b5106a-9c0d-db49-00ab-234756955de8@grimberg.me>
- <20220329104806.00000126@tom.com>
- <15f24dcd-9a62-8bab-271c-baa9cc693d8d@grimberg.me>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+	id 1nZtam-0029BI-1u; Thu, 31 Mar 2022 12:07:56 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nZtaf-00299u-Ex
+ for linux-nvme@lists.infradead.org; Thu, 31 Mar 2022 12:07:51 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 436B31F37D;
+ Thu, 31 Mar 2022 12:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1648728465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qlVb8m4lD5nimCufr4J8BkEVVy0pSTB0wUKUXvGiKnQ=;
+ b=VJejwbt3RxRmaYOVd1RAWzivrVwG65IbtZJVfYR1+mkdyXwez+30xwMANrUtS7Cotf+5sW
+ Jqk9t8vopsgag21ZNwg+52bgnHGJi1nADVLq7av+aYNOUqC5vp8ZvvVc5IvdnFOtOXQycn
+ t1+tFulT08XoAsEAzubY6hIku5GMdZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1648728465;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qlVb8m4lD5nimCufr4J8BkEVVy0pSTB0wUKUXvGiKnQ=;
+ b=WlFEo37T55t/2eFNOZqn1Cg6uLhpMs9esYODcnslYgTZ0+pqwKNkXxi511XeDBPpmO8PtI
+ svK/iu/q08qfIsDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 33B4E132DC;
+ Thu, 31 Mar 2022 12:07:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id cYOWDJGZRWLYCwAAMHmgww
+ (envelope-from <dwagner@suse.de>); Thu, 31 Mar 2022 12:07:45 +0000
+Date: Thu, 31 Mar 2022 14:07:44 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: "Belanger, Martin" <Martin.Belanger@dell.com>
+Cc: Oliver O'Halloran <oohall@gmail.com>,
+ Tanjore Suresh <tansuresh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ linux-pci <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v1 1/3] driver core: Support asynchronous driver shutdown
+Message-ID: <20220331120744.sb4ai6pa2ahtb3c5@carbon.lan>
+References: <20220328230008.3587975-1-tansuresh@google.com>
+ <20220328230008.3587975-2-tansuresh@google.com>
+ <CAOSf1CHnaKrSH0XwKMBuUmMAuc2q6MaHaZPqVoUia9MYqMjgGg@mail.gmail.com>
+ <SJ0PR19MB4544C3854D2C68853A6E8EA8F21F9@SJ0PR19MB4544.namprd19.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SJ0PR19MB4544C3854D2C68853A6E8EA8F21F9@SJ0PR19MB4544.namprd19.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220330_223348_248844_BAC6E873 
-X-CRM114-Status: UNSURE (   6.47  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220331_050749_703569_5FA63E81 
+X-CRM114-Status: GOOD (  18.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,6 +95,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-OOOPS, my mail service has got some issues.
-Sorry for the duplicated emails.
+On Wed, Mar 30, 2022 at 02:12:18PM +0000, Belanger, Martin wrote:
+> I know this patch is mainly for PCI devices, however, NVMe over Fabrics 
+> devices can suffer even longer shutdowns. Last September, I reported 
+> that shutting down an NVMe-oF TCP connection while the network is down 
+> will result in a 1-minute deadlock. That's because the driver tries to perform 
+> a proper shutdown by sending commands to the remote target and the 
+> timeout for unanswered commands is 1-minute. If one needs to shut down 
+> several NVMe-oF connections, each connection will be shut down sequentially 
+> taking each 1 minute. Try running "nvme disconnect-all" while the network 
+> is down and you'll see what I mean. Of course, the KATO is supposed to 
+> detect when connectivity is lost, but if you have a long KATO (e.g. 2 minutes)
+> you will most likely hit this condition.
+
+I've debugging something similar:
+
+[44888.710527] nvme nvme0: Removing ctrl: NQN "xxx"
+[44898.981684] nvme nvme0: failed to send request -32
+[44960.982977] nvme nvme0: queue 0: timeout request 0x18 type 4
+[44960.983099] nvme nvme0: Property Set error: 881, offset 0x14
+
+Currently testing this patch:
+
++++ b/drivers/nvme/host/tcp.c
+@@ -1103,9 +1103,12 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+        if (ret == -EAGAIN) {
+                ret = 0;
+        } else if (ret < 0) {
++               struct request *rq = blk_mq_rq_from_pdu(queue->request);
++
+                dev_err(queue->ctrl->ctrl.device,
+                        "failed to send request %d\n", ret);
+-               if (ret != -EPIPE && ret != -ECONNRESET)
++               if ((ret != -EPIPE && ret != -ECONNRESET) ||
++                   rq->cmd_flags & REQ_FAILFAST_DRIVER)
+                        nvme_tcp_fail_request(queue->request);
+                nvme_tcp_done_send_req(queue);
+        }
 
