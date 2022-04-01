@@ -4,50 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0618CC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Apr 2022 11:27:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF259C433FE
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Apr 2022 14:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b7eNp1gEw2hpWuUWoAScdJr9txq2r0vcRb7Wbfu0vys=; b=c4CWE+WNUYR+Gram/ZJGJocMDx
-	3v6tcpmZgo+ebBmIaNudqQPdB4+utL76wij+DX62a2RKke5YKBySLvk/kSVk4CLYJS2mLustcGFUN
-	gE3ot7P0CTTGBlV3TwEodk+GwogyuWvjsRtaBPzPpK5LJRhve9FDvPGuS015NTlXUeRR9Ni1fcZoe
-	+vg9rJKAYTSc/ISZ5RDQCOkLd0C1R8VDxqMbfHd65D6OR0dpUlfOzmW4MtTlnY/dl9laa6ZOMzsnB
-	adrxX6vo0L+rhk07G6CDo2WbFm3JBm6aNJCjYrxlWTRqk8HCZzezO0d+HCoReyRXzvDOBRKUUWaY1
-	uDww0amw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZieorIZ+j5h8EI+90pdzpAhBaEPS1ZjtIJkbUiQYYd8=; b=mk3Ow5/6Q2/m7h0aKzRXOWaN0X
+	MshtYfpEAIhoXtVOfinHfJnHWExFcSW98gHtWg94kaacOqXuOkv23XlbtLHwTfX3TD4OyuGFhZFb5
+	hfsJRCS7dt9FTDQJJ0+N8S/Zpg0grUUWkXxXLWBE/Vg/3SEOW21LgMyulqkB2BoB6JwU6rYxCx7a4
+	364OVzrlMDq4H5THL9B3BkUrlKyBrCYcCOna/P8aD1MC69K4/ZIj+WF/E8AJgWf0ujR1om036CcL1
+	3NmFgadDHOxTyoedxjMy/uRmXaxotwETZz8fdy/BS8CCjwT7Fuv0GXBz+bDK9Oj+j+D1h7O+dq6Zw
+	VzT4D1yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1naFQo-005N0w-PO; Fri, 01 Apr 2022 11:27:06 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1naHzD-005uaS-Br; Fri, 01 Apr 2022 14:10:47 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1naFQl-005N0F-0y
- for linux-nvme@lists.infradead.org; Fri, 01 Apr 2022 11:27:04 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id A682E67373; Fri,  1 Apr 2022 13:26:49 +0200 (CEST)
-Date: Fri, 1 Apr 2022 13:26:49 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Jian-Hong Pan <jhp@endlessos.org>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, "Rafael J . Wysocki" <rjw@rjwysocki.net>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Subject: Re: Bug 215742 - The NVME storage quirked as SIMPLE SUSPEND makes
- system resume failed after suspend (Regression)
-Message-ID: <20220401112649.GA14810@lst.de>
-References: <edba451c-1798-c60e-5d84-0a9f6a5d134d@leemhuis.info>
+ id 1naHz4-005uYL-6N
+ for linux-nvme@lists.infradead.org; Fri, 01 Apr 2022 14:10:40 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20220401141032epoutp02d92b2d9162a654560e879db76b6a89d9~hyxWq_XCh1860018600epoutp02H
+ for <linux-nvme@lists.infradead.org>; Fri,  1 Apr 2022 14:10:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20220401141032epoutp02d92b2d9162a654560e879db76b6a89d9~hyxWq_XCh1860018600epoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1648822232;
+ bh=ZieorIZ+j5h8EI+90pdzpAhBaEPS1ZjtIJkbUiQYYd8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Rsv2RypkU6bP1U9OWDLFSEBPMuTZDZ0HyHy36iemtu5wC0rjtOmLhsq+++AQ2jf8O
+ xgVTF+7rciaEdtyCI95/TxpfV+nGxZXzLPB5zeCIp9J2b9kynPNi+9Z5ppPOT3+nkO
+ 3RX64Ns47iir7INFyRYMnyisf5nyzcJ4zr3I9DQs=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220401141031epcas5p26b4503f7d38b9021f4585c5ddb0d5942~hyxV4t08q2063220632epcas5p2D;
+ Fri,  1 Apr 2022 14:10:31 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4KVMWl6ftyz4x9Px; Fri,  1 Apr
+ 2022 14:10:27 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 5A.C7.09952.3D707426; Fri,  1 Apr 2022 23:10:27 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220401110831epcas5p403bacabe8f7e5262356fdc1a2e66df90~hwSbS8B980828108281epcas5p4d;
+ Fri,  1 Apr 2022 11:08:31 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220401110831epsmtrp106228c8675820b674e06a5a586f3336b~hwSbSCD8B1309213092epsmtrp1V;
+ Fri,  1 Apr 2022 11:08:31 +0000 (GMT)
+X-AuditID: b6c32a4b-4b5ff700000226e0-e0-624707d34abd
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 15.49.03370.E2DD6426; Fri,  1 Apr 2022 20:08:30 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220401110829epsmtip1f446390a3c50cca8f81bb8180c5f5be4~hwSZoiN3A0870008700epsmtip1z;
+ Fri,  1 Apr 2022 11:08:29 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, hch@lst.de
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org,
+ pankydev8@gmail.com, javier@javigon.com, joshiiitr@gmail.com,
+ anuj20.g@samsung.com
+Subject: [RFC 1/5] io_uring: add support for 128-byte SQEs
+Date: Fri,  1 Apr 2022 16:33:06 +0530
+Message-Id: <20220401110310.611869-2-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220401110310.611869-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <edba451c-1798-c60e-5d84-0a9f6a5d134d@leemhuis.info>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMJsWRmVeSWpSXmKPExsWy7bCmhu5ldvckg7XrDC2aJvxltpizahuj
+ xeq7/WwWK1cfZbJ413qOxaLz9AUmi/NvDzNZzF/2lN3ixoSnjBaHJjczWay5+ZTFgdtj56y7
+ 7B7NC+6weFw+W+qxaVUnm8fmJfUeu282sHm833eVzaNvyypGj8+b5AI4o7JtMlITU1KLFFLz
+ kvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4COVVIoS8wpBQoFJBYXK+nb
+ 2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkCFSZkZ7y/84+lYKZERdfK
+ LpYGxovCXYwcHBICJhIXr9h0MXJxCAnsZpSY9ugsK4TziVHiWv9idgjnM6PEyimdTF2MnGAd
+ M1dNZYNI7GKUmHLuHgtc1fUJK1hA5rIJaEpcmFwK0iAiIC/x5fZasBpmgWuMEo9fHWIDSQgL
+ WEnsPbaKHcRmEVCVWDr9OlicV8BSYtL+lVDb5CVmXvoOVsMJVH/o30aoGkGJkzOfsIDYzEA1
+ zVtnM4MskBBYyCExb+lGqGYXiQnP5kLZwhKvjm9hh7ClJF72t0HZyRKt2y+zQwKjRGLJAnWI
+ sL3ExT1/mUDCzEC/rN+lDxGWlZh6ah0TxFo+id7fT6Cm80rsmAdjK0rcm/SUFcIWl3g4Ywkr
+ xHQPiW9zOUDCQgK9jBJHbsdMYFSYheSZWUiemYWweAEj8ypGydSC4tz01GLTAuO81HJ4FCfn
+ 525iBKdeLe8djI8efNA7xMjEwXiIUYKDWUmE92qsa5IQb0piZVVqUX58UWlOavEhRlNgaE9k
+ lhJNzgcm/7ySeEMTSwMTMzMzE0tjM0Mlcd5T6RsShQTSE0tSs1NTC1KLYPqYODilGpgmc7oJ
+ JhpdTX/o8OCsZya7nkn7wfDynVxiDauiZH50pJ62MYne4at6ynz/y451BeGJwi+ajhXP+3Bu
+ ikaPUVHchJhHwpXbGU8/XKL34nVd2NPjubL7SoWmFFa7GxUs4d3w5jFvoWa/yflt8QqJkwoe
+ XjPUs3X5KBy7m+1ZptK7Pd8/rr8l7j8lxHi518X3K4ze/S1S9nP6b1xi6rHJaJbftLnL9h7P
+ VzNxq5mmHnSBm6n7gHLikhlHDCWabpZsX/ko6+Xx09JWZxfunGOp++RRnvdi5sT/qaplvna9
+ n+8nL5wmc7g/qOuSkjt7eFNVoEhG8kS/KuWeR/xxnS/OnrDcF/lep7y2N2D1ys18FUosxRmJ
+ hlrMRcWJALGaSxZGBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLLMWRmVeSWpSXmKPExsWy7bCSnK7eXbckg84mK4umCX+ZLeas2sZo
+ sfpuP5vFytVHmSzetZ5jseg8fYHJ4vzbw0wW85c9Zbe4MeEpo8Whyc1MFmtuPmVx4PbYOesu
+ u0fzgjssHpfPlnpsWtXJ5rF5Sb3H7psNbB7v911l8+jbsorR4/MmuQDOKC6blNSczLLUIn27
+ BK6M93f+sRTMlKjoWtnF0sB4UbiLkZNDQsBEYuaqqWxdjFwcQgI7GCW+9hxlg0iISzRf+8EO
+ YQtLrPz3nB2i6COjxIaJL1m6GDk42AQ0JS5MLgWpERFQlNj4sYkRpIZZ4AGjxP3pv8EGCQtY
+ Sew9tgpsEIuAqsTS6dfB4rwClhKT9q9kglggLzHz0newGk6g+kP/NoLVCAHV7J86jwWiXlDi
+ 5MwnYDYzUH3z1tnMExgFZiFJzUKSWsDItIpRMrWgODc9t9iwwCgvtVyvODG3uDQvXS85P3cT
+ IzhGtLR2MO5Z9UHvECMTB+MhRgkOZiUR3quxrklCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeS90
+ nYwXEkhPLEnNTk0tSC2CyTJxcEo1MJ1uOCK7Ne3Y07SXMuYvXm99m/4w/I5C+cGNEnO2Vi6/
+ Hz9h2sG925uM1A44/ZiVHJ8fIz8ptPXgWo3n8tyTjJ/rlxTGMP47veEst/+zSdPVRE+uPnrw
+ RYpoZewDw8n8gRaH3vHNWPhTR3N/9YdH3zUNvLTvhsnax7fufBk7Ndt5itPGKzVOJu4nu1ua
+ PrB3BQd579epsFrRNX3BE0Oe2XM+HNyfK2zkvG6tzvMyma+ut4qmvvtifMlUS5Brr2moe4r+
+ t86HlTebcw7FbzqXvVPANbeV6dwcNUfWgx3N0ss7dmjfvd7D5f9VQorxbtfTZwKRiUsei/dy
+ dhuvDNkoxDfhtt2r7AdVU7gna8pNlFViKc5INNRiLipOBABP3WZCAAMAAA==
+X-CMS-MailID: 20220401110831epcas5p403bacabe8f7e5262356fdc1a2e66df90
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220401110831epcas5p403bacabe8f7e5262356fdc1a2e66df90
+References: <20220401110310.611869-1-joshi.k@samsung.com>
+ <CGME20220401110831epcas5p403bacabe8f7e5262356fdc1a2e66df90@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220401_042703_257890_2D3D6DF0 
-X-CRM114-Status: GOOD (  14.84  )
+X-CRM114-CacheID: sfid-20220401_071038_653112_A870E89E 
+X-CRM114-Status: GOOD (  23.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,18 +137,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 01, 2022 at 09:55:14AM +0200, Thorsten Leemhuis wrote:
-> Hi, this is your Linux kernel regression tracker.
-> 
-> I noticed a regression report in bugzilla.kernel.org that afaics nobody
-> acted upon since it was reported about a week ago, that's why I decided
-> to forward it to the lists and all people that seemed to be relevant
-> here. Mario, could you maybe take a look at this? Or is that something
-> for the NVM or ACPI people? Or was this discussed somewhere else
-> already? Or even fixed?
+From: Jens Axboe <axboe@kernel.dk>
 
-I've not seenthe report.  Looks like the BIOS sets the StorageD3 flag
-in the ACPI tables in this system but doesn't actually want it,
-which is really strange.  We could add some kind of quirk based on
-DMI matching, but this all seems weird.
+Normal SQEs are 64-bytes in length, which is fine for all the commands
+we support. However, in preparation for supporting passthrough IO,
+provide an option for setting up a ring with 128-byte SQEs.
+
+We continue to use the same type for io_uring_sqe, it's marked and
+commented with a zero sized array pad at the end. This provides up
+to 80 bytes of data for a passthrough command - 64 bytes for the
+extra added data, and 16 bytes available at the end of the existing
+SQE.
+
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+---
+ fs/io_uring.c                 | 13 ++++++++++---
+ include/uapi/linux/io_uring.h |  7 +++++++
+ 2 files changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index a7412f6862fc..241ba1cd6dcf 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -7431,8 +7431,12 @@ static const struct io_uring_sqe *io_get_sqe(struct io_ring_ctx *ctx)
+ 	 *    though the application is the one updating it.
+ 	 */
+ 	head = READ_ONCE(ctx->sq_array[sq_idx]);
+-	if (likely(head < ctx->sq_entries))
++	if (likely(head < ctx->sq_entries)) {
++		/* double index for 128-byte SQEs, twice as long */
++		if (ctx->flags & IORING_SETUP_SQE128)
++			head <<= 1;
+ 		return &ctx->sq_sqes[head];
++	}
+ 
+ 	/* drop invalid entries */
+ 	ctx->cq_extra--;
+@@ -10431,7 +10435,10 @@ static __cold int io_allocate_scq_urings(struct io_ring_ctx *ctx,
+ 	rings->sq_ring_entries = p->sq_entries;
+ 	rings->cq_ring_entries = p->cq_entries;
+ 
+-	size = array_size(sizeof(struct io_uring_sqe), p->sq_entries);
++	if (p->flags & IORING_SETUP_SQE128)
++		size = array_size(2 * sizeof(struct io_uring_sqe), p->sq_entries);
++	else
++		size = array_size(sizeof(struct io_uring_sqe), p->sq_entries);
+ 	if (size == SIZE_MAX) {
+ 		io_mem_free(ctx->rings);
+ 		ctx->rings = NULL;
+@@ -10643,7 +10650,7 @@ static long io_uring_setup(u32 entries, struct io_uring_params __user *params)
+ 	if (p.flags & ~(IORING_SETUP_IOPOLL | IORING_SETUP_SQPOLL |
+ 			IORING_SETUP_SQ_AFF | IORING_SETUP_CQSIZE |
+ 			IORING_SETUP_CLAMP | IORING_SETUP_ATTACH_WQ |
+-			IORING_SETUP_R_DISABLED))
++			IORING_SETUP_R_DISABLED | IORING_SETUP_SQE128))
+ 		return -EINVAL;
+ 
+ 	return  io_uring_create(entries, &p, params);
+diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+index 787f491f0d2a..c5db68433ca5 100644
+--- a/include/uapi/linux/io_uring.h
++++ b/include/uapi/linux/io_uring.h
+@@ -61,6 +61,12 @@ struct io_uring_sqe {
+ 		__u32	file_index;
+ 	};
+ 	__u64	__pad2[2];
++
++	/*
++	 * If the ring is initializefd with IORING_SETUP_SQE128, then this field
++	 * contains 64-bytes of padding, doubling the size of the SQE.
++	 */
++	__u64	__big_sqe_pad[0];
+ };
+ 
+ enum {
+@@ -101,6 +107,7 @@ enum {
+ #define IORING_SETUP_CLAMP	(1U << 4)	/* clamp SQ/CQ ring sizes */
+ #define IORING_SETUP_ATTACH_WQ	(1U << 5)	/* attach to existing wq */
+ #define IORING_SETUP_R_DISABLED	(1U << 6)	/* start with ring disabled */
++#define IORING_SETUP_SQE128	(1U << 7)	/* SQEs are 128b */
+ 
+ enum {
+ 	IORING_OP_NOP,
+-- 
+2.25.1
+
 
