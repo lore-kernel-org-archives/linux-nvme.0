@@ -4,88 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 110E3C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 16:06:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36DCFC433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 16:09:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2dLCpFjGJHcbliLHP8vYjYtyDcLFIAxcHG+FWPlYX0Y=; b=FVy5TTPmv/mKIdkFvmVye4IbUq
-	kFUoc14mKqxab8EfD6Fl6NNOLlouCQ2kM4ou9lsqjScP07Jp9R0GZEKtaFv4KlrzHE3cyKv95UmZ7
-	68hymEPDPH8ITUABDU11bfl3OmqryhvfBAZBzw6cd25UBKVbyhFZ5kmmGv/GuxCYoVgzTSBvzD/WV
-	Bf6ItlSPOtjT417UFjPFl/vqywfWvOlEy+xoZmH+6yuEApY1/8NHXrlHH1F/Vg54bfYf9Oxrh/KkE
-	lqbuXCY+3fgzKH4mUhOy3YiXLPZ8c5DTZQOYKgS97lPOkUnkJ5ZN6cFEFwPyBmtvhbIS9RlVwhahx
-	Iw/hyfDw==;
+	bh=crvukPwYQf3UJei/s4UmkS3mEu2+SzRGq3XdJM+oDdo=; b=hdo9b3rcNsdGpFjBN6jX/68Q8E
+	iaO/wKq46kljHSBnOS2f8X0hyfICzmWPLeO5sa58MeGGeCibMz5y11BKyWUgcrGgRh2dEGYdPV2VT
+	ChpFZkIwKNk1zRsaqPCkfffQmS7FxXDIgjiBOKkurd0nyRvp8T+UPHa55M5qqmeKPLPrvYQXNOyrX
+	wi4+/IMmiPMpaMZ60aYZ8mfDczL9cWgZ30+vK2tK9K9j2Ir5r/28kRlvFUd6TdsctHeQ+zVyDDKuH
+	8qtTiCGryhs4W+Y0YAfVoaxnfx5aj7Pk8PKoHqcNtoJ+GDJhNruHRb7R/4mrmbtlEYN++n2QREHPj
+	xoLtMOkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nagH6-009Xtw-Qy; Sat, 02 Apr 2022 16:06:52 +0000
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+	id 1nagJB-009YNH-5l; Sat, 02 Apr 2022 16:09:01 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nagGu-009XqC-1c
- for linux-nvme@lists.infradead.org; Sat, 02 Apr 2022 16:06:41 +0000
-Received: by mail-ej1-x62c.google.com with SMTP id o10so11735141ejd.1
- for <linux-nvme@lists.infradead.org>; Sat, 02 Apr 2022 09:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2dLCpFjGJHcbliLHP8vYjYtyDcLFIAxcHG+FWPlYX0Y=;
- b=tBbneEJqkuWEmHvvIZ2sj5QjCxHGS/7MF+6hk0BfAE8Xwu14gShr3VDv9Mdxg+Nu0L
- PBWZp0jZXBL2NekdL4AVdzt5ZswjSTTAOmS2JJhNXmmwX1hKTWhiCpmf63LX/AQE+UtY
- y10dH21hYS4ZUw9S3dHRaGIpAN6S5pQeH3zOTfIl6Gj1aBMiyGH9Ud0wiDh7JBY+1zRz
- /0JANA/gvz/x7iDVE9OVEmHqb7f0/BIa815oh6GRJKVwguhCA+BrgGH6VYvwZ9p5VxbP
- 8vqh+aIKx4jkPkQngehsTaqVvSG2klXmfuGhFtyp/dmQ0vCrIN08vKgGIrMEK2S2ZzVd
- 1yWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2dLCpFjGJHcbliLHP8vYjYtyDcLFIAxcHG+FWPlYX0Y=;
- b=hJAAQsx2PFgeKPJ0GUHwQe66W0hI3CNnMsPTnbaMg1+hOgR9gHo4+qVgufCHVtmOea
- kNvroC5St+WkVycFOc8n5oAIFeJzAZT4mwqijawrHun4T24DOjmaFVwcFM+DLMC+LC2g
- 9QMPKRkcukKjtLwrwog/nW85LRnAS2Xm1v+4ymJCjp2vjd+/4BkDQqteLClFwkvRXKNI
- FtuYAlHkkHBzFV0QgmWLC0C2P6ijvFj4OSfnkPOyF0g8b0zqhtnZTrAVKCvlRuhNxwWk
- p4NlGZ7qYZzFCmUtQQx2Dbp8N1agMWs9L77gkHBpW4v8Sn9uWCuX9ucf9eSlTC6HD41k
- dTLA==
-X-Gm-Message-State: AOAM532f520Nn15WvuqcphIM/upQzRlOIKAxWur7KeGBNvI/nxgWin0k
- ftbYjZNbRcJvx8dKMzZJcYNPXw==
-X-Google-Smtp-Source: ABdhPJyjLMYxJ0JD5o8civ66zWl9Ru0vm3ZudlXy8sQnWNkm60+Uf6naquLmpxZS2J/JRuxzyTi5Aw==
-X-Received: by 2002:a17:907:d8d:b0:6df:b214:392a with SMTP id
- go13-20020a1709070d8d00b006dfb214392amr4305563ejc.669.1648915597714; 
- Sat, 02 Apr 2022 09:06:37 -0700 (PDT)
-Received: from [192.168.0.171] (xdsl-188-155-201-27.adslplus.ch.
- [188.155.201.27]) by smtp.gmail.com with ESMTPSA id
- u25-20020a170906b11900b006e08588afedsm2209474ejy.132.2022.04.02.09.06.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Apr 2022 09:06:37 -0700 (PDT)
-Message-ID: <871296de-76f6-c587-9000-ce38ad14f519@linaro.org>
-Date: Sat, 2 Apr 2022 18:06:36 +0200
+ id 1nagIy-009YJ3-7w; Sat, 02 Apr 2022 16:08:50 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D6CA5B80A2A;
+ Sat,  2 Apr 2022 16:08:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65ED7C340EE;
+ Sat,  2 Apr 2022 16:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648915725;
+ bh=y7ESlPWtxRlIdhSZGGzoj11NW8q7/9qcgGEefxK5zJw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Ua6L3GXkmuQ6CJbvQ5F7qY2YUTD9Bm6adyIsvhGeNXsNC6XRQIDKubNcYcYmQrvco
+ +xNuRPps41q7NWA61K7FbzYDDgXDaZEOyXf+p7VeRmvUBltK3U2nX0I/AVa2t7E3SL
+ cLQNzb8kmFQWQBE8pfS7TarHYEEMdK41tv2k/1+R1QOp2UVifNHDF4A5l3hILUFi+c
+ ZsmRQ5qhDFtCxYqYGKvFdtRFMFgnBWKfgEF4pemgf+qI//J3aAGlJc+qPCfwNGKV0u
+ dzHpss38jhP2I9JXo/Hbe2cIJB288yvvfURXVXUtb4Ma/LTQYbTCK2ByCjkOCFZM+j
+ SdJo2JLAF6dZg==
+Message-ID: <bc91bff4-0ba6-8f9d-e3b2-5e8caf16bd98@kernel.org>
+Date: Sat, 2 Apr 2022 18:08:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/9] dt-bindings: soc: apple: Add ANS NVMe
+Subject: Re: [PATCH 5/9] soc: apple: Add RTKit IPC library
 Content-Language: en-US
-To: Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>
+To: Sven Peter <sven@svenpeter.dev>
 Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Arnd Bergmann <arnd@arndb.de>,
- Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
+ <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Keith Busch <kbusch@kernel.org>,
+ "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, Marc Zyngier <maz@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
 References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-3-sven@svenpeter.dev>
- <40f7c074-198a-5ce0-02b3-e6042975e228@kernel.org>
- <692ae417-f0c6-4932-95f3-2a0984df5ad0@www.fastmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <692ae417-f0c6-4932-95f3-2a0984df5ad0@www.fastmail.com>
+ <20220321165049.35985-6-sven@svenpeter.dev>
+ <5eed58a1-ee56-8aee-e73b-76b162d59873@kernel.org>
+ <35f5fdbf-faac-457b-a225-35d7141f6b2e@www.fastmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <35f5fdbf-faac-457b-a225-35d7141f6b2e@www.fastmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220402_090640_138547_0AAE5F14 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20220402_090848_633995_C77621F1 
+X-CRM114-Status: GOOD (  29.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,44 +81,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 02/04/2022 15:05, Sven Peter wrote:
-> Hi,
-> 
-> thanks for the review!
-> 
-> On Wed, Mar 23, 2022, at 12:14, Krzysztof Kozlowski wrote:
+On 02/04/2022 15:51, Sven Peter wrote:
+> On Wed, Mar 23, 2022, at 12:19, Krzysztof Kozlowski wrote:
 >> On 21/03/2022 17:50, Sven Peter wrote:
->>> Apple SoCs such as the M1 come with an embedded NVMe coprocessor called
->>> ANS2.
+>>> Apple SoCs such as the M1 come with multiple embedded co-processors
+>>> running proprietary firmware. Communication with those is established
+>>> over a simple mailbox using the RTKit IPC protocol.
 >>>
 >>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
 >>> ---
->>>  .../bindings/soc/apple/apple,nvme-ans.yaml    | 75 +++++++++++++++++++
->>>  1 file changed, 75 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
->>> new file mode 100644
->>> index 000000000000..e1f4c1c572aa
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
->>> @@ -0,0 +1,75 @@
->>> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/soc/apple/apple,nvme-ans.yaml#
+>>>  drivers/soc/apple/Kconfig          |  13 +
+>>>  drivers/soc/apple/Makefile         |   3 +
+>>>  drivers/soc/apple/rtkit-crashlog.c | 147 +++++
+>>>  drivers/soc/apple/rtkit-internal.h |  76 +++
+>>>  drivers/soc/apple/rtkit.c          | 842 +++++++++++++++++++++++++++++
+>>>  include/linux/soc/apple/rtkit.h    | 203 +++++++
+>>>  6 files changed, 1284 insertions(+)
 >>
->> Do not drop all code in soc/apple, but please use respective subsystems.
->> Apple is not a subsystem, is not special.
+>> Isn't this some implementation of a mailbox? If so, it should be in
+>> drivers/mailbox. Please don't put all stuff in soc/apple, that's not how
+>> Linux is organized. To drivers/soc usually we put drivers which do not
+>> fit regular subsystems.
 >>
 > 
-> Sure, the code is already inside drivers/nvme/host but I'll also create
-> Documentation/devicetree/bindings/nvme and put the bindings in there as
-> well.
+> I put this into soc/apple because I don't think it fits within the mailbox
+> framework very well.
+> (It actually uses the mailbox framework for the actual communication
+> with the hardware with a driver that's already upstream.)
+> 
+> Essentially, the mailbox subsystem provides a common API to send and
+> receive messages over indepedent hardware channels and devicetree bindings
+> to describe the relationship between those channels and other drivers.
+> 
+> One of the features that doesn't really fit is that we need to be able
+> to start, shutdown and re-start these co-processors. The NVMe driver
+> actually doesn't need to send/receive any messages except those required
+> to setup the common syslog/crashlog/etc. interfaces.
+> The mailbox framework would have to be extended to support these specific
+> use cases.
+> 
+> Another thing that doesn't fit is the memory management: These co-processors
+> sometimes need shared memory buffers to e.g. send syslog messages.
+> They always request these buffers with an IPC message but then there are
+> different possibilities:
+> 
+> 	- For some processor the DMA API can just be used and an IOVA must be
+> 	  sent back. For NVMe these buffers must additionally be allowed in this
+> 	  SART address filter.
+> 	- At least one other processor (SMC) does not request such buffers but
+> 	  instead just sends a pointer into MMIO space and the buffer must be
+> 	  accessed using readl/writel. This MMIO memory region is used for
+> 	  both the common buffers (syslog etc.) and for the actual shared buffers
+> 	  used for communication, such that the resource would have to be shared
+> 	  across drivers.
+> 	- And yet another coprocessor (for the display controller) requests some
+> 	  buffers with an already existing IOVA that than need to be mapped
+> 	  specifically inside the IOMMU.
+> 
+> Each of these co-processors also provides a single function and most
+> of them don't even have different endpoints. And even those that do (DCP) will
+> just become a single driver since all those endpoints are very much related.
+> 
+> While it's not impossible to do all that by extending and forcing this into the
+> mailbox framework at lest I think that it doesn't fit very well and would just
+> create unneccesarry impedance.
 
-Yes, please. We have also Documentation/devicetree/bindings/nvmem/ but
-it seems its entirely different stuff.
-
+Thanks for explanation. I don't know the mailbox framework well enough
+to advise you, so I don't mind keeping it in current location (drivers/soc).
 
 Best regards,
 Krzysztof
