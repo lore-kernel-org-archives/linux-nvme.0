@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1D9CC433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 12:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5285AC433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 12:57:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
 	From:Date:References:In-Reply-To:Message-Id:Mime-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y1pNt6PbQq/iJYPmL7yMI8jf3fJuglb9qUR19wJJ148=; b=B2R2KylsKHKL9UN/btN7V02aI1
-	2zHrSP1NlRNpiUFw3v98zXuSOitYwA3N0LLPZbONw0FbNwjHfghnyeyYscmcHSSGowuhGm9XtDF9+
-	0hOJTLIZcRWeuVqQigNwp4B1B0SKj4C2TXbQjAtOd7btbPTek7wqexLcLLezoqmQe/PALgftEuwGm
-	TUbm42rL9j6RhgTLQXHFoIsP0jYT7L3q5F22wl583jazFet0ciHUyKSKkhxh+O1xMsJNAykIDeSnW
-	njkAr/Rto5XSI/km9LHP62CST0BKD1sxcM7svltuBRP2algTuNtA1EV0I+oEb4JneIBDcc/tK0Lwg
-	LWV7SZLQ==;
+	bh=q4l7MV2jndY75H8FnHCUzpg4YcczCiys3j+UuAaOpCo=; b=gQYeeHxCiixgHwa4HTdScFn44w
+	WE0T23fJKLIewiQMwKL7iTMr6X6v3WaoyFjUERp8HTdqj9sE2XBYJQ9CbMS5xiZrgoKv7hg34vQtH
+	PIrKuL8xiApMHoadbpgnrVISt/MAlHky3hGQax7XAK1Uf0HJCVPlDB99kXyp467SlqJ114EEfM4ZO
+	Thbs/3yma03jms3D3gv4+DBgqljNJGQ+Rz5SxtDAKHBnnTRgskwvtgQrS4LVfVsksffD2ff+bbW2o
+	HDZvD3W55syx13fE5AmErRoqyUzikrgLbtlxN4K7WvYUZMhjPkCxqMGkEk2JPX+nuuwr5ofqdsmxV
+	CLtWx3JQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nadDN-008lbj-R4; Sat, 02 Apr 2022 12:50:49 +0000
+	id 1nadJT-008n5s-5F; Sat, 02 Apr 2022 12:57:07 +0000
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nadDB-008lYF-0M; Sat, 02 Apr 2022 12:50:38 +0000
+ id 1nadJH-008n39-Jl; Sat, 02 Apr 2022 12:56:57 +0000
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 4BEE35C017E;
- Sat,  2 Apr 2022 08:50:36 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 99E4F5C010E;
+ Sat,  2 Apr 2022 08:56:54 -0400 (EDT)
 Received: from imap47 ([10.202.2.97])
- by compute2.internal (MEProxy); Sat, 02 Apr 2022 08:50:36 -0400
+ by compute2.internal (MEProxy); Sat, 02 Apr 2022 08:56:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; bh=Y1pNt6PbQq/iJYPmL7yMI8jf3fJugl
- b9qUR19wJJ148=; b=iaCZSK69ePVp7bMOqYIDGZoL4AHA9sUJDRKNQc0DoTth1W
- LZb5eMJFRB5piKS179iFm/sugO2oVhoV0EsNHL1CMTp9HSdMsYa48Wx0r5OEmud+
- MpgeX6MOPIr/p/fFVYG/w/+tLKkSUP1hFLOZ2pnZZyg6VG/tB0cc4gPl28ViWUsM
- 1ZQOUYYpDhJvH2RpvQU/RJJOFu/roiLzFKUqM2mlXsnvV1jbliUF10r8wMgq9TwJ
- 2lqrondZFCfoydQn7l5KVVfEKYNqNFxnek6bZ6gi8ctMmzJIcoQSiG4jqVMw38uQ
- 3JjsG53IxqjrCTn9YvT4rs8xNN21YqSFeqoVAXVQ==
+ :subject:subject:to:to; s=fm1; bh=q4l7MV2jndY75H8FnHCUzpg4YcczCi
+ ys3j+UuAaOpCo=; b=pWDeCzLez7yRSldMPnQR+hjB7saJX3xzCUbvh4PVmiREX9
+ HkmTBtgkcDZ4sJKK872C7AMconKDdX3R2XviAELGe1jvfFL61SiagHDRLK8r+wzu
+ xxCCYdapE9sOS3qAxJEzM1MW1KYUX3DWAGg0CZg2ZD3pJ8BS9YCwgf6ajH6bb8RL
+ OCIjz3AxNqRprgRkrESriD64ZfNyz021iMaaqjuXZWbKhdH/LwcAvnb3tqERRpTo
+ qheocBcahVLMiCfb3gAckq+JqO2AZ4uxSm4tdEJ5x7MssmkIto5vpxgaJrJJ2FFk
+ KlnBElOAnDw3O3AqjfBTlmkDpLY9yL/qOC/ZSdnQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y1pNt6PbQq/iJYPmL
- 7yMI8jf3fJuglb9qUR19wJJ148=; b=EfezHODWjQoLGvYfef8qipuFCCzxh+yjX
- e1IzNlJ4FuTuYDOBvuVitGdZDtRprYQOHvy58L/hsBc9G5WW3tu/Pg5vlY62dm0U
- XtfAlfuDUbJrlQFo5VGL49Dsd9daQ6uzY3fsajzxO3NDXzIUYgJcgqXH2Dt6upT2
- 3TGLpSOwUKZE4lAq2nBJQ9YMV3sKouH2EZt+tEIgblviPwU213mCVD6fBaUQFynE
- h1ZJRLBLEHVy5Ir2ju5F08Z2Or/PNa60jZXEFJ1hIP6VgZiV2oIM2R6tuT4WkSgG
- +Q7mLxxnavZ/Sk6lCQo48upz+1prRoCw/CUacumePBqhM4UpKf6Vg==
-X-ME-Sender: <xms:m0ZIYhquHVUjFKFZEfE6zc0u0p8u1skNYeTFTlE0qE_-7MAt9MtSmA>
- <xme:m0ZIYjqZ_DsMK9yjtGsQbnKy-gYr-WE--1T_eccyNLaM1zesmi7VZJSr8KfuKoX_l
- IsvD6LQFKAV9ljsBTY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeikedgheekucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=q4l7MV2jndY75H8Fn
+ HCUzpg4YcczCiys3j+UuAaOpCo=; b=Sv4+nDrezxHf6UxpuFCp534+ptYEOnbto
+ Kb5wPekK9iJEytE3YcAgy5zMO4XOxb2tRxrJT7GqEuCyVKk+tVwuJS/THyd94o9G
+ pSC4uZHwwNq6bkHpFq81vTBPxdEk0RTjFtvdpC+Qpb3fRnsNSwsjylAbovx7UXBg
+ 7ekN6yoSwXxW6BLJG+h+6dc7tWBCOTH5KillIZLReeWu9jBEY6xjmeHFlpyVQztc
+ M74QA4oLGNSbHUN1XVa+Rhxj4U7HiwXPvD8H8NimO9j310DVFg/zFzWA4yTYXxuY
+ /6mPWi61DY4mmNUjDg8Axb92pQuAt9oW+L6jzqgkZIJax/xNi+nAA==
+X-ME-Sender: <xms:FkhIYhR42kiK1FqHXRbwcpRhLEyp4c0o2SnWS8E7vQBTiOW99kxpFg>
+ <xme:FkhIYqw0TZ-9IsJIwAQScShpMxOL00j3WYV4uyJiF6evc4fILw6oYguD5-s--DqiE
+ QIZy9G8juUeUtxhyQM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeikedgheelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
@@ -61,33 +61,37 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeikedgheekucetufdoteggod
  htthgvrhhnpefgieegieffuefhtedtjefgteejteefleefgfefgfdvvddtgffhffduhedv
  feekffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:m0ZIYuOxDwE-Jv62Fe4VGQQAlDncEoEIqvn7DY9cr6N9ebENYt1YTQ>
- <xmx:m0ZIYs4bqKm9Uc3TuVFjo7--tXBiON95zqNszBIpPwlkwXJZb19VzQ>
- <xmx:m0ZIYg6vusdJA1ndGWff5HCLo6ioQ1xMiDSOXMcqxLhNt1h8rRFX8Q>
- <xmx:nEZIYtwgg06tkaCAIVY3WM-xobiIrGPzPdFqZlJ5voe8OUG8qd3wFQ>
+X-ME-Proxy: <xmx:FkhIYm1NIt_VAA7H9sjXR0BWW-OwbyMdJW6hsxPB60SrumlA5YpShw>
+ <xmx:FkhIYpBRiv7pfe-37u_9jFsSclDR-b-8hCPMCJtEUE1DVNiKvc93Bw>
+ <xmx:FkhIYqjeL_O-acQxdQXBWP6jPy7wyjd0aZb5DVzk4N-kG57Ie229FA>
+ <xmx:FkhIYvZqa5Md2ZEEBpOw8Uw73yBY-BIPD9dip8eseRSBsZ9oV45_Ig>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id BC37F27402C7; Sat,  2 Apr 2022 08:50:35 -0400 (EDT)
+ id 2F0E727402C7; Sat,  2 Apr 2022 08:56:54 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.7.0-alpha0-382-g88b93171a9-fm-20220330.001-g88b93171
 Mime-Version: 1.0
-Message-Id: <c81cda8a-fb2e-4ecf-a49e-93b8fa0d1bd2@www.fastmail.com>
-In-Reply-To: <YjoGH2JYd7cvx844@rosenzweig.io>
+Message-Id: <3166b80d-d8a6-45d5-9e3b-2f9998aca0d3@www.fastmail.com>
+In-Reply-To: <CAK8P3a2VgrWHerXTX4_wS8UU7fpN9-JZ5xESaWrr-WGYqGty=g@mail.gmail.com>
 References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-6-sven@svenpeter.dev> <YjoGH2JYd7cvx844@rosenzweig.io>
-Date: Sat, 02 Apr 2022 14:50:15 +0200
+ <20220321165049.35985-6-sven@svenpeter.dev>
+ <CAK8P3a2VgrWHerXTX4_wS8UU7fpN9-JZ5xESaWrr-WGYqGty=g@mail.gmail.com>
+Date: Sat, 02 Apr 2022 14:56:32 +0200
 From: "Sven Peter" <sven@svenpeter.dev>
-To: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>
-Cc: "Hector Martin" <marcan@marcan.st>, "Rob Herring" <robh+dt@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Keith Busch" <kbusch@kernel.org>,
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Rob Herring" <robh+dt@kernel.org>, "Keith Busch" <kbusch@kernel.org>,
  "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
  "sagi@grimberg.me" <sagi@grimberg.me>, "Marc Zyngier" <maz@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+ DTML <devicetree@vger.kernel.org>,
+ "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org
 Subject: Re: [PATCH 5/9] soc: apple: Add RTKit IPC library
 Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220402_055037_176674_0F259D78 
-X-CRM114-Status: GOOD (  12.28  )
+X-CRM114-CacheID: sfid-20220402_055655_772524_EA239566 
+X-CRM114-Status: GOOD (  29.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,39 +106,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Mar 22, 2022, at 14:13, Arnd Bergmann wrote:
+> On Mon, Mar 21, 2022 at 5:50 PM Sven Peter <sven@svenpeter.dev> wrote:
+>>
+>> Apple SoCs such as the M1 come with multiple embedded co-processors
+>> running proprietary firmware. Communication with those is established
+>> over a simple mailbox using the RTKit IPC protocol.
+>>
+>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>
+>> +
+>> +#define rtk_err(format, arg...) dev_err(rtk->dev, "RTKit: " format, ##arg)
+>> +#define rtk_warn(format, arg...) dev_warn(rtk->dev, "RTKit: " format, ##arg)
+>> +#define rtk_info(format, arg...) dev_info(rtk->dev, "RTKit: " format, ##arg)
+>> +#define rtk_dbg(format, arg...) dev_dbg(rtk->dev, "RTKit: " format, ##arg)
+>
+> I generally don't like the custom printing macros, please just open-code
+> the prints where they are used, that makes it easier for other kernel
+> developers to see exactly what is being printed.
+>
 
+Sure, I'll remove them.
 
-On Tue, Mar 22, 2022, at 18:23, Alyssa Rosenzweig wrote:
+>> +enum { APPLE_RTKIT_WORK_MSG,
+>> +       APPLE_RTKIT_WORK_REINIT,
+>> +};
+>> +
 >> +enum { APPLE_RTKIT_PWR_STATE_OFF = 0x00,
->> +	APPLE_RTKIT_PWR_STATE_SLEEP = 0x01,
->> +	APPLE_RTKIT_PWR_STATE_GATED = 0x02,
->> +	APPLE_RTKIT_PWR_STATE_QUIESCED = 0x10,
->> +	APPLE_RTKIT_PWR_STATE_ON = 0x20,
+>> +       APPLE_RTKIT_PWR_STATE_SLEEP = 0x01,
+>> +       APPLE_RTKIT_PWR_STATE_GATED = 0x02,
+>> +       APPLE_RTKIT_PWR_STATE_QUIESCED = 0x10,
+>> +       APPLE_RTKIT_PWR_STATE_ON = 0x20,
 >> +};
 >
-> It would be great to get comments added explaining what these states
-> are. It's not obvious how off/sleep/gated/quiesced differ, and it's not
-> obvious from the code (doesn't look like GATED is used here at all?).
-> Are these Apple names or r/e'd names or a mix?
+> This is an odd indentation style, I would insert a newline after the 'enum {'
 
-Good point. They come from XNU's serial output, I'll add comments
-for those where I know exactly what they do. I'll also remove GATED
-for now since that's not used yet.
+Yeah, I blame clang-format and me not double-checking the result for that one.
+I'll add the newline.
 
 >
->> +	if (!rtk->syslog_buffer.size) {
->> +		rtk_warn(
->> +			"received syslog message but syslog_buffer.size is zero");
->> +		goto done;
->> +	}
->> +	if (!rtk->syslog_buffer.buffer && !rtk->syslog_buffer.iomem) {
->> +		rtk_warn("received syslog message but no syslog_buffer.buffer or syslog_buffer.iomem");
->> +		goto done;
->> +	}
+>> +static int apple_rtkit_worker(void *data)
+>> +{
+>> +       struct apple_rtkit *rtk = data;
+>> +       struct apple_rtkit_work work;
+>> +
+>> +       while (!kthread_should_stop()) {
+>> +               wait_event_interruptible(rtk->wq,
+>> +                                        kfifo_len(&rtk->work_fifo) > 0 ||
+>> +                                                kthread_should_stop());
+>> +
+>> +               if (kthread_should_stop())
+>> +                       break;
+>> +
+>> +               while (kfifo_out_spinlocked(&rtk->work_fifo, &work, 1,
+>> +                                           &rtk->work_lock) == 1) {
+>> +                       switch (work.type) {
+>> +                       case APPLE_RTKIT_WORK_MSG:
+>> +                               apple_rtkit_rx(rtk, &work.msg);
+>> +                               break;
+>> +                       case APPLE_RTKIT_WORK_REINIT:
+>> +                               apple_rtkit_do_reinit(rtk);
+>> +                               break;
+>> +                       }
+>> +               }
 >
-> Nit: Wrapping is inconsistent between these two warns.
+> It looks like you add quite a bit of complexity by using a custom
+> worker thread implementation. Can you explain what this is
+> needed for? Isn't this roughly the same thing that one would
+> get more easily with create_singlethread_workqueue()?
 
-Will fix it while getting rid of the rtk_ macros.
+I originally had just a workqueue here but I can only put
+one instance of e.g. APPLE_RTKIT_WORK_MSG onto these.
+There could however be a new incoming message while the previous
+one is still being handled and I couldn't figure out a way
+to handle that with workqueues without introducing a race.
+
+
+>
+>> +#if IS_ENABLED(CONFIG_APPLE_RTKIT)
+>
+> Instead of allowing the interface to be used without CONFIG_APPLE_RTKIT,
+> I think it is sufficient to allow the driver itself to be built with
+> CONFIG_COMPILE_TEST (as you already do), and then have
+> drivers using it marked as 'depends on APPLE_RTKIT'
+> unconditionally.
+
+That's indeed much simpler and what I wanted to achieve. I just couldn't
+figure out how to do it. I'll use your approach! 
+
+>
+>> +/*
+>> + * Initializes the internal state required to handle RTKit. This
+>> + * should usually be called within _probe.
+>> + *
+>> + * @dev: Pointer to the device node this coprocessor is assocated with
+>> + * @cookie: opaque cookie passed to all functions defined in rtkit_ops
+>> + * @mbox_name: mailbox name used to communicate with the co-processor
+>> + * @mbox_idx: mailbox index to be used if mbox_name is NULL
+>> + * @ops: pointer to rtkit_ops to be used for this co-processor
+>> + */
+>> +struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+>> +                                    const char *mbox_name, int mbox_idx,
+>> +                                    const struct apple_rtkit_ops *ops);
+>> +
+>> +/*
+>> + * Dev-res managed version of apple_rtkit_init.
+>> + */
+>> +struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
+>> +                                         const char *mbox_name, int mbox_idx,
+>> +                                         const struct apple_rtkit_ops *ops);
+>
+> Do we need to export both of these?
+
+No, only devm_apple_rtkit_init needs to be exported.
+
+
+Thanks,
+
 
 Sven
 
