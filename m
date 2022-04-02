@@ -4,96 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABEEC433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 14:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 110E3C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 16:06:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Date:References:In-Reply-To:Message-Id:Mime-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MSqxliGRmaqeBjqjXF6Gm6Q29Wo8+BU30FxXYdxfB/o=; b=xmYKbf8+GXll9SJz5c6gT2fEi+
-	K41UCCoA6jDaaoDUH3BsXlzVSjoWbYIi0U/F0f8GUvE9Nf3mP+qtIqBZ+5J7lQVgcPN+cMHRJi2pZ
-	bTTeH84CSVegfeLNtGS4MzFWA6ohQG+KE3kMz2Y1YXLgf2iU+O0QltZKEPBz6HTYn5iui2WHx21Bp
-	4lseLrhIvy2q+woY7d+c9Ugps+IAPsh6Bs5z0LDEsf0eZrbKDCEDYBZMp5BBUUnV3HQTaUw9D5BJZ
-	XIMWAb9fN3uMfvO7zmKhS2FMnlq2tc2/aYwSN1qTJpgXUHepNiDCmVrXunyq61FhPr7L1iE71cXPC
-	gT0iFylw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2dLCpFjGJHcbliLHP8vYjYtyDcLFIAxcHG+FWPlYX0Y=; b=FVy5TTPmv/mKIdkFvmVye4IbUq
+	kFUoc14mKqxab8EfD6Fl6NNOLlouCQ2kM4ou9lsqjScP07Jp9R0GZEKtaFv4KlrzHE3cyKv95UmZ7
+	68hymEPDPH8ITUABDU11bfl3OmqryhvfBAZBzw6cd25UBKVbyhFZ5kmmGv/GuxCYoVgzTSBvzD/WV
+	Bf6ItlSPOtjT417UFjPFl/vqywfWvOlEy+xoZmH+6yuEApY1/8NHXrlHH1F/Vg54bfYf9Oxrh/KkE
+	lqbuXCY+3fgzKH4mUhOy3YiXLPZ8c5DTZQOYKgS97lPOkUnkJ5ZN6cFEFwPyBmtvhbIS9RlVwhahx
+	Iw/hyfDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1naedx-009FyX-Dq; Sat, 02 Apr 2022 14:22:21 +0000
-Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+	id 1nagH6-009Xtw-Qy; Sat, 02 Apr 2022 16:06:52 +0000
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1naeNR-00987j-Hn; Sat, 02 Apr 2022 14:05:20 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 9FBAD5C0138;
- Sat,  2 Apr 2022 10:05:16 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute2.internal (MEProxy); Sat, 02 Apr 2022 10:05:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; bh=MSqxliGRmaqeBjqjXF6Gm6Q29Wo8+B
- U30FxXYdxfB/o=; b=RrQh5Qfi3JCyrNr+6e3X7PpLV4GhgvX2rjzeGvDy4j4Rm1
- BpRjtlXvxB2l7eLKUam/VBhPVuhpbh1gG/nhh/1y4xSwURIAOLkObJdosImX0PnX
- ZNb7g0lia5HpzZfONC6Pr+AAN8HXUMb5MtqbinEHcBwXJan1F0sfgBirG/EfAbJz
- 038QQnfZ8QSDsy2hYaLW72y7NDgBuXMBglNz08inr8AymgwbDOUuI0eIX775+FVB
- U1U79uLn7+wdl9DBjfnUIC4QyumLF3g1/5vrvHU1khoLTHGS2ORxCOceof8aEzHV
- IFUIxAm+tuqYtspOmqIwEIGb99tomxi2v5WOFo7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=MSqxliGRmaqeBjqjX
- F6Gm6Q29Wo8+BU30FxXYdxfB/o=; b=AiI7QD+EkZrr4ugGvlqsTu8wQNa3M5b52
- GboNbpYAZic3kbIJI6ufUy9Y43rEp/LVpYJuQAMXW5If9IhKVytbWbEphCFpi2jo
- L3dYOJW3rrZnlyk8PyIOT4az4k2e8UNqHWGa3edOfQbfR92XMQYtKVAT7zCqy7Ee
- XzGjq/GL3nDd5aj3t8UhA0rRAwXU7c5CwYKodfThs/eNJO9Rg3fcd7ulUmrbZ1Ew
- 7eNIq6FnfT6fKoq+6DoeqJqd6fJRsclblgdCXkJuyMkrgMefSkxSKBISISm3fIli
- YtbTc/ODNOeoaTMThU7bbPK9maffXgUaooPD+92Tij+AtTGjFB8rg==
-X-ME-Sender: <xms:HFhIYijvLTduOdyQqIhN0Wy4aWny4vAwTyc1Q8fs1O7RsgWe3u0EWA>
- <xme:HFhIYjDgQjQCjzt3eO1msXacnXLfPYol-JUQct6tFRJdInDg4z2BR4sRjslStGHNU
- SavwD-qOrjJ-uXBzNY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeikedgjeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
- nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
- htthgvrhhnpefgieegieffuefhtedtjefgteejteefleefgfefgfdvvddtgffhffduhedv
- feekffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:HFhIYqHshJm3fX77A6bMVTI0ITdzbtdL_gjt5rutx4YuEliYyXlj_Q>
- <xmx:HFhIYrTSgNF3pL0eBWlIZ_5nUcURP0bHVZUfg3AJyjjjGtQ3nmCtzQ>
- <xmx:HFhIYvwyW4M4yeSQaQ3QU2avkYgZHAED2OTRET_EM-HvStM9NFaQdw>
- <xmx:HFhIYt5v6ero_5KclzbL_PoPODlTA8Yq0_BJlXiRyWnoBxLRE87opA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 72A7F27402C7; Sat,  2 Apr 2022 10:05:16 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-382-g88b93171a9-fm-20220330.001-g88b93171
-Mime-Version: 1.0
-Message-Id: <f944f2b4-17fe-41dc-a262-e266ac45b3ef@www.fastmail.com>
-In-Reply-To: <20220402135834.GC10474@jannau.net>
-References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-7-sven@svenpeter.dev>
- <CAK8P3a27-eWP=krGQOp29krcc7bVME9=MbN6B3Rs7Q4Ran_VFw@mail.gmail.com>
- <7876eb84-9803-48dc-ab6b-27d49858e27a@www.fastmail.com>
- <20220402135834.GC10474@jannau.net>
-Date: Sat, 02 Apr 2022 16:02:05 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Janne Grunau" <j@jannau.net>
-Cc: "Arnd Bergmann" <arnd@arndb.de>, "Keith Busch" <kbusch@kernel.org>,
- "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Rob Herring" <robh+dt@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
- DTML <devicetree@vger.kernel.org>,
- "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ id 1nagGu-009XqC-1c
+ for linux-nvme@lists.infradead.org; Sat, 02 Apr 2022 16:06:41 +0000
+Received: by mail-ej1-x62c.google.com with SMTP id o10so11735141ejd.1
+ for <linux-nvme@lists.infradead.org>; Sat, 02 Apr 2022 09:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2dLCpFjGJHcbliLHP8vYjYtyDcLFIAxcHG+FWPlYX0Y=;
+ b=tBbneEJqkuWEmHvvIZ2sj5QjCxHGS/7MF+6hk0BfAE8Xwu14gShr3VDv9Mdxg+Nu0L
+ PBWZp0jZXBL2NekdL4AVdzt5ZswjSTTAOmS2JJhNXmmwX1hKTWhiCpmf63LX/AQE+UtY
+ y10dH21hYS4ZUw9S3dHRaGIpAN6S5pQeH3zOTfIl6Gj1aBMiyGH9Ud0wiDh7JBY+1zRz
+ /0JANA/gvz/x7iDVE9OVEmHqb7f0/BIa815oh6GRJKVwguhCA+BrgGH6VYvwZ9p5VxbP
+ 8vqh+aIKx4jkPkQngehsTaqVvSG2klXmfuGhFtyp/dmQ0vCrIN08vKgGIrMEK2S2ZzVd
+ 1yWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2dLCpFjGJHcbliLHP8vYjYtyDcLFIAxcHG+FWPlYX0Y=;
+ b=hJAAQsx2PFgeKPJ0GUHwQe66W0hI3CNnMsPTnbaMg1+hOgR9gHo4+qVgufCHVtmOea
+ kNvroC5St+WkVycFOc8n5oAIFeJzAZT4mwqijawrHun4T24DOjmaFVwcFM+DLMC+LC2g
+ 9QMPKRkcukKjtLwrwog/nW85LRnAS2Xm1v+4ymJCjp2vjd+/4BkDQqteLClFwkvRXKNI
+ FtuYAlHkkHBzFV0QgmWLC0C2P6ijvFj4OSfnkPOyF0g8b0zqhtnZTrAVKCvlRuhNxwWk
+ p4NlGZ7qYZzFCmUtQQx2Dbp8N1agMWs9L77gkHBpW4v8Sn9uWCuX9ucf9eSlTC6HD41k
+ dTLA==
+X-Gm-Message-State: AOAM532f520Nn15WvuqcphIM/upQzRlOIKAxWur7KeGBNvI/nxgWin0k
+ ftbYjZNbRcJvx8dKMzZJcYNPXw==
+X-Google-Smtp-Source: ABdhPJyjLMYxJ0JD5o8civ66zWl9Ru0vm3ZudlXy8sQnWNkm60+Uf6naquLmpxZS2J/JRuxzyTi5Aw==
+X-Received: by 2002:a17:907:d8d:b0:6df:b214:392a with SMTP id
+ go13-20020a1709070d8d00b006dfb214392amr4305563ejc.669.1648915597714; 
+ Sat, 02 Apr 2022 09:06:37 -0700 (PDT)
+Received: from [192.168.0.171] (xdsl-188-155-201-27.adslplus.ch.
+ [188.155.201.27]) by smtp.gmail.com with ESMTPSA id
+ u25-20020a170906b11900b006e08588afedsm2209474ejy.132.2022.04.02.09.06.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Apr 2022 09:06:37 -0700 (PDT)
+Message-ID: <871296de-76f6-c587-9000-ce38ad14f519@linaro.org>
+Date: Sat, 2 Apr 2022 18:06:36 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 2/9] dt-bindings: soc: apple: Add ANS NVMe
+Content-Language: en-US
+To: Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Arnd Bergmann <arnd@arndb.de>,
+ Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 6/9] nvme-apple: Add initial Apple SoC NVMe driver
-Content-Type: text/plain
+References: <20220321165049.35985-1-sven@svenpeter.dev>
+ <20220321165049.35985-3-sven@svenpeter.dev>
+ <40f7c074-198a-5ce0-02b3-e6042975e228@kernel.org>
+ <692ae417-f0c6-4932-95f3-2a0984df5ad0@www.fastmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <692ae417-f0c6-4932-95f3-2a0984df5ad0@www.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220402_070517_734022_32F28350 
-X-CRM114-Status: GOOD (  14.72  )
+X-CRM114-CacheID: sfid-20220402_090640_138547_0AAE5F14 
+X-CRM114-Status: GOOD (  16.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,44 +100,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 02/04/2022 15:05, Sven Peter wrote:
+> Hi,
+> 
+> thanks for the review!
+> 
+> On Wed, Mar 23, 2022, at 12:14, Krzysztof Kozlowski wrote:
+>> On 21/03/2022 17:50, Sven Peter wrote:
+>>> Apple SoCs such as the M1 come with an embedded NVMe coprocessor called
+>>> ANS2.
+>>>
+>>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>>> ---
+>>>  .../bindings/soc/apple/apple,nvme-ans.yaml    | 75 +++++++++++++++++++
+>>>  1 file changed, 75 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
+>>> new file mode 100644
+>>> index 000000000000..e1f4c1c572aa
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/soc/apple/apple,nvme-ans.yaml
+>>> @@ -0,0 +1,75 @@
+>>> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/soc/apple/apple,nvme-ans.yaml#
+>>
+>> Do not drop all code in soc/apple, but please use respective subsystems.
+>> Apple is not a subsystem, is not special.
+>>
+> 
+> Sure, the code is already inside drivers/nvme/host but I'll also create
+> Documentation/devicetree/bindings/nvme and put the bindings in there as
+> well.
+
+Yes, please. We have also Documentation/devicetree/bindings/nvmem/ but
+it seems its entirely different stuff.
 
 
-On Sat, Apr 2, 2022, at 15:58, Janne Grunau wrote:
-> On 2022-04-02 15:34:55 +0200, Sven Peter wrote:
->> 
->> 
->> On Tue, Mar 22, 2022, at 14:38, Arnd Bergmann wrote:
->> > On Mon, Mar 21, 2022 at 5:50 PM Sven Peter <sven@svenpeter.dev> wrote:
->> >
->> >> +static int apple_nvme_sart_dma_setup(void *cookie, struct apple_rtkit_shmem *bfr,
->> >> +                                    dma_addr_t iova, size_t size)
->> >> +{
->> >> +       struct apple_nvme *anv = cookie;
->> >> +       int ret;
->> >> +
->> >> +       if (iova)
->> >> +               return -EINVAL;
->> >> +
->> >> +       bfr->buffer = dma_alloc_coherent(anv->dev, size, &iova, GFP_KERNEL);
->> >> +       if (!bfr->buffer)
->> >> +               return -ENOMEM;
->> >
->> > You pass 'iova' as an argument, but then replace it with the address
->> > returned by dma_alloc_coherent(). Can you remove the function
->> > argument?
->> 
->> Yup, will remove it.
->
-> You can remove it but we will have to add it back once we submit the dcp 
-> driver (display co-processor). dcp is initialized during boot and uses a 
-> single pre-allocated buffer which needs to be mapped instead of 
-> allocated. It seemed easier to make apple_rtkit_ops.shmem_setup() 
-> omnipotent than adding a different function pointer for this case.
-
-Or we can already pass the iova DCP sent us into bfr->iova
-and this function then has the task to just "do whatever is required
-so that struct apple_rtkit_shmem *bfr is usable".
-
-
-Sven
+Best regards,
+Krzysztof
 
