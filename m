@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B973C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 19:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A435EC433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Apr 2022 21:27:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oZwkbhnRludRS5R0RTAiWczzy6FwRMExxe70tzi2HqA=; b=N78IAzAUAd//V1s/DiKWadJwcv
-	07ArnxVUuxpb8Iv79oHM45fIGLJwWEY1M/4D0X7BnVBLAaG3MerO1vrY4Bzg9FbJU/WEBUG8fUhaf
-	ICkzgsTKWjFkMDJVxK+bdvK2mDZOLTX4pWFbG018cWNulFy8TjVk1bCVEk3728/zHB8CsRAIOauLD
-	NwMk7tgGqNpIZjHJxJRuFA49xC8VbZGUcZkGL/L+lAcZsEviMW05WBEUjetbX3WlvjuogByKtreQ5
-	6ZyMDoJn+5XjmDHvYU4avtODvAF973UpbKaFTspZj5G9fiao1/r3eT4ptrHgHP5rTi5HRd/sYLOh9
-	laNKIu0Q==;
+	bh=FwKvzDls4uZguxFUkLXf4+nfUJikOvM4SY7CUtlSysk=; b=H8Ok70w4yrTyssw95jVYqN82xv
+	P/027IaSLXrO23TGG5vQFGvZusE0nAb3ej+1TzGddo+sRRK4z6kyGUcWMUth322gmaymiXUY2M4dQ
+	zOOvrA4l+qX5InO1JNB5xlRxpNhMrNO1/I555vrxI1F5SYMXthjTkXUwquhpFgdQoUExDRpidO380
+	Y++3YA8I59rD2iNy+IeDB0uaVip3stMY2YX1khY8nt1sXDSWKwGYfwmepX6+3sXiQK3OskRE/cKuy
+	MXIC1n1R7Fls909mQNmfagKyZ6V3JpwLn5OnDgfhWNl1aITKkGR2FQsViyNWCtc51IH9VTDESPNAN
+	J2K9YixA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1naj67-009peF-CO; Sat, 02 Apr 2022 19:07:43 +0000
-Received: from mout.kundenserver.de ([217.72.192.75])
+	id 1nalGt-00A7SB-GJ; Sat, 02 Apr 2022 21:26:59 +0000
+Received: from mout.kundenserver.de ([212.227.17.13])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1naj63-009pcd-Cu; Sat, 02 Apr 2022 19:07:41 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MmkfQ-1oKGNU1mOU-00jpge; Sat, 02 Apr 2022 21:07:34 +0200
-Received: by mail-wm1-f44.google.com with SMTP id
- bi13-20020a05600c3d8d00b0038c2c33d8f3so5329132wmb.4; 
- Sat, 02 Apr 2022 12:07:34 -0700 (PDT)
-X-Gm-Message-State: AOAM530cMYlnEJyfYCOKNUHyknUCa7L2k3UES+TQ1CZbf10gx9gYxugi
- Z0MmsLue9tMGyLb4jETCT3FD1wfwUoACYkBHFGw=
-X-Google-Smtp-Source: ABdhPJwIAkpxl+JZt9LjgRq9lJWnGHnJOqkbLJpfn319rdmgWy77pOsaUi8rkQeJc/4Nv+hf1X3LMml3uCdwMixVHak=
-X-Received: by 2002:a7b:cd13:0:b0:38b:f39c:1181 with SMTP id
- f19-20020a7bcd13000000b0038bf39c1181mr13827152wmj.20.1648926453781; Sat, 02
- Apr 2022 12:07:33 -0700 (PDT)
+ id 1nalGi-00A7Ps-3O; Sat, 02 Apr 2022 21:26:49 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MXpQA-1nVGZt0ZvY-00YDqr; Sat, 02 Apr 2022 23:26:45 +0200
+Received: by mail-wm1-f46.google.com with SMTP id
+ l62-20020a1c2541000000b0038e4570af2fso3398355wml.5; 
+ Sat, 02 Apr 2022 14:26:44 -0700 (PDT)
+X-Gm-Message-State: AOAM532YcbIrT0meG6wwWtK5SjXI8wX/3+qX9mMDI1ZDvg+huPdIRiL+
+ HQD21ro5HphrZPlJgwaXm4eRh/yEleYcr3BN/yk=
+X-Google-Smtp-Source: ABdhPJylADU8u1Uad2avcKqoy4J12Y7Ldo8r2ly4hCBr2blS2EVb+EGXxI00qvmV4NpEdPUxq7mTzkMgGKL7bOTsU7M=
+X-Received: by 2002:a05:600c:4e11:b0:38c:bd19:e72c with SMTP id
+ b17-20020a05600c4e1100b0038cbd19e72cmr13758469wmq.174.1648934804584; Sat, 02
+ Apr 2022 14:26:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-5-sven@svenpeter.dev>
- <CAK8P3a19F8K0MvZV_R6HrmmR+WBsDge+u6U3iEVEjZ74i6+nEg@mail.gmail.com>
- <f06576c8-76c6-41ae-874d-81ea0b5b5603@www.fastmail.com>
-In-Reply-To: <f06576c8-76c6-41ae-874d-81ea0b5b5603@www.fastmail.com>
+ <20220321165049.35985-7-sven@svenpeter.dev>
+ <CAK8P3a27-eWP=krGQOp29krcc7bVME9=MbN6B3Rs7Q4Ran_VFw@mail.gmail.com>
+ <7876eb84-9803-48dc-ab6b-27d49858e27a@www.fastmail.com>
+In-Reply-To: <7876eb84-9803-48dc-ab6b-27d49858e27a@www.fastmail.com>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Sat, 2 Apr 2022 21:07:17 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3xioqJDb7hQ3dvxQyHPg2hgJbeJywEP+N4cDzpo=8VhQ@mail.gmail.com>
-Message-ID: <CAK8P3a3xioqJDb7hQ3dvxQyHPg2hgJbeJywEP+N4cDzpo=8VhQ@mail.gmail.com>
-Subject: Re: [PATCH 4/9] soc: apple: Add SART driver
+Date: Sat, 2 Apr 2022 23:26:28 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3d5XmtXxGwVHFSyNraOJdTaFCG1s+LNev=39eLXxGFHg@mail.gmail.com>
+Message-ID: <CAK8P3a3d5XmtXxGwVHFSyNraOJdTaFCG1s+LNev=39eLXxGFHg@mail.gmail.com>
+Subject: Re: [PATCH 6/9] nvme-apple: Add initial Apple SoC NVMe driver
 To: Sven Peter <sven@svenpeter.dev>
-Cc: Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, 
- Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, 
- "sagi@grimberg.me" <sagi@grimberg.me>, Marc Zyngier <maz@kernel.org>,
- DTML <devicetree@vger.kernel.org>, 
+Cc: Arnd Bergmann <arnd@arndb.de>, Keith Busch <kbusch@kernel.org>,
+ "axboe@fb.com" <axboe@fb.com>, 
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ Hector Martin <marcan@marcan.st>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, DTML <devicetree@vger.kernel.org>, 
  Linux ARM <linux-arm-kernel@lists.infradead.org>, 
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:lSCs024ug8tz20rxjmLOguYQZELjqNAg+5qYDOmTLHbw6CCjnZ8
- JIp9gZqflgOmw9l9cT5pVNeLTukknoJoXAp1Xm/FSU4pys8Deks21TUrcabCWx7Iuytz2Pl
- C6iZvGF0bzeW2+J3c7en/sRt0skgp5/T/uT7MiREtn8QvYpiEyeNO+SuIKRouTrVSMFwjfO
- 0jRbnVEheEUx81S//DTzw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3iPvDsg86vQ=:amHitQTSpk155fD7duNyg8
- EPriDgIWiLAgS46CzrFKi4RQlo4a/fbUiy01MHa7wGmN9zy5FJKwjtLnYvu1vq8gOF5DjZsg1
- eMGhDdj7gHE1fnvDfJ+eGkWWcL1sMC/+t3J4qXlnWTtgXX8b128Tq50kGUULTxgMVmfr21GMQ
- gNPRDE8r73aceNaaJz84ToeUv3pUIdxbI94YmjML7qUHobkQHyW6iZM1GG1G4Pz12QzzmtXUs
- bqngg2SWnZ+pRSYFrwkkDYBQ4GNuSYusVC9SQsWiZ2dZ24Atr2MWJITyKeJrL2zhesCLes0YB
- ifbdBG1ZHPMs6gzHbgRDHywLy4zl1fIsEbbL/zTdGpw8jyDyzM9h7bpcbkugg252knoYeh4Tp
- P0mulbp3WGsg5SsN/omPDrp6YfEHroxn9TV3twmMYllq74wq1ji3bOMXdD9JFVUaWyVuRa0Ui
- xma/4CddyxLwodc1GXiqexXxYHKCvS2nvpPsAqcQ5wDZLHGfmvlDdc8yY0ShtFS/rj2SLYj6M
- xRyx/nUqL/ijaVszzXvSszTxVDMfrjq20zzEz8VbtYTYuv+Cy4kS10AajGfjv6ywLPvVeRhZ/
- SU69ybLvF7tgdwYMuEaFS3PeIaUh0CdlVW3ZidDjQipG6LQIDIQzOWZjwR6Y++ZLGNA3aDvUA
- iTeEmn7PUyMf33V0FEJNjGGsxGV4A/+y9nZMjmE7bExYAxvvUT/F7CvYICrmXGvdXw/uc2xiT
- tQ375XM16vw0oxd+gmPPl6KVQiG+jiQ/GNNTr5EnYtWgBy7Rw2iq5EVjpFNLOjzdMNsX30/mf
- We0FD06gdkWBt9ezu8Mp4rFIqevp2xl8CDEWL2yv/2xVLon/KE=
+X-Provags-ID: V03:K1:XtWTvnAHjBUVuVrLpMkEq+Y5am9tD1blMhyEEP2MVtKt0gRwQOR
+ 8h5p4oa8SXRlvOwuwWAr6lZ4OldhbV30j4o/HNSNSKu3g7XP6Dx4bQruDytuES6eEHIJiFn
+ 14TQJANbhO0d1DeJSxAIXi6HtO/3scI8fwmBTTWkfvxX5nxUMZ+LRNErFrNogkccC0447ur
+ q7M8pOih094DvCr5P5Onw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GwYguUC0jsc=:l0R1j2nuiIaxZxbxg6mjSA
+ ZkmFmi1zFfyUKa/kBKtC46KwNlUkBbd109cgREaNDLi2G8rcQwddTBNBCxKroKaxmrS5tEG8y
+ QvutepqlZ1zkpTCklQwCGB5JmI8atDqjPLQw179lcFnYEHzHQ/9DIriqEHAp3Tqx/5F2l2rR1
+ DN7pF/amIypIf5rtUh/b/nby86YJXuOGzfkgYtJ7VbPS8vTd67s8OTKAQ2b+dpMwSIf79j3iu
+ pqOQri5ZKxZ53/1uRtDZKKE3cKk5mP/pztdCStcAzOql7O/jNe7quRkU0SYfTqnOqtO20pG4A
+ Yh3I8IDYraeznj6YMfpA4Bc3QFHgphm1eSpA8q2H2nGXhX77qltAGKdhKtpQiSEzGA7xjCpFB
+ H9fszDvtJCgMddpQncYuY7KZfLwbabq4PEYYdR/q/Y3gupkTZVH8cx49z8QITY0jYBbXfIHv4
+ OVXPHibSscVUxNiHW1SKzCWEFuwOmf+/leQgL3ygg+eKOvqgcrd6bo90PbdqVoF5gq7Nyt2on
+ gjL5SsXtOjGZ7s57ZIYvpIWKq8HjW/kfxXOJ0NrFtP1tTsE3xSn04SXjy2ONwaO93hOHEUmuc
+ Amtufp7dXgUcQt0t2SFes1mffFhSB596drJDtKp0BPw9Mo84hEtqAxQmaGP5WdpHB6GMNZ98O
+ i1AX6zV6x+C/bF8lBzyn0GgAXOncnoA4emopbrKUyCMv7UcYSwcqP2DBrWjTNxrqlm6kmriCb
+ 1zZMSr5Eob9vIxgcdKG1poNmSsbRQmud8v9AqUODNsFViT1ObEoD+67M3mzdXxjQh4BDQ1LRG
+ /rClG0W2CPYaaz6kMQKo9XNoOI/rcc/97m7Kf9vYJub6ddRAe8=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220402_120739_756670_E2368475 
-X-CRM114-Status: GOOD (  36.85  )
+X-CRM114-CacheID: sfid-20220402_142648_473077_26627EEA 
+X-CRM114-Status: GOOD (  25.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,74 +92,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Apr 2, 2022 at 2:38 PM Sven Peter <sven@svenpeter.dev> wrote:
-> On Mon, Mar 21, 2022, at 18:07, Arnd Bergmann wrote:
+On Sat, Apr 2, 2022 at 3:34 PM Sven Peter <sven@svenpeter.dev> wrote:
+> On Tue, Mar 22, 2022, at 14:38, Arnd Bergmann wrote:
 > > On Mon, Mar 21, 2022 at 5:50 PM Sven Peter <sven@svenpeter.dev> wrote:
-> >> The NVMe co-processor on the Apple M1 uses a DMA address filter called
-> >> SART for some DMA transactions. This adds a simple driver used to
-> >> configure the memory regions from which DMA transactions are allowed.
-> >>
-> >> Co-developed-by: Hector Martin <marcan@marcan.st>
-> >> Signed-off-by: Hector Martin <marcan@marcan.st>
-> >> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+
+> >> +bad_sgl:
+> >> +       WARN(DO_ONCE(apple_nvme_print_sgl, iod->sg, iod->nents),
+> >> +            "Invalid SGL for payload:%d nents:%d\n", blk_rq_payload_bytes(req),
+> >> +            iod->nents);
 > >
-> > Can you add some explanation about why this uses a custom interface
-> > instead of hooking into the dma_map_ops?
+> > I think you mean WARN_ONCE() here?
 >
-> Sure.
-> In a perfect world this would just be an IOMMU implementation but since
-> SART can't create any real IOVA space using pagetables it doesn't fit
-> inside that subsytem.
+> This is taken from pci.c which used to use WARN_ONCE but was replaced in
+> d08774738446e77734777adcf5d1045237b4475a with this construction here.
+> The commit message mentions
 >
-> In a slightly less perfect world I could just implement dma_map_ops here
-> but that won't work either because not all DMA buffers of the NVMe
-> device have to go through SART and those allocations happen
-> inside the same device and would use the same dma_map_ops.
+>     The WARN_ONCE macro returns true if the condition is true, not if the
+>     warn was raised, so we're printing the scatter list every time it's
+>     invalid. This is excessive and makes debugging harder, so this patch
+>     prints it just once.
 >
-> The NVMe controller has two separate DMA filters:
->
->    - NVMMU, which must be set up for any command that uses PRPs and
->      ensures that the DMA transactions only touch the pages listed
->      inside the PRP structure. NVMMU itself is tightly coupled
->      to the NVMe controller: The list of allowed pages is configured
->      based on command's tag id and even commands that require no DMA
->      transactions must be listed inside NVMMU before they are started.
->    - SART, which must be set up for some shared memory buffers (e.g.
->      log messages from the NVMe firmware) and for some NVMe debug
->      commands that don't use PRPs.
->      SART is only loosely coupled to the NVMe controller and could
->      also be used together with other devices. It's also the only
->      thing that changed between M1 and M1 Pro/Max/Ultra and that's
->      why I decided to separate it from the NVMe driver.
->
-> I'll add this explanation to the commit message.
 
-Ok, thanks.
+Ok, makes sense. If we get more of these in the kernel, we may want to
+add a helper that makes this more obvious, but it appears that for now
+these two are the only ones.
 
-> >> +static void sart2_get_entry(struct apple_sart *sart, int index, u8 *flags,
-> >> +                           phys_addr_t *paddr, size_t *size)
-> >> +{
-> >> +       u32 cfg = readl_relaxed(sart->regs + APPLE_SART2_CONFIG(index));
-> >> +       u32 paddr_ = readl_relaxed(sart->regs + APPLE_SART2_PADDR(index));
-> >
-> > Why do you use the _relaxed() accessors here and elsewhere in the driver?
->
-> This device itself doesn't do any DMA transactions so it needs no memory
-> synchronization barriers. Only the consumer (i.e. rtkit and nvme) read/write
-> from/to these buffers (multiple times) and they have the required barriers
-> in place whenever they are used.
->
-> These buffers so far are only allocated at probe time though so even using
-> the normal writel/readl here won't hurt performance at all. I can just use
-> those if you prefer or alternatively add a comment why _relaxed is fine here.
->
-> This is a bit similar to the discussion for the pinctrl series last year [1].
+It could also be expressed by moving the WARN_ONCE() into the
+condition above the 'goto', but I don't see a reason to change the other
+driver and it's better to keep the two consistent.
 
-I think it's better to only use the _relaxed version where it actually helps,
-with a comment about it, and use the normal version elsewhere, in
-particular in functions that you have copied from the normal nvme driver.
-I had tried to compare some of your code with the other version and
-was rather confused by that.
+> Agreed, I've actually tried replacing all non-relaxed ones with the normal
+> accessors (even those inside the hot path) and didn't see any performance
+> difference.
+> I can use the normal ones here and I'll consider using the non-relaxed ones
+> in the hot path together with a comment why they are safe in those places.
+
+Sounds good. If you find any instances in the hot path that have a
+corresponding version in the pci.c file, it would be good to keep these
+two in sync, hopefully making the non-apple case faster as well.
 
         Arnd
 
