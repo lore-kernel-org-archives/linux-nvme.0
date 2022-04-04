@@ -4,79 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53811C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Apr 2022 15:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AD2BC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Apr 2022 15:48:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:Subject:From:References
+	:Cc:To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Cxv6eRZihM5d2+KA9Gy/o6F4LSNKpnki/Cp9tds22EU=; b=L5GKk2eEFh2oHBX0/FH5pzk6lD
-	yFdOeeYaNVrYjaOLHk/DSgYoACvkogHf4s9v1V4sp7vHH1VoQsC+OYZP4cI4FT7kxbdzaVirzlcOH
-	ld8Kl7zOnk6ZkPWgrJICH7egsxN66uRtmJBid0sN99iwrAAkW5qyV6ooh1+7vfadYsW3Ko0LJvyf3
-	yMy/3TY/3ffvrtw4Wd4qFfNWJxIkmfoCuGWrkfQcV1E9+vqDDKuNbvgeyR8JjHTN+PWt+ngYHxCjO
-	NDq5ppV0CpQLXHE50jVdzRArH6f8k/XQIyhVx8MndsL8jJS+0pK/z01qXauv0sfa/S/RUrw0Bhzl/
-	pJvM0M7g==;
+	bh=h+kt4USVeW0qRvqjcIwwOgZ6DD+sxajdKeh1AWu5gS8=; b=j33oknQ/PcYrOwIn3dQfyJ0ViA
+	tPeg1YX3G8JDYLukW3vKMAiggKkLyIsk2PlVJSgkxTFTBchGeTrecNB6LtVH2mKbtYI22mRQn6mej
+	zGnkRah/VhDB3+zzoW9/YjFxEO0xiwlraq/W0PhJpEsRASdYenMmgOmP0jiK9ZibyyJy39swd0N2h
+	T8rdg2Pn6oWBwcxhTaVpHTdU1IOzTPWbNRN/Kg5Ynsv57BHISNCUnttI39QwcbDLwvtCFLZNmTAHG
+	dcQUHOyXj9ELFXTe5yUnwDQDkdXC4YhpV7q+7Q5XpZO/AYT448ku4oLLCLnNG677SXibIkMQCsziN
+	UviGQruw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbOPs-00FWGM-CZ; Mon, 04 Apr 2022 15:14:52 +0000
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
+	id 1nbOwJ-00Fbdc-2r; Mon, 04 Apr 2022 15:48:23 +0000
+Received: from marcansoft.com ([2a01:298:fe:f::2] helo=mail.marcansoft.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbOPp-00FWFB-9F
- for linux-nvme@lists.infradead.org; Mon, 04 Apr 2022 15:14:50 +0000
-Received: by mail-ot1-x329.google.com with SMTP id
- b17-20020a0568301df100b005ce0456a9efso7420756otj.9
- for <linux-nvme@lists.infradead.org>; Mon, 04 Apr 2022 08:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Cxv6eRZihM5d2+KA9Gy/o6F4LSNKpnki/Cp9tds22EU=;
- b=V5VblXb5znlCxPmvo3sok6C1BjFPwvtWApDnW/3AmtQzRz2Pb+vAQAjZRiMWfpcTUj
- DAjH0h4DRR8oLoVVKMCPLu8tsp6Tw9+tkz9P6saZJuQiGliDmrLL9VVgKxUpBfLHaU8i
- KxZ+OWEDQFWZi9yVegYuB8Z+FcG6R97cyrpySSjM5tVNJATny9acknhhOnP2ulygmY8S
- oHGjW83qHYGlGFp6Sw/qvlOzkCjaF/VITyR35ynSXIqZl6Hd+GFFckOSHFcm+Wneao9t
- ejDeeAIm9mYJy8RLcJNIKcvcQJrETrtU7HE5rBsK75/lDrok8jD3PJEdgwToS9Wqy6iD
- EW6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Cxv6eRZihM5d2+KA9Gy/o6F4LSNKpnki/Cp9tds22EU=;
- b=IikOiTJF1WeB/OtebgKOkOYfzwIjPiFzGg83/3pAGpv5fQQwcu/IBfg0lHwZd1LGUf
- 8n6Mo74Abd8Eso029GiONTPzxlWAwEq34+pniPuCUiSYlQvhNTBC4iHLyVmwg/PiEGpW
- 4iOo9M6CbiiXx7Uic5Z8bXS81OhwR+aa+JLy7Gwt82RJ6Mb5N1fOcAlaxJhu9NCg7UGS
- KlMp5avVo6c1Qf+wMV/X42H4IHloSxLL9zEdg4wyzE9O3TOL7xExc360hIuwnTSDRD5q
- OIl1ps0AlOoOya84wZ7lHTbcT8ojnI7zq3wwxemr7LwFoZU8zO8HYQcb0HWNe/uk+C5S
- 8g9w==
-X-Gm-Message-State: AOAM5331FaM0QPfwg6L/q3rfG4RoFglkj8i2toT9GUklplVWchI+D5L0
- vNliwaSAkHmbI9ucpFnoS34un/iPYVTmx6lTDxM=
-X-Google-Smtp-Source: ABdhPJyJ8AjKxuFryAua5NpBUOSJbti4efWspiDfTtSRUNZCcdYnfI+uJUnGYQ8d9iPalw+hVsibY3rN7Lc6Tu1Lbvk=
-X-Received: by 2002:a9d:eef:0:b0:5d2:8e2f:6729 with SMTP id
- 102-20020a9d0eef000000b005d28e2f6729mr241040otj.86.1649085287158; Mon, 04 Apr
- 2022 08:14:47 -0700 (PDT)
+ id 1nbOw7-00FbaA-7l; Mon, 04 Apr 2022 15:48:13 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: marcan@marcan.st)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 2E1F0419BC;
+ Mon,  4 Apr 2022 15:48:01 +0000 (UTC)
+To: Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Arnd Bergmann <arnd@arndb.de>,
+ Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20220321165049.35985-1-sven@svenpeter.dev>
+ <20220321165049.35985-6-sven@svenpeter.dev>
+ <5eed58a1-ee56-8aee-e73b-76b162d59873@kernel.org>
+ <35f5fdbf-faac-457b-a225-35d7141f6b2e@www.fastmail.com>
+ <YksIhWQIUHsoWEMi@robh.at.kernel.org>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 5/9] soc: apple: Add RTKit IPC library
+Message-ID: <5441c5a7-5535-a8c3-c6ad-71d81754b9b1@marcan.st>
+Date: Tue, 5 Apr 2022 00:47:59 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20220401110310.611869-1-joshi.k@samsung.com>
- <CGME20220401110834epcas5p4d1e5e8d1beb1a6205d670bbcb932bf77@epcas5p4.samsung.com>
- <20220401110310.611869-4-joshi.k@samsung.com> <20220404071656.GC444@lst.de>
-In-Reply-To: <20220404071656.GC444@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Mon, 4 Apr 2022 20:44:20 +0530
-Message-ID: <CA+1E3r+nHBace_K1Zt-FrOgGF5d0=TDoNtU65bFuWX8R7p8+DQ@mail.gmail.com>
-Subject: Re: [RFC 3/5] io_uring: add infra and support for IORING_OP_URING_CMD
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Pavel Begunkov <asml.silence@gmail.com>, 
- Ming Lei <ming.lei@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>, 
- Pankaj Raghav <pankydev8@gmail.com>,
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YksIhWQIUHsoWEMi@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: es-ES
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220404_081449_367377_7304F538 
-X-CRM114-Status: GOOD (  37.97  )
+X-CRM114-CacheID: sfid-20220404_084811_469696_4A389541 
+X-CRM114-Status: GOOD (  32.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,162 +72,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 4, 2022 at 12:46 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Cann we plese spell out instastructure here?  Or did you mean
-> infraread anyway :)
+On 05/04/2022 00.02, Rob Herring wrote:
+> On Sat, Apr 02, 2022 at 03:51:46PM +0200, Sven Peter wrote:
+>> On Wed, Mar 23, 2022, at 12:19, Krzysztof Kozlowski wrote:
+>>> On 21/03/2022 17:50, Sven Peter wrote:
+>>>> Apple SoCs such as the M1 come with multiple embedded co-processors
+>>>> running proprietary firmware. Communication with those is established
+>>>> over a simple mailbox using the RTKit IPC protocol.
+>>>>
+>>>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>>>> ---
+>>>>  drivers/soc/apple/Kconfig          |  13 +
+>>>>  drivers/soc/apple/Makefile         |   3 +
+>>>>  drivers/soc/apple/rtkit-crashlog.c | 147 +++++
+>>>>  drivers/soc/apple/rtkit-internal.h |  76 +++
+>>>>  drivers/soc/apple/rtkit.c          | 842 +++++++++++++++++++++++++++++
+>>>>  include/linux/soc/apple/rtkit.h    | 203 +++++++
+>>>>  6 files changed, 1284 insertions(+)
+>>>
+>>> Isn't this some implementation of a mailbox? If so, it should be in
+>>> drivers/mailbox. Please don't put all stuff in soc/apple, that's not how
+>>> Linux is organized. To drivers/soc usually we put drivers which do not
+>>> fit regular subsystems.
+>>>
+>>
+>> I put this into soc/apple because I don't think it fits within the mailbox
+>> framework very well.
+>> (It actually uses the mailbox framework for the actual communication
+>> with the hardware with a driver that's already upstream.)
+>>
+>> Essentially, the mailbox subsystem provides a common API to send and
+>> receive messages over indepedent hardware channels and devicetree bindings
+>> to describe the relationship between those channels and other drivers.
+>>
+>> One of the features that doesn't really fit is that we need to be able
+>> to start, shutdown and re-start these co-processors. The NVMe driver
+> 
+> remoteproc does that. Did you look at it? Most remoteproc drivers use 
+> some combination of mailboxes and shared memory.
 
-:-) sure, I see the problem with this shorthand now.
+Remoteproc seems to be mostly about providing a standard interface for
+loading firmware images and kickstarting somewhat generic remote
+processors, as well as some high-level stuff for virtio. None of that is
+useful to us as far as I can tell, because Linux doesn't load the
+firmware for these things, it is pre-loaded by the bootloader and
+therefore they might as well be fixed-function hardware as far as we're
+concerned.
 
-> > -enum io_uring_cmd_flags {
-> > -     IO_URING_F_COMPLETE_DEFER       =3D 1,
-> > -     IO_URING_F_UNLOCKED             =3D 2,
-> > -     /* int's last bit, sign checks are usually faster than a bit test=
- */
-> > -     IO_URING_F_NONBLOCK             =3D INT_MIN,
-> > -};
->
-> This doesn't actually get used anywhere outside of io_uring.c, so why
-> move it?
+I can certainly see some similarities between the resourceproc API and
+what we're doing, but I don't see what it would do for us other than
+cause an impedance mismatch. Does it actually *do* something we can use?
+Keep in mind these are Apple copros running Apple firmware that will
+only ever talk to drivers we write for Apple machines, and we don't
+control the firmware.
 
-This got missed out.
-We are going to use it for things like this in nvme (from past series):
+Impediance mismatches on first glance:
 
-+ if (ioucmd && (ioucmd->flags & IO_URING_F_NONBLOCK)) {
-+ rq_flags |=3D REQ_NOWAIT;
-+ blk_flags |=3D BLK_MQ_REQ_NOWAIT;
-+ }
-+ req =3D nvme_alloc_request(q, cmd, blk_flags, rq_flags);
+- The assumption that firmware is loaded by Linux seems to be hard-coded
+into the subsystem
+- Only one boot/shutdown path, while we need different power states and
+boot modes depending on the specific instance
+- The concept of the "resource table"; we have something similar for at
+least one copro, but it's brokered via exchanged messages after it is
+booted, and not something we can just look up in the firmware (our plan
+was to just put the requested regions in the DT reg node and name them;
+the firmware then *after boot* provides a list of mappings it wants from
+that list and they can be mapped at that point). At least one other
+copro does a subset of this an entirely different way altogether. Apple
+aren't consistent and we can't do anything about that.
+- Rproc trace buffers: Apple does syslogs but a different, incompatible way.
+- ELF coredumps: even if this were useful for the blobs we get, the
+blobs loaded by the bootloader themselves are Mach-O binaries, not ELF,
+so that'd require some funny binary format conversion on one end or the
+other to be able to line them up for postmortem debugging. And Apple's
+crashdump format is a custom tag/value type thing.
 
-Also for polling too. Will fix this up in the next version.
+I'm certainly willing to be convinced to use a kernel subsystem if it
+actually does something useful for us, but last time we did that when it
+wasn't entirely clear we should (mailbox, for the hardware underlying
+these coprocessors) it just resulted in a bunch of headaches because
+that subsystem is poorly designed and doesn't seem to have bought us
+anything other than limitations. e.g. it is using suboptimal queueing
+right now, and we had to switch to the atomic API to make SMC work,
+which ends up even lower level, and isn't even properly documented and
+different drivers interpret differently, so now it's just pure added
+complexity and confusion for ~no gain over just reading/writing the
+mailbox registers, which would've been *much* simpler (and more
+performant than introducing additional queuing, since the hardware
+*does* queuing now which we can't use because mailbox doesn't support
+it). Remoteproc kind of seems like an even worse fit here...
 
-> > +static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
-> > +{
-> > +     req->uring_cmd.driver_cb(&req->uring_cmd);
-> > +}
-> > +
-> > +void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> > +                     void (*driver_cb)(struct io_uring_cmd *))
-> > +{
-> > +     struct io_kiocb *req =3D container_of(ioucmd, struct io_kiocb, ur=
-ing_cmd);
-> > +
-> > +     req->uring_cmd.driver_cb =3D driver_cb;
-> > +     req->io_task_work.func =3D io_uring_cmd_work;
-> > +     io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOL=
-L));
-> > +}
-> > +EXPORT_SYMBOL_GPL(io_uring_cmd_complete_in_task);
->
-> I'm still not a fund of the double indirect call here.  I don't really
-> have a good idea yet, but I plan to look into it.
->
-> >  static void io_req_task_queue_fail(struct io_kiocb *req, int ret)
->
-> Also it would be great to not add it between io_req_task_queue_fail and
-> the callback set by it.
+Oh, and these device producer/consumer relations cannot be computed
+statically as far as I can tell, so each one we introduce is another
+special case in distro initramfs image building, since they need to
+encode magic additional device-specific module dependency information
+somehow since it isn't available in depmod, but only encoded in DTs
+which are not necessarily known at initramfs build time.
 
-Right. Will change.
-
-> > +void io_uring_cmd_done(struct io_uring_cmd *ioucmd, ssize_t ret)
-> > +{
-> > +     struct io_kiocb *req =3D container_of(ioucmd, struct io_kiocb, ur=
-ing_cmd);
-> > +
-> > +     if (ret < 0)
-> > +             req_set_fail(req);
-> > +     io_req_complete(req, ret);
-> > +}
-> > +EXPORT_SYMBOL_GPL(io_uring_cmd_done);
->
-> It seems like all callers of io_req_complete actually call req_set_fail
-> on failure.  So maybe it would be nice pre-cleanup to handle the
-> req_set_fail call from =C4=A9o_req_complete?
-
-io_tee and io_splice do slightly different handling.
-If we take this route, it seems they can use __io_req_complete() instead.
-
-> > +     /* queued async, consumer will call io_uring_cmd_done() when comp=
-lete */
-> > +     if (ret =3D=3D -EIOCBQUEUED)
-> > +             return 0;
-> > +     io_uring_cmd_done(ioucmd, ret);
->
-> Why not:
->         if (ret !=3D -EIOCBQUEUED)
->                 io_uring_cmd_done(ioucmd, ret);
->         return 0;
->
-> That being said I wonder why not just remove the retun value from
-> ->async_cmd entirely and just require the implementation to always call
-> io_uring_cmd_done?  That removes the confusion on who needs to call it
-> entirely, similarly to what we do in the block layer for ->submit_bio.
-
-Right, this seems doable at this point as we do not do any special
-handling (in io_uring) on the return code.
-
-> > +struct io_uring_cmd {
-> > +     struct file     *file;
-> > +     void            *cmd;
-> > +     /* for irq-completion - if driver requires doing stuff in task-co=
-ntext*/
-> > +     void (*driver_cb)(struct io_uring_cmd *cmd);
-> > +     u32             flags;
-> > +     u32             cmd_op;
-> > +     u16             cmd_len;
->
-> The cmd_len field does not seem to actually be used anywhere.
-
-Another stuff that got left out from the previous series :-(
-Using this field for a bit of sanity checking at the moment. Like this in n=
-vme:
-
-+ if (ioucmd->cmd_len !=3D sizeof(struct nvme_passthru_cmd64))
-+ return -EINVAL;
-+ cptr =3D (struct nvme_passthru_cmd64 *)ioucmd->cmd;
-
-> > +++ b/include/uapi/linux/io_uring.h
-> > @@ -22,10 +22,12 @@ struct io_uring_sqe {
-> >       union {
-> >               __u64   off;    /* offset into file */
-> >               __u64   addr2;
-> > +             __u32   cmd_op;
-> >       };
-> >       union {
-> >               __u64   addr;   /* pointer to buffer or iovecs */
-> >               __u64   splice_off_in;
-> > +             __u16   cmd_len;
-> >       };
-> >       __u32   len;            /* buffer size or number of iovecs */
-> >       union {
-> > @@ -60,7 +62,10 @@ struct io_uring_sqe {
-> >               __s32   splice_fd_in;
-> >               __u32   file_index;
-> >       };
-> > -     __u64   __pad2[2];
-> > +     union {
-> > +             __u64   __pad2[2];
-> > +             __u64   cmd;
-> > +     };
->
-> Can someone explain these changes to me a little more?
-
-All these three (cmd_op, cmd_len and cmd) are operation specific
-fields. user-space supplies these into SQE, io_uring packages those
-into "struct io_uring_cmd" and pass that down to the provider for
-doing the real processing.
-
-1. cmd_op =3D operation code for async cmd (e.g. passthru ioctl opcode
-or whatever else we want to turn async from user-space)
-2. cmd_len =3D actual length of async command (e.g. we have max 80 bytes
-with big-sqe and for nvme-passthru we use the max, but for some other
-usecase one can go with smaller length)
-3. cmd =3D this is the starting-offset where async-command is placed (by
-user-space) inside the big-sqe. 16 bytes in first-sqe, and next 64
-bytes comes from second-sqe.
-
-And if we were doing pointer-based command submission, this "cmd"
-would have pointed to user-space command (of whatever length). Just to
-put the entire thought-process across; I understand that we are not
-taking that route.
+-- 
+Hector Martin (marcan@marcan.st)
+Public Key: https://mrcn.st/pub
 
