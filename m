@@ -4,76 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72BDDC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Apr 2022 14:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAEF4C41535
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Apr 2022 14:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=njxZPwbhAy5VvluMx0avgyplL5X6yHJpvmwh0qPXIEo=; b=tE8yRBe9KwuFTa6+ZQE3KD1fHT
-	iWzWRJIFbiSaZVngiM0IAZo9LiSrBOrKyzNul6x2ClyN5UrxuFYoZD2Ryeq9IFy+iWMi+8Ozk882N
-	3XWNi2BTOneif5f9ff+O/UgnwsLMR6QZ7abj7FqGoz8Jl3i8T8uyLdwCwqAa/ZkR+83+p0x3rolwC
-	uG2L1KevJpQWQnc1yEOUYRRJPauG0OacNOgIhSDcRajZh40+cJKXwgITDwvPhDrWasQHkiiB6dglR
-	xMogiJZERj48S5IGs6cT7GSnlKUeUR2QEMv0rDCdHPiMPQaYiafvMdTwCiF4SZS3jFftQIIbjpBED
-	JanUhvxQ==;
+	bh=CJuWYKltsebJlR+iYJcx+89VT3YSFELwZ66eJZ0td+A=; b=eu4O9givl8+cwcgBFmFE3GwMKL
+	1YHtOchrSXL0UzhsWe5Fl7ehoeCjhVygu1O/rhd7qshITcckWkBT6mtCmFNaaMrdTAH37u9XAjZ8F
+	XJmbT+VIGZU3XQ9f6GjrZw55RV0Nj13Q85cBLG+M7lbCTSGV3pf7OCxq9RqDE41Gq5QTQyL+Jn8Ex
+	rQQjdPTn2LF9RT9TJh27eslrPQbH01/2gOsfhjHI/qEZVtuy+DbCyb9IQ6x0mOSJRInc4U2iu4INE
+	HOU3WYTcwdd96AdNa5K/mDH1Z8ugzsQjqn/cP0SUqK0dfD+gCMe+IprLFkQ64YqJ+v1OnsoyQ1nhe
+	a0scMxpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbNeB-00FJsx-P6; Mon, 04 Apr 2022 14:25:35 +0000
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
+	id 1nbOAU-00FS1C-3e; Mon, 04 Apr 2022 14:58:58 +0000
+Received: from mail-oi1-f174.google.com ([209.85.167.174])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbNe9-00FJsD-Ll
- for linux-nvme@lists.infradead.org; Mon, 04 Apr 2022 14:25:34 +0000
-Received: by mail-oi1-x22b.google.com with SMTP id e4so10233394oif.2
- for <linux-nvme@lists.infradead.org>; Mon, 04 Apr 2022 07:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=njxZPwbhAy5VvluMx0avgyplL5X6yHJpvmwh0qPXIEo=;
- b=q2he80X0zGS1evsZqXWx+wzbOKzrfYMLHWb7xxMfnhQ30Tg6L6jI6sJk6JSowibR/6
- jYUXblvyxiq9GFulOLp9fu8gee2j0n8BuAukJV27A9ZfntSop1W6ejay1lyHOpH7Fuf/
- hfj8UyB1pIG6GjHt+fO3ZR3iIYHBKaU2zXzU4CruF0ZaYpE/7XS1ZNMTYhmgnea1caLF
- lYWKuolP4y4y3s0EpLJzZ2L4Tvh8ysaXjcqeWAifRZxweMYud2CalU7Nfc0MMdiaYs2V
- oXPCJ7Cu5ylLBSuBOX9yCMmEeOuH2Tqc7yVGo/kLIp6/WXLL8dQK0pXm212JM03iIh9P
- shSg==
+ id 1nbOAG-00FRyP-5I; Mon, 04 Apr 2022 14:58:45 +0000
+Received: by mail-oi1-f174.google.com with SMTP id i7so10326585oie.7;
+ Mon, 04 Apr 2022 07:58:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=njxZPwbhAy5VvluMx0avgyplL5X6yHJpvmwh0qPXIEo=;
- b=K9mJiBleCj2ARYDwa62582h4zyVSGvG06V1MOPAoMlrqQKapaNzPvn0Q86GRgt/A+d
- UqYePYs9d8SKco6ms0pJm9l8x7CNEJlwxeP40nlbxK0inoNFysq+h78IaOC+w5VT5goU
- qvbKR5l8zwtAF0Vepd2spfICR1JSrELXTcir/6DV6bZQCEhjh2P8tOCrDAK+sxGmBu/A
- jTlss71+VLdMoUP5Q2Q5afmyEb1Zz72BKkrKTIPeNQnT46KsjRNyTWXdmnLbwUNcTL74
- DEMOjm1FKnYU/j4nrIhWMhYHXmCRJIRkBWK/ejeMt1Eb6vIhN4c1Sgy05iL+jgIRFQAG
- ZqGQ==
-X-Gm-Message-State: AOAM533kd0mJRW3mR3KJ+qAHXK5Npyi4TODckbTkZLAfTdxyUiTAZFt6
- +aT2djnl+AfzRwUJWmGpZAPbAdJww/JWlJD37dA=
-X-Google-Smtp-Source: ABdhPJz5vnt/nUrGIypGkIxs9O9318XjCxougjFruCavALiumxradW4Rc752HuwOXqlwprtw9iCFuHl5xNqrfo+UITU=
-X-Received: by 2002:aca:2407:0:b0:2ef:5c86:5a09 with SMTP id
- n7-20020aca2407000000b002ef5c865a09mr51580oic.160.1649082331780; Mon, 04 Apr
- 2022 07:25:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CJuWYKltsebJlR+iYJcx+89VT3YSFELwZ66eJZ0td+A=;
+ b=itzj5vxbPLu0mwNyPHS1zwKVTzn7pFPhynNju8TekEDYo+q37U9w3eB0b8LLM+ReX4
+ BnIOucsNPKnGyd4rhVnQ6LrwPCIOmvl7LJFp/l75uorwV4tWzlPQsxKvjy/WdppQgiC3
+ f3UREu7VtJsumZirK8fLi7sQG+caqxgSU0sEW0b/4HQnfFy5VZXUgUO11dNaSdmMDMjy
+ xEEKML8gxVYb8JwuEuLOB+VrafRMUDz/g3ER36+M0yVjRDEhVkqLpwklh1pnnyc8EOWm
+ g/HxJzTWGwa3a8FPbe0l30Prqo229GqB4LdJVhdk+ig5WE/yKtSdlbWUrOp03Je/vuvf
+ QZIA==
+X-Gm-Message-State: AOAM531rIJSuukN4q1KF/DYW+rWGv+Lk5zdh+QFImAZZr/AAHHjZoqhy
+ tScq4Cd+w4RkRv2sEtc8w6EwUe3Eew==
+X-Google-Smtp-Source: ABdhPJy+knYz0FpBD+B/XqYTFDDly0IFKpeHzcuI/2tbLzaMUlojyFct1PO94CJWC8ERoCh+9DpPUQ==
+X-Received: by 2002:a05:6808:2024:b0:2f9:6119:d6ec with SMTP id
+ q36-20020a056808202400b002f96119d6ecmr97312oiw.203.1649084323010; 
+ Mon, 04 Apr 2022 07:58:43 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ q83-20020aca5c56000000b002f94910a053sm4260942oib.56.2022.04.04.07.58.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 07:58:42 -0700 (PDT)
+Received: (nullmailer pid 1315218 invoked by uid 1000);
+ Mon, 04 Apr 2022 14:58:41 -0000
+Date: Mon, 4 Apr 2022 09:58:41 -0500
+From: Rob Herring <robh@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>,
+ "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, Marc Zyngier <maz@kernel.org>,
+ DTML <devicetree@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 4/9] soc: apple: Add SART driver
+Message-ID: <YksHoQvDqXOK70EX@robh.at.kernel.org>
+References: <20220321165049.35985-1-sven@svenpeter.dev>
+ <20220321165049.35985-5-sven@svenpeter.dev>
+ <CAK8P3a19F8K0MvZV_R6HrmmR+WBsDge+u6U3iEVEjZ74i6+nEg@mail.gmail.com>
+ <f06576c8-76c6-41ae-874d-81ea0b5b5603@www.fastmail.com>
+ <CAK8P3a3xioqJDb7hQ3dvxQyHPg2hgJbeJywEP+N4cDzpo=8VhQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220401110310.611869-1-joshi.k@samsung.com>
- <CGME20220401110838epcas5p2c1a2e776923dfe5bf65a3e7946820150@epcas5p2.samsung.com>
- <20220401110310.611869-6-joshi.k@samsung.com> <20220404072016.GD444@lst.de>
-In-Reply-To: <20220404072016.GD444@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Mon, 4 Apr 2022 19:55:05 +0530
-Message-ID: <CA+1E3rJ+iWAhUVzVrRDiFTUmp5sNF7wqw_7oVqru2qLCTBQrqQ@mail.gmail.com>
-Subject: Re: [RFC 5/5] nvme: wire-up support for async-passthru on char-device.
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Pavel Begunkov <asml.silence@gmail.com>, 
- Ming Lei <ming.lei@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>, 
- Pankaj Raghav <pankydev8@gmail.com>,
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3xioqJDb7hQ3dvxQyHPg2hgJbeJywEP+N4cDzpo=8VhQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220404_072533_748079_3BE93E58 
-X-CRM114-Status: GOOD (  20.83  )
+X-CRM114-CacheID: sfid-20220404_075844_240786_1A1B6F03 
+X-CRM114-Status: GOOD (  42.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,42 +89,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 4, 2022 at 12:50 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Fri, Apr 01, 2022 at 04:33:10PM +0530, Kanchan Joshi wrote:
-> > Introduce handler for fops->async_cmd(), implementing async passthru
-> > on char device (/dev/ngX). The handler supports NVME_IOCTL_IO64_CMD.
->
-> I really don't like how this still mixes up ioctls and uring cmds,
-> as mentioned close to half a dozend times we really should not mix
-> them up.
+On Sat, Apr 02, 2022 at 09:07:17PM +0200, Arnd Bergmann wrote:
+> On Sat, Apr 2, 2022 at 2:38 PM Sven Peter <sven@svenpeter.dev> wrote:
+> > On Mon, Mar 21, 2022, at 18:07, Arnd Bergmann wrote:
+> > > On Mon, Mar 21, 2022 at 5:50 PM Sven Peter <sven@svenpeter.dev> wrote:
+> > >> The NVMe co-processor on the Apple M1 uses a DMA address filter called
+> > >> SART for some DMA transactions. This adds a simple driver used to
+> > >> configure the memory regions from which DMA transactions are allowed.
+> > >>
+> > >> Co-developed-by: Hector Martin <marcan@marcan.st>
+> > >> Signed-off-by: Hector Martin <marcan@marcan.st>
+> > >> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> > >
+> > > Can you add some explanation about why this uses a custom interface
+> > > instead of hooking into the dma_map_ops?
+> >
+> > Sure.
+> > In a perfect world this would just be an IOMMU implementation but since
+> > SART can't create any real IOVA space using pagetables it doesn't fit
+> > inside that subsytem.
+> >
+> > In a slightly less perfect world I could just implement dma_map_ops here
+> > but that won't work either because not all DMA buffers of the NVMe
+> > device have to go through SART and those allocations happen
+> > inside the same device and would use the same dma_map_ops.
+> >
+> > The NVMe controller has two separate DMA filters:
+> >
+> >    - NVMMU, which must be set up for any command that uses PRPs and
+> >      ensures that the DMA transactions only touch the pages listed
+> >      inside the PRP structure. NVMMU itself is tightly coupled
+> >      to the NVMe controller: The list of allowed pages is configured
+> >      based on command's tag id and even commands that require no DMA
+> >      transactions must be listed inside NVMMU before they are started.
+> >    - SART, which must be set up for some shared memory buffers (e.g.
+> >      log messages from the NVMe firmware) and for some NVMe debug
+> >      commands that don't use PRPs.
+> >      SART is only loosely coupled to the NVMe controller and could
+> >      also be used together with other devices. It's also the only
+> >      thing that changed between M1 and M1 Pro/Max/Ultra and that's
+> >      why I decided to separate it from the NVMe driver.
+> >
+> > I'll add this explanation to the commit message.
+> 
+> Ok, thanks.
+> 
+> > >> +static void sart2_get_entry(struct apple_sart *sart, int index, u8 *flags,
+> > >> +                           phys_addr_t *paddr, size_t *size)
+> > >> +{
+> > >> +       u32 cfg = readl_relaxed(sart->regs + APPLE_SART2_CONFIG(index));
+> > >> +       u32 paddr_ = readl_relaxed(sart->regs + APPLE_SART2_PADDR(index));
+> > >
+> > > Why do you use the _relaxed() accessors here and elsewhere in the driver?
+> >
+> > This device itself doesn't do any DMA transactions so it needs no memory
+> > synchronization barriers. Only the consumer (i.e. rtkit and nvme) read/write
+> > from/to these buffers (multiple times) and they have the required barriers
+> > in place whenever they are used.
+> >
+> > These buffers so far are only allocated at probe time though so even using
+> > the normal writel/readl here won't hurt performance at all. I can just use
+> > those if you prefer or alternatively add a comment why _relaxed is fine here.
+> >
+> > This is a bit similar to the discussion for the pinctrl series last year [1].
+> 
+> I think it's better to only use the _relaxed version where it actually helps,
+> with a comment about it, and use the normal version elsewhere, in
+> particular in functions that you have copied from the normal nvme driver.
+> I had tried to compare some of your code with the other version and
+> was rather confused by that.
 
-Sorry, I too had the plans to use a different opcode eventually (i.e.
-for the full series). Just wanted to focus on big-cqe this time.
+Oh good, I tell folks the opposite (and others do too). We don't accept 
+random explicit barriers without explanation, but implicit ones are 
+okay? The resulting code on arm32 is also pretty horrible with the L2x0 
+and OMAP sync hooks not that that matters here.
 
-> Something like this (untested) patch should help to separate
-> the much better:
+I don't really care too much which way we go, but we should document one 
+rule and follow that.
 
-It does, thanks. But the only thing is - it would be good to support
-vectored-passthru too (i.e. NVME_IOCTL_IO64_CMD_VEC) for this path.
-For the new opcode "NVME_URING_CMD_IO" , either we can change the
-cmd-structure or flag-based handling so that vectored-io is supported.
-Or we introduce NVME_URING_CMD_IO_VEC also for that.
-Which one do you prefer?
-
-> +static int nvme_ioctl_finish_metadata(struct bio *bio, int ret,
-> +               void __user *meta_ubuf)
-> +{
-> +       struct bio_integrity_payload *bip = bio_integrity(bio);
-> +
-> +       if (bip) {
-> +               void *meta = bvec_virt(bip->bip_vec);
-> +
-> +               if (!ret && bio_op(bio) == REQ_OP_DRV_IN &&
-> +                   copy_to_user(meta_ubuf, meta, bip->bip_vec->bv_len))
-> +                       ret = -EFAULT;
-
-Maybe it is better to move the check "bio_op(bio) != REQ_OP_DRV_IN" outside.
-Because this can be common, and for that we can avoid entering into
-the function call itself (i.e. nvme_ioctl_finish_metadata).
+Rob
 
