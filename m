@@ -4,157 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D6C7C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Apr 2022 18:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30E37C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Apr 2022 19:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MURoIyQhx23B/+bd+ZMHi6qQ0R/BJaFJ9CZQtuCwtOs=; b=c6X4a1h4/cunGROYiQJNzY77Ic
-	pp2797RiZBfxUN0cUJwWWarKeDuX4hw8BmzAVBgvAWg/0Z8A+D3pa8w/XXnbih3ZD/v+hz3KfWQVT
-	Ug//FPiUeMfGQrj75GuLqdIJgG/zlU67uFtb+jVcHQOb4BAsGIwJk7y0vfZznElNxsZZ/qycTM88i
-	k1s9JdpM11hQEpkLWaWXEjHwcBPwlqpM8bQX3l3M/keigmDmC99zi9w1jR0PQ5OfqMrsaZkFEmJKx
-	oAu8TzhXRNDp4j24qdvAm4ZMa5+7co6BZVGKqC7MmjStm/QQ1Ic9x/ZBQU4qhaVt1kmhOu9yHwcCk
-	5EyegJUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aVg2HPUTolAL0oQkx82CizjZZR+M33PW8gxh0lT9X/U=; b=N+0HGrQQopWsAR7ROy3XmcdHzg
+	+92r4n0oi5W/US78UdngodFTHtrUnGQPclkEQFxi+w2p3cs5qx/V/QVD8cN3jRx3xs8rB0Ion0Sgt
+	R7odvPk5oA9FaGdD1+cYBf/C44+xvOtTR/oCGLf34/8T9mzF+5GJm4Kt/yfnGuHgxztOd8yMxqGSR
+	RcmarXm9FtpX7ZN9TICHh9gGcjRdWqsDq0v8yBEuLcZF45fynkMAxfDAJ5775kJA7xTPn2aUFroTS
+	ReC9iNITVNYEV3hD7Oi997TW31fIxrr0YSLVAYvscq1z21ek3RkalJPxaIurRPsMoqwesa6oZunTd
+	YWZoGLww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbRSD-00G8kB-EX; Mon, 04 Apr 2022 18:29:29 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1nbSTQ-00GHhX-LO; Mon, 04 Apr 2022 19:34:48 +0000
+Received: from out1.migadu.com ([91.121.223.63])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbRSA-00G8jZ-BD; Mon, 04 Apr 2022 18:29:27 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 234HjwM5030450;
- Mon, 4 Apr 2022 11:29:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=MURoIyQhx23B/+bd+ZMHi6qQ0R/BJaFJ9CZQtuCwtOs=;
- b=Syw6t9C2whxuC/dslmV/UmvSw81RWGu9WJKJk7WiShzbXAeDYv65vc7ue/pHWcF3JFAN
- BExfq8iP7Pi9TNn8OUHN5FhT+nAQzSZgzRh45LutMGc4xp0fy9ScyeZE5soEBJDLjJpe
- 1t4iHv/niHQpgbnJJIt3OKzKllMlBun817o= 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3f827025jc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Apr 2022 11:29:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YjbI6EkKaH6/HSmZ3U9hThTZj+Ny3MSr0yG29m/s2R8XOFsC4Cw280huO6rQk/b37PT4RERZM3U97hBCbwT6FEgi77NXmNtHQ0vFtx+aJkRBLPOXyGqcIjY/CfAuFIYQ+E5UlrYdVX7tgnvax0CWfl44s/PxAWriolAbwuaJ8uwlEUkPWge1Glph+YKc+J+Yu6AdDwqpYVVNeoXEJVI1hyOT8eIYd3plcKM+ZlYal8aDPaEssUbdM3mBDI6opz65OVr03lkktb90D1dmncelbvbFdQUhJFrombe40zgSrkhStsH5oJxkLCVbbkiJ1tEzKWSEkkJDqzbTlZJSw07v6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MURoIyQhx23B/+bd+ZMHi6qQ0R/BJaFJ9CZQtuCwtOs=;
- b=ASJ1EqXE9nRwi/SS1HWBO+JvuL3fjDC6MjwpoMUHbwCZTrzkwbPAMAV5r+s9R8aEift3hlCTjBlOv9NEr0tZPRUZ4Lk8zjsj+fmM+ZbKePXpVs/qewpO1W8tOq1AIgOy/orFw9sC04R3PmNaAIjYv4AKRjSfYSwiBrYfdiVyN1t4zryBbYyj7OCozZ+O6dHEd/xPl3S0Z8v2FTH6Fsdx0xP+4MURr/rRoqAl4XIqgBqsZEWxtc1+zWOku/z7R+D9xKpLivFBjXHd35oH7HC30NemP0tZzC3cspEmf0vFhag8jypmK1O49T8BWxgNa4dwPipe+KDI9r1Zw3XYTitSMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from BYAPR15MB2566.namprd15.prod.outlook.com (2603:10b6:a03:150::24)
- by MWHPR15MB1231.namprd15.prod.outlook.com (2603:10b6:320:24::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Mon, 4 Apr
- 2022 18:29:11 +0000
-Received: from BYAPR15MB2566.namprd15.prod.outlook.com
- ([fe80::28fa:187e:11eb:4c47]) by BYAPR15MB2566.namprd15.prod.outlook.com
- ([fe80::28fa:187e:11eb:4c47%7]) with mapi id 15.20.5123.031; Mon, 4 Apr 2022
- 18:29:11 +0000
-Message-ID: <367fe64f-0e57-b264-969a-c7cee6344f05@fb.com>
-Date: Mon, 4 Apr 2022 12:29:08 -0600
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 6/9] nvme-apple: Add initial Apple SoC NVMe driver
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Hector Martin <marcan@marcan.st>
-Cc: Sven Peter <sven@svenpeter.dev>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20220321165049.35985-1-sven@svenpeter.dev>
- <20220321165049.35985-7-sven@svenpeter.dev> <20220324061620.GA12330@lst.de>
- <18f3a7e6-16d1-2037-90e7-1c0b1b2fbb1c@marcan.st>
- <20220404155924.GA9764@lst.de>
-From: Jens Axboe <axboe@fb.com>
-In-Reply-To: <20220404155924.GA9764@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CY4PR1701CA0024.namprd17.prod.outlook.com
- (2603:10b6:910:5e::34) To BYAPR15MB2566.namprd15.prod.outlook.com
- (2603:10b6:a03:150::24)
+ id 1nbSTM-00GHh8-Ew
+ for linux-nvme@lists.infradead.org; Mon, 04 Apr 2022 19:34:46 +0000
+Message-ID: <4a97859a-9b9c-da39-3dca-76811f67b4a6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1649100880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aVg2HPUTolAL0oQkx82CizjZZR+M33PW8gxh0lT9X/U=;
+ b=TGlcbp52gHqtGsdns5Xv7vhrS+GNZQJ1pI7ko+VwM660Ml+KLrTeluvG9vjsyq9PSBB0Oe
+ LLxovY9AQlFgq72SDNCJhBXYE6VwWs0joxEe3dZw3R1j+h1E35WHihDuUUytfYz9QaJG/C
+ eAPo8dQvNhHQzlyO4nppIeOdc1FnVNo=
+Date: Mon, 4 Apr 2022 13:34:38 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa109fd4-a04d-4747-658a-08da16690363
-X-MS-TrafficTypeDiagnostic: MWHPR15MB1231:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR15MB12318B8A90D24338BED0D711C0E59@MWHPR15MB1231.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qL7/ej1vYftXPBg77esv4AHOTXZESGITDBDzWejncXSNLiNJ2NUyGQ9UJXZtG7DCY0/amCTSkFXIwGUddsJQU/4BuWtGJMJ1YDBO0NLhCrPCx6BtgYihy724jH/0+B0paJH4Hpj25hJApUvJMaO1nSZtom+wkQ1YApis0EjF9YyYHwCRbxJ5PFiErL51N7r6YKzCBQqJCNyQ8H6gm9R/LVYaHTssbssikUtDTT4CykIe9Y6pIwoBOATS1115bDwQG0vCFjO0axYYOZ2H5RYccT8m6dIDEIh59kOyJoIg5HXDVqo+Zhy3JcCM8LTvvrGnXrOnUYq2UWJLLm6dEIlXGgkd9LmNMWnypuJuLJm6N3fDY6Y2L7HcM7KEwjhAEnhGNBoErOMLK2JCvskWLgxt7skggda2nOx6evne88GtRPrQl0rnxdry1nXFW2jIU51mqKRQeWdD9QNriQCnG+OiCSKWpYhXNFIYJKiT1WRp2/arjPpPF9ku3y2DqnZqFocf2qbxUiCWLskkWcan+Nbs8ynZJvfzNzIeek4EjkQYS4UEO28Up7ENe1CRJ3JWTSyhixk3+VJidECHLJzSD9k5Ek7doSuglzYQjhuPv0ZjrsaaJr6U0w0JXn5mRH+Qnbu8mGCrHMG3XYgbCF8xsOF6QFYtilZnU2osQ0Y3iIOvYnnUDuaUe6GsBEQOUeDM9wOODsWWV3lHvjYGkLb5DqJXJPyQwFLDeZqjN50NwB9UC8cXQ+Np5tdYVn2tZgHQfkBBmD7xoLZc5skXWR9BWVQw1w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR15MB2566.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(47660400002)(6486002)(53546011)(508600001)(4326008)(66476007)(6506007)(8676002)(7416002)(66946007)(66556008)(4744005)(83380400001)(31696002)(54906003)(2906002)(2616005)(86362001)(38100700002)(31686004)(8936002)(36756003)(110136005)(316002)(186003)(26005)(6512007)(6666004)(5660300002)(46800400005)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QXVUcFVPZjc0K1RpVDRRS3R2Tnk1YlQzWVJtZ0NPVnFKUFBjaFVFaE9mSUNi?=
- =?utf-8?B?WGZvN01BMGtFRjBkd1JVdkdQeWExaUE0d215Qm1DUWFyQllFMHJIZTR6aHJm?=
- =?utf-8?B?ak5XME9RR0hjbGNSeFAyb2IvdmJFRFY2MEsxNVZsUUU3aElMRW5uWXBXd29y?=
- =?utf-8?B?T1VYMzQxU2RZODBzL1hQdzNIZk9iRHZDUEJlWEJLTEJRU1V2NWxaWWd0U2th?=
- =?utf-8?B?eTlxTW9BekZEbXQrbUkrS25ENjdxamxjK2dGTlVzQ29uZ1k0NUpGMmlXK3Nn?=
- =?utf-8?B?a1ZUSmQ0bWZrWUkyT1BLZXhjN2pYR0JnMTVqKy9qSWxrVlpYZi9UNHRLd2ho?=
- =?utf-8?B?MVZPRG11QzJiSlFqVTdzUHRZZnNENVFjd1dyV1pNVzJEZXN3NGx2NkR6VkVq?=
- =?utf-8?B?WGQ0RWlYT0JDUEl5azNqY1lGR1k0QzhESjdLMkJlckRMYzNSbnhZcU1sNWZv?=
- =?utf-8?B?UEpibW9YUWsxQjBkd1lKdWpuS2lINWQzS29PcWRKVTlhQVRSckswWE1GMkwz?=
- =?utf-8?B?N1JIMEhkMCs0TzVxUEU3WmlJWWg4YmVxWXNnSzNpRHQxTzV6eXpLdThGMXhx?=
- =?utf-8?B?OHptenlob0xIa2l2WU9LOG96UGhwSTJsRERYcWRVM3F4eEhoam4yZG9MdzJm?=
- =?utf-8?B?Qmwwblc1bDRPekFlVk9vd3NrVUdKV0tCaDRNSC9GdisyZ0NyUkNYem4wWGww?=
- =?utf-8?B?WVgvL1RGcHg2ZHoxcXVXTnVjQzdPaERjNTl0eTMwRDdLcHp5ellDYXptbWJJ?=
- =?utf-8?B?dWdyN0huMk94dldCQ2VpSGU0c0grckpqbEN3ZU1UQm5DNW4wb2F1d1ZRa3dx?=
- =?utf-8?B?aW1hWTJOZWVCZzJ5aGhhRXEzS1RFajdraHFWRktCc1VjTWpKSk01ZXlMVmVu?=
- =?utf-8?B?UURzd09yOXRqcWN3dHhRWHd4SHlpMVM3STF0aUNrRUpaZHhxRW1vNUpuZTBv?=
- =?utf-8?B?djY3Ynh5SFpGdlg0cjdsQnlFTmRaWGhDdEhiL080K2ZXckVRWDdHZWJKSjU0?=
- =?utf-8?B?bDVydldVRmpYVEVsOGRWaHB2aFRXdEFqWFFMOGlhVTB6NEpDamZEL1VuMHhv?=
- =?utf-8?B?ckJpZmZ6RUh3cy9YOVQxTkhWUGVZaDU3WC9OOEgwTVZ4b3BZQ1VZbHIxUTdK?=
- =?utf-8?B?eEd0L1ZVOWthMVVhS3Y2bWpyQ2Y0RVoyRlNKN3lTaCtDbjlyVzRndHM3a0Q5?=
- =?utf-8?B?MGdtWW1UTFVUUGp6NXI5NG54YmphYzBreXRvTVZUWEJvTGFQNzVCcDhKaEdQ?=
- =?utf-8?B?STMxU2tHZ1luTEs0UG04SzRUN2cwOWY3UWFFSy9nckNuNlRqeXJrMllqZzdx?=
- =?utf-8?B?Q2NzMmlVZ2ZLbGxrcDBkVlRKeDlJenIwcFB2QmtQNnZuN1JKeFd2MExwUTFt?=
- =?utf-8?B?NXBrOUpzTnN4NXFlc29MMmxKczEvbEUvNDBETVFzT3ppTkRNYjNzQnJWMWlY?=
- =?utf-8?B?VE9pT3hyV3ZERFNyWDBybmllZlZybEJjUGVEc2tJbEYwSzloZXgwY2tYV3BS?=
- =?utf-8?B?YWVNMDNEU2d2VWtuaUhUQnFWSUhXNGJ4UWxDNFRLc0lja2ZzdEp4bERyV0VE?=
- =?utf-8?B?enUrcE5JL2FrSW5tT1hubG5sLzZYanFlVExuYnd3MU1Fb3h5b1JnUENUQk9U?=
- =?utf-8?B?dVdmNTFsNmtBcDZONWlaUUVUQmVsbmhvMDlDbTRnL3V0Uk5scXdabjh1Q1BC?=
- =?utf-8?B?WmdxV0kzM3FLTEk0R2ZONnhQNGd1S2RyVXM0ajQrTlRYUkQyTTZQYWxXTEhn?=
- =?utf-8?B?cWpCWVJIV05tVzQ0R3BLV2lmTi9kWlhDd2duL3Nha0diN3B3SWxQMTBVUVN1?=
- =?utf-8?B?TUR5dXRoNXovTjQzdklNRkpyWDBZc3lvc0I3UFI2b25rcFlpeE9OM091bDJZ?=
- =?utf-8?B?Umw4cEJLWGc1eGgzenlJeGlhbnd3UDVUa3lFaFRmY2dGUzdzZ2hQUlpSL1hM?=
- =?utf-8?B?QXFpVGxqZGVnOTJUNWdrMW8wNGl1NDVDTUc3MWI1emhWNFUxQU9VTitrTktG?=
- =?utf-8?B?dmZxcmdvcDJ5Sit6Q3d3TDUrOGNHb1Y3OU9JZFpDSXRKRjF5eEl6VXhTU05j?=
- =?utf-8?B?R2NCbDRtZlZ2SWRvTE9oemNGUlB4Ky9lWHdBTnExUyt5SWUrRkZ6cUVmYjFJ?=
- =?utf-8?B?WTNQejZpTkZYRGRRNWtkaExBTytTVkxPcGxSMHpNQ2FPZURGWGkvRFB5LzA3?=
- =?utf-8?B?R0tXOEdmak9IMHZpSW1YQ1grMXBaMFlESG1RaXRvdkZaaUVrbVpkdjhYOFhk?=
- =?utf-8?B?bGE3OWVOOGNIQXhsMU82UU1NUmUrempidDJMT01veUNwU0NLMHdMMVY2MTkr?=
- =?utf-8?B?UG92OWxHRmhNVHFJaFdMdmNkVDE5TmxWU09Wdm1vUGYzS0N1SHpkZz09?=
-X-OriginatorOrg: fb.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa109fd4-a04d-4747-658a-08da16690363
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB2566.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2022 18:29:11.2912 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zKyNv2ud3fBG3IZ7MFRm1bDlXrHlTg5epCxzj6j6+HwDlvDPWDKeAZvg1hY6qji6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1231
-X-Proofpoint-ORIG-GUID: ezGfk3q64oJIw73xfL8NJtJNgSX6lKXP
-X-Proofpoint-GUID: ezGfk3q64oJIw73xfL8NJtJNgSX6lKXP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-04_08,2022-03-31_01,2022-02-23_01
+Subject: Re: [bug report]nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2)
+ MORE DNR observed during blktests
+Content-Language: en-US
+To: linux-nvme@lists.infradead.org
+References: <CAHj4cs_iC+FE8ZAXXZPeia1V3ZX7zRbeASdOP_8c7DLiFozNfA@mail.gmail.com>
+ <4A24C337-5EF9-4C3A-A112-BA75934AC78B@oracle.com>
+ <Ykskv/gp2s6PWiHp@kbusch-mbp.dhcp.thefacebook.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Jonathan Derrick <jonathan.derrick@linux.dev>
+In-Reply-To: <Ykskv/gp2s6PWiHp@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220404_112926_555036_8B00A4A0 
-X-CRM114-Status: GOOD (  18.18  )
+X-CRM114-CacheID: sfid-20220404_123444_945849_8F97D4A8 
+X-CRM114-Status: GOOD (  14.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -169,25 +70,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/4/22 9:59 AM, Christoph Hellwig wrote:
-> On Tue, Apr 05, 2022 at 12:57:33AM +0900, Hector Martin wrote:
->> The kernel hard limit is 100-character lines, not 80-character lines.
->> Maintainers for existing drivers are certainly free to stick to 80 chars
->> if they like it that way, but I don't see why we should still be
->> enforcing that for new code. See bdc48fa11e46.
+
+
+On 4/4/2022 11:02 AM, Keith Busch wrote:
+> On Mon, Apr 04, 2022 at 04:39:06PM +0000, Alan Adamson wrote:
+>>
+>> [   97.083215] nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2) MORE DNR
+>>
+>> An error from the device (status=2/Invalid Field) when an Identify (0x6) command was issued. Prior to the patch,
+>> the nvme driver didn’t display the error.
+>   
+> And it's harmless. The driver is querying an optional identification and it's
+> okay if the device doesn't support it, but the driver doesn't know if the
+> device supports until it tries it.
+I've had to field bug reports like this before, where it says error in 
+dmesg but is actually harmless.
+
+Maybe we could suppress the error and add a harmless print?
+Eg, nvme0: blah blah command set not supported
+
+
+>   
+>>> On Apr 3, 2022, at 7:28 AM, Yi Zhang <yi.zhang@redhat.com> wrote:
+>>>
+>>> Hello
+>>>
+>>> I found this error log during blktests[1] with the latest
+>>> linux-block/for-next, seems it was introduced after commit[2], is that
+>>> expected?
+>>>
+>>> [1]
+>>> [   96.931911] run blktests nvme/004 at 2022-04-02 20:53:16
+>>> [   97.024693] loop: module loaded
+>>> [   97.029319] loop0: detected capacity change from 0 to 2097152
+>>> [   97.039641] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>>> [   97.068847] nvmet: creating nvm controller 1 for subsystem
+>>> blktests-subsystem-1 for NQN
+>>> nqn.2014-08.org.nvmexpress:uuid:4c4c4544-0035-4b10-8044-b9c04f463333.
+>>> [   97.083215] nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2) MORE DNR
+>>> [   97.090108] nvme nvme0: creating 32 I/O queues.
+>>> [   97.098283] nvme nvme0: new ctrl: "blktests-subsystem-1"
+>>> [   98.136900] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+>>>
+>>> [2]
+>>> commit bd83fe6f2cd2133beaac7c423fd36c3515048fc8
+>>> Author: Alan Adamson <alan.adamson@oracle.com>
+>>> Date:   Thu Feb 3 00:11:53 2022 -0800
+>>>
+>>>     nvme: add verbose error logging
+>>>
+>>> -- 
+>>> Best Regards,
+>>>   Yi Zhang
+>>>
+>>
 > 
-> Because 100 is completely utterly unreadable if is not for individual
-> lines like strings, and that is actually how Linus stated it in
-> CodingStyle.
-> 
-> Your code as-is is completely unreadable and will not go into
-> drivers/nvme/ in that form.
-
-Please reconsider how you phrase these objections. Saying the code is
-"completely unreadable" because it's _1_ character over your hard limit
-is just nonsense, and not a very productive way to deal with this.
-
--- 
-Jens Axboe
-
 
