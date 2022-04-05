@@ -4,76 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DC95C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 14:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5E1AC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 15:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7BBaAJCFiRdGvin9xHY5uPPFBq08Ik7RitVkuTXaecQ=; b=DDPYVTt0s1+Qjo5iS2t7KW1zFc
-	W1+0mNaxccU+IF70YiAoLRQIqfDxw5i3Lm4yLOzXmSvJebOodFOdLox73FZ2x5qbMfFzI7t56PmIl
-	4oqoxoeExq7q/+W+rGpCWNlsSTJR4tAkjXJpUAY0Pc+BFlEHlDk/iD5cNhBPezx9DJnompweeOoD/
-	+XpXwdhkbbsrZfS0ykV0ik9OLqazyMqrG2kXHxAI3pPLJBE5WWgE6bTxjQgPub/VYfGKaawFnXYIM
-	K1Mw3V2eFrgQghMVG0iLBKnDRRErlt49esKcNg0GNhra4Ssq3kARkKR8JtJFan2I3pjo8CWTA1cX/
-	7x1nqQHg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g7eSCNHxZKG+GFcxY7AOGv587rI9UycYsXnouOwwMe8=; b=KYFL/Wz9f1N+i0Akg3DCJ16MJ1
+	SoapLVqrfnu6CapzyZtDY89ZwxEoKDtlDvFxfGph6IZuBtBLevRdeE07b774h7H3L1k8BPhOFUIX3
+	MtnhFrkytT4vbuHE512zfAkPD2Wly2h/aRU/13uYjUmZmNhbATG4pIektC3DAREg+6PwuP+hyHBOZ
+	FEIRcACykoVrpqfinnGl0y7RDjkMy/TbU5A65WceIbEET4R+M5XDrvCXJvhDOU6mTD5WaswDNN/On
+	JKavSmtQMr1czvyPmpvNNcTcrgj3dzIOYO+9Xo/YrM70vmVr6CwbJww8+0bOKgKcKUjJuyJQ8f6y7
+	JAx0v//Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbk5D-001R7z-67; Tue, 05 Apr 2022 14:22:59 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1nbkg6-001aCa-MN; Tue, 05 Apr 2022 15:01:06 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbk5A-001R6h-3M
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 14:22:57 +0000
-Received: by mail-wr1-f46.google.com with SMTP id d29so13520465wra.10
- for <linux-nvme@lists.infradead.org>; Tue, 05 Apr 2022 07:22:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7BBaAJCFiRdGvin9xHY5uPPFBq08Ik7RitVkuTXaecQ=;
- b=Z245m3h83eqENgSVrCsjovLET7sLXctGMefUdx6y6RPphFhbC733/xRRVpTQiAy7Wt
- +fy0Qp3mr0s9VfgNbnyUL/6xsoqcmqI5SPnkLYpjR50gRZM5ElUkZLRCEjplZsKWY0ht
- 9DAtvq/3ul81Hx+p0Oj5DWso0+BiCiV/OPc20LOxB2LUB09rhpR38oM6pQMcA8y5oKcZ
- Tq2Ex9kv9+1Ur8+ioS+/+QcJUw2AYigXUigqA5+Hd+VWGebAJ74haK3f8EZ1ZFdGrtlk
- QcONFGMsFkMvZNi3+l0rE3THptD5TTxykHpm1BvACxFVs+VyEManxHbB0clIRE5SzM3v
- gS2A==
-X-Gm-Message-State: AOAM532szKdhnPMm3ZYI9QFyeiqwGa9LhCDytogPU3fudDXhK68/X/Po
- A0b06XD3fUhKYJVQWrMfS44=
-X-Google-Smtp-Source: ABdhPJw994JlO1oq4YLURnxbvPfdF17RKBAXPTNaBNt9uUsPBaEPRvHSEqjibvV8YM+RXuUO5z/XaQ==
-X-Received: by 2002:a5d:588d:0:b0:204:217a:d9ce with SMTP id
- n13-20020a5d588d000000b00204217ad9cemr2991472wrf.377.1649168573436; 
- Tue, 05 Apr 2022 07:22:53 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- r129-20020a1c2b87000000b0038e6a025d05sm2464688wmr.18.2022.04.05.07.22.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 07:22:52 -0700 (PDT)
-Message-ID: <6bb6cd3a-cf20-da88-9aae-31d92358fe74@grimberg.me>
-Date: Tue, 5 Apr 2022 17:22:51 +0300
+ id 1nbc0k-00HBwj-JS
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 05:45:52 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 79DCE61500;
+ Tue,  5 Apr 2022 05:45:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CB4C340EE;
+ Tue,  5 Apr 2022 05:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649137547;
+ bh=gRpdesPvnbIGSxebVlyaRkNxgcCbKC3Od+BYMZifZO8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WD+JRYvskhSmVVBMnMJw0/1G3H6a+N1C9uZFgKiHbKzNPvqVuI6L5OyuaPIU/GcVK
+ p9Ezd99EsWg7F8epR/6qh8MV6eq7SgFXhFUqUug1upndo/Efkq0axblWoZn9JvLHDk
+ NmqZsxxMKxC5s07o7hS+Re7Ai9CVbL9JWXZ4WmIn3HtdqclK0tbR58xtxwCEaUuNp4
+ liDxWU7q1LiJKHCoGIo3C9Tw7hPvCg+1fKCDf2CEB0PL71aw64iAmFgGZNBJf/OMw9
+ DEbVdO/ONbCL1LJqtEdfTkuVGmfBovn1Bkd5w68OE6L/BH3NiohJZN9o1fac11yUrW
+ lKSD3HWND6PnA==
+Date: Tue, 5 Apr 2022 08:45:43 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Ariel Elior <aelior@marvell.com>,
+ Anna Schumaker <anna@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christian Benvenuti <benve@cisco.com>,
+ Potnuri Bharat Teja <bharat@chelsio.com>,
+ Bernard Metzler <bmt@zurich.ibm.com>, Bart Van Assche <bvanassche@acm.org>,
+ Chuck Lever <chuck.lever@oracle.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Keith Busch <kbusch@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Jakub Kicinski <kuba@kernel.org>, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-rdma@vger.kernel.org, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+ Michal Kalderon <mkalderon@marvell.com>,
+ Mustafa Ismail <mustafa.ismail@intel.com>,
+ Nelson Escobar <neescoba@cisco.com>, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>, rds-devel@oss.oracle.com,
+ Sagi Grimberg <sagi@grimberg.me>, samba-technical@lists.samba.org,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ Selvin Xavier <selvin.xavier@broadcom.com>,
+ Steve French <sfrench@samba.org>, Shiraz Saleem <shiraz.saleem@intel.com>,
+ target-devel@vger.kernel.org,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ Yishai Hadas <yishaih@nvidia.com>,
+ Zhu Yanjun <zyjzyj2000@gmail.com>, Xiao Yang <yangx.jy@fujitsu.com>
+Subject: Re: [PATCH] RDMA: Split kernel-only global device caps from uvers
+ device caps
+Message-ID: <YkvXh28E3pLZSNTj@unreal>
+References: <0-v1-47e161ac2db9+80f-kern_caps_jgg@nvidia.com>
+ <20220405044331.GA22322@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/3] nvmet: include all configured ports in discovery log
- page for unique discover controller
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-References: <20220317142634.49324-1-hare@suse.de>
- <20220317142634.49324-4-hare@suse.de> <20220405054601.GC23466@lst.de>
- <a129df40-6195-8b59-aa76-e3053e0960fd@suse.de>
- <20220405061941.GA24290@lst.de>
- <366e9acd-23c8-f8bf-2671-9187f3c0ce96@suse.de>
- <15910553-e0a6-3513-ae43-fc1cb634b1b0@grimberg.me>
- <4d4b58e1-f0db-aa55-78b4-a01df62c2a56@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <4d4b58e1-f0db-aa55-78b4-a01df62c2a56@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220405044331.GA22322@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220405_072256_188018_70147EC9 
-X-CRM114-Status: GOOD (  12.07  )
+X-CRM114-CacheID: sfid-20220404_224550_717513_E24CEB15 
+X-CRM114-Status: GOOD (  16.51  )
+X-Mailman-Approved-At: Tue, 05 Apr 2022 08:00:58 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,45 +97,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>>> To make it configurable.
->>>>> Unique discovery controllers show up in configfs just like any other
->>>>> subsystems.
->>>>> And with that we need to clarify the relationship between the 
->>>>> discovery
->>>>> subsystem and the other subsystems, ie which subsystems should be 
->>>>> presented
->>>>> by this discovery subsystem.
->>>>>
->>>>> Linking the discovery subsystem into a given port makes it obvious 
->>>>> that
->>>>> a) this port will be presenting a discovery subsystem
->>>>> and
->>>>> b) that the discovery subsystem will be presenting all subsystems
->>>>> configured on that port.
->>>>>
->>>>> The built-in mechanism for discovery subsystems was okay as long as 
->>>>> the
->>>>> discovery subsystem was built-in, too.
->>>>> But with this patchset we're moving to an explicit configuration.
->>>>
->>>> Shouldn't we just require anything to be manually listed for this
->>>> case similar to how we configure referrals for the well known
->>>> discovery controller?
->>>
->>> Which is what I've tried with this attempt.
->>> I did _not_ want to create a new configuration mechanism, but rather 
->>> use the existing ones.
->>> And the existing mechanism we have is linking subsystems to ports.
->>>
->>> If we want to treat discovery subsystems differently (as you 
->>> proposed) we sure can have a different mechanism on how to configure it.
->>> But I wasn't sure if that's the direction we want to go.
->>
->> What is the concern here? that it will break existing users with
->> introducing an additional configuration step?
+On Tue, Apr 05, 2022 at 06:43:31AM +0200, Christoph Hellwig wrote:
+> On Mon, Apr 04, 2022 at 01:18:00PM -0300, Jason Gunthorpe wrote:
+> > Split ib_device::device_cap_flags into kernel_cap_flags that holds the
+> > flags only used by the kernel.
+> > 
+> > This cleanly splits out the uverbs flags from the kernel flags to avoid
+> > confusion in the flags bitmap.
 > 
-> Yes. It would break backward compability.
+> > Followup from Xiao Yang's series
+> 
+> Can you point me to this series?
 
-So maybe hide it behind a modparam that we can deprecate in the future?
+https://lore.kernel.org/all/20220331032419.313904-1-yangx.jy@fujitsu.com/
+https://lore.kernel.org/all/20220331032419.313904-2-yangx.jy@fujitsu.com/
+
+Thanks
 
