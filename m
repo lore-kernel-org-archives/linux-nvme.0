@@ -4,48 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD56DC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 06:19:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B31D9C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 06:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+cV+MSRX84/AXoSyDVFk7giArVjp7+o4Nw7b6gy4Jz4=; b=nuPlhoTcAMpG0TU0hQ1wvzfUg1
-	60gnniYnLS2SvXvzoCoDS82PqYG4pQpFwURd0GMIpGvGdNov7CoXup3L9CfDxsGmr8xLSLFZ5JS3R
-	tHC65kLMQ36kTQwQZnUCCc7YUUyxbInhrZdfkhbYmGalmC6Yrhl84k2K8HTS/D3tgIJW3YJPeM6Rg
-	CztwhY7QzbPstjwBTDiUuFvESQGFip/cFSvrFSF8E6gBRubU3yGkAa+JaTuP8cFxqPxwQwcXtjFFx
-	J1KruMBeh2sh6upoCrU3TTIayjhsbetaU0Vd8P/TZ10ZJQTSvog5a/b2RmD/IGUCrQ7HkakOnDaoN
-	0M9n6G5w==;
+	bh=6ru1K9AnUQO1xWhO54+k3fzCBUb972pickNuOuoi2/4=; b=0/AkXj7qNHai/O0NhFsgF3YYae
+	j/U6lhAUWJreXaTXLsAVz110yQpbki9gyi/Gn6W6TEENAiMzXd1cbollHtPonu/Rx+KgJXV2tQKc8
+	BlDSZboHyDjBPyWMhqRTmkXMUoQMiTEzexctwIHzK5Fe23uBHVUT3BSzqaq5gW3WHmfmd9k+L+HlU
+	zgSl8fJxFi2h5wzQFLkaG71mW2bCaHotta53/JAoJvaFZyhNw5z6SRsUjEyQVtTntq4yhUet/VHKT
+	wrJ9g2/6unUCpu6hR/n3bDNGLqOy98oiAzpAJYWV5pPfaHqvcTDUbOCd65zFqeYoiR0QiTY5De131
+	akRwTnLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbcXb-00HI38-Te; Tue, 05 Apr 2022 06:19:47 +0000
+	id 1nbcc2-00HIRR-D1; Tue, 05 Apr 2022 06:24:22 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbcXY-00HI2X-QE
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 06:19:46 +0000
+ id 1nbcbr-00HIPn-Ch; Tue, 05 Apr 2022 06:24:12 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5179768AFE; Tue,  5 Apr 2022 08:19:41 +0200 (CEST)
-Date: Tue, 5 Apr 2022 08:19:41 +0200
+ id A727D68AFE; Tue,  5 Apr 2022 08:24:07 +0200 (CEST)
+Date: Tue, 5 Apr 2022 08:24:07 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 3/3] nvmet: include all configured ports in discovery
- log page for unique discover controller
-Message-ID: <20220405061941.GA24290@lst.de>
-References: <20220317142634.49324-1-hare@suse.de>
- <20220317142634.49324-4-hare@suse.de> <20220405054601.GC23466@lst.de>
- <a129df40-6195-8b59-aa76-e3053e0960fd@suse.de>
+To: Jens Axboe <axboe@fb.com>
+Cc: Christoph Hellwig <hch@lst.de>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 6/9] nvme-apple: Add initial Apple SoC NVMe driver
+Message-ID: <20220405062407.GA24330@lst.de>
+References: <20220321165049.35985-1-sven@svenpeter.dev>
+ <20220321165049.35985-7-sven@svenpeter.dev> <20220324061620.GA12330@lst.de>
+ <18f3a7e6-16d1-2037-90e7-1c0b1b2fbb1c@marcan.st>
+ <20220404155924.GA9764@lst.de> <367fe64f-0e57-b264-969a-c7cee6344f05@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a129df40-6195-8b59-aa76-e3053e0960fd@suse.de>
+In-Reply-To: <367fe64f-0e57-b264-969a-c7cee6344f05@fb.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220404_231945_039070_EE508E92 
-X-CRM114-Status: GOOD (  15.70  )
+X-CRM114-CacheID: sfid-20220404_232411_614033_E569DE01 
+X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,25 +64,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 05, 2022 at 08:15:51AM +0200, Hannes Reinecke wrote:
-> To make it configurable.
-> Unique discovery controllers show up in configfs just like any other 
-> subsystems.
-> And with that we need to clarify the relationship between the discovery 
-> subsystem and the other subsystems, ie which subsystems should be presented 
-> by this discovery subsystem.
->
-> Linking the discovery subsystem into a given port makes it obvious that
-> a) this port will be presenting a discovery subsystem
-> and
-> b) that the discovery subsystem will be presenting all subsystems 
-> configured on that port.
->
-> The built-in mechanism for discovery subsystems was okay as long as the 
-> discovery subsystem was built-in, too.
-> But with this patchset we're moving to an explicit configuration.
+On Mon, Apr 04, 2022 at 12:29:08PM -0600, Jens Axboe wrote:
+> Please reconsider how you phrase these objections. Saying the code is
+> "completely unreadable" because it's _1_ character over your hard limit
+> is just nonsense, and not a very productive way to deal with this.
 
-Shouldn't we just require anything to be manually listed for this
-case similar to how we configure referrals for the well known
-discovery controller?
+Agreed and sorry.  I actually had a piece of code in mind that formatted
+all the comments way to long that really tripped me off, but it wans't
+this one.  Too much going on right now.
 
