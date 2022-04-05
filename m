@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6C2EC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 15:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 231BFC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 16:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yUttHdvINpe5sVhWObI5vLGtPLNGhZcWSqGwgeAO4mE=; b=XmzbkTTGPEARLGU1e130z17PSl
-	zCZCylLrBwxvj/rL8GqBYjYOHILtokoSCVuY1tIvq1iLto4lczKGppwduA7uI9LxWOPv3cXrMyd1m
-	69YAm8ij6WxO2SLjmetzf1NomaMEwvDQBXf63OyOaMvLv+zQjDhT25D+fVr2IA0weBlWQdadmmlHG
-	jYEPP7Hpa3PNIHF6r5+FUVOeCEuZzJB8AFgtQLs4/fr2IwMsebxHiwbwjs5KtTZRch2ZdWnNqf1om
-	1P1MO0XYVvnHotN3w6f93LqQ1tiKmWFcF47ymGzUxO6LxUXmYjVWskrI0VBsCNyBsMcCruWu9IJeD
-	DQIHetbA==;
+	bh=74fq+cSNE2UwX6pLlf26dcG+/mwze9tFZ1WcAEZygc8=; b=uQpDGjq0Jngm4/AS7wwm1iLF1h
+	2nVqPh6SxG0HnoknCk8JW/ALNbKVzZdY8ChoJqaKrvzvM9j818tn3FGEjB67lDhTFOGV8U3cFsmbZ
+	HFTGjG4g+rwMnUx82gkrxaBSn5Gsmf+3E5k+88W42V4iMSkO6svjXQe0KfdzHQABjgrmOnx1OFgt3
+	3dC29Sh5mI/hyKYZnCAu5UEAFA3yqPvfBujwxzNFXndwUDnNZKJeBVwLY3i330Q8ZGLN0LP8zRppa
+	L7v6okwlKcAHvYZIj+exrgO/fLapFVzxsf7OkxFapt69zZpwA2L0oXGYcrowaj01JT95K+Tpn0uji
+	5z9WWqOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nblRe-001mJL-Ow; Tue, 05 Apr 2022 15:50:14 +0000
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
+	id 1nbm2j-001xPq-Ed; Tue, 05 Apr 2022 16:28:33 +0000
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nblRc-001mIR-Ay
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 15:50:13 +0000
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-e1e5e8d9faso9548193fac.4
- for <linux-nvme@lists.infradead.org>; Tue, 05 Apr 2022 08:50:09 -0700 (PDT)
+ id 1nbm2f-001xN8-Nm
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 16:28:31 +0000
+Received: by mail-ot1-x32c.google.com with SMTP id
+ o20-20020a9d7194000000b005cb20cf4f1bso9703553otj.7
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Apr 2022 09:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yUttHdvINpe5sVhWObI5vLGtPLNGhZcWSqGwgeAO4mE=;
- b=qj9doXvWuOFIaHhB/lpA9JrLUjyYVB8c8gFdTvzSHt0jLW1387lWVvGH2dvNVwqeZj
- qC1372+vgjT0U1CZ82ZkGR33s6RLxhvpRJWIvDVB4cULFhGxYaD5ucAn45Vs915PztCa
- bGEkAZ1/Y96zbHwvuPSTfCvuBCqWRnqWr60V7wrP8N6YMNLLdPSeRMLTbv9CjlFlWKWZ
- nuwb9tS5k5cpdDzewQaxniExFQV9GWpJ9Xd3vCHZyX7E6z+R4zBPk8mxAHJBPlJ82k4P
- aNKch2pKombMdNEqfZOdonb387OTkOLF//3iKmeHGfgzNen5jy2z8Lp2CzqokwNbdKBI
- buMg==
+ :cc; bh=74fq+cSNE2UwX6pLlf26dcG+/mwze9tFZ1WcAEZygc8=;
+ b=LpAFkybGhasHbCt7KixDHViit9dUHGlwfjDSlx6pX0JwmHWsv3Gxx8/Qo/O5eZ9Hs+
+ jrGe48NAH0Elud+crOnB5a9pJ9RUT75IdLc5HClO4+NWQ/SzA+zh3Y9wn4lLchO8eBV/
+ qfE1OqIRNl2FWbgtPpHHPwNJmkK0nJYYrV20DNWtWt1uS3N0px62Rb+FBQYvrfan4PWY
+ p7cg3kZMeazd9zW5zDrAuKskTuIkn6x6199o9AnXE4V9jN653fYqjZy84LjDW20HdNQc
+ fUa8DJuMZMHvafLQgtZQ6M8gQ0fvrfQD+JzCH7i6NM/2+ZcKub7AGb0UH5/3oMWq7nSk
+ XC6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yUttHdvINpe5sVhWObI5vLGtPLNGhZcWSqGwgeAO4mE=;
- b=xkDRCz9HEiiLsFjSRjsGC9Pn+cYadzw23bDOpFvzTvFbN6I+94vTuJnuPzASW4CPzc
- yVICvfaNkDtE1GLo7zTZ6vJHi2ulTJqYq4RXV3o+PvKapoCiuhpL5YCZCZk3sknDV5KP
- hE4Rc2w/zcazyKrBT1wG9rosQ0vR8IKeFCk/OVJH2L8497qw0rU7Gr3TLwelfXBbuy6I
- HBAtPpWggUYbR7bikToPlc9h89OJLCJ7205qeNGP0Xx1bag3iVOEus+rerrv2KXYKefW
- CLfsE3PEOBzExSmIsm8Z/4qMArLtaxHe1n6YMAlbk+VRJR9cG/djsJ6j+zG7qyt4bJbC
- YV4w==
-X-Gm-Message-State: AOAM5310mtmW8yv+0No1816KC27h/u0wc4wN7pBABf26c/Y2bvPoLC8v
- NJSpIWg+VaZhoHGMS+VeIMTRAmAEgmbSy/rfvk0=
-X-Google-Smtp-Source: ABdhPJzP1wb3PsOcO9yDICUnJCahvxJb3BLsH5WxSrw8IQTqclqb+WJrKOKneWX0DaAUU7SGiWugYRW7oAcNoKNyP+k=
-X-Received: by 2002:a05:6870:d18b:b0:d9:f452:be90 with SMTP id
- a11-20020a056870d18b00b000d9f452be90mr1844465oac.15.1649173809200; Tue, 05
- Apr 2022 08:50:09 -0700 (PDT)
+ bh=74fq+cSNE2UwX6pLlf26dcG+/mwze9tFZ1WcAEZygc8=;
+ b=kngqobAX9B2ovGI9ek5W77uijQlKRNvgYuhU5bND1t3UaGamhWknriczhVM9YlPWBF
+ W2ISR5hs/bSc0AerIyr6c4uVI2MQFx7N2ykZ0rmslQ0lG0QgTme8v0bGnznKpw7C7QoF
+ 5KBcyYyO3BbMI4YdodP24l4IhuidiTJq51FCY0nteZB1RldxbRqzftX7MU+g4jv3IPP9
+ P0ssrTQIgh3+ohEr23BfXQceAp9bcplvBpSVUIKhh0Qtk3njnqlKOcVs8n7eAiufhumO
+ hntZ0M8qAsFif3YpxSsuLtdmLMvOA1GmP3D2OV///5lNzf0pQMCxKCfQVMYpk4i1k4gO
+ aU1w==
+X-Gm-Message-State: AOAM5335oZwiV8/dVOT2+lN8AjYV2fhL2gFyOT7BNVngbBrdVy0aGagE
+ vLJLdKq0/PsESBDltuSvYLssn8Fyxlu3qtBENfeh2gwVi20=
+X-Google-Smtp-Source: ABdhPJx/xEqaSnm7xNLv/pKl+niTBDY4r88roIh4NAZzAyZwCI1PpgUtucZrmyHVtyBF5CIbZYjKV4FFaMoyQixjxiE=
+X-Received: by 2002:a9d:eef:0:b0:5d2:8e2f:6729 with SMTP id
+ 102-20020a9d0eef000000b005d28e2f6729mr1556194otj.86.1649176105139; Tue, 05
+ Apr 2022 09:28:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220401110310.611869-1-joshi.k@samsung.com>
- <CGME20220401110838epcas5p2c1a2e776923dfe5bf65a3e7946820150@epcas5p2.samsung.com>
- <20220401110310.611869-6-joshi.k@samsung.com> <20220404072016.GD444@lst.de>
- <CA+1E3rJ+iWAhUVzVrRDiFTUmp5sNF7wqw_7oVqru2qLCTBQrqQ@mail.gmail.com>
- <20220405060224.GE23698@lst.de>
-In-Reply-To: <20220405060224.GE23698@lst.de>
+ <CGME20220401110834epcas5p4d1e5e8d1beb1a6205d670bbcb932bf77@epcas5p4.samsung.com>
+ <20220401110310.611869-4-joshi.k@samsung.com> <20220404071656.GC444@lst.de>
+ <CA+1E3r+nHBace_K1Zt-FrOgGF5d0=TDoNtU65bFuWX8R7p8+DQ@mail.gmail.com>
+ <20220405060023.GD23698@lst.de>
+In-Reply-To: <20220405060023.GD23698@lst.de>
 From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Tue, 5 Apr 2022 21:19:43 +0530
-Message-ID: <CA+1E3rJXrUnmc08Zy3yO=0mGJv1q0CaJez4eUDnTpaJcSh_1FQ@mail.gmail.com>
-Subject: Re: [RFC 5/5] nvme: wire-up support for async-passthru on char-device.
+Date: Tue, 5 Apr 2022 21:57:59 +0530
+Message-ID: <CA+1E3r+HAGsXeBY7e-r0bXn2N-yP9B4631gwXRwUJM-PU2YqZg@mail.gmail.com>
+Subject: Re: [RFC 3/5] io_uring: add infra and support for IORING_OP_URING_CMD
 To: Christoph Hellwig <hch@lst.de>
 Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  io-uring@vger.kernel.org, 
@@ -75,8 +75,8 @@ Cc: Kanchan Joshi <joshi.k@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Anuj Gupta <anuj20.g@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220405_085012_405251_A7DBFE85 
-X-CRM114-Status: GOOD (  28.60  )
+X-CRM114-CacheID: sfid-20220405_092829_785990_2AA1955D 
+X-CRM114-Status: GOOD (  13.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,48 +91,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 5, 2022 at 11:32 AM Christoph Hellwig <hch@lst.de> wrote:
+On Tue, Apr 5, 2022 at 11:30 AM Christoph Hellwig <hch@lst.de> wrote:
 >
-> On Mon, Apr 04, 2022 at 07:55:05PM +0530, Kanchan Joshi wrote:
-> > > Something like this (untested) patch should help to separate
-> > > the much better:
+> On Mon, Apr 04, 2022 at 08:44:20PM +0530, Kanchan Joshi wrote:
+> > Another stuff that got left out from the previous series :-(
+> > Using this field for a bit of sanity checking at the moment. Like this in nvme:
 > >
-> > It does, thanks. But the only thing is - it would be good to support
-> > vectored-passthru too (i.e. NVME_IOCTL_IO64_CMD_VEC) for this path.
-> > For the new opcode "NVME_URING_CMD_IO" , either we can change the
-> > cmd-structure or flag-based handling so that vectored-io is supported.
-> > Or we introduce NVME_URING_CMD_IO_VEC also for that.
-> > Which one do you prefer?
+> > + if (ioucmd->cmd_len != sizeof(struct nvme_passthru_cmd64))
+> > + return -EINVAL;
+> > + cptr = (struct nvme_passthru_cmd64 *)ioucmd->cmd;
 >
-> I agree vectored I/O support is useful.
->
-> Do we even need to support the non-vectored case?
-Would be good to have, I suppose.
-Helps keeping it simple when user-space wants to use a single-buffer
-(otherwise it must carry psuedo iovec for that too).
+> Do we actually need that sanity checking?  Each command should have
+> a known length bound by the SQE size, right?
 
-> Also I think we'll want admin command passthrough on /dev/nvmeX as
-> well, but I'm fine solving the other items first.
->
-> > > +static int nvme_ioctl_finish_metadata(struct bio *bio, int ret,
-> > > +               void __user *meta_ubuf)
-> > > +{
-> > > +       struct bio_integrity_payload *bip = bio_integrity(bio);
-> > > +
-> > > +       if (bip) {
-> > > +               void *meta = bvec_virt(bip->bip_vec);
-> > > +
-> > > +               if (!ret && bio_op(bio) == REQ_OP_DRV_IN &&
-> > > +                   copy_to_user(meta_ubuf, meta, bip->bip_vec->bv_len))
-> > > +                       ret = -EFAULT;
-> >
-> > Maybe it is better to move the check "bio_op(bio) != REQ_OP_DRV_IN" outside.
-> > Because this can be common, and for that we can avoid entering into
-> > the function call itself (i.e. nvme_ioctl_finish_metadata).
->
-> Function calls are pretty cheap, but I'll see what we can do.  I'll try
-> to come up with a prep series to refactor the passthrough support for
-> easier adding of the io_uring in the next days.
-
-In that case we will base the newer version on its top.
+Right, and that check can go in io_uring without needing this field
+(as we keep cmd_len in sqe already).
+Will remove this from io_uring_cmd struct.
 
