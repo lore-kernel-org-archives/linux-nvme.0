@@ -4,82 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04CBDC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 11:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 011A0C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 13:07:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GUXDQfVTwuUcJQDmth+U8UI+LElxkfTMraI33gXTH3o=; b=FVCdd9MfUd0maz5mAhA5cV8cw/
-	Qp6pZk/TOs7RWkoSoB+2z8C98zDCZAgzCfC4QBpsSikcC9o/LS2XtsPzMA1TltP/KZA9Brfi7/2vX
-	AC1hhUMv4QbHtWt8W6fLDyldzJEhC/W/esmnh1B6voyjOfgBh7F/w2irQ1UEy1YRuT4ZKWjZJxaHe
-	IkgpD7gkgN54CkD8JWXRRW+F/caFiK0EqmLbJvDtFLDuNR/1t6Cl85e6MASmJJ+j+fIe7UXHvVPV+
-	k9KM7TsVhfRO0+pnhzbkh5xK/L2jqp7JoDfZ2/2850+YkmPva+hBV4HGIbJPjPNioHPxZ4DZQckKu
-	qzcg293Q==;
+	bh=BnamPJQTmPfhgqJ/xFfVUtL3oumrzx68PEUmlDh+0Ws=; b=KuJCJrTklq5lOf71U+xRJObRCJ
+	XeFloqPYYwng9dL5HOYBhFw5hl5mvkJjFMQloWYnrP2hTxWENhr/g6GIiUMhdIAiR5tHt92mH0MGW
+	NtJHjkQknCj3QslDIsxOBydjiT5MvJKX/kwibycpASR0ChFtRwsGjThnvDJWY6l/vjPoyzIL2C2Z+
+	ATVBMzLI2yGQCsnrdz8eiU4viTnK2qJL1dY8TnW/MpmKZqQCK7+BfhepxeVeM2Bk7hmry1WgieISC
+	2cORhjqE8PFvhh8Ate4H+WBcgGNhTYz81pTkTwa/edW4Q66n6eah/FTpkCGodovw9D7DQq8gc5IH9
+	fQnm6K7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbh7E-000l2v-DI; Tue, 05 Apr 2022 11:12:52 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nbitm-0013qo-0l; Tue, 05 Apr 2022 13:07:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbh7B-000l1f-DC
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 11:12:50 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F11D91F745;
- Tue,  5 Apr 2022 11:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649157167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ id 1nbiti-0013oS-DO
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 13:07:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649164015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GUXDQfVTwuUcJQDmth+U8UI+LElxkfTMraI33gXTH3o=;
- b=IVBdlkfVLMm73udj4jeJHpby8hrIVL0dBwIjhBUhO5Dg5IYTck0TteHjp0BbuszcmceN5L
- aGyvUXIMtCkUfGmEyeZmvAKiyQI9Ef53uRstMeNkXweYcVXAQ/fVlmm2jQmih0foNLmHcT
- mAS5r/jT83Lfg7z6M9Xg1Clwt3RScyw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649157167;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GUXDQfVTwuUcJQDmth+U8UI+LElxkfTMraI33gXTH3o=;
- b=mZyoa+bIVOM6GWcgZ9U5j+utYVOiNPVtQtui59jBF+3Kx0fWVw2ti1H8K8JyALz7B1Oeh1
- TZBkT8O4kxsCLrAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=BnamPJQTmPfhgqJ/xFfVUtL3oumrzx68PEUmlDh+0Ws=;
+ b=JCoxqw0A0WfigZVZloz8+tJofO0OYeiHwBp4DdGMdXZyUfYLcPE8NbXCaQMqtzPWGnLo89
+ z60g195JqKX5JIw8R9FOqeqWTDD2T3hY/atCbenvoY51AOf/EaLxl3ro01w0WL/DT/uADs
+ r5+5iZA3Xp2E1U6JdqOgbMoJQVtES8k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-512-3PGmkeQiOoyUS4oCJceSCQ-1; Tue, 05 Apr 2022 09:06:52 -0400
+X-MC-Unique: 3PGmkeQiOoyUS4oCJceSCQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3BCF13522;
- Tue,  5 Apr 2022 11:12:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AIRXMy8kTGI1aQAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 05 Apr 2022 11:12:47 +0000
-Message-ID: <13c13023-be65-2b54-cc6d-ff1161a28f54@suse.de>
-Date: Tue, 5 Apr 2022 13:12:47 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E16B811E80;
+ Tue,  5 Apr 2022 13:06:52 +0000 (UTC)
+Received: from [10.22.18.217] (unknown [10.22.18.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 189DE404729C;
+ Tue,  5 Apr 2022 13:06:51 +0000 (UTC)
+Message-ID: <bea2ac73-b542-0479-ccd4-520309549672@redhat.com>
+Date: Tue, 5 Apr 2022 09:06:51 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <keith.busch@wdc.com>, linux-nvme@lists.infradead.org
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/3] nvmet: check for subsystem type in
+ nvmet_find_get_subsys()
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org
 References: <20220317142634.49324-1-hare@suse.de>
- <20220317142634.49324-3-hare@suse.de> <20220405054740.GD23466@lst.de>
- <3d773039-ce36-277f-34c5-e0530567c4d3@suse.de>
- <20220405060946.GB24073@lst.de>
- <66428672-250b-950e-ab7c-0a6ceb10c06e@suse.de>
- <1ff01a7a-2687-4a90-672a-e9218cc54331@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 2/3] nvmet: make the subsystem type configurable
-In-Reply-To: <1ff01a7a-2687-4a90-672a-e9218cc54331@grimberg.me>
+ <20220317142634.49324-2-hare@suse.de> <20220405054536.GB23466@lst.de>
+ <1c44e4aa-f966-5767-a147-a7f24f6753ee@suse.de>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <1c44e4aa-f966-5767-a147-a7f24f6753ee@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmeneghi@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220405_041249_629374_97D94CEA 
-X-CRM114-Status: GOOD (  18.66  )
+X-CRM114-CacheID: sfid-20220405_060702_856255_BF31693E 
+X-CRM114-Status: GOOD (  17.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,60 +90,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/5/22 12:35, Sagi Grimberg wrote:
+On 4/5/22 01:53, Hannes Reinecke wrote:
 > 
->>>> I actually looked into that with my previous attempt, and really 
->>>> found no
->>>> good way of having an entry which is
->>>> a) pre-filled
->>>> and
->>>> b) removable by the admin later on.
->>>>  From what I've seen all pre-filled entries are static; I haven't 
->>>> found a
->>>> way to do pre-filled dynamic entries.
->>>
->>> I don't think we need to remove the well known discovery subsystem. But
->>> we can allow removing all entries from it and thus reporting an empty
->>> log.
->>
->> Hmm.
->> We still would need to pre-fill these entries when creating subsystems.
->> Bringing us back to square one, namely there is no way to create 
->> dynamic pre-filled entries.
+> Will have to check; might be that this is a left-over from the previous attempt of handling discovery subsystems just like any 
+> other subsystem.
 > 
-> Why do we need to remove it altogether? Why not just make these
-> subsystems attach to port(s) like any other subsystem?
+> However, this is just part of a larger patchset to support unique discovery controller NQNs. And the overarching question here is:
+> 
+> Do we want to support unique discovery controller NQNs in nvmet?
+> 
+> Previously there was a rather strict policy of implementing only the bare necessities in nvmet, and unique discovery controller 
+> NQNs is arguably not a necessary thing.
 
-That's what I tried in my first attempt, which got rejected as it does 
-break existing installations.
-We could introduce a module option for this (and I think that's what I 
-did in my first round).
-And yes, ideally I would like to have the discovery subsystem as a 
-'normal' subsystem just like the others; should be trivial to expose the 
-current one in configfs.
-But then changing the subsystem NQN becomes awkward:
-- Either we create a new subsystem with the unique NQN, but then we have 
-to change the type later on (as creation happens with a simple 'mkdir', 
-and one cannot really pass arguments to that).
-- Or we have a distinct discovery subsystem type (ie the idea Christoph 
-mentioned), but then we have to cross-check the directory names against 
-the existing one in the 'normal' subsystem directory.
-And, of course, we still end up with a defunct discovery subsystem if we 
-create a unique discovery subsystem.
+I think the question is: do we want to support unique discovery controller NQNs at all?
 
-Alternatively: if we're going to break existing configurations anyway 
-(or, rather, have to modify nvmetcli to handle the new discovery 
-mechanism), why do we need to start off with a default discovery subsystem?
-Can't we require the user to create one?
-We would be requiring a module option here, but that looks like the best 
-approach here as we won't have to deal with stale subsystems ...
+> So the whole discussion gets pretty pointless if we decide _not_ to support it after all.
 
-Cheers,
+I'm really concerned about the idea of having NO support for unique discovery controller NQNs in nvmet.  If Linux is going to 
+support unique discovery NQNs in nvme/host then I think we need to have support for unique discovery NQNs in nvme/target.
 
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Without this, there is just no way to test anything.  I want the ability to test NVMe protocol features like this w/out having 
+to rely on external hardware, if possible.
+
+/John
+
+> Cheers,
+> 
+> Hannes
+
 
