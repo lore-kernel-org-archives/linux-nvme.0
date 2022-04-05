@@ -4,52 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A505C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 05:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFB60C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 06:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hEL9d85mYQeQC9/kr7P7vJsPNhuVPSgzuNHr+CnRjLI=; b=1qRaSS+QQZHP5/Kw+e4ARnCcUQ
-	+UNGZVvVSd8kj0o490i0zMbR64olvrA83N5ieqq/aLviWwegKnR2PC2R0fmbqwvJU4gXHv4UwHgM0
-	Dd3mVv1Pbrm/k4LBo1N3x+jK0c7jQ42IEn3i4t/7R6d+lBpR7wVEGohdb7KVC2hIYuQl/lWnVf5W5
-	2/lwOz+O6xt7Jtpfhikj7w4JH3yQYD2/t1zE+J4Ywac/S/4ZG8mHDQMkElzhPYMm4cvoFc1iMcwSm
-	A0QlimL0UAvp/tEYf+oI+hsIsVSCPdqDpr2Rw/ofiPiS2jYno0sGDDuvWGIL7I5/oINPqQk9reLDG
-	oL2UyiTw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=t5DsShxB7fFE1BkVceaVHmsVR3A3dHmWPPZNFepIb7Y=; b=x+9260574R1HW5Z39GNdyvvluu
+	exn4GHu2PWbyELSabUnaVLLggs/fuBWdO8CdNT4BBx8ovzCKzo4RN6rWpV9Lsi0NuOVa7LYJ+eWwm
+	0dSjT2UCub+v0BHua1B2onc9GveLqG9SWq35zuLVVjYw1nZojqvWDCPWQlLQOW/pAzlqEqIM7lCtz
+	oOL/Bb4TZ3uFXlOzWdr2NcnGMp/FyXUKdVzfEMcNYXhoPIHujl+h8MerhwL32ZU5an8D9AKX0NdPs
+	S7wUqVkOK8WNwBEWTeXNlSgUXHxoDDushbOXUb5KpMHe4GPimP1+BAbv/QEAXXO70TsDZpXrvvczw
+	9M84dm7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbcDC-00HEaH-Ov; Tue, 05 Apr 2022 05:58:42 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nbcEx-00HEmO-Q6; Tue, 05 Apr 2022 06:00:31 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbcDA-00HEZ0-3s
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 05:58:41 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 1231868AFE; Tue,  5 Apr 2022 07:58:36 +0200 (CEST)
-Date: Tue, 5 Apr 2022 07:58:35 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
- axboe@kernel.dk, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, ming.lei@redhat.com,
- mcgrof@kernel.org, pankydev8@gmail.com, javier@javigon.com,
- joshiiitr@gmail.com, anuj20.g@samsung.com
-Subject: Re: [RFC 3/5] io_uring: add infra and support for IORING_OP_URING_CMD
-Message-ID: <20220405055835.GC23698@lst.de>
-References: <20220401110310.611869-1-joshi.k@samsung.com>
- <CGME20220401110834epcas5p4d1e5e8d1beb1a6205d670bbcb932bf77@epcas5p4.samsung.com>
- <20220401110310.611869-4-joshi.k@samsung.com> <20220404071656.GC444@lst.de>
- <e039827d-ab7b-1791-d06c-a52ebc949de8@gmail.com>
+ id 1nbcEu-00HElI-FG
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 06:00:29 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BDDEB21100;
+ Tue,  5 Apr 2022 06:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1649138426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t5DsShxB7fFE1BkVceaVHmsVR3A3dHmWPPZNFepIb7Y=;
+ b=e1eUOH7Ol/JCY1j+b1Ua/gc6KMvVCW5JWAKBHhrK2lQhjiVT3uQ7lSkoqCWBZdj6P9gu5I
+ S3xrgLUrbik7PDpY02Agon0LC8RfvKHXLvxHFZwQEQ8rH4iR6g5BCHRX0CbbWc6dcKgswh
+ VATpZJKeeJ2/C06x/u0OxjBuWE4qYZw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1649138426;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t5DsShxB7fFE1BkVceaVHmsVR3A3dHmWPPZNFepIb7Y=;
+ b=JpRsvTg3Vn96OMc5uLryCz0MhtBx9YkRYcy3F+GvDMINuO2yEV7BtRQWAmNQWvD7prS0Td
+ MnSxlz8b6ZRU6eAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 827E813522;
+ Tue,  5 Apr 2022 06:00:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +YcBHfraS2KVTAAAMHmgww
+ (envelope-from <hare@suse.de>); Tue, 05 Apr 2022 06:00:26 +0000
+Message-ID: <3d773039-ce36-277f-34c5-e0530567c4d3@suse.de>
+Date: Tue, 5 Apr 2022 08:00:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 2/3] nvmet: make the subsystem type configurable
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20220317142634.49324-1-hare@suse.de>
+ <20220317142634.49324-3-hare@suse.de> <20220405054740.GD23466@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220405054740.GD23466@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e039827d-ab7b-1791-d06c-a52ebc949de8@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220404_225840_340181_FA93C5D3 
-X-CRM114-Status: GOOD (  26.03  )
+X-CRM114-CacheID: sfid-20220404_230028_692365_0073861D 
+X-CRM114-Status: GOOD (  17.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,63 +91,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 04, 2022 at 09:20:00AM +0100, Pavel Begunkov wrote:
->> I'm still not a fund of the double indirect call here.  I don't really
->> have a good idea yet, but I plan to look into it.
->
-> I haven't familiarised myself with the series properly, but if it's about
-> driver_cb, we can expose struct io_kiocb and io_req_task_work_add() so
-> the lower layers can implement their own io_task_work.func. Hopefully, it
-> won't be inventively abused...
+On 4/5/22 07:47, Christoph Hellwig wrote:
+> On Thu, Mar 17, 2022 at 03:26:33PM +0100, Hannes Reinecke wrote:
+>> Make the subsystem type configurable to allow for unique
+>> discovery subsystems by changing the subsystem type to
+>> 'discovery'.
+> 
+> Does it make sense to change the type?  Or should we have a new top-level
+> interface to create and configure discovery subsystems from the start?
+> 
+> If we had e.g.
+> 
+> /sys/kernel/config/nvmet/discovery-subsystems/
+> 
+> we could start that out with a pre-filled well known discovery subsystem
+> but also allow disabling that for example if we really want.
 
-If we move io_kiocb out avoiding one indirection would be very easy
-indeed.  But I think that just invites abuse.  Note that we also have
-at least one and potentially more indirections in this path.  The
-request rq_end_io handler is a guranteed one, and the IPI or softirq
-for the request indirectin is another one.  So my plan was to look
-into having an io_uring specific hook in the core block code to
-deliver completions directly to the right I/O uring thread.  In the
-best case that should allow us to do a single indirect call for
-the completion instead of 4 and a pointless IPI/softirq.
+I actually looked into that with my previous attempt, and really found 
+no good way of having an entry which is
+a) pre-filled
+and
+b) removable by the admin later on.
+ From what I've seen all pre-filled entries are static; I haven't found 
+a way to do pre-filled dynamic entries.
 
->>> +	struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
->>> +
->>> +	if (ret < 0)
->>> +		req_set_fail(req);
->>> +	io_req_complete(req, ret);
->>> +}
->>> +EXPORT_SYMBOL_GPL(io_uring_cmd_done);
->>
->> It seems like all callers of io_req_complete actually call req_set_fail
->> on failure.  So maybe it would be nice pre-cleanup to handle the
->> req_set_fail call from ĩo_req_complete?
->
-> Interpretation of the result is different, e.g. io_tee(), that was the
-> reason it was left in the callers.
+Cheers,
 
-Yes, there is about two of them that would then need to be open coded
-using __io_req_complete.
-
->
-> [...]
->>> @@ -60,7 +62,10 @@ struct io_uring_sqe {
->>>   		__s32	splice_fd_in;
->>>   		__u32	file_index;
->>>   	};
->>> -	__u64	__pad2[2];
->>> +	union {
->>> +		__u64	__pad2[2];
->>> +		__u64	cmd;
->>> +	};
->>
->> Can someone explain these changes to me a little more?
->
-> not required indeed, just
->
-> -	__u64	__pad2[2];
-> +	__u64	cmd;
-> +	__u64	__pad2;
-
-Do we still want a union for cmd and document it to say what
-opcode it is for?
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
