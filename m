@@ -4,78 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D88DCC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 10:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB87FC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 10:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=plsFhNPT2nAQaT+BVTZqkhvH58bKHg1xVmV0bMSQzis=; b=vqb1skLWUTmrhCIuPMmYJURzsV
-	drzAynBuDlyRkdFsWMaj0fe5/+gQAiW/HvIGFZAQckue2XhK3XWfIz9Hrz3hTxlovFx/5gJvf+DQm
-	vzHMHibgvfTYU7Tr8gnVaKmKdzd5VteP2GWQz54JVpL+x7Gs2YPuFk6MwO/1kb+spJ9mxXAbkbpr6
-	8khzpUxTidk1pOlwGvF26gRcjqQ/yOhqbCMWVjJCy0CIzh59bTk5cDs9MPWdEbHQsQMztuUHWz8AA
-	jIQr5Tf85uxWYXRJsMMTQlTWSZdX5TY4vm9tAR6AQ8/YXMmXiVj5PDDI4knd/ttUhZoCWuZnMhcLy
-	kr6lvlYQ==;
+	bh=auPPRfo2tdetUHqTRvpHx+79UdyGBr5FBYn9FSxmUKM=; b=YasUnGgw6+LtaPTXMoyBvuflll
+	XXSjxLAuXZsgoCrhUhib9ZL0qlKuvNSyGeA8LETYbhdFie3F/jZnorNncl1vrx2Ppe56lH7dg2bE1
+	WcNyxR6tLmXZy/k+4eZ10oBdqMR7+ppkEFdP2STceukcWPAsCNxRjydZ5c8aqWn/56RAZjpBWe9Cp
+	4uK8C+SfUKId+uhr0qQEflbRsMPkkO3mF3Z0kEGNlYiYZAauHHOp3/mvPKUF2by6F1JdhPrNBSvAQ
+	mJdx1zUaEwj9ac/5/QJJHBFuyDjmQkkU2V5QHG0n0CgY1Bb7XJtr9iilL00A58FigWa0BkX/jEsQ+
+	D5TOIaog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbgKk-000dUZ-Uz; Tue, 05 Apr 2022 10:22:46 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1nbgUI-000f9l-LX; Tue, 05 Apr 2022 10:32:38 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbgKh-000dSp-Qc
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 10:22:45 +0000
-Received: by mail-wm1-f42.google.com with SMTP id
- l7-20020a05600c1d0700b0038c99618859so1265434wms.2
- for <linux-nvme@lists.infradead.org>; Tue, 05 Apr 2022 03:22:42 -0700 (PDT)
+ id 1nbgUF-000f9E-SI
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 10:32:37 +0000
+Received: by mail-wm1-f41.google.com with SMTP id r7so7670593wmq.2
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Apr 2022 03:32:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=plsFhNPT2nAQaT+BVTZqkhvH58bKHg1xVmV0bMSQzis=;
- b=VdFy9rd3ApBDj0jGnFbRKzMEv/Irn44AkIqyZdyXayfgW52AXddQ5+nCPdnzgRUD7t
- PuPawBc8HNDO3620aCtZUFEPA408QbkTS8dL6c7aBhVkAIX/9N764tezpLXmQDl2uDbP
- nGkEt3Rnd4e4f0+kSOBtcff9D+UVFeltWLFDJ8+fD1EllaIqD4gYNAicA8SfnvV3l9PN
- sZbvpR5lYS+DV/2jL3q7q6VWokvx1Q+uaHdEfiLSKNbwFJA85oSRB4H9TOa0nQOHbcD7
- 5q5tA7pyjUjHEc6UUpcmwTPWuKYHS6hCJS2x7cmknZSGenQ29uA0ACfufc/pjAsfjuqS
- ESOg==
-X-Gm-Message-State: AOAM530jgeVbM+GEdmsqDCRAlniM/vuY2jmIxvdhjAhft0rAPJbY3MwS
- cySGToE2v3/Eth6izUDG5vI=
-X-Google-Smtp-Source: ABdhPJwSZmAgbLANOfDy4dlsDindjkNMaQP5a2QXAL3sZUYFd009VAzB5m5LsyoL8U/2q/04AZ28WQ==
-X-Received: by 2002:a05:600c:1d9b:b0:38c:af70:9998 with SMTP id
- p27-20020a05600c1d9b00b0038caf709998mr2398458wms.169.1649154160871; 
- Tue, 05 Apr 2022 03:22:40 -0700 (PDT)
+ bh=auPPRfo2tdetUHqTRvpHx+79UdyGBr5FBYn9FSxmUKM=;
+ b=UaHK/9cESWGfC46GRoWy85TB7Yvjjop8V8zSAgyeKMvC+bPe0LLmyr2e0ldIQeG1/A
+ xnOev2Ai63x88BIpdGN1y7w/8RjHHes+3tfTk5JR0QFvfutt4JvlLLb3SiZoT3L9kuSi
+ 7uWSqHUKNT3TjxEPEvXd4zt4dnPFfYE9XvpFH9E53Ve/b5rwxUX4mssc6/FpXq200HFt
+ hR5geNfKjXg5CST8Qu6XC+EAS7al7OZMx6QgIAZMeZ2kwpo+fNFdSXDshDcV3OvAatI7
+ oNNB/4jZvamreexT7FBhXyUr4WjG2m9F2X060Tre6Fzc1XP69nT4QS8JkfeNxjTSwFaw
+ HYoA==
+X-Gm-Message-State: AOAM532pIVsYiaH8jP634oHog3yrev7ZnAyQSOWOv94glq678ceWfdya
+ +iWfvZ0CzQsy0tvWE8hP8PkQwd3vptc=
+X-Google-Smtp-Source: ABdhPJzYlmQx6iY2qgQYOhysdo1JYP3KkA+ZhxMIf9BuPEipiO/y3VTMgj4r6O/L/TEpK6IuOQczbQ==
+X-Received: by 2002:a05:600c:3ba5:b0:38c:b19e:253c with SMTP id
+ n37-20020a05600c3ba500b0038cb19e253cmr2473835wms.35.1649154753007; 
+ Tue, 05 Apr 2022 03:32:33 -0700 (PDT)
 Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- 185-20020a1c19c2000000b0038a1d06e862sm1773616wmz.14.2022.04.05.03.22.39
+ p125-20020a1c2983000000b0038e6c62f527sm2644776wmp.14.2022.04.05.03.32.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 03:22:40 -0700 (PDT)
-Message-ID: <1105c039-372f-f105-8d69-887a62e0223e@grimberg.me>
-Date: Tue, 5 Apr 2022 13:22:38 +0300
+ Tue, 05 Apr 2022 03:32:32 -0700 (PDT)
+Message-ID: <9ebf0f5f-db48-f326-8455-1fcb9211b752@grimberg.me>
+Date: Tue, 5 Apr 2022 13:32:31 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] nvme: add namespace paths links
+Subject: Re: [PATCH 3/3] nvmet: include all configured ports in discovery log
+ page for unique discover controller
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- util-linux@vger.kernel.org,
- Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
-References: <20220401092855.90652-1-hare@suse.de>
- <20220405054205.GA23466@lst.de>
- <289ee526-8f3f-9a2b-eef4-70816eb4f42e@suse.de>
- <20220405054836.GA23647@lst.de>
- <b997ceac-a391-cc5a-a397-0d68f91736eb@grimberg.me>
- <0d53d5cb-a22d-c620-1a35-1ab408e0f747@suse.de>
+To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
+References: <20220317142634.49324-1-hare@suse.de>
+ <20220317142634.49324-4-hare@suse.de> <20220405054601.GC23466@lst.de>
+ <a129df40-6195-8b59-aa76-e3053e0960fd@suse.de>
+ <20220405061941.GA24290@lst.de>
+ <366e9acd-23c8-f8bf-2671-9187f3c0ce96@suse.de>
+ <20220405073121.GA25524@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <0d53d5cb-a22d-c620-1a35-1ab408e0f747@suse.de>
+In-Reply-To: <20220405073121.GA25524@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220405_032243_894339_B440D954 
-X-CRM114-Status: UNSURE (   8.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220405_033235_958372_41FB7369 
+X-CRM114-Status: GOOD (  20.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,20 +88,44 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->> Why not stick to slaves/ like the device mapper?
+> So maybe we'll take a step and think about what we actually want
+> to support.  Here is my understanding, which might as well be incorrect
+> and/or incomplete.
 > 
-> Because:
+>   1) support a uniqueue discovery controller for bidirectional
+>      authentication to work properly
 > 
-> /**
->   * bd_link_disk_holder - create symlinks between holding disk and slave 
-> bdev
->   * @bdev: the claimed slave bdev
->   * @disk: the holding disk
->   *
->   * DON'T USE THIS UNLESS YOU'RE ALREADY USING IT.
->   *
-> 
-> Not sure _why_ it's there, but it is there.
+> The only thing we really need is to have the existing discovery log for
+> the well known discovery subsystems to be able to also show up as a
+> unique discovery subsystem.  Either by just renaming it like your earlier
+> patch did, or by supporting an alternative name in addition to that.
 
-Fair enough
+I think that making the discovery subsystem show up in configfs makes
+sense, it can be attached to port(s) just like any other subsystem.
+
+> 
+>   2) (optionally) make the well known discovery controller go away
+> 
+> Just renaming the subsystem will make the well known one go away,
+> but while that can be useful for some use cases, I think making it
+> always go away has the potential for breakage.  So maybe we need
+> to not rename but be able to create an alias and have a way to
+> disable the well known discovery controller if not used.
+
+agreed.
+
+> 
+>   3) Actually have a different content.
+> 
+> Can you explain the use cases here a bit more?
+> 
+> And maybe add anything else we'd like to consider.  (Everyone else
+> on the list please also chime in)
+
+I don't think we should support multiple discovery subsystems on
+the same target. Don't know why would anyone need it. I also think
+that reporting subsystems that are attached to all ports is just a
+a routing failure waiting to happen. But if anyone really really
+wants it, we can keep a flag on the discovery subsystem to report
+on all ports if explicitly set.
 
