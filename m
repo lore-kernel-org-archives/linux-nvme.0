@@ -4,42 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 612E4C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 06:14:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F034AC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 06:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XL9Nlu6tTUq9ing3TbmSIpPHXgKHlG1FbKJc105OYUY=; b=4lD+3WPpB2Grr1+vc2L8nWbh2T
-	OB76CWpUhyB09kOkqcQT4fQaVWEjQO1AMnXXqrNYnSG5/8kd5ZuimJRurZr16h/2jMoSNFl1JsqW3
-	vwcsC9eMwLoibBmbnkvPsXBlJr1BBAJygs0vV4idPap1z72sG62LDaeV8emWDcBzGxVcyoFZru5vo
-	V/gwBafm+hL90mTEjk/ObPrZicx6vHDzzFGL9K9OtfsFvc5ZsB000bW+LvYWxskRTxRdnxsk2DrWs
-	ZSpfcIT2cV1nVWxDpdWC+lt601ImwpjUMb5fiEKj3PgdUdukmqAsHL0zt0NF9JnL0sJJ/ov/ePmGE
-	XCqr30tg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pH8gABgHlLAgXtPkDnfra8u3rJJin4rnxc4saBlpgto=; b=SiZNCdITZPQEhJRSuwMFT6VlxA
+	2nP3XgUdEv4JIj+qLFsfaDwjpoc6vWKwUWU/kOx+wxJnnG8eMzDQ8FSuZ/J6F6LRFcwecGc0Hwmxy
+	W7VxgANgtAdRBA8LIHSk55L/AqCNbDW+4BRnUQ7H1iH8GNaeYVMt7+101/H12rfy6Qi1taC6wbhDb
+	c/7zzc7qvAUpE/YXoeVLxn3gMZvSfFIJvv95cwiwRCa8iCn3e+CbLkRxuFh64dQr0f1tWgZs34RHy
+	ma0ERSe0BWUqSqK0kGOEBx8RA4mv5uzKwFTyBwsarhRer8rPMHtcAdhV0+1UXOZvm7I8tHOtSXHO/
+	a/XmQzoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbcSe-00HHHy-QX; Tue, 05 Apr 2022 06:14:40 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nbcSd-00HHHk-Pr; Tue, 05 Apr 2022 06:14:39 +0000
-Date: Mon, 4 Apr 2022 23:14:39 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jonathan Derrick <jonathan.derrick@linux.dev>,
- linux-nvme@lists.infradead.org
-Subject: Re: [bug report]nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2)
- MORE DNR observed during blktests
-Message-ID: <YkveT9/oBMoykEsy@infradead.org>
-References: <CAHj4cs_iC+FE8ZAXXZPeia1V3ZX7zRbeASdOP_8c7DLiFozNfA@mail.gmail.com>
- <4A24C337-5EF9-4C3A-A112-BA75934AC78B@oracle.com>
- <Ykskv/gp2s6PWiHp@kbusch-mbp.dhcp.thefacebook.com>
- <4a97859a-9b9c-da39-3dca-76811f67b4a6@linux.dev>
- <YktVVG+WSXzYWjGR@kbusch-mbp.dhcp.thefacebook.com>
+	id 1nbcTt-00HHSY-MN; Tue, 05 Apr 2022 06:15:57 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nbcTp-00HHS1-VT
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 06:15:55 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 41CBC210FC;
+ Tue,  5 Apr 2022 06:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1649139352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pH8gABgHlLAgXtPkDnfra8u3rJJin4rnxc4saBlpgto=;
+ b=EUWQUVTwozlRVV6zCU/Sj7EupGrZokulFtei2IvTU06x0hghrw9QpVrFheNxm9ZHeLZmBQ
+ 5et/IFQ2TcGEwakiHRow/25mQRUvEO4IXD07MqfvrcLo4qB4/64DZncDUliEQ/b7Pum1Jy
+ K6QDry2vcweh/2VYXjNuw6E3hub5qWM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1649139352;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pH8gABgHlLAgXtPkDnfra8u3rJJin4rnxc4saBlpgto=;
+ b=gbEppcpXvMSh3S4Fus2fC9P1oSiMDAAre0m9qZKRNtSIfHWa7jFd+a9ieAqVQKx8R8rK+Y
+ 5yF7gVlGs7HX+7BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B4E0132B7;
+ Tue,  5 Apr 2022 06:15:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ftEzBZjeS2JRUgAAMHmgww
+ (envelope-from <hare@suse.de>); Tue, 05 Apr 2022 06:15:52 +0000
+Message-ID: <a129df40-6195-8b59-aa76-e3053e0960fd@suse.de>
+Date: Tue, 5 Apr 2022 08:15:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YktVVG+WSXzYWjGR@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 3/3] nvmet: include all configured ports in discovery log
+ page for unique discover controller
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Keith Busch <kbusch@kernel.org>
+References: <20220317142634.49324-1-hare@suse.de>
+ <20220317142634.49324-4-hare@suse.de> <20220405054601.GC23466@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220405054601.GC23466@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220404_231554_202344_965D5C7E 
+X-CRM114-Status: GOOD (  10.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -54,44 +92,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 04, 2022 at 02:30:12PM -0600, Keith Busch wrote:
-> > Eg, nvme0: blah blah command set not supported
+On 4/5/22 07:46, Christoph Hellwig wrote:
+> On Thu, Mar 17, 2022 at 03:26:34PM +0100, Hannes Reinecke wrote:
+>> When an unique discovery controller is configured we should be reporting
+>> all configured ports, and not just those which are reachable from the
+>> current port.
 > 
-> The new print in the completion handler is pretty generic. I don't think it can
-> readily tell the difference from a harmless error. Maybe pr_err is too high?
-> 
-> Or maybe since enough people have been concerned about *this* specific
-> identify, maybe it should be restricted to 2.0 devices where it's mandatory. I
-> was reluctant to do that at first since the initial device I tested was 1.4,
-> but it was a prototype and we should be fine without the non-mdts limits
-> anyway.
+> Why?
 
-What SCSI does is to add RQF_QUIET to all internal passthrough commands,
-and then skips printing the SCSI specific error messages in addition
-if that flag is set.
+To make it configurable.
+Unique discovery controllers show up in configfs just like any other 
+subsystems.
+And with that we need to clarify the relationship between the discovery 
+subsystem and the other subsystems, ie which subsystems should be 
+presented by this discovery subsystem.
 
-This would be the nvme version of that:
+Linking the discovery subsystem into a given port makes it obvious that
+a) this port will be presenting a discovery subsystem
+and
+b) that the discovery subsystem will be presenting all subsystems 
+configured on that port.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7e07dd69262a7..9346cd4cf5820 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -366,7 +366,8 @@ static inline void nvme_end_req(struct request *req)
- {
- 	blk_status_t status = nvme_error_status(nvme_req(req)->status);
- 
--	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
-+	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS &&
-+		     !(req->rq_flags & RQF_QUIET)))
- 		nvme_log_error(req);
- 	nvme_end_req_zoned(req);
- 	nvme_trace_bio_complete(req);
-@@ -648,6 +649,7 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
- 	cmd->common.flags &= ~NVME_CMD_SGL_ALL;
- 
- 	req->cmd_flags |= REQ_FAILFAST_DRIVER;
-+	req->rq_flags |= RQF_QUIET;
- 	if (req->mq_hctx->type == HCTX_TYPE_POLL)
- 		req->cmd_flags |= REQ_POLLED;
- 	nvme_clear_nvme_request(req);
+The built-in mechanism for discovery subsystems was okay as long as the 
+discovery subsystem was built-in, too.
+But with this patchset we're moving to an explicit configuration.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
