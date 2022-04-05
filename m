@@ -4,61 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5619C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 00:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 960BEC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Apr 2022 04:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7fA0agL2Sbpusf8UeGiygDVv9mbCsKBfNYdjDlIlCCs=; b=zGdc8Q4urt/dTFYbG2Kcd9NOmI
-	FViEUnlRyQJsBqp1wFi4oMLnyKDcy2UenwQ5arvDr31RTP8gubPo5hFxZtNIqlKGVIanbUpTSYnG9
-	xe58o1Z94J2HJbmQ/0Ix4GYanGmgRE6Mx6kIVCd8YA4o6R3Oz6Zij6YRLePYu9tA6K+S7gtUQzAbK
-	jLDhred7gWtir4Hnlq8zurkptBo2dPAYhelEIdc4CY+LaFYeT/EDcrJXsmi8DaOBSUf3ndhbL6+wV
-	t+si3SmV9DJNN5xyx12fTnmlMfHF9CnVLSBzk8Pcsw0KxDtYvkeILleZTbd6AZc7tuGNB5jq0NLaO
-	k4DtW4Hg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PCgocASYb5ArghU+oTyvqsztKe9LiYcQI30nZn4L4rs=; b=3ioAOW8Mknp5ow84qDn3NGeZk6
+	Otka/LvRzjgWp6bZH9gAOo3+PvAvZDt0eRyR6G+WJ1EpEau1ruGUEQ1/mcoTY7MubwFxZeq/T3zm8
+	RAIYUJCNtDhTsZm101rMiZz9JPh6c3BHTUe+yzvBbshTg8GpEstC17kYVpLiUSI1yQJxCjl+VXfqt
+	+N1xotUU2Q36Tgh/MzvVNNAnhXcOuM05+hxlkYz983Oo6k926lBZ5jHM6bhhE7thG453kyK1ma9Q3
+	j2Ip5NZhRvjKVyhVQ7JSllBBntjwuAO9ZI40l4bwOVEaJ/TMcHSZz7xBi/bRPPlflbOC2nZNZPQFx
+	VB9iihcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbXI1-00GlJA-SE; Tue, 05 Apr 2022 00:43:21 +0000
-Received: from out1.migadu.com ([91.121.223.63])
+	id 1nbb3J-00H5eW-1L; Tue, 05 Apr 2022 04:44:25 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbXHw-00GlHy-Cd
- for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 00:43:18 +0000
-Message-ID: <17ca93bc-3cb7-46d6-559e-e2dc0e3408bd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1649119388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7fA0agL2Sbpusf8UeGiygDVv9mbCsKBfNYdjDlIlCCs=;
- b=trE9FaYtPy7HHlJHh3iNTMKsAMMYtK9petckhrh1OVT5h56AazQqjuUfHbL1JnFHhOozVY
- IOUYBRF46YLim2W/pWZFsGKaK32EvY4INv+UUumSscoqp7ONHU8MkUm+cv742x3MBwrDu4
- A9mfnx8GLh9ClAULQ9DE7HQRPS7HjmY=
-Date: Mon, 4 Apr 2022 18:43:01 -0600
+ id 1nbb2c-00H5aQ-OT
+ for linux-nvme@lists.infradead.org; Tue, 05 Apr 2022 04:43:44 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 71A6168AFE; Tue,  5 Apr 2022 06:43:31 +0200 (CEST)
+Date: Tue, 5 Apr 2022 06:43:31 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Ariel Elior <aelior@marvell.com>, Anna Schumaker <anna@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christian Benvenuti <benve@cisco.com>,
+ Potnuri Bharat Teja <bharat@chelsio.com>,
+ Bernard Metzler <bmt@zurich.ibm.com>, Bart Van Assche <bvanassche@acm.org>,
+ Chuck Lever <chuck.lever@oracle.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
+ Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+ Michal Kalderon <mkalderon@marvell.com>,
+ Mustafa Ismail <mustafa.ismail@intel.com>,
+ Nelson Escobar <neescoba@cisco.com>, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>, rds-devel@oss.oracle.com,
+ Sagi Grimberg <sagi@grimberg.me>, samba-technical@lists.samba.org,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ Selvin Xavier <selvin.xavier@broadcom.com>,
+ Steve French <sfrench@samba.org>, Shiraz Saleem <shiraz.saleem@intel.com>,
+ target-devel@vger.kernel.org,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ Yishai Hadas <yishaih@nvidia.com>,
+ Zhu Yanjun <zyjzyj2000@gmail.com>, Xiao Yang <yangx.jy@fujitsu.com>
+Subject: Re: [PATCH] RDMA: Split kernel-only global device caps from uvers
+ device caps
+Message-ID: <20220405044331.GA22322@lst.de>
+References: <0-v1-47e161ac2db9+80f-kern_caps_jgg@nvidia.com>
 MIME-Version: 1.0
-Subject: Re: [bug report]nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2)
- MORE DNR observed during blktests
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-References: <CAHj4cs_iC+FE8ZAXXZPeia1V3ZX7zRbeASdOP_8c7DLiFozNfA@mail.gmail.com>
- <4A24C337-5EF9-4C3A-A112-BA75934AC78B@oracle.com>
- <Ykskv/gp2s6PWiHp@kbusch-mbp.dhcp.thefacebook.com>
- <4a97859a-9b9c-da39-3dca-76811f67b4a6@linux.dev>
- <YktVVG+WSXzYWjGR@kbusch-mbp.dhcp.thefacebook.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-In-Reply-To: <YktVVG+WSXzYWjGR@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v1-47e161ac2db9+80f-kern_caps_jgg@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220404_174317_488775_BF15600E 
-X-CRM114-Status: GOOD (  19.77  )
+X-CRM114-CacheID: sfid-20220404_214342_987914_2F54D54B 
+X-CRM114-Status: GOOD (  20.48  )
+X-Mailman-Approved-At: Mon, 04 Apr 2022 21:44:23 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,48 +83,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 4/4/2022 2:30 PM, Keith Busch wrote:
-> On Mon, Apr 04, 2022 at 01:34:38PM -0600, Jonathan Derrick wrote:
->>
->>
->> On 4/4/2022 11:02 AM, Keith Busch wrote:
->>> On Mon, Apr 04, 2022 at 04:39:06PM +0000, Alan Adamson wrote:
->>>>
->>>> [   97.083215] nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2) MORE DNR
->>>>
->>>> An error from the device (status=2/Invalid Field) when an Identify (0x6) command was issued. Prior to the patch,
->>>> the nvme driver didn’t display the error.
->>> And it's harmless. The driver is querying an optional identification and it's
->>> okay if the device doesn't support it, but the driver doesn't know if the
->>> device supports until it tries it.
->> I've had to field bug reports like this before, where it says error in dmesg
->> but is actually harmless.
+On Mon, Apr 04, 2022 at 01:18:00PM -0300, Jason Gunthorpe wrote:
+> Split ib_device::device_cap_flags into kernel_cap_flags that holds the
+> flags only used by the kernel.
 > 
-> Even before the kernel message was added, some implementations trigger error
-> log events, which alerts smartd. :(
-I haven't had too many smartd reports come my way, but 'error' in dmesg 
-is a typical one. Usually due a language barrier issue or uneducated AE. 
-But I suspect a lay-user without an AE might resort to kernel bz due to 
-things like this.
+> This cleanly splits out the uverbs flags from the kernel flags to avoid
+> confusion in the flags bitmap.
 
->   
->> Maybe we could suppress the error and add a harmless print?
->> Eg, nvme0: blah blah command set not supported
-> 
-> The new print in the completion handler is pretty generic. I don't think it can
-> readily tell the difference from a harmless error. Maybe pr_err is too high?
-Could we pack RQF_FAILED in the req flags and reduce the severity in 
-nvme_log_error?
+> Followup from Xiao Yang's series
 
-> 
-> Or maybe since enough people have been concerned about *this* specific
-> identify, maybe it should be restricted to 2.0 devices where it's mandatory. I
-> was reluctant to do that at first since the initial device I tested was 1.4,
-> but it was a prototype and we should be fine without the non-mdts limits
-> anyway.
-Well I'm not sure about that. I'm not honestly sure what this specific 
-identify is, but (I know you know) NVMe being forward compatible allows 
-eg, 1.4 compliant devices/targets to support 2.0 features.
+Can you point me to this series?
+
+> -	if (!(device->attrs.device_cap_flags & IB_DEVICE_ALLOW_USER_UNREG)) {
+> +	if (!(device->attrs.kernel_cap_flags & IB_KDEVICE_ALLOW_USER_UNREG)) {
+
+Maybe shorten the prefix to IBD_ ?
+
+> +enum ib_kernel_cap_flags {
+> +	/*
+> +	 * This device supports a per-device lkey or stag that can be
+> +	 * used without performing a memory registration for the local
+> +	 * memory.  Note that ULPs should never check this flag, but
+> +	 * instead of use the local_dma_lkey flag in the ib_pd structure,
+> +	 * which will always contain a usable lkey.
+> +	 */
+> +	IB_KDEVICE_LOCAL_DMA_LKEY = 1 << 0,
+> +	IB_KDEVICE_UD_TSO = 1 << 1,
+> +	IB_KDEVICE_BLOCK_MULTICAST_LOOPBACK = 1 << 2,
+> +	IB_KDEVICE_INTEGRITY_HANDOVER = 1 << 3,
+> +	IB_KDEVICE_ON_DEMAND_PAGING = 1ULL << 4,
+> +	IB_KDEVICE_SG_GAPS_REG = 1ULL << 5,
+> +	IB_KDEVICE_VIRTUAL_FUNCTION = 1ULL << 6,
+> +	IB_KDEVICE_RDMA_NETDEV_OPA = 1ULL << 7,
+> +	IB_KDEVICE_ALLOW_USER_UNREG = 1ULL << 8,
+> +};
+
+And maybe not in this patch, but if you touch this anyway please add
+comments to document allthe flags.
 
