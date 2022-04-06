@@ -4,56 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97329C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 05:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42CB2C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 06:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R059W7UCy02LMLDarryOKuqgRnaTF0lXaQkqBfVsArU=; b=o5z1adIuijQYubHyWigaa8jhHA
-	etXtgA2Ey17xW7S47BJWBiRWkH1RNogRzxDIUvHT2io8iuZ5hYVyI0/urCTlEO159micwLZRA4NGu
-	qTu8U8eY5aIBm8qkO9LJRdIPakv1QucCeKTSwlg0QgUcv+CQGeZmmLFBwb+xPnKng3Ob0415IHpi/
-	LyY25M2MLgCoqI/MicvpmdLuywf9YQUgknB9UK5ufagIyuTW4INEBMFMFpTTw+kkVkj2ywslPfAL6
-	vZ4kX7t4olEPWVFtA7EldlCZ/iD4+K1BNOrej5Al6pGwvFHw4LaHQPAdw1BmtEEz2sujUbvZknWLG
-	7ifseC6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=eIMQeXXWWkWx5FDwNbE0TlkL2lmBU9S9LJMrY9Onkc8=; b=0BIPk8DceDVtg0VHoid+qQ3KX9
+	4LFWSHSMbYfo/LRJjJLunoEc2Snafs5w9lgbi9amjcK0sMtAxpeb/1LO1i87Duvm1OQEiCQkBveyc
+	zn02/rnkgupvI6O/IXe4ERBGKb4zAVH12Jv4afy0QHW9Q6eRSkjCbDEI9Y6FlSsUITDB8OcgK2yj2
+	krdv42K5hoZEgKoQps4ADZAuRMS45/6aKmCKEYCscDnp9AjVqYsVGmvB/7nC6yCP3bhvVG/m5IB94
+	LHkou9D2T2jekSbUIJDeJpbo/fphvFkQmUqcgWUFMyjuFQhNrq7ko7M18hmBGT2Qmyb+iCnvfE1rP
+	0SwcdqRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nby8o-003oaw-5Q; Wed, 06 Apr 2022 05:23:38 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nby8l-003oaJ-6k
- for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 05:23:36 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 3389D68AFE; Wed,  6 Apr 2022 07:23:30 +0200 (CEST)
-Date: Wed, 6 Apr 2022 07:23:30 +0200
+	id 1nbynN-003upn-Rk; Wed, 06 Apr 2022 06:05:33 +0000
+Received: from 213-225-3-188.nat.highway.a1.net ([213.225.3.188]
+ helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nbynA-003ukl-9g; Wed, 06 Apr 2022 06:05:20 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
- Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, Pavel Begunkov <asml.silence@gmail.com>,
- Ming Lei <ming.lei@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Pankaj Raghav <pankydev8@gmail.com>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
- Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [RFC 5/5] nvme: wire-up support for async-passthru on char-device.
-Message-ID: <20220406052330.GA10320@lst.de>
-References: <20220401110310.611869-1-joshi.k@samsung.com>
- <CGME20220401110838epcas5p2c1a2e776923dfe5bf65a3e7946820150@epcas5p2.samsung.com>
- <20220401110310.611869-6-joshi.k@samsung.com> <20220404072016.GD444@lst.de>
- <CA+1E3rJ+iWAhUVzVrRDiFTUmp5sNF7wqw_7oVqru2qLCTBQrqQ@mail.gmail.com>
- <20220405060224.GE23698@lst.de>
- <CA+1E3rJXrUnmc08Zy3yO=0mGJv1q0CaJez4eUDnTpaJcSh_1FQ@mail.gmail.com>
- <CA+1E3rK3EzyNVwPEuR3tJfRGvScwwrDhxAc9zs=a5XMc9trpmg@mail.gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
+ nbd@other.debian.org, ceph-devel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, xen-devel@lists.xenproject.org,
+ linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+ jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
+ ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
+Subject: use block_device based APIs in block layer consumers
+Date: Wed,  6 Apr 2022 08:04:49 +0200
+Message-Id: <20220406060516.409838-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+1E3rK3EzyNVwPEuR3tJfRGvScwwrDhxAc9zs=a5XMc9trpmg@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220405_222335_432706_1E36BC26 
-X-CRM114-Status: GOOD (  13.55  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,14 +60,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 06, 2022 at 10:50:14AM +0530, Kanchan Joshi wrote:
-> > > Also I think we'll want admin command passthrough on /dev/nvmeX as
-> > > well, but I'm fine solving the other items first.
-> 
-> Sure, will add that in the second round. Should be fairly simple as we
-> can reuse io-command work anyway.
+Hi Jens,
 
-Yes, I don't think it is a priority right now.  And I'm actually glad
-you did this simple version first as that allows us to get the basics
-right first.
+this series cleanups up the block layer API so that APIs consumed
+by file systems are (almost) only struct block_devic based, so that
+file systems don't have to poke into block layer internals like the
+request_queue.
+
+I also found a bunch of existing bugs related to partition offsets
+and discard so these are fixed while going along.
+
+Diffstat:
+ arch/um/drivers/ubd_kern.c           |    2 
+ block/blk-core.c                     |    4 -
+ block/blk-lib.c                      |  124 ++++++++++++++++++++---------------
+ block/blk-mq-debugfs.c               |    2 
+ block/blk-settings.c                 |   74 ++++++++++++++++++++
+ block/blk.h                          |   14 ---
+ block/fops.c                         |    2 
+ block/genhd.c                        |    4 -
+ block/ioctl.c                        |   48 ++++++++++---
+ block/partitions/core.c              |   12 ---
+ drivers/block/drbd/drbd_main.c       |   53 +++++++-------
+ drivers/block/drbd/drbd_nl.c         |   94 +++++++++++---------------
+ drivers/block/drbd/drbd_receiver.c   |   13 +--
+ drivers/block/loop.c                 |   15 +---
+ drivers/block/nbd.c                  |    3 
+ drivers/block/null_blk/main.c        |    1 
+ drivers/block/rbd.c                  |    1 
+ drivers/block/rnbd/rnbd-clt.c        |    6 -
+ drivers/block/rnbd/rnbd-srv-dev.h    |    8 --
+ drivers/block/rnbd/rnbd-srv.c        |    5 -
+ drivers/block/virtio_blk.c           |    2 
+ drivers/block/xen-blkback/blkback.c  |   15 ++--
+ drivers/block/xen-blkback/xenbus.c   |    9 --
+ drivers/block/xen-blkfront.c         |    7 -
+ drivers/block/zram/zram_drv.c        |    1 
+ drivers/md/bcache/alloc.c            |    2 
+ drivers/md/bcache/request.c          |    4 -
+ drivers/md/bcache/super.c            |    3 
+ drivers/md/bcache/sysfs.c            |    2 
+ drivers/md/dm-cache-target.c         |    9 --
+ drivers/md/dm-clone-target.c         |    9 --
+ drivers/md/dm-io.c                   |    2 
+ drivers/md/dm-log-writes.c           |    3 
+ drivers/md/dm-raid.c                 |    9 --
+ drivers/md/dm-table.c                |   25 +------
+ drivers/md/dm-thin.c                 |   15 ----
+ drivers/md/dm.c                      |    3 
+ drivers/md/md-linear.c               |   11 ---
+ drivers/md/md.c                      |    5 -
+ drivers/md/raid0.c                   |    7 -
+ drivers/md/raid1.c                   |   18 -----
+ drivers/md/raid10.c                  |   20 -----
+ drivers/md/raid5-cache.c             |    8 +-
+ drivers/md/raid5.c                   |   14 +--
+ drivers/mmc/core/queue.c             |    3 
+ drivers/mtd/mtd_blkdevs.c            |    1 
+ drivers/nvme/host/core.c             |    6 -
+ drivers/nvme/target/io-cmd-bdev.c    |    2 
+ drivers/nvme/target/zns.c            |    3 
+ drivers/s390/block/dasd_fba.c        |    1 
+ drivers/scsi/sd.c                    |    2 
+ drivers/target/target_core_device.c  |   19 ++---
+ drivers/target/target_core_file.c    |   10 +-
+ drivers/target/target_core_iblock.c  |   17 +---
+ fs/btrfs/disk-io.c                   |    3 
+ fs/btrfs/extent-tree.c               |    8 +-
+ fs/btrfs/ioctl.c                     |   12 +--
+ fs/btrfs/volumes.c                   |    4 -
+ fs/btrfs/zoned.c                     |    3 
+ fs/direct-io.c                       |   32 +--------
+ fs/exfat/file.c                      |    5 -
+ fs/exfat/super.c                     |   10 --
+ fs/ext4/ioctl.c                      |   10 --
+ fs/ext4/mballoc.c                    |   10 +-
+ fs/ext4/super.c                      |   10 --
+ fs/f2fs/f2fs.h                       |    3 
+ fs/f2fs/file.c                       |   19 ++---
+ fs/f2fs/segment.c                    |    8 --
+ fs/fat/file.c                        |    5 -
+ fs/fat/inode.c                       |   10 --
+ fs/gfs2/rgrp.c                       |    7 -
+ fs/iomap/direct-io.c                 |    3 
+ fs/jbd2/journal.c                    |    9 --
+ fs/jfs/ioctl.c                       |    5 -
+ fs/jfs/super.c                       |    8 --
+ fs/nilfs2/ioctl.c                    |    6 -
+ fs/nilfs2/sufile.c                   |    4 -
+ fs/nilfs2/the_nilfs.c                |    4 -
+ fs/ntfs3/file.c                      |    6 -
+ fs/ntfs3/super.c                     |   10 +-
+ fs/ocfs2/ioctl.c                     |    5 -
+ fs/super.c                           |    2 
+ fs/xfs/xfs_discard.c                 |    8 +-
+ fs/xfs/xfs_log_cil.c                 |    2 
+ fs/xfs/xfs_super.c                   |   12 +--
+ fs/zonefs/super.c                    |    3 
+ include/linux/blkdev.h               |  112 +++++++++++--------------------
+ include/target/target_core_backend.h |    4 -
+ mm/swapfile.c                        |   31 ++------
+ 89 files changed, 493 insertions(+), 652 deletions(-)
 
