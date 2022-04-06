@@ -4,62 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF61CC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 17:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 045BEC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 17:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j0YAuofNyVRBrLqFvRPSgCZ1AATK42Wl6B7GmthEW9Q=; b=I2EQXkuMjvoWTgxlsR+w9bRWkr
-	4cml2ziDaxk9Ptnh7FezM2lqMXF3I7Eql6FHBc2jG3TQZAtdpQu6BgqeQab+Ts0DVDmE55ltXt+Cl
-	p3289Lkj2OD1fohr1EWv8JXPHUwIFMawyitOt2hb/1NQVm6ER6n8M+5Mg6DhXqqqyftkPgWYgLXOe
-	ER2quNSnoU5uCubX1s6pSlOWSAaecsGgst/dWohCmh3LI7qW6ObfXsAY8KlbwHGKnS36XnDAY7NrZ
-	HUrfWKzQKjsoVU8w+DYiqJCvqAKMjkmbsNfUAuwSzvGccbRwiqIeN/mx8he+bMEWqBCLEW7ENDvZG
-	RzqeRfWQ==;
+	bh=GSUbj9Gf9FOIWdsnEiZsTH0/bpW5CEaHPPGqvt2y17k=; b=rArDdiRtxOJsME8Yat9kw/f+5I
+	aZIS2gX/ZUicMW1zJBqt0MgFec/gKpYAM63gWdLvRVEdXR/6yGXy5ZjQCqM6wgJcmegRgX1UxpkaC
+	krpl4LfjI+Z7LQcI0Ub6zV0ETVDc0Uex1Gyuj111Gez621S46nmIUJ2wU180tIuv0nSHBrgm8Rz5M
+	gop/Rt6lzDzHDuEQwdSykQ5KiVMkJosWfDYxX5rXPaIQvJJ2E0oTeVH/rHGYvyguMKia9kyOpzZco
+	NzDgnP7HaK/w0VDVs6AKlx6V13mOr5oq+0I1x7ey+tNA1otrb9VVZsS+n0PT3VHEJ66ppwjpUzPlg
+	g3q8aUvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nc9M7-007LNw-EU; Wed, 06 Apr 2022 17:22:07 +0000
+	id 1nc9YR-007ODa-Ca; Wed, 06 Apr 2022 17:34:51 +0000
 Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nc9M3-007LMn-Vv
- for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 17:22:05 +0000
+ id 1nc9YO-007OCI-4H
+ for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 17:34:49 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 99373B82257;
- Wed,  6 Apr 2022 17:22:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9D3C385A1;
- Wed,  6 Apr 2022 17:22:00 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D5A64B8252A;
+ Wed,  6 Apr 2022 17:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52264C385A1;
+ Wed,  6 Apr 2022 17:34:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649265721;
- bh=lGAvfHI/jM3ZN8Yi0RrK4vO1CNk/H4bXkTqdbMRzoDc=;
+ s=k20201202; t=1649266485;
+ bh=GSUbj9Gf9FOIWdsnEiZsTH0/bpW5CEaHPPGqvt2y17k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fGW/NMXbTNNf/0jKCxsy3ydzEGLiDWntFYQkj2vFTA0AOhnw4KWIOVtEQKW6ldGOk
- KR6CgtkXr+rGMjl93AuW4R/SJ0l5l/y7qsEqYHhDUKZ5w3zIuETGpJOgwH5mpBXaX9
- tNVT32sEvn0on6YxnuMLRrvK7KCFiWJFGDGHlTT8F1jD/6H5xM86YAM7lPMx1XAmjW
- jgNZ/yuyramPnzvPKTlVg6BDLa9dhZjNJpybtI4d+QWP2aaky7EwV6vi9j+P2MeQ7R
- bqYEllXYjVf08+gq9O6XHxEL6fkJdvfCbwOxP3C8kDVx6cl3WRlmSRjdhnpPeG9UN4
- 0nB9OMRofo4oA==
-Date: Wed, 6 Apr 2022 11:21:58 -0600
+ b=ZIEOgUC2u9aWQEKXbppla69SklVJXD963RilamV9sBx5gwp8dLT9DGuGscMWIAfIl
+ 1cxR4jSpGyDtKRnXSK2G155IqICZu38nip/QFi16S8kMwQSWRGLzAGqTstGhmVXzBk
+ S65K3FEZQ4gNg5PfWQ074WR7uVe6nRintysxuKQAl0P8h3uQHvlqh3hGW0Dtoi4JEZ
+ xPKyWrCcRqFwGoM+vwhGCa3nNqn1AeVuaHa75XkjXdWVOjLG0UAf03b3mclGGIbykz
+ 5w76rct2p4ygFTSK5s0pZRxhcSz4j0/mQKBVj+1JLxoH2NYtOZeaa5psgaf1AlVQVr
+ 26zqRjKJneOuw==
+Date: Wed, 6 Apr 2022 11:34:42 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>,
- "alan.adamson@oracle.com" <alan.adamson@oracle.com>
-Subject: Re: [PATCH] nvme-core: mark passthru requests RQF_QUIET flag
-Message-ID: <Yk3MNrI3YfjvbRqZ@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220406164109.30449-1-kch@nvidia.com>
- <Yk3FT78uVW+9rRV5@kbusch-mbp.dhcp.thefacebook.com>
- <21a3a237-5f3b-a608-2d79-e0a5fdcc0d88@nvidia.com>
+To: Jonathan Derrick <jonathan.derrick@linux.dev>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: [bug report]nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2)
+ MORE DNR observed during blktests
+Message-ID: <Yk3PMiM61eLgDq7N@kbusch-mbp.dhcp.thefacebook.com>
+References: <CAHj4cs_iC+FE8ZAXXZPeia1V3ZX7zRbeASdOP_8c7DLiFozNfA@mail.gmail.com>
+ <4A24C337-5EF9-4C3A-A112-BA75934AC78B@oracle.com>
+ <Ykskv/gp2s6PWiHp@kbusch-mbp.dhcp.thefacebook.com>
+ <4a97859a-9b9c-da39-3dca-76811f67b4a6@linux.dev>
+ <YktVVG+WSXzYWjGR@kbusch-mbp.dhcp.thefacebook.com>
+ <17ca93bc-3cb7-46d6-559e-e2dc0e3408bd@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21a3a237-5f3b-a608-2d79-e0a5fdcc0d88@nvidia.com>
+In-Reply-To: <17ca93bc-3cb7-46d6-559e-e2dc0e3408bd@linux.dev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220406_102204_230415_C377DE74 
-X-CRM114-Status: GOOD (  15.99  )
+X-CRM114-CacheID: sfid-20220406_103448_349107_2BA55507 
+X-CRM114-Status: GOOD (  14.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,35 +76,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 06, 2022 at 05:01:46PM +0000, Chaitanya Kulkarni wrote:
-> On 4/6/22 09:52, Keith Busch wrote:
-> > On Wed, Apr 06, 2022 at 09:41:09AM -0700, Chaitanya Kulkarni wrote:
-> >> @@ -370,7 +370,8 @@ static inline void nvme_end_req(struct request *req)
-> >>   {
-> >>   	blk_status_t status = nvme_error_status(nvme_req(req)->status);
-> >>   
-> >> -	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
-> >> +	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS &&
-> >> +		    !(req->rq_flags & RQF_QUIET)))
-> >>   		nvme_log_error(req);
-> >>   	nvme_end_req_zoned(req);
-> >>   	nvme_trace_bio_complete(req);
-> >> @@ -651,6 +652,7 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
-> >>   	cmd->common.flags &= ~NVME_CMD_SGL_ALL;
-> >>   
-> >>   	req->cmd_flags |= REQ_FAILFAST_DRIVER;
-> >> +	req->rq_flags |= RQF_QUIET;
-> > 
-> > This defeats the admin error logging logic since every admin command comes
-> > through here. If you're sure we should do this, then I suppose you can remove
-> > that unreachable code.
-> 
-> If you point out the unreachable code that will be great,
-> I'll keep looking meanwhile...
+On Mon, Apr 04, 2022 at 06:43:01PM -0600, Jonathan Derrick wrote:
+> > Or maybe since enough people have been concerned about *this* specific
+> > identify, maybe it should be restricted to 2.0 devices where it's mandatory. I
+> > was reluctant to do that at first since the initial device I tested was 1.4,
+> > but it was a prototype and we should be fine without the non-mdts limits
+> > anyway.
+> Well I'm not sure about that. I'm not honestly sure what this specific
+> identify is, but (I know you know) NVMe being forward compatible allows eg,
+> 1.4 compliant devices/targets to support 2.0 features.
 
-The second half of nvme_log_error(), plus nvme_get_admin_opcode_str() and the
-array it defines are unreachable since all admin commands don't log errors with
-this change.
+The command triggering the error is the NVM CSI Identify Controller (CNS=6),
+which provides the recommended limits for commands that don't transfer block
+data (write zeroes, verify, dsm, etc..). The driver sets it up in
+nvme_init_non_mdts_limits().
 
-You could skip the RQF_QUIET setting and check blk_rq_is_passthrough() instead.
+Here are two other user reports of this triggering smartd warnings:
+
+ http://lists.infradead.org/pipermail/linux-nvme/2021-July/028009.html
+ https://bugzilla.kernel.org/show_bug.cgi?id=215763
+
+The identification only provides recommended limits, so it's not all that bad
+if we skip checking it for <2.0 versions that don't require it.
 
