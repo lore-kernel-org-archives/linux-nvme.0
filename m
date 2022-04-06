@@ -4,69 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1191AC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 14:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18F6DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 14:22:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tmluMSiPGupq4TJU3oDGVvJ1ProtwuojSdYuvl4csQE=; b=p3sk/8ZICX72A6fol9HrYjJIWk
-	6FgYbn+IAMHqiZbKM47bPvrwUXGSkpoInqWwtootlfguVcoJ6nwfiVV3p0T/ruygQqjaD8rlbMsDH
-	hnkdr6+6zdeAL+iCpC6oCx0kJX6tBeF3dxVPwVhWoJsB/I+8lqAcdlcBc7D9X1seWHsaKbw3Br1p+
-	/DpGHhVJ4k6b7TEZIHp4dujqOpcqiWgReUaUOFQ7SLLrhebYDmrgytCthxMleR6a2AMMe9MBr3cQI
-	aHhbNHwVWvgs8rC3TIjk3oFtHL2NBGI13DioGa5XQn1b2GL8WwOCv6+5Vamrp865u0knyNcCTsg2U
-	1jqZbDOw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Bd1mHXcixZh1SwuU4MlNN9k7vqfY8cSiB7+V6+EhsLk=; b=RRNP7t1znMpQ8YSf87kplDhpAB
+	5Zf8oxz+0OOpW4IMi4w9oyUxz0GzsDr+dp9cTY/l/x2Es8G5beBnim/W0STsyhx5gnezos3F9nt9k
+	+TozovG6Wf/mdIYDfeEXZv9q3VcHKT6b3+PEuevJ823U5C8tjwML/uEv0v4HgVIZTd7ert3s/sa8I
+	A0Dh9d8qprUvbTvHcpyhj0i8IR4WxzaGVj04PJDvgUBV6/n2QZUQVEmmOe/D3rbqF0xVTgZWDnr9/
+	EhmK9xLbquouViL8zF1ClYN10eFuTTfN+ENjVLd3hWQ4nLFeHJE849gltK7aAWXCq1Bgk/FGA7kcW
+	MLc25AXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nc6Y9-006TRE-Uy; Wed, 06 Apr 2022 14:22:21 +0000
+	id 1nc6YG-006TTk-20; Wed, 06 Apr 2022 14:22:28 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nc6Y6-006TOA-Qc
- for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 14:22:20 +0000
+ id 1nc6Y6-006TO9-Qe
+ for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 14:22:22 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 833FF2112B;
+ by smtp-out1.suse.de (Postfix) with ESMTP id 7D25A21122;
  Wed,  6 Apr 2022 14:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1649254935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tmluMSiPGupq4TJU3oDGVvJ1ProtwuojSdYuvl4csQE=;
- b=by78BBsugDddI1Qs7q0iXpJXwHQcDe6JdMeCc5AdyWQJbY7ZbJxzpVjEg1gVu6WWt8+Wt8
- OxPSKhFFNXyEWKJSIFQ8qLCNfy9on6HNP+Lxeu98wZy4xmts6la6pJfj13IvsktxFJxonV
- Js6biw1vgq0LihnT4Wiy9gcPkAea/j8=
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Bd1mHXcixZh1SwuU4MlNN9k7vqfY8cSiB7+V6+EhsLk=;
+ b=xW0O9lZZyNj7Cq+EwyrKxSe76qfEF56rdq1T/SG7OsQYsH403Dedb3jwVpNPI2dIIbDEjb
+ wQtXS632LO939AFvgyh1VrgzCwe/PN4SfIfTUlZCRiuHRhG66fSrpRkQ7AvdZum7ySoOTo
+ GmNjNBjTwFEJj++61XOnD6GoEzXwYN8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1649254935;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tmluMSiPGupq4TJU3oDGVvJ1ProtwuojSdYuvl4csQE=;
- b=PaqgULU/AoJfiq50unN24niZo7gW6E4j1pcbG+HNM0Sx5Kt4TBzqNBzmpvI6v0cKCzCNzN
- 0OHEoPQPDzV3lsAg==
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Bd1mHXcixZh1SwuU4MlNN9k7vqfY8cSiB7+V6+EhsLk=;
+ b=BP24gBBBg/B/s+YCThTnZpCZKiMjbzq1kpMUsAy8QDIFrShIpN3GPRM43WsOjXvsiDY1Er
+ 1PFS/tIsmZt7JmAw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 7DAB7A3B8A;
+ by relay2.suse.de (Postfix) with ESMTP id 75AA3A3B83;
  Wed,  6 Apr 2022 14:22:15 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 6F58F5193BB0; Wed,  6 Apr 2022 16:22:15 +0200 (CEST)
+ id 62F105193BAA; Wed,  6 Apr 2022 16:22:15 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 3/3] nvmet: include all configured port in the discovery log
- page
-Date: Wed,  6 Apr 2022 16:22:10 +0200
-Message-Id: <20220406142210.71248-4-hare@suse.de>
+Subject: [PATCHv3 0/3] nvmet: unique discovery subsystem
+Date: Wed,  6 Apr 2022 16:22:07 +0200
+Message-Id: <20220406142210.71248-1-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220406142210.71248-1-hare@suse.de>
-References: <20220406142210.71248-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220406_072219_068303_42FE8E1E 
-X-CRM114-Status: GOOD (  16.29  )
+X-CRM114-CacheID: sfid-20220406_072219_093691_E0F3C923 
+X-CRM114-Status: GOOD (  14.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,120 +74,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When exposed discovery subsystems are enabled we should include
-all configured ports in the discovery log page, not just those
-through which the controller was connected.
+Hi all,
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/target/discovery.c | 72 ++++++++++++++++++++++++++++-----
- 1 file changed, 61 insertions(+), 11 deletions(-)
+here's my third attempt to support unique discovery subsystems, heavily
+modified from the previous two attempts.
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 13fda8f9d60c..d23353a750dd 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -172,6 +172,7 @@ static void nvmet_set_disc_traddr(struct nvmet_req *req, struct nvmet_port *port
- static size_t discovery_log_entries(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	struct nvmet_subsys *disc_subsys = ctrl->subsys;
- 	struct nvmet_subsys_link *p;
- 	struct nvmet_port *r;
- 	size_t entries = 0;
-@@ -179,10 +180,27 @@ static size_t discovery_log_entries(struct nvmet_req *req)
- 	if (!nvmet_expose_discovery_subsys())
- 		entries++;
- 
--	list_for_each_entry(p, &req->port->subsystems, entry) {
--		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
--			continue;
--		entries++;
-+	list_for_each_entry(r, nvmet_ports, global_entry) {
-+		if (!nvmet_expose_discovery_subsys()) {
-+			if (r != req->port)
-+				continue;
-+		} else {
-+			bool linked = false;
-+
-+			list_for_each_entry(p, &r->subsystems, entry) {
-+				if (p->subsys == disc_subsys) {
-+					linked = true;
-+					break;
-+				}
-+			}
-+			if (!linked)
-+				continue;
-+		}
-+		list_for_each_entry(p, &r->subsystems, entry) {
-+			if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
-+				continue;
-+			entries++;
-+		}
- 	}
- 	list_for_each_entry(r, &req->port->referrals, entry)
- 		entries++;
-@@ -193,6 +211,7 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- {
- 	const int entry_size = sizeof(struct nvmf_disc_rsp_page_entry);
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	struct nvmet_subsys *disc_subsys = ctrl->subsys;
- 	struct nvmf_disc_rsp_page_hdr *hdr;
- 	u64 offset = nvmet_get_log_page_offset(req->cmd);
- 	size_t data_len = nvmet_get_log_page_len(req->cmd);
-@@ -246,14 +265,45 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- 		numrec++;
- 	}
- 
--	list_for_each_entry(p, &req->port->subsystems, entry) {
--		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
--			continue;
-+	list_for_each_entry(r, nvmet_ports, global_entry) {
-+		nvmet_set_disc_traddr(req, r, traddr);
-+
-+		if (!nvmet_expose_discovery_subsys()) {
-+			/*
-+			 * If the discovery subsystem is not exposed fall
-+			 * back to the original design of only presenting
-+			 * information about the port to which the controller
-+			 * is connected.
-+			 */
-+			if (r != req->port)
-+				continue;
-+		} else {
-+			bool linked = false;
-+
-+			/*
-+			 * If the discovery subsystem is exposed present
-+			 * information about all ports into which the
-+			 * discovery subsystem is linked.
-+			 */
-+			list_for_each_entry(p, &r->subsystems, entry) {
-+				if (p->subsys == disc_subsys) {
-+					linked = true;
-+					break;
-+				}
-+			}
-+			if (!linked)
-+				continue;
-+		}
- 
--		nvmet_format_discovery_entry(hdr, req->port,
--				p->subsys->subsysnqn, traddr,
--				p->subsys->type, numrec);
--		numrec++;
-+		list_for_each_entry(p, &r->subsystems, entry) {
-+			if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
-+				continue;
-+
-+			nvmet_format_discovery_entry(hdr, r,
-+					p->subsys->subsysnqn, traddr,
-+					p->subsys->type, numrec);
-+			numrec++;
-+		}
- 	}
- 
- 	list_for_each_entry(r, &req->port->referrals, entry) {
+The main idea is to not create the discovery subsystem per default, but
+rather require the admin to create one.
+As this is an incompatible change I've added a module parameter
+'expose_discovery_subsys' to switch to the new behaviour.
+The admin then need to configure the subsystem as normal by linking
+it into the ports where the discovery subsystem should be visible.
+And the discovery log then includes all configured ports to all
+configured subsystems, as usual modified by whether the host may
+access this subsystem or not.
+
+Currently, there is no restriction on the number of discovery subsystems;
+technically one can create any number of them. But this is primarily
+because I'm too lazy to check (and we don't have a global enumeration for
+subsystems) and not due to a design decision.
+
+As usual, comments and reviews are welcome.
+
+Changes to v2:
+- Heavily rework after discussion on the mailing list
+
+Changes to the original submission:
+- Include all subsystems in the discovery log output
+
+Hannes Reinecke (3):
+  nvmet: make the subsystem type configurable
+  nvmet: expose discovery subsystems
+  nvmet: include all configured port in the discovery log page
+
+ drivers/nvme/target/configfs.c  |  80 ++++++++++++++++++-
+ drivers/nvme/target/core.c      |  19 ++++-
+ drivers/nvme/target/discovery.c | 133 ++++++++++++++++++++++++++------
+ drivers/nvme/target/nvmet.h     |   2 +
+ 4 files changed, 205 insertions(+), 29 deletions(-)
+
 -- 
 2.29.2
 
