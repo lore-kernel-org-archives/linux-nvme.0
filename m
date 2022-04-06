@@ -4,68 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 051D0C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 14:22:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3115FC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 16:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f3TiZCS6NFzH35CZ7ZYVvB4uDZWV6AS22EWilauh9Ww=; b=X7Ls4PjbX87gvjnZT0rvVOcyXI
-	f5Kdj/UXo0AfHHVCbzZfcd0Me2SUq0gnFzzOQSYZuqjgFSl6zKyijHpD+7sFVVdwUiU48AVLRF3GQ
-	neozKLTSKCg2S21BSqXr6hCXFuXDBTPDUi8JCS81TJSYAhOzKGWhCQCE27GqRRtvXpj2AT0XX0314
-	EemZSUqAtGw+0wLqMtw+4kzIsYx1CMvoGIAUP+VIdKhclIWMMguNZn6dUkdrZFQkKXz+NlPwz4MpE
-	l9yXl8UIOcclQROttMKyU1FaZgI+ROWuAqdBqSyi8mkdMcs30y63WgZgLkaNVlM9nl5vr2PxQZHGA
-	fRhNdN8g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+GAakmhE4oPLxTyD1b9oiXt4GQKNHLAimFQj7GLguPQ=; b=sWNeJE19hysUTA1YsVNC9Rnty2
+	YgD76OlYEMTB7Mo4h2BfxW13MIgrJ2mglEhJMt2rBZRTEL7ChgeOkaFyYyV+Zq1C/tH1r8VvfrEj5
+	n3+2cxZEkF4laX2dp/JQSjmwkV///JnV6suk3sDMr9UTgW3cuunbrJ4oXT0S8PzY/Y5j2YQvwpc8E
+	6QMhusvd9dk3oeRue4u4pl1AW85xOBWNqahyVbCNAQc344ZP1++8n9ig4zxXBVMDtN+y5G5ps8Gw9
+	988aOmxTAfWjDd4U6nkblKnKMp84B8ID3PJvJmjmvCkzFrp0F4+NfQ2oIxhrGfSsL+vPbM5SPJ99W
+	63xgZvFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nc6YR-006TZD-OG; Wed, 06 Apr 2022 14:22:39 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nc8in-007EYJ-Tl; Wed, 06 Apr 2022 16:41:29 +0000
+Received: from mail-bn1nam07on20627.outbound.protection.outlook.com
+ ([2a01:111:f400:7eb2::627]
+ helo=NAM02-BN1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nc6Y6-006TOB-Qd
- for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 14:22:22 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 8093B21123;
- Wed,  6 Apr 2022 14:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649254935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f3TiZCS6NFzH35CZ7ZYVvB4uDZWV6AS22EWilauh9Ww=;
- b=VkSss6iXtK2u5ri8RjC7QZe4riBZ2tmq9aDmqLmzA8pQYOXvqNHpnYcYOzjLrb0aeC/+cd
- qcUupOpubmDgVMivfffzYWbmwYhALpo0ubCZnoKZ9re7QFh+4KBCjJ0x5EUz+qcRDrUC/R
- BtQzyqPreLqgeLPLVKicZBGO5b9VHAg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649254935;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f3TiZCS6NFzH35CZ7ZYVvB4uDZWV6AS22EWilauh9Ww=;
- b=yiS1aNfOGT+Qqaxbvl1DVle5EdLy2Qznrg8DoQi7FAXZmbUmBZACmQFaW1EPflmCvWjgRU
- gnCnjdiFhq3h1CBg==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 78F64A3B89;
- Wed,  6 Apr 2022 14:22:15 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 6A5A45193BAE; Wed,  6 Apr 2022 16:22:15 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 2/3] nvmet: expose discovery subsystems
-Date: Wed,  6 Apr 2022 16:22:09 +0200
-Message-Id: <20220406142210.71248-3-hare@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220406142210.71248-1-hare@suse.de>
-References: <20220406142210.71248-1-hare@suse.de>
+ id 1nc8ig-007EVb-RB
+ for linux-nvme@lists.infradead.org; Wed, 06 Apr 2022 16:41:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gXYDrAXEBPqJmG9y0LV25SoQPCy6QpxpOdr1KtSVgfsY7SIiw44DdYF8raEoyPaHgmkegA2NRVCvTX6IkqrrwFMCr+hFTgXb5D+uo0/nZu2PGLgWgQk7SFssPxZTb1ipaXZpyyhulG+h/qB9Fbk5IOBh3DdweIwY4VF6PwNbQ/0giUmndPIJ6KtuOQtMSoyx0WwcCngr0PnlW1iKekaLb4ZxZmbr/7ZeLv9kMug9Hrb5NOYiuGJ0RE9pS88wyIWs5Rw9HFbctLbFSh7RcbuuGAqvQedpRhjCzp4QrH0h9m/1r28mS+nCRvirXIPUWxBYaR5hSg2uZEGUTL3BTHNFVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+GAakmhE4oPLxTyD1b9oiXt4GQKNHLAimFQj7GLguPQ=;
+ b=HZd3vyx6yNk7c6aVTJZvxsnGE1mgjNsYHxLlU6cvDTyG8EO6H7UaMpiqbg/31A5RQxRaqPt3G+IXAWlFGQIJdrq7QOGVxxB0sUK3pBD1oVXUBjk7qUtZN3n/TuudGHoncle+gQgE4OgLjjdqaVVSzlDEr7Yitt/84ImemnTUPAL0h+kce+3B2TlEHE2bM4miav3Lf7w8eVexcPkQAkBW2WXQHC2PDlarOuOyieAqlMTYVnadBy1OOiwztvpImc8VmdnsUpxfk1uHMmGc35GRjiu+NVKGpFZMzmRvZfP0rIk3OFm+JB9pKckz1ZxZBGGmXny+JGjw0CWLI8qeChOEWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+GAakmhE4oPLxTyD1b9oiXt4GQKNHLAimFQj7GLguPQ=;
+ b=blcxFu8bD3bKCVhKD2j32SQHeaHgfh+L6Hb+0Z3EigrcF92i9+fyLsYC4wJOaU4ib7tBYtjZDxmVsYlkCibqZ+PkJQu/z6GUv+VZ0xKD5vd9kHSgC+xPlkHjP088AD2/Zpw45t7Wrp4Lub6JN7Izuftk9n0NAHr5A4Gnby5qxhICgAjd7Zmqf1JahBV8wyzbS4XwMPIy/e+6kYBzmdYrHDU5OavcPRstpKE8MU0JraURqEkcEv2vluNDh7Na8WlosjnC/x0+shPBGtc1rI2UWSzLFyJlfKeLhSYYKMP2zqRNe2N3iE2/Ht2WyfjDsSy/elpa+9xk4vInBpMAXirkUw==
+Received: from MW4P223CA0017.NAMP223.PROD.OUTLOOK.COM (2603:10b6:303:80::22)
+ by CH2PR12MB4874.namprd12.prod.outlook.com (2603:10b6:610:64::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
+ 2022 16:41:18 +0000
+Received: from CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:80:cafe::70) by MW4P223CA0017.outlook.office365.com
+ (2603:10b6:303:80::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.22 via Frontend
+ Transport; Wed, 6 Apr 2022 16:41:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ CO1NAM11FT052.mail.protection.outlook.com (10.13.174.225) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 16:41:17 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Wed, 6 Apr 2022 16:41:17 +0000
+Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 6 Apr 2022
+ 09:41:16 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <kbusch@kernel.org>, <alan.adamson@oracle.com>, "Chaitanya
+ Kulkarni" <kch@nvidia.com>
+Subject: [PATCH] nvme-core: mark passthru requests RQF_QUIET flag
+Date: Wed, 6 Apr 2022 09:41:09 -0700
+Message-ID: <20220406164109.30449-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 12fb050d-da72-4086-ba20-08da17ec45e7
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4874:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB487491C8212534A0EA4C8DE6A3E79@CH2PR12MB4874.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZhJGuMFCF1pKDhD9oIMPrfw+gLFPycbtygb88Y6xDNwxdSYvOFvbmMYRZzhvhp4TLjl2VtaTkEc6Zs8W/w1gljGI8qxZQMM3x05N7H0FbqX+uQT7x+CE8jMmIRv2Rd6vLGtr8BJNyTEx24dy4YUgPz53GnNj9swxa9ex6UWZ9wx5F2SOJ8BZVxuYMhyfFjmUhbtHUVs+7OLNERThpipWHfJxaO88nWUXj2OIC2qK4EGyTm6KKnJUIrDuDoInKJ4ouFkiOWO93fqeq8haS7EHjCIPHoIm2olZaXfe904wYwu6JHniZd8uckIo2PiTVkNf4ISseDKYVZj4kuB8TqMsh1uSGHwsU7A5iWhvYo/JPOUzYJ6azHcTZOS4lEdxxaUUrAzCY2BTvRHhuYiwwzJdZTgbl9DvpSfUYIapMoU/4VolQfx7nl8lBniaTLU88DAo3bszTigiYTd0mRTnOFw/fXFrRPcRjt/15//onXVeKD3vOhp88DCuIWfHY+YWXPAEz7kJX3O9T8E02ZQkKNOmth9TabAA924e3oIFv0y1t6ubLUplwBs8VdQ+xC4pL/7vz9JrJt+kp2C6PGqjKujD5cf3nzIxgQScsjv6654fAAvxKiqbfQjQCQ7VSYy4l+lcY3W00GGy/1oypDbQXwC5vPFPSiUGfm/x/Z5A2lHuewWY8PlI0LZIx+ukOC3eZl20oYkNo8z2NcNzDx8FqPrkYw==
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(36860700001)(336012)(82310400005)(81166007)(356005)(426003)(40460700003)(4326008)(2906002)(6666004)(47076005)(7696005)(8676002)(508600001)(2616005)(26005)(54906003)(8936002)(5660300002)(186003)(70586007)(316002)(6916009)(16526019)(107886003)(1076003)(70206006)(83380400001)(36756003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 16:41:17.7787 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12fb050d-da72-4086-ba20-08da17ec45e7
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4874
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220406_072219_170502_FCB154DB 
-X-CRM114-Status: GOOD (  19.83  )
+X-CRM114-CacheID: sfid-20220406_094122_924263_50B8D32B 
+X-CRM114-Status: GOOD (  12.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,270 +124,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a module parameter 'expose_discovery_subsys' to allow creation
-of discovery subsystems through configfs.
-If the option is enabled no default discovery subsystem is created
-per default, and the user is required to create one via configfs.
+From: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
+Since addition of the nvme_log_error() we are getting error message
+when running block tests framework due to internal passthru commands :-
+
+[  612.754938] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
+[  616.361730] run blktests nvme/012 at 2022-04-06 09:26:43
+[  616.382902] loop0: detected capacity change from 0 to 2097152
+[  616.392680] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[  616.400913] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN testhostnqn.
+[  616.401001] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR
+
+[  627.427947] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[  627.437084] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN testhostnqn.
+[  627.437161] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR
+[  627.438984] nvme nvme1: creating 48 I/O queues.
+[  627.442620] nvme nvme1: new ctrl: "blktests-subsystem-1"
+[  628.506885] XFS (nvme1n1): Mounting V5 Filesystem
+[  628.516895] XFS (nvme1n1): Ending clean mount
+[  628.519966] xfs filesystem being mounted at /mnt/blktests supports timestamps until 2038 (0x7fffffff)
+[  704.852721] XFS (nvme1n1): Unmounting Filesystem
+[  704.864724] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
+
+This patch adds the passthru request with RQF_QUIET flag and ignores
+the error reporting for nvme_log_error() if RQF_QUIET flag is set
+when request is failed. With this patch we don't get the above error
+message.
+
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+[kch: make a formal patch & test with blktests]
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/configfs.c  | 26 ++++++++++++--
- drivers/nvme/target/core.c      | 19 ++++++++--
- drivers/nvme/target/discovery.c | 63 ++++++++++++++++++++++++++-------
- drivers/nvme/target/nvmet.h     |  2 ++
- 4 files changed, 91 insertions(+), 19 deletions(-)
+ drivers/nvme/host/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 31d2490264e3..1fd4d09e3db4 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -20,6 +20,16 @@ static const struct config_item_type nvmet_subsys_type;
- static LIST_HEAD(nvmet_ports_list);
- struct list_head *nvmet_ports = &nvmet_ports_list;
- 
-+static int expose_discovery_subsys;
-+module_param(expose_discovery_subsys, int, 0644);
-+MODULE_PARM_DESC(expose_discovery_subsys,
-+		 "Expose discovery subsytem in configfs");
-+
-+bool nvmet_expose_discovery_subsys(void)
-+{
-+	return expose_discovery_subsys;
-+}
-+
- struct nvmet_type_name_map {
- 	u8		type;
- 	const char	*name;
-@@ -1264,6 +1274,11 @@ static ssize_t nvmet_subsys_attr_type_store(struct config_item *item,
- 	if (subsys->subsys_discovered)
- 		return -EACCES;
- 
-+	if (!expose_discovery_subsys) {
-+		pr_err("Unique discovery subsystem NQNs are not enabled\n");
-+		return -EINVAL;
-+	}
-+
- 	for (i = 0; i < ARRAY_SIZE(nvmet_subsys_type_map); i++) {
- 		if (sysfs_streq(page, nvmet_subsys_type_map[i].name))
- 			goto found;
-@@ -1348,13 +1363,18 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
- 		const char *name)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f204c6f78b5b..b913a89c743e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -370,7 +370,8 @@ static inline void nvme_end_req(struct request *req)
  {
- 	struct nvmet_subsys *subsys;
-+	enum nvme_subsys_type subsys_type = NVME_NQN_NVME;
+ 	blk_status_t status = nvme_error_status(nvme_req(req)->status);
  
- 	if (sysfs_streq(name, NVME_DISC_SUBSYS_NAME)) {
--		pr_err("can't create discovery subsystem through configfs\n");
--		return ERR_PTR(-EINVAL);
-+		if (expose_discovery_subsys)
-+			subsys_type = NVME_NQN_CURR;
-+		else {
-+			pr_err("can't create discovery subsystem through configfs\n");
-+			return ERR_PTR(-EINVAL);
-+		}
- 	}
+-	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
++	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS &&
++		    !(req->rq_flags & RQF_QUIET)))
+ 		nvme_log_error(req);
+ 	nvme_end_req_zoned(req);
+ 	nvme_trace_bio_complete(req);
+@@ -651,6 +652,7 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
+ 	cmd->common.flags &= ~NVME_CMD_SGL_ALL;
  
--	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
-+	subsys = nvmet_subsys_alloc(name, subsys_type);
- 	if (IS_ERR(subsys))
- 		return ERR_CAST(subsys);
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 90e75324dae0..2187af97c47e 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1491,14 +1491,19 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
- 		const char *subsysnqn)
- {
- 	struct nvmet_subsys_link *p;
-+	enum nvme_subsys_type subsys_type = NVME_NQN_NVME;
- 
- 	if (!port)
- 		return NULL;
- 
- 	if (!strcmp(NVME_DISC_SUBSYS_NAME, subsysnqn)) {
--		if (!kref_get_unless_zero(&nvmet_disc_subsys->ref))
--			return NULL;
--		return nvmet_disc_subsys;
-+		if (nvmet_expose_discovery_subsys())
-+			subsys_type = NVME_NQN_CURR;
-+		else {
-+			if (!kref_get_unless_zero(&nvmet_disc_subsys->ref))
-+				return NULL;
-+			return nvmet_disc_subsys;
-+		}
- 	}
- 
- 	down_read(&nvmet_config_sem);
-@@ -1510,6 +1515,13 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
- 			up_read(&nvmet_config_sem);
- 			return p->subsys;
- 		}
-+		if (subsys_type == NVME_NQN_CURR &&
-+		    p->subsys->type == subsys_type) {
-+			if (!kref_get_unless_zero(&p->subsys->ref))
-+				break;
-+			up_read(&nvmet_config_sem);
-+			return p->subsys;
-+		}
- 	}
- 	up_read(&nvmet_config_sem);
- 	return NULL;
-@@ -1544,6 +1556,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	case NVME_NQN_DISC:
- 	case NVME_NQN_CURR:
- 		subsys->max_qid = 0;
-+		subsys->allow_any_host = 1;
- 		break;
- 	default:
- 		pr_err("%s: Unknown Subsystem type - %d\n", __func__, type);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index b5012df790d5..13fda8f9d60c 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -29,18 +29,32 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
- 			     struct nvmet_subsys *subsys)
- {
- 	struct nvmet_ctrl *ctrl;
-+	struct nvmet_subsys *disc_subsys = nvmet_disc_subsys;
- 
- 	lockdep_assert_held(&nvmet_config_sem);
- 	nvmet_genctr++;
- 
--	mutex_lock(&nvmet_disc_subsys->lock);
--	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
-+	if (nvmet_expose_discovery_subsys()) {
-+		struct nvmet_subsys_link *s;
-+
-+		disc_subsys = NULL;
-+		list_for_each_entry(s, &port->subsystems, entry) {
-+			if (s->subsys->type == NVME_NQN_CURR) {
-+				disc_subsys = s->subsys;
-+				break;
-+			}
-+		}
-+		if (!disc_subsys)
-+			return;
-+	}
-+	mutex_lock(&disc_subsys->lock);
-+	list_for_each_entry(ctrl, &disc_subsys->ctrls, subsys_entry) {
- 		if (subsys && !nvmet_host_allowed(subsys, ctrl->hostnqn))
- 			continue;
- 
- 		__nvmet_disc_changed(port, ctrl);
- 	}
--	mutex_unlock(&nvmet_disc_subsys->lock);
-+	mutex_unlock(&disc_subsys->lock);
- 
- 	/* If transport can signal change, notify transport */
- 	if (port->tr_ops && port->tr_ops->discovery_chg)
-@@ -48,19 +62,33 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
- }
- 
- static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
--					struct nvmet_subsys *subsys,
- 					struct nvmet_host *host)
- {
- 	struct nvmet_ctrl *ctrl;
-+	struct nvmet_subsys *disc_subsys = nvmet_disc_subsys;
-+
-+	if (nvmet_expose_discovery_subsys()) {
-+		struct nvmet_subsys_link *s;
-+
-+		disc_subsys = NULL;
-+		list_for_each_entry(s, &port->subsystems, entry) {
-+			if (s->subsys->type == NVME_NQN_CURR) {
-+				disc_subsys = s->subsys;
-+				break;
-+			}
-+		}
-+		if (!disc_subsys)
-+			return;
-+	}
- 
--	mutex_lock(&nvmet_disc_subsys->lock);
--	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
-+	mutex_lock(&disc_subsys->lock);
-+	list_for_each_entry(ctrl, &disc_subsys->ctrls, subsys_entry) {
- 		if (host && strcmp(nvmet_host_name(host), ctrl->hostnqn))
- 			continue;
- 
- 		__nvmet_disc_changed(port, ctrl);
- 	}
--	mutex_unlock(&nvmet_disc_subsys->lock);
-+	mutex_unlock(&disc_subsys->lock);
- }
- 
- void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
-@@ -76,7 +104,7 @@ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
- 		list_for_each_entry(s, &port->subsystems, entry) {
- 			if (s->subsys != subsys)
- 				continue;
--			__nvmet_subsys_disc_changed(port, subsys, host);
-+			__nvmet_subsys_disc_changed(port, host);
- 		}
- }
- 
-@@ -146,7 +174,10 @@ static size_t discovery_log_entries(struct nvmet_req *req)
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvmet_subsys_link *p;
- 	struct nvmet_port *r;
--	size_t entries = 1;
-+	size_t entries = 0;
-+
-+	if (!nvmet_expose_discovery_subsys())
-+		entries++;
- 
- 	list_for_each_entry(p, &req->port->subsystems, entry) {
- 		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
-@@ -208,10 +239,12 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- 
- 	nvmet_set_disc_traddr(req, req->port, traddr);
- 
--	nvmet_format_discovery_entry(hdr, req->port,
--				     nvmet_disc_subsys->subsysnqn,
--				     traddr, NVME_NQN_CURR, numrec);
--	numrec++;
-+	if (!nvmet_expose_discovery_subsys()) {
-+		nvmet_format_discovery_entry(hdr, req->port,
-+				nvmet_disc_subsys->subsysnqn,
-+				traddr, NVME_NQN_CURR, numrec);
-+		numrec++;
-+	}
- 
- 	list_for_each_entry(p, &req->port->subsystems, entry) {
- 		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
-@@ -393,6 +426,8 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 
- int __init nvmet_init_discovery(void)
- {
-+	if (nvmet_expose_discovery_subsys())
-+		return 0;
- 	nvmet_disc_subsys =
- 		nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME, NVME_NQN_CURR);
- 	return PTR_ERR_OR_ZERO(nvmet_disc_subsys);
-@@ -400,5 +435,7 @@ int __init nvmet_init_discovery(void)
- 
- void nvmet_exit_discovery(void)
- {
-+	if (nvmet_expose_discovery_subsys())
-+		return;
- 	nvmet_subsys_put(nvmet_disc_subsys);
- }
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 69818752a33a..4d51d5d95ffb 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -532,6 +532,8 @@ extern u32 nvmet_ana_group_enabled[NVMET_MAX_ANAGRPS + 1];
- extern u64 nvmet_ana_chgcnt;
- extern struct rw_semaphore nvmet_ana_sem;
- 
-+bool nvmet_expose_discovery_subsys(void);
-+
- bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
- 
- int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
+ 	req->cmd_flags |= REQ_FAILFAST_DRIVER;
++	req->rq_flags |= RQF_QUIET;
+ 	if (req->mq_hctx->type == HCTX_TYPE_POLL)
+ 		req->cmd_flags |= REQ_POLLED;
+ 	nvme_clear_nvme_request(req);
 -- 
-2.29.2
+2.29.0
 
 
