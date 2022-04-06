@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2CEAC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 06:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3BE9C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Apr 2022 06:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CCltYPwX8bAZQe3AOk2m+rVDM7liIR3xNyzg1pXv0K0=; b=BPoOBNBVkQRQ/34pzH46VkqbPn
-	b2Er47A3+ebB6xh+ASmrGdRQ/0KmNQNpluFrtCkypsRN2yvXu2jUlgbAWG0bfEl2nUIMmgM/6ZNxL
-	vY7GoXMYDMXaX2QRi495ww8+39/NoU2MLN/ecSvvVRiRG3M2xtUbgJ5Jx6F5xF1eTQmDxoMUxVIvo
-	jfdWqqZqrTasK6M8cGAX8FdYr2G5SN/yFR+I6Nr9QL4dDkt/xOW8nGRq3b1zD+wQoV4zI4mvuQ6Jx
-	TKNl0PvIe4D6FnkFrl40MlvcaF8kCC3JGiHSHDambJ1UWLnWgk4sDvjjQKQRe5zXfQYc/mRtAaKp5
-	8TI0kboA==;
+	bh=M87611C6i/ov1/eZb42tZHfhB+4TDGyoM3tVyFqdBW8=; b=nbdZ7NlD4SJ4oFj5DYVJBOZA9q
+	dM4OqxfoomkJ8FoZRZ3Wf3x9TLXPz3/6cXZt41p2Djh8K9AY0b9RIxPwYzSmNap5B4Q5vf3ALnPfu
+	zG5IB0IGJayma973r6jK9WjI+BLgVTshP7gm7gJbWGq2R2qr9hOGf+o+hD5ZxPpKCjh8rRDVU6MXK
+	9n7wap9PBERCUiQakBdNsRkdPlfny/o9bPikrNansSIuyOv2D1pxeEN2M6q5SPaosDgUlFOY4zaUx
+	B8mOoQsjBX67OH6JDlfVGTCl/KCf+hQr6PQeYV+guJQ8WvIDPb7cOu/KJvG4cTszShmeKI0VvT0Jc
+	tfQZZQeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nbzAO-0047SI-Oc; Wed, 06 Apr 2022 06:29:20 +0000
+	id 1nbzBP-0047wg-LC; Wed, 06 Apr 2022 06:30:23 +0000
 Received: from 213-225-3-188.nat.highway.a1.net ([213.225.3.188]
  helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nbyoO-003vfZ-P9; Wed, 06 Apr 2022 06:06:37 +0000
+ id 1nbyoS-003vjO-9L; Wed, 06 Apr 2022 06:06:41 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -40,10 +40,10 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
-Subject: [PATCH 20/27] block: use bdev_discard_alignment in
- part_discard_alignment_show
-Date: Wed,  6 Apr 2022 08:05:09 +0200
-Message-Id: <20220406060516.409838-21-hch@lst.de>
+Subject: [PATCH 21/27] block: move {bdev,
+ queue_limit}_discard_alignment out of line
+Date: Wed,  6 Apr 2022 08:05:10 +0200
+Message-Id: <20220406060516.409838-22-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220406060516.409838-1-hch@lst.de>
 References: <20220406060516.409838-1-hch@lst.de>
@@ -63,30 +63,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bdev based alignment helper instead of open coding it.
+No need to inline these fairly larger helpers.  Also fix the return value
+to be unsigned, just like the field in struct queue_limits.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/partitions/core.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ block/blk-settings.c   | 35 +++++++++++++++++++++++++++++++++++
+ include/linux/blkdev.h | 34 +---------------------------------
+ 2 files changed, 36 insertions(+), 33 deletions(-)
 
-diff --git a/block/partitions/core.c b/block/partitions/core.c
-index 240b3fff521e4..70dec1c78521d 100644
---- a/block/partitions/core.c
-+++ b/block/partitions/core.c
-@@ -206,11 +206,7 @@ static ssize_t part_alignment_offset_show(struct device *dev,
- static ssize_t part_discard_alignment_show(struct device *dev,
- 					   struct device_attribute *attr, char *buf)
- {
--	struct block_device *bdev = dev_to_bdev(dev);
--
--	return sprintf(buf, "%u\n",
--		queue_limit_discard_alignment(&bdev_get_queue(bdev)->limits,
--				bdev->bd_start_sect));
-+	return sprintf(buf, "%u\n", bdev_discard_alignment(dev_to_bdev(dev)));
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 94410a13c0dee..fd83d674afd0a 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -478,6 +478,30 @@ static int queue_limit_alignment_offset(struct queue_limits *lim,
+ 	return (granularity + lim->alignment_offset - alignment) % granularity;
  }
  
- static DEVICE_ATTR(partition, 0444, part_partition_show, NULL);
++static unsigned int queue_limit_discard_alignment(struct queue_limits *lim,
++		sector_t sector)
++{
++	unsigned int alignment, granularity, offset;
++
++	if (!lim->max_discard_sectors)
++		return 0;
++
++	/* Why are these in bytes, not sectors? */
++	alignment = lim->discard_alignment >> SECTOR_SHIFT;
++	granularity = lim->discard_granularity >> SECTOR_SHIFT;
++	if (!granularity)
++		return 0;
++
++	/* Offset of the partition start in 'granularity' sectors */
++	offset = sector_div(sector, granularity);
++
++	/* And why do we do this modulus *again* in blkdev_issue_discard()? */
++	offset = (granularity + alignment - offset) % granularity;
++
++	/* Turn it back into bytes, gaah */
++	return offset << SECTOR_SHIFT;
++}
++
+ static unsigned int blk_round_down_sectors(unsigned int sectors, unsigned int lbs)
+ {
+ 	sectors = round_down(sectors, lbs >> SECTOR_SHIFT);
+@@ -924,3 +948,14 @@ int bdev_alignment_offset(struct block_device *bdev)
+ 	return q->limits.alignment_offset;
+ }
+ EXPORT_SYMBOL_GPL(bdev_alignment_offset);
++
++unsigned int bdev_discard_alignment(struct block_device *bdev)
++{
++	struct request_queue *q = bdev_get_queue(bdev);
++
++	if (bdev_is_partition(bdev))
++		return queue_limit_discard_alignment(&q->limits,
++				bdev->bd_start_sect);
++	return q->limits.discard_alignment;
++}
++EXPORT_SYMBOL_GPL(bdev_discard_alignment);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 5a9b7aeda010b..34b1cfd067421 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1252,39 +1252,7 @@ bdev_zone_write_granularity(struct block_device *bdev)
+ }
+ 
+ int bdev_alignment_offset(struct block_device *bdev);
+-
+-static inline int queue_limit_discard_alignment(struct queue_limits *lim, sector_t sector)
+-{
+-	unsigned int alignment, granularity, offset;
+-
+-	if (!lim->max_discard_sectors)
+-		return 0;
+-
+-	/* Why are these in bytes, not sectors? */
+-	alignment = lim->discard_alignment >> SECTOR_SHIFT;
+-	granularity = lim->discard_granularity >> SECTOR_SHIFT;
+-	if (!granularity)
+-		return 0;
+-
+-	/* Offset of the partition start in 'granularity' sectors */
+-	offset = sector_div(sector, granularity);
+-
+-	/* And why do we do this modulus *again* in blkdev_issue_discard()? */
+-	offset = (granularity + alignment - offset) % granularity;
+-
+-	/* Turn it back into bytes, gaah */
+-	return offset << SECTOR_SHIFT;
+-}
+-
+-static inline int bdev_discard_alignment(struct block_device *bdev)
+-{
+-	struct request_queue *q = bdev_get_queue(bdev);
+-
+-	if (bdev_is_partition(bdev))
+-		return queue_limit_discard_alignment(&q->limits,
+-				bdev->bd_start_sect);
+-	return q->limits.discard_alignment;
+-}
++unsigned int bdev_discard_alignment(struct block_device *bdev);
+ 
+ static inline unsigned int bdev_write_zeroes_sectors(struct block_device *bdev)
+ {
 -- 
 2.30.2
 
