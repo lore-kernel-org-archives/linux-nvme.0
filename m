@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4741EC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 01:26:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B9B9C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 01:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zJSWZSCavrmob3E10qFjSWag7S+nL/GVsdG9159j/ak=; b=t0VP5vf/W/EZl8Yi/cMcDdHe6j
-	BK+wMNTwlsLRnneUa2EmjX1QM7gdyBUa0D0t1EnGrHGLzFqZg0W7rKPLwn6xm0LvKX5pkCsEy2/kY
-	PviIYd0CG3LdAIF7RSm7eLQJBlaRsafjdJGZmLBPPVEcW7NpEaIE8bNhZc4d9XNZA54YkVZnWrEMj
-	Gz2rwy/9YlDZ0OjRMvFYw2SwZWLrCVE3ttZAGHS50x+946ZvA/SOQ7RMzjU8ciipEtqiyU9aQxqcy
-	5TNRBsYBTUvb55t769ECzpeyoV0jQ5OgbQ5sR9UmPORXbo1cqZPmcLH5LRScYNB2rooWba+al2T2a
-	yoKFSXyA==;
+	bh=P4ap8xwoOJ3iBh56RTDK3s1bIwAxX9s5RV6VuGZML/A=; b=0SaPPDnPuDmrpIXZsMSSD+okbJ
+	f6WZk+fT0v/K4Q31RsENNeqFSRmawE3J3xPE/6PEdpUnS+S74u3i1+puc4k76w3W8/mPOpNgBw3DH
+	Jv9tmRPh8ObZTujNt8nCU26Ov8gx8AC/4fOlT25Jlt22heTxWd8PMVQb3CFNLgBJzwBEALGaeosnT
+	AnECWEFF8Rz9t3mof6LS6haD4EtsvfN7IuxJr3v3ZhTdyzgQCWRYixoZNv9v9sYapY26w6VRisqR/
+	qpfqQvUHw4Xb15GCwH9dnOn0i5RKkC9LQ5I0eBwxMvoilr5wJY51cK6E0hmfNq/M2CmV2aubdGw0n
+	OBEuAb7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncGv4-008c2X-Q0; Thu, 07 Apr 2022 01:26:42 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1ncGxy-008dJH-Su; Thu, 07 Apr 2022 01:29:42 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncGjf-008WPs-91
- for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 01:14:57 +0000
+ id 1ncGkZ-008WxL-4t
+ for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 01:15:53 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DB68DB8268C;
- Thu,  7 Apr 2022 01:14:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D7CC385A6;
- Thu,  7 Apr 2022 01:14:52 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AF3BDB82691;
+ Thu,  7 Apr 2022 01:15:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50667C385A6;
+ Thu,  7 Apr 2022 01:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649294093;
- bh=V54235r8/iwJZHzZJh9Bx2Fl/u1D+DRFrFgDgmbY7eY=;
+ s=k20201202; t=1649294148;
+ bh=8LPEfYxQenpH9D4InrKCnPBnl7PAFBo+jj2AGNeJ0tc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jmcqz7OcV9j9YXYSu8Jr9avVVfy5MoKJZGNzNu1QUZbpZp1AjN+6gCMyx5EyDXkXI
- U5Igp84plp/4sX8cu6N262cvAcVdlekqwEfy2/aniWf6rkJbZCWfG4/S6tIqpkqcvH
- q7qxIyFVvjWg+USjkx0jAf6u5IFMg1K+QpOnKDyFL9vJJPlleiLdqCptO+K9JXZ01A
- diXO4O1hIeNmgx8snivgNnvtJGyXhlCsz08fdWEerisNV6UdvjWjYVp5gZw8U8xoOd
- xN1SQqhZrBBk0MGCKhMpxDeUsSkI3Thdno0nVxKFnlJoz15yDTivDoVsoC1dtUbHnV
- J9vBDTnc7J78A==
+ b=sfVYpwccwSzove12wbRlrrehbWbI0EXIoeslqkCvktrt1gFmu4An05YTXP2rp4YMU
+ wA038JJkiOh/wp3bHeVo0IOJycRBOm1oy+NO1LzCIbjoeKngZ9zei8ghcuf0QsTWSJ
+ SPIV8QFnPrx5fg439vltpEwvf/Swk1KRI7Kpo7Tu2bChXqzm8Fbcr0skcEx4/wHisQ
+ BMytLtAiu7uRccgouRX/tFuUOmXnDwJvkEj4xT+vdthT4OR3lgfHg+5+oWErwV0A51
+ rUOctlY2yifheQWgK37MvCwgoJslGunhgG+mPNGAyRhfAnhKLzsV4zfpaZ3uWflJq9
+ GQyqnJne2DfdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,20 +49,20 @@ Cc: Anton Eidelman <anton.eidelman@gmail.com>,
  Anton Eidelman <anton@lightbitslabs.com>, Sagi Grimberg <sagi@grimberg.me>,
  Christoph Hellwig <hch@lst.de>, Sasha Levin <sashal@kernel.org>,
  kbusch@kernel.org, axboe@fb.com, linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 17/25] nvme-multipath: fix hang when disk goes
+Subject: [PATCH AUTOSEL 5.4 10/17] nvme-multipath: fix hang when disk goes
  live over reconnect
-Date: Wed,  6 Apr 2022 21:14:05 -0400
-Message-Id: <20220407011413.114662-17-sashal@kernel.org>
+Date: Wed,  6 Apr 2022 21:15:14 -0400
+Message-Id: <20220407011521.115014-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011413.114662-1-sashal@kernel.org>
-References: <20220407011413.114662-1-sashal@kernel.org>
+In-Reply-To: <20220407011521.115014-1-sashal@kernel.org>
+References: <20220407011521.115014-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220406_181455_651739_39D0F1D9 
-X-CRM114-Status: GOOD (  25.13  )
+X-CRM114-CacheID: sfid-20220406_181551_555381_A1FFC3D3 
+X-CRM114-Status: GOOD (  24.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,22 +158,22 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 71c85c99e86c..3a3c28c639df 100644
+index 6a9a42809f97..79e22618817d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -4409,6 +4409,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+@@ -4047,6 +4047,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
  	if (ctrl->queue_count > 1) {
  		nvme_queue_scan(ctrl);
  		nvme_start_queues(ctrl);
 +		nvme_mpath_update(ctrl);
  	}
+ 	ctrl->created = true;
  }
- EXPORT_SYMBOL_GPL(nvme_start_ctrl);
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 18a756444d5a..a9e15c8f907b 100644
+index 4d615337e6e2..811f7b96b551 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -484,8 +484,17 @@ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+@@ -501,8 +501,17 @@ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
  	ns->ana_grpid = le32_to_cpu(desc->grpid);
  	ns->ana_state = desc->state;
  	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
@@ -193,7 +193,7 @@ index 18a756444d5a..a9e15c8f907b 100644
  		nvme_mpath_set_live(ns);
  }
  
-@@ -572,6 +581,18 @@ static void nvme_ana_work(struct work_struct *work)
+@@ -586,6 +595,18 @@ static void nvme_ana_work(struct work_struct *work)
  	nvme_read_ana_log(ctrl);
  }
  
@@ -213,10 +213,10 @@ index 18a756444d5a..a9e15c8f907b 100644
  {
  	struct nvme_ctrl *ctrl = from_timer(ctrl, t, anatt_timer);
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5dd1dd8021ba..58e3bb672ce3 100644
+index 2df90d4355b9..1d1431dd4f9e 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -707,6 +707,7 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
+@@ -551,6 +551,7 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
  void nvme_mpath_remove_disk(struct nvme_ns_head *head);
  int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
  void nvme_mpath_init_ctrl(struct nvme_ctrl *ctrl);
@@ -224,7 +224,7 @@ index 5dd1dd8021ba..58e3bb672ce3 100644
  void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
  void nvme_mpath_stop(struct nvme_ctrl *ctrl);
  bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
-@@ -793,6 +794,9 @@ static inline int nvme_mpath_init_identify(struct nvme_ctrl *ctrl,
+@@ -648,6 +649,9 @@ static inline int nvme_mpath_init_identify(struct nvme_ctrl *ctrl,
  "Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.\n");
  	return 0;
  }
