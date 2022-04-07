@@ -4,106 +4,157 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 354B0C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 16:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1F5CC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 16:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jfoTa0crJNOLdR3TnvsqUrQAe21RqnbgMdhBAc58XYc=; b=S6MXV1fpTCYsn89H8CiLMjMPFZ
-	Vx4UEnPmzvlm1poe/Awp3ibDBtNtIEPFGyAabis2lAvlKbs2kP7mT5hLSg7FLQRiBhGRK1OlWyaEh
-	yROIQrLSa/j2sMqdA18E8OpHtUFz8YyYPD3hzUm1igUyqqhdznDPdG+g3uVwnfXyGpWeamRQFX18W
-	VP/EnCKXc1oGiMz4t28RrRtB1nig5adhUeQmPp6WmZ/g78cL27GxlcjMqxJOL+odaCjjI87z7UKqd
-	YiKp004IoHP2QpvPm8TTJ+LZxg16sV4q6WCpYdBt6gcevP+9UaOhm4Tlb2pj/7izYlJyYWkJtIW27
-	PXju4sPg==;
+	bh=ghzqX1IhvzJx3ltuGkwaBJE6I1n282cOVF/fxr107V0=; b=uFlkKoBlwWYH4gY6TvdL2pLw7j
+	L78V1h7s/x0Be/zZJCnusEDs0RBMPIOPoRYItmn9Rzp4+dMIKhr7NcC0HLn6Wqd5bqgO7Q54fgUMj
+	zARuIASW7qYX4FfBzt40I+ZQt1V+Z5NqFnCWU9IfnInEcUxAau6/t/7leIjjRjKmxzUOFvmIemRTj
+	P7lxkfNWKFRzCp2lM0FSafkSAO3wVuM1IXqIyhOZG2SSKCnpD8YBPIqnvoG0h5qnCUUJXhUCTjeHK
+	Guf7dBrr/xOuIbXM05coxKqs3aWQ0+LylGgEfLoMIhSbwBhJ4disdPVZOf5MLDkUuLjHcYSYnLlb9
+	BS6roBzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncVFg-00DApj-L0; Thu, 07 Apr 2022 16:44:56 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1ncVG7-00DAyY-54; Thu, 07 Apr 2022 16:45:23 +0000
+Received: from mail-dm6nam11on20612.outbound.protection.outlook.com
+ ([2a01:111:f400:7eaa::612]
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncUMg-00Co7L-NV
- for linux-nvme@bombadil.infradead.org; Thu, 07 Apr 2022 15:48:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Subject:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=jfoTa0crJNOLdR3TnvsqUrQAe21RqnbgMdhBAc58XYc=; b=AyB4TnhUKvvRuEKTts5Up6xvZ/
- RZgsjj413y8bVJ87We/wDDHWdenEr++xD5NCphxMJ6SZK3qqbxr82k4/lF7ehCEsQJLeFmQSrbCE2
- Kn6dhQ3VbmtQq02lgchyKN7BjRMF0hAIxoZ9/TitvLM1frwHGHH4noLNHU1uhh0QNd2nQ8VZXpp7W
- UyOKQeCw98RTJeVfXV6Ik5eDXk6e3T4C/DrDxTIocc7R9vBaM8+X32lnXKbqtbBKYB4ibJyY2AZLE
- BFhSJxYtQ8TTb2Y6d1Aejje+O0TxkfvzmqkFIradwR97yhe8fBulf4rAu+v7JclwA+J0l90EQ143y
- sEJLYfHQ==;
-Received: from ale.deltatee.com ([204.191.154.188])
- by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncUMb-002Xla-Da
- for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 15:48:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Cc:To:From:content-disposition;
- bh=jfoTa0crJNOLdR3TnvsqUrQAe21RqnbgMdhBAc58XYc=; b=aCju8nG8aYTulnXJcwNnd/P4lu
- Y0KUkbzeE8nRQOCseRML4wyYT1JqcfKL/nG9M6f/yB2U5ZkoosIPHrFbexywiJMSvqLrxRbGfyvHh
- qLy3KWBelgFdpL4gFza53WEJ5+s03l19bGy9a0zhW/EdQWHWrJ4jXkX6rW8UDhaLxEbAinirDylrh
- dgqKfFHpnBXf7EYGLNl/eSDTjcly9NkuZRdzsyimWBp7HGRkgzhRGVTcDfoePcc1y4LHNp/Wy6rvC
- xCjvJ2rM/qqAx6bKuWwKAyYnlGPc5LCsJrOAC+Surq9d4yOrYQuRVeTu6r6lnuRVdZ42vL1GrYnKg
- /J5C8PtQ==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMK-002BBi-OJ; Thu, 07 Apr 2022 09:47:45 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
- 4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMD-00021y-NR; Thu, 07 Apr 2022 09:47:37 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
- Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>
-Date: Thu,  7 Apr 2022 09:47:09 -0600
-Message-Id: <20220407154717.7695-14-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220407154717.7695-1-logang@deltatee.com>
-References: <20220407154717.7695-1-logang@deltatee.com>
+ id 1ncUOc-00Cowl-4P
+ for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 15:50:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I6w1FXA4eMDORYRr735QJZr8StPkns2hP8KRu48f1MtQPYfEs8llGFOqmxxpa9bkGIyGw9Wi7IUJMt/KbTm/cTzoY+w3GJPWigpza0w3mhc8Mvud9wdvpulI58AnqVmrY7DinmGmt0UQe0LOfhU6P4nTcsYJiJuQ/yySso4nMNV99kv3kXKbRTCY9BKkRTPg3E+dGL1QnhIlRnIcJp3EAMcsdGk+UzSpeHzJqFjTBDV/QVx5mtyBZhel/0kvXryTZoVfcv0RKRymuECX3PTEWYmTo/K+ybyBG0BMZlXJojaRpZetyjhx2sTPMvGkuaD27VJX3+DgPYY6VFrsdG8OwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ghzqX1IhvzJx3ltuGkwaBJE6I1n282cOVF/fxr107V0=;
+ b=cd0SkMfY4aTwK/5aPJiJdFS0TdOmR/pt6f5dUcotxsrm3mXJq4FJ8h9V6EtQTkP5fN9LxTFnqVCnW6w4wfjJfh0+afvratOxA+8NprF+j8ZD0ZkrWXdFZOaInbQ9qTdLYxImuiwJSiE/EK54HUKrq2LZsDT0EhPcmcjHPZHfsY3wFyfU1Uv6LeyGb2niTzafs1cZEs146jD3PTilMaUXeWS8ZXon2jJejFZ7ArotO3lFw+i7EgsrFhdm3viRr4q+lD6rWNK9Whrqo3Wq9HuG28VnwrDa3v5Z+HFJRVdaTM3vzmuay9Y+0j2KnfdV8XnbY0KVyHOHZlHuUDKFClHUBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ghzqX1IhvzJx3ltuGkwaBJE6I1n282cOVF/fxr107V0=;
+ b=PubAPZGbyAGiszbgpUJ57j/YAsJRjAaKkXtIRxYU8fgIGej6BqMkNWO5UEKGwebzwRN8r0DqfDQhqhM/++zwTBXuVc/vuh2uy6luqogkBWYqXYNwrwnwdUEVvNofHmtgj1kmA5VTv9FwU7n9I2sqhwA2TrPVL8SaBu+pCZmFj1mh0NqtSd0ERt8BJ0+Writp70BnV3hBj8NdWz9J3DZ8Bh1+nvyb4zjDudXRu5+m8sdnkNBv/HKAqzI7Yj99SFJtMGFFCxi4TLet3G64dfzY0TxcC1UhagqN/EG/9loCJdRr6Pl0j7vZMMGe7GYC8W1/cFQhME/Qjl2OqkuX7KrjDQ==
+Received: from BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ by CH2PR12MB3975.namprd12.prod.outlook.com (2603:10b6:610:2f::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Thu, 7 Apr
+ 2022 15:50:00 +0000
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.21; Thu, 7 Apr
+ 2022 15:49:58 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::cdfb:f88e:410b:9374]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::cdfb:f88e:410b:9374%6]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
+ 15:49:58 +0000
+Date: Thu, 7 Apr 2022 12:49:56 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Ariel Elior <aelior@marvell.com>, Anna Schumaker <anna@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christian Benvenuti <benve@cisco.com>,
+ Potnuri Bharat Teja <bharat@chelsio.com>,
+ Bernard Metzler <bmt@zurich.ibm.com>, Bart Van Assche <bvanassche@acm.org>,
+ Chuck Lever <chuck.lever@oracle.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
+ Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+ Michal Kalderon <mkalderon@marvell.com>,
+ Mustafa Ismail <mustafa.ismail@intel.com>,
+ Nelson Escobar <neescoba@cisco.com>, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>, rds-devel@oss.oracle.com,
+ Sagi Grimberg <sagi@grimberg.me>, samba-technical@lists.samba.org,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ Selvin Xavier <selvin.xavier@broadcom.com>,
+ Steve French <sfrench@samba.org>, Shiraz Saleem <shiraz.saleem@intel.com>,
+ target-devel@vger.kernel.org,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [PATCH v2] RDMA: Split kernel-only global device caps from
+ uverbs device caps
+Message-ID: <20220407154956.GO2120790@nvidia.com>
+References: <0-v2-22c19e565eef+139a-kern_caps_jgg@nvidia.com>
+ <810e22f7-a48c-dd65-5665-8db757f3ae29@nvidia.com>
+ <20220406215431.GK2120790@nvidia.com>
+ <6f577f5e-deb8-b961-ef45-1aa31f440578@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f577f5e-deb8-b961-ef45-1aa31f440578@nvidia.com>
+X-ClientProxiedBy: CH0PR03CA0357.namprd03.prod.outlook.com
+ (2603:10b6:610:11a::6) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
- jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com,
- willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net,
- dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
- andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
- ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
- ckulkarnilinux@gmail.com, logang@deltatee.com, bhelgaas@google.com,
- jhubbard@nvidia.com, rcampbell@nvidia.com, jgg@nvidia.com,
- mgurtovoy@nvidia.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v6 13/21] PCI/P2PDMA: Remove pci_p2pdma_[un]map_sg()
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: adee98ab-983e-4ef7-52c7-08da18ae4481
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:EE_|CH2PR12MB3975:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB3176296B88F65369EFF0C7E2C2E69@BYAPR12MB3176.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BuDqb8FCGJLzkTnT3rwR8uIoc/ekhR1PydvVn8unn3TFHO9KVWfHy/mn7WhPK627+myRP1mnjfvS6NIo5qyiuGs0vRBVboJ6Zrc4BQInvyvMgam5Vfzt+kmdA2qnlkYp18XsQHavMcAcBotcEE9mWK2Y7UKjCZZaNMxC72HVPENFzupvI+DjBiQlgKgfbaLZUkz9hFLynYasbijFoYGHV3zg2ERCpKCQCOB3p8ZIb9+S4oAiaTPj6kHEascCQKe6pX5BxQvRvB5cDL4uZhoFYqsKm9ddOon9FWXjBRStH/mZ3E0E4myjyRR/jIQPRCNnUC+DYfc+aHKiZ1Fb7jmrJZ3b1tDgEGtHTVcVfwzXF5pwLSnknlurHdaYaiqz5a5hUMnmodV+LlGd45NxTBrwzpsl59sysWi8tOH3lFKRl1nVMkNVtYT/cJpnqn1xLgFsWT/JWY3TWAufKhbAHxYyZPPGPy+9yU3Yx7pKzamCRtsmZ/YSROaeOpWelVIxId4bSvFzy43/5v1J/Mdo68/l7r5CGYBjh34zMoYvs//CgzAuzKq4I++fODedrJycyF/OOnMdqbLJTVU5cHp0/InTMzlt7jH6jbRLHfKPq+Hh6fmOuvyJnAG3WCp9k3Wg1xXpArFFpPqcR/3FdBixGgNYiA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(7416002)(316002)(6636002)(186003)(33656002)(1076003)(37006003)(7406005)(54906003)(2906002)(26005)(8936002)(5660300002)(508600001)(2616005)(36756003)(6862004)(4326008)(66946007)(8676002)(86362001)(6512007)(66556008)(66476007)(6486002)(6506007)(53546011)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CDYiWlfPkj+Fd6VsWscXKRw91wUTA98aeOwPfcSN8BVMEDwu3f1tVcSC0sle?=
+ =?us-ascii?Q?yw5RR2+GVpWi/TrfUDPFz06GYp+1iuC81wY1FDb9K9QNKmIK4W8lWpRalY89?=
+ =?us-ascii?Q?zeYfhwpLHTPQAqrY5zt8FoBdjYQ40dOidPxFWlZDqTcPY3FbcMn5fuzkbZnT?=
+ =?us-ascii?Q?UBgPbKHce+KpILHNsGmk94pdxxW6cazxqqUkOucvA+rJ3V9SBnrXFF7xpBMO?=
+ =?us-ascii?Q?oNWCqS9BAmmOYVfBVuWrt2HTA98MrQia5GkxZ2h7hUi+FFHuuPK8ers1n67j?=
+ =?us-ascii?Q?a+X1/u97DgCNmIpAuNRZeC8LIzXcEh0IEGlvTGbcOgNg2ZAO3w56NwOT2ga4?=
+ =?us-ascii?Q?D54eVO4XI+lU8lyWBASsI/41HuwYFhzvqF5fhTwW8B5h0+Me+KCVh9kvTpwQ?=
+ =?us-ascii?Q?KQLGbyLw0fCLOFIl8DpCroi0HkF4IIIFm5l2sOZnbVroY4Hrk3dlSfJxqOb+?=
+ =?us-ascii?Q?lxoJvBhNhuGgGvWS+aOhBd/2212UMqTZXSRaTGkX8w6l/RhAxaEtRPFWMlpo?=
+ =?us-ascii?Q?AjXNPurybrbLw56TGu7r8SNKEt7dVqIutAk7nmOKdktqqs9V16ZOsirAqSKR?=
+ =?us-ascii?Q?QiPl0kWhTHQ57pyA3hyV7Vd2VZSF0rzdxJL+ONdNobdL8lmT1yNB2ykzOUze?=
+ =?us-ascii?Q?sIWOj3xMWGNj9elj2HmaKdDel33Lm32x1Jg2voRr12K5v/zDQ9F1b587vMVy?=
+ =?us-ascii?Q?p3m03jVWs2eWEJQmlzuq8CX/Owo5fMfXMue51yj5lO/RY/LjTNdukPXMUtCT?=
+ =?us-ascii?Q?FC5+2G0hy/N8y3mjhLQyx4bG3hos1H59YBKxehNf3+UrBtNAY7u+PEwoDRix?=
+ =?us-ascii?Q?FHYlPWkADOe/hUF2ZGX//6khqyWTXyWGreYLgn9EwqyLDtfIlTPe8wmxx0I9?=
+ =?us-ascii?Q?gED47GnL3Z8E/TKL2j/noZ/rkUlszp/sAPeRxVH4qxbkJemI2MJB3ytY7RgG?=
+ =?us-ascii?Q?SRWb9/Dgt0Z9ASpJYKr6+L3fcFa/i48o7NMbpx+SM7YG7qqLh0/6A9rl2P4a?=
+ =?us-ascii?Q?lUY6xxgDF++pD1/xp8yTz1prSiFFwgGeRU3FfYq7Vz69ktrcXWpJS/fLlIA1?=
+ =?us-ascii?Q?1f9JHToHwcbrPoLluqUNCQ4PafDvTTHY4pnwjF467Sh7NyfxptOcgTaSTmlv?=
+ =?us-ascii?Q?uM13yHKH44WNfo44BCuyaE6D/Ooz26a7OYMjCGQrahNlFAY4qzWRF/vBfax2?=
+ =?us-ascii?Q?a07/9SeT7HrLsNibpLW0vzxIVzHsUTwUKaEBExqNbwHraQ07nwyRt6EOJ513?=
+ =?us-ascii?Q?GMg65otqkgBkfGxBe9muabkdiXAspWeK8v2cUUptg99fKcyyzeQ8Qwxmgl9Y?=
+ =?us-ascii?Q?E6TX391tlLklOULqORkAXHf7sQDfzSpJtFguDL9zJrdVHHoT74Q9wOZCNVEE?=
+ =?us-ascii?Q?wzh0y/0hKHlrHSTeDKDhq/mBR4DBp5FALTfHig9qBBbT4ibFte5jcsw122jt?=
+ =?us-ascii?Q?8J1euP99iiguQE959L+v5hUH9M+FEOCdZaPzNwr2kj15MYCN7gyXpu1vx4Bx?=
+ =?us-ascii?Q?9RO1u1thEsR7WH30t6Ir8rTX1jOTtPz9SEZy3T0BYDYNzdYaoIin+4FU7HHG?=
+ =?us-ascii?Q?45HAhvl9phWgTR5vLCjQRX0aZZT3MIsxl4ylv+xNy9xBX3bNxcWq+TmbSW1l?=
+ =?us-ascii?Q?FmR+X3fiup4bmNDhfZ9vd66o2pl0hej/S3ezK87zdPJLUAfEshDoGj4PsW9I?=
+ =?us-ascii?Q?CwIbvuLy7vTyok9tgCSwMpA7CMn5C2w14O1swH9rEUKG+WUGCo4R8pkIfNS+?=
+ =?us-ascii?Q?KzkxQDwk+w=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: adee98ab-983e-4ef7-52c7-08da18ae4481
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 15:49:58.0454 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d+IT6Y49z7fOtfHZSJ+YIqU+AsNZMeHd4ZIp9WCCB/9zyVcvpuE61riQCn7raz3u
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3975
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_164802_007170_5304FC4C 
-X-CRM114-Status: GOOD (  13.09  )
+X-CRM114-CacheID: sfid-20220407_085006_238987_C265A9BF 
+X-CRM114-Status: GOOD (  17.85  )
 X-Mailman-Approved-At: Thu, 07 Apr 2022 09:37:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -119,146 +170,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This interface is superseded by support in dma_map_sg() which now supports
-heterogeneous scatterlists. There are no longer any users, so remove it.
+On Thu, Apr 07, 2022 at 10:09:04AM +0300, Max Gurtovoy wrote:
+> 
+> On 4/7/2022 12:54 AM, Jason Gunthorpe wrote:
+> > On Thu, Apr 07, 2022 at 12:01:44AM +0300, Max Gurtovoy wrote:
+> > 
+> > > > @@ -267,59 +258,53 @@ enum ib_device_cap_flags {
+> > > >    	 * stag.
+> > > >    	 */
+> > > >    	IB_DEVICE_MEM_MGT_EXTENSIONS = IB_UVERBS_DEVICE_MEM_MGT_EXTENSIONS,
+> > > MEM_MGT_EXTENSIONS is used also in the kernel ULPs (storage)
+> > It is not about where it is used, it is about if it is part of the
+> > uapi or not. Cleanly separating uapi from not uapi
+> 
+> from the commit message:
+> 
+> "
+> 
+> This cleanly splits out the uverbs flags from the kernel flags to avoid
+> confusion in the flags bitmap.
+> 
+> "
+> 
+> so it was not clear, at least to me, that some user flags are part of both
+> the uapi and the kapi.
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
- drivers/pci/p2pdma.c       | 66 --------------------------------------
- include/linux/pci-p2pdma.h | 27 ----------------
- 2 files changed, 93 deletions(-)
+I tidied it a bit:
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 9032c2ed2cdf..4d3cab9da748 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -880,72 +880,6 @@ enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
- 	return type;
- }
- 
--static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
--		struct device *dev, struct scatterlist *sg, int nents)
--{
--	struct scatterlist *s;
--	int i;
--
--	for_each_sg(sg, s, nents, i) {
--		s->dma_address = sg_phys(s) + p2p_pgmap->bus_offset;
--		sg_dma_len(s) = s->length;
--	}
--
--	return nents;
--}
--
--/**
-- * pci_p2pdma_map_sg_attrs - map a PCI peer-to-peer scatterlist for DMA
-- * @dev: device doing the DMA request
-- * @sg: scatter list to map
-- * @nents: elements in the scatterlist
-- * @dir: DMA direction
-- * @attrs: DMA attributes passed to dma_map_sg() (if called)
-- *
-- * Scatterlists mapped with this function should be unmapped using
-- * pci_p2pdma_unmap_sg_attrs().
-- *
-- * Returns the number of SG entries mapped or 0 on error.
-- */
--int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	struct pci_p2pdma_pagemap *p2p_pgmap =
--		to_p2p_pgmap(sg_page(sg)->pgmap);
--
--	switch (pci_p2pdma_map_type(sg_page(sg)->pgmap, dev)) {
--	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
--		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
--	case PCI_P2PDMA_MAP_BUS_ADDR:
--		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
--	default:
--		/* Mapping is not Supported */
--		return 0;
--	}
--}
--EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
--
--/**
-- * pci_p2pdma_unmap_sg_attrs - unmap a PCI peer-to-peer scatterlist that was
-- *	mapped with pci_p2pdma_map_sg()
-- * @dev: device doing the DMA request
-- * @sg: scatter list to map
-- * @nents: number of elements returned by pci_p2pdma_map_sg()
-- * @dir: DMA direction
-- * @attrs: DMA attributes passed to dma_unmap_sg() (if called)
-- */
--void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs)
--{
--	enum pci_p2pdma_map_type map_type;
--
--	map_type = pci_p2pdma_map_type(sg_page(sg)->pgmap, dev);
--
--	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE)
--		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
--}
--EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
--
- /**
-  * pci_p2pdma_map_segment - map an sg segment determining the mapping type
-  * @state: State structure that should be declared outside of the for_each_sg()
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index 8318a97c9c61..2c07aa6b7665 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -30,10 +30,6 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
--int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs);
--void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
--		int nents, enum dma_data_direction dir, unsigned long attrs);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -83,17 +79,6 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
--static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--	return 0;
--}
--static inline void pci_p2pdma_unmap_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--}
- static inline int pci_p2pdma_enable_store(const char *page,
- 		struct pci_dev **p2p_dev, bool *use_p2pdma)
- {
-@@ -119,16 +104,4 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
- 
--static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
--				    int nents, enum dma_data_direction dir)
--{
--	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
--}
--
--static inline void pci_p2pdma_unmap_sg(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir)
--{
--	pci_p2pdma_unmap_sg_attrs(dev, sg, nents, dir, 0);
--}
--
- #endif /* _LINUX_PCI_P2P_H */
--- 
-2.30.2
+ Split out flags from ib_device::device_cap_flags that are only used
+ internally to the kernel into kernel_cap_flags that is not part of the
+ uapi. This limits the device_cap_flags to being the same bitmap that will
+ be copied to userspace.
 
+Thanks,
+Jason
 
