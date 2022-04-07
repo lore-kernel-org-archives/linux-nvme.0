@@ -4,79 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B4DDC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 10:14:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FEAFC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 10:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gUlW3vy8nwh4Mnyiag+ZXgLVq84szdiK2fYNjIQBdNE=; b=DBaqXyJZlnH2xeO7Zk0yOfIEB2
-	3wUbuQZ08LQk/YgsSByykrkbI9GmgxzZ8ByBV+cKNc/uwea7fEKSdewYB2x4ugzF+KnOdurNUvSYj
-	RxF1hPhTbsWxXvUKie4P0EY77b9TyqAPMRzAyW4exy3PVE/TOVd2uvvvtKxilQJiyzOhjD7e14gTd
-	d9xIn3/ECLmZn8eX9PRFd0okWfUGfRA7Qi0dz4eswSdYw10WlKEIsY5f3gN8TB54CRagMYwj2NDJG
-	KXPOL/+vqQcNeXE1/U2r9ZMXejzTAcnayqXJ6nB4NBky/Lz6N0zeFfHjXnNBy51EcLrO0FSQsOxxg
-	Lq707I7Q==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=StZ0EtQ64DzzyEsqco90Y1T/fh24IKeaGGOVrsw/VjM=; b=wTTSa8RLqEuQJilZySzKFys4B3
+	s9MCT0xEfciMfxjq6upE7slU5ph7YV8uJ9nsUfXwN2pcj/jMJFLzsKy+G7/ZNqIzUY/m2ggZLAJRJ
+	toRKAaw0Iw9w6pgVzfjM3mRqbr4fr+vK+MgRp/0a0EwW+w8SogeCssDTB7Xh2fhrrC2KGarJd3bGg
+	IX0l4xe+iLgKkI5I/z0whAibkT3ueh5ZSgeNQfVlPX6EVs6TkMsfEiurrh54B51amVAE7oftDWsSk
+	X0aYVXSJ1seKc4Putg+6cr81/1xB8/Yxy4OJjn57jIXy6ntfp4Cbo5X8k+kKZhy36fySuJOGPNfCO
+	dPrA3oxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncP9M-00B9la-FA; Thu, 07 Apr 2022 10:14:00 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1ncPmo-00BOKl-95; Thu, 07 Apr 2022 10:54:46 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncP9I-00B9kt-8b
- for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 10:13:57 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1CE8B21122;
- Thu,  7 Apr 2022 10:13:54 +0000 (UTC)
+ id 1ncPgT-00BLj0-MD
+ for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 10:48:16 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 09B7D1F85A;
+ Thu,  7 Apr 2022 10:48:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649326434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUlW3vy8nwh4Mnyiag+ZXgLVq84szdiK2fYNjIQBdNE=;
- b=BvWO7AWM69udP/vDVmvggBZekeBhYCVQd0UX69LoX5+6VsK6Ry8zjb/+4epLSZmRJDtXNm
- h6ag4C4PDfc26ogUeZXjcPIEtmNGoPsx7q8qWITLtslt3PcE674ChSbE8dD24DOKkvY8rT
- Je8MwCXfAdH5JW5EUR77uWZYidQXSys=
+ t=1649328491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=StZ0EtQ64DzzyEsqco90Y1T/fh24IKeaGGOVrsw/VjM=;
+ b=L6J2E2Ta11wtWyClUbKwgEilrFmiON76jnv+C+n1madTaJmV3yGNaJyWjLQSm6H3fZ9aZJ
+ Q+8/+zfxPWf87LlYV/NEHMn/FvSDsev82z/zA5kcB08rc/OEWc73fLO5ClNO/gB4tBCS/F
+ 1/zFOKcaQC9pfnj3YfDph76WaFvp9SU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649326434;
+ s=susede2_ed25519; t=1649328491;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUlW3vy8nwh4Mnyiag+ZXgLVq84szdiK2fYNjIQBdNE=;
- b=iLdbAp1NKo/gQTmF9EeKomMcI64P4z07vHY6cP1ga+jDZlcure0WztQOAVJE7edhGYYy9r
- nL9Cy6c86KQLfHAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0FACB13485;
- Thu,  7 Apr 2022 10:13:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oHl+A2K5TmL5RAAAMHmgww
- (envelope-from <hare@suse.de>); Thu, 07 Apr 2022 10:13:54 +0000
-Message-ID: <99db949a-b390-c6d2-9c66-5341bbbb4070@suse.de>
-Date: Thu, 7 Apr 2022 12:13:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=StZ0EtQ64DzzyEsqco90Y1T/fh24IKeaGGOVrsw/VjM=;
+ b=lyqksYCyoMuJBw5oyHsYOkY+RB5rHURxMhLt5IM1SrLHl+kofTMPjpeBq2m6qekqcQCTRC
+ n+GGrUV4a9VUqWCQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id F1325A3B96;
+ Thu,  7 Apr 2022 10:48:10 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id D99A75193BE3; Thu,  7 Apr 2022 12:48:10 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org
-References: <20220406142210.71248-1-hare@suse.de>
- <20220406142210.71248-3-hare@suse.de> <20220407094537.GA23413@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 2/3] nvmet: expose discovery subsystems
-In-Reply-To: <20220407094537.GA23413@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv4 0/3] nvmet: unique discovery subsystems
+Date: Thu,  7 Apr 2022 12:48:05 +0200
+Message-Id: <20220407104808.29007-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_031356_485981_D73E17FC 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20220407_034813_985972_1A30925F 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,26 +74,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/7/22 11:45, Christoph Hellwig wrote:
-> On Wed, Apr 06, 2022 at 04:22:09PM +0200, Hannes Reinecke wrote:
->> Add a module parameter 'expose_discovery_subsys' to allow creation
->> of discovery subsystems through configfs.
->> If the option is enabled no default discovery subsystem is created
->> per default, and the user is required to create one via configfs.
-> 
-> I'm not fan of module parameters.  Can we do this using configfs on a
-> per-port basis?
+Hi all,
 
-configfs: yes.
-per-port: we could, but then we cannot configure the default discovery 
-subsystem. But we can't do that anyway. I'll give it a shot.
+here's my next attempt to support unique discovery subsystems, again heavily
+modified from the previous attempts.
 
-Cheers,
+As per suggestion from Christoph this patchset allows to have a per-port
+discovery subsystem. For that a normal NVMe subsystem needs to be created
+via configfs, the type needs to be changed to 'discovery', and then linked
+into the port where this discovery subsystem should be visible.
 
-Hannes
+Once that is done the discovery log page output will include all ports
+into which the same discovery controller is linked.
+
+If the discovery subsystem is unlinked the default behaviour is reinstated.
+
+As usual, comments and reviews are welcome.
+
+Changes to v3:
+- Rework to use per-port discovery subsystems as suggested by hch
+
+Changes to v2:
+- Heavily rework after discussion on the mailing list
+
+Changes to the original submission:
+- Include all subsystems in the discovery log output
+
+Hannes Reinecke (3):
+  nvmet: make the subsystem type configurable
+  nvmet: per-port discovery subsystem
+  nvmet: include all configured ports in the discovery log page
+
+ drivers/nvme/target/configfs.c  | 82 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c      |  6 +--
+ drivers/nvme/target/discovery.c | 82 ++++++++++++++++++++++++---------
+ drivers/nvme/target/nvmet.h     |  1 +
+ 4 files changed, 145 insertions(+), 26 deletions(-)
+
 -- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+2.29.2
+
 
