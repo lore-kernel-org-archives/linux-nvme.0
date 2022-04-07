@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22849C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 15:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48835C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 15:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u5NLYRb0iRWqH+wp45tMsxWQ+2lcKX7UH+x3jrUc4CM=; b=pIf0eZbRu+/n4t0klxsIlRXAfd
-	rifSzi5NLinjWf5RvtutAGL8TEdBCWdYuwhNGvkVgzf1v80ga0GI/hifaPzd5S/F5HzwM59ks/Lfc
-	ntJ439MUniQPq9JeelqCkb94BTu8ea4ZbLvrQczOL67+KIxWelpwKO2Dfh9ZN8Ad18pcgtBe4vzSq
-	DABtAGVtFDDLfkm/4Aw5ZKAuyZiFGQx49L/VPi2IDQajVXFXovNBDALR50Mt9+cu2/EuHhaaZvaSZ
-	lojQKdxd/d4xjmTynMpcOX0ia/07PIjSq2w0q1+X32+x3IJ4J4Y1AF+5wo2Q2XxJDPivSrYLCIf7J
-	8BOaeF6Q==;
+	bh=Bgv24cnq4wL+/PQXezU/e2ARnHoovKOhXIgsZis+Zv8=; b=vwWBUygxeI5XB4/UukeFV432VA
+	N/pIqp9J1n/B5dn8Z2EbAUUpSUd3qeSo/99445iuy6Xc9SY0BcinKgnJTCXGkrUhIVbrEGXAL/US6
+	zqOdEVMogH2X6q6uD486424Bw2FqqwUJcCzyD7cR7C+RLUVHj9OXKNo/P9f/bmtNhF5+xdjw5EvJH
+	C0jnJryPBiMkyxgp5BwV+tDZAQ17y3V11B0lEqaOwAr1rrJ73YfNo+iL5dntXO9Wtp5nML9kIfovi
+	FUdsbZFkXp8OmBE5tllLfK4sfCUfJgwnytY+fwyADqon6LrEfMOqNFjvbgein9fjmYOCqqwATkRWy
+	whldGxQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncU6z-00CiQO-Ah; Thu, 07 Apr 2022 15:31:53 +0000
+	id 1ncU8c-00Cj8e-3M; Thu, 07 Apr 2022 15:33:34 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncU0u-00Cfpr-3G; Thu, 07 Apr 2022 15:25:37 +0000
+ id 1ncU1E-00Cg0Q-4K; Thu, 07 Apr 2022 15:25:58 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id B53392129B;
- Thu,  7 Apr 2022 15:25:34 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTP id BB87B215FF;
+ Thu,  7 Apr 2022 15:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1649345134;
+ t=1649345154;
  h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
  cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u5NLYRb0iRWqH+wp45tMsxWQ+2lcKX7UH+x3jrUc4CM=;
- b=gyRKbvUTSeCHD0kZFeha6b8GtwnfMcBVdpUrcZUXAMFpgjyGa2cKvGcE+1LQgsvJsr0yFR
- VJy4sQoNdJcuIc7oMupD7ITgqoAKAsjuZZusxwRbFTjJc52vRJgP/0hGLJXdzVq3P3r19L
- 5WyRvzygj8B2JBXB13wX08lyO4vdhmc=
+ bh=Bgv24cnq4wL+/PQXezU/e2ARnHoovKOhXIgsZis+Zv8=;
+ b=xtGtLoA1rxTAfbwnyD8y0m1GZXkoG2Eqm/JKAR1yflAQGXCIe+EPKLsQ3Jl3HF1ejkdCzO
+ R69fN/3GghEjXF7FLzZ630UM55zcmFGAOi43l86+pog72f9MfM9XFXEk72PJM2lSVIy0eO
+ Ar+NvvcjWPRZc9tp6WgYAzpMBH3HwQA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1649345134;
+ s=susede2_ed25519; t=1649345154;
  h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
  cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u5NLYRb0iRWqH+wp45tMsxWQ+2lcKX7UH+x3jrUc4CM=;
- b=h4c6BQrPPD9W33KeeEtgIxkffE6SxGamCvLBsxsw2FlmdG/K+M8MV8ruvANXF9Az9aOJRY
- CNJk3HEoegzTiHDg==
+ bh=Bgv24cnq4wL+/PQXezU/e2ARnHoovKOhXIgsZis+Zv8=;
+ b=J9TTigpMGNAp9ruFfwwGecAvDY029f3E2IK2t7dI3TCObbagdDL5XIR1t0kPQCQDtlPljo
+ bs6igqf+zh/8rsAg==
 Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id A2CECA3B94;
- Thu,  7 Apr 2022 15:25:34 +0000 (UTC)
+ by relay2.suse.de (Postfix) with ESMTP id A2E13A3BA5;
+ Thu,  7 Apr 2022 15:25:54 +0000 (UTC)
 Received: by ds.suse.cz (Postfix, from userid 10065)
- id 7459CDA80E; Thu,  7 Apr 2022 17:21:32 +0200 (CEST)
-Date: Thu, 7 Apr 2022 17:21:32 +0200
+ id 7C344DA80E; Thu,  7 Apr 2022 17:21:52 +0200 (CEST)
+Date: Thu, 7 Apr 2022 17:21:52 +0200
 From: David Sterba <dsterba@suse.cz>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
@@ -66,8 +66,8 @@ Cc: Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
  cluster-devel@redhat.com, jfs-discussion@lists.sourceforge.net,
  linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
  ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
-Subject: Re: [PATCH 10/27] block: add a bdev_nonrot helper
-Message-ID: <20220407152132.GI15609@twin.jikos.cz>
+Subject: Re: [PATCH 11/27] block: add a bdev_write_cache helper
+Message-ID: <20220407152151.GJ15609@twin.jikos.cz>
 Mail-Followup-To: dsterba@suse.cz, Christoph Hellwig <hch@lst.de>,
  Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
  linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
@@ -85,15 +85,15 @@ Mail-Followup-To: dsterba@suse.cz, Christoph Hellwig <hch@lst.de>,
  linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
  ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
 References: <20220406060516.409838-1-hch@lst.de>
- <20220406060516.409838-11-hch@lst.de>
+ <20220406060516.409838-12-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220406060516.409838-11-hch@lst.de>
+In-Reply-To: <20220406060516.409838-12-hch@lst.de>
 User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_082536_383436_01193648 
-X-CRM114-Status: GOOD (  10.72  )
+X-CRM114-CacheID: sfid-20220407_082556_371900_CD211884 
+X-CRM114-Status: GOOD (  10.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,25 +109,19 @@ Reply-To: dsterba@suse.cz
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 06, 2022 at 08:04:59AM +0200, Christoph Hellwig wrote:
-> Add a helper to check the nonrot flag based on the block_device instead
-> of having to poke into the block layer internal request_queue.
+On Wed, Apr 06, 2022 at 08:05:00AM +0200, Christoph Hellwig wrote:
+> Add a helper to check the write cache flag based on the block_device
+> instead of having to poke into the block layer internal request_queue.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  block/ioctl.c                       | 2 +-
->  drivers/block/loop.c                | 2 +-
->  drivers/md/dm-table.c               | 4 +---
->  drivers/md/md.c                     | 3 +--
->  drivers/md/raid1.c                  | 2 +-
->  drivers/md/raid10.c                 | 2 +-
->  drivers/md/raid5.c                  | 2 +-
->  drivers/target/target_core_file.c   | 3 +--
->  drivers/target/target_core_iblock.c | 2 +-
+>  drivers/block/rnbd/rnbd-srv.c       | 2 +-
+>  drivers/block/xen-blkback/xenbus.c  | 2 +-
+>  drivers/target/target_core_iblock.c | 8 ++------
 
 For
 
->  fs/btrfs/volumes.c                  | 4 ++--
+>  fs/btrfs/disk-io.c                  | 3 +--
 
 Acked-by: David Sterba <dsterba@suse.com>
 
