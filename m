@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D20CC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 16:10:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DC35C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 16:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TrHjSjqnpivShFG29VQJnk19Gkp1lAFeMU5qV38TDWY=; b=xwTw5nuTGSRABWL5AlM++EqM4b
-	LUeMNJ6Cyd6CGlFuUJ6Nud1T32uywSEd0ZmlH+ciP3DvQ9gEn/VMDGnM6yP9J8wv+t8oyVRl3jHvo
-	eydrpNhKuCjZ9/cu4fDKo/zXt9Xw2gNZEnHhUOTfjliBxKTmwVsZlEZI8X2uEYXfneomOCTVxJMYe
-	ollGNecVGll2K5Dl1OkbJvyzqZqd4USMjn1Y1ZavNCaqT4SzlbEy9RTTzHKjrQkwn27G/Ze7foh9P
-	jWh1SwQ9gGTMWwHYe9I5+EvQ6GgoSYVGCIu3kzOlITIl6ANVrx1ujJN0S0fk6UWjBPbZwHQENOKJa
-	m2paBRfA==;
+	bh=ynMPFyjctQYmZSaKetGEvfKIotM82q1ISZ1qanr0c8w=; b=MnqfUMShre/zUSHRXGBpVZdSsf
+	muJ9jN24L9dvJ1t/YWZkCpTC02DURCuN7jbL5NXQeHunffTk2qZ9pdBINxjGeesoodD9EastfUYzB
+	HMdoLeK/AYEegunm14ysS3sOQcRWBBbvxC0T8U2O3T2Vn7MJQRiNwKqf5Hgi4haEPm71BcLDfhESY
+	BduWsmptbLrbi0y4PTuqVaLcxLifKdGLysJ0vRnZ5Ubf5WQMKBnycKRJWe5EU7Us2hOGxohNDOTWx
+	TV02fiWLdwjSxA6W4eXEbWf5DObrv78f3BqT7Fi1MhF8nZZmQ3LlAWW0+gi00wOzjkgNKk6Tm0qbq
+	oz2tnU3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncUi3-00Cxg1-OI; Thu, 07 Apr 2022 16:10:11 +0000
+	id 1ncUj5-00Cy4h-Dw; Thu, 07 Apr 2022 16:11:15 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncUMN-00Cnwf-9C
- for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 15:47:50 +0000
+ id 1ncUMO-00CnvP-PS
+ for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 15:47:52 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=TrHjSjqnpivShFG29VQJnk19Gkp1lAFeMU5qV38TDWY=; b=a9iG1JYzxrzh9kLb7JxN4eciEW
- 6wbdIlyUdiCtB3wboQS7+GYVifWLnPXvqtOdrgfNGPKLEFhoWGCVGy9DtF3GpbhMKk5/Nf3DPHc4v
- pgylaj9143l7sLThF3RdTJbb8Llpv5WxV2ffxwsV9ClyJfXFEUTdP124ykttALbtiQuehwx26lf4k
- nskMYB4mKvKzpXAhH+cOYdh4H5MhKX72v6Ybqn20DmAHJQyvOnNWonO+D1B0BW86dh8mM/onDpL1+
- Z3rrZH6Q9QwGseY8CqfbC45IZki1oiMY3jBhHMBkzH//fX+lxNHLHM2V18BfFrT1j4vn1U63tNxcp
- 2F31pKfQ==;
+ bh=ynMPFyjctQYmZSaKetGEvfKIotM82q1ISZ1qanr0c8w=; b=VhIgXvEcyj1A/PLDTYzw5XYQWL
+ ARiEaGxvCCJA41jvsk7kg1wMTfovuD3ntVBJrsbf7t9ycUGNGm7MDPZbBT7F9zkLVF4jJ+tCoBUgZ
+ iJM3DNSwzM+51c1dhlXZwuoDAriAeMBz6LcYhb3ZVPfLyLT1Lzvn1U2XjqTc0chjvQ6U11sVpwxJb
+ GFs1/94eKn4QIkXnneT2M5jTgxO641YGfynE71dcLnYU8kg1M25Vqf5EFKpHCbkrOV/LvqJekr91g
+ nFUL1EHBIw637mpoAVVaFgpg7YDOjcKgEnegFXScxw5o2DA9uYrqdAYljF42urPSdfa40ecBAS/TU
+ NL3bwiJA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMK-002BBe-Nm; Thu, 07 Apr 2022 09:47:45 -0600
+ id 1ncUMJ-002BBg-7F; Thu, 07 Apr 2022 09:47:43 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMD-000222-VC; Thu, 07 Apr 2022 09:47:38 -0600
+ id 1ncUMF-00022M-6K; Thu, 07 Apr 2022 09:47:39 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -63,8 +63,8 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
  Logan Gunthorpe <logang@deltatee.com>
-Date: Thu,  7 Apr 2022 09:47:10 -0600
-Message-Id: <20220407154717.7695-15-logang@deltatee.com>
+Date: Thu,  7 Apr 2022 09:47:15 -0600
+Message-Id: <20220407154717.7695-20-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407154717.7695-1-logang@deltatee.com>
 References: <20220407154717.7695-1-logang@deltatee.com>
@@ -82,13 +82,12 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v6 14/21] mm: introduce FOLL_PCI_P2PDMA to gate getting PCI
- P2PDMA pages
+Subject: [PATCH v6 19/21] block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_084747_453659_058D8213 
-X-CRM114-Status: GOOD (  16.30  )
+X-CRM114-CacheID: sfid-20220407_084748_920497_FFA92F8E 
+X-CRM114-Status: GOOD (  10.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,91 +102,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
-allow obtaining P2PDMA pages. If GUP is called without the flag and a
-P2PDMA page is found, it will return an error.
-
-FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
+When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
+iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be
+passed from userspace and enables the NVMe passthru requests to
+use P2PDMA pages.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- include/linux/mm.h |  1 +
- mm/gup.c           | 22 +++++++++++++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ block/blk-map.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index e34edb775334..14ef41af8b77 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2936,6 +2936,7 @@ struct page *follow_page(struct vm_area_struct *vma, unsigned long address,
- #define FOLL_SPLIT_PMD	0x20000	/* split huge pmd before returning */
- #define FOLL_PIN	0x40000	/* pages must be released via unpin_user_page */
- #define FOLL_FAST_ONLY	0x80000	/* gup_fast: prevent fall-back to slow gup */
-+#define FOLL_PCI_P2PDMA	0x100000 /* allow returning PCI P2PDMA pages */
+diff --git a/block/blk-map.c b/block/blk-map.c
+index c7f71d83eff1..85baf922a0e8 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -234,6 +234,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		gfp_t gfp_mask)
+ {
+ 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
++	unsigned int flags = 0;
+ 	struct bio *bio;
+ 	int ret;
+ 	int j;
+@@ -246,13 +247,17 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		return -ENOMEM;
+ 	bio->bi_opf |= req_op(rq);
  
- /*
-  * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with each
-diff --git a/mm/gup.c b/mm/gup.c
-index f598a037eb04..0af6f802ca38 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -490,6 +490,12 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
- 			page = pte_page(pte);
- 		else
- 			goto no_page;
++	if (blk_queue_pci_p2pdma(rq->q))
++		flags |= FOLL_PCI_P2PDMA;
 +
-+		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
-+			     is_pci_p2pdma_page(page))) {
-+			page = ERR_PTR(-EREMOTEIO);
-+			goto out;
-+		}
- 	} else if (unlikely(!page)) {
- 		if (flags & FOLL_DUMP) {
- 			/* Avoid special (like zero) pages in core dumps */
-@@ -919,6 +925,9 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
- 	if ((gup_flags & FOLL_LONGTERM) && vma_is_fsdax(vma))
- 		return -EOPNOTSUPP;
+ 	while (iov_iter_count(iter)) {
+ 		struct page **pages;
+ 		ssize_t bytes;
+ 		size_t offs, added = 0;
+ 		int npages;
  
-+	if ((gup_flags & FOLL_LONGTERM) && (gup_flags & FOLL_PCI_P2PDMA))
-+		return -EOPNOTSUPP;
-+
- 	if (vma_is_secretmem(vma))
- 		return -EFAULT;
- 
-@@ -2184,6 +2193,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
- 		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
- 		page = pte_page(pte);
- 
-+		if (unlikely(pte_devmap(pte) && !(flags & FOLL_PCI_P2PDMA) &&
-+			     is_pci_p2pdma_page(page)))
-+			goto pte_unmap;
-+
- 		folio = try_grab_folio(page, 1, flags);
- 		if (!folio)
- 			goto pte_unmap;
-@@ -2258,6 +2271,12 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
- 			undo_dev_pagemap(nr, nr_start, flags, pages);
- 			break;
- 		}
-+
-+		if (!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
-+			undo_dev_pagemap(nr, nr_start, flags, pages);
-+			break;
-+		}
-+
- 		SetPageReferenced(page);
- 		pages[*nr] = page;
- 		if (unlikely(!try_grab_page(page, flags))) {
-@@ -2729,7 +2748,8 @@ static int internal_get_user_pages_fast(unsigned long start,
- 
- 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
- 				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
--				       FOLL_FAST_ONLY | FOLL_NOFAULT)))
-+				       FOLL_FAST_ONLY | FOLL_NOFAULT |
-+				       FOLL_PCI_P2PDMA)))
- 		return -EINVAL;
- 
- 	if (gup_flags & FOLL_PIN)
+-		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
++		bytes = iov_iter_get_pages_alloc_flags(iter, &pages, LONG_MAX,
++						       &offs, flags);
+ 		if (unlikely(bytes <= 0)) {
+ 			ret = bytes ? bytes : -EFAULT;
+ 			goto out_unmap;
 -- 
 2.30.2
 
