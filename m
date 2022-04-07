@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D226C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 16:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D20CC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Apr 2022 16:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Cc:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=mtQBRhKAuvCwGThlB7Jvwgfm5H5uDyU50loVdVNL23w=; b=odrdqcemhzWeOQ
-	HiiGW3xIFJ5aJe6ddJd4rYtnYVMc6ig19aPSs4Z81DEjKkpfbttQtop2G18XwiV5IXu2YO1cVmi+Z
-	tTcDBRT6+Ve6X6nJeWhjnkl6avGw727+/itfo8N8Uf3/KhyZ63j9XAdKaMcltFr6vzHlwmshwUoVS
-	tAzR5jJDG4OGO604CyW2VvyOvnkLD3Tz32IY6FeAsHu4HcfTdG9HgJxRD9qladLeiA8t+tkYOaPfE
-	LuJhSxucKhp6EhSkgAq5CxLSS9cPWvMJ3h5Y2x3T+n3bNjZ6XO4SdXuXlcHeo6Ps5+I8REohSS4Le
-	rMr5GLajail5hgGtNZcw==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TrHjSjqnpivShFG29VQJnk19Gkp1lAFeMU5qV38TDWY=; b=xwTw5nuTGSRABWL5AlM++EqM4b
+	LUeMNJ6Cyd6CGlFuUJ6Nud1T32uywSEd0ZmlH+ciP3DvQ9gEn/VMDGnM6yP9J8wv+t8oyVRl3jHvo
+	eydrpNhKuCjZ9/cu4fDKo/zXt9Xw2gNZEnHhUOTfjliBxKTmwVsZlEZI8X2uEYXfneomOCTVxJMYe
+	ollGNecVGll2K5Dl1OkbJvyzqZqd4USMjn1Y1ZavNCaqT4SzlbEy9RTTzHKjrQkwn27G/Ze7foh9P
+	jWh1SwQ9gGTMWwHYe9I5+EvQ6GgoSYVGCIu3kzOlITIl6ANVrx1ujJN0S0fk6UWjBPbZwHQENOKJa
+	m2paBRfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ncUhZ-00CxVy-SL; Thu, 07 Apr 2022 16:09:42 +0000
+	id 1ncUi3-00Cxg1-OI; Thu, 07 Apr 2022 16:10:11 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ncUMN-00Cnuw-8Y
+ id 1ncUMN-00Cnwf-9C
  for linux-nvme@lists.infradead.org; Thu, 07 Apr 2022 15:47:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Cc:To:From:content-disposition;
- bh=mtQBRhKAuvCwGThlB7Jvwgfm5H5uDyU50loVdVNL23w=; b=eC0x024KGX2rizqrbDnRF7QGyP
- PTIJi8ULjZM2NXbDyn9j+NJs/zw63bx1ap5MQwjrB8SuWYrwDYBn9La6Oes+pW2AaOjw3/K9Lc8XA
- ZnUQ2OSWD6EeOVFFNPXWpXstaMgK1osRSprUbKhFO0EjDvhPm4roSjuSNUas7JiMaVOHpyy9+sXln
- wNH0T/9JHodD64cmpmnDuPPFnHpH9PesdwUFhcA4x7fg5iGBbNGo93rxEfBbu6fhYXQSj/nkoUwrJ
- vD9FP0FpxHOCq/FFoSdIboDvZRIr965ebPkVXhgGi1+fCSSGU9pBN5SF56ZkuAc7AqLCefsx1ysqm
- rAuK+wGg==;
+ bh=TrHjSjqnpivShFG29VQJnk19Gkp1lAFeMU5qV38TDWY=; b=a9iG1JYzxrzh9kLb7JxN4eciEW
+ 6wbdIlyUdiCtB3wboQS7+GYVifWLnPXvqtOdrgfNGPKLEFhoWGCVGy9DtF3GpbhMKk5/Nf3DPHc4v
+ pgylaj9143l7sLThF3RdTJbb8Llpv5WxV2ffxwsV9ClyJfXFEUTdP124ykttALbtiQuehwx26lf4k
+ nskMYB4mKvKzpXAhH+cOYdh4H5MhKX72v6Ybqn20DmAHJQyvOnNWonO+D1B0BW86dh8mM/onDpL1+
+ Z3rrZH6Q9QwGseY8CqfbC45IZki1oiMY3jBhHMBkzH//fX+lxNHLHM2V18BfFrT1j4vn1U63tNxcp
+ 2F31pKfQ==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMH-002BBf-KW; Thu, 07 Apr 2022 09:47:42 -0600
+ id 1ncUMK-002BBe-Nm; Thu, 07 Apr 2022 09:47:45 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim
  4.94.2) (envelope-from <gunthorp@deltatee.com>)
- id 1ncUMB-00021H-Ak; Thu, 07 Apr 2022 09:47:35 -0600
+ id 1ncUMD-000222-VC; Thu, 07 Apr 2022 09:47:38 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
@@ -62,14 +62,13 @@ Cc: Stephen Bates <sbates@raithlin.com>, Christoph Hellwig <hch@lst.de>,
  Martin Oliveira <martin.oliveira@eideticom.com>,
  Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
- Logan Gunthorpe <logang@deltatee.com>, Chaitanya Kulkarni <kch@nvidia.com>
-Date: Thu,  7 Apr 2022 09:46:57 -0600
-Message-Id: <20220407154717.7695-2-logang@deltatee.com>
+ Logan Gunthorpe <logang@deltatee.com>
+Date: Thu,  7 Apr 2022 09:47:10 -0600
+Message-Id: <20220407154717.7695-15-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407154717.7695-1-logang@deltatee.com>
 References: <20220407154717.7695-1-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -80,16 +79,16 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com,
  andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com,
  ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com,
- ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com,
- rcampbell@nvidia.com, kch@nvidia.com
+ ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com,
+ logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v6 01/21] lib/scatterlist: add flag for indicating P2PDMA
- segments in an SGL
+Subject: [PATCH v6 14/21] mm: introduce FOLL_PCI_P2PDMA to gate getting PCI
+ P2PDMA pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_084747_431426_8EC2B1C8 
-X-CRM114-Status: GOOD (  21.06  )
+X-CRM114-CacheID: sfid-20220407_084747_453659_058D8213 
+X-CRM114-Status: GOOD (  16.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,116 +103,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make use of the third free LSB in scatterlist's page_link on 64bit systems.
+GUP Callers that expect PCI P2PDMA pages can now set FOLL_PCI_P2PDMA to
+allow obtaining P2PDMA pages. If GUP is called without the flag and a
+P2PDMA page is found, it will return an error.
 
-The extra bit will be used by dma_[un]map_sg_p2pdma() to determine when a
-given SGL segments dma_address points to a PCI bus address.
-dma_unmap_sg_p2pdma() will need to perform different cleanup when a
-segment is marked as a bus address.
-
-The new bit will only be used when CONFIG_PCI_P2PDMA is set; this means
-PCI P2PDMA will require CONFIG_64BIT. This should be acceptable as the
-majority of P2PDMA use cases are restricted to newer root complexes and
-roughly require the extra address space for memory BARs used in the
-transactions.
+FOLL_PCI_P2PDMA cannot be set if FOLL_LONGTERM is set.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/pci/Kconfig         |  5 +++++
- include/linux/scatterlist.h | 44 ++++++++++++++++++++++++++++++++++++-
- 2 files changed, 48 insertions(+), 1 deletion(-)
+ include/linux/mm.h |  1 +
+ mm/gup.c           | 22 +++++++++++++++++++++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-index 133c73207782..5cc7cba1941f 100644
---- a/drivers/pci/Kconfig
-+++ b/drivers/pci/Kconfig
-@@ -164,6 +164,11 @@ config PCI_PASID
- config PCI_P2PDMA
- 	bool "PCI peer-to-peer transfer support"
- 	depends on ZONE_DEVICE
-+	#
-+	# The need for the scatterlist DMA bus address flag means PCI P2PDMA
-+	# requires 64bit
-+	#
-+	depends on 64BIT
- 	select GENERIC_ALLOCATOR
- 	help
- 	  Enableѕ drivers to do PCI peer-to-peer transactions to and from
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index 7ff9d6386c12..6561ca8aead8 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -64,12 +64,24 @@ struct sg_append_table {
- #define SG_CHAIN	0x01UL
- #define SG_END		0x02UL
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index e34edb775334..14ef41af8b77 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2936,6 +2936,7 @@ struct page *follow_page(struct vm_area_struct *vma, unsigned long address,
+ #define FOLL_SPLIT_PMD	0x20000	/* split huge pmd before returning */
+ #define FOLL_PIN	0x40000	/* pages must be released via unpin_user_page */
+ #define FOLL_FAST_ONLY	0x80000	/* gup_fast: prevent fall-back to slow gup */
++#define FOLL_PCI_P2PDMA	0x100000 /* allow returning PCI P2PDMA pages */
  
-+/*
-+ * bit 2 is the third free bit in the page_link on 64bit systems which
-+ * is used by dma_unmap_sg() to determine if the dma_address is a
-+ * bus address when doing P2PDMA.
-+ */
-+#ifdef CONFIG_PCI_P2PDMA
-+#define SG_DMA_BUS_ADDRESS	0x04UL
-+static_assert(__alignof__(struct page) >= 8);
-+#else
-+#define SG_DMA_BUS_ADDRESS	0x00UL
-+#endif
-+
  /*
-  * We overload the LSB of the page pointer to indicate whether it's
-  * a valid sg entry, or whether it points to the start of a new scatterlist.
-  * Those low bits are there for everyone! (thanks mason :-)
-  */
--#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END)
-+#define SG_PAGE_LINK_MASK (SG_CHAIN | SG_END | SG_DMA_BUS_ADDRESS)
- 
- static inline unsigned int __sg_flags(struct scatterlist *sg)
- {
-@@ -91,6 +103,11 @@ static inline bool sg_is_last(struct scatterlist *sg)
- 	return __sg_flags(sg) & SG_END;
- }
- 
-+static inline bool sg_is_dma_bus_address(struct scatterlist *sg)
-+{
-+	return __sg_flags(sg) & SG_DMA_BUS_ADDRESS;
-+}
+  * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with each
+diff --git a/mm/gup.c b/mm/gup.c
+index f598a037eb04..0af6f802ca38 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -490,6 +490,12 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+ 			page = pte_page(pte);
+ 		else
+ 			goto no_page;
 +
- /**
-  * sg_assign_page - Assign a given page to an SG entry
-  * @sg:		    SG entry
-@@ -245,6 +262,31 @@ static inline void sg_unmark_end(struct scatterlist *sg)
- 	sg->page_link &= ~SG_END;
- }
++		if (unlikely(!(flags & FOLL_PCI_P2PDMA) &&
++			     is_pci_p2pdma_page(page))) {
++			page = ERR_PTR(-EREMOTEIO);
++			goto out;
++		}
+ 	} else if (unlikely(!page)) {
+ 		if (flags & FOLL_DUMP) {
+ 			/* Avoid special (like zero) pages in core dumps */
+@@ -919,6 +925,9 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
+ 	if ((gup_flags & FOLL_LONGTERM) && vma_is_fsdax(vma))
+ 		return -EOPNOTSUPP;
  
-+/**
-+ * sg_dma_mark_bus address - Mark the scatterlist entry as a bus address
-+ * @sg:		 SG entryScatterlist
-+ *
-+ * Description:
-+ *   Marks the passed in sg entry to indicate that the dma_address is
-+ *   a bus address and doesn't need to be unmapped.
-+ **/
-+static inline void sg_dma_mark_bus_address(struct scatterlist *sg)
-+{
-+	sg->page_link |= SG_DMA_BUS_ADDRESS;
-+}
++	if ((gup_flags & FOLL_LONGTERM) && (gup_flags & FOLL_PCI_P2PDMA))
++		return -EOPNOTSUPP;
 +
-+/**
-+ * sg_unmark_pci_p2pdma - Unmark the scatterlist entry as a bus address
-+ * @sg:		 SG entryScatterlist
-+ *
-+ * Description:
-+ *   Clears the bus address mark.
-+ **/
-+static inline void sg_dma_unmark_bus_address(struct scatterlist *sg)
-+{
-+	sg->page_link &= ~SG_DMA_BUS_ADDRESS;
-+}
+ 	if (vma_is_secretmem(vma))
+ 		return -EFAULT;
+ 
+@@ -2184,6 +2193,10 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ 		VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+ 		page = pte_page(pte);
+ 
++		if (unlikely(pte_devmap(pte) && !(flags & FOLL_PCI_P2PDMA) &&
++			     is_pci_p2pdma_page(page)))
++			goto pte_unmap;
 +
- /**
-  * sg_phys - Return physical address of an sg entry
-  * @sg:	     SG entry
+ 		folio = try_grab_folio(page, 1, flags);
+ 		if (!folio)
+ 			goto pte_unmap;
+@@ -2258,6 +2271,12 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
+ 			undo_dev_pagemap(nr, nr_start, flags, pages);
+ 			break;
+ 		}
++
++		if (!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
++			undo_dev_pagemap(nr, nr_start, flags, pages);
++			break;
++		}
++
+ 		SetPageReferenced(page);
+ 		pages[*nr] = page;
+ 		if (unlikely(!try_grab_page(page, flags))) {
+@@ -2729,7 +2748,8 @@ static int internal_get_user_pages_fast(unsigned long start,
+ 
+ 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
+ 				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
+-				       FOLL_FAST_ONLY | FOLL_NOFAULT)))
++				       FOLL_FAST_ONLY | FOLL_NOFAULT |
++				       FOLL_PCI_P2PDMA)))
+ 		return -EINVAL;
+ 
+ 	if (gup_flags & FOLL_PIN)
 -- 
 2.30.2
 
