@@ -4,48 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AAC5C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Apr 2022 06:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCC99C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Apr 2022 06:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GBr++v1qv1t3nZXiFcqOYIBvmHCty8TSnifbDoZ0+4A=; b=2QeVjzMSRmlJRvhyGXKF2pHfGR
-	SACXt5nH/tJ/z1XBHh4o9iBwQYuNtL2+tvVo42zfkNM4wc7cpQfPczHjuYzJ/PYK1rV9l+nQ4OxRJ
-	LkHUchHcfauouShYPGE95nwo+t8cxIKly7BfSX7AnNu+tnwdgYoG/sB3MrCxFnGdXGkDJB0HGFPOj
-	oGZ/7NQAP6F1kcuQrh7xjQe6VLsdKog7QG2Fse+tAGS4o7gnWMqwcdXB7H0Za5ZYA/uyrOoN3WVg1
-	jofks7ntZZy+P5AGlcze07bet1+INbyygS+uV2DGF5aZXArKADmTublsGrt6KCi03UmZwHa0oV1w+
-	UygcD+0Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OzIJBJiM1L0ySp+s+RRn2u9kOsImz5mXiqQWvhdoyog=; b=nXYYjFGN4J3hRZWS3wTaBmjjIc
+	kNnvOJ1a9HU6LFUPTGhA06a53AcCD3QOaNS4LClqUABey2Y6hqxhfbjZMivwIBMpy7Zf/sgidqHMF
+	Uxusjan2QdFlkGBPJ+QeRs58xTF8xElDh78vnCV6g+b0t3MiRVrH6nH0GjPfM7UVOF9lcubS8QU7F
+	4z0xu0WLDrgicmmQ9byblH+OwToHzYikvkB9RnqROT7ctfsCC0itn6lbsjH6H8zA6/n9TobturnWx
+	BKaV78QMrsi3BzH8BVW+Sx6pgYXKJWBsVkFWuXR4oqL+AVxr+1+adPY2BNvlfKnFpsMR6VaCnhDpt
+	BoRj/MBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nci0g-00FHQ4-2O; Fri, 08 Apr 2022 06:22:18 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nciar-00FNwr-LA; Fri, 08 Apr 2022 06:59:41 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nci0e-00FHPZ-6I
- for linux-nvme@lists.infradead.org; Fri, 08 Apr 2022 06:22:17 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id BE9CE68AFE; Fri,  8 Apr 2022 08:22:10 +0200 (CEST)
-Date: Fri, 8 Apr 2022 08:22:10 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: me@kingtous.cn
-Cc: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org,
- linux-nvme@lists.infradead.org, axboe@fb.com, sagi@grimberg.me,
- kingtous <kingtous@qq.com>
-Subject: Re: [PATCH] fix: nvme_update_ns_info method should be called even
- if nvme_ms_ids_equal return false
-Message-ID: <20220408062210.GA410@lst.de>
-References: <20220408051915.GA31955@lst.de>
- <ABwAxgCYBwe5Iq2fM1-8qqrc.3.1649398333597.Hmail.me@kingtous.cn>
+ id 1ncian-00FNuc-Uj
+ for linux-nvme@lists.infradead.org; Fri, 08 Apr 2022 06:59:40 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 9FD4721600;
+ Fri,  8 Apr 2022 06:59:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1649401175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OzIJBJiM1L0ySp+s+RRn2u9kOsImz5mXiqQWvhdoyog=;
+ b=vuRRffeLhqJ9t8quX5DmyuFrc7hBdW76N71KV3fqHIkn3QjvBmNkIEoaJo0Ux5ApRv0+W9
+ mofTspLaYGpvzmnRNjWwe7EkqzwjqtSZkhFV71Bnc+DjE7XyndGY9MFL8WGTpoQSXOn4Mb
+ tczKFRUVIAOgVjg8amVrGI+3BY69OF0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1649401175;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OzIJBJiM1L0ySp+s+RRn2u9kOsImz5mXiqQWvhdoyog=;
+ b=DscK8o2J4rybUTeYW0Lz+iYc4DDzC5CzGp1h6Ol18W01b0Y+keP0LF5NF5P6pdIkXUer95
+ Sm4WsB1MHT0YKlCw==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 91E48A3B89;
+ Fri,  8 Apr 2022 06:59:34 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id B37FD5193C05; Fri,  8 Apr 2022 08:59:34 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv5 0/3] nvmet: unique discovery subsystems
+Date: Fri,  8 Apr 2022 08:59:27 +0200
+Message-Id: <20220408065930.123015-1-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ABwAxgCYBwe5Iq2fM1-8qqrc.3.1649398333597.Hmail.me@kingtous.cn>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_232216_423126_D48597B8 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20220407_235938_199712_5993651B 
+X-CRM114-Status: GOOD (  12.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,48 +74,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 08, 2022 at 02:12:13PM +0800, me@kingtous.cn wrote:
-> Yes, I only have one controller with one namespace.
-> I've done `nvme id-ns /dev/nvme0n1` times before and after suspend. The only difference between the two output is nuse address. The nuse address's output is dynamic, the outputs are different each time I execute the nvme id-ns command.
-> When the laptop wakes up, tty will show "identifiers changed for nsid 1". I checked the "nvme_ns_ids_equal" function, it will check uuid, nguid, eui64 and csi. So maybe there is something changed in uuid or csi?
+Hi all,
 
-Let's try this:
+here's my next attempt to support unique discovery subsystems.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index efb85c6d8e2d5..0c38184a3ffa2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1631,10 +1631,28 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
- 
- static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
- {
--	return uuid_equal(&a->uuid, &b->uuid) &&
--		memcmp(&a->nguid, &b->nguid, sizeof(a->nguid)) == 0 &&
--		memcmp(&a->eui64, &b->eui64, sizeof(a->eui64)) == 0 &&
--		a->csi == b->csi;
-+	if (uuid_equal(&a->uuid, &b->uuid)) {
-+		printk("uuid changed from %pU to %pU\n",
-+			&a->uuid, &b->uuid);
-+		return false;
-+	}
-+	if (memcmp(&a->nguid, &b->nguid, sizeof(a->nguid))) {
-+		printk("nguid changed from %16phN to %16phN\n",
-+			&a->nguid, &b->nguid);
-+		return false;
-+	}
-+	if (memcmp(&a->eui64, &b->eui64, sizeof(a->eui64))) {
-+		printk("eui changed from %8phN to %8phN\n",
-+			&a->eui64, &b->eui64);
-+		return false;
-+	}
-+	if (a->csi != b->csi) {
-+		printk("csi changed from %u to %u\n",
-+			a->csi, b->csi);
-+		return false;
-+	}
-+
-+	return true;
- }
- 
- static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+As per suggestion from Christoph this patchset allows to have a per-port
+discovery subsystem. For that a normal NVMe subsystem needs to be created
+via configfs, the type needs to be changed to 'discovery', and then linked
+into the port where this discovery subsystem should be visible.
+
+Once that is done the discovery log page output will include all ports
+into which the same discovery controller is linked.
+
+If the discovery subsystem is unlinked the default behaviour is reinstated.
+
+As usual, comments and reviews are welcome.
+
+Changes to v4:
+- Unset disc_subsys pointer when unique discovery subsystem
+  gets unlinked
+- Improve documentation
+- Use port count to determine if a subsystem is linked to ports
+
+Changes to v3:
+- Rework to use per-port discovery subsystems as suggested by hch
+
+Changes to v2:
+- Heavily rework after discussion on the mailing list
+
+Changes to the original submission:
+- Include all subsystems in the discovery log output
+
+Hannes Reinecke (3):
+  nvmet: make the subsystem type configurable
+  nvmet: per-port discovery subsystem
+  nvmet: include all configured ports in the discovery log page
+
+ drivers/nvme/target/configfs.c  | 70 +++++++++++++++++++++++++
+ drivers/nvme/target/core.c      | 15 ++++--
+ drivers/nvme/target/discovery.c | 92 +++++++++++++++++++++++++--------
+ drivers/nvme/target/nvmet.h     |  2 +
+ 4 files changed, 154 insertions(+), 25 deletions(-)
+
+-- 
+2.29.2
+
 
