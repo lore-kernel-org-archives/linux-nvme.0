@@ -4,47 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03733C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Apr 2022 05:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08CCCC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Apr 2022 05:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JpHgo91QerBYjd0IHS6jzMcvx9QFNGaoVlyFUrxjfrY=; b=bJL+pyNrh0IMAgP9WTYK69hMDz
-	A1GgX2RaiYFoc8v9iB8JJLA5EyoBz9aDIVoeQma84pFnGGFY1W9vEqSzDEVwP6y1SwW0aUyRbhC0u
-	SrtDYv/9t18devBfMUSpr5+49YJ7vEel/zsaTuLjzPZDhMw1hixM6ioQF6edFBzbKTmo1a/huSoAO
-	bIx3v1Sm+qtY8R+QWd2TGZSoKxj5bDcZrcqlUOp7EnnwTv/yYf31dTtxk9r7gb1XT6eO/vLJhM/11
-	04DGUGO8Q1FEpjDXczsimpwPBrwKeI23EoLaotYDgeKvPzHOBQIV5zzrERzzjRJhsrcyWoeHcQXsL
-	LhCGMpiQ==;
+	bh=geBXmlh1u10/w/Qp7vWdjbucLHi+uKxTdI2w0f+ktpY=; b=nvz/ecfY14UF1+PNdG+x3tAk/R
+	vuTUbibstJplcXCc+4Mb0Dyaph0MYrcPATKgiqC+MaQWb5BxAL2zDOK8WBAHr0q1iC/4k2uDiOwiO
+	3pFGMl4lwnE372X7vLVNSM1DSrpDTdLa3ZJNIwhutyXCPSiFk7YtTthhV3x4e9wyGAlrdUh8tkGK4
+	eyriS2Wjt/A7dao06QyEY5JkcRGu4MrrgdC0gb+g8mU76usz2zd/rwmZpZB9jUHALvEc8vna7K3Ac
+	Fyq4ZHrau4UfLHQYjTLBRtOkRVqfAGbRF7E9eRTavPFBDgEgNS/nHBOL/36OF/eoGfsDTBR0Em96E
+	3k5CiUSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nchBL-00F8uU-SY; Fri, 08 Apr 2022 05:29:15 +0000
+	id 1nchQy-00FBhl-2W; Fri, 08 Apr 2022 05:45:24 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nchBI-00F8so-54
- for linux-nvme@lists.infradead.org; Fri, 08 Apr 2022 05:29:13 +0000
+ id 1nchQu-00FBhA-Sn
+ for linux-nvme@lists.infradead.org; Fri, 08 Apr 2022 05:45:22 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id AC51668AFE; Fri,  8 Apr 2022 07:29:07 +0200 (CEST)
-Date: Fri, 8 Apr 2022 07:29:07 +0200
+ id D7C7868AFE; Fri,  8 Apr 2022 07:45:16 +0200 (CEST)
+Date: Fri, 8 Apr 2022 07:45:16 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 4/4] nvme: check that EUI/GUID/UUID are globally unique
-Message-ID: <20220408052907.GA31990@lst.de>
-References: <20220224192845.1097602-1-hch@lst.de>
- <20220224192845.1097602-5-hch@lst.de> <Yk+KO8hEYpnKdGu3@garbanzo>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH 1/2] nvmet: handle admin default command set identifier
+Message-ID: <20220408054516.GA32232@lst.de>
+References: <20220408023930.85774-1-kch@nvidia.com>
+ <20220408023930.85774-2-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yk+KO8hEYpnKdGu3@garbanzo>
+In-Reply-To: <20220408023930.85774-2-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220407_222912_385241_B2DB25D7 
-X-CRM114-Status: GOOD (  37.25  )
+X-CRM114-CacheID: sfid-20220407_224521_113761_B2F1E561 
+X-CRM114-Status: GOOD (  11.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,89 +57,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 07, 2022 at 06:04:59PM -0700, Luis Chamberlain wrote:
-> On Thu, Feb 24, 2022 at 08:28:45PM +0100, Christoph Hellwig wrote:
-> > Add a check to verify that the unique identifiers are unique globally
-> > in addition to the existing check that verifies that they are unique
-> > inside a single subsystem.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  drivers/nvme/host/core.c | 38 ++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 36 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index cece987ba1691..f8084ded69e50 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -3810,12 +3810,45 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
-> >  	return ERR_PTR(ret);
-> >  }
-> >  
-> > +static int nvme_global_check_duplicate_ids(struct nvme_subsystem *this,
-> > +		struct nvme_ns_ids *ids)
-> > +{
-> > +	struct nvme_subsystem *s;
-> > +	int ret = 0;
-> > +
-> > +	/*
-> > +	 * Note that this check is racy as we try to avoid holding the global
-> > +	 * lock over the whole ns_head creation.  But it is only intended as
-> > +	 * a sanity check anyway.
-> > +	 */
-> > +	mutex_lock(&nvme_subsystems_lock);
-> > +	list_for_each_entry(s, &nvme_subsystems, entry) {
-> > +		if (s == this)
-> > +			continue;
-> > +		mutex_lock(&s->lock);
-> > +		ret = nvme_subsys_check_duplicate_ids(s, ids);
-> > +		mutex_unlock(&s->lock);
-> > +		if (ret)
-> > +			break;
-> > +	}
-> > +	mutex_unlock(&nvme_subsystems_lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
-> >  		struct nvme_ns_ids *ids, bool is_shared)
-> >  {
-> >  	struct nvme_ctrl *ctrl = ns->ctrl;
-> >  	struct nvme_ns_head *head = NULL;
-> > -	int ret = 0;
-> > +	int ret;
-> > +
-> > +	ret = nvme_global_check_duplicate_ids(ctrl->subsys, ids);
-> > +	if (ret) {
-> > +		dev_err(ctrl->device,
-> > +			"globally duplicate IDs for nsid %d\n", nsid);
-> 
-> So what sort of meachanisms would break in nvme if we don't (as it was
-> before this patch)?
+On Thu, Apr 07, 2022 at 07:39:29PM -0700, Chaitanya Kulkarni wrote:
+>  			switch (req->cmd->identify.csi) {
+>  			case NVME_CSI_ZNS:
+>  				return nvmet_execute_identify_cns_cs_ctrl(req);
+> +			case NVME_CSI_NVM:
+> +				return nvmet_execute_identify_ctrl(req);
 
-The most directly visible problem is that this breaks the
-/dev/disk/by-id/ links - all devices would have to point to the same
-one, and which one actually shows up is somewhat random.  This basically
-means random corruption if people actually use the links or the uuid
-functionality in any other way.
+This needs to return the "I/O Command Set Specific Identify Controller data
+structure" defined in Figure 102 of the NVM Command specification
 
-Note that we have alredy checked for this inside a controller for a
-long time, the commit just extended it across controllers.
+>  			default:
+>  				break;
+>  			}
+> +		} else {
+> +			switch (req->cmd->identify.csi) {
+> +			case NVME_CSI_NVM:
+> +				return nvmet_execute_identify_ctrl(req);
+> +			}
 
+And we should probably restructure the code like:
 
-> The reason I ask is that it would seem tons of
-> instantiated qemu guests used the default, and don't set the UUID,
-> and so this is auto-generated as per the documentation [0]. However,
-> I'm suspecting the auto-generation may just be... a single value:
+		switch (req->cmd->identify.csi) {
+		case NVME_CSI_NVM:
+			return nvmet_execute_identify_cns_cs_ctrl_nvm(ctrl);
+		case NVME_CSI_ZNS:
+			if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED))
+				break;
+			return nvmet_execute_identify_cns_cs_ctrl_zns(ctrl);
 
-Odd.  All my qemu VM don't show a UUID unless specifically set.
-
-> 
-> root@kdevops ~ # cat
-> /sys/devices/pci0000:00/0000:00:08.0/nvme/nvme0/nvme0n1/uuid
-> 00000001-0000-0000-0000-000000000000
-
-And the 1 really seems like a bug in your particular set.  What qemu
-version is this?  Does it have any local or distro patches applied?
 
