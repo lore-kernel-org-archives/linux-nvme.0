@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADFCDC433F5
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 05:21:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 079A1C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 05:21:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EfN09E7KgfFk5NOTogRSBSf7jTlM22RGe5+0+tCjcRA=; b=YojMydGANevcFjkcZNd0iiJCqd
-	BtrKck4brUZAYKQnbWgBk3KbtcG2kScLO39A1JJQtle4dSLZGW1hz/+KONEFTINdQExgpoq/w1FWA
-	KDSIg/kJBPlrSzIeZnmsINa0eeEGdAQu/v+WjNVPtxUzfgJ+tTEj+KvOw6/5cD1TI8nHbmPv4Puhl
-	ntZKOjfj8uB3TX2TgGknr2NPylXBvEkzzkSkgDZLMLdqjqb84PEZrOgNnf44E/FJXZQe5jBulnSlW
-	/0p434mYzXI3it5NMq3sogeV4r3foW7zGqGT7EnRX+aKJfGiJCHWm/tjR1Tf9xB0Os8wWRsSBZGuz
-	magHUREA==;
+	bh=lTB3LIlofJfzp5KujAOXuh07LxC0Nf6YEWOtuNxxhyY=; b=uD+z7yiAEtWI1HyilDVA22lb2S
+	fJqSvpuZ9P9YgqJOGWhgu6o5PPPd/hZjRRFPmdZuxCKL+yguwgpVYWWkaVcjCwBvsdDcmbosgmbXa
+	qc8yKBooE4UrqRbmpvqT0ufmVZDLfc2711YdIXYVxev/LJgElI+F9vqowBN3u6s+3IhvDXLQVQQiJ
+	0gq/kB4KK0xErPC8+anlVPZsnT8udETgp4clHYXl19gsiZcJ7IWGs2MwhBxZv2VB5pMDAZw5OSZST
+	LLdnE2NNBAQjCgSB/3cumzN58IdwDjJCQkGuAmyTt7OwE5dz7OCh/TPo4Vfmjaw9mmBdt33p1notf
+	C0K8Nq5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nd3XJ-002FZU-IW; Sat, 09 Apr 2022 05:21:25 +0000
+	id 1nd3Xi-002Fmm-Vm; Sat, 09 Apr 2022 05:21:51 +0000
 Received: from 213-147-167-116.nat.highway.webapn.at ([213.147.167.116]
  helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nd34U-00213P-4I; Sat, 09 Apr 2022 04:51:38 +0000
+ id 1nd34y-0021Vo-16; Sat, 09 Apr 2022 04:52:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -40,12 +40,11 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH 15/27] block: add a bdev_max_zone_append_sectors helper
-Date: Sat,  9 Apr 2022 06:50:31 +0200
-Message-Id: <20220409045043.23593-16-hch@lst.de>
+ Coly Li <colyli@suse.de>
+Subject: [PATCH 22/27] block: refactor discard bio size limiting
+Date: Sat,  9 Apr 2022 06:50:38 +0200
+Message-Id: <20220409045043.23593-23-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220409045043.23593-1-hch@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
@@ -66,70 +65,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to check the max supported sectors for zone append based on
-the block_device instead of having to poke into the block layer internal
-request_queue.
+Move all the logic to limit the discard bio size into a common helper
+so that it is better documented.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Acked-by: Coly Li <colyli@suse.de>
 ---
- drivers/nvme/target/zns.c | 3 +--
- fs/zonefs/super.c         | 3 +--
- include/linux/blkdev.h    | 6 ++++++
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ block/blk-lib.c | 59 ++++++++++++++++++++++++-------------------------
+ block/blk.h     | 14 ------------
+ 2 files changed, 29 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index e34718b095504..82b61acf7a72b 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -34,8 +34,7 @@ static int validate_conv_zones_cb(struct blk_zone *z,
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index 237d60d8b5857..2ae32a722851c 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -10,6 +10,32 @@
  
- bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
- {
--	struct request_queue *q = ns->bdev->bd_disk->queue;
--	u8 zasl = nvmet_zasl(queue_max_zone_append_sectors(q));
-+	u8 zasl = nvmet_zasl(bdev_max_zone_append_sectors(ns->bdev));
- 	struct gendisk *bd_disk = ns->bdev->bd_disk;
- 	int ret;
+ #include "blk.h"
  
-diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
-index 3614c7834007d..7a63807b736c4 100644
---- a/fs/zonefs/super.c
-+++ b/fs/zonefs/super.c
-@@ -678,13 +678,12 @@ static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	struct zonefs_inode_info *zi = ZONEFS_I(inode);
- 	struct block_device *bdev = inode->i_sb->s_bdev;
--	unsigned int max;
-+	unsigned int max = bdev_max_zone_append_sectors(bdev);
- 	struct bio *bio;
- 	ssize_t size;
- 	int nr_pages;
- 	ssize_t ret;
- 
--	max = queue_max_zone_append_sectors(bdev_get_queue(bdev));
- 	max = ALIGN_DOWN(max << SECTOR_SHIFT, inode->i_sb->s_blocksize);
- 	iov_iter_truncate(from, max);
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index a433798c3343e..f8c50b77543eb 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1188,6 +1188,12 @@ static inline unsigned int queue_max_zone_append_sectors(const struct request_qu
- 	return min(l->max_zone_append_sectors, l->max_sectors);
- }
- 
-+static inline unsigned int
-+bdev_max_zone_append_sectors(struct block_device *bdev)
++static sector_t bio_discard_limit(struct block_device *bdev, sector_t sector)
 +{
-+	return queue_max_zone_append_sectors(bdev_get_queue(bdev));
++	unsigned int discard_granularity =
++		bdev_get_queue(bdev)->limits.discard_granularity;
++	sector_t granularity_aligned_sector;
++
++	if (bdev_is_partition(bdev))
++		sector += bdev->bd_start_sect;
++
++	granularity_aligned_sector =
++		round_up(sector, discard_granularity >> SECTOR_SHIFT);
++
++	/*
++	 * Make sure subsequent bios start aligned to the discard granularity if
++	 * it needs to be split.
++	 */
++	if (granularity_aligned_sector != sector)
++		return granularity_aligned_sector - sector;
++
++	/*
++	 * Align the bio size to the discard granularity to make splitting the bio
++	 * at discard granularity boundaries easier in the driver if needed.
++	 */
++	return round_down(UINT_MAX, discard_granularity) >> SECTOR_SHIFT;
 +}
 +
- static inline unsigned queue_logical_block_size(const struct request_queue *q)
- {
- 	int retval = 512;
+ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+ 		sector_t nr_sects, gfp_t gfp_mask, int flags,
+ 		struct bio **biop)
+@@ -17,7 +43,7 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+ 	struct request_queue *q = bdev_get_queue(bdev);
+ 	struct bio *bio = *biop;
+ 	unsigned int op;
+-	sector_t bs_mask, part_offset = 0;
++	sector_t bs_mask;
+ 
+ 	if (bdev_read_only(bdev))
+ 		return -EPERM;
+@@ -48,36 +74,9 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+ 	if (!nr_sects)
+ 		return -EINVAL;
+ 
+-	/* In case the discard request is in a partition */
+-	if (bdev_is_partition(bdev))
+-		part_offset = bdev->bd_start_sect;
+-
+ 	while (nr_sects) {
+-		sector_t granularity_aligned_lba, req_sects;
+-		sector_t sector_mapped = sector + part_offset;
+-
+-		granularity_aligned_lba = round_up(sector_mapped,
+-				q->limits.discard_granularity >> SECTOR_SHIFT);
+-
+-		/*
+-		 * Check whether the discard bio starts at a discard_granularity
+-		 * aligned LBA,
+-		 * - If no: set (granularity_aligned_lba - sector_mapped) to
+-		 *   bi_size of the first split bio, then the second bio will
+-		 *   start at a discard_granularity aligned LBA on the device.
+-		 * - If yes: use bio_aligned_discard_max_sectors() as the max
+-		 *   possible bi_size of the first split bio. Then when this bio
+-		 *   is split in device drive, the split ones are very probably
+-		 *   to be aligned to discard_granularity of the device's queue.
+-		 */
+-		if (granularity_aligned_lba == sector_mapped)
+-			req_sects = min_t(sector_t, nr_sects,
+-					  bio_aligned_discard_max_sectors(q));
+-		else
+-			req_sects = min_t(sector_t, nr_sects,
+-					  granularity_aligned_lba - sector_mapped);
+-
+-		WARN_ON_ONCE((req_sects << 9) > UINT_MAX);
++		sector_t req_sects =
++			min(nr_sects, bio_discard_limit(bdev, sector));
+ 
+ 		bio = blk_next_bio(bio, bdev, 0, op, gfp_mask);
+ 		bio->bi_iter.bi_sector = sector;
+diff --git a/block/blk.h b/block/blk.h
+index 8ccbc6e076369..1fdc1d28e6d60 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -346,20 +346,6 @@ static inline unsigned int bio_allowed_max_sectors(struct request_queue *q)
+ 	return round_down(UINT_MAX, queue_logical_block_size(q)) >> 9;
+ }
+ 
+-/*
+- * The max bio size which is aligned to q->limits.discard_granularity. This
+- * is a hint to split large discard bio in generic block layer, then if device
+- * driver needs to split the discard bio into smaller ones, their bi_size can
+- * be very probably and easily aligned to discard_granularity of the device's
+- * queue.
+- */
+-static inline unsigned int bio_aligned_discard_max_sectors(
+-					struct request_queue *q)
+-{
+-	return round_down(UINT_MAX, q->limits.discard_granularity) >>
+-			SECTOR_SHIFT;
+-}
+-
+ /*
+  * Internal io_context interface
+  */
 -- 
 2.30.2
 
