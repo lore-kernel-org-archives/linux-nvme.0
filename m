@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E17DC433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 05:08:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B6F8C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 05:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V+N3WPhcjqbqmVRPAoIxuBjo6dgh1f5KuPVQDpaEGEs=; b=w8knvBkzvrXhInRmYL1zbCZjJE
-	uk30vwEaxd7YBp83g4TlRwSejHY1YDFhfU7VCHqFTOXtRj7c5IZZlJ1C80T3fB3JyHufjvBW3l5jZ
-	L7n1BD/qG1GFvKrAgffx6Rgua1D2ud3PwKDFHuCKDwwuuKKFlUqU39ocLSt1EraF/ikuH5uKZjbVP
-	tV0go2WC0hpTnKGEH2qdgHCHY8ufEqX9Cl8PIwmt4jg5YYUh9230n8wZsP72OtqkBaUiVOQpCy8/q
-	93gnXDg9r25Sk3DuYmUK1oy/a+YF1P2IeLYBe/HCb89dCfc0q5de+IxWWk675SJekpDYz2Tvq3atb
-	asm3y+CQ==;
+	bh=q2ranmlO4Nl6vweHnkN5W/lhAXFqjXPKY6W4cI6bGNw=; b=JJaN9Udbsq9cGRbFPIG6nrcr0l
+	ENG8urChfSHXfi8B9FJq+SymxpmCRt1yfbzH/NJPgJo/HkQ7VKWTfqwSY8ZLoX+uaI3QDOn8jh1ru
+	3UxqZA3mJP7c1XoaGi+s7iptpAdUnENDUVTWKbE8LkzoTyZ1siftTdlY24absALPqERvHRihB3Vum
+	yo591mSgoyxYMxFtBf0MOkn/kJAT6PNjRyvEg+gO7brrJZ9ozfMGK/hKAdIh67SWEZQrOWAAfromm
+	syta9sBt6iNXzM3xvY4uLVOypO0bb4RMUgrsXpArUChMl3yTDzIH7r1bVtTWKITGoVysQLXn5YsJJ
+	ExZv9lFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nd3Kp-002A2s-8l; Sat, 09 Apr 2022 05:08:31 +0000
+	id 1nd3MD-002Aee-Du; Sat, 09 Apr 2022 05:09:57 +0000
 Received: from 213-147-167-116.nat.highway.webapn.at ([213.147.167.116]
  helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nd34X-00217H-QX; Sat, 09 Apr 2022 04:51:42 +0000
+ id 1nd34b-0021Bd-D3; Sat, 09 Apr 2022 04:51:45 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -41,10 +41,10 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
  "Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH 16/27] block: use bdev_alignment_offset in
- part_alignment_offset_show
-Date: Sat,  9 Apr 2022 06:50:32 +0200
-Message-Id: <20220409045043.23593-17-hch@lst.de>
+Subject: [PATCH 17/27] block: use bdev_alignment_offset in
+ disk_alignment_offset_show
+Date: Sat,  9 Apr 2022 06:50:33 +0200
+Message-Id: <20220409045043.23593-18-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220409045043.23593-1-hch@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
@@ -64,34 +64,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace the open coded offset calculation with the proper helper.
-This is an ABI change in that the -1 for a misaligned partition is
-properly propagated, which can be considered a bug fix and matches
-what is done on the whole device.
+This does the same as the open coded variant except for an extra branch,
+and allows to remove queue_alignment_offset entirely.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- block/partitions/core.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ block/genhd.c          | 2 +-
+ include/linux/blkdev.h | 8 --------
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/block/partitions/core.c b/block/partitions/core.c
-index 2ef8dfa1e5c85..240b3fff521e4 100644
---- a/block/partitions/core.c
-+++ b/block/partitions/core.c
-@@ -200,11 +200,7 @@ static ssize_t part_ro_show(struct device *dev,
- static ssize_t part_alignment_offset_show(struct device *dev,
- 					  struct device_attribute *attr, char *buf)
+diff --git a/block/genhd.c b/block/genhd.c
+index b8b6759d670f0..712031ce19070 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -1010,7 +1010,7 @@ static ssize_t disk_alignment_offset_show(struct device *dev,
  {
--	struct block_device *bdev = dev_to_bdev(dev);
--
--	return sprintf(buf, "%u\n",
--		queue_limit_alignment_offset(&bdev_get_queue(bdev)->limits,
--				bdev->bd_start_sect));
-+	return sprintf(buf, "%u\n", bdev_alignment_offset(dev_to_bdev(dev)));
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 
+-	return sprintf(buf, "%d\n", queue_alignment_offset(disk->queue));
++	return sprintf(buf, "%d\n", bdev_alignment_offset(disk->part0));
  }
  
- static ssize_t part_discard_alignment_show(struct device *dev,
+ static ssize_t disk_discard_alignment_show(struct device *dev,
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index f8c50b77543eb..d5346e72e3645 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1251,14 +1251,6 @@ bdev_zone_write_granularity(struct block_device *bdev)
+ 	return queue_zone_write_granularity(bdev_get_queue(bdev));
+ }
+ 
+-static inline int queue_alignment_offset(const struct request_queue *q)
+-{
+-	if (q->limits.misaligned)
+-		return -1;
+-
+-	return q->limits.alignment_offset;
+-}
+-
+ static inline int queue_limit_alignment_offset(struct queue_limits *lim, sector_t sector)
+ {
+ 	unsigned int granularity = max(lim->physical_block_size, lim->io_min);
 -- 
 2.30.2
 
