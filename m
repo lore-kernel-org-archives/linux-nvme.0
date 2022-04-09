@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BB1CC433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 04:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7FE8C4332F
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 04:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UUS6y6SVPRCfJmQVPGCeD5o714qtaTT6EGogPxQdIy8=; b=BJ2roVfCkx1i6tsFOTnIj16dWV
-	1spOb7Y14gDI4RaV2J8l8bYeeCTuDPVzI5ejz7ZSZB6vHbFMkox080Dfxc5U/ydgpgBvyRT7MGsh3
-	7yJTR4qMT8iShUiQJjGdBE5bLpZuqPibMkR4SZo8RX9rixH9oAHzv/7ZcxCSlENHt/a5rjuqduAZ9
-	cubddx44VZzoqUD0JQfa+zNgzBO8z7g/CwCNz0qBNVjYPIyF2XqdS93asmk89ewMl+iE9aTy3Bhrr
-	2scHnLm+x2OSAKJAa5ljbN8PY7tfWVE2JO3Ycj3V+XjSfA29i2myTl3+fdPyvmgVILKGjnPqoDo9X
-	oDt5POKA==;
+	bh=6JVZQz23Gg3oLV4oYc05UwmOH+nGeMd1Qpin5+I9KgM=; b=WmcX/dPBSkBPXuxtsUM2xrmdQN
+	crJQZ4JBsV7uSTKIp0RRNZu+vOk8GANgQXTBem7A7a/uSguNc2MuYIDnmAbWz3zXT38aqa2cuCI86
+	DUhOLvAXNzmzH2V66amo5CXPwML69En0UtU9qrmNF1G9e6Paw5Y22h0fyNIAWaREmC7jOyB5XR5+Q
+	atKbDYxg8dqN4PoPIPr/GFOuz+qxMFnq6LKuvr8jl38V/o6OivS3pqxKlE1sKPYOO9xixik4OEA22
+	AEzcYINdk8JrWIiPsGFa2wupVNkmhqLclkH1bBT3afEasuH24E9QMlRUgBdLvPjAgng1vGhLhEaBh
+	DhypTf4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nd34F-0020qK-Kq; Sat, 09 Apr 2022 04:51:23 +0000
+	id 1nd34z-0021XV-EB; Sat, 09 Apr 2022 04:52:09 +0000
 Received: from 213-147-167-116.nat.highway.webapn.at ([213.147.167.116]
  helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nd33i-0020Rz-3n; Sat, 09 Apr 2022 04:50:50 +0000
+ id 1nd33l-0020TC-Pz; Sat, 09 Apr 2022 04:50:54 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -41,9 +41,10 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
  "Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH 01/27] target: remove an incorrect unmap zeroes data deduction
-Date: Sat,  9 Apr 2022 06:50:17 +0200
-Message-Id: <20220409045043.23593-2-hch@lst.de>
+Subject: [PATCH 02/27] target: pass a block_device to
+ target_configure_unmap_from_queue
+Date: Sat,  9 Apr 2022 06:50:18 +0200
+Message-Id: <20220409045043.23593-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220409045043.23593-1-hch@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
@@ -63,32 +64,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For block devices, the SCSI target drivers implements UNMAP as calls to
-blkdev_issue_discard, which does not guarantee zeroing just because
-Write Zeroes is supported.
+The SCSI target drivers is a consumer of the block layer and shoul
+d generally work on struct block_device.
 
-Note that this does not affect the file backed path which uses
-fallocate to punch holes.
-
-Fixes: 2237498f0b5c ("target/iblock: Convert WRITE_SAME to blkdev_issue_zeroout")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- drivers/target/target_core_device.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/target/target_core_device.c  | 5 +++--
+ drivers/target/target_core_file.c    | 7 ++++---
+ drivers/target/target_core_iblock.c  | 2 +-
+ include/target/target_core_backend.h | 4 ++--
+ 4 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/target/target_core_device.c b/drivers/target/target_core_device.c
-index 44bb380e7390c..fa866acef5bb2 100644
+index fa866acef5bb2..3a1ec705cd80b 100644
 --- a/drivers/target/target_core_device.c
 +++ b/drivers/target/target_core_device.c
-@@ -850,7 +850,6 @@ bool target_configure_unmap_from_queue(struct se_dev_attrib *attrib,
- 	attrib->unmap_granularity = q->limits.discard_granularity / block_size;
- 	attrib->unmap_granularity_alignment = q->limits.discard_alignment /
- 								block_size;
--	attrib->unmap_zeroes_data = !!(q->limits.max_write_zeroes_sectors);
- 	return true;
- }
- EXPORT_SYMBOL(target_configure_unmap_from_queue);
+@@ -834,9 +834,10 @@ struct se_device *target_alloc_device(struct se_hba *hba, const char *name)
+  * in ATA and we need to set TPE=1
+  */
+ bool target_configure_unmap_from_queue(struct se_dev_attrib *attrib,
+-				       struct request_queue *q)
++				       struct block_device *bdev)
+ {
+-	int block_size = queue_logical_block_size(q);
++	struct request_queue *q = bdev_get_queue(bdev);
++	int block_size = bdev_logical_block_size(bdev);
+ 
+ 	if (!blk_queue_discard(q))
+ 		return false;
+diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
+index 8190b840065f3..8d191fdc33217 100644
+--- a/drivers/target/target_core_file.c
++++ b/drivers/target/target_core_file.c
+@@ -134,10 +134,11 @@ static int fd_configure_device(struct se_device *dev)
+ 	 */
+ 	inode = file->f_mapping->host;
+ 	if (S_ISBLK(inode->i_mode)) {
+-		struct request_queue *q = bdev_get_queue(I_BDEV(inode));
++		struct block_device *bdev = I_BDEV(inode);
++		struct request_queue *q = bdev_get_queue(bdev);
+ 		unsigned long long dev_size;
+ 
+-		fd_dev->fd_block_size = bdev_logical_block_size(I_BDEV(inode));
++		fd_dev->fd_block_size = bdev_logical_block_size(bdev);
+ 		/*
+ 		 * Determine the number of bytes from i_size_read() minus
+ 		 * one (1) logical sector from underlying struct block_device
+@@ -150,7 +151,7 @@ static int fd_configure_device(struct se_device *dev)
+ 			dev_size, div_u64(dev_size, fd_dev->fd_block_size),
+ 			fd_dev->fd_block_size);
+ 
+-		if (target_configure_unmap_from_queue(&dev->dev_attrib, q))
++		if (target_configure_unmap_from_queue(&dev->dev_attrib, bdev))
+ 			pr_debug("IFILE: BLOCK Discard support available,"
+ 				 " disabled by default\n");
+ 		/*
+diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
+index 87ede165ddba4..b886ce1770bfd 100644
+--- a/drivers/target/target_core_iblock.c
++++ b/drivers/target/target_core_iblock.c
+@@ -119,7 +119,7 @@ static int iblock_configure_device(struct se_device *dev)
+ 	dev->dev_attrib.hw_max_sectors = queue_max_hw_sectors(q);
+ 	dev->dev_attrib.hw_queue_depth = q->nr_requests;
+ 
+-	if (target_configure_unmap_from_queue(&dev->dev_attrib, q))
++	if (target_configure_unmap_from_queue(&dev->dev_attrib, bd))
+ 		pr_debug("IBLOCK: BLOCK Discard support available,"
+ 			 " disabled by default\n");
+ 
+diff --git a/include/target/target_core_backend.h b/include/target/target_core_backend.h
+index 675f3a1fe6139..773963a1e0b53 100644
+--- a/include/target/target_core_backend.h
++++ b/include/target/target_core_backend.h
+@@ -14,7 +14,7 @@
+ #define TRANSPORT_FLAG_PASSTHROUGH_ALUA		0x2
+ #define TRANSPORT_FLAG_PASSTHROUGH_PGR          0x4
+ 
+-struct request_queue;
++struct block_device;
+ struct scatterlist;
+ 
+ struct target_backend_ops {
+@@ -117,7 +117,7 @@ sense_reason_t passthrough_parse_cdb(struct se_cmd *cmd,
+ bool target_sense_desc_format(struct se_device *dev);
+ sector_t target_to_linux_sector(struct se_device *dev, sector_t lb);
+ bool target_configure_unmap_from_queue(struct se_dev_attrib *attrib,
+-				       struct request_queue *q);
++				       struct block_device *bdev);
+ 
+ static inline bool target_dev_configured(struct se_device *se_dev)
+ {
 -- 
 2.30.2
 
