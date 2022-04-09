@@ -1,72 +1,69 @@
 Return-Path: <linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from bombadil.infradead.org (unknown [198.137.202.133])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64692C433F5
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 15:12:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50A98C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Apr 2022 15:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sw+fQbvS6SFTnotjqrxbhqCVHIPsenv7yxMzOYGId1I=; b=Rv8dVzsct5UTsruO7f7JoUymzc
-	jFUvZ4HKTOmqaI/McVqeGIoR2NQRrMTh91RiR3/xNi+xOi7eIaQVhRYqNHNGF6dshKu93noQvJkhV
-	d+1UM0lbSUFnvRAiln1JNeRn5KvzXKYUu7bJ0L9Lx7pbyrkrMHzfKFNF6hqGHJtf10JEwWhfFOAiE
-	JgQa3SmgJU+nJ5Q+F5PFbiAuWFZs8arQSD3T0ctBIo1ythwtvWEOo9VbXB6hIVLQVUb0jQ9bUOHih
-	8O6hWq+pwiR3o7CnE6XUiCucRTDnTg7v9uIp+xln6WLmvY9BKByyo5wgJAWhitYEVuIcw3OwV4O+9
-	CTvXfs5w==;
+	bh=BmOfl4NqddautzOtQrZ0dLuhiQSp1fB0SDxF8v7gYBA=; b=x13ev9q72TPhQMqzi6XHfqk/J0
+	0F3/kSIcAbV7je7usmvsK4/bHDPIHfeAhCyazWvm18/4IuLFAVlGGX9hdGs3Rp/Cnreyuf5bhfxfX
+	ctdJSRo9cRWQRVB7ENR0AdbFtcJQe8coK+oFtG4ght5L+8VfuMAA1pNxf/Zd3zRwYSUZpqcS6Ym9K
+	akeBhD5GxqcdmmXQV54Kq4MlsokZ2JjXTVARexw8bl7SAVZy+8pJxQIq1nLhCsdIvWA6SkuIEFztR
+	8Sy73B5OPGUFG8h2UOP6RFvavYxL4aCTnQn/dDRN8jtZKYQQDNrt3jU/2To7n4LofIWc4yY2wMW0B
+	EzY51/ZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ndClP-003NgC-CA; Sat, 09 Apr 2022 15:12:35 +0000
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+	id 1ndClU-003Ngh-G5; Sat, 09 Apr 2022 15:12:40 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nd6Fx-002ZOG-HS
- for linux-nvme@lists.infradead.org; Sat, 09 Apr 2022 08:15:44 +0000
-Received: by mail-wr1-x42d.google.com with SMTP id z1so16044888wrg.4
- for <linux-nvme@lists.infradead.org>; Sat, 09 Apr 2022 01:15:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linbit-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sw+fQbvS6SFTnotjqrxbhqCVHIPsenv7yxMzOYGId1I=;
- b=swx5mkkbJNix1TPl46oJjK+Fw0+J2z/XHhCyUPh+dcKkTNBekj88xkgZeDCIEgfzZd
- +FA0t7ckuNM4K4OwCilxgo/M+WNIfDm8hTC88nPXmxm39Wp7Y3PlmqfYEyysUU8hQUUf
- QcFmQYaxbOUrhMO1omCXZ8F/Rog5zixS+JPWEUQR0KkNkX4orlWG0JIiavrTh9qI4888
- PfuJYdextltFDNT3Q+47ZPQuPkokUbAa0jhifptu2z1GSQMaUF7eHMsw0ukFDymbedqA
- fJT7coHgReWy+GC/y+kW2UJS/DziuPPZTxFTP9KzlhdtF9p6DIhUJyZVoMiIdhtFkJM+
- cESQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sw+fQbvS6SFTnotjqrxbhqCVHIPsenv7yxMzOYGId1I=;
- b=5qKhdVKnt3jtoLT5ig+g1uuYI5UD29lruNY6T9pNxYZEWaR4t/KgAPQ7VYYD6eSXFN
- SIkhKElWDaUQti+MLTd02J4ruDvVRSmv368oo7wI1QIVU29bXQ7lIKFg+w8rqi9irp2I
- mAZCq/QjHxImO0GU8cRsbrVNFHkZNjgogUAVtVzNzeBtAaeuB3rwoAq15Iz5NGbCQQ/C
- funzP0HA3WqR9Z+rsl7m9JPgWmh6zLefvV5d5WWG7COo6oshJuQIPs28RV3xPPCl+B+D
- JAlqsB4cX+4OvKbsyLlGMfaiJFxsKWh/kxDEJluLnZ2u5zLj9JyQ+2W/0vuv4ox2+d7K
- kbmA==
-X-Gm-Message-State: AOAM533fS4FGGldjDsPHbvJqrcVuHsZun4HtOPoCbr/x/VyyKQZ3WzNq
- w36DvxYKr1tNOYI6b20bEB8dTA==
-X-Google-Smtp-Source: ABdhPJzQQyyFsXyXf3Tt03078VjcrkSv2k98fwj9oToPATRHlAVDyH773lIm4bEik17KjObuot5lIg==
-X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
- r11-20020a5d6c6b000000b001ea77eadde8mr17920640wrz.690.1649492137216; 
- Sat, 09 Apr 2022 01:15:37 -0700 (PDT)
-Received: from [192.168.169.127] (178.115.52.210.wireless.dyn.drei.com.
- [178.115.52.210]) by smtp.gmail.com with ESMTPSA id
- m20-20020a05600c4f5400b0038b5162260csm16809052wmq.23.2022.04.09.01.15.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 01:15:36 -0700 (PDT)
-Message-ID: <72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
-Date: Sat, 9 Apr 2022 10:15:33 +0200
+ id 1ndC9H-003LOb-E8; Sat, 09 Apr 2022 14:33:12 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 207A11F864;
+ Sat,  9 Apr 2022 14:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1649514786; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BmOfl4NqddautzOtQrZ0dLuhiQSp1fB0SDxF8v7gYBA=;
+ b=SJlQufjnXjTQtqgkhM6MsOUPDPwOMZ6xGLQ76UNS6RR1cEGIg2CW/GZ7A0Nq9xE2LKzjCQ
+ zm4gbJFRwGS5ZR58/OOlzltxzH57NlfDQ1MS9kgXiNk7elM8N3NSClk0AEwvrheO6NCJzw
+ l51uuNG8cURr+Q1l6/il4XbIWcEO2Fg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1649514786;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BmOfl4NqddautzOtQrZ0dLuhiQSp1fB0SDxF8v7gYBA=;
+ b=yiH+qx8I6hbeCP31rtrhbZE5qxMo8OqYiXG+UWOpJ9wghAOQqadl62X34RS7V0fnDyonaX
+ HzX10h1d2uotqQBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F41913AA1;
+ Sat,  9 Apr 2022 14:32:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id m2GpARiZUWLHIgAAMHmgww
+ (envelope-from <colyli@suse.de>); Sat, 09 Apr 2022 14:32:56 +0000
+Message-ID: <f01ac878-9b0d-972b-70dc-6f3f61b9947b@suse.de>
+Date: Sat, 9 Apr 2022 22:32:52 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 24/27] block: remove QUEUE_FLAG_DISCARD
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 26/27] block: decouple REQ_OP_SECURE_ERASE from
+ REQ_OP_DISCARD
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -83,16 +80,19 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  cluster-devel@redhat.com, jfs-discussion@lists.sourceforge.net,
  linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
  ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>, Coly Li <colyli@suse.de>
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>, David Sterba <dsterba@suse.com>
 References: <20220409045043.23593-1-hch@lst.de>
- <20220409045043.23593-25-hch@lst.de>
-From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
-In-Reply-To: <20220409045043.23593-25-hch@lst.de>
+ <20220409045043.23593-27-hch@lst.de>
+From: Coly Li <colyli@suse.de>
+In-Reply-To: <20220409045043.23593-27-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220409_011542_967777_9F03968D 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20220409_073311_655251_6DFF252C 
+X-CRM114-Status: UNSURE (   8.80  )
+X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Sat, 09 Apr 2022 08:12:33 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,22 +108,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 09.04.22 06:50, Christoph Hellwig wrote:
-> Just use a non-zero max_discard_sectors as an indicator for discard
-> support, similar to what is done for write zeroes.
-> 
-> The only places where needs special attention is the RAID5 driver,
-> which must clear discard support for security reasons by default,
-> even if the default stacking rules would allow for it.
-> 
+On 4/9/22 12:50 PM, Christoph Hellwig wrote:
+> Secure erase is a very different operation from discard in that it is
+> a data integrity operation vs hint.  Fully split the limits and helper
+> infrastructure to make the separation more clear.
+>
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com> [btrfs]
+> Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com> [drbd]
+> Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com> [nifs2]
+> Acked-by: Coly Li <colyli@suse.de> [drbd]
 
-I think you may have a typo there: my ACK was for drbd, not btrfs.
+Hi Christoph,
 
-> Acked-by: Coly Li <colyli@suse.de> [bcache]
-> ---
->   arch/um/drivers/ubd_kern.c          |  2 --
->   block/blk-core.c                    |  2 +-
+My ACK is for bcache, not drbd here.
+
+Thanks.
+
+
+Coly Li
+
+
+
+> Acked-by: David Sterba <dsterba@suse.com> [btrfs]
+
+
+
+
+
 
