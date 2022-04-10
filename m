@@ -4,31 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51C6EC433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Apr 2022 06:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2382BC433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Apr 2022 06:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ReTqbfPvYOL5e7OV60JqE24oNyN9q4uiegyy86KDY98=; b=39uDNFTji50w4Ss5tRtV5dHtH+
-	vH+rX+au4mO/4A8OwcxVZ+TViYEWOnpgEdPPxUHDXt4rbeDciJKW3XrEusclO2OCItYxI+vW6SMjE
-	yB+9WiEbYcekYHwCbFGHNDuREScFe4A9Gz0t2AicI/RCCdamPRpxqb0Bg+QFLuZS39ktW0I1TzB3J
-	y0DLo8/zNQ3+nl/5ATsx33YrLjzjHJoSZMcT6JjsDwFbOX2sFbKLsWOrbYqO3Iz+diVUV1MOUXNDZ
-	+sTk2MFvGecTXOl/8i18C6XHyioNNLYmIsgWPfhUMRp0m/x9qrX/OgEKqSRXDK0I+14MSFTcOgruy
-	6Xnw1Emw==;
+	bh=iVxiLNmsOppkSMSfhqU/kcrH7CQ6JSiqPT21EkiHp10=; b=y/DVraAeAVJ631p6bL15Ebl0/r
+	czatHVROSGIqPJojvB/QmXqoOO0VbDuJQqiRievHluJrCgNbnhmd5JFmCsmBfG4d0EbClYDCHVldW
+	PgyXGqd0anDCTHtMAAkzS3eUg4WLOFqz04/vmbQyUVKTCX80TbRO6VblsjT5xWc35jYYYR4WerGYl
+	yWP/3HVV08X/oEX2X3DuNxwEUBICodzTY4rolONgyjnSThO6+9YN8b5w0sY2UFlVgvYV53RqWZT8e
+	oyU06zWorEwQ53SDL3VHe2V3hNZAACgVOpJBq6+3wit+GXuYlKZ8JW0/PhYZXXXBnrkJ06RuDG1KT
+	ol45Dljw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ndR3E-004J0u-Ub; Sun, 10 Apr 2022 06:27:56 +0000
+	id 1ndR3K-004J3M-97; Sun, 10 Apr 2022 06:28:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ndR1q-004IUM-Pj; Sun, 10 Apr 2022 06:26:32 +0000
+ id 1ndR2n-004InZ-Dy; Sun, 10 Apr 2022 06:27:30 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id E057168AFE; Sun, 10 Apr 2022 08:26:20 +0200 (CEST)
-Date: Sun, 10 Apr 2022 08:26:20 +0200
+ id 95E2B68AFE; Sun, 10 Apr 2022 08:27:26 +0200 (CEST)
+Date: Sun, 10 Apr 2022 08:27:26 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+To: Coly Li <colyli@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, dm-devel@redhat.com,
  linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-um@lists.infradead.org, linux-block@vger.kernel.org,
@@ -44,21 +44,24 @@ Cc: Christoph Hellwig <hch@lst.de>, dm-devel@redhat.com,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
- Coly Li <colyli@suse.de>
-Subject: Re: [PATCH 24/27] block: remove QUEUE_FLAG_DISCARD
-Message-ID: <20220410062620.GA16234@lst.de>
+ Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ David Sterba <dsterba@suse.com>
+Subject: Re: [PATCH 26/27] block: decouple REQ_OP_SECURE_ERASE from
+ REQ_OP_DISCARD
+Message-ID: <20220410062726.GB16234@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
- <20220409045043.23593-25-hch@lst.de>
- <72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+ <20220409045043.23593-27-hch@lst.de>
+ <f01ac878-9b0d-972b-70dc-6f3f61b9947b@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+In-Reply-To: <f01ac878-9b0d-972b-70dc-6f3f61b9947b@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220409_232631_021111_4D311942 
-X-CRM114-Status: GOOD (  12.10  )
+X-CRM114-CacheID: sfid-20220409_232729_684251_D7E70594 
+X-CRM114-Status: UNSURE (   8.71  )
+X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Sat, 09 Apr 2022 23:27:52 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -74,20 +77,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Apr 09, 2022 at 10:15:33AM +0200, Christoph Böhmwalder wrote:
-> On 09.04.22 06:50, Christoph Hellwig wrote:
->> Just use a non-zero max_discard_sectors as an indicator for discard
->> support, similar to what is done for write zeroes.
->>
->> The only places where needs special attention is the RAID5 driver,
->> which must clear discard support for security reasons by default,
->> even if the default stacking rules would allow for it.
->>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
->> Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com> [btrfs]
+On Sat, Apr 09, 2022 at 10:32:52PM +0800, Coly Li wrote:
+>> Acked-by: Coly Li <colyli@suse.de> [drbd]
 >
-> I think you may have a typo there: my ACK was for drbd, not btrfs.
+> Hi Christoph,
+>
+> My ACK is for bcache, not drbd here.
 
-Indeed, sorry.
+Fixed.
 
