@@ -4,112 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA8A1C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 03:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A96BBC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 03:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7gP8rHHXAcWufkM+6k7OMDu8tij2GAy1nDPQwVynCOU=; b=gEPodAQA1i64z2W9XX7AJBvRXk
-	u5sCSXMIWVcUNxnk6UMOsLyIb1oCNt07QSzJuw+C//xf1lIT0pmGVZcIJRCpGfIunTEqtijsSOsFR
-	RhDlup2bxzRUfBD3YnnbQ8rDPDuDoQEjSwaZS7oFxm188CmhgPGCajJ5XsdIQLCW0nVJZHXoHCcVB
-	pcv0GJAn5ZThkM/yZ+J+4+YHPCjCPWDgdCng3IJW7Lj7KDbDnsOdPw3/4NOKKsXf9+77LOqtaU7aN
-	lkhx9pN122vZq/8uG9y0uV4Xk8uG4PaQ2gFsmn5YASmUBi88G3JEusEcQfYlU4t0Tsd/a980wJA7K
-	/gWuc9qw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GOrgSxN5Ixs8NUF4BEnUZTZuWe0trrt2wPJacA/j7M4=; b=vbvUPo5knMoVs8LMk9QfQzRPyF
+	2+qQMDhR+PiTvsrnhhlrIls1Xa0X3ujRRey7e6Zt7ximd8sOz5468evtykM2/VFXqjN8vDvjHXBCB
+	/rll9UnbMjw30+/7Bl5eZGJ2k2fJScKnMnDKpry3YhZe5MX1f9l8lLIAM3AQ9NETO0xB7HMWoDOrI
+	HJlc+MVHtgvZT0wEsegSItXsKiRRnDRghAa0Gc5dWKW4QH/n64p8xIVeRdJNrFb1kDmGCHcRVbGCT
+	nZ/ABLU0BKuWqkyv4MBzaq4mBkryxQzeesJgYFbfXfCAg5zaNspMht0zsvvXtjVCfQblO3cTw6bZ6
+	MRwkP8Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ndkUL-006P5y-AE; Mon, 11 Apr 2022 03:13:13 +0000
-Received: from mail-bn8nam11on20608.outbound.protection.outlook.com
- ([2a01:111:f400:7eae::608]
- helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1ndkUW-006PBb-KT; Mon, 11 Apr 2022 03:13:24 +0000
+Received: from mail-dm6nam12on20623.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::623]
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ndkUE-006P3C-0m
- for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 03:13:11 +0000
+ id 1ndkUM-006P5x-OU
+ for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 03:13:16 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S46jWk2er0+bjkeNI9wv5AUTlo5B9Xh/I5HKtWNdqK0MpNEm9DuVSXEw8oJBe7vgmISV0SXyMlKD46mCDHwuAEkvu4piH+i5kzus7lsRSw+n27/G8MN3L9IfPMZHuW61CYORiPgNpv4KaCYnCFPd4dC0KE0YItWOg7l3gRYF+oM1EkYY2NK1FESUzBskj8+zmq7VyaohPozJaVBs/tZ+PPmJHnzZaOAl9oDLTRIeusr4DnSR1mXPnUKzV7H+OLJ0g8mkpHRC3QDMKyWjdFS+EsvdTHC0zyQv5kRnc9wFL35llh+1uoZrScuWLZPjF8P8hyYllhYVYkzKCr7s0tUQWA==
+ b=UHgmgt5JH8ACaL1/jYcN3iwLWaUHMwtIonzAAQWGSzzVcJd9XcJC3rs7iUreiqtjMD8d0GJWsVP1DRdJi38u4TdRJiyCo38rIgIk5DH52e0QQXGRGSVI/zHyM1HQiIGWiIeAbCkn6JvMf2lyKBHJuS4E8jlKAivCr/aXJw4ZxbOuAV12JtD0rN7QMiR6ChN/8AEe6sX1lV/rqLc6Otk0dJbBvxIK6jPhersEaoFUC/GswYZOTAeptY641PH3BxYVyL8q2nd1+y5ne7+tw7KZmpdDnqCAp7VRGqo1aQAGqgGeIoV/AtAFIWhIthwlu8nNlf12T7ostjB8Nfk8T1nh/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7gP8rHHXAcWufkM+6k7OMDu8tij2GAy1nDPQwVynCOU=;
- b=btfOn5apR9T/c0iEQXbE6B2IYp/INQQdgU9UX4bHl3RS4MXNnmcE+O8eNRsc44GxqUGyG86cowqce0vme0ydtAzx5F2u7YTdSBS2vfqkZJVn4ZJ169PYbC3r4fr6pVtVBk59FoVPytHkWC2/pb5DIMjQ/6RlIa4OdYSQiQ1jwrH7gcdLIBL8d5qiAJ/1+dTA1CyXSLGet1ReAhvvC9SHsXTMdGHv3MUHvYIpOfag/EdSpmNbuY53VYyay/nhzYKofQsGHCrNVEYYIyEwi0sROg0nXPbt9yN+nqT+u+h+1uYXj9EqdoFaxdrAZ9bm3zWXq9i+647VAhlycYqpP588BA==
+ bh=GOrgSxN5Ixs8NUF4BEnUZTZuWe0trrt2wPJacA/j7M4=;
+ b=MzkelklZy8uo7lxu+kBsr6zTpqiYtWx9N7DX/ioFPSATk7RlOt85T46w+zaa2ChHltToEeYiuaXPdESNH3Vt2nF6QZOCyaedO7ZE5DTPIFyPtMTPBUyHEva7lYI6iB6afEEaYvUCmPIABzaRK+Eo3wIPXz2Pal/QwuEb8nmfdjjK4w6NrRbYq2mdBrdBLLJo+dQX8nqTfZbzyz6nLD5UADy3XsmlUCZ63J/ZzRzqYWcJQiPxXDVbhhDB7UfxsC7MytNuBKBJ365m3DQinREEeMcEZtCMmtFNdwlblGCHq1RqWb6JTN5Qu7FLg8KBll6SpGXAHXuZizXuc09VUsmWnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
+ 12.22.5.236) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7gP8rHHXAcWufkM+6k7OMDu8tij2GAy1nDPQwVynCOU=;
- b=XjJaZwILVZEQarlbH54aB/Mco1CYS7zkhTqBaLT0NCGZTAG0dVOHsNvpC2dAj5e1SWCsVYAm35V7etPlc/cIVVwAlA4h5nuwXuJf0awNxIPUrwsH/5srsppi14UE+MThSnnzbvRQjUMMXXJORq4fQnM6th7mB8lwcPmtjznTtmDntgoSpqZbfgZThKt/ymFtkDYePtZD9JxIiETgPZPv4hbBfVw51esGdkeix/nRxKuOw3V+jdqFEL+NlCxneag4t2igyGZT7VhUkamTh+NCXY/DCeM/RidTOkLUtQIlcemMBAW2S/gbw6Odv+yBI4L+EVfvBdF4PmhIQjGQh527jw==
-Received: from MW4P223CA0017.NAMP223.PROD.OUTLOOK.COM (2603:10b6:303:80::22)
- by DM5PR12MB1340.namprd12.prod.outlook.com (2603:10b6:3:76::15) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=GOrgSxN5Ixs8NUF4BEnUZTZuWe0trrt2wPJacA/j7M4=;
+ b=k32a7v19ORApr98htHg3auRNIrVd+aV0rEqWUH0AfD1HAcDIOk/yoAG2cAYbVuzBXozuyNm6hOJ7x5ClwPWdRtH+6e8lpECnSZkFHFpL60JNH4PZpuWVcDESSzQ8YxQ4lUGLBfl9MUojTMJQ4q0Wwgv+OwU+1Z87tmcnLDGYqnAj0SvkuTTPKOOgJ2UH3eRFcIQQ/t6DNcj+YJ7V8gx5CEDzak/0dlM/l6YnTUxkJWILgGfIGy21p5WTIAVuoWI6TjHD6Z8yoghcIeqkamxUApH32iqVW09+DwgOzIJYhLkNSkbbQiRrPBBIFm5uIuYQHLEXnXwFqFzWKZtv0MPgXw==
+Received: from MW4PR04CA0215.namprd04.prod.outlook.com (2603:10b6:303:87::10)
+ by MWHPR12MB1759.namprd12.prod.outlook.com (2603:10b6:300:113::18)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Mon, 11 Apr
- 2022 03:12:59 +0000
-Received: from CO1NAM11FT021.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:80:cafe::fb) by MW4P223CA0017.outlook.office365.com
- (2603:10b6:303:80::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.27 via Frontend
- Transport; Mon, 11 Apr 2022 03:12:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ 2022 03:13:10 +0000
+Received: from CO1NAM11FT056.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:87:cafe::8e) by MW4PR04CA0215.outlook.office365.com
+ (2603:10b6:303:87::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29 via Frontend
+ Transport; Mon, 11 Apr 2022 03:13:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.235) by
- CO1NAM11FT021.mail.protection.outlook.com (10.13.175.51) with Microsoft SMTP
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.236) by
+ CO1NAM11FT056.mail.protection.outlook.com (10.13.175.107) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5144.20 via Frontend Transport; Mon, 11 Apr 2022 03:12:59 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
- Mon, 11 Apr 2022 03:12:58 +0000
+ 15.20.5144.20 via Frontend Transport; Mon, 11 Apr 2022 03:13:10 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Mon, 11 Apr 2022 03:13:09 +0000
 Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 10 Apr
- 2022 20:12:57 -0700
+ 2022 20:13:08 -0700
 From: Chaitanya Kulkarni <kch@nvidia.com>
 To: <linux-nvme@lists.infradead.org>
 CC: <hch@lst.de>, <sagi@grimberg.me>, <kbusch@kernel.org>, Chaitanya Kulkarni
  <kch@nvidia.com>
-Subject: [PATCH 0/3] nvme: fix internal passthru error messages
-Date: Sun, 10 Apr 2022 20:12:46 -0700
-Message-ID: <20220411031249.5158-1-kch@nvidia.com>
+Subject: [PATCH 1/3] nvmet: handle admin default command set identifier
+Date: Sun, 10 Apr 2022 20:12:47 -0700
+Message-ID: <20220411031249.5158-2-kch@nvidia.com>
 X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20220411031249.5158-1-kch@nvidia.com>
+References: <20220411031249.5158-1-kch@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.126.231.35]
 X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9ca114ea-acbf-4d57-22b1-08da1b692e7d
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1340:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1340A7A19412D8B91278BF2CA3EA9@DM5PR12MB1340.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: a23af1d0-7466-42f4-5d79-08da1b69351e
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1759:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB17595024103BC09A83AAD2B8A3EA9@MWHPR12MB1759.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GhROb9TUYNIzlzAuu9YDVeHDsOtRpChx73KjMYnyKhXn+gqSgrpalkLblLtVw/LVvxz50rCGsUpSndot9MZSGGqnRC0+NoQi3xUog9d5WfdTiq9VRXF0R57Gy+DBOXoeErNyCm7mTob9PHooIKWvlltPkMtiVs8qv6T0Vli07YXH2Sgr6ZloUEVB/sJu7aT8U9ubRG7bUz5kL1BEasFb5pdkXvLSRh0f8ZZxBSDQnXVeeeDe/CoaPjsMegBy2BJHkTLqa7kCubEljn1MibeGUyQupIpqZGVg88gKLeNjiaZORB2ELstr52K/8aVJxkEtakv6ZNdurp7FNoG+JpBsv4ZadA9wsOA2df94ATtSaf1wa8xvlNhh0k5A3BxTMcZpeL7HXUHpERqAyCW6QzGUGd2NZqk6icNpXxK8iQL0+XPvaO1daCSKQIHKTtiaW/UswKBWxfB94lw37cjiUfvPuNk5a07qAisjN8OMJou0G6jhuCMcBmO8e6qkWHk536e1rcIbnOMptdo6lFhtHL/XvWxHAexCeGTW9L+jCEAFyyGwpOtneR84VUVGzFJClurjcdy3otLhZm06LYGYKxtzen52WYflsRlGvkQztExcbN4/hjiyaW3xxIEJjf+Tdp4apO980vBFtCH3CrjUJ/vBkeQGSnf+Erl7eD7uwZV8GXuY6+9ZQvqfbG7j7aSRm2S26gEFV4jFLaMPC8Z+REAXsQ==
-X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
+X-Microsoft-Antispam-Message-Info: GavLDXEgGrKwGAvbk/CwsDuzYZp9AlYRmrO/3mM+1xUCmGQwq+tNefpwccV/O0pINdDnccPPBCnnv8SzMxGQzVtj0I7VFIWUqUnfDh1FrkZUmttMc5T9Sq+bLXpRh/n1188L9JPdBMeGUUzn8xZVqfFk35+j/UNsT18GNxUd0Z20OQruNATB8YFzTOeyv1h3Ob56FW56wzJh08WM5mVChH71aY2tiJCwVX38WV9uhqGnThG/b6mJiZAVjY2sa2P0OBwn2SKWvbVPcFGF1qG8QyEqza1hRAKQdjaFQq/PLYJUA4Mcru1FHhDAPudgbs7XVZqXQdp2Gt9MmhMqMN6LmZRnX9qQd5rfWzA20iObKcnieWnQPvjJ8fSConn2ooZtpY+SUMmIIUZ5xx2LMX21zl8tabTWuqZJqqeNlmGZbA5aVByqj1sxsQcvj+8Ue9qbNEzdMgGtDi0qTKaVqeW32q/n7BxG7psXtSq2S4hY18oJvCTPxJjWcZR25MKoZFwwXZEH43dz3/aRcwXXwXRkIMskg5JZha1dKZQHhYo1NsRAhKNOv4kT+eyIAlTJ+kz9BSlm3qNBVeXHlbmcTIsTs+6kK783E7XHG5kVabov/z3CtqFwdByvUdQWlpeVunnux1pFiui7SQuriBKVWBKHnBJ+gbuY2cedXqXg+5Jh4Jr4sZvyUDK59C3JG0MfXLn5C5ZOB9sb0LXOcnv4JrP+NA==
+X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(83380400001)(15650500001)(508600001)(8936002)(16526019)(47076005)(82310400005)(26005)(30864003)(5660300002)(36756003)(40460700003)(2906002)(36860700001)(316002)(336012)(70206006)(70586007)(426003)(186003)(6916009)(107886003)(8676002)(2616005)(4326008)(1076003)(54906003)(7696005)(356005)(81166007)(6666004)(36900700001)(579004);
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(6916009)(47076005)(54906003)(186003)(16526019)(5660300002)(81166007)(356005)(36860700001)(6666004)(8936002)(107886003)(36756003)(2616005)(1076003)(40460700003)(2906002)(7696005)(316002)(8676002)(82310400005)(336012)(4326008)(426003)(70206006)(70586007)(26005)(508600001)(83380400001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 03:12:59.0409 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ca114ea-acbf-4d57-22b1-08da1b692e7d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 03:13:10.1951 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a23af1d0-7466-42f4-5d79-08da1b69351e
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT021.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT056.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1340
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1759
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220410_201306_235726_76585FA0 
-X-CRM114-Status: GOOD (  16.35  )
+X-CRM114-CacheID: sfid-20220410_201314_821859_CA463B58 
+X-CRM114-Status: GOOD (  14.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,1206 +126,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+The NVMeOF in kernel host when configuring non-mdts limits uses
+idnetify controller cns value to NVME_ID_CNS_CS_CTRL and csi value to
+NVME_CSI_NVM. In target code we only handle case for NVME_ID_CNS_CS_CTRL
+and NVME_CSI_ZNS when CONFIG_BLK_DEV_ZONED is set.
 
-Since addition of the nvme_log_error(), we are getting reports of
-the error messages are printed from internal passthru commands.
-This also uncovered target execute identify code path where we don't
-handle the case for NVME_CSI_NVM and in the host where we issue
-non-mdts limit for the discovery contoller.
+Handle missing case for CONFIG_BLK_DEV_ZONED and !CONFIG_BLK_DEV_ZONED
+so it can handle NVME_ID_CNS_CS_CTRL with NVME_CSI_NVM.
 
-First patch fixes target execute identify case, second patch prevents
-configuring non-mdts-limits for the dicovery controller and thrid patch
-masks the internal passthru error warnings tested with nvme error
-injection.
+Use this opportunity to add default for the NVME_ID_CNS_CTRL case which
+makes code uniform for all the cases in the
+nvmet_execute_identify_cns_cs_ctrl_nvm().
 
-Regarding the third patch Alan has reported it does mask
-nvme-admin-passthru commands errors when used with error injection
-framework, I wasn't able to reporduce that, maybe we can wait for Alan
-to confirm.
+Also, rename nvmet_execute_identify_ctrl() to
+             nvmet_execute_identify_cns_cs_ctrl_nvm() and
+nvmet_execute_identify_cns_cs_ctrl() to
+nvmet_execute_identify_cns_cs_ctrl_zns().
 
-Following is the test execution log with :-
+This also masks the following warning reported by the nvme_log_error()
+when running blktest nvme/012:-
 
-1. Tests with CONFIG_BLK_DEV_ZONED enabled.
-1.1 nvme-admin-passthru error injection logging error mesaages.
-1.2 blktests results.
-1.3 Test fio verify job with NVMeOF ZBD backend.
-2. Tests with CONFIG_BLK_DEV_ZONED disabled :-
-2.1 nvme-admin-passthru error injection logging error mesaages.
-2.2 blktests results.
-2.3 Try and create NVMeOF controller with ZBD backend & fail grececully.
+[ 2131.702140] run blktests nvme/012 at 2022-04-09 16:59:53
+[ 2131.722144] loop0: detected capacity change from 0 to 2097152
+[ 2131.730586] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[ 2131.738826] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN testhostnqn.
+*[ 2131.738911] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR*
+[ 2131.740540] nvme nvme1: creating 48 I/O queues.
+[ 2131.743925] nvme nvme1: new ctrl: "blktests-subsystem-1"
+[ 2132.790058] XFS (nvme1n1): Mounting V5 Filesystem
+[ 2132.793667] XFS (nvme1n1): Ending clean mount
+[ 2132.794030] xfs filesystem being mounted at /mnt/blktests supports timestamps until 2038 (0x7fffffff)
+[ 2142.471812] XFS (nvme1n1): Unmounting Filesystem
+[ 2142.492566] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
 
--ck
-
-Chaitanya Kulkarni (3):
-  nvmet: handle admin default command set identifier
-  nvme-core: don't check non-mdts for disc ctrl
-  nvme-core: mark internal passthru req REQ_QUIET
-
- drivers/nvme/host/core.c        |  7 ++++++-
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
  drivers/nvme/target/admin-cmd.c | 22 ++++++++++++++--------
  drivers/nvme/target/nvmet.h     |  2 +-
  drivers/nvme/target/zns.c       |  2 +-
- 4 files changed, 22 insertions(+), 11 deletions(-)
+ 3 files changed, 16 insertions(+), 10 deletions(-)
 
-1. Tests with CONFIG_BLK_DEV_ZONED enabled :-
------------------------------------------------------------------------
-
-nvme (nvme-5.18) # git log -3
-commit 0d77072e26fa074da0c36e423a5802fd18ef976d (HEAD -> nvme-5.18)
-Author: Chaitanya Kulkarni <kch@nvidia.com>
-Date:   Fri Apr 8 16:45:18 2022 -0700
-
-    nvme-core: mark internal passthru req REQ_QUIET
-    
-    Mark internal passthru requests quiet in the submission path with
-    RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
-    path, if nvme request is resulted in the error and request is marked
-    RQF_QUIET then don't log the error with nvme_error_log().
-    
-    Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-
-commit d4df054957f3cbd37601d65d8e7460aaaee8733d
-Author: Chaitanya Kulkarni <kch@nvidia.com>
-Date:   Fri Apr 8 15:50:10 2022 -0700
-
-    nvme-core: don't check non-mdts for disc ctrl
-    
-    Don't check the non mdts limits for the discovery controller as we
-    don't support I/O command set, this also masks the following warning
-    reported by the nvme_log_error() when running blktest nvme/002: -
-    
-    [ 2005.155946] run blktests nvme/002 at 2022-04-09 16:57:47
-    [ 2005.192223] loop: module loaded
-    [ 2005.196429] nvmet: adding nsid 1 to subsystem blktests-subsystem-0
-    [ 2005.200334] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-    
-    <------------------------------SNIP---------------------------------->
-    
-    [ 2008.958108] nvmet: adding nsid 1 to subsystem blktests-subsystem-997
-    [ 2008.962082] nvmet: adding nsid 1 to subsystem blktests-subsystem-998
-    [ 2008.966102] nvmet: adding nsid 1 to subsystem blktests-subsystem-999
-    [ 2008.973132] nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN testhostnqn.
-    *[ 2008.973196] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR*
-    [ 2008.974595] nvme nvme1: new ctrl: "nqn.2014-08.org.nvmexpress.discovery"
-    [ 2009.103248] nvme nvme1: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
-    
-    Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-
-commit 18aac654ff824a4b169e51d72b674245a7a1b79c
-Author: Chaitanya Kulkarni <kch@nvidia.com>
-Date:   Thu Apr 7 12:11:37 2022 -0700
-
-    nvmet: handle admin default command set identifier
-    
-    The NVMeOF in kernel host when configuring non-mdts limits uses
-    idnetify controller cns value to NVME_ID_CNS_CS_CTRL and csi value to
-    NVME_CSI_NVM. In target code we only handle case for NVME_ID_CNS_CS_CTRL
-    and NVME_CSI_ZNS when CONFIG_BLK_DEV_ZONED is set.
-    
-    Handle missing case for CONFIG_BLK_DEV_ZONED and !CONFIG_BLK_DEV_ZONED
-    so it can handle NVME_ID_CNS_CS_CTRL with NVME_CSI_NVM.
-    
-    Use this opportunity to add default for the NVME_ID_CNS_CTRL case which
-    makes code uniform for all the cases in the
-    nvmet_execute_identify_cns_cs_ctrl_nvm().
-    
-    Also, rename nvmet_execute_identify_ctrl() to
-                 nvmet_execute_identify_cns_cs_ctrl_nvm() and
-    nvmet_execute_identify_cns_cs_ctrl() to
-    nvmet_execute_identify_cns_cs_ctrl_zns().
-    
-    This also masks the following warning reported by the nvme_log_error()
-    when running blktest nvme/012:-
-    
-    [ 2131.702140] run blktests nvme/012 at 2022-04-09 16:59:53
-    [ 2131.722144] loop0: detected capacity change from 0 to 2097152
-    [ 2131.730586] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-    [ 2131.738826] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN testhostnqn.
-    *[ 2131.738911] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR*
-    [ 2131.740540] nvme nvme1: creating 48 I/O queues.
-    [ 2131.743925] nvme nvme1: new ctrl: "blktests-subsystem-1"
-    [ 2132.790058] XFS (nvme1n1): Mounting V5 Filesystem
-    [ 2132.793667] XFS (nvme1n1): Ending clean mount
-    [ 2132.794030] xfs filesystem being mounted at /mnt/blktests supports timestamps until 2038 (0x7fffffff)
-    [ 2142.471812] XFS (nvme1n1): Unmounting Filesystem
-    [ 2142.492566] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-    
-    Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) # grep -i zoned .config
-CONFIG_BLK_DEV_ZONED=y
-CONFIG_BLK_DEBUG_FS_ZONED=y
-# CONFIG_DM_ZONED is not set
-nvme (nvme-5.18) # ./compile_nvme.sh 
-+ umount /mnt/nvme0n1
-+ clear_dmesg
-./compile_nvme.sh: line 3: clear_dmesg: command not found
-umount: /mnt/nvme0n1: no mount point specified.
-+ ./delete.sh
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 0 controller(s)
-
-real	0m0.010s
-user	0m0.001s
-sys	0m0.004s
-+ rm -fr '/sys/kernel/config/nvmet/ports/1/subsystems/*'
-+ rmdir /sys/kernel/config/nvmet/ports/1
-rmdir: failed to remove '/sys/kernel/config/nvmet/ports/1': No such file or directory
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-./delete.sh: line 14: /sys/kernel/config/nvmet/subsystems/*/namespaces/*/enable: No such file or directory
-+ rmdir '/sys/kernel/config/nvmet/subsystems/*/namespaces/*'
-rmdir: failed to remove '/sys/kernel/config/nvmet/subsystems/*/namespaces/*': No such file or directory
-+ rmdir '/sys/kernel/config/nvmet/subsystems/*'
-rmdir: failed to remove '/sys/kernel/config/nvmet/subsystems/*': No such file or directory
-+ rmdir 'config/nullb/nullb*'
-rmdir: failed to remove 'config/nullb/nullb*': No such file or directory
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-
-0 directories, 0 files
-+ modprobe -r nvme-fabrics
-+ modprobe -r nvme_loop
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ sleep 1
-+ modprobe -r nvme-core
-+ lsmod
-+ grep nvme
-+ sleep 1
-+ git diff
-+ sleep 1
-++ nproc
-+ make -j 48 M=drivers/nvme/target/ clean
-++ nproc
-+ make -j 48 M=drivers/nvme/ modules
-  CC [M]  drivers/nvme/target/core.o
-  CC [M]  drivers/nvme/target/configfs.o
-  CC [M]  drivers/nvme/target/admin-cmd.o
-  CC [M]  drivers/nvme/target/fabrics-cmd.o
-  CC [M]  drivers/nvme/target/discovery.o
-  CC [M]  drivers/nvme/target/io-cmd-file.o
-  CC [M]  drivers/nvme/target/io-cmd-bdev.o
-  CC [M]  drivers/nvme/target/passthru.o
-  CC [M]  drivers/nvme/target/zns.o
-  CC [M]  drivers/nvme/target/trace.o
-  CC [M]  drivers/nvme/target/loop.o
-  CC [M]  drivers/nvme/target/rdma.o
-  CC [M]  drivers/nvme/target/fc.o
-  CC [M]  drivers/nvme/target/fcloop.o
-  CC [M]  drivers/nvme/target/tcp.o
-  LD [M]  drivers/nvme/target/nvme-loop.o
-  LD [M]  drivers/nvme/target/nvme-fcloop.o
-  LD [M]  drivers/nvme/target/nvmet.o
-  LD [M]  drivers/nvme/target/nvmet-fc.o
-  LD [M]  drivers/nvme/target/nvmet-tcp.o
-  LD [M]  drivers/nvme/target/nvmet-rdma.o
-  MODPOST drivers/nvme/Module.symvers
-  CC [M]  drivers/nvme/target/nvme-fcloop.mod.o
-  CC [M]  drivers/nvme/target/nvme-loop.mod.o
-  CC [M]  drivers/nvme/target/nvmet-fc.mod.o
-  CC [M]  drivers/nvme/target/nvmet-rdma.mod.o
-  CC [M]  drivers/nvme/target/nvmet-tcp.mod.o
-  CC [M]  drivers/nvme/target/nvmet.mod.o
-  LD [M]  drivers/nvme/target/nvmet-tcp.ko
-  LD [M]  drivers/nvme/target/nvme-loop.ko
-  LD [M]  drivers/nvme/target/nvmet-rdma.ko
-  LD [M]  drivers/nvme/target/nvmet-fc.ko
-  LD [M]  drivers/nvme/target/nvme-fcloop.ko
-  LD [M]  drivers/nvme/target/nvmet.ko
-+ HOST=drivers/nvme/host
-+ TARGET=drivers/nvme/target
-++ uname -r
-+ HOST_DEST=/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host/
-++ uname -r
-+ TARGET_DEST=/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target/
-+ cp drivers/nvme/host/nvme-core.ko drivers/nvme/host/nvme-fabrics.ko drivers/nvme/host/nvme-fc.ko drivers/nvme/host/nvme.ko drivers/nvme/host/nvme-rdma.ko drivers/nvme/host/nvme-tcp.ko /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host//
-+ cp drivers/nvme/target/nvme-fcloop.ko drivers/nvme/target/nvme-loop.ko drivers/nvme/target/nvmet-fc.ko drivers/nvme/target/nvmet.ko drivers/nvme/target/nvmet-rdma.ko drivers/nvme/target/nvmet-tcp.ko /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target//
-+ ls -lrth /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host/ /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target//
-/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host/:
-total 6.3M
--rw-r--r--. 1 root root 2.7M Apr  9 15:46 nvme-core.ko
--rw-r--r--. 1 root root 426K Apr  9 15:46 nvme-fabrics.ko
--rw-r--r--. 1 root root 925K Apr  9 15:46 nvme-fc.ko
--rw-r--r--. 1 root root 714K Apr  9 15:46 nvme.ko
--rw-r--r--. 1 root root 856K Apr  9 15:46 nvme-rdma.ko
--rw-r--r--. 1 root root 799K Apr  9 15:46 nvme-tcp.ko
-
-/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target//:
-total 6.3M
--rw-r--r--. 1 root root 475K Apr  9 15:46 nvme-fcloop.ko
--rw-r--r--. 1 root root 419K Apr  9 15:46 nvme-loop.ko
--rw-r--r--. 1 root root 734K Apr  9 15:46 nvmet-fc.ko
--rw-r--r--. 1 root root 3.2M Apr  9 15:46 nvmet.ko
--rw-r--r--. 1 root root 822K Apr  9 15:46 nvmet-rdma.ko
--rw-r--r--. 1 root root 671K Apr  9 15:46 nvmet-tcp.ko
-+ sync
-+ sync
-+ sync
-+ modprobe nvme
-+ echo 'Press enter to continue ...'
-Press enter to continue ...
-+ read next
-
-1.1 nvme-admin-passthru error injection logging error mesaages :- 
-------------------------------------------------------------------------
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) # sh error_inject.sh 
-++ NN=1
-++ NQN=testnqn
-++ let NR_DEVICES=NN+1
-++ modprobe -r null_blk
-++ modprobe -r nvme
-++ modprobe null_blk nr_devices=0
-++ modprobe nvme
-++ modprobe nvme-fabrics
-++ modprobe nvmet
-++ modprobe nvme-loop
-++ dmesg -c
-++ sleep 2
-++ tree /sys/kernel/config
-/sys/kernel/config
-├── nullb
-│   └── features
-└── nvmet
-    ├── hosts
-    ├── ports
-    └── subsystems
-
-5 directories, 1 file
-++ sleep 1
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn
-+++ shuf -i 1-1 -n 1
-++ for i in `shuf -i  1-$NN -n $NN`
-++ mkdir config/nullb/nullb1
-++ echo 1
-++ echo 4096
-++ echo 2048
-++ echo 1
-+++ cat config/nullb/nullb1/index
-++ IDX=0
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-++ echo ' ####### /dev/nullb0'
- ####### /dev/nullb0
-++ echo -n /dev/nullb0
-++ cat /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/device_path
-/dev/nullb0
-++ echo 1
-++ dmesg -c
-[  735.981707] nvmet: adding nsid 1 to subsystem testnqn
-++ mkdir /sys/kernel/config/nvmet/ports/1/
-++ echo -n loop
-++ echo -n 1
-++ ln -s /sys/kernel/config/nvmet/subsystems/testnqn /sys/kernel/config/nvmet/ports/1/subsystems/
-++ echo transport=loop,nqn=testnqn
-++ sleep 1
-++ mount
-++ column -t
-++ grep nvme
-++ dmesg -c
-[  735.990847] nvmet: creating nvm controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:8a582f37-906c-4e38-b4f1-63da52eb618c.
-[  735.990963] nvme nvme1: creating 48 I/O queues.
-[  735.994732] nvme nvme1: new ctrl: "testnqn"
-Node SN Model Namespace Usage Format FW Rev 
-nvme1n1 7eb450b4757e46995c7e Linux 1 2.15 GB / 2.15 GB 4 KiB + 0 B 5.17.0-r
-nvme0n1 foo QEMU NVMe Ctrl 1 1.07 GB / 1.07 GB 512 B + 0 B 1.0 
-NVMe status: Access Denied: Access to the namespace and/or LBA range is denied due to lack of access rights(0x4286)
-Node SN Model Namespace Usage Format FW Rev 
-nvme0n1 foo QEMU NVMe Ctrl 1 1.07 GB / 1.07 GB 512 B + 0 B 1.0 
-[  737.006671] FAULT_INJECTION: forcing a failure.
-               name fault_inject, interval 1, probability 100, space 0, times 1000
-[  737.006679] CPU: 21 PID: 38553 Comm: kworker/21:0 Tainted: G           OE     5.17.0-rc2nvme+ #70
-[  737.006683] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-[  737.006686] Workqueue: nvmet-wq nvme_loop_execute_work [nvme_loop]
-[  737.006694] Call Trace:
-[  737.006713]  <TASK>
-[  737.006716]  dump_stack_lvl+0x48/0x5e
-[  737.006722]  should_fail.cold+0x32/0x37
-[  737.006727]  nvme_should_fail+0x38/0x90 [nvme_core]
-[  737.006739]  nvme_loop_queue_response+0xc9/0x143 [nvme_loop]
-[  737.006743]  nvmet_req_complete+0x11/0x50 [nvmet]
-[  737.006752]  process_one_work+0x1af/0x380
-[  737.006756]  ? rescuer_thread+0x370/0x370
-[  737.006758]  worker_thread+0x50/0x3a0
-[  737.006771]  ? rescuer_thread+0x370/0x370
-[  737.006773]  kthread+0xe7/0x110
-[  737.006776]  ? kthread_complete_and_exit+0x20/0x20
-[  737.006780]  ret_from_fork+0x22/0x30
-[  737.006786]  </TASK>
-[  737.006792] nvme1: Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
-[  737.011040] FAULT_INJECTION: forcing a failure.
-               name fault_inject, interval 1, probability 100, space 0, times 999
-[  737.011047] CPU: 22 PID: 10449 Comm: kworker/22:9 Tainted: G           OE     5.17.0-rc2nvme+ #70
-[  737.011051] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-[  737.011053] Workqueue: nvmet-wq nvme_loop_execute_work [nvme_loop]
-[  737.011062] Call Trace:
-[  737.011065]  <TASK>
-[  737.011067]  dump_stack_lvl+0x48/0x5e
-[  737.011074]  should_fail.cold+0x32/0x37
-[  737.011079]  nvme_should_fail+0x38/0x90 [nvme_core]
-[  737.011091]  nvme_loop_queue_response+0xc9/0x143 [nvme_loop]
-[  737.011095]  nvmet_req_complete+0x11/0x50 [nvmet]
-[  737.011103]  process_one_work+0x1af/0x380
-[  737.011108]  worker_thread+0x50/0x3a0
-[  737.011111]  ? rescuer_thread+0x370/0x370
-[  737.011113]  kthread+0xe7/0x110
-[  737.011117]  ? kthread_complete_and_exit+0x20/0x20
-[  737.011120]  ret_from_fork+0x22/0x30
-[  737.011126]  </TASK>
-[  737.011133] nvme1: Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 1 controller(s)
-
-real	0m0.339s
-user	0m0.001s
-sys	0m0.004s
-+ rm -fr /sys/kernel/config/nvmet/ports/1/subsystems/testnqn
-+ rmdir /sys/kernel/config/nvmet/ports/1
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn
-+ rmdir config/nullb/nullb1
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-
-0 directories, 0 files
-
-1.2 blktests results :-
------------------------------------------------------------------------
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) # cdblktests 
-blktests (master) # ./check nvme
-nvme/002 (create many subsystems and test discovery)         [passed]
-    runtime  17.137s  ...  17.312s
-nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
-    runtime  10.083s  ...  10.089s
-nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
-    runtime  1.443s  ...  1.433s
-nvme/005 (reset local loopback target)                       [passed]
-    runtime  6.770s  ...  6.795s
-nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
-    runtime  0.070s  ...  0.063s
-nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
-    runtime  0.035s  ...  0.042s
-nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
-    runtime  1.455s  ...  1.457s
-nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
-    runtime  1.418s  ...  1.420s
-nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  7.805s  ...  7.906s
-nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  76.991s  ...  76.979s
-nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  11.506s  ...  12.301s
-nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  79.186s  ...  80.436s
-nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
-    runtime  8.907s  ...  8.850s
-nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
-    runtime  8.685s  ...  8.669s
-nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
-    runtime  11.425s  ...  10.842s
-nvme/017 (create/delete many file-ns and test discovery)     [passed]
-    runtime  11.678s  ...  11.080s
-nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
-    runtime  1.416s  ...  1.402s
-nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
-    runtime  1.441s  ...  1.428s
-nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
-    runtime  1.426s  ...  1.412s
-nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
-    runtime  1.417s  ...  1.401s
-nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
-    runtime  6.770s  ...  6.736s
-nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
-    runtime  1.427s  ...  1.455s
-nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
-    runtime  1.406s  ...  1.406s
-nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
-    runtime  1.430s  ...  1.410s
-nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
-    runtime  1.410s  ...  1.406s
-nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
-    runtime  1.419s  ...  1.422s
-nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
-    runtime  1.412s  ...  1.433s
-nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
-    runtime  1.564s  ...  1.536s
-nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
-    runtime  0.186s  ...  0.192s
-nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
-    runtime  53.898s  ...  53.842s
-nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
-    runtime  0.018s  ...  0.019s
-
-1.3 Test fio verify job with NVMeOF ZBD backend :-
------------------------------------------------------------------------
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) #
-nvme (nvme-5.18) # ./zbdev.sh 1
-++ SUBSYS=/sys/kernel/config/nvmet/subsystems
-++ PORT=/sys/kernel/config/nvmet/ports
-++ NQN=testnqn
-++ NN=1
-++ main
-++ unload
-++ modprobe -r null_blk
-++ modprobe null_blk zoned=1 nr_devices=0
-++ modprobe nvme
-++ modprobe nvme-fabrics
-++ modprobe nvmet
-++ modprobe nvme-loop
-++ dmesg -c
-++ sleep 2
-++ make_subsys
-++ tree /sys/kernel/config
-/sys/kernel/config
-├── nullb
-│   └── features
-└── nvmet
-    ├── hosts
-    ├── ports
-    └── subsystems
-
-5 directories, 1 file
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn
-++ echo -n 1
-++ make_port
-++ mkdir /sys/kernel/config/nvmet/ports/1/
-++ echo -n loop
-++ ln -s /sys/kernel/config/nvmet/subsystems/testnqn /sys/kernel/config/nvmet/ports/1/subsystems/
-++ sleep 1
-++ connect_host
-++ echo transport=loop,nqn=testnqn
-++ make_ns
-+++ shuf -i 1-1 -n 1
-++ for i in `shuf -i  1-$NN -n $NN`
-++ mkdir config/nullb/nullb1
-++ echo 1
-++ echo 4096
-++ echo 1024
-++ echo 128
-++ echo 1
-++ echo 1
-+++ cat config/nullb/nullb1/index
-++ IDX=0
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-++ echo ' ####### /dev/nullb0'
- ####### /dev/nullb0
-++ echo -n /dev/nullb0
-++ cat /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/device_path
-/dev/nullb0
-++ echo /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/enable
-/sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/enable
-++ echo 1
-++ '[' 1 ']'
-+++ wc -l
-+++ ls -l /dev/nvme1
-++ cnt=1
-++ echo 1
-1
-++ '[' 1 -gt 1 ']'
-++ sleep 1
-++ dmesg -c
-[   36.186752] nvmet: creating nvm controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:7f0546f8-2eab-4195-b673-0a434fa67768.
-[   36.186849] nvme nvme1: creating 48 I/O queues.
-[   36.190938] nvme nvme1: new ctrl: "testnqn"
-[   36.198983] nvmet: adding nsid 1 to subsystem testnqn
-[   36.200458] nvme nvme1: rescanning namespaces.
-++ '[' 1 ']'
-+++ wc -l
-+++ ls -l /dev/nvme1 /dev/nvme1n1
-++ cnt=2
-++ echo 2
-2
-++ '[' 2 -gt 1 ']'
-++ break
-++ dmesg -c
-++ ls -lrth /dev/nvme0 /dev/nvme0n1 /dev/nvme1 /dev/nvme1n1 /dev/nvme-fabrics
-crw-------. 1 root root 244,   0 Apr  9 16:24 /dev/nvme0
-brw-rw----. 1 root disk 259,   0 Apr  9 16:24 /dev/nvme0n1
-crw-------. 1 root root  10, 125 Apr  9 16:24 /dev/nvme-fabrics
-crw-------. 1 root root 244,   1 Apr  9 16:24 /dev/nvme1
-brw-rw----. 1 root disk 259,   2 Apr  9 16:24 /dev/nvme1n1
-nvme (nvme-5.18) # blkzone report /dev/nvme1n1 
-  start: 0x000000000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x000040000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x000080000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x0000c0000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x000100000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x000140000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x000180000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-  start: 0x0001c0000, len 0x040000, wptr 0x000000 reset:0 non-seq:0, zcond: 1(em) [type: 2(SEQ_WRITE_REQUIRED)]
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # fio fio/zverify.fio --filename=/dev/nvme1n1  --showcmd
-fio --name=write-and-verify --rw=randwrite --zonemode=zbd --bs=4k --direct=1 --ioengine=libaio --iodepth=4 --norandommap --randrepeat=1 --verify=crc32c --size=800m --group_reporting 
-nvme (nvme-5.18) # fio fio/zverify.fio --filename=/dev/nvme1n1 
-write-and-verify: (g=0): rw=randwrite, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=4
-fio-3.27
-Starting 1 process
-/dev/nvme1n1: rounded down io_size from 838860800 to 805306368
-Jobs: 1 (f=1): [V(1)][100.0%][r=418MiB/s][r=107k IOPS][eta 00m:00s]                   
-write-and-verify: (groupid=0, jobs=1): err= 0: pid=3219: Sat Apr  9 16:28:57 2022
-  read: IOPS=107k, BW=417MiB/s (438MB/s)(768MiB/1840msec)
-    slat (nsec): min=2414, max=66507, avg=5908.64, stdev=3564.30
-    clat (nsec): min=11421, max=82798, avg=30300.22, stdev=7387.49
-     lat (nsec): min=17532, max=93117, avg=36300.44, stdev=6939.55
-    clat percentiles (nsec):
-     |  1.00th=[17024],  5.00th=[18560], 10.00th=[22400], 20.00th=[25216],
-     | 30.00th=[26240], 40.00th=[27264], 50.00th=[28288], 60.00th=[31104],
-     | 70.00th=[33536], 80.00th=[36096], 90.00th=[39680], 95.00th=[44288],
-     | 99.00th=[51456], 99.50th=[55040], 99.90th=[62720], 99.95th=[65280],
-     | 99.99th=[71168]
-  write: IOPS=76.2k, BW=298MiB/s (312MB/s)(768MiB/2579msec); 6 zone resets
-    slat (nsec): min=3557, max=75212, avg=10193.65, stdev=4898.93
-    clat (usec): min=13, max=2587, avg=39.71, stdev=15.45
-     lat (usec): min=18, max=2593, avg=50.02, stdev=15.59
-    clat percentiles (usec):
-     |  1.00th=[   22],  5.00th=[   25], 10.00th=[   28], 20.00th=[   32],
-     | 30.00th=[   35], 40.00th=[   36], 50.00th=[   39], 60.00th=[   42],
-     | 70.00th=[   44], 80.00th=[   47], 90.00th=[   53], 95.00th=[   59],
-     | 99.00th=[   73], 99.50th=[   79], 99.90th=[   95], 99.95th=[  103],
-     | 99.99th=[  123]
-   bw (  KiB/s): min=49520, max=320424, per=85.97%, avg=262144.00, stdev=108036.16, samples=6
-   iops        : min=12380, max=80106, avg=65536.00, stdev=27009.04, samples=6
-  lat (usec)   : 20=3.61%, 50=89.00%, 100=7.37%, 250=0.03%
-  lat (msec)   : 4=0.01%
-  cpu          : usr=21.05%, sys=31.87%, ctx=426449, majf=0, minf=4626
-  IO depths    : 1=0.1%, 2=0.1%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
-     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=196608,196608,0,0 short=0,0,0,0 dropped=0,0,0,0
-     latency   : target=0, window=0, percentile=100.00%, depth=4
-
-Run status group 0 (all jobs):
-   READ: bw=417MiB/s (438MB/s), 417MiB/s-417MiB/s (438MB/s-438MB/s), io=768MiB (805MB), run=1840-1840msec
-  WRITE: bw=298MiB/s (312MB/s), 298MiB/s-298MiB/s (312MB/s-312MB/s), io=768MiB (805MB), run=2579-2579msec
-
-Disk stats (read/write):
-  nvme1n1: ios=0/0, merge=0/0, ticks=0/0, in_queue=0, util=0.00%
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # ./delete.sh 
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 1 controller(s)
-
-real	0m0.340s
-user	0m0.000s
-sys	0m0.006s
-+ rm -fr /sys/kernel/config/nvmet/ports/1/subsystems/testnqn
-+ rmdir /sys/kernel/config/nvmet/ports/1
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn
-+ rmdir config/nullb/nullb1
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-
-0 directories, 0 files
-nvme (nvme-5.18) # 
-
-
-2. Tests with CONFIG_BLK_DEV_ZONED disabled :-
------------------------------------------------------------------------
-
-nvme (nvme-5.18) # grep -i zoned .config
-# CONFIG_BLK_DEV_ZONED is not set
-nvme (nvme-5.18) # git log -3
-nvme (nvme-5.18) #  git log -3
-
-commit 0d77072e26fa074da0c36e423a5802fd18ef976d (HEAD -> nvme-5.18)
-Author: Chaitanya Kulkarni <kch@nvidia.com>
-Date:   Fri Apr 8 16:45:18 2022 -0700
-
-    nvme-core: mark internal passthru req REQ_QUIET
-    
-    Mark internal passthru requests quiet in the submission path with
-    RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
-    path, if nvme request is resulted in the error and request is marked
-    RQF_QUIET then don't log the error with nvme_error_log().
-    
-    Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-
-commit d4df054957f3cbd37601d65d8e7460aaaee8733d
-Author: Chaitanya Kulkarni <kch@nvidia.com>
-Date:   Fri Apr 8 15:50:10 2022 -0700
-
-    nvme-core: don't check non-mdts for disc ctrl
-    
-    Don't check the non mdts limits for the discovery controller as we
-    don't support I/O command set, this also masks the following warning
-    reported by the nvme_log_error() when running blktest nvme/002: -
-    
-    [ 2005.155946] run blktests nvme/002 at 2022-04-09 16:57:47
-    [ 2005.192223] loop: module loaded
-    [ 2005.196429] nvmet: adding nsid 1 to subsystem blktests-subsystem-0
-    [ 2005.200334] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-    
-    <------------------------------SNIP---------------------------------->
-    
-    [ 2008.958108] nvmet: adding nsid 1 to subsystem blktests-subsystem-997
-    [ 2008.962082] nvmet: adding nsid 1 to subsystem blktests-subsystem-998
-    [ 2008.966102] nvmet: adding nsid 1 to subsystem blktests-subsystem-999
-    [ 2008.973132] nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN testhostnqn.
-    *[ 2008.973196] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR*
-    [ 2008.974595] nvme nvme1: new ctrl: "nqn.2014-08.org.nvmexpress.discovery"
-    [ 2009.103248] nvme nvme1: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
-    
-    Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-
-commit 18aac654ff824a4b169e51d72b674245a7a1b79c
-Author: Chaitanya Kulkarni <kch@nvidia.com>
-Date:   Thu Apr 7 12:11:37 2022 -0700
-
-    nvmet: handle admin default command set identifier
-    
-    The NVMeOF in kernel host when configuring non-mdts limits uses
-    idnetify controller cns value to NVME_ID_CNS_CS_CTRL and csi value to
-    NVME_CSI_NVM. In target code we only handle case for NVME_ID_CNS_CS_CTRL
-    and NVME_CSI_ZNS when CONFIG_BLK_DEV_ZONED is set.
-    
-    Handle missing case for CONFIG_BLK_DEV_ZONED and !CONFIG_BLK_DEV_ZONED
-    so it can handle NVME_ID_CNS_CS_CTRL with NVME_CSI_NVM.
-    
-    Use this opportunity to add default for the NVME_ID_CNS_CTRL case which
-    makes code uniform for all the cases in the
-    nvmet_execute_identify_cns_cs_ctrl_nvm().
-    
-    Also, rename nvmet_execute_identify_ctrl() to
-                 nvmet_execute_identify_cns_cs_ctrl_nvm() and
-    nvmet_execute_identify_cns_cs_ctrl() to
-    nvmet_execute_identify_cns_cs_ctrl_zns().
-    
-    This also masks the following warning reported by the nvme_log_error()
-    when running blktest nvme/012:-
-    
-    [ 2131.702140] run blktests nvme/012 at 2022-04-09 16:59:53
-    [ 2131.722144] loop0: detected capacity change from 0 to 2097152
-    [ 2131.730586] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-    [ 2131.738826] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN testhostnqn.
-    *[ 2131.738911] nvme1: Identify(0x6), Invalid Field in Command (sct 0x0 / sc 0x2) MORE DNR*
-    [ 2131.740540] nvme nvme1: creating 48 I/O queues.
-    [ 2131.743925] nvme nvme1: new ctrl: "blktests-subsystem-1"
-    [ 2132.790058] XFS (nvme1n1): Mounting V5 Filesystem
-    [ 2132.793667] XFS (nvme1n1): Ending clean mount
-    [ 2132.794030] xfs filesystem being mounted at /mnt/blktests supports timestamps until 2038 (0x7fffffff)
-    [ 2142.471812] XFS (nvme1n1): Unmounting Filesystem
-    [ 2142.492566] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-    
-    Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-nvme (nvme-5.18) # ./compile_nvme.sh 
-+ umount /mnt/nvme0n1
-+ clear_dmesg
-./compile_nvme.sh: line 3: clear_dmesg: command not found
-umount: /mnt/nvme0n1: no mount point specified.
-+ ./delete.sh
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 0 controller(s)
-
-real	0m0.003s
-user	0m0.000s
-sys	0m0.002s
-+ rm -fr '/sys/kernel/config/nvmet/ports/1/subsystems/*'
-+ rmdir /sys/kernel/config/nvmet/ports/1
-rmdir: failed to remove '/sys/kernel/config/nvmet/ports/1': No such file or directory
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-./delete.sh: line 14: /sys/kernel/config/nvmet/subsystems/*/namespaces/*/enable: No such file or directory
-+ rmdir '/sys/kernel/config/nvmet/subsystems/*/namespaces/*'
-rmdir: failed to remove '/sys/kernel/config/nvmet/subsystems/*/namespaces/*': No such file or directory
-+ rmdir '/sys/kernel/config/nvmet/subsystems/*'
-rmdir: failed to remove '/sys/kernel/config/nvmet/subsystems/*': No such file or directory
-+ rmdir 'config/nullb/nullb*'
-rmdir: failed to remove 'config/nullb/nullb*': No such file or directory
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-
-0 directories, 0 files
-+ modprobe -r nvme-fabrics
-+ modprobe -r nvme_loop
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ sleep 1
-cdblk+ modprobe -r nvme-core
-+ lsmod
-+ grep nvme
-+ sleep 1
-t+ git diff
-+ sleep 1
-++ nproc
-+ make -j 48 M=drivers/nvme/target/ clean
-++ nproc
-+ make -j 48 M=drivers/nvme/ modules
-  CC [M]  drivers/nvme/target/core.o
-  CC [M]  drivers/nvme/target/configfs.o
-  CC [M]  drivers/nvme/target/admin-cmd.o
-  CC [M]  drivers/nvme/target/fabrics-cmd.o
-  CC [M]  drivers/nvme/target/discovery.o
-  CC [M]  drivers/nvme/target/io-cmd-file.o
-  CC [M]  drivers/nvme/target/io-cmd-bdev.o
-  CC [M]  drivers/nvme/target/passthru.o
-  CC [M]  drivers/nvme/target/trace.o
-  CC [M]  drivers/nvme/target/loop.o
-  CC [M]  drivers/nvme/target/rdma.o
-  CC [M]  drivers/nvme/target/fc.o
-  CC [M]  drivers/nvme/target/fcloop.o
-  CC [M]  drivers/nvme/target/tcp.o
-  LD [M]  drivers/nvme/target/nvme-loop.o
-  LD [M]  drivers/nvme/target/nvme-fcloop.o
-  LD [M]  drivers/nvme/target/nvmet.o
-  LD [M]  drivers/nvme/target/nvmet-fc.o
-  LD [M]  drivers/nvme/target/nvmet-tcp.o
-  LD [M]  drivers/nvme/target/nvmet-rdma.o
-  MODPOST drivers/nvme/Module.symvers
-  CC [M]  drivers/nvme/target/nvme-fcloop.mod.o
-  CC [M]  drivers/nvme/target/nvme-loop.mod.o
-  CC [M]  drivers/nvme/target/nvmet-fc.mod.o
-  CC [M]  drivers/nvme/target/nvmet-rdma.mod.o
-  CC [M]  drivers/nvme/target/nvmet-tcp.mod.o
-  CC [M]  drivers/nvme/target/nvmet.mod.o
-  LD [M]  drivers/nvme/target/nvmet-fc.ko
-  LD [M]  drivers/nvme/target/nvme-fcloop.ko
-  LD [M]  drivers/nvme/target/nvme-loop.ko
-  LD [M]  drivers/nvme/target/nvmet-tcp.ko
-  LD [M]  drivers/nvme/target/nvmet.ko
-  LD [M]  drivers/nvme/target/nvmet-rdma.ko
-+ HOST=drivers/nvme/host
-+ TARGET=drivers/nvme/target
-++ uname -r
-+ HOST_DEST=/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host/
-++ uname -r
-+ TARGET_DEST=/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target/
-+ cp drivers/nvme/host/nvme-core.ko drivers/nvme/host/nvme-fabrics.ko drivers/nvme/host/nvme-fc.ko drivers/nvme/host/nvme.ko drivers/nvme/host/nvme-rdma.ko drivers/nvme/host/nvme-tcp.ko /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host//
-+ cp drivers/nvme/target/nvme-fcloop.ko drivers/nvme/target/nvme-loop.ko drivers/nvme/target/nvmet-fc.ko drivers/nvme/target/nvmet.ko drivers/nvme/target/nvmet-rdma.ko drivers/nvme/target/nvmet-tcp.ko /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target//
-+ ls -lrth /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host/ /lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target//
-/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/host/:
-total 6.1M
--rw-r--r--. 1 root root 2.4M Apr  9 16:15 nvme-core.ko
--rw-r--r--. 1 root root 426K Apr  9 16:15 nvme-fabrics.ko
--rw-r--r--. 1 root root 924K Apr  9 16:15 nvme-fc.ko
--rw-r--r--. 1 root root 714K Apr  9 16:15 nvme.ko
--rw-r--r--. 1 root root 856K Apr  9 16:15 nvme-rdma.ko
--rw-r--r--. 1 root root 799K Apr  9 16:15 nvme-tcp.ko
-
-/lib/modules/5.17.0-rc2nvme+/kernel/drivers/nvme/target//:
-total 6.0M
--rw-r--r--. 1 root root 475K Apr  9 16:15 nvme-fcloop.ko
--rw-r--r--. 1 root root 418K Apr  9 16:15 nvme-loop.ko
--rw-r--r--. 1 root root 733K Apr  9 16:15 nvmet-fc.ko
--rw-r--r--. 1 root root 3.0M Apr  9 16:15 nvmet.ko
--rw-r--r--. 1 root root 822K Apr  9 16:15 nvmet-rdma.ko
--rw-r--r--. 1 root root 670K Apr  9 16:15 nvmet-tcp.ko
-+ sync
-+ sync
-+ sync
-+ modprobe nvme
-+ echo 'Press enter to continue ...'
-Press enter to continue ...
-+ read next
-
-
-2.1 nvme-admin-passthru error injection logging error mesaages.
-nvme (nvme-5.18) # vim error_inject.sh 
-nvme (nvme-5.18) # sh error_inject.sh 
-++ NN=1
-++ NQN=testnqn
-++ let NR_DEVICES=NN+1
-++ modprobe -r null_blk
-++ modprobe -r nvme
-++ modprobe null_blk nr_devices=0
-++ modprobe nvme
-++ modprobe nvme-fabrics
-++ modprobe nvmet
-++ modprobe nvme-loop
-++ dmesg -c
-++ sleep 2
-++ tree /sys/kernel/config
-/sys/kernel/config
-├── nullb
-│   └── features
-└── nvmet
-    ├── hosts
-    ├── ports
-    └── subsystems
-
-5 directories, 1 file
-++ sleep 1
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn
-+++ shuf -i 1-1 -n 1
-++ for i in `shuf -i  1-$NN -n $NN`
-++ mkdir config/nullb/nullb1
-++ echo 1
-++ echo 4096
-++ echo 2048
-++ echo 1
-+++ cat config/nullb/nullb1/index
-++ IDX=0
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-++ echo ' ####### /dev/nullb0'
- ####### /dev/nullb0
-++ echo -n /dev/nullb0
-++ cat /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/device_path
-/dev/nullb0
-++ echo 1
-++ dmesg -c
-[  413.375009] nvme nvme0: 48/0/0 default/read/poll queues
-[  416.369926] nvmet: adding nsid 1 to subsystem testnqn
-++ mkdir /sys/kernel/config/nvmet/ports/1/
-++ echo -n loop
-++ echo -n 1
-++ ln -s /sys/kernel/config/nvmet/subsystems/testnqn /sys/kernel/config/nvmet/ports/1/subsystems/
-++ echo transport=loop,nqn=testnqn
-++ sleep 1
-++ mount
-++ grep nvme
-++ column -t
-++ dmesg -c
-[  416.376943] nvmet: creating nvm controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:6b4a42a3-6ddc-44fc-bcfa-0cab47623a1f.
-[  416.377040] nvme nvme1: creating 48 I/O queues.
-[  416.380887] nvme nvme1: new ctrl: "testnqn"
-Node SN Model Namespace Usage Format FW Rev 
-nvme1n1 7c695f8c7cfff9e62d0f Linux 1 2.15 GB / 2.15 GB 4 KiB + 0 B 5.17.0-r
-nvme0n1 foo QEMU NVMe Ctrl 1 1.07 GB / 1.07 GB 512 B + 0 B 1.0 
-NVMe status: Access Denied: Access to the namespace and/or LBA range is denied due to lack of access rights(0x4286)
-Node SN Model Namespace Usage Format FW Rev 
-nvme0n1 foo QEMU NVMe Ctrl 1 1.07 GB / 1.07 GB 512 B + 0 B 1.0 
-[  417.393147] FAULT_INJECTION: forcing a failure.
-               name fault_inject, interval 1, probability 100, space 0, times 1000
-[  417.393155] CPU: 25 PID: 10499 Comm: kworker/25:9 Tainted: G           OE     5.17.0-rc2nvme+ #71
-[  417.393159] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-[  417.393161] Workqueue: nvmet-wq nvme_loop_execute_work [nvme_loop]
-[  417.393170] Call Trace:
-[  417.393188]  <TASK>
-[  417.393190]  dump_stack_lvl+0x48/0x5e
-[  417.393196]  should_fail.cold+0x32/0x37
-[  417.393201]  nvme_should_fail+0x38/0x90 [nvme_core]
-[  417.393213]  nvme_loop_queue_response+0xc9/0x143 [nvme_loop]
-[  417.393217]  nvmet_req_complete+0x11/0x50 [nvmet]
-[  417.393225]  process_one_work+0x1af/0x380
-[  417.393229]  worker_thread+0x50/0x3a0
-[  417.393232]  ? rescuer_thread+0x370/0x370
-[  417.393234]  kthread+0xe7/0x110
-[  417.393238]  ? kthread_complete_and_exit+0x20/0x20
-[  417.393241]  ret_from_fork+0x22/0x30
-[  417.393247]  </TASK>
-[  417.393254] nvme1: Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
-[  417.397215] FAULT_INJECTION: forcing a failure.
-               name fault_inject, interval 1, probability 100, space 0, times 999
-[  417.397221] CPU: 26 PID: 10947 Comm: kworker/26:7 Tainted: G           OE     5.17.0-rc2nvme+ #71
-[  417.397225] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-[  417.397227] Workqueue: nvmet-wq nvme_loop_execute_work [nvme_loop]
-[  417.397235] Call Trace:
-[  417.397238]  <TASK>
-[  417.397241]  dump_stack_lvl+0x48/0x5e
-[  417.397247]  should_fail.cold+0x32/0x37
-[  417.397252]  nvme_should_fail+0x38/0x90 [nvme_core]
-[  417.397264]  nvme_loop_queue_response+0xc9/0x143 [nvme_loop]
-[  417.397268]  nvmet_req_complete+0x11/0x50 [nvmet]
-[  417.397276]  process_one_work+0x1af/0x380
-[  417.397281]  worker_thread+0x50/0x3a0
-[  417.397283]  ? rescuer_thread+0x370/0x370
-[  417.397296]  kthread+0xe7/0x110
-[  417.397300]  ? kthread_complete_and_exit+0x20/0x20
-[  417.397303]  ret_from_fork+0x22/0x30
-[  417.397310]  </TASK>
-[  417.397316] nvme1: Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 1 controller(s)
-
-real	0m0.357s
-user	0m0.000s
-sys	0m0.006s
-+ rm -fr /sys/kernel/config/nvmet/ports/1/subsystems/testnqn
-+ rmdir /sys/kernel/config/nvmet/ports/1
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn
-+ rmdir config/nullb/nullb1
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-
-0 directories, 0 files
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # 
-
-2.2 blktests results.
------------------------------------------------------------------------
-nvme (nvme-5.18) # cdblktests 
-blktests (master) # ./check nvme 
-nvme/002 (create many subsystems and test discovery)         [passed]
-    runtime  17.312s  ...  16.744s
-nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
-    runtime  10.089s  ...  10.091s
-nvme/0nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
-    runtime  1.433s  ...  1.445s
-nvme/005 (reset local loopback target)                       [passed]
-    runtime  6.795s  ...  6.802s
-nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
-    runtime  0.063s  ...  0.089s
-nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
-    runtime  0.042s  ...  0.040s
-nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
-    runtime  1.457s  ...  1.451s
-nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
-    runtime  1.420s  ...  1.423s
-nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  7.906s  ...  7.961s
-nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  76.979s  ...  75.022s
-nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  12.301s  ...  11.106s
-nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  80.436s  ...  77.184s
-nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
-    runtime  8.850s  ...  8.883s
-nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
-    runtime  8.669s  ...  8.710s
-nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
-    runtime  10.842s  ...  11.078s
-nvme/017 (create/delete many file-ns and test discovery)     [passed]
-    runtime  11.080s  ...  11.047s
-nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
-    runtime  1.402s  ...  1.440s
-nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
-    runtime  1.428s  ...  1.467s
-nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
-    runtime  1.412s  ...  1.419s
-nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
-    runtime  1.401s  ...  1.405s
-nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
-    runtime  6.736s  ...  6.733s
-nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
-    runtime  1.455s  ...  1.437s
-nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
-    runtime  1.406s  ...  1.407s
-nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
-    runtime  1.410s  ...  1.430s
-nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
-    runtime  1.406s  ...  1.410s
-nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
-    runtime  1.422s  ...  1.436s
-nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
-    runtime  1.433s  ...  1.405s
-nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
-    runtime  1.536s  ...  1.544s
-nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
-    runtime  0.192s  ...  0.183s
-nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
-    runtime  53.842s  ...  53.901s
-nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
-    runtime  0.019s  ...  0.018s
-blktests (master) # 
-blktests (master) # 
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # 
-
-2.3 Try and create NVMeOF controller with ZBD backend fail grececully.
------------------------------------------------------------------------
-nvme (nvme-5.18) # 
-nvme (nvme-5.18) # ./zbdev.sh 1 
-++ SUBSYS=/sys/kernel/config/nvmet/subsystems
-++ PORT=/sys/kernel/config/nvmet/ports
-++ NQN=testnqn
-++ NN=1
-++ main
-++ unload
-++ modprobe -r null_blk
-++ modprobe null_blk zoned=1 nr_devices=0
-++ modprobe nvme
-++ modprobe nvme-fabrics
-++ modprobe nvmet
-++ modprobe nvme-loop
-++ dmesg -c
-++ sleep 2
-++ make_subsys
-++ tree /sys/kernel/config
-/sys/kernel/config
-├── nullb
-│   └── features
-└── nvmet
-    ├── hosts
-    ├── ports
-    └── subsystems
-
-5 directories, 1 file
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn
-++ echo -n 1
-++ make_port
-++ mkdir /sys/kernel/config/nvmet/ports/1/
-++ echo -n loop
-++ ln -s /sys/kernel/config/nvmet/subsystems/testnqn /sys/kernel/config/nvmet/ports/1/subsystems/
-++ sleep 1
-++ connect_host
-++ echo transport=loop,nqn=testnqn
-++ make_ns
-+++ shuf -i 1-1 -n 1
-++ for i in `shuf -i  1-$NN -n $NN`
-++ mkdir config/nullb/nullb1
-++ echo 1
-++ echo 4096
-++ echo 1024
-++ echo 128
-++ echo 1
-++ echo 1
-./zbdev.sh: line 39: echo: write error: Invalid argument
-+++ cat config/nullb/nullb1/index
-++ IDX=0
-++ mkdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-++ echo ' ####### /dev/nullb0'
- ####### /dev/nullb0
-++ echo -n /dev/nullb0
-++ cat /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/device_path
-/dev/nullb0
-++ echo /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/enable
-/sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1/enable
-++ echo 1
-./zbdev.sh: line 49: echo: write error: No such file or directory
-++ '[' 1 ']'
-+++ wc -l
-+++ ls -l /dev/nvme1
-++ cnt=1
-++ echo 1
-1
-++ '[' 1 -gt 1 ']'
-++ sleep 1
-++ dmesg -c
-[  424.749844] nvme nvme0: 48/0/0 default/read/poll queues
-[  427.740698] nvmet: creating nvm controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:477f34ee-8fbe-47c2-858e-0312fd3b85b5.
-[  427.740788] nvme nvme1: creating 48 I/O queues.
-[  427.745480] nvme nvme1: new ctrl: "testnqn"
-[  427.748984] null_blk: CONFIG_BLK_DEV_ZONED not enabled
-[  427.752564] nvmet: adding nsid 1 to subsystem testnqn
-[  427.754146] nvmet: failed to open block device /dev/nullb0: (-2)
-++ '[' 1 ']'
-+++ wc -l
-+++ ls -l /dev/nvme1
-++ cnt=1
-++ echo 1
-1
-++ '[' 1 -gt 1 ']'
-++ sleep 1
-++ dmesg -c
-++ '[' 1 ']'
-+++ wc -l
-+++ ls -l /dev/nvme1
-++ cnt=1
-++ echo 1
-1
-++ '[' 1 -gt 1 ']'
-++ sleep 1
-++ dmesg -c
-++ '[' 1 ']'
-+++ wc -l
-+++ ls -l /dev/nvme1
-++ cnt=1
-++ echo 1
-1
-++ '[' 1 -gt 1 ']'
-++ sleep 1
-^Cnvme (nvme-5.18) # ./delete.sh 
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 1 controller(s)
-
-real	0m1.041s
-user	0m0.000s
-sys	0m0.004s
-+ rm -fr /sys/kernel/config/nvmet/ports/1/subsystems/testnqn
-+ rmdir /sys/kernel/config/nvmet/ports/1
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn/namespaces/1
-+ rmdir /sys/kernel/config/nvmet/subsystems/testnqn
-+ rmdir config/nullb/nullb1
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-
-0 directories, 0 files
-nvme (nvme-5.18) # 
-
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 397daaf51f1b..428303f1acca 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -342,7 +342,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
+ 	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
+ }
+ 
+-static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
++static void nvmet_execute_identify_cns_cs_ctrl_nvm(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvmet_subsys *subsys = ctrl->subsys;
+@@ -710,17 +710,23 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+ 	case NVME_ID_CNS_CTRL:
+ 		switch (req->cmd->identify.csi) {
+ 		case NVME_CSI_NVM:
+-			return nvmet_execute_identify_ctrl(req);
++			return nvmet_execute_identify_cns_cs_ctrl_nvm(req);
++		default:
++			break;
+ 		}
+ 		break;
+ 	case NVME_ID_CNS_CS_CTRL:
+-		if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
+-			switch (req->cmd->identify.csi) {
+-			case NVME_CSI_ZNS:
+-				return nvmet_execute_identify_cns_cs_ctrl(req);
+-			default:
+-				break;
++		switch (req->cmd->identify.csi) {
++		case NVME_CSI_NVM:
++			return nvmet_execute_identify_cns_cs_ctrl_nvm(req);
++		case NVME_CSI_ZNS:
++			if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
++				nvmet_execute_identify_cns_cs_ctrl_zns(req);
++				return;
+ 			}
++			break;
++		default:
++			break;
+ 		}
+ 		break;
+ 	case NVME_ID_CNS_NS_ACTIVE_LIST:
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 69818752a33a..fdb6956314ad 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -547,7 +547,7 @@ bool nvmet_ns_revalidate(struct nvmet_ns *ns);
+ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts);
+ 
+ bool nvmet_bdev_zns_enable(struct nvmet_ns *ns);
+-void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req);
++void nvmet_execute_identify_cns_cs_ctrl_zns(struct nvmet_req *req);
+ void nvmet_execute_identify_cns_cs_ns(struct nvmet_req *req);
+ void nvmet_bdev_execute_zone_mgmt_recv(struct nvmet_req *req);
+ void nvmet_bdev_execute_zone_mgmt_send(struct nvmet_req *req);
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index e34718b09550..5003d48b6630 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -71,7 +71,7 @@ bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
+ 	return true;
+ }
+ 
+-void nvmet_execute_identify_cns_cs_ctrl(struct nvmet_req *req)
++void nvmet_execute_identify_cns_cs_ctrl_zns(struct nvmet_req *req)
+ {
+ 	u8 zasl = req->sq->ctrl->subsys->zasl;
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
 -- 
 2.29.0
 
