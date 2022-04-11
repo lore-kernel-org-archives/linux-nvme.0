@@ -4,51 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AC4DC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 22:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB1F3C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 23:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6bbNIERrfKrjdRVKv+WkSmjhY0lHp/VvzKe56jkdUA8=; b=RaxqpySvRSrLn3SFTeFNkfiWO2
-	7qeIlSO+cejmKnuMr92nNgOsW/MBuFbRIYTKJFB5xQ9QMvtKNPbl4+4xVJFHIpa16XRmBM+CQb6sY
-	zraiHA/wBN+FHpebHHTa8GkPfxDVmIBlxwjxq8zpRHngD9FG773Rklu7CiMnNUQBBltRqJxyR2nKE
-	ELAMqwE3H5bcztnMSiPEe3oiOsQJ7cYo5h4i2gv063snHSK7NiY7ScTBieT8uDjqEDqU85qhxLmKV
-	ImDNc41mhcfq0YLPpC6L/iQ4fXNmafzYyqVLxN/XECKoOrPcoQgpx0K+bO0pvOmhjVLqzTHnVbHVv
-	AiW7BP6A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cR3XEgehtRfTrZLs/xAV8IoOJJMMtsnNdlaPklWFe7s=; b=h8VzgT+1vA8/Zf+dvNJNeUrU9t
+	b6EGxQw2f6KZfJ87u8bP6IPtIqfP/5tOfWRwLP5B6vVYkbDK4O0ORX7BmhgDTVHgXWDBMSrNT/woh
+	sxAWpomItN0tDEG7Hg8N1lwMaQevTBoxqWgjL+zgCM2Tr2+DlS8G6oLcwITmtEDxTXNEHjW3G3Wty
+	kpya3Vt9y6ypfiaTE3mfm1dP5x7U7D76Ii4kQiAW0DGjNGc406+TR+/OP2kg+AXMVm1/DQR86Y+bp
+	hNzBP5mC6qKNxHYqYrh8sdRsYoc35OgaB6mzb6QUI+0RsA2BMXgDgPesnXggifrMAH3oir1/bOjP9
+	UQYYgAfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ne2gb-00AiLZ-Bk; Mon, 11 Apr 2022 22:39:05 +0000
-Received: from mail.toke.dk ([45.145.95.4])
+	id 1ne3pG-00AtrH-WB; Mon, 11 Apr 2022 23:52:07 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ne2gX-00AiL7-7Z
- for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 22:39:04 +0000
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=toke.dk; s=20161023;
- t=1649716733; bh=eHIYved+gls8iq5JSt/1c0VpMtou2nqFl3j4XieDeA4=;
- h=From:To:Cc:Subject:Date:From;
- b=EYSSdfnN8IrceqDNsN4P1BsqR7NU/29OV0MjYcVR60E4+kKe6Zv8nbouy7SVyjSG0
- Uv4G+GIMhWdnB8fea1SZHnDP2nNhEezw8BSBvX7ilJveim5IR1mnpulZ1OfKfZz6QV
- h/oEmfFNunfdHjDLlwsmKBhBs9UtssszdzspHR6Y4bmtDis+eW0ESowUq+g6GJ6UUq
- GCnEM/iO3fr5XR1N8QGvsnCA2FFE5dtqq195UfsA7jMjE9HYCyriM/8WYxRK2vnE/Y
- FmVU4PodMMz3hu2ctQtkRJ8d3JjlqROaUMmnloscjTHNoktbVVuezV8bTFe9BQhKPQ
- AAiaGoBU6gnVQ==
-To: wendy.wang@intel.com, david.e.box@intel.com
-Cc: platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: PCIE ASPM-related trouble with S0ix on Thinkpad X1 (NVME-related?)
-Date: Tue, 12 Apr 2022 00:38:52 +0200
-X-Clacks-Overhead: GNU Terry Pratchett
-Message-ID: <87k0bvutxf.fsf@toke.dk>
+ id 1ne3pE-00AtqT-Ai
+ for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 23:52:05 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B8C88617C7;
+ Mon, 11 Apr 2022 23:52:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34F2CC385A4;
+ Mon, 11 Apr 2022 23:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649721123;
+ bh=NSme6n1+rIXNaaUMzRVIKxLIDWfjMfG845SNj9jfBFs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lGy6k9bE00zBmJekx8JT35ysUgN0qbHWTZMZ6payKmrKjxCThxZyhLVm2mQT8zaBL
+ AetPlwtqELfLSCfTtanpzQr5ZvwHxb55DGnfR0FcUjXHlAULSldn6qzfuWcAOmMIRH
+ IQ0y6W+FAw2I/uHI4Fsja7gQR9X3meJr/kT+83TKq9Oz/abzapnIQrttVIPJ0fnPrd
+ P1gzzN3Ec3WyCH9bcumn67pJnsqx4cBxNJd/aJ3RuoWiKprvRxizrb5LVj9nBBF0rK
+ cEQw9EjpCE5M0Iq/FfIY9jHiO9I7cbHnp0tZCBkBYo7EvUWv/cWWPFefrOwJLKuqWa
+ QOVeRfIfFaGsw==
+Date: Mon, 11 Apr 2022 17:51:59 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 2/3] nvme-core: don't check non-mdts for disc ctrl
+Message-ID: <YlS/HrmdtmK61ecT@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220411031249.5158-1-kch@nvidia.com>
+ <20220411031249.5158-3-kch@nvidia.com>
+ <20220411061301.GB14797@lst.de>
+ <34d61434-27cd-f918-a3bc-fdca3196ef99@grimberg.me>
+ <b5dd1bb3-e001-ac66-d461-4d699a2dadd6@nvidia.com>
+ <d86c4a83-ac9d-f0b1-de41-5d411f5444f3@nvidia.com>
+ <20220411121209.GA21711@lst.de>
+ <63d1842c-35d7-e482-21c6-57cab24ae83f@nvidia.com>
+ <YlQ3xWkZNKcMvvOU@kbusch-mbp.dhcp.thefacebook.com>
+ <cb42edaa-a545-e7df-f9ed-fcb57caf9139@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb42edaa-a545-e7df-f9ed-fcb57caf9139@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220411_153902_036735_7C3446F1 
-X-CRM114-Status: UNSURE (   8.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220411_165204_440463_C2C32817 
+X-CRM114-Status: GOOD (  15.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,229 +80,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi folks
+On Mon, Apr 11, 2022 at 08:44:59PM +0000, Chaitanya Kulkarni wrote:
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 3554c20e78c3..ce4060c3d62e 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2525,6 +2525,13 @@ static void nvme_dev_add(struct nvme_dev *dev)
+>          int ret;
+> 
+>          if (!dev->ctrl.tagset) {
+> +               ret = nvme_init_non_mdts_limits(&dev->ctrl);
+> +               if (ret < 0) {
+> +                       dev_warn(dev->ctrl.device,
+> +                               "reading non mdts limit error: %d\n", ret);
+> +                       return;
+> +               }
+> +
+>                  dev->tagset.ops = &nvme_mq_ops;
+>                  dev->tagset.nr_hw_queues = dev->online_queues - 1;
+>                  dev->tagset.nr_maps = 2; /* default + read */
 
-I'm trying to get S0ix idle to work properly on my Thinkpad X1 (9th
-gen), and am having some trouble which leads to high battery usage on
-suspend. I've been using the S0ixSelftestTool[0] which is telling me
-that it's related to PCI ASPM, so I'm hoping to reach some people who
-might be able to help me debug this.
-
-Specifically, the selftest script is telling me that:
-
-"The pcieroot port 0000:00:06.0 ASPM setting is Enabled, its D state and
-Link PM are not expected."
-
-This appears to be the slot my NVME is in:
-
-Checking PCI Devices tree diagram:
--[0000:00]-+-00.0  Intel Corporation 11th Gen Core Processor Host Bridge/DR=
-AM Registers
-           +-02.0  Intel Corporation TigerLake-LP GT2 [Iris Xe Graphics]
-           +-04.0  Intel Corporation TigerLake-LP Dynamic Tuning Processor =
-Participant
-           +-06.0-[04]----00.0  Seagate Technology PLC FireCuda 530 SSD
-
-[snip - full output below]
-
-According to the manufacturer[1], the NVME device in question should
-support suspending to L1.2. The S0ix troubleshooting guide[2] mentions
-that the 5.3 kernel added special handling for NVME devices, but I'm
-trying this on a 5.17 kernel, so that should already be there?
-
-Anyone has any ideas and/or more things to try? I'm including the full
-output of the s0ixSelftestTool below.
-
--Toke
-
-[0] https://github.com/intel/S0ixSelftestTool
-[1] https://www.seagate.com/files/www-content/datasheets/pdfs/firecuda-530-=
-ssd-DS2059-3-2112GB-en_GB.pdf
-[2] https://01.org/blogs/qwang59/2020/linux-s0ix-troubleshooting
-
-
----Check S2idle path S0ix Residency---:
-
-The system OS Kernel version is:
-Linux alrua-x1 5.17.1-arch1-1 #1 SMP PREEMPT Mon, 28 Mar 2022 20:55:33 +000=
-0 x86_64 GNU/Linux
-
----Check whether your system supports S0ix or not---:
-
-Low Power S0 Idle is:1
-Your system supports low power S0 idle capability.
-
-
-
----Check whether intel_pmc_core sysfs files exit---:
-
-The pmc_core debug sysfs files are OK on your system.
-
-
-
----Judge PC10, S0ix residency available status---:
-
-Test system supports S0ix.y substate
-
-S0ix substate before S2idle:
-  S0i2.0 S0i3.0
-
-S0ix substate residency before S2idle:
-  0 0
-
-Turbostat output:=20
-16.006725 sec
-CPU%c1	CPU%c6	CPU%c7	GFX%rc6	Pkg%pc2	Pkg%pc3	Pkg%pc6	Pkg%pc7	Pkg%pc8	Pkg%pc=
-9	Pk%pc10	SYS%LPI
-2.41	0.00	96.53	15717.64	21.13	71.28	0.00	0.00	0.00	0.00	0.00	0.00
-2.44	0.00	96.99	15717.57	21.13	71.28	0.00	0.00	0.00	0.00	0.00	0.00
-2.47
-2.13	0.00	95.57
-2.89
-2.86	0.00	96.09
-3.27
-1.64	0.00	97.46
-1.59
-
-CPU Core C7 residency after S2idle is: 96.53
-GFX RC6 residency after S2idle is: 15717.64
-CPU Package C-state 2 residency after S2idle is: 21.13
-CPU Package C-state 3 residency after S2idle is: 71.28
-CPU Package C-state 8 residency after S2idle is: 0.00
-CPU Package C-state 9 residency after S2idle is: 0.00
-CPU Package C-state 10 residency after S2idle is: 0.00
-S0ix residency after S2idle is: 0.00
-
-Your system achieved PC3 residency: 71.28, but no PC8 residency during S2id=
-le: 0.00
-
----Debug no PC8 residency scenario---:
-
-Turbostat output:=20
-
-turbostat: cpu3 jitter 1232 6150
-16.634450 sec
-CPU%c1	CPU%c6	CPU%c7	GFX%rc6	Pkg%pc2	Pkg%pc3	Pkg%pc6	Pkg%pc7	Pkg%pc8	Pkg%pc=
-9	Pk%pc10	SYS%LPI
-1.61	0.00	97.51	15283.84	21.80	71.84	0.00	0.00	0.00	0.00	0.00	0.00
-1.44	0.00	98.09	15283.74	21.80	71.84	0.00	0.00	0.00	0.00	0.00	0.00
-1.43
-1.04	0.00	96.83
-2.50
-1.45	0.00	97.95
-1.52
-1.22	0.00	97.16
-2.29
-
-Your CPU Core C7 residency is available: 97.51
-
-Your system Intel graphics RC6 residency is available:15283.84
-
-Checking PCIe Device D state and Bridge Link state:
-
-
-The PCIe bridge link power management state is:
-0000:00:06.0 Link is in L0
-
-The link power management state of PCIe bridge: 0000:00:06.0 is not expecte=
-d.=20
-which is expected to be L1.1 or L1.2, or user would run this script again.
-
-
-The L1SubCap of the failed 0000:00:06.0 is:
-		L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+ L1_PM_Substates+
-
-The L1SubCtl1 of the failed 0000:00:06.0 is:
-		L1SubCtl1: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+
-
-
-Checking PCI Devices tree diagram:
--[0000:00]-+-00.0  Intel Corporation 11th Gen Core Processor Host Bridge/DR=
-AM Registers
-           +-02.0  Intel Corporation TigerLake-LP GT2 [Iris Xe Graphics]
-           +-04.0  Intel Corporation TigerLake-LP Dynamic Tuning Processor =
-Participant
-           +-06.0-[04]----00.0  Seagate Technology PLC FireCuda 530 SSD
-           +-07.0-[20-49]--
-           +-07.2-[50-79]--
-           +-08.0  Intel Corporation GNA Scoring Accelerator module
-           +-0a.0  Intel Corporation Tigerlake Telemetry Aggregator Driver
-           +-0d.0  Intel Corporation Tiger Lake-LP Thunderbolt 4 USB Contro=
-ller
-           +-0d.2  Intel Corporation Tiger Lake-LP Thunderbolt 4 NHI #0
-           +-0d.3  Intel Corporation Tiger Lake-LP Thunderbolt 4 NHI #1
-           +-14.0  Intel Corporation Tiger Lake-LP USB 3.2 Gen 2x1 xHCI Hos=
-t Controller
-           +-14.2  Intel Corporation Tiger Lake-LP Shared SRAM
-           +-14.3  Intel Corporation Wi-Fi 6 AX201
-           +-15.0  Intel Corporation Tiger Lake-LP Serial IO I2C Controller=
- #0
-           +-16.0  Intel Corporation Tiger Lake-LP Management Engine Interf=
-ace
-           +-1f.0  Intel Corporation Tiger Lake-LP LPC Controller
-           +-1f.3  Intel Corporation Tiger Lake-LP Smart Sound Technology A=
-udio Controller
-           +-1f.4  Intel Corporation Tiger Lake-LP SMBus Controller
-           \-1f.5  Intel Corporation Tiger Lake-LP SPI Controller
-
-
-Checking PCI Devices D3 States:
-[36580.351015] sof-audio-pci-intel-tgl 0000:00:1f.3: PCI PM: Suspend power =
-state: D3hot
-[36580.366546] i801_smbus 0000:00:1f.4: PCI PM: Suspend power state: D0
-[36580.366614] i801_smbus 0000:00:1f.4: PCI PM: Skipped
-[36580.369308] i915 0000:00:02.0: PCI PM: Suspend power state: D3hot
-[36580.383006] mei_me 0000:00:16.0: PCI PM: Suspend power state: D3hot
-[36580.384120] intel-lpss 0000:00:15.0: PCI PM: Suspend power state: D3hot
-[36580.386213] proc_thermal 0000:00:04.0: PCI PM: Suspend power state: D3hot
-[36580.387549] nvme 0000:04:00.0: PCI PM: Suspend power state: D3hot
-[36580.387843] xhci_hcd 0000:00:14.0: PCI PM: Suspend power state: D3hot
-[36580.388168] iwlwifi 0000:00:14.3: PCI PM: Suspend power state: D3hot
-[36580.388210] pcieport 0000:00:06.0: PCI PM: Suspend power state: D0
-[36580.388215] pcieport 0000:00:06.0: PCI PM: Skipped
-[36580.389618] xhci_hcd 0000:00:0d.0: PCI PM: Suspend power state: D3cold
-[36580.406682] thunderbolt 0000:00:0d.2: PCI PM: Suspend power state: D3cold
-[36580.411535] thunderbolt 0000:00:0d.3: PCI PM: Suspend power state: D3cold
-
-
-Checking PCI Devices tree diagram:
--[0000:00]-+-00.0  Intel Corporation 11th Gen Core Processor Host Bridge/DR=
-AM Registers
-           +-02.0  Intel Corporation TigerLake-LP GT2 [Iris Xe Graphics]
-           +-04.0  Intel Corporation TigerLake-LP Dynamic Tuning Processor =
-Participant
-           +-06.0-[04]----00.0  Seagate Technology PLC FireCuda 530 SSD
-           +-07.0-[20-49]--
-           +-07.2-[50-79]--
-           +-08.0  Intel Corporation GNA Scoring Accelerator module
-           +-0a.0  Intel Corporation Tigerlake Telemetry Aggregator Driver
-           +-0d.0  Intel Corporation Tiger Lake-LP Thunderbolt 4 USB Contro=
-ller
-           +-0d.2  Intel Corporation Tiger Lake-LP Thunderbolt 4 NHI #0
-           +-0d.3  Intel Corporation Tiger Lake-LP Thunderbolt 4 NHI #1
-           +-14.0  Intel Corporation Tiger Lake-LP USB 3.2 Gen 2x1 xHCI Hos=
-t Controller
-           +-14.2  Intel Corporation Tiger Lake-LP Shared SRAM
-           +-14.3  Intel Corporation Wi-Fi 6 AX201
-           +-15.0  Intel Corporation Tiger Lake-LP Serial IO I2C Controller=
- #0
-           +-16.0  Intel Corporation Tiger Lake-LP Management Engine Interf=
-ace
-           +-1f.0  Intel Corporation Tiger Lake-LP LPC Controller
-           +-1f.3  Intel Corporation Tiger Lake-LP Smart Sound Technology A=
-udio Controller
-           +-1f.4  Intel Corporation Tiger Lake-LP SMBus Controller
-           \-1f.5  Intel Corporation Tiger Lake-LP SPI Controller
-
-The pcieport 0000:00:06.0 ASPM enable status:
-		LnkCtl:	ASPM L1 Enabled; RCB 64 bytes, Disabled- CommClk+
-
-Pcieport is not in D3cold=EF=BC=9A=20=20=20=20
-m0000:00:06.0
-
-
-The pcieroot port 0000:00:06.0 ASPM setting is Enabled, its D state and Lin=
-k PM are not expected,
-please investigate or report a bug.
-
+This isn't right either. A controller can change it's limits after a reset.
+It's unlikely outside some odd firmware upgrades, but it could happen, so
+the limits need to be checked on each reset, not just the first one.
 
