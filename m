@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6287C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 10:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38F18C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 10:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3rDmItwcDlvsLqXIWBqGF9Nz8nCax5NlHicaC1ur7s0=; b=s1LsNmQH1SxuNDC+a4OC1VBiKC
-	/JrMg2yzNpw5zvImwG0+EY4lRvkWmIBNA8aFVP8qtbhfossorzBH9fmWg1DyKjA690d/7mk3iV8N4
-	oyeVcOsFFhID5pbyp+7C5kbBRv9gYx0fOIPAw+AWqafo/qzSQGM+mALlMPeEJbuF3ki5x3ceqLLOu
-	FPExez8JeVIWCI9dyQQbsjp2Dgdb3FEeCkljjuYZekV812i6IiVjfjVzsKrtsAhjxyPPDsvpIdwTY
-	dg7ep+COiUyWM+R3ZFtt9uvVywGpA6Z5/N1oa11OT3avCl/SCV/IbNuNs31LgNKfVzf/BXKQQCndT
-	FIrydK9A==;
+	bh=97mmcdfAW7v0o2d6+0NLqAndzZOQYhaRI72KRFTxUEo=; b=au1Y1Blpr0pRbyBZ2O7UBQBRP4
+	dE4qk00n+Aai5rnQQWHH7NMiy1QEmBGrPinos39lzuOIJ7w1EMVT1GYGQV0W/GHo9vypMufWcCp7d
+	Vjitda8F3pCDepBpBCcuUBz/jMXg95g64Ppw4g72Ch7EHYUHaLY3ltqIbssEvR1kdJRpthEVaAVpq
+	Uq6jmFu7bi6zGQVemKq+kEfT2vctK4IcmmWATPwlWxo7dqB9PGxq/gYzN/GttYHrXzE62B8V23ZK7
+	OAGiuKeIUpeLCxwY1UQNTUB65UMi4lyrYEgjllfPOkxRyEpNGWLEbI1if7uqYNH/rTCrjJrZlj/+2
+	kb7K948w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ndrSH-008Psm-D7; Mon, 11 Apr 2022 10:39:33 +0000
-Received: from mail-wr1-f45.google.com ([209.85.221.45])
+	id 1ndrUo-008R7R-TW; Mon, 11 Apr 2022 10:42:10 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ndrHJ-008KSY-Iw
- for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 10:28:15 +0000
-Received: by mail-wr1-f45.google.com with SMTP id r13so22277611wrr.9
- for <linux-nvme@lists.infradead.org>; Mon, 11 Apr 2022 03:28:11 -0700 (PDT)
+ id 1ndrLz-008Mus-CO
+ for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 10:33:04 +0000
+Received: by mail-wm1-f53.google.com with SMTP id
+ u17-20020a05600c211100b0038eaf4cdaaeso3124162wml.1
+ for <linux-nvme@lists.infradead.org>; Mon, 11 Apr 2022 03:33:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3rDmItwcDlvsLqXIWBqGF9Nz8nCax5NlHicaC1ur7s0=;
- b=DkRmfpnbp3isGn9OhQRFZEPBKK/Fz/+q7rJqW3kBdYeNoXb5i+6Au36XY3wJ039Vls
- C8lg2bwPN/svciQmv7US0oWHOcdy+ss1sbzh7eqo/asZns2ONp8TSDYjsLbo/MfRjWj2
- U1j3CbbeI+fAqdfmU7Z2PPAmwZxkSvfdhcigOEajut5RVKoakGdTAEE+SspvEG9nzBjE
- nqzPUIUfA4W9kmavpHt8erUlS9yIipBG6nR5EC1+0wjKck9B/i0cW0JEjoP0wzE7Nx4O
- ipPIA8NDyUKgIGfeq2W2q6W/ne40JJwLRzkfvxJiur/jhI6EQALJCVLrU/vGE/djUHOl
- Q5xw==
-X-Gm-Message-State: AOAM533FMgpZPbFSm9ANy6NtRNQDk97p4RaPLRUikXnBRMP41Lf5+XxZ
- JxBAQdxBYrGPgQYFMbK4HKY=
-X-Google-Smtp-Source: ABdhPJzXOf4YNZBer85ylZxTXrgLWoypbmSOH2wrTfZeaT87RvEFDTswQiHyZnZTdNLqkT0TCutR3A==
-X-Received: by 2002:a5d:6487:0:b0:205:7c2b:b6ba with SMTP id
- o7-20020a5d6487000000b002057c2bb6bamr23661199wri.283.1649672890486; 
- Mon, 11 Apr 2022 03:28:10 -0700 (PDT)
+ bh=97mmcdfAW7v0o2d6+0NLqAndzZOQYhaRI72KRFTxUEo=;
+ b=C66ViyAw+h6FMgEDUzZk1x9WalMlYdfqT8c3YicaFDnfsLkhBspqQoGEHFy1noi545
+ x/qkOS1MKIsRM2OhNBgtURSTIfju6I+nmNg/nuhgWFwN6FthysB2THXImg3pQrXrGk4V
+ MDaM5w0kjS3IIeOl4ylMN0Y2JcfLmcmVt96GddDMqLGscfQ8haSgT7L6blccLdlZfi/W
+ Cs/qJZPeRMG5NBPMuge5dnoGVinirdL0+hvP/Y0fqNp+l7p9xXhoi8w4rFKLl/mLAgTT
+ Wb7xFF4BUEnioiknAqnh4nvBwXGh29Iz8GKOOEbokamyXgDeGbqJkcCtOE7HGvRNY+7H
+ Yofw==
+X-Gm-Message-State: AOAM531voZpyFLlHJ+nhAELsQ5LXDkrxZT7NH5lGyeFFBJSbqSSC1Q5N
+ /dAwGFXSgdW9eXBQCPPxJJE=
+X-Google-Smtp-Source: ABdhPJyP1vDWkXhn9ejH73b/Vfcg85IgpCZLr362diYSUza0MvuLXsMj+82dotefuoASOGLFrVI7NA==
+X-Received: by 2002:a7b:cc0d:0:b0:381:220e:a3a0 with SMTP id
+ f13-20020a7bcc0d000000b00381220ea3a0mr28395364wmh.59.1649673179688; 
+ Mon, 11 Apr 2022 03:32:59 -0700 (PDT)
 Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- i19-20020a05600c355300b0038e1d69af52sm17613349wmq.7.2022.04.11.03.28.09
+ o17-20020a05600c4fd100b0038cd5074c83sm18264994wmq.34.2022.04.11.03.32.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 03:28:10 -0700 (PDT)
-Message-ID: <cffab35a-59b1-b5b5-a0fc-075268593235@grimberg.me>
-Date: Mon, 11 Apr 2022 13:28:09 +0300
+ Mon, 11 Apr 2022 03:32:59 -0700 (PDT)
+Message-ID: <ba21622a-9a81-867b-91e0-3a8d4bf13e70@grimberg.me>
+Date: Mon, 11 Apr 2022 13:32:57 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 3/3] nvme-core: mark internal passthru req REQ_QUIET
+Subject: Re: [PATCH 1/3] nvmet: make the subsystem type configurable
 Content-Language: en-US
-To: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org
-References: <20220411031249.5158-1-kch@nvidia.com>
- <20220411031249.5158-4-kch@nvidia.com>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20220408065930.123015-1-hare@suse.de>
+ <20220408065930.123015-2-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220411031249.5158-4-kch@nvidia.com>
+In-Reply-To: <20220408065930.123015-2-hare@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220411_032813_693382_27365AC0 
-X-CRM114-Status: GOOD (  15.76  )
+X-CRM114-CacheID: sfid-20220411_033303_471031_82C389E0 
+X-CRM114-Status: GOOD (  16.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,40 +84,40 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> Mark internal passthru requests quiet in the submission path with
-> RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
-> path, if nvme request is resulted in the error and request is marked
-> RQF_QUIET then don't log the error with nvme_error_log().
+
+On 4/8/22 09:59, Hannes Reinecke wrote:
+> Make the subsystem type configurable to allow for unique
+> discovery subsystems by changing the subsystem type to
+> 'discovery'.
 > 
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   drivers/nvme/host/core.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/nvme/target/configfs.c  | 60 +++++++++++++++++++++++++++++++++
+>   drivers/nvme/target/discovery.c |  2 +-
+>   drivers/nvme/target/nvmet.h     |  1 +
+>   3 files changed, 62 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 449378a96a9f..12302be83a6c 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -370,7 +370,7 @@ static inline void nvme_end_req(struct request *req)
->   {
->   	blk_status_t status = nvme_error_status(nvme_req(req)->status);
->   
-> -	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
-> +	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET)))
->   		nvme_log_error(req);
->   	nvme_end_req_zoned(req);
->   	nvme_trace_bio_complete(req);
-> @@ -1100,6 +1100,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
->   			goto out;
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index e44b2988759e..38b0ab9fb721 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -834,6 +834,7 @@ static int nvmet_port_subsys_allow_link(struct config_item *parent,
 >   	}
 >   
-> +	req->rq_flags |= RQF_QUIET;
->   	ret = nvme_execute_rq(req, at_head);
->   	if (result && ret >= 0)
->   		*result = nvme_req(req)->result;
+>   	list_add_tail(&link->entry, &port->subsystems);
+> +	subsys->port_count++;
+>   	nvmet_port_disc_changed(port, subsys);
+>   
+>   	up_write(&nvmet_config_sem);
+> @@ -862,6 +863,7 @@ static void nvmet_port_subsys_drop_link(struct config_item *parent,
+>   
+>   found:
+>   	list_del(&p->entry);
+> +	subsys->port_count--;
 
-Other than what Christoph pointed out, which can be
-added incrementally.
+minor nit, the decrement should go before the list deletion (although
+it's safe this way as well).
 
+Otherwise looks good,
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
