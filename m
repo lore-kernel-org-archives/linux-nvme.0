@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C3B3C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 06:12:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2780DC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 06:13:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7kAS6XSyxZsthX2H+Kg37NrYjlXNLfvRThRTmSdNEEw=; b=lt8ox+4zpT92M6SxqFv9oAALJL
-	KPx8RH2GBIQfaFpz4mfzSMMGuC0ABiNabV/MJYqJ4+Cg2WjR5Ck2eLZ41yAfxanil+0nDMIYIJorl
-	CNOw/HbY1FG5r78SC5c8O7zjWHz6m3QHJraPqiePgjO+KyVRdpmO4eS6WfsHWNPGPY/drYc3CJ6xe
-	hSEY9+grdBLlRA5t5Nv8AqPT2RRK3tumNczuLrwIPkNu7PBe6zLZjZy0sLQoB/7r/wbhEbzI+nSQZ
-	pdgPBH6iyvAHk3vuaAepCt2mb3+jXI80zz+tajTdIe/gcFRorJlDRh4tGUapLibOEBYFNF9Tz0ohy
-	qelJFQfA==;
+	bh=SP7dHXYGZxHc8WEMqPeysOQtcWUzMOxArkeWAIQDTKA=; b=D/yTgn2pDuS3LaycADt4o07WYt
+	oDicAUw7bTUjZuw/ZgNdbvErpTcvg/mjDmDTHr4L3ty7FDVj4FJb9tZo7qb3Na7GFHtw/LiZZ0zjt
+	CZNFz/HJO446q/7UWv58oCan1q0rPMfEe3zdrJb9jFkR8O7+BpULq0dNzdcSd1N58Z51cgJxsnp5j
+	CXgL1Cdg/cQhDhR213UsIxM30lKr2PXoewfS+jsOPTlr3Ps9yUINlvp/QFI3FigoKR/TZ6cHlTIDm
+	2QyKj5oNaevcSn6bRbgNsA/hVjr+kTDlj1kWftfU12MNlF1OFKWfxA+Cs/s5nA7pJoxDXEmKm2GFq
+	aUfXnTCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ndnHW-006sk3-J3; Mon, 11 Apr 2022 06:12:10 +0000
+	id 1ndnIR-006t0a-Dt; Mon, 11 Apr 2022 06:13:07 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ndnHS-006sic-4u
- for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 06:12:07 +0000
+ id 1ndnIO-006szh-FD
+ for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 06:13:05 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id D3C1068AFE; Mon, 11 Apr 2022 08:12:02 +0200 (CEST)
-Date: Mon, 11 Apr 2022 08:12:02 +0200
+ id 9A4B568AFE; Mon, 11 Apr 2022 08:13:01 +0200 (CEST)
+Date: Mon, 11 Apr 2022 08:13:01 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <kch@nvidia.com>
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
  kbusch@kernel.org
-Subject: Re: [PATCH 3/3] nvme-core: mark internal passthru req REQ_QUIET
-Message-ID: <20220411061202.GA14797@lst.de>
+Subject: Re: [PATCH 2/3] nvme-core: don't check non-mdts for disc ctrl
+Message-ID: <20220411061301.GB14797@lst.de>
 References: <20220411031249.5158-1-kch@nvidia.com>
- <20220411031249.5158-4-kch@nvidia.com>
+ <20220411031249.5158-3-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220411031249.5158-4-kch@nvidia.com>
+In-Reply-To: <20220411031249.5158-3-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220410_231206_374755_2E6F26A4 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20220410_231304_698725_2F29CFCC 
+X-CRM114-Status: GOOD (  10.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,14 +58,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 10, 2022 at 08:12:49PM -0700, Chaitanya Kulkarni wrote:
-> Mark internal passthru requests quiet in the submission path with
-> RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
-> path, if nvme request is resulted in the error and request is marked
-> RQF_QUIET then don't log the error with nvme_error_log().
+On Sun, Apr 10, 2022 at 08:12:48PM -0700, Chaitanya Kulkarni wrote:
+> Don't check the non mdts limits for the discovery controller as we
+> don't support I/O command set, this also masks the following warning
+> reported by the nvme_log_error() when running blktest nvme/002: -
 
-This misses out on a few other internal submissions like the PCIe
-queue deletion or keep alive.  Probably not much of an issue, but I'll
-ammend the commit log when applying it.  I'll wait a bit for more
-feedback but plan to send this out later this week.
+I think we can skip the whole call to nvme_init_non_mdts_limits in this
+case.  And we should probably key it off having I/O queues to also
+cover administrative controllers.
 
