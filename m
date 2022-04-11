@@ -4,71 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81C64C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 10:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6287C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Apr 2022 10:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cbiv0/cwwrefMvBAB5SZJRFMMULSG6RCwIlh8quXJUw=; b=JPJLWEnJ+uihgFEnh8tObgnia6
-	kme+UC/MyaLE5BuPRlukrxNBRF4IXiIaeHQ6wOrFQO9kB6j60d57IoynFMurAAL0gocmFvXaY2r+U
-	bVo0GOTw9LzLWSv9VXfyiJtfLo3DEoihqrly9lDO97P4Ueo/NnF0lJnpey93N/xTl8B0ysJzMbHi5
-	EJXTCZke0ooF87yiMw7SqxhE4O6Co5+LNNzLVVM+JAWmCpidyc/Jcj3ubg23Gnj9OOuvo7ydIu21k
-	F+EuOR+RltslJxVTyw/AdUg4W1tufn2gU0WW5oYrR15RFRawoRL4EgjBDop44/ERuIo2jySYzdlsH
-	Pfs/U7gw==;
+	bh=3rDmItwcDlvsLqXIWBqGF9Nz8nCax5NlHicaC1ur7s0=; b=s1LsNmQH1SxuNDC+a4OC1VBiKC
+	/JrMg2yzNpw5zvImwG0+EY4lRvkWmIBNA8aFVP8qtbhfossorzBH9fmWg1DyKjA690d/7mk3iV8N4
+	oyeVcOsFFhID5pbyp+7C5kbBRv9gYx0fOIPAw+AWqafo/qzSQGM+mALlMPeEJbuF3ki5x3ceqLLOu
+	FPExez8JeVIWCI9dyQQbsjp2Dgdb3FEeCkljjuYZekV812i6IiVjfjVzsKrtsAhjxyPPDsvpIdwTY
+	dg7ep+COiUyWM+R3ZFtt9uvVywGpA6Z5/N1oa11OT3avCl/SCV/IbNuNs31LgNKfVzf/BXKQQCndT
+	FIrydK9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ndrRt-008Pja-8L; Mon, 11 Apr 2022 10:39:09 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1ndrSH-008Psm-D7; Mon, 11 Apr 2022 10:39:33 +0000
+Received: from mail-wr1-f45.google.com ([209.85.221.45])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ndrGZ-008K2C-1E
- for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 10:27:28 +0000
-Received: by mail-wm1-f51.google.com with SMTP id r64so9586169wmr.4
- for <linux-nvme@lists.infradead.org>; Mon, 11 Apr 2022 03:27:25 -0700 (PDT)
+ id 1ndrHJ-008KSY-Iw
+ for linux-nvme@lists.infradead.org; Mon, 11 Apr 2022 10:28:15 +0000
+Received: by mail-wr1-f45.google.com with SMTP id r13so22277611wrr.9
+ for <linux-nvme@lists.infradead.org>; Mon, 11 Apr 2022 03:28:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cbiv0/cwwrefMvBAB5SZJRFMMULSG6RCwIlh8quXJUw=;
- b=ew6xw1pcLVUu4SZVomNf9OYjDZtkEwae5R88yfAQ+yccRql3LSfqAMkPGEwNdrzLf0
- 6rAkn/6sCxg6DSbgB2iubXXiL3gXpngiymmZXbG+6y+xNi2sEq4jyodE6RHxfxAFmz5S
- tf+RbrclZrP4KhYQo+/6GZBv+uaGPdkHqotFUqZ/R2I2jW94i7TgR7WsUkU92Rgn3OAf
- wMe7bKkBhUiK/jgwj2RwLFwR+NPK5MKWQTtBcxo7tEwpAqEXhjUinCc1BBUpUMKvxF11
- wPf4CA9qs50wiq6caqemoYNJZYjxPg6Zj8QWF1kVneolfaUt+C0dE8cJXCetDXzVTW8U
- NeTQ==
-X-Gm-Message-State: AOAM530SXjTuFcW3gsBSsgMJZaVjbX07zSTdo78yY6aMBtHzx55sy4uP
- UwSfVSjkvLbB2Aq2oeswlvCIH6bdpE4=
-X-Google-Smtp-Source: ABdhPJxf+3OTIC+fkuu1RPTqw8t4AmL4Te5OvtMsn19w24QjKAurMWRweTgbNahuTnp9mCpRDnW2dg==
-X-Received: by 2002:a1c:f312:0:b0:387:8bf:bd3 with SMTP id
- q18-20020a1cf312000000b0038708bf0bd3mr28445456wmq.112.1649672843992; 
- Mon, 11 Apr 2022 03:27:23 -0700 (PDT)
+ bh=3rDmItwcDlvsLqXIWBqGF9Nz8nCax5NlHicaC1ur7s0=;
+ b=DkRmfpnbp3isGn9OhQRFZEPBKK/Fz/+q7rJqW3kBdYeNoXb5i+6Au36XY3wJ039Vls
+ C8lg2bwPN/svciQmv7US0oWHOcdy+ss1sbzh7eqo/asZns2ONp8TSDYjsLbo/MfRjWj2
+ U1j3CbbeI+fAqdfmU7Z2PPAmwZxkSvfdhcigOEajut5RVKoakGdTAEE+SspvEG9nzBjE
+ nqzPUIUfA4W9kmavpHt8erUlS9yIipBG6nR5EC1+0wjKck9B/i0cW0JEjoP0wzE7Nx4O
+ ipPIA8NDyUKgIGfeq2W2q6W/ne40JJwLRzkfvxJiur/jhI6EQALJCVLrU/vGE/djUHOl
+ Q5xw==
+X-Gm-Message-State: AOAM533FMgpZPbFSm9ANy6NtRNQDk97p4RaPLRUikXnBRMP41Lf5+XxZ
+ JxBAQdxBYrGPgQYFMbK4HKY=
+X-Google-Smtp-Source: ABdhPJzXOf4YNZBer85ylZxTXrgLWoypbmSOH2wrTfZeaT87RvEFDTswQiHyZnZTdNLqkT0TCutR3A==
+X-Received: by 2002:a5d:6487:0:b0:205:7c2b:b6ba with SMTP id
+ o7-20020a5d6487000000b002057c2bb6bamr23661199wri.283.1649672890486; 
+ Mon, 11 Apr 2022 03:28:10 -0700 (PDT)
 Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- v15-20020a056000144f00b002079acb2349sm7725466wrx.1.2022.04.11.03.27.23
+ i19-20020a05600c355300b0038e1d69af52sm17613349wmq.7.2022.04.11.03.28.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 03:27:23 -0700 (PDT)
-Message-ID: <34d61434-27cd-f918-a3bc-fdca3196ef99@grimberg.me>
-Date: Mon, 11 Apr 2022 13:27:22 +0300
+ Mon, 11 Apr 2022 03:28:10 -0700 (PDT)
+Message-ID: <cffab35a-59b1-b5b5-a0fc-075268593235@grimberg.me>
+Date: Mon, 11 Apr 2022 13:28:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 2/3] nvme-core: don't check non-mdts for disc ctrl
+Subject: Re: [PATCH 3/3] nvme-core: mark internal passthru req REQ_QUIET
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org
+To: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org
 References: <20220411031249.5158-1-kch@nvidia.com>
- <20220411031249.5158-3-kch@nvidia.com> <20220411061301.GB14797@lst.de>
+ <20220411031249.5158-4-kch@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220411061301.GB14797@lst.de>
+In-Reply-To: <20220411031249.5158-4-kch@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220411_032727_159276_46DB6B7F 
-X-CRM114-Status: UNSURE (   9.74  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220411_032813_693382_27365AC0 
+X-CRM114-Status: GOOD (  15.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,13 +83,40 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->> Don't check the non mdts limits for the discovery controller as we
->> don't support I/O command set, this also masks the following warning
->> reported by the nvme_log_error() when running blktest nvme/002: -
+> Mark internal passthru requests quiet in the submission path with
+> RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
+> path, if nvme request is resulted in the error and request is marked
+> RQF_QUIET then don't log the error with nvme_error_log().
 > 
-> I think we can skip the whole call to nvme_init_non_mdts_limits in this
-> case.  And we should probably key it off having I/O queues to also
-> cover administrative controllers.
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>   drivers/nvme/host/core.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 449378a96a9f..12302be83a6c 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -370,7 +370,7 @@ static inline void nvme_end_req(struct request *req)
+>   {
+>   	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+>   
+> -	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
+> +	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET)))
+>   		nvme_log_error(req);
+>   	nvme_end_req_zoned(req);
+>   	nvme_trace_bio_complete(req);
+> @@ -1100,6 +1100,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>   			goto out;
+>   	}
+>   
+> +	req->rq_flags |= RQF_QUIET;
+>   	ret = nvme_execute_rq(req, at_head);
+>   	if (result && ret >= 0)
+>   		*result = nvme_req(req)->result;
 
-I'd also move this check to the call-site instead of where it is now.
+Other than what Christoph pointed out, which can be
+added incrementally.
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
