@@ -4,60 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79EAAC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Apr 2022 14:16:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C086C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Apr 2022 18:46:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sTf6CaGQuz/ihS5YBLGCrpGWdQ9cB/ENckuVFevj9p4=; b=bOs/XRoOE8XShrcgQ72vBQuRj0
-	86la77T2JXd2yDlhRH1YYxTjzRIHUYrSRiL4LERAPdwqL/CYSS9rlWooXZQm2HZ+ZnUxSlwzfcsSi
-	fPLtb1oUmSvvnepKUG3orm2f4WaNm7kdwj/YG9KTLMjkOKHgHT7GDCwhIIK2G5bb/MvNJA9In58Yd
-	/d2q3qGY0PfsSEoRXWkWwhdRLerhrmoz1N9tAYs9sk0ZsZXgxoP3rHCW6ZLfwUGntvo4+AXZgJneh
-	sXM7XvmGB+h1bWAxkqGzofADbuvBOGJETgBmAVF2OtGVs58vC0IENRvOBHITHOGYcoAfBimdOffWx
-	KBruHDbw==;
+	bh=BsanHeC4rW6D0OCVv8MUUxUHJaB0aFW9VnloIEl4pZc=; b=cCtz/hy7h/MnO7i5kkXZXbR2RW
+	pZh6VDRib9ZeWNhHMNwKiiTCx7k8xMz8fd0pWlg0PVfQ5I/FwCj7+ShBngeC2tJ9ovETRRrWOMiwU
+	DUEt9dcV5eU70g+B+6lFZRfGdeZGvyTqQOSwmADKC9+ar0QuztgXFXQcppO174MfKjYFJpnfBFdjx
+	4P7y8o0qESmVE26ic0msKfK8yr4V70eyhoU76LQfgf7tA7ffC6ItPnVnhJ7xfkZz4Ee2EWcbrfrjk
+	hJ/iPcUKCZ3CB6swELUjukwcADqAVJ9H67GDMvXw/Bbl60+jpFXpGCpGQKLQ7lyIxYRHHSEud2DGO
+	VC/Hnn9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1neHJx-00EkgG-O1; Tue, 12 Apr 2022 14:16:41 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1neHJv-00EkfW-1s
- for linux-nvme@lists.infradead.org; Tue, 12 Apr 2022 14:16:40 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3BA5AB81B79;
- Tue, 12 Apr 2022 14:16:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CA54C385A5;
- Tue, 12 Apr 2022 14:16:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649772996;
- bh=cykPs+aQyrwL9sxpGfAIzyI0hp5mEQxhDbdaztWK5Nk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kq9mBer5RSGhRvYrEZ+vd0a5N3sTjrSlA+m2N1vV6shHPmTPboArlkxLTSDL1mx2x
- Eifr73BcEncSkKn0m7czO77sOZNv5tpEMrzCKrel96XTgGnLQPfgN/iAQmu8DRnb4/
- YOqk7SN8SALuyBBOLvu9pKxLpZWNvhKg7W1HKpNzLvenwV2WF4wb/HI9tQCwuyop2X
- o97x3v/OYO5V3mZwbAKPZ0vbaOXYUTPM5AVSSxEJ1CO5VUUTBMzwq0tMPZDNeDWoGE
- Ko+iHOXMao9m0Hdfl1M76kJIY07gWihUz1VhpBRWP8d7UXv8p6Tu3dYMxWuCgL1SGl
- SRjjAI1nmd+oA==
-Date: Tue, 12 Apr 2022 08:16:32 -0600
-From: Keith Busch <kbusch@kernel.org>
+	id 1neLWt-00FTlh-6L; Tue, 12 Apr 2022 18:46:19 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+ (Red Hat Linux)) id 1neLWr-00FTlZ-El; Tue, 12 Apr 2022 18:46:17 +0000
+Date: Tue, 12 Apr 2022 11:46:17 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Luis Chamberlain <mcgrof@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/3] nvme: add a quirk to disable namespace identifiers
-Message-ID: <YlWJwGCRemelp3Ab@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220412061126.244414-1-hch@lst.de>
- <20220412061126.244414-2-hch@lst.de>
+Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 4/4] nvme: check that EUI/GUID/UUID are globally unique
+Message-ID: <YlXI+dfftyuoJPPG@bombadil.infradead.org>
+References: <20220224192845.1097602-1-hch@lst.de>
+ <20220224192845.1097602-5-hch@lst.de> <Yk+KO8hEYpnKdGu3@garbanzo>
+ <20220408052907.GA31990@lst.de>
+ <b395277c-5721-4773-9bbc-13cfbc1b0401@www.fastmail.com>
+ <20220408161052.GA28661@lst.de>
+ <YlB1E/p1uqpl3HiN@bombadil.infradead.org>
+ <20220411050533.GB13927@lst.de> <20220411055455.GA14480@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220412061126.244414-2-hch@lst.de>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220412_071639_244866_C8685C18 
-X-CRM114-Status: GOOD (  14.73  )
+In-Reply-To: <20220411055455.GA14480@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,18 +55,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 12, 2022 at 08:11:24AM +0200, Christoph Hellwig wrote:
-> @@ -1282,6 +1282,8 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
->  
->  	switch (cur->nidt) {
->  	case NVME_NIDT_EUI64:
-> +		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
-> +			return NVME_NIDT_EUI64_LEN;
->  		if (cur->nidl != NVME_NIDT_EUI64_LEN) {
->  			dev_warn(ctrl->device, "%s %d for NVME_NIDT_EUI64\n",
->  				 warn_str, cur->nidl);
+On Mon, Apr 11, 2022 at 07:54:55AM +0200, Christoph Hellwig wrote:
+> It would be great if qemu could switch to a new PCI ID after this is
+> fixed as that simplifies the quirking.
 
-Shouldn't we still verify that cur->nidl is accurate rather than assume the
-length? If it is the wrong length, then we have a corrupt descriptor list and
-should abort the process.
+Thanks,  I think it's worth to re-iterate why:
+
+The most directly visible problem is that this breaks the                                                                                                                                     
+/dev/disk/by-id/ links - all devices would have to point to the same                                                                                                                          
+one, and which one actually shows up is somewhat random.  This basically                                                                                                                      
+means random corruption if people actually use the links or the uuid                                                                                                                          
+functionality in any other way.
+
+  Luis
 
