@@ -4,92 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86A19C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 08:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9539C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 11:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OlztrA2PelhRNweSogsFYjSs6DF8vj669aWaoz/QJSU=; b=11EFCXUKIBiTpNlv/ZwHTSH695
-	nF+SOU9MPA5+Umxgy8jn5dJicbhDMWAmFtWwtIh6T/j7FSUVbAh0OPvx8E44JLd46qW7tY5B2wZYg
-	F4sQCDQ5RXcPumIbxSTkROusIY1L94aCWSwB1G6ZV2+pRspnLHj6jpx8/GbA59DRL+x3X4NjKJ1tW
-	XZnAD6rZ57i7lVveg7mG+luVXeK0UXLCdj5Kb7RU9+PQC/jThz81F/6QkihPmoJGqvyrjoCRfp9Ul
-	XcbBlQEDNaN0HDC37P4YfkDH4BK9PiMVkmrUk4xyASCY1nPrGUDhi0vkVw3fuOR3PFJHGMce1Qzlm
-	QolzAytQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vcpHMPI78hVeF0UKlQyHT2iUzctAZnGeDStcz8bop0k=; b=nBUIklawUb6IxetrVBG6LYO2L0
+	wzwXZBkAt9YeupzgQmb6lPFjCOh9ll+hryJnrUBGszabvzS06VwpQS2zZk/XxlcIodW03ByTFGQ3M
+	lNWpDLK11lubL+xPvu+Y4j8yqf1pimsdZqqJI6RA/iZAxOfM9kv4kgXmPjVCCjMXgE5AWR+a5qmFP
+	Ri3wetWKXdUDMCD7J0/smUAy7iOGMgOczNgI9SCygNEK3BofNGQJALtNudFf7EhlwOaQI7UZItg+o
+	UvQiUZwj8kj2ULnU+cnjMiAoXlLBVjfVdQlnOL6W1a2J14GR5EtrNgXrkWUb7CIoFv4x0LdNaWW3H
+	Eu4VZnHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1neYYg-0007ur-DE; Wed, 13 Apr 2022 08:41:02 +0000
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+	id 1neb3k-000jir-Iu; Wed, 13 Apr 2022 11:21:16 +0000
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1neYYc-0007qS-Hp
- for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 08:41:00 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 9F3965C0046;
- Wed, 13 Apr 2022 04:40:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 13 Apr 2022 04:40:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1649839251; x=1649925651; bh=Ol
- ztrA2PelhRNweSogsFYjSs6DF8vj669aWaoz/QJSU=; b=LkafVI1vKtiTxn4eqh
- zS0M6iaa68EPT/lQa2wHl/pTb5mZMxM1YURMiNwLYrCaai2F67MIZ6RbB1erlqrz
- zP9mLivvc363sP02rA3b2oFTklaU+DkbUSONr5xbgEEFMGe+/Z+3KodIER/+7ON7
- IV8BgKFg+p3w/Yu6fv6yAqGqckGGJ5DiJsVCnaBrVGjczSLIYPlUOvKNchYFSkru
- PakLyZGmCJKTFm89I1Azwms6JPepTVkACF4Hw5o+XivSP3MP+vgAM3DOXHkxpKGL
- /r8GEMgerIJelRbYICvFR+Fwz6NVqacbR01A1E+WeQr1bM9sE4n29uHd26a82+8S
- 7mPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1649839251; x=
- 1649925651; bh=OlztrA2PelhRNweSogsFYjSs6DF8vj669aWaoz/QJSU=; b=V
- d4g8OUGDH5z6i7rvZ2KJXFZniwKGy7djb8Bva4M1+WlYrcdfpQZO6msNg10yyNYE
- xAgltmWZwOhsNYzwzPhqb0WpE+kbZBl4X+GcsHEr8FICpjhS/YlfuWB6HBLz4sH+
- idrRBe/nWrpSMPqBEaWlXQABbfJglhXay4hmG9HEO+Ij8Iy2YI3yo6D7PqYvSAbw
- q6C0JlfXJ4cRzy43kjqI+yixPpz6WMF343n9JgVRzxGBOgK+FkIlnhnW/R5FWcu0
- DyDQDjzSxmb84FqBVAg0F/6eWW9wJjkZGvKxsI/HRIJcKjEHZJbPBueMY+6pOMVO
- jiuiUytUcFXcppBK4wDtw==
-X-ME-Sender: <xms:koxWYtEmD6VlOkbnoO_O7khEavHUP5X3jv8APC6xXB17TwtvRFsvbQ>
- <xme:koxWYiVp9TKwbWL_6S2NP9mQ-OljkaGhqBvZOU5DOS3AJcgCCa-O0a90mvQjhfprf
- j_ZvUPpDdCPASn2K1E>
-X-ME-Received: <xmr:koxWYvJacSqd9Zq6BMQUMUcpv-V30k-qjmZXoS3sOf01NWaCFen4H1Dve54uVVfcg8V7MmEb6kPze7nnrYc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeltddgtdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedtleekfedtueejueehledtudeugfdutdeigeegieehhfdvtedtgeetfefggfdu
- keenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:koxWYjGR9OF-PhxUJRfH1R427gaYUnRx3Mni0pGoU1noyVxzgfFYPg>
- <xmx:koxWYjWcA4NpZIdAaCEwrWUX9DWPQN5x2_Jm5t7I3DqRuu3k7gMdMg>
- <xmx:koxWYuO8o35F5CychyhjuZ8vWiMZWo8OVzdQldPXnGsj0tWgW_1c2A>
- <xmx:k4xWYpcLF2oAxNtTUVBCiR-VXrUy4qbYQCbsj5EYhmnQ0g7u1xkr_A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Apr 2022 04:40:49 -0400 (EDT)
-Date: Wed, 13 Apr 2022 10:40:47 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Luis Chamberlain <mcgrof@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 3/3] nvme-pci: disable namespace identifiers for Qemu
- controllers
-Message-ID: <YlaMjz7SoctkLzYo@apples>
-References: <20220413044905.376785-1-hch@lst.de>
- <20220413044905.376785-4-hch@lst.de> <YlZ8j70shRKv/tif@x1-carbon>
+ id 1neb3e-000jga-Km
+ for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 11:21:11 +0000
+Received: by mail-pj1-x1035.google.com with SMTP id 2so1671249pjw.2
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Apr 2022 04:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vcpHMPI78hVeF0UKlQyHT2iUzctAZnGeDStcz8bop0k=;
+ b=BJZo2ubkTkzFPUsNDT7KPfUy0nY0a8jQsV3JeIfgcx/E7kQrUNz85JccW0bTCobZJK
+ Xk1NVeBqvp/3qaumttUM3mMO13xDNRw8BhjEX1zMFmrm9WaOMK50VMvdIbuT094kcab0
+ 55KqPehgbpYT4rG6WFIkzJVaJJ5NMxw+Nox4Q5cmq5JTaM4orpqo5F5Kvb3zay979ghR
+ 0mJpbbPi7BAgjIoUNI4mOo2wdUAXdEvxicZoDBBuK3HY0A87ocUxzeqrVRzKAB2dBeIA
+ KbhXR11ITiL9Lk6LmoOcKCbRjhe74pJeYyQ4d6H/8tjQm8OhGU2SB4FF0z/YVZXhlDzn
+ eFKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vcpHMPI78hVeF0UKlQyHT2iUzctAZnGeDStcz8bop0k=;
+ b=Lx7+NMKAR/StI08Iq5vQrZyI3YWECSKMhACWsYrbc5/yH1vcfJ0BtvzeVFNYiMGtqk
+ dDeuBr1eQUVBCI67q5E5C/3M9a3JNAyVO6w6jo2vf55tjj8XIsDwS1raH+uCBFJ5t0a1
+ vz3HNNov4mJGyZssc0JiZ9sFF6EkrlnHlNpUfeE3v0VL6SATpuXKxTFeyY3O8qsUAylL
+ Szhla9/irPISeaJjfdTPVn1o8ivTgTpsOeBDTkZBnOxJKTzAH3i5Zi3JdHPxGlPFXiJw
+ tr255rETCnQKjUwERe5jmkQ/t0hEs+N44+jdk42eHOBu+A21R1IfmohHbB+pYekPPlT7
+ cQfA==
+X-Gm-Message-State: AOAM530mESuxf460q/9AsWf6Sh4fh8lweosI5wC2S8xbpGYxZVuwvkBg
+ /tT2mP6+0iwk7V08Fsx/q9Cwuj8zGxs=
+X-Google-Smtp-Source: ABdhPJz8erKhFNo0ll5Gx8k/axhk+mSr3/PJf2ppBVYx1K3jIQh4i9FBOC7DxLYDUxRuVMJ7bMsl3A==
+X-Received: by 2002:a17:90a:ba15:b0:1c6:7873:b192 with SMTP id
+ s21-20020a17090aba1500b001c67873b192mr10415214pjr.76.1649848866960; 
+ Wed, 13 Apr 2022 04:21:06 -0700 (PDT)
+Received: from ideapad.. ([161.81.112.246]) by smtp.gmail.com with ESMTPSA id
+ p27-20020a056a000a1b00b004f3f63e3cf2sm47126421pfh.58.2022.04.13.04.21.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Apr 2022 04:21:05 -0700 (PDT)
+From: Tom Yan <tom.ty89@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Tom Yan <tom.ty89@gmail.com>
+Subject: [PATCH] nvme: fix interpretation of dmrsl
+Date: Wed, 13 Apr 2022 19:20:56 +0800
+Message-Id: <20220413112056.126198-1-tom.ty89@gmail.com>
+X-Mailer: git-send-email 2.35.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SJE9fphEgyOL6Faq"
-Content-Disposition: inline
-In-Reply-To: <YlZ8j70shRKv/tif@x1-carbon>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220413_014059_442370_73B1326B 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20220413_042110_721526_6326DE00 
+X-CRM114-Status: GOOD (  11.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,44 +84,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+dmrsl is in the unit of logical block, while max_discard_sectors is
+in the unit of "linux sector".
 
---SJE9fphEgyOL6Faq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+---
+ drivers/nvme/host/core.c | 6 ++++--
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-On Apr 13 07:34, Niklas Cassel wrote:
-> On Wed, Apr 13, 2022 at 06:49:05AM +0200, Christoph Hellwig wrote:
-> > Qemu unconditionally reports a UUID, which depending on the qemu version
->=20
-> Since it appears that both older and current QEMU versions are not
-> implementing this properly, perhaps you should also consider adding
-> the pci vendor and device id used by older QEMU versions?
->=20
-> QEMU nvme pci vendor and device id was changed in commit:
-> https://github.com/qemu/qemu/commit/6eb7a071292a2f11065127ac152fa24248806=
-021
->=20
-> Which was first included in QEMU v5.2.0.
->=20
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index efb85c6d8e2d..a01bc00f3f72 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1622,6 +1622,9 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
+ 		return;
+ 
++	if (ctrl->dmrsl)
++		ctrl->max_discard_sectors = ctrl->dmrsl << (ilog2(size) - 9);
++
+ 	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
+ 	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+ 
+@@ -2881,8 +2884,7 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+ 
+ 	if (id->dmrl)
+ 		ctrl->max_discard_segments = id->dmrl;
+-	if (id->dmrsl)
+-		ctrl->max_discard_sectors = le32_to_cpu(id->dmrsl);
++	ctrl->dmrsl = le32_to_cpu(id->dmrsl);
+ 	if (id->wzsl)
+ 		ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1393bbf82d71..1c85edcf7dbb 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -279,6 +279,7 @@ struct nvme_ctrl {
+ #endif
+ 	u16 crdt[3];
+ 	u16 oncs;
++	u32 dmrsl;
+ 	u16 oacs;
+ 	u16 sqsize;
+ 	u32 max_namespaces;
+-- 
+2.35.1
 
-That is a good point Niklas. +1 for that. The driver already knows about
-that ID.
-
---SJE9fphEgyOL6Faq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJWjI4ACgkQTeGvMW1P
-DekjJAf/UXGIILmFgUdAFZmwZ89ixZYW9vtJS7woDfFYL2kROV+lMohaQ+S6piyj
-XP0TmDpCEQO9w5Y6sddivivLzHJRZRmWx47zvsNoHmllyCbeBTrbu9hOgUmNTa47
-6XM4xTE4N8ka+DJOY7wZtvZdXzxb+CRj2Y5CwBPOnVDeyZaaJgwICyMUk12fHU8e
-DVAENpVeKrulfxTV9eF/4l4GamkD6plSH9L3/z5X7b+1tXmJFE0p0fjFtkQf1EH4
-rvMx+aVKz2YVEAUmSl8wc9NZaOjK6yBg1K0IDE5ZSxBVuUpaJr24e6ZhWYpVk7uj
-Kva9YYvl6EDQRMM/kOW2M+UBT40HuQ==
-=cpqp
------END PGP SIGNATURE-----
-
---SJE9fphEgyOL6Faq--
 
