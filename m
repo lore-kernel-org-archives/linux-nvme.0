@@ -4,41 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C83EC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 04:49:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3FB8C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 04:49:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5/HnauVdufjRnO8ObbzmRx290lutXEaoUbEi2BEnvYQ=; b=uD19TgYP/xIMbzctsoC2P4i4Z7
-	5P3iYiseOU7KPzWs+XwzKXHC3oORVd86DlUns4xL/+6K/zdDjKgK7lOugNZ1SkHpzanAHHHyhsf7/
-	kPAcgrDZMktCoZhwhxrtB6fC7Vo/f2Bx8yVCuhUlpluHm9LntMS6zOuYWA06B6HYiIOcPq10GKNSA
-	wd7lUZ74gJE670JKmP6yhPuszUy1DpVuJEgqC0OcGKcGBQn7VaxlPvfXwTyJcHmE8iJwiLHH3P9HH
-	Rbp+T6LUUAzWInhDhkeO9o+pEpuHBZghq0/jVm5/FMPjZJkmdS6XTOcmYHGTHe5nTOb3RueZvxvr7
-	KnRD9B3Q==;
+	bh=q+5zhBNTQM7RiEn7rp/Dd2PaSVOnDxQSC2xfkFfWgp0=; b=k+hG7bjc8zGAewok9f+aC0T1v9
+	s464pg0Q5B/FVHd05PKrkjRtF4LIMREK7jwxWOShHukA6ZabvOOjLez2tkXyFBQRUsKuqczZyZdBq
+	AO6Sd7tDG1X5f5TJEAjROCCClRwTW6CGeCwSYb6OGQxDqrP9Sfy8L0e3Huepz00F+hk53A17HjGt+
+	EJa/jO/pIWFr4f/PTOBT6m6E4JaUv7yieOWNOHPRhHe/wt2X2n3bJ7TjJswzZR5xxYFuJTOEaBz89
+	ZAhGKGtbF5EJXdtOh315xZX9BX5Ubydn0pxmQJtPtqCg5qYsR3keQ9zUSouyP7Yg0ZOtoVECpejjs
+	cneGcj3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1neUwU-00GlbP-T7; Wed, 13 Apr 2022 04:49:22 +0000
+	id 1neUwZ-00Glci-2y; Wed, 13 Apr 2022 04:49:27 +0000
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1neUwP-00GlZ3-Ah; Wed, 13 Apr 2022 04:49:17 +0000
+ id 1neUwS-00GlZU-11; Wed, 13 Apr 2022 04:49:20 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: Luis Chamberlain <mcgrof@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- linux-nvme@lists.infradead.org,
- =?UTF-8?q?=E9=87=91=E9=9F=AC?= <me@kingtous.cn>
-Subject: [PATCH 2/3] nvme-pci: disable namespace identifiers for the MAXIO
- MAP1002/1202
-Date: Wed, 13 Apr 2022 06:49:04 +0200
-Message-Id: <20220413044905.376785-3-hch@lst.de>
+ linux-nvme@lists.infradead.org
+Subject: [PATCH 3/3] nvme-pci: disable namespace identifiers for Qemu
+ controllers
+Date: Wed, 13 Apr 2022 06:49:05 +0200
+Message-Id: <20220413044905.376785-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220413044905.376785-1-hch@lst.de>
 References: <20220413044905.376785-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -54,32 +52,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The MAXIO MAP1002/1202 controllers reports completely bogus Namespace
-identifiers that even change after suspend cycles.  Disable using
-the Identifiers entirely.
+Qemu unconditionally reports a UUID, which depending on the qemu version
+is either all-null (which is incorrect but harmless) or contains a single
+bit set for all controllers.  In addition it can also optionally report
+a eui64 which needs to be manually set.  Disable namespace identifiers
+for Qemu controlles entirely even if in some cases they could be set
+correctly through manual intervention.
 
-Reported-by: 金韬 <me@kingtous.cn>
+Reported-by: Luis Chamberlain <mcgrof@kernel.org>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Tested-by: 金韬 <me@kingtous.cn>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d817ca17463ed..c45dbe8a7dcd7 100644
+index c45dbe8a7dcd7..9b75abdd4478a 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3447,6 +3447,10 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
-+	{ PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
+@@ -3410,6 +3410,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS |
+ 				NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
 +		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1e4B, 0x1202),   /* MAXIO MAP1202 */
-+		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
- 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
+ 	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
+ 		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
+ 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
 -- 
 2.30.2
 
