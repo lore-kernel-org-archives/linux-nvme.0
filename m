@@ -4,60 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 148ADC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 16:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E581AC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 16:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bDbpNy4bQcOCdUZGxOGPiwVNT6+/6IuR3y95GN1aWJs=; b=tuDaD7DV7WjaNtIRuvnqVpdPG8
-	4lO8SQZneH2ThoOUaTWjJR9FQ522jis4wuEBn3s95Q5m4BJR3A5Z23Rq7M1XwrdFLp2Wa+tedm9Yr
-	7fGIRoTvnzPXK+dIoV5QvdcZtKR9T1vodUuIOs8X7rIGAllqJMhSuj6n79ERTeE43XNrt7wzXUJ02
-	hx9Ke5VwjTd4MTZP/yQBpNJ59qjctYOH4By4BGj7PypoPB3ZJtzyFmg4XYpphJK8DAT8pMRE5oYCv
-	9InM6L87cRSxh7DBzb3WcZvofZjQ3n7gfe26yU4oy7gz/0uN19MJHnOyjxTUMEpy2+05McIP27alq
-	tR70d1xQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=b99kjEtSVTsTUhfxTFpakM+ZH2nDfwPyKq6I0vlCjGY=; b=dNC5CqCz3GAizJJfPOe2Vh7XjG
+	2tauuK8SlG2X55zsZdPJQWz/Jo9yR6szjNyXgYVtpkCOYr56fiXS5imf09iKRjegqh/E2ATXliR3p
+	4HyUoU/PdVUphZf4SPvzGY+PArlRGJBMb5XubbeMpi0b30POpKugRXd2wuO3wwoZHdnEYBKtef3iY
+	+3SO365dlG8RvYVDWhvQ6+m5KnPMZbGjFU5G6EFgdQV3XCJ+c1k5kps4oSeKU14HDroEtP/EeQ4eP
+	s1gN205kdL4YnyZOsTHU1WbmyVQ9RdHzAlMV1o8jYzayn8kvuFL8UosNuLSqVHF1f8NF9s8Hj9AAm
+	Z/we8W7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1negJ2-001qH8-Qe; Wed, 13 Apr 2022 16:57:24 +0000
-Received: from out0.migadu.com ([2001:41d0:2:267::])
+	id 1negKU-001qh0-HU; Wed, 13 Apr 2022 16:58:54 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1negIy-001qGP-TD
- for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 16:57:22 +0000
-Message-ID: <fed97517-201f-f7a8-04ee-4a12698b4e41@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1649869039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bDbpNy4bQcOCdUZGxOGPiwVNT6+/6IuR3y95GN1aWJs=;
- b=tVCbdaZWDBJXRZ49eldiS2WGZeNIavDQZBjf4BjoCo/xds0ebiUY+oSrlBDVIlyUH4bNRR
- WyXI3gzWU5IJRph8jDPfpicAUG8ZHf0b0xv0sypkA3QcxVZMki9O8stGsNz1dSYRc91U6b
- ir0SM8uwGC2X8MSG3li0GzyTO7EhDi4=
-Date: Wed, 13 Apr 2022 10:57:19 -0600
-MIME-Version: 1.0
+ id 1negKQ-001qfu-7i
+ for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 16:58:53 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 93BBC61E7D;
+ Wed, 13 Apr 2022 16:58:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E7FC385A3;
+ Wed, 13 Apr 2022 16:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649869129;
+ bh=b99kjEtSVTsTUhfxTFpakM+ZH2nDfwPyKq6I0vlCjGY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EsfwkHFLQjpIOdztE9cEeW8KMoP8XvfN8DfRWRTl1ntRZwSwCuGYtuJb5TK0vmOXA
+ 0S/U/VCxwur/YscIl9zbk+Cmmx0oQ8T2tFWHKNro1AsF7q1jHfaFLYOs4z1FD1bU5I
+ if7Ff3Z9vtPzB22M3fYW2eUPYvPpUY/aZtOMr4MA/saJinjX9+TR/JxZiMx7/5v/tv
+ 0UM+eOoWmFvHqYOGXhTB41nDx2k15cCVFcEnCcO9WekpdxUXqNigtoEUxmBSLFqltC
+ bC/TIWzh1KRNkJtoOOa+Bw8UrskeC76HR6V/A/geMgIj4c+zfm68BXjuM+EIbBpZU0
+ XEVv3WziiZWVQ==
+Date: Wed, 13 Apr 2022 10:58:46 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
 Subject: Re: [PATCH 3/3] nvme-core: mark internal passthru req REQ_QUIET
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, kbusch@kernel.org
+Message-ID: <YlcBRhH3h4vZht9Z@kbusch-mbp.dhcp.thefacebook.com>
 References: <20220411031249.5158-1-kch@nvidia.com>
  <20220411031249.5158-4-kch@nvidia.com>
- <cf4534ec-c8d1-c020-2079-5636177ca1b5@linux.dev>
- <20220413165238.GA31786@lst.de>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-In-Reply-To: <20220413165238.GA31786@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411031249.5158-4-kch@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220413_095721_123647_0B8E5E0E 
-X-CRM114-Status: UNSURE (   9.89  )
+X-CRM114-CacheID: sfid-20220413_095850_362520_97090E17 
+X-CRM114-Status: UNSURE (   9.42  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,20 +72,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sun, Apr 10, 2022 at 08:12:49PM -0700, Chaitanya Kulkarni wrote:
+> Mark internal passthru requests quiet in the submission path with
+> RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
+> path, if nvme request is resulted in the error and request is marked
+> RQF_QUIET then don't log the error with nvme_error_log().
 
+The subject should say RQF_QUIET instead of REQ_, but otherwise this looks good
+to me.
 
-On 4/13/2022 10:52 AM, Christoph Hellwig wrote:
-> On Wed, Apr 13, 2022 at 10:49:33AM -0600, Jonathan Derrick wrote:
->>>    +	req->rq_flags |= RQF_QUIET;
->> Any reason to not make it a part of flags in the argument list and let the
->> block layer build the req with it?
->>
->> eg:
->> flags |= REQ_QUIET;
-> 
-> Because there is not REQ_QUIET, just RQF_QUIET and BIO_QUIET, and their
-> relation isn't quite as straightforward as it seems.
-
-Well let's suppose I had written RQF_QUIET instead of the non-existent 
-REQ_QUIET
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
