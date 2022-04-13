@@ -4,51 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE235C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 15:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A77CDC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 16:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4jE3CEGM8v2tVNgg4hENzjHqkqHZ7c2EqAe6vujh7Pc=; b=I8ILiRoqJvqFv2s2xtg3HCE+rs
-	kXzz6WeoulcAIsL+t5RDwADnl9fL/Qw0WYH1XfwNK9i5vi91TiSkZXw/w2hTwOmlQnmND4ApeDe5Q
-	d1fKe6MVKudAp7FbTjjkPentT8+OHa7yrXEI3aIp8O1zLXCy0flYQcgSN3dNsps01g2/Un6QgM1Cn
-	VCOW3uFZ8ed2yxrHsm0mma+3l8NThIc4NC26hTclai3rA5dEam3rpdHKqWCYWmE8Q5re2H6gdvvL8
-	lGICu4YxdE9ZlLEpCFznS04XqG5a8UlI+759PKPZ8u1XWc/7RfmA1v8OtrRZTiJ3aRp4wV4s4iweL
-	BoDRzGJg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XYwUDi7CaMqmGIVK81jAt0026TJp3h9OqBYfxlYLOrU=; b=pg3P30qkhredm8+yhYQCkrSJyz
+	z0bkuRp2zHBL5uHiWxxaV8/mcADfrX1ywqWU88wmDX6YfbxQU429khjfymtvapcDQXCohoBDN+0q1
+	Ojwu1SFl8ckg1WESD8y8PuZA/y8Lnbuq9G/d8K6+wEn2T9LvTLuKIY37QXLMorgrWyKzxXtNtQ47H
+	JzW98RfeYBZWb4Vz1A/i51c3YcywnX7ALPJ2SQlf2OGHPoor6FXGw7qsHctSB1ZGxj+482M982uQn
+	ih4WvlukE0c9KAGbhoM96DFSKOKGPmqBZ135PRtm5vE5zFYEgAByeFUFQbIOGnlK+Yii0ABoGig+M
+	To9mwYCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nefGg-001fQL-MN; Wed, 13 Apr 2022 15:50:54 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1negAo-001obO-1m; Wed, 13 Apr 2022 16:48:54 +0000
+Received: from out0.migadu.com ([2001:41d0:2:267::])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nefGd-001fPa-SL
- for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 15:50:53 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 22FD468BEB; Wed, 13 Apr 2022 17:50:48 +0200 (CEST)
-Date: Wed, 13 Apr 2022 17:50:47 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: Christoph Hellwig <hch@lst.de>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Luis Chamberlain <mcgrof@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 3/3] nvme-pci: disable namespace identifiers for Qemu
- controllers
-Message-ID: <20220413155047.GA28740@lst.de>
-References: <20220413044905.376785-1-hch@lst.de>
- <20220413044905.376785-4-hch@lst.de> <YlZ8j70shRKv/tif@x1-carbon>
- <YlaMjz7SoctkLzYo@apples> <20220413153432.GA27146@lst.de>
- <YlbxCdgPaVUykcqx@apples>
+ id 1negAk-001oa7-Os
+ for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 16:48:52 +0000
+Message-ID: <b169b9c6-eecd-5a8a-6545-ad1176455374@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1649868526;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XYwUDi7CaMqmGIVK81jAt0026TJp3h9OqBYfxlYLOrU=;
+ b=nCyl6iIFXemvfhWZQA6cEvQrDeDrkAlzSokXox3zpT5gO0IA3Ya14vubCgud5IoSeK6MWN
+ o1Nio3zjrX8TCzYzaMpQndxp1sFK+crZ6C2HVMzv3BQhDy5aAMNOiQ7BfJ5kBI9yZwbx9c
+ 1m6epQ9lyA8df4jqQJKJWI55nGk2VC0=
+Date: Wed, 13 Apr 2022 10:48:45 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YlbxCdgPaVUykcqx@apples>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Subject: Re: [PATCH 3/3] nvme-core: mark internal passthru req REQ_QUIET
+Content-Language: en-US
+To: linux-nvme@lists.infradead.org
+References: <20220411031249.5158-1-kch@nvidia.com>
+ <20220411031249.5158-4-kch@nvidia.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Jonathan Derrick <jonathan.derrick@linux.dev>
+In-Reply-To: <20220411031249.5158-4-kch@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220413_085052_099764_2FD29234 
-X-CRM114-Status: GOOD (  13.72  )
+X-CRM114-CacheID: sfid-20220413_094851_258334_851F8339 
+X-CRM114-Status: GOOD (  14.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,14 +68,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 13, 2022 at 05:49:29PM +0200, Klaus Jensen wrote:
-> This means that the 'use-intel-id' compatibility parameter may cause a
-> 5.2 nvme device to present itself with the Intel PCI vendor/device id,
-> either because the user explicitly set it, or because the machine is
-> launched using a pre-5.2 machine type (i.e. `-machine pc-q35-5.1`),
-> which you would normally do if you want launch an existing VM on a new
-> version of QEMU.
+Hi
 
-But if it presents an old machine it also shouldn't support a new
-identify call, right?
+On 4/10/2022 9:12 PM, Chaitanya Kulkarni wrote:
+> Mark internal passthru requests quiet in the submission path with
+> RQF_QUIET flag added in the __nvme_submit_sync_cmd(). In the completion
+> path, if nvme request is resulted in the error and request is marked
+> RQF_QUIET then don't log the error with nvme_error_log().
+> 
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>   drivers/nvme/host/core.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 449378a96a9f..12302be83a6c 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -370,7 +370,7 @@ static inline void nvme_end_req(struct request *req)
+>   {
+>   	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+>   
+> -	if (unlikely(nvme_req(req)->status != NVME_SC_SUCCESS))
+> +	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET)))
+>   		nvme_log_error(req);
+>   	nvme_end_req_zoned(req);
+>   	nvme_trace_bio_complete(req);
+> @@ -1100,6 +1100,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>   			goto out;
+>   	}
+>   
+> +	req->rq_flags |= RQF_QUIET;
+Any reason to not make it a part of flags in the argument list and let 
+the block layer build the req with it?
+
+eg:
+flags |= REQ_QUIET;
+if (qid == NVME_QID_ANY)
+	req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
+else
+	req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
+					qid ? qid - 1 : 0);
+
+>   	ret = nvme_execute_rq(req, at_head);
+>   	if (result && ret >= 0)
+>   		*result = nvme_req(req)->result;
 
