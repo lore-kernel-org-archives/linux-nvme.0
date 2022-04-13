@@ -4,65 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 219CEC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 20:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01DEEC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 22:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RyigBHPFZ0X1+cUpaSLOKDA78OV89fXGQGSZqoFE41o=; b=RsbtmMxIcZ14/Nkk1hSYugCh7L
-	Ns94WHZV9v1hy1++P+FW7e5obb3FcqMxGE0hcXVylx6FyG9wG6hpjC2bTqRz6WKmLnOwoL8/lDVeX
-	EPK8/ZtaPjgNbvtsFJjYS4/teQ3a1uUwHP6NL2YPaXZXccDIQX9P/6ZTf9BOhEPeza0EJFzwivX3b
-	1lpkxdHfEhat+h2rycp7e1qez8WDA0bO2ze3vCDqA9dCO2W/pVlWePJTUY91YIQYuN8vy4293ElK+
-	D+toSTQcdhs5ELqL6WiR2Rcx6OLTyuagEi5/YQrNGbfEOh8RTlQnfFfbeddfDW4ebvh+k9c2ZTTNC
-	Ot6terwg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2cwsdqpMLrDBBUFhHc5jfg8idgOuulANohdziKdAHQQ=; b=VNBypaqv5ESR+iih/SRgIBWWVQ
+	Uic8YSSAVVL8t6VdGTzYdsDQOeS7Wpw6J+GBtUHPg2M2NGfz2LiXF48iTqHP4vTyJSGCu5EHyGHyS
+	La6ieQfZgTPXHZULhn7Pcg/qZfzjNbQwXQMxtJmap7u8wjeK1NpFUBnHkpxf/PwP5p37GuGqxqIzi
+	QstQNMBpKCorLB+g4EZ/hj5Jbt2bfxLQaTdq+zhxNtx5g1cR4kant806Fw96LBOaxMjcrUA4LIbkO
+	pFpY5qKILWK5YkmB7HUtpCdtptZaMN780RQce7EBWR5FjUcosXrZUkR5E05XcEjPmVFdO8VjkZHob
+	PwkAPehw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nejlE-002fKv-5G; Wed, 13 Apr 2022 20:38:44 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nelkl-002zwb-2V; Wed, 13 Apr 2022 22:46:23 +0000
+Received: from mail-pj1-f52.google.com ([209.85.216.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nejlA-002fKJ-Q8
- for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 20:38:42 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 88B3961E03;
- Wed, 13 Apr 2022 20:38:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F2D3C385A3;
- Wed, 13 Apr 2022 20:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649882319;
- bh=7CkNmG5BVnrj+OotAbQuct6V9GFHZkXVS2aQhuCX7Uw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oHlMfPB4nrA10SrnfdmiYSJDgYyOlKFcuhnme7IXorVZLYPmc4aTFPrE6CL+XjyCX
- yEbACEy3UAklDu8kOsKa6kYCT9/anindBcdIqdUujtvj2XCO6Q7XZfNp5EkD/TKc5P
- Gg4jJhFZ92PJJrT3x29cPs8L47diHvU+J16PLR5CQ/dgIbVyksV1+V6mdyg988gNpc
- pIz5eQHLFaDUgbpEqKzigARGJ/WvSvmq7AiI0wfvcgSfLqVdDcjkDU099aohl2le/g
- p5PVcUf7u/GVxu3SvlSq8qzFyKAbNAhX0Rhxdqvs/1BK2VHmrA/PuP5Dv+aBhCDZiY
- N62xEVhAGD+0w==
-Date: Wed, 13 Apr 2022 14:38:35 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: Christoph Hellwig <hch@lst.de>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- Sagi Grimberg <sagi@grimberg.me>, Luis Chamberlain <mcgrof@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 3/3] nvme-pci: disable namespace identifiers for Qemu
- controllers
-Message-ID: <Ylc0yyZa8QSW3Xlj@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220413044905.376785-1-hch@lst.de>
- <20220413044905.376785-4-hch@lst.de> <YlZ8j70shRKv/tif@x1-carbon>
- <YlaMjz7SoctkLzYo@apples> <20220413153432.GA27146@lst.de>
- <YlbxCdgPaVUykcqx@apples> <20220413155047.GA28740@lst.de>
- <Ylct1QXgzpoxpHaq@apples>
+ id 1nelki-002zum-A9
+ for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 22:46:21 +0000
+Received: by mail-pj1-f52.google.com with SMTP id bg24so3430490pjb.1
+ for <linux-nvme@lists.infradead.org>; Wed, 13 Apr 2022 15:46:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2cwsdqpMLrDBBUFhHc5jfg8idgOuulANohdziKdAHQQ=;
+ b=XLT9IIHtHdYS59+KE/nk6mW4ZxVRUVRzfyXFjfhe+fKlkbuBNkAKrsv3ewVKzt8tfq
+ Jfwp27e0jiQNNTTuldbO5kmFe/qKZkYVGbbCGYjwCos8TspcbSDSPS8R3xPQQ0x1EM61
+ jQ+ELvDThIpErND5Iaad8gi5Q09oRW/DSyoPyuoLAMfvNMRu2ARZDNUc2wTW9QFNzuuW
+ lQQVBUToX9hsau2e6nGSsU8kYzrF0IBj5enQBnL/JwFFGKONjic/6uCWHYRIgifPiJ8E
+ z0qYnM/IJ98RP+LsEP5b9NHbrO0FVel1YJGvNamj+rFh5hC754HsE3FtJrFf8GNIcEyM
+ S+ig==
+X-Gm-Message-State: AOAM531TPxLvLdzVo9oy3bjwc+wAHXytAW04ST3ipnj/Gt+2b6foCY7G
+ +UMbp/TfNogiUxXGFPpm1zs=
+X-Google-Smtp-Source: ABdhPJyjcwgXoumWQUd7bG00td/RSuBc9Jphv63JwVZmpO6y5RA/dml1VKvJHFdnXVc2BE5Ty7qjXw==
+X-Received: by 2002:a17:90a:5409:b0:1ca:8a21:323b with SMTP id
+ z9-20020a17090a540900b001ca8a21323bmr1024482pjh.135.1649889978757; 
+ Wed, 13 Apr 2022 15:46:18 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:4cb9:acfe:1291:f290?
+ ([2620:15c:211:201:4cb9:acfe:1291:f290])
+ by smtp.gmail.com with ESMTPSA id
+ c7-20020a17090ab28700b001ca9514df81sm82313pjr.45.2022.04.13.15.46.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Apr 2022 15:46:17 -0700 (PDT)
+Message-ID: <af030072-d932-5e38-64d6-bfd28152862b@acm.org>
+Date: Wed, 13 Apr 2022 15:46:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ylct1QXgzpoxpHaq@apples>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: can't run nvme-mp blktests
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>
+Cc: yi.zhang@redhat.com, sagi@grimberg.me, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <YlYYJC/WUEsnI9Im@bombadil.infradead.org>
+ <YlZXOC4VgmDrUGIP@infradead.org> <YlcKqu3roZQSxZe8@bombadil.infradead.org>
+ <YlcLOM49JsdlBqTW@infradead.org>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <YlcLOM49JsdlBqTW@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220413_133841_118090_1027E482 
-X-CRM114-Status: GOOD (  26.05  )
+X-CRM114-CacheID: sfid-20220413_154620_395947_CE2472B1 
+X-CRM114-Status: GOOD (  15.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,35 +85,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 13, 2022 at 10:08:53PM +0200, Klaus Jensen wrote:
-> On Apr 13 17:50, Christoph Hellwig wrote:
-> > On Wed, Apr 13, 2022 at 05:49:29PM +0200, Klaus Jensen wrote:
-> > > This means that the 'use-intel-id' compatibility parameter may cause a
-> > > 5.2 nvme device to present itself with the Intel PCI vendor/device id,
-> > > either because the user explicitly set it, or because the machine is
-> > > launched using a pre-5.2 machine type (i.e. `-machine pc-q35-5.1`),
-> > > which you would normally do if you want launch an existing VM on a new
-> > > version of QEMU.
-> > 
-> > But if it presents an old machine it also shouldn't support a new
-> > identify call, right?
-> > 
+On 4/13/22 10:41, Christoph Hellwig wrote:
+> On Wed, Apr 13, 2022 at 10:38:50AM -0700, Luis Chamberlain wrote:
+>> On Tue, Apr 12, 2022 at 09:53:12PM -0700, Christoph Hellwig wrote:
+>>> On Tue, Apr 12, 2022 at 05:24:04PM -0700, Luis Chamberlain wrote:
+>>>> I do have CONFIG_NVME_MULTIPATH=y but I also have:
+>>>
+>>> I'd suggest to ignore broken tests that require a deprecated option
+>>> that will eventually be removed.
+>>
+>> CONFIG_NVME_MULTIPATH will eventually be nuked?
 > 
-> You are absolutely right in the case of live-migration, but hw/nvme is
-> marked unmigratable, so we do not worry about that.
+> You'll only get a single namespace without it once the phaseout is
+> complete, yes.  If you want nvme multipathing you'll need it, which
+> is the story since day one.
 > 
-> We probably screwed up with the compatibility parameter here, since it
-> really only guarantees the id and some headaches for you as driver
-> maintainer. I'm sorry about that - I'll keep this in mind for the
-> future.
-> 
-> Regardless, the fact remains that it is possible to have a device with a
-> buggy uuid namespace descriptor using the Intel identifier, so we should
-> add the quirk for that as well.
+> If Bart wants to test dm-multipath I think his earlier srp_tests are
+> the much better choice.
 
-Reporting that identifier really should be deprecated and removed if at all
-possible. There was a miscommunication regarding if that PCI device ID was
-actually reserved for this purpose (it wasn't). Intel at some point will use
-that DID for some device that isn't NVMe, then we're really going to be in
-difficult spot.
+I'm not sure whether the nvme-mp tests test any code that is not yet tested by
+any nvme or srp test. How about removing these tests since these tests make
+it harder than necessary to run blktests?
+
+Thanks,
+
+Bart.
 
