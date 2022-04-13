@@ -4,43 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A77CDC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 16:49:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60DB1C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Apr 2022 16:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XYwUDi7CaMqmGIVK81jAt0026TJp3h9OqBYfxlYLOrU=; b=pg3P30qkhredm8+yhYQCkrSJyz
-	z0bkuRp2zHBL5uHiWxxaV8/mcADfrX1ywqWU88wmDX6YfbxQU429khjfymtvapcDQXCohoBDN+0q1
-	Ojwu1SFl8ckg1WESD8y8PuZA/y8Lnbuq9G/d8K6+wEn2T9LvTLuKIY37QXLMorgrWyKzxXtNtQ47H
-	JzW98RfeYBZWb4Vz1A/i51c3YcywnX7ALPJ2SQlf2OGHPoor6FXGw7qsHctSB1ZGxj+482M982uQn
-	ih4WvlukE0c9KAGbhoM96DFSKOKGPmqBZ135PRtm5vE5zFYEgAByeFUFQbIOGnlK+Yii0ABoGig+M
-	To9mwYCQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=P0fbKDNEHmeZpvdiZjAYD9BBmT6DSxLRViVFl39gauc=; b=Atl1JkV9A+cWgeA0cZ6H4cn8mp
+	cAyN0EpPEi4o2D2HnCJlCqC/UEbkX5spGSPt5sSjWVFPeVvOgKIpIRjgJBML8JzPnqkagiUKU/dyI
+	UhuhbTGFFbG0W8PeyWsSfaZwsKNJRxgaBmyjcbKJ2a4OIBPGeol1NWv0gCekz+aZbfVq6E0jMNQPN
+	EjYD/C5cgimR1ZzqUn1/kgPK8TYD3tJ6A1vHYGT1C8yznhx4sAZCQdBtiWsf3VZLCnXynqZGp+eML
+	ZC/7SySlsSk64h1sMFazyCP19f+ff5+MQnS99qKSBvl/f5vDqlRQgnK/dPYWPPMBYcnoWMBYsX3uD
+	8oVgZcyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1negAo-001obO-1m; Wed, 13 Apr 2022 16:48:54 +0000
-Received: from out0.migadu.com ([2001:41d0:2:267::])
+	id 1negBb-001okU-NL; Wed, 13 Apr 2022 16:49:43 +0000
+Received: from out1.migadu.com ([91.121.223.63])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1negAk-001oa7-Os
- for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 16:48:52 +0000
-Message-ID: <b169b9c6-eecd-5a8a-6545-ad1176455374@linux.dev>
+ id 1negBU-001oiC-Gm
+ for linux-nvme@lists.infradead.org; Wed, 13 Apr 2022 16:49:38 +0000
+Message-ID: <cf4534ec-c8d1-c020-2079-5636177ca1b5@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1649868526;
+ t=1649868574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XYwUDi7CaMqmGIVK81jAt0026TJp3h9OqBYfxlYLOrU=;
- b=nCyl6iIFXemvfhWZQA6cEvQrDeDrkAlzSokXox3zpT5gO0IA3Ya14vubCgud5IoSeK6MWN
- o1Nio3zjrX8TCzYzaMpQndxp1sFK+crZ6C2HVMzv3BQhDy5aAMNOiQ7BfJ5kBI9yZwbx9c
- 1m6epQ9lyA8df4jqQJKJWI55nGk2VC0=
-Date: Wed, 13 Apr 2022 10:48:45 -0600
+ bh=P0fbKDNEHmeZpvdiZjAYD9BBmT6DSxLRViVFl39gauc=;
+ b=nFVVStCl/IA9UzI6dsUnTrsnG49JG86YO/pPOeoKrcvYWZvCuQp0wQTa5o56IWM4o8v6aE
+ 1vwJZ2oM2I7yYpefSyjR/HxtA+DIAMCmIpXl+x1A9nR6AU/SILIvdidRhpIUwG0jSSzI54
+ HwSllUw7n7qQQzzp2a66aG15lAG0dhM=
+Date: Wed, 13 Apr 2022 10:49:33 -0600
 MIME-Version: 1.0
 Subject: Re: [PATCH 3/3] nvme-core: mark internal passthru req REQ_QUIET
 Content-Language: en-US
-To: linux-nvme@lists.infradead.org
+To: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kbusch@kernel.org
 References: <20220411031249.5158-1-kch@nvidia.com>
  <20220411031249.5158-4-kch@nvidia.com>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
@@ -52,8 +53,8 @@ Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220413_094851_258334_851F8339 
-X-CRM114-Status: GOOD (  14.99  )
+X-CRM114-CacheID: sfid-20220413_094936_785276_B6265BE3 
+X-CRM114-Status: GOOD (  14.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,7 +69,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi
+Hi,
 
 On 4/10/2022 9:12 PM, Chaitanya Kulkarni wrote:
 > Mark internal passthru requests quiet in the submission path with
@@ -105,10 +106,10 @@ the block layer build the req with it?
 eg:
 flags |= REQ_QUIET;
 if (qid == NVME_QID_ANY)
-	req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
+     req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
 else
-	req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
-					qid ? qid - 1 : 0);
+     req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
+                     qid ? qid - 1 : 0);
 
 >   	ret = nvme_execute_rq(req, at_head);
 >   	if (result && ret >= 0)
