@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D27D7C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Apr 2022 04:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F3DCC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Apr 2022 04:55:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XZGhvwW8WnEXnqFpyMAZS4hEeSHoeSYBiqC69zbelFo=; b=vvU6J0aZTXsg/YJYso5HBmnanU
-	cByBrr7aaV4zJTGUYepmgqM5fSZxWnIJs0uFCRzlmv8qCKHZ6JRZJfU1kh6My/9sO7S8XfF2uhSeb
-	olPoZlcE+90Kb8SEsqa3b1Ki5gPKfgS+lm7Q07KTv6+kzl7Lj1/hstUAZe0qiv9xz+2NbD/ZB0ZVN
-	pNajt2dzqOYcTHYNWkOnzfyuMBfNlB2qp3eF8eqMZi7Pjd5Mc9gKaOm8F/BswjEHf1ALEzl9dTWXR
-	eduu9AkIxY+FjKNH71dJSvJnY3TcOuXXK4+nclqKOfrNDBkoEkEBINMg03M9/fkW6zt3LsZWLllb3
-	0nlUw6Ow==;
+	bh=pjOlLI0zIPscdljJBqydWvc1kCbsO4mNomowvsnW144=; b=2WaQp5c4219t0rr6M8ooLtlZgT
+	tMJAPHlKm3lpW6V3mWsQZiMogDpJF8uZeZmCq3iV65wxIaEUjF6gDsQz73ZTlslIcBxTum/iPaXac
+	PAmYS0qGUuxnuq4spDHo+42u7x8MnU0NhCY7fFaG2o0IErYTAW6cYmJ4SNlRzVIPzzwe+TzqQLlfk
+	99rDHw2kwzlMHB0WswBRy12ioQeoGbjQ1+aBUlijlFQFfjg76dMtU0VnPrHVOGXBHFc43Y1GgnW6Y
+	CF7znS1FkFHZ4mwVMZzRG0dBrAluIfOcMu+Na/Nu5e/a7AhK5DsXn9TcIh3QgNSdXiRFsBoXidNh4
+	bGYaCakQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nfDz1-008QXB-PD; Fri, 15 Apr 2022 04:54:59 +0000
+	id 1nfDzL-008QpJ-JA; Fri, 15 Apr 2022 04:55:19 +0000
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nfDxW-008OrQ-LX; Fri, 15 Apr 2022 04:53:27 +0000
+ id 1nfDxZ-008OtX-AH; Fri, 15 Apr 2022 04:53:29 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
@@ -40,9 +40,10 @@ Cc: dm-devel@redhat.com, linux-xfs@vger.kernel.org,
  jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
  ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com, linux-mm@kvack.org,
  =?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: [PATCH 05/27] drbd: use bdev based limit helpers in drbd_send_sizes
-Date: Fri, 15 Apr 2022 06:52:36 +0200
-Message-Id: <20220415045258.199825-6-hch@lst.de>
+Subject: [PATCH 06/27] drbd: use bdev_alignment_offset instead of
+ queue_alignment_offset
+Date: Fri, 15 Apr 2022 06:52:37 +0200
+Message-Id: <20220415045258.199825-7-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220415045258.199825-1-hch@lst.de>
 References: <20220415045258.199825-1-hch@lst.de>
@@ -63,47 +64,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the bdev based limits helpers where they exist.
+The bdev version does the right thing for partitions, so use that.
 
+Fixes: 9104d31a759f ("drbd: introduce WRITE_SAME support")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
 ---
- drivers/block/drbd/drbd_main.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/block/drbd/drbd_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index 367715205c860..c39b04bda261f 100644
+index c39b04bda261f..7b501c8d59928 100644
 --- a/drivers/block/drbd/drbd_main.c
 +++ b/drivers/block/drbd/drbd_main.c
-@@ -924,7 +924,9 @@ int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enu
- 
- 	memset(p, 0, packet_size);
- 	if (get_ldev_if_state(device, D_NEGOTIATING)) {
--		struct request_queue *q = bdev_get_queue(device->ldev->backing_bdev);
-+		struct block_device *bdev = device->ldev->backing_bdev;
-+		struct request_queue *q = bdev_get_queue(bdev);
-+
- 		d_size = drbd_get_max_capacity(device->ldev);
- 		rcu_read_lock();
- 		u_size = rcu_dereference(device->ldev->disk_conf)->disk_size;
-@@ -933,13 +935,13 @@ int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enu
- 		max_bio_size = queue_max_hw_sectors(q) << 9;
- 		max_bio_size = min(max_bio_size, DRBD_MAX_BIO_SIZE);
- 		p->qlim->physical_block_size =
--			cpu_to_be32(queue_physical_block_size(q));
-+			cpu_to_be32(bdev_physical_block_size(bdev));
+@@ -939,7 +939,7 @@ int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enu
  		p->qlim->logical_block_size =
--			cpu_to_be32(queue_logical_block_size(q));
-+			cpu_to_be32(bdev_logical_block_size(bdev));
+ 			cpu_to_be32(bdev_logical_block_size(bdev));
  		p->qlim->alignment_offset =
- 			cpu_to_be32(queue_alignment_offset(q));
--		p->qlim->io_min = cpu_to_be32(queue_io_min(q));
--		p->qlim->io_opt = cpu_to_be32(queue_io_opt(q));
-+		p->qlim->io_min = cpu_to_be32(bdev_io_min(bdev));
-+		p->qlim->io_opt = cpu_to_be32(bdev_io_opt(bdev));
+-			cpu_to_be32(queue_alignment_offset(q));
++			cpu_to_be32(bdev_alignment_offset(bdev));
+ 		p->qlim->io_min = cpu_to_be32(bdev_io_min(bdev));
+ 		p->qlim->io_opt = cpu_to_be32(bdev_io_opt(bdev));
  		p->qlim->discard_enabled = blk_queue_discard(q);
- 		put_ldev(device);
- 	} else {
 -- 
 2.30.2
 
