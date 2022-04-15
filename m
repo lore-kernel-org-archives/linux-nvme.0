@@ -4,93 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17754C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Apr 2022 14:22:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 615C0C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Apr 2022 14:23:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fdR2ry7vukdtAoO4+NBTW3UbyTPfG6G1rCwnW2fmsNY=; b=inKsn3LhNJrD+BQ4wBzctMKQPG
-	xDU/Or6MitI/3OeTZmufP/Hh1w8VLdo65Cgu5bxrUoeyr2rkt53QmQQKNTCfNmBOVGs4ju2/lS/HV
-	c8vcURF3itU8xQCs52syeMK0UeklURgWKBIbQCC2wJr6LKzmRoVIlGoy+Vwv5dN4v1OZZSJhUzO6t
-	NCAvKFawgB4sE4IHgG+GvnwRbWiF/tQBAC2TvcxAYIMG6/QbszfgrF0rjg+kKshkOSOWg4zxCs+9L
-	VyCykFnbFi/ylKzzmwVlU6LANeWoC1XmHP7Qd40tSMmyKPhqJly3DkHfyT67ox3APDmGmlGMfzFV3
-	wOMZZzXw==;
+	bh=xD4ZqIAlT7aLt1209ezWtLFjvsj32iTB7xRB9Q44zjQ=; b=aoqiDsNDtPLdMCkRDPSA7rJh4u
+	vHdw0KSV8LJObIRLeljBYH8+Bp5TxFe4Iz25UtBCDFIvJ7YsLi0NNMQxk9pOOZdxheCvYb7JfO9kn
+	OpG6LtBHO1VRmGzpFWgP/w3DSNs7cESu3HuOkdEknE1GE+sWCcz6Za9HGx/YCU7TA589IIGEdI4uM
+	NCnNy+lEaqp4JXC6S95/N7+Mh/z+7by1unhSooG+zkHZd/MCap1Y9n0fSUDtwzqp+WgqPL6vxvpNb
+	Ddc+jRp6VVoaq6yPi40PmxCDvs+ytzDwKufEHLys2MpP6yqyEyQH+J3IXJzPuzaP45HRno0Hjy5p2
+	JgGK9rgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nfMqG-00AIsZ-FJ; Fri, 15 Apr 2022 14:22:32 +0000
+	id 1nfMql-00AJ82-UQ; Fri, 15 Apr 2022 14:23:04 +0000
 Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nfMox-00AIEs-FW; Fri, 15 Apr 2022 14:21:13 +0000
+ id 1nfMp0-00AIGz-1r; Fri, 15 Apr 2022 14:21:16 +0000
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id B06965C01E1;
- Fri, 15 Apr 2022 10:21:08 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 6BA195C01E6;
+ Fri, 15 Apr 2022 10:21:13 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 15 Apr 2022 10:21:08 -0400
+ by compute5.internal (MEProxy); Fri, 15 Apr 2022 10:21:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1650032468; x=
- 1650118868; bh=fdR2ry7vukdtAoO4+NBTW3UbyTPfG6G1rCwnW2fmsNY=; b=C
- 2EwiKaV4twXsvd6Wra//CSIAiq4BnVIludyP1VeZheQIS4IsUk64B9vO0wv/rfPC
- YKWvX0Pz9cPcmsbAJZqphyqoH2Z3gClq7DZ8itlWkV3/SOh8tH04h3XNPrBrRvc6
- e0r/Qf8HBNnsOwWX57AFTpKxMr9B4R2s4zuWBrH5aN1dwCiQezuN3dI6Q4BmVeru
- c6+StGm6ZOInJTpPP8dRI7Xwn4u9jgK0lNNxOuJxOivZ0kI2jG9Jqm8xeC0feEpo
- 0uC/4YMAoHnPtLCUG3evKwaMO3DYwgJywfTOPiPa74YRmBeNbJ+3ZXgryK3uU4PV
- STt6juwCxA0SSAMI52oMQ==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1650032473; x=
+ 1650118873; bh=xD4ZqIAlT7aLt1209ezWtLFjvsj32iTB7xRB9Q44zjQ=; b=d
+ +l9KXXtjxBMdYSX7LR/JNG7QNjZk8pOJnk7fiFVChhvQMKRsnTexciQ5YnC+n6TY
+ OAr/wFxC0MoPV7JEND2jd5rZFcTui19Jozs8EwLPKi5Il9Chf1CE0AI0mQIh1QU5
+ hIeVGlOuvUrqLPCFl9CiARRMe5lS5qCwU/vlK1r97BxwOm6AhDS8/9LhyeAuAFi7
+ Dafzd1vJKCopIsJ7ypjpZmhwc2shX4vWJQPCRjghsx6ZMT0Q1pEe+AjGYplz6wCe
+ +nG8iXNeTVpN4hCA/yIWpJI9HBu9tUI7Xi8fFciTayi8wAgzNYUPGn2xioaTX732
+ 2SaffjGWgog0oFRuK57WQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650032468; x=1650118868; bh=fdR2ry7vukdtAoO4+NBTW3UbyTPfG6G1rCw
- nW2fmsNY=; b=dUiw/r0coe9zMDhtDLNXMsbm9jeQAGLtvIhb0iCGFMV6d4TFkSw
- xVNttl2LPKG2JyiPAIg0f8En3AWup+Xhbj9y9r+xQdv/t/zlsT8rnSTYeZEjYrSE
- PYKc8HeELn1feybYSQT94vZVaRGnjQIyT8WEUQF0OAhwitkBLCGJFrxwI8Pj3Arq
- DYZzKte0GL0dTuvsd+5QRPqklNoZ6XEpCnVh1NMdqZvHmC5R/5QkBWIBgkMVcYCr
- YekbF0fCG16G+PJj0niCoVXoPmLvrUswclhalF2cbP/857NKujDSDg2bO24CkuyU
- CGXEcMzO+nj/dm93DI8yDwsvsAm/kktepUw==
-X-ME-Sender: <xms:VH9ZYl0ft8E41Kg0qniBwgISsUG3Abvc_wEObjTaP7EZ0Z_zaGtbHg>
- <xme:VH9ZYsEE2Nj2_l40o4c0Ojf3gbcC3dYvjKmgc47Mq4Zo2f62gQ7H_boBjmsdyDcOn
- 10nnMWjOyzz3hBjtGA>
-X-ME-Received: <xmr:VH9ZYl7Eix8BoLPa84sFYTTzcf7Qe7-sVnG2-mNDwvyQRUIQovulwRM_kA_UFajoEY93FGCYVB-IKWsjiQl2ef5rMKYa437jes6pz7Q7u7ip_fqizkpGyNv3KfgH9iE>
+ 1650032473; x=1650118873; bh=xD4ZqIAlT7aLt1209ezWtLFjvsj32iTB7xR
+ B9Q44zjQ=; b=FrALxWzPgoyenReMazEL94YNfsC8Lq97NR5bia+Srrq4EJKnKbw
+ D6ZDoYo+9ww4XYOz+7ioC8iAhCbjqou3TWDr/gtRlY2fPc14ROURLA8PpnLUJyEX
+ X8IG6ktkpnqnIgvV1GSufS+jOFJ6bp8yuLLukvYo/tiXSIM+98E2RPd4U29BLRMl
+ 6L9tp+jcW0yuSBh2BC/UFAQQFmAwjydAcN8gazwxQRHdeCSwdBGS1hsnlPAbeMAX
+ XLeK0cB/E0O+o3SuX5kMHlGPm7mdfHHKRNCJqAWN77EXOc7MobZ+sRzp0SmKc5XQ
+ hD4q95E2aRrofFFuN4ZU/A8mBojX7s1jdgQ==
+X-ME-Sender: <xms:WX9ZYj1-EItTxiZI0yjZV3Wgtim2WiEJz-QPFA1-7NW-AFKyVS62EQ>
+ <xme:WX9ZYiGqopUoGMcRiz6VP50CWhAHOEG60GtbRL5LmxsubeSbXtVQ0WiC4Cb_Wl1Kx
+ RV7WX1Yphupn3uYHh4>
+X-ME-Received: <xmr:WX9ZYj5u6EboOF6e25M_UYsQp7e_zNAZo6Uh4MRZ0O4051B5HJ6ok6WeZN3caH4dVlCZewdVP5jU5EwRWEsBkHY8nXvg4YLmHddkqNM1YJQ6FdHJPH52hZPZF4p5Qu4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelhedgjeeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcu
  rfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvg
- hrnhephfefffejvdekleeitdffiefhhfffveffieejteefhedutdfgffeftdejhedtteeh
- necuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
- uggvvh
-X-ME-Proxy: <xmx:VH9ZYi18etAN8m7JHEFAjA2qIGrtkOUKCUd2dWHhPbnyGyWZPumS2g>
- <xmx:VH9ZYoERd4t9q71O7vX5_9LF1gS3XzFLrmxrzgmrePL8mXgbMjdhow>
- <xmx:VH9ZYj_2Pt15XZIcct6zY_o0pev2Ou_WEf0sOCrLzD6zx_qPhJwyEA>
- <xmx:VH9ZYsGqIKM_MfANmddHhJCJRVUjGHSF4wl45WPUnCfFBR4ghYOvKg>
+ hrnheptedvkeetleeuffffhfekteetffeggffgveehieelueefvddtueffveevlefhfeej
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
+ hnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:WX9ZYo0QDq6Es60rSfjV58PK4_qQJD5bNmH89f3-jTyCMgXZMo5Ibw>
+ <xmx:WX9ZYmF-G4M64xNX-efPpz2UsjcJwmNmfnLNFy6L0lgwH54zG4PBvw>
+ <xmx:WX9ZYp-RkqZJQKAkxSVHIyCrx5vMjEL7sBhI5aF13dxuiJjNxFU0tQ>
+ <xmx:WX9ZYiF9EELdJtxP3uwaXmkaOMgI28wSb2U5kaUhLEoY4_E_J6S5Mg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Apr 2022 10:21:06 -0400 (EDT)
+ 15 Apr 2022 10:21:11 -0400 (EDT)
 From: Sven Peter <sven@svenpeter.dev>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
 Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Arnd Bergmann <arnd@arndb.de>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: [PATCH v2 2/6] dt-bindings: nvme: Add Apple ANS NVMe
-Date: Fri, 15 Apr 2022 16:20:51 +0200
-Message-Id: <20220415142055.30873-3-sven@svenpeter.dev>
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Marc Zyngier <maz@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [PATCH v2 4/6] soc: apple: Add SART driver
+Date: Fri, 15 Apr 2022 16:20:53 +0200
+Message-Id: <20220415142055.30873-5-sven@svenpeter.dev>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20220415142055.30873-1-sven@svenpeter.dev>
 References: <20220415142055.30873-1-sven@svenpeter.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220415_072111_668077_2AEA81A3 
-X-CRM114-Status: GOOD (  15.34  )
+X-CRM114-CacheID: sfid-20220415_072114_295367_6A6F26A6 
+X-CRM114-Status: GOOD (  31.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,150 +104,482 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Apple SoCs such as the M1 come with an embedded NVMe coprocessor called
-ANS2.
+The NVMe co-processor on the Apple M1 uses a DMA address filter called
+SART for some DMA transactions. This adds a simple driver used to
+configure the memory regions from which DMA transactions are allowed.
 
+Unlike a real IOMMU, SART does not support any pagetables and can't be
+implemented inside the IOMMU subsystem using iommu_ops.
+
+It also can't be implemented using dma_map_ops since not all DMA
+transactions of the NVMe controller are filtered by SART.
+Instead, most buffers have to be registered using the integrated NVMe
+IOMMU and we can't have two separate dma_map_ops implementations for a
+single device.
+
+Co-developed-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Sven Peter <sven@svenpeter.dev>
 ---
 v1 -> v2:
-  - Moved to bindings/nvme (Krzysztof Kozlowski)
-  - Added power-domains and power-domain-names min/maxItems
-    (Krzysztof Kozlowski)
+  - Added explanation why this can't be an IOMMU or dma_map_ops
+    implementation (Arnd Bergmann)
+  - Used non-relaxed accessors everwhere since the paths aren't
+    performance critical (Arnd Bergmann)
+  - Fixed errno return values to be negative (Arnd Bergmann)
+  - apple_sart_get -> devm_apple_sart_get to add put_device
+  - Disallow using the interface without CONFIG_APPLE_SART and
+    make all consumers hard-depend on that (Arnd Bergmann)
 
- .../bindings/nvme/apple,nvme-ans.yaml         | 111 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+ MAINTAINERS                    |   1 +
+ drivers/soc/apple/Kconfig      |  11 ++
+ drivers/soc/apple/Makefile     |   3 +
+ drivers/soc/apple/sart.c       | 327 +++++++++++++++++++++++++++++++++
+ include/linux/soc/apple/sart.h |  57 ++++++
+ 5 files changed, 399 insertions(+)
+ create mode 100644 drivers/soc/apple/sart.c
+ create mode 100644 include/linux/soc/apple/sart.h
 
-diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-new file mode 100644
-index 000000000000..ddff9233b159
---- /dev/null
-+++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple ANS NVM Express host controller
-+
-+maintainers:
-+  - Sven Peter <sven@svenpeter.dev>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,t8103-nvme-ans2
-+          - apple,t6000-nvme-ans2
-+      - const: apple,nvme-ans2
-+
-+  reg:
-+    items:
-+      - description: NVMe and NVMMU registers
-+      - description: ANS2 co-processor control registers
-+
-+  reg-names:
-+    items:
-+      - const: nvme
-+      - const: ans
-+
-+  resets:
-+    maxItems: 1
-+
-+  power-domains:
-+    # two domains for t8103, three for t6000
-+    minItems: 2
-+    items:
-+      - description: power domain for the NVMe controller.
-+      - description: power domain for the first PCIe bus connecting the NVMe
-+          controller to the storage modules.
-+      - description: optional power domain for the second PCIe bus
-+          connecting the NVMe controller to the storage modules.
-+
-+  power-domain-names:
-+    minItems: 2
-+    items:
-+      - const: ans
-+      - const: apcie0
-+      - const: apcie1
-+
-+  mboxes:
-+    maxItems: 1
-+    description: Mailbox of the ANS2 co-processor
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  apple,sart:
-+    maxItems: 1
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      Reference to the SART address filter.
-+
-+      The SART address filter is documented in iommu/apple,sart.yaml.
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: apple,t8103-nvme-ans2
-+then:
-+  properties:
-+    power-domains:
-+      maxItems: 2
-+    power-domain-names:
-+      maxItems: 2
-+else:
-+  properties:
-+    power-domains:
-+      minItems: 3
-+    power-domain-names:
-+      minItems: 3
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - resets
-+  - power-domains
-+  - power-domain-names
-+  - mboxes
-+  - interrupts
-+  - apple,sart
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/apple-aic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    nvme@7bcc0000 {
-+      compatible = "apple,t8103-nvme-ans2", "apple,nvme-ans2";
-+      reg = <0x7bcc0000 0x40000>, <0x77400000 0x4000>;
-+      reg-names = "nvme", "ans";
-+      interrupts = <AIC_IRQ 590 IRQ_TYPE_LEVEL_HIGH>;
-+      mboxes = <&ans>;
-+      apple,sart = <&sart>;
-+      power-domains = <&ps_ans2>, <&ps_apcie_st>;
-+      power-domain-names = "ans", "apcie0";
-+      resets = <&ps_ans2>;
-+    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4961da640e82..1bc8b732f129 100644
+index 1bc8b732f129..24b94c386f33 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1838,6 +1838,7 @@ F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
-+F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
+@@ -1855,6 +1855,7 @@ F:	drivers/watchdog/apple_wdt.c
+ F:	include/dt-bindings/interrupt-controller/apple-aic.h
+ F:	include/dt-bindings/pinctrl/apple.h
+ F:	include/linux/apple-mailbox.h
++F:	include/linux/soc/apple/*
+ 
+ ARM/ARTPEC MACHINE SUPPORT
+ M:	Jesper Nilsson <jesper.nilsson@axis.com>
+diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
+index 9b8de31d6a8f..8c37ffd53fbd 100644
+--- a/drivers/soc/apple/Kconfig
++++ b/drivers/soc/apple/Kconfig
+@@ -17,6 +17,17 @@ config APPLE_PMGR_PWRSTATE
+ 	  controls for SoC devices. This driver manages them through the
+ 	  generic power domain framework, and also provides reset support.
+ 
++config APPLE_SART
++	tristate "Apple SART DMA address filter"
++	depends on ARCH_APPLE || COMPILE_TEST
++	default ARCH_APPLE
++	help
++	  Apple SART is a simple DMA address filter used on Apple SoCs such
++	  as the M1. It is usually required for the NVMe coprocessor which does
++	  not use a proper IOMMU.
++
++	  Say 'y' here if you have an Apple SoC.
++
+ endmenu
+ 
+ endif
+diff --git a/drivers/soc/apple/Makefile b/drivers/soc/apple/Makefile
+index c114e84667e4..c83c66317098 100644
+--- a/drivers/soc/apple/Makefile
++++ b/drivers/soc/apple/Makefile
+@@ -1,2 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_APPLE_PMGR_PWRSTATE)	+= apple-pmgr-pwrstate.o
++
++obj-$(CONFIG_APPLE_SART) += apple-sart.o
++apple-sart-y = sart.o
+diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
+new file mode 100644
+index 000000000000..986300e10aa8
+--- /dev/null
++++ b/drivers/soc/apple/sart.c
+@@ -0,0 +1,327 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/*
++ * Apple SART device driver
++ * Copyright (C) The Asahi Linux Contributors
++ *
++ * Apple SART is a simple address filter for some DMA transactions.
++ * Regions of physical memory must be added to the SART's allow
++ * list before any DMA can target these. Unlike a proper
++ * IOMMU no remapping can be done and special support in the
++ * consumer driver is required since not all DMA transactions of
++ * a single device are subject to SART filtering.
++ */
++
++#include <linux/soc/apple/sart.h>
++#include <linux/atomic.h>
++#include <linux/bits.h>
++#include <linux/bitfield.h>
++#include <linux/device.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
++#include <linux/types.h>
++
++#define APPLE_SART_MAX_ENTRIES 16
++
++/* This is probably a bitfield but the exact meaning of each bit is unknown. */
++#define APPLE_SART_FLAGS_ALLOW 0xff
++
++/* SARTv2 registers */
++#define APPLE_SART2_CONFIG(idx)	      (0x00 + 4 * (idx))
++#define APPLE_SART2_CONFIG_FLAGS      GENMASK(31, 24)
++#define APPLE_SART2_CONFIG_SIZE	      GENMASK(23, 0)
++#define APPLE_SART2_CONFIG_SIZE_SHIFT 12
++#define APPLE_SART2_CONFIG_SIZE_MAX   GENMASK(23, 0)
++
++#define APPLE_SART2_PADDR(idx)	(0x40 + 4 * (idx))
++#define APPLE_SART2_PADDR_SHIFT 12
++
++/* SARTv3 registers */
++#define APPLE_SART3_CONFIG(idx) (0x00 + 4 * (idx))
++
++#define APPLE_SART3_PADDR(idx)	(0x40 + 4 * (idx))
++#define APPLE_SART3_PADDR_SHIFT 12
++
++#define APPLE_SART3_SIZE(idx)  (0x80 + 4 * (idx))
++#define APPLE_SART3_SIZE_SHIFT 12
++#define APPLE_SART3_SIZE_MAX   GENMASK(29, 0)
++
++struct apple_sart_ops {
++	void (*get_entry)(struct apple_sart *sart, int index, u8 *flags,
++			  phys_addr_t *paddr, size_t *size);
++	int (*set_entry)(struct apple_sart *sart, int index, u8 flags,
++			 phys_addr_t paddr, size_t size);
++};
++
++struct apple_sart {
++	struct device *dev;
++	void __iomem *regs;
++
++	const struct apple_sart_ops *ops;
++
++	unsigned long protected_entries;
++	unsigned long used_entries;
++};
++
++static void sart2_get_entry(struct apple_sart *sart, int index, u8 *flags,
++			    phys_addr_t *paddr, size_t *size)
++{
++	u32 cfg = readl(sart->regs + APPLE_SART2_CONFIG(index));
++	u32 paddr_ = readl(sart->regs + APPLE_SART2_PADDR(index));
++	u32 size_ = FIELD_GET(APPLE_SART2_CONFIG_SIZE, cfg);
++
++	*flags = FIELD_GET(APPLE_SART2_CONFIG_FLAGS, cfg);
++	*size = (size_t)size_ << APPLE_SART2_CONFIG_SIZE_SHIFT;
++	*paddr = (phys_addr_t)paddr_ << APPLE_SART2_PADDR_SHIFT;
++}
++
++static int sart2_set_entry(struct apple_sart *sart, int index, u8 flags,
++			   phys_addr_t paddr, size_t size)
++{
++	u32 cfg;
++
++	if (size & ((1 << APPLE_SART2_CONFIG_SIZE_SHIFT) - 1))
++		return -EINVAL;
++	if (paddr & ((1 << APPLE_SART2_PADDR_SHIFT) - 1))
++		return -EINVAL;
++
++	size >>= APPLE_SART2_CONFIG_SIZE_SHIFT;
++	paddr >>= APPLE_SART2_PADDR_SHIFT;
++
++	if (size > APPLE_SART2_CONFIG_SIZE_MAX)
++		return -EINVAL;
++
++	cfg = FIELD_PREP(APPLE_SART2_CONFIG_FLAGS, flags);
++	cfg |= FIELD_PREP(APPLE_SART2_CONFIG_SIZE, size);
++
++	writel(paddr, sart->regs + APPLE_SART2_PADDR(index));
++	writel(cfg, sart->regs + APPLE_SART2_CONFIG(index));
++
++	return 0;
++}
++
++static struct apple_sart_ops sart_ops_v2 = {
++	.get_entry = sart2_get_entry,
++	.set_entry = sart2_set_entry,
++};
++
++static void sart3_get_entry(struct apple_sart *sart, int index, u8 *flags,
++			    phys_addr_t *paddr, size_t *size)
++{
++	u32 paddr_ = readl(sart->regs + APPLE_SART3_PADDR(index));
++	u32 size_ = readl(sart->regs + APPLE_SART3_SIZE(index));
++
++	*flags = readl(sart->regs + APPLE_SART3_CONFIG(index));
++	*size = (size_t)size_ << APPLE_SART3_SIZE_SHIFT;
++	*paddr = (phys_addr_t)paddr_ << APPLE_SART3_PADDR_SHIFT;
++}
++
++static int sart3_set_entry(struct apple_sart *sart, int index, u8 flags,
++			   phys_addr_t paddr, size_t size)
++{
++	if (size & ((1 << APPLE_SART3_SIZE_SHIFT) - 1))
++		return -EINVAL;
++	if (paddr & ((1 << APPLE_SART3_PADDR_SHIFT) - 1))
++		return -EINVAL;
++
++	paddr >>= APPLE_SART3_PADDR_SHIFT;
++	size >>= APPLE_SART3_SIZE_SHIFT;
++
++	if (size > APPLE_SART3_SIZE_MAX)
++		return -EINVAL;
++
++	writel(paddr, sart->regs + APPLE_SART3_PADDR(index));
++	writel(size, sart->regs + APPLE_SART3_SIZE(index));
++	writel(flags, sart->regs + APPLE_SART3_CONFIG(index));
++
++	return 0;
++}
++
++static struct apple_sart_ops sart_ops_v3 = {
++	.get_entry = sart3_get_entry,
++	.set_entry = sart3_set_entry,
++};
++
++static int apple_sart_probe(struct platform_device *pdev)
++{
++	int i;
++	struct apple_sart *sart;
++	struct device *dev = &pdev->dev;
++
++	sart = devm_kzalloc(dev, sizeof(*sart), GFP_KERNEL);
++	if (!sart)
++		return -ENOMEM;
++
++	sart->dev = dev;
++	sart->ops = of_device_get_match_data(dev);
++
++	sart->regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(sart->regs))
++		return PTR_ERR(sart->regs);
++
++	for (i = 0; i < APPLE_SART_MAX_ENTRIES; ++i) {
++		u8 flags;
++		size_t size;
++		phys_addr_t paddr;
++
++		sart->ops->get_entry(sart, i, &flags, &paddr, &size);
++
++		if (!flags)
++			continue;
++
++		dev_dbg(sart->dev,
++			"SART bootloader entry: index %02d; flags: 0x%02x; paddr: %pa; size: 0x%zx\n",
++			i, flags, &paddr, size);
++		set_bit(i, &sart->protected_entries);
++	}
++
++	platform_set_drvdata(pdev, sart);
++	return 0;
++}
++
++struct apple_sart *devm_apple_sart_get(struct device *dev)
++{
++	struct device_node *sart_node;
++	struct platform_device *sart_pdev;
++	struct apple_sart *sart;
++	int ret;
++
++	sart_node = of_parse_phandle(dev->of_node, "apple,sart", 0);
++	if (!sart_node)
++		return ERR_PTR(-ENODEV);
++
++	sart_pdev = of_find_device_by_node(sart_node);
++	of_node_put(sart_node);
++
++	if (!sart_pdev)
++		return ERR_PTR(-ENODEV);
++
++	sart = dev_get_drvdata(&sart_pdev->dev);
++	if (!sart) {
++		put_device(&sart_pdev->dev);
++		return ERR_PTR(-EPROBE_DEFER);
++	}
++
++	ret = devm_add_action_or_reset(dev, (void (*)(void *))put_device,
++				       &sart_pdev->dev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	device_link_add(dev, &sart_pdev->dev,
++			DL_FLAG_PM_RUNTIME | DL_FLAG_AUTOREMOVE_SUPPLIER);
++
++	return sart;
++}
++EXPORT_SYMBOL(devm_apple_sart_get);
++
++int apple_sart_add_allowed_region(struct apple_sart *sart, phys_addr_t paddr,
++				  size_t size)
++{
++	int i, ret;
++
++	for (i = 0; i < APPLE_SART_MAX_ENTRIES; ++i) {
++		if (test_bit(i, &sart->protected_entries))
++			continue;
++		if (test_and_set_bit(i, &sart->used_entries))
++			continue;
++
++		ret = sart->ops->set_entry(sart, i, APPLE_SART_FLAGS_ALLOW,
++					   paddr, size);
++		if (ret) {
++			dev_dbg(sart->dev,
++				"unable to set entry %d to [%pa, 0x%zx]\n",
++				i, &paddr, size);
++			clear_bit(i, &sart->used_entries);
++			return ret;
++		}
++
++		dev_dbg(sart->dev, "wrote [%pa, 0x%zx] to %d\n", &paddr, size,
++			i);
++		return 0;
++	}
++
++	dev_warn(sart->dev,
++		 "no free entries left to add [paddr: 0x%llx, size: 0x%zx]\n",
++		 paddr, size);
++
++	return -EBUSY;
++}
++EXPORT_SYMBOL(apple_sart_add_allowed_region);
++
++int apple_sart_remove_allowed_region(struct apple_sart *sart, phys_addr_t paddr,
++				     size_t size)
++{
++	int i;
++
++	dev_dbg(sart->dev,
++		"will remove [paddr: %pa, size: 0x%zx] from allowed regions\n",
++		&paddr, size);
++
++	for (i = 0; i < APPLE_SART_MAX_ENTRIES; ++i) {
++		u8 eflags;
++		size_t esize;
++		phys_addr_t epaddr;
++
++		if (test_bit(i, &sart->protected_entries))
++			continue;
++
++		sart->ops->get_entry(sart, i, &eflags, &epaddr, &esize);
++
++		if (epaddr != paddr || esize != size)
++			continue;
++
++		sart->ops->set_entry(sart, i, 0, 0, 0);
++
++		clear_bit(i, &sart->used_entries);
++		dev_dbg(sart->dev, "cleared entry %d\n", i);
++		return 0;
++	}
++
++	dev_warn(sart->dev, "entry [paddr: 0x%llx, size: 0x%zx] not found\n",
++		 paddr, size);
++
++	return -EINVAL;
++}
++EXPORT_SYMBOL(apple_sart_remove_allowed_region);
++
++static void apple_sart_shutdown(struct platform_device *pdev)
++{
++	struct apple_sart *sart = dev_get_drvdata(&pdev->dev);
++	int i;
++
++	for (i = 0; i < APPLE_SART_MAX_ENTRIES; ++i) {
++		if (test_bit(i, &sart->protected_entries))
++			continue;
++
++		sart->ops->set_entry(sart, i, 0, 0, 0);
++	}
++}
++
++static const struct of_device_id apple_sart_of_match[] = {
++	{
++		.compatible = "apple,t6000-sart",
++		.data = &sart_ops_v3,
++	},
++	{
++		.compatible = "apple,t8103-sart",
++		.data = &sart_ops_v2,
++	},
++	{}
++};
++MODULE_DEVICE_TABLE(of, apple_sart_of_match);
++
++static struct platform_driver apple_sart_driver = {
++	.driver = {
++		.name = "apple-sart",
++		.of_match_table = apple_sart_of_match,
++	},
++	.probe = apple_sart_probe,
++	.shutdown = apple_sart_shutdown,
++};
++module_platform_driver(apple_sart_driver);
++
++MODULE_LICENSE("Dual MIT/GPL");
++MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
++MODULE_DESCRIPTION("Apple SART driver");
+diff --git a/include/linux/soc/apple/sart.h b/include/linux/soc/apple/sart.h
+new file mode 100644
+index 000000000000..d24b2d9b505f
+--- /dev/null
++++ b/include/linux/soc/apple/sart.h
+@@ -0,0 +1,57 @@
++/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
++/*
++ * Apple SART device driver
++ * Copyright (C) The Asahi Linux Contributors
++ *
++ * Apple SART is a simple address filter for DMA transactions.
++ * Regions of physical memory must be added to the SART's allow
++ * list before any DMA can target these. Unlike a proper
++ * IOMMU no remapping can be done.
++ */
++
++#ifndef _LINUX_SOC_APPLE_SART_H_
++#define _LINUX_SOC_APPLE_SART_H_
++
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/types.h>
++
++#if IS_ENABLED(CONFIG_APPLE_SART)
++
++struct apple_sart;
++
++/*
++ * Get a reference to the SART attached to dev.
++ *
++ * Looks for the phandle reference in apple,sart and returns a pointer
++ * to the corresponding apple_sart struct to be used with
++ * apple_sart_add_allowed_region and apple_sart_remove_allowed_region.
++ */
++struct apple_sart *devm_apple_sart_get(struct device *dev);
++
++/*
++ * Adds the region [paddr, paddr+size] to the DMA allow list.
++ *
++ * @sart: SART reference
++ * @paddr: Start address of the region to be used for DMA
++ * @size: Size of the region to be used for DMA.
++ */
++int apple_sart_add_allowed_region(struct apple_sart *sart, phys_addr_t paddr,
++				  size_t size);
++
++/*
++ * Removes the region [paddr, paddr+size] from the DMA allow list.
++ *
++ * Note that exact same paddr and size used for apple_sart_add_allowed_region
++ * have to be passed.
++ *
++ * @sart: SART reference
++ * @paddr: Start address of the region no longer used for DMA
++ * @size: Size of the region no longer used for DMA.
++ */
++int apple_sart_remove_allowed_region(struct apple_sart *sart, phys_addr_t paddr,
++				     size_t size);
++
++#endif /* IS_ENABLED(CONFIG_APPLE_SART) */
++
++#endif /* _LINUX_SOC_APPLE_SART_H_ */
 -- 
 2.25.1
 
