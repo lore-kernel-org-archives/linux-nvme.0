@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53F42C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CD6DC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l98+JE7NsbGjf5nWv4p96TEYrrJUm3Xf8r7AJ/Re+50=; b=BdiTUFqA9FKlGepfG0IoK8taRX
-	N82CHoV0INbf0rrn+tzHnOQGrm02fobHz+ZAjv6G9kSe1yImZj2rZL0A42WcwBuZxvhdRjvDPzPmT
-	gY+QLnwVkPsf5NzZp/UsZp9wS0tKTN//tuGR6hFetb/9SI2mUKBLEL39p/FU7cIyTASeyRPYxiBsj
-	BGrIyySj/GVrHzKg89XIUx8IzfWDbgm2HYrsJirXYkjcIoPbOs2VZCQXzT3H/ob6WDnsYcnwJ2/Ev
-	AW/R1x5cJSubJcyxtxwP1feylwrLqnVe4Jm2kC6Z0SMIxs2sbOsWq4cKEm7Yd9POXGuJHlpqEYCzy
-	qq69xpVA==;
+	bh=FtH/TzYq8qAlMP8iMYBlGWDgAyvZ+dC0QKeXw0CO9iY=; b=1Shne6jPYC6jNRMODxfz7ShbVr
+	RUuWdJ+JE2iVZKbOyfX5WQKDREDj5rULMhqUgPqD4gqzSz8RVMgBSBMxTXgERHFaXNOJkacJhxK3w
+	EZWxMt/15fe9W32Rc1K8CJTDpJAv2Czx8sxs3Bm2tpLsXsYA2c8Gz9M4pprKautDJvpfnj7oDR05S
+	u/oLexuz2YhYxzkhsLnTQyrvB+ZPynn5hSHTrwgaB53cK/jRUuzREaRZzqz1KRg/8jhjcGTQBYsPm
+	zzMCLBg3bwPIMgn/3xmF9eg2uEt2DvpXkN4uYnXDi18tY1Snh7nWK6ptvcadqwM1jan1juQPChSJN
+	bsMwZjtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngJPG-00FZeE-PM; Mon, 18 Apr 2022 04:54:34 +0000
+	id 1ngJPT-00FZn6-Ri; Mon, 18 Apr 2022 04:54:47 +0000
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngJOU-00FYrv-1m; Mon, 18 Apr 2022 04:53:46 +0000
+ id 1ngJOW-00FYuM-S5; Mon, 18 Apr 2022 04:53:49 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -42,9 +42,9 @@ Cc: Richard Weinberger <richard@nod.at>,
  xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  dm-devel@redhat.com
-Subject: [PATCH 10/11] rnbd-srv: use bdev_discard_alignment
-Date: Mon, 18 Apr 2022 06:53:13 +0200
-Message-Id: <20220418045314.360785-11-hch@lst.de>
+Subject: [PATCH 11/11] xen-blkback: use bdev_discard_alignment
+Date: Mon, 18 Apr 2022 06:53:14 +0200
+Message-Id: <20220418045314.360785-12-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220418045314.360785-1-hch@lst.de>
 References: <20220418045314.360785-1-hch@lst.de>
@@ -67,24 +67,35 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 Use bdev_discard_alignment to calculate the correct discard alignment
 offset even for partitions instead of just looking at the queue limit.
 
+Also switch to use bdev_discard_granularity to get rid of the last direct
+queue reference in xen_blkbk_discard.
+
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/rnbd/rnbd-srv-dev.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/block/xen-blkback/xenbus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/rnbd/rnbd-srv-dev.h b/drivers/block/rnbd/rnbd-srv-dev.h
-index d080a0de59225..4309e52524691 100644
---- a/drivers/block/rnbd/rnbd-srv-dev.h
-+++ b/drivers/block/rnbd/rnbd-srv-dev.h
-@@ -59,7 +59,7 @@ static inline int rnbd_dev_get_discard_granularity(const struct rnbd_dev *dev)
- 
- static inline int rnbd_dev_get_discard_alignment(const struct rnbd_dev *dev)
- {
--	return bdev_get_queue(dev->bdev)->limits.discard_alignment;
-+	return bdev_discard_alignment(dev->bdev);
- }
- 
- #endif /* RNBD_SRV_DEV_H */
+diff --git a/drivers/block/xen-blkback/xenbus.c b/drivers/block/xen-blkback/xenbus.c
+index b21bffc9c50bc..04c90cb8955f6 100644
+--- a/drivers/block/xen-blkback/xenbus.c
++++ b/drivers/block/xen-blkback/xenbus.c
+@@ -583,14 +583,14 @@ static void xen_blkbk_discard(struct xenbus_transaction xbt, struct backend_info
+ 	if (bdev_max_discard_sectors(bdev)) {
+ 		err = xenbus_printf(xbt, dev->nodename,
+ 			"discard-granularity", "%u",
+-			q->limits.discard_granularity);
++			bdev_discard_granularity(bdev));
+ 		if (err) {
+ 			dev_warn(&dev->dev, "writing discard-granularity (%d)", err);
+ 			return;
+ 		}
+ 		err = xenbus_printf(xbt, dev->nodename,
+ 			"discard-alignment", "%u",
+-			q->limits.discard_alignment);
++			bdev_discard_alignment(bdev));
+ 		if (err) {
+ 			dev_warn(&dev->dev, "writing discard-alignment (%d)", err);
+ 			return;
 -- 
 2.30.2
 
