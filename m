@@ -4,51 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DC06C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 16:58:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01724C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 19:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Cc:To:From:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eTUFO0q1DZwkvrhnkdwR8Xhpn6ikFYNpDZ3tw7smwsg=; b=X7jSAx8FliONqBU/F7+oJknNnB
-	8Fb47dFeZ2R/YJ50m15p1eGpZSv+OIw/28pTAlFo11/d4y8dxI3b6QrGdv4QxPMdCU2+EqR0oTOO1
-	2srOXeuO0Hl7MZXpmDIvXvNCCq8p8+QAMkUbDk5/xRgXYeot4RRXqQ+/LUnZspcygvRvCHJpQMTI3
-	xQ899sWtsk5+Jr1C8a7YnI4NExZ9v7m/oyeYE6zFYM5orpgx2c9uYmDS51vqZf5vDThOBItnDMXaS
-	/9RvGwE8Kkt/uFigFkQ7nVu/Ipfpfy3b40dJyo053V7ec2nEPFt79tCscrkd3Vb6nw4uwYPoc622f
-	UFBv/qGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=BIXnNOJLKRkJXHmgmmLirYjmeRqqf/Xrz7MbbUYTVs8=; b=mBTIFS109xPAWJoYU5wJBnrIBA
+	Z+tWJzE5Vho2CPTc9wZ/dK7iUsGijj0BIy1WCKjr9TZYPfxy1V+O2KtnMdirCM9g7RqMqaVHva5PY
+	BaqIjF60kgf4AQqT9DAx9kWAfAhWDK6DuNoqeJkrBbTOXYLxlrTVaMgAzhm8ZPnC8nw2JDXcg+E5i
+	S8O9ZT2eqHj/+9Jfyynex+7KyVa3hQNYt21XooBtcNhd/nzt4Jv+G85XLzL6KQWoeG0jVxgiZJZVR
+	vLhvAPvKCQ1zhKWJ2f1DX6axzDlMc1+uKSbYK7Udi9T1a79S3BNmTGk6IroW4ltvabSF3nhz+nXsk
+	GN1W5Mwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngUhr-000Bot-8D; Mon, 18 Apr 2022 16:58:31 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ngXI1-000UCV-9u; Mon, 18 Apr 2022 19:44:01 +0000
+Received: from mailout2.w2.samsung.com ([211.189.100.12])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngUcO-0008zB-KD
- for linux-nvme@lists.infradead.org; Mon, 18 Apr 2022 16:52:54 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 24714612F1;
- Mon, 18 Apr 2022 16:52:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF479C385A1;
- Mon, 18 Apr 2022 16:52:50 +0000 (UTC)
-Subject: [PATCH RFC 15/15] NFS: Add an "xprtsec=" NFS mount option
-From: Chuck Lever <chuck.lever@oracle.com>
-To: netdev@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Cc: ak@tempesta-tech.com, borisp@nvidia.com, simo@redhat.com
-Date: Mon, 18 Apr 2022 12:52:49 -0400
-Message-ID: <165030076974.5246.10497494368440536472.stgit@oracle-102.nfsv4.dev>
-In-Reply-To: <165030062272.5246.16956092606399079004.stgit@oracle-102.nfsv4.dev>
-References: <165030062272.5246.16956092606399079004.stgit@oracle-102.nfsv4.dev>
-User-Agent: StGit/1.5
+ id 1ngXHw-000UA9-VL
+ for linux-nvme@lists.infradead.org; Mon, 18 Apr 2022 19:43:59 +0000
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+ by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20220418194352usoutp02ee6cd2ba1e6fbb6d4bf8008334998598~nFSPt7xZi2418524185usoutp02X
+ for <linux-nvme@lists.infradead.org>; Mon, 18 Apr 2022 19:43:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
+ 20220418194352usoutp02ee6cd2ba1e6fbb6d4bf8008334998598~nFSPt7xZi2418524185usoutp02X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1650311032;
+ bh=BIXnNOJLKRkJXHmgmmLirYjmeRqqf/Xrz7MbbUYTVs8=;
+ h=From:To:CC:Subject:Date:References:From;
+ b=DN24diz5u6nqjYTVuRStIOlNJmKxYZW+wc7moR+hMz4vOwC4dwLUuNI5i7AlV0POF
+ UO9JtAD990a5Ry5UnUujxOcpgWkvBBtc2QDVWHpGgbTbmBzTVNWMH+zc1/33BPQOPP
+ hj7Hqg7CcA+2Ibxlo9dTpE1NqkpsIPuv2kYoBp7M=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220418194351uscas1p10334b4817e01194d4437a72442e562fb~nFSPIRkBE0182301823uscas1p14
+ for <linux-nvme@lists.infradead.org>; Mon, 18 Apr 2022 19:43:51 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id 37.C7.09642.77FBD526; Mon,
+ 18 Apr 2022 15:43:51 -0400 (EDT)
+Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
+ [203.254.195.89]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220418194351uscas1p18e05fad61bc279e8ea18d1a1a8597dc3~nFSOwSTBr2981029810uscas1p1g
+ for <linux-nvme@lists.infradead.org>; Mon, 18 Apr 2022 19:43:51 +0000 (GMT)
+X-AuditID: cbfec36f-bfdff700000025aa-19-625dbf7773d6
+Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.145]) by
+ ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id 07.AA.09702.77FBD526; Mon,
+ 18 Apr 2022 15:43:51 -0400 (EDT)
+Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
+ SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.7; Mon, 18 Apr 2022 12:43:50 -0700
+Received: from SSI-EX3.ssi.samsung.com ([fe80::ddc9:3655:8940:70fb]) by
+ SSI-EX3.ssi.samsung.com ([fe80::ddc9:3655:8940:70fb%4]) with mapi id
+ 15.01.2375.007; Mon, 18 Apr 2022 12:43:50 -0700
+From: Vincent Fu <vincent.fu@samsung.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+CC: Vincent Fu <vincent.fu@samsung.com>
+Subject: [PATCH] nvme: have nvme_setup_rw return BLK_STS_OK
+Thread-Topic: [PATCH] nvme: have nvme_setup_rw return BLK_STS_OK
+Thread-Index: AQHYU1ygOzbkSUYee0y6dbHOXK1LYw==
+Date: Mon, 18 Apr 2022 19:43:50 +0000
+Message-ID: <20220418194324.589248-1-vincent.fu@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLIsWRmVeSWpSXmKPExsWy7djX87rl+2OTDI71mVjMX/aU3YHRY/OS
+ +gDGKC6blNSczLLUIn27BK6MrjVLmQqes1Us3DKbqYHxPmsXIyeHhICJxInW2UxdjFwcQgIr
+ GSX+LexihHBWMUmcnHOQBaZq6+ubUFVrGSWWfNzBBuF8ZJRY82cuC4RzgFHi3IvvQGUcHGwC
+ mhJv9xeAdIsIuErsXrqLEcRmFlCXOLZxAxuILSxgLfFy3QRGiBoHiVPTv7OAtIoI6EmsPJEA
+ EmYRUJXY9OI9WAmvgI3Ewf5fYDajgJjE91NrmCBGikvcejKfCeJQQYlFs/cwQ9hiEv92PWSD
+ sBUl7n9/yQ5RrydxY+oUNghbW2LZwtfMEPMFJU7OfAL1sKTEwRU3wN6SEHjELnF68VmoBS4S
+ i2d8gSqSlrh6fSozRFE7o8TcjTCJCYwS159IQdjWEv86r0Ft5pP4++sRI8iTEgK8Eh1tQhMY
+ lWYh+WEWkvtmIblvFpL7FjCyrGIULy0uzk1PLTbKSy3XK07MLS7NS9dLzs/dxAhMEaf/Hc7f
+ wXj91ke9Q4xMHIyHGCU4mJVEeHuWRCcJ8aYkVlalFuXHF5XmpBYfYpTmYFES512WuSFRSCA9
+ sSQ1OzW1ILUIJsvEwSnVwORzJ+z7nsB21xLhekftsuibPQalhrM3vTBUbJqXqvjvHrcMX3Gy
+ sKeL8Aee3hldIkFPg1bzGHyTcy52yJxmvmFXgK/3pQvsak37exLvNwvbpU7Z/EL97Qw5lQ25
+ rxujj9mlRssZvX6auCBrZeZFzzNCmrdC4rpUC39MW81UXy2yquTFFBcVuUebkqUiry6pTv77
+ PLOkr2tBc9K9Sf+X3BQ9eLP0WYjm1SnR0UEZml0Few0MP7woLpp5Xd3IO6R7buOPmOqQ+xWF
+ hZuXWj9/5/TKPeXYZo4ffzYXveMQn8K6NH6O8fW0ljuyFVvOP1bg9fm+dO/tqQwlVhVBv3wS
+ RNmP/Gk+JaX+oy7a0stCiaU4I9FQi7moOBEAyQRx4oADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKLMWRmVeSWpSXmKPExsWS2cA0Ubd8f2ySwdJeCYv5y56yOzB6bF5S
+ H8AYxWWTkpqTWZZapG+XwJXRtWYpU8FztoqFW2YzNTDeZ+1i5OSQEDCR2Pr6JhOILSSwmlHi
+ 4KKELkYuIPsjo8S/ByfYIJwDjBIzLtxn72Lk4GAT0JR4u78ApEFEwFVi99JdjCA2s4C6xLGN
+ G9hAbGEBa4mX6yYwQtQ4SJya/p0FpFVEQE9i5YkEkDCLgKrEphfvwUp4BWwkDvb/ArMZBcQk
+ vp9awwQxUlzi1pP5TBB3Ckgs2XOeGcIWlXj5+B/U/YoS97+/ZIeo15O4MXUKG4StLbFs4Wtm
+ iPmCEidnPmGBqJeUOLjiBssERtFZSFbMQtI+C0n7LCTtCxhZVjGKlxYX56ZXFBvmpZbrFSfm
+ Fpfmpesl5+duYgTGxOl/hyN3MB699VHvECMTB+MhRgkOZiUR3p4l0UlCvCmJlVWpRfnxRaU5
+ qcWHGKU5WJTEeYVcJ8YLCaQnlqRmp6YWpBbBZJk4OKUamFo19umnLp/PdCeWa/9XjwN+rddm
+ 99gyfAlhtYtN00n7FH9+d/mPa96CDBk9t/7/bI/K/7T8A9eOQ0GRr/hW2S4Ky2bxV2JUrVzb
+ cVlhk+jKM9l1ZtOrmX5Nj12/JPTC8z1H8voW7/9h8CAm2j5rQapWyvciN7fc1wsvnZBKdU3N
+ iGBwtz1oKbN9vQPny+XHqk/MyTqU9eLs3FePZ/+Vn19x6ctyR9/TqSdvnvxRwPe3J0fZrMPk
+ 9d+JJ97X7g4Uf/9k4tfFikElYh6Tw6/NefRaoyb6qb7w4Ya+9OkcTHNcOD78uRChmqA3NXzn
+ v4yzxqlHo+6y2CT+yOA/dSMr7CW3pUzlgXWZgttSjHok2pRYijMSDbWYi4oTAS2Y8yf4AgAA
+X-CMS-MailID: 20220418194351uscas1p18e05fad61bc279e8ea18d1a1a8597dc3
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20220418194351uscas1p18e05fad61bc279e8ea18d1a1a8597dc3
+References: <CGME20220418194351uscas1p18e05fad61bc279e8ea18d1a1a8597dc3@uscas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220418_095252_812783_2C857765 
-X-CRM114-Status: GOOD (  20.65  )
+X-CRM114-CacheID: sfid-20220418_124357_354213_893A6E68 
+X-CRM114-Status: GOOD (  12.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,222 +126,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-After some discussion, we decided that controlling the user authen-
-tication flavor should be separate from the setting for transport
-layer security policy. To accomplish this, add a new NFS mount
-option to select a transport layer security policy for RPC
-operations associated with the mount point.
+Return BLK_STS_OK instead of 0 on success. Since BLK_STS_OK is defined
+as 0 this patch results in no functional change but to avoid confusion
+and to be consistent with nvme_setup_write_zeroes as well as
+nvme_setup_discard we should have nvme_setup_rw also return BLK_STS_OK.
 
-  xprtsec=none     - Transport layer security is disabled.
-
-  xprtsec=auto     - Try to establish a TLS session, but proceed
-                     with no transport layer security if that fails.
-
-  xprtsec=tls      - Establish an encryption-only TLS session. If
-                     the initial handshake fails, the mount fails.
-                     If TLS is not available on a reconnect, drop
-                     the connection and try again.
-
-The default is xprtsec=auto.
-
-An update to nfs(5) will be sent under separate cover.
-
-To support client peer authentication, the plan is to add another
-xprtsec= choice called "mtls" which will require a second mount
-option that specifies the pathname of a directory containing the
-private key and an x.509 certificate.
-
-Similarly, pre-shared key authentication can be supported by adding
-support for "xprtsec=psk" along with a second mount option that
-specifies the name of a file containing the key.
-
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
 ---
- fs/nfs/client.c     |   18 +++++++++++++++++-
- fs/nfs/fs_context.c |   45 +++++++++++++++++++++++++++++++++++++++++++++
- fs/nfs/internal.h   |    1 +
- fs/nfs/nfs4client.c |    2 +-
- fs/nfs/super.c      |   10 ++++++++++
- 5 files changed, 74 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/nfs/client.c b/fs/nfs/client.c
-index 0896e4f047d1..edb2cfd7262e 100644
---- a/fs/nfs/client.c
-+++ b/fs/nfs/client.c
-@@ -530,11 +530,27 @@ int nfs_create_rpc_client(struct nfs_client *clp,
- 	if (test_bit(NFS_CS_REUSEPORT, &clp->cl_flags))
- 		args.flags |= RPC_CLNT_CREATE_REUSEPORT;
- 
-+	switch (clp->cl_xprtsec) {
-+	case NFS_CS_XPRTSEC_AUTO:
-+	case NFS_CS_XPRTSEC_TLS:
-+		args.xprtsec_policy = RPC_XPRTSEC_TLS;
-+		break;
-+	default:
-+		args.xprtsec_policy = RPC_XPRTSEC_NONE;
-+	}
-+
- 	if (!IS_ERR(clp->cl_rpcclient))
- 		return 0;
- 
-+retry:
- 	clnt = rpc_create(&args);
- 	if (IS_ERR(clnt)) {
-+		if (clp->cl_xprtsec == NFS_CS_XPRTSEC_AUTO &&
-+		    args.xprtsec_policy == RPC_XPRTSEC_TLS) {
-+			args.xprtsec_policy = RPC_XPRTSEC_NONE;
-+			goto retry;
-+		}
-+
- 		dprintk("%s: cannot create RPC client. Error = %ld\n",
- 				__func__, PTR_ERR(clnt));
- 		return PTR_ERR(clnt);
-@@ -680,7 +696,7 @@ static int nfs_init_server(struct nfs_server *server,
- 		.cred = server->cred,
- 		.nconnect = ctx->nfs_server.nconnect,
- 		.init_flags = (1UL << NFS_CS_REUSEPORT),
--		.xprtsec_policy = NFS_CS_XPRTSEC_NONE,
-+		.xprtsec_policy = ctx->xprtsec_policy,
- 	};
- 	struct nfs_client *clp;
- 	int error;
-diff --git a/fs/nfs/fs_context.c b/fs/nfs/fs_context.c
-index b52362735d12..bfc31ac9af65 100644
---- a/fs/nfs/fs_context.c
-+++ b/fs/nfs/fs_context.c
-@@ -88,6 +88,7 @@ enum nfs_param {
- 	Opt_vers,
- 	Opt_wsize,
- 	Opt_write,
-+	Opt_xprtsec,
- };
- 
- enum {
-@@ -194,6 +195,7 @@ static const struct fs_parameter_spec nfs_fs_parameters[] = {
- 	fsparam_string("vers",		Opt_vers),
- 	fsparam_enum  ("write",		Opt_write, nfs_param_enums_write),
- 	fsparam_u32   ("wsize",		Opt_wsize),
-+	fsparam_string("xprtsec",	Opt_xprtsec),
- 	{}
- };
- 
-@@ -267,6 +269,20 @@ static const struct constant_table nfs_secflavor_tokens[] = {
- 	{}
- };
- 
-+enum {
-+	Opt_xprtsec_none,
-+	Opt_xprtsec_auto,
-+	Opt_xprtsec_tls,
-+	nr__Opt_xprtsec
-+};
-+
-+static const struct constant_table nfs_xprtsec_policies[] = {
-+	{ "none",	Opt_xprtsec_none },
-+	{ "auto",	Opt_xprtsec_auto },
-+	{ "tls",	Opt_xprtsec_tls },
-+	{}
-+};
-+
- /*
-  * Sanity-check a server address provided by the mount command.
-  *
-@@ -431,6 +447,29 @@ static int nfs_parse_security_flavors(struct fs_context *fc,
- 	return 0;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b9b0fbde9..f45665e36 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -895,7 +895,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns=
+ *ns,
+=20
+ 	cmnd->rw.control =3D cpu_to_le16(control);
+ 	cmnd->rw.dsmgmt =3D cpu_to_le32(dsmgmt);
+-	return 0;
++	return BLK_STS_OK;
  }
- 
-+static int nfs_parse_xprtsec_policy(struct fs_context *fc,
-+				    struct fs_parameter *param)
-+{
-+	struct nfs_fs_context *ctx = nfs_fc2context(fc);
-+
-+	trace_nfs_mount_assign(param->key, param->string);
-+
-+	switch (lookup_constant(nfs_xprtsec_policies, param->string, -1)) {
-+	case Opt_xprtsec_none:
-+		ctx->xprtsec_policy = NFS_CS_XPRTSEC_NONE;
-+		break;
-+	case Opt_xprtsec_auto:
-+		ctx->xprtsec_policy = NFS_CS_XPRTSEC_AUTO;
-+		break;
-+	case Opt_xprtsec_tls:
-+		ctx->xprtsec_policy = NFS_CS_XPRTSEC_TLS;
-+		break;
-+	default:
-+		return nfs_invalf(fc, "NFS: Unrecognized transport security policy");
-+	}
-+	return 0;
-+}
-+
- static int nfs_parse_version_string(struct fs_context *fc,
- 				    const char *string)
- {
-@@ -695,6 +734,11 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
- 		if (ret < 0)
- 			return ret;
- 		break;
-+	case Opt_xprtsec:
-+		ret = nfs_parse_xprtsec_policy(fc, param);
-+		if (ret < 0)
-+			return ret;
-+		break;
- 
- 	case Opt_proto:
- 		trace_nfs_mount_assign(param->key, param->string);
-@@ -1564,6 +1608,7 @@ static int nfs_init_fs_context(struct fs_context *fc)
- 		ctx->selected_flavor	= RPC_AUTH_MAXFLAVOR;
- 		ctx->minorversion	= 0;
- 		ctx->need_mount		= true;
-+		ctx->xprtsec_policy	= NFS_CS_XPRTSEC_AUTO;
- 
- 		fc->s_iflags		|= SB_I_STABLE_WRITES;
- 	}
-diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
-index 0a3512c39376..bc60a556ad92 100644
---- a/fs/nfs/internal.h
-+++ b/fs/nfs/internal.h
-@@ -102,6 +102,7 @@ struct nfs_fs_context {
- 	unsigned int		bsize;
- 	struct nfs_auth_info	auth_info;
- 	rpc_authflavor_t	selected_flavor;
-+	unsigned int		xprtsec_policy;
- 	char			*client_address;
- 	unsigned int		version;
- 	unsigned int		minorversion;
-diff --git a/fs/nfs/nfs4client.c b/fs/nfs/nfs4client.c
-index 682d47e5977b..8dbdb00859fe 100644
---- a/fs/nfs/nfs4client.c
-+++ b/fs/nfs/nfs4client.c
-@@ -1159,7 +1159,7 @@ static int nfs4_init_server(struct nfs_server *server, struct fs_context *fc)
- 				ctx->nfs_server.nconnect,
- 				ctx->nfs_server.max_connect,
- 				fc->net_ns,
--				NFS_CS_XPRTSEC_NONE);
-+				ctx->xprtsec_policy);
- 	if (error < 0)
- 		return error;
- 
-diff --git a/fs/nfs/super.c b/fs/nfs/super.c
-index 6ab5eeb000dc..0c2371bbf21d 100644
---- a/fs/nfs/super.c
-+++ b/fs/nfs/super.c
-@@ -491,6 +491,16 @@ static void nfs_show_mount_options(struct seq_file *m, struct nfs_server *nfss,
- 	seq_printf(m, ",timeo=%lu", 10U * nfss->client->cl_timeout->to_initval / HZ);
- 	seq_printf(m, ",retrans=%u", nfss->client->cl_timeout->to_retries);
- 	seq_printf(m, ",sec=%s", nfs_pseudoflavour_to_name(nfss->client->cl_auth->au_flavor));
-+	switch (clp->cl_xprtsec) {
-+	case NFS_CS_XPRTSEC_AUTO:
-+		seq_printf(m, ",xprtsec=auto");
-+		break;
-+	case NFS_CS_XPRTSEC_TLS:
-+		seq_printf(m, ",xprtsec=tls");
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	if (version != 4)
- 		nfs_show_mountd_options(m, nfss, showdefaults);
-
-
+=20
+ void nvme_cleanup_cmd(struct request *req)
+--=20
+2.25.1
 
