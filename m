@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5FC4C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:54:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26852C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:54:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rEun4CykQNh9XCzIn07hcf266lJSo8SoQFV5h3aZDN4=; b=aN37fVUYHWgQM0Wg3Lxl8kl+GU
-	q5KoXeB8hyQ+Wq0ppBDkbPN08egP39i3TaGgXI4eFwxDd4xk1ezFTeoIVUZdaiU17UIzp6xlBcPjb
-	sBDxBUkFYqWS6yw6JY8Tr52IpZ0aWL8FosB4lN+FrsuwhpkU5grWRq21tqOCFyI3WIpHYiH7/WFzT
-	nFmmaNM386AkOvSjOOoWASLB0Dm40OqT5UCiMGlCNp6FqQ/w/xpx9O53l5T4K/Aj67v3B6nYyO5TD
-	bDC/WRZC4JU2Z7szpEN7+Ok4/HnCFdIo9bL/t30KRV2/ikn8l3jrIjUYRzci2hJpoESsARO9DBQDY
-	eP8EjK4A==;
+	bh=Nwnahs8dGCrFyGqh76Osy38QIfFTcrX+bg/5w9K9Oig=; b=CH7xtMc620Wr6We4o1Go2vdB/E
+	JYJB97fZQ4sVBMCsP+gI/kiDBfTSEuMhkl57kIfhVHL4tjyso4S7OKJQTGyBKCEzsyc4CVR/flQN7
+	3vsLMFe1DgX0EictEO50ufWymoUlh+oP6AEU8c+aN5IcwYKFB9ms3zEpWETUZECek5xZ5u5LMIUa1
+	rhf6Uv1/Mgmlui6Du6k4WgwsPf3vQtsVDhbz2qDmO0FVTfvRGZNIge54S0061QlcFIBbtTOzP8hEp
+	ZL2Ag6I9iq2XnJFRR9+wYDuoSRoG3qNSLlQG4w+RXJ9OIkbUL6MrrhcyBnWUG4tkaKEbF/gAY3Zu7
+	3YGqDzhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngJOq-00FZHB-7n; Mon, 18 Apr 2022 04:54:08 +0000
+	id 1ngJOx-00FZPJ-VQ; Mon, 18 Apr 2022 04:54:15 +0000
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngJOK-00FYlu-W5; Mon, 18 Apr 2022 04:53:37 +0000
+ id 1ngJOO-00FYn5-24; Mon, 18 Apr 2022 04:53:40 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -42,9 +42,9 @@ Cc: Richard Weinberger <richard@nod.at>,
  xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  dm-devel@redhat.com
-Subject: [PATCH 07/11] dasd: don't set the discard_alignment queue limit
-Date: Mon, 18 Apr 2022 06:53:10 +0200
-Message-Id: <20220418045314.360785-8-hch@lst.de>
+Subject: [PATCH 08/11] loop: remove a spurious clear of discard_alignment
+Date: Mon, 18 Apr 2022 06:53:11 +0200
+Message-Id: <20220418045314.360785-9-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220418045314.360785-1-hch@lst.de>
 References: <20220418045314.360785-1-hch@lst.de>
@@ -64,29 +64,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The discard_alignment queue limit is named a bit misleading means the
-offset into the block device at which the discard granularity starts.
-Setting it to PAGE_SIZE while the discard granularity is the block size
-that is smaller or the same as PAGE_SIZE as done by dasd is mostly
-harmless but also useless.
+The loop driver never sets a discard_alignment, so it also doens't need
+to clear it to zero.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/s390/block/dasd_fba.c | 1 -
+ drivers/block/loop.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/s390/block/dasd_fba.c b/drivers/s390/block/dasd_fba.c
-index 8bd5665db9198..60be7f7bf2d16 100644
---- a/drivers/s390/block/dasd_fba.c
-+++ b/drivers/s390/block/dasd_fba.c
-@@ -782,7 +782,6 @@ static void dasd_fba_setup_blk_queue(struct dasd_block *block)
- 	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 976cf987b3920..61b642b966a08 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -789,7 +789,6 @@ static void loop_config_discard(struct loop_device *lo)
+ 		blk_queue_max_discard_sectors(q, 0);
+ 		blk_queue_max_write_zeroes_sectors(q, 0);
+ 	}
+-	q->limits.discard_alignment = 0;
+ }
  
- 	q->limits.discard_granularity = logical_block_size;
--	q->limits.discard_alignment = PAGE_SIZE;
- 
- 	/* Calculate max_discard_sectors and make it PAGE aligned */
- 	max_bytes = USHRT_MAX * logical_block_size;
+ struct loop_worker {
 -- 
 2.30.2
 
