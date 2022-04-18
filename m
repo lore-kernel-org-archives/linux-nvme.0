@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFD82C433FE
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E658FC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:53:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QvtQsYVY573QihyBU8P2z12+bQQI/RcwQdA2DddKTiA=; b=FtOjT54U0XNNbPgCnxCFuQl3vq
-	eRXb1U9ljNSgqGNdsqD1pEYvbrkkQOInWNmsKy3N5umUYuaFmsZbLReRfCMv/KFUGAPeWV0T6vg0v
-	KI740L/gfQWV0CYDrp0JkcQkQmEfMl8hJewV8+DG+5QADltSncoiy3E6VevDGEMgKDxLQNsiOlRYU
-	OUYCHGQPg/mVI5eiB61vbGTKbptnHoN6uPohlmWZepDvSiBFTGjehd95KZp0ca5kY0cAZBw1K2zjK
-	26JiIuiCQt+hOb8uqV65XBW6pgzA6QRxrdfgyvTt/vJZtI5LcUK8etVSJ+eV6lhBkS2wGWWt1NuOU
-	umcbyXmw==;
+	bh=KG+SgMW1cgxv4FiMP5E+75DsV8uftH+qG3p1TXEyEio=; b=pmD/SIap9U8LuIANXoCV/cPWSN
+	uF5Qnvch1CFM6tgiXTiMQXvXMO6+smh+Ose+7V0+G2AnmOREMNlZFAnClJdNkr8+UHxBSNMuM3B4Y
+	+98cA/B1bFt8Xf+XxfyfGMKPIzN6ST+CvHPV9qv9KphrQEayio/AtoHCJHGBs54mniaGFhfznO/Xt
+	w2Zs2YyXkecdvptc4Hd5TmHQXXQfRjTlpERNJU47baUbVPI2tJ+JPQ69/4/9H2tV4+x9RlGbvNQh+
+	5/fqdQCPnbWJ4v7LSqvmg3Q0YfnjETyCrO1ZcOJ4moYbDeVLCOFmiVf9qvWbXpPrAOzbUK8UzXKVO
+	cqmcGLsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngJOR-00FYqe-2t; Mon, 18 Apr 2022 04:53:43 +0000
+	id 1ngJOW-00FYvP-Bq; Mon, 18 Apr 2022 04:53:48 +0000
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngJO9-00FYiQ-3d; Mon, 18 Apr 2022 04:53:25 +0000
+ id 1ngJOC-00FYj8-0H; Mon, 18 Apr 2022 04:53:28 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -42,9 +42,10 @@ Cc: Richard Weinberger <richard@nod.at>,
  xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  dm-devel@redhat.com
-Subject: [PATCH 03/11] null_blk: don't set the discard_alignment queue limit
-Date: Mon, 18 Apr 2022 06:53:06 +0200
-Message-Id: <20220418045314.360785-4-hch@lst.de>
+Subject: [PATCH 04/11] virtio_blk: fix the discard_granularity and
+ discard_alignment queue limits
+Date: Mon, 18 Apr 2022 06:53:07 +0200
+Message-Id: <20220418045314.360785-5-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220418045314.360785-1-hch@lst.de>
 References: <20220418045314.360785-1-hch@lst.de>
@@ -66,26 +67,45 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 The discard_alignment queue limit is named a bit misleading means the
 offset into the block device at which the discard granularity starts.
-Setting it to the discard granularity as done by null_blk is mostly
-harmless but also useless.
 
+On the other hand the discard_sector_alignment from the virtio 1.1 looks
+similar to what Linux uses as discard granularity (even if not very well
+described):
+
+  "discard_sector_alignment can be used by OS when splitting a request
+   based on alignment. "
+
+And at least qemu does set it to the discard granularity.
+
+So stop setting the discard_alignment and use the virtio
+discard_sector_alignment to set the discard granularity.
+
+Fixes: 1f23816b8eb8 ("virtio_blk: add discard and write zeroes support")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/null_blk/main.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/block/virtio_blk.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
-index 5cb4c92cdffea..a521e914a9843 100644
---- a/drivers/block/null_blk/main.c
-+++ b/drivers/block/null_blk/main.c
-@@ -1765,7 +1765,6 @@ static void null_config_discard(struct nullb *nullb)
- 	}
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index 6ccf15253dee1..d624cc8eddc3c 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -867,11 +867,12 @@ static int virtblk_probe(struct virtio_device *vdev)
+ 		blk_queue_io_opt(q, blk_size * opt_io_size);
  
- 	nullb->q->limits.discard_granularity = nullb->dev->blocksize;
--	nullb->q->limits.discard_alignment = nullb->dev->blocksize;
- 	blk_queue_max_discard_sectors(nullb->q, UINT_MAX >> 9);
- }
+ 	if (virtio_has_feature(vdev, VIRTIO_BLK_F_DISCARD)) {
+-		q->limits.discard_granularity = blk_size;
+-
+ 		virtio_cread(vdev, struct virtio_blk_config,
+ 			     discard_sector_alignment, &v);
+-		q->limits.discard_alignment = v ? v << SECTOR_SHIFT : 0;
++		if (v)
++			q->limits.discard_granularity = v << SECTOR_SHIFT;
++		else
++			q->limits.discard_granularity = blk_size;
  
+ 		virtio_cread(vdev, struct virtio_blk_config,
+ 			     max_discard_sectors, &v);
 -- 
 2.30.2
 
