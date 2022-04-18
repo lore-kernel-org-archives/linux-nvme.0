@@ -4,26 +4,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7924C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53F42C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Apr 2022 04:54:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p9kVzatrYS3rOQLSwSVe7hP5f0rChlSo2rdSBrIcPYE=; b=ndugMUEGp3B7dRWBuBYk9VX059
-	6vOoZww0kuDILMSkykD2GoCOJwROZyMLS0ar9QoThY5m0toOaLL4YY99urCosm9rpgI4dkio20BOW
-	zlWS391OcN7EVXQpU/A9qjA5sEF5xXEq7N5S3T4R58zdzS3ZJA4YAXoHndz5JE3B47dFjG5UHxYQs
-	eeT3YfeB3SgY6zqfWHVj9VY6yy2rjtc7XkBmjFMQf74APctZbcJ7MCR5EilyGZ4qtB+dRFZM9yUzv
-	/Etoi5Z+EfTrDQQclSwRzrmgiGhPtaQFW0kxJ1YNX2YvYfIHC7i3tuCdhyiwHyXTVwHoLJteWZxLc
-	IZjSXxNw==;
+	bh=l98+JE7NsbGjf5nWv4p96TEYrrJUm3Xf8r7AJ/Re+50=; b=BdiTUFqA9FKlGepfG0IoK8taRX
+	N82CHoV0INbf0rrn+tzHnOQGrm02fobHz+ZAjv6G9kSe1yImZj2rZL0A42WcwBuZxvhdRjvDPzPmT
+	gY+QLnwVkPsf5NzZp/UsZp9wS0tKTN//tuGR6hFetb/9SI2mUKBLEL39p/FU7cIyTASeyRPYxiBsj
+	BGrIyySj/GVrHzKg89XIUx8IzfWDbgm2HYrsJirXYkjcIoPbOs2VZCQXzT3H/ob6WDnsYcnwJ2/Ev
+	AW/R1x5cJSubJcyxtxwP1feylwrLqnVe4Jm2kC6Z0SMIxs2sbOsWq4cKEm7Yd9POXGuJHlpqEYCzy
+	qq69xpVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngJP6-00FZVl-9b; Mon, 18 Apr 2022 04:54:24 +0000
+	id 1ngJPG-00FZeE-PM; Mon, 18 Apr 2022 04:54:34 +0000
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngJOR-00FYpT-19; Mon, 18 Apr 2022 04:53:43 +0000
+ id 1ngJOU-00FYrv-1m; Mon, 18 Apr 2022 04:53:46 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -42,9 +42,9 @@ Cc: Richard Weinberger <richard@nod.at>,
  xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  dm-devel@redhat.com
-Subject: [PATCH 09/11] nvme: remove a spurious clear of discard_alignment
-Date: Mon, 18 Apr 2022 06:53:12 +0200
-Message-Id: <20220418045314.360785-10-hch@lst.de>
+Subject: [PATCH 10/11] rnbd-srv: use bdev_discard_alignment
+Date: Mon, 18 Apr 2022 06:53:13 +0200
+Message-Id: <20220418045314.360785-11-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220418045314.360785-1-hch@lst.de>
 References: <20220418045314.360785-1-hch@lst.de>
@@ -64,26 +64,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme driver never sets a discard_alignment, so it also doens't need
-to clear it to zero.
+Use bdev_discard_alignment to calculate the correct discard alignment
+offset even for partitions instead of just looking at the queue limit.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/block/rnbd/rnbd-srv-dev.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b9b0fbde97c80..76a9ccd5d064a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1628,7 +1628,6 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
- 	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
- 			NVME_DSM_MAX_RANGES);
+diff --git a/drivers/block/rnbd/rnbd-srv-dev.h b/drivers/block/rnbd/rnbd-srv-dev.h
+index d080a0de59225..4309e52524691 100644
+--- a/drivers/block/rnbd/rnbd-srv-dev.h
++++ b/drivers/block/rnbd/rnbd-srv-dev.h
+@@ -59,7 +59,7 @@ static inline int rnbd_dev_get_discard_granularity(const struct rnbd_dev *dev)
  
--	queue->limits.discard_alignment = 0;
- 	queue->limits.discard_granularity = size;
+ static inline int rnbd_dev_get_discard_alignment(const struct rnbd_dev *dev)
+ {
+-	return bdev_get_queue(dev->bdev)->limits.discard_alignment;
++	return bdev_discard_alignment(dev->bdev);
+ }
  
- 	/* If discard is already enabled, don't reset queue limits */
+ #endif /* RNBD_SRV_DEV_H */
 -- 
 2.30.2
 
