@@ -4,88 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 971CCC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Apr 2022 17:42:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B336C43219
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Apr 2022 18:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9TRLt0umpK42xe/joZUuCtcbZ6R6cAmp1bJxdUcgm8M=; b=vGom+b0/hEG3MXPO115Q2GRkoY
-	J6g7kVe5akM2C+GKAAOPlTxXvFy94iwrN8osn0iDNoCZ/iVnJV9ldobteRQj+L0W1tumqS3nhXjmc
-	frSmdvsja1csV9IYtDEWiowU8SIdyHGx5W4WlKzzIqUgbpYsTMveXqL3tq9zKlGsTmyanDEVGxThs
-	R1Wbr5sPi+kb129vKzK8JkQDbBm0TAzP05OyPoZG/9YagXk8V3oVNMzLQV0tROwmx83MBwJgWKQQ2
-	Zxm2YHGt8FVPM0lL1fWvTIbakgFyBarvM+ByR4zbYrXL5JFZ/nM4QBv1q+8VCW28KlN61YKhtMBGB
-	eYyW54hg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BA6nR0WLcrQpk+q9xPXaVnPIllu0p91Q7Zk+b3+QGHo=; b=Qwmaf1eHbZFaxWIw2x0/MkTbwR
+	PqtbjUpBFdnZjkQq5e7dW1Uf9/4jtxa3Ol21xnzjemFmyU/8UgElAS/cmwuHQjH4ItiNLL1PI4cB+
+	9eU5BqVa4khInstpQwWwS4kCXmuFcoVOxzeMGmsc9034O8S6NhAFEYrikM9EGCeBpNnqotVFcFH7V
+	59lgfLJEhvqShwd7sRzn2FWs6FWZutZQF/r2QKNOYHXRbQbHgPtjWSdeiC7y3KoXXh/4Fqhctks+T
+	pkVNteVYD+gOr3HUdHbISm38fU2g3Yzz9hvAFQgSGfFE7JdEy6WL0WZ8h6w1T3++n3rlR1SmYy+5v
+	V3vbax5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngrry-005PNe-Vc; Tue, 19 Apr 2022 17:42:31 +0000
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
+	id 1ngsLX-005XpJ-6L; Tue, 19 Apr 2022 18:13:03 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngri0-005KrV-9R
- for linux-nvme@lists.infradead.org; Tue, 19 Apr 2022 17:32:13 +0000
-Received: by mail-oi1-x22a.google.com with SMTP id a10so1425803oif.9
- for <linux-nvme@lists.infradead.org>; Tue, 19 Apr 2022 10:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9TRLt0umpK42xe/joZUuCtcbZ6R6cAmp1bJxdUcgm8M=;
- b=XJpQjzjjctWjfGZZgTtSKyIT83IHM45dieg4WsW3ak2hpJ3kPz5fBe7UBbK0wNxoIJ
- ivMYTJzH5nSfURv5rAgqT6W3/nbjOJr+K2C8yMDpYzRAKNtea0GU2KQn1qWFcL5BXG+i
- j3O4+GnfOhQgA4GdyKvqKANlfxsFsCSfIG/uYL+yg/zvZNcUEokQO28bOaFAJcgOSn25
- aMaunSVG5GwIkyUnZCC/xZ/W0HCTmgipivwurrrbRbvCsYM3KAmnuJTz1Po7XK7xT3aW
- WQF5eQ83vqBHR4woYK1i2LaQtI6OjFRYQuFmL3uxFhbr73u1aqNW6CJgmR3PWdWScj2a
- t1vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9TRLt0umpK42xe/joZUuCtcbZ6R6cAmp1bJxdUcgm8M=;
- b=mjpLlgG/0/5T7bizcV5A3Yx3fBvYan+5E9qlm38aYN4faIdK8zDuEhjREL94B+yyy1
- quQMrQr+Lu6Bf8lg+6y2ee9V0H1v7LgkkJvkkc9yOVPqsX0LcZXIzVWS3DlMS/O0UvCj
- B516VR18CeCbQpUhyVTsifY5CCqmUryL6qoZhvlWZXGJHevPuyGgTf/bpBZHDGdY9GtA
- P6Sg2K028ejoHQ2LU+wOvOIUHKQWZJvPKkqB/3NK6BEXw58lsFt038ffiHeURNysqp7N
- HLkTBvK7gR6cWAwa7P3K0rNOiygoDaLHaXjK2en3C49nJ0slSwzDp/7gXktBhE1m4uj8
- 0KzA==
-X-Gm-Message-State: AOAM531B5XbO1A0isBYsciyVwTTkcmaVLH/DdIoTwpLFYkgtsDUoGAr5
- L/yyNBIYnLJB6xTtVcrys985z2nG25lFoiJxfKc=
-X-Google-Smtp-Source: ABdhPJzjvbZzKw9AmTVeqJqXQyrX4Xm2mQCN5iTfSaun8qvgGqsIrB7jYyjuk+QaIV2MI5zrGwOmpJwfcJbb0uNqSDw=
-X-Received: by 2002:a05:6808:f8f:b0:322:b4ce:a10e with SMTP id
- o15-20020a0568080f8f00b00322b4cea10emr2758955oiw.160.1650389528530; Tue, 19
- Apr 2022 10:32:08 -0700 (PDT)
+ id 1ngsL6-005XWz-JA
+ for linux-nvme@lists.infradead.org; Tue, 19 Apr 2022 18:12:38 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9C43260DBB;
+ Tue, 19 Apr 2022 18:12:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD4FC385A7;
+ Tue, 19 Apr 2022 18:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650391955;
+ bh=YPTj9OOrUeZwZkfCIZpAkWUxMPpzXgHJJrP8oXqzkWs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=s2JqpdYbvQZBwF6zfc6CaisuaKgZbVcNHYYGr36YaUU61XcJedbzWc0nvQydj+IgV
+ kFK/3OMRCCEn89qa9I6JBd3+j8uLzDstumIM1KYpC0xZYSxMmmTlIV/vRwlI0xNH/x
+ +JcNM8N9grI1aSs+F9MvFFJyCjPO0aM6lO0CLJL+285HcpG1xEJuNbYQm5K4UNPb+h
+ tuaNbT1BFy/eX1cr1qOOSKocYkFAAe1kS/55e4P3IOtNXx70z3cSbCfDYIDJx/n4KI
+ Dt4WXQYpaaF90tOYsSAqLXpBzq4shmLXZs70bkw3cNvovlk5tD4lspjIuAzvyQTOYx
+ ScnVqZoCu67vA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Christoph Hellwig <hch@lst.de>,
+ =?UTF-8?q?=E9=87=91=E9=9F=AC?= <me@kingtous.cn>,
+ Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.17 31/34] nvme-pci: disable namespace identifiers
+ for the MAXIO MAP1002/1202
+Date: Tue, 19 Apr 2022 14:10:58 -0400
+Message-Id: <20220419181104.484667-31-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220419181104.484667-1-sashal@kernel.org>
+References: <20220419181104.484667-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <CGME20220308152729epcas5p17e82d59c68076eb46b5ef658619d65e3@epcas5p1.samsung.com>
- <20220308152105.309618-18-joshi.k@samsung.com> <20220310083652.GF26614@lst.de>
- <CA+1E3rLaQstG8LWUyJrbK5Qz+AnNpOnAyoK-7H5foFm67BJeFA@mail.gmail.com>
- <20220310141945.GA890@lst.de>
- <CA+1E3rL3Q2noHW-cD20SZyo9EqbzjF54F6TgZoUMMuZGkhkqnw@mail.gmail.com>
- <20220311062710.GA17232@lst.de>
- <CA+1E3rLGwHFbdbSTJBfWrw6RLErwcT2zPxGmmWbcLUj2y=16Qg@mail.gmail.com>
- <20220324063218.GC12660@lst.de> <20220325133921.GA13818@test-zns>
- <20220330130219.GB1938@lst.de>
- <CA+1E3r+Z9UyiNjmb-DzOpNrcbCO_nNFYUD5L5xJJCisx_D=wPQ@mail.gmail.com>
- <a44e38d6-54b4-0d17-c274-b7d46f60a0cf@kernel.dk>
- <CA+1E3r+CSC6jaDBXpxQUDnk8G=RuQaa=DPJ=tt9O9qydH5B9SQ@mail.gmail.com>
- <f3923d64-4f84-143b-cce2-fcf8366da0e6@kernel.dk>
-In-Reply-To: <f3923d64-4f84-143b-cce2-fcf8366da0e6@kernel.dk>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Tue, 19 Apr 2022 23:01:43 +0530
-Message-ID: <CA+1E3rJHgEan2yiVS882XouHgKNP4Rn6G2LrXyFu-0kgyu27=Q@mail.gmail.com>
-Subject: Re: [PATCH 17/17] nvme: enable non-inline passthru commands
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
- Keith Busch <kbusch@kernel.org>, 
- Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
- sbates@raithlin.com, logang@deltatee.com, Pankaj Raghav <pankydev8@gmail.com>, 
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
- Luis Chamberlain <mcgrof@kernel.org>,
- Adam Manzanares <a.manzanares@samsung.com>, 
- Anuj Gupta <anuj20.g@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220419_103212_414554_8ABCEEA4 
-X-CRM114-Status: GOOD (  16.58  )
+X-CRM114-CacheID: sfid-20220419_111236_858395_C47C2C7F 
+X-CRM114-Status: GOOD (  12.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,30 +78,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
-Few thoughts below toward the next version -
+From: Christoph Hellwig <hch@lst.de>
 
-On Fri, Apr 1, 2022 at 8:14 AM Jens Axboe <axboe@kernel.dk> wrote:
-[snip]
-> >>> Sure, will post the code with bigger-cqe first.
-> >>
-> >> I can add the support, should be pretty trivial. And do the liburing
-> >> side as well, so we have a sane base.
-> >
-> >  I will post the big-cqe based work today. It works with fio.
-> >  It does not deal with liburing (which seems tricky), but hopefully it
-> > can help us move forward anyway .
->
-> Let's compare then, since I just did the support too :-)
+[ Upstream commit a98a945b80f8684121d477ae68ebc01da953da1f ]
 
-Major difference is generic support (rather than uring-cmd only) and
-not touching the regular completion path. So plan is to use your patch
-for the next version with some bits added (e.g. overflow-handling and
-avoiding extra CQE tail increment). Hope that sounds fine.
+The MAXIO MAP1002/1202 controllers reports completely bogus Namespace
+identifiers that even change after suspend cycles.  Disable using
+the Identifiers entirely.
 
-We have things working on top of your current branch
-"io_uring-big-sqe". Since SQE now has 8 bytes of free space (post
-xattr merge) and CQE infra is different (post cqe-caching in ctx) -
-things needed to be done a bit differently. But all this is now tested
-better with liburing support/util (plan is to post that too).
+Reported-by: 金韬 <me@kingtous.cn>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Tested-by: 金韬 <me@kingtous.cn>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6a99ed680915..6be611f49a45 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3443,6 +3443,10 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+ 	{ PCI_DEVICE(0x2646, 0x2263),   /* KINGSTON A2000 NVMe SSD  */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
++	{ PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
++		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1e4B, 0x1202),   /* MAXIO MAP1202 */
++		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
+ 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
+-- 
+2.35.1
+
 
