@@ -4,173 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14BF0C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Apr 2022 18:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36D80C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Apr 2022 18:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8XRXDFWxOzDQjssWyWNyoZI2aOTm7YL0xdykwVcmTEc=; b=aR7KALSI4NMCWTBH5YPPtshKPs
-	cjsp9xHhIpJO/oxDeVW6v8ZCpuf/4gm6AAG/HCRr9ldd/R/m+xSIRrHHH9zx6rHCkRDs9q+0Af/YM
-	8PCWlOo/2CkWdj6fqs/O4xMdfuvUy/3pJRIAUJltJfc/Dsup43cDtNzA03Ik3hcvVuqIrpymEU0fi
-	A51ToeEhfQwc/mgZ1NlkA07E3Of3u+M0O6rt2y+tXuVxOUuVOdsI/kyaIHmfJXwHwUhjBbmF/X+YJ
-	m9rbsouA6Wwmzr8drwsnnHsJ29T1ydOeyIPT4mIxd7SsbO7KpPK3VEcOZNl6lzX8Vw9RvN8vP71We
-	mddCGzqg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wokerGmckRYYAuG7vnvwFGdqzKxOeMPs8itH9toPUxU=; b=iv9V1oCTVq8UJl7uQA9VhQVDEo
+	jyCGlqbFIuU4cqHJ633rVjI4fpJRhpQWWKd18UfPkpBYB/f9cb4ZqK3vXmoCWPOkK17b5oNLTOALm
+	/gtB7d3aRq13bFEEsSDI70eGjZP+Ps8BShD2ab3lrOWMbIYFLtzal94r3RYKN3a/G0XDcij9S7l1T
+	FVRcwGb94eiIT2shIBcd07Ga3O6CI8NUCL1apHI9G+wjquotmm8iGdbGXWN160qFmf62u/DnxKfWg
+	0W7dS5XfW65SOj1hzWV0FvSklLPOQYGhW0pvJ8LBAMvBFLQp0rTCgWf4Uwbizee7eoq0LqptmCR7T
+	w8QdndJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngseB-005hRq-8h; Tue, 19 Apr 2022 18:32:19 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1ngsf4-005hue-Kd; Tue, 19 Apr 2022 18:33:14 +0000
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngsPD-005a20-Mz
- for linux-nvme@lists.infradead.org; Tue, 19 Apr 2022 18:16:53 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23JHObu5019753; 
- Tue, 19 Apr 2022 18:16:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=8XRXDFWxOzDQjssWyWNyoZI2aOTm7YL0xdykwVcmTEc=;
- b=TwJjm62C8c9mROuR4YtnQJZ8XDPdEKarqVNvEs0Pw5J5kfVpc+rxCmhcKzS0lfnHxUMB
- pFm9Xr6C6dgqH6t94q2HKmP1sZM5KkdDmKT6Mpo+AwuYnPPjSQIhEaTFe2Qg1mLfUwJl
- x9itKmA95gSPhip11IE8+M02uIrMx8B9u5dxP+Cs5R1FnOFL9gKncl7r5NroR8TDdCFS
- boWlNM7+aPQzkJKYlsVU73u6yFVBd4k5l0hHyETylzHnp+sHctniIxCgQ/zEG42uCDul
- O0afoDxlSLmiNHUwiwMjtL52Hzxg1LAiJWMwinRD1IypQXOLn1glzSVYAmoIVtDFcyEX hQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ffmd16x2e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Apr 2022 18:16:46 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 23JI6dN2030391; Tue, 19 Apr 2022 18:16:45 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3ffm837x84-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Apr 2022 18:16:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oJ+Y9WCoeT98mdXeC1KaNJWPSbQTEfOXfPQFT1dNDff8B/hMS0pAtkLNfmPyl70lz76BGBd3zWdgilAxVGkH8rS+zVOrz95MTFy1+iJtfbwURtheQe1qnouGyHFZkazNIjttUdfKXHzKiIxBHgWcF1umR8cibmA8ztJq4WU0jx9xS4EWCwcdLfWcOFngbcE08/15kIQP+bYtdjBd0HbdnwSh+4U/TiF91PWJIdkMMxgzyPsIdxkZuqNCTUOly+UKmq/mRplDHzpbswXZDWvirC4fXjCIBqFpF2qiQ2vdXNbQxLrrxItMLEyYWGkITJSn7le2i4foSY0/o15b8ni0RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8XRXDFWxOzDQjssWyWNyoZI2aOTm7YL0xdykwVcmTEc=;
- b=Et/n2GP6p0Nd7rsAiZWpWOGgHB5jU0OovKzTt9x6jd87xplot6PMqiKBgfnWmauT/mUs73OeH33ypeIH+LunU9XByfZTZfmROMEiVEdhhrbDz3dZf6xM1KBbWwKBmfAeXA/SlhaOxNRyV34nmAK6Mk2ohwoB29UhZ+idTUHCHHnNb/kAxhlUacGwmx/sL8SbDmkPKUjJYrQpeXKx52OHtXeOD0zfHDHPMH0eqZOfo4ReLjsjBmuzg3U2KZIlsrAch9u/tyVosV+0KaSZHSjltbsaXwI8Ru6O1iNZ8jSL95PlyYmOeTtd+LHwYtE8izPI6vQ1NQoMlFB//2JcnER9Aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ id 1ngsRO-005bEh-Qy
+ for linux-nvme@lists.infradead.org; Tue, 19 Apr 2022 18:19:08 +0000
+Received: by mail-il1-x129.google.com with SMTP id y16so11066343ilc.7
+ for <linux-nvme@lists.infradead.org>; Tue, 19 Apr 2022 11:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8XRXDFWxOzDQjssWyWNyoZI2aOTm7YL0xdykwVcmTEc=;
- b=axuUScQDwwzYIqkBDn0gR7crBdzDzMO4xd10dK/10CwS2FjIhnpq05UggMFmY/QdALtkxW42M42cPAVdOXSS5Xs7cWTAq/UmlMhwJ/CXJXkJsN5IW8nIbUGgPissUDKOU1K09EmWdZMp8rMu0e55OUlWU72P6j0zCRBNPL7Qc7U=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by DM6PR10MB2860.namprd10.prod.outlook.com (2603:10b6:5:66::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 18:16:42 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::f427:92a0:da5d:7d49]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::f427:92a0:da5d:7d49%7]) with mapi id 15.20.5164.025; Tue, 19 Apr 2022
- 18:16:42 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: Trond Myklebust <trondmy@hammerspace.com>
-CC: Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
- "borisp@nvidia.com" <borisp@nvidia.com>,
- "simo@redhat.com" <simo@redhat.com>,
- "ak@tempesta-tech.com" <ak@tempesta-tech.com>
-Subject: Re: [PATCH RFC 08/15] SUNRPC: Add RPC_TASK_CORK flag
-Thread-Topic: [PATCH RFC 08/15] SUNRPC: Add RPC_TASK_CORK flag
-Thread-Index: AQHYU0UH7NIJR860dUOYblj2e849Maz2i/EAgAEAwYA=
-Date: Tue, 19 Apr 2022 18:16:42 +0000
-Message-ID: <AE1190F4-EDE4-4C2D-94C9-02A5EDAAFBC6@oracle.com>
-References: <165030062272.5246.16956092606399079004.stgit@oracle-102.nfsv4.dev>
- <165030072175.5246.14868635576137008067.stgit@oracle-102.nfsv4.dev>
- <a771c65353d0805fc5f028fa56691ee762d6843f.camel@hammerspace.com>
-In-Reply-To: <a771c65353d0805fc5f028fa56691ee762d6843f.camel@hammerspace.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.120.0.1.13)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b6b3dcb1-f293-4da3-9132-08da2230c187
-x-ms-traffictypediagnostic: DM6PR10MB2860:EE_
-x-microsoft-antispam-prvs: <DM6PR10MB286058B6A70B4B63647D7D1993F29@DM6PR10MB2860.namprd10.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ngLF6YoLQorMvBgui2JOCfeXFGm1NIpG/G26OU8XQex5o1taGqrk/yZuX4Q6Mxl3zp6HynikNN4zRAwLyh2id7/p1vYgFBmMec3Ua9KjFpJtzEntU4uUnp4e17EINT4Z8F8GWT7DtW79EUYLPpTYffZVH8r5ugFaHoyw+VxCIkMM1pYJpMA/d+wjVwFUxN3r5JjXL1YeolnL4zagzbXB8qGdqgs7UgLB5olIgvZv1RnKRGWNl59Am2dO5FsuyqpvYNmJBy4uqKYWXveRPlS7n2sENXYFs0Fmgzv2fgQc9zVwYV2xFtNQJk1gTJ7pm6vepIWcg1tgw+F68PiAl2O6/1MVozHxiz3ofBPRIiaODOtgUKWSWB9KoVpwkYI1GWx/yFuxIUqLHyaE5z6YCvTQWs6gSDZAT0tItnSpfet1EbLnAtcxUNouZ0rY2ug5J6ATlq7i76Ex89MwqaiiKhewlz87wjb3WS3CRG9dglPhCkB4UYjnzxi09jsfDWESBtScH34MaYANJpoLm/E9cWOgxp5TYhGTawMa2SyD2YouDKSCuGHHtPbuWFPQ+cJqaFxm/t1UL1VfMpDreVAeUh8Como8qgI9XAXrsf/nQNGtt3mDI0yF5G+4YIJdPLPm0Ra1HcHk7YTofWrx6e9yB8XGFmdgnlRJhtGGIC6EyX4aZAVCfr/huVx7AqAQIS88GVlnUJ8xavN366YiQhwp82tMGvjqO5MvN4g3tz9tN4mqk2OZt8Y0TKLPyf/34a38XL+c
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN0PR10MB5128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(86362001)(508600001)(5660300002)(2616005)(38100700002)(83380400001)(8936002)(64756008)(4326008)(8676002)(33656002)(66446008)(71200400001)(66556008)(66946007)(66476007)(91956017)(76116006)(6486002)(38070700005)(54906003)(36756003)(6916009)(122000001)(6512007)(2906002)(53546011)(186003)(26005)(6506007)(316002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9CLazAEWbRTYsOnoZtE9/Lovs3m1KsxfXGH8fuPw3l1ZYGhm/BBEhiuZCXjT?=
- =?us-ascii?Q?M52y3GVYFVabtqFkWqYP1Y/pCiUalnMO57bHi40Y+CTsXyqhXAsKTRVy0Z7q?=
- =?us-ascii?Q?RlDl5MNDMCqQ+HkYQ7ydInQOV8jt2tyu8Cktb3jafDSn50QTfJr/+9F0aJ9X?=
- =?us-ascii?Q?q/1LtaMgx5il0tshQT9mg84VsTZhlI2kKWlXPBaoWWVqbp34u1npfVpJBp6E?=
- =?us-ascii?Q?UHiD4kCOdgM+2H5RNVBl5ESXP4PRbXYPGqsms9O+QrWHbGTF3jzE+qiomfKR?=
- =?us-ascii?Q?8ydy9Lw34NwpeYouHAcfu1c3AgzycUEnuVS7Qpy005HUxzSO8UdgENfMZ3ec?=
- =?us-ascii?Q?gfjT0wlWlwCDSfkOze+mB9skyrggKIQba70QXUqI65Kq0sdq3cl5UZ2kummI?=
- =?us-ascii?Q?xDXBvqiwZ4OUZiew0R+wSktiSYIuTH5dg9C8AaP0xMon4bJNdkz+ht76MqxB?=
- =?us-ascii?Q?8S+mSU/kLRVlzQtr5sxWpxvA5Z6FIojNEOX/Q4MS77LxI3Y5K45/kKo0w8p5?=
- =?us-ascii?Q?NZLkDUeQAtrQdv515Nr6EbtY92nHMqbrGEJhtgxfVnkuxaAoiopLXegeNEA8?=
- =?us-ascii?Q?oBhy2fguaZtkKjvNCo46hoaF0SoO8L+X74sfTMkdBvyrg5944HOGVPyrsx3u?=
- =?us-ascii?Q?OX8ZkhhwvMcU8DzUZqvteIHv5jbI5FGbGkeTazN9q34psZs3wOv7HvCILq/2?=
- =?us-ascii?Q?a+IALZsvkrjunAQtc1/fNzKplml7SLEOE5NcdiI+3vSCKYJCIJA8S2lhUvnD?=
- =?us-ascii?Q?VBQY6v7OuTa4XCn6E+K94AXedpVnfkGLQCVyUbeHwf0QjiH1Rj7f3tl9+MWd?=
- =?us-ascii?Q?48aF2oRTIt2LOKhVIsjwei889ApZBWLyqOAlhKpSNRSRS7s5v16JG9udYG0Y?=
- =?us-ascii?Q?31VtkqIUHwxhATlyckJD5eoWdtGmCBbTdThH/OjEty+22KzcctBpDPO0Muxt?=
- =?us-ascii?Q?8TZ4VnixeNfYlYkNdcl9HyC3UrwGTtWzJMoX63scPmH2rl4R2GEZTE/0NcVM?=
- =?us-ascii?Q?GGpTZECsOKtUYs9jOiIMPnC5GsXbLurMniDwmR6Z3oJu6ZkAa68Kcj2pLsUk?=
- =?us-ascii?Q?mjGk3Uy2RDXK4tciFzuUjgWqfC0QpHforWpwPRuyIvQFZKWuqs6bPYejPoRH?=
- =?us-ascii?Q?hxPAO1heoEXsl3XgIlgZFPw4M72P9rIIjwnh7J3b4K4u44pSkxkHjqOg+sJO?=
- =?us-ascii?Q?2V7yRwsFG/M+6GReMH32PAd6aqM9MI0h+jMLpdgrRVBVtyA/bcYcak9HEkme?=
- =?us-ascii?Q?hWACfAWLQsjElnzDKH9GPEgE3xM+E9z/BZkCLx/cPDmDhb6xZ1Fr2Qlua7J1?=
- =?us-ascii?Q?oZPyki9kiSr4EPz+/rpSuGEHtreUhtwl1HNnENNhb2kQO/S8DbzRnuQVInqo?=
- =?us-ascii?Q?H1tJVveDdZUPSA6zjPohPC/rXGdV8d9GdAkPTRBMEEDxoX12eBEBwNqlFIuE?=
- =?us-ascii?Q?OBq/f7rrpZzZKmtXTrj/+hA17aa5k9nfO7J8oxEvolUQFULptq0JRF2DRNBi?=
- =?us-ascii?Q?dHrFWtpZDh8SjYMBbNwRtM8XetSJ5a1aSKkMV5kPmquhBU0MqGWckK3PhyYg?=
- =?us-ascii?Q?wWhG12GOMWE53V8RQ/JJdYE6Syhl7IklJCAefDOh1o01ZjFcBWjEx6f4Ywph?=
- =?us-ascii?Q?Wb1JCQxu08iog1An9PSLuz2HJzYQOSX2Mgq1Dx8lRrB7SwN2D/Be0bbNX8aB?=
- =?us-ascii?Q?7C7tIiJaryYvgm2OxUq59SgKXx/9KXnqWwEF/av58BqrFPFvwcTWFrIjn9sC?=
- =?us-ascii?Q?91tRDZBYR6oG5vWu1Fnm1M5G+t2/DDI=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AE46CDEB9A0DA04BB43F0317F513ED5D@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=wokerGmckRYYAuG7vnvwFGdqzKxOeMPs8itH9toPUxU=;
+ b=5AkJjFoLG48rzJfkn9rUwXkrViq/pEHLu/h2dyriVkRddxacAw04AnV751XlATXYOV
+ rrQTK0efnIZxBekjz9efpA8deIP2/EV5wUdDYTszpehfFohq/LAqKJJHBklKgM3gcPGk
+ zArXxopunBkFaC4RWFJmQILQggYpyVNyhgRa18K4p7UmSeHs+53NOMTqXZiGf0R4Azxm
+ D4l9hWJDkk7e+3YfkDz9m4TxKyQ+vCCzYxmH9sWCfl2s0+5oY/9wGbxb3fHRHUNCX9d2
+ bUziMkCj/WTpLK2YfXmZY6dDZSRRPnbFo6WFxOvIOCckVGqTRj7G7e4S2h2jvzAbzP+B
+ pAhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wokerGmckRYYAuG7vnvwFGdqzKxOeMPs8itH9toPUxU=;
+ b=XJ2u5OMpAQMv2f4V1+bQHui6DRvYa+yxk8DMclPiUNHwx9DP7Bih2dqoV2UTK2OMC2
+ TEH92ILTX5GeDpPhITL6qEe2mJXLUtAuJzIdzdVcr9RYI41k5oiJlq6AhT/ZcT5LHr0c
+ ZllfOL8MpKvdxNZViHGx20PMOuRhuqf7f44sfR5yHRIxpPeiKIY6R8S8+G2YIzz4tyrs
+ RWrjLhnEWbAMKc1BJTZwBrglJYUrTxjTqDzGv5sqCWoWUZpOmdCbYCQqXqkDy1cfTyeL
+ UrLg2CkefxyHqwL+QHtZkbtwirGU0fwkqGM4s9Y/ANiw41YfCTbQH+DnAVoYLpqp14In
+ r8tw==
+X-Gm-Message-State: AOAM533eQ/RldQb/ai6VaPGEWZkIEtJQGy/ktEgcFisUacv9vMQRQ/uK
+ 5MBuP9tN06qr9VbVKSfL7z91iQ==
+X-Google-Smtp-Source: ABdhPJwkDanwvNiImGwk18e3bS6pqNiYmqfNcUDzvNso7qtDM5g7c1/buvdEr7oCYUwpJW5k8RTCww==
+X-Received: by 2002:a92:c561:0:b0:2cb:d912:bc83 with SMTP id
+ b1-20020a92c561000000b002cbd912bc83mr7308075ilj.81.1650392343046; 
+ Tue, 19 Apr 2022 11:19:03 -0700 (PDT)
+Received: from [192.168.1.172] ([207.135.234.126])
+ by smtp.gmail.com with ESMTPSA id
+ e18-20020a5d85d2000000b00649254a855fsm9592310ios.26.2022.04.19.11.19.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Apr 2022 11:19:02 -0700 (PDT)
+Message-ID: <586ec702-fcaa-f12c-1752-bf262242a751@kernel.dk>
+Date: Tue, 19 Apr 2022 12:19:01 -0600
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6b3dcb1-f293-4da3-9132-08da2230c187
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2022 18:16:42.6070 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GpbdInB6l2iHbv2BSZ2KyjzX30h9vZRljYw4kulHN3wfN6BViGRumdfoweK0dyYMY+yOAFXXHhcX/HbJUdMeAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2860
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
- definitions=2022-04-19_06:2022-04-15,
- 2022-04-19 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204190104
-X-Proofpoint-ORIG-GUID: Q3TkknMt_QYkzTFv6OOhSLNDWymRfRNn
-X-Proofpoint-GUID: Q3TkknMt_QYkzTFv6OOhSLNDWymRfRNn
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 17/17] nvme: enable non-inline passthru commands
+Content-Language: en-US
+To: Kanchan Joshi <joshiiitr@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+ Keith Busch <kbusch@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, sbates@raithlin.com, logang@deltatee.com,
+ Pankaj Raghav <pankydev8@gmail.com>, =?UTF-8?Q?Javier_Gonz=c3=a1lez?=
+ <javier@javigon.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Adam Manzanares <a.manzanares@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
+References: <CGME20220308152729epcas5p17e82d59c68076eb46b5ef658619d65e3@epcas5p1.samsung.com>
+ <20220308152105.309618-18-joshi.k@samsung.com>
+ <20220310083652.GF26614@lst.de>
+ <CA+1E3rLaQstG8LWUyJrbK5Qz+AnNpOnAyoK-7H5foFm67BJeFA@mail.gmail.com>
+ <20220310141945.GA890@lst.de>
+ <CA+1E3rL3Q2noHW-cD20SZyo9EqbzjF54F6TgZoUMMuZGkhkqnw@mail.gmail.com>
+ <20220311062710.GA17232@lst.de>
+ <CA+1E3rLGwHFbdbSTJBfWrw6RLErwcT2zPxGmmWbcLUj2y=16Qg@mail.gmail.com>
+ <20220324063218.GC12660@lst.de> <20220325133921.GA13818@test-zns>
+ <20220330130219.GB1938@lst.de>
+ <CA+1E3r+Z9UyiNjmb-DzOpNrcbCO_nNFYUD5L5xJJCisx_D=wPQ@mail.gmail.com>
+ <a44e38d6-54b4-0d17-c274-b7d46f60a0cf@kernel.dk>
+ <CA+1E3r+CSC6jaDBXpxQUDnk8G=RuQaa=DPJ=tt9O9qydH5B9SQ@mail.gmail.com>
+ <f3923d64-4f84-143b-cce2-fcf8366da0e6@kernel.dk>
+ <CA+1E3rJHgEan2yiVS882XouHgKNP4Rn6G2LrXyFu-0kgyu27=Q@mail.gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <CA+1E3rJHgEan2yiVS882XouHgKNP4Rn6G2LrXyFu-0kgyu27=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220419_111651_892989_5EC61E37 
-X-CRM114-Status: GOOD (  28.97  )
+X-CRM114-CacheID: sfid-20220419_111907_131391_2A72448E 
+X-CRM114-Status: GOOD (  18.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,144 +112,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 4/19/22 11:31 AM, Kanchan Joshi wrote:
+> Hi Jens,
+> Few thoughts below toward the next version -
+> 
+> On Fri, Apr 1, 2022 at 8:14 AM Jens Axboe <axboe@kernel.dk> wrote:
+> [snip]
+>>>>> Sure, will post the code with bigger-cqe first.
+>>>>
+>>>> I can add the support, should be pretty trivial. And do the liburing
+>>>> side as well, so we have a sane base.
+>>>
+>>>  I will post the big-cqe based work today. It works with fio.
+>>>  It does not deal with liburing (which seems tricky), but hopefully it
+>>> can help us move forward anyway .
+>>
+>> Let's compare then, since I just did the support too :-)
+> 
+> Major difference is generic support (rather than uring-cmd only) and
+> not touching the regular completion path. So plan is to use your patch
+> for the next version with some bits added (e.g. overflow-handling and
+> avoiding extra CQE tail increment). Hope that sounds fine.
 
+I'll sanitize my branch today or tomorrow, it has overflow and proper cq
+ring management now, just hasn't been posted yet. So it should be
+complete.
 
-> On Apr 18, 2022, at 10:57 PM, Trond Myklebust <trondmy@hammerspace.com> w=
-rote:
->=20
-> On Mon, 2022-04-18 at 12:52 -0400, Chuck Lever wrote:
->> Introduce a mechanism to cause xprt_transmit() to break out of its
->> sending loop at a specific rpc_rqst, rather than draining the whole
->> transmit queue.
->>=20
->> This enables the client to send just an RPC TLS probe and then wait
->> for the response before proceeding with the rest of the queue.
->>=20
->> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
->> ---
->>  include/linux/sunrpc/sched.h  |    2 ++
->>  include/trace/events/sunrpc.h |    1 +
->>  net/sunrpc/xprt.c             |    2 ++
->>  3 files changed, 5 insertions(+)
->>=20
->> diff --git a/include/linux/sunrpc/sched.h
->> b/include/linux/sunrpc/sched.h
->> index 599133fb3c63..f8c09638fa69 100644
->> --- a/include/linux/sunrpc/sched.h
->> +++ b/include/linux/sunrpc/sched.h
->> @@ -125,6 +125,7 @@ struct rpc_task_setup {
->>  #define RPC_TASK_TLSCRED               0x00000008      /* Use
->> AUTH_TLS credential */
->>  #define RPC_TASK_NULLCREDS             0x00000010      /* Use
->> AUTH_NULL credential */
->>  #define RPC_CALL_MAJORSEEN             0x00000020      /* major
->> timeout seen */
->> +#define RPC_TASK_CORK                  0x00000040      /* cork the
->> xmit queue */
->>  #define RPC_TASK_DYNAMIC               0x00000080      /* task was
->> kmalloc'ed */
->>  #define        RPC_TASK_NO_ROUND_ROBIN         0x00000100      /*
->> send requests on "main" xprt */
->>  #define RPC_TASK_SOFT                  0x00000200      /* Use soft
->> timeouts */
->> @@ -137,6 +138,7 @@ struct rpc_task_setup {
->> =20
->>  #define RPC_IS_ASYNC(t)                ((t)->tk_flags &
->> RPC_TASK_ASYNC)
->>  #define RPC_IS_SWAPPER(t)      ((t)->tk_flags & RPC_TASK_SWAPPER)
->> +#define RPC_IS_CORK(t)         ((t)->tk_flags & RPC_TASK_CORK)
->>  #define RPC_IS_SOFT(t)         ((t)->tk_flags &
->> (RPC_TASK_SOFT|RPC_TASK_TIMEOUT))
->>  #define RPC_IS_SOFTCONN(t)     ((t)->tk_flags & RPC_TASK_SOFTCONN)
->>  #define RPC_WAS_SENT(t)                ((t)->tk_flags &
->> RPC_TASK_SENT)
->> diff --git a/include/trace/events/sunrpc.h
->> b/include/trace/events/sunrpc.h
->> index 811187c47ebb..e8d6adff1a50 100644
->> --- a/include/trace/events/sunrpc.h
->> +++ b/include/trace/events/sunrpc.h
->> @@ -312,6 +312,7 @@ TRACE_EVENT(rpc_request,
->>                 { RPC_TASK_TLSCRED, "TLSCRED"
->> },                        \
->>                 { RPC_TASK_NULLCREDS, "NULLCREDS"
->> },                    \
->>                 { RPC_CALL_MAJORSEEN, "MAJORSEEN"
->> },                    \
->> +               { RPC_TASK_CORK, "CORK"
->> },                              \
->>                 { RPC_TASK_DYNAMIC, "DYNAMIC"
->> },                        \
->>                 { RPC_TASK_NO_ROUND_ROBIN, "NO_ROUND_ROBIN"
->> },          \
->>                 { RPC_TASK_SOFT, "SOFT"
->> },                              \
->> diff --git a/net/sunrpc/xprt.c b/net/sunrpc/xprt.c
->> index 86d62cffba0d..4b303b945b51 100644
->> --- a/net/sunrpc/xprt.c
->> +++ b/net/sunrpc/xprt.c
->> @@ -1622,6 +1622,8 @@ xprt_transmit(struct rpc_task *task)
->>                 if (xprt_request_data_received(task) &&
->>                     !test_bit(RPC_TASK_NEED_XMIT, &task-
->>> tk_runstate))
->>                         break;
->> +               if (RPC_IS_CORK(task))
->> +                       break;
->>                 cond_resched_lock(&xprt->queue_lock);
->>         }
->>         spin_unlock(&xprt->queue_lock);
->>=20
->>=20
->=20
-> This is entirely the wrong place for this kind of control mechanism.
+> We have things working on top of your current branch
+> "io_uring-big-sqe". Since SQE now has 8 bytes of free space (post
+> xattr merge) and CQE infra is different (post cqe-caching in ctx) -
+> things needed to be done a bit differently. But all this is now tested
+> better with liburing support/util (plan is to post that too).
 
-I'm not sure I entirely understand your concern, so bear with
-me while I try to clarify.
+Just still grab the 16 bytes, we don't care about addr3 for passthrough.
+Should be no changes required there.
 
-
-> TLS vs not-TLS needs to be decided up front when we initialise the
-> transport (i.e. at mount time or whenever the pNFS channels are set
-> up). Otherwise, we're vulnerable to downgrade attacks.
-
-Downgrade attacks are prevented by using "xprtsec=3Dtls" because
-in that case, transport creation fails if either the AUTH_TLS
-fails or the handshake fails.
-
-The TCP connection has to be established first, though. Then the
-client can send the RPC_AUTH_TLS probe, which is the same as the
-NULL ping that it already sends. That mechanism is independent
-of the lower layer transport (TCP in this case).
-
-Therefore, RPC traffic must be stoppered while the client:
-
-1. waits for the AUTH_TLS probe's reply, and
-
-2. waits for the handshake to complete
-
-Because an RPC message is involved in this interaction, I didn't
-see a way to implement it completely within xprtsock's TCP
-connection logic. IMO, driving the handshake has to be done by
-the generic RPC client.
-
-So, do you mean that I need to replace RPC_TASK_CORK with a
-special return code from xs_tcp_send_request() ?
-
-
-> Once we've decided that TLS is the right thing to do, then we shouldn't
-> declare to the RPC layer that the TLS-enabled transport is connected
-> until the underlying transport connection is established, and the TLS
-> handshake is done.
-
-That logic is handled in patch 10/15.
-
-Reconnecting and re-establishing a TLS session is handled in
-patches 11/15 and 12/15. Again, if the transport's policy setting
-is "must use TLS" then the client ensures that a TLS session is in
-use before allowing more RPC traffic on the new connection.
-
-
---
-Chuck Lever
-
-
+-- 
+Jens Axboe
 
 
