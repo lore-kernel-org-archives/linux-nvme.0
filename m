@@ -4,57 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19110C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Apr 2022 06:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30961C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Apr 2022 09:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WuUwuh2UJHrwkV+OnAKpQKGxVWCdiyrhfp2L4ViXtE8=; b=o/MshAg+B0o+zON0GM3wmnPy7S
-	MmJwsPd+6pOI8xuExVWTzkyZaxwpEp2gC+gKZ9MLPY5LBR2daufZ1gnaK1HmWBFhGv2EEp0+H3tlu
-	uJmWWo9i9/aKobRTDgGc6kexMGffEcXUuar+trXV4ATxjt6pVmpAMnnbNPVnGs/WWOH0IIHVlXDT+
-	9a/e6WZZKNIlqMvVx/++F7IxdQdVNwaDrJ6TYESJQStDqDThUGWLTJA8fT2G2pAXzFXBxBkcx9cis
-	sLqTnS1Mgtr7giMeGdAUeYpmBUe+3ypfi6yb3CcQ97xMpRrkT73b8gydXX+cqxIl1Lhfxj/EnXRo0
-	A1/gg1og==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
+	From:Date:References:In-Reply-To:Message-Id:Mime-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7FH/cZqwHqkstNxttHiwShTx35esBf5x9xB4oSROZV8=; b=lbsfJlUE0L6H5hBzKvEsem7tA2
+	UMUl8g1IL2zFjklxhBRpR2b86DUSICkbvrGpBi8c2JDWMCZqgnmMKakuNKe478T1KaaSQEJWQpe2o
+	/q6OgtZHHqK0AlW86yfugxWATuhqvm4XLmkjpt/+Ir33hBDKTsCabN3Hv+CNaLfE4KFeycKdmYTQi
+	AqLc26xf2ypLUtsxvdaKCes9ocOg9E0Z0dadkizHxp98nFRl8aUU3g0f9Ccl/tfrwXlT4/TPbrAyd
+	V1iOjdGsXwR9u/n/QhpFkdL5uROxaVKhYIl7apTDTKOu2PCdKSMIn8vlnhdsoabc64dhSbT2ZpOaJ
+	mRJVjROQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ngguS-001eEq-6B; Tue, 19 Apr 2022 06:00:20 +0000
-Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
+	id 1ngkSb-002bus-3r; Tue, 19 Apr 2022 09:47:49 +0000
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ngguG-001eAV-JZ; Tue, 19 Apr 2022 06:00:10 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: marcan@marcan.st)
- by mail.marcansoft.com (Postfix) with ESMTPSA id F1035419C2;
- Tue, 19 Apr 2022 05:59:56 +0000 (UTC)
-Message-ID: <e2a6dc4d-0e8a-c4d3-fec3-e8b0b874235a@marcan.st>
-Date: Tue, 19 Apr 2022 14:59:53 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: es-ES
-To: Christoph Hellwig <hch@lst.de>, Sven Peter <sven@svenpeter.dev>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Marc Zyngier <maz@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-spdx@vger.kernel.org
+ id 1ngkSP-002bqZ-Vo; Tue, 19 Apr 2022 09:47:39 +0000
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 003B75C018F;
+ Tue, 19 Apr 2022 05:47:30 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute2.internal (MEProxy); Tue, 19 Apr 2022 05:47:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1650361650; x=1650448050; bh=7F
+ H/cZqwHqkstNxttHiwShTx35esBf5x9xB4oSROZV8=; b=RSNMLGBgDgANeCVu2V
+ Q5XHDMelTAniUUIJTvqtY/gqFdq49d3ifi6JBihik0CL1OUDgw05mqp0Lpz0zCdB
+ S+er/mNixteyESDqYCQ39ReAQ8A+leQO9puqemXGoN2Zi0w1z35IqpUzooo2VO8U
+ Woo2Xq/3XBQny8D4RyTA6WFNi17+4VnuLzxnmdZds97G3+cQWHOx8NUYtrndOzeF
+ GoR4xruJ1l6FB7qFpFnPRzpAYPsl9j46NGsXquuJQSrTEknQz0PlHZbJHaepc475
+ L8fIRYlGbsVULD6+vn4TuZNe0jCW2zsA3CvsmhM/fUwyNykatY0tE9E/vl1Bf5se
+ 5m/g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650361650; x=
+ 1650448050; bh=7FH/cZqwHqkstNxttHiwShTx35esBf5x9xB4oSROZV8=; b=i
+ 9+RnVzSBgugZuECfHOZAm1xZajUYSMp4J50UH1XscbROtWy7CZbImt4vsnCWwnUm
+ VlpB5SZxTQfcXSdNDN01myghMsKbdvumzkPaNt/mMSJgUPTPtNICGu5evM15G8wz
+ ASnEMn33h7dmqy7/iYaPMzQHOkBZAU0sls9fnwcgU5/ka7bYzFFvPKzNidqSkuSe
+ k3np/lZLQXva9Qqn3e6Lc/WWas0UTmjBXImqcD65lkkwamWNuoHgvRdsyPWiEPbk
+ nZ+fu0dR/+Z+3X5BYwNTYAyrdiUIrAy4Frs7tc4a2HVhf2KPn9znXrxIogiB/E/O
+ TgCJXAYa/R34WoNYaalQg==
+X-ME-Sender: <xms:MoVeYrRJuEmQp9OW8ELRO8bnthEO0E1WFsyNa2BPvqBWi-lWsaeqVg>
+ <xme:MoVeYsw1lUdMLnjHiptY3r0o2-ITx7IsrpiOlcxAF8w1eGVx4B7VY_qciHDvKX6y9
+ dyyTrIRU_cgvRV5zsg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtfedgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
+ nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
+ htthgvrhhnpefgieegieffuefhtedtjefgteejteefleefgfefgfdvvddtgffhffduhedv
+ feekffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:MoVeYg2ITQBfhRV73oNcpoGHcpcUqG9Ou_BT8Fz5l8XLObV8cV1S2w>
+ <xmx:MoVeYrAHHsDC-cCyRFihVJpCApcmXoa4_gMeOJUiuJN4EunHGOnB_A>
+ <xmx:MoVeYkgqNbqu-9hFaBiAWD3eemd_RJdaMh7oMIr6KozBdnIeNLrmUQ>
+ <xmx:MoVeYlbifUtunMt4WlgOCSCylCF2Wp3l0iTAgDoVhfa8tEuOghHmLw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 500B22740692; Tue, 19 Apr 2022 05:47:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-387-g7ea99c4045-fm-20220413.002-g7ea99c40
+Mime-Version: 1.0
+Message-Id: <866f79b1-6c02-4248-ac98-594829fed204@www.fastmail.com>
+In-Reply-To: <20220419053157.GA31530@lst.de>
 References: <20220415142055.30873-1-sven@svenpeter.dev>
  <20220415142055.30873-7-sven@svenpeter.dev> <20220419053157.GA31530@lst.de>
-From: Hector Martin <marcan@marcan.st>
+Date: Tue, 19 Apr 2022 11:47:09 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "hch@lst.de" <hch@lst.de>
+Cc: "Keith Busch" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Marc Zyngier" <maz@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spdx@vger.kernel.org
 Subject: Re: [PATCH v2 6/6] nvme-apple: Add initial Apple SoC NVMe driver
-In-Reply-To: <20220419053157.GA31530@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220418_230008_836973_45643B01 
-X-CRM114-Status: GOOD (  12.40  )
+X-CRM114-CacheID: sfid-20220419_024738_121711_EA2EBF4D 
+X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,7 +106,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 19/04/2022 14.31, Christoph Hellwig wrote:
+On Tue, Apr 19, 2022, at 07:31, Christoph Hellwig wrote:
 > On Fri, Apr 15, 2022 at 04:20:55PM +0200, Sven Peter wrote:
 >> +++ b/drivers/nvme/host/apple.c
 >> @@ -0,0 +1,1597 @@
@@ -77,25 +114,24 @@ On 19/04/2022 14.31, Christoph Hellwig wrote:
 >> +/*
 >> + * Apple ANS NVM Express device driver
 >> + * Copyright The Asahi Linux Contributors
-> 
+>
 > Is that actually a valid legal entity?
+>
+>> +#include <linux/io-64-nonatomic-lo-hi.h>
+>
+> Does this controller still not support 64-bit MMIO accesses like
+> the old Apple PCIe controllers or is this just a leftover?
 
-It does not have to be. See here for the rationale behind this style of
-copyright line:
+I just checked again and 64-bit accesses seem to work fine.
+I'll remove the lo_hi_* calls and this include.
 
-https://www.linuxfoundation.org/blog/copyright-notices-in-open-source-software-projects/
+>
+> The rest of the code looks fine to me:
+>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-TL;DR name- and year-ful copyright lines are basically useless, as they
-become out of date almost immediately after they are applied. This way
-we acknowledge that the files have multiple contributors (and that the
-copyright line isn't trying to be an exhaustive list thereof). This
-style is so far rare, but not unheard of, in the kernel; there is prior
-art (e.g. grep for 'Chromium OS Authors').
+Thanks!
 
-(I get to re-tell this story every time we upstream to a new subsystem;
-I think it's the sixth time or so :-) )
 
--- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
+Sven
 
