@@ -4,54 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACA56C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Apr 2022 04:35:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0099CC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Apr 2022 06:14:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rUNzNTA7KiGKI5Gr3YCJNZKZM2l+gczyHinoEn3uWM0=; b=KAg8XLv2oWYg+FFb1qEWQNFgex
-	J61xgWJAy848klU7YhBhM1WUishwdvDGS+S8UorFx6dwbH+w2DNF5Cqxt/3akICZXb/S2rWl/fD88
-	V/9jqLF17I2oMlq2eOr9FDyIG2mD9HwIko8Srx/vj4yCenNGJ3G+F+ILjnNkW/VrTX9uOiFPAipWx
-	U4Dz9MU5Lv9PfbbpCFQvodZFCz7dTVTS33n+2eoTtKNWQ/DNiMIE8Q704ZX0YQw2r/xtKuCUqO6JU
-	5aJ+yOcu//ySz+dzmt/Jdx1tOOX0ZUAXZnxfbLd7hoFPuCyMyTlZmb1jZLg7CnvvYbUSjwMOSox5g
-	59AwezIg==;
+	bh=f+gZduF2psfthY6DZICa9pGL/YCscA8r6rtJLOIe55U=; b=EZU3hLIKo8OT/7jac5fBmicZU3
+	yFHdVg1OCAAi9EH/ghV6FaBKMxwxI1DAYDdZlEd3OgEwiANOQjzCTX8nxR9oylD3CjPjZOpgwfV84
+	0TMwAHqC9gJztNiYWbGaCfTUe9I8SrZvEWSHRn9dotlNXrkB0MGR68dTHbcPh5k2Azw8v95B8UX7p
+	vNFIfGoI6c/uI1nwwK8Rrw36QB7hGerTlWbAko/BroY/z/rx/0wFRmTG3hvANg/VOwK0AYl9RQIIh
+	KPcAnz5cbmSosm+PS/sZjwA69/Hz2rI5BJtdYGmUS+fOif8OiQWLQk1lgOJ/MVDi+VeGSof6Xycx+
+	zgnfOQGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nh23N-007JT4-8l; Wed, 20 Apr 2022 04:34:57 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nh3bS-007VLk-Ov; Wed, 20 Apr 2022 06:14:14 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nh23B-007JOR-MZ; Wed, 20 Apr 2022 04:34:47 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 4E88F67373; Wed, 20 Apr 2022 06:34:38 +0200 (CEST)
-Date: Wed, 20 Apr 2022 06:34:37 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Sven Peter <sven@svenpeter.dev>, "hch@lst.de" <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>, Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Marc Zyngier <maz@kernel.org>, DTML <devicetree@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ id 1nh3bM-007VKp-4b
+ for linux-nvme@lists.infradead.org; Wed, 20 Apr 2022 06:14:09 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D78D1B81D02;
+ Wed, 20 Apr 2022 06:14:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8A1C385A0;
+ Wed, 20 Apr 2022 06:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1650435245;
+ bh=f+gZduF2psfthY6DZICa9pGL/YCscA8r6rtJLOIe55U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gAiFuoZWbfA3Gbp4SxuUGUqH6JkSe/fn7fp5xEdlK/nzTT++Vz8BaPmQUgPR6AAKo
+ qpD9ofG9aKOVf4zuM/gyDF8rlIv39oalEu+uV7byAtPbTdqsd7rQqeLrmOIEy1FAxc
+ bnfeKWqpizdlXwCr0aCusvizQMdxjb/o/hq7o9KM=
+Date: Wed, 20 Apr 2022 08:13:50 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tanjore Suresh <tansuresh@google.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Bjorn Helgaas <bhelgaas@google.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org, linux-spdx@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] nvme-apple: Add initial Apple SoC NVMe driver
-Message-ID: <20220420043437.GA1123@lst.de>
-References: <20220415142055.30873-1-sven@svenpeter.dev>
- <20220415142055.30873-7-sven@svenpeter.dev> <20220419053157.GA31530@lst.de>
- <866f79b1-6c02-4248-ac98-594829fed204@www.fastmail.com>
- <CAK8P3a2CWZb3vdHQvseJZQwPbUFDRo5Z9aGb7iVgodT1YeB5Yw@mail.gmail.com>
+ linux-nvme@lists.infradead.org, linux-pci <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v2 0/3] Asynchronous shutdown interface and example
+ implementation
+Message-ID: <Yl+knjqs5CyUiRjk@kroah.com>
+References: <20220412224348.1038613-1-tansuresh@google.com>
+ <CALVARr6GNk=LCLaeaW87=UKPz+LtJFnuXbARkH44R+vs3E3S-Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a2CWZb3vdHQvseJZQwPbUFDRo5Z9aGb7iVgodT1YeB5Yw@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <CALVARr6GNk=LCLaeaW87=UKPz+LtJFnuXbARkH44R+vs3E3S-Q@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220419_213445_912174_F4120D32 
-X-CRM114-Status: GOOD (  18.54  )
+X-CRM114-CacheID: sfid-20220419_231408_358154_B517A722 
+X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,31 +73,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 19, 2022 at 11:52:15AM +0200, Arnd Bergmann wrote:
-> > I just checked again and 64-bit accesses seem to work fine.
-> > I'll remove the lo_hi_* calls and this include.
-> 
-> If you remove the #include, it is no longer possible to compile-test
-> this on all 32-bit architectures, though that is probably fine as long
-> as the Kconfig file has the right dependencies, like
-> 
->       depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
-> 
-> I'd prefer to keep the #include here, but I don't mind the dependency
-> if Christoph prefers it that way.
+On Tue, Apr 19, 2022 at 03:35:47PM -0700, Tanjore Suresh wrote:
+> Hey,
 
-So thre's really two steps here:
+Please never top-post.
 
- 1) stop uing lo_hi_readq diretly which forces 32-bit access even on
-    64-bit platforms
- 2) stop using the io-64-nonatomic headers entirely
+> I did not hear any comments on this v2 version. Please help me with your
+> comments and approval so that this can be prepared for checkin.
 
-I definitively want 1) done if the hardware does not require it.  Trying
-to cater to 32-bit build tests on hardware that has no chance of ever
-being used there by including the header seems a bit silly, but if
-it makes folks happy I can live with it.
+Relax, it is in my to-review queue...
 
-> 
->        Arnd
----end quoted text---
+There is no rush here.
+
+greg k-h
 
