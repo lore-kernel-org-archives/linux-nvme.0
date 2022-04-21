@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DE1BC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Apr 2022 21:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B548C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Apr 2022 21:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IinI33pSr8d3WhExYC7mTfj7eLtY6joSBsl3ibPhoGg=; b=Qrafn7RsYyavsmnnnCJWR9mJLQ
-	DVjm4QADhM6OSukB+XErK3x7SDnsI6Km6cIaOJx7v34jKLkg7kh0qkvJhPg8wlbQ0O1g4E0wom67f
-	kQn+hvNpAYl79Xi02a1gn9hqoAYuq4/Xolyx7z5vco6hjot6sWPdb4VwtlIj5rLHGbGHxDS4KgvOA
-	lNzSuyZ5gkUH3Pqv2eFQuylSjOBmy9hJBLBMAwtVL3O5z/gmgltnOTaXB5tgR2uquMwWXD67ugxbi
-	MpexM3fs4/mkwkRs/QjOrEfErPfo9YCOYR9GKDpF/zHhhYHwRPCNnQvslWzqeBmIAsWDFlTlzb5s4
-	x+QldPsg==;
+	bh=GIkmPRn6aXIFTLXMDEzU8Z7cPf9kdXdPCyaOczwE6x0=; b=yiCsgfWSatm//sa5CvbeQo8LQ3
+	WaUXDmD0MWLFR1eOxiwOqGNUg5LG3DsLLuXBWcZz1WIo3ApvWzY0k0nZLppbxx8Isl/ja4RJcLDwd
+	7uBoL60LsNRODz5IFHpMy9dJDOk1jz1y3jd9wRO1pEp4jTm2iA+dFzSkvdxZdbBA0X4N82LT20zI4
+	Py8VPZ3WTO7nxl19eFsbGQ/P8CkGVC0zz1F/ms9G32uc74u7VSKebVEBY8E0+sM06CE7o0D+HKSmn
+	96bLrXKP0ss/RrtbMKgxjkCEat1QznlXEXnbF51EyCRJTNXk5Rqr5tvcLLuFT+r2C5araOTmoZgV3
+	uznMBBYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nheEe-00F1Fi-3I; Thu, 21 Apr 2022 21:21:08 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1nhebZ-00F5vE-Tz; Thu, 21 Apr 2022 21:44:49 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nheEb-00F1EW-He
- for linux-nvme@lists.infradead.org; Thu, 21 Apr 2022 21:21:06 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id i24so6122482pfa.7
- for <linux-nvme@lists.infradead.org>; Thu, 21 Apr 2022 14:21:04 -0700 (PDT)
+ id 1nhebW-00F5uj-Lz
+ for linux-nvme@lists.infradead.org; Thu, 21 Apr 2022 21:44:47 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id n8so6643761plh.1
+ for <linux-nvme@lists.infradead.org>; Thu, 21 Apr 2022 14:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=IinI33pSr8d3WhExYC7mTfj7eLtY6joSBsl3ibPhoGg=;
- b=DCakvaO85AHCPkXp1OMlJGDTQgPZHI6loyZStX1R06qX3I8dlTt8gy4VOUJ/X1QRo5
- kj/GasYXiUQfIkp1NFVNFCx3EL3XjoHbJHjAjvCnBsRgeJ3Te1ZQUT9RVkXXzc7oahvi
- T6ldgq9In5sBxJlTibzusLYfg9f5Js72idQqPI712gT/X61EPmDWdmuVgGOUlHfmH1OX
- tBUqSwrtLOnSkSIQGg4T8kZ3yKXcCJ8WxP32RePAeqhVPOXJM7Q6YRCzd0e5qp12hlNK
- 9agkcAvEgTQ9aWn+ojFuWjNXu6sbKRHPBgOdfl8Ef9piSRNhYS6a7t0rtNXuhCfVGL0w
- b0FA==
+ bh=GIkmPRn6aXIFTLXMDEzU8Z7cPf9kdXdPCyaOczwE6x0=;
+ b=Y+ot/N7E3NqtwNRkxxSQvG8RLexpxttLfKY4X2H753dGZgDytqswn3fJSKyb3cJFbH
+ li+mL9j7bJx2hlPee+M4Olu2UZNUV2GxkQAjVde+z8e/75fQjDwi9Fnvqbrk3yHU/RBZ
+ 9NE7UFSIwy6xkhNy7ODaqcifxQ58kzt+nyKjzpBJ2xVhIXHf8KY3VVOt4PiYl+cSzeKY
+ Nu0bQZioVPXHgcvVihXVQDPHhnx9ZdX1+d0UPvh5V2OMKUv0qIIc9T9OoQcyq78QovKw
+ z43U2HpqbNvSPKATYbDIhMdIrOfXUdMI4W5mQynu/1WEcGaLs4vVOgTTz5l8xUcx1a32
+ Vrtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
  :references:mime-version:content-disposition:in-reply-to;
- bh=IinI33pSr8d3WhExYC7mTfj7eLtY6joSBsl3ibPhoGg=;
- b=4stxg1F9bUsAo0f+ExzcS+bmBm83k4iQst2bHE+TSsUO+fiFQgSumnRZLlQ+SLDo7I
- h4A8o6dvSCNvk8ulpDGXgFWMwSkowAoJ2jwblc6bOyP6+5f4/5hn/u3l0njWWcrF6zTZ
- 32xZFnwFK3Ktl89P2tRpWBrbr0pigu0xZWyzG4FsXqZ01i5/A1zpZlG2vhu9wN/AnwmV
- BV3tziEcik6UrZ1djSwg1yTty0oaxjdQ3hofbkXA/1U3if86AnWzcgTh+U352JelVpeG
- 91mH+qMF9X1uOqusCSkLf7r2J7xzdImudnptzFS1qfofn4Vvrlystnd/sNJ3t2/6KhAb
- 4r4g==
-X-Gm-Message-State: AOAM531qLOvDHdPCdDmunT07UiLyJ5q0j7otNq/jLFIZ1l6hCT3B/FiX
- Kgv33N+MD5fFEKPIm43UBfQ=
-X-Google-Smtp-Source: ABdhPJy5TJ66lJLVdKIjrTX7qAzuwVt4TUqEbAZpVabpPFZJqIcnhheMAkwWTUQtOy10+JNdywDS5A==
-X-Received: by 2002:a05:6a00:1a0a:b0:4fc:d6c5:f3f1 with SMTP id
- g10-20020a056a001a0a00b004fcd6c5f3f1mr1626949pfv.45.1650576063704; 
- Thu, 21 Apr 2022 14:21:03 -0700 (PDT)
+ bh=GIkmPRn6aXIFTLXMDEzU8Z7cPf9kdXdPCyaOczwE6x0=;
+ b=fqfCwMyHqDuALWv+H0kVmNZjNCVp+i8i9AiR9tvB7UbZX8h7LAGgaI2lnqKX1HLQD+
+ YYSjY0vyY368S26Swfep8n24LTbP3hRfj2g0NxJaYf36+RLIbuXvm65kfyyhbZ9wdqPT
+ IRhD0x04pZ8qWxEW0d60vAlgiLM7P4p0hvMZDPkr4xfmt6xGhsucNAmpM/WJl0rRi69F
+ 5Og5u/hCjx16t93VY0CzrRpQ3x1jCDoxdZWXh+b866MuS50w+QodLULoBiLDp4icGrEB
+ oueGiqfEV++iyHESN5+07hvPxSOlvOm1GWO7Rx8aXIRYRrIZGa/Ff+12CNy1l/f7UX15
+ 2hug==
+X-Gm-Message-State: AOAM530XbqSwxLilC1nIiQOqOvwy18sHcymBtU67IV6RGQ3+w9YnoZqY
+ iigX9lgPCJ8biSxxBPll9Xk=
+X-Google-Smtp-Source: ABdhPJxHcJDy80tcA6sx3LqqnfHByJ4eX9ilg9ZOtqESXPl+xJmI1z5M+822VXfcwS0QGTJePQ/7fw==
+X-Received: by 2002:a17:90a:6445:b0:1d6:a69e:406c with SMTP id
+ y5-20020a17090a644500b001d6a69e406cmr4662624pjm.49.1650577485382; 
+ Thu, 21 Apr 2022 14:44:45 -0700 (PDT)
 Received: from localhost ([2620:10d:c090:400::5:15fa])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a637e10000000b00382b21c6b0bsm64796pgc.51.2022.04.21.14.21.02
+ y4-20020a056a00190400b004fac0896e35sm80878pfi.42.2022.04.21.14.44.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 14:21:03 -0700 (PDT)
-Date: Thu, 21 Apr 2022 11:21:01 -1000
+ Thu, 21 Apr 2022 14:44:44 -0700 (PDT)
+Date: Thu, 21 Apr 2022 11:44:43 -1000
 From: Tejun Heo <tj@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Paolo Valente <paolo.valente@linaro.org>,
@@ -67,18 +67,16 @@ Cc: Jens Axboe <axboe@kernel.dk>, Paolo Valente <paolo.valente@linaro.org>,
  Dick Kennedy <dick.kennedy@broadcom.com>,
  linux-block@vger.kernel.org, cgroups@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH 01/15] blk-cgroup: remove __bio_blkcg
-Message-ID: <YmHKvY658MbXQKzj@slm.duckdns.org>
+Subject: Re: make the blkcg and blkcg structures private
+Message-ID: <YmHQS1pyIglK+gfS@slm.duckdns.org>
 References: <20220420042723.1010598-1-hch@lst.de>
- <20220420042723.1010598-2-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220420042723.1010598-2-hch@lst.de>
+In-Reply-To: <20220420042723.1010598-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220421_142105_635548_2DE094E1 
-X-CRM114-Status: UNSURE (   9.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220421_144446_755265_76D55501 
+X-CRM114-Status: GOOD (  15.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,12 +91,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 20, 2022 at 06:27:09AM +0200, Christoph Hellwig wrote:
-> Remove the unused and deprecated __bio_blkcg helper.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hello,
 
-Acked-by: Tejun Heo <tj@kernel.org>
+On Wed, Apr 20, 2022 at 06:27:08AM +0200, Christoph Hellwig wrote:
+> this series cleans up various lose end in the blk-cgroup code to make it
+> easier to follow in preparation of reworking the blkcg assignment for
+> bios.  The biggest change is that most of <linux/blk-cgroup.h> is now
+> taken private into block/.
+
+The patches look all good to me and I'm not against making things more
+private but can you elaborate on the rationale a bit more? By and large, we
+have never been shy about putting things in the headers if there's *any*
+(perceived) gain to be made from doing so, or even just as a way to pick the
+locations for different things - type defs go on header and so on. Most of
+the inlines and [un]likely's that we have are rather silly with modern
+compilers with global optimizations, so it does make sense to get tidier,
+but if that's the rationale, mentioning that in the commit message, even
+briefly, would be great - ie. it should explain the benefits of adding these
+few accessors to keep the definition private.
 
 Thanks.
 
