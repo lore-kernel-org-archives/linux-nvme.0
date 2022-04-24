@@ -4,77 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7767C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Apr 2022 11:40:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23A8FC433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Apr 2022 11:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vZQCBA15R9Ya7Shhm5Hz7cUgtmM4P+Sb2TCYwDpu1L0=; b=CRLFPliYDtqHMTY2nr1rd92vld
-	mSEakZnpQcuSbc3Pxx67fPCPcNBfU1cjzECWR4OMsjy9E7+vh0FQqAZ6qdz1eQyHvc6QToqctjw9o
-	E2MyJ3CGdQKPClWY50pfLa+OdRLXjjqxbz2L+c3NEcR5rNEPOmopwvN1T1X3MplL1qkq+wFmzwcVl
-	estN5B2dUW4/cfztXOiSt7fY2TRmbhqZrefFhcA3bB7X63msyokScqTqks2nU3cOw9do8jIcsZKBb
-	Wb8ZC7KFZiIR+gloYF2buUC57SEWrYysNFYmUxqrC/y8a8IrJyWVe75tZjhnlbT0XcS9ktP94JzCb
-	4rZ15d+w==;
+	bh=odBx7hT1wSZJiP7flW0GTnsZa5tZa4ZVfY4ulpIFZyY=; b=Gudqople05geiuDK36RR8Xb0Ur
+	mxm0GMhYwrjzo66TjnKwqm+D0ti38d51cJ7ag+/2P3JnVu9HfmjDxUBHoAXzc0w9XktmQIvwU2oeh
+	vfPA5TOObeyxkd2DK5mF89HDcQP8Wi1RK9DVJvnUbwtBIIMkPKZYzk5UjFZOYCQ5UqIcMTw+jjpn5
+	eyLoupLQhyQnlYbHP/NBhXGwRAypEuMiuDZLQhE/LKx4wWAX/mTN1fODF05SiMcaCz14OC0p6xpTG
+	ef4YwQfGTg48IvSXTMu/JzPqX2eUUpsaCSTSFXtnhx7ehrQaX7auD27XkpIshUNnvoPv0ON8dQRXP
+	SxCQXCMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1niaaj-006UTA-9C; Sun, 24 Apr 2022 11:39:49 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1niabX-006UWf-I3; Sun, 24 Apr 2022 11:40:39 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1niaag-006USo-4Y
- for linux-nvme@lists.infradead.org; Sun, 24 Apr 2022 11:39:47 +0000
+ id 1niabU-006UW3-S9
+ for linux-nvme@lists.infradead.org; Sun, 24 Apr 2022 11:40:38 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1EDBE210EC
- for <linux-nvme@lists.infradead.org>; Sun, 24 Apr 2022 11:39:42 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 089D21F37D;
+ Sun, 24 Apr 2022 11:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650800382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1650800435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vZQCBA15R9Ya7Shhm5Hz7cUgtmM4P+Sb2TCYwDpu1L0=;
- b=179+WLxML3oQuPMMforDBEGCcMeS65pXoAYk/04A91Fx0T8YBjakccCfS1v6nh11z9a/+O
- 15dFmrEWrzuGzzctVaM6gds5EjyWHuSZMEECm03ehIDuFHrbqurV+b9sce4iLaPlkdK4vh
- BCcXvkZ+eH6ktqYqfUavq4Km1F7r54s=
+ bh=odBx7hT1wSZJiP7flW0GTnsZa5tZa4ZVfY4ulpIFZyY=;
+ b=zmhNzYLR+/VSk7HGQ2VBtA0gAH5ilOtUVFw3L/b9so0lnj0cXvUv3Xby+bg+l1wyyYCLL8
+ JMHnQ34Ef8CbH5bdFHsrvDHq/iBDdpj7uPeWc7SklQfyc80Y34KmCvGGP6nFo2klfD3fxW
+ jt+bs0OD7OKqq4dtU4MnvZlkJmUQFjE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650800382;
+ s=susede2_ed25519; t=1650800435;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vZQCBA15R9Ya7Shhm5Hz7cUgtmM4P+Sb2TCYwDpu1L0=;
- b=mFbOqHUhR5RHcFgFN/PrDC+t3/YcAHhdmzI9Mslg3J+LCiChEkGmNlfWN3qbpSME1ixcXM
- ukcBwizDCxZZHEAQ==
+ bh=odBx7hT1wSZJiP7flW0GTnsZa5tZa4ZVfY4ulpIFZyY=;
+ b=qmpkhtSW6MAD1HkSSj2r94gPtwbxNplV60Zrmh18fCOkCUZXZ6kKI0iabNqiFpsl/X21eK
+ pLH6T471Ch3aSCAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF45C13780
- for <linux-nvme@lists.infradead.org>; Sun, 24 Apr 2022 11:39:41 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E1CF113780;
+ Sun, 24 Apr 2022 11:40:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XsTfL/02ZWJHQQAAMHmgww
- (envelope-from <hare@suse.de>)
- for <linux-nvme@lists.infradead.org>; Sun, 24 Apr 2022 11:39:41 +0000
-Message-ID: <8677ebda-69f5-3fa0-87e4-8238c298cc57@suse.de>
-Date: Sun, 24 Apr 2022 13:39:39 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id a5v0NTI3ZWKMQQAAMHmgww
+ (envelope-from <hare@suse.de>); Sun, 24 Apr 2022 11:40:34 +0000
+Message-ID: <d9ed253a-c6bb-c4ca-a608-69e237068f73@suse.de>
+Date: Sun, 24 Apr 2022 13:40:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: Ask advise for disk safely reuse
+Subject: Re: [PATCH v2] nvme: avoid NULL pointer dereference in admin queue
+ initialization error path
 Content-Language: en-US
-To: linux-nvme@lists.infradead.org
-References: <CADb2eF902UkdnOpoj1w1MGT70fg0fdsoDhRBNjOK-jkE3HYF-g@mail.gmail.com>
+To: "Smith, Kyle Miller (Nimble Kernel)" <kyles@hpe.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <DM4PR84MB1590DD85EEC2B30DF55C9578A0F79@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CADb2eF902UkdnOpoj1w1MGT70fg0fdsoDhRBNjOK-jkE3HYF-g@mail.gmail.com>
+In-Reply-To: <DM4PR84MB1590DD85EEC2B30DF55C9578A0F79@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220424_043946_371559_EE3D1500 
-X-CRM114-Status: GOOD (  13.77  )
+X-CRM114-CacheID: sfid-20220424_044037_097706_AFA0DB37 
+X-CRM114-Status: GOOD (  17.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,31 +90,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/22/22 06:50, Shuo Chen wrote:
-> Hi teams,
-> I am investigating how to safely reuse the disk between different
-> customers and do a safe data cleaning. From the nvme-cli I see three
-> options:
-> nvme format
-> nvme sanitize
-> nvme write-zeros
+On 4/22/22 16:40, Smith, Kyle Miller (Nimble Kernel) wrote:
+> In nvme_alloc_admin_tags, the admin_q can be set to an error (typically
+> -ENOMEM) if the blk_mq_init_queue call fails to set up the queue, which
+> is checked immediately after the call. However, when we return the error
+> message up the stack, to nvme_reset_work the error takes us to
+> nvme_remove_dead_ctrl()
+>    nvme_dev_disable()
+>     nvme_suspend_queue(&dev->queues[0]).
 > 
-> I've tried all of these three methods and it looks like I can not read
-> any previous data by using the "dd" command anymore. I wonder what is
-> the difference between these three? My concern is writing zeros to the
-> whole disk is really time consuming, as a result, I wonder whether
-> "nvme format" is good enough to wipe the data.
-
-In theory, all of the above provide the desired result.
-'nvme format' is typically used to change the format parameters, so if 
-you call 'nvme format' with the same parameters as had been used 
-previously the net result will be pretty close to 'nvme sanitize'.
-'nvme write-zeroes' will achieve similar effects, but with the drawback 
-that it instructs the firmware to actually _write_ data, thereby 
-decreasing the lifetime of the device.
-
-So I would settle with 'nvme sanitize'; that achieves what you want with 
-least side-effects.
+> Here, we only check that the admin_q is non-NULL, rather than not
+> an error or NULL, and begin quiescing a queue that never existed, leading
+> to bad / NULL pointer dereference.
+> 
+> Signed-off-by: Kyle Smith <kyles@hpe.com>
+> ---
+> v1 -> v2:
+>    - Update commit message
+> 
+>   drivers/nvme/host/pci.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6a99ed680915..2f7510938b18 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1772,6 +1772,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+>   		dev->ctrl.admin_q = blk_mq_init_queue(&dev->admin_tagset);
+>   		if (IS_ERR(dev->ctrl.admin_q)) {
+>   			blk_mq_free_tag_set(&dev->admin_tagset);
+> +			dev->ctrl.admin_q = NULL;
+>   			return -ENOMEM;
+>   		}
+>   		if (!blk_get_queue(dev->ctrl.admin_q)) {
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
