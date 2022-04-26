@@ -4,70 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80F39C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 14:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4027DC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 14:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=icAYe7755ziAfnwMU6ue0rnI8E
-	McatyXXBUJmQ+P9RdXLYuWT06hQg9QePVz1UoehL+DblOUVY6mEoGy4/XbEs29UQzTal2eV2pvkGl
-	CYJC5+rxOSe8QB2qiU2JC2igf2OxUZqD2RHs1vx4ssfCsdg3tk7Myy8iFaklN/CzStDq8UE+B/UiO
-	8GKL5FJrmLTxu1fYHkWckIwoTUPO0evEk4orVrICyBZUbPYqon6naTo/nveKJeUppwYw7qXncXKQR
-	q+nEomLJv+vH3zxPXpxfXgXX5xRH3cfAqsjgyEOB2Sp+ESHW6XsByCPImtq1A2hNWq1nUxAC+Zm0m
-	PmQUUokg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=sU1xItl/IbgAJguQ0EmLTHax7v
+	PuIamNiCLOAC6ucNBdI8JRhruSiXW8codsE6arxzRgOf6/12ou6JokEL+sXHqhWgWwQzbaBDS6WVx
+	P5kWJzTpwwmlKUI1FGxMCdrqy3PcNlBxNwn7Zb2T6YyHbAiYPaV5BdtVmfQXkZeIRS5c7UA9LVLdP
+	DHqPahDomxjdpoJJQ/owYTCOrPxKZfgIQRfDOOV9YHqr3qNV9XtNyzyt7g/cY8BCk6TY3H+bBGkJl
+	Lu1n3GX6yeLj5SfS43NdOGAoOjegqdIFc/ARvFmEvmF0C2LvcjtaeTYjcvdk5TicNeCVrvtGtN+5+
+	WwjRKkdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njM6V-00EyqP-NK; Tue, 26 Apr 2022 14:23:47 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1njM81-00EzHN-Lt; Tue, 26 Apr 2022 14:25:21 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njM6T-00EypQ-G3
- for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 14:23:46 +0000
-Received: by mail-wr1-f41.google.com with SMTP id e2so19438244wrh.7
- for <linux-nvme@lists.infradead.org>; Tue, 26 Apr 2022 07:23:44 -0700 (PDT)
+ id 1njM7y-00EzFg-AK; Tue, 26 Apr 2022 14:25:19 +0000
+Received: by mail-wr1-f52.google.com with SMTP id i5so6663592wrc.13;
+ Tue, 26 Apr 2022 07:25:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=meCzp3CkUdq7LJ3yT3Opfn3J9pIa4Klc7rrrXtDyJQvxTImhreHK4tAs4mpAWdcYxv
- 4GiE04/GDsqzJ9xc5sAJjTbI/RKGdqdeuzK+uIANfwIJPQA/1b8CF21dBwHU9gqXPP2V
- im4jG8KlMonmWH+PSmo0KXxooTp2sHIU8FJm8ZCiGp45rmnvCpoz/ntV2jNJ6utBnuo2
- NME6ndDurkdku5FFs6DS5AZKo1KEv3lx7Si+nw/rM0p/mTzy7Mh4+V3P/FFulLnJZDgi
- vZR/1LN75hOZpAbG5K5eANUOw8NJGl+Gwke4hk6hbfOhbq5MDQMO8V8HYJrJjIH+9qf7
- mwmg==
-X-Gm-Message-State: AOAM530Tgw0JirQ+lY9d+JAXPi8+1oXjT8qZNYNvWISYvsXw7k1hB08g
- o/DF+hRnFW9R+iqQGVMd/tyP0TDHJ+A=
-X-Google-Smtp-Source: ABdhPJziYgYCjClIfL2FyRr5mPRkbCS21C+G0hUWf2UUU7SDgljQqtF4saRYm2Wr+JothtEd2J3EAQ==
-X-Received: by 2002:adf:ea01:0:b0:20a:e059:2f69 with SMTP id
- q1-20020adfea01000000b0020ae0592f69mr5835811wrm.682.1650983023810; 
- Tue, 26 Apr 2022 07:23:43 -0700 (PDT)
+ b=COwhf5ppIMUAg1+HXc2xflcdwfus8K2qhZFuksO+REvpQGalrSeR5AO4PYpNtF91uE
+ BRsQblav45UXCv2HjDixaYn2odyzszOOetBeCT7l4wGboIFQD45wbe7XgXykFhSTxYF7
+ oecfsWYjjh2JlkoN3j1fNarSGRuwkyOqZLI4tWc07FQsILZWKTW278ykzf7LAwDZtAhj
+ 1Yxie/unSx18W6j0cozybIY0e9X/av+UVRYCs1foMaAbCVzKPiijU+m+pru4cMVGh3Ns
+ MEDf4TFhmhR+z+jDW0RabOodKpv1GINe5/07hZ6vH6bs+b2KvwIXDL9Z3mNXcSlRKMs6
+ VQ/g==
+X-Gm-Message-State: AOAM5314JE6WR9ENT18jtWBp4HbVRMnmgYiCSXOCha3yED8rKGzAVauT
+ NeqYhp5ggYxjY2bw+rzWfMw=
+X-Google-Smtp-Source: ABdhPJx+tGjrozc2v+hkDAQGkKaaKd6tvj25GGtU09S+2P3NV6/kZmjHHHaKsKLq0MduUfwGvhoEcw==
+X-Received: by 2002:a05:6000:1a8d:b0:20a:ab7c:efb1 with SMTP id
+ f13-20020a0560001a8d00b0020aab7cefb1mr18901071wry.716.1650983116938; 
+ Tue, 26 Apr 2022 07:25:16 -0700 (PDT)
 Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
  [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- l10-20020a05600002aa00b0020a7cc29000sm13164877wry.75.2022.04.26.07.23.42
+ j39-20020a05600c1c2700b00393ee3deaf1sm5525786wms.9.2022.04.26.07.25.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 07:23:43 -0700 (PDT)
-Message-ID: <cfc93e05-8115-ddf2-708b-7655d0593b39@grimberg.me>
-Date: Tue, 26 Apr 2022 17:23:42 +0300
+ Tue, 26 Apr 2022 07:25:16 -0700 (PDT)
+Message-ID: <c658f5cc-7b9a-84ee-ac22-cefc03e3dbf2@grimberg.me>
+Date: Tue, 26 Apr 2022 17:25:12 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2] nvme: avoid NULL pointer dereference in admin queue
- initialization error path
+Subject: Re: [PATCH 09/11] nvme: remove a spurious clear of discard_alignment
 Content-Language: en-US
-To: "Smith, Kyle Miller (Nimble Kernel)" <kyles@hpe.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <DM4PR84MB1590DD85EEC2B30DF55C9578A0F79@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Richard Weinberger <richard@nod.at>,
+ Johannes Berg <johannes@sipsolutions.net>, Josef Bacik
+ <josef@toxicpanda.com>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+ Jack Wang <jinpu.wang@ionos.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Roger_Pau_Monn=c3=a9?=
+ <roger.pau@citrix.com>, Mike Snitzer <snitzer@kernel.org>,
+ Song Liu <song@kernel.org>, Stefan Haberland <sth@linux.ibm.com>,
+ Jan Hoeppner <hoeppner@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org,
+ nbd@other.debian.org, virtualization@lists.linux-foundation.org,
+ xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+ dm-devel@redhat.com
+References: <20220418045314.360785-1-hch@lst.de>
+ <20220418045314.360785-10-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <DM4PR84MB1590DD85EEC2B30DF55C9578A0F79@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
+In-Reply-To: <20220418045314.360785-10-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220426_072345_560445_AC5D0EC9 
-X-CRM114-Status: UNSURE (   6.35  )
+X-CRM114-CacheID: sfid-20220426_072518_362944_73F9461A 
+X-CRM114-Status: UNSURE (   6.16  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
