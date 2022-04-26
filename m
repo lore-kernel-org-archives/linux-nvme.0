@@ -4,65 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C0EFC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 21:00:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC01BC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 21:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BkXdjgokUjPYj6UT3eis0Sb9h1b+5BkOuw/H29rGJ5I=; b=bxjVABn5e8BrQrhH2fRE1WNR6j
-	C0VMo+gFPNY1pERYvBNNOi8x4dDwLMXzRS8IH1Sj0iVSsgpRJvEsCtVsUk1S36Plm/LRIxjkMks0/
-	Fj36lx7eLdYV7Epox3FgI6uyDoRwNF9Qnc5DoXijDvIoU3+e8HM5L2tA4wBl0mlSuVAX/c2e6EbFO
-	QBZeHc7WAJPK8PRKU1XDKOnw1vUcUE7hg2K7bgUI0FEVd/TIgEbS4EvQ/g2DQjhRyAv3YnpZ5SqQL
-	SKBqkeq8Q2QE1Wjb/oYtLWPzE7Iaj4tWJP/pPzWyndv5U1oTQ3hzHbqqj3z4LIsrKMMbS7HCF5Lss
-	W09n2QPw==;
+	bh=SYM8xO87+eG8i48/IrRaE16CJcCxKlysX9Vzq+O/NV8=; b=0N1HLBBtxmYOY4qbjUcz2PVjYj
+	gUvF+dCyRgjkMLx4diEZ9r/SbE1HPuoMEsVKJZFVPdUx+cKBrXWKPTGwFBovCCTTq6LlMUVTTMX3H
+	pMBRjxq/cnqtSGEyPubMl/PKQEaP8vwbs95Tqc7M4o+qtSBLjDlckSmC//Sx4AIPdlzYspXbbZb7I
+	kLtD9V/ZUOCVZRKQD3+7GhIEBOgQK4FBT3EdwyOwI8pJo73uk/rJCkXZrBNmn/TIVZLLVb3kr/sYG
+	W/Asjg5wfE9f93zD4MjntX3pcV9cv+T+sea/zwGgMSvb9jyWQUy9ZiZyiQxhCzvHctb6OrR/oGtkH
+	palYUEQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njSIL-00GFof-1d; Tue, 26 Apr 2022 21:00:25 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1njSK8-00GGH1-Np; Tue, 26 Apr 2022 21:02:16 +0000
+Received: from mout.kundenserver.de ([212.227.126.130])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njSI8-00GFkk-Ai; Tue, 26 Apr 2022 21:00:13 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2E112B82353;
- Tue, 26 Apr 2022 21:00:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C432DC385A0;
- Tue, 26 Apr 2022 21:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651006808;
- bh=QxPQiDVyvyboQhb7hQg8egZCDBIE9qPfnk2lOel1mkA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hHfywpbDKaiIA+fVMnwKtNcMVk1eg8P8ocioCAYf46wZZ6qFH46Nr4JMwaMpjxbhI
- 59zSmCUibSb6RUX46rByC1vS5y147UwUI9gtevvehdbPKze2VpZJTnpu1yEunlWzr8
- uMJlquUantp3QdT6iaRubNfhDNaOJgpkdI2DvYEI9B762H8XmbZZPU+kBkiR6Gcg44
- 7h/CRMLmpP1EUIzXExSw0A7OB0mggP/e5NMvEp7yGkVIFXtjXX+V5p/B6NLSVam9sk
- gXPzTX+EZ3x3ooShAyIzTqU8Koo5mSbB9su7vgkZL4aT1iWdp5N6k4hmkw0TvI77Np
- iyPC0Regq0J2A==
-Date: Tue, 26 Apr 2022 15:00:04 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Marc Zyngier <maz@kernel.org>,
- Janne Grunau <j@jannau.net>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 6/6] nvme-apple: Add initial Apple SoC NVMe driver
-Message-ID: <YmhdVJgd6DGRHPXd@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220426201539.12829-1-sven@svenpeter.dev>
- <20220426201539.12829-7-sven@svenpeter.dev>
+ id 1njSJv-00GGCr-Is; Tue, 26 Apr 2022 21:02:05 +0000
+Received: from mail-yw1-f180.google.com ([209.85.128.180]) by
+ mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M2xjg-1niLKE0jUK-003MyU; Tue, 26 Apr 2022 23:01:58 +0200
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-2f16645872fso195902047b3.4; 
+ Tue, 26 Apr 2022 14:01:57 -0700 (PDT)
+X-Gm-Message-State: AOAM5329KqO8/xfQ/zD7iQco+vGx8JWsXJO4/GJVjbk15CoFkk727wlo
+ tC/ffMqA9X0GA1BGLuThhYVEmT6wGgwoHsDYTUc=
+X-Google-Smtp-Source: ABdhPJy/86FV4KH1867Lm15JAmIgDQfnAK7NPGjdzs+ZuMReM3UPpqkZq2mfK0iy60GKZRpX6sFCtSy2EluixJ9sXoM=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr24255532ywf.347.1651006916466; Tue, 26
+ Apr 2022 14:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220426201539.12829-7-sven@svenpeter.dev>
+References: <20220426201539.12829-1-sven@svenpeter.dev>
+ <20220426201539.12829-6-sven@svenpeter.dev>
+In-Reply-To: <20220426201539.12829-6-sven@svenpeter.dev>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 26 Apr 2022 23:01:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2UEHfoDe-d=XEoTM=SS+7Lug7V1WQUa285LWdVLxjHYA@mail.gmail.com>
+Message-ID: <CAK8P3a2UEHfoDe-d=XEoTM=SS+7Lug7V1WQUa285LWdVLxjHYA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] soc: apple: Add RTKit IPC library
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Marc Zyngier <maz@kernel.org>, 
+ Janne Grunau <j@jannau.net>, DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:is21Fkr22aX5NkJlXBJTktSsQnKCW/Gq/6HfmS9jSs0XfI2EJWM
+ zhAw7DaoRT7j+begWN5yOD39pC9Naqr2rMcNnANNlOj9HAqZpjLZRNiq0g390/UBENEy/LV
+ PbNYiJvFQ6P+boD5KCqkQvEmVgrC41E9n7/RR2UYruF7KLag6X6Fiw/d4wGsxFZ9YG6nvc9
+ KnIZadz58Sfjft7joXG1Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S5W/ntr4CzI=:ONmEiImRx52H7Ihdc5lx2j
+ 6XJtl9ubRB2hEVwkZyfGnh1APWPMl89dBy05NnS5HK5bcGALMkLvT4AWtpJm1dKvPBnws2aap
+ JVhsyFZ5zLkzvYbDoswlWHgp7vV1V9orChn6fRl1/SW6a+nAeayhImWCFIcRF3qYGCHA54QKZ
+ EIBnaws0S8vCeloTYnQrQ2cr6Q40bL8GBBIaWjMHQLkVRXRziogsueb90QF2IS8e1uVXLLtq1
+ rtWZxxiEtdJYW6dz+/P87WkG/CRVpy82YB8b8pZfLYOfQyQWvdofSuSzxMZSiwno6LFIFODoO
+ gNBNc17ZGeJ3JvG/VoNVwi8WuBAKXFE2uOOxZg/19NNC8qYWU+khVcbV3+KMOBSSApXAWeqZf
+ JDy3QCFsZ5RnSAy7iilc74CijHvKcWKa5GP1gArzqq+LeeOe5cSXvYcuTi+2G+byRhrbqkmIO
+ VtrwXADJ7k6kscBT6B3gvY7pS4srLQPWaWY+WNuc0Mo7v/6cXDQ2sptlH0gNjdlLB2IM5KgWl
+ xmlO3KK4TRmGyqWrLTsp8ENuvvVGZhvXeoj8CSkIcj9Oa6l+6porfg5Q8B2xTEVWtDSChfweQ
+ qkAc99C8UiCHFOIA4EtUYAoaLNf9Lh36aYUyCBQvnuvSrt2lRqncEMn65snuElHixkAdVd3O/
+ YwcLsvYEyCLYWcL9tWclqM9wImgFwnwXa3YiML77C79gqI7fLCDRwYmBaF48UyNUCyIWj95kd
+ ThZzWiyh3slPI0UHhCwKIRzW+r4FQwVEiTXZudjKJaNun833EYEPqB4XGkMOuhRcVP0PgXMYs
+ K1tPeLQnKacJEXsuUJwm3fnvHXI9AeY+qbk7P499CHgkXfDLOU=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220426_140012_561658_04C3E848 
-X-CRM114-Status: GOOD (  19.12  )
+X-CRM114-CacheID: sfid-20220426_140203_937948_202C2A2D 
+X-CRM114-Status: GOOD (  19.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,42 +91,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 26, 2022 at 10:15:39PM +0200, Sven Peter wrote:
-> +static enum blk_eh_timer_return apple_nvme_timeout(struct request *req,
-> +						   bool reserved)
+On Tue, Apr 26, 2022 at 10:15 PM Sven Peter <sven@svenpeter.dev> wrote:
+>
+> Apple SoCs such as the M1 come with multiple embedded co-processors
+> running proprietary firmware. Communication with those is established
+> over a simple mailbox using the RTKit IPC protocol.
+>
+> This cannot be implement inside the mailbox subsystem since on top
+> of communication over channels we also need support for starting,
+> hibernating and resetting these co-processors. We also need to
+> handle shared memory allocations differently depending on the
+> co-processor and don't want to split that across multiple drivers.
+>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+
+> +bool apple_rtkit_is_running(struct apple_rtkit *rtk)
 > +{
-> +	struct apple_nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +	struct apple_nvme_queue *q = iod->q;
-> +	struct apple_nvme *anv = queue_to_apple_nvme(q);
-> +	unsigned long flags;
-> +	u32 csts = readl(anv->mmio_nvme + NVME_REG_CSTS);
+> +       if (rtk->crashed)
+> +               return false;
+> +       if ((rtk->iop_power_state & 0xff) != APPLE_RTKIT_PWR_STATE_ON)
+> +               return false;
+> +       if ((rtk->ap_power_state & 0xff) != APPLE_RTKIT_PWR_STATE_ON)
+> +               return false;
+> +       return true;
+> +}
+> +EXPORT_SYMBOL_GPL(apple_rtkit_is_running);
 > +
-> +	if (anv->ctrl.state != NVME_CTRL_LIVE) {
-> +		/*
-> +		 * From rdma.c:
-> +		 * If we are resetting, connecting or deleting we should
-> +		 * complete immediately because we may block controller
-> +		 * teardown or setup sequence
-> +		 * - ctrl disable/shutdown fabrics requests
-> +		 * - connect requests
-> +		 * - initialization admin requests
-> +		 * - I/O requests that entered after unquiescing and
-> +		 *   the controller stopped responding
-> +		 *
-> +		 * All other requests should be cancelled by the error
-> +		 * recovery work, so it's fine that we fail it here.
-> +		 */
-> +		dev_warn(anv->dev,
-> +			 "I/O %d(aq:%d) timeout while not in live state\n",
-> +			 req->tag, q->is_adminq);
-> +		if (blk_mq_request_started(req) &&
-> +		    !blk_mq_request_completed(req)) {
-> +			nvme_req(req)->status = NVME_SC_HOST_ABORTED_CMD;
-> +			blk_mq_complete_request(req);
+> +bool apple_rtkit_is_crashed(struct apple_rtkit *rtk)
+> +{
+> +       return rtk->crashed;
+> +}
+> +EXPORT_SYMBOL_GPL(apple_rtkit_is_crashed);
 
-I think you need a 'nvme_req(req)->flags |= NVME_REQ_CANCELLED' here to get the
-expected -EINTR for any admin command timeouts during a reset. Without it, the
-resetting task is going to think it got a real response from the controller.
+I noticed that you use EXPORT_SYMBOL_GPL() here, but a more permissive
+EXPORT_SYMBOL() in the SART driver. Is that intentional? I would have
+assumed that both are similarly private to the apple SoCs and would be the
+_GPL type, but this is something you get to pick as the author.
 
-Other than that, this looks good.
+
+> +
+> +#if IS_ENABLED(CONFIG_APPLE_RTKIT)
+> +
+
+Same comment about the #if as for the SART driver: I'd prefer it without the
+conditional compilation.
+
+       Arnd
 
