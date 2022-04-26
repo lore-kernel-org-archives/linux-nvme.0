@@ -4,176 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30570C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 15:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51146C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 18:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OB81PmAP0CHMoWlu5DyGNFFJFwgvRpSo67z9XrUWXxg=; b=caMqsw3jIuY4YrVawrGhiwJ1lR
-	3iUesUuMOKLze4fcq7WZiktKi+7f0IEDdpZrbrpKAS64qWSAEAOgfQGAGGqXyVv8RJTkun3+faPJg
-	1UFI8hUsLbhT2olETl5zgSUNE9x6uaJOc75d97UAtker9Cs4w/IlKfVbpxLeQLkGC/yFgmO2AQjwn
-	0KZow06c7kvL06K63S9GwG7waC2PL21zDZ4qUv+fBXIna1YjDUXM3Dt2uZx8cPI3Jupe+4xRt3YcM
-	Bw07xHMIVmRteQHIMz60i/gjYx1tVONp2CXbF/uGzozRI2dbSyCRod4l/V6PR7CxUWVyqj0z3Y2kC
-	CSqKLpkg==;
+	bh=L3gMA0FBcsSd+gTv2h0kcsh53oOvBZ6JTsM+1jS6pR4=; b=xgtQyyMLOBtSA2KoQLS1anecJv
+	xkfoztnPtUwBQNWwSS6Q+8KAqya1Sxz57hzQ4hpzkYL/hiVvqf8Y+ggzCQeHPhJ+/K4X+gehhiCCL
+	Y0HEUOqv7K29DSR5IhHNybi1ptHAQX6lAb6gDNF4nrx/r+r2arKPHnSPtLF786Z1un0Ia90gZwrXd
+	Ylh1SCNld3A9vsQcXWf2rl/GUVtM1dEntz2AzyGD6VelbCvgvkph/kJXwpagYu8XqXlVnbSiTkN11
+	GqKfGxS6mK05zHOwZetgPkg5DKHsqIqlVYEQ7BBbElEMs/57rXhj+dSd1cy0vRQNLL8w3Bra4KEW/
+	3U7ruHZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njNaU-00FEqR-QT; Tue, 26 Apr 2022 15:58:50 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1njPtk-00Fhub-S4; Tue, 26 Apr 2022 18:26:53 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njNaK-00FEjb-S1
- for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 15:58:43 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23QDSwfY003700;
- Tue, 26 Apr 2022 15:58:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=OB81PmAP0CHMoWlu5DyGNFFJFwgvRpSo67z9XrUWXxg=;
- b=g2ktzzhMuBv1LrU5tUExLYAwjdOb+W23QYsoRDCed2vvL1/hTjMlch9X+w8xJjKqz0PZ
- Nu+Xs90jCrH08cBirMCdhy07a+nVl46XCRPeiMdaXijzD311SBMd5jJPVqO6Y180vMDl
- EUoaA7NNhMNhSI9PWeAHnmlT4OriJjQNYygRsPkTOPXpax77FJNH/aXvHOooixiPcLom
- dLO1NwnamXg3qi0BpSETCo9DmwoWnmwUfuWgX8RoP90Sbj8szyJ0iuLQf2WMwUQJurzY
- +GmKfDbnhjKV30V5mxJesg3uvkBQd6Olx2QQP4bJwE5GWSeLITTKxx/gpwPAHFRWsptb fg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmbb4pc8h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Apr 2022 15:58:31 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 23QFp5iV014253; Tue, 26 Apr 2022 15:58:30 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3fm7w3gxvw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Apr 2022 15:58:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a72Mh97fQWQsrELtilmAyFjzNiID+y4hza0S0iBM9ZqouZv4PMRpD8OiBV8tE6dyq6KILuQMB3KrhBc1sUhbef9qh8AzMAZtR3awzjwF+NYZau/PYgx3V6RQR5orkjoWvN1OGSj8r0H/yzLTvb+QWr2Ypq8fV0xEjSiLuVQty1KblzF3vbbnBXedsNkHsqsoT1SKb/R/sQcL8lBomKuOwTXXQIG6Z1gFZmG0pseAauCrwY7v4ndvPNjnWqwfghwcG4Mr1E36nQYlo3v8p7Y2+M0cy5Fru7ci/ierjNyCEU5mmjERWdQZgOdzno94/C2h8I8zNp4YyFMeArsIdt9b4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OB81PmAP0CHMoWlu5DyGNFFJFwgvRpSo67z9XrUWXxg=;
- b=neLn85OQGoMNP2kcY0ipyGta/XzNH/rinhm5nmxjiLYvWeIghpX/uZOlgX9aMvIPJVXpaE/C4I1TUCjvm1KVwj+AnhmwFu1DyNubMIe/dV8IgNMmu0ohHyrtnhiRLE/AVkH9VBN17atX9feYx5Xt9KLWoNpaKOyo6/7goleJGHMu3rxIton3A0AYGGTUJ7wW1rf8Licu/LPt6wOUyCrI9C6/yHyYFWEyvCokkv7NlJD3ykcjMMMIuVqs/igqHd24FB5mvLIq4OsBEqlEu1Zy2/DqoiZa8biwnurkPtG67GXN573OGfHshi3ZxAZT94Ug9ZvpLPiowncCfKYTNEPTbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OB81PmAP0CHMoWlu5DyGNFFJFwgvRpSo67z9XrUWXxg=;
- b=APptbBWEowNT+7XRIWZ7cKa5sO/B+y7xFl30e1YetiQmBXt0HKGekllwo30EkBS+fwiKLy7WaEGxjtBdPLsXf3SVnaeHUrpWHxCyq5V01rsi4u7bWlC+ZTTxfimsOszxITgZP8SbHz9koE2bKP7nRL4qrN58tBsWs+1hdeKfpF0=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by MN2PR10MB4271.namprd10.prod.outlook.com (2603:10b6:208:199::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
- 2022 15:58:29 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ed81:8458:5414:f59f]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ed81:8458:5414:f59f%7]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 15:58:29 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: netdev <netdev@vger.kernel.org>, Linux NFS Mailing List
- <linux-nfs@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-cifs@vger.kernel.org"
- <linux-cifs@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>, "ak@tempesta-tech.com"
- <ak@tempesta-tech.com>, "borisp@nvidia.com" <borisp@nvidia.com>,
- "simo@redhat.com" <simo@redhat.com>
-Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS handshake
- listener)
-Thread-Topic: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS
- handshake listener)
-Thread-Index: AQHYU0RqwCfhD8h+BkiXOp6ayeNVBq0A6XOAgAFYlQCAABKoAIAAEbcA
-Date: Tue, 26 Apr 2022 15:58:29 +0000
-Message-ID: <BA6BB8F6-3A2A-427B-A5D7-30B5F778B7E0@oracle.com>
-References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
- <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
- <20220425101459.15484d17@kernel.org>
- <E8809EC2-D49A-4171-8C88-D5E24FFA4079@oracle.com>
- <20220426075504.18be4ee2@kernel.org>
-In-Reply-To: <20220426075504.18be4ee2@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.120.0.1.13)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 77452933-27f2-4e48-7aef-08da279d9b0b
-x-ms-traffictypediagnostic: MN2PR10MB4271:EE_
-x-microsoft-antispam-prvs: <MN2PR10MB4271F0F997B9475F6D30F37C93FB9@MN2PR10MB4271.namprd10.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gkfOY9UaJu+nfpjV/Nx+/e7sbh7ASZIDrBVJmgWm8VANqVZ954vCrFbgp8SA2/Upq3DRPwdo27/EBGmTGqD2rW63Xwi5vw0qkd/kXcvqB0wZimY8AYucTXen/M4I0Lre8ug5njURkbNkzxKrBYdlW7L7qYLmrlUq9ZJo0skTcAcj2mC6OS+xLScGu1vSyYogPoO6KrOSTFcDihPFzt4+qNnTpjekZnqaoo1gOZ1L5Yg3ubh8/c4BFmD1xU3YE0Vo9eTveKbyo4wPdfS6ctNro8Lk6CgZWhEFdPjV+4D4b4gRjWv8jXH1fhVq8UpO9TCPCh0kk0T0ztFMSHjm1d04g9mPJrTIh3BbezbNY1CBm0XT+AkyWYN7MZDMSJPLn5Q13hOqYHSAZSV576UzUtfWub68ib9o83J8GfdGME6jr2AfzHZsGUFlhTlS5tK62OHcQr4JSFU4/fQ7iErnrolDG80VwXeIEQxOPV4nwX63+xS4DArS7EzpWpxepBVJjOmY6t7fq7h8HSV2jEK02bu6RzwgcFFvnQieWA/bjLukDt9fz7dPDlb6J+BY8I7BOqQZgfNWq7RA7S2waoKdtgf0YXEz8uyt4qFjz2CnGdU1CGZ6tiEpT1Nhnn+cvZgq07dIP69+NiosqzYSmWZUe3vA8owT/LS97j2Vj1PTP6UHRgLEwWUAhj+JziS4xTeUnk0PLmodJWApxALfdrGfHszrf4HkoGpu/Rf4NvAOPQFE4riJbJCCocZLsGWzpPd68pIY
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN0PR10MB5128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(8936002)(4326008)(83380400001)(6916009)(66946007)(8676002)(6486002)(86362001)(508600001)(122000001)(2906002)(38070700005)(38100700002)(5660300002)(64756008)(66556008)(66446008)(66476007)(2616005)(186003)(54906003)(76116006)(71200400001)(316002)(91956017)(26005)(53546011)(6506007)(33656002)(6512007)(36756003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?eK0fZPenmab8Q+FU2vWqrHdhBrd/zwyr7daqKPeTUnE8roIYoglZAHBaSnCI?=
- =?us-ascii?Q?YLK9dsD6bZa7Ea1Zdaww1xe6DHRhUA12myP+cro1F4ENJdPFkTBWgIwtEn1r?=
- =?us-ascii?Q?/KP0PNAQAqBbv8QeB8UjsihFCjiTdfjQwld/e9fNxNG7HYAYCArmN+LniKEt?=
- =?us-ascii?Q?ee1lWYR5AiSiywMMHsoSxAZXrimrZSIGmFopx3qUid/u/DVGq2gT8X+sdGYy?=
- =?us-ascii?Q?w9NEUO9BQPg6zNckWSc3oEjRZ6YiJ0NhptW7km4bUYgXzP7laPZ1QgPw66vx?=
- =?us-ascii?Q?aiLSCNUV2lYLViJRjKLKnLo9R2sRVSQfrdJzL/mhz+bvvvQm75CLAkO2GCUa?=
- =?us-ascii?Q?DTqp+sX+YhpfAwn3nxSCy7pOwpI6oEKd/ImW75nXTI8n/ITj08erzkfbvslD?=
- =?us-ascii?Q?Rx36w266os4UrIXDUEoLsdBNxFN4jTAXcbdE01MRxASbm0jJrUC+SiaB14Qo?=
- =?us-ascii?Q?hFXpWUfDcE9v+wfq6mj9FdfOmsu0etFzP5sKshnpC4Cd3oWc8Sq5XuTxakGn?=
- =?us-ascii?Q?j9A5SIhelCIB1eDtYOCMxvUOH+IV5uK6IXWCqXLvJ5f7P4qeZnF9SW60zObL?=
- =?us-ascii?Q?Y0h5d7nu/TorDkaNLQtASklZxNWnOZQ0ayjYoAfnPf6+isJ5lHCp1h01aDDS?=
- =?us-ascii?Q?/YDnv1n384z07xnOkAEcV/+cLOsHJVVMQm1HsSC7N/ozSFOlTTcL/0MDg9aI?=
- =?us-ascii?Q?FvAtqF6rykxX4AYMq796Ty8++Z2LuNKja7DeLL+Agy8DA2/vEUeCocEffLK/?=
- =?us-ascii?Q?53EM0Ek0tdjKdOMj/klWGUepkhC4NZb59RGU0gYhoFh7CKjBUqheibT9wsCq?=
- =?us-ascii?Q?xd9gNJuBtJb3LZxbd7NSJopAErg0HI79+gxygC7INv/Z1VCc8k+5uMtuSKex?=
- =?us-ascii?Q?dG1rOJnjk89sdBrAfZkIoEAEv4RDpVeglCL/MTkqVP0Gkum+ISWKnk/VAN/+?=
- =?us-ascii?Q?OifRc4H9BIDzR6xBSk5gitvUq7ZHhbElu2A9ce2dS4TXz1pxVUB/iiR9Bx+S?=
- =?us-ascii?Q?1+PXmXjljHYE7T7iH98URwVato9/3d7cj3klvbGOSDCGFDn7Srkv1onEfNeS?=
- =?us-ascii?Q?tu5RE45oNSS8J0ibEXjwn86LU6+Ync0QfZ3fhv5XsI/huOPrgN9uwMjaBn4Z?=
- =?us-ascii?Q?hzYA0i5FgEemWRyXUS2jmZNpiVBrxYIMn5kFvNz8cjzuWrojC+xr8C/vKJI6?=
- =?us-ascii?Q?NcieEsgnXVKE+p/0xKbtc+zw3jUYgE+S9rFQtUdSzuNe6hiaByd3PBn4ikKA?=
- =?us-ascii?Q?CBlafM6r0C1KyoigcyZ5/onet2suQRZizZl4e0pqKcuaU62EW2xMjfs5lUeN?=
- =?us-ascii?Q?PCOcqCRHasxG+r/uuAhD63Q2gKyQHWmEhbvOf6Nv3ZLxGDxR2x6aK9bExcpH?=
- =?us-ascii?Q?NXmgmpvCT59nwxKU695xSWMwGz2rrtAjUo9hQAqcbkOuvR7M5YsXFkp9mv6d?=
- =?us-ascii?Q?fT7y1VeQ/0ZceakCjaZ0T1J2ZcXA5hrT8inSW0K7DHMg6boa2FbE3V9o2slm?=
- =?us-ascii?Q?tGOk1VhkDpxjK4bpsBwGu3EAScgCtq3hYqA0G54JVt8qS7YIsjqToeul/8fP?=
- =?us-ascii?Q?Q1efRM/wnl9YqTGESNrj3qkfzlP8LdJz+Bdf5YwKSi4P41NyKaD8t3yaknkk?=
- =?us-ascii?Q?mG3VPDoy7LEECk1acKHM6EMoF5+GdrsH5xBdQr0tHTWm4cRUGa1tSgNmkVQv?=
- =?us-ascii?Q?D44nopC8AG4WH5rJLxHjWW08y/O9/TTru3i3DAHcIkc+lyJhIbPECgX2Rs56?=
- =?us-ascii?Q?HrVHdXU75iYs6L4hxgm0I8i6XR8OU4g=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <64E2B96AF1A06C419AD15E09EFB65BF3@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ id 1njPoo-00FfXw-3W
+ for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 18:21:49 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23QGQTuY022474
+ for <linux-nvme@lists.infradead.org>; Tue, 26 Apr 2022 11:21:41 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=facebook;
+ bh=L3gMA0FBcsSd+gTv2h0kcsh53oOvBZ6JTsM+1jS6pR4=;
+ b=FHrRERyj45+/jMtQn6YB0F9OnifhArS7uc1HD9Sdy/vNEUPZNdrw51i9pIYOfjQfKbUP
+ pvvcNvEVO/KQDpbQHqqRSiZs0h6yz5bIfJozcNH6au1//k251iRtT0EoBMlhEAoOhyze
+ +S9oQi6SoKta65Wjix7GGig+pyZGfFsBLGQ= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3fp10efweg-4
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Tue, 26 Apr 2022 11:21:40 -0700
+Received: from twshared14141.02.ash7.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 26 Apr 2022 11:21:39 -0700
+Received: by devvm225.atn0.facebook.com (Postfix, from userid 425415)
+ id 5601DE2E5694; Tue, 26 Apr 2022 11:21:36 -0700 (PDT)
+From: Stefan Roesch <shr@fb.com>
+To: <io-uring@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+ <kernel-team@fb.com>
+CC: <shr@fb.com>, <joshi.k@samsung.com>
+Subject: [PATCH v4 04/12] io_uring: add CQE32 setup processing
+Date: Tue, 26 Apr 2022 11:21:26 -0700
+Message-ID: <20220426182134.136504-5-shr@fb.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220426182134.136504-1-shr@fb.com>
+References: <20220426182134.136504-1-shr@fb.com>
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77452933-27f2-4e48-7aef-08da279d9b0b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2022 15:58:29.0749 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0QMiT/ygn9+vpO3yQfq9iuWhztRWfgZPAK2jdMtmjO8ICgqN4NBPFTm0s6Bmd7ZzCLtZ7/kRQy6O+XY1v9EaQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4271
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
- definitions=2022-04-26_04:2022-04-26,
- 2022-04-26 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=840
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204260101
-X-Proofpoint-ORIG-GUID: cNxx0F5KkMBruHhr--iprTh8_G7gJ22R
-X-Proofpoint-GUID: cNxx0F5KkMBruHhr--iprTh8_G7gJ22R
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: RDV5ypA6qT2Uq9TVmlZHYDG_JXefRygX
+X-Proofpoint-ORIG-GUID: RDV5ypA6qT2Uq9TVmlZHYDG_JXefRygX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-26_05,2022-04-26_02,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220426_085841_075654_6966908C 
-X-CRM114-Status: GOOD (  27.80  )
+X-CRM114-CacheID: sfid-20220426_112146_325617_8E1A172C 
+X-CRM114-Status: GOOD (  16.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -188,72 +82,96 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+This adds two new function to setup and fill the CQE32 result structure.
 
+Signed-off-by: Stefan Roesch <shr@fb.com>
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+---
+ fs/io_uring.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-> On Apr 26, 2022, at 10:55 AM, Jakub Kicinski <kuba@kernel.org> wrote:
->=20
-> On Tue, 26 Apr 2022 13:48:20 +0000 Chuck Lever III wrote:
->>> Create the socket in user space, do all the handshakes you need there
->>> and then pass it to the kernel.  This is how NBD + TLS works.  Scales
->>> better and requires much less kernel code. =20
->>=20
->> The RPC-with-TLS standard allows unencrypted RPC traffic on the connecti=
-on
->> before sending ClientHello. I think we'd like to stick with creating the
->> socket in the kernel, for this reason and for the reasons Hannes mention=
-s
->> in his reply.
->=20
-> Umpf, I presume that's reviewed by security people in IETF so I guess
-> it's done right this time (tm).
-
-> Your wording seems careful not to imply that you actually need that,
-> tho. Am I over-interpreting?
-
-RPC-with-TLS requires one RPC as a "starttls" token. That could be
-done in user space as part of the handshake, but it is currently
-done in the kernel to enable the user agent to be shared with other
-kernel consumers of TLS. Keep in mind that we already have two
-real consumers: NVMe and RPC-with-TLS; and possibly QUIC.
-
-You asserted earlier that creating sockets in user space "scales
-better" but did not provide any data. Can we see some? How well
-does it need to scale for storage protocols that use long-lived
-connections?
-
-Also, why has no-one mentioned the NBD on TLS implementation to
-us before? I will try to review that code soon.
-
-
-> This set does not even have selftests.
-
-I can include unit tests with the prototype. Someone needs to
-educate me on what is the preferred unit test paradigm for this
-type of subsystem. Examples in the current kernel code base would
-help too.
-
-
-> Plus there are more protocols being actively worked on (QUIC, PSP etc.)
-> Having per ULP special sauce to invoke a user space helper is not the
-> paradigm we chose, and the time as inopportune as ever to change that.
-
-When we started discussing TLS handshake requirements with some
-community members several years ago, creating the socket in
-kernel and passing it up to a user agent was the suggested design.
-Has that recommendation changed since then?
-
-I'd prefer an in-kernel handshake implementation over a user
-space one (even one that is sharable amongst transports and ULPs
-as my proposal is intended to be). However, so far we've been told
-that an in-kernel handshake implementation is a non-starter.
-
-But in the abstract, we agree that having a single TLS handshake
-mechanism for kernel consumers is preferable.
-
-
---
-Chuck Lever
-
-
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 9712483d3a17..8cb51676d38d 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -2175,12 +2175,70 @@ static inline bool __io_fill_cqe_req_filled(struc=
+t io_ring_ctx *ctx,
+ 					req->cqe.res, req->cqe.flags);
+ }
+=20
++static inline bool __io_fill_cqe32_req_filled(struct io_ring_ctx *ctx,
++					      struct io_kiocb *req)
++{
++	struct io_uring_cqe *cqe;
++	u64 extra1 =3D req->extra1;
++	u64 extra2 =3D req->extra2;
++
++	trace_io_uring_complete(req->ctx, req, req->cqe.user_data,
++				req->cqe.res, req->cqe.flags);
++
++	/*
++	 * If we can't get a cq entry, userspace overflowed the
++	 * submission (by quite a lot). Increment the overflow count in
++	 * the ring.
++	 */
++	cqe =3D io_get_cqe(ctx);
++	if (likely(cqe)) {
++		memcpy(cqe, &req->cqe, sizeof(struct io_uring_cqe));
++		cqe->big_cqe[0] =3D extra1;
++		cqe->big_cqe[1] =3D extra2;
++		return true;
++	}
++
++	return io_cqring_event_overflow(ctx, req->cqe.user_data,
++					req->cqe.res, req->cqe.flags);
++}
++
+ static inline bool __io_fill_cqe_req(struct io_kiocb *req, s32 res, u32 =
+cflags)
+ {
+ 	trace_io_uring_complete(req->ctx, req, req->cqe.user_data, res, cflags)=
+;
+ 	return __io_fill_cqe(req->ctx, req->cqe.user_data, res, cflags);
+ }
+=20
++static inline void __io_fill_cqe32_req(struct io_kiocb *req, s32 res, u3=
+2 cflags,
++				u64 extra1, u64 extra2)
++{
++	struct io_ring_ctx *ctx =3D req->ctx;
++	struct io_uring_cqe *cqe;
++
++	if (WARN_ON_ONCE(!(ctx->flags & IORING_SETUP_CQE32)))
++		return;
++	if (req->flags & REQ_F_CQE_SKIP)
++		return;
++
++	trace_io_uring_complete(ctx, req, req->cqe.user_data, res, cflags);
++
++	/*
++	 * If we can't get a cq entry, userspace overflowed the
++	 * submission (by quite a lot). Increment the overflow count in
++	 * the ring.
++	 */
++	cqe =3D io_get_cqe(ctx);
++	if (likely(cqe)) {
++		WRITE_ONCE(cqe->user_data, req->cqe.user_data);
++		WRITE_ONCE(cqe->res, res);
++		WRITE_ONCE(cqe->flags, cflags);
++		WRITE_ONCE(cqe->big_cqe[0], extra1);
++		WRITE_ONCE(cqe->big_cqe[1], extra2);
++		return;
++	}
++
++	io_cqring_event_overflow(ctx, req->cqe.user_data, res, cflags);
++}
++
+ static noinline bool io_fill_cqe_aux(struct io_ring_ctx *ctx, u64 user_d=
+ata,
+ 				     s32 res, u32 cflags)
+ {
+--=20
+2.30.2
 
 
