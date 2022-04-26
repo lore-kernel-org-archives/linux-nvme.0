@@ -4,83 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D15DC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 09:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF713C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 12:17:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wSgd95mYy00KtCQ6YWhCz6vTpakQUV5AuNG8Spd/yA8=; b=teBvRhi4GANwCaV0+HDDX3zDGX
-	LEw/cBIYSWvhaFyiQn4gA5UEUhfVicLyTXEzvV1irpnAEo3IimS+RpV1oq9a8bI7T2X1u8Z+BFWKV
-	pgl0Hlumovx9OFWQf+RdZmkMEctkM2x1MMZN1YVuXl1MidsDMAfGjtehQ9p4rDxqX1SiZrMfDIuA6
-	NIb8E5udqNgI30+ntrS+6Am6+x4NEK2UaZsHKvS7P8EXSSlYAWYfAio+idxKv4mJmhHZIdDpMYQL9
-	+RDISSYn/Ckig9y41Vvlo+CcqHsnvqfZg1EEFMqnCgCzTJTtuuKybfa3u8OGE6rrmkHbSsmh233LG
-	scV11PrA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zH98b48edWAcbuGFMqRYxjx1SKH0zljZEL+gYb87BsE=; b=yPb22XahtUOorFwK0pbpiiJ6VA
+	F/sXgWfggPhr/vrTP4sNfMD9V21C+nctXKCM82a/NbjRawiTb5O+FofCZByxBMk6YOfBENI/4u1dZ
+	yhfq36/quQln0bna9L6hZj7ikHEcdi4Zc/nbyU2YBBU3Eh/g8WezBGO2NUYqlIwaEbb8RpNqRX+oM
+	QTqmEwXbZ3oGML5AX8Gy/iEhjCO1tR94ElYLvQTwpsTbTN7WUI2/91W2YqhTCprKeBeXvUwSDI0kV
+	Hxl+GIjfo2qhP6XtpkBqh7/1Fef/3+/d5iNqkio3tCV/biMwZhukP0gsnEVz5q9fhzImtmOTFcHVg
+	XxSyQ/ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njHjV-00DiEI-Is; Tue, 26 Apr 2022 09:43:45 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1njK7o-00EDNw-2S; Tue, 26 Apr 2022 12:17:00 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njHjS-00DiCP-8f
- for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 09:43:43 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E1583210E6;
- Tue, 26 Apr 2022 09:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650966217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wSgd95mYy00KtCQ6YWhCz6vTpakQUV5AuNG8Spd/yA8=;
- b=ZIVbjB66FeHQ6yj5TXWbJ/gSKjO4yRdrZIVf5dE0CoQTuXEtJAs1Bxos3O6G+NT0xqQua8
- Mv+UVR+IYJXVn0q2VgIrBCb/5tnBkFS08lhYAMFEoKCFkoNF++zX3KXU6BQ2RfBdT9tSI4
- B+cWZZrL6saQUSGzWVQ3meuz8ekKA/g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650966217;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wSgd95mYy00KtCQ6YWhCz6vTpakQUV5AuNG8Spd/yA8=;
- b=Qa0uHqnJwSM2/PfR3ZlE/7jOzJXiAuAlYesCktb4E/sC8Y0y/IDp51Xl5Ilm4fLT6QsXF3
- i3Dl8iZXqO3DtDBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9D8813223;
- Tue, 26 Apr 2022 09:43:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JOtuKMm+Z2KWPgAAMHmgww
- (envelope-from <hare@suse.de>); Tue, 26 Apr 2022 09:43:37 +0000
-Message-ID: <66077b73-c1a4-d2ae-c8e4-3e19e9053171@suse.de>
-Date: Tue, 26 Apr 2022 11:43:37 +0200
+ id 1njK7k-00EDKl-As
+ for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 12:16:57 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20220426121654epoutp0118aa1501b690264e903169374ee42908~pcWRj2PTz2441224412epoutp01L
+ for <linux-nvme@lists.infradead.org>; Tue, 26 Apr 2022 12:16:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20220426121654epoutp0118aa1501b690264e903169374ee42908~pcWRj2PTz2441224412epoutp01L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1650975414;
+ bh=zH98b48edWAcbuGFMqRYxjx1SKH0zljZEL+gYb87BsE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pQ9K2949QiNSG8WUuoB6j41DHPwhU6cxOOz2utgWGiJy1gaJOkc/0BvtXkTjb2J38
+ tDV2HPJ3wDnt0iGvpJTcGD/+lb7B4XFwjAbxhXoN8PO/cCWVVl9gbZP7umn5qOiAVS
+ r6E4iutIKzX/T7GtpwaZxs1rJwphZxplakxIhDuY=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220426121654epcas5p2fa05885afa9281e4510dffd11f78256a~pcWRW7EOa2624626246epcas5p2P;
+ Tue, 26 Apr 2022 12:16:54 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4Kngq74rnsz4x9Pv; Tue, 26 Apr
+ 2022 12:16:51 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ A9.8F.09827.2B2E7626; Tue, 26 Apr 2022 21:16:50 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220426114249epcas5p238c9b454b6131672830beb8e44c6d721~pb4hT5ZDJ2078820788epcas5p24;
+ Tue, 26 Apr 2022 11:42:49 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220426114249epsmtrp13cc1aa19ab1ae2316d2b50297eaa6be4~pb4hTUs4E0719507195epsmtrp1y;
+ Tue, 26 Apr 2022 11:42:49 +0000 (GMT)
+X-AuditID: b6c32a4a-b51ff70000002663-3d-6267e2b2eecc
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 85.AF.08924.9BAD7626; Tue, 26 Apr 2022 20:42:49 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20220426114248epsmtip2415b2b81438eb9ecc949162cc589f4f8~pb4gaTL0p1469814698epsmtip2I;
+ Tue, 26 Apr 2022 11:42:48 +0000 (GMT)
+Date: Tue, 26 Apr 2022 17:07:41 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Stefan Roesch <shr@fb.com>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ kernel-team@fb.com
+Subject: Re: [PATCH v3 00/12] add large CQE support for io-uring
+Message-ID: <20220426113741.GA22115@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>, Chuck Lever <chuck.lever@oracle.com>
-Cc: netdev@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, ak@tempesta-tech.com, borisp@nvidia.com,
- simo@redhat.com
-References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
- <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
- <20220425101459.15484d17@kernel.org>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS handshake
- listener)
-In-Reply-To: <20220425101459.15484d17@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220425182530.2442911-1-shr@fb.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgk+LIzCtJLcpLzFFi42LZdlhTQ3fTo/Qkg71rxC3etZ5jsTjW957V
+ Yv6yp+wWV18eYHdg8ZjY/I7dY/OSeo/Pm+QCmKOybTJSE1NSixRS85LzUzLz0m2VvIPjneNN
+ zQwMdQ0tLcyVFPISc1NtlVx8AnTdMnOAlikplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVS
+ C1JyCkwK9IoTc4tL89L18lJLrAwNDIxMgQoTsjP+v3nBUnCdtWLChatMDYyfWLoYOTkkBEwk
+ Lh84ztTFyMUhJLCbUeLh+61gCSGBT4wSE35LQCQ+M0q8f7ETrmP6v40sEIldjBInnk6Dan/G
+ KDFpzlNWkCoWAVWJxofbGLsYOTjYBDQlLkwuBQmLCMhJzFq6nw3EZhYIkuic380OYgsLOEj8
+ v/8WLM4roCvxZtZFRghbUOLkzCdgizkFjCROv2gFs0UFlCUObIM4W0LgGrvEnA9XmCGuc5G4
+ cmgXlC0s8er4FnYIW0riZX8blJ0s0br9MjvIbRICJRJLFqhDhO0lLu75ywRxW4bEtn1dTBBx
+ WYmpp9ZBxfkken8/gYrzSuyYB2MrStybBPG6hIC4xMMZS6BsD4nlM26yQsKnlVGid/sr5gmM
+ 8rOQ/DYLyT4I20qi80MT6yyg85gFpCWW/+OAMDUl1u/SX8DIuopRMrWgODc9tdi0wCgvtRwe
+ 38n5uZsYwUlRy2sH48MHH/QOMTJxMB5ilOBgVhLhnaqaliTEm5JYWZValB9fVJqTWnyI0RQY
+ VROZpUST84FpOa8k3tDE0sDEzMzMxNLYzFBJnPd0+oZEIYH0xJLU7NTUgtQimD4mDk6pBqZK
+ DclTt859vMoYv+fYj4oJ2bPS2u7HhQU83d3q58bVl6PfVDKr3WH1U67V3/PimYNiayx8e/jj
+ u8IUU3X2ZxwsdZjaaMrRk8kU+VQ8jE1ybudmz28RYXw87hfnsfNJ3ajO/fxVT91EinFe2//2
+ SS3PGJxNZT32cDFsnfdokoRBctRpxqSzZ0OueHryn/dw+q9w+LiukJ1X9c+jcy7MW73VYtnm
+ ZfvPNy7bUvl365KTC5PuVRRvFGm0el2bO7sgSC8k6XLb/6V5bqVfnj3bst6jzzV/W4Y3T1pa
+ 8YxZNofjZCYtquyc6JprPr+tyYPZ3pax3/TRgS0HOitszk094fS98cq8OMOqcuF58clvlViK
+ MxINtZiLihMBQUX9VhMEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrELMWRmVeSWpSXmKPExsWy7bCSvO7OW+lJBrcXqVi8az3HYnGs7z2r
+ xfxlT9ktrr48wO7A4jGx+R27x+Yl9R6fN8kFMEdx2aSk5mSWpRbp2yVwZZzebl7QyVzx8PIx
+ 5gbGfUxdjJwcEgImEtP/bWTpYuTiEBLYwSix+tA1VoiEuETztR/sELawxMp/z9khip4wSmy/
+ +BOsiEVAVaLx4TbGLkYODjYBTYkLk0tBwiICchKzlu5nA7GZBYIkOud3g80RFnCQ+H//LVic
+ V0BX4s2si4wQM1sZJb68v8EKkRCUODnzCQtEs5nEvM0PmUHmMwtISyz/xwES5hQwkjj9ohWs
+ RFRAWeLAtuNMExgFZyHpnoWkexZC9wJG5lWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmb
+ GMHBrKW1g3HPqg96hxiZOBgPMUpwMCuJ8E5VTUsS4k1JrKxKLcqPLyrNSS0+xCjNwaIkznuh
+ 62S8kEB6YklqdmpqQWoRTJaJg1Oqgcma28/fqWTaA8d7LJqrrDbonhJWD2U4uurL/8arzFNW
+ yYld545unKbsUvDb2Cb2Vcslxemu/p8LJk/dr2+cdtd5xkcxVqn7K4MWbs6U6OMIX9K+X65F
+ 7kmyqUHB9S3+X+/f/HP1+YTLF862rVxj956j58Er62UGyf/DND3nTDhs+eNTo6uu7vO/Jxmm
+ 3bj1NyyEY3KJzN6Mu88OdrLEGJ3e9/FO2h+58kvXwtXnx/z9dPLn5bYbNzdd+TLX1rlf+/cV
+ s8dL3ZoKt/2/mXL2zOOy+p3JgX9TmHfIXG6Q2CRynTcm8Y+M1I4a71dlvw8saD79WOHmCeWv
+ Aoc/TjlrffZ1aoCbaz7/719H3gS3Len8psRSnJFoqMVcVJwIAGKYODjVAgAA
+X-CMS-MailID: 20220426114249epcas5p238c9b454b6131672830beb8e44c6d721
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----NkeN6qpQV9bWnUH8GpeMhqJsD.tVVWOHd.rlqQ8kZmeldXuV=_10337_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220425182557epcas5p2e1b72edf0fcc4c21b2b96a32910a2736
+References: <CGME20220425182557epcas5p2e1b72edf0fcc4c21b2b96a32910a2736@epcas5p2.samsung.com>
+ <20220425182530.2442911-1-shr@fb.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220426_024342_489371_B78E6940 
-X-CRM114-Status: GOOD (  18.23  )
+X-CRM114-CacheID: sfid-20220426_051656_761980_637F8CF2 
+X-CRM114-Status: GOOD (  13.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,56 +133,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/25/22 19:14, Jakub Kicinski wrote:
-> On Mon, 18 Apr 2022 12:49:50 -0400 Chuck Lever wrote:
->> In-kernel TLS consumers need a way to perform a TLS handshake. In
->> the absence of a handshake implementation in the kernel itself, a
->> mechanism to perform the handshake in user space, using an existing
->> TLS handshake library, is necessary.
->>
->> I've designed a way to pass a connected kernel socket endpoint to
->> user space using the traditional listen/accept mechanism. accept(2)
->> gives us a well-understood way to materialize a socket endpoint as a
->> normal file descriptor in a specific user space process. Like any
->> open socket descriptor, the accepted FD can then be passed to a
->> library such as openSSL to perform a TLS handshake.
->>
->> This prototype currently handles only initiating client-side TLS
->> handshakes. Server-side handshakes and key renegotiation are left
->> to do.
->>
->> Security Considerations
->> ~~~~~~~~ ~~~~~~~~~~~~~~
->>
->> This prototype is net-namespace aware.
->>
->> The kernel has no mechanism to attest that the listening user space
->> agent is trustworthy.
->>
->> Currently the prototype does not handle multiple listeners that
->> overlap -- multiple listeners in the same net namespace that have
->> overlapping bind addresses.
-> 
-> Create the socket in user space, do all the handshakes you need there
-> and then pass it to the kernel.  This is how NBD + TLS works.  Scales
-> better and requires much less kernel code.
-> 
-But we can't, as the existing mechanisms (at least for NVMe) creates the 
-socket in-kernel.
-Having to create the socket in userspace would require a completely new 
-interface for nvme and will not be backwards compatible.
-Not to mention having to rework the nvme driver to accept sockets from 
-userspace instead of creating them internally.
+------NkeN6qpQV9bWnUH8GpeMhqJsD.tVVWOHd.rlqQ8kZmeldXuV=_10337_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-With this approach we can keep existing infrastructure, and can get a 
-common implementation for either transport.
+On Mon, Apr 25, 2022 at 11:25:18AM -0700, Stefan Roesch wrote:
+>This adds the large CQE support for io-uring. Large CQE's are 16 bytes longer.
+>To support the longer CQE's the allocation part is changed and when the CQE is
+>accessed.
 
-Cheers,
+Few nits that I commented on, mostly on commit-messages.
+Regardless of that, things look good.
 
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+
+
+
+------NkeN6qpQV9bWnUH8GpeMhqJsD.tVVWOHd.rlqQ8kZmeldXuV=_10337_
+Content-Type: text/plain; charset="utf-8"
+
+
+------NkeN6qpQV9bWnUH8GpeMhqJsD.tVVWOHd.rlqQ8kZmeldXuV=_10337_--
 
