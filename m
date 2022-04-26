@@ -4,122 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E750C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 06:54:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D15DC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Apr 2022 09:43:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7Q1YrUJrgtQdiWAsAzyb807QeU9Z7hSinlx6BCiS/cY=; b=bFJdYk3HvBshMCZIWzIyFtkYRm
-	uVpC1XBTFAAXI6hXulO3BoP7TDgAXCC1nDEa0HdVOLAY9m5+304Sf9eB8As9ZngvYb9I3rOyJ4g0i
-	nKDlm8jOETS/snrEHCGVtVrmSX4XCTgFk6FgiLoCzXZe3iaTpKWgsdTiWB5bgoNYv87ymJSFRSbx3
-	Rx7pgHvgn2aljr+FvLvGYHJCNJxlXi+tjQVDtW3WLHHjLrlnLYwcZX3GcBJExFzIkfaLMBQieeNof
-	TefCnvADuNy2bH3f/UgeMGAGB7dRcDJ2bj6kfO1SZ3MZdpbzTctec7yoiVHFHaz4iT+eABdYrbaZo
-	zoEfpm1g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wSgd95mYy00KtCQ6YWhCz6vTpakQUV5AuNG8Spd/yA8=; b=teBvRhi4GANwCaV0+HDDX3zDGX
+	LEw/cBIYSWvhaFyiQn4gA5UEUhfVicLyTXEzvV1irpnAEo3IimS+RpV1oq9a8bI7T2X1u8Z+BFWKV
+	pgl0Hlumovx9OFWQf+RdZmkMEctkM2x1MMZN1YVuXl1MidsDMAfGjtehQ9p4rDxqX1SiZrMfDIuA6
+	NIb8E5udqNgI30+ntrS+6Am6+x4NEK2UaZsHKvS7P8EXSSlYAWYfAio+idxKv4mJmhHZIdDpMYQL9
+	+RDISSYn/Ckig9y41Vvlo+CcqHsnvqfZg1EEFMqnCgCzTJTtuuKybfa3u8OGE6rrmkHbSsmh233LG
+	scV11PrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njF5V-00CpuF-G2; Tue, 26 Apr 2022 06:54:17 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1njHjV-00DiEI-Is; Tue, 26 Apr 2022 09:43:45 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njF5N-00CprR-6a
- for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 06:54:16 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20220426065402epoutp03530ddf1372f1b70fe2b7619ce8845169~pX8YJGZ0p2228422284epoutp03Q
- for <linux-nvme@lists.infradead.org>; Tue, 26 Apr 2022 06:54:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20220426065402epoutp03530ddf1372f1b70fe2b7619ce8845169~pX8YJGZ0p2228422284epoutp03Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1650956042;
- bh=7Q1YrUJrgtQdiWAsAzyb807QeU9Z7hSinlx6BCiS/cY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dl78JIxAaKr+PVIUb//jt41KXBN1JnF8rm+VdV21N1meRwV9xbX5dxM7+AoW20vZj
- g1v/Qrur0tpZbgt0zJs6nKEsyaYOLFuB8MvZhNVO/rOOZ/Xy6abQE2FIZvsB6UScRo
- 8k6SZ/A7NPGeWFiRjmorMG1cqf9LRpPUuld1lT3M=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20220426065402epcas5p161353eae65ef77c5088d655ee86e15fa~pX8X399HS1792617926epcas5p1t;
- Tue, 26 Apr 2022 06:54:02 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4KnXfY6VZnz4x9QB; Tue, 26 Apr
- 2022 06:53:57 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 92.7B.09827.CF697626; Tue, 26 Apr 2022 15:53:48 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20220426063335epcas5p4e38854e6c1f2686612952a5215ef7010~pXqhdH8xO1225612256epcas5p4H;
- Tue, 26 Apr 2022 06:33:35 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220426063335epsmtrp1db51443aa87edbeedeeacd50984601ec~pXqhcfT411951519515epsmtrp13;
- Tue, 26 Apr 2022 06:33:35 +0000 (GMT)
-X-AuditID: b6c32a4a-b51ff70000002663-f2-626796fcda94
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 61.52.08924.F3297626; Tue, 26 Apr 2022 15:33:35 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220426063334epsmtip27b4a508c4837d42453619807ff3f920e~pXqgbE5dT2331423314epsmtip2q;
- Tue, 26 Apr 2022 06:33:34 +0000 (GMT)
-Date: Tue, 26 Apr 2022 11:58:26 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Stefan Roesch <shr@fb.com>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- kernel-team@fb.com, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH v3 08/12] io_uring: overflow processing for CQE32
-Message-ID: <20220426062826.GC14174@test-zns>
+ id 1njHjS-00DiCP-8f
+ for linux-nvme@lists.infradead.org; Tue, 26 Apr 2022 09:43:43 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E1583210E6;
+ Tue, 26 Apr 2022 09:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1650966217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wSgd95mYy00KtCQ6YWhCz6vTpakQUV5AuNG8Spd/yA8=;
+ b=ZIVbjB66FeHQ6yj5TXWbJ/gSKjO4yRdrZIVf5dE0CoQTuXEtJAs1Bxos3O6G+NT0xqQua8
+ Mv+UVR+IYJXVn0q2VgIrBCb/5tnBkFS08lhYAMFEoKCFkoNF++zX3KXU6BQ2RfBdT9tSI4
+ B+cWZZrL6saQUSGzWVQ3meuz8ekKA/g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1650966217;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wSgd95mYy00KtCQ6YWhCz6vTpakQUV5AuNG8Spd/yA8=;
+ b=Qa0uHqnJwSM2/PfR3ZlE/7jOzJXiAuAlYesCktb4E/sC8Y0y/IDp51Xl5Ilm4fLT6QsXF3
+ i3Dl8iZXqO3DtDBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9D8813223;
+ Tue, 26 Apr 2022 09:43:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id JOtuKMm+Z2KWPgAAMHmgww
+ (envelope-from <hare@suse.de>); Tue, 26 Apr 2022 09:43:37 +0000
+Message-ID: <66077b73-c1a4-d2ae-c8e4-3e19e9053171@suse.de>
+Date: Tue, 26 Apr 2022 11:43:37 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220425182530.2442911-9-shr@fb.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgk+LIzCtJLcpLzFFi42LZdlhTQ/fPtPQkg4cbZSxW3+1ns3jXeo7F
- 4ljfe1aL+cuesltcfXmA3YHVY2LzO3aPy2dLPTYvqff4vEkugCUq2yYjNTEltUghNS85PyUz
- L91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKuSQlliTilQKCCxuFhJ386mKL+0
- JFUhI7+4xFYptSAlp8CkQK84Mbe4NC9dLy+1xMrQwMDIFKgwITvj9fap7AX7hSv+z37J3MC4
- VqCLkZNDQsBE4sKyiYwgtpDAbkaJ72vquhi5gOxPjBI/jp1kgXA+M0psWXWBFaZj+aIOZojE
- LkaJaRsvskM4zxgldre2MoFUsQioSrzu7wVq5+BgE9CUuDC5FCQsIiAnMWvpfjYQm1mgQOLM
- jolgtrCAq8T7f//BFvAK6EocmHSdGcIWlDg58wkLiM0pYCSx/cwWsFNFBZQlDmw7zgSyV0Lg
- EbvEss+72CGuc5FY/Hw3E4QtLPHq+BaouJTEy/42KDtZonX7ZXaQ2yQESiSWLFCHCNtLXNzz
- lwnitnSJUxMfMELEZSWmnloHFeeT6P39BGo8r8SOeTC2osS9SU+hASQu8XDGEijbQ2Lnj3Zo
- 8K5llDg9hWsCo/wsJK/NQrIOwraS6PzQxDoL6DpmAWmJ5f84IExNifW79Bcwsq5ilEwtKM5N
- Ty02LTDKSy2HR3dyfu4mRnCS1PLawfjwwQe9Q4xMHIyHGCU4mJVEeKeqpiUJ8aYkVlalFuXH
- F5XmpBYfYjQFxtREZinR5Hxgms4riTc0sTQwMTMzM7E0NjNUEuc9nb4hUUggPbEkNTs1tSC1
- CKaPiYNTqoGJ4XWcaKVDdkTxLm0Xvz0nOKetLF0ZZPZ56Zz3S/J9DdoX8Zcd39ARcT08r/Ln
- omtabzP4vpoHmed+28e1Qmbfwl2yVwMmJjw301XiFMo3mLRM6PbahH+TnRUVDnyIFGT9PeFe
- w5/yyCktK3fe1fUu3SJX9fHigYaDag3NMjLxgQGBhoonVr7c+Kr91xHFwvDWWW+KHy4918M+
- x7NuntQCp4N9vV/bO4NLuKRnyF7gLu0rfnn89Kt+tstLz89tEUvZrPxQdSe/Et/5+rDdv2Pc
- vjndCNWP31q3ZnM/6wEXt6lLypcIvBO/y7q86/cGtfduZ2dMOPFh7+FepSVLTvq6zztTm3b3
- 7qf5Ka/yQ/RllViKMxINtZiLihMBvo3KTRsEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDLMWRmVeSWpSXmKPExsWy7bCSvK79pPQkg6b78har7/azWbxrPcdi
- cazvPavF/GVP2S2uvjzA7sDqMbH5HbvH5bOlHpuX1Ht83iQXwBLFZZOSmpNZllqkb5fAlXHu
- +16Wgi8CFRu3zWNrYPzD28XIySEhYCKxfFEHcxcjF4eQwA5GiUuzf7JBJMQlmq/9YIewhSVW
- /nvODlH0hFHiQfNxFpAEi4CqxOv+XiCbg4NNQFPiwuRSkLCIgJzErKX7weYwCxRInNkxEcwW
- FnCVeP/vPyuIzSugK3Fg0nWoxWsZJe4d2sgGkRCUODnzCQtEs5nEvM0PmUHmMwtISyz/xwES
- 5hQwkth+ZgsjiC0qoCxxYNtxpgmMgrOQdM9C0j0LoXsBI/MqRsnUguLc9NxiwwKjvNRyveLE
- 3OLSvHS95PzcTYzgANfS2sG4Z9UHvUOMTByMhxglOJiVRHinqqYlCfGmJFZWpRblxxeV5qQW
- H2KU5mBREue90HUyXkggPbEkNTs1tSC1CCbLxMEp1cCkEnBCfBfTXsv2iZuYlk/aKX0v6ZR5
- znNX9T6JM7eFLjGqKHK3OcybpNa6/KSDWvDtQi1TtQMSZ8pymOetYxHyTC9bFOLKYPab/fHK
- U0m3GafPu3/1I+ckrZRVuzo3PdL0PdZwzXC18Zvk6wmTPsdc4+aVlUs9M7Vc9be+hfHzn53b
- xaMatQ8eyAnT7lu2rHXi+TPKj5c3Rh8NTZh59+RPTnvHGWkWDcKaK5zEPu1xTBX0rvM9Oa15
- TczMVbE+Lm2e8VZBz3bfttB90vYvZ1b0zX+CvNN6WCRbVst9Lrr1f7Xwmiurdt5JCblScVAt
- ueN98soy+7mKIRreDi+sr9sWZe5R7Jz0XTd5vUZC/20lluKMREMt5qLiRAAdENhu3wIAAA==
-X-CMS-MailID: 20220426063335epcas5p4e38854e6c1f2686612952a5215ef7010
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_e4ae_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220425182611epcas5p2c999ed62c22300b8483c576523198c4e
-References: <20220425182530.2442911-1-shr@fb.com>
- <CGME20220425182611epcas5p2c999ed62c22300b8483c576523198c4e@epcas5p2.samsung.com>
- <20220425182530.2442911-9-shr@fb.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>, Chuck Lever <chuck.lever@oracle.com>
+Cc: netdev@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-cifs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, ak@tempesta-tech.com, borisp@nvidia.com,
+ simo@redhat.com
+References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
+ <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
+ <20220425101459.15484d17@kernel.org>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS handshake
+ listener)
+In-Reply-To: <20220425101459.15484d17@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220425_235414_591562_2035B6DC 
-X-CRM114-Status: GOOD (  18.15  )
+X-CRM114-CacheID: sfid-20220426_024342_489371_B78E6940 
+X-CRM114-Status: GOOD (  18.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,76 +95,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_e4ae_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On 4/25/22 19:14, Jakub Kicinski wrote:
+> On Mon, 18 Apr 2022 12:49:50 -0400 Chuck Lever wrote:
+>> In-kernel TLS consumers need a way to perform a TLS handshake. In
+>> the absence of a handshake implementation in the kernel itself, a
+>> mechanism to perform the handshake in user space, using an existing
+>> TLS handshake library, is necessary.
+>>
+>> I've designed a way to pass a connected kernel socket endpoint to
+>> user space using the traditional listen/accept mechanism. accept(2)
+>> gives us a well-understood way to materialize a socket endpoint as a
+>> normal file descriptor in a specific user space process. Like any
+>> open socket descriptor, the accepted FD can then be passed to a
+>> library such as openSSL to perform a TLS handshake.
+>>
+>> This prototype currently handles only initiating client-side TLS
+>> handshakes. Server-side handshakes and key renegotiation are left
+>> to do.
+>>
+>> Security Considerations
+>> ~~~~~~~~ ~~~~~~~~~~~~~~
+>>
+>> This prototype is net-namespace aware.
+>>
+>> The kernel has no mechanism to attest that the listening user space
+>> agent is trustworthy.
+>>
+>> Currently the prototype does not handle multiple listeners that
+>> overlap -- multiple listeners in the same net namespace that have
+>> overlapping bind addresses.
+> 
+> Create the socket in user space, do all the handshakes you need there
+> and then pass it to the kernel.  This is how NBD + TLS works.  Scales
+> better and requires much less kernel code.
+> 
+But we can't, as the existing mechanisms (at least for NVMe) creates the 
+socket in-kernel.
+Having to create the socket in userspace would require a completely new 
+interface for nvme and will not be backwards compatible.
+Not to mention having to rework the nvme driver to accept sockets from 
+userspace instead of creating them internally.
 
-On Mon, Apr 25, 2022 at 11:25:26AM -0700, Stefan Roesch wrote:
->This adds the overflow processing for large CQE's.
->
->This adds two parameters to the io_cqring_event_overflow function and
->uses these fields to initialize the large CQE fields.
->
->Allocate enough space for large CQE's in the overflow structue. If no
->large CQE's are used, the size of the allocation is unchanged.
->
->The cqe field can have a different size depending if its a large
->CQE or not. To be able to allocate different sizes, the two fields
->in the structure are re-ordered.
->
->Co-developed-by: Jens Axboe <axboe@kernel.dk>
->Signed-off-by: Stefan Roesch <shr@fb.com>
->Signed-off-by: Jens Axboe <axboe@kernel.dk>
->---
-> fs/io_uring.c | 31 ++++++++++++++++++++++---------
-> 1 file changed, 22 insertions(+), 9 deletions(-)
->
->diff --git a/fs/io_uring.c b/fs/io_uring.c
->index 68b61d2b356d..3630671325ea 100644
->--- a/fs/io_uring.c
->+++ b/fs/io_uring.c
->@@ -220,8 +220,8 @@ struct io_mapped_ubuf {
-> struct io_ring_ctx;
->
-> struct io_overflow_cqe {
->-	struct io_uring_cqe cqe;
-> 	struct list_head list;
->+	struct io_uring_cqe cqe;
-> };
->
-> struct io_fixed_file {
->@@ -2017,10 +2017,14 @@ static void io_cqring_ev_posted_iopoll(struct io_ring_ctx *ctx)
-> static bool __io_cqring_overflow_flush(struct io_ring_ctx *ctx, bool force)
-> {
-> 	bool all_flushed, posted;
->+	size_t cqe_size = sizeof(struct io_uring_cqe);
->
-> 	if (!force && __io_cqring_events(ctx) == ctx->cq_entries)
-> 		return false;
->
->+	if (ctx->flags & IORING_SETUP_CQE32)
->+		cqe_size <<= 1;
->+
-> 	posted = false;
-> 	spin_lock(&ctx->completion_lock);
-> 	while (!list_empty(&ctx->cq_overflow_list)) {
->@@ -2032,7 +2036,7 @@ static bool __io_cqring_overflow_flush(struct io_ring_ctx *ctx, bool force)
-> 		ocqe = list_first_entry(&ctx->cq_overflow_list,
-> 					struct io_overflow_cqe, list);
-> 		if (cqe)
->-			memcpy(cqe, &ocqe->cqe, sizeof(*cqe));
->+			memcpy(cqe, &ocqe->cqe, cqe_size);
+With this approach we can keep existing infrastructure, and can get a 
+common implementation for either transport.
 
-Maybe a nit, but if we do it this way -
-memcpy(cqe, &ocqe->cqe, 
-	sizeof(*cqe) << (ctx->flags & IORING_SETUP_CQE32));
+Cheers,
 
-we can do away with all previous changes in this function.
-
-
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_e4ae_
-Content-Type: text/plain; charset="utf-8"
-
-
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_e4ae_--
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
