@@ -4,127 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34CDDC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Apr 2022 18:09:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88F82C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Apr 2022 19:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xPl1IY39MuYgdUTpQIGrEyNYyAWYGrPNoP4aRDqkkDs=; b=bxqPVP9eCPJ4Eh4a2nubsZTcV9
-	0uCbnLdPzrSgiPk4sBnsLLpZBnBobjO5znjMAfro08tA8AmAZU9uIU4BwQIJVGB8G5cDjvezFRjGE
-	wU+8ck2SbkbilXD0XKXdIEUKl5Q8NJzHgYxAId1l504khkLILr9VbW2Uerrj+lnIyAsRfh6hMuFeV
-	Ft6yDR+ojsYuU88TzWsi7mLRBNLpINzYD3ZJEoAyCx8wxC6D3PkFkKBsZj5DjwH/xg9ybK3iC2sE6
-	A5so47qXDI6lGGSqj+y5HoowtyB1UY+0JobQSPdERQvmiy6N74y0bnkmRnRAoL1ZB4LOeIHw5DA1s
-	AHGngODQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=MyUZpdhjaYGCKVHsiwKmxPCa/D451WZtYWwXONEG+kk=; b=0SjtTLif7dyhbpy2P9Ojo42v6a
+	Q/w19pXYqCdeGeJur1n/EDHYjjPhCXz1gw1GWlQysFydqY//NyPozReg+M4sLU4OtR0yQ9rS52DWH
+	b0oyDaKRwe9ekJkriDUlDAXSBkLE08w8M4Nc+NXIH8x/xPm7EKVh//QWf//oRDBSmH1P1an8Lr4Eo
+	rFHp6TvOvDc8BDMSsxAtSmHbeTvRbaIZ1v30Yp1xiErSUsIYfAuACOfQ0gnHLeY9AIpoGUS8brmi9
+	zzi8+9AycvIiwEJ5JWEMp7wHZc7gtITCqtf0365b74uecqjz3P8UoaSnLpjPucsCjVSp0EbuIsLnX
+	ASpOZIGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njm6P-002tWx-GE; Wed, 27 Apr 2022 18:09:25 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1njn3w-003FBn-UT; Wed, 27 Apr 2022 19:10:56 +0000
+Received: from mailout2.w2.samsung.com ([211.189.100.12])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njm6L-002tSJ-9Q
- for linux-nvme@lists.infradead.org; Wed, 27 Apr 2022 18:09:23 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220427180915epoutp027b4da51fa1b4f5e0871672f8f7acd820~p0zNWkf311282512825epoutp028
- for <linux-nvme@lists.infradead.org>; Wed, 27 Apr 2022 18:09:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220427180915epoutp027b4da51fa1b4f5e0871672f8f7acd820~p0zNWkf311282512825epoutp028
+ id 1njn3t-003FB2-Cm
+ for linux-nvme@lists.infradead.org; Wed, 27 Apr 2022 19:10:55 +0000
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+ by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20220427191046usoutp02d73faf3ce96b547494f2d87850019b75~p1o6U_Fmk3009430094usoutp02O;
+ Wed, 27 Apr 2022 19:10:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
+ 20220427191046usoutp02d73faf3ce96b547494f2d87850019b75~p1o6U_Fmk3009430094usoutp02O
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651082955;
- bh=xPl1IY39MuYgdUTpQIGrEyNYyAWYGrPNoP4aRDqkkDs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=DZyjgatsrIfFJ/TGIQ/WkW9y4RKhJmTNyozh4Sc4WGOOHug1VoixVOUql2AEjbvtY
- h+djTTudRbFztVvr0q5V7Cb4RKPg3bv9oyfIVc4m9alPnB/yj6VEE9yki61cf3vaz/
- v7R3rUjOQd+xzZLEV+6NM10xfvQhz8U+R8yrTSXA=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20220427180915epcas5p3249b4f36723a41f0b5b94f2f1c9276aa~p0zNE4kv82667826678epcas5p3y;
- Wed, 27 Apr 2022 18:09:15 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4KpRbB4sQwz4x9Pr; Wed, 27 Apr
- 2022 18:09:10 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- B6.94.09827.6C689626; Thu, 28 Apr 2022 03:09:10 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20220427155356epcas5p4c96a6b254f89300d6f1943f6a8b4d1ff~py9D6ql_d1865118651epcas5p42;
- Wed, 27 Apr 2022 15:53:56 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220427155356epsmtrp1120ee3b3bf7abcd2f5be2a35d7d3a878~py9D57pZ63121031210epsmtrp1g;
- Wed, 27 Apr 2022 15:53:56 +0000 (GMT)
-X-AuditID: b6c32a4a-b3bff70000002663-8e-626986c6fcf4
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- F9.F8.08853.41769626; Thu, 28 Apr 2022 00:53:56 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220427155355epsmtip18c536e1a3da7f33b9c3849bfa5691571~py9Cqj4Hu2999929999epsmtip1T;
- Wed, 27 Apr 2022 15:53:55 +0000 (GMT)
-Date: Wed, 27 Apr 2022 21:18:47 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- dm-devel@redhat.com, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, nitheshshetty@gmail.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/10] block: Add copy offload support infrastructure
-Message-ID: <20220427154847.GF9558@test-zns>
+ s=mail20170921; t=1651086646;
+ bh=MyUZpdhjaYGCKVHsiwKmxPCa/D451WZtYWwXONEG+kk=;
+ h=From:To:CC:Subject:Date:References:From;
+ b=Juq0rSbyP+e8lUsEmPiLbaeIFepMNCqop4pIrVo/XCyrxBeM1HEZ7FHhEtTTn2WM+
+ 39NP7fHtg2UsDNIIX2vI6W+dAceLb0z25gTTqKKlbaxsXReXRgRk45aLG/kqmwzoar
+ /3zH7tFS3VXcswrj2nhs7JEK4pg94r66xJdkxv/4=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220427191045uscas1p2f17c5f411c2ebd00765db925f5a6ebc8~p1o5f_Eym2441024410uscas1p2z;
+ Wed, 27 Apr 2022 19:10:45 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id 4B.32.09642.53599626; Wed,
+ 27 Apr 2022 15:10:45 -0400 (EDT)
+Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
+ [203.254.195.91]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220427191045uscas1p2cff082022143327c9d6bfdf39e4eb861~p1o5Q2UJC2660226602uscas1p2o;
+ Wed, 27 Apr 2022 19:10:45 +0000 (GMT)
+X-AuditID: cbfec36f-bfdff700000025aa-fe-62699535d9aa
+Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 5C.A9.09672.43599626; Wed,
+ 27 Apr 2022 15:10:45 -0400 (EDT)
+Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
+ SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.7; Wed, 27 Apr 2022 12:10:44 -0700
+Received: from SSI-EX3.ssi.samsung.com ([105.128.5.228]) by
+ SSI-EX3.ssi.samsung.com ([105.128.5.228]) with mapi id 15.01.2375.007; Wed,
+ 27 Apr 2022 12:10:44 -0700
+From: Vincent Fu <vincent.fu@samsung.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+CC: Vincent Fu <vincent.fu@samsung.com>, Pankaj Raghav
+ <p.raghav@samsung.com>, Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH v2] nvme: return BLK_STS_OK on success in nvme_setup_rw
+Thread-Topic: [PATCH v2] nvme: return BLK_STS_OK on success in nvme_setup_rw
+Thread-Index: AQHYWmp+iFNRo2Q7AUyzdjI7vVBRiw==
+Date: Wed, 27 Apr 2022 19:10:43 +0000
+Message-ID: <20220427190933.627688-1-vincent.fu@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <2082148f-890f-e5f4-c304-b99212aa377e@suse.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNJsWRmVeSWpSXmKPExsWy7bCmuu6xtswkg73rlC32vpvNarFn0SQm
- i723tC327D3JYnF51xw2i/nLnrJbdF/fwWax40kjowOHx85Zd9k9Ni+p93i/7yqbx+bT1R6f
- N8kFsEZl22SkJqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYA
- HaKkUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKTAp0CtOzC0uzUvXy0stsTI0MDAy
- BSpMyM6YdngTe8Eli4plc9wbGBfpdDFyckgImEg8uruQrYuRi0NIYDejxPamTcwQzidGibMb
- v7FAON8YJT6dOcrexcgB1vLhqilIt5DAXkaJrlnyEDXPGCW+bF/NBFLDIqAq0f/QE8RkE9CW
- OP2fA6RcREBJ4mP7IXaQcmaBM4wS7e93sYMkhAV8JJafmMYIUs8roCMxYXMQSJhXQFDi5Mwn
- LCA2p4C1xJkHaxhBbFEBZYkD244zgcyREGjlkPj5YAozxDcuEh8bpzFC2MISr45vYYewpSRe
- 9rdB2eUS29sWQDW3AN1/6hQLRMJe4uKev0wgNrNAhsS1hoNMEHFZiamn1kHF+SR6fz+BivNK
- 7JgHYytLrFm/gA3ClpS49r0RyvaQmLf3CTQQPzBKzFx1h20Co/wsJN/NQrIPwtaRWLD7E9ss
- YGAwC0hLLP/HAWFqSqzfpb+AkXUVo2RqQXFuemqxaYFRXmo5PLqT83M3MYJTqZbXDsaHDz7o
- HWJk4mA8xCjBwawkwvtld0aSEG9KYmVValF+fFFpTmrxIUZTYFxNZJYSTc4HJvO8knhDE0sD
- EzMzMxNLYzNDJXHe0+kbEoUE0hNLUrNTUwtSi2D6mDg4pRqYNuybznPD8ZtaT/v++Vrt8619
- Sn17RVPKMxQXGho9MHk+T/LAy7cxzUdmRxu5+5pwmx1vtPfd0bqye2LM6o2dLz6/XZdTsVT0
- ebZUzActh03Wa25s07BTv1J0cJrd9LMmu5eKy4Zsbe74y7PwIH/E1AkHFW7e0oxdLLmfK2he
- YJbSr7X5EYq/ct6Ebe286Lb06YyLNzSUj77at6xRK/zrSX/R2IQ1F1yzVau7mRqV5bqj/Pao
- KX1r6Y63ulUXuqls113toxft4q+v5DiVVfmQy/Zl1P474h8NTsfFXjL8EHWR44eO8JQHE+sW
- pzT43E+/tl/attJufarezpLktwe/ipV/fuTSbVWx7ND/UEMOJZbijERDLeai4kQAkAXpJi4E
- AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsWy7bCSnK5IemaSwd6Z2hZ7381mtdizaBKT
- xd5b2hZ79p5ksbi8aw6bxfxlT9ktuq/vYLPY8aSR0YHDY+esu+wem5fUe7zfd5XNY/Ppao/P
- m+QCWKO4bFJSczLLUov07RK4Mvas6mEsmGRW0X7lDFsD42/NLkYODgkBE4kPV027GLk4hAR2
- M0qs3/WbtYuREyguKbHs7xFmCFtYYuW/5+wQRU8YJea0v2QGaWYRUJXof+gJYrIJaEuc/s8B
- Ui4ioCTxsf0QWDmzwBlGifb3u9hBEsICPhLLT0xjBKnnFdCRmLA5CGLkB0aJlZu3gNXwCghK
- nJz5hAXEZhbQkrjx7yUTSD2zgLTE8n9g8zkFrCXOPFjDCGKLCihLHNh2nGkCo+AsJN2zkHTP
- QuhewMi8ilEytaA4Nz232LDAMC+1XK84Mbe4NC9dLzk/dxMjOAa0NHcwbl/1Qe8QIxMH4yFG
- CQ5mJRHeL7szkoR4UxIrq1KL8uOLSnNSiw8xSnOwKInzXug6GS8kkJ5YkpqdmlqQWgSTZeLg
- lGpg2pojZS371VN/UuRTHcfmunWNS0Uf7NMUtE/W9nujL5+58BNTukpbc1Pav9AnlzfpvRGZ
- tHqqxfkI3YVPmern/4woO82sm2j5JLTOvfCjj9hfLvWMXVIXlyjmNdnpcX/UzVsRJTV53uTJ
- iStOxPUxmC+QmxQoHsb3oXGfaMr6ap/LIoy9Je4Jzca/o0R1E23Muvb67olVl7g2++Wv7RkF
- ksfaX36vyPLTCXnXvuhEsPVtL1tfpd175K+dPhew5tTnI1xckTL/H62ecvdasaf4nqs3T1m8
- U9CzNeD+vsdq5mXr/AX3/cyuNe/WtuFISr25Qu3EkR7pfbdnaxjy8/TfPHGNfcOO3XnaExYp
- ybgqsRRnJBpqMRcVJwIA/9D3//ACAAA=
-X-CMS-MailID: 20220427155356epcas5p4c96a6b254f89300d6f1943f6a8b4d1ff
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_18042_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220426101921epcas5p341707619b5e836490284a42c92762083
-References: <20220426101241.30100-1-nj.shetty@samsung.com>
- <CGME20220426101921epcas5p341707619b5e836490284a42c92762083@epcas5p3.samsung.com>
- <20220426101241.30100-3-nj.shetty@samsung.com>
- <2082148f-890f-e5f4-c304-b99212aa377e@suse.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBIsWRmVeSWpSXmKPExsWy7djX87qmUzOTDO49E7aYv+wpu8W61+9Z
+ HJg8zt/byOKxeUl9AFMUl01Kak5mWWqRvl0CV8bfP7/ZCmZxVOxsuM3WwPiJrYuRk0NCwERi
+ /4xp7F2MXBxCAisZJe7d+s4M4bQySbxfdZkFpupc82aoqrWMEgvfTmeDcD4ySsy6f58VwlnG
+ KHHtaQtQPwcHm4CmxNv9BSDdIgKuEruX7mIEsZkFCiU2Xr4LZgsLuEv82dHABFHjI7Fx8jJm
+ CFtPovvubzCbRUBV4vTNrWD1vAI2Em8nTgKLMwqISXw/tYYJYqa4xK0n85kgLhWUWDR7DzOE
+ LSbxb9dDqD8VJe5/f8kOUa8ncWPqFDYIW1ti2cLXzBDzBSVOznwC9bGkxMEVN1hA/pIQ+Mou
+ cbBrPitEwkXiesNlqKHSEn/vLmOCKGpnlJi78QtU9wRGietPpCBsa4l/ndegNvNJ/P31iBEU
+ QBICvBIdbUITGJVmIflhFpL7ZiG5bxaS+xYwsqxiFC8tLs5NTy02ykst1ytOzC0uzUvXS87P
+ 3cQITByn/x3O38F4/dZHvUOMTByMhxglOJiVRHi/7M5IEuJNSaysSi3Kjy8qzUktPsQozcGi
+ JM67LHNDopBAemJJanZqakFqEUyWiYNTqoEpPPyZl8T5RtYvdlvdv04vkr/+48bUo/9mvNoY
+ WK3t57hj+dv2WhaOtuZ683u8MpPu2TA8XJ6uzxqTZy6ZlfT7bCt3a+HW95O/nY+IfliwyTFo
+ VWXirxjH9uOuHrM5ZnX8ZDvP+VVT9IyHsodE7p3siOhiYYsW39+N5jnyb2v2T9JruLZBlHvH
+ +hIdrVnT16srp9tGt17gWx+9kfm1yOZU2Rb9bMGsB5LHHGeoKVTejeZ+cVex3E3I/PuXT3sX
+ Fl8TsZxy+gzfNo/CK9lWZctWTGauTZKQds9+8aHp7d8aARuRm488nq38LSjC/exn5oOewrzD
+ nZG5q9rMv74+VRdz+37Pt5nf5ZM5ns04ekqJpTgj0VCLuag4EQAVVHt/iwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrALMWRmVeSWpSXmKPExsWS2cA0Sdd0amaSwbQqi/nLnrJbrHv9nsWB
+ yeP8vY0sHpuX1AcwRXHZpKTmZJalFunbJXBl/P3zm61gFkfFzobbbA2Mn9i6GDk5JARMJM41
+ b2bvYuTiEBJYzShx4/5UVgjnI6PEy0+rmSGcZYwSx24sYepi5OBgE9CUeLu/AKRbRMBVYvfS
+ XYwgNrNAocTyz41gtrCAu8SfHQ1MEDU+EhsnL2OGsPUkuu/+BrNZBFQlTt/cClbPK2Aj8Xbi
+ JLA4o4CYxPdTa5ggZopL3HoynwniUgGJJXvOM0PYohIvH/9jhbAVJe5/f8kOUa8ncWPqFDYI
+ W1ti2cLXzBDzBSVOznzCAlEvKXFwxQ2WCYyis5CsmIWkfRaS9llI2hcwsqxiFC8tLs5Nryg2
+ ykst1ytOzC0uzUvXS87P3cQIjJTT/w5H72C8feuj3iFGJg7GQ4wSHMxKIrxfdmckCfGmJFZW
+ pRblxxeV5qQWH2KU5mBREud9GTUxXkggPbEkNTs1tSC1CCbLxMEp1cCUNulzXcDr8NYz2+Je
+ zXt99Xphg9mCr0u2vlwj+uLCqxOrlorNOGusK7tzyXpZ19qvlncXWa54pJO6irXKQ3Tmh70/
+ z/xv4d888/nSB6d/qRyWYDDIP7z1iJxR3R27D0EqKz5OEf5++MfpM5+C55wu/2H8YkXHouj7
+ do1zp2nyMX/cee9BVOF71RaXldZLjsyoDDKon698tN0vj3W9a2f1wVum76Z2xhoH2d16vWFz
+ /VYbt88/jxz2P8Blz2Wz6NPKGx2fI2ySPkyYxqa1ZT6HZMumg08EFRKTRe7NkfZecr2Ufd1b
+ 3l0cjyu+7fd94FG68NvZwF39P/4kGLkqCfJsFVHlUW+JMZ7pEs/19CGro4ASS3FGoqEWc1Fx
+ IgB31VfCAwMAAA==
+X-CMS-MailID: 20220427191045uscas1p2cff082022143327c9d6bfdf39e4eb861
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20220427191045uscas1p2cff082022143327c9d6bfdf39e4eb861
+References: <CGME20220427191045uscas1p2cff082022143327c9d6bfdf39e4eb861@uscas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220427_110921_775722_42E0B433 
-X-CRM114-Status: GOOD (  37.20  )
+X-CRM114-CacheID: sfid-20220427_121053_755096_3618A817 
+X-CRM114-Status: GOOD (  12.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,205 +128,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_18042_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Return BLK_STS_OK instead of 0 on success. Since BLK_STS_OK is defined
+as 0 this patch results in no functional change but to avoid confusion
+and to be consistent with nvme_setup_write_zeroes as well as
+nvme_setup_discard we should have nvme_setup_rw also return BLK_STS_OK.
 
-On Wed, Apr 27, 2022 at 12:29:15PM +0200, Hannes Reinecke wrote:
-> On 4/26/22 12:12, Nitesh Shetty wrote:
-> > Introduce blkdev_issue_copy which supports source and destination bdevs,
-> > and an array of (source, destination and copy length) tuples.
-> > Introduce REQ_COPY copy offload operation flag. Create a read-write
-> > bio pair with a token as payload and submitted to the device in order.
-> > Read request populates token with source specific information which
-> > is then passed with write request.
-> > This design is courtesy Mikulas Patocka's token based copy
-> > 
-> > Larger copy will be divided, based on max_copy_sectors,
-> > max_copy_range_sector limits.
-> > 
-> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> > Signed-off-by: Arnav Dawn <arnav.dawn@samsung.com>
-> > ---
-> >   block/blk-lib.c           | 232 ++++++++++++++++++++++++++++++++++++++
-> >   block/blk.h               |   2 +
-> >   include/linux/blk_types.h |  21 ++++
-> >   include/linux/blkdev.h    |   2 +
-> >   include/uapi/linux/fs.h   |  14 +++
-> >   5 files changed, 271 insertions(+)
-> > 
-> > diff --git a/block/blk-lib.c b/block/blk-lib.c
-> > index 09b7e1200c0f..ba9da2d2f429 100644
-> > --- a/block/blk-lib.c
-> > +++ b/block/blk-lib.c
-> > @@ -117,6 +117,238 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
-> >   }
-> >   EXPORT_SYMBOL(blkdev_issue_discard);
-> > +/*
-> > + * Wait on and process all in-flight BIOs.  This must only be called once
-> > + * all bios have been issued so that the refcount can only decrease.
-> > + * This just waits for all bios to make it through bio_copy_end_io. IO
-> > + * errors are propagated through cio->io_error.
-> > + */
-> > +static int cio_await_completion(struct cio *cio)
-> > +{
-> > +	int ret = 0;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&cio->lock, flags);
-> > +	if (cio->refcount) {
-> > +		cio->waiter = current;
-> > +		__set_current_state(TASK_UNINTERRUPTIBLE);
-> > +		spin_unlock_irqrestore(&cio->lock, flags);
-> > +		blk_io_schedule();
-> > +		/* wake up sets us TASK_RUNNING */
-> > +		spin_lock_irqsave(&cio->lock, flags);
-> > +		cio->waiter = NULL;
-> > +		ret = cio->io_err;
-> > +	}
-> > +	spin_unlock_irqrestore(&cio->lock, flags);
-> > +	kvfree(cio);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void bio_copy_end_io(struct bio *bio)
-> > +{
-> > +	struct copy_ctx *ctx = bio->bi_private;
-> > +	struct cio *cio = ctx->cio;
-> > +	sector_t clen;
-> > +	int ri = ctx->range_idx;
-> > +	unsigned long flags;
-> > +	bool wake = false;
-> > +
-> > +	if (bio->bi_status) {
-> > +		cio->io_err = bio->bi_status;
-> > +		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - ctx->start_sec;
-> > +		cio->rlist[ri].comp_len = min_t(sector_t, clen, cio->rlist[ri].comp_len);
-> > +	}
-> > +	__free_page(bio->bi_io_vec[0].bv_page);
-> > +	kfree(ctx);
-> > +	bio_put(bio);
-> > +
-> > +	spin_lock_irqsave(&cio->lock, flags);
-> > +	if (((--cio->refcount) <= 0) && cio->waiter)
-> > +		wake = true;
-> > +	spin_unlock_irqrestore(&cio->lock, flags);
-> > +	if (wake)
-> > +		wake_up_process(cio->waiter);
-> > +}
-> > +
-> > +/*
-> > + * blk_copy_offload	- Use device's native copy offload feature
-> > + * Go through user provide payload, prepare new payload based on device's copy offload limits.
-> > + */
-> > +int blk_copy_offload(struct block_device *src_bdev, int nr_srcs,
-> > +		struct range_entry *rlist, struct block_device *dst_bdev, gfp_t gfp_mask)
-> > +{
-> > +	struct request_queue *sq = bdev_get_queue(src_bdev);
-> > +	struct request_queue *dq = bdev_get_queue(dst_bdev);
-> > +	struct bio *read_bio, *write_bio;
-> > +	struct copy_ctx *ctx;
-> > +	struct cio *cio;
-> > +	struct page *token;
-> > +	sector_t src_blk, copy_len, dst_blk;
-> > +	sector_t remaining, max_copy_len = LONG_MAX;
-> > +	unsigned long flags;
-> > +	int ri = 0, ret = 0;
-> > +
-> > +	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
-> > +	if (!cio)
-> > +		return -ENOMEM;
-> > +	cio->rlist = rlist;
-> > +	spin_lock_init(&cio->lock);
-> > +
-> > +	max_copy_len = min_t(sector_t, sq->limits.max_copy_sectors, dq->limits.max_copy_sectors);
-> > +	max_copy_len = min3(max_copy_len, (sector_t)sq->limits.max_copy_range_sectors,
-> > +			(sector_t)dq->limits.max_copy_range_sectors) << SECTOR_SHIFT;
-> > +
-> > +	for (ri = 0; ri < nr_srcs; ri++) {
-> > +		cio->rlist[ri].comp_len = rlist[ri].len;
-> > +		src_blk = rlist[ri].src;
-> > +		dst_blk = rlist[ri].dst;
-> > +		for (remaining = rlist[ri].len; remaining > 0; remaining -= copy_len) {
-> > +			copy_len = min(remaining, max_copy_len);
-> > +
-> > +			token = alloc_page(gfp_mask);
-> > +			if (unlikely(!token)) {
-> > +				ret = -ENOMEM;
-> > +				goto err_token;
-> > +			}
-> > +
-> > +			ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
-> > +			if (!ctx) {
-> > +				ret = -ENOMEM;
-> > +				goto err_ctx;
-> > +			}
-> > +			ctx->cio = cio;
-> > +			ctx->range_idx = ri;
-> > +			ctx->start_sec = dst_blk;
-> > +
-> > +			read_bio = bio_alloc(src_bdev, 1, REQ_OP_READ | REQ_COPY | REQ_NOMERGE,
-> > +					gfp_mask);
-> > +			if (!read_bio) {
-> > +				ret = -ENOMEM;
-> > +				goto err_read_bio;
-> > +			}
-> > +			read_bio->bi_iter.bi_sector = src_blk >> SECTOR_SHIFT;
-> > +			__bio_add_page(read_bio, token, PAGE_SIZE, 0);
-> > +			/*__bio_add_page increases bi_size by len, so overwrite it with copy len*/
-> > +			read_bio->bi_iter.bi_size = copy_len;
-> > +			ret = submit_bio_wait(read_bio);
-> > +			bio_put(read_bio);
-> > +			if (ret)
-> > +				goto err_read_bio;
-> > +
-> > +			write_bio = bio_alloc(dst_bdev, 1, REQ_OP_WRITE | REQ_COPY | REQ_NOMERGE,
-> > +					gfp_mask);
-> > +			if (!write_bio) {
-> > +				ret = -ENOMEM;
-> > +				goto err_read_bio;
-> > +			}
-> > +			write_bio->bi_iter.bi_sector = dst_blk >> SECTOR_SHIFT;
-> > +			__bio_add_page(write_bio, token, PAGE_SIZE, 0);
-> > +			/*__bio_add_page increases bi_size by len, so overwrite it with copy len*/
-> > +			write_bio->bi_iter.bi_size = copy_len;
-> > +			write_bio->bi_end_io = bio_copy_end_io;
-> > +			write_bio->bi_private = ctx;
-> > +
-> > +			spin_lock_irqsave(&cio->lock, flags);
-> > +			++cio->refcount;
-> > +			spin_unlock_irqrestore(&cio->lock, flags);
-> > +
-> > +			submit_bio(write_bio);
-> > +			src_blk += copy_len;
-> > +			dst_blk += copy_len;
-> > +		}
-> > +	}
-> > +
-> 
-> Hmm. I'm not sure if I like the copy loop.
-> What I definitely would do is to allocate the write bio before reading data;
-> after all, if we can't allocate the write bio reading is pretty much
-> pointless.
-> 
-> But the real issue I have with this is that it's doing synchronous reads,
-> thereby limiting the performance.
-> 
-> Can't you submit the write bio from the end_io function of the read bio?
-> That would disentangle things, and we should be getting a better
-> performance.
-> 
+Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
+Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+v1 -> v2:
+  - improved commit message first line
+  - added reviewed-by tags
 
-Agree, it will make code efficient.
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---
-Thank you 
-Nitesh Shetty
-
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_18042_
-Content-Type: text/plain; charset="utf-8"
-
-
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_18042_--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b9b0fbde9..f45665e36 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -895,7 +895,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns=
+ *ns,
+=20
+ 	cmnd->rw.control =3D cpu_to_le16(control);
+ 	cmnd->rw.dsmgmt =3D cpu_to_le32(dsmgmt);
+-	return 0;
++	return BLK_STS_OK;
+ }
+=20
+ void nvme_cleanup_cmd(struct request *req)
+--=20
+2.25.1
 
