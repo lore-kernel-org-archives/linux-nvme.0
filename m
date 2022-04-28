@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 319FDC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 15:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8236CC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 15:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0Hx+QOKSjyi1qAH8c3HTcdFxLLzYH4OYaDN6R36Y9MU=; b=uuXmTRkLYYO5twE+SYJ/htoj3N
-	63QDVSMd3u2jOkvzGaNDf+bbzu9t7j1nMbDwyqr25V38TDnyGHHwSjlOT4Y0r/erEvJEyoDYWr+hM
-	UvCv5igNRV7hk0YZy2/G63fRBGnn8vj74Ud5zKp0BOIw4YVF9FtumYii1aL8hqNmHfwoyhDYoi4Se
-	xm1zGftif+P1RZbUXG8+oD7Oj0VH7IZ1wC8TRPbN0ehFte0cQ3kkBj/+Qtpx+rsNZ0VlNvwVCX97q
-	bq0GJnyN826r5LsoQIUvoR9hkK9nHMkh5QqK8p0TgjFXlTAZNX8KOGCt18tXH/KLe7n211aQTUziU
-	JK3sksGA==;
+	bh=4cLX3krKZMaAWT8ujO9N3dqm8YUZ243DWN6ZZeJAz8M=; b=U0w2w0n5Elkuks9Gu64wrxmADq
+	zmyfhj311Off8/rCSoeRhUKGER47UjWP4Pvq7eP/S4eveHFnIPw9DRW/VBRSDa7xbXP5jN2Ux18sd
+	scwUTjzFaTR9knZ4MKD6j2YgH2s44oV2fNqvlzXSnBSNH+S2NycFeVqhnhfM/GOkWM9I3nqzq1pii
+	3lxQrF9uHcABAeEzbtyoCfX+j8/JktuCH2rJxvuc9PpUJdQOkxiaAgp3RgZSPYoNUTPSHviObK9js
+	+B33yxgKZszwCeaL/QDFcETosldzSuWD1CI13ZhkGihCj8HUJTXj9DwAKtZwHwvf82yIC2z0iH32U
+	DXMvt+PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nk5iN-007aOy-1g; Thu, 28 Apr 2022 15:05:55 +0000
-Received: from mga18.intel.com ([134.134.136.126])
+	id 1nk5iI-007aO5-Et; Thu, 28 Apr 2022 15:05:50 +0000
+Received: from mga02.intel.com ([134.134.136.20])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nk5Wh-007Y2t-K8
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 14:53:53 +0000
+ id 1nk4jL-007IWo-6J
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 14:02:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651157631; x=1682693631;
+ t=1651154571; x=1682690571;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=laK4u97EX9doYugJxLEEbIUOUAx/Qz9PAszFYjC5IiA=;
- b=GYTQTIbyuiZPy7fZuZ9pGj5Y4O+Q3TwD2LTRljhhcJviQyYPhTnkW62a
- O6u9ZKd9JfsBKYkyl7OyuSH9CF555QzZOg1yeqFt3o/oqCSdmnuwuJm2O
- 6pLBjKJdYrAFrqFeTNpiI31OESizT8E+wSacsqHgeatLEJ7F0CO2SMJUj
- yvdr1wg0NWYLz6vXu3vNnfWDP/lkNjmvOrDP8oE1nXhv9c55S0xTjYDQd
- dqxSffcynXZhrtVYyF4R8Qb3mrzJ/LTcD0HuVmhrxcHtt8xk4n5lbN2ZB
- sMTo6m5A1pUwSRN1CKLSk6H5lwavZOG6uL6P2+b3u2IaiJxxpEIWPVXqE g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="248244687"
-X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; d="scan'208";a="248244687"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 07:53:49 -0700
+ bh=h4skWhp2zeIZpA2ClyYBwaM9S88S0lAXDPHsSUH0YyA=;
+ b=Rp4bSB/eX54CyNzwNDs8HctGfVsyU52e6UhcJVgK22eAKMWKmnKyNLwV
+ xVQmX4miDkWvXRsWgwAxyQgUmsQWXxwXoFHJdOVTSistRqH+RPl7ruiEF
+ afOG2quyKR9C/mnCEgPpK7pR/eeLGoWF7GP8BfaOKD8WhA7vbMmxgj7m5
+ NIgyQZl0WEgm+jmwN9N+HhvosFKE9nbWMEd6HSgmF8yu+XKxkSAvuuC38
+ zrkOQxnjxdYucLQoPiyNSJfCbhmLvliaOeDZm4RNQfcg7T34/mdueNzYB
+ dVnKEe7LGSwAfRTWd7KhN/B8Ux3wcUi3254HRa5TWVKcfJkOgmPcqCuIy g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="253680563"
+X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; d="scan'208";a="253680563"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 07:02:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; d="scan'208";a="514327844"
+X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; d="scan'208";a="541312589"
 Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 28 Apr 2022 07:53:43 -0700
+ by orsmga002.jf.intel.com with ESMTP; 28 Apr 2022 07:02:41 -0700
 Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nk5WY-0005Sd-BN;
- Thu, 28 Apr 2022 14:53:42 +0000
-Date: Thu, 28 Apr 2022 22:53:21 +0800
+ (envelope-from <lkp@intel.com>) id 1nk4jA-0005Qa-9F;
+ Thu, 28 Apr 2022 14:02:40 +0000
+Date: Thu, 28 Apr 2022 22:02:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nitesh Shetty <nj.shetty@samsung.com>
 Cc: kbuild-all@lists.01.org, chaitanyak@nvidia.com,
@@ -62,20 +62,20 @@ Cc: kbuild-all@lists.01.org, chaitanyak@nvidia.com,
  djwong@kernel.org, josef@toxicpanda.com, clm@fb.com,
  dsterba@suse.com, tytso@mit.edu, jack@suse.com,
  nitheshshetty@gmail.com, gost.dev@samsung.com,
- Arnav Dawn <arnav.dawn@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>
-Subject: Re: [PATCH v4 06/10] nvmet: add copy command support for bdev and
- file ns
-Message-ID: <202204282248.B5VfX8LS-lkp@intel.com>
-References: <20220426101241.30100-7-nj.shetty@samsung.com>
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+ Arnav Dawn <arnav.dawn@samsung.com>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>
+Subject: Re: [PATCH v4 05/10] nvme: add copy offload support
+Message-ID: <202204282136.kqIaq8aK-lkp@intel.com>
+References: <20220426101241.30100-6-nj.shetty@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220426101241.30100-7-nj.shetty@samsung.com>
+In-Reply-To: <20220426101241.30100-6-nj.shetty@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_075351_750597_5E785574 
-X-CRM114-Status: GOOD (  17.96  )
+X-CRM114-CacheID: sfid-20220428_070251_365213_D66D7109 
+X-CRM114-Status: GOOD (  15.06  )
 X-Mailman-Approved-At: Thu, 28 Apr 2022 08:05:49 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,103 +103,101 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-for-copy-offload-support/20220426-201825
 base:    e7d6987e09a328d4a949701db40ef63fbb970670
-config: s390-randconfig-s032-20220427 (https://download.01.org/0day-ci/archive/20220428/202204282248.B5VfX8LS-lkp@intel.com/config)
+config: s390-randconfig-s032-20220427 (https://download.01.org/0day-ci/archive/20220428/202204282136.kqIaq8aK-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 11.3.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/6a9ea8570c34a7222786ca4d129578f48426d2f2
+        # https://github.com/intel-lab-lkp/linux/commit/e029014185aff1d7c8facf6e19447487c6ce2b93
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Nitesh-Shetty/block-Introduce-queue-limits-for-copy-offload-support/20220426-201825
-        git checkout 6a9ea8570c34a7222786ca4d129578f48426d2f2
+        git checkout e029014185aff1d7c8facf6e19447487c6ce2b93
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash drivers/md/ drivers/nvme/target/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash drivers/md/ drivers/nvme/host/ drivers/nvme/target/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/io-cmd-bdev.c:56:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] msrc @@     got restricted __le16 @@
-   drivers/nvme/target/io-cmd-bdev.c:56:26: sparse:     expected unsigned char [usertype] msrc
-   drivers/nvme/target/io-cmd-bdev.c:56:26: sparse:     got restricted __le16
-   drivers/nvme/target/io-cmd-bdev.c:59:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] msrc @@     got restricted __le16 @@
-   drivers/nvme/target/io-cmd-bdev.c:59:34: sparse:     expected unsigned char [usertype] msrc
-   drivers/nvme/target/io-cmd-bdev.c:59:34: sparse:     got restricted __le16
---
->> drivers/nvme/target/admin-cmd.c:537:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] msrc @@     got restricted __le16 @@
-   drivers/nvme/target/admin-cmd.c:537:26: sparse:     expected unsigned char [usertype] msrc
-   drivers/nvme/target/admin-cmd.c:537:26: sparse:     got restricted __le16
+>> drivers/nvme/host/core.c:803:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] dspec @@     got restricted __le32 [usertype] @@
+   drivers/nvme/host/core.c:803:26: sparse:     expected restricted __le16 [usertype] dspec
+   drivers/nvme/host/core.c:803:26: sparse:     got restricted __le32 [usertype]
 
-vim +56 drivers/nvme/target/io-cmd-bdev.c
+vim +803 drivers/nvme/host/core.c
 
-    12	
-    13	void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
-    14	{
-    15		const struct queue_limits *ql = &bdev_get_queue(bdev)->limits;
-    16		/* Number of logical blocks per physical block. */
-    17		const u32 lpp = ql->physical_block_size / ql->logical_block_size;
-    18		/* Logical blocks per physical block, 0's based. */
-    19		const __le16 lpp0b = to0based(lpp);
-    20	
-    21		/*
-    22		 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
-    23		 * NAWUPF, and NACWU are defined for this namespace and should be
-    24		 * used by the host for this namespace instead of the AWUN, AWUPF,
-    25		 * and ACWU fields in the Identify Controller data structure. If
-    26		 * any of these fields are zero that means that the corresponding
-    27		 * field from the identify controller data structure should be used.
-    28		 */
-    29		id->nsfeat |= 1 << 1;
-    30		id->nawun = lpp0b;
-    31		id->nawupf = lpp0b;
-    32		id->nacwu = lpp0b;
-    33	
-    34		/*
-    35		 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
-    36		 * NOWS are defined for this namespace and should be used by
-    37		 * the host for I/O optimization.
-    38		 */
-    39		id->nsfeat |= 1 << 4;
-    40		/* NPWG = Namespace Preferred Write Granularity. 0's based */
-    41		id->npwg = lpp0b;
-    42		/* NPWA = Namespace Preferred Write Alignment. 0's based */
-    43		id->npwa = id->npwg;
-    44		/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-    45		id->npdg = to0based(ql->discard_granularity / ql->logical_block_size);
-    46		/* NPDG = Namespace Preferred Deallocate Alignment */
-    47		id->npda = id->npdg;
-    48		/* NOWS = Namespace Optimal Write Size */
-    49		id->nows = to0based(ql->io_opt / ql->logical_block_size);
-    50	
-    51		/*Copy limits*/
-    52		if (ql->max_copy_sectors) {
-    53			id->mcl = cpu_to_le32((ql->max_copy_sectors << 9) / ql->logical_block_size);
-    54			id->mssrl = cpu_to_le16((ql->max_copy_range_sectors << 9) /
-    55					ql->logical_block_size);
-  > 56			id->msrc = to0based(ql->max_copy_nr_ranges);
-    57		} else {
-    58			if (ql->zoned == BLK_ZONED_NONE) {
-    59				id->msrc = to0based(BIO_MAX_VECS);
-    60				id->mssrl = cpu_to_le16(
-    61						(BIO_MAX_VECS << PAGE_SHIFT) / ql->logical_block_size);
-    62				id->mcl = cpu_to_le32(le16_to_cpu(id->mssrl) * BIO_MAX_VECS);
-    63	#ifdef CONFIG_BLK_DEV_ZONED
-    64			} else {
-    65				/* TODO: get right values for zoned device */
-    66				id->msrc = to0based(BIO_MAX_VECS);
-    67				id->mssrl = cpu_to_le16(min((BIO_MAX_VECS << PAGE_SHIFT),
-    68						ql->chunk_sectors) / ql->logical_block_size);
-    69				id->mcl = cpu_to_le32(min(le16_to_cpu(id->mssrl) * BIO_MAX_VECS,
-    70							ql->chunk_sectors));
-    71	#endif
-    72			}
-    73		}
-    74	}
-    75	
+   739	
+   740	static inline blk_status_t nvme_setup_copy_write(struct nvme_ns *ns,
+   741		       struct request *req, struct nvme_command *cmnd)
+   742	{
+   743		struct nvme_ctrl *ctrl = ns->ctrl;
+   744		struct nvme_copy_range *range = NULL;
+   745		struct bio *bio = req->bio;
+   746		struct nvme_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
+   747		sector_t src_sector, dst_sector, n_sectors;
+   748		u64 src_lba, dst_lba, n_lba;
+   749		unsigned short nr_range = 1;
+   750		u16 control = 0;
+   751		u32 dsmgmt = 0;
+   752	
+   753		if (unlikely(memcmp(token->subsys, "nvme", 4)))
+   754			return BLK_STS_NOTSUPP;
+   755		if (unlikely(token->ns != ns))
+   756			return BLK_STS_NOTSUPP;
+   757	
+   758		src_sector = token->src_sector;
+   759		dst_sector = bio->bi_iter.bi_sector;
+   760		n_sectors = token->sectors;
+   761		if (WARN_ON(n_sectors != bio->bi_iter.bi_size >> 9))
+   762			return BLK_STS_NOTSUPP;
+   763	
+   764		src_lba = nvme_sect_to_lba(ns, src_sector);
+   765		dst_lba = nvme_sect_to_lba(ns, dst_sector);
+   766		n_lba = nvme_sect_to_lba(ns, n_sectors);
+   767	
+   768		if (unlikely(nvme_lba_to_sect(ns, src_lba) != src_sector) ||
+   769				unlikely(nvme_lba_to_sect(ns, dst_lba) != dst_sector) ||
+   770				unlikely(nvme_lba_to_sect(ns, n_lba) != n_sectors))
+   771			return BLK_STS_NOTSUPP;
+   772	
+   773		if (WARN_ON(!n_lba))
+   774			return BLK_STS_NOTSUPP;
+   775	
+   776		if (req->cmd_flags & REQ_FUA)
+   777			control |= NVME_RW_FUA;
+   778	
+   779		if (req->cmd_flags & REQ_FAILFAST_DEV)
+   780			control |= NVME_RW_LR;
+   781	
+   782		memset(cmnd, 0, sizeof(*cmnd));
+   783		cmnd->copy.opcode = nvme_cmd_copy;
+   784		cmnd->copy.nsid = cpu_to_le32(ns->head->ns_id);
+   785		cmnd->copy.sdlba = cpu_to_le64(dst_lba);
+   786	
+   787		range = kmalloc_array(nr_range, sizeof(*range),
+   788				GFP_ATOMIC | __GFP_NOWARN);
+   789		if (!range)
+   790			return BLK_STS_RESOURCE;
+   791	
+   792		range[0].slba = cpu_to_le64(src_lba);
+   793		range[0].nlb = cpu_to_le16(n_lba - 1);
+   794	
+   795		cmnd->copy.nr_range = 0;
+   796	
+   797		req->special_vec.bv_page = virt_to_page(range);
+   798		req->special_vec.bv_offset = offset_in_page(range);
+   799		req->special_vec.bv_len = sizeof(*range) * nr_range;
+   800		req->rq_flags |= RQF_SPECIAL_PAYLOAD;
+   801	
+   802		cmnd->copy.control = cpu_to_le16(control);
+ > 803		cmnd->copy.dspec = cpu_to_le32(dsmgmt);
+   804	
+   805		return BLK_STS_OK;
+   806	}
+   807	
 
 -- 
 0-DAY CI Kernel Test Service
