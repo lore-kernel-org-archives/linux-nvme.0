@@ -4,89 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09001C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 07:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A18BC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 08:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8La7nCythI606QEFjhYh0xAtTpWBmAV8ZgAbWFDSAPA=; b=cc5rP3R8qEL6jN6Dg6vvP+6ukg
-	GiTbgcZjUpzZOgdL3Tfr4rTNAgETAEBldS9r+2TqHNRiGRDrzEQQ+PqVZkHwVmg9EwEZLbzLV74F0
-	MnqpyLhi2XpmJ4sLbgMQah3SfByDjcuSW0+ns9E/hLypdgTO3/cT7nI/h5wTHRek56fAqvPfnpsh/
-	pqZ0qYEFLCD6YdGeai8TvY1Y4dlryLexUx1KDEA0GXesDHySapSzUoy08rLDWmSitHPp/1LK7hYfu
-	kuHRKfhI6cu+TcSvt1PHInNT35jfBGP7oIgNHmnrHTQOLVAm1/C0r1hhA9EwXSJg7ogHfoxy6MTrC
-	MQKob0yg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wOXierUafvtxBlcmLM8miKLDWIrpcRM3NRzL9LIllCI=; b=eJ7+u/h2I908GQFlPNR4n0RWLz
+	ReOS1TW5AfcT3/LNWu8iCNH0mEloMdT6co8U19/tVdTXMFm13AXDBtLibh1G0QOD4h6XJe74LfKcF
+	e1QatGuK5lrLBI/XhYz5ggPbjxko0A3zGdKzCAhIZCojhviTFGnkoK/EHroVR/vUk1o/CxoGjDn7A
+	atr8/qssGfZbmVqqcxmyFCIbqStcPNKRbSrKXJkFNw8ja+qshedF9QYe2fAZp/ICmlRTUzT6Sbrzr
+	2FpB010N7hOr4PBwSRE+cvr1KshVko5EaU0WTpD+u2Opba+y6WvUqvXby/qf7fr5Y1jcrXQTc5ed4
+	H9Dsepeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njyY5-005BDw-2K; Thu, 28 Apr 2022 07:26:49 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1njzNJ-005TRT-9Q; Thu, 28 Apr 2022 08:19:45 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njyY0-005BBR-LS
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 07:26:46 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 634F01F37B;
- Thu, 28 Apr 2022 07:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651130802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8La7nCythI606QEFjhYh0xAtTpWBmAV8ZgAbWFDSAPA=;
- b=TnOjymCYipj5i9iYJ4tqA02l2//PJs/MLyhkcsGXRO8bIJsFAYY6ljO08fm4BlCle8b4qa
- XCvEW9KmxikZ9vLeim2z87ct0thesl+g8oMRz+KUYMihyTtz3kGiO63vVnmFFWnzyAUgGD
- PKnV4KaxyRq93BMxMavoN/NAsQJw05U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651130802;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8La7nCythI606QEFjhYh0xAtTpWBmAV8ZgAbWFDSAPA=;
- b=he8LWbJqoFVYeywHCdfUwWz6vUMo6u4hljkW69oEvLXDd9V8Xm1jTpX7AQnisfdfKXdWsb
- AkdHhSkzi7uGuODQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 330CF13AF8;
- Thu, 28 Apr 2022 07:26:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id vNDPC7JBamK3DgAAMHmgww
- (envelope-from <hare@suse.de>); Thu, 28 Apr 2022 07:26:42 +0000
-Message-ID: <23f497ab-08e3-3a25-26d9-56d94ee92cde@suse.de>
-Date: Thu, 28 Apr 2022 09:26:41 +0200
+ id 1njzMk-005T0U-2r
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 08:19:14 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220428081900epoutp0488116069ad729b3c195e11bb011ee599~qAZI7R8xt2858428584epoutp04f
+ for <linux-nvme@lists.infradead.org>; Thu, 28 Apr 2022 08:19:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220428081900epoutp0488116069ad729b3c195e11bb011ee599~qAZI7R8xt2858428584epoutp04f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1651133940;
+ bh=wOXierUafvtxBlcmLM8miKLDWIrpcRM3NRzL9LIllCI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=enVj7tP4E6Tut37+wWd0eiHV7Li8L74QvuhqzxkUTUmDf26rRxw1+Qpt6J7Iyc1Dd
+ hFtT/eGAvYEw7XcvS23r0NmceqOii4tuT7vqpUgxs6Ww8EkisX5FReAwG0lmzOvobK
+ NP7SzmTOFRj8OxhvNEDhDhvrITEpcBWadmwj+rTg=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220428081859epcas5p19880ba6dfa6389f18098ac62ca74e360~qAZIA-u-l0467704677epcas5p1x;
+ Thu, 28 Apr 2022 08:18:59 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4KppRg2W7Dz4x9QB; Thu, 28 Apr
+ 2022 08:18:55 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ E2.07.09827.EED4A626; Thu, 28 Apr 2022 17:18:54 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220428075435epcas5p285a70634102f71440a283361657f4d9b~qAD0bnrr92164321643epcas5p2Q;
+ Thu, 28 Apr 2022 07:54:35 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220428075435epsmtrp1a9ee8d4d92953b0ff2d7f9b7559998a2~qAD0asRh-1575615756epsmtrp1S;
+ Thu, 28 Apr 2022 07:54:35 +0000 (GMT)
+X-AuditID: b6c32a4a-b3bff70000002663-dd-626a4deee6d4
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ A6.BF.08924.B384A626; Thu, 28 Apr 2022 16:54:35 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20220428075434epsmtip13f509946fb1170bf6e1ff8e4df1f4948~qADzDll5X1873018730epsmtip1z;
+ Thu, 28 Apr 2022 07:54:34 +0000 (GMT)
+Date: Thu, 28 Apr 2022 13:19:26 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dm-devel@redhat.com, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, nitheshshetty@gmail.com,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] Add Copy offload support
+Message-ID: <20220428074926.GG9558@test-zns>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS handshake
- listener)
-Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chuck Lever <chuck.lever@oracle.com>,
- netdev@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, ak@tempesta-tech.com, borisp@nvidia.com,
- simo@redhat.com
-References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
- <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
- <20220425101459.15484d17@kernel.org>
- <66077b73-c1a4-d2ae-c8e4-3e19e9053171@suse.de>
- <1fca2eda-83e4-fe39-13c8-0e5e7553689b@grimberg.me>
- <20220426080247.19bbb64e@kernel.org>
- <40bc060f-f359-081d-9ba7-fae531cf2cd6@suse.de>
- <20220426170334.3781cd0e@kernel.org>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20220426170334.3781cd0e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <c285f0da-ab1d-2b24-e5a4-21193ef93155@opensource.wdc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBJsWRmVeSWpSXmKPExsWy7bCmpu5736wkgz+5Fr/Pnme22PtuNqvF
+ 3lvaFnv2nmSxuLxrDpvF/GVP2S26r+9gs9jxpJHRgcNj56y77B6bl9R77Gy9z+rxft9VNo/P
+ m+QCWKOybTJSE1NSixRS85LzUzLz0m2VvIPjneNNzQwMdQ0tLcyVFPISc1NtlVx8AnTdMnOA
+ DlFSKEvMKQUKBSQWFyvp29kU5ZeWpCpk5BeX2CqlFqTkFJgU6BUn5haX5qXr5aWWWBkaGBiZ
+ AhUmZGfcv7eFtaCfu+Lm7busDYztnF2MnBwSAiYSXe+2sYLYQgK7GSXmLI3uYuQCsj8xSsx/
+ 8IIVwvnMKHF8/Uk2mI75d6ayQyR2MUqcOz0XquoZo0TT/HnsIFUsAqoSD6Z2MXYxcnCwCWhL
+ nP7PARIWETCVeNvTygJSzyxwhlGi/f0usHphATOJ1Z2tYBt4BXQkFs/fzQ5hC0qcnPmEBcTm
+ FHCTmL3xG5gtKqAscWDbcSaIiyZySMyYmwqyS0LARaL5dTREWFji1fEt7BC2lMTL/jYou1xi
+ e9sCJpAbJARaGCW6Tp1igUjYS1zc8xdsJrNAhsTsb2uhPpaVmHpqHVScT6L39xOovbwSO+bB
+ 2MoSa9YvgKqXlLj2vRHK9pDY+XElNIBWMkm8PH2IfQKj/Cwkv81Csm8W0A/MApoS63fpQ4Tl
+ JZq3zmaGCEtLLP/HgaRiASPbKkbJ1ILi3PTUYtMCo7zUcnjcJ+fnbmIEJ1ktrx2MDx980DvE
+ yMTBeIhRgoNZSYT3y+6MJCHelMTKqtSi/Pii0pzU4kOMpsBom8gsJZqcD0zzeSXxhiaWBiZm
+ ZmYmlsZmhkrivKfTNyQKCaQnlqRmp6YWpBbB9DFxcEo1MHmYxBi3KS/r+5xXoHh/5e5/mpOK
+ OLaz1QUJJm5LlWV+dGCy2qfIDR1bPTv4Cv8o7cuz5K+7k+o17+LTf7WP9Hb0x/PP1u849K1e
+ 9ECS25U/X77MfXHhdDCf6CKtxUE1cj17vjAr/U6ZkKPatTBKKu23yc1t05J0TR/EblD+sWFx
+ 0DPf6Q7i++QYDghltRZyCmdZbpQ0mbLf//CW7BVyO3Mj78a3hghMUJNqNAp1337257kTdWFK
+ F5WF48I+LnzLVaHz1Wvq/N+HWwX5lVy6/OQDdXwTmyQOHOF9+P5ORO+1sxMfmJVUr1snvTy8
+ Kfb+1bVvxTqdU/dcnR/13vrQ+u4M04X3O3s98v0vTXLvVmIpzkg01GIuKk4EAG3bN+s7BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOLMWRmVeSWpSXmKPExsWy7bCSnK61R1aSQcdnPYvfZ88zW+x9N5vV
+ Yu8tbYs9e0+yWFzeNYfNYv6yp+wW3dd3sFnseNLI6MDhsXPWXXaPzUvqPXa23mf1eL/vKpvH
+ 501yAaxRXDYpqTmZZalF+nYJXBkrtjkWbOSo2PbVroHxKFsXIyeHhICJxPw7U9m7GLk4hAR2
+ MEp8aTrHApGQlFj29wgzhC0ssfLfc6iiJ4wSs+6vBetmEVCVeDC1i7GLkYODTUBb4vR/DpCw
+ iICpxNueVhaQemaBM4wS7e93sYMkhAXMJFZ3toL18groSCyevxtq6Eomiff7V7JDJAQlTs58
+ AnYFs4C6xJ95l5hBFjALSEss/8cBEZaXaN46G+w4TgE3idkbv4GViwooSxzYdpxpAqPQLCST
+ ZiGZNAth0iwkkxYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAiOGy2tHYx7Vn3Q
+ O8TIxMF4iFGCg1lJhPfL7owkId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqem
+ FqQWwWSZODilGphmNkSeu+/Zy/AzdJGv3sPXJ3sNLl4t7nK+dN/kX+8ctbV/eb6LrRTa9s+k
+ YDWbSN7z4NI5On1n5fnNvWRuVogfPnn2Q/QKI/2ZvLOWpR5raFxyxPrm3G/zt/3jSAwIVNEV
+ vlGj9r15qkzKnZTAabfNrOunnG56dvDkm55ZLamR00U/P9HWbLHer/0vbFnmhkXlsVeflx5I
+ PvfhVElgVdO7F6tL4/72aE+82pMt+Icv6rLBBfXuw+1eMw7u+cD1b3uQ34IF52+4Sfkp/Ulg
+ 1VRZN3Ghe9+N0/Z2JkkWB4s/O9acPB8mtemFG6OJ8TmFi3pr5/kn6pxVuj8j33YeF+MJ4zdn
+ HZjXyDM/fquzxWWKEktxRqKhFnNRcSIAWXgw9goDAAA=
+X-CMS-MailID: 20220428075435epcas5p285a70634102f71440a283361657f4d9b
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----MMcOyA4CJjQRgHhn55zXOrpiM0Dxers-aGNKdRjWa9MqQ0PV=_1cb6b_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220426101804epcas5p4a0a325d3ce89e868e4924bbdeeba6d15
+References: <CGME20220426101804epcas5p4a0a325d3ce89e868e4924bbdeeba6d15@epcas5p4.samsung.com>
+ <20220426101241.30100-1-nj.shetty@samsung.com>
+ <6a85e8c8-d9d1-f192-f10d-09052703c99a@opensource.wdc.com>
+ <20220427124951.GA9558@test-zns>
+ <c285f0da-ab1d-2b24-e5a4-21193ef93155@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_002644_919701_A3879AE1 
-X-CRM114-Status: GOOD (  34.92  )
+X-CRM114-CacheID: sfid-20220428_011910_697664_F3781ED9 
+X-CRM114-Status: GOOD (  18.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,110 +139,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/27/22 02:03, Jakub Kicinski wrote:
-> On Tue, 26 Apr 2022 17:58:39 +0200 Hannes Reinecke wrote:
->>> Plus there are more protocols being actively worked on (QUIC, PSP etc.)
->>> Having per ULP special sauce to invoke a user space helper is not the
->>> paradigm we chose, and the time as inopportune as ever to change that.
->>
->> Which is precisely what we hope to discuss at LSF.
->> (Yes, I know, probably not the best venue to discuss network stuff ...)
-> 
-> Indeed.
-> 
->> Each approach has its drawbacks:
->>
->> - Establishing sockets from userspace will cause issues during
->> reconnection, as then someone (aka the kernel) will have to inform
->> userspace that a new connection will need to be established.
->> (And that has to happen while the root filesystem is potentially
->> inaccessible, so you can't just call arbitrary commands here)
->> (Especially call_usermodehelper() is out of the game)
-> 
-> Indeed, we may need _some_ form of a notification mechanism and that's
-> okay. Can be a (more generic) socket, can be something based on existing
-> network storage APIs (IDK what you have there).
-> 
-Which is one of the issues; we don't have any.
-Network storage is accessed from userspace via read()/write(), and for 
-control everyone rolls its own thing.
-So speaking of a 'network storage API' is quite optimistic.
+------MMcOyA4CJjQRgHhn55zXOrpiM0Dxers-aGNKdRjWa9MqQ0PV=_1cb6b_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
 
-> My thinking was that establishing the session in user space would be
-> easiest. We wouldn't need all the special getsockopt()s which AFAIU
-> work around part of the handshake being done in the kernel, and which,
-> I hope we can agree, are not beautiful.
+On Thu, Apr 28, 2022 at 07:05:32AM +0900, Damien Le Moal wrote:
+> On 4/27/22 21:49, Nitesh Shetty wrote:
+> > O Wed, Apr 27, 2022 at 11:19:48AM +0900, Damien Le Moal wrote:
+> >> On 4/26/22 19:12, Nitesh Shetty wrote:
+> >>> The patch series covers the points discussed in November 2021 virtual call
+> >>> [LSF/MM/BFP TOPIC] Storage: Copy Offload[0].
+> >>> We have covered the Initial agreed requirements in this patchset.
+> >>> Patchset borrows Mikulas's token based approach for 2 bdev
+> >>> implementation.
+> >>>
+> >>> Overall series supports –
+> >>>
+> >>> 1. Driver
+> >>> - NVMe Copy command (single NS), including support in nvme-target (for
+> >>>     block and file backend)
+> >>
+> >> It would also be nice to have copy offload emulation in null_blk for testing.
+> >>
+> > 
+> > We can plan this in next phase of copy support, once this series settles down.
 > 
-Well; that is open to debate.
-During open-iscsi development (which followed your model of having a 
-control- and dataplane split between userspace and kernel) we found that 
-the model is great for keeping the in-kernel code simple.
-But we also found that it's not so great once you come down to the 
-gritty details; you have to duplicate quite some protocol handling in 
-userspace, and you have to worry about session re-establishment.
-Up to the point where we start wondering if moving things into userspace 
-was a good idea at all...
+> So how can people test your series ? Not a lot of drives out there with
+> copy support.
+>
 
-As for this particular interface: the problem we're facing is that TLS 
-has to be started in-band. For some reason NVMexpress decided not to 
-follow the traditional method of establishing the socket, start TLS, and 
-then start protocol processing, but it rather has specified a hybrid 
-model: establishing the socket, doing authentication, _then_ start TLS, 
-and only then continue with protocol processing on the TLS socket.
+Yeah not many drives at present, Qemu can be used to test NVMe copy.
 
-Moving _that_ into userspace would require us to move the most of the 
-protocol logic into userspace, too. Which really is something we want to 
-avoid, as this would be quite a code duplication.
-Not to mention the maintenance burden, as issues would need to be fixed 
-in two locations.
-(Talk to me about iscsiuio.)
+--
+Nitesh Shetty
 
-And that's before we even get to things like TLS session tickets, which 
-opens yet another can of worms.
+------MMcOyA4CJjQRgHhn55zXOrpiM0Dxers-aGNKdRjWa9MqQ0PV=_1cb6b_
+Content-Type: text/plain; charset="utf-8"
 
->> - Having ULP helpers (as with this design) mitigates that problem
->> somewhat in the sense that you can mlock() that daemon and having it
->> polling on an intermediate socket; that solves the notification problem.
->> But you have to have ULP special sauce here to make it work.
-> 
-> TBH I don't see how this is much different to option 1 in terms of
-> constraints & requirements on the user space agent. We can implement
-> option 1 over a socket-like interface, too, and that'll carry
-> notifications all the same.
-> 
->> - Moving everything in kernel is ... possible. But then you have yet
->> another security-relevant piece of code in the kernel which needs to be
->> audited, CVEd etc. Not to mention the usual policy discussion whether it
->> really belongs into the kernel.
-> 
-> Yeah, if that gets posted it'd be great if it includes removing me from
-> the TLS maintainers 'cause I want to sleep at night ;)
-> 
->> So I don't really see any obvious way to go; best we can do is to pick
->> the least ugly :-(
-> 
-> True, I'm sure we can find some middle ground between 1 and 2.
-> Preferably implemented in a way where the mechanism is separated
-> from the fact it's carrying TLS handshake requests, so that it can
-> carry something else tomorrow.
-> 
-Which was actually our goal.
-The whole thing started off with the problem on _how_ sockets could be 
-passed between kernel and userspace and vice versa.
-While there is fd passing between processes via AF_UNIX, there is no 
-such mechanism between kernel and userspace.
 
-So accept() was an easy way out as the implementation was quite simple.
-And it was moved into net/tls as this was the primary use-case.
-But it's by no means meant to be exclusive for TLS; we could expand it 
-to other things once there is a need.
-But we really didn't want to over-engineer things here.
-
-However, if you have another idea, by all means, do tell.
-It's just that I don't think creating sockets in userspace is a great 
-fit for us.
-
-Cheers,
-
-Hannes
+------MMcOyA4CJjQRgHhn55zXOrpiM0Dxers-aGNKdRjWa9MqQ0PV=_1cb6b_--
 
