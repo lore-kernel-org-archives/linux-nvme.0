@@ -4,59 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 495CDC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 17:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FB4EC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 17:29:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vpMWdP31TgoWmZqa+jOJhasoe4hDfA+qtv3m7vg6nzg=; b=Erm06lif9Av7QbnYnmiDEZ157V
-	aa3+mdi6cHZyGjXgf1lH6HiA4XwUhL687qTohcIXwuOcHd6hS5b7CHknAQO5L/+0ht6dhRgPWv/BO
-	p9piz+39UrTxAC8+1o1zN8w3COo6mIvf6j0zEulD4PCeeivWO+F4t1Q86i44Ds04WefvUyuMhFsfS
-	jNoZMwSQvPB6UZnuTG2WZXWJZWYVy3pd6zw/f/3uNjlLO6CWhObFcnTQb0MPfxFrHU8R2d018jQ5V
-	y16dtGCAA1EW99UtsMtUcvu3dDR6aDcdZJ2rmKh988KzduR/zy4doJ0AZqG6dwdnarWXxnxpqbNG9
-	JBFYjuHg==;
+	bh=M77UyFZc/CQOenG5boLjqoc0qTJMwAANdJbVnxb68KE=; b=PLWTJl76dE9NGEvyc4g9lCRj/f
+	m7NZQ5+uT5Y/ziBPMZLq7njexDA5ozKT4ReB6/OmyRCK65wI8TjP3D/80KKPN/qQhFfBu1sPkOk2M
+	RlfAFRKu4aivNsuolaSiZOkpni8RWoq6wvURjXDSSqLYJc86BTcSP9XPcSaGxauSd1wa9pVBm6LJI
+	1a562Hw8CP9uRY0w1gI56vzGCGiv2jKTCHjI+4QUuYd+niVGfyiUlXto4Gv0S2+5NW+5rShWY3VTb
+	BtMYg/D+dwSvpqZqGSmo8RAYbO52TVTvs64JLJQvHe5R4NzuQttgvu2f6E6nBVKJRKyGyISW+yMm4
+	JF8YZ9Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nk7mL-00817I-UM; Thu, 28 Apr 2022 17:18:09 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nk7mI-00816R-MA
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 17:18:08 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4B75EB82ECE;
- Thu, 28 Apr 2022 17:18:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3008C385A9;
- Thu, 28 Apr 2022 17:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651166283;
- bh=HjC/BFgZSv89pVAaK4Jqs81WfEG/KAQCWX2WCW/Ht/0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QOE6ZKjneLRq7nIDn4JpGNq6EwWt7UfpXHtufuH8LYcCRFYwIeFsGFgOTU6IY2l7Z
- JgO/WPNik5cqlzqjDCJZb3F3AgVtAL2euX/cYFy+pKGgWYfHcF8F27tMVIqQEXgvBH
- 7X5Q60HbBO6D++/Eu6/H0vwT1IDlpnBOWJBGAnht19+sglN5VNV6NpWwGSn+1Ip0Lf
- riVV2JYPN+5zLSdjqBtfgE6SahjB7HKqmBD8/gTO1keInqsjJp0u3VlVIX2z7TbSsP
- d6NdbVRbYitMlDhQmdy03AUUz2fh839B8d6jqEKvJ7tqhjJK2UnZfrzLQFuflP9U8T
- 60/8V7Hmk7TRw==
-Date: Thu, 28 Apr 2022 11:18:00 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Tom Yan <tom.ty89@gmail.com>
-Cc: linux-nvme@lists.infradead.org, hch@infradead.org, sagi@grimberg.me
-Subject: Re: [PATCH v3] nvme: fix interpretation of dmrsl
-Message-ID: <YmrMSGDDn3UMnJ8t@kbusch-mbp.dhcp.thefacebook.com>
-References: <YmquYxXtGXlNB0PL@infradead.org>
- <20220428165051.4708-1-tom.ty89@gmail.com>
+	id 1nk7xO-0082eE-Uy; Thu, 28 Apr 2022 17:29:34 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+ (Red Hat Linux)) id 1nk7xL-0082dM-NY; Thu, 28 Apr 2022 17:29:31 +0000
+Date: Thu, 28 Apr 2022 10:29:31 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Pankaj Raghav <p.raghav@samsung.com>, jaegeuk@kernel.org,
+ axboe@kernel.dk, snitzer@kernel.org, hch@lst.de,
+ naohiro.aota@wdc.com, sagi@grimberg.me, dsterba@suse.com,
+ johannes.thumshirn@wdc.com, linux-kernel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, clm@fb.com, gost.dev@samsung.com,
+ chao@kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ josef@toxicpanda.com, jonathan.derrick@linux.dev, agk@redhat.com,
+ kbusch@kernel.org, kch@nvidia.com, linux-nvme@lists.infradead.org,
+ dm-devel@redhat.com, bvanassche@acm.org, jiangbo.365@bytedance.com,
+ linux-fsdevel@vger.kernel.org, matias.bjorling@wdc.com,
+ linux-block@vger.kernel.org
+Subject: Re: [PATCH 04/16] block: allow blk-zoned devices to have
+ non-power-of-2 zone size
+Message-ID: <YmrO+2sexVkJEaIr@bombadil.infradead.org>
+References: <20220427160255.300418-1-p.raghav@samsung.com>
+ <CGME20220427160300eucas1p1470fe30535849de6204bb78d7083cb3a@eucas1p1.samsung.com>
+ <20220427160255.300418-5-p.raghav@samsung.com>
+ <eeb86052-399c-a79b-32ab-1ed1b2d05e07@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220428165051.4708-1-tom.ty89@gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_101806_905780_F6A44077 
-X-CRM114-Status: GOOD (  11.81  )
+In-Reply-To: <eeb86052-399c-a79b-32ab-1ed1b2d05e07@opensource.wdc.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,25 +62,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 29, 2022 at 12:50:51AM +0800, Tom Yan wrote:
-> @@ -1606,6 +1606,7 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
->  	struct nvme_ctrl *ctrl = ns->ctrl;
->  	struct request_queue *queue = disk->queue;
->  	u32 size = queue_logical_block_size(queue);
-> +	int lts_shift = ilog2(size) - 9;
->  
->  	if (ctrl->max_discard_sectors == 0) {
->  		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
-> @@ -1622,6 +1623,9 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
->  	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
->  		return;
->  
-> +	if (ctrl->dmrsl && ctrl->dmrsl <= UINT_MAX >> lts_shift)
-> +		ctrl->max_discard_sectors = ctrl->dmrsl << lts_shift;
-> +
->  	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
+On Thu, Apr 28, 2022 at 08:37:27AM +0900, Damien Le Moal wrote:
+> Also, the entire premise of this patch series is that it is hard for
+> people to support the unusable sectors between zone capacity and zone end
+> for drives with a zone capacity smaller than the zone size.
+> 
+> Yet, here you do not check that zone capacity == zone size for drives that
+> do not have a zone size equal to a power of 2 number of sectors. This
+> means that we can still have drives with ZC < ZS AND ZS not equal to a
+> power of 2. So from the point of view of your arguments, no gains at all.
+> Any thoughts on this ?
 
-I think the only change you really need is just changing the above line to:
+You are right, a check should be added on bringup so that if npo2 is
+used, zone cap == zone size. That should be added on the next iteration
+of this patch.
 
-  	blk_queue_max_discard_sectors(queue, nvme_lba_to_sect(ns, ctrl->max_discard_sectors));
+  Luis
 
