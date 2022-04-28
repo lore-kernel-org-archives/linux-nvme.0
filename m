@@ -4,75 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 120B5C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 21:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAD5BC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 21:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ISt33nRxBpRkDDZIXA5zzENAHMVy+ltkelGQ+FoHCAM=; b=zqWPwz1QsTD2Vb/sRO1VwvgvgI
-	uTFWRV3+k0gSrVxPY/93s1qCIzt8Jz/NLxyK+DH8C4s8WSB8szzQyLPjFMA6I6zH8D9u6LvmkL5i9
-	aBN3oxVsWWvbDxUS8R0n9USdGpC1XEzWDEmMIfJ6CabW1FHE2CxUtORrrG0jxyjZrDXn/I8BTb6uD
-	V448B5Pxt8YFlGceqJNLGoaGaKOb9QOqnhnIeiAJxsvQO4eqeLB3l4XAZtFCCgAMO3vSQ9DJxnOkv
-	MCrKrIDNmogAVmb5MM+rLuWDLLl7ODBeCVYXsiq6869+fsQTozHVREpOjyeo1lp390wYjCBSl8fvt
-	YISu7ylA==;
+	bh=wVKXrDMcXWBoLcyEd2wAmmD8cE4/lc61gvmeF3+340s=; b=IdLhYVF2vNnkiYMJLE47MP0vb9
+	wSlj60H+/UdcXy51TouI+vCVtPX0qyHtkCVMlYev2zZxhQaPiD+Gph4Il/64RyysOp7Co4hJhalYx
+	592sjeS3CudCjEEIkomr/o/7zAHNJeESZfMfUUWs2nDzW3KEmrHdA+JGGMnJ6DjeW0IO+j6MgtOE2
+	Ns0t0eaiYxnos6t17p7NpeMcbalzLOPQtLYx2WWpQhnvpUNbovfy3os5PjeRRKXVlpphRLDQ1sbnJ
+	lv9b2chokh+Dwfk53/7aSr1Pvdt0hg8udX4LU9HC926+LDBtjAtroaW8ik1oM407wRkrsiq+qLXYh
+	FTxqVFqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nkBNn-008SgN-Fm; Thu, 28 Apr 2022 21:09:03 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nkBpJ-008YPz-OS; Thu, 28 Apr 2022 21:37:29 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nkBNj-008Sda-BQ
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 21:09:01 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7033061F13;
- Thu, 28 Apr 2022 21:08:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDDEC385AE;
- Thu, 28 Apr 2022 21:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651180137;
- bh=HVPy76Yg+bdxuKL5woSF5+gfC8sMIj9SdmIRCNtoYqw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nOOPUx3Kp8sKWVlPey4kWhXdNbXoO7nBy7LEdobS/D5QyFIU2dA7Dy2Rwpu2KBgcz
- j8s99zugBkisq5zlVLch9LgJqCzQNRI+wzpkv6FafX4StqPXH2FpzM6c1xnAVe9jmh
- PkqzSD0COvis+Gkjrvtj4nYwX95vXGT0KGFcy0xmyBL0QrIEMPegVCpuT4LKy1sQuZ
- E9Y3lfQNgBN7tU5YjqoP2nJShG+wERHlXwGVcxKlNdC6u7sBVdfda3gR7DsnGCiT1t
- 3FeZ9kBstmSIl9+Ktj/ZJl36KLx1PbNqNwU7HD0Y0ES7MY9nG/NzF5klHlaM1DPoAW
- 3OP/ayXwJnKgg==
-Date: Thu, 28 Apr 2022 14:08:56 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Benjamin Coddington" <bcodding@redhat.com>
-Cc: "Hannes Reinecke" <hare@suse.de>, "Sagi Grimberg" <sagi@grimberg.me>,
- "Chuck Lever" <chuck.lever@oracle.com>, netdev@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- ak@tempesta-tech.com, borisp@nvidia.com, simo@redhat.com,
- dev@openvswitch.org
-Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS
- handshake listener)
-Message-ID: <20220428140856.61e53533@kernel.org>
-In-Reply-To: <E2BF9CFF-9361-400B-BDEE-CF5E0AFDCA63@redhat.com>
-References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
- <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
- <20220425101459.15484d17@kernel.org>
- <66077b73-c1a4-d2ae-c8e4-3e19e9053171@suse.de>
- <1fca2eda-83e4-fe39-13c8-0e5e7553689b@grimberg.me>
- <20220426080247.19bbb64e@kernel.org>
- <40bc060f-f359-081d-9ba7-fae531cf2cd6@suse.de>
- <20220426170334.3781cd0e@kernel.org>
- <23f497ab-08e3-3a25-26d9-56d94ee92cde@suse.de>
- <20220428063009.0a63a7f9@kernel.org>
- <be7e3c4b-8bb5-e818-1402-ac24cbbcb38c@suse.de>
- <E2BF9CFF-9361-400B-BDEE-CF5E0AFDCA63@redhat.com>
+ id 1nkBpG-008YP4-Dp
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 21:37:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1651181846; x=1682717846;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ks/UYFZ4BEuJfvHdflvtNX42llFGKlgREEMC26vTdf8=;
+ b=oEoQup05xlKd1b1k7cY5zbQ/gKu+BIgGevABHyc3ihxtzpZDkbug45jW
+ 1U7WLapOth4Pggv/JlFgfyT2u5IUUHHOS/Ng8hgWyz4LgbwLBFCkc+aZL
+ vJ273e9WLJN4nhQ9NgxOgKux4t2iDxNebCz/NDo745AyXJkpXuKGQzVBd
+ gzZyNiETlyW89kx1lIOaHox99U36c4UohCWKbnhc114ejiu886+0Y6d3i
+ EPPSLvrs2GRnaZ6PZZvEaZk6pvQ8iBhzdvflTY20+eabjGVsDJAri5Amq
+ Ge4/Wdj1Q3yeChqaCqsrmdFxZz4a9hsBJIDjWhT0Sex+UsFVbuQkUGFF6 g==;
+X-IronPort-AV: E=Sophos;i="5.91,296,1647273600"; d="scan'208";a="303310803"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2022 05:37:23 +0800
+IronPort-SDR: /Gbxf1yc80TOysL5tyPoSitGykZ2clh9Zea3HD44FnDrh01N2xrKb1Z9uugYR/kNTzJneEk4Xl
+ vb79GHTlwlxxt0jHxZm73AObVMpWH89RlWa64qHzc9otZR9/Ow5updGjQCUwUXBmvhO0s/6xYO
+ 6M02YqcfkSNZQ3ycYUnjLFLslVrznkShL2noX9VARgq8M1YkLLo3RoIKNZnSWcDYUx3sLhAlbZ
+ xuBRY2cg7yyUVw+Pr4Hj6rWNPtuo+keO1SuweEHqC97MvGPWIWKVwvU6emVLH8SGRX9a1rRId6
+ J+hSa14G++q15z55kZUpxBMC
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Apr 2022 14:07:31 -0700
+IronPort-SDR: 2abgA+siSuUY/VUW9FQCfRRRuM339zal8SVmjjBkkjJDjJQWhRgaerryMD9srS8lc+lLGxSedC
+ 7P/1sqYz9pINlweheD9vwxm6+c4pRQDiDpbCL/UVSPATTPq2YqSgvm0f6PD1AaR8zrt0I1zoay
+ VWbFJAfTm9XQldmkCxJ8rin5FA/oqQsfFUOs0+/HoakuDnvVHmyWe61+1IJWAEhFSDcEVfzD//
+ FkPegkqiACGHN8xHQDIfCa/1azT88RoPnSbaIv/ZYAp4DZuEmgZ0A1b2vtFta9i4QvlaZKaJ2Z
+ PKc=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Apr 2022 14:37:23 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Kq88x5CL4z1SHwl
+ for <linux-nvme@lists.infradead.org>; Thu, 28 Apr 2022 14:37:21 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1651181841; x=1653773842; bh=ks/UYFZ4BEuJfvHdflvtNX42llFGKlgREEM
+ C26vTdf8=; b=Pia8U2+MTp2QRDkEB4f2LrGB1ac2qZfAErgsCBWCFKjMxrXVn/Y
+ bwkaAOoOvDD9yplFQBQeoOJVsSLVROSZs/aY7852UH4Hkft/gJ8l5Vevs96ehApm
+ H01Pi7zw03XrBAhpZA+8aNjI4XPTSKE/B53mqI7jTUhf+kO3QzvvSihGG5g4JCrn
+ J7FkLjqy1G9aN6QLiRcqwX03ov+vXozvTOfikx/Qr8m+XOlL3cwYuWTPPQFKLuuT
+ dLexhqGOTQGF+oDQFcdirmTE+zKbH/a93K/4NbxqEWezpvNJTnGI1pJhScoN+3RX
+ JtdhbfwQOwWUwz6SrnP4PdT/zkoQdrOf4pw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026)
+ with ESMTP id 1ufDskgGVFus for <linux-nvme@lists.infradead.org>;
+ Thu, 28 Apr 2022 14:37:21 -0700 (PDT)
+Received: from [10.225.163.27] (unknown [10.225.163.27])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Kq88w02gHz1Rvlc;
+ Thu, 28 Apr 2022 14:37:19 -0700 (PDT)
+Message-ID: <a6d1c61a-14f2-36dc-5952-4d6897720c7a@opensource.wdc.com>
+Date: Fri, 29 Apr 2022 06:37:18 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v4 00/10] Add Copy offload support
+Content-Language: en-US
+To: Nitesh Shetty <nj.shetty@samsung.com>
+Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dm-devel@redhat.com, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, nitheshshetty@gmail.com,
+ linux-kernel@vger.kernel.org
+References: <CGME20220426101804epcas5p4a0a325d3ce89e868e4924bbdeeba6d15@epcas5p4.samsung.com>
+ <20220426101241.30100-1-nj.shetty@samsung.com>
+ <6a85e8c8-d9d1-f192-f10d-09052703c99a@opensource.wdc.com>
+ <20220427124951.GA9558@test-zns>
+ <c285f0da-ab1d-2b24-e5a4-21193ef93155@opensource.wdc.com>
+ <20220428074926.GG9558@test-zns>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220428074926.GG9558@test-zns>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_140859_534064_DA71C0E9 
-X-CRM114-Status: GOOD (  27.81  )
+X-CRM114-CacheID: sfid-20220428_143726_627008_A98F01B1 
+X-CRM114-Status: GOOD (  15.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,55 +124,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 28 Apr 2022 10:09:17 -0400 Benjamin Coddington wrote:
-> > Noob reply: wish I knew.  (I somewhat hoped _you_ would've been able to
-> > tell me.)
-> >
-> > Thing is, the only method I could think of for fd passing is the POSIX fd
-> > passing via unix_attach_fds()/unix_detach_fds().  But that's AF_UNIX,
-> > which really is designed for process-to-process communication, not
-> > process-to-kernel.  So you probably have to move a similar logic over to
-> > AF_NETLINK. And design a new interface on how fds should be passed over
-> > AF_NETLINK.
-> >
-> > But then you have to face the issue that AF_NELINK is essentially UDP, and
-> > you have _no_ idea if and how many processes do listen on the other end.
-> > Thing is, you (as the sender) have to copy the fd over to the receiving
-> > process, so you'd better _hope_ there is a receiving process.  Not to
-> > mention that there might be several processes listening in...
+On 4/28/22 16:49, Nitesh Shetty wrote:
+> On Thu, Apr 28, 2022 at 07:05:32AM +0900, Damien Le Moal wrote:
+>> On 4/27/22 21:49, Nitesh Shetty wrote:
+>>> O Wed, Apr 27, 2022 at 11:19:48AM +0900, Damien Le Moal wrote:
+>>>> On 4/26/22 19:12, Nitesh Shetty wrote:
+>>>>> The patch series covers the points discussed in November 2021 virtu=
+al call
+>>>>> [LSF/MM/BFP TOPIC] Storage: Copy Offload[0].
+>>>>> We have covered the Initial agreed requirements in this patchset.
+>>>>> Patchset borrows Mikulas's token based approach for 2 bdev
+>>>>> implementation.
+>>>>>
+>>>>> Overall series supports =E2=80=93
+>>>>>
+>>>>> 1. Driver
+>>>>> - NVMe Copy command (single NS), including support in nvme-target (=
+for
+>>>>>     block and file backend)
+>>>>
+>>>> It would also be nice to have copy offload emulation in null_blk for=
+ testing.
+>>>>
+>>>
+>>> We can plan this in next phase of copy support, once this series sett=
+les down.
+>>
+>> So how can people test your series ? Not a lot of drives out there wit=
+h
+>> copy support.
+>>
+>=20
+> Yeah not many drives at present, Qemu can be used to test NVMe copy.
 
-Sort of. I double checked the netlink upcall implementations we have,
-they work by user space entity "registering" their netlink address
-(portid) at startup. Kernel then directs the upcalls to that address.
-But AFAICT there's currently no way for the netlink "server" to see
-when a "client" goes away, which makes me slightly uneasy about using
-such schemes for security related stuff. The user agent may crash and
-something else could grab the same address, I think.
+Upstream QEMU ? What is the command line options ? An example would be
+nice. But I still think null_blk support would be easiest.
 
-Let me CC OvS who uses it the most, perhaps I'm missing a trick.
 
-My thinking was to use the netlink attribute format (just to reuse the
-helpers and parsing, but we can invent a new TLV format if needed) but
-create a new socket type specifically for upcalls.
-
-> > And that's something I _definitely_ don't feel comfortable with without
-> > guidance from the networking folks, so I didn't pursue it further and we
-> > went with the 'accept()' mechanism Chuck implemented.
-> >
-> > I'm open to suggestions, though.  
-> 
-> EXPORT_SYMBOL(receive_fd) would allow interesting implementations.
-> 
-> The kernel keyring facilities have a good API for creating various key_types
-> which are able to perform work such as this from userspace contexts.
-> 
-> I have a working prototype for a keyring key instantiation which allows a
-> userspace process to install a kernel fd on its file table.  The problem
-> here is how to match/route such fd passing to appropriate processes in
-> appropriate namespaces.  I think this problem is shared by all
-> kernel-to-userspace upcalls, which I hope we can discuss at LSF/MM.
-
-Almost made me wish I was coming to LFS/MM :)
-
-> I don't think kernel fds are very special as compared to userspace fds.
+--=20
+Damien Le Moal
+Western Digital Research
 
