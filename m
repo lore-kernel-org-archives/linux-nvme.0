@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33BF9C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 15:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9E01C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 15:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bGejRZQlDZbKlONPKSS3UkrsnM2hYxvQnqVkfrkFAFs=; b=evQzP6ctQZl9CxuRMUSNPf1vQY
-	dGGTLJwxWtIutPH+k/5YSKuOdwFtt08x/rNBcqMnso97o+hESLXSdLNHU5z5cYYsXLcQzgksm7Rm8
-	zC5wxhAJA3Rw9F5nNpw9PRpgQ9ZpZcYzxHYYZntGUwMiz5WpeIc0bUBvmH+hbZh+ogxOVPrOCkSdb
-	c+U+Wzm6RcE9IVctCD3kEP4mikBX7oExm5L0c3HQ6WfHEFb2yGLViKTGElkqCw/6jEG6EJ1/3Zi/G
-	B9RlkWzXBE3tvrd7Gqq/ZZvVyD312soetD1lIbsmvNs0kGiyG0Yo9zjTnmVkgz5TJrt7+fcZudfK/
-	fI7qK5Kg==;
+	bh=MIAPKQa6lkAf8qNeeTmBzZK6T6GNiHeqE1SEw2fYU0M=; b=c1vt5ApvqaevryQ6g8kruIkF3l
+	Bqriaz2TgDaZraz16dq6R+HYR9cLn///luZm+dftdd1qXWd2wIhawpq816lt698AifeOu1Ew00Dcw
+	Ad0UpgbcCj/LmeX5/mqInoqmGY6We+oaoa128rIM9OJVchKyBOjGasNb/pOV/iTa2zdSAvu5xfROW
+	1VSOK8xe+ora9nLFmyGYMTIU7WUSL+mC8B55ceotdp1Li4DhCc6gEtjI479Ck7rGrQOwbOnEjAvai
+	J86It48EcKBnME548BuWeHCdkW3ef0kCfP288L6jNcQ8/t3p/pPoRVtvBfcIe+AWM/XlYN3tmeThM
+	/SHwiOSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nk5mn-007bsK-CX; Thu, 28 Apr 2022 15:10:29 +0000
+	id 1nk5nz-007cPV-Rd; Thu, 28 Apr 2022 15:11:43 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nk5ml-007brr-UW; Thu, 28 Apr 2022 15:10:27 +0000
-Date: Thu, 28 Apr 2022 08:10:27 -0700
+ Hat Linux)) id 1nk5ny-007cP7-3M; Thu, 28 Apr 2022 15:11:42 +0000
+Date: Thu, 28 Apr 2022 08:11:42 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Tom Yan <tom.ty89@gmail.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme: fix interpretation of dmrsl
-Message-ID: <YmquYxXtGXlNB0PL@infradead.org>
-References: <20220421084841.2106-1-tom.ty89@gmail.com>
+To: "Smith, Kyle Miller (Nimble Kernel)" <kyles@hpe.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH v2] nvme: avoid NULL pointer dereference in admin queue
+ initialization error path
+Message-ID: <YmqurjF+q0Vvmxwz@infradead.org>
+References: <DM4PR84MB1590DD85EEC2B30DF55C9578A0F79@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220421084841.2106-1-tom.ty89@gmail.com>
+In-Reply-To: <DM4PR84MB1590DD85EEC2B30DF55C9578A0F79@DM4PR84MB1590.NAMPRD84.PROD.OUTLOOK.COM>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -49,11 +49,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This doesn't even compile:
+Thanks,
 
-drivers/nvme/host/core.c: In function ‘nvme_config_discard’:
-drivers/nvme/host/core.c:1638:2: error: ISO C90 forbids mixed
-declarations and code [-Werror=declaration-after-statement]
- 1638 |  int lts_shift = ilog2(size) - 9;
-      |  ^~~
+applied to nvme-5.18.
+
+(with a slightly shortened subject line)
 
