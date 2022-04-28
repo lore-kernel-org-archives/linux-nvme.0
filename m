@@ -4,180 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC676C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 01:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4411CC433FE
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 06:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4ZixdfxHRW9gxhYX73w4Es/G/t9x5ds38z/WVpjECCY=; b=0hb+v0hGAIMP6qtWuoCL7A8rQT
-	GlZAwJr++hIt/lZuZcw3IIKbZC/gwQBtMRLm9uN1zNIVj83NY/UorhHxCQZAZebD889rxJcXqDlpV
-	bfTSTTFBcPQ8TWjRLsYujJLkFQCWlD3iK2CsIdiK6GXyFVr2JdCwZFEOKIdjxrLv7n4lrGkcI38E5
-	HhvFL3BwVz+cwASpHjpN/IlZD+SEx9suh+0XpCmOBdZsyJgFc9iH7YfRgqJlPtgNxpmYbYj9/qnBZ
-	ndalg9yYg9/JQwCBVnC0qM9PIrzIsMPDJb+5IqjAWLXvzLAbJ4yopuKGKqVdVygHVfWW2n3Z7OZLn
-	s3LDkoNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1MgHqI4A6HVtKu4JIu++3vQjMCSNgrOUjNOruZPiL0M=; b=upnamm6khUortS7DoZQfQQN0PW
+	Tiptp2ZtTOUWIWjMiESTJ08ApUc8iEG6uIgxUxqHgmHNFpPiJFtmsAgMl4tRx3aGdDVCFbZXCWpcf
+	R0Whl6XjTBP0m3pw5OB7xVYz69snvve6KRsrsPHkTQgfxO5FKayNeOBnlibrLDjsCg4gM5OpFXhE/
+	Xl38/CHrw5CkVdv8MtlaNfKCWjVDvF5LiziMDt8FFStO2OMEoKL5A11aQI163eyzT654X3sjY2332
+	fELzuTLbZtw6J8/Xw4IzhqRQTjCqkAyFGVZlxiRHiP+2bNKDJFds463PVzvM5eCuVT3RuvvulC5A4
+	lK5s5sAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njsy9-004IdZ-4R; Thu, 28 Apr 2022 01:29:21 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1njxHh-004pL8-7n; Thu, 28 Apr 2022 06:05:49 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njsy5-004IdG-Pf
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 01:29:19 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RKI0Su015475;
- Thu, 28 Apr 2022 01:29:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=4ZixdfxHRW9gxhYX73w4Es/G/t9x5ds38z/WVpjECCY=;
- b=mzek5rvqBC8tX0bfxEX9ZZCqmpj6fe2HBCB4VuTPL23KcBMfbf7d0Y3t/uv0qM5eOfvA
- juXT9vJKHH75XC13LJ+fYe+T41Oj6TexL/fFLlT7+NTW5EwVGtsn3VcwnAdeADtGDo3a
- 7u3NrlGuwS1iA0E5hU9ORRsWh6uAYs2067ijNFQkxhUzTfIcU7rTIQjJ6i+C+Qb27s96
- 8kLGYvvun3cMlR84WJi/wChrDUev4DxNcsAltJG1IeV6KctteJuFySwaQIzJUY0nSsvB
- 7ZlDnhoZoW/WmXMADKSfqkCGWDUShptZV8tU22hIMwErKGPhgFhDCA6M4cbpDux9+v9b tg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb9atkfc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Apr 2022 01:29:14 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 23S1BCSa012850; Thu, 28 Apr 2022 01:29:13 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3fm7w5sern-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Apr 2022 01:29:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jL7jAoR7PmUbmJkbD/iJwdQFrCZpIPbKYlOV5b87eTKvFEnHyzDiAlIvxcgv5UrMur+nBj68CBmXXGnR7+mUxQqwGnxq5KPMhH79TgdPxtzFjjwJhvWMRWyFzMQ5udzvP5t5v7YtOfa1BLZpFmE+2jBgvYC+yYSRO8y85ddtFEZ9wkrhD/ortZOqi8FNiIaq5lP/J5gOVdyB9FKgWzs01/8lUb6er1OCDznZnGiBaXOAvXZ6rBUPuJk0JtMhEht4G/xGeP8gC7LOkVHNE5MarmlKpo82HTbWXnnE/jSWAmC36Bh5RlfFdkgn6ggM9JbpydZUSLiSiP/gdZ0RyWR3oQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4ZixdfxHRW9gxhYX73w4Es/G/t9x5ds38z/WVpjECCY=;
- b=AnwnMmhBMzCQp3wqJoCKMtf+EsvkustVBfVfk9ND5QfU2wtYz8XTl1xFIoqX9wZb0AsNl49YwcPvgVn90g3rua0Gl0TLNJHUtvXkxjKSngmkTpzXY3WH4+wu7wtMCoDRqVUG2dHLUL6UIoUsa9JL8IJID3z+RB56jhJp/uuxMpFuy61FTEeoGUbWAvRN6d/nKsGkG1vu1SoAcNkmbXKrEIUjndbYtFWBKuyNXgvxVHbpQfHBs/ZL2/BEYb+8t5GXKfzl39bPtqBNmhRKjlpK70i288R2f3PGVUtWLYYqpTN3CNW/pwW+wccYvVI8oZMAKU7Z57hqVA2QwNswn1c0hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ZixdfxHRW9gxhYX73w4Es/G/t9x5ds38z/WVpjECCY=;
- b=i3aqd7fYDOsQs0Y4uWviJXjXAT6qgBtW6WFSL0PlGwPXViVnsHPA2f/zn7bMBOgSVCGfU4FtIAyrb96H9feLTN4O3/Xjg/UvTqXNJOEuWy88bCIuvjX2lDK8zGKvTZZzEy17qASpbhAxEwMtgA7jXpJyFDO84cqUu8pA3RuZs94=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by CY4PR1001MB2389.namprd10.prod.outlook.com (2603:10b6:910:45::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.13; Thu, 28 Apr
- 2022 01:29:10 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ed81:8458:5414:f59f]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ed81:8458:5414:f59f%9]) with mapi id 15.20.5206.013; Thu, 28 Apr 2022
- 01:29:10 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: netdev <netdev@vger.kernel.org>, Linux NFS Mailing List
- <linux-nfs@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-cifs@vger.kernel.org"
- <linux-cifs@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>, "ak@tempesta-tech.com"
- <ak@tempesta-tech.com>, "borisp@nvidia.com" <borisp@nvidia.com>,
- "simo@redhat.com" <simo@redhat.com>
-Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS handshake
- listener)
-Thread-Topic: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS
- handshake listener)
-Thread-Index: AQHYU0RqwCfhD8h+BkiXOp6ayeNVBq0A6XOAgAFYlQCAABKoAIAAEbcAgACC9gCAAPo/AIAAmfUAgAAanYA=
-Date: Thu, 28 Apr 2022 01:29:10 +0000
-Message-ID: <F64C2771-663D-4BE7-9EB9-A8859818C7F8@oracle.com>
-References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
- <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
- <20220425101459.15484d17@kernel.org>
- <E8809EC2-D49A-4171-8C88-D5E24FFA4079@oracle.com>
- <20220426075504.18be4ee2@kernel.org>
- <BA6BB8F6-3A2A-427B-A5D7-30B5F778B7E0@oracle.com>
- <20220426164712.068e365c@kernel.org>
- <7B871201-AC3C-46E2-98B0-52B44530E7BD@oracle.com>
- <20220427165354.2eed6c5b@kernel.org>
-In-Reply-To: <20220427165354.2eed6c5b@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.120.0.1.13)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d29a8280-d55e-446a-0ec4-08da28b67ec1
-x-ms-traffictypediagnostic: CY4PR1001MB2389:EE_
-x-microsoft-antispam-prvs: <CY4PR1001MB23897088F1FA11918F43333193FD9@CY4PR1001MB2389.namprd10.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: f0vSdlArSteArUAIADF/Uy8dYRQ4oVJsYEPgODz7iOE6BBM4N5TrD2cB4vmWSMoUT4hiR9q8ukJeynvPmxy1gPS7RiB6uqppLzwVmCDgeUtTBE6jL82TmCpoJiMQ8gehnRgfGKHSnXvMDhpCSlU9OPGPSUhQE9ouwHyCEjWVJPQrsSJpkJADdGkK3sJGzXZg5bEwRh6Q14exSEp/pS/JaFAcQnGb21M1oNuXdaZmQJHA0Id+5RogTpoqhYgZvasLDef6GGvoMAIKf0oAMH7L4CE08zsHKlqsF0D50j6AupyDAng4HV09/1WGJWQo3PheRZAUkQ1wWUqFd2n0YF0AP2XASW+RWeQ08ekJlQd2uGnbmHjbEpip39Wid+GtTEcoEocp7C5brBWLFXajbFJuaYWp0mjxs7Jujn5NGgM2OsoEnvWRfwVO4pokAsBy3a+AP+qmU+9tXqLCipF4+OgBbnd4RxIIN0GeZ5UvDubC1NNBfPzdd7phAQsdwr8M9253oaBiePp067xwOx1pvxdvGXz1rV1299KjAFn0TtYdmZ8+tFLRlCeT3QepzBGqnUZDT9PgNnhQFlx/0o1/DfITj5QGG0aL2sUMCkHEseA8TDv0xTuQhzVk/XXrbQPJUe6mVVy3BRr2HG6c3a0jl3Pt9uTJA6US/XnslwBx2yag514xlhE3ztQ5xFOaWOqfcNq8e7adMMy6mfIoe89LDYtQkH7yL9e55RJJEbSYMnpRrftzgRBJwZJFV9TER9tVUutb9RCUlYn31SyI/qWgVp79NFq/8gBML8+YTgd+kgqs8KQkLC3xyy03NGccZjxRm1HWXG7CvrWv+/T75ccJ0M60H3H3eLEL7EkZ48ui/uYs52M=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN0PR10MB5128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6512007)(83380400001)(91956017)(26005)(76116006)(66946007)(4326008)(66556008)(66476007)(66446008)(64756008)(6506007)(8676002)(53546011)(122000001)(5660300002)(6916009)(54906003)(86362001)(2906002)(316002)(38100700002)(38070700005)(36756003)(8936002)(186003)(2616005)(33656002)(508600001)(6486002)(71200400001)(966005)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?P1JyvsKHx87F9fykayYxkLJq1y92s4tG7FxR1HthyYM3B/XYnQruG1Q+p1FH?=
- =?us-ascii?Q?aOmHOKSYniIsZ/MgKVpQ95j5YhlEaKSsDNfVWEf2pqf99IcDbaRF8BW8qh5E?=
- =?us-ascii?Q?AzzJqhc78I1SiScO5OZLLnb2JOU4aaYPXe452idNsA9E91cNAcksLYroEPoO?=
- =?us-ascii?Q?aA89meDrELqqPurWTehnBeElKvb/UpzhXDxt6yvjpLVoNKWb7EDNcWl0CM3V?=
- =?us-ascii?Q?3DlUQjOUoQyHaClcUlY7zLI8IKCHzsQgMMxDUuQg2Ha2KjHPKsizm/GXZIXq?=
- =?us-ascii?Q?Tyik2a/vSyjaorb+XNFEwM1B3m/lSoHv4KrRH7dkprVHd/7xMaPdIA60YaQH?=
- =?us-ascii?Q?SQBnIDg07bI17YPPtiJFPZtT8+7FkqXqwOwJFCoFaBHiJbD9Y9zf5ur9iNtW?=
- =?us-ascii?Q?+Eu7shhGKdn8VzWzReh+FRfZu1tCT4BlXMDnFTd0oVRVa1HUlbzWmw5/p0b/?=
- =?us-ascii?Q?B/yGk/pEa7RFLi/whB21AgcXxx/c7knXBAXS1zOwyT0r5FVgoLEUgxlTka0x?=
- =?us-ascii?Q?WtR26ftTMUVshStEMbGWeUK8xy1n/wagFD0o5/AVb9eJ9TmQGwttri9yJk8D?=
- =?us-ascii?Q?tIZhZzOyeQh47UIImB8wsRGWp5pNIL5Z+6jS90/QQG0cJOQePAen0uWWvHUs?=
- =?us-ascii?Q?thr1aDqH6Y/E+Nt63/Z2IvON90HxciUgggkv+9+jZy/SpMmaTDQoLe9uC7WK?=
- =?us-ascii?Q?PVIl/txrq8gFFBqf5alXK6dlf8xBlgdtTywadcNqDS65NhVHw6JmHOaTZYBE?=
- =?us-ascii?Q?+ixUthZTLagsNpLP+X44IjLZgc9FHB3sz32jUpF/52TMQ+k88c26c5ca9vhK?=
- =?us-ascii?Q?8Je0II+HQPdl2KC8/j/I1KiiTe0d5+cxUjYrB3vlCCQ++CF+QE7scCBIek1o?=
- =?us-ascii?Q?9GLvzlppTMhJWb03mWIvH6QyJZ1kANLgh68p8QuDA7rQivyOGUOSxE2Set+Q?=
- =?us-ascii?Q?oJBGMKLybvG5csI56OYdth6W2LSS7HE0G4jD+CxStVKGPUfsW0VVqTEM3ACm?=
- =?us-ascii?Q?6Gx/MLwr1INnWWdd9W+dtVuxwJnlq1Wzr2crhE2VNdFgWw8+dLeFnfa+FUPq?=
- =?us-ascii?Q?7Zdg1EGDNGTzB3TZihdFbEMG/sKMI+blJHbTjwAiDGR4iTDzcSEObvN5h1EY?=
- =?us-ascii?Q?+RVa8c/ubmaJqXzo1eXg9iDGZJ/nbJ8kg9PuMNUcv/PIS+33LD7SZCMlRF+B?=
- =?us-ascii?Q?mK1z91iBw1SXznwrP0ov5mgQNlrJ+nvmvW3bZflYtABkTHWxlZHXr7GrStAm?=
- =?us-ascii?Q?bXvAQNnvpVO9qoayKyPVbR89xPeEphiGXjF3J7cxa1corFeRg20oVZvD1es2?=
- =?us-ascii?Q?NYyKpo0H/5UTFtC7ZTGCv45EC6wiIjE/zCc7/Zp2TAy473n0b2Xf3uYy8Yyk?=
- =?us-ascii?Q?KrvM1/mZpBe/5FJXpX87gs0XrVUde5ghEqQIwIAPOWYxjqeCBusPNYuAeb8I?=
- =?us-ascii?Q?Hup1epTyDusT/b70RkszqDijUY/kzPq5JyKcoBZAOUF1fwvjmSsUEZu9Reqs?=
- =?us-ascii?Q?FpbftZWy9aZvjyRjkKPE5Qg6+zUwPAdMRKgoainWHxgG7tnP02w1o/kt8oat?=
- =?us-ascii?Q?DpGo4DOgCAbhbJURPFidTiFA7pUiVMQmQpMJ6MqfwyACdNr2nltqy3pHBZmC?=
- =?us-ascii?Q?cM7c4yvTxJQCXWXWGV7Adl3wBoPqE/K8XO469oBNFv9hBteQO5BYXSk4VBkY?=
- =?us-ascii?Q?pYDHJEyKqTiVTxTtiZR+5CdQBNwZlVcJgCetStzSCzUL990Pn0fmf6hiib44?=
- =?us-ascii?Q?TPLyECrlRWAV7KnDV98le8scgudxXvA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <31A56027C594F94BAD476D481F58F522@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ id 1njxHd-004pJz-1E
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 06:05:47 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 570E21F746;
+ Thu, 28 Apr 2022 06:05:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651125939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1MgHqI4A6HVtKu4JIu++3vQjMCSNgrOUjNOruZPiL0M=;
+ b=xFk/aSyj1liRQvMTBVSmsObIkYuyS8ghKg+SIX5PHmIOwaNOoyW+UP1tDB85lRt615s6x2
+ hi2Bta4rm82A8jQOUvG7N3QAA5lXcn0cBANgtv2vcLUv1DKMTFi2UQdluBVeRVFXz7bb4e
+ kKoMO3BjCtF6CGXW1/K+9GLO2BqADZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651125939;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1MgHqI4A6HVtKu4JIu++3vQjMCSNgrOUjNOruZPiL0M=;
+ b=bL83y44eXH934mSFU7ng1Jm0AK95C4/dITtyVssQMSeZeH6UsJ5Sn59T4ZVwohlPpnUvcG
+ ud6NN8tra92DN1Cg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 369E113A8C;
+ Thu, 28 Apr 2022 06:05:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id MeOSDLMuamJrRwAAMHmgww
+ (envelope-from <hare@suse.de>); Thu, 28 Apr 2022 06:05:39 +0000
+Message-ID: <c2329901-ead3-4dd8-ed0e-95d79d0d579a@suse.de>
+Date: Thu, 28 Apr 2022 08:05:38 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d29a8280-d55e-446a-0ec4-08da28b67ec1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2022 01:29:10.1774 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ubL5LCArJwmri+AbL9Ex2VR284b0aG32GH3GquClk0MzCWljtVCWeOH7KazYERzsl+gJNoUBlyalaweGYfxLyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2389
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
- definitions=2022-04-27_04:2022-04-27,
- 2022-04-27 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204280005
-X-Proofpoint-ORIG-GUID: ey5BRPZCOrZJrokSg23AxgaYuzXDGbAD
-X-Proofpoint-GUID: ey5BRPZCOrZJrokSg23AxgaYuzXDGbAD
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 06/11] nvme: Implement In-Band authentication
+Content-Language: en-US
+To: "Nayak, Prashanth" <Prashanth.Nayak@netapp.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20220328133938.146146-1-hare@suse.de>
+ <20220328133938.146146-7-hare@suse.de>
+ <AC1767B2-F6F0-4DE9-A0C4-F15D45DB9E79@netapp.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <AC1767B2-F6F0-4DE9-A0C4-F15D45DB9E79@netapp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220427_182918_059924_892BF3D6 
-X-CRM114-Status: GOOD (  30.67  )
+X-CRM114-CacheID: sfid-20220427_230545_414402_F378B31D 
+X-CRM114-Status: GOOD (  23.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -192,82 +93,372 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 4/27/22 19:59, Nayak, Prashanth wrote:
+> Hi Hannes
+> 
+>> On Mar 28, 2022, at 9:39 AM, Hannes Reinecke <hare@suse.de> wrote:
+>>
+>> Implement NVMe-oF In-Band authentication according to NVMe TPAR 8006.
+>> This patch adds two new fabric options 'dhchap_secret' to specify the
+>> pre-shared key (in ASCII respresentation according to NVMe 2.0 section
+>> 8.13.5.8 'Secret representation') and 'dhchap_ctrl_secret' to specify
+>> the pre-shared controller key for bi-directional authentication of both
+>> the host and the controller.
+>> Re-authentication can be triggered by writing the PSK into the new
+>> controller sysfs attribute 'dhchap_secret' or 'dhchap_ctrl_secret'.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>> drivers/nvme/host/Kconfig   |   11 +
+>> drivers/nvme/host/Makefile  |    1 +
+>> drivers/nvme/host/auth.c    | 1123 +++++++++++++++++++++++++++++++++++
+>> drivers/nvme/host/auth.h    |   32 +
+>> drivers/nvme/host/core.c    |  141 ++++-
+>> drivers/nvme/host/fabrics.c |   79 ++-
+>> drivers/nvme/host/fabrics.h |    7 +
+>> drivers/nvme/host/nvme.h    |   31 +
+>> drivers/nvme/host/rdma.c    |    1 +
+>> drivers/nvme/host/tcp.c     |    1 +
+>> drivers/nvme/host/trace.c   |   32 +
+>> 11 files changed, 1452 insertions(+), 7 deletions(-)
+>> create mode 100644 drivers/nvme/host/auth.c
+>> create mode 100644 drivers/nvme/host/auth.h
+>>
+[ .. ]
+>> +static int nvme_auth_set_dhchap_failure2_data(struct nvme_ctrl *ctrl,
+>> +		struct nvme_dhchap_queue_context *chap)
+>> +{
+>> +	struct nvmf_auth_dhchap_failure_data *data = chap->buf;
+>> +	size_t size = sizeof(*data);
+>> +
+>> +	memset(chap->buf, 0, size);
+>> +	data->auth_type = NVME_AUTH_DHCHAP_MESSAGES;
+> 
+> Auth_type should be NVME_AUTH_COMMON_MESSAGES.
+> 
 
+Right.
 
-> On Apr 27, 2022, at 7:53 PM, Jakub Kicinski <kuba@kernel.org> wrote:
->=20
-> On Wed, 27 Apr 2022 14:42:53 +0000 Chuck Lever III wrote:
->>> On Apr 26, 2022, at 7:47 PM, Jakub Kicinski <kuba@kernel.org> wrote:
->>>> RPC-with-TLS requires one RPC as a "starttls" token. That could be
->>>> done in user space as part of the handshake, but it is currently
->>>> done in the kernel to enable the user agent to be shared with other
->>>> kernel consumers of TLS. Keep in mind that we already have two
->>>> real consumers: NVMe and RPC-with-TLS; and possibly QUIC.
->>>>=20
->>>> You asserted earlier that creating sockets in user space "scales
->>>> better" but did not provide any data. Can we see some? How well
->>>> does it need to scale for storage protocols that use long-lived
->>>> connections? =20
->>>=20
->>> I meant scale with the number of possible crypto protocols,=20
->>> I mentioned three there. =20
->>=20
->> I'm looking at previous emails. The "three crypto protocols"
->> don't stand out to me. Which ones?
->=20
-> TLS, QUIC and PSP maybe that was in a different email that what you
-> quoted, sorry:
-> https://lore.kernel.org/all/20220426080247.19bbb64e@kernel.org/
->=20
-> PSP:
-> https://raw.githubusercontent.com/google/psp/main/doc/PSP_Arch_Spec.pdf
+>> +	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_FAILURE2;
+>> +	data->t_id = cpu_to_le16(chap->transaction);
+>> +	data->rescode = NVME_AUTH_DHCHAP_FAILURE_REASON_FAILED;
+>> +	data->rescode_exp = chap->status;
+>> +
+>> +	return size;
+>> +}
+>> +
+>> +static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
+>> +		struct nvme_dhchap_queue_context *chap)
+>> +{
+>> +	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
+>> +	u8 buf[4], *challenge = chap->c1;
+>> +	int ret;
+>> +
+>> +	dev_dbg(ctrl->device, "%s: qid %d host response seq %u transaction %d\n",
+>> +		__func__, chap->qid, chap->s1, chap->transaction);
+>> +
+>> +	if (!chap->host_response) {
+>> +		chap->host_response = nvme_auth_transform_key(ctrl->host_key,
+>> +						ctrl->opts->host->nqn);
+>> +		if (IS_ERR(chap->host_response)) {
+>> +			ret = PTR_ERR(chap->host_response);
+>> +			chap->host_response = NULL;
+>> +			return ret;
+>> +		}
+>> +	} else {
+>> +		dev_dbg(ctrl->device, "%s: qid %d re-using host response\n",
+>> +			__func__, chap->qid);
+>> +	}
+>> +
+>> +	ret = crypto_shash_setkey(chap->shash_tfm,
+>> +			chap->host_response, ctrl->host_key->len);
+>> +	if (ret) {
+>> +		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
+>> +			 chap->qid, ret);
+>> +		goto out;
+>> +	}
+>> +
+>> +	shash->tfm = chap->shash_tfm;
+>> +	ret = crypto_shash_init(shash);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, challenge, chap->hash_len);
+>> +	if (ret)
+>> +		goto out;
+>> +	put_unaligned_le32(chap->s1, buf);
+>> +	ret = crypto_shash_update(shash, buf, 4);
+>> +	if (ret)
+>> +		goto out;
+>> +	put_unaligned_le16(chap->transaction, buf);
+>> +	ret = crypto_shash_update(shash, buf, 2);
+>> +	if (ret)
+>> +		goto out;
+>> +	memset(buf, 0, sizeof(buf));
+>> +	ret = crypto_shash_update(shash, buf, 1);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, "HostHost", 8);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
+>> +				  strlen(ctrl->opts->host->nqn));
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, buf, 1);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
+>> +			    strlen(ctrl->opts->subsysnqn));
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_final(shash, chap->response);
+>> +out:
+>> +	if (challenge != chap->c1)
+>> +		kfree(challenge);
+>> +	return ret;
+>> +}
+>> +
+>> +static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
+>> +		struct nvme_dhchap_queue_context *chap)
+>> +{
+>> +	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
+>> +	u8 *ctrl_response;
+>> +	u8 buf[4], *challenge = chap->c2;
+>> +	int ret;
+>> +
+>> +	ctrl_response = nvme_auth_transform_key(ctrl->ctrl_key,
+>> +				ctrl->opts->subsysnqn);
+>> +	if (IS_ERR(ctrl_response)) {
+>> +		ret = PTR_ERR(ctrl_response);
+>> +		return ret;
+>> +	}
+>> +	ret = crypto_shash_setkey(chap->shash_tfm,
+>> +			ctrl_response, ctrl->ctrl_key->len);
+>> +	if (ret) {
+>> +		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
+>> +			 chap->qid, ret);
+>> +		goto out;
+>> +	}
+>> +
+>> +	dev_dbg(ctrl->device, "%s: qid %d ctrl response seq %u transaction %d\n",
+>> +		__func__, chap->qid, chap->s2, chap->transaction);
+>> +	dev_dbg(ctrl->device, "%s: qid %d challenge %*ph\n",
+>> +		__func__, chap->qid, (int)chap->hash_len, challenge);
+>> +	dev_dbg(ctrl->device, "%s: qid %d subsysnqn %s\n",
+>> +		__func__, chap->qid, ctrl->opts->subsysnqn);
+>> +	dev_dbg(ctrl->device, "%s: qid %d hostnqn %s\n",
+>> +		__func__, chap->qid, ctrl->opts->host->nqn);
+>> +	shash->tfm = chap->shash_tfm;
+>> +	ret = crypto_shash_init(shash);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, challenge, chap->hash_len);
+>> +	if (ret)
+>> +		goto out;
+>> +	put_unaligned_le32(chap->s2, buf);
+>> +	ret = crypto_shash_update(shash, buf, 4);
+>> +	if (ret)
+>> +		goto out;
+>> +	put_unaligned_le16(chap->transaction, buf);
+>> +	ret = crypto_shash_update(shash, buf, 2);
+>> +	if (ret)
+>> +		goto out;
+>> +	memset(buf, 0, 4);
+>> +	ret = crypto_shash_update(shash, buf, 1);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, "Controller", 10);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
+>> +				  strlen(ctrl->opts->subsysnqn));
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, buf, 1);
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
+>> +				  strlen(ctrl->opts->host->nqn));
+>> +	if (ret)
+>> +		goto out;
+>> +	ret = crypto_shash_final(shash, chap->response);
+>> +out:
+>> +	if (challenge != chap->c2)
+>> +		kfree(challenge);
+>> +	return ret;
+>> +}
+>> +
+>> +int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
+>> +{
+>> +	struct nvme_dhchap_key *key;
+>> +	u8 key_hash;
+>> +
+>> +	if (!secret) {
+>> +		*ret_key = NULL;
+>> +		return 0;
+>> +	}
+>> +
+>> +	if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
+>> +		return -EINVAL;
+>> +
+>> +	/* Pass in the secret without the 'DHHC-1:XX:' prefix */
+>> +	key = nvme_auth_extract_key(secret + 10, key_hash);
+>> +	if (IS_ERR(key)) {
+>> +		return PTR_ERR(key);
+>> +	}
+>> +
+>> +	*ret_key = key;
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
+>> +
+>> +static void __nvme_auth_reset(struct nvme_dhchap_queue_context *chap)
+>> +{
+>> +	chap->status = 0;
+>> +	chap->error = 0;
+>> +	chap->s1 = 0;
+>> +	chap->s2 = 0;
+>> +	chap->transaction = 0;
+>> +	memset(chap->c1, 0, sizeof(chap->c1));
+>> +	memset(chap->c2, 0, sizeof(chap->c2));
+>> +}
+>> +
+>> +static void __nvme_auth_free(struct nvme_dhchap_queue_context *chap)
+>> +{
+>> +	__nvme_auth_reset(chap);
+>> +	if (chap->shash_tfm)
+>> +		crypto_free_shash(chap->shash_tfm);
+>> +	kfree_sensitive(chap->host_response);
+>> +	kfree(chap->buf);
+>> +	kfree(chap);
+>> +}
+>> +
+>> +static void __nvme_auth_work(struct work_struct *work)
+>> +{
+>> +	struct nvme_dhchap_queue_context *chap =
+>> +		container_of(work, struct nvme_dhchap_queue_context, auth_work);
+>> +	struct nvme_ctrl *ctrl = chap->ctrl;
+>> +	size_t tl;
+>> +	int ret = 0;
+>> +
+>> +	chap->transaction = ctrl->transaction++;
+>> +
+>> +	/* DH-HMAC-CHAP Step 1: send negotiate */
+>> +	dev_dbg(ctrl->device, "%s: qid %d send negotiate\n",
+>> +		__func__, chap->qid);
+>> +	ret = nvme_auth_set_dhchap_negotiate_data(ctrl, chap);
+>> +	if (ret < 0) {
+>> +		chap->error = ret;
+>> +		return;
+>> +	}
+>> +	tl = ret;
+>> +	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, tl, true);
+>> +	if (ret) {
+>> +		chap->error = ret;
+>> +		return;
+>> +	}
+>> +
+>> +	/* DH-HMAC-CHAP Step 2: receive challenge */
+>> +	dev_dbg(ctrl->device, "%s: qid %d receive challenge\n",
+>> +		__func__, chap->qid);
+>> +
+>> +	memset(chap->buf, 0, chap->buf_size);
+>> +	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, chap->buf_size, false);
+>> +	if (ret) {
+>> +		dev_warn(ctrl->device,
+>> +			 "qid %d failed to receive challenge, %s %d\n",
+>> +			 chap->qid, ret < 0 ? "error" : "nvme status", ret);
+>> +		chap->error = ret;
+>> +		return;
+>> +	}
+>> +	ret = nvme_auth_receive_validate(ctrl, chap->qid, chap->buf, chap->transaction,
+>> +					 NVME_AUTH_DHCHAP_MESSAGE_CHALLENGE);
+>> +	if (ret) {
+>> +		chap->status = ret;
+>> +		chap->error = NVME_SC_AUTH_REQUIRED;
+>> +		return;
+>> +	}
+>> +
+>> +	ret = nvme_auth_process_dhchap_challenge(ctrl, chap);
+>> +	if (ret) {
+>> +		/* Invalid challenge parameters */
+>> +		goto fail2;
+>> +	}
+>> +
+>> +	dev_dbg(ctrl->device, "%s: qid %d host response\n",
+>> +		__func__, chap->qid);
+>> +	ret = nvme_auth_dhchap_setup_host_response(ctrl, chap);
+>> +	if (ret)
+>> +		goto fail2;
+>> +
+>> +	/* DH-HMAC-CHAP Step 3: send reply */
+>> +	dev_dbg(ctrl->device, "%s: qid %d send reply\n",
+>> +		__func__, chap->qid);
+>> +	ret = nvme_auth_set_dhchap_reply_data(ctrl, chap);
+>> +	if (ret < 0)
+>> +		goto fail2;
+>> +
+>> +	tl = ret;
+>> +	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, tl, true);
+>> +	if (ret)
+>> +		goto fail2;
+>> +
+>> +	/* DH-HMAC-CHAP Step 4: receive success1 */
+>> +	dev_dbg(ctrl->device, "%s: qid %d receive success1\n",
+>> +		__func__, chap->qid);
+>> +
+>> +	memset(chap->buf, 0, chap->buf_size);
+>> +	ret = nvme_auth_submit(ctrl, chap->qid, chap->buf, chap->buf_size, false);
+>> +	if (ret) {
+>> +		dev_warn(ctrl->device,
+>> +			 "qid %d failed to receive success1, %s %d\n",
+>> +			 chap->qid, ret < 0 ? "error" : "nvme status", ret);
+>> +		chap->error = ret;
+>> +		return;
+>> +	}
+>> +	ret = nvme_auth_receive_validate(ctrl, chap->qid,
+>> +					 chap->buf, chap->transaction,
+>> +					 NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1);
+>> +	if (ret) {
+>> +		chap->status = ret;
+>> +		chap->error = NVME_SC_AUTH_REQUIRED;
+>> +		return;
+>> +	}
+>> +
+>> +	if (ctrl->opts->dhchap_ctrl_secret) {
+>> +		dev_dbg(ctrl->device,
+>> +			"%s: qid %d controller response\n",
+>> +			__func__, chap->qid);
+>> +		ret = nvme_auth_dhchap_setup_ctrl_response(ctrl, chap);
+>> +		if (ret) {
+>> +			chap->error = ret;
+>> +			goto fail2;
+>> +		}
+>> +	}
+>> +
+>> +	ret = nvme_auth_process_dhchap_success1(ctrl, chap);
+>> +	if (ret) {
+>> +		/* Controller authentication failed */
+>> +		chap->error = NVME_SC_AUTH_REQUIRED;
+>> +		goto fail2;
+>> +	}
+>> +
+>> +	/* DH-HMAC-CHAP Step 5: send success2 */
+>> +	dev_dbg(ctrl->device, "%s: qid %d send success2\n",
+>> +		__func__, chap->qid);
+>> +	tl = nvme_auth_set_dhchap_success2_data(ctrl, chap);
+> 
+> Host should send DH-HMAC-CHAP_Success2 message only if it requested
+> bidirectional authentication and that authentication succeeded.
+> 
+Indeed. Will be fixing it in the next submission.
 
-During the design process, we discussed both TLS and QUIC handshake
-requirements, which are nearly the same. QUIC will want a TLSv1.3
-handshake on a UDP socket, effectively. We can support DTLS in a
-similar fashion.
+Cheers,
 
-We hope that the proposed design can be used for all of those, and
-barring anything unforeseen in the description of PSP you provided,
-PSP can be supported as well.
-
-The handshake agent is really only a shim around a TLS library.
-There isn't much to it.
-
-
-> Is it possible to instead create a fd-passing-like structured message
-> which could carry the fd and all the relevant context (what goes=20
-> via the getsockopt() now)?
->=20
-> The user space agent can open such upcall socket, then bind to
-> whatever entity it wants to talk to on the kernel side and read
-> the notifications via recv()?
-
-We considered this kind of design. A reasonable place to start there
-would be to fabricate new NETLINK messages to do this. I don't see
-much benefit over what is done now, it's just a different isomer of
-syntactic sugar, but it could be considered.
-
-The issue is how the connected socket is materialized in user space.
-accept(2) is the historical way to instantiate an already connected
-socket in a process's file table, and seems like a natural fit. When
-the handshake agent is done with the handshake, it closes the socket.
-This invokes the tlsh_release() function which can check whether the
-IV implantation was successful.
-
-So instead of an AF_TLSH listener we could use a named pipe or a
-netlink socket and a blocking recv(), as long as there is a reasonable
-solution to how a connected socket fd is attached to the handshake
-agent process.
-
-I'm flexible about the mechanism for passing handshake parameters.
-Attaching them to the connected socket seems convenient, but perhaps
-not aesthetic.
-
-
---
-Chuck Lever
-
-
-
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
