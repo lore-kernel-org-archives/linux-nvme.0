@@ -4,141 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0DD4C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 19:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17EDDC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 21:09:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Ka1t7no9jjgUcfH8S2WwXx8TxVIF3T9cqY0GZcM1HQs=; b=jANd6oajyijYQc
-	Q0p+r9jGyWDOCZeQM/E9dxW/xbJj+c7JapLz19925Mnsi+hNeLRwyryCqHqzFjFqxqsop6ksHYOYy
-	vnMaIS4DeNfB0nFixtjScMpRSSTYlq3lpKs+BExT9REQQXsHRnA6f+Y5RVqGYLtUao+0AO1TLisLT
-	05BWaC4y+6//DyTkntLagmLI3zACKsevFJjo4CELih+QHS9Rlj6Vky8jvrPkSnN9XorwLo2MmFmV8
-	q08qiwJB74+DEXSxAeihKSELNArWvRpb1UZ4xrDATv8hYeIoonwuGelKuiMPsm3QqXLX9BgfYecEc
-	gHla9GRbmGq6Hec41Ksw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tmUDmlkZy0V/KcsZbbQj8FDvEOuLW2+iLS/1UsUlMHA=; b=GA3pVTEDFJIv4iKx/CRUpz8Pa9
+	4y8KdsJ57ymhJFVe5xPR4YPXPJFg6w4uFz6sApZddRvWgMB/KdxNc7biaiMQEabZCFDxoEqHbUMzx
+	+A9Iz4iVwlCPONLtjE/Qrr7sQDCAnygVRHWY8qkuwbOnx+KpbgaWuew8BL8q3R+6+v184CVSmOAqY
+	haABOZo7AKeSRWc91xhjBX40d9HSYduE1nffchLBBvO44oOLjwbFOuFYRSoTATBsEV966qnkbeoLv
+	WcsdVnDxqfolC7GFFc45Rr+6XTof3+Gge5tY1j5PEdD86mB5HYXhZ6rdN+saVsosmF8UZHjVxi9HN
+	TdZZNkuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nk9RH-008Frq-8c; Thu, 28 Apr 2022 19:04:31 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1nkBNh-008Sck-Ba; Thu, 28 Apr 2022 21:08:57 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nk9RC-008FrA-4E
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 19:04:28 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220428190421euoutp02c510e89c6dd388eba24d48e7b409820c~qJMmYplFV1020010200euoutp02I
- for <linux-nvme@lists.infradead.org>; Thu, 28 Apr 2022 19:04:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220428190421euoutp02c510e89c6dd388eba24d48e7b409820c~qJMmYplFV1020010200euoutp02I
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651172661;
- bh=Ka1t7no9jjgUcfH8S2WwXx8TxVIF3T9cqY0GZcM1HQs=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=QNiptTeMbhbENQ7lqTSzyfCjI6ePPmJJUXrEVqNpOIq54KQXAb+EGst0UqkqqH8o9
- dzvq0PQZvOqIiO/1nSydB4HJW4PZCKsDmJpnfVBQUqD/X7nKYW779JXUuoyiXFt0Yc
- h0N0Vdpzgq//VPvy3jx0daVCdFpSvY5nOVALX+v0=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220428190420eucas1p2697d4e084b5620b5a545de03882e0b69~qJMlOzo5d0353803538eucas1p2l;
- Thu, 28 Apr 2022 19:04:20 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 8C.8C.10009.435EA626; Thu, 28
- Apr 2022 20:04:20 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220428190419eucas1p27c883bc99b03909b2590aa28b08f8efe~qJMk0fbyr0370603706eucas1p2S;
- Thu, 28 Apr 2022 19:04:19 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220428190419eusmtrp293b0a0cd417e1aa523f302732b47f2f6~qJMky7PiZ0718707187eusmtrp2w;
- Thu, 28 Apr 2022 19:04:19 +0000 (GMT)
-X-AuditID: cbfec7f2-e7fff70000002719-41-626ae5346cac
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id FF.0F.09404.335EA626; Thu, 28
- Apr 2022 20:04:19 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220428190419eusmtip14d451737adfaf87d199d4216331b65c2~qJMkmfsEc2896528965eusmtip1b;
- Thu, 28 Apr 2022 19:04:19 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.162) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 28 Apr 2022 20:04:17 +0100
-Message-ID: <c1fe810a-d796-f76b-5df1-8222b36e906e@samsung.com>
-Date: Thu, 28 Apr 2022 21:04:16 +0200
+ id 1nkBNe-008Sbe-DD
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 21:08:55 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D56B461F10;
+ Thu, 28 Apr 2022 21:08:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E69C385AE;
+ Thu, 28 Apr 2022 21:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651180133;
+ bh=NfJ7RXxovLcu/9DkEB6SDpL9K8C/TD0hKVuCmc9Ri8Y=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YQH4o1hmxaL45wEfgIjIiJwwilyidxEfysZAhu8S5qc8b+72JUEOKhnSQneqZA+XN
+ LYaFQK/v4xjK2sprRF9eP7zFpb1iUp3dqruDUn93HUUKWoovGICF2NDEWb9TOQx9N8
+ eEQ7uUiyZJFiB6eqrYfqRAJzWeA1ioptPFy+3T2Lk39ioYJEfjJ/fuWgblc3RK0phg
+ lz48VVLmaoRkeAbTuz+SsnwfW0P1bc8afGH6v0fFXBVUoKkJe1RL/5d/ffV54INfAJ
+ h/wWhK3rpaY7ewg6iv7HWHuwPw57DmRxqZxRhq+eE2qPNOHltVdOxKn2+Wrx5miWUY
+ CzohEV0delN0w==
+Date: Thu, 28 Apr 2022 14:08:51 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: netdev <netdev@vger.kernel.org>, Linux NFS Mailing List
+ <linux-nfs@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-cifs@vger.kernel.org"
+ <linux-cifs@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "ak@tempesta-tech.com"
+ <ak@tempesta-tech.com>, "borisp@nvidia.com" <borisp@nvidia.com>,
+ "simo@redhat.com" <simo@redhat.com>
+Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS
+ handshake listener)
+Message-ID: <20220428140851.6e9eebd5@kernel.org>
+In-Reply-To: <F64C2771-663D-4BE7-9EB9-A8859818C7F8@oracle.com>
+References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
+ <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
+ <20220425101459.15484d17@kernel.org>
+ <E8809EC2-D49A-4171-8C88-D5E24FFA4079@oracle.com>
+ <20220426075504.18be4ee2@kernel.org>
+ <BA6BB8F6-3A2A-427B-A5D7-30B5F778B7E0@oracle.com>
+ <20220426164712.068e365c@kernel.org>
+ <7B871201-AC3C-46E2-98B0-52B44530E7BD@oracle.com>
+ <20220427165354.2eed6c5b@kernel.org>
+ <F64C2771-663D-4BE7-9EB9-A8859818C7F8@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 04/16] block: allow blk-zoned devices to have
- non-power-of-2 zone size
-Content-Language: en-US
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, <jaegeuk@kernel.org>,
- <axboe@kernel.dk>, <snitzer@kernel.org>, <hch@lst.de>, <mcgrof@kernel.org>,
- <naohiro.aota@wdc.com>, <sagi@grimberg.me>, <dsterba@suse.com>,
- <johannes.thumshirn@wdc.com>
-CC: <linux-kernel@vger.kernel.org>, <clm@fb.com>, <gost.dev@samsung.com>,
- <chao@kernel.org>, <josef@toxicpanda.com>, <jonathan.derrick@linux.dev>,
- <agk@redhat.com>, <kbusch@kernel.org>, <kch@nvidia.com>,
- <linux-nvme@lists.infradead.org>, <bvanassche@acm.org>,
- <jiangbo.365@bytedance.com>, <matias.bjorling@wdc.com>,
- <linux-block@vger.kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <eeb86052-399c-a79b-32ab-1ed1b2d05e07@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.162]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0xTVxjNfe/19VFTffxoeiOLM0WSjTm0CTHXzcFMiHlEExlRY8bcLPQF
- urVAWhnDDQaRH1KclEoZdiWumwOGRWhhOCBsWDNASq2mYABFZVDnIC1sQCzBdaM8XPjvnO98
- 5/u+c3MpPOw7cjulyDrDqrNkSgkpIDr7V1xvxnk+TtvbOxSOWof6cXRtsopEtQsrOHIYnBjS
- V9Xx0arThaO7/mIM/XjtNwzNtBpxdKFvgUD/aB+t1UqmcPRiSor09vsAeUaNGOqdeAO5u00k
- utLg4SNd2TKOxnQegKoH2nno+tw8gQYnIt8VM+6Rw0xg0EIy1ed8fMb1yEowbmcuY2uuIBlz
- kQFn2q9+yfSMF5HMV+d8JNNV+pjHzP8ySjKtHaMEo2u38phF2w6mvK8SS6bfFxyQs0rFp6x6
- T/xpQabbaiFyikM/e/h9OVkEeoRaEEJBOg5W1E0SWiCgwugmAC01hg2yBKDWvrBBFteItox4
- aZnq7uZzQiOAQ0s2/v9dI382kBzpAfBp1S1cCyhKSMfD+03RQTdBR8N2i4UXxEI6FN6+PLM+
- VUSfhLXGYTKIw+kPYEuleb2O02I4MXMFC86MoFcBdN/x8YIEp6cx+OJWLz+4gKRjYHEFP2gI
- oQ/B8Ro3jzO/DktvrPI5/Cq84TXhXIQouHKpks/hAtjSP7yeANI3BdDV18HjhEQ4/dxHcjgc
- zg50bBhegf92BS8K4s+hZ2wV58wlAFZ1tZLBgyD9Nrw4rOR6DsJAY8lGeSsc84Zy92yF+s6v
- cR2INm56C+OmzMZNEYybInwLiGYgZnM1qgxWI81i82I1MpUmNysjNj1bZQNr39gRGPj7Z1A/
- +1esHWAUsANI4ZII4VJPZlqYUC7LP8uqsz9S5ypZjR1EUoRELExXtMnC6AzZGfYTls1h1S9V
- jArZXoTV7XvwBYxOKOycLy00HNtdsKXpcmKg/KfrosT6o3H3bA4gVptOESvSb0hFA88vjpC/
- I7rQfPOe+NnE88LMBMP51ANHrPpjY66DJ8SHxAkitBvtnDtSYO460fsHtl/x+8KTxMFTl7yL
- 9ftU0NQGnG/5ycezrmFt0sUn/iFlrXUyzyE7fXevaJc2JmCuTBVIR1Ly929ZoJL1yRqeoK2s
- RTq5J91kNuxaPvmDZvFoxNkq+XnTHPWaazpNmdNwm2hKcaRsOxzVeOf4rwHxeH7Kg5pOSdyz
- q9Uf1tb4ct6TeeVJKuhN2pEXH7W87WlsqVL90J0e6fTn644Ls+la285UCaHJlEljcLVG9h/5
- 2UuXNQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOKsWRmVeSWpSXmKPExsVy+t/xu7rGT7OSDC5ONLZYf+oYs8Xqu/1s
- FtM+/GS2OD31LJPFpP4Z7Ba/z55ntrjwo5HJYuXqo0wWT9bPYrboOfCBxeJv1z2gWMtDZos/
- Dw0tJh26xmjx9OosJou9t7QtLu+aw2Yxf9lTdosJbV+ZLW5MeMpoMfH4ZlaLda/fs1icuCXt
- IO5x+Yq3x78Ta9g8Jja/Y/c4f28ji8fls6Uem1Z1snksbJjK7LF5Sb3H7psNbB69ze/YPHa2
- 3mf1eL/vKpvH+i1XWTwmbN7I6vF5k5xH+4FupgCBKD2bovzSklSFjPziElulaEMLIz1DSws9
- IxNLPUNj81grI1MlfTublNSczLLUIn27BL2MyxvXsBQ0ClbcWdzO1sC4m7eLkZNDQsBE4uGu
- XexdjFwcQgJLGSUeL5rLDpGQkfh05SOULSzx51oXG0TRR0aJw+93QnXsZpR4ffMjYxcjBwev
- gJ3EtRWqIA0sAqoSm9esYQWxeQUEJU7OfMICYosKREg82H0WLC4sECOxtnshWJxZQFzi1pP5
- TCAzRQR+M0pcPveOFcRhFnjMJPHn8F6obUCZ2cfOMINsYxPQkmjsBDuPU8BN4uaUy6wQkzQl
- Wrf/Zoew5SW2v53DDPGCssTPyd1Q79RKvLq/m3ECo+gsJAfOQnLILCSjZiEZtYCRZRWjSGpp
- cW56brGRXnFibnFpXrpecn7uJkZgCtt27OeWHYwrX33UO8TIxMF4iFGCg1lJhPfL7owkId6U
- xMqq1KL8+KLSnNTiQ4ymwFCayCwlmpwPTKJ5JfGGZgamhiZmlgamlmbGSuK8ngUdiUIC6Ykl
- qdmpqQWpRTB9TBycUg1Mza8kbMS2/eIJmj6d+X/W7dJ87czPCQ8urvItd7u5taDJ07rQLMb+
- Rp32tfVf5j5anuyj9fnqlU8fUtd5MVmc38TgfvxxrXGaPne38UrNG7X9X9WfLrJjqapL2Vf/
- /sr8fWpLb7+M2rh/oaC7eKfNjI2ZRYf1gt9N8jBbH72t5U3smrLF+k2ad0yMDnc+cNmXX8Ov
- 2/7cOLzpZJiLxf9dE3ouXt24PUip79yrHwseFwQafbgwKezNpO83XV45PXPX9vr4eCf3W8bs
- T+2PHB/Wmi7r3BC9gsHuoVl49AH1S3x8S3a5JfhfDrp8NiNnicY/J9WYHSv/lnybd1KPYff9
- XXvWvS4TVpWQ+Vjfs6x+jRJLcUaioRZzUXEiAGA0BFrqAwAA
-X-CMS-MailID: 20220428190419eucas1p27c883bc99b03909b2590aa28b08f8efe
-X-Msg-Generator: CA
-X-RootMTR: 20220427160300eucas1p1470fe30535849de6204bb78d7083cb3a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220427160300eucas1p1470fe30535849de6204bb78d7083cb3a
-References: <20220427160255.300418-1-p.raghav@samsung.com>
- <CGME20220427160300eucas1p1470fe30535849de6204bb78d7083cb3a@eucas1p1.samsung.com>
- <20220427160255.300418-5-p.raghav@samsung.com>
- <eeb86052-399c-a79b-32ab-1ed1b2d05e07@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_120426_489884_722B5CF6 
-X-CRM114-Status: GOOD (  24.77  )
+X-CRM114-CacheID: sfid-20220428_140854_612766_C5ED7DEB 
+X-CRM114-Status: GOOD (  23.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,55 +86,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-04-28 01:37, Damien Le Moal wrote:
->> diff --git a/block/blk-core.c b/block/blk-core.c
->> index 937bb6b86331..850caf311064 100644
->> --- a/block/blk-core.c
->> +++ b/block/blk-core.c
->> @@ -634,8 +634,7 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
->>  		return BLK_STS_NOTSUPP;
->>  
->>  	/* The bio sector must point to the start of a sequential zone */
->> -	if (pos & (blk_queue_zone_sectors(q) - 1) ||
->> -	    !blk_queue_zone_is_seq(q, pos))
->> +	if (!blk_queue_zone_aligned(q, pos) || !blk_queue_zone_is_seq(q, pos))
+On Thu, 28 Apr 2022 01:29:10 +0000 Chuck Lever III wrote:
+> > Is it possible to instead create a fd-passing-like structured message
+> > which could carry the fd and all the relevant context (what goes 
+> > via the getsockopt() now)?
+> > 
+> > The user space agent can open such upcall socket, then bind to
+> > whatever entity it wants to talk to on the kernel side and read
+> > the notifications via recv()?  
 > 
-> blk_queue_zone_aligned() is a little confusing since "aligned" is also
-> used for write-pointer aligned. I would rename this helper
+> We considered this kind of design. A reasonable place to start there
+> would be to fabricate new NETLINK messages to do this. I don't see
+> much benefit over what is done now, it's just a different isomer of
+> syntactic sugar, but it could be considered.
 > 
-> blk_queue_is_zone_start()
-> 
-> or something like that.
-> 
-That is a good idea and definitely a better name that
-blk_queue_zone_aligned. I will fix it.
+> The issue is how the connected socket is materialized in user space.
+> accept(2) is the historical way to instantiate an already connected
+> socket in a process's file table, and seems like a natural fit. When
+> the handshake agent is done with the handshake, it closes the socket.
+> This invokes the tlsh_release() function which can check 
 
->>  	/*
->> @@ -489,14 +489,14 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
->>  	 * smaller last zone.
->>  	 */
->>  	if (zone->start == 0) {
->> -		if (zone->len == 0 || !is_power_of_2(zone->len)) {
->> -			pr_warn("%s: Invalid zoned device with non power of two zone size (%llu)\n",
->> -				disk->disk_name, zone->len);
->> +		if (zone->len == 0) {
->> +			pr_warn("%s: Invalid zoned device size",
->> +				disk->disk_name);
+Actually - is that strictly necessary? It seems reasonable for NFS to
+check that it got TLS, since that's what it explicitly asks for per
+standard. But it may not always be the goal. In large data center
+networks there can be a policy the user space agent consults to choose
+what security to install. It may end up doing the auth but not enable
+crypto if confidentiality is deemed unnecessary.
+
+Obviously you may not have those requirements but if we can cover them
+without extra complexity it'd be great.
+
+> whether the IV implantation was successful.
+
+I'm used to IV meaning Initialization Vector in context of crypto,
+what does "IV implementation" stand for?
+
+> So instead of an AF_TLSH listener we could use a named pipe or a
+> netlink socket and a blocking recv(), as long as there is a reasonable
+> solution to how a connected socket fd is attached to the handshake
+> agent process.
 > 
-> The message is weird now. Please change it to "Invalid zone size".
-> 
-Ok.
-> Also, the entire premise of this patch series is that it is hard for
-> people to support the unusable sectors between zone capacity and zone end
-> for drives with a zone capacity smaller than the zone size.
-> 
-> Yet, here you do not check that zone capacity == zone size for drives that
-> do not have a zone size equal to a power of 2 number of sectors. This
-> means that we can still have drives with ZC < ZS AND ZS not equal to a
-> power of 2. So from the point of view of your arguments, no gains at all.
-> Any thoughts on this ?
-> 
-That is a good point. Instead of implicitly assuming npo2 drives to have
-ZC == ZS, it is better to be explicit during bringup. Thanks. As Luis
-mentioned, I will add this condition in the next revision.
+> I'm flexible about the mechanism for passing handshake parameters.
+> Attaching them to the connected socket seems convenient, but perhaps
+> not aesthetic.
+
+recv()-based version would certainly make me happy.
 
