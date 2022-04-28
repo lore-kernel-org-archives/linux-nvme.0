@@ -4,55 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF1F0C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 14:24:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EA8BC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 14:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J2k9Op3oCvA0yw2O0z+wfdGUyypR9n8Swd2cAEAx4EM=; b=RHbMp0zU0fIdvkXQeKdZqTqMQZ
-	es1k1G0OcmZynr9UBYfZEhnLTKc+5WEy+rE1rYHV2iU4e7fikxt5aDbwEwgYsyNevhXfKzni/eqMO
-	N1jvjZcZI/WKTwJiuyg/mjwxjTDDXZB61G0E2bMbiXNG4BgAYgegciPALW2MImghZsKRg6DgDvRaX
-	Rgbv2LZ2HRS7AUn7HgEtsxvL1T1PecA/TJYCR6d7mdwomo5tWCoK4GPGslxd2BLaJmHP2jERjmfQM
-	ZW1F+SU6B08hJQM+aVi4EEnqmKDoyT1lN0wGUqgRkcZwMtbnk13u8keYJTpOLAR/KWmpDsRldFI7K
-	JNN+K9FA==;
+	bh=3eUzrHAktaPV2vPiCroaieaJhKRqBxokvqSNbQGHpag=; b=w3ckwfPOyXjJFj8fPQ35Y1bBNJ
+	GS+s4jerm5q7hKuK8o9GCiaHzOIttwecTL5QDHFqVWtaZbcJMx/ve0ZlxvHnZxJTTTUGhixbnBCVG
+	bZ/JEZvftby2eo/Qf6w2hzx/KbMWGVIKF1010CL9ySjjQHCR6aHKWbX//5dmN5tPvg+sXLoG+RDo6
+	+6ARQ1UOmW5ToxXATPJzjqRuIwEC4SUm8vV71mBr7yYWfnYj/iF1Yg9wdxzKuG9vshSXxQFJqjPjF
+	576EqgzIFNxAiV+YpXfADhgsfLGeE1WQnGwEuE1pHkQpEfTHVVe7YCLRv451rJChkCS/n4PxPZD4U
+	yJkGZpOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nk54P-007SzP-JR; Thu, 28 Apr 2022 14:24:37 +0000
+	id 1nk5Fd-007VnJ-Qu; Thu, 28 Apr 2022 14:36:13 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nk544-007St0-Kc; Thu, 28 Apr 2022 14:24:18 +0000
+ id 1nk5Fa-007Vln-Nq
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 14:36:12 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id A118E68AFE; Thu, 28 Apr 2022 16:24:12 +0200 (CEST)
-Date: Thu, 28 Apr 2022 16:24:12 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- Marc Zyngier <maz@kernel.org>, Janne Grunau <j@jannau.net>,
- DTML <devicetree@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 0/6] Apple M1 (Pro/Max) NVMe driver
-Message-ID: <20220428142412.GA19708@lst.de>
-References: <20220426201539.12829-1-sven@svenpeter.dev>
- <CAK8P3a1yJkegvgvzHemBd_dowvpyDmxtUnrpiHob8+hiNeO4sw@mail.gmail.com>
- <0f6ea2c3-586d-4f5a-9cee-688cd73b96b3@www.fastmail.com>
- <CAK8P3a3pPxpoOZ0hm9htBRyYc7L38F6egi-0=41tMtcLRGJ_jw@mail.gmail.com>
+ id E289B68AFE; Thu, 28 Apr 2022 16:36:03 +0200 (CEST)
+Date: Thu, 28 Apr 2022 16:36:03 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-pci: fix host memory buffer allocation size
+Message-ID: <20220428143603.GA20460@lst.de>
+References: <20220428101922.14216-1-linux@weissschuh.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a3pPxpoOZ0hm9htBRyYc7L38F6egi-0=41tMtcLRGJ_jw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220428101922.14216-1-linux@weissschuh.net>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_072416_877953_7C9F213D 
-X-CRM114-Status: GOOD (  14.18  )
+X-CRM114-CacheID: sfid-20220428_073610_962983_1210E70F 
+X-CRM114-Status: GOOD (  20.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,20 +59,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 27, 2022 at 07:39:49PM +0200, Arnd Bergmann wrote:
-> The usual trick is to have a branch with the shared patches and have
-> that pulled into every other tree that needs these, but make sure you never
-> rebase. In this case, you could have something like
+On Thu, Apr 28, 2022 at 12:19:22PM +0200, Thomas Weiﬂschuh wrote:
+> We want to allocate the smallest possible amount of buffers with the
+> largest possible size (1 buffer of size "hmpre").
 > 
-> a) rtkit driver in a shared branch (private only)
-> b) thunderbolt driver based on branch a), merged through
->      thunderbolt/usb/pci tree (I don't know who is responsible here)
-> c) sart driver based on branch a), merged through soc tree
-> d) nvme driver based on branch c), merged through nvme tree
+> Previously we were allocating as many buffers as possible of the smallest
+> possible size.
+> This also lead to "hmpre" to not be satisifed as not enough buffer slots
+> where available.
 > 
-> since the commit hashes are all identical, each patch only shows up in
-> the git tree once, but you get a somewhat funny history.
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> ---
+> 
+> Also discussed at https://lore.kernel.org/linux-nvme/f94565db-f217-4a56-83c3-c6429807185c@t-8ch.de/
+> 
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 3aacf1c0d5a5..0546523cc20b 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2090,7 +2090,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+>  
+>  static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
+>  {
+> -	u64 min_chunk = min_t(u64, preferred, PAGE_SIZE * MAX_ORDER_NR_PAGES);
+> +	u64 min_chunk = max_t(u64, preferred, PAGE_SIZE * MAX_ORDER_NR_PAGES);
 
-Given that the nvme driver is just addition of new code I'm perfectly
-fine with sending it through whatever tree is most convenient.
+preferred is based on the HMPRE field in the spec, which documents the
+preffered size.  So the max here would not make ny sense at all.
+
 
