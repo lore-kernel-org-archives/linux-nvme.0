@@ -4,128 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A64BC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 08:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7937C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Apr 2022 08:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1StvnzQqQbHqfst8nfP3BPvdI16uBOEa66gdPEBq/aQ=; b=Vn8qUXRHAbZ+7kkmv7gNpFs0+R
-	KJzh6JDf4z5RHaNN+bb23f+mkg1GZwTv4+vygc8wMWqo9kpAp3SooKiAnzHx8XrhXqatopOgtUulK
-	/sCJMdFWCuFdNjkSMqIC2BjKIe/IWCeh5XStfriIDVFkMX+yRu4qFpAQ2RxzrT6u2Pzd2772aTUmd
-	W9j2K/rxUfxHur/75XWeUnGcl0bDgv5nXaHNqQ89mPaBeLLJHKqnQgDuD2vdoD42QKHWyK/DSmwOW
-	OO5Koy2M9uT4upg0FiXlwE67Czl/xk6dYVd1hLLI0YpiDVBHop2pWbkelKprMu2waxm6cBaz0mSuQ
-	/Ecg9kuA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gditj3pIK4QuzcqOW8qGUvUL1/lFL5DV7yQpng/n4Bg=; b=NeI2zmS/X6tgB7BCQ7VCaQms+h
+	g625n8MxvMI+aAYdOFfWwquXMdnmVEI8Xg5R21KwwvQYGrrPrNJwY/QWnPgQRV0T7Rg8MXw+rUfeU
+	v4dt1l3dyb+MQi9sXwW/OUx8joTK9nIAcbtDrX020zGUBRZAKNFg2bVOUg2TTBvWMJvA1Zs5zuFwS
+	CbKC1UtMBZ+Y/hi7Ja6CH3YKTEu8+C2nuVTPABbHDJ1pWWEw7jtTfivox+6t42Gqj5P7NIQ8b83uz
+	Ns12iBcY5B+lGKFNvWOd2VMdJs8dUlA40/cRbKqasP7Mxn0lrziwRHoLY0suDhtQDwdzrlZKuDlas
+	GF9sFIWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1njzNP-005TZ9-Lc; Thu, 28 Apr 2022 08:19:51 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1njzq8-005ari-6j; Thu, 28 Apr 2022 08:49:32 +0000
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1njzMk-005T35-Ng
- for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 08:19:14 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20220428081905epoutp012b0a4acefd1b11ffc3e269c558b197a5~qAZNAQC_-1802618026epoutp01W
- for <linux-nvme@lists.infradead.org>; Thu, 28 Apr 2022 08:19:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20220428081905epoutp012b0a4acefd1b11ffc3e269c558b197a5~qAZNAQC_-1802618026epoutp01W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651133945;
- bh=1StvnzQqQbHqfst8nfP3BPvdI16uBOEa66gdPEBq/aQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fQwUuWE3r+CjxahvGwx9NUPsUv4q5/Sf6uvN/C4utUYFw8Wk1gWXJkegiran1mUTP
- 2Ew5s3WjQXGzVPbeSvrieZLx3KgirUDhcvbPHbWf3eC67eLRV1aW60a13Zgn8p22DJ
- kDto9CsxirR4u/eJMzFxle9ji5DberIIde/lRsog=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTP id
- 20220428081904epcas5p47c8bcd22873ce6d18400433fc71cb400~qAZMpQ-GT1073810738epcas5p4n;
- Thu, 28 Apr 2022 08:19:04 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4KppRn3tN5z4x9Q7; Thu, 28 Apr
- 2022 08:19:01 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 2A.07.09827.5FD4A626; Thu, 28 Apr 2022 17:19:01 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20220428080614epcas5p3491f94c681f10e405f2e32469014cb42~qAN-WXfd03164331643epcas5p33;
- Thu, 28 Apr 2022 08:06:14 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220428080614epsmtrp1646218e5d13d021f511c2694cde96f97~qAN-VdIg-2346223462epsmtrp1M;
- Thu, 28 Apr 2022 08:06:14 +0000 (GMT)
-X-AuditID: b6c32a4a-b3bff70000002663-ef-626a4df5be25
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 83.6F.08853.6FA4A626; Thu, 28 Apr 2022 17:06:14 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220428080613epsmtip13d3d8cb3a0e30e5da0c0994a6f914284~qAN_HrEd02991929919epsmtip1i;
- Thu, 28 Apr 2022 08:06:13 +0000 (GMT)
-Date: Thu, 28 Apr 2022 13:31:05 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- dm-devel@redhat.com, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, nitheshshetty@gmail.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/10] block: Add copy offload support infrastructure
-Message-ID: <20220428080105.GH9558@test-zns>
+ id 1njzq5-005aqx-Eu
+ for linux-nvme@lists.infradead.org; Thu, 28 Apr 2022 08:49:30 +0000
+Received: by mail-ej1-x62f.google.com with SMTP id i19so8105924eja.11
+ for <linux-nvme@lists.infradead.org>; Thu, 28 Apr 2022 01:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=gditj3pIK4QuzcqOW8qGUvUL1/lFL5DV7yQpng/n4Bg=;
+ b=SmZEqrKEzVcD/2dBQBE39Ir32WYWyyv0LiXdMOEk2y91yqcjv1JRy9jecPoHlk3Mse
+ /p7JZ8A3RIZwyXmD4gccsFRmWfxQc8OjeDRQk7WQi2I4CZpsjNphd1NMriagdl9lCklS
+ Sq3j6xpZ481R5ZdFCD7Kgs7+Suid8oKytyoWTmrM1Ul+2cMyqkE0MkJcSYwK46+tO3hz
+ yPQDT719L4Aotjyc4mV5MrNA37dM5Px1ffA2YqesVpleJS5B8B3m/BCgSNQNilyZFD4P
+ 6qoLuxTMp2dYZUTQBtB08izby3FMSG/cS+YK8Mogr+1TIsh7pQWvo2YLf6NK4/NoLgHL
+ S1fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gditj3pIK4QuzcqOW8qGUvUL1/lFL5DV7yQpng/n4Bg=;
+ b=uDu86eCx/RkwyElkFlKlqzF43IXUrr9I9fmCkmgwc4cTpMk8O0zE0W0jmU46++snvW
+ ZEHSlRbFqF8zvCWN8/Dy712zhJAGuCcMxMtwBJNBT9tNmg2E3KttSQmG8yG+siA1sEzQ
+ w+RtRbCDUOApSJLoaA8xw4OIpdJlkO1VFMQdhIaMbSLRZ2cb8H1E9RT1rD3P9IzuzuQY
+ YMeQ6LSIQTN9B7Aa0AYUdXQHcb/zaryhdCJhNJr9TLylncG7IwmQLTa+d12XDxQs9eBx
+ MRQnECp4PrDoE7nkKq1knppRJsWUz5TsIWZg3Y+Ms2kmNRXV6Nez3lddpHTo3iQw7Yh8
+ f9sg==
+X-Gm-Message-State: AOAM532DJ2d5Uf5tCUEyHI7tr7Mkm7yA+iJ/ImYZcA2MjkCUl/3Xd94F
+ e9EX1rw8t3gnUcPEYfHSmhI=
+X-Google-Smtp-Source: ABdhPJwh7NCntuLtaQyH1pXzw5R201XZqA2FCHT/035nb8SkKfuoFK92gkdub5ES2IyVmhRVRRQrRA==
+X-Received: by 2002:a17:906:99c1:b0:6db:f0cf:e38c with SMTP id
+ s1-20020a17090699c100b006dbf0cfe38cmr30591051ejn.692.1651135767166; 
+ Thu, 28 Apr 2022 01:49:27 -0700 (PDT)
+Received: from [132.68.43.112] ([132.68.43.112])
+ by smtp.gmail.com with ESMTPSA id
+ q17-20020a1709064cd100b006e78206fe2bsm8193855ejt.111.2022.04.28.01.49.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 01:49:26 -0700 (PDT)
+Message-ID: <068945db-f29e-8586-0487-bb5be68c7ba8@gmail.com>
+Date: Thu, 28 Apr 2022 11:49:24 +0300
 MIME-Version: 1.0
-In-Reply-To: <0d3b0a6b-825d-1b01-094a-911f81f5f354@opensource.wdc.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAJsWRmVeSWpSXmKPExsWy7bCmlu5X36wkg0/PmS1+nz3PbLH33WxW
- i723tC327D3JYnF51xw2i/nLnrJbdF/fwWax40kjowOHx85Zd9k9Ni+p99jZep/V4/2+q2we
- nzfJBbBGZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXm
- AF2ipFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswtLs1L18tLLbEyNDAw
- MgUqTMjOODfnPFPBJ9WKVc1zmBsY/8l2MXJySAiYSKz81cbcxcjFISSwm1Fi1cR7TBDOJ0aJ
- pzOusEE43xgl3l46wA7T0n1pFVTLXkaJfYuuQjnPGCX67r5nAaliEVCV6J84hbGLkYODTUBb
- 4vR/DpCwiICpxNueVhaQemaBM4wS7e93gU0VFvCRWH5iGiOIzSugIzHx8Tt2CFtQ4uTMJywg
- czgF3CRW/dMFCYsKKEsc2HYc7FQJgVYOiTuda9kgrnOR2NHdzAJhC0u8Or4F6mopiZf9bVB2
- ucT2tgVQzS2MEl2nTkE12Etc3POXCcRmFsiQ6J/wFapBVmLqqXVQcT6J3t9PmCDivBI75sHY
- yhJr1i+AOkJS4tr3RijbQ2Le3icskBC6xSSxpuEx2wRG+VlInpuFZB+ErSOxYPcntllATzML
- SEss/8cBYWpKrN+lv4CRdRWjZGpBcW56arFpgVFeajk8ypPzczcxgpOqltcOxocPPugdYmTi
- YDzEKMHBrCTC+2V3RpIQb0piZVVqUX58UWlOavEhRlNgZE1klhJNzgem9bySeEMTSwMTMzMz
- E0tjM0Mlcd7T6RsShQTSE0tSs1NTC1KLYPqYODilGphE3I1qJd5rMrdsDKionCfM8n+O8WT2
- BOUf7nMKbre3TNtefC85ISLO5Kyn6BOmBFmrwL+/wzKTl0VZFeUk9csUPj12oTTIfrPa7eyT
- vJWsV9lPXBN1yrh1iOW1So7jvtTjHnOcLp3U4p5WNiWeVzWaO0v/aoFpzMFJMtOW8y/M2hdX
- OCfN0fn8KqZZ4s6FZ+TvXH4nEbvi16ktPvtv2x8NjbAOMFQ4rRneZWHaIeI+a7XZtCPZ/zbf
- npe+xfldruZPnu/sNlN+rZx77dWiI4XBT3gjvD/+nRzc4f+qUeHpzdaSHWahi7xL/zrHrNiU
- U9XuG1q+qGzSfmOmneqrD7xac+fPMUOWmbFTOq1XBimxFGckGmoxFxUnAgAMLRIEMwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrALMWRmVeSWpSXmKPExsWy7bCSnO43r6wkg8WnNC1+nz3PbLH33WxW
- i723tC327D3JYnF51xw2i/nLnrJbdF/fwWax40kjowOHx85Zd9k9Ni+p99jZep/V4/2+q2we
- nzfJBbBGcdmkpOZklqUW6dslcGX07T7DWLBJueLcvhaWBsbr0l2MnBwSAiYS3ZdWMXcxcnEI
- CexmlLi39xgLREJSYtnfI8wQtrDEyn/P2SGKnjBKLLx1DqyIRUBVon/iFMYuRg4ONgFtidP/
- OUDCIgKmEm97WllA6pkFzjBKtL/fxQ6SEBbwkVh+YhojiM0roCMx8fE7qKG3mCQWP97EBpEQ
- lDg58wnYAmYBLYkb/14ygSxgFpCWWP6PA8TkFHCTWPVPF6RCVEBZ4sC240wTGAVnIWmehaR5
- FkLzAkbmVYySqQXFuem5xYYFhnmp5XrFibnFpXnpesn5uZsYwZGgpbmDcfuqD3qHGJk4GA8x
- SnAwK4nwftmdkSTEm5JYWZValB9fVJqTWnyIUZqDRUmc90LXyXghgfTEktTs1NSC1CKYLBMH
- p1QDU2aJhIDZ37KSa3Oud/X/VX85J/+55Neit+E/7fgzxHzWa1wwuzxDNHjHhWTXWSc/22mu
- T94Tpv2tgO+n3LYbZ/I7GDV5/4u3/9doeR3w2khqsaE/4xX5qgZNw8eMog9DquwnTXVr8j6j
- +y/qQH3kwyMyYisPZIjVlis/DDLO+bPTXbh2pbP1JF83Y5G3GY5OLO27z+3x2qf0g8XV/PqF
- M82Wp7ZmOjpsEVdZOONgFvP3ZOOHP1isVdUKfv3UqNjQWzt7451tzx8tE3rTnsl0Larmkc6C
- pCNlXd/lqhjn7fvnk5PtMLlrn0+nRM2mxpXXklMZzln5TU/+wvlvQaBWxt+QK2uerth15t0n
- v9ZQJZbijERDLeai4kQAbdFbu/MCAAA=
-X-CMS-MailID: 20220428080614epcas5p3491f94c681f10e405f2e32469014cb42
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----s9reHD3dvq.Swzu4OgS99nNlXP7CLa0djtt04wdzZepsPVyA=_1ceb3_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220426101921epcas5p341707619b5e836490284a42c92762083
-References: <20220426101241.30100-1-nj.shetty@samsung.com>
- <CGME20220426101921epcas5p341707619b5e836490284a42c92762083@epcas5p3.samsung.com>
- <20220426101241.30100-3-nj.shetty@samsung.com>
- <7d1fdd1e-c854-4744-8bec-7d222fb9be76@opensource.wdc.com>
- <20220427151535.GC9558@test-zns>
- <0d3b0a6b-825d-1b01-094a-911f81f5f354@opensource.wdc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS handshake
+ listener)
+Content-Language: en-US
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: ak@tempesta-tech.com, simo@redhat.com, linux-fsdevel@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>
+References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
+ <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
+From: Boris Pismenny <borispismenny@gmail.com>
+In-Reply-To: <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220428_011911_300915_3AA6DA19 
-X-CRM114-Status: GOOD (  37.99  )
+X-CRM114-CacheID: sfid-20220428_014929_550033_EC9B8AA6 
+X-CRM114-Status: GOOD (  17.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,141 +96,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------s9reHD3dvq.Swzu4OgS99nNlXP7CLa0djtt04wdzZepsPVyA=_1ceb3_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
-On Thu, Apr 28, 2022 at 07:04:13AM +0900, Damien Le Moal wrote:
-> On 4/28/22 00:15, Nitesh Shetty wrote:
-> > On Wed, Apr 27, 2022 at 11:45:26AM +0900, Damien Le Moal wrote:
-> >> On 4/26/22 19:12, Nitesh Shetty wrote:
-> >>> Introduce blkdev_issue_copy which supports source and destination bdevs,
-> >>> and an array of (source, destination and copy length) tuples.
-> >>> Introduce REQ_COPY copy offload operation flag. Create a read-write
-> >>> bio pair with a token as payload and submitted to the device in order.
-> >>> Read request populates token with source specific information which
-> >>> is then passed with write request.
-> >>> This design is courtesy Mikulas Patocka's token based copy
-> >>>
-> >>> Larger copy will be divided, based on max_copy_sectors,
-> >>> max_copy_range_sector limits.
-> >>>
-> >>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> >>> Signed-off-by: Arnav Dawn <arnav.dawn@samsung.com>
-> >>> ---
-> >>>  block/blk-lib.c           | 232 ++++++++++++++++++++++++++++++++++++++
-> >>>  block/blk.h               |   2 +
-> >>>  include/linux/blk_types.h |  21 ++++
-> >>>  include/linux/blkdev.h    |   2 +
-> >>>  include/uapi/linux/fs.h   |  14 +++
-> >>>  5 files changed, 271 insertions(+)
-> >>>
-> >>> diff --git a/block/blk-lib.c b/block/blk-lib.c
-> >>> index 09b7e1200c0f..ba9da2d2f429 100644
-> >>> --- a/block/blk-lib.c
-> >>> +++ b/block/blk-lib.c
-> >>> @@ -117,6 +117,238 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
-> >>>  }
-> >>>  EXPORT_SYMBOL(blkdev_issue_discard);
-> >>>  
-> >>> +/*
-> >>> + * Wait on and process all in-flight BIOs.  This must only be called once
-> >>> + * all bios have been issued so that the refcount can only decrease.
-> >>> + * This just waits for all bios to make it through bio_copy_end_io. IO
-> >>> + * errors are propagated through cio->io_error.
-> >>> + */
-> >>> +static int cio_await_completion(struct cio *cio)
-> >>> +{
-> >>> +	int ret = 0;
-> >>> +	unsigned long flags;
-> >>> +
-> >>> +	spin_lock_irqsave(&cio->lock, flags);
-> >>> +	if (cio->refcount) {
-> >>> +		cio->waiter = current;
-> >>> +		__set_current_state(TASK_UNINTERRUPTIBLE);
-> >>> +		spin_unlock_irqrestore(&cio->lock, flags);
-> >>> +		blk_io_schedule();
-> >>> +		/* wake up sets us TASK_RUNNING */
-> >>> +		spin_lock_irqsave(&cio->lock, flags);
-> >>> +		cio->waiter = NULL;
-> >>> +		ret = cio->io_err;
-> >>> +	}
-> >>> +	spin_unlock_irqrestore(&cio->lock, flags);
-> >>> +	kvfree(cio);
-> >>
-> >> cio is allocated with kzalloc() == kmalloc(). So why the kvfree() here ?
-> >>
-> > 
-> > acked.
-> > 
-> >>> +
-> >>> +	return ret;
-> >>> +}
-> >>> +
-> >>> +static void bio_copy_end_io(struct bio *bio)
-> >>> +{
-> >>> +	struct copy_ctx *ctx = bio->bi_private;
-> >>> +	struct cio *cio = ctx->cio;
-> >>> +	sector_t clen;
-> >>> +	int ri = ctx->range_idx;
-> >>> +	unsigned long flags;
-> >>> +	bool wake = false;
-> >>> +
-> >>> +	if (bio->bi_status) {
-> >>> +		cio->io_err = bio->bi_status;
-> >>> +		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - ctx->start_sec;
-> >>> +		cio->rlist[ri].comp_len = min_t(sector_t, clen, cio->rlist[ri].comp_len);
-> >>
-> >> long line.
-> > 
-> > Is it because line is more than 80 character, I thought limit is 100 now, so
-> > went with longer lines ?
-> 
-> When it is easy to wrap the lines without readability loss, please do to
-> keep things under 80 char per line.
-> 
+On 18/04/2022 19:49, Chuck Lever wrote:
+> In-kernel TLS consumers need a way to perform a TLS handshake. In
+> the absence of a handshake implementation in the kernel itself, a
+> mechanism to perform the handshake in user space, using an existing
+> TLS handshake library, is necessary.
+>
+> I've designed a way to pass a connected kernel socket endpoint to
+> user space using the traditional listen/accept mechanism. accept(2)
+> gives us a well-understood way to materialize a socket endpoint as a
+> normal file descriptor in a specific user space process. Like any
+> open socket descriptor, the accepted FD can then be passed to a
+> library such as openSSL to perform a TLS handshake.
+>
+> This prototype currently handles only initiating client-side TLS
+> handshakes. Server-side handshakes and key renegotiation are left
+> to do.
+>
+> Security Considerations
+> ~~~~~~~~ ~~~~~~~~~~~~~~
+>
+> This prototype is net-namespace aware.
+>
+> The kernel has no mechanism to attest that the listening user space
+> agent is trustworthy.
+>
+> Currently the prototype does not handle multiple listeners that
+> overlap -- multiple listeners in the same net namespace that have
+> overlapping bind addresses.
 >
 
-acked
+Thanks for posting this. As we discussed offline, I think this approach
+is more manageable compared to a full in-kernel TLS handshake. A while
+ago, I've hacked around TLS to implement the data-path for NVMe-TLS and
+the data-path is indeed very simple provided an infrastructure such as
+this one.
 
-> >>> +{
-> >>> +	struct request_queue *src_q = bdev_get_queue(src_bdev);
-> >>> +	struct request_queue *dest_q = bdev_get_queue(dest_bdev);
-> >>> +	int ret = -EINVAL;
-> >>> +
-> >>> +	if (!src_q || !dest_q)
-> >>> +		return -ENXIO;
-> >>> +
-> >>> +	if (!nr)
-> >>> +		return -EINVAL;
-> >>> +
-> >>> +	if (nr >= MAX_COPY_NR_RANGE)
-> >>> +		return -EINVAL;
-> >>
-> >> Where do you check the number of ranges against what the device can do ?
-> >>
-> > 
-> > The present implementation submits only one range at a time. This was done to 
-> > make copy offload generic, so that other types of copy implementation such as
-> > XCOPY should be able to use same infrastructure. Downside at present being
-> > NVMe copy offload is not optimal.
-> 
-> If you issue one range at a time without checking the number of ranges,
-> what is the point of the nr ranges queue limit ? The user can submit a
-> copy ioctl request exceeding it. Please use that limit and enforce it or
-> remove it entirely.
-> 
+Making this more generic is desirable, and this obviously requires
+supporting multiple listeners for multiple protocols (TLS, DTLS, QUIC,
+PSP, etc.), which suggests that it will reside somewhere outside of net/tls.
+Moreover, there is a need to support (TLS) control messages here too.
+These will occasionally require going back to the userspace daemon
+during kernel packet processing. A few examples are handling: TLS rekey,
+TLS close_notify, and TLS keepalives. I'm not saying that we need to
+support everything from day-1, but there needs to be a way to support these.
 
-Sure, will remove this limit in next version.
+A related kernel interface is the XFRM netlink where the kernel asks a
+userspace daemon to perform an IKE handshake for establishing IPsec SAs.
+This works well when the handshake runs on a different socket, perhaps
+that interface can be extended to do handshakes on a given socket that
+lives in the kernel without actually passing the fd to userespace. If we
+avoid instantiating a full socket fd in userspace, then the need for an
+accept(2) interface is reduced, right?
 
---
-Thank you
-Nitesh Shetty
-
-
-------s9reHD3dvq.Swzu4OgS99nNlXP7CLa0djtt04wdzZepsPVyA=_1ceb3_
-Content-Type: text/plain; charset="utf-8"
-
-
-------s9reHD3dvq.Swzu4OgS99nNlXP7CLa0djtt04wdzZepsPVyA=_1ceb3_--
 
