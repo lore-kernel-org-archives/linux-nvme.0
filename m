@@ -4,99 +4,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AD5CC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Apr 2022 16:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1389CC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Apr 2022 17:17:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Date:References:In-Reply-To:Message-Id:Mime-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Oc7MhINv23q9eUpEfoSWVHTHfWwn013FwuuQWldLfQY=; b=E6IgRzb8lDapLqQCH3taasfhza
-	44GlNQp7pwSodHGWaGlVeGrx5acIuj8pxG/m1Z5loCdIhZXPEB0ugLUVO1OLTVIWjCJaYPaDHlZwe
-	SvFZIuNyKsGEorO+88/H929wZ7nwiUfi172jXXu05QIIq4RqyWWM5Eztsdvi+YgiWYe/r6ZlTsqq8
-	OU09uSk5Vj0g0CcZ6Yrn1c2Q2JLuki8EyJdbtvw6BzS2TWIfrqoRHMQj4i0ZI8hXuWlW3j/JN4WlC
-	G/MxgyFuJN6tmmvtqdkgafVbdY2lVT8zfPOK2f6Pfky+7Knkjyr1QMmXNKE7EeIB/NA4Z8g6hDXSD
-	fPJ9NfmA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2XGdYd/SjcBGd5d7dysZkIrck12E/j/iG27vLdTdMNM=; b=DDvtABnvXIRxu1WobW6LOHW+my
+	nKjYNzjKCmAbcgAe/qdRv/dx2BzliRVceJbl0acZUeFctpfqNmf62AqHGvBbNYQq8+TygfgdNratA
+	XxRi5h7fGMkgMd7cCmWlMMfNUifKiuq9LgkF/K5SX3DzIQhfHAKVSO72FksyKiLevkLVhyNPgVr34
+	oHBGXHI9UfBfLxkK2bX05kek/pr8eYO3NvTgSOhFsdZX4rOu13QO7T0hq1te9uj6ynaWKdimA5qUm
+	FP4LCkhrGQEvphH4hCBHeipjp0pzT0tQf/fW85MdIRQ4CcA/apJDqUi81TTwZ4fw9t4nR4Lmz8nSd
+	2vEe680w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nkTde-00BzN2-4N; Fri, 29 Apr 2022 16:38:38 +0000
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+	id 1nkUEf-00C3Jn-F0; Fri, 29 Apr 2022 17:16:53 +0000
+Received: from mailout2.w2.samsung.com ([211.189.100.12])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nkTdS-00BzJ8-3I; Fri, 29 Apr 2022 16:38:27 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id D37725C0244;
- Fri, 29 Apr 2022 12:38:18 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
- by compute2.internal (MEProxy); Fri, 29 Apr 2022 12:38:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1651250298; x=1651336698; bh=Oc
- 7MhINv23q9eUpEfoSWVHTHfWwn013FwuuQWldLfQY=; b=dmdfvvaA9cYuHuXsml
- xQShfHDDkGH+wiVGWzgCEaU1ZOzPMFqkqTVHa2xgb/klLODkxfCJuTRbxbguziPK
- I1brMhcXxEHkoYiEgEmq7NitzNXLenOdVbRohXYVLaW/J6ts+Z3FF/FueOSsbAJN
- 5SZOcyNt0OlOzs22JBO7ofo4Rm1ZytYtXZnbK1TIbwMIclG8D62gCGs8lAaUQGHJ
- wS1lvufinBKSx4hBS9Gb1MRznbp4R/B9q66J44YWsq/R5s2oIDgnyN5rLAOinTuK
- mjadG6V5wGx/iqNxjOVs9xQBWST7RgUKZuc4zYuTZwjELWTy5BPqPSNdhRS97wl8
- C/1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651250298; x=
- 1651336698; bh=Oc7MhINv23q9eUpEfoSWVHTHfWwn013FwuuQWldLfQY=; b=C
- gw3yx0b3GqdlpT45mll9o8WuZFtArewOElVyTmfqR2tdWFfneCEFwoDAKFfD2DLp
- 45bMKg3u9oVUNWqa2SxgxWn4V5bTxPMsEKCxwUW0TWJsJwODhvn+5O6tl4PdYRhs
- fCNvc1XzO8S5/uWcW9zHe0AWJwoHW1NxZz2mwwiLy0spqSmw0BePPnvsx1ogEJmO
- za+/wv0lIl8GoWDybW+/I43UPeQhufvhwQIp+6WplrKCEDpavw0CIcjk/Zdtm0HF
- 4A4d5IYqY257rEs0kV9HarOva1JSbqQHTDrJ1CzgIxS0LDdHw2Nf3bjPEfSFgnC/
- eedSOfC21ovd6pdEMFi7g==
-X-ME-Sender: <xms:ehRsYtq1muOuVSGdbRTEASbLz9t8lLhudqy85QLo8HOcpmqRNGkT1w>
- <xme:ehRsYvplL-FjdYKJLDAK4jNEvZX_8O-0LunODa4E8bfTSscDGKUJT0-eVZXsIr5N6
- uoM2K1fpi6p0FAMLtw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelgddutddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
- vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
- grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
- ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:ehRsYqNfpTxAMfNsIMvo345vOmMF9M7yKLKkAzD9W2RFuqXi0L--8A>
- <xmx:ehRsYo6WfS9Pn1IlQ5uoMHotAvCAx0LtFTCVvVSOavX1yrVrLDqMhg>
- <xmx:ehRsYs5y6DjWv9cPLp6pkSW7nHUmuz27GHpr5unj3JUIrxSkTYxD7A>
- <xmx:ehRsYsyGCInuaR8dQMSDVehskexfwPJTp0S7LeAASS2eJ34w8FIDiQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 2D8D5A6005F; Fri, 29 Apr 2022 12:38:18 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <be7e0eb1-c423-455f-bd89-050d52996340@www.fastmail.com>
-In-Reply-To: <20220428142412.GA19708@lst.de>
-References: <20220426201539.12829-1-sven@svenpeter.dev>
- <CAK8P3a1yJkegvgvzHemBd_dowvpyDmxtUnrpiHob8+hiNeO4sw@mail.gmail.com>
- <0f6ea2c3-586d-4f5a-9cee-688cd73b96b3@www.fastmail.com>
- <CAK8P3a3pPxpoOZ0hm9htBRyYc7L38F6egi-0=41tMtcLRGJ_jw@mail.gmail.com>
- <20220428142412.GA19708@lst.de>
-Date: Fri, 29 Apr 2022 18:37:58 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "hch@lst.de" <hch@lst.de>, "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Keith Busch" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "Marc Zyngier" <maz@kernel.org>,
- "Janne Grunau" <j@jannau.net>, DTML <devicetree@vger.kernel.org>,
- "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 0/6] Apple M1 (Pro/Max) NVMe driver
-Content-Type: text/plain
+ id 1nkUEZ-00C3GX-3o
+ for linux-nvme@lists.infradead.org; Fri, 29 Apr 2022 17:16:51 +0000
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+ by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20220429171638usoutp02eb11944212bbad4d6c61b377f484439f~qbX1sF-kC2806928069usoutp02K;
+ Fri, 29 Apr 2022 17:16:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
+ 20220429171638usoutp02eb11944212bbad4d6c61b377f484439f~qbX1sF-kC2806928069usoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1651252598;
+ bh=2XGdYd/SjcBGd5d7dysZkIrck12E/j/iG27vLdTdMNM=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=VPmgXZQK0/RfLExiUeX2A62bn/alMCrbSg6gAKYVsTlURT1kjYybA1dcCa8eSfwGv
+ DQKRvZney48e4UeLY3dmOcsqJwyGBGwlnKNNkTQtAdQC1HXVW2nwwiYOX1aaF/3ZkL
+ fVJVFK+SeAwtaCFEFWaR26IvRwSkrIXrq1XK5o08=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220429171638uscas1p131c2d50f50206b6e406bc36481e59170~qbX1f9CZE2081520815uscas1p1x;
+ Fri, 29 Apr 2022 17:16:38 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id EA.10.09642.67D1C626; Fri,
+ 29 Apr 2022 13:16:38 -0400 (EDT)
+Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
+ [203.254.195.91]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220429171638uscas1p23b334cc35b918428c7c3938fb1df6ef2~qbX06f9RV3222232222uscas1p2u;
+ Fri, 29 Apr 2022 17:16:38 +0000 (GMT)
+X-AuditID: cbfec36f-c15ff700000025aa-e6-626c1d76f171
+Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.145]) by
+ ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id C4.43.09672.57D1C626; Fri,
+ 29 Apr 2022 13:16:37 -0400 (EDT)
+Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
+ SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.7; Fri, 29 Apr 2022 10:16:36 -0700
+Received: from SSI-EX3.ssi.samsung.com ([105.128.5.228]) by
+ SSI-EX3.ssi.samsung.com ([105.128.5.228]) with mapi id 15.01.2375.007; Fri,
+ 29 Apr 2022 10:16:36 -0700
+From: Adam Manzanares <a.manzanares@samsung.com>
+To: Pankaj Raghav <p.raghav@samsung.com>
+CC: "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "axboe@kernel.dk"
+ <axboe@kernel.dk>, "snitzer@kernel.org" <snitzer@kernel.org>, "hch@lst.de"
+ <hch@lst.de>, "mcgrof@kernel.org" <mcgrof@kernel.org>,
+ "naohiro.aota@wdc.com" <naohiro.aota@wdc.com>, "sagi@grimberg.me"
+ <sagi@grimberg.me>, "damien.lemoal@opensource.wdc.com"
+ <damien.lemoal@opensource.wdc.com>, "dsterba@suse.com" <dsterba@suse.com>,
+ "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>, "clm@fb.com"
+ <clm@fb.com>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
+ "chao@kernel.org" <chao@kernel.org>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>, "josef@toxicpanda.com"
+ <josef@toxicpanda.com>, "jonathan.derrick@linux.dev"
+ <jonathan.derrick@linux.dev>, "agk@redhat.com" <agk@redhat.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "kch@nvidia.com" <kch@nvidia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "bvanassche@acm.org"
+ <bvanassche@acm.org>, "jiangbo.365@bytedance.com"
+ <jiangbo.365@bytedance.com>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "matias.bjorling@wdc.com"
+ <matias.bjorling@wdc.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>
+Subject: Re: [PATCH 01/16] block: make blkdev_nr_zones and blk_queue_zone_no
+ generic for npo2 zsze
+Thread-Topic: [PATCH 01/16] block: make blkdev_nr_zones and
+ blk_queue_zone_no generic for npo2 zsze
+Thread-Index: AQHYWlBSHPfSzcQATUGVFhddlprDmK0HmneA
+Date: Fri, 29 Apr 2022 17:16:36 +0000
+Message-ID: <20220429171628.GA174938@bgt-140510-bm01>
+In-Reply-To: <20220427160255.300418-2-p.raghav@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <7E6427266D2D7F4C8C5CD9B93D12C2A5@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0xTVxTHd997fX3tQB6VwR2oG43OORkDAuRmKmEBwzNG47YMM8RplceP
+ WChpgU3mYhWRUTVUHIRVGFA6EOuGwLJosbqV8dOxThHQDjSV1miQioBKi5BZXk363/fc8/me
+ 8z3JpXCRiQymsnLyWHmORComhcTv3c/MHxaslO6LqH4Uilr6u3GkHysjUeWUE0fXKwYwVF5W
+ xUfzA2YcGR1neejfuSMYatZ3YcjWosHRyT+mCLSguvvq7ZgVRy+tkajcNAyQfUiDIaNlPbo5
+ fo6PbmqT0BVjH4EGDdUkqm2085H6+DMc3VbbATrd085Dv048IVCvJSQ+hBm8tZVZ7L1AMqeL
+ HHzGfLeVYAYH8pm286UkU6+swJl23WGmo24GYzruKEnmVJGDZC4X3+MxT64OkUzLb0MEo25v
+ 5TEzbat2+KcIN6ax0qwCVv5R3F5hZm2Nk5/bLPpmsqucrwQlfiogoCAdDQf0TqACQkpENwOo
+ vP+IzxXFGDyp/R57TbmOzGFc4xcA60qbPJanAFb94/IUjQA2O2dJt4WkI+B8Tyvu1gH0+/DB
+ rfalUTitehOOVUSrAEUtp9OgpfcTDmFhQ9Mgj9NR0G69SLg1Qa+B3ZXFS1ZfOga2W48uMQJ6
+ A1woa1hiAB0IX/Rf8IwPghZbrSe1P9SevYJzOhAuGqwkp0PhvRfuM918GKzrmCY5HQeNRZWe
+ 9/WwsX4C5/b6w74fbQTnfRv+ee424b4X0q1C+EP9IJ9rJEKbXulZEAIXxhoxDioBcEp9lccV
+ agBHJ50eagNcLB3mq8FqjVdyjVcqjVcqjVcqjVeqOsA7D4LyFYrsDFYRlcN+Ha6QZCvyczLC
+ 98uy28Crb359sVN2CYxYnoabAEYBE4AULg7wne3I3CfyTZMcLGTlsj3yfCmrMIEQihAH+TZm
+ XZSI6AxJHnuAZXNZ+esuRgmCldg7175a2x9k+bYpbe1DY/fRKLMzPsOanezwebAiJHJseouh
+ f/lOw8tVbHBn0870UZcu2Qc7tSyxYapAl5qw29dYvT+084uJmKTRA+JgvzX/9fbJNpOOxwtv
+ /Nw0xzuo3Xhms0rq0l6e/ZKtiR0ZdhpG7IcT1tU93qXbliAmQ/Wp2ufH2mIjojVzsQJR3vx4
+ ceSy+98VplREFH7OWzF66T1JybVdYXk1PeqZpIdnJidyWbPuRHpvVfwJvy2H2vbeSd3tSP4p
+ ZdN2157qGJmN1xGWvM0YNxsYsOkGWv1WxnMQ5Zfz8Thf2ZX+t+6z1MTj44K/ZNPrPt0hP1R6
+ Y2T+XR/9SqewX0woMiWRH+ByheR/joyx41UEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxiHPffe3nvpZFw7Z88E2WRbhmMi9SM52VD0D9x1ZgaTLdtkEYvc
+ ALOAttSBZFmhQKVu6UdCJ50EEMJAmBUKuI0ysaN8SGoJX8Fua9NQTJgbqIxgUcgo1yX973nP
+ +z6/95zk0LjIK9hKZ+fmc/JcqSyGFBLZKsywU7lNlp6gdexDljv9OGr5U0ci08MAjoYrnRgy
+ 6i5T6KnThaOeue8FaORJMYaaWxwY8lvMOPqm9yGBVrSetbNSH46e+STIaJ8EaGbCjKEedxwa
+ nW6i0OjV95GtZ4hAY79cIVFN4wyF9OWLOJrSzwBkGLAK0PUH8wQadEcejGTHxo+yq4OtJGtQ
+ z1Gsy9NGsGNOJdt+rYJk61SVOGtt+Jrtrl3A2O57KpL9Vj1Hsj+XeQXs/K8TJGvpmCBYvbVN
+ wC60R6dsOiFMzOBk2ec5+a4Dp4RZNdUB6myzqOAfh5FSAU2EFoTRkNkLl4ufYFogpEVMC4Ar
+ kzcEfPEIwIXHI4AvGgHUqH8kgwrJJMCnA214kDczsfD+uHVdx5mLL8DFQMOaQdMvMRnQPXiI
+ n+Gg6QcT4Hk3nPHdIIJMMG/CflMZFuRwZh+0+kqeb74FYHmFmwo2wpj34Iqufl0AzBa4dKd1
+ XcAZMXT7azD+DQxssLlwnl+Gs9OrAp63Q+/SLMXPvwNrux+TPB+APWrT8/M42Fj3AOcvsQkO
+ VfkJ3n0F3m6aIvQAmkPWmUOizCFR5pAoc0hULRBcA2KlQpGTWaDYnct9Ga+Q5iiUuZnxp/Ny
+ 2sHaHxxe/S31J/C7+1G8HWA0sANI4zGbw//tzkoXhWdICy9w8rw0uVLGKewgkiZixOGzJwxp
+ IiZTms+d4biznPz/LkaHbVVh0hc7dF7dpa64122f9CX8MW4anSx5tXSvcJs67t1T8JDNvvNk
+ ctcXlX07quskUrFBGr3xmMx1ZMj3kb+13tnq8xxZ1nfozxn/Kjg8PGXLwizTH+6qIZfuVUdd
+ vzW3/9IZbXJib3ItITuWPnb36tBoQdX+tD1FgLgtGo+qdFT8fTm1r9PYNRD4rOnThNi6CGo1
+ +/TJZcPIFkm5zbnRVXwxdrv74w1LRZaIwjz/cSP1bEPKG2FVnZ78196KKvHcTDVqnCWaaUkR
+ U3b/4OeJdSDpcOYH4vikZvUOdWepTv7VHk2XLynFSx5fZO42wiiPQKgJRM+f/27Ze+Fc/c3e
+ QoetP4ZQZEklb+NyhfQ/zjd7GvIDAAA=
+X-CMS-MailID: 20220429171638uscas1p23b334cc35b918428c7c3938fb1df6ef2
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20220427160257eucas1p21fb58d0129376a135fdf0b9c2fe88895
+References: <20220427160255.300418-1-p.raghav@samsung.com>
+ <CGME20220427160257eucas1p21fb58d0129376a135fdf0b9c2fe88895@eucas1p2.samsung.com>
+ <20220427160255.300418-2-p.raghav@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220429_093826_241432_32D520BD 
-X-CRM114-Status: GOOD (  14.34  )
+X-CRM114-CacheID: sfid-20220429_101647_471455_0ADD7AAC 
+X-CRM114-Status: GOOD (  19.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,39 +163,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 28, 2022, at 16:24, hch@lst.de wrote:
-> On Wed, Apr 27, 2022 at 07:39:49PM +0200, Arnd Bergmann wrote:
->> The usual trick is to have a branch with the shared patches and have
->> that pulled into every other tree that needs these, but make sure you never
->> rebase. In this case, you could have something like
->> 
->> a) rtkit driver in a shared branch (private only)
->> b) thunderbolt driver based on branch a), merged through
->>      thunderbolt/usb/pci tree (I don't know who is responsible here)
->> c) sart driver based on branch a), merged through soc tree
->> d) nvme driver based on branch c), merged through nvme tree
->> 
->> since the commit hashes are all identical, each patch only shows up in
->> the git tree once, but you get a somewhat funny history.
+On Wed, Apr 27, 2022 at 06:02:40PM +0200, Pankaj Raghav wrote:
+> Adapt blkdev_nr_zones and blk_queue_zone_no function so that it can
+> also work for non-power-of-2 zone sizes.
+>=20
+> As the existing deployments of zoned devices had power-of-2
+> assumption, power-of-2 optimized calculation is kept for those devices.
+>=20
+> There are no direct hot paths modified and the changes just
+> introduce one new branch per call.
+>=20
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> ---
+>  block/blk-zoned.c      | 8 +++++++-
+>  include/linux/blkdev.h | 8 +++++++-
+>  2 files changed, 14 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+> index 38cd840d8838..1dff4a8bd51d 100644
+> --- a/block/blk-zoned.c
+> +++ b/block/blk-zoned.c
+> @@ -117,10 +117,16 @@ EXPORT_SYMBOL_GPL(__blk_req_zone_write_unlock);
+>  unsigned int blkdev_nr_zones(struct gendisk *disk)
+>  {
+>  	sector_t zone_sectors =3D blk_queue_zone_sectors(disk->queue);
+> +	sector_t capacity =3D get_capacity(disk);
+> =20
+>  	if (!blk_queue_is_zoned(disk->queue))
+>  		return 0;
+> -	return (get_capacity(disk) + zone_sectors - 1) >> ilog2(zone_sectors);
+> +
+> +	if (is_power_of_2(zone_sectors))
+> +		return (capacity + zone_sectors - 1) >>
+> +		       ilog2(zone_sectors);
+> +
+> +	return div64_u64(capacity + zone_sectors - 1, zone_sectors);
+>  }
+>  EXPORT_SYMBOL_GPL(blkdev_nr_zones);
+> =20
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 60d016138997..c4e4c7071b7b 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -665,9 +665,15 @@ static inline unsigned int blk_queue_nr_zones(struct=
+ request_queue *q)
+>  static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+>  					     sector_t sector)
+>  {
+> +	sector_t zone_sectors =3D blk_queue_zone_sectors(q);
+> +
+>  	if (!blk_queue_is_zoned(q))
+>  		return 0;
+> -	return sector >> ilog2(q->limits.chunk_sectors);
+> +
+> +	if (is_power_of_2(zone_sectors))
+> +		return sector >> ilog2(zone_sectors);
+> +
+> +	return div64_u64(sector, zone_sectors);
+>  }
+> =20
+>  static inline bool blk_queue_zone_is_seq(struct request_queue *q,
+> --=20
+> 2.25.1
 >
-> Given that the nvme driver is just addition of new code I'm perfectly
-> fine with sending it through whatever tree is most convenient.
-
-So If I understand all this correctly either
-	1) I send a pull request with rtkit+sart to Arnd/soc@ followed by
-	   a pull request with the same commits + the nvme driver to
-	   Christoph/nvme to make sure the commit hashes in both trees
-	   are the same. 
-or
-	2) I send a pull request with rtkit+sart+nvme to soc@ and we
-	   take the entire driver through there with Christoph's ack
-	   if Arnd is fine with carrying it as well.
-
-In either case SMC (or thunderbolt if I finish in time) can also be based
-on the same rtkit commit and could go into 5.19 as well.
-I don't have any preference here (not that my opinion matters much
-for this decision anyway :-))
 
 
-Sven
+Looks good.
+
+Reviewed by: Adam Manzanares <a.manzanares@samsung.com>=
 
