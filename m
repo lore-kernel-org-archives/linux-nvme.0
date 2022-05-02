@@ -4,77 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82924C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 May 2022 20:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC31DC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 May 2022 20:49:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UWLh0z6KqZeTYvB813th6xGMGi8VpMVzB8UY4c474cs=; b=nphlIda83cctCk2tk+VAHxQYJn
-	TyxCN/7eQLeyR9KGlDTuJ11uYU62d8Bgbg6Nf+sIlwfyxiOe9rC59Cp9MAHjs8FsPCeBmOBKXvF+B
-	rrNRjHPq6MyZ0dQ3fKXjqoBxi/zFLMloABaKZFWoLo9gF2WBdkoxsCzddZoEXaHYOFz6vncSPqzMV
-	8HHyt/yUJEyKgQC993lLW77fqk+F9BrDU6p6eK29937DzL5dvqhWxBPl4VFQsvjst7YyxV2h76Gxn
-	nyiH/f6aDef/qAeT7Ei2D7lwr0udpk79cIcA1ziv83MCUWJF8WJB7Rrel+hcng1jUZhT1Kz4iKyRp
-	EuWJ5img==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4vFcTp0vFu7L25etk2ZSKAiN6qOQ/9fmDly29SPkq5c=; b=aPVhAHBrh+dPSH6qRAcFW7+vq4
+	BII4vi8CsVV+BWiyVn6KgDXqnyJzR/O/2C11vG5AZ0mDqQ8PnA7pHJhoQQW1Fr/NBtzWss8k/d/2A
+	ekHBGOlOLS81FW/akZz9eTwu1VihNqsJisBVrS0mHFEQGzvF8ucsxTv1ToHcvdfGXjHZJkK44BrEQ
+	c0h0p7SGWkvKo/YFTXRd2kEPcufHzn1aTsrK9L0/s8i35XucUlMxLXYbfM8AIMK0sQMCAJYNzRNRB
+	i/Pte4vh4gDe0q8qPCX+gNZVpAa0HJfeee4tmulImLUA9auI1W+ZvntSuXXjVBNDg6+703oHEzxbh
+	Zc2PTpFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nlcK5-002Sgd-V8; Mon, 02 May 2022 20:07:09 +0000
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+	id 1nlcyk-002hDg-Gl; Mon, 02 May 2022 20:49:10 +0000
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nlcK3-002Seb-Nh
- for linux-nvme@lists.infradead.org; Mon, 02 May 2022 20:07:09 +0000
-Received: by mail-pl1-x636.google.com with SMTP id j8so13292384pll.11
- for <linux-nvme@lists.infradead.org>; Mon, 02 May 2022 13:06:59 -0700 (PDT)
+ id 1nlcyd-002hBT-Gm
+ for linux-nvme@lists.infradead.org; Mon, 02 May 2022 20:49:09 +0000
+Received: by mail-ot1-x329.google.com with SMTP id
+ k25-20020a056830169900b00605f215e55dso7136724otr.13
+ for <linux-nvme@lists.infradead.org>; Mon, 02 May 2022 13:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:in-reply-to:references:subject:message-id:date
- :mime-version:content-transfer-encoding;
- bh=UWLh0z6KqZeTYvB813th6xGMGi8VpMVzB8UY4c474cs=;
- b=uFZ3m09V2DNjuMRFG0vaMhvPIGbKSBxYWCK1xThA+zj5tr+aLVC8vCvly0DTtR5St1
- P6mO4YRDRHeFcacZxt2xmBTap3+S0637Xy4WMH8O0xVLo4RObXNYTQV9soDCLx+cOkDh
- Qnco/KqauwoftX9giN3bRxTm8KgnH/zr9/YA8PapStmToEnJG13xnF2Fyqs9DKcb13PD
- f76cgtag8rdE5Hj+vLRlndoSLcDitA45oR6Xzl7MOvagtyrL+Ur2J5ILVrAhSNEfRr5s
- IUnL/phQfbZMIO9BvYJeW+brbpC9A9Wpu7IdLnkQF+PlsEcRHgRMHDT2mNuVgLncn3cX
- 5x8A==
+ d=osandov-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4vFcTp0vFu7L25etk2ZSKAiN6qOQ/9fmDly29SPkq5c=;
+ b=WAv1upXnenVsNjDN8G1GfvUP41AprjYax9793cG2l0l/8gk/bcGSGrW6TmTrXYwJkT
+ uyrIFxqxonpGfEttbOSiy27ZpmmFr+xuZZcuFa8oaCQ4hV1X3wiWlZq99A5VYK9efytr
+ V03WaQiITza8XQ3j4bAGpJOs0Aujp/ZpNKgOC/7gSFvk5eH1RGrUMWAR1R14MnyTTU+u
+ 0ea3ib0+0UVEPz2OoKZftMCeW6nOmHv0hLgD5VY16CUpOds2uGadLlylMAVhTy1bt+Y2
+ rt+yzWFnQ7heag38DPm8WSs+1AhyQyfPqcy2f9SueiccWevzF4IMKvYVUqZtngPZGYbt
+ Rx2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
- :message-id:date:mime-version:content-transfer-encoding;
- bh=UWLh0z6KqZeTYvB813th6xGMGi8VpMVzB8UY4c474cs=;
- b=4TpShMGCHZsQfk44cifnX8ts1+/ruRECRYCGVS4Kl3zSTFAl0SK7VXO/SdyTPF5vQg
- 0hIIN8DtAhlncQJeW9GIDbyqgYeaqmFV4HTfb4DU2Pq+VhV6crv5La/7INJtIYTrXGaR
- RkFoibbcEWTkYXb86OvqMzKcKcFoEpkocKTFbm23wgrrn7HOev6NT8cpxWx+WJs7CDCW
- KJ975faxD8INl7/A30N5coE2ZMDjEfhecJINV+t0U0N/BLZtOMRXUE8A1vVl+jZZ0YH2
- T9kK5VUGQi5pR/5Ks1euxRml1GHBToz9s6jkPYuHMnvuEZYzNfPfOm0Xblc+GbgOVNs7
- whPA==
-X-Gm-Message-State: AOAM532a2S2QjCH6OodZ3scNGQ18njMYbqx8ZesIB6V248ubAhSII9NM
- mAi49JZrgNZKeP9vhf2PjpG7yA==
-X-Google-Smtp-Source: ABdhPJxNiO9Mi7wpl2iVkR3DmL1JNtpLX/f3/IzWB9+f3y904bkgPvPT6e6Ut3ClaexVwIwAZ1jiAA==
-X-Received: by 2002:a17:902:a583:b0:15d:197b:9259 with SMTP id
- az3-20020a170902a58300b0015d197b9259mr13625813plb.51.1651522018557; 
- Mon, 02 May 2022 13:06:58 -0700 (PDT)
-Received: from [127.0.1.1] ([8.34.116.185]) by smtp.gmail.com with ESMTPSA id
- h2-20020aa786c2000000b0050dc762815dsm5082564pfo.55.2022.05.02.13.06.57
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4vFcTp0vFu7L25etk2ZSKAiN6qOQ/9fmDly29SPkq5c=;
+ b=nMKedenlUgMBZUu7KVwyZWOoxUD0jwTWQsvGlnA2G95bEUFVfEltWOYbKY8mstDWpI
+ d/+lnF/D/4yIPICLHMGzXMKffxatsWPoxMxO0mxOppr0QEmMHHvvC9WcoUQosuX9C0e5
+ gxRnm9Fubvor3ramNQAsdfv/wWZarSGzAOZo8uwMXn3wMQetz8RDKVhKEraScUI1bFcK
+ vduNEnfahxCc5MHI24ySrZl7IOIh+3+c7AugN1VtMpkHuWaThTH1mr+KBlnd14OJ+KYS
+ EBG78A9g0iw/QWBStz9xAzrNcLh6xMW+ZjJBfAE8PISyjq6PwFLaREaKTZC8E5PYRNn1
+ WHKg==
+X-Gm-Message-State: AOAM530gU13G6/icx8AsSUt+KdLfCjMX2zo2Hy5ZxfeVV6vCgIboxSqW
+ N1O/Uu27qexJhv88/0vn8MV1rA==
+X-Google-Smtp-Source: ABdhPJy68EQKziCbbVWvDyvqmfyIqovw7jyP2Lx8dYgaTFAZeelMxmdN+jaVcHYYsFwK5S7y1yS7hw==
+X-Received: by 2002:a05:6830:4114:b0:606:ea9:394c with SMTP id
+ w20-20020a056830411400b006060ea9394cmr3387727ott.68.1651524540901; 
+ Mon, 02 May 2022 13:49:00 -0700 (PDT)
+Received: from relinquished.localdomain ([8.34.116.185])
+ by smtp.gmail.com with ESMTPSA id
+ h11-20020a4add8b000000b0035eb4e5a6ccsm4250306oov.34.2022.05.02.13.48.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 13:06:58 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>
-Cc: cgroups@vger.kernel.org, james.smart@broadcom.com, tj@kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- paolo.valente@linaro.org, dick.kennedy@broadcom.com, linux-mm@kvack.org
-In-Reply-To: <20220420042723.1010598-1-hch@lst.de>
-References: <20220420042723.1010598-1-hch@lst.de>
-Subject: Re: make the blkcg and blkcg structures private
-Message-Id: <165152201746.5015.15962088646546569198.b4-ty@kernel.dk>
-Date: Mon, 02 May 2022 14:06:57 -0600
+ Mon, 02 May 2022 13:49:00 -0700 (PDT)
+Date: Mon, 2 May 2022 13:48:58 -0700
+From: Omar Sandoval <osandov@osandov.com>
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Ewan Milne <emilne@redhat.com>, Chris Leech <cleech@redhat.com>,
+ James Smart <james.smart@broadcom.com>,
+ Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+ "Knight, Frederick" <frederick.knight@netapp.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Kanchan Joshi <joshi.k@samsung.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: LSF/MM: IO Track Topics
+Message-ID: <YnBDul1cxKvHudRj@relinquished.localdomain>
+References: <d43a7624-0e9a-4cd9-05b5-caf3b8ea3065@redhat.com>
+ <0d76d989-7f38-9235-14ee-c9cdca693692@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0d76d989-7f38-9235-14ee-c9cdca693692@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220502_130707_795977_FA524AEC 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20220502_134903_824553_73F93824 
+X-CRM114-Status: GOOD (  20.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,71 +99,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 20 Apr 2022 06:27:08 +0200, Christoph Hellwig wrote:
-> this series cleans up various lose end in the blk-cgroup code to make it
-> easier to follow in preparation of reworking the blkcg assignment for
-> bios.  The biggest change is that most of <linux/blk-cgroup.h> is now
-> taken private into block/.
+On Mon, May 02, 2022 at 12:47:47PM -0400, John Meneghini wrote:
+> [re-directing this to the linux-nvme mailing list]
 > 
-> Diffstat:
->  block/Makefile                |    1
->  block/bfq-iosched.h           |    4
->  block/blk-cgroup-fc-appid.c   |   57 +++++++++
->  block/blk-cgroup.c            |  154 ++++++++++++++++++++-----
->  block/blk-cgroup.h            |  138 +++++++++++++++-------
->  block/blk-throttle.c          |    2
->  drivers/block/loop.c          |   12 +
->  drivers/nvme/host/fc.c        |   26 +---
->  drivers/scsi/lpfc/lpfc_scsi.c |    4
->  include/linux/backing-dev.h   |    6
->  include/linux/blk-cgroup.h    |  258 ++----------------------------------------
->  include/linux/blktrace_api.h  |   10 -
->  include/linux/kthread.h       |    4
->  kernel/kthread.c              |    1
->  kernel/trace/blktrace.c       |   26 ++--
->  mm/backing-dev.c              |   19 +--
->  mm/readahead.c                |    1
->  mm/swapfile.c                 |    1
->  18 files changed, 343 insertions(+), 381 deletions(-)
+> Since we have no lsf/mailman list this year please add people to the cc list of this email.
 > 
-> [...]
+> One topic I'd like to discuss which I don't see on the IO Track agenda this
+> year is NVMe-oF Discovery Services. I'd like to understand what Linux wants
+> to do with all of the Discovery related TPs that are coming out of
+> NVMexpress.org right now.
+> 
+> TP-8010 - Centralized Discovery Controller
+> TP-8009 - mDNS Discovery
+> TP-8013 - Unique Dsicovery NQN
+> TP-8014 - Discovery Controller
+> 
+> When we combine all of these with the security TPs (TP-8006 In Band
+> Authenticate and TP-8011 TLS 1.3 Profile) we start to see proposals like the
+> attached picture.
+> 
+> There are additional NVMe-oF proposals coming from FMDS which will impact
+> Discovery and there is even a proposal at IETF for a new project for a
+> Distributed NVMe-oF Discovery Server.
+> 
+> https://www.ietf.org/id/draft-nof-requirement-00.html
+> https://www.ietf.org/id/draft-nof-framework-00.html
+> 
+> IMHO NVMe-oF Discovery is turning into a giant mess. I'd like to talk about
+> this at LSF/MM and understand how Linux plans to support the increasingly
+> complex and convoluted landscape of NVMe-oF discovery; especially at it
+> relates to multi-vendor and multi-fabric environments that support NVMe/TCP.
+> 
+> See my comments about this at:
+> 
+> http://lists.infradead.org/pipermail/linux-nvme/2022-March/030847.html
+> 
+> /John
 
-Applied, thanks!
-
-[01/15] blk-cgroup: remove __bio_blkcg
-        commit: 2524a5783e7d49e7cd936f582485a2bb4567edd1
-[02/15] nvme-fc: don't support the appid attribute without CONFIG_BLK_CGROUP_FC_APPID
-        commit: 55d7baa371ad90d297daf4250720af77449fdec0
-[03/15] nvme-fc: fold t fc_update_appid into fc_appid_store
-        commit: c814153c83a892dfd42026eaa661ae2c1f298792
-[04/15] blk-cgroup: move blkcg_{get,set}_fc_appid out of line
-        commit: db05628435aa761d30b4eae481a82befe7a8492a
-[05/15] blk-cgroup: move blk_cgroup_congested out line
-        commit: 216889aad362b5b7e998a5371348b5e95d485dd1
-[06/15] blk-cgroup: move blkcg_{pin,unpin}_online out of line
-        commit: 397c9f46ee4d99024c64954b007c1b5762d01cb4
-[07/15] blk-cgroup: move struct blkcg to block/blk-cgroup.h
-        commit: dec223c92a4688f6c9642d640cfe15a99d289dd4
-[08/15] blktrace: cleanup the __trace_note_message interface
-        commit: f4a6a61cb6d40d9ae63e47743d33200f3efe3fe7
-[09/15] blk-cgroup: replace bio_blkcg with bio_blkcg_css
-        commit: bbb1ebe7a909db4de49777fb7676d5bf293f34c9
-[10/15] blk-cgroup: remove pointless CONFIG_BLOCK ifdefs
-        commit: 7f20ba7c42fd899557cef7d001f48711c3066ba5
-[11/15] blk-cgroup: remove unneeded includes from <linux/blk-cgroup.h>
-        commit: c97ab271576dec2170e7b804cb05f7617b30fed9
-[12/15] blk-cgroup: move blkcg_css to blk-cgroup.c
-        commit: bc5fee91f26d8d1428fb744e5ad04b1417a85197
-[13/15] blk-cgroup: cleanup blk_cgroup_congested
-        commit: d200ca143ac6d0b4391b4e811e67e1a36461d501
-[14/15] blk-cgroup: cleanup blkcg_maybe_throttle_current
-        commit: 82778259eb201870d6d4f95ca4162de60a682343
-[15/15] kthread: unexport kthread_blkcg
-        commit: f624506f98b198e65b44da303f44974590fb16c0
-
-Best regards,
--- 
-Jens Axboe
-
-
+John, does the 1PM slot tomorrow work for you for this topic?
 
