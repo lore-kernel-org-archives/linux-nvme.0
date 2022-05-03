@@ -4,62 +4,153 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DE6AC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 May 2022 23:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13E77C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 May 2022 09:12:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JUsxm589EFYDVvGQ4JlZplJQXGwSA2cfyzFS4oxRBkM=; b=p8Qf3RjhZfg4DRNhImiPsnxjxm
-	DPCjLtqi9SzKOyd4qi51bdymPEsWz8wi06xAUiL9hQO3g+ObRhBnVh4PdEuEaL6TsDGt+5+5dOyjo
-	KceHxe9HACTaoWIPvWC/q9oCLAB9ZwLzlz/pKJv3ILfoISU82rnCn1NkLbvokmssMOky+pxU6uDa7
-	Cq8s5vgr42oLoXbn6XopAJQ7PaKhTo9F5U1BSIHGscyWaT4BsBeASnAKIN7oPwuzxaIRwd40Bv4r6
-	dxZam1Ys5FTnQPf621m/bI/Q7COtZlfzguhXvthtW3nWvIOLZgBFvX6cYBmE3VggFJgwq3FzhPHlo
-	1S8tUoDg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=IRf3vJRWgQgo7b9PQAgoElxFlgi3dHo9QSeeAL1/pvk=; b=1hlpdJ5mv1XSCv
+	pZwo6TopXe91a7QfmiRLGWqe0QYXHpDDoxUVgu7uzt5nn5LW7Fv5heg8x4h0CI0J+7r8EH2dgxd9g
+	zWuV2YrcxXnc4ajVVy8zAn+/wFWP5LL9Bp9cQdVgjjsL08F0h417RzwBk00evdwujrcXRAn4lqU7V
+	V3efzQED6bOgMhx0lWpjnqvIRlhZ+a7fAWzvmv7Dw6NsOAF/KAgL9UJut400M1YE39zsfYaeDyA8Y
+	WeTivK0pviujg42RH46Ky9mdr5bx2PWpUdIqaZHObbkorvzDhwbWbzM8r96ylTypGKcvg+b9+Sa/0
+	wCP9t/7JF4sUaZ5sazBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nlfLV-0034nm-Db; Mon, 02 May 2022 23:20:49 +0000
-Received: from mail104.syd.optusnet.com.au ([211.29.132.246])
- by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nlfLQ-0034m0-Pp
- for linux-nvme@lists.infradead.org; Mon, 02 May 2022 23:20:47 +0000
-Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au
- [49.181.2.147])
- by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 71A01534701;
- Tue,  3 May 2022 09:20:38 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1nlfLH-007IoG-TM; Tue, 03 May 2022 09:20:35 +1000
-Date: Tue, 3 May 2022 09:20:35 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@redhat.com,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- nitheshshetty@gmail.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/10] Add Copy offload support
-Message-ID: <20220502232035.GE1360180@dread.disaster.area>
-References: <CGME20220426101804epcas5p4a0a325d3ce89e868e4924bbdeeba6d15@epcas5p4.samsung.com>
- <20220426101241.30100-1-nj.shetty@samsung.com>
- <6a85e8c8-d9d1-f192-f10d-09052703c99a@opensource.wdc.com>
- <20220427124951.GA9558@test-zns>
- <20220502040951.GC1360180@dread.disaster.area>
- <46e95412-9a79-51f8-3d52-caed4875d41f@opensource.wdc.com>
+	id 1nloZs-004liS-FK; Tue, 03 May 2022 09:12:16 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nloZo-004lgu-Ni
+ for linux-nvme@lists.infradead.org; Tue, 03 May 2022 09:12:14 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220503091209euoutp0232794a81b4d319acf1d066aac3d26e47~rjV9qkwuI0772107721euoutp02U
+ for <linux-nvme@lists.infradead.org>; Tue,  3 May 2022 09:12:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220503091209euoutp0232794a81b4d319acf1d066aac3d26e47~rjV9qkwuI0772107721euoutp02U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1651569129;
+ bh=IRf3vJRWgQgo7b9PQAgoElxFlgi3dHo9QSeeAL1/pvk=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=WAUeVszzWW7un0rLGOvQSUtwgzJkT0zfV3lFsVfU6kwYM7/aDAPK4K7wZHzft66kP
+ TL19ob1LB4LKvFJj/eQjwYYagvBXwfUgfr0qrImN747RpJYIy+DJfkY8rrMNKtns3l
+ daNko/D0mFUsNo3pdE0LpsG8NUXL7zGYLOxXT0Hk=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220503091208eucas1p1ad5c611652cba012530519c5e24823cc~rjV9RGgOw0201902019eucas1p16;
+ Tue,  3 May 2022 09:12:08 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 64.C8.09887.8E1F0726; Tue,  3
+ May 2022 10:12:08 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220503091208eucas1p1cea931169fd910bd02f1de6d79a10d3c~rjV82hCoz0339703397eucas1p1h;
+ Tue,  3 May 2022 09:12:08 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220503091208eusmtrp2c917ae498f4cf3801576f009a47b084c~rjV8zlopc1059410594eusmtrp2Z;
+ Tue,  3 May 2022 09:12:08 +0000 (GMT)
+X-AuditID: cbfec7f4-45bff7000000269f-65-6270f1e8de5e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 23.F9.09522.8E1F0726; Tue,  3
+ May 2022 10:12:08 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220503091208eusmtip159597f8d3e9ac33c0b07ef5f593ee926~rjV8kr5Ci1917519175eusmtip1Z;
+ Tue,  3 May 2022 09:12:08 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.170) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 3 May 2022 10:12:05 +0100
+Message-ID: <a702c7f7-9719-9f3e-63de-1e96f2912432@samsung.com>
+Date: Tue, 3 May 2022 11:12:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <46e95412-9a79-51f8-3d52-caed4875d41f@opensource.wdc.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=62706747
- a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
- a=IkcTkHD0fZMA:10 a=oZkIemNP1mAA:10 a=7-415B0cAAAA:8
- a=kuBEN3JhnRn9nEiEWMwA:9 a=QEXdDO2ut3YA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 00/16] support non power of 2 zoned devices
+Content-Language: en-US
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "jaegeuk@kernel.org"
+ <jaegeuk@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+ "snitzer@kernel.org" <snitzer@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "mcgrof@kernel.org" <mcgrof@kernel.org>, Naohiro Aota
+ <Naohiro.Aota@wdc.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+ "dsterba@suse.com" <dsterba@suse.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>, "clm@fb.com"
+ <clm@fb.com>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
+ "chao@kernel.org" <chao@kernel.org>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>, "josef@toxicpanda.com"
+ <josef@toxicpanda.com>, "jonathan.derrick@linux.dev"
+ <jonathan.derrick@linux.dev>, "agk@redhat.com" <agk@redhat.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "kch@nvidia.com" <kch@nvidia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "bvanassche@acm.org"
+ <bvanassche@acm.org>, "jiangbo.365@bytedance.com"
+ <jiangbo.365@bytedance.com>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, =?UTF-8?Q?Matias_Bj=c3=b8rling?=
+ <Matias.Bjorling@wdc.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <PH0PR04MB74167FC8BA634A3DA09586489BC19@PH0PR04MB7416.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.170]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0xTZxje13N6eqjWHaobn8WAgc0NFio6E78EAls08yjhIrtETIwUPFKy
+ UrGFTSE4WHHMjktB7baKwowDBOXaCEVgG4Sb0NVwG+CsNW0j3koJlQxxMMrBhX/P8z7v877v
+ 8+UjMaGeEJHJ8jRGIZfI/Ag+fqtn/s+gqZnUhOC2l2JUd6cHQzX3iwikdc5jaOCikYNKin7i
+ oQWjCUPtjktcdPefHA66XtPNQbY6HYbyf3fi6F+1ebmW+xBDrx7uQCWdYwDZR3Uc1D75ARqy
+ VvHQ0NV9qK29H0fDraUEKquw85DmuxcYGtfYASrubeKi2qfTOOqb9P7Imx4eiaAX+24QdLHK
+ waNN5gacHjam043V5wj6l+yLGN107Rv6dvksh749kU3QBSoHQRvOPuDS0x2jBF2nH8VpTVMD
+ l55t9InxPMwPPcbIkr9iFNvD4vnS+h+e4al9glPO+gYsG6jWqYEHCald8LJmAlMDPimkqgC8
+ fP4KlyUuAAeqKwmWzAKY21zDeW1prewCbiykKgFsefnZ/01XH1u5rNAK4AtHhBsLqDCY12Fe
+ MeDUO9BQbOSxdU/Y/7MNd+O3qENQqxsk3HgjFQ5vtrpWlmGUF5y0lXHcCzZRLRicKLmBuwlG
+ dfNg7auqZUKSBBUIc86tDPWgjsCK61qMNQfAs80LPBb7wubnpRibwB+eHx9ZTZMFb/YM8twz
+ IWXhwzt3XavCXtjUqiVYvBE+6dXzWLwFLhnKVnsyoX18AWPNuQAWGeoI90GQCoGFgzK252No
+ KbBx2fIGOP7ck71nAyy59SOmAe/q1ryFbk1m3ZoIujURygFeDbyYdGVKEqPcKWe+FislKcp0
+ eZI48URKI1j+2AOLva4WUPlkRtwJOCToBJDE/DYJ9vyamiAUHJOczmAUJ44q0mWMshN4k7if
+ lyAxuV4ipJIkacyXDJPKKF6rHNJDlM3J2PxFkDXbIZ2bD45WffLeVMibuwe21eQRkWEHrL1F
+ enPs4z2Bn4emaeOuNS8eMEjDCym7/3Dc0r0zIv/JU9+Xh57M+wNcCO9biBbxG2o884NC1umi
+ 17syhQJLlGl77BF5573aeGQMWdw/59nuY4tdyg12xriMXuoAUV6p76fCmAdO9f2OMybQZvpw
+ r8g5158Q231QxFUP1W/j0wFRskstb+viD78xmJORL+eHVO88FDmTeTzqW/NYYfe+9VmV4oou
+ xd/6rJHIhqmtidODT1vi/lI+K39/9gJVYLYe79oda/nNawbzUfuqYrYEp3T5PqqF+UctJ0vH
+ T49tlkbsekTu98OVUsmOQEyhlPwHcH1JrkcEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNKsWRmVeSWpSXmKPExsVy+t/xu7ovPhYkGey8x2+x/tQxZovVd/vZ
+ LKZ9+MlscXrqWSaLSf0z2C1+nz3PbLH33WxWiws/GpksVq4+ymTxZP0sZoueAx9YLP523QOK
+ tTxktvjz0NBi0qFrjBZPr85isth7S9vi0uMV7BaXFrlb7Nl7ksXi8q45bBbzlz1lt5jQ9pXZ
+ 4saEp4wWE49vZrVY9/o9i8WJW9IO0h6Xr3h7/Duxhs1jYvM7do/z9zayeFw+W+qxaVUnm8fC
+ hqnMHpuX1HvsXvCZyWP3zQY2j97md2weO1vvs3q833eVzWP9lqssHhM2b2T1+LxJLkAwSs+m
+ KL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS9jQ/cbloIT
+ vBUfNmxkbmBs5u5i5OSQEDCR2LX8MGMXIxeHkMBSRonzD9qYIBIyEp+ufGSHsIUl/lzrYoMo
+ +sgocXbLAmYIZxejxMrWpWAdvAJ2Eu377jGC2CwCKhI7J55lh4gLSpyc+YQFxBYViJB4sPss
+ K4gtLGAvsXbXF7BeZgFxiVtP5jOBDBUR2MYssXbKebANzAKH2SU+7t3MDrHuIaPE7Pczgco4
+ ONgEtCQaO8E2cArESixbOY0ZYpKmROv23+wQtrzE9rdzmCF+UJaYfOMK1G+1Eq/u72acwCg6
+ C8mBs5AcMgvJqFlIRi1gZFnFKJJaWpybnltsqFecmFtcmpeul5yfu4kRmOq2Hfu5eQfjvFcf
+ 9Q4xMnEwHmKU4GBWEuF1XlqQJMSbklhZlVqUH19UmpNafIjRFBhKE5mlRJPzgck2ryTe0MzA
+ 1NDEzNLA1NLMWEmc17OgI1FIID2xJDU7NbUgtQimj4mDU6qBSWv7S9WNHwXkQ2z7F83ZZLb5
+ 2irRmZo7P8496uVr/nVSLqdho0HPxgBj67s8H7fdNTCbcTA3+ssq/ryO1rBPdx6I2x8/FmS8
+ xljyQvJqx/Pvb0YvbZj+v9ropMHcP+VL+q4aMWhxn+t3cJK/tLrtdo0Av9GO87tKG5k1Pcov
+ Nre3s6/gVarldBFnq9admtpzP7cvUPbUS8n/fbwRros02bw598+3XP5e+8Hxto8nVI4snW4e
+ rbH8VXtySDTj38m89QoFcjfzXn5cu9n8g6VElsl85tNVzLvrnXQCN264e/+qsf35TNW777yP
+ a3scy60TDRVj0o5Yecbxx5tbt+2v37C8+0Bxin2KcX2ctvF6JZbijERDLeai4kQArWmSZP4D
+ AAA=
+X-CMS-MailID: 20220503091208eucas1p1cea931169fd910bd02f1de6d79a10d3c
+X-Msg-Generator: CA
+X-RootMTR: 20220427160256eucas1p2db2b58792ffc93026d870c260767da14
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220427160256eucas1p2db2b58792ffc93026d870c260767da14
+References: <CGME20220427160256eucas1p2db2b58792ffc93026d870c260767da14@eucas1p2.samsung.com>
+ <20220427160255.300418-1-p.raghav@samsung.com>
+ <PH0PR04MB74167FC8BA634A3DA09586489BC19@PH0PR04MB7416.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220502_162045_193412_DD6F5970 
-X-CRM114-Status: GOOD (  34.87  )
+X-CRM114-CacheID: sfid-20220503_021213_228589_9A42698E 
+X-CRM114-Status: GOOD (  17.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,136 +165,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 02, 2022 at 09:54:55PM +0900, Damien Le Moal wrote:
-> On 2022/05/02 13:09, Dave Chinner wrote:
-> > On Wed, Apr 27, 2022 at 06:19:51PM +0530, Nitesh Shetty wrote:
-> >> O Wed, Apr 27, 2022 at 11:19:48AM +0900, Damien Le Moal wrote:
-> >>> On 4/26/22 19:12, Nitesh Shetty wrote:
-> >>>> The patch series covers the points discussed in November 2021 virtual call
-> >>>> [LSF/MM/BFP TOPIC] Storage: Copy Offload[0].
-> >>>> We have covered the Initial agreed requirements in this patchset.
-> >>>> Patchset borrows Mikulas's token based approach for 2 bdev
-> >>>> implementation.
-> >>>>
-> >>>> Overall series supports –
-> >>>>
-> >>>> 1. Driver
-> >>>> - NVMe Copy command (single NS), including support in nvme-target (for
-> >>>>     block and file backend)
-> >>>
-> >>> It would also be nice to have copy offload emulation in null_blk for testing.
-> >>>
-> >>
-> >> We can plan this in next phase of copy support, once this series settles down.
-> > 
-> > Why not just hook the loopback driver up to copy_file_range() so
-> > that the backend filesystem can just reflink copy the ranges being
-> > passed? That would enable testing on btrfs, XFS and NFSv4.2 hosted
-> > image files without needing any special block device setup at all...
+Hi Johannes,
+On 2022-05-03 00:07, Johannes Thumshirn wrote:
+>> There was an effort previously [1] to add support to non po2 devices via
+>> device level emulation but that was rejected with a final conclusion
+>> to add support for non po2 zoned device in the complete stack[2].
 > 
-> That is a very good idea ! But that will cover only the non-zoned case. For copy
-> offload on zoned devices, adding support in null_blk is probably the simplest
-> thing to do.
+> Hey Pankaj,
+> 
+> One thing I'm concerned with this patches is, once we have npo2 zones (or to be precise 
+> not fs_info->sectorsize aligned zones) we have to check on every allocation if we still 
+> have at least have fs_info->sectorsize bytes left in a zone. If not we need to 
+> explicitly finish the zone, otherwise we'll run out of max active zones. 
+> 
+This commit: `btrfs: zoned: relax the alignment constraint for zoned
+devices` makes sure the zone size is BTRFS_STRIPE_LEN aligned (64K). So
+even the npo2 zoned device should be aligned to `fs_info->sectorsize`,
+which is typically 4k.
 
-Sure, but that's a zone device implementation issue, not a "how do
-applications use this offload" issue.
+This was one of the comment that came from David Sterba:
+https://lore.kernel.org/all/20220315142740.GU12643@twin.jikos.cz/
+where he suggested to have some sane alignment for the zone sizes.
 
-i.e. zonefs support is not necessary to test the bio/block layer
-interfaces at all. All we need is a block device that can decode the
-bio-encoded offload packet and execute it to do full block layer
-testing. We can build dm devices on top of loop devices, etc, so we
-can test that the oflload support is plumbed, sliced, diced, and
-regurgitated correctly that way. We don't need actual low level
-device drivers to test this.
+> This is a problem for zoned btrfs at the moment already but it'll be even worse
+> with npo2, because we're never implicitly finishing zones.
+> 
+> See also 
+> https://lore.kernel.org/linux-btrfs/42758829d8696a471a27f7aaeab5468f60b1565d.1651157034.git.naohiro.aota@wdc.com
+> 
+I did take a look at this few days back and the patch should work fine
+also for npo2 zoned device as we allow only zone sizes that are
+BTRFS_STRIPE_LEN aligned. So even the max nodesize for METADATA BGs is
+only 64k and it should be aligned correctly to implicitly finish the zone.
 
-And, unlike the nullblk device, using the loopback device w/
-copy_file_range() will also allow data integrity testing if a
-generic copy_file_range() offload implementation is added. That is,
-we test a non-reflink capable filesystem on the loop device with the
-image file hosted on a reflink-capable filesystem. The upper
-filesystem copy then gets offloaded to reflinks in the lower
-filesystem. We already have copy_file_range() support in fsx, so all
-the data integrity fsx tests in fstests will exercise this offload
-path and find all the data corruptions the initial block layer bugs
-expose...
+Let me know your thoughts and if I am missing something.
 
-Further, fsstress also has copy_file_range() support, and so all the
-fstests that generate stress tests or use fstress as load for
-failure testing will also exercise it.
-
-Indeed, this then gives us fine-grained error injection capability
-within fstests via devices like dm-flakey. What happens when
-dm-flakey kills the device IO mid-offload? Does everything recover
-correctly? Do we end up with data corruption? Are partial offload
-completions when errors occur signalled correctly? Is there -any-
-test coverage (or even capability for testing) of user driven copy
-offload failure situations like this in any of the other test
-suites?
-
-I mean, once the loop device has cfr offload, we can use dm-flakey
-to kill IO in the image file or even do a force shutdown of the
-image host filesystem. Hence we can actually trash the copy offload
-operation in mid-flight, not just error it out on full completion.
-This is trivial to do with the fstests infrastructure - it just
-relies on having generic copy_file_range() block offload support and
-a loopback device offload of hardware copy bios back to
-copy_file_range()....
-
-This is what I mean about copy offload being designed the wrong way.
-We have the high level hooks needed to implement it right though the
-filesystems and block layer without any specific hardware support,
-and we can test the whole stack without needing specific hardware
-support. We already have filesystem level copy offload acceleration,
-so the last thing we want to see is a block layer offload
-implementation that is incompatible with the semantics we've already
-exposed to userspace for copy offloads.
-
-As I said:
-
-> > i.e. I think you're doing this compeltely backwards by trying to
-> > target non-existent hardware first....
-
-Rather than tie the block layer offload function/implementation to
-the specific quirks of a specific target hardware, we should be
-adding generic support in the block layer for the copy offload
-semantics we've already exposed to userspace. We already have test
-coverage and infrastructure for this interface and is already in use
-by applications.
-
-Transparent hardware acceleration of data copies when the hardware
-supports it is exactly where copy offloads are useful - implementing
-support based around hardware made of unobtainium and then adding
-high level user facing API support as an afterthought is putting the
-cart before the horse. We need to make sure the high level
-functionality is robust and handles errors correctly before we even
-worry about what quirks the hardware might bring to the table.
-
-Build a reference model first with the loop device and
-copy-file-range, test it, validate it, make sure it all works. Then
-hook up the hardware, and fix all the hardware bugs that are exposed
-before the hardware is released to the general public....
-
-Why haven't we learnt this lesson yet from all the problems we've
-had with, say, broken discard/trim, zeroing, erase, etc in hardware
-implementations, incompatible hardware protocol implementations of
-equivalent functionality, etc? i.e. We haven't defined the OS
-required behaviour that hardware must support and instead just tried
-to make whatever has come from the hardware vendor's
-"standarisation" process work ok?
-
-In this case, we already have a functioning model, syscalls and user
-applications making use of copy offloads at the OS level. Now we
-need to implement those exact semantics at the block layer to build
-a validated reference model for the block layer offload behaviour
-that hardware must comply with. Then hardware offloads in actual
-hardware can be compared and validated against the reference model
-behaviour, and any hardware that doesn't match can be
-quirked/blacklisted until the manufacturer fixes their firmware...
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Regards,
+Pankaj
 
