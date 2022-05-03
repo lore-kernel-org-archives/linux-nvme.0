@@ -4,120 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EF24C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 May 2022 18:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2CDFC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 May 2022 18:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U2NXMQ5XCQ1djlVQ3lkbCm+nuuKAOUuIEQS2Vz67/ko=; b=wdizjAIlaDTYEmXnbBsR1HWFlk
-	lSsIdRNX6Y3qocgqkyUXXE4/XlmRQIAcvWJMTv6mTHcf//Ep5JaZbTRC9iK594b4fpTtcsU2sQuD7
-	nDD9LmBFI4zwCi1+/Re1JMYAwQr4HNz+kwhO84OhAj2bFsGgqwDrDTAN1llfTgl2i/yXUEOCFBlug
-	I8oZm0AD65DVPz0S91U40eWvvVrLz2N7I5pbiSM+iJOBttjOj0wZqaKcUtxWI08nyqm5T3rUdO58Y
-	34LCT1eNksyZ8TjnB6WVudIPRGPle2dBMwojkaslD+XiaBn6hbkG66WEx9UpuoeThBcmFgrC+BpeT
-	V/NVZyQQ==;
+	bh=p+gpF8Lm8vZ6YiSFyLkddSyS0wjX/Rxnrmco6B460tw=; b=vC0Bvd2bZB7mMyIenI641C4qKk
+	vvy0joLgc7rQV1Qru1xNwnBQjzh3LUKgAMgIJCUdGw0OJkrjLfbgSo0gm9yDfjPuHzEiQcNsKDf7W
+	7nSbwRqfI9RYj/2kFRDC45N1doeFoHq/iFTt3mVPU/k9dhEEkxZZCYIoXcOHS97wbMZi1PBDnUzkt
+	emMiIS3f5cM7+fYyFDJOAcuRjd62A5da4BwUNsQFc7ZczXwTBl+crzC80oGKa63WEse186fbxOm8M
+	+9WbQJZRQeli4Gj6zt+ePSt3JTuNizFdtu7ZF4DYaqgIGvUO1kW84NhRQtGvNiXr3GMf2+anaNmjA
+	lc2r5iaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nlxae-007GKW-70; Tue, 03 May 2022 18:49:40 +0000
+	id 1nlxam-007GNe-Sh; Tue, 03 May 2022 18:49:48 +0000
 Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nlxaU-007GEW-Fx
+ id 1nlxaU-007GEG-Fx
  for linux-nvme@lists.infradead.org; Tue, 03 May 2022 18:49:35 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220503184919euoutp0137598b6d9e73f1cb5b5a6a1fc46cf8e5~rrN54Zjyo2551925519euoutp01M
- for <linux-nvme@lists.infradead.org>; Tue,  3 May 2022 18:49:19 +0000 (GMT)
+ 20220503184915euoutp0188f0fbd27a19f94e774e3dd14bb61d62~rrN14WBvi2372823728euoutp01W
+ for <linux-nvme@lists.infradead.org>; Tue,  3 May 2022 18:49:15 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220503184919euoutp0137598b6d9e73f1cb5b5a6a1fc46cf8e5~rrN54Zjyo2551925519euoutp01M
+ 20220503184915euoutp0188f0fbd27a19f94e774e3dd14bb61d62~rrN14WBvi2372823728euoutp01W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651603759;
- bh=U2NXMQ5XCQ1djlVQ3lkbCm+nuuKAOUuIEQS2Vz67/ko=;
+ s=mail20170921; t=1651603755;
+ bh=p+gpF8Lm8vZ6YiSFyLkddSyS0wjX/Rxnrmco6B460tw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SeUU5ZHqbPrWhQTIpor1ECUc/2OSXGXE4U0vL3h3q+02jPGJles4Cv1WgpdYmjlZu
- obrw7ngenol5AwmAi/v8dn/4oUtWzL6nz57p5FOiC3rIarYhPUI73mHOvAeGLuzDgw
- 3My+SrtR1fSoNKxsFjHMSgQJ0TNZIT2DvtGkoqHI=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220503184917eucas1p218b32edb3e270131712cfef117517e61~rrN3dma0J0698106981eucas1p2C;
- Tue,  3 May 2022 18:49:17 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 55.2E.10009.D2971726; Tue,  3
- May 2022 19:49:17 +0100 (BST)
+ b=rbTEOcKOIv4jZHSqHX+8bCEf6o9OtSAxV4zDgs+2AUdQY/NYWDeyRHWpraesaPZU/
+ VZoEZ7oOCHk1PJN6ndPH1rydYxf2l6BT1QSO0slGBJ26BqHEdjLNjbtvpZ+VmVbqEL
+ Jw0w16Xd9g60q8nPrO2mI43Hkg54qdtboXSNrhaA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220503184914eucas1p17c8186c40054540e407fbda0541d2f41~rrN0ybrNm1431714317eucas1p1P;
+ Tue,  3 May 2022 18:49:14 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id CD.0B.09887.A2971726; Tue,  3
+ May 2022 19:49:14 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220503184916eucas1p266cbb3ffc1622b292bf59b5eccec9933~rrN3AZiXe0739707397eucas1p2C;
- Tue,  3 May 2022 18:49:16 +0000 (GMT)
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220503184913eucas1p156abb6e2273c8dabc22e87ec8b218a5c~rrN0MyOII2788127881eucas1p1f;
+ Tue,  3 May 2022 18:49:13 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220503184916eusmtrp14a030f4b923fefbf5781015d7265d9bd~rrN2-r_1V2552825528eusmtrp1Y;
- Tue,  3 May 2022 18:49:16 +0000 (GMT)
-X-AuditID: cbfec7f2-e7fff70000002719-98-6271792dc890
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id AB.F6.09404.C2971726; Tue,  3
- May 2022 19:49:16 +0100 (BST)
-Received: from localhost (unknown [106.210.248.170]) by eusmtip1.samsung.com
+ 20220503184913eusmtrp1329bc145e0819958a2b782c5f939e3f8~rrN0GvZhD2552825528eusmtrp1X;
+ Tue,  3 May 2022 18:49:13 +0000 (GMT)
+X-AuditID: cbfec7f4-471ff7000000269f-3c-6271792a6e7e
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id FA.F6.09404.92971726; Tue,  3
+ May 2022 19:49:13 +0100 (BST)
+Received: from localhost (unknown [106.210.248.170]) by eusmtip2.samsung.com
  (KnoxPortal) with ESMTPA id
- 20220503184916eusmtip17ba71bb39bd022151924e4e5cd7831ed~rrN2pz3Ob0995809958eusmtip1E;
- Tue,  3 May 2022 18:49:16 +0000 (GMT)
+ 20220503184913eusmtip2937a95bcb6e6c5fe3d62f528d847b313~rrNz3HzPt0186501865eusmtip2k;
+ Tue,  3 May 2022 18:49:13 +0000 (GMT)
 From: Pankaj Raghav <p.raghav@samsung.com>
 To: axboe@kernel.dk, hch@lst.de
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
  asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org, shr@fb.com,
- joshiiitr@gmail.com, gost.dev@samsung.com, Anuj Gupta
- <anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH v3 5/5] nvme: add vectored-io support for uring-cmd
-Date: Tue,  3 May 2022 20:48:31 +0200
-Message-Id: <20220503184831.78705-6-p.raghav@samsung.com>
+ joshiiitr@gmail.com, gost.dev@samsung.com
+Subject: [PATCH v3 2/5] block: wire-up support for passthrough plugging
+Date: Tue,  3 May 2022 20:48:28 +0200
+Message-Id: <20220503184831.78705-3-p.raghav@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220503184831.78705-1-p.raghav@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFKsWRmVeSWpSXmKPExsWy7djP87q6lYVJBidesFs0TfjLbDFn1TZG
- i9V3+9ksbh7YyWSxcvVRJot3redYLI7+f8tmcf7tYSaL+cueslvcmPCU0eLQ5GYmi6svD7A7
- 8HhMbH7H7rFz1l12j8tnSz02repk89i8pN5j980GNo/3+66yefRtWcXo8XmTXABnFJdNSmpO
- Zllqkb5dAlfGvH1LWQq+i1Q8XP6FpYFxtWAXIyeHhICJxOTp/1i6GLk4hARWMErMmf+SHcL5
- wiix5PIcZgjnM6PE5WlbGGFavp3vZIRILGeU2LtiJztIQkjgJaPE2ddVXYwcHGwCWhKNnWBh
- EQF5iS+314KtYBZoZJL4+a0BLCEs4CyxvHU+mM0ioCrR1/mDGcTmFbCU+DxvCzvEMnmJmZe+
- s4PM5BSwktgxH6pEUOLkzCcsIDYzUEnz1tlgh0oI/OCQmHXhKhtEr4vExhcnmSBsYYlXx2Fm
- ykicntzDAmFXSzy98RuquYVRon/nejaQZRIC1hJ9Z3JATGYBTYn1u/Qhyh0lDr37xwhRwSdx
- 460gxAl8EpO2TWeGCPNKdLQJQVQrSez8+QRqqYTE5aY5UEs9JFa3bWeZwKg4C8kzs5A8Mwth
- 7wJG5lWM4qmlxbnpqcWGeanlesWJucWleel6yfm5mxiByev0v+OfdjDOffVR7xAjEwfjIUYJ
- DmYlEV7npQVJQrwpiZVVqUX58UWlOanFhxilOViUxHmTMzckCgmkJ5akZqemFqQWwWSZODil
- Gpg67WcuWPNofzrXs91qfNet4i93ueow3puusP7b1vTUNUm6s38771oya1LQ6b0L0x9dSBGQ
- eLLhh3OQ78yYUKfXDcuT2KS6lCQFFCLCuHnj4qZGT8p0+iG6Tvjn+uP1tk9a39uEfHY1+W1V
- 3Fr2/hvnoUOck+7lia78uSRuG9cv4WtVSSWLG+6yXz/O8H0pj/r3RCUxHYeMh1Yz7tmV6L1W
- yvKf/nWyGeNRlVfxD0z4+ie4G4rm/AlXTRNc4Gs9cZPe9dOW4t8mHOHT+VLXe3ta3/1nV76y
- s1+sbGrUn5le8Wux+YvnC76FrnTZOOF1tS+z26bGRcKsczNTl0c/NZx+N7eZpTt2af2i8klV
- vluVWIozEg21mIuKEwHr68slzQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsVy+t/xu7o6lYVJBsu7NSyaJvxltpizahuj
- xeq7/WwWNw/sZLJYufook8W71nMsFkf/v2WzOP/2MJPF/GVP2S1uTHjKaHFocjOTxdWXB9gd
- eDwmNr9j99g56y67x+WzpR6bVnWyeWxeUu+x+2YDm8f7fVfZPPq2rGL0+LxJLoAzSs+mKL+0
- JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS9j3r6lLAXfRSoe
- Lv/C0sC4WrCLkZNDQsBE4tv5TsYuRi4OIYGljBIHf71lhkhISNxe2MQIYQtL/LnWxQZiCwk8
- Z5T4sJqni5GDg01AS6Kxkx0kLCKgKLHxYxPYHGaBXiaJiVs+sIIkhAWcJZa3zgcrYhFQlejr
- /AE2n1fAUuLzvC3sEPPlJWZe+s4OMpNTwEpix3xmiFWWEm0TF7NDlAtKnJz5hAXEZgYqb946
- m3kCo8AsJKlZSFILGJlWMYqklhbnpucWG+kVJ+YWl+al6yXn525iBMbZtmM/t+xgXPnqo94h
- RiYOxkOMEhzMSiK8zksLkoR4UxIrq1KL8uOLSnNSiw8xmgKdPZFZSjQ5HxjpeSXxhmYGpoYm
- ZpYGppZmxkrivJ4FHYlCAumJJanZqakFqUUwfUwcnFINTJlC566ccRVX03zopn/jq5CBaMvJ
- tWfT+PrXnD8yK+XoCR57vTB2kwqWz0KmE7JEDXZutJ999Jbpy4hJezf0Zqo6MTgITbwQw72h
- dO/TT1bOVerqnG9Z3i2pX542Ic9/9lfNHx2mER9/SFgETHOMc2f53/r9c6zUkm+issuvPLgg
- etK6KKhyX51s9z81vXuPDF4kKYRGn7T4fEx6R46ar1grq3vVx2WvLCb2mjO4ShwrSa6ac2Sf
- udyGhz0XbD+ILerS+Z98Y2nUm+OPC6ZleX58nD3z3fuFJYf2Rs1jEFF03p+qsWJ50S/Pngrt
- w099N/2bbjs77BF3sGifQQKH04maXdsmeTtsP8uyM+tGvBJLcUaioRZzUXEiALyND/M8AwAA
-X-CMS-MailID: 20220503184916eucas1p266cbb3ffc1622b292bf59b5eccec9933
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAKsWRmVeSWpSXmKPExsWy7djPc7palYVJBnt6hS3mrNrGaLH6bj+b
+ xc0DO5ksVq4+ymTxrvUci8X5t4eZLOYve8pucWPCU0aLQ5ObmSyuvjzA7sDlMbH5HbvHzll3
+ 2T0uny312LSqk81j85J6j903G9g83u+7yubRt2UVo8fnTXIBnFFcNimpOZllqUX6dglcGXfn
+ 97AXXFOoeH1xCksDY5N0FyMnh4SAicTLVQvZuhi5OIQEVjBKnHpzlBXC+cIoMatpDzOE85lR
+ YnL7CqYuRg6wlobJ+hDx5YwSj5sPQnW8ZJS49vU2WBGbgJZEYyc7yAoRAXmJL7fXsoDUMAts
+ Z5R4MvsLK0hCWMBd4t/Ea2A2i4CqxP+prUwgNq+ApcT3F/uYIO6Tl5h56Ts7yExOASuJHfOZ
+ IUoEJU7OfMICYjMDlTRvnQ12qITACw6JI6/XskL0ukg0vF3EDGELS7w6voUdwpaROD25hwXC
+ rpZ4euM3VHMLo0T/zvVsEF9aS/SdyQExmQU0Jdbv0ocod5R48+0bM0QFn8SNt4IQJ/BJTNo2
+ HSrMK9HRJgRRrSSx8+cTqKUSEpeb5kAt9ZCYf6aXfQKj4iwkz8xC8swshL0LGJlXMYqnlhbn
+ pqcWG+WllusVJ+YWl+al6yXn525iBCaq0/+Of9nBuPzVR71DjEwcjIcYJTiYlUR4nZcWJAnx
+ piRWVqUW5ccXleakFh9ilOZgURLnTc7ckCgkkJ5YkpqdmlqQWgSTZeLglGpgap53hllGe6aL
+ 21I+k7yPMzjXLrGdz3Dhi+S0sPyCtxuOdgrYzrGazmY8K+CKtd28lVn1/ROSLcRUr5Y9WMLy
+ fsmFwPLj+6XFBINrhL361xmlNkoWGaxeH7hK/c+i9gPCt6NuVOs8XW4/f96q7XXvXv/elqI7
+ 83Cu/YLuvrc7G5a09TXwbU38zmgZP//rtDuBCranropK5s/jkQpyv2sRF2gkfP76Khlvbya3
+ M2lJy64mOr3cN+kM1/vUFW8+8M3QSXcKNzCRzM7eMd3n744pG3MeHP+3a21pxPqoPK7PKxf/
+ CVuspNCzveeR7S/z2w3PeW9zmIXzb2Rws+5cKZbkrFbVzDbLyeyF4kJxtWcTlViKMxINtZiL
+ ihMB4AHeL8MDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsVy+t/xe7qalYVJBl9mq1rMWbWN0WL13X42
+ i5sHdjJZrFx9lMniXes5Fovzbw8zWcxf9pTd4saEp4wWhyY3M1lcfXmA3YHLY2LzO3aPnbPu
+ sntcPlvqsWlVJ5vH5iX1HrtvNrB5vN93lc2jb8sqRo/Pm+QCOKP0bIryS0tSFTLyi0tslaIN
+ LYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mu7O72EvuKZQ8friFJYGxibpLkYO
+ DgkBE4mGyfpdjFwcQgJLGSUebvrK1sXICRSXkLi9sIkRwhaW+HOtiw2i6DmjxJerh5hBmtkE
+ tCQaO9lBakQEFCU2foSoZxY4yCjR28sMYgsLuEv8m3iNFcRmEVCV+D+1lQnE5hWwlPj+Yh8T
+ xHx5iZmXvrODjOQUsJLYMR+sVQiopG3iYnaIckGJkzOfsECMl5do3jqbeQKjwCwkqVlIUgsY
+ mVYxiqSWFuem5xYb6RUn5haX5qXrJefnbmIERtS2Yz+37GBc+eqj3iFGJg7GQ4wSHMxKIrzO
+ SwuShHhTEiurUovy44tKc1KLDzGaAp09kVlKNDkfGNN5JfGGZgamhiZmlgamlmbGSuK8ngUd
+ iUIC6YklqdmpqQWpRTB9TBycUg1MSc7fPWRWrfu2nvcO25PtUjfTLz1Rn7dF1dLg2Se9mb7i
+ 92ROaGyad/47u680u88fz00esipPzZ+daUufeTVXO2GSt8daLqvra94t3JEVZ8mclvKP98X/
+ e6vdXhhsCJP6cGzGNLXSB6nmtxWSeI5sTLf78TlOv+C7murtgtjLUVU2Gi7pVTu89t9bFypX
+ mvbwo3mK4+w/rvu52Xf8C3gu+D/kGwePpMx771nCbIo2qmLbe1bdcQlvKr6SErtRLiBzt6uB
+ j1ZeZX47z4pdkasS30z10tppU9O1QcuC5aex8TS1hth1748+ntJpLXeb4975sw+mqK7gif/c
+ IP9nmYgzV4787OPXWxYrzc96f85ciaU4I9FQi7moOBEAwD5RAzEDAAA=
+X-CMS-MailID: 20220503184913eucas1p156abb6e2273c8dabc22e87ec8b218a5c
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220503184916eucas1p266cbb3ffc1622b292bf59b5eccec9933
+X-RootMTR: 20220503184913eucas1p156abb6e2273c8dabc22e87ec8b218a5c
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220503184916eucas1p266cbb3ffc1622b292bf59b5eccec9933
+X-CMS-RootMailID: 20220503184913eucas1p156abb6e2273c8dabc22e87ec8b218a5c
 References: <20220503184831.78705-1-p.raghav@samsung.com>
- <CGME20220503184916eucas1p266cbb3ffc1622b292bf59b5eccec9933@eucas1p2.samsung.com>
+ <CGME20220503184913eucas1p156abb6e2273c8dabc22e87ec8b218a5c@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220503_114930_997462_716C1A11 
-X-CRM114-Status: GOOD (  16.89  )
+X-CRM114-CacheID: sfid-20220503_114930_936881_4AD3651A 
+X-CRM114-Status: GOOD (  18.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,79 +131,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Anuj Gupta <anuj20.g@samsung.com>
+From: Jens Axboe <axboe@kernel.dk>
 
-wire up support for async passthru that takes an array of buffers (using
-iovec). Exposed via a new op NVME_URING_CMD_IO_VEC. Same 'struct
-nvme_uring_cmd' is to be used with -
+Add support for plugging in passthrough path. When plugging is enabled, the
+requests are added to a plug instead of getting dispatched to the driver.
+And when the plug is finished, the whole batch gets dispatched via
+->queue_rqs which turns out to be more efficient. Otherwise dispatching
+used to happen via ->queue_rq, one request at a time.
 
-1. cmd.addr as base address of user iovec array
-2. cmd.vec_cnt as count of iovec array elements
-
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
 ---
- drivers/nvme/host/ioctl.c       | 9 ++++++---
- include/uapi/linux/nvme_ioctl.h | 6 +++++-
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ block/blk-mq.c | 90 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 47 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index e428d692375a..ffc695aa5ba3 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -409,7 +409,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 84d749511f55..e432e7e8fe20 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2340,6 +2340,40 @@ void __blk_mq_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
+ 	blk_mq_hctx_mark_pending(hctx, ctx);
  }
  
- static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--		struct io_uring_cmd *ioucmd)
-+		struct io_uring_cmd *ioucmd, bool vec)
++/*
++ * Allow 2x BLK_MAX_REQUEST_COUNT requests on plug queue for multiple
++ * queues. This is important for md arrays to benefit from merging
++ * requests.
++ */
++static inline unsigned short blk_plug_max_rq_count(struct blk_plug *plug)
++{
++	if (plug->multiple_queues)
++		return BLK_MAX_REQUEST_COUNT * 2;
++	return BLK_MAX_REQUEST_COUNT;
++}
++
++static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
++{
++	struct request *last = rq_list_peek(&plug->mq_list);
++
++	if (!plug->rq_count) {
++		trace_block_plug(rq->q);
++	} else if (plug->rq_count >= blk_plug_max_rq_count(plug) ||
++		   (!blk_queue_nomerges(rq->q) &&
++		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
++		blk_mq_flush_plug_list(plug, false);
++		trace_block_plug(rq->q);
++	}
++
++	if (!plug->multiple_queues && last && last->q != rq->q)
++		plug->multiple_queues = true;
++	if (!plug->has_elevator && (rq->rq_flags & RQF_ELV))
++		plug->has_elevator = true;
++	rq->rq_next = NULL;
++	rq_list_add(&plug->mq_list, rq);
++	plug->rq_count++;
++}
++
+ /**
+  * blk_mq_request_bypass_insert - Insert a request at dispatch list.
+  * @rq: Pointer to request to be inserted.
+@@ -2353,16 +2387,20 @@ void blk_mq_request_bypass_insert(struct request *rq, bool at_head,
+ 				  bool run_queue)
  {
- 	struct nvme_uring_cmd *cmd =
- 		(struct nvme_uring_cmd *)ioucmd->cmd;
-@@ -446,7 +446,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	req = nvme_alloc_user_request(q, &c, nvme_to_user_ptr(cmd->addr),
- 			cmd->data_len, nvme_to_user_ptr(cmd->metadata),
- 			cmd->metadata_len, 0, cmd->timeout_ms ?
--			msecs_to_jiffies(cmd->timeout_ms) : 0, 0, rq_flags,
-+			msecs_to_jiffies(cmd->timeout_ms) : 0, vec, rq_flags,
- 			blk_flags);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
-@@ -556,7 +556,10 @@ static void nvme_ns_uring_cmd(struct nvme_ns *ns, struct io_uring_cmd *ioucmd)
+ 	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
++	struct blk_plug *plug = current->plug;
  
- 	switch (ioucmd->cmd_op) {
- 	case NVME_URING_CMD_IO:
--		ret = nvme_uring_cmd_io(ns->ctrl, ns, ioucmd);
-+		ret = nvme_uring_cmd_io(ns->ctrl, ns, ioucmd, false);
-+		break;
-+	case NVME_URING_CMD_IO_VEC:
-+		ret = nvme_uring_cmd_io(ns->ctrl, ns, ioucmd, true);
- 		break;
- 	default:
- 		ret = -ENOTTY;
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index 04e458c649ab..938e0a0bf46f 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -81,7 +81,10 @@ struct nvme_uring_cmd {
- 	__u64	metadata;
- 	__u64	addr;
- 	__u32	metadata_len;
--	__u32	data_len;
-+	union {
-+		__u32	data_len; /* for non-vectored io */
-+		__u32	vec_cnt; /* for vectored io */
-+	};
- 	__u32	cdw10;
- 	__u32	cdw11;
- 	__u32	cdw12;
-@@ -107,5 +110,6 @@ struct nvme_uring_cmd {
+-	spin_lock(&hctx->lock);
+-	if (at_head)
+-		list_add(&rq->queuelist, &hctx->dispatch);
+-	else
+-		list_add_tail(&rq->queuelist, &hctx->dispatch);
+-	spin_unlock(&hctx->lock);
+-
+-	if (run_queue)
+-		blk_mq_run_hw_queue(hctx, false);
++	if (plug) {
++		blk_add_rq_to_plug(plug, rq);
++	} else {
++		spin_lock(&hctx->lock);
++		if (at_head)
++			list_add(&rq->queuelist, &hctx->dispatch);
++		else
++			list_add_tail(&rq->queuelist, &hctx->dispatch);
++		spin_unlock(&hctx->lock);
++		if (run_queue)
++			blk_mq_run_hw_queue(hctx, false);
++	}
+ }
  
- /* io_uring async commands: */
- #define NVME_URING_CMD_IO	_IOWR('N', 0x80, struct nvme_uring_cmd)
-+#define NVME_URING_CMD_IO_VEC	_IOWR('N', 0x81, struct nvme_uring_cmd)
+ void blk_mq_insert_requests(struct blk_mq_hw_ctx *hctx, struct blk_mq_ctx *ctx,
+@@ -2676,40 +2714,6 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+ 		hctx->queue->mq_ops->commit_rqs(hctx);
+ }
  
- #endif /* _UAPI_LINUX_NVME_IOCTL_H */
+-/*
+- * Allow 2x BLK_MAX_REQUEST_COUNT requests on plug queue for multiple
+- * queues. This is important for md arrays to benefit from merging
+- * requests.
+- */
+-static inline unsigned short blk_plug_max_rq_count(struct blk_plug *plug)
+-{
+-	if (plug->multiple_queues)
+-		return BLK_MAX_REQUEST_COUNT * 2;
+-	return BLK_MAX_REQUEST_COUNT;
+-}
+-
+-static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
+-{
+-	struct request *last = rq_list_peek(&plug->mq_list);
+-
+-	if (!plug->rq_count) {
+-		trace_block_plug(rq->q);
+-	} else if (plug->rq_count >= blk_plug_max_rq_count(plug) ||
+-		   (!blk_queue_nomerges(rq->q) &&
+-		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
+-		blk_mq_flush_plug_list(plug, false);
+-		trace_block_plug(rq->q);
+-	}
+-
+-	if (!plug->multiple_queues && last && last->q != rq->q)
+-		plug->multiple_queues = true;
+-	if (!plug->has_elevator && (rq->rq_flags & RQF_ELV))
+-		plug->has_elevator = true;
+-	rq->rq_next = NULL;
+-	rq_list_add(&plug->mq_list, rq);
+-	plug->rq_count++;
+-}
+-
+ static bool blk_mq_attempt_bio_merge(struct request_queue *q,
+ 				     struct bio *bio, unsigned int nr_segs)
+ {
 -- 
 2.25.1
 
