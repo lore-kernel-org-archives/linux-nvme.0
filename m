@@ -4,66 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04041C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 May 2022 00:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29E33C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 May 2022 08:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ugmR3jLM8veLVIUa3OI/j0BaZYhzol4hxt5zceJiBtA=; b=Mngc4DnW9UnD4V26IMMwbzeiIO
-	hhLUvStyBOqazHEPnXqeYXt4ndaa4Gp4GrbCM9WgLmYjNhQFlRNv6ejRjWIL32QviIn2m+L0ADSmZ
-	H2XyBIt/lQ+ZXXE8k32AE7tAm704zEVwSeavzvKQw989IttDFHmz3j4mpt5JcbItWwptVaaOVq6wt
-	GXPtBkM5iuisgztLbm7GulvAxozjsJo0t3rfusKw/g/P4mIkI+AAWT6Oz3HNjW7EWrWYvhGm7bvU1
-	ealMEKatKilKiE/zOwIOqnwav4Eo8+veR49t5NPhG4BV7Wr78o0SZQ2jGcvch6JJHB+b8tgvTpbNI
-	fQQRCXUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3UF0+u4rgNSoSqS7hjmT0XqUFhNn3b8DMHbYypNxQJo=; b=PTysVhRgkm/DramSMQhgTUXeNP
+	lDR6nCs+te0HtZ8mvlHatWH3GZ+JjRdxIz3x31AeZvTT9qeTHwmDw1OIWN1gZAL9mXEe+hKC5sdRo
+	4lnW641asX8JJydJKKFy14lj63s4HXYKfk7BCpg1P7U5Aa5WDEP5ThYnbTnWKd4wcyNJWYHsNBCz7
+	1JyHu4RFmiNMTb+3DsLqgmD7+YxKMhjWCHCzNhFj/vaJsPAVW/uphGVpUeQUHyjQsZ7Iie1YE/vPp
+	0aJozuAa/TJfSgvlC6DBwvRQfesyNiQ0Noz9A7LBtUg0BY7MN2mdVXk2JT9JgKwe9e9pVHuFzi/6Z
+	POxSqLeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nm2aI-0088Gt-Td; Wed, 04 May 2022 00:09:38 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1nmA8a-009R52-RC; Wed, 04 May 2022 08:13:32 +0000
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nm2aG-0088Fy-3Z
- for linux-nvme@lists.infradead.org; Wed, 04 May 2022 00:09:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651622976; x=1683158976;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=tIw3wxR3TTtP/toaQyavTjacsD6h8Kqv0lWT1ic8sCs=;
- b=mYWqUVEcS98czl06+bjLe6P1iFVh/4vbNH5wK5SzkpfqxsWSFlZIeSNX
- fFmimvINRKAAJju5+aYNOGSo58ZfFWbjuZ3pP7y6VG07rNDHS/qAsB2Kf
- zVKD07Pw87kiiRcC/Yc3H6ZNSq0KYUBJFHZvFzkJW5PPbAZC4KEn4pY2q
- GKZMn745WpigHGODR6VGpHp4yPc+Iad74wxQT2H6wtwL+pViD7N4vAqUk
- BiarmLZcyOR/jXZt2aFTlbEOJnZ8N0t6MdNZ0hjTFh/Gcp7uWdS9pOIHL
- 3DYI/oOc3g13/vB1NDnqbpSX83IG7TFZN24QdywdYYiMcyuNmEKg01rXf A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="266468039"
-X-IronPort-AV: E=Sophos;i="5.91,196,1647327600"; d="scan'208";a="266468039"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 17:09:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,196,1647327600"; d="scan'208";a="547993784"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 03 May 2022 17:09:31 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nm2aA-000Atn-9w;
- Wed, 04 May 2022 00:09:30 +0000
-Date: Wed, 04 May 2022 08:09:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.18] BUILD SUCCESS
- 20ebcca0ac7c821749f30be3b29686b99f463edd
-Message-ID: <6271c41f.NKmrDm6W7ybHioiD%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ id 1nmA8X-009Qzb-NS
+ for linux-nvme@lists.infradead.org; Wed, 04 May 2022 08:13:31 +0000
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-edf3b6b0f2so93302fac.9
+ for <linux-nvme@lists.infradead.org>; Wed, 04 May 2022 01:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3UF0+u4rgNSoSqS7hjmT0XqUFhNn3b8DMHbYypNxQJo=;
+ b=B4CgaTkgbgOKNEW7G8xWkJgvHi0knKqnnYhXVFCDfv2vqcC6ffMaxfMoQUWh+NmYMI
+ VU+p8OM7JGXIhrfcOxbFBrwT7Ru0kfZkqOdRmv7d/w9GOkyJiG+RblWwGtVAxediEVLv
+ iL4djUXWHxJCpkp3+7VUHEz5hyrkQj+Ydk5bcWaCzrmYGNkrvyAcdhwwWA1JYXfxTIuL
+ TtnnHHaCIt8Yo+buGJejE20l5BYe3aLWjrjeukk6SWYUDu245JEpW4+WqpwysgjCe6qH
+ cihgmlIs/qLpxSN5C42a4HI9BhOZDQPNFMiS0maK4UcIiniMY6F/lse/biP3DkHTYwWB
+ 44Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3UF0+u4rgNSoSqS7hjmT0XqUFhNn3b8DMHbYypNxQJo=;
+ b=xavScXKXDMr3LD/47LcW3RoYmYYCSyCHSb2ON19PAjmi1TEbXgRAKZqwb/uST4QFCz
+ ffnmtBW+XuwXaRT2xQZeyeHGFw/qhJxujYSHBLmaM3qHgHVAcRy+2HELHqxxuG6AQ8Yt
+ ZT1UnYrRZoxMHmGxJyIY1KEyjomk7ia/zhq2uWAsPM34kLbtXkcRmW8Y2KZDjqNyfexS
+ GpWLJkQ7HVB+/Jz//lIIt+aCmxaz91IC86RUJMoInqQRFaRTjkq/fxL6PE3IE2XistiB
+ WUTGDwzxKkqMeFkQzRDPfhlsgHxhEdveYcdSrbuJlvbW53w6nc/1+AkzLdcftmKkabQ/
+ HQmA==
+X-Gm-Message-State: AOAM533uoJ6j84C7yuHjtTj+xvLEkKWC+dsDtwYaQt+/ATc2/ZeF2AQS
+ pYlvzfu/yet4LpdU7hSbd5FaXili31O+erTKpfA=
+X-Google-Smtp-Source: ABdhPJye4VI9R7vY+bqkutt48/zBg8L+cudqX5CVp4PX3mqN3OPQKONhvddwmfrrp5yI67PGh2pKozw+26e1Qz89OpM=
+X-Received: by 2002:a05:6870:c392:b0:e9:f20:fa8a with SMTP id
+ g18-20020a056870c39200b000e90f20fa8amr3198866oao.15.1651651989729; Wed, 04
+ May 2022 01:13:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20220503184831.78705-1-p.raghav@samsung.com>
+ <CGME20220503184912eucas1p1bb0e3d36c06cfde8436df3a45e67bd32@eucas1p1.samsung.com>
+ <20220503184831.78705-2-p.raghav@samsung.com> <20220503205202.GA9567@lst.de>
+In-Reply-To: <20220503205202.GA9567@lst.de>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Wed, 4 May 2022 08:12:44 -0700
+Message-ID: <CA+1E3rKe6G8UC9Pzkm4Wbu50X=TT5tise8g6umduhj1eTbN0+w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] fs,io_uring: add infrastructure for uring-cmd
+To: Christoph Hellwig <hch@lst.de>
+Cc: Pankaj Raghav <p.raghav@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ io-uring@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Pavel Begunkov <asml.silence@gmail.com>, 
+ Ming Lei <ming.lei@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Stefan Roesch <shr@fb.com>, 
+ gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220503_170936_224269_2A8A9ECD 
-X-CRM114-Status: UNSURE (   8.39  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220504_011329_817024_D016BEC2 
+X-CRM114-Status: GOOD (  37.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,347 +88,230 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.18
-branch HEAD: 20ebcca0ac7c821749f30be3b29686b99f463edd  nvme: fix a NULL pointer dereference in nvme_alloc_admin_tags
+On Tue, May 3, 2022 at 1:52 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> This mostly looks good, but a few comments an an (untested) patch
+> to fix these complaints below:
+>
+> > +struct io_uring_cmd {
+> > +     struct file     *file;
+> > +     void            *cmd;
+> > +     /* for irq-completion - if driver requires doing stuff in task-context*/
+> > +     void (*driver_cb)(struct io_uring_cmd *cmd);
+>
+> I'd rename this task_Work_cb or similar, as driver is not very
+> meaningful.
+>
+> > +     u32             flags;
+> > +     u32             cmd_op;
+> > +     u32             unused;
+> > +     u8              pdu[28]; /* available inline for free use */
+>
+> The unused field here is not only unused, but also messed up the
+> alignment so that any pointer in pdu will not be properly aligned
+> on 64-bit platforms and tjus might cause crashes on some platforms.
 
-elapsed time: 7685m
+Indeed, thanks. Since we are going to remove that, we can give that
+space to pdu for now i.e. pdu[32].This will help in removing "packed"
+attribute in nvme pdu (which is 32 bytes without packing).
 
-configs tested: 317
-configs skipped: 6
+> For now we can just remove it, but I really want to get rid of the pdu
+> thing that causes these problems, but I will not hold the series off for
+> that and plan to look into that later.
+> Also a lot of the fields here were using spaces instead of tabs for
+> indentation.
+>
+> >       union {
+> >               __u64   addr;   /* pointer to buffer or iovecs */
+> >               __u64   splice_off_in;
+> > +             __u16   cmd_len;
+> >       };
+>
+> This field isn't actually used and can be removed.
+>
+> >       __u32   len;            /* buffer size or number of iovecs */
+> >       union {
+> > @@ -61,7 +63,10 @@ struct io_uring_sqe {
+> >               __s32   splice_fd_in;
+> >               __u32   file_index;
+> >       };
+> > -     __u64   addr3;
+> > +     union {
+> > +             __u64   addr3;
+> > +             __u64   cmd;
+> > +     };
+> >       __u64   __pad2[1];
+>
+> The way how the tail of the structure is handled here is a mess.  I
+> think something like a union of two structs for the small and large
+> case would be much better, so that cmd can be the actual array for
+> the data that can be used directly and without the nasty cast (that
+> also casted away the constness):
+>
+> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> index b774e6eac5384..fe24d606ca306 100644
+> --- a/fs/io_uring.c
+> +++ b/fs/io_uring.c
+> @@ -4544,7 +4544,7 @@ static int io_getxattr_prep(struct io_kiocb *req,
+>         if (ret)
+>                 return ret;
+>
+> -       path = u64_to_user_ptr(READ_ONCE(sqe->addr3));
+> +       path = u64_to_user_ptr(READ_ONCE(sqe->small.addr3));
+>
+>         ix->filename = getname_flags(path, LOOKUP_FOLLOW, NULL);
+>         if (IS_ERR(ix->filename)) {
+> @@ -4645,7 +4645,7 @@ static int io_setxattr_prep(struct io_kiocb *req,
+>         if (ret)
+>                 return ret;
+>
+> -       path = u64_to_user_ptr(READ_ONCE(sqe->addr3));
+> +       path = u64_to_user_ptr(READ_ONCE(sqe->small.addr3));
+>
+>         ix->filename = getname_flags(path, LOOKUP_FOLLOW, NULL);
+>         if (IS_ERR(ix->filename)) {
+> @@ -4909,15 +4909,15 @@ static int io_linkat(struct io_kiocb *req, unsigned int issue_flags)
+>
+>  static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
+>  {
+> -       req->uring_cmd.driver_cb(&req->uring_cmd);
+> +       req->uring_cmd.task_work_cb(&req->uring_cmd);
+>  }
+>
+>  void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+> -                       void (*driver_cb)(struct io_uring_cmd *))
+> +                       void (*task_work_cb)(struct io_uring_cmd *))
+>  {
+>         struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
+>
+> -       req->uring_cmd.driver_cb = driver_cb;
+> +       req->uring_cmd.task_work_cb = task_work_cb;
+>         req->io_task_work.func = io_uring_cmd_work;
+>         io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOLL));
+>  }
+> @@ -4949,7 +4949,7 @@ static int io_uring_cmd_prep(struct io_kiocb *req,
+>                 return -EOPNOTSUPP;
+>         if (!(req->ctx->flags & IORING_SETUP_CQE32))
+>                 return -EOPNOTSUPP;
+> -       ioucmd->cmd = (void *) &sqe->cmd;
+> +       ioucmd->cmd = sqe->big.cmd;
+>         ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
+>         ioucmd->flags = 0;
+>         return 0;
+> @@ -12735,7 +12735,7 @@ static int __init io_uring_init(void)
+>         BUILD_BUG_SQE_ELEM(42, __u16,  personality);
+>         BUILD_BUG_SQE_ELEM(44, __s32,  splice_fd_in);
+>         BUILD_BUG_SQE_ELEM(44, __u32,  file_index);
+> -       BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
+> +       BUILD_BUG_SQE_ELEM(48, __u64,  small.addr3);
+>
+>         BUILD_BUG_ON(sizeof(struct io_uring_files_update) !=
+>                      sizeof(struct io_uring_rsrc_update));
+> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+> index a4ff4696cbead..7274884859910 100644
+> --- a/include/linux/io_uring.h
+> +++ b/include/linux/io_uring.h
+> @@ -13,20 +13,19 @@ enum io_uring_cmd_flags {
+>  };
+>
+>  struct io_uring_cmd {
+> -       struct file     *file;
+> -       void            *cmd;
+> -       /* for irq-completion - if driver requires doing stuff in task-context*/
+> -       void (*driver_cb)(struct io_uring_cmd *cmd);
+> -       u32             flags;
+> -       u32             cmd_op;
+> -       u32             unused;
+> +       struct file     *file;
+> +       const u8        *cmd;
+> +       /* callback to defer completions to task context */
+> +       void (*task_work_cb)(struct io_uring_cmd *cmd);
+> +       u32             flags;
+> +       u32             cmd_op;
+>         u8              pdu[28]; /* available inline for free use */
+>  };
+>
+>  #if defined(CONFIG_IO_URING)
+>  void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret, ssize_t res2);
+>  void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+> -                       void (*driver_cb)(struct io_uring_cmd *));
+> +                       void (*task_work_cb)(struct io_uring_cmd *));
+>  struct sock *io_uring_get_socket(struct file *file);
+>  void __io_uring_cancel(bool cancel_all);
+>  void __io_uring_free(struct task_struct *tsk);
+> @@ -56,7 +55,7 @@ static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret,
+>  {
+>  }
+>  static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
+> -                       void (*driver_cb)(struct io_uring_cmd *))
+> +                       void (*task_work_cb)(struct io_uring_cmd *))
+>  {
+>  }
+>  static inline struct sock *io_uring_get_socket(struct file *file)
+> diff --git a/include/trace/events/io_uring.h b/include/trace/events/io_uring.h
+> index 630982b3c34c5..b1f64c2412935 100644
+> --- a/include/trace/events/io_uring.h
+> +++ b/include/trace/events/io_uring.h
+> @@ -539,8 +539,8 @@ TRACE_EVENT(io_uring_req_failed,
+>                 __entry->buf_index      = sqe->buf_index;
+>                 __entry->personality    = sqe->personality;
+>                 __entry->file_index     = sqe->file_index;
+> -               __entry->pad1           = sqe->__pad2[0];
+> -               __entry->addr3          = sqe->addr3;
+> +               __entry->addr3          = sqe->small.addr3;
+> +               __entry->pad1           = sqe->small.__pad2[0];
+>                 __entry->error          = error;
+>         ),
+>
+> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+> index c081511119bfa..bd4221184f594 100644
+> --- a/include/uapi/linux/io_uring.h
+> +++ b/include/uapi/linux/io_uring.h
+> @@ -27,7 +27,6 @@ struct io_uring_sqe {
+>         union {
+>                 __u64   addr;   /* pointer to buffer or iovecs */
+>                 __u64   splice_off_in;
+> -               __u16   cmd_len;
+>         };
+>         __u32   len;            /* buffer size or number of iovecs */
+>         union {
+> @@ -64,16 +63,19 @@ struct io_uring_sqe {
+>                 __u32   file_index;
+>         };
+>         union {
+> -               __u64   addr3;
+> -               __u64   cmd;
+> +               struct {
+> +                       __u64   addr3;
+> +                       __u64   __pad2[1];
+> +               } small;
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thinking if this can cause any issue for existing users of addr3, i.e.
+in the userspace side? Since it needs to access this field with
+small.addr3.
+Jens - is xattr infra already frozen?
 
-gcc tested configs:
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-c001
-arc                        nsim_700_defconfig
-powerpc                     tqm8541_defconfig
-powerpc                 mpc837x_rdb_defconfig
-sh                          lboxre2_defconfig
-mips                         tb0226_defconfig
-powerpc                      cm5200_defconfig
-powerpc                       holly_defconfig
-m68k                         amcore_defconfig
-sh                           se7206_defconfig
-ia64                          tiger_defconfig
-mips                         cobalt_defconfig
-xtensa                           allyesconfig
-powerpc                         ps3_defconfig
-arc                     haps_hs_smp_defconfig
-arc                            hsdk_defconfig
-arm                         vf610m4_defconfig
-s390                       zfcpdump_defconfig
-arm                        realview_defconfig
-arm                       multi_v4t_defconfig
-xtensa                  nommu_kc705_defconfig
-sparc64                          alldefconfig
-mips                           ci20_defconfig
-sh                        sh7763rdp_defconfig
-arm                         lubbock_defconfig
-m68k                                defconfig
-sh                          sdk7780_defconfig
-powerpc                     tqm8555_defconfig
-parisc                              defconfig
-sh                         microdev_defconfig
-arc                        nsimosci_defconfig
-powerpc                      arches_defconfig
-powerpc                 linkstation_defconfig
-sh                     sh7710voipgw_defconfig
-sh                        edosk7705_defconfig
-mips                          rb532_defconfig
-mips                        vocore2_defconfig
-powerpc                      ppc6xx_defconfig
-arm                      jornada720_defconfig
-sh                           se7619_defconfig
-mips                  maltasmvp_eva_defconfig
-sh                   secureedge5410_defconfig
-sh                            shmin_defconfig
-sh                          r7780mp_defconfig
-parisc                generic-32bit_defconfig
-sh                     magicpanelr2_defconfig
-nios2                               defconfig
-h8300                               defconfig
-sh                          rsk7264_defconfig
-sparc                            alldefconfig
-powerpc                      ep88xc_defconfig
-arm                           imxrt_defconfig
-powerpc                    klondike_defconfig
-sh                             sh03_defconfig
-arm                       imx_v6_v7_defconfig
-ia64                      gensparse_defconfig
-m68k                            mac_defconfig
-ia64                         bigsur_defconfig
-m68k                          sun3x_defconfig
-arm                         nhk8815_defconfig
-powerpc                    amigaone_defconfig
-microblaze                      mmu_defconfig
-sh                          polaris_defconfig
-xtensa                    smp_lx200_defconfig
-arm                          gemini_defconfig
-sh                        apsh4ad0a_defconfig
-m68k                       m5275evb_defconfig
-mips                            gpr_defconfig
-arm                            lart_defconfig
-sh                          r7785rp_defconfig
-powerpc                 mpc8540_ads_defconfig
-alpha                               defconfig
-powerpc                mpc7448_hpc2_defconfig
-xtensa                              defconfig
-parisc                generic-64bit_defconfig
-sparc64                             defconfig
-arm                           sunxi_defconfig
-powerpc                       maple_defconfig
-m68k                           sun3_defconfig
-powerpc                     pq2fads_defconfig
-sh                        sh7785lcr_defconfig
-sh                ecovec24-romimage_defconfig
-powerpc                     taishan_defconfig
-m68k                       m5208evb_defconfig
-xtensa                  cadence_csp_defconfig
-arm                         assabet_defconfig
-powerpc                     tqm8548_defconfig
-sh                         ecovec24_defconfig
-arm                       omap2plus_defconfig
-mips                  decstation_64_defconfig
-sh                          kfr2r09_defconfig
-alpha                            alldefconfig
-mips                      fuloong2e_defconfig
-nios2                         3c120_defconfig
-m68k                        stmark2_defconfig
-powerpc                      mgcoge_defconfig
-m68k                       bvme6000_defconfig
-powerpc                   motionpro_defconfig
-powerpc                 mpc837x_mds_defconfig
-m68k                       m5475evb_defconfig
-xtensa                         virt_defconfig
-arm                            qcom_defconfig
-powerpc64                           defconfig
-sh                        edosk7760_defconfig
-s390                          debug_defconfig
-sh                      rts7751r2d1_defconfig
-sh                   sh7724_generic_defconfig
-powerpc                        cell_defconfig
-mips                     loongson1b_defconfig
-m68k                        m5307c3_defconfig
-powerpc                    adder875_defconfig
-mips                            ar7_defconfig
-arm                          lpd270_defconfig
-openrisc                  or1klitex_defconfig
-ia64                            zx1_defconfig
-arc                         haps_hs_defconfig
-arm                        cerfcube_defconfig
-arm                      integrator_defconfig
-um                               alldefconfig
-sh                          rsk7201_defconfig
-arm                        oxnas_v6_defconfig
-m68k                          multi_defconfig
-sh                           se7751_defconfig
-mips                     decstation_defconfig
-powerpc                         wii_defconfig
-powerpc                     sequoia_defconfig
-powerpc                     mpc83xx_defconfig
-mips                         rt305x_defconfig
-ia64                             alldefconfig
-mips                       capcella_defconfig
-mips                      maltasmvp_defconfig
-sh                             espt_defconfig
-openrisc                            defconfig
-sh                          urquell_defconfig
-arm                       aspeed_g5_defconfig
-arm                         cm_x300_defconfig
-sh                           se7721_defconfig
-powerpc                           allnoconfig
-powerpc                   currituck_defconfig
-mips                             allyesconfig
-h8300                       h8s-sim_defconfig
-sh                           sh2007_defconfig
-sh                          landisk_defconfig
-i386                                defconfig
-mips                           jazz_defconfig
-powerpc                      makalu_defconfig
-powerpc                      chrp32_defconfig
-sparc                       sparc64_defconfig
-powerpc                     asp8347_defconfig
-mips                       bmips_be_defconfig
-sh                   rts7751r2dplus_defconfig
-parisc64                            defconfig
-m68k                             allmodconfig
-openrisc                    or1ksim_defconfig
-sh                           se7705_defconfig
-powerpc                    sam440ep_defconfig
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220501
-arm                  randconfig-c002-20220428
-arm                  randconfig-c002-20220429
-x86_64               randconfig-c001-20220502
-i386                 randconfig-c001-20220502
-arm                  randconfig-c002-20220502
-ia64                                defconfig
-ia64                             allyesconfig
-ia64                             allmodconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-i386                             allyesconfig
-sparc                               defconfig
-sparc                            allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a002
-x86_64               randconfig-a006-20220502
-x86_64               randconfig-a001-20220502
-x86_64               randconfig-a003-20220502
-x86_64                        randconfig-a004
-x86_64                        randconfig-a006
-i386                 randconfig-a004-20220502
-i386                 randconfig-a006-20220502
-i386                 randconfig-a002-20220502
-i386                 randconfig-a003-20220502
-i386                 randconfig-a001-20220502
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a015
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-i386                          randconfig-a012
-i386                          randconfig-a016
-i386                          randconfig-a014
-arc                  randconfig-r043-20220428
-arc                  randconfig-r043-20220501
-s390                 randconfig-r044-20220501
-riscv                randconfig-r042-20220501
-arc                  randconfig-r043-20220429
-s390                 randconfig-r044-20220429
-riscv                randconfig-r042-20220429
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
+> +               /*
+> +                * If the ring is initialized with IORING_SETUP_SQE128, then
+> +                * this field is used for 80 bytes of arbitrary command data.
+> +                */
+> +               struct {
+> +                       __u8    cmd[0];
+> +               } big;
+>         };
+> -       __u64   __pad2[1];
+> -
+> -       /*
+> -        * If the ring is initialized with IORING_SETUP_SQE128, then this field
+> -        * contains 64-bytes of padding, doubling the size of the SQE.
+> -        */
+> -       __u64   __big_sqe_pad[0];
+>  };
+>
+>  enum {
 
-clang tested configs:
-riscv                randconfig-c006-20220428
-mips                 randconfig-c004-20220428
-x86_64                        randconfig-c007
-i386                          randconfig-c001
-arm                  randconfig-c002-20220428
-powerpc              randconfig-c003-20220428
-powerpc              randconfig-c003-20220501
-riscv                randconfig-c006-20220501
-mips                 randconfig-c004-20220501
-arm                  randconfig-c002-20220501
-riscv                randconfig-c006-20220429
-mips                 randconfig-c004-20220429
-arm                  randconfig-c002-20220429
-powerpc              randconfig-c003-20220429
-arm                       spear13xx_defconfig
-mips                   sb1250_swarm_defconfig
-arm                         shannon_defconfig
-mips                     loongson2k_defconfig
-arm                   milbeaut_m10v_defconfig
-powerpc                    ge_imp3a_defconfig
-mips                        workpad_defconfig
-arm                          collie_defconfig
-arm                        vexpress_defconfig
-arm                         palmz72_defconfig
-arm                       cns3420vb_defconfig
-powerpc                     tqm5200_defconfig
-riscv                    nommu_virt_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                  cavium_octeon_defconfig
-arm                          ep93xx_defconfig
-arm                        neponset_defconfig
-arm                          moxart_defconfig
-powerpc                 mpc832x_rdb_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                    mvme5100_defconfig
-powerpc                      ppc44x_defconfig
-arm                         s3c2410_defconfig
-arm                            mmp2_defconfig
-powerpc                      katmai_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                      walnut_defconfig
-arm                              alldefconfig
-mips                            e55_defconfig
-powerpc                  mpc885_ads_defconfig
-arm                         bcm2835_defconfig
-powerpc                    socrates_defconfig
-powerpc                        fsp2_defconfig
-powerpc                   microwatt_defconfig
-mips                       lemote2f_defconfig
-arm                       netwinder_defconfig
-mips                          ath25_defconfig
-x86_64                           allyesconfig
-mips                           ip28_defconfig
-mips                      maltaaprp_defconfig
-arm                            dove_defconfig
-powerpc                      pmac32_defconfig
-powerpc                     ksi8560_defconfig
-riscv                          rv32_defconfig
-mips                     cu1000-neo_defconfig
-arm                             mxs_defconfig
-powerpc                 linkstation_defconfig
-mips                malta_qemu_32r6_defconfig
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64               randconfig-a015-20220502
-x86_64               randconfig-a012-20220502
-x86_64               randconfig-a016-20220502
-x86_64               randconfig-a014-20220502
-x86_64               randconfig-a013-20220502
-x86_64               randconfig-a011-20220502
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220428
-hexagon              randconfig-r041-20220428
-riscv                randconfig-r042-20220428
-s390                 randconfig-r044-20220428
-hexagon              randconfig-r045-20220502
-riscv                randconfig-r042-20220502
-hexagon              randconfig-r041-20220502
-hexagon              randconfig-r045-20220501
-hexagon              randconfig-r041-20220501
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Joshi
 
