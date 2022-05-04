@@ -4,79 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FFDCC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 15:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B954DC433FE
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 15:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:To:From:References:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M1ynRfy64oEaE99W0U91GV/hoBams4/1nT+NWTxLCsQ=; b=1J2UpF3qcVCkyxDbxwqTPjhb2s
-	f6wmAXmvdRH9FiIjMH9qg/0JVuXI3pY8nXSG+QCEKuoceKWxk6KuKke1hcaXJU+q5AScgH3KFWKzi
-	ngVasULMRJIuj1YfKdYZHLW8r5fKnT/Mn2lX1bZzVZRD/AqD/aw1a1K9eFRsL4MBDeKEAWZ7uNsc/
-	DO0x3su48P2C7PQRwqPAKS0VAjo4CyFkb290kTCZXq3M7b0+9wJFZ8HOk/ZCENXdUaZMrJVCBt0Mq
-	CT/bivCqIqiRKGs9r+Vx1CluPLDiBh0XBlCk+rdXVU7RYndNKjVKyNPXgwwhyJIZtSVHp6Ns3QMTF
-	y3Q1ONqQ==;
+	bh=r48NN8K17+Vaycp2fcoUaY8PZRHqW5yBueK7iYcVfJY=; b=pELuSlg7+zfLhaAEx+MZ0Yrcxj
+	TboNcjOiHsqB9I8v1vK6+rkQRDgH5Dditok2k44hJwKGrAA9RrFAYEnfaaC/Qm1L1K+ElxRXMsGDe
+	K1hlFWBmoO4XBSmjL4y1CfrhEyHuCLNdlou9Tt1zpsKuCbyD9AAFwegWKQXnHMi6Joh9I3DZ23bu1
+	2FJt3r1t0bA0BqAJ/5DIQ/Z/C0U1a60I1v/sqeGIc1pfZ3CcmEcL3aGZ6JtJbCYTXfseyplVtnxpF
+	915w+1aq/7CEMMY5/v3QCvj86JONnade780GpJW4oFTHAPb854RpsNPpztADeWL5jB5Pfv6sGvExD
+	uWLX6faA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmzU3-003wUY-62; Fri, 06 May 2022 15:03:07 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nmzU8-003wWi-3J; Fri, 06 May 2022 15:03:12 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmILW-00BnUm-Dt
- for linux-nvme@lists.infradead.org; Wed, 04 May 2022 16:59:28 +0000
+ id 1nmIPq-00Bp0i-RD
+ for linux-nvme@lists.infradead.org; Wed, 04 May 2022 17:03:56 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 05D4C1F38D;
- Wed,  4 May 2022 16:59:24 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 54385210E6;
+ Wed,  4 May 2022 17:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651683564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1651683831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M1ynRfy64oEaE99W0U91GV/hoBams4/1nT+NWTxLCsQ=;
- b=VZGykHrH9PSSMgqK3hTmF/6zr3BJ3r3B/lG2XoRcFarNlsb/YW5bqy8ilEs97wwjL1s/by
- uQWFvneQbmtBuHorjcpfFghMBC+GVahCikUCeLwl0TDEWnUgTGGGbzLXWJfq6GdAZHyoAa
- +0itVKDGQrfcvFgmZECSat5xUndy+s4=
+ bh=r48NN8K17+Vaycp2fcoUaY8PZRHqW5yBueK7iYcVfJY=;
+ b=u0Oe4gfc1OhFZsT1UUyMuMt08draDSwEqD3AdD9jt9/qwYg9acWkqsrrpzW0WvJ4UDM6lE
+ fFO3SASX2LtgEe4r0IVMUg78LBBRhVHEBvaFggznA1XDSGAr3gl99IR6AeUBYaOZFdVTnh
+ MsqkFs2WaX9f9VkewxprCasGCDulyqU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651683564;
+ s=susede2_ed25519; t=1651683831;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M1ynRfy64oEaE99W0U91GV/hoBams4/1nT+NWTxLCsQ=;
- b=elgT1gUr+0HktGbv9ZyMUBY/unTN/FjM/WgdHkUif2R6BqksXsKIK/Md76HAEnamyrrTjH
- k6sfByfmM6Ww0uAw==
+ bh=r48NN8K17+Vaycp2fcoUaY8PZRHqW5yBueK7iYcVfJY=;
+ b=WL7Mwjzvc7qZd7CxcdYyzSZtHL135g1bMXjbrTJTi51amF5aezAaa5HJ0UGqmtv/m5zq6L
+ MC+BAh7W/YAJU5Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6239E131BD;
- Wed,  4 May 2022 16:59:18 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3897131BD;
+ Wed,  4 May 2022 17:03:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jR9TC+awcmJ8VgAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 04 May 2022 16:59:18 +0000
-Message-ID: <c76334a9-3d10-ed3c-f4d1-d856f67928e6@suse.de>
-Date: Wed, 4 May 2022 09:59:15 -0700
+ by imap2.suse-dmz.suse.de with ESMTPSA id Ob9+GvGxcmJMWAAAMHmgww
+ (envelope-from <hare@suse.de>); Wed, 04 May 2022 17:03:45 +0000
+Message-ID: <6a1c06e8-bedd-47b0-2a3f-9c51468fc029@suse.de>
+Date: Wed, 4 May 2022 10:03:43 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 04/16] block: allow blk-zoned devices to have
- non-power-of-2 zone size
+Subject: Re: [PATCH 05/16] nvme: zns: Allow ZNS drives that have
+ non-power_of_2 zone size
 Content-Language: en-US
 References: <20220427160255.300418-1-p.raghav@samsung.com>
- <CGME20220427160300eucas1p1470fe30535849de6204bb78d7083cb3a@eucas1p1.samsung.com>
- <20220427160255.300418-5-p.raghav@samsung.com>
+ <CGME20220427160301eucas1p147d0dced70946e20dd2dd046b94b8224@eucas1p1.samsung.com>
+ <20220427160255.300418-6-p.raghav@samsung.com>
 From: Hannes Reinecke <hare@suse.de>
 To: undisclosed-recipients: ;
-In-Reply-To: <20220427160255.300418-5-p.raghav@samsung.com>
+In-Reply-To: <20220427160255.300418-6-p.raghav@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220504_095926_682695_03BBE849 
-X-CRM114-Status: GOOD (  25.18  )
+X-CRM114-CacheID: sfid-20220504_100355_060982_763E4E54 
+X-CRM114-Status: GOOD (  20.08  )
 X-Mailman-Approved-At: Fri, 06 May 2022 08:02:49 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -93,77 +93,65 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 4/27/22 09:02, Pankaj Raghav wrote:
-> Convert the calculations on zone size to be generic instead of relying on
-> power_of_2 based logic in the block layer using the helpers wherever
-> possible.
+> Remove the condition which disallows non-power_of_2 zone size ZNS drive
+> to be updated and use generic method to calculate number of zones
+> instead of relying on log and shift based calculation on zone size.
 > 
-> The only hot path affected by this change for power_of_2 zoned devices
-> is in blk_check_zone_append() but the effects should be negligible as the
-> helper blk_queue_zone_aligned() optimizes the calculation for those
-> devices. Note that the append path cannot be accessed by direct raw access
-> to the block device but only through a filesystem abstraction.
-> 
-> Finally, remove the check for power_of_2 zone size requirement in
-> blk-zoned.c
+> The power_of_2 calculation has been replaced directly with generic
+> calculation without special handling. Both modified functions are not
+> used in hot paths, they are only used during initialization &
+> revalidation of the ZNS device.
 > 
 > Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 > Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 > ---
->   block/blk-core.c  |  3 +--
->   block/blk-zoned.c | 12 ++++++------
->   2 files changed, 7 insertions(+), 8 deletions(-)
+>   drivers/nvme/host/zns.c | 11 ++---------
+>   1 file changed, 2 insertions(+), 9 deletions(-)
 > 
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 937bb6b86331..850caf311064 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -634,8 +634,7 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
->   		return BLK_STS_NOTSUPP;
+> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+> index 9f81beb4df4e..2087de0768ee 100644
+> --- a/drivers/nvme/host/zns.c
+> +++ b/drivers/nvme/host/zns.c
+> @@ -101,13 +101,6 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
+>   	}
 >   
->   	/* The bio sector must point to the start of a sequential zone */
-> -	if (pos & (blk_queue_zone_sectors(q) - 1) ||
-> -	    !blk_queue_zone_is_seq(q, pos))
-> +	if (!blk_queue_zone_aligned(q, pos) || !blk_queue_zone_is_seq(q, pos))
->   		return BLK_STS_IOERR;
+>   	ns->zsze = nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze));
+> -	if (!is_power_of_2(ns->zsze)) {
+> -		dev_warn(ns->ctrl->device,
+> -			"invalid zone size:%llu for namespace:%u\n",
+> -			ns->zsze, ns->head->ns_id);
+> -		status = -ENODEV;
+> -		goto free_data;
+> -	}
 >   
->   	/*
-> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-> index 1dff4a8bd51d..f7c7c3bd148d 100644
-> --- a/block/blk-zoned.c
-> +++ b/block/blk-zoned.c
-> @@ -288,10 +288,10 @@ int blkdev_zone_mgmt(struct block_device *bdev, enum req_opf op,
->   		return -EINVAL;
+>   	blk_queue_set_zoned(ns->disk, BLK_ZONED_HM);
+>   	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+> @@ -129,7 +122,7 @@ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
+>   				   sizeof(struct nvme_zone_descriptor);
 >   
->   	/* Check alignment (handle eventual smaller last zone) */
-> -	if (sector & (zone_sectors - 1))
-> +	if (!blk_queue_zone_aligned(q, sector))
->   		return -EINVAL;
+>   	nr_zones = min_t(unsigned int, nr_zones,
+> -			 get_capacity(ns->disk) >> ilog2(ns->zsze));
+> +			 div64_u64(get_capacity(ns->disk), ns->zsze));
 >   
-> -	if ((nr_sectors & (zone_sectors - 1)) && end_sector != capacity)
-> +	if (!blk_queue_zone_aligned(q, nr_sectors) && end_sector != capacity)
->   		return -EINVAL;
->   
->   	/*
-> @@ -489,14 +489,14 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
->   	 * smaller last zone.
->   	 */
->   	if (zone->start == 0) {
-> -		if (zone->len == 0 || !is_power_of_2(zone->len)) {
-> -			pr_warn("%s: Invalid zoned device with non power of two zone size (%llu)\n",
-> -				disk->disk_name, zone->len);
-> +		if (zone->len == 0) {
-> +			pr_warn("%s: Invalid zoned device size",
-> +				disk->disk_name);
->   			return -ENODEV;
->   		}
->   
->   		args->zone_sectors = zone->len;
-> -		args->nr_zones = (capacity + zone->len - 1) >> ilog2(zone->len);
-> +		args->nr_zones = div64_u64(capacity + zone->len - 1, zone->len);
+Same here; please add a helper calculating the number of zones for a 
+given disk.
 
-This is a different calculation than the one you're using in the first 
-patch. Can you please add a helper such that both are using the same 
-calculation?
+>   	bufsize = sizeof(struct nvme_zone_report) +
+>   		nr_zones * sizeof(struct nvme_zone_descriptor);
+> @@ -197,7 +190,7 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+>   	c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
+>   	c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
+>   
+> -	sector &= ~(ns->zsze - 1);
+> +	sector = rounddown(sector, ns->zsze);
+>   	while (zone_idx < nr_zones && sector < get_capacity(ns->disk)) {
+>   		memset(report, 0, buflen);
+>   
+Please be a bit more consistent. In the previous patches you always had 
+a condition to check if it's a power_of_2 zone size, but here you are 
+using the same calculation for each disk.
+So please use the check in all locations, or add a comment why the 
+generic calculation is okay to use here.
 
 Cheers,
 
