@@ -4,76 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29E33C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 May 2022 08:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ECA1C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 May 2022 08:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3UF0+u4rgNSoSqS7hjmT0XqUFhNn3b8DMHbYypNxQJo=; b=PTysVhRgkm/DramSMQhgTUXeNP
-	lDR6nCs+te0HtZ8mvlHatWH3GZ+JjRdxIz3x31AeZvTT9qeTHwmDw1OIWN1gZAL9mXEe+hKC5sdRo
-	4lnW641asX8JJydJKKFy14lj63s4HXYKfk7BCpg1P7U5Aa5WDEP5ThYnbTnWKd4wcyNJWYHsNBCz7
-	1JyHu4RFmiNMTb+3DsLqgmD7+YxKMhjWCHCzNhFj/vaJsPAVW/uphGVpUeQUHyjQsZ7Iie1YE/vPp
-	0aJozuAa/TJfSgvlC6DBwvRQfesyNiQ0Noz9A7LBtUg0BY7MN2mdVXk2JT9JgKwe9e9pVHuFzi/6Z
-	POxSqLeQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=dRT7i+B2Yov3mR9oGnGvAueqIkGXxxHVKRrgzcNI3cU=; b=JoWDrWmI7QnqS6
+	zPpzvfrLj3yHLf30J2g2BcbtmF144Fe4LpAZkBbdoO7tKmkjixpq9eWA4RQgthv5Hl8OSkNYGAHp9
+	wA79gEA9HPQwS4qFJmM39oVrIOQ73PMvg7O/kxM2KfTuL1nh0ekDg5Cvv8sDRVwsxO5rsKgXNpfKJ
+	+JYthSuHykYlvgM6UeGyyDHM5S7XLoNRoKntJbiBanpBi8KPgSi9mEoUjz+lBXB9tOeWYG/YI5J4L
+	feLxbq8V3daUIZBtcItqV8/PgqcjTnIw3hYOy4Pa8hQs70BcAUciSnPRS2UPyTYuSqJBokLvVRh8N
+	Md4Xt51r7aozvFcjgOdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmA8a-009R52-RC; Wed, 04 May 2022 08:13:32 +0000
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
+	id 1nmATl-009a6b-Fq; Wed, 04 May 2022 08:35:25 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmA8X-009Qzb-NS
- for linux-nvme@lists.infradead.org; Wed, 04 May 2022 08:13:31 +0000
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-edf3b6b0f2so93302fac.9
- for <linux-nvme@lists.infradead.org>; Wed, 04 May 2022 01:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3UF0+u4rgNSoSqS7hjmT0XqUFhNn3b8DMHbYypNxQJo=;
- b=B4CgaTkgbgOKNEW7G8xWkJgvHi0knKqnnYhXVFCDfv2vqcC6ffMaxfMoQUWh+NmYMI
- VU+p8OM7JGXIhrfcOxbFBrwT7Ru0kfZkqOdRmv7d/w9GOkyJiG+RblWwGtVAxediEVLv
- iL4djUXWHxJCpkp3+7VUHEz5hyrkQj+Ydk5bcWaCzrmYGNkrvyAcdhwwWA1JYXfxTIuL
- TtnnHHaCIt8Yo+buGJejE20l5BYe3aLWjrjeukk6SWYUDu245JEpW4+WqpwysgjCe6qH
- cihgmlIs/qLpxSN5C42a4HI9BhOZDQPNFMiS0maK4UcIiniMY6F/lse/biP3DkHTYwWB
- 44Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3UF0+u4rgNSoSqS7hjmT0XqUFhNn3b8DMHbYypNxQJo=;
- b=xavScXKXDMr3LD/47LcW3RoYmYYCSyCHSb2ON19PAjmi1TEbXgRAKZqwb/uST4QFCz
- ffnmtBW+XuwXaRT2xQZeyeHGFw/qhJxujYSHBLmaM3qHgHVAcRy+2HELHqxxuG6AQ8Yt
- ZT1UnYrRZoxMHmGxJyIY1KEyjomk7ia/zhq2uWAsPM34kLbtXkcRmW8Y2KZDjqNyfexS
- GpWLJkQ7HVB+/Jz//lIIt+aCmxaz91IC86RUJMoInqQRFaRTjkq/fxL6PE3IE2XistiB
- WUTGDwzxKkqMeFkQzRDPfhlsgHxhEdveYcdSrbuJlvbW53w6nc/1+AkzLdcftmKkabQ/
- HQmA==
-X-Gm-Message-State: AOAM533uoJ6j84C7yuHjtTj+xvLEkKWC+dsDtwYaQt+/ATc2/ZeF2AQS
- pYlvzfu/yet4LpdU7hSbd5FaXili31O+erTKpfA=
-X-Google-Smtp-Source: ABdhPJye4VI9R7vY+bqkutt48/zBg8L+cudqX5CVp4PX3mqN3OPQKONhvddwmfrrp5yI67PGh2pKozw+26e1Qz89OpM=
-X-Received: by 2002:a05:6870:c392:b0:e9:f20:fa8a with SMTP id
- g18-20020a056870c39200b000e90f20fa8amr3198866oao.15.1651651989729; Wed, 04
- May 2022 01:13:09 -0700 (PDT)
+ id 1nmATg-009ZyT-Aw
+ for linux-nvme@lists.infradead.org; Wed, 04 May 2022 08:35:23 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220504083509euoutp01bc334c58cac23d05471cc30e2cfa615d~r2e8pTAhS3075030750euoutp01F
+ for <linux-nvme@lists.infradead.org>; Wed,  4 May 2022 08:35:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220504083509euoutp01bc334c58cac23d05471cc30e2cfa615d~r2e8pTAhS3075030750euoutp01F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1651653309;
+ bh=dRT7i+B2Yov3mR9oGnGvAueqIkGXxxHVKRrgzcNI3cU=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=dK2hgskREF92TYEpkqKsDjmkEjYwPK7wzzP1oiVva6bhCt79G74yWIFfuFfHSrERf
+ fdgw42C1GDIKRj1T8l+6mqOTjxQ64hGvvb5aOLVawjptknwzmOiEqKcAN68byJrlMZ
+ 1QYABbNq2ARnlq98jANcweeMCqJlFE72UlInrMxU=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220504083509eucas1p1bf302755e2c37837eba93e0b599d169b~r2e8Q2IW10045900459eucas1p1g;
+ Wed,  4 May 2022 08:35:09 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id A3.F1.10260.DBA32726; Wed,  4
+ May 2022 09:35:09 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220504083508eucas1p2b13cd91f8b71fcf1a929d098c710ed9e~r2e7a28PG0925109251eucas1p2Z;
+ Wed,  4 May 2022 08:35:08 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220504083508eusmtrp1cf71a20db9e2f38cdbb8f13ea104ef26~r2e7ZXh5Y3254032540eusmtrp1W;
+ Wed,  4 May 2022 08:35:08 +0000 (GMT)
+X-AuditID: cbfec7f5-bddff70000002814-a9-62723abdce8d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id B3.74.09404.CBA32726; Wed,  4
+ May 2022 09:35:08 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220504083508eusmtip2e7e8bbafdd96bdd30b9c5ab3df5cab58~r2e7M-lMY2662026620eusmtip2R;
+ Wed,  4 May 2022 08:35:08 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.170) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 4 May 2022 09:35:05 +0100
+Message-ID: <a55665f1-26ae-c19f-5e2e-cf733e8f7fef@samsung.com>
+Date: Wed, 4 May 2022 10:35:04 +0200
 MIME-Version: 1.0
-References: <20220503184831.78705-1-p.raghav@samsung.com>
- <CGME20220503184912eucas1p1bb0e3d36c06cfde8436df3a45e67bd32@eucas1p1.samsung.com>
- <20220503184831.78705-2-p.raghav@samsung.com> <20220503205202.GA9567@lst.de>
-In-Reply-To: <20220503205202.GA9567@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Wed, 4 May 2022 08:12:44 -0700
-Message-ID: <CA+1E3rKe6G8UC9Pzkm4Wbu50X=TT5tise8g6umduhj1eTbN0+w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] fs,io_uring: add infrastructure for uring-cmd
-To: Christoph Hellwig <hch@lst.de>
-Cc: Pankaj Raghav <p.raghav@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- io-uring@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Pavel Begunkov <asml.silence@gmail.com>, 
- Ming Lei <ming.lei@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Stefan Roesch <shr@fb.com>, 
- gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 01/16] block: make blkdev_nr_zones and blk_queue_zone_no
+ generic for npo2 zsze
+Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>, <jaegeuk@kernel.org>,
+ <axboe@kernel.dk>, <snitzer@kernel.org>, <hch@lst.de>, <mcgrof@kernel.org>,
+ <naohiro.aota@wdc.com>, <sagi@grimberg.me>,
+ <damien.lemoal@opensource.wdc.com>, <dsterba@suse.com>,
+ <johannes.thumshirn@wdc.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <clm@fb.com>, <gost.dev@samsung.com>, <chao@kernel.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <josef@toxicpanda.com>,
+ <jonathan.derrick@linux.dev>, <agk@redhat.com>, <kbusch@kernel.org>,
+ <kch@nvidia.com>, <linux-nvme@lists.infradead.org>, <dm-devel@redhat.com>,
+ <jiangbo.365@bytedance.com>, <linux-fsdevel@vger.kernel.org>,
+ <matias.bjorling@wdc.com>, <linux-block@vger.kernel.org>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <3a178153-62c0-e298-ccb0-0edfd41b7ee2@acm.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [106.210.248.170]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf1CTdRzm+77v3r0swZch8Y15dAf5RxoYRd330kxOjff6ddbxR5d3wYA3
+ 4IBJGwuVQ0b80CHKZE5lWDOxRKyWwLYAh7ZwDDYcASOaSnGCFsmAQwgaSIwXO/57Ps/nee77
+ PJ/7UrjQQIZRGZJcVioRZ0WQAsJonXdGmV+TJr/4s5pA+i4rjq7crSTR6cl5HNk13RiqqjzL
+ R95uJ47Mnhoe6pkrwtDlKzcxNKLX4qjixiSBFsuHlrmSYRwtDMegKssAQKMuLYbM7i2o914d
+ H/VeiEfXzJ0E6ms5RyLdN6N8pCqbwdGgahSgkx2NPPT93xMEsrlFO0VMX//bzGPbtyRzstjD
+ Z5xDVwmmr1vONNQrSeYrhQZnGi8WMq3npzGm9TcFyRwv9pBMc+nvPGaizUUy+iYXwagar/KY
+ 6YbwvUEfCbanslkZn7HSrTuSBOl3R+7gOT3rD7g09XwF+CKgHPhTkI6F+ul2ohwIKCFdB+B4
+ 9zWSGx4BOHuujc8N0wBe/vIh/4nFNKDGuMUlAO3tJt7/qt4/P1+1tAA4o3GQPksAvQM6um6v
+ YIJ+DnYcO4NzfBDsrB4hfDiE/hCe1vr0FBVMp0K3Lc5H43QodI/oVl7bQJ/CoFl1D/cNON2D
+ w6VHg3yfgaQ3wyLlSjx/ehusnKgmOfPzsNTk5XP4WVhsqMG5CpFQPdiPcbgAfmd1rISG9B8C
+ qFjUrop2Q/vxrlUcDMc6mlb7b4R2dQXB4Xw4OujFOXMJgJXN+pUGcDnFCUcWp4mDinbDKh0I
+ B8eDuDyBsMp4BleBTdo1p9Cu6axdU0G7psJ5QNSDUFYuy05jZS9L2LxomThbJpekRafsz24A
+ yz/b/rhj5kdQNzYVbQEYBSwAUnjEhoBdX+ckCwNSxQcPsdL9iVJ5FiuzABFFRIQGpGT8IBbS
+ aeJcNpNlc1jpky1G+YcpMNOlj9vuJ8SJVZnbk4zrw73ZT3tefzA5kBCWsNXxQUNiW6A73bvH
+ XDZnPYblOF9lbJ1+zW+oKgxHdLPzpve3bUoEvyZlW235Uy9Z5LE1JZ+EHdbYDoQcuX5zLEaX
+ utAUWTurGj+MTb638SedekskdTQzN6U646kTJQ9KQ3bXA9ettxDvlbJ/34zfM2aIdCtB88Ls
+ cGCNsr/6AjqUH9IerN0VPhFb/I/4zjOVt/Naat21n1pu+YfPLb4z9K6zNccjKTQaXb/U7VsX
+ VWS5rjT4iYb3FoRenMqMWso1EWcfLimXzImiG4XxXv+8gt51B4/et+sEQstA8guu/L8cLpff
+ zox9EYQsXRyzGZfKxP8BTb8GHEgEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsVy+t/xe7p7rIqSDO58YrdYf+oYs8Xqu/1s
+ FtM+/GS2OD31LJPFpP4Z7Ba/z55nttj7bjarxYUfjUwWK1cfZbJ4sn4Ws0XPgQ8sFn+77gHF
+ Wh4yW/x5aGgx6dA1RounV2cxWey9pW1x6fEKdotLi9wt9uw9yWJxedccNov5y56yW0xo+8ps
+ cWPCU0aLicc3s1qse/2exeLELWkHaY/LV7w9/p1Yw+Yxsfkdu8f5extZPC6fLfXYtKqTzWNh
+ w1Rmj81L6j12L/jM5LH7ZgObR2/zOzaPna33WT3e77vK5rF+y1UWjwmbN7J6fN4kFyAYpWdT
+ lF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqkb2eTkpqTWZZapG+XoJdx98kd5oIL
+ /BVXp65ib2Ccy9vFyMkhIWAisf3aZKYuRi4OIYGljBK3Js1lhUjISHy68pEdwhaW+HOtiw2i
+ 6COjxMze+cwQzi5GicPfbjOCVPEK2EmcOXWbDcRmEVCRON49nRkiLihxcuYTFhBbVCBC4sHu
+ s0AbODiEBVIkbp1wBAkzC4hL3HoyH+wKEYEpTBJ7JzwGW8AscIFZ4v+XG+wQ2z4wSvxbdpsF
+ pJtNQEuisRPsPE4Ba4n+9zPZICZpSrRu/80OYctLNG+dzQzxgrLE5BtXmCDsWolX93czTmAU
+ nYXkvllIDpmFZNQsJKMWMLKsYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECEx024793LKDceWr
+ j3qHGJk4GA8xSnAwK4nwOi8tSBLiTUmsrEotyo8vKs1JLT7EaAoMpInMUqLJ+cBUm1cSb2hm
+ YGpoYmZpYGppZqwkzutZ0JEoJJCeWJKanZpakFoE08fEwSnVwLRa1t7kd9eegNsCFdISYmUm
+ 9WmGrxVPBwjoNdfaR/Oe4550+JKWszP/ru4PizX6LY/8UbnpnnzgrP9sjSiOYLP/J3a2Nqdv
+ 27jBPlnJ/nRqtf+elTwv9JZoHVt5nz32dOahKfMe9504dW3738Kn9epn7+dbz05zuceWLLL5
+ /2oplX9/3eM2Xd+QXdq3PZFf2ej6/aqfVTHX7tnzVJbsXa62TeWVZWu/+XuxArPfu5xefC2V
+ 9bs/fY1R45vwVVHmJ5yvNLNOdQzvF3ETuqL26+XLit+sNxRiN/slCvx7WiMXmKBl/eLIq8Si
+ KoGJ+rPn+5WveXx+Z5RxfphXsCDvB46aTMH+afozv4luUmJeq8RSnJFoqMVcVJwIAKUYqwP9
+ AwAA
+X-CMS-MailID: 20220504083508eucas1p2b13cd91f8b71fcf1a929d098c710ed9e
+X-Msg-Generator: CA
+X-RootMTR: 20220427160257eucas1p21fb58d0129376a135fdf0b9c2fe88895
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220427160257eucas1p21fb58d0129376a135fdf0b9c2fe88895
+References: <20220427160255.300418-1-p.raghav@samsung.com>
+ <CGME20220427160257eucas1p21fb58d0129376a135fdf0b9c2fe88895@eucas1p2.samsung.com>
+ <20220427160255.300418-2-p.raghav@samsung.com>
+ <3a178153-62c0-e298-ccb0-0edfd41b7ee2@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220504_011329_817024_D016BEC2 
-X-CRM114-Status: GOOD (  37.98  )
+X-CRM114-CacheID: sfid-20220504_013520_675112_1FCFCA4A 
+X-CRM114-Status: GOOD (  15.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,230 +156,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 3, 2022 at 1:52 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> This mostly looks good, but a few comments an an (untested) patch
-> to fix these complaints below:
->
-> > +struct io_uring_cmd {
-> > +     struct file     *file;
-> > +     void            *cmd;
-> > +     /* for irq-completion - if driver requires doing stuff in task-context*/
-> > +     void (*driver_cb)(struct io_uring_cmd *cmd);
->
-> I'd rename this task_Work_cb or similar, as driver is not very
-> meaningful.
->
-> > +     u32             flags;
-> > +     u32             cmd_op;
-> > +     u32             unused;
-> > +     u8              pdu[28]; /* available inline for free use */
->
-> The unused field here is not only unused, but also messed up the
-> alignment so that any pointer in pdu will not be properly aligned
-> on 64-bit platforms and tjus might cause crashes on some platforms.
+On 2022-05-03 18:37, Bart Van Assche wrote:
+>>       sector_t zone_sectors = blk_queue_zone_sectors(disk->queue);
+>> +    sector_t capacity = get_capacity(disk);
+>>         if (!blk_queue_is_zoned(disk->queue))
+>>           return 0;
+>> -    return (get_capacity(disk) + zone_sectors - 1) >>
+>> ilog2(zone_sectors);
+>> +
+>> +    if (is_power_of_2(zone_sectors))
+>> +        return (capacity + zone_sectors - 1) >>
+>> +               ilog2(zone_sectors);
+>> +
+>> +    return div64_u64(capacity + zone_sectors - 1, zone_sectors);
+>>   }
+>>   EXPORT_SYMBOL_GPL(blkdev_nr_zones);
+> 
+> Does anyone need support for more than 4 billion sectors per zone? If
+> not, do_div() should be sufficient.
+> 
+You are absolutely right but blk_queue_zone_sectors explicitly changed
+the return type to uint32_t to sector_t in this commit:
+'113ab72  block: Fix potential overflow in blk_report_zones()'.
 
-Indeed, thanks. Since we are going to remove that, we can give that
-space to pdu for now i.e. pdu[32].This will help in removing "packed"
-attribute in nvme pdu (which is 32 bytes without packing).
-
-> For now we can just remove it, but I really want to get rid of the pdu
-> thing that causes these problems, but I will not hold the series off for
-> that and plan to look into that later.
-> Also a lot of the fields here were using spaces instead of tabs for
-> indentation.
->
-> >       union {
-> >               __u64   addr;   /* pointer to buffer or iovecs */
-> >               __u64   splice_off_in;
-> > +             __u16   cmd_len;
-> >       };
->
-> This field isn't actually used and can be removed.
->
-> >       __u32   len;            /* buffer size or number of iovecs */
-> >       union {
-> > @@ -61,7 +63,10 @@ struct io_uring_sqe {
-> >               __s32   splice_fd_in;
-> >               __u32   file_index;
-> >       };
-> > -     __u64   addr3;
-> > +     union {
-> > +             __u64   addr3;
-> > +             __u64   cmd;
-> > +     };
-> >       __u64   __pad2[1];
->
-> The way how the tail of the structure is handled here is a mess.  I
-> think something like a union of two structs for the small and large
-> case would be much better, so that cmd can be the actual array for
-> the data that can be used directly and without the nasty cast (that
-> also casted away the constness):
->
-> diff --git a/fs/io_uring.c b/fs/io_uring.c
-> index b774e6eac5384..fe24d606ca306 100644
-> --- a/fs/io_uring.c
-> +++ b/fs/io_uring.c
-> @@ -4544,7 +4544,7 @@ static int io_getxattr_prep(struct io_kiocb *req,
->         if (ret)
->                 return ret;
->
-> -       path = u64_to_user_ptr(READ_ONCE(sqe->addr3));
-> +       path = u64_to_user_ptr(READ_ONCE(sqe->small.addr3));
->
->         ix->filename = getname_flags(path, LOOKUP_FOLLOW, NULL);
->         if (IS_ERR(ix->filename)) {
-> @@ -4645,7 +4645,7 @@ static int io_setxattr_prep(struct io_kiocb *req,
->         if (ret)
->                 return ret;
->
-> -       path = u64_to_user_ptr(READ_ONCE(sqe->addr3));
-> +       path = u64_to_user_ptr(READ_ONCE(sqe->small.addr3));
->
->         ix->filename = getname_flags(path, LOOKUP_FOLLOW, NULL);
->         if (IS_ERR(ix->filename)) {
-> @@ -4909,15 +4909,15 @@ static int io_linkat(struct io_kiocb *req, unsigned int issue_flags)
->
->  static void io_uring_cmd_work(struct io_kiocb *req, bool *locked)
->  {
-> -       req->uring_cmd.driver_cb(&req->uring_cmd);
-> +       req->uring_cmd.task_work_cb(&req->uring_cmd);
->  }
->
->  void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> -                       void (*driver_cb)(struct io_uring_cmd *))
-> +                       void (*task_work_cb)(struct io_uring_cmd *))
->  {
->         struct io_kiocb *req = container_of(ioucmd, struct io_kiocb, uring_cmd);
->
-> -       req->uring_cmd.driver_cb = driver_cb;
-> +       req->uring_cmd.task_work_cb = task_work_cb;
->         req->io_task_work.func = io_uring_cmd_work;
->         io_req_task_work_add(req, !!(req->ctx->flags & IORING_SETUP_SQPOLL));
->  }
-> @@ -4949,7 +4949,7 @@ static int io_uring_cmd_prep(struct io_kiocb *req,
->                 return -EOPNOTSUPP;
->         if (!(req->ctx->flags & IORING_SETUP_CQE32))
->                 return -EOPNOTSUPP;
-> -       ioucmd->cmd = (void *) &sqe->cmd;
-> +       ioucmd->cmd = sqe->big.cmd;
->         ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
->         ioucmd->flags = 0;
->         return 0;
-> @@ -12735,7 +12735,7 @@ static int __init io_uring_init(void)
->         BUILD_BUG_SQE_ELEM(42, __u16,  personality);
->         BUILD_BUG_SQE_ELEM(44, __s32,  splice_fd_in);
->         BUILD_BUG_SQE_ELEM(44, __u32,  file_index);
-> -       BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
-> +       BUILD_BUG_SQE_ELEM(48, __u64,  small.addr3);
->
->         BUILD_BUG_ON(sizeof(struct io_uring_files_update) !=
->                      sizeof(struct io_uring_rsrc_update));
-> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
-> index a4ff4696cbead..7274884859910 100644
-> --- a/include/linux/io_uring.h
-> +++ b/include/linux/io_uring.h
-> @@ -13,20 +13,19 @@ enum io_uring_cmd_flags {
->  };
->
->  struct io_uring_cmd {
-> -       struct file     *file;
-> -       void            *cmd;
-> -       /* for irq-completion - if driver requires doing stuff in task-context*/
-> -       void (*driver_cb)(struct io_uring_cmd *cmd);
-> -       u32             flags;
-> -       u32             cmd_op;
-> -       u32             unused;
-> +       struct file     *file;
-> +       const u8        *cmd;
-> +       /* callback to defer completions to task context */
-> +       void (*task_work_cb)(struct io_uring_cmd *cmd);
-> +       u32             flags;
-> +       u32             cmd_op;
->         u8              pdu[28]; /* available inline for free use */
->  };
->
->  #if defined(CONFIG_IO_URING)
->  void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret, ssize_t res2);
->  void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> -                       void (*driver_cb)(struct io_uring_cmd *));
-> +                       void (*task_work_cb)(struct io_uring_cmd *));
->  struct sock *io_uring_get_socket(struct file *file);
->  void __io_uring_cancel(bool cancel_all);
->  void __io_uring_free(struct task_struct *tsk);
-> @@ -56,7 +55,7 @@ static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret,
->  {
->  }
->  static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> -                       void (*driver_cb)(struct io_uring_cmd *))
-> +                       void (*task_work_cb)(struct io_uring_cmd *))
->  {
->  }
->  static inline struct sock *io_uring_get_socket(struct file *file)
-> diff --git a/include/trace/events/io_uring.h b/include/trace/events/io_uring.h
-> index 630982b3c34c5..b1f64c2412935 100644
-> --- a/include/trace/events/io_uring.h
-> +++ b/include/trace/events/io_uring.h
-> @@ -539,8 +539,8 @@ TRACE_EVENT(io_uring_req_failed,
->                 __entry->buf_index      = sqe->buf_index;
->                 __entry->personality    = sqe->personality;
->                 __entry->file_index     = sqe->file_index;
-> -               __entry->pad1           = sqe->__pad2[0];
-> -               __entry->addr3          = sqe->addr3;
-> +               __entry->addr3          = sqe->small.addr3;
-> +               __entry->pad1           = sqe->small.__pad2[0];
->                 __entry->error          = error;
->         ),
->
-> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-> index c081511119bfa..bd4221184f594 100644
-> --- a/include/uapi/linux/io_uring.h
-> +++ b/include/uapi/linux/io_uring.h
-> @@ -27,7 +27,6 @@ struct io_uring_sqe {
->         union {
->                 __u64   addr;   /* pointer to buffer or iovecs */
->                 __u64   splice_off_in;
-> -               __u16   cmd_len;
->         };
->         __u32   len;            /* buffer size or number of iovecs */
->         union {
-> @@ -64,16 +63,19 @@ struct io_uring_sqe {
->                 __u32   file_index;
->         };
->         union {
-> -               __u64   addr3;
-> -               __u64   cmd;
-> +               struct {
-> +                       __u64   addr3;
-> +                       __u64   __pad2[1];
-> +               } small;
-
-Thinking if this can cause any issue for existing users of addr3, i.e.
-in the userspace side? Since it needs to access this field with
-small.addr3.
-Jens - is xattr infra already frozen?
-
-> +               /*
-> +                * If the ring is initialized with IORING_SETUP_SQE128, then
-> +                * this field is used for 80 bytes of arbitrary command data.
-> +                */
-> +               struct {
-> +                       __u8    cmd[0];
-> +               } big;
->         };
-> -       __u64   __pad2[1];
-> -
-> -       /*
-> -        * If the ring is initialized with IORING_SETUP_SQE128, then this field
-> -        * contains 64-bytes of padding, doubling the size of the SQE.
-> -        */
-> -       __u64   __big_sqe_pad[0];
->  };
->
->  enum {
-
-
-
--- 
-Joshi
+I initially did have a do_div but later changed to div64_u64 to avoid
+any implicit down casting even though zone_sectors will be always
+limited to an unsigned int.
+>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>> index 60d016138997..c4e4c7071b7b 100644
+>> --- a/include/linux/blkdev.h
+>> +++ b/include/linux/blkdev.h
+>> @@ -665,9 +665,15 @@ static inline unsigned int
+>> blk_queue_nr_zones(struct request_queue *q)
+>>   static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+>>                            sector_t sector)
+>>   {
+>> +    sector_t zone_sectors = blk_queue_zone_sectors(q);
+>> +
+>>       if (!blk_queue_is_zoned(q))
+>>           return 0;
+>> -    return sector >> ilog2(q->limits.chunk_sectors);
+>> +
+>> +    if (is_power_of_2(zone_sectors))
+>> +        return sector >> ilog2(zone_sectors);
+>> +
+>> +    return div64_u64(sector, zone_sectors);
+>>   }
+> 
+> Same comment here.
+> 
+> Thanks,
+> 
+> Bart.
 
