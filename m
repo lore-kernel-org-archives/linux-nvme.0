@@ -4,88 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 342E0C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 May 2022 12:09:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F05EC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 May 2022 16:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WN26lsagJL4pdNyPEQ7HfFpD1NYMfhKOpFKAu+2HvXc=; b=v3piW2wbKt0VRVUXzW3RPW0Fm4
-	lNZErcYDOqQjsUFmSUlgQTf1d28/9mEcz10OBJBoFYfWmuQO5T0bf4yNU2yS8F8j2F3jCi+ek239v
-	j+XjEd1o29LGP+O/zmXWT6tWhpqgaG5ukpXAtnRutnny41+TMDCN65DAtwzBTXiRg1LCdtADZpQ2i
-	p0EsYJ90dKUyV0xCHy7+l+5+A3HQ/vKjb1Mlir05yWyN0/jeK74CJGIBxyy+FI/5WEP+LytxV3kKp
-	JARyO6eFiqTaCUQZuWRlmy9mkk1FrX/B8CLXpdo8ly6meCpz60qENS1EfAMr8OXz5JwAaU/iUfstR
-	jn4BPS2A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LYJwUlUF8ZxJo9Mv3pa0lACRom5VAPRqKYQve7bIw0s=; b=hBlQc5NHjc27wU8lymQaWFrcB/
+	8Nx3IwwDRhU67AmZgsKT6ZvuYOhjtoHBZuyBK7llPl+Rudsb86irZ4zVoA0KIpN84FQjMdIPiyYuq
+	ZS4ysuc05o3scwjiztPJo/mTYzDWqg4pmgGtzp/IR1ogPLzantD2qCMtlPpqJzuaXwDELlTds5WSn
+	9JNhACAAlJwtUMS+mq4tNTRMNqEesaf34YvgRqprUYXg+DLCoRiJEfdeByxjC4eRBRdg1WbH6RfxT
+	MNZV/yrJ6MMSyQZ6OfVjJbYXXPFnv1yG4VqSBxUIgNKptP49jUwa9jM15I81WXIJc/nDard5TxQHH
+	ipegiEOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmDpD-00Af2L-S2; Wed, 04 May 2022 12:09:47 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1nmHgk-00Bc8G-OX; Wed, 04 May 2022 16:17:18 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmDpA-00Af0P-Lr
- for linux-nvme@lists.infradead.org; Wed, 04 May 2022 12:09:46 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id
- t11-20020a17090ad50b00b001d95bf21996so5020307pju.2
- for <linux-nvme@lists.infradead.org>; Wed, 04 May 2022 05:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=WN26lsagJL4pdNyPEQ7HfFpD1NYMfhKOpFKAu+2HvXc=;
- b=eB+RA9Xn/HO7qvVXckDmKIxv3Rdk20fFxZXIJsbgSnU5xH11QlIbEk+41sSRfiGIYb
- 2nvMYN3XJZB6LOyjUWjkt7VOrYe2d7LS7aJFstRKrw3vqC/Oqclo21b2nvOg5itOwE7A
- ZDNy7cs9VaTmKQUCQM4TdYrN21zXtxmWPKdHQQCZTqQnQ+U0QHrw3XuoED2zq6aNxSNd
- 8wZajNjmxNv+5uEK9tmaV+jxKTHQAP26KDyjLr+7YJcBag7DYjVE8aiQV6ltpWAOjDjv
- upIuyuyU4KNewWXWIrN7VsA7foTz4EruCxYif6Tb7cNy1nAzX0pIH2NpQI3DYzM1k8S3
- trQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WN26lsagJL4pdNyPEQ7HfFpD1NYMfhKOpFKAu+2HvXc=;
- b=Jdc44O2AGC4slhgjXd6F0YVcA4gl77pPTHj6i5vveotV88fh7l9EVs6+md+0C1Nrqa
- MMir7wuUeZMT+5GXsMfbIA3Wg5PM4+2HGSyNSQUYQzalB3toiF6Wr68yKvFDSO5uZDCP
- OlKXdDJjybvE9S18OwKJSivjBvpZqzx2sNL5IPlfkTbcd4TcV5gXu3xEiQUWYWHlR4Lr
- TiFirUYC9l7iJ6XVZ2uLEQgwSd8Xm6CsRHgQN4tIfFxqpmTPfz4Znb8bgZG54koV9yHn
- 4XVt3opP5VvZXMdlX3upleRIzmDNCFRzbn9xFfVCliAWKUN2PmIpv+cMFUYXPScjYkao
- X9Hg==
-X-Gm-Message-State: AOAM533qBmQgHnez2MUIHBs9D1F/LMSI4byt0VonjNintj1OTn9NzMLq
- ixM0+T/He3RVjvwVEsXHDxrTjw==
-X-Google-Smtp-Source: ABdhPJyI9yHw5N7Z274pvOUBNLkDQslDEoywKffSOV3ZxsSOQ1SpbdjrK0LJm3PQ5VuOZ6r4UCKqPQ==
-X-Received: by 2002:a17:90b:4f92:b0:1cd:3a73:3a46 with SMTP id
- qe18-20020a17090b4f9200b001cd3a733a46mr10136443pjb.66.1651666182660; 
- Wed, 04 May 2022 05:09:42 -0700 (PDT)
-Received: from [192.168.4.166] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
- by smtp.gmail.com with ESMTPSA id
- p4-20020a1709028a8400b0015e8d4eb257sm8186529plo.161.2022.05.04.05.09.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 05:09:42 -0700 (PDT)
-Message-ID: <812fe134-3e69-294b-fd05-9a8366e17467@kernel.dk>
-Date: Wed, 4 May 2022 06:09:40 -0600
+ id 1nmHgf-00Bc5l-23
+ for linux-nvme@lists.infradead.org; Wed, 04 May 2022 16:17:14 +0000
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244DviXh026850
+ for <linux-nvme@lists.infradead.org>; Wed, 4 May 2022 09:17:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=LYJwUlUF8ZxJo9Mv3pa0lACRom5VAPRqKYQve7bIw0s=;
+ b=KcHLgJWSrYPCZK0utZVhpLaodhwtzlCexhljzzkwyQWOTlrjKsYDop4ZvQ9j3bli2rFU
+ foa+4SMeIqLguZqKGgvhlanAFPh1hy2uZ7WANyH3pa3DM4pCCZ+OWj21qMHD6L+xWQ0X
+ Njex+nvV+zlLBCXsfpBWfyp80LOJy/VWJL0= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3ft6ac1w4b-9
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Wed, 04 May 2022 09:17:08 -0700
+Received: from twshared29473.14.frc2.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 4 May 2022 09:17:07 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+ id B1CA63937F88; Wed,  4 May 2022 09:17:02 -0700 (PDT)
+From: Keith Busch <kbusch@fb.com>
+To: <linux-nvme@lists.infradead.org>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [Please Ignore] this is only a test
+Date: Wed, 4 May 2022 09:16:24 -0700
+Message-ID: <20220504161624.825406-1-kbusch@fb.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 1/5] fs,io_uring: add infrastructure for uring-cmd
-Content-Language: en-US
-To: Kanchan Joshi <joshiiitr@gmail.com>, Christoph Hellwig <hch@lst.de>
-Cc: Pankaj Raghav <p.raghav@samsung.com>, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, Pavel Begunkov <asml.silence@gmail.com>,
- Ming Lei <ming.lei@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Stefan Roesch <shr@fb.com>, gost.dev@samsung.com,
- Kanchan Joshi <joshi.k@samsung.com>
-References: <20220503184831.78705-1-p.raghav@samsung.com>
- <CGME20220503184912eucas1p1bb0e3d36c06cfde8436df3a45e67bd32@eucas1p1.samsung.com>
- <20220503184831.78705-2-p.raghav@samsung.com> <20220503205202.GA9567@lst.de>
- <CA+1E3rKe6G8UC9Pzkm4Wbu50X=TT5tise8g6umduhj1eTbN0+w@mail.gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <CA+1E3rKe6G8UC9Pzkm4Wbu50X=TT5tise8g6umduhj1eTbN0+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: KHVaqkY3sNMDEPKP5m99HzrIyYRCahqi
+X-Proofpoint-GUID: KHVaqkY3sNMDEPKP5m99HzrIyYRCahqi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-04_04,2022-05-04_02,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220504_050944_759313_B363113D 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20220504_091713_261871_5F1EAAA5 
+X-CRM114-Status: GOOD (  10.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,28 +78,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/4/22 9:12 AM, Kanchan Joshi wrote:
->> @@ -64,16 +63,19 @@ struct io_uring_sqe {
->>                 __u32   file_index;
->>         };
->>         union {
->> -               __u64   addr3;
->> -               __u64   cmd;
->> +               struct {
->> +                       __u64   addr3;
->> +                       __u64   __pad2[1];
->> +               } small;
-> 
-> Thinking if this can cause any issue for existing users of addr3, i.e.
-> in the userspace side? Since it needs to access this field with
-> small.addr3.
-> Jens - is xattr infra already frozen?
+From: Keith Busch <kbusch@kernel.org>
 
-It's not, as it's not upstream yet. But I don't think we need to change
-it, just make the two structs unnamed instead. That also avoids awkward
-small/big prefixes.
+New dev setup hasn't been successfully getting messages out to lists, so
+testing something different. Sorry for the noise.
 
--- 
-Jens Axboe
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+--=20
+2.30.2
 
 
