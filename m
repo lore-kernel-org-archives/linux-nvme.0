@@ -4,56 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5581C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 14:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 255F0C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 15:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qpTpJs/4UCm/N9rePD3iNkMlzK6M1Zz5A6fn4ya6iZ8=; b=wMll6vom5wuiDvML4wRFqM1IHp
-	aUwu1AUKHIXpz4++DeJdVQiCx8qipqNqdHFT0C/EiZ9ydkqRVjwtuWluNLOyf08YiLhM24LQXqXTI
-	8ZIeAXxURrfdSBA9m87lFVooD7hLMJrVmcL9eMkkyH82OSVSkE72twL4YXjqehACc0r4Ghkynp+zL
-	eHIypmVPgdF4B6qYWPvfLx1kb/QHFbriJAyDVnVa3DrU8nTzg9F2qg8bMHEQ0aZ8sLbtmrjDtzBTx
-	JLOdugYx0KeTnSQ5dilaJM3ph1IWebN+WXcdZp1PpGU08rdHO4JuMhracECFdCEKjah9z8tgFP22V
-	kbLdtASg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xpW3unNQu8QRdU1aUouMudDjza+0AjvP9kw1txQmGyE=; b=xwZI2awBaBjPNy8WvhWN/QMqT4
+	VQzvj/Vvzd62thttCzEYsmbPERKZmgKH0jdTRtZI/ewGj/+XASWIcPHlIDTg/strcaMWsF7VpcCE3
+	Ilhz7qCS8OkI7nSbLpZCHL/JjaDOX0vKwRJevjWaCkbzacIZcMRCpAcgncIjvlrTPd6e1iuMzo+Jk
+	B6eSBVf9JbfW1whjJ+Wk18Q5JJ0jT5pBTjH82ybf0aIxz3W8nzgbYiFX30d3CJiwxN22bupUSoiTQ
+	r9YIsMLeK5zPcd+pOFfvk1j9VV9J11gCXE9Ftf8A7OMeJ/81HH4fBp0ARh8W+7gm6sji4E1uEj0po
+	3YEDjuLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmcuG-00GUdT-Hy; Thu, 05 May 2022 14:56:40 +0000
-Received: from out2.migadu.com ([2001:41d0:2:aacc::])
+	id 1nmdb4-00Gh0h-Ro; Thu, 05 May 2022 15:40:54 +0000
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmcuC-00GUZ1-9j
- for linux-nvme@lists.infradead.org; Thu, 05 May 2022 14:56:38 +0000
-Message-ID: <67dd4b8f-2429-099c-c4ca-e8ff10da0647@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1651762589;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qpTpJs/4UCm/N9rePD3iNkMlzK6M1Zz5A6fn4ya6iZ8=;
- b=IHJShaktUmtr2rKCv/DV3WePNPLf+6bG6LXEYjn/XcGx1pcxdNF790jfJmIlaEqsRYqaKN
- KNdq4iibPmUlz4fIpY6kgLvQRqr7AoF01TIAjMbdYMnKs12ZZNhakMd6B0aCOX+VZx1KaT
- gBdtlCwe+Q7L/CTuWvXo+ShrsF9+kCg=
-Date: Thu, 5 May 2022 08:56:26 -0600
+ id 1nmdas-00GguZ-Pm; Thu, 05 May 2022 15:40:44 +0000
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 292215C0230;
+ Thu,  5 May 2022 11:40:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 05 May 2022 11:40:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1651765235; x=1651851635; bh=xpW3unNQu8
+ QRdU1aUouMudDjza+0AjvP9kw1txQmGyE=; b=K+XKjHnGqoyi4gHJkLolZqrINg
+ RXQ3eKUiL7v16XSP/Xxy0bqhYpHj9MrT4YEofBAY2Q8bhzdjhoxY05FYZ6vMNjwE
+ typxn9tP2wsX7buHn1ABCO4GcQkZmvmsrJ+dTnQkeK0425tON0QKXveRQUczpTZt
+ x8p4KFd8wHXIQjo9fHcIJGWqM+qHVZxgOqj0X6FAJACLdgNMPq4AkVF5wqE9g2kF
+ NogEIXNjMG64mJHB8sfbuG3AABGf7i3frI/TE6Ss1WmUsdu0NLY2UoylI9OpvKSb
+ CNroMLbHbGxVx0RPNyReTLP0O0ivy0fU1sLIeH9ZiW3VjGG4j5uYMISYMMlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; t=1651765235; x=1651851635; bh=x
+ pW3unNQu8QRdU1aUouMudDjza+0AjvP9kw1txQmGyE=; b=TjcNgBTc7BCUORWuw
+ w1V6d2ADSkSxdWxd9PcwW9dHtUk/Xiq1UtIebZkA1gLOivoi01gSZVgOqmCp4zkG
+ nzAMO/Ec6lpCAeuIf+QFEBsBCYYontmP6kdnSwa3C5aiUDMJe1t7Yw4zgaLLVGWu
+ 2oxj7CcOqxetJSFxnNrQvClCGKH23FhZTUgeUXoOQITb6NgS2IlkdqClsbWb6K0V
+ gxifAERdnnQK6G4i8lRdiDxc6c8fOwaK1NtDdPPAcAujUVMk36zXvYb/HU4jriZ8
+ z9Y5fMjSWhOq56Gue7hvd/+hU7I3H3u1QCR2SXxtUQl2TrJ0S/60+0FuKznDSKj0
+ LO2nQ==
+X-ME-Sender: <xms:8u9zYqpHNfccglHszBmcPMmsUFcx3xUIG_J_FjD1eQEj0ugs1ddqjQ>
+ <xme:8u9zYopbwOR-PTVh8Uy4vTAOdJN5N4sSV3N5VRKMW-3xd0eKhoYPqfLiZOU5DripU
+ AIOykFiIgfzspfCN6A>
+X-ME-Received: <xmr:8u9zYvNNvT5d-uoqoYWYHzU9HL1oO9c6WjDQ_jYwwrpEq9hs1GUG1t7j9rkGL6F7CfpHgitsjiWh2e9fA0ctYADudmn_NqnDBuvznUsptYEsUH70IBfzZrl2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedugdeklecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcurfgv
+ thgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+ epjeelveffvdefgeeuteefueetgeeghfelveevheeugefftdelleeuudefvefhieelnecu
+ ffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsth
+ gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhp
+ vghtvghrrdguvghv
+X-ME-Proxy: <xmx:8u9zYp7uiaXQxVD6Z0S9wMfF0lXJw61YG661LlBR_-aVfWatKyXo9w>
+ <xmx:8u9zYp5RCKJdTXMOpzV_8z0kAbOsKoDXxZdjTLMbjXWGumMfkXavaQ>
+ <xmx:8u9zYphQbTnNIpT4E4fEChQw9PyfouPuBH-KUQJf6taUybFEyE1vvg>
+ <xmx:8-9zYjuZdxLGCNjqeyVYfh2HQRjOGg-8CDs_qd0qPWl_bqRdBQ0MlA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 May 2022 11:40:33 -0400 (EDT)
+From: Sven Peter <sven@svenpeter.dev>
+To: soc@kernel.org
+Cc: linux-nvme@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Subject: [GIT PULL] Apple SoC RTKit/SART/NVMe driver
+Date: Thu,  5 May 2022 17:40:20 +0200
+Message-Id: <20220505154020.84638-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-Subject: Re: [PATCH] nvme: set dma alignment to 3
-Content-Language: en-US
-To: Keith Busch <kbusch@fb.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
-References: <20220504184325.1439476-1-kbusch@fb.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-In-Reply-To: <20220504184325.1439476-1-kbusch@fb.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220505_075637_425676_B60D059B 
-X-CRM114-Status: GOOD (  17.95  )
+X-CRM114-CacheID: sfid-20220505_084043_342173_7581B58A 
+X-CRM114-Status: GOOD (  12.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,38 +100,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Keith
-On 5/4/2022 12:43 PM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> The nvme specification only requires qword alignment for segment
-> descriptors, and the driver already guarantees that. The spec has always
-> allowed user data to be dword aligned, which is what the queue's
-> attribute is for, so relax the alignment requirement to that value.
-> 
-> While we could allow byte alignment for some controllers when using
-> SGLs, we still need to support PRP, and that only allows dword.
-> 
-> Fixes: 3b2a1ebceba3 ("nvme: set dma alignment to qword")
-Just a small nitpick but the original commit uses 'qword' and yours uses '3'
-Would it be more descriptive to use 'dword'?
+Hi SoC Team,
 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  drivers/nvme/host/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index bea054565eed..0a6fb515a339 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1771,7 +1771,7 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
->  		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
->  	}
->  	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
-> -	blk_queue_dma_alignment(q, 7);
-> +	blk_queue_dma_alignment(q, 3);
->  	blk_queue_write_cache(q, vwc, vwc);
->  }
->  
+Please merge the Apple SoC NVMe driver and its dependencies for 5.19.
+As discussed on the nvme mailing list [1] it's easiest if we take it
+entirely through the SoC tree since there's a chance that we will have
+more drivers depending on rtkit for 5.19.
+
+Thanks
+
+
+Sven
+
+[1] https://lore.kernel.org/linux-nvme/CAK8P3a1CO8_Pa=Hk3hcdNfT_eD3PQK2aWDFB9bwk6TCNbGmtEg@mail.gmail.com/
+
+----------------------------------------------------------------
+The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+
+  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-rtkit-sart-nvme-for-5.19
+
+for you to fetch changes up to 5bd2927aceba181b84286e00aa2f56e117e699c3:
+
+  nvme-apple: Add initial Apple SoC NVMe driver (2022-05-02 17:24:45 +0200)
+
+----------------------------------------------------------------
+Apple SoC NVMe driver and dependencies:
+
+  - RTKit IPC library required to boot and communicate with
+    co-processors embedded inside Apple SoCs
+  - SART DMA address filter required to allow some DMA transactions for
+    the NVMe co-processor
+  - NVMe platform driver
+
+The following minor changes since v3 on the mailing list have been
+folded in:
+
+  - sart: %llx -> %pa for a phys_addr_t
+  - rtkit:/sart: Drop IS_ENABLED inside headers
+  - rtkit: Use EXPORT_SYMBOL_GPL instead of EXPORT_SYMBOL
+  - nvme: Set NVME_REQ_CANCELLED in the timeout handler
+  - nvme: Use DEFINE_SIMPLE_DEV_PM_OPS instead of #ifdef CONFIG_PM_SLEEP
+
+----------------------------------------------------------------
+Sven Peter (6):
+      soc: apple: Always include Makefile
+      soc: apple: Add RTKit IPC library
+      dt-bindings: iommu: Add Apple SART DMA address filter
+      soc: apple: Add SART driver
+      dt-bindings: nvme: Add Apple ANS NVMe
+      nvme-apple: Add initial Apple SoC NVMe driver
+
+ .../devicetree/bindings/iommu/apple,sart.yaml      |   52 +
+ .../devicetree/bindings/nvme/apple,nvme-ans.yaml   |  111 ++
+ MAINTAINERS                                        |    4 +
+ drivers/nvme/host/Kconfig                          |   13 +
+ drivers/nvme/host/Makefile                         |    3 +
+ drivers/nvme/host/apple.c                          | 1593 ++++++++++++++++++++
+ drivers/soc/Makefile                               |    2 +-
+ drivers/soc/apple/Kconfig                          |   24 +
+ drivers/soc/apple/Makefile                         |    6 +
+ drivers/soc/apple/rtkit-crashlog.c                 |  154 ++
+ drivers/soc/apple/rtkit-internal.h                 |   62 +
+ drivers/soc/apple/rtkit.c                          |  958 ++++++++++++
+ drivers/soc/apple/sart.c                           |  328 ++++
+ include/linux/soc/apple/rtkit.h                    |  155 ++
+ include/linux/soc/apple/sart.h                     |   53 +
+ 15 files changed, 3517 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/iommu/apple,sart.yaml
+ create mode 100644 Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+ create mode 100644 drivers/nvme/host/apple.c
+ create mode 100644 drivers/soc/apple/rtkit-crashlog.c
+ create mode 100644 drivers/soc/apple/rtkit-internal.h
+ create mode 100644 drivers/soc/apple/rtkit.c
+ create mode 100644 drivers/soc/apple/sart.c
+ create mode 100644 include/linux/soc/apple/rtkit.h
+ create mode 100644 include/linux/soc/apple/sart.h
 
