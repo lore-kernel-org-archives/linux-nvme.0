@@ -4,127 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14EC8C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 13:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E31AC433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 13:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vrYMM/cTOrW0/UYYWyRRUQC9LsDHx9p6dz/qEYyG7Ug=; b=NPQzTCcpDgs3xseT8kN1r4oG1y
-	LU2Owpx/3anTHMcoWRiwYDLQ60HIt/WnAs4e/HM+3Qh6bnStOXat88DKjOjmNpHoNLq/m5eH+dj20
-	avpg56/PUg7c3iPXY6zZCQF7doG46XypRz+8OFEtCqPU8V3UWMpHCvw+mrrt2+ITsxkaSvfH1PUBU
-	y54GkWloliIfED23qYkct8FChAukY2G6BToNnaS1CUUiErmpqMSJ36mmO40FzL2gmIAZpKwCF8QYB
-	6d0BDpWMqD5bvq+k3h6m9Lt/OPgKYr8bU68P7hnuco6Pp/FsiQdN1xhllnwGz0/NAu/M1P7nB6Bmt
-	dAz7z27A==;
+	bh=ODL/RZp3B3RfrFH5GlLl86qa0DgQB+nmVNbtBUgHocc=; b=TM+iKyYkhD+s4ACWvaft9dPu44
+	kEVF4tner80GN7SvYB7ov8KAWibEmLK1xCogTDiehsVdW7vgxXzqQTz43IbNbWo4HVcIni4sdhAGZ
+	qJ7hlf44oJwJ3PcehzXtpwxgKeljd4PwEznmyGMcim/FXIsENZThtsalBa3jJFwasZexC5ht6fFPy
+	eMdQbn3B6dJpAmUAQIR2nYlvO/5g8QHvkEuy4KThA18TNeC9H5sP+mEQR2UKFi5zFzCHaV5+oayWy
+	mpB1/RIeCIurqsBUWtK/DVHzQLjHN22U7ED83ZrYMpD12tU7HFak9opp9Fyt99gUxwLZ1YeV857f0
+	9+tEvYHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmbtY-00GAzN-41; Thu, 05 May 2022 13:51:52 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1nmbwa-00GCNq-TH; Thu, 05 May 2022 13:55:01 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmbss-00GAXZ-3c
- for linux-nvme@lists.infradead.org; Thu, 05 May 2022 13:51:13 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220505135105euoutp018c6dd8886e20cacd27904c208febfad4~sOcFC9fh13220632206euoutp01C
- for <linux-nvme@lists.infradead.org>; Thu,  5 May 2022 13:51:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220505135105euoutp018c6dd8886e20cacd27904c208febfad4~sOcFC9fh13220632206euoutp01C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651758665;
- bh=vrYMM/cTOrW0/UYYWyRRUQC9LsDHx9p6dz/qEYyG7Ug=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b9vcZ7tQ94f3VdiXUlJw+T1XLGmoWXNflO074KduS8EF9ysX5kXm1rt2m1oyipPJF
- U50l3s5pkVpoTOl0YLZI8MqqXX9N6AQmW707OVASef5mBymqwItd13057wGOgNgTDD
- KO6hTkj5nwC4MhPJeWVTwHKOJIMsISUeYasAXfkU=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220505135103eucas1p23cfe1abbea461339e96795ea1bacf823~sOcDQPzY83233532335eucas1p2q;
- Thu,  5 May 2022 13:51:03 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 1C.AC.09887.746D3726; Thu,  5
- May 2022 14:51:03 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220505135102eucas1p10efc01a623d97cbd6634943faa506353~sOcCcJ-_r2600826008eucas1p1D;
- Thu,  5 May 2022 13:51:02 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220505135102eusmtrp2d6c56ae84c8e8295e4cea35a306dff91~sOcCX3XLs2658826588eusmtrp2C;
- Thu,  5 May 2022 13:51:02 +0000 (GMT)
-X-AuditID: cbfec7f4-45bff7000000269f-e9-6273d6477c32
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 5D.F2.09522.646D3726; Thu,  5
- May 2022 14:51:02 +0100 (BST)
-Received: from localhost (unknown [106.210.248.170]) by eusmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220505135102eusmtip1164954ce909a59d1b207a210c6e6fd14~sOcCAQS_N0093500935eusmtip1F;
- Thu,  5 May 2022 13:51:02 +0000 (GMT)
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, damien.lemoal@opensource.wdc.com,
- dsterba@suse.com, jaegeuk@kernel.org, bvanassche@acm.org, hare@suse.de
-Cc: jonathan.derrick@linux.dev, jiangbo.365@bytedance.com,
- matias.bjorling@wdc.com, gost.dev@samsung.com, pankydev8@gmail.com, Pankaj
- Raghav <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>, Sagi
- Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org
-Subject: [PATCH v2 04/11] nvmet: Allow ZNS target to support non-power_of_2
- zone sizes
-Date: Thu,  5 May 2022 15:47:04 +0200
-Message-Id: <20220505134710.132630-5-p.raghav@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220505134710.132630-1-p.raghav@samsung.com>
+ id 1nmbvs-00GC3w-Q7
+ for linux-nvme@lists.infradead.org; Thu, 05 May 2022 13:54:20 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id c14so3705968pfn.2
+ for <linux-nvme@lists.infradead.org>; Thu, 05 May 2022 06:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ODL/RZp3B3RfrFH5GlLl86qa0DgQB+nmVNbtBUgHocc=;
+ b=NS3DBt+ILaQtVBQLrA0NoEjJCJFhRoyZCB/Kw2nO7Bv80S7rbh8LSdFLipJA/Z/tz+
+ WPs3kGZo4JrIR19XIVbSSTyMyuTW0NmioDgx1NXFdzTqA3vtGeTcM8joftbZU0WoOs6Q
+ KuDNsgfRC321/2L4zPaFNtEW8aSlvNT5YH2I2Nt+r2IBzjV5fOET5ieWk1spJ2wWsrnL
+ N5xm0CCC+DL8jAnEMP2gSpzYAyy4E9byrObe17Hh5g197gXVrmnzYcg77rqvF0N+Mu0E
+ u8x9tpv1dVImAfGl/8PVRIZzJn6CRVrQtyKJFGr3mGPmAOEDX6Ke/4N8ryOVn5pdsvmY
+ USUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ODL/RZp3B3RfrFH5GlLl86qa0DgQB+nmVNbtBUgHocc=;
+ b=okHNYPveR5s6Q4dEthL+eaG/JCwotXwr17nOH0xHSEciL3VL+bU4o/Ysm1IeDQ/tms
+ JrG4zykedn3ClPbUDzlPgYzrll0fnozb7oD5LLkwz/l2LwoiB594O3pNyda5SxM1PuUS
+ UP9C80GF/fNGkso9E+wB2ERTQFCnDZQ9u7AMNeDbd2KnAQwL80Y5o3iYD9+nWKBsfsVZ
+ lQJgSi2Jj9CFv8llOjdV3fz8qgCCnWo1MGm4VayjTFeVKS3mGwWfFQGEtZ4dCQ3yhjh8
+ OOz1KgccK22l3/1DFYPirp0jdZJNd3G7O1lR+7ns0J1zn/F/CY4ALnUBZXFdZGurFVwb
+ 4xxg==
+X-Gm-Message-State: AOAM530zJONcuWhaiMF2CSWMCC4S0lv8c+sOwFlkpcxUa37J8/UN7d7j
+ k/rhOy1TU6gDMGKmPNl+zkFvuA==
+X-Google-Smtp-Source: ABdhPJxWuqQiO4TJLigOa7txXWeQbIwY3pwXIa2+sxXkpiFsFG0B1d7FswwCnpZfv9bi+QTFQiRMMA==
+X-Received: by 2002:a63:a18:0:b0:3c6:12b1:a8d0 with SMTP id
+ 24-20020a630a18000000b003c612b1a8d0mr3114898pgk.534.1651758855507; 
+ Thu, 05 May 2022 06:54:15 -0700 (PDT)
+Received: from [192.168.4.166] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+ by smtp.gmail.com with ESMTPSA id
+ f12-20020aa7968c000000b0050dc762813fsm1409512pfk.25.2022.05.05.06.54.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 06:54:15 -0700 (PDT)
+Message-ID: <a91d43b7-9d97-385e-190f-a26b078d2f36@kernel.dk>
+Date: Thu, 5 May 2022 07:54:13 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxiHc+69vb1UW6/FyZkumjXKFBTFme1sGja3JZ5EDQvbH7rvonfI
- VhBbihuMCLTCCvId2doBwgSRD1cKlVHAjHUOJNBBVmXthG4aajal6ASGBaGjvZj53/Oe87zn
- 977JYUjpvGANE5+YzCkT5QoZLaLaeryDW/cOq2K3/1WyHjWOFtKo7L6XRHO2QRINPcwkkLPb
- QqCub0sIVN/4M4HGjAYSne6+T6F67U0Sua8bCHT593Bk7yin0dnzbiEqyp4mkaPIDdBkrVaI
- mpxuCn139x71ajC2X9uHF6420dhiGBXiQZeJwnabGrc06GhcnXGGxK01J3GnM4PG+ZqJRevU
- HwJcYG4A2Gi+TuHW/jQ82bIO53TnEW+y74h2H+EU8SmcclvUR6Kjg54hIskn+UzvdIEM4Fye
- C4IYyO6EFdoJKheIGCl7AcBzraalYgrAHMM5IV9MAthumwOPW+51dgVYytYBeLuG4PlvAG/Y
- ns8FDEOzYTBTF+hdxeYBaNOMB14l2WkCXs6aFfobgtmDUGeeFviZYjfCiw5f4CEx+zI8f6uO
- 5MPWQ/2vMwE/iN0Fy3U3BbyzEvbpxyg/k4uO5tI3S74rCBqvCHh+Az7qcy9xMLzTaxby/Az0
- Wc4SPKdBt2OO9A8HWS2AhRYj7d8ALoYVDCj8SLKbobFjG6/vgT/mVgt5QwIdnpX8BBJY0vYV
- yR+L4ZfZUt6WQYt3bCkUQntWOcUzhhW3KkEReNbwxC6GJ3Yx/J9bBcgGEMKpVQlxnGpHInci
- QiVPUKkT4yIOH0toAYs/tH+hd6od1N35J8IKCAZYAWRI2Srx67VJsVLxEfnnqZzy2IdKtYJT
- WcFahpKFiA/HN8ulbJw8mfuU45I45eNbgglak0GU6nczX8yOp9f1r167ovFktWizyFRWseGt
- 1zw/hKfl+S6KvVFzipGfnFWFzcULO8Eh6wFvWbx56KWwcbW9xOMLYfNPvdc45Xg6NkofY++1
- vh/ZevVfzxYwsScySxY63+Q1NIP9MQ1R6avVSX8+yCvt9IRqU9or+rtPxz/3fUd9+okdbc6s
- rj5sMZfNF3wwMWBMbcnXVGUX+2zWaNfwvoNbBo5vXbGp8kKK5JFa8kAxMvPwk+Se2Y177aFf
- /5azXeL+5ZqpFpe+QLuWc1W6ZeGll158m75rqi6Oju4KPTD8ruXj/T2bjs9XbnhFeyOmJ9Xz
- VOayK7dHD43MoHW7cmr6NNIxGaU6Ko8MI5Uq+X8AVbthEAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrHIsWRmVeSWpSXmKPExsVy+t/xu7pu14qTDL5MUbNYfbefzWLah5/M
- Fr/Pnme2uPCjkcni5oGdTBZ7Fk1isli5+iiTxZP1s5gteg58YLFY2fKQ2eLp1VlMFntvaVtc
- 3jWHzWL+sqfsFhPavjJb3JjwlNHi89IWdos1N5+yWKx7/Z7FQdjj8hVvj38n1rB57Jx1l93j
- /L2NLB6Xz5Z6bFrVyeaxsGEqs8fmJfUeu282sHn0Nr8Dqmq9z+rRt2UVo8f6LVdZPDafrvb4
- vEnOo/1AN1OAQJSeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZ
- apG+XYJexvm3F5gK/vNVzLx5j7GB8SZPFyMnh4SAicT73XsYuxi5OIQEljJKbD15lwUiISFx
- e2ETI4QtLPHnWhcbRNFzRok57e3MXYwcHGwCWhKNnewgcRGBqYwSF7ZfAGtmFmhkltj5xxbE
- FhYIk1j96y4riM0ioCqx9sZ/JhCbV8BKYtmj5cwQC+QlZl76zg5icwpYS8zpfAhWLwRUM/Hh
- OzaIekGJkzOfQM2Xl2jeOpt5AqPALCSpWUhSCxiZVjGKpJYW56bnFhvqFSfmFpfmpesl5+du
- YgRG/LZjPzfvYJz36qPeIUYmDsZDjBIczEoivM5LC5KEeFMSK6tSi/Lji0pzUosPMZoC3T2R
- WUo0OR+YcvJK4g3NDEwNTcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGphKuspK
- bD6uuW+lPm/djEuaGncerrdn0hZYvHhpON+hnNMh/32tbD11n+ifXqBesupTKRNr12uJtHPd
- /lHCDRY5dUJPGDVUWLiDl03duFNN33jqvZ1Nj/cxa7Yr33r9qqOorGXt+3Pe6+cut18j/O/x
- JA+pWYes32zcd/1T/Ldbu3PLIjPqbZdw7XC54SxzY2e9dtDLTwZpksfWlarPtlPiKyti2Zh3
- Wa9+n8qnm6+fZp66Y/84Y94uiwKp1udFrprqVmfaJbc1OWx/f2rvpS2s52/7rPaX6FtvGa8+
- a+X65yGxqetNzVd+7WoMnmD388vu4xdvONxZ+uxbjFPqgfqkucuXbI6VsFJ+J6fx/M09JZbi
- jERDLeai4kQAFrE/TYEDAAA=
-X-CMS-MailID: 20220505135102eucas1p10efc01a623d97cbd6634943faa506353
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220505135102eucas1p10efc01a623d97cbd6634943faa506353
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220505135102eucas1p10efc01a623d97cbd6634943faa506353
-References: <20220505134710.132630-1-p.raghav@samsung.com>
- <CGME20220505135102eucas1p10efc01a623d97cbd6634943faa506353@eucas1p1.samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 1/5] fs,io_uring: add infrastructure for uring-cmd
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de,
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ asml.silence@gmail.com, mcgrof@kernel.org, shr@fb.com, joshiiitr@gmail.com,
+ anuj20.g@samsung.com, gost.dev@samsung.com
+References: <20220505060616.803816-1-joshi.k@samsung.com>
+ <CGME20220505061144epcas5p3821a9516dad2b5eff5a25c56dbe164df@epcas5p3.samsung.com>
+ <20220505060616.803816-2-joshi.k@samsung.com>
+ <f9051783-5105-45ba-99b3-bc5d9254656d@kernel.dk> <YnPVtiRbYBYCGkCi@T590>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <YnPVtiRbYBYCGkCi@T590>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220505_065110_471246_627B5DBD 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20220505_065417_148047_DFAD1DA8 
+X-CRM114-Status: GOOD (  21.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,56 +98,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A generic bdev_zone_no helper is added to calculate zone number for a given
-sector in a block device. This helper internally uses blk_queue_zone_no to
-find the zone number.
+On 5/5/22 7:48 AM, Ming Lei wrote:
+> On Thu, May 05, 2022 at 06:52:25AM -0600, Jens Axboe wrote:
+>> On 5/5/22 12:06 AM, Kanchan Joshi wrote:
+>>> From: Jens Axboe <axboe@kernel.dk>
+>>>
+>>> file_operations->uring_cmd is a file private handler.
+>>> This is somewhat similar to ioctl but hopefully a lot more sane and
+>>> useful as it can be used to enable many io_uring capabilities for the
+>>> underlying operation.
+>>>
+>>> IORING_OP_URING_CMD is a file private kind of request. io_uring doesn't
+>>> know what is in this command type, it's for the provider of ->uring_cmd()
+>>> to deal with. This operation can be issued only on the ring that is
+>>> setup with both IORING_SETUP_SQE128 and IORING_SETUP_CQE32 flags.
+>>
+>> One thing that occured to me that I think we need to change is what you
+>> mention above, code here:
+>>
+>>> +static int io_uring_cmd_prep(struct io_kiocb *req,
+>>> +			     const struct io_uring_sqe *sqe)
+>>> +{
+>>> +	struct io_uring_cmd *ioucmd = &req->uring_cmd;
+>>> +	struct io_ring_ctx *ctx = req->ctx;
+>>> +
+>>> +	if (ctx->flags & IORING_SETUP_IOPOLL)
+>>> +		return -EOPNOTSUPP;
+>>> +	/* do not support uring-cmd without big SQE/CQE */
+>>> +	if (!(ctx->flags & IORING_SETUP_SQE128))
+>>> +		return -EOPNOTSUPP;
+>>> +	if (!(ctx->flags & IORING_SETUP_CQE32))
+>>> +		return -EOPNOTSUPP;
+>>> +	if (sqe->ioprio || sqe->rw_flags)
+>>> +		return -EINVAL;
+>>> +	ioucmd->cmd = sqe->cmd;
+>>> +	ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
+>>> +	return 0;
+>>> +}
+>>
+>> I've been thinking of this mostly in the context of passthrough for
+>> nvme, but it originally started as a generic feature to be able to wire
+>> up anything for these types of commands. The SQE128/CQE32 requirement is
+>> really an nvme passthrough restriction, we don't necessarily need this
+>> for any kind of URING_CMD. Ditto IOPOLL as well. These are all things
+>> that should be validated further down, but there's no way to do that
+>> currently.
+>>
+>> Let's not have that hold up merging this, but we do need it fixed up for
+>> 5.19-final so we don't have this restriction. Suggestions welcome...
+> 
+> The validation has to be done in consumer of SQE128/CQE32(nvme). One
+> way is to add SQE128/CQE32 io_uring_cmd_flags and pass them via
+> ->uring_cmd(issue_flags).
 
-Use the helper bdev_zone_no() to calculate nr of zones. This let's us
-make modifications to the math if needed in one place and adds now
-support for npo2 zone devices.
+Right, that's what I tried to say, it needs to be validated further down
+as we can (and will) have URING_CMD users that don't care about any of
+those 3 things and can work fine with whatever sqe/cqe size we have.
+IOPOLL also only applies if the handler potentially can block.
 
-Reviewed by: Adam Manzanares <a.manzanares@samsung.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
----
- drivers/nvme/target/zns.c | 2 +-
- include/linux/blkdev.h    | 7 +++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+Using the issue_flags makes sense to me, it's probably the easiest
+approach. Doesn't take space in the command itself, and there's plenty
+of room in that flag space to pass in the ring sqe/cqe/iopoll state.
 
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 82b61acf7..5516dd6cc 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -242,7 +242,7 @@ static unsigned long nvmet_req_nr_zones_from_slba(struct nvmet_req *req)
- 	unsigned int sect = nvmet_lba_to_sect(req->ns, req->cmd->zmr.slba);
- 
- 	return blkdev_nr_zones(req->ns->bdev->bd_disk) -
--		(sect >> ilog2(bdev_zone_sectors(req->ns->bdev)));
-+	       bdev_zone_no(req->ns->bdev, sect);
- }
- 
- static unsigned long get_nr_zones_from_buf(struct nvmet_req *req, u32 bufsize)
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 32d7bd7b1..967790f51 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1370,6 +1370,13 @@ static inline sector_t bdev_zone_sectors(struct block_device *bdev)
- 	return 0;
- }
- 
-+static inline unsigned int bdev_zone_no(struct block_device *bdev, sector_t sec)
-+{
-+	struct request_queue *q = bdev_get_queue(bdev);
-+
-+	return blk_queue_zone_no(q, sec);
-+}
-+
- static inline unsigned int bdev_max_open_zones(struct block_device *bdev)
- {
- 	struct request_queue *q = bdev_get_queue(bdev);
 -- 
-2.25.1
+Jens Axboe
 
 
