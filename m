@@ -4,84 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39B5AC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 18:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D4D3C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 18:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qJDsBNaU0WtP3zGJAVGJc1XV1UGinZSSPR/pmXCT3fg=; b=M1KBvGaEZnsZi6tCEu5iGWWvLV
-	6oYT4T51ndcWZPWzefCESwyEhTqzU53agzZq9XdEo8zs6i9pXCPLr8hCY8XuCcNQ4zQISm0ZFtVAL
-	yNUVDClCjP/x0I4fWJUFFeYt+dRAG4r9ikh0vy1Ea4Bql/O0OTl+ckcqk0Clkk5fbscyzSWiJz7cV
-	+gMNRhEGCwJ6UMdJAOx1PiQPwgxIgjvGCcMciOv8vDQxKDNGBbNGXd5nrG8bfXihvNlu8tcjJrYku
-	oNO715VQo7UR9Z13f79dxAlbGGX3w11aGu4bXUMk1x2WatEilal7itGHbhNE9j389yYPgwN/otk4N
-	28Ee9Qsw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=v6dY8D9STf3u/CN6m660y/L38EFCR50urJq/TxM4SHc=; b=yTM6euR9MNVqBukFocxF1yj+eQ
+	iyAVjhSJwBUxhga4BPzFIXD5mlhvjxg9ibm4OJD0LXt9MJREg5qxnBbnMuvsnsPTirUOekNbwk/Ks
+	L95VMd8KqNyz4ImBXrStCVr42SUvRh2Q5CBjrkAnjnoXWWytS14nKoyp1pwhbhEvI+mgAaG2y23bY
+	5j5kT7McH3hVWt6sLuSvxvrIME6nLFJiuH6PwbyiofwJ2oduIv2CtYp0KluK2AImKOSASx90tTyjq
+	VHioMFT3W86vZl13gBL+emwNy+YUMyV34EBSubyNTuIqfXYfMZJOCuvUJEeXcXhpHnZ5LUcIzYOtH
+	sQN5B4og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmgEK-00HLRT-6Y; Thu, 05 May 2022 18:29:36 +0000
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+	id 1nmgME-00HMt5-BG; Thu, 05 May 2022 18:37:46 +0000
+Received: from usmailhost21.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmgEH-00HLP9-EA
- for linux-nvme@lists.infradead.org; Thu, 05 May 2022 18:29:34 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id p6so4648471plr.12
- for <linux-nvme@lists.infradead.org>; Thu, 05 May 2022 11:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=qJDsBNaU0WtP3zGJAVGJc1XV1UGinZSSPR/pmXCT3fg=;
- b=MsfJI7wgJazaq5lFNIqyg/2hjMk8meBjzjrd37sw7/Yk7hKbq6mcHgHKyfNrzPrwpo
- 0E1Rhuc4JhEujqO3Ymm23DCQb1xvZhdoYQeeH+XZVHL1soFc+SIj43noHv6Iy8jJGrZF
- sh/+BF52lPIHxSSD0OLbL2P8hDReNZAUe/tmmvkUFfLQmKVNzbZP38QmNZXhrU+cy72m
- 52jkMVElSfjXcglvj6sKvuLxDlZCb5KBH9dMTxZPfZSUn45mMeDk/RphA3UbmnpfW/3n
- KegiPP91o1WbPuGBlYgwClPlgjyMZJecmcGFZhwF7/JWNOflDDtINsW2zLF48xa8I5+y
- HXYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=qJDsBNaU0WtP3zGJAVGJc1XV1UGinZSSPR/pmXCT3fg=;
- b=hfUWDWAyi5VN/Cz8XtdHhb4JcE+DBcEwhLVb7vWY1/9KiRquvNHMD/Rplu4GfqIFKR
- z8pOsF+XpYJAURsqaGEzyYqaCvJl9piCgoQUIGwaPLtH3mqpuSLpmE9sn9hgem5ZWfTk
- DRpFvOeUPS70POROero8OMA2Pt4negQWjOl4hxwXmjb67qQFJJtqDVXMJrziRmjmypxo
- Ka3Dj31YoBg2IBk62MI+EFOM4ZqqPfqVto9cxp+cuSnPkLvcpv36NmQ10scE1hur4V4F
- N2euU1V5s/zVxRkzVXzUeSRKBugHKKjGKgp39+PPqZdcSrkuQUdeU9uIpsCjEsJEEJdK
- 5yRg==
-X-Gm-Message-State: AOAM532qUi/owu8VVcIK3wmKzLgkxXpvms4tcH1jOFjtRbZmmQsnLadv
- 13K06E3BjxO3CXl4ZbtkJ6u/2g==
-X-Google-Smtp-Source: ABdhPJzkMXHdKGEICRUdE4gyAEM++LbBaogm7oaZDoNke0R5SMMnkNorn/rvTJeSWr6sGKgr+fDWxw==
-X-Received: by 2002:a17:902:dad2:b0:15e:9faa:e924 with SMTP id
- q18-20020a170902dad200b0015e9faae924mr23518649plx.94.1651775369465; 
- Thu, 05 May 2022 11:29:29 -0700 (PDT)
-Received: from [192.168.4.166] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
- by smtp.gmail.com with ESMTPSA id
- e14-20020a17090301ce00b0015e8d4eb1d3sm1934883plh.29.2022.05.05.11.29.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 11:29:29 -0700 (PDT)
-Message-ID: <a715cc61-97e7-2292-ec7d-59389b00e779@kernel.dk>
-Date: Thu, 5 May 2022 12:29:27 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 0/5] io_uring passthrough for nvme
+ id 1nmgMC-00HMrz-1e
+ for linux-nvme@lists.infradead.org; Thu, 05 May 2022 18:37:45 +0000
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 5 May 2022 11:37:37 -0700
+Received: from SJSMAIL01.us.kioxia.com ([fe80::c557:f37d:d981:76df]) by
+ SJSMAIL01.us.kioxia.com ([fe80::c557:f37d:d981:76df%3]) with mapi id
+ 15.01.2375.024; Thu, 5 May 2022 11:37:37 -0700
+From: Clay Mayers <Clay.Mayers@kioxia.com>
+To: Kanchan Joshi <joshi.k@samsung.com>, "axboe@kernel.dk" <axboe@kernel.dk>, 
+ "hch@lst.de" <hch@lst.de>
+CC: "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "asml.silence@gmail.com" <asml.silence@gmail.com>, "ming.lei@redhat.com"
+ <ming.lei@redhat.com>, "mcgrof@kernel.org" <mcgrof@kernel.org>, "shr@fb.com"
+ <shr@fb.com>, "joshiiitr@gmail.com" <joshiiitr@gmail.com>,
+ "anuj20.g@samsung.com" <anuj20.g@samsung.com>, "gost.dev@samsung.com"
+ <gost.dev@samsung.com>
+Subject: RE: [PATCH v4 3/5] nvme: refactor nvme_submit_user_cmd()
+Thread-Topic: [PATCH v4 3/5] nvme: refactor nvme_submit_user_cmd()
+Thread-Index: AQHYYEffNsZGDQ8MAEyuOCh/GTUQpa0QnLIA
+Date: Thu, 5 May 2022 18:37:36 +0000
+Message-ID: <80cde2cfd566454fa4b160492c7336c2@kioxia.com>
+References: <20220505060616.803816-1-joshi.k@samsung.com>
+ <CGME20220505061148epcas5p188618b5b15a95cbe48c8c1559a18c994@epcas5p1.samsung.com>
+ <20220505060616.803816-4-joshi.k@samsung.com>
+In-Reply-To: <20220505060616.803816-4-joshi.k@samsung.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org, shr@fb.com,
- joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
-References: <CGME20220505061142epcas5p2c943572766bfd5088138fe0f7873c96c@epcas5p2.samsung.com>
- <20220505060616.803816-1-joshi.k@samsung.com>
- <d99a828b-94ed-97a0-8430-cfb49dd56b74@kernel.dk>
-In-Reply-To: <d99a828b-94ed-97a0-8430-cfb49dd56b74@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.93.77.13]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220505_112933_510690_192DB1B0 
-X-CRM114-Status: GOOD (  12.67  )
+X-CRM114-CacheID: sfid-20220505_113744_122739_A69CB3A9 
+X-CRM114-Status: UNSURE (   9.22  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,25 +78,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/5/22 12:20 PM, Jens Axboe wrote:
-> On 5/5/22 12:06 AM, Kanchan Joshi wrote:
->> This iteration is against io_uring-big-sqe brach (linux-block).
->> On top of a739b2354 ("io_uring: enable CQE32").
->>
->> fio testing branch:
->> https://github.com/joshkan/fio/tree/big-cqe-pt.v4
-> 
-> I folded in the suggested changes, the branch is here:
-> 
-> https://git.kernel.dk/cgit/linux-block/log/?h=for-5.19/io_uring-passthrough
-> 
-> I'll try and run the fio test branch, but please take a look and see what
-> you think.
-
-Tested that fio branch and it works for me with what I had pushed out.
-Also tested explicit deferral of requests.
-
--- 
-Jens Axboe
-
+PiBGcm9tOiBLYW5jaGFuIEpvc2hpDQo+IFNlbnQ6IFdlZG5lc2RheSwgTWF5IDQsIDIwMjIgMTE6
+MDYgUE0NCj4gLS0tDQoNCj4gIGRyaXZlcnMvbnZtZS9ob3N0L2lvY3RsLmMgfCA0NyArKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0MiBp
+bnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPg0KPiArc3RhdGljIGludCBudm1lX2V4ZWN1
+dGVfdXNlcl9ycShzdHJ1Y3QgcmVxdWVzdCAqcmVxLCB2b2lkIF9fdXNlcg0KPiAqbWV0YV9idWZm
+ZXIsDQo+ICsJCXVuc2lnbmVkIG1ldGFfbGVuLCB1NjQgKnJlc3VsdCkNCj4gK3sNCj4gKwlzdHJ1
+Y3QgYmlvICpiaW8gPSByZXEtPmJpbzsNCj4gKwlib29sIHdyaXRlID0gYmlvX29wKGJpbykgPT0g
+UkVRX09QX0RSVl9PVVQ7DQoNCkknbSBnZXR0aW5nIGEgTlVMTCBwdHIgYWNjZXNzIG9uIHRoZSBm
+aXJzdCBpb2N0bChOVk1FX0lPQ1RMX0FETUlONjRfQ01EKQ0KSSBzZW5kIC0gaXQgaGFzIG5vIHVi
+dWZmZXIgc28gSSB0aGluayB0aGVyZSdzIG5vIHJlcS0+YmlvLg0KDQo+ICsJaW50IHJldDsNCj4g
+Kwl2b2lkICptZXRhID0gbnZtZV9tZXRhX2Zyb21fYmlvKGJpbyk7DQo+ICsNCj4gIAlyZXQgPSBu
+dm1lX2V4ZWN1dGVfcGFzc3RocnVfcnEocmVxKTsNCj4gKw0KPiAgCWlmIChyZXN1bHQpDQo+ICAJ
+CSpyZXN1bHQgPSBsZTY0X3RvX2NwdShudm1lX3JlcShyZXEpLT5yZXN1bHQudTY0KTsNCj4gIAlp
+ZiAobWV0YSAmJiAhcmV0ICYmICF3cml0ZSkgew0K
 
