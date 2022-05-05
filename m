@@ -4,61 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12A7AC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 05:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA0DAC433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 May 2022 06:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=20d4hKjJVzRypf5QIswJ7bqEfsq2yOfYFvX+da9JUfw=; b=h+qdo7b2VHqDsOvxy8Tm95/lmY
-	vMMS1+Stg5mgTXIX+VSQb5jG6ho2P/5+NCHBiOcmz8Q2jya7sZj5IUJs7KMPFTzs9kzoxm7sAe7D/
-	xirop+8g+74sEPgtPBhNToJ8bUlB2zVJG8V98no0phFPNwNZks5z/NpONsoXVQTemUkYZMZXBdrGr
-	qMF74baUUVqqe52hWdJp+eVuTSza2T0RcA4WdF9gBCBWh7K6vfU3uazJFKgrAJHDXYwHQr9B0tZA3
-	W2nOulH5dGczD451avwiFUtT0Ag6KNNrYYa04RsQLxOEJgD30Mm1/dHaf7Ei01TJzDqH8a6Jkuymu
-	UVILXoBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pE3URItCZrhClkQBdt/r6AxVGqMbnhyIJku6b8Gz3B0=; b=Wt9BG/4FaYHsgndEDfxUmTrXPc
+	iFHya2axK04pB3/iVewolTzsEQ5yZN64rQfkC0JGMElg5it4baFVSnzgUuuaDN77SOzTsoVRYnIJk
+	p0IH2j6XDOX4fDKaFgc4TR0NRFXpiO1KfHPrR1cR2DSyPIRgZ1KewTrZ5PB36q/8WgUR+t3guGg6V
+	fhZfVb2VghHPSLS4J+IDs3HsUczCTofRwrPecGXo+mZTyagQ8GwjHW7R+MzY4+SRN2k+9DCiMdU+w
+	6uA68KamJNz7iLbIL9QvpIrZuYvuuOxJ9JezvnBMx1tWrn61HiIdYmTucXO+w9yNFZgIiNo0T/0zc
+	UX1cbwEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmTtW-00E0gB-OK; Thu, 05 May 2022 05:19:18 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nmUkx-00E9xe-1T; Thu, 05 May 2022 06:14:31 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmTtT-00E0fY-S8
- for linux-nvme@lists.infradead.org; Thu, 05 May 2022 05:19:17 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4FC9B618C5;
- Thu,  5 May 2022 05:19:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FC29C385A4;
- Thu,  5 May 2022 05:19:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651727953;
- bh=CjoysTt4smiT9cYHZROxtXKWyaDUyxzXOQTicMbEYJU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n7DaK2CI4XjVWFu0mBhCxA8nTRXbsnYsLE53Sp0Nj5ggzrg30/mJGosd00h2nYW6D
- J2TVSCGAuewrgjBy2zlMVTpLCF4P+K2Kh+IenApMvT9Vv1eiJYZBt3BFEdt7x2/Ih3
- 4gtJrtifNcw3rP9p/FsHVL0iaakh2aHmnrgjmZTds5cP2kqgbD73XiS9qdCFERz7ws
- IV5PugUFqaYY1m6E+AZAVr5kNEyiMgFOAq3z5QBwcHRTAO3D7LGd4fUCw9h+mlhFMy
- yF4JfnNicUltgXoA8kF8pN/793dvYBSAusMngCWCe7ENNTUUGNE/6kLMGkcsA6LaxQ
- L9cUoKOV5jxcw==
-Date: Wed, 4 May 2022 22:19:10 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: linux@leemhuis.info,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org, luto@kernel.org
-Subject: Re: [BUG][5.18rc5] nvme nvme0: controller is down; will reset:
- CSTS=0xffffffff, PCI_STATUS=0x10
-Message-ID: <YnNeTsSzFJqEK/s+@kbusch-mbp.dhcp.thefacebook.com>
-References: <CABXGCsMiKe31UaoMV02gW4iJSKnBiO5jGQKej=Zem24mD0ObQw@mail.gmail.com>
+ id 1nmUkr-00E9s9-RE
+ for linux-nvme@lists.infradead.org; Thu, 05 May 2022 06:14:29 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220505061414epoutp043a93902972f5bd15818b7a80ba816bf6~sINMrtqv71155011550epoutp04n
+ for <linux-nvme@lists.infradead.org>; Thu,  5 May 2022 06:14:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220505061414epoutp043a93902972f5bd15818b7a80ba816bf6~sINMrtqv71155011550epoutp04n
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1651731254;
+ bh=pE3URItCZrhClkQBdt/r6AxVGqMbnhyIJku6b8Gz3B0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ch7pD92t4FP0W4RCWPfdVBs8RSoHMW6avoLkZJRHoFM1/Q4x5R9IZU4kmydOJhKqJ
+ duGiGVes9IDA2Mq34ZoQqkCuJ3hwIUFPZdwXHwQ2tENXCxsEI7pk1d591CnEpxzFh8
+ S73rBUR9MW4ZhGgoFzVmDIpcfj36WvAruAH6YLeA=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+ 20220505061414epcas5p3a9c5ce19e867369fe2c9a903ca036f68~sINMKKFUv1837018370epcas5p3U;
+ Thu,  5 May 2022 06:14:14 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4Kv3LV09Rhz4x9Px; Thu,  5 May
+ 2022 06:14:10 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 59.B7.09762.F2B63726; Thu,  5 May 2022 15:14:07 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220505061148epcas5p188618b5b15a95cbe48c8c1559a18c994~sILETLOlm2071720717epcas5p19;
+ Thu,  5 May 2022 06:11:48 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220505061148epsmtrp14c2ffe7bbb0f128fc098d2222aecbfe5~sILESO0MR1114811148epsmtrp16;
+ Thu,  5 May 2022 06:11:48 +0000 (GMT)
+X-AuditID: b6c32a4b-213ff70000002622-2d-62736b2fd62d
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ FD.2C.08924.4AA63726; Thu,  5 May 2022 15:11:48 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.110.206.5]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220505061146epsmtip21a9162fe6889cd60979e43d6c5fafe16~sILCq8RCG0280502805epsmtip2d;
+ Thu,  5 May 2022 06:11:46 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, hch@lst.de
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org, shr@fb.com,
+ joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
+Subject: [PATCH v4 3/5] nvme: refactor nvme_submit_user_cmd()
+Date: Thu,  5 May 2022 11:36:14 +0530
+Message-Id: <20220505060616.803816-4-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220505060616.803816-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABXGCsMiKe31UaoMV02gW4iJSKnBiO5jGQKej=Zem24mD0ObQw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMJsWRmVeSWpSXmKPExsWy7bCmuq5+dnGSwe8rrBZNE/4yW8xZtY3R
+ YvXdfjaLmwd2MlmsXH2UyeJd6zkWi/NvDzNZzF/2lN3ixoSnjBaHJjczWVx9eYDdgdtjYvM7
+ do+ds+6ye1w+W+qxaVUnm8fmJfUeu282sHm833eVzaNvyypGj8+b5AI4o7JtMlITU1KLFFLz
+ kvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4COVVIoS8wpBQoFJBYXK+nb
+ 2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkCFSZkZ1zuXchWsEqyorXr
+ BnsD4xORLkZODgkBE4kTb34wdTFycQgJ7GaUWHmkkQ0kISTwiVHiyzdliMRnRoltn/tZYTou
+ 7jjICJHYxSjR9WsBM0QHUNWmRaJdjBwcbAKaEhcml4KERQTkJb7cXssCUs8scJZRYtqtQ2CD
+ hAVsJeYtXsYOUs8ioCoxe1IMSJhXwFLixPnpLBC75CVmXvrODmJzClhJdBztZYGoEZQ4OfMJ
+ mM0MVNO8dTYzyHwJgYUcEpd3r4c61EXi7d+/ULawxKvjW9ghbCmJl/1tUHayROv2y2A3SAiU
+ SCxZoA4Rtpe4uOcvE0iYGeiV9bv0IcKyElNPrWOCWMsn0fv7CRNEnFdixzwYW1Hi3qSnUFvF
+ JR7OWAJle0hs2/aHGRJsvYwSV/YeZ5zAqDALyTuzkLwzC2H1AkbmVYySqQXFuempxaYFxnmp
+ 5fAoTs7P3cQITr1a3jsYHz34oHeIkYmD8RCjBAezkgiv89KCJCHelMTKqtSi/Pii0pzU4kOM
+ psDgnsgsJZqcD0z+eSXxhiaWBiZmZmYmlsZmhkrivKfSNyQKCaQnlqRmp6YWpBbB9DFxcEo1
+ MJ2+fPZkZ/mDs2YtHqqSse5sQh08vR6zH6x3eLZVV1lOJTT5+QLdtFNXeat8k79YBrRe8Jlr
+ UsM0vdsv++OB/Nqpgcs1Zl2wrc7w28HPxOVR2xrL0B964436kvbPFl3MvYkGou2taRHvAiIi
+ /0z5Xu3j41uctvEIi8NLRwfhD9L79LL3nRR6rtnybzn7t/5v3z5qx8UYO032jIpM6d4lOZ9f
+ k8eLseXg/ovXQ9dJvrl4fVIqc7Cg1Tnza6ezeDcu77DwzF3s1igz48WTy5dsL1vsuGO4QFVv
+ 4bVyXd/7N080Lngp4/VeMOTX9VuKMy1uqeX1vDsmE+rDOqV1Zf4Blu9BO0q5vNedldGayPZJ
+ iaU4I9FQi7moOBEA1FPH+EYEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDLMWRmVeSWpSXmKPExsWy7bCSvO6SrOIkgw17OCyaJvxltpizahuj
+ xeq7/WwWNw/sZLJYufook8W71nMsFuffHmaymL/sKbvFjQlPGS0OTW5msrj68gC7A7fHxOZ3
+ 7B47Z91l97h8ttRj06pONo/NS+o9dt9sYPN4v+8qm0ffllWMHp83yQVwRnHZpKTmZJalFunb
+ JXBlXO5dyFawSrKitesGewPjE5EuRk4OCQETiYs7DjJ2MXJxCAnsYJTovzWFESIhLtF87Qc7
+ hC0ssfLfc3aIoo+MEodfvmbqYuTgYBPQlLgwuRSkRkRAUWLjxyawQcwCNxklHrdeYwZJCAvY
+ SsxbvIwdpJ5FQFVi9qQYkDCvgKXEifPTWSDmy0vMvPQdbBengJVEx9FesLgQUM397tUsEPWC
+ EidnPgGzmYHqm7fOZp7AKDALSWoWktQCRqZVjJKpBcW56bnFhgVGeanlesWJucWleel6yfm5
+ mxjBEaKltYNxz6oPeocYmTgYDzFKcDArifA6Ly1IEuJNSaysSi3Kjy8qzUktPsQozcGiJM57
+ oetkvJBAemJJanZqakFqEUyWiYNTqoEpLazaWPdRovxvxzTzw6wbw66VrdPmSJ83u0SlYfX7
+ VUnKtbks++MeBVbw1+7z42c5sH9W6kLbpdYatrpGO+6/mjYp9/hX4T/bz898bPF0vamZoPUU
+ prOVbhs3rRacVn22bErK51V/Z+k+3cY91bfeUOPih5prC7XvyFmvemP9d36thCar5a9f+26z
+ PnF+e3FH4FmnguVb30+adevo77cPvOyCmYO6fjlwh72+wpx81+X6r4JvmfN3lNTPC/BR1FY2
+ Zl3JJRez+u+eV7ZiEx4JXMzWe+9w/I3m2pAcppUMUdwmKusksr5mtsfX3FPu+65SsTG3yrot
+ bR2ThK93yIKAU/Vu0mKx4V0n6uOlTPKVWIozEg21mIuKEwHedaa0/wIAAA==
+X-CMS-MailID: 20220505061148epcas5p188618b5b15a95cbe48c8c1559a18c994
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220505061148epcas5p188618b5b15a95cbe48c8c1559a18c994
+References: <20220505060616.803816-1-joshi.k@samsung.com>
+ <CGME20220505061148epcas5p188618b5b15a95cbe48c8c1559a18c994@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220504_221915_985424_4B06391B 
-X-CRM114-Status: GOOD (  11.88  )
+X-CRM114-CacheID: sfid-20220504_231426_322398_4BA122A5 
+X-CRM114-Status: GOOD (  17.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,35 +136,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 05, 2022 at 06:58:11AM +0500, Mikhail Gavrilov wrote:
-> ps    1 : mp:7.10W operational enlat:0 exlat:0 rrt:1 rrl:1
->           rwt:1 rwl:1 idle_power:- active_power:-
-> ps    2 : mp:5.20W operational enlat:0 exlat:0 rrt:2 rrl:2
->           rwt:2 rwl:2 idle_power:- active_power:-
-> ps    3 : mp:0.0620W non-operational enlat:2500 exlat:7500 rrt:3 rrl:3
->           rwt:3 rwl:3 idle_power:- active_power:-
-> ps    4 : mp:0.0440W non-operational enlat:10500 exlat:65000 rrt:4 rrl:4
->           rwt:4 rwl:4 idle_power:- active_power:-
-> 
-> # cat /sys/module/nvme_core/parameters/default_ps_max_latency_us
-> 100000
-> 
-> I concluded that my problem is not related to APST because 2500 + 7500
-> + 10500 + 65000 = 85500 < 100000
-> 100000 is greater than the total latency of any state (enlat + xlat).
-> 
-> Or am I misinterpreting the results?
+From: Christoph Hellwig <hch@lst.de>
 
-I think you did misinterpret the results. The max latency just says which power
-state is the deepest it will request APST, and your controller's reported
-values will allow the deepest low power state your controller supports, which
-is known to cause problems with some platform/controller combinations.
+Divide the work into two helpers, namely nvme_alloc_user_request and
+nvme_execute_user_rq. This is a prep patch, to help wiring up
+uring-cmd support in nvme.
 
-The troubleshooting steps for your observation is to:
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/ioctl.c | 47 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 42 insertions(+), 5 deletions(-)
 
-  1. Turn off APST (nvme_core.default_ps_max_latency_us=0)
-  2. Turn off APSM (pcie_aspm=off)
-  3. Turn off both
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 554566371ffa..3531de8073a6 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -19,6 +19,13 @@ static void __user *nvme_to_user_ptr(uintptr_t ptrval)
+ 	return (void __user *)ptrval;
+ }
+ 
++static inline void *nvme_meta_from_bio(struct bio *bio)
++{
++	struct bio_integrity_payload *bip = bio_integrity(bio);
++
++	return bip ? bvec_virt(bip->bip_vec) : NULL;
++}
++
+ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+ 		unsigned len, u32 seed, bool write)
+ {
+@@ -53,10 +60,10 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+ 	return ERR_PTR(ret);
+ }
+ 
+-static int nvme_submit_user_cmd(struct request_queue *q,
++static struct request *nvme_alloc_user_request(struct request_queue *q,
+ 		struct nvme_command *cmd, void __user *ubuffer,
+ 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+-		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
++		u32 meta_seed, unsigned timeout, bool vec)
+ {
+ 	bool write = nvme_is_write(cmd);
+ 	struct nvme_ns *ns = q->queuedata;
+@@ -68,7 +75,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 
+ 	req = blk_mq_alloc_request(q, nvme_req_op(cmd), 0);
+ 	if (IS_ERR(req))
+-		return PTR_ERR(req);
++		return req;
+ 	nvme_init_request(req, cmd);
+ 
+ 	if (timeout)
+@@ -108,7 +115,26 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 		}
+ 	}
+ 
++	return req;
++
++out_unmap:
++	if (bio)
++		blk_rq_unmap_user(bio);
++out:
++	blk_mq_free_request(req);
++	return ERR_PTR(ret);
++}
++
++static int nvme_execute_user_rq(struct request *req, void __user *meta_buffer,
++		unsigned meta_len, u64 *result)
++{
++	struct bio *bio = req->bio;
++	bool write = bio_op(bio) == REQ_OP_DRV_OUT;
++	int ret;
++	void *meta = nvme_meta_from_bio(bio);
++
+ 	ret = nvme_execute_passthru_rq(req);
++
+ 	if (result)
+ 		*result = le64_to_cpu(nvme_req(req)->result.u64);
+ 	if (meta && !ret && !write) {
+@@ -116,14 +142,25 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 			ret = -EFAULT;
+ 	}
+ 	kfree(meta);
+- out_unmap:
+ 	if (bio)
+ 		blk_rq_unmap_user(bio);
+- out:
+ 	blk_mq_free_request(req);
+ 	return ret;
+ }
+ 
++static int nvme_submit_user_cmd(struct request_queue *q,
++		struct nvme_command *cmd, void __user *ubuffer,
++		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
++		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
++{
++	struct request *req;
++
++	req = nvme_alloc_user_request(q, cmd, ubuffer, bufflen, meta_buffer,
++			meta_len, meta_seed, timeout, vec);
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++	return nvme_execute_user_rq(req, meta_buffer, meta_len, result);
++}
+ 
+ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ {
+-- 
+2.25.1
 
-Typically one of those resolves the issue.
 
