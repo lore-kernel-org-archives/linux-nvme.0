@@ -4,118 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF337C433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 12:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 378F6C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 13:14:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=evV7zW0Pkptdgxryp8q/nhaiY9RbM7s7Y7FBYLM1+3A=; b=CXCKwELctH3w0kL/SgDxuAbpJ8
-	8oQvG3NjJO+8mwbLgVf76bXnXVzff83S7doVYuOaGgSuR0NDBW6/oe1wHvEdIG7HQg4COkZjskDrE
-	gpBXjbA8jrhMMNBub7oFkBk5L8/z1xD+ptsYgMrQt7XwSMW+nA3/qnva2pj2HWomO6UnFd2XVTzXw
-	9kKEmQQuVjqCEEitg2AwSNlXbsB6p8L9RWyI+zf3ueeGEpG3fFuG6Ra9UPXbohmtVVZjCEgxbN7VJ
-	WbIGEz6QznUFOSly3cwaSZfnv6+qm+4r54C38DkL0zS5zpgp5xIvtPV86U14roNBnffoGHB4WTRFd
-	K9kiEEKQ==;
+	bh=ihidgXYB4xhjPn48/H5XkAMtFgyfgQGRP//jjSqAZfI=; b=DErRgCW9rGnU2SFGrJvhwunU7h
+	a+6ebqpDq906bxR/fF7NH3zA8YqScUTrP39plJQTlA5eUvGbtkJvgvheZjx/gZYv6w+vHSpOf0+kG
+	DjW84h+NXc2f1+0bqNdfm/Q38hY5L0/RIVlO2+FRG7lLtNx6cYKL+et2c06tM4YoapjthCY/qZuCs
+	7P1mkwY8W0rAPacBpYpJ6fAlc3hTwJvkkERYTuIooa0C/xDkh65aLMkTHi3ZAmeEGGUp826uvLAJ1
+	Z86gFACBqPp5zAATXQUsrXTSqZRa259Lo3dGZKSPKGV1zc3sZkuxGHVsr38NvSUnw866/gBFttj0y
+	Z5zLU5oQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmxWG-003KQl-Lx; Fri, 06 May 2022 12:57:16 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+	id 1nmxmg-003Mfv-ES; Fri, 06 May 2022 13:14:14 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmxWD-003KOd-Pu; Fri, 06 May 2022 12:57:15 +0000
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246Bhqsi032725;
- Fri, 6 May 2022 12:57:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=evV7zW0Pkptdgxryp8q/nhaiY9RbM7s7Y7FBYLM1+3A=;
- b=Jpd/LqQ8qRyc1xkIsreNzVu3YNJxk4TaXrlRk5EXzrQXl5UeIjcnnMKpZQPsVJ0GWk+H
- 4OO+eKdI0ysFLbuy272CQquw7xLwkRQ1s5GUWbXY8kFuS71Ceev4HZ45AsEQ8oZBvzjh
- vj9ZT2cWF915zG+QEbX57A1GZjGTBqhBXVby9LhxAVMXfdHc8D2HNV+6fPiIWZDjoX8J
- xQc3nUSMfgk+A0yFcqxH7BuTTwMYt5urI5Cc5SR3b708MtZCLHe7iDRxY/w+5R6s+qyZ
- 89+99+cfayWa/722v5Fz4JyhE/P1cqJ/2euDxDC5GLt/zC7591d5SNeke9efRBlC4wae 9g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw3279f16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 May 2022 12:57:05 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 246C6GE1009740;
- Fri, 6 May 2022 12:57:04 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw3279f0m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 May 2022 12:57:04 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 246CrK4Z028206;
- Fri, 6 May 2022 12:57:02 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3ftp7fwgbx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 May 2022 12:57:02 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 246Cv0dI39256422
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 6 May 2022 12:57:00 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F2900A4053;
- Fri,  6 May 2022 12:56:59 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1CD1EA4040;
- Fri,  6 May 2022 12:56:59 +0000 (GMT)
-Received: from [9.145.54.141] (unknown [9.145.54.141])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  6 May 2022 12:56:59 +0000 (GMT)
-Message-ID: <1f26f6b4-4d33-6291-31c2-5cb68a5be829@linux.ibm.com>
-Date: Fri, 6 May 2022 14:56:58 +0200
+ id 1nmxmb-003Met-Be
+ for linux-nvme@lists.infradead.org; Fri, 06 May 2022 13:14:13 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id x23so6218002pff.9
+ for <linux-nvme@lists.infradead.org>; Fri, 06 May 2022 06:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ihidgXYB4xhjPn48/H5XkAMtFgyfgQGRP//jjSqAZfI=;
+ b=7mtkz5L+M6CyMpuvSrwmf/po6soshccZkNmunBuH8V68CckpXuXwnPczrcP8Zarrqw
+ wlEISzVXGgr3lE/+qnQXce9zh/MWgauJ09HVHypP+wQ+ZKlUWGWQV20qtf3E9eaHM4uO
+ itgDW03k+VhpYeAx8L8yDX2zfAPjjRO4XstYqMvOCX1LFKn61uSiYRa55ZgnEh0BYsef
+ 4F098W0akvQnlNELLFIWuPxCghX8RToOcCzZALCu9LUy4UA5cisgcnmBiKxGtaNUAnFB
+ 1q0iZr9MOaZoYUOsZh8dqSC28pA2VuCPCQRuPD+SBAzj2LbwDPrrzpLvi6o13jp0gKwq
+ TqVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ihidgXYB4xhjPn48/H5XkAMtFgyfgQGRP//jjSqAZfI=;
+ b=dqhoYRLrZmxJTkSYrmYd5oIlGcrQIwWP5+pxTA4/YKgXCSQERZK3NgOJGLMjVXHupv
+ bqyieZp+fU0iYQIpF8lEavJ8TU6qoBJmbzznlln0BKezUqGiIxkoc6L67eIWiOc/Z99L
+ kiw13EYL4EyfXP+CWxkvvY+tqMUQp6ca1ZhsbFxjmURlixTGY1bGu9goedGmoQFCPrf7
+ 9pWi9ckEWmW+c1uQkDB2UZaN626lop3zLvgezaQLAskvlP3nO9TOuqQGQZ78ILvCA/UG
+ 36HXW2utihBYRnSr+WVBnLWPTywoBayNv0wsxDXpEU852Cfbn2sOAFsCxJuSmPDw8mvy
+ 52pg==
+X-Gm-Message-State: AOAM530DZ/7NBxnQzLq+8waJSnkhT4a2Qa0uGLFE5JTgXMWNiLgn4HI4
+ vfyRUqqTcflvrKgdngSxkZrqsw==
+X-Google-Smtp-Source: ABdhPJxbgh99Uq2Q8nb4hWzt4D5dqalKDU8yUhhAXreQdsMJpNz9gHsObYxtOvni+z64QBRJbROaeA==
+X-Received: by 2002:a05:6a00:1784:b0:50d:d8cb:7a4f with SMTP id
+ s4-20020a056a00178400b0050dd8cb7a4fmr3481979pfg.23.1651842844406; 
+ Fri, 06 May 2022 06:14:04 -0700 (PDT)
+Received: from [192.168.4.166] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020aa783c8000000b0050dc762818asm3322528pfn.100.2022.05.06.06.14.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 May 2022 06:14:03 -0700 (PDT)
+Message-ID: <ac5bc77c-16a3-77b6-df57-823e16c89a70@kernel.dk>
+Date: Fri, 6 May 2022 07:14:01 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 07/11] dasd: don't set the discard_alignment queue limit
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 0/5] io_uring passthrough for nvme
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Richard Weinberger <richard@nod.at>,
- Johannes Berg <johannes@sipsolutions.net>, Josef Bacik
- <josef@toxicpanda.com>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
- Jack Wang <jinpu.wang@ionos.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Roger_Pau_Monn=c3=a9?=
- <roger.pau@citrix.com>,
- Mike Snitzer <snitzer@kernel.org>, Song Liu <song@kernel.org>,
- Stefan Haberland <sth@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-um@lists.infradead.org, linux-block@vger.kernel.org,
- nbd@other.debian.org, virtualization@lists.linux-foundation.org,
- xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- dm-devel@redhat.com
-References: <20220418045314.360785-1-hch@lst.de>
- <20220418045314.360785-8-hch@lst.de>
-From: =?UTF-8?Q?Jan_H=c3=b6ppner?= <hoeppner@linux.ibm.com>
-In-Reply-To: <20220418045314.360785-8-hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: hch@lst.de, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org, shr@fb.com,
+ joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
+References: <CGME20220505061142epcas5p2c943572766bfd5088138fe0f7873c96c@epcas5p2.samsung.com>
+ <20220505060616.803816-1-joshi.k@samsung.com>
+ <d99a828b-94ed-97a0-8430-cfb49dd56b74@kernel.dk>
+ <a715cc61-97e7-2292-ec7d-59389b00e779@kernel.dk>
+ <20220506064249.GA20217@test-zns>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220506064249.GA20217@test-zns>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 8a7-K9CSYxb93olkIOkZv_aoAnTW7JGG
-X-Proofpoint-GUID: eBrk8yaxusH63MjrlJz40h5tJPgmJePg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-06_04,2022-05-06_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- malwarescore=0 phishscore=0 mlxlogscore=999 adultscore=0 clxscore=1011
- priorityscore=1501 spamscore=0 bulkscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205060070
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220506_055714_022671_BE2BDC87 
-X-CRM114-Status: GOOD (  26.77  )
+X-CRM114-CacheID: sfid-20220506_061409_673541_2BC966D2 
+X-CRM114-Status: GOOD (  24.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,36 +98,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 18/04/2022 06:53, Christoph Hellwig wrote:
-> The discard_alignment queue limit is named a bit misleading means the
-> offset into the block device at which the discard granularity starts.
-> Setting it to PAGE_SIZE while the discard granularity is the block size
-> that is smaller or the same as PAGE_SIZE as done by dasd is mostly
-> harmless but also useless.
+On 5/6/22 12:42 AM, Kanchan Joshi wrote:
+> On Thu, May 05, 2022 at 12:29:27PM -0600, Jens Axboe wrote:
+>> On 5/5/22 12:20 PM, Jens Axboe wrote:
+>>> On 5/5/22 12:06 AM, Kanchan Joshi wrote:
+>>>> This iteration is against io_uring-big-sqe brach (linux-block).
+>>>> On top of a739b2354 ("io_uring: enable CQE32").
+>>>>
+>>>> fio testing branch:
+>>>> https://protect2.fireeye.com/v1/url?k=b0d23f72-d1592a52-b0d3b43d-74fe485fb347-02541f801e3b5f5f&q=1&e=ef4bb07a-7707-4854-819c-98abcabb5d2d&u=https%3A%2F%2Fgithub.com%2Fjoshkan%2Ffio%2Ftree%2Fbig-cqe-pt.v4
+>>>
+>>> I folded in the suggested changes, the branch is here:
+>>>
+>>> https://protect2.fireeye.com/v1/url?k=40e9c3d0-2162d6f0-40e8489f-74fe485fb347-f8e801be1f796980&q=1&e=ef4bb07a-7707-4854-819c-98abcabb5d2d&u=https%3A%2F%2Fgit.kernel.dk%2Fcgit%2Flinux-block%2Flog%2F%3Fh%3Dfor-5.19%2Fio_uring-passthrough
+>>>
+>>> I'll try and run the fio test branch, but please take a look and see what
+>>> you think.
+>>
+>> Tested that fio branch and it works for me with what I had pushed out.
+>> Also tested explicit deferral of requests.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Acked-by: Jan Höppner <hoeppner@linux.ibm.com>
-
-Sorry for a rather late answer. I saw that Jens already applied
-the patches so it's fine when the Ack isn't added anymore.
-Wanted to send it anyway so that you know we're aware of it.
-
-> ---
->  drivers/s390/block/dasd_fba.c | 1 -
->  1 file changed, 1 deletion(-)
+> Thanks for sorting everything out! I could test this out now only :-(
+> Fio scripts ran fine (post refreshing SQE128/CQE32 flag values;repushed fio).
 > 
-> diff --git a/drivers/s390/block/dasd_fba.c b/drivers/s390/block/dasd_fba.c
-> index 8bd5665db9198..60be7f7bf2d16 100644
-> --- a/drivers/s390/block/dasd_fba.c
-> +++ b/drivers/s390/block/dasd_fba.c
-> @@ -782,7 +782,6 @@ static void dasd_fba_setup_blk_queue(struct dasd_block *block)
->  	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
->  
->  	q->limits.discard_granularity = logical_block_size;
-> -	q->limits.discard_alignment = PAGE_SIZE;
->  
->  	/* Calculate max_discard_sectors and make it PAGE aligned */
->  	max_bytes = USHRT_MAX * logical_block_size;
+> I think these two changes are needed in your branch:
+> 
+> 1. since uring-cmd can be without large-cqe, we need to add that
+> condition in io_uring_cmd_done(). This change in patch 1 -
+> diff --git a/fs/io_uring.c b/fs/io_uring.c
+> index 884f40f51536..c24469564ebc 100644
+> --- a/fs/io_uring.c
+> +++ b/fs/io_uring.c
+> @@ -4938,7 +4938,10 @@ void io_uring_cmd_done(struct io_uring_cmd *ioucmd, ssize_t ret, ssize_t res2)
+> 
+>        if (ret < 0)
+>                req_set_fail(req);
+> -       __io_req_complete32(req, 0, ret, 0, res2, 0);
+> +       if (req->ctx->flags & IORING_SETUP_CQE32)
+> +               __io_req_complete32(req, 0, ret, 0, res2, 0);
+> +       else
+> +               io_req_complete(req, ret);
+> }
+> EXPORT_SYMBOL_GPL(io_uring_cmd_done);
+
+Ah yes, good catch, I missed that it's cqe32 exclusive right now.
+
+> 2. In the commit-message of patch 1, we should delete last line.
+> i.e.
+> "This operation can be issued only on the ring that is
+> setup with both IORING_SETUP_SQE128 and IORING_SETUP_CQE32 flags."
+> 
+> And/or we can move this commit-message of patch 4.
+
+I killed the line.
+
+> You can either take these changes in, or I can respin the series. LMK.
+
+I folded it in and will process Christoph's suggestions.
+
+-- 
+Jens Axboe
 
 
