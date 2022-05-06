@@ -4,46 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A86D2C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 10:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF337C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 12:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NcBBQwmWlH6xqsycDtIZaSzw22yenWKb2ZT8W08Y634=; b=2674qTqoJ3lH0eAHCVLM8vIG/W
-	lZnblTa5VCCGZc+amhfm8tNCRyYvgcb5vSBowYkTljiOWkuzSEGG7fAIz2AjSGkEpwUmlptZn5u+f
-	gXAGTiQrs9Mgd1zBz64UQhwnWsHrdn7BllLZRzIkxb9kf65v/pxhlr8TsI5imKNf0M109co0PrcEo
-	+N9gqifhcerQo+fUATKh9VXOWN1PgXeDZbbMebMe30D9wbvZ/9hwhciFfaQtcJ2NIDW+sI/mSz7vF
-	S/15vdKnQqTl4sk7xLAYCgNrzV12FysZrZVwjGDxIsW5wXGZwo9wh0wYGX8W7EUkpci0z+F/veEw4
-	PMHYmpXg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=evV7zW0Pkptdgxryp8q/nhaiY9RbM7s7Y7FBYLM1+3A=; b=CXCKwELctH3w0kL/SgDxuAbpJ8
+	8oQvG3NjJO+8mwbLgVf76bXnXVzff83S7doVYuOaGgSuR0NDBW6/oe1wHvEdIG7HQg4COkZjskDrE
+	gpBXjbA8jrhMMNBub7oFkBk5L8/z1xD+ptsYgMrQt7XwSMW+nA3/qnva2pj2HWomO6UnFd2XVTzXw
+	9kKEmQQuVjqCEEitg2AwSNlXbsB6p8L9RWyI+zf3ueeGEpG3fFuG6Ra9UPXbohmtVVZjCEgxbN7VJ
+	WbIGEz6QznUFOSly3cwaSZfnv6+qm+4r54C38DkL0zS5zpgp5xIvtPV86U14roNBnffoGHB4WTRFd
+	K9kiEEKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmv2q-002eqj-RB; Fri, 06 May 2022 10:18:44 +0000
-Received: from mout-u-204.mailbox.org ([91.198.250.253])
+	id 1nmxWG-003KQl-Lx; Fri, 06 May 2022 12:57:16 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmv2o-002epC-Gl
- for linux-nvme@lists.infradead.org; Fri, 06 May 2022 10:18:43 +0000
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4Kvmfg0dSqz9sTy;
- Fri,  6 May 2022 12:15:39 +0200 (CEST)
-From: Stefan Roese <sr@denx.de>
-To: linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>
-Subject: [PATCH] nvme-pci: Harden drive presence detect in nvme_dev_disable()
-Date: Fri,  6 May 2022 12:15:34 +0200
-Message-Id: <20220506101534.1728011-1-sr@denx.de>
+ id 1nmxWD-003KOd-Pu; Fri, 06 May 2022 12:57:15 +0000
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246Bhqsi032725;
+ Fri, 6 May 2022 12:57:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=evV7zW0Pkptdgxryp8q/nhaiY9RbM7s7Y7FBYLM1+3A=;
+ b=Jpd/LqQ8qRyc1xkIsreNzVu3YNJxk4TaXrlRk5EXzrQXl5UeIjcnnMKpZQPsVJ0GWk+H
+ 4OO+eKdI0ysFLbuy272CQquw7xLwkRQ1s5GUWbXY8kFuS71Ceev4HZ45AsEQ8oZBvzjh
+ vj9ZT2cWF915zG+QEbX57A1GZjGTBqhBXVby9LhxAVMXfdHc8D2HNV+6fPiIWZDjoX8J
+ xQc3nUSMfgk+A0yFcqxH7BuTTwMYt5urI5Cc5SR3b708MtZCLHe7iDRxY/w+5R6s+qyZ
+ 89+99+cfayWa/722v5Fz4JyhE/P1cqJ/2euDxDC5GLt/zC7591d5SNeke9efRBlC4wae 9g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw3279f16-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 12:57:05 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 246C6GE1009740;
+ Fri, 6 May 2022 12:57:04 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw3279f0m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 12:57:04 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 246CrK4Z028206;
+ Fri, 6 May 2022 12:57:02 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3ftp7fwgbx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 May 2022 12:57:02 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 246Cv0dI39256422
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 May 2022 12:57:00 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F2900A4053;
+ Fri,  6 May 2022 12:56:59 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1CD1EA4040;
+ Fri,  6 May 2022 12:56:59 +0000 (GMT)
+Received: from [9.145.54.141] (unknown [9.145.54.141])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  6 May 2022 12:56:59 +0000 (GMT)
+Message-ID: <1f26f6b4-4d33-6291-31c2-5cb68a5be829@linux.ibm.com>
+Date: Fri, 6 May 2022 14:56:58 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 07/11] dasd: don't set the discard_alignment queue limit
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Richard Weinberger <richard@nod.at>,
+ Johannes Berg <johannes@sipsolutions.net>, Josef Bacik
+ <josef@toxicpanda.com>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+ Jack Wang <jinpu.wang@ionos.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Roger_Pau_Monn=c3=a9?=
+ <roger.pau@citrix.com>,
+ Mike Snitzer <snitzer@kernel.org>, Song Liu <song@kernel.org>,
+ Stefan Haberland <sth@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-um@lists.infradead.org, linux-block@vger.kernel.org,
+ nbd@other.debian.org, virtualization@lists.linux-foundation.org,
+ xen-devel@lists.xenproject.org, linux-raid@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+ dm-devel@redhat.com
+References: <20220418045314.360785-1-hch@lst.de>
+ <20220418045314.360785-8-hch@lst.de>
+From: =?UTF-8?Q?Jan_H=c3=b6ppner?= <hoeppner@linux.ibm.com>
+In-Reply-To: <20220418045314.360785-8-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 8a7-K9CSYxb93olkIOkZv_aoAnTW7JGG
+X-Proofpoint-GUID: eBrk8yaxusH63MjrlJz40h5tJPgmJePg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-06_04,2022-05-06_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 adultscore=0 clxscore=1011
+ priorityscore=1501 spamscore=0 bulkscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205060070
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220506_031842_735310_409EDE84 
-X-CRM114-Status: GOOD (  15.38  )
+X-CRM114-CacheID: sfid-20220506_055714_022671_BE2BDC87 
+X-CRM114-Status: GOOD (  26.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,47 +130,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On our ZynqMP system we observe, that a NVMe drive that resets itself
-while doing a firmware update causes a Kernel crash like this:
+On 18/04/2022 06:53, Christoph Hellwig wrote:
+> The discard_alignment queue limit is named a bit misleading means the
+> offset into the block device at which the discard granularity starts.
+> Setting it to PAGE_SIZE while the discard granularity is the block size
+> that is smaller or the same as PAGE_SIZE as done by dasd is mostly
+> harmless but also useless.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-[ 67.720772] pcieport 0000:02:02.0: pciehp: Slot(2): Link Down
-[ 67.720783] pcieport 0000:02:02.0: pciehp: Slot(2): Card not present
-[ 67.720795] nvme 0000:04:00.0: PME# disabled
-[ 67.720849] Internal error: synchronous external abort: 96000010 [#1] PREEMPT SMP
-[ 67.720853] nwl-pcie fd0e0000.pcie: Slave error
+Acked-by: Jan Höppner <hoeppner@linux.ibm.com>
 
-Analysis: When nvme_dev_disable() is called because of this PCIe hotplug
-event, pci_is_enabled() is still true. And accessing the NVMe drive
-which is currently not available as it's in reboot process causes this
-"synchronous external abort" on this ARM64 platform.
+Sorry for a rather late answer. I saw that Jens already applied
+the patches so it's fine when the Ack isn't added anymore.
+Wanted to send it anyway so that you know we're aware of it.
 
-This patch adds the pci_device_is_present() check as well, which returns
-false in this "Card not present" hot-plug case. With this change, the
-NVMe driver does not try to access the NVMe registers any more and the
-FW update finishes without any problems.
-
-Signed-off-by: Stefan Roese <sr@denx.de>
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>
-Cc: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 97afeb898b25..c764a2a1d7f1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2473,7 +2473,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	mutex_lock(&dev->shutdown_lock);
--	if (pci_is_enabled(pdev)) {
-+	if (pci_device_is_present(pdev) && pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
- 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--- 
-2.36.0
+> ---
+>  drivers/s390/block/dasd_fba.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/s390/block/dasd_fba.c b/drivers/s390/block/dasd_fba.c
+> index 8bd5665db9198..60be7f7bf2d16 100644
+> --- a/drivers/s390/block/dasd_fba.c
+> +++ b/drivers/s390/block/dasd_fba.c
+> @@ -782,7 +782,6 @@ static void dasd_fba_setup_blk_queue(struct dasd_block *block)
+>  	blk_queue_segment_boundary(q, PAGE_SIZE - 1);
+>  
+>  	q->limits.discard_granularity = logical_block_size;
+> -	q->limits.discard_alignment = PAGE_SIZE;
+>  
+>  	/* Calculate max_discard_sectors and make it PAGE aligned */
+>  	max_bytes = USHRT_MAX * logical_block_size;
 
 
