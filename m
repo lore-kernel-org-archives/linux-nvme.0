@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CCACC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 08:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D275C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 08:12:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IJFvu7Txlqq4QbkiUAdYp5LUxrFDgYD73zO+DTftg+Q=; b=YNbZ3bFNxZz9571rd/hxFavery
-	INUlI1Retv+u9HYLS6dLdZIKhvv157SRPjiFYhoLcJhw+C9RaUW10i6wtrMum7cMp/gL8hd9WwSZg
-	xs1hE6Ba1OuJdxtXRlxmTAebMC61WDTjbeFGeKBN1VdAtl9I2t0LQlb7Els1JJE4MPbhJ3Cbkche6
-	Jpwz5toqcChdysSXew1QbXbaYblY8pW+rprO8AiFc/76cvn1UhJTMewmWdxrlX3jyRfmRhu9XaRb5
-	r9hFaDwMXK6Cat1lqT8fvaH9SjHPzGjfH3qQhuEZ7/GFABAX7Egcned4/B7EbY/sEPT6j/GjE91al
-	jJaMlrIg==;
+	bh=2XMubIyolz4ZLTc9DAEWfdq40b874mLFKF8nTtEYP/I=; b=C2qtj3hdn9520H7al+R1sOJrHC
+	BuHeGXwIolPDxqHnzNQmPkSkCXEOicgMQU/n3e4p5xv03+IWXeJelCn0389bZ6nAAyX0L9n7F2lS0
+	lCQYdpmNS1c3MBfBbxHXhwYfCRvLO8oG9QJ6L4+Ip8bpuHyqmP9vxEmdKC5y3XrhhwKalx77vDIN2
+	CcEIFB8/I9pU5Vg4A7wzSBuAypmCIANklfbc4VK6MMTqhVaHZMA6xmvt8nfG+80f3KNMYzsNJ1dQx
+	7ng0IpBLW38QHiAHCdgRQEJvitgdVEjQjbvxapssydx56rgwXpiNXWarGyNSplT5WetTEI04j4x+x
+	cXcoiPdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmt47-001z1p-HO; Fri, 06 May 2022 08:11:55 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1nmt4N-001zAc-0d; Fri, 06 May 2022 08:12:11 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmt3X-001yc5-Ph
- for linux-nvme@lists.infradead.org; Fri, 06 May 2022 08:11:24 +0000
+ id 1nmt3Z-001yfN-R9
+ for linux-nvme@lists.infradead.org; Fri, 06 May 2022 08:11:25 +0000
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220506081111euoutp02b761768c3751fce2da8782da28d20487~sdcmGxLLu2384623846euoutp02Y
- for <linux-nvme@lists.infradead.org>; Fri,  6 May 2022 08:11:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220506081111euoutp02b761768c3751fce2da8782da28d20487~sdcmGxLLu2384623846euoutp02Y
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220506081120euoutp01402ae2f48c104b2a6fdd6c8ff384c734~sdcuXSkvm2306323063euoutp01R
+ for <linux-nvme@lists.infradead.org>; Fri,  6 May 2022 08:11:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220506081120euoutp01402ae2f48c104b2a6fdd6c8ff384c734~sdcuXSkvm2306323063euoutp01R
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651824671;
- bh=IJFvu7Txlqq4QbkiUAdYp5LUxrFDgYD73zO+DTftg+Q=;
+ s=mail20170921; t=1651824680;
+ bh=2XMubIyolz4ZLTc9DAEWfdq40b874mLFKF8nTtEYP/I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ti0TDsRWtQcoTqksGh7F0d3wO/5pt9G3DViOyIP1msJDOgSCY2kWwcLms0a9JMkyf
- rz950fE0dgAHycnefUHeiPdOibwkV3cHYwxuu1ytDz0aNeOL79BCwHzK9HuyIb0bHq
- Wc6PYMKdep578eJIilYCXMW2mJRCRs/8HqVm26t8=
+ b=F1dSw+VtkcpEeMiIDVUwkpheUzxNb4HFT/dryBCGIPn4nyAb8PMRi9cDp+Y4Pppp8
+ 2Wd/rOb9FGzGk5TtNBUvQUYffiKQUcITziO/EaTtnRTZxPnjsGuHDwhhZJEot1LQBg
+ ccB6liw0P4iquWO9fecN7mwKfhn38/BylsM+dP6o=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220506081110eucas1p2cfc43e30c9c38c97e466527376ef9f90~sdckiaQVi1314813148eucas1p2Z;
- Fri,  6 May 2022 08:11:10 +0000 (GMT)
+ 20220506081118eucas1p2cfcc398efecd5a38c185c6cd71cf243e~sdcslGTqR0618406184eucas1p2f;
+ Fri,  6 May 2022 08:11:18 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 96.05.09887.D18D4726; Fri,  6
- May 2022 09:11:09 +0100 (BST)
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 53.15.09887.628D4726; Fri,  6
+ May 2022 09:11:18 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220506081109eucas1p26bbb68a1740b1af923ed862a93112780~sdcj-rG7n1919419194eucas1p2Q;
- Fri,  6 May 2022 08:11:09 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a~sdcsEWQBd2880428804eucas1p12;
+ Fri,  6 May 2022 08:11:18 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220506081109eusmtrp2db398a0a3f09537f71805983a29bb2c9~sdcj_iEtg2593625936eusmtrp2V;
- Fri,  6 May 2022 08:11:09 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-2d-6274d81df581
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 9D.E9.09404.D18D4726; Fri,  6
- May 2022 09:11:09 +0100 (BST)
-Received: from localhost (unknown [106.210.248.174]) by eusmtip2.samsung.com
+ 20220506081118eusmtrp26f98e34ad16879dc8bda415db8d5ed37~sdcr-ioOA2593625936eusmtrp2k;
+ Fri,  6 May 2022 08:11:18 +0000 (GMT)
+X-AuditID: cbfec7f4-471ff7000000269f-55-6274d826672c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 05.03.09522.528D4726; Fri,  6
+ May 2022 09:11:17 +0100 (BST)
+Received: from localhost (unknown [106.210.248.174]) by eusmtip1.samsung.com
  (KnoxPortal) with ESMTPA id
- 20220506081109eusmtip22afa82e359d99dbc946388ce73357abc~sdcjmtyWb1925719257eusmtip28;
- Fri,  6 May 2022 08:11:09 +0000 (GMT)
+ 20220506081117eusmtip1c4f0939db628ec5dc1a8f468ad7710a9~sdcrnO9IP2776127761eusmtip1U;
+ Fri,  6 May 2022 08:11:17 +0000 (GMT)
 From: Pankaj Raghav <p.raghav@samsung.com>
 To: jaegeuk@kernel.org, hare@suse.de, dsterba@suse.com, axboe@kernel.dk,
  hch@lst.de, damien.lemoal@opensource.wdc.com, snitzer@kernel.org
@@ -72,65 +72,65 @@ Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
  linux-kernel@vger.kernel.org, Johannes Thumshirn <jth@kernel.org>, Sagi
  Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
  linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>, Keith
- Busch <kbusch@kernel.org>, linux-btrfs@vger.kernel.org, Pankaj Raghav
- <p.raghav@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH v3 03/11] nvme: zns: Allow ZNS drives that have
- non-power_of_2 zone size
-Date: Fri,  6 May 2022 10:10:57 +0200
-Message-Id: <20220506081105.29134-4-p.raghav@samsung.com>
+ Busch <kbusch@kernel.org>, linux-btrfs@vger.kernel.org, Luis Chamberlain
+ <mcgrof@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH v3 11/11] dm-zoned: ensure only power of 2 zone sizes are
+ allowed
+Date: Fri,  6 May 2022 10:11:05 +0200
+Message-Id: <20220506081105.29134-12-p.raghav@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220506081105.29134-1-p.raghav@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTVxjeuff29lKtu7RGDiox6z4SIYAYNQdcHG5k3m3qdMk+QqZb0Tsg
- FjAtzDl+WIGBgCsFYYwWpDD5BosUyLCwkW7jGwUqs3YDSgdxYFZorDIsgVluzfz3PO/7POd9
- nzeHwkXN5FYqPjGZlSdKZRJSQLT3LN8KDrAkx+yaHYpA+oEeHK119pCoYSKPRN8tLuOoIO97
- PnIP38ZRl0PLQyP/XsTQve4ODHVWFmCoruE3DM3oNTi63L1IoLqMaRytTIehaZeVQAWm3wGa
- HddgqMsahMb+quWjzq5+AplvlpKovHqWj9SZj3BkUc8ClN9r4KGHVRl8dP3BAoH6rNsiAxjz
- nfeY1b5GkslPd/CZ25M3CMY8nMK01GeTTIWyCGcM1y4wxntKkvk23UEyHd9M8ZiFn8ZJRtVa
- Dxh96zjBGAZTGbXhBu+YKFrw+mlWFv8lKw898Lkgrk1XiJ1t3fKV09pNKEGTKAf4UJDeA92P
- ikAOEFAiuhZAq82Ic8QFYPr1uzyOPASw26HkP7MUXs73NmoAbG4ZwjgyB+DAip3MARRF0oHw
- YjbfU99M5wKYN5W17sZpAw+ONH3hwWI6Gg45npAeTNCvQpPSgnmwkA6H7UsOgpu2A5aMLa17
- fegImHZljuQ0vrC/ZIbg3twB09u063tDuk4AK1ddOGeOguZMTzoPFsP53lZvhO1wraMc43Aq
- nLW4veaMp5t26NcTQHo/VA3JPBCnd0L9zVBOfhCOZhZ5FZug5R9fboVNsKC9GOfKQngp03te
- CexYnvEOhdCcVupNxUDzsg2owUua58Jonguj+X+uDuD1wI9NUSTEsordiey5EIU0QZGSGBty
- KimhBTz91IOrva4fQc28M8QEMAqYAKRwyWahWJMcIxKelp7/mpUnfSZPkbEKE9hGERI/4an4
- ZqmIjpUms2dY9iwrf9bFKJ+tSkwdpG1q+2H0QvEH9wecR97Ya2jMov3r3+7bV1iXdAK+sm97
- SdYLbXbV3NVjh29Zjzv/viTQ8Wt507ZfUh4Yh2Kr84xXQqePv7Pr/YmR4I1RfknnbFPqT8p+
- vnu0XTXfvNasN1L+47K33AcrMQHqx87nlFVENEoCI13DCSFX7ftVWF3aZPnRqABjzUp9bont
- 0MbKl2NOssMr2tQ3x/6Y3G0/Qr0mNsw1sNc+HgkN+mgyYDhr8PHh4BNnFtOK3St2fUV4T+Sn
- 0d3ZE6Nhj+N0YVAn/nXvu1V3qsP9D6S+uHB/6sMtMmuj3XeprHenUFwqO9RWtUHmjMzVxmyw
- Gf9UmPY8GTgpIRRx0rBAXK6Q/gdbsHbUQwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAKsWRmVeSWpSXmKPExsVy+t/xe7qyN0qSDLr3ilmsP3WM2eL/nmNs
- Fqvv9rNZTPvwk9liUv8MdovfZ88zW+x9N5vV4sKPRiaLmwd2MlnsWTSJyWLl6qNMFk/Wz2K2
- 6DnwgcViZctDZos/Dw0tHn65xWIx6dA1RounV2cxWey9pW1x6fEKdos9e0+yWFzeNYfNYv6y
- p+wWE9q+MlvcmPCU0WLi8c2sFp+XtrBbrHv9nsXixC1pB1mPy1e8Pf6dWMPmMbH5HbvH+Xsb
- WTwuny312LSqk81jYcNUZo/NS+o9dt9sYPPobX7H5rGz9T6rx/t9V9k8+rasYvRYv+Uqi8fm
- 09UeEzZvZA0QitKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxL
- LdK3S9DL2LpgClPBFrGKj7cOsDQwrhXqYuTkkBAwkZjSM5G1i5GLQ0hgKaPEk5cfGSESEhK3
- FzZB2cISf651sUEUPWeU+HX9IFMXIwcHm4CWRGMnO0hcRGAqo8SldSdZQBxmgdOsEls3HWAC
- 6RYWiJDoO3UWzGYRUJU41HADzOYVsJTY9v0dC8QGeYmZl76zg9icAlYSTZNfsoHYQkA185fs
- YYWoF5Q4OfMJWD0zUH3z1tnMExgFZiFJzUKSWsDItIpRJLW0ODc9t9hIrzgxt7g0L10vOT93
- EyMwqWw79nPLDsaVrz7qHWJk4mA8xCjBwawkwis8qyRJiDclsbIqtSg/vqg0J7X4EKMp0N0T
- maVEk/OBaS2vJN7QzMDU0MTM0sDU0sxYSZzXs6AjUUggPbEkNTs1tSC1CKaPiYNTqoGJYZaH
- oMzujjB13YSji04LiYfp7lthlhT+O1X7+ekjgseaumLvrX8l/79ad+f3PXdkDvwT6Hu7sosz
- iuPlCo7cK1LMCa33/8pKeZrNmC+9oOXLF7ZA5+sRfHMr8kK35UyccUNHQ3D3Xu35k2WjH8st
- 6aiLSpn13HOVjsIB39Apz0LedrLUzOc8x/XY5HZFYrV9uxX35lsLb7w+6/SjMcLW6v7TSzlZ
- s7bkTp0lHF4dvO3o/oNqx99qtiyUYEw7Lv+o3/ju0XqrH7Hsa63vrC//cjLgupHL9tv3J2+d
- lPR5zgGf830h6geOLKsrtl5nPKPQ1P7m1R69a8tzzrAkZEUd1f1b9qaMZ03noT32BkcalFiK
- MxINtZiLihMBVhMFw7MDAAA=
-X-CMS-MailID: 20220506081109eucas1p26bbb68a1740b1af923ed862a93112780
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTZxjde+/t7aWk5tpieKPOMRZUmIK4TV43wzQScxdCtrB/sukq3GDD
+ h6SlcwMj5XuIQmHK1sIUCVVoDRWKfNjiGBPKh1+zdIMqIoE6wFERgcJwMsrtMv+dc97zPOc8
+ yUvhIgO5npImp7KyZEmiPykgmroW72zfPJB6ZEdbRwAy9HbhaNncRSL9UDGJyqYXcVRa/CMf
+ Ld2+i6M2ZzkP3VvIxNBgeyuGzFWlGKrVd2JozKDB0en2aQLV5ozg6OVIKBqZtROotON3gBw2
+ DYba7O+i+6M1fGRu6yGQ9XoFiS5ccvCRKm8ORwMqB0AlFiMPvdDm8FHd02cE6rZv2PsmY+2P
+ ZF51XyGZkmwnn7n7qJ5grLcVTIOugGQuKs/hjLE6gzENKknmTLaTZFpzh3nMsxs2kilq1AHG
+ 0GgjGGNfOqMy1vM+Ex0U7IljE6Vfs7KQ8K8ERy3WeyDlrOCbXqseKMEl6hTwoiD9PtTWF4BT
+ QECJ6BoAH5vGeRyZBdBsM3vICwDbXadXbNTqiO1KDKdfBvC8bobPkQkAa83DfLeJpINgZsGq
+ 7kMXAlg8nL9KcNrIg0PDRaQ7XEx/Dv8wzmNuTNABsM7QSbixkP4QqjKnCa7gW1B938V3Y68V
+ Pev7CZLzrIU96rFVD77iyb5WjrsDIF0rgK6lXE/VCKju3MPtEcNJSyOfwxvhcusFjMPp0DGw
+ 5JnNWWnaaiC52Y9g0a1EN8TpQGi4HsLZ98Eq+7hn+xo4MLWWa7AGljb9gHOyEH6XJ+Lc/rB1
+ ccwTCqE1q8JzFAPLK9V8FXhb89otmtdu0fyfWwlwHfBlFfKkeFa+M5k9HiyXJMkVyfHBsceS
+ GsDKn+57ZZltAZcnnwd3AIwCHQBSuL+PUKxJPSISxkm+TWNlxw7LFImsvANsoAh/X2Gs9KpE
+ RMdLUtkElk1hZf+9YpTXeiW2UzCRkLf8IJ+yhBGftmcXntBONZsuYjeRxXa1aGvl1p+Hx/vm
+ dk/vCDoex5yM8k6TZEivfbKueNONFj/vJ/Cv30i/Hqz5xJfbBHX7wsIKt2XIw3eF7npYs7Dx
+ qX1v1MvJxvMu07LXA33ErTJJRMRMWuQv9VmWd9j+8OjuUXFZ/1L0yQrZk9mbVNWWwN262PKQ
+ g1tcf9eNfXDoTm7+4875L6pJ6kzGw58C9ivVgedCZ0bnP66L8XUWmqN9R/z221qYkqahNyLt
+ c+t8ZM9Nvx42NYz2PsqNKdqsjU3H21GzuNp7qrZX6zyQ8OehhX/0AdUHNqU46MHxs4o8oI7a
+ PqF+zyj1J+RHJaFBuEwu+Rey+TUmQgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPKsWRmVeSWpSXmKPExsVy+t/xu7qqN0qSDDYvsbJYf+oYs8X/PcfY
+ LFbf7WezmPbhJ7PFpP4Z7Ba/z55nttj7bjarxYUfjUwWNw/sZLLYs2gSk8XK1UeZLJ6sn8Vs
+ 0XPgA4vFypaHzBZ/HhpaPPxyi8Vi0qFrjBZPr85isth7S9vi0uMV7BZ79p5ksbi8aw6bxfxl
+ T9ktJrR9Zba4MeEpo8XE45tZLT4vbWG3WPf6PYvFiVvSDrIel694e/w7sYbNY2LzO3aP8/c2
+ snhcPlvqsWlVJ5vHwoapzB6bl9R77L7ZwObR2/yOzWNn631Wj/f7rrJ59G1ZxeixfstVFo/N
+ p6s9JmzeyBogFKVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mW
+ WqRvl6CXcfzyBcaCKVwVpy6vZmxgXMbRxcjBISFgInF1TXQXIxeHkMBSRol1Pf3MXYycQHEJ
+ idsLmxghbGGJP9e62CCKnjNKfN78ngmkmU1AS6Kxkx0kLiIwlVHi0rqTLCAOs8BpVolf15+A
+ dQsLBEp83v2dFcRmEVCVWLf+KAuIzStgJTGh8QMLxAZ5iZmXvrOD2JxA8abJL9lAbCEBS4n5
+ S/awQtQLSpyc+QSsnhmovnnrbOYJjAKzkKRmIUktYGRaxSiSWlqcm55bbKhXnJhbXJqXrpec
+ n7uJEZhSth37uXkH47xXH/UOMTJxMB5ilOBgVhLhFZ5VkiTEm5JYWZValB9fVJqTWnyI0RTo
+ 7onMUqLJ+cCkllcSb2hmYGpoYmZpYGppZqwkzutZ0JEoJJCeWJKanZpakFoE08fEwSnVwGS+
+ W+dpG8+s4r36PFsDNybJsRZ3K9n19DxeEsPCINj17Ymq+VfpT1cnXz6x49eN31brPs6U7p8i
+ MaGvam1hmWhp8AvVgjnX+Bze/6611v8Y+FT97oWt1uZLt/cfWcPfrDu7p/XfbbXUw4ZCyTO2
+ qbm4BeiXtUfeEf+leNHy8hyNf0YnGkSu3FPZx+m8/E39jKZdXYoXxa4Hek8qPFm1zv7emZod
+ c5ax/Wz4tXBLwuSkT0t/mnP3sfCXveQNZX8dvPrSM0P/OHW+A5J/suIdq7N3XOpYYm3We7m/
+ Q+GAnmiZjMA6q/UybSnfXX9Xz95c8Sv3h+AMc0dvg6zE9pcbLtVNFUx1sHwVHCdz4+k2ESWW
+ 4oxEQy3mouJEAKGoBKayAwAA
+X-CMS-MailID: 20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220506081109eucas1p26bbb68a1740b1af923ed862a93112780
+X-RootMTR: 20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20220506081109eucas1p26bbb68a1740b1af923ed862a93112780
+X-CMS-RootMailID: 20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a
 References: <20220506081105.29134-1-p.raghav@samsung.com>
- <CGME20220506081109eucas1p26bbb68a1740b1af923ed862a93112780@eucas1p2.samsung.com>
+ <CGME20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220506_011120_259606_741E7F47 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20220506_011122_176077_3F577157 
+X-CRM114-Status: GOOD (  13.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,79 +145,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Remove the condition which disallows non-power_of_2 zone size ZNS drive
-to be updated and use generic method to calculate number of zones
-instead of relying on log and shift based calculation on zone size.
+From: Luis Chamberlain <mcgrof@kernel.org>
 
-The power_of_2 calculation has been replaced directly with generic
-calculation without special handling. Both modified functions are not
-used in hot paths, they are only used during initialization &
-revalidation of the ZNS device.
+Today dm-zoned relies on the assumption that you have a zone size
+with a power of 2. Even though the block layer today enforces this
+requirement, these devices do exist and so provide a stop-gap measure
+to ensure these devices cannot be used by mistake
 
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Reviewed by: Adam Manzanares <a.manzanares@samsung.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 ---
- drivers/nvme/host/zns.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ drivers/md/dm-zone.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-index 9f81beb4d..65d2aa68a 100644
---- a/drivers/nvme/host/zns.c
-+++ b/drivers/nvme/host/zns.c
-@@ -101,13 +101,6 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
- 	}
+diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
+index 3e7b1fe15..27dc4ddf2 100644
+--- a/drivers/md/dm-zone.c
++++ b/drivers/md/dm-zone.c
+@@ -231,6 +231,18 @@ static int dm_revalidate_zones(struct mapped_device *md, struct dm_table *t)
+ 	struct request_queue *q = md->queue;
+ 	unsigned int noio_flag;
+ 	int ret;
++	struct block_device *bdev = md->disk->part0;
++	sector_t zone_sectors;
++	char bname[BDEVNAME_SIZE];
++
++	zone_sectors = bdev_zone_sectors(bdev);
++
++	if (!is_power_of_2(zone_sectors)) {
++		DMWARN("%s: %s only power of two zone size supported\n",
++		       dm_device_name(md),
++		       bdevname(bdev, bname));
++		return 1;
++	}
  
- 	ns->zsze = nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze));
--	if (!is_power_of_2(ns->zsze)) {
--		dev_warn(ns->ctrl->device,
--			"invalid zone size:%llu for namespace:%u\n",
--			ns->zsze, ns->head->ns_id);
--		status = -ENODEV;
--		goto free_data;
--	}
- 
- 	blk_queue_set_zoned(ns->disk, BLK_ZONED_HM);
- 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-@@ -128,8 +121,13 @@ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
- 	const size_t min_bufsize = sizeof(struct nvme_zone_report) +
- 				   sizeof(struct nvme_zone_descriptor);
- 
-+	/*
-+	 * Division is used to calculate nr_zones with no special handling
-+	 * for power of 2 zone sizes as this function is not invoked in a
-+	 * hot path
-+	 */
- 	nr_zones = min_t(unsigned int, nr_zones,
--			 get_capacity(ns->disk) >> ilog2(ns->zsze));
-+			 div64_u64(get_capacity(ns->disk), ns->zsze));
- 
- 	bufsize = sizeof(struct nvme_zone_report) +
- 		nr_zones * sizeof(struct nvme_zone_descriptor);
-@@ -182,6 +180,7 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 	int ret, zone_idx = 0;
- 	unsigned int nz, i;
- 	size_t buflen;
-+	u64 remainder = 0;
- 
- 	if (ns->head->ids.csi != NVME_CSI_ZNS)
- 		return -EINVAL;
-@@ -197,7 +196,14 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
- 	c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
- 	c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
- 
--	sector &= ~(ns->zsze - 1);
-+	/*
-+	 * rounddown the sector value to the nearest zone size. roundown macro
-+	 * provided in math.h will not work for 32 bit architectures.
-+	 * Division is used here with no special handling for power of 2
-+	 * zone sizes as this function is not invoked in a hot path
-+	 */
-+	div64_u64_rem(sector, ns->zsze, &remainder);
-+	sector -= remainder;
- 	while (zone_idx < nr_zones && sector < get_capacity(ns->disk)) {
- 		memset(report, 0, buflen);
- 
+ 	/*
+ 	 * Check if something changed. If yes, cleanup the current resources
 -- 
 2.25.1
 
