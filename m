@@ -4,127 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B454EC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 09:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57276C43217
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 10:05:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=id4nfVK4NNq8KQPijTahXyh7yUxqOf6jmHfQsrdx4BU=; b=diy6m+cfOVsViKoV9qX+kLnatb
-	0N/m8jDhfQQYV90wHv7KoGBSWpip+A1gWZbI/q1y4QVczJc2SCaLgB5KQoLfT8XQixvXMUkugSmfP
-	q+1Lbm6/cjRQXs4Fn/KWvjkyuXq5uizu3Fb5c/3gPyCx90SdUX0QEMkvXHQ8iF6GeSIPUcqKPOZvN
-	yF/ki8JHCeEHKvKdl5+aKJlzChtZ3SAgXLwX3KWvEleqi9dZ9MtqVgpoLdill/485SipC3hLNVUj0
-	NDFUMhYyPy1ehpLz2LxbyvTBv/zgQR6/Hlt3gtaX50nMtIWx8isvVyJDqrjGUxHI2bj8kVVw5q1JI
-	K3S0IyqA==;
+	bh=vOduMzov7LmnmWKc/9KVSmPz2a6N3lKrkrPH5TFQYIc=; b=eWsj4ciqS+B/Vfr9uSg5hugH01
+	307pjhwWCF9Gww/KVwrxMEA1Qi0sfQB7zCOpAtix2HTGEoCWH4vB04L+cRqyN/llO3GOetf+xzA0h
+	Ay4Lnpx593Jwp0ap/9GGZzyqkE9hKx7DI/ESCeX1dp7RjYNEiacXsVSoPB6o/SpwlxpWuqy/X8Xg6
+	lZgzr+1IqTqtwgSdSYUDCXWCVZ50Vorn5IfaizQZFaezjm7tpaszrAEm+yHOW7ESzW8/T6G51XZMv
+	RsrsCiUDKeQHRXLnrOvYKo9ILmZf1D/ZMeMpLF5PR+ktd9W79xL0kP1xKrrbX5cyPVxoyK92NXwMT
+	AE/P3uJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmu7h-002Itz-Vc; Fri, 06 May 2022 09:19:42 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1nmupn-002cEM-Rn; Fri, 06 May 2022 10:05:15 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmu7a-002Iog-JB
- for linux-nvme@lists.infradead.org; Fri, 06 May 2022 09:19:38 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20220506091930epoutp01e1a0f6153413d15949a49bd2428125fa~seYO6zVsH0396403964epoutp015
- for <linux-nvme@lists.infradead.org>; Fri,  6 May 2022 09:19:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20220506091930epoutp01e1a0f6153413d15949a49bd2428125fa~seYO6zVsH0396403964epoutp015
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651828770;
- bh=id4nfVK4NNq8KQPijTahXyh7yUxqOf6jmHfQsrdx4BU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WzQohPsKVl0g48vlu/Mbhd+Fy8zjUo+hf0iFY7u3PalE4y6QKCtoD30MGD1OGAtOq
- daWn/FgRZglEGfMxGb7jz6mPhnuNDfLCuTPv9b3K28FgmvH/u6WCLfcEjTbw+lHVOi
- sfEUr2+V1EQMFsXQJtZOX43iyy/+6xYDZ+ITH4Eg=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20220506091929epcas5p30c9a0408595b8700d3d7b8bf90ce58f8~seYOS0dRZ1846418464epcas5p3x;
- Fri,  6 May 2022 09:19:29 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.182]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4KvlPn2DV0z4x9Ps; Fri,  6 May
- 2022 09:19:25 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 6C.29.09827.D18E4726; Fri,  6 May 2022 18:19:25 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220506071727epcas5p2d2001078335f117788f5ac433ccbceae~sctroZ2L20746107461epcas5p2H;
- Fri,  6 May 2022 07:17:27 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220506071727epsmtrp2f060a8daf135545eef9b2a5bebc6a5b0~sctrniV5t2974429744epsmtrp2O;
- Fri,  6 May 2022 07:17:27 +0000 (GMT)
-X-AuditID: b6c32a4a-b51ff70000002663-e9-6274e81d0ee3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- C6.49.11276.78BC4726; Fri,  6 May 2022 16:17:27 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220506071726epsmtip2f8eb2c26f36d8351e2fd6050dd87d519~sctp-NwPd0090200902epsmtip2X;
- Fri,  6 May 2022 07:17:25 +0000 (GMT)
-Date: Fri, 6 May 2022 12:42:16 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: hch@lst.de, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org, shr@fb.com,
- joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
-Subject: Re: [PATCH v4 1/5] fs,io_uring: add infrastructure for uring-cmd
-Message-ID: <20220506071216.GB20217@test-zns>
+ id 1nmupj-002cC6-VO
+ for linux-nvme@lists.infradead.org; Fri, 06 May 2022 10:05:14 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 091F51F8BD;
+ Fri,  6 May 2022 10:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1651831508;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vOduMzov7LmnmWKc/9KVSmPz2a6N3lKrkrPH5TFQYIc=;
+ b=K4zZmj4v1fjdFM/RKx8Duu++qZaOr1W8AzpQcYAtGPMwOhjBprORx356zQus6XFWACBCQF
+ 3q93GJMPIcNCGWf1Vqdj2ZqZfWSjk620OnmXjshIrIxUny7uRwTMBMu7qq+LU2Z1neP7Gi
+ IxTCtYC1flVRKGnh7NdXeIwsoAPvC6c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1651831508;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vOduMzov7LmnmWKc/9KVSmPz2a6N3lKrkrPH5TFQYIc=;
+ b=emRyEKwz+9oRLLb8JPuF4fBjvsI2XyZaLLPkrB+CWkH8TWcBmagnWsk9b9EaOudwzxzjsW
+ uIsIGyYYtdhQ2ODA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6321513A1B;
+ Fri,  6 May 2022 10:05:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uw3nFtPydGJYbwAAMHmgww
+ (envelope-from <dsterba@suse.cz>); Fri, 06 May 2022 10:05:07 +0000
+Date: Fri, 6 May 2022 12:00:55 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: jaegeuk@kernel.org, hare@suse.de, dsterba@suse.com, axboe@kernel.dk,
+ hch@lst.de, damien.lemoal@opensource.wdc.com, snitzer@kernel.org,
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ bvanassche@acm.org, linux-fsdevel@vger.kernel.org,
+ matias.bjorling@wdc.com, Jens Axboe <axboe@fb.com>,
+ gost.dev@samsung.com, jonathan.derrick@linux.dev,
+ jiangbo.365@bytedance.com, linux-nvme@lists.infradead.org,
+ dm-devel@redhat.com, Naohiro Aota <naohiro.aota@wdc.com>,
+ linux-kernel@vger.kernel.org, Johannes Thumshirn <jth@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
+ linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH v3 00/11] support non power of 2 zoned devices
+Message-ID: <20220506100054.GZ18596@suse.cz>
+Mail-Followup-To: dsterba@suse.cz, Pankaj Raghav <p.raghav@samsung.com>,
+ jaegeuk@kernel.org, hare@suse.de, dsterba@suse.com, axboe@kernel.dk,
+ hch@lst.de, damien.lemoal@opensource.wdc.com, snitzer@kernel.org,
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ bvanassche@acm.org, linux-fsdevel@vger.kernel.org,
+ matias.bjorling@wdc.com, Jens Axboe <axboe@fb.com>,
+ gost.dev@samsung.com, jonathan.derrick@linux.dev,
+ jiangbo.365@bytedance.com, linux-nvme@lists.infradead.org,
+ dm-devel@redhat.com, Naohiro Aota <naohiro.aota@wdc.com>,
+ linux-kernel@vger.kernel.org, Johannes Thumshirn <jth@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
+ linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, linux-btrfs@vger.kernel.org
+References: <CGME20220506081106eucas1p181e83ef352eb8bfb1752bee0cf84020f@eucas1p1.samsung.com>
+ <20220506081105.29134-1-p.raghav@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <1af73495-d4a6-d6fd-0a03-367016385c92@kernel.dk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIJsWRmVeSWpSXmKPExsWy7bCmhq7si5Ikg5Ob+C2aJvxltpizahuj
- xeq7/WwWNw/sZLJYufook8W71nMsFuffHmaymL/sKbvFjQlPGS0OTW5msrj68gC7A7fHxOZ3
- 7B47Z91l97h8ttRj06pONo/NS+o9dt9sYPN4v+8qm0ffllWMHp83yQVwRmXbZKQmpqQWKaTm
- JeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gAdq6RQlphTChQKSCwuVtK3
- synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzpj9bhdrwV7Jipkb
- dzI3MD4X6WLk5JAQMJE4ebiNqYuRi0NIYDejxOFtB9khnE+MEscf9rGCVAkJfGOUeLHJC6Zj
- +fsOqKK9jBKfV95lhHCeMUrMPXORCaSKRUBF4uzz9UAJDg42AU2JC5NLQcIiAgoSPb9XsoHU
- MwvcZJToP7WXESQhLOAp8XzRdWYQm1dAV2L9ntVQtqDEyZlPWEBsTgFbidf3HoDZogLKEge2
- HQe7W0JgB4fE80u7mSDOc5E4e62ZFcIWlnh1fAs7hC0l8fndXjYIO1midftldpDjJARKJJYs
- UIcI20tc3PMXbAyzQIZE/85VUCNlJaaeWgcV55Po/f0EKs4rsWMejK0ocW/SU6i14hIPZyyB
- sj0kLrdeYIME0AdGid9P3rNNYJSfheS3WUj2QdhWEp0fmlhnAZ3HLCAtsfwfB4SpKbF+l/4C
- RtZVjJKpBcW56anFpgVGeanl8AhPzs/dxAhOy1peOxgfPvigd4iRiYPxEKMEB7OSCK/wrJIk
- Id6UxMqq1KL8+KLSnNTiQ4ymwLiayCwlmpwPzAx5JfGGJpYGJmZmZiaWxmaGSuK8p9M3JAoJ
- pCeWpGanphakFsH0MXFwSjUwqS88/WxD8TGhiOtP2xJv/2ycebJ6sxv3dJ6qhTxr16YtvszU
- s6xpZVdn35vtGZO5Yic+nzvt0cZPs2sXVPRtdFx0XDRt8mMVoQWX5EMeX9l3UmLh3YdnGFcH
- rly8NS77+sr+Q6Ll51zmCM1yk9SVTueIf98lanfB4g9TSEnurZU6jGvvm79l1LCXzrro5Zzy
- 0jHhgoVF0CzO1yytvX0FCbyeM5/5pn91uJ1wPTr52v2ZrcePB7a88jq/If7y5LmCR76e+VjH
- 1On1eZagx3Z7IQnTfZvuxmTVn/Ktm2ypFTazauvbX0sdZ619puvY+Yb94IYKa53phW8kWdhm
- Rnx5zvPIO+vyC50pz8/EaU085a/EUpyRaKjFXFScCACDkOczVAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJXrf9dEmSwY9/uhZNE/4yW8xZtY3R
- YvXdfjaLmwd2MlmsXH2UyeJd6zkWi/NvDzNZzF/2lN3ixoSnjBaHJjczWVx9eYDdgdtjYvM7
- do+ds+6ye1w+W+qxaVUnm8fmJfUeu282sHm833eVzaNvyypGj8+b5AI4o7hsUlJzMstSi/Tt
- Ergy5kxuZSx4L1Zx+OgZpgbGzUJdjJwcEgImEsvfd7B3MXJxCAnsZpSY9noSG0RCXKL52g92
- CFtYYuW/51BFTxglemc8ZgFJsAioSJx9vp6xi5GDg01AU+LC5FKQsIiAgkTP75VsIPXMArcZ
- JR5OvApWLyzgKfF80XVmEJtXQFdi/Z7VzBBDPzBKXH60lwkiIShxcuYTsAZmATOJeZsfMoMs
- YBaQllj+jwMkzClgK/H63gOwElEBZYkD244zTWAUnIWkexaS7lkI3QsYmVcxSqYWFOem5xYb
- FhjmpZbrFSfmFpfmpesl5+duYgRHlJbmDsbtqz7oHWJk4mA8xCjBwawkwis8qyRJiDclsbIq
- tSg/vqg0J7X4EKM0B4uSOO+FrpPxQgLpiSWp2ampBalFMFkmDk6pBibrot4nHH8vTFDcPO14
- N/PrtH7rtV/8Jm8/F/P3RiBHTM6sSunW5aX9M/vO8C020K1Zz7c0pCmx3uXAvPQzDZ+apDYn
- 7VPvKn+kKxXm4helN1V42d27fpVi05vDo4P319m/9SljbLnC/7f9gXZz1M1pMzOL+IP6PLOC
- 193U6LrpuIavLrI5MFU4P3P+eXtR14TrvBMuO9TcdwyS4O+vcLwqbsLO5yf7bWbk0jbRlw4W
- 6ZF3FT2VChzNNla+vSSV03LrpkOf7HmuTzeCn3Qr7WfYxHCi5jPjtNznV2Q6BA1lWvIXG3x8
- onZ8x60/3pELSzi+HrlpU/fSpJjzeIQw95vdc534ououHDRon+2lxFKckWioxVxUnAgA/NaP
- sBcDAAA=
-X-CMS-MailID: 20220506071727epcas5p2d2001078335f117788f5ac433ccbceae
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_45848_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220505061144epcas5p3821a9516dad2b5eff5a25c56dbe164df
-References: <20220505060616.803816-1-joshi.k@samsung.com>
- <CGME20220505061144epcas5p3821a9516dad2b5eff5a25c56dbe164df@epcas5p3.samsung.com>
- <20220505060616.803816-2-joshi.k@samsung.com>
- <1af73495-d4a6-d6fd-0a03-367016385c92@kernel.dk>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220506081105.29134-1-p.raghav@samsung.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220506_021935_091044_102258BE 
-X-CRM114-Status: GOOD (  26.76  )
+X-CRM114-CacheID: sfid-20220506_030512_235966_64FA0C36 
+X-CRM114-Status: GOOD (  20.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,80 +108,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: dsterba@suse.cz
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_45848_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On Fri, May 06, 2022 at 10:10:54AM +0200, Pankaj Raghav wrote:
+> - Open issue:
+> * btrfs superblock location for zoned devices is expected to be in 0,
+>   512GB(mirror) and 4TB(mirror) in the device. Zoned devices with po2
+>   zone size will naturally align with these superblock location but non
+>   po2 devices will not align with 512GB and 4TB offset.
+> 
+>   The current approach for npo2 devices is to place the superblock mirror
+>   zones near   512GB and 4TB that is **aligned to the zone size**.
 
-On Thu, May 05, 2022 at 10:17:39AM -0600, Jens Axboe wrote:
->On 5/5/22 12:06 AM, Kanchan Joshi wrote:
->> +static int io_uring_cmd_prep(struct io_kiocb *req,
->> +			     const struct io_uring_sqe *sqe)
->> +{
->> +	struct io_uring_cmd *ioucmd = &req->uring_cmd;
->> +	struct io_ring_ctx *ctx = req->ctx;
->> +
->> +	if (ctx->flags & IORING_SETUP_IOPOLL)
->> +		return -EOPNOTSUPP;
->> +	/* do not support uring-cmd without big SQE/CQE */
->> +	if (!(ctx->flags & IORING_SETUP_SQE128))
->> +		return -EOPNOTSUPP;
->> +	if (!(ctx->flags & IORING_SETUP_CQE32))
->> +		return -EOPNOTSUPP;
->> +	if (sqe->ioprio || sqe->rw_flags)
->> +		return -EINVAL;
->> +	ioucmd->cmd = sqe->cmd;
->> +	ioucmd->cmd_op = READ_ONCE(sqe->cmd_op);
->> +	return 0;
->> +}
->
->While looking at the other suggested changes, I noticed a more
->fundamental issue with the passthrough support. For any other command,
->SQE contents are stable once prep has been done. The above does do that
->for the basic items, but this case is special as the lower level command
->itself resides in the SQE.
->
->For cases where the command needs deferral, it's problematic. There are
->two main cases where this can happen:
->
->- The issue attempt yields -EAGAIN (we ran out of requests, etc). If you
->  look at other commands, if they have data that doesn't fit in the
->  io_kiocb itself, then they need to allocate room for that data and have
->  it be persistent
->
->- Deferral is specified by the application, using eg IOSQE_IO_LINK or
->  IOSQE_ASYNC.
->
->We're totally missing support for both of these cases. Consider the case
->where the ring is setup with an SQ size of 1. You prep a passthrough
->command (request A) and issue it with io_uring_submit(). Due to one of
->the two above mentioned conditions, the internal request is deferred.
->Either it was sent to ->uring_cmd() but we got -EAGAIN, or it was
->deferred even before that happened. The application doesn't know this
->happened, it gets another SQE to submit a new request (request B). Fills
->it in, calls io_uring_submit(). Since we only have one SQE available in
->that ring, when request A gets re-issued, it's now happily reading SQE
->contents from command B. Oops.
->
->This is why prep handlers are the only ones that get an sqe passed to
->them. They are supposed to ensure that we no longer read from the SQE
->past that. Applications can always rely on that fact that once
->io_uring_submit() has been done, which consumes the SQE in the SQ ring,
->that no further reads are done from that SQE.
->
-Thanks for explaining; gives great deal of clarity.
-Are there already some tests (liburing, fio etc.) that you use to test
-this part?
-Different from what you mentioned, but I was forcing failure scenario by
-setting low QD in nvme and pumping commands at higher QD than that. 
-But this was just testing that we return failure to usespace (since
-deferral was not there). 
+I don't like that, the offsets have been chosen so the values are fixed
+and also future proof in case the zone size increases significantly. The
+natural alignment of the pow2 zones makes it fairly trivial.
 
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_45848_
-Content-Type: text/plain; charset="utf-8"
+If I understand correctly what you suggest, it would mean that if zone
+is eg. 5G and starts at 510G then the superblock should start at 510G,
+right? And with another device that has 7G zone size the nearest
+multiple is 511G. And so on.
 
+That makes it all less predictable, depending on the physical device
+constraints that are affecting the logical data structures of the
+filesystem. We tried to avoid that with pow2, the only thing that
+depends on the device is that the range from the super block offsets is
+always 2 zones.
 
-------B60c1XsBAYLlAvSr_Hnug5kZhc5LtmZ3tZiwVK7tFSQflFGl=_45848_--
+I really want to keep the offsets for all zoned devices the same and
+adapt the code that's handling the writes. This is possible with the
+non-pow2 too, the first write is set to the expected offset, leaving the
+beginning of the zone unused.
+
+>   This
+>   is of no issue for normal operation as we keep track where the superblock
+>   mirror are placed but this can cause an issue with recovery tools for
+>   zoned devices as they expect mirror superblock to be in 512GB and 4TB.
+
+Yeah the tools need to be updated, btrfs-progs and suite of blk* in
+util-linux.
+
+>   Note that ATM, recovery tools such as `btrfs check` does not work for
+>   image dumps for zoned devices even for po2 zone sizes.
+
+I thought this worked, but if you find something that does not please
+report that to Johannes or Naohiro.
 
