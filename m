@@ -4,80 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19F4CC43217
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 May 2022 15:03:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85974C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 May 2022 05:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:To:From:References:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N6EMoP13+uuDakjMHpvxy4PBHA2cakQS2VfsX4a/x94=; b=slnjL290+5UFl++KYbQZo5QhoO
-	B73rRVicHZnzgQMnL6WBGLDChZCVeKUsIT3dCRyQirCW2GYHRHEm+YUCS5iqSqNRdfI6HROUg30aS
-	5YCHoZ3V9z08bVxQyrPbPq6FAY5gIbTMYF41T4y+c5ggbkZy66ZFmadwwbgImdHiyBMVX3CkBnW8H
-	HmziU2vOmQMWULfbGe0OhriRhe0/J9+ItiU+uAkf18tHfIj88Tq6AcbNdVCn4+yds8WmbCO9hkra1
-	nfRZQIMDd7w+4G+3z3kDbUE7ccNZ8laaDawNFwA7Ucu0cxdgKBzF639ZXjR/VRCUmMEPRnnkQvisG
-	YH989SMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iG7BDY8B7CJY63nd6jmX8zpV2o9f/snjBR7XsBFPg5U=; b=bZsAFcK1LUSU4zOeIb2ys0zLr0
+	ho6H3n9LVQbd6HU0tmVnuZUj+oQDrdE9/nL5L7jd9e0UXAesw5YuaGnti3IWcldPEyHZ8AN/N2cVJ
+	4qjWWUTjc+ZrHYHIFqt7lCh9LHLnb9TckfRN7tvLPBydd6kZ8Jkr9GYB4+KPmjOw40DwLtqMn6tp7
+	7NZZ8PamKfaVI9AwYqbDTM6idgkxYT+Nux/QmZH+q2vQ/xdfx839x7TclSILthUtdVttNnBuiBEaL
+	nEfcYUQTKQBZMaOcIO4yNSVskHaVhzwuPat/DT6PvbWarguNk3bT2tyjbGfQXEGDNPadddSAvVIOf
+	ek/av9Uw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nmzUR-003wiP-EJ; Fri, 06 May 2022 15:03:31 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nnCbM-0062RK-3K; Sat, 07 May 2022 05:03:32 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nmIXD-00Bs0k-11
- for linux-nvme@lists.infradead.org; Wed, 04 May 2022 17:11:33 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8BD9B1F38D;
- Wed,  4 May 2022 17:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651684289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N6EMoP13+uuDakjMHpvxy4PBHA2cakQS2VfsX4a/x94=;
- b=DJBXlAYyuYbusnoUszCA+AfMUUtGYehcgNX/lQ0qb1pMGVJ8Y/wB2k+YBRDIZuhTeQqd7b
- tHvLMy5QORZQYIpA9gIeZd+FIbx6yExh/jX0dTQhrTHcfqHSr/rMyA45YxKum1K9WKH687
- TFFcsHo0sSle3EgUEzEdaFr8d2K/Tio=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651684289;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N6EMoP13+uuDakjMHpvxy4PBHA2cakQS2VfsX4a/x94=;
- b=5hv3tExqNVDL20PvtwaVNk13uh5hLvjqypg4NlyuP/W5i/E/1fSmlov7z3Q727EOdt2Ymq
- Cgfxb1jhrkiVgADw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 272C0131BD;
- Wed,  4 May 2022 17:11:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eGrpOruzcmIsWwAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 04 May 2022 17:11:23 +0000
-Message-ID: <2586cd78-cd54-97ed-86b0-8f78a444387a@suse.de>
-Date: Wed, 4 May 2022 10:11:22 -0700
+ id 1nnCbG-0062PU-I6
+ for linux-nvme@lists.infradead.org; Sat, 07 May 2022 05:03:28 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id D82F668AFE; Sat,  7 May 2022 07:03:17 +0200 (CEST)
+Date: Sat, 7 May 2022 07:03:17 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ asml.silence@gmail.com, ming.lei@redhat.com, mcgrof@kernel.org,
+ shr@fb.com, joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
+Subject: Re: [PATCH v4 4/5] nvme: wire-up uring-cmd support for io-passthru
+ on char-device.
+Message-ID: <20220507050317.GA27706@lst.de>
+References: <CGME20220505061150epcas5p2b60880c541a4b2f144c348834c7cbf0b@epcas5p2.samsung.com>
+ <20220505060616.803816-5-joshi.k@samsung.com>
+ <f24d9e5e-34af-9035-ffbc-0a770db0cb20@kernel.dk>
+ <20220505134256.GA13109@lst.de>
+ <f45c89db-0fed-2c88-e314-71dbda74b4a7@kernel.dk>
+ <8ae2c507-ffcc-b693-336d-2d9f907edb76@kernel.dk>
+ <20220506082844.GA30405@lst.de>
+ <6b0811df-e2a4-22fc-7615-44e5615ce6a4@kernel.dk>
+ <20220506145058.GA24077@lst.de>
+ <45b5f76b-b186-e0b9-7b24-e048f73942d5@kernel.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 16/16] dm-zoned: ensure only power of 2 zone sizes are
- allowed
-Content-Language: en-US
-References: <20220427160255.300418-1-p.raghav@samsung.com>
- <CGME20220427160313eucas1p1feecf74ec15c8c3d9250444710fd1676@eucas1p1.samsung.com>
- <20220427160255.300418-17-p.raghav@samsung.com>
-From: Hannes Reinecke <hare@suse.de>
-To: undisclosed-recipients: ;
-In-Reply-To: <20220427160255.300418-17-p.raghav@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45b5f76b-b186-e0b9-7b24-e048f73942d5@kernel.dk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220504_101131_324196_95134955 
-X-CRM114-Status: GOOD (  16.94  )
-X-Mailman-Approved-At: Fri, 06 May 2022 08:02:49 -0700
+X-CRM114-CacheID: sfid-20220506_220326_781470_5AF4F197 
+X-CRM114-Status: GOOD (  21.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,52 +69,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/27/22 09:02, Pankaj Raghav wrote:
-> From: Luis Chamberlain <mcgrof@kernel.org>
-> 
-> Today dm-zoned relies on the assumption that you have a zone size
-> with a power of 2. Even though the block layer today enforces this
-> requirement, these devices do exist and so provide a stop-gap measure
-> to ensure these devices cannot be used by mistake
-> 
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-> ---
->   drivers/md/dm-zone.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
-> index 57daa86c19cf..221e0aa0f1a7 100644
-> --- a/drivers/md/dm-zone.c
-> +++ b/drivers/md/dm-zone.c
-> @@ -231,6 +231,18 @@ static int dm_revalidate_zones(struct mapped_device *md, struct dm_table *t)
->   	struct request_queue *q = md->queue;
->   	unsigned int noio_flag;
->   	int ret;
-> +	struct block_device *bdev = md->disk->part0;
-> +	sector_t zone_sectors;
-> +	char bname[BDEVNAME_SIZE];
-> +
-> +	zone_sectors = bdev_zone_sectors(bdev);
-> +
-> +	if (!is_power_of_2(zone_sectors)) {
-> +		DMWARN("%s: %s only power of two zone size supported\n",
-> +		       dm_device_name(md),
-> +		       bdevname(bdev, bname));
-> +		return 1;
-> +	}
->   
->   	/*
->   	 * Check if something changed. If yes, cleanup the current resources
+Getting back to this after a good night's worth of sleep:
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+On Fri, May 06, 2022 at 08:57:53AM -0600, Jens Axboe wrote:
+> > Just add this:
+> > 
+> > "Add a small helper to act as the counterpart to nvme_add_user_metadata."
+> > 
+> > with my signoff:
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+> Both done, thanks.
 
-Cheers,
+I think we're much better of folding "nvme: add nvme_finish_user_metadata
+helper" into "nvme: refactor nvme_submit_user_cmd()" as the first basically
+just redos the split done in the first patch in a more fine grained way
+to allow sharing some of the metadata end I/O code with the uring path,
+and basically only touches code changes in the first patch again.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+> >> I did not do your async_size changes, I think you're jetlagged eyes
+> >> missed that this isn't a sizeof thing on a flexible array, it's just the
+> >> offset of it. Hence for non-sqe128, the the async size is io_uring_sqe -
+> >> offsetof where pdu starts, and so forth.
+> > 
+> > Hmm, this still seems a bit odd to me.  So without sqe128 you don't even
+> > get the cmd data that would fit into the 64-bit SQE?
+> 
+> You do. Without sqe128, you get sizeof(sqe) - offsetof(cmd) == 16 bytes.
+> With, you get 16 + 64, 80.
+
+Can we please get a little documented helper that does this instead of
+the two open coded places?
 
