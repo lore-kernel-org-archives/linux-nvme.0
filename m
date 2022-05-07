@@ -4,79 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36A58C433EF
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 May 2022 06:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0362C433EF
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 May 2022 12:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ea/7f8A4NPQmZCTH61ttxUc8ZcgpbXzjfNgGF4s2Ed8=; b=D6UUdUsE4yMwMMsjO/qd+X+TAt
-	IYAOChQLkyv9nN5ttQwemguJQ4ZIuk5iMFdhWQhgItfmEWPWU+6eUo+JyMd28MPtlGCpPTpx3EdnY
-	n5yJaYbeiC8JFjyIScLuj4C4JXugb74IIPHo/Uch2/0gCpEglgvQwqD+hYdjjkX4j8aD513qWn1Xz
-	VDMxjSo2CqiMcBRCwzzrWlDIHmgmha/nnFFsqfC8sZHY5pBuduzq5HSZ+KQswKs0RzlXEzEo6V7jw
-	cHtuAUDq2ibOpTG04QxKZuG9A7saPtDtS4yKZhTQjNwMlbv6B6l11FK7y3iDWsB0LcX0NrqsRiXyZ
-	Tw3gfF1Q==;
+	bh=qBW1EXKGUeQrlcaUCq/1s8UAzcPPcWNYauWhX+6w4hY=; b=TRL6FvcyQXkBLZjt91383l3shQ
+	bL2wZaCCnegE2WeXGUj9vzrCX+08Ug6bj6n2rugHDhdvVoEvZ5bNEJHDVWi/mh2t1qVPSkvuqtsra
+	Sng8gW5TYY62JufZJCBj7Nvw2NUnrT4BsqARIyw2pLnaPWrinzrNvNItfdLTYsnthB3DXEp4SriCc
+	qAWhhC3rEIj8yJg6EjPUUOxgGnq2tZ2wQv1mwPUFsb8y2B6gjxFJ5fXvAdzbx/7FxKWhMn2ytzn/s
+	sx5xcwllX+I8yg82AiLyBJEe/lGqowLgakvoELquB0iWEmc3v2GrtN4+jAmIDbHZt0HFQNU/to/3I
+	8Ul27gCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nnELO-006Ij9-V7; Sat, 07 May 2022 06:55:11 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1nnJwI-007BuM-6a; Sat, 07 May 2022 12:53:38 +0000
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nnEKo-006IRx-P3
- for linux-nvme@lists.infradead.org; Sat, 07 May 2022 06:54:36 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id fv2so8863367pjb.4
- for <linux-nvme@lists.infradead.org>; Fri, 06 May 2022 23:54:33 -0700 (PDT)
+ id 1nnJwE-007BtA-Mp
+ for linux-nvme@lists.infradead.org; Sat, 07 May 2022 12:53:36 +0000
+Received: by mail-pl1-x631.google.com with SMTP id k1so9852154pll.4
+ for <linux-nvme@lists.infradead.org>; Sat, 07 May 2022 05:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ea/7f8A4NPQmZCTH61ttxUc8ZcgpbXzjfNgGF4s2Ed8=;
- b=HV26AlNcvQjy5U6VCD2LyHjl66aup0wiyAv9NbIbjwNj4A5rzlYWDAopGzbQlgCHfn
- Vtt3dcN9sXGKfTkYkc45A3mkD7SLE8qP5yBaZOcWvPOpXLl0pCde87ILhrDTavB7RPHY
- 1WZgvdHqkKBBHxxDGvd7vOWgSCxEQE23wKXyC9XTKCg4WvSIitFpgtQjpdLZxsUfw8Bo
- gJaSFkbXfhu52lZKOthl/9Q010pvSdraynadbyaEs6C153grIWgpOiu8ShONZIwTrJZE
- D3VR55j8kTGmwxu/muldSinB74Z7u0/9P0we/UsSBfPy1k+xOb4ZIWEyTs+J1RcQlIzE
- VrHw==
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=qBW1EXKGUeQrlcaUCq/1s8UAzcPPcWNYauWhX+6w4hY=;
+ b=vlBQ8e1xW2V0wpHdIzbgo+jglaeGGZLPL6LYA8iGYfrantof/N7FW8eOJNsewQxYhS
+ wa2Tt8kKKnyTx6ZzQ9biCYwISFfw6ubjms8Gg6q0Vb1jWt7rD2sE1hYy5muS7L3ltQme
+ 1tMvze3FwD+53PRp3BLqIAVLTlHAtVrg8d5vfy7F0F4yQtbwjXRNeEDves2XQEXx7Fhl
+ QuDrl86dbymzLCPmPFpWC9eBMuBnX3gm7W95j5ggxN0XUZZBUFVUorGMq4Ztw5/r/C6U
+ zRrDCg8yyDF55qpBD3ofIfM05udL8GNF9y7fNxNYXlj6DRMZ0N7K02o09QIoNfGYh6Um
+ CyMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ea/7f8A4NPQmZCTH61ttxUc8ZcgpbXzjfNgGF4s2Ed8=;
- b=XroQ2JP9TGU8thByIBaM2E6GNld/Ul5oewdFQCbTxdFCvfGeYJw9DKm1qtGmDRg62M
- pR3JZjFowYAo11a9uwnhRcWVxycLY5/Gsc/oOwjPWkIG8GMqVvmYwzCELbyOvN3hHod9
- kCCnONZntCoh1x9NYD4BuuFqFxu3U9UVamoworQwePXFHjXneF3487DjewbYqylD22XS
- LDVr6DlORUj2wk7Fj9OIZO7JqiDWiFt0QBirivBcNV+rb3GGgFBpdMOLSlWrMpeM8pkL
- 6eZyRZsZT8o2aFcVJU4MrNMjPHN5ZRhuEweAzPmsJciYIYcgA3HYrEv9SwN8px1T0eSA
- d2fQ==
-X-Gm-Message-State: AOAM530JUkCWN6BKq9go/O+mpJE5JkrEkN25z7gxeggBWokjtI57SE27
- UgJN2zPNlRu99rFKIFkEeo0G+A==
-X-Google-Smtp-Source: ABdhPJwVFbDKu1C1H66AqhkbJbo0SmUKfhgk9fiE1NUon3vtipkhLVIjMHrAkhfw3aRf2T0XRpo4oA==
-X-Received: by 2002:a17:902:e742:b0:15e:9a7b:24c3 with SMTP id
- p2-20020a170902e74200b0015e9a7b24c3mr7311641plf.17.1651906473207; 
- Fri, 06 May 2022 23:54:33 -0700 (PDT)
-Received: from always-x1.www.tendawifi.com ([139.177.225.239])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qBW1EXKGUeQrlcaUCq/1s8UAzcPPcWNYauWhX+6w4hY=;
+ b=ix04t98XgeZNjXOJ/w8PS4Rn0K5iOOUF1TiYuozTgzvYd1YBq7RE/W1XPUd92a0mst
+ aIekShgbKQLkuNAb/YmOtY1LV3it++CgmDr+SR49eefIIoAwdzHeFhr4KL3as9jYr9yO
+ RhdtruQp3kK/l7qj7DEa22LMU1kl7EhC+LQPziCyDcj61MbidhFDnuqhh42df4A1SFIm
+ cbtUdoI42DyNIiERyHEWeFSiBruw74d0c53SXsCHvPvv5roaq2q6+l30DZf2QZpVoQqj
+ IJobw2GC5OnRVcIpsxs2ec5HZqlbv3inPm0P92RcXJsK7S/62wBeEHRvISZPgdkwk3q0
+ KI9Q==
+X-Gm-Message-State: AOAM533qmubsDo6q5YpHaaikcGIxF5hzJi+o8PQkcWG2/aPO+RqnNoTq
+ 45bal5Tz7qUYTZMq7kmZcKQoRg==
+X-Google-Smtp-Source: ABdhPJwg0Pxo91rBnLOcJHAYfdSXGgBf3FrwDBoOVvOt4TBI13HNJZ/EhYdxfTGetwUkqeRfvMjI/Q==
+X-Received: by 2002:a17:902:c952:b0:15e:9e3d:8e16 with SMTP id
+ i18-20020a170902c95200b0015e9e3d8e16mr8448104pla.51.1651928012758; 
+ Sat, 07 May 2022 05:53:32 -0700 (PDT)
+Received: from [192.168.4.166] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
  by smtp.gmail.com with ESMTPSA id
- y20-20020a1709027c9400b0015e8d4eb1ebsm2905162pll.53.2022.05.06.23.54.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 23:54:32 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: kbusch@kernel.org,
-	hch@lst.de
-Cc: sagi@grimberg.me, axboe@fb.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH 3/3] nvme: enable smart AEN
-Date: Sat,  7 May 2022 14:50:26 +0800
-Message-Id: <20220507065026.260306-4-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220507065026.260306-1-pizhenwei@bytedance.com>
-References: <20220507065026.260306-1-pizhenwei@bytedance.com>
+ n12-20020a170902968c00b0015e8d4eb244sm3584932plp.142.2022.05.07.05.53.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 May 2022 05:53:31 -0700 (PDT)
+Message-ID: <d315712a-0792-d15f-040d-3a3922700a53@kernel.dk>
+Date: Sat, 7 May 2022 06:53:30 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 4/5] nvme: wire-up uring-cmd support for io-passthru on
+ char-device.
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, asml.silence@gmail.com, ming.lei@redhat.com,
+ mcgrof@kernel.org, shr@fb.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
+ gost.dev@samsung.com
+References: <CGME20220505061150epcas5p2b60880c541a4b2f144c348834c7cbf0b@epcas5p2.samsung.com>
+ <20220505060616.803816-5-joshi.k@samsung.com>
+ <f24d9e5e-34af-9035-ffbc-0a770db0cb20@kernel.dk>
+ <20220505134256.GA13109@lst.de>
+ <f45c89db-0fed-2c88-e314-71dbda74b4a7@kernel.dk>
+ <8ae2c507-ffcc-b693-336d-2d9f907edb76@kernel.dk>
+ <20220506082844.GA30405@lst.de>
+ <6b0811df-e2a4-22fc-7615-44e5615ce6a4@kernel.dk>
+ <20220506145058.GA24077@lst.de>
+ <45b5f76b-b186-e0b9-7b24-e048f73942d5@kernel.dk>
+ <20220507050317.GA27706@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220507050317.GA27706@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220506_235434_864125_EC57392E 
-X-CRM114-Status: UNSURE (   9.12  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220507_055335_010671_90617949 
+X-CRM114-Status: GOOD (  27.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,33 +106,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Try to enable AEN on host side, this is helpful to minitor the
-critical warning from the NVMe controller.
+On 5/6/22 11:03 PM, Christoph Hellwig wrote:
+> Getting back to this after a good night's worth of sleep:
+> 
+> On Fri, May 06, 2022 at 08:57:53AM -0600, Jens Axboe wrote:
+>>> Just add this:
+>>>
+>>> "Add a small helper to act as the counterpart to nvme_add_user_metadata."
+>>>
+>>> with my signoff:
+>>>
+>>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>>
+>> Both done, thanks.
+> 
+> I think we're much better of folding "nvme: add nvme_finish_user_metadata
+> helper" into "nvme: refactor nvme_submit_user_cmd()" as the first basically
+> just redos the split done in the first patch in a more fine grained way
+> to allow sharing some of the metadata end I/O code with the uring path,
+> and basically only touches code changes in the first patch again.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- drivers/nvme/host/core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Yes good point, I've folded the two.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e1846d04817f..f386a4f1d434 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1490,8 +1490,12 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- }
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
+>>>> I did not do your async_size changes, I think you're jetlagged eyes
+>>>> missed that this isn't a sizeof thing on a flexible array, it's just the
+>>>> offset of it. Hence for non-sqe128, the the async size is io_uring_sqe -
+>>>> offsetof where pdu starts, and so forth.
+>>>
+>>> Hmm, this still seems a bit odd to me.  So without sqe128 you don't even
+>>> get the cmd data that would fit into the 64-bit SQE?
+>>
+>> You do. Without sqe128, you get sizeof(sqe) - offsetof(cmd) == 16 bytes.
+>> With, you get 16 + 64, 80.
+> 
+> Can we please get a little documented helper that does this instead of
+> the two open coded places?
+
+How about we just add a comment? We use it in two spots, but one has
+knowledge of the sqe64 vs sqe128 state, the other one does not. Hence
+not sure how best to add a helper for this. One also must be a compile
+time constant. Best I can think of is the below. Not the prettiest, but
+it does keep it in one spot and with a single comment rather than in two
+spots.
+
+
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 1860c50f7f8e..0a9b0fde55af 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -1044,6 +1044,14 @@ struct io_cancel_data {
+ 	int seq;
+ };
  
-+#define NVME_AEN_SMART \
-+	(NVME_AEN_CFG_SMART_CRIT_SPARE | NVME_AEN_CFG_SMART_CRIT_TEMPERATURE | \
-+	 NVME_AEN_CFG_SMART_CRIT_RELIABILITY | NVME_AEN_CFG_SMART_CRIT_MEDIA | \
-+	 NVME_AEN_CFG_SMART_CRIT_VOLATILE_MEMORY | NVME_AEN_CFG_SMART_CRIT_PMR_UNRELIABLE)
- #define NVME_AEN_SUPPORTED \
--	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | \
-+	(NVME_AEN_SMART | NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | \
- 	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_DISC_CHANGE)
++/*
++ * The URING_CMD payload starts at 'cmd' in the first sqe, and continues into
++ * the following sqe if SQE128 is used.
++ */
++#define uring_cmd_pdu_size(is_sqe128)				\
++	((1 + !!(is_sqe128)) * sizeof(struct io_uring_sqe) -	\
++		offsetof(struct io_uring_sqe, cmd))
++
+ struct io_op_def {
+ 	/* needs req->file assigned */
+ 	unsigned		needs_file : 1;
+@@ -1286,8 +1294,7 @@ static const struct io_op_def io_op_defs[] = {
+ 	[IORING_OP_URING_CMD] = {
+ 		.needs_file		= 1,
+ 		.plug			= 1,
+-		.async_size		= 2 * sizeof(struct io_uring_sqe) -
+-					  offsetof(struct io_uring_sqe, cmd),
++		.async_size		= uring_cmd_pdu_size(1),
+ 	},
+ };
  
- static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+@@ -4947,11 +4954,9 @@ EXPORT_SYMBOL_GPL(io_uring_cmd_done);
+ 
+ static int io_uring_cmd_prep_async(struct io_kiocb *req)
+ {
+-	size_t cmd_size = sizeof(struct io_uring_sqe) -
+-				offsetof(struct io_uring_sqe, cmd);
++	size_t cmd_size;
+ 
+-	if (req->ctx->flags & IORING_SETUP_SQE128)
+-		cmd_size += sizeof(struct io_uring_sqe);
++	cmd_size = uring_cmd_pdu_size(req->ctx->flags & IORING_SETUP_SQE128);
+ 
+ 	memcpy(req->async_data, req->uring_cmd.cmd, cmd_size);
+ 	return 0;
+
 -- 
-2.20.1
+Jens Axboe
 
 
