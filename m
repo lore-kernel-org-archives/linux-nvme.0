@@ -4,159 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C967C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 May 2022 09:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 472DBC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 May 2022 10:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qHKKHJWiHmyBLmPeBQsZ5yWs5TPVwW7ARCEk4srpoW0=; b=Nyt9wCT8nD/kEp1X9rtbX0LfDj
-	YKPHUj7R1wEqo6uWv2tIt2K2eEw5HZRlN8mZhsFmibqjWLkRBkv6k2UNxSdPKH53MC2R3+EJQiYh1
-	MMHSuol1iExKvqUDdtokDkt4+cr6jwhJXzRNl/ogQ30H08DdrjD74RqdMMeO8hg/+mGzALnCKh1S3
-	a4pl+SZiaKOrFa5u3V4iat2P7MSOpuGrsZ1XqEEe+6Sb1C1MbFgsX/RxZgsHxYeDqWC6FXlwrZHYe
-	4TZdnbesW8zhvPGEnvncgXhNcRYA3vN8SKk2+fXCmVJ7P38GQAX0u9g5AfBfIg5frOd0K099uo6hy
-	b1u2AnCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1+T1q2gG7tRFooHT2Q8Z1LDl5KLp6DWPgRfQ8PB5wlE=; b=xCTo3auqTgeIhD7EB+/7kic+T+
+	TM/SzHMsDScWvwDaOO0+xZB5cZ2JsHDfjvp80kA0U2x8mjY5ZRI4pznzvPk+t6kdsT92YxUwsYHS/
+	mDTUJ69ovmeK1EzCzZ5AXO9ALEgivSXh22ZnH+w+VAr2p/7wz4/WAyppRcK2OOtHPTqB4pXfSWosD
+	KY7wofr7OFj/Z1g3NchPC7Oa6injMFFrY+wvAhrW2sMHoY1Q4nZr8dnUYxPdBYxtRNUD+W5JMTV00
+	dNDRHo/SFU41bi9h9nBElPFolxXwrCEeyb6h2YrhOKNLlm8ybtcBJYAyeLRygTV6GUlYUdzEll/ZG
+	CnPR7OXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nnzMI-00DLKO-D1; Mon, 09 May 2022 09:07:14 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1no10i-00Dtnt-GD; Mon, 09 May 2022 10:53:04 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nnzMF-00DLJ9-V2
- for linux-nvme@lists.infradead.org; Mon, 09 May 2022 09:07:13 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2498JwCR022574;
- Mon, 9 May 2022 09:06:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=qHKKHJWiHmyBLmPeBQsZ5yWs5TPVwW7ARCEk4srpoW0=;
- b=wNCXZGmZ21EjExly2sef1vcizf4pmjbLDMYOO8xOve7molBB20Bgu1yszlFLk4WMsCl1
- Q9iAoFProXGByGnaXBoFjSHgsTuP/OFUzQKSbg67ZB9jHca+XiFoIhBqj7RnR9NWoatN
- OVXD6lOeJD/s14PIBoWsGm6cZkXMrOKemn5LeCr917D0OTdEwZ4EO7b8EBUXl0Z18+cw
- 5Z9bVLwoKbKLMgh0Mq0xMhJgZMXQswmiQIjb0i+dn4xyZvbtDZeRVVOtnqeETHMHEV4F
- rpdu5sJAllmWpduGA7Q/lfB71V4K/wFppR3PZ7j4UqVoTYtjhpQFwKtONyFd7PQSvjxy pA== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fwhatapsu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 May 2022 09:06:59 +0000
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 24995LCH024922; Mon, 9 May 2022 09:06:58 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2048.outbound.protection.outlook.com [104.47.74.48])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3fwf70prrh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 May 2022 09:06:58 +0000
+ id 1no10U-00Dtfj-2y
+ for linux-nvme@lists.infradead.org; Mon, 09 May 2022 10:52:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1652093569; x=1683629569;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=7I2kmCPRO/TOX+pBoKMwGJfdFvL5d05+wD6NcMMZ3Wk=;
+ b=CgrN3Jqw+U2TePYFbQNjlFDvoGO2LYTraGhs7N4JmUtSsY45wV+We2HK
+ dlPWE08xuY+pCdKvgx2NJDXZcOvt9ihjVEZxyVplu0KMC+5ugZC0+KokB
+ iOckmcg1LeyR8MarEcy6gv3qVBlrqquxtNhOOKCeELSGHsMb5IjUDxDLI
+ xwpxC9ehTJm0ruI+2lkCZMUKuzVenBgBPAxeqqk4DbqhrYQF+4CYGHkAe
+ Hfw+giYNrSNpc8nYee1lG3zqAlzPGTqX9uypwr6EGqmIYarBmWtbcfs0t
+ Cw7jj7ymBbleW5NUue5b7gPFuIv9XU+ee1sb3UthrRl/UmqXbydLeKmyo w==;
+X-IronPort-AV: E=Sophos;i="5.91,211,1647273600"; d="scan'208";a="204726668"
+Received: from mail-dm6nam12lp2169.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.169])
+ by ob1.hgst.iphmx.com with ESMTP; 09 May 2022 18:52:44 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KPVWu6DBpTdIdP8kh/ztb5dcHYKgmPgCJ0jDcVJEBp4qYfL8m2jkyW46ArfpgpRu0aNB1DvHFIV6k0JXLV47eVC5Gd92KJD1JgSS1a9MF0hTla4AizkMGjh5tQc6b/H4jeP2gFMaQq9zuUlKiZVwhyEsSIHCvvYq8zx624Et4sepLJ+GoJ9ajeMSYXges3uHmyew3Wtq03Ib0pT5cJ7iW0blR2k3fuFAij92OrCaEZ72z6gzmiiE0H4Qn915V33J9AinbwWLLua4ezuzO/r3u8wcjbZEGWqOUZVJhFSo7jqzTlz0CWkgA29WU7owtm1+0wZbjaPvolAW6RCaMDD8tg==
+ b=n/SX/3cLIuZ5Gi6FGc26gQstkES7z+phb03lm9ZxUYXVxhl5u1iBRz5w9EI1r2NkQfo3H9TIChcXLESNLZ9dTdN3o2BKnxVJrPVGiXxNl8kkcwrOgVjxDm4LYzxlddocRE9MtQXCoa+dtWYgG6M6eaqaZCEfnHyJVnaDHoN5J/aqWWxx01OHTdpvd1xYQvd1fTmAQXYybnIAqe35ElWuMdl8inMufZXFjd/r5F6e4xZqROLV8TKSBu88oyI4/Ykp2h/xkTtNnbgRHI5WXrgB5XatZduXDv+GcpKuvYnrf98spJhXxN0pnCBR/wAboWspr0xsFOou3kQ+YY2rXfiNXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qHKKHJWiHmyBLmPeBQsZ5yWs5TPVwW7ARCEk4srpoW0=;
- b=SKpEsr44rteT3Wns3K0Q8NdZHNiw6LcEsQQ4MSQOfjyEwB6P2nwQtZ/3VgWlZlVKMO/djoDUBJIbN7cL5KseV4J8wfle6oUBpMw1Y3f6kZBBeFXU6puoOP9tNwlmtcWcKL1nl41Ybi+/muigFee0P6eRsRoLJCAgcMeiz9gn9xomfDw/412AxSJNFAGXSZOQqg1WKLC3TY4+6BuGJS+VSkc39wUjF/5uFudzqtOj0KGkAxwkrp2Jy+uxR46ec3rzYKZniJfIrj29vxUUi1K8pe4dZ3k+1Oq0vkULheKD7bbtR/jIyhvnSPYjahl9luM+oGtJ3QRZ5OBinV36M0HIMg==
+ bh=1+T1q2gG7tRFooHT2Q8Z1LDl5KLp6DWPgRfQ8PB5wlE=;
+ b=XRwVPb+ZVWfxh4bgdXM5TefGi9woRtDESmeJkMgTnVLbXq9v+BE9su6iy47HilEGCwAg5+r+a5zqkrd69dCp3nQmAnhTloHayeNUljDl2EMAva9F5hBqokJLb6gbepPirk+YQwCTtwqcOL4bCqljigWwlVVVAwfggjSWk90hjH+Ey4wt74wL2KvyFPeQzLSOLnSjSIBIyiWjr9AXtU5omAPIxUwAJHFGWC5EoKOMJ6H/QUztgtldxbGcjGU2FCSWs6qd8yqR4d1wvJ0d4fdALuHVzULcRhT2Tt9frh7mRf9hktO1YonN/wNe3BFNvIhvh+6Ax5RUDVeqTkpiD11aoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qHKKHJWiHmyBLmPeBQsZ5yWs5TPVwW7ARCEk4srpoW0=;
- b=XYbus5HLlr/dIOZdXe70YUZp3P9sh2qmYz+tbsWAtRnY2ShkJN9jT/OE/hdcJBj/kdk4D6W0iLK0wjZ3M4Hudb+f4ndj9NRNdsY7LHq/wGw+fPGcf8ykgKGKNTXTsI2h/l5K7oETolZ4Q0Lkxe3HuYY9Ea/WkUOwv2i+acPWsVI=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SJ0PR10MB4542.namprd10.prod.outlook.com
- (2603:10b6:a03:2da::19) with Microsoft SMTP Server (version=TLS1_2,
+ bh=1+T1q2gG7tRFooHT2Q8Z1LDl5KLp6DWPgRfQ8PB5wlE=;
+ b=N+4i1VJS8BV8i/qzQUZZfFN2x00CTtDB4cERk0pEN1i4TZtYkJN6OVhJuWNJB7kwMmR/fa6NhAEMLhmoRksoSqXCj+1giXjCXWuqKULGQuuP3y9D5lhOYt7xDlfV+6Sywxr9/zspixR2/YKaEPPkEFmA1l2mFiw1bacsf/OANXc=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ SJ0PR04MB7806.namprd04.prod.outlook.com (2603:10b6:a03:3bd::17) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Mon, 9 May
- 2022 09:06:56 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::c053:117c:bd99:89ba]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::c053:117c:bd99:89ba%5]) with mapi id 15.20.5227.020; Mon, 9 May 2022
- 09:06:56 +0000
-Date: Mon, 9 May 2022 12:06:42 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Keith Busch <kbusch@kernel.org>, Kanchan Joshi <joshi.k@samsung.com>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Anuj Gupta <anuj20.g@samsung.com>,
- linux-nvme@lists.infradead.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] nvme: uninitialized return in nvme_ns_head_chr_uring_cmd()
-Message-ID: <YnjZovrfnF0YYuvN@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-ClientProxiedBy: ZR0P278CA0192.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:44::16) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+ 2022 10:52:43 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::2839:2ab4:7871:416e]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::2839:2ab4:7871:416e%7]) with mapi id 15.20.5227.023; Mon, 9 May 2022
+ 10:52:43 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Alan Adamson <alan.adamson@oracle.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "osandov@fb.com" <osandov@fb.com>
+Subject: Re: [PATCH blktests] tests/nvme: add tests for error logging
+Thread-Topic: [PATCH blktests] tests/nvme: add tests for error logging
+Thread-Index: AQHYY5LoxN9/E1n1A06/XzIzJlIIEg==
+Date: Mon, 9 May 2022 10:52:43 +0000
+Message-ID: <20220509105242.hv52nmc7yqd4chnz@shindev>
+References: <20220429220946.22099-1-alan.adamson@oracle.com>
+In-Reply-To: <20220429220946.22099-1-alan.adamson@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e54bb663-d632-4435-f1a7-08da31aa0b9a
+x-ms-traffictypediagnostic: SJ0PR04MB7806:EE_
+x-microsoft-antispam-prvs: <SJ0PR04MB780611E9CE758ECFF8AB2AAEEDC69@SJ0PR04MB7806.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4kHtRxR6IjamqOruoWGetlAxUnn2OQqElfBRnE9LRY36qd3UBCMTfMJTddYqXalzlZnqNYBNoojW5mHYYtTS8iXJ7fCR0GudOB9ONBB389dZ+2fbSmfT1ANDRyyCwJa8U1sGpgDW3gKbVGzSpTs+8hpwU/jDET0ZX4uZFau1wJo60j8gTbjhy9OL4uILGa1XoR34G6jvw5D6E4TGLN3HvICJYlc3u/cnteZI6Ipd5ewPlwUBuRil9PjyXsQ71x70NR0OelqI8UXzrZC6/rQ9YVJKGKL+DUARxHZ1TufXyvidWK2hiifdzT1mmaSrQIzFBynMaTTygi/B9XY443sRZvvnGFFknOea6WhmPPw5jQLDIKEpZPEi3iWfCjOf4tK8Sa28v4+jvp+t03YW6/qz0TtfA6m/Ei+5CEvvEihv/KBJm3d0P2lKfc8Pcl8CmggQiuQaKBypEr4uKhfpEvto5iQM35M4GhyhAlJ2hn+tMluFQ9oVozxynWwVxdpwpRyj4GmQTCHCzG4IC2WLmCeHuTxg2po/iJZaRN3vbLEKJdqMiXAwU0zOsw4SuwmnZgKdu6VRlz6Cutf+xqtPuEKKGqJU7CWk+hssytIQILk1m0m1BBOVqc/Q1lbr5CfArHb/NzzJQu74eJ2Kf/ggRKcpEXw+OR4hfiM/Ud3weZ146vv5Wi/KaDg3GqeE6Zt6yfs2FMSrY8RyHbsZoslrxK5N8A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR04MB8037.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(4636009)(366004)(76116006)(186003)(66946007)(91956017)(66476007)(64756008)(66446008)(66556008)(44832011)(8936002)(6512007)(26005)(83380400001)(5660300002)(9686003)(8676002)(4326008)(1076003)(38100700002)(86362001)(508600001)(33716001)(6916009)(6506007)(54906003)(6486002)(2906002)(38070700005)(82960400001)(316002)(122000001)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TT2+Ni7beg92/KS1MG8oQuHo3qbI37J2er72U/0VFa1mP+vC6gWqhXVUeEKn?=
+ =?us-ascii?Q?BowMw3B04X9HjDeNV7P22/7G4nutBCW9u49bUrdzkvrUHN/EuWrX+6ubwJi3?=
+ =?us-ascii?Q?g/kDGr6BrfgbHO7zVPgPX++dRpjfmg5OO1x41+KJgZVJ9cbt36qbSYO8cOpN?=
+ =?us-ascii?Q?MlZrAzV4xhi8qdn4erF1dR94sRKpaW30qUO6Bp1e5HWo3iIMfZ80cApJLcaI?=
+ =?us-ascii?Q?W2t8mE/83etF6Qp6GMKt8MdTgeCjBMJxZjMexNtwEVCsHoQX7DKNTDi2SrzH?=
+ =?us-ascii?Q?EehOoY28UA+HAmb4kCxEOKQHOPqiZ1++YRTnU4oLg9IplvMkxfxxT5aU102v?=
+ =?us-ascii?Q?TYqRO6b94+p3Np12+WAeU9dGmlqFoqEvjIkvIEza4ngUmx3M6HnOjoS9YJlp?=
+ =?us-ascii?Q?ufFcRgFvFlSgxmdw25P/McUqrFxE/hX2yvgT3rqMAQS6vYPOJ0BXHu5fS8KH?=
+ =?us-ascii?Q?8LgPw70i8lLLKoepQBeUaqwZ7639zi+K0+P87o4p3271+85w0pAR5brRmBaw?=
+ =?us-ascii?Q?r11WHz5dnrp0LiD591BLJJiJ4FZbjdmhUWt1KYJYz+xpPzrcCxNqVUqCgxkA?=
+ =?us-ascii?Q?laRtjQQcJfB+PrgL/ZD9JMcOjck8e4UjXbLEi1GvfQXUvfSI8i/bPexWZcYv?=
+ =?us-ascii?Q?cEeN+c4N+RycGM62WZ7zE9XvlF1L09XkzniyHw2KXh+JSJSCywC5zIlCfuyH?=
+ =?us-ascii?Q?95uk8JV/0J8qfQ8GYVWKtSe4dN8z4435vn7NH9Umtk32GODVPOiCzajfgxN2?=
+ =?us-ascii?Q?gxEsNdTFBVDbtKsnCrfllVgv2V3RS4hC+Szw8p9slTaqTL5rM0vfBYuwnMMi?=
+ =?us-ascii?Q?yvKzlwHPkIvuikN3rkQ9OSm5VVoEnBHarxkjQy6wRh0lJM7kVLMgw7mfyBOw?=
+ =?us-ascii?Q?dXbdObGP9M0ZZkj5IpmrYy2Z7T98EkzQR+76NfDwmZbZy5Q22w1Yf/Abysn/?=
+ =?us-ascii?Q?Q1JrBVUR1tODUorc8qmDHeQ4glIus64SoUKTt6KLgPDGC8v3A2RbFp1rgubs?=
+ =?us-ascii?Q?9UUh4CeKeg8dLlJkg647DXYUmP2qWPgM258m+OwwlOvYpEqMKwwVoReCKjkv?=
+ =?us-ascii?Q?q7PVvUlO6xW2fUdIcqOclT6aEx5VC/zDlhu43+ZEkVOu71/CEqp3owvKpif7?=
+ =?us-ascii?Q?Ffl84GTdO5jzosArEVjcuu8gcZmFhsWJqVbxhhdriW/xeWVR20FKLv83p3TE?=
+ =?us-ascii?Q?uPemWEx9QtGEfGswVWqqgdy6xUqTQunkO9WjR+qWnYYt6zLCugmsFFBccjrk?=
+ =?us-ascii?Q?8jMCGUmWWnwxHCn9Nct5N0+Rj4kBWz9BWbWo6FKmCXS3N/L9KcQjvafzLHkS?=
+ =?us-ascii?Q?1Xh7lOKEYBMUIUwHawhbwrtNYq8X94QH2Xh/uTbtC1ttbC9f0Y+QvfiE6dVV?=
+ =?us-ascii?Q?KUNU2L1m9SlAFNUcTaiy329kE6pU5hGxV4mIfT7rjGVjHUDx33BAsPBgbpOf?=
+ =?us-ascii?Q?Y6a/KKogo3B8CX7pJkQUlh2RfQN7lDE4Cs01SCzEv8xVscGWmqYXZjRKQq/0?=
+ =?us-ascii?Q?gsoOxdwlxC/1EclCiUA1Voq7P75rOWxJ6a7Pd2haYbHPQ1y06bsZeNWWI2Mw?=
+ =?us-ascii?Q?nG6JB77mem5qMI6Bgqjvi4Smw15sOAkV6sZa0wDc7gri0oipfY+7wVJmP8y/?=
+ =?us-ascii?Q?+naqU6tISpr0oBAHcicfPT+BM4qTJ4Dip7xSAfkQdcar7QEFq9rUX8VvGJV9?=
+ =?us-ascii?Q?vil4mbdbQf24rjmHFwSTNMQdvbnhWC9wLPX/7OjmipNUVXyd/7JWhhTwvqlC?=
+ =?us-ascii?Q?cdPlyCpLCVpidNtAdV2wcjSnA0UG2IW2qERY3VgONBk1b6OJnDoI?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1FCCE1ADE2E29C4D88A092EAA8A7F4E1@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7b4372eb-bdf1-40c8-e4ff-08da319b4444
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB4542:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB45423165CB9CA7C047F128C58EC69@SJ0PR10MB4542.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 21lnURvPJvUK49OI363/yaqElzCY4CVt6RwiauiXptBoy0jIKfSxwLpGkNtl7jF7h0cqsRZXP2Wyu604UsK+wMqD9V58bQ/yymZTTx2Q9e08xtfmhQTn03JVlQXGDE2Rf+6Wk+f4oLyg4aRwUj8Qgty7EhoHArBzupxQTktqYxAyoq6E8tJ05UftBIx8j93VcP0gZl4RWrzDgoNHIOHt078qOoW5jibeVSFwBVNsEORE3ZiEDUqFyzjSbOAHDiY8iPy7eOddE0qu6FZbuO9kveJz+18QzMY4fvphFcABhAfLOfuhTKuhzmhKwI/W/UERRmKqYXNZAlqBD5c8o7bTEgdpqVviZ4D5Fj7FS4BYvT5PdMRJfm84DluJAy0LNykgM44rrC6UACvpt572Mh3d+aXpTLFAZ3MyuJjGfKvaajVus0hchbTaXrDvodCqNFfwI5pieNRuVzo1o1JzhOhp5xrN4ci+yMGRs20B/FvzJ9tKQsuwjs7mVEl/lkosTzcJ01jfRA0/3oj5BsTZpqm/JvaVLS6FZyhl34fLS0XeHv7pBu+5aQfkL1DxKaiE6iIjczrAJVF9AWgqSVwcTH8Hsg1R9YNdXRIV3snJcgSWVC75pS2MyOJs1ddHrW2guuE6Zh6cHRstyQ/b8LCngz8uf3CuUy4gCelMlrhHZXDWq/e1zVIdO0i4YL8NmjgNx8eASqYUnLqeQHMEHFH8beREug==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(33716001)(38350700002)(38100700002)(110136005)(5660300002)(83380400001)(8936002)(6506007)(86362001)(66556008)(44832011)(9686003)(508600001)(4744005)(6512007)(6666004)(26005)(66946007)(6486002)(316002)(66476007)(4326008)(54906003)(8676002)(186003)(52116002)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AEV9KfIAq2JMmTWiANE60JFAbt4/oKFWwB9nd1Vp6kIfZQIiFjYs6FjUVjeE?=
- =?us-ascii?Q?v9WPLk4fIvD6ZkuT/KOh6a7cYslMf6pbUH/sGQFGaMmnZ+2bDmZd6XJhFYWz?=
- =?us-ascii?Q?+KAcK+maAFeqXkEtCO7+KQy/GFYcrKLyMKHPfqbFkLZyfZDbZZNe8oC8cumZ?=
- =?us-ascii?Q?pYHGnRCUeXRaH3V0bv/E15rrcqNE9Vy96sF8ZUxmDcr5mazVvLDcNx69Y+Jx?=
- =?us-ascii?Q?SheXPLhHvmwrqbZwBHsszieDAOYC5LJMn7SpaQNBDgxhEu6RoMD5Whk/LNKd?=
- =?us-ascii?Q?frfC/as7rTLN6MuPam7yxu9vXu5d+bBHHNzqSuQkFgp4YnmaUdwkmUJAIxiK?=
- =?us-ascii?Q?+ymJ1tIInbGNBWPHXZm0XHdv3sUmA7yM9ToKj78tB0FrGM5HzpaH8bX7d5W0?=
- =?us-ascii?Q?rvVYTZ6LOQ+CopwfYfY0b/S0gVsCWonYonY6MzkrCwz4tBfvksXbbzmQFwjq?=
- =?us-ascii?Q?royVmWjKP+9tV7sY5TR+ok1+tk1s6IUxUMVYdl9cl4tDBeY9IpV7oZNQyo1e?=
- =?us-ascii?Q?7kkAHIKVDAaJL5QsBPCmt/nvdvUxytZWTGfd5c4079Vg6FGqXZFBcrswhvlo?=
- =?us-ascii?Q?ds/nYJ51YW50OyonCfcfFajstjD4mbGQLqtNqRNxi6qlqmp71ynQ5KNk7qzU?=
- =?us-ascii?Q?yDRo/TYXrwERlfT8QzVUZJRJL2ZLT2cLYt0yLw1MOM5m7I4pNKpULmMzCbK5?=
- =?us-ascii?Q?gDzIiBlNDpfh0hCthrpdtcVfmh5AP8eRxR4ik9n8WYarBSJ2ogPyGBCzOuBj?=
- =?us-ascii?Q?jGOG9LlZzokTtlPtClRXxmHutFnTIke3PBm061Nt+QvEpCQrzfGdTn6+/jLx?=
- =?us-ascii?Q?HSqiSiWREYfxu3ztBwwwXzvZhTjJjXGmB1c+XPzRtwxe98h9/bR+/UC4d7/J?=
- =?us-ascii?Q?mTwuL2adAtGCic/Z2wwKngluBGLYnX8qtWKkHN5WHaFY2wLRfikHMy1EheRE?=
- =?us-ascii?Q?ZJkGeqPH6UnoquDJFU6PVY5hxYRCOsNHBP1kDAjnIfjHT+5LnRJ2ACcUWcMR?=
- =?us-ascii?Q?ejbfi4cmESZjglRBdvVk45LxsKIXzBuVkfUMXbeZkf032hCxifrdineCgi6S?=
- =?us-ascii?Q?6ZY0kpAksbwaQIZrkU2CPPD0Qx+pbqP2pY6Yzz+zyeSGu1Lb2WWv2VhGEnmJ?=
- =?us-ascii?Q?X7NX5k3idvjyjHDViKZf/G4kxPWuyLzJrObKFLJjGp/cP8WuuTInysYtB5Ii?=
- =?us-ascii?Q?aHKswEMCkmbLQZavmuH+En5fodCwuRXrLZvb1CM26wmVfmW/BCl8qtRTSoqi?=
- =?us-ascii?Q?mS8dhP4Cil5dGzOESoQ2kfAacx+1wxry6PO5r3XK0j8DQ9295q44hmLktoeX?=
- =?us-ascii?Q?sQeqEpEC5RLJ/nFh8OEQJjJcPIoHzl4w1UUxoLLA6s6dSs+7v7JRWQnSvas3?=
- =?us-ascii?Q?XjHL7fIstVBW+ERm/NwuccG+pSugV3uPrDwR8tKwykTly+ePluuC2d4UvK73?=
- =?us-ascii?Q?gWR2i/5zoQsPfwNvEl4KlsaXQvx5XYyZDAqBE/llRdYCB2me4PCnwZnk752H?=
- =?us-ascii?Q?1qI0KY51715B1PwZVENZTlb0hiogLJPII/VmGm8ikvM+8Twa8rw/+D9Wq1dc?=
- =?us-ascii?Q?roIzXJAiW4q8O7/eRL3D+EF3P3HSPGxXfeEoAsdG9lOipsNZClTXPTKbnTFX?=
- =?us-ascii?Q?1t9uS/tAqnHdzDFehI1T+SlivHJrtjM76uBNNdsdSlgwLH1rg5L8PI+MKqnb?=
- =?us-ascii?Q?QYYXEkZ9FWwPp8k/1xw7l2gufbTsnzsbl+ZPeQb8G9bcE0lT1UJ9Z3W7MJxW?=
- =?us-ascii?Q?7Gdw7D9FH2BeTYfCrXUaRw8AlmfsMGg=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b4372eb-bdf1-40c8-e4ff-08da319b4444
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 09:06:56.6872 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d8ZTFIjUvP+ro782it1uDRzLYdl1xWMBTlXSzPX6v/8Nxpo0gasrY0D73oU5ioQYcWqDaDDAI7jAWwwza5H1cj5EvRhMKcQh/QF3XMn5pGc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4542
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
- definitions=2022-05-09_02:2022-05-09,
- 2022-05-09 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0
- adultscore=0 bulkscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205090052
-X-Proofpoint-GUID: HEshBcKVCKgQ8Ej17ImtKCZrHCHvr_Xp
-X-Proofpoint-ORIG-GUID: HEshBcKVCKgQ8Ej17ImtKCZrHCHvr_Xp
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e54bb663-d632-4435-f1a7-08da31aa0b9a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2022 10:52:43.5095 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0FlHwjzfTjTitXoBOZ9YyMcJ+xrKk0XX3zFlVgx7NZtpw+wfoOacixLcq/bvdcKxQE6kFpu1Ts9aAoZtJuwJ+kevdBHz6qK7yzijZJsT9zg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7806
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220509_020712_058546_4114962C 
-X-CRM114-Status: GOOD (  18.01  )
+X-CRM114-CacheID: sfid-20220509_035250_448524_FCCACE29 
+X-CRM114-Status: GOOD (  25.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -171,28 +158,338 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The "ret" value is not set if "ns" is zero.
+Hello Alan,
 
-Fixes: 86116c2f6fee ("nvme: wire-up uring-cmd support for io-passthru on char-device.")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/nvme/host/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I ran the test case this patch adds and confirmed it works as expected. Goo=
+d.
+I found some points to improve in the patch. Please find my comments in lin=
+e.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 4b91e452768b..c118559d47f0 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -688,7 +688,7 @@ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
- 	struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
- 	int srcu_idx = srcu_read_lock(&head->srcu);
- 	struct nvme_ns *ns = nvme_find_path(head);
--	int ret;
-+	int ret = 0;
- 
- 	if (ns)
- 		ret = nvme_ns_uring_cmd(ns, ioucmd, issue_flags);
--- 
-2.35.1
+On Apr 29, 2022 / 15:09, Alan Adamson wrote:
+> Test nvme error logging by injecting errors. Kernel must have FAULT_INJEC=
+TION
+> and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests can =
+be
+> run with or without NVME_VERBOSE_ERRORS configured.
+>=20
+> These test verify the functionality delivered by the follow commit:
+>         nvme: add verbose error logging
 
+The commit was already up-streamed. It will be helpful to add git hash of t=
+he
+commit.
+
+>=20
+> Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>  tests/nvme/039     | 174 +++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/039.out |   7 ++
+>  2 files changed, 181 insertions(+)
+>  create mode 100755 tests/nvme/039
+>  create mode 100644 tests/nvme/039.out
+>=20
+> diff --git a/tests/nvme/039 b/tests/nvme/039
+> new file mode 100755
+> index 000000000000..e30de0731247
+> --- /dev/null
+> +++ b/tests/nvme/039
+> @@ -0,0 +1,174 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2022 Oracle and/or its affiliates
+> +#
+> +# Test nvme error logging by injecting errors. Kernel must have FAULT_IN=
+JECTION
+> +# and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests c=
+an be
+> +# run with or without NVME_VERBOSE_ERRORS configured.
+
+It will be helpful to note the kernel commit here also.
+
+> +
+> +. tests/nvme/rc
+> +DESCRIPTION=3D"test error logging"
+> +QUICK=3D1
+> +
+> +requires() {
+> +	_nvme_requires
+> +	_have_kernel_option FAULT_INJECTION && \
+> +	    _have_kernel_option FAULT_INJECTION_DEBUG_FS
+> +	_have_program dd && _have_program nvme _have_program sed
+
+I think the line above is not required. dd and sed are so common and we can
+assume they are available. And _nvme_requries checks the nvme command.
+
+> +	_require_nvme_trtype_is_loop
+
+Can't we run this test with transport type other than loop?
+
+> +}
+> +
+> +save_err_inject_attr()
+> +{
+> +	ns_dev_verbose_save=3D$(cat /sys/kernel/debug/"${ns_dev}"/fault_inject/=
+verbose)
+> +	ns_dev_probability_save=3D$(cat /sys/kernel/debug/"${ns_dev}"/fault_inj=
+ect/probability)
+> +	ns_dev_dont_retry_save=3D$(cat /sys/kernel/debug/"${ns_dev}"/fault_inje=
+ct/dont_retry)
+> +	ns_dev_dont_status_save=3D$(cat /sys/kernel/debug/"${ns_dev}"/fault_inj=
+ect/status)
+> +	ns_dev_dont_times_save=3D$(cat /sys/kernel/debug/"${ns_dev}"/fault_inje=
+ct/times)
+> +	ctrl_dev_verbose_save=3D$(cat /sys/kernel/debug/"${ctrl_dev}"/fault_inj=
+ect/verbose)
+> +	ctrl_dev_probability_save=3D$(cat /sys/kernel/debug/"${ctrl_dev}"/fault=
+_inject/probability)
+> +	ctrl_dev_dont_retry_save=3D$(cat /sys/kernel/debug/"${ctrl_dev}"/fault_=
+inject/dont_retry)
+> +	ctrl_dev_dont_status_save=3D$(cat /sys/kernel/debug/"${ctrl_dev}"/fault=
+_inject/status)
+> +	ctrl_dev_dont_times_save=3D$(cat /sys/kernel/debug/"${ctrl_dev}"/fault_=
+inject/times)
+> +}
+> +
+> +restore_error_inject_attr()
+> +{
+> +	echo "${ns_dev_verbose_save}" > /sys/kernel/debug/"${ns_dev}"/fault_inj=
+ect/verbose
+> +	echo "${ns_dev_verbose_save}" > /sys/kernel/debug/"${ns_dev}"/fault_inj=
+ect/verbose
+> +	echo "${ns_dev_probability_save}" > /sys/kernel/debug/"${ns_dev}"/fault=
+_inject/probability
+> +	echo "${ns_dev_dont_retry_save}" > /sys/kernel/debug/"${ns_dev}"/fault_=
+inject/dont_retry
+> +	echo "${ns_dev_dont_status_save}" > /sys/kernel/debug/"${ns_dev}"/fault=
+_inject/status
+> +	echo "${ns_dev_dont_times_save}" > /sys/kernel/debug/"${ns_dev}"/fault_=
+inject/times
+> +	echo "${ctrl_dev_verbose_save}" > /sys/kernel/debug/"${ctrl_dev}"/fault=
+_inject/verbose=20
+> +	echo "${ctrl_dev_probability_save}" > /sys/kernel/debug/"${ctrl_dev}"/f=
+ault_inject/probability
+> +	echo "${ctrl_dev_dont_retry_save}" > /sys/kernel/debug/"${ctrl_dev}"/fa=
+ult_inject/dont_retry
+> +	echo "${ctrl_dev_dont_status_save}" > /sys/kernel/debug/"${ctrl_dev}"/f=
+ault_inject/status
+> +	echo "${ctrl_dev_dont_times_save}" > /sys/kernel/debug/"${ctrl_dev}"/fa=
+ult_inject/times
+> +}
+
+The two functions above repeat similar lengthy lines. How about to use
+associative arrays to avoid the repetition?
+
+declare -A NS_DEV_FAULT_INJECT_SAVE
+declare -A CTRL_DEV_FAULT_INJECT_SAVE
+
+save_err_inject_attr()
+{
+	local a
+
+	for a in /sys/kernel/debug/"${ns_dev}"/fault_inject/*; do
+		NS_DEV_FAULT_INJECT_SAVE[${a}]=3D$(<"${a}")
+	done
+	for a in /sys/kernel/debug/"${ctrl_dev}"/fault_inject/*; do
+		CTRL_DEV_FAULT_INJECT_SAVE[${a}]=3D$(<"${a}")
+	done
+}
+
+> +
+> +set_verbose_prob_retry()
+> +{
+> +	echo 0 > /sys/kernel/debug/"$1"/fault_inject/verbose
+> +	echo 100 > /sys/kernel/debug/"$1"/fault_inject/probability
+> +	echo 1 > /sys/kernel/debug/"$1"/fault_inject/dont_retry
+> +}
+> +
+> +set_status_time()
+> +{
+> +	echo "$1" > /sys/kernel/debug/"$3"/fault_inject/status
+> +	echo "$2" > /sys/kernel/debug/"$3"/fault_inject/times
+> +}
+> +
+> +inject_unrec_read_err()
+> +{
+> +	set_verbose_prob_retry "${ns_dev}"
+> +#	Inject a 'Unrecovered Read Error' error on a READ
+
+One liner comments in this patch have weird position of '#'. I suggest to p=
+lace
+it at same column offset as code.
+
+> +	set_status_time 0x281 1 "${ns_dev}"
+> +	dd if=3D"${TEST_DEV}" of=3D/dev/null bs=3D512 count=3D1 iflag=3Ddirect =
+2> /dev/null 1>&2
+
+Some lines in this patch exceeds 80 characters. I suggest to fold them into=
+ two
+lines with backslashes.
+
+> +	if ${nvme_verbose_errors}; then
+> +		dmesg -t | tail -2 | grep "Unrecovered Read Error (" | \
+> +		    sed 's/nvme.*://g'
+> +	else
+> +		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
+> +		    sed 's/I\/O Error/Unrecovered Read Error/g' | \
+> +		    sed 's/nvme.*://g'
+> +	fi
+> +}
+> +
+> +inject_invalid_read_err()
+> +{
+> +#	Inject a valid invalid error status (0x375) on a READ
+> +	set_status_time 0x375 1 "${ns_dev}"
+> +	dd if=3D"${TEST_DEV}" of=3D/dev/null bs=3D512 count=3D1 iflag=3Ddirect =
+2> /dev/null 1>&2
+> +	if ${nvme_verbose_errors}; then
+> +		dmesg -t | tail -2 | grep "Unknown (" | \
+> +		    sed 's/nvme.*://g'
+> +	else
+> +		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
+> +		    sed 's/I\/O Error/Unknown/g' | \
+> +		    sed 's/nvme.*://g'
+> +	fi
+> +}
+> +
+> +inject_write_fault()
+> +{
+> +#	Inject a 'Write Fault' error on a WRITE
+> +	set_status_time 0x280 1 "${ns_dev}"
+> +	dd if=3D/dev/zero of=3D"${TEST_DEV}" bs=3D512 count=3D1 oflag=3Ddirect =
+2> /dev/null 1>&2
+> +	if ${nvme_verbose_errors}; then
+> +		dmesg -t | tail -2 | grep "Write Fault (" | \
+> +		    sed 's/nvme.*://g'
+> +	else
+> +		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Write/g' | \
+> +		    sed 's/I\/O Error/Write Fault/g' | \
+> +		    sed 's/nvme.*://g'
+> +	fi
+> +}
+> +
+> +inject_id_admin()
+> +{
+> +#	Inject a valid (Identify) Admin command
+> +	set_status_time 0x286 1000 "${ctrl_dev}"
+> +	nvme admin-passthru /dev/"${ctrl_dev}" --opcode=3D0x06 --data-len=3D409=
+6 --cdw10=3D1 -r 2> /dev/null 1>&2
+> +	if ${nvme_verbose_errors}; then
+> +		dmesg -t | tail -1 | grep "Access Denied (" | \
+> +		    sed 's/nvme.*://g'
+> +	else
+> +		dmesg -t | tail -1 | grep "Admin Cmd(" | sed 's/Admin Cmd/Identify/g' =
+| \
+> +		    sed 's/I\/O Error/Access Denied/g' | \
+> +		    sed 's/nvme.*://g'
+> +	fi
+> +}
+> +
+> +inject_invalid_cmd()
+> +{
+> +#	Inject an invalid command (0x96)
+> +	set_status_time 0x1 1 "${ctrl_dev}"
+> +	nvme admin-passthru /dev/"${ctrl_dev}" --opcode=3D0x96 --data-len=3D409=
+6 --cdw10=3D1 -r 2> /dev/null 1>&2
+> +	if ${nvme_verbose_errors}; then
+> +		dmesg -t | tail -1 | grep "Invalid Command Opcode (" | \
+> +		    sed 's/nvme.*://g'
+> +	else
+> +		dmesg -t | tail -1 | grep "Admin Cmd(" | sed 's/Admin Cmd/Unknown/g' |=
+ \
+> +		    sed 's/I\/O Error/Invalid Command Opcode/g' | \
+> +		    sed 's/nvme.*://g'
+> +	fi
+> +}
+> +
+> +test_device() {
+> +	local nvme_verbose_errors;
+> +	local ns_dev;
+> +	local ctrl_dev;
+
+The semicolons above are not required. Same for nvme_verbose_errors substit=
+ues
+below.
+
+> +
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	if _have_kernel_option NVME_VERBOSE_ERRORS; then
+> +		nvme_verbose_errors=3Dtrue;
+> +	else
+> +		unset SKIP_REASON
+> +		nvme_verbose_errors=3Dfalse;
+> +	fi
+> +
+> +	ns_dev=3D$(echo "${TEST_DEV}" | sed 's/\/dev\///g')
+> +	ctrl_dev=3D$(echo "${TEST_DEV}" | sed 's/\/dev\///g' | sed 's/n[0-9]*//=
+2')
+
+The two lines above works ok. Just FYI, they can be simplified with bash
+features:
+
+	ns_dev=3D${TEST_DEV##*/}
+	ctrl_dev=3D${ns_dev%n*}
+
+> +
+> +#	Save Error Injector Attributes
+> +	save_err_inject_attr
+
+The function name is self-descriptive. The comment above is not so meaningf=
+ul.
+
+> +
+> +	inject_unrec_read_err
+> +
+> +	inject_invalid_read_err
+> +
+> +	inject_write_fault
+> +
+> +	set_verbose_prob_retry "${ctrl_dev}"
+
+set_verbose_prob_retry() is called for ctrl_dev in test_device(), but it is
+called for ns_dev in inject_unrec_read_err(). This does not look consistent=
+.
+It would be the better to call set_verbose_prob_retry() only in test_device=
+(),
+probably. Also, it would be good to provide ns_dev or ctrl_dev to inject_*(=
+)
+functions as an argument to clarify which device the functions use.
+
+> +	inject_id_admin
+> +
+> +	inject_invalid_cmd
+> +
+> +#	Restore Error Injector Attributes
+> +	restore_error_inject_attr
+
+Again, the comment above is not so meaningful. And helper functions in this
+patch abbreviates the word 'error' to 'err', but only the function above sp=
+ells
+it out and looks weird for me.
+
+> +
+> +	echo "Test complete"
+> +}
+> diff --git a/tests/nvme/039.out b/tests/nvme/039.out
+> new file mode 100644
+> index 000000000000..162935eb1d7b
+> --- /dev/null
+> +++ b/tests/nvme/039.out
+> @@ -0,0 +1,7 @@
+> +Running nvme/039
+> + Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81)=
+ DNR=20
+> + Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR=20
+> + Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR=20
+> + Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR=20
+> + Unknown(0x96), Invalid Command Opcode (sct 0x0 / sc 0x1) DNR=20
+> +Test complete
+> --=20
+> 2.27.0
+>=20
+
+--=20
+Best Regards,
+Shin'ichiro Kawasaki=
 
