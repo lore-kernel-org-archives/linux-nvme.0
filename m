@@ -4,77 +4,153 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6682C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 May 2022 21:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0F0FC433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 May 2022 21:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M0Q8xLzbhQMqYTvPPOURLWOXv7T5rmh0vcwsAE/b1ms=; b=vblaPIDaWjn5/rhD34Gbxh/NFy
-	kJnH5PWKtyfJK1cxe4St+ZICvTuIqhI05+yOIUNSvN5RrHt1lUvMPlJ5T5g24g3z+Q6OExIaVqtIm
-	2zIGKdYffefc7EY4jVkDdFn4fYR0Ep02RCtSqkKllCsigvH4TvFCnmyqOSCVQwM7ZcZ6szb6EJ+r/
-	FZ6ThoVA9We8wK1m/YEnfcv8OdITmNrWJWOC57jOcuw129yDxjMNh7VcqTCMnRvAR7/31MK7QILuE
-	A3GgtddEHoHS0sXm1fwJRs/J1YsythN9cdR4+j7MyxiwRSZNMz+qOUyM+Sg8bB06CzKqYjG6yBl55
-	fGIobATw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0EyyF1Jm83SFM5n6Rf3AjoOgglr6Tk/ArC4FU6TRhfY=; b=Mr8l8ES4+KSeJTU2x7yCh9NMvU
+	ls5o1luvvNGcTGCQfWBQbKrHo38CRPLtQvzGJZ5GIKwPbE7JHeHAbMRSQAue7U4owJ7I+WBaRecsO
+	l4XT41t7+MkIMBwcdO3W/C2nisAAQBZiRILUXDP+kgzF/i7ol0TJZ/P2sd5zJMLguApq9YKmWaBco
+	nNsQL37+FJBQIshE/McEUN6sRvhELDxmn1WfQPriMjtxLgwO5HrfxmooF2XZ3keohIx4CBFNdrM4b
+	HFD9ffruI3VUpazo316XhqJsGecdKNZG1p4eTTxFofKhnaFkE26d5qepnD8fWrGNfS8IA7GGAvjlj
+	n+ymDsYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noApj-00GMa9-6C; Mon, 09 May 2022 21:22:23 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1noAx8-00GOKp-W1; Mon, 09 May 2022 21:30:03 +0000
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]
+ helo=mx0b-0016f401.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noApg-00GMYz-M7
- for linux-nvme@lists.infradead.org; Mon, 09 May 2022 21:22:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652131338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M0Q8xLzbhQMqYTvPPOURLWOXv7T5rmh0vcwsAE/b1ms=;
- b=SkIMCz6FjQwXYlnq2jgztd8+c9RclNYR+wqbbM5CvFWfTANzUamilSG9MCdMUGq/mbTCjO
- 2EXl2G1fxnNCvmzA61v238YM3NynXIB0TylCBH5BK8QU/Xco45bkbZQA//KNdHsUCM/se8
- kJPVR0IGS1j3NMFIloZDm11+Z4sovxY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-eI9KUKsfP_mAWxDWQz5Mkg-1; Mon, 09 May 2022 17:22:17 -0400
-X-MC-Unique: eI9KUKsfP_mAWxDWQz5Mkg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3A86811E78;
- Mon,  9 May 2022 21:22:16 +0000 (UTC)
-Received: from [10.22.18.110] (unknown [10.22.18.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3842B111E3E6;
- Mon,  9 May 2022 21:22:13 +0000 (UTC)
-Message-ID: <14f3b14b-b228-7758-a556-213cd07f6593@redhat.com>
-Date: Mon, 9 May 2022 17:22:12 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] nvme-host: tcp: do not read from the socket if we are
- performing a reset
-To: Sagi Grimberg <sagi@grimberg.me>, Maurizio Lombardi
- <mlombard@redhat.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, cleech@redhat.com
-References: <20220415101437.292254-1-mlombard@redhat.com>
- <31923ed3-3d6e-b25c-6971-9d5cdfd4e057@grimberg.me>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <31923ed3-3d6e-b25c-6971-9d5cdfd4e057@grimberg.me>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmeneghi@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ id 1noAx6-00GOGf-4o
+ for linux-nvme@lists.infradead.org; Mon, 09 May 2022 21:30:01 +0000
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 249Insbt008669;
+ Mon, 9 May 2022 14:29:46 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3fwp4q0qau-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 May 2022 14:29:46 -0700
+Received: from m0045849.ppops.net (m0045849.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 249LOHIt005646;
+ Mon, 9 May 2022 14:29:46 -0700
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
+ by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3fwp4q0qar-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 May 2022 14:29:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N7efee5w1/9ponj7yiTHkj39EEIx+XZx1pw/EpRcLYmH2OvrCDIAzzt2+ElALm33uhd+3+HZ9vxU2cnI+3aZ0yIGQmjLs+stGbKt6paPWKHcrMRMlewmGJzo1wgio8BVIj6iY3ERNntM+0pZpK3GVxOowxmTJufVpac45gVV98u6+JzYcNDlb4H6uT3Je/2g6J0pJ1V+/9wInrUFedaHJJ5duoaBW8/KmvsX6bxaPWtIM52IZSz8kvQ6N+d1CC2Qiygna20AbFDOuQWf0UEsZ1/LRcVPwQwR2mDjT4gWzGbCCpaM9UKRO0wvx2+FlTW5cUVynycFclPeiEW/P8ltwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0EyyF1Jm83SFM5n6Rf3AjoOgglr6Tk/ArC4FU6TRhfY=;
+ b=ZENveuBfyW3IbwTJc4lhQGCr+z8DpCdG9GTjyHsyab+6hvuyX0neWoj7/4qLM1qEPpZg9uzsb5XEM6thZ4U+hDSHuvWhLGSpTugY8outvWFK80bRVE2ZMh+Z4b5H1W5IS4ufU2JKNXhV4x1Lu1GIgf3kGbOfmPFexHHAKOltZkglklMc5+nURIx3IbDqkhW5vqQ3c/nVnuOWdOqtt7ITMuvPye9BMzsvOcKz4Hrkv7n/PrU+uzUn+3yi+s3dJ2uRdXEs3m7wk4YU9BGCZA81SJDJt6C1UmA7Kc9F+537Gjy4HaTXyfN/D1hGove6TEyGPF2ueURDqZkmlXc+BzrrSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0EyyF1Jm83SFM5n6Rf3AjoOgglr6Tk/ArC4FU6TRhfY=;
+ b=TdUcTv8IfCf15CKsB39fAZbtrgPl7KP/ibWfinXEBRWJ0JW2JmBnldlTlERjVYG033XYlZKUITACL6tXz77+LVTX4heu7HLft70kzIsuwf4OHhMqZV6LZGm0y3/TiamRq9O5spPcUCI2AVXY9u7I0PspJhZcIYNBEyMsiGjK7W4=
+Received: from BY3PR18MB4530.namprd18.prod.outlook.com (2603:10b6:a03:3b5::5)
+ by CY4PR1801MB1893.namprd18.prod.outlook.com (2603:10b6:910:75::34)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Mon, 9 May
+ 2022 21:29:41 +0000
+Received: from BY3PR18MB4530.namprd18.prod.outlook.com
+ ([fe80::6d08:b515:317d:6ef7]) by BY3PR18MB4530.namprd18.prod.outlook.com
+ ([fe80::6d08:b515:317d:6ef7%9]) with mapi id 15.20.5227.023; Mon, 9 May 2022
+ 21:29:41 +0000
+From: Xiaoming Zhou <xzhou@marvell.com>
+To: Eric Biggers <ebiggers@kernel.org>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+ <linux-crypto@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>, "colyli@suse.de"
+ <colyli@suse.de>
+Subject: RE: [EXT] Re: [PATCHv3 06/10]crypto: add rocksoft 64b crc framework
+Thread-Topic: [EXT] Re: [PATCHv3 06/10]crypto: add rocksoft 64b crc framework
+Thread-Index: AdhibcBRiq8Mz+RYTlqaQoqjC5ZFDgBds16AAAAd5eA=
+Date: Mon, 9 May 2022 21:29:40 +0000
+Message-ID: <BY3PR18MB4530A713E7FB3CCD51F71A74A8C69@BY3PR18MB4530.namprd18.prod.outlook.com>
+References: <CO1PR18MB4538FAB1C3EC9DC4EF036C8BA8C79@CO1PR18MB4538.namprd18.prod.outlook.com>
+ <Ynl7dXm38FaX/2od@sol.localdomain>
+In-Reply-To: <Ynl7dXm38FaX/2od@sol.localdomain>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f2a4987b-d706-44d7-3660-08da32030705
+x-ms-traffictypediagnostic: CY4PR1801MB1893:EE_
+x-microsoft-antispam-prvs: <CY4PR1801MB18938521EFFF6E77CF53A449A8C69@CY4PR1801MB1893.namprd18.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NO2tgFzA79Bcfd/1JE4+N2ahMVn+LAnmm0UEG1ySFXFEltNRH0Bi9DUd0h9z/milEXfMU1KH/uKpvUuka0QmU2MYyg0Lyyww6/yBHk/W4lYFgr7PovZI2U9+4yVsTO7F1xdNuzwtwt82SEqruy8J/+9eU3CzJUq5PuNGwP1TF8LRC8PxGBwZmG5dYSBEmySLgyiKaaGjhVuggiY6evU0YEioLM5Eeakd4tFh7YxvZfn9SyZGpGMCf6EDUx5fhWVQZYY0vMiAEN3efesTLmJPnyk8o9TT3IIpbj+V7PXzWyEiYmotkQiMymyjPT8nQucJI3yW+AL0tYC/C0e1dl3WRB1MTp49EZRNpADEXk0nroEGMdib4LEM93MxVzGHZFSR1rouGkrhYDv4fynpTk1PaTaPc7meg3VFE/1CHYOF3mkg6uG4Jkzqg3HDQACbvnkGgmeZSDmNSTiQuJ7LrgmMZbNms+6cGZhdA55qW4SDxfns75A1Au9pHCrcFbVgPfVDfLReAQy0azTuHYx0nFD6dansYH/FC7JffzervjdYYOIs5KtXbvMPyFo8qWSmXoMHlGbbT12llSUTgUQ1rwLCysYaGT9riIdhYM3Ng9GkwrJg7VR2EXbDqdeb4AWUdL4rrsSaat1gJbhF3FTB0iiHH1zIe5srRzqc4BNjCyg+BfwlIuFHsh2IX44jqUBnYI4Jf47Nez/VK7L8GLzXGDGRJw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY3PR18MB4530.namprd18.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(52536014)(2906002)(122000001)(7416002)(8936002)(38070700005)(38100700002)(5660300002)(4326008)(186003)(83380400001)(508600001)(33656002)(76116006)(66556008)(8676002)(66946007)(64756008)(66476007)(66446008)(316002)(54906003)(6916009)(53546011)(7696005)(6506007)(26005)(9686003)(71200400001)(86362001)(55016003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9WJ1fWxBNbDrXpc7TgKn+NE1yuow3yOxQzpJR2F4lcmShR8EYNZazodkuoKM?=
+ =?us-ascii?Q?oCwSu4T9yle+koHacY7+Ux14d3bw9FHJBxsVfeAXuRZeDTXRV4dW0tU5rXl+?=
+ =?us-ascii?Q?eIv9JN44Ba1sw20to7jTm2TiK0E//N4AM84D7awzpeYgikm4e98aj9tum3uO?=
+ =?us-ascii?Q?yWBQPbmQYC7wAclN/GpaaSY98zGuNPIRipE+lXTLnyLjpoG7erR9CCkU/rzG?=
+ =?us-ascii?Q?uUuO5Pc3T045LjcaYxBV9A2v8AeU5n7DymOAdgYWSua4mlny1YJnS0bhSn9B?=
+ =?us-ascii?Q?1OMdsww2UdvrNjHkZ6bPKkcZJ1AkOyh8jr4VuRFWJTUT281m/1DVkju+ODPO?=
+ =?us-ascii?Q?FvGVeXkHp+wyj/C9eoVtSqbtd2t92x3q5rmuIgEEH0MN2R7A9R/SwJucQnch?=
+ =?us-ascii?Q?WI2hwVkDAL7sc7aVms6tUruF27+3q67rMasuKNA9U6xWZn7NGMsIQ6e8nDEc?=
+ =?us-ascii?Q?5qQWbk6tvR+n7GLGXSdPoc5EEHpmJkbbTh2OoAjdDCw6iOnnfrr/m6OMFIHH?=
+ =?us-ascii?Q?RLG6rwV83BhET/mzNyHAZdUHeQ9IimcKkV+2e5paoS/nQEC4VCSDreFGZJ6/?=
+ =?us-ascii?Q?7cap5am0QCGwghqD938ajZsPRVbct2A50F61E0BXfr2OU/8Ak1q5sgh8pBUu?=
+ =?us-ascii?Q?CfLCKOP3JWOVaqs5jQ0+XcNLd8Vh7wCh51Ucv/a0cXw+9jL9NUgNa9xmsRcc?=
+ =?us-ascii?Q?/C9a8h9gs8hyq4Iwy6Ecm8/cmjd9u20inAX0P0U/Se4mVjHn+9gYiJJ+Kqye?=
+ =?us-ascii?Q?o2HJW4X0hl9kAydkJ1LpaQOKO0VWQbdxE0Jy1xJS4B+MjDbxsx6jNpq3ucnn?=
+ =?us-ascii?Q?1JbmsAumh6TABu33LkJfAs1uKiomr9RDTfm66ncylOzHB0vpecFnpCnxv7bx?=
+ =?us-ascii?Q?Cula4dTr7p9WTNI9qvEAdbT5KYlTFhmy59ogfnZva4GzmUtW4c/57MtTCnmv?=
+ =?us-ascii?Q?RQ7VZfahHpDEiJGATb9TnbaJNVxJYu/benWtZ50VfnsbZW4zljZCE3Js3njV?=
+ =?us-ascii?Q?f85Sti5Bd/GxNRrrKbLkbDADVIackQltA3npf0jEROPgbl4SOCg5uhLxWKI3?=
+ =?us-ascii?Q?fYpinyaBsUTmvI1NIk1kAg/hAxN1f9r7IT+OQpu8ia0tjYi6pjjeIozjSZeW?=
+ =?us-ascii?Q?ATN/wqvywPwe2pdZqamQb04gCSk1lJeXqXa1L6F/hXSsjUvvYAev5CdzfVDJ?=
+ =?us-ascii?Q?BJ2YIOSmqb06SeMJPl3QKgLDMCu/W8jLyLT8fr39SOBDE0VztJlinm4KxH0B?=
+ =?us-ascii?Q?ehuLHyNdEHE6Pqv5epHRKYPS0jT9sEYK4D/hjKHAq4lGkmnvTG0AgcDZCBPI?=
+ =?us-ascii?Q?CV9aGXuFgvVvdU1Cl0KKk1jiKa0GRohtdypt//iORZKY4yv3ZPqhseLVfO04?=
+ =?us-ascii?Q?edbe3ExbnXZiJlHmJ7upISVz195CICBhvL6DyF7lLfFipD8ebRcXCrHI+CF1?=
+ =?us-ascii?Q?vpwILuUUjpuAl+sJ+vtw/R+4db1G75qo9M3TihwTzGH+g2YD8vzqeT4v1w4L?=
+ =?us-ascii?Q?Ud9XLnclatbWa1HCwe8sMRsSLmZCq0kk64sdoM4rPJnxmW+kNMlEGa7uwHdq?=
+ =?us-ascii?Q?aZPkwOl3qQLa7C2EJRGXIoNyMMSs8cI1aSQTc5HadTm7o/iBi2g7bTyvqcHX?=
+ =?us-ascii?Q?/W56lMSgXsMs72si8lc87UrF9HOAA0ury8OdpsM4DBnyH3FCRlyaOGjybGaM?=
+ =?us-ascii?Q?BRhClBkzi2HC4/baGwLUhwDjVWdCg8zuhVNa88/fJDEJRvtLFQHqaI15DzoH?=
+ =?us-ascii?Q?XT4p4Sh9xg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR18MB4530.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2a4987b-d706-44d7-3660-08da32030705
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2022 21:29:41.0263 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3azeocFbJJrzUjpAv2w4E+y1IvCW/mO2uWJStbbBU7Y+u4hqFuq87reYg7BtQUlXKLlId6JqXUz/DwawFyRsqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1801MB1893
+X-Proofpoint-ORIG-GUID: 0Fj7mbNa5aTahNzsZZ7GjUsEvDbOqxmt
+X-Proofpoint-GUID: PQS4jgfCwLnIxJZ8ECwovUqYtfqgwJzC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-09_05,2022-05-09_02,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220509_142220_838919_947800F2 
-X-CRM114-Status: GOOD (  33.13  )
+X-CRM114-CacheID: sfid-20220509_143000_416365_B973CA30 
+X-CRM114-Status: GOOD (  13.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,107 +165,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/3/22 07:48, Sagi Grimberg wrote:
-> 
->> nvme_tcp_io_work() may be scheduled while the controller is resetting,
->> triggering kernel crashes because of invalid memory accesses.
->>
->> general protection fault, probably for non-canonical
->> address 0x82f4228d6e5c6
-> 
-> Can you please provide more details on what kernel this happened? Does
-> this reproduce in upstream kernel?
-> 
+Agree.  The "11199E50_6128D175h" of 64b CRC Check in the Spec also is the A=
+E8B1486_0A799888h with bits reversed.
 
-This is a RHEL 9.0 Beta kernel that has been patched up to about v5.16.
+Regards,
+Xiaoming
 
-> The current controller teardown flow is supposed to guarantee that
-> io_work will not run after a queue is being stopped. See
-> nvme_tcp_stop_queue() it shuts down the socket to deny any new
-> datagrams to go to the network (or come from the network), restore
-> socket calls so data_ready/write_space are not called again, and
-> cancels the io_work. New submissions are prevented as the queue
-> state clears LIVE.
-> 
-> So in theory, io_work should not be running in conjunction with
-> queue shutdown. Can you explain how it happens to get there?
+-----Original Message-----
+From: Eric Biggers <ebiggers@kernel.org>=20
+Sent: Monday, May 9, 2022 1:37 PM
+To: Xiaoming Zhou <xzhou@marvell.com>
+Cc: kbusch@kernel.org; linux-nvme@lists.infradead.org; linux-block@vger.ker=
+nel.org; linux-crypto@vger.kernel.org; x86@kernel.org; linux-kernel@vger.ke=
+rnel.org; axboe@kernel.dk; hch@lst.de; martin.petersen@oracle.com; colyli@s=
+use.de
+Subject: [EXT] Re: [PATCHv3 06/10]crypto: add rocksoft 64b crc framework
 
-This bug has been reproduced on a partner's testbed.  We don't
-have direct access to the tests they are running but it appears
-they are running error insertion tests which aggressively
-bring the TCP link up and down, reset the NVMe/TCP controller,
-and randomly add/remove NVMe namespaces from the controller
-while IO is in progress. With these tests they have been able
-to reproduce this bug with our v5.16 based kernel.
+External Email
 
-I do see a number of patches from v5.17 and v5.18 which
-look like they might affect this problem.  Specifically:
+----------------------------------------------------------------------
+On Sun, May 08, 2022 at 12:01:21AM +0000, Xiaoming Zhou wrote:
+> Hi Keith,
+> For the polynomial you used in this path is 0x9A6C9329AC4BC9B5ULL, =20
+> why it is different than the 0xAD93D23594C93659ULL defined in NVMe=20
+> command set spec
+> 5.2.1.3.4 ? Though the crc66 implemented in this patch can pass with=20
+> test cases defined in Figure 121: 64b CRC Test Cases for 4KiB Logical=20
+> Block with no Metadata.  Could you explain the discrepancy between the sp=
+ec and the patch?
+>=20
 
-63573807b27e0faf8065a28b1bbe1cbfb23c0130 nvme-tcp: fix bogus request completion when failing to send AER
-d6d6742772d712ed2238f5071b96baf4924f5fad nvme: fix RCU hole that allowed for endless looping in multipath round robin
-a4a6f3c8f61c3cfbda4998ad94596059ad7e4332 nvme-multipath: fix hang when disk goes live over reconnect
+0x9A6C9329AC4BC9B5 is 0xAD93D23594C93659 with its bits reversed.
 
-This is the testbed that reproduced the RCU hole fixed in d6d6742772d712ed2238f5071b96baf4924f5fad.
-We should definitely make sure they are running with that fix before we go any further.
+0xAD93D23594C93659 maps the polynomial coefficients to bits in the natural =
+way.
+However, writing the polynomial in this way isn't useful for this CRC varia=
+nt, as it is a bit-reversed CRC.
 
-If you agree the above patches are needed we can give them a new v5.18-rc6 based kernel
-and ask them to run their test again.
-
-/John
-
->>
->> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
->> ---
->>   drivers/nvme/host/tcp.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index ad3a2bf2f1e9..e3ef014bbc0b 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -103,6 +103,7 @@ enum nvme_tcp_queue_flags {
->>       NVME_TCP_Q_ALLOCATED    = 0,
->>       NVME_TCP_Q_LIVE        = 1,
->>       NVME_TCP_Q_POLLING    = 2,
->> +    NVME_TCP_Q_CONNECTING    = 3,
->>   };
->>   enum nvme_tcp_recv_state {
->> @@ -1213,6 +1214,10 @@ static void nvme_tcp_io_work(struct work_struct *w)
->>           bool pending = false;
->>           int result;
->> +        if (unlikely(!test_bit(NVME_TCP_Q_LIVE, &queue->flags) &&
->> +                !test_bit(NVME_TCP_Q_CONNECTING, &queue->flags)))
->> +            return;
-> 
-> How is this protecting anything? If the queue is torn down we may access
-> other freed memory, not just from accessing the sockets.
-> 
->> +
->>           if (mutex_trylock(&queue->send_mutex)) {
->>               result = nvme_tcp_try_send(queue);
->>               mutex_unlock(&queue->send_mutex);
->> @@ -1670,6 +1675,8 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
->>       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
->>       int ret;
->> +    set_bit(NVME_TCP_Q_CONNECTING, &ctrl->queues[idx].flags);
->> +
->>       if (idx)
->>           ret = nvmf_connect_io_queue(nctrl, idx);
->>       else
->> @@ -1683,6 +1690,7 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
->>           dev_err(nctrl->device,
->>               "failed to connect queue: %d ret=%d\n", idx, ret);
->>       }
->> +    clear_bit(NVME_TCP_Q_CONNECTING, &ctrl->queues[idx].flags);
->>       return ret;
->>   }
-> 
-> Question, can you tell from your stack dump if this queue is the admin
-> queue or I/O queue?
-> 
-> If this is indeed the admin queue, please check if you have a related
-> fix applied:
-> 0fa0f99fc84e ("nvme: fix a possible use-after-free in controller reset during load")
-> 
-
+- Eric
 
