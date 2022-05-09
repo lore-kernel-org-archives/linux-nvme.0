@@ -4,82 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8314CC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 May 2022 12:45:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF40CC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 May 2022 12:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ar2Vj24oKrFskuk8K65yXVdl6lIbOLvc0eVWOcD6t+c=; b=JHUdk4qHCPoNSKYXVDWnFR7TJQ
-	SP+d25M0WEVxdHtBXaX7jNcX99kTWkxH/OKJVvEnxp6+y8/Bh18W/3weR/kfPXWl45/VIviCW9UZM
-	ryDfMgZL/V5vyZUrLDJgCrx74uWD+raUcBB1SHNF4ZaAcMdglxYvcYcdd1B0Ljhq0gxsIWtX/EZo6
-	Jl35Paxg0XMYSekhn015Ev58x8yj6IBaDQO7pGivxhPkBa512cjg7PgKZfs8m5sUGL7LDyyMzeU7t
-	j++Yc/3UEJcCWCKL2PHvGN0H871miAucJKrhQsKl6d7SaUwhh5sZGZkzs5QxiZZFGZNCie1RcvBAS
-	dhRpcsPA==;
+	bh=9Wgj59+jDaYn8pUPb9gbkix6V1cj4sjgt4RT2lUhgHw=; b=FqKbNbiRFqMPFrLcydrfj0i4ym
+	NEB4SVdPYqB5Esy1Hb4/PYfyMnip5SqitNcV65jEpReEEQrKQFd1mAdiVJKB4niNG9TzncJ3V9PQ8
+	esnZOoE0nrFO/PITeWnhUlCLSQD7OzqxgIkjtx4z6PicR1q0u73zOnm/q2noUzu/LzyG5HxzkwL56
+	x44DUukEo7Pe8K00miDTRdZZ6O3XHI5CIS3eHMmh02Zs4NkP8I/ZKQ7pwILRrCjalYOW+otQUZ0Bh
+	lWZbZ0ZzHQH5dLLlYmwpRrUev/bCYPPbprpFiGB26Au/TUb+Du9MKAoduCYWUncEb1O1d9OmzoABF
+	48C5dL0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1no2li-00ERqr-32; Mon, 09 May 2022 12:45:42 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1no2sU-00ETZE-1g; Mon, 09 May 2022 12:52:42 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1no2le-00ERoC-Cc
- for linux-nvme@lists.infradead.org; Mon, 09 May 2022 12:45:40 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id
- w17-20020a17090a529100b001db302efed6so12687668pjh.4
- for <linux-nvme@lists.infradead.org>; Mon, 09 May 2022 05:45:35 -0700 (PDT)
+ id 1no2sR-00ETY8-59
+ for linux-nvme@lists.infradead.org; Mon, 09 May 2022 12:52:40 +0000
+Received: by mail-pl1-x633.google.com with SMTP id k1so13732189pll.4
+ for <linux-nvme@lists.infradead.org>; Mon, 09 May 2022 05:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ar2Vj24oKrFskuk8K65yXVdl6lIbOLvc0eVWOcD6t+c=;
- b=nnWuCyCgeU00gREk1DyCY05rHLgGLZ/rT9oZPgiZAo7Q+lB+LRyfUfW3eOYoImFpnY
- 5HDPar0WbvEBHKvkHcZ0JGwuSrCRY1XkNLunyMFXBal2ElodsHTcSYkc8hsOZE6CBz/p
- KnXlRxU2KL5Lw/Sg+bXWAqqrGHBT2l8pq1x7g5pHKBK9TiHMcC10yt8N3Jm7WeaFGvEV
- 0A/ptu7xszFMVk8w3PmZxtdUVwRKvEmfIUjmc8PuUg05uQ3Pa+W8eKWepaZMz0k+IJM5
- +Yo28iIe5NMhW5SFxZ+JE4hWWTT39sa89nUB+SjTmYSW0S5VNlpMbGkIgiNvgTNpQh3q
- KNMw==
+ bh=9Wgj59+jDaYn8pUPb9gbkix6V1cj4sjgt4RT2lUhgHw=;
+ b=WExzwDCuPqM0R1Mg+wlehzBNlPxfMRSbCaBan+VCx2JwrbY5ZxLOv1Jht9zauHM9vX
+ ztRPLqC43v/0jd9XSxXPckHjmmjosgl0sRWj5UT5VBOTrYg9yZGu/mmuIqBOmKV2R5Ep
+ gqPosjp86/X/ZaxKlep044CNoma4/44BpEP2kyHrPBhquXobgiD4AJwDy9kNF6PyBszz
+ annrdNxRYVU9PXCv8m0L55XBNHQjDX6vL536Ry6pyqWLzXZrAYKg97Um2a1vTHWot4eL
+ oE0I3sFd4q3lbOOWnnBZWOrQWiICO7ryHzJt7Qc0YtDjzRprrEh717xXZu9j0FG6ALbx
+ B53A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ar2Vj24oKrFskuk8K65yXVdl6lIbOLvc0eVWOcD6t+c=;
- b=mCt9s2oNwRYhhMp/Kg74vu7fDo1q4pGr8c7i+byxPDkfBj6CzLCCoA3TfGHf/JcYFZ
- cgXA6FqvogqoT3ZqHDGNyznQc3AaO/GH2NhIUrBmpGFjh7MRprRW38p6blanE/1JTqte
- DoX2vV6K1PXnWIsg2fR5ox8I00h1eGqNZiIX1Qpr8Z18oAshxxx9tac6fzVuEAAMAv5P
- IT0Cv4oUz3myCeCh0bJp5bLfWmag3P7cXMlcd6FRogrAp+sqyLYPuFCGNavVQVv+NnxP
- C3/JsNtq9C3nASvJ/TUZ3kGK+jwySI5XifSSkoIISyyBqdpW3c8haPURkEVlCqtSvhms
- Y+Dw==
-X-Gm-Message-State: AOAM530Jm3UvDciCJdPt4loeBbLohqSb2pirIFSNHqrQY/pEpkp2CFiY
- jX9I8YGGwuaNgqusRJu9U9Qv3Q==
-X-Google-Smtp-Source: ABdhPJzC+TQUxUOojLESFYPuEi0T3KKewg2ciEREu5Jl/wvbgjtQHHIfnvoI9tdvGUfpFXsF1oS6sQ==
-X-Received: by 2002:a17:902:ec8a:b0:15e:967b:f928 with SMTP id
- x10-20020a170902ec8a00b0015e967bf928mr16511860plg.133.1652100334928; 
- Mon, 09 May 2022 05:45:34 -0700 (PDT)
-Received: from [10.255.89.252] ([139.177.225.255])
+ bh=9Wgj59+jDaYn8pUPb9gbkix6V1cj4sjgt4RT2lUhgHw=;
+ b=GFKy/dWfhC+FvrT+6v3LAd2ZtxfhHXg+wEOuXI7Nwft9czcH/YUVo6RsOcszQKMWJu
+ MtXsgRZFYRNE1cn24nmju6CBhMarqMuXRUQBLvwCy4mq/AK160F59N6KHDYpRWZZfQCo
+ Y8qmgL2SfiK3hS3LGsylQXefenRB41cixfcePSTO8WtZy/VWcnA2AkFBN8wsLtXtU3Qc
+ Gen8qYczrQSU0MCWzaZFAL5bCY4hSEiP+CLjAoUB3wr9sqorJtFN1p2h7tcxEx9vmgY3
+ GokcRUV6CSKgFY3CNNyV6zheuKj/8STJvC/ty9EeB6gRXatePg17dBkjxKzhZSiXMAfJ
+ Fjdw==
+X-Gm-Message-State: AOAM533XCxkan5qOHhonOGuh1dM2ORkfAJqAXApGEMfnB/XYKEFEuAAl
+ gcxQ1eEcvydN0WS4WyhmCy0O2g==
+X-Google-Smtp-Source: ABdhPJxkvpN1XB2thsrTILRIMUgiR9LrYgYSLs/QhgnJQA+B/s0XRKMf6Qwm/V2/EGIR8it1lhbspg==
+X-Received: by 2002:a17:90b:4acf:b0:1dc:e6f2:dda1 with SMTP id
+ mh15-20020a17090b4acf00b001dce6f2dda1mr14471699pjb.114.1652100755510; 
+ Mon, 09 May 2022 05:52:35 -0700 (PDT)
+Received: from [192.168.1.100] ([198.8.77.157])
  by smtp.gmail.com with ESMTPSA id
- q3-20020a656243000000b003c14af5062asm8398023pgv.66.2022.05.09.05.45.31
+ f19-20020a17090a639300b001d840f4eee0sm12511993pjj.20.2022.05.09.05.52.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 05:45:34 -0700 (PDT)
-Message-ID: <9d51e5fc-6ab1-84e0-9956-8a084e0d2110@bytedance.com>
-Date: Mon, 9 May 2022 20:41:40 +0800
+ Mon, 09 May 2022 05:52:34 -0700 (PDT)
+Message-ID: <832c42d4-5498-d6dc-7160-c7427e0c52bb@kernel.dk>
+Date: Mon, 9 May 2022 06:52:33 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 0/3] nvme: enable smart AEN
+Subject: Re: [PATCH v4 4/5] nvme: wire-up uring-cmd support for io-passthru on
+ char-device.
 Content-Language: en-US
-To: kbusch@kernel.org, hch@lst.de
-Cc: sagi@grimberg.me, axboe@fb.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220507065026.260306-1-pizhenwei@bytedance.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <20220507065026.260306-1-pizhenwei@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, asml.silence@gmail.com, ming.lei@redhat.com,
+ mcgrof@kernel.org, shr@fb.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
+ gost.dev@samsung.com
+References: <f24d9e5e-34af-9035-ffbc-0a770db0cb20@kernel.dk>
+ <20220505134256.GA13109@lst.de>
+ <f45c89db-0fed-2c88-e314-71dbda74b4a7@kernel.dk>
+ <8ae2c507-ffcc-b693-336d-2d9f907edb76@kernel.dk>
+ <20220506082844.GA30405@lst.de>
+ <6b0811df-e2a4-22fc-7615-44e5615ce6a4@kernel.dk>
+ <20220506145058.GA24077@lst.de>
+ <45b5f76b-b186-e0b9-7b24-e048f73942d5@kernel.dk>
+ <20220507050317.GA27706@lst.de>
+ <d315712a-0792-d15f-040d-3a3922700a53@kernel.dk>
+ <20220509060010.GA16939@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220509060010.GA16939@lst.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220509_054538_703859_E8BF1C51 
-X-CRM114-Status: GOOD (  11.63  )
+X-CRM114-CacheID: sfid-20220509_055239_240604_9FA749AD 
+X-CRM114-Status: GOOD (  18.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,29 +106,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On 5/9/22 12:00 AM, Christoph Hellwig wrote:
+> On Sat, May 07, 2022 at 06:53:30AM -0600, Jens Axboe wrote:
+>> How about we just add a comment? We use it in two spots, but one has
+>> knowledge of the sqe64 vs sqe128 state, the other one does not. Hence
+>> not sure how best to add a helper for this. One also must be a compile
+>> time constant. Best I can think of is the below. Not the prettiest, but
+>> it does keep it in one spot and with a single comment rather than in two
+>> spots.
+> 
+> If you think just a comment is better I can live with that, also the
+> proposed macro also looks fine to me.
 
-Sorry, I misunderstand OAES[7:0], only the first patch "nvme: introduce 
-bit 5 of smart critical warning" is available.
-
-On 5/7/22 14:50, zhenwei pi wrote:
-> Hi,
-> 
-> There are several changes in this series:
-> - Add missing NVME_SMART_CRIT_PMR_UNRELIABLE enum type.
-> - Add missing NVME_AEN_CFG_SMART_CRIT_* enum types.
-> - Enable smart AEN.
-> 
-> zhenwei pi (3):
->    nvme: introduce bit 5 of smart critical warning
->    nvme: introduce smart bits of aen cfg
->    nvme: enable smart AEN
-> 
->   drivers/nvme/host/core.c |  6 +++++-
->   include/linux/nvme.h     | 20 ++++++++++++++++----
->   2 files changed, 21 insertions(+), 5 deletions(-)
-> 
+I folded in the macro patch, seems safer and better to just have a
+single spot where it's done rather than rely on two comments if things
+do change there in the future.
 
 -- 
-zhenwei pi
+Jens Axboe
+
 
