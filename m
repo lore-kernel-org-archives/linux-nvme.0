@@ -4,46 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AF11C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 06:14:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4A78C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 06:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8jnKrQ/nL3wlMNUYxZhBGIC2dz3XOeafJqjOjZ1ACbs=; b=16Ut75MZj1apz00eFmDvUXPmAV
-	w2XYgcThTo55XQhdd4c2gGrwFeKjByZxYlU68Lz2oQKUIishIVaIYvY3QGaHMa6fHSKsna8vJhLIU
-	D+Ev4tYWE/VvWrnLm0JqakdduxokUv7Kyab0f3ND+sQe47IyNaCCLw9PjIBsYrpSAWSW79ZBV7DUD
-	66DCeU68ULaoyjY9H5DQisDKrAcUtYhtc/bx4AMcMAhsvaxhu2o+NAG2EOiQeSwzYklC/hN4pgrVV
-	jy2zd3Wom1oSvCJuexr+nctVfg01wt/ZvV1irza7NvKaDKd6cn3CH/Fox1hsG8xibdwrhYVVEOhkl
-	sjzq/bPA==;
+	bh=MqAnBoQJmW7LA+bh8Sesgqde0299OwSsH51X+ml/WFc=; b=deQp5pYX3tAwtLS0MaBK0txtn6
+	6GN83ApOpm/aOaug4iF1uBSHpm5vkJVPB+7mWRMZwb2W85I2Rs8FHAuKuHEysvml/cE5IM0fyjBOP
+	WatMtiSFqllk5GRgu7v2I7hc3z6Sl/QAdx+wA9avlVxrdkm1OS2HbK2YN+fUG9aG4tm2/brVhWOz1
+	exS1Gb1ER8ldjmEMmrMx4OQRvKnpGp7tS9whjlg+RWvA7N5yYYS6MkSOBOOV2vkrlrl6JwOpne2kx
+	3qVa7lgmTKb1zv96v91VPFMDPOebngcoTGmhEb+0h5re6cCOsbruexi/tHg8xCulK27fCNF/HASeS
+	jM6lqXNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noJ8F-0006pr-5j; Tue, 10 May 2022 06:14:03 +0000
+	id 1noJC1-0007KX-99; Tue, 10 May 2022 06:17:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noJ8C-0006pO-Fw
- for linux-nvme@lists.infradead.org; Tue, 10 May 2022 06:14:01 +0000
+ id 1noJBz-0007Jk-2v
+ for linux-nvme@lists.infradead.org; Tue, 10 May 2022 06:17:56 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C944768AFE; Tue, 10 May 2022 08:13:57 +0200 (CEST)
-Date: Tue, 10 May 2022 08:13:57 +0200
+ id BC22768AFE; Tue, 10 May 2022 08:17:51 +0200 (CEST)
+Date: Tue, 10 May 2022 08:17:51 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me,
- kbusch@kernel.org, kch@nvidia.com
-Subject: Re: [PATCH 1/1] nvme: remove un-needed include from constants file
-Message-ID: <20220510061357.GA10997@lst.de>
-References: <20220428091524.35442-1-mgurtovoy@nvidia.com>
- <20220510061312.GA10966@lst.de>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH] nvmf: dno't duplicate the time out req completion
+Message-ID: <20220510061751.GA11080@lst.de>
+References: <20220330094032.23032-1-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220510061312.GA10966@lst.de>
+In-Reply-To: <20220330094032.23032-1-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220509_231400_715379_8B163ACB 
-X-CRM114-Status: GOOD (  15.19  )
+X-CRM114-CacheID: sfid-20220509_231755_312055_F153B743 
+X-CRM114-Status: UNSURE (   7.55  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,18 +57,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 10, 2022 at 08:13:12AM +0200, Christoph Hellwig wrote:
-> On Thu, Apr 28, 2022 at 12:15:24PM +0300, Max Gurtovoy wrote:
-> > No usage of blkdev.h elements.
-> > 
-> > Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> 
-> git-am is not happy with this one:
-> 
-> Applying: nvme: remove un-needed include from constants file
-> warning: Patch sent with format=flowed; space at the end of lines might be lost.
-> Patch is empty.
+Thanks,
 
-Hmm, but after complaining it actually applied it just fine, not sure
-what went on there.
+applied to nvme-5.19 with a slightly updated subject line.
 
