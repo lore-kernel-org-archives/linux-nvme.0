@@ -4,76 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44F39C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 10:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32B73C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 12:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=sCueAiZ8pX86I1R/1I9WgSZcskWDRYR0Da8bJxkVfcs=; b=2MHCIflknbObeQEKIjyWK+KYqn
-	710CjFZ7xb/wFiPZMSHUov1VGU478wFjmrDHfGDGGvL9IeO0cDkUVNV/sVNffJ+EK5ekHfJzZu3xY
-	lqrj90aKX1K28DyTmSea9ZKty024WWq2CLHjVUmSa8prN6PLU7Ma6hwDr+Q6Bzk+yUYauQQfAds4w
-	NM0/yt0ReasZhlTBbd/Ztg5KjtZ2UmUapkh1dyK06QqbzzrDNznhwHXNJlOOJMB4HpV6rtLMt1ibc
-	rIIqoyVAiM+SNoDB+mqtTngHp9H6HZmBEYAFtjC28VihJtzVjFfazpJKhouNAnRL1crO2ef46HY6O
-	16t+5XMg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0mqM+Vn2EmZKarvnvapcYOpxk7HIDCq9WOkrcf2C2VI=; b=KqZhWSzMbiyFWmNApuZ+Ue8+Vc
+	95adh3RjpA+D34KIqv+lYpCKj3F+fC+qWtUOd3Wy2iw+hIz7S4766Qe7wYW5Mey08W0c9rylNjFuP
+	GbsT8/Y/st8aBWhu/Xsg9zas3NYbvQlKKmYlvVP9eSJJQ8/uNT5m5VMRxlu8Lk9E+RvWuTcJqBeNs
+	cQEW3NidIHJUTC6zbA32U5It01krjcOzstju0oVYhKfVNCELBYji4xUwv3nmF26Eqv7eQsXj35XbB
+	WWLX7KYyK4+DGGw0VhBxnf0OR3hHGcXZNQZfOmDhIfV3iPnB0PwFhOey+Dy1VPCPpNAl9tql351gW
+	5cyIYLDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noNUQ-001LZB-AH; Tue, 10 May 2022 10:53:14 +0000
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+	id 1noOzJ-001sUv-Vb; Tue, 10 May 2022 12:29:13 +0000
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noNUM-001LUt-S3
- for linux-nvme@lists.infradead.org; Tue, 10 May 2022 10:53:12 +0000
-Received: by mail-pj1-x1029.google.com with SMTP id
- cu23-20020a17090afa9700b001d98d8e53b7so1752271pjb.0
- for <linux-nvme@lists.infradead.org>; Tue, 10 May 2022 03:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sCueAiZ8pX86I1R/1I9WgSZcskWDRYR0Da8bJxkVfcs=;
- b=IPa6eL5aJa33heazIEv4jx+xlu5moXTQqaUnxxLpqMDpO8aGZZD8fYVApyYetHOyGg
- Kharz/D0Y90BOeII9ErtoiT1nAzQbr+8/uZ+6IiEh9YCcWBwJ+2Bk4lCLuoJZkd/Ueu0
- lXjBAAXZ/99vy2K6naeDpByfcz/54J8z2Tewefk6W6DpoOqXCsWEa4Hx7cVcQ1g5augC
- n221LoIraRQuX3oIIXRi0qYNUbr/1wANb6rJLLG+0kliVfQnXIMF8LACB2MLXuVkqP0g
- uFYLpxfj54oSbzV0x/AcbNRyjII4LdWqomR7faogAhyo2Znt0R48C59yLNK6e7PCHygm
- 2rvA==
+ id 1noOzH-001sTJ-3q
+ for linux-nvme@lists.infradead.org; Tue, 10 May 2022 12:29:12 +0000
+Received: by mail-pj1-x102a.google.com with SMTP id
+ w17-20020a17090a529100b001db302efed6so2002844pjh.4
+ for <linux-nvme@lists.infradead.org>; Tue, 10 May 2022 05:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=0mqM+Vn2EmZKarvnvapcYOpxk7HIDCq9WOkrcf2C2VI=;
+ b=e23eahSKZf3cSlA8ujBRQ4oE2ZBCvr/24SddTvZCHb5yGX1IrFUzPZ+EkRdGPnVNOR
+ wOZUgihNQBnF7jYq7lF9FvyMp15beHuOPSezIKJqgxOCHvq3xq9wpoM1NKkhIfQ646QQ
+ 6uBmVJr41Hut6E8YT1Ffehm0mxOGk6yURFDq5dlEXrW9eKuVz3sEKwpNsPb7U0REZ0yH
+ gPycQU7kTl5p47VnPR0hxmrO0bjF+960fq2aX+kEEdbUNpIHoBKlvo1y2llp6GVYN8Cl
+ JueiE+Bj6efMnMeirHtn2gQR82EQEYCWs5u81XX6CT5z3tdBmN3G4xszkWsGas7bbgu3
+ mVyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sCueAiZ8pX86I1R/1I9WgSZcskWDRYR0Da8bJxkVfcs=;
- b=AMvkSTKOdXy6aFUnup1/LouppZSI659mFqGQXdfjar7weFMbXE0Sc9cBtR23tSC6us
- znW8xpyhPlfOAiyX9AlEXDm0S6JBVMAKy/57mMhCAgP4CdHxTuFXO3VoMI2jUDAS2oK9
- fgr1gTRfG+ghuYTg7vv9U4eiqnfOtymC9QxJ2Ngxx5sOwEhm7LW+85M2cyljN6c4GFxu
- XdLBTjgwiGU437qu6mklL8jQqdGoPSR+t1noLvVuSEAJ7SrMnOT82OXk0bDgTO1MUY/q
- Ose6u4UmNNNQLVuAdrZ6xAmUdI72yHe9gpX1dGsoDrlF0U+LIogbz58v4jEIvFoaEl7Z
- PRpQ==
-X-Gm-Message-State: AOAM531f7IS6qM1Swwq6tD25dO6BeSHw2mluRAiZzQpfMkHPheGT7Bmn
- jVfHh/vaf5jYek5NCOXGDhA=
-X-Google-Smtp-Source: ABdhPJx67ZlYTKYPHWjl22QUBHOCM+xy2RlMtychZuLoqjEZdoH+ht0H5OxHxYMrQPiy2NvxpAKV5w==
-X-Received: by 2002:a17:902:70c3:b0:15e:f8ef:67b5 with SMTP id
- l3-20020a17090270c300b0015ef8ef67b5mr15377289plt.115.1652179987322; 
- Tue, 10 May 2022 03:53:07 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
+ bh=0mqM+Vn2EmZKarvnvapcYOpxk7HIDCq9WOkrcf2C2VI=;
+ b=jaUvfe6Q4nbOOat2oGQ3NaFGTCsO67V7wIU7UTu2H0J5kDpjTBToj0Kpw22wxpBy8j
+ hyZPDeMi11ibL+cvmcMhpo4pTcyzZ5k6cvjM9ihxTutrZYxf5u6ussE9YSnsL+RP6bV9
+ c4e+2svBvtwGMpCvtJmT/t/E8KlTceFEWDiXJNyAHXYTY7dtPdKEjyzYdRUN1U4Aa9yy
+ vKm6ZyRoWihNY4isdPuMLG+hJkacpxmoDL342Dik9bjEZ1g1VZ/NH9fnqeT/ZmFt3+oZ
+ RBiejZhG9BSKeYOg5qQ4YGyt4goRC0WkxEq6M6aA3waCRYowtYtHfd19H/FgYrycqm6l
+ Dbiw==
+X-Gm-Message-State: AOAM532fsQy3IIRCgrwfkChjIcq0pMRLo6E2yv7MLIo0i7yiyHCfMXrZ
+ CO/s/RxUwwsciXAuV9qS5BUw2Q==
+X-Google-Smtp-Source: ABdhPJy36BsTH0DaztTJ6km0Y+7DkYSKAiup8qM4iZk1mIQOhEXup8q5DWS5wRyvPw4aWFkJSL+IOw==
+X-Received: by 2002:a17:903:20f:b0:158:d86a:f473 with SMTP id
+ r15-20020a170903020f00b00158d86af473mr20541356plh.92.1652185748582; 
+ Tue, 10 May 2022 05:29:08 -0700 (PDT)
+Received: from [192.168.1.100] ([198.8.77.157])
  by smtp.gmail.com with ESMTPSA id
- a3-20020a1709027d8300b0015e8d4eb2ccsm1651840plm.278.2022.05.10.03.53.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 May 2022 03:53:07 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: kbusch@kernel.org
-Cc: axboe@fb.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Minghao Chi <chi.minghao@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] NVMe: use kobj_to_dev()
-Date: Tue, 10 May 2022 10:53:03 +0000
-Message-Id: <20220510105303.1352342-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ a21-20020a056a001d1500b0050dc7628147sm10281247pfx.33.2022.05.10.05.29.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 05:29:08 -0700 (PDT)
+Message-ID: <2a09399d-480e-8b03-8303-57287f7b5c64@kernel.dk>
+Date: Tue, 10 May 2022 06:29:06 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 0/5] io_uring passthrough for nvme
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, asml.silence@gmail.com, ming.lei@redhat.com,
+ mcgrof@kernel.org, shr@fb.com, joshiiitr@gmail.com, anuj20.g@samsung.com,
+ gost.dev@samsung.com
+References: <CGME20220505061142epcas5p2c943572766bfd5088138fe0f7873c96c@epcas5p2.samsung.com>
+ <20220505060616.803816-1-joshi.k@samsung.com>
+ <d99a828b-94ed-97a0-8430-cfb49dd56b74@kernel.dk>
+ <20220510072011.GA11929@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220510072011.GA11929@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220510_035310_990017_A6E0C882 
-X-CRM114-Status: GOOD (  13.45  )
+X-CRM114-CacheID: sfid-20220510_052911_226066_D9061A6E 
+X-CRM114-Status: GOOD (  16.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,40 +99,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+On 5/10/22 1:20 AM, Christoph Hellwig wrote:
+> On Thu, May 05, 2022 at 12:20:37PM -0600, Jens Axboe wrote:
+>> On 5/5/22 12:06 AM, Kanchan Joshi wrote:
+>>> This iteration is against io_uring-big-sqe brach (linux-block).
+>>> On top of a739b2354 ("io_uring: enable CQE32").
+>>>
+>>> fio testing branch:
+>>> https://github.com/joshkan/fio/tree/big-cqe-pt.v4
+>>
+>> I folded in the suggested changes, the branch is here:
+>>
+>> https://git.kernel.dk/cgit/linux-block/log/?h=for-5.19/io_uring-passthrough
+>>
+>> I'll try and run the fio test branch, but please take a look and see what
+>> you think.
+> 
+> I think what is in the branch now looks pretty good.  Can either of you
+> two send it out to the lists for a final review pass?
 
-Use kobj_to_dev() instead of open-coding it.
+Kanchan, do you want to do this?
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
- drivers/nvme/host/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 510e3860358b..48d2bb0a4fad 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3267,7 +3267,7 @@ static struct attribute *nvme_ns_id_attrs[] = {
- static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
- 
- 	if (a == &dev_attr_uuid.attr) {
-@@ -3572,7 +3572,7 @@ static struct attribute *nvme_dev_attrs[] = {
- static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
- 	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
 -- 
-2.25.1
-
+Jens Axboe
 
 
