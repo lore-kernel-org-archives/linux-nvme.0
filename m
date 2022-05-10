@@ -4,44 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4A78C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 06:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD05BC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 06:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MqAnBoQJmW7LA+bh8Sesgqde0299OwSsH51X+ml/WFc=; b=deQp5pYX3tAwtLS0MaBK0txtn6
-	6GN83ApOpm/aOaug4iF1uBSHpm5vkJVPB+7mWRMZwb2W85I2Rs8FHAuKuHEysvml/cE5IM0fyjBOP
-	WatMtiSFqllk5GRgu7v2I7hc3z6Sl/QAdx+wA9avlVxrdkm1OS2HbK2YN+fUG9aG4tm2/brVhWOz1
-	exS1Gb1ER8ldjmEMmrMx4OQRvKnpGp7tS9whjlg+RWvA7N5yYYS6MkSOBOOV2vkrlrl6JwOpne2kx
-	3qVa7lgmTKb1zv96v91VPFMDPOebngcoTGmhEb+0h5re6cCOsbruexi/tHg8xCulK27fCNF/HASeS
-	jM6lqXNA==;
+	bh=xBM3SjSADpCtaGTcU20MqvmhiyUnvgFDR0aC/pBuNI4=; b=uJjcZ8/lHwEe40A4Qx+F5zWfTw
+	FByuY6AbNs6VAsrfhSMMelB7MItBe7NoJJ+sBYuH4uOu/mRQECPGDwFWuS+f9f1PXfmTF2hjzMUJo
+	BQKjjYcT0a4Ext4h89VoJiRAhFrpzstNc3qeaRO5Q7x9e7IO/df3yg8hrMiBFXnfphsZGeKcdkR0x
+	PWAlSdMDZ0XCoSqMXFBz7AvDCKfMO0MgnbBdfzrhkug3apX1SZOwpy4G0MnxV75MP5sY32v200Kl2
+	8NhW7vlkZSE4ds5X4MJ/mPerV64fQxQCfnBZU3Fw4jvobP3aTvch43or8dzxBRnhysbiksPEcwEtl
+	S7pAL1gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noJC1-0007KX-99; Tue, 10 May 2022 06:17:57 +0000
+	id 1noJCz-0007RB-Dv; Tue, 10 May 2022 06:18:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noJBz-0007Jk-2v
- for linux-nvme@lists.infradead.org; Tue, 10 May 2022 06:17:56 +0000
+ id 1noJCu-0007Q0-3w
+ for linux-nvme@lists.infradead.org; Tue, 10 May 2022 06:18:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id BC22768AFE; Tue, 10 May 2022 08:17:51 +0200 (CEST)
-Date: Tue, 10 May 2022 08:17:51 +0200
+ id 5560C68AFE; Tue, 10 May 2022 08:18:48 +0200 (CEST)
+Date: Tue, 10 May 2022 08:18:48 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH] nvmf: dno't duplicate the time out req completion
-Message-ID: <20220510061751.GA11080@lst.de>
-References: <20220330094032.23032-1-kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, sagi@grimberg.me,
+ hch@lst.de
+Subject: Re: [PATCH] nvme: mark internal passthru request RQF_QUIET
+Message-ID: <20220510061848.GA11094@lst.de>
+References: <20220419225351.29762-1-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220330094032.23032-1-kch@nvidia.com>
+In-Reply-To: <20220419225351.29762-1-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220509_231755_312055_F153B743 
-X-CRM114-Status: UNSURE (   7.55  )
+X-CRM114-CacheID: sfid-20220509_231852_337450_4A6F0C14 
+X-CRM114-Status: UNSURE (   7.30  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -59,5 +60,5 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Thanks,
 
-applied to nvme-5.19 with a slightly updated subject line.
+applied to nvme-5.19.
 
