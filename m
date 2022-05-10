@@ -4,59 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BBC4C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 10:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44F39C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 10:53:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XvCsFT4UrAlvIRSHEPtRPACfSJ/xHMP3q4pnBzmYcBo=; b=iMN5BGpfX+wyhDfGqicgoO2tbQ
-	biRm04xWsSNp25qp7eNzcHj0Vot4MkZrWXYyIJf1N4KvZXpFKRgTYXcW1BYZgBfCSz0AGwkbRVd9R
-	YEd1wPvcdsWIYV7bn2lHvOx3HSKIMDTrQZHk9mrTMCChUBGB2hiEUuWEcxdsXtV/4wWU1M50Y3AaD
-	tXpGDCsb0l45+Iuh+K8wtINREvBF66d8GSSPMZB7f3frNTwGkj+dJqE9ThaCSXM0aC9bvzLA/bQNU
-	s3Op3lojQ3uJubXou6wHp5OvQ/9uhMWSmQCIteS7rfQzPawRN69oyU0Hs2YnFXEcZSeTAFfKMp2XL
-	GVqRJL+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=sCueAiZ8pX86I1R/1I9WgSZcskWDRYR0Da8bJxkVfcs=; b=2MHCIflknbObeQEKIjyWK+KYqn
+	710CjFZ7xb/wFiPZMSHUov1VGU478wFjmrDHfGDGGvL9IeO0cDkUVNV/sVNffJ+EK5ekHfJzZu3xY
+	lqrj90aKX1K28DyTmSea9ZKty024WWq2CLHjVUmSa8prN6PLU7Ma6hwDr+Q6Bzk+yUYauQQfAds4w
+	NM0/yt0ReasZhlTBbd/Ztg5KjtZ2UmUapkh1dyK06QqbzzrDNznhwHXNJlOOJMB4HpV6rtLMt1ibc
+	rIIqoyVAiM+SNoDB+mqtTngHp9H6HZmBEYAFtjC28VihJtzVjFfazpJKhouNAnRL1crO2ef46HY6O
+	16t+5XMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noMyl-0018cl-OB; Tue, 10 May 2022 10:20:31 +0000
-Received: from todd.t-8ch.de ([159.69.126.157])
+	id 1noNUQ-001LZB-AH; Tue, 10 May 2022 10:53:14 +0000
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noMyh-0018Zg-Kk
- for linux-nvme@lists.infradead.org; Tue, 10 May 2022 10:20:30 +0000
-Date: Tue, 10 May 2022 12:20:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
- s=mail; t=1652178020;
- bh=Nhv0FTzQESz5asnBYvRpiUwYoTOaiKJNzvOlOIwp9CI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uNDX6+Ke8cHl8qxZ9lEtzivYVgiByYEc7+hF9Q5qW/pHk711/TZWdkZUm4QM6uQAq
- axQTU6ILlAYIIipm91NqGmZO2SgDVku9KUIC3Z4dM74ITktNKN5/fdStKzCF6TO4TF
- furw6zCyypPko4a5BpyWHNNZOS8znYwoZxnLdneA=
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Christoph Hellwig <hch@lst.de>, g@troy.t-8ch.de
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-pci: fix host memory buffer allocation size
-Message-ID: <6123b484-bf2c-49f0-a657-6085c7333b2e@t-8ch.de>
-References: <20220428101922.14216-1-linux@weissschuh.net>
- <20220428143603.GA20460@lst.de>
- <5060d75e-46c0-4d29-a334-62c7e9714fa7@t-8ch.de>
- <20220428150644.GA22685@lst.de>
- <676c02ef-4bbc-43f3-b3e6-27a7d353f974@t-8ch.de>
- <20220510070356.GA11660@lst.de>
+ id 1noNUM-001LUt-S3
+ for linux-nvme@lists.infradead.org; Tue, 10 May 2022 10:53:12 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id
+ cu23-20020a17090afa9700b001d98d8e53b7so1752271pjb.0
+ for <linux-nvme@lists.infradead.org>; Tue, 10 May 2022 03:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sCueAiZ8pX86I1R/1I9WgSZcskWDRYR0Da8bJxkVfcs=;
+ b=IPa6eL5aJa33heazIEv4jx+xlu5moXTQqaUnxxLpqMDpO8aGZZD8fYVApyYetHOyGg
+ Kharz/D0Y90BOeII9ErtoiT1nAzQbr+8/uZ+6IiEh9YCcWBwJ+2Bk4lCLuoJZkd/Ueu0
+ lXjBAAXZ/99vy2K6naeDpByfcz/54J8z2Tewefk6W6DpoOqXCsWEa4Hx7cVcQ1g5augC
+ n221LoIraRQuX3oIIXRi0qYNUbr/1wANb6rJLLG+0kliVfQnXIMF8LACB2MLXuVkqP0g
+ uFYLpxfj54oSbzV0x/AcbNRyjII4LdWqomR7faogAhyo2Znt0R48C59yLNK6e7PCHygm
+ 2rvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sCueAiZ8pX86I1R/1I9WgSZcskWDRYR0Da8bJxkVfcs=;
+ b=AMvkSTKOdXy6aFUnup1/LouppZSI659mFqGQXdfjar7weFMbXE0Sc9cBtR23tSC6us
+ znW8xpyhPlfOAiyX9AlEXDm0S6JBVMAKy/57mMhCAgP4CdHxTuFXO3VoMI2jUDAS2oK9
+ fgr1gTRfG+ghuYTg7vv9U4eiqnfOtymC9QxJ2Ngxx5sOwEhm7LW+85M2cyljN6c4GFxu
+ XdLBTjgwiGU437qu6mklL8jQqdGoPSR+t1noLvVuSEAJ7SrMnOT82OXk0bDgTO1MUY/q
+ Ose6u4UmNNNQLVuAdrZ6xAmUdI72yHe9gpX1dGsoDrlF0U+LIogbz58v4jEIvFoaEl7Z
+ PRpQ==
+X-Gm-Message-State: AOAM531f7IS6qM1Swwq6tD25dO6BeSHw2mluRAiZzQpfMkHPheGT7Bmn
+ jVfHh/vaf5jYek5NCOXGDhA=
+X-Google-Smtp-Source: ABdhPJx67ZlYTKYPHWjl22QUBHOCM+xy2RlMtychZuLoqjEZdoH+ht0H5OxHxYMrQPiy2NvxpAKV5w==
+X-Received: by 2002:a17:902:70c3:b0:15e:f8ef:67b5 with SMTP id
+ l3-20020a17090270c300b0015ef8ef67b5mr15377289plt.115.1652179987322; 
+ Tue, 10 May 2022 03:53:07 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ a3-20020a1709027d8300b0015e8d4eb2ccsm1651840plm.278.2022.05.10.03.53.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 May 2022 03:53:07 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: kbusch@kernel.org
+Cc: axboe@fb.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Minghao Chi <chi.minghao@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] NVMe: use kobj_to_dev()
+Date: Tue, 10 May 2022 10:53:03 +0000
+Message-Id: <20220510105303.1352342-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220510070356.GA11660@lst.de>
-Jabber-ID: thomas@t-8ch.de
-X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
-X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220510_032028_205361_97367652 
-X-CRM114-Status: GOOD (  31.41  )
+X-CRM114-CacheID: sfid-20220510_035310_990017_A6E0C882 
+X-CRM114-Status: GOOD (  13.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,61 +88,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-05-10 09:03+0200, Christoph Hellwig wrote:
-> On Thu, Apr 28, 2022 at 06:09:11PM +0200, Thomas Weißschuh wrote:
-> > > > On my hardware we start with a chunk_size of 4MiB and just allocate
-> > > > 8 (hmmaxd) * 4 = 32 MiB which is worse than 1 * 200MiB.
-> > > 
-> > > And that is because the hardware only has a limited set of descriptors.
-> > 
-> > Wouldn't it make more sense then to allocate as much memory as possible for
-> > each descriptor that is available?
-> > 
-> > The comment in nvme_alloc_host_mem() tries to "start big".
-> > But it actually starts with at most 4MiB.
-> 
-> Compared to what other operating systems offer, that is quite large.
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Ok. I only looked at FreeBSD, which uses up to 5% of total memory per
-device. [0]
+Use kobj_to_dev() instead of open-coding it.
 
-> > And on devices that have hmminds > 4MiB the loop condition will never succeed
-> > at all and HMB will not be used.
-> > My fairly boring hardware already is at a hmminds of 3.3MiB.
-> > 
-> > > Is there any real problem you are fixing with this?  Do you actually
-> > > see a performance difference on a relevant workload?
-> > 
-> > I don't have a concrete problem or performance issue.
-> > During some debugging I stumbled in my kernel logs upon
-> > "nvme nvme0: allocated 32 MiB host memory buffer"
-> > and investigated why it was so low.
-> 
-> Until recently we could not even support these large sizes at all on
-> typical x86 configs.  With my fairly recent change to allow vmap
-> remapped iommu allocations on x86 we can do that now.  But if we
-> unconditionally enabled it I'd be a little worried about using too
-> much memory very easily.
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This should still be limited to max_host_mem_size_mb which defaults to 128MiB,
-or?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 510e3860358b..48d2bb0a4fad 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3267,7 +3267,7 @@ static struct attribute *nvme_ns_id_attrs[] = {
+ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
+ {
+-	struct device *dev = container_of(kobj, struct device, kobj);
++	struct device *dev = kobj_to_dev(kobj);
+ 	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
+ 
+ 	if (a == &dev_attr_uuid.attr) {
+@@ -3572,7 +3572,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
+ {
+-	struct device *dev = container_of(kobj, struct device, kobj);
++	struct device *dev = kobj_to_dev(kobj);
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+ 
+ 	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
+-- 
+2.25.1
 
-> We could look into removing the min with
-> PAGE_SIZE * MAX_ORDER_NR_PAGES to try to do larger segments for
-> "segment challenged" controllers now that it could work on a lot
-> of iommu enabled setups.  But I'd rather have a very good reason for
-> that.
 
-On my current setup (WD SN770 on ThinkPad X1 Carbon Gen9) frequently the NVME
-controller stops responding. Switching from no scheduler to mq-deadline reduced
-this but did not eliminate it.
-Since switching to HMB of 1 * 200MiB and no scheduler this did not happen anymore.
-(But I'll need some more time to gain real confidence in this)
-
-Initially I assumed that the PAGE_SIZE * MAX_ORDER_NR_PAGES was indeed
-meant as a minimum for DMA allocation.
-As that is not the case, removing the min() completely instead of the max() I
-proposed would obviously be the correct thing to do.
-
-[0] https://manpages.debian.org/testing/freebsd-manpages/nvme.4freebsd.en.html
 
