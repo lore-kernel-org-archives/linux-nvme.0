@@ -4,78 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 799B9C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 16:44:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE08DC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 May 2022 18:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2uTEi4STk77JpNa2hrHaFpY1pFIodvOdfvC38BkZjMI=; b=BlQ5I672kmH9UiWS2E8mjNCpk6
-	iF9gM6AxDsI2yUc3IbTOgbWlQqV+NZ+QXsM2uwVyP15q+MFdlqMBqhw57MVcHxbUDd/lT3rvdJqMo
-	stxqwlTAZf2oLfCnKKUkoIoIgxIloHNfFsXYLpEbdlklZhOvUVNbYbkw1kwcwN8x/mgDSwC5wAXtV
-	lyJBpd9rD2yUZMQJPDSpGUJPMgLaDhUYzU1g7wKZ9dHeBwkeZvP47yOfcKS9j12cWFDQQFYsZdhSU
-	42ImpS8fente8mgDp2KtAXmVS3iXuX1ZRenPIK2a1qZFhFgm4mNNtj4WmpVRJ+s3Ym6FubB8fESCq
-	gHF275HA==;
+	bh=Zc3zBKJim9jyifG51aYUjzMq1sQ9JfN0/emRQMlcn0E=; b=Rfn+tn1XvDvhPR6+v6u3zQLAY4
+	g8+807f7AzpW66CGbHKaBQmhn4xjd4aBXVD5ySTwDyqUFtZ2c9zuMOE8qbr1B3uXsGTXZTonbSm//
+	RlwLqTDGbgwzedfz5fEiVIjmZOEeim5+W5CWeUjAcSsw8XpxWv5wb9poGYMz7HljfNYBjEbrU3R6c
+	QMJIoZlpSUQ6PZt6FCngEnhpE9Ielizo0qoJBCiS+TLKX96+CdetumXOa0n2yz6AYvVubCZ3sfCxP
+	d75aN0NWs4k192ZQnZUAFwR5DhQjfYnT41I5b69lrFn0LlD/1C2BK9I/vaRVq6rXw5UwRks//yfP5
+	6c76j7wQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noSxp-0039U2-LZ; Tue, 10 May 2022 16:43:57 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1noUau-003dAR-AF; Tue, 10 May 2022 18:28:24 +0000
+Received: from mail-pl1-f172.google.com ([209.85.214.172])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noSxI-00395e-OR
- for linux-nvme@lists.infradead.org; Tue, 10 May 2022 16:43:26 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24AEtbkj023549;
- Tue, 10 May 2022 16:43:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2021-07-09;
- bh=2uTEi4STk77JpNa2hrHaFpY1pFIodvOdfvC38BkZjMI=;
- b=rIvDlq0Lo9+7FukcI2kiwP1h3Wb5TNa+iZyq9Pa2P7Y3peq9Byfah7tUP1O7hPr6PEG1
- opuyvBCFc8cyznY9FeXl34AWAU/0xI4qY1HujI970wAPzoTnAeF0FGYRslqy5zbyCl+s
- 9D+UA+vJRdtuy/MKVfdfzPC9hSipthGH63OvspjnghLI+UWxSCbW0y79pux0I7POUSC8
- /dGEJmvvsvbhVazT7ni3GNsLXsjXHoyYuqQnI7jEB/qTuW6wero9Md2KTN6ONDylC5Km
- CEsDOqCkRVJMJXbJpYve+ykPSQbdWw3iCYAiGT/Jk3bJJpYr0xqZDuDlFYSyZ6lPS/51 /w== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fwgcsqdsf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 May 2022 16:43:19 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 24AGPdEZ036816; Tue, 10 May 2022 16:43:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3fwf738ska-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 May 2022 16:43:18 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 24AGhHnT030233;
- Tue, 10 May 2022 16:43:18 GMT
-Received: from dhcp-10-39-195-127.vpn.oracle.com
- (dhcp-10-39-195-127.vpn.oracle.com [10.39.195.127])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3fwf738sj7-2; Tue, 10 May 2022 16:43:17 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-block@vger.kernel.org
-Cc: alan.adamson@oracle.com, linux-nvme@lists.infradead.org, osandov@fb.com
-Subject: [PATCH v2 blktests] tests/nvme: add tests for error logging
-Date: Tue, 10 May 2022 12:43:04 -0400
-Message-Id: <20220510164304.86178-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20220510164304.86178-1-alan.adamson@oracle.com>
-References: <20220510164304.86178-1-alan.adamson@oracle.com>
+ id 1noUar-003d9P-GJ
+ for linux-nvme@lists.infradead.org; Tue, 10 May 2022 18:28:23 +0000
+Received: by mail-pl1-f172.google.com with SMTP id n8so17505820plh.1
+ for <linux-nvme@lists.infradead.org>; Tue, 10 May 2022 11:28:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Zc3zBKJim9jyifG51aYUjzMq1sQ9JfN0/emRQMlcn0E=;
+ b=gzBM7z6P6WT9Ngk+ix+u8icRFGcOsUtSRzC7IDHcUlVXgGlv9h0PPk3YXDX/b74Vfn
+ NBAs4yrRSUJKD69Ao0ifkQtQT/7o5oW4OqbKI65HDWwZbMq8BxhRY50htHvjkNDfQqDj
+ nUsUpzLF/SZMFLU636OnXFccC6AgIqcQSr48br4xGJDnq2VwliROcPxL6WckpQCsnDyx
+ n5WEVsxNRo6/tu1xl6/argLs4e2xjxnJlQfpq+AxmC6pebkUPxB/KexQ047pbwwMSryz
+ pu+Uk9axWtgjPRd7DycKWB9SzqmwYgNOerK6Qoq6qk5jhhcuyR4pdIVMAA6Pk27TLzNW
+ RKEA==
+X-Gm-Message-State: AOAM533JI2jRB9RLp/uGlYHJnkCgqX0tHDy9CQe/EFfSTGsHY0TO/hO4
+ cArbG2goLRhemXf2haHer8Q=
+X-Google-Smtp-Source: ABdhPJyxZ2rlmodhN0YPimrbBD7qoTZvrnQM6nR57Xuk6BmadlhbLyx/6Nxq61NlxyGu4v++j9E/0Q==
+X-Received: by 2002:a17:90b:30c3:b0:1dc:b6d7:58d3 with SMTP id
+ hi3-20020a17090b30c300b001dcb6d758d3mr1191339pjb.172.1652207298348; 
+ Tue, 10 May 2022 11:28:18 -0700 (PDT)
+Received: from [172.16.228.60] ([65.122.177.243])
+ by smtp.gmail.com with ESMTPSA id
+ z29-20020aa79f9d000000b0050dc7628170sm11059433pfr.74.2022.05.10.11.28.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 11:28:17 -0700 (PDT)
+Message-ID: <3670e27a-a5df-1078-d999-bf094f0c0b42@grimberg.me>
+Date: Tue, 10 May 2022 11:28:16 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] nvme-host: tcp: do not read from the socket if we are
+ performing a reset
+Content-Language: en-US
+To: John Meneghini <jmeneghi@redhat.com>,
+ Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, cleech@redhat.com
+References: <20220415101437.292254-1-mlombard@redhat.com>
+ <31923ed3-3d6e-b25c-6971-9d5cdfd4e057@grimberg.me>
+ <14f3b14b-b228-7758-a556-213cd07f6593@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <14f3b14b-b228-7758-a556-213cd07f6593@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: xvDe-y5S_5whGjQC2shD2YY2z1OkiXMd
-X-Proofpoint-ORIG-GUID: xvDe-y5S_5whGjQC2shD2YY2z1OkiXMd
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220510_094324_982749_13591322 
-X-CRM114-Status: GOOD (  20.20  )
+X-CRM114-CacheID: sfid-20220510_112821_584486_A4D0721F 
+X-CRM114-Status: GOOD (  27.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,227 +85,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Test nvme error logging by injecting errors. Kernel must have FAULT_INJECTION
-and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests can be
-run with or without NVME_VERBOSE_ERRORS configured.
+Hey John, Sorry for the late response.
 
-These test verify the functionality delivered by the follow:
-	commit bd83fe6f2cd2 ("nvme: add verbose error logging")
+> 
+> This bug has been reproduced on a partner's testbed.  We don't
+> have direct access to the tests they are running but it appears
+> they are running error insertion tests which aggressively
+> bring the TCP link up and down, reset the NVMe/TCP controller,
+> and randomly add/remove NVMe namespaces from the controller
+> while IO is in progress. With these tests they have been able
+> to reproduce this bug with our v5.16 based kernel.
+> 
+> I do see a number of patches from v5.17 and v5.18 which
+> look like they might affect this problem.  Specifically:
+> 
+> 63573807b27e0faf8065a28b1bbe1cbfb23c0130 nvme-tcp: fix bogus request 
+> completion when failing to send AER
+> d6d6742772d712ed2238f5071b96baf4924f5fad nvme: fix RCU hole that allowed 
+> for endless looping in multipath round robin
+> a4a6f3c8f61c3cfbda4998ad94596059ad7e4332 nvme-multipath: fix hang when 
+> disk goes live over reconnect
+> 
+> This is the testbed that reproduced the RCU hole fixed in 
+> d6d6742772d712ed2238f5071b96baf4924f5fad.
+> We should definitely make sure they are running with that fix before we 
+> go any further.
+> 
+> If you agree the above patches are needed we can give them a new 
+> v5.18-rc6 based kernel
+> and ask them to run their test again.
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- tests/nvme/039     | 185 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/039.out |   7 ++
- 2 files changed, 192 insertions(+)
- create mode 100755 tests/nvme/039
- create mode 100644 tests/nvme/039.out
+These are all useful and needed fixes, but please see the fix I've
+referenced below as this issue looks very similar to what this patch
+fixes.
 
-diff --git a/tests/nvme/039 b/tests/nvme/039
-new file mode 100755
-index 000000000000..e6d45a6e3fe5
---- /dev/null
-+++ b/tests/nvme/039
-@@ -0,0 +1,185 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2022 Oracle and/or its affiliates
-+#
-+# Test nvme error logging by injecting errors. Kernel must have FAULT_INJECTION
-+# and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests can be
-+# run with or without NVME_VERBOSE_ERRORS configured.
-+#
-+# Test for commit bd83fe6f2cd2 ("nvme: add verbose error logging").
-+
-+. tests/nvme/rc
-+DESCRIPTION="test error logging"
-+QUICK=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_kernel_option FAULT_INJECTION && \
-+	    _have_kernel_option FAULT_INJECTION_DEBUG_FS
-+}
-+
-+declare -A NS_DEV_FAULT_INJECT_SAVE
-+declare -A CTRL_DEV_FAULT_INJECT_SAVE
-+
-+save_err_inject_attr()
-+{
-+	local a
-+
-+	for a in /sys/kernel/debug/"${ns_dev}"/fault_inject/*; do
-+		NS_DEV_FAULT_INJECT_SAVE[${a}]=$(<"${a}")
-+	done
-+	for a in /sys/kernel/debug/"${ctrl_dev}"/fault_inject/*; do
-+		CTRL_DEV_FAULT_INJECT_SAVE[${a}]=$(<"${a}")
-+	done
-+}
-+
-+restore_err_inject_attr()
-+{
-+	local a
-+
-+	for a in /sys/kernel/debug/"${ns_dev}"/fault_inject/*; do
-+		echo "${NS_DEV_FAULT_INJECT_SAVE[${a}]}" > "${a}"
-+	done
-+	for a in /sys/kernel/debug/"${ctrl_dev}"/fault_inject/*; do
-+		echo "${CTRL_DEV_FAULT_INJECT_SAVE[${a}]}" > "${a}"
-+	done
-+}
-+
-+set_verbose_prob_retry()
-+{
-+	echo 0 > /sys/kernel/debug/"$1"/fault_inject/verbose
-+	echo 100 > /sys/kernel/debug/"$1"/fault_inject/probability
-+	echo 1 > /sys/kernel/debug/"$1"/fault_inject/dont_retry
-+}
-+
-+set_status_time()
-+{
-+	echo "$1" > /sys/kernel/debug/"$3"/fault_inject/status
-+	echo "$2" > /sys/kernel/debug/"$3"/fault_inject/times
-+}
-+
-+inject_unrec_read_err()
-+{
-+	# Inject a 'Unrecovered Read Error' error on a READ
-+	set_status_time 0x281 1 "$1"
-+
-+	dd if=/dev/"$1" of=/dev/null bs=512 count=1 iflag=direct \
-+	    2> /dev/null 1>&2 
-+
-+	if ${nvme_verbose_errors}; then
-+		dmesg -t | tail -2 | grep "Unrecovered Read Error (" | \
-+		    sed 's/nvme.*://g'
-+	else
-+		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
-+		    sed 's/I\/O Error/Unrecovered Read Error/g' | \
-+		    sed 's/nvme.*://g'
-+	fi
-+}
-+
-+inject_invalid_read_err()
-+{
-+	# Inject a valid invalid error status (0x375) on a READ
-+	set_status_time 0x375 1 "$1"
-+
-+	dd if=/dev/"$1" of=/dev/null bs=512 count=1 iflag=direct \
-+	    2> /dev/null 1>&2
-+
-+	if ${nvme_verbose_errors}; then
-+		dmesg -t | tail -2 | grep "Unknown (" | \
-+		    sed 's/nvme.*://g'
-+	else
-+		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Read/g' | \
-+		    sed 's/I\/O Error/Unknown/g' | \
-+		    sed 's/nvme.*://g'
-+	fi
-+}
-+
-+inject_write_fault()
-+{
-+	# Inject a 'Write Fault' error on a WRITE
-+	set_status_time 0x280 1 "$1"
-+
-+	dd if=/dev/zero of=/dev/"$1" bs=512 count=1 oflag=direct \
-+	    2> /dev/null 1>&2
-+
-+	if ${nvme_verbose_errors}; then
-+		dmesg -t | tail -2 | grep "Write Fault (" | \
-+		    sed 's/nvme.*://g'
-+	else
-+		dmesg -t | tail -2 | grep "Cmd(" | sed 's/I\/O Cmd/Write/g' | \
-+		    sed 's/I\/O Error/Write Fault/g' | \
-+		    sed 's/nvme.*://g'
-+	fi
-+}
-+
-+inject_id_admin()
-+{
-+	# Inject a valid (Identify) Admin command
-+	set_status_time 0x286 1000 "$1"
-+
-+	nvme admin-passthru /dev/"$1" --opcode=0x06 --data-len=4096 \
-+	    --cdw10=1 -r 2> /dev/null 1>&2
-+
-+	if ${nvme_verbose_errors}; then
-+		dmesg -t | tail -1 | grep "Access Denied (" | \
-+		    sed 's/nvme.*://g'
-+	else
-+		dmesg -t | tail -1 | grep "Admin Cmd(" | \
-+		    sed 's/Admin Cmd/Identify/g' | \
-+		    sed 's/I\/O Error/Access Denied/g' | \
-+		    sed 's/nvme.*://g'
-+	fi
-+}
-+
-+inject_invalid_cmd()
-+{
-+	# Inject an invalid command (0x96)
-+	set_status_time 0x1 1 "$1"
-+
-+	nvme admin-passthru /dev/"$1" --opcode=0x96 --data-len=4096 \
-+	    --cdw10=1 -r 2> /dev/null 1>&2
-+	if ${nvme_verbose_errors}; then
-+		dmesg -t | tail -1 | grep "Invalid Command Opcode (" | \
-+		    sed 's/nvme.*://g'
-+	else
-+		dmesg -t | tail -1 | grep "Admin Cmd(" | \
-+		    sed 's/Admin Cmd/Unknown/g' | \
-+		    sed 's/I\/O Error/Invalid Command Opcode/g' | \
-+		    sed 's/nvme.*://g'
-+	fi
-+}
-+
-+test_device() {
-+	local nvme_verbose_errors
-+	local ns_dev
-+	local ctrl_dev
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	if _have_kernel_option NVME_VERBOSE_ERRORS; then
-+		nvme_verbose_errors=true
-+	else
-+		unset SKIP_REASON
-+		nvme_verbose_errors=false
-+	fi
-+
-+	ns_dev=${TEST_DEV##*/}
-+	ctrl_dev=${ns_dev%n*}
-+
-+	save_err_inject_attr
-+
-+	set_verbose_prob_retry "${ns_dev}"
-+
-+	inject_unrec_read_err "${ns_dev}"
-+	inject_invalid_read_err "${ns_dev}"
-+	inject_write_fault "${ns_dev}"
-+
-+	set_verbose_prob_retry "${ctrl_dev}"
-+
-+	inject_id_admin "${ctrl_dev}"
-+	inject_invalid_cmd "${ctrl_dev}"
-+
-+	restore_err_inject_attr
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/039.out b/tests/nvme/039.out
-new file mode 100644
-index 000000000000..162935eb1d7b
---- /dev/null
-+++ b/tests/nvme/039.out
-@@ -0,0 +1,7 @@
-+Running nvme/039
-+ Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR 
-+ Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR 
-+ Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR 
-+ Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR 
-+ Unknown(0x96), Invalid Command Opcode (sct 0x0 / sc 0x1) DNR 
-+Test complete
--- 
-2.27.0
+> 
+> /John
+> 
+>>>
+>>> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+>>> ---
+>>>   drivers/nvme/host/tcp.c | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index ad3a2bf2f1e9..e3ef014bbc0b 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -103,6 +103,7 @@ enum nvme_tcp_queue_flags {
+>>>       NVME_TCP_Q_ALLOCATED    = 0,
+>>>       NVME_TCP_Q_LIVE        = 1,
+>>>       NVME_TCP_Q_POLLING    = 2,
+>>> +    NVME_TCP_Q_CONNECTING    = 3,
+>>>   };
+>>>   enum nvme_tcp_recv_state {
+>>> @@ -1213,6 +1214,10 @@ static void nvme_tcp_io_work(struct 
+>>> work_struct *w)
+>>>           bool pending = false;
+>>>           int result;
+>>> +        if (unlikely(!test_bit(NVME_TCP_Q_LIVE, &queue->flags) &&
+>>> +                !test_bit(NVME_TCP_Q_CONNECTING, &queue->flags)))
+>>> +            return;
+>>
+>> How is this protecting anything? If the queue is torn down we may access
+>> other freed memory, not just from accessing the sockets.
+>>
+>>> +
+>>>           if (mutex_trylock(&queue->send_mutex)) {
+>>>               result = nvme_tcp_try_send(queue);
+>>>               mutex_unlock(&queue->send_mutex);
+>>> @@ -1670,6 +1675,8 @@ static int nvme_tcp_start_queue(struct 
+>>> nvme_ctrl *nctrl, int idx)
+>>>       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+>>>       int ret;
+>>> +    set_bit(NVME_TCP_Q_CONNECTING, &ctrl->queues[idx].flags);
+>>> +
+>>>       if (idx)
+>>>           ret = nvmf_connect_io_queue(nctrl, idx);
+>>>       else
+>>> @@ -1683,6 +1690,7 @@ static int nvme_tcp_start_queue(struct 
+>>> nvme_ctrl *nctrl, int idx)
+>>>           dev_err(nctrl->device,
+>>>               "failed to connect queue: %d ret=%d\n", idx, ret);
+>>>       }
+>>> +    clear_bit(NVME_TCP_Q_CONNECTING, &ctrl->queues[idx].flags);
+>>>       return ret;
+>>>   }
+>>
+>> Question, can you tell from your stack dump if this queue is the admin
+>> queue or I/O queue?
+>>
+>> If this is indeed the admin queue, please check if you have a related
+>> fix applied:
 
+This is the possible fix patch:
+
+>> 0fa0f99fc84e ("nvme: fix a possible use-after-free in controller reset 
+>> during load")
 
