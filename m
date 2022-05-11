@@ -4,80 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDE1DC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 May 2022 05:38:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DD3BC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 May 2022 05:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sdHoIju6h2LRFQumf4X4b8m7n43ExMKWc5CtNB0xLdE=; b=uiIjcfRGLmmGtjl3OjJjhjS0F3
-	TeA0215Q2iolkzahlIUyJfKUVnkC9oiPaXGatD3MugIi7ih7BxSiGb0wOH4/GFI3huHrrdFhLH+ep
-	tiIQeO8TXJzH+/pQmlLcCr7V3VRrZUsLDf/hQ+Qqf423t7sILSuANaXDaMV40elCsowdBZBagZEAO
-	kYqvk0VS/6QIyaY3rFhRXRcHgyCi2Tm0tSWJmUX5zcx+29fu9jCA7otJJquTyoej8ELBcx9rWIM2g
-	1cGWFmvdfiw30lG+kUE/Og57JPuiTe8II5g4fh/5RueD5fuv365I4lHEicibaagaOUy4lgxaHFXCI
-	aCN7iUTg==;
+	bh=VM719RO3hYboOfDIWBP77a3nGKT4hGWsdzvlxbLACwk=; b=S6I063GkEmBCCSzo/ri9OJHnw8
+	efoRsRMOSxJ+2ES+ur+d6DNLvLbWqtTEfOeGbjl0edZedSWyZeNrBU4W1fQTxOmeZBTv2M3NBhgf1
+	VjN+wwkL2xzI39VkzVFBVgWrebyJrVPh5T5EPgjlTxrOXcj2bMJb8zOGPbMDSiqyvowmrIDgRyjK5
+	uJQmVzK8g87t0oxiLJo/bWqC4edGkaRAadXEWHwR/HVfdn0ZqEH2DMGQaWQqAxvu2fW4U5HGFigLA
+	sMmgys1kVDhAKf9PJoV1Ma7qhoQdcj/l0sSf5Tukg0c28bIb0hj8YEgRbqwo7qpoiSZu+NlcLUjzz
+	vgMpzKzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nof3F-005IY6-93; Wed, 11 May 2022 05:38:21 +0000
+	id 1nof62-005IrN-6z; Wed, 11 May 2022 05:41:14 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nof3B-005IXX-5a
- for linux-nvme@lists.infradead.org; Wed, 11 May 2022 05:38:20 +0000
+ id 1nof5x-005IpX-AC
+ for linux-nvme@lists.infradead.org; Wed, 11 May 2022 05:41:11 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3D6361F8E6;
- Wed, 11 May 2022 05:38:12 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E755E1F8F7;
+ Wed, 11 May 2022 05:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652247492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1652247667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sdHoIju6h2LRFQumf4X4b8m7n43ExMKWc5CtNB0xLdE=;
- b=uKmE0GUjo00wD1W91jPLPivbN2KykOmaTZdJ3R4N3/1178lqVVxtiloefLY7dTUUKHm3hT
- gqKd9SEksudLO03T8WKVCkxfuQe5cUDCTBcIJ1xhGEMoQhQ14uWxd6cxJSeP+CjzwDLU6T
- YF7VRlm6NBK4bC01+V56Y/zTz7pu4nQ=
+ bh=VM719RO3hYboOfDIWBP77a3nGKT4hGWsdzvlxbLACwk=;
+ b=FeXpjn7KRA3jleGLx2c1Jff+e0ATMkydUprbKUmLr2nIBdLNO5GGZMsu/j7heBHfLSHxO6
+ wWApWI927J3IdpTw/NgIb13QAq9AoEMuhxsF0sFtqyvBRIiDr9Db3S/O09jNKoNCubXOTU
+ EWUb8ZdGMgbl3OdjcWmIgoel5qyEOAY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652247492;
+ s=susede2_ed25519; t=1652247667;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sdHoIju6h2LRFQumf4X4b8m7n43ExMKWc5CtNB0xLdE=;
- b=K6n1o1kpdQSNG3L5v1aI37bt1W6l+eDNUxk/i2wMwhbRPVxIJwKg61sw7M100UwQGRanyC
- MFHuSHZqk0dEZEBQ==
+ bh=VM719RO3hYboOfDIWBP77a3nGKT4hGWsdzvlxbLACwk=;
+ b=pX9apxcCX9NdV9EC9pEUACAAgggmsJCbc1tar58GMZGuaSjK42vxWezwYdvBihLQ6kMQsh
+ mqz4y7NdR+eBPHAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2307E13AA5;
- Wed, 11 May 2022 05:38:12 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C7CCB13AA5;
+ Wed, 11 May 2022 05:41:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nhi1B8RLe2J2JgAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 11 May 2022 05:38:12 +0000
-Message-ID: <090db7fe-79d5-a763-3876-5c88c6b50fa3@suse.de>
-Date: Wed, 11 May 2022 07:38:09 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id Do3UL3NMe2JjJwAAMHmgww
+ (envelope-from <hare@suse.de>); Wed, 11 May 2022 05:41:07 +0000
+Message-ID: <816168a1-827a-18cd-af76-a9162a6bd016@suse.de>
+Date: Wed, 11 May 2022 07:41:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 1/4] nvmet: make the subsystem type configurable
+Subject: Re: [PATCH 3/4] nvmet: include all configured ports in the discovery
+ log page
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org
 References: <20220420092730.35101-1-hare@suse.de>
- <20220420092730.35101-2-hare@suse.de>
- <63c7d338-8b03-a753-2dbd-31394335c798@grimberg.me>
+ <20220420092730.35101-4-hare@suse.de>
+ <21c3b2b9-3d66-66cc-2216-d027f4b0885f@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <63c7d338-8b03-a753-2dbd-31394335c798@grimberg.me>
+In-Reply-To: <21c3b2b9-3d66-66cc-2216-d027f4b0885f@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220510_223817_405005_C54AE9D3 
-X-CRM114-Status: GOOD (  18.39  )
+X-CRM114-CacheID: sfid-20220510_224109_537883_A99D92D0 
+X-CRM114-Status: GOOD (  22.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,54 +93,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/10/22 11:36, Sagi Grimberg wrote:
+On 5/10/22 11:43, Sagi Grimberg wrote:
 > 
 > 
 > On 4/20/22 12:27, Hannes Reinecke wrote:
->> Make the subsystem type configurable to allow for unique
->> discovery subsystems by changing the subsystem type to
->> 'discovery'.
+>> When a per-port discovery subsystem is used we should include
+>> all configured ports in the discovery log page, not just that one
+>> through which the controller was connected.
+>>
+>> - /
+>>    o- ports
+>>    | o- 1 .. [trtype=tcp, traddr=127.0.0.1, trsvcid=8009]
+>>    | | o- subsystems
+>>    | |   o- nqn.discovery
+>>    | o- 2 .. [trtype=tcp, traddr=127.0.0.1, trsvcid=4420]
+>>    | | o- subsystems
+>>    | |   o- nqn.discovery
+>>    | |   o- nqn.io-1
+>>    | o- 3 .. [trtype=tcp, traddr=127.0.0.1, trsvcid=4421]
+>>    |   o- subsystems
+>>    |     o- nqn.io-2
+>>    o- subsystems
+>>      o- nqn.discovery
+>>      o- nqn.io-1
+>>      | o- namespaces
+>>      o- nqn.io-2
+>>        o- namespaces
+>>
+>> A discovery on port 8009 will return information about
+>> - nqn.discovery at port 8009
+>> - nqn.discovery at port 4420
+>> - nqn.io-1 at port 4420
+>> A discovery on port 4420 will return the same information.
+>> A discovery on port 4421 will return information about
+>> - standard discovery subsystem on port 4421
+>> - nqn.io-2 on port 4421
 >>
 >> Signed-off-by: Hannes Reinecke <hare@suse.de>
 >> ---
->>   drivers/nvme/target/configfs.c  | 60 +++++++++++++++++++++++++++++++++
->>   drivers/nvme/target/discovery.c |  2 +-
->>   drivers/nvme/target/nvmet.h     |  1 +
->>   3 files changed, 62 insertions(+), 1 deletion(-)
+>>   drivers/nvme/target/discovery.c | 53 +++++++++++++++++++++++++++------
+>>   1 file changed, 44 insertions(+), 9 deletions(-)
 >>
->> diff --git a/drivers/nvme/target/configfs.c 
->> b/drivers/nvme/target/configfs.c
->> index e44b2988759e..38b0ab9fb721 100644
->> --- a/drivers/nvme/target/configfs.c
->> +++ b/drivers/nvme/target/configfs.c
->> @@ -834,6 +834,7 @@ static int nvmet_port_subsys_allow_link(struct 
->> config_item *parent,
->>       }
->>       list_add_tail(&link->entry, &port->subsystems);
->> +    subsys->port_count++;
->>       nvmet_port_disc_changed(port, subsys);
->>       up_write(&nvmet_config_sem);
->> @@ -862,6 +863,7 @@ static void nvmet_port_subsys_drop_link(struct 
->> config_item *parent,
->>   found:
->>       list_del(&p->entry);
->> +    subsys->port_count--;
->>       nvmet_port_del_ctrls(port, subsys);
->>       nvmet_port_disc_changed(port, subsys);
->> @@ -1234,6 +1236,63 @@ static ssize_t 
->> nvmet_subsys_attr_model_store(struct config_item *item,
+>> diff --git a/drivers/nvme/target/discovery.c 
+>> b/drivers/nvme/target/discovery.c
+>> index 6b8aa6c4e752..ea8fce538342 100644
+>> --- a/drivers/nvme/target/discovery.c
+>> +++ b/drivers/nvme/target/discovery.c
+>> @@ -149,6 +149,30 @@ static void nvmet_set_disc_traddr(struct 
+>> nvmet_req *req, struct nvmet_port *port
+>>           memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
 >>   }
->>   CONFIGFS_ATTR(nvmet_subsys_, attr_model);
->> +static const struct nvmet_type_name_map nvmet_subsys_type_map[] = {
->> +    { NVME_NQN_DISC,    "referral" },
->> +    { NVME_NQN_NVME,    "nvme" },
->> +    { NVME_NQN_CURR,    "discovery" },
+>> +/*
+>> + * discovery_port_match - filter eligible ports for discovery log page
+>> + *
+>> + * If the port through which the controller is connected has no 
+>> discovery
+>> + * subsystem linked, use the original behaviour of just including 
+>> information
+>> + * about that port in the discovery log page.
+>> + * Otherwise include information about all ports into which the 
+>> specified
+>> + * discovery subsystem is linked.
+>> + */
+>> +
+>> +static bool discovery_port_match(struct nvmet_req *req, struct 
+>> nvmet_port *r)
+>> +{
+>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>> +
+>> +    if (!req->port->disc_subsys) {
+>> +        if (r != req->port)
+>> +            return false;
+>> +    } else {
+>> +        if (ctrl->subsys != r->disc_subsys)
+>> +            return false;
 > 
-> Didn't we agree that the internal enumeration would be different
-> than the content of the log page? It is just confusing reading it this
-> way...
+> What is this condition for? What is this filtering out?
 
-And so we did. Will be changing it.
+This filters out all ports into which the discovery subsystem
+is _not_ linked (ie the statement 'Otherwise ...' in the function
+description).
 
 Cheers,
 
