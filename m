@@ -4,107 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D4F3C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 May 2022 16:11:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA114C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 May 2022 21:02:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Xc6b2DGSHNoqcRaRJAmNz3xmM8+5hVjJ6d9Uf3kedYI=; b=PWy3T29jsy+xg1J3+sEghwBAoY
-	z/iFPzD56QEqbzN8zq2dONIl8ZiOu6J4bqNdr0GZnFt5FQ1EiE3a44V6P0Zf5btC9JcdB5LCwoNNq
-	3B9sDkAxP0uVYeAf2+8LWBbp+mu0WcMIKtWQNyjYTf1Kl74LGrf7177RLd+624uvwB9YH3OeokZUP
-	IQCnpT1irrBT+9ykkYohGepvIfJTGBeFB60nVU44zx/Qaw+ij9Snl7Fd/am/pwTLRx/3De/nMKYy3
-	j8zxdhqcgx3D4Y00YRJKF960isfrrHxicNfODLzxolkwbO67/fUnuTgfsCSSq7d8DsXraLOXkxAfs
-	toF9LdtQ==;
+	bh=t9KxxV9NPaarLjUn6WnSeaJ1unQjijG7pUlU5QRc31c=; b=1sYd5xWS091QljlTpeOU9JGcEE
+	bHVaCBaQESptVn2+/Wn/lbuhZ07JlXMTO43+ApxovZZt/eDU6LZfMyDj8TCoR5nAcRPL+tr0EPcY2
+	FybzdbV7yis4ZXVJDvPdd7guHMDhQmPx7aSe/75rgoVkGe2GW3cXZI4pN6tCkQ3hxfsrOeRXFDwJ4
+	r5oPL8B8G5hcBWeMFKpwuGnR9ubyAsQcjfbszvQCRqEihumJQawO+wcF1ospZmhPBjDboTx87XOU/
+	t8bEcbCzEYyKL5ob5xNynqjlux7aJAoERI0MbDyYOMNhp0p+19B97fNmdeEII9Ewd7pnoQqcbWiZ/
+	xj+8Iobg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1noowF-007j5w-Sd; Wed, 11 May 2022 16:11:47 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1notTY-008eQf-C6; Wed, 11 May 2022 21:02:28 +0000
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1noop6-007hZL-Rh
- for linux-nvme@lists.infradead.org; Wed, 11 May 2022 16:04:26 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CBA4A1F460;
- Wed, 11 May 2022 16:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1652285057;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xc6b2DGSHNoqcRaRJAmNz3xmM8+5hVjJ6d9Uf3kedYI=;
- b=AptAfNQUACxbGuDofIFikwhqSmZLKp4LaZkHv0nu5pVn6UGKlHaoJuH95JxLwf223Z+HIf
- R8aoLP+L+YwysdX0gx8806E5IouENUnMmezge+u6h42ZR1TitVwdwkQ25tBBdHfU4gLBzg
- bPkaIp0vtR6+ExEinYmIQH18c7X68Oo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1652285057;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xc6b2DGSHNoqcRaRJAmNz3xmM8+5hVjJ6d9Uf3kedYI=;
- b=XqXkW74F8Zok5rdnrEAgPSVAz1K4bzmN0oplvOFkQ34V3VduS2lJo/LPWmHvXSFvI7IzbV
- VI5pIiFWh6KxVkAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2D07B13A76;
- Wed, 11 May 2022 16:04:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Ton9CYHee2KSRQAAMHmgww
- (envelope-from <dsterba@suse.cz>); Wed, 11 May 2022 16:04:17 +0000
-Date: Wed, 11 May 2022 18:00:02 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: dsterba@suse.cz, jaegeuk@kernel.org, hare@suse.de, dsterba@suse.com,
- axboe@kernel.dk, hch@lst.de, damien.lemoal@opensource.wdc.com,
- snitzer@kernel.org, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, bvanassche@acm.org,
- linux-fsdevel@vger.kernel.org, matias.bjorling@wdc.com,
- Jens Axboe <axboe@fb.com>, gost.dev@samsung.com,
- jonathan.derrick@linux.dev, jiangbo.365@bytedance.com,
- linux-nvme@lists.infradead.org, dm-devel@redhat.com,
- Naohiro Aota <naohiro.aota@wdc.com>, linux-kernel@vger.kernel.org,
- Johannes Thumshirn <jth@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
- linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
- Keith Busch <kbusch@kernel.org>, linux-btrfs@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH v3 11/11] dm-zoned: ensure only power of 2 zone sizes are
- allowed
-Message-ID: <20220511160001.GQ18596@twin.jikos.cz>
-Mail-Followup-To: dsterba@suse.cz, Pankaj Raghav <p.raghav@samsung.com>,
- jaegeuk@kernel.org, hare@suse.de, dsterba@suse.com, axboe@kernel.dk,
- hch@lst.de, damien.lemoal@opensource.wdc.com, snitzer@kernel.org,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- bvanassche@acm.org, linux-fsdevel@vger.kernel.org,
- matias.bjorling@wdc.com, Jens Axboe <axboe@fb.com>,
- gost.dev@samsung.com, jonathan.derrick@linux.dev,
- jiangbo.365@bytedance.com, linux-nvme@lists.infradead.org,
- dm-devel@redhat.com, Naohiro Aota <naohiro.aota@wdc.com>,
- linux-kernel@vger.kernel.org, Johannes Thumshirn <jth@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
- linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
- Keith Busch <kbusch@kernel.org>, linux-btrfs@vger.kernel.org,
- Luis Chamberlain <mcgrof@kernel.org>
-References: <20220506081105.29134-1-p.raghav@samsung.com>
- <CGME20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a@eucas1p1.samsung.com>
- <20220506081105.29134-12-p.raghav@samsung.com>
- <20220509185432.GB18596@twin.jikos.cz>
- <d8e86c32-f122-01df-168e-648179766c55@samsung.com>
+ id 1notTU-008eNE-UN
+ for linux-nvme@lists.infradead.org; Wed, 11 May 2022 21:02:26 +0000
+Received: by mail-io1-xd2f.google.com with SMTP id e3so3358121ios.6
+ for <linux-nvme@lists.infradead.org>; Wed, 11 May 2022 14:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t9KxxV9NPaarLjUn6WnSeaJ1unQjijG7pUlU5QRc31c=;
+ b=H+FMOTettN+fuJtHKZqvo9EElI2NN1SPK4306s/OFHXEpdYb2w8lMqMB9SYcHYzNYK
+ fPb27VOOqwfpDDqp5639NElcCyMRqOxbTyvlNIvswSaV2AJihPzGq1xo3mRDRoBbdY9Z
+ ieamvJCGxKnz7laf6bu3Els3to1eswUjqz7BPVzm8ZEFjlu+mFmArNAeeZ61qgI+39xf
+ jp6z/bpGJfGdnhddB5JrTTHjNlonTnbTOU1XAcwGupZCq+QMV5rdjheyamVoOumzLFj6
+ uChw2lg4VDkyw1fMCaQlWP3tiyel2InlZRfoUFjbHjqsH2+sUFi5PugWTKBosWZmIjeT
+ dhLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t9KxxV9NPaarLjUn6WnSeaJ1unQjijG7pUlU5QRc31c=;
+ b=mos8U5D3My7E+RgVhJEaf5uNaQxEOWzMZRHa9IDK+5lJg/8wd1xxpRpL1t5MGhc5/h
+ hWwwEmzoY9vyJaFmiajgEajd1AaNtyWD976FkYeJuX2j5KM9QogHosrwDZxjRcMSXnFq
+ UsmlVRTgoyyZBGbXDWmcG4bD2dkM5rVTxomQ3mUdS90kVhaPq1uOACsSqA4zNt525c2p
+ JAV8NHeqxnN4oSjMn183NhaB/syjxoukG8enLoQTyhLhUTliz3jCxqBZr8cD6R8IoTrQ
+ XguuxGDLLY7fx9AIP38E8M2q5+DtbY9K+Cg2Yc0YTPNDIEXCotbbmr0KXfpfW/U+nK0Z
+ 6G/Q==
+X-Gm-Message-State: AOAM5326V1Ue5gJG/FYfFkrC+3aYaPghtXQnQblBT+T/qjBhbd5f2cp9
+ CdMsh+sRfkwBZueaXR3Uts5KIGXqiKXEryWJsoCCUg==
+X-Google-Smtp-Source: ABdhPJwmnOOxYv5I7CBMV+/A8hb0Ch9gPYppkXgsf55Nobqofhk/HsYU3WHgCMZG16BXcmY0HTddv62MCMTE6GPSIAQ=
+X-Received: by 2002:a05:6638:34a2:b0:32b:7d4f:8932 with SMTP id
+ t34-20020a05663834a200b0032b7d4f8932mr13504775jal.317.1652302939471; Wed, 11
+ May 2022 14:02:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8e86c32-f122-01df-168e-648179766c55@samsung.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+References: <20220412224348.1038613-1-tansuresh@google.com>
+ <20220412224348.1038613-2-tansuresh@google.com>
+ <CAJZ5v0ivNq3aYCEcxPYMosLJCAyWiAnucwOCmRBzkM=sbyPWgQ@mail.gmail.com>
+ <CALVARr6v5hcY0Vcf1izPUX-tXNJyyNXBMANbKX4CW9wfRf-pYQ@mail.gmail.com>
+ <YmzqrqfVLQ9/4KXp@kroah.com>
+ <CALVARr50MWexNpCf_PoZ4-pdnexiZiibz7Nd0PH+b-EVnBUN6w@mail.gmail.com>
+In-Reply-To: <CALVARr50MWexNpCf_PoZ4-pdnexiZiibz7Nd0PH+b-EVnBUN6w@mail.gmail.com>
+From: Tanjore Suresh <tansuresh@google.com>
+Date: Wed, 11 May 2022 14:02:08 -0700
+Message-ID: <CALVARr71u8VD0+zaWbm=6A-1_6gO=bYUm7OM4K5b6kOVz09XOA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] driver core: Support asynchronous driver shutdown
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme <linux-nvme@lists.infradead.org>, 
+ Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220511_090425_069258_11E456C9 
-X-CRM114-Status: GOOD (  23.99  )
-X-Mailman-Approved-At: Wed, 11 May 2022 09:11:46 -0700
+X-CRM114-CacheID: sfid-20220511_140225_025598_90CA16FA 
+X-CRM114-Status: GOOD (  37.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,60 +86,95 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 11, 2022 at 04:39:17PM +0200, Pankaj Raghav wrote:
-> Hi David,
-> 
-> On 2022-05-09 20:54, David Sterba wrote:>> diff --git
-> a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
-> >> index 3e7b1fe15..27dc4ddf2 100644
-> >> --- a/drivers/md/dm-zone.c
-> >> +++ b/drivers/md/dm-zone.c
-> >> @@ -231,6 +231,18 @@ static int dm_revalidate_zones(struct mapped_device *md, struct dm_table *t)
-> >>  	struct request_queue *q = md->queue;
-> >>  	unsigned int noio_flag;
-> >>  	int ret;
-> >> +	struct block_device *bdev = md->disk->part0;
-> >> +	sector_t zone_sectors;
-> >> +	char bname[BDEVNAME_SIZE];
-> >> +
-> >> +	zone_sectors = bdev_zone_sectors(bdev);
-> >> +
-> >> +	if (!is_power_of_2(zone_sectors)) {
-> > 
-> > is_power_of_2 takes 'unsigned long' and sector_t is u64, so this is not
-> > 32bit clean and we had an actual bug where value 1<<48 was not
-> > recognized as power of 2.
-> > 
-> Good catch. Now I understand why btrfs has a helper for is_power_of_two_u64.
-> 
-> But the zone size can never be more than 32bit value so the zone size
-> sect will never greater than unsigned long.
+Greg
 
-We've set the maximum supported zone size in btrfs to be 8G, which is a
-lot and should be sufficient for some time, but this also means that the
-value is larger than 32bit maximum. I have actually tested btrfs on top
-of such emaulated zoned device via TCMU, so it's not dm-zoned, so it's
-up to you to make sure that a silent overflow won't happen.
+On Mon, May 2, 2022 at 12:13 PM Tanjore Suresh <tansuresh@google.com> wrote:
+>
+> On Sat, Apr 30, 2022 at 12:52 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > A: http://en.wikipedia.org/wiki/Top_post
+> > Q: Were do I find info about this thing called top-posting?
+> > A: Because it messes up the order in which people normally read text.
+> > Q: Why is top-posting such a bad thing?
+> > A: Top-posting.
+> > Q: What is the most annoying thing in e-mail?
+> >
+> > A: No.
+> > Q: Should I include quotations after my reply?
+> >
+> > http://daringfireball.net/2007/07/on_top
+> >
+> > On Fri, Apr 29, 2022 at 11:03:07AM -0700, Tanjore Suresh wrote:
+> > > Rafael,
+> > >
+> > > That is a good observation, however, many of the use cases in data
+> > > centers (deployment of devices in data centers) do not exploit device
+> > > power management. Therefore, I'm not sure that is the right way to
+> > > design this.
+> >
+> > Yes it is, enable device power management and use that interface please.
+> > Devices in data centers should of course be doing the same thing as
+> > everyone else, as it actually saves real money in power costs.  To not
+> > do so is very odd.
+> >
+>
+> I guess we are intermixing the  terminology of device power management
+> with shutdown.
+> My second, third reasoning in my previous e-mail, thought it brings
+> out that difference. Maybe not.
+> I will try one more time, my thought process on this one.
+>
+> This patch is only for shutdown. The shutdown can be done in a system
+> in various flavors,
+> (this may include a power being pulled from the system components when
+> all the devices
+> are quiescent and it can also be soft shutdown, where power is not
+> removed from the system, but system
+> could be attempting a reboot)
+>
+> The device power management allows the device to bring down any
+> devices that may be idle to various power states that
+> device may support in a selective manner & based on the transition
+> allowed by the device. Such a transition initiated by
+> the system can be achieved using the 'dpm' interface for runtime power
+> management (more for extending laptop battery life).
+> It can also be exploited for system sleep models (suspend and resume -
+> where state is preserved and restarted from where it left off
+> --> More applicable for laptops/desktops). That does not mean data
+> center devices cannot exploit, but they worry about slight latency
+> variation in any
+> I/O initiated to any device. Such power management could introduce
+> more latency when it transitions from one state to another.
+> Therefore, the use case is more apt for Laptops, in certain cases
+> desktops in my opinion or understanding.
+>
+> The shutdown entry point has been traditionally different and the
+> semantics is that the whole system is going down to a
+> quiescent state and power may be pulled or may not be, IMO, i am
+> seeing both are independent requirements, in my view.
+> Let me know if I am mistaken. I am not sure why we should break the
+> shutdown semantics as understood by driver developers and
+> overload it with dpm requirements?
+>
 
-> With that said, we have two options:
-> 
-> 1.) We can put a comment explaining that even though it is 32 bit
-> unsafe, zone size sect can never be a 32bit value
+I have not seen additional comments, I request your help
+in moving this further, please. If i have missed something,
+Please let me know.
 
-This is probably part of the protocol and specification of the zoned
-devices, the filesystem either accepts the spec or makes some room for
-larger values in case it's not too costly.
+Thanks
+sureshtk
 
-> or
-> 
-> 2) We should move the btrfs only helper `is_power_of_two_u64` to some
-> common header and use it everywhere.
 
-Yeah, that can be done independently. With some macro magic it can be
-made type-safe for any argument while preserving the 'is_power_of_2'
-name.
+
+> Thanks
+> sureshtk
+>
+>
+> > thanks,
+> >
+> > greg k-h
 
