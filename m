@@ -4,71 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14CE8C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 May 2022 14:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38419C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 May 2022 14:33:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fapy0UzsV2+71SQNFiB4udMttlhpXoFXgY5ze6Kye/Q=; b=iT48X5S+i6bO3Dlu4cFJxXjDFM
-	T+6l0S6sEmtBXIZ9AzGw6pkKLt8uM6vr1vjCYuva80yqB7XebJlXfdsVeVIIOfM5bKLCG7NWA8TqU
-	QjR5HeP30aVJQjeKzXmapHV7g7EjM0FGG6+lf6MX29MENuByRMLXsex7RY0nWZpNB9iRzVeyeldGU
-	kBZnsAjIrdX6BhbIotBgw0QoJx25/Hm2h7D57VF5UPqzmWCLkyFlTZmr9hFrhwf7rcyl+xQSVDTyI
-	oVw7Q6d9YAirHnUBdqXBIcJ0jIts71Ko7NQ6RtJfFNkNfZPQiYptkL88ZVs5yFVubsMJB3KtifRBm
-	51XlKDfg==;
+	bh=zzOrW+pH12sN66rHYXdUUY4rSp1YeYm/xwvJTXYqGRU=; b=CyEhKJ27UYASqF8aclyNQzzoH+
+	e+l/NNlufcdroNkvEjeGW+bxek2k/kAztmyBmMWn0er+FJC9LIU9S8jb6DlxUcksHRF/Ta/DcS9B4
+	1D3Pj5+9fa/0NRa81wtgSiAgoLV7i4cSDGDvLeirf/iwEi7Ts8UoINqNb3gXp2zK0WOZ9P18ZS+e5
+	CLI485ajiPENQAKx3+p1/4h+5MKaic3Qe/JOmYppIesFKy2VaEW6PcYRx5oB3VJMyIMiT7+DL/P+Z
+	cCwxfKNt1FqIPpt+bDfQ+/y8AI6Sjil5Rtj+nxwK6efwiaQ8MknGhCbpSAyk5Z88RfEu70hTXoJJk
+	IUSh0p9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1np9Sb-00CF8v-8Z; Thu, 12 May 2022 14:06:33 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1np9sN-00CPbW-Rn; Thu, 12 May 2022 14:33:11 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1np9SX-00CF6j-CH
- for linux-nvme@lists.infradead.org; Thu, 12 May 2022 14:06:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652364387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Fapy0UzsV2+71SQNFiB4udMttlhpXoFXgY5ze6Kye/Q=;
- b=JEcrYAuHkLwfcxgjzy2d7wWlgNUkLaNNDtoihLJHzJO/ilxPrpXQmRjjGEN1LAtyG5txP7
- WJYlqr48Mm17b/I3Rd3venY2ssy06iXGR4JxPbwZzDGzfJEFghOp/BuhFncmUyo52NXsYz
- ymYxvvaFoEc+aTQRzKAKBElfjjxJi9A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-PtHoMGhoPWWXSmIe7LPpsg-1; Thu, 12 May 2022 10:06:24 -0400
-X-MC-Unique: PtHoMGhoPWWXSmIe7LPpsg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1np9sJ-00CPYL-G7
+ for linux-nvme@lists.infradead.org; Thu, 12 May 2022 14:33:10 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7193D3C92FD8;
- Thu, 12 May 2022 14:06:19 +0000 (UTC)
-Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCFDF5742E1;
- Thu, 12 May 2022 14:06:12 +0000 (UTC)
-Date: Thu, 12 May 2022 22:06:07 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hch@lst.de,
- io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- asml.silence@gmail.com, mcgrof@kernel.org, shr@fb.com,
- joshiiitr@gmail.com, gost.dev@samsung.com
-Subject: Re: [PATCH v5 2/6] block: wire-up support for passthrough plugging
-Message-ID: <Yn0UT8/ymJPy2hBu@T590>
-References: <20220511054750.20432-1-joshi.k@samsung.com>
- <CGME20220511055310epcas5p46650f5b6fe963279f686b8f50a98a286@epcas5p4.samsung.com>
- <20220511054750.20432-3-joshi.k@samsung.com>
- <YnyaRB+u1x6nIVp1@T590> <20220512114623.GA11657@test-zns>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 533C1B818CD;
+ Thu, 12 May 2022 14:33:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E71EC34114;
+ Thu, 12 May 2022 14:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652365984;
+ bh=sfcTKaUi98E7OC/j3iFh3YtytfrCxmTHiMc7UvH7bss=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dMpIhhu2NwOLnZmMOauzb/gaBAS71QcoMrZ0ckcYHH/BilWW8OF7P7xONL1aKKeOM
+ qKmNhDN+j/383T6nKxKmTfgfIuHmyEyZy2+YULBjP0MyK55qXEqHrI79zfxMLpIea9
+ BwPiJ5x1b08B7LTiInkwqVgiQEojD3RubHn8LEvUnfru6cBUTApbHhqLHNnmjewS2Y
+ hglWvgI7lX4g1E8DjMx13DOz4joP8zEgjWcwhtamqQu9wp6zYWDEIbJkxEkJ1E6Gp5
+ ZnZIe62+kQ9r903JdJ1x6P6nQ/hJKfx6aZ+dWqP6rwsBVCDsPHygyAMhFlMDE9fUKj
+ cdhO+ilSyGjkg==
+Date: Thu, 12 May 2022 08:33:00 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Stefan Roese <sr@denx.de>, linux-nvme@lists.infradead.org,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] nvme-pci: Harden drive presence detect in
+ nvme_dev_disable()
+Message-ID: <Yn0anJBHcSd1K2tM@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220506101534.1728011-1-sr@denx.de>
+ <7fc45981-6f12-4cb2-9eb1-f18cfa69d0df@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220512114623.GA11657@test-zns>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+In-Reply-To: <7fc45981-6f12-4cb2-9eb1-f18cfa69d0df@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220512_070629_533127_47180E7C 
-X-CRM114-Status: GOOD (  33.38  )
+X-CRM114-CacheID: sfid-20220512_073307_874364_948954CE 
+X-CRM114-Status: GOOD (  33.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,102 +73,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 12, 2022 at 05:20:47PM +0530, Anuj Gupta wrote:
-> On Thu, May 12, 2022 at 01:25:24PM +0800, Ming Lei wrote:
-> > Hello,
+On Thu, May 12, 2022 at 04:03:39PM +0300, Max Gurtovoy wrote:
+> On 5/6/2022 1:15 PM, Stefan Roese wrote:
+> > On our ZynqMP system we observe, that a NVMe drive that resets itself
+> > while doing a firmware update causes a Kernel crash like this:
 > > 
-> > On Wed, May 11, 2022 at 11:17:46AM +0530, Kanchan Joshi wrote:
-> > > From: Jens Axboe <axboe@kernel.dk>
-> > > 
-> > > Add support for plugging in passthrough path. When plugging is enabled, the
-> > > requests are added to a plug instead of getting dispatched to the driver.
-> > > And when the plug is finished, the whole batch gets dispatched via
-> > > ->queue_rqs which turns out to be more efficient. Otherwise dispatching
-> > > used to happen via ->queue_rq, one request at a time.
-> > > 
-> > > Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > ---
-> > >  block/blk-mq.c | 73 +++++++++++++++++++++++++++-----------------------
-> > >  1 file changed, 39 insertions(+), 34 deletions(-)
-> > > 
-> > > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > > index 84d749511f55..2cf011b57cf9 100644
-> > > --- a/block/blk-mq.c
-> > > +++ b/block/blk-mq.c
-> > > @@ -2340,6 +2340,40 @@ void __blk_mq_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
-> > >  	blk_mq_hctx_mark_pending(hctx, ctx);
-> > >  }
-> > >  
-> > > +/*
-> > > + * Allow 2x BLK_MAX_REQUEST_COUNT requests on plug queue for multiple
-> > > + * queues. This is important for md arrays to benefit from merging
-> > > + * requests.
-> > > + */
-> > > +static inline unsigned short blk_plug_max_rq_count(struct blk_plug *plug)
-> > > +{
-> > > +	if (plug->multiple_queues)
-> > > +		return BLK_MAX_REQUEST_COUNT * 2;
-> > > +	return BLK_MAX_REQUEST_COUNT;
-> > > +}
-> > > +
-> > > +static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
-> > > +{
-> > > +	struct request *last = rq_list_peek(&plug->mq_list);
-> > > +
-> > > +	if (!plug->rq_count) {
-> > > +		trace_block_plug(rq->q);
-> > > +	} else if (plug->rq_count >= blk_plug_max_rq_count(plug) ||
-> > > +		   (!blk_queue_nomerges(rq->q) &&
-> > > +		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
-> > > +		blk_mq_flush_plug_list(plug, false);
-> > > +		trace_block_plug(rq->q);
-> > > +	}
-> > > +
-> > > +	if (!plug->multiple_queues && last && last->q != rq->q)
-> > > +		plug->multiple_queues = true;
-> > > +	if (!plug->has_elevator && (rq->rq_flags & RQF_ELV))
-> > > +		plug->has_elevator = true;
-> > > +	rq->rq_next = NULL;
-> > > +	rq_list_add(&plug->mq_list, rq);
-> > > +	plug->rq_count++;
-> > > +}
-> > > +
-> > >  /**
-> > >   * blk_mq_request_bypass_insert - Insert a request at dispatch list.
-> > >   * @rq: Pointer to request to be inserted.
-> > > @@ -2353,7 +2387,12 @@ void blk_mq_request_bypass_insert(struct request *rq, bool at_head,
-> > >  				  bool run_queue)
-> > >  {
-> > >  	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
-> > > +	struct blk_plug *plug = current->plug;
-> > >  
-> > > +	if (plug) {
-> > > +		blk_add_rq_to_plug(plug, rq);
-> > > +		return;
-> > > +	}
+> > [ 67.720772] pcieport 0000:02:02.0: pciehp: Slot(2): Link Down
+> > [ 67.720783] pcieport 0000:02:02.0: pciehp: Slot(2): Card not present
+> > [ 67.720795] nvme 0000:04:00.0: PME# disabled
+> > [ 67.720849] Internal error: synchronous external abort: 96000010 [#1] PREEMPT SMP
+> > [ 67.720853] nwl-pcie fd0e0000.pcie: Slave error
 > > 
-> > This way may cause nested plugging, and breaks xfstests generic/131.
-> > Also may cause io hang since request can't be polled before flushing
-> > plug in blk_execute_rq().
-> >
-> Hi Ming,
-> Could you please share your test setup.
-> I tried test 131 with xfs and it passed.
+> > Analysis: When nvme_dev_disable() is called because of this PCIe hotplug
+> > event, pci_is_enabled() is still true. And accessing the NVMe drive
+> > which is currently not available as it's in reboot process causes this
+> > "synchronous external abort" on this ARM64 platform.
+> > 
+> > This patch adds the pci_device_is_present() check as well, which returns
+> > false in this "Card not present" hot-plug case. With this change, the
+> > NVMe driver does not try to access the NVMe registers any more and the
+> > FW update finishes without any problems.
+> > 
+> > Signed-off-by: Stefan Roese <sr@denx.de>
+> > Cc: Keith Busch <kbusch@kernel.org>
+> > Cc: Jens Axboe <axboe@fb.com>
+> > Cc: Christoph Hellwig <hch@lst.de>
+> > ---
+> >   drivers/nvme/host/pci.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index 97afeb898b25..c764a2a1d7f1 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -2473,7 +2473,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+> >   	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> >   	mutex_lock(&dev->shutdown_lock);
+> > -	if (pci_is_enabled(pdev)) {
+> > +	if (pci_device_is_present(pdev) && pci_is_enabled(pdev)) {
 > 
-> I followed these steps:
-> 1) mkfs.xfs -f /dev/nvme0n1
-> 2) mount /dev/nvme0n1 /mnt/test
-> 3) ./check tests/generic/131
+> sound weird to me that pci device can be enabled but not present.
 
-It is triggered when I run xfstests over UBD & xfs:
+pci_is_enabled() just checks a driver reference count. It doesn't actually
+query the physical status of the device's link it references, but
+pci_device_is_present() will do that.
+ 
+> Also why we get hot unplug event for FW upgrade ?
 
-https://github.com/ming1/linux/tree/my_for-5.18-ubd-devel_v2
-https://github.com/ming1/ubdsrv/tree/devel-v2
+It might happen if the device requires a Subsystem Reset to activate the new
+firmware.
+ 
+> is this the correct behavior ?
 
+I don't know if the "synchronous external abort" is normal, or how severe of a
+problem it indicates, but we normally expect accessing registers on an
+inaccessible device to be mostly harmless.
 
-
-Thanks,
-Ming
-
+> >   		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> >   		if (dev->ctrl.state == NVME_CTRL_LIVE ||
 
