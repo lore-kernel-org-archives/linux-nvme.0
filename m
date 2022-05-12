@@ -4,77 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA114C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 May 2022 21:02:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C22B1C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 May 2022 05:25:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t9KxxV9NPaarLjUn6WnSeaJ1unQjijG7pUlU5QRc31c=; b=1sYd5xWS091QljlTpeOU9JGcEE
-	bHVaCBaQESptVn2+/Wn/lbuhZ07JlXMTO43+ApxovZZt/eDU6LZfMyDj8TCoR5nAcRPL+tr0EPcY2
-	FybzdbV7yis4ZXVJDvPdd7guHMDhQmPx7aSe/75rgoVkGe2GW3cXZI4pN6tCkQ3hxfsrOeRXFDwJ4
-	r5oPL8B8G5hcBWeMFKpwuGnR9ubyAsQcjfbszvQCRqEihumJQawO+wcF1ospZmhPBjDboTx87XOU/
-	t8bEcbCzEYyKL5ob5xNynqjlux7aJAoERI0MbDyYOMNhp0p+19B97fNmdeEII9Ewd7pnoQqcbWiZ/
-	xj+8Iobg==;
+	bh=rzUAeH0BKOzPYC738+hLYxVIwdn5S1zeJWAp6BRhKcE=; b=GHjipya/vy2/mDDHlpe9aah0Nv
+	lMQXG3f0nN9GgE04NLSdBMXdUk07/aRVtC38O+eLRnrXCFyC3p3ACkksMLkmb/a3uYmcY+vseweAp
+	+Hn3WuVMLwTJwU12qexWPWlF1Ls6aWkxGyqBUrJ9AjQuSXPs/pFm9aGs2REPA5ryL0OjTME3WWSiY
+	iGqsLh4p/SnnugipdIpx4gG3MhEYERDRys0tbaE7H2mWymXdYiwUCdaLcO3qbqJs8ksF7XftXbPva
+	+nGNjg5w3ew4LbtUgGI6SnMRwyyfVLJhnaELz5P9nH89rMYl5xja44ThtjKHVGS6uurI0XanYR5wm
+	cmNSG1nA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1notTY-008eQf-C6; Wed, 11 May 2022 21:02:28 +0000
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+	id 1np1Kc-00A4aq-2M; Thu, 12 May 2022 05:25:46 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1notTU-008eNE-UN
- for linux-nvme@lists.infradead.org; Wed, 11 May 2022 21:02:26 +0000
-Received: by mail-io1-xd2f.google.com with SMTP id e3so3358121ios.6
- for <linux-nvme@lists.infradead.org>; Wed, 11 May 2022 14:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t9KxxV9NPaarLjUn6WnSeaJ1unQjijG7pUlU5QRc31c=;
- b=H+FMOTettN+fuJtHKZqvo9EElI2NN1SPK4306s/OFHXEpdYb2w8lMqMB9SYcHYzNYK
- fPb27VOOqwfpDDqp5639NElcCyMRqOxbTyvlNIvswSaV2AJihPzGq1xo3mRDRoBbdY9Z
- ieamvJCGxKnz7laf6bu3Els3to1eswUjqz7BPVzm8ZEFjlu+mFmArNAeeZ61qgI+39xf
- jp6z/bpGJfGdnhddB5JrTTHjNlonTnbTOU1XAcwGupZCq+QMV5rdjheyamVoOumzLFj6
- uChw2lg4VDkyw1fMCaQlWP3tiyel2InlZRfoUFjbHjqsH2+sUFi5PugWTKBosWZmIjeT
- dhLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t9KxxV9NPaarLjUn6WnSeaJ1unQjijG7pUlU5QRc31c=;
- b=mos8U5D3My7E+RgVhJEaf5uNaQxEOWzMZRHa9IDK+5lJg/8wd1xxpRpL1t5MGhc5/h
- hWwwEmzoY9vyJaFmiajgEajd1AaNtyWD976FkYeJuX2j5KM9QogHosrwDZxjRcMSXnFq
- UsmlVRTgoyyZBGbXDWmcG4bD2dkM5rVTxomQ3mUdS90kVhaPq1uOACsSqA4zNt525c2p
- JAV8NHeqxnN4oSjMn183NhaB/syjxoukG8enLoQTyhLhUTliz3jCxqBZr8cD6R8IoTrQ
- XguuxGDLLY7fx9AIP38E8M2q5+DtbY9K+Cg2Yc0YTPNDIEXCotbbmr0KXfpfW/U+nK0Z
- 6G/Q==
-X-Gm-Message-State: AOAM5326V1Ue5gJG/FYfFkrC+3aYaPghtXQnQblBT+T/qjBhbd5f2cp9
- CdMsh+sRfkwBZueaXR3Uts5KIGXqiKXEryWJsoCCUg==
-X-Google-Smtp-Source: ABdhPJwmnOOxYv5I7CBMV+/A8hb0Ch9gPYppkXgsf55Nobqofhk/HsYU3WHgCMZG16BXcmY0HTddv62MCMTE6GPSIAQ=
-X-Received: by 2002:a05:6638:34a2:b0:32b:7d4f:8932 with SMTP id
- t34-20020a05663834a200b0032b7d4f8932mr13504775jal.317.1652302939471; Wed, 11
- May 2022 14:02:19 -0700 (PDT)
+ id 1np1KY-00A4ZA-JX
+ for linux-nvme@lists.infradead.org; Thu, 12 May 2022 05:25:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652333139;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rzUAeH0BKOzPYC738+hLYxVIwdn5S1zeJWAp6BRhKcE=;
+ b=FB0b4ayw4NXDrNiHE7zMMcbVHKC6YD8C+cFXUBYYrBOOhHx0oaSKoLbgC181ZnFqCbvlXp
+ ygNganM6M6keVr1K2cHWQqqW1jy4O9t4NQiOR70Y/vg5P5x2vsWnoBj1LHDsvBLZeTixPF
+ LvDJFV8+Iw1s3FuMoD262rNhtUz3hZ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-177-GubpK2L9MyS2j-62u3oVXw-1; Thu, 12 May 2022 01:25:36 -0400
+X-MC-Unique: GubpK2L9MyS2j-62u3oVXw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23ED6803B22;
+ Thu, 12 May 2022 05:25:36 +0000 (UTC)
+Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1576140CF8F4;
+ Thu, 12 May 2022 05:25:29 +0000 (UTC)
+Date: Thu, 12 May 2022 13:25:24 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, asml.silence@gmail.com,
+ mcgrof@kernel.org, shr@fb.com, joshiiitr@gmail.com,
+ anuj20.g@samsung.com, gost.dev@samsung.com
+Subject: Re: [PATCH v5 2/6] block: wire-up support for passthrough plugging
+Message-ID: <YnyaRB+u1x6nIVp1@T590>
+References: <20220511054750.20432-1-joshi.k@samsung.com>
+ <CGME20220511055310epcas5p46650f5b6fe963279f686b8f50a98a286@epcas5p4.samsung.com>
+ <20220511054750.20432-3-joshi.k@samsung.com>
 MIME-Version: 1.0
-References: <20220412224348.1038613-1-tansuresh@google.com>
- <20220412224348.1038613-2-tansuresh@google.com>
- <CAJZ5v0ivNq3aYCEcxPYMosLJCAyWiAnucwOCmRBzkM=sbyPWgQ@mail.gmail.com>
- <CALVARr6v5hcY0Vcf1izPUX-tXNJyyNXBMANbKX4CW9wfRf-pYQ@mail.gmail.com>
- <YmzqrqfVLQ9/4KXp@kroah.com>
- <CALVARr50MWexNpCf_PoZ4-pdnexiZiibz7Nd0PH+b-EVnBUN6w@mail.gmail.com>
-In-Reply-To: <CALVARr50MWexNpCf_PoZ4-pdnexiZiibz7Nd0PH+b-EVnBUN6w@mail.gmail.com>
-From: Tanjore Suresh <tansuresh@google.com>
-Date: Wed, 11 May 2022 14:02:08 -0700
-Message-ID: <CALVARr71u8VD0+zaWbm=6A-1_6gO=bYUm7OM4K5b6kOVz09XOA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] driver core: Support asynchronous driver shutdown
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme <linux-nvme@lists.infradead.org>, 
- Linux PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220511054750.20432-3-joshi.k@samsung.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220511_140225_025598_90CA16FA 
-X-CRM114-Status: GOOD (  37.15  )
+X-CRM114-CacheID: sfid-20220511_222542_762358_11BE406E 
+X-CRM114-Status: GOOD (  32.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,92 +82,239 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Greg
+Hello,
 
-On Mon, May 2, 2022 at 12:13 PM Tanjore Suresh <tansuresh@google.com> wrote:
->
-> On Sat, Apr 30, 2022 at 12:52 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > A: http://en.wikipedia.org/wiki/Top_post
-> > Q: Were do I find info about this thing called top-posting?
-> > A: Because it messes up the order in which people normally read text.
-> > Q: Why is top-posting such a bad thing?
-> > A: Top-posting.
-> > Q: What is the most annoying thing in e-mail?
-> >
-> > A: No.
-> > Q: Should I include quotations after my reply?
-> >
-> > http://daringfireball.net/2007/07/on_top
-> >
-> > On Fri, Apr 29, 2022 at 11:03:07AM -0700, Tanjore Suresh wrote:
-> > > Rafael,
-> > >
-> > > That is a good observation, however, many of the use cases in data
-> > > centers (deployment of devices in data centers) do not exploit device
-> > > power management. Therefore, I'm not sure that is the right way to
-> > > design this.
-> >
-> > Yes it is, enable device power management and use that interface please.
-> > Devices in data centers should of course be doing the same thing as
-> > everyone else, as it actually saves real money in power costs.  To not
-> > do so is very odd.
-> >
->
-> I guess we are intermixing the  terminology of device power management
-> with shutdown.
-> My second, third reasoning in my previous e-mail, thought it brings
-> out that difference. Maybe not.
-> I will try one more time, my thought process on this one.
->
-> This patch is only for shutdown. The shutdown can be done in a system
-> in various flavors,
-> (this may include a power being pulled from the system components when
-> all the devices
-> are quiescent and it can also be soft shutdown, where power is not
-> removed from the system, but system
-> could be attempting a reboot)
->
-> The device power management allows the device to bring down any
-> devices that may be idle to various power states that
-> device may support in a selective manner & based on the transition
-> allowed by the device. Such a transition initiated by
-> the system can be achieved using the 'dpm' interface for runtime power
-> management (more for extending laptop battery life).
-> It can also be exploited for system sleep models (suspend and resume -
-> where state is preserved and restarted from where it left off
-> --> More applicable for laptops/desktops). That does not mean data
-> center devices cannot exploit, but they worry about slight latency
-> variation in any
-> I/O initiated to any device. Such power management could introduce
-> more latency when it transitions from one state to another.
-> Therefore, the use case is more apt for Laptops, in certain cases
-> desktops in my opinion or understanding.
->
-> The shutdown entry point has been traditionally different and the
-> semantics is that the whole system is going down to a
-> quiescent state and power may be pulled or may not be, IMO, i am
-> seeing both are independent requirements, in my view.
-> Let me know if I am mistaken. I am not sure why we should break the
-> shutdown semantics as understood by driver developers and
-> overload it with dpm requirements?
->
+On Wed, May 11, 2022 at 11:17:46AM +0530, Kanchan Joshi wrote:
+> From: Jens Axboe <axboe@kernel.dk>
+> 
+> Add support for plugging in passthrough path. When plugging is enabled, the
+> requests are added to a plug instead of getting dispatched to the driver.
+> And when the plug is finished, the whole batch gets dispatched via
+> ->queue_rqs which turns out to be more efficient. Otherwise dispatching
+> used to happen via ->queue_rq, one request at a time.
+> 
+> Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  block/blk-mq.c | 73 +++++++++++++++++++++++++++-----------------------
+>  1 file changed, 39 insertions(+), 34 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 84d749511f55..2cf011b57cf9 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -2340,6 +2340,40 @@ void __blk_mq_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
+>  	blk_mq_hctx_mark_pending(hctx, ctx);
+>  }
+>  
+> +/*
+> + * Allow 2x BLK_MAX_REQUEST_COUNT requests on plug queue for multiple
+> + * queues. This is important for md arrays to benefit from merging
+> + * requests.
+> + */
+> +static inline unsigned short blk_plug_max_rq_count(struct blk_plug *plug)
+> +{
+> +	if (plug->multiple_queues)
+> +		return BLK_MAX_REQUEST_COUNT * 2;
+> +	return BLK_MAX_REQUEST_COUNT;
+> +}
+> +
+> +static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
+> +{
+> +	struct request *last = rq_list_peek(&plug->mq_list);
+> +
+> +	if (!plug->rq_count) {
+> +		trace_block_plug(rq->q);
+> +	} else if (plug->rq_count >= blk_plug_max_rq_count(plug) ||
+> +		   (!blk_queue_nomerges(rq->q) &&
+> +		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
+> +		blk_mq_flush_plug_list(plug, false);
+> +		trace_block_plug(rq->q);
+> +	}
+> +
+> +	if (!plug->multiple_queues && last && last->q != rq->q)
+> +		plug->multiple_queues = true;
+> +	if (!plug->has_elevator && (rq->rq_flags & RQF_ELV))
+> +		plug->has_elevator = true;
+> +	rq->rq_next = NULL;
+> +	rq_list_add(&plug->mq_list, rq);
+> +	plug->rq_count++;
+> +}
+> +
+>  /**
+>   * blk_mq_request_bypass_insert - Insert a request at dispatch list.
+>   * @rq: Pointer to request to be inserted.
+> @@ -2353,7 +2387,12 @@ void blk_mq_request_bypass_insert(struct request *rq, bool at_head,
+>  				  bool run_queue)
+>  {
+>  	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
+> +	struct blk_plug *plug = current->plug;
+>  
+> +	if (plug) {
+> +		blk_add_rq_to_plug(plug, rq);
+> +		return;
+> +	}
 
-I have not seen additional comments, I request your help
-in moving this further, please. If i have missed something,
-Please let me know.
+This way may cause nested plugging, and breaks xfstests generic/131.
+Also may cause io hang since request can't be polled before flushing
+plug in blk_execute_rq().
 
-Thanks
-sureshtk
-
+I'd suggest to apply the plug in blk_execute_rq_nowait(), such as:
 
 
-> Thanks
-> sureshtk
->
->
-> > thanks,
-> >
-> > greg k-h
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 2cf011b57cf9..60c29c0229d5 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1169,6 +1169,62 @@ static void blk_end_sync_rq(struct request *rq, blk_status_t error)
+ 	complete(waiting);
+ }
+ 
++/*
++ * Allow 2x BLK_MAX_REQUEST_COUNT requests on plug queue for multiple
++ * queues. This is important for md arrays to benefit from merging
++ * requests.
++ */
++static inline unsigned short blk_plug_max_rq_count(struct blk_plug *plug)
++{
++	if (plug->multiple_queues)
++		return BLK_MAX_REQUEST_COUNT * 2;
++	return BLK_MAX_REQUEST_COUNT;
++}
++
++static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
++{
++	struct request *last = rq_list_peek(&plug->mq_list);
++
++	if (!plug->rq_count) {
++		trace_block_plug(rq->q);
++	} else if (plug->rq_count >= blk_plug_max_rq_count(plug) ||
++		   (!blk_queue_nomerges(rq->q) &&
++		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
++		blk_mq_flush_plug_list(plug, false);
++		trace_block_plug(rq->q);
++	}
++
++	if (!plug->multiple_queues && last && last->q != rq->q)
++		plug->multiple_queues = true;
++	if (!plug->has_elevator && (rq->rq_flags & RQF_ELV))
++		plug->has_elevator = true;
++	rq->rq_next = NULL;
++	rq_list_add(&plug->mq_list, rq);
++	plug->rq_count++;
++}
++
++static void __blk_execute_rq_nowait(struct request *rq, bool at_head,
++		rq_end_io_fn *done, bool use_plug)
++{
++	WARN_ON(irqs_disabled());
++	WARN_ON(!blk_rq_is_passthrough(rq));
++
++	rq->end_io = done;
++
++	blk_account_io_start(rq);
++
++	if (use_plug && current->plug) {
++		blk_add_rq_to_plug(current->plug, rq);
++		return;
++	}
++	/*
++	 * don't check dying flag for MQ because the request won't
++	 * be reused after dying flag is set
++	 */
++	blk_mq_sched_insert_request(rq, at_head, true, false);
++}
++
++
+ /**
+  * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
+  * @rq:		request to insert
+@@ -1184,18 +1240,8 @@ static void blk_end_sync_rq(struct request *rq, blk_status_t error)
+  */
+ void blk_execute_rq_nowait(struct request *rq, bool at_head, rq_end_io_fn *done)
+ {
+-	WARN_ON(irqs_disabled());
+-	WARN_ON(!blk_rq_is_passthrough(rq));
+-
+-	rq->end_io = done;
+-
+-	blk_account_io_start(rq);
++	__blk_execute_rq_nowait(rq, at_head, done, true);
+ 
+-	/*
+-	 * don't check dying flag for MQ because the request won't
+-	 * be reused after dying flag is set
+-	 */
+-	blk_mq_sched_insert_request(rq, at_head, true, false);
+ }
+ EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
+ 
+@@ -1234,7 +1280,7 @@ blk_status_t blk_execute_rq(struct request *rq, bool at_head)
+ 	unsigned long hang_check;
+ 
+ 	rq->end_io_data = &wait;
+-	blk_execute_rq_nowait(rq, at_head, blk_end_sync_rq);
++	__blk_execute_rq_nowait(rq, at_head, blk_end_sync_rq, false);
+ 
+ 	/* Prevent hang_check timer from firing at us during very long I/O */
+ 	hang_check = sysctl_hung_task_timeout_secs;
+@@ -2340,40 +2386,6 @@ void __blk_mq_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
+ 	blk_mq_hctx_mark_pending(hctx, ctx);
+ }
+ 
+-/*
+- * Allow 2x BLK_MAX_REQUEST_COUNT requests on plug queue for multiple
+- * queues. This is important for md arrays to benefit from merging
+- * requests.
+- */
+-static inline unsigned short blk_plug_max_rq_count(struct blk_plug *plug)
+-{
+-	if (plug->multiple_queues)
+-		return BLK_MAX_REQUEST_COUNT * 2;
+-	return BLK_MAX_REQUEST_COUNT;
+-}
+-
+-static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
+-{
+-	struct request *last = rq_list_peek(&plug->mq_list);
+-
+-	if (!plug->rq_count) {
+-		trace_block_plug(rq->q);
+-	} else if (plug->rq_count >= blk_plug_max_rq_count(plug) ||
+-		   (!blk_queue_nomerges(rq->q) &&
+-		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
+-		blk_mq_flush_plug_list(plug, false);
+-		trace_block_plug(rq->q);
+-	}
+-
+-	if (!plug->multiple_queues && last && last->q != rq->q)
+-		plug->multiple_queues = true;
+-	if (!plug->has_elevator && (rq->rq_flags & RQF_ELV))
+-		plug->has_elevator = true;
+-	rq->rq_next = NULL;
+-	rq_list_add(&plug->mq_list, rq);
+-	plug->rq_count++;
+-}
+-
+ /**
+  * blk_mq_request_bypass_insert - Insert a request at dispatch list.
+  * @rq: Pointer to request to be inserted.
+@@ -2387,12 +2399,7 @@ void blk_mq_request_bypass_insert(struct request *rq, bool at_head,
+ 				  bool run_queue)
+ {
+ 	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
+-	struct blk_plug *plug = current->plug;
+ 
+-	if (plug) {
+-		blk_add_rq_to_plug(plug, rq);
+-		return;
+-	}
+ 	spin_lock(&hctx->lock);
+ 	if (at_head)
+ 		list_add(&rq->queuelist, &hctx->dispatch);
+
+
+Thanks,
+Ming
+
 
