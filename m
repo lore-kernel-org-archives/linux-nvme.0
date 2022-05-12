@@ -4,146 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83C36C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 May 2022 08:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 822F8C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 May 2022 08:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bcQUGEOYxh1F+fPPVuVF7v9JJMrxdFG/aSzlmGfkeVw=; b=rq3JRTNvJ/q7dU
-	oSHzzeeZ2FHe2xT2wIBAvZNv1q4YTFTY7WTFzo2ZVPaCBcnYywEhWlHlwlnQQSInwwYkwz8XilCVE
-	2hqZn9BHq0cE8s7BXws33sKaoSYrTaqkolRGDtFes5BuJ07KMshUmbC5ym/S3yKgKU5cIh++dPM40
-	kIV3p40QkeJI27cJWhov2q3L+4UtYbxP+MrpWDWIX08sGnxraSgAKGO4o2w2NppP2jwfqGTm7YGmY
-	BDdd/kQctw494kJqLT6QZSMRNYsnExDnTwn2YSEe/Oh6l++1S6bbBDCRgPUQVmft2m2gX6TgCxPSL
-	KuaPl584uaYJnOZ09Bow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=c8Uv33sQzQ6sncxKZAh6lI3KSUSZf2EKQdApwYwgjD4=; b=SNN/HpMBscn3cevzszLX/PvEPL
+	kn0vVxrZlw5MZv4pgaGC+zSYSBZOC110fGGafhitGGItsRbbRkQHbgtVckq1p6n4RUdeBr0d1gef1
+	/qclLPFiQ8vivGkjQcLOjch30dO7QGQLfG06Cv42VkADs/ZypwiaoNzx7eFPz5GlYp+CIKPlr4LRE
+	suEhNTuPkjShoukUY747CkAJXLTUNtPrDQgjABVzPDajFIodk3zGyDV8tWjefJnHy31E/C3swiarN
+	wYV+2A3NrwyUWGLgbCB6wbTILGhJfsdy8vGJePDi7ELOwG6W0cgqQRN7cHl/bfhJWcSN8e162Zraz
+	MKTzZmgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1np4Ar-00Az1C-Q3; Thu, 12 May 2022 08:27:53 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1np4RC-00B2dD-D6; Thu, 12 May 2022 08:44:46 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1np4Ao-00AytI-4Q
- for linux-nvme@lists.infradead.org; Thu, 12 May 2022 08:27:52 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220512082744euoutp029f4751e5fe6d4580ec48c73346a1c907~uTiwk88if0587005870euoutp02B
- for <linux-nvme@lists.infradead.org>; Thu, 12 May 2022 08:27:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220512082744euoutp029f4751e5fe6d4580ec48c73346a1c907~uTiwk88if0587005870euoutp02B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1652344064;
- bh=bcQUGEOYxh1F+fPPVuVF7v9JJMrxdFG/aSzlmGfkeVw=;
- h=Date:Subject:To:From:In-Reply-To:References:From;
- b=TSTcRN3R6F//FYbixMQEqpOXA5AWNVgyqkFgwdz2s4LmlMRGXKTx/6P987tpkh8GL
- AXYJzExCXrOjw1VOD/D2IKfrgV4sH1fv/kEPNhkqUaNQoiU+fICDr0l9of7QxSnguR
- yGT/Pdfk/ZXallIvNKAgMz92PUxEwUEgPA4+K5Qg=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220512082744eucas1p210240bbd37977d1995224e1d7664d7f5~uTiv_AvZs2198321983eucas1p2Z;
- Thu, 12 May 2022 08:27:44 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 72.63.10009.FF4CC726; Thu, 12
- May 2022 09:27:44 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220512082743eucas1p2f2b8253db08a3cb212836fe634463f62~uTivLCT1p0648106481eucas1p2C;
- Thu, 12 May 2022 08:27:43 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220512082743eusmtrp13402dfcd903ac73c80eb6204db4fc67d~uTivJvnJU0978209782eusmtrp1N;
- Thu, 12 May 2022 08:27:43 +0000 (GMT)
-X-AuditID: cbfec7f2-e7fff70000002719-49-627cc4ff5507
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 6F.C5.09404.FF4CC726; Thu, 12
- May 2022 09:27:43 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220512082743eusmtip1bfefa8841eba10cbdcaa7e99628c0ca6~uTiu_ZXg31785317853eusmtip1f;
- Thu, 12 May 2022 08:27:43 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.174) by CAMSVWEXC01.scsc.local
- (106.1.227.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 12 May
- 2022 09:27:40 +0100
-Message-ID: <ccf73bfc-48a5-e5e7-2588-02f455c16f79@samsung.com>
-Date: Thu, 12 May 2022 10:27:38 +0200
+ id 1np4RA-00B2bw-7z
+ for linux-nvme@lists.infradead.org; Thu, 12 May 2022 08:44:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652345083;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c8Uv33sQzQ6sncxKZAh6lI3KSUSZf2EKQdApwYwgjD4=;
+ b=ZAQV5MkHJ8qEAGWIGqsrXQfdTLHHP5ctlyf4G8qDIYojuMhyPw/pSmWiiQXtWqcbTyJ0Ps
+ XEZVCfhufc/ehqvj7ETPLKyHu+3ISc5Xy6JBy6nuH1cO3O4DU4gGtid5XN1okyKmpQVC5k
+ IBxZuwufnJ5OxLZZ70LGhRmFvHBgGNk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-292-HPDrJzHyN6mGuunDkRHdWQ-1; Thu, 12 May 2022 04:44:41 -0400
+X-MC-Unique: HPDrJzHyN6mGuunDkRHdWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 51ED43C161A6;
+ Thu, 12 May 2022 08:44:40 +0000 (UTC)
+Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E4BFCC28106;
+ Thu, 12 May 2022 08:44:33 +0000 (UTC)
+Date: Thu, 12 May 2022 16:44:28 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk,
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ asml.silence@gmail.com, mcgrof@kernel.org, shr@fb.com,
+ joshiiitr@gmail.com, anuj20.g@samsung.com, gost.dev@samsung.com
+Subject: Re: [PATCH v5 2/6] block: wire-up support for passthrough plugging
+Message-ID: <YnzI7CgI+KOHNKPb@T590>
+References: <20220511054750.20432-1-joshi.k@samsung.com>
+ <CGME20220511055310epcas5p46650f5b6fe963279f686b8f50a98a286@epcas5p4.samsung.com>
+ <20220511054750.20432-3-joshi.k@samsung.com>
+ <YnyaRB+u1x6nIVp1@T590> <20220512080912.GA26882@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 11/11] dm-zoned: ensure only power of 2 zone sizes
- are allowed
-Content-Language: en-US
-To: <dsterba@suse.cz>, <jaegeuk@kernel.org>, <hare@suse.de>,
- <dsterba@suse.com>, <axboe@kernel.dk>, <hch@lst.de>,
- <damien.lemoal@opensource.wdc.com>, <snitzer@kernel.org>, Chris Mason
- <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, <bvanassche@acm.org>,
- <linux-fsdevel@vger.kernel.org>, <matias.bjorling@wdc.com>, Jens Axboe
- <axboe@fb.com>, <gost.dev@samsung.com>, <jonathan.derrick@linux.dev>,
- <jiangbo.365@bytedance.com>, <linux-nvme@lists.infradead.org>,
- <dm-devel@redhat.com>, Naohiro Aota <naohiro.aota@wdc.com>,
- <linux-kernel@vger.kernel.org>, Johannes Thumshirn <jth@kernel.org>, "Sagi
- Grimberg" <sagi@grimberg.me>, Alasdair Kergon <agk@redhat.com>,
- <linux-block@vger.kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, "Keith
- Busch" <kbusch@kernel.org>, <linux-btrfs@vger.kernel.org>, Luis Chamberlain
- <mcgrof@kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220511160001.GQ18596@twin.jikos.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.174]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (106.1.227.71) To
- CAMSVWEXC01.scsc.local (106.1.227.71)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbZRTGee+9vb10dF5aDG+AbJGpceDqcGhePyBDl+xui0acoiHRWdi1
- EPmyhemEuWLLdB0CK4ij1EERNlYYFLrx0QEllcLGxyBCldaNiVDZMIMpIw5KwHV3M/z3O895
- npNz3rwULmojg6jktExWniZNCSUFREvv0tVtPvachO2TywA19vfiaK2jl0R11wtJVHpnCUfa
- wlN85BkaxlHnXDkPjdzLxdCPnn8J1FGlxdC5OjuGpht1OMrvvkOgc+pJHK1MRqDJuy4CaW2/
- AOR26DDU6QpHP0/V8lFH5xUCjVr0JKo44+ajomOLOBovcgN0ss/MQw1/zRPosit4ZwgzOraP
- Wb1cTzInVXN8ZniiiWBGh7KYZuNxkjEov8MZc/VR5pJTSTLfquZIpj3vBo+Z73KQTOMFB8EM
- VvbwGfNANlNkbuK9JYoXvHqQTUk+xMqfi/5IkKSsWyMyfn3s8+uGHlwJjH4a4EtBOhLmzS3g
- GiCgRHQtgBbNTxhX3AXQplc97CwAqHJ+hT2KqFa7Sa5xFsCatTO8/133NC6CKxoA7DCd5nkj
- Qjoa3qq/8YAJ+ilY0d6Ncbo/vFI2TXj5cfp9WKobJL0spt+DPfZK3Ms4HQhd0xUPlgqgHSRU
- a/+8P4iiSDoM5h7nez2+9A64WDDG4/xbYV6rh8/xZth6W49za2+B8793Ed4opBOhqSzOOxLS
- TgE0nLWQnL4LzkwBzi6Gs30X+ByHwIHifILjbOge9+BcVg1gYXvjw+wrsGAwhfPEwCrXTcDJ
- G+H4bX9um41Q2/I9zslC+M0xURF4UrfuHXTr7tWtu0W37pZKQBhBIJulSJWxiog09jOJQpqq
- yEqTSRLTU5vB/c89sNr3Txv4YfZviQ1gFLABSOGhAcIcVU6CSHhQevgLVp5+QJ6VwipsIJgi
- QgOFickmqYiWSTPZT1g2g5U/6mKUb5ASA+eXwsq2+njKu0eGq3UXp5ZbY63Ni2O1y3HgCVbj
- bLKQ0S/EZYs3r+2rP+TvMEVVTGaPGjX1kS+fV7z49ErXM0mZE8E7BFUluTVDp1SdbWXxE5KS
- I7S8tOFNy5du+d5rf/iJZ4YNixuuRvXfutiUkO77m7JvWzj5vPXmjCH2w+LxnreXrtXsrCuO
- DSlsWZAF7I80B0ZZXypc2ZSoFB3doNDq+itLiBODl/bsza8pf3agS5yqV5+mw09YVPyPqzG/
- uLT4GPsRsP2DgLUt4gOicacftVvisztpVvWu1WTd//XryQUx1rBdvHdes0fI7EYTfKMgd1Uf
- NO08nPGpWjMysimUUCRJI8JwuUL6H+ryAfNLBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsVy+t/xu7r/j9QkGTx9zW2x/tQxZov/e46x
- Way+289mMe3DT2aLSf0z2C1+nz3PbLH33WxWiws/GpksFv/+zmKxZ9EkJouVq48yWTxZP4vZ
- oufABxaLlS0PmS3+PDS0ePjlFovFpEPXGC2eXp3FZLH3lrbFpccr2C327D3JYnF51xw2i/nL
- nrJbTGj7ymxxY8JTRouJxzezWqx7/Z7F4sQtaQcZj8tXvD3+nVjD5jGx+R27x/l7G1k8Lp8t
- 9di0qpPNY2HDVGaPzUvqPXbfbGDz6G1+x+axs/U+q8f7fVfZPNZvucricWbBEXaPzaerPSZs
- 3sgaIBSlZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5eg
- l9Gw+j9LwXX+irsLjzA3MK7i6WLk5JAQMJFo/neArYuRi0NIYCmjxNIT19khEjISn658hLKF
- Jf5c64Iq+sgoMW33J3YIZx2jxNSDzUwgVbwCdhIv19xnBbFZBFQl5u88ABUXlDg58wkLiC0q
- ECHxYPdZsBphgXCJNW+3MILYzALiEreezGcCGSoicJVNomXSM1aIDUeZJG7c/QGU4eBgE9CS
- aOwEO4lTwFjia98VVohmTYnW7b/ZIWx5ie1v5zBDnK0s8f7BPhaQVgmBZIm/t8InMIrMQnLS
- LCSrZyGZNAvJpAWMLKsYRVJLi3PTc4uN9IoTc4tL89L1kvNzNzECU9u2Yz+37GBc+eqj3iFG
- Jg7GQ4wSHMxKIrw1zTVJQrwpiZVVqUX58UWlOanFhxhNgeEykVlKNDkfmFzzSuINzQxMDU3M
- LA1MLc2MlcR5PQs6EoUE0hNLUrNTUwtSi2D6mDg4pRqYuvw99x1vyK9R2L3wzbYVqwueKR4S
- e+ml/OeK/c0O0auWObJLpY01hTw4rnxbeTArZucvn2uq/+SbvM+IpbkuZlVvMPvUcWDnq3eH
- p/sseyR5uPelf923r8kzpVhFFxoGfbRk/ntx/9GMG9ZM6R91zbf/clQ5zXS2oKt82Ym/GjPd
- 1vhwbFI+8d1Y+bTN4wzrSY+vbbDn9JY+czj7hd9ErqZ1nJuqzrWbC02Oi7m66aEQ533vpc7x
- TNW/ZXgL5OO27FTO+W5t0qG5smEpK4vEnLRK9wXbstIm74hfLtmqsLCnkGOpmKPiz7CV6lw+
- 931mXevo1a2ec9+4tnjRtgX1RzZ2HXLm4/2T8LP+4UdRJZbijERDLeai4kQAhjJCOvYDAAA=
-X-CMS-MailID: 20220512082743eucas1p2f2b8253db08a3cb212836fe634463f62
-X-Msg-Generator: CA
-X-RootMTR: 20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a
-References: <20220506081105.29134-1-p.raghav@samsung.com>
- <CGME20220506081118eucas1p17f3c29cc36d748c3b5a3246f069f434a@eucas1p1.samsung.com>
- <20220506081105.29134-12-p.raghav@samsung.com>
- <20220509185432.GB18596@twin.jikos.cz>
- <d8e86c32-f122-01df-168e-648179766c55@samsung.com>
- <20220511160001.GQ18596@twin.jikos.cz>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512080912.GA26882@lst.de>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220512_012750_636087_77CF0F3D 
-X-CRM114-Status: GOOD (  24.49  )
+X-CRM114-CacheID: sfid-20220512_014444_402429_C028A26F 
+X-CRM114-Status: GOOD (  15.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,51 +83,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->>>> +	zone_sectors = bdev_zone_sectors(bdev);
->>>> +
->>>> +	if (!is_power_of_2(zone_sectors)) {
->>>
->>> is_power_of_2 takes 'unsigned long' and sector_t is u64, so this is not
->>> 32bit clean and we had an actual bug where value 1<<48 was not
->>> recognized as power of 2.
->>>
->> Good catch. Now I understand why btrfs has a helper for is_power_of_two_u64.
->>
->> But the zone size can never be more than 32bit value so the zone size
->> sect will never greater than unsigned long.
+On Thu, May 12, 2022 at 10:09:12AM +0200, Christoph Hellwig wrote:
+> On Thu, May 12, 2022 at 01:25:24PM +0800, Ming Lei wrote:
+> > This way may cause nested plugging, and breaks xfstests generic/131.
+> > Also may cause io hang since request can't be polled before flushing
+> > plug in blk_execute_rq().
 > 
-> We've set the maximum supported zone size in btrfs to be 8G, which is a
-> lot and should be sufficient for some time, but this also means that the
-> value is larger than 32bit maximum. I have actually tested btrfs on top
-> of such emaulated zoned device via TCMU, so it's not dm-zoned, so it's
-> up to you to make sure that a silent overflow won't happen.
+> Looking at this again, yes blk_mq_request_bypass_insert is probably the
+> wrong place.
 > 
+> > I'd suggest to apply the plug in blk_execute_rq_nowait(), such as:
+> 
+> Do we really need the use_plug parameter and the extra helper?  If
+> someone holds a plug over passthrough command submission I think
+> we can assume they actually do want to use it.  Otherwise this does
+> indeed look like the better plan.
 
-bdev_zone_sectors is used in this case and not the actual size in bytes.
-So the zone size need to be 2TB for the sectors value to cross the 32bit
-limit. This is likely not an issue in the near future.
+use_plug is just for avoiding hang in blk_rq_poll_completion(), so
+I think we can bypass plug if one polled rq is executed inside
+blk_execute_rq().
 
->> With that said, we have two options:
->>
->> 1.) We can put a comment explaining that even though it is 32 bit
->> unsafe, zone size sect can never be a 32bit value
-> 
-> This is probably part of the protocol and specification of the zoned
-> devices, the filesystem either accepts the spec or makes some room for
-> larger values in case it's not too costly.
-> 
->> or
->>
->> 2) We should move the btrfs only helper `is_power_of_two_u64` to some
->> common header and use it everywhere.
-> 
-> Yeah, that can be done independently. With some macro magic it can be
-> made type-safe for any argument while preserving the 'is_power_of_2'
-> name.
-But I agree with your point that we need a type safe power of 2
-implementation in a common header so that we can avoid silent overflows
-in 32 bit architectures.
 
-I will keep the change as is in this patch and follow up on the type
-safe power of 2 later independently. Thanks.
+Thanks,
+Ming
+
 
