@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1F9BC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 May 2022 11:01:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2590EC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 May 2022 11:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uGswQ0aP97Suern/pqvhLGTEOIpF5J5h2MoXW5LuuBU=; b=SxM2iXXdUWaulY2dQHXwAPAVLq
-	FljTWQILyM10pbg9qCQeeLPTSp24UOHNEFThWmvvIBk3oM3U6SKCueAMnq0ToM97vIuP235jakdAd
-	5/cZQVZZS/3GlcQOnZ12M6MVxpLJUHROU6p/RwsrlQqGXskuFJH+2haaa9SXSfLxS4LA+8VpjUxw7
-	91k3dvO5mSlaAwa+9iPoYGQXRLjZlE6NYowavH5PqxWLYiTzCTAABVrtRJsmNeUBFZK4UtLKhedve
-	9iIfoX11W9eGrGy5KaKLCf597D5poby+CUVR/sYruqsP4EKOEgflmJkE9LmrIaot31X37sUR4T5KF
-	lKMklFyA==;
+	bh=ZsD7LJRkuECyYX1jGlfTiXHU1Ijh0jPTLQ2k9fUhrL4=; b=1eEGTv3cCFCToEjUnxDzfeU9n/
+	pRfaaaf4jGPNJgD6th3T24X0NNn9sUReYvfNi+TJXx5HDFhELz+BUxMInCdiXVqE+a5uUqzYxTZxp
+	Z2mESqQ4HFEBe3SOOrV/RbwYfSmEpC6NCtzdXnIHdk7nhYH030mJfLHLbJcxhtgvzbuXHmKcIUEsV
+	yTOsI+uP5wJEYlxLHCBWWywJL23MyEEE2ntOA2DWFaPL+3CRO6YywLQj2KalIPKq7XjukjyUGIVCp
+	nK3ZYCd7qfv1YE187DAwdNcdT/sJOkwTkRKGGX6FhvAfaXAyA6YhhlIY7T77IgtVw2XJBUHoVk4Kn
+	tMiDKqNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1npT2e-00FgWv-H7; Fri, 13 May 2022 11:01:04 +0000
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+	id 1npT2n-00FgcI-6A; Fri, 13 May 2022 11:01:13 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1npT2Y-00FgSY-9M
- for linux-nvme@lists.infradead.org; Fri, 13 May 2022 11:00:59 +0000
-Received: by mail-pl1-x631.google.com with SMTP id i1so7590850plg.7
- for <linux-nvme@lists.infradead.org>; Fri, 13 May 2022 04:00:55 -0700 (PDT)
+ id 1npT2e-00FgVw-FT
+ for linux-nvme@lists.infradead.org; Fri, 13 May 2022 11:01:06 +0000
+Received: by mail-pf1-x429.google.com with SMTP id p12so7432548pfn.0
+ for <linux-nvme@lists.infradead.org>; Fri, 13 May 2022 04:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uGswQ0aP97Suern/pqvhLGTEOIpF5J5h2MoXW5LuuBU=;
- b=ZF7r2l+HwxQm5PA8mve2cF+rBwKjnM+0fSfGGdoNA3T0LJdycXkCGWLrykpa8sL/oD
- 08lIP8dZt0wAe2tK+75oTRz1risNDIOCOSiRaW+GZokpCuhe+9MrL2YynteMMnYHDR3H
- ItIDcdINQ82V0AG+st+raJapxxBHOih2yAPagaFk64puhsJ/iztuWI2Rf4eKJ19ZFuSX
- YL/pLIatMsl2o8QBgjy0eNGResBVvt2NP3Y80kDYZiv7AA+gsRPYm0wGgSd7CPa4mYRN
- F4q7pPFCxNNeVHCsbD+3J+hjPwmsRQyClY9uud0L4zXlaFzZ+hz0uXVv3kgKtKaDXw60
- Pa+Q==
+ bh=ZsD7LJRkuECyYX1jGlfTiXHU1Ijh0jPTLQ2k9fUhrL4=;
+ b=QiA79YYEX5J9Cz/ubTy3uRnX00TKZfSieKIylSPlqoMh6cybvG0v6NWiRbpuIbSfd4
+ Sg6gFMhz4XRhjovPrMvP4JHa9cpy1RtHVD3W8ZH5nonlK8GBPfG8TZM1Oigbjd8ktjPu
+ I5ajvo1NSSx0d6NQj58DvBg+rOuoKgiDFSFGVMJLmenRCGPLdU/EjXWFZJlTcNUvWUK/
+ 4nvf5UFYfVAZPPDC1sApcVOtsIfEl16Wn32QPMG9AxzU3sBwVPoi6wTjYWscLKHSqWCF
+ GJjkosFZBfUJYOhl5VXrovgcrSniLe7jdBcmGv4ChD7xvrbSJSnxKcsgLoV67XeoRTD/
+ 4gTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uGswQ0aP97Suern/pqvhLGTEOIpF5J5h2MoXW5LuuBU=;
- b=EFVOq3/ci0FKP2fuMb5h/PqKPy3eKAI4Q0RJ0eW3pynhl0BgXCivHaAxUKCMZBGW2J
- Bsmv6t6LTWYvh+nGEOTjcbbTBRwyDQP4juYbiT34UofBml/cmUX12XafMTT6aKCxect4
- YjAC/MT1Sp980cm9BrP52Qw6nHBYQyMJ42jmh7T7vdyocRKPsUO+ySjjsFsOFhD+EE2P
- eAfAJxb/WKzoNt3Fghdzsym3Veh/b57krS6N+Xc5hQDl2c5DOKwl/bRywxlXnbJ57/LU
- ATNZQDpgZdLqlxFa920hUkCobTteBd+h4TDYxoetBcvMcO/EiGAKAJN1EYTT2pCnHNwQ
- lf9w==
-X-Gm-Message-State: AOAM532ogMO/4/4U51pzARpoOoPUlTrSdZwudBxb+pcoyvT0Q+/Alsm6
- KGYpzaxz6oc9GMd4hBJrx47J
-X-Google-Smtp-Source: ABdhPJyTPQtQvf4t/ey8cvG54O7pCIiYbK85D35VbK5tYExzPBijKVc7qymid6BgehggfTgPgOcVnw==
-X-Received: by 2002:a17:902:7586:b0:15e:c2fe:bad0 with SMTP id
- j6-20020a170902758600b0015ec2febad0mr3948667pll.72.1652439654573; 
- Fri, 13 May 2022 04:00:54 -0700 (PDT)
+ bh=ZsD7LJRkuECyYX1jGlfTiXHU1Ijh0jPTLQ2k9fUhrL4=;
+ b=WyXrKPbSFsGsqoTV5ONuy2B3WoadxoVxeRxHH5m/zQokzpqvgrPTRaE1IxkhCBk+mz
+ dFNgRE1dKvY+krLJ03PRFWeA36YDr6quiPyIIyjqjq+HZWQa6T8pNbr0ibAkpZ3YYvd+
+ 5PUmMdnJde6c5wsZqTfiuVt6J6Mo6kF37uQE7aNS3odkq+rD2OVYiSVAI1VePL6FNsmo
+ yUFzuy3gmjQxAubX0WPv5YU9vhAHhq+MC3w3Sj+5LfuPUXky+Q83X5L8E3AdAyu8yw3U
+ 8euMdZbxCWbgYYWnibpACHzPwFHHpcjmsfnuDCmUiFrxAl7ujMEKAdb2kdY4I0SeQIPa
+ xjcA==
+X-Gm-Message-State: AOAM532Y/5I7rrSoWAHA2p+TBOuHIkW8A46OzlfTKMZW5bNxLz+X/smb
+ 1r75sfLIFL+b6WHtkcn4/IJG
+X-Google-Smtp-Source: ABdhPJy6supPwd4jHaESPrjZJsyad5J2wl3TDO2EQ8PzZO62JGRs3jBDxNtnqMckk0JHMD7+cNctsA==
+X-Received: by 2002:a63:8143:0:b0:3da:eb5e:2833 with SMTP id
+ t64-20020a638143000000b003daeb5e2833mr3514458pgd.426.1652439661640; 
+ Fri, 13 May 2022 04:01:01 -0700 (PDT)
 Received: from localhost.localdomain ([117.202.184.202])
  by smtp.gmail.com with ESMTPSA id
- u36-20020a631424000000b003db0f2d135esm1322120pgl.49.2022.05.13.04.00.48
+ u36-20020a631424000000b003db0f2d135esm1322120pgl.49.2022.05.13.04.00.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 04:00:54 -0700 (PDT)
+ Fri, 13 May 2022 04:01:01 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org,
  hch@lst.de
@@ -68,18 +68,17 @@ Cc: linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
  quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
  quic_nitirawa@quicinc.com, vidyas@nvidia.com, sagi@grimberg.me,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 1/3] PCI: Add a flag to notify PCI drivers about powerdown
- during suspend
-Date: Fri, 13 May 2022 16:30:25 +0530
-Message-Id: <20220513110027.31015-2-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 2/3] PCI: dwc: qcom: Set suspend_poweroff flag for SC7280
+Date: Fri, 13 May 2022 16:30:26 +0530
+Message-Id: <20220513110027.31015-3-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220513110027.31015-1-manivannan.sadhasivam@linaro.org>
 References: <20220513110027.31015-1-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220513_040058_370034_43A62D81 
-X-CRM114-Status: GOOD (  13.02  )
+X-CRM114-CacheID: sfid-20220513_040104_565301_4D1F18D8 
+X-CRM114-Status: GOOD (  12.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,33 +93,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On some systems like Chromebooks based on Qcom chipsets, the OS may
-powerdown all PCIe devices during system suspend for aggressive
-powersaving. In that case, the PCI host controller drivers need to notify
-the PCI device drivers that the power will be taken off during system
-suspend so that the drivers can prepare the devices accordingly.
-
-One prime example is the PCI NVMe driver. This flag can be used by the
-driver to shutdown the NVMe device during suspend and recover it during
+For aggressive power saving on SC7280 SoCs, the power for the PCI devices
+will be taken off during system suspend. Hence, notify the same to the
+PCI device drivers using "suspend_poweroff" flag so that the drivers can
+prepare the PCI devices to handle the poweroff and recover them during
 resume.
 
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- include/linux/pci.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/pci/controller/dwc/pcie-qcom.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 60adf42460ab..069caf1fe88d 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -578,6 +578,7 @@ struct pci_host_bridge {
- 	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
- 	unsigned int	size_windows:1;		/* Enable root bus sizing */
- 	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
-+	unsigned int	suspend_poweroff:1;	/* OS may poweroff devices during system suspend */
+diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+index 6ab90891801d..4b0ad2827f8f 100644
+--- a/drivers/pci/controller/dwc/pcie-qcom.c
++++ b/drivers/pci/controller/dwc/pcie-qcom.c
+@@ -199,6 +199,7 @@ struct qcom_pcie_cfg {
+ 	unsigned int has_ddrss_sf_tbu_clk:1;
+ 	unsigned int has_aggre0_clk:1;
+ 	unsigned int has_aggre1_clk:1;
++	unsigned int suspend_poweroff:1;
+ };
  
- 	/* Resource alignment requirements */
- 	resource_size_t (*align_resource)(struct pci_dev *dev,
+ struct qcom_pcie {
+@@ -1220,6 +1221,10 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
+ 	if (pcie->cfg->pipe_clk_need_muxing)
+ 		clk_set_parent(res->pipe_clk_src, res->ref_clk_src);
+ 
++	/* Indicate PCI device drivers that the power will be taken off during system suspend */
++	if (pcie->cfg->suspend_poweroff)
++		pci->pp.bridge->suspend_poweroff = true;
++
+ 	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
+ 	if (ret < 0)
+ 		goto err_disable_regulators;
+@@ -1548,6 +1553,7 @@ static const struct qcom_pcie_cfg sc7280_cfg = {
+ 	.ops = &ops_1_9_0,
+ 	.has_tbu_clk = true,
+ 	.pipe_clk_need_muxing = true,
++	.suspend_poweroff = true,
+ };
+ 
+ static const struct dw_pcie_ops dw_pcie_ops = {
 -- 
 2.25.1
 
