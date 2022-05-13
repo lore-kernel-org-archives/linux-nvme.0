@@ -4,82 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA51BC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 May 2022 11:01:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9A5DC433FE
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 May 2022 15:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rZc+ZqV9Fkq91rBB6JPn5eaAWDfpttSNOSYA1C21ZVY=; b=RwlNV+65Hgnlut0YYBewcKqkHL
-	f346KlA6pZKTaROt6OGIWt8mj6sB1hxvwb6n1tAp/9dJJT6XvWdcKAJiun5kTPHI5n/SySCzn9CBG
-	+NV8BpwJ9JAyfHpj2O0Mlx4eVuMjS0zRAIxK9exeROh8ijBcXJNJUQFnHcJhFh68OqhvKAtJEJLL1
-	tbpWKOio71eT3KlLCt5IHpvEbM22xWu+NcrY6YP584VoPWWTuEhaPm2u/yKFBhCfEVcfIgHBEEDS2
-	M9mxr0CZEZdC3CFvaf8pZaehRE7to9JiwAioBUWXDIMCE8rbq4x8FrEos0vlTmkHyEAWZKuWqSJId
-	+0iD90lQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=sXL5vCuOHERqD8QfiuBvDX7W6XxrlWnlAHkj0d/1sx8=; b=jNi5zZ8iOJxorI4boRzqqGvgbD
+	3d3X2kCOACAl+krArp+kQmcRoAKr5oGy7jwyyrGCJML0EFybihaToDCR2EJ7VKAwTGGlIYg+LaYuN
+	JUc+RzLUkRELLBl/3BMjTy6yffs8DmrjOfFeQaxKZh7N6IgEDCOf5W5L2lHbZ8HDZlw3VIuxOq9Ve
+	Jv18zcV9c5NQCZAj5gDZdDPvNC2t2mnc3u1xROdEc0TS4PVTseqFa8eflhwIhKkAfW6Y1GOkuCfWA
+	owEjMHBQVEk0Fyp5X43dvD4d98wNyFd0psncPHpZsYW4NFJNsX4fKOqLdUrzQOQ8WXRV9JGLb3mUz
+	/JN//f3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1npT2y-00FgiP-Bs; Fri, 13 May 2022 11:01:24 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1npXbO-00GloT-4G; Fri, 13 May 2022 15:53:14 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1npT2k-00FgZg-HB
- for linux-nvme@lists.infradead.org; Fri, 13 May 2022 11:01:11 +0000
-Received: by mail-pl1-x629.google.com with SMTP id n18so7594296plg.5
- for <linux-nvme@lists.infradead.org>; Fri, 13 May 2022 04:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rZc+ZqV9Fkq91rBB6JPn5eaAWDfpttSNOSYA1C21ZVY=;
- b=pPqBmjnZOoOPlVo0vS3Kq5A1Li96cT/0G84V1o8+RlSNVv7m0HEuPeYvCLSi1nkYoC
- gwTrsOZWLoI+dCHJyxAVf1jg/Hd4WNlFvDvYxmSNF6G6A6m1W3OpWNA5nH8SwZDn0ZGB
- WkTWI60LUZ6oZUKzdcUm0jJIUhayWiBdAR8zv2fsdYbsyNVpkbOowyf/peNBHj3ShshC
- hzONZ0Y92wEv13CmZ1vpoL2VdNLp7mf+h8rkZPXzOK2F5NY/bNIjJqQPbmUtg6RrFI+W
- ClCWj6S5Md5mPvHMMsA9g5485z2ewbeXK1NmqZCNpto4oV04yglFWSJVHnqziIA+yV0A
- spqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rZc+ZqV9Fkq91rBB6JPn5eaAWDfpttSNOSYA1C21ZVY=;
- b=AnV5AdUyUUD2YoJQVheJ3sbqfNI64sTdWbYb/eZYbzplO+kfs+LCEK2z0XVecxBGA8
- 9okSJXfpKQ43mIEh8/NsJljf5HflGbMX0dq3eQNwIj/dIr/2M451NLsTO5bM9lFPABBy
- +ifLyzAq0QjbLbehkA2jreVRgT3AujIeO5k6uVWUPlbYvhKJCm9m0P8B5MhDY1Jsxmo9
- /OxMJYjKSI3f389X+ycdQPGJ8hErnqE6ICM/9NG8BaZM4rbj6FRW1O98oQjnlejg8f70
- IjH0WRXN0C40i93Z378eovPGm8vgNRgnWeSNAhoU6+mSTbkld4fB0DoNwbzlxLgzusU3
- rV8Q==
-X-Gm-Message-State: AOAM532eg2HU89BlIHY291UadmRSafgMFaJoDTbe1kA6iY9LcG8Mh1np
- AlRQtTrGuJOHUCvsQwdiJP/G
-X-Google-Smtp-Source: ABdhPJwD0Z+7FM+VHC2wrC77McNhcou7ndf9igJr4nAQPy42aOvFNAEgKU/2wJsekaBdW4P9tQhvCQ==
-X-Received: by 2002:a17:90b:1bc2:b0:1de:dac7:6124 with SMTP id
- oa2-20020a17090b1bc200b001dedac76124mr8423475pjb.162.1652439668454; 
- Fri, 13 May 2022 04:01:08 -0700 (PDT)
-Received: from localhost.localdomain ([117.202.184.202])
- by smtp.gmail.com with ESMTPSA id
- u36-20020a631424000000b003db0f2d135esm1322120pgl.49.2022.05.13.04.01.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 May 2022 04:01:08 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org,
- hch@lst.de
-Cc: linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- svarbanov@mm-sol.com, bjorn.andersson@linaro.org, axboe@fb.com,
- quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
- quic_nitirawa@quicinc.com, vidyas@nvidia.com, sagi@grimberg.me,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 3/3] nvme-pci: Make use of "suspend_poweroff" flag during
- system suspend
-Date: Fri, 13 May 2022 16:30:27 +0530
-Message-Id: <20220513110027.31015-4-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220513110027.31015-1-manivannan.sadhasivam@linaro.org>
-References: <20220513110027.31015-1-manivannan.sadhasivam@linaro.org>
+ id 1npXbL-00GlnN-A2
+ for linux-nvme@lists.infradead.org; Fri, 13 May 2022 15:53:12 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24DFdxTi001893;
+ Fri, 13 May 2022 15:53:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=sXL5vCuOHERqD8QfiuBvDX7W6XxrlWnlAHkj0d/1sx8=;
+ b=SliWgSPIt68UrAyE1AQ2/8NZz+WCXxGlopsZJpgcfybeX/t41byGVzPIRiKoOID99o3t
+ bRSVi0LPgY7obsgOU/pJbOc1eQkL6t6ZzjP/KkLYxJAFoVN76gpORcvk5R0rcI4wPyEn
+ CbQxbyj0+u63ADldpxwNEH1nMnCGU8vc5tcMeraG//VotMbiK62bLLmmf6nMoG59bDFe
+ ww+aldcLjF4pdbVQATUQ1nA13PttYSRQKNbnmop93mhyBAWXqsloLYAhbM6KNV1clfjq
+ jxy3c5+QNq2QzditsiQcqBCciKb9Ou1Nt2Xekz3MARrO0/nHB6I1pBthTQUx4VO8fODU Lw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fwgn9y9c6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 May 2022 15:53:06 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 24DFjZt2012168; Fri, 13 May 2022 15:53:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3fwf766251-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 May 2022 15:53:06 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 24DFr1xO034295;
+ Fri, 13 May 2022 15:53:05 GMT
+Received: from dhcp-10-159-226-103.vpn.oracle.com
+ (dhcp-10-159-226-103.vpn.oracle.com [10.159.226.103])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3fwf766243-1; Fri, 13 May 2022 15:53:05 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-block@vger.kernel.org
+Cc: alan.adamson@oracle.com, linux-nvme@lists.infradead.org, osandov@fb.com
+Subject: blktests v3 tests/nvme: add tests for error logging
+Date: Fri, 13 May 2022 08:52:50 -0700
+Message-Id: <20220513155252.14332-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: IHEs12wroBOG8T3Sezrb4jIW60GSYEB-
+X-Proofpoint-ORIG-GUID: IHEs12wroBOG8T3Sezrb4jIW60GSYEB-
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220513_040110_613166_74985EF5 
-X-CRM114-Status: GOOD (  14.48  )
+X-CRM114-CacheID: sfid-20220513_085311_435925_5626DD11 
+X-CRM114-Status: GOOD (  13.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,41 +87,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On some platforms, the power to the PCI devices will be taken off during
-system suspend. For these platforms, the PCI RC will set the
-"system_poweroff" flag to notify the PCI device drivers of the poweroff
-scenario.
+blktests tests/nvme: add tests for error logging
 
-Hence, make use of the flag in the system suspend path and if set, properly
-shutdown the device.
+Test nvme error logging by injecting errors. Kernel must have FAULT_INJECTION
+and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests can be
+run with or without NVME_VERBOSE_ERRORS configured.
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+These test verify the functionality delivered by the follow:
+        commit bd83fe6f2cd2 ("nvme: add verbose error logging")
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d817ca17463e..381bf0c7cf8d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3238,6 +3238,7 @@ static int nvme_suspend(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-+	struct pci_host_bridge *bridge = pci_find_host_bridge(pdev->bus);
- 	struct nvme_ctrl *ctrl = &ndev->ctrl;
- 	int ret = -EBUSY;
- 
-@@ -3257,7 +3258,7 @@ static int nvme_suspend(struct device *dev)
- 	 * state (which may not be possible if the link is up).
- 	 */
- 	if (pm_suspend_via_firmware() || !ctrl->npss ||
--	    !pcie_aspm_enabled(pdev) ||
-+	    !pcie_aspm_enabled(pdev) || bridge->suspend_poweroff ||
- 	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
- 		return nvme_disable_prepare_reset(ndev, true);
- 
+V2 - Update from suggestions from shinichiro.kawasaki@wdc.com
+V3 - Add error injector helper functions to nvme/rc
+
+
+Alan Adamson (2):
+  tests/nvme: add helper routine to use error injector
+  tests/nvme: add tests for error logging
+
+ tests/nvme/039     | 152 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/039.out |   7 +++
+ tests/nvme/rc      |  44 +++++++++++++
+ 3 files changed, 203 insertions(+)
+ create mode 100755 tests/nvme/039
+ create mode 100644 tests/nvme/039.out
+
 -- 
-2.25.1
+2.27.0
 
 
