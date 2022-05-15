@@ -4,84 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE0E0C433F5
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 May 2022 16:01:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C53E4C433EF
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 May 2022 19:44:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:To:From
-	:Date:Message-Id:Mime-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=iSKnjL5EIYm6H68qejtmsWoy9aQTUXQkSpbKmiJrw7s=; b=dw53+0imG3fG/FFnLGwJnQaXy6
-	oYFfd/Z2aYVrUC62LJw8b4mb6WR2boE2dzy783pyUfcsDuojk+d6F8MKJVAtFwWrazdxEpou/9BN3
-	grrJZpVLdPk65x7MIGvPt/zrbYNPzx3bgKpOpBwUMV1vqvGj71vRNJKCRNhiZn3bqaIQ+UAVpRC0Z
-	ClX6oFsHsitiUv/338gGysQ0Dr3T0tvKPsEi3C7nYlQeaeh1nytbSpZm9c9AYCGjW0drXGq6ZmSfd
-	QPh2FV82FXcRugTZpvW33Ay+AKgf5kE1RyCv3yXq64wSMBZFSeim09es9YPCeVd+zlYTau/5H1in6
-	9qCxFwUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HC7/2sqGC6cIMVnKeclc4BbPMqO5VHG/vb+bpAG/pUE=; b=hL5dJkY4R7cq9hKdHgNoDnVXu5
+	aWPCd0KYruMXpq0Xr0om8+f/0YIt2jUcdtXJEXQiXAcZYytSxtlI8lya3kCLFccis9U50m0XpWzXw
+	zPjTCXfRELeC8aVEAasH2c2RnlzjipW5Jfbx9aR9rIYrcHX4sCwmyCG+FFVVvd8OhOIqAtlx7kmL/
+	6J9+XSoPJ3H65AMOwL/BDK4U+4jgyYv+K3W0R9h6t/vYrukheTtLU3JGOjdusBkUvxmzOeQ0XMUaC
+	wiRjqaurAr/mGHANF8Idxqcb0o+24yMfV4q6ZXA+uCgxmQa2Lk/GRJ64YYJMhYU7X9GrEfVSg4wE1
+	t4RXaiNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqGgF-004MYa-SI; Sun, 15 May 2022 16:01:15 +0000
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+	id 1nqKAV-004pg7-Gh; Sun, 15 May 2022 19:44:43 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqGgC-004MY8-HH
- for linux-nvme@lists.infradead.org; Sun, 15 May 2022 16:01:14 +0000
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id D4FB23200392
- for <linux-nvme@lists.infradead.org>; Sun, 15 May 2022 12:01:05 -0400 (EDT)
-Received: from imap46 ([10.202.2.96])
- by compute2.internal (MEProxy); Sun, 15 May 2022 12:01:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scriven.org; h=
- cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1652630465; x=1652716865; bh=iSKnjL5EIYm6H68qejtmsWoy9aQTUXQkSpb
- KmiJrw7s=; b=yjTzv6c95/ty6b/iPAAR9TLg0xbWoPtBTZ8XbtkZgYgEMbBsMKC
- bFMRDFKZiGakmwcfJy2jpYpPZ1eDCtq7SzQDiQXLoTlCGJoKqVcW0EHvs4Vxhljb
- T+H1rhTJfQ9AEpewRPWec0Ag/PWYtSjJv61uof4e/L8T2xF8ZOwhUUURRbEcQevh
- o4h35friu3abtIsC+VNK7lZeTBJGxsKu+DqcieFqhpBpL3rPAlbwfKnsD6uiciDe
- 9If12xHe6eD5dVrGhIqV1yxaSZ1cyBP4F+uUUJevamXKWAv+RFfIg9ed3d4n0z+g
- Gty+WRIxwzutKfRqikXu0MpDvkkVDOmd6aA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1652630465; x=1652716865; bh=iSKnjL5EIYm6H
- 68qejtmsWoy9aQTUXQkSpbKmiJrw7s=; b=PLutBKNXqD3wkougRAIyz2JxvQQvI
- bPrq/fmvdLZfGLd/GrsQBgY5HV/VrFdng4Q26yPAJvKLbgvVanq7P0fNDWUP4Aw6
- tNvz7RgAG2C2uNxbEyaUG9/PBBkmT0+H+zkv6H/BzEUR8nZgh8X2cI2OrVWRLeoX
- pwkf2d3Fl1PeNzd8Ie0U2sZzMA1XBRZY+cb+wqY6aHILnAY7sJg0sVXiZ3eRNWUX
- 4jRxUFEwVm+9mCKyyEY5ZOcdC/rHDQhKNCVrEPcl+bubt61sFO8i9NsWTZdBCbNY
- THr1qIPTySrtCA5+nrmXDlew+zDl/7vvykuU6HC/JB4lER1gT514SQ+xw==
-X-ME-Sender: <xms:wSOBYlPsi9nwXccU9HpzJFb9ykSZGrNhOW8wagAbuULFBNwp4NlwFQ>
- <xme:wSOBYn9NYHXh9K2bDVBTg_jrbXk5BT6Wmp5yd46IFWYHAC9PjXXT-EIEjOFQW6MBy
- 9ea_BS3gnsFS_KE_1o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrheefgdelhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkfffhvffutgesthdtredtre
- ertdenucfhrhhomhepfdforghrtghoshcuufgtrhhivhgvnhdfuceomhgrrhgtohhssehs
- tghrihhvvghnrdhorhhgqeenucggtffrrghtthgvrhhnpedtffduvdettdffveduvdefie
- dtgeefvdfgffekteetfefggefhtedukeeiheetueenucffohhmrghinhepkhgvrhhnvghl
- rdhorhhgpdhlrghunhgthhhprggurdhnvghtpdhgihhthhhusgdrtghomhenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrghrtghoshesshgt
- rhhivhgvnhdrohhrgh
-X-ME-Proxy: <xmx:wSOBYkRxFQqQc4Mhg3ydwXnar1f_zag7Y5w_gxTgJ3WYl-QszeJC8w>
- <xmx:wSOBYhu-dzZRCs-pqDFRvXv1UCsq-yMbPIrbDHRoBYh0ivqaD5m4OA>
- <xmx:wSOBYtf376yBrUnjf2xkIBwLKalXPvpgi5rE0VE1TV5ixZfn08zu4g>
- <xmx:wSOBYnpuIDQiE0d58YdrZK5BGLlJ0EcGt_78tAnw-FQdBg1JG0oa1Q>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 1766E2A20069; Sun, 15 May 2022 12:01:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <5ea81a6a-b510-40d2-9b32-036f263f75f3@www.fastmail.com>
-Date: Sun, 15 May 2022 17:00:44 +0100
-From: "Marcos Scriven" <marcos@scriven.org>
-To: linux-nvme@lists.infradead.org
-Subject: My Western Digital SN850 appears to suffer from deep power state
+ id 1nqKAR-004pfD-Ou
+ for linux-nvme@lists.infradead.org; Sun, 15 May 2022 19:44:41 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CB4E36113E;
+ Sun, 15 May 2022 19:44:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01167C385B8;
+ Sun, 15 May 2022 19:44:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652643876;
+ bh=zDXCb/nw5fBTnejIBBj5bo6ZvLBQt916vTb3hwiwvKU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sFFlfB5dNLvvdBzm/lxSicx+Bd5u0oYNRUC4I1kyIBI2mrS+vM3/vuwqUZEPA5i9O
+ qEaJtnZzF/hL14Wmhi0riAeADMAJGrbNRGG/Kfw0PERBWuDb3he6KYSCkPvb8cLZ8N
+ dlOFoR4xMUUlmlfLAsyXs8zGIUHpYJHB4imcJ6nl8293oamI3hfUPwl2lLdrJmxDrN
+ CP8S4/9Xn7OG5mVEvE5XY+/MEXcx1EP4mSG62tHWgpoKyVZC3ge55YRuet0a6KTqF6
+ bxeRBKeSZg3CN4ZOekYHCoo+ejjiegTE+lHNSFR3t6Qgt26dqNC7dYpNzfHpAITZeX
+ dCAg/IKGRuqOg==
+Date: Sun, 15 May 2022 13:44:32 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Marcos Scriven <marcos@scriven.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: My Western Digital SN850 appears to suffer from deep power state
  issues - considering submitting quirk patch.
-Content-Type: text/plain
+Message-ID: <YoFYIJ3/yEK1RGTK@kbusch-mbp>
+References: <5ea81a6a-b510-40d2-9b32-036f263f75f3@www.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ea81a6a-b510-40d2-9b32-036f263f75f3@www.fastmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220515_090112_992069_FB1613D6 
-X-CRM114-Status: GOOD (  18.03  )
+X-CRM114-CacheID: sfid-20220515_124439_930752_3E240418 
+X-CRM114-Status: GOOD (  36.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,96 +71,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all
+On Sun, May 15, 2022 at 05:00:44PM +0100, Marcos Scriven wrote:
+> Hi all
+> 
+> I've been experiencing issues with my system freezing, and traced it down to the nvme controller resetting:
+> 
+> [268690.209099] nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
+> [268690.289109] nvme 0000:01:00.0: enabling device (0000 -> 0002)
+> [268690.289234] nvme nvme0: Removing after probe failure status: -19
+> [268690.313116] nvme0n1: detected capacity change from 1953525168 to 0
+> [268690.313116] blk_update_request: I/O error, dev nvme0n1, sector 119170336 op 0x1:(WRITE) flags 0x800 phys_seg 14 prio class 0
+> [268690.313117] blk_update_request: I/O error, dev nvme0n1, sector 293367304 op 0x1:(WRITE) flags 0x8800 phys_seg 5 prio class 0
+> [268690.313118] blk_update_request: I/O error, dev nvme0n1, sector 1886015680 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+> 
+> Only a reboot resolves this.
+> 
+> The vendor/product id:
+> 
+> 01:00.0 Non-Volatile memory controller [0108]: Sandisk Corp WD Black SN850 [15b7:5011] (rev 01)
+> 
+> This is installed in a desktop machine (the details of which I can give if relevant). I only mention this as the power profile is much less frugal than a laptop.
 
-I've been experiencing issues with my system freezing, and traced it down to the nvme controller resetting:
+Some of the behavior you're describing has been isolated to specific
+drive+platform combinations in the past, but let's hear your results from the
+follow up experiements before considering if we need to introduce a dmi
+type quirk.
+ 
+> Anyway, with all that background, I'm happy to try NVME_QUIRK_NO_DEEPEST_PS for 15b7:5011 locally, and submit here if it works.
 
-[268690.209099] nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
-[268690.289109] nvme 0000:01:00.0: enabling device (0000 -> 0002)
-[268690.289234] nvme nvme0: Removing after probe failure status: -19
-[268690.313116] nvme0n1: detected capacity change from 1953525168 to 0
-[268690.313116] blk_update_request: I/O error, dev nvme0n1, sector 119170336 op 0x1:(WRITE) flags 0x800 phys_seg 14 prio class 0
-[268690.313117] blk_update_request: I/O error, dev nvme0n1, sector 293367304 op 0x1:(WRITE) flags 0x8800 phys_seg 5 prio class 0
-[268690.313118] blk_update_request: I/O error, dev nvme0n1, sector 1886015680 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+I think that's worth trying. Alternatively, you could just mess with the
+module's param 'nvme_core.default_ps_max_latency_us' value and see if only the
+deepest states or if any low power state is problematic.
+ 
+> However, the main problem is how to reproduce this issue reliably/deterministically, in order to be confident in the patch. It can happen with in minutes or days at the moment.
+>
+> So, my questions:
+> 
+> 1) How can I reproduce the issue deterministically?
 
-Only a reboot resolves this.
+Unfortunately I really don't know. I have no hands-on experience with these
+kinds of systems.
 
-The vendor/product id:
+> 2) Are there any other causes of this I'd need to rule out? E.g BIOS, PSU, broken drive rather than a power state quirk.
 
-01:00.0 Non-Volatile memory controller [0108]: Sandisk Corp WD Black SN850 [15b7:5011] (rev 01)
+PCIe ASPM has occasionally be a problem, so you could try disabling that too
+(pcie_aspm=off).
+ 
+> I also have a couple of more fundamental questions, the answer to which is probably way beyond my understanding:
+> 
+> 3) Why are so many drives needing this qurik in Linux? Could it be that Windows also avoids these power states?
 
-This is installed in a desktop machine (the details of which I can give if relevant). I only mention this as the power profile is much less frugal than a laptop.
+Many client vendors don't prioritize Linux for their IOP testing, so we tend to
+be the last to find out about issues.
 
-There are several bug reports on various distros about this, but to give just a couple:
+> 4) I looked at the code around the message, and it seems to be this is about an attempt to reset the controller, rather than just accept it's timed out an operation. Is that correct? And if so, could there be a problem with the way resetting is working - or is it again a quirk with these NVMEs?
 
-https://bugzilla.kernel.org/show_bug.cgi?id=195039
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1705748
+We used to have a health check thread periodically query the link status and
+preemptively initiate a reset if it detects a problem outside any IO context.
+That query defeated desired low power settings so we removed it. Now we only
+check the link status if an IO times out, which is why the resetting message
+appears in that context.
 
-It's also clearly a know quirk. Here's a couple of examples:
+I don't think there's any particular issue with the way the driver reacts to
+the condition. When you see an all f's reponse, that really indicates the link
+is inaccessible. There's nothing we can do at the nvme driver level to
+communicate with the device downstream that link, so no operations will ever
+succeed. Once we're in this state, the nvme reset operation is almost certainly
+doomed to fail since we can't communicate with the end device.
 
-https://github.com/torvalds/linux/commit/dc22c1c058b5c4fe967a20589e36f029ee42a706
-https://github.com/torvalds/linux/commit/538e4a8c571efdf131834431e0c14808bcfb1004
+There might be additional things we could do at the PCIe level, like a slot
+reset on the downstream port, but I haven't seen evidence that type of
+escalation improves anything so far. It might be worth a shot, though.
 
-On my particular system there seems to be two power state settings.
+> 5) On that note, some Googling yielded this patch, that I think was rejected
+> https://patchwork.kernel.org/project/linux-block/patch/20180516040313.13596-12-ming.lei@redhat.com/.
+> I'm unclear on the details, but felt it might be relevant.
 
-One from nvme id-ctrl /dev/nvme0:
-
-ps    0 : mp:9.00W operational enlat:0 exlat:0 rrt:0 rrl:0
-          rwt:0 rwl:0 idle_power:0.6300W active_power:9.00W
-ps    1 : mp:4.10W operational enlat:0 exlat:0 rrt:0 rrl:0
-          rwt:0 rwl:0 idle_power:0.6300W active_power:4.10W
-ps    2 : mp:3.50W operational enlat:0 exlat:0 rrt:0 rrl:0
-          rwt:0 rwl:0 idle_power:0.6300W active_power:3.50W
-ps    3 : mp:0.0250W non-operational enlat:5000 exlat:10000 rrt:3 rrl:3
-          rwt:3 rwl:3 idle_power:0.0250W active_power:-
-ps    4 : mp:0.0050W non-operational enlat:5000 exlat:45000 rrt:4 rrl:4
-          rwt:4 rwl:4 idle_power:0.0050W active_power:-
-
-The other from nvme get-feature -f 0x0c -H /dev/nvme0
-
-get-feature:0xc (Autonomous Power State Transition), Current value:0x000001
-	Autonomous Power State Transition Enable (APSTE): Enabled
-	Auto PST Entries	.................
-	Entry[ 0]
-	.................
-	Idle Time Prior to Transition (ITPT): 750 ms
-	Idle Transition Power State   (ITPS): 3
-	.................
-	Entry[ 1]
-	.................
-	Idle Time Prior to Transition (ITPT): 750 ms
-	Idle Transition Power State   (ITPS): 3
-	.................
-	Entry[ 2]
-	.................
-	Idle Time Prior to Transition (ITPT): 750 ms
-	Idle Transition Power State   (ITPS): 3
-	.................
-	Entry[ 3]
-	.................
-	Idle Time Prior to Transition (ITPT): 2500 ms
-	Idle Transition Power State   (ITPS): 4
-	.................
-
-I don't really know how those two interact, or are related, if at all? The timings don't seem to match up.
-
-Anyway, with all that background, I'm happy to try NVME_QUIRK_NO_DEEPEST_PS for 15b7:5011 locally, and submit here if it works.
-
-However, the main problem is how to reproduce this issue reliably/deterministically, in order to be confident in the patch. It can happen with in minutes or days at the moment.
-
-So, my questions:
-
-1) How can I reproduce the issue deterministically?
-2) Are there any other causes of this I'd need to rule out? E.g BIOS, PSU, broken drive rather than a power state quirk.
-
-I also have a couple of more fundamental questions, the answer to which is probably way beyond my understanding:
-
-3) Why are so many drives needing this qurik in Linux? Could it be that Windows also avoids these power states?
-4) I looked at the code around the message, and it seems to be this is about an attempt to reset the controller, rather than just accept it's timed out an operation. Is that correct? And if so, could there be a problem with the way resetting is working - or is it again a quirk with these NVMEs?
-5) On that note, some Googling yielded this patch, that I think was rejected https://patchwork.kernel.org/project/linux-block/patch/20180516040313.13596-12-ming.lei@redhat.com/. I'm unclear on the details, but felt it might be relevant.
-
-Thanks to the maintainers of the NVME drivers.
-
-Marcos
-
+That just changes the context where actual reset happens, but still uses the
+same trigger to initiate the reset. I don't think that would help in your
+situation since the link was down before an IO timed out.
 
