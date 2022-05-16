@@ -4,38 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB400C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 May 2022 17:59:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB37BC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 May 2022 19:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HlhAxxKGTKO2DQRZEOO6IEDNmZp4zZtvTCX0KgBh0GQ=; b=utrm/GIontj6IHdNaOKy9Bo25C
-	gh2fa5pDA7E4BylxxAMJuxZcGVTK77Y6KIHyE2pR2rFqwpCLOIyjrGfMt+48N5YXfLbnqwsZTfuwr
-	AeTGhEvNCQOUW4PfE/cMCXVW+WG463o8PRTZO8Kt5NMc/fr/QpsagrMxn5/sIBVKtMQzlI+VTPlV9
-	Sj7BM9l6og509AcI0dO0wga7uK/PhrvHOzvIyfETLI+dsWTc9lpVlh9p4tFC5yuMcldxaYoMDdZrv
-	XkvnUfFGZolqWfBl1FP0VV/Lkv0jyLtG93qn7XX1Knb8E8flj+bP7O4Ow9fRcxsRPPL3DwnJyOpqb
-	KabnkaGQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=h7+/E7H/MRyrFasC/KFBpCGKVHCYzopaapRzkpChakE=; b=RQb8l4Y4D8BA0l
+	xmWxyxSZKzOoiWYmdnurgFu/2FzOzhlIlk9l/DtxOOf4KrGTXHijsXTtgZSEwccFb8Z5cBzsdvxqn
+	dKry5zCqIpGXzUc9ZGzNc8m0qjYvDSYxyuLE6xyEcjgdfHSoSpk8iWBPeLgfE7vjuveDUoL+azpok
+	CaxznoxXJvAnEMjjuA2fC1AT4oCgZNN+e8bj3ZhTSvhr1+CzGM3CS1mmR4kvzrXr0ekWzVtURsE6B
+	HyRWD46DxeZPjT0j1nv3NLzXMOxnv48yywZtzHW07DlrZUZygNMdiA5tsk5ZyiRl0JW/Sqzr8Y4Pt
+	BJrmmSl/xAp/PoGZnHqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqezi-009SXU-Ej; Mon, 16 May 2022 17:58:58 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1nqezh-009SXF-MX; Mon, 16 May 2022 17:58:57 +0000
-Date: Mon, 16 May 2022 10:58:57 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Marcos Scriven <marcos@scriven.org>, linux-nvme@lists.infradead.org
-Subject: Re: My Western Digital SN850 appears to suffer from deep power state
- issues - considering submitting quirk patch.
-Message-ID: <YoKQ4YHKEZxd8C2N@infradead.org>
-References: <5ea81a6a-b510-40d2-9b32-036f263f75f3@www.fastmail.com>
- <YoFYIJ3/yEK1RGTK@kbusch-mbp>
+	id 1nqg2M-009iRL-R0; Mon, 16 May 2022 19:05:46 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nqg2I-009iQG-8L
+ for linux-nvme@lists.infradead.org; Mon, 16 May 2022 19:05:45 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220516190537euoutp011ed3735ba5b861c3fff4e852a95b4b54~vq0114NYH2650926509euoutp01O
+ for <linux-nvme@lists.infradead.org>; Mon, 16 May 2022 19:05:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220516190537euoutp011ed3735ba5b861c3fff4e852a95b4b54~vq0114NYH2650926509euoutp01O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1652727937;
+ bh=h7+/E7H/MRyrFasC/KFBpCGKVHCYzopaapRzkpChakE=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=J3t8bIKww9U91/aXllUx1XFJqoWz8qTBsMAIBINzB4M2tDEHcb+K6B6lI4mhfdYdv
+ nmXw042wt9qwP8rLDH3WmzHnrEHxQT8ddWthxFJqP1JuiQMvWK9SF6apfRvdc+glKc
+ UfLYZ0UWK1ScE07V9alm7bMZyRwAt0qHqwyjX2r0=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220516190537eucas1p1827e4dc46edb0e9fd4eef7e9067f07a0~vq01ienVy2497024970eucas1p1I;
+ Mon, 16 May 2022 19:05:37 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 07.CC.10260.080A2826; Mon, 16
+ May 2022 20:05:37 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220516190536eucas1p2ee3b60a2f6bc708919b76d35e69562a2~vq00_9hJ02269122691eucas1p28;
+ Mon, 16 May 2022 19:05:36 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220516190536eusmtrp14da1d7baf4a6dcff2f764c9908a67164~vq00_HXpd1633216332eusmtrp1D;
+ Mon, 16 May 2022 19:05:36 +0000 (GMT)
+X-AuditID: cbfec7f5-bddff70000002814-8b-6282a080c59a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id D6.23.09404.080A2826; Mon, 16
+ May 2022 20:05:36 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220516190536eusmtip2c5868c94ebcb947cde3c0db117dc5408~vq00zV-qZ2254722547eusmtip23;
+ Mon, 16 May 2022 19:05:36 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.7) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 16 May 2022 20:05:34 +0100
+Message-ID: <b9a02707-8628-b7de-487b-a93697e8a2cb@samsung.com>
+Date: Mon, 16 May 2022 21:05:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoFYIJ3/yEK1RGTK@kbusch-mbp>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 02/13] block: allow blk-zoned devices to have
+ non-power-of-2 zone size
+Content-Language: en-US
+To: <damien.lemoal@opensource.wdc.com>
+CC: <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <jiangbo.365@bytedance.com>,
+ <linux-block@vger.kernel.org>, <gost.dev@samsung.com>,
+ <linux-kernel@vger.kernel.org>, <dm-devel@redhat.com>, Luis Chamberlain
+ <mcgrof@kernel.org>, <axboe@kernel.dk>, <pankydev8@gmail.com>,
+ <dsterba@suse.com>, <hch@lst.de>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <20220516165416.171196-3-p.raghav@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.7]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEKsWRmVeSWpSXmKPExsWy7djP87qNC5qSDGa2MlmsvtvPZvH77Hlm
+ i73vZrNaXPjRyGSxcvVRJoueAx9YLPbe0ra49HgFu8WevSdZLC7vmsNmMX/ZU3aLGxOeMlqs
+ ufmUxYHX49+JNWweO2fdZfe4fLbUY9OqTjaPzUvqPXbfbAAKt95n9Xi/7yqbx/otV1k8Pm+S
+ C+CK4rJJSc3JLEst0rdL4MrY/uA0Y8EfuYrDCzYxNjAuk+hi5OSQEDCReLf0HUsXIxeHkMAK
+ RomN/X+YIJwvjBLvry1ih3A+M0r0nO1khmlZsf8xmC0ksJxRYv4qUbii6Y/2sEI4Oxklml98
+ ZwGp4hWwk/i2aQcriM0ioCqxedZ9Roi4oMTJmU/AakQFIiSmzTrDBmILC8RLfGlezw5iMwuI
+ S9x6Mh/oJg4OEQE1iQ8L60DmMwu8ZpKYPGUXM0icTUBLorETrJxTwFri8opGRohWTYnW7b+h
+ xshLbH87B+oBRYmbK3+xQdi1EmuPnWGHsC9xSpw4AQ0XF4krFyZA1QhLvDq+BapGRuL05B4W
+ CLta4umN38wg90gItDBK9O9czwZyjwTQEX1nciBqHCXmnbnHBBHmk7jxVhDiHD6JSdumM09g
+ VJ2FFBCzkDw8C8kHs5B8sICRZRWjeGppcW56arFxXmq5XnFibnFpXrpecn7uJkZgsjv97/jX
+ HYwrXn3UO8TIxMF4iFGCg1lJhNegoiFJiDclsbIqtSg/vqg0J7X4EKM0B4uSOG9y5oZEIYH0
+ xJLU7NTUgtQimCwTB6dUA5OSlPKnTTOmG6u0zZw9ddGzfB2e8i7tSrXzm89WCX/ZKlM4/czF
+ DQy1pzcXmO6qa5Y88Z5/z4zy2OyluySyrwm7P/bimaI94WCpw2UNSZeYZHEFSxO/hPu9p5pv
+ G4enOooleXd1LOg0mbaR5WWbtUmQy4LPlX4uC++rL33ReuHrvpiiNYxvXTIX/J74XF+E5bUF
+ y9rogK0ur/cITJujILV3tczx7G9nlz3+tIrj2NKSNdb7c7bvNr/Sb39mAufEG6FM/tpFy+sb
+ Kxm7ujYeuPHwnqdO49fY1N+9xoLPald3zp6kepFpc7rPkX99rk87g6dsn7tot3+gJ/PbuhBZ
+ 9V1fyg99df8WLNqUMSN84yQlluKMREMt5qLiRACLt3n95QMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkleLIzCtJLcpLzFFi42I5/e/4Pd2GBU1JBs/uSVmsvtvPZvH77Hlm
+ i73vZrNaXPjRyGSxcvVRJoueAx9YLPbe0ra49HgFu8WevSdZLC7vmsNmMX/ZU3aLGxOeMlqs
+ ufmUxYHX49+JNWweO2fdZfe4fLbUY9OqTjaPzUvqPXbfbAAKt95n9Xi/7yqbx/otV1k8Pm+S
+ C+CK0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MvY
+ /uA0Y8EfuYrDCzYxNjAuk+hi5OSQEDCRWLH/MXMXIxeHkMBSRomN7VOYIBIyEp+ufGSHsIUl
+ /lzrYoMo+sgosWHxPSYIZyejxI1bD5hBqngF7CS+bdrBCmKzCKhKbJ51nxEiLihxcuYTFhBb
+ VCBC4sHus2A1wgLxEl+a14NtYBYQl7j1ZD7QUA4OEQE1iQ8L60DmMwu8ZpKYPGUX1Hn7GSV2
+ rG8FK2IT0JJo7ATr5RSwlri8opERYo6mROv231Az5SW2v53DDPGBosTNlb/YIOxaiVf3dzNO
+ YBSdheS8WUjOmIVk1CwkoxYwsqxiFEktLc5Nzy020itOzC0uzUvXS87P3cQITBPbjv3csoNx
+ 5auPeocYmTgYDzFKcDArifAaVDQkCfGmJFZWpRblxxeV5qQWH2I0BYbRRGYp0eR8YKLKK4k3
+ NDMwNTQxszQwtTQzVhLn9SzoSBQSSE8sSc1OTS1ILYLpY+LglGpgyjnx9+gPLaZLM8zrQ/ax
+ ywQENiyIvd067VKoaNRld+uMnRfds571ndjPYP5p1/n6gsak2YKp12Nefj55tSQz8MXbvYvb
+ Hs9dWOCx9Ox398nPJZd+PnKlSC9L4+zrOf5MfvdnJU16+jhK6jvjk0uTTspMXDNh59z/JyWi
+ /QsuOeWn2p92ZuKcrdXLcPl4RGHYnYO+yzac7SqOXGhw6O3OXnY+yYRfv+Yoa9rVRXpbbCi2
+ EFn8Sa1MJeL9lfM7Uv6tPLjo3/cLedtcTjc33BZ5YrV6MVdASiWfxf5p8rovZUzvLn2SvJy5
+ 8O1C5m06P86/O1pwcaPlRGOxtSUF8Rtr9d3nB15NnHb4aej6yFM/Ym8psRRnJBpqMRcVJwIA
+ 66Cj/pwDAAA=
+X-CMS-MailID: 20220516190536eucas1p2ee3b60a2f6bc708919b76d35e69562a2
+X-Msg-Generator: CA
+X-RootMTR: 20220516165421eucas1p2515446ac290987bdb9af24ffb835b287
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220516165421eucas1p2515446ac290987bdb9af24ffb835b287
+References: <20220516165416.171196-1-p.raghav@samsung.com>
+ <CGME20220516165421eucas1p2515446ac290987bdb9af24ffb835b287@eucas1p2.samsung.com>
+ <20220516165416.171196-3-p.raghav@samsung.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220516_120542_624256_23B8BEC0 
+X-CRM114-Status: GOOD (  26.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -50,21 +146,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, May 15, 2022 at 01:44:32PM -0600, Keith Busch wrote:
-> Some of the behavior you're describing has been isolated to specific
-> drive+platform combinations in the past, but let's hear your results from the
-> follow up experiements before considering if we need to introduce a dmi
-> type quirk.
+Hi Damien,
+I copied your comments from the previous thread to avoid confusion.
 
-Also, are we even sure this is related to power states?
 
->  
-> > Anyway, with all that background, I'm happy to try NVME_QUIRK_NO_DEEPEST_PS for 15b7:5011 locally, and submit here if it works.
-> 
-> I think that's worth trying. Alternatively, you could just mess with the
-> module's param 'nvme_core.default_ps_max_latency_us' value and see if only the
-> deepest states or if any low power state is problematic.
+On 2022-05-16 16:00, Damien Le Moal wrote:
+> On 2022/05/16 15:39, Pankaj Raghav wrote:
+>> Checking if a given sector is aligned to a zone is a common
+>> operation that is performed for zoned devices. Add
+>> blk_queue_is_zone_start helper to check for this instead of opencoding it
+>> everywhere.
+>>
+>> Convert the calculations on zone size to be generic instead of relying on
+>> power_of_2 based logic in the block layer using the helpers wherever
+>> possible.
+>>
+>> @@ -490,14 +490,29 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+>>  	 * smaller last zone.
+>>  	 */
+>>  	if (zone->start == 0) {
+>> -		if (zone->len == 0 || !is_power_of_2(zone->len)) {
+>> -			pr_warn("%s: Invalid zoned device with non power of two zone size (%llu)\n",
+>> -				disk->disk_name, zone->len);
+>> +		if (zone->len == 0) {
+>> +			pr_warn("%s: Invalid zone size",
+>> +				disk->disk_name);
+>
+> This fits on one line, no ?
+>
+Yeah. I don't know why my formatter decided to do that. I will fix it. Thanks.
+>> +			return -ENODEV;
+>> +		}
+>> +
+>> +		/*
+>> +		 * Don't allow zoned device with non power_of_2 zone size with
+>> +		 * zone capacity less than zone size.
+>> +		 */
+>> +		if (!is_power_of_2(zone->len) &&
+>> +		    zone->capacity < zone->len) {
+>> +			pr_warn("%s: Invalid zoned size with non power of 2 zone size and zone capacity < zone size",
+>> +				disk->disk_name);
+>
+> Very long... What about:
+>
+> pr_warn("%s: Invalid zone capacity for non power of 2 zone size",
+> 	disk->disk_name);
+>
+This looks better. I will fix it up!
+>>  			return -ENODEV;
+>>  		}
+>>
+>>  		args->zone_sectors = zone->len;
+>> -		args->nr_zones = (capacity + zone->len - 1) >> ilog2(zone->len);
+>> +		/*
+>> +		 * Division is used to calculate nr_zones for both power_of_2
+>> +		 * and non power_of_2 zone sizes as it is not in the hot path.
+>> +		 */
+>
+> This comment is not very useful.
+>
 
-Maybe even just nvme_core.default_ps_max_latency_us=0 to verify it
-really is power state related as a start.
+I also saw you mentioning the comment was not useful in nvme code for
+a similar scenario. Hannes brought up a point about making it
+explicit when we are not using any special path for power of 2 zone sizes as in
+most cases we do branching if the zone size is power of 2 to avoid division.
+
+>> +		args->nr_zones = div64_u64(capacity + zone->len - 1, zone->len);
+>>  	} else if (zone->start + args->zone_sectors < capacity) {
+>>  		if (zone->len != args->zone_sectors) {
+>>  			pr_warn("%s: Invalid zoned device with non constant zone size\n",
+>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>> index 22fe512ee..32d7bd7b1 100644
+>> --- a/include/linux/blkdev.h
+>> +++ b/include/linux/blkdev.h
+>> @@ -686,6 +686,22 @@ static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+>>  	return div64_u64(sector, zone_sectors);
+>>  }
+>>
+>> +static inline bool blk_queue_is_zone_start(struct request_queue *q, sector_t sec)
+>> +{
+>> +	sector_t zone_sectors = blk_queue_zone_sectors(q);
+>> +	u64 remainder = 0;
+>> +
+>> +	if (!blk_queue_is_zoned(q))
+>> +		return false;
+>> +
+>> +	if (is_power_of_2(zone_sectors))
+>> +		return IS_ALIGNED(sec, zone_sectors);
+>> +
+>> +	div64_u64_rem(sec, zone_sectors, &remainder);
+>> +	/* if there is a remainder, then the sector is not aligned */
+>
+> Hmmm... Fairly obvious. Not sure this comment is useful.
+>
+True. I will remove it.
+
+>> +	return remainder == 0;
+>> +}
+>> +
+>>  static inline bool blk_queue_zone_is_seq(struct request_queue *q,
+>>  					 sector_t sector)
+>>  {
+>> @@ -732,6 +748,12 @@ static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+>>  {
+>>  	return 0;
+>>  }
+>> +
+>> +static inline bool blk_queue_is_zone_start(struct request_queue *q, sector_t sec)
+>> +{
+>> +	return false;
+>> +}
+>> +
+>>  static inline unsigned int queue_max_open_zones(const struct request_queue *q)
+>>  {
+>>  	return 0;
+>
+>
 
