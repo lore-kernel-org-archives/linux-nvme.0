@@ -4,51 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06D41C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 May 2022 05:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19612C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 May 2022 05:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dntl1cxMjLS6R204LbQmYbBJakpiTbtIXHORF8Xc3IQ=; b=Ie/Vk7PwSxEwZOqkCNgMTT+Kur
-	UV20mrrBQrdPx3OnByKCL7zSumJfBizuZfwTbPFudECXwiuhDMXxpskKaHaX4UDrM92uS8QjZ6o4j
-	u3TqXmdtst/v1D5fzUbt7obNihWArdn4l9aAT7bOo3XfKlZnnGcXqEqLNZIU/OnRtM1UgjDGTxOpQ
-	0vBuDJiinCnI/OmIKhAT1QQBYzaPOkNs8/w/RUlMQIs/tT975jNh2JagozhaVBx6Ln9LlV3UZfkrw
-	au8PbD8TW6kEisl09qReSRAC+yABHgf9mBKu17B+Jf4ap99qHPVNbB+BWQ6ujaCYyh6CjTEjVPt+F
-	56SPuUWg==;
+	bh=ZmUVXw2TXT+1fnZzaILAqv/PirCzLaVEwhdxHx/wtD0=; b=k5NxEgZuhjTKvIgioIcYFHdbaW
+	A0KaC7DdSQdvQ40M7VeVrIi30ws564v/gUB6iV1PuZBbjxWEwWXJU/8gu0kqX8SvsFAG1ot2OTyaP
+	WYdecd7zsi92C/HXVLkOyfqxXGkQhWRUL9GGq1fuQLVYdRzkwbhG3JVYo+Lk9PbzpryD2ztNiNdQw
+	32cooeA3sZX/6GPV0yTqlw2FgWkmuRPwA4hmwG6nuhkN/I0JwMy8ClpB6pGSd8kctFIe9zWnFHEW5
+	7ZpKXGsVk+xr26kOpNMcG7HX07EaVhF3QGJEvMIUlnGNOns19ik0BITXw08inH0xRlk0CLyBMgaOz
+	AZBvz69g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqTXN-00644z-8I; Mon, 16 May 2022 05:44:57 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqTXK-00643A-Po
- for linux-nvme@lists.infradead.org; Mon, 16 May 2022 05:44:56 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id B6A4E68B05; Mon, 16 May 2022 07:44:42 +0200 (CEST)
-Date: Mon, 16 May 2022 07:44:42 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org,
- hch@lst.de, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, svarbanov@mm-sol.com,
- bjorn.andersson@linaro.org, axboe@fb.com, quic_vbadigan@quicinc.com,
- quic_krichai@quicinc.com, quic_nitirawa@quicinc.com,
- vidyas@nvidia.com, sagi@grimberg.me
-Subject: Re: [PATCH 0/3] PCI: Notify PCI drivers about powerdown during suspend
-Message-ID: <20220516054442.GA12171@lst.de>
-References: <20220513110027.31015-1-manivannan.sadhasivam@linaro.org>
+	id 1nqTjn-00660a-G3; Mon, 16 May 2022 05:57:47 +0000
+Received: from 213-225-11-122.nat.highway.a1.net ([213.225.11.122]
+ helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nqTjl-0065zY-NO; Mon, 16 May 2022 05:57:46 +0000
+Date: Mon, 16 May 2022 07:57:42 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: James Smart <jsmart2021@gmail.com>
+Cc: linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Muneendra <muneendra.kumar@broadcom.com>
+Subject: Re: [PATCH 1/4] nvme-fc: Add new routine nvme_fc_io_getuuid
+Message-ID: <YoHn1hcszJIAHN/j@infradead.org>
+References: <20220510200028.37399-1-jsmart2021@gmail.com>
+ <20220510200028.37399-2-jsmart2021@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220513110027.31015-1-manivannan.sadhasivam@linaro.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220515_224455_016477_230C3B7C 
-X-CRM114-Status: UNSURE (   9.00  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20220510200028.37399-2-jsmart2021@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,10 +52,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This looks workable to me, and is fine with me from the NVMe side.
-I could see arguments for passing the flag to the actual suspend
-method, but as that would require much bigger changes I'm not going
-to ask for it just because.
+On Tue, May 10, 2022 at 01:00:25PM -0700, James Smart wrote:
+> From: Muneendra <muneendra.kumar@broadcom.com>
+> 
+> Add nvme_fc_io_getuuid() to the nvme-fc transport.
+> The routine is invoked by the fc LLDD on a per-io request basis.
+> The routine translates from the fc-specific request structure to
+> the bio and the cgroup structure in order to obtain the fc appid
+> stored in the cgroup structure. If a value is not set or a bio
+> is not found, a NULL appid (aka uuid) will be returned to the LLDD.
+> 
+> Signed-off-by: Muneendra <muneendra.kumar@broadcom.com>
+> Signed-off-by: James Smart <jsmart2021@gmail.com>
+
+I'm fine with picking this up through the scsi tree:
 
 Acked-by: Christoph Hellwig <hch@lst.de>
 
