@@ -4,79 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9E1FC433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 May 2022 22:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43FF3C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 May 2022 23:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vk+vYcFgYaMuHaN1Ay8ZIYUInEjwExAWGZLWGGeAfzE=; b=i/4ka0PTcShWdds8UnH3YRvwry
-	NMvvC39CwD69rWosMenzTY8XQ1uKVJI3e8+vTGOP3Eb3sayiq5q0KyULe11PEtwJk3qNTXwFroA0J
-	r4mu1o5yRp9C3uMKdWkp0U7FxrAG6YCQq5s/P90qpuDH+C4arjnk2Y3jKFZpV2M3rSejCazCw3XNm
-	ACIwwA8v46MybKsN0qcl/J1Uq9HB9m1DMQFo9tzfC27rQzhSMka+pue5LU12oTU4QwkylvUFSlmrA
-	OWkC8e9X/MbF1wg+Male4KU/hOxQjVwrk7lQFZzh6UDyWAYqiDuBlFsjggogO5QmBcS922vl8w47h
-	EKOjQD0A==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qLmV2A/FfXX4Z1qISVXxXZ0NbRja0Rh9FDzBmYDHRqE=; b=RBaPNsuNTa0ahNcj3dXfttksSf
+	mJz80x/iIZrDr6Dwg4VR32cdsXKuzl9w0MXFu8LKT2wm/3jowBJG8gjLF5RrzvGgiSG/n6Xzrwre/
+	8cuxFo/4ib2ry3Qo7vTfFHkyduiHGMPNipnNmFfI+u89aHVGckrbzh9p7OJMmn5jn1rGciA5BZvWF
+	BUpZDOM5wxbUlmc2hHe8awKurgpL4cPdZ20/0bIdCdbkIwglLi7gYK1S97HXfzNS3N2gwsRvzu0nR
+	KfApIFuJnttAqgiGWq0KijH1BZDo8Z1u3Dyr9epLVBrSu9OFSp3AvR4MQHgqvoabLayDJbmmjoWL8
+	Ow44U0rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqjdU-00AYxp-77; Mon, 16 May 2022 22:56:20 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1nqk0P-00AjtV-AJ; Mon, 16 May 2022 23:20:01 +0000
+Received: from desiato.infradead.org ([90.155.92.199])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqjdE-00AYrf-OC
- for linux-nvme@lists.infradead.org; Mon, 16 May 2022 22:56:09 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24GKZMdJ009873;
- Mon, 16 May 2022 22:55:59 GMT
+ id 1nqjfP-00AaCU-GS
+ for linux-nvme@bombadil.infradead.org; Mon, 16 May 2022 22:58:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+ :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=qLmV2A/FfXX4Z1qISVXxXZ0NbRja0Rh9FDzBmYDHRqE=; b=UvmSYUwyLwvYKruC3ctA+Er7ty
+ jeV9A51I5AEKj4WfrsOqBFNwTiJj6oUVhShtzOoFLU3Ox0E9kB0W74qwgIda/BK3zEJ3INCjzOgdF
+ kjRNzBUsIRBRaUBqBmURSYf6atumIHrttfgx+NaWzh9YpnfigmX4fPtiwN9v+CTLmKKBleMElnkbY
+ 8l/0dk8b8WzDx9y9QOcNli4WAAikJ30PrQwtz9i7UyvrxmpEEQ4VPBAwkyfSKpAHCSuh3XQeB5sTF
+ s0UFyQwkHneqPVpgACPGHobtkikA39dfLw5gnFfMj0jIaHe2G4uj17C+rWoYsFJeA42uS3b0Rqe9i
+ dfV+p+Ag==;
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nqjfK-0012yK-2F
+ for linux-nvme@lists.infradead.org; Mon, 16 May 2022 22:58:17 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24GKrC3q027282;
+ Mon, 16 May 2022 22:55:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2021-07-09;
- bh=vk+vYcFgYaMuHaN1Ay8ZIYUInEjwExAWGZLWGGeAfzE=;
- b=fjQIeAdxNONb9SvV9sYa4iTsxihrSjo7Y0/TsXtnwNsmjwUqn9Xmj+NsuFH1y7dxF/Bg
- PjxWLXCxsYMR9FYX/UAWL4k+LpP2D90Gi4r6LFMrgDsZZKDK7WA30JecB49PhmvBvxHP
- t21w8lGNVuScThELFLWzGTMqBvnjRQ+hc1T4TpELhubxRJDzjQT4Q3H7B0zf3TVp97kY
- G5tneI2ynWNFfXJKcizVOeaTfoRoUll60Il0v8UhQrau0/44FxF+DvdLU9/uqP0IYD1e
- n1Oqf/Hx0zNhdJ1XTq8F+vtHuepz52DGCgxzdXxuHkv2710CsMk+N08c8jfht2EBunZO +g== 
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=qLmV2A/FfXX4Z1qISVXxXZ0NbRja0Rh9FDzBmYDHRqE=;
+ b=DjnGMps7szT0QJJvZmEjPO25tHJR+o5D0qmWbMf7C93Lv+oolSRN7YpSej1wPc8Q6kt7
+ lbbTbIdZ63H2HLAK007uB0g+EvxUls3FBi/yWwyAYLfQjlItL7osd450hnc/nIaKSUyW
+ Kwu903xfs0CABK+Naiy1pj55uo6DOAVXSMQ3euDAZ6b9xsa/9tJU4eiNwP3+DpBWaD0d
+ A366nLxj2xq72Rp+GYol4RKGttotB6M4ghe8wRWkp8IcKH/KUvSHF9YfEqMjrHJD+JnY
+ Ks3L8cyIK3VXwlONaxDvVchwh3pJcmcn3GqM6As+v2OS7P7LAjn0Y8+DNJZuOUKlaCEW UQ== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g2310mqhu-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g2371vqfe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 May 2022 22:55:59 +0000
+ Mon, 16 May 2022 22:55:57 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 24GMtt1E013363; Mon, 16 May 2022 22:55:58 GMT
+ with SMTP id 24GMttQx013392; Mon, 16 May 2022 22:55:56 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3g22v7xv3d-1
+ 3g22v7xv2v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 16 May 2022 22:55:58 +0000
+ Mon, 16 May 2022 22:55:56 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 24GMtul5013443;
- Mon, 16 May 2022 22:55:57 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 24GMtul3013443;
+ Mon, 16 May 2022 22:55:56 GMT
 Received: from dhcp-10-65-131-124.vpn.oracle.com
  (dhcp-10-65-131-124.vpn.oracle.com [10.65.131.124])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3g22v7xuyu-2; Mon, 16 May 2022 22:55:57 +0000
+ 3g22v7xuyu-1; Mon, 16 May 2022 22:55:56 +0000
 From: Alan Adamson <alan.adamson@oracle.com>
 To: linux-block@vger.kernel.org
 Cc: alan.adamson@oracle.com, linux-nvme@lists.infradead.org, osandov@fb.com
-Subject: [PATCH v4 blktests 1/2] tests/nvme: add helper routine to use error
- injector
-Date: Mon, 16 May 2022 15:55:38 -0700
-Message-Id: <20220516225539.81588-2-alan.adamson@oracle.com>
+Subject: blktests v4 tests/nvme: add tests for error logging
+Date: Mon, 16 May 2022 15:55:37 -0700
+Message-Id: <20220516225539.81588-1-alan.adamson@oracle.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20220516225539.81588-1-alan.adamson@oracle.com>
-References: <20220516225539.81588-1-alan.adamson@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: NL8rodNwD--bg7ztOqwn6oNIzOnhOD-I
-X-Proofpoint-GUID: NL8rodNwD--bg7ztOqwn6oNIzOnhOD-I
+X-Proofpoint-GUID: 9FuhQWjKqQtzvQ5hJWlQB6xZmC6SUEQV
+X-Proofpoint-ORIG-GUID: 9FuhQWjKqQtzvQ5hJWlQB6xZmC6SUEQV
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220516_155604_883456_49AA86B0 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20220516_235815_703579_5CF62632 
+X-CRM114-Status: GOOD (  13.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,66 +101,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme tests can use these helper routines to setup and use
-the nvme error injector.
+Test nvme error logging by injecting errors. Kernel must have FAULT_INJECTION
+and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests can be
+run with or without NVME_VERBOSE_ERRORS configured.
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- tests/nvme/rc | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+These test verify the functionality delivered by the follow:
+        commit bd83fe6f2cd2 ("nvme: add verbose error logging")
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 3c38408a0bfe..6412d5aca818 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -375,3 +375,47 @@ _discovery_genctr() {
- 	_nvme_discover "${nvme_trtype}" |
- 		sed -n -e 's/^.*Generation counter \([0-9]\+\).*$/\1/p'
- }
-+
-+declare -A NS_DEV_FAULT_INJECT_SAVE
-+declare -A CTRL_DEV_FAULT_INJECT_SAVE
-+
-+_nvme_err_inject_setup()
-+{
-+        local a
-+
-+        for a in /sys/kernel/debug/"$1"/fault_inject/*; do
-+                NS_DEV_FAULT_INJECT_SAVE[${a}]=$(<"${a}")
-+        done
-+
-+        for a in /sys/kernel/debug/"$2"/fault_inject/*; do
-+                CTRL_DEV_FAULT_INJECT_SAVE[${a}]=$(<"${a}")
-+        done
-+}
-+
-+_nvme_err_inject_cleanup()
-+{
-+        local a
-+
-+        for a in /sys/kernel/debug/"$1"/fault_inject/*; do
-+                echo "${NS_DEV_FAULT_INJECT_SAVE[${a}]}" > "${a}"
-+        done
-+
-+        for a in /sys/kernel/debug/"$2"/fault_inject/*; do
-+                echo "${CTRL_DEV_FAULT_INJECT_SAVE[${a}]}" > "${a}"
-+        done
-+}
-+
-+_nvme_enable_err_inject()
-+{
-+        echo "$2" > /sys/kernel/debug/"$1"/fault_inject/verbose
-+        echo "$3" > /sys/kernel/debug/"$1"/fault_inject/probability
-+        echo "$4" > /sys/kernel/debug/"$1"/fault_inject/dont_retry
-+        echo "$5" > /sys/kernel/debug/"$1"/fault_inject/status
-+        echo "$6" > /sys/kernel/debug/"$1"/fault_inject/times
-+}
-+
-+_nvme_disable_err_inject()
-+{
-+        echo 0 > /sys/kernel/debug/"$1"/fault_inject/probability
-+        echo 0 > /sys/kernel/debug/"$1"/fault_inject/times
-+}
+V2 - Update from suggestions from shinichiro.kawasaki@wdc.com
+V3 - Add error injector helper functions to nvme/rc
+V4 - Comments from shinichiro.kawasaki@wdc.com 
+
+Alan Adamson (2):
+  tests/nvme: add helper routine to use error injector
+  tests/nvme: add tests for error logging
+
+ tests/nvme/039     | 153 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/039.out |   7 +++
+ tests/nvme/rc      |  44 +++++++++++++
+ 3 files changed, 204 insertions(+)
+ create mode 100755 tests/nvme/039
+ create mode 100644 tests/nvme/039.out
+
 -- 
 2.27.0
 
