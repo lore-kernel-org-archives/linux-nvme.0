@@ -4,73 +4,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3AA4C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 13:52:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5454C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 14:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zRhw5sqFeqx9rdn4dxPQI/1ItNPhmYCSrx/kszU//Fo=; b=uLiKnIdvwM/OcL4joJnlJQMSIn
-	D1CPvkoMmXwVXWNfh9L3ALqPzg4XXunEfZEmuYzVKbmaY/Q1z0VTsDb+KXGuCjihiBhyViTK3MpZ9
-	u0mEjixcv4olCzCrX5gvMEYprVhXuSFSEUtdZRjbS9+Yespu6W62FQBnxS8fgLCzPXrPSQL/WLCGG
-	dvjZrUvayFQfkVCIuX6JPG9yOEiEomPefFKtOM+xl/7CJq35C1Z85neSsbr3kXnu05hkIEyi8JgEs
-	2+r9kyW+AwDI7cMKX/k3Luji0cZ5WUA7noLe/KGfxfTxutCoX/o+FRjVAjH7igHenz4GGMAAVE/Aw
-	0dRbYUxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=Lqh2rLFfJWb0/AnvbgICnGACUhxOuLi45Oz1BCPwGE0=; b=XIbpyuYy7P7VUVQP2glVusTJM+
+	pb56g1FV3mT6dbUBHy/W4TNQiLawbF3DYvNeNRcHjytWGvBtn4EmlOoVriM0Vzkx3HdG3CX6qNZ02
+	1tb6DRksbVK/RHLLV4AuT/jMapx1krFR2RYOXXfPkCQW9Gi/TeecStBhOlF+OjQsgLgptUrzJchll
+	4FOtvcWPUxAlUjvixw2qgFkImxWsEUzWoXXKoCV/ohaxavF/n/R88CX5T+cOQ0PLiqU9NiDwkZtl2
+	WqND9win8l5wzMrhtcXzrm6P82Sm6cZ1q/9H5q7y/cG6ZjOcmXQtfdeMNB3YSt0iMSQ/uipWtJ/kg
+	dSRfmP6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqxcx-00E5tW-TR; Tue, 17 May 2022 13:52:43 +0000
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+	id 1nqy3f-00EInl-AO; Tue, 17 May 2022 14:20:19 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqxbc-00E54H-Ng
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 13:51:23 +0000
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-f165bc447fso14356296fac.6
- for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 06:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zRhw5sqFeqx9rdn4dxPQI/1ItNPhmYCSrx/kszU//Fo=;
- b=Zcx9JJu2A/XxoIcD38p6r2As1HMPWvCofnMYMUAmZIiXKxxSJkI2YSHiN0g98kJaKp
- VdJ7/ARns3VVw2J5LEqEXgZcwne2BAktL9Ugd62oA7gCvGl7LPBEzr3yg85lkBPSNWzi
- VM12rGigzpzwYrqCd7c+quD2qb/WIGy0DOBMvEEPXv/WqatGKJohM0lmYSgAMPfqBiuR
- N/MlSrQJTK0/B1stGkQXU9r9J1UWLPicrRZFw0SGo1vBKg+kWhtDSniDLskZw7Mttya5
- GcywES95Fwx/Ic2GxgvkdNDf2o4h/DLD/KryxGPI747BSojHIs0ODI5MDNUgng9hWXJm
- nQzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zRhw5sqFeqx9rdn4dxPQI/1ItNPhmYCSrx/kszU//Fo=;
- b=SYGWumDjqy6EOL5iKKTgQec86qkkm1jOYAZp3C90L89Ddcxu58LsPAA2zEMmfo/mMV
- 2SIhcyi6IKA+B94nuovUfXlZ7xE6Gb2p615WmsCBbfq9imq1oq18TFrj2GUVD+SfUGwm
- 1a83D244ICy4lAvtYKiQHA3r4tZZ6X8W7NEMklZj5RM+Fkgi5ov8aAG9wG4YMjJiFlGp
- I5zxERTHvFkqR4a9utF8y+vEAshyNxoSrZH8+up4MHGZAF9FdPJ/rem7vs86isQEZudL
- 4/2lGegoowVnpVT98dn3ic1qLdVTpH1mkWcswA1p7EWEz0mQH7PoVwBgOF5HqU5Ug8rr
- YdKg==
-X-Gm-Message-State: AOAM5324orbhcQfGmvVZpbnDE3gyseWAxr5UFGlbcn852ZTrPlXb4Gw4
- phoAxc4RtKivDiLvJE/OjaDw3gpQJtNAEoe0MMc=
-X-Google-Smtp-Source: ABdhPJxKGQjd1MOfAsw41YEx/1jjJq2ugVjxv1NPPH84pV1jxJBSVJ6BPwMr5lUh594RhdHf/IqVRs1c5M5q9xFdvIY=
-X-Received: by 2002:a05:6870:6006:b0:e5:e6f1:5f2a with SMTP id
- t6-20020a056870600600b000e5e6f15f2amr12695964oaa.160.1652795476939; Tue, 17
- May 2022 06:51:16 -0700 (PDT)
+ id 1nqy3S-00EIeV-Bq
+ for linux-nvme@lists.infradead.org; Tue, 17 May 2022 14:20:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1652797204; x=1684333204;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=Lqh2rLFfJWb0/AnvbgICnGACUhxOuLi45Oz1BCPwGE0=;
+ b=JFDEgUQPax8sBptdCB13W5zUhGJHvKBmLNxvGvN1CqEBrzhjfg0OpQeL
+ agO7N9qFFTFRywtFozZ8dDX+69qIZjcu/eAfyK/a9Q9+UouDlcFIglgEA
+ t95p2cvoVkOQ7SIyMhND4wq7ItVALh/7akffoKdV66UJ6l6fV5UGSOZmu
+ 0CcOPVOEfMe2w9LlYOO9PvwyZzU3ICyYzzpmU3RhcesX4xfZkjxkPX61e
+ Cs9xmdkEg8ZHgGj9Gndc1RkUEQWuobOH6lrpA6byPh1WIQ4wxbb44K2E4
+ 4eXVhp/+DccJTVku3c8pXAvdd+x/MHtW+QuLC8nLbqhTQ1gijr9cY7KqN A==;
+X-IronPort-AV: E=Sophos;i="5.91,233,1647273600"; d="scan'208";a="205432452"
+Received: from mail-bn1nam07lp2045.outbound.protection.outlook.com (HELO
+ NAM02-BN1-obe.outbound.protection.outlook.com) ([104.47.51.45])
+ by ob1.hgst.iphmx.com with ESMTP; 17 May 2022 22:19:57 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YSYGm2eaXA+aFde/GhnprNibYMUqCrInYmvtQVB2//AiiB7v62iNP7wjK8DTbmLEgQtC4d1uJwzgCsiyEM8FK6Jk+Dv9hxoV/3XjeTw+cHzY9Dl4hHWunJ8NOCBdrI6xDaiPtaUS2SsNsfwJeQrJoNEYHlaJgPVoec1ji9UxA4LMotm6iGtsruAwMzsR2hz8emuXaYrFUqNz2rpIU2zm+pCtQ3DC2fjjsIIuWcs3JNsRiJbHu8m36kf6M70j6LdTyFOZknU5/LoTHFZEW5V20/77yO7FiXURB9dejWNuQOgi1fbo6O6WSq0+l5ES7+m9jYB3+jokJ+V3SrVLRnD9Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Lqh2rLFfJWb0/AnvbgICnGACUhxOuLi45Oz1BCPwGE0=;
+ b=HBcUY5WvMcl/wVZZsvZZPJNrR+PX8nUgfOE9AMyUSOtyO3FqMrRkl9rlyJh45SAin9V7PJsCavZbyVAtRPNbPnnPBOPI7zVXqGqY5AS8FwOC3EzIk/a/5Vt/ah/iXk3OBwOZ8Sv96yqpjz781HKsS9cD/Y8o3DjAQIz647og2BOqNrP80pRypws4FyyoFljr8m7XQINbvQ52LhdJc0tXifWhDDfw7tcnJLyue4P5XKJnZqo+0M6DP30dGwLa4HAApNxvu8rrUomDko6V27G6+gtbB0NopQWSaN/80eKW3heWgaLYMlSJrhdhCPdOLNTByqTW38u4QQlVkH/fBd7pWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lqh2rLFfJWb0/AnvbgICnGACUhxOuLi45Oz1BCPwGE0=;
+ b=eQUifDkFnOenfG8VnDqO1vdjU/c2fnMB5vph0sWPSVPUQCNfOa3uU/JJJDVUgpKCOModK9tp6sD2DWo1kLs92e+yDNvXGpsPzkQeQi+ZQoa75NCB2yFL0BbMiiPui6dNNzbp5YAemb9rTd6vxH9m6BUDUrVMG3rCYK/wRkCSG9Q=
+Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
+ by BYAPR04MB5462.namprd04.prod.outlook.com (2603:10b6:a03:c4::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Tue, 17 May
+ 2022 14:19:56 +0000
+Received: from PH0PR04MB7416.namprd04.prod.outlook.com
+ ([fe80::6cfd:b252:c66e:9e12]) by PH0PR04MB7416.namprd04.prod.outlook.com
+ ([fe80::6cfd:b252:c66e:9e12%3]) with mapi id 15.20.5250.018; Tue, 17 May 2022
+ 14:19:56 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Pankaj Raghav <p.raghav@samsung.com>, "axboe@kernel.dk" <axboe@kernel.dk>, 
+ "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
+ "pankydev8@gmail.com" <pankydev8@gmail.com>, "dsterba@suse.com"
+ <dsterba@suse.com>, "hch@lst.de" <hch@lst.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "gost.dev@samsung.com" <gost.dev@samsung.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ Bart Van Assche <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>, Luis
+ Chamberlain <mcgrof@kernel.org>
+Subject: Re: [PATCH v4 04/13] nvmet: Allow ZNS target to support
+ non-power_of_2 zone sizes
+Thread-Topic: [PATCH v4 04/13] nvmet: Allow ZNS target to support
+ non-power_of_2 zone sizes
+Thread-Index: AQHYaUWk3AoK5tKSj0OEio55edQW9Q==
+Date: Tue, 17 May 2022 14:19:56 +0000
+Message-ID: <PH0PR04MB7416FD8C80A78B635891B6339BCE9@PH0PR04MB7416.namprd04.prod.outlook.com>
+References: <20220516165416.171196-1-p.raghav@samsung.com>
+ <CGME20220516165424eucas1p2ee38cd64260539e5cac8d1fa4d0cba38@eucas1p2.samsung.com>
+ <20220516165416.171196-5-p.raghav@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9a3ba53c-3c55-45ef-079c-08da381051a4
+x-ms-traffictypediagnostic: BYAPR04MB5462:EE_
+x-microsoft-antispam-prvs: <BYAPR04MB5462EACD51011B87849243EA9BCE9@BYAPR04MB5462.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cuxVqwHnUBFip96+TLTaA8hbOMEeX3XAL3BXPhPaD/hxKWL3FXNQ2/ODE+/TugOIh7PlLAu8OWfhWoUT4dWy1oGFCtVCOOmPmDECKQEcQRI2gvAyF9qUlzjx59dadfk0VP6ERO2nT0nqvXnyqTn2ZhzAv8gaoiSpUBdSE8N96+s+a0TJkKzxJ5phCCwZqzqlqryQspB5e22zT1HHE48/FmmPOZyOxex/i3XyeFdaLt7IiDXSDUM0aziNhq8ofbPDQ9f2QmWyI1cYX9Dla5p3jQDel/qFn5ZEcNVP/3hnslUjjA0/oYTsp5FOYvKmd3qv9w5bEt/gM0jdn2V5SNztY6FJ7lS2D80ntLOJwxIddQcynYLL5ZHyj4pzMl9casi1pce32kPEhRUIc7MRFj5R86VCw8m8AjlYSttNFMiMf2zw1pxLNb58h/us8fyZ/F7qiUc/0J9tkSHCVTEUyocErLF+k/fygBvEX3otK1q8BGTTWMVYKk5LHc7wOWvSDugG79wYwyamR02+FOvj2Iv/SK+Qg9E31A7J+lDDwQow0bvc0IqTtNNDfXEko03CJh7UWT5xPBsOdVO86A/vn6CVge9Vl/z4LO56/MNkAHTbnVchxQDSy4HHSFqbKXfSLFFSgNx9n4+e7PhGcxFDCdsu6egvyNFf4F1ttb8BweOEa2StDWWDdl8io4gaNTtlLpot/r5ohr/5toETDJ+m+Buu3g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR04MB7416.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(110136005)(316002)(54906003)(55016003)(6506007)(4326008)(8676002)(8936002)(66446008)(9686003)(64756008)(66476007)(33656002)(86362001)(558084003)(508600001)(186003)(71200400001)(91956017)(52536014)(122000001)(38070700005)(5660300002)(7416002)(38100700002)(82960400001)(2906002)(66556008)(76116006)(66946007)(7696005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wXyWym6rXdZ1Kj9RG+pOQuEqLgnJWYijKXDgUTDhFBCvHFCze9hnGd7GtIl4?=
+ =?us-ascii?Q?FvPs6f/4RNPhlS5Qcphw7OnA29uQihbTAh4RN6ZLj4pb7qyt4g1V1A7z6Tzu?=
+ =?us-ascii?Q?4IzFCEX7ngA5MXlceOZTdSmOl/jpnZhLXyeCUKh9ISgScb6LlP+O7s+fMs+Y?=
+ =?us-ascii?Q?p4PmYDCotxo9BEMR2OlnTflPe0M+UQEpyiI72lW93+8Spn+Q7yoFYNEns7+W?=
+ =?us-ascii?Q?4kKLiBZppSkEnK69E18dfaSAFPjvWnGk1UM1i4IdhKxIno6tOPd5fndcxWZR?=
+ =?us-ascii?Q?PxVaBHqBsQyxHbJs5rb4/4JVoQK+MQIPnlkLDK6oNeTWfZM5haWZOuqnR5nx?=
+ =?us-ascii?Q?cofEcCQi0APFAZdUiWCFfJPpanJfvkBSvvs5KxkgQb5JqBk7euGySoEfesOw?=
+ =?us-ascii?Q?xGDFhkIZWco9PT9BYxlV/5OUlM1DIorLG9yEWHiviOtONznpxj5wkOYW/c/R?=
+ =?us-ascii?Q?xEO/6LtexnKMmPsugd1k5IuXuaDIrM4b3IySlUIAJz69O69LFqIx4R0UdAfg?=
+ =?us-ascii?Q?a24+FAF6ghRY11e/jwRnWTB3eyuvbw5H97VrI6h4bTQiipY8ZYaqiIGkNWg7?=
+ =?us-ascii?Q?J8KqlbGyplw5QBNL7mwu9A+B7+nYXH4jDgpSs3PeWhzad6GDsBC/i/mrhAGG?=
+ =?us-ascii?Q?jtW8RSCR22eGYfAbk+RZWeaggG+nOOjfAWMHtChHL40DvmdMfkn7WIDtL/PN?=
+ =?us-ascii?Q?fYVEwlZwNnE6fsQYgGHJOF2Z8L06bDfDOV+gwyucCtpvvkU3auQkWmPqb7Uf?=
+ =?us-ascii?Q?yWTOQbbROVLvfIa7KY5c+NHmKSSSDy5zr5YpbHEnSyTGMKukUeAaLYKSqoz8?=
+ =?us-ascii?Q?3tuV93JPUd43o8MbAuZ7rlzsu+mco27Zwm9O1xQ/Dz5D3XxsgmLREML8jHAy?=
+ =?us-ascii?Q?FRlu+Xyp/mcvf4/mjmCLnADVOwtdKUwZ+RLJg7XZVFWnIPT3PgjY4/cUn1cm?=
+ =?us-ascii?Q?hiW8hgSMR6VKTyC8tBxp9ooXIawdSAXLQDiapVsLqOG16+6YuBYfMdC//6R8?=
+ =?us-ascii?Q?zxk5+xBe2a0zBt+DN001SE+Wx7ftkpVstKZ+rAui9DiCmams5Z+ekiZQtZ3V?=
+ =?us-ascii?Q?MzEoj1aL9cTM2On5f2QZUShp+DX6oAo5xdTiYggVHnuErn8Zg97IUjozu0ZB?=
+ =?us-ascii?Q?PWHwzk0wN2mw8OUay6A5lYJK8T8VrrrERsy7Foy1z0+4eXnY8nCZ/7K1Q3GR?=
+ =?us-ascii?Q?nsj6cZvEbGEGw62fqGNNGGbAXtfCUaWw2cD0H8L6YSHH8CZP0Lj4iQVunLsW?=
+ =?us-ascii?Q?+znzJkZCpm3VRrYZAo2glNJi7i4tKAETG4X1AAVGXKp2HTrKgFQ3+hlmMcf0?=
+ =?us-ascii?Q?bMFq+XLFvdZtGeDsOce7EY230p8ooh3KbyyMJbyqGBJVlrVQq0Dv3plj4wW0?=
+ =?us-ascii?Q?HflhZ7TWrpasxKX0y40OWf0lZNEN55e/3Lyka2uE+1bllvWwKFMXkNUDZ35j?=
+ =?us-ascii?Q?dp1fz6OcjATn/AtmhZHs1IFRXORBuiVd6inbkzxFGhLHOkXaOynR0tGaAyPj?=
+ =?us-ascii?Q?sFskbvbtE7olUedyB7mEhZB5rvFQGMJPV811sYLHYQOnJmXghiyt+EcUKev2?=
+ =?us-ascii?Q?vIqVCo4Omqrq8XpOVf2BxQD8/CS3xrEigjoP/5BkHMHPESKhGxX6Hf60RMT9?=
+ =?us-ascii?Q?n7B7mzhAtr4q3qPQatQDqNb/69H+ZQIMyoLi2o5FGcdqjEHv3Gsbf2nfe9T7?=
+ =?us-ascii?Q?If5TqlmRp6FqAIaEMnu9a1OxFMTCSEudCyr05s4ET/Uqe5fJJWHGCUtHFVAL?=
+ =?us-ascii?Q?r3zIz6BBw1aqVT6WxCXvLgktMGuXW4CbJZFGr9bLCnvWQUtqH8U+r49UjRZ4?=
+x-ms-exchange-antispam-messagedata-1: E+DYvtfpoHJfwfCfyeGM53tZyNW3K9Au3oiYzjj/NyJ5ZqD95cEoPJ90
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220517053147.7925-1-joshi.k@samsung.com>
- <CGME20220517053712epcas5p20c6a2b123709d7df1a1df8c9b1c91125@epcas5p2.samsung.com>
- <20220517053147.7925-3-joshi.k@samsung.com> <20220517081520.GA14308@lst.de>
-In-Reply-To: <20220517081520.GA14308@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Tue, 17 May 2022 19:20:52 +0530
-Message-ID: <CA+1E3r+9CeNJAxGH8EzC+TSNgGt8GnLVCC9544_3v=pdgqmTbw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] nvme: enable uring-passthrough for admin commands
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, 
- linux-nvme@lists.infradead.org, gost.dev@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a3ba53c-3c55-45ef-079c-08da381051a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2022 14:19:56.6058 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: It57Z7bP9Qz2ngmJ9rvHDvhOGfNGMOdaZRq8ISab8AciVLVMo/W2nI3BEcSBarV7I6p+PuLHYBZT9Qk2+B3K/UwX9yyzeInPBTi77xP54pU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5462
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220517_065120_875114_1C795AEF 
-X-CRM114-Status: GOOD (  17.74  )
+X-CRM114-CacheID: sfid-20220517_072006_494064_5B4D503F 
+X-CRM114-Status: UNSURE (   8.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,40 +171,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 17, 2022 at 1:45 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, May 17, 2022 at 11:01:46AM +0530, Kanchan Joshi wrote:
-> > Add a new opcode NVME_URING_CMD_ADMIN that userspace can use.
-> > Wire up support for the case when this is issued over generic char
-> > device node (/dev/ngXnY).
->
-> I would really prefer not adding this to the per-namespaces nodes.
-> The do something controller specific on the namespace node patter is
-> a massive pain both in terms of code and semantics.
-
-Both block (nvme0n1) and char (ng0n1) nodes allow admin-cmds to be
-sent in the same way (with sync passthrough) as this patch does. So
-same semantics when we support this for async/uring passthrough, IMHO.
-
-To do passthrough read/write (and other stuff) via ns-generic
-interface, uring-application will need information (such as lba
-format) which can be obtained only with admin-commands. And if we
-don't support what this patch does, it will have to either -
-
-(a) get that information with sync-passthrough from /dev/ng0n1. Since
-we clearly separated async-passthrough with separate opcode/struct, it
-will need more bookkeeping to keep both sync and async dispatch
-engines alive.
-
-or
-
-(b) maintain one more fd (for /dev/nvme0 node) and use that for async
-dispatch whenever admin-cmd needs to be sent
-
-Given the implications, is it not better to have this up on ns-char
-node and applications get to use everything (io and admin cmds) in
-async manner with async-specific opcode/struct only?
-
-I will kill this if you still think it is a bad idea somehow, and move
-the code of this to patch 3 (enable only /dev/nvme0). LMK.
+I think this is useful even without the rest of the npo2 patches.=0A=
+=0A=
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>=0A=
 
