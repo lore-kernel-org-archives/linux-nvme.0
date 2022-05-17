@@ -4,74 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AE0AC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 06:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1825BC433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 07:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aeU3VoXUXZKdsv2GJJoS5Rv0ysce6O+QxLYOfJv4X4o=; b=hJ4QsYwqwrJ/Zg8NGwupXy/+r+
-	m3HbyzIV4pVb7MnNFjNfe7+n6Gvtz00Ucj1LZW7HZkkqZLEz13Rp74wDWLdw1R4Rs6gOfwcfxNHZg
-	RfmKhgL3L/dAscFL3bGom6Rno1xxLUYEw1ejMlPa+WlTFxl8dO4agSoZoVqYAB5JWCX1rgF+O9DuV
-	C1rZV2EA6ZMz7/3g5PLOB15JZ5VYVYcb2Sxkm9jSflKRigQ36KTWItEGWRG3rl5t/qF/TM1g7AxkH
-	pNu+i2AOYud3pOC9aDCIppPcO6p1RpPs/132jJlj2Gfw9YGoChiLdDMQ8hKXLaiFJlpZSbVcX8VUG
-	80VPB1uQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=bx0GajEor3WyGMo16Q7LjJjnXX5wkXjOwejR898IHlA=; b=znP1HwAR6olQmi
+	5jI8c8vOmfrF1MFg0+dsOEx2Rv3dXjjt8M9Hp31vjVmH5dKf0vCHxnVYxhWyjPS3ZIWmXzQ23e0eY
+	W41XftsCgeycg/iO7UT4oBrCzq1Yo6jqA3V5v7VR8lP+0AAxhLQgJcTCorJOm8r3dCXpFtK90BRAu
+	KKayDziozQiRBzaN2ycTAA/Vr18CBKSuYpV8Gxx4CH8ElVkfSvWn/69VyE6nXveVzedMtFvvM2klc
+	N9/JOo555IR3bqjDuhPUbh/HL8SiDp2/8MGvqifiWiXke8YTtIqwqRwBMbeQbtJ4egq4oP9d4m41m
+	dJOVPtceEpCP4kMyeovQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqr91-00BwXy-Bl; Tue, 17 May 2022 06:57:23 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nqs3i-00CHPx-BV; Tue, 17 May 2022 07:55:58 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqr8w-00BwVR-Vq
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 06:57:20 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 973A321FD9;
- Tue, 17 May 2022 06:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652770636;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aeU3VoXUXZKdsv2GJJoS5Rv0ysce6O+QxLYOfJv4X4o=;
- b=oRKdPDmIyHac+91X4pyeFresFqS607s1+r39s684KHOdsED4+GJPPdsCbrDNnoS6WRQ/eJ
- D5Oc4fbwTQOSZ0qQrkLO3I/gpmyDLDlDky6Mo921kT77tpMp29I754Fbnq3yiOwSMpnnGu
- 1eHQNQ/P5Zjv/CR1O3mvHxmNuhS8RuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652770636;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aeU3VoXUXZKdsv2GJJoS5Rv0ysce6O+QxLYOfJv4X4o=;
- b=pCOoV0Z2YOrTejKvwErPrybw9a4ULDvAWXOK8JsOk3efv/Bz52R7lNLnoh8EyZ9GINohej
- tn4V26ae5XjLoMAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 87ECF13AA2;
- Tue, 17 May 2022 06:57:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QFEVIUxHg2LwZQAAMHmgww
- (envelope-from <dwagner@suse.de>); Tue, 17 May 2022 06:57:16 +0000
-Date: Tue, 17 May 2022 08:57:16 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: "Hanumanthu Hanok (hanumanthuh)" <hanumanthuh@micron.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-rpmb: Update license to GPL-2.0-or-later
-Message-ID: <20220517065716.o3z3ebflxnr5olqp@carbon>
-References: <20220517062806.9448-1-dwagner@suse.de>
- <DM6PR08MB4764309003A593FC20D4E144D0CE9@DM6PR08MB4764.namprd08.prod.outlook.com>
+ id 1nqs3Z-00CHLw-Lw
+ for linux-nvme@lists.infradead.org; Tue, 17 May 2022 07:55:53 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220517075541euoutp0220f263c6b6c84a966e4611c2f2f2fca3~v1VM4IGnc0883708837euoutp02C
+ for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 07:55:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220517075541euoutp0220f263c6b6c84a966e4611c2f2f2fca3~v1VM4IGnc0883708837euoutp02C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1652774141;
+ bh=bx0GajEor3WyGMo16Q7LjJjnXX5wkXjOwejR898IHlA=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=I8+Az9lIdGVLHbV0AzkHCRWe5RYyWlIrvzpTwFyxkR4fAuFs1sTkhDYjXSuCEBmTc
+ RyvVuWdBiuMAOPzKJ93pJHAiB6vESnyFzwC4ID4waMa48KLl4ncMn1aYJhWvELHtXh
+ h4vasnqKTB+7eK3SYUBkb2F9kKkJNZvwCJVhzh8M=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220517075541eucas1p28071cc51330ce204f2f8758a16b48970~v1VMfzl7Q0562505625eucas1p2h;
+ Tue, 17 May 2022 07:55:41 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id F6.99.10260.DF453826; Tue, 17
+ May 2022 08:55:41 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220517075540eucas1p126d19be7cc8d727e072f48bd3212684d~v1VMGc8rS2733227332eucas1p1h;
+ Tue, 17 May 2022 07:55:40 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220517075540eusmtrp17e72e2a8e0edb40b9b0ccb6231156131~v1VMFdVfT1822418224eusmtrp1f;
+ Tue, 17 May 2022 07:55:40 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-d0-628354fd157b
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id DE.47.09522.CF453826; Tue, 17
+ May 2022 08:55:40 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220517075540eusmtip108cb51d13511e557ffec5666fa5ad2f5~v1VL8TtDG1204312043eusmtip10;
+ Tue, 17 May 2022 07:55:40 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.7) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 17 May 2022 08:55:38 +0100
+Message-ID: <bfcab01e-dbc8-a990-17b1-4aeadffa5685@samsung.com>
+Date: Tue, 17 May 2022 09:55:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR08MB4764309003A593FC20D4E144D0CE9@DM6PR08MB4764.namprd08.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 05/13] btrfs: zoned: Cache superblock location in
+ btrfs_zoned_device_info
+Content-Language: en-US
+To: <dsterba@suse.cz>
+CC: <pankydev8@gmail.com>, <dsterba@suse.com>, <hch@lst.de>,
+ <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <jiangbo.365@bytedance.com>,
+ <linux-block@vger.kernel.org>, <gost.dev@samsung.com>,
+ <linux-kernel@vger.kernel.org>, <dm-devel@redhat.com>, Luis Chamberlain
+ <mcgrof@kernel.org>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <20220516215826.GZ18596@twin.jikos.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.7]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBKsWRmVeSWpSXmKPExsWy7djP87p/Q5qTDFbf47HY+242q8WFH41M
+ Fot/f2exWLn6KJNFz4EPLBZ7b2lbXHq8gt1iz96TLBaXd81hs5i/7Cm7xY0JTxkt1tx8yuLA
+ 4/HvxBo2j52z7rJ7bFrVyeaxeUm9x+6bDWwe7/ddZfNYv+Uqi8eZBUfYPT5vkgvgjOKySUnN
+ ySxLLdK3S+DKWNKcW9DGUdH08w5TA+NRti5GTg4JAROJpoP32EFsIYEVjBK/DjlC2F8YJW7v
+ suxi5AKyPzNKzP9xEa7h4o6TLBCJ5YwSt07/ZIKrern7LFRmJ6PEufNfgOZycPAK2EkcWCcC
+ 0s0ioCrRvfsbI4jNKyAocXLmExYQW1QgQmLarDNgG4QFkiR2PPgAVsMsIC5x68l8JhBbREBU
+ 4tL+FWDzmQVuMEksu7KXBWQ+m4CWRGMn2AucAsYSr1u3sUD0akq0bv/NDmHLS2x/O4cZ4gNF
+ iZsrf0F9Uyux9tgZdpCZEgKHOSV+XYVJuEis+nodqkFY4tXxLewQtozE6ck9LBB2tcTTG7+Z
+ IZpbGCX6d65nAzlIQsBaou9MDkSNo0RT3weoMJ/EjbeCEPfwSUzaNp15AqPqLKSgmIXk5VlI
+ XpiF5IUFjCyrGMVTS4tz01OLjfNSy/WKE3OLS/PS9ZLzczcxAhPb6X/Hv+5gXPHqo94hRiYO
+ xkOMEhzMSiK8BhUNSUK8KYmVValF+fFFpTmpxYcYpTlYlMR5kzM3JAoJpCeWpGanphakFsFk
+ mTg4pRqYOOIuqSb8XmOhYnp4e2LYfZ0qOaMYVW3PG7tbNZ8LXHH46RuqJVws1WXkxGtnInz/
+ 6Z5D4W4Nsvy/Vq5MY7D3jNBbvvSBw/fpgbol2ZOrmFVuz7dx+6V+z/HsKpeipKeRG3981Lpf
+ +qyW+YXv/8aTk4VPP7X+ZXlKi9v8ue7xRQrP1LJ6eWp0NA9mZCp659274l2etUGOx8zodj+r
+ saiJ/x+ZSXU8F7ITbws/5YrtVpz0hG3XKsM7X177bmYMSnmwXF7OTL91fzFvR6WFVKlR8D79
+ jd98qz91SjCHTt0j45qZsXB2CouGhb/Oj7gDYfI3+7wOlqZHMXxSPS3f8DvdWOWtyJHfF/Km
+ cW82VmIpzkg01GIuKk4EAN5Uwi7bAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsVy+t/xu7p/QpqTDI5/1rXY+242q8WFH41M
+ Fot/f2exWLn6KJNFz4EPLBZ7b2lbXHq8gt1iz96TLBaXd81hs5i/7Cm7xY0JTxkt1tx8yuLA
+ 4/HvxBo2j52z7rJ7bFrVyeaxeUm9x+6bDWwe7/ddZfNYv+Uqi8eZBUfYPT5vkgvgjNKzKcov
+ LUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DLWNKcW9DGUdH0
+ 8w5TA+NRti5GTg4JAROJiztOsnQxcnEICSxllOj40scIkZCR+HTlIzuELSzx51oXG0TRR0aJ
+ eRu3MUM4Oxkl/h55w9TFyMHBK2AncWCdCEgDi4CqRPfub2CDeAUEJU7OfMICYosKREg82H2W
+ FcQWFkiS2PHgA1gNs4C4xK0n85lAbBEBUYlL+1dAXfSCUaL/0nKwzcwCN5gkll3ZywKyjE1A
+ S6KxE+w6TgFjidet21ggBmlKtG7/zQ5hy0tsfzuHGeIDRYmbK39BvVwr8er+bsYJjKKzkNw3
+ C8kds5CMmoVk1AJGllWMIqmlxbnpucWGesWJucWleel6yfm5mxiBKWHbsZ+bdzDOe/VR7xAj
+ EwfjIUYJDmYlEV6DioYkId6UxMqq1KL8+KLSnNTiQ4ymwECayCwlmpwPTEp5JfGGZgamhiZm
+ lgamlmbGSuK8ngUdiUIC6YklqdmpqQWpRTB9TBycUg1MUeHPhW7ptaWvmbnOQvlmVln5oQDB
+ U8xe0uvK7ViXp9qK3Xfa/lrnhkKfjPL5CHf3fXsYJuSzfn0p+FfFjjP59L/HWy/ETpHQVNtW
+ q53T8v2hFtu5+NwF/wOrdhQLXE2xXjb7vYXS8uVr9/e6n1qp2GEVnqC7wuSvTctb80VnHK2D
+ dScxBykzWLL9EC+Z1edpENz66dSstLMFXot3dBgc0r7DFDr7yu5L5xeaSWaa575g3bc/JY4r
+ RNE7MTO5qOa1wK+3uSqeCbZTElis+ZdoGwe3eJ8KmTb3cChD5PaDbskrD74542l+JvnnjWsv
+ A700wpriP2w49jtMy8OhlyGTZ73ivY5/Kl2Ox24ENiixFGckGmoxFxUnAgCKt6OGkgMAAA==
+X-CMS-MailID: 20220517075540eucas1p126d19be7cc8d727e072f48bd3212684d
+X-Msg-Generator: CA
+X-RootMTR: 20220516165425eucas1p29fcd11d7051d9d3a9a9efc17cd3b6999
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220516165425eucas1p29fcd11d7051d9d3a9a9efc17cd3b6999
+References: <20220516165416.171196-1-p.raghav@samsung.com>
+ <CGME20220516165425eucas1p29fcd11d7051d9d3a9a9efc17cd3b6999@eucas1p2.samsung.com>
+ <20220516165416.171196-6-p.raghav@samsung.com>
+ <20220516215826.GZ18596@twin.jikos.cz>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220516_235719_233242_8125D0D7 
-X-CRM114-Status: GOOD (  25.24  )
+X-CRM114-CacheID: sfid-20220517_005550_036988_26D5F4F7 
+X-CRM114-Status: GOOD (  17.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,74 +143,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: 20220517062806.9448-1-dwagner@suse.de
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Hanu,
-
-No idea if your reply to the mailing list will be granted. So let's just
-let me reply on the mailing list.
-
-Thanks a lot!
-Daniel
-
-On Tue, May 17, 2022 at 06:46:40AM +0000, Hanumanthu Hanok (hanumanthuh) wrote:
-> Daniel, 
-> I am not part of the linux-nvme mailing list (my request is still pending) so using my official address.
-> Please feel free to add 
+On 2022-05-16 23:58, David Sterba wrote:
+>> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+>> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+>> ---
+>>  fs/btrfs/zoned.c | 13 +++++++++----
+>>  fs/btrfs/zoned.h |  1 +
+>>  2 files changed, 10 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/fs/btrfs/zoned.c b/fs/btrfs/zoned.c
+>> index 06f22c021..e8c7cebb2 100644
+>> --- a/fs/btrfs/zoned.c
+>> +++ b/fs/btrfs/zoned.c
+>> @@ -511,6 +511,11 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device, bool populate_cache)
+>>  			   max_active_zones - nactive);
+>>  	}
+>>  
+>> +	/* Cache the sb zone number */
+>> +	for (i = 0; i < BTRFS_SUPER_MIRROR_MAX; ++i) {
+>> +		zone_info->sb_zone_location[i] =
+>> +			sb_zone_number(zone_info->zone_size_shift, i);
+>> +	}
 > 
-> Signed-off-by:  Hanumanthu H <hanumanthuh@micron.com>
-> 
-> to this patch.
-> 
-> Best Regards
-> Hanu
-> 
-> -----Original Message-----
-> From: Daniel Wagner <dwagner@suse.de> 
-> Sent: Tuesday, May 17, 2022 11:58 AM
-> To: linux-nvme@lists.infradead.org
-> Cc: Daniel Wagner <dwagner@suse.de>; Hanumanthu Hanok (hanumanthuh) <hanumanthuh@micron.com>
-> Subject: [EXT] [PATCH] nvme-rpmb: Update license to GPL-2.0-or-later
-> 
-> CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unless you recognize the sender and were expecting this message.
-> 
-> 
-> The project is using the GPL-2.0-or-later license. Relax the license requirement to GPL-2.0-or-later.
-> 
-> Cc: Hanumanthu H <hanumanthuh@micron.com>
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
-> Hi Hanumanthu,
-> 
-> Would you mind to singed-off-by this change?
-> 
-> Thanks,
-> Daniel
-> 
->  nvme-rpmb.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/nvme-rpmb.c b/nvme-rpmb.c
-> index 1ae262af95a5..8f6e6a0fa3b2 100644
-> --- a/nvme-rpmb.c
-> +++ b/nvme-rpmb.c
-> @@ -1,9 +1,11 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
->  /*
->   * Copyright (C) 2020 Micron Techology Inc. All rights reserved.
->   *
->   * This program is free software; you can redistribute it and/or
-> - * modify it under the terms of the GNU General Public License version
-> - * 2 as published by the Free Software Foundation.
-> + * modify it under the terms of the GNU General Public License
-> + * as published by the Free Software Foundation; either version 2
-> + * of the License, or (at your option) any later version.
->   *
->   * This program is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> --
-> 2.36.0
-> 
+> I don't think we need to cache the value right now, it's not in any hot
+> path and call to bdev_zone_no is relatively cheap (only dereferencing a
+> few pointers, all in-memory values).
+Ok. I will fix it up in the next revision! Thanks.
 
