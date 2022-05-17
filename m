@@ -4,65 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAD47C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 22:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F7B1C433FE
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 22:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
 	Subject:References:Mime-Version:Message-Id:In-Reply-To:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tf+qNQoI5qGFZ9RW7jx4HEPwOLh/TGpPIUH/6a1l9U4=; b=SLimVmPkZx9hNV/tEUuUMKXpAT
-	2/dodNNCGPYkwabF4rzGQIugnyTEzC+muFqbINkaJvz+5vvYqV7Oc3t84hH3X23uXvmLp9KICiyu4
-	S/tBbZu0zGEp67JV5P/CRXQKC88TO8NGPBszyTgfIOiQVXU+rfJWZhcI/xsPrnWMa5/IsIIPmMcHi
-	fTA/Aq6FMZV9g6/g73RcP1N0Jusyag2QN/wxOsm18pGMZ994ZW5uYHwE+dezwUAeD7Kt9qiKzBLMN
-	NzZT1cmJQKOZ3x+2txxNHR5rQ//CULpLqisqQnEJVbk3YnsaPsb/Wh58eWgh8G92HTFIDYGDDnpFv
-	h4zjOBPQ==;
+	bh=zm0DqW+BoHKP/acD7zIvmyyRPadAhJ70kej4mteuoVA=; b=lgTb7TyqiMdop2bEgCJbd3Asso
+	6GkVMbhTT78633gXm/fVUa8YXb+xKwaQT9duB+Bk7faKl2s8QS+cpLaVcRVdsR5vekexfxgcgytry
+	ZEAdfrr8iFQRMTYntL4Ct6DmvXgY/FxJ482WdUEPYR3CPrP9FjmGrKME1a6XBpoG7KxW0byt/kbLq
+	H/IdmuGDFqaqPiA6j7t+8mVOlfegNU4LDDM0lpzotlw8HspC2YCOBb92zahFjquND6CyjcWBp551q
+	XBr+0ymHYBnuVLJKHc2X7FwnKAXxsBct9Q7NWtbue5qE+XnbmpENU6+vDPM4/ZJqbv4HQLQBQ4mkT
+	oc25lO3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nr5Mm-00G2TY-0P; Tue, 17 May 2022 22:08:32 +0000
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
+	id 1nr5Mq-00G2Vm-CT; Tue, 17 May 2022 22:08:36 +0000
+Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nr5Mi-00G2OZ-T8
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 22:08:30 +0000
-Received: by mail-yb1-xb49.google.com with SMTP id
- o7-20020a256b47000000b0064ddc3bea70so330545ybm.4
- for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 15:08:27 -0700 (PDT)
+ id 1nr5Mm-00G2TV-Fx
+ for linux-nvme@lists.infradead.org; Tue, 17 May 2022 22:08:33 +0000
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-2ff40ee8109so2369907b3.14
+ for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 15:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=tf+qNQoI5qGFZ9RW7jx4HEPwOLh/TGpPIUH/6a1l9U4=;
- b=Vsd0rtAyuCX1ep9X8JPz0kVgE4qriTwFWX2119dzWimM6EjZ30AHxEw53p3qxrWdi5
- POmyjeHImwG4MqnpLGozKFxoNPL5EGmsOIPrfxbeifQQoCw61r9cF6yLgj9qaJudrBCn
- TjT2tZwfvaODmd0MssVVbrKjGeMSc6AW81dJLt5WkCPgCAdTmPdy1mskr6PlDa56AKta
- 25rvMKsojCYOuGZa4hqfLIuJZnoUa0GnEMoN2rRTBJeMWGKQFe9SJr22yWJXSPsaCeoQ
- awSYMJYsMF7kP+naNxCLPkKZAodpvp94xIYrYzmJDzVjbz7xUvrsI31pwdAGhXQwJLv7
- LH7A==
+ :cc; bh=zm0DqW+BoHKP/acD7zIvmyyRPadAhJ70kej4mteuoVA=;
+ b=AsNbs7wnDoomcBDBtfoCOElE6jNniS5QhqV6pIza4jl4lpHIHoIYTtS9hAoHBuc1P5
+ Lai81UoqAapTGV+EhVeBkb9ifvYs4rS3/UM04qTmqwbuktXpET6Zr8lur6zjXKSJaDYw
+ JrAu/bjtVVQCKzKgvkPerJoZcyc/wAI3pKA7B3S2FvC6tHkHMFB33Y8FGIKJVRhU9Fvq
+ VXoLxEyN6Zuu+gbZk8aUKRbh2CbfJd5zJjM4WNL+YDervkJkXdgRDNW82FG9uJVWj1US
+ bI3ndM7Dlh7Tc/WbUDlpdK80LuSSQuPZmwdVDBcPS5Xq1OQBpuUWpp81khbnmmAAbegu
+ xmaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=tf+qNQoI5qGFZ9RW7jx4HEPwOLh/TGpPIUH/6a1l9U4=;
- b=7UQCFDKKWsJFR88FKRDocfc51/rQzk0VdoLA03wcwAEL7S9eBf9vjuHhdSL/mMp+fq
- zl/iM9dxybRSYu0oKQ1JgB9g2uOoof+UUcB5PKC3xvAEIjZH5izn7Eik43d0FVoDRuRE
- aH8nFkZ1HRShQDSYmycPsVPg3J6P6bXE69nSW1u24zo8vFAiodGHncpli9El7rUjgxTG
- hdt3MAJ89iVDMnRLSot2aePWw/NIoY1mzgPzsyB1hbVtbExVJl7Lvig5b0cKTxsVLphB
- J78TAIB1AZft8bzaUEI0v+hLKhf9Z98FiodySyD+aVxf2wywpD+faO5Xi1sW42VWH8El
- N6CA==
-X-Gm-Message-State: AOAM533qB1Z48l7nZPGzA9EXkOBfhSRrZbnTDJWI1VLc2VUafoD3escG
- 8V4/L1B1Kw17SKNuDPZoLPddnenF32fID1s=
-X-Google-Smtp-Source: ABdhPJwcmd7U+J0BbWux8Dql+fC0+EhIAotkoA14iXEPCqqLPyINCsjksq6MYJzDnCiD6Pwc0H4rOmOTjArLiFM=
+ bh=zm0DqW+BoHKP/acD7zIvmyyRPadAhJ70kej4mteuoVA=;
+ b=6NkGbk+QcnRcC3ZGi3DCS25VE2AniYRy9t6jWDnZiG7upTc/CRTATIMfnn5AzCU6BT
+ J8B/ieD7LsbA/R5lanuuIvCzdVA3VD17jcGX5B2rh2C4jRvpOiBJfDRTj2leU/x+kzov
+ Q8VDfOvm7rKY1I95GdJ5AoZUsHbA/P0nNqCADAICpwBP1bB4riIDOnZ2IfKNy9UidMtc
+ ILQ+TlUBEeCUfxkw1BKsddX8FCSMIiyWgpWUvJWMdYW9hi7QchqZLNeWh4FVb8FczLOR
+ RWUaz06ZNOHxsX8H5xF5v1Isl0iAjwZxzzmQ0C71n8uemuKB6yc/giL8m7EE/zedPAFw
+ tngQ==
+X-Gm-Message-State: AOAM532juUA4C3/U24UbO0XlO2ufLTRL7oASzlpK6lBTKIBHnogUsK5D
+ Io7ihYqhssmMz/BzLQ2pj1VOAMtcdhHShqI=
+X-Google-Smtp-Source: ABdhPJzdJAzeV7gm8AS0Ny+YavQ8JOhwxUevF3poLXIh2oE3WhHG+lRupAn6BASD11L0wQDazBgiZye60KwAhw4=
 X-Received: from tansuresh.svl.corp.google.com
  ([2620:15c:2c5:13:3c9b:5345:708:1378])
- (user=tansuresh job=sendgmr) by 2002:a25:9c08:0:b0:64b:c9f8:de84 with SMTP id
- c8-20020a259c08000000b0064bc9f8de84mr20468621ybo.391.1652825307082; Tue, 17
- May 2022 15:08:27 -0700 (PDT)
-Date: Tue, 17 May 2022 15:08:14 -0700
-In-Reply-To: <20220517220816.1635044-1-tansuresh@google.com>
-Message-Id: <20220517220816.1635044-2-tansuresh@google.com>
+ (user=tansuresh job=sendgmr) by 2002:a5b:481:0:b0:649:d872:d521 with SMTP id
+ n1-20020a5b0481000000b00649d872d521mr24676650ybp.73.1652825311407; Tue, 17
+ May 2022 15:08:31 -0700 (PDT)
+Date: Tue, 17 May 2022 15:08:15 -0700
+In-Reply-To: <20220517220816.1635044-2-tansuresh@google.com>
+Message-Id: <20220517220816.1635044-3-tansuresh@google.com>
 Mime-Version: 1.0
 References: <20220517220816.1635044-1-tansuresh@google.com>
+ <20220517220816.1635044-2-tansuresh@google.com>
 X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
-Subject: [PATCH v3 1/3] driver core: Support asynchronous driver shutdown
+Subject: [PATCH v3 2/3] PCI: Support asynchronous shutdown
 From: Tanjore Suresh <tansuresh@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J . Wysocki" <rafael@kernel.org>, 
@@ -72,8 +73,8 @@ Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-pci@vger.kernel.org, Tanjore Suresh <tansuresh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220517_150828_982653_E30F70B3 
-X-CRM114-Status: GOOD (  20.14  )
+X-CRM114-CacheID: sfid-20220517_150832_568972_C439445C 
+X-CRM114-Status: GOOD (  20.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,113 +89,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This changes the bus driver interface with additional entry points
-to enable devices to implement asynchronous shutdown. The existing
-synchronous interface to shutdown is unmodified and retained for
-backward compatibility.
+Enhances the base PCI driver to add support for asynchronous
+shutdown.
 
-This changes the common device shutdown code to enable devices to
-participate in asynchronous shutdown implementation.
+Assume a device takes n secs to shutdown. If a machine has been
+populated with M such devices, the total time spent in shutting down
+all the devices will be M * n secs, if the shutdown is done
+synchronously. For example, if NVMe PCI Controllers take 5 secs
+to shutdown and if there are 16 such NVMe controllers in a system,
+system will spend a total of 80 secs to shutdown all
+NVMe devices in that system.
+
+In order to speed up the shutdown time, asynchronous interface to
+shutdown has been implemented. This will significantly reduce
+the machine reboot time.
 
 Signed-off-by: Tanjore Suresh <tansuresh@google.com>
 ---
- drivers/base/core.c        | 38 +++++++++++++++++++++++++++++++++++++-
- include/linux/device/bus.h | 12 ++++++++++++
- 2 files changed, 49 insertions(+), 1 deletion(-)
+ drivers/pci/pci-driver.c | 20 ++++++++++++++++----
+ include/linux/pci.h      |  4 ++++
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 3d6430eb0c6a..ba267ae70a22 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4479,6 +4479,7 @@ EXPORT_SYMBOL_GPL(device_change_owner);
- void device_shutdown(void)
- {
- 	struct device *dev, *parent;
-+	LIST_HEAD(async_shutdown_list);
- 
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4523,7 +4524,13 @@ void device_shutdown(void)
- 				dev_info(dev, "shutdown_pre\n");
- 			dev->class->shutdown_pre(dev);
- 		}
--		if (dev->bus && dev->bus->shutdown) {
-+		if (dev->bus && dev->bus->async_shutdown_start) {
-+			if (initcall_debug)
-+				dev_info(dev, "async_shutdown_start\n");
-+			dev->bus->async_shutdown_start(dev);
-+			list_add_tail(&dev->kobj.entry,
-+				&async_shutdown_list);
-+		} else if (dev->bus && dev->bus->shutdown) {
- 			if (initcall_debug)
- 				dev_info(dev, "shutdown\n");
- 			dev->bus->shutdown(dev);
-@@ -4543,6 +4550,35 @@ void device_shutdown(void)
- 		spin_lock(&devices_kset->list_lock);
- 	}
- 	spin_unlock(&devices_kset->list_lock);
-+
-+	/*
-+	 * Second pass spin for only devices, that have configured
-+	 * Asynchronous shutdown.
-+	 */
-+	while (!list_empty(&async_shutdown_list)) {
-+		dev = list_entry(async_shutdown_list.next, struct device,
-+				kobj.entry);
-+		parent = get_device(dev->parent);
-+		get_device(dev);
-+		/*
-+		 * Make sure the device is off the  list
-+		 */
-+		list_del_init(&dev->kobj.entry);
-+		if (parent)
-+			device_lock(parent);
-+		device_lock(dev);
-+		if (dev->bus && dev->bus->async_shutdown_end) {
-+			if (initcall_debug)
-+				dev_info(dev,
-+				"async_shutdown_end called\n");
-+			dev->bus->async_shutdown_end(dev);
-+		}
-+		device_unlock(dev);
-+		if (parent)
-+			device_unlock(parent);
-+		put_device(dev);
-+		put_device(parent);
-+	}
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 4ceeb75fc899..63f49a8dff8e 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -501,16 +501,28 @@ static void pci_device_remove(struct device *dev)
+ 	pci_dev_put(pci_dev);
  }
  
- /*
-diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-index a039ab809753..f582c9d21515 100644
---- a/include/linux/device/bus.h
-+++ b/include/linux/device/bus.h
-@@ -49,6 +49,16 @@ struct fwnode_handle;
-  *		will never get called until they do.
-  * @remove:	Called when a device removed from this bus.
-  * @shutdown:	Called at shut-down time to quiesce the device.
-+ * @async_shutdown_start:	Called at the shutdown-time to start
-+ *				the shutdown process on the device.
-+ *				This entry point will be called only
-+ *				when the bus driver has indicated it would
-+ *				like to participate in asynchronous shutdown
-+ *				completion.
-+ * @async_shutdown_end:	Called at shutdown-time  to complete the shutdown
-+ *			process of the device. This entry point will be called
-+ *			only when the bus drive has indicated it would like to
-+ *			participate in the asynchronous shutdown completion.
-  *
-  * @online:	Called to put the device back online (after offlining it).
-  * @offline:	Called to put the device offline for hot-removal. May fail.
-@@ -93,6 +103,8 @@ struct bus_type {
- 	void (*sync_state)(struct device *dev);
- 	void (*remove)(struct device *dev);
- 	void (*shutdown)(struct device *dev);
-+	void (*async_shutdown_start)(struct device *dev);
-+	void (*async_shutdown_end)(struct device *dev);
+-static void pci_device_shutdown(struct device *dev)
++static void pci_device_async_shutdown_start(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+ 	struct pci_driver *drv = pci_dev->driver;
  
- 	int (*online)(struct device *dev);
- 	int (*offline)(struct device *dev);
+ 	pm_runtime_resume(dev);
+ 
+-	if (drv && drv->shutdown)
++	if (drv && drv->async_shutdown_start)
++		drv->async_shutdown_start(pci_dev);
++	else if (drv && drv->shutdown)
+ 		drv->shutdown(pci_dev);
+ 
++}
++
++static void pci_device_async_shutdown_end(struct device *dev)
++{
++	struct pci_dev *pci_dev = to_pci_dev(dev);
++	struct pci_driver *drv = pci_dev->driver;
++
++	if (drv && drv->async_shutdown_end)
++		drv->async_shutdown_end(pci_dev);
++
+ 	/*
+ 	 * If this is a kexec reboot, turn off Bus Master bit on the
+ 	 * device to tell it to not continue to do DMA. Don't touch
+@@ -521,7 +533,6 @@ static void pci_device_shutdown(struct device *dev)
+ 	if (kexec_in_progress && (pci_dev->current_state <= PCI_D3hot))
+ 		pci_clear_master(pci_dev);
+ }
+-
+ #ifdef CONFIG_PM
+ 
+ /* Auxiliary functions used for system resume and run-time resume. */
+@@ -1625,7 +1636,8 @@ struct bus_type pci_bus_type = {
+ 	.uevent		= pci_uevent,
+ 	.probe		= pci_device_probe,
+ 	.remove		= pci_device_remove,
+-	.shutdown	= pci_device_shutdown,
++	.async_shutdown_start	= pci_device_async_shutdown_start,
++	.async_shutdown_end	= pci_device_async_shutdown_end,
+ 	.dev_groups	= pci_dev_groups,
+ 	.bus_groups	= pci_bus_groups,
+ 	.drv_groups	= pci_drv_groups,
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 60adf42460ab..ef5500c18fed 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -881,6 +881,8 @@ struct module;
+  *		Useful for enabling wake-on-lan (NIC) or changing
+  *		the power state of a device before reboot.
+  *		e.g. drivers/net/e100.c.
++ * @async_shutdown_start:	This starts the asynchronous shutdown
++ * @async_shutdown_end:	This completes the started asynchronous shutdown
+  * @sriov_configure: Optional driver callback to allow configuration of
+  *		number of VFs to enable via sysfs "sriov_numvfs" file.
+  * @sriov_set_msix_vec_count: PF Driver callback to change number of MSI-X
+@@ -905,6 +907,8 @@ struct pci_driver {
+ 	int  (*suspend)(struct pci_dev *dev, pm_message_t state);	/* Device suspended */
+ 	int  (*resume)(struct pci_dev *dev);	/* Device woken up */
+ 	void (*shutdown)(struct pci_dev *dev);
++	void (*async_shutdown_start)(struct pci_dev *dev);
++	void (*async_shutdown_end)(struct pci_dev *dev);
+ 	int  (*sriov_configure)(struct pci_dev *dev, int num_vfs); /* On PF */
+ 	int  (*sriov_set_msix_vec_count)(struct pci_dev *vf, int msix_vec_count); /* On PF */
+ 	u32  (*sriov_get_vf_total_msix)(struct pci_dev *pf);
 -- 
 2.36.0.550.gb090851708-goog
 
