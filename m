@@ -4,134 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1825BC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 07:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7356C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 07:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bx0GajEor3WyGMo16Q7LjJjnXX5wkXjOwejR898IHlA=; b=znP1HwAR6olQmi
-	5jI8c8vOmfrF1MFg0+dsOEx2Rv3dXjjt8M9Hp31vjVmH5dKf0vCHxnVYxhWyjPS3ZIWmXzQ23e0eY
-	W41XftsCgeycg/iO7UT4oBrCzq1Yo6jqA3V5v7VR8lP+0AAxhLQgJcTCorJOm8r3dCXpFtK90BRAu
-	KKayDziozQiRBzaN2ycTAA/Vr18CBKSuYpV8Gxx4CH8ElVkfSvWn/69VyE6nXveVzedMtFvvM2klc
-	N9/JOo555IR3bqjDuhPUbh/HL8SiDp2/8MGvqifiWiXke8YTtIqwqRwBMbeQbtJ4egq4oP9d4m41m
-	dJOVPtceEpCP4kMyeovQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HE/5yTj3a9eEeGDuFBIKfM6f6F9ozQkejGz6eoRL+84=; b=deGSCPmSTWH8bB/HSXxj77713d
+	EtiKSA1vuVhH9ek2JZEx/f7C2EovLzEhl5cSlAvon35XCBE4w99TJH7M2hOTIUYgG+yzPQIvlJe3i
+	VusT25SkajOyDeC0+Aa8fz+BgdXsnbKCpCZKlNmLsylKCq/7r0K0fe72DJRf+kulPjjvKn42T25fN
+	zsKIDvyL7W3Mvip1ukKEKzKrZjLfhMqo/DTfTjOz/bdHNquc4C/Wj2Lp6LspGT44ojAhzLXocRdwS
+	R49C3O1FpZENAlWjh5qwaCM3aVuz+knSFpjgBPFi6l0RYToyEcnk79CFQQ6bAcH+Y1+dPY1iEUuY2
+	VH10ix8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqs3i-00CHPx-BV; Tue, 17 May 2022 07:55:58 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1nqs50-00CHqS-58; Tue, 17 May 2022 07:57:18 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqs3Z-00CHLw-Lw
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 07:55:53 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220517075541euoutp0220f263c6b6c84a966e4611c2f2f2fca3~v1VM4IGnc0883708837euoutp02C
- for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 07:55:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220517075541euoutp0220f263c6b6c84a966e4611c2f2f2fca3~v1VM4IGnc0883708837euoutp02C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1652774141;
- bh=bx0GajEor3WyGMo16Q7LjJjnXX5wkXjOwejR898IHlA=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=I8+Az9lIdGVLHbV0AzkHCRWe5RYyWlIrvzpTwFyxkR4fAuFs1sTkhDYjXSuCEBmTc
- RyvVuWdBiuMAOPzKJ93pJHAiB6vESnyFzwC4ID4waMa48KLl4ncMn1aYJhWvELHtXh
- h4vasnqKTB+7eK3SYUBkb2F9kKkJNZvwCJVhzh8M=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220517075541eucas1p28071cc51330ce204f2f8758a16b48970~v1VMfzl7Q0562505625eucas1p2h;
- Tue, 17 May 2022 07:55:41 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id F6.99.10260.DF453826; Tue, 17
- May 2022 08:55:41 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220517075540eucas1p126d19be7cc8d727e072f48bd3212684d~v1VMGc8rS2733227332eucas1p1h;
- Tue, 17 May 2022 07:55:40 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220517075540eusmtrp17e72e2a8e0edb40b9b0ccb6231156131~v1VMFdVfT1822418224eusmtrp1f;
- Tue, 17 May 2022 07:55:40 +0000 (GMT)
-X-AuditID: cbfec7f5-bf3ff70000002814-d0-628354fd157b
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id DE.47.09522.CF453826; Tue, 17
- May 2022 08:55:40 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220517075540eusmtip108cb51d13511e557ffec5666fa5ad2f5~v1VL8TtDG1204312043eusmtip10;
- Tue, 17 May 2022 07:55:40 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.7) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 17 May 2022 08:55:38 +0100
-Message-ID: <bfcab01e-dbc8-a990-17b1-4aeadffa5685@samsung.com>
-Date: Tue, 17 May 2022 09:55:37 +0200
+ id 1nqs4x-00CHoV-3K
+ for linux-nvme@lists.infradead.org; Tue, 17 May 2022 07:57:16 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2004E21D9E;
+ Tue, 17 May 2022 07:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652774233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HE/5yTj3a9eEeGDuFBIKfM6f6F9ozQkejGz6eoRL+84=;
+ b=qwlr3QiS7i/mY8CNcp2PNSeN5edevXxQOhL5iVmsOG9OQHyIDyf5QJMSZNdIhPXqPpgOii
+ BeGGhtvoXERmiW59WTg+DyCArBvApsVDpqxocdUwzB0WvdwDvWw0vFtHCMGgev2ivcvk0M
+ X2uLwSnAGHXpI/NivJBRk3cERwucPJQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652774233;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HE/5yTj3a9eEeGDuFBIKfM6f6F9ozQkejGz6eoRL+84=;
+ b=mCL+TUQSoekh8vdEp1ckAJmYLjMH9PfdY7csqzBz8TnzuxSF5M+Mmqb71NJjIauGBKY8pj
+ fUIilkik8NeRgWDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0FEC113305;
+ Tue, 17 May 2022 07:57:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uHzgA1lVg2LTBAAAMHmgww
+ (envelope-from <dwagner@suse.de>); Tue, 17 May 2022 07:57:13 +0000
+Date: Tue, 17 May 2022 09:57:12 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ Martin Wilck <martin.wilck@suse.com>,
+ Belanger Martin <Martin.Belanger@dell.com>,
+ James Smart <jsmart2021@gmail.com>, Hanumanthu H <hanumanthuh@micron.com>
+Subject: Re: nvme-cli license clarification
+Message-ID: <20220517075712.262gqfbyaylufl33@carbon>
+References: <20220516161608.of4tklsysuvgbtie@carbon.lan>
+ <YoJ574Sr5oOLSM8T@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 05/13] btrfs: zoned: Cache superblock location in
- btrfs_zoned_device_info
-Content-Language: en-US
-To: <dsterba@suse.cz>
-CC: <pankydev8@gmail.com>, <dsterba@suse.com>, <hch@lst.de>,
- <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-btrfs@vger.kernel.org>, <jiangbo.365@bytedance.com>,
- <linux-block@vger.kernel.org>, <gost.dev@samsung.com>,
- <linux-kernel@vger.kernel.org>, <dm-devel@redhat.com>, Luis Chamberlain
- <mcgrof@kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220516215826.GZ18596@twin.jikos.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.7]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBKsWRmVeSWpSXmKPExsWy7djP87p/Q5qTDFbf47HY+242q8WFH41M
- Fot/f2exWLn6KJNFz4EPLBZ7b2lbXHq8gt1iz96TLBaXd81hs5i/7Cm7xY0JTxkt1tx8yuLA
- 4/HvxBo2j52z7rJ7bFrVyeaxeUm9x+6bDWwe7/ddZfNYv+Uqi8eZBUfYPT5vkgvgjOKySUnN
- ySxLLdK3S+DKWNKcW9DGUdH08w5TA+NRti5GTg4JAROJpoP32EFsIYEVjBK/DjlC2F8YJW7v
- suxi5AKyPzNKzP9xEa7h4o6TLBCJ5YwSt07/ZIKrern7LFRmJ6PEufNfgOZycPAK2EkcWCcC
- 0s0ioCrRvfsbI4jNKyAocXLmExYQW1QgQmLarDNgG4QFkiR2PPgAVsMsIC5x68l8JhBbREBU
- 4tL+FWDzmQVuMEksu7KXBWQ+m4CWRGMn2AucAsYSr1u3sUD0akq0bv/NDmHLS2x/O4cZ4gNF
- iZsrf0F9Uyux9tgZdpCZEgKHOSV+XYVJuEis+nodqkFY4tXxLewQtozE6ck9LBB2tcTTG7+Z
- IZpbGCX6d65nAzlIQsBaou9MDkSNo0RT3weoMJ/EjbeCEPfwSUzaNp15AqPqLKSgmIXk5VlI
- XpiF5IUFjCyrGMVTS4tz01OLjfNSy/WKE3OLS/PS9ZLzczcxAhPb6X/Hv+5gXPHqo94hRiYO
- xkOMEhzMSiK8BhUNSUK8KYmVValF+fFFpTmpxYcYpTlYlMR5kzM3JAoJpCeWpGanphakFsFk
- mTg4pRqYOOIuqSb8XmOhYnp4e2LYfZ0qOaMYVW3PG7tbNZ8LXHH46RuqJVws1WXkxGtnInz/
- 6Z5D4W4Nsvy/Vq5MY7D3jNBbvvSBw/fpgbol2ZOrmFVuz7dx+6V+z/HsKpeipKeRG3981Lpf
- +qyW+YXv/8aTk4VPP7X+ZXlKi9v8ue7xRQrP1LJ6eWp0NA9mZCp659274l2etUGOx8zodj+r
- saiJ/x+ZSXU8F7ITbws/5YrtVpz0hG3XKsM7X177bmYMSnmwXF7OTL91fzFvR6WFVKlR8D79
- jd98qz91SjCHTt0j45qZsXB2CouGhb/Oj7gDYfI3+7wOlqZHMXxSPS3f8DvdWOWtyJHfF/Km
- cW82VmIpzkg01GIuKk4EAN5Uwi7bAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsVy+t/xu7p/QpqTDI5/1rXY+242q8WFH41M
- Fot/f2exWLn6KJNFz4EPLBZ7b2lbXHq8gt1iz96TLBaXd81hs5i/7Cm7xY0JTxkt1tx8yuLA
- 4/HvxBo2j52z7rJ7bFrVyeaxeUm9x+6bDWwe7/ddZfNYv+Uqi8eZBUfYPT5vkgvgjNKzKcov
- LUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DLWNKcW9DGUdH0
- 8w5TA+NRti5GTg4JAROJiztOsnQxcnEICSxllOj40scIkZCR+HTlIzuELSzx51oXG0TRR0aJ
- eRu3MUM4Oxkl/h55w9TFyMHBK2AncWCdCEgDi4CqRPfub2CDeAUEJU7OfMICYosKREg82H2W
- FcQWFkiS2PHgA1gNs4C4xK0n85lAbBEBUYlL+1dAXfSCUaL/0nKwzcwCN5gkll3ZywKyjE1A
- S6KxE+w6TgFjidet21ggBmlKtG7/zQ5hy0tsfzuHGeIDRYmbK39BvVwr8er+bsYJjKKzkNw3
- C8kds5CMmoVk1AJGllWMIqmlxbnpucWGesWJucWleel6yfm5mxiBKWHbsZ+bdzDOe/VR7xAj
- EwfjIUYJDmYlEV6DioYkId6UxMqq1KL8+KLSnNTiQ4ymwECayCwlmpwPTEp5JfGGZgamhiZm
- lgamlmbGSuK8ngUdiUIC6YklqdmpqQWpRTB9TBycUg1MUeHPhW7ptaWvmbnOQvlmVln5oQDB
- U8xe0uvK7ViXp9qK3Xfa/lrnhkKfjPL5CHf3fXsYJuSzfn0p+FfFjjP59L/HWy/ETpHQVNtW
- q53T8v2hFtu5+NwF/wOrdhQLXE2xXjb7vYXS8uVr9/e6n1qp2GEVnqC7wuSvTctb80VnHK2D
- dScxBykzWLL9EC+Z1edpENz66dSstLMFXot3dBgc0r7DFDr7yu5L5xeaSWaa575g3bc/JY4r
- RNE7MTO5qOa1wK+3uSqeCbZTElis+ZdoGwe3eJ8KmTb3cChD5PaDbskrD74542l+JvnnjWsv
- A700wpriP2w49jtMy8OhlyGTZ73ivY5/Kl2Ox24ENiixFGckGmoxFxUnAgCKt6OGkgMAAA==
-X-CMS-MailID: 20220517075540eucas1p126d19be7cc8d727e072f48bd3212684d
-X-Msg-Generator: CA
-X-RootMTR: 20220516165425eucas1p29fcd11d7051d9d3a9a9efc17cd3b6999
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220516165425eucas1p29fcd11d7051d9d3a9a9efc17cd3b6999
-References: <20220516165416.171196-1-p.raghav@samsung.com>
- <CGME20220516165425eucas1p29fcd11d7051d9d3a9a9efc17cd3b6999@eucas1p2.samsung.com>
- <20220516165416.171196-6-p.raghav@samsung.com>
- <20220516215826.GZ18596@twin.jikos.cz>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoJ574Sr5oOLSM8T@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220517_005550_036988_26D5F4F7 
-X-CRM114-Status: GOOD (  17.18  )
+X-CRM114-CacheID: sfid-20220517_005715_306920_5C26F656 
+X-CRM114-Status: GOOD (  17.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,30 +89,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-05-16 23:58, David Sterba wrote:
->> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
->> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
->> ---
->>  fs/btrfs/zoned.c | 13 +++++++++----
->>  fs/btrfs/zoned.h |  1 +
->>  2 files changed, 10 insertions(+), 4 deletions(-)
->>
->> diff --git a/fs/btrfs/zoned.c b/fs/btrfs/zoned.c
->> index 06f22c021..e8c7cebb2 100644
->> --- a/fs/btrfs/zoned.c
->> +++ b/fs/btrfs/zoned.c
->> @@ -511,6 +511,11 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device, bool populate_cache)
->>  			   max_active_zones - nactive);
->>  	}
->>  
->> +	/* Cache the sb zone number */
->> +	for (i = 0; i < BTRFS_SUPER_MIRROR_MAX; ++i) {
->> +		zone_info->sb_zone_location[i] =
->> +			sb_zone_number(zone_info->zone_size_shift, i);
->> +	}
+On Mon, May 16, 2022 at 10:21:03AM -0600, Keith Busch wrote:
+> On Mon, May 16, 2022 at 06:16:08PM +0200, Daniel Wagner wrote:
+> > 2. nvme.h
+> > 
+> >    The situation here is a bit simpler as Keith is 'owning' most
+> >    of the lines (monolithic and master branch are almost identically)
+> > 
+> >    Copyright (c) 2011-2014, Intel Corporation
+> >
+> >   I suppose someone from Intel needs to signed of the 'or any later
+> >   version' thing. Keith do you happen to have a contact for this?
 > 
-> I don't think we need to cache the value right now, it's not in any hot
-> path and call to bdev_zone_no is relatively cheap (only dereferencing a
-> few pointers, all in-memory values).
-Ok. I will fix it up in the next revision! Thanks.
+> I am not sure of who would be interested at Intel in this anymore. This was
+> initially just a copy of the Linux kernel's header, though, and diverged
+> significantly from there, but I guess we'd need to inherit the original's
+> GPLv2 only license?
+
+Indeed, there isn't much left from the uapi header. I see to options.
+
+The first is to accept this situation and mark nvme-cli as GPL-2.0-only
+or second we reimplement the necessary parts under GPL-2.0-or-later.
+
+Most of the content is just function declarations and the implementation
+is licensed under GPL-2.0-or-later. Do we really have to consider these
+declarations as GPL-2.0-only? So this could be moved to a new header
+file which is licensed under GPL-2.0-or-later, I suppose.
+
+The rest of the file could be reimplemented fairly simple. What you think?
 
