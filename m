@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38A12C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 17:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6930C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 17:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	bh=WFmulbzEb1H7guuqr+y/ke1pMfXHocLEi+Rn0knT/A4=; b=xhH1Djj5/acciPUkAWleX2UZ79
-	c5XrPNAWn0SyM/Eg3M9ivrfpD4i9/cXb+VCXchFeClCnsLXy/546J6O0f4QAipfkINIDtnuQcoBeb
-	o7cqEsz/sCuRHbhtKFkhXOpJCzvTSqcEKfTbitjA9J6zlzZIoTLR90/+0Ug1m3uYbM6yMtNLAx29t
-	sc/eMLqmDmfkjxX5U6oXVHOBxQAcl5G3fFDCx9ZWdio9ciyGAN3hylPVX4fR+w4S7BC/AOH9bh6lR
-	BAIXEYkhBwwJEZ0zf8yJzwwKn1K+FNc1J5bXWtnTnes5fKq3Tx8Lla9J6USjKj2438kFqHOCpy4IX
-	YZuatwXQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=3MSbKn8LsKhFlVC3mSScicjcOfY7V1ma6YdneTKkK8k=; b=QgUatxxQLonudo
+	F/oS16cLTAHK4xeeFywSoV6mdGrLEqqMK6mBte/tLhNutBzTyFwH/NurM9diH1BpokNcbE0iuAaKz
+	dJAllxmzMGmMiIoG7On1nDtOxx4GcSNnPEbpeLIGp0C86PzQ9F1na0ww/OowzgnqnobyuvkCKrTKq
+	LV5m96WxEb+zkf1SR62YX0XxJ038MtyvqO6J93ABT/Ewiy7Mhc8EhE3XZnajmPdf7iqdzT+K9jsWW
+	ZMazMUE/6lnrBt53imvatnyNZwuR2dbEWQGCmEjjnsupCKsR+V37zaBoC1/cPhOCtj1edYO+IS0O7
+	KdI0CDg+5xhInEoXRLPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nr0qo-00F1sM-Bv; Tue, 17 May 2022 17:19:14 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1nr0vv-00F2qd-VR; Tue, 17 May 2022 17:24:32 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nr0qh-00F1nH-9c
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 17:19:09 +0000
+ id 1nr0vs-00F2pl-8G
+ for linux-nvme@lists.infradead.org; Tue, 17 May 2022 17:24:30 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id E0607CE19AF;
- Tue, 17 May 2022 17:19:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE36BC385B8;
- Tue, 17 May 2022 17:18:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id ADDF5B81B0D;
+ Tue, 17 May 2022 17:24:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30A4EC385B8;
+ Tue, 17 May 2022 17:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652807939;
- bh=5sd8iGWC62FEKOeHZrDhRMiAlzsNY9Pwd8gS8qwqalQ=;
+ s=k20201202; t=1652808265;
+ bh=mL+KtsPPjaEbR2Y51As6zVyBznRSejv6V79j/n2+j1k=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=c6MM8CGTGJlNi5tjXShrV7/Lrncit6stio/NmoQdI4Dv/6um0qByKhB5T2V/Atg2M
- oRLWUorOL+fTojAclc8AlTvF9eOuHuO/ZzFgrU78flheudflDjJb/dJKcfaQ0JKDjl
- JiEeq/w0kOW+2HJEqhVzq6rE0pjktLWNeSDwIJ5iGARg8X2R+y2pDetu2bOLWDjkTH
- 4s6REUO5aVZqB7y4NoGBNjnRb2KbyFf1jLl5Vw88K2bTynOTstD54PeBjNM8t0pi2G
- SdU49PctoiXjEvmVzkek4w6SfXpYw16p5i5D/SI/DqZwmRwsHcPzy4hAIUHU7UDKOP
- sjI6KQCsEfeBQ==
-Date: Tue, 17 May 2022 12:18:57 -0500
+ b=CpWruRzecxaSahxwxwCcvv6XRIcM5qxZVm9o6TOLb4n5Jg0KydISdkpUiKtbfNNL1
+ jMrQEeQqpEawYSrNJ/QKKv9n+23WCKw6Ft/TB88q7fT5gxeMUtgSz0TV27Gg8N+kPx
+ jmDH+6o4QXPXvbjI5LJ/Hp4ADBZn3SHdvcHbpacGqqtB/QOx/HtIvIgn1LC1beSN2l
+ ZZVwqOO8s2I0DU7JTqYMPiwUEThHfZUCS9mPBJ9HjRHNpEHfrYpUrGm0+8TNxyeoW2
+ 1WmH5UPddzomHugwOa1h2Tbl5kjQNPLfR/u2a2yTcmR407H06I7bVYgo/UFjmZLC2V
+ a7WX3mftvA+Vg==
+Date: Tue, 17 May 2022 12:24:23 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc: Bjorn Helgaas <bhelgaas@google.com>,
@@ -54,25 +54,17 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, Jens Axboe <axboe@fb.com>,
  Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com>,
  quic_krichai@quicinc.com, Nitin Rawat <quic_nitirawa@quicinc.com>,
- Vidya Sagar <vidyas@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
- Prasad Malisetty <quic_pmaliset@quicinc.com>,
- Andy Gross <agross@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- Rajat Jain <rajatja@google.com>,
- "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
- Rama Krishna <quic_ramkri@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kalle Valo <kvalo@kernel.org>
-Subject: Re: [PATCH 2/3] PCI: dwc: qcom: Set suspend_poweroff flag for SC7280
-Message-ID: <20220517171857.GA1083896@bhelgaas>
+ Vidya Sagar <vidyas@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 1/3] PCI: Add a flag to notify PCI drivers about
+ powerdown during suspend
+Message-ID: <20220517172423.GA1083672@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220517151134.GB4528@thinkpad>
+In-Reply-To: <20220517150908.GA4528@thinkpad>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220517_101907_725645_38F1D94B 
-X-CRM114-Status: GOOD (  34.87  )
+X-CRM114-CacheID: sfid-20220517_102428_622806_A33AD978 
+X-CRM114-Status: GOOD (  32.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,91 +79,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[+cc Prasad, Andy, Rob, Krzysztof, Rajat, Saheed, Rama, Stephen,
-Dmitry, Kalle for connection to https://lore.kernel.org/lkml/CAE-0n53ho2DX2rqQMvvKAuDCfsWW62TceTaNPzv5Mn_NQ-U6dA@mail.gmail.com/T/]
-
-Subject line convention for this file is "PCI: qcom:" (not "PCI: dwc:
-qcom:").
-
-Find this from "git log --oneline drivers/pci/controller/dwc/pcie-qcom.c".
-
-On Tue, May 17, 2022 at 08:41:34PM +0530, Manivannan Sadhasivam wrote:
-> On Mon, May 16, 2022 at 03:19:50PM -0500, Bjorn Helgaas wrote:
-> > On Fri, May 13, 2022 at 04:30:26PM +0530, Manivannan Sadhasivam wrote:
-> > > For aggressive power saving on SC7280 SoCs, the power for the
-> > > PCI devices will be taken off during system suspend. Hence,
-> > > notify the same to the PCI device drivers using
-> > > "suspend_poweroff" flag so that the drivers can prepare the PCI
-> > > devices to handle the poweroff and recover them during resume.
+On Tue, May 17, 2022 at 08:39:08PM +0530, Manivannan Sadhasivam wrote:
+> On Mon, May 16, 2022 at 03:18:17PM -0500, Bjorn Helgaas wrote:
+> > On Fri, May 13, 2022 at 04:30:25PM +0530, Manivannan Sadhasivam wrote:
+> > > On some systems like Chromebooks based on Qcom chipsets, the OS may
+> > > powerdown all PCIe devices during system suspend for aggressive
+> > > powersaving. In that case, the PCI host controller drivers need to notify
+> > > the PCI device drivers that the power will be taken off during system
+> > > suspend so that the drivers can prepare the devices accordingly.
 > > 
-> > No doubt "power ... will be taken off during system suspend" is
-> > true, but this isn't very informative.  Is this a property of
-> > SC7280?  A choice made by the SC7280 driver?  Why is this not
-> > applicable to other systems?
+> > "The OS may powerdown all PCIe devices ..." makes it sound like this
+> > is an OS policy decision.  Where exactly (what function) is that?
+> > 
+> > Or if it's not an OS policy decision, but rather some property of the
+> > hardware, say that specifically.
 > 
-> The SC7280's RPMh firmware is cutting off the PCIe power domain
-> during system suspend. And as I explained in previous patch, the RC
-> driver itself may put the devices in D3cold conditionally on this
-> platform. The reason is to save power as this chipset is being used
-> in Chromebooks.
+> On SC7280, it is the Resource Power Manager(RPMh) that's powering
+> the devices down by cutting off the PCIe voltage domain. But the
+> SC7280 RC driver itself may put the PCIe devices into D3cold state
+> during system suspend.
+> https://lore.kernel.org/lkml/CAE-0n53ho2DX2rqQMvvKAuDCfsWW62TceTaNPzv5Mn_NQ-U6dA@mail.gmail.com/T/
+> 
+> So to cover both cases (one is a hardware independent of SoC and
+> another one is the device driver), and to be generic, I've used the
+> term "OS" after looking at the previous flags.
 
-It looks like this should be squashed into the patch you mentioned:
-https://lore.kernel.org/lkml/CAE-0n53ho2DX2rqQMvvKAuDCfsWW62TceTaNPzv5Mn_NQ-U6dA@mail.gmail.com/T/
+This sort of device-specific behavior definitely needs a pointer to an
+example.  Otherwise it seems like it could be generic PCIe behavior
+that should be documented in the PCIe base spec.
 
-If Prasad's patch is applied without this, devices will be powered
-off, but nvme will not be prepared for it.  Apparently something would
-be broken in that case?
+> > > One prime example is the PCI NVMe driver. This flag can be used by the
+> > > driver to shutdown the NVMe device during suspend and recover it during
+> > > resume.
 
-Also, I think this patch should be reordered so the nvme driver is
-prepared for suspend_poweroff before the qcom driver starts setting
-it.  Otherwise there's a window where qcom sets suspend_poweroff and
-powers off devices, but nvme doesn't know about it, and I assume
-something will be broken in that case?
-
-Please mention RPMh in the commit log, along with the specific
-connection with system suspend, i.e., what OS action enables RPMh to
-cut power.
+Apparently nvme is broken, or at least sub-optimal, without this flag.
+What other drivers will be similarly affected?
 
 > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > > > ---
-> > >  drivers/pci/controller/dwc/pcie-qcom.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
+> > >  include/linux/pci.h | 1 +
+> > >  1 file changed, 1 insertion(+)
 > > > 
-> > > diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-> > > index 6ab90891801d..4b0ad2827f8f 100644
-> > > --- a/drivers/pci/controller/dwc/pcie-qcom.c
-> > > +++ b/drivers/pci/controller/dwc/pcie-qcom.c
-> > > @@ -199,6 +199,7 @@ struct qcom_pcie_cfg {
-> > >  	unsigned int has_ddrss_sf_tbu_clk:1;
-> > >  	unsigned int has_aggre0_clk:1;
-> > >  	unsigned int has_aggre1_clk:1;
-> > > +	unsigned int suspend_poweroff:1;
-> > >  };
+> > > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > > index 60adf42460ab..069caf1fe88d 100644
+> > > --- a/include/linux/pci.h
+> > > +++ b/include/linux/pci.h
+> > > @@ -578,6 +578,7 @@ struct pci_host_bridge {
+> > >  	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
+> > >  	unsigned int	size_windows:1;		/* Enable root bus sizing */
+> > >  	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
+> > > +	unsigned int	suspend_poweroff:1;	/* OS may poweroff devices during system suspend */
 > > >  
-> > >  struct qcom_pcie {
-> > > @@ -1220,6 +1221,10 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
-> > >  	if (pcie->cfg->pipe_clk_need_muxing)
-> > >  		clk_set_parent(res->pipe_clk_src, res->ref_clk_src);
-> > >  
-> > > +	/* Indicate PCI device drivers that the power will be taken off during system suspend */
-> > > +	if (pcie->cfg->suspend_poweroff)
-> > > +		pci->pp.bridge->suspend_poweroff = true;
-> > > +
-> > >  	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
-> > >  	if (ret < 0)
-> > >  		goto err_disable_regulators;
-> > > @@ -1548,6 +1553,7 @@ static const struct qcom_pcie_cfg sc7280_cfg = {
-> > >  	.ops = &ops_1_9_0,
-> > >  	.has_tbu_clk = true,
-> > >  	.pipe_clk_need_muxing = true,
-> > > +	.suspend_poweroff = true,
-> > >  };
-> > >  
-> > >  static const struct dw_pcie_ops dw_pcie_ops = {
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
-> -- 
-> மணிவண்ணன் சதாசிவம்
+> > >  	/* Resource alignment requirements */
+> > >  	resource_size_t (*align_resource)(struct pci_dev *dev,
 
