@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97FBDC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 06:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 577F9C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 06:15:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yPe1Vi3azf0tUGntWeNFdqyehG9G2cDOH3n22pB6lIs=; b=SlePwENMpFdvL0qLzatRvcQDu9
-	z/zoaipBH3Xm1O/WYClJsUiVM3/dD7RmGdTd2oaOiftY4deUf05bP5gOjVNTiERJ+hljFKMEZ0dYk
-	rRX/6TtTg4tziIbJY9kqq6eCLPP6S9XsVT54Cmc5NucxGqzwOLXnMDKJ/eNYKh9COtO9NPPndiMAD
-	rPxoYnQAfr8kIhq760oqLe4JzieY5ZFryFPqJ/z2pVsSNQ/j1zAGWeNRejW4HYO5BZNebOCBSJqgX
-	MZqzd6vALTs6GxZTPmvxhH9+din86L6obX6JBj1/d0mFm3JSJNzChMQdBTJuQBSsyyI3qKO7kF49f
-	4mamQxgA==;
+	bh=mS6/Tcuovh1DTl7EiuuMIiUrz60RAvvOmID72sZnMiA=; b=0oe9CojXHeUeTYhZigbco6UyG2
+	b6sIKjxAPWenBq1xwgic5oGBDto+zvZL+eZZDd0bNJS1SBOT95W02tfMnmW+D4j9FsQUp9Hzlpcb2
+	Lgm9Tknwj6UeaAN1FMnP6SHgohnB4bfV/E71uq0Ea71YT3DG+Sz/IFGNBkKePMKMQXDzQYhM6Fmho
+	pnNWWmSLYNKbqevmGY7fjd6nw9s4duAJsQ3IcoawiJO+eqF4qX+o6FpaCoxkrqJ93LXExGduPfrrX
+	8rEfsAvdnS/u5GIxLIp05uT1YZ1Snho7BPrP4vsTWg0y8fjqdO1b4jFSUltdqA3eak1hgBeMtSVQH
+	EePedJ+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nqqIW-00BlPe-Hc; Tue, 17 May 2022 06:03:08 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1nqqU2-00BmZH-P4; Tue, 17 May 2022 06:15:02 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nqqIT-00BlOx-TB
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 06:03:07 +0000
+ id 1nqqU0-00BmYR-8O
+ for linux-nvme@lists.infradead.org; Tue, 17 May 2022 06:15:01 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 557D31F8DD;
- Tue, 17 May 2022 06:03:04 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A4ACC2209C;
+ Tue, 17 May 2022 06:14:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652767384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1652768098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=yPe1Vi3azf0tUGntWeNFdqyehG9G2cDOH3n22pB6lIs=;
- b=xmlcnVKR8THNt1rzexr9YlrT+QK8IpsBnISdI9P2ov+KSd0hjmF+cn+lBCx3wwz7W6PRim
- pmXWxu79m5JMDuq+V9W94j+jLc9BACm9PZIX6BBwPq6r5j2Y7An9OGsamf8p6zn1OBMKFn
- OO8RdldSwYnxkgx8b9ZkorvaLqSdvR8=
+ bh=mS6/Tcuovh1DTl7EiuuMIiUrz60RAvvOmID72sZnMiA=;
+ b=KG5CYqZww1GjqPoKbZLHdK/cFTnI7LWeXbvtezkBVPIdEVYFb4tkse9JyTG/Xo1pUwMA6r
+ P6wiFHs3Jqcxi0EJ9gUpkfwp1OGuszO69Cac+NVmBUHXpQ+e4Or7Z+/i2LTYmcjdVWi4lf
+ ywmZESycXSdqc2MLr8+eMrx8amcxSJU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652767384;
+ s=susede2_ed25519; t=1652768098;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=yPe1Vi3azf0tUGntWeNFdqyehG9G2cDOH3n22pB6lIs=;
- b=yvTULCInBLjIWD08qD+Kua49pYTd/TnZzoSjt55s5cm+YBxKILF0s4j+zgSeYLDdg2XotO
- jdbYHOkaBicQgGDg==
+ bh=mS6/Tcuovh1DTl7EiuuMIiUrz60RAvvOmID72sZnMiA=;
+ b=BDMyCejNJW7G6vTOXiywzkVXqeAWRVxJsrqG71NGQaX6hqAmeGAUYGC1wjNHbWPujJMztK
+ CqUZuSefjuIPKUDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4600513AA2;
- Tue, 17 May 2022 06:03:04 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95AE513AA2;
+ Tue, 17 May 2022 06:14:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Ig8REZg6g2J6UgAAMHmgww
- (envelope-from <dwagner@suse.de>); Tue, 17 May 2022 06:03:04 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2h1kJGI9g2KuVgAAMHmgww
+ (envelope-from <dwagner@suse.de>); Tue, 17 May 2022 06:14:58 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
-Cc: Daniel Wagner <dwagner@suse.de>, Arthur Shau <arthurshau@fb.com>,
- Wei Zhang <wzhang@fb.com>, Venkat Ramesh <venkatraghavan@fb.com>
-Subject: [PATCH nvme-cli] ocp: Update license to GPL-2.0-or-later
-Date: Tue, 17 May 2022 08:02:56 +0200
-Message-Id: <20220517060256.6733-1-dwagner@suse.de>
+Cc: Daniel Wagner <dwagner@suse.de>,
+	Arunpandian J <apj.arun@samsung.com>
+Subject: [PATCH nvme-cli] tests: Update license to GPL-2.0-or-later
+Date: Tue, 17 May 2022 08:14:56 +0200
+Message-Id: <20220517061456.7623-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220516_230306_127676_A0F47570 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20220516_231500_480923_DF136022 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,46 +81,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When I reviewed the plugin I asked wrongly for GPL-2.0-only. The
+When I reviewed the tests I asked wrongly for GPL-2.0-only. The
 project is using the GPL-2.0-or-later license. Relax the license
 requirement to GPL-2.0-or-later.
 
-Cc: Arthur Shau <arthurshau@fb.com>
-Cc: Wei Zhang <wzhang@fb.com>
-Cc: Venkat Ramesh <venkatraghavan@fb.com>
+Cc: Arunpandian J <apj.arun@samsung.com>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
-Hi,
+Hi Arunpandian,
 
-Could I get a signed-off-by for this?
+Sorry for the mess, but could I get a signed-off-by from you?
 
-Thanks!
+Thanks,
 Daniel
 
- plugins/ocp/ocp-nvme.c | 2 +-
- plugins/ocp/ocp-nvme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/nvme_copy_test.py           | 2 +-
+ tests/nvme_dsm_test.py            | 2 +-
+ tests/nvme_get_lba_status_test.py | 2 +-
+ tests/nvme_lba_status_log_test.py | 2 +-
+ tests/nvme_verify_test.py         | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/plugins/ocp/ocp-nvme.c b/plugins/ocp/ocp-nvme.c
-index 1e7649b7d600..56cfdff9825f 100644
---- a/plugins/ocp/ocp-nvme.c
-+++ b/plugins/ocp/ocp-nvme.c
+diff --git a/tests/nvme_copy_test.py b/tests/nvme_copy_test.py
+index 8bee55584e0c..7cb087e27ef6 100644
+--- a/tests/nvme_copy_test.py
++++ b/tests/nvme_copy_test.py
 @@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0-only
-+// SPDX-License-Identifier: GPL-2.0-or-later
- /* Copyright (c) 2022 Meta Platforms, Inc.
-  *
-  * Authors: Arthur Shau <arthurshau@fb.com>,
-diff --git a/plugins/ocp/ocp-nvme.h b/plugins/ocp/ocp-nvme.h
-index 19378cdfcfdb..3e3f437aeaaf 100644
---- a/plugins/ocp/ocp-nvme.h
-+++ b/plugins/ocp/ocp-nvme.h
+-# SPDX-License-Identifier: GPL-2.0-only
++# SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # This file is part of nvme-cli
+ #
+diff --git a/tests/nvme_dsm_test.py b/tests/nvme_dsm_test.py
+index fe3dc01f6a8d..51f35ecec0a3 100644
+--- a/tests/nvme_dsm_test.py
++++ b/tests/nvme_dsm_test.py
 @@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
- /* Copyright (c) 2022 Meta Platforms, Inc.
-  *
-  * Authors: Arthur Shau <arthurshau@fb.com>,
+-# SPDX-License-Identifier: GPL-2.0-only
++# SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # This file is part of nvme-cli
+ #
+diff --git a/tests/nvme_get_lba_status_test.py b/tests/nvme_get_lba_status_test.py
+index 5f970c487478..7ce8d33b829d 100644
+--- a/tests/nvme_get_lba_status_test.py
++++ b/tests/nvme_get_lba_status_test.py
+@@ -1,4 +1,4 @@
+-# SPDX-License-Identifier: GPL-2.0-only
++# SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # This file is part of nvme-cli
+ #
+diff --git a/tests/nvme_lba_status_log_test.py b/tests/nvme_lba_status_log_test.py
+index ecc3fce8bff2..8420adf4e5b9 100644
+--- a/tests/nvme_lba_status_log_test.py
++++ b/tests/nvme_lba_status_log_test.py
+@@ -1,4 +1,4 @@
+-# SPDX-License-Identifier: GPL-2.0-only
++# SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # This file is part of nvme-cli
+ #
+diff --git a/tests/nvme_verify_test.py b/tests/nvme_verify_test.py
+index c783d5de07a5..19559c028c8a 100644
+--- a/tests/nvme_verify_test.py
++++ b/tests/nvme_verify_test.py
+@@ -1,4 +1,4 @@
+-# SPDX-License-Identifier: GPL-2.0-only
++# SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # This file is part of nvme-cli
+ #
 -- 
 2.36.0
 
