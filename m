@@ -4,137 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ABBFC433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 09:41:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DFCDC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 10:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UINa+NuzB2qcwPdtYD8SfTNgCx/7Du9BqOastcKQAPY=; b=jsNR4YkntBzVS2
-	kgI6MgkwV1qxenZXYK9bimrF63O1dY3VJPZ35/Z66t8p68eBxmmpM67USCe8DxeZhcoLJtI+D5IYp
-	W98WQWjVFxvkNVdYO1InhxKgZuOewGJeKKnpXk71C65GPE1pkZtEbh+Ho67Omb6JZgiM5pBpYTZVS
-	Np8+gvYnyPt3QDDFXYg81nUJegaPLcdyFTdp0iEGrA4TE8PRNXCVsGl7oWOdu1IK2EY4zKsclOJBw
-	HzFsMTJOvqKkCgYNrqlq0zEB1o30hQybv2NMohk2T46I3ZiJazG5J6tU6Di3l562wbEzMxJlc9+59
-	ADzzzf9rXQOcdTGul0xg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=cymHoXotUgDEhiYryXr5KPFsdz4cJqT/FPWPOLRnhnQ=; b=yDjVI8+FErU3WY7oIo66yXjeWD
+	PC/gpuCbzYR7cdWNqj7NNlybT3sGkHq74MJnzs0Tj1By7lRX9RuQXSLMH3ifdCUd1zpFZbWfImaWY
+	fxubSilkWwjhGhHNzMvB3/l5Jc9lSiRy9pwGb/4JzF1L2cZmWCmQ9sgZhPZ+JB6Mr0MMZQhUPMnex
+	kWEpQeMysr60sM1VmzxbrJYE3oqf54k+46dbXOZVEjkzM98qhptLubpKMlbJsGq40SiYLSmjZo0z4
+	057sr2bwEHhdshl5h8m6hydhZmQnxVGz6DvhFtuIzWOdPpik8l7MKP+ShbHoSRh1oHs0IOEjDKKA4
+	rUzfNt1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrGBQ-0017PZ-RH; Wed, 18 May 2022 09:41:32 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1nrGu3-001Mu2-VF; Wed, 18 May 2022 10:27:39 +0000
+Received: from mga03.intel.com ([134.134.136.65])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrGAQ-0016lU-OR
- for linux-nvme@lists.infradead.org; Wed, 18 May 2022 09:40:33 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220518094026euoutp029206338759a8ee014661a78a88d9d353~wKZ8Sgzgr1149311493euoutp02Y
- for <linux-nvme@lists.infradead.org>; Wed, 18 May 2022 09:40:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220518094026euoutp029206338759a8ee014661a78a88d9d353~wKZ8Sgzgr1149311493euoutp02Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1652866826;
- bh=UINa+NuzB2qcwPdtYD8SfTNgCx/7Du9BqOastcKQAPY=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=shqc2DtzVgGL/PdyLOUSepug1aiuw0mBybg1NT2V3WnWmbVQuRexEIIafnFyxk7nt
- WPUU6OOI9wuFuorqEYxcy2f6RYhPb0JurLw+Rv2k676PySBqE5+qKMj9oxgjqTos9c
- NDcZAb1vKrQWTX86ufx8KjR4YztPOe9IMsP7oaZY=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220518094026eucas1p14f9febe6d48605bfce997c4ca867a8aa~wKZ77YK3K1913319133eucas1p1B;
- Wed, 18 May 2022 09:40:26 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 84.03.10009.90FB4826; Wed, 18
- May 2022 10:40:25 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220518094025eucas1p1a3e35a8f00348154d5ef60e61f69dfec~wKZ7bieyt1910619106eucas1p1C;
- Wed, 18 May 2022 09:40:25 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220518094025eusmtrp2690bb9439acf332022cabbb049548d8e~wKZ7U22Pu2765427654eusmtrp2c;
- Wed, 18 May 2022 09:40:25 +0000 (GMT)
-X-AuditID: cbfec7f2-e95ff70000002719-52-6284bf09d4d0
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id AA.0D.09522.90FB4826; Wed, 18
- May 2022 10:40:25 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220518094025eusmtip208fc0da8c94d9d123d11609e50d861a3~wKZ7LAhz31670016700eusmtip2h;
- Wed, 18 May 2022 09:40:25 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.7) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 18 May 2022 10:40:23 +0100
-Message-ID: <2b169f03-11d6-9989-84cb-821d67eb6cae@samsung.com>
-Date: Wed, 18 May 2022 11:40:22 +0200
+ id 1nrGu0-001MtY-E5
+ for linux-nvme@lists.infradead.org; Wed, 18 May 2022 10:27:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652869656; x=1684405656;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IJoYm/f4GeM7jlS2p+KjVctJ8wPN2OIuOJ/57YzFrOk=;
+ b=m/8oYVgIKhkTw0qtBhQRL6mT0Ee+LIXjF9fQ0P4WUGecE+TExcA6EPaB
+ 0pOAymjcF7R8u+irD7ckPsyYMJEBd7MXMzD1eoVAe9HpKoOAirQB/gvN9
+ uncG0zNJidLsEJjprOZKS3s612QiVFOPcHKPoN9cPMVUUKFDH57LGCkhl
+ sx9x8EbBYKPZPWB6ftiCt9TvLTNanf9m1WcN6rCH2fPbX9ycc1N7ik8Fx
+ x17T3efqNQAvgeIa/UlJeWmwdG6qZ6VEThGY/MW0spAB/ZwKzQyL1qPYu
+ YM0/mHSLNO1shv4R2lAaHAkzYgtSQ8w2IJrrd9M0dDtuO+6LFKWAC4dB7 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="271548613"
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="271548613"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 03:27:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="545384902"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 18 May 2022 03:27:29 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nrGtt-00023Z-7L;
+ Wed, 18 May 2022 10:27:29 +0000
+Date: Wed, 18 May 2022 18:26:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
+ e626f37e657adbab2a7abe51480925891662a5f3
+Message-ID: <6284c9f1.ADjyO+cm8C/Pjvr4%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 07/13] btrfs: zoned: use generic btrfs zone helpers
- to support npo2 zoned devices
-Content-Language: en-US
-To: <dsterba@suse.cz>
-CC: <axboe@kernel.dk>, <damien.lemoal@opensource.wdc.com>,
- <pankydev8@gmail.com>, <dsterba@suse.com>, <hch@lst.de>,
- <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-btrfs@vger.kernel.org>, <jiangbo.365@bytedance.com>,
- <linux-block@vger.kernel.org>, <gost.dev@samsung.com>,
- <linux-kernel@vger.kernel.org>, <dm-devel@redhat.com>, Luis Chamberlain
- <mcgrof@kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220517123008.GC18596@twin.jikos.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.7]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLKsWRmVeSWpSXmKPExsWy7djP87qc+1uSDM4cMbdYfbefzeL32fPM
- FnvfzWa1uPCjkcli8e/vLBYrVx9lsug58IHFYu8tbYtLj1ewW+zZe5LF4vKuOWwW85c9Zbe4
- MeEpo8Wam09ZHPg8/p1Yw+axc9Zddo/LZ0s9Nq3qZPPYvKTeY/fNBqBw631Wj/f7rrJ5rN9y
- lcXjzIIj7B6fN8kFcEdx2aSk5mSWpRbp2yVwZTT0PWEt2CRXcbzjJFsD4weJLkZODgkBE4kJ
- O/YwdjFycQgJrGCUWPt5MRuE84VR4s35I+wgVUICnxklOppLYTrOnfnFDBFfzihx/Jw/RANQ
- zexNn6FG7WSUeNCyixWkilfATuLYo3Y2EJtFQFVi95QtzBBxQYmTM5+wgNiiAhES02adAasR
- FsiSmLJtI1gvs4C4xK0n85lAbBEBUYlL+1ewgCxgFpjILDHpxWSgbRwcbAJaEo2dYJdyChhL
- rG09yQbRqynRuv03O4QtL7H97RxmiA8UJW6u/MUGYddKrD12hh1kpoTAPU6Jq7/PQxW5SFz+
- v4QRwhaWeHV8CzuELSPxfyfEQRIC1RJPb/xmhmhuYZTo37meDeQgCQFrib4zORA1jhIzHu9l
- hQjzSdx4KwhxD5/EpG3TmScwqs5CCopZSF6eheSFWUheWMDIsopRPLW0ODc9tdgwL7Vcrzgx
- t7g0L10vOT93EyMwBZ7+d/zTDsa5rz7qHWJk4mA8xCjBwawkwsuY25IkxJuSWFmVWpQfX1Sa
- k1p8iFGag0VJnDc5c0OikEB6YklqdmpqQWoRTJaJg1OqgalPhd+O73Je1X5TLlPObz8fT05U
- M2iV2mW/5Ovduivb1mqt/3Nsx7XJC6JFDJ/MmqUaduRx1GIG46AYf6cNzWrCCUwreLit9z//
- kG4v2jtD8Wqx7e2bdTVu0vYzLyXrJj74zDmxJ3jlIcsDnWtXPJ9ss3/Xec/S80XtAtvXGxp2
- CL9Q9tnSoM1/6vaH1y9DJrxMmHjrwvpigeSNL5KPXNQSS1jgW5s6882a8IY5QT5z8++XzZHv
- mtw/WUApr1Gq4aat3b8tmte75z+IYtz9zWJpYZaCobR+gc9fWZULqqrvmbatdvee7TDZVCrx
- 0duaFW2fDmYeuVXFfKr92fkNMkdd/3zOnmE5xUt5uez3Qi0lluKMREMt5qLiRABuMXZT8AMA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsVy+t/xe7qc+1uSDBbPF7FYfbefzeL32fPM
- FnvfzWa1uPCjkcli8e/vLBYrVx9lsug58IHFYu8tbYtLj1ewW+zZe5LF4vKuOWwW85c9Zbe4
- MeEpo8Wam09ZHPg8/p1Yw+axc9Zddo/LZ0s9Nq3qZPPYvKTeY/fNBqBw631Wj/f7rrJ5rN9y
- lcXjzIIj7B6fN8kFcEfp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk
- 5mSWpRbp2yXoZTT0PWEt2CRXcbzjJFsD4weJLkZODgkBE4lzZ34xdzFycQgJLGWUWPfoHiNE
- Qkbi05WP7BC2sMSfa11sEEUfGSWu7z/NAuHsZJTYuKaZBaSKV8BO4tijdjYQm0VAVWL3lC3M
- EHFBiZMzn4DViApESDzYfZYVxBYWyJJ4dncH2AZmAXGJW0/mM4HYIgKiEpf2r4Ba8IJR4t7O
- OWD3MQtMZJaY9GIy0H0cHGwCWhKNnWDNnALGEmtbT7JBDNKUaN3+G2qovMT2t3OYIV5QlLi5
- 8hcbhF0r8er+bsYJjKKzkNw3C8kds5CMmoVk1AJGllWMIqmlxbnpucWGesWJucWleel6yfm5
- mxiByWPbsZ+bdzDOe/VR7xAjEwfjIUYJDmYlEV7G3JYkId6UxMqq1KL8+KLSnNTiQ4ymwECa
- yCwlmpwPTF95JfGGZgamhiZmlgamlmbGSuK8ngUdiUIC6YklqdmpqQWpRTB9TBycUg1MysxO
- i9cVPvq+N+ltWGp05wv/qpSYo45sQv/mbJ0174TLhKLrEvpn/686/EK+Z17ZdA3TN8cLuSLk
- N/F2OHZv3mpnI9gaMXvibIHA6u9Kby+uPbvF2jvCv/nxNbFNTicDlfMn9nFXGfUKdEYc+FRj
- eunYLOvXs269CFY9Fm+ZVq8Ua/zzyw6Gkrc/65xmHZs7lZuDQ/T11O2clg7zP2f/q+TLb976
- 6kVrQYRTp9ej6Z0ZzIfy5iu2KbgHsn62iJi4p13utk4Lr/vP8zuVpRnOrrj5+5LPU3OPNMHV
- p06snnng1/GIqrRdl5a+39bYGXFv9Yu4AxVChclr5kVXBqv/NPfoOxgdNLH4nIHVv213lViK
- MxINtZiLihMBD9bssacDAAA=
-X-CMS-MailID: 20220518094025eucas1p1a3e35a8f00348154d5ef60e61f69dfec
-X-Msg-Generator: CA
-X-RootMTR: 20220516165428eucas1p1374b5f9592db3ca6a6551aff975537ce
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220516165428eucas1p1374b5f9592db3ca6a6551aff975537ce
-References: <20220516165416.171196-1-p.raghav@samsung.com>
- <CGME20220516165428eucas1p1374b5f9592db3ca6a6551aff975537ce@eucas1p1.samsung.com>
- <20220516165416.171196-8-p.raghav@samsung.com>
- <20220517123008.GC18596@twin.jikos.cz>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_024031_265174_8AD0992E 
-X-CRM114-Status: GOOD (  25.23  )
+X-CRM114-CacheID: sfid-20220518_032736_601525_DA9E5A0D 
+X-CRM114-Status: UNSURE (   6.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,105 +78,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-05-17 14:30, David Sterba wrote:
-> On Mon, May 16, 2022 at 06:54:10PM +0200, Pankaj Raghav wrote:
->> Add helpers to calculate alignment, round up and round down
->> for zoned devices. These helpers encapsulates the necessary handling for
->> power_of_2 and non-power_of_2 zone sizes. Optimized calculations are
->> performed for zone sizes that are power_of_2 with log and shifts.
->>
->> btrfs_zoned_is_aligned() is added instead of reusing bdev_zone_aligned()
->> helper due to some use cases in btrfs where zone alignment is checked
->> before having access to the underlying block device such as in this
->> function: btrfs_load_block_group_zone_info().
->>
->> Use the generic btrfs zone helpers to calculate zone index, check zone
->> alignment, round up and round down operations.
->>
->> The zone_size_shift field is not needed anymore as generic helpers are
->> used for calculation.
-> 
-> Overall this looks reasonable to me.
-> 
->> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
->> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
->> ---
->>  fs/btrfs/volumes.c | 24 +++++++++-------
->>  fs/btrfs/zoned.c   | 72 ++++++++++++++++++++++------------------------
->>  fs/btrfs/zoned.h   | 43 +++++++++++++++++++++++----
->>  3 files changed, 85 insertions(+), 54 deletions(-)
->>
->> --- a/fs/btrfs/zoned.c
->> +++ b/fs/btrfs/zoned.c
->> @@ -1108,14 +1101,14 @@ int btrfs_reset_device_zone(struct btrfs_device *device, u64 physical,
->>  int btrfs_ensure_empty_zones(struct btrfs_device *device, u64 start, u64 size)
->>  {
->>  	struct btrfs_zoned_device_info *zinfo = device->zone_info;
->> -	const u8 shift = zinfo->zone_size_shift;
->> -	unsigned long begin = start >> shift;
->> -	unsigned long end = (start + size) >> shift;
->> +	unsigned long begin = bdev_zone_no(device->bdev, start >> SECTOR_SHIFT);
->> +	unsigned long end =
->> +		bdev_zone_no(device->bdev, (start + size) >> SECTOR_SHIFT);
-> 
-> There are unsinged long types here though I'd rather see u64, better for
-> a separate patch. Fixed width types are cleaner here and in the zoned
-> code as there's always some conversion to/from sectors.
-> 
-Ok. I will probably send a separate patch to convert them to fix width
-types. Is it ok if I do it as a separate patch instead of including it
-in this series?
->>  	u64 pos;
->>  	int ret;
->>  
->> -	ASSERT(IS_ALIGNED(start, zinfo->zone_size));
->> -	ASSERT(IS_ALIGNED(size, zinfo->zone_size));
->> +	ASSERT(btrfs_zoned_is_aligned(start, zinfo->zone_size));
->> +	ASSERT(btrfs_zoned_is_aligned(size, zinfo->zone_size));
->>  
->>  	if (end > zinfo->nr_zones)
->>  		return -ERANGE;
->> --- a/fs/btrfs/zoned.h
->> +++ b/fs/btrfs/zoned.h
->> @@ -30,6 +30,36 @@ struct btrfs_zoned_device_info {
->>  	u32 sb_zone_location[BTRFS_SUPER_MIRROR_MAX];
->>  };
->>  
->> +static inline bool btrfs_zoned_is_aligned(u64 pos, u64 zone_size)
->> +{
->> +	u64 remainder = 0;
->> +
->> +	if (is_power_of_two_u64(zone_size))
->> +		return IS_ALIGNED(pos, zone_size);
->> +
->> +	div64_u64_rem(pos, zone_size, &remainder);
->> +	return remainder == 0;
->> +}
->> +
->> +static inline u64 btrfs_zoned_roundup(u64 pos, u64 zone_size)
->> +{
->> +	if (is_power_of_two_u64(zone_size))
->> +		return ALIGN(pos, zone_size);
-> 
-> Please use round_up as the rounddown helper uses round_down
-> 
-Ah, good catch. I will use it instead. Thanks.
->> +
->> +	return div64_u64(pos + zone_size - 1, zone_size) * zone_size;
->> +}
->> +
->> +static inline u64 btrfs_zoned_rounddown(u64 pos, u64 zone_size)
->> +{
->> +	u64 remainder = 0;
->> +	if (is_power_of_two_u64(zone_size))
->> +		return round_down(pos, zone_size);
->> +
->> +	div64_u64_rem(pos, zone_size, &remainder);
->> +	pos -= remainder;
->> +	return pos;
->> +}
->> +
->>  #ifdef CONFIG_BLK_DEV_ZONED
->>  int btrfs_get_dev_zone(struct btrfs_device *device, u64 pos,
->>  		       struct blk_zone *zone);
+tree/branch: git://git.infradead.org/nvme.git nvme-5.19
+branch HEAD: e626f37e657adbab2a7abe51480925891662a5f3  nvme: split the enum used for various register constants
+
+elapsed time: 1664m
+
+configs tested: 101
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm64                            allyesconfig
+i386                 randconfig-c001-20220516
+arm                         lpc18xx_defconfig
+arc                     nsimosci_hs_defconfig
+arm                       imx_v6_v7_defconfig
+sh                     magicpanelr2_defconfig
+arc                          axs103_defconfig
+um                               alldefconfig
+mips                       capcella_defconfig
+mips                           gcw0_defconfig
+openrisc                 simple_smp_defconfig
+m68k                           sun3_defconfig
+sh                        dreamcast_defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+alpha                               defconfig
+csky                                defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                                defconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+x86_64               randconfig-a012-20220516
+x86_64               randconfig-a011-20220516
+x86_64               randconfig-a013-20220516
+x86_64               randconfig-a014-20220516
+x86_64               randconfig-a016-20220516
+x86_64               randconfig-a015-20220516
+i386                 randconfig-a016-20220516
+i386                 randconfig-a013-20220516
+i386                 randconfig-a015-20220516
+i386                 randconfig-a012-20220516
+i386                 randconfig-a014-20220516
+i386                 randconfig-a011-20220516
+s390                 randconfig-r044-20220516
+riscv                randconfig-r042-20220516
+arc                  randconfig-r043-20220516
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+x86_64                               rhel-8.3
+
+clang tested configs:
+powerpc                    mvme5100_defconfig
+mips                        qi_lb60_defconfig
+arm                         s3c2410_defconfig
+powerpc                      katmai_defconfig
+powerpc                 mpc8272_ads_defconfig
+x86_64               randconfig-a001-20220516
+x86_64               randconfig-a006-20220516
+x86_64               randconfig-a003-20220516
+x86_64               randconfig-a005-20220516
+x86_64               randconfig-a002-20220516
+x86_64               randconfig-a004-20220516
+i386                 randconfig-a001-20220516
+i386                 randconfig-a003-20220516
+i386                 randconfig-a005-20220516
+i386                 randconfig-a004-20220516
+i386                 randconfig-a006-20220516
+i386                 randconfig-a002-20220516
+hexagon              randconfig-r045-20220516
+hexagon              randconfig-r041-20220516
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
