@@ -4,83 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A907C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 13:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6EA6C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 13:24:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=txATEk4JZM2jQy2RKz/BeGooaFu5CSNU01MtDQRxfaQ=; b=oqdCjAnjhxR+FmGde1PeFUS8o+
-	o7qtOUziyyLeqY6Ii3jwdByMin793edqjv2DSWAaN5hq2FCoypcRxp7EOEPut4PL3a6Po69iPAIyQ
-	R2iROMtCoFDftd/+WNkOTIEHForSFPJF4tgqE3xKXIZiOYj6AugJjeS4qwd2kO08va+KdM61qOvYz
-	qN2scVP+OxCLX/OlFWovsvf2dSf1+2zZSf8y7m2DBbhwxUcio1fA27Cg6j7dNyKlhdgKHhkTLUiBE
-	u1Uk8MltjXHSZQJZHpTmfcp0AxSYz+/hZgW3v2k3Ea9EbC/GvHdQk5A08skKswH3R95PYE5uncp+C
-	+7Z+da0Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u7fUpB+JuVpAGJyPH6gm4B/Gk36d8rWrqDcCaxC+4w0=; b=qcNPDetho6OjWf/+PzEzQh7lpK
+	3KrkjShkaQqHCrqqlAx2VqX6k3K3gxIIvjDWtu/2t1tqX1ydmkLyPlCYj3u6fQTVfb76TQQDpU7uZ
+	bqvQpnzAbT3w+fuEtdw+/e/vHhuMKw7/TDGi7Z8rK/LcTc7QHZ4AVfVXZHkf8kM2WR0uUf2UEkiBe
+	zMxG9USARpWCzeslnW93SXyfv46RDU6LY3gfVDAuhZI34JilSECPtXPmVPTdgctJqmDcIdCHYa4X5
+	De9159ABjNFDCrxvGOB28U295Fi9cmWDl0YUmrWDnjAtJ8IqAxc3aqvupIISV+8rWpPAX2fLonB+O
+	zKPq8qvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrJau-002GPV-Ft; Wed, 18 May 2022 13:20:04 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1nrJeq-002Hnr-7b; Wed, 18 May 2022 13:24:08 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrJaq-002GMH-3o
- for linux-nvme@lists.infradead.org; Wed, 18 May 2022 13:20:02 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id i24so2115226pfa.7
- for <linux-nvme@lists.infradead.org>; Wed, 18 May 2022 06:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=txATEk4JZM2jQy2RKz/BeGooaFu5CSNU01MtDQRxfaQ=;
- b=nIQmnqo4Rz4+1DLw5lorzvCXpRFs2B3NZa0m8W4N/JxNEqItRgCCf/nxhj64sR4iow
- gt5jEf6JgZMcDab7hEsHWwC21YW1x3iDNzVYn4nHHzuOPcSKkn724F6nRKkpzFgvc28z
- 3ttes+LANUdhqegEed37V7LvT9+d5wX5gC+zf4NUqykgFeIxMVbnh5Y2VRrpZsJ1O/ni
- jFpkbQ9/k9wbZ+XUYZWNob5F41LhL6QtFqJ5UYaM1y96nHrKig0NvC9RsCQDWooxywAi
- 5MbA0HYb1Rygrh/XHNPk/L1nD6chMinbu3FaJzb/3E76iiKuL5SlUQb1XA94njVrb9Bi
- qExw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=txATEk4JZM2jQy2RKz/BeGooaFu5CSNU01MtDQRxfaQ=;
- b=aWBvWLORBcoEX+Du7LUmRj6w8QrRa7j4VUHeUMCwoUOn78sKJto14VpNhWjLGU3gNl
- 5qj+6Vy1s/CrPj30Sr4ykMQbHmM7iA3pfnEHvp2725JSkESobFYDmH4TRtSRN8mp+YvG
- 1240NY5gqb+0LkEno9/PLVc9DIbZpqcoJq6L9i5rk1AjYUmVb5dKSdwlB4cPghFN2pBE
- +aEkTqlTaYNHouUCaZUhyzjO95s0JGr4muJoPToGb7dQEM6mpiORxJHGq4SMKLAjlfeQ
- wni5l7d06hH0JHE8BWgPbp+9QdElWQm2nXDBY3kw4gxkqji/tH8q1P2OcHXgUILLgFp+
- 7NTQ==
-X-Gm-Message-State: AOAM532/gK+ah6i5JEOK/HfwXpxaZJkNuLcL9VMHEDrJ2PZBu8/GSi+Y
- 4Fy5fB0KlxhTD87VB3RBC5YP
-X-Google-Smtp-Source: ABdhPJwza2H4RAuSmX+mr9/p1a18xwE96l79O/kDfY2T0ZDpQBEOEo+0ehBH5TXhTMNBUg/E65fAmQ==
-X-Received: by 2002:a63:1b49:0:b0:3f2:cf90:5ad4 with SMTP id
- b9-20020a631b49000000b003f2cf905ad4mr8023542pgm.450.1652879997896; 
- Wed, 18 May 2022 06:19:57 -0700 (PDT)
-Received: from localhost.localdomain ([117.217.181.192])
- by smtp.gmail.com with ESMTPSA id
- b5-20020a170903228500b0015e8d4eb27esm1663908plh.200.2022.05.18.06.19.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 May 2022 06:19:57 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org,
- hch@lst.de
-Cc: linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- svarbanov@mm-sol.com, bjorn.andersson@linaro.org, axboe@fb.com,
- quic_vbadigan@quicinc.com, quic_krichai@quicinc.com,
- quic_nitirawa@quicinc.com, vidyas@nvidia.com, sagi@grimberg.me,
- linux-pm@vger.kernel.org, rafael@kernel.org,
- Prasad Malisetty <quic_pmaliset@quicinc.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v2 3/3] PCI: qcom: Add system PM support
-Date: Wed, 18 May 2022 18:49:13 +0530
-Message-Id: <20220518131913.26974-4-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220518131913.26974-1-manivannan.sadhasivam@linaro.org>
+ id 1nrJen-002Hlh-B8
+ for linux-nvme@lists.infradead.org; Wed, 18 May 2022 13:24:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id D137268AFE; Wed, 18 May 2022 15:23:58 +0200 (CEST)
+Date: Wed, 18 May 2022 15:23:58 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org,
+ hch@lst.de, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, svarbanov@mm-sol.com,
+ bjorn.andersson@linaro.org, axboe@fb.com, quic_vbadigan@quicinc.com,
+ quic_krichai@quicinc.com, quic_nitirawa@quicinc.com,
+ vidyas@nvidia.com, sagi@grimberg.me, linux-pm@vger.kernel.org,
+ rafael@kernel.org, Prasad Malisetty <quic_pmaliset@quicinc.com>
+Subject: Re: [PATCH v2 3/3] PCI: qcom: Add system PM support
+Message-ID: <20220518132358.GA26902@lst.de>
 References: <20220518131913.26974-1-manivannan.sadhasivam@linaro.org>
+ <20220518131913.26974-4-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518131913.26974-4-manivannan.sadhasivam@linaro.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_062000_209927_8954968C 
-X-CRM114-Status: GOOD (  25.02  )
+X-CRM114-CacheID: sfid-20220518_062405_573332_77FFCE38 
+X-CRM114-Status: GOOD (  14.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,213 +64,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Prasad Malisetty <quic_pmaliset@quicinc.com>
+On Wed, May 18, 2022 at 06:49:13PM +0530, Manivannan Sadhasivam wrote:
+> From: Prasad Malisetty <quic_pmaliset@quicinc.com>
+> 
+> Add suspend and resume callbacks to handle system suspend and resume in
+> the Qcom PCIe controller driver. When the system suspends, PME turnoff
+> message will be sent to the device and the RC driver will wait for the
+> device to enter L23 Ready state. After that, the PHY will be powered down
+> and clocks/regulators will be disabled.
 
-Add suspend and resume callbacks to handle system suspend and resume in
-the Qcom PCIe controller driver. When the system suspends, PME turnoff
-message will be sent to the device and the RC driver will wait for the
-device to enter L23 Ready state. After that, the PHY will be powered down
-and clocks/regulators will be disabled.
-
-When the system resumes, RC driver gets initialized and re-establishes the
-link.
-
-The system suspend and resume are only handled when the underlying platform
-supports the "suspend_poweroff" flag that notifies the PCI drivers about
-powerdown during suspend.
-
-Otherwise, these callbacks are NO-OPs. Currently, this flag is only enabled
-for SC7280 SoC, where aggressive powersaving is required during system
-suspend. It should be noted that on this platform, RPMh will also cutoff
-the power to PCIe domain during suspend, independent of the RC driver as
-rest of the RPMh clients de-vote for the resources. But ideally, the PCIe
-devices should be put into D3cold state during suspend by the PCIe RC
-driver and that's what this commit also does.
-
-Signed-off-by: Prasad Malisetty <quic_pmaliset@quicinc.com>
-[mani: Reworded commit message, removed pipe_clk & added "suspend_poweroff" flag]
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
-
-Changes in v2:
-
-* Picked the suspend/resume patch from Prasad and squashed the suspend_poweroff
-  patch
-* Rebased on top of pipe_clk handling series from Dmitry
-  https://lore.kernel.org/all/20220513175339.2981959-1-dmitry.baryshkov@linaro.org/
-
- drivers/pci/controller/dwc/pcie-qcom.c | 108 +++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
-
-diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-index b48c899bcc97..bfcc79058b3f 100644
---- a/drivers/pci/controller/dwc/pcie-qcom.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom.c
-@@ -48,6 +48,7 @@
- #define PCIE20_PARF_PHY_REFCLK			0x4C
- #define PHY_REFCLK_SSP_EN			BIT(16)
- #define PHY_REFCLK_USE_PAD			BIT(12)
-+#define PHY_POWER_DOWN				0x1
- 
- #define PCIE20_PARF_DBI_BASE_ADDR		0x168
- #define PCIE20_PARF_SLV_ADDR_SPACE_SIZE		0x16C
-@@ -62,6 +63,8 @@
- 
- #define PCIE20_ELBI_SYS_CTRL			0x04
- #define PCIE20_ELBI_SYS_CTRL_LT_ENABLE		BIT(0)
-+#define PCIE_PME_TURNOFF_MSG			BIT(4)
-+#define PCIE_PM_LINKST_IN_L2			BIT(5)
- 
- #define PCIE20_AXI_MSTR_RESP_COMP_CTRL0		0x818
- #define CFG_REMOTE_RD_REQ_BRIDGE_SIZE_2K	0x4
-@@ -73,6 +76,8 @@
- 
- #define PCIE20_PARF_Q2A_FLUSH			0x1AC
- 
-+#define PCIE20_PARF_PM_STTS			0x24
-+
- #define PCIE20_MISC_CONTROL_1_REG		0x8BC
- #define DBI_RO_WR_EN				1
- 
-@@ -193,6 +198,7 @@ struct qcom_pcie_cfg {
- 	unsigned int has_ddrss_sf_tbu_clk:1;
- 	unsigned int has_aggre0_clk:1;
- 	unsigned int has_aggre1_clk:1;
-+	unsigned int suspend_poweroff:1;
- };
- 
- struct qcom_pcie {
-@@ -1171,6 +1177,10 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
- 		return ret;
- 	}
- 
-+	/* Indicate PCI device drivers that the power will be taken off during system suspend */
-+	if (pcie->cfg->suspend_poweroff)
-+		pci->pp.bridge->suspend_poweroff = true;
-+
- 	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
- 	if (ret < 0)
- 		goto err_disable_regulators;
-@@ -1467,6 +1477,7 @@ static const struct qcom_pcie_cfg sm8450_pcie1_cfg = {
- static const struct qcom_pcie_cfg sc7280_cfg = {
- 	.ops = &ops_1_9_0,
- 	.has_tbu_clk = true,
-+	.suspend_poweroff = true,
- };
- 
- static const struct dw_pcie_ops dw_pcie_ops = {
-@@ -1564,6 +1575,102 @@ static int qcom_pcie_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
-+static int qcom_pcie_send_pme_turnoff_msg(struct qcom_pcie *pcie)
-+{
-+	int ret;
-+	u32 val, poll_val;
-+	struct dw_pcie *pci = pcie->pci;
-+	struct device *dev = pci->dev;
-+
-+	val = readl(pcie->elbi + PCIE20_ELBI_SYS_CTRL);
-+	val |= PCIE_PME_TURNOFF_MSG;
-+	writel(val, pcie->elbi + PCIE20_ELBI_SYS_CTRL);
-+
-+	ret = readl_poll_timeout((pcie->parf + PCIE20_PARF_PM_STTS), poll_val,
-+			(poll_val & PCIE_PM_LINKST_IN_L2),
-+			10000, 100000);
-+	if (!ret)
-+		dev_dbg(dev, "Device entered L23_Ready state\n");
-+	else
-+		dev_err(dev, "Device failed to enter L23_Ready. PM_STTS 0x%x\n",
-+			readl_relaxed(pcie->parf + PCIE20_PARF_PM_STTS));
-+
-+	return ret;
-+}
-+
-+static void qcom_pcie_host_disable(struct qcom_pcie *pcie)
-+{
-+	qcom_ep_reset_assert(pcie);
-+
-+	/* Put PHY into POWER DOWN state */
-+	phy_power_off(pcie->phy);
-+
-+	writel(PHY_POWER_DOWN, pcie->parf + PCIE20_PARF_PHY_CTRL);
-+
-+	/* Disable PCIe clocks and regulators */
-+	pcie->cfg->ops->deinit(pcie);
-+}
-+
-+static int qcom_pcie_pm_suspend(struct device *dev)
-+{
-+	int ret;
-+	struct qcom_pcie *pcie = dev_get_drvdata(dev);
-+	struct dw_pcie *pci = pcie->pci;
-+
-+	/* If the platform doesn't support powerdown during suspend, just return */
-+	if (!pcie->cfg->suspend_poweroff)
-+		return 0;
-+
-+	if (!dw_pcie_link_up(pci)) {
-+		dev_dbg(dev, "Power has been turned off already\n");
-+		return 0;
-+	}
-+
-+	ret = qcom_pcie_send_pme_turnoff_msg(pcie);
-+	if (ret)
-+		return ret;
-+
-+	/* Power down the PHY, disable clock and regulators */
-+	qcom_pcie_host_disable(pcie);
-+
-+	return 0;
-+}
-+
-+/* Resume the PCIe link */
-+static int qcom_pcie_pm_resume(struct device *dev)
-+{
-+	int ret;
-+	struct qcom_pcie *pcie = dev_get_drvdata(dev);
-+	struct dw_pcie *pci = pcie->pci;
-+	struct pcie_port *pp = &pci->pp;
-+
-+	/* If the platform doesn't support powerdown during suspend, just return */
-+	if (!pcie->cfg->suspend_poweroff)
-+		return 0;
-+
-+	ret = qcom_pcie_host_init(pp);
-+	if (ret) {
-+		dev_err(dev, "cannot initialize host\n");
-+		return ret;
-+	}
-+
-+	dw_pcie_setup_rc(pp);
-+
-+	qcom_pcie_start_link(pci);
-+
-+	ret = dw_pcie_wait_for_link(pci);
-+	if (ret) {
-+		dev_err(dev, "Link never came up, Resume failed\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops qcom_pcie_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(qcom_pcie_pm_suspend, qcom_pcie_pm_resume)
-+};
-+
- static const struct of_device_id qcom_pcie_match[] = {
- 	{ .compatible = "qcom,pcie-apq8084", .data = &apq8084_cfg },
- 	{ .compatible = "qcom,pcie-ipq8064", .data = &ipq8064_cfg },
-@@ -1600,6 +1707,7 @@ static struct platform_driver qcom_pcie_driver = {
- 		.name = "qcom-pcie",
- 		.suppress_bind_attrs = true,
- 		.of_match_table = qcom_pcie_match,
-+		.pm = pm_sleep_ptr(&qcom_pcie_pm_ops),
- 	},
- };
- builtin_platform_driver(qcom_pcie_driver);
--- 
-2.25.1
-
+So what about just not doing this stupid power disabling to start
+with?  Unlike x86 where we do not have choice due to the BIOS, we
+apparently do here.  And disabling power is the wrong thing to do at
+least for SSDs as it massively increases the wear on the NAND.
 
