@@ -4,65 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DFCDC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 10:27:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CFC6C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 11:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=cymHoXotUgDEhiYryXr5KPFsdz4cJqT/FPWPOLRnhnQ=; b=yDjVI8+FErU3WY7oIo66yXjeWD
-	PC/gpuCbzYR7cdWNqj7NNlybT3sGkHq74MJnzs0Tj1By7lRX9RuQXSLMH3ifdCUd1zpFZbWfImaWY
-	fxubSilkWwjhGhHNzMvB3/l5Jc9lSiRy9pwGb/4JzF1L2cZmWCmQ9sgZhPZ+JB6Mr0MMZQhUPMnex
-	kWEpQeMysr60sM1VmzxbrJYE3oqf54k+46dbXOZVEjkzM98qhptLubpKMlbJsGq40SiYLSmjZo0z4
-	057sr2bwEHhdshl5h8m6hydhZmQnxVGz6DvhFtuIzWOdPpik8l7MKP+ShbHoSRh1oHs0IOEjDKKA4
-	rUzfNt1A==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oq/vZ7XghI1mZ4NQj5jbB50AvR+Ej+9P8dEWe+23+pU=; b=lcebh68y7o4WIgBSFeQJbO0J0q
+	B8bqSzH6zlac8OtW73Ake15IdUDdw3dhkP1N6yVCfF0k62SedF5s1D0Pryy9oWJwTLex9SY1NA3xl
+	Lw6p3YlKNFBUx/KGCfwS8AXhtKBZMAu9VNFvrBBshVCGAFexjrwEH9LUwkCti33FwCnUKdCdF9hiz
+	f2jXMbTasBCHL7RdpAonocTUmjSysncuyc5Al+UvcTde4xFhljufViK5q9TFNP8nrbh031zcCvDsW
+	QikZkphSlfehuQucaDp9t3vw8jG5M1XiRrpiyYFbsyMkYoxN1KzRjseAxUeMOW5gJhWNeF16sEIkX
+	MeUkbEfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrGu3-001Mu2-VF; Wed, 18 May 2022 10:27:39 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1nrHlg-001Uzb-9Y; Wed, 18 May 2022 11:23:04 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrGu0-001MtY-E5
- for linux-nvme@lists.infradead.org; Wed, 18 May 2022 10:27:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652869656; x=1684405656;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=IJoYm/f4GeM7jlS2p+KjVctJ8wPN2OIuOJ/57YzFrOk=;
- b=m/8oYVgIKhkTw0qtBhQRL6mT0Ee+LIXjF9fQ0P4WUGecE+TExcA6EPaB
- 0pOAymjcF7R8u+irD7ckPsyYMJEBd7MXMzD1eoVAe9HpKoOAirQB/gvN9
- uncG0zNJidLsEJjprOZKS3s612QiVFOPcHKPoN9cPMVUUKFDH57LGCkhl
- sx9x8EbBYKPZPWB6ftiCt9TvLTNanf9m1WcN6rCH2fPbX9ycc1N7ik8Fx
- x17T3efqNQAvgeIa/UlJeWmwdG6qZ6VEThGY/MW0spAB/ZwKzQyL1qPYu
- YM0/mHSLNO1shv4R2lAaHAkzYgtSQ8w2IJrrd9M0dDtuO+6LFKWAC4dB7 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="271548613"
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="271548613"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 03:27:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="545384902"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 18 May 2022 03:27:29 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nrGtt-00023Z-7L;
- Wed, 18 May 2022 10:27:29 +0000
-Date: Wed, 18 May 2022 18:26:57 +0800
-From: kernel test robot <lkp@intel.com>
+ id 1nrHlW-001Utz-QU
+ for linux-nvme@lists.infradead.org; Wed, 18 May 2022 11:22:56 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id 653B521BAF;
+ Wed, 18 May 2022 11:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652872973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oq/vZ7XghI1mZ4NQj5jbB50AvR+Ej+9P8dEWe+23+pU=;
+ b=1TJCZUBrMBbXV8L1Er2jwrYpfPYt+Dc2FajCJtIxxfktykRPCpg3fIO4wh7k5FqIIs5x0v
+ cVMBHYE2hQGPzrK7SZtVGD+fLQe8D1r5qxm5qvuHXFO6Z3y36nn8I0cCUJmoOjhmU5YUXx
+ 8Ki65VSq5WFRBZvQqJJ4XKY1+7H4Go0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652872973;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oq/vZ7XghI1mZ4NQj5jbB50AvR+Ej+9P8dEWe+23+pU=;
+ b=UR2EFvJsDwexXzVtTC3I6sj3ug4uf4q4qqO3Wc+gC59wD9qgt+lvjWydUBZ8mNI0xTrXcO
+ C+9XUFcPqi3G/xDA==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+ by relay2.suse.de (Postfix) with ESMTP id 5748D2C149;
+ Wed, 18 May 2022 11:22:53 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+ id 8A767519450F; Wed, 18 May 2022 13:22:52 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
- e626f37e657adbab2a7abe51480925891662a5f3
-Message-ID: <6284c9f1.ADjyO+cm8C/Pjvr4%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org,
+ Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: [PATCH 05/11] nvme-fabrics: decode 'authentication required' connect
+ error
+Date: Wed, 18 May 2022 13:22:28 +0200
+Message-Id: <20220518112234.24264-6-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220518112234.24264-1-hare@suse.de>
+References: <20220518112234.24264-1-hare@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_032736_601525_DA9E5A0D 
-X-CRM114-Status: UNSURE (   6.85  )
+X-CRM114-CacheID: sfid-20220518_042255_112329_AA78687E 
+X-CRM114-Status: UNSURE (   9.14  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,123 +84,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.19
-branch HEAD: e626f37e657adbab2a7abe51480925891662a5f3  nvme: split the enum used for various register constants
+The 'connect' command might fail with NVME_SC_AUTH_REQUIRED, so we
+should be decoding this error, too.
 
-elapsed time: 1664m
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+---
+ drivers/nvme/host/fabrics.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-configs tested: 101
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-arm64                            allyesconfig
-i386                 randconfig-c001-20220516
-arm                         lpc18xx_defconfig
-arc                     nsimosci_hs_defconfig
-arm                       imx_v6_v7_defconfig
-sh                     magicpanelr2_defconfig
-arc                          axs103_defconfig
-um                               alldefconfig
-mips                       capcella_defconfig
-mips                           gcw0_defconfig
-openrisc                 simple_smp_defconfig
-m68k                           sun3_defconfig
-sh                        dreamcast_defconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-alpha                               defconfig
-csky                                defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a012-20220516
-x86_64               randconfig-a011-20220516
-x86_64               randconfig-a013-20220516
-x86_64               randconfig-a014-20220516
-x86_64               randconfig-a016-20220516
-x86_64               randconfig-a015-20220516
-i386                 randconfig-a016-20220516
-i386                 randconfig-a013-20220516
-i386                 randconfig-a015-20220516
-i386                 randconfig-a012-20220516
-i386                 randconfig-a014-20220516
-i386                 randconfig-a011-20220516
-s390                 randconfig-r044-20220516
-riscv                randconfig-r042-20220516
-arc                  randconfig-r043-20220516
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                               rhel-8.3
-
-clang tested configs:
-powerpc                    mvme5100_defconfig
-mips                        qi_lb60_defconfig
-arm                         s3c2410_defconfig
-powerpc                      katmai_defconfig
-powerpc                 mpc8272_ads_defconfig
-x86_64               randconfig-a001-20220516
-x86_64               randconfig-a006-20220516
-x86_64               randconfig-a003-20220516
-x86_64               randconfig-a005-20220516
-x86_64               randconfig-a002-20220516
-x86_64               randconfig-a004-20220516
-i386                 randconfig-a001-20220516
-i386                 randconfig-a003-20220516
-i386                 randconfig-a005-20220516
-i386                 randconfig-a004-20220516
-i386                 randconfig-a006-20220516
-i386                 randconfig-a002-20220516
-hexagon              randconfig-r045-20220516
-hexagon              randconfig-r041-20220516
-
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index ee79a6d639b4..953e3076aab1 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -331,6 +331,10 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
+ 		dev_err(ctrl->device,
+ 			"Connect command failed: host path error\n");
+ 		break;
++	case NVME_SC_AUTH_REQUIRED:
++		dev_err(ctrl->device,
++			"Connect command failed: authentication required\n");
++		break;
+ 	default:
+ 		dev_err(ctrl->device,
+ 			"Connect command failed, error wo/DNR bit: %d\n",
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.29.2
+
 
