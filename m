@@ -4,135 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B915C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 09:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DC8DC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 09:26:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=02PK4+O2aeQtWtkRiTGgprSK3KlsrzpSAGa3d80mXIM=; b=pnPFxyo5YXjLoP
-	/PxvixNWC+gyLuz7WJ5z39PIx6XZJRZIaHDB6iu9OcnVY+CURVKK6DWL6OVW56xExYKGWO807coUX
-	Yi4/p9xgLnH7hLYV17eIAByqkVPLmIOyqcWAod6yWijQXqCxxD+zW4lvgWPJvlJN+w3v9tAHUaTd7
-	W0QIqzyW2jgnpMFqM1ob7oMogU1PoAD/PeRKXcolK0onVC1ZIZGAcKkS8dD6sy13g8xvVSSfQKaXR
-	/QvsanbK1wXBYryiUsl5MkbUtA+Q94bgh6swhyXDS/am3tJKUxSxE5v0sXNGFSYiZbo0BYfQ6muVi
-	3BWweJsas/OQThgdMlCw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nV3v3Tc6DvPqpOXZdtqP96dQ5Xo+sryZhZSrwMn52mc=; b=wfs93icqWdTOhbzjKe0WK2qJru
+	msY3z7j1ToejQfuk9EEWe/Yx+QhzkMuIDKvvbvVE7hdvolpt1GihdjS1YzCye9aGQgwzwWmrBwigF
+	fQTbiY9uivhffirlKFKroWdkRuxNQqK+T+QRFXTvTgpNGyzAf9S1urGxpL/mS0n6ozXFb+6eJx1U4
+	Rb067QOejfLsRHv6KpYb4jttdV0rVlrD7TOaImE52VXh+RVYgAW7sO+3QYAHiIPgHpPo4dT8xNemU
+	qB2wQRjwZcmwefjMNw1NaOT5XcxOeHHGyReoBv/n4WMp2amLzMNfV1hiMtGEmehZM0L6Pr+yuFJ50
+	PqNmT7PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrFmo-000nXs-4z; Wed, 18 May 2022 09:16:06 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1nrFx3-0010Lx-Du; Wed, 18 May 2022 09:26:41 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrFmk-000nMx-4A
- for linux-nvme@lists.infradead.org; Wed, 18 May 2022 09:16:04 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220518091556euoutp02eba767eb3c514db086b1ca26de6ecdaa~wKEjQwgfx2036220362euoutp02E
- for <linux-nvme@lists.infradead.org>; Wed, 18 May 2022 09:15:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220518091556euoutp02eba767eb3c514db086b1ca26de6ecdaa~wKEjQwgfx2036220362euoutp02E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1652865356;
- bh=02PK4+O2aeQtWtkRiTGgprSK3KlsrzpSAGa3d80mXIM=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=gUja4oS7OFTsP2qwuSrmJmQNPvc50DYV2ysUtrCcbb3gvVzrGlbDMGw+rCl2TQ7J0
- J7+YME5J95OveXfGvseZFreoJR2wK4ljZtOSDyThXF6rQ/2A380KSK3PqGcPVS6EFd
- 83mFHzIIixEjW1LecVG/wvdZxomhv9YdUujv8Zs8=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220518091556eucas1p23fa8121f563bd4cdb43b27949f0bacba~wKEi8vgjM1876518765eucas1p2c;
- Wed, 18 May 2022 09:15:56 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 92.DD.10009.B49B4826; Wed, 18
- May 2022 10:15:56 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220518091555eucas1p16a9ead30703054b30e76c2227cd4f629~wKEid_GJl2284822848eucas1p1W;
- Wed, 18 May 2022 09:15:55 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220518091555eusmtrp1e75ce65f06f2fb713ae2679ccd687280~wKEidEsht1304613046eusmtrp1J;
- Wed, 18 May 2022 09:15:55 +0000 (GMT)
-X-AuditID: cbfec7f2-e7fff70000002719-42-6284b94b8d52
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 72.98.09522.B49B4826; Wed, 18
- May 2022 10:15:55 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220518091555eusmtip2b2f3d735ee7a617445733660bddd54a0~wKEiS6z1b0225002250eusmtip2Y;
- Wed, 18 May 2022 09:15:55 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.7) by CAMSVWEXC01.scsc.local
- (106.1.227.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 May
- 2022 10:15:53 +0100
-Message-ID: <717a2c83-0678-9310-4c75-9ad5da0472f6@samsung.com>
-Date: Wed, 18 May 2022 11:15:52 +0200
+ id 1nrFwz-0010Kf-OB
+ for linux-nvme@lists.infradead.org; Wed, 18 May 2022 09:26:39 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B2B97219CB;
+ Wed, 18 May 2022 09:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652865995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nV3v3Tc6DvPqpOXZdtqP96dQ5Xo+sryZhZSrwMn52mc=;
+ b=Xy1Evb4pHVA/gwQ8qPBoWKQ9UfH6zC9EkxGLbaQoVDs0Mz3rXx9jAYOBqPxqMfH2g4HB4r
+ S1CIaQVriRPxVqS8tRTDwK87uBQC4oaHiXKp7s+sdMQPInqaZOz8WdPGgABbNy6nRwy0ak
+ vrMpssOUCyvvoCrAqMD08bLOpkUHguY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652865995;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nV3v3Tc6DvPqpOXZdtqP96dQ5Xo+sryZhZSrwMn52mc=;
+ b=PszD6+qP+zID5LLXS8mjo44bFbDYaqtgV2scERRDlWCr+LLwPi9sWjxCrEGsYc5w/7TMgE
+ /RLHDz+D+1x3u8DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 87F5E13A6D;
+ Wed, 18 May 2022 09:26:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OaFKIMu7hGKnCwAAMHmgww
+ (envelope-from <hare@suse.de>); Wed, 18 May 2022 09:26:35 +0000
+Message-ID: <02fbd773-46c0-4c32-6a8d-414e08f7dfac@suse.de>
+Date: Wed, 18 May 2022 11:26:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 08/13] btrfs:zoned: make sb for npo2 zone devices
- align with sb log offsets
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] nvme: add support for TP4084 - Time-to-Ready Enhancements
 Content-Language: en-US
-To: <dsterba@suse.cz>
-CC: <axboe@kernel.dk>, <damien.lemoal@opensource.wdc.com>,
- <pankydev8@gmail.com>, <dsterba@suse.com>, <hch@lst.de>,
- <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-btrfs@vger.kernel.org>, <jiangbo.365@bytedance.com>,
- <linux-block@vger.kernel.org>, <gost.dev@samsung.com>,
- <linux-kernel@vger.kernel.org>, <dm-devel@redhat.com>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220517124257.GD18596@twin.jikos.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.7]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (106.1.227.71) To
- CAMSVWEXC01.scsc.local (106.1.227.71)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIKsWRmVeSWpSXmKPExsWy7djP87o+O1uSDHbdYLRYfbefzeL32fPM
- FnvfzWa1uPCjkcli8e/vLBYrVx9lsug58IHFYu8tbYtLj1ewW+zZe5LF4vKuOWwW85c9ZbdY
- c/MpiwOvx78Ta9g8ds66y+5x+Wypx+Yl9R67bzYARVrvs3q833eVzWP9lqssHmcWHGH3+LxJ
- LoArissmJTUnsyy1SN8ugStjX/MjtoLFChXnvs5jbWBcINnFyMkhIWAisfHvUdYuRi4OIYEV
- jBLbO2+yQzhfGCWW3VvHAuF8ZpQ48echO0zLmjOXmSASyxkl7s8+zQ5X9fT1QyhnDaPEiw33
- gPo5OHgF7CQWLNcD6WYRUJXYMqeXFcTmFRCUODnzCQuILSoQITFt1hk2kHJhgRSJHSuLQMLM
- AuISt57MZwKxRQREJS7tXwF2EbPASyaJ47+PsYPUswloSTR2gh3HKWAs0XDwAjtEr6ZE6/bf
- ULa8xPa3c5ghHlCUuLnyF9gqCYFkiQ0zwyDClzgl7j0KhbBdJCYfWMMKYQtLvDq+Bep3GYnT
- k3tYIOxqiac3fjODnCMh0MIo0b9zPdRMa4m+MzkQNY4Sl759ZoYI80nceCsIcQ2fxKRt05kn
- MKrOQgqHWUgenoXkgVlIHljAyLKKUTy1tDg3PbXYMC+1XK84Mbe4NC9dLzk/dxMjMNWd/nf8
- 0w7Gua8+6h1iZOJgPMQowcGsJMLLmNuSJMSbklhZlVqUH19UmpNafIhRmoNFSZw3OXNDopBA
- emJJanZqakFqEUyWiYNTqoGpcsfk6tJ7W67wfGafVl50gely/u6izlUf3/82Nb169KSz/4TH
- Zrb8a9wb/L7G+D7ZVmttd8cu2jfghIxryJv+rZw8Jpwv4g1cGc7tvWy71PtYcPPcb2uKN3P0
- /hTZ6T6lZuWs3/uPrD5/tH+a2JTzF3ZmSLLplTT8kp7w927P1uUnUtrm839V1j4tsHR1wbcz
- VdM+La5rvsHj88Kre9lvC40Tzv++vLHOLzuQbHL9V6jtpg0sTaIHjpgF8FToRKyaIXNOnJtF
- cq6Y6KoPqxg+1O/fLq5SM0E6XNKxb8Hy670nrKZlTxJrMbgsGaC3dXVhlN5WBh7Z2Y+jr8Vr
- tv3jaevV53/E1BXrsC52fYSPEktxRqKhFnNRcSIAGQTGuOQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgleLIzCtJLcpLzFFi42I5/e/4PV3vnS1JBg9fyFmsvtvPZvH77Hlm
- i73vZrNaXPjRyGSx+Pd3FouVq48yWfQc+MBisfeWtsWlxyvYLfbsPclicXnXHDaL+cueslus
- ufmUxYHX49+JNWweO2fdZfe4fLbUY/OSeo/dNxuAIq33WT3e77vK5rF+y1UWjzMLjrB7fN4k
- F8AVpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqkb2eTkpqTWZZapG+XoJex
- r/kRW8FihYpzX+exNjAukOxi5OSQEDCRWHPmMlMXIxeHkMBSRokdDd1sEAkZiU9XPrJD2MIS
- f651sUEUfWSUaDr8EapjDaPE6a4zQBkODl4BO4kFy/VAGlgEVCW2zOllBbF5BQQlTs58wgJi
- iwpESDzYfRYsLiyQIvHo02wwm1lAXOLWk/lMILaIgKjEpf0rWCDmv2CUeN36jR3EYRZ4ySRx
- /PcxdpBlbAJaEo2dYNdxChhLNBy8wA4xSFOidftvKFteYvvbOcwQHyhK3Fz5C+xOCYFkib+3
- wicwis5Cct4sJGfMQjJpFpJJCxhZVjGKpJYW56bnFhvqFSfmFpfmpesl5+duYgQmiW3Hfm7e
- wTjv1Ue9Q4xMHIyHGCU4mJVEeBlzW5KEeFMSK6tSi/Lji0pzUosPMZoCw2gis5Rocj4wTeWV
- xBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTDN5TY72SWRv227Oh/f
- oYt8Uzln1+y2P3i2dL9whL+KznKXMvHlqx93vpbITjjZtC/pS2HDy49sL0X5pBqeSdzeyJv/
- qCF5X9mLuh8bE9eXKFyqToxlUf1yW/1fR3HKjEatnhN/n66WNU31ORK97u3GyL7XTt8fr77h
- 8/s0Cxdf/Cuh84HcHtMr1r64eb69pivIwGTm4wyVU1fvHvrDEiFaGTJl+qTJpSlrS1fcVeiK
- 5f0/59vpK+wvbcOc5hv83N+7mPP3aWWmixJ3fwo/2Wj3WHLFsscc7x9P1p+fsHHz6bfKshE3
- t7T1cAdwNjHKv28Ped6dmLw8vWKaKdvprWplGyaczJgv8PtmoknDmS03lFiKMxINtZiLihMB
- g5KR95sDAAA=
-X-CMS-MailID: 20220518091555eucas1p16a9ead30703054b30e76c2227cd4f629
-X-Msg-Generator: CA
-X-RootMTR: 20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230
-References: <20220516165416.171196-1-p.raghav@samsung.com>
- <CGME20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230@eucas1p2.samsung.com>
- <20220516165416.171196-9-p.raghav@samsung.com>
- <20220517124257.GD18596@twin.jikos.cz>
+To: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org
+References: <20220518064040.3223894-1-hch@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220518064040.3223894-1-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_021602_625239_0E43AA43 
-X-CRM114-Status: GOOD (  36.66  )
+X-CRM114-CacheID: sfid-20220518_022637_991235_074A8F00 
+X-CRM114-Status: GOOD (  15.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,116 +89,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2022-05-17 14:42, David Sterba wrote:
-> On Mon, May 16, 2022 at 06:54:11PM +0200, Pankaj Raghav wrote:
->> Superblocks for zoned devices are fixed as 2 zones at 0, 512GB and 4TB.
->> These are fixed at these locations so that recovery tools can reliably
->> retrieve the superblocks even if one of the mirror gets corrupted.
->>
->> power of 2 zone sizes align at these offsets irrespective of their
->> value but non power of 2 zone sizes will not align.
->>
->> To make sure the first zone at mirror 1 and mirror 2 align, write zero
->> operation is performed to move the write pointer of the first zone to
->> the expected offset. This operation is performed only after a zone reset
->> of the first zone, i.e., when the second zone that contains the sb is FULL.
+On 5/18/22 08:40, Christoph Hellwig wrote:
+> Add support for using longer timeouts during controller initialization
+> and letting the controller come up with namespaces that are not ready
+> for I/O yet.  We skip these not ready namespaces during scanning and
+> only bring them online once another scan is kicked off by the AEN that
+> is set when the NRDY bit gets set in the  I/O Command Set Independent
+> Identify Namespace Data Structure.   This asynchronous probing avoids
+> blocking the kernel boot when controllers take a very long time to
+> recover after unclean shutdowns (up to minutes).
 > 
-> Is it a good idea to do the "write zeros", instead of a plain "set write
-> pointer"? I assume setting write pointer is instant, while writing
-> potentially hundreds of megabytes may take significiant time. As the
-> functions may be called from random contexts, the increased time may
-> become a problem.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/nvme/host/constants.c |  1 +
+>   drivers/nvme/host/core.c      | 73 ++++++++++++++++++++++++++++++++---
+>   drivers/nvme/host/nvme.h      |  1 +
+>   include/linux/nvme.h          | 31 +++++++++++++++
+>   4 files changed, 101 insertions(+), 5 deletions(-)
 > 
-Unfortunately it is not possible to just move the WP in zoned devices.
-The only alternative that I could use is to do write zeroes which are
-natively supported by some devices such as ZNS. It would be nice to know
-if someone had a better solution to this instead of doing write zeroes
-in zoned devices.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
->> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
->> ---
->>  fs/btrfs/zoned.c | 68 ++++++++++++++++++++++++++++++++++++++++++++----
->>  1 file changed, 63 insertions(+), 5 deletions(-)
->>
->> diff --git a/fs/btrfs/zoned.c b/fs/btrfs/zoned.c
->> index 3023c871e..805aeaa76 100644
->> --- a/fs/btrfs/zoned.c
->> +++ b/fs/btrfs/zoned.c
->> @@ -760,11 +760,44 @@ int btrfs_check_mountopts_zoned(struct btrfs_fs_info *info)
->>  	return 0;
->>  }
->>  
->> +static int fill_sb_wp_offset(struct block_device *bdev, struct blk_zone *zone,
->> +			     int mirror, u64 *wp_ret)
->> +{
->> +	u64 offset = 0;
->> +	int ret = 0;
->> +
->> +	ASSERT(!is_power_of_two_u64(zone->len));
->> +	ASSERT(zone->wp == zone->start);
->> +	ASSERT(mirror != 0);
-> 
-> This could simply accept 0 as the mirror offset too, the calculation is
-> trivial.
-> 
-Ok. I will fix it up!
->> +
->> +	switch (mirror) {
->> +	case 1:
->> +		div64_u64_rem(BTRFS_SB_LOG_FIRST_OFFSET >> SECTOR_SHIFT,
->> +			      zone->len, &offset);
->> +		break;
->> +	case 2:
->> +		div64_u64_rem(BTRFS_SB_LOG_SECOND_OFFSET >> SECTOR_SHIFT,
->> +			      zone->len, &offset);
->> +		break;
->> +	}
->> +
->> +	ret =  blkdev_issue_zeroout(bdev, zone->start, offset, GFP_NOFS, 0);
->> +	if (ret)
->> +		return ret;
->> +
->> +		/*
->> +		 * Non po2 zone sizes will not align naturally at
->> +		 * mirror 1 (512GB) and mirror 2 (4TB). The wp of the
->> +		 * 1st zone in those superblock mirrors need to be
->> +		 * moved to align at those offsets.
->> +		 */
-> 
-> Please move this comment to the helper fill_sb_wp_offset itself, there
-> it's more discoverable.
-> 
-Ok.
->> +		is_sb_offset_write_req =
->> +			(zones_empty || (reset_zone_nr == 0)) && mirror &&
->> +			!is_power_of_2(zones[0].len);
-> 
-> Accepting 0 as the mirror number would also get rid of this wild
-> expression substituting and 'if'.
-> 
->>  
->>  		if (reset && reset->cond != BLK_ZONE_COND_EMPTY) {
->>  			ASSERT(sb_zone_is_full(reset));
->> @@ -795,6 +846,13 @@ static int sb_log_location(struct block_device *bdev, struct blk_zone *zones,
->>  			reset->cond = BLK_ZONE_COND_EMPTY;
->>  			reset->wp = reset->start;
->>  		}
->> +
->> +		if (is_sb_offset_write_req) {
-> 
-> And get rid of the conditional. The point of supporting both po2 and
-> nonpo2 is to hide any implementation details to wrappers as much as
-> possible.
-> 
-Alright. I will move the logic to the wrapper instead of having the
-conditional in this function.
->> +			ret = fill_sb_wp_offset(bdev, &zones[0], mirror, &wp);
->> +			if (ret)
->> +				return ret;
->> +		}
->> +
->>  	} else if (ret != -ENOENT) {
->>  		/*
->>  		 * For READ, we want the previous one. Move write pointer to
-Thanks for your comments.
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
