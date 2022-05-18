@@ -4,72 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CFC6C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 11:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D944C433FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 11:23:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oq/vZ7XghI1mZ4NQj5jbB50AvR+Ej+9P8dEWe+23+pU=; b=lcebh68y7o4WIgBSFeQJbO0J0q
-	B8bqSzH6zlac8OtW73Ake15IdUDdw3dhkP1N6yVCfF0k62SedF5s1D0Pryy9oWJwTLex9SY1NA3xl
-	Lw6p3YlKNFBUx/KGCfwS8AXhtKBZMAu9VNFvrBBshVCGAFexjrwEH9LUwkCti33FwCnUKdCdF9hiz
-	f2jXMbTasBCHL7RdpAonocTUmjSysncuyc5Al+UvcTde4xFhljufViK5q9TFNP8nrbh031zcCvDsW
-	QikZkphSlfehuQucaDp9t3vw8jG5M1XiRrpiyYFbsyMkYoxN1KzRjseAxUeMOW5gJhWNeF16sEIkX
-	MeUkbEfw==;
+	bh=PWW8KtETebgaTkzOWq5LzP/4FDLtdsx7XewVO5qKMns=; b=deg1c7xhB/Y2oIiFjp3o7QIrcp
+	/pFdfWWjXUA2+mkAwBlOVE5dCqikodZ/UrO91U+UCzxm0V9SVh3YDXESbcamjf9I5bt8QnaplvOK4
+	L5vJ1N8FJR/TqrXSbQQuuVYN9OqzEafDRKwnzevg1rFbffVBqoGJVQWi+Z20zNimqhe9zTq16MgDw
+	qNuT7T+VITZmoV/x0BqTumgGoJ+wxBwVgxNaNMTP/GjL7R4ZvSJnLKg87MDKhR8EQaa/tvteqBUf+
+	rEFNhMxu5D424Sq1TqKToL3/G0eQetjAI320jXTIIMeMKaEzh5yshZ2BePcZ83LO8dcKrLyfEv3+4
+	bd79XWfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrHlg-001Uzb-9Y; Wed, 18 May 2022 11:23:04 +0000
+	id 1nrHls-001V9P-94; Wed, 18 May 2022 11:23:16 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrHlW-001Utz-QU
+ id 1nrHlW-001Uu2-QQ
  for linux-nvme@lists.infradead.org; Wed, 18 May 2022 11:22:56 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 653B521BAF;
+ by smtp-out1.suse.de (Postfix) with ESMTP id 6719421BB0;
  Wed, 18 May 2022 11:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1652872973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oq/vZ7XghI1mZ4NQj5jbB50AvR+Ej+9P8dEWe+23+pU=;
- b=1TJCZUBrMBbXV8L1Er2jwrYpfPYt+Dc2FajCJtIxxfktykRPCpg3fIO4wh7k5FqIIs5x0v
- cVMBHYE2hQGPzrK7SZtVGD+fLQe8D1r5qxm5qvuHXFO6Z3y36nn8I0cCUJmoOjhmU5YUXx
- 8Ki65VSq5WFRBZvQqJJ4XKY1+7H4Go0=
+ bh=PWW8KtETebgaTkzOWq5LzP/4FDLtdsx7XewVO5qKMns=;
+ b=JxW32sgb+WiWx3Je9MXW7jI04xoRtL4+c64n5ZvIfplXw7aR/D9P3zXiq+rGwhitoEcBP1
+ oCVitOuoVGzfqJ7LeCPa8BEn9kG+Vaw+FstS2LW9cVAr5SnS4NW8bJZNdgsE6nAICyAWtD
+ do5FVICSLv1lOiGpCDCMWd0zKoAaFRY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1652872973;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oq/vZ7XghI1mZ4NQj5jbB50AvR+Ej+9P8dEWe+23+pU=;
- b=UR2EFvJsDwexXzVtTC3I6sj3ug4uf4q4qqO3Wc+gC59wD9qgt+lvjWydUBZ8mNI0xTrXcO
- C+9XUFcPqi3G/xDA==
+ bh=PWW8KtETebgaTkzOWq5LzP/4FDLtdsx7XewVO5qKMns=;
+ b=aIsjNMBHxnhPOCXHfpvlNsgwVUESLcroudcVFF57bSqlvMxr2bRkvBHgtA3msL/FwqX0eF
+ 4Aw4I7TYvKnXdSDw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
- by relay2.suse.de (Postfix) with ESMTP id 5748D2C149;
+ by relay2.suse.de (Postfix) with ESMTP id 5F0872C152;
  Wed, 18 May 2022 11:22:53 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
- id 8A767519450F; Wed, 18 May 2022 13:22:52 +0200 (CEST)
+ id B46F9519451B; Wed, 18 May 2022 13:22:52 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org,
- Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: [PATCH 05/11] nvme-fabrics: decode 'authentication required' connect
- error
-Date: Wed, 18 May 2022 13:22:28 +0200
-Message-Id: <20220518112234.24264-6-hare@suse.de>
+ Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 11/11] nvmet-auth: expire authentication sessions
+Date: Wed, 18 May 2022 13:22:34 +0200
+Message-Id: <20220518112234.24264-12-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220518112234.24264-1-hare@suse.de>
 References: <20220518112234.24264-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_042255_112329_AA78687E 
-X-CRM114-Status: UNSURE (   9.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220518_042255_111429_1C8C52AF 
+X-CRM114-Status: GOOD (  14.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,32 +81,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The 'connect' command might fail with NVME_SC_AUTH_REQUIRED, so we
-should be decoding this error, too.
+Each authentication step is required to be completed within the
+KATO interval (or two minutes if not set). So add a workqueue function
+to reset the transaction ID and the expected next protocol step;
+this will automatically the next authentication command referring
+to the terminated authentication.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 ---
- drivers/nvme/host/fabrics.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvme/target/auth.c             |  1 +
+ drivers/nvme/target/fabrics-cmd-auth.c | 20 +++++++++++++++++++-
+ drivers/nvme/target/nvmet.h            |  1 +
+ 3 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index ee79a6d639b4..953e3076aab1 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -331,6 +331,10 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
- 		dev_err(ctrl->device,
- 			"Connect command failed: host path error\n");
- 		break;
-+	case NVME_SC_AUTH_REQUIRED:
-+		dev_err(ctrl->device,
-+			"Connect command failed: authentication required\n");
-+		break;
- 	default:
- 		dev_err(ctrl->device,
- 			"Connect command failed, error wo/DNR bit: %d\n",
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 71e13d7eb511..183af0b24523 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -218,6 +218,7 @@ int nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+ 
+ void nvmet_auth_sq_free(struct nvmet_sq *sq)
+ {
++	cancel_delayed_work(&sq->auth_expired_work);
+ 	kfree(sq->dhchap_c1);
+ 	sq->dhchap_c1 = NULL;
+ 	kfree(sq->dhchap_c2);
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index 3156b052da4d..0d2571d03272 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -12,9 +12,22 @@
+ #include "nvmet.h"
+ #include "../host/auth.h"
+ 
++static void nvmet_auth_expired_work(struct work_struct *work)
++{
++	struct nvmet_sq *sq = container_of(to_delayed_work(work),
++			struct nvmet_sq, auth_expired_work);
++
++	pr_debug("%s: ctrl %d qid %d transaction %u expired, resetting\n",
++		 __func__, sq->ctrl->cntlid, sq->qid, sq->dhchap_tid);
++	sq->dhchap_step = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
++	sq->dhchap_tid = -1;
++}
++
+ void nvmet_init_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ {
+ 	/* Initialize in-band authentication */
++	INIT_DELAYED_WORK(&req->sq->auth_expired_work,
++			  nvmet_auth_expired_work);
+ 	req->sq->authenticated = false;
+ 	req->sq->dhchap_step = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
+ 	req->cqe->result.u32 |= 0x2 << 16;
+@@ -326,8 +339,13 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
+ 	req->cqe->result.u64 = 0;
+ 	nvmet_req_complete(req, status);
+ 	if (req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2 &&
+-	    req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_FAILURE2)
++	    req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_FAILURE2) {
++		unsigned long auth_expire_secs = ctrl->kato ? ctrl->kato : 120;
++
++		mod_delayed_work(system_wq, &req->sq->auth_expired_work,
++				 auth_expire_secs * HZ);
+ 		return;
++	}
+ 	/* Final states, clear up variables */
+ 	nvmet_auth_sq_free(req->sq);
+ 	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE2)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8b239aec3ca2..829fb1d78ee1 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -109,6 +109,7 @@ struct nvmet_sq {
+ 	u32			sqhd;
+ 	bool			sqhd_disabled;
+ #ifdef CONFIG_NVME_TARGET_AUTH
++	struct delayed_work	auth_expired_work;
+ 	bool			authenticated;
+ 	u16			dhchap_tid;
+ 	u16			dhchap_status;
 -- 
 2.29.2
 
