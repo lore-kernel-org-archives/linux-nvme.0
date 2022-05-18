@@ -4,76 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CDF4C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 May 2022 23:47:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCD6DC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 03:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ysJF4XM43y/fSy8sU+xRfX8p6G59gQY61NVV4iA9+hU=; b=q1XjpQZEWqShFaLHdRW2u2B4DL
-	cdvRmjQTsklGJcNaT8FLWcRyPZgoP9GyO4mfaP/c3CF+liVtaj5wjx4zz3kK7bszMBSpBI3+Gn3jk
-	X/vviaLujHIii/ywkytf7U2pRai5XevTDAYDPJJ4JdmmI4cYREOMBAzIhaHyYZcL9664cJVtiPg+F
-	WZ40ENRt4wLXYQGC34xjxIODPCzGNmDJS7P4IKRfqZ4g9rrjHeGHCTCwVGJZcb1TnbY6yRB5hyDt2
-	dj0Sqnd+2BMw+3m5Yymew/mm7LlK8XhexgGx2r6VExmwjnpaKaYv8Uv0IXpHMAFnFmKrHRZBg3vS2
-	D2tCQeTA==;
+	bh=G71rbip7/LLYSXlMxn5Fb4jLrk7Bgah6j7mSed9BosI=; b=Wt8feQJGwv/GYEkF2UTcYcFBXb
+	WA9DeR1hjyKa89TMt2zJo5j2cZ15msKJOQTYsqN16ZJyxgoy4Pmj8Tqg0lJpaQ8Xl/ugYoecmem2l
+	F0PrGj0KpRVmTIp3YtCvMRgt+toepS1wzXvemwIlBqHig1yaO7ddOUT9B8dCYCBueXfydPLtPqlYB
+	RxIotEbSEq+K/2b4+wr28IAnhmA88GAKpWETEbW76bpYApA/TXQcfTZsQDnULH+Mb19OZDL+CsrrY
+	NNL1ji98Qagk5HU+a8FPHw6z5vzgiY7xJxE+TfWbYk0rTMCIPdDms39Ty8ixEnFQiP5isMqUvh7uG
+	MAL5rxrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nr6uh-00GIEY-5E; Tue, 17 May 2022 23:47:39 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1nrAje-00GwzK-KS; Wed, 18 May 2022 03:52:30 +0000
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nr6uf-00GIDS-5s
- for linux-nvme@lists.infradead.org; Tue, 17 May 2022 23:47:38 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id ev18so339618pjb.4
- for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 16:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=osandov-com.20210112.gappssmtp.com; s=20210112;
+ id 1nrAjb-00Gwyb-79
+ for linux-nvme@lists.infradead.org; Wed, 18 May 2022 03:52:29 +0000
+Received: by mail-pg1-x52a.google.com with SMTP id q76so1007898pgq.10
+ for <linux-nvme@lists.infradead.org>; Tue, 17 May 2022 20:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ysJF4XM43y/fSy8sU+xRfX8p6G59gQY61NVV4iA9+hU=;
- b=J+IvTmSTGYb9oKhTFmuSHbmJI3fA1UkjQGFnRIAi7lkIgccNLk+F4B20Sf+RrKbijf
- Os4ZhCKGywUxIcncZgWlocJg7+O/0Q57pvAymnkZSd1zswwAmBrbyGuwnFpJRsZVO1Mp
- yWn24T5hFvm+ES+sHjexWqfN4DH+zF188o3lS2kWm2yRsB21z2WFt+A/bmp+dQWpsZVZ
- ofaE38DWc6T4pf1W1ECW0DGhCzD0HOvW5zhk5fsFK/gqdfQ5gastwEyqaIT8g8mqfitL
- tsQVViUzvEreVPLVYZfqiMe8qIMM/egoc4Xjmu5fECcJsHPmedxq8ZzdDFbHL7eafiqS
- e4hA==
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=G71rbip7/LLYSXlMxn5Fb4jLrk7Bgah6j7mSed9BosI=;
+ b=sS7XbaBcd1qpF0aCh0W2Jwgv70gwT4Ug0J3sCEDc1Q9lDkS++RyzbRyStmZ5YOO0BX
+ XjJWDmUc1oenXcbEW1kpShGyImvl9t80wsK6WmFP7pxQM703lalbo7lhC5+/6KX6QpAP
+ 4yaz6x5yJEyrqqIXwfQwo2lMu+XDzA3Cf1ZZ+RcfmAa4R14tslDJg1kj8SiKysAd1LSD
+ XTtOQ1BalipuNZ5Mknq4zLt/Ye+g5JUi+EMYjR8yJtbHSa0vCBIJ2jiDij9GhP2b1fOX
+ FvJiGQF644dAnQOBJ2XOYOms9j4vrlnnm/R8lh5nFLdDOEW1Zei1VlX/8uxH7R1oQcgT
+ GjLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ysJF4XM43y/fSy8sU+xRfX8p6G59gQY61NVV4iA9+hU=;
- b=yT9qYuXjt941E5msVKV+GM8C5e+i5naQgXHAorN4AaD9NuvZHjheGd91gSe8X6m/56
- P7roUAmAh0oPd5WyHQ1WNL7Q4ZZQNKT1DgMEnbdumMMNcICWYi6UuTUtevzW0CRXLtsr
- XjMOFAAkr3/Jk7QrcgHTPDZJ1GgMjIwlmwtfItJeABM/lBkvelkzRXJkYmJY2+SXiKo7
- 94K3bULr5ERDiWuHtL15cKUxVLS+KEsB3a4wTJGerXoUNXlQMCVcdWlm1/7q9XUOTFxu
- 0g+zeMILcdWtLI8gP8/N8bPQYLcvSBFm3lGTxndt0VI2A0PhrFqV0qOLzFeffnf7e1aa
- Wz0w==
-X-Gm-Message-State: AOAM532tHQ1dHgL6fv9QR4hOU7dOJk6QC+t8yS/dBY8cvRefVmLMhEaE
- QWHEkWN8lFks8EcRa/+4Hrykwg==
-X-Google-Smtp-Source: ABdhPJxIFKvrloDcf7qqHK4BK4ip+opxD5ldCHH2eEfZjbDmlDnRzuf3LRF3xen18akrgPg1UnAslg==
-X-Received: by 2002:a17:90b:4a07:b0:1df:7c10:7d3e with SMTP id
- kk7-20020a17090b4a0700b001df7c107d3emr7780600pjb.109.1652831253175; 
- Tue, 17 May 2022 16:47:33 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:500::e2ec])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a17090b018600b001cd4989ff42sm171449pjs.9.2022.05.17.16.47.31
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=G71rbip7/LLYSXlMxn5Fb4jLrk7Bgah6j7mSed9BosI=;
+ b=jXRu1q/vkKzA3zOUlbpX6k/9y1g1vn3WWo1n47R7JtZeajJJo4qtufp5FN18FDzlhN
+ nzEqZeqEYyyP/qFmva2+pRbGN8v4LxuyTwEtfTbhYS+ZCN6jOFlpoWJe/P62jk38X2di
+ x+i5td3u/sHs4YfWu32KYGcy0Sj1Dp26sS68nhMDetXHnq174f8HepuKEuN7LIwbqcoc
+ tp1YxWsQaLyJ9nheWFqxhqM2w8qepqTH05YOmaUM65DmJPDv2vYTsCyltKAYF92TJ7Lp
+ j7YLXH2LC33pdLRuF7r4mS3And+ZR/b44vIG135mD/tReQBxPF+jM7PU5k8omq2P6vWq
+ NrtA==
+X-Gm-Message-State: AOAM5310cokmSFCQbDnJtXxtcw/jGHuKJ3be8sAWJBk3kEerBGMD92Mx
+ 6DCk13ofMlD7Bh1K4v1OAI0H
+X-Google-Smtp-Source: ABdhPJyn0zWz/SCS7bu223+7utEv5bkwaN8Pb4hOqt4M5DSib9uBdw4PMShPcABUrkoa8U5FuQRDLg==
+X-Received: by 2002:a05:6a00:170a:b0:50d:3e40:9e0 with SMTP id
+ h10-20020a056a00170a00b0050d3e4009e0mr25613004pfc.48.1652845945391; 
+ Tue, 17 May 2022 20:52:25 -0700 (PDT)
+Received: from thinkpad ([117.207.31.8]) by smtp.gmail.com with ESMTPSA id
+ b12-20020a170903228c00b0015e8d4eb29csm377690plh.230.2022.05.17.20.52.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 16:47:32 -0700 (PDT)
-Date: Tue, 17 May 2022 16:47:31 -0700
-From: Omar Sandoval <osandov@osandov.com>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, osandov@fb.com
-Subject: Re: blktests v4 tests/nvme: add tests for error logging
-Message-ID: <YoQ0E8s6gFczuppP@relinquished.localdomain>
-References: <20220516225539.81588-1-alan.adamson@oracle.com>
+ Tue, 17 May 2022 20:52:24 -0700 (PDT)
+Date: Wed, 18 May 2022 09:22:11 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stanimir Varbanov <svarbanov@mm-sol.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Jens Axboe <axboe@fb.com>,
+ Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com>,
+ quic_krichai@quicinc.com, Nitin Rawat <quic_nitirawa@quicinc.com>,
+ Vidya Sagar <vidyas@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Prasad Malisetty <quic_pmaliset@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Rajat Jain <rajatja@google.com>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ Rama Krishna <quic_ramkri@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kalle Valo <kvalo@kernel.org>
+Subject: Re: [PATCH 2/3] PCI: dwc: qcom: Set suspend_poweroff flag for SC7280
+Message-ID: <20220518035211.GA4791@thinkpad>
+References: <20220517151134.GB4528@thinkpad>
+ <20220517171857.GA1083896@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220516225539.81588-1-alan.adamson@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220517171857.GA1083896@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220517_164737_245311_BC09F440 
-X-CRM114-Status: GOOD (  13.23  )
+X-CRM114-CacheID: sfid-20220517_205227_373312_333073A5 
+X-CRM114-Status: GOOD (  42.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,28 +106,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 16, 2022 at 03:55:37PM -0700, Alan Adamson wrote:
-> Test nvme error logging by injecting errors. Kernel must have FAULT_INJECTION
-> and FAULT_INJECTION_DEBUG_FS configured to use error injector. Tests can be
-> run with or without NVME_VERBOSE_ERRORS configured.
+On Tue, May 17, 2022 at 12:18:57PM -0500, Bjorn Helgaas wrote:
+> [+cc Prasad, Andy, Rob, Krzysztof, Rajat, Saheed, Rama, Stephen,
+> Dmitry, Kalle for connection to https://lore.kernel.org/lkml/CAE-0n53ho2DX2rqQMvvKAuDCfsWW62TceTaNPzv5Mn_NQ-U6dA@mail.gmail.com/T/]
 > 
-> These test verify the functionality delivered by the follow:
->         commit bd83fe6f2cd2 ("nvme: add verbose error logging")
+> Subject line convention for this file is "PCI: qcom:" (not "PCI: dwc:
+> qcom:").
 > 
-> V2 - Update from suggestions from shinichiro.kawasaki@wdc.com
-> V3 - Add error injector helper functions to nvme/rc
-> V4 - Comments from shinichiro.kawasaki@wdc.com 
+> Find this from "git log --oneline drivers/pci/controller/dwc/pcie-qcom.c".
 > 
-> Alan Adamson (2):
->   tests/nvme: add helper routine to use error injector
->   tests/nvme: add tests for error logging
+> On Tue, May 17, 2022 at 08:41:34PM +0530, Manivannan Sadhasivam wrote:
+> > On Mon, May 16, 2022 at 03:19:50PM -0500, Bjorn Helgaas wrote:
+> > > On Fri, May 13, 2022 at 04:30:26PM +0530, Manivannan Sadhasivam wrote:
+> > > > For aggressive power saving on SC7280 SoCs, the power for the
+> > > > PCI devices will be taken off during system suspend. Hence,
+> > > > notify the same to the PCI device drivers using
+> > > > "suspend_poweroff" flag so that the drivers can prepare the PCI
+> > > > devices to handle the poweroff and recover them during resume.
+> > > 
+> > > No doubt "power ... will be taken off during system suspend" is
+> > > true, but this isn't very informative.  Is this a property of
+> > > SC7280?  A choice made by the SC7280 driver?  Why is this not
+> > > applicable to other systems?
+> > 
+> > The SC7280's RPMh firmware is cutting off the PCIe power domain
+> > during system suspend. And as I explained in previous patch, the RC
+> > driver itself may put the devices in D3cold conditionally on this
+> > platform. The reason is to save power as this chipset is being used
+> > in Chromebooks.
 > 
->  tests/nvme/039     | 153 +++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/039.out |   7 +++
->  tests/nvme/rc      |  44 +++++++++++++
->  3 files changed, 204 insertions(+)
->  create mode 100755 tests/nvme/039
->  create mode 100644 tests/nvme/039.out
+> It looks like this should be squashed into the patch you mentioned:
+> https://lore.kernel.org/lkml/CAE-0n53ho2DX2rqQMvvKAuDCfsWW62TceTaNPzv5Mn_NQ-U6dA@mail.gmail.com/T/
+> 
+> If Prasad's patch is applied without this, devices will be powered
+> off, but nvme will not be prepared for it.  Apparently something would
+> be broken in that case?
+> 
 
-Thanks, applied.
+Yes, but Prasad's patch is not yet reviewed so likely not get merged until
+further respins.
+
+> Also, I think this patch should be reordered so the nvme driver is
+> prepared for suspend_poweroff before the qcom driver starts setting
+> it.  Otherwise there's a window where qcom sets suspend_poweroff and
+> powers off devices, but nvme doesn't know about it, and I assume
+> something will be broken in that case?
+> 
+
+As per my understanding, patches in a series should not have build dependency
+but they may depend on each other for functionality.
+
+But I don't have any issue in reordering the patches. Will do.
+
+> Please mention RPMh in the commit log, along with the specific
+> connection with system suspend, i.e., what OS action enables RPMh to
+> cut power.
+> 
+
+Okay, will do.
+
+Thanks,
+Mani
+
+> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > ---
+> > > >  drivers/pci/controller/dwc/pcie-qcom.c | 6 ++++++
+> > > >  1 file changed, 6 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+> > > > index 6ab90891801d..4b0ad2827f8f 100644
+> > > > --- a/drivers/pci/controller/dwc/pcie-qcom.c
+> > > > +++ b/drivers/pci/controller/dwc/pcie-qcom.c
+> > > > @@ -199,6 +199,7 @@ struct qcom_pcie_cfg {
+> > > >  	unsigned int has_ddrss_sf_tbu_clk:1;
+> > > >  	unsigned int has_aggre0_clk:1;
+> > > >  	unsigned int has_aggre1_clk:1;
+> > > > +	unsigned int suspend_poweroff:1;
+> > > >  };
+> > > >  
+> > > >  struct qcom_pcie {
+> > > > @@ -1220,6 +1221,10 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
+> > > >  	if (pcie->cfg->pipe_clk_need_muxing)
+> > > >  		clk_set_parent(res->pipe_clk_src, res->ref_clk_src);
+> > > >  
+> > > > +	/* Indicate PCI device drivers that the power will be taken off during system suspend */
+> > > > +	if (pcie->cfg->suspend_poweroff)
+> > > > +		pci->pp.bridge->suspend_poweroff = true;
+> > > > +
+> > > >  	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
+> > > >  	if (ret < 0)
+> > > >  		goto err_disable_regulators;
+> > > > @@ -1548,6 +1553,7 @@ static const struct qcom_pcie_cfg sc7280_cfg = {
+> > > >  	.ops = &ops_1_9_0,
+> > > >  	.has_tbu_clk = true,
+> > > >  	.pipe_clk_need_muxing = true,
+> > > > +	.suspend_poweroff = true,
+> > > >  };
+> > > >  
+> > > >  static const struct dw_pcie_ops dw_pcie_ops = {
+> > > > -- 
+> > > > 2.25.1
+> > > > 
+> > 
+> > -- 
+> > மணிவண்ணன் சதாசிவம்
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
