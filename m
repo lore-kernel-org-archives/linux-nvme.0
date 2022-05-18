@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 262E4C433FE
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 13:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EBF9C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 13:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lKZB/6RoNEosL1ZhhmdbCbJfaDZXTaYhcWk4wRoTqMQ=; b=UTsmjIIqJDfesQLQd3eE35uGx9
-	6JnD6W8SbC64q1JNqNcUHJ1h+aUJEiI4Dvz2f2NoTZZ25fSVHX8jOPHZwH2ZocfzzLhQb4miOfmzA
-	zq8JBanVaQhVM4/9hX+r09G271dqvZufjArAUMGZDxO1yqxErPsz0PArL/L1/01wTNYoggzsw/iM2
-	u/7DZLj/a0zcmqrfnvLPlLaJCj2jaknLUhuevR+22VVAQwMM1+Rwze/cwZo1F2WcmuOk9+SIldOuP
-	OSmb+TQsaMqRIPDRgmh7WZ73neQlZ0THwblKEpk+j015uNtGrQlwYVuqs2F/hHfiq/IZrTVNxMpdj
-	ti0eGqjQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o0m2cct6gQ1hTU8zWjrJlY1/CzYGMV6aIaj43pzMyHQ=; b=xN36NsKTJS2fmLg3ccrg8A0N6L
+	O7TxHRI/IkeiN/2M1ih7xfaleNJAnO6teyo0ij7G5n8KUQylbR6zSLFfSvVnoepc6eZsLYFPkXVoj
+	FWlhURfEiC64hQtVHm1Wl70mvBNv3gRW3M6oFjGtJ/vUXXGlSk3N+gIgFfxTUfetX25zWVeMd1eSm
+	EYPJmATSCS5X1yyPsYgXXbE8d2kVkmera7fsRj9THBfJ4N6TQYmiyHXWOtvF3+Qf9Oh+T040pXvdn
+	2ODBoMW5RWP9Me0ai4MSZf6n9FqEGRqx21/SpBVSdjCehsQdFY1RJX7cnSIolzNMNcDA8KqvgNKKk
+	8UQ+RvWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrJaU-002GEb-S7; Wed, 18 May 2022 13:19:38 +0000
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+	id 1nrJac-002GH6-5O; Wed, 18 May 2022 13:19:46 +0000
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrJaQ-002GDI-SY
- for linux-nvme@lists.infradead.org; Wed, 18 May 2022 13:19:36 +0000
-Received: by mail-pg1-x52f.google.com with SMTP id a9so97992pgv.12
- for <linux-nvme@lists.infradead.org>; Wed, 18 May 2022 06:19:32 -0700 (PDT)
+ id 1nrJaZ-002GFd-PD
+ for linux-nvme@lists.infradead.org; Wed, 18 May 2022 13:19:45 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id gg20so2016498pjb.1
+ for <linux-nvme@lists.infradead.org>; Wed, 18 May 2022 06:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lKZB/6RoNEosL1ZhhmdbCbJfaDZXTaYhcWk4wRoTqMQ=;
- b=TiZdooj/E3kGV+m+IxCHD//i1RFktljM4yI8thLxPLyttdCBD2pBRVy7gdWTxNfkdY
- MIjn5bmaUDce3ZkI4A8aN4Pdl+3MRqua4jF5FHfFXsiofGpZwDYiLJyNSNsdqMKrLAVm
- /qYtqby/etpEIQQub4ftdleYWh+d3048sBGe63NY9+ficUbuADiprl137BLlintNcq2v
- A802YuD/nvdQCEodGIgt2Lxdd6aAO90Penhum1XMmJXCCci0/hwAK1evFeqpxOh1mky1
- 3We60ppHBCx+SUjtjg30CX6iBDLw3IwowCK+TuqDKyOR9GjLaPqG8eIZHAjHkbVmW5D/
- PhbA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=o0m2cct6gQ1hTU8zWjrJlY1/CzYGMV6aIaj43pzMyHQ=;
+ b=umKomzNTnxFS6bZsoFa6ppQZeJt+zfPQytLmumJLs/djqxC49M3mmhYlkyQQngnwyn
+ f1UHtTKAviySFJOH931vQd8f+sqmaiLm8zbbFf1ZLLmttwg3ObFbmIqJ7HIMqJjFGz4f
+ 3rOvpAe0Ronm9jj6M3flcWOBpwZEADpP0FEqTM+Y0t6KPDDOOBOdv+j+ws6PZ90SqxIm
+ DhxCFoOvjQgLF0ogB25DjAAQFJqKKnMGUpP8YOfNT5CTYvpH1Rf0StUfMOv68SLfNdEa
+ i+1skS1vRbokch1jy3ZPMODZR39KIkDj2C8+cwijleR7EaNKoNQehKCijXPLBkgmKI1h
+ vENA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lKZB/6RoNEosL1ZhhmdbCbJfaDZXTaYhcWk4wRoTqMQ=;
- b=y3G3gG3N81lpg8yuJQ+4gAN38GG+4EPwKyzytK2kJUcMTJHZLwr+/cxS4KhAu/1eu8
- Fwas8/6A8QI5H04ujVQRWg+hOqfTtTyydekFGbmafQPV6T5fwVEoCGj08tFvU4+ptQwj
- go7C4L8MjcF1kWpLGufZ2wnX/gpBdgpVn4ANODQuLFXv4GVEJ/dh5fRER6X/zSdnwbNf
- qZjm146Ma/418B7JZLJFtaStoADbeQ6sujfzNsBJNUVg1Ni1JES5SdAMEkR93h1yw7Rc
- wEqK85yf1tmhBpQznT21kcizv3A1HQPOSsxOUB52i9afXs/tvxnoROswbDVsJIk/Zb5t
- O2XA==
-X-Gm-Message-State: AOAM532NgcF9GlV0DF/p6VmFZ0Tq9zmyCkZgfJJHCM9zhTu0Zrxl9ljs
- t5BvMea+Al1rh+uxskD1bTSh
-X-Google-Smtp-Source: ABdhPJzzQNNyHE5cV8P7ycPwOWKLxudFG57eELbtV3RDyDz7x8L67cxSujGCQ0pczbQTtKmXHHLCpg==
-X-Received: by 2002:a05:6a00:f8b:b0:518:137a:112c with SMTP id
- ct11-20020a056a000f8b00b00518137a112cmr5629794pfb.8.1652879971672; 
- Wed, 18 May 2022 06:19:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=o0m2cct6gQ1hTU8zWjrJlY1/CzYGMV6aIaj43pzMyHQ=;
+ b=AmoZ0wicxcXem3WTuuDuezL4l7Xn6a9cQEBkutzS75RAq7/HJ5ZZEtQNA4UG46snLp
+ +nB0O4zOekv5zB2iwesM5WOJCTDIkwwn6Kr7wJVOG9rRSWSp5F5CI+go08+I50T5n/Ah
+ xSBHhfoQus5bmx3v8K2OKvLuJJevVUKV6U60yTra20cuI3gp00JY+7nPPcjKWuAAygUN
+ ybwojulCli863AAzom8CQT7i31X9yyIj8BmDKZSQvcjxpUaInb0b2Gdl1CFKDarYfFov
+ iHClPA5A1jZqXaSYfDtNfozm3/sLT3ubZUKYywpM9Xl4wlftGi07UJucTiGolNilBk7v
+ vzGA==
+X-Gm-Message-State: AOAM530ltP8QL7AXbxXMNRoGIBGcJEJj40HBxk+TJ/OGU4U6RDww336q
+ t6fua4nYDn6MGabn7j3t80OD
+X-Google-Smtp-Source: ABdhPJyHDXnFThSQ2XZkBGm0ehgt4AjaSs5P8n90+AxqDFvzx/b9+gdrukWw65K8iRuiJeeg7pXjng==
+X-Received: by 2002:a17:902:cec9:b0:161:a107:d30a with SMTP id
+ d9-20020a170902cec900b00161a107d30amr9115101plg.105.1652879981149; 
+ Wed, 18 May 2022 06:19:41 -0700 (PDT)
 Received: from localhost.localdomain ([117.217.181.192])
  by smtp.gmail.com with ESMTPSA id
- b5-20020a170903228500b0015e8d4eb27esm1663908plh.200.2022.05.18.06.19.21
+ b5-20020a170903228500b0015e8d4eb27esm1663908plh.200.2022.05.18.06.19.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 May 2022 06:19:31 -0700 (PDT)
+ Wed, 18 May 2022 06:19:40 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org,
  hch@lst.de
@@ -69,15 +69,18 @@ Cc: linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
  quic_nitirawa@quicinc.com, vidyas@nvidia.com, sagi@grimberg.me,
  linux-pm@vger.kernel.org, rafael@kernel.org,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v2 0/3] PCI: Notify PCI drivers about powerdown during suspend
-Date: Wed, 18 May 2022 18:49:10 +0530
-Message-Id: <20220518131913.26974-1-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v2 1/3] PCI: Add a flag to notify PCI drivers about powerdown
+ during suspend
+Date: Wed, 18 May 2022 18:49:11 +0530
+Message-Id: <20220518131913.26974-2-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220518131913.26974-1-manivannan.sadhasivam@linaro.org>
+References: <20220518131913.26974-1-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_061934_965113_B35C3F99 
-X-CRM114-Status: GOOD (  20.43  )
+X-CRM114-CacheID: sfid-20220518_061943_875303_B08FA0D4 
+X-CRM114-Status: GOOD (  15.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,85 +95,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On some systems like Chromebooks based on Qcom SC7280, the PCIe RC
+driver or a hardware entity like RPMh may powerdown all PCIe devices
+during system suspend for aggressive powersaving. In that case, the
+PCI host controller drivers need to notify the PCI device drivers that
+the power will be taken off during system suspend so that the drivers
+can prepare the devices accordingly.
 
-This series adds support for notifying the PCI drivers like NVMe about the
-transition of PCI devices into powerdown mode during system suspend.
+One prime example is the PCI NVMe driver. This flag can be used by the
+driver to shutdown the NVMe device during suspend and recover it during
+resume.
 
-Background
-----------
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
 
-On Qcom SC7280 based Chrome platforms, the RPMh will turn off the power to all
-PCIe devices during system suspend for aggressive powersaving. Currently, there
-is no way for the PCI device drivers to learn about this situation. Some of the
-drivers assume that the power will be retained and some others assume that the
-power may be taken down.
+Changes in v2:
 
-We faced the issue with NVMe PCI driver, where the driver expects the NVMe
-device to be in APST (Autonomous Power State Transition) state for power saving
-during system suspend. So when the power goes down, the NVMe driver fails to
-bringup the device during resume.
+* Changed the comment for the flag to mention the usecase.
+* Reworded the commit message to convey how the poweroff happens
 
-Previous work
--------------
+ include/linux/pci.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-We tried to fix this issue in a couple of ways:
-
-1. The NVMe PCI driver checks for the existence of "StorageD3Enable" ACPI
-property in the suspend path. If the property is found, the driver assumes that
-the device may go to poweroff state and shutdowns the device accordingly.
-
-As like the ACPI based systems, we also tried to get the support in place for
-DT based systems. But that didn't get accepted:
-https://lore.kernel.org/all/Yl+6V3pWuyRYuVV8@infradead.org/T/
-
-2. Keith Busch proposed a module params based approach. The parameter when set,
-will allow the driver to support APST during suspend. Absence of that parameter
-will let the driver shutdown the device.
-
-This also did not get accepted:
-https://lore.kernel.org/linux-nvme/20220201165006.3074615-1-kbusch@kernel.org/
-
-Proposal
---------
-
-Christoph suggested to add a notification in the PCI/PM core to let the NVMe
-driver know that the device will go into powerdown state during suspend.
-https://lore.kernel.org/all/Yg0wklcJ3ed76Jbk@infradead.org/
-
-Hence in this series, a "suspend_poweroff" flag is introduced in the host bridge
-struct. When this flag is set by the PCI RC drivers, the PCI device driver like
-NVMe can shutdown the device during suspend.
-
-In the coming days, the usage of this flag could be extended to other PCI
-drivers as well.
-
-In this series, the system suspend/resume support is also added to the Qcom
-PCIe RC driver for SC7280. During the suspend time, the RC driver will put the
-device into D3cold and recover it during resume. So even though RPMh is cutting
-off the power to PCIe domain, it is necessary to put the device in D3cold by
-the PCIe RC driver for proper working.
-
-Testing
--------
-
-This series has been tested on SC7280 IDP board connected to a NVMe PCI device.
-
-Thanks,
-Mani
-
-Manivannan Sadhasivam (2):
-  PCI: Add a flag to notify PCI drivers about powerdown during suspend
-  nvme-pci: Make use of "suspend_poweroff" flag during system suspend
-
-Prasad Malisetty (1):
-  PCI: qcom: Add system PM support
-
- drivers/nvme/host/pci.c                |   3 +-
- drivers/pci/controller/dwc/pcie-qcom.c | 108 +++++++++++++++++++++++++
- include/linux/pci.h                    |   2 +
- 3 files changed, 112 insertions(+), 1 deletion(-)
-
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 60adf42460ab..3e3a1c4f4559 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -578,6 +578,8 @@ struct pci_host_bridge {
+ 	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
+ 	unsigned int	size_windows:1;		/* Enable root bus sizing */
+ 	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
++	unsigned int	suspend_poweroff:1;	/* Some platforms like Qcom SC7280 may poweroff
++						   devices during system suspend for power saving */
+ 
+ 	/* Resource alignment requirements */
+ 	resource_size_t (*align_resource)(struct pci_dev *dev,
 -- 
 2.25.1
 
