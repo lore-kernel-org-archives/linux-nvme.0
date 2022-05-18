@@ -4,57 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5765BC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 05:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B59E2C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 May 2022 05:34:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9zSaPciRCpiv/xQYeO4hUNPBcoEshe/eajOHecf8ojs=; b=X41lGrtBnEkyEQNr7NiN+APmMR
-	ZKpVwD0I2YiKTYx0tqVgP1n5zBHjdNSlLun0/VRvdZx12UQs8HzQOefwpuiIDAm11eaGQFDHrx7YQ
-	zKfGv9sfJ9HSVedT2qdYJc/LnI8ylm4Ns/OxNUSjMHF4e5aNZkU5DOjNxoFQS4tQH38ipXb/ieQe0
-	ovSX1n9NbBjGaCB+Ip1f/kKPDkX3IjWcvuzEzMptyLSvaFjSAHBjG4bzYHsgFIh9UxVaKZAUmXvHj
-	/xB7hYxsBY/PXeFX3c5n72Z38hGGQN6b9LV/Cd81j/Nl2j29vOlhIXsiJkbfwPqHGzeQvXYHqItwX
-	+b7cdzbg==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YSN+WtsO0fZFIV6KhoO12+ocgcJf0i8ccKnsR6saRAU=; b=qY/LrITb/b81rKXZEa4fgZmFAK
+	Lp9rKtDVFVlZikW93dkUTGWobNBAiTRHLL06T9SKrXcP7NZ7SFxvoevBEC4rNsjAz2Zz3f4j2AGnx
+	FlX/f6rPCh/jCO9h41cXuKqV3brZd6gSrQoxDk+exEZeet5S4OgbJb4PNi/RfBTSLkRBVqUe1YevS
+	WGpcbHGpUpbr76TWtWBv3NkJUdUfQBGu7/2rhXyMk1lq/PehR7yS+whmrIt/4J5X80VSawgBYSnDy
+	Iie34OChRM1jttSGMJsyrzQI6sdasaWXRGNtZD+6uOi/xO2bZSN7dvk9Qe0lf5F1pq7PRguIL45cy
+	x/UM486w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrC8P-00HE93-Vc; Wed, 18 May 2022 05:22:09 +0000
+	id 1nrCK0-00HFp9-53; Wed, 18 May 2022 05:34:08 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrC8N-00HE6n-Or
- for linux-nvme@bombadil.infradead.org; Wed, 18 May 2022 05:22:07 +0000
+ id 1nrCJy-00HFoH-G6
+ for linux-nvme@bombadil.infradead.org; Wed, 18 May 2022 05:34:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=9zSaPciRCpiv/xQYeO4hUNPBcoEshe/eajOHecf8ojs=; b=dTOE6lgUFAxiXZ8vauK3TGnJbX
- GFVPOB7v7VdupgFP+YQhDD6w7BEgMc8BE8/JAByplMNCBFMlovY+aNvEPYi5LbSZtczykxOWPhNQZ
- Q7t+9/kkHqxzNuadwCnQTFUOVS9ELd2GPOLWBGxQ0sYkfCJEURPBXqQE5bd8RmvOOgM8nErd8mHcJ
- b7L4Njbg5WtKtH9V7cXdsTIMO2VY7ahLftHR4vz/9Qz7eIPPSzEnfwPuQvATQ6egYma/iLO/nrJ2I
- TF+k76uNt6njjuBS65s0OweJX+kFvguwEOifaaf26AcTx65m6vhQxD24e91amwhvfW82UCy2OKo4g
- nRJrzJGw==;
+ In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=YSN+WtsO0fZFIV6KhoO12+ocgcJf0i8ccKnsR6saRAU=; b=wNXbbFByzCAFxzM/RFy0NeldX8
+ +oL1HLlG+dAOQMTF93PAgj7krqYKbkbL7SJNY/npRpqHTsOdijFe/w7F3trQTlvjYULiX51ulq7YC
+ Lljy0FyVi9fFRrCmn6OZNBDl5vxav1DV03IuoyeAOq2LiLycfkvMXi0GyXewZCIFs3IcAD6gyncXk
+ tlREWaHScE07UAYmql5Yry9okQ+AIl318H2t2ar3FhS0d40+7MJ8AZW6b7dInBPTJQQbVHWdQadMX
+ NXvep3ApsZJsDlO0lJvo5DnrJGTIpprjpM40Us6ya1k7rbPzXVeoSWgkK4kxLZ/cCc9kCov5evop5
+ BpdUY97g==;
 Received: from [2601:1c0:6280:3f0::aa0b]
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrC8F-00BSuL-JJ; Wed, 18 May 2022 05:21:59 +0000
-Message-ID: <e2f636e1-33ff-3d9f-a793-960f239d0bc2@infradead.org>
-Date: Tue, 17 May 2022 22:21:53 -0700
+ id 1nrCJo-00BTgP-Oc; Wed, 18 May 2022 05:33:57 +0000
+Message-ID: <f964a040-b9eb-75ae-ce01-6e8a62dc4d20@infradead.org>
+Date: Tue, 17 May 2022 22:33:52 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: linux-next: Tree for May 17 (drivers/nvme/host/fc.o)
+Subject: Re: [syzbot] linux-next build error (13)
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org
-References: <20220517194118.2caa01b8@canb.auug.org.au>
- <5958ccea-d89c-8b1a-15d3-19d8cacd141d@infradead.org>
- <20220518045704.GA30131@lst.de>
+To: syzbot <syzbot+7013da477748d0b624b9@syzkaller.appspotmail.com>,
+ axboe@fb.com, hch@lst.de, james.smart@broadcom.com, kbusch@kernel.org,
+ linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+ linux-nvme@lists.infradead.org, sagi@grimberg.me, sfr@canb.auug.org.au,
+ syzkaller-bugs@googlegroups.com
+References: <000000000000b3a1f405df33be01@google.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220518045704.GA30131@lst.de>
+In-Reply-To: <000000000000b3a1f405df33be01@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -73,32 +71,34 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 5/17/22 21:57, Christoph Hellwig wrote:
-> The patch that adds nvme_fc_io_getuuid need something like this
-> folded in:
+On 5/17/22 04:50, syzbot wrote:
+> Hello,
 > 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index a11c69e681180..3c778bb0c2944 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1911,7 +1911,9 @@ char *nvme_fc_io_getuuid(struct nvmefc_fcp_req *req)
->  	struct nvme_fc_fcp_op *op = fcp_req_to_fcp_op(req);
->  	struct request *rq = op->rq;
->  
-> -	return rq->bio ? blkcg_get_fc_appid(rq->bio) : NULL;
-> +	if (!IS_ENABLED(CONFIG_BLK_CGROUP_FC_APPID) || !rq->bio)
-> +		return NULL;
-> +	return blkcg_get_fc_appid(rq->bio);
->  }
->  EXPORT_SYMBOL_GPL(nvme_fc_io_getuuid);
->  
+> syzbot found the following issue on:
+> 
+> HEAD commit:    47c1c54d1bcd Add linux-next specific files for 20220517
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=137f0301f00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=95ad7f734b04ada9
+> dashboard link: https://syzkaller.appspot.com/bug?extid=7013da477748d0b624b9
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+7013da477748d0b624b9@syzkaller.appspotmail.com
+> 
+> drivers/nvme/host/fc.c:1914: undefined reference to `blkcg_get_fc_appid'
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Thanks. You can add
+Fix is here:
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-to the patch.
+https://lore.kernel.org/lkml/e2f636e1-33ff-3d9f-a793-960f239d0bc2@infradead.org/T/#m2cca6716362ec3f367d15798c0af05f6c3f879a0
 
 -- 
 ~Randy
