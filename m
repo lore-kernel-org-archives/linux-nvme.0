@@ -4,87 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C410C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 15:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7CF9C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 15:31:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:In-Reply-To:Cc:References
+	:Message-Id:Date:Subject:Mime-Version:From:Content-Transfer-Encoding:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rj0LLD+GhcnwrTRHq/dFr3Mwh+FjHxEzsjGfPynBta8=; b=elTSbJ6zv2beXI0uzN34MQtTQ4
-	fH/G65F6ctz4oFAHQX2U6edV8bOZLFCgT1juSQsbyK7Zcrilob6HqzXQsEwwCh2lR815ybNHgOHlL
-	fdms3dBGQ3TJ/CVKNS26OAMmCUAiUmWK7UrzhrSNeiT96/ST+1Eh0AgfFa0r5R6v5oQEhyUCXSF2H
-	1GDRJ0sCQE6ljf/gmry5qK9BcgLg9ADOHfiXM355LqzBqLUXXxZKenfbaVx4cuLemnupnENkkYR17
-	nIUqU7Gy7Mypxc+7HVS/TN4Nee8Snvoba7WQLG9JuZidgeJFgStyH36tOdrnhMB5zExp2/uV4Np2F
-	vzRaWgXA==;
+	bh=QTIQet1MwfaPkuVkZ6VAO4F74yKlRL1Luu8IUjHxYMk=; b=QQ2TmgrVzm6iSRGoJURBaQ17wf
+	bA4mjj1B+hp/rvrB07RhbKmGhTWUOIb9MD7iSaXWGxOKCfCXU1dRG2lCOrf3UHoxSAipV+ONQ0tOG
+	fvJRyxDk0nSDFnfe9qIYK3iZeZbFvYNE5aGor4K8L40HjqIR/hBo9hcMjOLleYgwZ4+y8Ix7sDyGU
+	4gsFyGm4LI+R2GoxVqdnRwugT8XkwdHp8KXz7emwT6DgPMcA7hlKamXMMycbtdcfTIX7igPhxyYlA
+	64saKJWo4ndPLeil1tODtmfKjVajD6n+qFJaxdJKTcFjqDxk+CyC5XCIpwAOhK6PXEn7r7/zVGaJJ
+	WNNywm+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrhz6-007tyU-1K; Thu, 19 May 2022 15:22:40 +0000
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
+	id 1nri7W-007y9G-4X; Thu, 19 May 2022 15:31:22 +0000
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrhgy-007hRS-RH
- for linux-nvme@lists.infradead.org; Thu, 19 May 2022 15:03:59 +0000
-Received: by mail-il1-x132.google.com with SMTP id j4so3819031ilo.12
- for <linux-nvme@lists.infradead.org>; Thu, 19 May 2022 08:03:54 -0700 (PDT)
+ id 1nri2E-007vFy-J3
+ for linux-nvme@lists.infradead.org; Thu, 19 May 2022 15:25:56 +0000
+Received: by mail-ed1-x52e.google.com with SMTP id j4so3003162edq.6
+ for <linux-nvme@lists.infradead.org>; Thu, 19 May 2022 08:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rj0LLD+GhcnwrTRHq/dFr3Mwh+FjHxEzsjGfPynBta8=;
- b=Sp2/uiiLNbgL9R1tphyrUyI7tgSy2JPlQLF1K2JNOaKRT6V/ibDgS7OjPvB3COMec2
- OaSQxtNqn4SoHtsZKkQFvaSwPftUrw2YyiL0FZoLZULvzgRe4jNAkc+CVeSRVHlZlaXm
- seoT9krghOGjnl8KddC+ryWzPKDDYHX8NtuYU7uwGUfGxGec2tiO1Zq4vWv/nKM1OySQ
- bfwEsMQiWVWYJKIK20b7dcd/8YZUf6k4HS5MNXv9lVqzQ8FZZZrpl3EWRbBOqO6ZWNJ3
- rTaO7gPV3yNYBwVLy+djNSgOU63D35AkX+viHNI9OW09GJg17YOcFizOnOcabFJ7MUD0
- bptg==
+ d=javigon-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=QTIQet1MwfaPkuVkZ6VAO4F74yKlRL1Luu8IUjHxYMk=;
+ b=l5svAHMFi6jauc3S7FX1DSGsV4mLJ6QQLIh3+rvFHlDUF24PdDRSfAjzgFwm49iJA0
+ NNE97fjiMLBGBtFHfDtvXWYYjbqJi8iEGw3rJ9JZ0SfbRfZxVUjm+1AcAAGsQiCmn+ee
+ 89gRyY7ZHIuDSeuO9fuwbQvPzhQmzgICC/Zi2cvMq2Lohgjpg55kK0iwP+n2k0T3yUlz
+ q18HivfgFoQnhbgYxOH73LlZzlbv2CCITUbrLuXpgXq0vqfrPGH3EtRYLR0iE9Cf3tIo
+ jDXJ3/g1yY1JU1XpBiIE3iub60yT7wRm4Z2jDiczHn7xwf/pOKwY8+kEsQfKRV1mJHdJ
+ KpPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rj0LLD+GhcnwrTRHq/dFr3Mwh+FjHxEzsjGfPynBta8=;
- b=pn+D+i4hIiDeTW0fdQtEDBZhrpkTJ8ujyjakmE41Nl6+yHg6Ofc4YiCitcOSUlrbKi
- ZPpfabKAjxkwaHsBIvG2Sn2lzwfLFjJHVXlqfSuMm9jHRyfiVhTnMn805SQB7FdtKagT
- rQdsWYzZyyA8+c9TJCVHYCpsziyvzknfq6GqEZhIVZqtcZM4ZARY7x2H7fg06b2lu/3m
- X4MgCPw9GbOxxtIbxqrx0asSHc9aVDGGfNlHbGaObA/GysQosVIiFo0GK88PRYl2m2ER
- toQpUQ9PjUsz184G9Y4hK8mtwJnDtGL+pNaS+evXxIXsuywsIItDFhCZMN8psBUhFKle
- sYfA==
-X-Gm-Message-State: AOAM532lehJfHpP0hS5heydfUW3W5T6k1MjiQ+b35CJ+4LBjTNBn65gt
- L2cg1bOWPaUi/oIFH/1rwryeOg==
-X-Google-Smtp-Source: ABdhPJwcVoiz8Rc2uaOTrNO/AvGJLBT0BZxBlNiMr1idOVcadH9jYg5ZRjxvy6ArxdYVGO+7CLI64Q==
-X-Received: by 2002:a05:6e02:12eb:b0:2d1:6335:8e28 with SMTP id
- l11-20020a056e0212eb00b002d163358e28mr2553116iln.51.1652972633870; 
- Thu, 19 May 2022 08:03:53 -0700 (PDT)
-Received: from [192.168.1.172] ([207.135.234.126])
- by smtp.gmail.com with ESMTPSA id
- cl9-20020a0566383d0900b0032b3a78177csm679227jab.64.2022.05.19.08.03.53
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=QTIQet1MwfaPkuVkZ6VAO4F74yKlRL1Luu8IUjHxYMk=;
+ b=iQpaAp1QWKMdY6kfZAxX19jCsSGTOhANkvnKPZoi7bfZOLysbi3mtTZidgp3eIo9s4
+ 9fEw196THg03cfpAK3lL19VqRIbIVHo/u+g3En3Qho7cM4nkrHQOBNrI8XTgFYjQpu1p
+ N0SRgkGUS5xGkwpAG4ddnDduYTnFEgA3v1j/s+EgNY9kHbrSiRWVyEMKDdwh/TZsLxfu
+ PqLk2iCrQ96dvHzgaUraS8kcozEw8HbHw3Di1JlF4FEKGq+/TM7Zh4LIp3gZVeyIXlQK
+ ySK6ij2V6nK4LoMb4Rmrr9+WvfeKEG4XKp/HPDnePpv3apzjUQZQlQsUp75AkrxkO5nF
+ NDtw==
+X-Gm-Message-State: AOAM5332KWsVL+wuUqf3PaJFC5RN7ABUTHOgYG1MVTHN+/dMdVFAyMVT
+ bV4RiStzKOOviKL/B1g7e+O/6g==
+X-Google-Smtp-Source: ABdhPJxqZsGrBLw1XfZ4Nx2omW80JrXR4I67dHiPrXDO/V/6B5AKsOnb4m6w+WedzFlbburvxrD0kQ==
+X-Received: by 2002:a05:6402:2741:b0:41f:69dc:9bcd with SMTP id
+ z1-20020a056402274100b0041f69dc9bcdmr5928160edd.239.1652973947883; 
+ Thu, 19 May 2022 08:25:47 -0700 (PDT)
+Received: from smtpclient.apple (5.186.196.163.dhcp.fibianet.dk.
+ [5.186.196.163]) by smtp.gmail.com with ESMTPSA id
+ ca7-20020aa7cd67000000b0042617ba63absm2892556edb.53.2022.05.19.08.25.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 08:03:53 -0700 (PDT)
-Message-ID: <1ca9f030-d873-5b27-6641-fadee25b30bd@kernel.dk>
-Date: Thu, 19 May 2022 09:03:52 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] nvme-fc: mask out blkcg_get_fc_appid() if
- BLK_CGROUP_FC_APPID is not set
-Content-Language: en-US
+ Thu, 19 May 2022 08:25:47 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: =?utf-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v4 00/13] support non power of 2 zoned devices
+Date: Thu, 19 May 2022 17:25:46 +0200
+Message-Id: <40FFE5A8-35B9-4707-8D8C-A24254EB9A9B@javigon.com>
+References: <20220518080020.GA3697@lst.de>
+Cc: =?utf-8?Q?Javier_Gonz=C3=A1lez?= <javier.gonz@samsung.com>,
+ Pankaj Raghav <p.raghav@samsung.com>, axboe@kernel.dk,
+ damien.lemoal@opensource.wdc.com, pankydev8@gmail.com, dsterba@suse.com,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, jiangbo.365@bytedance.com,
+ linux-block@vger.kernel.org, gost.dev@samsung.com,
+ linux-kernel@vger.kernel.org, dm-devel@redhat.com
+In-Reply-To: <20220518080020.GA3697@lst.de>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Muneendra <muneendra.kumar@broadcom.com>, James Smart <jsmart2021@gmail.com>
-References: <20220519144555.22197-1-hare@suse.de>
- <84a7c290-5e75-3e24-0674-7b51dcafa2eb@kernel.dk>
- <0b33e180-9e23-f737-3c93-5b5b13a7ded2@suse.de>
- <be88c0b4-ddc6-c851-c160-a929adc1e433@kernel.dk>
- <20220519145931.GA25382@lst.de>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20220519145931.GA25382@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mailer: iPhone Mail (19E258)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220519_080357_006230_9972BBC6 
-X-CRM114-Status: GOOD (  14.29  )
+X-CRM114-CacheID: sfid-20220519_082554_898498_52690E53 
+X-CRM114-Status: GOOD (  10.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,18 +95,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/19/22 8:59 AM, Christoph Hellwig wrote:
-> On Thu, May 19, 2022 at 08:57:53AM -0600, Jens Axboe wrote:
->> I'm assuming that commit is from the scsi tree? It's certainly not in
->> mine. So your commit message may be correct, but since it was sent to me,
->> I was assuming it's breakage from my tree. Which doesn't appear to be the
->> case, and I don't see any of the SCSI maintainers on the to/cc.
-> 
-> Yes, all this went in through the scsi tree.
 
-OK, Hannes please send it to the SCSI list/folks then.
+> On 18 May 2022, at 10.16, Christoph Hellwig <hch@lst.de> wrote:
+>=20
+> =EF=BB=BFOn Tue, May 17, 2022 at 11:18:34AM +0200, Javier Gonz=C3=A1lez wr=
+ote:
+>> Does the above help you reconsidering your interest in supporting this
+>> in NVMe?
+>=20
+> Very little.  It just seems like a really bad idea.
 
--- 
-Jens Axboe
+I understand you don=E2=80=99t like this, but I still hope you see value in s=
+upporting it. We are getting close to a very minimal patchset, which is also=
+ helping to fix bugs in the zoned stack.
 
+If you take a look at the last version abs give some feedback, I=E2=80=99m s=
+ure we can end up with a good solution.=20
+
+Can you help?=
 
