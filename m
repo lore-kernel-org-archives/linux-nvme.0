@@ -4,73 +4,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3443FC433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 07:37:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7BA3C433F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 07:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v2SLSqGyEqCVCFyRJjJ1FWWgUfwr+NH72nZQlIiDXkE=; b=YAikz2HFjO0q3rZofE6UKbKv5V
-	RXekELxIGeruqKQtlAbszmhJtIU3kNT/+03ZyW0a6ZYeKtuMmZydQazNXnX/LStNGJsf6tL43Gvj6
-	P+ugCLc7v4jMEnju0XGqO9L4/SPv9qLerG6hKVCDhs+NaR4eODMBmUrf7LKBMvssNCI3c5/e/8ANA
-	EQMreXRQdx/DgWBGzCIAH664urM+aeC2Iqg5iIY4zse5rwy5Yl/cwS9MaRW6Cmi4NW/p9rxacs3AX
-	McLwZUiJBYCmxtrJFjwgkmsQKRvrbFkfofAAcSpqngNhGAU4zAPzeCjNnUPS4g50Lq7DWR6YQZaI4
-	ipTFCBJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=NFVv4X1vIs1w+UGq7EY5+2E4CSibjKXudiF8EhIPIlY=; b=LKu+F5i6EQYhLmW87A8siVxfrt
+	U5ut+8pIQCkA9TCBmEh+aXDi0UKhTUf5W+0ySHvV/GeRkFJPoRYPP+JUNwt8ar1A7yJWvPFmljQet
+	sAMA8OqPRUEg5HSda84JCpcb85tzwwVPV5f/9r1Qt+fb5hEQ7J9hlzOeYSUMPPG4j9zra+Q1Xwhn/
+	Qfzdby6rGh97NhS+zZC5aTuFBDLdRV82gAgGkU4uWfE4PdK5DCu06/g5jz4CwCzAb+HDvI8hivqyX
+	zhBUF/vZgGjN+61wszjuZEUbQInh7X887tISF0/xDdUm77uboe/T3fqIGupQ/MgKnM7PUDTFh93EV
+	AbfsFVPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nraiq-005aeq-4d; Thu, 19 May 2022 07:37:24 +0000
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235])
+	id 1nrb2M-005fHm-MO; Thu, 19 May 2022 07:57:34 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nraim-005adP-Jv
- for linux-nvme@lists.infradead.org; Thu, 19 May 2022 07:37:22 +0000
-Received: by mail-oi1-x235.google.com with SMTP id n24so5472908oie.12
- for <linux-nvme@lists.infradead.org>; Thu, 19 May 2022 00:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v2SLSqGyEqCVCFyRJjJ1FWWgUfwr+NH72nZQlIiDXkE=;
- b=WGH+dwO8se/FhSCRNeba5p0sFNVXE9263uBNF4pPqfMXnry5rIkoWqXyxpL05G1WrY
- QpxdnWeESUL2Jcw7W14nVn/l0UsamZ+cLeNPpzInyI78mdma0Gqa6mPR9tSH91PqtKEe
- d+F1slgbSCjdeKXdikIAyUP/P7nSmCCjYqk5UzVkJyM7k49wQ1ZUKOb145UGggRpKkmq
- ww5c1wwpsiPAl7YyV2GRnKQFZQdOzanHh+pqPm+lTBYHCI22FGFFy3JmGBjpCyKQMJlc
- LIv8+o8zZwSij2D7xzGuAqyCPY/9/aSLfrZTwnqvMyRptI1JbMZ6laihx3nCxyU2pg1z
- Ndig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v2SLSqGyEqCVCFyRJjJ1FWWgUfwr+NH72nZQlIiDXkE=;
- b=GAfK9R/+GH25KWIWEL6GJeaWNcOenHTB9wqzR4pHWlxKNsex7kZeU2d+OG7ePkJrn4
- hicEjIVQQjLLt6AfNplX0HO0wGK7Zpb4GUOKuN/mH0pbQaC2h2AXC2csl9O5OmqYGH00
- SytRuKkKIPDHyvyaUkJcyCgO6FtJAMQDl4qawoNEdfsp18KSCYiGYAxieqx0t+t/JM5p
- qtJMBYTn+gbZBoTU9rKZollR+XhVxMBh6ysOba/7TBJsVhpbwhz+WQDvISZWQm6AHHqc
- UP1TEKa1HGe3T/8qbgVcJMztR7SFFS8r1+bKgZSBxjO3KxeuciJD0HCZQdcfM51iyxdA
- 8bxg==
-X-Gm-Message-State: AOAM530DYSUjs0qMNHiCerpsPzCUlhqOrgKfQ0KyWCKyXwlWGgRtVm6l
- giqIdk9GhBbeC8IwyEGPYQoYSr0qx05eM5W6xQo=
-X-Google-Smtp-Source: ABdhPJxItnrTnSxOkneZOHQL9ziiuGMoBB3E3m/OksHC5WeGBfxAGNmnO1Z75T1qIL7SU2nLEi+149x6QZzHgSL53EU=
-X-Received: by 2002:a05:6808:180d:b0:328:b7dc:d68b with SMTP id
- bh13-20020a056808180d00b00328b7dcd68bmr1988751oib.15.1652945837787; Thu, 19
- May 2022 00:37:17 -0700 (PDT)
+ id 1nrb2J-005fG5-J7
+ for linux-nvme@lists.infradead.org; Thu, 19 May 2022 07:57:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1652947051; x=1684483051;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=EMmKiaMHQtZU6T7/b0KXc7rwRJPq6mcPbPrMRQWhUk0=;
+ b=CKBV2DGYHbhTKy3LZF4P3udzBQgqoMI8f7o6/duveuPBobAEbERjgdDk
+ +0FPh4ZFbcKPTcQL/fL8ODM6ixfa3EuIYF7DT8MoIcKhd2Lu8sVXcZrwV
+ cK7Qxx2hctadKYrfA6W51oWOCUGS55GRxqZjZIyAhU6KCeBZd8B9ycQVu
+ QDB6HQxmyh5HR3akVvZYUKH3Wawn1KN3JXgHM6IdT2E/LkyqtG5S3+Gp7
+ dj7/JBlLh7yHqLd1nCQHceVSX8yWTL24UZH19XXqjgJisaZIKEeD6pngw
+ VsHLJ9Yvp/M16cDkkNSSfx9UgwI50ewm2Tmi7gTsDe8CGxrTYECTGMPAi g==;
+X-IronPort-AV: E=Sophos;i="5.91,237,1647273600"; d="scan'208";a="312747372"
+Received: from mail-co1nam11lp2174.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.174])
+ by ob1.hgst.iphmx.com with ESMTP; 19 May 2022 15:57:27 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KjwzPzxZYKOg5xI2GMjsy6DuW290Fmwjq0tzNiuZh0x9FN+JGIBJuHRwX1rESJum6eMube5Xr6yDO3WQLC0uaNGSt/s17Qs+WwXE0ucsBcqM0QveB6QG7PcutEeAEFPhIpItLk5uwk0ybwZdSHaQ7tLWEUEbijZxq80yPDgakk0Ms59T9BGg2tuk1Zbxf1m0ZWzWpaKhjt/U+LhmLbfmqhTf6w7ge1t28HsF/tZG1ab87wNLjd1qudHn9b2Yjg03sdU5pyXUAxCX4KVgFh7cobvFH5QJ+5IYS+0/gfQQ98UOQuud0vsE4SGbPEN7eRHadKFEf4hc4twZT69j0M1wlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NFVv4X1vIs1w+UGq7EY5+2E4CSibjKXudiF8EhIPIlY=;
+ b=f0d5HL3pNCa2h/lLar789cgXZ1ZPkyPD9vm+JNWHrZMoK/OJl45JAIMwk7TnX+UwcEd8GSOTPtHu9e7+coL+/unA5Hr2DNzNz5LewD04moYIywR2BuylRXP2kPAiK0beTDTJW8yQ3h//KUtb6wu7Aw9LSy+sPv1QL9vzkHQ14x2/LtA4zqGByYPh2bklGahltCZXeuaVUMG0MGPucwAVARnXhLp5WRI37MnmiH0VkJCVjSpZnEqEX8wXXSMiODCnQ4riFEKkbmc+09u+qxVir60ScY2cAzNOrEB2KYxiglZmM3zAXm4Cgve9nD7nOzuB0B+A76H502qJYltdtPO6IA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NFVv4X1vIs1w+UGq7EY5+2E4CSibjKXudiF8EhIPIlY=;
+ b=qau7xvaFzHv7ovvg0/M2rvoMH87qAMW7H1mqkjWVtTSkM6i5+HjAPir39Y1RS4iOnJp4blkiVCPGuSq1jxFS9Yxnx2GIJ3dIs4NOVFaljLlQHb/7WSOSts611VY6G9vmmBXT5aN5q+QNZSctJouxMstisqAX97zpHfIb3fnahKw=
+Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
+ by DM5PR04MB1180.namprd04.prod.outlook.com (2603:10b6:3:a8::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5273.13; Thu, 19 May 2022 07:57:26 +0000
+Received: from PH0PR04MB7416.namprd04.prod.outlook.com
+ ([fe80::81de:9644:6159:cb38]) by PH0PR04MB7416.namprd04.prod.outlook.com
+ ([fe80::81de:9644:6159:cb38%4]) with mapi id 15.20.5273.016; Thu, 19 May 2022
+ 07:57:26 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Pankaj Raghav <p.raghav@samsung.com>, "dsterba@suse.cz" <dsterba@suse.cz>
+CC: "axboe@kernel.dk" <axboe@kernel.dk>, "damien.lemoal@opensource.wdc.com"
+ <damien.lemoal@opensource.wdc.com>, "pankydev8@gmail.com"
+ <pankydev8@gmail.com>, "dsterba@suse.com" <dsterba@suse.com>, "hch@lst.de"
+ <hch@lst.de>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-btrfs@vger.kernel.org"
+ <linux-btrfs@vger.kernel.org>, "jiangbo.365@bytedance.com"
+ <jiangbo.365@bytedance.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "gost.dev@samsung.com" <gost.dev@samsung.com>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>
+Subject: Re: [PATCH v4 08/13] btrfs:zoned: make sb for npo2 zone devices align
+ with sb log offsets
+Thread-Topic: [PATCH v4 08/13] btrfs:zoned: make sb for npo2 zone devices
+ align with sb log offsets
+Thread-Index: AQHYaUWvGG/TZMkJWESbmBi0yiTiyA==
+Date: Thu, 19 May 2022 07:57:26 +0000
+Message-ID: <PH0PR04MB7416FF84CE207FEC3ED8912F9BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
+References: <20220516165416.171196-1-p.raghav@samsung.com>
+ <CGME20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230@eucas1p2.samsung.com>
+ <20220516165416.171196-9-p.raghav@samsung.com>
+ <20220517124257.GD18596@twin.jikos.cz>
+ <717a2c83-0678-9310-4c75-9ad5da0472f6@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f0f9f08f-566c-44b4-e64f-08da396d36ff
+x-ms-traffictypediagnostic: DM5PR04MB1180:EE_
+x-microsoft-antispam-prvs: <DM5PR04MB1180EEFE018F11138C5A7FF19BD09@DM5PR04MB1180.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: waNJ/8nPr2Kwm7owvHFmTFigUuubmVSdf5TFO51Lx38kyphLIPpgqVUTMHAIjrA66sNy7lS56x2cnugpfmNVwbGsrWpBUT+xdJWBubI9LHUBmAFRpqfvsVJ61bGW+Vi6cXnGbZf9g8izhf20m5L7/NaKWil7hDTNvtUi18WZf+6+5eNXnwlN4P8zNu5jSNyob3LSRqH4AxqCRVXemuGEGK7rBaeDAwvSUGHXPXFNBMvI7d5zam5oGmEUESouFhT4F0X5BY7zN7sQwKWBVdIOF0uWLuRZb3AbRg+lN3nyqqy36FkVaZQC9KX6MY71J2mxMtDlS9GGdAiQ90CsS+xUrFyN4HxIIuz5zBQ4GcZyMgCDl3ksRR9NoJAOYIQbGFfzlvQqmT75ZIHubnKBUHroU2YGhEU9H01/rA4bDGovhyf1PmeZve4Z3vZiilw+fUOmdt0ssP6443j+ZMgJRMcHM3VlyHZEUPuyGk/yPoENugynyktjbPEZlUCRfb6og7G+JEFzAkMXgeujZmC2zDX6WdPRX1lHHwHhKQbgyTX1kKbwemzfSQjBX+/FK/iPdSKDE8UWoFo+gEJC3xWHetoxrqClv8jWpo1oV9XjvD0NzIE/r3aIH+zgEdAXOfQDNSFnxESovTxNm2H0qB+gzSjKrmJfcr0rMmLHx9l/97g7Q68sia0REWp+jxg/DMB9i+e77Rjvzi+vDrt/5IBU/7h8XQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR04MB7416.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66556008)(66446008)(4326008)(33656002)(6506007)(8676002)(7416002)(316002)(86362001)(110136005)(2906002)(7696005)(5660300002)(9686003)(122000001)(54906003)(64756008)(186003)(66476007)(66946007)(53546011)(38100700002)(82960400001)(71200400001)(55016003)(508600001)(38070700005)(76116006)(8936002)(91956017)(83380400001)(52536014);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?reqlWfoca+h8Q2F/lukhGj4Ck/Yz8Js3BU7SLX2ytFDdzU+/uzUsiNyGgQPF?=
+ =?us-ascii?Q?yx/3GT3fr91n8Dx+EoiS6zB81tgXilI+pQcxekXoEmDjMbgEIVDoU1eV8jVw?=
+ =?us-ascii?Q?woFPMMJ2C2/O4GTN2Em6UF/2O2MtlMczj0UyVPb9TYUvWIlxCVPbvNP2R7+s?=
+ =?us-ascii?Q?RFrHombrwDOOmIkP6acCpmNajmFLvqBzSPVUnWCKvJuJ2Dr272XPP5f9iSZe?=
+ =?us-ascii?Q?ekf0AvOkPBleFoEJ9PacujeX4oB3TBzhfrUdfseQXT3AHmhDnFYRbRwulQs1?=
+ =?us-ascii?Q?pIJwn1H56gS7VixIIdAuMxYMRox6hoNhlLi4sWC8j2vowwDFkRVigvyAdJkN?=
+ =?us-ascii?Q?Rm6bGJ+duzFhpXWXL45/b7mYPb9K3YLw3gDNl/CIINnuEUyKOVq6YE0XkIja?=
+ =?us-ascii?Q?y6sNtiJwir1B8tP9Swm9bybIWPVKk+/4/53HpGo6qnwFLTO7JgSt1iek7J6a?=
+ =?us-ascii?Q?kWKFRxCGeqEed18ehjd1efrE5bV7J9nP+uGbbVdPetVJZoIs3bSSiH+IbBJC?=
+ =?us-ascii?Q?LCSGZrhnsFckvHEST/zBhMeaZ93slrEDZSU5gMSDUnyeL91lH0AaisNpGXRR?=
+ =?us-ascii?Q?ffzaH2yRSz6BsnsQO+xxwBHi+vg5sbjKti4SQps8JhVBymuGUVGTydIjiqfI?=
+ =?us-ascii?Q?RPAGP8bGy5w/o4JoigKiNxc6dX8+EXoUgrklQ9sQFMA2uawXImpvE6deq7Tw?=
+ =?us-ascii?Q?R3EkrQ7YvPK+ZcZ5L/eMgeTjJG1b+ISKG2UQ6J12oUFko9qPX6JwZ+PuM4g7?=
+ =?us-ascii?Q?JURDIqgWrE+2tD0cwRXBdSeCtwqUC1prpplHgvODjwmnlCjjhbR0aXAfVRv1?=
+ =?us-ascii?Q?tUeB4/IlR7ucYRip5Cb2oa9x1969x9+tYZHNk6jaRlr0vqNf1s0OOaELbDx2?=
+ =?us-ascii?Q?3g3klBiIzboW+vu4SAgZWcXEB+15L/D8kRs/Pkoerz4d4NcQ8wI3XY+ovXfZ?=
+ =?us-ascii?Q?Sc5t9z5aJzJOKUKdzA6+l0R1FIvpXQYrMG5h7uJLk11Ic4152s/DZv7B14p4?=
+ =?us-ascii?Q?CtOPFWkU3NvQlUIG3OVYrWvWi4X7zg1MvZaBkVxGzn+WBZ3WZrLOh54r1XDr?=
+ =?us-ascii?Q?8a7yrzrX01GjZk6TRV9rOPXb6wgttm+vauWnCl6rScIiJZ05pxuArHyP37T2?=
+ =?us-ascii?Q?HKzm9404suMITCHPgDucHg3lEDOejZN+rZjSdehPAMxvXi2mrxVYG357zooT?=
+ =?us-ascii?Q?qlzpqYJSw+fSEUz+Umtxpr8kmF+G/zeLbErtlwo6xkxJzFAz3B6TnOH//pbQ?=
+ =?us-ascii?Q?V4v1lRwywKedAuVs33gEAuvN6inmQWqSlP9wA+P4OQvhKPFNVPz1w1FWY/U8?=
+ =?us-ascii?Q?PfIbOYwYoszzheLFbVPEs+RdZtAKVLbcOJY1N9OY0Hc4OKiBwCm0Ka/4mb/+?=
+ =?us-ascii?Q?YmS9kRwCsRTIAWZaI2a9/9x/LrEEVToEuTaHpt+iKAdWJ/H1aRQSmpzzf2sB?=
+ =?us-ascii?Q?RxjX3JxzGoA7PDztKQzjfY5wC/dMA0GT5WvNsW1IYdXAmCKi6O6egEi8d3B9?=
+ =?us-ascii?Q?FAI5FXKPL375ulR/NyTvaMoUhr/cmJObpE3SwBhTDNvfhgPB54kts82++bQQ?=
+ =?us-ascii?Q?tkgoXf5kS4ceyk1XfyTuvqxxAaNPaBXMJjWj5D6fYNdSgTbxyb5xN4moX8Da?=
+ =?us-ascii?Q?MuNGytFNI5xtc4LodDHsNmLrg66RsVQZb9i+K57786C6+8sbsGXfhsPzGvX8?=
+ =?us-ascii?Q?1LDlUmYHCcTGAlEGDVByEtgNE+pTIpl7cbJXaDy/An4t5IWqPHZEvilVHjVQ?=
+ =?us-ascii?Q?7glNvQ07L9zaL+hoiZ5NclsPa+ef2GqZkqWu7fsZ/ZG9f6lU1geMCCJglJ0I?=
+x-ms-exchange-antispam-messagedata-1: 3wsxfGTRpd/w+lvCmDa3nDbyOTPqNmmciagjxHpKh/Em1Yr+pJQW/DTm
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220517064901.3059255-1-hch@lst.de>
- <20220517064901.3059255-4-hch@lst.de>
-In-Reply-To: <20220517064901.3059255-4-hch@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Thu, 19 May 2022 13:06:51 +0530
-Message-ID: <CA+1E3rKZkP=Rekf0zA5wvewxzFEuBFqa0v2uH4wxcewz0beFSQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] blk-mq: remove the done argument to
- blk_execute_rq_nowait
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
- target-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0f9f08f-566c-44b4-e64f-08da396d36ff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2022 07:57:26.2992 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eWi1xnPp4MWOwR1HYrUoogbJUyQeffPr2QXBLcBSQyB2KDZKvq9YJCxalE84HKbdS49onoWEZujnoAyzM0QM3ZTsHlRJIRy/1txiHFChlGM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB1180
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220519_003720_703983_7003EF28 
-X-CRM114-Status: GOOD (  26.42  )
+X-CRM114-CacheID: sfid-20220519_005731_923419_BF1FBDF4 
+X-CRM114-Status: GOOD (  20.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,244 +171,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 17, 2022 at 12:27 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Let the caller set it together with the end_io_data instead of passing
-> a pointless argument.  Note the the target code did in fact already
-> set it and then just overrode it again by calling blk_execute_rq_nowait.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  block/blk-mq.c                     |  5 +----
->  drivers/block/sx8.c                |  4 ++--
->  drivers/nvme/host/core.c           |  3 ++-
->  drivers/nvme/host/ioctl.c          |  3 ++-
->  drivers/nvme/host/pci.c            | 10 +++++++---
->  drivers/nvme/target/passthru.c     |  3 ++-
->  drivers/scsi/scsi_error.c          |  5 +++--
->  drivers/scsi/sg.c                  |  3 ++-
->  drivers/scsi/st.c                  |  3 ++-
->  drivers/scsi/ufs/ufshpb.c          |  6 ++++--
->  drivers/target/target_core_pscsi.c |  3 +--
->  include/linux/blk-mq.h             |  3 +--
->  12 files changed, 29 insertions(+), 22 deletions(-)
->
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 0169b624edda1..c832011bc90dd 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -1189,7 +1189,6 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
->   * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
->   * @rq:                request to insert
->   * @at_head:    insert request at head or tail of queue
-> - * @done:      I/O completion handler
->   *
->   * Description:
->   *    Insert a fully prepared request at the back of the I/O scheduler queue
-> @@ -1198,13 +1197,11 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
->   * Note:
->   *    This function will invoke @done directly if the queue is dead.
->   */
-> -void blk_execute_rq_nowait(struct request *rq, bool at_head, rq_end_io_fn *done)
-> +void blk_execute_rq_nowait(struct request *rq, bool at_head)
->  {
->         WARN_ON(irqs_disabled());
->         WARN_ON(!blk_rq_is_passthrough(rq));
->
-> -       rq->end_io = done;
-> -
->         blk_account_io_start(rq);
->         if (current->plug)
->                 blk_add_rq_to_plug(current->plug, rq);
-> diff --git a/drivers/block/sx8.c b/drivers/block/sx8.c
-> index b361583944b94..63b4f6431d2e6 100644
-> --- a/drivers/block/sx8.c
-> +++ b/drivers/block/sx8.c
-> @@ -540,7 +540,7 @@ static int carm_array_info (struct carm_host *host, unsigned int array_idx)
->         spin_unlock_irq(&host->lock);
->
->         DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
-> -       blk_execute_rq_nowait(rq, true, NULL);
-> +       blk_execute_rq_nowait(rq, true);
->
->         return 0;
->
-> @@ -579,7 +579,7 @@ static int carm_send_special (struct carm_host *host, carm_sspc_t func)
->         crq->msg_bucket = (u32) rc;
->
->         DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
-> -       blk_execute_rq_nowait(rq, true, NULL);
-> +       blk_execute_rq_nowait(rq, true);
->
->         return 0;
->  }
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 510e3860358bb..22aa5780623da 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1206,8 +1206,9 @@ static void nvme_keep_alive_work(struct work_struct *work)
->         nvme_init_request(rq, &ctrl->ka_cmd);
->
->         rq->timeout = ctrl->kato * HZ;
-> +       rq->end_io = nvme_keep_alive_end_io;
->         rq->end_io_data = ctrl;
-> -       blk_execute_rq_nowait(rq, false, nvme_keep_alive_end_io);
-> +       blk_execute_rq_nowait(rq, false);
->  }
->
->  static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
-> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> index 7b0e2c9cdcae3..a92cc686ffbc0 100644
-> --- a/drivers/nvme/host/ioctl.c
-> +++ b/drivers/nvme/host/ioctl.c
-> @@ -453,6 +453,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->                         blk_flags);
->         if (IS_ERR(req))
->                 return PTR_ERR(req);
-> +       req->end_io = nvme_uring_cmd_end_io;
->         req->end_io_data = ioucmd;
->
->         /* to free bio on completion, as req->bio will be null at that time */
-> @@ -461,7 +462,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->         pdu->meta_buffer = nvme_to_user_ptr(d.metadata);
->         pdu->meta_len = d.metadata_len;
->
-> -       blk_execute_rq_nowait(req, 0, nvme_uring_cmd_end_io);
-> +       blk_execute_rq_nowait(req, false);
->         return -EIOCBQUEUED;
->  }
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 3aacf1c0d5a5f..068dbb00c5ea9 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1438,8 +1438,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->         }
->         nvme_init_request(abort_req, &cmd);
->
-> +       abort_req->end_io = abort_endio;
->         abort_req->end_io_data = NULL;
-> -       blk_execute_rq_nowait(abort_req, false, abort_endio);
-> +       blk_execute_rq_nowait(abort_req, false);
->
->         /*
->          * The aborted req will be completed on receiving the abort req.
-> @@ -2483,11 +2484,14 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
->                 return PTR_ERR(req);
->         nvme_init_request(req, &cmd);
->
-> +       if (opcode == nvme_admin_delete_cq)
-> +               req->end_io = nvme_del_cq_end;
-> +       else
-> +               req->end_io = nvme_del_queue_end;
->         req->end_io_data = nvmeq;
->
->         init_completion(&nvmeq->delete_done);
-> -       blk_execute_rq_nowait(req, false, opcode == nvme_admin_delete_cq ?
-> -                       nvme_del_cq_end : nvme_del_queue_end);
-> +       blk_execute_rq_nowait(req, false);
->         return 0;
->  }
->
-> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-> index 5247c24538eba..3cc4d6709c93c 100644
-> --- a/drivers/nvme/target/passthru.c
-> +++ b/drivers/nvme/target/passthru.c
-> @@ -285,8 +285,9 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
->                 req->p.rq = rq;
->                 queue_work(nvmet_wq, &req->p.work);
->         } else {
-> +               rq->end_io = nvmet_passthru_req_done;
->                 rq->end_io_data = req;
-> -               blk_execute_rq_nowait(rq, false, nvmet_passthru_req_done);
-> +               blk_execute_rq_nowait(rq, false);
->         }
->
->         if (ns)
-> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-> index cdaca13ac1f1c..49ef864df5816 100644
-> --- a/drivers/scsi/scsi_error.c
-> +++ b/drivers/scsi/scsi_error.c
-> @@ -2039,12 +2039,13 @@ static void scsi_eh_lock_door(struct scsi_device *sdev)
->         scmd->cmnd[4] = SCSI_REMOVAL_PREVENT;
->         scmd->cmnd[5] = 0;
->         scmd->cmd_len = COMMAND_SIZE(scmd->cmnd[0]);
-> +       scmd->allowed = 5;
->
->         req->rq_flags |= RQF_QUIET;
->         req->timeout = 10 * HZ;
-> -       scmd->allowed = 5;
-> +       req->end_io = eh_lock_door_done;
->
-> -       blk_execute_rq_nowait(req, true, eh_lock_door_done);
-> +       blk_execute_rq_nowait(req, true);
->  }
->
->  /**
-> diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
-> index cbffa712b9f3e..118c7b4a8af2c 100644
-> --- a/drivers/scsi/sg.c
-> +++ b/drivers/scsi/sg.c
-> @@ -831,7 +831,8 @@ sg_common_write(Sg_fd * sfp, Sg_request * srp,
->
->         srp->rq->timeout = timeout;
->         kref_get(&sfp->f_ref); /* sg_rq_end_io() does kref_put(). */
-> -       blk_execute_rq_nowait(srp->rq, at_head, sg_rq_end_io);
-> +       srp->rq->end_io = sg_rq_end_io;
-> +       blk_execute_rq_nowait(srp->rq, at_head);
->         return 0;
->  }
->
-> diff --git a/drivers/scsi/st.c b/drivers/scsi/st.c
-> index 56a093a90b922..850172a2b8f14 100644
-> --- a/drivers/scsi/st.c
-> +++ b/drivers/scsi/st.c
-> @@ -579,9 +579,10 @@ static int st_scsi_execute(struct st_request *SRpnt, const unsigned char *cmd,
->         memcpy(scmd->cmnd, cmd, scmd->cmd_len);
->         req->timeout = timeout;
->         scmd->allowed = retries;
-> +       req->end_io = st_scsi_execute_end;
->         req->end_io_data = SRpnt;
->
-> -       blk_execute_rq_nowait(req, true, st_scsi_execute_end);
-> +       blk_execute_rq_nowait(req, true);
->         return 0;
->  }
->
-> diff --git a/drivers/scsi/ufs/ufshpb.c b/drivers/scsi/ufs/ufshpb.c
-> index 81099b68bbfbd..796a9773bf3de 100644
-> --- a/drivers/scsi/ufs/ufshpb.c
-> +++ b/drivers/scsi/ufs/ufshpb.c
-> @@ -671,11 +671,12 @@ static void ufshpb_execute_umap_req(struct ufshpb_lu *hpb,
->
->         req->timeout = 0;
->         req->end_io_data = umap_req;
-> +       req->end_io = ufshpb_umap_req_compl_fn;
->
->         ufshpb_set_unmap_cmd(scmd->cmnd, rgn);
->         scmd->cmd_len = HPB_WRITE_BUFFER_CMD_LENGTH;
->
-> -       blk_execute_rq_nowait(req, true, ufshpb_umap_req_compl_fn);
-> +       blk_execute_rq_nowait(req, true);
->
->         hpb->stats.umap_req_cnt++;
->  }
-> @@ -707,6 +708,7 @@ static int ufshpb_execute_map_req(struct ufshpb_lu *hpb,
->         blk_rq_append_bio(req, map_req->bio);
->
->         req->end_io_data = map_req;
-> +       req->end_io = ufshpb_map_req_compl_fn;
->
->         if (unlikely(last))
->                 mem_size = hpb->last_srgn_entries * HPB_ENTRY_SIZE;
-> @@ -716,7 +718,7 @@ static int ufshpb_execute_map_req(struct ufshpb_lu *hpb,
->                                 map_req->rb.srgn_idx, mem_size);
->         scmd->cmd_len = HPB_READ_BUFFER_CMD_LENGTH;
->
-> -       blk_execute_rq_nowait(req, true, ufshpb_map_req_compl_fn);
-> +       blk_execute_rq_nowait(req, true)
-
-Missing semicolon here. Otherwise, looks good.
-
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+On 18/05/2022 11:17, Pankaj Raghav wrote:=0A=
+> On 2022-05-17 14:42, David Sterba wrote:=0A=
+>> On Mon, May 16, 2022 at 06:54:11PM +0200, Pankaj Raghav wrote:=0A=
+>>> Superblocks for zoned devices are fixed as 2 zones at 0, 512GB and 4TB.=
+=0A=
+>>> These are fixed at these locations so that recovery tools can reliably=
+=0A=
+>>> retrieve the superblocks even if one of the mirror gets corrupted.=0A=
+>>>=0A=
+>>> power of 2 zone sizes align at these offsets irrespective of their=0A=
+>>> value but non power of 2 zone sizes will not align.=0A=
+>>>=0A=
+>>> To make sure the first zone at mirror 1 and mirror 2 align, write zero=
+=0A=
+>>> operation is performed to move the write pointer of the first zone to=
+=0A=
+>>> the expected offset. This operation is performed only after a zone rese=
+t=0A=
+>>> of the first zone, i.e., when the second zone that contains the sb is F=
+ULL.=0A=
+>> Is it a good idea to do the "write zeros", instead of a plain "set write=
+=0A=
+>> pointer"? I assume setting write pointer is instant, while writing=0A=
+>> potentially hundreds of megabytes may take significiant time. As the=0A=
+>> functions may be called from random contexts, the increased time may=0A=
+>> become a problem.=0A=
+>>=0A=
+> Unfortunately it is not possible to just move the WP in zoned devices.=0A=
+> The only alternative that I could use is to do write zeroes which are=0A=
+> natively supported by some devices such as ZNS. It would be nice to know=
+=0A=
+> if someone had a better solution to this instead of doing write zeroes=0A=
+> in zoned devices.=0A=
+> =0A=
+=0A=
+I have another question. In case we need to pad the sb zone with a write=0A=
+zeros and have a power fail between the write-zeros and the regular =0A=
+super-block write, what happens? I know this padding is only done for the=
+=0A=
+backup super blocks, never the less it can happen and it can happen when=0A=
+the primary super block is also corrupted.=0A=
+=0A=
+AFAIU we're then trying to reach out for a backup super block, look at the=
+=0A=
+write pointer and it only contains zeros but no super block, as only the =
+=0A=
+write-zeros has reached the device and not the super block write.=0A=
+=0A=
+How is this situation handled?=0A=
+=0A=
+Thanks,=0A=
+	Johannes=0A=
 
