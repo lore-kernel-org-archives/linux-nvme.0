@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81FCAC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 18:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 101B1C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 19:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Mime-Version:References:In-Reply-To:Message-Id:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qJUn0156dNBA9QWjnnlZsg1+Sz3Q9AVMXuSbBo8TWP4=; b=guBZ1VhZRslPaOsi150bT+p6x7
-	5I6wvXaOI0dMmPeXrMZqU3XlF1Cy7hdRWj3kz0IlVvb/oOW1kdz3U9N63q1UVePE41m6ksZEWUGkS
-	1jE5bLnjmGxyktr7RcOWL25sA3sObPsBZqli08XcmnExaCgVM7/20v9FAYWMuyt2h88HKNJmgmBRR
-	xYktQ2rbiJMmQyL2kpHSJUoJBM2/tDimLJglxdb4RPr5VI8/UrglS83nYgqik0G3Rmcyn+jCAvPDd
-	h8xz3ud4J+dRU9FTtRjZ5YSuFBZe+tTpX7/gpu64ChbAlSPBb6PDmfQFIBUdOgaZkV4wHqUuI4rmB
-	xgLnXHwQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OlE4r2KKM7U3GhmxcSHP5QnmLizzRjccDnQhM+hyAAw=; b=YEmeOjWB6wuyuV9djSr83kjInj
+	tc9L1ElrOB4X3kLVdMTjiVvqYSYI21+AHbsPXyMpmh5A6O3++hZ5Fn5z/5/nWcRhhBm4KDVADfx0c
+	ZpcoNljBlPv4fmKO59YoEkw2MHjXhdDaGfDOnz84OCrYRSZ2VprKc9Z8+GaIV9DPsmVS9dNQ4/Vho
+	+gJDbNEEzTk7hXH3UXZSxfJe/M/sZPTWPys9Op9pWHfQSEHCTWn1dDJXpFJFkKhUfDk87BUttEH6t
+	0zmEtvQTZlfrqk2mrxJIutZ9oS1PE1XtBUuPwJ7TEg6aub+Ub6XsDi2rO2sFHKLEQnHXqIFbp9T9D
+	E+3bZ8vA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrl8G-008xD2-Vz; Thu, 19 May 2022 18:44:21 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1nrlom-0098AV-Lb; Thu, 19 May 2022 19:28:16 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrl8B-008xBJ-Fw
- for linux-nvme@lists.infradead.org; Thu, 19 May 2022 18:44:17 +0000
+ id 1nrloj-00988t-Hx
+ for linux-nvme@lists.infradead.org; Thu, 19 May 2022 19:28:14 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 5CFBACE270A;
- Thu, 19 May 2022 18:44:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20673C34100;
- Thu, 19 May 2022 18:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1652985851;
- bh=LV7LTnAH/p1rCGESk6oys94gfkqXoBT21ZKPBvHkVag=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PJntBITtl+Ix70J0sB1XcPAphJMOsg4aFBWMHvc0SY2z73uU+bdYPDEbFBi+d1k76
- ysN5otvLvJDv0wXhWJUhkShJ6y0IswWrsq/4D0zNAN/gjfwPvXK6nuH5Fo5/HvjFsM
- DcteBtGl6sEhkNPBAN1XO2L3TUlpiYC03t69XjLY=
-Date: Thu, 19 May 2022 11:44:10 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: kernel test robot <lkp@intel.com>, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-fbdev@vger.kernel.org,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Linux Memory Management List
- <linux-mm@kvack.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
-Message-Id: <20220519114410.638baa38ab2067884600cb72@linux-foundation.org>
-In-Reply-To: <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
-References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
- <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ by ams.source.kernel.org (Postfix) with ESMTPS id 32B87B827DC;
+ Thu, 19 May 2022 19:28:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CE8C34100;
+ Thu, 19 May 2022 19:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652988490;
+ bh=9XzFmTph/YjgqiYmcuv2QYbHL/Ihp/kN9e0z00Pb/CE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GhsmYGrUiRkz0ni3UlnhnjmtnsHg2403+bUGdwWK/pi1kZCHlLMs6JbCivW0hSnu0
+ JsHkI2cZ/SoEmR63idCr52kDUm6X1jiquq5RWJ+0L1qwgoVQhuM2YIobyj7XQBw411
+ Wg2CiMJPtmMMsFljR2zdr9z7KKjntkmcqDcvLM+5f987u13QzRMzijlCqwV4kzd9nM
+ jQqhs5ud4pMT695rKtWoRkv0VjCX2QyBvpZiCLzljfWT4teCuusLwdlsEZObUUL4qr
+ DveTcW9jA03XuXr3hziMQnfon328fdUtb/jycJvKWbnVXSvY1fA3CAcT37CTlhQYqn
+ Tv3KmdJMM/jrA==
+Date: Thu, 19 May 2022 13:28:06 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: hch@lst.de, sagi@grimberg.me, james.smart@broadcom.com,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH V3] nvme: set non-mdts limits in nvme_scan_work
+Message-ID: <YoaaRlK8MF7UQrA0@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220518155138.120470-1-kch@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518155138.120470-1-kch@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220519_114415_765912_11BF771C 
-X-CRM114-Status: GOOD (  16.32  )
+X-CRM114-CacheID: sfid-20220519_122813_781737_B8DAB1C0 
+X-CRM114-Status: GOOD (  12.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,35 +71,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 18 May 2022 20:41:27 -0700 Guenter Roeck <linux@roeck-us.net> wrote:
+On Wed, May 18, 2022 at 08:51:38AM -0700, Chaitanya Kulkarni wrote:
+> +	/**
+> +	 * Identify controller limits can change at controller reset due to
+> +	 * new firmware download, even though it is not common we cannot ignore
+> +	 * such scenario. Controller's non-mdts limits are reported in the unit
+> +	 * of logical blocks that is dependent on the format of attached
+> +	 * namespace. Hence re-read the limits at the time of ns allocation.
+> +	 */
 
-> On 5/18/22 17:55, kernel test robot wrote:
-> > tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > branch HEAD: 736ee37e2e8eed7fe48d0a37ee5a709514d478b3  Add linux-next specific files for 20220518
-> > 
-> > Error/Warning reports:
-> > 
-> > https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
-> > https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-> > https://lore.kernel.org/linux-mm/202205122113.uLKzd3SZ-lkp@intel.com
-> > https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
-> > https://lore.kernel.org/linux-mm/202205190527.o9wVEvHI-lkp@intel.com
-> > 
-> > Error/Warning: (recently discovered and may have been fixed)
-> > 
-> [ .. ]
-> > drivers/hwmon/nct6775-platform.c:199:9: sparse:    unsigned char
-> > drivers/hwmon/nct6775-platform.c:199:9: sparse:    void
-> 
-> This is getting tiresome. Every driver using outb() on m68k will
-> experience that "problem". As far as I can see, it is caused by
-> 
-> #define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
-> 
-> in arch/m68k/include/asm/raw_io.h. I have no idea what the
-> "(void)" is for, but removing it "fixes" the problem.
-> Either case, this is not a problem with the nct6775 driver,
-> nor is it a new problem.
+I think we usually see the "/**" comment style for kernel doc.
 
-(cc Geert)
+But otherwise, patch looks good.
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
