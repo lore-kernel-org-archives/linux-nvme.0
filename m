@@ -4,86 +4,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 162C8C433FE
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 03:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E34A0C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 May 2022 04:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E+Jeeum5dAYeu7JrVKgmUScX8K6q6nSaD3V1Uo7Z0xo=; b=YAKGHnVKZoedl5RIymdFQzd9iX
-	X8ufiMKPqS/1T58SWE2UKkI+X8QGGdedizkypAY2u+2w9sjD5Nk84qdeuGKNsjIrC7JPqpY+LrwUw
-	tTYrbE2w05JbIJOrObWhJi2tGVK2iKTAhRGeY/TSFM7qEy9CoGbUlWQAx9tSCo1iFG9zSBhIeg2BL
-	HR8gfRJ/3Y6GV6uTUtKW4PcSjV5o9o8+Qx48hC8Z/xKTCL3OUvOW8loh5/j3mV27CYh3wBbb6iBbO
-	wQwYV/ycOp3i//lzEl9fAyVOYSJPdDZdRljYHI+cd9WA6ngG0OU775O/iedoOJRJlpCcQ6EDzoaUl
-	JqmASIbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=310kVZE9HProz4KaEM+ufPIrmCKNWR3GIi9iLwOw9AU=; b=G1UeNsxrbiCm9LosL01bY3acgL
+	AaHl85qUUUWcOlcNAegAqqQVU2OHIa9d8Mx5EObr2DqojQXazhUHW7yKCvDDT/A1Vgrobs1VFWM7m
+	ckKdzRGIccTKsbKYyXmqNMsxK+5J7b4RqeutsmPByC9Np3GCCC0s5UxYQvc0622JVe9i1XTwm2Cnx
+	AMuVGWxpFJ8aImNblcMRlkgrYUvaoyYbNvfxEOkMldB8JxBEHmyncWYM+4fC407WljDfc4J2YwVs4
+	BzlKo0bdXBoHZn0gdY2Ooxv2jLfFlUmKOj5iQzVCXFo3ItpYTY03H2fddXP8dpkKnh9oxY49ubQdF
+	G9SAK5sA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrX2e-004tjF-Gb; Thu, 19 May 2022 03:41:36 +0000
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
+	id 1nrXXm-004wQ7-4K; Thu, 19 May 2022 04:13:46 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrX2b-004ti3-Eu
- for linux-nvme@lists.infradead.org; Thu, 19 May 2022 03:41:34 +0000
-Received: by mail-oi1-x233.google.com with SMTP id w127so1631706oie.1
- for <linux-nvme@lists.infradead.org>; Wed, 18 May 2022 20:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:content-language:to
- :cc:references:from:subject:in-reply-to:content-transfer-encoding;
- bh=E+Jeeum5dAYeu7JrVKgmUScX8K6q6nSaD3V1Uo7Z0xo=;
- b=KFjvSCT6GXj5Kr0HO4phTFW0x5Mhrxpol/LwndM9mgk+gt2L/LZ/5khjHvxx9tCYCl
- ccDkePOGAv4JpJmRo0Xqzh6ClQpZnN/1/b7sQl4OHAEBLezdGI2XWE9/o/Z1OZFdJplA
- hvInyanC3HKTFBbmtIho+sxxjhNvtMvXN/SpDUcK6pzwbtXhkX4B8r6bM063uhwPRf2Y
- cRgCWW0s7tOlAD3+MsxhCIYV0WDd/vE6gTqXbb2/O3YdWrgPTUK3f0QWoOCgnNy5j+zJ
- Pm+2UwK0eLGDknVSYV48h5O6crlLJ0idezAZuMW3TB+ty1IBtVt29pHwTXbVrYvZnNon
- S1IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=E+Jeeum5dAYeu7JrVKgmUScX8K6q6nSaD3V1Uo7Z0xo=;
- b=zyTHvNxVJfBIs7wMrTzpWRQ7Y+T7d8mESD9q7Q26Lmmzsry96TXaZLCFe1Fs5WXH8l
- URF6vyguJLFZ+jPuPGpjEWsOwYBpGXwK9r5IianeV+pbqqijqTHxl8Qg4sTPfXOUWkf1
- 4rWsBFblcmG0md5ZOe6mmB5s/ciZappvpOvq+mfUDJrso+RL6rQ1VN0oKJnzJGDgaC9H
- 1Bqv1UBMKc9arIewoqQiSBXMjoBSwVKOiR14NLv6OxxHgxDJl2cBZfugz8Nyf7iimIBJ
- RIEYWmcP2NLYGujhA5rFY1k4sGgTPBtLANkypFzh+vHl69mvnIK6qSu1UssmcJDOC5g8
- 4tSA==
-X-Gm-Message-State: AOAM532OTB1faoB5BDKzdQPRspCW9caROOWsiquWucemxcTOo6f5OdYq
- Q+0rTgdI0nmItjSxte2V2c4=
-X-Google-Smtp-Source: ABdhPJzNbyvmXREi3jFpQ1BXha9I4ZZcQvTagfhdtbiKBgx1gr2M0BpSR/Ospfm2JXh/HEBEZ+zfpQ==
-X-Received: by 2002:aca:4154:0:b0:322:7a9c:7daa with SMTP id
- o81-20020aca4154000000b003227a9c7daamr1784072oia.52.1652931691271; 
- Wed, 18 May 2022 20:41:31 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- p4-20020aca4204000000b0032694a9925esm1451284oia.10.2022.05.18.20.41.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 20:41:30 -0700 (PDT)
-Message-ID: <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
-Date: Wed, 18 May 2022 20:41:27 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
+ id 1nrXXi-004wN0-3b
+ for linux-nvme@lists.infradead.org; Thu, 19 May 2022 04:13:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1652933620; x=1684469620;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=X0esI+MzLiMlTsD49+MYTIZ0EzmHX0tYYHxZ1qhqD58=;
+ b=CZeire4AItQclW7d1vabGsmur+hgk+rbiE43GuwH34kEuL++5M6jKj7D
+ u2x0Kq9lEK/b6YM6cSd3QCNr1MR/qpiJJnTzhrTsh2cY1GfkDZXW0uXRr
+ 1rXL8Yu/mudwETKWHT5JMdIbssCkwr7mV8ALh/hc85OO5a50R/xGDWcjG
+ jCcM3TTTlvAkuJ3D0QZTdWJZjYqa9odmYmad+Is/cU3rT10Ki1on46xxd
+ 1WZ0SG/NNWgELIeoQJ3G/KfNzpjXSMq+0hG9ng3tOzqkqeKtliPM10Pdn
+ pi5AmJafEXmKBJ2L8aN5yEvFby9NOa/d+29F9G0x9jCAfarA4Vv5/w0hz A==;
+X-IronPort-AV: E=Sophos;i="5.91,236,1647273600"; d="scan'208";a="205617609"
+Received: from mail-dm6nam11lp2176.outbound.protection.outlook.com (HELO
+ NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.176])
+ by ob1.hgst.iphmx.com with ESMTP; 19 May 2022 12:13:28 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I9vYwI/zXfjNtz5YhP/atowNWhC1yjlmWz6/ZDWevcvHSuj/ldPwwT5MUwDo5d9/w/G3rMvLC2XKurAHcNsjurjeOhR5aI5J5DUrRGoGpcPJj3Vf8tETLoxBKHTxkA3cTRlwzKudRlBtvHdaNrzZc7dNLT+mg/VQLcU7IMTSSd4/d68Gjy08ZJZXLEEwhogk9DetNbhaV0zq5bNNdeDwv17t4jlwt0CeyK8pGlzdcQXUqiS3cCPL4dzpW/zHepOWBRnaaE3TPv86hJg7UV5HAc7suqx4kKf87ZuF8w++G4hFVhnEkreV3qQzIHD1PwKinGx4cn36H7aRtk9VCBBvWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=310kVZE9HProz4KaEM+ufPIrmCKNWR3GIi9iLwOw9AU=;
+ b=Ejphod6c/3FcUkMTYht1Dfn5y9rOayBYR77TMFbwE+uYFu9tMzpUoh+b24Bgg9BYGO7lH8j44TzLvG1L9tvq/+PGcjWTw86ygVfuteKX7vJsdOjrCqG8joNSDFhjpeXPHDK5Fnz348jRII1RYpCQ+prPp08MIPT/5u3A+sbpRevS45j2aIy9pTozYbwaMivjnO0jAXyrMqblKEMkSqvmJrNzZ1aDz1rJKYXrQB66/OibLD/ioymq8vRuK9GVet9FpeQe3fHZuIGREj2x74i0bgRILCD8b2josdLurT8j5HWDuk33G/7qanXD6CXFQL6/1SbtPU8mxtFcXS3EMnFlqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=310kVZE9HProz4KaEM+ufPIrmCKNWR3GIi9iLwOw9AU=;
+ b=w0WtQZWwlYIGxhSiI+8Jh0/BKu0Kh0jh6TXHDzEyo4jIBv3cVlTyTx18cmNMxeKxrfD4qULHvwE5Io/g2xuS9db3x0GyomD2a0RgBbVAfMP/+gcKYTeLhQ3owbwwFwYb6zJmkZ/9ErA37UnHXf+12Qr1P+PVnP7kB33nvXo3v3o=
+Received: from DM8PR04MB7765.namprd04.prod.outlook.com (2603:10b6:8:36::14) by
+ DM6PR04MB6699.namprd04.prod.outlook.com (2603:10b6:5:241::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5250.14; Thu, 19 May 2022 04:13:29 +0000
+Received: from DM8PR04MB7765.namprd04.prod.outlook.com
+ ([fe80::f9ca:774a:df15:c95b]) by DM8PR04MB7765.namprd04.prod.outlook.com
+ ([fe80::f9ca:774a:df15:c95b%4]) with mapi id 15.20.5250.018; Thu, 19 May 2022
+ 04:13:29 +0000
+From: Naohiro Aota <Naohiro.Aota@wdc.com>
+To: Pankaj Raghav <p.raghav@samsung.com>
+CC: "axboe@kernel.dk" <axboe@kernel.dk>, "damien.lemoal@opensource.wdc.com"
+ <damien.lemoal@opensource.wdc.com>, "pankydev8@gmail.com"
+ <pankydev8@gmail.com>, "dsterba@suse.com" <dsterba@suse.com>, "hch@lst.de"
+ <hch@lst.de>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-btrfs@vger.kernel.org"
+ <linux-btrfs@vger.kernel.org>, "jiangbo.365@bytedance.com"
+ <jiangbo.365@bytedance.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "gost.dev@samsung.com" <gost.dev@samsung.com>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, Luis Chamberlain
+ <mcgrof@kernel.org>
+Subject: Re: [PATCH v4 07/13] btrfs: zoned: use generic btrfs zone helpers to
+ support npo2 zoned devices
+Thread-Topic: [PATCH v4 07/13] btrfs: zoned: use generic btrfs zone helpers to
+ support npo2 zoned devices
+Thread-Index: AQHYaUWsYuDhrEl/OEabFy4UgQ7IPq0lmwkA
+Date: Thu, 19 May 2022 04:13:29 +0000
+Message-ID: <20220519041328.rcfd2jk6pslwvyfm@naota-xeon>
+References: <20220516165416.171196-1-p.raghav@samsung.com>
+ <CGME20220516165428eucas1p1374b5f9592db3ca6a6551aff975537ce@eucas1p1.samsung.com>
+ <20220516165416.171196-8-p.raghav@samsung.com>
+In-Reply-To: <20220516165416.171196-8-p.raghav@samsung.com>
+Accept-Language: ja-JP, en-US
 Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-staging@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
-In-Reply-To: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5eacd7ba-6c1c-438a-ff09-08da394dedf2
+x-ms-traffictypediagnostic: DM6PR04MB6699:EE_
+x-microsoft-antispam-prvs: <DM6PR04MB6699792867014CCA50272A2E8CD09@DM6PR04MB6699.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ac3bO6xAvwRXALm6j+HksnDQxdrxxiyPnOi+nTqxj4XFL4wHa6Y4Fr5BLUhVkiA804m07ZJwVHoBXjUg4RAaHGrHL53sR7sVwMhAPCkCGw0dDZoFNn43ZKD1v2W5QYpeyTh9eBZSvHtXo2T5HgTsh0fQuZHy3bowLycHeknDoO7QVxWkK7XBezqJ/xlubrplJKS1Nuv5X/ycJfFN/thWMT7NKM8RQ6cVgA3hYw3Sey7PErjB3b2jq7+aUALQut5IMwO/4zFs5UBD8fLZFTm8DFdwPa2ruJWirdw/90jyarSSOudmaDkIXzNMEUHCh6jbuMHHQC5tPJx4PAXnqM8wmctNb7akByS86gLaBlQnmGHSv3t2Q0d7S+rADCH5LDEcoBBa7/bRHAreZ2n+YyTVyhjH5LAmrX1TwoRxBPvtLBU/tQ+sEAM52YxpuDxlRUgWJWy8rYJCKFzIbK6BTr1OD4HrdoW5fQs3AsaIN5rOwlMTXghkb0O0T2mUGDxkKvbId5wzUGZIUOYA2bi/nKe9jMAKZA6PEzuqJjwtEJ3sEiZsqJ8aAPxOz/SqkwRPRLnPg1/V67Mu8hlWitU2CemB/wFyCOjs4T4arf1T4qt1UajiOIbLYCMLV+S99LjyDbElPyIMgihUo80XvUySu7FUn8vpDR+CXV8v7gWZXWRHn+DQ5P4gd628bsjgmnK8eDoieWZRpYq/dOEZMv132CutLQ0+hcFDnZX8TLUdcdl9fsw=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR04MB7765.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(4636009)(366004)(8676002)(38100700002)(4326008)(6512007)(38070700005)(9686003)(26005)(33716001)(186003)(76116006)(66556008)(66946007)(66446008)(66476007)(64756008)(91956017)(1076003)(83380400001)(8936002)(508600001)(6486002)(6506007)(86362001)(82960400001)(71200400001)(7416002)(316002)(5660300002)(122000001)(54906003)(2906002)(6916009)(41533002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2kY03wkwYbIrQsmWF+X4p6cYZANYjyUYtGg2j1EAeDZDGON/Pv1jUtp7lEFg?=
+ =?us-ascii?Q?mkIZ1x+VkJ1t5uQsi90wGvd4BoqLKJBE0CBEHg9l3HAG+Os7RbLcVzsTEQaB?=
+ =?us-ascii?Q?UbGFrTfoMMflbV1ULfXR3pYQ4n6Zkzl7M/HvQyzvUffEO5RI95H6dKuJg5+7?=
+ =?us-ascii?Q?vXCr/3IhyjbiP80jJG0eefSZfaQfG/RIiOkaJTCZEzWexH6QYKXz1m5m2bOF?=
+ =?us-ascii?Q?UyYtuRbygNEmV3nZoW0Cpgm1N/TF+U08Q9VOv22wJw8CXnQ/U+ffDve/rGSW?=
+ =?us-ascii?Q?9AOH6BEJZUoPq5IIi1qZeSu4JlsgJNN8XZreVa9iNcc4IHqGXqah/I4zyALv?=
+ =?us-ascii?Q?ggAo0vBAq0WkiO1HpmZZwd9WdrujUaG6RDnmykeOcKQrYxmcILSk+HUOaOwd?=
+ =?us-ascii?Q?cXQbPJdxnLVlgvM7wHNmodKSuuxJNFZLjv+z9HDVh9M9xaDm7YBIAwgkksz+?=
+ =?us-ascii?Q?f/FiGVnGdEiWmDTTo7e6pghqUzJCseD5R01eW1WYU5svUtMHKXyQWlXctHqB?=
+ =?us-ascii?Q?3nJflAmNcoRSuwc8t1DVGHygZMZlwpdMOtrxcfgh34HVI4WblcdwWb2ioCvf?=
+ =?us-ascii?Q?01Si2DEtO68+EzT8/uAh3ZLZEsvnTAVjbi7WPvDi6R8bobh/tITIfw0ydKS9?=
+ =?us-ascii?Q?qqU9lojf2q+s4WlHTvQCwkfrs9yN5zPDv70yc/CWYmqxuyFOBXa9OWby43s3?=
+ =?us-ascii?Q?+Wje56B5fRw4AcwHDC/q0TBMq7KjxJbU+WzZjA1j2LSTkEF+oM/nhGx9m07y?=
+ =?us-ascii?Q?NCKZsKFJFkqBLzo+jvdZOYkcl18D6A8B0zZpDI0ceWEMwqBdn5FvW/19mglv?=
+ =?us-ascii?Q?HY+G2Dt3Z4rnk9rVhdWjveSlCL7C5sCZCc1N0TPrWm4sIrjguG8WBK63hETH?=
+ =?us-ascii?Q?rmlOgfoYCMBbC9C5W6iJmhZzvL6N92Q8SrBU6YgP/qltl6Btdee+smuI2Ov+?=
+ =?us-ascii?Q?wZK7k5O/hUf8L9eSjofMWcrk2pebzp+Y8G6TUnycd1FBUmtUfp5S0tPufJ+H?=
+ =?us-ascii?Q?cHov+aqB/zuUyVu8Smpb7g36yzeX70CZFH8NFHb6sWJOqQ07d4zB2CNlMwtR?=
+ =?us-ascii?Q?HY8K5NSYcLqTgSWdtY0bQcqGXaeB7o8HVlbVfY/omYdkZ9yMPYGgWytBR00Y?=
+ =?us-ascii?Q?egJ3v4jvkP/MjvYnki3B+ny6LJIbHXBe+mavmN3fJoVxCE5nuun8MBpDUuwa?=
+ =?us-ascii?Q?q4jgM3cPUYZdBlooJSMH+i5nzZnf/P7KnpySRz2zVkED6Qmh5mmEr7jHQjtk?=
+ =?us-ascii?Q?SO12rKdaV+EXwTOWvWvknXm6MKS27MOX+hlNx9DKvNdEfe2iJk2B356wKpuu?=
+ =?us-ascii?Q?YpMSQWlJqSgaQLJVeWzVxv7p/OJP+vwojL6dgo5iDKI+R+ya5MmGpNUo2I6L?=
+ =?us-ascii?Q?S+vY+nFYc4bB0T1wbZtqC3yx3CCRMOJUT4EFlkV1fl8kRiii3iNzPelo7/7D?=
+ =?us-ascii?Q?z9hE/EBjiskvqAPfImDi+aTyMgNMz+V/1j3mFNMg9zjAtcQh6hVvJQku7VQx?=
+ =?us-ascii?Q?6asdGkwb9wRYtkplsRMOPzPoRS7mT9kWe+cRcCgBWtO9d0A0h+sZnWcrXHVH?=
+ =?us-ascii?Q?KshjTFRG3B5fnOXmbr1PeZaVncBrbh99K5dtt3G3qJVQ1dgYa9aZFlOt96fs?=
+ =?us-ascii?Q?1y0u/jl7/oObNFlbW/appWbHw76uXOyI7cQUo7HynMU0ff1bVjvxW65giEHp?=
+ =?us-ascii?Q?zy/ygL1vEdvGyGRD5HQNu2sKT1J+tDLhgXQ54+rpZFfEJxiL3zKvtFgUVsjD?=
+ =?us-ascii?Q?PJN5AHGa+RGbDgajlAgHM/tP6w1Zz38=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <FB1D8211A2248D4D9C8FDEB51CAEB0DB@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB7765.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5eacd7ba-6c1c-438a-ff09-08da394dedf2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2022 04:13:29.3268 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0KGOWvXXJAf9YGRkC19Z0RQcXYJndFHSZkmdKiSOWt/NMs0mcVAgdXn0qgR4AMW2H1nD3dhcMe/8CEp+19Ic9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6699
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220518_204133_572592_424AB7BA 
-X-CRM114-Status: GOOD (  11.30  )
+X-CRM114-CacheID: sfid-20220518_211342_187743_950D4F57 
+X-CRM114-Status: GOOD (  28.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,33 +171,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/18/22 17:55, kernel test robot wrote:
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> branch HEAD: 736ee37e2e8eed7fe48d0a37ee5a709514d478b3  Add linux-next specific files for 20220518
-> 
-> Error/Warning reports:
-> 
-> https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
-> https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-> https://lore.kernel.org/linux-mm/202205122113.uLKzd3SZ-lkp@intel.com
-> https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
-> https://lore.kernel.org/linux-mm/202205190527.o9wVEvHI-lkp@intel.com
-> 
-> Error/Warning: (recently discovered and may have been fixed)
-> 
-[ .. ]
-> drivers/hwmon/nct6775-platform.c:199:9: sparse:    unsigned char
-> drivers/hwmon/nct6775-platform.c:199:9: sparse:    void
+On Mon, May 16, 2022 at 06:54:10PM +0200, Pankaj Raghav wrote:
+> Add helpers to calculate alignment, round up and round down
+> for zoned devices. These helpers encapsulates the necessary handling for
+> power_of_2 and non-power_of_2 zone sizes. Optimized calculations are
+> performed for zone sizes that are power_of_2 with log and shifts.
+>=20
+> btrfs_zoned_is_aligned() is added instead of reusing bdev_zone_aligned()
+> helper due to some use cases in btrfs where zone alignment is checked
+> before having access to the underlying block device such as in this
+> function: btrfs_load_block_group_zone_info().
+>=20
+> Use the generic btrfs zone helpers to calculate zone index, check zone
+> alignment, round up and round down operations.
+>=20
+> The zone_size_shift field is not needed anymore as generic helpers are
+> used for calculation.
+>=20
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> ---
+>  fs/btrfs/volumes.c | 24 +++++++++-------
+>  fs/btrfs/zoned.c   | 72 ++++++++++++++++++++++------------------------
+>  fs/btrfs/zoned.h   | 43 +++++++++++++++++++++++----
+>  3 files changed, 85 insertions(+), 54 deletions(-)
+>=20
+><snip>
+> diff --git a/fs/btrfs/zoned.h b/fs/btrfs/zoned.h
+> index 694ab6d1e..b94ce4d1f 100644
+> --- a/fs/btrfs/zoned.h
+> +++ b/fs/btrfs/zoned.h
+> @@ -9,6 +9,7 @@
+>  #include "disk-io.h"
+>  #include "block-group.h"
+>  #include "btrfs_inode.h"
+> +#include "misc.h"
+> =20
+>  #define BTRFS_DEFAULT_RECLAIM_THRESH           			(75)
+> =20
+> @@ -18,7 +19,6 @@ struct btrfs_zoned_device_info {
+>  	 * zoned block device.
+>  	 */
+>  	u64 zone_size;
+> -	u8  zone_size_shift;
+>  	u32 nr_zones;
+>  	unsigned int max_active_zones;
+>  	atomic_t active_zones_left;
+> @@ -30,6 +30,36 @@ struct btrfs_zoned_device_info {
+>  	u32 sb_zone_location[BTRFS_SUPER_MIRROR_MAX];
+>  };
+> =20
+> +static inline bool btrfs_zoned_is_aligned(u64 pos, u64 zone_size)
+> +{
+> +	u64 remainder =3D 0;
+> +
+> +	if (is_power_of_two_u64(zone_size))
+> +		return IS_ALIGNED(pos, zone_size);
+> +
+> +	div64_u64_rem(pos, zone_size, &remainder);
+> +	return remainder =3D=3D 0;
+> +}
+> +
+> +static inline u64 btrfs_zoned_roundup(u64 pos, u64 zone_size)
+> +{
+> +	if (is_power_of_two_u64(zone_size))
+> +		return ALIGN(pos, zone_size);
+> +
+> +	return div64_u64(pos + zone_size - 1, zone_size) * zone_size;
+> +}
+> +
+> +static inline u64 btrfs_zoned_rounddown(u64 pos, u64 zone_size)
+> +{
+> +	u64 remainder =3D 0;
+> +	if (is_power_of_two_u64(zone_size))
+> +		return round_down(pos, zone_size);
+> +
+> +	div64_u64_rem(pos, zone_size, &remainder);
+> +	pos -=3D remainder;
+> +	return pos;
+> +}
+> +
 
-This is getting tiresome. Every driver using outb() on m68k will
-experience that "problem". As far as I can see, it is caused by
+This is just a preference, but how about naming these helpers not related
+to "zoned"? While they take "zone_size" as an argument, it does not do
+anything special on zoned things. For my preference, I would take
+btrfs_device or btrfs_zoned_device_info for "btrfs_zoned_*" function.
 
-#define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
+Actually, I was a bit confused seeing the part
+below. btrfs_zoned_is_aligned() takes "sector_t" values while the arguments
+are often byte granularity address. Yeah, actually sector_t =3D=3D u64 and =
+the
+code does not relies on the unit ... so, it is OK as long as the values are
+in the same unit.
 
-in arch/m68k/include/asm/raw_io.h. I have no idea what the
-"(void)" is for, but removing it "fixes" the problem.
-Either case, this is not a problem with the nct6775 driver,
-nor is it a new problem.
+    @@ -409,9 +409,8 @@ int btrfs_get_dev_zone_info(struct btrfs_device *de=
+vice, bool populate_cache)
+            }
+   =20
+            nr_sectors =3D bdev_nr_sectors(bdev);
+    -       zone_info->zone_size_shift =3D ilog2(zone_info->zone_size);
+    -       zone_info->nr_zones =3D nr_sectors >> ilog2(zone_sectors);
+    -       if (!IS_ALIGNED(nr_sectors, zone_sectors))
+    +       zone_info->nr_zones =3D bdev_zone_no(bdev, nr_sectors);
+    +       if (!btrfs_zoned_is_aligned(nr_sectors, zone_sectors))
+                    zone_info->nr_zones++;
+   =20
+            max_active_zones =3D bdev_max_active_zones(bdev);
 
-Guenter
+BTW, aren't these helpers used in other subsystems? Maybe adding these in
+include/linux/math64.h or so?=
 
