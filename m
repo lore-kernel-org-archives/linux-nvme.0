@@ -4,69 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF06BC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 09:20:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EB83C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 09:30:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Xey/FwjQGJmE8KAZdflykEEW2d6j0vVqybrAu+f0xz4=; b=4JuCnBsRUYldo1ranjnRDUYHL9
-	FWBl3oIzr7H5gOMTi2oI1JtGML77PKvSo5PhflCUsfcwpSDhLrwJpBRSwSHo32cDvvqKojhyN0X3M
-	S58CApxx7lpsAaaKvBMEPnBrFSv7dy1QQe8DlMW9G/qqQLJWIlYHXaq5436f5O/UQVwkomI4RyF44
-	le5/KgFqTYcOvNp0POj3YDtPRj/wWVtAjAL3rzncVMuBN0k7lmUEqttskl7ODO0dnsb2SMAOHJDYT
-	7z8XX5We0i2j7ARrtD3tO5EAHFb7JAkrny+s/+MG7QF1vQfKV5M/+cWdkhqvxX8W+WBdws/s26d7k
-	/o5KEjJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=vAZzIiKGtzLph1c5bgWAoA6BkNu+uSouEMHm/FmJjYM=; b=J+rhepKSTn3qqD
+	hJMFSSEQGyX1i4HSDxoLt3UMvljmR3ryyklN7L0X+79peM9UwFtd98yO0M1BAfpKK16jwuqUoMH/7
+	gbIjQSF8bAqAcN+H7y3Ss+h3rjdcKkGeRd7/AZRaKu3jYEx6mdKNGUyqvKGs0nK1/t/XbAoRCJx6e
+	hwS6fDxHPTmbp8ZemkQH5PoB4RsEh3YjMRgoDvgR96wjVKo7X9sZxk+OvM+IULZ5vvWuFNaNPn8dw
+	y/hU4UI3W1BSMd9j9t1cWmfGEPt1D0sy25kYdTSroo9loZ1pdrpEBJDANJ05frHnnspIBgGpTUkga
+	BjQEKTyWtpYOI4nShtSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nryoM-00BZ00-UN; Fri, 20 May 2022 09:20:42 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1nryxl-00BcRR-QZ; Fri, 20 May 2022 09:30:25 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nryoK-00BYxG-NE
- for linux-nvme@lists.infradead.org; Fri, 20 May 2022 09:20:41 +0000
-Received: by mail-wr1-f50.google.com with SMTP id t6so10649266wra.4
- for <linux-nvme@lists.infradead.org>; Fri, 20 May 2022 02:20:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Xey/FwjQGJmE8KAZdflykEEW2d6j0vVqybrAu+f0xz4=;
- b=smQQ8TmpUmJdXT0V5hQ9JFO1GffSiMdGbzBdDknybI/yqqsyQgYuV0PMJOA2HLNyq0
- 6q2qKmvOoqDKl3pW5UIJP4Tc8IYBstMXODbdI1KUlaZQwnV5Y5R8d5D1ZQ2KqbEcDRjV
- Y2F1qfKkdw5SIkx2pS5U+hSqmAOaSk+HxClwLKu4CoN8I6O/KQY9BEoRVeS6aSqzB17J
- J2XyLvLe+yKDR4pebjazM8uZ8h+Fi7jjyBSY0VHvKEFvJUiYBdeguQ0Nnqt1uA6Fu2VQ
- 3uRS5cNom4aZuyNJPPXKAgTvkjkiTW1hHCSYlGQ0nq/TZ4l5WVHgj0iwxNSW6QhDL+rG
- d+sQ==
-X-Gm-Message-State: AOAM533rV6cydTVguUfS25iJrQV+8DUgoPPX04j/ydD5uB+CukXoKbn4
- y9j6igBguFlc2ep2c5QM8/0=
-X-Google-Smtp-Source: ABdhPJxL+kxhLZxjuNsC5/zoat08IhRT0NpIACrJQemwufUPyKC3ocyF8b2fgcqvhwLh+5Hd5dtqDA==
-X-Received: by 2002:adf:f012:0:b0:20d:80e:1170 with SMTP id
- j18-20020adff012000000b0020d080e1170mr7146557wro.401.1653038437538; 
- Fri, 20 May 2022 02:20:37 -0700 (PDT)
-Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il.
- [46.117.125.14]) by smtp.gmail.com with ESMTPSA id
- bd18-20020a05600c1f1200b003973d0a78casm229846wmb.38.2022.05.20.02.20.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 02:20:37 -0700 (PDT)
-Message-ID: <64f57dcf-f3d2-d1db-782e-4f48c542754d@grimberg.me>
-Date: Fri, 20 May 2022 12:20:35 +0300
+ id 1nryxh-00BcOu-Hi
+ for linux-nvme@lists.infradead.org; Fri, 20 May 2022 09:30:24 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520093016euoutp018adccad876b5394d308ee81acb7e923c~wxjojyh4h0810108101euoutp01r
+ for <linux-nvme@lists.infradead.org>; Fri, 20 May 2022 09:30:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220520093016euoutp018adccad876b5394d308ee81acb7e923c~wxjojyh4h0810108101euoutp01r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1653039016;
+ bh=vAZzIiKGtzLph1c5bgWAoA6BkNu+uSouEMHm/FmJjYM=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=HABm8G8AlqCv+3bWkAh2iBbci9UsSVWGX3X8GFVCvEa8GWtOtHqXSQ1m02AG+g/RQ
+ 1OIkLVASdXnXNzWsfLng7G4xhZRccGRxGrS092ejlsVK49TZC7vdvpBprWjhjm42K2
+ yEQMgvJZvw5splKOtdk8D6QxI6cVKFPbDKkM5wvI=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220520093015eucas1p28fa395b4d8335a5d020fa99543301444~wxjoTWiMT1631716317eucas1p2L;
+ Fri, 20 May 2022 09:30:15 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 82.1C.09887.7AF57826; Fri, 20
+ May 2022 10:30:15 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220520093015eucas1p2dcc087b20f5173d8edfd45259c255138~wxjn0ZfEm0183701837eucas1p2F;
+ Fri, 20 May 2022 09:30:15 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220520093015eusmtrp2043f1a2f3fc4fc8ec250258aa9dbc8e3~wxjnzZXuh0483004830eusmtrp2m;
+ Fri, 20 May 2022 09:30:15 +0000 (GMT)
+X-AuditID: cbfec7f4-471ff7000000269f-f0-62875fa799e3
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 55.96.09404.7AF57826; Fri, 20
+ May 2022 10:30:15 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220520093015eusmtip137654dbfcd65cc97ccae5dbc46c28914~wxjnnPNey3102231022eusmtip1p;
+ Fri, 20 May 2022 09:30:15 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.20) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 20 May 2022 10:30:10 +0100
+Message-ID: <aee22e8a-b89b-378c-3d5b-238c1215b01d@samsung.com>
+Date: Fri, 20 May 2022 11:30:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 0/3] nvme-tcp: queue stalls under high load
+Subject: Re: [dm-devel] [PATCH v4 00/13] support non power of 2 zoned devices
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220519062617.39715-1-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220519062617.39715-1-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier.gonz@samsung.com>, Hannes Reinecke
+ <hare@suse.de>, Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Mike
+ Snitzer <snitzer@redhat.com>, Christoph Hellwig <hch@lst.de>
+CC: Luis Chamberlain <mcgrof@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+ "axboe@kernel.dk" <axboe@kernel.dk>, "pankydev8@gmail.com"
+ <pankydev8@gmail.com>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
+ "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "dsterba@suse.com"
+ <dsterba@suse.com>, "linux-btrfs@vger.kernel.org"
+ <linux-btrfs@vger.kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>, Keith Busch
+ <kbusch@kernel.org>, Adam Manzanares <a.manzanares@samsung.com>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <be429864-09cb-e3fb-2afe-46a3453c4d73@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.20]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG9957e++lpt2lZeNNnXVpYpYBlin88RoM4kbkxriwLdmymGWu
+ wA10o0X7wTaYDhY+ZjFK2QKzwADB1aGkUBuktd0QkMqksFA7+XZRGhYNoog6+Zzl4sJ/zznn
+ +Z2c581L45JVgYxWaw2cTqvKVpBCor332cB266HStLeK3HHo/MQpEi36BnHkuV8tQH/+W4gh
+ 95kKDP16/iqGpmwWHJ3ofECgZdMkhiq6/gLIMxqNhu6co5Db00cgv6uGRHW/BCk0XB4E6MJI
+ kEAlbY8BKj7xjEqSsivXLpCs0zJBsX6fkbU3HyfZi03fspdHCkj2u/6rOOssviVgZ38LkKzN
+ ESDYi9fz2Ud2OVvaWYa9Jzoo3J3BZatzOV1s4mfCrJk26vBN+JXVfEtQAH6XmkAYDZl4OFlY
+ j5uAkJYw5wBs7LVjfDEP4JC5EvDFIwCnXV7iBVI/66L4gRVAS3kt+b+ro9q0zrsA7DnbA0KI
+ iEmENYErWEgTzDZ41j2y3g+Hfaen1ta+wnwMKy39ZEhLmVRodo2vaZyJhKNTdWtLI5gyDM6V
+ rApCBc5UkfCfJ4HnNE2TTBQsPE6FgDBmH+y458d4+E1YfGmR4vVWeGmmBg/ZIaOA7QvxfJyj
+ sKW3fy0OZE4L4c+XG0jekwyDvnd5jxTe9TooXr8GV511GK/zYXB4EefZIgBPOW3rbAI82Z/N
+ e/bC0lEPxbfFcHgmnL9GDCvaq/BysM2y4SUsGxJbNgSwbAhQD4hmEMkZ9ZpMTr9Ty32p1Ks0
+ eqM2U5meo7GD53/0+op3vgNY7z5UdgGMBl0A0rgiQgQ0RWkSUYbq6zxOl3NIZ8zm9F1gM00o
+ IkXp6laVhMlUGbgvOO4wp3sxxegwWQGmSBTH59yu3TV9NGnsDBtbktzwtHHTkfS5GH/c/T5f
+ AhF/TCZ3ytSDRxwJYzubM715xVv1y/LtKXpzytzTaBMuXW1aTrr9pGWFTVY6nEPWG1E1YdXM
+ 9OaBm9KMD8jx6V174hpilN6ljP1Lsd0x82LBgd4EuT/daI3+4+3K/Ds/nEzZXSRuzPvwmNzW
+ 2rBHbq7eO3HvYPjLubafYr+ZLWmVlyV/bhzSdLet1BrkWSLTfnzB+fcO9UcR/nfSKprf6Hz1
+ 0x8luaamTb7Rx2Oz7xcMPkhdWNiyBLU5D/NTeqh9Ww6w1wYMHakex+vulnHxS5+IbuR2q2YC
+ V9wxVZMyA2X/XkHos1Q7onCdXvUf9V8ubRIEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCKsWRmVeSWpSXmKPExsVy+t/xu7rL49uTDJ6+ErFYfbefzeL32fPM
+ FnvfzWa1uPCjkcliz6JJTBYrVx9lsniyfhazRc+BDywWf7vuMVlMOnSN0WLvLW2LS49XsFvs
+ 2XuSxeLyrjlsFvOXPWW3uDHhKaPFmptPWSzaNn5ltGjt+cnuIOzx78QaNo+ds+6ye1w+W+qx
+ aVUnm8fmJfUeu282sHk0nTnK7LGz9T6rx/t9V9k81m+5yuKx+XS1x+dNch7tB7qZAnij9GyK
+ 8ktLUhUy8otLbJWiDS2M9AwtLfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DLebmQvuC5R
+ sXzifdYGxv3CXYycHBICJhIL3u9i72Lk4hASWMooMffWHjaIhIzEpysf2SFsYYk/17rA4kIC
+ HxklutrrIRp2MUpM7b/JDJLgFbCTmHP1IBOIzSKgKrF0z01GiLigxMmZT1hAbFGBCIkHu8+y
+ gtjCAr4SV6e8AYszC4hL3HoynwlkqIhAN5NE/9OjLCAOs8B0NokX366yQKxbziqx8s0SoDIO
+ DjYBLYnGTrDzOAXcJHa8vswEMUlTonX7b3YIW15i+9s5zCDlEgJKEtt+mUB8Uyvx6v5uxgmM
+ orOQ3DcLyR2zkEyahWTSAkaWVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIHJZ9uxn1t2MK58
+ 9VHvECMTB+MhRgkOZiURXsbcliQh3pTEyqrUovz4otKc1OJDjKbAQJrILCWanA9Mf3kl8YZm
+ BqaGJmaWBqaWZsZK4ryeBR2JQgLpiSWp2ampBalFMH1MHJxSDUyL1tYq7bTsea4Ye+Q965yK
+ 923SSqdqWNxb63q+1s41/hx5LurM5U0Owb/K9srfPHDhzTTTf4pCYkE57z3EtFfPCilWmLgr
+ bDb/1WePnoscaFzjrTtlGdu1+vlGl1aeWOtRN/epxXNGzbDrR2/rXe4oXZTGtNmax3yXioOr
+ +yn1CTVr736qbHQXfOdg7HFG+c+tk8eUmO/9tTvGur6+3nrddD7rm/Ne2t98KsjU4+be3vau
+ 3U9STpTzo/3My/F2sopv/+YL+37gnBwnybn5ysL1TAVm20xfT9biyZgf/enHJV9ff6MeE2HV
+ uVevSC6b12XOu2bjk2ah5Zlq4YduzWpwsX7F5F769Jn1fLUAi2QlluKMREMt5qLiRADUu03a
+ xwMAAA==
+X-CMS-MailID: 20220520093015eucas1p2dcc087b20f5173d8edfd45259c255138
+X-Msg-Generator: CA
+X-RootMTR: 20220516165418eucas1p2be592d9cd4b35f6b71d39ccbe87f3fef
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220516165418eucas1p2be592d9cd4b35f6b71d39ccbe87f3fef
+References: <CGME20220516165418eucas1p2be592d9cd4b35f6b71d39ccbe87f3fef@eucas1p2.samsung.com>
+ <20220516165416.171196-1-p.raghav@samsung.com>
+ <20220517081048.GA13947@lst.de> <YoPAnj9ufkt5nh1G@mit.edu>
+ <7f9cb19b-621b-75ea-7273-2d2769237851@opensource.wdc.com>
+ <20220519031237.sw45lvzrydrm7fpb@garbanzo>
+ <69f06f90-d31b-620b-9009-188d1d641562@opensource.wdc.com>
+ <PH0PR04MB74166C87F694B150A5AE0F009BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <4a8f0e1b-0acb-1ed4-8d7a-c9ba93fcfd02@opensource.wdc.com>
+ <16f3f9ee-7db7-2173-840c-534f67bcaf04@suse.de>
+ <20220520062720.wxdcp5lkscesppch@mpHalley-2.localdomain>
+ <be429864-09cb-e3fb-2afe-46a3453c4d73@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220520_022040_809291_9353C46C 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20220520_023022_047093_983FF033 
+X-CRM114-Status: GOOD (  29.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,23 +164,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Hi all,
+On 5/20/22 08:41, Damien Le Moal wrote:
+>>>>>
+>>>>> So what about creating a device-mapper target, that's taking npo2 drives and
+>>>>> makes them po2 drives for the FS layers? It will be very similar code to
+>>>>> dm-linear.
+>>>>
+Keith and Adam had a similar suggestion to go create a device mapper
+(dm-unholy) when we tried the po2 emulation[1].
+>>>> +1
+>>>>
+>>>> This will simplify the support for FSes, at least for the initial drop (if
+>>>> accepted).
+>>>>
+>>>> And more importantly, this will also allow addressing any potential
+>>>> problem with user space breaking because of the non power of 2 zone size.
+>>>>
+>>> Seconded (or maybe thirded).
+>>>
+>>> The changes to support npo2 in the block layer are pretty simple, and 
+>>> really I don't have an issue with those.
+>>> Then adding a device-mapper target transforming npo2 drives in po2 
+>>> block devices should be pretty trivial.
+>>>
+>>> And once that is in you can start arguing with the the FS folks on 
+>>> whether to implement it natively.
+>>>
+>>
+>> So you are suggesting adding support for !PO2 in the block layer and
+>> then a dm to present the device as a PO2 to the FS? This at least
+>> addresses the hole issue for raw zoned block devices, so it can be a
+>> first step.
 > 
-> one of our partners registered queue stalls and I/O timeouts under
-> high load. Analysis revealed that we see an extremely 'choppy' I/O
-> behaviour when running large transfers on systems on low-performance
-> links (eg 1GigE networks).
-> We had a system with 30 queues trying to transfer 128M requests; simple
-> calculation shows that transferring a _single_ request on all queues
-> will take up to 38 seconds, thereby timing out the last request before
-> it got sent.
-> As a solution I first fixed up the timeout handler to reset the timeout
-> if the request is still queued or in the process of being send. The
-> second path modifies the send path to only allow for new requests if we
-> have enough space on the TX queue, and finally break up the send loop to
-> avoid system stalls when sending large request.
+> Yes, and it also allows supporting these new !po2 devices without
+> regressions (read lack of) in the support at FS level.
+> 
+>>
+>> This said, it seems to me that the changes to the FS are not being a
+>> real issue. In fact, we are exposing some bugs while we generalize the
+>> zone size support.
+> 
+> Not arguing with that. But since we are still stabilizing btrfs ZNS
+> support, adding more code right now is a little painful.
+> 
+>>
+>> Could you point out what the challenges in btrfs are in the current
+>> patches, that it makes sense to add an extra dm layer?
+> 
+> See above. No real challenge, just needs to be done if a clear agreement
+> can be reached on zone size alignment constraints. As mentioned above, the
+> btrfs changes timing is not ideal right now though.
+> 
+> Also please do not forget applications that may expect a power of 2 zone
+> size. A dm-zsp2 would be a nice solution for these. So regardless of the
+> FS work, that new DM target will be *very* nice to have.
+> 
+>>
+>> Note that for F2FS there is no blocker. Jaegeuk picked the initial
+>> patches, and he agreed to add native support.
+> 
+> And until that is done, f2fs will not work with these new !po2 devices...
+> Having the new dm will avoid that support fragmentation which I personally
+> really dislike. With the new dm, we can keep support for *all* zoned block
+> devices, albeit needing a different setup depending on the device. That is
+> not nice at all but at least there is a way to make things work continuously.
+> 
 
-What is the average latency you are seeing with this test?
-I'm guessing more than 30 seconds :)
+I see that many people in the community feel it is better to target the
+dm layer for the initial support of npo2 devices. I can give it a shot
+and maintain a native out-of-tree support for FSs for npo2 devices and
+merge it upstream as we see fit later.
+
+[1]
+https://lore.kernel.org/all/20220311223032.GA2439@dhcp-10-100-145-180.wdc.com/
 
