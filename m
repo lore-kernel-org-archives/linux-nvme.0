@@ -4,145 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74B08C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 06:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB209C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 06:33:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NWcmjHxVvCkOxG1z+lqRA9bprQ9RJiXcv6vgQCSVJso=; b=FkJeGvF6X+eqB/BDGsxU5PFjjl
-	JEEuYiPX/afDo3scGx2eO/QOmrQxmQCGr0/0uML/Ey8YRlu66dCsBkogkUSOZDR8YXum+UqZONSin
-	o3vIQ+Qf+I4amXiHW8JOtQzG0tB0Ce7J1R5Ec/ot66uA917bOhsgtDj0ovuGLC/acjvYIQr+F2P7a
-	lPPfS8LEfqKD9Z1EvY7pMLXkZ/k7o5JkgavzhouXrXgHFq0jo4/Wt9u+fF8sA3b8pfplJcBdfyIF6
-	DxxE3jOjZRGsoL9V7oeij+KfXxxQs79ZIHM2NP8fRqBavoRqy/1h+etyXFng5Iw74IInXFZcZic8/
-	EuElxc6g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yIdItr1/0sk8Hct1nUAzdlPfadG1r1sjxjLpyY6HNY0=; b=K9uQ89nl/YAXrcfQEmtzw76Bdh
+	b6gCl7SaD0aIw+dcn94NFGqigpftD7QbMBvnFPk94foZKQ8yNP7xB+NG55nzyFTEjgCElaU0AKjdj
+	bVw4ziayaZw99pre2gdi2/S8RC8ic6x7eE7cPi83pR1U0L1nIU6Ff6k7oga5JLONUMx8ckbJ58HIf
+	c0CEgpZpRf8FFBWTgql1Az5RWOwKsahGLvM5m+WNz24AALx9AZOOioKdeU1zbNMwQr2KfNdZ1HyiI
+	ym+qu5kdp7GoZwarlrjgTZgPvp6EjSOm5DTuHUJINxPSr0x9Jlv8mi+Sy+CssGJrCVzcHz0y2gfrk
+	XGSUIkWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrw6l-00Alb3-KO; Fri, 20 May 2022 06:27:31 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1nrwCe-00An0H-Aw; Fri, 20 May 2022 06:33:36 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrw6h-00AlZH-Qz
- for linux-nvme@lists.infradead.org; Fri, 20 May 2022 06:27:29 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220520062724euoutp01bb7f02cfb5c899789dcf9db233243181~wvD_P7S5N3126031260euoutp01y
- for <linux-nvme@lists.infradead.org>; Fri, 20 May 2022 06:27:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220520062724euoutp01bb7f02cfb5c899789dcf9db233243181~wvD_P7S5N3126031260euoutp01y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1653028044;
- bh=NWcmjHxVvCkOxG1z+lqRA9bprQ9RJiXcv6vgQCSVJso=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=ZFy/4xVl3d3hjX0Z/G9HEvtfxQflLB02JHHJfq4i8Gm4jV6OlFSWAnQXo5zCtiwdP
- HmAGlJsF/MOxE7W1TQyHEtURCMu28pARFdHKn0tJ9L4VXqh4Ebf878pPcMnV6Zzbfa
- iXC6KtuFS/Z6MQcBxleS54Rq7SxzOw2f/YXOwqhY=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220520062724eucas1p214361a79ca87b367183b71a01e2378ee~wvD_AVEY92215422154eucas1p2P;
- Fri, 20 May 2022 06:27:24 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 97.F3.10260.CC437826; Fri, 20
- May 2022 07:27:24 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220520062723eucas1p240797e3e285a45576201cf785e92a677~wvD9oan6J1329813298eucas1p2g;
- Fri, 20 May 2022 06:27:23 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220520062723eusmtrp2fe5220a95ad3bee610b372f5fe699a3b~wvD9njb0S2573125731eusmtrp2f;
- Fri, 20 May 2022 06:27:23 +0000 (GMT)
-X-AuditID: cbfec7f5-bddff70000002814-7e-628734cc74ea
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id D9.62.09522.BC437826; Fri, 20
- May 2022 07:27:23 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220520062723eusmtip1533e0c66af30c7e4b73d513c38052c01~wvD9dFNwx1838918389eusmtip1j;
- Fri, 20 May 2022 06:27:23 +0000 (GMT)
-Received: from localhost (106.210.248.142) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 20 May 2022 07:27:21 +0100
-Date: Fri, 20 May 2022 08:27:20 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>, Johannes Thumshirn
- <Johannes.Thumshirn@wdc.com>, Luis Chamberlain <mcgrof@kernel.org>,
- "Theodore Ts'o" <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>, Pankaj
- Raghav <p.raghav@samsung.com>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "pankydev8@gmail.com" <pankydev8@gmail.com>, "gost.dev@samsung.com"
- <gost.dev@samsung.com>, "jiangbo.365@bytedance.com"
- <jiangbo.365@bytedance.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>, "dm-devel@redhat.com"
- <dm-devel@redhat.com>, "dsterba@suse.com" <dsterba@suse.com>,
- "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>, Jaegeuk Kim
- <jaegeuk@kernel.org>
-Subject: Re: [dm-devel] [PATCH v4 00/13] support non power of 2 zoned devices
-Message-ID: <20220520062720.wxdcp5lkscesppch@mpHalley-2.localdomain>
+ id 1nrwCb-00Amwe-4u
+ for linux-nvme@lists.infradead.org; Fri, 20 May 2022 06:33:34 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 010BD21CA9;
+ Fri, 20 May 2022 06:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653028408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yIdItr1/0sk8Hct1nUAzdlPfadG1r1sjxjLpyY6HNY0=;
+ b=lO9Rxf1icYNXycNnpBFEiQdpXvMTjhY70jO4AaDn6Vhc4k5DazzpPsKO9PcXshBeF5/mmL
+ ygo5+WzDKCp/BDi2ADlTq94VyARijKUut6GdeQysOPi09TUyXjd9q8zwCOBbSy3gruzG4h
+ seCUY9tS3S5CM4gGB69TBAtRo/rkrDI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653028408;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yIdItr1/0sk8Hct1nUAzdlPfadG1r1sjxjLpyY6HNY0=;
+ b=b8ybhCvriW2Q+mSZmTSLE1dGuhFOwU4GvFZUT7LQNHTX8adlfNTotgiZuIJtuy6LuSBmDc
+ uN9Mz2bcbpQ8HmDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93A2113A5F;
+ Fri, 20 May 2022 06:33:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4q0QIjc2h2LjGQAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 20 May 2022 06:33:27 +0000
+Message-ID: <eabd386f-9e25-b05c-654e-2b3da0217634@suse.de>
+Date: Fri, 20 May 2022 08:33:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-In-Reply-To: <16f3f9ee-7db7-2173-840c-534f67bcaf04@suse.de>
-X-Originating-IP: [106.210.248.142]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCKsWRmVeSWpSXmKPExsWy7djPc7pnTNqTDFovs1isvtvPZvH77Hlm
- i73vZrNaXPjRyGSxZ9EkJouVq48yWTxZP4vZoufABxaLv133mCz23tK2uPR4BbvFnr0nWSwu
- 75rDZjF/2VN2ixsTnjJarLn5lMWitecnu4Ogx78Ta9g8ds66y+5x+Wypx6ZVnWwem5fUe+y+
- 2cDm0XTmKLPHztb7rB7v911l81i/5SqLx+bT1R6fN8l5tB/oZgrgjeKySUnNySxLLdK3S+DK
- uPf0IXPBO5GK9+27WRoYvwp0MXJySAiYSGx+95cNxBYSWMEocXteXhcjF5D9hVHiwc17zBCJ
- z4wSh5ZbdTFygDXcvSgCUbOcUeLblV/MEA5QzcH599ggnK2MEldfXwQbyyKgKtGz8gkTiM0m
- YC9xadktsKkiAkoSH9sPsYM0MAv8YpO43f4ArEFYwF9i4q47YDavgIvEmbVnmSBsQYmTM5+w
- gNjMAlYSnR+aWEFOYhaQllj+jwMkzClgLdGy6xkLxKXKEsun+0J8WSux9tgZsFUSAs84JTZ1
- fWKCSLhI7Pp1iRHCFpZ4dXwLO4QtI/F/53yommyJi2e6mSHsEonF748xQ8y3lug7kwMRdpRo
- v7WXHSLMJ3HjrSDEkXwSk7ZNh6rmlehoE4KoVpPY0bSVcQKj8iwkb81C8tYshLcWMDKvYhRP
- LS3OTU8tNs5LLdcrTswtLs1L10vOz93ECEyIp/8d/7qDccWrj3qHGJk4GA8xSnAwK4nwMua2
- JAnxpiRWVqUW5ccXleakFh9ilOZgURLnTc7ckCgkkJ5YkpqdmlqQWgSTZeLglGpgWhM0hfv2
- /LULZOclTI2XckvavO3etZebVBW2LHC6rK+2fI/17Z7fOhcqwnfbTb1yMa5BQWi9R2z21pNu
- Z0TNIkNf3VWfG7bX/ZB/g+jHgo2nbtvvEbjSz7uiRczla3+02+ZKtT/1StNXrtkjvWPG70rr
- lCU9rlvfzvn2ZfWGu8sur+//wnXp3KQfag5TPWvz6012ME1u9Lt6tzt/sfea6GpVxzW73p3v
- 4d+ss1j/16+CqUt18xcdPRLyZFltVlOsmbP8i5dJnz+mLOHV5NfMCpf4+2GT6Oc1B4x3Z5Zq
- NQnufKq27OjhHq2nnBXPklceFVBYlRVyJOy6wfLuuzHZ8UY3+jy1LlpxBPCb3BO5JK/EUpyR
- aKjFXFScCACm8OgY9wMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42I5/e/4Xd3TJu1JBjvXaFqsvtvPZvH77Hlm
- i73vZrNaXPjRyGSxZ9EkJouVq48yWTxZP4vZoufABxaLv133mCz23tK2uPR4BbvFnr0nWSwu
- 75rDZjF/2VN2ixsTnjJarLn5lMWitecnu4Ogx78Ta9g8ds66y+5x+Wypx6ZVnWwem5fUe+y+
- 2cDm0XTmKLPHztb7rB7v911l81i/5SqLx+bT1R6fN8l5tB/oZgrgjdKzKcovLUlVyMgvLrFV
- ija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DLuPf0IXPBO5GK9+27WRoYvwp0
- MXJwSAiYSNy9KNLFyMUhJLCUUeJCw03GLkZOoLiMxKcrH9khbGGJP9e62CCKPjJKPJv/hRHC
- 2cooce9/JytIFYuAqkTPyidMIDabgL3EpWW3mEFsEQEliY/th9hBGpgFfrBJ/Dt6EmyFsICv
- xNUpb1hAbF4BF4kza88yQUzdxCKx4PlnZoiEoMTJmU/AipgFLCRmzj/PCHI3s4C0xPJ/HCBh
- TgFriZZdz1gg3lGWWD7dF+LqWolX93czTmAUnoVk0Cwkg2YhDFrAyLyKUSS1tDg3PbfYUK84
- Mbe4NC9dLzk/dxMjMD1sO/Zz8w7Gea8+6h1iZOJgPMQowcGsJMLLmNuSJMSbklhZlVqUH19U
- mpNafIjRFBgUE5mlRJPzgQkqryTe0MzA1NDEzNLA1NLMWEmc17OgI1FIID2xJDU7NbUgtQim
- j4mDU6qBiWXvbkvfKLFr03W+iKazKzXfOTdPsigvpem9dYSrpdqe1EVffCbWeApb/sm37pa+
- 5T8pROjmh/a+6LUiV7+FmnUHbfd9rd69hSWSMX3t9V8T12xNXe7Dvzv/38XnFs3sDxlUUqdl
- z+zwcntixHDjq8PC+TW2NYEWf1n4beQzwxjsfFP4Q6SS0icwfH0xz5U7X1SosivVsu1xQe7+
- Sgf+J5LvV0XYfrQRSvrh93K7gGNW+uPpQf/m3zGoXOTUbHTRJi206tr6kwfffJTxWWgf6CPx
- SJxjikOv6YQD/8WtXllmC5VyGdZ9V5Y9s09B6uh6ReGsO9nKMSIH57J/si3/uW+3201jH9Y0
- hv7iCCWW4oxEQy3mouJEAIId+h+YAwAA
-X-CMS-MailID: 20220520062723eucas1p240797e3e285a45576201cf785e92a677
-X-Msg-Generator: CA
-X-RootMTR: 20220516165418eucas1p2be592d9cd4b35f6b71d39ccbe87f3fef
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220516165418eucas1p2be592d9cd4b35f6b71d39ccbe87f3fef
-References: <CGME20220516165418eucas1p2be592d9cd4b35f6b71d39ccbe87f3fef@eucas1p2.samsung.com>
- <20220516165416.171196-1-p.raghav@samsung.com>
- <20220517081048.GA13947@lst.de> <YoPAnj9ufkt5nh1G@mit.edu>
- <7f9cb19b-621b-75ea-7273-2d2769237851@opensource.wdc.com>
- <20220519031237.sw45lvzrydrm7fpb@garbanzo>
- <69f06f90-d31b-620b-9009-188d1d641562@opensource.wdc.com>
- <PH0PR04MB74166C87F694B150A5AE0F009BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
- <4a8f0e1b-0acb-1ed4-8d7a-c9ba93fcfd02@opensource.wdc.com>
- <16f3f9ee-7db7-2173-840c-534f67bcaf04@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [linux-next] build fails modpost: "blkcg_get_fc_appid"
+ [drivers/nvme/host/nvme-fc.ko] undefined!
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Tasmiya Nalatwad <tasmiya@linux.vnet.ibm.com>,
+ linux-block <linux-block@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Abdul Haleem <abdhalee@linux.vnet.ibm.com>, sachinp@linux.vnet.com,
+ mputtash@linux.vnet.com, Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
+References: <86768c9d-9a9c-653b-ab99-86de3bc434d8@linux.vnet.ibm.com>
+ <7b16694b-0281-d06d-7564-c4f26760a25e@kernel.dk>
+ <fc5f8b96-3c93-5400-b917-a1d991cbe7c9@suse.de>
+ <900f57bc-9978-9ba6-22fb-48f03fcf5011@kernel.dk>
+ <c2d252a1-7223-4899-e5c9-e4bb27e2fc8a@kernel.dk>
+ <268233c7-88ad-6b5c-6991-e3a4f1ac2540@suse.de>
+ <6f38a339-41b5-aafe-c788-bd34a1806d52@infradead.org>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <6f38a339-41b5-aafe-c788-bd34a1806d52@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220519_232728_346652_81C68ACA 
-X-CRM114-Status: GOOD (  18.58  )
+X-CRM114-CacheID: sfid-20220519_233333_363417_02998E3C 
+X-CRM114-Status: GOOD (  13.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,68 +103,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 20.05.2022 08:07, Hannes Reinecke wrote:
->On 5/19/22 20:47, Damien Le Moal wrote:
->>On 5/19/22 16:34, Johannes Thumshirn wrote:
->>>On 19/05/2022 05:19, Damien Le Moal wrote:
->>>>On 5/19/22 12:12, Luis Chamberlain wrote:
->>>>>On Thu, May 19, 2022 at 12:08:26PM +0900, Damien Le Moal wrote:
->>>>>>On 5/18/22 00:34, Theodore Ts'o wrote:
->>>>>>>On Tue, May 17, 2022 at 10:10:48AM +0200, Christoph Hellwig wrote:
->>>>>>>>I'm a little surprised about all this activity.
->>>>>>>>
->>>>>>>>I though the conclusion at LSF/MM was that for Linux itself there
->>>>>>>>is very little benefit in supporting this scheme.  It will massively
->>>>>>>>fragment the supported based of devices and applications, while only
->>>>>>>>having the benefit of supporting some Samsung legacy devices.
->>>>>>>
->>>>>>>FWIW,
->>>>>>>
->>>>>>>That wasn't my impression from that LSF/MM session, but once the
->>>>>>>videos become available, folks can decide for themselves.
->>>>>>
->>>>>>There was no real discussion about zone size constraint on the zone
->>>>>>storage BoF. Many discussions happened in the hallway track though.
+On 5/19/22 13:02, Randy Dunlap wrote:
+> 
+> 
+> On 5/19/22 06:02, Hannes Reinecke wrote:
+>> On 5/19/22 14:42, Jens Axboe wrote:
+>>> On 5/19/22 6:40 AM, Jens Axboe wrote:
+>>>> On Thu, May 19, 2022 at 6:38 AM Hannes Reinecke <hare@suse.de> wrote:
 >>>>>
->>>>>Right so no direct clear blockers mentioned at all during the BoF.
+>>>>> On 5/19/22 14:14, Jens Axboe wrote:
+>>>>>> On 5/19/22 1:49 AM, Tasmiya Nalatwad wrote:
+>>>>>>> Greetings,
+>>>>>>>
+>>>>>>> linux-next build fails modpost: "blkcg_get_fc_appid" [drivers/nvme/host/nvme-fc.ko] undefined!
+>>>>>>>
+>>>>>>> Console Logs :
+>>>>>>>
+>>>>>>> [console-expect]#make -j 17 -s && make modules && make modules_install && make install
+>>>>>>> make -j 17 -s && make modules && make modules_install && make install
+>>>>>>> ERROR: modpost: "blkcg_get_fc_appid" [drivers/nvme/host/nvme-fc.ko] undefined!
+>>>>>>> make[1]: *** [scripts/Makefile.modpost:134: modules-only.symvers] Error 1
+>>>>>>> make: *** [Makefile:1914: modules] Error 2
+>>>>>>> make: *** Waiting for unfinished jobs....
+>>>>>>
+>>>>>> Christoph, can you fix this up?
+>>>>>>
+>>>>> Cannot reproduce with commit 21498d01d045c5b95b93e0a0625ae965b4330ebe.
+>>>>> Please share details.
 >>>>
->>>>Nor any clear OK.
+>>>> The kerneltest bot also reported this a few days ago, you might be able
+>>>> to find the details there as that includes config etc.
 >>>
->>>So what about creating a device-mapper target, that's taking npo2 drives and
->>>makes them po2 drives for the FS layers? It will be very similar code to
->>>dm-linear.
->>
->>+1
->>
->>This will simplify the support for FSes, at least for the initial drop (if
->>accepted).
->>
->>And more importantly, this will also allow addressing any potential
->>problem with user space breaking because of the non power of 2 zone size.
->>
->Seconded (or maybe thirded).
->
->The changes to support npo2 in the block layer are pretty simple, and 
->really I don't have an issue with those.
->Then adding a device-mapper target transforming npo2 drives in po2 
->block devices should be pretty trivial.
->
->And once that is in you can start arguing with the the FS folks on 
->whether to implement it natively.
->
+>>> Here: https://lore.kernel.org/linux-mm/202205190527.o9wVEvHI-lkp@intel.com/
+>>>
+>> Right. Send a patch.
+> 
+> 
+> https://lore.kernel.org/all/20220518045704.GA30131@lst.de/
+> 
+> but it needs to be sent as a formal patch.
+> 
+I am confused.
+The 'for-next' branch from Martin Petersen has the updated patch
+(827fc630e4c8 ("scsi: nvme-fc: Add new routine nvme_fc_io_getuuid()")
+but linux-next is still on the old (v1) version.
 
-So you are suggesting adding support for !PO2 in the block layer and
-then a dm to present the device as a PO2 to the FS? This at least
-addresses the hole issue for raw zoned block devices, so it can be a
-first step.
+Not sure what to do here.
+Martin?
 
-This said, it seems to me that the changes to the FS are not being a
-real issue. In fact, we are exposing some bugs while we generalize the
-zone size support.
+Cheers,
 
-Could you point out what the challenges in btrfs are in the current
-patches, that it makes sense to add an extra dm layer?
-
-Note that for F2FS there is no blocker. Jaegeuk picked the initial
-patches, and he agreed to add native support.
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
