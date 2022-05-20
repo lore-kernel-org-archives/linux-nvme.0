@@ -4,92 +4,147 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30D10C433FE
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 10:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B65A6C433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 10:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5ao3TO3fl4TQYcAvAE5Tjbx3YlGl25bmDv3Rsu9R0no=; b=AQrcxSf+c6wXNywjSNaQbcfhn9
-	A0GE8m9UQoB4KBlUOEZUBULID9ql1zJEmqoFBBCI2Answguw5C93hDTHNOORW1+mA80NnJmIgUl/V
-	DpxM8DCT8OrMdCFMsrwWjv3zdyYmpwdHjDWpQ7emd+sJleztY0gH6CYZQ3cmq58t56kCfUCdVST2V
-	vJC8Q6bS3eAKOn0lsJZ27nLTKq/5fymgHg378bVxybBP+bbmZtMOBGsG4EYoyJq6Ded+EdhLh01kv
-	Z+3pQTTaiaoVli6mpO8/XSxzVpXpUyPxcfBZasl/9QSG+Kdauuwkp5jixtIgG7FfkKTMPu3PRS88r
-	vbV/LTdw==;
+	bh=FtiPxxeAqMIydXwHrRmAPLbmQRTffpcOCZWfzxgX4dc=; b=gA9rsFYdc91A3jtbBc5bymc8sC
+	2uN0jmOeZcn2MQSDxcboT6IsN927GCnFFBS8q6i9s3eUpijqPz2odk/kFmm/1DqG+YGhm1enJLUaB
+	A9Gi9hxZqHkp//w05e2DsG8sztiTkqwwyYa2khNX5RWupAe1HGncixu8FxpOSTseH72C81qITcxNK
+	qFJe9FX5NNGvRIN+D8LneXBFvS6gHXg3TyXa1r3d+Ld5eoryNfVbT+1sfPitfFik8xA/oAf3nd3Ga
+	cWsmbKbh7dYscSf/VnQZJAlb2TjeycNxfkjRHVGTTHfRIitXVbRM5qQm8K0uMmMCkwc4CDRoRwWU9
+	I8rW3TSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nrzaZ-00Bmvz-24; Fri, 20 May 2022 10:10:31 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1nrzgE-00BpNO-7j; Fri, 20 May 2022 10:16:22 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrzaI-00Bmne-0f
- for linux-nvme@bombadil.infradead.org; Fri, 20 May 2022 10:10:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=5ao3TO3fl4TQYcAvAE5Tjbx3YlGl25bmDv3Rsu9R0no=; b=ai+Qms9ZUfaDz/KBjXUNVGizfs
- wsK4oPQ1/LRpDtDncplWV3+dbZRx2hH4p/t/Mq6k8ac03+9PqFeKZYophHHGLaLZKMx5FL3WCIIY2
- iZgqyjFGKrJM0gMQ++AYZuPSWekp+Swku+TZOex0m4bc1UrYY/ACSvagyS6Z3D9IfCT1QXL90QjvE
- CE5Cio4AWQQVXd/S6RFBC+98TXmDxtyXOixuoE/UifevTCFvohT0IFah4e0gUS+7+PAeeuQM+iFK6
- ZG+LS0UCR29veOhE7xs4EYJIk1hR2GNct/ywinb0eASKWL4DBBcQePrprn0rfAehCIFVwCou5A08/
- TDhhmC4Q==;
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by desiato.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nrzSB-002IvH-QW
- for linux-nvme@lists.infradead.org; Fri, 20 May 2022 10:01:54 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0530B21C6D;
- Fri, 20 May 2022 10:01:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1653040909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5ao3TO3fl4TQYcAvAE5Tjbx3YlGl25bmDv3Rsu9R0no=;
- b=uunM6D7ZusHbTeyrHbaaeMe46n1/g0KHTI7Msclrrt5hdeyPeNkRphsNxH2YAmT/zXM3RZ
- UCYCp0Preh1o1sNXP0a9WKq/CX7cUv3a5SF/Lx4Vgoy4Vaf3hjGygIML3JTJPxYrf4raWT
- LJLlJNsG7FqRHOqOenvcCcwr5tI/q9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1653040909;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5ao3TO3fl4TQYcAvAE5Tjbx3YlGl25bmDv3Rsu9R0no=;
- b=w1Saaw5ZEW8DgY0YUfglXp2NoRc332qH5q23z70/VbJUqNpATPUojs68BMSZi6ZprHErhx
- Ui8n6IpT3wWjSYDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA16513AF4;
- Fri, 20 May 2022 10:01:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mEMUNAxnh2KRfgAAMHmgww
- (envelope-from <hare@suse.de>); Fri, 20 May 2022 10:01:48 +0000
-Message-ID: <23ab4753-593f-e44a-b768-0c1d3682abb0@suse.de>
-Date: Fri, 20 May 2022 12:01:48 +0200
+ id 1nrzg9-00BpKk-Ux
+ for linux-nvme@lists.infradead.org; Fri, 20 May 2022 10:16:20 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520101611euoutp01c42901bc10e9fbc9a43d98ba6c915dfa~wyLu80eJF2565825658euoutp011
+ for <linux-nvme@lists.infradead.org>; Fri, 20 May 2022 10:16:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220520101611euoutp01c42901bc10e9fbc9a43d98ba6c915dfa~wyLu80eJF2565825658euoutp011
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1653041771;
+ bh=FtiPxxeAqMIydXwHrRmAPLbmQRTffpcOCZWfzxgX4dc=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=p8w4AvaX/ZMOoi/BscE+lBj8SUM629kp3LfphQqsByNMxzCX1MFzYdbgEAIJjWloV
+ XmJlA9BMt5OukJvKKJmCTOguMr8ixdMVFqYrt9KIxI4f9nj9sent7Ni3vasWvYd6nH
+ 7ZIgVzGMkpIIe5BGVbwPEfjurGtxEdSV0LXuuwZ0=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520101611eucas1p13dd922345f7e91a0211cced9694b3ca9~wyLuh2GuU0792907929eucas1p1Q;
+ Fri, 20 May 2022 10:16:11 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 07.A9.10009.B6A67826; Fri, 20
+ May 2022 11:16:11 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220520101610eucas1p1822ca6014e2a1d55ae74476f83c4de1d~wyLuEwPad0813608136eucas1p1M;
+ Fri, 20 May 2022 10:16:10 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520101610eusmtrp1b047ec44358d3e2d4b2d8fd18217aacf~wyLuDudnP3260932609eusmtrp1e;
+ Fri, 20 May 2022 10:16:10 +0000 (GMT)
+X-AuditID: cbfec7f2-e95ff70000002719-0a-62876a6b4f0d
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 76.A7.09522.A6A67826; Fri, 20
+ May 2022 11:16:10 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220520101610eusmtip1c7c8b787f20b055e8d604b8a9c64259c~wyLt1hgig2764527645eusmtip1t;
+ Fri, 20 May 2022 10:16:10 +0000 (GMT)
+Received: from localhost (106.210.248.142) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 20 May 2022 11:16:09 +0100
+Date: Fri, 20 May 2022 12:16:08 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+CC: Hannes Reinecke <hare@suse.de>, Damien Le Moal
+ <damien.lemoal@opensource.wdc.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Theodore Ts'o <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>, Pankaj Raghav
+ <p.raghav@samsung.com>, "axboe@kernel.dk" <axboe@kernel.dk>,
+ "pankydev8@gmail.com" <pankydev8@gmail.com>, "gost.dev@samsung.com"
+ <gost.dev@samsung.com>, "jiangbo.365@bytedance.com"
+ <jiangbo.365@bytedance.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "dm-devel@redhat.com"
+ <dm-devel@redhat.com>, "dsterba@suse.com" <dsterba@suse.com>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>, Jaegeuk Kim
+ <jaegeuk@kernel.org>
+Subject: Re: [dm-devel] [PATCH v4 00/13] support non power of 2 zoned devices
+Message-ID: <20220520101608.m6lngep5bvp22k6p@ArmHalley.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/3] nvme-tcp: queue stalls under high load
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220519062617.39715-1-hare@suse.de>
- <64f57dcf-f3d2-d1db-782e-4f48c542754d@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <64f57dcf-f3d2-d1db-782e-4f48c542754d@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <PH0PR04MB741634259FDCF264BF1CA7259BD39@PH0PR04MB7416.namprd04.prod.outlook.com>
+X-Originating-IP: [106.210.248.142]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAKsWRmVeSWpSXmKPExsWy7djPc7rZWe1JBi+milmsvtvPZvH77Hlm
+ i73vZrNaXPjRyGSxZ9EkJouVq48yWTxZP4vZoufABxaLv133mCz23tK2uPR4BbvFnr0nWSwu
+ 75rDZjF/2VN2ixsTnjJarLn5lMWitecnu4Ogx78Ta9g8ds66y+5x+Wypx6ZVnWwem5fUe+y+
+ 2cDm0XTmKLPHztb7rB7v911l81i/5SqLx+bT1R6fN8l5tB/oZgrgjeKySUnNySxLLdK3S+DK
+ uHnwD1vBep6KJbM+MzcwNnN1MXJySAiYSHRN+cXYxcjFISSwglHi2cKVLBDOF0aJX/OXQjmf
+ GSXWTNjKAtPSeWMJM0RiOaPEwrfTWEESYFVPHptCJLYySkx985qti5GDg0VAVeLpI22QGjYB
+ e4lLy24xg4RFBIwlfq6zBilnFnjOJrH01w92kBphAX+JibvusIHYvAK2Esd2NjBD2IISJ2c+
+ ATuCWcBKovNDEyvIHGYBaYnl/zggwvISzVtng5VzCsRKtD5ZAFYiIaAssXy6L8T5tRJrj51h
+ B1krIfCJU6L1SCMTRMJFor/3CCOELSzx6vgWdghbRuL05B6o37MlLp7pZoawSyQWvz/GDDHf
+ WqLvTA5E2FFi16T/jBBhPokbbwUhLuOTmLRtOlQ1r0RHm9AERpVZSN6aheStWQhvzULy1gJG
+ llWM4qmlxbnpqcWGeanlesWJucWleel6yfm5mxiBifL0v+OfdjDOffVR7xAjEwfjIUYJDmYl
+ EV7G3JYkId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rzJmRsShQTSE0tSs1NTC1KLYLJMHJxSDUyG
+ nEIXztz3vhu9S/FVmABz2MlOXaaDKbsD2bYtdfEyLQz+7Pr8jYyjzfrSV4J3EtXtd55n9NDU
+ vfO8svHUHd7DJTesQ3LTL05oPO3rNEdm2pwY5wrVfz+ezSwsqJoVtPvSQ+Eb8sI36367rpv8
+ OUszwsj6d2Dit5po1e1fdd88W3muat/9OW89w4RLJ+k8sHmdJ7Xp8ami/cYyvierZucv/yXk
+ JLr31ZfgH0dfrKg7+tX8RtyVDz1SeQceyhfdtOoyqTgSfL9HZ664sYjwlNYDcx7c8na996c/
+ 6UX/qYOLIz6J3+UqZbm19NkXz9kve/bsvrz2q9Ox0Pp1BxLU/9zdEOP/fN5V/ndFC2cZGxvL
+ KrEUZyQaajEXFScCAP71JLADBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDKsWRmVeSWpSXmKPExsVy+t/xu7pZWe1JBm9uGVisvtvPZvH77Hlm
+ i73vZrNaXPjRyGSxZ9EkJouVq48yWTxZP4vZoufABxaLv133mCz23tK2uPR4BbvFnr0nWSwu
+ 75rDZjF/2VN2ixsTnjJarLn5lMWitecnu4Ogx78Ta9g8ds66y+5x+Wypx6ZVnWwem5fUe+y+
+ 2cDm0XTmKLPHztb7rB7v911l81i/5SqLx+bT1R6fN8l5tB/oZgrgjdKzKcovLUlVyMgvLrFV
+ ija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DLuHnwD1vBep6KJbM+MzcwNnN1
+ MXJySAiYSHTeWMLcxcjFISSwlFHi5dU/bBAJGYlPVz6yQ9jCEn+udbFBFH1klPh7/yErhLOV
+ UeLJ/DdA7RwcLAKqEk8faYM0sAnYS1xadgssLCJgLPFznTVIObPAUzaJxR9PsIDUCAv4Slyd
+ 8gbM5hWwlTi2swHqit0sEucXLIVKCEqcnPkEzGYWsJCYOf88I8hQZgFpieX/OCDC8hLNW2cz
+ g9icArESrU8WsIKUSAgoSyyf7gtxf63Eq/u7GScwisxCMnQWkqGzEIbOQjJ0ASPLKkaR1NLi
+ 3PTcYkO94sTc4tK8dL3k/NxNjMBksu3Yz807GOe9+qh3iJGJg/EQowQHs5IIL2NuS5IQb0pi
+ ZVVqUX58UWlOavEhRlNgAE1klhJNzgems7ySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0xJLU
+ 7NTUgtQimD4mDk6pBibmupTz6mKn6297tPhpBH5z/B5ZeVtmweyHqhETZLJSC8yqVDfv77e8
+ qPJPRajC484M9dSph6Q60lb5T7zUfrWySDxlocBNE4UP4ntUFe98XbZVTeUxU2W1Bae2h4tL
+ 4FmZS1e+sP5OMuotX35x8vb4h5sufNTOy3RZffpzxfK4pIcfqm4+eJvPt2HvRP4bNXETg48a
+ uF05tK5SwKyCs5/z/aV5M/T3cm9S6xWQYq/Yta3rYnLK1gMbDPZP97/p+VDL6qmbQZxl9twD
+ cTymGg6xEdLZ7mEKRYa5McqX1rC8vPXhGvMV2eWnG1M0jEtOqE/vOCYn3LJYwWi/RLoAc+jL
+ W8mabN/MGBcbbPPfp8RSnJFoqMVcVJwIAH96gSuvAwAA
+X-CMS-MailID: 20220520101610eucas1p1822ca6014e2a1d55ae74476f83c4de1d
+X-Msg-Generator: CA
+X-RootMTR: 20220520101610eucas1p1822ca6014e2a1d55ae74476f83c4de1d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220520101610eucas1p1822ca6014e2a1d55ae74476f83c4de1d
+References: <20220517081048.GA13947@lst.de> <YoPAnj9ufkt5nh1G@mit.edu>
+ <7f9cb19b-621b-75ea-7273-2d2769237851@opensource.wdc.com>
+ <20220519031237.sw45lvzrydrm7fpb@garbanzo>
+ <69f06f90-d31b-620b-9009-188d1d641562@opensource.wdc.com>
+ <PH0PR04MB74166C87F694B150A5AE0F009BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <4a8f0e1b-0acb-1ed4-8d7a-c9ba93fcfd02@opensource.wdc.com>
+ <16f3f9ee-7db7-2173-840c-534f67bcaf04@suse.de>
+ <20220520062720.wxdcp5lkscesppch@mpHalley-2.localdomain>
+ <PH0PR04MB741634259FDCF264BF1CA7259BD39@PH0PR04MB7416.namprd04.prod.outlook.com>
+ <CGME20220520101610eucas1p1822ca6014e2a1d55ae74476f83c4de1d@eucas1p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220520_110152_269425_DDE17FBE 
-X-CRM114-Status: GOOD (  14.73  )
+X-CRM114-CacheID: sfid-20220520_031618_453821_4173C259 
+X-CRM114-Status: GOOD (  20.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,37 +159,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/20/22 11:20, Sagi Grimberg wrote:
-> 
->> Hi all,
+On 20.05.2022 09:30, Johannes Thumshirn wrote:
+>On 20/05/2022 08:27, Javier González wrote:
+>> So you are suggesting adding support for !PO2 in the block layer and
+>> then a dm to present the device as a PO2 to the FS? This at least
+>> addresses the hole issue for raw zoned block devices, so it can be a
+>> first step.
 >>
->> one of our partners registered queue stalls and I/O timeouts under
->> high load. Analysis revealed that we see an extremely 'choppy' I/O
->> behaviour when running large transfers on systems on low-performance
->> links (eg 1GigE networks).
->> We had a system with 30 queues trying to transfer 128M requests; simple
->> calculation shows that transferring a _single_ request on all queues
->> will take up to 38 seconds, thereby timing out the last request before
->> it got sent.
->> As a solution I first fixed up the timeout handler to reset the timeout
->> if the request is still queued or in the process of being send. The
->> second path modifies the send path to only allow for new requests if we
->> have enough space on the TX queue, and finally break up the send loop to
->> avoid system stalls when sending large request.
-> 
-> What is the average latency you are seeing with this test?
-> I'm guessing more than 30 seconds :)
+>> This said, it seems to me that the changes to the FS are not being a
+>> real issue. In fact, we are exposing some bugs while we generalize the
+>> zone size support.
+>>
+>> Could you point out what the challenges in btrfs are in the current
+>> patches, that it makes sense to add an extra dm layer?
+>
+>I personally don't like the padding we need to do for the super block.
+>
+>As I've pointed out to Pankaj already, I don't think it is 100% powerfail
+>safe as of now. It could probably be made, but that would also involve
+>changing non-zoned btrfs code which we try to avoid as much as we can.
+>
+>As Damien already said, we still have issues with the general zoned
+>support in btrfs, just have a look at the list of open issues [1] we
+>have.
+>
+Sounds good Johannes. I understand that the priority is to make btrfs
+stable now, before introducing more variables. Let's stick to this and
+then we can bring it back as the list of open issues becomes more
+manageable.
 
-Yes, of course. Simple maths, in the end.
-(Actually it's more as we're always triggering a reconnect cycle...)
-And telling the customer to change his testcase only helps _so_ much.
+>[1] https://protect2.fireeye.com/v1/url?k=f14a1d6f-90c10859-f14b9620-74fe485fffe0-3f1861e7739d8cc7&q=1&e=213fcc28-3f9d-41a1-b653-0dc0e203c718&u=https%3A%2F%2Fgithub.com%2Fnaota%2Flinux%2Fissues%2F
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+Thanks for sharing this too. It is a good way to where to help
 
