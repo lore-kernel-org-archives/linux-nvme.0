@@ -4,70 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFB6EC433F5
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 09:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F94AC433F5
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 May 2022 09:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+6XuX8B89xc0JK55vdXwViXJ+778e6tW8nWbKqjIrOI=; b=aruCHK2pI5Zj/K+vqAxioKbVPI
-	G/B92qA1EUd//nC1Q/pHdu73zkltWL4hXFilrYsf9KPFekWfzYh5mPnpUwXbngr6LX5OwUYd833Am
-	Aiggh0kESBQU0OO997lA2vG5naL5c5O9xCfDkfKqk4eAbyyyZTSeJUVgw52bMf09GU8ZlujQ+tEIX
-	XGAbaDc0wnTP/WZWrqKhB5e197hVhXXaFt0HkTH7K9toVnytGIn+GDStaO0rIVbL3qqAIIJ66xxUk
-	/PiGF5pX6HWSYOcAxBHcDfeNZOgscHjvufOQOYdfI2jMuTrR8P8P/Wqofe8GNTFHffs3dXvbuwsK4
-	0ITNhO1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=7sUENLoCJCYs1MSYcCbbd75YbMDrAHaelawSM1l7SHo=; b=wtfG/kTVaI760x
+	KeNoPT4tW18qUlCvpDD9bHLhaQHFJSeOW6v3lh5xAZBhIVLbL/bhc20xEjHNd+m+GjUX6+xQNDe6S
+	0cx/VHenX59k7YuYTSICvhkFZc/U56RI8bquNQYqumlY2XwyyhvXK1zSKsqKUN9y1boGW3cXhn/C0
+	MVTrBsANwyjIr0IbMPEgEeU2AczAR8NrrpkWLNTYteUwL1GMuo/37lFKWlf6kPvuli9uwNWwIkEfh
+	4ba5VBydKD+LeuTXNFx9/MRHPQQq96jwyR5tmoRxZLUeCvUCOAyMdH+IM5nOi/Bm2rwSgYVHlMtaL
+	oX+WvsRSEp4O/r2QgOLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nryZW-00BSAq-9x; Fri, 20 May 2022 09:05:22 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
+	id 1nrybF-00BSrr-Dk; Fri, 20 May 2022 09:07:09 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nryZU-00BS8V-5F
- for linux-nvme@lists.infradead.org; Fri, 20 May 2022 09:05:21 +0000
-Received: by mail-wm1-f48.google.com with SMTP id p189so4187229wmp.3
- for <linux-nvme@lists.infradead.org>; Fri, 20 May 2022 02:05:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+6XuX8B89xc0JK55vdXwViXJ+778e6tW8nWbKqjIrOI=;
- b=VIiHdd/iDhQU5hKlYHGNJVI2Z/q+MQN0x1jxEhZKC9MhDS5aho/FCUcy/Rahq7l/is
- UWqj4JTmG9e5OMCLnA424fRZR6cRzaCeI2MUmN+hAwiuczL1CBShNOH3Ey0TMBSfxWi9
- WjjoGZ3kpwYaBpKiniHwhl7Q/BGwMM/m03LayhoV7meW/UNFwaHjyRnZ/2fHvcIhMkyS
- 3ITsPayHvCDrWVcn0pRq3z/xVoR0WqGcm4gsQzOm/7dmpCMLxU3jX0/LvcKrfv4udKJC
- O7ffE0HJL/Kual6cETErzAxPWi3Nd5ZfCA2gQHt7WFRTFhYwIMv+6Yk3EWDk5BLxJUgh
- Rfeg==
-X-Gm-Message-State: AOAM531h+8NZJrNFAtHqUhZeND1rOOCzuZqxgiM3UlSi9nGW8mL/sUKM
- nW2cD7vQ07cq3VvwCezSGEg=
-X-Google-Smtp-Source: ABdhPJzz9IYVWKxLnttpoFsPkE5hPc5EAyXYYwn679BK0KidGa8TgzgddnEmZZYBV/e2ygwysLlOBg==
-X-Received: by 2002:a05:600c:4e91:b0:394:8d30:d6dd with SMTP id
- f17-20020a05600c4e9100b003948d30d6ddmr7159172wmq.21.1653037516994; 
- Fri, 20 May 2022 02:05:16 -0700 (PDT)
-Received: from [10.100.102.14] (46-117-125-14.bb.netvision.net.il.
- [46.117.125.14]) by smtp.gmail.com with ESMTPSA id
- k6-20020adfb346000000b0020c5253d8fcsm2089700wrd.72.2022.05.20.02.05.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 02:05:16 -0700 (PDT)
-Message-ID: <7827d599-7714-3947-ee24-e343e90eee6e@grimberg.me>
-Date: Fri, 20 May 2022 12:05:14 +0300
+ id 1nrybB-00BSot-CY
+ for linux-nvme@lists.infradead.org; Fri, 20 May 2022 09:07:08 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520090659euoutp01f3287c2d356bcdf6cf7ba8f402e2e682~wxPTdH20O1486114861euoutp01O
+ for <linux-nvme@lists.infradead.org>; Fri, 20 May 2022 09:06:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220520090659euoutp01f3287c2d356bcdf6cf7ba8f402e2e682~wxPTdH20O1486114861euoutp01O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1653037619;
+ bh=7sUENLoCJCYs1MSYcCbbd75YbMDrAHaelawSM1l7SHo=;
+ h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+ b=U83b2tqKHnKKza0eNrjooK0Gqmpuqkt3920Uitjbn4gdgQQdjZU7jem4VnboYRXna
+ ArdQRocEFlAEG9LIitKHQtNlq0D5G5/Ak6NfWqOGBVJb4fDDI0Upxui8KlE5l8dwMd
+ AfAQPCPWAr0TiU9OVIrPc60cAsNJb9StPy9f8Ous=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520090658eucas1p19241042c1d4d4bf5821401c597a1af02~wxPTNJ9M-0637606376eucas1p1x;
+ Fri, 20 May 2022 09:06:58 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 42.2D.10009.23A57826; Fri, 20
+ May 2022 10:06:58 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220520090658eucas1p1b33f4cb964566691674c4b015509ceec~wxPS0eI0V3138931389eucas1p1D;
+ Fri, 20 May 2022 09:06:58 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220520090658eusmtrp1fc09ac06a8697122e1bebb8cc020ff52~wxPSzj_us2148821488eusmtrp1T;
+ Fri, 20 May 2022 09:06:58 +0000 (GMT)
+X-AuditID: cbfec7f2-e7fff70000002719-2a-62875a32e7b5
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id CA.BC.09522.23A57826; Fri, 20
+ May 2022 10:06:58 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220520090658eusmtip198be26f25d7bc7783e6b666edad5d54a~wxPSqRLcC1273112731eusmtip1c;
+ Fri, 20 May 2022 09:06:58 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.20) by CAMSVWEXC01.scsc.local
+ (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 20 May 2022 10:06:56 +0100
+Message-ID: <2252c3b2-0f65-945e-dc39-c0726bce72e8@samsung.com>
+Date: Fri, 20 May 2022 11:06:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 1/3] nvme-tcp: spurious I/O timeout under high load
+Subject: Re: [PATCH v4 08/13] btrfs:zoned: make sb for npo2 zone devices
+ align with sb log offsets
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220519062617.39715-1-hare@suse.de>
- <20220519062617.39715-2-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220519062617.39715-2-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "dsterba@suse.cz"
+ <dsterba@suse.cz>
+CC: "axboe@kernel.dk" <axboe@kernel.dk>, "damien.lemoal@opensource.wdc.com"
+ <damien.lemoal@opensource.wdc.com>, "pankydev8@gmail.com"
+ <pankydev8@gmail.com>, "dsterba@suse.com" <dsterba@suse.com>, "hch@lst.de"
+ <hch@lst.de>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-btrfs@vger.kernel.org"
+ <linux-btrfs@vger.kernel.org>, "jiangbo.365@bytedance.com"
+ <jiangbo.365@bytedance.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "gost.dev@samsung.com"
+ <gost.dev@samsung.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <PH0PR04MB7416FF84CE207FEC3ED8912F9BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.20]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFKsWRmVeSWpSXmKPExsWy7djP87pGUe1JBi9uGVusvtvPZvH77Hlm
+ i73vZrNaXPjRyGSx+Pd3FouVq48yWfQc+MBi8bfrHpPF3lvaFpcer2C32LP3JIvF5V1z2Czm
+ L3vKbrHm5lMWBz6PfyfWsHnsnHWX3ePy2VKPzUvqPXbfbACKtN5n9Xi/7yqbx/otV1k8ziw4
+ wu7xeZOcR/uBbqYA7igum5TUnMyy1CJ9uwSujL9f7jMVnOKuWLbqIksD40TOLkYODgkBE4kz
+ P7O6GLk4hARWMEocOzSLDcL5wiix+PURFgjnM6PEtv/3gDKcYB3fT/2CqlrOKDHjbD8bXNXt
+ TV+YIJxdjBKTlz5mB2nhFbCTeLS1A8xmEVCVWLNwJSNEXFDi5MwnLCC2qECExLRZZ9hAjhIW
+ SJHYsbIIJMwsIC5x68l8JpCwiECUxK93ASDjmQUOs0psOnuOFSTOJqAl0djJDmJyCsRKfP/h
+ C9GpKdG6/Tc7hC0vsf3tHGaIj5Uktv0ygXilVmLtsTPsIBMlBO5xSky88Y0dIuEisX/2IyYI
+ W1ji1fEtUHEZidOTe1gg7GqJpzd+M0M0tzBK9O9czwaxwFqi70wORI2jxKVvn6H28knceCsI
+ cQ6fxKRt05knMKrOQgqGWUj+nYXkg1lIPljAyLKKUTy1tDg3PbXYMC+1XK84Mbe4NC9dLzk/
+ dxMjMPmd/nf80w7Gua8+6h1iZOJgPMQowcGsJMLLmNuSJMSbklhZlVqUH19UmpNafIhRmoNF
+ SZw3OXNDopBAemJJanZqakFqEUyWiYNTqoEpQ2Dqnx+JRanq3I1XvVZM2b/zQnodu4NsqUmX
+ XmqfK8uDX5JOAs+Vc+YemHcy2eK67v+wuSrft+w3+LvQOc6W81LyAX7tt7WnGvdwsEa8nhp7
+ KSCKYyPrcl6bQPsrUf1F/itWen26xrZJKk6Q9522cO+04ohnlis+Xg4xsXofoxSsv0Al+Yht
+ U4n5xGZL3mKOpfn7tqQ8b7FMiHm+NveK05xlEzou+27+7vRlj+mPd9+qOBx2briXzNZqe5y5
+ VHrXIxWriUKyW9Q9OrzVOgVblvmezw7xNc57w1c2kTevkd9ZfK9gyNwJXJPmxQr6yLB2hR36
+ 2ZTSV6T2carCujez14vdzwj4nPtzRtYpDSWW4oxEQy3mouJEAI6rGDvtAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnleLIzCtJLcpLzFFi42I5/e/4XV2jqPYkg7ezpC1W3+1ns/h99jyz
+ xd53s1ktLvxoZLJY/Ps7i8XK1UeZLHoOfGCx+Nt1j8li7y1ti0uPV7Bb7Nl7ksXi8q45bBbz
+ lz1lt1hz8ymLA5/HvxNr2Dx2zrrL7nH5bKnH5iX1HrtvNgBFWu+zerzfd5XNY/2WqyweZxYc
+ Yff4vEnOo/1AN1MAd5SeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpq
+ TmZZapG+XYJext8v95kKTnFXLFt1kaWBcSJnFyMnh4SAicT3U7/Yuhi5OIQEljJKzDy7hh0i
+ ISPx6cpHKFtY4s+1LjYQW0jgI6PEuhfKEA27GCUWnO8GK+IVsJN4tLUDzGYRUJVYs3AlI0Rc
+ UOLkzCcsILaoQITEg91nWUFsYYEUiUefZoPZzALiEreezGfqYuTgEBGIkvj1LgAifJhVYtcS
+ cYhdH5gkHt+axgJSwyagJdHYyQ5icgrESnz/4QtRrinRuv03O4QtL7H97RxmkBIJASWJbb9M
+ ID6plXh1fzfjBEbRWUhum4XkhllIJs1CMmkBI8sqRpHU0uLc9NxiQ73ixNzi0rx0veT83E2M
+ wJSx7djPzTsY5736qHeIkYmD8RCjBAezkggvY25LkhBvSmJlVWpRfnxRaU5q8SFGU2AATWSW
+ Ek3OByatvJJ4QzMDU0MTM0sDU0szYyVxXs+CjkQhgfTEktTs1NSC1CKYPiYOTqkGpuhgPda3
+ v54fzDnk17HzgM7sJXNPscZfP5Eh/EB7efPOEtOQn9XV1zy+fyr/d4Dr7tqTy59YC5oe+n5x
+ 9vI5OUm3eKYdkbabvm67x4Nv37ddC+lXlgp5s2ftbgPOma8zprFs0o4O3j4l9v0BJk4tywL9
+ KcdaPO+8D/khVXjqWffhv1NOhF/+J+TBrR7F/YvvIGf+Vu4HzyQcPq//kmZc03uSIaYjzDVp
+ xvu+6gm//fZ4u557nDol7bdqwr79l36u+Pax9c7igDkmMmlqVzTbZhZM/rEs8ejcjTZ/toRL
+ vzXiOi/VZqZvmV51drLJUrO3kZsu7M/mzT3r5+Zkt/VtxwJVCR37c4pTXulc82EJ29StxFKc
+ kWioxVxUnAgA6L2ujKIDAAA=
+X-CMS-MailID: 20220520090658eucas1p1b33f4cb964566691674c4b015509ceec
+X-Msg-Generator: CA
+X-RootMTR: 20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230
+References: <20220516165416.171196-1-p.raghav@samsung.com>
+ <CGME20220516165429eucas1p272c8b4325a488675f08f2d7016aa6230@eucas1p2.samsung.com>
+ <20220516165416.171196-9-p.raghav@samsung.com>
+ <20220517124257.GD18596@twin.jikos.cz>
+ <717a2c83-0678-9310-4c75-9ad5da0472f6@samsung.com>
+ <PH0PR04MB7416FF84CE207FEC3ED8912F9BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220520_020520_233897_DB6CBC3B 
-X-CRM114-Status: GOOD (  21.67  )
+X-CRM114-CacheID: sfid-20220520_020705_747017_542FD1DB 
+X-CRM114-Status: GOOD (  23.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,48 +155,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The patch title does not explain what the patch does, or what it
-fixes.
-
-> When running on slow links requests might take some time
-> for be processed, and as we always allow to queue requests
-> timeout may trigger when the requests are still queued.
-> Eg sending 128M requests over 30 queues over a 1GigE link
-> will inevitably timeout before the last request could be sent.
-> So reset the timeout if the request is still being queued
-> or if it's in the process of being sent.
-
-Maybe I'm missing something... But you are overloading so much that you
-timeout even before a command is sent out. That still does not change
-the fact that the timeout expired. Why is resetting the timer without
-taking any action the acceptable action in this case?
-
-Is this solving a bug? The fact that you get timeouts in your test
-is somewhat expected isn't it?
-
+On 5/19/22 09:57, Johannes Thumshirn wrote:
+>> Unfortunately it is not possible to just move the WP in zoned devices.
+>> The only alternative that I could use is to do write zeroes which are
+>> natively supported by some devices such as ZNS. It would be nice to know
+>> if someone had a better solution to this instead of doing write zeroes
+>> in zoned devices.
+>>
 > 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+> I have another question. In case we need to pad the sb zone with a write
+> zeros and have a power fail between the write-zeros and the regular 
+> super-block write, what happens? I know this padding is only done for the
+> backup super blocks, never the less it can happen and it can happen when
+> the primary super block is also corrupted.
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index bb67538d241b..ede76a0719a0 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -2332,6 +2332,13 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
->   		"queue %d: timeout request %#x type %d\n",
->   		nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
->   
-> +	if (!list_empty(&req->entry) || req->queue->request == req) {
-> +		dev_warn(ctrl->device,
-> +			 "queue %d: queue stall, resetting timeout\n",
-> +			 nvme_tcp_queue_id(req->queue));
-> +		return BLK_EH_RESET_TIMER;
-> +	}
-> +
->   	if (ctrl->state != NVME_CTRL_LIVE) {
->   		/*
->   		 * If we are resetting, connecting or deleting we should
-
+> AFAIU we're then trying to reach out for a backup super block, look at the
+> write pointer and it only contains zeros but no super block, as only the 
+> write-zeros has reached the device and not the super block write.
+> 
+> How is this situation handled?
+> 
+That is a very good point. I did think about this situation while adding
+padding to the mirror superblock with write zeroes. If the drive is
+**less than 4TB** and with the **primary superblock corrupted**, then it
+will be an issue with the situation you have described for npo2 drives.
+That situation is not handled here. Ofc this is not an issue when we
+have the second mirror at 4TB for bigger drives. Do you have some ideas
+in mind for this failure mode?
+> Thanks,
+> 	Johannes
 
