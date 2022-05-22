@@ -4,89 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86F46C433EF
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 May 2022 11:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC653C433F5
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 May 2022 11:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=; b=GQbGjTmZE7M9mx1/B89DAxLYxN
-	QPSxozFyEHDZcvsmHEMosZXPOjlVueW+N8W69uCOO1eaH3BNZzD8lLsemx84eDw3U0wfMdCFipeYY
-	uP6015Vg74PaOMiEtGodmDuqfdZ7OmnFNJv8WuI6OgqlW5Zup7CW9F8ITjm7T1hQTkOjTNKSe0n8v
-	ezxg9Gj1tc0oTTi7RDP+0lJfdHAV7bFCPwi1BxTc/l6mgsxammwuTMA+H883P2/C0VmJKCTucExM/
-	OJ3LMmUbcFxcsNBuzZZh09TwX7gClYLWDzPtICvzx66hlslZxtt2/abMAJY0TIzFI2u/iJEk4MZ2y
-	SfM9dpWw==;
+	bh=q121TQNH3wJUxCnXYLCMoAyw2WeUAjeGBz4QW/fe4JM=; b=43y1XmqFxOC7ZdL8kMxH3nls+O
+	WBeivWjShuLi89PatQXXS7+EA2rh248By4humSjoLHOEqr1fa5CDnHV73VgwSXHnpxuorygZUIkQa
+	+2BzmffY1BUUiAwDjVEPve6m2nsGl5/IezBWKaBA0auq0jVe81NxxDZ7dRZ9HLXjH1P8Iuzx5tT4g
+	ZYcU2W4nYJjjSSwZf4C+eL4uKiwmtiJwfzxGRjyW/K03prosnLJGGNpJy3WZAgzi1BHatxrATdE4N
+	z7JHcXKWReW3pO76kLgknj2b0xkhh3ZCwzQ5uOoTLcffvW+Af+112MT/Vw7TMitz9713bZ3b9rRxV
+	/wISdnaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nsk0a-001DMk-0P; Sun, 22 May 2022 11:44:28 +0000
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+	id 1nsk0l-001DQn-O2; Sun, 22 May 2022 11:44:39 +0000
+Received: from mail-mw2nam12on20613.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::613]
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nsk0U-001DLv-9q
- for linux-nvme@lists.infradead.org; Sun, 22 May 2022 11:44:23 +0000
-Received: by mail-ej1-x634.google.com with SMTP id jx22so9958862ejb.12
- for <linux-nvme@lists.infradead.org>; Sun, 22 May 2022 04:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=;
- b=HbiWaat1vy9fqglT1AQ5mQ5JjCpkhO+E8jnEtRhzPiif0qrvDKKdx8B95OMkJtx62f
- 50z5Sn4S5OQoHLNAGBGDcg/pM3dJVc3FeOKAJ33h9DBUzBryUmLfBVNeEMKJeo3lBUaX
- xorGA9zq+QsM0EimtbURXWG1azBOZqa655UGvWWFRHq2vv0bEgZ9hUSxdC7AyrZSM0K1
- gmpjbX5Ksc66SeqRZbC++YgqZxATC9x3cgK6OQg6EKrLFj22uin13ycLwqXmbpFKdEyk
- gTfnlwyzGuksJcevZj0OkBT28KA9vQfDd/xROApkgmO1+q7Yd8+18f+ljXPwZEs2QkaW
- cj4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=;
- b=jiU2r4ey5q9QOfqE4E4iEqiy7Q6/aeMTS8r/0xw33FdsKYO+ENxc1aZxvhsdD6FEid
- 5Sq76+1yAyxn4NlijkiOuw7AeKDo/2LGJfrIUFKKzL9oIgJ+tRWDjGaLckAjGKins01x
- nReUVffB7OcnVj06cAC73OtCmkPWqsycg/a0lJIuvddmRXT2SgDFpbCyNRTNCiqaNIU9
- QezSejy7J/vf4P4qi7PFc0ZcOfSJT4Og57Tcel/0n/pKI+Yzh6qSdWprrEasS6pw2YVA
- aHcKmzfDWdEZsOpKwBpVC7HZTQu9gp5edckyH2tqL9A2GPa3Xm/1ZtteIaKZs2Q5S1w+
- NOTA==
-X-Gm-Message-State: AOAM530vrOjaRPbGeuwN28V0VTjrAZsSirYIVGai0JPOShbwcrYyn/pe
- vFjC6znbM0T41CriXGVbJT0=
-X-Google-Smtp-Source: ABdhPJzRfCqhzI7QwnogN+fhYc0fh38naDmT7SQjDe2PeOI83f57DAXoKHZfwtI5G/K8ujCSqBK8Kw==
-X-Received: by 2002:a17:907:6d98:b0:6fe:b83f:802d with SMTP id
- sb24-20020a1709076d9800b006feb83f802dmr6984772ejc.182.1653219860369; 
- Sun, 22 May 2022 04:44:20 -0700 (PDT)
-Received: from mail (239.125-180-91.adsl-dyn.isp.belgacom.be. [91.180.125.239])
- by smtp.gmail.com with ESMTPSA id
- 5-20020a170906024500b006fe8bf56f53sm4766942ejl.43.2022.05.22.04.44.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 May 2022 04:44:19 -0700 (PDT)
-Date: Sun, 22 May 2022 13:44:18 +0200
-From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-staging@lists.linux.dev,
- "open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>,
- linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- KVM list <kvm@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-sparse@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
-Message-ID: <20220522114418.vcirenoehfx4efas@mail>
-References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
- <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
- <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
+ id 1nsk0i-001DPR-Ha
+ for linux-nvme@lists.infradead.org; Sun, 22 May 2022 11:44:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IjPRwstxQkQW/ec7Qrx8rOLwUSJjJ+YygdMfbqetsGN5SDDmLqMtOp9qje+s8U0t5fjXUNxzrDNcgWEacu2xZbafxGvrip3wYqgSXHTM5H9yBBFUPj323gp8+0Ne0DIu8YEH77++e+h1x/j360cTvVH+GBS6KAYt6jpzfGd+X5shBAbHLzfaDZMbSQWGtgfsK8KMkssT3e7nHKNvxFS1qn60fZAza0lu4qXcDbpTA4YJ6Da74w2RscArtRRfwtQ7NOV8DSXrJiABN0IKW54kkAmQX5Abllw5jRNqOohRyZrUeSObS12H+vrn9p+Ivw28IdiRyanYKGd394d3rA1SNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q121TQNH3wJUxCnXYLCMoAyw2WeUAjeGBz4QW/fe4JM=;
+ b=fwxumb56MnDNawyIot78LGOsq82nsRfvdkyAr2Ekk0wF8OJQnO2wMy/xyE/snPamPU4j+2Ez/DNoq3VVlhPMoBSZCZIgtvG3meTf0z1lncHw/SJClAvhT5tq2IXoVD+Hu8b78WMogQP5a6e15hRiy5XutoSUyJX4IXDwKON25f7HwgBYsy3tOh5DbLbYXsuGBoVqYDnm5zBNUs86KkWFv/iPFwj6dcEoy/0zOJFJHKJkoKidi6NkKKm8sGWZWAhao+wjM7+XhSdmynrTbvZNSkyuMM/Dzn3D7EPdNWZCCa88HT8Gn8+QvaLQLSGkTwry/WdGBrceBWSmjc+uVTVy1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q121TQNH3wJUxCnXYLCMoAyw2WeUAjeGBz4QW/fe4JM=;
+ b=qmsfs6nWoCNIm3s4Yp2KF1g8+xVz4BzIfSwSTVQ8j/u3o4asDEnf4+m+j1PzQ13UFge+uDr4/OlIE6RObNbjPuhNssbKaZDEU2iRdzalbV2FYi0cio06ROS18KeM0OobfSgMa5OsdbTyr4d/Pbm9ipBNod0eNUls5mdOVql65xy7oDNw6WmIicdxjzOBrF/iL7PN64BHrxmSInCyNnmMgjwNPLzOJCSjvVOX4cvwKF3nPRHCR2r98oAvr9EnSnq4aOOLeOJp4uz/BIg6REO09ezfDnsKTHgtjN5bF+hgSG+WjiYsPpZOA4OChP7WYQlA2yXxRmpc83tC3+j6LWOfLQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by IA1PR12MB6308.namprd12.prod.outlook.com (2603:10b6:208:3e4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.22; Sun, 22 May
+ 2022 11:44:30 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::b3:bdef:2db6:d64e]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::b3:bdef:2db6:d64e%8]) with mapi id 15.20.5273.022; Sun, 22 May 2022
+ 11:44:30 +0000
+Message-ID: <e13a0c12-362d-e4b6-c558-03367815264b@nvidia.com>
+Date: Sun, 22 May 2022 14:44:23 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 09/11] nvmet: Implement basic In-Band Authentication
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
+References: <20220518112234.24264-1-hare@suse.de>
+ <20220518112234.24264-10-hare@suse.de>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <20220518112234.24264-10-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0499.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1ab::18) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0195414e-a784-4e3b-4668-08da3be86e99
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6308:EE_
+X-Microsoft-Antispam-PRVS: <IA1PR12MB63085AB83D224175F7E7C77BDED59@IA1PR12MB6308.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: P6d3OuwqILN8VAeWCeI+pYDxn8tBYMvDhliSMH94cVvBDE2E0J3IB39UCiDgD5O66747dpxLglXvKZewZBVguhANN25eZ3RFhrB0TCgIhqMUWmBSjisREOLwtZ8ilOcBHeQarjopPnHjHlqI0zozwKZu62lrpKuwJIe79Htx6RbgKxI0V6kbhitqCuW4xtdxf7wSbuwGmanFkYbaub0xLRCwuxIUNJC2ZzSO8t/RE+Fsawdp+9ULxgMMZZAzirB57lkYJETIyqTPqSY1l7WXlCrSTXFyVGGQMNIlY+NWhWg7rQKpWemo1wsBqZ44hAhN/JrPm3No21/w8ByGz8hPARfQYWHKle4abqKvsezCv0z1uko4pIqrE3O8vuS98bKTGIBNAkKkbLhQFzSVwT2p8e7SSI9ugKgbCgQvPIceOWCQJ+j/Z1qqUeJmPpqu+6Oh0m9oxktc7zZStDdTgHwl2cAXsPld1Y+9SuCHoiSxqxclXQzfA6bzobvawJe1bBSoUvZv3tO7KF4TC0lYDjCXHc0TQxHNRx9LgGD3aR0MFepSLOLOTXTTo2I5FOIZthcveU6e+akKejAw4QrT83OeXigONEdiugboGxOS9QErNHd5yhHJk237V3qjwcK/yRh5ZcCFWmH/LMdRHFrHJSfRnmDrl/7/JfQzqR3yHPdbJzoRlV42TaPwLewCQi7z28JjSk26FbePi6QOZdDxTXPh0CYQLOZ+pmMzyR3pNtwVS7Eb1qG5YRiL2HYTEW2crWHa
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5040.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(26005)(6512007)(2616005)(83380400001)(6506007)(36756003)(4326008)(8676002)(66476007)(66556008)(66946007)(31686004)(53546011)(508600001)(6486002)(6666004)(186003)(54906003)(110136005)(316002)(2906002)(38100700002)(86362001)(31696002)(5660300002)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bGQvTmpLaWhBVEczZlRCaFp1MURlR3RTb2k0MTl2MDFEeVdGYWxvZklzbldv?=
+ =?utf-8?B?Z3ovTUFpQmtLaUkvM2pXc1FlUENXOEVJMjU4RzFSeVNlQVI4REVWdURXSnZJ?=
+ =?utf-8?B?UHROM1pzSVpuT0Q4R0pGN2dyQ3RFc0YxbWRabHJBMW9KVGR5VkU2QVVHRHUv?=
+ =?utf-8?B?Ly9OSVpTMVBsUHpRZkVDc0N5L2M0MWpqdk1xbUlMODR3QXZaYllSeWFlV0ly?=
+ =?utf-8?B?VG9WSVZBYnA3WFNPZjBtdklldkduVS9Hb2x5d1Vxcjg3OFpqNkNwYjg2Z20y?=
+ =?utf-8?B?UW00bTRHa2czWllOOUg0U1Zyc3NuVHFoYkZTUjMrbGNlL3BPcGpMTmFvWnBL?=
+ =?utf-8?B?SWFmdHVzYW1ickVHYUV2c1NHOEZTVVFnckRIdkNhWUd3OSt2SFAzeGZ6S2Iz?=
+ =?utf-8?B?aDRrUlhNViswYmdtNUo0UUp1cVVmRDVxN1pDNm5TWi9CRW8rZm9wc0dQdEJG?=
+ =?utf-8?B?amMrN25pb1U1N0Z3MXpUOHVQTzVDTDdUMmRYbTQyMUtzREhSYnErRmwyMXkr?=
+ =?utf-8?B?UWZlZ2VNNW15bFF3b2UxVWdXQmY3SEQ4UFZDaHZWb3ZJSEpYa3BOZHlIdlhv?=
+ =?utf-8?B?bG0xeElBWk9Oa050ajdiTDBGZVdnUUJmbnBtUzdSbXhGREtPM21PWWFON3My?=
+ =?utf-8?B?YW5ieEZWY0JldDNRdkhSSUhPZDM2dnJ2RGdzZ3dPMEFIQy9LSXhqeEIxS25r?=
+ =?utf-8?B?cUVBcEp2N0NVTy9uOFVDVVVKclVwWTFHWGlqSG1aOWRHMk96bHFhZ01IQ0NZ?=
+ =?utf-8?B?bkErRDFZSWc0a1F1d0dYYVdXc1czQkhRODFhWnhEbGxDa09oNnVPd2J1b001?=
+ =?utf-8?B?eC9oK251RzIrYXp5VUw4ZEl0UlhyQnhZR21vK1kzTWptaysvSmdPZFZBa0Yz?=
+ =?utf-8?B?Vm90R05pNkI3MExmemd0N0krdEM3N2F3SnhtdFh2SUM3LzFZYWswTUtuVjlR?=
+ =?utf-8?B?MTFGQjRTMDlpTXBOOUtCUXJPYStKcjZPVVR5Qk9KOWJza1N4ZENyY2VIQlp4?=
+ =?utf-8?B?T1lvWURKV3lJVDhoNFNEbmNtTEIvaDNBTVZPVXZaMnVmYzF0cWF0eGFBQmQr?=
+ =?utf-8?B?U0ROMElZOW5pZGtDMXZOQ0VsRDdXa1JUbHdPZHEzcWFKQkFtTUlBUXgvTVlW?=
+ =?utf-8?B?T01PVEtVSlJtYldheHZ0TzV5SnZmaEFHMU0xbnBCM3V3aER1ZnRjOUN1R25B?=
+ =?utf-8?B?eDRvMlR1RzF5UmtzWUMweXdUY3Rka0l4dEQxeUFmVjQyclVtcjF4dnBhTTVw?=
+ =?utf-8?B?TGZ6b3lzT1ZVMkw4eVFDVjZpb0dYeEpCbjI1OTZwRE9QcEpBazNkZkF2T2FT?=
+ =?utf-8?B?bHQ3blplcjYyd3NLVWt0clU2VzBGYUcyb0NSM1V2RWlUbkpENXNYcmMrbStU?=
+ =?utf-8?B?SElDeVE5UHBqa0R4dldxSGtrTElmM0ZQTG1LdGJBTUZTbFBpZmtUZHhsOUlH?=
+ =?utf-8?B?UGhrMzE4SjVZbUpBNC9aOXVkSU1qc0ZYbG43elh5MHpqelU5dU01d2xOYXlO?=
+ =?utf-8?B?aHA5cjh0S0VmbVYxZWVRZ1IrNEdWWThITGRBN0JSVlJleWU0Y3gyck9nOTJa?=
+ =?utf-8?B?a2VucFFMZjI5YjdITU9RVWRIejNjck9oeXE1SjJ3RDNpNVA3ZStwZWVrRTBl?=
+ =?utf-8?B?NDRMZVhzY1pmZ1A5YjBPd0lRNWN4d0piQWR6YS9IR2FhQXdnbWVaaHRXNzB1?=
+ =?utf-8?B?czI1RjRIb1pSV2t1WmtGbncxcVA2ZTZrK29scXNvYXR4WmVIMXJocHd3V2N5?=
+ =?utf-8?B?TTZHZ3VBRWVmcG16ZVJZVXVoUUxpOWpuSTdmV0xkR2gyQTI3TGN4RFhYRkZy?=
+ =?utf-8?B?SE5VcGpOZkFNRTJYV0RqcC9ucVRNckVWTURiUUkzUDJFd1FLY3d1NDhEZUh5?=
+ =?utf-8?B?THVDZjZpbnQ1UCtTOFdMK2h6ZWRLOWtrUm4wVjFUS3phTlkybjRWOWtPYXRT?=
+ =?utf-8?B?Q2tyVm1Lek9EdTBNT0lBNHZzNmR2WmkrWDUza0RoNm9mTjgxQUJra3lIY0o0?=
+ =?utf-8?B?U3B2QTlwUnUrcVVESHJ3NEVLajBEaXdxWUJLKzNjV3RrMWJkR3k0dDdaaXhw?=
+ =?utf-8?B?dklwZVVkMnhlOEp2b3Ftd2F1RXM1NU81VXA4Q0NkWXFwZkJkSi9BZmRHcXZv?=
+ =?utf-8?B?Q2U0T1Vwc2c2RGVDZ2sxVkNSa3R3ZWN1QzlsYW9GYk9VSVcraEdET2Iwelg3?=
+ =?utf-8?B?dm10RFFPRElTYUZRcVJ5L1JNZEdZUldJRHNyNU5NMDRBWVVndm1wTUVzenRk?=
+ =?utf-8?B?SDJnbmRtQXE5Q1drcjFEMmlsSnlvTmVrK1ptVnJTbVFVdEpNRkRoZXJyNmhz?=
+ =?utf-8?B?cFRsb3lXOVJXdDFKdExQS1lxTmRNZ2tZVnNCNG82M2JzaEJDZjE0K2IvZG51?=
+ =?utf-8?Q?DgB2dnrSSpOdB6Zk=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0195414e-a784-4e3b-4668-08da3be86e99
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2022 11:44:30.4086 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YD5P1NKWAJ7HCawFyQmUbhOyjw+h4sss/wlDZrhtjsRpRTvOPtEMpK4r3son44Om3L0p1VS/RzlTj8lLZKYPgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6308
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220522_044422_405959_A7341208 
-X-CRM114-Status: GOOD (  25.01  )
+X-CRM114-CacheID: sfid-20220522_044436_638930_F886C7A1 
+X-CRM114-Status: GOOD (  19.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,94 +152,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 20, 2022 at 02:40:20PM +0200, Geert Uytterhoeven wrote:
-> Hi Günter
-> 
-> On Thu, May 19, 2022 at 8:48 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> > This is getting tiresome. Every driver using outb() on m68k will
-> > experience that "problem". As far as I can see, it is caused by
-> >
-> > #define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
+Hi Hannes,
 
-Not directly related to the root cause but the cast on the LHS is over-complex.
-*) If the types are correct, 'addr' should always be a 'u8 __iomem *'. Casting
-   it to an unsigned long will throw away all type checking: pointers of
-   any size, of any address space, any kind of integer, any scalar value will
-   be silently be accepted.
-*) Then, when casting an integer to a pointer '__force' is unneeded because
-   it's meaningless (because the integer has no type info about the pointee).
+On 5/18/2022 2:22 PM, Hannes Reinecke wrote:
+> Implement NVMe-oF In-Band authentication according to NVMe TPAR 8006.
+> This patch adds three additional configfs entries 'dhchap_key',
+> 'dhchap_ctrl_key', and 'dhchap_hash' to the 'host' configfs directory.
+> The 'dhchap_key' and 'dhchap_ctrl_key' entries need to be in the ASCII
+> format as specified in NVMe Base Specification v2.0 section 8.13.5.8
+> 'Secret representation'.
+> 'dhchap_hash' defaults to 'hmac(sha256)', and can be written to to
+> switch to a different HMAC algorithm.
+>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/target/Kconfig            |  12 +
+>   drivers/nvme/target/Makefile           |   1 +
+>   drivers/nvme/target/admin-cmd.c        |   2 +
+>   drivers/nvme/target/auth.c             | 367 ++++++++++++++++++
+>   drivers/nvme/target/configfs.c         | 107 +++++-
+>   drivers/nvme/target/core.c             |  11 +
+>   drivers/nvme/target/fabrics-cmd-auth.c | 491 +++++++++++++++++++++++++
+>   drivers/nvme/target/fabrics-cmd.c      |  38 +-
+>   drivers/nvme/target/nvmet.h            |  62 ++++
+>   9 files changed, 1088 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/nvme/target/auth.c
+>   create mode 100644 drivers/nvme/target/fabrics-cmd-auth.c
+>
+> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+> index 973561c93888..e569319be679 100644
+> --- a/drivers/nvme/target/Kconfig
+> +++ b/drivers/nvme/target/Kconfig
+> @@ -83,3 +83,15 @@ config NVME_TARGET_TCP
+>   	  devices over TCP.
+>   
+>   	  If unsure, say N.
+> +
+> +config NVME_TARGET_AUTH
+> +	bool "NVMe over Fabrics In-band Authentication support"
+> +	depends on NVME_TARGET
+> +	depends on NVME_AUTH
+> +	select CRYPTO_HMAC
+> +	select CRYPTO_SHA256
+> +	select CRYPTO_SHA512
+> +	help
+> +	  This enables support for NVMe over Fabrics In-band Authentication
+> +
+> +	  If unsure, say N.
+> diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
+> index 9837e580fa7e..c66820102493 100644
+> --- a/drivers/nvme/target/Makefile
+> +++ b/drivers/nvme/target/Makefile
+> @@ -13,6 +13,7 @@ nvmet-y		+= core.o configfs.o admin-cmd.o fabrics-cmd.o \
+>   			discovery.o io-cmd-file.o io-cmd-bdev.o
+>   nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)	+= passthru.o
+>   nvmet-$(CONFIG_BLK_DEV_ZONED)		+= zns.o
+> +nvmet-$(CONFIG_NVME_TARGET_AUTH)	+= fabrics-cmd-auth.o auth.o
+>   nvme-loop-y	+= loop.o
+>   nvmet-rdma-y	+= rdma.o
+>   nvmet-fc-y	+= fc.o
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 31df40ac828f..fc8a957fad0a 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -1018,6 +1018,8 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+>   
+>   	if (nvme_is_fabrics(cmd))
+>   		return nvmet_parse_fabrics_admin_cmd(req);
+> +	if (unlikely(!nvmet_check_auth_status(req)))
+> +		return NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+>   	if (nvmet_is_disc_subsys(nvmet_req_subsys(req)))
+>   		return nvmet_parse_discovery_cmd(req);
+>   
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> new file mode 100644
+> index 000000000000..003c0faad7ff
+> --- /dev/null
+> +++ b/drivers/nvme/target/auth.c
+> @@ -0,0 +1,367 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * NVMe over Fabrics DH-HMAC-CHAP authentication.
+> + * Copyright (c) 2020 Hannes Reinecke, SUSE Software Solutions.
+> + * All rights reserved.
+> + */
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/slab.h>
+> +#include <linux/err.h>
+> +#include <crypto/hash.h>
+> +#include <linux/crc32.h>
+> +#include <linux/base64.h>
+> +#include <linux/ctype.h>
+> +#include <linux/random.h>
+> +#include <asm/unaligned.h>
+> +
+> +#include "nvmet.h"
+> +#include "../host/auth.h"
 
-The most correct way to write the above would be:
-	static inline void out_8(u8 __iomem *addr, ... b)
-	{
-		*((__force volatile u8 *)addr) = b;
-	}
-this way, you can typecheck 'addr' (but maybe it's the idea/the argument is
-not always type clean?).
-Otherwise, if the cast to unsigned long is kept, '__force' can be removed.
- 
-> 
-> Indeed.
-> 
-> For the sparse people:
-> 
-> The full error is:
-> 
->         drivers/net/appletalk/cops.c:382:17: error: incompatible types
-> in conditional expression (different base types):
->         drivers/net/appletalk/cops.c:382:17:    unsigned char
->         drivers/net/appletalk/cops.c:382:17:    void
-> 
-> Basically, sparse doesn't like "a ? b : c", if the return types of
-> b and c don't match, even if the resulting value is not used.
+maybe we can put the common stuff to include/linux/nvme-auth.h instead 
+of doing ../host/auth.h ?
 
-Well, you know that the motivation for sparse was to be stricter than GCC.
-In this case it's simply what is required by the standard:
-	    
-    n1570 (C11) 6.5.15
-	One of the following shall hold for the second and third operands:
-	— both operands have arithmetic type;
-	— both operands have the same structure or union type;
-	— both operands have void type;
-	— both operands are pointers to qualified or unqualified versions
-          of compatible types;
-	— one operand is a pointer and the other is a null pointer constant; or
-	— one operand is a pointer to an object type and the other is a
-          pointer to a qualified or unqualified version of void.
 
-Also, yes, the type checking is independent from the fact of being used
-or not (because the type of an expression must be know before any kind
-of processing can be done on its value).
-
-> E.g. outb() on m68k:
-> 
->     #define outb(val, port) (((port) < 1024 && ISA_TYPE ==
-> ISA_TYPE_ENEC) ? isa_rom_outb((val), (port)) : isa_outb((val),
-> (port)))
-> 
-> where isa_rom_outb() leads to rom_out_8() returning u8, while
-> isa_outb() leads to the out_8() that includes the cast to void.
-> 
-> So the best solution seems to be to add more "(void)" casts, to e.g.
-> rom_out_8() and friends?
-
-I kinda think so, yes (I suppose that rom_out_8() is never used as
-returning a non-void value). But in truth, I think it's the excessive use
-of relatively complex macros that is the real problem (an using a conditional
-expression not for its value but for its side-effects). Can't outb() be
-written as something like:
-	static inline void outb(....) {
-		if (port < 1024 && ISA_TYPE == ISA_TYPE_ENEC)
-			isa_rom_outb(val, port);
-		else
-			isa_outb(val, port);
-	}
-
-With this you have better type checking, no trickery, no need for extra
-casts, no problems with double evaluation, it's more readable (to me), ...
-But yes, I suppose it's not really simple to convert all this. Sorry for
-no being more helpful.
-
-Best regards,
--- Luc
 
