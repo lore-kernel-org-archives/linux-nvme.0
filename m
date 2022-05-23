@@ -4,153 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1154C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 May 2022 09:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2715C433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 May 2022 09:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Xt3i2bDFzBoorS3pe19S78Qefpbzo5XCAIUGcGfIhmU=; b=Y4isJOyAejJOI/
-	futaKTsEJqazBw7sFebCxmkMQHh7h/4WsfOXd+HYEN2ZExnhrnMYxOT7sCq8aypMiFGpLDZNvmG7k
-	aop4qUbrppvOWoUKCsKGfD1BG8UUJ4pTQjsOtJ/5JBl3JqLBnmjHHo57XNU4XI9odmor854vJLdAD
-	O37BM8IrNDcMQFmOm0mXaQHzkK9nzDPrn3RtxLuWW3rgebA2BD6aSe45T7AVWsknVRhCU31kCnh/e
-	6tudbtumvGpmKkMO9coVhjHnjjGfw1jNED3Lgac8/fzy6NidosKsqCdk8fGI9e2q6sd3Kedk4WGyi
-	yrJzKCzagjdCWcV8Stxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bxNLCPDxsf4KmuDQOamyF/4TV9C2f2azPeFqk5iLLqE=; b=epZrnC8aKvo2JCOsk+FKiwtCFW
+	9FTEBNoX5yRvBuHKV05xjXG1XhyOMRIeFltHiEY7B6ndmDI1FHL4SUcrdgyqWt71VH8C4Xhz3LhP4
+	r0BOMK8g5VBBTTnWAFVOHag60mSR0Y4J0xUrpmo6ZwG6o1XuZw7WCSW7VawqKaB9eZGK7R0XvFL1R
+	2hHxghUm6oO4ANf+TMIqz26U14r7Nfvi2Vrmxgb383dLjpF4WT0NIPFUd+DD/fAYLoWnO4upyCvNC
+	qX/JKDY0U4FCJHfVNAq83MktPFcoHhNDK2PxR6GNIcVx5C8jpqSWeC29JbPcTW3fj6wwxlackupN4
+	8jw2nBbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nt4B1-002lfv-2m; Mon, 23 May 2022 09:16:35 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1nt4NN-002qhb-PT; Mon, 23 May 2022 09:29:21 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nt3Ng-002PvL-Lc
- for linux-nvme@lists.infradead.org; Mon, 23 May 2022 08:25:39 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220523082529euoutp02ad8749f27e87a8910ddd51ff765e7843~xrm7pix-d1587715877euoutp02R
- for <linux-nvme@lists.infradead.org>; Mon, 23 May 2022 08:25:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220523082529euoutp02ad8749f27e87a8910ddd51ff765e7843~xrm7pix-d1587715877euoutp02R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1653294329;
- bh=Xt3i2bDFzBoorS3pe19S78Qefpbzo5XCAIUGcGfIhmU=;
- h=Date:Subject:To:From:In-Reply-To:References:From;
- b=pbZxOALzpbvOAVqWm2uE0bAuZIH+KJzmehFyc2QnKErw7ZsOgIqtZ1fu+S22Sb4bo
- VGjILQ+5ju1nd2mbjZNLkKjtBD5NRikIopIvgzSNfMW13PkaOWbSwDzbGKgjD6DhCV
- AN9vrskz6I5W3PQqxeJDEAs5zK0cizli6jvHPkSc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220523082529eucas1p16589ffdf204dbfad55d0aefbf2f68dc4~xrm7SFYkL1415614156eucas1p1n;
- Mon, 23 May 2022 08:25:29 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id AD.47.10260.9F44B826; Mon, 23
- May 2022 09:25:29 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220523082528eucas1p154de304dc76b15b99d571399400530f3~xrm6ymVAt2444124441eucas1p1a;
- Mon, 23 May 2022 08:25:28 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220523082528eusmtrp2fe33f2de7b5f28c5c3c8fa8198f3e58b~xrm6xlJgz1491314913eusmtrp2F;
- Mon, 23 May 2022 08:25:28 +0000 (GMT)
-X-AuditID: cbfec7f5-bddff70000002814-7d-628b44f9a9ab
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 1B.D1.09522.8F44B826; Mon, 23
- May 2022 09:25:28 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220523082528eusmtip137c716859f4c05ff6297ff5668064f79~xrm6ktjUt2896028960eusmtip1F;
- Mon, 23 May 2022 08:25:28 +0000 (GMT)
-Received: from [106.110.32.130] (106.110.32.130) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 23 May 2022 09:25:23 +0100
-Message-ID: <43bac47d-5ef6-2b6c-e747-58e5a2fb7b52@samsung.com>
-Date: Mon, 23 May 2022 10:25:22 +0200
+ id 1nt3eN-002WY2-0H
+ for linux-nvme@lists.infradead.org; Mon, 23 May 2022 08:42:52 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B6C9421A1F;
+ Mon, 23 May 2022 08:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653295366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bxNLCPDxsf4KmuDQOamyF/4TV9C2f2azPeFqk5iLLqE=;
+ b=o9TlpAIEL+dVG/ucPgtunKxpluqwWKDmqPKlRtScAlw3HrOx2OH9jPTGG4bWhTh6JV8ekX
+ df7H0Ht8cDI0nQGROvqQmRyLdvso3qEsv+mNKmAG5ImkYUHh/XTAFwM+YMyyz+kLRFpsR2
+ BxxLdfRW98pzNcjLFYn5nORvogvU1so=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653295366;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bxNLCPDxsf4KmuDQOamyF/4TV9C2f2azPeFqk5iLLqE=;
+ b=i7ClTofkq30GIoq/1r1LKrxue5xC5MixqSCm8gyFxAMwaP81o0sZM5S8LacM5fhPTe1n0L
+ /Ho79zp06myHiaCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 850CC13AF4;
+ Mon, 23 May 2022 08:42:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id USbSHAZJi2JTSgAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 23 May 2022 08:42:46 +0000
+Message-ID: <96a3315f-43a4-efe6-1f37-0552d66dbd85@suse.de>
+Date: Mon, 23 May 2022 10:42:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [dm-devel] [PATCH v4 00/13] support non power of 2 zoned devices
+ Thunderbird/91.4.0
 Content-Language: en-US
-To: <dsterba@suse.cz>, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier.gonz@samsung.com>, Hannes Reinecke
- <hare@suse.de>, Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Mike
- Snitzer <snitzer@redhat.com>, Christoph Hellwig <hch@lst.de>, Luis
- Chamberlain <mcgrof@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
- "axboe@kernel.dk" <axboe@kernel.dk>, "pankydev8@gmail.com"
- <pankydev8@gmail.com>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
- "jiangbo.365@bytedance.com" <jiangbo.365@bytedance.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "dm-devel@redhat.com" <dm-devel@redhat.com>, "dsterba@suse.com"
- <dsterba@suse.com>, "linux-btrfs@vger.kernel.org"
- <linux-btrfs@vger.kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>, Keith Busch
- <kbusch@kernel.org>, Adam Manzanares <a.manzanares@samsung.com>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20220520171830.GR18596@twin.jikos.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.110.32.130]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xbVRzHPbeXey+NhbuC4YSxqnXOiFpqIMtJ9tB1GK5PmBofxMjuypU1
- K2VpV3yQRZiWt8BKgllhlDDdsN1ESwF5TVYpjNC6aWEryMbMYI/ihgiMlQq49m6G/z6/8/t+
- c77fk0MJxEVELKXSHOC0GlYtJYR4W7//3HP+5LI98qPjBLJeqiRQwH1OgHpu14ah83cLMHQs
- sIij7kYjhr6zOjE02WwSoPLev3G0XHoZQ0bHBYB6xp5Bv19tIlF3zyCOPJ11BDIfnyKRt2oK
- oJOjUzgq/HEBIEO5n3wxmlk5e5JgOkyXSMbj1jM2SwnBtHzzOdM1mk8wh1xOAdNhmAhjZk6P
- EEyzfQRnXA19JNMylMfM2SRMUW8ZlhaRLtyayalVuZw2Yftu4V6v5xDYb8Q/mXGcCMsHxwSl
- IJyCdBI0X5vES4GQEtNNAN6x+jF+mAdwZtQcxg9zAJ6Z7sEfWFar/yX4xQkAb7prif9VluVV
- kh+6AJydrQlZRPR2aJswEEHG6SehvaKY4M/XwcEjkyHNI/R7sMbkCp1H0anwcOd4iAV0DByb
- NIdCRdOtFDzfVn3vBooi6HhYUEIGNeF0Irx85SrJ65+GhvbAfX4Utt+qEwTlkJbCWo+Mb3AQ
- nup3hXJC+ogQmk934bwmGfbVR/KaKOgbsJM8x8HVjmCEIOfBKW9AwHu/BLCyo5ngvVtghUvN
- 4w5Y4NzFYwT03lrHh4mAxrav74cRweJCcRXYaFrzDKY1dU1rqpjWVGkAuAXEcHpddhanS9Rw
- H8t0bLZOr8mSKXOybeDeXx1aGVj4CTT5ZmUOgFHAASAlkEaL2tniPWJRJvvpZ5w2J0OrV3M6
- B1hP4dIYkVL1Ayums9gD3D6O289pH2wxKjw2HzMoMi+Ul2iM7upX0x7u9n7R+tjC7jnJ98Nx
- yhtv/jkY7yl4Ac4ffv8lyZZtVUs+e/1D/fa4LDixil3Ji60Fv+0cWOp+x9t7UaV+vGR69on1
- 9b4PkpMWG1ZsAXbDrkLwbq5s5PpMZ0oGWdmfUHNcuWKR30j9ZXORzbIvY975lPG1zXfdMuWO
- wVSV9Lr7muLlXO/trz5K23hzvMI3YZSnWH9NX8xpbmwcfns5SZstCf/DZrRfvKNjWvuc3NlM
- keLZKGyo7pV5xwbVwb/Gf27Vp06/Jdw0lPLPGC45sy1yk/DoG5HTO7fKxz70JyhfbymzwsXK
- JaX8VP6wIrExQVE5zH6rTJfiur3s8/ECrY79Dy66qUsaBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIKsWRmVeSWpSXmKPExsVy+t/xu7o/XLqTDC5+UrRYfbefzeL32fPM
- FnvfzWa1uPCjkcli8e/vLBZ7Fk1isli5+iiTxZP1s5gteg58YLH423WPyWLSoWuMFntvaVtc
- eryC3WLP3pMsFpd3zWGzmL/sKbvFjQlPGS3W3HzKYtG28SujRWvPT3YHEY9/J9aweeycdZfd
- 4/LZUo9NqzrZPDYvqffYfbOBzaPpzFFmj52t91k93u+7yuaxfstVFo8zC46we2w+Xe3xeZOc
- R/uBbqYAvig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9
- uwS9jBuXmxgLJrFUvD+0nLWBcTFzFyMnh4SAicT/yX/Yuhi5OIQEljJKzDp1jBEiISPx6cpH
- dghbWOLPtS6ooo+MEvumHmUCSQgJ7GaU6FshB2LzCthJbLrfygZiswioSmzp62CDiAtKnJz5
- hAXEFhWIkHiw+ywriC0s4CtxdcobsDizgLjErSfzmUAWiAhs5pD49W8Z1IItrBIvX+Z1MXJw
- sAloSTR2gh3EKWAsce/BY3aIXk2J1u2/oWx5ie1v5zCDlEsIKEnMvqwHcX+txKv7uxknMIrM
- QnLRLCSbZyGZNAvJpAWMLKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzEC0862Yz8372Cc9+qj
- 3iFGJg7GQ4wSHMxKIrzbEzuShHhTEiurUovy44tKc1KLDzGaAoNlIrOUaHI+MPHllcQbmhmY
- GpqYWRqYWpoZK4nzehZ0JAoJpCeWpGanphakFsH0MXFwSjUwxe17x7rj/5vnH5fG9B80T49V
- MX0zYfXp/e7Bs+y9lk3//vFU8l+WfX2xZ5cvPV76p0pb99ieS9pTK38pezHJfV4YuKl8lXPj
- UxvbjE7NCtU5/9s37jL5mLR+SkcRr7Be/6Pv1h/k4yX/Lj0VL+pjvH3jzSaNWJ7Vs6cv+HH4
- 4dVLiy/k5Tg9mZKm9+ZoZPCZSC/bB3/NZZ4miFUeO9xafesCa9CrugdLTgdu+WrI1TLjUvEU
- jeyNte2OH1kZlrOv22NxScJ+tsoXIW/1jfv0Vvkosf/kjt0uf/S5+g7fAG77HXp+KbP3PKuN
- 2LaRa9euN/eMH308WmH35q2Ixc+Atk7ul4ey6xwZTU5+PX2wTkOJpTgj0VCLuag4EQB2tdxI
- xAMAAA==
-X-CMS-MailID: 20220523082528eucas1p154de304dc76b15b99d571399400530f3
-X-Msg-Generator: CA
-X-RootMTR: 20220520172257eucas1p1b94b150d71352587ced5d46b8c3f3537
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220520172257eucas1p1b94b150d71352587ced5d46b8c3f3537
-References: <YoPAnj9ufkt5nh1G@mit.edu>
- <7f9cb19b-621b-75ea-7273-2d2769237851@opensource.wdc.com>
- <20220519031237.sw45lvzrydrm7fpb@garbanzo>
- <69f06f90-d31b-620b-9009-188d1d641562@opensource.wdc.com>
- <PH0PR04MB74166C87F694B150A5AE0F009BD09@PH0PR04MB7416.namprd04.prod.outlook.com>
- <4a8f0e1b-0acb-1ed4-8d7a-c9ba93fcfd02@opensource.wdc.com>
- <16f3f9ee-7db7-2173-840c-534f67bcaf04@suse.de>
- <20220520062720.wxdcp5lkscesppch@mpHalley-2.localdomain>
- <be429864-09cb-e3fb-2afe-46a3453c4d73@opensource.wdc.com>
- <aee22e8a-b89b-378c-3d5b-238c1215b01d@samsung.com>
- <CGME20220520172257eucas1p1b94b150d71352587ced5d46b8c3f3537@eucas1p1.samsung.com>
- <20220520171830.GR18596@twin.jikos.cz>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20220519062617.39715-1-hare@suse.de>
+ <20220519062617.39715-2-hare@suse.de>
+ <7827d599-7714-3947-ee24-e343e90eee6e@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 1/3] nvme-tcp: spurious I/O timeout under high load
+In-Reply-To: <7827d599-7714-3947-ee24-e343e90eee6e@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220523_012537_102756_CE8240F2 
-X-CRM114-Status: GOOD (  11.94  )
+X-CRM114-CacheID: sfid-20220523_014251_295285_1FE87D3D 
+X-CRM114-Status: GOOD (  23.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,14 +91,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/20/22 19:18, David Sterba wrote:
->> I see that many people in the community feel it is better to target the
->> dm layer for the initial support of npo2 devices. I can give it a shot
->> and maintain a native out-of-tree support for FSs for npo2 devices and
->> merge it upstream as we see fit later.
+On 5/20/22 11:05, Sagi Grimberg wrote:
+> The patch title does not explain what the patch does, or what it
+> fixes.
 > 
-> Some of the changes from your patchset are cleanups or abstracting the
-> alignment and zone calculations, so this can be merged to minimize the
-> out of tree code.
-Sounds good. I will send it separately. Thanks.
+>> When running on slow links requests might take some time
+>> for be processed, and as we always allow to queue requests
+>> timeout may trigger when the requests are still queued.
+>> Eg sending 128M requests over 30 queues over a 1GigE link
+>> will inevitably timeout before the last request could be sent.
+>> So reset the timeout if the request is still being queued
+>> or if it's in the process of being sent.
+> 
+> Maybe I'm missing something... But you are overloading so much that you
+> timeout even before a command is sent out. That still does not change
+> the fact that the timeout expired. Why is resetting the timer without
+> taking any action the acceptable action in this case?
+> 
+> Is this solving a bug? The fact that you get timeouts in your test
+> is somewhat expected isn't it?
+> 
+
+Yes, and no.
+We happily let requests sit in the (blk-layer) queue for basically any 
+amount of time.
+And it's a design decision within the driver _when_ to start the timer.
+My point is that starting the timer and _then_ do internal queuing is 
+questionable; we might have returned BLK_STS_AGAIN (or something) when 
+we found that we cannot send requests right now.
+Or we might have started the timer only when the request is being sent 
+to the HW.
+So returning a timeout in one case but not the other is somewhat erratic.
+
+I would argue that we should only start the timer when requests have had 
+a chance to be sent to the HW; when it's still within the driver one has 
+a hard time arguing why timeouts do apply on one level but not on the 
+other, especially as both levels to exactly the same (to wit: queue 
+commands until they can be sent).
+
+I'm open to discussion what we should be doing when the request is in 
+the process of being sent. But when it didn't have a chance to be sent 
+and we just overloaded our internal queuing we shouldn't be sending 
+timeouts.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
