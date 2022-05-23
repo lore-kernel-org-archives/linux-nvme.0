@@ -4,65 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62902C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 May 2022 16:18:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4B7EC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 May 2022 18:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0Y/b7qQz1Z8wX0+XT2uJT5XcPJkZwCeLkZyeDlo3vOo=; b=Ws3Bt8v+DDdp3+laiNSLztiim6
-	ULu1HL0jNIgHX+J+I0JXmRPFojPWoSc+sjCh7xXOHSS5XAHSQ4SU8o+Mvkw/ATxOoMQ46nFmrMQZW
-	1Z6I5lia/xeCBzATxJSjLRTMxBmaVMnPBNH8NfD41gdDxmtNOubtH98cbrqRQuojkq3DKnSIcf76x
-	/mu2QljaJkXi7YjJ7K6XNF+u67BoztjISRI9I5MkxYLDLAeWrhmf7d/DPpZM2CFZ6P9P5AVgmWOcT
-	nYIgjODAefBgWXEnW5R268hOp0qzaP7GsqkP49BvhO3oPFOi0VDjX5N38bNrNE5gjPEaa7emvdDHM
-	m+pGvHAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YcM2V9lJrQoILVWR8hE1O3AxcExnhJbF35MwvFVRNF0=; b=HOcnA7Wko8K1YIRyX0/0jBGE6v
+	Mhxw0WnhiUcxg5HtfwOpsfSqHQJFTxQ5NUYXbCbitraug4S8FVnoYeXDsWEDPHdysY8dbPF8AriP9
+	ZIE2wclyiDTdjOjoFofauf4UM0kabWk7PJSkeB7MsjVSSBCY8YkUx1E1IKFNoYeJNGYnIEe588yMY
+	Ci2R6PFdSl2QqLwMPFvFGphccpeV7ufmr9FeP16aEchLYM7h1uS12okojSZF97AFvfwTBzhJEr0HU
+	SjO73aQzD0Pj1LUMyrmD0TiGCNdkeWRRwcIwkps46P5pHZO6XJdgsUY7mKGeBaj1nK5IANxpoUo5q
+	5BqetRPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntAlN-005CP5-0D; Mon, 23 May 2022 16:18:33 +0000
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+	id 1ntCWf-005VBw-Gi; Mon, 23 May 2022 18:11:29 +0000
+Received: from mail-pl1-f169.google.com ([209.85.214.169])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntAjq-005Bfx-Sh
- for linux-nvme@lists.infradead.org; Mon, 23 May 2022 16:17:00 +0000
-Received: by mail-yb1-xb36.google.com with SMTP id x2so25958595ybi.8
- for <linux-nvme@lists.infradead.org>; Mon, 23 May 2022 09:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blockbridge.com; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=0Y/b7qQz1Z8wX0+XT2uJT5XcPJkZwCeLkZyeDlo3vOo=;
- b=VzTjI0XB19D3VvojfjGskYDWgPyCZhSKk/obdDJuN9y7qikz85YtbnSs7W44m8d0kW
- VBvnNlMMM7fg30G+n1N/sHZKkQ/GYyF8e0QAdzQH6K4/2X8SJMMNITwPyl/fjd3Rubch
- pGdXsYuwPIAY4qkUVUsOyx8g0+wCanL5zozGu1Ghu7A3cXb+B0X62o729diygXAArIJ4
- xZEVDT6It+fIgP2t781qJocUtve/SbkSxKzRzFL30DrqVTKeBCafp+Cwomy/W4LF9GlX
- DqtrWvGvd8pyQegXLgDDUqkNy/6ljn1SPBddK3S7p1S9PhGLIuptPl38JcmPt8AndCWd
- m8Tg==
+ id 1ntCWc-005VAo-OP
+ for linux-nvme@lists.infradead.org; Mon, 23 May 2022 18:11:27 +0000
+Received: by mail-pl1-f169.google.com with SMTP id m1so13812433plx.3
+ for <linux-nvme@lists.infradead.org>; Mon, 23 May 2022 11:11:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=0Y/b7qQz1Z8wX0+XT2uJT5XcPJkZwCeLkZyeDlo3vOo=;
- b=tHM50zGVE2vgRkh1zamaW23pxdSLlro/mSO1uUcQ4B59nnUizvWx7mvlNQ/fycLhgu
- KkxSnTNqr/PzI6/lUQIfHW4hcecwax7OO1vCkLID83wKMOPojRysBz5gmxHVFqePNxaz
- JlaCa54rxQ6P4iHRs+pPYalLVpuuvXMKpXPF5h10uUaXaeREsWzN8w+fmG1a6pEKtmYO
- 3o7Qcux1MmpCK9jBjEFmHr2gIgKscFuz7Unk31d5ZF4fUgkpsYdoJECol87Ft5mfa0IL
- M0V83X4ukgp01IRpkX1F8zLSoLRiS1aOL5pCEJmCyFYEixJOWOFUoJEs86UGclDEUeGJ
- f/aQ==
-X-Gm-Message-State: AOAM531LwbbhLUexoS5jkF/aeee3afVFBY3ukesusgCWHoak/up3M0x5
- OInUu3cyctULmiqjO0iYS7uvqsiCdCQAzNBOc50Jnbq8rz1povDa
-X-Google-Smtp-Source: ABdhPJzkDS9QRp2SghgMqG/sFI64NWCpZA/CuLkxsri8zu95fdzgVOgBQ+k0fQ+Lt+OOf10u1bjfEdBoysI/LXIkxAg=
-X-Received: by 2002:a05:6902:282:b0:64d:e139:c9b8 with SMTP id
- v2-20020a056902028200b0064de139c9b8mr23566791ybh.6.1653322615686; Mon, 23 May
- 2022 09:16:55 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YcM2V9lJrQoILVWR8hE1O3AxcExnhJbF35MwvFVRNF0=;
+ b=zFPr9pCqKSSKEokJ07gJb8lINfj9gTjFxbVNmT/XgImC2wxNJrnNmFkEVpCBPos++c
+ 0qN6Prr1nCjwRzIs3Pk+lBhbw9khYQTdzBkK25ESPeXgTIBNeGohs0MsBfI2Lh1qD5/3
+ aLwlZLSLQkYWu1WWaEska1NRwwWsSJBJD8m0cD2Lpwson8FzLUnOLva7OajkeKYT2T/I
+ jXFz0iOmAvY/0AuSW4+/qImIQmq2l60Y+t12Tvtni+inVKvBFi0fzBcxyway4JCiHZz0
+ jNoKOKaOHp+SrRvfaG5FhR48l6ijyDv77bhCAvN+U6P34iIW26aIqSLER9J/MK8dZ+UC
+ 8TVw==
+X-Gm-Message-State: AOAM533E0Z6ixtcsZpPRH5yB4J7ejUchstcODLln+4MjsUQ7qt6/a6Uw
+ ZbzMJsiv3ko4E8F909NQ3nU=
+X-Google-Smtp-Source: ABdhPJyM/CwxpvBVN9kqgJt3dUJYAsl5xQQzoLnJApp0k9u48+L0bdeBCHhzQQ+qLqqg/d0Knkk4fQ==
+X-Received: by 2002:a17:90a:8807:b0:1df:78c7:c215 with SMTP id
+ s7-20020a17090a880700b001df78c7c215mr247975pjn.234.1653329485047; 
+ Mon, 23 May 2022 11:11:25 -0700 (PDT)
+Received: from garbanzo (136-24-173-63.cab.webpass.net. [136.24.173.63])
+ by smtp.gmail.com with ESMTPSA id
+ x3-20020a654143000000b003c14af50610sm5025690pgp.40.2022.05.23.11.11.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 May 2022 11:11:24 -0700 (PDT)
+Date: Mon, 23 May 2022 11:11:22 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, snitzer@redhat.com,
+ damien.lemoal@opensource.wdc.com, hare@suse.de,
+ Johannes.Thumshirn@wdc.com, linux-nvme@lists.infradead.org,
+ dm-devel@redhat.com, dsterba@suse.com, jiangbo.365@bytedance.com,
+ linux-kernel@vger.kernel.org, gost.dev@samsung.com,
+ linux-block@vger.kernel.org, jaegeuk@kernel.org,
+ Damien Le Moal <damien.lemoal@wdc.com>
+Subject: Re: [PATCH v5 6/7] null_blk: use zone_size_sects_shift for power of
+ 2 zoned devices
+Message-ID: <20220523181122.3vjizmsx7a2mpf6z@garbanzo>
+References: <20220523161601.58078-1-p.raghav@samsung.com>
+ <CGME20220523161612eucas1p102a76ba431c934230309042521018915@eucas1p1.samsung.com>
+ <20220523161601.58078-7-p.raghav@samsung.com>
 MIME-Version: 1.0
-From: Jonathan Nicklin <jnicklin@blockbridge.com>
-Date: Mon, 23 May 2022 12:16:20 -0400
-Message-ID: <CAHex0cqo3ChdXgaXRAeqZaVWSZBDaedCd9+M7Krdw=St6q6cyw@mail.gmail.com>
-Subject: nvme: split bios issued in reverse order
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220523161601.58078-7-p.raghav@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220523_091658_992493_47FD2FEA 
-X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-CacheID: sfid-20220523_111126_829843_F2BDF787 
+X-CRM114-Status: UNSURE (   8.98  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,42 +87,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There seems to be an inconsistency in the order of writes that are
-issued after splitting a bio. Ordering depends on how the application
-write is submitted and the number of I/O queues configured.
+On Mon, May 23, 2022 at 06:16:00PM +0200, Pankaj Raghav wrote:
+> Instead of doing is_power_of_2 and ilog2 operation for every IO, cache
+> the zone_size_sects_shift variable and use it for power of 2 zoned
+> devices.
+> 
+> This variable will be set to zero for non power of 2 zoned devices.
+> 
+> Suggested-by: Damien Le Moal <damien.lemoal@wdc.com>
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 
-In our testing nvme/tcp, a 128K write issued with fio/pvsync is split
-into four 32K I/Os (the target maximum data transfer size is set to
-32K, and max_sectors_kb is therefore 32K). As expected, the four write
-I/Os are issued to the target in sequential order. However, if the
-128K write is issued using fio/libaio, the four 32K writes are issued
-in reverse order:
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 
-fio-8098 [001] ..... 254009.711080: nvme_setup_cmd: nvme1:
-disk=nvme1c1n1, qid=2, cmdid=16468, nsid=1, flags=0x0, meta=0x0,
-cmd=(nvme_cmd_write slba=192, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
-
-fio-8098 [001] ..... 254009.711083: nvme_setup_cmd: nvme1:
-disk=nvme1c1n1, qid=2, cmdid=16467, nsid=1, flags=0x0, meta=0x0,
-cmd=(nvme_cmd_write slba=128, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
-
-fio-8098 [001] ..... 254009.711084: nvme_setup_cmd: nvme1:
-disk=nvme1c1n1, qid=2, cmdid=16466, nsid=1, flags=0x0, meta=0x0,
-cmd=(nvme_cmd_write slba=64, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
-
-fio-8098 [001] ..... 254009.711085: nvme_setup_cmd: nvme1:
-disk=nvme1c1n1, qid=2, cmdid=16465, nsid=1, flags=0x0, meta=0x0,
-cmd=(nvme_cmd_write slba=0, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
-
-Further investigation found that if the number of I/Os queues is
-limited to 1 at connect time, the issue order is sequential for both
-pwritev and libaio.
-
-I've spent some time tracing through the bio/blk_mq code and
-can't seem to find what might be causing the difference in
-behavior. Can anyone confirm that this is expected or desired
-behavior?
-
-Thanks,
--Jonathan
+  Luis
 
