@@ -4,124 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEFF5C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 May 2022 16:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62902C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 May 2022 16:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fIf/6lZBIMLYnlgjkIJlslbFXYFBpGgwHc1kbNxW2m0=; b=duXbonz1kfChJGfKctOAx0x3cf
-	Yap5QBT2ZGLp9wGigmiYAVzebXvltDYrPp6l2TD+mSy/7xrQeTMmOD1QTPkxFGrgHKYWVPjHiObsE
-	vKM75Adpo1XOb8KBlx0yexnqBE/0rNomEYEUwFPvBYFUK+jeUU4plp5nT8iXtpTH9e+BEs0KGAG8U
-	Ft6xis3rnUKDWHVWfrQ/ME9ZycFSQfyxIE/myJSoLIk5NgwJNlwlrB3fOKJzBeY2hkYTPYTVkFIGe
-	a4QmEZrqAO9/pu6eApUcVTqd7tY4sCD/r7VlkAEyst5drQbmL4K6DogYe8wsyJAqm6FSBiv98uZKn
-	f3WRn2GA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0Y/b7qQz1Z8wX0+XT2uJT5XcPJkZwCeLkZyeDlo3vOo=; b=Ws3Bt8v+DDdp3+laiNSLztiim6
+	ULu1HL0jNIgHX+J+I0JXmRPFojPWoSc+sjCh7xXOHSS5XAHSQ4SU8o+Mvkw/ATxOoMQ46nFmrMQZW
+	1Z6I5lia/xeCBzATxJSjLRTMxBmaVMnPBNH8NfD41gdDxmtNOubtH98cbrqRQuojkq3DKnSIcf76x
+	/mu2QljaJkXi7YjJ7K6XNF+u67BoztjISRI9I5MkxYLDLAeWrhmf7d/DPpZM2CFZ6P9P5AVgmWOcT
+	nYIgjODAefBgWXEnW5R268hOp0qzaP7GsqkP49BvhO3oPFOi0VDjX5N38bNrNE5gjPEaa7emvdDHM
+	m+pGvHAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntAkm-005CAG-RB; Mon, 23 May 2022 16:17:56 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1ntAlN-005CP5-0D; Mon, 23 May 2022 16:18:33 +0000
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntAjB-005BKD-7F
- for linux-nvme@lists.infradead.org; Mon, 23 May 2022 16:16:21 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220523161613euoutp01b9fdd41b171436fae401511e20b0a559~xyB8G3yU21817118171euoutp01S
- for <linux-nvme@lists.infradead.org>; Mon, 23 May 2022 16:16:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220523161613euoutp01b9fdd41b171436fae401511e20b0a559~xyB8G3yU21817118171euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1653322573;
- bh=fIf/6lZBIMLYnlgjkIJlslbFXYFBpGgwHc1kbNxW2m0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vMHsFW9rVTyOZMygBC1/GLnSpvbWzJm1jdrcQ8fenFlgbmnUcMzJBDHE7PdeV3hJj
- GybFytSWFkMqSSv/MIoA7/Tcg7kEpMAoVsemHMw9c/02aIRAo/uE0OE4JeDzCoiHqU
- 0WA3HRc90BS+aWkloGzfwKXOBD9/VjgbFiVAcltg=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220523161612eucas1p1a9d5050929914d94c05669bd95e7e5c5~xyB66Yz_y1870118701eucas1p17;
- Mon, 23 May 2022 16:16:12 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id FA.7E.09887.C43BB826; Mon, 23
- May 2022 17:16:12 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220523161612eucas1p102a76ba431c934230309042521018915~xyB6eyhDU1546315463eucas1p1U;
- Mon, 23 May 2022 16:16:12 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220523161612eusmtrp291363c1e24ed18c446c30856c864aca3~xyB6eBYUJ0219402194eusmtrp2L;
- Mon, 23 May 2022 16:16:12 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-21-628bb34c5ddf
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id AE.92.09522.B43BB826; Mon, 23
- May 2022 17:16:11 +0100 (BST)
-Received: from localhost (unknown [106.210.248.20]) by eusmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220523161611eusmtip23dcc1d85f474d9be5b8476ac221bd377~xyB6E6DfN0632306323eusmtip2G;
- Mon, 23 May 2022 16:16:11 +0000 (GMT)
-From: Pankaj Raghav <p.raghav@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, snitzer@redhat.com,
- damien.lemoal@opensource.wdc.com, hare@suse.de, Johannes.Thumshirn@wdc.com
-Cc: linux-nvme@lists.infradead.org, dm-devel@redhat.com, dsterba@suse.com,
- jiangbo.365@bytedance.com, linux-kernel@vger.kernel.org,
- gost.dev@samsung.com, linux-block@vger.kernel.org, jaegeuk@kernel.org,
- Pankaj Raghav <p.raghav@samsung.com>, Damien Le Moal <damien.lemoal@wdc.com>
-Subject: [PATCH v5 6/7] null_blk: use zone_size_sects_shift for power of 2
- zoned devices
-Date: Mon, 23 May 2022 18:16:00 +0200
-Message-Id: <20220523161601.58078-7-p.raghav@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220523161601.58078-1-p.raghav@samsung.com>
+ id 1ntAjq-005Bfx-Sh
+ for linux-nvme@lists.infradead.org; Mon, 23 May 2022 16:17:00 +0000
+Received: by mail-yb1-xb36.google.com with SMTP id x2so25958595ybi.8
+ for <linux-nvme@lists.infradead.org>; Mon, 23 May 2022 09:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blockbridge.com; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=0Y/b7qQz1Z8wX0+XT2uJT5XcPJkZwCeLkZyeDlo3vOo=;
+ b=VzTjI0XB19D3VvojfjGskYDWgPyCZhSKk/obdDJuN9y7qikz85YtbnSs7W44m8d0kW
+ VBvnNlMMM7fg30G+n1N/sHZKkQ/GYyF8e0QAdzQH6K4/2X8SJMMNITwPyl/fjd3Rubch
+ pGdXsYuwPIAY4qkUVUsOyx8g0+wCanL5zozGu1Ghu7A3cXb+B0X62o729diygXAArIJ4
+ xZEVDT6It+fIgP2t781qJocUtve/SbkSxKzRzFL30DrqVTKeBCafp+Cwomy/W4LF9GlX
+ DqtrWvGvd8pyQegXLgDDUqkNy/6ljn1SPBddK3S7p1S9PhGLIuptPl38JcmPt8AndCWd
+ m8Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=0Y/b7qQz1Z8wX0+XT2uJT5XcPJkZwCeLkZyeDlo3vOo=;
+ b=tHM50zGVE2vgRkh1zamaW23pxdSLlro/mSO1uUcQ4B59nnUizvWx7mvlNQ/fycLhgu
+ KkxSnTNqr/PzI6/lUQIfHW4hcecwax7OO1vCkLID83wKMOPojRysBz5gmxHVFqePNxaz
+ JlaCa54rxQ6P4iHRs+pPYalLVpuuvXMKpXPF5h10uUaXaeREsWzN8w+fmG1a6pEKtmYO
+ 3o7Qcux1MmpCK9jBjEFmHr2gIgKscFuz7Unk31d5ZF4fUgkpsYdoJECol87Ft5mfa0IL
+ M0V83X4ukgp01IRpkX1F8zLSoLRiS1aOL5pCEJmCyFYEixJOWOFUoJEs86UGclDEUeGJ
+ f/aQ==
+X-Gm-Message-State: AOAM531LwbbhLUexoS5jkF/aeee3afVFBY3ukesusgCWHoak/up3M0x5
+ OInUu3cyctULmiqjO0iYS7uvqsiCdCQAzNBOc50Jnbq8rz1povDa
+X-Google-Smtp-Source: ABdhPJzkDS9QRp2SghgMqG/sFI64NWCpZA/CuLkxsri8zu95fdzgVOgBQ+k0fQ+Lt+OOf10u1bjfEdBoysI/LXIkxAg=
+X-Received: by 2002:a05:6902:282:b0:64d:e139:c9b8 with SMTP id
+ v2-20020a056902028200b0064de139c9b8mr23566791ybh.6.1653322615686; Mon, 23 May
+ 2022 09:16:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLKsWRmVeSWpSXmKPExsWy7djP87o+m7uTDJ7skrFYfbefzeL32fPM
- Fq3t35gs9r6bzWpx4Ucjk8XNAzuZLPYsmsRksXL1USaLJ+tnMVv0HPjAYvG36x5Q3S1ti8u7
- 5rBZzF/2lN3i89IWdou2jV8ZHQQ8/p1Yw+Zx+Wypx6ZVnWwem5fUe+y+2cDmsbP1PqvH+31X
- 2Tz6tqxi9Fi/5SqLx+bT1R6fN8l5tB/oZgrgieKySUnNySxLLdK3S+DK6OiexViwXrBi+6F2
- 9gbG63xdjBwcEgImEpe3m3cxcnEICaxglOi+94EZwvnCKPH36z12COczo8TqbxuZuhg5wTpu
- ndnDBpFYzigxc+psFgjnBaNE//53rCBz2QS0JBo7wbpFBBoZJd4fnccK4jALzGWSWHvyDyPI
- KGGBKInNBx+AjWURUJWY3HeOBcTmFbCU2PbsPRvEOnmJmZe+s4PYnAJWEtevXmWDqBGUODnz
- CVg9M1BN89bZYIdLCKzmlOj/dZ8VotlFYkHnJRYIW1ji1fEt7BC2jMT/nfOh/qmWeHrjN1Rz
- C9ALO9ezQYLGWqLvTA6IySygKbF+lz5EuaPEn5vtrBAVfBI33gpCnMAnMWnbdGaIMK9ER5sQ
- RLWSxM6fT6CWSkhcbpoDdYyHxM8FL1knMCrOQvLMLCTPzELYu4CReRWjeGppcW56arFRXmq5
- XnFibnFpXrpecn7uJkZgCjz97/iXHYzLX33UO8TIxMF4iFGCg1lJhHd7YkeSEG9KYmVValF+
- fFFpTmrxIUZpDhYlcd7kzA2JQgLpiSWp2ampBalFMFkmDk6pBiaZvP8nax5Y2ESoV/XqOPA8
- 8NBYoX4w4YNRz9U/XpaXF6rOeMHJ/WyjY+O/6vYXZyXu7Dkk80ybK7E/Lu62vuwZxx6GNmO/
- 3FM+Ci7etm4Hfz0rsuOfJud11mbGMvdM1h06vfeVZwSGWyU6GZ3Te79RXEBspvWXr76xqq8z
- 42dcDDWbOP+mYGu/lc5P//BN3YeD/79XCvOJ7GnnfaBqtCog8q35RPcu90WW5+sqOUVfGytP
- LdhxN4Azwv2hXPGz/asNz91I/bp35YPCbfveBQct2hj+3YnreU2a9IzKpn2vWGPrU4y/Kat/
- 638Zx6xuGvRNI/nh1TsTz6VaCaVtd5/V8+bThDWvouZvSf82W4mlOCPRUIu5qDgRAEQcSJjw
- AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7rem7uTDD5st7JYfbefzeL32fPM
- Fq3t35gs9r6bzWpx4Ucjk8XNAzuZLPYsmsRksXL1USaLJ+tnMVv0HPjAYvG36x5Q3S1ti8u7
- 5rBZzF/2lN3i89IWdou2jV8ZHQQ8/p1Yw+Zx+Wypx6ZVnWwem5fUe+y+2cDmsbP1PqvH+31X
- 2Tz6tqxi9Fi/5SqLx+bT1R6fN8l5tB/oZgrgidKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx
- 1DM0No+1MjJV0rezSUnNySxLLdK3S9DL6OiexViwXrBi+6F29gbG63xdjJwcEgImErfO7GHr
- YuTiEBJYyihxYfZaVoiEhMTthU2MELawxJ9rXVBFzxglLn3qZepi5OBgE9CSaOxkB4mLCHQy
- ShxdcYoFxGEWWMkkMe/wViaQbmGBCInFPceYQWwWAVWJyX3nWEBsXgFLiW3P3rNBbJCXmHnp
- OzuIzSlgJXH96lWwuBBQzan1E9gh6gUlTs58AtbLDFTfvHU28wRGgVlIUrOQpBYwMq1iFEkt
- Lc5Nzy021CtOzC0uzUvXS87P3cQIjNdtx35u3sE479VHvUOMTByMhxglOJiVRHi3J3YkCfGm
- JFZWpRblxxeV5qQWH2I0Bbp7IrOUaHI+MGHklcQbmhmYGpqYWRqYWpoZK4nzehZ0JAoJpCeW
- pGanphakFsH0MXFwSjUwGX6aZ7Qlbrle4tei6mNrW/fYFZbmNm+M+3uDL3kBk9bJ8FUMe3XW
- 7f0e8O1IzfUTa3ay8DBM3rjecWtiptbkwleHOCUu9AfFse7OudS+lNU3+8uh0nz3FTF/zMpF
- ZVz+ZR327yj7phozSV/Lao6t5876Ne8kLt66w9Grafom5+XpNyruPjvTKqSvvvw8W6Cua8Ju
- TuFPyX+ZTRpETEz/lF0vE1J4d/rg0tMO3WWbXFoby0X/LO4/ERUdMv/vyb4uL8Y/Mgt+WRtt
- NfpzZEvf2VWZxk87dp4JVC8M4uiK5Pfc7uEzSSplkXjxjEel5z6q6pU7+3J8WB317LhRocx3
- 2Uc8a1aGKk7b+fLuvu8PlFiKMxINtZiLihMBPcXgGmADAAA=
-X-CMS-MailID: 20220523161612eucas1p102a76ba431c934230309042521018915
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220523161612eucas1p102a76ba431c934230309042521018915
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220523161612eucas1p102a76ba431c934230309042521018915
-References: <20220523161601.58078-1-p.raghav@samsung.com>
- <CGME20220523161612eucas1p102a76ba431c934230309042521018915@eucas1p1.samsung.com>
+From: Jonathan Nicklin <jnicklin@blockbridge.com>
+Date: Mon, 23 May 2022 12:16:20 -0400
+Message-ID: <CAHex0cqo3ChdXgaXRAeqZaVWSZBDaedCd9+M7Krdw=St6q6cyw@mail.gmail.com>
+Subject: nvme: split bios issued in reverse order
+To: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220523_091617_652676_FA7ADA58 
-X-CRM114-Status: GOOD (  15.84  )
+X-CRM114-CacheID: sfid-20220523_091658_992493_47FD2FEA 
+X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,65 +78,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of doing is_power_of_2 and ilog2 operation for every IO, cache
-the zone_size_sects_shift variable and use it for power of 2 zoned
-devices.
+There seems to be an inconsistency in the order of writes that are
+issued after splitting a bio. Ordering depends on how the application
+write is submitted and the number of I/O queues configured.
 
-This variable will be set to zero for non power of 2 zoned devices.
+In our testing nvme/tcp, a 128K write issued with fio/pvsync is split
+into four 32K I/Os (the target maximum data transfer size is set to
+32K, and max_sectors_kb is therefore 32K). As expected, the four write
+I/Os are issued to the target in sequential order. However, if the
+128K write is issued using fio/libaio, the four 32K writes are issued
+in reverse order:
 
-Suggested-by: Damien Le Moal <damien.lemoal@wdc.com>
-Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
----
- drivers/block/null_blk/null_blk.h |  6 ++++++
- drivers/block/null_blk/zoned.c    | 10 ++++++++--
- 2 files changed, 14 insertions(+), 2 deletions(-)
+fio-8098 [001] ..... 254009.711080: nvme_setup_cmd: nvme1:
+disk=nvme1c1n1, qid=2, cmdid=16468, nsid=1, flags=0x0, meta=0x0,
+cmd=(nvme_cmd_write slba=192, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
 
-diff --git a/drivers/block/null_blk/null_blk.h b/drivers/block/null_blk/null_blk.h
-index 78eb56b0ca55..3d6e41a9491f 100644
---- a/drivers/block/null_blk/null_blk.h
-+++ b/drivers/block/null_blk/null_blk.h
-@@ -74,6 +74,12 @@ struct nullb_device {
- 	unsigned int imp_close_zone_no;
- 	struct nullb_zone *zones;
- 	sector_t zone_size_sects;
-+	/*
-+	 * zone_size_sects_shift is only useful when the zone size is
-+	 * power of 2. This variable is set to zero when zone size is non
-+	 * power of 2.
-+	 */
-+	unsigned int zone_size_sects_shift;
- 	bool need_zone_res_mgmt;
- 	spinlock_t zone_res_lock;
- 
-diff --git a/drivers/block/null_blk/zoned.c b/drivers/block/null_blk/zoned.c
-index 00c34e65ef0a..806bef98ac83 100644
---- a/drivers/block/null_blk/zoned.c
-+++ b/drivers/block/null_blk/zoned.c
-@@ -13,8 +13,8 @@ static inline sector_t mb_to_sects(unsigned long mb)
- 
- static inline unsigned int null_zone_no(struct nullb_device *dev, sector_t sect)
- {
--	if (is_power_of_2(dev->zone_size_sects))
--		return sect >> ilog2(dev->zone_size_sects);
-+	if (dev->zone_size_sects_shift)
-+		return sect >> dev->zone_size_sects_shift;
- 
- 	return div64_u64(sect, dev->zone_size_sects);
- }
-@@ -82,6 +82,12 @@ int null_init_zoned_dev(struct nullb_device *dev, struct request_queue *q)
- 	zone_capacity_sects = mb_to_sects(dev->zone_capacity);
- 	dev_capacity_sects = mb_to_sects(dev->size);
- 	dev->zone_size_sects = mb_to_sects(dev->zone_size);
-+
-+	if (is_power_of_2(dev->zone_size_sects))
-+		dev->zone_size_sects_shift = ilog2(dev->zone_size_sects);
-+	else
-+		dev->zone_size_sects_shift = 0;
-+
- 	dev->nr_zones =
- 		div64_u64(roundup(dev_capacity_sects, dev->zone_size_sects),
- 			  dev->zone_size_sects);
--- 
-2.25.1
+fio-8098 [001] ..... 254009.711083: nvme_setup_cmd: nvme1:
+disk=nvme1c1n1, qid=2, cmdid=16467, nsid=1, flags=0x0, meta=0x0,
+cmd=(nvme_cmd_write slba=128, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
 
+fio-8098 [001] ..... 254009.711084: nvme_setup_cmd: nvme1:
+disk=nvme1c1n1, qid=2, cmdid=16466, nsid=1, flags=0x0, meta=0x0,
+cmd=(nvme_cmd_write slba=64, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+
+fio-8098 [001] ..... 254009.711085: nvme_setup_cmd: nvme1:
+disk=nvme1c1n1, qid=2, cmdid=16465, nsid=1, flags=0x0, meta=0x0,
+cmd=(nvme_cmd_write slba=0, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+
+Further investigation found that if the number of I/Os queues is
+limited to 1 at connect time, the issue order is sequential for both
+pwritev and libaio.
+
+I've spent some time tracing through the bio/blk_mq code and
+can't seem to find what might be causing the difference in
+behavior. Can anyone confirm that this is expected or desired
+behavior?
+
+Thanks,
+-Jonathan
 
