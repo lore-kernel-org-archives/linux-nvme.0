@@ -4,135 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 672EEC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 07:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7A09C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 07:58:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=WayQ9nUl6dUlMr1OnKx7a3SkjVCoIKQbCdTwHN9GqG0=; b=C9+/Dhw77hSKI5
-	iUGq8g12mGa3lKY1KnUCONYoVt33MCZGaO2VzUvNpGTCMBQ5URf5vp26d7HkyTvktE3QZHSOAuaOX
-	p6eflITZAY/fMHH551oSK2nSnjRhXrKIQt8iGFmpe17EaEDmVL5qNZZ16OGGk0KEAKiCmeEU3MpGJ
-	gv2Vr9t80x16F0ClouJm6GLiEtasZzwO3c+P01Dym7QGW/AS28YptB+KgKQ3liwe+HCN3voCxqhAO
-	01H5+I60DTrpbV7U5l2WtSoiOJe2Pz1odkg5h0aK3lNkqlVzt+sJekNLLsXdRxTcb9Ha+UunRuPqy
-	0SZHUyY00IbwYJ77Qv9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jnVEOyNsaCcyBo6nYwnJiSRhMJ9li9Let4GVv2zbG7Y=; b=M0UPTj1I0G7pfGcha4aUIRNSOS
+	uYS94l3cYxqo9NWgbmhZhc5x9F85Hjgp5UbvdbNOWZq0XmyCCQnreOiymSwxt5pCLvqEdsKhzxPOE
+	4wuPAPnVOadIF9+9afp0klOq4U6EBNp8SMd0nA76I4jjAE8ThIJrsttYErd86GJDLdRvnpAv5xCJi
+	4JQc2Hmq7XvglVJOdaqh22VP4Hi+Zf5T0mHcfiWxobXCm1AioM6qfd91jpMC0QiyxGx59SN1b7QOm
+	tgBxHhjd3bAk7fPaEvPklF4omKUg6qsMrNxpRW4IDX9Ms5aQsCcQZMa4FEz7n4n6icPgxHigtfh8G
+	ptvfqkvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntP0J-0075hy-9c; Tue, 24 May 2022 07:30:55 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1ntPQX-007AS5-8Z; Tue, 24 May 2022 07:58:01 +0000
+Received: from mail-wr1-f54.google.com ([209.85.221.54])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntP0F-0075g7-7i
- for linux-nvme@lists.infradead.org; Tue, 24 May 2022 07:30:53 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220524073045euoutp0175a17c985fc9cc972977dd6de1d63aef~x_gbknKg-1692416924euoutp01z
- for <linux-nvme@lists.infradead.org>; Tue, 24 May 2022 07:30:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220524073045euoutp0175a17c985fc9cc972977dd6de1d63aef~x_gbknKg-1692416924euoutp01z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1653377445;
- bh=WayQ9nUl6dUlMr1OnKx7a3SkjVCoIKQbCdTwHN9GqG0=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=c6wsjALdy/qqUwGqwA1dG6E1n6Ff5ST70EOoKzc/I6dDriQ/dVlCK5+IhBvi0/N4m
- Vfgr/EdnsXV2gn+ASRIJAM3E3vHwbN7ia44kub8mMRrGRYLBenO51YFLrPJQHXtnvT
- jdbzIeQiSzKiJHDhCUx/FG3MeSc0wicvnYEqkezU=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220524073045eucas1p1bf1186652cd6072397942e3781e1d8bd~x_ga5MrHj2945429454eucas1p1z;
- Tue, 24 May 2022 07:30:45 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 80.FB.10260.4A98C826; Tue, 24
- May 2022 08:30:44 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220524073044eucas1p2bc05d83d40c029793af050f6cdbdd158~x_gaR5M7W0257402574eucas1p2J;
- Tue, 24 May 2022 07:30:44 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220524073044eusmtrp183beb394729a256f4fd7b0124abba89a~x_gaQ_8CV1483114831eusmtrp1Z;
- Tue, 24 May 2022 07:30:44 +0000 (GMT)
-X-AuditID: cbfec7f5-bf3ff70000002814-e7-628c89a4ae72
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 3E.FE.09522.4A98C826; Tue, 24
- May 2022 08:30:44 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220524073044eusmtip2c82c9dd2b779a52d6bbea6a809cb08dd~x_gaHfcnE2704727047eusmtip2f;
- Tue, 24 May 2022 07:30:44 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.20) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 24 May 2022 08:30:41 +0100
-Message-ID: <7656fdc2-0511-722e-de6a-c2a2460cb048@samsung.com>
-Date: Tue, 24 May 2022 09:30:41 +0200
+ id 1ntPQT-007APn-OB
+ for linux-nvme@lists.infradead.org; Tue, 24 May 2022 07:57:59 +0000
+Received: by mail-wr1-f54.google.com with SMTP id x12so231068wrg.2
+ for <linux-nvme@lists.infradead.org>; Tue, 24 May 2022 00:57:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jnVEOyNsaCcyBo6nYwnJiSRhMJ9li9Let4GVv2zbG7Y=;
+ b=kVmzH1W3YbsJtnDx4u0F+Wp2crluPdGP+XPX7aeY/9ZwwKkAz+uRCyf4iEJw5920EU
+ kFRLVffVzzCiM2nkOznxcJQVF1vwEEMBs12ObpadvE+W/5ioA6mtkWiEf4y87IXJcLgI
+ WNGG+5EVY2yg6uBs/0lA943OwiCX2F76IkXXQUSQPYZFTtZsKUi8JL3UCwfnaZFhzQmf
+ bR+2X18BSbZf8dEAT6L1Ik3MUqepzZsenYraPuWBG3SMhz/se98/d7wKWRtCwp2rXTJh
+ 0a2c6Sle1eSjdVIn4KowVhPUt93pbSrbUVv1m6gGgqjOl9jAsZiK5WH3dXGCBGG8fYEC
+ lvJw==
+X-Gm-Message-State: AOAM531gtsJF+ypwhAr1nkUaWA0M5S1uZA+p5+NY0FYY4nULz7x1nJ78
+ NRwB1exmXdtvA9mvVoyqjkpfGRifh1o=
+X-Google-Smtp-Source: ABdhPJyQHUexwCVcIV09kB/JWwfxRJWbjH0C87OLmBLpNIIVfqIKaAkh52lYj7+tSAP2IhC7j++t6Q==
+X-Received: by 2002:adf:ebce:0:b0:20d:7859:494d with SMTP id
+ v14-20020adfebce000000b0020d7859494dmr21673457wrn.590.1653379074946; 
+ Tue, 24 May 2022 00:57:54 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ r9-20020adfa149000000b0020e62feca05sm12401008wrr.32.2022.05.24.00.57.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 May 2022 00:57:54 -0700 (PDT)
+Message-ID: <02805f44-6f2d-b12e-c224-d44616332d5a@grimberg.me>
+Date: Tue, 24 May 2022 10:57:53 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v5 5/7] null_blk: allow non power of 2 zoned devices
+Subject: Re: [PATCH 1/3] nvme-tcp: spurious I/O timeout under high load
 Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, <axboe@kernel.dk>, <hch@lst.de>,
- <snitzer@redhat.com>, <damien.lemoal@opensource.wdc.com>, <hare@suse.de>,
- <Johannes.Thumshirn@wdc.com>
-CC: <llvm@lists.linux.dev>, <kbuild-all@lists.01.org>,
- <linux-nvme@lists.infradead.org>, <dm-devel@redhat.com>, <dsterba@suse.com>,
- <jiangbo.365@bytedance.com>, <linux-kernel@vger.kernel.org>,
- <gost.dev@samsung.com>, <linux-block@vger.kernel.org>, <jaegeuk@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <202205241034.izkLMTcH-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20220519062617.39715-1-hare@suse.de>
+ <20220519062617.39715-2-hare@suse.de>
+ <7827d599-7714-3947-ee24-e343e90eee6e@grimberg.me>
+ <96a3315f-43a4-efe6-1f37-0552d66dbd85@suse.de>
+ <96722b37-f943-c3e4-ee6a-440f65e8afca@grimberg.me>
+ <e749bb3e-2ff7-23f5-9f5f-974c986845b6@suse.de>
+ <7ec792e3-5110-2272-b6fe-1a976c8c054f@grimberg.me>
+ <919bfaa2-a35d-052a-1d35-9fdd8faa0d3f@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <919bfaa2-a35d-052a-1d35-9fdd8faa0d3f@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.20]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNKsWRmVeSWpSXmKPExsWy7djP87pLOnuSDKZeNLFYfbefzeL32fPM
- FnvfzWa1uPCjkcliz6JJTBYrVx9lsniyfhazRc+BDywWf7vuMVmc7b7GaLH3lrbF5V1z2Czm
- L3vKbvGq+RGbxZMp+9ksbkx4ymjRtvEro4Ogx78Ta9g8Fu95yeRx+Wypx6ZVnWwe3bP/sXhs
- XlLv8WLzTEaP3Tcb2Dx2tt5n9Xi/7yqbx/otV4GSp6s9Pm+S82g/0M0UwBfFZZOSmpNZllqk
- b5fAlTF/9UGWgnMSFf8ONjE3MP4W7WLk5JAQMJHY/f0HYxcjF4eQwApGiZYnH9ghnC+MEqt+
- zmGBcD4zSvydc4uti5EDrOXBVj+I+HJGieOTDzDDFT16dpANwtnFKHHrGkg7JwevgJ3E1bev
- 2UBsFgFVictvzkPFBSVOznwCZosKREisbH0DZgsLeEi0nrrDDmIzC4hL3HoynwlkqIjAJkaJ
- LY3PwG5iFtjFJLFn6zlmkJvYBLQkGjvBGjgFjCTOXH4A1awp0br9N5QtL7H97RxmiBeUJLb9
- MoEEQK3E2mNnwH6WEGjjkpiybhUTRMJF4uanxSwQtrDEq+Nb2CFsGYnTk3ug4tUST2/8ZoZo
- bmGU6N+5HhpG1hJ9Z3Igahwlvr+8CxXmk7jxVhDiHD6JSdumM09gVJ2FFBSzkLw8C8kHs5B8
- sICRZRWjeGppcW56arFxXmq5XnFibnFpXrpecn7uJkZg+jz97/jXHYwrXn3UO8TIxMF4iFGC
- g1lJhDclrCdJiDclsbIqtSg/vqg0J7X4EKM0B4uSOG9y5oZEIYH0xJLU7NTUgtQimCwTB6dU
- A5PPtGadcj/7muyQlB2MC4tehRvsE7VMVBcNal5z5rID33pWtnWmNj+V33y0nLjX6erCTre4
- OUrFljZqj/99r3oZzZXnwdZ8osM78K+49bQLd2QO/eWbvtIhPUzZVEQ//GPAkefWD/4tkVzf
- ePv34u3Tzn/dPGnJglxNw+bKyHmfHZ2mMlaYsM3R+TDb4ffDy4d1GfU/5tjyhokLF/XozVz8
- Yu+czWn6nQ7JU6aFZqxrWVbLlju7lpNzp++qvvLffJq9V5iUTd5NmRwZMq/Z/7XdNl+jnWbu
- cxc6LU63PHKOVZrpyR0XOc/wv8L3Uown/Diu+2KhNBfv76XG+ivfTJopZfKG7dS3pN+veM4z
- bVRiKc5INNRiLipOBAA/JY5UDgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPKsWRmVeSWpSXmKPExsVy+t/xe7pLOnuSDBpPClisvtvPZvH77Hlm
- i73vZrNaXPjRyGSxZ9EkJouVq48yWTxZP4vZoufABxaLv133mCzOdl9jtNh7S9vi8q45bBbz
- lz1lt3jV/IjN4smU/WwWNyY8ZbRo2/iV0UHQ49+JNWwei/e8ZPK4fLbUY9OqTjaP7tn/WDw2
- L6n3eLF5JqPH7psNbB47W++zerzfd5XNY/2Wq0DJ09UenzfJebQf6GYK4IvSsynKLy1JVcjI
- Ly6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy5i/+iBLwTmJin8Hm5gb
- GH+LdjFycEgImEg82OrXxcjJISSwlFFiwpYkEFtCQEbi05WP7BC2sMSfa11sXYxcQDUfGSX+
- NZ5nhHB2MUqc3d/JAlLFK2AncfXtazYQm0VAVeLym/NQcUGJkzOfgNmiAhESn5ZNYAWxhQU8
- JFpP3QHbwCwgLnHryXwmkKEiApsYJbY0PmMBcZgFdjFJ7Nl6jhli3VZGifamwywgd7MJaEk0
- doJ1cwoYSZy5/ABqkqZE6/bfULa8xPa3c5gh3lSS2PbLBOKdWolX93czTmAUnYXkvllI7piF
- ZNIsJJMWMLKsYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECEw524793LyDcd6rj3qHGJk4GA8x
- SnAwK4nwpoT1JAnxpiRWVqUW5ccXleakFh9iNAUG0kRmKdHkfGDSyyuJNzQzMDU0MbM0MLU0
- M1YS5/Us6EgUEkhPLEnNTk0tSC2C6WPi4JRqYJLVP3prCvMb1/x3fVMZTTfWVInZ8c73lJl7
- N5sl2i3gVpGdClPulrl6QRFK6qfPZLA+N/ibvVP7pVT4Gx33LMWJNx7GThJwNdhR9FGpojx7
- c8hOjYcF++Me/Ah1Fe6y0WP3+9/dsKGvpDPEcy2r1iTBq2sOP+zjU3LQENM7ViKpczyzzmh+
- VaH3Li2/vwFMm85zccQvb2jbsuN+x4GZ3j0bL+g4Gc/e4+d0TEEqYNuvHXs4Jb5mBQUnBx94
- e8hHUb9jaWRNj+XiHV+MDgu9YH80edOi22ybS95PnvPskZBrjMFUy6RHSjxPXrSUCCnsW/cv
- YdbZ8+JL6g5Oub/txrGMyyGWl6z/zLT69GZdihJLcUaioRZzUXEiAJ7OY7zCAwAA
-X-CMS-MailID: 20220524073044eucas1p2bc05d83d40c029793af050f6cdbdd158
-X-Msg-Generator: CA
-X-RootMTR: 20220524024108eucas1p26a6384cd77f143bb0fa628f01866e0a0
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220524024108eucas1p26a6384cd77f143bb0fa628f01866e0a0
-References: <20220523161601.58078-6-p.raghav@samsung.com>
- <CGME20220524024108eucas1p26a6384cd77f143bb0fa628f01866e0a0@eucas1p2.samsung.com>
- <202205241034.izkLMTcH-lkp@intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220524_003051_876971_6C8C4AD4 
-X-CRM114-Status: GOOD (  16.46  )
+X-CRM114-CacheID: sfid-20220524_005757_834125_1F9A7789 
+X-CRM114-Status: GOOD (  27.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,40 +88,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/24/22 04:40, kernel test robot wrote:
-> Hi Pankaj,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on axboe-block/for-next]
-> [also build test ERROR on device-mapper-dm/for-next linus/master hch-configfs/for-next v5.18 next-20220523]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://protect2.fireeye.com/v1/url?k=8acc50e6-d557681b-8acddba9-000babff317b-0ca211d60a57a8c6&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FPankaj-Raghav%2Fblock-make-blkdev_nr_zones-and-blk_queue_zone_no-generic-for-npo2-zsze%2F20220524-011616
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-> config: hexagon-randconfig-r045-20220523 (https://protect2.fireeye.com/v1/url?k=0dc32741-52581fbc-0dc2ac0e-000babff317b-fb6f258f0c80ebb9&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20220524%2F202205241034.izkLMTcH-lkp%40intel.com%2Fconfig)
-> compiler: clang version 15.0.0 (https://protect2.fireeye.com/v1/url?k=afbb4f4f-f02077b2-afbac400-000babff317b-a4413fa4cefe1877&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project 10c9ecce9f6096e18222a331c5e7d085bd813f75)
-> reproduce (this is a W=1 build):
->         wget https://protect2.fireeye.com/v1/url?k=718573dc-2e1e4b21-7184f893-000babff317b-b6c06a1c569b0d77&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fraw.githubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fmake.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://protect2.fireeye.com/v1/url?k=247d070f-7be63ff2-247c8c40-000babff317b-6fd7f2f6a5a5bc60&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommit%2F3d3c81da0adbd40eb0d2125327b7e227582b2a37
->         git remote add linux-review https://protect2.fireeye.com/v1/url?k=081be8db-5780d026-081a6394-000babff317b-d12fdca0fccd0493&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux
->         git fetch --no-tags linux-review Pankaj-Raghav/block-make-blkdev_nr_zones-and-blk_queue_zone_no-generic-for-npo2-zsze/20220524-011616
->         git checkout 3d3c81da0adbd40eb0d2125327b7e227582b2a37
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
->>> ERROR: modpost: "__hexagon_umoddi3" [drivers/block/null_blk/null_blk.ko] undefined!
 
-I am able to apply my patches cleanly against next-20220523, build it
-without any errors with GCC and boot into it in my x86_64 machine. Not
-sure why this error is popping up.
+>>>>> I'm open to discussion what we should be doing when the request is 
+>>>>> in the process of being sent. But when it didn't have a chance to 
+>>>>> be sent and we just overloaded our internal queuing we shouldn't be 
+>>>>> sending timeouts.
+>>>>
+>>>> As mentioned above, what happens if that same reporter opens another 
+>>>> bug
+>>>> that the same phenomenon happens with soft-iwarp? What would you tell
+>>>> him/her?
+>>>
+>>> Nope. It's a HW appliance. Not a chance to change that.
+>>
+>> It was just a theoretical question.
+>>
+>> Do note that I'm not against solving a problem for anyone, I'm just
+>> questioning if increasing the io_timeout to be unbound in case the
+>> network is congested, is the right solution for everyone instead of
+>> a particular case that can easily be solved with udev to make the
+>> io_timeout to be as high as needed.
+>>
+>> One can argue that this patchset is making nvme-tcp to basically
+>> ignore the device io_timeout in certain cases.
+> 
+> Oh, yes, sure, that will happen.
+> What I'm actually arguing is the imprecise difference between 
+> BLK_STS_AGAIN / BLK_STS_RESOURCE as a return value from ->queue_rq()
+> and command timeouts in case of resource constraints on the driver 
+> implementing ->queue_rq().
+> 
+> If there is a resource constrain driver is free to return 
+> BLK_STS_RESOURCE (in which case you wouldn't see a timeout) or accept 
+> the request (in which case there will be a timeout).
+
+There is no resource constraint. The driver sizes up the resources
+to be able to queue all the requests it is getting.
+
+> I could live with a timeout if that would just result in the command 
+> being retried. But in the case of nvme it results in a connection reset 
+> to boot, making customers really nervous that their system is broken.
+
+But how does the driver know that it is running in this environment that
+is completely congested? What I'm saying is that this is a specific use
+case that the solution can have negative side-effects for other common
+use-cases, because it is beyond the scope of the driver to handle.
+
+We can also trigger this condition with nvme-rdma.
+
+We could stay with this patch, but I'd argue that this might be the
+wrong thing to do in certain use-cases.
+
+> And having a workload which can generate connection resets feels like a 
+> DoS attack to me; applications shouldn't be able to do that.
+
+Having a workload occupying all the tags all the time is also a DDOS
+attack.
 
