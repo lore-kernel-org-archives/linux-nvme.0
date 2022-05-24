@@ -4,138 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AAEEC433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 15:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3835EC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 16:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=NfPLXa8MzeCFzn7Do+5e5emy4Tpw+uyG0dyEtdIcNM8=; b=4V2ynQfBV0NQGp
-	ZeEt1FriAlGpr0ctLOLVKA08q5GMQNWYInkzdA4PkmdqYaFt6Ev+fllwIv5Cu/D1IoH73DAU4qjcM
-	FEJC9Vl7FCGrV9Dw0ANoBgux8ts4ZnhmepZssvZzQS6jVBTEbJmQmN9Trq4lUmjCIV84870CHm/+a
-	MqfdctpbWeFvOHjlmafjHrfod1Js7G6+tZvUKx2SBBMa8GmhW+dK+FvhPPdcvI5CMwUuxJInORtMy
-	fyDbPzoQdnrE8U1/BimLCvV1ILhx7F0YyomR6JYyuauOi1jJQwscg/wxa3/2agfb5JCRm2HhCNWgL
-	lytUEghPshxGIudrX31g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=73Fr9S9nx8T7H/jiHas6UVLS2rsrVkJYqrrTnSJQ304=; b=FBbaR2q+RCqXPjW/4nvQVY30M/
+	27YoRvYuxP8WkdqiMDGVAVQV/QvWm99t/uC4ZDM510y9q8nK8O+FZxzWOWhCumFmanlSZ3i8P7QIi
+	JZG36e8k90pZqFeBSktJTrccFky0/lRWQzYSFTIzrxEZQKGzIZHLlbX91aPgTS6J2YU/7hPnqSbz4
+	qyPQQ0q/cO/oEEGEMphHcFu/KycpVbrk/XVM3qEzI/k718zEIpvHYElmAviDAciGiRa0ZjGcU6npA
+	drOVmqDC8IiqlmXYp/vSMeu+/DipxjU2K4FVv1SUtyQejOjRKn89RDWMygf2MEVkHF9brPaX4UlxE
+	ZbolS5IQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntWWe-008ThY-IX; Tue, 24 May 2022 15:32:48 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1ntX4u-008cAc-FG; Tue, 24 May 2022 16:08:12 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntWWa-008Tf1-HS
- for linux-nvme@lists.infradead.org; Tue, 24 May 2022 15:32:46 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220524153238euoutp017ac4ebd65ea25ecc4b814034143659b8~yFFK4h7S90122601226euoutp010
- for <linux-nvme@lists.infradead.org>; Tue, 24 May 2022 15:32:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220524153238euoutp017ac4ebd65ea25ecc4b814034143659b8~yFFK4h7S90122601226euoutp010
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1653406358;
- bh=NfPLXa8MzeCFzn7Do+5e5emy4Tpw+uyG0dyEtdIcNM8=;
- h=Date:Subject:To:CC:From:In-Reply-To:References:From;
- b=l10lKUkJvBSsIZLiWh2zg+F516W32viZeEejOMZwFhpxfyYhEJPs8L5+P9MsFMP8a
- AAf0J0lavgEI0xnlzZm9KL7xVx0MslYQU2KYXnHAKU7LB4OnJCLecb7caoPSuWvQmd
- PiK7uF7UEB101nIorMcxI6xjl1oTRy7kcTNI7xhw=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220524153237eucas1p21713359205fa91bff66c156a8006e9f3~yFFKHPzAz1196811968eucas1p2X;
- Tue, 24 May 2022 15:32:37 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 5E.51.10260.59AFC826; Tue, 24
- May 2022 16:32:37 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220524153237eucas1p112db24d3a714f392b11ca536f8ad02fc~yFFJt-Xdb1038610386eucas1p13;
- Tue, 24 May 2022 15:32:37 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220524153237eusmtrp1cdbe1017ebc6f3ec63d9d497e5476fed~yFFJpeED73015730157eusmtrp1C;
- Tue, 24 May 2022 15:32:37 +0000 (GMT)
-X-AuditID: cbfec7f5-bddff70000002814-03-628cfa95c0ee
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 12.89.09404.59AFC826; Tue, 24
- May 2022 16:32:37 +0100 (BST)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220524153237eusmtip2b3fb7136966530549b550fb45623a334~yFFJeMCmc3163231632eusmtip2F;
- Tue, 24 May 2022 15:32:37 +0000 (GMT)
-Received: from [192.168.8.130] (106.210.248.20) by CAMSVWEXC01.scsc.local
- (2002:6a01:e347::6a01:e347) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 24 May 2022 16:32:34 +0100
-Message-ID: <6e409447-be78-f189-231f-f39b1e50b91e@samsung.com>
-Date: Tue, 24 May 2022 17:32:34 +0200
+ id 1ntX4r-008c9J-Lu
+ for linux-nvme@lists.infradead.org; Tue, 24 May 2022 16:08:11 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 81BA760F8C;
+ Tue, 24 May 2022 16:08:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0AA8C34113;
+ Tue, 24 May 2022 16:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653408488;
+ bh=oiW2p/UGLESMDfrF9POu/KIjyAN8pSubovc2wkGpmNs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f32ZOwqaFVKv6UhGz793ohOEqfrZptAhb45nNNhKoNzk6bu86hcwTLXOooSDF9arP
+ hxKpU0MNQU/gviO8eVE5jecbIoPS+Z5D5n5hDRu84LFjeMOcjRYFXZ1kdjb4oXrmIZ
+ tI39MJv1Yqq+t3mJQ8yw7w3HYt/s50Rj/TPpcJacDzbykVCDKvAftjT0XJv9R0/kQZ
+ KNeIIK6IKixBeEtH4wKBNXX24ZrNOLNFEHfmN+2v6iXZ6PZVJfFQ37LTtgzX2lQb25
+ uM+cakgarlmL5aguJerEPMKuNPRka73b0++4H7SuPZ3Zexg3o9faUkk1YaskGAoLUE
+ GYpgKXXYsPloQ==
+Date: Tue, 24 May 2022 10:08:04 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Jonathan Nicklin <jnicklin@blockbridge.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: nvme: split bios issued in reverse order
+Message-ID: <Yo0C5H5jF5WLNVJ1@kbusch-mbp.dhcp.thefacebook.com>
+References: <CAHex0cqo3ChdXgaXRAeqZaVWSZBDaedCd9+M7Krdw=St6q6cyw@mail.gmail.com>
+ <3989a511-c01d-f108-f8d2-0b6cf83aebdc@grimberg.me>
+ <CAHex0coiL6GoBnpiigDmc_K1KKxP7APNpAS0hFFFdOZgAb7Org@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v5 5/7] null_blk: allow non power of 2 zoned devices
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>
-CC: kernel test robot <lkp@intel.com>, <axboe@kernel.dk>, <hch@lst.de>,
- <snitzer@redhat.com>, <damien.lemoal@opensource.wdc.com>, <hare@suse.de>,
- <Johannes.Thumshirn@wdc.com>, <llvm@lists.linux.dev>,
- <kbuild-all@lists.01.org>, <linux-nvme@lists.infradead.org>,
- <dm-devel@redhat.com>, <dsterba@suse.com>, <jiangbo.365@bytedance.com>,
- <linux-kernel@vger.kernel.org>, <gost.dev@samsung.com>,
- <linux-block@vger.kernel.org>, <jaegeuk@kernel.org>, Luis Chamberlain
- <mcgrof@kernel.org>
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <Yoz4PsQjWzVxz+YO@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.20]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPKsWRmVeSWpSXmKPExsWy7djPc7pTf/UkGbw8amCx+m4/m8Xvs+eZ
- Lfa+m81qceFHI5PFnkWTmCxWrj7KZPFk/Sxmi54DH1gs/nbdY7I4232N0WLvLW2Ly7vmsFnM
- X/aU3eJV8yM2iydT9rNZ3JjwlNGifeVTNou2jV8ZHYQ8/p1Yw+axeM9LJo/LZ0s9Nq3qZPPo
- nv2PxWPzknqPF5tnMnrsvtnA5rGz9T6rx/t9V9k81m+5CpQ8Xe3xeZOcR/uBbqYAvigum5TU
- nMyy1CJ9uwSujN9zPzAVnBSoeLopoYHxIW8XIyeHhICJxJPJH5m6GLk4hARWMEq0P/zPAuF8
- YZSY//YqVOYzo8TEI5/ZYVp+73rFDpFYDpT4f5EZrury6p2sEM4uRomHa14xgrTwCthJXJyy
- B8xmEVCV6LvznQkiLihxcuYTFhBbVCBCYmXrGzBbWMBDovXUHbB1zALiEreezAerFxHQlNh4
- cDXYNmaBN8wSGw6uBGrg4GAT0JJo7ASr5xQwlTg4dzEjRK+mROv231Bz5CW2v53DDFIuIaAk
- se2XCcQ3tRJrj50B+0ZCoI9L4veLY0wQCReJmVNmQ9nCEq+Ob4F6X0bi9OQeFgi7WuLpjd/M
- EM0tjBL9O9ezQSywlug7kwNR4yjx/eVdqDCfxI23ghDn8ElM2jadeQKj6iykkJiF5ONZSD6Y
- heSDBYwsqxjFU0uLc9NTi43zUsv1ihNzi0vz0vWS83M3MQLT6Ol/x7/uYFzx6qPeIUYmDsZD
- jBIczEoivClhPUlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeZMzNyQKCaQnlqRmp6YWpBbBZJk4
- OKUamJQ9j3U5K5/hK34lqH1q5Y5S2zUpjEW/Vjp48m+9f5z//6/Vr+5q8uracR/RdzLsCNh7
- KDptWvWh3hbGjE8Sd48brd5yNLXKQ/122o25SbOfH4kKWRig3WGZ8N7qQ3Xu76PTggWtzq1v
- L8t9kRbnYekh+c6MrdT/7xSRCwtuOmTY7Erv2/jg64RJO61k9zornWlSLrdPvqUg8/zipMRJ
- qlZ/2pL+1SXo705/5CJ4TTBoVVfGzfjNRdz30nfVqv+8/fvK24Qrv9osFy+bIfppVu6XJBN7
- 6ebrgS72fS/qL86c/2pH+jVroVMZ7/SvG8uIrLisrRuwY6/G9sycto+pASydUnL7U8/GXP0Z
- xLnRTomlOCPRUIu5qDgRAJlvqloSBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMKsWRmVeSWpSXmKPExsVy+t/xe7pTf/UkGbQ2ClmsvtvPZvH77Hlm
- i73vZrNaXPjRyGSxZ9EkJouVq48yWTxZP4vZoufABxaLv133mCzOdl9jtNh7S9vi8q45bBbz
- lz1lt3jV/IjN4smU/WwWNyY8ZbRoX/mUzaJt41dGByGPfyfWsHks3vOSyePy2VKPTas62Ty6
- Z/9j8di8pN7jxeaZjB67bzaweexsvc/q8X7fVTaP9VuuAiVPV3t83iTn0X6gmymAL0rPpii/
- tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEv4/fcD0wFJwUq
- nm5KaGB8yNvFyMkhIWAi8XvXK3YQW0hgKaPEzDVaEHEZiU9XPrJD2MISf651sXUxcgHVfGSU
- 2DFhIjOEs4tRYsb5eWBVvAJ2Ehen7GEEsVkEVCX67nxngogLSpyc+YQFxBYViJD4tGwCK4gt
- LOAh0XrqDlgvs4C4xK0n88HqRQQ0JTYeXA22gFngDbPEhoMrWSC2TWWS6Dl9AugODg42AS2J
- xk6wZk4BU4mDcxczQgzSlGjd/htqqLzE9rdzmEHKJQSUJLb9MoH4plbi1f3djBMYRWchOW8W
- kjNmIZk0C8mkBYwsqxhFUkuLc9Nzi430ihNzi0vz0vWS83M3MQJTz7ZjP7fsYFz56qPeIUYm
- DsZDjBIczEoivClhPUlCvCmJlVWpRfnxRaU5qcWHGE2BYTSRWUo0OR+Y/PJK4g3NDEwNTcws
- DUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpg2h4TKFpwxLb/654zLw43v9e+LOSRK
- iy9Yf8HWI++QdipvTtCrwhU2/z/xntjZV6rJVvZQUyosUvXD4Sr33y8b43yE/k8zM+1ddubD
- Ec5wu5DH7xeZWshEzlO4Jnv81rqIZXl/T7rX8Pxqyno3aV3jwb5/xp90VX54nVhbOpXRwYzZ
- 5d6WosNvZwbbbn/VtaOS65rTY8eyD69TOfdy9a8R3yC/d8Jyjft9eQJvWo2iko7w3nLv5Vh8
- dNpNtnUSUyrEzs3JuvagS2mte/1HNReVxk+XdSxWhkv5XakV0v0nkX9g07XynYfnxPQ+mCCa
- tO9Fc6bsjqkdMelLK08ELlY3+exy6n6gyb/l7Odvq81XYinOSDTUYi4qTgQA4f3IIsYDAAA=
-X-CMS-MailID: 20220524153237eucas1p112db24d3a714f392b11ca536f8ad02fc
-X-Msg-Generator: CA
-X-RootMTR: 20220524024108eucas1p26a6384cd77f143bb0fa628f01866e0a0
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220524024108eucas1p26a6384cd77f143bb0fa628f01866e0a0
-References: <20220523161601.58078-6-p.raghav@samsung.com>
- <CGME20220524024108eucas1p26a6384cd77f143bb0fa628f01866e0a0@eucas1p2.samsung.com>
- <202205241034.izkLMTcH-lkp@intel.com>
- <7656fdc2-0511-722e-de6a-c2a2460cb048@samsung.com>
- <Yoz4PsQjWzVxz+YO@dev-arch.thelio-3990X>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHex0coiL6GoBnpiigDmc_K1KKxP7APNpAS0hFFFdOZgAb7Org@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220524_083245_052770_2DA5B93E 
-X-CRM114-Status: GOOD (  19.69  )
+X-CRM114-CacheID: sfid-20220524_090809_827736_4FBDABEF 
+X-CRM114-Status: GOOD (  16.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,43 +72,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/24/22 17:22, Nathan Chancellor wrote:
->>>         git remote add linux-review https://protect2.fireeye.com/v1/url?k=081be8db-5780d026-081a6394-000babff317b-d12fdca0fccd0493&q=1&e=5ef82219-ef70-445f-a7d0-0ae0a30be69f&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux
->>>         git fetch --no-tags linux-review Pankaj-Raghav/block-make-blkdev_nr_zones-and-blk_queue_zone_no-generic-for-npo2-zsze/20220524-011616
->>>         git checkout 3d3c81da0adbd40eb0d2125327b7e227582b2a37
->>>         # save the config file
->>>         mkdir build_dir && cp config build_dir/.config
->>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
->>>
->>> If you fix the issue, kindly add following tag where applicable
->>> Reported-by: kernel test robot <lkp@intel.com>
->>>
->>> All errors (new ones prefixed by >>, old ones prefixed by <<):
->>>
->>>>> ERROR: modpost: "__hexagon_umoddi3" [drivers/block/null_blk/null_blk.ko] undefined!
->>
->> I am able to apply my patches cleanly against next-20220523, build it
->> without any errors with GCC and boot into it in my x86_64 machine. Not
->> sure why this error is popping up.
+On Tue, May 24, 2022 at 09:25:20AM -0400, Jonathan Nicklin wrote:
+> On Tue, May 24, 2022 at 8:58 AM Sagi Grimberg <sagi@grimberg.me> wrote:
+> >
+> >
+> > > There seems to be an inconsistency in the order of writes that are
+> > > issued after splitting a bio. Ordering depends on how the application
+> > > write is submitted and the number of I/O queues configured.
+> > >
+> > > In our testing nvme/tcp,
+> >
+> > Is this specific to nvme-tcp?
 > 
-> Do a 32-bit build and you'll see it. With GCC 12.1.0, ARCH=i386
-> defconfig + CONFIG_BLK_DEV_NULL_BLK=y + CONFIG_BLK_DEV_ZONED=y
-> reproduces it for me:
-> 
-> $ make -skj"$(nproc)" ARCH=i386 defconfig menuconfig all
-> ld: drivers/block/null_blk/zoned.o: in function `null_init_zoned_dev':
-> zoned.c:(.text+0x112e): undefined reference to `__umoddi3'
-> ...
-> 
-Ah.. I didn't see anything about 32 bit ARCH in the email so it didn't
-strike to me that was the problem. It said ARCH=hexagon and I had no
-idea what it was. Thanks for reproducing it.
-> roundup() does a plain division with a 64-bit dividend, which will cause
-> issues with 32-bit architectures. I suspect that you should really be
-> using DIV_ROUND_UP_SECTOR_T() for the nr_zones calculation or maybe one
-> of the other rounding macros in include/linux/math.h but I am not sure.
-> 
-That must be it. I will fix it. Thanks Nathan.
-> Cheers,
-> Nathan
+> No. This is not specific to nvme-tcp. I confirmed the same behavior
+> directly to a pci device.
+
+I just tried this on a qemu pci device with MDTS set to  '3' for 32k splits.
+Both psync and libaio dispatch the submitted bio's in ascending LBA order. I'm
+using kernel 5.18 with these fio commands:
+
+ # fio --name=global --filename=/dev/nvme0n1 --bs=128k --direct=1 --size=128k --rw=read --ioengine=psync --name=job 
+ # fio --name=global --filename=/dev/nvme0n1 --bs=128k --direct=1 --size=128k --rw=read --ioengine=libaio --name=job 
+
+The first command produced this trace:
+
+ fio-438 .. 57.799950: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=29184, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=0, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.799995: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=513, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=64, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.800002: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=514, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=128, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.800009: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=515, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=192, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.800017: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=516, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=256, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.800023: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=517, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=320, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.800029: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=518, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=384, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-438 .. 57.800046: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=3, cmdid=519, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=448, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+
+And the second command produced this:
+
+ fio-445 ..  83.440824: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=32896, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=0, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.440870: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=28801, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=64, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.440920: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=24706, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=128, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.440931: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=20611, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=192, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.441246: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=36992, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=256, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.441259: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=32897, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=320, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.441287: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=28802, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=384, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+ fio-445 ..  83.441348: nvme_setup_cmd: nvme0: disk=nvme0n1, qid=10, cmdid=41088, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=448, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
 
