@@ -4,80 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E45B3C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 09:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A70CC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 10:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:Subject:From:References:To:Cc:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f1BGtL4r/WboPXoq5Ib46It9E4Oc6cvyut9QEjlYpHM=; b=mjKCkQK/WAy4yNhb+BeUbQRNV/
-	GDWDtBiLNRKCwOS7iV90qIrTSpzc292Gm6fRGq3PHH8ci45dBkqlJG613aidcKgsuBDm54PN8KPim
-	c85V7uHUDK2ha9+J9qdn0CDxx4EtmM5edtlp1goZdxnj8Ge2Km5RLg+trmHGk8Mkd92xdXSA4SE/V
-	14A6OJdpLQqHQjnrcyD9evWkZP9sLpMiuH4S6uH/pO4nHEHrru7OlCqilj3H1i2x12u0mzuUup/kb
-	HYiZIc4gPuMTxoGNSfMA+fAONQKgjPcf+beZBWJc+ybSKLnq24yISbTJrz3V7eSn5BrzoqWRGCk33
-	0/Qd81pQ==;
+	bh=FKCKMG+a+OeQMu/rgdstrBjlbt9n1Xntur7XQEFNp04=; b=YwlPvMn8kO4X3MU4jH9IY4arDb
+	nMH/GZYZxZL7meF823ywvpujrYcO113crEITQSB/qsiMYAmiJPuywuF3wIWnmPvkEnYqczF5iiUO2
+	/mug0PYQWGCjNrVDVSbiHlrn56ExEQG+NlypVyf+JnkASdTxuq9qenT8QL2/fu/FHU7TM6xh9xzKP
+	mStxfwoy6nK68GdbDYSpgdSbkzq8WR/84h40jVvpxB2iu5fIHaMC3GdQsis0BCuuhlbTRK3piCZJZ
+	+7Z1WCBDo5/EfFmTKxp2deNOSvcBoj0JIDvLj0DAzT+knpWO6GbmSprfUUajFxpFdX3fFv0fpp96r
+	Y6/qvHmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntRJY-007Y76-7d; Tue, 24 May 2022 09:58:56 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1ntRPf-007ZWw-Pz; Tue, 24 May 2022 10:05:15 +0000
+Received: from relay11.mail.gandi.net ([2001:4b98:dc4:8::231])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntRJU-007Y5Q-O2
- for linux-nvme@lists.infradead.org; Tue, 24 May 2022 09:58:54 +0000
-Received: by mail-wr1-f53.google.com with SMTP id t13so5759818wrg.9
- for <linux-nvme@lists.infradead.org>; Tue, 24 May 2022 02:58:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f1BGtL4r/WboPXoq5Ib46It9E4Oc6cvyut9QEjlYpHM=;
- b=7plZt0T66DvLAbx3AJWTa8Kbxi3S3o/HODQp0H4Lz8m8nJk1EncPMPDKT88duitGS+
- y8DwR7KNpK/jDPDlWBnYguXUaRvPsgv1KZr1BAvAzEoL4SEnpXfBJyUSNe/Uao9z4M9e
- rgj5DUT/yKg+0KiE0w2J+QFMBA+/tEl1UXRx7WKuM3t6FF0Jkxr1NemRk572XX/yaGcO
- Y49FEECEv0jfvyr89brNMxddXj2wBArsMjCuAxIGriv5i0mHfzwXRdSbU9IzHLkEdiEa
- kC3QBCu3PePEidwreBPAQX9UYot6/+Q8YbWcADEO1YbB/ZR1GtE7s5SqmGkvuS7zAuU6
- oycw==
-X-Gm-Message-State: AOAM533XhAAenQvBnWvSOxyXkUTz3/sy1QpF1IF2XtW1S3Q+uNt4M1U4
- zvSPDQSXGFswkxXx1mL2QvyLc+xu6ts=
-X-Google-Smtp-Source: ABdhPJx7d16Wa5iJsUx3+ReD79cOUMK4Ju1ywgHkdFKj/ms56g/Ou0vo7xi+okF/MeF40uRoF3x72w==
-X-Received: by 2002:a5d:48c1:0:b0:20c:52e9:6c5b with SMTP id
- p1-20020a5d48c1000000b0020c52e96c5bmr21456496wrs.233.1653386330840; 
- Tue, 24 May 2022 02:58:50 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- f13-20020a7bc8cd000000b003974df805c7sm1771999wml.8.2022.05.24.02.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 02:58:50 -0700 (PDT)
-Message-ID: <500df090-0c3f-79cf-a2b4-f04871b0a528@grimberg.me>
-Date: Tue, 24 May 2022 12:58:49 +0300
+ id 1ntRPb-007ZUP-Ta
+ for linux-nvme@lists.infradead.org; Tue, 24 May 2022 10:05:14 +0000
+Received: (Authenticated sender: i.maximets@ovn.org)
+ by mail.gandi.net (Postfix) with ESMTPSA id 83B6D100011;
+ Tue, 24 May 2022 10:05:02 +0000 (UTC)
+Message-ID: <457ccb80-d41d-ff95-1edc-751741465416@ovn.org>
+Date: Tue, 24 May 2022 12:05:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/3] nvme-tcp: spurious I/O timeout under high load
+ Thunderbird/91.8.0
+Cc: dev@openvswitch.org, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>,
+ borisp@nvidia.com, netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, Hannes Reinecke <hare@suse.de>,
+ simo@redhat.com, linux-fsdevel@vger.kernel.org, ak@tempesta-tech.com,
+ i.maximets@ovn.org
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20220519062617.39715-1-hare@suse.de>
- <20220519062617.39715-2-hare@suse.de>
- <7827d599-7714-3947-ee24-e343e90eee6e@grimberg.me>
- <96a3315f-43a4-efe6-1f37-0552d66dbd85@suse.de>
- <96722b37-f943-c3e4-ee6a-440f65e8afca@grimberg.me>
- <e749bb3e-2ff7-23f5-9f5f-974c986845b6@suse.de>
- <7ec792e3-5110-2272-b6fe-1a976c8c054f@grimberg.me>
- <919bfaa2-a35d-052a-1d35-9fdd8faa0d3f@suse.de>
- <02805f44-6f2d-b12e-c224-d44616332d5a@grimberg.me>
- <76475e4f-13c7-2e0c-8584-f46918f5cefa@suse.de>
- <ec08bc32-3ad3-fade-0acd-ae5d5ca3812f@grimberg.me>
- <582f08b6-ac55-b857-6a38-675b0b5810c8@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <582f08b6-ac55-b857-6a38-675b0b5810c8@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Jakub Kicinski <kuba@kernel.org>, Benjamin Coddington <bcodding@redhat.com>
+References: <165030051838.5073.8699008789153780301.stgit@oracle-102.nfsv4.dev>
+ <165030059051.5073.16723746870370826608.stgit@oracle-102.nfsv4.dev>
+ <20220425101459.15484d17@kernel.org>
+ <66077b73-c1a4-d2ae-c8e4-3e19e9053171@suse.de>
+ <1fca2eda-83e4-fe39-13c8-0e5e7553689b@grimberg.me>
+ <20220426080247.19bbb64e@kernel.org>
+ <40bc060f-f359-081d-9ba7-fae531cf2cd6@suse.de>
+ <20220426170334.3781cd0e@kernel.org>
+ <23f497ab-08e3-3a25-26d9-56d94ee92cde@suse.de>
+ <20220428063009.0a63a7f9@kernel.org>
+ <be7e3c4b-8bb5-e818-1402-ac24cbbcb38c@suse.de>
+ <E2BF9CFF-9361-400B-BDEE-CF5E0AFDCA63@redhat.com>
+ <20220428140856.61e53533@kernel.org>
+From: Ilya Maximets <i.maximets@ovn.org>
+Subject: Re: [ovs-dev] [PATCH RFC 4/5] net/tls: Add support for PF_TLSH (a TLS
+ handshake listener)
+In-Reply-To: <20220428140856.61e53533@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220524_025852_814422_8F4C7A07 
-X-CRM114-Status: GOOD (  32.42  )
+X-CRM114-CacheID: sfid-20220524_030512_313048_5A6544C9 
+X-CRM114-Status: GOOD (  29.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,101 +77,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 5/24/22 12:34, Hannes Reinecke wrote:
-> On 5/24/22 10:53, Sagi Grimberg wrote:
->>
->>>>>>>>> I'm open to discussion what we should be doing when the request 
->>>>>>>>> is in the process of being sent. But when it didn't have a 
->>>>>>>>> chance to be sent and we just overloaded our internal queuing 
->>>>>>>>> we shouldn't be sending timeouts.
->>>>>>>>
->>>>>>>> As mentioned above, what happens if that same reporter opens 
->>>>>>>> another bug
->>>>>>>> that the same phenomenon happens with soft-iwarp? What would you 
->>>>>>>> tell
->>>>>>>> him/her?
->>>>>>>
->>>>>>> Nope. It's a HW appliance. Not a chance to change that.
->>>>>>
->>>>>> It was just a theoretical question.
->>>>>>
->>>>>> Do note that I'm not against solving a problem for anyone, I'm just
->>>>>> questioning if increasing the io_timeout to be unbound in case the
->>>>>> network is congested, is the right solution for everyone instead of
->>>>>> a particular case that can easily be solved with udev to make the
->>>>>> io_timeout to be as high as needed.
->>>>>>
->>>>>> One can argue that this patchset is making nvme-tcp to basically
->>>>>> ignore the device io_timeout in certain cases.
->>>>>
->>>>> Oh, yes, sure, that will happen.
->>>>> What I'm actually arguing is the imprecise difference between 
->>>>> BLK_STS_AGAIN / BLK_STS_RESOURCE as a return value from ->queue_rq()
->>>>> and command timeouts in case of resource constraints on the driver 
->>>>> implementing ->queue_rq().
->>>>>
->>>>> If there is a resource constrain driver is free to return 
->>>>> BLK_STS_RESOURCE (in which case you wouldn't see a timeout) or 
->>>>> accept the request (in which case there will be a timeout).
->>>>
->>>> There is no resource constraint. The driver sizes up the resources
->>>> to be able to queue all the requests it is getting.
->>>>
->>>>> I could live with a timeout if that would just result in the 
->>>>> command being retried. But in the case of nvme it results in a 
->>>>> connection reset to boot, making customers really nervous that 
->>>>> their system is broken.
->>>>
->>>> But how does the driver know that it is running in this environment 
->>>> that
->>>> is completely congested? What I'm saying is that this is a specific use
->>>> case that the solution can have negative side-effects for other common
->>>> use-cases, because it is beyond the scope of the driver to handle.
->>>>
->>>> We can also trigger this condition with nvme-rdma.
->>>>
->>>> We could stay with this patch, but I'd argue that this might be the
->>>> wrong thing to do in certain use-cases.
->>>>
->>> Right, okay.
+On 4/28/22 23:08, Jakub Kicinski wrote:
+> On Thu, 28 Apr 2022 10:09:17 -0400 Benjamin Coddington wrote:
+>>> Noob reply: wish I knew.  (I somewhat hoped _you_ would've been able to
+>>> tell me.)
 >>>
->>> Arguably this is a workload corner case, and we might not want to fix 
->>> this in the driver.
+>>> Thing is, the only method I could think of for fd passing is the POSIX fd
+>>> passing via unix_attach_fds()/unix_detach_fds().  But that's AF_UNIX,
+>>> which really is designed for process-to-process communication, not
+>>> process-to-kernel.  So you probably have to move a similar logic over to
+>>> AF_NETLINK. And design a new interface on how fds should be passed over
+>>> AF_NETLINK.
 >>>
->>> _However_: do we need to do a controller reset in this case?
->>> Shouldn't it be sufficient to just complete the command w/ timeout 
->>> error and be done with it?
->>
->> The question is what is special about this timeout vs. any other
->> timeout?
->>
->> pci attempts to abort the command before triggering a controller
->> reset, Maybe we should also? although abort is not really reliable
->> going on the admin queue...
+>>> But then you have to face the issue that AF_NELINK is essentially UDP, and
+>>> you have _no_ idea if and how many processes do listen on the other end.
+>>> Thing is, you (as the sender) have to copy the fd over to the receiving
+>>> process, so you'd better _hope_ there is a receiving process.  Not to
+>>> mention that there might be several processes listening in...
 > 
-> I am not talking about NVMe abort.
-> I'm talking about this:
+> Sort of. I double checked the netlink upcall implementations we have,
+> they work by user space entity "registering" their netlink address
+> (portid) at startup. Kernel then directs the upcalls to that address.
+> But AFAICT there's currently no way for the netlink "server" to see
+> when a "client" goes away, which makes me slightly uneasy about using
+> such schemes for security related stuff. The user agent may crash and
+> something else could grab the same address, I think.
 > 
-> @@ -2335,6 +2340,11 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
->                  "queue %d: timeout request %#x type %d\n",
->                  nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
-> 
-> +       if (!list_empty(&req->entry)) {
-> +               nvme_tcp_complete_timed_out(rq);
-> +               return BLK_EH_DONE;
-> +       }
-> +
->          if (ctrl->state != NVME_CTRL_LIVE) {
->                  /*
->                   * If we are resetting, connecting or deleting we should
-> 
-> 
-> as the command is still in the queue and NVMe abort don't enter the 
-> picture at all.
+> Let me CC OvS who uses it the most, perhaps I'm missing a trick.
 
-That for sure will not help because nvme_tcp_complete_timed_out stops
-the queue. What you can do is maybe just remove it from the pending list
-and complete it.
+I don't think there are any tricks.  From what I see OVS creates
+several netlink sockets, connects them to the kernel (nl_pid = 0)
+and obtains their nl_pid's from the kernel.
+These pids are either just a task_tgid_vnr() or a random negative
+value from the [S32_MIN, -4096] range.  After that OVS "registers"
+those pids in the openvswitch kernel module.  That just means sending
+an array of integers to the kernel.  Kernel will later use these
+integer pids to find the socket and send data to the userspace.
+
+openvswitch module inside the kernel has no way to detect that
+socket with a certain pid no longer exists.  So, it will continue
+to try to find the socket and send, even if the user-space process
+is dead.
+
+So, if you can find a way to reliably create a process with the
+same task_tgid or trick the randomizer inside the netlink_autobind(),
+you can start receiving upcalls from the kernel in a new process,
+IIUC.  Also, netlink_bind() allows to just specify the nl_pid
+for listening sockets.  That might be another way.
+
+> 
+> My thinking was to use the netlink attribute format (just to reuse the
+> helpers and parsing, but we can invent a new TLV format if needed) but
+> create a new socket type specifically for upcalls.
+> 
+>>> And that's something I _definitely_ don't feel comfortable with without
+>>> guidance from the networking folks, so I didn't pursue it further and we
+>>> went with the 'accept()' mechanism Chuck implemented.
+>>>
+>>> I'm open to suggestions, though.  
+>>
+>> EXPORT_SYMBOL(receive_fd) would allow interesting implementations.
+>>
+>> The kernel keyring facilities have a good API for creating various key_types
+>> which are able to perform work such as this from userspace contexts.
+>>
+>> I have a working prototype for a keyring key instantiation which allows a
+>> userspace process to install a kernel fd on its file table.  The problem
+>> here is how to match/route such fd passing to appropriate processes in
+>> appropriate namespaces.  I think this problem is shared by all
+>> kernel-to-userspace upcalls, which I hope we can discuss at LSF/MM.
+> 
+> Almost made me wish I was coming to LFS/MM :)
+> 
+>> I don't think kernel fds are very special as compared to userspace fds.
+> _______________________________________________
+> dev mailing list
+> dev@openvswitch.org
+> https://mail.openvswitch.org/mailman/listinfo/ovs-dev
+> 
+
 
