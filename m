@@ -4,40 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89D1EC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 12:15:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D41F2C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 12:58:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wkPIZIVONU9b1z8+CgUJJnawZaRvDYyKffX5i5LuXls=; b=rvHODjBYh8mmrRr/SqUP4WpfSE
-	i9dgowkeFrc6W2E/qdY4dActXUz7NhZUKAl1+d1llGhMceXMf2mj55pR52dAyXfTSXrXHDjx4XvTL
-	plim3dhReARPT6FPhAEEupeHoy6H65jjXCnzSmWuJQxmW/WicrO7t3HXipUOu9Yz1bsQviMNAiAgr
-	JJHT5bs5H8RPpU2I+9Tlh9NlQpjMvMgnZjt1O30ttRbkncQ0dg+lA0eCdbQUtK6oodsRkhbmC9Bp0
-	IiniA6r7NXkVt4ruKKZDYgN/YCJqTmkRr9nH+8ZU64ZtJUCTroA9nA6rPTmji8x2wFlsmecLXkWlh
-	1WTnTyNA==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9u+nIpxqOSfGTgVtgZ+Rj20LtTm5iPwX2cJ0QwjgMq4=; b=O7xurwtEZbLmiMYv0qFdEDgziE
+	WUzE+Gc/Hc5r1Ag8wuKWponmz7FVrIr0X35RRb16Ct5g7M2ECjMu9rYXoTx70ahCP80hfwjgUIaZu
+	LG2m+AFBL1l2IWZniVJ5+1Q55zzuZC1Yg4lI09MMCu5YFvnyJxRlNedw0QrJxI66dqVe1ohmkP3gE
+	dtuyQ5Z/T1DOj1eiccUDSj49tYjdHaAyYQeWv9gkmDy49XbK2K6kOdlMo77Q8K6WF00Tnp3Ii5qZ/
+	rgaxqURs4ZNcPCxFEE3Zt0WZGcvo/8W0z9Sv5sZbBt8dSSLKniCiPgr+FhwlP/7u8kpCQpRcjuvVp
+	BCcnqhFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntTRx-007wfL-Fw; Tue, 24 May 2022 12:15:45 +0000
-Received: from [2001:4bb8:18c:7298:91b6:63de:2998:b8b2] (helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntTRr-007wbx-Pg; Tue, 24 May 2022 12:15:40 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH 3/3] blk-mq: remove the done argument to blk_execute_rq_nowait
-Date: Tue, 24 May 2022 14:15:30 +0200
-Message-Id: <20220524121530.943123-4-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220524121530.943123-1-hch@lst.de>
-References: <20220524121530.943123-1-hch@lst.de>
+	id 1ntU7J-0082ab-Uf; Tue, 24 May 2022 12:58:29 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
+ by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1ntU7H-0082ZX-7w
+ for linux-nvme@lists.infradead.org; Tue, 24 May 2022 12:58:28 +0000
+Received: by mail-wm1-f46.google.com with SMTP id
+ c190-20020a1c35c7000000b0038e37907b5bso1391612wma.0
+ for <linux-nvme@lists.infradead.org>; Tue, 24 May 2022 05:58:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9u+nIpxqOSfGTgVtgZ+Rj20LtTm5iPwX2cJ0QwjgMq4=;
+ b=6t3at2BwiBWIUdCFvGWcRT2riReN9CvAR1BO82DmninEuuwtlHeXIBeGK1tKtiEyuN
+ iDxiychiV1Y512q6pGDYrwjIFnoE/RAJW6z1C+qm34MiCgClAZfOMwP8UR1D1GGsiD3g
+ ODNRc/8ubgXuTUlp1uU5gUnujZzwTPEsr+0w+BkpF1BTuBzTXFYQGoiNPKoTiOT/2E2/
+ 1uAaKPeFMT5/TD/Uf6sAQ0XIpRiVPuxR0Wz0CrfQGN0ZEOi9cJrX4UIV6rxHjnG6iBwQ
+ bhB4StDV3Bejpo/8oUEc3rY+Vh9zaUJXc1PprAxcYHMMVdeEUCpLDkmMhMTUSKTl5D2k
+ BNnQ==
+X-Gm-Message-State: AOAM532CARmabYoHvdXv4PeRL4J5OnRGFJq3awwRi/Fu2bP+ttt40MoP
+ L2EA2kPPy6VxE6uV9h/RC+w=
+X-Google-Smtp-Source: ABdhPJyNzCDrD8hpm6NVXTF1dUZoGtLjsxUoAoemEbhVXofRYqZUCcGZ1B03XIrze+POhZwu5TVYYA==
+X-Received: by 2002:a1c:f40a:0:b0:397:306b:caec with SMTP id
+ z10-20020a1cf40a000000b00397306bcaecmr3704259wma.22.1653397104497; 
+ Tue, 24 May 2022 05:58:24 -0700 (PDT)
+Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
+ [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a056000154200b0020ff3a2a925sm1881514wry.63.2022.05.24.05.58.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 May 2022 05:58:24 -0700 (PDT)
+Message-ID: <3989a511-c01d-f108-f8d2-0b6cf83aebdc@grimberg.me>
+Date: Tue, 24 May 2022 15:58:23 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: nvme: split bios issued in reverse order
+Content-Language: en-US
+To: Jonathan Nicklin <jnicklin@blockbridge.com>, linux-nvme@lists.infradead.org
+References: <CAHex0cqo3ChdXgaXRAeqZaVWSZBDaedCd9+M7Krdw=St6q6cyw@mail.gmail.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CAHex0cqo3ChdXgaXRAeqZaVWSZBDaedCd9+M7Krdw=St6q6cyw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20220524_055827_330027_C91DE1D3 
+X-CRM114-Status: GOOD (  18.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -52,277 +81,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Let the caller set it together with the end_io_data instead of passing
-a pointless argument.  Note the the target code did in fact already
-set it and then just overrode it again by calling blk_execute_rq_nowait.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
----
- block/blk-mq.c                     |  5 +----
- drivers/block/sx8.c                |  4 ++--
- drivers/nvme/host/core.c           |  3 ++-
- drivers/nvme/host/ioctl.c          |  3 ++-
- drivers/nvme/host/pci.c            | 10 +++++++---
- drivers/nvme/target/passthru.c     |  3 ++-
- drivers/scsi/scsi_error.c          |  5 +++--
- drivers/scsi/sg.c                  |  3 ++-
- drivers/scsi/st.c                  |  3 ++-
- drivers/scsi/ufs/ufshpb.c          |  6 ++++--
- drivers/target/target_core_pscsi.c |  3 +--
- include/linux/blk-mq.h             |  3 +--
- 12 files changed, 29 insertions(+), 22 deletions(-)
+> There seems to be an inconsistency in the order of writes that are
+> issued after splitting a bio. Ordering depends on how the application
+> write is submitted and the number of I/O queues configured.
+> 
+> In our testing nvme/tcp,
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 28b3e6db98499..8e7860268f614 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1189,7 +1189,6 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
-  * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
-  * @rq:		request to insert
-  * @at_head:    insert request at head or tail of queue
-- * @done:	I/O completion handler
-  *
-  * Description:
-  *    Insert a fully prepared request at the back of the I/O scheduler queue
-@@ -1198,13 +1197,11 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
-  * Note:
-  *    This function will invoke @done directly if the queue is dead.
-  */
--void blk_execute_rq_nowait(struct request *rq, bool at_head, rq_end_io_fn *done)
-+void blk_execute_rq_nowait(struct request *rq, bool at_head)
- {
- 	WARN_ON(irqs_disabled());
- 	WARN_ON(!blk_rq_is_passthrough(rq));
- 
--	rq->end_io = done;
--
- 	blk_account_io_start(rq);
- 	if (current->plug)
- 		blk_add_rq_to_plug(current->plug, rq);
-diff --git a/drivers/block/sx8.c b/drivers/block/sx8.c
-index b361583944b94..63b4f6431d2e6 100644
---- a/drivers/block/sx8.c
-+++ b/drivers/block/sx8.c
-@@ -540,7 +540,7 @@ static int carm_array_info (struct carm_host *host, unsigned int array_idx)
- 	spin_unlock_irq(&host->lock);
- 
- 	DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
--	blk_execute_rq_nowait(rq, true, NULL);
-+	blk_execute_rq_nowait(rq, true);
- 
- 	return 0;
- 
-@@ -579,7 +579,7 @@ static int carm_send_special (struct carm_host *host, carm_sspc_t func)
- 	crq->msg_bucket = (u32) rc;
- 
- 	DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
--	blk_execute_rq_nowait(rq, true, NULL);
-+	blk_execute_rq_nowait(rq, true);
- 
- 	return 0;
- }
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 72f7c955c7078..727c12cbe3272 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1206,9 +1206,10 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	nvme_init_request(rq, &ctrl->ka_cmd);
- 
- 	rq->timeout = ctrl->kato * HZ;
-+	rq->end_io = nvme_keep_alive_end_io;
- 	rq->end_io_data = ctrl;
- 	rq->rq_flags |= RQF_QUIET;
--	blk_execute_rq_nowait(rq, false, nvme_keep_alive_end_io);
-+	blk_execute_rq_nowait(rq, false);
- }
- 
- static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 096b1b47d750e..a2e89db1cd639 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -453,6 +453,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			blk_flags);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
-+	req->end_io = nvme_uring_cmd_end_io;
- 	req->end_io_data = ioucmd;
- 
- 	/* to free bio on completion, as req->bio will be null at that time */
-@@ -461,7 +462,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	pdu->meta_buffer = nvme_to_user_ptr(d.metadata);
- 	pdu->meta_len = d.metadata_len;
- 
--	blk_execute_rq_nowait(req, 0, nvme_uring_cmd_end_io);
-+	blk_execute_rq_nowait(req, false);
- 	return -EIOCBQUEUED;
- }
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5a98a7de09642..0403b6d10bb48 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1438,9 +1438,10 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	}
- 	nvme_init_request(abort_req, &cmd);
- 
-+	abort_req->end_io = abort_endio;
- 	abort_req->end_io_data = NULL;
- 	abort_req->rq_flags |= RQF_QUIET;
--	blk_execute_rq_nowait(abort_req, false, abort_endio);
-+	blk_execute_rq_nowait(abort_req, false);
- 
- 	/*
- 	 * The aborted req will be completed on receiving the abort req.
-@@ -2485,12 +2486,15 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 		return PTR_ERR(req);
- 	nvme_init_request(req, &cmd);
- 
-+	if (opcode == nvme_admin_delete_cq)
-+		req->end_io = nvme_del_cq_end;
-+	else
-+		req->end_io = nvme_del_queue_end;
- 	req->end_io_data = nvmeq;
- 
- 	init_completion(&nvmeq->delete_done);
- 	req->rq_flags |= RQF_QUIET;
--	blk_execute_rq_nowait(req, false, opcode == nvme_admin_delete_cq ?
--			nvme_del_cq_end : nvme_del_queue_end);
-+	blk_execute_rq_nowait(req, false);
- 	return 0;
- }
- 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 5247c24538eba..3cc4d6709c93c 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -285,8 +285,9 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
- 		req->p.rq = rq;
- 		queue_work(nvmet_wq, &req->p.work);
- 	} else {
-+		rq->end_io = nvmet_passthru_req_done;
- 		rq->end_io_data = req;
--		blk_execute_rq_nowait(rq, false, nvmet_passthru_req_done);
-+		blk_execute_rq_nowait(rq, false);
- 	}
- 
- 	if (ns)
-diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-index cdaca13ac1f1c..49ef864df5816 100644
---- a/drivers/scsi/scsi_error.c
-+++ b/drivers/scsi/scsi_error.c
-@@ -2039,12 +2039,13 @@ static void scsi_eh_lock_door(struct scsi_device *sdev)
- 	scmd->cmnd[4] = SCSI_REMOVAL_PREVENT;
- 	scmd->cmnd[5] = 0;
- 	scmd->cmd_len = COMMAND_SIZE(scmd->cmnd[0]);
-+	scmd->allowed = 5;
- 
- 	req->rq_flags |= RQF_QUIET;
- 	req->timeout = 10 * HZ;
--	scmd->allowed = 5;
-+	req->end_io = eh_lock_door_done;
- 
--	blk_execute_rq_nowait(req, true, eh_lock_door_done);
-+	blk_execute_rq_nowait(req, true);
- }
- 
- /**
-diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
-index cbffa712b9f3e..118c7b4a8af2c 100644
---- a/drivers/scsi/sg.c
-+++ b/drivers/scsi/sg.c
-@@ -831,7 +831,8 @@ sg_common_write(Sg_fd * sfp, Sg_request * srp,
- 
- 	srp->rq->timeout = timeout;
- 	kref_get(&sfp->f_ref); /* sg_rq_end_io() does kref_put(). */
--	blk_execute_rq_nowait(srp->rq, at_head, sg_rq_end_io);
-+	srp->rq->end_io = sg_rq_end_io;
-+	blk_execute_rq_nowait(srp->rq, at_head);
- 	return 0;
- }
- 
-diff --git a/drivers/scsi/st.c b/drivers/scsi/st.c
-index 56a093a90b922..850172a2b8f14 100644
---- a/drivers/scsi/st.c
-+++ b/drivers/scsi/st.c
-@@ -579,9 +579,10 @@ static int st_scsi_execute(struct st_request *SRpnt, const unsigned char *cmd,
- 	memcpy(scmd->cmnd, cmd, scmd->cmd_len);
- 	req->timeout = timeout;
- 	scmd->allowed = retries;
-+	req->end_io = st_scsi_execute_end;
- 	req->end_io_data = SRpnt;
- 
--	blk_execute_rq_nowait(req, true, st_scsi_execute_end);
-+	blk_execute_rq_nowait(req, true);
- 	return 0;
- }
- 
-diff --git a/drivers/scsi/ufs/ufshpb.c b/drivers/scsi/ufs/ufshpb.c
-index 588c0329b80ca..8a7809b9728df 100644
---- a/drivers/scsi/ufs/ufshpb.c
-+++ b/drivers/scsi/ufs/ufshpb.c
-@@ -671,11 +671,12 @@ static void ufshpb_execute_umap_req(struct ufshpb_lu *hpb,
- 
- 	req->timeout = 0;
- 	req->end_io_data = umap_req;
-+	req->end_io = ufshpb_umap_req_compl_fn;
- 
- 	ufshpb_set_unmap_cmd(scmd->cmnd, rgn);
- 	scmd->cmd_len = HPB_WRITE_BUFFER_CMD_LENGTH;
- 
--	blk_execute_rq_nowait(req, true, ufshpb_umap_req_compl_fn);
-+	blk_execute_rq_nowait(req, true);
- 
- 	hpb->stats.umap_req_cnt++;
- }
-@@ -707,6 +708,7 @@ static int ufshpb_execute_map_req(struct ufshpb_lu *hpb,
- 	blk_rq_append_bio(req, map_req->bio);
- 
- 	req->end_io_data = map_req;
-+	req->end_io = ufshpb_map_req_compl_fn;
- 
- 	if (unlikely(last))
- 		mem_size = hpb->last_srgn_entries * HPB_ENTRY_SIZE;
-@@ -716,7 +718,7 @@ static int ufshpb_execute_map_req(struct ufshpb_lu *hpb,
- 				map_req->rb.srgn_idx, mem_size);
- 	scmd->cmd_len = HPB_READ_BUFFER_CMD_LENGTH;
- 
--	blk_execute_rq_nowait(req, true, ufshpb_map_req_compl_fn);
-+	blk_execute_rq_nowait(req, true);
- 
- 	hpb->stats.map_req_cnt++;
- 	return 0;
-diff --git a/drivers/target/target_core_pscsi.c b/drivers/target/target_core_pscsi.c
-index bb3fb18b2316d..e6a967ddc08ce 100644
---- a/drivers/target/target_core_pscsi.c
-+++ b/drivers/target/target_core_pscsi.c
-@@ -972,8 +972,7 @@ pscsi_execute_cmd(struct se_cmd *cmd)
- 
- 	cmd->priv = scmd->cmnd;
- 
--	blk_execute_rq_nowait(req, cmd->sam_task_attr == TCM_HEAD_TAG,
--			pscsi_req_done);
-+	blk_execute_rq_nowait(req, cmd->sam_task_attr == TCM_HEAD_TAG);
- 
- 	return 0;
- 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 9f07061418db0..e2d9daf7e8dd0 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -969,8 +969,7 @@ int blk_rq_unmap_user(struct bio *);
- int blk_rq_map_kern(struct request_queue *, struct request *, void *,
- 		unsigned int, gfp_t);
- int blk_rq_append_bio(struct request *rq, struct bio *bio);
--void blk_execute_rq_nowait(struct request *rq, bool at_head,
--		rq_end_io_fn *end_io);
-+void blk_execute_rq_nowait(struct request *rq, bool at_head);
- blk_status_t blk_execute_rq(struct request *rq, bool at_head);
- 
- struct req_iterator {
--- 
-2.30.2
+Is this specific to nvme-tcp?
 
+> a 128K write issued with fio/pvsync
+
+is this specific to the io engine?
+
+> is split
+> into four 32K I/Os (the target maximum data transfer size is set to
+> 32K, and max_sectors_kb is therefore 32K). As expected, the four write
+> I/Os are issued to the target in sequential order. However, if the
+> 128K write is issued using fio/libaio, the four 32K writes are issued
+> in reverse order:
+> 
+> fio-8098 [001] ..... 254009.711080: nvme_setup_cmd: nvme1:
+> disk=nvme1c1n1, qid=2, cmdid=16468, nsid=1, flags=0x0, meta=0x0,
+> cmd=(nvme_cmd_write slba=192, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+> 
+> fio-8098 [001] ..... 254009.711083: nvme_setup_cmd: nvme1:
+> disk=nvme1c1n1, qid=2, cmdid=16467, nsid=1, flags=0x0, meta=0x0,
+> cmd=(nvme_cmd_write slba=128, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+> 
+> fio-8098 [001] ..... 254009.711084: nvme_setup_cmd: nvme1:
+> disk=nvme1c1n1, qid=2, cmdid=16466, nsid=1, flags=0x0, meta=0x0,
+> cmd=(nvme_cmd_write slba=64, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+> 
+> fio-8098 [001] ..... 254009.711085: nvme_setup_cmd: nvme1:
+> disk=nvme1c1n1, qid=2, cmdid=16465, nsid=1, flags=0x0, meta=0x0,
+> cmd=(nvme_cmd_write slba=0, len=63, ctrl=0x0, dsmgmt=0, reftag=0)
+> 
+> Further investigation found that if the number of I/Os queues is
+> limited to 1 at connect time,
+
+Is this specific to a single I/O queue?
+
+> the issue order is sequential for both
+> pwritev and libaio.
+
+I'm assuming that this is 100% repeatable?
+
+> 
+> I've spent some time tracing through the bio/blk_mq code and
+> can't seem to find what might be causing the difference in
+> behavior. Can anyone confirm that this is expected or desired
+> behavior?
+
+What is the controller mdts? does the 32k go in-capsule? or does
+the controller send r2t?
+
+
+Also, if we assume that this is indeed the case, is this a fundamental
+issue?
 
