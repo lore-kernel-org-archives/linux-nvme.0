@@ -4,61 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6668C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 08:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59E64C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 09:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j3z3AlvTe0jvDWLamOTbCF+PlolncdhX1PAZ/UrbCzI=; b=p9bXeDRVZ19S1VsKwY0Jhpa61h
-	7sTNiJjdyYhagrDomNXh8zRsqbruuAU51j5pz43n3dVe9R1EqYWuOTvuip1ANFxysU3ip3o1jlN8C
-	439T8wXMPj3I0DFFugdrea6tDwl6XgBDLeIkpKWz0TBTlcIB3Oy73FAyn5yHEdj6Gp09SE+ss2AqK
-	3BOidsV2AlCCijMfOHMZaHDkK71FRw7LMNnzkmGXmC9s05LwpW9I/omSj0nCqfDcI7tRyVhJDwJ45
-	mXo/Uc4NBzyZRShmBeyvFPuI/FDhVw/pjj/HCWczY+cH+iOFadr0oePRY+u0yZ6Oho79sJjHEFvm6
-	qkZr0pUw==;
+	bh=4x/LgjJulZhqYx0fEl6jnh4utU0yMEuGDJI2kvryC4E=; b=zLytHgK8bkm/6gquRj0WhpAy6R
+	sCfk1eiQ6WCT0LobR5zcA3KRAqbqp6ihMMMrpCu5kjnM+HmZ9igZN5GivHeJOmeDgcsCaGylmMgnj
+	prCKtchfRfEapK3XS722Za2Qh2Bmjlv4UR502SJWl1pvcvnsD2dkoT+ZFI6imWpHRo9udLiI49CAy
+	rO5x8YSkmbR017mVaGRga1XDszh43jkMNmAz3XZUhmWWVpIzBzrOCMxhZD/0u5nPMA5ydpfhcfcmO
+	6bztaPmSaaGtKaH5p9zgCDLx5obRCsZjpI5P09W1/xiYxYcMI+qXlkyv2sBLUeR6zFJyJBzQLLbPP
+	AKmB64NA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntQHw-007KKI-SB; Tue, 24 May 2022 08:53:12 +0000
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
+	id 1ntQw7-007QT0-EP; Tue, 24 May 2022 09:34:43 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntQHu-007KJ4-3r
- for linux-nvme@lists.infradead.org; Tue, 24 May 2022 08:53:11 +0000
-Received: by mail-wm1-f52.google.com with SMTP id
- h19-20020a05600c351300b003975cedb52bso516209wmq.1
- for <linux-nvme@lists.infradead.org>; Tue, 24 May 2022 01:53:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=j3z3AlvTe0jvDWLamOTbCF+PlolncdhX1PAZ/UrbCzI=;
- b=z3ygP74DQwtTNvaHrkvkIiOZ0+VXMmgR/QMLAXOXdWpca89kRUWN9HqFHoM7HoIJnx
- 7QyDyrTQcRiYB4YVSnI2dBUh2/nmRX2yLGzBTfnVijMUPWh9Em6mMngRTvsMa5G4V3Z9
- 1XVlIzMwzlYNPuKO8wtQde5BirjYi6o6xZ4kGxcwy3Yh8Sn5caSywF2w/f86xLU5tl02
- Sni6juvWCJgVpfRTupAuUKBmNGayB4cgqeKe5bfXa3GQOjrzTr0BjI6p4YOm8Mw9g+JH
- 32FyLjPy0pWbRlv9LSuzTpLQXHfhG0ir+dfrHOiCg+yn9Zsec+l7Xn09yIxLwsAxFpWe
- qElw==
-X-Gm-Message-State: AOAM531IDceeQFfykc5WQCJdQ6eZuSWJzvuTaba/PI700jcIYqNHxpgN
- r0uXD28KDPcWwZUwwGwArY9cUvu+ED0=
-X-Google-Smtp-Source: ABdhPJyaLDWm37m9z+i5W9Yf+czgjk2YfZ/6cxgupmreOXKk2+aqQPLBRW67dppMZPR5JJI2ubE8GA==
-X-Received: by 2002:a05:600c:4ed1:b0:394:8352:3ea1 with SMTP id
- g17-20020a05600c4ed100b0039483523ea1mr2663122wmq.153.1653382387094; 
- Tue, 24 May 2022 01:53:07 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net.
- [62.219.42.90]) by smtp.gmail.com with ESMTPSA id
- q7-20020a1ce907000000b003942a244ecesm1413916wmc.19.2022.05.24.01.53.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 01:53:06 -0700 (PDT)
-Message-ID: <ec08bc32-3ad3-fade-0acd-ae5d5ca3812f@grimberg.me>
-Date: Tue, 24 May 2022 11:53:05 +0300
+ id 1ntQw5-007QSb-4K
+ for linux-nvme@lists.infradead.org; Tue, 24 May 2022 09:34:42 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A5E2F21A0D;
+ Tue, 24 May 2022 09:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653384877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4x/LgjJulZhqYx0fEl6jnh4utU0yMEuGDJI2kvryC4E=;
+ b=Lb6Xydl+2D3Z5Rs5QtvsBb/vWw77fq2c48Jm3BfeaLhVvhqVEsUzbxLAitEaSQXe/I3fDN
+ 3oBiVypv5f4HTgJipjJPmTI7jWGl9xWuoa/G0LzgthibrIIiF2Cy+KmaXoPzsS0EkkM85X
+ 85606qDB/zqeEi7gLDlfRP5SZOj+HIE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653384877;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4x/LgjJulZhqYx0fEl6jnh4utU0yMEuGDJI2kvryC4E=;
+ b=NI+NjVtO6VX8XbVORk2NhTpm2lGh4K7HV7tALtFYMvg/dpJCXG3U1EvUC/Iz8DcJCgpqL8
+ 9z61ALZfuzu6TaAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A40E13ADF;
+ Tue, 24 May 2022 09:34:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ggwKIa2mjGJHBwAAMHmgww
+ (envelope-from <hare@suse.de>); Tue, 24 May 2022 09:34:37 +0000
+Message-ID: <582f08b6-ac55-b857-6a38-675b0b5810c8@suse.de>
+Date: Tue, 24 May 2022 11:34:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+ Thunderbird/91.4.0
 Subject: Re: [PATCH 1/3] nvme-tcp: spurious I/O timeout under high load
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20220519062617.39715-1-hare@suse.de>
  <20220519062617.39715-2-hare@suse.de>
@@ -70,13 +77,14 @@ References: <20220519062617.39715-1-hare@suse.de>
  <919bfaa2-a35d-052a-1d35-9fdd8faa0d3f@suse.de>
  <02805f44-6f2d-b12e-c224-d44616332d5a@grimberg.me>
  <76475e4f-13c7-2e0c-8584-f46918f5cefa@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <76475e4f-13c7-2e0c-8584-f46918f5cefa@suse.de>
+ <ec08bc32-3ad3-fade-0acd-ae5d5ca3812f@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ec08bc32-3ad3-fade-0acd-ae5d5ca3812f@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220524_015310_205957_439D8415 
-X-CRM114-Status: GOOD (  29.35  )
+X-CRM114-CacheID: sfid-20220524_023441_355049_EFF51923 
+X-CRM114-Status: GOOD (  30.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,71 +99,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>>>>> I'm open to discussion what we should be doing when the request 
->>>>>>> is in the process of being sent. But when it didn't have a chance 
->>>>>>> to be sent and we just overloaded our internal queuing we 
->>>>>>> shouldn't be sending timeouts.
+On 5/24/22 10:53, Sagi Grimberg wrote:
+> 
+>>>>>>>> I'm open to discussion what we should be doing when the request 
+>>>>>>>> is in the process of being sent. But when it didn't have a 
+>>>>>>>> chance to be sent and we just overloaded our internal queuing we 
+>>>>>>>> shouldn't be sending timeouts.
+>>>>>>>
+>>>>>>> As mentioned above, what happens if that same reporter opens 
+>>>>>>> another bug
+>>>>>>> that the same phenomenon happens with soft-iwarp? What would you 
+>>>>>>> tell
+>>>>>>> him/her?
 >>>>>>
->>>>>> As mentioned above, what happens if that same reporter opens 
->>>>>> another bug
->>>>>> that the same phenomenon happens with soft-iwarp? What would you tell
->>>>>> him/her?
+>>>>>> Nope. It's a HW appliance. Not a chance to change that.
 >>>>>
->>>>> Nope. It's a HW appliance. Not a chance to change that.
+>>>>> It was just a theoretical question.
+>>>>>
+>>>>> Do note that I'm not against solving a problem for anyone, I'm just
+>>>>> questioning if increasing the io_timeout to be unbound in case the
+>>>>> network is congested, is the right solution for everyone instead of
+>>>>> a particular case that can easily be solved with udev to make the
+>>>>> io_timeout to be as high as needed.
+>>>>>
+>>>>> One can argue that this patchset is making nvme-tcp to basically
+>>>>> ignore the device io_timeout in certain cases.
 >>>>
->>>> It was just a theoretical question.
+>>>> Oh, yes, sure, that will happen.
+>>>> What I'm actually arguing is the imprecise difference between 
+>>>> BLK_STS_AGAIN / BLK_STS_RESOURCE as a return value from ->queue_rq()
+>>>> and command timeouts in case of resource constraints on the driver 
+>>>> implementing ->queue_rq().
 >>>>
->>>> Do note that I'm not against solving a problem for anyone, I'm just
->>>> questioning if increasing the io_timeout to be unbound in case the
->>>> network is congested, is the right solution for everyone instead of
->>>> a particular case that can easily be solved with udev to make the
->>>> io_timeout to be as high as needed.
->>>>
->>>> One can argue that this patchset is making nvme-tcp to basically
->>>> ignore the device io_timeout in certain cases.
+>>>> If there is a resource constrain driver is free to return 
+>>>> BLK_STS_RESOURCE (in which case you wouldn't see a timeout) or 
+>>>> accept the request (in which case there will be a timeout).
 >>>
->>> Oh, yes, sure, that will happen.
->>> What I'm actually arguing is the imprecise difference between 
->>> BLK_STS_AGAIN / BLK_STS_RESOURCE as a return value from ->queue_rq()
->>> and command timeouts in case of resource constraints on the driver 
->>> implementing ->queue_rq().
+>>> There is no resource constraint. The driver sizes up the resources
+>>> to be able to queue all the requests it is getting.
 >>>
->>> If there is a resource constrain driver is free to return 
->>> BLK_STS_RESOURCE (in which case you wouldn't see a timeout) or accept 
->>> the request (in which case there will be a timeout).
+>>>> I could live with a timeout if that would just result in the command 
+>>>> being retried. But in the case of nvme it results in a connection 
+>>>> reset to boot, making customers really nervous that their system is 
+>>>> broken.
+>>>
+>>> But how does the driver know that it is running in this environment that
+>>> is completely congested? What I'm saying is that this is a specific use
+>>> case that the solution can have negative side-effects for other common
+>>> use-cases, because it is beyond the scope of the driver to handle.
+>>>
+>>> We can also trigger this condition with nvme-rdma.
+>>>
+>>> We could stay with this patch, but I'd argue that this might be the
+>>> wrong thing to do in certain use-cases.
+>>>
+>> Right, okay.
 >>
->> There is no resource constraint. The driver sizes up the resources
->> to be able to queue all the requests it is getting.
+>> Arguably this is a workload corner case, and we might not want to fix 
+>> this in the driver.
 >>
->>> I could live with a timeout if that would just result in the command 
->>> being retried. But in the case of nvme it results in a connection 
->>> reset to boot, making customers really nervous that their system is 
->>> broken.
->>
->> But how does the driver know that it is running in this environment that
->> is completely congested? What I'm saying is that this is a specific use
->> case that the solution can have negative side-effects for other common
->> use-cases, because it is beyond the scope of the driver to handle.
->>
->> We can also trigger this condition with nvme-rdma.
->>
->> We could stay with this patch, but I'd argue that this might be the
->> wrong thing to do in certain use-cases.
->>
-> Right, okay.
+>> _However_: do we need to do a controller reset in this case?
+>> Shouldn't it be sufficient to just complete the command w/ timeout 
+>> error and be done with it?
 > 
-> Arguably this is a workload corner case, and we might not want to fix 
-> this in the driver.
+> The question is what is special about this timeout vs. any other
+> timeout?
 > 
-> _However_: do we need to do a controller reset in this case?
-> Shouldn't it be sufficient to just complete the command w/ timeout error 
-> and be done with it?
+> pci attempts to abort the command before triggering a controller
+> reset, Maybe we should also? although abort is not really reliable
+> going on the admin queue...
 
-The question is what is special about this timeout vs. any other
-timeout?
+I am not talking about NVMe abort.
+I'm talking about this:
 
-pci attempts to abort the command before triggering a controller
-reset, Maybe we should also? although abort is not really reliable
-going on the admin queue...
+@@ -2335,6 +2340,11 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
+                 "queue %d: timeout request %#x type %d\n",
+                 nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
+
++       if (!list_empty(&req->entry)) {
++               nvme_tcp_complete_timed_out(rq);
++               return BLK_EH_DONE;
++       }
++
+         if (ctrl->state != NVME_CTRL_LIVE) {
+                 /*
+                  * If we are resetting, connecting or deleting we should
+
+
+as the command is still in the queue and NVMe abort don't enter the 
+picture at all.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
