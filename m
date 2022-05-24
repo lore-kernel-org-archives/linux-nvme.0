@@ -4,35 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AD2FC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AE4BC4167E
 	for <linux-nvme@archiver.kernel.org>; Tue, 24 May 2022 12:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ImLzo4Z+gpfHhCqP6y5Z2hiix0lT9/GXA9a6s1oQrLg=; b=Eejy/f1Aw+qUDL34OHmmjWdA7j
-	mnodBd0Hd2aOWGEfTtpbjrkGozuTPh5Seq+bU0E53qWzHOgLbNs/DFst0hPxr+UO0dQ5wluuLm9XE
-	uyK7Fv3chHEPjA9ABSP64tWoqnoVcwkc3PJQMgBtiU1Htrdb+lEB9fR3WTPqaLjtJzwSf9ec4n/Uf
-	HkiTETz3XpA8UGBFRz8kNLhcJDm8Aw94gRZSFBmQnSLy9ILc8dv9L+zWhWapO8GMi5hqVk7UAovmY
-	jb9FvRqNXMMiO0l4ngLH4TBxIKfzubDmeQWNQqU2lYkO/ImpRgQdJZumLF4fbmT+v9QO+y61F7IgA
-	v76r6xvQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=S8K6Jpbf+n29Q5SpRcJVJSKq9o1yhB/HxfphEluK0VI=; b=tTiii3GqIyZ2AeX0L7kxcWdEv9
+	obvvEIKrvzlSIinMu0TKvcOFFG5IcmJ+gE/wpyZ0ur2Khfdy4gS48fb2C1fueYC+mb+/IpcbsA/0n
+	U/DtALhvXY75ACPqIqFY0Cz0EENrAIxyQzb5Birh7aD8GxYdzU/aVo86AB9010/dtFJZDU0bmgcIv
+	w1VW0j7VhO498eWx0sssvGdAw+s75r6tZvliM1wgW4LcaOR9mTU69QbgItFbG0laFh+efmXqIzXKy
+	16cGgHZbUUaU1MpQCCkQIPOk7K0Ri7ZGVedK7TtX6YyR82vC9wbHuPzwqnihWTbWUbDK7FGDaGIOr
+	uuTIi0aQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntTRl-007wao-Ry; Tue, 24 May 2022 12:15:33 +0000
+	id 1ntTRp-007wbX-Kb; Tue, 24 May 2022 12:15:37 +0000
 Received: from [2001:4bb8:18c:7298:91b6:63de:2998:b8b2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ntTRj-007waP-Sy; Tue, 24 May 2022 12:15:32 +0000
+ id 1ntTRm-007wak-Js; Tue, 24 May 2022 12:15:35 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org
-Subject: cleanup blk_execute_rq* v2
-Date: Tue, 24 May 2022 14:15:27 +0200
-Message-Id: <20220524121530.943123-1-hch@lst.de>
+ target-devel@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 1/3] blk-mq: remove __blk_execute_rq_nowait
+Date: Tue, 24 May 2022 14:15:28 +0200
+Message-Id: <20220524121530.943123-2-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220524121530.943123-1-hch@lst.de>
+References: <20220524121530.943123-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -49,15 +51,117 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+We don't want to plug for synchronous execution that where we immediately
+wait for the request.  Once that is done not a whole lot of code is
+shared, so just remove __blk_execute_rq_nowait.
 
-this series cleans up the blk_execute_rq* helpers.  It simplifies the
-plugging mess a bit, fixes the sparse __bitwise warnings and simplifies
-the blk_execute_rq_nowait API a bit.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ block/blk-mq.c | 69 ++++++++++++++++++++++----------------------------
+ 1 file changed, 30 insertions(+), 39 deletions(-)
 
-Changes since v1:
- - rebased to the current Linus tree with the nvme driver changes
-   merged
- - fixed a trailing whitespace and odd formatting
- - fixed a mising semicolon in ufs
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index ae116b7556482..31a89d1004b8f 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1203,28 +1203,6 @@ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
+ 	plug->rq_count++;
+ }
+ 
+-static void __blk_execute_rq_nowait(struct request *rq, bool at_head,
+-		rq_end_io_fn *done, bool use_plug)
+-{
+-	WARN_ON(irqs_disabled());
+-	WARN_ON(!blk_rq_is_passthrough(rq));
+-
+-	rq->end_io = done;
+-
+-	blk_account_io_start(rq);
+-
+-	if (use_plug && current->plug) {
+-		blk_add_rq_to_plug(current->plug, rq);
+-		return;
+-	}
+-	/*
+-	 * don't check dying flag for MQ because the request won't
+-	 * be reused after dying flag is set
+-	 */
+-	blk_mq_sched_insert_request(rq, at_head, true, false);
+-}
+-
+-
+ /**
+  * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
+  * @rq:		request to insert
+@@ -1240,8 +1218,16 @@ static void __blk_execute_rq_nowait(struct request *rq, bool at_head,
+  */
+ void blk_execute_rq_nowait(struct request *rq, bool at_head, rq_end_io_fn *done)
+ {
+-	__blk_execute_rq_nowait(rq, at_head, done, true);
++	WARN_ON(irqs_disabled());
++	WARN_ON(!blk_rq_is_passthrough(rq));
+ 
++	rq->end_io = done;
++
++	blk_account_io_start(rq);
++	if (current->plug)
++		blk_add_rq_to_plug(current->plug, rq);
++	else
++		blk_mq_sched_insert_request(rq, at_head, true, false);
+ }
+ EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
+ 
+@@ -1277,27 +1263,32 @@ static void blk_rq_poll_completion(struct request *rq, struct completion *wait)
+ blk_status_t blk_execute_rq(struct request *rq, bool at_head)
+ {
+ 	DECLARE_COMPLETION_ONSTACK(wait);
+-	unsigned long hang_check;
+ 
+-	/*
+-	 * iopoll requires request to be submitted to driver, so can't
+-	 * use plug
+-	 */
++	WARN_ON(irqs_disabled());
++	WARN_ON(!blk_rq_is_passthrough(rq));
++
+ 	rq->end_io_data = &wait;
+-	__blk_execute_rq_nowait(rq, at_head, blk_end_sync_rq,
+-			!blk_rq_is_poll(rq));
++	rq->end_io = blk_end_sync_rq;
+ 
+-	/* Prevent hang_check timer from firing at us during very long I/O */
+-	hang_check = sysctl_hung_task_timeout_secs;
++	blk_account_io_start(rq);
++	blk_mq_sched_insert_request(rq, at_head, true, false);
+ 
+-	if (blk_rq_is_poll(rq))
++	if (blk_rq_is_poll(rq)) {
+ 		blk_rq_poll_completion(rq, &wait);
+-	else if (hang_check)
+-		while (!wait_for_completion_io_timeout(&wait,
+-				hang_check * (HZ/2)))
+-			;
+-	else
+-		wait_for_completion_io(&wait);
++	} else {
++		/*
++		 * Prevent hang_check timer from firing at us during very long
++		 * I/O
++		 */
++		unsigned long hang_check = sysctl_hung_task_timeout_secs;
++
++		if (hang_check)
++			while (!wait_for_completion_io_timeout(&wait,
++					hang_check * (HZ/2)))
++				;
++		else
++			wait_for_completion_io(&wait);
++	}
+ 
+ 	return (blk_status_t)(uintptr_t)rq->end_io_data;
+ }
+-- 
+2.30.2
+
 
