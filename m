@@ -4,79 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2715C433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 May 2022 10:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E304C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 May 2022 10:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=19Yk2EC/4RBS7U4lBRZi09NHU0WgGJmCkalQ4O+Ho34=; b=lu08jNhPNwaLY4iE3Qc3vmk7eq
-	ai2zsi1Q+Yyo00R/h4zFJnBHfKQhi9vr7DeYDBkkmYwpDex0OjMBDZ7JGnSxUEvAB5vvVf1sao8Co
-	9+KcsHbbz19ZDk+zVY3OQbD9Vl48kT6No5dVTZOYb0ueZCfx8ekLaEDBViVwWLcsK5Qnrem3VmsWZ
-	nsgRkK5HW9zvyTw7DblYo9tdngQnxXOHooFIloT8YhqGiz9n75ExnKI4B969AinzgB1fQUybn/abh
-	YG1OYQZbpO5Q0vh3LxH4k3jWMeprkyuzDjEYbmcE0JJTtTAEo4pWMTv5E8VNAOcFo2W0PUWD+8lul
-	2tb3xigQ==;
+	bh=cYFvf5S74zrkxiUcx9efmkq8IReMie2+kmRtGzK9T9A=; b=QUfjoRuKq1EOWwQgDXgHVBLlh4
+	/eKx5D2XrwiRhXZkpnFm0YFckY9MYkj7hRR1ypJkRxDASmK4bt/7KmlYknIP0TFzYu3LsJQGXEG9x
+	RmaqjlWY/ZBTNHBsnIF3/+HqZEV4rNe7xUWZ6i+SSvAXwhzXK+xrGU3P7hmmoK9RC524b0PTes+uh
+	PHIixnSfUKj7L7p+b1MdDwFrA9WtBV3pV9qm1ESxDPaT18FCZNk5MQYdCIq2+ptcOHrzoLmPTJQJl
+	ND3S7THH6c8ljrTe7IzAfHYOF+CSEqagddTfnTgadcNvb4wXL8j8zA5tH8p0eJ8B1NTblYR7aX0Mf
+	RKzp/HmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntoPT-00AjLD-6u; Wed, 25 May 2022 10:38:35 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1ntoTX-00AkUA-Pd; Wed, 25 May 2022 10:42:47 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntoPQ-00AjKX-7h
-	for linux-nvme@lists.infradead.org; Wed, 25 May 2022 10:38:33 +0000
-Received: by mail-wm1-f46.google.com with SMTP id v4-20020a1cac04000000b00397001398c0so834101wme.5
-        for <linux-nvme@lists.infradead.org>; Wed, 25 May 2022 03:38:32 -0700 (PDT)
+	id 1ntoTU-00AkSz-Ad
+	for linux-nvme@lists.infradead.org; Wed, 25 May 2022 10:42:45 +0000
+Received: by mail-wr1-f49.google.com with SMTP id p10so10901962wrg.12
+        for <linux-nvme@lists.infradead.org>; Wed, 25 May 2022 03:42:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=19Yk2EC/4RBS7U4lBRZi09NHU0WgGJmCkalQ4O+Ho34=;
-        b=W8+fwSIl9w9SP25swKSqVyX7aBEp02+8Q96s0P1lwE6eT862YKVSK6ezbzUV5soO3E
-         Gly68ceE98DZbpwmr4Q64Hq1/575tcA1OfIButIinDfX0DwRGz35zd8sw9CbJWsJfwb5
-         NE1rd3+SK2TuOb8WgK/+l1/gpFeiX2ocLANcfJt9RPz7BBkL+6uC4smrQPYTGM6NEDrf
-         fWkVYq+uZB27AORGjaGJWpkSW4g1R3aOIiN8VZHmCTUStmDoGKMZrZ3jSfZuNFmFnwNO
-         rq2ngzlvB/c2evQumLhoBdWAkmGTmz02lqwTYB+gOm6k0DPwbMST4thP89NjYBDuGOWw
-         ChUQ==
-X-Gm-Message-State: AOAM531RuyPAwS1RW5DC0P778bfcYEwQ/B2EJBz90eTe/e2aNUhaqJPP
-	GA9mpZhKVjo4NGfMUq1F8h4=
-X-Google-Smtp-Source: ABdhPJxnMgT9qB5nMscHiWb+Zuw1tSLeozdYN44dD/4szU6vM/1MOBi4Z4pxYL2z+vGMO3tMIkkSNQ==
-X-Received: by 2002:a05:600c:1d99:b0:397:5d48:e431 with SMTP id p25-20020a05600c1d9900b003975d48e431mr6212726wms.119.1653475111018;
-        Wed, 25 May 2022 03:38:31 -0700 (PDT)
+        bh=cYFvf5S74zrkxiUcx9efmkq8IReMie2+kmRtGzK9T9A=;
+        b=pDhZeSiAR7OVPgkm5TF/JewHi4GyMPFH26UUfwUiy0stmVSVX7PvByWjFvNq0hJrZG
+         xDYFK7JpvlnOhBP8Tao1fEdozxd6WMjVZIZ9WegtYOUQAkFqyF4Eb9dh8N86+QKsT03x
+         5fpUYmN9fgpHhKo9GlbIessn+BkZPR7tTT2mAinVE3tYCIfFMTHKyjxl7d0YZcP13kva
+         oh7ygUDu3kKNW4fosqhFptqKZogMViJey8hKsPcHztP5Gt6uIE+VJRn4XmJ5Aw+PkjaL
+         PTAlAyYGuoV3Te+YIRxIy4aMSW83etYCHb6F0IbYtdqlu4GEmkiIryj1EdnMxDQ2YkCV
+         4mBw==
+X-Gm-Message-State: AOAM532bMOplgSpdqh4HpiB2S4QOfev0rbMFBhSsXDREVAt7quDjUels
+	J75a21/wTbabKpoSrbzYa5w=
+X-Google-Smtp-Source: ABdhPJwVvlVhvwu055D6La1n8dBFZz/FVJlSa2HTQmGMFjI+M0cb6I0EvT6Q0weDGII3foC6XGglwg==
+X-Received: by 2002:a5d:6782:0:b0:20f:dd3a:3edf with SMTP id v2-20020a5d6782000000b0020fdd3a3edfmr12628365wru.517.1653475362422;
+        Wed, 25 May 2022 03:42:42 -0700 (PDT)
 Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l18-20020adffe92000000b0020d0b2de858sm1728462wrr.33.2022.05.25.03.38.29
+        by smtp.gmail.com with ESMTPSA id b24-20020a7bc258000000b003974ba5cacdsm1750495wmj.35.2022.05.25.03.42.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 03:38:29 -0700 (PDT)
-Message-ID: <dc6e7c12-2dcd-c01e-f10c-430c824231b0@grimberg.me>
-Date: Wed, 25 May 2022 13:38:28 +0300
+        Wed, 25 May 2022 03:42:42 -0700 (PDT)
+Message-ID: <e2845be6-6759-5330-7d79-77c733af22b1@grimberg.me>
+Date: Wed, 25 May 2022 13:42:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH] nvme-tcp: handle failing req immediately for
- REQ_FAILFAST_DRIVER
+Subject: Re: [PATCH 09/11] nvmet: Implement basic In-Band Authentication
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Anton Eidelman <anton@lightbitslabs.com>, linux-nvme@lists.infradead.org,
- Martin.Belanger@dell.com
-References: <20220407092540.66227-1-dwagner@suse.de>
- <eef5eda6-f00f-b879-858f-80f7ce44a362@grimberg.me>
- <20220407122054.reywmgnysnhryvg2@carbon.lan>
- <129b9f99-fd4d-1920-dee8-652e774a3b57@grimberg.me>
- <20220407133806.xawe6y5v5uec4vzi@carbon.lan>
- <48363e60-d506-b1bf-cb3a-db781290f285@grimberg.me>
- <20220407135353.uupdcx2jbk37qtpx@carbon.lan>
- <20220407150155.sryxcqrv25wt3irp@carbon.lan>
- <adb47490-e13a-1c18-c6fb-23a233471796@grimberg.me>
- <20220411112217.vihnysakkzawmrvo@carbon.lan>
- <20220525075844.7qk5wn3vbiltadhw@carbon.lan>
+To: Hannes Reinecke <hare@suse.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-crypto@vger.kernel.org
+References: <20220518112234.24264-1-hare@suse.de>
+ <20220518112234.24264-10-hare@suse.de>
+ <e13a0c12-362d-e4b6-c558-03367815264b@nvidia.com>
+ <903b586c-b539-c4e5-9233-7e24aa55f11b@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20220525075844.7qk5wn3vbiltadhw@carbon.lan>
+In-Reply-To: <903b586c-b539-c4e5-9233-7e24aa55f11b@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220525_033832_322736_61697E9B 
-X-CRM114-Status: GOOD (  13.51  )
+X-CRM114-CacheID: sfid-20220525_034244_403465_903578B5 
+X-CRM114-Status: GOOD (  18.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,28 +85,110 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>>> I see there is a shutdown_timeout which is 5 seconds on default. Seems
->>>>> not to trigger though.
->>>>
->>>> Obviously, the shutdown_timeout is not connected to the register
->>>> writes. So we would need something like:
+>> Hi Hannes,
+>>
+>> On 5/18/2022 2:22 PM, Hannes Reinecke wrote:
+>>> Implement NVMe-oF In-Band authentication according to NVMe TPAR 8006.
+>>> This patch adds three additional configfs entries 'dhchap_key',
+>>> 'dhchap_ctrl_key', and 'dhchap_hash' to the 'host' configfs directory.
+>>> The 'dhchap_key' and 'dhchap_ctrl_key' entries need to be in the ASCII
+>>> format as specified in NVMe Base Specification v2.0 section 8.13.5.8
+>>> 'Secret representation'.
+>>> 'dhchap_hash' defaults to 'hmac(sha256)', and can be written to to
+>>> switch to a different HMAC algorithm.
 >>>
->>> Looking at this, its probably not what we want...
->>
->> I agree. We just have to make sure that we fail these register
->> read/writes on transport layer and don't requeue them.
->>
->>> I've inspected the code and I don't think that we should check
->>> the return code at all, we should simply fail the request. If
->>> the io_work context is running in parallel with the the error
->>> recovery handler we have a bug that we need to fix.
+>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>> ---
+>>>   drivers/nvme/target/Kconfig            |  12 +
+>>>   drivers/nvme/target/Makefile           |   1 +
+>>>   drivers/nvme/target/admin-cmd.c        |   2 +
+>>>   drivers/nvme/target/auth.c             | 367 ++++++++++++++++++
+>>>   drivers/nvme/target/configfs.c         | 107 +++++-
+>>>   drivers/nvme/target/core.c             |  11 +
+>>>   drivers/nvme/target/fabrics-cmd-auth.c | 491 +++++++++++++++++++++++++
+>>>   drivers/nvme/target/fabrics-cmd.c      |  38 +-
+>>>   drivers/nvme/target/nvmet.h            |  62 ++++
+>>>   9 files changed, 1088 insertions(+), 3 deletions(-)
+>>>   create mode 100644 drivers/nvme/target/auth.c
+>>>   create mode 100644 drivers/nvme/target/fabrics-cmd-auth.c
 >>>
->>> How about this?
+>>> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+>>> index 973561c93888..e569319be679 100644
+>>> --- a/drivers/nvme/target/Kconfig
+>>> +++ b/drivers/nvme/target/Kconfig
+>>> @@ -83,3 +83,15 @@ config NVME_TARGET_TCP
+>>>         devices over TCP.
+>>>         If unsure, say N.
+>>> +
+>>> +config NVME_TARGET_AUTH
+>>> +    bool "NVMe over Fabrics In-band Authentication support"
+>>> +    depends on NVME_TARGET
+>>> +    depends on NVME_AUTH
+>>> +    select CRYPTO_HMAC
+>>> +    select CRYPTO_SHA256
+>>> +    select CRYPTO_SHA512
+>>> +    help
+>>> +      This enables support for NVMe over Fabrics In-band Authentication
+>>> +
+>>> +      If unsure, say N.
+>>> diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
+>>> index 9837e580fa7e..c66820102493 100644
+>>> --- a/drivers/nvme/target/Makefile
+>>> +++ b/drivers/nvme/target/Makefile
+>>> @@ -13,6 +13,7 @@ nvmet-y        += core.o configfs.o admin-cmd.o 
+>>> fabrics-cmd.o \
+>>>               discovery.o io-cmd-file.o io-cmd-bdev.o
+>>>   nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)    += passthru.o
+>>>   nvmet-$(CONFIG_BLK_DEV_ZONED)        += zns.o
+>>> +nvmet-$(CONFIG_NVME_TARGET_AUTH)    += fabrics-cmd-auth.o auth.o
+>>>   nvme-loop-y    += loop.o
+>>>   nvmet-rdma-y    += rdma.o
+>>>   nvmet-fc-y    += fc.o
+>>> diff --git a/drivers/nvme/target/admin-cmd.c 
+>>> b/drivers/nvme/target/admin-cmd.c
+>>> index 31df40ac828f..fc8a957fad0a 100644
+>>> --- a/drivers/nvme/target/admin-cmd.c
+>>> +++ b/drivers/nvme/target/admin-cmd.c
+>>> @@ -1018,6 +1018,8 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+>>>       if (nvme_is_fabrics(cmd))
+>>>           return nvmet_parse_fabrics_admin_cmd(req);
+>>> +    if (unlikely(!nvmet_check_auth_status(req)))
+>>> +        return NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+>>>       if (nvmet_is_disc_subsys(nvmet_req_subsys(req)))
+>>>           return nvmet_parse_discovery_cmd(req);
+>>> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+>>> new file mode 100644
+>>> index 000000000000..003c0faad7ff
+>>> --- /dev/null
+>>> +++ b/drivers/nvme/target/auth.c
+>>> @@ -0,0 +1,367 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * NVMe over Fabrics DH-HMAC-CHAP authentication.
+>>> + * Copyright (c) 2020 Hannes Reinecke, SUSE Software Solutions.
+>>> + * All rights reserved.
+>>> + */
+>>> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>>> +#include <linux/module.h>
+>>> +#include <linux/init.h>
+>>> +#include <linux/slab.h>
+>>> +#include <linux/err.h>
+>>> +#include <crypto/hash.h>
+>>> +#include <linux/crc32.h>
+>>> +#include <linux/base64.h>
+>>> +#include <linux/ctype.h>
+>>> +#include <linux/random.h>
+>>> +#include <asm/unaligned.h>
+>>> +
+>>> +#include "nvmet.h"
+>>> +#include "../host/auth.h"
 >>
->> Yes this would work fine for my case.
-> 
-> Do you want me to post this patch or are you going to post it?
+>> maybe we can put the common stuff to include/linux/nvme-auth.h instead 
+>> of doing ../host/auth.h ?
+>>
+>>
+> Yes, we can do that.
+> Will be fixing it for the next round.
 
-Would like to get Anton's feedback on it, will ping him to reply
-soon.
+We already do that in nvmet-loop, I don't think it is really needed.
 
