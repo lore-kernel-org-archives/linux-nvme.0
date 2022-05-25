@@ -4,70 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9054EC433F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 May 2022 18:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C03EAC433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 May 2022 22:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b8S6KpSx/8UCHrqKd2wB9qrGCuIDtz1tHvkaQqSRUOc=; b=E+7J5p0pO0AylPOEgFMzZbkcLe
-	OU9GrQ56m6yKDLleOxcUVyzlZYvQVid7s6hXqy2OhOy7pa6D6yp4mLMiKQmYnhQXyWM1kEvLXPhWe
-	46XNt7XjqaXiZnO6bFAYPVmjuJssUFpI3ZFOQGWy7DClGPamrY35xwIQK+fgyjtqiKNSdRaUNP4x6
-	XnXysy2z9C8EfnYz9j4XqRYIEK9fwE64VC6s7W3yChdimLdzh+vr9erjEGG9mykL0JB51cQLN/cGk
-	c63GqxYQOXgnzYrgMolOL9sZXwyR7wV2vUngWlHaZQ6pYi/rHivoaVPIuOzCeBLgVGL8pmr6+V0IW
-	W/80XExA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=uOobr8g0kT4vEBTgEu41bzRQi+qLtEZA9dzxHh988+w=; b=eIrS3ltU43APT/j1B7Pd+LLldJ
+	ao4VlxJ6v2LvoWqqXzvCEQxZ7QoIqd1W7rmZUgPm3zJKYf5yuU34XGU5rC+3Z+VO9dXjjEZVBW4QN
+	K5KjVtm6wGxp8TlL+UFETl1PxODbgMTMsFxDthewBhvWSukG0TNeAyRdKwnlbn7wD6AwmWWx/4ost
+	0021dJ0W1liB2tmbMiGWSmTgJAUIPrOm2knqWRXhOWhlsQ1RX1EVZs2aiVdodCArq58z+aBQvjD+M
+	xt/XX1YhvB/aB3Dfcqu/6SbIz0C1rpKYqZKrZAq79Q3HHinBK03EhviaAqM5yjpQNwsBPptQpKs2d
+	au5VCGIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntw62-00C9cG-QO; Wed, 25 May 2022 18:51:02 +0000
-Received: from mail-ej1-f46.google.com ([209.85.218.46])
+	id 1ntzKV-00Cqhe-2B; Wed, 25 May 2022 22:18:11 +0000
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntw5y-00C9at-Qa
-	for linux-nvme@lists.infradead.org; Wed, 25 May 2022 18:51:01 +0000
-Received: by mail-ej1-f46.google.com with SMTP id rs12so31702434ejb.13
-        for <linux-nvme@lists.infradead.org>; Wed, 25 May 2022 11:50:56 -0700 (PDT)
+	id 1ntzKR-00CqgJ-Ml
+	for linux-nvme@lists.infradead.org; Wed, 25 May 2022 22:18:09 +0000
+Received: by mail-pf1-x436.google.com with SMTP id p8so148479pfh.8
+        for <linux-nvme@lists.infradead.org>; Wed, 25 May 2022 15:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=uOobr8g0kT4vEBTgEu41bzRQi+qLtEZA9dzxHh988+w=;
+        b=xpDGw8HD+rq0ijZElDdUGvJGAZlpyvFvuENAf0s86Ef94wJeHiSRryth3N/ygc6E7L
+         5EbTlAWA2vba+4KQRF0YHYTiOMYpfCE8L2MgOsIZ+w+i7JO5KPkF9xH/YAcXmLPaP1qy
+         eQEVgSNsp37uRxguZlUK9MNiE7LoerAZtQ37XcBYz13entkCPWgEagwijO6PNNqKOvJh
+         5bm9YGNvIy7wXQ/y81JLv6eS0t7JYb+HoHct/wdceSe1KE2/lnipDp4lcsvCGvwe64zJ
+         iGyy7lWhoVTUfy7udPnkAQXCA0uBzZF/jRknEzFU9mqEnFQnJMD/T9ZZ9i97TYy2Tgur
+         DZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=b8S6KpSx/8UCHrqKd2wB9qrGCuIDtz1tHvkaQqSRUOc=;
-        b=KoFliYmnLAk0FJhgNatvJRhYIuYB6klw7wTA9uhxw+qCPqN8y7aFqKmN0ggkx3Q1Cp
-         +YKM/x6tPfHZwyoiT4tMCFqoX80uxpL4V3zjEOya4YK4+rRtfIxbDcppprdvSnFqsTNh
-         F5oTYWkm8dixtxcLh5+8aOmz3TdbyU9f44F6lAXvEtg/HH2leJr88ZhmgSFQKqQvv5w0
-         WGONWr74AEvbw5rSG45c7zVn11BzHfEieuu4+1DzXHUs3GwLe+e9PLSHrJVtG94qubmE
-         wFZMNEIpdI7bhWc0JuTNHMcnSdDBO+YacMHw6vVzH9WJWLyWU80ae0apGnsmSBQIm894
-         i0jQ==
-X-Gm-Message-State: AOAM533SXBNpSEI4yQpmx+ePx2sCRZ1V1Hr1Ydrhz8ns1wyz+6yn0/Zk
-	H+X+1L9xphBDB4jDFCMLFNE=
-X-Google-Smtp-Source: ABdhPJw7cmZQR3z2aQG987BTdUWi824dKt19/XjqgPfnr4e7WbcP46wlyBipPTdRYEUwkVFlY8AuSQ==
-X-Received: by 2002:a17:907:1c8a:b0:6e9:2a0d:d7b7 with SMTP id nb10-20020a1709071c8a00b006e92a0dd7b7mr30123374ejc.572.1653504654548;
-        Wed, 25 May 2022 11:50:54 -0700 (PDT)
-Received: from [192.168.50.14] (178-117-55-239.access.telenet.be. [178.117.55.239])
-        by smtp.gmail.com with ESMTPSA id st11-20020a170907c08b00b006ff0fe78cb7sm877215ejc.133.2022.05.25.11.50.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 11:50:53 -0700 (PDT)
-Message-ID: <4f15039a-eae1-ff69-791c-1aeda1d693df@acm.org>
-Date: Wed, 25 May 2022 20:50:52 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=uOobr8g0kT4vEBTgEu41bzRQi+qLtEZA9dzxHh988+w=;
+        b=YN21gulr1eJCrH2smlWvg1Ry5mEbx8ena/aFsewgWBHQJWCfg2WHfMHBPP0gmI5cS6
+         K0UPD5cZuSOPJGXZge9PEbsCd5DVcYO2PdvDqFdMndmQDl1WjFnuiYcO0yMSyTOBlnxm
+         Nch14eWapBheKQF6tGO7xsZ8FpM6NO0DLqZwnYQmHQiM4/OCSHYOQtU8WCAcqiLxePXc
+         oSIb2e7W+IlaBaNAsXEUqi/A5PqJepZOyqncagIht7yVHvTk3xXcmaGbSI9iaB5oxZ4m
+         oXnyeoA/wdALZuRE2O2mr8BS0eNxSSntfINIz/JPXyO8trRnQXgR7ZHBKYNXoYbOA9X6
+         zGQw==
+X-Gm-Message-State: AOAM530GZVsJQDTRYNBWRCExTakd2c/DrGqjDX0qvDRS5QZdRgL6f2Mo
+	2I4pxFNECKLIRuWq49kOiLbpvw==
+X-Google-Smtp-Source: ABdhPJxpuTeIO1Oa9xMYMhqTlBj9aldPGGnhN2rnoNHGuNNCWXN2iKcf2lIwWGTCgnzjOycuK/okqg==
+X-Received: by 2002:a63:5565:0:b0:3fa:78b7:55a0 with SMTP id f37-20020a635565000000b003fa78b755a0mr12773469pgm.384.1653517085208;
+        Wed, 25 May 2022 15:18:05 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::4:38c1])
+        by smtp.gmail.com with ESMTPSA id y21-20020a056a001c9500b00518895f0dabsm9109191pfw.59.2022.05.25.15.18.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 15:18:04 -0700 (PDT)
+Date: Wed, 25 May 2022 15:18:02 -0700
+From: Omar Sandoval <osandov@osandov.com>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [ANNOUNCE] blktests under new maintainership
+Message-ID: <Yo6rGhGdccNJXCe8@relinquished.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [bug report] WARNING: possible circular locking at:
- rdma_destroy_id+0x17/0x20 [rdma_cm] triggered by blktests nvmeof-mp/002
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
- <13441b9b-cc13-f0e0-bd46-f14983dadd49@grimberg.me>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <13441b9b-cc13-f0e0-bd46-f14983dadd49@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220525_115058_908522_B7B4ED1E 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20220525_151807_781857_77D224B0 
+X-CRM114-Status: UNSURE (   9.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,21 +85,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/25/22 13:01, Sagi Grimberg wrote:
-> iirc this was reported before, based on my analysis lockdep is giving
-> a false alarm here. The reason is that the id_priv->handler_mutex cannot
-> be the same for both cm_id that is handling the connect and the cm_id
-> that is handling the rdma_destroy_id because rdma_destroy_id call
-> is always called on a already disconnected cm_id, so this deadlock
-> lockdep is complaining about cannot happen.
-> 
-> I'm not sure how to settle this.
+Hi, everyone,
 
-If the above is correct, using lockdep_register_key() for 
-id_priv->handler_mutex instead of a static key should make the lockdep 
-false positive disappear.
+I'm happy to announce that Shin'ichiro Kawasaki is taking over as
+maintainer of blktests. I haven't been working in the storage space for
+awhile, and I also haven't been very prompt to review or merge patches
+lately, so this should hopefully make things easier for everyone.
 
-Thanks,
+The GitHub repo will be staying in the same place
+(https://github.com/osandov/blktests) for now. The main difference is
+that you should now Cc Shin'ichiro instead of me when submitting
+patches, and he'll be the one applying them.
 
-Bart.
+Thanks!
+Omar Sandoval
 
