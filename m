@@ -4,69 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A5B5C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 May 2022 11:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7011C433F5
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 May 2022 15:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f7RS0gBSsRQnUMJsl5VPApKLqGDBZajmEpSTB4wAjYg=; b=c0uRqT/0/gXiLydbvQKKtnJeJn
-	Pm9xRBJIHoYp9aJvg2P7E81gBM5L/WjNZzRwR457Rrwyr51dS44JoKE97yRVJ0fdk4z2XkhIr98Rw
-	b9aZqi07xCctWh2NwNID4ku0UhSUKRat51frtSRB2nfWSueW5/Ow08nuX+pZsaxvCW+aivCs4h6/l
-	YSQJ4CIERqfluG1NQRrMRxTWiq26J3yrCKI/LNCN5Y0YVewraWcbqM0kIYj/LI9DUttE1n//h+h1X
-	LPX78j+EUAkNy9dhhh+Sjd0RA/Pl7vAUrC34HmehWCuNZJaNWw3621nsys9IHV0FEb+AT75fMKurq
-	PiZgjdGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nVwR7tUxwTLV3IQtTXR4CJDdy4kGu27/9DYIdadmkZw=; b=Y2sX2k1q/zRsq2taeJi0Bjzdp1
+	CojGIeMmoGtmZzHPOI5sN0Lq6gvc2zdIGV939+n6QRvT7I4l7C8wrvt+hmmfvSk7XRldqEOgTPBH1
+	guxqWjoqmjT4dLeglLnaJXZkMPMmLswurBNbtmcfdnYhhLMQPonXh2mM/fZ91tMGNNgRCKlYKfqBE
+	VMxaB2IbEd4MF7hFpT49ulb69H0s/AzqDpF+WrrLfJNOpyyjaB1ryp2jTbaB9HfX1zvdkWZkb4Pkx
+	nQ7E/1LVUf72Or51Une6vo8pF37XbXAdIUMAOxquWPRLmT3uXteU9cHKpzlk3MZHz83cMNSxpYJY/
+	bRx+g+sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntolM-00Anp2-1B; Wed, 25 May 2022 11:01:12 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1ntsUO-00BUD3-Dl; Wed, 25 May 2022 14:59:56 +0000
+Received: from mail-dm6nam12on20600.outbound.protection.outlook.com ([2a01:111:f400:fe59::600] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ntolI-00AnoW-8m
-	for linux-nvme@lists.infradead.org; Wed, 25 May 2022 11:01:10 +0000
-Received: by mail-wm1-f45.google.com with SMTP id o9so4573179wmd.0
-        for <linux-nvme@lists.infradead.org>; Wed, 25 May 2022 04:01:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=f7RS0gBSsRQnUMJsl5VPApKLqGDBZajmEpSTB4wAjYg=;
-        b=HJHZQmIaDFwTo6p06M41U6DoBOLtJweYhwXQoud4+ts7fLkHwAj0GqD+UC+hLV+PP0
-         kXIQWMvmkvEwHCL1/bKpSFPCnSzLsZPSQp14qU6zZ2EPtJIgH76g2cS2I1CskLGfYpmJ
-         Rzy3zvq4zlfTddOd4KBRHsNuNIUiMmNNHo+OLLllb0rHxBDO6rGdWgWu7s1wtNwBuHh8
-         o5DS8vZXzbq0hS1zDGFhybdtflJkqnEagd1AyFsYC0bx1L31TF+ESGClAhTV3pleeNzi
-         f4GVFOcUAM2DV2MM0A1fYhw7dix0TICdzQH8LF9yOtLkEyvT1spMIGC3+TRqFUye4b2g
-         Xwxw==
-X-Gm-Message-State: AOAM531FhNtCZ6crFwhsheWy33l0Is5H79HDlwxN5/5TDSI1kqFYkeKJ
-	gkJoOPno+LaKxvs0fwr/qUN2EVQ6etw=
-X-Google-Smtp-Source: ABdhPJwG8dNCXVCFAxe7V/IznJS9iXj014quDKKguNryuNNo5doAkYQgo7Z9zWnzTKfLZfWfxjV5jw==
-X-Received: by 2002:a05:600c:4311:b0:397:4c1f:9f54 with SMTP id p17-20020a05600c431100b003974c1f9f54mr7573234wme.32.1653476465359;
-        Wed, 25 May 2022 04:01:05 -0700 (PDT)
-Received: from [192.168.64.180] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id i7-20020a5d55c7000000b0020c5253d8d3sm1784402wrw.31.2022.05.25.04.01.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 04:01:04 -0700 (PDT)
-Message-ID: <13441b9b-cc13-f0e0-bd46-f14983dadd49@grimberg.me>
-Date: Wed, 25 May 2022 14:01:03 +0300
+	id 1ntsUJ-00BUCX-7j
+	for linux-nvme@lists.infradead.org; Wed, 25 May 2022 14:59:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K1mMyzxzeU/WOhnoh5cKGs8wv2Sw3TXM6Yzmv1smup9L24BlefPddYRq0hMlFQQSmJvJvyFHBvFmXM7nZIPjqoWRf6focBpiPT7zXdESMvde2ZWDbwFQ56gIwWsjSmO/uwrLSq3F/nhidEdj7rKUX8tNsm4oQF8iXW4ezuiSaGUPw4coc3KUST9WOCZg47PVWgTSDF8WhSvsTkKzAGvVpxCopUYqaW3EoC2mHtKjcorEDTmFK7fZOJ2zOCGypu6ouiIJbkaoJdnSaSl6FK9lPYIrZBeRRn84SiRsf7unB6llkNt7Q4OF3ojFnachmieTH3zlu2tJn5rcGH0VDPzlOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nVwR7tUxwTLV3IQtTXR4CJDdy4kGu27/9DYIdadmkZw=;
+ b=Wi/pZnTDt8FWAbzSbrdINgaTdS1obiAu2ljL2kWqoA50jT4vl9dkV9xsXYfaoyJsejnYP+AkMfOz2IkCcXDwQk82YMsTYqOg2fVm/Y8HhKPyPJ14LONLkRRl/BsZoqZy9p1RJzBcmL+GXkizkaY6bwguebSTk5UHJgJVkhnjHbkOYcPkv4KDbB1sunkVOSNnbKAzCXd1I+N6pBMHPVRVZ1lG/9mjqNGRo0Xm7idGG9zmq5bZEP0CWuk/W12bs9QUbwWV5YJQ9V4P3hELHRrZj+89mpMi+zvqM1hAi6+eeuiLOxvdApFWuGWECQdImZhodjSMj4oqAmetY/bF9BXf4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nVwR7tUxwTLV3IQtTXR4CJDdy4kGu27/9DYIdadmkZw=;
+ b=fFD0mGHR8aLbew7c1OVFCJEluiIqJ7zOgLqb6Jg7cW5YYVwaFPqOWTB72iIQvaE3dEqHbT1XgqYu2/bBBU6UVfA4fN+kbQlMgmQziPG41EoSBUiGT0DC2b9TlyYbDWIsoHz+hAHRbPJQuJr3J7xJCiPdQmlkrEV3kmilxhnOBXsHm7jBxiCAUomYe5CtLhy9n/BTwwbXmZ+wRAe24P3SIGR1pbg4juvMYs1EB1euh1atmfNxvy2ACmzvZeD6dTSo7jRMSARzOaO+K/wImZQfVX88mJjwTrD+xwGwKukxQltrG4tOe8sLoqN5bpSd4+HKaTqe5ZZhIQbzXq896ry1Rg==
+Received: from DS7PR05CA0087.namprd05.prod.outlook.com (2603:10b6:8:56::9) by
+ BY5PR12MB3825.namprd12.prod.outlook.com (2603:10b6:a03:1a2::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.16; Wed, 25 May
+ 2022 14:59:46 +0000
+Received: from DM6NAM11FT033.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:56:cafe::ea) by DS7PR05CA0087.outlook.office365.com
+ (2603:10b6:8:56::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.5 via Frontend
+ Transport; Wed, 25 May 2022 14:59:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.238) by
+ DM6NAM11FT033.mail.protection.outlook.com (10.13.172.221) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5293.13 via Frontend Transport; Wed, 25 May 2022 14:59:44 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ DRHQMAIL105.nvidia.com (10.27.9.14) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.32; Wed, 25 May 2022 14:59:43 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 25 May 2022 07:59:43 -0700
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.986.22 via Frontend
+ Transport; Wed, 25 May 2022 07:59:41 -0700
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>, <hch@lst.de>
+CC: <oren@nvidia.com>, <israelr@nvidia.com>, <kbusch@kernel.org>, Max Gurtovoy
+	<mgurtovoy@nvidia.com>
+Subject: [PATCH 1/1] nvme-rdma: fix typo in comment
+Date: Wed, 25 May 2022 17:59:40 +0300
+Message-ID: <20220525145940.575-1-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [bug report] WARNING: possible circular locking at:
- rdma_destroy_id+0x17/0x20 [rdma_cm] triggered by blktests nvmeof-mp/002
-Content-Language: en-US
-To: Yi Zhang <yi.zhang@redhat.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d2742b23-b72e-4563-4109-08da3e5f33fe
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3825:EE_
+X-Microsoft-Antispam-PRVS: 	<BY5PR12MB382528E9E1D79699F5A4AC7FDED69@BY5PR12MB3825.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	tAxppBa1Wwm2rNuovU60v2NC0uyTKDykxusM8qDlJKnna5toxLN2GfIPKrQrYbM6aSv9KWR4H+p1x0FretZb68+fWVUrd+1V7x4L8Ydk3RcFrQCIc6GdamrczOZGkHPM0sTzDg+en4mI24PlEGP5vMGNrvH3w0a/kk/CjpYfImp4l/h+RM13qt4LYv8KQJFFed2ARSagIFJSe6BmPfDC6JaiGc5aADR0YcKhAGTuECesBiwjlwe35UdQgSY8Bca55HvM89eENQ51MkH2zXvj5+VAdfxNak/7s9Fy5H8rJOaI5pbcVumU7+5IU8b5FORciVGXE2gB5p0VSeQqu495i2i9flG62cKOCBCCSdcRj9J+Qj19gkhMsWiGei/KzaM058s8bwJXZHqW+0ORo2xN58j/Dz/xBJ/wDBGqA7L/tle7ppPY/v/D2t5GlZ58ioUszv1dNHDQafNRMw3hSOEY0Ayvddmerx5V/+uh85QL/bQFGaJZQd3mLAsWTXzThLFOsAfsrFaVApyNTM6TXqkqf5k0a/5ixsfS3BoIFIFofKL0NrwnkHPG9TD7H4toZsYpM3Z1wxt8HqSanThlP7Z2Xip5TEAFQ25gBiThcIJrtbJuNktnIkaSj4l0DDDKhzswgFYS3NEs5nljOdncIkwut9m+iZVFi18DvASCloyrE8lbhMTeroDOfzQzaEnaFLM7OG6mXBJbIH0rhp6MIS7qZQ==
+X-Forefront-Antispam-Report: 	CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(36860700001)(426003)(336012)(47076005)(356005)(81166007)(2906002)(86362001)(316002)(82310400005)(36756003)(8676002)(4326008)(70586007)(70206006)(40460700003)(83380400001)(5660300002)(26005)(4744005)(8936002)(508600001)(107886003)(54906003)(110136005)(2616005)(1076003)(186003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2022 14:59:44.0212
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2742b23-b72e-4563-4109-08da3e5f33fe
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	DM6NAM11FT033.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3825
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220525_040108_371984_77F81273 
-X-CRM114-Status: GOOD (  21.83  )
+X-CRM114-CacheID: sfid-20220525_075951_606260_E3423729 
+X-CRM114-Status: GOOD (  10.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,322 +118,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+There is no ib_stop_cq API and the need for the +1 is for ib_drain_qp.
 
-> Hello
-> Below WARNING triggered by blktests nvmeof-mp/002, it can be
-> reproduced with the latest 5.16.0-rc3 and also exists on 5.12, pls
-> check it.
+Reviewed-by: Israel Rukshin <israelr@nvidia.com>
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-iirc this was reported before, based on my analysis lockdep is giving
-a false alarm here. The reason is that the id_priv->handler_mutex cannot
-be the same for both cm_id that is handling the connect and the cm_id
-that is handling the rdma_destroy_id because rdma_destroy_id call
-is always called on a already disconnected cm_id, so this deadlock
-lockdep is complaining about cannot happen.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index d9f19d901313..12c7ea61ed0c 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -509,7 +509,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	}
+ 	ibdev = queue->device->dev;
+ 
+-	/* +1 for ib_stop_cq */
++	/* +1 for ib_drain_qp */
+ 	queue->cq_size = cq_factor * queue->queue_size + 1;
+ 
+ 	ret = nvme_rdma_create_cq(ibdev, queue);
+-- 
+2.18.1
 
-I'm not sure how to settle this.
-
-> 
-> # use_siw=1 ./check nvmeof-mp/002
-> nvmeof-mp/002 (File I/O on top of multipath concurrently with logout
-> and login (mq)) [passed]
->      runtime  41.767s  ...  36.877s
-> # ./check nvmeof-mp/002
-> nvmeof-mp/002 (File I/O on top of multipath concurrently with logout
-> and login (mq)) [passed]
->      runtime    ...  41.277s
-> 
-> [  609.166100] run blktests nvmeof-mp/002 at 2021-12-03 21:27:52
-> [  609.977883] null_blk: module loaded
-> [  610.538697] rdma_rxe: loaded
-> [  610.602763] infiniband eno1_rxe: set active
-> [  610.602782] infiniband eno1_rxe: added eno1
-> [  610.639520] eno2 speed is unknown, defaulting to 1000
-> [  610.644946] eno2 speed is unknown, defaulting to 1000
-> [  610.650318] eno2 speed is unknown, defaulting to 1000
-> [  610.690546] infiniband eno2_rxe: set down
-> [  610.690553] infiniband eno2_rxe: added eno2
-> [  610.691112] eno2 speed is unknown, defaulting to 1000
-> [  610.714293] eno2 speed is unknown, defaulting to 1000
-> [  610.729535] eno3 speed is unknown, defaulting to 1000
-> [  610.734666] eno3 speed is unknown, defaulting to 1000
-> [  610.740026] eno3 speed is unknown, defaulting to 1000
-> [  610.781372] infiniband eno3_rxe: set down
-> [  610.781379] infiniband eno3_rxe: added eno3
-> [  610.781906] eno3 speed is unknown, defaulting to 1000
-> [  610.806211] eno2 speed is unknown, defaulting to 1000
-> [  610.811508] eno3 speed is unknown, defaulting to 1000
-> [  610.826655] eno4 speed is unknown, defaulting to 1000
-> [  610.831810] eno4 speed is unknown, defaulting to 1000
-> [  610.837176] eno4 speed is unknown, defaulting to 1000
-> [  610.885844] infiniband eno4_rxe: set down
-> [  610.885850] infiniband eno4_rxe: added eno4
-> [  610.886426] eno4 speed is unknown, defaulting to 1000
-> [  611.266756] Loading iSCSI transport class v2.0-870.
-> [  611.335358] iscsi: registered transport (iser)
-> [  611.387969] nvmet: adding nsid 1 to subsystem nvme-test
-> [  611.403878] eno2 speed is unknown, defaulting to 1000
-> [  611.409276] eno3 speed is unknown, defaulting to 1000
-> [  611.414522] eno4 speed is unknown, defaulting to 1000
-> [  611.468712] Rounding down aligned max_sectors from 4294967295 to 4294967288
-> [  611.469203] db_root: cannot open: /etc/target
-> [  611.515816] nvmet_rdma: enabling port 1 (10.16.221.116:7777)
-> [  611.622158] eno2 speed is unknown, defaulting to 1000
-> [  611.628243] eno3 speed is unknown, defaulting to 1000
-> [  611.633422] eno4 speed is unknown, defaulting to 1000
-> [  611.703648] eno2 speed is unknown, defaulting to 1000
-> [  611.708949] eno3 speed is unknown, defaulting to 1000
-> [  611.714267] eno4 speed is unknown, defaulting to 1000
-> [  611.754520] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: address
-> resolved (0): status 0 id 00000000d0d64a6d
-> [  611.765454] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: route
-> resolved  (2): status 0 id 00000000d0d64a6d
-> [  611.767778] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: connect
-> request (4): status 0 id 000000007ccc375a
-> [  611.767935] nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma:
-> added eno1_rxe.
-> [  611.777083] nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma:
-> nvmet_rdma_create_queue_ib: max_cqe= 8191 max_sge= 32 sq_size = 289
-> cm_id= 000000007ccc375a
-> --snip--
-> [  612.132317] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established
-> (9): status 0 id 00000000cede4b76
-> [  612.132452] nvme nvme0: mapped 32/0/0 default/read/poll queues.
-> [  612.132537] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
-> established (9): status 0 id 0000000070c2f22c
-> [  612.157849] nvmet:nvmet_execute_io_connect: nvmet: adding queue 1 to ctrl 1.
-> [  612.158194] nvmet:nvmet_execute_io_connect: nvmet: adding queue 2 to ctrl 1.
-> [  612.158548] nvmet:nvmet_execute_io_connect: nvmet: adding queue 3 to ctrl 1.
-> [  612.158854] nvmet:nvmet_execute_io_connect: nvmet: adding queue 4 to ctrl 1.
-> [  612.159173] nvmet:nvmet_execute_io_connect: nvmet: adding queue 5 to ctrl 1.
-> [  612.159510] nvmet:nvmet_execute_io_connect: nvmet: adding queue 6 to ctrl 1.
-> [  612.159853] nvmet:nvmet_execute_io_connect: nvmet: adding queue 7 to ctrl 1.
-> [  612.160225] nvmet:nvmet_execute_io_connect: nvmet: adding queue 8 to ctrl 1.
-> [  612.160572] nvmet:nvmet_execute_io_connect: nvmet: adding queue 9 to ctrl 1.
-> [  612.160885] nvmet:nvmet_execute_io_connect: nvmet: adding queue 10 to ctrl 1.
-> [  612.161216] nvmet:nvmet_execute_io_connect: nvmet: adding queue 11 to ctrl 1.
-> [  612.161759] nvmet:nvmet_execute_io_connect: nvmet: adding queue 12 to ctrl 1.
-> [  612.162123] nvmet:nvmet_execute_io_connect: nvmet: adding queue 13 to ctrl 1.
-> [  612.162473] nvmet:nvmet_execute_io_connect: nvmet: adding queue 14 to ctrl 1.
-> [  612.162793] nvmet:nvmet_execute_io_connect: nvmet: adding queue 15 to ctrl 1.
-> [  612.163135] nvmet:nvmet_execute_io_connect: nvmet: adding queue 16 to ctrl 1.
-> [  612.163458] nvmet:nvmet_execute_io_connect: nvmet: adding queue 17 to ctrl 1.
-> [  612.163776] nvmet:nvmet_execute_io_connect: nvmet: adding queue 18 to ctrl 1.
-> [  612.164103] nvmet:nvmet_execute_io_connect: nvmet: adding queue 19 to ctrl 1.
-> [  612.164417] nvmet:nvmet_execute_io_connect: nvmet: adding queue 20 to ctrl 1.
-> [  612.164700] nvmet:nvmet_execute_io_connect: nvmet: adding queue 21 to ctrl 1.
-> [  612.164971] nvmet:nvmet_execute_io_connect: nvmet: adding queue 22 to ctrl 1.
-> [  612.165275] nvmet:nvmet_execute_io_connect: nvmet: adding queue 23 to ctrl 1.
-> [  612.165689] nvmet:nvmet_execute_io_connect: nvmet: adding queue 24 to ctrl 1.
-> [  612.166082] nvmet:nvmet_execute_io_connect: nvmet: adding queue 25 to ctrl 1.
-> [  612.166383] nvmet:nvmet_execute_io_connect: nvmet: adding queue 26 to ctrl 1.
-> [  612.166663] nvmet:nvmet_execute_io_connect: nvmet: adding queue 27 to ctrl 1.
-> [  612.166963] nvmet:nvmet_execute_io_connect: nvmet: adding queue 28 to ctrl 1.
-> [  612.167273] nvmet:nvmet_execute_io_connect: nvmet: adding queue 29 to ctrl 1.
-> [  612.167529] nvmet:nvmet_execute_io_connect: nvmet: adding queue 30 to ctrl 1.
-> [  612.167804] nvmet:nvmet_execute_io_connect: nvmet: adding queue 31 to ctrl 1.
-> [  612.168114] nvmet:nvmet_execute_io_connect: nvmet: adding queue 32 to ctrl 1.
-> [  612.168523] nvme nvme0: new ctrl: NQN "nvme-test", addr 10.16.221.116:7777
-> [  612.293734] device-mapper: multipath service-time: version 0.3.0 loaded
-> [  612.296099] device-mapper: table: 253:3: multipath: error getting
-> device (-EBUSY)
-> [  612.303676] device-mapper: ioctl: error adding target to table
-> [  612.501014] device-mapper: table: 253:3: multipath: error getting
-> device (-EBUSY)
-> [  612.508751] device-mapper: ioctl: error adding target to table
-> [  612.514717] device-mapper: table: 253:3: multipath: error getting
-> device (-EBUSY)
-> [  612.522632] device-mapper: ioctl: error adding target to table
-> [  612.950887] device-mapper: table: 253:3: multipath: error getting
-> device (-EBUSY)
-> [  612.958616] device-mapper: ioctl: error adding target to table
-> [  613.869348] EXT4-fs (dm-3): mounted filesystem without journal.
-> Opts: (null). Quota mode: none.
-> [  613.869619] ext4 filesystem being mounted at
-> /root/kernel-tests/storage/blktests/nvme/nvmeof-mp/blktests/results/tmpdir.nvmeof-mp.002.ZYO/mnt0
-> supports timestamps until 2038 (0x7fffffff)
-> [  617.144570] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  617.272414] nvmet:nvmet_execute_keep_alive: nvmet: ctrl 1 update
-> keep-alive timer for 5 secs
-> [  622.775724] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  627.895810] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  633.015369] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  638.138209] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  643.254966] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  644.822178] eno2 speed is unknown, defaulting to 1000
-> [  644.827494] eno3 speed is unknown, defaulting to 1000
-> [  644.832797] eno4 speed is unknown, defaulting to 1000
-> [  648.377790] nvmet:nvmet_keep_alive_timer: nvmet: ctrl 1 reschedule
-> traffic based keep-alive timer
-> [  651.364570] nvme nvme0: Removing ctrl: NQN "nvme-test"
-> [  651.430891] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
-> disconnected (10): status 0 id 000000009ae8bc67
-> [  651.430914] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
-> cm_id= 000000009ae8bc67 queue->state= 1
-> [  651.430983] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
-> disconnected (10): status 0 id 0000000078827089
-> [  651.430994] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
-> cm_id= 0000000078827089 queue->state= 1
-> --snip--
-> [  651.438145] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0:
-> disconnected (10): status 0 id 00000000cede4b76
-> [  651.438150] nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: disconnect
-> received - connection closed
-> 
-> [  651.448883] ======================================================
-> [  651.455061] WARNING: possible circular locking dependency detected
-> [  651.461242] 5.16.0-rc3+ #2 Tainted: G S        I
-> [  651.466380] ------------------------------------------------------
-> [  651.472559] kworker/14:4/4839 is trying to acquire lock:
-> [  651.477873] ffff8884c0e353e0 (&id_priv->handler_mutex){+.+.}-{3:3},
-> at: rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.487623]
->                 but task is already holding lock:
-> [  651.493453] ffff8883cc21fe00
-> ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at:
-> process_one_work+0x888/0x1740
-> [  651.504062]
->                 which lock already depends on the new lock.
-> 
-> [  651.512233]
->                 the existing dependency chain (in reverse order) is:
-> [  651.519715]
->                 -> #3 ((work_completion)(&queue->release_work)){+.+.}-{0:0}:
-> [  651.527894]        lock_acquire+0x1d2/0x5a0
-> [  651.532079]        process_one_work+0x8da/0x1740
-> [  651.536700]        worker_thread+0x87/0xbf0
-> [  651.540886]        kthread+0x3aa/0x490
-> [  651.544637]        ret_from_fork+0x1f/0x30
-> [  651.548737]
->                 -> #2 ((wq_completion)events){+.+.}-{0:0}:
-> [  651.555349]        lock_acquire+0x1d2/0x5a0
-> [  651.559535]        flush_workqueue+0x109/0x15f0
-> [  651.564067]        nvmet_rdma_queue_connect+0x1c79/0x2610 [nvmet_rdma]
-> [  651.570594]        cma_cm_event_handler+0xef/0x530 [rdma_cm]
-> [  651.576261]        cma_ib_req_handler+0x1a76/0x4a50 [rdma_cm]
-> [  651.582016]        cm_process_work+0x44/0x190 [ib_cm]
-> [  651.587077]        cm_req_handler+0x2218/0x7040 [ib_cm]
-> [  651.592312]        cm_work_handler+0x1acf/0x4a30 [ib_cm]
-> [  651.597633]        process_one_work+0x978/0x1740
-> [  651.602253]        worker_thread+0x87/0xbf0
-> [  651.606437]        kthread+0x3aa/0x490
-> [  651.610190]        ret_from_fork+0x1f/0x30
-> [  651.614290]
->                 -> #1 (&id_priv->handler_mutex/1){+.+.}-{3:3}:
-> [  651.621249]        lock_acquire+0x1d2/0x5a0
-> [  651.625435]        __mutex_lock+0x155/0x15f0
-> [  651.629708]        cma_ib_req_handler+0x1709/0x4a50 [rdma_cm]
-> [  651.635462]        cm_process_work+0x44/0x190 [ib_cm]
-> [  651.640521]        cm_req_handler+0x2218/0x7040 [ib_cm]
-> [  651.645749]        cm_work_handler+0x1acf/0x4a30 [ib_cm]
-> [  651.651071]        process_one_work+0x978/0x1740
-> [  651.655689]        worker_thread+0x87/0xbf0
-> [  651.659874]        kthread+0x3aa/0x490
-> [  651.663628]        ret_from_fork+0x1f/0x30
-> [  651.667726]
->                 -> #0 (&id_priv->handler_mutex){+.+.}-{3:3}:
-> [  651.674511]        check_prevs_add+0x3fd/0x2480
-> [  651.679045]        __lock_acquire+0x23f7/0x2f80
-> [  651.683577]        lock_acquire+0x1d2/0x5a0
-> [  651.687762]        __mutex_lock+0x155/0x15f0
-> [  651.692036]        rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.697184]        nvmet_rdma_free_queue+0x7a/0x380 [nvmet_rdma]
-> [  651.703189]        nvmet_rdma_release_queue_work+0x3b/0x90 [nvmet_rdma]
-> [  651.709802]        process_one_work+0x978/0x1740
-> [  651.714422]        worker_thread+0x87/0xbf0
-> [  651.718608]        kthread+0x3aa/0x490
-> [  651.722358]        ret_from_fork+0x1f/0x30
-> [  651.726459]
->                 other info that might help us debug this:
-> 
-> [  651.734457] Chain exists of:
->                   &id_priv->handler_mutex --> (wq_completion)events -->
-> (work_completion)(&queue->release_work)
-> 
-> [  651.748531]  Possible unsafe locking scenario:
-> 
-> [  651.754451]        CPU0                    CPU1
-> [  651.758984]        ----                    ----
-> [  651.763515]   lock((work_completion)(&queue->release_work));
-> [  651.769174]                                lock((wq_completion)events);
-> [  651.775786]
-> lock((work_completion)(&queue->release_work));
-> [  651.783959]   lock(&id_priv->handler_mutex);
-> [  651.788233]
->                  *** DEADLOCK ***
-> 
-> [  651.794153] 2 locks held by kworker/14:4/4839:
-> [  651.798596]  #0: ffff88810005b948
-> ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x854/0x1740
-> [  651.808078]  #1: ffff8883cc21fe00
-> ((work_completion)(&queue->release_work)){+.+.}-{0:0}, at:
-> process_one_work+0x888/0x1740
-> [  651.819121]
->                 stack backtrace:
-> [  651.823478] CPU: 14 PID: 4839 Comm: kworker/14:4 Tainted: G S
->   I       5.16.0-rc3+ #2
-> [  651.831824] Hardware name: Dell Inc. PowerEdge R640/06NR82, BIOS
-> 2.11.2 004/21/2021
-> [  651.839476] Workqueue: events nvmet_rdma_release_queue_work [nvmet_rdma]
-> [  651.846175] Call Trace:
-> [  651.848628]  <TASK>
-> [  651.850735]  dump_stack_lvl+0x44/0x57
-> [  651.854401]  check_noncircular+0x280/0x320
-> [  651.858501]  ? print_circular_bug.isra.47+0x430/0x430
-> [  651.863553]  ? lock_chain_count+0x20/0x20
-> [  651.867566]  ? wait_for_completion+0x1e0/0x270
-> [  651.872010]  ? mark_lock.part.52+0xf7/0x1050
-> [  651.876283]  ? sched_clock_cpu+0x15/0x200
-> [  651.880295]  ? find_held_lock+0x3a/0x1c0
-> [  651.884223]  check_prevs_add+0x3fd/0x2480
-> [  651.888238]  ? mark_held_locks+0xb7/0x120
-> [  651.892248]  ? check_irq_usage+0xb50/0xb50
-> [  651.896346]  ? lockdep_lock+0xcb/0x1c0
-> [  651.900100]  ? static_obj+0xc0/0xc0
-> [  651.903591]  ? sched_clock_cpu+0x15/0x200
-> [  651.907606]  __lock_acquire+0x23f7/0x2f80
-> [  651.911620]  ? rcu_read_lock_bh_held+0xc0/0xc0
-> [  651.916063]  lock_acquire+0x1d2/0x5a0
-> [  651.919729]  ? rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.924529]  ? rcu_read_unlock+0x50/0x50
-> [  651.928456]  ? lock_is_held_type+0xd9/0x130
-> [  651.932644]  __mutex_lock+0x155/0x15f0
-> [  651.936393]  ? rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.941194]  ? kasan_quarantine_put+0xa4/0x180
-> [  651.945641]  ? rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.950442]  ? mutex_lock_io_nested+0x1460/0x1460
-> [  651.955146]  ? lock_is_held_type+0xd9/0x130
-> [  651.959334]  ? rcu_read_lock_sched_held+0xaf/0xe0
-> [  651.964039]  ? rcu_read_lock_bh_held+0xc0/0xc0
-> [  651.968487]  ? rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.973287]  rdma_destroy_id+0x17/0x20 [rdma_cm]
-> [  651.977915]  nvmet_rdma_free_queue+0x7a/0x380 [nvmet_rdma]
-> [  651.983401]  nvmet_rdma_release_queue_work+0x3b/0x90 [nvmet_rdma]
-> [  651.989493]  process_one_work+0x978/0x1740
-> [  651.993595]  ? pwq_dec_nr_in_flight+0x270/0x270
-> [  651.998126]  worker_thread+0x87/0xbf0
-> [  652.001790]  ? __kthread_parkme+0xc3/0x1d0
-> [  652.005890]  ? process_one_work+0x1740/0x1740
-> [  652.010248]  kthread+0x3aa/0x490
-> [  652.013480]  ? set_kthread_struct+0x100/0x100
-> [  652.017841]  ret_from_fork+0x1f/0x30
-> [  652.021424]  </TASK>
-> [  652.050739] nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma:
-> disconnected (10): status 0 id 000000007ccc375a
-> [  652.060318] nvmet_rdma:__nvmet_rdma_queue_disconnect: nvmet_rdma:
-> cm_id= 000000007ccc375a queue->state= 1
-> [  652.069937] nvmet_rdma:nvmet_rdma_free_queue: nvmet_rdma: freeing queue 0
-> [  652.082650] nvmet:nvmet_stop_keep_alive_timer: nvmet: ctrl 1 stop keep-alive
-> [  652.488476] eno2 speed is unknown, defaulting to 1000
-> [  652.493657] eno3 speed is unknown, defaulting to 1000
-> [  652.498847] eno4 speed is unknown, defaulting to 1000
-> [  652.558751] rdma_rxe: rxe-ah pool destroyed with unfree'd elem
-> [  652.678415] rdma_rxe: unloaded
-> 
 
