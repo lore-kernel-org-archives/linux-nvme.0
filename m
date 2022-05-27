@@ -4,67 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 069B6C433F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 May 2022 21:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E938C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 May 2022 05:47:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MiZ+0IvW8jjjxvu1Bkq9ZIWIVqKUJacSyRxJpKCYH18=; b=WiK/2HwMPLQzjM/jsa2T1kRmOn
-	P8Oj+Eo0TNWWLc/o0Xt8cGkZqAaNqyfr9uL/NOYkz7QCOr+6JfHvQ+fj8Ava27j6Rg6j/vhVa9d0l
-	Pd+hVctvx/XqgBhp5dEVSomjNJ4Yt85Fs3PM/zqNiyqnKzF/ihJS5D43l/+5PApN7JO9U8v8aJF5o
-	0JS1nT+LGTammfWBOM3xJ48HnXZt0YT3aadEv5Wvg4zYITY2ZWbx7WpMD1VU2m5NCJsajRboCFbnt
-	iQn/vdljvoA+IdjnQlFOd+ZsP3/uVEP8X+Kdf7qn69KqDfalacNHSjFhbLGMrg586AIWt0UVNS+A4
-	iGLio6Pw==;
+	bh=FxH9FevIp7CUsiuRDMadvyZfE1qVigtBKowvnCNAuQA=; b=m/ktlO3ZOrM7sA8xcdEEFJGOuO
+	fRuhKyj5sh6qVXVGY6TXsuBYtik30grKb8mHOOkcdaj+ef3anp54WBSVLVQRI/yB09pszaFFsapdY
+	s3tbgKoLzHkz7AYUwVsvrsgOVO5eze2rAGFkt2q56m/QDfXYSZ81JxeX/6ipGKIkev2oIEZNOt0xh
+	Kq3GaN+o8y+NPgGM3WNVPli6GuqLh8+EAMuW7CgMh0H5zSDShIJJ9jx8AkKzfNcfAgqvLMvwP1Uuv
+	IXuriMr5cXjHLlsxfYRZgVKDQivAKw7oLBNd1oZUEd1gH16NWqNo1Me9jB6FCJh102gXiENHN/I/0
+	nsXZSToA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nuKfq-00FxJ2-8j; Thu, 26 May 2022 21:05:38 +0000
-Received: from mail-oa1-f51.google.com ([209.85.160.51])
+	id 1nuSp5-00GhbD-AH; Fri, 27 May 2022 05:47:43 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nuKPs-00Fqqv-IT
-	for linux-nvme@lists.infradead.org; Thu, 26 May 2022 20:49:09 +0000
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-f2a4c51c45so3596271fac.9
-        for <linux-nvme@lists.infradead.org>; Thu, 26 May 2022 13:48:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MiZ+0IvW8jjjxvu1Bkq9ZIWIVqKUJacSyRxJpKCYH18=;
-        b=MAzPg2cqWorgwVMnMm8HddQWozKyklDhQk4wZGpTHSBOBLzQLDTmj1Iqm9uGjbfr6v
-         sbxH+DAEw5kgeqA6wnbh5pME6mmaadxboTaisDwgFjmctGYO30QzNMvAtQ6DQc4f6+Ei
-         v5Fy27lAiWF0DvzyTETYY69t4aMHpBPXcMQOezhnVv7LKDeXb3o2CDNfjETY4w1BedXt
-         p1sIaZ4mt35c8TvKTAldsMb6bqS0elYWvTmlIh61BHDXuO3ZePebBrnDkXAGs0avqYmM
-         gPvpQsaqpg5AbuYSPmw7ewr3ZNOwQbHCSQGmHOKXGj3pksh21vmCiaaDRN6pIJbZLo7U
-         7AkA==
-X-Gm-Message-State: AOAM533oaqnYXXyQHzg5o3STj6e+v2sS5Lp7jADYenhJT4tgPppiMhvc
-	I8ZoUX9wlypbaTbwuhesQFLNsrweXQ==
-X-Google-Smtp-Source: ABdhPJwzclLUkR3PCJ6MEvx5J/Soe/zca3RJeZCRBhWGgy4tEyDUtmeTjwbPMaDrqR8MEXweQCsEeQ==
-X-Received: by 2002:a05:6870:7084:b0:ed:d709:34be with SMTP id v4-20020a056870708400b000edd70934bemr2229680oae.4.1653598120077;
-        Thu, 26 May 2022 13:48:40 -0700 (PDT)
-Received: from robh.at.kernel.org (rrcs-192-154-179-37.sw.biz.rr.com. [192.154.179.37])
-        by smtp.gmail.com with ESMTPSA id y17-20020a4ae711000000b0035eb4e5a6d2sm1036427oou.40.2022.05.26.13.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 13:48:39 -0700 (PDT)
-Received: (nullmailer pid 238876 invoked by uid 1000);
-	Thu, 26 May 2022 20:48:37 -0000
-Date: Thu, 26 May 2022 15:48:37 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, bhelgaas@google.com, lorenzo.pieralisi@arm.com, kbusch@kernel.org, hch@lst.de, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, svarbanov@mm-sol.com, bjorn.andersson@linaro.org, axboe@fb.com, quic_vbadigan@quicinc.com, quic_krichai@quicinc.com, quic_nitirawa@quicinc.com, vidyas@nvidia.com, sagi@grimberg.me
-Subject: Re: [PATCH 1/3] PCI: Add a flag to notify PCI drivers about
- powerdown during suspend
-Message-ID: <20220526204837.GJ54904-robh@kernel.org>
-References: <20220513110027.31015-2-manivannan.sadhasivam@linaro.org>
- <20220516201817.GA1047280@bhelgaas>
+	id 1nuSp2-00GhZo-6w
+	for linux-nvme@lists.infradead.org; Fri, 27 May 2022 05:47:42 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 496C668AFE; Fri, 27 May 2022 07:47:28 +0200 (CEST)
+Date: Fri, 27 May 2022 07:47:28 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Niklas Cassel <niklas.cassel@wdc.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: set controller enable bit in a separate write
+Message-ID: <20220527054727.GA14930@lst.de>
+References: <20220526135721.390434-1-niklas.cassel@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220516201817.GA1047280@bhelgaas>
+In-Reply-To: <20220526135721.390434-1-niklas.cassel@wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220526_134908_644291_A8225586 
-X-CRM114-Status: GOOD (  24.66  )
+X-CRM114-CacheID: sfid-20220526_224740_439587_08B72B1E 
+X-CRM114-Status: GOOD (  13.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,41 +58,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 16, 2022 at 03:18:17PM -0500, Bjorn Helgaas wrote:
-> On Fri, May 13, 2022 at 04:30:25PM +0530, Manivannan Sadhasivam wrote:
-> > On some systems like Chromebooks based on Qcom chipsets, the OS may
-> > powerdown all PCIe devices during system suspend for aggressive
-> > powersaving. In that case, the PCI host controller drivers need to notify
-> > the PCI device drivers that the power will be taken off during system
-> > suspend so that the drivers can prepare the devices accordingly.
-> 
-> "The OS may powerdown all PCIe devices ..." makes it sound like this
-> is an OS policy decision.  Where exactly (what function) is that?
-> 
-> Or if it's not an OS policy decision, but rather some property of the
-> hardware, say that specifically.
-> 
-> > One prime example is the PCI NVMe driver. This flag can be used by the
-> > driver to shutdown the NVMe device during suspend and recover it during
-> > resume.
-> > 
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> >  include/linux/pci.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > index 60adf42460ab..069caf1fe88d 100644
-> > --- a/include/linux/pci.h
-> > +++ b/include/linux/pci.h
-> > @@ -578,6 +578,7 @@ struct pci_host_bridge {
-> >  	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
-> >  	unsigned int	size_windows:1;		/* Enable root bus sizing */
-> >  	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
-> > +	unsigned int	suspend_poweroff:1;	/* OS may poweroff devices during system suspend */
+This looks sensible.
 
-Why does this apply to the whole host bridge? What if you have multiple 
-devices and some are powered off and others aren't?
+On Thu, May 26, 2022 at 03:57:21PM +0200, Niklas Cassel wrote:
+> @@ -2227,6 +2227,16 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+>  	ctrl->ctrl_config |= (NVME_CTRL_PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
+>  	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
+>  	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+> +
+> +	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Flush write to device (required if transport is PCI) */
+> +	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CC, &ctrl->ctrl_config);
+> +	if (ret)
+> +		return ret;
 
-Rob
+Maybe we do eventually want a reg_write32_nonposted, but for now I
+think this is sufficient.
+
 
