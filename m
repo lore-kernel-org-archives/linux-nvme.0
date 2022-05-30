@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4159AC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 May 2022 14:11:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B4C0C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 May 2022 14:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0YSUcpR+t3u4msnX+ngJySeql696Zuw9doNVdIig8gw=; b=4wPYzWxN8A2pDSX/eN+hnVbKkE
-	oeINeRxDg3+i8dys//Thfz7yhO9MIBMKwMSzpeFamri2GtU5c+Mas2gy8TypVuF5vgwt+5vpvxw7V
-	AsdjgjGeUiVD+Ddl983T0Gk0vSNPk5HtKpTdf1ujRuqi9kbCd/dipsT4TyLLp4tMbfnBqKJHdilvQ
-	wliMeDFgaZzpPcGw4OlK1uXN92nj9AjUDuzLzZ/1ULcCDeJPv/XLuc63X9Q0bQ614oWBiFaE5o0dV
-	40WhhT0AdpjDEEbzs9eSp+61ye+L033OawMEFcmIxDZOl/H5DptFGTSTdi6wkWz/kp58Rbo/SqLK4
-	EgUKYhGg==;
+	bh=uvKLXoxTyz80ooBuBsvPCQi3Yjdh9nGToC3Ghl+d29o=; b=v48wdTpxUScuKiYR1LkRO/9QTL
+	kqQamJYFAxFI3+8EcrD3Ae5QzvCcyTqOMAb72TulNvYXv4TaWySxvwiyw+CQDsFDEPRhq8XmXhHjd
+	BMHCsGqPT4KKxCGqRLymzLrK3kPj4ea9f4e5swAyBt7J/sxlgFnWyx1c/3eR96X3vSfSaSAbW1e7v
+	ZfGow5/elTvpNp4xMdAtR9qZFP/nBEs5A3Su8Dpx27EkqUtbttkoVFikUc7H6gVxS+oG4bQUGJgLJ
+	2unvX8nYlP/daMumwJZ0C9HGhMhbMn6N9cypkq1JZExIK8zrV9Bo/A45/Le2Ron6opdNxW3UzqHrl
+	m76Se4yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nvg74-0075JT-Lp; Mon, 30 May 2022 14:11:18 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1nvgCk-00782L-Js; Mon, 30 May 2022 14:17:10 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nvfix-006rcH-AM
-	for linux-nvme@lists.infradead.org; Mon, 30 May 2022 13:46:27 +0000
+	id 1nvflR-006tIo-LT
+	for linux-nvme@lists.infradead.org; Mon, 30 May 2022 13:49:00 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id BCB95B80D83;
-	Mon, 30 May 2022 13:46:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22551C3411C;
-	Mon, 30 May 2022 13:46:19 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 3B2A260ECB;
+	Mon, 30 May 2022 13:48:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61435C3411F;
+	Mon, 30 May 2022 13:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653918380;
-	bh=4+g9D5xTre7t5UvhEJEZqO+KyPzsgxnaoiiOJSFfVww=;
+	s=k20201202; t=1653918536;
+	bh=pvcl/mwBsIppyXCwLajOYJgmCgXIpTzwu7dKr+15G/E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=t3Fi8dzw8SVAqcbb9fzSWJrF1iQIJt6mHKuXYkQPjqS57OFLw5TkZmhPfkgqNvnEp
-	 f/fY4RCCLbJCJtNgW6wDfJDPqS3PxxClkV3PYAQnTrBmkXaLWYMymMSuXcOd3vuj1T
-	 402h1/Yrzg3LVMz4gz6/0MmmGjRrMRGCwPttfpzfUv391I0E6fnMUOT4fNuD2EKTgQ
-	 WmTWn9vkfYYCyNPJTnrhbMb/reUWrdN9X5/J1MAxtLfL2MQL8uT8UvXndcBgeT+neo
-	 di4RZ4DkslX5k6qZZfiVx4DKDUlsTPtvcKXRMzvugioFNaIokgbchE2fOMgwD8YD03
-	 mxwR8ZXsxJzZw==
+	b=iTzOXGQaqhQk4k1GRWW7k92YaQQrq6kifqNSFozym/fSnFTt2rQYVlsjwq3Ps+kQp
+	 UBZQLKVHxJdnhNEJ4D3dsnJDBMRApFYglL+WDbI4SST7tdgcHo8fp9gFKDlEzCCaQ2
+	 qOsXRE1yJmP0hYiwICSo7FhZgoEuo3gourUVr0vx/S/16sVIcsaqGi+i18I9RA3Xrw
+	 aszZheAc3SXp2d0oPUXyKO494QT7iJdFfz0/IsB3zoffjJtsdUGb5Ir4f3fUuNJdea
+	 cax7agkugSwR6gdK5E5z75l0etk3JsJ75TMCqo5/p9gKLYGw9Ez4dbIavKRPiLd+iZ
+	 rpi0gaFlBV+Pg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -54,19 +54,19 @@ Cc: "Smith, Kyle Miller (Nimble Kernel)" <kyles@hpe.com>,
 	axboe@fb.com,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 60/76] nvme-pci: fix a NULL pointer dereference in nvme_alloc_admin_tags
-Date: Mon, 30 May 2022 09:43:50 -0400
-Message-Id: <20220530134406.1934928-60-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 45/55] nvme-pci: fix a NULL pointer dereference in nvme_alloc_admin_tags
+Date: Mon, 30 May 2022 09:46:51 -0400
+Message-Id: <20220530134701.1935933-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530134406.1934928-1-sashal@kernel.org>
-References: <20220530134406.1934928-1-sashal@kernel.org>
+In-Reply-To: <20220530134701.1935933-1-sashal@kernel.org>
+References: <20220530134701.1935933-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220530_064623_624734_63112AC8 
-X-CRM114-Status: GOOD (  14.82  )
+X-CRM114-CacheID: sfid-20220530_064857_802784_2894A75F 
+X-CRM114-Status: GOOD (  14.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,10 +107,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a36db0701d17..7de24a10dd92 100644
+index af516c35afe6..10fe7a7a2163 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1666,6 +1666,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+@@ -1674,6 +1674,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
  		dev->ctrl.admin_q = blk_mq_init_queue(&dev->admin_tagset);
  		if (IS_ERR(dev->ctrl.admin_q)) {
  			blk_mq_free_tag_set(&dev->admin_tagset);
