@@ -4,69 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DF67C433F5
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 May 2022 14:30:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD28CC433F5
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 May 2022 15:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZQOYxT+g2z06l/6FpK6AgdGYPhETLZrpq4ILucXby3o=; b=bG3aOyDEjegU6cNCSjGVaZeZMW
-	hGBQx8jbdFUjlwrlo9f616GCsVVbhiqpyMzrmVX72G0F+D4wufO36cdoAHsHInlv4ki7S+TRz7qwA
-	SZ1g1wV9C1XLdE2qJmYFPwJyn2MXRMYefHxswsxTa6YLwJmo5gt5FlCj8oHSJiGBJRipi1qPUaBSX
-	SfTqJ+893BZtbMizOlpfN8KL4VOsQbXeH8JtHF5U3DTGMEq3dnlLRnnAS98vZ/qxJTOq1v+1pBL09
-	dDtn304Nf8EcxWpvghzhBYe6CIGfKGX5/W5LgeB06QbtDXMd0opDQuiWU5cWO9XuXULsLe513m3j2
-	gm1fS5Jg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:CC:To:Subject:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=a4jTP20Hv9ifoTwI0jRhyc3pKwRt67MyWvQ+usouMtc=; b=zvLgcU/aNe4vV1
+	dnGz+NJlr5ltloaigtT56w5HkeZIWsqFzVhN5kZGi59BYguO39AYP+97v6GWwcVtCCwQMpQZXU4WO
+	uHrGDEKALbsxjp7dV80a0Q1EGJKM3nmPIOSEWPU+bC+AAWRB2x7q6FH4zKmr5mWNeGSva+ogqSgWh
+	pf7TEOrr54Qz1xco+DgmxN3oWGqoJ+EVu1Ku8LX+yOPl7YqnchbGsGDUS7xKjkYPPLH0Z9jjHhAGZ
+	C5gdBUUM+VKTrokt/oQd2M/98c10aLf7Vka06J/a8U7fHIoEk8jcgR0TyYqOJxk8dMUosextTJ5Ks
+	tRL6d32z1wXV29x52wzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nvgPk-007EAa-Gs; Mon, 30 May 2022 14:30:36 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1nvgsL-007R2w-Ef; Mon, 30 May 2022 15:00:09 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nvfpQ-006vuO-3K
-	for linux-nvme@lists.infradead.org; Mon, 30 May 2022 13:53:06 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 8FFC0B80DE6;
-	Mon, 30 May 2022 13:53:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5DFC3411C;
-	Mon, 30 May 2022 13:53:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653918781;
-	bh=BJubilEJWC04HBLlh+H4l4DtxiVXurshrA27j4U8eo0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lt0CCEmuGGDGAPbwrMUHFcnAYvnnS/P2ShH9mKOAl+TQ3E89I5LdhyCD7QRBrBUzA
-	 c5KYbZE0HtmcfyfjZ0UpwHmPVp3OSesuaKmPcW1LaAwsB63BDMS+3vITOGOy1J8xYF
-	 UOtv9jrnCcoDwATvAPdEcETCWGKSQcmR0tgqoAt6lRrE8RA9nm0xy6SBsA7Ii8lPsE
-	 i2knz6Fkdv8mQZQnSUcGpl9L7Yt/SQWGkH27PHHDZGQFa/HTEzINcaJtslXpBEbSSQ
-	 Yvgyb0b98N6CKowsKE7W569xJhaI+DSFUADDvMtidO7bl4o3Wt+PekER54keZqEnpS
-	 JKei2mRbKDO1w==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: "Smith, Kyle Miller (Nimble Kernel)" <kyles@hpe.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.9 19/24] nvme-pci: fix a NULL pointer dereference in nvme_alloc_admin_tags
-Date: Mon, 30 May 2022 09:52:06 -0400
-Message-Id: <20220530135211.1937674-19-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530135211.1937674-1-sashal@kernel.org>
-References: <20220530135211.1937674-1-sashal@kernel.org>
+	id 1nvgsE-007Qwe-RN
+	for linux-nvme@lists.infradead.org; Mon, 30 May 2022 15:00:05 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220530145956euoutp016a791405844063e90fadc0bf5833adee~z6gUqWxrN1319813198euoutp01E
+	for <linux-nvme@lists.infradead.org>; Mon, 30 May 2022 14:59:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220530145956euoutp016a791405844063e90fadc0bf5833adee~z6gUqWxrN1319813198euoutp01E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1653922796;
+	bh=a4jTP20Hv9ifoTwI0jRhyc3pKwRt67MyWvQ+usouMtc=;
+	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+	b=Y8tBTw0U7YFpbu+feP2bJjV+nt1/yobRo9F1zECRMlhMS68wz/6Ku/DTu8rvbJ/Y4
+	 1tKV+lXORiW58J3+4Sj+nlPIebdyulVICcvwL9x0PDbBFaB7Tds3wuxhrMH63yPi9K
+	 uzwG2F+nRhGuHxoqUYgqGUhtL9ES4uTyEFF0PxmU=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20220530145955eucas1p236047dbf7b203dfd021695a4210bc98f~z6gUaE-Zb3015430154eucas1p2z;
+	Mon, 30 May 2022 14:59:55 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 4A.33.09580.BEBD4926; Mon, 30
+	May 2022 15:59:55 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220530145955eucas1p1049c4bad5ed3bc5e611d761e4bbaa71a~z6gT9Vg6J0702807028eucas1p1O;
+	Mon, 30 May 2022 14:59:55 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20220530145955eusmtrp2bb2f618b4a5e74c299c509890def680d~z6gT8iigM3210732107eusmtrp2H;
+	Mon, 30 May 2022 14:59:55 +0000 (GMT)
+X-AuditID: cbfec7f5-9c3ff7000000256c-7e-6294dbebbb2a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 42.9E.09095.BEBD4926; Mon, 30
+	May 2022 15:59:55 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20220530145955eusmtip22fe4b311280fd4e0cf570b215bcb3bd4~z6gT0ilnG1461214612eusmtip2E;
+	Mon, 30 May 2022 14:59:55 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.241) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Mon, 30 May 2022 15:59:53 +0100
+Message-ID: <876dabfd-04ba-a1cb-2cab-e7032fea0c17@samsung.com>
+Date: Mon, 30 May 2022 16:59:52 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+	Thunderbird/91.9.1
+Subject: Re: [PATCH v6 8/8] dm: ensure only power of 2 zone sizes are
+ allowed
+Content-Language: en-US
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>, <axboe@kernel.dk>,
+	<snitzer@redhat.com>, <Johannes.Thumshirn@wdc.com>, <hch@lst.de>,
+	<hare@suse.de>
+CC: <dsterba@suse.com>, <dm-devel@redhat.com>, <jiangbo.365@bytedance.com>,
+	<linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-nvme@lists.infradead.org>, <jaegeuk@kernel.org>,
+	<gost.dev@samsung.com>
+From: Pankaj Raghav <p.raghav@samsung.com>
+In-Reply-To: <3c04e29f-2c99-c350-bc87-0c0633b4d19d@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.241]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBKsWRmVeSWpSXmKPExsWy7djPc7qvb09JMvjeq2ex+m4/m8Xvs+eZ
+	Lfa+m81qceFHI5PFnkWTmCxWrj7KZPFk/Sxmi54DH1gs/nbdY7LYe0vb4vKuOWwW85c9Zbdo
+	2/iV0YHX49+JNWwel8+Wemxa1cnmsXlJvcfumw1sHjtb77N6vN93lc1j/ZarLB6bT1d7fN4k
+	59F+oJspgDuKyyYlNSezLLVI3y6BK2Pz9ansBZPYK36du8jYwHiatYuRk0NCwETizJIX7F2M
+	XBxCAisYJZ59P8MM4XxhlJj3fBEjhPOZUeL3n7UsMC1nPy6ASixnlOjd/R4sAVZ17HQARGI3
+	o8TnKZPYQBK8AnYS97dsA7NZBFQldnQ9YoSIC0qcnPkErFlUIEJiZesbMFtYwF/i+O27TCA2
+	s4C4xK0n85lAhooIzAO66cd/MIdZ4D6jxO3nF4A6ODjYBLQkGjvZQRo4BdwknvZNY4Fo1pRo
+	3f6bHcKWl9j+dg4zxAvKEosvXGOEsGslTm25BTZTQuAap0Tf8kPsIDMlBFwkzm6ogagRlnh1
+	fAs7hC0j8X/nfCYIu1ri6Y3fzBC9LYwS/TvXs0H0Wkv0ncmBqHGU+Nl4jRkizCdx460gxDl8
+	EpO2TWeewKg6CykoZiF5eRaSD2Yh+WABI8sqRvHU0uLc9NRi47zUcr3ixNzi0rx0veT83E2M
+	wMR3+t/xrzsYV7z6qHeIkYmD8RCjBAezkghvQ/LEJCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8
+	yZkbEoUE0hNLUrNTUwtSi2CyTBycUg1M3OKXuXf91Q8I+Lhdle3yu+0qJ68sMAi6y7G6k03q
+	j2pGy+lojs4DH0on39/GX/6sZ7eNlVt68Lo8pdVeaybfNHcru6q7tEbmtctevRNXrvBw1E+W
+	L38fPrU7ePJE8e7tflWO/Tduma1v5J1UzPv1/vkzt3/nu8/uzL7Q1rLr3oyLiUwz4k+WZknV
+	5ug37rCqMthsaXp8T221R8RH0TMN89vL9icwuff8K5pjuuaz3qTTaZ+0/fg/3Em7uGNWXOnH
+	6Is/LT/4PgrgSFCX79m75qtX5zSfM7N/dfzTY/ebPdeaacH/y83Tzun/K2fRkuGIfShttPrX
+	LjWDM98MZ6/9++/VDF7BxlDnBZPY89NOKbEUZyQaajEXFScCAJGrxfHrAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphleLIzCtJLcpLzFFi42I5/e/4Pd3Xt6ckGSzqF7BYfbefzeL32fPM
+	FnvfzWa1uPCjkcliz6JJTBYrVx9lsniyfhazRc+BDywWf7vuMVnsvaVtcXnXHDaL+cueslu0
+	bfzK6MDr8e/EGjaPy2dLPTat6mTz2Lyk3mP3zQY2j52t91k93u+7yuaxfstVFo/Np6s9Pm+S
+	82g/0M0UwB2lZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqk
+	b5egl7H5+lT2gknsFb/OXWRsYDzN2sXIySEhYCJx9uMCRhBbSGApo8Trx0IQcRmJT1c+skPY
+	whJ/rnWxQdR8ZJRY8LKii5ELyN7NKDHt1U+wBK+AncT9LdvAbBYBVYkdXY8YIeKCEidnPmEB
+	sUUFIiQ+LZsAtlhYwFdi+s5zYDazgLjErSfzmUCGigjMY5SY9+M/mMMscJ9R4vbzCywQq98w
+	SZxeHtLFyMHBJqAl0dgJdh2ngJvE075pLBCDNCVat/9mh7DlJba/ncMM8YGyxOIL1xgh7FqJ
+	z3+fMU5gFJ2F5L5ZSO6YhWTULCSjFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAhMFtuO
+	/dy8g3Heq496hxiZOBgPMUpwMCuJ8DYkT0wS4k1JrKxKLcqPLyrNSS0+xGgKDKSJzFKiyfnA
+	dJVXEm9oZmBqaGJmaWBqaWasJM7rWdCRKCSQnliSmp2aWpBaBNPHxMEp1cCkZz5FWk2zd++6
+	q9Erp+devu/y6+yDnNObr2+5Xut48sOTm5yuW5gWZQlKOm/N+l727ozWxSWy+9psgoorthbt
+	kn3nvPPf6yc/Fz2KmqMV3G31vmYuS+qP7Q943tQuKDjHlXnoQrdv9OPb569VckTnlZ4p7DT8
+	9cFrTpCLxQL3Lk717VFme/ZFXza3fWW35ir/27DaBz1njfa8WBIafPLdF9etXM2LIpatnDg7
+	hHHPZmezGuV+mwO3fu77a9/5ss0qp8bq2ol/GWJlGr0sN3J0eJlXMpsZyka9dD9TmitUEugx
+	tbbJWcXwTe+OO3vvx/c6+scbiddYzPz5WzB0jpnH+X6lFNNVtXW7J9QEda1WYinOSDTUYi4q
+	TgQAb04t7Z8DAAA=
+X-CMS-MailID: 20220530145955eucas1p1049c4bad5ed3bc5e611d761e4bbaa71a
+X-Msg-Generator: CA
+X-RootMTR: 20220525155008eucas1p2c843cc9098f2920e961f80ffaf535789
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220525155008eucas1p2c843cc9098f2920e961f80ffaf535789
+References: <20220525154957.393656-1-p.raghav@samsung.com>
+	<CGME20220525155008eucas1p2c843cc9098f2920e961f80ffaf535789@eucas1p2.samsung.com>
+	<20220525154957.393656-9-p.raghav@samsung.com>
+	<9703ca4c-33cf-cb3a-b46b-6b0e5537cfd6@opensource.wdc.com>
+	<0bb57f61-9a33-0273-4b89-2cdf042e56dd@samsung.com>
+	<3c04e29f-2c99-c350-bc87-0c0633b4d19d@opensource.wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220530_065304_399672_D074ECD7 
-X-CRM114-Status: GOOD (  14.72  )
+X-CRM114-CacheID: sfid-20220530_080003_402519_74B4A497 
+X-CRM114-Status: GOOD (  16.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,44 +147,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: "Smith, Kyle Miller (Nimble Kernel)" <kyles@hpe.com>
+On 5/26/22 10:25, Damien Le Moal wrote:
+>> This series is targeting the first phase where we have stop gap patches
+>> and add support to the block and nvme layer and in the next phase we
+>> will add a dm linear like target for npo2 zone sizes which can be used
+>> by all the filesystems. This patch makes sure that we can't use npo2
+>> zoned devices without the proper support that will be added in the next
+>> phase in the DM.
+> 
+> Personally, I do not want to see a kernel version where zone support is broken
+> for some devices. So I definitely prefer everything in one go or nothing.
+> 
+Ok. I will make sure the DM target is a part of the next series along
+with the zonefs patch.
 
-[ Upstream commit da42761181627e9bdc37d18368b827948a583929 ]
+Meanwhile, could you review the patches for the block, nvme and null blk
+that is already a part of this series? I have made the changes in those
+patches as you requested in previous revisions.
 
-In nvme_alloc_admin_tags, the admin_q can be set to an error (typically
--ENOMEM) if the blk_mq_init_queue call fails to set up the queue, which
-is checked immediately after the call. However, when we return the error
-message up the stack, to nvme_reset_work the error takes us to
-nvme_remove_dead_ctrl()
-  nvme_dev_disable()
-   nvme_suspend_queue(&dev->queues[0]).
-
-Here, we only check that the admin_q is non-NULL, rather than not
-an error or NULL, and begin quiescing a queue that never existed, leading
-to bad / NULL pointer dereference.
-
-Signed-off-by: Kyle Smith <kyles@hpe.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c87f27d3ee31..e7b872592f36 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1203,6 +1203,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 		dev->ctrl.admin_q = blk_mq_init_queue(&dev->admin_tagset);
- 		if (IS_ERR(dev->ctrl.admin_q)) {
- 			blk_mq_free_tag_set(&dev->admin_tagset);
-+			dev->ctrl.admin_q = NULL;
- 			return -ENOMEM;
- 		}
- 		if (!blk_get_queue(dev->ctrl.admin_q)) {
--- 
-2.35.1
-
+Thanks,
+Pankaj
 
