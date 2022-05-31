@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DB90C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 19:28:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF873C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 19:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lI9/WEjnfnDuWcRiQSaF2aLpe846GbmeqIxTbGLKddc=; b=B5YTngfjecK3xLbNxWWGcMu0Yo
-	cKXdCNE51x/aW1xCOnkAZtkdaBnp1TD+QGTV+u/Y8ONx5fIriSFconXugkJxjcw1OLNPjWeLS4DKG
-	qkYQH97GPfwdL3uXkBbp+A4eFnEXCMoQ3oAOqlkxWXFUzksYr+1xkF7BGmvcrK052aIBk7/aYaU/i
-	jQqG+2L+IkEo7+oUMI+8NYeo4SHSyAZCmAAJa739HzQ8wo7mdqd/TFRfykvYYH/sXudyNJDQrp66f
-	2T5LnNIto55XD99gJqhUoWNi4nEpUZgbKfL5vyc3TYx+sdSfpnVgW/O4VpI7FhL9qqFwxWSjrxlto
-	NjSmTtWA==;
+	bh=CssFKoJZ3/mGtHyrbWTJBPcP71EgcStDnvvQRHZQLzA=; b=sH9vMX6FL/TZMC/uVnvYNWSFsC
+	g1MjlHP9Q1A/j7og+hThdbGw/yDmQvuxVFgK3hTDTaFDeRWor9B6jS4FuWCGeNJqI4UR+2NaFYWrp
+	U4yPxgbXqGk0Zfq/mdWYLhOaGRK64irhtbydvqsX8fhUQ+H1pjs1Lw0RnfAbbGe12OKinR7cc+yi3
+	kje0Sqvd/LydxZkpboqCOyGH+LMuhZszGYguy+gw/GgVLrxjztvLsroz1nCSlpPnL/ukpEyAMua72
+	LQh8+qvXIyaitRCfBNurGWg6s4FQAI6NFK7kgC6+zeNxQ/WPkhdH920ZOakY/sQkMq7ynYXeYKjbE
+	2JDAa4zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw7Xy-00CKvv-5v; Tue, 31 May 2022 19:28:54 +0000
+	id 1nw7dn-00CLRR-Bm; Tue, 31 May 2022 19:34:55 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw7Xv-00CKvV-HL
-	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 19:28:52 +0000
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24VFiI7x021814
-	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:28:51 -0700
+	id 1nw7dj-00CLR4-JE
+	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 19:34:54 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24VFiJ6k020555
+	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:34:51 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=lI9/WEjnfnDuWcRiQSaF2aLpe846GbmeqIxTbGLKddc=;
- b=ZauHY6c4d/ia/pDbpjVxQCViArpCov5euMiuw68ev04j96FzFiJ8nTy+AnZ2mvEHUgak
- ShSU5+rVKtZJGXHLRFIVi+gInb6rq11g3zn2XggBWCEazLGpXCrudr4Rj20DJJMcB9DN
- gbJfwn3GW4MtIzQkMXXlI8XJMpORm6JTdMo= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gdbt64rf2-2
+ bh=CssFKoJZ3/mGtHyrbWTJBPcP71EgcStDnvvQRHZQLzA=;
+ b=prdKASCY5CiXBvcxq+HSwuVpiMBDo3NCrroIFutfThRdLSDLIQoOO1uTNCifTTGJHWro
+ m7YeLLmAMRaRXl53D3MQolsVLjagH56OnGMnKl8eFwOkWqjiL2PllCQ8NqbELrH+0CZV
+ 0JxhO696Nn+hdLO0Mklj8xTyHXLOO4sJthw= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gbguqr0ns-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:28:50 -0700
-Received: from twshared14818.18.frc3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:34:51 -0700
+Received: from twshared0725.22.frc3.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c085:11d::7) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 31 May 2022 12:28:49 -0700
+ 15.1.2375.28; Tue, 31 May 2022 12:34:50 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id F19C44924B18; Tue, 31 May 2022 12:11:38 -0700 (PDT)
+	id E56534924B17; Tue, 31 May 2022 12:11:38 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
@@ -52,11 +52,10 @@ CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <bvanassche@acm.org>, <damien.lemoal@opensource.wdc.com>,
         <ebiggers@kernel.org>, <pankydev8@gmail.com>,
         Keith Busch
-	<kbusch@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCHv5 08/11] iov: introduce iov_iter_aligned
-Date: Tue, 31 May 2022 12:11:34 -0700
-Message-ID: <20220531191137.2291467-9-kbusch@fb.com>
+	<kbusch@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCHv5 07/11] block/bounce: count bytes instead of sectors
+Date: Tue, 31 May 2022 12:11:33 -0700
+Message-ID: <20220531191137.2291467-8-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220531191137.2291467-1-kbusch@fb.com>
 References: <20220531191137.2291467-1-kbusch@fb.com>
@@ -64,14 +63,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 6HfdLGXqgOs-YT8WMDGdfq1dSjO_iCPe
-X-Proofpoint-GUID: 6HfdLGXqgOs-YT8WMDGdfq1dSjO_iCPe
+X-Proofpoint-GUID: IE6TdNsdrKVBQ4cbPTcC9EOq7Dmc-50P
+X-Proofpoint-ORIG-GUID: IE6TdNsdrKVBQ4cbPTcC9EOq7Dmc-50P
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-05-31_07,2022-05-30_03,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220531_122851_625582_3D8D0897 
-X-CRM114-Status: GOOD (  18.87  )
+X-CRM114-CacheID: sfid-20220531_123451_682333_C9891C55 
+X-CRM114-Status: GOOD (  16.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,142 +87,54 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-The existing iov_iter_alignment() function returns the logical OR of
-address and length. For cases where address and length need to be
-considered separately, introduce a helper function that a caller can
-specificy length and address masks that indicate if the iov is
-unaligned.
+Individual bv_len's may not be a sector size.
 
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
 ---
- include/linux/uio.h |  2 +
- lib/iov_iter.c      | 92 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 94 insertions(+)
+v4->v5:
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 739285fe5a2f..34ba4a731179 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -219,6 +219,8 @@ size_t _copy_mc_to_iter(const void *addr, size_t byte=
-s, struct iov_iter *i);
- #endif
+  Updated comment (Christoph)
+
+ block/bounce.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/block/bounce.c b/block/bounce.c
+index 8f7b6fe3b4db..fbadf179601f 100644
+--- a/block/bounce.c
++++ b/block/bounce.c
+@@ -205,19 +205,26 @@ void __blk_queue_bounce(struct request_queue *q, st=
+ruct bio **bio_orig)
+ 	int rw =3D bio_data_dir(*bio_orig);
+ 	struct bio_vec *to, from;
+ 	struct bvec_iter iter;
+-	unsigned i =3D 0;
++	unsigned i =3D 0, bytes =3D 0;
+ 	bool bounce =3D false;
+-	int sectors =3D 0;
++	int sectors;
 =20
- size_t iov_iter_zero(size_t bytes, struct iov_iter *);
-+bool iov_iter_is_aligned(const struct iov_iter *i, unsigned addr_mask,
-+			unsigned len_mask);
- unsigned long iov_iter_alignment(const struct iov_iter *i);
- unsigned long iov_iter_gap_alignment(const struct iov_iter *i);
- void iov_iter_init(struct iov_iter *i, unsigned int direction, const str=
-uct iovec *iov,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 6dd5330f7a99..a39b24496878 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -1268,6 +1268,98 @@ void iov_iter_discard(struct iov_iter *i, unsigned=
- int direction, size_t count)
- }
- EXPORT_SYMBOL(iov_iter_discard);
+ 	bio_for_each_segment(from, *bio_orig, iter) {
+ 		if (i++ < BIO_MAX_VECS)
+-			sectors +=3D from.bv_len >> 9;
++			bytes +=3D from.bv_len;
+ 		if (PageHighMem(from.bv_page))
+ 			bounce =3D true;
+ 	}
+ 	if (!bounce)
+ 		return;
 =20
-+static bool iov_iter_aligned_iovec(const struct iov_iter *i, unsigned ad=
-dr_mask,
-+				   unsigned len_mask)
-+{
-+	size_t size =3D i->count;
-+	size_t skip =3D i->iov_offset;
-+	unsigned k;
-+
-+	for (k =3D 0; k < i->nr_segs; k++, skip =3D 0) {
-+		size_t len =3D i->iov[k].iov_len - skip;
-+
-+		if (len > size)
-+			len =3D size;
-+		if (len & len_mask)
-+			return false;
-+		if ((unsigned long)(i->iov[k].iov_base + skip) & addr_mask)
-+			return false;
-+
-+		size -=3D len;
-+		if (!size)
-+			break;
-+	}
-+	return true;
-+}
-+
-+static bool iov_iter_aligned_bvec(const struct iov_iter *i, unsigned add=
-r_mask,
-+				  unsigned len_mask)
-+{
-+	size_t size =3D i->count;
-+	unsigned skip =3D i->iov_offset;
-+	unsigned k;
-+
-+	for (k =3D 0; k < i->nr_segs; k++, skip =3D 0) {
-+		size_t len =3D i->bvec[k].bv_len - skip;
-+
-+		if (len > size)
-+			len =3D size;
-+		if (len & len_mask)
-+			return false;
-+		if ((unsigned long)(i->bvec[k].bv_offset + skip) & addr_mask)
-+			return false;
-+
-+		size -=3D len;
-+		if (!size)
-+			break;
-+	}
-+	return true;
-+}
-+
-+/**
-+ * iov_iter_is_aligned() - Check if the addresses and lengths of each se=
-gments
-+ * 	are aligned to the parameters.
-+ *
-+ * @i: &struct iov_iter to restore
-+ * @addr_mask: bit mask to check against the iov element's addresses
-+ * @len_mask: bit mask to check against the iov element's lengths
-+ *
-+ * Return: false if any addresses or lengths intersect with the provided=
- masks
-+ */
-+bool iov_iter_is_aligned(const struct iov_iter *i, unsigned addr_mask,
-+			 unsigned len_mask)
-+{
-+	if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i)))
-+		return iov_iter_aligned_iovec(i, addr_mask, len_mask);
-+
-+	if (iov_iter_is_bvec(i))
-+		return iov_iter_aligned_bvec(i, addr_mask, len_mask);
-+
-+	if (iov_iter_is_pipe(i)) {
-+		unsigned int p_mask =3D i->pipe->ring_size - 1;
-+		size_t size =3D i->count;
-+
-+		if (size & len_mask)
-+			return false;
-+		if (size && allocated(&i->pipe->bufs[i->head & p_mask])) {
-+			if (i->iov_offset & addr_mask)
-+				return false;
-+		}
-+
-+		return true;
-+	}
-+
-+	if (iov_iter_is_xarray(i)) {
-+		if (i->count & len_mask)
-+			return false;
-+		if ((i->xarray_start + i->iov_offset) & addr_mask)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(iov_iter_is_aligned);
-+
- static unsigned long iov_iter_alignment_iovec(const struct iov_iter *i)
- {
- 	unsigned long res =3D 0;
++	/*
++	 * Individual bvecs may not be logical block aligned. Round down
++	 * the split size so that each bio is properly sector size aligned,
++	 * even if we do not use the full hardware limits.
++	 */
++	sectors =3D ALIGN_DOWN(bytes, queue_logical_block_size(q)) >>
++			SECTOR_SHIFT;
+ 	if (sectors < bio_sectors(*bio_orig)) {
+ 		bio =3D bio_split(*bio_orig, sectors, GFP_NOIO, &bounce_bio_split);
+ 		bio_chain(bio, *bio_orig);
 --=20
 2.30.2
 
