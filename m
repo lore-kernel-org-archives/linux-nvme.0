@@ -4,74 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04FE6C433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 19:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 731C6C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 21:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=faOcvTN3625CjqrjeCHz0BkjmPq+BgAMSxF65DUtUoM=; b=meG4YghUuxw5IbxJxYkBEFHF+Q
-	a2kMd/Rw27jfo9JnaQEzUJ3N/tolg3fZHTFoPUioh0eM4OsZeXV0Ztkp3gqGVlJ8Ee9nl09EjSVqF
-	WRBH3hmoMAJRxNKa9Pi8vW07NRqUHv+EHyt3BXevII7/nV/MaxrctQgd+0A5iZp60EydvL0K5Tqz8
-	SREgeddsPbXOYjSarPpmIEjBIZPvGMMZaVgSZiTQWbQ03L23YcINce/ITIirU3oeAHx6T5kwlYjA6
-	zlt7Go2DYSR1YQK9T3zAHpxf7QMfoecv1ioCjMXTaMu+KV/TLRODZyGWuBsfB4xgSigmHutlxu6/7
-	XVUw7MoQ==;
+	bh=1fcxWzFEzkvkxqTR3Ns2azafoRm60XdCJvowWLfMHKs=; b=q3EFHgjZYQDvBJbBwY5k64sRnU
+	1pFsWqN0g2Lo/jWBHiZf7uius+v0g7e48F7PEWSuN7gltibXFoNeD2P4mq/4QKZgoJ9Cf97+KgZDZ
+	K2LuHhVBJsCLUCS6c4JVTD6+gTFFCAIePKyEsuRWbUrmGsP30RgvZp4wRTY9x31AQan71Itxe4f5i
+	Ly2TsULMEXZEHLcXN43V2amJgH/Xh8+P0uLIINhvOvEB4IBvjbgZpmXmBFXLlawuipj7Q5UChZ0Mc
+	u2n2++HGh8YJ39uDetobbTTzO0xZ4SZmBP3w9a7eezAavlfHeqp5m0eLJeXSoPjUAQ51t5Fkhzm6O
+	qZUJp1rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw7dv-00CLSl-Cx; Tue, 31 May 2022 19:35:03 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1nw9hZ-00CkRz-Ox; Tue, 31 May 2022 21:46:57 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw7dr-00CLRp-7a
-	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 19:35:02 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 24VFiHZ7013628
-	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:34:58 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=faOcvTN3625CjqrjeCHz0BkjmPq+BgAMSxF65DUtUoM=;
- b=o+Yz1J/lJmFWJxCQC08urvZ/4CXyrNLPg4C8MzGWsS4hd+uDw+QeKJMGdf1dOfzgGppI
- xScI39G1CWTtqDUOHCM4S/VdGvaHVzHFlrjhKjWUCMPBuZUTq28+NxbrkGn5N64Zcm1e
- XoEn/bn/CHj2IW6ZUN7dwH+rxrLj+ZN0Fnc= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by m0001303.ppops.net (PPS) with ESMTPS id 3gbfdtg8ut-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:34:58 -0700
-Received: from twshared3353.07.ash9.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c085:21d::6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 31 May 2022 12:34:56 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 8D0D34924B0E; Tue, 31 May 2022 12:11:38 -0700 (PDT)
-From: Keith Busch <kbusch@fb.com>
-To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
-        <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
-        <bvanassche@acm.org>, <damien.lemoal@opensource.wdc.com>,
-        <ebiggers@kernel.org>, <pankydev8@gmail.com>,
-        Keith Busch
-	<kbusch@kernel.org>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCHv5 04/11] block: introduce bdev_dma_alignment helper
-Date: Tue, 31 May 2022 12:11:30 -0700
-Message-ID: <20220531191137.2291467-5-kbusch@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220531191137.2291467-1-kbusch@fb.com>
+	id 1nw9hW-00CkQu-TT
+	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 21:46:56 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sin.source.kernel.org (Postfix) with ESMTPS id 3F877CE18AD;
+	Tue, 31 May 2022 21:46:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B8DC385A9;
+	Tue, 31 May 2022 21:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654033609;
+	bh=5+TFnO/t+SNX2FQs/tWp2G1t5E0Wg0Jw7L9xutbcSx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VqS1AVZdj1v2THvdN5o49UuqSVE0ivcHNaziY4gy+vgSfrRPl34d0Z31nZBvAiCHF
+	 xT80VhojMYdYilIyAeDJTdmwDE33d/QwERifcS+YXhYk8jBxyrPOveGdpeLO5NYzV2
+	 MpODlZC1eKld8CNXymiIYurnzJ1zRFsLaSUo+ivRyU2Jq8w0yWiDLiub5bjRkOht/a
+	 mJaj/H5oAjKpeO7IMwENFfHGjScnoEBzVC2z+xr4XNmLh+2IJvDozVuhSF4c7wNqFo
+	 MVd5h67AJaydzVyfrapaZSP8qaW8esJrmf530op+1cQP4bTKlPBb1puhuoqMard6DA
+	 ExhOHqlrqVXNg==
+Date: Tue, 31 May 2022 21:46:48 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Keith Busch <kbusch@fb.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, axboe@kernel.dk,
+	Kernel Team <Kernel-team@fb.com>, hch@lst.de, bvanassche@acm.org,
+	damien.lemoal@opensource.wdc.com, pankydev8@gmail.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv5 09/11] block: introduce bdev_iter_is_aligned helper
+Message-ID: <YpaMyCfOKK5NKgL+@gmail.com>
 References: <20220531191137.2291467-1-kbusch@fb.com>
+ <20220531191137.2291467-10-kbusch@fb.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: EmTCdSndEwqExX3e2bKh31ehcWvUaOoy
-X-Proofpoint-GUID: EmTCdSndEwqExX3e2bKh31ehcWvUaOoy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-05-31_07,2022-05-30_03,2022-02-23_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531191137.2291467-10-kbusch@fb.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220531_123459_431732_AE12947E 
-X-CRM114-Status: GOOD (  14.64  )
+X-CRM114-CacheID: sfid-20220531_144655_155476_3A7D8A8B 
+X-CRM114-Status: GOOD (  15.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,37 +75,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Tue, May 31, 2022 at 12:11:35PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> Provide a convenient function for this repeatable coding pattern.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  include/linux/blkdev.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 834b981ef01b..583cdeb8895d 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1370,6 +1370,13 @@ static inline unsigned int bdev_dma_alignment(struct block_device *bdev)
+>  	return queue_dma_alignment(bdev_get_queue(bdev));
+>  }
+>  
+> +static inline bool bvev_iter_is_aligned(struct block_device *bdev,
+> +					struct iov_iter *iter)
+> +{
+> +	return iov_iter_is_aligned(iter, bdev_dma_alignment(bdev),
+> +				   bdev_logical_block_size(bdev) - 1);
+> +}
 
-Preparing for upcoming dma_alignment users that have a block_device, but
-don't need the request_queue.
+"bdev", not "bvev".
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/blkdev.h | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 5bdf2ac9142c..834b981ef01b 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1365,6 +1365,11 @@ static inline int queue_dma_alignment(const struct=
- request_queue *q)
- 	return q ? q->dma_alignment : 511;
- }
-=20
-+static inline unsigned int bdev_dma_alignment(struct block_device *bdev)
-+{
-+	return queue_dma_alignment(bdev_get_queue(bdev));
-+}
-+
- static inline int blk_rq_aligned(struct request_queue *q, unsigned long =
-addr,
- 				 unsigned int len)
- {
---=20
-2.30.2
-
+- Eric
 
