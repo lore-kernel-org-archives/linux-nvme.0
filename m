@@ -4,75 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAFFFC433F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 17:56:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94F4EC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 18:02:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dCJ0kxoNhxlaN6HUzh28+2u9bgLInd78a4P4vS2peww=; b=MCxdFw5t07c6z5/WwXO4MKeG/V
-	y5RBbKAn8TKX8wF4vlJGQ67cFgValozallomkyVsIdXkGqh4JcNze5lFeGyijPlTV1TDid8o9SIp3
-	9hDOwvpl1iAjlplhI/KKux4EcDNuFFms/v0e8yNpThTFhb//U0YBbvoB2QXqjBBWHSeE9YTyWm20N
-	lQbEmoHbbclbpL04yHoT9dBXESKHd6Dk1sJ+qDsWdFN6ZL2sSwgOJrYKfd56ZaibkXqN3KR3FNxm0
-	Ymz0UUntPPG/3HyIZ1fBriDge3LntNUOl3p1Xf1TOgCy1pEYG4FMI0Nm5FMR5tycZJggLYIsQE5aV
-	boLtIFLg==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0PLCmA063wbWlvDmMq4B8TbbKW4O9jMYtRXlrfbJGdA=; b=ojKbqcAIaKwZVmd6FWvcU6wM+A
+	jCxKHJag1/3ttXLpofrjpSTpLWGGYoybTzEp4AcsyRtJJE7Pzm6u2gYrfnBtSDX4qStbk35LHHRzg
+	7bjv14xIzBrhv+VRoEbNiS3H3W2fTXF6FOBo6iWV8cy7TeTGfaKdM+yW3R/DVtihJBiHkSqIddWtF
+	T+pvi5Jhs+1c2mvfBjKSSA7GYmXxeZ0ceXVNfZkeKvM+/BPHS3FrvtDfwrvWltqMU7kJimQtKrx4U
+	dcIRK7oLFybak4iRxNtzaPgo/KQDnmDM628jWNU+Orq339SvS8oGytLqBhury0X70u8fUwt2jBxRj
+	T1jSdOlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw65y-00C6L0-FK; Tue, 31 May 2022 17:55:54 +0000
-Received: from mail-pl1-f175.google.com ([209.85.214.175])
+	id 1nw6CO-00C7Jz-4y; Tue, 31 May 2022 18:02:32 +0000
+Received: from mga09.intel.com ([134.134.136.24])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw65t-00C6Jj-7l
-	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 17:55:50 +0000
-Received: by mail-pl1-f175.google.com with SMTP id h1so4300289plf.11
-        for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 10:55:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:to:cc:references:content-language:in-reply-to
-         :content-transfer-encoding;
-        bh=dCJ0kxoNhxlaN6HUzh28+2u9bgLInd78a4P4vS2peww=;
-        b=lEWmBQLOEJl6HmYTX2s6/CnxlgZz9sgNlB0AkEVn08ka/t1PxKkIcmmdtuoBXyfQ9X
-         OSWiKpJyRdbxzZE9NDC86HBbySkzlBtyA3OaMibQpw9qJ9Kj7lyerZz0boAlje+bDwVZ
-         RY9HeuFbQMV11YaMJmKfMiOOux+Vx69uTHwEqY7wTvgMG7zQ+ZFhRTVjKzvEqZidrzlA
-         qT6ZPVyO8oZk/E0ytRttuoqK1qmZAQe+j4bUG4MDx9a9sFODNMvgUvRaGSKSKiIKy8yN
-         dMyHY1ZQ5/JDz+6ewPUtNEPmZ94n4dKXKvT+lP6XtRgwMtXEm8eh1s+LZLd0kYbyypxu
-         XDUw==
-X-Gm-Message-State: AOAM533rs5bNAXTZ2YBd0OxqHFAO54Fp8urAcoEgH9Y0jtgdit4tcXBH
-	k/UPOJqIZYxB7/IOtu+5Y6nj1dpGcZ7e+g==
-X-Google-Smtp-Source: ABdhPJwExwLDU+mzF/g9QchT/DTKC6Kf2nIjCtULXhjUroLBP/wbJMwEwdhtw402flcK9Weu66IRnA==
-X-Received: by 2002:a17:902:da8e:b0:164:537:d910 with SMTP id j14-20020a170902da8e00b001640537d910mr4413681plx.75.1654019748170;
-        Tue, 31 May 2022 10:55:48 -0700 (PDT)
-Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd? ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
-        by smtp.gmail.com with ESMTPSA id x27-20020aa78f1b000000b0051b8987efc0sm1874597pfr.218.2022.05.31.10.55.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 May 2022 10:55:47 -0700 (PDT)
-Message-ID: <355f1926-9a0d-f65e-d604-6b452fa987e9@acm.org>
-Date: Tue, 31 May 2022 10:55:46 -0700
+	id 1nw6CL-00C7J2-97
+	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 18:02:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654020149; x=1685556149;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FLChtdg9kMfBklf239bVe0ONUSMQjVhueB6HuxA40B0=;
+  b=Hf6QxfnuFbg0GCrNScX70bezsMi63eKdTy/ZcWDBhMRR952epbZC41rk
+   Te7y9a4AN/dO1+RDI+KenGz1YyqNMKa9y08uAVjLBOUg/+qhqlq6+wFTF
+   AH6TrNYkWnc/i0ssBUVhlhzeeLFCTngQdQe7PaeGv+EA4qC68YCGAuj+z
+   +sw+gWrG2GISvB+dbOTwyRcZLij0IWql1sl8FclTEERNgAqlmii64Dxfv
+   wMYREiJmGzD2DgPTgzjfHlclt22DVj2CHkB3SA4yDMimrMuONw2rr4rzW
+   SOgoOF0orQsPoYtkz/4RQCxn84nO0KlvyDCiu6VpXRqUJzW7rCy2AWBaI
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="275064931"
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; 
+   d="scan'208";a="275064931"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 11:02:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; 
+   d="scan'208";a="576523245"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 31 May 2022 11:02:21 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nw6CC-0002wc-50;
+	Tue, 31 May 2022 18:02:20 +0000
+Date: Wed, 01 Jun 2022 02:01:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
+ cbf84dbf0600b0efe1134cc3f98ae29c523a3a23
+Message-ID: <629657f4.8tC3riI94wVQ8D5I%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [bug report] WARNING: possible circular locking at:
- rdma_destroy_id+0x17/0x20 [rdma_cm] triggered by blktests nvmeof-mp/002
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-References: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
- <13441b9b-cc13-f0e0-bd46-f14983dadd49@grimberg.me>
- <4f15039a-eae1-ff69-791c-1aeda1d693df@acm.org>
- <20220527125229.GC2960187@ziepe.ca>
- <4d65a168-c701-6ffa-45b9-858ddcabbbda@acm.org>
- <20220531123544.GH2960187@ziepe.ca>
-Content-Language: en-US
-In-Reply-To: <20220531123544.GH2960187@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220531_105549_331281_FFEEAC6C 
-X-CRM114-Status: GOOD (  17.18  )
+X-CRM114-CacheID: sfid-20220531_110229_412870_8AA107EA 
+X-CRM114-Status: UNSURE (   7.49  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,72 +81,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/31/22 05:35, Jason Gunthorpe wrote:
-> On Sat, May 28, 2022 at 09:00:16PM +0200, Bart Van Assche wrote:
->> On 5/27/22 14:52, Jason Gunthorpe wrote:
->>> That only works if you can detect actual different lock classes during
->>> lock creation. It doesn't seem applicable in this case.
->>
->> Why doesn't it seem applicable in this case? The default behavior of
->> mutex_init() and related initialization functions is to create one lock
->> class per synchronization object initialization caller.
->> lockdep_register_key() can be used to create one lock class per
->> synchronization object instance. I introduced lockdep_register_key() myself
->> a few years ago.
-> 
-> I don't think this should be used to create one key per instance of
-> the object which would be required here. The overhead would be very
-> high.
+tree/branch: git://git.infradead.org/nvme.git nvme-5.19
+branch HEAD: cbf84dbf0600b0efe1134cc3f98ae29c523a3a23  nvmet: fix typo in comment
 
-Are we perhaps referring to different code changes? I'm referring to the
-code change below. The runtime and memory overhead of the patch below
-should be minimal.
+elapsed time: 720m
 
-Thanks,
+configs tested: 126
+configs skipped: 3
 
-Bart.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm64                               defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm                                 defconfig
+arm                              allyesconfig
+i386                          randconfig-c001
+sh                  sh7785lcr_32bit_defconfig
+arm64                            alldefconfig
+sh                   sh7770_generic_defconfig
+sh                          lboxre2_defconfig
+sh                        sh7763rdp_defconfig
+powerpc                      pcm030_defconfig
+m68k                             allmodconfig
+xtensa                  cadence_csp_defconfig
+arm                        realview_defconfig
+arm                        mvebu_v7_defconfig
+arm                        spear6xx_defconfig
+sh                     magicpanelr2_defconfig
+m68k                       bvme6000_defconfig
+arm                          badge4_defconfig
+arc                                 defconfig
+xtensa                  nommu_kc705_defconfig
+arm                            zeus_defconfig
+alpha                            alldefconfig
+powerpc                      mgcoge_defconfig
+parisc                           alldefconfig
+h8300                               defconfig
+ia64                         bigsur_defconfig
+sh                        dreamcast_defconfig
+parisc                generic-64bit_defconfig
+arm                        clps711x_defconfig
+h8300                            alldefconfig
+powerpc                 mpc8540_ads_defconfig
+mips                       bmips_be_defconfig
+h8300                            allyesconfig
+sh                          r7780mp_defconfig
+microblaze                          defconfig
+sh                          rsk7269_defconfig
+powerpc                 linkstation_defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+riscv                             allnoconfig
+m68k                             allyesconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+sh                               allmodconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a011
+x86_64                        randconfig-a013
+x86_64                        randconfig-a015
+i386                          randconfig-a012
+i386                          randconfig-a014
+i386                          randconfig-a016
+arc                  randconfig-r043-20220531
+s390                 randconfig-r044-20220531
+riscv                randconfig-r042-20220531
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+x86_64                    rhel-8.3-kselftests
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                                  kexec
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                           rhel-8.3-syz
+x86_64                         rhel-8.3-kunit
 
-diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-index fabca5e51e3d..d476c64cd84a 100644
---- a/drivers/infiniband/core/cma.c
-+++ b/drivers/infiniband/core/cma.c
-@@ -860,6 +860,8 @@ __rdma_create_id(struct net *net, rdma_cm_event_handler event_handler,
-  	init_completion(&id_priv->comp);
-  	refcount_set(&id_priv->refcount, 1);
-  	mutex_init(&id_priv->handler_mutex);
-+	lockdep_register_key(&id_priv->handler_key);
-+	lockdep_set_class(&id_priv->handler_mutex, &id_priv->handler_key);
-  	INIT_LIST_HEAD(&id_priv->device_item);
-  	INIT_LIST_HEAD(&id_priv->listen_list);
-  	INIT_LIST_HEAD(&id_priv->mc_list);
-@@ -1899,12 +1901,16 @@ static void _destroy_id(struct rdma_id_private *id_priv,
-  	cma_id_put(id_priv);
-  	wait_for_completion(&id_priv->comp);
+clang tested configs:
+mips                 randconfig-c004-20220531
+x86_64                        randconfig-c007
+i386                          randconfig-c001
+s390                 randconfig-c005-20220531
+arm                  randconfig-c002-20220531
+powerpc              randconfig-c003-20220531
+riscv                randconfig-c006-20220531
+arm                            mmp2_defconfig
+mips                       rbtx49xx_defconfig
+powerpc                     mpc512x_defconfig
+arm                             mxs_defconfig
+mips                      maltaaprp_defconfig
+powerpc                     tqm5200_defconfig
+powerpc                     akebono_defconfig
+powerpc                   lite5200b_defconfig
+arm                   milbeaut_m10v_defconfig
+mips                         tb0287_defconfig
+x86_64                        randconfig-a005
+x86_64                        randconfig-a003
+x86_64                        randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
 
-+	mutex_destroy(&id_priv->handler_mutex);
-+	lockdep_unregister_key(&id_priv->handler_key);
-+
-  	if (id_priv->internal_id)
-  		cma_id_put(id_priv->id.context);
-
-  	kfree(id_priv->id.route.path_rec);
-
-  	put_net(id_priv->id.route.addr.dev_addr.net);
-+
-  	kfree(id_priv);
-  }
-
-diff --git a/drivers/infiniband/core/cma_priv.h b/drivers/infiniband/core/cma_priv.h
-index 757a0ef79872..4affecd044eb 100644
---- a/drivers/infiniband/core/cma_priv.h
-+++ b/drivers/infiniband/core/cma_priv.h
-@@ -75,6 +75,7 @@ struct rdma_id_private {
-  	struct completion	comp;
-  	refcount_t refcount;
-  	struct mutex		handler_mutex;
-+	struct lock_class_key	handler_key;
-
-  	int			backlog;
-  	int			timeout_ms;
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
