@@ -4,59 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4A30C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 19:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72F88C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 19:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IPGZEoZLlJcqR4y6vi40ehjfP/MqoJW85cjDrHKckc4=; b=EoLO5cJLY99n22ttkCY1eBpINE
-	Ss2c4K7PGXczMVxyEOBuvU6NgrOvGpOqfDkS39CMvFO0gNr6Ue3mxaJiDL2ghVYNLb/j5jLSbBu/i
-	FSeluZmbBfcQMfyjPXwXbuHAa+nAhdRqUx0d7WqdMjWMBGFLWvjoo6XA0St7lSKk95UzSWkQJ7l8T
-	Igtcv5J4nIPRzU2qwOx1Vyzcy3FIu3zVSMwxHxA6SNKLkH0ayddT0yFvqa1O2y+EKOADwY6rGU5nY
-	xPaHU7Kb0ffzqTfY7nuKYOvFbHcpiDSrZNRksxKWo5UHhdjL5clL9DCwxRfYA47wvDgIacaEeAa5W
-	WTOKrMaw==;
+	bh=HJNK0c5mX6YX+CKVjOyKTa9QgWojDcOFC9rcet7m5hU=; b=aUkqy5cXpDAIGTpV4PJMqO6WZu
+	IXnZi5ru34AEaw8FalM4cyHXsKZUvIOC0+MJBzC5ne482+pZTYlG6iAlHKeUwIL9ugF3II3UM4gpM
+	pERzXUqST7arfqSz6Z+ELcIQmh9fjBW6ZPXRFihB9JDqk1z4OFxxX8fIZ8i4V5mOBUQLMQGAY0n3g
+	FAzR4yJbc77dRhrgSmiLcAsRAyimTae6YE5XC+K7utL9MxEU+HJcqbCppFzHQneadlgbVjun4JoZE
+	IC/qPlzXKSsogloVRQEx3ExMDFtd73ZUfZQ+UOE+BP4G8hMujcM40eCa0EK5LoWm9eMsvTFaoyTeQ
+	SN/ZMHiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw7SC-00CJsp-GI; Tue, 31 May 2022 19:22:56 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1nw7SG-00CJuR-Ns; Tue, 31 May 2022 19:23:00 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nw7S8-00CJsH-O0
-	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 19:22:54 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24VFiDE8027311
-	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:22:52 -0700
+	id 1nw7SE-00CJtI-De
+	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 19:22:59 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 24VFiGmP013556
+	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:22:57 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=IPGZEoZLlJcqR4y6vi40ehjfP/MqoJW85cjDrHKckc4=;
- b=QYEcrZNf+hVe4oJ1zvfngKNwQmhfUUVb4niGahxQrJ6zIiWxYkwB5rOZfLS8Zc2hOEj8
- s0KHBRvWUMRKh6iNfg+VZnx7GDBbyteXjq9xeY6G3cxuAq68RHkAe7xOdlMIZOY7WIFe
- TwKTbssPNx164WOZL8vwcapD7KsDOW70wxY= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gdj4su5a3-1
+ bh=HJNK0c5mX6YX+CKVjOyKTa9QgWojDcOFC9rcet7m5hU=;
+ b=BuF77ijzBIeFP7An/UKT7vCVFgYp5c8MuNjrmaK+lhkJkE+fju4+Hv7iKKAH0u8oAClK
+ rCCxDNDT7ow+RvTJ8G0gV2uO0r61UTCbjP1VK9FB5r9I4iSdbTgy77gHjjY13T6hOih2
+ agtJgKQV9GGwdJZ0l5sLQC3tCyOzxHoA9LI= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 3gbfdtg6nv-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:22:52 -0700
-Received: from twshared10276.08.ash9.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c085:11d::7) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Tue, 31 May 2022 12:22:57 -0700
+Received: from twshared8508.05.ash9.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 31 May 2022 12:22:51 -0700
+ 15.1.2375.28; Tue, 31 May 2022 12:22:56 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id F18AD4924B0C; Tue, 31 May 2022 12:11:38 -0700 (PDT)
+	id 221AC4924B1B; Tue, 31 May 2022 12:11:38 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
 CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <bvanassche@acm.org>, <damien.lemoal@opensource.wdc.com>,
         <ebiggers@kernel.org>, <pankydev8@gmail.com>,
-        Keith Busch
-	<kbusch@kernel.org>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCHv5 02/11] block/bio: remove duplicate append pages code
-Date: Tue, 31 May 2022 12:11:28 -0700
-Message-ID: <20220531191137.2291467-3-kbusch@fb.com>
+        Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv5 11/11] fs: add support for dma aligned direct-io
+Date: Tue, 31 May 2022 12:11:37 -0700
+Message-ID: <20220531191137.2291467-12-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220531191137.2291467-1-kbusch@fb.com>
 References: <20220531191137.2291467-1-kbusch@fb.com>
@@ -64,14 +62,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: Ymo4jCFjKLNl4fjKRPpLtJ5Hw32N5huw
-X-Proofpoint-ORIG-GUID: Ymo4jCFjKLNl4fjKRPpLtJ5Hw32N5huw
+X-Proofpoint-ORIG-GUID: OXPkv8GQDEKY8bFVa--pOJxDmdFt7fL8
+X-Proofpoint-GUID: OXPkv8GQDEKY8bFVa--pOJxDmdFt7fL8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-05-31_07,2022-05-30_03,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220531_122252_836181_E558A83D 
-X-CRM114-Status: GOOD (  22.12  )
+X-CRM114-CacheID: sfid-20220531_122258_608807_46F1D1AB 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,178 +86,39 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-The getting pages setup for zone append and normal IO are identical. Use
-common code for each.
+Use the address alignment requirements from the block_device for direct
+io instead of requiring addresses be aligned to the block size.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bio.c | 102 ++++++++++++++++++++++------------------------------
- 1 file changed, 42 insertions(+), 60 deletions(-)
+ fs/iomap/direct-io.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index e249f6414fd5..55d2a9c4e312 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1158,6 +1158,37 @@ static void bio_put_pages(struct page **pages, siz=
-e_t size, size_t off)
- 		put_page(pages[i]);
- }
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index 80f9b047aa1b..dd78549d9fd6 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -233,7 +233,6 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
+ter *iter,
+ 	struct inode *inode =3D iter->inode;
+ 	unsigned int blkbits =3D blksize_bits(bdev_logical_block_size(iomap->bd=
+ev));
+ 	unsigned int fs_block_size =3D i_blocksize(inode), pad;
+-	unsigned int align =3D iov_iter_alignment(dio->submit.iter);
+ 	loff_t length =3D iomap_length(iter);
+ 	loff_t pos =3D iter->pos;
+ 	unsigned int bio_opf;
+@@ -244,7 +243,8 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
+ter *iter,
+ 	size_t copied =3D 0;
+ 	size_t orig_count;
 =20
-+static int bio_iov_add_page(struct bio *bio, struct page *page,
-+		unsigned int len, unsigned int offset)
-+{
-+	bool same_page =3D false;
-+
-+	if (!__bio_try_merge_page(bio, page, len, offset, &same_page)) {
-+		if (WARN_ON_ONCE(bio_full(bio, len)))
-+			return -EINVAL;
-+		__bio_add_page(bio, page, len, offset);
-+		return 0;
-+	}
-+
-+	if (same_page)
-+		put_page(page);
-+	return 0;
-+}
-+
-+static int bio_iov_add_zone_append_page(struct bio *bio, struct page *pa=
-ge,
-+		unsigned int len, unsigned int offset)
-+{
-+	struct request_queue *q =3D bdev_get_queue(bio->bi_bdev);
-+	bool same_page =3D false;
-+
-+	if (bio_add_hw_page(q, bio, page, len, offset,
-+			queue_max_zone_append_sectors(q), &same_page) !=3D len)
-+		return -EINVAL;
-+	if (same_page)
-+		put_page(page);
-+	return 0;
-+}
-+
- #define PAGE_PTRS_PER_BVEC     (sizeof(struct bio_vec) / sizeof(struct p=
-age *))
+-	if ((pos | length | align) & ((1 << blkbits) - 1))
++	if ((pos | length) & ((1 << blkbits) - 1) ||
++	    !bvev_iter_is_aligned(iomap->bdev, dio->submit.iter))
+ 		return -EINVAL;
 =20
- /**
-@@ -1176,7 +1207,6 @@ static int __bio_iov_iter_get_pages(struct bio *bio=
-, struct iov_iter *iter)
- 	unsigned short entries_left =3D bio->bi_max_vecs - bio->bi_vcnt;
- 	struct bio_vec *bv =3D bio->bi_io_vec + bio->bi_vcnt;
- 	struct page **pages =3D (struct page **)bv;
--	bool same_page =3D false;
- 	ssize_t size, left;
- 	unsigned len, i;
- 	size_t offset;
-@@ -1185,7 +1215,7 @@ static int __bio_iov_iter_get_pages(struct bio *bio=
-, struct iov_iter *iter)
- 	 * Move page array up in the allocated memory for the bio vecs as far a=
-s
- 	 * possible so that we can start filling biovecs from the beginning
- 	 * without overwriting the temporary page array.
--	*/
-+	 */
- 	BUILD_BUG_ON(PAGE_PTRS_PER_BVEC < 2);
- 	pages +=3D entries_left * (PAGE_PTRS_PER_BVEC - 1);
-=20
-@@ -1195,18 +1225,18 @@ static int __bio_iov_iter_get_pages(struct bio *b=
-io, struct iov_iter *iter)
-=20
- 	for (left =3D size, i =3D 0; left > 0; left -=3D len, i++) {
- 		struct page *page =3D pages[i];
-+		int ret;
-=20
- 		len =3D min_t(size_t, PAGE_SIZE - offset, left);
-+		if (bio_op(bio) =3D=3D REQ_OP_ZONE_APPEND)
-+			ret =3D bio_iov_add_zone_append_page(bio, page, len,
-+					offset);
-+		else
-+			ret =3D bio_iov_add_page(bio, page, len, offset);
-=20
--		if (__bio_try_merge_page(bio, page, len, offset, &same_page)) {
--			if (same_page)
--				put_page(page);
--		} else {
--			if (WARN_ON_ONCE(bio_full(bio, len))) {
--				bio_put_pages(pages + i, left, offset);
--				return -EINVAL;
--			}
--			__bio_add_page(bio, page, len, offset);
-+		if (ret) {
-+			bio_put_pages(pages + i, left, offset);
-+			return ret;
- 		}
- 		offset =3D 0;
- 	}
-@@ -1215,51 +1245,6 @@ static int __bio_iov_iter_get_pages(struct bio *bi=
-o, struct iov_iter *iter)
- 	return 0;
- }
-=20
--static int __bio_iov_append_get_pages(struct bio *bio, struct iov_iter *=
-iter)
--{
--	unsigned short nr_pages =3D bio->bi_max_vecs - bio->bi_vcnt;
--	unsigned short entries_left =3D bio->bi_max_vecs - bio->bi_vcnt;
--	struct request_queue *q =3D bdev_get_queue(bio->bi_bdev);
--	unsigned int max_append_sectors =3D queue_max_zone_append_sectors(q);
--	struct bio_vec *bv =3D bio->bi_io_vec + bio->bi_vcnt;
--	struct page **pages =3D (struct page **)bv;
--	ssize_t size, left;
--	unsigned len, i;
--	size_t offset;
--	int ret =3D 0;
--
--	/*
--	 * Move page array up in the allocated memory for the bio vecs as far a=
-s
--	 * possible so that we can start filling biovecs from the beginning
--	 * without overwriting the temporary page array.
--	 */
--	BUILD_BUG_ON(PAGE_PTRS_PER_BVEC < 2);
--	pages +=3D entries_left * (PAGE_PTRS_PER_BVEC - 1);
--
--	size =3D iov_iter_get_pages(iter, pages, LONG_MAX, nr_pages, &offset);
--	if (unlikely(size <=3D 0))
--		return size ? size : -EFAULT;
--
--	for (left =3D size, i =3D 0; left > 0; left -=3D len, i++) {
--		struct page *page =3D pages[i];
--		bool same_page =3D false;
--
--		len =3D min_t(size_t, PAGE_SIZE - offset, left);
--		if (bio_add_hw_page(q, bio, page, len, offset,
--				max_append_sectors, &same_page) !=3D len) {
--			bio_put_pages(pages + i, left, offset);
--			ret =3D -EINVAL;
--			break;
--		}
--		if (same_page)
--			put_page(page);
--		offset =3D 0;
--	}
--
--	iov_iter_advance(iter, size - left);
--	return ret;
--}
--
- /**
-  * bio_iov_iter_get_pages - add user or kernel pages to a bio
-  * @bio: bio to add pages to
-@@ -1294,10 +1279,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct=
- iov_iter *iter)
- 	}
-=20
- 	do {
--		if (bio_op(bio) =3D=3D REQ_OP_ZONE_APPEND)
--			ret =3D __bio_iov_append_get_pages(bio, iter);
--		else
--			ret =3D __bio_iov_iter_get_pages(bio, iter);
-+		ret =3D __bio_iov_iter_get_pages(bio, iter);
- 	} while (!ret && iov_iter_count(iter) && !bio_full(bio, 0));
-=20
- 	/* don't account direct I/O as memory stall */
+ 	if (iomap->type =3D=3D IOMAP_UNWRITTEN) {
 --=20
 2.30.2
 
