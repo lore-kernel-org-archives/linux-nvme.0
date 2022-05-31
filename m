@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17C53C433FE
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 05:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5F86C433F5
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 May 2022 05:42:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xBM3SjSADpCtaGTcU20MqvmhiyUnvgFDR0aC/pBuNI4=; b=beW0kyLC/RAnWv4TYXC4ZXbeYO
-	jG4ZVpwsQ3ST7OqXSpqCz7lXgkMEgy4PGAk2hv9BXZFSqnCL3GWz2lmK41ghmSKSYyWXGLm3xsnt4
-	X7lrDeL/Q4BJEmbMcCUf+ZYCXf0Tn/Uu3TIG//MNhiMngf71HbECa/rT7fzCdYzII96Ty1TTpYsQq
-	nftEv47svaR8azTkRWUaamAjKEUOXkYIqDNyWxFxD4TAyIIIe3sLMGr3f0xRYaBGe6YvmN+HT4T+j
-	RkyjLtGykscHi3dZXmcv5hnEOhk2IOQVbS52ySlAY1e9oXB/c/rxPPJGxS9EECgfhVvMYb44rYq3G
-	0ZiBjZqg==;
+	bh=xBM3SjSADpCtaGTcU20MqvmhiyUnvgFDR0aC/pBuNI4=; b=bwQ3c7dWi2hGlv2OwTg13NwPXs
+	9DfTTiaWSGAewlzoH/456ybilZ4P2QE1BsX6eI8FyJukT8YxMYnPIJmDGMJGU2LwcyqABivCPa3d+
+	ohi2ktW2Xw9eu65XGQn+qGFtEpSb7BqOoZ9hgTUP7HyQ5QA4IY+vvCQrGXDZjM/98B9df73f8fEHz
+	/rdJMuFW5f0BSPLqmJP0zUBbRJdKV95kfrVSYBEdpgAqWRe3hr5DE49FdIzYZC670sVhy2jzTZzSA
+	NhAKp/HWvPghhpB3CGa9wGxIyK6zmU+VE5PkNHJizQ43pNDpvnk6VPlcznH9e6B14FN7nQA1ONrhz
+	A3AGwGkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nvueT-009OxE-UK; Tue, 31 May 2022 05:42:45 +0000
+	id 1nvueP-009OwE-UA; Tue, 31 May 2022 05:42:41 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nvueQ-009OwH-Ub
-	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 05:42:44 +0000
+	id 1nvueM-009Otw-G8
+	for linux-nvme@lists.infradead.org; Tue, 31 May 2022 05:42:40 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 64A1768BEB; Tue, 31 May 2022 07:42:39 +0200 (CEST)
-Date: Tue, 31 May 2022 07:42:38 +0200
+	id BA2D768AFE; Tue, 31 May 2022 07:42:27 +0200 (CEST)
+Date: Tue, 31 May 2022 07:42:27 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Niklas Cassel <niklas.cassel@wdc.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: set controller enable bit in a separate write
-Message-ID: <20220531054238.GB20486@lst.de>
-References: <20220526135721.390434-1-niklas.cassel@wdc.com>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: Christoph Hellwig <hch@lst.de>, kernel-janitors@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet: fix typo in comment
+Message-ID: <20220531054227.GA20486@lst.de>
+References: <20220521111145.81697-26-Julia.Lawall@inria.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220526135721.390434-1-niklas.cassel@wdc.com>
+In-Reply-To: <20220521111145.81697-26-Julia.Lawall@inria.fr>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220530_224243_165640_CF0ECA28 
-X-CRM114-Status: UNSURE (   8.81  )
+X-CRM114-CacheID: sfid-20220530_224238_771327_1A65FCFB 
+X-CRM114-Status: UNSURE (   8.86  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
