@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58268C433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jun 2022 16:46:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41381CCA478
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jun 2022 16:49:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=yHMITh+N130iuSnYvU2I4WotSms4ADBqIIhjmWEL4ZQ=; b=nvyyGtsXzAda0z
-	v6G9/vs6NncpcEUyh2lSANeFyrZjvNobCxd92hoDryUUzuMZJLHBICTegSRHJc1ctW0wpqPCDwouU
-	3s6T/DA0a7rFzuLuzv7qTJ4em1I7GHmR8IWjs3b7mdkxI+KADN0I9WTGX+z3uW2iCKTHj8TkMKRho
-	AwJktz49VaaIJmaw4ec/z7WMh/vLiT5fWq4x8hwSGgJN4astn+vCNcWNAySqlJrHHgFjPB9KTiVcL
-	8i5ERQj1/b0IFftuc+5mM6RiQMzh7UhqkG5RW/nBXzwY1OL2eYvtgnDk5sgKx9V4rtnjZyDg11Zyp
-	jKk9LVuIA9J5pTE5sYew==;
+	List-Owner; bh=G4jNGHaxScm6QRbg+/bUKEbD3ZVb5hKMPQYYoCPSz9U=; b=NvKqVg9gT6kID/
+	88/SXclHVXKV7YHA3PzkTKE+0brwzlKuYh/kk0YPHF8QJMc7MtM2zfvGpvQWshEH3Ufq3oF9Hfisz
+	UrD+CTgUkVG3ov+y2s7pNv6UQK+IZsBraIvM66PYt8rej1mnZTtzyvpUBln45x1EaJuucO/8pMKGB
+	MTxrm826tC7Wfa47yNqSyolK4WAajTz/zt4L/hRWUseu4DNqmfahWCID9KUgNoZjcSmNlnNc2K/0D
+	ceYDwv135YbZpS3m2CTk5eq8j/Lbif568m2OmV1/gtZ81hJhHgbrBwtRQhDVx5l0zyqv6S1HOfhhe
+	XPpcQyQIh3yiUtC9nx9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nwnxY-003o3K-7A; Thu, 02 Jun 2022 16:46:08 +0000
+	id 1nwo0h-003oZ3-EM; Thu, 02 Jun 2022 16:49:23 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nwnxS-003o2J-Bc
-	for linux-nvme@lists.infradead.org; Thu, 02 Jun 2022 16:46:06 +0000
+	id 1nwo0c-003oXK-F3
+	for linux-nvme@lists.infradead.org; Thu, 02 Jun 2022 16:49:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
 	MIME-Version:Date:Message-ID:content-disposition;
-	bh=yHMITh+N130iuSnYvU2I4WotSms4ADBqIIhjmWEL4ZQ=; b=O6Xl4kM8MUO00BCgiQ9hWPp+gB
-	2m7ZVz8sHNAOQKpiy5iEU/brZWoHl9L3YI08j4vZrZwZONQy6WWyOSXW66i+Zcv9QKlOeesm8TgjQ
-	pABnUdHP29eKXg17nEZ/MnWYIcmY/29mOmJme4RbBeYYarSUthGM7iOo3qpUFKlkgq37Ue76GJEjA
-	MfSw6YBYC+/0IQghP6E8FIRiZlTGbFFCXvUfzWrCRinU718CfdX6Eh08/4ZrDvJWXnPQwmRp+4WdA
-	1qxJEJvrytnpdt9tHqZk0bsYRw6b+C0O39SAOTytYjPcg2eYDgsp57ejuIJbnxeryaQkNoi8uOxrW
-	ueUPAsxQ==;
+	bh=G4jNGHaxScm6QRbg+/bUKEbD3ZVb5hKMPQYYoCPSz9U=; b=PTeaYAOF/4ng1MbqblI0wc/ZgX
+	i5VfwwrtyjYWA/pvSZh6UV7JKtQ9wG/KjAY6EFS4AgDOzIxqxJGmEIpWadj3Ho28i4xmqfhYntJAO
+	JrdI3Y++iHNLCQ1JdqlaHPgjmYyrKWmS/Fp7YazQGJ0ieFbhkp+YrrMxy8wv7mKcAjUfRXmV9EQE4
+	a4AFx87aKsvRfY1XjqZMtlTGWurF7mn+aqy5D/6ZF2Eziu4rlwNKpcJYAdKLbRdXleAhhHCDdc7Kq
+	mwkvfJr+Rq28q712EFrfu8CgUPgSO2xy86e4KyfCtbPG5OAFoNzTk/TMHic0abIyw8cAxRgYjyQUl
+	CvFCr70w==;
 Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
 	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.94.2)
 	(envelope-from <logang@deltatee.com>)
-	id 1nwnxQ-00EOAT-Fz; Thu, 02 Jun 2022 10:46:01 -0600
-Message-ID: <28824558-4fd5-e054-6c8d-5e045d52f795@deltatee.com>
-Date: Thu, 2 Jun 2022 10:45:55 -0600
+	id 1nwo0a-00EODR-OS; Thu, 02 Jun 2022 10:49:17 -0600
+Message-ID: <51cc6645-2504-6d01-5626-238ed6ffff04@deltatee.com>
+Date: Thu, 2 Jun 2022 10:49:15 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
@@ -82,8 +82,8 @@ Subject: Re: [PATCH v6 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220602_094602_445836_DB632718 
-X-CRM114-Status: GOOD (  14.85  )
+X-CRM114-CacheID: sfid-20220602_094918_583190_4CC13628 
+X-CRM114-Status: GOOD (  15.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,7 +97,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
-
 
 
 
@@ -117,18 +116,15 @@ On 2022-06-02 10:30, Jason Gunthorpe wrote:
 > A couple drivers go out of their way to allow unbinding while a live
 > userspace exists but this can get complicated. Usually there should be
 > a good reason.
+> 
+> The module will already be refcounted anyhow because the mmap points
+> to a char file which holds a module reference - meaning a simple rmmod
+> of the driver shouldn't work already..
 
-This is not my experience. All the drivers I've worked with do not block
-unbind with open file descriptors (at least for char devices). I know,
-for example, that having a file descriptor open of /dev/nvmeX does not
-cause unbinding to block. I figured this was the expectation as the
-userspace process doing the unbind won't be able to be interrupted
-seeing there's no way to fail on that path. Though, it certainly would
-make things a lot easier if the unbind can block indefinitely as it
-usually requires some complicated locking.
-
-Do you have an example of this? What mechanisms are developers using to
-block unbind with open file descriptors?
+Also, I just tried it... If I open a sysfs file for an nvme device (ie.
+/sys/class/nvme/nvme4/cntlid) and unbind the device, it does not block.
+A subsequent read on that file descriptor returns ENODEV. Which is what
+I would have expected.
 
 Logan
 
