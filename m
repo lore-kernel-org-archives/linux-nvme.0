@@ -4,88 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE7FC43334
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jun 2022 17:49:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73CA3C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jun 2022 05:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=iyck+wOifMpSZlLxRfCrWDgusCm3mWKdpT17Ia+B9wY=; b=sI6B14ZDqNYYqm
-	w2RRQzPOKD2Wf3ZOl8l3q5kTn1rAJMEdMuYnSvicwWKtJEF59LjspLDyuVb8EL6VTDy/rzLY9HA4w
-	0CPjJGt4Fv1Lgycn5We3/PA1Y2Hjws1sNnrmwsofOAo35xVGKYUpgfFP9lz4YW51iXhTDHNdqs4L8
-	yyKDH5MjwEpf7KVJfdBKOo6lh7EnSfTgLJ+NALwx6rgGXHprMUmJ7PiE3iJzRdoBnAofocIrOtEZy
-	hxdS9tlWenJBdQh2Hip+hbJiVERNeTfPWDquyFK5ZoycJ9sxu6pptg8a7IbjAKNQN7iyeO77FUdRs
-	HO3eNDBvZ+zddOPiRNJA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Jb0TyXV/oidz5qukxyhvHi03iGINx4MErOAqfXOcPIw=; b=gArs1sWaYCccLzujg4GKKc9M89
+	/UGK+V1FGaSJIgWcQzPLKqhmF2+F8XQ7/3jjhiZDLLsQVWbD8nhM5TM42BvCQBooF+bZRUpcVJomb
+	+TQOOeF+hA8Gm2sOYh5MMorUdevBhIhbmJFztIlv9masDyp43JkJczxRoYslolULMDsU6zxO1YJL0
+	Gk49yWZaxxXumQDopimBdzsww67kNXlzPMNVqG2roM6Ojh067RvpFj06xv7KuoY7oB8960Vg4iK8R
+	I4Obnj7qbH19gR90iucCB6OdcrD4bkoGiPP8T/B7t99k7fVH+fioW6Sir6ikThY1Tausc4lcZR/1/
+	hrgvPqTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nwox2-003uKm-Up; Thu, 02 Jun 2022 17:49:40 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1nwzcu-005sZN-8z; Fri, 03 Jun 2022 05:13:36 +0000
+Received: from mail-pf1-f176.google.com ([209.85.210.176])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nwox1-003uJQ-0C
-	for linux-nvme@lists.infradead.org; Thu, 02 Jun 2022 17:49:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=iyck+wOifMpSZlLxRfCrWDgusCm3mWKdpT17Ia+B9wY=; b=rnaKQUhn8m0zyN0RqZEYQDjsXS
-	bQq3WwRpeKjVK1qMYZK6mfxOtb/vSCH4EYY+RMt8unUUNIFPAn8qkWOpu0WY8P+7ycxavtU8c1x42
-	GL4bMz3u3uliqUKkk/rKHRiF6ip5UbjhpBdiEMfIJ6nrjfPr/5Sq6euvL6HgLOAijk7z3HlBHP7ls
-	pcXQ0r9j5pF9NW3clGalNpKN8L7zkm/dgY51Cgy5nTN+GYoKstvVBkAR/a/aEoyXotFUOBWnP/yvp
-	eUKOoQvmroULemDQpPRn3ppgTUJ3ZUx9YNJrBF5YBjbqtvmxd7j82k4fvWwyzEA+XJ6DtYonhy2aI
-	X2SqWSig==;
-Received: from s0106a84e3fe8c3f3.cg.shawcable.net ([24.64.144.200] helo=[192.168.0.10])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1nwoww-00EP6z-6D; Thu, 02 Jun 2022 11:49:35 -0600
-Message-ID: <251c6028-c53a-28dd-2bbf-d5c8ec2496b3@deltatee.com>
-Date: Thu, 2 Jun 2022 11:49:24 -0600
+	id 1nwzco-005sYR-7X
+	for linux-nvme@lists.infradead.org; Fri, 03 Jun 2022 05:13:31 +0000
+Received: by mail-pf1-f176.google.com with SMTP id e11so6406697pfj.5
+        for <linux-nvme@lists.infradead.org>; Thu, 02 Jun 2022 22:13:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Jb0TyXV/oidz5qukxyhvHi03iGINx4MErOAqfXOcPIw=;
+        b=fLxqnrqKeilOsiecRWOVMpJQiXmiMwz5/KXuF8wyVAvxL5oD8M9WMUAVqPd3a3hUmO
+         yKCCuN/GbBLncikzUr3d+Oh1yeP+5kHthrKxm6egmEjKOyeGzsMpOGTaiy9YML1ewkGZ
+         BsJACbr3VNJTcccMpET53XwNQD8DzPYO99/ecTbyS3+XUP9X+lf9E5Lb1UfdVbPiSGTv
+         OYfoKxpN3LyLtmUXDgBaFm3RR/gV8HqgFpBP2b0Lr2iRChm+qfHC3KmYI6+7c/swDYqK
+         keV/YGxGqvoQuQOwloL9a793RBnub3xSogpYSJplRH6iVg4vPl6X233s26bA6Qx5bCv2
+         qnLA==
+X-Gm-Message-State: AOAM530i5sAczjZcI6bcX2mV7jp7ddYPPS1v3AbdwJ1cfj0iK+0hJw42
+	OZrt6cU7sDrM7ZVTpdzVra4UAkmT95M8iQ==
+X-Google-Smtp-Source: ABdhPJzFOd4NjGVQ84m9d7+jzM5PYR54oZz8DWO899//Yo+LWlC/Zcc6Hdi0Lm+A+1axrMB+fF6nrw==
+X-Received: by 2002:a05:6a00:c84:b0:518:e0f6:f1af with SMTP id a4-20020a056a000c8400b00518e0f6f1afmr8682097pfv.47.1654233207164;
+        Thu, 02 Jun 2022 22:13:27 -0700 (PDT)
+Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd? ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
+        by smtp.gmail.com with ESMTPSA id o5-20020a170903300500b0015e8d4eb2e0sm4302862pla.298.2022.06.02.22.13.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jun 2022 22:13:26 -0700 (PDT)
+Message-ID: <53951a52-dc77-f4c9-a1dc-d6ac015be1a4@acm.org>
+Date: Thu, 2 Jun 2022 22:13:25 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-CA
+ Thunderbird/91.9.1
+Subject: Re: [bug report] WARNING: possible circular locking at:
+ rdma_destroy_id+0x17/0x20 [rdma_cm] triggered by blktests nvmeof-mp/002
+Content-Language: en-US
 To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Stephen Bates <sbates@raithlin.com>,
- Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Don Dutile <ddutile@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jakowski Andrzej <andrzej.jakowski@intel.com>,
- Minturn Dave B <dave.b.minturn@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Xiong Jianxin <jianxin.xiong@intel.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, Robin Murphy <robin.murphy@arm.com>,
- Martin Oliveira <martin.oliveira@eideticom.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- Ralph Campbell <rcampbell@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>
-References: <20220407154717.7695-1-logang@deltatee.com>
- <20220407154717.7695-21-logang@deltatee.com>
- <20220527125501.GD2960187@ziepe.ca>
- <a2590e27-41e8-59dc-3576-b5b8d716a198@deltatee.com>
- <20220527190307.GG2960187@ziepe.ca>
- <d336cfe8-2451-04c3-a2ce-0e8e47afd1e3@deltatee.com>
- <20220602000038.GK2960187@ziepe.ca>
- <400baba7-1cd6-09d4-4de9-2a73f08afc79@deltatee.com>
- <20220602163059.GL2960187@ziepe.ca>
- <51cc6645-2504-6d01-5626-238ed6ffff04@deltatee.com>
- <20220602172811.GN2960187@ziepe.ca>
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20220602172811.GN2960187@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
+Cc: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>,
+ RDMA mailing list <linux-rdma@vger.kernel.org>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+References: <CAHj4cs93BfTRgWF6PbuZcfq6AARHgYC2g=RQ-7Jgcf1-6h+2SQ@mail.gmail.com>
+ <13441b9b-cc13-f0e0-bd46-f14983dadd49@grimberg.me>
+ <4f15039a-eae1-ff69-791c-1aeda1d693df@acm.org>
+ <20220527125229.GC2960187@ziepe.ca>
+ <4d65a168-c701-6ffa-45b9-858ddcabbbda@acm.org>
+ <20220531123544.GH2960187@ziepe.ca>
+ <355f1926-9a0d-f65e-d604-6b452fa987e9@acm.org>
+ <20220601124556.GI2960187@ziepe.ca>
+ <109ac246-5cc0-8d5a-ac0a-2937d86fbe06@acm.org>
+ <20220601173005.GJ2960187@ziepe.ca>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20220601173005.GJ2960187@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 24.64.144.200
-X-SA-Exim-Rcpt-To: jgg@ziepe.ca, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de, dan.j.williams@intel.com, christian.koenig@amd.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, andrzej.jakowski@intel.com, dave.b.minturn@intel.com, jason@jlekstrand.net, dave.hansen@linux.intel.com, jianxin.xiong@intel.com, helgaas@kernel.org, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, rcampbell@nvidia.com, bhelgaas@google.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v6 20/21] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220602_104939_092139_05025207 
-X-CRM114-Status: GOOD (  18.29  )
+X-CRM114-CacheID: sfid-20220602_221330_318372_97F327A5 
+X-CRM114-Status: UNSURE (   8.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,48 +92,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 6/1/22 10:30, Jason Gunthorpe wrote:
+> That is just the keys, not the graph arcs. lockdep records an arc
+> between every key that establishes a locking relationship and
+> minimizing the number of keys also de-duplicates those arcs.
 
+Do you agree that this overhead is acceptable since lockdep is only
+used to debug kernel code?
 
-On 2022-06-02 11:28, Jason Gunthorpe wrote:
-> On Thu, Jun 02, 2022 at 10:49:15AM -0600, Logan Gunthorpe wrote:
->>
->>
->> On 2022-06-02 10:30, Jason Gunthorpe wrote:
->>> On Thu, Jun 02, 2022 at 10:16:10AM -0600, Logan Gunthorpe wrote:
->>>
->>>>> Just stuff the pages into the mmap, and your driver unprobe will
->>>>> automatically block until all the mmaps are closed - no different than
->>>>> having an open file descriptor or something.
->>>>
->>>> Oh is that what we want?
->>>
->>> Yes, it is the typical case - eg if you have a sysfs file open unbind
->>> hangs indefinitely. Many drivers can't unbind while they have open file
->>> descriptors/etc.
->>>
->>> A couple drivers go out of their way to allow unbinding while a live
->>> userspace exists but this can get complicated. Usually there should be
->>> a good reason.
->>>
->>> The module will already be refcounted anyhow because the mmap points
->>> to a char file which holds a module reference - meaning a simple rmmod
->>> of the driver shouldn't work already..
->>
->> Also, I just tried it... If I open a sysfs file for an nvme device (ie.
->> /sys/class/nvme/nvme4/cntlid) and unbind the device, it does not block.
->> A subsequent read on that file descriptor returns ENODEV. Which is what
->> I would have expected.
-> 
-> Oh interesting, this has been changed since years ago when I last
-> looked, the kernfs_get_active() is now more narrowed than it once
-> was. So manybe sysfs isn't the same concern it used to be!
+Thanks,
 
-Yeah, so I really think *not* blocking unbind indefinitely is the better
-approach here. It's what has always been done with device dax, etc.
-mmaps in userspace processes get unmapped and will fault with SIGBUS on
-next access and unbind will actually unbind the device relatively
-promptly. Userspace processes can fail or try to handle the device going
-away gracefully.
+Bart.
 
-Logan
 
