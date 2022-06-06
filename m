@@ -4,89 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE64BC433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jun 2022 16:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF397C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jun 2022 16:24:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QqBjm6ExFDKoZI2vuwecpvsMHNF+qI+tR4Y3go9GTYQ=; b=Iu8S1I9mZRn/bq9sZFhug8Yu/5
-	7TCPyBowbXPmkbKyQY5u5RtQkJ7uEsnDWH8a6uGHPaG4hgjwC3w6zKtuTnmBAc2AF6exuERiI1+fH
-	flrxQIT1+Kfbh/jPKN51B64qG7+IyAmRUZB+ow/ZjjWldCiywDuJwHv2CBDF+Zg6zGaT4R9bDLSpV
-	dlT/aCUGLCgtfYDGW/qW3gR4ZHDJpmpZpuczv3/FQVjAiTuPI7Npdm8QiCMkrzMneJ2ypF5JpbMyE
-	MVim58qbnrGO+N9oGP6OTRZhKLuU62pfmB8VGvqO8m5elqxprpJGKQi2x7VlCyt8TQljskz2x2dqe
-	K9ZuP7Hw==;
+	bh=WdcUbJ7ic4JxVVUrI2lsQv0sl1i278D3Qyk8PJBuGjI=; b=cBVrwlT8amErTMEEX0OaoRxP41
+	V6wgMNdy6KELlbixCqb01GN/JHMoJo2WVDFdOUUEjNVqdtoe5s6VM6ZHZt5SQV12u5pakTKIue4h3
+	v7+3pGkKP36cK3qwifXkJ/P8qaXIJJJgy2kZEoT0e6RECm+Jp2QddDtCVTp+7Cd/YxzQV7o6XcZup
+	Xp7nLXmvkRIPakh8//1Op690O/dRbbi+yDOmGk/jyxRCXaxbsTFhX1RDe9uhDl1nVMaNdUENOlVCh
+	1K33GBfKkZgeNZ/JP3BBuAYDu5kBwt8hYDa0IIG3V13+3UY8nM7EcWHtY0rmJt2VWRkcSGomIBTEl
+	lLtB6Dfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyFTX-0020fe-Qx; Mon, 06 Jun 2022 16:21:07 +0000
-Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b])
+	id 1nyFWy-0021Ra-Sc; Mon, 06 Jun 2022 16:24:40 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyFTU-0020eB-IL
-	for linux-nvme@lists.infradead.org; Mon, 06 Jun 2022 16:21:06 +0000
-Received: by mail-qv1-xf2b.google.com with SMTP id bc11so3134549qvb.3
-        for <linux-nvme@lists.infradead.org>; Mon, 06 Jun 2022 09:21:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QqBjm6ExFDKoZI2vuwecpvsMHNF+qI+tR4Y3go9GTYQ=;
-        b=MqKTNhkIrqgeKlshPnEt9mnekrzy5nY4sojkQp88ViEAn4jgcrViFfxWT+ZMDZ1a4x
-         FU0ET05r68ad44m3NmD1uWT2M3Cfpw0E9TLnK7H+TnucOQo+drC2LJPocQus3Or6/MdW
-         fnFJ7FcOhX27wi7oqlQmouDpoEk54spzYrbdjPRSXh9j2tdWA25tgrCyqa79EcJuhs6C
-         OwPQxEmMQir60q+ULrSEwoPH0VFyCtQgreDZo90gNHqtM/TxLiuYSxQuRbk45i/qL045
-         kBTxWy0XUG3XBkLHSHaJhKDrmtYo2xurejpYgLZ768vWuqCnvLeyOkhmpQ2jrKDPrGPz
-         L+kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QqBjm6ExFDKoZI2vuwecpvsMHNF+qI+tR4Y3go9GTYQ=;
-        b=PZJWb7pCg6p08NZEYOhE3QJOc33UZY6s7svXu6MxtAnBYrw8+eZfGeSBuFm+H+jV0c
-         CT76vCW64qJO2UilJrTnKnk5zvM3VI9ZPcGeM2V85nhcz3uZCn/zZjWKwGpZhSIE2pH0
-         rQKiRHAMQuNNdwoukLCmDjy3p3hE4WUaJI7NTRbGvGDKn+Fmv4O/iCWspKxNgJQSoDe1
-         k+NGCmWTf36gYa0mIm/IZjyE8RYZeRpzOvcAM1X4wygzE6tOYZA7wUXHJZCAbhSXhEZF
-         kdM1VHJH54uc/OKbJkYXpB0cXq5zjNeRmbOsvv9lmAlvwNhq3c7mQMEjHXtjnLAon8qg
-         A6mw==
-X-Gm-Message-State: AOAM530eaywFsiLA72Q1yrDDdOVMlI74T6Tneyfqz9mu+bueQ0JcsB+5
-	QrwkbpRL7Le2cBYMuM9wqyr51w==
-X-Google-Smtp-Source: ABdhPJy41fQ9qZtPSyZLpy4jJpFiemjkZjeNOCmn8JnuAyqwUluHdgvFQhBtxzwwTORdIRANvNLPRA==
-X-Received: by 2002:ad4:5ecd:0:b0:467:d600:7709 with SMTP id jm13-20020ad45ecd000000b00467d6007709mr15012890qvb.7.1654532462510;
-        Mon, 06 Jun 2022 09:21:02 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id a15-20020ac8434f000000b00304df6f73f0sm5666476qtn.0.2022.06.06.09.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 09:21:01 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1nyFTR-002igF-5S; Mon, 06 Jun 2022 13:21:01 -0300
-Date: Mon, 6 Jun 2022 13:21:01 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>,
-	RDMA mailing list <linux-rdma@vger.kernel.org>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Subject: Re: [bug report] WARNING: possible circular locking at:
- rdma_destroy_id+0x17/0x20 [rdma_cm] triggered by blktests nvmeof-mp/002
-Message-ID: <20220606162101.GA3932382@ziepe.ca>
-References: <13441b9b-cc13-f0e0-bd46-f14983dadd49@grimberg.me>
- <4f15039a-eae1-ff69-791c-1aeda1d693df@acm.org>
- <20220527125229.GC2960187@ziepe.ca>
- <4d65a168-c701-6ffa-45b9-858ddcabbbda@acm.org>
- <20220531123544.GH2960187@ziepe.ca>
- <355f1926-9a0d-f65e-d604-6b452fa987e9@acm.org>
- <20220601124556.GI2960187@ziepe.ca>
- <109ac246-5cc0-8d5a-ac0a-2937d86fbe06@acm.org>
- <20220601173005.GJ2960187@ziepe.ca>
- <53951a52-dc77-f4c9-a1dc-d6ac015be1a4@acm.org>
+	id 1nyFWw-0021R0-Ju
+	for linux-nvme@lists.infradead.org; Mon, 06 Jun 2022 16:24:40 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 0333F60ACC;
+	Mon,  6 Jun 2022 16:24:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87627C385A9;
+	Mon,  6 Jun 2022 16:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654532677;
+	bh=mtLfee9Bx8DrJcwaPAKjPVfMgxAETeU+QPZ4CTQzjBg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WqlXho3KkCXDVeD8FWClwQMjaafep83RRtbb/+MdH1SuT4Hl617EsdNKGyCwUIt9W
+	 rlNMcnglwPjc2BuK7NyZ+XZKf/BpjzCI1GdNOpS7ktM/vkLzwg3g1ZbNqlJSownkco
+	 2SmEIG92dMWvfhICruLW7EvgMhxD7z4yYxLAWIo6q838M3NMh/MwXiiSH3PcLWzLAF
+	 O0eMEZc/lvNVwO+JOc2X+2MbCScUAbABo8xfOPiN+DQi2ywwfZQW62I0bp4YIs8o4Q
+	 MFp8MKWVNcaqjZRQxTyrc+mra2k+Kzr3Jrvpys8sfiG5s8tP/TafeDOmHAex17ymcj
+	 dWRTBtuYFkDcQ==
+Date: Mon, 6 Jun 2022 10:24:33 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Keith Busch <kbusch@fb.com>, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	axboe@kernel.dk, Kernel Team <Kernel-team@fb.com>, hch@lst.de,
+	bvanassche@acm.org, damien.lemoal@opensource.wdc.com,
+	pankydev8@gmail.com
+Subject: Re: [PATCHv5 00/11] direct-io dma alignment
+Message-ID: <Yp4qQRI5awiycml1@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220531191137.2291467-1-kbusch@fb.com>
+ <YpcRLKwZpN+NQRxn@sol.localdomain>
+ <Ypd3j9ABXhIuQDbt@kbusch-mbp.dhcp.thefacebook.com>
+ <YpeP6u0XXAPra3MV@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <53951a52-dc77-f4c9-a1dc-d6ac015be1a4@acm.org>
+In-Reply-To: <YpeP6u0XXAPra3MV@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220606_092105_000413_A811B51A 
-X-CRM114-Status: GOOD (  10.60  )
+X-CRM114-CacheID: sfid-20220606_092438_737157_0A374C66 
+X-CRM114-Status: GOOD (  18.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,21 +77,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 02, 2022 at 10:13:25PM -0700, Bart Van Assche wrote:
-> On 6/1/22 10:30, Jason Gunthorpe wrote:
-> > That is just the keys, not the graph arcs. lockdep records an arc
-> > between every key that establishes a locking relationship and
-> > minimizing the number of keys also de-duplicates those arcs.
+On Wed, Jun 01, 2022 at 10:12:26AM -0600, Keith Busch wrote:
+> On Wed, Jun 01, 2022 at 08:28:31AM -0600, Keith Busch wrote:
+> > On Wed, Jun 01, 2022 at 12:11:40AM -0700, Eric Biggers wrote:
+> > > I still don't think you've taken care of all the assumptions that bv_len is a
+> > > multiple of logical block size, or at least SECTOR_SIZE.  Try this:
+> > > 
+> > > 	git grep -E 'bv_len (>>|/)'
+> > 
+> > There are only 8 drivers that set the request_queue's dma alignment, which are
+> > the only ones that could be affected from this patch series.
 > 
-> Do you agree that this overhead is acceptable since lockdep is only
-> used to debug kernel code?
+> It's actually even simpler to audit than that. Of the 8 drivers that explicitly
+> set dma alignment, only 3 set it to something smaller than a sector size. None
+> of them assume any particular bv_len, so I think we're fine.
 
-I don't know lockdep well enough to know - if you bloat the graph too
-much it may become excessively slow when searching for
-cycles/edges. Debug workloads with CM may trigger creating of 1000's
-of keys and we still want the testing to be workable.
+Eric,
 
-IMHO it was not designed to have one key per instance.
+Do you have any more concerns on this area? I'm reasonably confident this is
+safe with all the existing users, and I have a new series ready to go with the
+trivial fix-ups from the last round. I don't want to post it, though, if you
+think I've missed something.
 
-Jason
+Thanks,
+Keith
 
