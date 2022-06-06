@@ -4,68 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31AB6C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jun 2022 16:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07F49C43334
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jun 2022 16:43:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4SIqs3gbZs3xBzinqWl/p/Sena3DcXQodasDZMAZIyQ=; b=WkYjoUHpt8cOqPV27Q3qvbj63b
-	VGKXLJbV7DNeycQhi+BFTCqszM16lFysS4pA2YgygjFqfoyb9A8qsU3Tk0I+OLK6cgIlVaO235v8m
-	EsEAQhvcRisgyp3AX7ojGLW712jYqyecsMooGH8DnpYSSBEtBqokp5THo5RZc7p31UiWhorcEh684
-	lik18PyKkXe0jyPnClodOD+ziOAl2r+Xuc5Focw5epoG3KkhHf8sYG4EeF00pTuQ944va4pph9B5f
-	X4WrAUkILLn2jFfGeZ4i24uJf0K5sTWCHOAaZBOkaHFytq8ppKraWBNJMlYJDx2UtucX5+zPPUPcR
-	onvBN3ww==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PB8/YtHBPQk5a3e7JWVUtzLfY2h5zWegFlMxxdIAIsY=; b=E3kiiOsR5YwE27giIM/y0d8eE2
+	KJK9FG36qv7o0o33C52BMzZMh4aEyEQD7GLcusgXYwWe5qzYdi7+C+I4Uyz8KFdoDSn1y5FzTj2nI
+	MKYOkWhEboDxOVj1Wdx0uCxg6/OI0l1avSruMaSnvN+6P1A8amLh01cnxKwOTqRj0GP2YUejjH18H
+	wv85cfJy8X0T4gW+vntecca0/n2L2Gm9CMFEX2KPQwhkKiax7SMwVvipTqi6ekDupCqAB6aSvogjn
+	iHgh4RleoPjaNOMo8z8P7BIbw/VRBQwR8+vMvLnP2RjAOOoAqtWQT+PT/SVQH57ZInQuiFAjJt2LY
+	ud7/SGsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyFkD-0026FM-Fk; Mon, 06 Jun 2022 16:38:21 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1nyFp2-0027ZE-Qr; Mon, 06 Jun 2022 16:43:20 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyFkA-0026D5-4f
-	for linux-nvme@lists.infradead.org; Mon, 06 Jun 2022 16:38:19 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id A78E6CE1BF6;
-	Mon,  6 Jun 2022 16:38:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F07CC385A9;
-	Mon,  6 Jun 2022 16:38:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654533490;
-	bh=m3OKX/0tOW57YAFAXNwERMVq2/lnf8KwKOn8zar2Lso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XpVN7csIWXjt7AI3jZa9ap09T2BX5+GW1R8WvxJ+/sTWSY7qAFWlQDB02FqogZqLE
-	 rH7zpQ0H9V6UHsyLhf0nAk6fBkcqmwDPpre2zP7Edy2Heb/jLXc0E7TT3v0Od/dijR
-	 h8ydbzzaKRZ2Ag56D9ddTCDEaw+/TGySb1RA03IpX7QVlajkor5DYIJwvRqjJ4CZHE
-	 rmp4xeAZzPjtJNPjTSjt9B89qaywMyO0kBQKBeDMpS9C52iBYCa6tWGJ8qqToFbDOE
-	 G6C3txMShThaNGvigGRetLZDuBpDvExbxIS7CSlmSDpM9PBOVvig0SW2QBlOGdtruH
-	 yuXXMbyDvsfCA==
-Date: Mon, 6 Jun 2022 10:38:06 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc: "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Caroline Subramoney <Caroline.Subramoney@microsoft.com>,
-	Richard Wurdack <riwurd@microsoft.com>,
-	Nathan Obr <Nathan.Obr@microsoft.com>
-Subject: Re: [PATCH v2 2/2] nvme: handle persistent internal error AER from
- NVMe controller
-Message-ID: <Yp4tbtPZzDe038Kz@kbusch-mbp.dhcp.thefacebook.com>
-References: <1654278961-81423-1-git-send-email-mikelley@microsoft.com>
- <1654278961-81423-2-git-send-email-mikelley@microsoft.com>
- <Yppfm5n41NEcrRlU@kbusch-mbp.dhcp.thefacebook.com>
- <PH0PR21MB3025781A702070304BB8A282D7A09@PH0PR21MB3025.namprd21.prod.outlook.com>
+	id 1nyFp1-0027CB-2e
+	for linux-nvme@lists.infradead.org; Mon, 06 Jun 2022 16:43:20 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 256GflUA009580
+	for <linux-nvme@lists.infradead.org>; Mon, 6 Jun 2022 09:41:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=PB8/YtHBPQk5a3e7JWVUtzLfY2h5zWegFlMxxdIAIsY=;
+ b=dbKQadhIIdpUejXfBH3IFlGYK7WrXlr8QvQSbjjPuaYE3yF1f9lLzsrdlTdTSyM49fM4
+ 9zlTQXfh/uCfp7eeUICCMq3TMbPKD958Aj2uhZM9nGysjlNQAx0LI3zYVUQokJ7xQYmi
+ 8aQxkip8j7rrv+EyBi9QOfULROZS8F6LZA0= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 3ghe1ttgh2-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 06 Jun 2022 09:41:51 -0700
+Received: from twshared10560.18.frc3.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 6 Jun 2022 09:41:14 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 794944C63035; Mon,  6 Jun 2022 09:40:48 -0700 (PDT)
+From: Keith Busch <kbusch@fb.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: add bug report info for global duplicate id
+Date: Mon, 6 Jun 2022 09:40:47 -0700
+Message-ID: <20220606164047.2549647-1-kbusch@fb.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR21MB3025781A702070304BB8A282D7A09@PH0PR21MB3025.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: vPoe_UItqSVnYNDyXjeYapIAK9Q24tTo
+X-Proofpoint-GUID: vPoe_UItqSVnYNDyXjeYapIAK9Q24tTo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-06_05,2022-06-03_01,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220606_093818_397927_0E8F9FFA 
-X-CRM114-Status: GOOD (  22.44  )
+X-CRM114-CacheID: sfid-20220606_094319_281229_2AB37E35 
+X-CRM114-Status: GOOD (  14.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,40 +77,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jun 04, 2022 at 02:28:11PM +0000, Michael Kelley (LINUX) wrote:
-> From: Keith Busch <kbusch@kernel.org> Sent: Friday, June 3, 2022 12:23 PM
-> > 
-> > On Fri, Jun 03, 2022 at 10:56:01AM -0700, Michael Kelley wrote:
-> > 
-> > This series looks good to me. Just one concern below that may amount to
-> > nothing.
-> > 
-> > > +static void nvme_handle_aer_persistent_error(struct nvme_ctrl *ctrl)
-> > > +{
-> > > +	u32 csts;
-> > > +
-> > > +	trace_nvme_async_event(ctrl, NVME_AER_ERROR);
-> > > +
-> > > +	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts) != 0 ||
-> > 
-> > The reg_read32() is non-blocking for pcie, so this is safe to call from that
-> > driver's irq handler. The other transports block on register reads, though, so
-> > they can't call this from an atomic context. The TCP context looks safe, but
-> > I'm not sure about RDMA or FC.
-> 
-> Good point.  But even if the RDMA and FC contexts are safe, if a
-> persistent error is reported, the controller is already in trouble and
-> may not respond to a request to retrieve the CSTS anyway.  Perhaps
-> we should just trust the AER error report and not bother checking
-> CSTS to decide whether to do the reset.  We can still check ctrl->state
-> and skip the reset if there's already one in progress.
+From: Keith Busch <kbusch@kernel.org>
 
-That sounds good to me. Christoph noted RDMA isn't safe to do this in the
-callback anyway, and it's probably a bad idea in general to dispatch new
-requests within another's completion: that may prevent reclaiming the only
-available tag, and then deadlock.
+The recent global id check is finding poorly implemented devices in the
+wild. Include relavant device information in the output to help quicken
+an appropriate quirk patch.
 
-So with that in mind, this AER persistent error handler could call
-nvme_should_reset() with NVME_CSTS_CFS as a constant value for the csts
-parameter.
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 24165daee3c8..4cda5024a352 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3852,6 +3852,13 @@ static int nvme_global_check_duplicate_ids(struct =
+nvme_subsystem *this,
+ 	return ret;
+ }
+=20
++static int nvme_str_len(char *s, int len)
++{
++	while (s[len - 1] =3D=3D ' ')
++		len--;
++	return len;
++}
++
+ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 		struct nvme_ns_ids *ids, bool is_shared)
+ {
+@@ -3861,8 +3868,18 @@ static int nvme_init_ns_head(struct nvme_ns *ns, u=
+nsigned nsid,
+=20
+ 	ret =3D nvme_global_check_duplicate_ids(ctrl->subsys, ids);
+ 	if (ret) {
++		struct nvme_subsystem *subsys =3D ctrl->subsys;
++
+ 		dev_err(ctrl->device,
+ 			"globally duplicate IDs for nsid %d\n", nsid);
++		dev_err(ctrl->device,
++			"bug report info: VID:%04x model:%.*s firmware:%.*s\n",
++			subsys->vendor_id,
++			nvme_str_len(subsys->model, sizeof(subsys->model)),
++			subsys->model,
++			nvme_str_len(subsys->firmware_rev,
++				     sizeof(subsys->firmware_rev)),
++			subsys->firmware_rev);
+ 		return ret;
+ 	}
+=20
+--=20
+2.30.2
+
 
