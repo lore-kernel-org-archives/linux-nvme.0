@@ -4,48 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1202C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 10:35:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79B02C43334
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 10:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5gpHnA+VeDcYgCrr0HJi0+P41I9QGa1CX7Am+jylfFE=; b=zdqJXuH6HtAyU7np6whaXv3LBT
-	gRuAcFVKMo29Fl7Pq8sVfD1waieDg30y64wkBV132V7aLdE/gvAwAPNx3B+0FwY4NJDsd9Ik2yVN5
-	cjYgr2nhB0awIcJS9YzABI7lB5R4wNEdcPtnuFbK7geb2Sjowhuf+yFvl2tootLugAatd0ZQg1Bn3
-	n2Cjpy/TiEu/vCkygE6db9xnwjYK1l3LgBKuWL+5GWNM8mPTc6IOqXvpK97TQP3fCk+JhlMJXj9iL
-	fTNA1BfFbARY0/9blTobaGDOlnti/4djG8n+6Sa58jAZZI9TRHPjl03WDzRozLHODkIbF10BRmoC6
-	UxuZ3PJg==;
+	bh=El7DPG5/hda+xqYuuX0LwL0YlMWkzO4GgQoUo2g7/js=; b=usgiBqmIOFkjkAqjw8QnRiQ/RG
+	hTrzajiZbFqT1++N2Se3T2QKlsJzNfBne7FgQt5lDlplW8wxaVKC7OXkSmHW3ymqDEpwW9uGM+oNE
+	yi8rSyKkFIDYjwsSXkGMJ/mNKX4KGLVGfHtKlG0A9QDmX9R4BFTnSPh9Bl6faz6/IXmHiNMAXjAJF
+	eRWFbvpHPN0c2ArQbl/liCh2BLrmO2AGzkUMtovM35jhwZzoQ/KJW/MY1Tb1MK9OqBbL+/tVTcqhX
+	XR9fjdDGujBJhWDTOjHEwEbowjH7Rt4ewnlp5pbRmdpiQt6XUbRzM6zHknqkMgaaUjFUo4DWiHRvN
+	r8U6UosA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyWYv-006hgQ-Bt; Tue, 07 Jun 2022 10:35:49 +0000
+	id 1nyWiv-006mwt-TY; Tue, 07 Jun 2022 10:46:10 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyWYp-006hdl-Gz
-	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 10:35:44 +0000
+	id 1nyWiZ-006mjR-2e
+	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 10:45:48 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3541567373; Tue,  7 Jun 2022 12:35:39 +0200 (CEST)
-Date: Tue, 7 Jun 2022 12:35:38 +0200
+	id 78E4367373; Tue,  7 Jun 2022 12:45:42 +0200 (CEST)
+Date: Tue, 7 Jun 2022 12:45:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Michael Kelley <mikelley@microsoft.com>
-Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	caroline.subramoney@microsoft.com, riwurd@microsoft.com,
-	nathan.obr@microsoft.com
-Subject: Re: [PATCH v3 2/2] nvme: handle persistent internal error AER from
- NVMe controller
-Message-ID: <20220607103538.GA25071@lst.de>
-References: <1654560915-22449-1-git-send-email-mikelley@microsoft.com> <1654560915-22449-2-git-send-email-mikelley@microsoft.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCHv12 00/11] nvme: In-band authentication support
+Message-ID: <20220607104541.GA25515@lst.de>
+References: <20220518112234.24264-1-hare@suse.de> <bc8bea8b-2cdf-4d41-65b0-5c2bf28457d2@suse.de> <20220526090056.GA27050@lst.de> <99126556-65b8-d0eb-bcd5-7b850493b51f@suse.de> <YpCis+8bv/EJqdlc@gondor.apana.org.au> <c1114e13-79cd-364c-b9d2-7a149a642919@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1654560915-22449-2-git-send-email-mikelley@microsoft.com>
+In-Reply-To: <c1114e13-79cd-364c-b9d2-7a149a642919@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220607_033543_739941_DF3A6A2C 
-X-CRM114-Status: GOOD (  17.93  )
+X-CRM114-CacheID: sfid-20220607_034547_291140_E6B7ABFD 
+X-CRM114-Status: GOOD (  10.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,26 +59,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 06, 2022 at 05:15:15PM -0700, Michael Kelley wrote:
-> +static void nvme_handle_aer_persistent_error(struct nvme_ctrl *ctrl)
-> +{
-> +	trace_nvme_async_event(ctrl, NVME_AER_ERROR);
-> +
-> +	/*
-> +	 * We can't read the CSTS here because we're in an atomic context on
-> +	 * some transports and the read may require submitting a request to the
-> +	 * to the controller and getting a response. Such a sequence isn't
-> +	 * likely to be successful anyway if the controller is reporting a
-> +	 * persistent internal error. So assume CSTS.CFS is set.
-> +	 */
-> +	if (nvme_should_reset(ctrl, NVME_CSTS_CFS)) {
-> +		dev_warn(ctrl->device, "resetting controller due to AER\n");
-> +		nvme_reset_ctrl(ctrl);
+On Fri, May 27, 2022 at 12:21:59PM +0200, Hannes Reinecke wrote:
+> Christoph, you can pick either v12 or v13; the difference is just the check 
+> for available hash and kpp functions. v12 has the dynamic version
+> using the crypto helpers, v13 has the static version checking compile-time 
+> configuration.
+> Either way would work.
 
-I don't think we even need the nvme_should_reset check now.
-
-nvme_reset_ctrl first calls nvme_change_ctrl_state, which only allows
-the transition to the RESETTING state if it previously was NEW or LIVE,
-so we are already covered.  The only downside would be an extra kernel
-message if we already were in another state.
+Please resend with these helpers included and any other fixups after rc2
+is released.
 
