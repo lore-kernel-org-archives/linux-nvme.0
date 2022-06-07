@@ -4,130 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 581D0C43334
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 00:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 840DEC433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 01:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qFySTNDh1JtrVRAvdwiSI5NiV8GpJDlribV4iyb85DY=; b=MRfJezhTQZNI/+0VvnwGV7vQL+
-	ZRAbi6ZEMddrT2imlhXtJ7hApxAOp3FfPypB1+G8lVymzN/GIG8s85c/vC2qVNpXqsaxsTnJ7ZArF
-	x8pNR5okzPbziU7JCCSho1mOoMR4gq5/ZkGh3er1/w9OY9pcoTTOTsbKfXI/KmiloT5hUcYapgKdn
-	gFlHPJNY44OI2Vw2E8PcRZFJ8X835JWEathwLTuQjWT7BccBoCjLpM8vUasVn1MXIxoL7+OT00hT8
-	3GM8Lp+M4ZSeUhmSGMBe89Ip/ee5Rn/KXv7km/+Zebdo7A06+ktTb9Z5hCfP6IkKF1muXDWFflKMq
-	OLQhsLkA==;
+	bh=S9Iu2UtUw2ldbPLI1l0mtqliCMwGHwdPPbPTA+fNEj8=; b=2x/QhcRjqoRBs9kdAJ5Rwuguqt
+	I9zzhSjjRQ3fKeMqCzjodUMXM+7yk1xaa9drURpqNzyyVeHie+2YY5CWMjEdm49z6EkujV5KVXyNw
+	tNDXxvq5XJpd4mHHcsLaZfTagjcz4k3i1DDV5CnMr1mLTQVwBakrJMg8Ekxx5dBl/Dri6jyupmwi1
+	Qc+9dwtRNRXaTZIeSo0Sam2PRGxL8EMFexm8cz73thYdDv3e24RsvW5M3FpTWG0Bi1L8pDV4Kn1Iq
+	m4kz5rh9ZJB66CA9LpScG5ksJKvJRd6ai3BSNQlOJq/r6P4tqGRX0d311ZTjIMJ9zmosjJzy6/+U6
+	1250zyXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyMtY-003srh-So; Tue, 07 Jun 2022 00:16:28 +0000
-Received: from [52.101.56.14] (helo=na01-obe.outbound.protection.outlook.com)
+	id 1nyNqS-003y6l-EM; Tue, 07 Jun 2022 01:17:20 +0000
+Received: from mail-dm6nam12on2062a.outbound.protection.outlook.com ([2a01:111:f400:fe59::62a] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyMtT-003sqg-GD
-	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 00:16:24 +0000
+	id 1nyNqO-003y4v-KK
+	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 01:17:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lFVTY2idADCTP9PB/J+ymqPDE/veoIhjZqMU1Ny72q+ZJ7H2C/4QwKQtZrffApTnbe5EW80TQASC1jwi3mOxoWiS09lIuvkjgp5wvX5agsvNJfB7O4Gbr0c4Kwd0cXKqgxfZgNz+KwjdkAFezK8UizLpHN+SkMtUWcBz4oxIf5ALFmBPQxCrD0nBeaWDpG/mwEyfJ/c6JWel8AjrWh7UMEBwjFsA7XZrnqRnKj3qFGchxz+i9C0xaP1QTtEzM9eXS6e/hvK44l8XyCRjreGg0LoLwgzlE2caxwiLV5ks95t/uKw2ggicCFQyKkR7xGoDw9gk0jihTXAWe25Lzkp9cA==
+ b=MUCWMiEVPPq+duS73HPR2AeVZHEt1hw6AT4NuAE4AtSmLe9x2t3/0KkHGKimtaL2W1crd4SUz4johF1YX69nio7NpsXueMTErl5AGUkg1lVnCC/wYJQ3wP0Ko4d4HPJxXD4iebdS7nCrBzApAWyzgxnhci2OuGRHzqD4AwYBurplktiKYv3VPJMd6a3gFS03zpJMU8XY7/CkJFMOoy8jkbV3NrJgz8tBAy3WsT7W1U/ditOWJwqlfneLkeB0tPMceRdD/DGoMdMrUqfZMM8qJJFoy26CInXW+0rjpvyza1sbG/cCq7uMkAOHc5+5EkryZwqiY0vja4UqqsMXUS6uGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qFySTNDh1JtrVRAvdwiSI5NiV8GpJDlribV4iyb85DY=;
- b=Z8WwMiy26TjZ9l5QAQefccZ+i/GuDJ1D9SXMuvE5Ucg8bvUTdX2AOzAxvBFlXhfS5yWxiLcYsOk9jYqzKPrWZYHcL892qvtjq2azECaGIYiAZQpo20apqFkb03mnwdoQjL64pntqOyHFTi/daAuvLT0R2FH6TvurRxSuNGDW1dpacOr4K815vXP2XsffiHsSpC82wx84JA4RWE4O/zfJQVmnZmRf+Lq8gZ8Kt/oeGs2ZTEV0MGfaw3ziY8zptREtS9kMd+pLtlOA2LCdiN7H3bggx1HJO6UiQfAUYcmN8w1hZupqo5+EnnJD28ExkKQrQSUAq+7GF58NjgWWldq4Xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ bh=S9Iu2UtUw2ldbPLI1l0mtqliCMwGHwdPPbPTA+fNEj8=;
+ b=j64IjCCcxs4XkTaJYYbDqY0FxtBkpG5Mkpd4NDSR59GBfuMVtPlbF0Dj53rjAp+V4b7GT8HBeh76QZf5OHZ5KrSjd0BQXIuVbED5KcfCESn1lcVZ7G1NY5YF2goN69Z+KfjoPIQIZEzDTq79xpxFJN7qt3dz3c2P/45O3q04yI3Wkw0wXTHd/C64Hl4rw4GttsUp1Rmo5BCo7xKAjBPQOThtLPXGy7iz9EHxP3quL4IgcxvVNWTUqNCD/0w6V2Q/UBHguDkh4/2bd8RzbrrREJjUTrnOkW/4MCGiLhrtHZz2Ug5Mo+4A1Xj/tHOgZ/efPCfKYF0WcOYRYdDxoY/drg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qFySTNDh1JtrVRAvdwiSI5NiV8GpJDlribV4iyb85DY=;
- b=Zkr6MrBp/mp7secaK2kW3O3DKdqe0dX3ajT+InlAelaVj+d47IvSatEMY5b/9xUblkRpcVSczeRSOmjksi8G2Ln7T8oFAxPzAsdwIAtt3grUq4K/SG7opNuk54+MgVchqNI6KoQ7M6n7WwhKfn2DgPwljotTNHXkx3K7fUiGmEE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
- by MN0PR21MB3415.namprd21.prod.outlook.com (2603:10b6:208:3d0::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.1; Tue, 7 Jun
- 2022 00:15:53 +0000
-Received: from DM6PR21MB1370.namprd21.prod.outlook.com
- ([fe80::810e:942d:9455:26f8]) by DM6PR21MB1370.namprd21.prod.outlook.com
- ([fe80::810e:942d:9455:26f8%8]) with mapi id 15.20.5353.001; Tue, 7 Jun 2022
- 00:15:52 +0000
-From: Michael Kelley <mikelley@microsoft.com>
-To: kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: mikelley@microsoft.com,
-	caroline.subramoney@microsoft.com,
-	riwurd@microsoft.com,
-	nathan.obr@microsoft.com
-Subject: [PATCH v3 2/2] nvme: handle persistent internal error AER from NVMe controller
-Date: Mon,  6 Jun 2022 17:15:15 -0700
-Message-Id: <1654560915-22449-2-git-send-email-mikelley@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1654560915-22449-1-git-send-email-mikelley@microsoft.com>
-References: <1654560915-22449-1-git-send-email-mikelley@microsoft.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MW4PR03CA0068.namprd03.prod.outlook.com
- (2603:10b6:303:b6::13) To DM6PR21MB1370.namprd21.prod.outlook.com
- (2603:10b6:5:16b::28)
+ bh=S9Iu2UtUw2ldbPLI1l0mtqliCMwGHwdPPbPTA+fNEj8=;
+ b=EEJKrGzkQWSJ0tTYrMMNpQkjScHqRR2EsaWSG0bVwmbh6s7K0S6q4dki4jlj+kw8BSfCC5l0oul2WrJhZAuzvK51k7EEtxQFwt6ac4rfxBdV239Zc/KitiHqA9jsTcencCwpv2r+UZQ2eSNT4ZV+X/g/DzXZkrnuh4p931V+H3Sg/66Y+8BhzXrSo4Yd7nFIIOHJ5PmhMSWL9MNQBAVkIofMwVGOY+LEBKdlON7rpC451vBjj9KSx8z7BJKsCTrDtErmpDaWE7pLZ0v7MDQ1huUAgZvkOoZVhtMhO/6lUOAFQ1wgN7Dhvq0cdIqRLv1w8rGlolw6DsExraDMPwNnQw==
+Received: from DM3PR12CA0131.namprd12.prod.outlook.com (2603:10b6:0:51::27) by
+ DM4PR12MB6182.namprd12.prod.outlook.com (2603:10b6:8:a8::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5314.19; Tue, 7 Jun 2022 01:17:06 +0000
+Received: from DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:0:51:cafe::70) by DM3PR12CA0131.outlook.office365.com
+ (2603:10b6:0:51::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13 via Frontend
+ Transport; Tue, 7 Jun 2022 01:17:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.236) by
+ DM6NAM11FT039.mail.protection.outlook.com (10.13.172.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5314.12 via Frontend Transport; Tue, 7 Jun 2022 01:17:06 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Tue, 7 Jun
+ 2022 01:17:05 +0000
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 6 Jun 2022
+ 18:17:04 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 1/6] nvme-core: remove unused timeout parameter
+Date: Mon, 6 Jun 2022 18:16:42 -0700
+Message-ID: <20220607011647.24105-2-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20220607011647.24105-1-kch@nvidia.com>
+References: <20220607011647.24105-1-kch@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c6b4ba29-75a4-4e28-0375-08da481ae228
-X-MS-TrafficTypeDiagnostic: MN0PR21MB3415:EE_
-X-Microsoft-Antispam-PRVS: 	<MN0PR21MB3415B646708203F4181F0637D7A59@MN0PR21MB3415.namprd21.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: d470f4ba-79b9-4ac8-cfaf-08da48236ffa
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6182:EE_
+X-Microsoft-Antispam-PRVS: 	<DM4PR12MB6182DEDB8BA4DF323A996CEFA3A59@DM4PR12MB6182.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	+r3nswAdqZjSh+ZKy9U4ABk/EVmY3jupgN0uFJytcafVwZFed82bc0D/2fPxqNniJ2q/bNKlroCUPNu8tikE3fWKXzZKPXtFRe1xEgY+o6NtDzpwXxnnmLcKsZ/W851EMvtd0LAtXY0JqKRDYmTQEHdXTFrirtZkE5PxI3P8FtM5a8ls01/O1eg2qT2eL2xmeb/3YC5fCedkbrrSBpSGWe5UDkofGe59ublrUjBaWXwtdAb6kNocieIFsqmIIKzCEsWLTC4rpTS1m5+pbCWdL7oeoByD1XDCZ8+hDhmRFy4hiSrcBhAiADpUhejWYnDCXAD/njJoSfUlO+eRB0wSlNpAhHz8UBsMvX3FC8Mumm6W0GfWi++YkHA4/HmaEwvo87ROK9P6Sxi9yuO/Zoed+S66rniHDrNUZ9xm8Skx3c9fKV3oXq8jeVUtJfavKmR1Q6PgaTvKdggwyr81+h5eOiVi9ktXasyrHv1+MwQvIo/aOIZRCkRC+TSjNNJZYcgAueR+xyFoEij0JawccwE1l2wZyVJ72drtrGCUYnpDs0m99kH03NExlPr6U0//3ljNPaiLfFK3nW9e75UbSHwpa6pcvwCeuIkObxzVzKI+QbAtsjUOnZR/61oWajq3stUlRd4iHQtBIMgVwYD3iumTJaElfiaqWFxKI36O52BBbLEhm398KybbN6MuxpTmZT9Z9fO44DJ8rFk+H+aEgylEiCKCH/OyMiOKLOAkyR8a1O3ZDa40hXizCA6zN0dJGjSd
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(451199009)(66556008)(8676002)(83380400001)(6666004)(66946007)(82950400001)(66476007)(82960400001)(2906002)(4326008)(52116002)(316002)(10290500003)(26005)(508600001)(6506007)(36756003)(6486002)(186003)(107886003)(2616005)(86362001)(5660300002)(6512007)(8936002)(38350700002)(38100700002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?Y5J9CmlRS2xMLB/T/Com7WuH796mgqsTSP6V6zvNtoqflIHPzlu/2RrQLJVo?=
- =?us-ascii?Q?1Se6gvPCwnJGHnfCTMrTEubxiDrH6iJbuGiYsJSW6PB3BMkJATPx1qYQN1/2?=
- =?us-ascii?Q?LTAW4paAJKy1Uk/bmJVqFwxRW/+byEPxBgch0638JKZSKgKXhqt8puCfBZjH?=
- =?us-ascii?Q?Up7RlgWwJpVlmo9zuka5EhLMWfei/HKdb3y8bJwedOORsOV+C88MKCOXa7yr?=
- =?us-ascii?Q?beUV+DMDAcwSwI0gwh0SqiV1akihAcNsKCCkhQ0G9zLuOthlj5KLF7xjedO1?=
- =?us-ascii?Q?x04vH30ypxzpzrJE7BRX7F0F5SiPM8IyncQdQwsEyp8FKZBshqfVYedUZUlw?=
- =?us-ascii?Q?uA0gKW13V/8CNqC9Famypr9NUeXSi5VzSpv9Iz5eUF5M4ZWZK2L4lu5HVAhH?=
- =?us-ascii?Q?0kQZTF5kvDpXyFnIAfGAeXdJg3Eha4SIcHqEBtIWTf5lRVxsBzmEHE1h+2Hc?=
- =?us-ascii?Q?BYyuAmqCe5Ckbe8Kn6cToTft6tL9PUVx2lY8QoRgle9q9vmMltpiy04CaTzs?=
- =?us-ascii?Q?SZXpLB7CfyGkjq5tADJ4ivyLo5rNqM+rnnP8JPWPQQPjciXjQChRlTK0Jtv+?=
- =?us-ascii?Q?9HAVhx4jAKVDF0P6AX85lxQAXPijEyjxCpXKNYNwIn8Vpa727koSR901AAf3?=
- =?us-ascii?Q?lWIii7BicxF0p0S0cz1V/k+e7mPshJQKEWoIIa3EddfOayFgMkr32/CWVVWQ?=
- =?us-ascii?Q?brfsWUJ36u4dn1AQQaQix6mFFHDkKpze6wksU5OPuMmJQRVl5nnRtC4G6oay?=
- =?us-ascii?Q?BWk6iuHdaJFbsCIWLWnjueu+aTPQ8tX7FoTK1ZflPZosFvV3x+W0eJpx8E6s?=
- =?us-ascii?Q?CkD5YQdR6dbvYmWvF7CCAZ/JEqb+XJpu2KUHcJ1yG76h9cqmYdzDzbZjT4fL?=
- =?us-ascii?Q?GoYPEJSKowa1my2ExxMUiNG9v5+eI2yhI2pWqdaoseR9pJ2+IJwuXkAy+IAj?=
- =?us-ascii?Q?dcUQRRlVOwj7A+Ap00g0vyxFbg2CcIzAQuptQu6t1P/Y+pMUI0qIKpZJzU5L?=
- =?us-ascii?Q?VbXYsNlpjA87vI6u3CLQwUferXemQQBvaF5blpKEL+xl0GftzhwcgH2fGUfn?=
- =?us-ascii?Q?bVp0hj3mQJUQMwTGwO8YUrwDjernQfgdLIUXWWQT7SOhsm0lWxgailLoUCpT?=
- =?us-ascii?Q?ECIBqmmTf/WDbNhr01WtrflcOnhmzjUCEcJ4JSWrdFeieMS8X18ANvLL0Irs?=
- =?us-ascii?Q?pWAyhFBoWoBQwuUDf8Oji5qXFwhAEkRQbJor9sdv6JFLZKqYOLVj/CsX1D93?=
- =?us-ascii?Q?ptdOge3jznotYCTBXDRumrp2d/vTnOOzuM7axNiA/aXCxaoju7CRGCqGnecX?=
- =?us-ascii?Q?Cf6EbfaqBA++kgy26PriIbZJZpJTTzyOGlZ8qzm/6RHKkU9A1qtvN9V3r4P1?=
- =?us-ascii?Q?u2+U4CJTHtfCYJJ+jCO/aaQ4P+mmpwksQVXBKrcdrCJXFkX4MhPPXA45wDqy?=
- =?us-ascii?Q?Z4qIBFXwpw2UVRqa85aY0ETjwM9kNglOYt8ei3JcsW0Bg7QU1lL6xBAPAgEA?=
- =?us-ascii?Q?CmeE5CFVLQqiK96/d9iTUikcG+CIGaaDQxDo52aneXl0WdaxYRedwwiP1F4X?=
- =?us-ascii?Q?0lMcZVx8SdxjeAx+H+HC9LtUCFxuW9jEU2dV4YfHxSYn3JAqbg9kQpjFI5nn?=
- =?us-ascii?Q?58w29AIrv+9prpwUl50ums/8W/dvpEUCpdKqeB0rSaSXQ7k57XHMzSEToLpu?=
- =?us-ascii?Q?M8fasxrsYRZpXF7waB84bEwX/qqiysGkKV94Dyn80D8mYGaxWgf7dsomLUV+?=
- =?us-ascii?Q?aLFS0exjK7JuaPUXt8xZnoTjMfC5YsI=3D?=
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6b4ba29-75a4-4e28-0375-08da481ae228
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 00:15:52.8219
+X-Microsoft-Antispam-Message-Info: 	avS6rS/FVdiFn10tC1prUMABa4edfME1df92EcUsKvAEevu2z13ENjgInjO3fj1pxDenYQ1Pg0sfg9ymi9mAB44k72QG0RWuBlSesXaHW139kW0Xf0wrkIjj5ee7y4dRWlgNDsjrtCbAmLqpc0mAEe+4boJ3sg3pJfMp6splFRo1uPsa6PwmpwfdWmsC3kKEyUzCaLECDGGnTjECKCM6C1ihw+yDBKAhE89J7NHnUoWNFwvL8Jz2vPh3xUi0vmhKSV1bsaT1d0gGNpqORMd71RE+xzX2YuJFty6TzwHN8Ni+Uh1TydIOIbBLSyn1QOViPpRaagJxB/t5Csb2iOafcgwKfL9NsZEaX5YWzjfeSyS92OADjWDL9iOxOD8LNjEagO9F5wHsgqryKtZwqZjL2xV7/F00mAgWeyxPvyLIiUj+k5Wws7cAZcRikVZjK3xMP4y/dZ6D2TOKSwWWwzvyDGrQ7mg9GBlYutalgtKPnS2Gn+QlItatLWNBx3FK0U+qeepXMEZqw+cHxsaLGMb4GaRdvEpVlNONwYHLIFF7vFxzEKWdL2e/Z0PLwwnT3oce0sX9d7BWn85oL2FhS2RsBN/zuv1S10BfHds68dEUvuiAOKSGlyBPg5ezCxKOLvtk0V6a/HMrs5a8OVs6hbfN9RVP/NssPneixmff61mgbEKtPXgN3+XdVx3Dg1xzaDsom0pEN/OFIwwcvZFyKMKk4A==
+X-Forefront-Antispam-Report: 	CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(36756003)(70586007)(70206006)(36860700001)(8936002)(5660300002)(83380400001)(47076005)(2906002)(316002)(54906003)(107886003)(4326008)(8676002)(26005)(82310400005)(426003)(336012)(16526019)(186003)(356005)(40460700003)(6666004)(2616005)(7696005)(1076003)(81166007)(508600001)(6916009)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 01:17:06.4859
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bo7wtnnFjyqHto0a1VKrz4qaICl40lUsYbOcWFFLMbV+oTpOjDQL5Dou7SRo53U1lWkjB7G3rAbcSSBQ+jDRyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR21MB3415
+X-MS-Exchange-CrossTenant-Network-Message-Id: d470f4ba-79b9-4ac8-cfaf-08da48236ffa
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6182
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220606_171623_606393_886201AF 
-X-CRM114-Status: GOOD (  19.41  )
+X-CRM114-CacheID: sfid-20220606_181716_728348_4682CFC4 
+X-CRM114-Status: GOOD (  12.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,122 +120,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In the NVM Express Revision 1.4 spec, Figure 145 describes possible
-values for an AER with event type "Error" (value 000b). For a
-Persistent Internal Error (value 03h), the host should perform a
-controller reset.
+The function __nvme_submit_sync_cmd() has following list of callers
+that sets the timeout value to 0 :-
 
-Add support for this error using code that already exists for
-doing a controller reset. As part of this support, introduce
-two utility functions for parsing the AER type and subtype.
+        Callers               |   Timeout value
+------------------------------------------------
+nvme_submit_sync_cmd()        |        0
+nvme_features()               |        0
+nvme_sec_submit()             |        0
+nvmf_reg_read32()             |        0
+nvmf_reg_read64()             |        0
+nvmf_reg_write32()            |        0
+nvmf_connect_admin_queue()    |        0
+nvmf_connect_io_queue()       |        0
 
-This new support was tested in a lab environment where we can
-generate the persistent internal error on demand, and observe
-both the Linux side and NVMe controller side to see that the
-controller reset has been done.
+Remove the timeout function parameter from __nvme_submit_sync_cmd() and
+adjust the rest of code accordingly.
 
-Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
-
-Changes since v2:
-* Instead of reading CSTS, use a constant value as input to
-  nvme_should_reset() [Keith Busch]
-* Introduce helper functions for parsing the AER result fields
-  [Keith Busch]
-
-
- drivers/nvme/host/core.c | 41 +++++++++++++++++++++++++++++++++++++++--
- include/linux/nvme.h     |  4 ++++
- 2 files changed, 43 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c    | 12 ++++--------
+ drivers/nvme/host/fabrics.c | 10 +++++-----
+ drivers/nvme/host/nvme.h    |  2 +-
+ 3 files changed, 10 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ea9ed04..1ca8e1f 100644
+index 98e343cb4a12..f46b0d37f45d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -4521,9 +4521,19 @@ static void nvme_fw_act_work(struct work_struct *work)
- 	nvme_get_fw_slot_info(ctrl);
- }
- 
-+static u32 nvme_aer_type(u32 result)
-+{
-+	return result & 0x7;
-+}
-+
-+static u32 nvme_aer_subtype(u32 result)
-+{
-+	return (result & 0xff00) >> 8;
-+}
-+
- static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+@@ -990,8 +990,7 @@ static int nvme_execute_rq(struct request *rq, bool at_head)
+  */
+ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		union nvme_result *result, void *buffer, unsigned bufflen,
+-		unsigned timeout, int qid, int at_head,
+-		blk_mq_req_flags_t flags)
++		int qid, int at_head, blk_mq_req_flags_t flags)
  {
--	u32 aer_notice_type = (result & 0xff00) >> 8;
-+	u32 aer_notice_type = nvme_aer_subtype(result);
+ 	struct request *req;
+ 	int ret;
+@@ -1006,9 +1005,6 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		return PTR_ERR(req);
+ 	nvme_init_request(req, cmd);
  
- 	trace_nvme_async_event(ctrl, aer_notice_type);
- 
-@@ -4556,11 +4566,29 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
- 	}
- }
- 
-+static void nvme_handle_aer_persistent_error(struct nvme_ctrl *ctrl)
-+{
-+	trace_nvme_async_event(ctrl, NVME_AER_ERROR);
-+
-+	/*
-+	 * We can't read the CSTS here because we're in an atomic context on
-+	 * some transports and the read may require submitting a request to the
-+	 * to the controller and getting a response. Such a sequence isn't
-+	 * likely to be successful anyway if the controller is reporting a
-+	 * persistent internal error. So assume CSTS.CFS is set.
-+	 */
-+	if (nvme_should_reset(ctrl, NVME_CSTS_CFS)) {
-+		dev_warn(ctrl->device, "resetting controller due to AER\n");
-+		nvme_reset_ctrl(ctrl);
-+	}
-+}
-+
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		volatile union nvme_result *res)
+-	if (timeout)
+-		req->timeout = timeout;
+-
+ 	if (buffer && bufflen) {
+ 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
+ 		if (ret)
+@@ -1028,7 +1024,7 @@ EXPORT_SYMBOL_GPL(__nvme_submit_sync_cmd);
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void *buffer, unsigned bufflen)
  {
- 	u32 result = le32_to_cpu(res->u32);
--	u32 aer_type = result & 0x07;
-+	u32 aer_type = nvme_aer_type(result);
-+	u32 aer_subtype = nvme_aer_subtype(result);
+-	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0,
++	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen,
+ 			NVME_QID_ANY, 0, 0);
+ }
+ EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
+@@ -1465,7 +1461,7 @@ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
+ 	c.features.dword11 = cpu_to_le32(dword11);
  
- 	if (le16_to_cpu(status) >> 1 != NVME_SC_SUCCESS)
- 		return;
-@@ -4570,6 +4598,15 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		nvme_handle_aen_notice(ctrl, result);
- 		break;
- 	case NVME_AER_ERROR:
-+		/*
-+		 * For a persistent internal error, don't run async_event_work
-+		 * to submit a new AER. The controller reset will do it.
-+		 */
-+		if (aer_subtype == NVME_AER_ERROR_PERSIST_INT_ERR) {
-+			nvme_handle_aer_persistent_error(ctrl);
-+			return;
-+		}
-+		fallthrough;
- 	case NVME_AER_SMART:
- 	case NVME_AER_CSS:
- 	case NVME_AER_VS:
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 29ec3e3..8ced243 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -712,6 +712,10 @@ enum {
- };
+ 	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &res,
+-			buffer, buflen, 0, NVME_QID_ANY, 0, 0);
++			buffer, buflen, NVME_QID_ANY, 0, 0);
+ 	if (ret >= 0 && result)
+ 		*result = le32_to_cpu(res.u32);
+ 	return ret;
+@@ -2102,7 +2098,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ 	cmd.common.cdw10 = cpu_to_le32(((u32)secp) << 24 | ((u32)spsp) << 8);
+ 	cmd.common.cdw11 = cpu_to_le32(len);
  
- enum {
-+	NVME_AER_ERROR_PERSIST_INT_ERR	= 0x03,
-+};
-+
-+enum {
- 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
- 	NVME_AER_NOTICE_ANA		= 0x03,
+-	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len, 0,
++	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
+ 			NVME_QID_ANY, 1, 0);
+ }
+ EXPORT_SYMBOL_GPL(nvme_sec_submit);
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index ee79a6d639b4..0a0512300f1b 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -152,7 +152,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ 	cmd.prop_get.fctype = nvme_fabrics_type_property_get;
+ 	cmd.prop_get.offset = cpu_to_le32(off);
+ 
+-	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0, 0,
++	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
+ 			NVME_QID_ANY, 0, 0);
+ 
+ 	if (ret >= 0)
+@@ -198,7 +198,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 	cmd.prop_get.attrib = 1;
+ 	cmd.prop_get.offset = cpu_to_le32(off);
+ 
+-	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0, 0,
++	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
+ 			NVME_QID_ANY, 0, 0);
+ 
+ 	if (ret >= 0)
+@@ -243,7 +243,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 	cmd.prop_set.offset = cpu_to_le32(off);
+ 	cmd.prop_set.value = cpu_to_le64(val);
+ 
+-	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0, 0,
++	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0,
+ 			NVME_QID_ANY, 0, 0);
+ 	if (unlikely(ret))
+ 		dev_err(ctrl->device,
+@@ -389,7 +389,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res,
+-			data, sizeof(*data), 0, NVME_QID_ANY, 1,
++			data, sizeof(*data), NVME_QID_ANY, 1,
+ 			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
+ 	if (ret) {
+ 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
+@@ -450,7 +450,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
+-			data, sizeof(*data), 0, qid, 1,
++			data, sizeof(*data), qid, 1,
+ 			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
+ 	if (ret) {
+ 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 81c4f5379c0c..88bd147b8048 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -752,7 +752,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void *buf, unsigned bufflen);
+ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		union nvme_result *result, void *buffer, unsigned bufflen,
+-		unsigned timeout, int qid, int at_head,
++		int qid, int at_head,
+ 		blk_mq_req_flags_t flags);
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
 -- 
-1.8.3.1
+2.29.0
 
 
