@@ -4,70 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19663CCA47C
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 19:01:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FB73C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 22:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BaAhmDl7gWHSxl7M8kz/wy7INLHPKOk9Tjj7sYfmvU8=; b=XIhxKo4khWBeytMQM9poIHLR5I
-	dOmEnsK9bOS/wuGczq0VQ1VXCmSE7USriPX18fudVS26zoVCaTeAZEeoh3+C4kut5w6hu1T7MhDWM
-	a6d1nr9Y+hiEyluBxQahZyp3tUWxh42UUUN06dUjx50OALvaQGaPeocg3rfEE1QhWgn7K1j1JZ++R
-	VlypG1rQKwxEwBJTbKWF4vaNXtTZqTrsVLPU5D7DL9Fv1gslAp9MX+aioVuN0USrQY7ICheRCQ+9A
-	X5M7/g+CBZxlx0b15jrlX4tKFVr/BZfE6UWAK8bWyb2C/j5WGH8KNq+JFgqeugARosdEFytR/mnS7
-	mSm7B2yw==;
+	bh=HuB1jWioLMXlYJD2qIMa5ZfKhKkJtdvCJWpX1KJyM8s=; b=wl30x+5uPKE/lkp0eVMc1PFY8y
+	jUhLTctjUlPryAnL7JLcST0/NUHm+eeFr2vfV1p4W9C0QdyZwGDLW9kXGC090CJHSYBI++1pqgP3U
+	s+L5x6Ibqfl5GOP7CyLvQqAgRotegzadFv3Rv8WpVlZWgGfP3tPwaJVNoUNhwGUH/08koSj0Zrnh2
+	rZ6VeCecNG3y2ovTmXeIorqu+gTwWd8kdoZyBRMst+rnvNRy7d4OtejymfQ3O9WVr37ahedPRL5QJ
+	tI1o3jE1bKgHFqY8aV9rRUGUC19u0oyR4Dlc7b+GwVo67mEynokKczoa6eeRBcKm8s2F1RyQ6jKzW
+	AbrQTAVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyeSS-008w6V-7p; Tue, 07 Jun 2022 19:01:40 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1nyi7E-009xEh-3W; Tue, 07 Jun 2022 22:56:00 +0000
+Received: from todd.t-8ch.de ([159.69.126.157])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyeSQ-008w4x-8D
-	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 19:01:39 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C9134617D6;
-	Tue,  7 Jun 2022 19:01:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5A5C34115;
-	Tue,  7 Jun 2022 19:01:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654628497;
-	bh=kK3U3avYPYLgG/48fsZBjQ6IVWIEsZcdYueCRUvxPm4=;
+	id 1nyi77-009xDf-Al
+	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 22:55:55 +0000
+Date: Wed, 8 Jun 2022 00:55:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+	s=mail; t=1654642548;
+	bh=GKmspcdBAWIOqR/3BljCxm3zwnJIjgIflR7y21vWpks=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ckY3qEuhLQgBipufICbhJrsfxz/rSsrqh2wix1doK6Sh9m1YL+iuupKKGkSB3To8y
-	 brXK4dvVcpl/ClhPmus60o0leeqqktzF6bB0O8nGKHnxcDCHjxGxlaMvH9UTYDPItk
-	 VfEZXvw6RY5VIeFp+RPQRFdWI1x/A30HDTIcDQSfLPDP949DKQ0VkvPOWP/B3AIHkP
-	 Od3cbwQ6aYmvWzdcrbMQpCPtIFeEBIfCBeZ3vB6z1WlpqF3aa5HLLF1O2YSrZR1zyN
-	 jJr81z9bqwUU1ZXoJIyT0DiTJDMH8D6CAc935ds4Ul5w6HJWySSbg1nU+HyKn2U+up
-	 WXhS1h2XDDZFw==
-Date: Tue, 7 Jun 2022 13:01:34 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Klaus Jensen <its@irrelevant.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 4/4] nvme: check that EUI/GUID/UUID are globally unique
-Message-ID: <Yp+gjvFjy+mepmWo@kbusch-mbp.dhcp.thefacebook.com>
-References: <YlB1E/p1uqpl3HiN@bombadil.infradead.org>
- <20220411050533.GB13927@lst.de>
- <20220411055455.GA14480@lst.de>
- <C85067CB-3909-4B62-A86D-467827EBF96E@oracle.com>
- <20220420073641.GA6859@lst.de>
- <26796ED5-859F-4844-B1D1-7C2FF5126E40@oracle.com>
- <Yp5z8b4ec5tFt9qk@kbusch-mbp.dhcp.thefacebook.com>
- <84C629F5-BCDC-45FE-88F0-83DCDA06B93E@oracle.com>
- <Yp54fw/FRQ6KhP0V@kbusch-mbp.dhcp.thefacebook.com>
- <1FC6870F-6BCA-4C9B-8F90-C14469A542AE@oracle.com>
+	b=CgIjeww94QAkYJqcJd8V0NONcKTg2eSKdj8Km8wlj2XIm3HhwZjhvGB6Jhs0wrTlT
+	 kx1VGh9lfaALmdiDdJkxxy35Mc0R7bMjwYNGNCJ725ll1UqXG37I+0Zm7XeKzvWOgX
+	 ZveuXD2IozmQoV5qSTGebeKEIDxXFp0VeJh/5kxg=
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: add device name to warning in uuid_show()
+Message-ID: <169e1083-3d0a-42e0-a600-c41b275623ee@t-8ch.de>
+References: <20220607155555.8623-1-linux@weissschuh.net>
+ <Yp94yTFrrkbBYqsj@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1FC6870F-6BCA-4C9B-8F90-C14469A542AE@oracle.com>
+In-Reply-To: <Yp94yTFrrkbBYqsj@kbusch-mbp.dhcp.thefacebook.com>
+Jabber-ID: thomas@t-8ch.de
+X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
+X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220607_120138_390693_2C986344 
-X-CRM114-Status: GOOD (  20.71  )
+X-CRM114-CacheID: sfid-20220607_155553_564737_DEBA51BB 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,28 +67,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 06, 2022 at 11:11:22PM +0000, Alan Adamson wrote:
+On 2022-06-07 10:11-0600, Keith Busch wrote:
+> On Tue, Jun 07, 2022 at 05:55:55PM +0200, Thomas Weißschuh wrote:
+> >  	if (uuid_is_null(&ids->uuid)) {
+> > -		printk_ratelimited(KERN_WARNING
+> > -				   "No UUID available providing old NGUID\n");
+> > +		dev_warn_ratelimited(dev, "No UUID available providing old NGUID\n");
+> >  		return sysfs_emit(buf, "%pU\n", ids->nguid);
 > 
-> 
-> > On Jun 6, 2022, at 2:58 PM, Keith Busch <kbusch@kernel.org> wrote:
-> > 
-> > On Mon, Jun 06, 2022 at 09:51:55PM +0000, Alan Adamson wrote:
-> >>> On Jun 6, 2022, at 2:38 PM, Keith Busch <kbusch@kernel.org> wrote:
-> >>> 
-> >>> Shouldn't the nvme-passthrough target just change the cntlid so it looks like
-> >>> two controllers in the same subsystem? That would just need to stop overriding
-> >>> the subsysnqn, which is what currently happens.
-> >> 
-> >> That was my original proposal a while ago, though I wasn’t certain what to change. Should the UUID/GUID just be zeroed out?  Is it ok to do that for all passthru targets?
-> > 
-> > Can't the namespace id's be left the unmodified? The loop and pcie targets
-> > would just look like two paths to the same namespace, which is essentially what
-> > they are.
-> 
-> nvme_global_check_duplicate_ids() fails when the id’s are the same.  They are kinda
-> shared namespaces and we can set nmic on the loop target, but the pcie target is
-> unaware of it being shared.
+> The line split was correct to prevent this overly long line. But otherwise,
+> this looks good, though I'm wondering why this needs to be printed every time
+> someone reads the attribute.
 
-Gotcha, the pcie target potentially lacking cmic/nmic awareness does appear to
-make my idea unreasonable to implement. Thanks for the follow up info.
+Sorry about the long line, thought it looks nicer on one line and other
+(similar) lines in the file are also using up to 100 characters per line.
+Do you want me to resend it?
+
+No idea why has to be printed every time. A dev_warn_once() would be less
+spammy.
 
