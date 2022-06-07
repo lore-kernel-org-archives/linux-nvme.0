@@ -4,45 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81CBDC43334
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 10:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3437C433EF
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jun 2022 11:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7N2bZokFiVecqXuJRoV4z2+vDXbNDq9o7RQC9ui0NLQ=; b=hS8W3ch/5tXpXXxsl/TJ63xe8i
-	RtFG2XcLuvXUgP4EpRPzR3zTwO9nulDE9q96qmgmEY+vDW8/EizwwhuLMiTzaYpVztWAxeKoOXmKt
-	jAp/Nlwi8MtIiKVuRqSTSMjgRFPAkF9voLldnPXiV45JSyO+4SyckAAN0dcpREq8ij8D8odA20wma
-	qD10l5oOOtOi7j4sVezqnBKapCQEyHyTYBWrF3B1N9EKvOmF/mjMK7d9ZtezxIapJYtfb5+Gyti7X
-	C9ivS99Z73eJW+W39qDrdpmWGaRqS3tYZLvMSb1UQ0EOBSte2r13zsWo9LV7xncqjBwTyW2tgPf4K
-	HSIvl6HQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=FGOr6ZW+LuXWdIrxm6Lg7LwccqxRSi7+KGesQzK/UH4=; b=teTS5Lb6oZQ0UEjF3YiPqGqPDW
+	+JzhJexiFJ5RzXF9gE7t7TkXi8p+mLxvkJwYHgIi1d4EsM1R9tNlsXvC1LYQFyw5ZsqQPGwY/pluc
+	l7R36/V9fSWy6sNyN8lLm7c/7x3jRnQkaHehI7WyuF8aDKRQi5qd3GZUqGxb0Ep4siAvnXqz6vWtI
+	sLISrh9iVm36pBKFpNpTC7bFwwO96FAEg5SBxaAwwpaSJRbzSIkpGMtIYAzF2xYpRa161e2u3CJBz
+	QlR+AjKvhW7hy2Wx08C6Kq1lE8j8Pvn1sqmYe9Q+k/URLs0/6KhXdTgBQmMRZrw74PW0ke0dz3SJ+
+	/fxnsDJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyWps-006qcj-Nj; Tue, 07 Jun 2022 10:53:20 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1nyXKF-0072jK-Dv; Tue, 07 Jun 2022 11:24:43 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyWmP-006owj-EH
-	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 10:49:46 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 79A2567373; Tue,  7 Jun 2022 12:49:41 +0200 (CEST)
-Date: Tue, 7 Jun 2022 12:49:41 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 4/9] nvme: Implement In-Band authentication
-Message-ID: <20220607104941.GA26223@lst.de>
-References: <20220527080457.90855-1-hare@suse.de> <20220527080457.90855-5-hare@suse.de>
+	id 1nyXGs-0071PU-H8
+	for linux-nvme@lists.infradead.org; Tue, 07 Jun 2022 11:21:16 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8454F1F95B;
+	Tue,  7 Jun 2022 11:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1654600868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to;
+	bh=FGOr6ZW+LuXWdIrxm6Lg7LwccqxRSi7+KGesQzK/UH4=;
+	b=eUp730d3QK+N5oF2PUdNw3HUfrgQTrk6ZGXGMxNhgRQXJLrOkdO/IEC/E4NpnGJIKZl7XQ
+	ZOODC6TGKg34qas5YGJJ8G8yuWStwAtO9K1B337k5aHDpCKRIJVb4OahZjBPFByfBIQswU
+	nIsjEUJFfPj+UhTTaR5bQo64oTpvfKc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1654600868;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to;
+	bh=FGOr6ZW+LuXWdIrxm6Lg7LwccqxRSi7+KGesQzK/UH4=;
+	b=KiAMCoAjjaLSXvSefzY96F182jXwGpZvbBtq7cKkScktHsonp92lN4thTquRnbAAlaQfTX
+	r4DwpJHkFU0Hk9BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0A2FD13638;
+	Tue,  7 Jun 2022 11:21:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id RaNdO6M0n2IRaAAAMHmgww
+	(envelope-from <iluceno@suse.de>); Tue, 07 Jun 2022 11:21:07 +0000
+Date: Tue, 7 Jun 2022 13:21:18 +0200
+From: Ismael Luceno <iluceno@suse.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Enzo Matsumiya <ematsumiya@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Chao Leng <lengchao@huawei.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH V2 4/5] nvme: quiesce namespace queue in parallel
+Message-ID: <20220607132118.0bbb230b@pirotess>
+In-Reply-To: <20211130073752.3005936-1-ming.lei@redhat.com>
+Organization: SUSE
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220527080457.90855-5-hare@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220607_034945_657180_7922F9E8 
-X-CRM114-Status: GOOD (  14.69  )
+X-CRM114-CacheID: sfid-20220607_042114_782892_6F35696A 
+X-CRM114-Status: UNSURE (   9.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,18 +88,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 27, 2022 at 10:04:52AM +0200, Hannes Reinecke wrote:
-> +config NVME_AUTH
-> +	bool "NVM Express over Fabrics In-Band Authentication"
-> +	depends on NVME_CORE
+Hi Ming,
 
-Does this actually depend on NVME_CORE? As that would suck when pulling
-this code into the target driver as well.  Also in addition to the header
-location already mentioned by Max, this should probably go into
-drivers/nvme/common/ if used by the host and target code.
+Has this patch been dropped/abandoned?
 
-> +	  This provides support for NVMe over Fabrics In-Band Authentication.
-
-This should probably mention that the support can be used both by the
-host and target code.
+On Tue, 30 Nov 2021 15:37:51 +0800
+Ming Lei <ming.lei@redhat.com> wrote:
+> Chao Leng reported that in case of lots of namespaces, it may take
+> quite a while for nvme_stop_queues() to quiesce all namespace queues.
+>
+> Improve nvme_stop_queues() by running quiesce in parallel, and just
+> wait once if global quiesce wait is allowed.
+>
+> Link:
+> https://lore.kernel.org/linux-block/cc732195-c053-9ce4-e1a7-e7f6dcf762ac@huawei.com/
+> Reported-by: Chao Leng <lengchao@huawei.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+<...>
 
