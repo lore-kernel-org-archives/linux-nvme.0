@@ -4,64 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FC17C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jun 2022 14:45:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEDCBC433EF
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jun 2022 14:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YUPymO0L712QQAEOSNmEJKSwJO0GUr6H5rJTXR6lekU=; b=lDOXtXaYObl2YKDfrIdVG9EKwb
-	w8soY8VCIwd9ZsYYxB+QyyQGAmcvrYY5uMiYrVCcFOAkvm2z1LaK2FJG5VnNxd0uB+zVG6S5GxUoA
-	1h2Dp5ZmcSwdtrdXRDyPb62YATc3+geOdHA3dLFbPyJmbTcDY0wQm0ajohMKzFV0Sed++8bOrOKld
-	Il5Hc09HQwDxAZK8fDP9wxJZ51lXsTjGZcVzRmGNfAnXMeocun4imZhvvEDEM/v5ud4JKAEESh4zx
-	riI/rAI1HaYZi3GeYdS1JStn70mxPZWwc7IhE5HZ3BhaO9FXvTKpC0XEoPDp5jxcQUzW9NdGgsRSt
-	C/2UTNhQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5aD2jr4TKUsCl6t24fPk9V+7B2yz52XNodHjgv4i0Qg=; b=KUzI1iecSLTBqJauLbNPge/qgQ
+	4iwhFa3GM2LH4zGVlpydudMpPUOmNAUfEDLIHk2E4AZYMizwLoVklGmuuYcTmtPGss0HevgqpX2qp
+	r4XStNcQUl5UjOn5qFIaSZLXQpxIoKhCFHVmjj579U5wvHgv7yy66xER/20HfwxUHoxtiVtP4N+l6
+	h0JXaDl9cR0GvEVwpslAQiQqsuQHMCX+qaTp5qWY0dzmCoSJjtMIXV/CmgNwBMCPhG2BLClfHT41J
+	pR7D49Q6dKlInNGqlISDCS+3aQ+/fj8T58YXdgX8yEx1XiGphxAlvGdn5PFHu6gcWhJqeWbe9mCEh
+	dNWuID7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nywwR-00Dji3-QJ; Wed, 08 Jun 2022 14:45:51 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nywwX-00Djkh-0i; Wed, 08 Jun 2022 14:45:57 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nyww3-00DjXd-MK
+	id 1nyww2-00DjXj-3D
 	for linux-nvme@lists.infradead.org; Wed, 08 Jun 2022 14:45:29 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 8D99C21A39;
+	by smtp-out2.suse.de (Postfix) with ESMTP id A6EBA1F962;
 	Wed,  8 Jun 2022 14:45:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1654699524; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=YUPymO0L712QQAEOSNmEJKSwJO0GUr6H5rJTXR6lekU=;
-	b=gKaY7YjAWdVDIVrJFra05pVHwvH9dXh/jbcQFlJGPFBZm8jQCgxeYIP+zSXBSvUpQWw8AO
-	rHiar8WOfWCHugIKhaSgjw8BtKYuS99JzeiW7poepBRrRe8Cf3nIPVngTox4lI5rJ0lyo/
-	HlWDljKc6+/gr4oKKDQMP9SdZdhPnxg=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5aD2jr4TKUsCl6t24fPk9V+7B2yz52XNodHjgv4i0Qg=;
+	b=fPYwpi8dGC+n45WmCkWVRl6al5USf9yjEswbfwST7NCUd38DqPj94SgvtnNbBNkadHWogF
+	MAmn92GtRvesZ7r3hOCSkaxwrQwN7uGh8q5/r1Tmfu5y4yqJ03nq37qpfXRwnPp16RmlKz
+	O7M0tUskvvlBhDrmbpsEKBDj6H1aErM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1654699524;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=YUPymO0L712QQAEOSNmEJKSwJO0GUr6H5rJTXR6lekU=;
-	b=Opx1Wlj2HJNyig1UBtnKn+t7b9qvV9o4CT3b8u1Jr9aLfSiAGbPckCIvNjW+KDS69onnmH
-	RP7BXMRTXUEwkMCg==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5aD2jr4TKUsCl6t24fPk9V+7B2yz52XNodHjgv4i0Qg=;
+	b=OjvQEXiKwEy+FzzdGLpOxD1GB3+Jdv70/dLk+fnv9MXVUZb36gaH4rNuglslCVbgthdkmF
+	J8fPyyw51FWpYzBA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id AE7122C145;
-	Wed,  8 Jun 2022 14:45:22 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id 955872C15B;
+	Wed,  8 Jun 2022 14:45:24 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id CFBB951949A2; Wed,  8 Jun 2022 16:45:22 +0200 (CEST)
+	id 145C051949B6; Wed,  8 Jun 2022 16:45:23 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv14 00/11] nvme: In-band authentication support
-Date: Wed,  8 Jun 2022 16:45:07 +0200
-Message-Id: <20220608144518.67607-1-hare@suse.de>
+Subject: [PATCH 10/11] nvmet-auth: Diffie-Hellman key exchange support
+Date: Wed,  8 Jun 2022 16:45:17 +0200
+Message-Id: <20220608144518.67607-11-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220608144518.67607-1-hare@suse.de>
+References: <20220608144518.67607-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220608_074528_000868_C0C1717A 
-X-CRM114-Status: GOOD (  17.80  )
+X-CRM114-CacheID: sfid-20220608_074526_500000_02F9229B 
+X-CRM114-Status: GOOD (  23.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,162 +82,406 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Implement Diffie-Hellman key exchange using FFDHE groups for NVMe
+In-Band Authentication.
+This patch adds a new host configfs attribute 'dhchap_dhgroup' to
+select the FFDHE group to use.
 
-recent updates to the NVMe spec have added definitions for in-band
-authentication, and seeing that it provides some real benefit
-especially for NVMe-TCP here's an attempt to implement it.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/target/Kconfig            |   1 +
+ drivers/nvme/target/auth.c             | 157 +++++++++++++++++++++++++
+ drivers/nvme/target/configfs.c         |  31 +++++
+ drivers/nvme/target/fabrics-cmd-auth.c |  41 +++++--
+ drivers/nvme/target/nvmet.h            |   9 ++
+ 5 files changed, 231 insertions(+), 8 deletions(-)
 
-Thanks to Nicolai Stange the crypto DH framework has been upgraded
-to provide us with a FFDHE implementation; I've updated the patchset
-to use the ephemeral key generation provided there.
-
-Note that this is just for in-band authentication. Secure
-concatenation (ie starting TLS with the negotiated parameters)
-requires a TLS handshake, which the in-kernel TLS implementation
-does not provide. This is being worked on with a different patchset
-which is still WIP.
-
-The nvme-cli support has already been merged; please use the latest
-nvme-cli git repository to build the most recent version.
-
-A copy of this patchset can be found at
-git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
-branch auth.v14
-
-The patchset is being cut against v5.18.
-
-As usual, comments and reviews are welcome.
-
-Changes to v13:
-- Fixup sysfs attribute visibility (reported by Chaitanya)
-- Fixup SUCCESS1 handling
-- Re-introduce crypto_has_shash() and crypto_has_kpp() helper
-- Unse 'authenticated' flag on failure
-
-Changes to v12:
-- Replaces crypto_has_shash() and crypto_has_kpp() helper
-  with CONFIG_ checks
-- Fixed kbuild robot warning in pr_fmt()
-
-Changes to v11:
-- Fixup type for FAILURE2 message (Prashant Nayak)
-- Do not sent SUCCESS2 if bi-directional authentication is not
-  requested (Martin George)
-
-Changes to v10:
-- Fixup error return value when authentication failed
-
-Changes to v9:
-- Include review from Chaitanya
-- Use sparse array for dhgroup and hash lookup
-- Common function for auth_send and auth_receive
-
-Changes to v8:
-- Rebased to Nicolais crypto DH rework
-- Fixed oops on non-fabrics devices
-
-Changes to v7:
-- Space out hash list and dhgroup list in nvme negotiate data
-  to be conformant with the spec
-- Update sequence number handling to start with a random value and
-  ignore '0' as mandated by the spec
-- Update nvme_auth_generate_key to return the key as
-  suggested by Sagi
-- Add nvmet_parse_fabrics_io_cmd() as suggested by hch
-
-Changes to v6:
-- Use 'u8' for DH group id and hash id
-- Use 'struct nvme_dhchap_key'
-- Rename variables to drop 'DHCHAP'
-- Include reviews from Chaitanya
-
-Changes to v5:
-- Unify nvme_auth_generate_key()
-- Unify nvme_auth_extract_key()
-- Fixed bug where re-authentication with wrong controller key would
-not fail
-- Include reviews from Sagi
-
-Changes to v4:
-- Validate against blktest suite
-- Fixup base64 decoding
-- Transform secret with correct hmac algorithm
-
-Changes to v3:
-- Renamed parameter to 'dhchap_ctrl_key'
-- Fixed bi-directional authentication
-- Included reviews from Sagi
-- Fixed base64 algorithm for transport encoding
-
-Changes to v2:
-- Dropped non-standard algorithms
-- Reworked base64 based on fs/crypto/fname.c
-- Fixup crash with no keys
-
-Changes to the original submission:
-- Included reviews from Vladislav
-- Included reviews from Sagi
-- Implemented re-authentication support
-- Fixed up key handling
-
-Hannes Reinecke (11):
-  crypto: add crypto_has_shash()
-  crypto: add crypto_has_kpp()
-  lib/base64: RFC4648-compliant base64 encoding
-  nvme: add definitions for NVMe In-Band authentication
-  nvme-fabrics: decode 'authentication required' connect error
-  nvme: Implement In-Band authentication
-  nvme-auth: Diffie-Hellman key exchange support
-  nvmet: parse fabrics commands on io queues
-  nvmet: Implement basic In-Band Authentication
-  nvmet-auth: Diffie-Hellman key exchange support
-  nvmet-auth: expire authentication sessions
-
- crypto/kpp.c                           |    6 +
- crypto/shash.c                         |    6 +
- drivers/nvme/Kconfig                   |    1 +
- drivers/nvme/Makefile                  |    1 +
- drivers/nvme/common/Kconfig            |    4 +
- drivers/nvme/common/Makefile           |    7 +
- drivers/nvme/common/auth.c             |  481 ++++++++++++
- drivers/nvme/host/Kconfig              |   13 +
- drivers/nvme/host/Makefile             |    1 +
- drivers/nvme/host/auth.c               | 1000 ++++++++++++++++++++++++
- drivers/nvme/host/core.c               |  143 +++-
- drivers/nvme/host/fabrics.c            |   83 +-
- drivers/nvme/host/fabrics.h            |    7 +
- drivers/nvme/host/nvme.h               |   30 +
- drivers/nvme/host/rdma.c               |    1 +
- drivers/nvme/host/tcp.c                |    1 +
- drivers/nvme/host/trace.c              |   32 +
- drivers/nvme/target/Kconfig            |   13 +
- drivers/nvme/target/Makefile           |    1 +
- drivers/nvme/target/admin-cmd.c        |    4 +-
- drivers/nvme/target/auth.c             |  525 +++++++++++++
- drivers/nvme/target/configfs.c         |  138 +++-
- drivers/nvme/target/core.c             |   15 +
- drivers/nvme/target/fabrics-cmd-auth.c |  542 +++++++++++++
- drivers/nvme/target/fabrics-cmd.c      |   55 +-
- drivers/nvme/target/nvmet.h            |   75 +-
- include/crypto/hash.h                  |    2 +
- include/crypto/kpp.h                   |    2 +
- include/linux/base64.h                 |   16 +
- include/linux/nvme-auth.h              |   41 +
- include/linux/nvme.h                   |  204 ++++-
- lib/Makefile                           |    2 +-
- lib/base64.c                           |  103 +++
- 33 files changed, 3540 insertions(+), 15 deletions(-)
- create mode 100644 drivers/nvme/common/Kconfig
- create mode 100644 drivers/nvme/common/Makefile
- create mode 100644 drivers/nvme/common/auth.c
- create mode 100644 drivers/nvme/host/auth.c
- create mode 100644 drivers/nvme/target/auth.c
- create mode 100644 drivers/nvme/target/fabrics-cmd-auth.c
- create mode 100644 include/linux/base64.h
- create mode 100644 include/linux/nvme-auth.h
- create mode 100644 lib/base64.c
-
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index f1fbfc9b2f45..a1d9ddf57671 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -91,6 +91,7 @@ config NVME_TARGET_AUTH
+ 	select CRYPTO_HMAC
+ 	select CRYPTO_SHA256
+ 	select CRYPTO_SHA512
++	select CRYPTO_DH_GROUPS_RFC7919
+ 	help
+ 	  This enables support for NVMe over Fabrics In-band Authentication
+ 
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 5cdd23c34185..d5624bdf834b 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -54,6 +54,74 @@ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
+ 	return 0;
+ }
+ 
++int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
++{
++	const char *dhgroup_kpp;
++	int ret = 0;
++
++	pr_debug("%s: ctrl %d selecting dhgroup %d\n",
++		 __func__, ctrl->cntlid, dhgroup_id);
++
++	if (ctrl->dh_tfm) {
++		if (ctrl->dh_gid == dhgroup_id) {
++			pr_debug("%s: ctrl %d reuse existing DH group %d\n",
++				 __func__, ctrl->cntlid, dhgroup_id);
++			return 0;
++		}
++		crypto_free_kpp(ctrl->dh_tfm);
++		ctrl->dh_tfm = NULL;
++		ctrl->dh_gid = 0;
++	}
++
++	if (dhgroup_id == NVME_AUTH_DHGROUP_NULL)
++		return 0;
++
++	dhgroup_kpp = nvme_auth_dhgroup_kpp(dhgroup_id);
++	if (!dhgroup_kpp) {
++		pr_debug("%s: ctrl %d invalid DH group %d\n",
++			 __func__, ctrl->cntlid, dhgroup_id);
++		return -EINVAL;
++	}
++	ctrl->dh_tfm = crypto_alloc_kpp(dhgroup_kpp, 0, 0);
++	if (IS_ERR(ctrl->dh_tfm)) {
++		pr_debug("%s: ctrl %d failed to setup DH group %d, err %ld\n",
++			 __func__, ctrl->cntlid, dhgroup_id,
++			 PTR_ERR(ctrl->dh_tfm));
++		ret = PTR_ERR(ctrl->dh_tfm);
++		ctrl->dh_tfm = NULL;
++		ctrl->dh_gid = 0;
++	} else {
++		ctrl->dh_gid = dhgroup_id;
++		pr_debug("%s: ctrl %d setup DH group %d\n",
++			 __func__, ctrl->cntlid, ctrl->dh_gid);
++		ret = nvme_auth_gen_privkey(ctrl->dh_tfm, ctrl->dh_gid);
++		if (ret < 0) {
++			pr_debug("%s: ctrl %d failed to generate private key, err %d\n",
++				 __func__, ctrl->cntlid, ret);
++			kfree_sensitive(ctrl->dh_key);
++			return ret;
++		}
++		ctrl->dh_keysize = crypto_kpp_maxsize(ctrl->dh_tfm);
++		kfree_sensitive(ctrl->dh_key);
++		ctrl->dh_key = kzalloc(ctrl->dh_keysize, GFP_KERNEL);
++		if (!ctrl->dh_key) {
++			pr_warn("ctrl %d failed to allocate public key\n",
++				ctrl->cntlid);
++			return -ENOMEM;
++		}
++		ret = nvme_auth_gen_pubkey(ctrl->dh_tfm, ctrl->dh_key,
++					   ctrl->dh_keysize);
++		if (ret < 0) {
++			pr_warn("ctrl %d failed to generate public key\n",
++				ctrl->cntlid);
++			kfree(ctrl->dh_key);
++			ctrl->dh_key = NULL;
++		}
++	}
++
++	return ret;
++}
++
+ int nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+ {
+ 	int ret = 0;
+@@ -81,6 +149,10 @@ int nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+ 		goto out_unlock;
+ 	}
+ 
++	ret = nvmet_setup_dhgroup(ctrl, host->dhchap_dhgroup_id);
++	if (ret < 0)
++		pr_warn("Failed to setup DH group");
++
+ 	if (!host->dhchap_secret) {
+ 		pr_debug("No authentication provided\n");
+ 		goto out_unlock;
+@@ -158,6 +230,14 @@ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl)
+ {
+ 	ctrl->shash_id = 0;
+ 
++	if (ctrl->dh_tfm) {
++		crypto_free_kpp(ctrl->dh_tfm);
++		ctrl->dh_tfm = NULL;
++		ctrl->dh_gid = 0;
++	}
++	kfree_sensitive(ctrl->dh_key);
++	ctrl->dh_key = NULL;
++
+ 	if (ctrl->host_key) {
+ 		nvme_auth_free_key(ctrl->host_key);
+ 		ctrl->host_key = NULL;
+@@ -218,6 +298,21 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
+ 	if (ret)
+ 		goto out_free_response;
+ 
++	if (ctrl->dh_gid != NVME_AUTH_DHGROUP_NULL) {
++		challenge = kmalloc(shash_len, GFP_KERNEL);
++		if (!challenge) {
++			ret = -ENOMEM;
++			goto out_free_response;
++		}
++		ret = nvme_auth_augmented_challenge(ctrl->shash_id,
++						    req->sq->dhchap_skey,
++						    req->sq->dhchap_skey_len,
++						    req->sq->dhchap_c1,
++						    challenge, shash_len);
++		if (ret)
++			goto out_free_response;
++	}
++
+ 	pr_debug("ctrl %d qid %d host response seq %u transaction %d\n",
+ 		 ctrl->cntlid, req->sq->qid, req->sq->dhchap_s1,
+ 		 req->sq->dhchap_tid);
+@@ -315,6 +410,21 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+ 	if (ret)
+ 		goto out_free_response;
+ 
++	if (ctrl->dh_gid != NVME_AUTH_DHGROUP_NULL) {
++		challenge = kmalloc(shash_len, GFP_KERNEL);
++		if (!challenge) {
++			ret = -ENOMEM;
++			goto out_free_response;
++		}
++		ret = nvme_auth_augmented_challenge(ctrl->shash_id,
++						    req->sq->dhchap_skey,
++						    req->sq->dhchap_skey_len,
++						    req->sq->dhchap_c2,
++						    challenge, shash_len);
++		if (ret)
++			goto out_free_response;
++	}
++
+ 	shash = kzalloc(sizeof(*shash) + crypto_shash_descsize(shash_tfm),
+ 			GFP_KERNEL);
+ 	if (!shash) {
+@@ -365,3 +475,50 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+ 	crypto_free_shash(shash_tfm);
+ 	return 0;
+ }
++
++int nvmet_auth_ctrl_exponential(struct nvmet_req *req,
++				u8 *buf, int buf_size)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	int ret = 0;
++
++	if (!ctrl->dh_key) {
++		pr_warn("ctrl %d no DH public key!\n", ctrl->cntlid);
++		return -ENOKEY;
++	}
++	if (buf_size != ctrl->dh_keysize) {
++		pr_warn("ctrl %d DH public key size mismatch, need %lu is %d\n",
++			ctrl->cntlid, ctrl->dh_keysize, buf_size);
++		ret = -EINVAL;
++	} else {
++		memcpy(buf, ctrl->dh_key, buf_size);
++		pr_debug("%s: ctrl %d public key %*ph\n", __func__,
++			 ctrl->cntlid, (int)buf_size, buf);
++	}
++
++	return ret;
++}
++
++int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
++			    u8 *pkey, int pkey_size)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	int ret;
++
++	req->sq->dhchap_skey_len = ctrl->dh_keysize;
++	req->sq->dhchap_skey = kzalloc(req->sq->dhchap_skey_len, GFP_KERNEL);
++	if (!req->sq->dhchap_skey)
++		return -ENOMEM;
++	ret = nvme_auth_gen_shared_secret(ctrl->dh_tfm,
++					  pkey, pkey_size,
++					  req->sq->dhchap_skey,
++					  req->sq->dhchap_skey_len);
++	if (ret)
++		pr_debug("failed to compute shared secred, err %d\n", ret);
++	else
++		pr_debug("%s: shared secret %*ph\n", __func__,
++			 (int)req->sq->dhchap_skey_len,
++			 req->sq->dhchap_skey);
++
++	return ret;
++}
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 9a7d91c64fcd..1b11f6a83bb6 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1746,10 +1746,41 @@ static ssize_t nvmet_host_dhchap_hash_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_host_, dhchap_hash);
+ 
++static ssize_t nvmet_host_dhchap_dhgroup_show(struct config_item *item,
++		char *page)
++{
++	struct nvmet_host *host = to_host(item);
++	const char *dhgroup = nvme_auth_dhgroup_name(host->dhchap_dhgroup_id);
++
++	return sprintf(page, "%s\n", dhgroup ? dhgroup : "none");
++}
++
++static ssize_t nvmet_host_dhchap_dhgroup_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_host *host = to_host(item);
++	int dhgroup_id;
++
++	dhgroup_id = nvme_auth_dhgroup_id(page);
++	if (dhgroup_id == NVME_AUTH_DHGROUP_INVALID)
++		return -EINVAL;
++	if (dhgroup_id != NVME_AUTH_DHGROUP_NULL) {
++		const char *kpp = nvme_auth_dhgroup_kpp(dhgroup_id);
++
++		if (!crypto_has_kpp(kpp, 0, 0))
++			return -EINVAL;
++	}
++	host->dhchap_dhgroup_id = dhgroup_id;
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_host_, dhchap_dhgroup);
++
+ static struct configfs_attribute *nvmet_host_attrs[] = {
+ 	&nvmet_host_attr_dhchap_key,
+ 	&nvmet_host_attr_dhchap_ctrl_key,
+ 	&nvmet_host_attr_dhchap_hash,
++	&nvmet_host_attr_dhchap_dhgroup,
+ 	NULL,
+ };
+ #endif /* CONFIG_NVME_TARGET_AUTH */
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index 9dca9f1e6281..f32e2a4aeaa0 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -24,7 +24,7 @@ static u16 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvmf_auth_dhchap_negotiate_data *data = d;
+-	int i, hash_id = 0, fallback_hash_id = 0, dhgid;
++	int i, hash_id = 0, fallback_hash_id = 0, dhgid, fallback_dhgid;
+ 
+ 	pr_debug("%s: ctrl %d qid %d: data sc_d %d napd %d authid %d halen %d dhlen %d\n",
+ 		 __func__, ctrl->cntlid, req->sq->qid,
+@@ -66,22 +66,35 @@ static u16 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+ 	}
+ 
+ 	dhgid = -1;
++	fallback_dhgid = -1;
+ 	for (i = 0; i < data->auth_protocol[0].dhchap.dhlen; i++) {
+ 		int tmp_dhgid = data->auth_protocol[0].dhchap.idlist[i + 30];
+ 
+-		if (tmp_dhgid == NVME_AUTH_DHGROUP_NULL) {
++		if (tmp_dhgid != ctrl->dh_gid) {
+ 			dhgid = tmp_dhgid;
+ 			break;
+ 		}
++		if (fallback_dhgid < 0) {
++			const char *kpp = nvme_auth_dhgroup_kpp(tmp_dhgid);
++
++			if (crypto_has_kpp(kpp, 0, 0))
++				fallback_dhgid = tmp_dhgid;
++		}
+ 	}
+ 	if (dhgid < 0) {
+-		pr_debug("%s: ctrl %d qid %d: no usable DH group found\n",
++		if (fallback_dhgid < 0) {
++			pr_debug("%s: ctrl %d qid %d: no usable DH group found\n",
+ 				 __func__, ctrl->cntlid, req->sq->qid);
+-		return NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
++			return NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
++		}
++		pr_debug("%s: ctrl %d qid %d: configured DH group %s not found\n",
++			 __func__, ctrl->cntlid, req->sq->qid,
++			 nvme_auth_dhgroup_name(fallback_dhgid));
++		ctrl->dh_gid = fallback_dhgid;
+ 	}
+ 	pr_debug("%s: ctrl %d qid %d: selected DH group %s (%d)\n",
+ 		 __func__, ctrl->cntlid, req->sq->qid,
+-		 nvme_auth_dhgroup_name(dhgid), dhgid);
++		 nvme_auth_dhgroup_name(ctrl->dh_gid), ctrl->dh_gid);
+ 	return 0;
+ }
+ 
+@@ -97,7 +110,11 @@ static u16 nvmet_auth_reply(struct nvmet_req *req, void *d)
+ 		 data->hl, data->cvalid, dhvlen);
+ 
+ 	if (dhvlen) {
+-		return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
++		if (!ctrl->dh_tfm)
++			return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
++		if (nvmet_auth_ctrl_sesskey(req, data->rval + 2 * data->hl,
++					    dhvlen) < 0)
++			return NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE;
+ 	}
+ 
+ 	response = kmalloc(data->hl, GFP_KERNEL);
+@@ -329,6 +346,8 @@ static int nvmet_auth_challenge(struct nvmet_req *req, void *d, int al)
+ 	int hash_len = nvme_auth_hmac_hash_len(ctrl->shash_id);
+ 	int data_size = sizeof(*d) + hash_len;
+ 
++	if (ctrl->dh_tfm)
++		data_size += ctrl->dh_keysize;
+ 	if (al < data_size) {
+ 		pr_debug("%s: buffer too small (al %d need %d)\n", __func__,
+ 			 al, data_size);
+@@ -347,9 +366,15 @@ static int nvmet_auth_challenge(struct nvmet_req *req, void *d, int al)
+ 		return -ENOMEM;
+ 	get_random_bytes(req->sq->dhchap_c1, data->hl);
+ 	memcpy(data->cval, req->sq->dhchap_c1, data->hl);
+-	pr_debug("%s: ctrl %d qid %d seq %u transaction %d hl %d dhvlen %u\n",
++	if (ctrl->dh_tfm) {
++		data->dhgid = ctrl->dh_gid;
++		data->dhvlen = cpu_to_le32(ctrl->dh_keysize);
++		ret = nvmet_auth_ctrl_exponential(req, data->cval + data->hl,
++						  ctrl->dh_keysize);
++	}
++	pr_debug("%s: ctrl %d qid %d seq %d transaction %d hl %d dhvlen %zu\n",
+ 		 __func__, ctrl->cntlid, req->sq->qid, req->sq->dhchap_s1,
+-		 req->sq->dhchap_tid, data->hl, 0);
++		 req->sq->dhchap_tid, data->hl, ctrl->dh_keysize);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 765db7541a87..8b239aec3ca2 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -225,6 +225,10 @@ struct nvmet_ctrl {
+ 	struct nvme_dhchap_key	*host_key;
+ 	struct nvme_dhchap_key	*ctrl_key;
+ 	u8			shash_id;
++	struct crypto_kpp	*dh_tfm;
++	u8			dh_gid;
++	u8			*dh_key;
++	size_t			dh_keysize;
+ #endif
+ };
+ 
+@@ -701,6 +705,7 @@ int nvmet_setup_auth(struct nvmet_ctrl *ctrl);
+ void nvmet_init_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req);
+ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl);
+ void nvmet_auth_sq_free(struct nvmet_sq *sq);
++int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id);
+ bool nvmet_check_auth_status(struct nvmet_req *req);
+ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
+ 			 unsigned int hash_len);
+@@ -710,6 +715,10 @@ static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl)
+ {
+ 	return ctrl->host_key != NULL;
+ }
++int nvmet_auth_ctrl_exponential(struct nvmet_req *req,
++				u8 *buf, int buf_size);
++int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
++			    u8 *buf, int buf_size);
+ #else
+ static inline int nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+ {
 -- 
 2.29.2
 
