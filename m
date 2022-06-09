@@ -4,81 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BED7C43334
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jun 2022 06:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AB6FC43334
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jun 2022 07:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VkT/w43RYepQady00SKvGmZLYIYUJQ7o/TzuvsCTwl8=; b=r2Jpzn6BpBTsKOgwWCMCD1mF4/
-	tbF+P+4xjYZ+raBPoNZrewwqdLnSd1Wu3Vgg9awNkqo0ILaRpgoM+xCk/PjmAPLpxdM2u8z6n39XR
-	UQfRcXGaggrHJRLv5cVndzvrSAgubQP5P+YuhfwGtVv5rHSGgzgkazIb15qf5duQOL6Mwa2QxKNh1
-	6cAumuNh5zKiQNxdrub/pGBVGu4//YeV7sTBk2FEYQs5WcgmzDkQpI8x97slgBbxbN37y/H97ltkj
-	BuoMzRJlSa9dYyT7acjkGDPAGh9nZXm4wvE5UjntD3Qs5Ju5Kb8ZiZDG5NXDHagUd0RZH6POVkNZK
-	vHB0x95w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=p4rjnES2y9zuUXgrH8SoYJpITOhHCu5+HvhhFNmLvrs=; b=Fr9cFsDVSOZZee34GqpmE+7QMV
+	9vHvJAPEb3nSEY4VrkVJZIkG9de2Ok1o40KhsMctre/nfl5SkePrDxoIWFTxCqUNqs90bq8FUOj/w
+	dci4aKOl+jpshcMux62N238W5iE6teCv3rCd0oiAGkGRC2Hu9orsCZ1lcvfjbHhEpiUt5DnnrEa01
+	hhS2OxaYoEK/wjF9I87qUPViteAhXSsO/oxhtZi73JGuZpVzysn4e2wB1XQNL1D+dtRr6XYlepYwF
+	umPJVcU4Gatoy5pgSTEINfJgeUQJQ4ZH7rwRnpX6BVAz2fRRd8tw92ASnbs0DT6YKywXzhGt3JqIJ
+	wfOzD4QQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzBXW-00H3yp-Bs; Thu, 09 Jun 2022 06:21:06 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1nzCtO-00HXjb-G2; Thu, 09 Jun 2022 07:47:46 +0000
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzBXR-00H3ui-Tq
-	for linux-nvme@lists.infradead.org; Thu, 09 Jun 2022 06:21:03 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BE24A21D57;
-	Thu,  9 Jun 2022 06:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1654755656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VkT/w43RYepQady00SKvGmZLYIYUJQ7o/TzuvsCTwl8=;
-	b=r3TqcUshoMtn4TuUXAZAEQBJjTsRZ3vVZZS+ZGgWkumIMI3sg8WMnRKNWFd67YPt4Znzwx
-	Bx4QM6Yt6QptooPcGQVEVXCpoyIX9fAb/lJNPQY3UwIORgyNx+289xfEJD9WoQuKaTRyPM
-	k78/BsztY+ms8ylUheAsdk0Uy9i8n4k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1654755656;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VkT/w43RYepQady00SKvGmZLYIYUJQ7o/TzuvsCTwl8=;
-	b=EalbYOj0r7CaoNCTrlaeZgvzddbFwtAJYwiwOxdkG6kjvY+VO3dnVuuJFJYRF3ENTRu3AP
-	R3SvhcoYO9Kd8BBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 76D9413A8C;
-	Thu,  9 Jun 2022 06:20:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id chmIGkiRoWJcGgAAMHmgww
-	(envelope-from <hare@suse.de>); Thu, 09 Jun 2022 06:20:56 +0000
-Message-ID: <55751e76-de76-59e1-541a-6f4c93acc378@suse.de>
-Date: Thu, 9 Jun 2022 08:20:55 +0200
+	id 1nzCtE-00HXXV-Nq
+	for linux-nvme@lists.infradead.org; Thu, 09 Jun 2022 07:47:38 +0000
+Received: by mail-ed1-x52e.google.com with SMTP id fd25so30092050edb.3
+        for <linux-nvme@lists.infradead.org>; Thu, 09 Jun 2022 00:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p4rjnES2y9zuUXgrH8SoYJpITOhHCu5+HvhhFNmLvrs=;
+        b=eJndH48XK/iAnfSAtOq7BYtVgz8PVd8VYYl3gRd8LAZAauKcP/2aRGfqualNWU14CR
+         cg8eIFXfkjb5gYYQz08ooAzn5h0IyDZNMv6HAGrtrr5G1By2YZT9+pKEgOHNz7A3rmYw
+         +i24s/1owZA6iVH6InYgMf/2eakYB4nn+mkmGITKp44cxaChd2jtanPTaxhx+tcabAqV
+         r9daPd8EbnJ0vTzaFBwsRBrqMpUUMce2HSnIS4dcn8R1Nj4f3MWCncdkDE5QLROr2fwI
+         Ls/az7zlN+iZvUtvsgY5Q1UdnllSeUZqP2aYOVJqLebOUusBtVj6YdaXxegdxHRp6Fg/
+         aAMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p4rjnES2y9zuUXgrH8SoYJpITOhHCu5+HvhhFNmLvrs=;
+        b=Me4Tgbf/41D9nHZeMdbyORiCGW7ruOAX34Bdc4r+f2p7KU/81ODbu6VdHlSx7ZA+et
+         02gw5dgZlFZ8Y3cGHVV6QH+QSM3j3Vmh51DHVxTTn8o5GRzVcFupJMdsH5HGqE1IRhe0
+         /+jkzY04PZ35ypmULvfZUtrqXLq+p2vNbNPtRCZH7e4SvN2rP2gaJk64V7WJFwbLwrgA
+         2x/wFS3ci7v9GInKcbJfiw4BBttR1/eDqALmUKYiSZv4wspLJz8ipAWsOTvZqRJA/59E
+         r3Fj20DeBgQpdBS2k/ExUiuxUZbAwHy2XtLAmf3TmdRDMG+2LUEmZaAxCu8KwKApjOzQ
+         HWIA==
+X-Gm-Message-State: AOAM531eHRQCFhs+Qz3babbh5mO5eoIyYZzKPGHBQr6BmLa+KZSUtmoO
+	e0erDIbMRLFbxD989MV14gBlQMFgztCfUTHnLMEijKmeeOc=
+X-Google-Smtp-Source: ABdhPJweOQDm12Rr9v9rrL2Lden8l5bvFzB/F9jaPz4PYfH5azCtumo+59vh0yLwD2HAZ4pAkjiBj52NYzUHORYLcVc=
+X-Received: by 2002:a05:6402:3688:b0:42d:d3ba:4725 with SMTP id
+ ej8-20020a056402368800b0042dd3ba4725mr44044356edb.212.1654760851964; Thu, 09
+ Jun 2022 00:47:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCHv14 00/11] nvme: In-band authentication support
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20220608144518.67607-1-hare@suse.de>
- <bc6d292f-f1f7-3cc4-772b-ef8e2a6466db@nvidia.com>
- <3d2cd533-6bd8-abfa-4df9-40aa6a2eae63@suse.de>
-In-Reply-To: <3d2cd533-6bd8-abfa-4df9-40aa6a2eae63@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAMGffEmx1xk1MP30NTzn1tcS27Mc5fVudnkfYeqJrOxs_HYZfQ@mail.gmail.com>
+ <9d630d8c-f872-ebf5-2ccd-b7097e726ca9@nvidia.com>
+In-Reply-To: <9d630d8c-f872-ebf5-2ccd-b7097e726ca9@nvidia.com>
+From: Jinpu Wang <jinpu.wang@ionos.com>
+Date: Thu, 9 Jun 2022 09:47:21 +0200
+Message-ID: <CAMGffEk2-sEezeyKpn058DrR=4aSncJmTHysmL5GO1gxd62neA@mail.gmail.com>
+Subject: Re: [BUG]LTS 5.10 regression NULL pointer deref in nvme_ioctl
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220608_232102_160248_03600104 
-X-CRM114-Status: GOOD (  16.18  )
+X-CRM114-CacheID: sfid-20220609_004736_914529_A6E7CA31 
+X-CRM114-Status: GOOD (  12.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,82 +83,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/9/22 08:08, Hannes Reinecke wrote:
-> On 6/9/22 03:13, Chaitanya Kulkarni wrote:
->> On 6/8/22 07:45, Hannes Reinecke wrote:
->>> Hi all,
->>>
->>> recent updates to the NVMe spec have added definitions for in-band
->>> authentication, and seeing that it provides some real benefit
->>> especially for NVMe-TCP here's an attempt to implement it.
->>>
->>> Thanks to Nicolai Stange the crypto DH framework has been upgraded
->>> to provide us with a FFDHE implementation; I've updated the patchset
->>> to use the ephemeral key generation provided there.
->>>
->>> Note that this is just for in-band authentication. Secure
->>> concatenation (ie starting TLS with the negotiated parameters)
->>> requires a TLS handshake, which the in-kernel TLS implementation
->>> does not provide. This is being worked on with a different patchset
->>> which is still WIP.
->>>
->>> The nvme-cli support has already been merged; please use the latest
->>> nvme-cli git repository to build the most recent version.
->>>
->>> A copy of this patchset can be found at
->>> git://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel
->>> branch auth.v14
->>>
->>> The patchset is being cut against v5.18.
->>>
->>> As usual, comments and reviews are welcome.
->>>
->>
->>
->> blktests (master) # ./check nvme/039
->> nvme/039 (Create authenticated connections)                  [failed]
->>       runtime  1.400s  ...  1.707s
->>       --- tests/nvme/039.out    2022-06-08 18:09:06.239931529 -0700
->>       +++ /mnt/data/blktests/results/nodev/nvme/039.out.bad    2022-06-08
->> 18:09:40.596663692 -0700
->>       @@ -1,6 +1,7 @@
->>        Running nvme/039
->>       +tests/nvme/rc: line 269: printf: write error: Invalid argument
->>        Test unauthenticated connection
->>       -no controller found
->>       +no controller found: failed to write to nvme-fabrics device
->>        NQN:blktests-subsystem-1 disconnected 0 controller(s)
->>        Test authenticated connection
->>       ...
->>       (Run 'diff -u tests/nvme/039.out > 
->> /mnt/data/blktests/results/nodev/nvme/039.out.bad' to see the entire 
-> diff)
-> 
-> Hmm. Not sure what has happened here, but all blktests worked on my 
-> testbed. I'll be rechecking with the latest nvme-cli build.
-> 
-> Which nvme-cli version did you use?
-> 
-Retested with latest nvme-cli:
-
-# bash ./check tests/nvme/039
-nvme/039 (Create authenticated connections)                  [passed]
-     runtime  1.625s  ...  1.667s
-# bash ./check tests/nvme/040
-nvme/040 (Test dhchap key types for authenticated connections) [passed]
-     runtime  10.497s  ...  10.657s
-
-So not sure what is happening at your end; the 'invalid argument' seems 
-to indicate that the 'connect' arguments are not understood.
-Maybe a missing config option during kernel build?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+On Thu, Jun 9, 2022 at 2:32 AM Chaitanya Kulkarni <chaitanyak@nvidia.com> wrote:
+>
+> On 6/8/22 01:02, Jinpu Wang wrote:
+> > Hi folks on nvme list,
+> >
+> > We hitt the following crash when run "nvme list" on kernel 5.10.115:
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/arch/x86/kernel/dumpstack.c:
+> > 359
+> >
+> >   #4 [ffffa80c7a5c7d10] no_context at ffffffffa7062467
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/arch/x86/mm/fault.c: 754
+> >
+> >   #5 [ffffa80c7a5c7d78] exc_page_fault at ffffffffa77c919e
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/arch/x86/mm/fault.c: 1327
+> >
+> >   #6 [ffffa80c7a5c7dd0] asm_exc_page_fault at ffffffffa7800a6e
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/./arch/x86/include/asm/idtentry.h:
+> > 571
+> >
+> >   #7 [ffffa80c7a5c7e58] nvme_ioctl at ffffffffc10c1038 [nvme_core]
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/drivers/nvme/host/nvme.h: 609
+> >
+> >   #8 [ffffa80c7a5c7ec0] blkdev_ioctl at ffffffffa73f6bc5
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/block/ioctl.c: 237
+> >
+> >   #9 [ffffa80c7a5c7f08] block_ioctl at ffffffffa72c3329
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/fs/block_dev.c: 1893
+> >
+> > #10 [ffffa80c7a5c7f10] __x64_sys_ioctl at ffffffffa7292fe4
+> >
+> >      /build/ionos-linux-pOGXys/ionos-linux-5.10.42/fs/ioctl.c: 49
+> >
+> >
+> >
+> > 607 static inline void nvme_get_ctrl(struct nvme_ctrl *ctrl)
+> >
+> > 608 {
+> >
+> > 609         get_device(ctrl->device);
+> >
+> > 610 }
+> > The same commands works on kernel 5.4.
+> >
+> > kernel 5.10 panic while processing nvme2 which is  a bit different.
+> >
+>
+> Did you try if it works on the latest kernel ?
+I just tried with 5.15.32, it works there, so it's just a regression
+already fixed later.
+>
+> -ck
+>
+>
 
