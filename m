@@ -4,76 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B201DC433EF
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jun 2022 08:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15C75C433EF
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jun 2022 08:58:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fT4kfHBd0/oRv2uFCKoqenVhcKchfeKcVMd89ZZ/UXk=; b=i4deG8aWYD6X8LC9zUp0+9zxa+
-	R28chuaWakJSVFefBMpT205Ta5mUfFfiqYKDtiv9QTNe99PPOz39fI2IMSRGkiMhL0ikwLf9P7yQf
-	8L6vcyQwhl4PjSu55mBzkuXpVq6+3Ezwton55qygNWqZsC2o+8UUJCSEA2DtczHaqBHmdJhx1eVbW
-	SNmVrLEOFvGIidD8LLEYK2S3EJ69kBP5An0LSn/B+Qd886+kVBHd3JMMwXt7dYo5YmyJvM0MnWxrS
-	KRpsnJhCCPxrk9/OKU5mKsR1wF+85qfmkjgX2APgku8OvysE+R5LsAHDjo+BWltiJcwk4E9toTpvA
-	ESzZxd8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=B2dDMHfrQBIFCsGOyc6iUSyEV9nvom4+iCQjiNqjREs=; b=JBi7VQoYjBw+5UkWe1EfqVOpOF
+	N0eJAZd+hv+cesmxg3xSMO2xGTyq+jddWuu/i5B0FKBVvQHS5hK2cEy2T1elDyZgDz9PD5HV/dslP
+	cOTRhGIpz4H0Ez4mFYPAhlGS3E60OqIb2WgY2we0ksz184CIQ98RkCKwTpyCLM5EVD01fEkWg7ZtG
+	4e2w4gNF07swbarJevwNZcqMko7j/w8fTzvRgBBGBtrKmcHoTHasVEB3nFdZ9CCGzhZfBUfao21xf
+	RQsGLwE0P/sA5BbhAR36Z3eAfk9bCNP7H9EAG98/TaS31kc0YhoEm2ctv5MxR5uGRz/lCJON5d+CZ
+	Hf0Dfidw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzDrB-000OGu-4C; Thu, 09 Jun 2022 08:49:33 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1nzE0E-000TFl-Mz; Thu, 09 Jun 2022 08:58:54 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzDca-000HIO-SF
-	for linux-nvme@lists.infradead.org; Thu, 09 Jun 2022 08:34:30 +0000
+	id 1nzDjY-000KNW-LL
+	for linux-nvme@lists.infradead.org; Thu, 09 Jun 2022 08:41:42 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 434816173A
-	for <linux-nvme@lists.infradead.org>; Thu,  9 Jun 2022 08:34:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80D0EC3411E
-	for <linux-nvme@lists.infradead.org>; Thu,  9 Jun 2022 08:34:27 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id A8E89B82C86;
+	Thu,  9 Jun 2022 08:41:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62235C3411B;
+	Thu,  9 Jun 2022 08:41:36 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="oS5vlGJc"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="aSNkRAYF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1654763664;
+	t=1654764094;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fT4kfHBd0/oRv2uFCKoqenVhcKchfeKcVMd89ZZ/UXk=;
-	b=oS5vlGJcnsJeIcskWfzosweRKFkVlmspV4/ddozWtEzmxCJVCBcGuGPBxNJCJMybGGyYSA
-	OEgAmfNGJpK9pgkeLYvMVWw4PcQo7zkBNrhIVTKlFs189n8270LLPzwv91b2Tq5uE/Y5aX
-	R7DQZbE98rrydpJxsRFCiHgwldW8o4g=
-Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 067cde6f (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO)
-	for <linux-nvme@lists.infradead.org>;
-	Thu, 9 Jun 2022 08:34:24 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id e184so40575816ybf.8
-        for <linux-nvme@lists.infradead.org>; Thu, 09 Jun 2022 01:34:23 -0700 (PDT)
-X-Gm-Message-State: AOAM5307CxZ4DlgFAqtuO+6y44Sq+NzenmCkPIKlp1cAZW8983OqrQV4
-	B7lo31skP5lxs2NrwKtxmffaUMghPl3Pe4+15iY=
-X-Google-Smtp-Source: ABdhPJz3a/TKVZt91DBhUMtZf39JYzLb6AW4mDoaRwyNprXq2pSTTWw2Z7U+Bg3Vly+mCd2t2kb2i1Ht7bFjR931Z2s=
-X-Received: by 2002:a25:bf85:0:b0:64a:422c:24e7 with SMTP id
- l5-20020a25bf85000000b0064a422c24e7mr38705591ybk.637.1654763662531; Thu, 09
- Jun 2022 01:34:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHj4cs_iC+FE8ZAXXZPeia1V3ZX7zRbeASdOP_8c7DLiFozNfA@mail.gmail.com>
- <Ykyf5Zuz1W8yHhNY@zx2c4.com> <CAHmME9pwz4q0m-pSUy7ReWu4nNzxySNcYZrqyDZiTuGxHN=1NQ@mail.gmail.com>
-In-Reply-To: <CAHmME9pwz4q0m-pSUy7ReWu4nNzxySNcYZrqyDZiTuGxHN=1NQ@mail.gmail.com>
+	bh=B2dDMHfrQBIFCsGOyc6iUSyEV9nvom4+iCQjiNqjREs=;
+	b=aSNkRAYF0Iq1LpZDCM7juqJ+gmJryJUgZG6y9XAnk2+DePTMoHgr+sclGaRCohaFQFweOd
+	YxUrpiBtMxpl7l7zM8uElKABfGbFlATl5gyUp0IzdbHXGMjZgOMKf9No6Nun9JMLXi01cf
+	4/N04tfzPxdjxT+AC6OA+vlxKu5CnBI=
+Received: 	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2561c0a4 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+	Thu, 9 Jun 2022 08:41:33 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 9 Jun 2022 10:34:11 +0200
-X-Gmail-Original-Message-ID: <CAHmME9o-orF52HzkT80054e3Op5fLOcTHb-KHpvvU7H3FpAJ7A@mail.gmail.com>
-Message-ID: <CAHmME9o-orF52HzkT80054e3Op5fLOcTHb-KHpvvU7H3FpAJ7A@mail.gmail.com>
-Subject: Re: 2 second nvme initialization delay regression in 5.18 [Was: Re:
- [bug report]nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2) MORE DNR
- observed during blktests]
-To: monish.kumar.r@intel.com
-Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	alan.adamson@oracle.com, LKML <linux-kernel@vger.kernel.org>, 
-	Yi Zhang <yi.zhang@redhat.com>, Keith Busch <kbusch@kernel.org>, axboe@fb.com, 
-	Christoph Hellwig <hch@lst.de>, abhijeet.rao@intel.com
-Content-Type: text/plain; charset="UTF-8"
+To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	alan.adamson@oracle.com,
+	LKML <linux-kernel@vger.kernel.org>,
+	Yi Zhang <yi.zhang@redhat.com>,
+	Keith Busch <kbusch@kernel.org>,
+	axboe@fb.com,
+	Christoph Hellwig <hch@lst.de>,
+	abhijeet.rao@intel.com,
+	monish.kumar.r@intel.com
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] Revert "nvme-pci: add quirks for Samsung X5 SSDs"
+Date: Thu,  9 Jun 2022 10:40:51 +0200
+Message-Id: <20220609084051.4445-1-Jason@zx2c4.com>
+In-Reply-To: <CAHmME9o-orF52HzkT80054e3Op5fLOcTHb-KHpvvU7H3FpAJ7A@mail.gmail.com>
+References: <CAHmME9o-orF52HzkT80054e3Op5fLOcTHb-KHpvvU7H3FpAJ7A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220609_013429_011096_6516896D 
-X-CRM114-Status: GOOD (  13.03  )
+X-CRM114-CacheID: sfid-20220609_014140_875957_D905C5D6 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,27 +83,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey again,
+This reverts commit bc360b0b1611566e1bd47384daf49af6a1c51837.
 
-Figured it out. 2.3 seconds to be exact... It looks like this is caused by:
+This matches the hardware identifier of the Samsung 970 EVO Plus, a very
+popular internal laptop NVMe drive, which is not the Samsung X5, an
+external thunderbolt drive. In particular, this causes:
 
-bc360b0b1611 ("nvme-pci: add quirks for Samsung X5 SSDs")
-https://lore.kernel.org/all/20220316075449.18906-1-monish.kumar.r@intel.com/
+1) a 2.3 second boot time delay; and
+2) disabling of deep power saving states.
 
-This commit doesn't have any justification and got applied without
-much discussion. Perhaps Monish could supply some more info about why
-this is needed here? FTR, I have no issues on my system when reverting
-that. Perhaps it should be reverted. (I can send a revert commit for
-that if necessary.)
+So just revert this until whatever funny business can be worked out
+regarding Samsung's PCI IDs.
 
-Looking further, however, the PCIe ID is said to be for a "Samsung
-X5", which Google says is a portable thunderbolt drive. Is the PCIe ID
-correct? On my system, this is the PCIe ID of a Samsung 970 EVO Plus.
-Is it possible that Monish copied and pasted the wrong PCIe ID? Or has
-Samsung *reused* the same PCIe ID on both devices? In which case, we'd
-need some additional data for that quirk to avoid the delay.
+Fixes: bc360b0b1611 ("nvme-pci: add quirks for Samsung X5 SSDs")
+Cc: stable@vger.kernel.org
+Cc: Monish Kumar R <monish.kumar.r@intel.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ drivers/nvme/host/pci.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Also note that this (potentially errant) commit has been backported to stable.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 48f4f6eb877b..47b9e3e0ea5a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3483,10 +3483,7 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_128_BYTES_SQES |
+ 				NVME_QUIRK_SHARED_TAGS |
+ 				NVME_QUIRK_SKIP_CID_GEN },
+-	{ PCI_DEVICE(0x144d, 0xa808),   /* Samsung X5 */
+-		.driver_data =  NVME_QUIRK_DELAY_BEFORE_CHK_RDY|
+-				NVME_QUIRK_NO_DEEPEST_PS |
+-				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
++
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ 0, }
+ };
+-- 
+2.35.1
 
-Jason
 
