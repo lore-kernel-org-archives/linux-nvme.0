@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55C94C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 20:10:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B081C43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 20:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mlVah37siRWUWBy0LAmeGrNqNHKmkneld6bcywwyZNw=; b=ySnn3wrw3VR9LfmFffMl8wNilt
-	JdMZ7xOQL6NVUTFdWnZS5l0WqEB29G359mG2KNNYsfm7+7+uzsY5pQxjmt+so0nr9X7l8qvblFnhu
-	KGsLV+AZ0QNVBXCLQ+69iMto0hiboy9yj2wyNerfb2+awrc9q9R7/4sDWZdIGat7OhxVlaTQUVBmu
-	sEBxWs4kuaXtO96KStQNzezW99rqRPVaaVFdRbojGGwuQHZZ/I81fpy27CdKOoG33ggKkXbugQYYd
-	29oRrbm11LBvKoMKkpO5o6hn+EacYah+k2of3dW3g73ytNAOhdtXtjN383i8QrqZfJ6t4oHk+sb8v
-	LcJrfH5A==;
+	bh=1nZ8QnF0btvr2N223v+ysMCy2G8tPU19RrjuX31LHoQ=; b=WesRwsPm5uYBSiQVoRiQeKFArQ
+	XvUVFy6TJn70jsC6lM0Pjhgv/izyp1+XeXaXEpSUublhIsuC9C3CK4sjb619oe47by/B/Wr2RE7nn
+	6JKviQlRyZxghWn9PRNJWjg2KUbDSlx0Q14YswVnmbulh7vNntt6KLYpAmTlI4wc5oCSjjP1YPjY5
+	28mJnzljN9peNGfctZo2JJCDZJzVW07qvpF1MDW7c4Uvff7xToscuBcu2vjdVWCzJob3SqUIspCnQ
+	MOVszDbRKEMr518wURPJXE/2DHDankt3jCzpMyYBR69fq8w64CdvpVxqdDCUozLUpIIVYE0D/T+kL
+	dSIYNnGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzkxV-009ejj-Mr; Fri, 10 Jun 2022 20:10:17 +0000
+	id 1nzkxZ-009ekT-OY; Fri, 10 Jun 2022 20:10:21 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzkxR-009ei7-K5
+	id 1nzkxS-009eiV-5B
 	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 20:10:15 +0000
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AHHZl6031895
-	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:10:13 -0700
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AHKGLY019167
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:10:14 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=mlVah37siRWUWBy0LAmeGrNqNHKmkneld6bcywwyZNw=;
- b=XVtUQEGF87zrS1oOcqaWmHPRxNMJniZ9tdOWqFKowFkODVkvbKdg39TEWsuVYZHuBwaU
- ycjRfRfinI27x/Pa65F2318wWjpkyU1LEP4EQEWfKSQy06t8b4iki1giYooFNCn7ZxCx
- c65DfK1eNkeonpkKk6k7b8Q+HUjCaHEY2+M= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gma7n17yv-2
+ bh=1nZ8QnF0btvr2N223v+ysMCy2G8tPU19RrjuX31LHoQ=;
+ b=dBhvCbA16YyypczMbjs39+GmZ22y3SMEuGMn9wMiFKrTCAzvv50SZaGiMOOdyE9hJ8G/
+ /JeksmD6ILMMuwJCpMdp8kkOnqOYicQJsV68RVodcNRjGKpImUuYJYU082HvBvK1fVyl
+ NEOzYpWspwrcgOUlvakg5xYRC2wFbxS5IJg= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gma9316x2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:10:13 -0700
-Received: from twshared10560.18.frc3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
+Received: from twshared22934.08.ash9.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Fri, 10 Jun 2022 13:10:11 -0700
+ 15.1.2375.28; Fri, 10 Jun 2022 13:10:12 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id DF25F4E9D6A4; Fri, 10 Jun 2022 12:58:31 -0700 (PDT)
+	id 0D9C74E9D6A7; Fri, 10 Jun 2022 12:58:31 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
@@ -52,11 +52,10 @@ CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <bvanassche@acm.org>, <damien.lemoal@opensource.wdc.com>,
         <ebiggers@kernel.org>, <pankydev8@gmail.com>,
         Keith Busch
-	<kbusch@kernel.org>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCHv6 06/11] block/merge: count bytes instead of sectors
-Date: Fri, 10 Jun 2022 12:58:25 -0700
-Message-ID: <20220610195830.3574005-7-kbusch@fb.com>
+	<kbusch@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCHv6 07/11] block/bounce: count bytes instead of sectors
+Date: Fri, 10 Jun 2022 12:58:26 -0700
+Message-ID: <20220610195830.3574005-8-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220610195830.3574005-1-kbusch@fb.com>
 References: <20220610195830.3574005-1-kbusch@fb.com>
@@ -64,14 +63,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: OqdMKfxYlcIDFPxQAV6ztjzOMYURsU-Q
-X-Proofpoint-GUID: OqdMKfxYlcIDFPxQAV6ztjzOMYURsU-Q
+X-Proofpoint-GUID: yAbwwUxLLJtCP4FIMMLfXprsdOijLasg
+X-Proofpoint-ORIG-GUID: yAbwwUxLLJtCP4FIMMLfXprsdOijLasg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-10_08,2022-06-09_02,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_131013_717598_3CFA0829 
-X-CRM114-Status: GOOD (  21.16  )
+X-CRM114-CacheID: sfid-20220610_131014_244558_C168F826 
+X-CRM114-Status: GOOD (  16.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,138 +90,47 @@ From: Keith Busch <kbusch@kernel.org>
 Individual bv_len's may not be a sector size.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
 ---
- block/blk-merge.c | 41 ++++++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ block/bounce.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 7771dacc99cb..3874619ba136 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -201,11 +201,11 @@ static inline unsigned get_max_segment_size(const s=
-truct request_queue *q,
-  * @nsegs:    [in,out] Number of segments in the bio being built. Increm=
-ented
-  *            by the number of segments from @bv that may be appended to=
- that
-  *            bio without exceeding @max_segs
-- * @sectors:  [in,out] Number of sectors in the bio being built. Increme=
-nted
-- *            by the number of sectors from @bv that may be appended to =
-that
-- *            bio without exceeding @max_sectors
-+ * @bytes:    [in,out] Number of bytes in the bio being built. Increment=
-ed
-+ *            by the number of bytes from @bv that may be appended to th=
-at
-+ *            bio without exceeding @max_bytes
-  * @max_segs: [in] upper bound for *@nsegs
-- * @max_sectors: [in] upper bound for *@sectors
-+ * @max_bytes: [in] upper bound for *@bytes
-  *
-  * When splitting a bio, it can happen that a bvec is encountered that i=
-s too
-  * big to fit in a single segment and hence that it has to be split in t=
-he
-@@ -216,10 +216,10 @@ static inline unsigned get_max_segment_size(const s=
-truct request_queue *q,
-  */
- static bool bvec_split_segs(const struct request_queue *q,
- 			    const struct bio_vec *bv, unsigned *nsegs,
--			    unsigned *sectors, unsigned max_segs,
--			    unsigned max_sectors)
-+			    unsigned *bytes, unsigned max_segs,
-+			    unsigned max_bytes)
- {
--	unsigned max_len =3D (min(max_sectors, UINT_MAX >> 9) - *sectors) << 9;
-+	unsigned max_len =3D min(max_bytes, UINT_MAX) - *bytes;
- 	unsigned len =3D min(bv->bv_len, max_len);
- 	unsigned total_len =3D 0;
- 	unsigned seg_size =3D 0;
-@@ -237,7 +237,7 @@ static bool bvec_split_segs(const struct request_queu=
-e *q,
- 			break;
- 	}
-=20
--	*sectors +=3D total_len >> 9;
-+	*bytes +=3D total_len;
-=20
- 	/* tell the caller to split the bvec if it is too big to fit */
- 	return len > 0 || bv->bv_len > max_len;
-@@ -269,8 +269,8 @@ static struct bio *blk_bio_segment_split(struct reque=
-st_queue *q,
- {
- 	struct bio_vec bv, bvprv, *bvprvp =3D NULL;
+diff --git a/block/bounce.c b/block/bounce.c
+index 8f7b6fe3b4db..fbadf179601f 100644
+--- a/block/bounce.c
++++ b/block/bounce.c
+@@ -205,19 +205,26 @@ void __blk_queue_bounce(struct request_queue *q, st=
+ruct bio **bio_orig)
+ 	int rw =3D bio_data_dir(*bio_orig);
+ 	struct bio_vec *to, from;
  	struct bvec_iter iter;
--	unsigned nsegs =3D 0, sectors =3D 0;
--	const unsigned max_sectors =3D get_max_io_size(q, bio);
-+	unsigned nsegs =3D 0, bytes =3D 0;
-+	const unsigned max_bytes =3D get_max_io_size(q, bio) << 9;
- 	const unsigned max_segs =3D queue_max_segments(q);
+-	unsigned i =3D 0;
++	unsigned i =3D 0, bytes =3D 0;
+ 	bool bounce =3D false;
+-	int sectors =3D 0;
++	int sectors;
 =20
- 	bio_for_each_bvec(bv, bio, iter) {
-@@ -282,12 +282,12 @@ static struct bio *blk_bio_segment_split(struct req=
-uest_queue *q,
- 			goto split;
-=20
- 		if (nsegs < max_segs &&
--		    sectors + (bv.bv_len >> 9) <=3D max_sectors &&
-+		    bytes + bv.bv_len <=3D max_bytes &&
- 		    bv.bv_offset + bv.bv_len <=3D PAGE_SIZE) {
- 			nsegs++;
--			sectors +=3D bv.bv_len >> 9;
--		} else if (bvec_split_segs(q, &bv, &nsegs, &sectors, max_segs,
--					 max_sectors)) {
-+			bytes +=3D bv.bv_len;
-+		} else if (bvec_split_segs(q, &bv, &nsegs, &bytes, max_segs,
-+					   max_bytes)) {
- 			goto split;
- 		}
-=20
-@@ -300,13 +300,20 @@ static struct bio *blk_bio_segment_split(struct req=
-uest_queue *q,
- split:
- 	*segs =3D nsegs;
+ 	bio_for_each_segment(from, *bio_orig, iter) {
+ 		if (i++ < BIO_MAX_VECS)
+-			sectors +=3D from.bv_len >> 9;
++			bytes +=3D from.bv_len;
+ 		if (PageHighMem(from.bv_page))
+ 			bounce =3D true;
+ 	}
+ 	if (!bounce)
+ 		return;
 =20
 +	/*
-+	 * Individual bvecs might not be logical block aligned. Round down the
-+	 * split size so that each bio is properly block size aligned, even if
-+	 * we do not use the full hardware limits.
++	 * Individual bvecs might not be logical block aligned. Round down
++	 * the split size so that each bio is properly block size aligned,
++	 * even if we do not use the full hardware limits.
 +	 */
-+	bytes =3D ALIGN_DOWN(bytes, queue_logical_block_size(q));
-+
- 	/*
- 	 * Bio splitting may cause subtle trouble such as hang when doing sync
- 	 * iopoll in direct IO routine. Given performance gain of iopoll for
- 	 * big IO can be trival, disable iopoll when split needed.
- 	 */
- 	bio_clear_polled(bio);
--	return bio_split(bio, sectors, GFP_NOIO, bs);
-+	return bio_split(bio, bytes >> SECTOR_SHIFT, GFP_NOIO, bs);
- }
-=20
- /**
-@@ -375,7 +382,7 @@ EXPORT_SYMBOL(blk_queue_split);
- unsigned int blk_recalc_rq_segments(struct request *rq)
- {
- 	unsigned int nr_phys_segs =3D 0;
--	unsigned int nr_sectors =3D 0;
-+	unsigned int bytes =3D 0;
- 	struct req_iterator iter;
- 	struct bio_vec bv;
-=20
-@@ -398,7 +405,7 @@ unsigned int blk_recalc_rq_segments(struct request *r=
-q)
- 	}
-=20
- 	rq_for_each_bvec(bv, rq, iter)
--		bvec_split_segs(rq->q, &bv, &nr_phys_segs, &nr_sectors,
-+		bvec_split_segs(rq->q, &bv, &nr_phys_segs, &bytes,
- 				UINT_MAX, UINT_MAX);
- 	return nr_phys_segs;
- }
++	sectors =3D ALIGN_DOWN(bytes, queue_logical_block_size(q)) >>
++			SECTOR_SHIFT;
+ 	if (sectors < bio_sectors(*bio_orig)) {
+ 		bio =3D bio_split(*bio_orig, sectors, GFP_NOIO, &bounce_bio_split);
+ 		bio_chain(bio, *bio_orig);
 --=20
 2.30.2
 
