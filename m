@@ -4,69 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9C6AC433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 17:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9A1AC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 20:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=22RHSSRQaTCmv5hZteJhWUG4zX5WVcwu1MZmuQ3cfpw=; b=3iEtcaTRAmhW/6p8vSz/h+9YsT
-	P4KgvhsmCZHnR7nLKPngRGBD1QiTpd6rITebrbywjAmWQghz4Taga0HtjOvcVLBnnHdO3Tc+9LN1H
-	x8KdTiga1Mp8LlateEefkLcr25zR62qEk6H2R1Q891JOGuo3RfaFIWTneEyES2isWDIvYxBXxSfWV
-	5Hpw90MmZWRChzJEzKxeLjDqh+mtb95HPoi+leKqGDO9HXo2+/Dra2XOczs59+LKJrkF5/05rYsGF
-	LMnTFKMYtD8pytqlk2oBInKOK9TAniQ8X5oQxr48tOETRbq8Rfwhiu2427vforN9PJVulm2F4NgU2
-	zyppD1rA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/wnmJuKQZVcMXWwCKnMHfnjWFVxRy3y7qywtFzmwz5s=; b=C7uy3CBNC/ea/7En5S2oQaX9Ou
+	CD/UYLBapr3cLwQ9IX2U+YixkkCc4AKcCtsP2GYJ5bxP9q7uFREDIyWOKqtiztSmovLgn9a+PYAmM
+	LtwRI524GyJHT8zxzHiGtZ5uzoLMNPaN+ASGIpJUK2RgAJHKKyd/n8yVrglPB/tKJdJYPYQOEXCvp
+	fwwelsPRpF2DOpoyE5DaBvW8zVeNND5V9wRnIyX+cTQLlD4pDXNRD2XgrWjzVLlQ3HGpgk1sAf60x
+	nTXzmZ4eTY6/kRpv/Pu4EayS/tB9jgaU0M9sFUfsXHbRG+HF8UF30OZSkw32u5CrihAzbq4ZVafvE
+	sFSo/5lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nziKX-0098Xm-DH; Fri, 10 Jun 2022 17:21:53 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1nzkor-009czC-Gb; Fri, 10 Jun 2022 20:01:21 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nziKV-0098XA-4P
-	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 17:21:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654881711; x=1686417711;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pPPM6I43ejXvp7L/23xgTB1tN04Ns7/Fh7W9HZ1ijdE=;
-  b=NtlGJVYmpOUot3MYVqS9ZMaIye5Y0qC1bYnWkiz+aHVcB/q0T3SMVYfG
-   sRp16NB0PMnlZenVZKznB1UgkPnAXeO3eyfocpjSV7KM/l/V0SgKm7Bip
-   jtLZFlxhrNOW6RBEhHFnsEHHD+xPP5j9TV1ZdlnJK9Eryrdg3bblUFcxF
-   n5kEBOMBZvgbaxYIlnpGHScz5zkDBjMxCUGHxsllRBIDR7oMjwjVqbzS/
-   WKaLHkKVbg7Q8Fe32dO+mSzoA1msZ4Oza7wo9RMXvfdystEzihbA94v4+
-   ZAnzzW9uzeeElvHnueqegbC0KcQG1b6ZTnExiA3KdPhfbycHcgxlFLptQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="257520246"
-X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; 
-   d="scan'208";a="257520246"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2022 10:21:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; 
-   d="scan'208";a="566927874"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jun 2022 10:21:46 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nziKQ-000I8z-1G;
-	Fri, 10 Jun 2022 17:21:46 +0000
-Date: Sat, 11 Jun 2022 01:21:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-5.19] BUILD SUCCESS
- 91e85faffdfbe1612bf25bfdf37e7118a4a84998
-Message-ID: <62a37d86.+KqFBpqBSfNxsyXU%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	id 1nzkom-009cxE-Rg
+	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 20:01:18 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AIATpK020290
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:01:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=/wnmJuKQZVcMXWwCKnMHfnjWFVxRy3y7qywtFzmwz5s=;
+ b=JUu//sj3fkZZ2jGzsb4b7anJHujMJlazo0N+S65Ha+EypIxi7rg7CGnjhwjQdQEtML0r
+ /qRn4NdLyofj/XsKTDdcXCQlAw5fLusdeRegQSdnBbrqJElX3h5TEQV5OD7uVR9+86Se
+ KfH6Bcz8Z/FLin2c/RUKPHnYnd6g5bKTXEw= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gmb0hgmqc-5
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:01:13 -0700
+Received: from twshared17349.03.ash7.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Fri, 10 Jun 2022 13:01:09 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 3427E4E9D686; Fri, 10 Jun 2022 12:58:31 -0700 (PDT)
+From: Keith Busch <kbusch@fb.com>
+To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
+        <linux-nvme@lists.infradead.org>
+CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
+        <bvanassche@acm.org>, <damien.lemoal@opensource.wdc.com>,
+        <ebiggers@kernel.org>, <pankydev8@gmail.com>,
+        Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv6 00/11] direct-io dma alignment
+Date: Fri, 10 Jun 2022 12:58:19 -0700
+Message-ID: <20220610195830.3574005-1-kbusch@fb.com>
+X-Mailer: git-send-email 2.30.2
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: WxIQYfEBoqkc6cCJnpUeWgxZbx3SwcQ5
+X-Proofpoint-ORIG-GUID: WxIQYfEBoqkc6cCJnpUeWgxZbx3SwcQ5
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-10_08,2022-06-09_02,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_102151_274981_AFB15402 
-X-CRM114-Status: UNSURE (   7.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20220610_130116_963079_797CCB68 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,99 +82,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-5.19
-branch HEAD: 91e85faffdfbe1612bf25bfdf37e7118a4a84998  nvme-pci: add trouble shooting steps for timeouts
+From: Keith Busch <kbusch@kernel.org>
 
-elapsed time: 4724m
+The previous version is available here:
 
-configs tested: 77
-configs skipped: 3
+  https://lore.kernel.org/linux-block/Yp4qQRI5awiycml1@kbusch-mbp.dhcp.thef=
+acebook.com/T/#m0a93b6392038aad6144e066fb5ada2cbf316f78e=20
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Changes from the previous are all trivial changes:
 
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-arm64                            allyesconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-alpha                               defconfig
-csky                                defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-parisc                           allyesconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-powerpc                          allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a011
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                          rhel-8.3-func
-x86_64                           rhel-8.3-syz
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                                  kexec
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
+  Fixed a typo, s/bvev_/bdev_/
 
-clang tested configs:
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a005
-x86_64                        randconfig-a003
-x86_64                        randconfig-a001
-i386                          randconfig-a011
-x86_64                        randconfig-a012
-hexagon              randconfig-r045-20220609
-s390                 randconfig-r044-20220609
-riscv                randconfig-r042-20220609
-hexagon              randconfig-r041-20220609
+  Updated commit messages and reviews
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+  Updated code comments
+
+  Added a new comment for request_queue dma_alignement expressly
+  documenting the consequences of setting this. All existing users of
+  this attribute were checked to ensure they are on the correct side of
+  those consequences.
+
+Keith Busch (11):
+  block: fix infinite loop for invalid zone append
+  block/bio: remove duplicate append pages code
+  block: export dma_alignment attribute
+  block: introduce bdev_dma_alignment helper
+  block: add a helper function for dio alignment
+  block/merge: count bytes instead of sectors
+  block/bounce: count bytes instead of sectors
+  iov: introduce iov_iter_aligned
+  block: introduce bdev_iter_is_aligned helper
+  block: relax direct io memory alignment
+  iomap: add support for dma aligned direct-io
+
+ Documentation/ABI/stable/sysfs-block |   9 +++
+ block/bio.c                          | 114 ++++++++++++---------------
+ block/blk-merge.c                    |  41 ++++++----
+ block/blk-sysfs.c                    |   7 ++
+ block/bounce.c                       |  13 ++-
+ block/fops.c                         |  16 ++--
+ fs/iomap/direct-io.c                 |   4 +-
+ include/linux/blkdev.h               |  17 ++++
+ include/linux/uio.h                  |   2 +
+ lib/iov_iter.c                       |  92 +++++++++++++++++++++
+ 10 files changed, 224 insertions(+), 91 deletions(-)
+
+--=20
+2.30.2
+
 
