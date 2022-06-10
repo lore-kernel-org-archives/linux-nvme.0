@@ -4,57 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87182C43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 20:04:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26DDCC433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 20:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7uKXzg/OPyXABdABOidNCjnrvjXhXTUMSABSngag/3w=; b=shdh1mctOXgtZgldKYojjMTeK+
-	cqsRFkZgZK5W8XnwVaJNHFAPx+O3hhTuP/NF3L/okhxaat/zxsh3SXvZCAJ87RTfxeJJytTqNGDFU
-	BZSkxnZL+6pDf51PYmxQwu2px6Vcsh5g8GBa6LG9L3AEtMqtQ7de4bRlJ7VtYvTIPHENzF6ntqHJj
-	cvyGXxWuDYHaVWsjKVnAD4iPiBvQRDyrpAHWymDEhkDV4UFEho6xsqXVyxs9UPSF2nJ584JQVDqXa
-	Q6GlIBYt0hrQQWEglDTqYwUEWu6C6GLn1hnHMhnayVR3689FfUv41Wo1fLzgNNAWIB1Ac1ZCZ7iCx
-	X0Ac0RCw==;
+	bh=d8bkh7bfZZY5WjJ1g5p81fAjYDMdOKOPAhoGcAryaQs=; b=BikpHZvQJINSIkDu/FSQOSpK+y
+	aiO/jslBtHVbNLNtB7c3s6OL19XxlNqB9Uo/ozLcmx0digceUxlIwA2G35Drh0pz8dqQRttgsSa/V
+	3gPhjrlsBc/qj8OWWNKnNVWcsVhn5PbCR1E4ph7wwK90R1jmlBLQRk05SvRRiwaeVUCk0OnNvOhtW
+	yMsxQOmjdbphgzr3MHcTnLX1R6eOY0JsBULW7vzCxsJoI+Ak3J9gljLHJG2m61Tb+UkVRMGsVyyTu
+	u3NJo2yCLP2u1kkjiZADxv1XLFtqb1MTsTLT9djCFokIJP2uYR+5Vars5hiMmQRwf5qb7VoPu9/Sh
+	4wYNZM6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzkri-009dPh-KT; Fri, 10 Jun 2022 20:04:18 +0000
+	id 1nzkrm-009dQB-LF; Fri, 10 Jun 2022 20:04:22 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzkrf-009dOW-DD
-	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 20:04:16 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AHiAgg023617
-	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:04:13 -0700
+	id 1nzkrf-009dOU-DC
+	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 20:04:18 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AIDr74028846
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:04:12 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=7uKXzg/OPyXABdABOidNCjnrvjXhXTUMSABSngag/3w=;
- b=SFVIqev8kpSEzX+JXUynTupOi/zwkrLNaKrcB9F30a3AYKQzM/Ds++cj4AS3OrpQg3Hp
- /ACIj9D+NMmAz4ZyyMJoEHIDgHs/yI4KAs2YsCltn9asi+dm8F2YNbOpUnyzfcbO32eS
- z7oVTKbTuXcxyhC9kdnfW4fQ0eW9sC4ClkE= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gmam8rwd3-2
+ bh=d8bkh7bfZZY5WjJ1g5p81fAjYDMdOKOPAhoGcAryaQs=;
+ b=kH9v/ayu679VGaCZ+C4IvFjZt/07EaKj4vRvCHMau5dISJI6AY4GAnsiCwvwwY3NHgXy
+ Tx8HdLP79eCJ3hsE/UMFk6wQmSrDWm28Txay4ArVEAeznAu/CMNKzJLc+OJDxAbmzXnR
+ TQadrCvQLuqT1F0VBQ+GIShLSuoHGanKD6E= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gmb208m54-6
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:04:13 -0700
-Received: from twshared14818.18.frc3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Jun 2022 13:04:11 -0700
+Received: from twshared5413.23.frc3.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:11d::5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Fri, 10 Jun 2022 13:04:12 -0700
+ 15.1.2375.28; Fri, 10 Jun 2022 13:04:10 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 364FA4E9D6AB; Fri, 10 Jun 2022 12:58:31 -0700 (PDT)
+	id 99F384E9D696; Fri, 10 Jun 2022 12:58:31 -0700 (PDT)
 From: Keith Busch <kbusch@fb.com>
 To: <linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>
 CC: <axboe@kernel.dk>, Kernel Team <Kernel-team@fb.com>, <hch@lst.de>,
         <bvanassche@acm.org>, <damien.lemoal@opensource.wdc.com>,
         <ebiggers@kernel.org>, <pankydev8@gmail.com>,
-        Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv6 10/11] block: relax direct io memory alignment
-Date: Fri, 10 Jun 2022 12:58:29 -0700
-Message-ID: <20220610195830.3574005-11-kbusch@fb.com>
+        Keith Busch
+	<kbusch@kernel.org>,
+        Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCHv6 03/11] block: export dma_alignment attribute
+Date: Fri, 10 Jun 2022 12:58:22 -0700
+Message-ID: <20220610195830.3574005-4-kbusch@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220610195830.3574005-1-kbusch@fb.com>
 References: <20220610195830.3574005-1-kbusch@fb.com>
@@ -62,14 +64,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: TftZWsbd7PvJ7tG1J01DfU63OHQOQRe-
-X-Proofpoint-ORIG-GUID: TftZWsbd7PvJ7tG1J01DfU63OHQOQRe-
+X-Proofpoint-GUID: K7QI5MLIpPCU6sor0aywwM5AArwm_0ZY
+X-Proofpoint-ORIG-GUID: K7QI5MLIpPCU6sor0aywwM5AArwm_0ZY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-10_08,2022-06-09_02,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_130415_601852_59ED3D65 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20220610_130415_942655_0E29C998 
+X-CRM114-Status: GOOD (  15.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,77 +88,72 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Use the address alignment requirements from the block_device for direct
-io instead of requiring addresses be aligned to the block size. User
-space can discover the alignment requirements from the dma_alignment
-queue attribute.
-
-User space can specify any hardware compatible DMA offset for each
-segment, but every segment length is still required to be a multiple of
-the block size.
+User space may want to know how to align their buffers to avoid
+bouncing. Export the queue attribute.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bio.c            | 9 +++++++++
- block/fops.c           | 4 ++--
- include/linux/blkdev.h | 5 +++++
- 3 files changed, 16 insertions(+), 2 deletions(-)
+ Documentation/ABI/stable/sysfs-block | 9 +++++++++
+ block/blk-sysfs.c                    | 7 +++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/block/bio.c b/block/bio.c
-index 5618c6a4b3a3..551f1d12208b 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1220,7 +1220,16 @@ static int __bio_iov_iter_get_pages(struct bio *bi=
-o, struct iov_iter *iter)
- 	BUILD_BUG_ON(PAGE_PTRS_PER_BVEC < 2);
- 	pages +=3D entries_left * (PAGE_PTRS_PER_BVEC - 1);
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/sta=
+ble/sysfs-block
+index e8797cd09aff..cd14ecb3c9a5 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -260,6 +260,15 @@ Description:
+ 		for discards, and don't read this file.
 =20
-+	/*
-+	 * Each segment in the iov is required to be a block size multiple.
-+	 * However, we may not be able to get the entire segment if it spans
-+	 * more pages than bi_max_vecs allows, so we have to ALIGN_DOWN the
-+	 * result to ensure the bio's total size is correct. The remainder of
-+	 * the iov data will be picked up in the next bio iteration.
-+	 */
- 	size =3D iov_iter_get_pages(iter, pages, LONG_MAX, nr_pages, &offset);
-+	if (size > 0)
-+		size =3D ALIGN_DOWN(size, bdev_logical_block_size(bio->bi_bdev));
- 	if (unlikely(size <=3D 0))
- 		return size ? size : -EFAULT;
 =20
-diff --git a/block/fops.c b/block/fops.c
-index 9d32df6fc315..86d3cab9bf93 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -45,8 +45,8 @@ static unsigned int dio_bio_write_op(struct kiocb *iocb=
-)
- static bool blkdev_dio_unaligned(struct block_device *bdev, loff_t pos,
- 			      struct iov_iter *iter)
- {
--	return ((pos | iov_iter_alignment(iter)) &
--	    (bdev_logical_block_size(bdev) - 1));
-+	return pos & (bdev_logical_block_size(bdev) - 1) ||
-+		!bdev_iter_is_aligned(bdev, iter);
++What:		/sys/block/<disk>/queue/dma_alignment
++Date:		May 2022
++Contact:	linux-block@vger.kernel.org
++Description:
++		Reports the alignment that user space addresses must have to be
++		used for raw block device access with O_DIRECT and other driver
++		specific passthrough mechanisms.
++
++
+ What:		/sys/block/<disk>/queue/fua
+ Date:		May 2018
+ Contact:	linux-block@vger.kernel.org
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 88bd41d4cb59..14607565d781 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -274,6 +274,11 @@ static ssize_t queue_virt_boundary_mask_show(struct =
+request_queue *q, char *page
+ 	return queue_var_show(q->limits.virt_boundary_mask, page);
  }
 =20
- #define DIO_INLINE_BIO_VECS 4
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index fb5c177708d5..914c613d81da 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -425,6 +425,11 @@ struct request_queue {
- 	unsigned long		nr_requests;	/* Max # of requests */
++static ssize_t queue_dma_alignment_show(struct request_queue *q, char *p=
+age)
++{
++	return queue_var_show(queue_dma_alignment(q), page);
++}
++
+ #define QUEUE_SYSFS_BIT_FNS(name, flag, neg)				\
+ static ssize_t								\
+ queue_##name##_show(struct request_queue *q, char *page)		\
+@@ -606,6 +611,7 @@ QUEUE_RO_ENTRY(queue_dax, "dax");
+ QUEUE_RW_ENTRY(queue_io_timeout, "io_timeout");
+ QUEUE_RW_ENTRY(queue_wb_lat, "wbt_lat_usec");
+ QUEUE_RO_ENTRY(queue_virt_boundary_mask, "virt_boundary_mask");
++QUEUE_RO_ENTRY(queue_dma_alignment, "dma_alignment");
 =20
- 	unsigned int		dma_pad_mask;
-+	/*
-+	 * Drivers that set dma_alignment to less than 511 must be prepared to
-+	 * handle individual bvec's that are not a multiple of a SECTOR_SIZE
-+	 * due to possible offsets.
-+	 */
- 	unsigned int		dma_alignment;
+ #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+ QUEUE_RW_ENTRY(blk_throtl_sample_time, "throttle_sample_time");
+@@ -667,6 +673,7 @@ static struct attribute *queue_attrs[] =3D {
+ 	&blk_throtl_sample_time_entry.attr,
+ #endif
+ 	&queue_virt_boundary_mask_entry.attr,
++	&queue_dma_alignment_entry.attr,
+ 	NULL,
+ };
 =20
- #ifdef CONFIG_BLK_INLINE_ENCRYPTION
 --=20
 2.30.2
 
