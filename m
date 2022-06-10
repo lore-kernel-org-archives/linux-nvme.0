@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89095C433EF
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 11:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19C16C43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 11:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/8W0j3m3g9mbuvAYgmTAyOHe1ozF8JFUJaCK/5kksqs=; b=Hl/ku3yp8EMNgBr4bcVH4aklg7
-	q5ySdtiVEvhP78Oa0Fu5GzJwjiEVfd/+ZgarNlX0RJxFWzd7xZ/QxzvgA1XQrSCMsLBSADhiUbfHR
-	bo1StQx5sv4qXXIkbmMnjZlnTVuEIlwjxVqdg57tbQ2EpficZfxvp+I8BFqCItZ8pWxHepoG8n8xB
-	yDFXJLjj9MRzeBKyVESNMDAR3RVDD7wqZkqErl0/qpCClDg8KzB7FZG5DCEmTB0i3mBBQPoff7bz5
-	Wj1SA6AycoCyKDpVidNQB6zc7cRSNrsC3wLAKEBDoMd9+Tl96VymcgA0lmOIqxVYsjkAZnzDGZbpx
-	11P3H0HA==;
+	bh=8hm5AP1OL60EjQ5W4Zf5iNi1e2FVoBavWklN7GZmkic=; b=B2uenJT2W5fwTV1fLokupDgFnl
+	DyyC+ZWjXh5AAVhGOywXXVIPATHrW+bbUxvfAtwFc7hKWm1hV7JogF25t4kU/sMCH/kYd1pVeTQjU
+	Au7UPXmWId3edCdIBQv+tRLThAR/Iy37qUwIUCUNHnJ0tHRLL4RPmdbcWfZHxN0CfnmZCMhG3UeMh
+	gF0TVHXAgpeTAwR6qXvhmN2tEhdTdVUf5UPMsg50l75buJm5Eo9Qohk8kDjcIvg/6fyXjJi99sJos
+	/O7uX6+dmjwFHi90xQQ8UW8C54Iaoo3mxqXj0faBU8IX4FNYJ750Zyp2WRNdd28a0eVUHfZi6r2Oj
+	6LajaiLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzctl-007vqS-TZ; Fri, 10 Jun 2022 11:33:53 +0000
+	id 1nzctq-007vsv-Jl; Fri, 10 Jun 2022 11:33:58 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzctT-007vip-3X
+	id 1nzctT-007vit-56
 	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 11:33:41 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id D7A9E1F9A4;
+	by smtp-out2.suse.de (Postfix) with ESMTP id DC9481F985;
 	Fri, 10 Jun 2022 11:33:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1654860813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/8W0j3m3g9mbuvAYgmTAyOHe1ozF8JFUJaCK/5kksqs=;
-	b=vaPL//UKeqgL4ffsFm+PVAswmA5jBj58JHVTpAeyNhWQacwfwBZUTxYXoLn4bFQK1WVHlf
-	BBIyz/YVbOeXKSu/NWpzZuvuwmwohuv5xk6VB4giEl8j71x678xb8QQ5RFuqTP9qrQ/b9A
-	2y0dEUjdjM6LO7o1Wvwr26bZfUfCVs0=
+	bh=8hm5AP1OL60EjQ5W4Zf5iNi1e2FVoBavWklN7GZmkic=;
+	b=zTBIsnzaPGWwvBOlO35sJ3sfWUyg7i0NVf30Ikn1+UQCJ83ZaFjksD1zmvISEk0V6w5FAC
+	cIejwedAy8rZM4GcPAp5xSVrr4P/2rYJRaHfa632jwBokGBGqfLAuUuPll3x15nyXzO+2e
+	eh1fIFbd0/IUc2oNelUIH2MYYf90JIY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1654860813;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/8W0j3m3g9mbuvAYgmTAyOHe1ozF8JFUJaCK/5kksqs=;
-	b=82Wc/e2cqr+pYRQrm+6Og7PT2BsTudYSolNBRPBY44L+60Y4VSTtNxIzeNm0bC4vysArCO
-	Vx3zvxqV2Vnl6iCg==
+	bh=8hm5AP1OL60EjQ5W4Zf5iNi1e2FVoBavWklN7GZmkic=;
+	b=7bcU33guy4Bwt+qrmaCJDcwCAisO4RusG6OQtTiSWC8AtXpzfOkowukjodn6uWPMRCt669
+	QuXE6LPlE8500vAw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id D1E2C2C152;
+	by relay2.suse.de (Postfix) with ESMTP id D11602C14B;
 	Fri, 10 Jun 2022 11:33:33 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id AFA655194A48; Fri, 10 Jun 2022 13:33:33 +0200 (CEST)
+	id A4D925194A42; Fri, 10 Jun 2022 13:33:33 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -58,17 +58,17 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 09/10] nvme/043: test bi-directional authentication
-Date: Fri, 10 Jun 2022 13:33:23 +0200
-Message-Id: <20220610113324.10294-10-hare@suse.de>
+Subject: [PATCH 06/10] nvme/040: create authenticated connections
+Date: Fri, 10 Jun 2022 13:33:20 +0200
+Message-Id: <20220610113324.10294-7-hare@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220610113324.10294-1-hare@suse.de>
 References: <20220610113324.10294-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_043335_404793_EB06371C 
-X-CRM114-Status: GOOD (  13.48  )
+X-CRM114-CacheID: sfid-20220610_043335_433526_C30B9438 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,27 +85,27 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- tests/nvme/043     | 106 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/043.out |   8 ++++
- 2 files changed, 114 insertions(+)
- create mode 100644 tests/nvme/043
- create mode 100644 tests/nvme/043.out
+ tests/nvme/040     | 81 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/040.out |  7 ++++
+ 2 files changed, 88 insertions(+)
+ create mode 100644 tests/nvme/040
+ create mode 100644 tests/nvme/040.out
 
-diff --git a/tests/nvme/043 b/tests/nvme/043
+diff --git a/tests/nvme/040 b/tests/nvme/040
 new file mode 100644
-index 0000000..fdccb10
+index 0000000..ce6157f
 --- /dev/null
-+++ b/tests/nvme/043
-@@ -0,0 +1,106 @@
++++ b/tests/nvme/040
+@@ -0,0 +1,81 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (C) 2021 Hannes Reinecke, SUSE Labs
 +#
-+# Test bi-directional authentication
++# Create authenticated connections
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="Test bi-directional authentication"
++DESCRIPTION="Create authenticated connections"
 +QUICK=1
 +
 +requires() {
@@ -123,7 +123,6 @@ index 0000000..fdccb10
 +	local hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
 +	local file_path="${TMPDIR}/img"
 +	local hostkey
-+	local ctrlkey
 +	local ctrldev
 +
 +	echo "Running ${TEST_NAME}"
@@ -134,56 +133,32 @@ index 0000000..fdccb10
 +		return 1
 +	fi
 +
-+	ctrlkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
-+	if [ $? -ne 0 ] ; then
-+		echo "nvme gen-dhchap-key command missing"
-+		return 1
-+	fi
-+
 +	_setup_nvmet
 +
 +	truncate -s 512M "${file_path}"
 +
-+	_create_nvmet_subsystem "${subsys_name}" "${file_path}"
++	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
++		"b92842df-a394-44b1-84a4-92ae7d112861"
 +	port="$(_create_nvmet_port "${nvme_trtype}")"
 +	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
-+	_create_nvmet_host "${subsys_name}" "${hostnqn}" "${hostkey}" "${ctrlkey}"
++	_create_nvmet_host "${subsys_name}" "${hostnqn}" "${hostkey}"
 +
-+	_set_nvmet_dhgroup "${hostnqn}" "ffdhe2048"
-+
-+	# Step 1: Connect with host authentication only
-+	echo "Test host authentication"
++	# Test unauthenticated connection (should fail)
++	echo "Test unauthenticated connection"
 +	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
-+			     "${def_traddr}" "${def_trsvcid}" \
-+			     "${hostnqn}" "${hostid}" \
-+			     "${hostkey}"
-+	if [ $? -ne 0 ] ; then
-+		echo "nvme connect failed"
++			     "${def_traddr}" "${def_trscvid}" \
++			     "${hostnqn}" "${hostid}"
++	if [ $? -eq 0 ] ; then
++		echo "nvme connect succeeded"
 +	fi
-+
-+	udevadm settle
 +
 +	_nvme_disconnect_subsys "${subsys_name}"
 +
-+	# Step 2: Connect with host authentication
-+	# and invalid ctrl authentication
-+	echo "Test host authentication and invalid ctrl authentication"
++	# Test authenticated connection
++	echo "Test authenticated connection"
 +	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
-+			     "${def_traddr}" "${def_trsvcid}" \
-+			     "${hostnqn}" "${hostid}" \
-+			     "${hostkey}" "${hostkey}"
-+	if [ $? -eq 0 ] ; then
-+		echo "nvme connect succeeded (should have failed)"
-+		_nvme_disconnect_subsys "${subsys_name}"
-+	fi
-+
-+	# Step 3: Connect with host authentication
-+	# and valid ctrl authentication
-+	echo "Test host authentication and valid ctrl authentication"
-+	_nvme_connect_subsys "${nvme_trtype}" "${subsys_name}" \
-+			     "${def_traddr}" "${def_trsvcid}" \
-+			     "${hostnqn}" "${hostid}" \
-+			     "${hostkey}" "${ctrlkey}"
++			     "${def_traddr}" "${def_trscvid}" \
++			     "${hostnqn}" "${hostid}" "${hostkey}"
 +	if [ $? -ne 0 ] ; then
 +		echo "nvme connect failed"
 +	fi
@@ -199,22 +174,21 @@ index 0000000..fdccb10
 +
 +	_remove_nvmet_host "${hostnqn}"
 +
-+	rm ${file_path}
++	rm "${file_path}"
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/043.out b/tests/nvme/043.out
+diff --git a/tests/nvme/040.out b/tests/nvme/040.out
 new file mode 100644
-index 0000000..a49408d
+index 0000000..b5da85f
 --- /dev/null
-+++ b/tests/nvme/043.out
-@@ -0,0 +1,8 @@
-+Running nvme/043
-+Test host authentication
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test host authentication and invalid ctrl authentication
++++ b/tests/nvme/040.out
+@@ -0,0 +1,7 @@
++Running nvme/040
++Test unauthenticated connection
 +no controller found: failed to write to nvme-fabrics device
-+Test host authentication and valid ctrl authentication
++NQN:blktests-subsystem-1 disconnected 0 controller(s)
++Test authenticated connection
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
