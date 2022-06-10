@@ -4,86 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18EE2C43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 11:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07671C433EF
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 11:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yhh3CCxOXfWI4Q/r+EUVNX5w0ScDQdxllv4Z8QyNJg4=; b=lOScBxhCpRq2eU5uvKM4hy3lqV
-	rl0yGfOoWXAD1CcafAFVofA9EB0jVaOE642IZALHra5SjWF26qaIAuoItTyzzVrZk1KTYAN7ukILM
-	2kbznAdA4gAP3ENueNFwglPb5OCg56kW++9A15LJ/QHxf54WEYiPIlviWvHGi29f8rahmhqGvb/QT
-	UUY4yHAIfwsn9po0/Tsm4J5cCQbHht8bXSwT4PAqOeK3pQLr1gHGoPXqlHD+w6jzTZ5DDSP4bjmwz
-	VjkNWAGv9NMkYI5fzLQlFAElEJ+xYdRBZcRecLUoWPg/Ec8eLiv6FTKg/nXGhLl4Y97e7wng+6XZD
-	FJT4R6gg==;
+	bh=k/Mo50C17UHVkLQ+zkfZChtWQAKfcjubdo+pJdBbSdM=; b=jT5svda4wY2lIev+l7jlB8xUth
+	RBerjT5krBNVJToMStBM+sMrLkT4SfdTeSJO1GhwT4hYhS7lmNd0xX71USg3gWtXclG+tHBP0M+o8
+	l/o2F1zyzdE9agL7uhw/NIc4CNqFrswTnRO5qFxL5Wm6nLjJMSmRgGUwnHhvCLoB17sDiDehP8Ldf
+	I8XiSCPRB+p8EsjQBS5xQHIxSPjL93fMaP5efXpA1m2qyeO82VT2YJFN8lTx85s63HoehlmSr1Iw/
+	k1EU/C2XqfSe6KCfoVegrq/DMRBejqXOV0d9J2FNqFYb0bz4U5iOlbFNqnZUNaQb10fFshRpUvMfn
+	6aVRkNxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzcpg-007umM-MS; Fri, 10 Jun 2022 11:29:40 +0000
+	id 1nzctb-007vmb-9X; Fri, 10 Jun 2022 11:33:43 +0000
 Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzcpd-007ul7-Dq
-	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 11:29:38 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D927D1F948;
-	Fri, 10 Jun 2022 11:29:32 +0000 (UTC)
+	id 1nzctT-007viq-3V
+	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 11:33:41 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id D834C1F9A7;
+	Fri, 10 Jun 2022 11:33:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1654860572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	t=1654860813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Yhh3CCxOXfWI4Q/r+EUVNX5w0ScDQdxllv4Z8QyNJg4=;
-	b=vkRjyE0UVCmekn1HmCqzzcwQrPAsmM6ORZVifA5YGrkz49citS9bm5idzxRI4cfYgmfuVr
-	EP9FN6uYWirMOmO4/U5fR5jU3QsbmmFh48XkzNSnAL510BimHw7Utgae8OlhXXfP7EhNTl
-	1MSv8VlWHsevQxpXKNCrdVHqyRfOATE=
+	bh=k/Mo50C17UHVkLQ+zkfZChtWQAKfcjubdo+pJdBbSdM=;
+	b=kung3n27eAjtz2zfT436PBHO89LE21OUfdHJ50VhXooFYr4q7zBumpjh8KwJsbOOIujLnz
+	1fROuVwVeNEHUS7I7qLDp03GDL6v9sjPKUZgRl4sVEKAl9oy0ap/iAxrEeLg/7a7FeuVR5
+	p0w4ZML3p4yXi1+CALEhWq8fYJGNqXo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1654860572;
+	s=susede2_ed25519; t=1654860813;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Yhh3CCxOXfWI4Q/r+EUVNX5w0ScDQdxllv4Z8QyNJg4=;
-	b=0w1ppp5kWBRMj83Kz8juyPbKzIX22V5ntZ95IhDlyyvDzP+9k8fXH1roF9zGtIEGDO6JyH
-	fSxEnyEJpjoAvEAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CBDD5139ED;
-	Fri, 10 Jun 2022 11:29:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id saFmMRwro2LOFgAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 10 Jun 2022 11:29:32 +0000
-Message-ID: <d1e30f4f-7c6c-4728-8d13-b23b3b7ae740@suse.de>
-Date: Fri, 10 Jun 2022 13:29:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCHv14 00/11] nvme: In-band authentication support
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20220608144518.67607-1-hare@suse.de>
- <bc6d292f-f1f7-3cc4-772b-ef8e2a6466db@nvidia.com>
- <3d2cd533-6bd8-abfa-4df9-40aa6a2eae63@suse.de>
- <7b9bdd9a-1411-ca0d-9f87-71e2c25dffbb@nvidia.com>
- <af8d390c-abd7-d4da-6bd9-99354b2ab2c0@suse.de>
- <c0da59d2-52ab-e219-8610-5f253cde7076@nvidia.com>
- <623745a5-78cd-7280-97ca-f91c4f4b6720@nvidia.com>
+	bh=k/Mo50C17UHVkLQ+zkfZChtWQAKfcjubdo+pJdBbSdM=;
+	b=6loUkokl7sEUMv3vjrdjQtbfWFsv/Bc4t7Zl2ZoiGizaAZ4yRaCvamQDa4OPVnoAoFRjXi
+	miiTM5CHvSzMU6Ag==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id D113D2C149;
+	Fri, 10 Jun 2022 11:33:33 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id 9FFFE5194A40; Fri, 10 Jun 2022 13:33:33 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <623745a5-78cd-7280-97ca-f91c4f4b6720@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 05/10] nvme/rc: add more arguments to _nvme_connect_subsys()
+Date: Fri, 10 Jun 2022 13:33:19 +0200
+Message-Id: <20220610113324.10294-6-hare@suse.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220610113324.10294-1-hare@suse.de>
+References: <20220610113324.10294-1-hare@suse.de>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_042937_672049_4BFB9A5F 
-X-CRM114-Status: GOOD (  11.57  )
+X-CRM114-CacheID: sfid-20220610_043335_362262_FD18E3F2 
+X-CRM114-Status: UNSURE (   8.64  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,25 +85,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/10/22 11:35, Chaitanya Kulkarni wrote:
-[ ..  ]
-> 
-> 
-> Let me know if you need any more information, I'll also try and debug
-> the problem tomorrow.
-> 
-I've now created a new pull request for blktests (#94), that one should 
-be good for the recent changes to nvme-cli.
+From: Hannes Reinecke <hare@suse.com>
 
-Can you test with that or do I need to send a patchset to the linux-nvme 
-mailing list?
+Add optional arguments for setting 'hostnqn', 'hostid', 'hostkey',
+and 'ctrlkey' to _nvme_connect_subsys() to make it usable for
+testing nvme in-band authentication.
 
-Cheers,
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ tests/nvme/rc | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Hannes
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 2873037..b7bb3cd 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -190,11 +190,27 @@ _nvme_connect_subsys() {
+ 	local subsysnqn="$2"
+ 	local traddr="${3:-$def_traddr}"
+ 	local trsvcid="${4:-$def_trsvcid}"
++	local hostnqn="${5:-$def_hostnqn}"
++	local hostid="${6:-$def_hostid}"
++	local hostkey="${7}"
++	local ctrlkey="${8}"
+ 
+ 	ARGS=(-t "${trtype}" -n "${subsysnqn}")
+ 	if [[ "${trtype}" != "loop" ]]; then
+ 		ARGS+=(-a "${traddr}" -s "${trsvcid}")
+ 	fi
++	if [[ "${hostnqn}" != "$def_hostnqn" ]]; then
++		ARGS+=(--hostnqn="${hostnqn}")
++	fi
++	if [[ "${hostid}" != "$def_hostid" ]]; then
++		ARGS+=(--hostid="${hostid}")
++	fi
++	if [[ -n "${hostkey}" ]]; then
++		ARGS+=(--dhchap-secret="${hostkey}")
++	fi
++	if [[ -n "${ctrlkey}" ]]; then
++		ARGS+=(--dhchap-ctrl-secret="${ctrlkey}")
++	fi
+ 	nvme connect "${ARGS[@]}"
+ }
+ 
 -- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+2.26.2
+
 
