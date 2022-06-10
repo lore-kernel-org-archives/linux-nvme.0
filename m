@@ -4,54 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E527C43334
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 10:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18EE2C43334
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jun 2022 11:29:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LVvKoZ2U/WtUPOHuCZPrtYv/2D0dTKhwOg2/bgBmZIU=; b=Q5CYgIIb1HbJgb3sxV2INVNvdG
-	fKV2K4OVm/sm8az4ZXm6lH/jmMX9P849srYGozeEQebNA2siO5CXZH2TMjh8RKc7S0fuuG2g0eM1d
-	Nl8X/JGg0ft56mLCnHp3ektmYHRnbwJadRfjo1Xkbv3qkS1rBD0HskGUSeOHxZoeYdpX2sT6Vpuxh
-	8AsKIHT83MmMNsoHNaQeoXte1efQHdqYy6jamo2yJEVsvmZhxU8amm6Qc+vEp/J5UPilUMoeXjpC1
-	NxPCmtiA9eOj+cO1whTox07a2tuEhNgWST5prrunM/li5P8Lh1O4S1wsp6HFFf2S6HuB0APHSczWI
-	uMZVMY9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Yhh3CCxOXfWI4Q/r+EUVNX5w0ScDQdxllv4Z8QyNJg4=; b=lOScBxhCpRq2eU5uvKM4hy3lqV
+	rl0yGfOoWXAD1CcafAFVofA9EB0jVaOE642IZALHra5SjWF26qaIAuoItTyzzVrZk1KTYAN7ukILM
+	2kbznAdA4gAP3ENueNFwglPb5OCg56kW++9A15LJ/QHxf54WEYiPIlviWvHGi29f8rahmhqGvb/QT
+	UUY4yHAIfwsn9po0/Tsm4J5cCQbHht8bXSwT4PAqOeK3pQLr1gHGoPXqlHD+w6jzTZ5DDSP4bjmwz
+	VjkNWAGv9NMkYI5fzLQlFAElEJ+xYdRBZcRecLUoWPg/Ec8eLiv6FTKg/nXGhLl4Y97e7wng+6XZD
+	FJT4R6gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzbTI-007QmO-Ut; Fri, 10 Jun 2022 10:02:29 +0000
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+	id 1nzcpg-007umM-MS; Fri, 10 Jun 2022 11:29:40 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nzbO5-007OIs-Pk
-	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 09:57:08 +0000
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4LKGXr4xkbz1GCLX;
-	Fri, 10 Jun 2022 17:55:08 +0800 (CST)
-Received: from kwepemm600011.china.huawei.com (7.193.23.229) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 10 Jun 2022 17:56:38 +0800
-Received: from huawei.com (10.29.88.127) by kwepemm600011.china.huawei.com
- (7.193.23.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 10 Jun
- 2022 17:56:37 +0800
-From: Ruozhu Li <liruozhu@huawei.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <sagi@grimberg.me>, <hch@lst.de>
-Subject: [PATCH] Revert "nvme: remove the .stop_ctrl callout"
-Date: Fri, 10 Jun 2022 17:56:37 +0800
-Message-ID: <20220610095637.3714-1-liruozhu@huawei.com>
-X-Mailer: git-send-email 2.16.4
+	id 1nzcpd-007ul7-Dq
+	for linux-nvme@lists.infradead.org; Fri, 10 Jun 2022 11:29:38 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D927D1F948;
+	Fri, 10 Jun 2022 11:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1654860572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yhh3CCxOXfWI4Q/r+EUVNX5w0ScDQdxllv4Z8QyNJg4=;
+	b=vkRjyE0UVCmekn1HmCqzzcwQrPAsmM6ORZVifA5YGrkz49citS9bm5idzxRI4cfYgmfuVr
+	EP9FN6uYWirMOmO4/U5fR5jU3QsbmmFh48XkzNSnAL510BimHw7Utgae8OlhXXfP7EhNTl
+	1MSv8VlWHsevQxpXKNCrdVHqyRfOATE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1654860572;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yhh3CCxOXfWI4Q/r+EUVNX5w0ScDQdxllv4Z8QyNJg4=;
+	b=0w1ppp5kWBRMj83Kz8juyPbKzIX22V5ntZ95IhDlyyvDzP+9k8fXH1roF9zGtIEGDO6JyH
+	fSxEnyEJpjoAvEAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CBDD5139ED;
+	Fri, 10 Jun 2022 11:29:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id saFmMRwro2LOFgAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 10 Jun 2022 11:29:32 +0000
+Message-ID: <d1e30f4f-7c6c-4728-8d13-b23b3b7ae740@suse.de>
+Date: Fri, 10 Jun 2022 13:29:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.29.88.127]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm600011.china.huawei.com (7.193.23.229)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCHv14 00/11] nvme: In-band authentication support
+Content-Language: en-US
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20220608144518.67607-1-hare@suse.de>
+ <bc6d292f-f1f7-3cc4-772b-ef8e2a6466db@nvidia.com>
+ <3d2cd533-6bd8-abfa-4df9-40aa6a2eae63@suse.de>
+ <7b9bdd9a-1411-ca0d-9f87-71e2c25dffbb@nvidia.com>
+ <af8d390c-abd7-d4da-6bd9-99354b2ab2c0@suse.de>
+ <c0da59d2-52ab-e219-8610-5f253cde7076@nvidia.com>
+ <623745a5-78cd-7280-97ca-f91c4f4b6720@nvidia.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <623745a5-78cd-7280-97ca-f91c4f4b6720@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220610_025706_249686_C8A24326 
-X-CRM114-Status: GOOD (  13.90  )
+X-CRM114-CacheID: sfid-20220610_042937_672049_4BFB9A5F 
+X-CRM114-Status: GOOD (  11.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,135 +98,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We encountered a problem that the disconnect command hangs.
-After analyzing the log and stack, we found that the triggering
-process is as follows:
-CPU0                          CPU1
-				nvme_rdma_error_recovery_work
-  				  nvme_rdma_teardown_io_queues
-nvme_do_delete_ctrl                 nvme_stop_queues
-  nvme_remove_namespaces
-  --clear ctrl->namespaces
-				    nvme_start_queues
-				    --no ns in ctrl->namespaces
-    nvme_ns_remove		    return(because ctrl is deleting)
-      blk_freeze_queue
-	blk_mq_freeze_queue_wait
-        --wait for ns to unquiesce to clean infligt IO, hang forever
+On 6/10/22 11:35, Chaitanya Kulkarni wrote:
+[ ..  ]
+> 
+> 
+> Let me know if you need any more information, I'll also try and debug
+> the problem tomorrow.
+> 
+I've now created a new pull request for blktests (#94), that one should 
+be good for the recent changes to nvme-cli.
 
-This problem was not found in older kernels because we will flush
-err work in nvme_stop_ctrl before nvme_remove_namespaces.It does not
-seem to be modified for functional reasons, the patch can be revert
-to solve the problem.
+Can you test with that or do I need to send a patchset to the linux-nvme 
+mailing list?
 
-Revert commit 794a4cb3d2f7 ("nvme: remove the .stop_ctrl callout")
+Cheers,
 
-Signed-off-by: Ruozhu Li <liruozhu@huawei.com>
----
- drivers/nvme/host/core.c |  2 ++
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/rdma.c | 12 +++++++++---
- drivers/nvme/host/tcp.c  | 10 +++++++---
- 4 files changed, 19 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 24165daee3c8..2e9086a18c58 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4580,6 +4580,8 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- 	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
-+	if (ctrl->ops->stop_ctrl)
-+		ctrl->ops->stop_ctrl(ctrl);
- }
- EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9b72b6ecf33c..0f261dc7bd12 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -503,6 +503,7 @@ struct nvme_ctrl_ops {
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
-+	void (*stop_ctrl)(struct nvme_ctrl *ctrl);
- };
- 
- /*
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f2a5e1ea508a..46c2dcf72f7e 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1048,6 +1048,14 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 	}
- }
- 
-+static void nvme_rdma_stop_ctrl(struct nvme_ctrl *nctrl)
-+{
-+	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-+
-+	cancel_work_sync(&ctrl->err_work);
-+	cancel_delayed_work_sync(&ctrl->reconnect_work);
-+}
-+
- static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-@@ -2252,9 +2260,6 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
- 
- static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- {
--	cancel_work_sync(&ctrl->err_work);
--	cancel_delayed_work_sync(&ctrl->reconnect_work);
--
- 	nvme_rdma_teardown_io_queues(ctrl, shutdown);
- 	nvme_stop_admin_queue(&ctrl->ctrl);
- 	if (shutdown)
-@@ -2304,6 +2309,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.submit_async_event	= nvme_rdma_submit_async_event,
- 	.delete_ctrl		= nvme_rdma_delete_ctrl,
- 	.get_address		= nvmf_get_address,
-+	.stop_ctrl		= nvme_rdma_stop_ctrl,
- };
- 
- /*
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index bb67538d241b..2c93fee8ba00 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2194,9 +2194,6 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 
- static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- {
--	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
--	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
--
- 	nvme_tcp_teardown_io_queues(ctrl, shutdown);
- 	nvme_stop_admin_queue(ctrl);
- 	if (shutdown)
-@@ -2236,6 +2233,12 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 	nvme_tcp_reconnect_or_remove(ctrl);
- }
- 
-+static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
-+	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
-+}
-+
- static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-@@ -2557,6 +2560,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
- 	.submit_async_event	= nvme_tcp_submit_async_event,
- 	.delete_ctrl		= nvme_tcp_delete_ctrl,
- 	.get_address		= nvmf_get_address,
-+	.stop_ctrl		= nvme_tcp_stop_ctrl,
- };
- 
- static bool
+Hannes
 -- 
-2.16.4
-
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
