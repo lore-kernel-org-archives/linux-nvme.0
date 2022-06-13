@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED121C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jun 2022 14:23:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D022C43334
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jun 2022 14:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/omQrhtKCh0gY0pTreoozcYZAMAMovcyZBqWjqmq8hc=; b=BfIHKvr9rPZLoBN2FbJeToNdnS
-	ATwnxjsakQjuWOdAnxuU++9vI0UuGqpx8n0VIUThtKcFOvpDAT0+scUGDSwYzwkxd+0Kj4WqNqPIy
-	IaJw+u2IPV5NKDzZUWszLvPzwGKYZ+CtpmGOmNrpi2skLE9UgPZ050XoVMKnjeHvHJISBzj+GV8UW
-	qGtRu4IPoFYpp1+Y0dxQCBJsKBQsRcXo6xuf7Hbmm0m/WdsH+6/CPTHw+Sx/72NjretvF21GW/c2l
-	amInLV34/cHu/VuFfDMOpFNsHul0OIy11qJTefTZSKNZHAtYVGL36MjWqsd6bDVNtSdgYj1eKz1Yi
-	O7JNVzBg==;
+	bh=cCQdn6y444oc3YMR1jPc12CxG8KAUd28wL9BBX9Back=; b=XRn2hz9Dp+irx4LsMgREJGSjSW
+	QQxkXRcHbckLX5xdrUyzdM/lw2k8jLgLgOuu5wViuxEsX2sulbfyxpKagT6sNr7HKxu1vJ/9xueHx
+	koRyHi0ZBpg9BUS6gx0z7lXVrnfTNkzR11irofwPMpDwzIKye3mL7PXXZILOZ6kaFb1WwXp2XEnJy
+	Y5oYLzW1nMBpn5kEy6nL86+0v1R5pZike+hbJha5smPNcurvQDg/DwfmZtaZLzUk93L4EFBNwisx+
+	Bt6iBtbYcnz5JvXG9KFa7kuxMJY0J3IzEzAVBfpQzYpdIjfsaNLFYqThYboa0bPk1LozMGYqPIlIe
+	NojfL3XQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0kyb-004BFc-Qd; Mon, 13 Jun 2022 14:23:33 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1o0lKM-004GIE-Kg; Mon, 13 Jun 2022 14:46:02 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0kyZ-004BDr-56
-	for linux-nvme@lists.infradead.org; Mon, 13 Jun 2022 14:23:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655130209;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/omQrhtKCh0gY0pTreoozcYZAMAMovcyZBqWjqmq8hc=;
-	b=jDnSPvOC/oHvRFNIoaiL7LAidUDRu4lCgtBG3qYRtsF6gfB/Hwrudafka6CCZRF5eKGtmG
-	FbS+07i/dJQmSmgEzwTUeoEDmK1oUh8fF4AWSuLLFPuf7h0GlwhdxTaJdasDYch4cF4V6q
-	P4hPDNhbHzku5Lg2+cE3QfYuSHGhQBI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-rrIBOTmpPZO2IYVSWlTIng-1; Mon, 13 Jun 2022 10:23:28 -0400
-X-MC-Unique: rrIBOTmpPZO2IYVSWlTIng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D29418E5388;
-	Mon, 13 Jun 2022 14:23:28 +0000 (UTC)
-Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 07B1AC28118;
-	Mon, 13 Jun 2022 14:23:25 +0000 (UTC)
-Date: Mon, 13 Jun 2022 22:23:21 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: linux-block <linux-block@vger.kernel.org>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Subject: Re: [bug report] kmemleak observed from blktests on latest
- linux-block/for-next
-Message-ID: <YqdIWcgnEylFuSci@T590>
-References: <CAHj4cs8iJPnQ+zGHNTapR9HWMk9nBXUPbhYi5k-vKZf4qRmz_A@mail.gmail.com>
- <YqavC8hwLXwPVnor@T590>
- <CAHj4cs8y5HHYjr0FtWm1AmkEY=ZqOL4OmgzrWBEhbRpu5V8dWA@mail.gmail.com>
+	id 1o0lKJ-004GG2-Ez
+	for linux-nvme@lists.infradead.org; Mon, 13 Jun 2022 14:46:01 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 25CNiXDU019264
+	for <linux-nvme@lists.infradead.org>; Mon, 13 Jun 2022 07:45:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=cCQdn6y444oc3YMR1jPc12CxG8KAUd28wL9BBX9Back=;
+ b=jF9Ue7lK6c0KEGhEzIilwsOctWStZm+uKew8GtY+OagJ83DMpgmtvuuwt2LEBsxFQszF
+ PngnJrB53gkPt1lv4tISyg4/vrUQQ6C3b5tddq2eIpCS5idsByy5Ry2kvosJgSmHwHYU
+ 6JZUJOz2cRpXk6jA4COTLhVnZ2GpQysijWo= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 3gmpqx119d-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 13 Jun 2022 07:45:54 -0700
+Received: from twshared25478.08.ash9.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::d) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 13 Jun 2022 07:45:53 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 4D70250065BB; Mon, 13 Jun 2022 07:45:51 -0700 (PDT)
+From: Keith Busch <kbusch@fb.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 3/3] nvme-pci: sk hynix p31 has bogus namespace ids
+Date: Mon, 13 Jun 2022 07:45:49 -0700
+Message-ID: <20220613144549.232686-3-kbusch@fb.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220613144549.232686-1-kbusch@fb.com>
+References: <20220613144549.232686-1-kbusch@fb.com>
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: B_tJet-P8po9Laji1075DyrRIyzLDcua
+X-Proofpoint-ORIG-GUID: B_tJet-P8po9Laji1075DyrRIyzLDcua
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHj4cs8y5HHYjr0FtWm1AmkEY=ZqOL4OmgzrWBEhbRpu5V8dWA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-13_06,2022-06-13_01,2022-02-23_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220613_072331_314393_B2C00033 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20220613_074559_665375_95CCBF1D 
+X-CRM114-Status: GOOD (  15.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,50 +81,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 13, 2022 at 09:08:11PM +0800, Yi Zhang wrote:
-> Hi Ming
-> 
-> The kmemleak also can be reproduced on 5.19.0-rc2, pls try to enable
-> nvme_core multipath and retest.
-> 
-> # cat /sys/module/nvme_core/parameters/multipath
-> Y
->
+From: Keith Busch <kbusch@kernel.org>
 
-OK, I can understand the reason now since rqos is only removed for blk-mq queue,
-then rqos allocated for bio queue is leaked, see disk_release_mq().
+Add the quirk.
 
-The following patch should fix it:
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D216049
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/genhd.c b/block/genhd.c
-index 556d6e4b38d9..6e7ca8c302aa 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1120,9 +1120,10 @@ static const struct attribute_group *disk_attr_groups[] = {
- 	NULL
- };
- 
--static void disk_release_mq(struct request_queue *q)
-+static void disk_release_queue(struct request_queue *q)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fc9b7c866a75..8bc6edb7b617 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3452,6 +3452,8 @@ static const struct pci_device_id nvme_id_table[] =3D=
  {
--	blk_mq_cancel_work_sync(q);
-+	if (queue_is_mq(q))
-+		blk_mq_cancel_work_sync(q);
- 
- 	/*
- 	 * There can't be any non non-passthrough bios in flight here, but
-@@ -1166,8 +1167,7 @@ static void disk_release(struct device *dev)
- 	might_sleep();
- 	WARN_ON_ONCE(disk_live(disk));
- 
--	if (queue_is_mq(disk->queue))
--		disk_release_mq(disk->queue);
-+	disk_release_queue(disk->queue);
- 
- 	blkcg_exit_queue(disk->queue);
- 
-
-Thanks,
-Ming
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x1c5c, 0x1504),   /* SK Hynix PC400 */
+ 		.driver_data =3D NVME_QUIRK_DISABLE_WRITE_ZEROES, },
++	{ PCI_DEVICE(0x1c5c, 0x174a),   /* SK Hynix P31 SSD */
++		.driver_data =3D NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x15b7, 0x2001),   /*  Sandisk Skyhawk */
+ 		.driver_data =3D NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1d97, 0x2263),   /* SPCC */
+--=20
+2.30.2
 
 
