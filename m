@@ -4,153 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32326C433EF
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jun 2022 01:09:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCD3BCCA47B
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jun 2022 02:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nSCh7LpsihoTXE3t593PubiC7301nq7p7q95AFFNixs=; b=qjlUBI9Erh9hlhRbfM4i+qXB17
-	2lJAl3zByUU98pK81SIz06rxs5z0PWbdF0cce0PGF7zr2C+RzbDT3kopBvZoHJ+oYiv7hleGAyKdE
-	Q1+nRARHbmXim9qO5BI0HFlGgtamRTJfu5sTxzmTJi1VEhg3DzUoepakP78/SIcxItUk7uf5y3JKw
-	cOxCNTD+nD3Y9bLpMZ95d4cR3irDSmAn8Hu4LhFBEeHPxxHsMtxxXBILVwbgvk2b71lc/oWupkiEU
-	P7hVrdKPn/byRDnSR737To8b2mWVQr6eAXuIh9MZzgKs3RHED85AC6cACfTbd/wIXuZHewWP6EKuO
-	Ldl86yYA==;
+	bh=TPbGUC3VfVNBFHI3r6bvJ5JItLokENWXnLxLJiVWwHc=; b=lKc916YsOqD8LFtCk3sK+ng10Y
+	ac1nDvCHRWnRA6w/5fGSsYDfN9AMevJr9mJQ8RhOLUWns0nJ+B4yYJ/54XtL0L1Fma1JZroyO7/VU
+	iyfM6QVaHnYoAqk8kRoWA4De5WMXz9mKMLvFfhNGFKRKQZuI+mS7pk28gzwe7dqFTP3jE9DA5NWot
+	xiobiz25BTyQwu+XxDRvYqYHMirm+ekiu5g+AjaHKbARANWCGtBIFYGZcjwnwgzCeeqqCU7Ss6YWh
+	X/qgXKSVmKVgrsYGjkV6NntYvQbu0SJr/q3FJ27TtUBijak++YNTsvWpdog4LXITSdxt3nurZ+F/3
+	2/TuT1VQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0v3V-006Xjq-Dy; Tue, 14 Jun 2022 01:09:17 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1o0wDX-006kGD-V5; Tue, 14 Jun 2022 02:23:43 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o0v3S-006XiH-Ey
-	for linux-nvme@lists.infradead.org; Tue, 14 Jun 2022 01:09:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1655168952; x=1686704952;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=gsoeYOsbvRCi17dnXg7ZWq6E9sbFe1z05x9jk5lkIBg=;
-  b=gYWNOjtwiPlzaZ/IYrSmLYsGUX4zOaVlgTlGOpM+iIONK8A/D1zEKAZ8
-   HqaCCyABoPdF386ZtpjuzDyW4oC3lwkxXpRUSXm0A/lfEE0GO/beN+sIN
-   yEolTo/fV8A8M6XGyM9T4YgUq8iOtl1GYg7CrJYc2rGcHj+CrqLekmb4D
-   nJy+LonvzFmkVHaxtbZ7RmRF9rg4T2cOeX1XI0FsipGTND74pF9YUIBdQ
-   8IecDux+FEtgi9B91oV9L1h3j5y3biDxUZ7fEZeTPjO3BFOHq1IvaAJ46
-   09ZfPZkArHE2EgwIzjf0/1lfREd2KHEWScG10YKcx3ediCPESpJ1HtQ8K
-   A==;
-X-IronPort-AV: E=Sophos;i="5.91,298,1647273600"; 
-   d="scan'208";a="203047431"
-Received: from mail-mw2nam12lp2043.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.43])
-  by ob1.hgst.iphmx.com with ESMTP; 14 Jun 2022 09:09:08 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AvndYvjfT0cHW3i3ssIdNVgraFRY1d3BJT+ky+0GVD/Xzf0n1tSiAZ9zRweQ3EgzJEQQ3K2cMaeVGnSGk3wsGwWuV6ezLRMKILCAoOPkrWqHvjqzotvcQRuIZW42luqnwdrkW0QiFYaTTvfAn7bgijTFVCUkPJ+8xFAUt3yhti8jWciza0dw0K6LkBaZ2+MrUqfuOE1EwjYKqoqOXqCHGDhSbRyXibcxaF6PBasOXYNGZ6F5qWvMcQOfxt9LmjTsll76X21BssR9HeeZ9m5FLW2G6prKC5LsREqK/OPoICYu/Vpb7/giy3/0KzTHhg6h/c+DSxbu4IQoRjlhnEQ2DQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nSCh7LpsihoTXE3t593PubiC7301nq7p7q95AFFNixs=;
- b=S3I2YD8YBtIH0snOyWb+bgcguMbFk1EP2yfQPY3BQAWEOLgX5Bf+t05fy9dwq+Mo7FpJ/Fsz2eysyQuJT3je9krS21LSIG7bY15AJb417CzYcIqDwyIz4Xzy+BzH2N/lEjVlpaNzIqgLuDPJph06evGcPA7layWvuOhoWGZohUtphtfHwMFpU+xUafW7coeQyMoIjcig/ROoV0PnQYsllhtUu6tLv3sOXWxfZkGhmLm9Us8KZJxcpFCra6lCnegpYZMchxZqfbKWEgFE4O4gfMTKhoROI6RGcIaQOJSPkbhqLTqiNIt21X57UH56SCKqNalzrrgQqZarlInHCrGuIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nSCh7LpsihoTXE3t593PubiC7301nq7p7q95AFFNixs=;
- b=BZ5p+ly77J/rMGPmajtKm5RseYAZBCBRCeW/RkV2qMSfQI+FsePGS9G8SqA1wOgYK1ShP7IhKyKREfwjvfWul7/aMIFm0DfcLf0gADZTuogn89Bfi59xWL7v01vHoigCwWiWD7oU5rwXRBDqbPfV4ZulI7lVLVBsRL1/F02sWrM=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BYAPR04MB5207.namprd04.prod.outlook.com (2603:10b6:a03:ce::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5332.19; Tue, 14 Jun 2022 01:09:07 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::39dc:d3d:686a:9e7]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::39dc:d3d:686a:9e7%3]) with mapi id 15.20.5332.020; Tue, 14 Jun 2022
- 01:09:07 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Yi Zhang <yi.zhang@redhat.com>
-CC: Keith Busch <kbusch@kernel.org>, Chaitanya Kulkarni
-	<chaitanyak@nvidia.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "mstowe@redhat.com" <mstowe@redhat.com>,
+	id 1o0wDW-006kFm-2o
+	for linux-nvme@lists.infradead.org; Tue, 14 Jun 2022 02:23:43 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 6F93560AEC;
+	Tue, 14 Jun 2022 02:23:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43116C34114;
+	Tue, 14 Jun 2022 02:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655173420;
+	bh=2JdpeLCcSB+EkvAsWhfjyJ3Yq+6ICihCOSoee4FwUcs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FVjARZi0H5LFS8bhfKScyQVBoSEzNU+8aBH6w34TAaQnKjP+eyQtJA8doYV0+0VaH
+	 hu/J6hoKUDKk7djV8XqOM63HxSrVP+I83gjyRqIZPc0Vdpjx4O61iDPlJ/M3ORtQo5
+	 wFH0R9tzirOAOeoy6ZkmGZKUkoyRTYEH85Hud28eO/L7sXKp3/RA1hO/TNntlAzNZH
+	 WzWgdBDUibYMB1X8NsQA0p4us7MSncByO2y3RHpRf2l1JmsUsuTbDqvr8ajCWiorDI
+	 B8I2m8FusgQOy3xGUxrUpwcq/1js8hok7vstbhGMItiYioOdI43j6Xo/xNBuc68BCZ
+	 Ll4BDqx6YYKQg==
+Date: Mon, 13 Jun 2022 20:23:37 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"mstowe@redhat.com" <mstowe@redhat.com>,
 	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
 Subject: Re: blktests failures with v5.19-rc1
-Thread-Topic: blktests failures with v5.19-rc1
-Thread-Index:  AQHYfFwe8PMwMXtEZEqIJFDj8WJWFa1IXnmAgAACxQCAADBSgIAAJ8QAgAEp9oCABDqugA==
-Date: Tue, 14 Jun 2022 01:09:07 +0000
-Message-ID: <20220614010907.bvbrgbz7nnvpnw5w@shindev>
+Message-ID: <YqfxKanxbZNN7Kfw@kbusch-mbp.dhcp.thefacebook.com>
 References: <20220609235329.4jbz4wr3eg2nmzqa@shindev>
  <717734c9-c633-fb48-499e-7e3e15113020@nvidia.com>
  <19d09611-42cc-5a81-d676-c5375865c14c@nvidia.com>
  <20220610122517.6pt5y63hcosk5mes@shindev>
  <YqNZiMw+rH5gyZDI@kbusch-mbp.dhcp.thefacebook.com>
  <CAHj4cs9G0WDrnSS6iVZJfgfOcRR0ysJhw+9yqcbqE=_8mkF0zw@mail.gmail.com>
-In-Reply-To:  <CAHj4cs9G0WDrnSS6iVZJfgfOcRR0ysJhw+9yqcbqE=_8mkF0zw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c2b9de5d-1318-496e-27a6-08da4da27b60
-x-ms-traffictypediagnostic: BYAPR04MB5207:EE_
-x-microsoft-antispam-prvs:  <BYAPR04MB520710D52882119D0FB1121FEDAA9@BYAPR04MB5207.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  0oENhPUoO54xCovLU+xAYyA/fazfwegmuEkFnMgcKoPCCgbV/IhMBGLIXrMXejr3zRFTSxn79nKZVITno8Ipl5dhNFJPP7pzndqsdMTKnqYPkbefcQtoyUuASLdWcLHWG2psmTogQDgG1G+jf5aG4PQzBReBrqWtNL5leo8mIBjPOsFLV6AlD1RYAudOnMUsfO8SRmtq+3hl+mek+yYVIb3nPiRBoqWr9vVn4ohaYQkd7YLnHCpKkyVVWvMgN8MFEuBlNQzcVVJ3CAOuH48fDEjQJzq8fj3Srv9S/3YwGyW/j7LN+/X3iGzTEcyzDM+yCbmWoGoJe7tD2OWXNaRG2T98AUd06x1568bwgwUjwNvDsku7xR1r1e0Sw6cBVKIayx/NCtgVJ6wJavLWVZwFG8JYSQGu4GfO+KRz6ovB+SG3lncJBnqMkaOnQvkRmNmjjD5TJdBab9NSNYoWXbOCWekYIy1uHYQ+Ph5LFGYd/yBhcwJbZ0aQKCzD61wOD6ooMbit9oSFOML9uNtORKtGDv2nesUPzXaymu3UFbkppKv8cAfa/6pqhJbe+oHKnFScmgzf754b8rte8rVKhItrlbBfUEty0M1QRp/MiJyKo7mtp4fCDkT74tTm1J5MThaUiAdMgMtF8gHTrhjz4iM8iAX7XCggWAGTpOjyNgF9PMH+fUd5Xk9VzzKtQx4TWiDNoy+PXbtNAluok7B+un5jLg==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(4636009)(366004)(44832011)(508600001)(5660300002)(8936002)(66556008)(66946007)(4326008)(66476007)(91956017)(8676002)(122000001)(316002)(6916009)(64756008)(38070700005)(6486002)(9686003)(26005)(6512007)(71200400001)(2906002)(1076003)(6506007)(186003)(86362001)(53546011)(76116006)(33716001)(83380400001)(66446008)(54906003)(38100700002)(82960400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?GTvDubeEk6rq9ngVca/yVLONn/+GMyGq/3wvUloCX2pcSvFelQVlkwlx7toP?=
- =?us-ascii?Q?uqmfTBIUFd5t4JT5YX3lOMb2nyWD4h1+wMUzooCGbv/8+zNxT64RZ2hKLvHi?=
- =?us-ascii?Q?VfTGvDLw9mMxh3bR43lKVLW8R86zruyJ4rbSRmyJji5jd+fVg9tJIIXdbLRS?=
- =?us-ascii?Q?/vdKJUPh82j4xsyEHgpjk24evXL9oHdlAWlftduPCgHDLZLGUoX/QAWTQuOL?=
- =?us-ascii?Q?8IIg+jYt8nX1F7M2L8uWOYiTRXRtTpnJCJO/GPrRXIOo2NhbKAHRQdB8PrA2?=
- =?us-ascii?Q?D289/BldbbumMkXJPDc66p9RKN4edr5ZWdgLtJ9/H6QW933V8QVAxg+y+u4m?=
- =?us-ascii?Q?aFhRU/H6MPVlXC2h6WpyFAc08APckQIoOI3UK/AThyhLV57qagfeky+V2i8Q?=
- =?us-ascii?Q?paK8xVOWwUhDKkDHSo3Jkp9JGbc5ORNFHWcKuq7V+zp1267xVw0KQ8p3lNzj?=
- =?us-ascii?Q?+9jLTOXhek6Pur6A3f6oZh5T0gDUUWaVNpiUoinT1+5mL0WTetid++ATuY0L?=
- =?us-ascii?Q?/mqbndZ1LZZl6rTfC7UiEvs3Nmm/PxLGDkKkQcngDoFpC+pldk2G21nO+5IM?=
- =?us-ascii?Q?Bs2H8kDtOXeD6cCBGl4LsFPwG6csut9bnqxWVHG7iEdclz0D4C2ryLr6/6XH?=
- =?us-ascii?Q?ESMg9h+7oMy7qKW0QpgPXD2qWd+aqYFnn/x22XuRKT6YlYBlidOqbX3wZPdY?=
- =?us-ascii?Q?5BwLmIyM1wvTunohuO31dy2Kf8L0ZKa6Tyo/dJSXAqOEDJ/OuDceXPGOwKs5?=
- =?us-ascii?Q?ElFLwAO+gjI3R1VCYdOh/5l3aGT9AfIqDd41b/C2jY7t7rzc3kK83inOu4FU?=
- =?us-ascii?Q?gE+pv6bJGzDS0ZatLraJN3ox+IO1edqLpO+M9cKarTs5CKLv5NS+0Us5j3Ap?=
- =?us-ascii?Q?07UzYiQZqB3+MVYtWL0TZXq+3G85bPyfG1n3YfSo15bF9F6KPPmc1Ac79U2W?=
- =?us-ascii?Q?g/cI/DNw4IJFJjdnbNnmYSHV0ZwU4Sz6XKBjUYc/56BpqXgB1ip1gPBCXnPW?=
- =?us-ascii?Q?KoVOz/JfbD0LxKMt38J2YgJaU3qirZqwBBnKpOUvr4g4vBK4iL57xyZ86OSM?=
- =?us-ascii?Q?3eGJm//JeOwLjJPOB5JXwbntoh3CfSSc7msYKcSilzM5HPsaAcsfZX+6XZUH?=
- =?us-ascii?Q?jJlIqicybes9UKmg1YgcR5SCU2JwJzBBKOViaW92PRUJ0iigt2Xh9fhcx/ad?=
- =?us-ascii?Q?3b81AEEGMIfxdSKuMDT5fhnTJBtqe1uQdJiWuoGXhX21sg3P/UAtLLHZN1T8?=
- =?us-ascii?Q?s0oUUZgnMrzFwefld8PU0xuFIC+iGutK2ztw4zx0lcTI2mwviCFxgU+6WrpN?=
- =?us-ascii?Q?Pw7fIadiO9MEnJjIrMbV9taRNT1t4HBfXeGbyBHQRobUbbiG9F+N/P835Eep?=
- =?us-ascii?Q?pnGc2ZvyiooZZrL2q4WBhQlrbyKUR+51PnEOhgqqvlMNtHtO+RxsBglQLBDl?=
- =?us-ascii?Q?2Tx8W5CMQHUFf5YoAt7Phm3tCQ5h6YXgqeVTDVCTuJpxe/vujO8SEHL5eX1Q?=
- =?us-ascii?Q?hPxyLNQ6MN07gkRf1FKUqbgjngdbC1tKRGZNvell3hJmglEN3V1L0T953O2y?=
- =?us-ascii?Q?v2H5q4ZxfZP/hMRXvvMSIVfTQnDQCEXYXndy9QwVXqSHJDVl7RFNs5wyPK8h?=
- =?us-ascii?Q?dn8LWSdjwt2jJkc+2miSKKF5mcpFcjLUk5asir9Wp8CuBFgDqoFOBMPCQWhw?=
- =?us-ascii?Q?+xs3yBrwKYnN8LkvXd2xF4aMpkYhx/FrqSJC5sog9B330w5yjz7zvp/X5GB4?=
- =?us-ascii?Q?uCqlhSUVeZ2qiwiwhPTzx4zHjGAukSqCKNNP4KjcBWXm7phob0W3?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DB2490C0234AB94FA11C88B3D5BE2B32@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ <20220614010907.bvbrgbz7nnvpnw5w@shindev>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2b9de5d-1318-496e-27a6-08da4da27b60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2022 01:09:07.5973
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4g0aLlXojGpPsQY/hhWvwwkdPsBKqXEhWcdDpI73Kkl364Zv3A/BIjqVVF2KTSR62z3FM0hybRp9mOz8wqBVSvsZVD2t69vHV6xGlRaA89I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5207
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614010907.bvbrgbz7nnvpnw5w@shindev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220613_180914_552494_0A5C7DCA 
-X-CRM114-Status: GOOD (  26.54  )
+X-CRM114-CacheID: sfid-20220613_192342_200311_2EF5F1A5 
+X-CRM114-Status: GOOD (  22.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,95 +82,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-(CC+: linux-pci)
-
-On Jun 11, 2022 / 16:34, Yi Zhang wrote:
-> On Fri, Jun 10, 2022 at 10:49 PM Keith Busch <kbusch@kernel.org> wrote:
-> >
-> > On Fri, Jun 10, 2022 at 12:25:17PM +0000, Shinichiro Kawasaki wrote:
-> > > On Jun 10, 2022 / 09:32, Chaitanya Kulkarni wrote:
-> > > > >> #6: nvme/032: Failed at the first run after system reboot.
-> > > > >>                 Used QEMU NVME device as TEST_DEV.
-> > > > >>
-> > > >
-> > > > ofcourse we need to fix this issue but can you also
-> > > > try it with the real H/W ?
+On Tue, Jun 14, 2022 at 01:09:07AM +0000, Shinichiro Kawasaki wrote:
+> (CC+: linux-pci)
+> On Jun 11, 2022 / 16:34, Yi Zhang wrote:
+> > On Fri, Jun 10, 2022 at 10:49 PM Keith Busch <kbusch@kernel.org> wrote:
 > > >
-> > > Hi Chaitanya, thank you for looking into the failures. I have just ru=
-n the test
-> > > case nvme/032 with real NVME device and observed the exactly same sym=
-ptom as
-> > > QEMU NVME device.
-> >
-> > QEMU is perfectly fine for this test. There's no need to bring in "real=
-"
-> > hardware for this.
-> >
-> > And I am not even sure this is real. I don't know yet why this is showi=
-ng up
-> > only now, but this should fix it:
->=20
-> Hi Keith
->=20
-> Confirmed the WARNING issue was fixed with the change, here is the log:
+> > > And I am not even sure this is real. I don't know yet why this is showing up
+> > > only now, but this should fix it:
+> > 
+> > Hi Keith
+> > 
+> > Confirmed the WARNING issue was fixed with the change, here is the log:
+> 
+> Thanks. I also confirmed that Keith's change to add __ATTR_IGNORE_LOCKDEP to
+> dev_attr_dev_rescan avoids the fix, on v5.19-rc2.
+> 
+> I took a closer look into this issue and found The deadlock WARN can be
+> recreated with following two commands:
+> 
+> # echo 1 > /sys/bus/pci/devices/0000\:00\:09.0/rescan
+> # echo 1 > /sys/bus/pci/devices/0000\:00\:09.0/remove
+> 
+> And it can be recreated with PCI devices other than NVME controller, such as
+> SCSI controller or VGA controller. Then this is not a storage sub-system issue.
+> 
+> I checked function call stacks of the two commands above. As shown below, it
+> looks like ABBA deadlock possibility is detected and warned.
 
-Thanks. I also confirmed that Keith's change to add __ATTR_IGNORE_LOCKDEP t=
-o
-dev_attr_dev_rescan avoids the fix, on v5.19-rc2.
-
-I took a closer look into this issue and found The deadlock WARN can be
-recreated with following two commands:
-
-# echo 1 > /sys/bus/pci/devices/0000\:00\:09.0/rescan
-# echo 1 > /sys/bus/pci/devices/0000\:00\:09.0/remove
-
-And it can be recreated with PCI devices other than NVME controller, such a=
-s
-SCSI controller or VGA controller. Then this is not a storage sub-system is=
-sue.
-
-I checked function call stacks of the two commands above. As shown below, i=
-t
-looks like ABBA deadlock possibility is detected and warned.
-
-echo 1 > /sys/bus/pci/devices/*/rescan
-  kernfs_fop_write_iter
-    kernfs_get_active
-      atomic_inc_unless_nagative
-      rwsem_acquire_read(&kn->dep_map, 0, 1, _RET_IP) :lock L1 for "rescan"=
- file
-    dev_rescan_store
-      pci_lock_rescan_remove
-        mutex_lock(&pci_rescan_remove_lock)           :lock L2
-
-echo 1 > /sys/bus/pci/devices/*/remove
-  kernfs_fop_write_iter
-    remove_store
-      pci_stop_and_remove_bus_device_locked
-        pci_lock_rescan_remove
-          mutex_lock(&pci_rescan_remove_lock)         :lock L2
-        pci_stop_and_remove_bus_device
-	  pci_remove_bus_device
-	    device_del
-	      device_remove_attrs
-		sysfs_remove_attrs
-		  sysfs_remove_groups
-		    sysfs_remove_group
-		      remove_files    .... iterates for pci device sysfs files including =
-"rescan" file?
-			kernfs_remove_by_name_ns
-			  __kernfs_remove
-			    kernfs_drain
-			      rwsem_acquire(&kn->dep_map, 0, 0, _RET_IP): lock L1
-
-It looks for me that the deadlock possibility exists for real, even though =
-the
-race between rescan operation and remove operation is really rare use case.
-
-I would like to hear comments on the guess above. I take the liberty to CC =
-this
-to linux-pci list. Is this an issue to fix?
-
---=20
-Shin'ichiro Kawasaki=
+Yeah, I was mistaken on this report, so my proposal to suppress the warning is
+definitely not right. If I run both 'echo' commands in parallel, I see it
+deadlock frequently. I'm not familiar enough with this code to any good ideas
+on how to fix, but I agree this is a generic pci issue.
 
