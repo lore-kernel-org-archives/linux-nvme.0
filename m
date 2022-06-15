@@ -4,53 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECDA2C433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 11:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AC63CCA473
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 11:50:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+R+gwYnExpqPohDJn+o7Gel9vHv+3UbhOqXvNiZjaVQ=; b=jyBdlPdVTsEMskWMUvP8ZZcsgL
-	pE6aT+B9cj+kz3mZgabt7TWINlQdBYKSgtWy0In+iYkNNm3rXHe/Ci82SQGeXISTMEYCqwuuIh4ig
-	SPvpzLFBqEXzSNWL/iMOdRaaO3/BdyJCRVB8F+aZpS8QKC6jP4lRO4EgEfJdAlf8V87rl523noh/O
-	Vy5nnFI4hm4Pi+GfomJmvAc2RII4Q2pv5uuJ4+1aC/tu36CynC2emQ8lU59KHAmcLTxGHOc91COfE
-	AjlrPi91UmOxssmEYlzH3ty/HvX/+HhapFZspTOA+v0D5+T4LeAvpF2mGIBekezuN9yNGfEYAwoEO
-	T9VbRSFw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KS5V43tN9kQ1GOl39JsEaTdYiMW2bQO4Gv/ubiEllLU=; b=VJu237cRo0aw6RvzUC0n4lV7SY
+	wQib/joDydIholBOZD8zVSqI3vevap+d3EZGpy7X3YfDihnIPDuUYZ/mcqzP0BSCFUiqrN6XTX7+W
+	sxKkraUWuMX+cXH7d8hoo4ukAe/jkqIYZxPmNqSXHq98F5mBkwev7WXml87WTw8QMqjcrbHNlmFoz
+	O3Tr4u6JruMOqaW6l8Il7Qn+qQU+r6yT/RMLJ5cL6MH1gj1wjDDJIkcyQe4L4Ab84Zf47rkvHPC6e
+	Bue72VzIwJeL5mnp8j46WEHzHG617PJrzhGBJ1wBclAo69lwYttwL51IuIvlTEACVAGih2sDLOwIp
+	jc2QTl+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1REu-00EBej-N5; Wed, 15 Jun 2022 11:31:12 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1o1RX6-00EGS0-4r; Wed, 15 Jun 2022 11:50:00 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1REs-00EBdF-CY
-	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 11:31:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 43DD768AA6; Wed, 15 Jun 2022 13:31:06 +0200 (CEST)
-Date: Wed, 15 Jun 2022 13:31:06 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pankaj Raghav <pankydev8@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	"R, Monish Kumar" <monish.kumar.r@intel.com>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"alan.adamson@oracle.com" <alan.adamson@oracle.com>,
-	LKML <linux-kernel@vger.kernel.org>, Yi Zhang <yi.zhang@redhat.com>,
-	Keith Busch <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
-	"Rao, Abhijeet" <abhijeet.rao@intel.com>
-Subject: Re: 2 second nvme initialization delay regression in 5.18 [Was:
- Re: [bug report]nvme0: Admin Cmd(0x6), I/O Error (sct 0x0 / sc 0x2)
- MORE DNR observed during blktests]
-Message-ID: <20220615113106.GA10697@lst.de>
-References: <CAHj4cs_iC+FE8ZAXXZPeia1V3ZX7zRbeASdOP_8c7DLiFozNfA@mail.gmail.com> <Ykyf5Zuz1W8yHhNY@zx2c4.com> <CAHmME9pwz4q0m-pSUy7ReWu4nNzxySNcYZrqyDZiTuGxHN=1NQ@mail.gmail.com> <CAHmME9o-orF52HzkT80054e3Op5fLOcTHb-KHpvvU7H3FpAJ7A@mail.gmail.com> <SA2PR11MB5115DCE45778910C96813CA1C3A79@SA2PR11MB5115.namprd11.prod.outlook.com> <YqG/pybFg0P5yQ9a@zx2c4.com> <20220610061449.GD24331@lst.de> <YqMMo2Dv9SZRtR7B@zx2c4.com> <20220613135549.GA1714@lst.de> <20220615102757.ugvs6vdxf66nrmyn@quentin>
+	id 1o1RX2-00EGRE-Qv
+	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 11:49:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1655293795; x=1686829795;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=UwzFKMs4KQMIAKOxw5zetV+fYeDr1pp0OLi0nfGg/a8=;
+  b=EB5ghRNs4HOvDetaRL3s1nAX15DVasKnjoukOL4w9w64ap64lk6Xhoz4
+   uHIfKRk3ZXaHvVedF65njzhGN3BdbfCVGNQS5FKnxy9Tz1w5mFJ8FJZhm
+   SHkAkrNfxC+lyV3ifiz52u+6hdqO5ga0xioxPrSQId78MKzcSMTCPvIJS
+   yHbTECZ6DHR+iqtRR4JsMrPHjvMGXP3n+QsCFxeoeO3Lx5P0xGTcHL5kX
+   TaO3pT41EuZQtN0DhiUk2PPerCFKNp/Cd0aOzMVDUJvPaSjc1fW20gjc3
+   vYOw1ukCPlEnc5Jr2O6PVkEyrykJ1gYIzf249S7lYPkfCgMxKIXrsUe5l
+   A==;
+X-IronPort-AV: E=Sophos;i="5.91,302,1647273600"; 
+   d="scan'208";a="208072882"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 15 Jun 2022 19:49:53 +0800
+IronPort-SDR: dsznu7kXAdoOMGyGhfk8E2c2ruvccYP2ndIz2ip8HIOZ9SJkbQngNMh5KiRJ7arFEwxjrd3NVy
+ imH9t/vzA+FItEDlL56CIU3+RnNf9V5bokpkLMQpptHItEgSeFOUJzPn2vu98OYrtiDgXqH14j
+ JWDJesurqTuylTquoSxrN/1bFMgMq3DOmp1touTb5W+szgmZQ/VJLLzof1HM7MO9arWRAZbEHC
+ 3jb8fuRe1P3VgWbqyL5yLDmHPF3gvS94SU95uYnThysXpegkULm7AHRvLMFGBzLKqHhQ27h6GW
+ vMtZyOtTyPGE4nSsP5cMp1Yo
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Jun 2022 04:12:46 -0700
+IronPort-SDR: zplsEZYvzI4dlx3cJnpA//c6tLFwoh2CSJStQZfGVAyRXfxcYsG1S4Bpo7WXBLfaDc4g7GQ4M1
+ hCpYkEfl4ndnvGQHBg7cZqvTWERmL1vf5yqnDtOe35R0+Czx1XLvg7vxLU+uFtjglRER3Xv1Dl
+ B/QlcH3fQkHpdq/3+Wx8hkcKl5Rgn6kbCaqOYea7J7e2SaJYqiPjP+/edPOAcqbpru1YNn20EI
+ vYNoE1QTwoamIv48wPhLplIwdTDwfYOrkplhekznWAF/nx5Uz80Ne0FZVq+/mgZOUqUuMQQCnO
+ KCc=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Jun 2022 04:49:55 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LNNry43Dyz1SVp5
+	for <linux-nvme@lists.infradead.org>; Wed, 15 Jun 2022 04:49:54 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+	reason="pass (just generated, assumed good)"
+	header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:content-type
+	:in-reply-to:organization:from:references:to:content-language
+	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
+	1655293791; x=1657885792; bh=UwzFKMs4KQMIAKOxw5zetV+fYeDr1pp0OLi
+	0nfGg/a8=; b=NO3QPupa7jJ1MG+sn6/lem2fyr7XeEiyf62kjM4M/hLNlm9JBEV
+	YCsZDbi+aolKsl4jmZnixgw2+aA/Qj1IqEG86wu25S0OWgwvwJBA1N3PO2ntt1eJ
+	FbTLe3mChfsYcZunpiATw/6M/ImA59BppW3embHv7atdc8zNjMJWW5aiHJ7GRrcC
+	ldcFxxTke9JV2oxJTBcPpIF2NpSfrgmFdSNMFqeXy9eH8Z2+ODppSoV0YiDw+ZeZ
+	EpKHvKLtE8m7A/rdMgg/V8EEfkT0RM0dQXdiK8nUcYMFxWcTLy0yc0oPH/nEQhq9
+	hMEAkhV2RszmLnDw6HtLVAuxaqBmkyBzZ1w==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ZhZ1twnaX4OV for <linux-nvme@lists.infradead.org>;
+	Wed, 15 Jun 2022 04:49:51 -0700 (PDT)
+Received: from [10.225.163.82] (unknown [10.225.163.82])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LNNrr1LdFz1Rvlc;
+	Wed, 15 Jun 2022 04:49:47 -0700 (PDT)
+Message-ID: <63b0cfb6-eb24-f058-e502-2637039c5a98@opensource.wdc.com>
+Date: Wed, 15 Jun 2022 20:49:46 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615102757.ugvs6vdxf66nrmyn@quentin>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 13/13] dm: add non power of 2 zoned target
+Content-Language: en-US
+To: Pankaj Raghav <p.raghav@samsung.com>, hch@lst.de, snitzer@redhat.com,
+ axboe@kernel.dk
+Cc: bvanassche@acm.org, linux-kernel@vger.kernel.org,
+ jiangbo.365@bytedance.com, hare@suse.de, pankydev8@gmail.com,
+ dm-devel@redhat.com, jonathan.derrick@linux.dev, gost.dev@samsung.com,
+ dsterba@suse.com, jaegeuk@kernel.org, linux-nvme@lists.infradead.org,
+ Johannes.Thumshirn@wdc.com, linux-block@vger.kernel.org,
+ Damien Le Moal <damien.lemoal@wdc.com>
+References: <20220615101920.329421-1-p.raghav@samsung.com>
+ <CGME20220615102011eucas1p220368db4a186181b1927dea50a79e5d4@eucas1p2.samsung.com>
+ <20220615101920.329421-14-p.raghav@samsung.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220615101920.329421-14-p.raghav@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220615_043110_616857_62F9C9BA 
-X-CRM114-Status: GOOD (  18.98  )
+X-CRM114-CacheID: sfid-20220615_044956_974122_9B972AD9 
+X-CRM114-Status: GOOD (  48.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,20 +122,495 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 15, 2022 at 12:27:57PM +0200, Pankaj Raghav wrote:
-> Hi Christoph,
-> On Mon, Jun 13, 2022 at 03:55:49PM +0200, Christoph Hellwig wrote:
-> > It all appears as PCIe, but the pci_dev has an is_thunderbolt flag.
-> > 
-> > Thanks to both of you for the information.  I'd like to wait until the
-> > end of the week or so if we can hear something from Samsung, and if we
-> > don't we'll have to quirk based on the model number.
-> Our FW team has started looking into the issue. They said they will try
-> to come up with a solution before 5.20. If not, we can add this quirk
-> based on the FW ver. and a proper solution can be added by 5.21.
+On 6/15/22 19:19, Pankaj Raghav wrote:
+> Only power of 2(po2) zoned devices were supported in linux but now non
+> power of 2(npo2) zoned device support has been added to the block layer.
+> 
+> Filesystems such as F2FS and btrfs have support for zoned devices with
+> po2 zone size assumption. Before adding native support for npo2 zoned
+> devices, it was suggested to create a dm target for npo2 zoned device to
+> appear as po2 device so that file systems can initially work without any
+> explicit changes by using this target.
+> 
+> The design of this target is very simple: introduce gaps between the zone
+> capacity and the po2 zone size of the underlying device. All IOs will be
+> remapped from target to the actual device location. For devices that use
+> zone append, the bi_sector is remapped from device to target's layout.
 
-I don't think we can wait for 5.20 - the "offending" commit is in
-5.19-rc and -stable.  So I'll plan to prepare a patch based on the model
-number for now, still hoping we can come up with something better
-eventually.
+Nothing special for zone append in this respect. All IOs are remapped
+likewise, right ?
+
+> 
+> The read IOs that fall in the "emulated" gap area will return 0 and all
+> the other IOs in that area will result in an error. If an read IO span
+> across the zone capacity boundary, then the IOs are split between the
+> boundary. All other IO operations that span across a zone capacity
+> boundary will result in an error.
+> 
+> The target can be easily updated as follows:
+
+Updated ? you mean created, no ?
+
+> dmsetup create <label> --table '0 <size_sects> zoned-npo2 /dev/nvme<id>'
+> 
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> Suggested-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+> Suggested-by: Damien Le Moal <damien.lemoal@wdc.com>
+> Suggested-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  drivers/md/Kconfig                |   9 +
+>  drivers/md/Makefile               |   2 +
+>  drivers/md/dm-zone.c              |   9 +
+>  drivers/md/dm-zoned-npo2-target.c | 268 ++++++++++++++++++++++++++++++
+>  4 files changed, 288 insertions(+)
+>  create mode 100644 drivers/md/dm-zoned-npo2-target.c
+> 
+> diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
+> index 998a5cfdb..773314536 100644
+> --- a/drivers/md/Kconfig
+> +++ b/drivers/md/Kconfig
+> @@ -518,6 +518,15 @@ config DM_FLAKEY
+>  	help
+>  	 A target that intermittently fails I/O for debugging purposes.
+>  
+> +config DM_ZONED_NPO2
+> +	tristate "Zoned non power of 2 target"
+> +	depends on BLK_DEV_DM
+> +	depends on BLK_DEV_ZONED
+> +	help
+> +	A target that converts a zoned device with non power of 2 zone size to
+> +	be power of 2. This is done by introducing gaps in between the zone
+> +	capacity and the power of 2 zone size.
+> +
+>  config DM_VERITY
+>  	tristate "Verity target support"
+>  	depends on BLK_DEV_DM
+> diff --git a/drivers/md/Makefile b/drivers/md/Makefile
+> index 0454b0885..2863a94a7 100644
+> --- a/drivers/md/Makefile
+> +++ b/drivers/md/Makefile
+> @@ -26,6 +26,7 @@ dm-era-y	+= dm-era-target.o
+>  dm-clone-y	+= dm-clone-target.o dm-clone-metadata.o
+>  dm-verity-y	+= dm-verity-target.o
+>  dm-zoned-y	+= dm-zoned-target.o dm-zoned-metadata.o dm-zoned-reclaim.o
+> +dm-zoned-npo2-y       += dm-zoned-npo2-target.o
+
+This naming is in my opinion very bad as it seems related to the dm-zoned
+target. e.g. dm-po2z, dm-zp2, etc.
+
+>  
+>  md-mod-y	+= md.o md-bitmap.o
+>  raid456-y	+= raid5.o raid5-cache.o raid5-ppl.o
+> @@ -60,6 +61,7 @@ obj-$(CONFIG_DM_CRYPT)		+= dm-crypt.o
+>  obj-$(CONFIG_DM_DELAY)		+= dm-delay.o
+>  obj-$(CONFIG_DM_DUST)		+= dm-dust.o
+>  obj-$(CONFIG_DM_FLAKEY)		+= dm-flakey.o
+> +obj-$(CONFIG_DM_ZONED_NPO2)	+= dm-zoned-npo2.o
+>  obj-$(CONFIG_DM_MULTIPATH)	+= dm-multipath.o dm-round-robin.o
+>  obj-$(CONFIG_DM_MULTIPATH_QL)	+= dm-queue-length.o
+>  obj-$(CONFIG_DM_MULTIPATH_ST)	+= dm-service-time.o
+> diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
+> index af36d33f9..5efb31ba0 100644
+> --- a/drivers/md/dm-zone.c
+> +++ b/drivers/md/dm-zone.c
+> @@ -210,6 +210,11 @@ static int dm_zone_revalidate_cb(struct blk_zone *zone, unsigned int idx,
+>  		}
+>  		md->zwp_offset[idx] = dm_get_zone_wp_offset(zone);
+>  
+> +		if (q->limits.chunk_sectors != zone->len) {
+
+Why is this if needed ?
+
+> +			blk_queue_chunk_sectors(q, zone->len);
+> +			q->nr_zones = blkdev_nr_zones(md->disk);
+> +		}
+> +
+>  		break;
+>  	default:
+>  		DMERR("Invalid zone type 0x%x at sectors %llu",
+> @@ -307,6 +312,9 @@ int dm_set_zones_restrictions(struct dm_table *t, struct request_queue *q)
+>  	if (dm_table_supports_zone_append(t)) {
+>  		clear_bit(DMF_EMULATE_ZONE_APPEND, &md->flags);
+>  		dm_cleanup_zoned_dev(md);
+> +
+
+no need for the blank line.
+
+> +		if (!is_power_of_2(blk_queue_zone_sectors(q)))
+> +			goto revalidate_zones;
+>  		return 0;
+>  	}
+
+Why do you need to change dm_set_zones_restrictions() at all ?
+
+>  
+> @@ -318,6 +326,7 @@ int dm_set_zones_restrictions(struct dm_table *t, struct request_queue *q)
+>  	if (!get_capacity(md->disk))
+>  		return 0;
+>  
+> +revalidate_zones:
+>  	return dm_revalidate_zones(md, t);
+>  }
+>  
+> diff --git a/drivers/md/dm-zoned-npo2-target.c b/drivers/md/dm-zoned-npo2-target.c
+> new file mode 100644
+> index 000000000..c1373d3ea
+> --- /dev/null
+> +++ b/drivers/md/dm-zoned-npo2-target.c
+> @@ -0,0 +1,268 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2022 Samsung Electronics Co., Ltd.
+> + */
+> +
+> +#include <linux/device-mapper.h>
+> +
+> +#define DM_MSG_PREFIX "zoned-npo2"
+> +
+> +struct dmz_npo2_target {
+> +	struct dm_dev *dev;
+> +	sector_t zsze;
+> +	sector_t zsze_po2;
+> +	sector_t zsze_diff;
+
+zsze ? is that zone size ? Spell this out please. This is not nvme.
+
+> +	u32 nr_zones;
+> +};
+> +
+> +enum dmz_npo2_io_cond {
+> +	DMZ_NPO2_IO_INSIDE_ZONE,
+> +	DMZ_NPO2_IO_ACROSS_ZONE,
+> +	DMZ_NPO2_IO_OUTSIDE_ZONE,
+> +};
+> +
+> +static inline u32 npo2_zone_no(struct dmz_npo2_target *dmh, sector_t sect)
+> +{
+> +	return div64_u64(sect, dmh->zsze);
+> +}
+> +
+> +static inline u32 po2_zone_no(struct dmz_npo2_target *dmh, sector_t sect)
+> +{
+> +	return sect >> ilog2(dmh->zsze_po2);
+> +}
+> +
+> +static inline sector_t target_to_device_sect(struct dmz_npo2_target *dmh,
+> +					     sector_t sect)
+> +{
+> +	u32 zone_idx = po2_zone_no(dmh, sect);
+> +
+> +	sect -= (zone_idx * dmh->zsze_diff);
+
+	return sect - (po2_zone_no(dmh, sect) * dmh->zsze_diff);
+> +
+> +	return sect;
+> +}
+> +
+> +static inline sector_t device_to_target_sect(struct dmz_npo2_target *dmh,
+> +					     sector_t sect)
+> +{
+> +	u32 zone_idx = npo2_zone_no(dmh, sect);
+> +
+> +	sect += (zone_idx * dmh->zsze_diff);
+
+see above. Simplify.
+
+> +
+> +	return sect;
+> +}
+> +
+> +/*
+> + * <dev-path>
+
+What is this above line intended meaning ?
+
+> + * This target works on the complete zoned device. Partial mapping is not
+> + * supported
+> + */
+> +static int dmz_npo2_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+> +{
+> +	struct dmz_npo2_target *dmh = NULL;
+> +	int ret = 0;
+> +	sector_t zsze;
+> +	sector_t disk_size;
+> +
+> +	if (argc < 1)
+> +		return -EINVAL;
+> +
+> +	dmh = kmalloc(sizeof(*dmh), GFP_KERNEL);
+> +	if (!dmh)
+> +		return -ENOMEM;
+> +
+> +	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table),
+> +			    &dmh->dev);
+
+No error check ?
+
+> +
+> +	zsze = blk_queue_zone_sectors(bdev_get_queue(dmh->dev->bdev));
+> +
+> +	disk_size = get_capacity(dmh->dev->bdev->bd_disk);
+
+s/disk_size/dev_capacity
+
+> +
+> +	if (ti->len != disk_size || ti->begin) {
+> +		DMERR("%pg Partial mapping of the target not supported",
+
+missing a verb ("is not...")
+
+> +		      dmh->dev->bdev);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (is_power_of_2(zsze)) {
+> +		DMERR("%pg zone size is power of 2", dmh->dev->bdev);
+
+Hmmm... You would end up with no remapping needed so it would still
+work... Why error this ? A warning would work too.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	dmh->zsze = zsze;
+> +	dmh->zsze_po2 = 1 << get_count_order_long(zsze);
+> +	dmh->zsze_diff = dmh->zsze_po2 - dmh->zsze;
+> +
+> +	ti->private = dmh;
+> +	ti->num_flush_bios = 1;
+> +	ti->num_discard_bios = 1;
+> +	ti->num_secure_erase_bios = 1;
+> +	ti->num_write_zeroes_bios = 1;
+
+Why all these ? I know dm-linear do that but I do not see why they would
+be necessary for a single device target.
+
+> +
+> +	dmh->nr_zones = npo2_zone_no(dmh, ti->len);
+> +	ti->len = dmh->zsze_po2 * dmh->nr_zones;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dmz_npo2_report_zones_cb(struct blk_zone *zone, unsigned int idx,
+> +				    void *data)
+> +{
+> +	struct dm_report_zones_args *args = data;
+> +	struct dmz_npo2_target *dmh = args->tgt->private;
+> +
+> +	zone->start = device_to_target_sect(dmh, zone->start);
+> +	zone->wp = device_to_target_sect(dmh, zone->wp);
+> +	zone->len = dmh->zsze_po2;
+> +	args->next_sector = zone->start + zone->len;
+> +
+> +	return args->orig_cb(zone, args->zone_idx++, args->orig_data);
+> +}
+> +
+> +static int dmz_npo2_report_zones(struct dm_target *ti,
+> +				 struct dm_report_zones_args *args,
+> +				 unsigned int nr_zones)
+> +{
+> +	struct dmz_npo2_target *dmh = ti->private;
+> +	int ret = 0;
+
+no need for the = 0. No need for ret at all in fact.
+
+> +	sector_t sect = po2_zone_no(dmh, args->next_sector) * dmh->zsze;
+> +
+> +	ret = blkdev_report_zones(dmh->dev->bdev, sect, nr_zones,
+> +				  dmz_npo2_report_zones_cb, args);
+> +	if (ret < 0)
+> +		DMERR("report zones error");
+
+Not useful. just "return blkdev_report_zones();"
+
+> +
+> +	return ret;
+> +}
+> +
+> +static int check_zone_boundary_violation(struct dmz_npo2_target *dmh,
+> +					 sector_t sect, sector_t size)
+> +{
+> +	u32 zone_idx = po2_zone_no(dmh, sect);
+> +	sector_t relative_sect = 0;
+
+No need for "= 0".
+
+> +
+> +	sect = target_to_device_sect(dmh, sect);
+> +	relative_sect = sect - (zone_idx * dmh->zsze);
+
+ofst_in_zone ? or sect_osft ?
+
+> +
+> +	if ((relative_sect + size) <= dmh->zsze)
+
+no need for the inner brackets.
+
+> +		return DMZ_NPO2_IO_INSIDE_ZONE;
+> +	else if (relative_sect >= dmh->zsze)
+
+no need for the else. And this is super confusing. This case correspond to
+the BIO going beyond the zone capacity in the target address space,
+meaning it is still WITHIN the target zone. But you call that "outside"
+because it is for the device zone. Super confusing. It took me a lot of
+rereading to finally get it.
+
+> +		return DMZ_NPO2_IO_OUTSIDE_ZONE;
+> +
+> +	return DMZ_NPO2_IO_ACROSS_ZONE;
+
+So you BIO is eeither fully contained within the zone or it is not. So why
+not just return a bool ?
+
+> +}
+> +
+> +static void split_io_across_zone_boundary(struct dmz_npo2_target *dmh,
+> +					  struct bio *bio)
+> +{
+> +	sector_t sect = bio->bi_iter.bi_sector;
+> +	sector_t sects_from_zone_start;
+> +
+> +	sect = target_to_device_sect(dmh, sect);
+
+	sect = target_to_device_sect(dmh, bio->bi_iter.bi_sector);
+
+is more readable.
+
+> +	div64_u64_rem(sect, dmh->zsze, &sects_from_zone_start);
+> +	dm_accept_partial_bio(bio, dmh->zsze - sects_from_zone_start);
+
+So if this is a read BIO starting exactly at the target zone capacity
+(sects_from_zone_start == zsze), then you accept 0 sectors ? What am I
+missing here ?
+
+> +	bio->bi_iter.bi_sector = sect;
+> +}
+> +
+> +static int handle_zone_boundary_violation(struct dmz_npo2_target *dmh,
+> +					  struct bio *bio,
+> +					  enum dmz_npo2_io_cond cond)
+> +{
+> +	/* Read should return zeroed page */
+> +	if (bio_op(bio) == REQ_OP_READ) {
+> +		if (cond == DMZ_NPO2_IO_ACROSS_ZONE) {
+> +			split_io_across_zone_boundary(dmh, bio);
+> +			return DM_MAPIO_REMAPPED;
+> +		}
+> +		zero_fill_bio(bio);
+> +		bio_endio(bio);
+> +		return DM_MAPIO_SUBMITTED;
+> +	}
+> +	return DM_MAPIO_KILL;
+> +}
+> +
+> +static int dmz_npo2_end_io(struct dm_target *ti, struct bio *bio,
+> +			   blk_status_t *error)
+> +{
+> +	struct dmz_npo2_target *dmh = ti->private;
+> +
+> +	if (bio->bi_status == BLK_STS_OK && bio_op(bio) == REQ_OP_ZONE_APPEND)
+> +		bio->bi_iter.bi_sector =
+> +			device_to_target_sect(dmh, bio->bi_iter.bi_sector);
+> +
+> +	return DM_ENDIO_DONE;
+> +}
+> +
+> +static int dmz_npo2_map(struct dm_target *ti, struct bio *bio)
+> +{
+> +	struct dmz_npo2_target *dmh = ti->private;
+> +	enum dmz_npo2_io_cond cond;
+> +
+> +	bio_set_dev(bio, dmh->dev->bdev);
+> +	if (bio_sectors(bio) || op_is_zone_mgmt(bio_op(bio))) {
+> +		cond = check_zone_boundary_violation(dmh, bio->bi_iter.bi_sector,
+> +						     bio->bi_iter.bi_size >> SECTOR_SHIFT);
+
+Why check this for zone management BIOs ? These have length = 0, always.
+
+> +
+> +		/*
+> +		 * If the starting sector is in the emulated area then fill
+> +		 * all the bio with zeros. If bio is across boundaries,
+> +		 * split the bio across boundaries and fill zeros only for the
+> +		 * bio that is outside the zone capacity
+> +		 */
+> +		switch (cond) {
+> +		case DMZ_NPO2_IO_INSIDE_ZONE:
+> +			bio->bi_iter.bi_sector = target_to_device_sect(dmh,
+> +								       bio->bi_iter.bi_sector);
+> +			break;
+> +		case DMZ_NPO2_IO_ACROSS_ZONE:
+> +		case DMZ_NPO2_IO_OUTSIDE_ZONE:
+> +			return handle_zone_boundary_violation(dmh, bio, cond);
+> +		}
+> +	}
+> +	return DM_MAPIO_REMAPPED;
+
+This entire function is very hard to read because everything is hidden in
+helpers that are not super useful in my opinion. I would prefer seeing
+cases for:
+* zone management BIOs
+* Reads and writes
+* Everything else
+
+where tests against the bio sector and length are visible, so one can
+understand what is going on. If you need helpers, have handle_zone_mgmt(),
+handle_read() etc. Something clear.
+
+> +}
+> +
+> +static int dmz_npo2_iterate_devices(struct dm_target *ti,
+> +				    iterate_devices_callout_fn fn, void *data)
+> +{
+> +	struct dmz_npo2_target *dmh = ti->private;
+> +	sector_t len = 0;
+> +
+> +	len = dmh->nr_zones * dmh->zsze;
+
+Move this to the declaration instead of setting len to 0 for nothing.
+
+> +	return fn(ti, dmh->dev, 0, len, data);
+> +}
+> +
+> +static struct target_type dmz_npo2_target = {
+> +	.name = "zoned-npo2",
+> +	.version = { 1, 0, 0 },
+> +	.features = DM_TARGET_ZONED_HM,
+> +	.map = dmz_npo2_map,
+> +	.end_io = dmz_npo2_end_io,
+> +	.report_zones = dmz_npo2_report_zones,
+> +	.iterate_devices = dmz_npo2_iterate_devices,
+> +	.module = THIS_MODULE,
+> +	.ctr = dmz_npo2_ctr,
+> +};
+> +
+> +static int __init dmz_npo2_init(void)
+> +{
+> +	int r = dm_register_target(&dmz_npo2_target);
+> +
+> +	if (r < 0)
+> +		DMERR("register failed %d", r);
+> +
+> +	return r;
+> +}
+> +
+> +static void __exit dmz_npo2_exit(void)
+> +{
+> +	dm_unregister_target(&dmz_npo2_target);
+> +}
+> +
+> +/* Module hooks */
+> +module_init(dmz_npo2_init);
+> +module_exit(dmz_npo2_exit);
+> +
+> +MODULE_DESCRIPTION(DM_NAME " non power 2 zoned target");
+> +MODULE_AUTHOR("Pankaj Raghav <p.raghav@samsung.com>");
+> +MODULE_LICENSE("GPL");
+> +
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
