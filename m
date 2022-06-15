@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25CEFC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 16:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C56D3C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 16:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UO35KE8YVx2v+yNTFMhmKCQE8ptUbM1lG6ODy8MFD4U=; b=3DDKi/eiO1U/XACHMo87dLKgwy
-	Q3Ti02xY7nNpLNExecff4DVQ5inFWn4FELMJfj4gbM0a2tmHC6z0AOjk713tyxkNxlHZuCBmkCMaq
-	FlAxekncbV1kOnFl054dR0/xT2hnImvkrHC1HVwCf1LTN0zfOxomp6KNpy0bT3kskYFVuvl6Zig9z
-	a+hLzbWaXakRXO+GuuPEDIvDH/JFfuRLGtt5WAl0vD3VRzeUMNSDR3EJfuK/1GXHA/VgwzXZ01fWN
-	yYrRJ4O0M+EG94yAaLvQWzYa3N4VyOcz62AHnUrHnZaPmJXbY8iKfrRDun/jVEw74ifCylFj5oDSl
-	uqtPTwyg==;
+	bh=DdZTvd3yBCTOLfdH85j+eUYcuinHr6KLhT1SRgVQVD0=; b=X+544mYHA4NB4lVSp4YJLDW3Ro
+	W18O6suSx2QEeU5ca3k4hyaOjoG/5TtAGw3H8LNBiiZpir3rSo3iACESXP+8RBmF9kfoItNp+A+Yp
+	CpzShADhYk6juAFIioqXRJUQGJe0JM3XFHXRu8uphnq/0jGKDuwskHF+r16/jTBYMkFofuIJ09MQ9
+	uwQNQujgn23vD4oQgP2kb/537nqZifNW1v1C3DsCqT/ozDf9R9oLCxcgM/oH+JHkxoaC9jt8dRWN3
+	B8rqR+GCzUZvuVQf19/U4aYouh4I7qtqNFEoDB6LfZURaBZDjVSDCQGN/doNtqzvhIA7sEzNmbSjb
+	DWbRr3uQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1Vfl-00FLAE-VN; Wed, 15 Jun 2022 16:15:14 +0000
+	id 1o1VgS-00FLS8-PS; Wed, 15 Jun 2022 16:15:56 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1VdU-00FJZ9-LY
-	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 16:12:57 +0000
+	id 1o1VdV-00FJbm-3e
+	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 16:13:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=UO35KE8YVx2v+yNTFMhmKCQE8ptUbM1lG6ODy8MFD4U=; b=TsE9W15o3EM/nOeQHIurouy/XA
-	2Y3+/BjdySgEMcfs9J9Xr3aFaFURXmsv3E6ylJDixGSN9s7g2SYY6k8/grdKUKTBmAaXttKXHKYId
-	8Tb8qzTHtupqDS54U8Ua402SNJp9CGGyjD4uUAGFAN4fPKqrYTUUiS57TgSmpYDH1NktW0RN014IT
-	1aacZVnPSkai9pTda7rEsqYo57R6/USD4Uj1WtQp3fMnHUD6mrnWJjmK6OMB8WlszyclZBg/9qMB0
-	U/N8B4+j8XWxbDNGEOQzbKXjwS85TBLNUeTFC5Ec5ZIE0ZIWESQ/C1jGVncnz+JbORAazZSyWmpZa
-	xZImoPPw==;
+	bh=DdZTvd3yBCTOLfdH85j+eUYcuinHr6KLhT1SRgVQVD0=; b=HIHDMfL5brPKgsuHPyRaaOLIQG
+	Re/GuSfaJP+xJ8dav+q+G6pnRKbJ3UUU56fV8zFqNSNQIf5mSZ5s3GNtGQKSZk0Es4MbL8pPjMTfi
+	DBL5pXyKNE/AbsOV6KZB02bJay7RCSe8ImtccTN0aoZG0rYmSDxUZ2L0GzDQuizWJNbBBRiBCWSay
+	0Fb5+WuBsVf1w7qupINs5imSr+fBwB66tuFbwF/lhDT2zjFY7b+Nfo6CfbtJTjP4nuujpoP4fY6xG
+	L0BIrMURi6lyD1m87JeM+HqTB1aazkonUzXWq92MsaAZ3cJ4kL/eLh22mHgCsADJ/Pgig5PIiAaNU
+	jrcBTAIA==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o1VdP-0084iQ-Un; Wed, 15 Jun 2022 10:12:49 -0600
+	id 1o1VdR-0084iP-SZ; Wed, 15 Jun 2022 10:12:51 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o1VdJ-0004ao-5d; Wed, 15 Jun 2022 10:12:41 -0600
+	id 1o1VdH-0004aC-K7; Wed, 15 Jun 2022 10:12:39 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -68,23 +68,24 @@ Cc: Stephen Bates <sbates@raithlin.com>,
 	Martin Oliveira <martin.oliveira@eideticom.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
-	Logan Gunthorpe <logang@deltatee.com>
-Date: Wed, 15 Jun 2022 10:12:29 -0600
-Message-Id: <20220615161233.17527-18-logang@deltatee.com>
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Date: Wed, 15 Jun 2022 10:12:20 -0600
+Message-Id: <20220615161233.17527-9-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220615161233.17527-1-logang@deltatee.com>
 References: <20220615161233.17527-1-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, logang@deltatee.com, jhubbard@nvidia.com, rcampbell@nvidia.com, jgg@nvidia.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v7 17/21] lib/scatterlist: add check when merging zone device pages
+Subject: [PATCH v7 08/21] iommu/dma: support PCI P2PDMA pages in dma-iommu map_sg
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220615_091252_795031_CDD7A668 
-X-CRM114-Status: GOOD (  15.59  )
+X-CRM114-CacheID: sfid-20220615_091253_366837_134945A6 
+X-CRM114-Status: GOOD (  25.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,93 +100,170 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Consecutive zone device pages should not be merged into the same sgl
-or bvec segment with other types of pages or if they belong to different
-pgmaps. Otherwise getting the pgmap of a given segment is not possible
-without scanning the entire segment. This helper returns true either if
-both pages are not zone device pages or both pages are zone device
-pages with the same pgmap.
+When a PCI P2PDMA page is seen, set the IOVA length of the segment
+to zero so that it is not mapped into the IOVA. Then, in finalise_sg(),
+apply the appropriate bus address to the segment. The IOVA is not
+created if the scatterlist only consists of P2PDMA pages.
 
-Factor out the check for page mergability into a pages_are_mergable()
-helper and add a check with zone_device_pages_are_mergeable().
+A P2PDMA page may have three possible outcomes when being mapped:
+  1) If the data path between the two devices doesn't go through
+     the root port, then it should be mapped with a PCI bus address
+  2) If the data path goes through the host bridge, it should be mapped
+     normally with an IOMMU IOVA.
+  3) It is not possible for the two devices to communicate and thus
+     the mapping operation should fail (and it will return -EREMOTEIO).
+
+Similar to dma-direct, the sg_dma_mark_pci_p2pdma() flag is used to
+indicate bus address segments. On unmap, P2PDMA segments are skipped
+over when determining the start and end IOVA addresses.
+
+With this change, the flags variable in the dma_map_ops is set to
+DMA_F_PCI_P2PDMA_SUPPORTED to indicate support for P2PDMA pages.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- lib/scatterlist.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ drivers/iommu/dma-iommu.c | 68 +++++++++++++++++++++++++++++++++++----
+ 1 file changed, 61 insertions(+), 7 deletions(-)
 
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index d5e82e4a57ad..af53a0984f76 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -410,6 +410,15 @@ static struct scatterlist *get_next_sg(struct sg_append_table *table,
- 	return new_sg;
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index f90251572a5d..b01ca0c6a7ab 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -21,6 +21,7 @@
+ #include <linux/iova.h>
+ #include <linux/irq.h>
+ #include <linux/list_sort.h>
++#include <linux/memremap.h>
+ #include <linux/mm.h>
+ #include <linux/mutex.h>
+ #include <linux/pci.h>
+@@ -1062,6 +1063,16 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		sg_dma_address(s) = DMA_MAPPING_ERROR;
+ 		sg_dma_len(s) = 0;
+ 
++		if (is_pci_p2pdma_page(sg_page(s)) && !s_iova_len) {
++			if (i > 0)
++				cur = sg_next(cur);
++
++			pci_p2pdma_map_bus_segment(s, cur);
++			count++;
++			cur_len = 0;
++			continue;
++		}
++
+ 		/*
+ 		 * Now fill in the real DMA data. If...
+ 		 * - there is a valid output segment to append to
+@@ -1158,6 +1169,8 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+ 	struct iova_domain *iovad = &cookie->iovad;
+ 	struct scatterlist *s, *prev = NULL;
+ 	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
++	struct dev_pagemap *pgmap = NULL;
++	enum pci_p2pdma_map_type map_type;
+ 	dma_addr_t iova;
+ 	size_t iova_len = 0;
+ 	unsigned long mask = dma_get_seg_boundary(dev);
+@@ -1193,6 +1206,35 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+ 		s_length = iova_align(iovad, s_length + s_iova_off);
+ 		s->length = s_length;
+ 
++		if (is_pci_p2pdma_page(sg_page(s))) {
++			if (sg_page(s)->pgmap != pgmap) {
++				pgmap = sg_page(s)->pgmap;
++				map_type = pci_p2pdma_map_type(pgmap, dev);
++			}
++
++			switch (map_type) {
++			case PCI_P2PDMA_MAP_BUS_ADDR:
++				/*
++				 * A zero length will be ignored by
++				 * iommu_map_sg() and then can be detected
++				 * in __finalise_sg() to actually map the
++				 * bus address.
++				 */
++				s->length = 0;
++				continue;
++			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
++				/*
++				 * Mapping through host bridge should be
++				 * mapped with regular IOVAs, thus we
++				 * do nothing here and continue below.
++				 */
++				break;
++			default:
++				ret = -EREMOTEIO;
++				goto out_restore_sg;
++			}
++		}
++
+ 		/*
+ 		 * Due to the alignment of our single IOVA allocation, we can
+ 		 * depend on these assumptions about the segment boundary mask:
+@@ -1215,6 +1257,9 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+ 		prev = s;
+ 	}
+ 
++	if (!iova_len)
++		return __finalise_sg(dev, sg, nents, 0);
++
+ 	iova = iommu_dma_alloc_iova(domain, iova_len, dma_get_mask(dev), dev);
+ 	if (!iova) {
+ 		ret = -ENOMEM;
+@@ -1236,7 +1281,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+ out_restore_sg:
+ 	__invalidate_sg(sg, nents);
+ out:
+-	if (ret != -ENOMEM)
++	if (ret != -ENOMEM && ret != -EREMOTEIO)
+ 		return -EINVAL;
+ 	return ret;
+ }
+@@ -1244,7 +1289,7 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+ 		int nents, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	dma_addr_t start, end;
++	dma_addr_t end, start = DMA_MAPPING_ERROR;
+ 	struct scatterlist *tmp;
+ 	int i;
+ 
+@@ -1260,14 +1305,22 @@ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+ 	 * The scatterlist segments are mapped into a single
+ 	 * contiguous IOVA allocation, so this is incredibly easy.
+ 	 */
+-	start = sg_dma_address(sg);
+-	for_each_sg(sg_next(sg), tmp, nents - 1, i) {
++	for_each_sg(sg, tmp, nents, i) {
++		if (sg_is_dma_bus_address(tmp)) {
++			sg_dma_unmark_bus_address(tmp);
++			continue;
++		}
+ 		if (sg_dma_len(tmp) == 0)
+ 			break;
+-		sg = tmp;
++
++		if (start == DMA_MAPPING_ERROR)
++			start = sg_dma_address(tmp);
++
++		end = sg_dma_address(tmp) + sg_dma_len(tmp);
+ 	}
+-	end = sg_dma_address(sg) + sg_dma_len(sg);
+-	__iommu_dma_unmap(dev, start, end - start);
++
++	if (start != DMA_MAPPING_ERROR)
++		__iommu_dma_unmap(dev, start, end - start);
  }
  
-+static bool pages_are_mergeable(struct page *a, struct page *b)
-+{
-+	if (page_to_pfn(a) != page_to_pfn(b) + 1)
-+		return false;
-+	if (!zone_device_pages_have_same_pgmap(a, b))
-+		return false;
-+	return true;
-+}
-+
- /**
-  * sg_alloc_append_table_from_pages - Allocate and initialize an append sg
-  *                                    table from an array of pages
-@@ -447,6 +456,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
- 	unsigned int added_nents = 0;
- 	struct scatterlist *s = sgt_append->prv;
-+	struct page *last_pg;
+ static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
+@@ -1460,6 +1513,7 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
+ }
  
- 	/*
- 	 * The algorithm below requires max_segment to be aligned to PAGE_SIZE
-@@ -460,21 +470,17 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 		return -EOPNOTSUPP;
- 
- 	if (sgt_append->prv) {
--		unsigned long paddr =
--			(page_to_pfn(sg_page(sgt_append->prv)) * PAGE_SIZE +
--			 sgt_append->prv->offset + sgt_append->prv->length) /
--			PAGE_SIZE;
--
- 		if (WARN_ON(offset))
- 			return -EINVAL;
- 
- 		/* Merge contiguous pages into the last SG */
- 		prv_len = sgt_append->prv->length;
--		while (n_pages && page_to_pfn(pages[0]) == paddr) {
-+		last_pg = sg_page(sgt_append->prv);
-+		while (n_pages && pages_are_mergeable(last_pg, pages[0])) {
- 			if (sgt_append->prv->length + PAGE_SIZE > max_segment)
- 				break;
- 			sgt_append->prv->length += PAGE_SIZE;
--			paddr++;
-+			last_pg = pages[0];
- 			pages++;
- 			n_pages--;
- 		}
-@@ -488,7 +494,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 	for (i = 1; i < n_pages; i++) {
- 		seg_len += PAGE_SIZE;
- 		if (seg_len >= max_segment ||
--		    page_to_pfn(pages[i]) != page_to_pfn(pages[i - 1]) + 1) {
-+		    !pages_are_mergeable(pages[i], pages[i - 1])) {
- 			chunks++;
- 			seg_len = 0;
- 		}
-@@ -504,8 +510,7 @@ int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 		for (j = cur_page + 1; j < n_pages; j++) {
- 			seg_len += PAGE_SIZE;
- 			if (seg_len >= max_segment ||
--			    page_to_pfn(pages[j]) !=
--			    page_to_pfn(pages[j - 1]) + 1)
-+			    !pages_are_mergeable(pages[j], pages[j - 1]))
- 				break;
- 		}
- 
+ static const struct dma_map_ops iommu_dma_ops = {
++	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+ 	.alloc			= iommu_dma_alloc,
+ 	.free			= iommu_dma_free,
+ 	.alloc_pages		= dma_common_alloc_pages,
 -- 
 2.30.2
 
