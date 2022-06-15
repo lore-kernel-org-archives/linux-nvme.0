@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 127E3C43334
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 16:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1560FC43334
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 16:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OqVljjCs7GJPfFJtCSMELP7hz7tpfnVYUqS/KYMT6cE=; b=Ytlx57wW1Ji+p0G3lupaJLF0TW
-	CdLHkk2ueJEh5+EMT4PppdmPGv5vnINghEHUnrDuegSMAxEF8w9jx5MWrANZnhlPEfvYUgNVODPXj
-	iuet39Zdyqigp2tLZt5o/tnULGdvGnc1SNymnZ7V943OY317Kh6p4vVtN85rbEnDobzXOnl7Gv1Od
-	4pNouctjdcccYSFnhyqemkfNwN56AKyV/e2vMYR240ZZJRZZ4Y8HLWihWIs3gX/uX2r0CMxPQfBKW
-	ELBOAZo7ji0rZNggAwxUc73WRG6ksMvXDaef0VJI035RDbXbE1QA3PBqZMP654nfJ4e9RLW00zGZH
-	sXDYNHcA==;
+	bh=CEsEo1LL0bapP/SgeXBMkHfYqc6Wv4poDHt3UT6FxEg=; b=vqElCnFmzaVYVmS3hRe7t5DZcs
+	WMT9ux9GVjGNENQbaGt6RT4Te5TZkTMTDvdpcxX3v8NAdtuHlAxrA3Z4t6artww5ZRm7qtAybqCPt
+	HQvcC8gCjYdtOY63JKWkwT4gnKnkHq85ipKXiCwusqEj17C/BUCjLd5jjtVj0nWdVxqRY/UOtYf44
+	IVGKFvGu90Dr9Um8wJM3CRLQh6Ab+AZQxdhchDCG3BfPsYaZ3FUVRyq5QzN0xQVM3GwveGfNxlD9H
+	rXFYE2Jf2JMqJR9G2SnEv+043bXNJflinG3pt+YOe+HQNclz/3meudIAms55lfT93x/pRw8UPhtL2
+	gMicw7HQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1Ve0-00FKAS-3y; Wed, 15 Jun 2022 16:13:24 +0000
+	id 1o1Ve7-00FKGL-K0; Wed, 15 Jun 2022 16:13:31 +0000
 Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1VdT-00FJYj-Cp
+	id 1o1VdU-00FJYo-KQ
 	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 16:12:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=OqVljjCs7GJPfFJtCSMELP7hz7tpfnVYUqS/KYMT6cE=; b=D4xQJkI4XeiyHus7VGwGco9/eT
-	CWBRfM3M9mPI7KhaQok5aaace5jsJ66GPHd0+bjL351TCnWoppTHSeVyW6ItHXgJGDaRJ7hd2IjiM
-	F+kw1tcTRsPYrcDQzs2AykzCRimr2Zvwz2+TG3Yj8eCSUTt7BF3j2IR7Sq5QbQB0NBLtsSoXiMJpa
-	dL7PRG248B15XgI06t6MosY+U92Q+v/iTv48RWM+JfmN+UMx2ilS1x342uwJrz5aoLn/s5TTg1Ggk
-	H0HOUX/IOvALtFUR5mtAWvXlY6k08p6E637EzSv1gougvqbFBVszN6lMOnaLAfpvvZyeF3giITm3y
-	oEzjQ+9g==;
+	bh=CEsEo1LL0bapP/SgeXBMkHfYqc6Wv4poDHt3UT6FxEg=; b=Nn5f3rDAO5IH26Vm3tZC0/G00z
+	08nWaGa176sIR0AMP9ufpCFl8dqGInHVEIurBrhZxq8qyYDrYDC/FLwjHaP0xkmUhL0tsPpMFsnzC
+	TrHv4QKvFeifgNV5SXw6bzeBiEo5BMK1Wn4z1hGAMBkF+nRrTHuJRTK9R1MaGtIlhbHed9Xofrf+/
+	/E6cLO35IfpR+c+O/fl3k708ke9cdQ/QBKGT2Ot+27a8SgRnqOwwPWqIzU5BypTjVOfuD2fhybceo
+	a/BKPzddCviQTOWiZgVLC94Cl7+8/HNXYOTzmN6fEQW6XtzPv1NSvwCLPRKV2ZpBid/6o/AbJcz6B
+	VA4O9vnw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o1VdP-0084iR-O3; Wed, 15 Jun 2022 10:12:48 -0600
+	id 1o1VdP-0084iP-Uw; Wed, 15 Jun 2022 10:12:48 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1o1VdJ-0004aw-Gi; Wed, 15 Jun 2022 10:12:41 -0600
+	id 1o1VdI-0004ak-WE; Wed, 15 Jun 2022 10:12:41 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
@@ -69,8 +69,8 @@ Cc: Stephen Bates <sbates@raithlin.com>,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
 	Ralph Campbell <rcampbell@nvidia.com>,
 	Logan Gunthorpe <logang@deltatee.com>
-Date: Wed, 15 Jun 2022 10:12:31 -0600
-Message-Id: <20220615161233.17527-20-logang@deltatee.com>
+Date: Wed, 15 Jun 2022 10:12:28 -0600
+Message-Id: <20220615161233.17527-17-logang@deltatee.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220615161233.17527-1-logang@deltatee.com>
 References: <20220615161233.17527-1-logang@deltatee.com>
@@ -79,12 +79,12 @@ Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v7 19/21] block: set FOLL_PCI_P2PDMA in bio_map_user_iov()
+Subject: [PATCH v7 16/21] block: add check when merging zone device pages
 X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220615_091251_573473_8D0120AD 
-X-CRM114-Status: GOOD (  10.78  )
+X-CRM114-CacheID: sfid-20220615_091252_691154_833585B8 
+X-CRM114-Status: GOOD (  12.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,47 +99,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
-iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be
-passed from userspace and enables the NVMe passthru requests to
-use P2PDMA pages.
+Consecutive zone device pages should not be merged into the same sgl
+or bvec segment with other types of pages or if they belong to different
+pgmaps. Otherwise getting the pgmap of a given segment is not possible
+without scanning the entire segment. This helper returns true either if
+both pages are not zone device pages or both pages are zone device
+pages with the same pgmap.
+
+Add a helper to determine if zone device pages are mergeable and use
+this helper in page_is_mergeable().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- block/blk-map.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ block/bio.c        |  2 ++
+ include/linux/mm.h | 23 +++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/block/blk-map.c b/block/blk-map.c
-index df8b066cd548..1d6bcf193a42 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -236,6 +236,7 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+diff --git a/block/bio.c b/block/bio.c
+index f92d0223247b..a402a4760457 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -865,6 +865,8 @@ static inline bool page_is_mergeable(const struct bio_vec *bv,
+ 		return false;
+ 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
+ 		return false;
++	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
++		return false;
+ 
+ 	*same_page = ((vec_end_addr & PAGE_MASK) == page_addr);
+ 	if (*same_page)
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 0bcb54ea503c..33b2f4d9fd0a 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1108,6 +1108,24 @@ static inline bool is_zone_device_page(const struct page *page)
  {
- 	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
- 	unsigned int nr_vecs = iov_iter_npages(iter, BIO_MAX_VECS);
-+	unsigned int flags = 0;
- 	struct bio *bio;
- 	int ret;
- 	int j;
-@@ -248,13 +249,17 @@ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
- 		return -ENOMEM;
- 	bio_init(bio, NULL, bio->bi_inline_vecs, nr_vecs, req_op(rq));
- 
-+	if (blk_queue_pci_p2pdma(rq->q))
-+		flags |= FOLL_PCI_P2PDMA;
+ 	return page_zonenum(page) == ZONE_DEVICE;
+ }
 +
- 	while (iov_iter_count(iter)) {
- 		struct page **pages;
- 		ssize_t bytes;
- 		size_t offs, added = 0;
- 		int npages;
++/*
++ * Consecutive zone device pages should not be merged into the same sgl
++ * or bvec segment with other types of pages or if they belong to different
++ * pgmaps. Otherwise getting the pgmap of a given segment is not possible
++ * without scanning the entire segment. This helper returns true either if
++ * both pages are not zone device pages or both pages are zone device pages
++ * with the same pgmap.
++ */
++static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
++						     const struct page *b)
++{
++	if (is_zone_device_page(a) != is_zone_device_page(b))
++		return false;
++	if (!is_zone_device_page(a))
++		return true;
++	return a->pgmap == b->pgmap;
++}
+ extern void memmap_init_zone_device(struct zone *, unsigned long,
+ 				    unsigned long, struct dev_pagemap *);
+ #else
+@@ -1115,6 +1133,11 @@ static inline bool is_zone_device_page(const struct page *page)
+ {
+ 	return false;
+ }
++static inline bool zone_device_pages_have_same_pgmap(const struct page *a,
++						     const struct page *b)
++{
++	return true;
++}
+ #endif
  
--		bytes = iov_iter_get_pages_alloc(iter, &pages, LONG_MAX, &offs);
-+		bytes = iov_iter_get_pages_alloc_flags(iter, &pages, LONG_MAX,
-+						       &offs, flags);
- 		if (unlikely(bytes <= 0)) {
- 			ret = bytes ? bytes : -EFAULT;
- 			goto out_unmap;
+ static inline bool folio_is_zone_device(const struct folio *folio)
 -- 
 2.30.2
 
