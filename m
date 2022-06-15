@@ -4,87 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFDDAC433EF
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 17:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69A25C433EF
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jun 2022 18:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lkkVGV05lv0CRWPOx1aNSbQEHovTv1Jz5BwTja4gYMc=; b=nQfMMbN3B5hmzfXi+IQWabd8u6
-	XgQXBySfFyn08fzQYywVamWXekykUffPUW8vukgap5yFYpmh8vqaWoQWvu247CuUoSMCDvAK4t1XR
-	pWaubg3rxrCUNcTnSmT7lNK5Cz3N2ya8Q/31NLth7sdWOikpIJQ8x8hxE21A5xGl3fxVRj0wAHcJU
-	0H8FioTz80xJ3JEUFiZlX0RvY5lUveAvnQOzKGnQ34/+zDa5KZyNCey0610k5hJIbAD2k1nV3Jod+
-	QXWvbH6pBcclUI6xarCCmh7w4UhNJ0b4Wrclcw9Inf5Tb5SnV7N+EsCe5fLsNJwbkeLO+jNCkSCbN
-	piK15xug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=iUGfvUGZJFkqQvb1BclrKM+Qvg6hWolmp/RDxiXQRbw=; b=IiTUxeznNdPn8E+9w1IJijUjVZ
+	0Y4CFsrm0nHgBaB6vn+VpxGmMnFzrs748iPiA4yABYLSf7Xsbno8C2ROxjNohKZ8Tuk7NYWYMy9h9
+	aMRJBpe171TZ3FchpWfJKcWCcrG64mMvuw0+f+6byvVgIJs8q5H/l6u59GqgnCjyLLyu/vsr+sRjA
+	8tnSBK1pcG6MB1WGWdfpmbbKSQtApQh5oOLZ+eNRkAudYuhvqr0zHau2W17LTtKHaCRQX43514iZr
+	pozvrrl8e+U3a908FjjVyeQLe2NTEb3iXhmMvAekvlaPqZzlNW4nCixYYVJTUOFNiRjADH1n++jt9
+	6k3BL3rA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1WcC-00FdQe-6y; Wed, 15 Jun 2022 17:15:36 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1o1XLj-00FqdE-B8; Wed, 15 Jun 2022 18:02:39 +0000
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1o1VdT-00FJYv-Cs
-	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 16:12:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Cc:To:From:content-disposition;
-	bh=lkkVGV05lv0CRWPOx1aNSbQEHovTv1Jz5BwTja4gYMc=; b=UA65EMT8xNvd8UHWetmwqme2a8
-	mbh5ZAtLMo8oOkZni6a7e7xdFqgBaoKX6BW/nxEmRzBODrgtFlIhBvcgXCHi8DFCSj6ybFs8cFwFU
-	JN5NcIKa2YwfaEFkGBKhq98tfYdc1ip6TDMNluisXCqwKBiArxGhT8ctmSh7yv0ONfMQKfAbFrlZ9
-	GPQ1EKHrP0E8uLkOsybyw5PjBkPkxm2wJNwPMXA7XshLSwQare9mNo0JzCLQGmtGTjS8GRORUOZTW
-	4uR6gNCfjlfo6idpW5EL2HFlkSZ0pa8rOW0YLmVjRT5GSymz5ydETTSteAPM/W/wXKf8A0ksSqUyH
-	Qqr3rCNQ==;
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
-	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <gunthorp@deltatee.com>)
-	id 1o1VdP-0084iS-Qu; Wed, 15 Jun 2022 10:12:48 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
-	(envelope-from <gunthorp@deltatee.com>)
-	id 1o1VdJ-0004as-C7; Wed, 15 Jun 2022 10:12:41 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-mm@kvack.org,
-	iommu@lists.linux-foundation.org
-Cc: Stephen Bates <sbates@raithlin.com>,
+	id 1o1XLg-00FqcZ-Ho
+	for linux-nvme@lists.infradead.org; Wed, 15 Jun 2022 18:02:37 +0000
+Received: by mail-wr1-x42b.google.com with SMTP id c21so16432061wrb.1
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Jun 2022 11:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iUGfvUGZJFkqQvb1BclrKM+Qvg6hWolmp/RDxiXQRbw=;
+        b=AK1QgD+vMnL2s8hn9Rs7Vedj1AIZHfjCE2hIxnYHZJ4lpUmCgjvWKXcbzGC8iVj8MV
+         gQzwhhIoRxdRNJBLgJcnwggEFdzOg68MZFxyGd/Gets0UhBNf8F78pDCqYu/2ZIbqvRX
+         uQd3LV/cqOjfgOJ1h0a92XH8ALQooef0NKdiWAM4qYi/4rV6h2RA/nCWB5KP9P5vIdy2
+         7Hf2EwO8+Dzxpfp1SpMBaG0PT1sbf1laNy0di+tuatKxFTxNSAADG517SvwPo6l+uMJE
+         p18g+/3gyt+PkYwF85WZ1Fgq+RDEYbQIdPqAC/3DwyfnpCrtdKLjca+CDPBMTrufkQTK
+         ZMlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iUGfvUGZJFkqQvb1BclrKM+Qvg6hWolmp/RDxiXQRbw=;
+        b=Fc5jvKyGmLQHT/MxzuP9iMTLa28ZyIzWvkkpibDQuEyL4UpR1Ax6qUWT18huQhgo6i
+         tdsyC3f3pb0TuSZWPt5KL41PK4DaLUv/ZgcunhpUTUcuYo1iwrBtbmUs/Xxa9tDQvXuu
+         MDu1jshgpGKepdnSPrkkDX7mfU93EMMR5MEklXIlqy89DmjYiV2PpM5/ZhuF9arFdxFE
+         3t8bIeBhBvqbvxZw7HQ7y2eQZf8VJqGs360VLZmSFLwkOm0ZoVThzP0au+nYlAkZhyeO
+         lMlWjLXj/gzy0gyf0DHOpmrhQY5MuLSGW/9oQK3s12wVzXS9XE+kTubYpHCN9XtDVUnK
+         g1vg==
+X-Gm-Message-State: AJIora+jDzJkIFZIlMdrw0LuK+YaVs5GA09wBZ+Q1ADokKCnh9eyZ2Aj
+	YDkTNBSh+d0TdSRh7jIovkE=
+X-Google-Smtp-Source: AGRyM1v+Y9UjdqeP6KstzWoGGotBF3Gc8+ogji3NL81O9ayyefisQ0VVM/Stqp8PFsrCdpygu6PVCw==
+X-Received: by 2002:a05:6000:1f85:b0:21a:14a0:b03b with SMTP id bw5-20020a0560001f8500b0021a14a0b03bmr961332wrb.355.1655316153785;
+        Wed, 15 Jun 2022 11:02:33 -0700 (PDT)
+Received: from laptop.. (82-64-133-20.subs.proxad.net. [82.64.133.20])
+        by smtp.gmail.com with ESMTPSA id i30-20020a1c541e000000b0039c15861001sm3113050wmb.21.2022.06.15.11.02.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 11:02:32 -0700 (PDT)
+From: Erwan Velu <erwanaliasr1@gmail.com>
+X-Google-Original-From: Erwan Velu <e.velu@criteo.com>
+To: 
+Cc: Erwan Velu <e.velu@criteo.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
 	Christoph Hellwig <hch@lst.de>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Don Dutile <ddutile@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Minturn Dave B <dave.b.minturn@intel.com>,
-	Jason Ekstrand <jason@jlekstrand.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Xiong Jianxin <jianxin.xiong@intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Martin Oliveira <martin.oliveira@eideticom.com>,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Logan Gunthorpe <logang@deltatee.com>
-Date: Wed, 15 Jun 2022 10:12:30 -0600
-Message-Id: <20220615161233.17527-19-logang@deltatee.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220615161233.17527-1-logang@deltatee.com>
-References: <20220615161233.17527-1-logang@deltatee.com>
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org (open list:NVM EXPRESS DRIVER),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] nvme: Report model,sn,fw,pci device information during init
+Date: Wed, 15 Jun 2022 20:02:13 +0200
+Message-Id: <20220615180213.760756-1-e.velu@criteo.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de, jgg@ziepe.ca, christian.koenig@amd.com, ddutile@redhat.com, willy@infradead.org, daniel.vetter@ffwll.ch, jason@jlekstrand.net, dave.hansen@linux.intel.com, helgaas@kernel.org, dan.j.williams@intel.com, dave.b.minturn@intel.com, jianxin.xiong@intel.com, ira.weiny@intel.com, robin.murphy@arm.com, martin.oliveira@eideticom.com, ckulkarnilinux@gmail.com, jhubbard@nvidia.com, rcampbell@nvidia.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v7 18/21] block: set FOLL_PCI_P2PDMA in __bio_iov_iter_get_pages()
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20220615_091251_537798_40FECB0F 
-X-CRM114-Status: GOOD (  10.93  )
+X-CRM114-CacheID: sfid-20220615_110236_631163_23D3C3AB 
+X-CRM114-Status: GOOD (  12.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,43 +91,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a bio's queue supports PCI P2PDMA, set FOLL_PCI_P2PDMA for
-iov_iter_get_pages_flags(). This allows PCI P2PDMA pages to be passed
-from userspace and enables the O_DIRECT path in iomap based filesystems
-and direct to block devices.
+SCSI-based device get their identify properties being printed when initialized like :
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+[    1.245357] scsi 0:0:0:0: Direct-Access     ATA      HGST HTE721010A9 A3M0 PQ: 0 ANSI: 5
+
+When initializing nvme devices, no identification message is reported
+making difficult to identify them during the boot process. If the system
+crashes during boot process or if the init phase fail, it could be very diffcult
+to identify the faulty disk.
+
+This patch reports model, serial, firmware version and pci information
+as soon as possible making this early identifying task possible.
+
+Reporting the serial has the interest of being able to ensure which
+physical drive is concerned if a hardware replacement is required and
+host features the exact same drive multiple times.
+
+A typical output looks like:
+[    0.383353] nvme nvme0: pci function 0000:00:03.0
+[    0.418184] nvme nvme0: MODEL:QEMU NVMe Ctrl                          SN:deadbeef            FW:1.0     PCI_ID:1b36:1af4
+[    0.422020] nvme nvme0: 1/0/0 default/read/poll queues
+
+Signed-off-by: Erwan Velu <e.velu@criteo.com>
 ---
- block/bio.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/block/bio.c b/block/bio.c
-index a402a4760457..0d152da8938d 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1180,6 +1180,7 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 	struct bio_vec *bv = bio->bi_io_vec + bio->bi_vcnt;
- 	struct page **pages = (struct page **)bv;
- 	bool same_page = false;
-+	unsigned int flags = 0;
- 	ssize_t size, left;
- 	unsigned len, i;
- 	size_t offset;
-@@ -1192,7 +1193,12 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 	BUILD_BUG_ON(PAGE_PTRS_PER_BVEC < 2);
- 	pages += entries_left * (PAGE_PTRS_PER_BVEC - 1);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 24165daee3c8..0922b7a470b1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2987,6 +2987,14 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (!ctrl->identified) {
+ 		unsigned int i;
  
--	size = iov_iter_get_pages(iter, pages, LONG_MAX, nr_pages, &offset);
-+	if (bio->bi_bdev && bio->bi_bdev->bd_disk &&
-+	    blk_queue_pci_p2pdma(bio->bi_bdev->bd_disk->queue))
-+		flags |= FOLL_PCI_P2PDMA;
++		/* Reporting model, serial, firmware and pci info */
++		dev_info(ctrl->device, "MODEL:%.*s SN:%.*s FW:%.*s PCI_ID:%04x:%04x\n",
++				(int)sizeof(id->mn), id->mn,
++				(int)sizeof(id->sn),id->sn,
++				(int)sizeof(id->fr), id->fr,
++				le16_to_cpu(id->vid),
++				le16_to_cpu(id->ssvid));
 +
-+	size = iov_iter_get_pages_flags(iter, pages, LONG_MAX, nr_pages,
-+					&offset, flags);
- 	if (unlikely(size <= 0))
- 		return size ? size : -EFAULT;
- 
+ 		ret = nvme_init_subsystem(ctrl, id);
+ 		if (ret)
+ 			goto out_free;
 -- 
-2.30.2
+2.35.3
 
 
